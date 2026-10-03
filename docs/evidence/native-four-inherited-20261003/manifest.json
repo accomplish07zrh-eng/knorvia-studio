@@ -1,0 +1,60 @@
+{
+  "qualification": "Own-lane snapshot digests for shared registration; integrator must register this manifest too. No self-hash or shared-registry mutation.",
+  "files": [
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/architecture.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/changed-format.log",
+      "bytes": 112,
+      "sha256": "999bd472025d3dc0bd69189e7a19af23eba97a399f97f83f4d8e9319df876428"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/changed-lint.log",
+      "bytes": 90,
+      "sha256": "5a454e7d794ef4df5e60f06eee3fccae01a6f0d77de3e80ef8fd4a63cd72d1fc"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/commands.json",
+      "bytes": 2987,
+      "sha256": "24cbd3e9e894b280913e071ab13afff4c19659bf2d360069bd9da17720650762"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/contracts-after.log",
+      "bytes": 2959,
+      "sha256": "2211d58a6c0ecd6ee4d5b4ce46f71dfc1abe22834d1c8bdbbaea52d3b90d0786"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/contracts-before.log",
+      "bytes": 2512,
+      "sha256": "6836bd44d704225bd1668521544485650a19eccfd2ec94df967849be2a98817c"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/initial-crash-test-isolation-failure.log",
+      "bytes": 3284,
+      "sha256": "5c3649c845bbc540bc56a0226843ec66b50b2319e2dd040898ca59a47aa5afca"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/result.json",
+      "bytes": 4842,
+      "sha256": "874ebdb5916925dd1b8e06ef171e276f1e9a73082781968cce0df9fdc33e8bdc"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/root-lint-frozen-evidence-failure.log",
+      "bytes": 3095,
+      "sha256": "4ab23fb935c324774f6e9e47ad531cea435fafcb0cee1c813e5fbaa45c6cf42b"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/source-bindings.json",
+      "bytes": 9233,
+      "sha256": "8fe111b561c87783bb1a6c8d665e26db6b633b29a95e881c0299d0fd1736114f"
+    },
+    {
+      "path": "docs/evidence/native-four-inherited-20261003/typecheck.log",
+      "bytes": 523,
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+    }
+  ]
+}

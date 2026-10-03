@@ -35,6 +35,50 @@ interface SummaryPorts {
   ): Promise<KnorviaTaskMeta>;
 }
 type ReadbackOptions = Pick<SnapshotSyncOptions, "moveGroupedTaskToTop" | "unreadSignal">;
+type ProjectionMutation = {
+  target: KnorviaAgentSessionTarget;
+  patch: Parameters<TaskIndexRepo["applyAgentPatch"]>[0]["patch"];
+  completion:
+    | { kind: "title" }
+    | {
+        kind: "terminal";
+        readbackReason: "phase.error" | "phase.completed";
+        moveGroupedTaskToTop: boolean;
+        unreadSignal: KnorviaWorkspaceTaskListChanged["unreadSignal"];
+      };
+};
+type ProjectionConsequences = {
+  notification?:
+    | { reason: "task_title_changed" }
+    | {
+        reason: "task_status_changed";
+        unreadSignal: KnorviaWorkspaceTaskListChanged["unreadSignal"];
+      };
+  readback?: { reason: string; options: ReadbackOptions };
+};
+
+function selectConsequences(
+  completion: ProjectionMutation["completion"],
+  hasRow: boolean,
+): ProjectionConsequences {
+  if (completion.kind === "title") {
+    return hasRow
+      ? { notification: { reason: "task_title_changed" } }
+      : { readback: { reason: "meta.titleUpdated", options: { moveGroupedTaskToTop: true } } };
+  }
+  const { unreadSignal, moveGroupedTaskToTop, readbackReason } = completion;
+  return {
+    ...(hasRow ? { notification: { reason: "task_status_changed" as const, unreadSignal } } : {}),
+    readback: {
+      reason: readbackReason,
+      options: {
+        moveGroupedTaskToTop,
+        // 已有行承接了提醒；只有缺行时把提醒交给快照投影。
+        ...(!hasRow && unreadSignal ? { unreadSignal } : {}),
+      },
+    },
+  };
+}
 
 function terminal(phase: SessionPhase): boolean {
   return phase === "error" || phase === "completedSuccess" || phase === "completedInterrupted";
@@ -86,20 +130,74 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
     reason: string,
     options?: ReadbackOptions,
   ): Promise<void> {
-    try {
-      const snapshot = await ports.agent.readSession({ ...target, runtimePolicy: "existing-only" });
-      await ports.sync(snapshot, {
-        ...(options?.unreadSignal ? { unreadSignal: options.unreadSignal } : {}),
-        broadcastReason: "task_status_changed",
-        moveGroupedTaskToTop: options?.moveGroupedTaskToTop,
-      });
-    } catch (error) {
+    const failure = (error: unknown): void =>
       ports.logger.warn(
         undefined,
         `回源同步 task index 行失败 reason=${reason} taskId=${target.sessionId}`,
         error,
       );
+    const publish = (snapshot: KnorviaSessionStateSnapshot) =>
+      ports.sync(snapshot, {
+        ...(options?.unreadSignal ? { unreadSignal: options.unreadSignal } : {}),
+        broadcastReason: "task_status_changed",
+        moveGroupedTaskToTop: options?.moveGroupedTaskToTop,
+      });
+    let captured: Promise<KnorviaSessionStateSnapshot>;
+    try {
+      captured = Promise.resolve(
+        ports.agent.readSession({ ...target, runtimePolicy: "existing-only" }),
+      );
+    } catch (error) {
+      failure(error);
+      return;
     }
+    // 读回只捕获现有 Agent 快照；发布失败由同一个完成通道处理，不重新读取。
+    await captured.then(publish).then(() => undefined, failure);
+  }
+
+  async function consumeMutation(
+    mutation: ProjectionMutation,
+    persisted: Promise<KnorviaTaskMeta | null>,
+  ): Promise<void> {
+    try {
+      const meta = await persisted;
+      const consequences = selectConsequences(mutation.completion, !!meta);
+      const notification = consequences.notification;
+      if (meta && notification) {
+        const target = broadcastTarget(mutation.target);
+        if (notification.reason === "task_title_changed") {
+          ports.emit(target, meta, notification.reason);
+        } else {
+          ports.emit(
+            target,
+            meta,
+            notification.reason,
+            notification.unreadSignal ? { unreadSignal: notification.unreadSignal } : undefined,
+          );
+        }
+      }
+      const convergence = consequences.readback;
+      if (convergence) void readback(mutation.target, convergence.reason, convergence.options);
+    } catch (error) {
+      const operation = mutation.completion.kind === "terminal" ? "phase 终态" : "标题变更";
+      ports.logger.warn(
+        undefined,
+        `同步 v4 ${operation}到 task index 失败 taskId=${mutation.target.sessionId}`,
+        error,
+      );
+    }
+  }
+
+  function submitMutation(mutation: ProjectionMutation): void {
+    const { target, patch } = mutation;
+    // 提交留在同步调用栈；不能用 async 消费器吞掉 Repo 同步抛给调用方的异常。
+    const persisted = ports.repo.applyAgentPatch({
+      workspacePath: target.workspacePath,
+      workspaceIdentity: target.workspaceIdentity,
+      taskId: target.sessionId,
+      patch,
+    });
+    void consumeMutation(mutation, persisted);
   }
 
   function complete(
@@ -117,58 +215,23 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
       unreadSignal: unreadSignal ?? null,
     });
     const updatedAt = Date.now();
-    void ports.repo
-      .applyAgentPatch({
-        workspacePath: target.workspacePath,
-        workspaceIdentity: target.workspaceIdentity,
-        taskId: target.sessionId,
-        patch: failed
-          ? { status: "error", updatedAt }
-          : { status: "completed", lastError: undefined, updatedAt },
-      })
-      .then((meta) => {
-        if (meta)
-          ports.emit(
-            broadcastTarget(target),
-            meta,
-            "task_status_changed",
-            unreadSignal ? { unreadSignal } : undefined,
-          );
-        // patch 已发提醒时，完整快照只收敛正文与错误；缺行才由 readback 接过提醒。
-        void readback(target, failed ? "phase.error" : "phase.completed", {
-          moveGroupedTaskToTop: moveToTop,
-          ...(meta || !unreadSignal ? {} : { unreadSignal }),
-        });
-      })
-      .catch((error) => {
-        ports.logger.warn(
-          undefined,
-          `同步 v4 phase 终态到 task index 失败 taskId=${target.sessionId}`,
-          error,
-        );
-      });
+    submitMutation({
+      target,
+      patch: failed
+        ? { status: "error", updatedAt }
+        : { status: "completed", lastError: undefined, updatedAt },
+      completion: {
+        kind: "terminal",
+        readbackReason: failed ? "phase.error" : "phase.completed",
+        moveGroupedTaskToTop: moveToTop,
+        unreadSignal,
+      },
+    });
   }
 
   function titleChanged(target: KnorviaAgentSessionTarget, title: string): void {
     const updatedAt = Date.now();
-    void ports.repo
-      .applyAgentPatch({
-        workspacePath: target.workspacePath,
-        workspaceIdentity: target.workspaceIdentity,
-        taskId: target.sessionId,
-        patch: { title, updatedAt },
-      })
-      .then((meta) => {
-        if (meta) ports.emit(broadcastTarget(target), meta, "task_title_changed");
-        else void readback(target, "meta.titleUpdated", { moveGroupedTaskToTop: true });
-      })
-      .catch((error) => {
-        ports.logger.warn(
-          undefined,
-          `同步 v4 标题变更到 task index 失败 taskId=${target.sessionId}`,
-          error,
-        );
-      });
+    submitMutation({ target, patch: { title, updatedAt }, completion: { kind: "title" } });
   }
 
   function observe(next: SessionSummary, previous: SessionSummary | undefined): void {

@@ -1,0 +1,17 @@
+{
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "extractionExitCode": 0,
+  "rawExtractionListing": {
+    "path": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction.log",
+    "bytes": 14427,
+    "sha256": "87d33562af30fbd4fe898df7c8cccca12be0b946239b8c6367d7c0644f927c12"
+  },
+  "largeArtifactLocations": {
+    "AppImage": "/tmp/knorvia-native-retest-ad712690-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+    "linuxUnpacked": "/tmp/knorvia-native-retest-ad712690-20261003/desktop-release/linux-unpacked",
+    "extractedAppImage": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction/squashfs-root",
+    "distributionArchive": "/tmp/knorvia-native-retest-ad712690-20261003/distribution-release/releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz"
+  },
+  "retention": "Task-owned temporary build products, not uploaded/published release; Git retains receipts/probes/digests",
+  "finalAcceptance": "Superseded intermediate input only"
+}

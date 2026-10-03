@@ -1,0 +1,1 @@
+{"version":"0.8.0-preview.3","platform":"linux","arch":"x64","tui":"native import, initialized render, keyboard exit passed","web":"HTML, server-info, workspace, WebSocket, shutdown passed","isolated":true}

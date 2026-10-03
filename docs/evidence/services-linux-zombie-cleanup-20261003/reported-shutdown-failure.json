@@ -1,0 +1,11 @@
+{
+  "oldHostExitCode": 1,
+  "remainingReportedPid": 17570,
+  "processState": {
+    "Name": "esbuild",
+    "State": "Z (zombie)",
+    "PPid": "1"
+  },
+  "message": "runtime process tree cleanup incomplete; remaining pid=17570",
+  "owner": "services/agent process cleanup; not changed by UI lane"
+}

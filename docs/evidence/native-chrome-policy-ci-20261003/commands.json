@@ -1,0 +1,114 @@
+{
+  "inputSha": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "node": "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+  "pnpm": "10.33.2",
+  "cwd": "/workspace/knorvia-studio",
+  "testEnvironment": {
+    "PATH": "task-pinned-bin:/usr/bin:/bin",
+    "LANG": "C.UTF-8",
+    "KNORVIA_ENV": "test",
+    "KNORVIA_DATA_BASE_DIR": "/tmp/knorvia-native-chrome-policy-ci-20261003/test-data",
+    "KNORVIA_STORAGE_DIR": "/tmp/knorvia-native-chrome-policy-ci-20261003/test-cli",
+    "outer": "env -i; no host/model credentials"
+  },
+  "before": [
+    "node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "--test-timeout=30000",
+    "--test-name-pattern=^(policy query failure continues to HKLM|Windows policy roots expand placeholders)",
+    "packages/desktop/test/native-browser-crash-contracts.test.ts"
+  ],
+  "after": [
+    "node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "--test-timeout=30000",
+    "--test-name-pattern=^(policy query failure continues to HKLM|Windows policy roots expand placeholders|policy expansion preserves mixed separators)",
+    "packages/desktop/test/native-browser-crash-contracts.test.ts"
+  ],
+  "checks": [
+    {
+      "argv": [
+        "pnpm",
+        "architecture:check",
+        "--changed"
+      ],
+      "log": "architecture-before.log",
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "pnpm",
+        "architecture:context",
+        "desktop"
+      ],
+      "log": "architecture-context.log",
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "pnpm",
+        "typecheck"
+      ],
+      "log": "typecheck.log",
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "pnpm",
+        "lint"
+      ],
+      "log": "root-lint.log",
+      "exitCode": 0,
+      "scope": "Ran with changed source fixture/spec and existing 5805 registered frozen files, before new own evidence snapshots"
+    },
+    {
+      "argv": [
+        "pnpm",
+        "architecture:check",
+        "--changed"
+      ],
+      "log": "architecture-after.log",
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "pnpm",
+        "exec",
+        "oxfmt",
+        "--check",
+        "packages/desktop/test/native-browser-crash-contracts.test.ts",
+        "specs/knorvia-native-chrome-policy-fixtures-20261003.md"
+      ],
+      "log": "format-check.log",
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "pnpm",
+        "exec",
+        "oxlint",
+        "packages/desktop/test/native-browser-crash-contracts.test.ts"
+      ],
+      "log": "direct-lint.log",
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "pnpm",
+        "lint"
+      ],
+      "log": "root-lint-final.log",
+      "exitCode": 1,
+      "scope": "After adding own new evidence; stops at unregistered frozen evidence; no bypass"
+    }
+  ],
+  "mutations": "Fixture input only in two original scenes; one full-source mixed-separator scene added; no production rewrite"
+}

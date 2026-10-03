@@ -1,0 +1,56 @@
+{
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "sourceBuild": "passed exit0",
+  "priorCliReuse": false,
+  "cliBuilt": {
+    "path": "/workspace/knorvia-studio/apps/cli/packages/cli/dist/knorvia.cjs",
+    "bytes": 16544775,
+    "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+  },
+  "cliStaged": {
+    "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs",
+    "bytes": 16544775,
+    "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+  },
+  "stagedMatchesBuild": true,
+  "remoteAssetsSkipped": true,
+  "nativeSearch": "pinned repository archives; existing exact version assets retained, actual fresh package smoke pending",
+  "plugins": {
+    "browser-use-plugin": {
+      "staged": true,
+      "mcpServer": {
+        "exists": false,
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/browser-use-plugin/dist/mcp/server.js"
+      }
+    },
+    "node-repl-host": {
+      "staged": true,
+      "mcpServer": {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/node-repl-host/dist/mcp/server.js",
+        "bytes": 2058684,
+        "sha256": "2b4521204791141c7ac37abd3b00d41c2580766c3b9f75f076e69985917cb450"
+      }
+    },
+    "cua-plugin": {
+      "staged": true
+    },
+    "documents-plugin": {
+      "staged": true
+    },
+    "pdf-plugin": {
+      "staged": true
+    },
+    "presentations-plugin": {
+      "staged": true
+    },
+    "spreadsheets-plugin": {
+      "staged": true
+    },
+    "plugin-creator-plugin": {
+      "staged": true
+    },
+    "skill-creator-plugin": {
+      "staged": true
+    }
+  }
+}

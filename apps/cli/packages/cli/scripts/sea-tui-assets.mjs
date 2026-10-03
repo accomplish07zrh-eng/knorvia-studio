@@ -7,7 +7,11 @@ import {
   resolveRuntimePackageDirectory,
   placeRuntimePackage,
 } from "./sea-runtime-package-resolution.mjs";
-import { stageSeaPackageAssets } from "./sea-workspace-package-assets.mjs";
+import {
+  stageSeaPackageAssets,
+  workspaceRuntimeSurface,
+  includesWorkspaceRuntimeFile,
+} from "./sea-workspace-package-assets.mjs";
 
 export const seaTuiAssetPrefix = "knorvia-tui-runtime/";
 export const seaTuiManifestAssetKey = `${seaTuiAssetPrefix}manifest.json`;
@@ -234,6 +238,11 @@ const collectPackageFiles = async ({
 }) => {
   const files = [];
   const packageRoot = workspacePackageDirectories.get(packageName) ?? packageDirectory;
+  const workspaceSurface = workspacePackageDirectories.has(packageName)
+    ? workspaceRuntimeSurface(
+        JSON.parse(await readFile(resolve(packageRoot, "package.json"), "utf8")),
+      )
+    : undefined;
 
   for await (const sourcePath of walkFiles(packageRoot)) {
     const relativePath = relative(packageRoot, sourcePath);
@@ -243,6 +252,7 @@ const collectPackageFiles = async ({
         relativePath,
         target,
         workspacePackageDirectories,
+        workspaceSurface,
       })
     ) {
       continue;
@@ -282,13 +292,13 @@ const shouldIncludePackageFile = ({
   relativePath,
   target,
   workspacePackageDirectories,
+  workspaceSurface,
 }) => {
   if (relativePath.endsWith(".map")) return false;
 
   if (workspacePackageDirectories.has(packageName)) {
-    // Workspace runtime packages resolve in dev via pnpm links, so SEA must copy
-    // their built package surface explicitly instead of relying on node_modules.
-    return relativePath === "package.json" || relativePath.startsWith(`dist${sep}`);
+    // 按 manifest 的实际 runtime surface 收集，根 CUA JS 与编译 dist 均保留。
+    return includesWorkspaceRuntimeFile(toPosixPath(relativePath), workspaceSurface);
   }
 
   if (packageName === "koffi") {

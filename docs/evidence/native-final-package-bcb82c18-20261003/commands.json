@@ -1,0 +1,233 @@
+{
+  "inputSha": "bcb82c184de740c2cd9571c115eafa3bd04480cf",
+  "recordedAtUtc": "2026-10-03T14:08:15.672267+00:00",
+  "commandResults": [
+    {
+      "id": "frozen-install",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "pnpm",
+        "install",
+        "--frozen-lockfile",
+        "--ignore-scripts",
+        "--store-dir",
+        "/tmp/knorvia-native-pnpm-store-20261003"
+      ],
+      "clearInheritedEnvironment": false,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:$PATH",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "CI": "true",
+        "HUSKY": "0",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/config"
+      },
+      "exitCode": 0,
+      "log": "frozen-install.log"
+    },
+    {
+      "id": "full-standalone-source-build",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "node",
+        "scripts/build.mjs",
+        "--out-dir",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/distribution-release",
+        "--base-url",
+        "http://127.0.0.1:9/"
+      ],
+      "clearInheritedEnvironment": true,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "CI": "true",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "KNORVIA_SKIP_REMOTE_ASSETS": "1",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/config",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "exitCode": 0,
+      "log": "distribution-build.log"
+    },
+    {
+      "id": "original-complete-distribution-smoke",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "node",
+        "scripts/distribution-smoke.mjs",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/distribution-release/releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz"
+      ],
+      "clearInheritedEnvironment": true,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "KNORVIA_BASE_URL": "http://127.0.0.1:9",
+        "KNORVIA_MODEL_TELEMETRY_ENABLED": "0"
+      },
+      "exitCode": 0,
+      "log": "distribution-smoke.log"
+    },
+    {
+      "id": "desktop-source-runtime-preparation",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "pnpm",
+        "--filter",
+        "@knorvia/desktop",
+        "prepare:runtime-assets"
+      ],
+      "clearInheritedEnvironment": true,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "CI": "true",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "KNORVIA_SKIP_REMOTE_ASSETS": "1",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/config",
+        "KNORVIA_BOOTSTRAP_WITH_REMOTE": "0",
+        "KNORVIA_DESKTOP_AGENT_BUILD_MODE": "sequential",
+        "KNORVIA_TARGET_OS": "linux",
+        "KNORVIA_TARGET_ARCH": "x64"
+      },
+      "exitCode": 0,
+      "log": "runtime-preparation.log"
+    },
+    {
+      "id": "desktop-production-build",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "pnpm",
+        "--filter",
+        "@knorvia/desktop",
+        "build:no-runtime-assets"
+      ],
+      "clearInheritedEnvironment": true,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "CI": "true",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "KNORVIA_SKIP_REMOTE_ASSETS": "1",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/config",
+        "KNORVIA_TARGET_OS": "linux",
+        "KNORVIA_TARGET_ARCH": "x64"
+      },
+      "exitCode": 0,
+      "log": "desktop-build.log"
+    },
+    {
+      "id": "fresh-configured-linux-appimage",
+      "cwd": "/workspace/knorvia-studio/packages/desktop",
+      "args": [
+        "pnpm",
+        "exec",
+        "electron-builder",
+        "--config",
+        "electron-builder.config.js",
+        "--linux",
+        "AppImage",
+        "--x64",
+        "--publish",
+        "never"
+      ],
+      "clearInheritedEnvironment": true,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "CI": "true",
+        "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+        "KNORVIA_ENV": "production",
+        "KNORVIA_RUNTIME_ENV": "production",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp",
+        "XDG_CACHE_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/cache",
+        "XDG_DATA_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/data",
+        "XDG_CONFIG_HOME": "/workspace/knorvia-native-final-bcb82c18-20261003/config",
+        "KNORVIA_TARGET_OS": "linux",
+        "KNORVIA_TARGET_ARCH": "x64",
+        "KNORVIA_DESKTOP_DIST_DIR": "/workspace/knorvia-native-final-bcb82c18-20261003/desktop-release",
+        "ELECTRON_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/electron-cache",
+        "ELECTRON_BUILDER_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/builder-cache",
+        "KNORVIA_ELECTRON_RUNTIME_MIRROR": "https://github.com/electron/electron/releases/download/",
+        "ELECTRON_BUILDER_BINARIES_MIRROR": "https://github.com/electron-userland/electron-builder-binaries/releases/download/"
+      },
+      "exitCode": 0,
+      "log": "appimage-package.log"
+    },
+    {
+      "id": "actual-appimage-extraction",
+      "cwd": "/workspace/knorvia-native-final-bcb82c18-20261003/appimage-extraction",
+      "args": [
+        "/workspace/knorvia-native-final-bcb82c18-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+        "--appimage-extract"
+      ],
+      "clearInheritedEnvironment": false,
+      "explicitEnvironment": {},
+      "exitCode": 0,
+      "log": "appimage-extraction.log"
+    },
+    {
+      "id": "isolated-real-installer-reinstall",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "python3",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/installer-probe.py",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/distribution-release",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/installer-probe.json"
+      ],
+      "clearInheritedEnvironment": true,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp"
+      },
+      "exitCode": 0,
+      "log": "installer-probe.log"
+    },
+    {
+      "id": "unchanged-native-artifact-probe",
+      "cwd": "/workspace/knorvia-studio",
+      "args": [
+        "node",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/artifact-native-probe.mjs",
+        "/workspace/knorvia-studio",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/appimage-extraction/squashfs-root/knorvia-studio",
+        "/workspace/knorvia-native-final-bcb82c18-20261003/artifact-native-probe.json"
+      ],
+      "clearInheritedEnvironment": true,
+      "explicitEnvironment": {
+        "PATH": "/tmp/knorvia-native-package-acceptance-20261003/bin:/usr/bin:/bin",
+        "LANG": "C.UTF-8",
+        "TMPDIR": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp"
+      },
+      "exitCode": 0,
+      "log": "artifact-native-probe.log"
+    }
+  ],
+  "notes": [
+    "All source rebuilds completed before any new evidence commit; Desktop metadata therefore identifies bcb82c18.",
+    "Explicit build and runtime environments omit inherited credentials; dependency install and AppImage extraction were not env-i.",
+    "Frozen dependency install intentionally skips lifecycle scripts; configured beforePack restores pinned PTY and actual artifact probe executes it.",
+    "No standalone --skip-build, bootstrap runtime reuse, old --prepackaged payload, smoke relaxation/TUI skip or release publication.",
+    "No new full source suite/typecheck/lint/audit was run; integrator owns final matching CI and evidence registration."
+  ]
+}

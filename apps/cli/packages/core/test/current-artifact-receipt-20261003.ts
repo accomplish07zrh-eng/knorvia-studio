@@ -19,23 +19,27 @@ interface CurrentReceipt {
 
 const sha = (text: string) => createHash("sha256").update(text).digest("hex");
 const text = await readFile(
-  new URL("./current-build-artifact-receipt-20261003.json", import.meta.url),
+  new URL("./current-message-buffer-artifact-receipt-20261003.json", import.meta.url),
   "utf8",
 );
-assert.equal(sha(text), "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553");
+assert.equal(sha(text), "3dad7d1edd7feebc5fbda72e68884b02e2196f79c2205cc6a0afa773123d5df2");
 const receipt: CurrentReceipt = JSON.parse(text);
-assert.equal(receipt.formatVersion, 2);
-assert.equal(receipt.sourceCheckpoint, "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a");
+assert.equal(receipt.formatVersion, 3);
+assert.equal(receipt.sourceCheckpoint, "c82f05cbaff52f9fd44d6e196b3a7e5cbb3ee6b9");
 assert.equal(
   receipt.previousReceipt.path,
-  "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+  "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
 );
 assert.equal(
   receipt.previousReceipt.sha256,
-  "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+  "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553",
 );
 const repository = new URL("../../../../../", import.meta.url);
 const packages = new URL("apps/cli/packages/", repository);
+assert.equal(
+  sha(await readFile(new URL(receipt.previousReceipt.path, repository), "utf8")),
+  receipt.previousReceipt.sha256,
+);
 
 export async function verifyCurrentArtifacts(
   selector: string,

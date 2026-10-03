@@ -1,0 +1,87 @@
+TAP version 13
+# [2026-10-03 12:51:44.031] [pid:60627] [knorvia-server:http] http://127.0.0.1:42717
+# [2026-10-03 12:51:44.050] [pid:60627] [knorvia-server:http] [rpc:register] channel "knorvia-task"
+# [2026-10-03 12:51:44.050] [pid:60627] [knorvia-server:http] [rpc:register] channel "window-controller"
+# [2026-10-03 12:51:44.058] [pid:60627] [knorvia-server:http] [rpc:register] channel "knorvia-task"
+# [2026-10-03 12:51:44.058] [pid:60627] [knorvia-server:http] [rpc:register] channel "window-controller"
+# [2026-10-03 12:51:44.061] [pid:60627] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+# [2026-10-03 12:51:44.063] [pid:60627] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.1ms)
+# [2026-10-03 12:51:44.065] [pid:60627] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (1.6ms)
+# [2026-10-03 12:51:44.066] [pid:60627] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+# [2026-10-03 12:51:44.068] [pid:60627] [knorvia-server:http] [rpc:call] window-controller.mutateTask OK (0.6ms)
+# [2026-10-03 12:51:44.069] [pid:60627] [knorvia-server:http] [rpc:listen] window-controller.onDynamicControllerFrame subscribed
+# [2026-10-03 12:51:44.069] [pid:60627] [knorvia-server:http] [rpc:call] window-controller.resyncControllerV4 OK (0.3ms)
+# [2026-10-03 12:51:44.071] [pid:60627] [knorvia-server:http] [rpc:call] window-controller.mutateTask FAIL (0.1ms) Error: 没有与任务地址匹配的 source
+#     at Object.mutate (/workspace/knorvia-studio/packages/services/src/window-controller/windowHostControllerProjection.ts:498:15)
+#     at Object.mutateTask (/workspace/knorvia-studio/packages/services/src/window-controller/windowHostControllerService.ts:630:26)
+#     at Object.call (/workspace/knorvia-studio/packages/rpc/src/proxy-channel.ts:95:29)
+#     at LoggingServerChannel.call (/workspace/knorvia-studio/packages/rpc/src/logging-middleware.ts:40:39)
+#     at ChannelServer.onPromise (/workspace/knorvia-studio/packages/rpc/src/channelServer.ts:108:25)
+#     at ChannelServer.onRawMessage (/workspace/knorvia-studio/packages/rpc/src/channelServer.ts:74:14)
+#     at <anonymous> (/workspace/knorvia-studio/packages/rpc/src/channelServer.ts:28:66)
+#     at Emitter.fire (/workspace/knorvia-studio/packages/rpc/src/foundation.ts:119:7)
+#     at SocketProtocol.readMessages (/workspace/knorvia-studio/packages/rpc/src/protocol.ts:220:29)
+#     at <anonymous> (/workspace/knorvia-studio/packages/rpc/src/protocol.ts:178:14)
+# Subtest: HTTP Web exposes the real controller descriptor and keeps task writes with the source
+ok 1 - HTTP Web exposes the real controller descriptor and keeps task writes with the source
+  ---
+  duration_ms: 55.774516
+  type: 'test'
+  ...
+# Subtest: controller attachments isolate unsubscribe and close while sharing the Host projection
+ok 2 - controller attachments isolate unsubscribe and close while sharing the Host projection
+  ---
+  duration_ms: 0.960536
+  type: 'test'
+  ...
+# Subtest: HTTP composition preserves existing controllers and does not invent file-only business capability
+ok 3 - HTTP composition preserves existing controllers and does not invent file-only business capability
+  ---
+  duration_ms: 0.196325
+  type: 'test'
+  ...
+# Subtest: EOF stops admission immediately; later signals raise severity without duplicate disposal
+ok 4 - EOF stops admission immediately; later signals raise severity without duplicate disposal
+  ---
+  duration_ms: 48.243972
+  type: 'test'
+  ...
+# Subtest: phase failures preserve error identity and still advance through cleanup
+ok 5 - phase failures preserve error identity and still advance through cleanup
+  ---
+  duration_ms: 8.707896
+  type: 'test'
+  ...
+# Subtest: independent phase deadlines use explicit budgets and observe late rejections
+ok 6 - independent phase deadlines use explicit budgets and observe late rejections
+  ---
+  duration_ms: 6.84383
+  type: 'test'
+  ...
+# Subtest: stdio copies input bytes, honors drain and preserves repeated close/end ordering
+ok 7 - stdio copies input bytes, honors drain and preserves repeated close/end ordering
+  ---
+  duration_ms: 18.648027
+  type: 'test'
+  ...
+# Subtest: stdio stop memoizes its promise, removes admission first and disposes socket after scope failure
+ok 8 - stdio stop memoizes its promise, removes admission first and disposes socket after scope failure
+  ---
+  duration_ms: 11.736775
+  type: 'test'
+  ...
+# Subtest: HTTP WebSockets retain mode/role, copied bytes and scope-before-channel cleanup
+ok 9 - HTTP WebSockets retain mode/role, copied bytes and scope-before-channel cleanup
+  ---
+  duration_ms: 44.406405
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1025.118722

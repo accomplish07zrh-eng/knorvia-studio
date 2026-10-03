@@ -51,7 +51,7 @@ export class WorkspaceFileSearchIndexRequests {
     this.current = null;
   }
 
-  start(load: () => Promise<string>): () => void {
+  start(load: (isCurrent: () => boolean) => Promise<string>): () => void {
     const ticket = {};
     this.current = ticket;
     this.publish({ type: "start" });
@@ -61,9 +61,12 @@ export class WorkspaceFileSearchIndexRequests {
     };
   }
 
-  private async complete(ticket: object, load: () => Promise<string>): Promise<void> {
+  private async complete(
+    ticket: object,
+    load: (isCurrent: () => boolean) => Promise<string>,
+  ): Promise<void> {
     try {
-      const packed = await load();
+      const packed = await load(() => this.current === ticket);
       if (this.current === ticket) this.publish({ type: "ready", packed });
     } catch (error) {
       if (this.current === ticket) this.publish({ type: "failed", error });

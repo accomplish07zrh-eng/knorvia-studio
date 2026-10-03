@@ -1,3 +1,7 @@
+// Modified for Knorvia Studio: message projection and id-scoped subscription ownership.
+// Upstream: zai-org/ZCode@872ad960de7ec172591f7e1952f7849229f94521,
+// apps/zcode-cli/packages/core/src/runtime-task/registry.ts.
+// Preserve Apache-2.0 and applicable notices; source history: docs/cli-task-registry-source-review-20261003.md.
 import type {
   AgentOutput,
   ModelUsage,
@@ -6,6 +10,7 @@ import type {
   TraceContext,
   TurnId,
 } from "@knorvia/contracts";
+import { pendingMessageAppender, pendingMessageDrain } from "./message-buffer-transform.js";
 import { TaskWaitSubscriptions } from "./registry-waits.js";
 
 // 兼容既有取消分派：legacy workflow 与动态 workflow run 使用不同 task type。
@@ -145,18 +150,13 @@ export class InMemoryRuntimeTaskRegistry implements RuntimeTaskRegistry {
   }
 
   queueMessage(id: string, message: RuntimeTaskPendingMessage): RuntimeTaskSnapshot | undefined {
-    return this.update(id, (task) => ({
-      ...task,
-      pendingMessages: [...(task.pendingMessages ?? []), message],
-    }));
+    return this.update(id, pendingMessageAppender(message));
   }
 
   drainMessages(id: string): RuntimeTaskPendingMessage[] {
-    const task = this.snapshots.get(id);
-    if (!task || !task.pendingMessages || task.pendingMessages.length === 0) return [];
-    const messages = task.pendingMessages;
-    this.snapshots.set(id, { ...task, pendingMessages: [] });
-    return messages;
+    const projection = pendingMessageDrain(this.snapshots.get(id));
+    if (projection.replacement) this.snapshots.set(id, projection.replacement);
+    return projection.messages;
   }
 
   waitForBackgroundRequest(

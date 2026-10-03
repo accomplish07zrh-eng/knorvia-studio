@@ -1,0 +1,1088 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "selection": "actual isolated fixture CLI protocol events after latest combined GUI startup",
+  "events": [
+    {
+      "timestamp": "2026-10-03T12:58:19.413Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.started",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup started",
+      "traceId": "29e7cab0-0ee4-4029-9be6-303d6712ce62",
+      "spanId": "3e530b16-6118-42",
+      "durationMs": 0,
+      "status": "started",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "version": "0.16.9",
+        "stage": "start",
+        "totalDurationMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:19.420Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "29e7cab0-0ee4-4029-9be6-303d6712ce62",
+      "spanId": "3e530b16-6118-42",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "85ce12a1-bb31-439c-b531-4240c4dd776a",
+        "sequence": 1,
+        "databaseId": "3eb7c2b75b2e24a5186f98ef766611d783f1600de44eb1b85ed4746d0708ace6",
+        "databaseKind": "session",
+        "phase": "checking",
+        "elapsedMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:19.423Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "29e7cab0-0ee4-4029-9be6-303d6712ce62",
+      "spanId": "3e530b16-6118-42",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "85ce12a1-bb31-439c-b531-4240c4dd776a",
+        "sequence": 2,
+        "databaseId": "3eb7c2b75b2e24a5186f98ef766611d783f1600de44eb1b85ed4746d0708ace6",
+        "databaseKind": "session",
+        "phase": "failed",
+        "elapsedMs": 0,
+        "errorCode": "open_failed",
+        "systemCode": "ENOENT"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:19.424Z",
+      "level": "error",
+      "event": "knorvia_protocol.startup.failed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup failed",
+      "traceId": "29e7cab0-0ee4-4029-9be6-303d6712ce62",
+      "spanId": "3e530b16-6118-42",
+      "durationMs": 12,
+      "status": "failed",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "stage": "total",
+        "totalDurationMs": 12
+      },
+      "error": {
+        "name": "SqliteSessionMigrationError",
+        "message": "Failed to open SQLite session database at /home/agent/.knorvia-studio/cli/db/db.sqlite",
+        "cause": {
+          "name": "Error",
+          "message": "ENOENT: no such file or directory, mkdir '/home/agent/.knorvia-studio/cli/db'",
+          "code": "ENOENT"
+        }
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:19.427Z",
+      "level": "info",
+      "event": "knorvia_protocol.shutdown.completed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent shutdown completed",
+      "traceId": "29e7cab0-0ee4-4029-9be6-303d6712ce62",
+      "spanId": "3e530b16-6118-42",
+      "status": "completed",
+      "context": {
+        "entrypoint": "knorvia_protocol"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:21.586Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.started",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup started",
+      "traceId": "2e78ba49-b613-4bda-857b-0f280b1bf75b",
+      "spanId": "8d09a132-b528-46",
+      "durationMs": 0,
+      "status": "started",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "version": "0.16.9",
+        "stage": "start",
+        "totalDurationMs": 1
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:21.593Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "2e78ba49-b613-4bda-857b-0f280b1bf75b",
+      "spanId": "8d09a132-b528-46",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "41541e56-8962-4604-afc2-4832fe5409ea",
+        "sequence": 1,
+        "databaseId": "3eb7c2b75b2e24a5186f98ef766611d783f1600de44eb1b85ed4746d0708ace6",
+        "databaseKind": "session",
+        "phase": "checking",
+        "elapsedMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:21.595Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "2e78ba49-b613-4bda-857b-0f280b1bf75b",
+      "spanId": "8d09a132-b528-46",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "41541e56-8962-4604-afc2-4832fe5409ea",
+        "sequence": 2,
+        "databaseId": "3eb7c2b75b2e24a5186f98ef766611d783f1600de44eb1b85ed4746d0708ace6",
+        "databaseKind": "session",
+        "phase": "failed",
+        "elapsedMs": 0,
+        "errorCode": "open_failed",
+        "systemCode": "ENOENT"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:21.596Z",
+      "level": "error",
+      "event": "knorvia_protocol.startup.failed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup failed",
+      "traceId": "2e78ba49-b613-4bda-857b-0f280b1bf75b",
+      "spanId": "8d09a132-b528-46",
+      "durationMs": 11,
+      "status": "failed",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "stage": "total",
+        "totalDurationMs": 11
+      },
+      "error": {
+        "name": "SqliteSessionMigrationError",
+        "message": "Failed to open SQLite session database at /home/agent/.knorvia-studio/cli/db/db.sqlite",
+        "cause": {
+          "name": "Error",
+          "message": "ENOENT: no such file or directory, mkdir '/home/agent/.knorvia-studio/cli/db'",
+          "code": "ENOENT"
+        }
+      }
+    },
+    {
+      "timestamp": "2026-10-03T12:58:21.597Z",
+      "level": "info",
+      "event": "knorvia_protocol.shutdown.completed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent shutdown completed",
+      "traceId": "2e78ba49-b613-4bda-857b-0f280b1bf75b",
+      "spanId": "8d09a132-b528-46",
+      "status": "completed",
+      "context": {
+        "entrypoint": "knorvia_protocol"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:01:10.599Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.started",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup started",
+      "traceId": "3210e2e7-8321-47a1-9aeb-0f07eff505f3",
+      "spanId": "d2c96b75-25d2-41",
+      "durationMs": 0,
+      "status": "started",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "version": "0.16.9",
+        "stage": "start",
+        "totalDurationMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:01:10.606Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "3210e2e7-8321-47a1-9aeb-0f07eff505f3",
+      "spanId": "d2c96b75-25d2-41",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "9b8ff9e5-e303-4d19-8b8a-78cd551ac33b",
+        "sequence": 1,
+        "databaseId": "3eb7c2b75b2e24a5186f98ef766611d783f1600de44eb1b85ed4746d0708ace6",
+        "databaseKind": "session",
+        "phase": "checking",
+        "elapsedMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:01:10.608Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "3210e2e7-8321-47a1-9aeb-0f07eff505f3",
+      "spanId": "d2c96b75-25d2-41",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "9b8ff9e5-e303-4d19-8b8a-78cd551ac33b",
+        "sequence": 2,
+        "databaseId": "3eb7c2b75b2e24a5186f98ef766611d783f1600de44eb1b85ed4746d0708ace6",
+        "databaseKind": "session",
+        "phase": "failed",
+        "elapsedMs": 0,
+        "errorCode": "open_failed",
+        "systemCode": "ENOENT"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:01:10.609Z",
+      "level": "error",
+      "event": "knorvia_protocol.startup.failed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup failed",
+      "traceId": "3210e2e7-8321-47a1-9aeb-0f07eff505f3",
+      "spanId": "d2c96b75-25d2-41",
+      "durationMs": 11,
+      "status": "failed",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "stage": "total",
+        "totalDurationMs": 11
+      },
+      "error": {
+        "name": "SqliteSessionMigrationError",
+        "message": "Failed to open SQLite session database at /home/agent/.knorvia-studio/cli/db/db.sqlite",
+        "cause": {
+          "name": "Error",
+          "message": "ENOENT: no such file or directory, mkdir '/home/agent/.knorvia-studio/cli/db'",
+          "code": "ENOENT"
+        }
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:01:10.610Z",
+      "level": "info",
+      "event": "knorvia_protocol.shutdown.completed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent shutdown completed",
+      "traceId": "3210e2e7-8321-47a1-9aeb-0f07eff505f3",
+      "spanId": "d2c96b75-25d2-41",
+      "status": "completed",
+      "context": {
+        "entrypoint": "knorvia_protocol"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.709Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.started",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup started",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "durationMs": 0,
+      "status": "started",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "version": "0.16.9",
+        "stage": "start",
+        "totalDurationMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.718Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 1,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "checking",
+        "elapsedMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.721Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 2,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "checking",
+        "elapsedMs": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.725Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 3,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "checking",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 0,
+          "committedCount": 0
+        },
+        "elapsedMs": 2
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.727Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 4,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 0,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 6,
+        "completed": 0,
+        "total": 22,
+        "migrationId": "0001_base_session_store"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.729Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 5,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 1,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 8,
+        "completed": 1,
+        "total": 22,
+        "migrationId": "0002_local_setting"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.730Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 6,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 2,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 9,
+        "completed": 2,
+        "total": 22,
+        "migrationId": "0003_backfill_permission_local_setting"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.731Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 7,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 3,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 10,
+        "completed": 3,
+        "total": 22,
+        "migrationId": "0004_session_target"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.732Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 8,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 4,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 10,
+        "completed": 4,
+        "total": 22,
+        "migrationId": "0005_session_target_accounting"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.733Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 9,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 5,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 12,
+        "completed": 5,
+        "total": 22,
+        "migrationId": "0006_input_history_attachments"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.735Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 10,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 6,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 14,
+        "completed": 6,
+        "total": 22,
+        "migrationId": "0007_workflow_script_runtime"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.736Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 11,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 7,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 15,
+        "completed": 7,
+        "total": 22,
+        "migrationId": "0008_workflow_definition_scope"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.738Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 12,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 8,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 17,
+        "completed": 8,
+        "total": 22,
+        "migrationId": "0009_session_title_metadata"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.739Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 13,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 9,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 18,
+        "completed": 9,
+        "total": 22,
+        "migrationId": "0010_usage_observability"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.740Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 14,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 10,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 19,
+        "completed": 10,
+        "total": 22,
+        "migrationId": "0011_session_target_summary_title"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.741Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 15,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 11,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 20,
+        "completed": 11,
+        "total": 22,
+        "migrationId": "0012_session_trace_id"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.743Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 16,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 12,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 22,
+        "completed": 12,
+        "total": 22,
+        "migrationId": "0013_session_target_active_run_accounting"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.744Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 17,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 13,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 23,
+        "completed": 13,
+        "total": 22,
+        "migrationId": "0014_message_part_sequence"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.746Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 18,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 14,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 25,
+        "completed": 14,
+        "total": 22,
+        "migrationId": "0015_message_part_sequence_backfill_and_guard"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.747Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 19,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 15,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 26,
+        "completed": 15,
+        "total": 22,
+        "migrationId": "0016_session_input_ledger"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.748Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 20,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 16,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 27,
+        "completed": 16,
+        "total": 22,
+        "migrationId": "0017_session_input_start_now_delivery"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.750Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 21,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 17,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 29,
+        "completed": 17,
+        "total": 22,
+        "migrationId": "0018_session_input_failed_status"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.752Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 22,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 18,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 31,
+        "completed": 18,
+        "total": 22,
+        "migrationId": "0019_dwf_journal"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.754Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 23,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 19,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 33,
+        "completed": 19,
+        "total": 22,
+        "migrationId": "0020_provider_model_selection"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.759Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 24,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 20,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 38,
+        "completed": 20,
+        "total": 22,
+        "migrationId": "0021_official_glm_selection"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.759Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 25,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "migrating",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 21,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 38,
+        "completed": 21,
+        "total": 22,
+        "migrationId": "0022_backfilled_session_reasoning"
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.761Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 26,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "committing",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 22,
+          "committedCount": 0,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 40
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.762Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.storage_state",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "SQLite startup state",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "schemaVersion": 1,
+        "attemptId": "bd0c2740-c23c-499e-9772-e3ebde3342c7",
+        "sequence": 27,
+        "databaseId": "59da9c8b68ae0c2270b41992add8096214889a8c8bfd10b94d64428273dbdbd7",
+        "databaseKind": "session",
+        "phase": "ready",
+        "migration": {
+          "kind": "initialize",
+          "executedCount": 22,
+          "committedCount": 22,
+          "lastAppliedMigrationId": null
+        },
+        "elapsedMs": 41
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.850Z",
+      "level": "info",
+      "event": "knorvia_protocol.provider_registry.ready",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Worker Provider Registry 已就绪",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "accountRevision": "account:[\"builtin:30:0224d4f6f8840a65b5fd85ed3eb9b11c384d3552dce8a6c1b98d1d6103e925f3\",[],null]",
+        "configRevision": "[\"builtin:30:0224d4f6f8840a65b5fd85ed3eb9b11c384d3552dce8a6c1b98d1d6103e925f3\",\"5bc65dc77f66a74f6bac0df7929af0b78c79685322a9f637f00d979c4d5d14e2\"]",
+        "providerCount": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:04.858Z",
+      "level": "info",
+      "event": "knorvia_protocol.startup.completed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent startup completed",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "durationMs": 149,
+      "status": "completed",
+      "context": {
+        "entrypoint": "knorvia_protocol",
+        "startupKind": "knorvia_protocol_agent",
+        "stage": "total",
+        "totalDurationMs": 149
+      }
+    },
+    {
+      "timestamp": "2026-10-03T13:10:24.956Z",
+      "level": "info",
+      "event": "knorvia_protocol.shutdown.completed",
+      "module": "bootstrap.knorvia_protocol",
+      "message": "Knorvia Studio Protocol agent shutdown completed",
+      "traceId": "d6539fbf-d6d5-4e99-9665-e49089e92287",
+      "spanId": "a3851848-f787-4a",
+      "status": "completed",
+      "context": {
+        "entrypoint": "knorvia_protocol"
+      }
+    }
+  ]
+}

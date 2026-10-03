@@ -1,0 +1,52 @@
+Decoded job log line 226
+2026-10-03T12:33:18.8293348Z HEAD is now at 7bd43bfd Merge ad712690b3eb1501574c1d29361dc801c1414373 into 345a5a8698efec4f216e4118275214f25fdbd96b
+
+Decoded job log line 9827
+2026-10-03T12:45:18.7042458Z ✖ policy query failure continues to HKLM and preserves unknown placeholder text (7.9458ms)
+2026-10-03T12:45:18.7042797Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-10-03T12:45:18.7043012Z   + actual - expected
+2026-10-03T12:45:18.7043132Z   
+2026-10-03T12:45:18.7043352Z   + 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-fRlQOv/work/${unknown}'
+2026-10-03T12:45:18.7043723Z   - 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-fRlQOv\\work\\${unknown}'
+2026-10-03T12:45:18.7043954Z   
+2026-10-03T12:45:18.7044510Z       at <anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\desktop\test\native-browser-crash-contracts.test.ts:593:12)
+2026-10-03T12:45:18.7045001Z       at async isolated (D:\a\knorvia-studio\knorvia-studio\packages\desktop\test\native-browser-crash-contracts.test.ts:40:5)
+2026-10-03T12:45:18.7045496Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T12:45:18.7045787Z       at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+2026-10-03T12:45:18.7046026Z     generatedMessage: true,
+2026-10-03T12:45:18.7046173Z     code: 'ERR_ASSERTION',
+2026-10-03T12:45:18.7046440Z     actual: 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-fRlQOv/work/${unknown}',
+2026-10-03T12:45:18.7046815Z     expected: 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-fRlQOv\\work\\${unknown}',
+2026-10-03T12:45:18.7047080Z     operator: 'strictEqual',
+2026-10-03T12:45:18.7047234Z     diff: 'simple'
+2026-10-03T12:45:18.7047352Z   }
+2026-10-03T12:45:18.7047417Z 
+2026-10-03T12:45:18.7047582Z test at packages\desktop\test\native-browser-crash-contracts.test.ts:7:6980
+2026-10-03T12:45:18.7047975Z ✖ Windows policy roots expand placeholders in order and keep HKCU priority (8.8378ms)
+2026-10-03T12:45:18.7048285Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-10-03T12:45:18.7048496Z   + actual - expected
+
+Decoded job log line 9847
+2026-10-03T12:45:18.7047975Z ✖ Windows policy roots expand placeholders in order and keep HKCU priority (8.8378ms)
+2026-10-03T12:45:18.7048285Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-10-03T12:45:18.7048496Z   + actual - expected
+2026-10-03T12:45:18.7048625Z   
+2026-10-03T12:45:18.7048846Z   + 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-H2t0Hu\\local/Corp profile'
+2026-10-03T12:45:18.7049191Z   - 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-H2t0Hu\\local\\Corp profile'
+2026-10-03T12:45:18.7049428Z   
+2026-10-03T12:45:18.7049715Z       at <anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\desktop\test\native-browser-crash-contracts.test.ts:636:12)
+2026-10-03T12:45:18.7050187Z       at async isolated (D:\a\knorvia-studio\knorvia-studio\packages\desktop\test\native-browser-crash-contracts.test.ts:40:5)
+2026-10-03T12:45:18.7050541Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T12:45:18.7050810Z       at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+2026-10-03T12:45:18.7051030Z     generatedMessage: true,
+2026-10-03T12:45:18.7051174Z     code: 'ERR_ASSERTION',
+2026-10-03T12:45:18.7051432Z     actual: 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-H2t0Hu\\local/Corp profile',
+2026-10-03T12:45:18.7051809Z     expected: 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\knorvia-native-four-H2t0Hu\\local\\Corp profile',
+2026-10-03T12:45:18.7052072Z     operator: 'strictEqual',
+2026-10-03T12:45:18.7052210Z     diff: 'simple'
+2026-10-03T12:45:18.7052315Z   }
+2026-10-03T12:45:18.7052374Z 
+2026-10-03T12:45:18.7052537Z test at packages\server\test\lifecycle-injected-compatibility.test.mjs:309:1
+2026-10-03T12:45:18.7052926Z ✖ HTTP WebSockets retain mode/role, copied bytes and scope-before-channel cleanup (28.6663ms)
+2026-10-03T12:45:18.7053341Z   file:///D:/a/knorvia-studio/knorvia-studio/packages/server/test/lifecycle-injected-compatibility.test.mjs:38
+2026-10-03T12:45:18.7053662Z         throw new Error(`Unprovided dependency: ${id}`);

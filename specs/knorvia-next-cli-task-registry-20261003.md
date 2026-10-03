@@ -75,3 +75,65 @@ sequenceDiagram
 这只是静态对照结果，尚未通过测试、类型检查、emitted/消费者绑定或表达/权利评审。生产接纳复用本路已经独立写出的 snapshot + 双向 ticket/cohort 候选，不根据旧 Set waiter owner 改名重排，也不为“再重写一次”改动已满足契约的算法。API 声明、固定词汇、浅复制等不可避免的兼容表达仍明确保留。
 
 接入文件为生产 `runtime-task/registry.ts` 和新内部 `runtime-task/registry-waits.ts`，唯一入口保持不变，归档快照原样保留。本路新增的 11 个 contract 场景将改为导入当前生产入口，另编写 getter/发布/abort/FIFO 的针对性场景；历史 observation pins、旧 oracle/selector 和失败记录不变。最终当前产物验收须选择两个生产文件与真实消费者，不能借旧 fragment 评审或归档路径证明通过。全部新场景本阶段仍不执行；来源和 MIT 决定留待整合者。
+
+## Apache 下继续独立维护：消息缓冲最小候选批次
+
+用户最新澄清：继续 Apache-2.0，保留常用第三方许可与通知；停止 MIT 专项，不停止去除原项目继承实现、成为自维护上游的目标。本节只准备方案，**未安装候选**；生产文件须先与整合者协调，避免同文件同时写入。它不改前述历史 HOLD、旧失败记录或已完成技术整合结论。
+
+### 事实范围与替换理由
+
+以 `801179367c13fce707049aeb8ae5f92fe7cc9328` 的来源报告为输入，当前生产 Registry 仍为 SHA-256 `c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84`。最小可辨认表达候选是 `registry.ts` 的 **147–152 行 queueMessage** 和 **154–160 行 drainMessages**：前者完整方法体语法与确切上游相同，后者完整方法体仅将 `tasks` 改为 `snapshots`。这是整段消息快照变换组织的事实，不只是接口同名或作者接触过源码；仍不证明作者曾逐行复制，也不把常规 spread/Map 单句自动判为原项目特有算法。
+
+可按主动消除可辨认实现表达的目标，单独重作这一组合；**不据此认定它是法律上必须重写的范围**。新等待订阅簿已有不同的 id/book/ticket/cohort 结构及先行提交，不列入该批次。公开声明、六个状态、单行 generation setter / Map get / terminal 判断，以及 register/update 的必要 commit 与通知契约，不因为相同接口或普通原语而另列残留。没有发现仍需沿用上游任务执行、工作流取消、持久化或 UI 策略的证据。
+
+### 拟改动和唯一所有者
+
+待协调的生产改动仅为两方法及其一个内部 import，拟新增 `apps/cli/packages/core/src/runtime-task/message-buffer-transform.ts`。后者是纯快照变换程序，不持有 Map、队列、订阅或任何可变业务状态；不是把旧两个方法体移到新文件。Registry 仍是快照唯一写入者，`TaskWaitSubscriptions` 的现有所有权、发布和 abort 时序完全不变。
+
+```mermaid
+flowchart LR
+  Q[queueMessage] --> U[公开 update 的既有接纳路径]
+  U --> A[纯 append 快照变换]
+  A --> C[Registry 原 id commit]
+  C --> P[既有 terminal/background publication]
+  D[drainMessages] --> R[Registry 原快照 lookup]
+  R --> T[纯 drain 结果计划]
+  T --> S[Registry 直接 commit 替换快照]
+  S --> M[返回原消息数组]
+```
+
+### 新内部组织及不可改变的行为
+
+新程序以“枚举并物化自有字段 → 消息变换 → 生成替换结果”为内部组织，代替原来在方法内直接 spread/append 与 drain 分支/Map 写入的组合。实现须从行为规则重新写出，不搬运旧方法、不只改变量名，也不为语法不同强造新的产品策略。
+
+- append 的 factory 只捕获传入消息，返回供公开 update 使用的 patcher。queue 必须仍调用可覆盖的 `this.update` 一次，并原样返回它的结果；override 没有调用 patcher 时，不得读取快照、消息字段或触发额外效果。没有 sink 调用、id/timestamp 生成、归一化或异步包装。
+- patcher 先物化快照的自有可枚举字段，再读取原快照的 pendingMessages。消息容器通过迭代协议产生新的有序数组，最后加入同一个传入消息引用；保留 nullish fallback、迭代错误及先前 getter 副作用，不能改为只读取数组 length/index。所有新数组、快照及消息引用关系与契约一致。
+- 物化可采用显式 own-key / descriptor / value 处理，保留字符串及 Symbol 的标准顺序、enumerable 判断、每个 getter 的接收者和读取时机，在 fresh ordinary object 上创建普通自有 data property，再覆盖 pendingMessages 而不移动已有键位置。不得直接用 Object.assign，使 `__proto__` 变成原型修改；不得用 JSON、structuredClone 或字段白名单丢弃扩展元数据。这是新物化算法，不是封装原 spread 方法体。
+- drain 返回带判别的结果：无替换的 fresh empty array，或原消息引用及待提交快照。helper 不调用 update、发布、Map 或 sink。Registry 只在需要替换时将该结果提交到调用时的原 id，再返回原消息引用；getter 自身的重入副作用不能被回滚或吞掉。
+- drain 必须按 presence → length → 返回引用的三次独立 getter 阅读，随后才物化快照（其中 pendingMessages 可再次读取）；不能把首个数组缓存后用于全部阶段。missing/absent/empty 不复制或 commit，每次返回新的空数组。非空的替换快照带新的空数组，返回的数组仍是原第三次读取结果。
+- 注册表的立即等待、同步 options/signal 异常、terminal/background 顺序、重入、detached FIFO、branch generation、Read/scheduler/context 修复、数据形状和 UI 均不进入此候选批次。
+
+### 协调与验证边界
+
+需整合者先协调本批次在 `registry.ts` 的两方法/import 写入时段，以及之后的当前源码摘要与已有 source/emitted receipt 绑定刷新；这是现有全局记录和验收绑定的维护请求，不需要修改任何共享 schema、root config、CI 或其他模块。拟新增 helper 文件名尚未占用；协调前不创建生产 helper 或替换生产方法。
+
+现有 contract fixture 的消息身份/fresh empty 场景、read-order fixture 的四次消息 getter 轨迹和 runner-child 的 drain/requeue 是后续适配必须保持的观察边界。真正编写时须再明确自有可枚举字符串/Symbol、属性描述符/接收者、迭代协议/错误和重入部分效果；此方案尚未证明这些边界全部等价，不用“实现更短/结构不同”代替证据。
+
+本轮只准备 spec 和限定源码结论，**未验证、未落地**。不运行测试、lint、类型检查、构建或全量审计，不把普通第三方库列入删除/重写范围，不修改版权或 Apache/第三方通知来制造独立完成。
+
+## 独占落实授权与精简实现契约
+
+整合者随后确认本路独占 Registry，授权落实两消息变换、必要定向行为对比及确定性当前产物绑定，再开新 draft PR。Apache-2.0 和全部来源/第三方历史保留，法律独立性不由本次结构变化或测试宣布。
+
+上一节的手工 own-key/descriptor 物化只是草案，**不采用**：它增加维护和兼容风险，不能仅为降低相似性重造标准 JavaScript 操作。native object spread 是浅拷贝/enumerable/Symbol/属性顺序/原型安全的常见实现；array spread 是 iterator/fresh-array/引用语义的常见实现。四次 drain getter 读取、公开 update 拦截等由契约约束，仍如实保留这些共同表达。
+
+实际内部程序采用一条两阶段快照投影路径：先用 object spread 物化快照，并建立 pendingMessages 自有可写槽；之后才运行消息数组 producer，再写入这个槽。这避免源 getter 临时安装原型 setter 时拦截新的消息字段，同时保留 copy → 原消息再读/迭代的顺序，不新增手工反射复制或一份业务状态。
+
+- append 提供仅捕获 message 的 patcher factory，由公开 update 决定是否调用；factory 本身不读取 message 或快照。其 producer 通过 native array spread 复制 prior iterable，再追加原消息引用。
+- drain 按 presence、length、原返回引用读取后，调用同一投影器产生空数组快照，返回 messages + 可选 replacement。Registry 根据 replacement 做一次原 id 直接 commit，不调用公开 update 或发布。
+- producer/field getter/iterator 抛错同步传播。此前 reentrant register/remove 的效果保留，失败外层不 commit。队列 update 成功后的终态发布和 cleanup 异常仍由原 Registry 路径处理。
+- 仅新增内部纯 helper 和两个方法调用，保留原 API、其余 Registry、等待订阅、scheduler/context/Read、用户数据与 UI。为 Registry 添加实际修改/原来源说明，不删除既有注释、版权、许可或原 Git 历史。
+
+定向观察新增在现有 Registry observation 入口，覆盖公开 update 无调用时的惰性、枚举/Symbol/原型字段与 iterator 次序、原型 setter 防护、copy/iterator 失败与重入保留、drain 第三/第四读取的身份及错误后不提交。使用相同观察分别对精确前驱源码、前驱实际 emitted、当前源码和当前实际 emitted 比较；不把重复路线算作新行为场景。既有 Registry observation/consumer 场景只定向运行，不重跑整库回归。
+
+当前 receipt 使用新版本，旧 format-1 / format-2 JSON 保留原字节。生成器从固定前版本及明确两项源码变动出发，按原 core/contracts tsconfig 和完整 file-root 次序只捕获已登记输出，添加新 helper 的 source/JS/declaration，刷新源码 checkpoint、输入摘要与当前 reader 的固定摘要。依赖合同只读，不运行 root/全 CLI build、typecheck 或 lint；必要 Compiler API emit 不以本地旧 dist 或任意运行时字节自动生成 pin。

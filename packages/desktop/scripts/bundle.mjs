@@ -449,12 +449,11 @@ async function runTimedAsync(label, fn) {
   }
 }
 
-function shouldRetryElectronBuilderFailure(output) {
+export function shouldRetryElectronBuilderFailure(output) {
   const normalizedOutput = output.toLowerCase();
+  // 成功下载的 URL 会留在整轮日志里；把资源名或通用执行错误当作网络证据，
+  // 会让后续缺维护者等确定性配置错误重复打包。只保留明确的连接/传输失败信号。
   const transientSignals = [
-    "github.com/electron-userland/electron-builder-binaries/releases/download",
-    "electron-builder-binaries/",
-    "nsis-resources-",
     'get "https://',
     " eof",
     "read: connection reset by peer",
@@ -464,7 +463,6 @@ function shouldRetryElectronBuilderFailure(output) {
     "timeout",
     "socket hang up",
     "unexpected end of file",
-    "err_electron_builder_cannot_execute",
   ];
 
   return transientSignals.some((signal) => normalizedOutput.includes(signal));

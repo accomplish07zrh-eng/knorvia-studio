@@ -1,0 +1,101 @@
+{
+  "source": "main 59517d9699519b0a7a44980da27df29d45f0e91e",
+  "runtime": "v24.14.0",
+  "databaseEngine": "node:sqlite DatabaseSync",
+  "fixture": "constructed unversioned frozen v1 schemas with historical columns omitted; synthetic data only",
+  "checks": {
+    "rowCounts": {
+      "tasks": 4,
+      "task_groups": 1,
+      "task_group_members": 1,
+      "task_group_view_node_orders": 1,
+      "automations": 4,
+      "automation_runs": 1,
+      "off_peak_tasks": 1
+    },
+    "businessFieldsPreserved": true,
+    "identityOnlyGlmToKnorvia": true,
+    "malformedJsonRetained": true,
+    "scheduledCountBackfill": true,
+    "legacySelections": {
+      "legacy-custom": {
+        "providerId": "my provider",
+        "modelId": "model:with/slash"
+      },
+      "legacy-split": {
+        "providerId": "openai",
+        "modelId": "model-x",
+        "options": {
+          "reasoningLevel": "high"
+        }
+      },
+      "legacy-glm": null,
+      "legacy-empty": null
+    },
+    "consistentPreMigrationWalSnapshot": true,
+    "versionsCommitted": 5,
+    "closeReopenIdempotent": true,
+    "taskIndexRepoReadsMigratedRows": true,
+    "repositoryBootstrapReattachesHistoricalOffPeakBinding": true,
+    "rejections": [
+      {
+        "name": "checksum",
+        "kind": "checksum_mismatch",
+        "rowsUnchanged": true
+      },
+      {
+        "name": "future",
+        "kind": "newer_database",
+        "rowsUnchanged": true
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": "migrating",
+      "kind": "upgrade",
+      "executedCount": 0,
+      "committedCount": 0,
+      "lastAppliedMigrationId": null
+    },
+    {
+      "phase": "migrating",
+      "kind": "upgrade",
+      "executedCount": 1,
+      "committedCount": 0,
+      "lastAppliedMigrationId": null
+    },
+    {
+      "phase": "migrating",
+      "kind": "upgrade",
+      "executedCount": 2,
+      "committedCount": 0,
+      "lastAppliedMigrationId": null
+    },
+    {
+      "phase": "migrating",
+      "kind": "upgrade",
+      "executedCount": 3,
+      "committedCount": 0,
+      "lastAppliedMigrationId": null
+    },
+    {
+      "phase": "migrating",
+      "kind": "upgrade",
+      "executedCount": 4,
+      "committedCount": 0,
+      "lastAppliedMigrationId": null
+    },
+    {
+      "phase": "committing",
+      "kind": "upgrade",
+      "executedCount": 5,
+      "committedCount": 0,
+      "lastAppliedMigrationId": null
+    }
+  ],
+  "hashes": {
+    "fixture": "b08ac711905dfd0b071ac8881e68538332547b62bcde07a22b37c139eca8b53d",
+    "snapshot": "eaf350ce604684e218c11baf81ac2d2d5e9dcb6664fdba41ab4d89ee57052609"
+  }
+}

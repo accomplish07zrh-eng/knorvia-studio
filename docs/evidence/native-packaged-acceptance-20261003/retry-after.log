@@ -1,0 +1,12 @@
+✔ successful resource download does not retry a later metadata failure (0.61644ms)
+✔ a cached NSIS asset and generic helper error are not network evidence (0.109475ms)
+✔ actual interrupted network responses retain bounded-retry eligibility (0.131569ms)
+✔ ordinary target compilation failures do not retry (0.082505ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 53.203486

@@ -314,7 +314,7 @@ test("HTTP WebSockets retain mode/role, copied bytes and scope-before-channel cl
     const p = transportPorts();
     const routes = new Map();
     let injected;
-    const server = {};
+    const server = new EventEmitter();
     class Hono {
       fetch = () => {};
       get(path, handler) {
@@ -338,6 +338,15 @@ test("HTTP WebSockets retain mode/role, copied bytes and scope-before-channel cl
         }),
       },
       "./hostCapability.js": { createHostCapabilityStore: () => ({}) },
+      // HTTP 新增 controller 装配端口；本 transport 夹具没有 task service。
+      // 真实 controller/channel 合同继续由 http-window-controller-contract 用例验证。
+      "./httpWindowController.js": {
+        createHttpWindowController(services, onSourceError) {
+          assert.equal(services, p.services);
+          assert.equal(typeof onSourceError, "function");
+          return undefined;
+        },
+      },
       "./remote/index.js": {},
     });
     assert.equal(owner.createHttpServer(p.services), server);

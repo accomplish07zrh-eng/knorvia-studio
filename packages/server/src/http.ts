@@ -8,6 +8,7 @@ import {
   ChannelServer,
   Emitter,
   LoggingChannelServer,
+  ProxyChannel,
   SocketProtocol,
   VSBuffer,
   type ISocket,
@@ -19,6 +20,7 @@ import {
   IKnorviaAgentService,
   ISystemService,
   ITerminalService,
+  IWindowControllerService,
   ServiceCollection,
 } from "@knorvia/services";
 import {
@@ -33,6 +35,7 @@ import {
 import { Hono } from "hono";
 import type WebSocket from "ws";
 import { createHostCapabilityStore } from "./hostCapability.js";
+import { createHttpWindowController } from "./httpWindowController.js";
 import { connectRemote, createRemoteBackend, type RemoteConnection } from "./remote/index.js";
 
 interface HttpServerOptions {
@@ -102,7 +105,12 @@ function socketForWebSocket(ws: WebSocket): ISocket {
   };
 }
 
-function connectChannels(ws: WebSocket, services: ServiceCollection, mode: ConnectionMode): void {
+function connectChannels(
+  ws: WebSocket,
+  services: ServiceCollection,
+  mode: ConnectionMode,
+  controller?: ReturnType<typeof createHttpWindowController>,
+): void {
   const socket = socketForWebSocket(ws);
   const rawServer = new ChannelServer(new SocketProtocol(socket), "server");
   const channelServer = new LoggingChannelServer(rawServer, log);
@@ -117,7 +125,19 @@ function connectChannels(ws: WebSocket, services: ServiceCollection, mode: Conne
   const overrides = new Map<string, unknown>();
   if (scope) overrides.set(IKnorviaAgentService.channelName, scope.service);
   services.exposeOnChannelServer(channelServer, overrides);
+  const controllerAttachment = controller?.createAttachmentService();
+  if (controllerAttachment) {
+    channelServer.registerChannel(
+      IWindowControllerService.channelName,
+      ProxyChannel.fromService(controllerAttachment),
+    );
+  }
+  let closed = false;
   socket.onClose(() => {
+    // WebSocket error/close 可能各触发一次；每个 attachment 只释放自己的订阅。
+    if (closed) return;
+    closed = true;
+    controllerAttachment?.dispose();
     void scope?.dispose();
     rawServer.dispose();
   });
@@ -181,6 +201,12 @@ export function createHttpServer(
   const app = new Hono();
   const { upgradeWebSocket, injectWebSocket } = createNodeWebSocket({ app });
   const capabilities = createHostCapabilityStore();
+  const controller = createHttpWindowController(services, (_scope, operation, error) => {
+    log("window-controller source failed", {
+      operation,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  });
   const configuredToken = options.authToken?.trim();
 
   if (configuredToken) {
@@ -234,7 +260,7 @@ export function createHttpServer(
   const upgradeLocal = (mode: ConnectionMode) =>
     upgradeWebSocket(() => ({
       onOpen(_event, ws) {
-        connectChannels(ws.raw as WebSocket, services, mode);
+        connectChannels(ws.raw as WebSocket, services, mode, controller);
       },
     }));
   app.get("/ws", upgradeLocal("web-remote-replayable"));
@@ -317,5 +343,6 @@ export function createHttpServer(
     log(`http://${options.host?.trim() || "localhost"}:${boundPort}`);
   });
   injectWebSocket(server);
+  server.once("close", () => controller?.dispose());
   return server;
 }

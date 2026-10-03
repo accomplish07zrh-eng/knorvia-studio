@@ -1423,7 +1423,7 @@
     "packages/rpc/src/serialization.ts": "55f6c0460c9f0f09661068176ec14afd4454af5131bdcbbb62f65c44b4ca0116",
     "packages/server-cli/package.json": "725cc830cc3adf9610e3484ff91f4a25f078a15f020cee1dda1b375b3a007f5a",
     "packages/server/package.json": "e56d2f2bc155038cc5e33bc2c2481c1a10ad2d186e3046c26364785162d84a40",
-    "packages/services/package.json": "377ce3f4bd08c61de4b81ea726185be37847d7a98612627bc014962dc3ba39b8",
+    "packages/services/package.json": "6b73ddb9e0e146e8b00a627c3a5d236b437905a6785ad6d6f79405252c277dfb",
     "packages/shared/package.json": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408",
     "packages/shared/src/protocol-v4/wire-codec.ts": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
     "packages/ui/package.json": "d9569afc3ec1c6d3bb58a134593d722c8aae46637175416c4cfe13947bb97d01",

@@ -1,0 +1,110 @@
+{
+  "command": [
+    "/tmp/knorvia-validation-tools/node-v24.14.0-linux-x64/bin/node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-reporter=tap",
+    "--test-concurrency=2",
+    "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+    "packages/server/test/http-window-controller-contract-20261003.test.ts"
+  ],
+  "exitCode": 0,
+  "scope": "Six retained VM lifecycle contracts plus three production HTTP/WebSocket/RPC controller contracts; synthetic task source, isolated tmp data; not GUI/Agent/native acceptance.",
+  "baseSource": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "changedFixture": "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+  "recordedAtUtc": "2026-10-03T12:51:44.108467+00:00",
+  "log": "http-fixture-and-controller.tap",
+  "checkedSourceCommit": "bf86b79ac819ac7f53e0afa36ec18cf9e7c1c9ac",
+  "counts": {
+    "tests": 9,
+    "pass": 9,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "logSha256": "1d9616918621a12eabe3d08ceebe899013053fc2a2e9eba5cd87f36cf902107b",
+  "assertionPreservation": {
+    "base": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+    "path": "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+    "existingAssertionCallsPreserved": 46,
+    "addedAssertionCalls": 2,
+    "existingTestCasesPreserved": 6,
+    "loaderUnknownDependencyPolicyUnchanged": true,
+    "fixtureSha256": "df32127fe3427db9ca5cdf2888795f43da274ca98252dc03e860fbb8c6381dbe",
+    "productionChanged": false
+  },
+  "bindings": [
+    {
+      "path": "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+      "commit": "bf86b79ac819ac7f53e0afa36ec18cf9e7c1c9ac",
+      "gitBlob": "f765f87774d37d0cdfc87e37615b8bd8fe72176d",
+      "sha256": "df32127fe3427db9ca5cdf2888795f43da274ca98252dc03e860fbb8c6381dbe",
+      "bytes": 11997
+    },
+    {
+      "path": "packages/server/test/http-window-controller-contract-20261003.test.ts",
+      "commit": "bf86b79ac819ac7f53e0afa36ec18cf9e7c1c9ac",
+      "gitBlob": "14457851820f93518ed798402e1fe0f41c21d133",
+      "sha256": "bf7a0467d508be2115dd1927b2a47e39f38c9ad11ad993bcbea8f8bf1bba8383",
+      "bytes": 7472
+    },
+    {
+      "path": "packages/server/src/http.ts",
+      "commit": "bf86b79ac819ac7f53e0afa36ec18cf9e7c1c9ac",
+      "gitBlob": "75b7e7e764440c0a3028c68696b1b9b30e62daac",
+      "sha256": "c0dda9cee446ae236c1f73ee6f02d4d6059c0af13a52d3d3ed4d9a938f7a80bb",
+      "bytes": 11205
+    },
+    {
+      "path": "packages/server/src/httpWindowController.ts",
+      "commit": "bf86b79ac819ac7f53e0afa36ec18cf9e7c1c9ac",
+      "gitBlob": "f13a150c7d63d01b8f1b026ac16baf5357521dd0",
+      "sha256": "5d5bd9bc900e10642c836642fcdff24900183ec8032a364480354ed5de39bdd6",
+      "bytes": 1456
+    },
+    {
+      "path": "specs/knorvia-web-controller-assembly-20261003.md",
+      "commit": "bf86b79ac819ac7f53e0afa36ec18cf9e7c1c9ac",
+      "gitBlob": "23610203efbb6b3d7a511e7ca8beff7aacafb679",
+      "sha256": "d14fd927e6352fd5e5bef6cacee2046f197d5649aea3186c71b56207c2662790",
+      "bytes": 4699
+    }
+  ],
+  "beforeObservation": {
+    "base": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+    "command": [
+      "/tmp/knorvia-validation-tools/node-v24.14.0-linux-x64/bin/node",
+      "--test",
+      "packages/server/test/lifecycle-injected-compatibility.test.mjs"
+    ],
+    "exitCode": 1,
+    "tests": 6,
+    "pass": 5,
+    "fail": 1,
+    "skip": 0,
+    "failure": "Unprovided dependency: ./httpWindowController.js",
+    "terminalOutputObserved": true,
+    "localRawBeforeLogSaved": false,
+    "ciRawBeforeRun": 37123232166,
+    "ciRawBeforeJobs": [
+      111203311217,
+      111203311429
+    ]
+  },
+  "quality": {
+    "architectureChangedExitCodeBeforeAndAfter": 0,
+    "architectureNewViolations": 0,
+    "scopedOxlintExitCode": 0,
+    "scopedOxfmtCheckExitCode": 0,
+    "rootTypecheckLintBuildRegressionReranLocally": false
+  },
+  "limits": [
+    "Linux Node24.14.0 only; Windows full regression must pass latest unified CI",
+    "No GUI/actual Agent/native acceptance",
+    "Task services synthetic; HTTP/WebSocket/RPC and production controller real",
+    "Expected rejected remote task address is logged as FAIL and asserted rejected; this is not a console-clean acceptance claim",
+    "No source rights/license/classification decision"
+  ]
+}

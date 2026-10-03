@@ -1,0 +1,25 @@
+{
+  "source": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "files": [
+    {
+      "path": "apps/cli/packages/cli/dist/knorvia.cjs",
+      "bytes": 16544502,
+      "sha256": "f567bbb9c52ce8008c138b5ba01382592fbc60e01baa32729416bed7cc2fde62"
+    },
+    {
+      "path": "packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs",
+      "bytes": 16544502,
+      "sha256": "f567bbb9c52ce8008c138b5ba01382592fbc60e01baa32729416bed7cc2fde62"
+    },
+    {
+      "path": "packages/server/dist/entry-http.js",
+      "bytes": 2484063,
+      "sha256": "ce3611f34562160f9c6cede7167ff76f14adee0d47a94a2b320db9d4bbba5e8b"
+    },
+    {
+      "path": "packages/web/dist/index.html",
+      "bytes": 10175,
+      "sha256": "bc443f7482ece7d31bd57a764e1af0851fb4302414cc7459381c6bf778320552"
+    }
+  ]
+}

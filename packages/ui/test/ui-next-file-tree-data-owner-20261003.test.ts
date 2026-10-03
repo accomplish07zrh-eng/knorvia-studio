@@ -44,7 +44,7 @@ const settle = async () => {
   for (let count = 0; count < 8; count += 1) await Promise.resolve();
 };
 
-function harness(enableWorkspaceFeatures = false) {
+function harness(enableWorkspaceFeatures = false, onWatchRefresh?: () => void) {
   const reads: Array<{
     path: string;
     includeHidden?: boolean;
@@ -78,6 +78,7 @@ function harness(enableWorkspaceFeatures = false) {
     warn: (message) => {
       warnings.push(message);
     },
+    onWatchRefresh,
   });
   return { owner, reads, ignored, gitReads, warnings };
 }
@@ -101,6 +102,41 @@ test("non-force admission shares the loading fact, while only a newer force requ
   assert.equal(owner.read().loadingDirectoryPaths.has("/w"), false);
   assert.equal(owner.loadedDirectoryPathsRef.current, owner.read().loadedDirectoryPaths);
   stop();
+});
+
+test("accepted watch batches refresh the search index once and closed scopes cannot refresh it", async (context) => {
+  context.mock.timers.enable({ apis: ["setTimeout"] });
+  let indexRefreshes = 0;
+  const { owner, reads } = harness(false, () => {
+    indexRefreshes += 1;
+  });
+  const stop = owner.start();
+  reads[0]!.reply.resolve([]);
+  await settle();
+  assert.equal(indexRefreshes, 0);
+  owner.enqueueWatchRefresh("/outside");
+  owner.enqueueWatchRefresh("/w");
+  owner.enqueueWatchRefresh("/w");
+  context.mock.timers.tick(300);
+  assert.equal(reads.length, 2);
+  assert.equal(indexRefreshes, 0);
+  reads[1]!.reply.resolve([file("/w/new-file")]);
+  await settle();
+  assert.equal(indexRefreshes, 1);
+  owner.enqueueWatchRefresh("/w");
+  context.mock.timers.tick(300);
+  stop();
+  const stopReplay = owner.start();
+  reads[2]!.reply.resolve([file("/w/late-old-scope")]);
+  reads[3]!.reply.resolve([]);
+  await settle();
+  assert.equal(indexRefreshes, 1);
+  owner.enqueueWatchRefresh("/w");
+  context.mock.timers.tick(300);
+  reads[4]!.reply.resolve([file("/w/current-scope")]);
+  await settle();
+  assert.equal(indexRefreshes, 2);
+  stopReplay();
 });
 
 test("ordinary single-directory chains prefetch silently and symlink directories do not recurse", async () => {

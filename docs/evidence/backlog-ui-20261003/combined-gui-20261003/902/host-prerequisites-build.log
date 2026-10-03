@@ -1,0 +1,19 @@
+CLI Building entry: {"entry-http":"src/entry-http.ts"}
+CLI Using tsconfig: tsconfig.build.json
+CLI tsup v8.5.1
+CLI Using tsup config: /workspace/knorvia-studio/packages/server/tsup.config.ts
+CLI Target: node22
+ESM Build start
+ESM dist/broker-helper-health-MFTZZEW5.js 161.00 B
+ESM dist/chunk-3UCOVQOZ.js                2.12 KB
+ESM dist/wsl-backend-N6VR3OZQ.js          199.00 B
+ESM dist/chunk-EW7WHFN4.js                937.00 B
+ESM dist/docker-backend-LS7SFP4E.js       143.00 B
+ESM dist/chunk-MA2IX5RO.js                10.68 KB
+ESM dist/ssh-backend-G63ELN6J.js          18.78 KB
+ESM dist/chunk-U67V476Y.js                1.46 KB
+ESM dist/chunk-ONQ3DW6Q.js                20.19 KB
+ESM dist/chunk-QWYFBBVH.js                32.01 KB
+ESM dist/chunk-JM5CBUYR.js                1.19 MB
+ESM dist/entry-http.js                    2.35 MB
+ESM ⚡️ Build success in 750ms

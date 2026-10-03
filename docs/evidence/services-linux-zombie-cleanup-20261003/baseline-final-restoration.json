@@ -1,0 +1,40 @@
+{
+  "sourceCheckpoint": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+  "frozenFixtureCommit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+  "command": [
+    "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "--test-timeout=20000",
+    "--test-reporter=tap",
+    "packages/services/test/process-linux-zombie-contract-20261003.test.ts",
+    "packages/services/test/process-linux-zombie-isolated-20261003.test.ts",
+    "packages/services/test/process-snapshot-fake-authority-20261002.test.ts",
+    "packages/services/test/process-ownership-fake-permission-20261002.test.ts",
+    "packages/services/test/process-waiter-fake-authority-20261002.test.ts",
+    "packages/services/test/process-termination-fake-authority-20261002.test.ts",
+    "packages/services/test/agent-stdio-fake-authority-20261003.test.ts"
+  ],
+  "exit": 1,
+  "bindings": [
+    {
+      "path": "packages/services/src/process/processTreeSnapshot.ts",
+      "baselineSha256": "ed489b767eacfe66e92d53aeda3d550a1eb621cd0fc6af5b850acaf60897cef6",
+      "candidateSha256": "3a61005b31b7749737c00504308f395604772a34fe08b790998eebc828f957d1"
+    },
+    {
+      "path": "packages/services/src/process/processTreeWaiter.ts",
+      "baselineSha256": "665d91481e736a34c764a90ab5d79a8aa2b25686d46164dd23fd32e83cc2b56d",
+      "candidateSha256": "752d3a5e26f818a38383e74376c8143db49870cc4b4c4dd9ce03252fa111ea60"
+    },
+    {
+      "path": "packages/services/src/process/processTreeTypes.ts",
+      "baselineSha256": "4f4a9beb1453087503e1e155adbcc97fa78ee1e74ca63fb7d991fd1ee69bc942",
+      "candidateSha256": "959d80bb6b62ed9b6feeb383fb877b7d5d535bdb70ffe06f33810407173f0d22"
+    }
+  ],
+  "method": "Temporarily install exact pre-fix bytes for the three exclusively owned production paths; restore current committed candidate bytes in finally. Same seven frozen fixture files for both runs. No other path changed."
+}

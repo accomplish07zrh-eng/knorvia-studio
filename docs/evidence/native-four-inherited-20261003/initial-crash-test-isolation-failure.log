@@ -1,0 +1,50 @@
+(node:17905) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ product catalog retains all platform roots and channel order (8.885941ms)
+✔ running installation evidence retains every explicit directory and first fallback (0.911194ms)
+✔ process executable spelling, Mac spaces and existing parse boundaries remain (0.455216ms)
+✔ executable tiers preserve overrides, process and registration priority (5.373765ms)
+✔ regular-file and execute-permission admission continue to later candidates (2.222141ms)
+✔ registered Linux desktop entries precede PATH and retain env token handling (6.227252ms)
+✔ Linux PATH name order dominates directory order and installation tier (2.395853ms)
+✔ Mac Spotlight ignores stale applications and keeps the same query (2.367891ms)
+✔ process enumeration keeps command options, filtering and failure continuation (1.111796ms)
+✔ profile last_used precedes Default and explicit executable keeps existence-only semantics (9.401478ms)
+✔ empty Default and stale last_used do not hide cached nonstandard importable profile (2.922307ms)
+✔ malformed Local State falls back and earliest ambiguity blocks later installation (3.849215ms)
+✔ empty standard and environment profiles fall through to running Snap data (2.916539ms)
+✔ Windows policy roots expand placeholders in order and keep HKCU priority (3.778348ms)
+✔ profile absence and valid JSON null retain distinct bad-input results (2.077473ms)
+✔ Crashpad known prefixes preserve first valid values and prefix-group output order (1.767286ms)
+✔ Crashpad length bounds, controls, truncation and trailing NUL remain safe (7.716958ms)
+✔ V8 summary keeps every field, conversions and diagnostics bounds (0.631913ms)
+✔ OOM classification preserves precedence, exact thresholds and nullable bad values (0.427925ms)
+(node:17925) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17925) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+✔ archived crash metadata hides credentials found in native annotations (2321.179993ms)
+✖ default desktop startup does not enable raw memory dump capture (1.725242ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 20
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2729.752108
+
+✖ failing tests:
+
+test at packages/desktop/test/security-crash-metadata.test.ts:5:549
+✖ default desktop startup does not enable raw memory dump capture (1.725242ms)
+  Error: ENOENT: no such file or directory, mkdir '/home/agent/.knorvia-studio/v2/crash'
+      at mkdirSync (node:fs:1349:26)
+      at initializeCrashCapture (/workspace/knorvia-studio/packages/desktop/src/main/desktopCrashCapture.ts:364:3)
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/desktop/test/security-crash-metadata.test.ts:85:5)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdir',
+    path: '/home/agent/.knorvia-studio/v2/crash'
+  }

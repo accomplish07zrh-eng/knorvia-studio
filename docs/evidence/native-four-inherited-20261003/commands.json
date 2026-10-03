@@ -1,0 +1,80 @@
+{
+  "toolchain": {
+    "node": "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+    "pnpmEntry": "/tmp/knorvia-native-lock-test-deps-20261003/node_modules/pnpm/bin/pnpm.cjs",
+    "pathPrefix": "/tmp/knorvia-native-package-acceptance-20261003/bin"
+  },
+  "cwd": "/workspace/knorvia-studio",
+  "baselineGraph": {
+    "commit": "3418776c6d90b3a205e312a115948a280e91309d",
+    "root": "/tmp/knorvia-native-four-contracts-20261003/baseline",
+    "qualification": "Exact four prior Git blobs and an unchanged copy of the current fixture are loaded from disposable /tmp. The baseline package declares type=module; all production imports are Node builtins or these four sibling modules. No baseline code is added to the repository or routed into the candidate."
+  },
+  "baselineArgv": [
+    "node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "--test-timeout=30000",
+    "/tmp/knorvia-native-four-contracts-20261003/baseline/test/native-browser-crash-contracts.test.ts"
+  ],
+  "candidateArgv": [
+    "node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "--test-timeout=30000",
+    "packages/desktop/test/native-browser-crash-contracts.test.ts",
+    "packages/desktop/test/security-crash-metadata.test.ts"
+  ],
+  "testEnvironment": {
+    "KNORVIA_ENV": "test",
+    "KNORVIA_DATA_BASE_DIR": "/tmp/knorvia-native-four-contracts-20261003/security-data",
+    "KNORVIA_STORAGE_DIR": "/tmp/knorvia-native-four-contracts-20261003/security-cli"
+  },
+  "checks": [
+    [
+      "pnpm",
+      "typecheck"
+    ],
+    [
+      "pnpm",
+      "lint"
+    ],
+    [
+      "pnpm",
+      "architecture:check",
+      "--changed"
+    ],
+    [
+      "pnpm",
+      "exec",
+      "oxlint",
+      "packages/desktop/src/main/chromeProfileDiscovery.ts",
+      "packages/desktop/src/main/chromeExecutableDiscovery.ts",
+      "packages/desktop/src/main/chromeInstallationCandidates.ts",
+      "packages/desktop/src/main/crashDumpAnnotations.ts",
+      "packages/desktop/test/native-browser-crash-contracts.test.ts"
+    ],
+    [
+      "pnpm",
+      "exec",
+      "oxfmt",
+      "--check",
+      "packages/desktop/src/main/chromeProfileDiscovery.ts",
+      "packages/desktop/src/main/chromeExecutableDiscovery.ts",
+      "packages/desktop/src/main/chromeInstallationCandidates.ts",
+      "packages/desktop/src/main/crashDumpAnnotations.ts",
+      "packages/desktop/test/native-browser-crash-contracts.test.ts",
+      "specs/knorvia-native-four-inherited-modules-20261003.md"
+    ]
+  ],
+  "checkEnvironment": {
+    "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false"
+  },
+  "qualification": "Platform flags in synthetic tests model public path/command policies on Linux; they are not real Windows/macOS acceptance. No host browser/system commands are executed by the mocked contract fixture. Existing crash security tests retain their assertions unchanged."
+}

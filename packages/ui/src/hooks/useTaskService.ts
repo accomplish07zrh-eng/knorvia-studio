@@ -1,5 +1,4 @@
-import { useServices } from "@/hooks/useServices.js";
-import { useWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
+import { useWorkspaceOrContextServices } from "@/hooks/useWorkspaceServices.js";
 import type { IKnorviaTaskService } from "@knorvia/services";
 import type { KnorviaTaskSnapshot } from "@knorvia/shared";
 import { uiMemoryDiagnosticsRegistry } from "@/lib/memoryDiagnostics.js";
@@ -298,9 +297,11 @@ export function useTaskService(
   workspaceIdentity?: string | null,
 ): IKnorviaTaskService {
   // Knorvia task 服务按 workspace 身份解析，保证所有 task RPC 都落到对应的 host。
-  const services = workspacePath
-    ? useWorkspaceServices(workspacePath, preferredRemoteSessionId, workspaceIdentity)
-    : useServices();
+  const services = useWorkspaceOrContextServices(
+    workspacePath,
+    preferredRemoteSessionId,
+    workspaceIdentity,
+  );
   const rawService = services.taskService;
   if (!rawService || typeof rawService !== "object") {
     return rawService;

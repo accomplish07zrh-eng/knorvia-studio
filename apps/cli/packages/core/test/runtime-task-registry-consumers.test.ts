@@ -54,7 +54,12 @@ test(`${surface}: exact current source/JS/declaration routing rejects wrong and 
     selectedURL.pathname,
     surface === "emitted" ? /\/dist\/.*\.js$/u : /\/src\/.*\.ts$/u,
   );
-  for (const path of Object.keys(pins.files)) {
+  const messageProjectionPaths = [
+    "src/runtime-task/message-buffer-transform.ts",
+    "dist/runtime-task/message-buffer-transform.js",
+    "dist/runtime-task/message-buffer-transform.d.ts",
+  ];
+  for (const path of [...Object.keys(pins.files), ...messageProjectionPaths]) {
     await assert.rejects(
       loadCurrent(async (url) =>
         url.pathname.endsWith(path) ? "wrong artifact" : readFile(url, "utf8"),

@@ -1,0 +1,1424 @@
+{
+  "formatVersion": 1,
+  "sourceCheckpoint": "55dda10f9b1779cddae5a24be30f413c79e4c546",
+  "specificationCommit": "0de3286c9f341e6f33587d890721659f54774dc5",
+  "predecessorCheckpoint": "be3e574a416165a54b45c71e3361f2efb3401b36",
+  "factsCheckpoint": "1128e11a98a47d16ad19e9b3e60e65fc8b470cd7",
+  "productionCommits": {
+    "residentPool": "2e6570d5139b76607947103a1de80c25f87233ba",
+    "scriptChild": "ce27d2026372e3f9efb0339ce269a262330f64b0",
+    "customCommand": "55dda10f9b1779cddae5a24be30f413c79e4c546"
+  },
+  "design": {
+    "residentPool": "Lease identities replace arithmetic ownership counts; TTL/LRU use one fresh-facts admission; one async close/notice/cleanup gate. Host registry and persisted data remain host-owned.",
+    "scriptChild": "One channel owns pending replies and sequence; one ALS/counter owner allocates paths; parallel/pipeline share contextual fan-out and per-item failure boundary.",
+    "customCommand": "Lexeme-stream fragments replace per-character escape state; capturing split projects literal/position segments after native all-arguments replacement."
+  },
+  "pairedObservations": [
+    {
+      "component": "resident",
+      "logicalGroups": 10,
+      "profiles": [
+        {
+          "profile": "predecessor-source",
+          "observationsSha256": "5c64d3dfae802a1a7d6b06c7c2875d23346c64289bd6f43cdfea5f8bcffc218b"
+        },
+        {
+          "profile": "predecessor-emitted",
+          "observationsSha256": "5c64d3dfae802a1a7d6b06c7c2875d23346c64289bd6f43cdfea5f8bcffc218b"
+        },
+        {
+          "profile": "current-source",
+          "observationsSha256": "5c64d3dfae802a1a7d6b06c7c2875d23346c64289bd6f43cdfea5f8bcffc218b"
+        },
+        {
+          "profile": "current-emitted",
+          "observationsSha256": "5c64d3dfae802a1a7d6b06c7c2875d23346c64289bd6f43cdfea5f8bcffc218b"
+        }
+      ],
+      "normalization": "none",
+      "observations": [
+        {
+          "name": "defaults, invalid option errors and strict high-water admission",
+          "result": [
+            {
+              "sessionId": "s0",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 17,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s1",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 16,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s10",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 15,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s11",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 14,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s12",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 13,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s13",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 12,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s14",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 11,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s15",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 10,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "s16",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 600000,
+                "reason": "high_water_lru",
+                "residentCountBefore": 9,
+                "targetCount": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "continuous idle TTL resets on a finite earlier touch but not NaN",
+          "result": [
+            {
+              "sessionId": "b",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 100,
+                "idleTimeoutMs": 100,
+                "reason": "idle_timeout",
+                "residentCountBefore": 2,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "a",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 100,
+                "idleTimeoutMs": 100,
+                "reason": "idle_timeout",
+                "residentCountBefore": 1,
+                "targetCount": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "LRU uses max activity/touch and session-id ties, then stops at target",
+          "result": {
+            "decisions": [
+              {
+                "sessionId": "a",
+                "decision": {
+                  "highWaterCount": 3,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 600000,
+                  "reason": "high_water_lru",
+                  "residentCountBefore": 4,
+                  "targetCount": 1
+                }
+              },
+              {
+                "sessionId": "c",
+                "decision": {
+                  "highWaterCount": 3,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 600000,
+                  "reason": "high_water_lru",
+                  "residentCountBefore": 3,
+                  "targetCount": 1
+                }
+              },
+              {
+                "sessionId": "b",
+                "decision": {
+                  "highWaterCount": 3,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 600000,
+                  "reason": "high_water_lru",
+                  "residentCountBefore": 2,
+                  "targetCount": 1
+                }
+              }
+            ],
+            "tie": [
+              {
+                "sessionId": "a",
+                "decision": {
+                  "highWaterCount": 0,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 600000,
+                  "reason": "high_water_lru",
+                  "residentCountBefore": 2,
+                  "targetCount": 0
+                }
+              },
+              {
+                "sessionId": "b",
+                "decision": {
+                  "highWaterCount": 0,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 600000,
+                  "reason": "high_water_lru",
+                  "residentCountBefore": 1,
+                  "targetCount": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "all residency blockers preserve runtimes, including fresh facts and touch",
+          "result": [
+            {
+              "sessionId": "a",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 10,
+                "idleTimeoutMs": 10,
+                "reason": "idle_timeout",
+                "residentCountBefore": 2,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "b",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 10,
+                "idleTimeoutMs": 10,
+                "reason": "idle_timeout",
+                "residentCountBefore": 1,
+                "targetCount": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "a new session lease and recursive sampler cannot bypass admission",
+          "result": [
+            {
+              "sessionId": "a",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 0,
+                "reason": "idle_timeout",
+                "residentCountBefore": 2,
+                "targetCount": 8
+              }
+            },
+            {
+              "sessionId": "b",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 0,
+                "idleTimeoutMs": 0,
+                "reason": "idle_timeout",
+                "residentCountBefore": 1,
+                "targetCount": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "fact-read errors release the rebalance guard and removal resets idle metadata",
+          "result": [
+            {
+              "sessionId": "a",
+              "decision": {
+                "highWaterCount": 16,
+                "idleMs": 10,
+                "idleTimeoutMs": 10,
+                "reason": "idle_timeout",
+                "residentCountBefore": 1,
+                "targetCount": 8
+              }
+            }
+          ]
+        },
+        {
+          "name": "duplicate, overlapping and process-only leases release exactly once",
+          "result": {
+            "clocks": 7,
+            "decisions": [
+              {
+                "sessionId": "a",
+                "decision": {
+                  "highWaterCount": 0,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 600000,
+                  "reason": "high_water_lru",
+                  "residentCountBefore": 2,
+                  "targetCount": 0
+                }
+              },
+              {
+                "sessionId": "b",
+                "decision": {
+                  "highWaterCount": 0,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 600000,
+                  "reason": "high_water_lru",
+                  "residentCountBefore": 1,
+                  "targetCount": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "synchronous removal precedes a shared gate covering close and notification",
+          "result": [
+            "removed",
+            "notified",
+            "acquired"
+          ]
+        },
+        {
+          "name": "sync failures do not decrement capacity and successful notices can fail",
+          "result": [
+            {
+              "id": "a",
+              "message": "owned sync failure",
+              "count": 2
+            },
+            {
+              "id": "b",
+              "message": "owned notice failure",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "name": "gate rejection cleans ownership and a failed acquisition releases process lease",
+          "result": {
+            "events": [
+              "error"
+            ],
+            "decisions": [
+              {
+                "sessionId": "b",
+                "decision": {
+                  "highWaterCount": 16,
+                  "idleMs": 0,
+                  "idleTimeoutMs": 0,
+                  "reason": "idle_timeout",
+                  "residentCountBefore": 1,
+                  "targetCount": 8
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component": "child",
+      "logicalGroups": 8,
+      "profiles": [
+        {
+          "profile": "predecessor-source",
+          "observationsSha256": "cb04e01e370fd2978617f382cf48042defcac0ee33626c69fe95f7fdfe5d0d0e",
+          "syntheticChildProcesses": 11
+        },
+        {
+          "profile": "predecessor-emitted",
+          "observationsSha256": "cb04e01e370fd2978617f382cf48042defcac0ee33626c69fe95f7fdfe5d0d0e",
+          "syntheticChildProcesses": 11
+        },
+        {
+          "profile": "current-source",
+          "observationsSha256": "cb04e01e370fd2978617f382cf48042defcac0ee33626c69fe95f7fdfe5d0d0e",
+          "syntheticChildProcesses": 11
+        },
+        {
+          "profile": "current-emitted",
+          "observationsSha256": "cb04e01e370fd2978617f382cf48042defcac0ee33626c69fe95f7fdfe5d0d0e",
+          "syntheticChildProcesses": 11
+        }
+      ],
+      "normalization": "Error stack frames omitted; stack presence and exact message/own-key order asserted in fixture; stderr prefixes retained",
+      "observations": [
+        {
+          "name": "out-of-order, unknown, duplicate and invalid responses retain the IPC owner",
+          "result": {
+            "frames": [
+              {
+                "kind": "event",
+                "type": "phase",
+                "payload": {
+                  "title": "planning"
+                }
+              },
+              {
+                "kind": "event",
+                "type": "log",
+                "payload": {
+                  "message": "synthetic log",
+                  "phase": "planning"
+                }
+              },
+              {
+                "id": "req_1",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/agent0",
+                  "opts": {
+                    "phase": "left"
+                  },
+                  "phase": "left",
+                  "prompt": "left"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_2",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/agent1",
+                  "opts": {
+                    "phase": ""
+                  },
+                  "phase": "planning",
+                  "prompt": "right"
+                },
+                "type": "agent"
+              },
+              {
+                "kind": "complete",
+                "ok": true,
+                "value": {
+                  "values": [
+                    "L",
+                    "R"
+                  ],
+                  "args": {
+                    "synthetic": 0
+                  },
+                  "total": 4,
+                  "spent": 5,
+                  "remaining": 0
+                }
+              }
+            ],
+            "invalidResponseLogged": true,
+            "syntheticConsoleLogged": false,
+            "exitCode": 0
+          }
+        },
+        {
+          "name": "agent rejection fallback and workflow forwarding retain false values and no budget",
+          "result": {
+            "frames": [
+              {
+                "id": "req_1",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/agent0",
+                  "prompt": "refused"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_2",
+                "kind": "request",
+                "payload": {
+                  "args": {
+                    "zero": 0
+                  },
+                  "nameOrRef": "synthetic/ref"
+                },
+                "type": "workflow"
+              },
+              {
+                "kind": "complete",
+                "ok": true,
+                "value": {
+                  "error": "Workflow runner request failed",
+                  "value": false,
+                  "total": null,
+                  "spent": 0,
+                  "unlimited": true
+                }
+              }
+            ],
+            "invalidResponseLogged": false,
+            "syntheticConsoleLogged": false,
+            "exitCode": 0
+          }
+        },
+        {
+          "name": "Date/random/process limits and console routing retain deterministic helpers",
+          "result": {
+            "frames": [
+              {
+                "kind": "complete",
+                "ok": true,
+                "value": {
+                  "failures": [
+                    "argless new Date() is disabled in workflows",
+                    "Date.now() is disabled in workflows",
+                    "Math.random() is disabled in workflows"
+                  ],
+                  "noProcess": true,
+                  "descriptor": [
+                    false,
+                    false
+                  ],
+                  "date": 0,
+                  "parsed": 0,
+                  "utc": 0,
+                  "total": 0,
+                  "remaining": 0
+                }
+              }
+            ],
+            "invalidResponseLogged": false,
+            "syntheticConsoleLogged": true,
+            "exitCode": 0
+          }
+        },
+        {
+          "name": "non-Error failures, syntax errors and serialization errors complete once",
+          "result": [
+            {
+              "frames": [
+                {
+                  "error": "synthetic failure",
+                  "kind": "complete",
+                  "ok": false
+                }
+              ],
+              "invalidResponseLogged": false,
+              "syntheticConsoleLogged": false,
+              "exitCode": 0
+            },
+            {
+              "frames": [
+                {
+                  "error": "Do not know how to serialize a BigInt",
+                  "kind": "complete",
+                  "ok": false,
+                  "stackPresent": true
+                }
+              ],
+              "invalidResponseLogged": false,
+              "syntheticConsoleLogged": false,
+              "exitCode": 0
+            },
+            {
+              "frames": [
+                {
+                  "error": "Unexpected token ';'",
+                  "kind": "complete",
+                  "ok": false,
+                  "stackPresent": true
+                }
+              ],
+              "invalidResponseLogged": false,
+              "syntheticConsoleLogged": false,
+              "exitCode": 0
+            }
+          ]
+        },
+        {
+          "name": "nested parallel/pipeline scopes keep sibling counters and local failures isolated",
+          "result": {
+            "frames": [
+              {
+                "id": "req_1",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/parallel0/item0/agent0",
+                  "prompt": "p0"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_2",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/parallel0/item3/agent0",
+                  "prompt": "p3"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_3",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/parallel0/item0/parallel0/item0/agent0",
+                  "prompt": "nested"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_4",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/pipeline1/item0/stage0/agent0",
+                  "prompt": "s0_0"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_5",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/pipeline1/item1/stage0/agent0",
+                  "prompt": "s0_1"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_6",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/pipeline1/item0/stage1/parallel0/item0/agent0",
+                  "prompt": "stageNested"
+                },
+                "type": "agent"
+              },
+              {
+                "kind": "complete",
+                "ok": true,
+                "value": {
+                  "p": [
+                    [
+                      "nested",
+                      null
+                    ],
+                    null,
+                    null,
+                    "p3"
+                  ],
+                  "q": [
+                    {
+                      "previous": {
+                        "previous": 1,
+                        "item": 1,
+                        "index": 0,
+                        "value": "s0_0"
+                      },
+                      "item": 1,
+                      "index": 0,
+                      "nested": [
+                        "stageNested"
+                      ]
+                    },
+                    null
+                  ]
+                }
+              }
+            ],
+            "invalidResponseLogged": false,
+            "syntheticConsoleLogged": false,
+            "exitCode": 0
+          }
+        },
+        {
+          "name": "pipeline retains original item/index, sparse arrays and zero stages",
+          "result": {
+            "frames": [
+              {
+                "kind": "complete",
+                "ok": true,
+                "value": {
+                  "emptyStages": [
+                    false,
+                    0,
+                    null
+                  ],
+                  "sparse": [
+                    [
+                      1,
+                      1,
+                      0
+                    ],
+                    null,
+                    [
+                      3,
+                      3,
+                      2
+                    ]
+                  ],
+                  "sequential": [
+                    {
+                      "previous": 5,
+                      "item": 2,
+                      "index": 0
+                    }
+                  ],
+                  "emptyParallel": []
+                }
+              }
+            ],
+            "invalidResponseLogged": false,
+            "syntheticConsoleLogged": false,
+            "exitCode": 0
+          }
+        },
+        {
+          "name": "parallel and pipeline reject non-arrays using the fixed errors",
+          "result": [
+            {
+              "frames": [
+                {
+                  "error": "parallel() expects an array of thunks",
+                  "kind": "complete",
+                  "ok": false,
+                  "stackPresent": true
+                }
+              ],
+              "invalidResponseLogged": false,
+              "syntheticConsoleLogged": false,
+              "exitCode": 0
+            },
+            {
+              "frames": [
+                {
+                  "error": "pipeline() expects an array of items",
+                  "kind": "complete",
+                  "ok": false,
+                  "stackPresent": true
+                }
+              ],
+              "invalidResponseLogged": false,
+              "syntheticConsoleLogged": false,
+              "exitCode": 0
+            }
+          ]
+        },
+        {
+          "name": "agent and block ordinals stay independent across await and undefined completion",
+          "result": {
+            "frames": [
+              {
+                "id": "req_1",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/parallel0/item0/agent0",
+                  "prompt": "p"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_2",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/agent0",
+                  "prompt": "root0"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_3",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/pipeline1/item0/stage0/agent0",
+                  "prompt": "q"
+                },
+                "type": "agent"
+              },
+              {
+                "id": "req_4",
+                "kind": "request",
+                "payload": {
+                  "callPath": "root/agent1",
+                  "prompt": "root1"
+                },
+                "type": "agent"
+              },
+              {
+                "kind": "complete",
+                "ok": true
+              }
+            ],
+            "invalidResponseLogged": false,
+            "syntheticConsoleLogged": false,
+            "exitCode": 0
+          }
+        }
+      ]
+    },
+    {
+      "component": "command",
+      "logicalGroups": 5,
+      "profiles": [
+        {
+          "profile": "predecessor-source",
+          "observationsSha256": "4de725799105cc8ca2f60ffdfac8e992a46efb78085ab240917df8ceac048c85"
+        },
+        {
+          "profile": "predecessor-emitted",
+          "observationsSha256": "4de725799105cc8ca2f60ffdfac8e992a46efb78085ab240917df8ceac048c85"
+        },
+        {
+          "profile": "current-source",
+          "observationsSha256": "4de725799105cc8ca2f60ffdfac8e992a46efb78085ab240917df8ceac048c85"
+        },
+        {
+          "profile": "current-emitted",
+          "observationsSha256": "4de725799105cc8ca2f60ffdfac8e992a46efb78085ab240917df8ceac048c85"
+        }
+      ],
+      "normalization": "none",
+      "observations": [
+        {
+          "name": "tokenizer retains quoted fragments, Unicode whitespace and universal escapes",
+          "result": [
+            {
+              "args": "",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "\"\" '' \"\"",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "alpha beta",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<alpha>|<beta>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "a''b\"\"c",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<abc>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "'two words' \"three words\"",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<two words>|<three words>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "x\\ y z",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<x y>|<z>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "a\\\tb",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a\tb>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "'a\\'b' c",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a'b>|<c>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "'a\"b' \"c'd\"",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a\"b>|<c'd>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "'unterminated space",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<unterminated space>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "trailing\\",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<trailing\\>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "😀\\😀 é",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<😀😀>|<é>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "a b c﻿d",
+              "result": {
+                "argumentCount": 4,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a>|<b>|<c>|<d>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "a​b",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a​b>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "a\u0000b",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a\u0000b>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "'   ' ''",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<   >|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "\\\"quoted\\\"",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<\"quoted\">|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "\\\\ \\\\",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<\\>|<\\>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "'ends\\",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<ends\\>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "x\\\ny",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<x\ny>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "a\"\" b''",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a>|<b>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "\\ ",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<\\>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "args": "a\\ b\\",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n<a b\\>|<>|<>|<>|<>|<>|<>|<>",
+                "usedArgumentsPlaceholder": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "all-args precedes positional expansion without recursively replacing values",
+          "result": [
+            {
+              "content": "$ARGUMENTS",
+              "args": "$2 second",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\nsecond second",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$1/$2",
+              "args": "$2 fixed",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n$2/fixed",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$ARGUMENTS:$1",
+              "args": "$1 raw",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n$1 raw:$1",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": " $0|$01|$2|$200 ",
+              "args": "left right",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n|left|right|",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$ARGUMENTS $ARGUMENTS",
+              "args": "  x y  ",
+              "result": {
+                "argumentCount": 2,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\nx y x y",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$argumentS $$1 $-1",
+              "args": "alpha",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n$argumentS $alpha $-1",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$１２",
+              "args": "x",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n$１２\n\nUser arguments:\nx",
+                "usedArgumentsPlaceholder": false
+              }
+            },
+            {
+              "content": "$1/$ARGUMENTS",
+              "args": "",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n/",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$ARGUMENTS",
+              "args": "\"\"",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n\"\"",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+              "args": "alpha",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$000|$001",
+              "args": "alpha",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n|alpha",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "A$ARGUMENTS B",
+              "args": "$&",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\nA$ARGUMENTS B",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "$ARGUMENTS",
+              "args": "$$",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n$",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "pre$ARGUMENTSpost",
+              "args": "$`",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\npreprepost",
+                "usedArgumentsPlaceholder": true
+              }
+            },
+            {
+              "content": "pre$ARGUMENTSpost",
+              "args": "$'",
+              "result": {
+                "argumentCount": 1,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\nprepostpost",
+                "usedArgumentsPlaceholder": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "fixed prompt prose, skill instruction order and argument fallback remain exact",
+          "result": {
+            "result": {
+              "argumentCount": 2,
+              "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\nRequired skills: `first`, `second`.\nBefore following the command body, call the Skill tool for `first`, `second`.\n\nbody\n\nUser arguments:\nsynthetic input",
+              "usedArgumentsPlaceholder": false
+            },
+            "empty": {
+              "argumentCount": 1,
+              "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\nUser arguments:\nx",
+              "usedArgumentsPlaceholder": false
+            },
+            "noArgs": {
+              "argumentCount": 0,
+              "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\nbody",
+              "usedArgumentsPlaceholder": false
+            }
+          }
+        },
+        {
+          "name": "dynamic shell refusal is exact and precedes argument parsing",
+          "result": [
+            {
+              "content": "```! unclosed",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n```! unclosed",
+                "usedArgumentsPlaceholder": false
+              }
+            },
+            {
+              "content": "!`unclosed",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n!`unclosed",
+                "usedArgumentsPlaceholder": false
+              }
+            },
+            {
+              "content": "```js\nsynthetic\n```",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\n```js\nsynthetic\n```",
+                "usedArgumentsPlaceholder": false
+              }
+            },
+            {
+              "content": "ordinary body",
+              "result": {
+                "argumentCount": 0,
+                "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\nordinary body",
+                "usedArgumentsPlaceholder": false
+              }
+            }
+          ]
+        },
+        {
+          "name": "content and metadata access stages stay ordered through the public entry",
+          "result": {
+            "events": [
+              "content",
+              "args",
+              "content",
+              "content",
+              "metadata",
+              "metadata",
+              "metadata",
+              "metadata"
+            ],
+            "result": {
+              "argumentCount": 2,
+              "prompt": "Run custom command /synthetic.\nCommand source: user/synthetic.md.\n\none two two",
+              "usedArgumentsPlaceholder": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "artifactReceipt": {
+    "path": "docs/evidence/backlog-cli-20261003/cli-inherited-three-artifact-receipt-20261003.json",
+    "sha256": "a16896ab9dc97b031b1c807ef3dede2a1614830ec31cf29dfe2ad8e52c3b1de6",
+    "sourceFiles": 3,
+    "selectedOutputsPerRevision": 7,
+    "checks": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "docs/evidence/backlog-cli-20261003/cli-inherited-three-artifacts-20261003.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "{\"result\":\"pass\",\"sourceFiles\":3,\"outputsPerRevision\":7,\"publicSurfaces\":[{\"path\":\"apps/cli/packages/bootstrap/src/protocol/session-resident-pool.ts\",\"equal\":true,\"normalizedSha256\":\"7cc216dd626caa67a3fb18ca2f77798a4b06e05279efa1d5b34ecade9ce18088\",\"comparison\":\"emitted declaration excluding private members/comments\"},{\"path\":\"apps/cli/packages/bootstrap/src/app/script-workflow-child-source.ts\",\"equal\":true,\"normalizedSha256\":\"7b79d610582eb5a4bb151d3d402d9a5e4dfe4f39ab2bbc14a5fe74a834913b19\",\"comparison\":\"emitted declaration excluding private members/comments\"},{\"path\":\"apps/cli/packages/cli/src/custom-command-expand.ts\",\"equal\":true,\"normalizedSha256\":\"6e9ab894d3401c68bc4762a17b6b129a3af4d325e2696554b5f0847238c388f0\",\"comparison\":\"source DTOs/exported signature excluding body/comments\"}]}\n",
+      "stderr": ""
+    }
+  },
+  "currentSourceTests": {
+    "residentContract": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "command": "node --import tsx --test apps/cli/packages/bootstrap/test/resident-pool-contract.test.ts"
+    },
+    "scriptContract": {
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "command": "node --import tsx --test apps/cli/packages/bootstrap/test/script-child-contract.test.ts"
+    },
+    "processConsumer": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "command": "node --import tsx --test apps/cli/packages/bootstrap/test/script-child-consumer.test.ts"
+    },
+    "commandContractFinal": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--import",
+        "tsx",
+        "--test",
+        "apps/cli/packages/cli/test/custom-command-expansion-contract.test.ts"
+      ],
+      "exitCode": 0,
+      "stdout": "✔ tokenizer retains quoted fragments, Unicode whitespace and universal escapes (1.653183ms)\n✔ all-args precedes positional expansion without recursively replacing values (0.934903ms)\n✔ fixed prompt prose, skill instruction order and argument fallback remain exact (0.173428ms)\n✔ dynamic shell refusal is exact and precedes argument parsing (1.78516ms)\n✔ content and metadata access stages stay ordered through the public entry (0.305295ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 174.644784\n",
+      "stderr": "",
+      "fixtureSha256": "b0e9ffa774c57f208b7f71cb44f774c2941959496701a59991077fcf06e2f645"
+    },
+    "commandCenterConsumer": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "command": "node --import tsx --test apps/cli/packages/cli/test/custom-command-expansion-contract.test.ts apps/cli/packages/cli/test/custom-command-expansion-consumer.test.ts",
+      "qualification": "This earlier combined invocation passed five contract groups plus this single consumer; four native replacement cases were subsequently added and passed the final contract/paired checks."
+    }
+  },
+  "fixtures": [
+    {
+      "path": "apps/cli/packages/bootstrap/test/resident-pool-fixture.ts",
+      "sha256": "b4f996160e98c4814cef4395642b84130294be0a52ff7f8281a5870c07e40f04"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/resident-pool-lifecycle-fixture.ts",
+      "sha256": "a68eb65bb9176a1a1deb744f91a14e2083acfc3b6102710c1eaef66de5f977a6"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/resident-pool-contract.test.ts",
+      "sha256": "23c0bc6d801fe394962743433b84618283bc527b669d0432e9505fe87568b921"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/resident-pool-policy-fixture.ts",
+      "sha256": "25b1320dfeb5541720f0e0b5f54aa536f63c4e863d50af537401e56deaa4584c"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/script-child-fixture.ts",
+      "sha256": "3cfb4ff0a83bfa05fb96a5cb5fe25395ca8a19a668a708c4cf21daf274a99684"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/script-child-path-fixture.ts",
+      "sha256": "c9222ac9b0c6397f6b35dd22a8651bedafcddb8836abdd8478fbc40c9c79465c"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/script-child-consumer.test.ts",
+      "sha256": "8ad24fe1403b8fd976d2da747e5004a330c1af51773fc8f3dff81ca738509bf8"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/script-child-ipc-fixture.ts",
+      "sha256": "043b2a02cee2c01e14d598788762bac62f99ccde65c1f10883e8de86dd7bdada"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/script-child-contract.test.ts",
+      "sha256": "f5cafeddf0c3acd2dd7389a475b82d7d2fd69ce65155b3357c35e3a486bfd297"
+    },
+    {
+      "path": "apps/cli/packages/cli/test/custom-command-expansion-contract.test.ts",
+      "sha256": "915b9f61b6d301fee6d4718b9cd08743ee6ae0cf4e2f04359a5699d14b40e158"
+    },
+    {
+      "path": "apps/cli/packages/cli/test/custom-command-expansion-consumer.test.ts",
+      "sha256": "dd52e2523a970b630b1de4e1a591883bd928550d77789f1ec1bd660deda7d65f"
+    },
+    {
+      "path": "apps/cli/packages/cli/test/custom-command-expansion-fixture.ts",
+      "sha256": "b0e9ffa774c57f208b7f71cb44f774c2941959496701a59991077fcf06e2f645"
+    }
+  ],
+  "existingRegistryBinding": {
+    "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
+    "sha256": "3dad7d1edd7feebc5fbda72e68884b02e2196f79c2205cc6a0afa773123d5df2",
+    "all220RegisteredPhysicalHashesMatch": true,
+    "newSourceScopeIsOutsideRegistryReceipt": true
+  },
+  "preservation": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "unchanged": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "unchanged": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "5bdd8ba7b54bbb098ee56b4876d9752d08ab36f2c8df8d9c3acd9b1e9a5595cc",
+      "unchanged": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    },
+    {
+      "path": "licensing/frozen-evidence.json",
+      "sha256": "49710ef725b7ad0e536acdfadfe47c984a833484fbf3aed1a4578ea98c79fdda",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-residency.ts",
+      "sha256": "0c1683962d0f8e185f0a4437c08a0f2b621a97bfe7bab7726d92845827b288dc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/script-workflow-process.ts",
+      "sha256": "e1d870a0ac5a5e671c4dfc3799b839cc9213983b5c2d661166a9a615c1d92cc8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/cli/src/command-center-custom.ts",
+      "sha256": "32387adfe73e5a9d6d3dc9c690a497d02dfbef786ae40367c1b1d676aa77c86c",
+      "unchanged": true
+    }
+  ],
+  "commonExpressionsRetained": [
+    "Option validation, Map/Set operations and fixed public fields",
+    "TTL/LRU comparison equations and fresh eligibility booleans",
+    "Native JSON IPC, Promise/AsyncLocalStorage, Date restrictions and fixed parameter/protocol texts",
+    "Native replaceAll replacement semantics, dynamic-shell regex rules and fixed Skill prompt text"
+  ],
+  "rights": "Apache-2.0 continues, source-exposed contract design and tests do not prove legal independence or whole-file originality; actual modification/origin comments and prior Git history preserved.",
+  "notRun": [
+    "full regression",
+    "lint",
+    "full typecheck",
+    "root/full CLI build",
+    "whole provenance audit",
+    "real user sessions or workflows",
+    "real agents/models/network",
+    "Windows/macOS/UI/package acceptance"
+  ],
+  "integrationNeeds": [
+    "Register new focused test files in integrator-owned aggregate runner when applicable",
+    "Refresh global source inventory/notices and frozen evidence registration; this lane does not write shared root registries",
+    "Run final unified functional, data, platform and artifact acceptance"
+  ],
+  "nextAuthorizedWork": "Read PR21 fixed head 8123d33cdfbe273449be0ffd4cd8992eecf837dd and correct CUA distribution collection contract in owned CLI scope or report a minimal integrator patch"
+}

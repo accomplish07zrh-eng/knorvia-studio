@@ -1,0 +1,6 @@
+import {build} from "/workspace/knorvia-studio/node_modules/esbuild/lib/main.js";
+import {SERVER_HTTP_DEFINES,SERVER_HTTP_EXTERNAL_DEPENDENCIES} from "/workspace/knorvia-studio/packages/server/tsup.config.ts";
+import {readFile,writeFile} from "node:fs/promises";
+const p=JSON.parse(await readFile("/tmp/knorvia-ui-combined-latest-paths.json","utf8"));
+await build({entryPoints:[p.root+"/host-entry.mts"],outfile:"/workspace/knorvia-studio/packages/server/dist/gui-acceptance-902.mjs",bundle:true,platform:"node",target:"node22",format:"esm",tsconfig:"/workspace/knorvia-studio/packages/server/tsconfig.build.json",define:SERVER_HTTP_DEFINES,external:[...SERVER_HTTP_EXTERNAL_DEPENDENCIES,"ws"]});
+await writeFile(p.root+"/host-fixture-build.json",JSON.stringify({source:p.source,status:"passed",scope:"same real public services/HTTP factories with owned SIGTERM await-dispose wrapper; production defines/externals reused"},null,2));

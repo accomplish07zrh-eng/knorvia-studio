@@ -9,6 +9,16 @@ test("synthetic waiter replaces stale identities and performs only signal-zero o
   const signals: number[] = [];
   const removed: unknown[] = [];
   let alive = true;
+  mock.module("node:fs", {
+    namedExports: {
+      readFileSync(path: string, encoding: string) {
+        assert.equal(path, "/proc/503/stat");
+        assert.equal(encoding, "utf8");
+        // 假 PID 不能读取环境里的真实进程；此用例仅验证 signal-zero 与 waiter 生命周期。
+        throw Object.assign(new Error("synthetic stat unavailable"), { code: "ENOENT" });
+      },
+    },
+  });
   mock.method(process, "kill", (pid: number, signal?: string | number) => {
     assert.equal(signal, 0);
     signals.push(pid);

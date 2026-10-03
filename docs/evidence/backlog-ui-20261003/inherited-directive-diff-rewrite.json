@@ -1,0 +1,106 @@
+{
+  "scope": "two complete selected UI helper implementations; not a full provenance or rights audit",
+  "evidenceCheckpoint": "PR19 1128e11a98a47d16ad19e9b3e60e65fc8b470cd7",
+  "files": [
+    {
+      "path": "packages/ui/src/lib/assistantDirectiveParser.ts",
+      "priorSourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "fixedUpstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "fixedUpstreamUrl": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/lib/assistantDirectiveParser.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "priorGitBlob": "4cfbccfc5dce4a8c39ea0dfd958595c2e17228b0",
+      "priorSha256": "21f17b684efaf977c7c6969c3c9590929d6b959d2e0a84e978345f9f42ce1e94",
+      "candidateSha256": "747f43e19de43f7ec3a62674f3abdbd55ad78756742294bede6824ef08675542"
+    },
+    {
+      "path": "packages/ui/src/lib/toolDiffPreview.ts",
+      "priorSourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "fixedUpstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "fixedUpstreamUrl": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/lib/toolDiffPreview.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "priorGitBlob": "b22f461072cbf286be09c9eb09e1ff8ba5343b4b",
+      "priorSha256": "f2bada72ba6badae5dda0d74e3fa4780e664d225375e4c790cea9033906fd497",
+      "candidateSha256": "ee6a1343a776a4fc090b83df57dfa011a0f81f62258e50fb5c0e5b37896d7253"
+    }
+  ],
+  "implementation": {
+    "directive": "shared quoted-span boundary reader; sticky key/value grammar admission; consuming candidate cursor; fence/HTML/inline range collection; normalized streaming prefix forms",
+    "diff": "lazy direct/content candidate stream; non-recursive index-range work stack; flat typed LCS suffix matrix; ordered unique-line index and strict increasing anchor chain; one visible context window before existing third-party hunk trim"
+  },
+  "retained": {
+    "directive": [
+      "public types/options/names/coordinates",
+      "regular regex escape",
+      "quote delimiter policy",
+      "short merged-range projection and overlap predicate",
+      "Markdown/HTML and streaming compatibility rules including final bare-word ambiguity"
+    ],
+    "diff": [
+      "extractBeforeAfter field aliases and simple string/record predicates",
+      "standard LCS/LIS definitions and format math",
+      "60000 cell threshold and addition-on-tie",
+      "public output shape, create/delete and context rules",
+      "@pierre/diffs trimPatchContext dependency"
+    ]
+  },
+  "validation": {
+    "node": "24.14.0",
+    "beforeContractSuites": {
+      "passed": 14,
+      "failed": 0,
+      "qualification": "initial fixture expectations corrected before source implementation to reflect exact existing range and bare-word tail compatibility"
+    },
+    "afterContractSuites": {
+      "passed": 14,
+      "failed": 0,
+      "files": [
+        "packages/ui/test/ui-inherited-directive-contract-20261003.test.ts",
+        "packages/ui/test/ui-inherited-tool-diff-contract-20261003.test.ts"
+      ]
+    },
+    "sourceExposedBoundedComparison": {
+      "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "runtime": "v24.14.0",
+      "groups": [
+        "parser",
+        "diff"
+      ],
+      "comparisons": 1013,
+      "failed": 0,
+      "qualification": "Source-exposed bounded behavioral comparison; not an independence, rights or full audit proof"
+    },
+    "lint": {
+      "files": 4,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": {
+      "files": 5,
+      "passed": true
+    },
+    "isolatedSourceTypes": {
+      "files": 2,
+      "passed": true,
+      "strict": true,
+      "noUncheckedIndexedAccess": true,
+      "noEmit": true,
+      "projectReferences": false,
+      "qualification": "pure helper source graph only; does not replace failed UI reference typecheck or whole UI integration"
+    },
+    "architectureChanged": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    "fullSuiteOrAudit": false
+  },
+  "rights": {
+    "sourceExposed": true,
+    "cleanRoom": false,
+    "license": "Apache-2.0 transition; original LICENSE/NOTICE/history retained",
+    "mitReady": false,
+    "classification": "independent implementation candidate; authorship/rights review pending"
+  },
+  "nextAssignedFiles": [
+    "packages/ui/src/v4/timelineScrollAnchor.ts",
+    "packages/ui/src/settings/automationFormat.ts"
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "qualification": "Reproduction recipe for the recorded commands with important fixed inputs and isolated locations. This is not proof of two clean byte-identical source rebuilds. Original command output is retained separately; commands that failed are not silently replaced by successful fallback recipes.",
+  "repository": "/workspace/knorvia-studio",
+  "runtimeSourceInput": "ede8382435ed91e9d62300599e925f6fb90532c0",
+  "toolchain": {
+    "node": "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+    "pnpmEntry": "/tmp/knorvia-native-lock-test-deps-20261003/node_modules/pnpm/bin/pnpm.cjs",
+    "pathPrefix": "/tmp/knorvia-native-package-acceptance-20261003/bin",
+    "qualification": "The task-local node symlink and pnpm wrapper select Node24.14.0 and pnpm10.33.2. The environment's global Node24.19.0/pnpm11.19.0 were not used for the recorded builds/checks."
+  },
+  "buildEnvironment": {
+    "KNORVIA_ENV": "production",
+    "KNORVIA_SKIP_REMOTE_ASSETS": "1",
+    "KNORVIA_TARGET_OS": "linux",
+    "KNORVIA_TARGET_ARCH": "x64",
+    "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN": "false",
+    "HUSKY": "0",
+    "qualification": "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN prevents lifecycle-driven dependency reinstall before each command in this isolated cloud setup. It is not a test skip or a production package policy change."
+  },
+  "steps": [
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "install", "--frozen-lockfile", "--store-dir", "/tmp/knorvia-native-pnpm-store-20261003"],
+      "environment": {"CI": "true", "HUSKY": "0", "XDG_CACHE_HOME": "/tmp/knorvia-native-package-acceptance-20261003/cache", "XDG_DATA_HOME": "/tmp/knorvia-native-package-acceptance-20261003/data", "XDG_CONFIG_HOME": "/tmp/knorvia-native-package-acceptance-20261003/config"},
+      "exitCode": 1,
+      "evidence": "frozen-install-native-hook-failure.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "install", "--frozen-lockfile", "--ignore-scripts", "--store-dir", "/tmp/knorvia-native-pnpm-store-20261003"],
+      "environment": {"CI": "true", "HUSKY": "0", "XDG_CACHE_HOME": "/tmp/knorvia-native-package-acceptance-20261003/cache", "XDG_DATA_HOME": "/tmp/knorvia-native-package-acceptance-20261003/data", "XDG_CONFIG_HOME": "/tmp/knorvia-native-package-acceptance-20261003/config"},
+      "exitCode": 0,
+      "evidence": "frozen-install-no-hooks.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "--filter", "@knorvia/desktop", "prepare:runtime-assets"],
+      "exitCode": 0,
+      "evidence": "linux-prepare.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "--filter", "@knorvia/desktop", "build:no-runtime-assets"],
+      "exitCode": 0,
+      "evidence": "linux-desktop-build.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["node", "packages/desktop/scripts/bundle.mjs", "--os", "linux", "--arch", "x64", "--skip-prepare", "--skip-build"],
+      "environment": {"KNORVIA_DESKTOP_DIST_DIR": "/tmp/knorvia-native-package-acceptance-20261003/linux-release", "ELECTRON_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/electron-cache", "ELECTRON_BUILDER_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/builder-cache", "XDG_CACHE_HOME": "/tmp/knorvia-native-package-acceptance-20261003/cache", "ELECTRON_MIRROR": "https://github.com/electron/electron/releases/download/", "ELECTRON_BUILDER_BINARIES_MIRROR": "https://github.com/electron-userland/electron-builder-binaries/releases/download/"},
+      "exitCode": 1,
+      "evidence": "linux-configured-targets-failure.log",
+      "qualification": "This recorded invocation ran the pre-fix classifier. It produced the fresh linux-unpacked payload and an AppImage before failing FPM metadata validation; the new classifier contract is verified separately."
+    },
+    {
+      "cwd": "/workspace/knorvia-studio/packages/desktop",
+      "argv": ["pnpm", "exec", "electron-builder", "--config", "electron-builder.config.js", "--linux", "AppImage", "--x64", "--prepackaged", "/tmp/knorvia-native-package-acceptance-20261003/linux-release/linux-unpacked", "--publish", "never"],
+      "environment": {"KNORVIA_DESKTOP_DIST_DIR": "/tmp/knorvia-native-package-acceptance-20261003/appimage-release", "ELECTRON_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/electron-cache", "ELECTRON_BUILDER_CACHE": "/tmp/knorvia-native-package-acceptance-20261003/builder-cache", "XDG_CACHE_HOME": "/tmp/knorvia-native-package-acceptance-20261003/cache", "KNORVIA_ELECTRON_RUNTIME_MIRROR": "https://github.com/electron/electron/releases/download/", "ELECTRON_BUILDER_BINARIES_MIRROR": "https://github.com/electron-userland/electron-builder-binaries/releases/download/"},
+      "exitCode": 0,
+      "evidence": "appimage-target.log"
+    },
+    {
+      "cwd": "/tmp/knorvia-native-package-acceptance-20261003/appimage-extraction",
+      "argv": ["/tmp/knorvia-native-package-acceptance-20261003/appimage-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage", "--appimage-extract"],
+      "exitCode": 0,
+      "evidence": "appimage-extract.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["node", "scripts/build.mjs", "--out-dir", "/tmp/knorvia-native-package-acceptance-20261003/distribution-release", "--base-url", "http://127.0.0.1:9/"],
+      "environment": {"NODE_OPTIONS": "--max-old-space-size=8192"},
+      "exitCode": 1,
+      "evidence": "distribution-build-failure.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["node", "/tmp/knorvia-native-package-acceptance-20261003/artifact-native-probe.mjs", "/workspace/knorvia-studio", "/tmp/knorvia-native-package-acceptance-20261003/appimage-extraction/squashfs-root/knorvia-studio", "/tmp/knorvia-native-package-acceptance-20261003/artifact-native-probe.json"],
+      "exitCode": 0,
+      "evidence": "artifact-native-probe.json",
+      "qualification": "Probe and companion child are retained here. Their artifact children construct only explicit isolated environment values shown in the probe; they do not inherit user credentials or developer NODE_PATH. Two earlier harness assertions used the wrong version-owning manifest; the final probe uses apps/cli/package.json without modifying product version behavior."
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["node", "--test", "packages/desktop/test/desktop-bundle-retry.test.mjs"],
+      "exitCode": 0,
+      "evidence": "retry-after.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "architecture:check", "--changed"],
+      "exitCode": 0,
+      "evidence": "architecture-after.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "typecheck"],
+      "exitCode": 0,
+      "evidence": "typecheck.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "exec", "oxlint", "packages/desktop/scripts/bundle.mjs", "packages/desktop/test/desktop-bundle-retry.test.mjs"],
+      "exitCode": 0,
+      "evidence": "changed-lint.log"
+    },
+    {
+      "cwd": "/workspace/knorvia-studio",
+      "argv": ["pnpm", "lint"],
+      "exitCode": 1,
+      "evidence": "root-lint-frozen-evidence-failure.log"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "status": "bounded-fixture-fix-linux-passed-windows-pending",
+  "inputSha": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "reportedWorkflowRun": 37123232166,
+  "windowsJob": 111203311217,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37123232166/job/111203311217",
+  "triggerHead": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "checkedMergeSha": "7bd43bfd70486ef0e9b90bc3e2174cd81130404d",
+  "actualWindowsFailures": 2,
+  "rootCause": "Registry fixture hardcoded forward slashes but expected native join spelling; actual production preserves expanded policy text",
+  "productionSourcesChanged": false,
+  "fourSourcesAndOldFixtureSameAtCICheckoutAndCurrentInput": true,
+  "oldExpectedAssertionsRetained": true,
+  "unselectedSceneBodiesByteIdentical": 22,
+  "newScene": "Full exact source, unnormalized expanded userDataDir, separate native-joined profilePath, unknown variable, hive order, unchanged synthetic cookie marker",
+  "linuxBefore": {
+    "pass": 2,
+    "fail": 0,
+    "skip": 0,
+    "exitCode": 0,
+    "qualification": "Known Windows failure is not reproduced on Linux; original Linux already passes"
+  },
+  "linuxAfter": {
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "exitCode": 0
+  },
+  "checks": {
+    "rootTypecheck": 0,
+    "rootLintBeforeNewEvidence": 0,
+    "rootLintWarnings": "One existing no-control-regex warning in unchanged scripts/packaged-runtime-evidence.mjs; 0 errors",
+    "directFixtureLint": 0,
+    "format": 0,
+    "architectureBefore": 0,
+    "architectureAfter": 0,
+    "architectureViolations": 0,
+    "rootLintFinalTree": {
+      "exitCode": 1,
+      "stage": "Frozen evidence prerequisite only; actual lint stage did not run",
+      "observedUnregisteredSnapshots": 39,
+      "requiredOwner": "Integrator licensing/frozen-evidence.json registration"
+    }
+  },
+  "windowsAcceptance": "Pending actual matching Windows CI after integration; Linux and path reasoning are not Windows operating-system acceptance",
+  "noSkippedFailures": true,
+  "priorFrozenEvidenceUnchanged": true,
+  "finalPackage": "Not rebuilt at this repair stage; await parent unified exact SHA containing fixture fix, zombie cleanup and CLI TUI runtime fix",
+  "additionalBlocker": "ad712690 fresh distribution smoke failed at TUI ESM require(process), separate CLI lane action; native artifact/isolated installed Web passes remain only historical intermediate acceptance",
+  "globalHandoff": "Integrator owns frozen-evidence registration/current projections and eventual matching CI; no shared config/CI/global source inventory changed",
+  "scope": "No actual reg.exe/Chrome/user data/model/GUI/Windows launch; original child-process mock and disposable synthetic profile filesystem",
+  "outerSyntheticDataRemoved": true
+}

@@ -179,21 +179,29 @@ export function createSnapshotProjection(
     async model(target: KnorviaAgentSessionTarget, model: string): Promise<KnorviaTaskMeta | null> {
       const normalized = model.trim();
       if (!normalized) return null;
-      try {
-        return await repo.updateTaskState({
-          workspacePath: target.workspacePath,
-          workspaceIdentity: target.workspaceIdentity,
-          taskId: target.sessionId,
-          patch: { model: normalized },
-        });
-      } catch (error) {
+      const decline = (error: unknown): null => {
         logger.warn(
           undefined,
           `同步 task 模型到 task index 失败 taskId=${target.sessionId}`,
           error,
         );
         return null;
+      };
+      let completion: Promise<KnorviaTaskMeta>;
+      try {
+        completion = Promise.resolve(
+          repo.updateTaskState({
+            workspacePath: target.workspacePath,
+            workspaceIdentity: target.workspaceIdentity,
+            taskId: target.sessionId,
+            patch: { model: normalized },
+          }),
+        );
+      } catch (error) {
+        return decline(error);
       }
+      // 模型更新只有单字段命令和完成结果，不进入快照／广播写入路径。
+      return completion.then((meta) => meta, decline);
     },
   };
 }

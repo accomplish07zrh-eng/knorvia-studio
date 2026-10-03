@@ -1,0 +1,22 @@
+{
+  "sourceCheckpoint": "21bbcf1ea6fb807197914089494d366ba6c338ab",
+  "frozenFixtureCommit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+  "command": [
+    "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "--test-timeout=20000",
+    "--test-reporter=tap",
+    "packages/services/test/process-linux-zombie-contract-20261003.test.ts",
+    "packages/services/test/process-linux-zombie-isolated-20261003.test.ts",
+    "packages/services/test/process-snapshot-fake-authority-20261002.test.ts",
+    "packages/services/test/process-ownership-fake-permission-20261002.test.ts",
+    "packages/services/test/process-waiter-fake-authority-20261002.test.ts",
+    "packages/services/test/process-termination-fake-authority-20261002.test.ts",
+    "packages/services/test/agent-stdio-fake-authority-20261003.test.ts"
+  ],
+  "exit": 0
+}

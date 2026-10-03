@@ -1,0 +1,251 @@
+{
+  "inputCommit": "3418776c6d90b3a205e312a115948a280e91309d",
+  "integratorFactsCommit": "1128e11a98a47d16ad19e9b3e60e65fc8b470cd7",
+  "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/chromeInstallationCandidates.ts",
+      "before": {
+        "bytes": 11461,
+        "sha256": "37eb7f9da193140d11f7a9a8ae0914258903b2023e2e2f7cc29f1c0fc694020d"
+      },
+      "candidate": {
+        "bytes": 10066,
+        "sha256": "65266638320b5e86c7c953695b390b8f4135b577f800349b74297c02d59a7521"
+      },
+      "publicExportDeclarationsBefore": [
+        "ChromeBrowserKind",
+        "ChromeInstallationCandidate",
+        "ChromeInstallationPathOptions",
+        "LinuxChromePasswordStore",
+        "buildStandardChromeInstallations",
+        "isChromeBrowserExecutable",
+        "parseRunningChromeExecutablePaths",
+        "parseRunningChromeInstallations"
+      ],
+      "publicExportDeclarationsAfter": [
+        "ChromeBrowserKind",
+        "ChromeInstallationCandidate",
+        "ChromeInstallationPathOptions",
+        "LinuxChromePasswordStore",
+        "buildStandardChromeInstallations",
+        "isChromeBrowserExecutable",
+        "parseRunningChromeExecutablePaths",
+        "parseRunningChromeInstallations"
+      ],
+      "retainedExactFunctionBodies": [
+        {
+          "name": "uniquePaths",
+          "bodySha256": "850456006a6a4614b84bac991abc5071611a28dfcd70ac5eaaaaf41e4fe37861"
+        },
+        {
+          "name": "parseExecutablePath",
+          "bodySha256": "8f84582b87cda74c9c8966219595e0ea8b206663f83bc6ee91234d80903f3de5"
+        },
+        {
+          "name": "isChromeBrowserExecutable",
+          "bodySha256": "8427ff4dd5d883aac423c10baa00e2a40bfe2939d30518b5b5b4726301e016ec"
+        },
+        {
+          "name": "parseRunningChromeExecutablePaths",
+          "bodySha256": "f9b9e6073133c23c43a2c4c7d8547b7968a125811746cd2f95821d390a4e19cc"
+        },
+        {
+          "name": "parseLinuxChromePasswordStore",
+          "bodySha256": "4852e882f24c83895e5e3031459b7f38f170c9adb1f9abf76b3c0add079606d6"
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/chromeExecutableDiscovery.ts",
+      "before": {
+        "bytes": 8951,
+        "sha256": "7947d5050ee9213ab98b8a93151217563813ed07a1f30564aba28c843e8a0887"
+      },
+      "candidate": {
+        "bytes": 9250,
+        "sha256": "897c03689995064e2e71a01baa2b4c285a2f803eadd3358c987a97170c30b317"
+      },
+      "publicExportDeclarationsBefore": [
+        "readRunningChromeProcessCommandLines",
+        "resolveChromeExecutablePath"
+      ],
+      "publicExportDeclarationsAfter": [
+        "readRunningChromeProcessCommandLines",
+        "resolveChromeExecutablePath"
+      ],
+      "retainedExactFunctionBodies": [
+        {
+          "name": "execFileText",
+          "bodySha256": "d93ea0746386d8ee4c186c1ba4a9388040493a00e8e400d3ba4e25bd385ef5ab"
+        },
+        {
+          "name": "uniquePaths",
+          "bodySha256": "850456006a6a4614b84bac991abc5071611a28dfcd70ac5eaaaaf41e4fe37861"
+        },
+        {
+          "name": "readRunningChromeProcessCommandLines",
+          "bodySha256": "7c2a51be176f51be211eefa386547ecd8f2e02e36af52901e73293133eb9b4a1"
+        },
+        {
+          "name": "isExecutableFile",
+          "bodySha256": "3b40fe5d2319965dabba0683d37e761cb03b7f433b668432765a93e2ad5504f0"
+        },
+        {
+          "name": "resolveFirstExecutable",
+          "bodySha256": "6af573d581c45457a12000ad59c1ee793694dfdb2b64ea78b9dfff595b99c792"
+        },
+        {
+          "name": "stripMatchingQuotes",
+          "bodySha256": "d29a02b4ef85539de36bca59bc1bf474eaa9e2ec0c3807145e6f248a1dfce408"
+        },
+        {
+          "name": "desktopExecutableToken",
+          "bodySha256": "3fada922a8dd8825ac48addacf4112294b94d222a00e2b008b12855d1b6d8ca0"
+        },
+        {
+          "name": "resolvePathCommand",
+          "bodySha256": "3bfc306415e03b98a137956fc03bd89e895aaf3cca90fe3c0b39441fea89d2eb"
+        },
+        {
+          "name": "buildLinuxPathChromeExecutablePaths",
+          "bodySha256": "ee21cf1af5f7603a6209f58e5e0c91580cfc979b2e958eeaa18791197939ca32"
+        },
+        {
+          "name": "readRegisteredChromeExecutablePaths",
+          "bodySha256": "63c319b7a1e150165c1e5d6dd7a2fa66e407dc62864d988440dbb0253d664bc9"
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/chromeProfileDiscovery.ts",
+      "before": {
+        "bytes": 9561,
+        "sha256": "7926537aa509dcdada87b3dca9001b042ca69edee161da64c870ab3d0f1d11c2"
+      },
+      "candidate": {
+        "bytes": 8386,
+        "sha256": "68d7ef68f66c30d9c84f947efcaaec4f20967c31e4d80a85832caf9494c362ed"
+      },
+      "publicExportDeclarationsBefore": [
+        "ChromeProfileDiscoveryResult",
+        "ChromeProfileSource",
+        "discoverChromeProfile"
+      ],
+      "publicExportDeclarationsAfter": [
+        "ChromeProfileDiscoveryResult",
+        "ChromeProfileSource",
+        "discoverChromeProfile"
+      ],
+      "retainedExactFunctionBodies": [
+        {
+          "name": "pathExists",
+          "bodySha256": "e9daba3fa8cb00ecc11df48b1dc38a102193fc0eb04187668baa2437aed5b9a9"
+        },
+        {
+          "name": "execFileText",
+          "bodySha256": "d93ea0746386d8ee4c186c1ba4a9388040493a00e8e400d3ba4e25bd385ef5ab"
+        },
+        {
+          "name": "resolveFirstExistingPath",
+          "bodySha256": "48c0a26ad36346dac2dca568b0b4f08051948ea3c0a9246f6c7eb39a46a7eaaf"
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/crashDumpAnnotations.ts",
+      "before": {
+        "bytes": 9733,
+        "sha256": "7c358f4bf51c4b2338ed7cc25c892ea45c49ab804dd4aecb9cf226153eb021dd"
+      },
+      "candidate": {
+        "bytes": 10409,
+        "sha256": "7891167622c9d87ba721347716d289bac06a9f8b203196e7cb3cc17b2576811b"
+      },
+      "publicExportDeclarationsBefore": [
+        "CrashDumpOomKind",
+        "CrashDumpV8OomSummary",
+        "readCrashDumpAnnotationsFromFile",
+        "summarizeCrashDumpAnnotations"
+      ],
+      "publicExportDeclarationsAfter": [
+        "CrashDumpOomKind",
+        "CrashDumpV8OomSummary",
+        "readCrashDumpAnnotationsFromFile",
+        "summarizeCrashDumpAnnotations"
+      ],
+      "retainedExactFunctionBodies": [
+        {
+          "name": "isPrintableAscii",
+          "bodySha256": "d44ecb0ce487b55b14f2b92abe04d4fd279578f3bbd3ac3808a056229be564f7"
+        },
+        {
+          "name": "alignUp4",
+          "bodySha256": "c568d0f701e98c70e1ee9115a82c5d2fcb05473b6a98fc078042c0a883ebc82d"
+        },
+        {
+          "name": "isReadableText",
+          "bodySha256": "08025d7bd649ef2915da1ae31f14ec64256dc8b995e9746ca0aedeb49d186430"
+        },
+        {
+          "name": "readCrashDumpAnnotationsFromFile",
+          "bodySha256": "1a5987c1d0f4fa2807d2a414915062f6f21698951ec3a7124133cb8a4d300a8f"
+        },
+        {
+          "name": "parseV8SizeAnnotation",
+          "bodySha256": "08f1c6013ea95f7243f83d9c86118c6648a9df08eb2c08f5a214d0a15fd8bb8a"
+        },
+        {
+          "name": "parseIntegerAnnotation",
+          "bodySha256": "63ff02d04c7a24ea9d1e97bd9df4e5642d69f7dea4c506d56fce227dfe6ff3ad"
+        },
+        {
+          "name": "parseBooleanAnnotation",
+          "bodySha256": "5de036cb02f61c91057880d6ff5425a639e14ebfdc25e7ae6eb274be0955e397"
+        },
+        {
+          "name": "truncate",
+          "bodySha256": "37625862a97889ad3e0ac4f44d3ae454602e50d69e6f8c084cf2c8715353de60"
+        }
+      ]
+    }
+  ],
+  "protectedInputs": [
+    {
+      "path": "packages/desktop/src/main/browserDataManager.ts",
+      "sha256": "ae9807adfa89d3d2eb6a61ca08fa0dbbdeda68b50ff2630fe592afef645549b3",
+      "sameAsBaseline": true
+    },
+    {
+      "path": "packages/desktop/src/main/chromeLocalStorageManager.ts",
+      "sha256": "c6d8f0da22193d06c9c3e32e2bd9f045dbee9c5873b6aa4b34cfac5a70a98d5b",
+      "sameAsBaseline": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCrashCapture.ts",
+      "sha256": "d4ff0a4a11d9ec1ed5c6cf7906807cbf0cbf8523d244564001d6bd78dc142a96",
+      "sameAsBaseline": true
+    },
+    {
+      "path": "packages/desktop/test/security-crash-metadata.test.ts",
+      "sha256": "987844a11bea8ee4a85c8c05aee06cb436ff41d41abc3af90ef5c3d59e289342",
+      "sameAsBaseline": true
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "sameAsBaseline": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121",
+      "sameAsBaseline": true
+    }
+  ],
+  "fixture": {
+    "path": "packages/desktop/test/native-browser-crash-contracts.test.ts",
+    "sha256": "121c933e3928aa0ea4902c55edb4ad082e250f5dfc46d0f458565d9ebfc7d2f0",
+    "exactSameBaselineAndCandidateFixture": true
+  },
+  "qualification": "Bounded source-exposed candidate bindings, not a clean-room or whole-project original/licensing verdict. Exact retained short standard/grammar/command/file-admission/conversion bodies are disclosed rather than counted as independent authorship. Prior Apache/source history remains. No upstream source was restored into production."
+}

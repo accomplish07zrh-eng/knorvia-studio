@@ -1,0 +1,744 @@
+{
+  "status": "passed",
+  "platform": "linux",
+  "arch": "x64",
+  "fixture": "/tmp/knorvia-native-retest-ad712690-20261003/native-smoke-ODpEQA",
+  "checks": [
+    "Canonical package identity measured outside repository",
+    "Existing ASAR native policy and required runtime entries passed",
+    "Packaged CLI executes in its Electron Node runtime",
+    "Artifact node-pty opens a real PTY, renders and exits zero; Electron SQLite writes a synthetic sentinel",
+    "Real package storage handshake/preparation succeeds twice with sentinel preserved",
+    "Packaged rg/ugrep/bfs execute against Unicode/spaced synthetic paths with notice/source files present"
+  ],
+  "limits": [
+    "No GUI flows",
+    "No model requests",
+    "No Windows acceptance",
+    "Synthetic storage sentinel is not a full legacy migration acceptance",
+    "Selection/policy checks do not settle licensing authority"
+  ],
+  "package": {
+    "packageRoot": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction/squashfs-root",
+    "resourcesPath": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction/squashfs-root/resources",
+    "executable": {
+      "path": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction/squashfs-root/knorvia-studio",
+      "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+    },
+    "appAsar": {
+      "path": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction/squashfs-root/resources/app.asar",
+      "sha256": "fe9169f39afc753ca5c0492b42b5d3ca58198cb5e06472d6ca88bee5cfcfb4fa"
+    },
+    "cli": {
+      "path": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction/squashfs-root/resources/knorvia/knorvia.cjs",
+      "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+    }
+  },
+  "nativePolicy": {
+    "entries": 27803,
+    "violations": [],
+    "requiredEntries": "main, host, scheduler, preload present; target native remains unpacked; maps absent"
+  },
+  "metadata": {
+    "appVersion": "0.8.0-preview.3",
+    "buildCommitId": "ad712690",
+    "buildTime": "2026-10-03T12:42:25.294Z",
+    "electronBuilderVersion": "26.8.1"
+  },
+  "cliVersion": "0.16.9",
+  "expectedCliVersion": "0.16.9",
+  "storageFirst": {
+    "ended": {
+      "code": 0,
+      "signal": null
+    },
+    "databasePath": "/tmp/knorvia-native-retest-ad712690-20261003/native-smoke-ODpEQA/data/session.sqlite",
+    "frames": [
+      {
+        "method": "startup/storagePath",
+        "params": {
+          "path": "/tmp/knorvia-native-retest-ad712690-20261003/native-smoke-ODpEQA/data/session.sqlite"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 1,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "checking",
+          "elapsedMs": 0
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 2,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "checking",
+          "elapsedMs": 0
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 3,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "checking",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 0,
+            "committedCount": 0
+          },
+          "elapsedMs": 1
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 4,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 0,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 2,
+          "completed": 0,
+          "total": 22,
+          "migrationId": "0001_base_session_store"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 5,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 1,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 3,
+          "completed": 1,
+          "total": 22,
+          "migrationId": "0002_local_setting"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 6,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 2,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 3,
+          "completed": 2,
+          "total": 22,
+          "migrationId": "0003_backfill_permission_local_setting"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 7,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 3,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 3,
+          "completed": 3,
+          "total": 22,
+          "migrationId": "0004_session_target"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 8,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 4,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 3,
+          "completed": 4,
+          "total": 22,
+          "migrationId": "0005_session_target_accounting"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 9,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 5,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 4,
+          "completed": 5,
+          "total": 22,
+          "migrationId": "0006_input_history_attachments"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 10,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 6,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 5,
+          "completed": 6,
+          "total": 22,
+          "migrationId": "0007_workflow_script_runtime"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 11,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 7,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 6,
+          "completed": 7,
+          "total": 22,
+          "migrationId": "0008_workflow_definition_scope"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 12,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 8,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 7,
+          "completed": 8,
+          "total": 22,
+          "migrationId": "0009_session_title_metadata"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 13,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 9,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 7,
+          "completed": 9,
+          "total": 22,
+          "migrationId": "0010_usage_observability"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 14,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 10,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 8,
+          "completed": 10,
+          "total": 22,
+          "migrationId": "0011_session_target_summary_title"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 15,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 11,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 9,
+          "completed": 11,
+          "total": 22,
+          "migrationId": "0012_session_trace_id"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 16,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 12,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 9,
+          "completed": 12,
+          "total": 22,
+          "migrationId": "0013_session_target_active_run_accounting"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 17,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 13,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 10,
+          "completed": 13,
+          "total": 22,
+          "migrationId": "0014_message_part_sequence"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 18,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 14,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 11,
+          "completed": 14,
+          "total": 22,
+          "migrationId": "0015_message_part_sequence_backfill_and_guard"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 19,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 15,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 12,
+          "completed": 15,
+          "total": 22,
+          "migrationId": "0016_session_input_ledger"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 20,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 16,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 12,
+          "completed": 16,
+          "total": 22,
+          "migrationId": "0017_session_input_start_now_delivery"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 21,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 17,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 13,
+          "completed": 17,
+          "total": 22,
+          "migrationId": "0018_session_input_failed_status"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 22,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 18,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 15,
+          "completed": 18,
+          "total": 22,
+          "migrationId": "0019_dwf_journal"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 23,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 19,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 15,
+          "completed": 19,
+          "total": 22,
+          "migrationId": "0020_provider_model_selection"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 24,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 20,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 21,
+          "completed": 20,
+          "total": 22,
+          "migrationId": "0021_official_glm_selection"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 25,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "migrating",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 21,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 21,
+          "completed": 21,
+          "total": 22,
+          "migrationId": "0022_backfilled_session_reasoning"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 26,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "committing",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 22,
+            "committedCount": 0,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 22
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "ffdea21d-a2f1-4804-8a39-a6c9dbf7cdf4",
+          "sequence": 27,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "ready",
+          "migration": {
+            "kind": "initialize",
+            "executedCount": 22,
+            "committedCount": 22,
+            "lastAppliedMigrationId": null
+          },
+          "elapsedMs": 22
+        }
+      },
+      {
+        "method": "startup/storagePrepared",
+        "params": {}
+      }
+    ],
+    "stderr": ""
+  },
+  "native": {
+    "runtime": {
+      "node": "v24.14.0",
+      "electron": "41.0.3",
+      "arch": "x64",
+      "platform": "linux"
+    },
+    "resolvedPty": "/tmp/knorvia-native-retest-ad712690-20261003/appimage-extraction/squashfs-root/resources/app.asar/node_modules/node-pty/lib/index.js",
+    "pty": {
+      "exitCode": 0,
+      "output": "knorvia_native_pty"
+    },
+    "sentinel": "written to synthetic application session database"
+  },
+  "storageSecond": {
+    "ended": {
+      "code": 0,
+      "signal": null
+    },
+    "databasePath": "/tmp/knorvia-native-retest-ad712690-20261003/native-smoke-ODpEQA/data/session.sqlite",
+    "frames": [
+      {
+        "method": "startup/storagePath",
+        "params": {
+          "path": "/tmp/knorvia-native-retest-ad712690-20261003/native-smoke-ODpEQA/data/session.sqlite"
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "390676db-0609-48b0-a0af-4e9083fa382c",
+          "sequence": 1,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "checking",
+          "elapsedMs": 0
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "390676db-0609-48b0-a0af-4e9083fa382c",
+          "sequence": 2,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "checking",
+          "elapsedMs": 0
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "390676db-0609-48b0-a0af-4e9083fa382c",
+          "sequence": 3,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "checking",
+          "migration": {
+            "kind": "none",
+            "executedCount": 0,
+            "committedCount": 0
+          },
+          "elapsedMs": 3
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "390676db-0609-48b0-a0af-4e9083fa382c",
+          "sequence": 4,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "committing",
+          "migration": {
+            "kind": "none",
+            "executedCount": 0,
+            "committedCount": 0,
+            "lastAppliedMigrationId": "0022_backfilled_session_reasoning"
+          },
+          "elapsedMs": 4
+        }
+      },
+      {
+        "method": "startup/storageState",
+        "params": {
+          "schemaVersion": 1,
+          "attemptId": "390676db-0609-48b0-a0af-4e9083fa382c",
+          "sequence": 5,
+          "databaseId": "efa7918490688f5ff3c5f7709b7ff5eeb3f81cf390dbd9c2935b2f901cfaaf33",
+          "databaseKind": "session",
+          "phase": "ready",
+          "migration": {
+            "kind": "none",
+            "executedCount": 0,
+            "committedCount": 0,
+            "lastAppliedMigrationId": "0022_backfilled_session_reasoning"
+          },
+          "elapsedMs": 4
+        }
+      },
+      {
+        "method": "startup/storagePrepared",
+        "params": {}
+      }
+    ],
+    "stderr": ""
+  },
+  "persistence": {
+    "sentinel": "preserved after a second real storage preparation"
+  },
+  "search": {
+    "ripgrep": {
+      "output": "2:knorvia_native_search_fixture\n",
+      "noticeBytes": 293029,
+      "noticeSha256": "8940d794e36bbd39e6031294c845f49f8f4f3442a63ac38326666f5e81373fcf",
+      "sourcesSha256": "ef01250ac2157da9a031b4fe3294974608c015cf89676d06e70bab4736cee9ed"
+    },
+    "ugrep": {
+      "output": "2:knorvia_native_search_fixture\n",
+      "noticeBytes": 293029,
+      "noticeSha256": "8940d794e36bbd39e6031294c845f49f8f4f3442a63ac38326666f5e81373fcf",
+      "sourcesSha256": "68b544dc97166e0bba80b53b307f898497c7d3c85d5b495c28276746e765cca6"
+    },
+    "bfs": {
+      "output": "./用户 文件.txt\n",
+      "noticeBytes": 293029,
+      "noticeSha256": "8940d794e36bbd39e6031294c845f49f8f4f3442a63ac38326666f5e81373fcf",
+      "sourcesSha256": "65f85999d9c1ae1ec8b5bf4469b615136430abb08d7cbf81e8fb29bedf077f94"
+    }
+  },
+  "fixtureRemoved": true
+}

@@ -1,0 +1,6 @@
+  • electron-builder  version=26.8.1 os=6.18.44
+  • loaded configuration  file=/workspace/knorvia-studio/packages/desktop/electron-builder.config.js
+  • @electron/rebuild already used by electron-builder, please consider to remove excess dependency from devDependencies
+
+To ensure your native dependencies are always matched electron version, simply add script `"postinstall": "electron-builder install-app-deps" to your `package.json`
+  • building        target=AppImage arch=x64 file=/tmp/knorvia-native-package-acceptance-20261003/appimage-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage

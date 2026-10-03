@@ -1,0 +1,208 @@
+TAP version 13
+# (node:15751) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic stdio ports preserve frames, callback backpressure, cleanup deadlines and process authority
+ok 1 - synthetic stdio ports preserve frames, callback backpressure, cleanup deadlines and process authority
+  ---
+  duration_ms: 5.341388
+  type: 'test'
+  ...
+# (node:15763) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Linux completion uses current state and identity without concealing active processes
+    # Subtest: snapshot retains Linux state with exact ticks and group even when comm contains parentheses
+    ok 1 - snapshot retains Linux state with exact ticks and group even when comm contains parentheses
+      ---
+      duration_ms: 1.755829
+      type: 'test'
+      ...
+    # Subtest: current Z settles a zombie-only tree despite an existing PID
+    ok 2 - current Z settles a zombie-only tree despite an existing PID
+      ---
+      duration_ms: 0.925351
+      type: 'test'
+      ...
+    # Subtest: force-completion observes transition from working to Z
+    ok 3 - force-completion observes transition from working to Z
+      ---
+      duration_ms: 0.500873
+      type: 'test'
+      ...
+    # Subtest: current R remains active even with cached Z
+    ok 4 - current R remains active even with cached Z
+      ---
+      duration_ms: 0.352409
+      type: 'test'
+      ...
+    # Subtest: current S remains active even with cached Z
+    ok 5 - current S remains active even with cached Z
+      ---
+      duration_ms: 1.074575
+      type: 'test'
+      ...
+    # Subtest: current D remains active even with cached Z
+    ok 6 - current D remains active even with cached Z
+      ---
+      duration_ms: 0.244658
+      type: 'test'
+      ...
+    # Subtest: current T remains active even with cached Z
+    ok 7 - current T remains active even with cached Z
+      ---
+      duration_ms: 0.227391
+      type: 'test'
+      ...
+    # Subtest: current t remains active even with cached Z
+    ok 8 - current t remains active even with cached Z
+      ---
+      duration_ms: 0.452359
+      type: 'test'
+      ...
+    # Subtest: current I remains active even with cached Z
+    ok 9 - current I remains active even with cached Z
+      ---
+      duration_ms: 0.255263
+      type: 'test'
+      ...
+    # Subtest: current ? remains active even with cached Z
+    ok 10 - current ? remains active even with cached Z
+      ---
+      duration_ms: 0.251529
+      type: 'test'
+      ...
+    # Subtest: a reused PID is outside the old ticks identity
+    ok 11 - a reused PID is outside the old ticks identity
+      ---
+      duration_ms: 0.216856
+      type: 'test'
+      ...
+    # Subtest: a different PGID is outside the tracked group identity
+    ok 12 - a different PGID is outside the tracked group identity
+      ---
+      duration_ms: 0.165749
+      type: 'test'
+      ...
+    # Subtest: malformed stat is inconclusive while signal-zero still succeeds
+    ok 13 - malformed stat is inconclusive while signal-zero still succeeds
+      ---
+      duration_ms: 0.213771
+      type: 'test'
+      ...
+    # Subtest: malformed stat is inconclusive while signal-zero still succeeds
+    ok 14 - malformed stat is inconclusive while signal-zero still succeeds
+      ---
+      duration_ms: 0.214052
+      type: 'test'
+      ...
+    # Subtest: malformed stat is inconclusive while signal-zero still succeeds
+    ok 15 - malformed stat is inconclusive while signal-zero still succeeds
+      ---
+      duration_ms: 0.15922
+      type: 'test'
+      ...
+    # Subtest: unreadable stat keeps a PID that still responds to signal-zero
+    ok 16 - unreadable stat keeps a PID that still responds to signal-zero
+      ---
+      duration_ms: 0.182905
+      type: 'test'
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    ok 17 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.153841
+      type: 'test'
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    ok 18 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.10604
+      type: 'test'
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    ok 19 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.120401
+      type: 'test'
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    ok 20 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.1467
+      type: 'test'
+      ...
+    # Subtest: ESRCH establishes absence when stat is unavailable
+    ok 21 - ESRCH establishes absence when stat is unavailable
+      ---
+      duration_ms: 0.167301
+      type: 'test'
+      ...
+    # Subtest: a current zombie-only unverified Linux root has stopped work
+    ok 22 - a current zombie-only unverified Linux root has stopped work
+      ---
+      duration_ms: 0.125619
+      type: 'test'
+      ...
+    # Subtest: darwin observation keeps existing semantics and never reads proc
+    ok 23 - darwin observation keeps existing semantics and never reads proc
+      ---
+      duration_ms: 0.187262
+      type: 'test'
+      ...
+    # Subtest: win32 observation keeps existing semantics and never reads proc
+    ok 24 - win32 observation keeps existing semantics and never reads proc
+      ---
+      duration_ms: 0.322034
+      type: 'test'
+      ...
+    1..24
+ok 2 - Linux completion uses current state and identity without concealing active processes
+  ---
+  duration_ms: 41.885297
+  type: 'test'
+  ...
+# Subtest: isolated Linux unreaped child is complete while a real sleeping child stays remaining
+ok 3 - isolated Linux unreaped child is complete while a real sleeping child stays remaining
+  ---
+  duration_ms: 47.342429
+  type: 'test'
+  ...
+# {"kind":"test-owned-processes","root":15795,"zombie":{"parentPid":15795,"pid":15796,"processGroupId":15795,"startTime":"linux-ticks:2741541","linuxState":"Z"},"live":{"parentPid":15795,"pid":15797,"processGroupId":15795,"startTime":"linux-ticks:2741541","linuxState":"S"},"actualState":"Z"}
+# (node:15799) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fake ownership ports reject reused root and prohibit discovery when authorization is absent
+ok 4 - fake ownership ports reject reused root and prohibit discovery when authorization is absent
+  ---
+  duration_ms: 1.146393
+  type: 'test'
+  ...
+# (node:15811) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic snapshots deny missing or reused root identities and avoid unrelated proc reads
+ok 5 - synthetic snapshots deny missing or reused root identities and avoid unrelated proc reads
+  ---
+  duration_ms: 8.350479
+  type: 'test'
+  ...
+# (node:15823) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic termination preserves PID permissions, force containment and unavailable cleanup
+ok 6 - synthetic termination preserves PID permissions, force containment and unavailable cleanup
+  ---
+  duration_ms: 20.694882
+  type: 'test'
+  ...
+# Subtest: synthetic waiter replaces stale identities and performs only signal-zero observations
+ok 7 - synthetic waiter replaces stale identities and performs only signal-zero observations
+  ---
+  duration_ms: 7.41881
+  type: 'test'
+  ...
+1..7
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1134.530861

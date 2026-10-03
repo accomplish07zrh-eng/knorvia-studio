@@ -1,0 +1,65 @@
+{
+  "frozenFixtureCommit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+  "preFixSourceCommit": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+  "checkedProductionCommit": "21bbcf1ea6fb807197914089494d366ba6c338ab",
+  "sameSevenFilesForFinalBeforeAndAfter": true,
+  "files": [
+    {
+      "path": "packages/services/test/process-linux-zombie-contract-20261003.test.ts",
+      "commit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "gitBlob": "999ad29a93e1e8aec35822ce5dabfc4d3a918ede",
+      "sha256": "0755a322b9290d427fe11a30e1f24ac20ceec9596640622f883ad484addc7444",
+      "bytes": 8677,
+      "lines": 239
+    },
+    {
+      "path": "packages/services/test/process-linux-zombie-isolated-20261003.test.ts",
+      "commit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "gitBlob": "e87327c080d1d2646894f29411cc0b6d954d1ab5",
+      "sha256": "39866fa2eb78975a4f99fb1acd06b67ddc6f685006f9ee0b76ee6732afa4c25d",
+      "bytes": 5580,
+      "lines": 136
+    },
+    {
+      "path": "packages/services/test/process-snapshot-fake-authority-20261002.test.ts",
+      "commit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "gitBlob": "a93ec87aad61f397c72f9afab5da853d5d2c2395",
+      "sha256": "e84754311e1cd853e07506233999a57ece398c4de875c590977e9e12d1685e86",
+      "bytes": 2501,
+      "lines": 65
+    },
+    {
+      "path": "packages/services/test/process-ownership-fake-permission-20261002.test.ts",
+      "commit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "gitBlob": "d1182f3fb567c096f9b55c1a4165fbe35e00d1ba",
+      "sha256": "cd4d162fa72af5f4c8be0b66b6d87c08e280e16dff1f6d5ff890be29cad50603",
+      "bytes": 1933,
+      "lines": 50
+    },
+    {
+      "path": "packages/services/test/process-waiter-fake-authority-20261002.test.ts",
+      "commit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "gitBlob": "9b15c1d23cc11cc897d23220991d7714327281c9",
+      "sha256": "ae4ef0a85257053f5f83c42b9fed457e93f7461c19c6c30db8594019c6ce1b76",
+      "bytes": 3734,
+      "lines": 93
+    },
+    {
+      "path": "packages/services/test/process-termination-fake-authority-20261002.test.ts",
+      "commit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "gitBlob": "6c77b4abe6ff4eccf6039dbbcf2e849c3fcc9f40",
+      "sha256": "8afbd284d5fda27c5c13328874876e846064c8e8f8621bbd1e9e23c67e0540a1",
+      "bytes": 10341,
+      "lines": 284
+    },
+    {
+      "path": "packages/services/test/agent-stdio-fake-authority-20261003.test.ts",
+      "commit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "gitBlob": "c292a2aee36f9ed3dc2fe74b94b780321a94a5dd",
+      "sha256": "279603552d1d54f98635962a3d785b430278da9852718dcd0dc467dfbf30c68c",
+      "bytes": 14429,
+      "lines": 382
+    }
+  ],
+  "fixturePortFix": "Final waiter fixture explicitly mocks node:fs to avoid reading real /proc for synthetic PID503; its previous assertions remain unchanged."
+}

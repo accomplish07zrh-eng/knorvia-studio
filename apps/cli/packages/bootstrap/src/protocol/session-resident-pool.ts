@@ -3,6 +3,10 @@
 // 这是容量与生命周期控制器，不拥有 session 内容。宿主提供当前 resident registry、同步
 // 安全事实和去激活执行面；pool 只维护 idle TTL、LRU touch、operation lease 与
 // deactivation gate。
+// 2026-10-03: source-exposed behavior-contract implementation of leases and reclamation.
+// Origin: zai-org/ZCode 872ad960de7ec172591f7e1952f7849229f94521,
+// apps/zcode-cli/packages/bootstrap/src/zcode-protocol/session-resident-pool.ts.
+// Existing Apache-2.0 attribution/history retained; see docs/lane-cli-20261003.md.
 
 const DEFAULT_SESSION_RESIDENT_TARGET_COUNT = 8;
 export const DEFAULT_SESSION_RESIDENT_HIGH_WATER_COUNT = 16;
@@ -61,9 +65,9 @@ export class SessionResidentPool {
   private readonly targetCount: number;
   private readonly eligibleSinceAt = new Map<string, number>();
   private readonly lastTouchedAt = new Map<string, number>();
-  private readonly operationLeaseCounts = new Map<string, number>();
+  private readonly sessionOperations = new Map<string, Set<symbol>>();
+  private readonly operations = new Set<symbol>();
   private readonly inFlightDeactivations = new Map<string, Promise<void>>();
-  private activeOperationCount = 0;
   private rebalancing = false;
 
   constructor(
@@ -95,36 +99,32 @@ export class SessionResidentPool {
    * 回收并发；按 session 计数表达精确所有权并参与该 session 的 eligibility。
    */
   async acquireOperation(sessionIdsInput?: string | readonly string[]): Promise<() => void> {
-    const sessionIds = [
-      ...new Set(
-        (typeof sessionIdsInput === "string" ? [sessionIdsInput] : (sessionIdsInput ?? [])).filter(
-          (sessionId) => sessionId.length > 0,
-        ),
-      ),
-    ];
-    this.activeOperationCount += 1;
-    for (const sessionId of sessionIds) {
-      this.operationLeaseCounts.set(sessionId, (this.operationLeaseCounts.get(sessionId) ?? 0) + 1);
+    const requested = typeof sessionIdsInput === "string" ? [sessionIdsInput] : sessionIdsInput;
+    const sessions = new Set((requested ?? []).filter((id) => id.length > 0));
+    const operation = Symbol("resident operation");
+    this.operations.add(operation);
+    for (const id of sessions) {
+      const owners = this.sessionOperations.get(id) ?? new Set<symbol>();
+      owners.add(operation);
+      this.sessionOperations.set(id, owners);
     }
-
-    let released = false;
-    const release = () => {
-      if (released) return;
-      released = true;
-      for (const sessionId of sessionIds) {
-        this.touch(sessionId);
-        const next = (this.operationLeaseCounts.get(sessionId) ?? 1) - 1;
-        if (next <= 0) this.operationLeaseCounts.delete(sessionId);
-        else this.operationLeaseCounts.set(sessionId, next);
+    let open = true;
+    const release = (): void => {
+      if (!open) return;
+      open = false;
+      for (const id of sessions) {
+        this.touch(id);
+        const owners = this.sessionOperations.get(id);
+        owners?.delete(operation);
+        if (owners?.size === 0) this.sessionOperations.delete(id);
       }
-      this.activeOperationCount = Math.max(0, this.activeOperationCount - 1);
+      this.operations.delete(operation);
       this.rebalance();
     };
-
     try {
-      for (const sessionId of sessionIds) {
-        await this.waitForDeactivation(sessionId);
-        this.touch(sessionId);
+      for (const id of sessions) {
+        await this.waitForDeactivation(id);
+        this.touch(id);
       }
       return release;
     } catch (error) {
@@ -146,14 +146,13 @@ export class SessionResidentPool {
 
   /** sampler 与 request-release 共用的 TTL / 高低水位收敛入口。 */
   rebalance(): void {
-    if (this.activeOperationCount > 0 || this.rebalancing) return;
+    if (this.operations.size !== 0 || this.rebalancing) return;
     this.rebalancing = true;
     try {
       const observedAt = this.now();
-      const initialResidentIds = this.host.listSessionIds();
-      this.pruneMetadata(new Set(initialResidentIds));
-      const initialCandidates = this.readCandidates(initialResidentIds, observedAt);
-      const expiredCandidates = initialCandidates
+      const residents = this.host.listSessionIds();
+      this.pruneMetadata(new Set(residents));
+      const expired = this.readCandidates(residents, observedAt)
         .filter((candidate) => observedAt - candidate.eligibleSinceAt >= this.idleTimeoutMs)
         .sort(
           (left, right) =>
@@ -162,58 +161,15 @@ export class SessionResidentPool {
             left.sessionId.localeCompare(right.sessionId),
         );
 
-      let residentCount = initialResidentIds.length;
-      for (const candidate of expiredCandidates) {
-        if (this.activeOperationCount > 0) break;
-        // 候选收集后可能重新订阅或启动后台任务，TTL 到期也不能绕过
-        // fresh facts 与 eligibleSince 二次校验。
-        const freshFacts = this.host.readResidencyFacts(candidate.sessionId);
-        if (!freshFacts || !this.isEligible(candidate.sessionId, freshFacts)) {
-          this.eligibleSinceAt.delete(candidate.sessionId);
-          continue;
-        }
-        const eligibleSinceAt = this.eligibleSinceAt.get(candidate.sessionId);
-        if (eligibleSinceAt === undefined || observedAt - eligibleSinceAt < this.idleTimeoutMs) {
-          continue;
-        }
-        const decision = this.createDecision(
-          "idle_timeout",
-          residentCount,
-          observedAt - eligibleSinceAt,
-        );
-        if (this.executeDeactivation(candidate.sessionId, decision)) {
-          residentCount -= 1;
-        }
-      }
-
-      const remainingResidentIds = this.host.listSessionIds();
-      residentCount = remainingResidentIds.length;
-      if (residentCount <= this.highWaterCount) return;
-
-      const highWaterCandidates = this.readCandidates(remainingResidentIds, observedAt).sort(
+      this.reclaim(expired, "idle_timeout", residents.length, observedAt);
+      const remaining = this.host.listSessionIds();
+      if (remaining.length <= this.highWaterCount) return;
+      const oldest = this.readCandidates(remaining, observedAt).sort(
         (left, right) =>
           left.lastUsedAt - right.lastUsedAt || left.sessionId.localeCompare(right.sessionId),
       );
 
-      for (const candidate of highWaterCandidates) {
-        if (residentCount <= this.targetCount || this.activeOperationCount > 0) break;
-        // 候选收集与执行之间可能有订阅/后台任务等新事实。执行前必须重读，
-        // 不能让过期 LRU 快照取消仍在运行的 session。
-        const freshFacts = this.host.readResidencyFacts(candidate.sessionId);
-        if (!freshFacts || !this.isEligible(candidate.sessionId, freshFacts)) {
-          this.eligibleSinceAt.delete(candidate.sessionId);
-          continue;
-        }
-        const eligibleSinceAt = this.eligibleSinceAt.get(candidate.sessionId) ?? observedAt;
-        const decision = this.createDecision(
-          "high_water_lru",
-          residentCount,
-          observedAt - eligibleSinceAt,
-        );
-        if (this.executeDeactivation(candidate.sessionId, decision)) {
-          residentCount -= 1;
-        }
-      }
+      this.reclaim(oldest, "high_water_lru", remaining.length, observedAt);
     } finally {
       this.rebalancing = false;
     }
@@ -231,7 +187,7 @@ export class SessionResidentPool {
       !facts.hasQueuedCommands &&
       !facts.hasSubscribers &&
       !facts.hasLegacySubscriber &&
-      (this.operationLeaseCounts.get(sessionId) ?? 0) === 0 &&
+      !this.sessionOperations.has(sessionId) &&
       !this.inFlightDeactivations.has(sessionId)
     );
   }
@@ -239,16 +195,10 @@ export class SessionResidentPool {
   private readCandidates(sessionIds: readonly string[], observedAt: number): ResidencyCandidate[] {
     const candidates: ResidencyCandidate[] = [];
     for (const sessionId of sessionIds) {
-      const facts = this.host.readResidencyFacts(sessionId);
-      if (!facts || !this.isEligible(sessionId, facts)) {
-        this.eligibleSinceAt.delete(sessionId);
-        continue;
-      }
-      let eligibleSinceAt = this.eligibleSinceAt.get(sessionId);
-      if (eligibleSinceAt === undefined) {
-        eligibleSinceAt = observedAt;
-        this.eligibleSinceAt.set(sessionId, eligibleSinceAt);
-      }
+      const facts = this.readEligibleFacts(sessionId);
+      if (!facts) continue;
+      const eligibleSinceAt = this.eligibleSinceAt.get(sessionId) ?? observedAt;
+      this.eligibleSinceAt.set(sessionId, eligibleSinceAt);
       candidates.push({
         eligibleSinceAt,
         lastUsedAt: Math.max(
@@ -259,6 +209,40 @@ export class SessionResidentPool {
       });
     }
     return candidates;
+  }
+
+  private readEligibleFacts(sessionId: string): SessionResidencyFacts | null {
+    const facts = this.host.readResidencyFacts(sessionId);
+    if (facts && this.isEligible(sessionId, facts)) return facts;
+    this.eligibleSinceAt.delete(sessionId);
+    return null;
+  }
+
+  private reclaim(
+    candidates: readonly ResidencyCandidate[],
+    reason: SessionDeactivationReason,
+    residentCount: number,
+    observedAt: number,
+  ): void {
+    for (const { sessionId } of candidates) {
+      if (this.operations.size !== 0) return;
+      if (reason === "high_water_lru" && residentCount <= this.targetCount) return;
+      // 候选不是回收权限：TTL/LRU 在同一 admission 路径重读安全事实和当前 idle 窗口。
+      if (!this.readEligibleFacts(sessionId)) continue;
+      const since = this.eligibleSinceAt.get(sessionId);
+      if (
+        reason === "idle_timeout" &&
+        (since === undefined || observedAt - since < this.idleTimeoutMs)
+      ) {
+        continue;
+      }
+      const decision = this.createDecision(
+        reason,
+        residentCount,
+        observedAt - (since ?? observedAt),
+      );
+      if (this.executeDeactivation(sessionId, decision)) residentCount -= 1;
+    }
   }
 
   private createDecision(
@@ -285,14 +269,20 @@ export class SessionResidentPool {
       return false;
     }
 
-    const tracked = pending
-      .then(() => this.host.onDeactivated?.(sessionId, decision))
-      .catch((error: unknown) => this.host.onError?.(sessionId, error, decision))
-      .finally(() => {
+    // 宿主同步摘除在先；gate 覆盖异步 close、成功/失败通知与 finally 清理。
+    const finish = async (): Promise<void> => {
+      try {
+        await pending;
+        await this.host.onDeactivated?.(sessionId, decision);
+      } catch (error) {
+        await this.host.onError?.(sessionId, error, decision);
+      } finally {
         if (this.inFlightDeactivations.get(sessionId) === tracked) {
           this.inFlightDeactivations.delete(sessionId);
         }
-      });
+      }
+    };
+    const tracked = finish();
     this.inFlightDeactivations.set(sessionId, tracked);
     this.eligibleSinceAt.delete(sessionId);
     this.lastTouchedAt.delete(sessionId);
@@ -304,7 +294,7 @@ export class SessionResidentPool {
       if (
         !residentIds.has(sessionId) &&
         !this.inFlightDeactivations.has(sessionId) &&
-        !this.operationLeaseCounts.has(sessionId)
+        !this.sessionOperations.has(sessionId)
       ) {
         this.lastTouchedAt.delete(sessionId);
       }

@@ -1,0 +1,54 @@
+✖ successful resource download does not retry a later metadata failure (1.287422ms)
+✖ a cached NSIS asset and generic helper error are not network evidence (0.252801ms)
+✔ actual interrupted network responses retain bounded-retry eligibility (0.164088ms)
+✔ ordinary target compilation failures do not retry (0.105018ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 54.073012
+
+✖ failing tests:
+
+test at packages/desktop/test/desktop-bundle-retry.test.mjs:5:1
+✖ successful resource download does not retry a later metadata failure (1.287422ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/test/desktop-bundle-retry.test.mjs:12:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at packages/desktop/test/desktop-bundle-retry.test.mjs:15:1
+✖ a cached NSIS asset and generic helper error are not network evidence (0.252801ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/test/desktop-bundle-retry.test.mjs:21:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

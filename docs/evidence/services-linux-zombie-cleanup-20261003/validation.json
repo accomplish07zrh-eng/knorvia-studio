@@ -1,0 +1,251 @@
+{
+  "recordedAtUtc": "2026-10-03T12:35:02.975833+00:00",
+  "runtime": {
+    "node": "v24.14.0",
+    "platform": "Linux",
+    "machine": "x86_64"
+  },
+  "checkedProductionCommit": "21bbcf1ea6fb807197914089494d366ba6c338ab",
+  "finalFixtureCommit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+  "runs": [
+    {
+      "phase": "initial pre-fix frozen oracles",
+      "fixtureCommit": "5c3d29873ba6f0f334569cb3518a8c47377013a4",
+      "expectedPreFixFailure": true,
+      "actualExit": 1,
+      "nodeReportedCounts": {
+        "tests": 31,
+        "pass": 19,
+        "fail": 12,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "baseline-runtime.tap",
+      "sha256": "a935866eab920d843865985bff78586abf390cb0e45d803267bec208622291e8",
+      "isolatedKernelObservation": {
+        "kind": "test-owned-processes",
+        "root": 15581,
+        "zombie": {
+          "parentPid": 15581,
+          "pid": 15582,
+          "processGroupId": 15581,
+          "startTime": "linux-ticks:2735179"
+        },
+        "live": {
+          "parentPid": 15581,
+          "pid": 15583,
+          "processGroupId": 15581,
+          "startTime": "linux-ticks:2735179"
+        },
+        "actualState": "Z"
+      }
+    },
+    {
+      "phase": "initial fixed source bytes, before PPid1 supplemental cases",
+      "fixtureCommit": "5c3d29873ba6f0f334569cb3518a8c47377013a4",
+      "expectedPreFixFailure": false,
+      "actualExit": 0,
+      "nodeReportedCounts": {
+        "tests": 31,
+        "pass": 31,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "candidate-runtime.tap",
+      "sha256": "b790836f4b78ca2648fb2f725ff1bf883a5394b45367af3635702a0a93914a62",
+      "isolatedKernelObservation": {
+        "kind": "test-owned-processes",
+        "root": 15795,
+        "zombie": {
+          "parentPid": 15795,
+          "pid": 15796,
+          "processGroupId": 15795,
+          "startTime": "linux-ticks:2741541",
+          "linuxState": "Z"
+        },
+        "live": {
+          "parentPid": 15795,
+          "pid": 15797,
+          "processGroupId": 15795,
+          "startTime": "linux-ticks:2741541",
+          "linuxState": "S"
+        },
+        "actualState": "Z"
+      }
+    },
+    {
+      "phase": "pre-fix source plus PPid1 oracles",
+      "fixtureCommit": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+      "expectedPreFixFailure": true,
+      "actualExit": 1,
+      "nodeReportedCounts": {
+        "tests": 33,
+        "pass": 20,
+        "fail": 13,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "baseline-reparented-runtime.tap",
+      "sha256": "e84c0f1e57eecf69fa697f3bf6c98fa42a6c112865d8e8162db7bb4df0a06d9c",
+      "isolatedKernelObservation": {
+        "kind": "test-owned-processes",
+        "root": 16139,
+        "zombie": {
+          "parentPid": 16139,
+          "pid": 16140,
+          "processGroupId": 16139,
+          "startTime": "linux-ticks:2752862"
+        },
+        "live": {
+          "parentPid": 16139,
+          "pid": 16141,
+          "processGroupId": 16139,
+          "startTime": "linux-ticks:2752862"
+        },
+        "actualState": "Z"
+      }
+    },
+    {
+      "phase": "fixed source plus PPid1 oracles",
+      "fixtureCommit": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+      "expectedPreFixFailure": false,
+      "actualExit": 0,
+      "nodeReportedCounts": {
+        "tests": 33,
+        "pass": 33,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "candidate-reparented-runtime.tap",
+      "sha256": "08057985257b5d82cd94d4e85c457afd56235744ff32922db5033dedd1a32260",
+      "isolatedKernelObservation": {
+        "kind": "test-owned-processes",
+        "root": 16240,
+        "zombie": {
+          "parentPid": 16240,
+          "pid": 16241,
+          "processGroupId": 16240,
+          "startTime": "linux-ticks:2755343",
+          "linuxState": "Z"
+        },
+        "live": {
+          "parentPid": 16240,
+          "pid": 16242,
+          "processGroupId": 16240,
+          "startTime": "linux-ticks:2755343",
+          "linuxState": "S"
+        },
+        "actualState": "Z"
+      }
+    },
+    {
+      "phase": "final byte-frozen fixtures against restored exact pre-fix source",
+      "fixtureCommit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "expectedPreFixFailure": true,
+      "actualExit": 1,
+      "nodeReportedCounts": {
+        "tests": 33,
+        "pass": 20,
+        "fail": 13,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "baseline-final-runtime.tap",
+      "sha256": "e06461c39d1e38232763b94865fbbf42ade6394b4807ddde8dbc3df78cf835db",
+      "isolatedKernelObservation": {
+        "kind": "test-owned-processes",
+        "root": 16636,
+        "zombie": {
+          "parentPid": 16636,
+          "pid": 16637,
+          "processGroupId": 16636,
+          "startTime": "linux-ticks:2771030"
+        },
+        "live": {
+          "parentPid": 16636,
+          "pid": 16638,
+          "processGroupId": 16636,
+          "startTime": "linux-ticks:2771030"
+        },
+        "actualState": "Z"
+      }
+    },
+    {
+      "phase": "final byte-frozen fixtures against fixed source",
+      "fixtureCommit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+      "expectedPreFixFailure": false,
+      "actualExit": 0,
+      "nodeReportedCounts": {
+        "tests": 33,
+        "pass": 33,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "candidate-final-runtime.tap",
+      "sha256": "209266156f5ef58934afc10b6d056a71bc6b64dddf53a554269ce98b6d74e3d1",
+      "isolatedKernelObservation": {
+        "kind": "test-owned-processes",
+        "root": 16737,
+        "zombie": {
+          "parentPid": 16737,
+          "pid": 16738,
+          "processGroupId": 16737,
+          "startTime": "linux-ticks:2771146",
+          "linuxState": "Z"
+        },
+        "live": {
+          "parentPid": 16737,
+          "pid": 16739,
+          "processGroupId": 16737,
+          "startTime": "linux-ticks:2771146",
+          "linuxState": "S"
+        },
+        "actualState": "Z"
+      }
+    }
+  ],
+  "finalCommand": [
+    "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "--test-timeout=20000",
+    "--test-reporter=tap",
+    "packages/services/test/process-linux-zombie-contract-20261003.test.ts",
+    "packages/services/test/process-linux-zombie-isolated-20261003.test.ts",
+    "packages/services/test/process-snapshot-fake-authority-20261002.test.ts",
+    "packages/services/test/process-ownership-fake-permission-20261002.test.ts",
+    "packages/services/test/process-waiter-fake-authority-20261002.test.ts",
+    "packages/services/test/process-termination-fake-authority-20261002.test.ts",
+    "packages/services/test/agent-stdio-fake-authority-20261003.test.ts"
+  ],
+  "finalBeforeExit": 1,
+  "finalAfterExit": 0,
+  "sourceInstallationMethod": "Temporarily install exact pre-fix bytes for the three exclusively owned production paths; restore current committed candidate bytes in finally. Same seven frozen fixture files for both runs. No other path changed.",
+  "isolatedSafety": "A detached test-owned Python supervisor holds/reaps both fork children. Actual Z and signal-zero existence are observed. Actual waiter and snapshot run with a scheduling-only termination injection; no tree-cleanup signal is sent. The after-hook requires reaped:true and supervisor exit 0. PPid1 is covered synthetically so no zombie is orphaned to PID1.",
+  "fixtureAuthoring": "Scoped oxfmt --write only; no root formatter check. The initial oracles preceded production edits. Later PPid1 cases and explicit closure of the old mock fixture are documented and run identically against exact pre-fix/fixed source.",
+  "unverified": [
+    "typecheck",
+    "lint",
+    "build",
+    "root formatter check",
+    "architecture checker",
+    "full regression/audit",
+    "CI rerun",
+    "native Windows/macOS",
+    "full Host/GUI shutdown replay",
+    "full product and source-rights acceptance"
+  ],
+  "countsNote": "Node counts include the synthetic parent aggregate. The 13 final pre-fix failures are observed boundaries plus aggregate/isolated failures, not 13 claimed product defects. All five prior narrow files pass on both final source variants."
+}

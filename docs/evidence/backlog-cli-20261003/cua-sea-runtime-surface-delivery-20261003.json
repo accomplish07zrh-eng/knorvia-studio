@@ -1,0 +1,356 @@
+{
+  "formatVersion": 1,
+  "sourceCheckpoint": "35417d10c84a237e263fec6f0466c947a8a86fa5",
+  "specificationCommit": "da189709203ca22d2a0c1ae74bd53f54def39fac",
+  "nativeEvidence": {
+    "checkpoint": "8123d33cdfbe273449be0ffd4cd8992eecf837dd",
+    "resultPath": "docs/evidence/native-packaged-acceptance-20261003/result.json",
+    "resultSha256": "ebc969012f953e1ab2cc836e7abb9b7afba6b15959c16a56fb1802428d7b6393",
+    "logPath": "docs/evidence/native-packaged-acceptance-20261003/distribution-build-failure.log",
+    "logSha256": "2fdb8225ce573599aed3ff3de8b8c69c12fb9d25d7c7422ace2b3d228e83e6e8",
+    "failure": "Missing @knorvia/cua dist files in CLI SEA runtime resolver; collector also excluded root outputs"
+  },
+  "productionFiles": [
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-runtime-package-resolution.mjs",
+      "beforeSha256": "93983c8f9d500a93130488cbdb1814da6247e1cf1eafb9cc54cfeeadf544303e",
+      "currentSha256": "10a1c35f6786333f30a070b8dc3149a2e977da16c0cebaa9f84536cd803327b2",
+      "bytes": 4432,
+      "gitBlob": "01f7453327d2f432f722f50ad90f0a7944233813"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-tui-assets.mjs",
+      "beforeSha256": "d0904d84415a3838a6aeff66ac0be5c2960895bc8947f6b6ae01bf7ad19b0456",
+      "currentSha256": "b02b018012f7265e078f8fe5f5e5bbccde6cda129fa63b93249144a555c1b8f8",
+      "bytes": 10251,
+      "gitBlob": "e7243cd1ec4ae705b072106ab94a7937c7cbf71a"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-workspace-package-assets.mjs",
+      "beforeSha256": "4b8293e9d4b19cbd4a5015f07dc59d4772c722a3ced9570f0b9ddecf5d3d7dce",
+      "currentSha256": "8d3b9f3ca0ac417cb67af7aa4857519340c4b9e8aa5fc383bc963a2fe69f804c",
+      "bytes": 4129,
+      "gitBlob": "74149c027af7179a309a39c0cdab919a445bd9e7"
+    },
+    {
+      "path": "apps/cli/packages/cli/test/sea-runtime-surface.test.mjs",
+      "beforeSha256": null,
+      "currentSha256": "5280c7457d6986e9acbd2bca477a57f3f6f0dfd579bf86f7d978c20dbdd50e1b",
+      "bytes": 10285,
+      "gitBlob": "f4435d244f7e1767a9c5851e0d294f40d074e958"
+    }
+  ],
+  "design": "One manifest surface projection drives preflight and inclusion; explicit CUA root JS accepted, private siblings and declarations retained, src exports reuse existing staged dist conversion; shared collector serves SEA/distribution without changing root scripts.",
+  "before": {
+    "args": [
+      "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+      "--test",
+      "apps/cli/packages/cli/test/sea-runtime-surface.test.mjs"
+    ],
+    "exitCode": 1,
+    "stdout": "✖ explicit root JS workspace resolves without a fictitious dist build (6.961465ms)\n✖ compiled src export and legacy dist fallback resolve their actual output (3.655127ms)\n✖ missing explicit entry fails even when stale dist/index.js exists (2.621788ms)\n✖ collector includes root exports and private siblings despite stale dist (46.937831ms)\n✖ actual CUA root layout collects, stages and resolves for Linux and Windows fixtures (13.833998ms)\n✔ staging maps development exports/imports only in the copied manifest (3.273719ms)\n✔ physical runtime placement keeps two consumers' dependency versions distinct (0.324613ms)\nℹ tests 7\nℹ suites 0\nℹ pass 2\nℹ fail 5\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 131.617594\n\n✖ failing tests:\n\ntest at apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:65:1\n✖ explicit root JS workspace resolves without a fictitious dist build (6.961465ms)\n  Error: Missing @knorvia/cua dist files. Run `pnpm build` before `pnpm sea`.\n      at resolveRuntimePackageDirectory (file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/sea-runtime-package-resolution.mjs:38:13)\n      at async file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:67:16\n      at async fixture (file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:19:16)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)\n\ntest at apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:70:1\n✖ compiled src export and legacy dist fallback resolve their actual output (3.655127ms)\n  Error: Missing synthetic dist files. Run `pnpm build` before `pnpm sea`.\n      at resolveRuntimePackageDirectory (file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/sea-runtime-package-resolution.mjs:38:13)\n      at async file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:72:16\n      at async fixture (file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:19:16)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)\n\ntest at apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:77:1\n✖ missing explicit entry fails even when stale dist/index.js exists (2.621788ms)\n  AssertionError [ERR_ASSERTION]: Missing expected rejection.\n      at async file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:79:3\n      at async fixture (file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:19:16)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    expected: /Missing synthetic runtime entry \\.\\/index\\.js/u,\n    operator: 'rejects',\n    diff: 'simple'\n  }\n\ntest at apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:82:1\n✖ collector includes root exports and private siblings despite stale dist (46.937831ms)\n  AssertionError [ERR_ASSERTION]: broker-helper-constants.d.ts\n      at file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:86:12\n      at async fixture (file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:19:16)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: false,\n    expected: true,\n    operator: '==',\n    diff: 'simple'\n  }\n\ntest at apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:93:1\n✖ actual CUA root layout collects, stages and resolves for Linux and Windows fixtures (13.833998ms)\n  Error: Missing @knorvia/cua dist files. Run `pnpm build` before `pnpm sea`.\n      at resolveRuntimePackageDirectory (file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/sea-runtime-package-resolution.mjs:38:13)\n      at async runtimePackageNames (file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/sea-tui-assets.mjs:149:7)\n      at async collectSeaTuiAssets (file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/sea-tui-assets.mjs:28:26)\n      at async collectionFixture (file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:60:21)\n      at async file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:95:42\n      at async fixture (file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:19:16)\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/cli/test/sea-runtime-surface.test.mjs:94:50)\n      at async Test.run (node:internal/test_runner/test:1125:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7)\n",
+    "stderr": "",
+    "counts": {
+      "tests": 7,
+      "pass": 2,
+      "fail": 5
+    }
+  },
+  "after": {
+    "args": [
+      "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+      "--test",
+      "apps/cli/packages/cli/test/sea-runtime-surface.test.mjs"
+    ],
+    "exitCode": 0,
+    "stdout": "✔ explicit root JS workspace resolves without a fictitious dist build (7.64812ms)\n✔ compiled src export and legacy dist fallback resolve their actual output (4.618875ms)\n✔ missing explicit entry fails even when stale dist/index.js exists (2.687336ms)\n✔ collector includes root exports and private siblings despite stale dist (45.468497ms)\n✔ actual CUA root layout collects, stages and resolves for Linux and Windows fixtures (105.471906ms)\n✔ staging maps development exports/imports only in the copied manifest (2.485786ms)\n✔ physical runtime placement keeps two consumers' dependency versions distinct (0.483175ms)\nℹ tests 7\nℹ suites 0\nℹ pass 7\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 222.731352\n",
+    "stderr": "",
+    "counts": {
+      "tests": 7,
+      "pass": 7,
+      "fail": 0
+    }
+  },
+  "fixtureQualification": {
+    "temporaryDirsRemoved": true,
+    "actualCuaRootFilesReadOnlyCopied": 36,
+    "targets": [
+      "linux-x64",
+      "win-x64"
+    ],
+    "fakeExternalNativePackages": true,
+    "stagedRootAndWindowsSubpathImportsPassed": true,
+    "noDriverExecuted": true,
+    "sourceManifestUnchanged": true,
+    "completeArchiveBuilt": false
+  },
+  "unchangedCuaRootInputs": [
+    {
+      "path": "packages/cua/broker-helper-constants.d.ts",
+      "sha256": "5fe1d5e6074b8b48e38d061b42a67d668aa9e2157d1111419e44e751f3c677ba",
+      "bytes": 248,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-helper-constants.js",
+      "sha256": "2045dcafd2ad64e83a33d91fd21a2ecb70c2e7c861903d1da551b0276213a455",
+      "bytes": 348,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-helper-health.d.ts",
+      "sha256": "caa0d6c59f6b2e979529819a1d99b68fc3690363b20d9dca5e28ff6fc2c502a9",
+      "bytes": 324,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-helper-health.js",
+      "sha256": "cc3f4501ee5961a10a0997a61740a4734b25a9015a4513c7d00c1e4231b7250b",
+      "bytes": 67,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-ports.d.ts",
+      "sha256": "0a1869049c705536973c5bad18990d9642b430801e8d8bd28c6e1c26807ca4ed",
+      "bytes": 741,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-ports.js",
+      "sha256": "127e898a03b7c357948095c3c95ea5a200787436df094f2a5cad323a8e6038d8",
+      "bytes": 230,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-server.d.ts",
+      "sha256": "79cb7e807c35213656de85e514ba62c9cbdd057e0956441a4a1ccbbb59f86c69",
+      "bytes": 7805,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-server.js",
+      "sha256": "3e2bca8a16bf87c05ef548f4549ac2c14114e432ceb1904982869e499ceed433",
+      "bytes": 4303,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-socket-path.d.ts",
+      "sha256": "2ad105c18c2ced121e8acacdbd5bc5c0651a8f859082720682661be31bd58ddd",
+      "bytes": 132,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker-socket-path.js",
+      "sha256": "6111f126838140c0d40a7ba84b7b4bb5d3d9c0b829679518ac954e0d37f675eb",
+      "bytes": 55,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker.d.ts",
+      "sha256": "85a76088ece2790f328d45a2c15f81c21669af3c78934bf99eb087d44bf8e5d4",
+      "bytes": 4624,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/broker.js",
+      "sha256": "e23c165629d84c4e581b546066678afc1dead28ef5db5171295126651bb553d7",
+      "bytes": 3030,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/frame-contract.d.ts",
+      "sha256": "85f4b60b72fbd25b10a982e97837411ac4243b937f3b8dafb05abb8f6a2f7f12",
+      "bytes": 1245,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/frame-contract.js",
+      "sha256": "4ec07249c5fd0ff3ba37cbf132398822904641fda763553acc9fc2e593d7a495",
+      "bytes": 885,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/host-display-contract.d.ts",
+      "sha256": "d058a8e0e43b02f977397633d61cd0f3032d2339723e1a0b0a668700eae2a4ef",
+      "bytes": 126,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/host-display-contract.js",
+      "sha256": "c52de15d08e4e4262ebc1173122aa9b6b1aecc48c362c5eb98aecd96baf09097",
+      "bytes": 143,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/index.d.ts",
+      "sha256": "0a19fb44b2ab43c58b724ec818287b0598ec51881b15a6006c081fa792a73bab",
+      "bytes": 1068,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/index.js",
+      "sha256": "d93a5d161af8816e9de1a6914d89dc69a3f2464028106e05df7dab43c1309a00",
+      "bytes": 335,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/package.json",
+      "sha256": "e343310171a485d0c21535893cf118fba052890b499c0f8046f76ae6a3642ab9",
+      "bytes": 2005,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/pip-session-node.d.ts",
+      "sha256": "42216f88b401b5ca89d5fe6d14e921eb27d23c388fa084add94cba92c03b6e2e",
+      "bytes": 681,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/pip-session-node.js",
+      "sha256": "92d7e8da74633f1d62b837f2ab17411e7ac11cc5949fdce28d5d64952f09cb6b",
+      "bytes": 188,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/pip-session.d.ts",
+      "sha256": "183f1469a67aded7b0b87c3728ac595e0b148f6d2ef67e2a371479fb3869d0be",
+      "bytes": 779,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/pip-session.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "bytes": 11,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/request-access-contract.d.ts",
+      "sha256": "9e4d74c16acfc89082000583775e50f02ec21f22034a5f2244053134e57ed33f",
+      "bytes": 531,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/request-access-contract.js",
+      "sha256": "180fe06ae05ebaba16ff0ea9789eba0b1061619b64925855d8c4563f11617f0b",
+      "bytes": 281,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/restricted-gate.d.ts",
+      "sha256": "96af66ed5b81f3fd553e92e80670d77c176eacf8c2079ca993932f01a58b7a95",
+      "bytes": 4434,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/restricted-gate.js",
+      "sha256": "2770475f90f9e5e9b19a01780377431d64ce4abfa33558065caf06bebb5a6848",
+      "bytes": 9379,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-artifact.d.ts",
+      "sha256": "f93e881d4ac40557fc551bdb08f9b04b06e5c1147f3542f01f47c7ad4bbe4ad8",
+      "bytes": 186,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-artifact.js",
+      "sha256": "6a89b3e7f5ed73707458c3e954fb059a141580b065d048a5a5dc6b4e908f781e",
+      "bytes": 785,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-contract.js",
+      "sha256": "5d1e6700f08d1762fbc476ab67e56f3c8ccc0152490a8286c998b24e35562837",
+      "bytes": 14121,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-driver.js",
+      "sha256": "a87c1484869ceb333fbb2345c94cfaaaa55c3678b05e01b893e8b3e11ede2e6a",
+      "bytes": 14858,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-mcp-transport.js",
+      "sha256": "564c173c00608c2cb49c7a00c581b8ef2284a4e697eaf681fb6fab16ce020edb",
+      "bytes": 7209,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-runtime.d.ts",
+      "sha256": "a9d5d00c92fa8ab9f4b0ce32eb439f7e6ff5c616a1acf89b940f5ea61f2c2501",
+      "bytes": 2172,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-runtime.js",
+      "sha256": "f3d921f8d8c6ac483c2e19b97e6538b3cd510b3b1526aec23b21be79b1e1e86f",
+      "bytes": 14586,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-screenshot.js",
+      "sha256": "10aab02c634837cc0ea44059c74f339862bf4ecde96f8d597a776d2b1ce3e877",
+      "bytes": 1553,
+      "unchanged": true
+    },
+    {
+      "path": "packages/cua/windows-state.js",
+      "sha256": "f9dd40c54473fa1cf6e993b4371c836258ba3223a6ba1a3a6f2fb04fef18f071",
+      "bytes": 5790,
+      "unchanged": true
+    }
+  ],
+  "unchangedProtectedPaths": [
+    "scripts/test-studio.mjs",
+    "scripts/build.mjs",
+    "scripts/distribution/assets.mjs",
+    "LICENSE",
+    "NOTICE.md",
+    "THIRD-PARTY-NOTICES.md",
+    "licensing/frozen-evidence.json",
+    "package.json",
+    "pnpm-lock.yaml"
+  ],
+  "integratorPatch": {
+    "path": "docs/evidence/backlog-cli-20261003/integrator-cli-test-registration-20261003.patch",
+    "sha256": "a64a2d39c1ab25262c8d9871cde04c4bac8c8533ae303ef337ff753ee89b2501",
+    "target": "scripts/test-studio.mjs",
+    "targetSha256": "478143c6eb7e0bad11d0fd82976ca21119154374c87e605c4719cbd3c19410b2",
+    "newTestFiles": [
+      "apps/cli/packages/bootstrap/test/resident-pool-contract.test.ts",
+      "apps/cli/packages/bootstrap/test/script-child-contract.test.ts",
+      "apps/cli/packages/bootstrap/test/script-child-consumer.test.ts",
+      "apps/cli/packages/cli/test/custom-command-expansion-contract.test.ts",
+      "apps/cli/packages/cli/test/custom-command-expansion-consumer.test.ts",
+      "apps/cli/packages/cli/test/sea-runtime-surface.test.mjs"
+    ],
+    "checkArgs": [
+      "git",
+      "apply",
+      "--check",
+      "docs/evidence/backlog-cli-20261003/integrator-cli-test-registration-20261003.patch"
+    ],
+    "checkExitCode": 0,
+    "applied": false
+  },
+  "rights": "No CUA rewrite/rights claim; original Apache and third-party history retained; native sources and global inventory/notice/evidence registries untouched.",
+  "notRun": [
+    "complete distribution/SEA/archive build",
+    "distribution-smoke",
+    "root/full CLI build",
+    "lint",
+    "full typecheck",
+    "full regression",
+    "whole provenance audit",
+    "Windows driver/native binary execution",
+    "Windows/macOS/UI package acceptance"
+  ],
+  "remainingCoordination": [
+    "Integrator applies/adapts six-line explicit test registration patch",
+    "Integrator registers new evidence and reconciles global source/notices",
+    "Rebuild final integrated distribution/archive and run distribution-smoke; this collector fixture is not package acceptance",
+    "Native/release owners still handle factual Linux release metadata and Windows/macOS/GUI acceptance from PR21"
+  ]
+}

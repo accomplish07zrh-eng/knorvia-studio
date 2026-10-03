@@ -1,6 +1,7 @@
 import { createRequire } from "node:module";
 import { access, readFile } from "node:fs/promises";
 import { dirname, posix, resolve } from "node:path";
+import { workspaceRuntimeSurface } from "./sea-workspace-package-assets.mjs";
 
 export function placeRuntimePackage({ packageName, packageDirectory, fromAssetPath, placements }) {
   // 原收集器仅按包名去重，把 contracts 的 Zod 3 和 shared 的 Zod 4 压成同一个包。
@@ -34,8 +35,14 @@ export const resolveRuntimePackageDirectory = async ({
   if (workspacePackageDirectory) {
     const directory = workspacePackageDirectory;
     await assertPackageDirectory(packageName, directory);
-    if (!(await exists(resolve(directory, "dist", "index.js")))) {
-      throw new Error(`Missing ${packageName} dist files. Run \`pnpm build\` before \`pnpm sea\`.`);
+    const manifest = JSON.parse(await readFile(resolve(directory, "package.json"), "utf8"));
+    // CUA 明确导出根 JS；已有 src exports 则与 staged manifest 共用 dist 投影。
+    for (const entry of workspaceRuntimeSurface(manifest).entries) {
+      if (/\.[cm]?tsx?$/.test(entry) || !(await exists(resolve(directory, entry)))) {
+        throw new Error(
+          `Missing ${packageName} runtime entry ${entry}. Run \`pnpm build\` before \`pnpm sea\`.`,
+        );
+      }
     }
     return directory;
   }

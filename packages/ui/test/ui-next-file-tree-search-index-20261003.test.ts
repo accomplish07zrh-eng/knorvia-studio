@@ -34,6 +34,28 @@ const settle = async () => {
   await Promise.resolve();
 };
 
+test("a refresh loader can check its lease before issuing subsequent packed reads", async () => {
+  const index = indexOwner();
+  const first = deferred();
+  let guard!: () => boolean;
+  let packedReads = 0;
+  const cancel = index.requests.start(async (isCurrent) => {
+    guard = isCurrent;
+    await first.promise;
+    if (!isCurrent()) return "";
+    packedReads += 1;
+    return "fresh-packed";
+  });
+  assert.equal(guard(), true);
+  cancel();
+  assert.equal(guard(), false);
+  index.requests.start(async () => "new-scope");
+  first.resolve("cache refreshed");
+  await settle();
+  assert.equal(packedReads, 0);
+  assert.equal(index.snapshot().packed, "new-scope");
+});
+
 test("a newer request owns completion and old cleanup cannot revoke it", async () => {
   const index = indexOwner(),
     first = deferred(),
