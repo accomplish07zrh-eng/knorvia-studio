@@ -1,0 +1,2295 @@
+{
+  "schemaVersion": 1,
+  "branch": "lane/cli-rewrite-20261003",
+  "predecessorCheckpoint": "e4ce9918252bc5d90f9e88722312d5f469d5de5e",
+  "specificationCommit": "163627ec1dca51e304ad0bf0d43303a8d9a037e6",
+  "implementationCheckpoint": "c82f05cbaff52f9fd44d6e196b3a7e5cbb3ee6b9",
+  "scope": "Two Registry message operations, pure snapshot projection helper, modified-origin notice and targeted observation/current-artifact infrastructure only.",
+  "design": {
+    "stateOwner": "InMemoryRuntimeTaskRegistry remains the sole snapshot writer; existing TaskWaitSubscriptions remains unchanged.",
+    "projection": "Native copy into an own writable pendingMessages slot, then invoke the buffer producer; append uses lazy public-update patcher, drain returns optional replacement for one direct commit.",
+    "commonExpressionsRetained": [
+      "native object spread",
+      "native array spread and nullish fallback",
+      "specified presence/length/identity/copy getter stages",
+      "fixed API/field names and public update call"
+    ],
+    "notAdopted": "Manual own-key/descriptor reimplementation proposed earlier was rejected as unnecessary complexity.",
+    "legalIndependenceProven": false,
+    "sourceExposure": "Exact predecessor and existing source-derived behavior packet read before implementation.",
+    "license": "Project continues Apache-2.0, existing third-party/origin history retained."
+  },
+  "sourceAndActualArtifacts": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "808aa725cde61c6a1c01f2fa5c2bced6264ab2757d92f2d8fddd5a574ae273b1",
+      "bytes": 6693
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/message-buffer-transform.ts",
+      "sha256": "1df018f40b33d3fe83c80a09630567e0612c093dd461d69c924745682876aea5",
+      "bytes": 1321
+    },
+    {
+      "path": "apps/cli/packages/core/dist/runtime-task/registry.js",
+      "sha256": "74da7cd626058c77660330889ff19dca0a0edbe71cfbcb5a65c5dfeb26ef6b2d",
+      "bytes": 3441
+    },
+    {
+      "path": "apps/cli/packages/core/dist/runtime-task/registry.d.ts",
+      "sha256": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a",
+      "bytes": 3675
+    },
+    {
+      "path": "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.js",
+      "sha256": "734edd9b0c4534c36f8a4a7bab386d4de851154af5689ba548133a83b2c12a03",
+      "bytes": 890
+    },
+    {
+      "path": "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts",
+      "sha256": "552e3ca34a7c1b5dd166a3a8a317368185f7ab859868e8f248275ee06d83c14f",
+      "bytes": 521
+    }
+  ],
+  "publicDeclaration": {
+    "path": "apps/cli/packages/core/dist/runtime-task/registry.d.ts",
+    "predecessorSha256": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a",
+    "currentSha256": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a",
+    "rawUnchanged": true
+  },
+  "predecessorBinding": {
+    "checkpoint": "e4ce9918252bc5d90f9e88722312d5f469d5de5e",
+    "receipt": {
+      "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
+      "sha256": "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553"
+    },
+    "predecessorFiles": [
+      {
+        "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+        "bytes": 6412,
+        "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/runtime-task/registry.js",
+        "bytes": 3517,
+        "sha256": "4a12edda3db2833925b00430589af95d1ceb09db6b02f195b80346934dd50a09"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/runtime-task/registry.d.ts",
+        "bytes": 3675,
+        "sha256": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a"
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+        "bytes": 3211,
+        "sha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/runtime-task/registry-waits.js",
+        "bytes": 3015,
+        "sha256": "8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/runtime-task/registry-waits.d.ts",
+        "bytes": 366,
+        "sha256": "da6f817abe507a0549d85d868deb0b5fd4a069112be7a39620704b03568dc046"
+      }
+    ],
+    "protected": [
+      {
+        "path": "LICENSE",
+        "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+      },
+      {
+        "path": "NOTICE.md",
+        "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+      },
+      {
+        "path": "THIRD-PARTY-NOTICES.md",
+        "sha256": "5bdd8ba7b54bbb098ee56b4876d9752d08ab36f2c8df8d9c3acd9b1e9a5595cc"
+      },
+      {
+        "path": "licensing/current-files.json",
+        "sha256": "517f3b267f8958de884fd70269c808056c363e1e87c1fe76ffad3437738b761e"
+      },
+      {
+        "path": "licensing/upstream-baseline.json",
+        "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+      },
+      {
+        "path": "licensing/reviews.json",
+        "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+      },
+      {
+        "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+        "sha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714"
+      },
+      {
+        "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
+        "sha256": "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553"
+      },
+      {
+        "path": "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json",
+        "sha256": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31"
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+        "sha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe"
+      }
+    ]
+  },
+  "pairedMessageObservations": {
+    "result": "pass",
+    "logicalGroups": 8,
+    "comparedProfiles": 4,
+    "invocationCount": 32,
+    "observations": [
+      {
+        "profile": "predecessor-source",
+        "file": "/tmp/knorvia-cli-message-buffer-20261003/predecessor-source/registry.ts",
+        "cases": [
+          {
+            "name": "message projection stays lazy behind the public update receiver",
+            "result": {
+              "effects": [
+                "update-get",
+                "update-call"
+              ],
+              "returnedIdentity": true,
+              "untouchedStorage": true,
+              "opaqueMessage": true
+            }
+          },
+          {
+            "name": "append preserves enumerable fields, symbols, key order and iterable reads",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "symbol",
+                "messages:2",
+                "iterator-get",
+                "iterator-call",
+                "next:0",
+                "next:1",
+                "next:2"
+              ],
+              "originalReferences": true,
+              "ordinaryPrototype": true,
+              "ownProtoKey": true,
+              "keyOrder": true
+            }
+          },
+          {
+            "name": "append creates an own message field despite a getter installing a prototype setter",
+            "result": {
+              "reads": 1,
+              "setterCalls": 0,
+              "ownMessageField": true,
+              "originalReferences": true
+            }
+          },
+          {
+            "name": "append copy failure retains getter reentry without an outer commit",
+            "result": {
+              "effects": [
+                "copy-reentry"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "append iterator failure follows field copy and leaves the original snapshot stored",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "messages:2",
+                "iterator-failure"
+              ],
+              "originalError": true,
+              "originalSnapshot": true
+            }
+          },
+          {
+            "name": "drain returns the third read, copies the fourth and preserves reentrant id commit",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "copy-before",
+                "messages:4",
+                "copy-after"
+              ],
+              "thirdReadIdentity": true,
+              "outerCommit": true,
+              "noDrainPublication": true,
+              "cleanups": 1
+            }
+          },
+          {
+            "name": "drain fourth-read failure keeps reentrant effects and never uses public update",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "messages:4"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "missing and empty drains allocate fresh arrays without copying or committing",
+            "result": {
+              "freshEmptyArrays": true,
+              "originalSnapshots": true,
+              "noCopy": true
+            }
+          }
+        ]
+      },
+      {
+        "profile": "predecessor-emitted",
+        "file": "/tmp/knorvia-cli-message-buffer-20261003/predecessor-emitted/registry.js",
+        "cases": [
+          {
+            "name": "message projection stays lazy behind the public update receiver",
+            "result": {
+              "effects": [
+                "update-get",
+                "update-call"
+              ],
+              "returnedIdentity": true,
+              "untouchedStorage": true,
+              "opaqueMessage": true
+            }
+          },
+          {
+            "name": "append preserves enumerable fields, symbols, key order and iterable reads",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "symbol",
+                "messages:2",
+                "iterator-get",
+                "iterator-call",
+                "next:0",
+                "next:1",
+                "next:2"
+              ],
+              "originalReferences": true,
+              "ordinaryPrototype": true,
+              "ownProtoKey": true,
+              "keyOrder": true
+            }
+          },
+          {
+            "name": "append creates an own message field despite a getter installing a prototype setter",
+            "result": {
+              "reads": 1,
+              "setterCalls": 0,
+              "ownMessageField": true,
+              "originalReferences": true
+            }
+          },
+          {
+            "name": "append copy failure retains getter reentry without an outer commit",
+            "result": {
+              "effects": [
+                "copy-reentry"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "append iterator failure follows field copy and leaves the original snapshot stored",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "messages:2",
+                "iterator-failure"
+              ],
+              "originalError": true,
+              "originalSnapshot": true
+            }
+          },
+          {
+            "name": "drain returns the third read, copies the fourth and preserves reentrant id commit",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "copy-before",
+                "messages:4",
+                "copy-after"
+              ],
+              "thirdReadIdentity": true,
+              "outerCommit": true,
+              "noDrainPublication": true,
+              "cleanups": 1
+            }
+          },
+          {
+            "name": "drain fourth-read failure keeps reentrant effects and never uses public update",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "messages:4"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "missing and empty drains allocate fresh arrays without copying or committing",
+            "result": {
+              "freshEmptyArrays": true,
+              "originalSnapshots": true,
+              "noCopy": true
+            }
+          }
+        ]
+      },
+      {
+        "profile": "current-source",
+        "file": "/workspace/knorvia-studio/apps/cli/packages/core/src/runtime-task/registry.ts",
+        "cases": [
+          {
+            "name": "message projection stays lazy behind the public update receiver",
+            "result": {
+              "effects": [
+                "update-get",
+                "update-call"
+              ],
+              "returnedIdentity": true,
+              "untouchedStorage": true,
+              "opaqueMessage": true
+            }
+          },
+          {
+            "name": "append preserves enumerable fields, symbols, key order and iterable reads",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "symbol",
+                "messages:2",
+                "iterator-get",
+                "iterator-call",
+                "next:0",
+                "next:1",
+                "next:2"
+              ],
+              "originalReferences": true,
+              "ordinaryPrototype": true,
+              "ownProtoKey": true,
+              "keyOrder": true
+            }
+          },
+          {
+            "name": "append creates an own message field despite a getter installing a prototype setter",
+            "result": {
+              "reads": 1,
+              "setterCalls": 0,
+              "ownMessageField": true,
+              "originalReferences": true
+            }
+          },
+          {
+            "name": "append copy failure retains getter reentry without an outer commit",
+            "result": {
+              "effects": [
+                "copy-reentry"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "append iterator failure follows field copy and leaves the original snapshot stored",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "messages:2",
+                "iterator-failure"
+              ],
+              "originalError": true,
+              "originalSnapshot": true
+            }
+          },
+          {
+            "name": "drain returns the third read, copies the fourth and preserves reentrant id commit",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "copy-before",
+                "messages:4",
+                "copy-after"
+              ],
+              "thirdReadIdentity": true,
+              "outerCommit": true,
+              "noDrainPublication": true,
+              "cleanups": 1
+            }
+          },
+          {
+            "name": "drain fourth-read failure keeps reentrant effects and never uses public update",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "messages:4"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "missing and empty drains allocate fresh arrays without copying or committing",
+            "result": {
+              "freshEmptyArrays": true,
+              "originalSnapshots": true,
+              "noCopy": true
+            }
+          }
+        ]
+      },
+      {
+        "profile": "current-emitted",
+        "file": "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime-task/registry.js",
+        "cases": [
+          {
+            "name": "message projection stays lazy behind the public update receiver",
+            "result": {
+              "effects": [
+                "update-get",
+                "update-call"
+              ],
+              "returnedIdentity": true,
+              "untouchedStorage": true,
+              "opaqueMessage": true
+            }
+          },
+          {
+            "name": "append preserves enumerable fields, symbols, key order and iterable reads",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "symbol",
+                "messages:2",
+                "iterator-get",
+                "iterator-call",
+                "next:0",
+                "next:1",
+                "next:2"
+              ],
+              "originalReferences": true,
+              "ordinaryPrototype": true,
+              "ownProtoKey": true,
+              "keyOrder": true
+            }
+          },
+          {
+            "name": "append creates an own message field despite a getter installing a prototype setter",
+            "result": {
+              "reads": 1,
+              "setterCalls": 0,
+              "ownMessageField": true,
+              "originalReferences": true
+            }
+          },
+          {
+            "name": "append copy failure retains getter reentry without an outer commit",
+            "result": {
+              "effects": [
+                "copy-reentry"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "append iterator failure follows field copy and leaves the original snapshot stored",
+            "result": {
+              "effects": [
+                "before",
+                "messages:1",
+                "after",
+                "messages:2",
+                "iterator-failure"
+              ],
+              "originalError": true,
+              "originalSnapshot": true
+            }
+          },
+          {
+            "name": "drain returns the third read, copies the fourth and preserves reentrant id commit",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "copy-before",
+                "messages:4",
+                "copy-after"
+              ],
+              "thirdReadIdentity": true,
+              "outerCommit": true,
+              "noDrainPublication": true,
+              "cleanups": 1
+            }
+          },
+          {
+            "name": "drain fourth-read failure keeps reentrant effects and never uses public update",
+            "result": {
+              "effects": [
+                "messages:1",
+                "messages:2",
+                "messages:3",
+                "messages:4"
+              ],
+              "originalError": true,
+              "reentryRetained": true,
+              "noOuterCommit": true
+            }
+          },
+          {
+            "name": "missing and empty drains allocate fresh arrays without copying or committing",
+            "result": {
+              "freshEmptyArrays": true,
+              "originalSnapshots": true,
+              "noCopy": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "canonicalEmission": {
+    "generator": {
+      "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.mjs",
+      "sha256": "c6543b29272b8303eed8537bc7be070aff01f401e5e492bf87c9801e206dc7fc",
+      "bytes": 7289
+    },
+    "profiles": [
+      {
+        "profile": "root",
+        "node": "v24.14.0",
+        "typescript": "6.0.2",
+        "registeredOutputs": 144,
+        "configurations": [
+          {
+            "packageRoot": "apps/cli/packages/core",
+            "typescript": "6.0.2",
+            "sourceRoots": 715,
+            "inputSha256": "1ff10f2f77bf75b3171ef76afd10dd7cc477e033439c177439d107601842ff21",
+            "emitDiagnostics": 0
+          },
+          {
+            "packageRoot": "apps/cli/packages/contracts",
+            "typescript": "6.0.2",
+            "sourceRoots": 123,
+            "inputSha256": "66ff8ff42532a24cde6f1bc093939a00a47682f9979aad234c79adee52dd539a",
+            "emitDiagnostics": 0
+          }
+        ],
+        "materialized": [
+          "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.js",
+          "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts.map",
+          "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts",
+          "apps/cli/packages/core/dist/runtime-task/registry.js",
+          "apps/cli/packages/core/dist/runtime-task/registry.d.ts.map",
+          "apps/cli/packages/core/dist/runtime-task/registry.d.ts"
+        ],
+        "rows": [
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.js",
+            "sha256": "734edd9b0c4534c36f8a4a7bab386d4de851154af5689ba548133a83b2c12a03",
+            "bytes": 890
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts",
+            "sha256": "552e3ca34a7c1b5dd166a3a8a317368185f7ab859868e8f248275ee06d83c14f",
+            "bytes": 521
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry-waits.js",
+            "sha256": "8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e",
+            "bytes": 3015
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry-waits.d.ts",
+            "sha256": "da6f817abe507a0549d85d868deb0b5fd4a069112be7a39620704b03568dc046",
+            "bytes": 366
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry.js",
+            "sha256": "74da7cd626058c77660330889ff19dca0a0edbe71cfbcb5a65c5dfeb26ef6b2d",
+            "bytes": 3441
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry.d.ts",
+            "sha256": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a",
+            "bytes": 3675
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/utils.js",
+            "sha256": "9a978a579c69acb00453791b9cda5c6908c7d413aae7a50b8dfbb3c0f19ceec3",
+            "bytes": 923
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/utils.d.ts",
+            "sha256": "9b38d760abc7efc593df742466c89d4d38aa0297c93cfb4a623e8cfdd181a9d1",
+            "bytes": 266
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.js",
+            "sha256": "428dcb9c3d11aa2688f8e5d7bc207eac3b17c349a2a22b3e627e98fb5cd66e2d",
+            "bytes": 7585
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.d.ts",
+            "sha256": "2078fce7c4c002917e6439a5a003c3212a05b3566b488e4b795d20ba2f3c99a8",
+            "bytes": 2604
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/notification.js",
+            "sha256": "0af4db091bb6bc2a865e2d963393387532a1dd2ad2f5aa249ed9af9bf1f35563",
+            "bytes": 12545
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/notification.d.ts",
+            "sha256": "bf4bed89cce8e6e4e1abd2dd047ae08b6de4d73aded8d31c905e3813e8f321a6",
+            "bytes": 1615
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.js",
+            "sha256": "b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0",
+            "bytes": 10407
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.d.ts",
+            "sha256": "db83147d7e9c231b797032b9ee48ac58f95c8b90ca2e1dd086a4cd2362e1bfe4",
+            "bytes": 5748
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/bash-result-display.js",
+            "sha256": "b7f202a96d3744296b8e60448d7534c807b73f5ebeb7cc9472f48530db7cb851",
+            "bytes": 1547
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/bash-result-display.d.ts",
+            "sha256": "efeb14549b08433f65224bc3577b0d54aea3e57e48e5995e7b18aaf3b3a3c99b",
+            "bytes": 221
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result/byte-budget.js",
+            "sha256": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
+            "bytes": 2071
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result/byte-budget.d.ts",
+            "sha256": "de5b9b07d8c4fb9455b1bbecf36e5c9082973b1ae71c380a4f9567f408c496f3",
+            "bytes": 654
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display-text.js",
+            "sha256": "eed8ce4f61845c698934834aa86c57f2ddb71c1e7844a363512686c9be6b2069",
+            "bytes": 577
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display-text.d.ts",
+            "sha256": "beae9911b09506ce288d9042bbbed81fa66a38dd68b017285a769d9a1217b3ea",
+            "bytes": 165
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/policy.js",
+            "sha256": "c2d31ba4ad3ae799bd05a10b39a9bbac217c845b570f15dd1c4c267b35d5b0c7",
+            "bytes": 1557
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/policy.d.ts",
+            "sha256": "4a4c50bc2a24d85a922ecca7b4bd79d23b0a9e0cb8eea25ee7e68e325011aa79",
+            "bytes": 1014
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.js",
+            "sha256": "508efb240bb7e9b19185c85c73df61a4c9391645a39db6d0d68a2fc9b29e8ab8",
+            "bytes": 1373
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.d.ts",
+            "sha256": "de901de9825642d31c2a79f93a0a3ea3767c3cf73b10c5d79d15d589287e27fb",
+            "bytes": 358
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/create-workflow-display.js",
+            "sha256": "aedb0a555957b1b6ae25981273d6ad49a926affdbe9816a1754650b04bc16368",
+            "bytes": 608
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/create-workflow-display.d.ts",
+            "sha256": "8c0483dae3d24b01120c920fe2d0af9878695a55cefffdf79b2373715d1647ef",
+            "bytes": 247
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.js",
+            "sha256": "a9195591904d2a86509f13dbaf207b763d25a2f47278137598de3d29c3e7e06f",
+            "bytes": 2658
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.d.ts",
+            "sha256": "66498ce598f17074d5c9f5faf0e0cc97187c493d6474e2039744d2381b4f38d9",
+            "bytes": 586
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.js",
+            "sha256": "1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e",
+            "bytes": 3187
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.d.ts",
+            "sha256": "26c5bac1909b7709aff0bf5b76e11c1cd3215d726f1894d62c4ad2cc18c9fe07",
+            "bytes": 248
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.js",
+            "sha256": "aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c",
+            "bytes": 1453
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.d.ts",
+            "sha256": "598375de36dcaf70f574a3fbfc6e34e1e44e25d55500bb7f63170a254492ec22",
+            "bytes": 257
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/computer-card.js",
+            "sha256": "2b911848156ab5453bec0b083b8734f3578290b3361733b0711c11c353022d94",
+            "bytes": 4273
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/computer-card.d.ts",
+            "sha256": "95226d82c5a4ed5d90b29eed61419107befaa8b2dbeac72098da21a177bd54e4",
+            "bytes": 306
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/diff.js",
+            "sha256": "677ca7e3b4be74ac980aeef6e3ff9050f8e6ccd578a574350fa122bb71b2add1",
+            "bytes": 767
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/diff.d.ts",
+            "sha256": "49239202eebe886cccdcc31d193122debd7f853df43e40e17c5f7e736da3eb31",
+            "bytes": 382
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/diff-card.js",
+            "sha256": "da7d5445387bbd6b26908007433238e8bf3fd1bbad078f2e7efa30d8db7ca332",
+            "bytes": 1604
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/diff-card.d.ts",
+            "sha256": "0bc5f6efc15434345b78bb57c22f944f73e2f156941052141330a2d0895bab33",
+            "bytes": 202
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/mcp-card.js",
+            "sha256": "5bfab60547fddbba336cd30cf26ad677084b81480641bbdd9b377bdf044380fd",
+            "bytes": 1742
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/mcp-card.d.ts",
+            "sha256": "2824f9073de8c896fc70c252b1048f190c08191fee703ede1d88de9a148a6963",
+            "bytes": 386
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/repl-card.js",
+            "sha256": "8936469da803a3beb98dbdc3668521d34727bd2bb285e65a5847ab80f03f30e7",
+            "bytes": 2357
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/repl-card.d.ts",
+            "sha256": "a067bd9b5b1b5d25d1a394bc1578fc4b5f21bab97bee46eb055a6f780efaeb7b",
+            "bytes": 291
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/task-cards.js",
+            "sha256": "8d6d2a95b5eba24d4c068de603e668f237191c1a200a92f93c0aac82082b9028",
+            "bytes": 3046
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/task-cards.d.ts",
+            "sha256": "136b68387fbd418890009efc8bf690ae67a5abee1b24edd6dca3bd481280c74b",
+            "bytes": 268
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result-display.js",
+            "sha256": "fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc",
+            "bytes": 1690
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result-display.d.ts",
+            "sha256": "f267efa701def1e2a23f1fb8637f201656f322f46f1830e9abf86f88982672d0",
+            "bytes": 650
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/result-persistence-format.js",
+            "sha256": "2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb",
+            "bytes": 1763
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-file-window.js",
+            "sha256": "8fb24f87da998f3a360a9a50650a7587773c847a61547b04dbc3bb47eae02fae",
+            "bytes": 2057
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-file-window.d.ts",
+            "sha256": "807d895612df7f465524bf7b345c35b772640adceb52ce46c37a154ecc4751e3",
+            "bytes": 518
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-bash.js",
+            "sha256": "13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb",
+            "bytes": 2660
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-projection.js",
+            "sha256": "833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e",
+            "bytes": 3658
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-request.js",
+            "sha256": "bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75",
+            "bytes": 3622
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output.js",
+            "sha256": "8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573",
+            "bytes": 4957
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.js",
+            "sha256": "6b9758d9585babeeabb3a2b7b6b7b9858c196a88f5da00929c8604c2666ce6c8",
+            "bytes": 3206
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.d.ts",
+            "sha256": "2a469d4a8072cffe0b3b6acc7edfe0fb987b1104e09be8eb6d6030f012738ae6",
+            "bytes": 966
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js",
+            "sha256": "59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a",
+            "bytes": 6899
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts",
+            "sha256": "b1a39977f57a82f6580769538f2fba6d70e8a58b546bf30d0fb3f62f892da108",
+            "bytes": 1590
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js",
+            "sha256": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca",
+            "bytes": 12262
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.d.ts",
+            "sha256": "97e1a676b5152025a72c6a1cd7f9cdd97dab373a06d9c67455b1ee5d7d3c11ff",
+            "bytes": 396
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.js",
+            "sha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2",
+            "bytes": 1984
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.d.ts",
+            "sha256": "ae2e9dfd412a5ce0b411727599f130f9d65b403dc6a9def3796c16c1e15fc262",
+            "bytes": 870
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js",
+            "sha256": "99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e",
+            "bytes": 2827
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.d.ts",
+            "sha256": "53eda68d039bff288c575767434ed889c30b06f8786fcc58f9541ef215fd226f",
+            "bytes": 278
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+            "sha256": "afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c",
+            "bytes": 10140
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.d.ts",
+            "sha256": "bd1ec9a70c34cf92baa3a7ead52676f2b763d5843caf64433dd2a705ac37f44b",
+            "bytes": 1650
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js",
+            "sha256": "861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8",
+            "bytes": 9748
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.d.ts",
+            "sha256": "dab9bd653386279a534db45ef681ad86f6b636b779935ca21602c30760d25bda",
+            "bytes": 212
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/definition.js",
+            "sha256": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0",
+            "bytes": 4403
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/definition.d.ts",
+            "sha256": "55499a820decd0d97a69d01a600bee213d063c1cf8ebf3bd4ef250971a9d1698",
+            "bytes": 618
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/formatters.js",
+            "sha256": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5",
+            "bytes": 1226
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/formatters.d.ts",
+            "sha256": "279b9f7c0f9cee87dbf89de82f9ea58b67e746686c75450f8ed4cf47429dd5e2",
+            "bytes": 307
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle-seed.js",
+            "sha256": "5a9e3728ce70b19333c8a791ccee5bc86f60e7cb1b48a9e5bb78f69226e0736e",
+            "bytes": 5397
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle-seed.d.ts",
+            "sha256": "254a8cf78b8a5674dee2a188d8976b60c6d12ea79e853de6684620edbe6e0bfe",
+            "bytes": 444
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle.js",
+            "sha256": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5",
+            "bytes": 8086
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle.d.ts",
+            "sha256": "7cf2b6ed2951bc18d700e7e5176a72256a0ae8e588f028955d2524d2db387c73",
+            "bytes": 2784
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/ids.js",
+            "sha256": "5f68c2762fac66f468d01bdcd1d4cda1d505093f8e655131ae22f3ef568cf3bf",
+            "bytes": 822
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/ids.d.ts",
+            "sha256": "f9a8f510578a85c80d89a9c65dcaf9b856475fbaac9732c9519f515fbf4531a1",
+            "bytes": 559
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/prompts.js",
+            "sha256": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf",
+            "bytes": 7500
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/prompts.d.ts",
+            "sha256": "e8e399069f918a330fc4d92ec4207153b5609fb0265f82be11406186e63f99b1",
+            "bytes": 908
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/runtime-context.js",
+            "sha256": "53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef",
+            "bytes": 8225
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/runtime-context.d.ts",
+            "sha256": "588b1f1f9f2b5ea75321681e9b9c7ab36a0394bb4e004fe968a955cd7ab0fedf",
+            "bytes": 3419
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/json.js",
+            "sha256": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e",
+            "bytes": 2254
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/json.d.ts",
+            "sha256": "9a7e1ef10410d9f8a9c33d599cf827dc439ee817387c4f694f0779a38dbc6a20",
+            "bytes": 982
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/critic.js",
+            "sha256": "218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad",
+            "bytes": 3750
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/critic.d.ts",
+            "sha256": "41b493ddb728cc8d31126f326154c98a04de3356b5fff51e0999f5404d51dac9",
+            "bytes": 349
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/phase-runner.js",
+            "sha256": "c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26",
+            "bytes": 8248
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/phase-runner.d.ts",
+            "sha256": "c4d2ce122a2bde644d5ca4bbb7842fdb99e18d06373da611036027a236217d1e",
+            "bytes": 543
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.js",
+            "sha256": "75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6",
+            "bytes": 4940
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.d.ts",
+            "sha256": "a10d919809d5819492620ff14596764a60c8fcf8521efd83c28da2932ab4a6ce",
+            "bytes": 2258
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/ready-order.js",
+            "sha256": "3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba",
+            "bytes": 1635
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/ready-order.d.ts",
+            "sha256": "b10c1647caf974f094bcfd5378ca2fedcc07069e14e1a9cf75d59010728b58ab",
+            "bytes": 245
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph.js",
+            "sha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+            "bytes": 100
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph.d.ts",
+            "sha256": "032f23777c276c3705362abec0ab8b52f516d923ac9a04e0b9b43eae2d3210fc",
+            "bytes": 135
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/events.js",
+            "sha256": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04",
+            "bytes": 2881
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/events.d.ts",
+            "sha256": "29d17214257c7ffad8ee4c0083117531a206dac9a99f517e85aa944ad3aaed9f",
+            "bytes": 1074
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-events.js",
+            "sha256": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4",
+            "bytes": 1920
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-events.d.ts",
+            "sha256": "aa92b2b47327981cee1677904ca878eb98a1a62355f1d38f224e287613cbe1d5",
+            "bytes": 797
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js",
+            "sha256": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b",
+            "bytes": 5003
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.d.ts",
+            "sha256": "bd73cbec3754418db7fc8d75db28f8140875485fd741d6dece5a897dadbba32e",
+            "bytes": 474
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/prompts.js",
+            "sha256": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989",
+            "bytes": 2835
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/prompts.d.ts",
+            "sha256": "bf0a99310ba513aaa086b4c9d0382a24f1ff34ab4fe7b42f91b3a1b80eee8d03",
+            "bytes": 478
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+            "sha256": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be",
+            "bytes": 12173
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.d.ts",
+            "sha256": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406",
+            "bytes": 560
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner.js",
+            "sha256": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49",
+            "bytes": 10243
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner.d.ts",
+            "sha256": "614a8ef711229bf5c56a59c80f2d0aea589ad93b1971ac26643a438b9cf2abd1",
+            "bytes": 875
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler.js",
+            "sha256": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+            "bytes": 6838
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler.d.ts",
+            "sha256": "7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e",
+            "bytes": 1291
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+            "sha256": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5",
+            "bytes": 6119
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.d.ts",
+            "sha256": "1fac306d3a4abaed17b50410794dc436ffaa94de8c975ae560df8038016d2b20",
+            "bytes": 447
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.js",
+            "sha256": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd",
+            "bytes": 1350
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.d.ts",
+            "sha256": "98706a06fbc410a010f7037e177dfce2915eacae3ce901111d7b95fa2fb4816e",
+            "bytes": 234
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js",
+            "sha256": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf",
+            "bytes": 5562
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.d.ts",
+            "sha256": "6dbfb198b9572488416662ac2ecfe6eb4bcfcd0ae761efe5ddebedfe7765d45d",
+            "bytes": 501
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/critic-loop.js",
+            "sha256": "58312876224f082f7cf9c1f8c5c0f316f68c126e86af9005a07aa69b78621b0f",
+            "bytes": 6712
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/critic-loop.d.ts",
+            "sha256": "831ce2ea4e2391b1c85faae2c4a2035c8354c135772650fbc47c27417470b7ac",
+            "bytes": 493
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/failures.js",
+            "sha256": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3",
+            "bytes": 5029
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/failures.d.ts",
+            "sha256": "ffd63e059a37f9f334e6897323165ddeea0f80d97dbf0b357c2846010211e240",
+            "bytes": 550
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.js",
+            "sha256": "56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57",
+            "bytes": 2647
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.d.ts",
+            "sha256": "1b2864bf4771bafd4ac1966d47bc795cc14ec19e37f6f8533376717287807222",
+            "bytes": 261
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js",
+            "sha256": "fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf",
+            "bytes": 4662
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.d.ts",
+            "sha256": "05592b8fbf31a82d3219074ca09dc1bb98dd43bcc5506cf1d638bf1f1cda0344",
+            "bytes": 695
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/run-loop.js",
+            "sha256": "4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977",
+            "bytes": 5988
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/run-loop.d.ts",
+            "sha256": "5f269481a34bf7fb4f59d6513de60e94045f1812e3dec655378cac93eb9008fb",
+            "bytes": 459
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/runtime.js",
+            "sha256": "76150019c870323dcb3e21d1aaaad8cf58b3939a2ed08dc5e2629e061b231086",
+            "bytes": 8840
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.js",
+            "sha256": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+            "bytes": 2563
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.d.ts",
+            "sha256": "094a501110470842331c4f70c1254305086d0ed73c257168cbf4b450c3c07d66",
+            "bytes": 791
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.js",
+            "sha256": "29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa",
+            "bytes": 2718
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.d.ts",
+            "sha256": "df6bc19463d8628aa0520adbd7c42e1020dddf8bb34ca39846f3a955a8a33056",
+            "bytes": 1175
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/definition.js",
+            "sha256": "8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57",
+            "bytes": 3969
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/definition.d.ts",
+            "sha256": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3",
+            "bytes": 17374
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/graph-schema.js",
+            "sha256": "52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5",
+            "bytes": 4233
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/graph-schema.d.ts",
+            "sha256": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2",
+            "bytes": 23726
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/run-schema.js",
+            "sha256": "bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1",
+            "bytes": 7167
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/run-schema.d.ts",
+            "sha256": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816",
+            "bytes": 87224
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/script.js",
+            "sha256": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97",
+            "bytes": 3211
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/script.d.ts",
+            "sha256": "b6e9d821011f7e8325be4b29c9d36aad538a47ee722a7587558043316f0f6803",
+            "bytes": 15103
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/scheduler-state.js",
+            "sha256": "e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16",
+            "bytes": 8453
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/scheduler-state.d.ts",
+            "sha256": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473",
+            "bytes": 25045
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/session-links.js",
+            "sha256": "db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5",
+            "bytes": 1672
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/session-links.d.ts",
+            "sha256": "2d0afc7bdb9b4faaf41595f834404b9be261e23a623e04b70333709445674083",
+            "bytes": 265
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/index.js",
+            "sha256": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
+            "bytes": 204
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/index.d.ts",
+            "sha256": "e1de39bdb8f144388687bfbc3f42b89995edb864821cbf063a2ce37d075b3d6f",
+            "bytes": 2289
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/index.js",
+            "sha256": "6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc",
+            "bytes": 3197
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/index.d.ts",
+            "sha256": "08a1b5a343aa43201c4240bb792f143238f58f9ca3081ab1257c3455ffc55974",
+            "bytes": 2808
+          }
+        ]
+      },
+      {
+        "profile": "cli",
+        "node": "v24.14.0",
+        "typescript": "5.9.3",
+        "registeredOutputs": 144,
+        "configurations": [
+          {
+            "packageRoot": "apps/cli/packages/core",
+            "typescript": "5.9.3",
+            "sourceRoots": 715,
+            "inputSha256": "1ff10f2f77bf75b3171ef76afd10dd7cc477e033439c177439d107601842ff21",
+            "emitDiagnostics": 0
+          },
+          {
+            "packageRoot": "apps/cli/packages/contracts",
+            "typescript": "5.9.3",
+            "sourceRoots": 123,
+            "inputSha256": "66ff8ff42532a24cde6f1bc093939a00a47682f9979aad234c79adee52dd539a",
+            "emitDiagnostics": 0
+          }
+        ],
+        "materialized": [],
+        "rows": [
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.js",
+            "sha256": "734edd9b0c4534c36f8a4a7bab386d4de851154af5689ba548133a83b2c12a03",
+            "bytes": 890
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts",
+            "sha256": "552e3ca34a7c1b5dd166a3a8a317368185f7ab859868e8f248275ee06d83c14f",
+            "bytes": 521
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry-waits.js",
+            "sha256": "8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e",
+            "bytes": 3015
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry-waits.d.ts",
+            "sha256": "da6f817abe507a0549d85d868deb0b5fd4a069112be7a39620704b03568dc046",
+            "bytes": 366
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry.js",
+            "sha256": "74da7cd626058c77660330889ff19dca0a0edbe71cfbcb5a65c5dfeb26ef6b2d",
+            "bytes": 3441
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/registry.d.ts",
+            "sha256": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a",
+            "bytes": 3675
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/utils.js",
+            "sha256": "9a978a579c69acb00453791b9cda5c6908c7d413aae7a50b8dfbb3c0f19ceec3",
+            "bytes": 923
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/utils.d.ts",
+            "sha256": "9b38d760abc7efc593df742466c89d4d38aa0297c93cfb4a623e8cfdd181a9d1",
+            "bytes": 266
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.js",
+            "sha256": "428dcb9c3d11aa2688f8e5d7bc207eac3b17c349a2a22b3e627e98fb5cd66e2d",
+            "bytes": 7585
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.d.ts",
+            "sha256": "2078fce7c4c002917e6439a5a003c3212a05b3566b488e4b795d20ba2f3c99a8",
+            "bytes": 2604
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/notification.js",
+            "sha256": "0af4db091bb6bc2a865e2d963393387532a1dd2ad2f5aa249ed9af9bf1f35563",
+            "bytes": 12545
+          },
+          {
+            "path": "apps/cli/packages/core/dist/runtime-task/notification.d.ts",
+            "sha256": "bf4bed89cce8e6e4e1abd2dd047ae08b6de4d73aded8d31c905e3813e8f321a6",
+            "bytes": 1615
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.js",
+            "sha256": "b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0",
+            "bytes": 10407
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.d.ts",
+            "sha256": "db83147d7e9c231b797032b9ee48ac58f95c8b90ca2e1dd086a4cd2362e1bfe4",
+            "bytes": 5748
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/bash-result-display.js",
+            "sha256": "b7f202a96d3744296b8e60448d7534c807b73f5ebeb7cc9472f48530db7cb851",
+            "bytes": 1547
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/bash-result-display.d.ts",
+            "sha256": "efeb14549b08433f65224bc3577b0d54aea3e57e48e5995e7b18aaf3b3a3c99b",
+            "bytes": 221
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result/byte-budget.js",
+            "sha256": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
+            "bytes": 2071
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result/byte-budget.d.ts",
+            "sha256": "de5b9b07d8c4fb9455b1bbecf36e5c9082973b1ae71c380a4f9567f408c496f3",
+            "bytes": 654
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display-text.js",
+            "sha256": "eed8ce4f61845c698934834aa86c57f2ddb71c1e7844a363512686c9be6b2069",
+            "bytes": 577
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display-text.d.ts",
+            "sha256": "beae9911b09506ce288d9042bbbed81fa66a38dd68b017285a769d9a1217b3ea",
+            "bytes": 165
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/policy.js",
+            "sha256": "c2d31ba4ad3ae799bd05a10b39a9bbac217c845b570f15dd1c4c267b35d5b0c7",
+            "bytes": 1557
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/policy.d.ts",
+            "sha256": "4a4c50bc2a24d85a922ecca7b4bd79d23b0a9e0cb8eea25ee7e68e325011aa79",
+            "bytes": 1014
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.js",
+            "sha256": "508efb240bb7e9b19185c85c73df61a4c9391645a39db6d0d68a2fc9b29e8ab8",
+            "bytes": 1373
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.d.ts",
+            "sha256": "de901de9825642d31c2a79f93a0a3ea3767c3cf73b10c5d79d15d589287e27fb",
+            "bytes": 358
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/create-workflow-display.js",
+            "sha256": "aedb0a555957b1b6ae25981273d6ad49a926affdbe9816a1754650b04bc16368",
+            "bytes": 608
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/create-workflow-display.d.ts",
+            "sha256": "8c0483dae3d24b01120c920fe2d0af9878695a55cefffdf79b2373715d1647ef",
+            "bytes": 247
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.js",
+            "sha256": "a9195591904d2a86509f13dbaf207b763d25a2f47278137598de3d29c3e7e06f",
+            "bytes": 2658
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.d.ts",
+            "sha256": "66498ce598f17074d5c9f5faf0e0cc97187c493d6474e2039744d2381b4f38d9",
+            "bytes": 586
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.js",
+            "sha256": "1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e",
+            "bytes": 3187
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.d.ts",
+            "sha256": "26c5bac1909b7709aff0bf5b76e11c1cd3215d726f1894d62c4ad2cc18c9fe07",
+            "bytes": 248
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.js",
+            "sha256": "aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c",
+            "bytes": 1453
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.d.ts",
+            "sha256": "598375de36dcaf70f574a3fbfc6e34e1e44e25d55500bb7f63170a254492ec22",
+            "bytes": 257
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/computer-card.js",
+            "sha256": "2b911848156ab5453bec0b083b8734f3578290b3361733b0711c11c353022d94",
+            "bytes": 4273
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/computer-card.d.ts",
+            "sha256": "95226d82c5a4ed5d90b29eed61419107befaa8b2dbeac72098da21a177bd54e4",
+            "bytes": 306
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/diff.js",
+            "sha256": "677ca7e3b4be74ac980aeef6e3ff9050f8e6ccd578a574350fa122bb71b2add1",
+            "bytes": 767
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/diff.d.ts",
+            "sha256": "49239202eebe886cccdcc31d193122debd7f853df43e40e17c5f7e736da3eb31",
+            "bytes": 382
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/diff-card.js",
+            "sha256": "da7d5445387bbd6b26908007433238e8bf3fd1bbad078f2e7efa30d8db7ca332",
+            "bytes": 1604
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/diff-card.d.ts",
+            "sha256": "0bc5f6efc15434345b78bb57c22f944f73e2f156941052141330a2d0895bab33",
+            "bytes": 202
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/mcp-card.js",
+            "sha256": "5bfab60547fddbba336cd30cf26ad677084b81480641bbdd9b377bdf044380fd",
+            "bytes": 1742
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/mcp-card.d.ts",
+            "sha256": "2824f9073de8c896fc70c252b1048f190c08191fee703ede1d88de9a148a6963",
+            "bytes": 386
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/repl-card.js",
+            "sha256": "8936469da803a3beb98dbdc3668521d34727bd2bb285e65a5847ab80f03f30e7",
+            "bytes": 2357
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/repl-card.d.ts",
+            "sha256": "a067bd9b5b1b5d25d1a394bc1578fc4b5f21bab97bee46eb055a6f780efaeb7b",
+            "bytes": 291
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/task-cards.js",
+            "sha256": "8d6d2a95b5eba24d4c068de603e668f237191c1a200a92f93c0aac82082b9028",
+            "bytes": 3046
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/display/task-cards.d.ts",
+            "sha256": "136b68387fbd418890009efc8bf690ae67a5abee1b24edd6dca3bd481280c74b",
+            "bytes": 268
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result-display.js",
+            "sha256": "fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc",
+            "bytes": 1690
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/executor/result-display.d.ts",
+            "sha256": "f267efa701def1e2a23f1fb8637f201656f322f46f1830e9abf86f88982672d0",
+            "bytes": 650
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/result-persistence-format.js",
+            "sha256": "2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb",
+            "bytes": 1763
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-file-window.js",
+            "sha256": "8fb24f87da998f3a360a9a50650a7587773c847a61547b04dbc3bb47eae02fae",
+            "bytes": 2057
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-file-window.d.ts",
+            "sha256": "807d895612df7f465524bf7b345c35b772640adceb52ce46c37a154ecc4751e3",
+            "bytes": 518
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-bash.js",
+            "sha256": "13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb",
+            "bytes": 2660
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-projection.js",
+            "sha256": "833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e",
+            "bytes": 3658
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output-request.js",
+            "sha256": "bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75",
+            "bytes": 3622
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/task-output.js",
+            "sha256": "8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573",
+            "bytes": 4957
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.js",
+            "sha256": "6b9758d9585babeeabb3a2b7b6b7b9858c196a88f5da00929c8604c2666ce6c8",
+            "bytes": 3206
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.d.ts",
+            "sha256": "2a469d4a8072cffe0b3b6acc7edfe0fb987b1104e09be8eb6d6030f012738ae6",
+            "bytes": 966
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js",
+            "sha256": "59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a",
+            "bytes": 6899
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts",
+            "sha256": "b1a39977f57a82f6580769538f2fba6d70e8a58b546bf30d0fb3f62f892da108",
+            "bytes": 1590
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js",
+            "sha256": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca",
+            "bytes": 12262
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.d.ts",
+            "sha256": "97e1a676b5152025a72c6a1cd7f9cdd97dab373a06d9c67455b1ee5d7d3c11ff",
+            "bytes": 396
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.js",
+            "sha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2",
+            "bytes": 1984
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.d.ts",
+            "sha256": "ae2e9dfd412a5ce0b411727599f130f9d65b403dc6a9def3796c16c1e15fc262",
+            "bytes": 870
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js",
+            "sha256": "99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e",
+            "bytes": 2827
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.d.ts",
+            "sha256": "53eda68d039bff288c575767434ed889c30b06f8786fcc58f9541ef215fd226f",
+            "bytes": 278
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+            "sha256": "afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c",
+            "bytes": 10140
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.d.ts",
+            "sha256": "bd1ec9a70c34cf92baa3a7ead52676f2b763d5843caf64433dd2a705ac37f44b",
+            "bytes": 1650
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js",
+            "sha256": "861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8",
+            "bytes": 9748
+          },
+          {
+            "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.d.ts",
+            "sha256": "dab9bd653386279a534db45ef681ad86f6b636b779935ca21602c30760d25bda",
+            "bytes": 212
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/definition.js",
+            "sha256": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0",
+            "bytes": 4403
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/definition.d.ts",
+            "sha256": "55499a820decd0d97a69d01a600bee213d063c1cf8ebf3bd4ef250971a9d1698",
+            "bytes": 618
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/formatters.js",
+            "sha256": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5",
+            "bytes": 1226
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/formatters.d.ts",
+            "sha256": "279b9f7c0f9cee87dbf89de82f9ea58b67e746686c75450f8ed4cf47429dd5e2",
+            "bytes": 307
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle-seed.js",
+            "sha256": "5a9e3728ce70b19333c8a791ccee5bc86f60e7cb1b48a9e5bb78f69226e0736e",
+            "bytes": 5397
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle-seed.d.ts",
+            "sha256": "254a8cf78b8a5674dee2a188d8976b60c6d12ea79e853de6684620edbe6e0bfe",
+            "bytes": 444
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle.js",
+            "sha256": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5",
+            "bytes": 8086
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/lifecycle.d.ts",
+            "sha256": "7cf2b6ed2951bc18d700e7e5176a72256a0ae8e588f028955d2524d2db387c73",
+            "bytes": 2784
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/ids.js",
+            "sha256": "5f68c2762fac66f468d01bdcd1d4cda1d505093f8e655131ae22f3ef568cf3bf",
+            "bytes": 822
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/ids.d.ts",
+            "sha256": "f9a8f510578a85c80d89a9c65dcaf9b856475fbaac9732c9519f515fbf4531a1",
+            "bytes": 559
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/prompts.js",
+            "sha256": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf",
+            "bytes": 7500
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/prompts.d.ts",
+            "sha256": "e8e399069f918a330fc4d92ec4207153b5609fb0265f82be11406186e63f99b1",
+            "bytes": 908
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/runtime-context.js",
+            "sha256": "53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef",
+            "bytes": 8225
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/runtime-context.d.ts",
+            "sha256": "588b1f1f9f2b5ea75321681e9b9c7ab36a0394bb4e004fe968a955cd7ab0fedf",
+            "bytes": 3419
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/json.js",
+            "sha256": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e",
+            "bytes": 2254
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/json.d.ts",
+            "sha256": "9a7e1ef10410d9f8a9c33d599cf827dc439ee817387c4f694f0779a38dbc6a20",
+            "bytes": 982
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/critic.js",
+            "sha256": "218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad",
+            "bytes": 3750
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/critic.d.ts",
+            "sha256": "41b493ddb728cc8d31126f326154c98a04de3356b5fff51e0999f5404d51dac9",
+            "bytes": 349
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/phase-runner.js",
+            "sha256": "c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26",
+            "bytes": 8248
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/phase-runner.d.ts",
+            "sha256": "c4d2ce122a2bde644d5ca4bbb7842fdb99e18d06373da611036027a236217d1e",
+            "bytes": 543
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.js",
+            "sha256": "75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6",
+            "bytes": 4940
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.d.ts",
+            "sha256": "a10d919809d5819492620ff14596764a60c8fcf8521efd83c28da2932ab4a6ce",
+            "bytes": 2258
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/ready-order.js",
+            "sha256": "3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba",
+            "bytes": 1635
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/ready-order.d.ts",
+            "sha256": "b10c1647caf974f094bcfd5378ca2fedcc07069e14e1a9cf75d59010728b58ab",
+            "bytes": 245
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph.js",
+            "sha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+            "bytes": 100
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/graph.d.ts",
+            "sha256": "032f23777c276c3705362abec0ab8b52f516d923ac9a04e0b9b43eae2d3210fc",
+            "bytes": 135
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/events.js",
+            "sha256": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04",
+            "bytes": 2881
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/events.d.ts",
+            "sha256": "29d17214257c7ffad8ee4c0083117531a206dac9a99f517e85aa944ad3aaed9f",
+            "bytes": 1074
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-events.js",
+            "sha256": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4",
+            "bytes": 1920
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-events.d.ts",
+            "sha256": "aa92b2b47327981cee1677904ca878eb98a1a62355f1d38f224e287613cbe1d5",
+            "bytes": 797
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js",
+            "sha256": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b",
+            "bytes": 5003
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.d.ts",
+            "sha256": "bd73cbec3754418db7fc8d75db28f8140875485fd741d6dece5a897dadbba32e",
+            "bytes": 474
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/prompts.js",
+            "sha256": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989",
+            "bytes": 2835
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/prompts.d.ts",
+            "sha256": "bf0a99310ba513aaa086b4c9d0382a24f1ff34ab4fe7b42f91b3a1b80eee8d03",
+            "bytes": 478
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+            "sha256": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be",
+            "bytes": 12173
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.d.ts",
+            "sha256": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406",
+            "bytes": 560
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner.js",
+            "sha256": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49",
+            "bytes": 10243
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner.d.ts",
+            "sha256": "614a8ef711229bf5c56a59c80f2d0aea589ad93b1971ac26643a438b9cf2abd1",
+            "bytes": 875
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler.js",
+            "sha256": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+            "bytes": 6838
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler.d.ts",
+            "sha256": "7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e",
+            "bytes": 1291
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+            "sha256": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5",
+            "bytes": 6119
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.d.ts",
+            "sha256": "1fac306d3a4abaed17b50410794dc436ffaa94de8c975ae560df8038016d2b20",
+            "bytes": 447
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.js",
+            "sha256": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd",
+            "bytes": 1350
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.d.ts",
+            "sha256": "98706a06fbc410a010f7037e177dfce2915eacae3ce901111d7b95fa2fb4816e",
+            "bytes": 234
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js",
+            "sha256": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf",
+            "bytes": 5562
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.d.ts",
+            "sha256": "6dbfb198b9572488416662ac2ecfe6eb4bcfcd0ae761efe5ddebedfe7765d45d",
+            "bytes": 501
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/critic-loop.js",
+            "sha256": "58312876224f082f7cf9c1f8c5c0f316f68c126e86af9005a07aa69b78621b0f",
+            "bytes": 6712
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/critic-loop.d.ts",
+            "sha256": "831ce2ea4e2391b1c85faae2c4a2035c8354c135772650fbc47c27417470b7ac",
+            "bytes": 493
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/failures.js",
+            "sha256": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3",
+            "bytes": 5029
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/failures.d.ts",
+            "sha256": "ffd63e059a37f9f334e6897323165ddeea0f80d97dbf0b357c2846010211e240",
+            "bytes": 550
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.js",
+            "sha256": "56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57",
+            "bytes": 2647
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.d.ts",
+            "sha256": "1b2864bf4771bafd4ac1966d47bc795cc14ec19e37f6f8533376717287807222",
+            "bytes": 261
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js",
+            "sha256": "fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf",
+            "bytes": 4662
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.d.ts",
+            "sha256": "05592b8fbf31a82d3219074ca09dc1bb98dd43bcc5506cf1d638bf1f1cda0344",
+            "bytes": 695
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/run-loop.js",
+            "sha256": "4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977",
+            "bytes": 5988
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/run-loop.d.ts",
+            "sha256": "5f269481a34bf7fb4f59d6513de60e94045f1812e3dec655378cac93eb9008fb",
+            "bytes": 459
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/expert/runtime.js",
+            "sha256": "76150019c870323dcb3e21d1aaaad8cf58b3939a2ed08dc5e2629e061b231086",
+            "bytes": 8840
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.js",
+            "sha256": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+            "bytes": 2563
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.d.ts",
+            "sha256": "094a501110470842331c4f70c1254305086d0ed73c257168cbf4b450c3c07d66",
+            "bytes": 791
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.js",
+            "sha256": "29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa",
+            "bytes": 2718
+          },
+          {
+            "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.d.ts",
+            "sha256": "df6bc19463d8628aa0520adbd7c42e1020dddf8bb34ca39846f3a955a8a33056",
+            "bytes": 1175
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/definition.js",
+            "sha256": "8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57",
+            "bytes": 3969
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/definition.d.ts",
+            "sha256": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3",
+            "bytes": 17374
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/graph-schema.js",
+            "sha256": "52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5",
+            "bytes": 4233
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/graph-schema.d.ts",
+            "sha256": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2",
+            "bytes": 23726
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/run-schema.js",
+            "sha256": "bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1",
+            "bytes": 7167
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/run-schema.d.ts",
+            "sha256": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816",
+            "bytes": 87224
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/script.js",
+            "sha256": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97",
+            "bytes": 3211
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/script.d.ts",
+            "sha256": "b6e9d821011f7e8325be4b29c9d36aad538a47ee722a7587558043316f0f6803",
+            "bytes": 15103
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/scheduler-state.js",
+            "sha256": "e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16",
+            "bytes": 8453
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/scheduler-state.d.ts",
+            "sha256": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473",
+            "bytes": 25045
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/session-links.js",
+            "sha256": "db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5",
+            "bytes": 1672
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/session-links.d.ts",
+            "sha256": "2d0afc7bdb9b4faaf41595f834404b9be261e23a623e04b70333709445674083",
+            "bytes": 265
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/index.js",
+            "sha256": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
+            "bytes": 204
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/workflow/index.d.ts",
+            "sha256": "e1de39bdb8f144388687bfbc3f42b89995edb864821cbf063a2ce37d075b3d6f",
+            "bytes": 2289
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/index.js",
+            "sha256": "6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc",
+            "bytes": 3197
+          },
+          {
+            "path": "apps/cli/packages/contracts/dist/index.d.ts",
+            "sha256": "08a1b5a343aa43201c4240bb792f143238f58f9ca3081ab1257c3455ffc55974",
+            "bytes": 2808
+          }
+        ]
+      }
+    ],
+    "allRegisteredOutputBytesMatchBothProfiles": true,
+    "registeredOutputs": 144,
+    "actualCoreMaterialization": [
+      "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.js",
+      "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts.map",
+      "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts",
+      "apps/cli/packages/core/dist/runtime-task/registry.js",
+      "apps/cli/packages/core/dist/runtime-task/registry.d.ts.map",
+      "apps/cli/packages/core/dist/runtime-task/registry.d.ts"
+    ],
+    "sharedContractsWritten": false,
+    "note": "Original package config and complete file-root order used only for registered artifact reconstruction; no root/CLI build command or full typecheck run."
+  },
+  "currentReceipt": {
+    "path": "apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json",
+    "sha256": "3dad7d1edd7feebc5fbda72e68884b02e2196f79c2205cc6a0afa773123d5df2",
+    "bytes": 73715,
+    "formatVersion": 3,
+    "previousReceipt": {
+      "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
+      "sha256": "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553"
+    },
+    "registeredFiles": 220,
+    "changedPreviousArtifacts": [
+      "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "apps/cli/packages/core/dist/runtime-task/registry.js"
+    ],
+    "newRegisteredArtifacts": [
+      "apps/cli/packages/core/src/runtime-task/message-buffer-transform.ts",
+      "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.js",
+      "apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts"
+    ]
+  },
+  "targetedChecks": {
+    "source-contracts": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--import",
+        "tsx",
+        "--test",
+        "apps/cli/packages/core/test/runtime-task-registry-contract.test.ts",
+        "apps/cli/packages/core/test/runtime-task-registry-read-order.test.ts"
+      ],
+      "exitCode": 0,
+      "output": "✔ registration stamps only future defaults and preserves special ids and order (3.437305ms)\n✔ queue uses the public update receiver; drain preserves message array identity (0.372235ms)\n✔ immediate waits ignore signal getters and retain terminal background precedence (0.387588ms)\n✔ wait subscription is admitted by id after reentrant listener installation (0.420907ms)\n✔ terminal cleanup precedes background cleanup; new cohorts survive detached publication (0.549669ms)\n✔ cleanup failure keeps commit and detached cohort; later publication cannot recover it (0.660745ms)\n✔ pending signal getters throw synchronously while install errors reject natively (0.401419ms)\n✔ abort affects one observer and retains exact reason without explicit cleanup (0.526446ms)\n✔ patcher errors preserve reentrant effects and classification stays exact (0.410282ms)\n✔ inline abort remains admitted for one later cleanup, without a second cancellation policy (0.487737ms)\n✔ an abort in detached cleanup wins before later native settlement (0.385716ms)\n✔ register and nonempty drain preserve accessor stages and returned message identity (2.293079ms)\n✔ terminal publication rereads background after cleanup and releases the new background cohort (0.834975ms)\n✔ detached abort retains FIFO cleanup and cannot remove a newly admitted cohort (1.002195ms)\n✔ background immediate flag reread precedes options and pending aborted errors remain synchronous (0.447867ms)\n✔ running-background helper materializes every record value before the short-circuit scan (0.325906ms)\nℹ tests 16\nℹ suites 0\nℹ pass 16\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 205.690224\n",
+      "counts": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "source-observations": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--import",
+        "tsx",
+        "--test",
+        "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+        "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts"
+      ],
+      "surface": "source",
+      "exitCode": 0,
+      "output": "✔ source: existing nonblocking TaskOutput observation uses same-surface memory owner (1.62339ms)\n✔ source: exact current source/JS/declaration routing rejects wrong and missing artifacts (130.05194ms)\n✔ source: snapshots/messages preserve copies, identity, ordering and drain reads (1.650791ms)\n✔ source: classification and immediate waits precede options admission (0.366677ms)\n✔ source: pending native promises, synchronous reads and inline abort admission (1.480567ms)\n✔ source: terminal/background publication commits first and preserves native order (0.780253ms)\n✔ source: reentrant admission, registration, removal and patcher partial effects (0.365665ms)\n✔ source: throwing cleanup retains commit/detachment and abandons later publication (0.715757ms)\n✔ source: message projection stays lazy behind the public update receiver (0.330333ms)\n✔ source: append preserves enumerable fields, symbols, key order and iterable reads (0.434077ms)\n✔ source: append creates an own message field despite a getter installing a prototype setter (0.303592ms)\n✔ source: append copy failure retains getter reentry without an outer commit (0.305555ms)\n✔ source: append iterator failure follows field copy and leaves the original snapshot stored (0.287058ms)\n✔ source: drain returns the third read, copies the fourth and preserves reentrant id commit (0.285055ms)\n✔ source: drain fourth-read failure keeps reentrant effects and never uses public update (0.217964ms)\n✔ source: missing and empty drains allocate fresh arrays without copying or committing (1.139709ms)\nℹ tests 16\nℹ suites 0\nℹ pass 16\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1798.927342\n",
+      "counts": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "emitted-observations": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--import",
+        "tsx",
+        "--test",
+        "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+        "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts"
+      ],
+      "surface": "emitted",
+      "exitCode": 0,
+      "output": "✔ emitted: existing nonblocking TaskOutput observation uses same-surface memory owner (1.251846ms)\n✔ emitted: exact current source/JS/declaration routing rejects wrong and missing artifacts (177.988868ms)\n✔ emitted: snapshots/messages preserve copies, identity, ordering and drain reads (1.433397ms)\n✔ emitted: classification and immediate waits precede options admission (0.371644ms)\n✔ emitted: pending native promises, synchronous reads and inline abort admission (1.477342ms)\n✔ emitted: terminal/background publication commits first and preserves native order (0.5703ms)\n✔ emitted: reentrant admission, registration, removal and patcher partial effects (0.393416ms)\n✔ emitted: throwing cleanup retains commit/detachment and abandons later publication (0.34864ms)\n✔ emitted: message projection stays lazy behind the public update receiver (0.267499ms)\n✔ emitted: append preserves enumerable fields, symbols, key order and iterable reads (0.357563ms)\n✔ emitted: append creates an own message field despite a getter installing a prototype setter (0.33532ms)\n✔ emitted: append copy failure retains getter reentry without an outer commit (0.29575ms)\n✔ emitted: append iterator failure follows field copy and leaves the original snapshot stored (0.274509ms)\n✔ emitted: drain returns the third read, copies the fourth and preserves reentrant id commit (0.298505ms)\n✔ emitted: drain fourth-read failure keeps reentrant effects and never uses public update (0.222432ms)\n✔ emitted: missing and empty drains allocate fresh arrays without copying or committing (0.245996ms)\nℹ tests 16\nℹ suites 0\nℹ pass 16\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1284.796677\n",
+      "counts": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "receipt-verification": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.mjs"
+      ],
+      "exitCode": 0,
+      "output": "{\n  \"result\": \"pass\",\n  \"receiptPath\": \"apps/cli/packages/core/test/current-message-buffer-artifact-receipt-20261003.json\",\n  \"receiptSha256\": \"3dad7d1edd7feebc5fbda72e68884b02e2196f79c2205cc6a0afa773123d5df2\",\n  \"registeredFiles\": 220,\n  \"registeredCompilerOutputs\": 144,\n  \"changedCurrentOutputs\": [\n    \"apps/cli/packages/core/src/runtime-task/registry.ts\",\n    \"apps/cli/packages/core/dist/runtime-task/registry.js\",\n    \"apps/cli/packages/core/src/runtime-task/message-buffer-transform.ts\",\n    \"apps/cli/packages/core/dist/runtime-task/message-buffer-transform.js\",\n    \"apps/cli/packages/core/dist/runtime-task/message-buffer-transform.d.ts\"\n  ],\n  \"typescript\": \"6.0.2\",\n  \"node\": \"v24.14.0\",\n  \"configurations\": [\n    {\n      \"packageRoot\": \"apps/cli/packages/core\",\n      \"tsconfigSha256\": \"dba1d0224d966aa4206d16afd7cd2ee83842b4736de36f7e0529607bf02c9fb2\",\n      \"packageJsonSha256\": \"59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29\",\n      \"sourceRoots\": 715,\n      \"inputSha256\": \"1ff10f2f77bf75b3171ef76afd10dd7cc477e033439c177439d107601842ff21\"\n    },\n    {\n      \"packageRoot\": \"apps/cli/packages/contracts\",\n      \"tsconfigSha256\": \"d446ecc4d7d7327485cad623d04dc1373a02cc5d1c8b3c6f869a87ae3ab0251c\",\n      \"packageJsonSha256\": \"23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6\",\n      \"sourceRoots\": 123,\n      \"inputSha256\": \"66ff8ff42532a24cde6f1bc093939a00a47682f9979aad234c79adee52dd539a\"\n    }\n  ]\n}\n",
+      "counts": {}
+    }
+  },
+  "newHelperNegativeControls": {
+    "paths": [
+      "src/runtime-task/message-buffer-transform.ts",
+      "dist/runtime-task/message-buffer-transform.js",
+      "dist/runtime-task/message-buffer-transform.d.ts"
+    ],
+    "wrongAndMissingEachSurface": 6,
+    "surfaces": [
+      "source",
+      "emitted"
+    ],
+    "root": "Existing consumer selector test extended; historical selector/oracle bytes unchanged."
+  },
+  "preservation": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "bytes": 11344,
+      "unchanged": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "bytes": 6125,
+      "unchanged": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "5bdd8ba7b54bbb098ee56b4876d9752d08ab36f2c8df8d9c3acd9b1e9a5595cc",
+      "bytes": 1977089,
+      "unchanged": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "517f3b267f8958de884fd70269c808056c363e1e87c1fe76ffad3437738b761e",
+      "bytes": 12839114,
+      "unchanged": true
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "bytes": 2437673,
+      "unchanged": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "bytes": 3446188,
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+      "sha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+      "bytes": 71186,
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
+      "sha256": "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553",
+      "bytes": 72599,
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json",
+      "sha256": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31",
+      "bytes": 1674,
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+      "sha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe",
+      "bytes": 3211,
+      "unchanged": true
+    }
+  ],
+  "notRun": [
+    "full offline/root regression",
+    "root or full CLI build command",
+    "full typecheck",
+    "lint",
+    "full architecture/source audit",
+    "Windows/native/UI acceptance"
+  ],
+  "formatting": "Only changed code/test files formatted in write mode; no root format or lint check.",
+  "integrationNeeds": [
+    "Refresh global provenance bindings for changed/new lane-owned files; this task does not modify global inventory/reviews.",
+    "Observe later integration CI; targeted checks do not imply whole-product acceptance."
+  ],
+  "additionalAuthorizedWork": [
+    "apps/cli/packages/bootstrap/src/protocol/session-resident-pool.ts",
+    "apps/cli/packages/bootstrap/src/app/script-workflow-child-source.ts",
+    "apps/cli/packages/cli/src/custom-command-expand.ts"
+  ]
+}

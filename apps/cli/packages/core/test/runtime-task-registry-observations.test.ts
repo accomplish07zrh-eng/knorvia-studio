@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { messageBufferCases } from "./runtime-task-registry-message-fixture.js";
 import {
   current,
   detachedAbortObservation,
@@ -363,3 +364,6 @@ test(`${surface}: throwing cleanup retains commit/detachment and abandons later 
   owner.remove("task");
   assert.equal(trace.filter((value) => value.endsWith(":remove")).length, 2);
 });
+for (const observation of messageBufferCases) {
+  test(`${surface}: ${observation.name}`, () => observation.observe(registry));
+}

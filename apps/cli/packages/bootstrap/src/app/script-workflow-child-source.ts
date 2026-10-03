@@ -1,3 +1,7 @@
+// 2026-10-03: source-exposed behavior-contract implementation of IPC/context ownership.
+// Origin: zai-org/ZCode 872ad960de7ec172591f7e1952f7849229f94521,
+// apps/zcode-cli/packages/bootstrap/src/app/script-workflow-child-source.ts.
+// Existing Apache-2.0 attribution/history retained; see docs/lane-cli-20261003.md.
 export const SCRIPT_WORKFLOW_CHILD_SOURCE = String.raw`
 import { AsyncLocalStorage } from "node:async_hooks";
 import { createInterface } from "node:readline";
@@ -8,132 +12,151 @@ const payload = JSON.parse(Buffer.from(nodeProcess.argv.at(-1), "base64url").toS
 const stderrConsole = new Console({ stdout: nodeProcess.stderr, stderr: nodeProcess.stderr });
 globalThis.console = stderrConsole;
 
-let nextRequestId = 0;
-let currentPhase;
-let spentTokens = 0;
-const pending = new Map();
-const contextStore = new AsyncLocalStorage();
-const rootContext = { nextAgent: 0, nextBlock: 0, path: "root" };
+class ParentChannel {
+  sequence = 0;
+  waiters = new Map();
+  reader = createInterface({ input: nodeProcess.stdin });
 
-const reader = createInterface({ input: nodeProcess.stdin });
-reader.on("line", (line) => {
-  if (!line.trim()) return;
-  let message;
-  try {
-    message = JSON.parse(line);
-  } catch (error) {
-    stderrConsole.error("Invalid workflow runner response", error);
-    return;
+  constructor() {
+    this.reader.on("line", (line) => this.receive(line));
   }
-  if (message.kind !== "response") return;
-  const waiter = pending.get(message.id);
-  if (!waiter) return;
-  pending.delete(message.id);
-  if (message.ok) waiter.resolve(message.value);
-  else waiter.reject(new Error(message.error || "Workflow runner request failed"));
-});
 
-function send(message) {
-  nodeProcess.stdout.write(JSON.stringify(message) + "\n");
+  receive(line) {
+    if (!line.trim()) return;
+    let response;
+    try {
+      response = JSON.parse(line);
+    } catch (error) {
+      stderrConsole.error("Invalid workflow runner response", error);
+      return;
+    }
+    if (response.kind !== "response") return;
+    const receiver = this.waiters.get(response.id);
+    if (receiver === undefined) return;
+    this.waiters.delete(response.id);
+    if (response.ok) receiver.resolve(response.value);
+    else receiver.reject(new Error(response.error || "Workflow runner request failed"));
+  }
+
+  send(message) {
+    nodeProcess.stdout.write(JSON.stringify(message) + "\n");
+  }
+
+  request(type, value) {
+    this.sequence += 1;
+    const id = "req_" + this.sequence;
+    this.send({ id, kind: "request", payload: value, type });
+    return new Promise((resolve, reject) => {
+      this.waiters.set(id, { reject, resolve });
+    });
+  }
+
+  event(type, value) {
+    this.send({ kind: "event", type, payload: value });
+  }
+
+  close() {
+    this.reader.close();
+  }
 }
 
-function notify(type, payloadValue) {
-  send({ kind: "event", type, payload: payloadValue });
+class CallPaths {
+  storage = new AsyncLocalStorage();
+  root = { nextAgent: 0, nextBlock: 0, path: "root" };
+
+  current() {
+    return this.storage.getStore() || this.root;
+  }
+
+  agent() {
+    const scope = this.current();
+    const ordinal = scope.nextAgent++;
+    return scope.path + "/agent" + ordinal;
+  }
+
+  block(kind) {
+    const parent = this.current();
+    return { parent, label: kind + parent.nextBlock++ };
+  }
+
+  within(parent, label, run) {
+    return this.storage.run(
+      { nextAgent: 0, nextBlock: 0, path: parent.path + "/" + label },
+      run,
+    );
+  }
+
+  runRoot(run) {
+    return this.storage.run(this.root, run);
+  }
 }
 
-function callParent(type, payloadValue) {
-  const id = "req_" + ++nextRequestId;
-  send({ id, kind: "request", payload: payloadValue, type });
-  return new Promise((resolve, reject) => {
-    pending.set(id, { reject, resolve });
-  });
-}
+const channel = new ParentChannel();
+const paths = new CallPaths();
+const state = { phase: undefined, spentTokens: 0 };
 
-function currentContext() {
-  return contextStore.getStore() || rootContext;
-}
-
-function childContext(parent, label) {
-  return { nextAgent: 0, nextBlock: 0, path: parent.path + "/" + label };
-}
-
-function nextBlockLabel(kind) {
-  const context = currentContext();
-  const index = context.nextBlock++;
-  return kind + index;
+function fanOut(kind, entries, invoke) {
+  if (!Array.isArray(entries)) {
+    throw new Error(kind + "() expects an array of " + (kind === "parallel" ? "thunks" : "items"));
+  }
+  const { parent, label } = paths.block(kind);
+  return Promise.all(entries.map((entry, index) =>
+    paths.within(parent, label + "/item" + index, async () => invoke(entry, index))
+      .catch(() => null),
+  ));
 }
 
 globalThis.agent = async function agent(prompt, opts) {
-  const context = currentContext();
-  const callPath = context.path + "/agent" + context.nextAgent++;
-  const result = await callParent("agent", {
+  const callPath = paths.agent();
+  const result = await channel.request("agent", {
     callPath,
     opts,
-    phase: opts?.phase || currentPhase,
+    phase: opts?.phase || state.phase,
     prompt,
   });
-  spentTokens += Number(result?.stats?.tokens?.total || 0);
+  state.spentTokens += Number(result?.stats?.tokens?.total || 0);
   return result?.value;
 };
 
 globalThis.parallel = async function parallel(thunks) {
-  if (!Array.isArray(thunks)) throw new Error("parallel() expects an array of thunks");
-  const parent = currentContext();
-  const block = nextBlockLabel("parallel");
-  return Promise.all(
-    thunks.map((thunk, index) =>
-      contextStore
-        .run(childContext(parent, block + "/item" + index), async () => thunk())
-        .catch(() => null),
-    ),
-  );
+  return fanOut("parallel", thunks, (thunk) => thunk());
 };
 
 globalThis.pipeline = async function pipeline(items, ...stages) {
-  if (!Array.isArray(items)) throw new Error("pipeline() expects an array of items");
-  const parent = currentContext();
-  const block = nextBlockLabel("pipeline");
-  return Promise.all(
-    items.map((item, index) =>
-      contextStore
-        .run(childContext(parent, block + "/item" + index), async () => {
-          let previous = item;
-          for (let stageIndex = 0; stageIndex < stages.length; stageIndex += 1) {
-            const stage = stages[stageIndex];
-            previous = await contextStore.run(
-              childContext(currentContext(), "stage" + stageIndex),
-              async () => stage(previous, item, index),
-            );
-          }
-          return previous;
-        })
-        .catch(() => null),
-    ),
-  );
+  return fanOut("pipeline", items, async (item, index) => {
+    let previous = item;
+    for (let stageIndex = 0; stageIndex < stages.length; stageIndex += 1) {
+      const stage = stages[stageIndex];
+      previous = await paths.within(paths.current(), "stage" + stageIndex,
+        async () => stage(previous, item, index),
+      );
+    }
+    return previous;
+  });
 };
 
 globalThis.log = function log(message) {
-  notify("log", { message: String(message), phase: currentPhase });
+  channel.event("log", { message: String(message), phase: state.phase });
 };
 
 globalThis.phase = function phase(title) {
-  currentPhase = String(title);
-  notify("phase", { title: currentPhase });
+  state.phase = String(title);
+  channel.event("phase", { title: state.phase });
 };
 
 globalThis.workflow = async function workflow(nameOrRef, args) {
-  return callParent("workflow", { args, nameOrRef });
+  return channel.request("workflow", { args, nameOrRef });
 };
 
 globalThis.args = payload.args;
 globalThis.budget = {
   total: payload.budgetTotal ?? null,
   spent() {
-    return spentTokens;
+    return state.spentTokens;
   },
   remaining() {
     if (payload.budgetTotal === undefined || payload.budgetTotal === null) return Infinity;
-    return Math.max(0, payload.budgetTotal - spentTokens);
+    return Math.max(0, payload.budgetTotal - state.spentTokens);
   },
 };
 
@@ -164,31 +187,19 @@ Object.defineProperty(globalThis, "process", {
   writable: false,
 });
 
+const parameters = ["agent", "parallel", "pipeline", "phase", "log", "args", "budget", "workflow"];
 try {
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-  const run = new AsyncFunction(
-    "agent",
-    "parallel",
-    "pipeline",
-    "phase",
-    "log",
-    "args",
-    "budget",
-    "workflow",
-    payload.scriptBody,
-  );
-  const value = await contextStore.run(rootContext, async () =>
-    run(agent, parallel, pipeline, phase, log, args, budget, workflow),
-  );
-  send({ kind: "complete", ok: true, value });
-  reader.close();
+  const run = new AsyncFunction(...parameters, payload.scriptBody);
+  const value = await paths.runRoot(async () => run(...parameters.map((name) => globalThis[name])));
+  channel.send({ kind: "complete", ok: true, value });
 } catch (error) {
-  send({
+  channel.send({
     error: error instanceof Error ? error.message : String(error),
     kind: "complete",
     ok: false,
     stack: error instanceof Error ? error.stack : undefined,
   });
-  reader.close();
 }
+channel.close();
 `;
