@@ -2778,5 +2778,43 @@
       "combinedLogSha256": "257db8f850c0e19e8183ad8b125ec23eb7c062b60cd5d14e4aac6e1184b84f02"
     }
   ],
-  "finalEvidenceChecksQualification": "Actual separately captured full stdout and stderr; combined log is stdout followed by stderr, not an interleaving claim. Evidence metadata checks only; no runtime/type/full-suite tests."
+  "finalEvidenceChecksQualification": "Actual separately captured full stdout and stderr; combined log is stdout followed by stderr, not an interleaving claim. Evidence metadata checks only; no runtime/type/full-suite tests.",
+  "publicationFailures": {
+    "qualification": "Qualified reconstruction of exact observed tool command/returns, not captured raw process bytes. Both failures preserved; no PR success inferred.",
+    "failures": [
+      {
+        "command": [
+          "gh",
+          "pr",
+          "edit",
+          "10",
+          "--repo",
+          "accomplish07zrh-eng/knorvia-studio",
+          "--body-file",
+          "/tmp/knorvia-services-owner-hold-20261003/pr-body.md"
+        ],
+        "exit": 1,
+        "observedOutput": "GraphQL: Projects (classic) is being deprecated in favor of the new Projects experience, see: https://github.blog/changelog/2024-05-23-sunset-notice-projects-classic/. (repository.pullRequest.projectCards)\n"
+      },
+      {
+        "action": "Immediate expected-body equality verifier of pr-after.json against prepared pr-body.md",
+        "exit": 1,
+        "observedOutput": "Traceback (most recent call last):\n  File \"<stdin>\", line 3, in <module>\nAssertionError\n"
+      }
+    ],
+    "recovery": "Use official GitHub REST PATCH for the same explicitly authorized PR10 body update, preserving the prior body. No access restriction is bypassed."
+  },
+  "publicationVerifiedAt948c9af": {
+    "baseRefName": "recovery/independent-logging-20260930-0456",
+    "headRefName": "independent/settings-lifecycle-20261002",
+    "headRefOid": "948c9af015a79bb85d9f18fb2d71497a13abf358",
+    "isDraft": true,
+    "state": "OPEN",
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/10",
+    "officialRestPatchExit": 0,
+    "subsequentReadAndBodyVerifierExit": 0,
+    "priorBodyCharactersPreserved": 35976,
+    "newBodyCharacters": 37726,
+    "verifiedBodySha256": "834f73f49e7922ca37deaa17d30b8178f537b8ef6f681d3b0ffc9bbb0ce9ec80"
+  }
 }
