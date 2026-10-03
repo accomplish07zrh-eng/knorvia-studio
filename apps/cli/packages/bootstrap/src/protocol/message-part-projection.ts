@@ -33,7 +33,8 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
       ["metadata", (part) => part.metadata],
       ["synthetic", (part) => part.synthetic],
       ["text", (part) => part.text],
-      ["type", () => "text"],
+      // 固定标签的返回类型显式保留字面量，不把字段 recipe 放宽为 string。
+      ["type", (): "text" => "text"],
     ]),
   ],
   [
@@ -41,7 +42,7 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
     partReader<StoredPart<"reasoning">, PublicPart<"reasoning">>([
       ["metadata", (part) => part.metadata],
       ["text", (part) => part.text],
-      ["type", () => "reasoning"],
+      ["type", (): "reasoning" => "reasoning"],
     ]),
   ],
   [
@@ -50,7 +51,7 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
       ["filename", (part) => part.filename],
       ["metadata", (part) => part.metadata as Record<string, unknown> | undefined],
       ["mime", (part) => part.mime],
-      ["type", () => "file"],
+      ["type", (): "file" => "file"],
       ["url", (part) => part.url],
     ]),
   ],
@@ -61,14 +62,14 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
       ["metadata", (part) => projectToolPartMetadata(part.metadata)],
       ["state", (part) => projectToolState(part.state)],
       ["tool", (part) => part.tool],
-      ["type", () => "tool"],
+      ["type", (): "tool" => "tool"],
     ]),
   ],
   [
     "step-start",
     partReader<StoredPart<"step-start">, PublicPart<"step-start">>([
       ["snapshot", (part) => part.snapshot],
-      ["type", () => "step-start"],
+      ["type", (): "step-start" => "step-start"],
     ]),
   ],
   [
@@ -78,14 +79,14 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
       ["reason", (part) => part.reason],
       ["snapshot", (part) => part.snapshot],
       ["tokens", (part) => part.tokens],
-      ["type", () => "step-finish"],
+      ["type", (): "step-finish" => "step-finish"],
     ]),
   ],
   [
     "snapshot",
     partReader<StoredPart<"snapshot">, PublicPart<"snapshot">>([
       ["snapshot", (part) => part.snapshot],
-      ["type", () => "snapshot"],
+      ["type", (): "snapshot" => "snapshot"],
     ]),
   ],
   [
@@ -93,7 +94,7 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
     partReader<StoredPart<"patch">, PublicPart<"patch">>([
       ["files", (part) => part.files],
       ["hash", (part) => part.hash],
-      ["type", () => "patch"],
+      ["type", (): "patch" => "patch"],
     ]),
   ],
   [
@@ -103,7 +104,7 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
       ["metadata", (part) => projectCompactionMetadata(part)],
       ["reason", (part) => part.reason],
       ["summaryMessageId", (part) => part.summaryMessageId],
-      ["type", () => "compaction"],
+      ["type", (): "compaction" => "compaction"],
     ]),
   ],
   ["timeline", partReader<StoredPart<"timeline">, PublicPart<"timeline">>(TIMELINE_FIELDS)],
@@ -115,14 +116,14 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
       ["description", (part) => part.description],
       ["model", (part) => part.model],
       ["prompt", (part) => part.prompt],
-      ["type", () => "subagent"],
+      ["type", (): "subagent" => "subagent"],
     ]),
   ],
   [
     "agent",
     partReader<StoredPart<"agent">, PublicPart<"agent">>([
       ["name", (part) => part.name],
-      ["type", () => "agent"],
+      ["type", (): "agent" => "agent"],
     ]),
   ],
   [
@@ -130,7 +131,7 @@ const PARTS = new Map<MessagePart["type"], (part: MessagePart) => KnorviaMessage
     partReader<StoredPart<"retry">, PublicPart<"retry">>([
       ["attempt", (part) => part.attempt],
       ["error", (part) => ({ name: part.error.name, data: part.error.data })],
-      ["type", () => "retry"],
+      ["type", (): "retry" => "retry"],
     ]),
   ],
 ]);

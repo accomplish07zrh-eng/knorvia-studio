@@ -1,6 +1,7 @@
-export type RecordRecipe<Source, Result> = readonly {
-  [Key in keyof Result]-?: readonly [Key, (source: Source) => Result[Key]];
-}[keyof Result][];
+// 显式键集合避免对结果联合逐个分发；每个字段仍严格绑定自己的 Result[Key]。
+export type RecordRecipe<Source, Result, Keys extends keyof Result = keyof Result> = readonly {
+  [Key in Keys]-?: readonly [Key, (source: Source) => Result[Key]];
+}[Keys][];
 
 // 字段 recipe 同时规定存在性、求值顺序和插入次序；undefined 不会被省略。
 export function projectRecord<Source, Result extends object>(

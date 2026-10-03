@@ -102,7 +102,8 @@ export const TIMELINE_FIELDS: RecordRecipe<
     (part) =>
       part.timelineType === "context_compaction" ? part.truePostCompactTokenCount : undefined,
   ],
-  ["type", () => "timeline"],
+  // 字面量返回类型维持 timeline 判别字段，不改变 payload 的隔离/读取次序。
+  ["type", (): "timeline" => "timeline"],
   [
     "verification",
     (part) => (part.timelineType === "goal_verification" ? part.verification : undefined),

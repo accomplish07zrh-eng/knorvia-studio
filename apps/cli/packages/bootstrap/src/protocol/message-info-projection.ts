@@ -16,7 +16,8 @@ const USER_INFO: RecordRecipe<StoredInfo<"user">, PublicInfo<"user">> = [
   ["messageId", (info) => String(info.id)],
   ["model", (info) => info.modelSelection],
   ["metadata", (info) => info.metadata],
-  ["role", () => "user"],
+  // tuple recipe 的回调联合不保留 fresh literal；按公开 role 契约声明返回值。
+  ["role", (): "user" => "user"],
   ["semantics", (info) => info.semantics],
   ["sessionId", (info) => String(info.sessionID)],
   ["source", (info) => info.source],
@@ -47,7 +48,7 @@ const ASSISTANT_INFO: RecordRecipe<StoredInfo<"assistant">, PublicInfo<"assistan
   ],
   ["parentMessageId", (info) => String(info.parentID)],
   ["path", (info) => info.path],
-  ["role", () => "assistant"],
+  ["role", (): "assistant" => "assistant"],
   ["semantics", (info) => info.semantics],
   ["sessionId", (info) => String(info.sessionID)],
   ["structured", (info) => info.structured],

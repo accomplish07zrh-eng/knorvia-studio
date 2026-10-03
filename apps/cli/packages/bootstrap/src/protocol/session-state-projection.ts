@@ -115,9 +115,10 @@ type TimelinePrefix = Pick<
 >;
 const TIMELINE: RecordRecipe<GoalBoundary, TimelinePrefix> = [
   ["version", () => 1],
-  ["kind", () => "synthetic"],
-  ["type", () => "goal_verification"],
-  ["display", () => "separator"],
+  // 固定合成边界标签需要实际字面量返回类型，避免 tuple 回调被推断成 string。
+  ["kind", (): "synthetic" => "synthetic"],
+  ["type", (): "goal_verification" => "goal_verification"],
+  ["display", (): "separator" => "separator"],
   ["targetId", (source) => source.targetId],
   ["verificationId", (source) => source.verificationId],
   ["status", (source) => source.status],
