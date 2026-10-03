@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "base": "c85241d287e75c5782f2537d7ebccd5569526b08",
+  "owner": "apps/cli/packages/core/src/tool/executor/turn-control.ts",
+  "sha256": "86932540de300b1e4004455a10d9a8db7e784534ca2da6ac96afc8e60465ba43",
+  "origin": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/tool/executor/turn-control.ts",
+    "blob": "19fcf3d204f9857b89684affe6aa49a61adcf386",
+    "normalizedSha256": "d5d10ee6af94dae4e7461e2538542353f711ce0151d08583232be83c4b3faf1b",
+    "contentMatchedPaths": []
+  },
+  "historicalReview": null,
+  "receiptReferences": {
+    "docs/evidence/knorvia-get-workflow-run-snapshot-fast-checks-20261001.json": {
+      "sha256": "6262ecd3e6b92b5e63879d6fa4ff596bb299130e4c83ad25a57cff1c6927476d",
+      "matches": [
+        "protectedInputs/65"
+      ]
+    },
+    "docs/evidence/knorvia-webfetch-orchestration-fast-checks-20261001.json": {
+      "sha256": "88bed406c5230d8bc7de80ccef790386acc067e1bebbff9b26abbbed8d8bb180",
+      "matches": [
+        "protectedInputs/56"
+      ]
+    },
+    "docs/evidence/knorvia-collaboration-tools-fast-checks-20261001.json": {
+      "sha256": "db4ff694f9fd4bd1af443ed23aa9486cd1b5a2f12e64ff31ae33d1015ac7f9da",
+      "matches": [
+        "protectedInputs/27"
+      ]
+    },
+    "docs/evidence/knorvia-list-saved-workflows-model-fast-checks-20261001.json": {
+      "sha256": "27313a43e06583c82c84a631fe6713596de45b79cbdf70d56bc493886c62b16f",
+      "matches": [
+        "protectedInputs/67"
+      ]
+    },
+    "docs/evidence/knorvia-read-orchestration-fast-checks-20261001.json": {
+      "sha256": "5e9796e393a42d1c719e2fd8d6f2cc1a7c3e29365fa9a49dc67702eda091b8f3",
+      "matches": [
+        "protectedInputs/35"
+      ]
+    },
+    "docs/evidence/knorvia-workflow-run-summary-fast-checks-20261001.json": {
+      "sha256": "b328e48a882533dcec1a7b3db0630b03040a4780feefbcbc6c551e46dec8edf9",
+      "matches": [
+        "protectedInputs/68"
+      ]
+    },
+    "docs/evidence/knorvia-list-workflow-runs-orchestration-fast-checks-20261001.json": {
+      "sha256": "6425330448970bb7ac9c3a5d9659d1af89610b9ef53e15f5420fb9571a825e73",
+      "matches": [
+        "protectedInputs/64"
+      ]
+    },
+    "docs/evidence/knorvia-escalate-orchestration-fast-checks-20261001.json": {
+      "sha256": "a7372731a3e5e6d3291ab915ec03c3f2cdd83d5c8097d1eb8f7f3eff96b7abc1",
+      "matches": [
+        "protectedInputs/62"
+      ]
+    },
+    "docs/evidence/turn-machine-checks-20261003/freeze.json": {
+      "sha256": "8be208f54408cfb4b992fdc8a95c993f69183ecd385a8d108596fc9618189433",
+      "matches": [
+        "protected/apps/cli/packages/core/src/tool/executor/turn-control.ts"
+      ]
+    }
+  },
+  "receiptFinding": "Nine earlier references match protectedInputs/protected maps, not a complete authored candidate. No local accepted review found; absence alone is not acceptance evidence. Current parent allocation authorizes this eligible executor business owner.",
+  "publicOwner": "Four synchronous result-control admission/projection functions; no new state or policy",
+  "negativeSelection": {
+    "events.ts": "Fixed event/protocol construction, kept without originality claim",
+    "workflow-published-artifacts.ts": "Shared lower protected dependency of the new background owner, not reopened",
+    "background-task-registry.ts": "Adjacent registry/lower identity boundary protected here; no overlap with root held runtime-task registry",
+    "tool/repl/session-registry.ts": "Existing authored complete owner ee9b8b5, retained",
+    "tool/scheduler.ts": "Existing authored scheduling owner3aa6b87, retained",
+    "execution/batch/deadline/invocation/result/permission owners": "Existing substantive replacement histories/receipts, retained"
+  },
+  "packetFiles": [
+    "docs/evidence/turn-control-author-20261003/api.d.ts",
+    "docs/evidence/turn-control-author-20261003/contract.md",
+    "docs/evidence/turn-control-author-20261003/dependency-api.d.ts",
+    "docs/evidence/turn-control-author-20261003/model-strings.json",
+    "docs/evidence/turn-control-author-20261003/public-types.d.ts"
+  ],
+  "bindings": {
+    "docs/evidence/turn-control-author-20261003/api.d.ts": "32ffe1ee836d8c8fac9ca42c373e2832e5e3b91c352869e314a741a5909d8da9",
+    "docs/evidence/turn-control-author-20261003/contract.md": "f74a5f14188f8de650ab4b109f0b259227a5a67aef34ae321dbc596a8d7a1870",
+    "docs/evidence/turn-control-author-20261003/dependency-api.d.ts": "e502a85ffd140ca9c018100d12709df5a81f277e0c11cc6ed3aae6c02a4fe222",
+    "docs/evidence/turn-control-author-20261003/model-strings.json": "170bec8d85df07c03a5385f913a1df344a046892e2e4e123525fb7858af995c4",
+    "docs/evidence/turn-control-author-20261003/public-types.d.ts": "efc8fd967dffe95bf9cbf495b573db7d1e1f536e42f0631dbd2cdbc7b8ba5207",
+    "specs/knorvia-turn-control-owner-20261003.md": "f531219569945f61dc5969b690ee3e3622317f5eb198e12a22d24ebf15b0b52f",
+    "apps/cli/packages/core/test/turn-control-baseline-20261003.json": "c9a7caf599ac40c22bc20e50f8b67fc6af97ae72ff9aae5e5485a3addd530bbd",
+    "apps/cli/packages/core/test/turn-control-safety-20261003.mjs": "6fbd52195e13955badb08b212b95b2239df2c950f44136e5a1046fb0399e935e",
+    "apps/cli/packages/core/test/turn-control-observations-20261003.json": "573faae5e61e2aa4ed82127e3b8f8f6c678939da6073141261492ec77ac0f604"
+  },
+  "protectedReference": {
+    "path": "docs/evidence/turn-machine-checks-20261003/freeze.json",
+    "sha256": "8be208f54408cfb4b992fdc8a95c993f69183ecd385a8d108596fc9618189433",
+    "backgroundOverrideManifest": "docs/evidence/knorvia-background-tracker-current-20261003.json",
+    "backgroundManifestSHA256": "e3a8f212f9a30970acdffbefb1f7198c859fb698da87a689ed3fd57f222b1453",
+    "rule": "Include original selected TurnMachine, replace only old background path digest with current three background production digests, exclude newly allocated turn-control path. All other protected paths unchanged."
+  },
+  "minimumGroups": 2,
+  "actualConsumers": [
+    "Admission.rejectPermission",
+    "failedExecution"
+  ],
+  "setupCorrection": "Before freeze the success guard now asserts exact returned input identity rather than comparing against a different owned base; initial setup pass record preserved, no production bug claimed.",
+  "configuration": "Current Sol/high and FastON parent verified, reiterated02:58; no setting changes, no retroactive Fast claim"
+}
