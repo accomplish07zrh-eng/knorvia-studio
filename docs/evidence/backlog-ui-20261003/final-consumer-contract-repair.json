@@ -1,0 +1,1459 @@
+{
+  "kind": "ui-final-consumer-contract-repair",
+  "branch": "rewrite/ui-20261003",
+  "originalBaseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "integratedCheckpoint": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+  "preRepairMergeHead": "cb3926ede63b95321e8f100454a09c33e16ecb1f",
+  "preRepairTreeEqualsIntegratedCheckpoint": true,
+  "priorLaneFrozenHead": "809374e21993bb03cabaf3d68adad6564baa41fa",
+  "priorPr": {
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/15",
+    "state": "merged-and-closed-by-integrator",
+    "newPrCreated": false
+  },
+  "candidateCommitBinding": "Full repair SHA is supplied in the persistent-branch handoff; this receipt binds the exact candidate source bytes without a commit self-reference.",
+  "runtime": {
+    "node": "24.19.0",
+    "parentFirstPassNode": "24.14.0",
+    "typescript": "6.0.2",
+    "pnpm": "10.33.2",
+    "oxlint": "1.60.0",
+    "oxfmt": "0.41.0",
+    "dependencyInstall": "frozen-lockfile, ignore-scripts; existing manifest/lockfile unchanged; writable temporary Corepack/cache/store"
+  },
+  "authorization": "Final validation stage authorizes only necessary scoped types/lint/tests and source diff/remote checks; no repeated full checks or new PR.",
+  "reportedTrigger": {
+    "record": "docs/evidence/backlog-integration-20261003/final-first-pass.json",
+    "path": "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+    "reportedLine": 191,
+    "code": "TS2322",
+    "cause": "Panel loadDirectory was typed Promise<void>, while the canonical producer returns FileTreeDirectoryLoadResult"
+  },
+  "implementation": [
+    "Panel port imports the canonical producer load result type without any, type ignore, force cast or runtime wrapper. Producer and await-only consumer behavior remain unchanged.",
+    "Fixtures return real loaded/stale/failed statuses; reveal sequence is explicitly checked with all three outcomes while data/error acceptance stays with the directory owner.",
+    "Seven lint warnings fixed with sparse array holes, dispatch-time listener snapshots and a live snapshot getter/original setter preserved.",
+    "Only 66 original lane-owned UI source/test paths formatted or repaired; no reassigned paths, root config, CI, shared contracts, lockfile, data keys/payloads or presentation resources changed."
+  ],
+  "sourceExposure": "source-exposed, not clean-room; old Apache/NOTICE/copyright and third-party records retained",
+  "rightsAccepted": false,
+  "mitReady": false,
+  "wholeCombinationAccepted": false,
+  "checks": [
+    {
+      "id": "scoped-tests",
+      "command": [
+        "node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=120000",
+        "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Five selected source/port suites, not browser/Electron/platform or emitted artifact acceptance",
+      "logSha256": "68105f5f212e75d3466e931d402192c7ec7327d1f7f3bc8e06665cf56e8dd407",
+      "log": "✔ non-force admission shares the loading fact, while only a newer force request publishes (9.198265ms)\n✔ ordinary single-directory chains prefetch silently and symlink directories do not recurse (0.734369ms)\n✔ scope cleanup rejects late directory/Git/ignored results and supports effect replay (2.216069ms)\n✔ manual refresh rejects reentry and retains loaded child data on a current read failure (2.377841ms)\n✔ a manual deadline records the same error and revokes a late successful directory result (4.459489ms)\n✔ watch failure prunes only its subtree and re-reads the parent after debounce (3.919435ms)\n✔ bulk watch fallback reads the current expanded set and cleanup clears its timer (1.670419ms)\n✔ Git failure clears availability, while a manual Git timeout retains the previous snapshot (4.416785ms)\n✔ explicit preview reveal expands in order, loads ordinal depth and auto-scrolls exactly once when visible (2.810825ms)\n✔ preview request replacement and scope cleanup prevent subsequent directory calls without aborting the issued one (0.550232ms)\n✔ directory load status stays at the data owner while reveal awaits each call in order (0.299329ms)\n✔ search directory action clears query, keeps physical depths and centers after returning to visible tree rows (0.464534ms)\n✔ keyboard admission preserves prevention rules and deleted files never reach preview (0.43406ms)\n✔ refresh ordering and nonblocking error notifications retain their original boundaries (0.339565ms)\n✔ viewport paints native offsets, coalesces resize frames, and cleanup cancels publication (0.634523ms)\n✔ collision admission keeps group/task target policy and does not validate ids prematurely (1.534091ms)\n✔ unknown/nonstring/mismatched source data stays a no-op with compatible decoder outputs (0.536773ms)\n✔ header and footer preserve direction-dependent root/group boundary placement (3.480924ms)\n✔ collapsed boundaries stay in root, and an empty group receives its first task (0.753871ms)\n✔ task/group targets call the installed structural commands and keep workspace identities isolated (0.939515ms)\n✔ order signature ignores metadata while retaining original tokens and task identity separators (0.612761ms)\n✔ geometry preserves half-pixel admission, layout-only heights and last eligible sticky group (1.914725ms)\n✔ snapshot duplicate keys use the last old DOM box and layout takes precedence over task key (1.403073ms)\n✔ replaced layout frames and reduced motion cannot execute old animation commands (0.645475ms)\n✔ a synchronous nested layout command owns the frame without the older call cancelling it (0.348781ms)\n✔ owned overflow restores on replacement and a queued old finish cannot overwrite the new animation (0.44488ms)\n✔ animation installation failure restores overflow and releases earlier resources from the same batch (0.8409ms)\n✔ preview widths retain first-hit raw group and encoded task keys (0.3038ms)\n✔ sticky sources coalesce while top draft and cursor leases release without late publication (1.402922ms)\n✔ teardown attempts observer/window/cursor resources after a listener failure and leaves the callback revoked (0.45837ms)\n✔ grouped scope layout cleanup leaves physical sticky and cursor leases active (1.887996ms)\n✔ observer installation failure cleans listeners, disconnects and preserves the original error (0.476424ms)\n✔ structural comparison ignores object key order and absent/undefined but detects values (1.965977ms)\n✔ array comparison preserves the left sparse-array rule and ignores extra properties (0.303332ms)\n✔ object comparison preserves enumerable key counts, inherited value reads and symbol exclusion (0.215211ms)\n✔ field getters follow enumeration then depth-first comparison and stop before later fields (1.034437ms)\n✔ deep acyclic values compare without growing the JavaScript call stack (34.939087ms)\n✔ independent cyclic values still reject while a shared reference compares equal (0.988138ms)\n✔ shared subtrees are compared again after the preceding field completes (0.335551ms)\n✔ the identity key keeps trim identity/path fallback and the existing separator (0.389838ms)\n✔ equivalent ordered metadata reuses the old item and entire array references (0.665775ms)\n✔ reordering reuses items but returns a new array; changed metadata stays new (0.605622ms)\n✔ duplicates use the final previous item and a same-path remote item stays isolated (0.362497ms)\n✔ empty previous returns next and removing all tasks returns a new empty projection (0.384492ms)\n✔ real activity/membership projection retains the original list reference when only membership timestamps differ (0.350427ms)\nℹ tests 45\nℹ suites 0\nℹ pass 45\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 4152.843994\n",
+      "files": [
+        "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts"
+      ],
+      "tests": 45,
+      "passed": 45,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "environment": "Selected suites used the real tsx loader/UI TSX configuration and isolated temporary Knorvia data directories with credential environment variables removed"
+    },
+    {
+      "id": "scoped-lint",
+      "command": [
+        "node_modules/.bin/oxlint",
+        "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+        "packages/ui/src/hooks/useGroupedTaskView.ts",
+        "packages/ui/src/studio/groups/groupProgress.ts",
+        "packages/ui/src/studio/groups/groupProgressFacts.ts",
+        "packages/ui/src/studio/groups/groupProgressTypes.ts",
+        "packages/ui/src/v4/taskListItemStabilization.ts",
+        "packages/ui/src/v4/taskListRowActivity.ts",
+        "packages/ui/src/v4/taskListValueComparison.ts",
+        "packages/ui/src/v4/workbenchPointerDragDrop.ts",
+        "packages/ui/src/v4/workbenchPointerDropRegistry.ts",
+        "packages/ui/src/v4/workbenchPointerPositionTracker.ts",
+        "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+        "packages/ui/src/workspace-file-tree/fileTreeConsumerResources.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeRefreshScheduling.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeRequestLedger.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeState.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeViewportLease.ts",
+        "packages/ui/src/workspace-file-tree/gitProjection.ts",
+        "packages/ui/src/workspace-file-tree/gitStatus.ts",
+        "packages/ui/src/workspace-file-tree/helpers.ts",
+        "packages/ui/src/workspace-file-tree/model.ts",
+        "packages/ui/src/workspace-file-tree/pathProjection.ts",
+        "packages/ui/src/workspace-file-tree/rowProjection.ts",
+        "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+        "packages/ui/src/workspace-file-tree/stickyFolderProjection.ts",
+        "packages/ui/src/workspace-file-tree/treeProjectionTypes.ts",
+        "packages/ui/src/workspace-file-tree/useInstalledFileTreeEditors.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeRowDragState.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+        "packages/ui/src/workspace-file-tree/watcherRegistry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedCreatedTaskEventLease.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragSessionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedOptimisticProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedPromotionPersistence.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedRefreshOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedRemoteDataCache.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionDomOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionGeometry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionMenuProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedViewReferenceProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/view.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+        "packages/ui/src/workspace-grouped-tasks/virtualized-scroll.ts",
+        "packages/ui/test/ui-next-consumer-resources-activity-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-sticky-folders-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-watchers-20261003.test.ts",
+        "packages/ui/test/ui-next-group-progress-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-session-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-optimistic-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-promotion-persistence-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-reference-events-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-remote-cache-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-task-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+        "packages/ui/test/ui-next-workbench-pointer-20261003.test.ts"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "75 original lane-owned source/test paths; reassigned Studio/CLI/Web/renderer sources excluded",
+      "logSha256": "89da8b9d667347ed390a600334193b2bbb929d72f18f5a526cc37960cbdb4a33",
+      "log": "Found 0 warnings and 0 errors.\nFinished in 56ms on 75 files using 4 threads.\n",
+      "files": [
+        "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+        "packages/ui/src/hooks/useGroupedTaskView.ts",
+        "packages/ui/src/studio/groups/groupProgress.ts",
+        "packages/ui/src/studio/groups/groupProgressFacts.ts",
+        "packages/ui/src/studio/groups/groupProgressTypes.ts",
+        "packages/ui/src/v4/taskListItemStabilization.ts",
+        "packages/ui/src/v4/taskListRowActivity.ts",
+        "packages/ui/src/v4/taskListValueComparison.ts",
+        "packages/ui/src/v4/workbenchPointerDragDrop.ts",
+        "packages/ui/src/v4/workbenchPointerDropRegistry.ts",
+        "packages/ui/src/v4/workbenchPointerPositionTracker.ts",
+        "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+        "packages/ui/src/workspace-file-tree/fileTreeConsumerResources.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeRefreshScheduling.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeRequestLedger.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeState.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeViewportLease.ts",
+        "packages/ui/src/workspace-file-tree/gitProjection.ts",
+        "packages/ui/src/workspace-file-tree/gitStatus.ts",
+        "packages/ui/src/workspace-file-tree/helpers.ts",
+        "packages/ui/src/workspace-file-tree/model.ts",
+        "packages/ui/src/workspace-file-tree/pathProjection.ts",
+        "packages/ui/src/workspace-file-tree/rowProjection.ts",
+        "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+        "packages/ui/src/workspace-file-tree/stickyFolderProjection.ts",
+        "packages/ui/src/workspace-file-tree/treeProjectionTypes.ts",
+        "packages/ui/src/workspace-file-tree/useInstalledFileTreeEditors.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeRowDragState.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+        "packages/ui/src/workspace-file-tree/watcherRegistry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedCreatedTaskEventLease.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragSessionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedOptimisticProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedPromotionPersistence.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedRefreshOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedRemoteDataCache.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionDomOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionGeometry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionMenuProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedViewReferenceProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/view.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+        "packages/ui/src/workspace-grouped-tasks/virtualized-scroll.ts",
+        "packages/ui/test/ui-next-consumer-resources-activity-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-sticky-folders-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-watchers-20261003.test.ts",
+        "packages/ui/test/ui-next-group-progress-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-session-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-optimistic-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-promotion-persistence-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-reference-events-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-remote-cache-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-task-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+        "packages/ui/test/ui-next-workbench-pointer-20261003.test.ts"
+      ],
+      "filesChecked": 75,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "id": "scoped-format",
+      "command": [
+        "node_modules/.bin/oxfmt",
+        "--check",
+        "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+        "packages/ui/src/hooks/useGroupedTaskView.ts",
+        "packages/ui/src/studio/groups/groupProgress.ts",
+        "packages/ui/src/studio/groups/groupProgressFacts.ts",
+        "packages/ui/src/studio/groups/groupProgressTypes.ts",
+        "packages/ui/src/v4/taskListRowActivity.ts",
+        "packages/ui/src/v4/taskListValueComparison.ts",
+        "packages/ui/src/v4/workbenchPointerDragDrop.ts",
+        "packages/ui/src/v4/workbenchPointerPositionTracker.ts",
+        "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+        "packages/ui/src/workspace-file-tree/fileTreeConsumerResources.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeRefreshScheduling.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeState.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeViewportLease.ts",
+        "packages/ui/src/workspace-file-tree/gitProjection.ts",
+        "packages/ui/src/workspace-file-tree/model.ts",
+        "packages/ui/src/workspace-file-tree/pathProjection.ts",
+        "packages/ui/src/workspace-file-tree/rowProjection.ts",
+        "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+        "packages/ui/src/workspace-file-tree/stickyFolderProjection.ts",
+        "packages/ui/src/workspace-file-tree/useInstalledFileTreeEditors.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+        "packages/ui/src/workspace-file-tree/watcherRegistry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedCreatedTaskEventLease.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragSessionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedOptimisticProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedPromotionPersistence.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedRemoteDataCache.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionDomOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionGeometry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionMenuProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedViewReferenceProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+        "packages/ui/test/ui-next-consumer-resources-activity-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-sticky-folders-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-watchers-20261003.test.ts",
+        "packages/ui/test/ui-next-group-progress-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-session-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-optimistic-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-promotion-persistence-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-reference-events-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-remote-cache-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-task-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+        "packages/ui/test/ui-next-workbench-pointer-20261003.test.ts",
+        "packages/ui/src/v4/taskListItemStabilization.ts"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "65 first-pass format paths plus the separately corrected sparse stabilization source",
+      "logSha256": "8033e403eea5e6dd5ae3b5f5275a6940b78680389ff036cbe07672027c068ff7",
+      "log": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 155ms on 66 files using 4 threads.\n",
+      "files": [
+        "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+        "packages/ui/src/hooks/useGroupedTaskView.ts",
+        "packages/ui/src/studio/groups/groupProgress.ts",
+        "packages/ui/src/studio/groups/groupProgressFacts.ts",
+        "packages/ui/src/studio/groups/groupProgressTypes.ts",
+        "packages/ui/src/v4/taskListRowActivity.ts",
+        "packages/ui/src/v4/taskListValueComparison.ts",
+        "packages/ui/src/v4/workbenchPointerDragDrop.ts",
+        "packages/ui/src/v4/workbenchPointerPositionTracker.ts",
+        "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+        "packages/ui/src/workspace-file-tree/fileTreeConsumerResources.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeRefreshScheduling.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeState.ts",
+        "packages/ui/src/workspace-file-tree/fileTreeViewportLease.ts",
+        "packages/ui/src/workspace-file-tree/gitProjection.ts",
+        "packages/ui/src/workspace-file-tree/model.ts",
+        "packages/ui/src/workspace-file-tree/pathProjection.ts",
+        "packages/ui/src/workspace-file-tree/rowProjection.ts",
+        "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+        "packages/ui/src/workspace-file-tree/stickyFolderProjection.ts",
+        "packages/ui/src/workspace-file-tree/useInstalledFileTreeEditors.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+        "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+        "packages/ui/src/workspace-file-tree/watcherRegistry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedCreatedTaskEventLease.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedDragSessionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedMutationProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedOptimisticProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedPromotionPersistence.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedRemoteDataCache.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionDomOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionGeometry.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedSectionMenuProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/groupedViewReferenceProjection.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+        "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+        "packages/ui/test/ui-next-consumer-resources-activity-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-sticky-folders-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-watchers-20261003.test.ts",
+        "packages/ui/test/ui-next-group-progress-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-drag-session-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-optimistic-projection-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-promotion-persistence-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-reference-events-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-remote-cache-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts",
+        "packages/ui/test/ui-next-grouped-task-projections-20261003.test.ts",
+        "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+        "packages/ui/test/ui-next-workbench-pointer-20261003.test.ts",
+        "packages/ui/src/v4/taskListItemStabilization.ts"
+      ],
+      "filesChecked": 66
+    },
+    {
+      "id": "consumer-typecheck",
+      "command": [
+        "node",
+        "docs/evidence/backlog-ui-20261003/final-consumer-typecheck.mjs",
+        "--json-out",
+        "/tmp/knorvia-ui-final-consumer-types.json"
+      ],
+      "observedExitCode": 2,
+      "status": "lane-diagnostics-clear-dependency-graph-failed",
+      "scope": "Ten targeted roots plus original UI globals; real transitive source graph without project-reference build output",
+      "result": {
+        "checkpoint": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+        "typescript": "6.0.2",
+        "roots": [
+          "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+          "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+          "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+          "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+          "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+          "packages/ui/src/v4/taskListItemStabilization.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+          "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts"
+        ],
+        "supportingAmbientRoots": ["packages/ui/src/test-actions.ts", "packages/ui/src/env.d.ts"],
+        "temporaryWire": "In-memory virtual module under UI/test: producer method assigned to real FileTreePanelPorts loadDirectory",
+        "configuration": "Existing UI parser options plus installed Node ambient types for the selected node:test files and existing UI globals; composite=false/rootDir=repository/noEmit=true; real source dependencies, no project-reference emit/build",
+        "baselineErrorReproduced": true,
+        "before": {
+          "inspectedSourceFiles": 1071,
+          "ownDiagnostics": [
+            {
+              "path": "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+              "line": 201,
+              "code": 2322,
+              "message": "Type '(path: string, childDepth: number, options?: DirectoryLoadOptions) => Promise<FileTreeDirectoryLoadResult>' is not assignable to type '(path: string, depth: number) => Promise<void>'.\n  Type 'Promise<FileTreeDirectoryLoadResult>' is not assignable to type 'Promise<void>'.\n    Type 'string' is not assignable to type 'void'.\n      Type 'string' is not assignable to type 'void'."
+            },
+            {
+              "path": "packages/ui/test/__virtual-final-loader-contract.mts",
+              "line": 4,
+              "code": 2322,
+              "message": "Type '(path: string, childDepth: number, options?: DirectoryLoadOptions) => Promise<FileTreeDirectoryLoadResult>' is not assignable to type '(path: string, depth: number) => Promise<void>'.\n  Type 'Promise<FileTreeDirectoryLoadResult>' is not assignable to type 'Promise<void>'.\n    Type 'string' is not assignable to type 'void'.\n      Type 'string' is not assignable to type 'void'."
+            },
+            {
+              "path": "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+              "line": 37,
+              "code": 2322,
+              "message": "Type '(path: string, depth: number) => Promise<string>' is not assignable to type '(path: string, depth: number) => Promise<void>'.\n  Type 'Promise<string>' is not assignable to type 'Promise<void>'.\n    Type 'string' is not assignable to type 'void'."
+            },
+            {
+              "path": "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+              "line": 94,
+              "code": 2322,
+              "message": "Type '(path: string, depth: number) => Promise<FileTreeDirectoryLoadResult>' is not assignable to type '(path: string, depth: number) => Promise<void>'.\n  Type 'Promise<FileTreeDirectoryLoadResult>' is not assignable to type 'Promise<void>'.\n    Type 'string' is not assignable to type 'void'.\n      Type 'string' is not assignable to type 'void'."
+            },
+            {
+              "path": "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+              "line": 115,
+              "code": 2322,
+              "message": "Type '(path: string, depth: number) => Promise<FileTreeDirectoryLoadResult>' is not assignable to type '(path: string, depth: number) => Promise<void>'.\n  Type 'Promise<FileTreeDirectoryLoadResult>' is not assignable to type 'Promise<void>'.\n    Type 'string' is not assignable to type 'void'.\n      Type 'string' is not assignable to type 'void'."
+            }
+          ],
+          "externalDiagnostics": [
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 47,
+              "code": 2322,
+              "message": "Type 'number | undefined' is not assignable to type 'number'.\n  Type 'undefined' is not assignable to type 'number'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 56,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 57,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 58,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 59,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/persistent-protocol.ts",
+              "line": 146,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 66,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 67,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 91,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 94,
+              "code": 2322,
+              "message": "Type 'VSBuffer | undefined' is not assignable to type 'VSBuffer | null'.\n  Type 'undefined' is not assignable to type 'VSBuffer | null'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 97,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 98,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 99,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 109,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 110,
+              "code": 2345,
+              "message": "Argument of type 'VSBuffer | undefined' is not assignable to parameter of type 'VSBuffer | Uint8Array<ArrayBufferLike>'.\n  Type 'undefined' is not assignable to type 'VSBuffer | Uint8Array<ArrayBufferLike>'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 111,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 114,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 115,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/remote.ts",
+              "line": 168,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/serialization.ts",
+              "line": 79,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/serialization.ts",
+              "line": 90,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/serialization.ts",
+              "line": 91,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            }
+          ]
+        },
+        "after": {
+          "inspectedSourceFiles": 1071,
+          "ownDiagnostics": [],
+          "externalDiagnostics": [
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 47,
+              "code": 2322,
+              "message": "Type 'number | undefined' is not assignable to type 'number'.\n  Type 'undefined' is not assignable to type 'number'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 56,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 57,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 58,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/buffer.ts",
+              "line": 59,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/persistent-protocol.ts",
+              "line": 146,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 66,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 67,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 91,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 94,
+              "code": 2322,
+              "message": "Type 'VSBuffer | undefined' is not assignable to type 'VSBuffer | null'.\n  Type 'undefined' is not assignable to type 'VSBuffer | null'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 97,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 98,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 99,
+              "code": 18048,
+              "message": "'first' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 109,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 110,
+              "code": 2345,
+              "message": "Argument of type 'VSBuffer | undefined' is not assignable to parameter of type 'VSBuffer | Uint8Array<ArrayBufferLike>'.\n  Type 'undefined' is not assignable to type 'VSBuffer | Uint8Array<ArrayBufferLike>'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 111,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 114,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/protocol.ts",
+              "line": 115,
+              "code": 18048,
+              "message": "'chunk' is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/remote.ts",
+              "line": 168,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/serialization.ts",
+              "line": 79,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/serialization.ts",
+              "line": 90,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            },
+            {
+              "path": "packages/rpc/src/serialization.ts",
+              "line": 91,
+              "code": 2532,
+              "message": "Object is possibly 'undefined'."
+            }
+          ]
+        }
+      },
+      "note": "Before pass substitutes only the exact baseline panel port source into the current formatted source graph; this is a contract counterfactual, not a whole-baseline typecheck. Current own diagnostics are zero; all 22 outside RPC diagnostics are identical before/after. CLI/other lanes are not modified."
+    },
+    {
+      "id": "formatting-syntax-comparison",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "61 inputs after the canonical type/fixture fix and before formatter, compared with final files; four lint-edited snapshot inputs excluded. Separate task-list sparse source was outside the 65 initial format inputs.",
+      "result": {
+        "scope": "Formatting inputs after canonical loader fix, before oxfmt, compared with final source",
+        "technique": "In-memory TypeScript ReactJSX transpilation and trivia/parentheses-independent JavaScript syntax trees; no emits or builds",
+        "passed": [
+          "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+          "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "packages/ui/src/studio/groups/groupProgress.ts",
+          "packages/ui/src/studio/groups/groupProgressFacts.ts",
+          "packages/ui/src/studio/groups/groupProgressTypes.ts",
+          "packages/ui/src/v4/taskListRowActivity.ts",
+          "packages/ui/src/v4/taskListValueComparison.ts",
+          "packages/ui/src/v4/workbenchPointerDragDrop.ts",
+          "packages/ui/src/v4/workbenchPointerPositionTracker.ts",
+          "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+          "packages/ui/src/workspace-file-tree/fileTreeConsumerResources.ts",
+          "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+          "packages/ui/src/workspace-file-tree/fileTreeRefreshScheduling.ts",
+          "packages/ui/src/workspace-file-tree/fileTreeState.ts",
+          "packages/ui/src/workspace-file-tree/fileTreeViewportLease.ts",
+          "packages/ui/src/workspace-file-tree/gitProjection.ts",
+          "packages/ui/src/workspace-file-tree/model.ts",
+          "packages/ui/src/workspace-file-tree/pathProjection.ts",
+          "packages/ui/src/workspace-file-tree/rowProjection.ts",
+          "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+          "packages/ui/src/workspace-file-tree/stickyFolderProjection.ts",
+          "packages/ui/src/workspace-file-tree/useInstalledFileTreeEditors.ts",
+          "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+          "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+          "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+          "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+          "packages/ui/src/workspace-file-tree/watcherRegistry.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedCreatedTaskEventLease.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedDragSessionOwner.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedMutationProjection.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedOptimisticProjection.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedPromotionPersistence.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedRemoteDataCache.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedSectionDomOwner.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedSectionGeometry.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedSectionMenuProjection.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedViewReferenceProjection.ts",
+          "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+          "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+          "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+          "packages/ui/test/ui-next-consumer-resources-activity-20261003.test.ts",
+          "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+          "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+          "packages/ui/test/ui-next-file-tree-projections-20261003.test.ts",
+          "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts",
+          "packages/ui/test/ui-next-file-tree-sticky-folders-20261003.test.ts",
+          "packages/ui/test/ui-next-file-tree-watchers-20261003.test.ts",
+          "packages/ui/test/ui-next-group-progress-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-drag-session-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-optimistic-projection-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-promotion-persistence-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-reference-events-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-remote-cache-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-task-projections-20261003.test.ts",
+          "packages/ui/test/ui-next-workbench-pointer-20261003.test.ts"
+        ],
+        "failed": [],
+        "excludedIntentionalLintEdits": [
+          "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+          "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+          "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+          "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts"
+        ]
+      },
+      "normalization": "In-memory TS 6.0.2 ReactJSX transpilation; comments/trivia/trailing comma and redundant parenthesis differences removed from JavaScript AST; identifiers/literals/operators/declaration/optional-chain structure retained",
+      "note": "A source formatting comparison, not a build or runtime/UI acceptance"
+    },
+    {
+      "id": "changed-architecture",
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "check", "--changed"],
+      "observedExitCode": 0,
+      "status": "passed",
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "scope": "Changed source only; no root policy/configuration change"
+    },
+    {
+      "id": "diff-whitespace",
+      "command": ["git", "diff", "--check"],
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Current owned source/spec changes"
+    },
+    {
+      "id": "data-owner-after-live-setter-review",
+      "command": [
+        "node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=1",
+        "--test-timeout=120000",
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Only affected data owner suite after preserving each setter property access; other four suites unchanged since the 45-case run",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "logSha256": "33a260de90433b11b955ceb3547e3d6f597c18ef0a0809143bde25f954a976ab",
+      "log": "✔ non-force admission shares the loading fact, while only a newer force request publishes (2.593203ms)\n✔ ordinary single-directory chains prefetch silently and symlink directories do not recurse (0.600032ms)\n✔ scope cleanup rejects late directory/Git/ignored results and supports effect replay (0.90617ms)\n✔ manual refresh rejects reentry and retains loaded child data on a current read failure (1.489055ms)\n✔ a manual deadline records the same error and revokes a late successful directory result (1.752433ms)\n✔ watch failure prunes only its subtree and re-reads the parent after debounce (1.272633ms)\n✔ bulk watch fallback reads the current expanded set and cleanup clears its timer (0.967761ms)\n✔ Git failure clears availability, while a manual Git timeout retains the previous snapshot (0.876156ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1066.011214\n",
+      "relevantFinalSourceSha256": "3b7c4bf839dc68e4d890865a0bd599c7aa4153fbc7015b9aa2985e44cd647ece"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+      "change": "format-only",
+      "baseBytes": 29468,
+      "baseSha256": "023e129768efcba6d1ff1894e9dace2741c29a240485ec2007e8a208b712bc54",
+      "candidateBytes": 30154,
+      "candidateSha256": "dedae7a1765c36ba015cd275a79f944f79dc6908cbc1f74151da1d7d7b753bff"
+    },
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "change": "format-only",
+      "baseBytes": 15850,
+      "baseSha256": "54243f56292915a09511febfd42ce66f7863441ed80eff033d263436d750aab1",
+      "candidateBytes": 16449,
+      "candidateSha256": "d27a2249212a9c787d66ec838e4568cbb2478de2ef569a1904425ee063967538"
+    },
+    {
+      "path": "packages/ui/src/studio/groups/groupProgress.ts",
+      "change": "format-only",
+      "baseBytes": 2602,
+      "baseSha256": "e643ec76fbc0bb2a72674180342648099934da0d24269b444c74c51f9ed2165d",
+      "candidateBytes": 2722,
+      "candidateSha256": "afb032932b8c21063f2747d56e23f5f37e8d820b04aca78ec67ebab661f9a227"
+    },
+    {
+      "path": "packages/ui/src/studio/groups/groupProgressFacts.ts",
+      "change": "format-only",
+      "baseBytes": 5292,
+      "baseSha256": "86d9fc074707966a60b953b1747f55560d5fc5a8a73d928b8fb0ccf5705f5b72",
+      "candidateBytes": 5533,
+      "candidateSha256": "2c48bfcbd1465d14813cddb2c63f5fb97d0d2f76a5b6feaa3ccdf9037a7b0f1d"
+    },
+    {
+      "path": "packages/ui/src/studio/groups/groupProgressTypes.ts",
+      "change": "format-only",
+      "baseBytes": 1200,
+      "baseSha256": "10f5dfc89f7f54f0c0d8af92bc040c89473f823f8ba71cbc2fc3acabe09dd8c8",
+      "candidateBytes": 1216,
+      "candidateSha256": "62a6fc6c74f4df39273b7c7510a92e4aa5a049d8ddc6d750a333ac28211ba9d0"
+    },
+    {
+      "path": "packages/ui/src/v4/taskListItemStabilization.ts",
+      "change": "sparse-array-lint-fix",
+      "baseBytes": 1531,
+      "baseSha256": "f86eb506fbf7c665fbb90d06dd539b0165f64bf628634ebca498d2bd997957cb",
+      "candidateBytes": 1631,
+      "candidateSha256": "e5e1d7becedc0a43d27e682014012520395189d7cb2853c725101e08a308bfcf"
+    },
+    {
+      "path": "packages/ui/src/v4/taskListRowActivity.ts",
+      "change": "format-only",
+      "baseBytes": 3895,
+      "baseSha256": "684d5847d8bcfaf815770a90b2e0ff5b8936d82be8616542548cf89db1c326f5",
+      "candidateBytes": 3948,
+      "candidateSha256": "9442b83cf6d9a411c7a15c26167b8cd083624ba439e3aa9b771011c8ace548ad"
+    },
+    {
+      "path": "packages/ui/src/v4/taskListValueComparison.ts",
+      "change": "format-only",
+      "baseBytes": 2779,
+      "baseSha256": "baa985f26d5370c84c2bd053481222316dece5668fc7dfd654cd3aa571041ebe",
+      "candidateBytes": 2797,
+      "candidateSha256": "1a822a8e1b8b5b1e0774e5cf9a46ab93674263f3099f529b07cff05adcde30dd"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchPointerDragDrop.ts",
+      "change": "format-only",
+      "baseBytes": 1017,
+      "baseSha256": "648cac32dc40728bfd7b215d71d03f7eeb2d9ed87d029a7c3dad5357c9acf268",
+      "candidateBytes": 1040,
+      "candidateSha256": "d277943b1df9e4f86fca3bd94eb08f5e774b2ecf176aa8830af7b27048a05693"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchPointerPositionTracker.ts",
+      "change": "format-only",
+      "baseBytes": 2619,
+      "baseSha256": "c29bd26f511b342b7eed3967d61e041187d9fff88a69207998a0d3987ee5bfef",
+      "candidateBytes": 2696,
+      "candidateSha256": "d8ea9184a44bbc627d9c5afcd8e9a8c59f573a6822236917b927328122a122ab"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+      "change": "format-only",
+      "baseBytes": 21097,
+      "baseSha256": "9a3cfa4309a6c6d8dd3edcf5c78b334a08bf9f07189bbf8e6430840d30ff07a2",
+      "candidateBytes": 21503,
+      "candidateSha256": "fd133a75e96f075c4034d47b4dcc1b7b9b865f88d56aa72d448481a1dd28f2f4"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeConsumerResources.ts",
+      "change": "format-only",
+      "baseBytes": 2199,
+      "baseSha256": "4197023c4a7137f25f1d4a14c1af52833ba0478f9eb25ca017965b6514a91bab",
+      "candidateBytes": 2329,
+      "candidateSha256": "48505fe1024f35f1949247867aed490d3bf992c9b7ee206663b2f5fda74c36a5"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+      "change": "live-ref-lint-fix-and-format",
+      "baseBytes": 11946,
+      "baseSha256": "6170193233c04467e3c76ca3f8d3c50a3c7fb220bbd6a7f6c8d412ccfce2cb18",
+      "candidateBytes": 12958,
+      "candidateSha256": "3b7c4bf839dc68e4d890865a0bd599c7aa4153fbc7015b9aa2985e44cd647ece"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+      "change": "canonical-loader-consumer-type-and-format",
+      "baseBytes": 9411,
+      "baseSha256": "3918c10d02109958e075f941e4d47c9d586f526ffda594bb96ec533f6e9087f4",
+      "candidateBytes": 10083,
+      "candidateSha256": "9f748faf73f73a29d802cf32b7f692d66ac60a99350d1d6387a39cec27bd59e6"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeRefreshScheduling.ts",
+      "change": "format-only",
+      "baseBytes": 1310,
+      "baseSha256": "49bfea9a5da726cbd460634325a23c49e0fc0f9659a65d455f86e15f2b41b91e",
+      "candidateBytes": 1342,
+      "candidateSha256": "f636dd1804ea3e4c5cacb4456942ed404a6cc58147ed2fc513c8cb2fed5292b1"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeState.ts",
+      "change": "format-only",
+      "baseBytes": 2721,
+      "baseSha256": "50f5a6ba6f14eae4b61dd69adc93de2845b474aa40dc3f351ca7a7b43eff0e64",
+      "candidateBytes": 2771,
+      "candidateSha256": "030ee1c6343c8619c99ad560fb1954587e7e1a48a2bf1fa4468f8121f03fce4a"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeViewportLease.ts",
+      "change": "format-only",
+      "baseBytes": 2347,
+      "baseSha256": "4ce43cb4ebe2cf38097648852e719eb8427a1114ccb40f9a8bdc2467ace20aad",
+      "candidateBytes": 2470,
+      "candidateSha256": "f09180dfd6ccfd94cc7e7686f92d56336cd922d9dfba82f64f12b4abcef948a3"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/gitProjection.ts",
+      "change": "format-only",
+      "baseBytes": 4835,
+      "baseSha256": "210bdbcadf85501f4c0dba4e1417ceb772511c3b948143c170ba75d3ea97c599",
+      "candidateBytes": 4857,
+      "candidateSha256": "027b6ffe482863c19da58ed664d58b47332980e646ca8c0d3f8814bab5d39c64"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/model.ts",
+      "change": "format-only",
+      "baseBytes": 1598,
+      "baseSha256": "426db9b64a29a6eefa1bef10f2ba1d00df4e2352d494f6b9abeefe2e711bf475",
+      "candidateBytes": 1602,
+      "candidateSha256": "90ca0a523e99ae26c5625b111f7d7eebb1272e8bed24fd9276569096bebba7eb"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/pathProjection.ts",
+      "change": "format-only",
+      "baseBytes": 2821,
+      "baseSha256": "d0c46c47a69a240e53e71b0e38b1119429c269661923bbfa33f434fb2004bf98",
+      "candidateBytes": 2864,
+      "candidateSha256": "f76177124e2bd5958c2e532eb27920fb6196fb3cad3301e8b6a1a723cb6782f7"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/rowProjection.ts",
+      "change": "format-only",
+      "baseBytes": 4557,
+      "baseSha256": "0bc847b584fd9f57199e08843d04ae59483e842a1ba18c787e246b13da3c209c",
+      "candidateBytes": 4673,
+      "candidateSha256": "7cd7ae4dac5c42453380e4c8d2a9f8ed88f266881580ebe0bbe2fc6b33d7f396"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+      "change": "format-only",
+      "baseBytes": 2289,
+      "baseSha256": "4472c95d132f1163e0fe49db50cd8dc1e8762edfb7859c9d099df859d9680e3e",
+      "candidateBytes": 2325,
+      "candidateSha256": "0f1cd9eb3ae995da68d2c70f8bbd7acb761a56f29b4356805316a6e726e69e25"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/stickyFolderProjection.ts",
+      "change": "format-only",
+      "baseBytes": 2832,
+      "baseSha256": "5c9e1c296f8442fa20006935f705689ce2744f8f52db763f986216e33a163048",
+      "candidateBytes": 2880,
+      "candidateSha256": "40a5c9495aba4e54a0ca023e5ed00071e93d5c73d555372338fab396cf7fa21e"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useInstalledFileTreeEditors.ts",
+      "change": "format-only",
+      "baseBytes": 816,
+      "baseSha256": "ca3b5a1c3199c9e89a4355538a9821c8946a1510c6588fd977052013d2d91d7b",
+      "candidateBytes": 865,
+      "candidateSha256": "b8fb241d02da4ca1a97f451edc1c7d1a5ccb41e52b8ac041f1bba0c01aa8c94b"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+      "change": "format-only",
+      "baseBytes": 2974,
+      "baseSha256": "a02c5dc73e66e7a34c88994c874f68a432cd085a598ba530c3c5389f35b3f7ed",
+      "candidateBytes": 3071,
+      "candidateSha256": "6c6e6b320c4a637cb96d6a08f18e0d50b93320fbb6cf4c54d4a6c8aae4d1a880"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+      "change": "format-only",
+      "baseBytes": 2749,
+      "baseSha256": "7773384b33185bc1b578e8ba03ec0a783b78d7c41447d05b9e0d13087d803bf5",
+      "candidateBytes": 2868,
+      "candidateSha256": "da73a9f03b6e3447b31e4709d72dbc28a55bf00885fae91456a2b5cfcd588232"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+      "change": "format-only",
+      "baseBytes": 1051,
+      "baseSha256": "d232ad48a648886d6ab9c5afc958943c1a0b11c5e42edd492e2c56139f87e52f",
+      "candidateBytes": 1123,
+      "candidateSha256": "f54982958137281e4438c2cb569e5848aa00fed4000b38f021d77d135be1e4dd"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+      "change": "format-only",
+      "baseBytes": 1335,
+      "baseSha256": "70e83160def50606897d8fc2b9747ec7eafad6ee2ee10af2acb8c12b2c57506d",
+      "candidateBytes": 1370,
+      "candidateSha256": "c81e114cdf0e60d30114b19fb946c13b50de1b5205006d889846a7d6b3d6bb75"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/watcherRegistry.ts",
+      "change": "format-only",
+      "baseBytes": 4006,
+      "baseSha256": "752ae9d8ce4f564e0dc72f232f0ab2ab377db6b1cfdc610b2677770d31dd4246",
+      "candidateBytes": 4020,
+      "candidateSha256": "00fb09ab2096886b5f51e71a99a7a0b7a5281320bb3ba4fee863725ef013d577"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedCreatedTaskEventLease.ts",
+      "change": "format-only",
+      "baseBytes": 1814,
+      "baseSha256": "7ab57dba881f442e5849aa40c99f093bf7cdec3fccfeafb332f006855733aa18",
+      "candidateBytes": 1986,
+      "candidateSha256": "ddcb34d76b89fcfe7247e018cf8afd53534ed53f74eb54b37c629ad8823d8718"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+      "change": "sparse-signature-lint-fix-and-format",
+      "baseBytes": 3864,
+      "baseSha256": "315c4a105af0890d0ce7ac8af385838f9f17eb41e7560213c2546352147c742a",
+      "candidateBytes": 4007,
+      "candidateSha256": "5eab5af53209c599a372a7b0bdc51df94aece610ee2e9fbb58f76fc18ce49f44"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedDragSessionOwner.ts",
+      "change": "format-only",
+      "baseBytes": 8588,
+      "baseSha256": "6371492f2ad18e0771b58a9647c1450fb7aae2bf9045fba2dce3bb2138266332",
+      "candidateBytes": 9111,
+      "candidateSha256": "13a39fc81298b7d65197d7bf5514025b4af7a818a644cb827f18386fc16baf94"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+      "change": "format-only",
+      "baseBytes": 5943,
+      "baseSha256": "7745bd51057978cdcc3255f2d1f01c39ab2610a7b4d02a1958983f435a3c0d91",
+      "candidateBytes": 6167,
+      "candidateSha256": "d958c9f5a964c4343e1135285dacdfd6bb9617a560bdb2db55c2b9a38c1e1c50"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedMutationProjection.ts",
+      "change": "format-only",
+      "baseBytes": 2905,
+      "baseSha256": "e390ef8367f94ba52df9f1ecd87bb40291c177db6ad732fcfd73d7ee6bcfef72",
+      "candidateBytes": 2969,
+      "candidateSha256": "9ac0e570de3f92b4336f24fa0be3f473ed4d3c17b5365850a466f5d71dbab4f9"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedOptimisticProjection.ts",
+      "change": "format-only",
+      "baseBytes": 6306,
+      "baseSha256": "1adf097394b4388477380edaccb4a7b42f95584fe49b347ee7ec3ef6f226e0ee",
+      "candidateBytes": 6691,
+      "candidateSha256": "ab7e79b4882419aecdb12a1c88b5faff7e0e6bfeb292b8535509860af28a7d22"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedPromotionPersistence.ts",
+      "change": "format-only",
+      "baseBytes": 4649,
+      "baseSha256": "6925d7d9be181aa0216545e707f56e6c6b1105045d7ca31cfcdfc4b7a15de0cd",
+      "candidateBytes": 4772,
+      "candidateSha256": "0544b269e6b36098419cdb8fad3f5433d07a1872388227ad6dc9491b3934e224"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedRemoteDataCache.ts",
+      "change": "format-only",
+      "baseBytes": 2720,
+      "baseSha256": "9ebfb3826e9848fe2ea4bafdfdf16590292c8a77918c3069250eb2defb44a4d9",
+      "candidateBytes": 2777,
+      "candidateSha256": "1091e82d1fa7f863304cd896d42650c91b2bacb4ae03b0edce8d8c53987e5e40"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionDomOwner.ts",
+      "change": "format-only",
+      "baseBytes": 11478,
+      "baseSha256": "fdc2fe2abefb7e2f15e661aae3e825dcc019b33e4ae77774a964d813f7f93531",
+      "candidateBytes": 12293,
+      "candidateSha256": "3032bc5789c5a68cb25c846b39fa3fe5a496976f46213da3e5f51c16bec09a12"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionGeometry.ts",
+      "change": "format-only",
+      "baseBytes": 1490,
+      "baseSha256": "63cab52f973f7f9b50e495e09f456d81adc13a90533d5e5d4e38587ce5542871",
+      "candidateBytes": 1519,
+      "candidateSha256": "12c791fd4ad6fe4802f684bd6e38bb8bea4a101b2a9b7428856a8b3d9a5a2282"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+      "change": "format-only",
+      "baseBytes": 11766,
+      "baseSha256": "512792451a650b6869d5eeddfcf5e1dfa6d6e4210fcde8e6d09c6f82fecb0016",
+      "candidateBytes": 12491,
+      "candidateSha256": "3bc5e795a9c99da9e439552f733799bb6f237a233f7c727ca143e04aa0506727"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionMenuProjection.ts",
+      "change": "format-only",
+      "baseBytes": 1364,
+      "baseSha256": "4585014143cf5be13fb4a663719929de527c8deee440b5df2232277504f4f1ea",
+      "candidateBytes": 1432,
+      "candidateSha256": "4f5b06bb5562fd547220426c5c21287c74023abde889330c7999b3335ecce205"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedViewReferenceProjection.ts",
+      "change": "format-only",
+      "baseBytes": 2310,
+      "baseSha256": "5ad6ea05fb6d5116b37dac0e643ed3e5367ae3d61679b5dcc69edfda2da83f12",
+      "candidateBytes": 2357,
+      "candidateSha256": "ba5031a185782dfa3dc90a2b388174d6cebd4c8d5bfb5e0443832553faad253f"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+      "change": "format-only",
+      "baseBytes": 5005,
+      "baseSha256": "093726df0570f0d984bc91b2385fd35f5dd2d69b5bac6745e92c8b32b26aaf9e",
+      "candidateBytes": 5201,
+      "candidateSha256": "8aea96626d9e9d5d35032b8985e0536fc8da56320a2c1e43ba38d5ac0e63ceed"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+      "change": "format-only",
+      "baseBytes": 3792,
+      "baseSha256": "57c244b157ccfe317994dcec7d1b424fef075526dcbc34f11c48f4a74f356248",
+      "candidateBytes": 3812,
+      "candidateSha256": "0a31e2c626a73250f6fc2b91cc53f5fa36fb0c37f2fc1a3eee12c3aab26c12a6"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+      "change": "format-only",
+      "baseBytes": 3716,
+      "baseSha256": "67fce76f49cd2b4eb25d0c21e0bcb24b73d3911b7ea9715503bb994040ab84da",
+      "candidateBytes": 3797,
+      "candidateSha256": "e285de5ad3ee5f045ead17e38ad3490021421a6859dba5abadb17cc6a8abde12"
+    },
+    {
+      "path": "packages/ui/test/ui-next-consumer-resources-activity-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 5499,
+      "baseSha256": "74fd0e7963c0cb749ed5a889e727630363813cf494c335a3caa1e231560df41a",
+      "candidateBytes": 5816,
+      "candidateSha256": "04cf4b4cb946a990bd1fc9ebc62ba02be3f178943cf275d03e6a9caed24e61b3"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 9980,
+      "baseSha256": "3adea2e4336cff1d8370372e85a74f3c71ab90f6677e896f98b276fb23c4d042",
+      "candidateBytes": 10191,
+      "candidateSha256": "9ffcfb1fb63103cc292a0065aa00cd6580b494f62a064d758fc544ae010c2a78"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+      "change": "canonical-result-fixtures-reveal-contract-and-format",
+      "baseBytes": 6817,
+      "baseSha256": "3e8131249f385472d31e56e778ccd173717a4e58c2bf4ceeffba76800b1c04ec",
+      "candidateBytes": 8027,
+      "candidateSha256": "fde0bd75ce6d386813c528161e35804d3c4d1f1d084af0a12a5398381b566aa1"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-projections-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 13132,
+      "baseSha256": "3d8b7f2cbe6397cbffba5f87628b0d755a8fd39e1f94b88a0bf5f6b0c8261c76",
+      "candidateBytes": 13938,
+      "candidateSha256": "efeb37935fb2ab148e21af458fbdf4f09b853996e5a8c04136b1c8b559ebe676"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 4350,
+      "baseSha256": "7ab6016136c2882c1357ead83c0cf10d91f1e98f0bf13ed72c145eda453f72d3",
+      "candidateBytes": 4445,
+      "candidateSha256": "38f9f0f90811b12d8c0de00c2a6b2ae8d83285884651c32456854cd832007f3c"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-sticky-folders-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 3390,
+      "baseSha256": "326f390ccb9f3d12a8d159cc1be617b89756d6ffaa9c78d00166a7797666d682",
+      "candidateBytes": 3625,
+      "candidateSha256": "2f759b338b190927ec453ac2f1b3353adaab23494df9c8346515c52cbd35e5dc"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-watchers-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 7278,
+      "baseSha256": "085178a282d4b2d3e1a578a6d63db08b43eac9c14606b9df4e791de553174552",
+      "candidateBytes": 7422,
+      "candidateSha256": "c91e4a2ae31a04a5943606d1ffe52b747634143aeb752ab1b91b4ebac11e80e1"
+    },
+    {
+      "path": "packages/ui/test/ui-next-group-progress-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 6949,
+      "baseSha256": "a3eb8a2574fb7e4b8e362dc33c8741925fc8857ab524d0bf83d1e10624fdebe4",
+      "candidateBytes": 7293,
+      "candidateSha256": "16129e1f85dbd7ac40f4c20a88aebbf45148f28b147c88ce068aee8663c0f0f9"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 5974,
+      "baseSha256": "60353fadad9ab9a69bff2a86b1d94b08b223f92fb29ddc55a5f01c99b1ced1c8",
+      "candidateBytes": 6520,
+      "candidateSha256": "23008610bdf5ace4487d925b334a8b4cfdf3d20d90f6602c2b458167b02d2d7b"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-drag-session-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 9388,
+      "baseSha256": "46db8be774678ff222274619ac47a4496641f3f05e2c6a954c8df75bd8b1f4cc",
+      "candidateBytes": 9814,
+      "candidateSha256": "d25068c78ee019718613b665ef1c6865cb241399e772090c48f55d99439339d9"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 7634,
+      "baseSha256": "f410bce1206d8e899d9c7e914b76b4662ade132a76c84136468744f60ca8b289",
+      "candidateBytes": 8126,
+      "candidateSha256": "14894a70928ad3f87158ddc24edcce3d4daeae341dfccb47382e8e1603a954ec"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-optimistic-projection-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 5499,
+      "baseSha256": "03b8fe0d36814f9648a8227c7161da17eba4cdfb3001047fc6a5abbc741ccb09",
+      "candidateBytes": 5763,
+      "candidateSha256": "8de6e16d6625cd0d45fd160d62d021ecf51b84455227ac70fe88210ed08eab9d"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-promotion-persistence-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 5928,
+      "baseSha256": "b47d6a867e96c85d845b52cb7c87698ecdc80f5878c648684a0cb303759613cd",
+      "candidateBytes": 6329,
+      "candidateSha256": "63a75b69429b44c728b22d28811cd19452efce5f4933fd77269523bdc16a9337"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-reference-events-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 6816,
+      "baseSha256": "c1ad5c665da81810dee4aaed7a7a7b61958e02cd4bd486410a0270f77e5581d6",
+      "candidateBytes": 7145,
+      "candidateSha256": "88e2898ab194a398921a50e736f4bb34889f2d39fc575e8efffb41e84aa41e01"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 4740,
+      "baseSha256": "5976ca5b08b782a8a3aab20915b9a55920c1e310b0599b20431ee1ca8d49df45",
+      "candidateBytes": 4985,
+      "candidateSha256": "2f642fe7f9b0efb66d5bcd5b9f11e57bd8ba28716471795b42111daf50f2be33"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-remote-cache-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 4707,
+      "baseSha256": "ffff53ffc8c2a8625b4fb5aa1dfdee7ab3ee28e95b0a2dfa18d6bfd33c4d3034",
+      "candidateBytes": 4921,
+      "candidateSha256": "80cf75865311111586124a4f8f85f4fd06189f2c77b52bf66a89c23be09ffa9e"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 11763,
+      "baseSha256": "edeb29fbeeaf8946cd0245b33575d204193d84594a727379603bd0b54aa99f8d",
+      "candidateBytes": 12209,
+      "candidateSha256": "fa28cfa5cc584f836f949c761eec698af7418fb92f841b9e4d15cd4f84d7d8da"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts",
+      "change": "listener-snapshot-lint-fix-and-format",
+      "baseBytes": 14161,
+      "baseSha256": "40a6ff5db66b0e9b6d31811fe8f0b46ef40a53842461c3df19151c19220d7144",
+      "candidateBytes": 14946,
+      "candidateSha256": "5c88da49e2f45779c0851acc46f3c60949d4f7d9b3fe864b261e8f3121aa27b2"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-task-projections-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 11671,
+      "baseSha256": "31c28eeb43e428e6c99217643525bde7e94a09a48608d908e3bdc286ac06837f",
+      "candidateBytes": 12431,
+      "candidateSha256": "41cb9c16f1494b338dd45ed7d1c7a2150cc73518a22973ae5dfd89df9d9f4095"
+    },
+    {
+      "path": "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+      "change": "sparse-fixture-lint-fix-and-format",
+      "baseBytes": 6574,
+      "baseSha256": "c28edaba89acaf0fe80eb758cabed771c73534bd02b361b1d0ed68ee15a39e7b",
+      "candidateBytes": 6830,
+      "candidateSha256": "d5ef074c1567e58d67770addfe991be8367d4a23afe1a8857f133221172435d7"
+    },
+    {
+      "path": "packages/ui/test/ui-next-workbench-pointer-20261003.test.ts",
+      "change": "format-only",
+      "baseBytes": 9678,
+      "baseSha256": "73c339ca19eb0cc81ec2012262651bba8c39ae124f4b57db24407a3b8345abd4",
+      "candidateBytes": 10122,
+      "candidateSha256": "d77b37970b429255d1d0d1a191dba8cb3cb2c33012b5672f82b06ea73df11175"
+    }
+  ],
+  "pending": [
+    {
+      "owner": "integration/RPC",
+      "issue": "22 unchanged source-graph diagnostics under the UI compiler options; RPC has its own project/reference acceptance",
+      "byFile": {
+        "packages/rpc/src/buffer.ts": 5,
+        "packages/rpc/src/persistent-protocol.ts": 1,
+        "packages/rpc/src/protocol.ts": 12,
+        "packages/rpc/src/remote.ts": 1,
+        "packages/rpc/src/serialization.ts": 3
+      }
+    },
+    {
+      "owner": "integration",
+      "issue": "Refresh global inventory/report against new source/document/evidence bytes; historical receipts still bind their original checkpoints"
+    },
+    {
+      "owner": "integration",
+      "issue": "Unified project-reference typecheck, full tests/build and real React/Electron/Web/platform/state/data restoration acceptance"
+    },
+    {
+      "owner": "integration/rights-review",
+      "issue": "Final authorship/rights acceptance and MIT decision; this repair adds no rights conclusion"
+    }
+  ],
+  "newCrossModuleInterfaceRequirements": [],
+  "supplementaryChecks": [
+    {
+      "id": "data-owner-final-lint",
+      "files": ["packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts"],
+      "observedExitCode": 0,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "id": "data-owner-final-format",
+      "files": ["packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts"],
+      "observedExitCode": 0,
+      "status": "passed"
+    },
+    {
+      "id": "typecheck-driver-lint",
+      "files": ["docs/evidence/backlog-ui-20261003/final-consumer-typecheck.mjs"],
+      "observedExitCode": 0,
+      "warnings": 0,
+      "errors": 0
+    }
+  ],
+  "typecheckInputs": {
+    "driver": {
+      "path": "docs/evidence/backlog-ui-20261003/final-consumer-typecheck.mjs",
+      "sha256": "6867d3e57197a0dffdbc3a9d639bbfa7c211556927cde356d3047a6d40517941"
+    },
+    "existingConfigurationAndGlobals": [
+      {
+        "path": "tsconfig.base.json",
+        "sha256": "f432bc89700c552ed1f4d9f582620f402afcfc67ec275e50c8b432021ad971b1"
+      },
+      {
+        "path": "packages/ui/tsconfig.json",
+        "sha256": "d2f9ff759a473ca95d5ae9a496cd0f4a6cfc01256adbf648b9afb80ac2352cad"
+      },
+      {
+        "path": "packages/ui/src/env.d.ts",
+        "sha256": "f19e1664b94b4b5e23b40e13b496d66fea9b0c39b002bc571315ef6b0be78276"
+      },
+      {
+        "path": "packages/ui/src/test-actions.ts",
+        "sha256": "4ff366e95593dcf95afb50efcf0f4a100a8ae1de8a1e80fe964ed29eda0e51b9"
+      }
+    ]
+  }
+}

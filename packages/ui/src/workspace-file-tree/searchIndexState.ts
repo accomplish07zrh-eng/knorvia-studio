@@ -24,15 +24,20 @@ export function reduceWorkspaceFileSearchIndex(
   action: WorkspaceFileSearchIndexAction,
 ): WorkspaceFileSearchIndexSnapshot {
   switch (action.type) {
-    case "reset": return emptyWorkspaceFileSearchIndex();
-    case "start": return { ...snapshot, loading: true, error: null };
-    case "ready": return { ...snapshot, packed: action.packed, loaded: true };
-    case "failed": return {
-      ...snapshot,
-      error: action.error instanceof Error ? action.error : new Error(String(action.error)),
-    };
+    case "reset":
+      return emptyWorkspaceFileSearchIndex();
+    case "start":
+      return { ...snapshot, loading: true, error: null };
+    case "ready":
+      return { ...snapshot, packed: action.packed, loaded: true };
+    case "failed":
+      return {
+        ...snapshot,
+        error: action.error instanceof Error ? action.error : new Error(String(action.error)),
+      };
     case "settled":
-    case "paused": return snapshot.loading ? { ...snapshot, loading: false } : snapshot;
+    case "paused":
+      return snapshot.loading ? { ...snapshot, loading: false } : snapshot;
   }
 }
 

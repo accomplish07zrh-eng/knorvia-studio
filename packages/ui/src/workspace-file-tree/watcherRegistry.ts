@@ -69,10 +69,12 @@ export class WorkspaceFileTreeWatcherRegistry {
   }
 
   private accepts(ticket: WatchTicket): boolean {
-    return this.service === ticket.service
-      && this.epoch === ticket.epoch
-      && this.pending.get(ticket.path) === ticket
-      && this.wanted.has(ticket.path);
+    return (
+      this.service === ticket.service &&
+      this.epoch === ticket.epoch &&
+      this.pending.get(ticket.path) === ticket &&
+      this.wanted.has(ticket.path)
+    );
   }
 
   private async open(ticket: WatchTicket): Promise<void> {

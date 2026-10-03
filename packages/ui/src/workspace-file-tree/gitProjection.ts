@@ -8,11 +8,18 @@ import {
   workspaceFilePathKey,
 } from "@/workspace-file-tree/pathProjection.js";
 import type {
-  WorkspaceFileGitStatus, WorkspaceFileTreeNode, WorkspaceFileTreeRow,
+  WorkspaceFileGitStatus,
+  WorkspaceFileTreeNode,
+  WorkspaceFileTreeRow,
 } from "@/workspace-file-tree/treeProjectionTypes.js";
 
 const fileOrder: readonly WorkspaceFileGitStatus[] = [
-  "ignored", "modified", "renamed", "deleted", "added", "untracked",
+  "ignored",
+  "modified",
+  "renamed",
+  "deleted",
+  "added",
+  "untracked",
 ];
 
 function directoryRank(status: WorkspaceFileGitStatus): number {
@@ -43,7 +50,8 @@ export function isWorkspaceFileTreeGitStatusAvailable(
 }
 
 export function getWorkspaceFileGitStatus(
-  statusByPath: ReadonlyMap<string, WorkspaceFileGitStatus>, filePath: string,
+  statusByPath: ReadonlyMap<string, WorkspaceFileGitStatus>,
+  filePath: string,
 ): WorkspaceFileGitStatus | null {
   return statusByPath.get(workspaceFilePathKey(filePath)) ?? null;
 }
@@ -55,19 +63,22 @@ export function buildWorkspaceFileIgnoredPathSet(paths: readonly string[]): Set<
 }
 
 export function isWorkspaceFileGitIgnored(
-  ignoredPathSet: ReadonlySet<string>, filePath: string,
+  ignoredPathSet: ReadonlySet<string>,
+  filePath: string,
 ): boolean {
   return ignoredPathSet.has(workspaceFilePathKey(filePath));
 }
 
 export function isWorkspaceFileTreeDeletedFile(
-  row: Pick<WorkspaceFileTreeRow, "type">, gitStatus: WorkspaceFileGitStatus | null | undefined,
+  row: Pick<WorkspaceFileTreeRow, "type">,
+  gitStatus: WorkspaceFileGitStatus | null | undefined,
 ): boolean {
   return gitStatus === "deleted" && row.type !== "directory";
 }
 
 export function getWorkspaceDirectoryGitStatuses(
-  statusByPath: ReadonlyMap<string, WorkspaceFileGitStatus>, directoryPath: string,
+  statusByPath: ReadonlyMap<string, WorkspaceFileGitStatus>,
+  directoryPath: string,
 ): WorkspaceFileGitStatus[] {
   const prefix = workspaceFilePathKey(directoryPath) + "/";
   const unique = new Set<WorkspaceFileGitStatus>();

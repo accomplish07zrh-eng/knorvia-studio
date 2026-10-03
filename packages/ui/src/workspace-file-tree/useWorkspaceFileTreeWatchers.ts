@@ -17,12 +17,15 @@ export function useWorkspaceFileTreeWatchers({
   const registryRef = useRef<WorkspaceFileTreeWatcherRegistry | null>(null);
   if (registryRef.current === null) {
     registryRef.current = new WorkspaceFileTreeWatcherRegistry((operation, path, error) => {
-      logger.warn(operation === "watch"
-        ? "[WorkspaceFileTree] 监听目录失败"
-        : "[WorkspaceFileTree] 停止监听目录失败", {
-        path,
-        error: error instanceof Error ? error.message : String(error),
-      });
+      logger.warn(
+        operation === "watch"
+          ? "[WorkspaceFileTree] 监听目录失败"
+          : "[WorkspaceFileTree] 停止监听目录失败",
+        {
+          path,
+          error: error instanceof Error ? error.message : String(error),
+        },
+      );
     });
   }
   const registry = registryRef.current;

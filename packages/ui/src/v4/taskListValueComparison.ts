@@ -2,7 +2,8 @@
 // Source-exposed contract-authored comparison engine; rights and validation pending.
 type Fields = Record<string, unknown>;
 type Pair = { kind: "pair"; left: unknown; right: unknown };
-type Frame = Pair
+type Frame =
+  | Pair
   | { kind: "array"; left: unknown[]; right: unknown[]; index: number; length: number }
   | { kind: "fields"; left: Fields; right: Fields; keys: string[]; index: number }
   | { kind: "exit"; left: object; right: object };
@@ -32,7 +33,8 @@ export function areStabilizedValuesEquivalent(left: unknown, right: unknown): bo
       }
       continue;
     }
-    const a = frame.left, b = frame.right;
+    const a = frame.left,
+      b = frame.right;
     if (a === b) continue;
     if (a === null || b === null || typeof a !== "object" || typeof b !== "object") return false;
     let children: Frame;
@@ -40,7 +42,8 @@ export function areStabilizedValuesEquivalent(left: unknown, right: unknown): bo
       if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
       children = { kind: "array", left: a, right: b, index: 0, length: a.length };
     } else {
-      const leftFields = a as Fields, rightFields = b as Fields;
+      const leftFields = a as Fields,
+        rightFields = b as Fields;
       const keys = Object.keys(leftFields).filter((key) => leftFields[key] !== undefined);
       const rightKeys = Object.keys(rightFields).filter((key) => rightFields[key] !== undefined);
       if (keys.length !== rightKeys.length) return false;

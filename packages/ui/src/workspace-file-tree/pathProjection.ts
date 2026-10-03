@@ -25,7 +25,10 @@ function relativeLocation(workspacePath: string, candidatePath: string) {
   const candidate = workspaceFilePathKey(candidatePath);
   if (candidate === root || candidate.slice(0, root.length + 1) !== root + "/") return null;
   return {
-    segments: candidate.slice(root.length + 1).split("/").filter((segment) => segment.length > 0),
+    segments: candidate
+      .slice(root.length + 1)
+      .split("/")
+      .filter((segment) => segment.length > 0),
     base: workspacePath.replace(/[\\/]+$/, ""),
     separator: candidatePath.includes("\\") && !candidatePath.includes("/") ? "\\" : "/",
   };
@@ -41,27 +44,32 @@ export function getWorkspaceFileRelativePath(workspacePath: string, filePath: st
 }
 
 export function getWorkspaceFileAncestorDirectories(
-  workspacePath: string, filePath: string,
+  workspacePath: string,
+  filePath: string,
 ): string[] {
   const location = relativeLocation(workspacePath, filePath);
   if (!location) return [];
   const result: string[] = [];
   for (let length = 1; length < location.segments.length; length += 1) {
     result.push(
-      location.base + location.separator + location.segments.slice(0, length).join(location.separator),
+      location.base +
+        location.separator +
+        location.segments.slice(0, length).join(location.separator),
     );
   }
   return result;
 }
 
 export function getWorkspaceFileDirectoryChildDepth(
-  workspacePath: string, directoryPath: string,
+  workspacePath: string,
+  directoryPath: string,
 ): number {
   return relativeLocation(workspacePath, directoryPath)?.segments.length ?? 0;
 }
 
 export function getWorkspaceFileParentDirectory(
-  workspacePath: string, directoryPath: string,
+  workspacePath: string,
+  directoryPath: string,
 ): string | null {
   const location = relativeLocation(workspacePath, directoryPath);
   if (!location) return null;

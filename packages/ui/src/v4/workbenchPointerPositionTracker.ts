@@ -17,7 +17,10 @@ class PointerCaptureLease implements WorkbenchPointerPositionTracker {
   private active = true;
   private listeners: Array<(typeof observations)[number]> = [];
 
-  constructor(private readonly document: Document, private position: WorkbenchPointerPosition) {}
+  constructor(
+    private readonly document: Document,
+    private position: WorkbenchPointerPosition,
+  ) {}
 
   getPosition = (): WorkbenchPointerPosition => this.position;
 
@@ -38,7 +41,11 @@ class PointerCaptureLease implements WorkbenchPointerPositionTracker {
         this.document.addEventListener(type, this.consume, true);
       }
     } catch (error) {
-      try { this.dispose(); } catch { /* preserve the installation failure */ }
+      try {
+        this.dispose();
+      } catch {
+        /* preserve the installation failure */
+      }
       throw error;
     }
   }
@@ -48,10 +55,15 @@ class PointerCaptureLease implements WorkbenchPointerPositionTracker {
     this.active = false;
     const listeners = this.listeners;
     this.listeners = [];
-    let failed = false, failure: unknown;
+    let failed = false,
+      failure: unknown;
     for (const type of listeners) {
-      try { this.document.removeEventListener(type, this.consume, true); }
-      catch (error) { if (!failed) failure = error; failed = true; }
+      try {
+        this.document.removeEventListener(type, this.consume, true);
+      } catch (error) {
+        if (!failed) failure = error;
+        failed = true;
+      }
     }
     if (failed) throw failure;
   };

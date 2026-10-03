@@ -35,11 +35,18 @@ export function useWorkspaceFileSearchIndex({
   enabled: boolean;
 }): WorkspaceFileSearchIndexState {
   const { fileService } = useWorkspaceServices(
-    workspacePath, workspaceRemoteSessionId, workspaceIdentity,
+    workspacePath,
+    workspaceRemoteSessionId,
+    workspaceIdentity,
   );
-  const [snapshot, publish] = useReducer(reduceWorkspaceFileSearchIndex, undefined, emptyWorkspaceFileSearchIndex);
+  const [snapshot, publish] = useReducer(
+    reduceWorkspaceFileSearchIndex,
+    undefined,
+    emptyWorkspaceFileSearchIndex,
+  );
   const requestsRef = useRef<WorkspaceFileSearchIndexRequests | null>(null);
-  if (requestsRef.current === null) requestsRef.current = new WorkspaceFileSearchIndexRequests(publish);
+  if (requestsRef.current === null)
+    requestsRef.current = new WorkspaceFileSearchIndexRequests(publish);
   const requests = requestsRef.current;
   const [refreshVersion, setRefreshVersion] = useState(0);
   const refresh = useCallback(() => setRefreshVersion((version) => version + 1), []);
@@ -55,13 +62,27 @@ export function useWorkspaceFileSearchIndex({
       return;
     }
     return requests.start(() => fetchWorkspaceFileEntriesPacked(fileService, workspacePath));
-  }, [enabled, fileService, refreshVersion, requests, workspaceIdentity, workspacePath, workspaceRemoteSessionId]);
+  }, [
+    enabled,
+    fileService,
+    refreshVersion,
+    requests,
+    workspaceIdentity,
+    workspacePath,
+    workspaceRemoteSessionId,
+  ]);
 
   const entries = useMemo(
     () => unpackWorkspaceFileEntries(snapshot.packed, workspacePath),
     [snapshot.packed, workspacePath],
   );
-  return { entries, loading: snapshot.loading, loaded: snapshot.loaded, error: snapshot.error, refresh };
+  return {
+    entries,
+    loading: snapshot.loading,
+    loaded: snapshot.loaded,
+    error: snapshot.error,
+    refresh,
+  };
 }
 
 export function useWorkspaceFileSearchResults({
@@ -75,7 +96,10 @@ export function useWorkspaceFileSearchResults({
 }): WorkspaceFileEntry[] {
   const packed = useMemo(() => packWorkspaceFileEntries(entries), [entries]);
   const { items } = useWorkspaceFileSearchFilterEntries(
-    packed, query, { requireQuery: true }, workspacePath,
+    packed,
+    query,
+    { requireQuery: true },
+    workspacePath,
   );
   return items;
 }

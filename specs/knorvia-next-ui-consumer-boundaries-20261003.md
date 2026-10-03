@@ -3,7 +3,8 @@
 父任务已把 Web、desktop renderer、Studio groups/store 和 v4 布局恢复转交原任务。
 本路只继续 WorkspaceFileTree、row drag、installed editors/helpers、
 WorkspaceGroupedTasksSection、taskListRowActivity 及其专用候选模块/记录。
-同一分支/PR15；source-exposed，Apache 过渡与原归属保留，不宣称 MIT。
+同一持久分支；原 PR15 已整合关闭，最终修复不再新建 PR。source-exposed，
+Apache 过渡与原归属保留，不宣称 MIT。
 
 ## Row drag、editors、helpers 与 activity（先行）
 
@@ -34,6 +35,17 @@ accepted tree/grouped view、草稿/store/持久化 key 与 host 请求 payload 
 下一源码批次分别在本规格细化其动作、reveal、DOM、菜单与归档许可后实现。
 
 ## WorkspaceFileTree 动作与恢复（本批先行）
+
+最终验收修复：整合 `19f6ccf74ba1064ca81d93194b4f25a36030e361` 的
+TS2322 指出 panel port 错写为 `Promise<void>`。生产目录 owner 的 canonical
+返回值为 `FileTreeDirectoryLoadResult`（loaded/stale/failed）；panel port 直接
+引用该类型，不擦掉状态、不使用 any/cast/ts-ignore。panel 仍只等待完成，既有
+reveal 顺序、两种 depth 和 scope 许可不根据结果改变；accepted 数据/错误仍
+由目录 owner 维护。定向合同使用真实状态返回值并覆盖三个状态的顺序恢复。
+
+本路定向 lint/格式收尾保持稀疏数组 holes（显式设置空数组 length，不用
+Array.from 填入 undefined），保留测试事件在派发前取得的 listener 快照，
+以及目录 loadedPaths ref 对唯一 snapshot owner 的 live 读取/写入。
 
 - 单一 panel owner 只持有 selected/query/changed 与 pending preview/search reveal，
   tree/expanded/Git/loading 不复制。路径或 identity 变化按原 effect 清选择/过滤，
@@ -138,7 +150,12 @@ flowchart LR
   header 内容、workspace label 与首屏 latch 作为 retained presentation/bridge。
   数学短式、selector/DOM/React/API shape 不计独立作者权利结论。
 
-## 未验证
+## 验证界限
 
-不运行 tests、lint、types、build、格式/架构检查或审计。新增合同仅供最终
-统一执行；必要源码阅读、Git 差异/提交/远端检查不等于行为、产物或权利验收。
+实现阶段按当时授权未运行 tests、lint、types、build、格式/架构检查或审计。
+最终阶段已获必要定向检查授权：五个相关 suite 45/45 cases、75 文件 lint、
+66 文件格式与 changed 架构检查通过；loader 旧 port 的 TS2322 可复现，当前
+本路诊断为零。真实源码依赖图仍有 RPC 22 条范围外诊断，不能称整个类型图通过。
+完整范围和限制见 [最终修复记录](../docs/evidence/backlog-ui-20261003/final-consumer-contract-repair.json)。
+未运行全量测试/类型检查/构建或审计、React/Electron/真实多平台恢复验收；
+必要源码阅读、Git 差异/提交/远端检查不等于产物或权利验收。

@@ -18,7 +18,9 @@ export function stabilizeTaskListItems<T extends KnorviaTaskMeta>(previous: T[],
   if (previous.length === 0) return next;
   const available = new Map<string, T>();
   for (const meta of previous) available.set(buildTaskListItemIdentityKey(meta), meta);
-  const result: T[] = new Array<T>(next.length);
+  const result: T[] = [];
+  // 显式设长度保留原稀疏空位；Array.from 会把 holes 变成 own undefined。
+  result.length = next.length;
   let sameOrder = previous.length === next.length;
   for (let index = 0; index < next.length; index += 1) {
     if (!(index in next)) continue;

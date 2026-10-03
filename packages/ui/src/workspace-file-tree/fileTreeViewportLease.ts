@@ -14,7 +14,8 @@ type Ports = {
 
 /** Native scroll paints immediately; resize sources share a revocable pending frame. */
 export function observeFileTreeViewport(ports: Ports): () => void {
-  let active = true, frame: number | null = null;
+  let active = true,
+    frame: number | null = null;
   const cleanup: Array<() => void> = [];
   const update = () => {
     if (!active) return;
@@ -26,15 +27,30 @@ export function observeFileTreeViewport(ports: Ports): () => void {
   };
   const schedule = () => {
     if (!active || frame !== null) return;
-    frame = ports.frame(() => { frame = null; update(); });
+    frame = ports.frame(() => {
+      frame = null;
+      update();
+    });
   };
   const release = () => {
     if (!active) return;
     active = false;
-    let failed = false, failure: unknown;
-    const operations = [...cleanup, () => { if (frame !== null) ports.cancelFrame(frame); frame = null; }];
+    let failed = false,
+      failure: unknown;
+    const operations = [
+      ...cleanup,
+      () => {
+        if (frame !== null) ports.cancelFrame(frame);
+        frame = null;
+      },
+    ];
     for (const operation of operations) {
-      try { operation(); } catch (error) { if (!failed) failure = error; failed = true; }
+      try {
+        operation();
+      } catch (error) {
+        if (!failed) failure = error;
+        failed = true;
+      }
     }
     cleanup.length = 0;
     if (failed) throw failure;
@@ -51,7 +67,11 @@ export function observeFileTreeViewport(ports: Ports): () => void {
     ports.window.addEventListener("resize", schedule);
   } catch (error) {
     // setup 未交出 effect cleanup 时仍释放已获取 observer/listener/frame。
-    try { release(); } catch { /* preserve the installation failure */ }
+    try {
+      release();
+    } catch {
+      /* preserve the installation failure */
+    }
     throw error;
   }
   return release;

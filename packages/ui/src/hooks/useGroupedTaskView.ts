@@ -15,20 +15,24 @@ import { useTaskListMembershipVersion } from "@/v4/taskListMembershipVersion.js"
 import { useGlobalTaskList } from "@/hooks/useGlobalTaskList.js";
 import { selectWorkspaceKnorviaState, useKnorviaSessionStore } from "@/store/sessionStore.js";
 import { buildTaskWorkspaceKey } from "@/lib/taskQueryCache.js";
-import {
-  useWorkspaceTaskOptimisticOverlayByWorkspaceKey,
-} from "@/hooks/workspaceTaskListOptimisticOverlay.js";
+import { useWorkspaceTaskOptimisticOverlayByWorkspaceKey } from "@/hooks/workspaceTaskListOptimisticOverlay.js";
 import { stabilizeGroupedTaskView } from "@/workspace-grouped-tasks/groupedViewReferenceProjection.js";
 import { subscribeGroupedTaskCreationEvents } from "@/workspace-grouped-tasks/groupedCreatedTaskEventLease.js";
 import {
-  GroupedRemoteDataSingleFlight, readCachedGroupedView, writeCachedGroupedView,
+  GroupedRemoteDataSingleFlight,
+  readCachedGroupedView,
+  writeCachedGroupedView,
 } from "@/workspace-grouped-tasks/groupedRemoteDataCache.js";
 import { GroupedTaskViewRefreshOwner } from "@/workspace-grouped-tasks/groupedRefreshOwner.js";
 import {
-  mergeGroupedTaskViewWithOptimistic, reconcileGroupedOptimisticTaskKeys,
+  mergeGroupedTaskViewWithOptimistic,
+  reconcileGroupedOptimisticTaskKeys,
 } from "@/workspace-grouped-tasks/groupedOptimisticProjection.js";
 import { GroupedTaskMutationOwner } from "@/workspace-grouped-tasks/groupedMutationOwner.js";
-import { GroupedPromotionPersistenceOwner, planGroupedPromotions } from "@/workspace-grouped-tasks/groupedPromotionPersistence.js";
+import {
+  GroupedPromotionPersistenceOwner,
+  planGroupedPromotions,
+} from "@/workspace-grouped-tasks/groupedPromotionPersistence.js";
 
 function buildWorkspaceScopes(workspaceTabs: WorkspaceTabState[]) {
   return workspaceTabs.map((tab) => ({
@@ -215,51 +219,84 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
   }, [remoteDataLoader]);
 
   const [refreshOwner] = useState(() => new GroupedTaskViewRefreshOwner());
-  const refresh = useCallback((canPublish?: () => boolean) => {
-    const remoteDataKey = [membershipVersion, taskListVersionSignature,
-      scopes.map((scope) => buildTaskWorkspaceKey(scope.workspacePath, scope.workspaceIdentity)).join("|"),
-    ].join("::");
-    return refreshOwner.run({
-      hasNodes: () => viewRef.current.nodes.length > 0,
-      setLoading,
-      initialize: () => setRemoteDataInitialized(true),
-      onError: (error) => logger.error("[useGroupedTaskView] 加载 grouped task 视图失败", error),
-      load: () => remoteDataLoader.load(remoteDataKey, async () => {
-        const [structure, membership] = await Promise.all([
-          services.taskService.listGroupedTaskViewStructure({ workspaceScopes: scopes }),
-          fetchTaskListMembershipSets({ service: services.taskService, scopes: sessionsIndexScopes }),
-        ]);
-        return { structure, membership };
-      }),
-      isCurrent: (remoteData) => (canPublish?.() ?? true) && remoteDataLoader.isCurrent(remoteDataKey, remoteData),
-      accept: ({ structure, membership }) => {
-        const nextView = buildGroupedTaskViewFromSessions({
-          structure, taskIndexItems: membership.taskIndexItems, sessions: sessionsIndexItemsRef.current,
-          pinnedIds: membership.pinnedIds, archivedIds: membership.archivedIds, deletedIds: membership.deletedIds,
-        });
-        const stabilizedView = stabilizeGroupedTaskView(viewRef.current, nextView);
-        writeCachedGroupedView(localWorkspaceScopeSignature, stabilizedView);
-        setView(stabilizedView);
-      },
-    });
-  }, [localWorkspaceScopeSignature, membershipVersion, refreshOwner, remoteDataLoader,
-    scopes, sessionsIndexScopes, services.taskService, taskListVersionSignature]);
+  const refresh = useCallback(
+    (canPublish?: () => boolean) => {
+      const remoteDataKey = [
+        membershipVersion,
+        taskListVersionSignature,
+        scopes
+          .map((scope) => buildTaskWorkspaceKey(scope.workspacePath, scope.workspaceIdentity))
+          .join("|"),
+      ].join("::");
+      return refreshOwner.run({
+        hasNodes: () => viewRef.current.nodes.length > 0,
+        setLoading,
+        initialize: () => setRemoteDataInitialized(true),
+        onError: (error) => logger.error("[useGroupedTaskView] 加载 grouped task 视图失败", error),
+        load: () =>
+          remoteDataLoader.load(remoteDataKey, async () => {
+            const [structure, membership] = await Promise.all([
+              services.taskService.listGroupedTaskViewStructure({ workspaceScopes: scopes }),
+              fetchTaskListMembershipSets({
+                service: services.taskService,
+                scopes: sessionsIndexScopes,
+              }),
+            ]);
+            return { structure, membership };
+          }),
+        isCurrent: (remoteData) =>
+          (canPublish?.() ?? true) && remoteDataLoader.isCurrent(remoteDataKey, remoteData),
+        accept: ({ structure, membership }) => {
+          const nextView = buildGroupedTaskViewFromSessions({
+            structure,
+            taskIndexItems: membership.taskIndexItems,
+            sessions: sessionsIndexItemsRef.current,
+            pinnedIds: membership.pinnedIds,
+            archivedIds: membership.archivedIds,
+            deletedIds: membership.deletedIds,
+          });
+          const stabilizedView = stabilizeGroupedTaskView(viewRef.current, nextView);
+          writeCachedGroupedView(localWorkspaceScopeSignature, stabilizedView);
+          setView(stabilizedView);
+        },
+      });
+    },
+    [
+      localWorkspaceScopeSignature,
+      membershipVersion,
+      refreshOwner,
+      remoteDataLoader,
+      scopes,
+      sessionsIndexScopes,
+      services.taskService,
+      taskListVersionSignature,
+    ],
+  );
   const refreshRef = useRef(refresh);
   refreshRef.current = refresh;
 
-  const [mutationOwner] = useState(() => new GroupedTaskMutationOwner({
-    setView, setSaving, invalidate: () => remoteDataLoader.invalidate(),
-    refreshCurrent: (canPublish) => refreshRef.current(canPublish),
-    log: (message, error) => logger.error(message, error),
-  }));
+  const [mutationOwner] = useState(
+    () =>
+      new GroupedTaskMutationOwner({
+        setView,
+        setSaving,
+        invalidate: () => remoteDataLoader.invalidate(),
+        refreshCurrent: (canPublish) => refreshRef.current(canPublish),
+        log: (message, error) => logger.error(message, error),
+      }),
+  );
 
   const clearPromotedRef = useRef(clearPromotedGroupedDraftTask);
   clearPromotedRef.current = clearPromotedGroupedDraftTask;
-  const [promotionOwner] = useState(() => new GroupedPromotionPersistenceOwner({
-    clear: (path, taskId, identity) => clearPromotedRef.current(path, taskId, identity),
-    invalidate: () => remoteDataLoader.invalidate(), refreshCurrent: () => refreshRef.current(),
-    log: (message, error) => logger.error(message, error),
-  }));
+  const [promotionOwner] = useState(
+    () =>
+      new GroupedPromotionPersistenceOwner({
+        clear: (path, taskId, identity) => clearPromotedRef.current(path, taskId, identity),
+        invalidate: () => remoteDataLoader.invalidate(),
+        refreshCurrent: () => refreshRef.current(),
+        log: (message, error) => logger.error(message, error),
+      }),
+  );
 
   useEffect(() => {
     const deactivate = refreshOwner.activate();
@@ -271,20 +308,46 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
       deactivate();
       remoteDataLoader.invalidate();
     };
-  }, [localWorkspaceScopeSignature, mutationOwner, promotionOwner, refreshOwner, remoteDataLoader, services.taskService]);
+  }, [
+    localWorkspaceScopeSignature,
+    mutationOwner,
+    promotionOwner,
+    refreshOwner,
+    remoteDataLoader,
+    services.taskService,
+  ]);
 
   useEffect(() => {
-    promotionOwner.reconcile(planGroupedPromotions({
-      view, displayedView, overlays: optimisticTaskOverlayByWorkspaceKey.values(),
-      visibleMissing: visibleMissingTaskKeysRef.current,
-    }), displayedView, services.taskService);
-  }, [clearPromotedGroupedDraftTask, displayedView, optimisticTaskOverlayByWorkspaceKey, promotionOwner, services.taskService, view]);
+    promotionOwner.reconcile(
+      planGroupedPromotions({
+        view,
+        displayedView,
+        overlays: optimisticTaskOverlayByWorkspaceKey.values(),
+        visibleMissing: visibleMissingTaskKeysRef.current,
+      }),
+      displayedView,
+      services.taskService,
+    );
+  }, [
+    clearPromotedGroupedDraftTask,
+    displayedView,
+    optimisticTaskOverlayByWorkspaceKey,
+    promotionOwner,
+    services.taskService,
+    view,
+  ]);
 
-  useEffect(() => subscribeGroupedTaskCreationEvents(services.taskService, scopes, {
-    // task_created 是 grouped 首次排序已经提交的边界；原 structure 缓存须先失效。
-    invalidate: invalidateRemoteData,
-    refresh: () => { void refreshRef.current(); },
-  }), [invalidateRemoteData, scopes, services.taskService]);
+  useEffect(
+    () =>
+      subscribeGroupedTaskCreationEvents(services.taskService, scopes, {
+        // task_created 是 grouped 首次排序已经提交的边界；原 structure 缓存须先失效。
+        invalidate: invalidateRemoteData,
+        refresh: () => {
+          void refreshRef.current();
+        },
+      }),
+    [invalidateRemoteData, scopes, services.taskService],
+  );
 
   // 唯一的自动刷新入口。refresh 身份已经包含 membership/structure/scope 版本，
   // sessions-index 内容变化再触发内存 join；避免 mount effect 与 index effect 首帧重复发起请求。
@@ -292,16 +355,29 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     void refresh();
   }, [refresh, sessionsIndexItems]);
 
-  const createGroup = useCallback((): Promise<KnorviaTaskGroup> =>
-    mutationOwner.create(services.taskService, refresh), [mutationOwner, refresh, services.taskService]);
-  const renameGroup = useCallback((groupId: string, title: string) =>
-    mutationOwner.edit(view, groupId, { title }, services.taskService), [mutationOwner, services.taskService, view]);
-  const updateGroupColor = useCallback((groupId: string, color: KnorviaTaskGroupColor) =>
-    mutationOwner.edit(view, groupId, { color }, services.taskService), [mutationOwner, services.taskService, view]);
-  const applyOrder = useCallback((nextView: KnorviaGroupedTaskView, options?: { canPublish?: () => boolean }) =>
-    mutationOwner.order(view, nextView, services.taskService, refresh, options?.canPublish), [mutationOwner, refresh, services.taskService, view]);
-  const ungroupGroup = useCallback((groupId: string) =>
-    mutationOwner.ungroup(view, groupId, services.taskService, refresh), [mutationOwner, refresh, services.taskService, view]);
+  const createGroup = useCallback(
+    (): Promise<KnorviaTaskGroup> => mutationOwner.create(services.taskService, refresh),
+    [mutationOwner, refresh, services.taskService],
+  );
+  const renameGroup = useCallback(
+    (groupId: string, title: string) =>
+      mutationOwner.edit(view, groupId, { title }, services.taskService),
+    [mutationOwner, services.taskService, view],
+  );
+  const updateGroupColor = useCallback(
+    (groupId: string, color: KnorviaTaskGroupColor) =>
+      mutationOwner.edit(view, groupId, { color }, services.taskService),
+    [mutationOwner, services.taskService, view],
+  );
+  const applyOrder = useCallback(
+    (nextView: KnorviaGroupedTaskView, options?: { canPublish?: () => boolean }) =>
+      mutationOwner.order(view, nextView, services.taskService, refresh, options?.canPublish),
+    [mutationOwner, refresh, services.taskService, view],
+  );
+  const ungroupGroup = useCallback(
+    (groupId: string) => mutationOwner.ungroup(view, groupId, services.taskService, refresh),
+    [mutationOwner, refresh, services.taskService, view],
+  );
 
   return {
     scopeSignature: localWorkspaceScopeSignature,

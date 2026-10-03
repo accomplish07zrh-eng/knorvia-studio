@@ -4,62 +4,153 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { KnorviaGroupedTaskView } from "@knorvia/services";
 import type { KnorviaTaskMeta } from "@knorvia/shared";
-import { GroupedSectionInteractionOwner, type GroupedSectionInteractionPorts } from "../src/workspace-grouped-tasks/groupedSectionInteractionOwner.js";
+import {
+  GroupedSectionInteractionOwner,
+  type GroupedSectionInteractionPorts,
+} from "../src/workspace-grouped-tasks/groupedSectionInteractionOwner.js";
 import { GroupedSectionMenuProjection } from "../src/workspace-grouped-tasks/groupedSectionMenuProjection.js";
 import { taskKey } from "../src/workspace-grouped-tasks/ids.js";
-import { filterGroupedViewByTaskKeys, replaceTaskInGroupedView } from "../src/workspace-grouped-tasks/view.js";
+import {
+  filterGroupedViewByTaskKeys,
+  replaceTaskInGroupedView,
+} from "../src/workspace-grouped-tasks/view.js";
 
-const task = (taskId: string): KnorviaTaskMeta => ({ taskId, traceId: taskId, title: taskId,
-  createdAt: 1, updatedAt: 1, mode: "build", workspacePath: "/w", workspaceIdentity: "remote-fixture" });
-const a = task("a"), b = task("b");
+const task = (taskId: string): KnorviaTaskMeta => ({
+  taskId,
+  traceId: taskId,
+  title: taskId,
+  createdAt: 1,
+  updatedAt: 1,
+  mode: "build",
+  workspacePath: "/w",
+  workspaceIdentity: "remote-fixture",
+});
+const a = task("a"),
+  b = task("b");
 const group = { id: "g", title: "G", color: "gray" as const, createdAt: 1, updatedAt: 1 };
 const initial: KnorviaGroupedTaskView = { nodes: [{ type: "group", group, tasks: [a, b] }] };
 function deferred<T>() {
   let resolve!: (value: T) => void, reject!: (error: unknown) => void;
-  const promise = new Promise<T>((accept, fail) => { resolve = accept; reject = fail; });
+  const promise = new Promise<T>((accept, fail) => {
+    resolve = accept;
+    reject = fail;
+  });
   return { promise, resolve, reject };
 }
 const flush = () => new Promise<void>((resolve) => queueMicrotask(() => queueMicrotask(resolve)));
 function fixture() {
-  let view = initial, collapsed = new Set(["g", "other"]);
-  const journal: unknown[] = [], orders: Array<{ view: KnorviaGroupedTaskView; permits: () => boolean }> = [];
+  let view = initial,
+    collapsed = new Set(["g", "other"]);
+  const journal: unknown[] = [],
+    orders: Array<{ view: KnorviaGroupedTaskView; permits: () => boolean }> = [];
   const renames: ReturnType<typeof deferred<KnorviaTaskMeta>>[] = [];
   const unread: ReturnType<typeof deferred<KnorviaTaskMeta>>[] = [];
   const archives: ReturnType<typeof deferred<KnorviaTaskMeta>>[] = [];
   const creates: ReturnType<typeof deferred<{ id: string }>>[] = [];
   const service: NonNullable<ReturnType<GroupedSectionInteractionPorts["taskService"]>> = {
-    renameTask: (params) => { journal.push(["rename", params]); const reply = deferred<KnorviaTaskMeta>(); renames.push(reply); return reply.promise; },
-    setTaskUnread: (params) => { journal.push(["unread", params]); const reply = deferred<KnorviaTaskMeta>(); unread.push(reply); return reply.promise; },
-    archiveTask: (params) => { journal.push(["archive", params]); const reply = deferred<KnorviaTaskMeta>(); archives.push(reply); return reply.promise; },
+    renameTask: (params) => {
+      journal.push(["rename", params]);
+      const reply = deferred<KnorviaTaskMeta>();
+      renames.push(reply);
+      return reply.promise;
+    },
+    setTaskUnread: (params) => {
+      journal.push(["unread", params]);
+      const reply = deferred<KnorviaTaskMeta>();
+      unread.push(reply);
+      return reply.promise;
+    },
+    archiveTask: (params) => {
+      journal.push(["archive", params]);
+      const reply = deferred<KnorviaTaskMeta>();
+      archives.push(reply);
+      return reply.promise;
+    },
   };
-  let context: ReturnType<GroupedSectionInteractionPorts["draft"]> = { activeTaskId: "a", activeWorkspacePath: "/w", activeWorkspaceIdentity: "remote-fixture", view };
+  let context: ReturnType<GroupedSectionInteractionPorts["draft"]> = {
+    activeTaskId: "a",
+    activeWorkspacePath: "/w",
+    activeWorkspaceIdentity: "remote-fixture",
+    view,
+  };
   const ports: GroupedSectionInteractionPorts = {
-    authoritative: () => view, displayed: () => filterGroupedViewByTaskKeys(view, owner.read().archiving), draft: () => context,
-    taskService: () => service, setCollapsed: (update) => { collapsed = update(collapsed); },
-    createDraft: (placement) => { journal.push(["draft", placement]); }, closeDraft: (path, identity) => { journal.push(["close-draft", path, identity]); },
-    createGroup: () => { const reply = deferred<{ id: string }>(); creates.push(reply); return reply.promise; },
-    renameGroup: async (id, title) => { journal.push(["rename-group", id, title]); },
-    colorGroup: async (id, color) => { journal.push(["color-group", id, color]); }, ungroup: async (id) => { journal.push(["ungroup", id]); },
-    order: async (next, permits) => { orders.push({ view: next, permits }); },
+    authoritative: () => view,
+    displayed: () => filterGroupedViewByTaskKeys(view, owner.read().archiving),
+    draft: () => context,
+    taskService: () => service,
+    setCollapsed: (update) => {
+      collapsed = update(collapsed);
+    },
+    createDraft: (placement) => {
+      journal.push(["draft", placement]);
+    },
+    closeDraft: (path, identity) => {
+      journal.push(["close-draft", path, identity]);
+    },
+    createGroup: () => {
+      const reply = deferred<{ id: string }>();
+      creates.push(reply);
+      return reply.promise;
+    },
+    renameGroup: async (id, title) => {
+      journal.push(["rename-group", id, title]);
+    },
+    colorGroup: async (id, color) => {
+      journal.push(["color-group", id, color]);
+    },
+    ungroup: async (id) => {
+      journal.push(["ungroup", id]);
+    },
+    order: async (next, permits) => {
+      orders.push({ view: next, permits });
+    },
     commitMetadata: (kind, previous, next, canWriteView) => {
       const allowed = canWriteView();
       journal.push(["metadata", kind, previous, next, allowed]);
       if (allowed) view = replaceTaskInGroupedView(view, next);
     },
-    commitArchive: (previous, next) => { journal.push(["archived", previous, next]); }, notify: (id) => { journal.push(id); },
+    commitArchive: (previous, next) => {
+      journal.push(["archived", previous, next]);
+    },
+    notify: (id) => {
+      journal.push(id);
+    },
   };
-  const owner = new GroupedSectionInteractionOwner(() => ports), stop = owner.activate();
-  return { owner, stop, ports, journal, orders, renames, unread, archives, creates, service,
-    view: () => view, replaceView: (next: KnorviaGroupedTaskView) => { view = next; },
-    context: (next: Partial<typeof context>) => { context = { ...context, ...next }; }, collapsed: () => collapsed };
+  const owner = new GroupedSectionInteractionOwner(() => ports),
+    stop = owner.activate();
+  return {
+    owner,
+    stop,
+    ports,
+    journal,
+    orders,
+    renames,
+    unread,
+    archives,
+    creates,
+    service,
+    view: () => view,
+    replaceView: (next: KnorviaGroupedTaskView) => {
+      view = next;
+    },
+    context: (next: Partial<typeof context>) => {
+      context = { ...context, ...next };
+    },
+    collapsed: () => collapsed,
+  };
 }
 
 test("menu arrays retain independent positional identities across task-only and group-metadata changes", () => {
-  const projection = new GroupedSectionMenuProjection(), first = projection.project(initial);
-  const taskOnly = projection.project({ nodes: [{ type: "group", group, tasks: [{ ...a, title: "changed" }] }] });
+  const projection = new GroupedSectionMenuProjection(),
+    first = projection.project(initial);
+  const taskOnly = projection.project({
+    nodes: [{ type: "group", group, tasks: [{ ...a, title: "changed" }] }],
+  });
   assert.equal(taskOnly.menus, first.menus);
   assert.equal(taskOnly.ids, first.ids);
-  const metadata = projection.project({ nodes: [{ type: "group", group: { ...group, title: "renamed" }, tasks: [a] }] });
+  const metadata = projection.project({
+    nodes: [{ type: "group", group: { ...group, title: "renamed" }, tasks: [a] }],
+  });
   assert.notEqual(metadata.menus, first.menus);
   assert.equal(metadata.ids, first.ids);
   assert.deepEqual(metadata.menus, [{ id: "g", title: "renamed", color: "gray" }]);
@@ -77,10 +168,18 @@ test("contextual drafts retain task/group/top selection and only explicit close 
   h.owner.createTopDraft();
   h.owner.toggleCollapsed("g");
   assert.notEqual(h.collapsed(), uncollapsed);
-  assert.deepEqual(h.journal.slice(0, 4), [["draft", { type: "group", groupId: "g" }], ["draft", { type: "group", groupId: "g" }], ["draft", { type: "group", groupId: "other" }], ["draft", { type: "top" }]]);
+  assert.deepEqual(h.journal.slice(0, 4), [
+    ["draft", { type: "group", groupId: "g" }],
+    ["draft", { type: "group", groupId: "g" }],
+    ["draft", { type: "group", groupId: "other" }],
+    ["draft", { type: "top" }],
+  ]);
   h.owner.closeDraft();
   h.stop();
-  assert.equal(h.journal.filter((entry) => Array.isArray(entry) && entry[0] === "close-draft").length, 1);
+  assert.equal(
+    h.journal.filter((entry) => Array.isArray(entry) && entry[0] === "close-draft").length,
+    1,
+  );
 });
 
 test("menu order retains hidden archive members and the shared bridge permission revokes old order callbacks", () => {
@@ -111,7 +210,10 @@ test("rename trims the host payload and an old completion cannot close a newly o
   h.owner.startRename(a);
   h.owner.setRenameDraft("  renamed  ");
   const pending = h.owner.submitRename();
-  assert.deepEqual(h.journal[0], ["rename", { taskId: "a", workspacePath: "/w", workspaceIdentity: "remote-fixture", title: "renamed" }]);
+  assert.deepEqual(h.journal[0], [
+    "rename",
+    { taskId: "a", workspacePath: "/w", workspaceIdentity: "remote-fixture", title: "renamed" },
+  ]);
   h.owner.startRename(b);
   h.owner.setRenameDraft("next dialog");
   h.renames[0]!.resolve({ ...a, title: "renamed" });
@@ -132,8 +234,13 @@ test("latest task metadata owns local view acceptance while every successful hos
   await second;
   h.renames[0]!.resolve({ ...a, title: "first" });
   await first;
-  const metadata = h.journal.filter((entry): entry is unknown[] => Array.isArray(entry) && entry[0] === "metadata");
-  assert.deepEqual(metadata.map((entry) => entry[4]), [true, false]);
+  const metadata = h.journal.filter(
+    (entry): entry is unknown[] => Array.isArray(entry) && entry[0] === "metadata",
+  );
+  assert.deepEqual(
+    metadata.map((entry) => entry[4]),
+    [true, false],
+  );
   const node = h.view().nodes[0]!;
   assert.equal(node.type === "group" && node.tasks[0]!.title, "second");
   h.stop();

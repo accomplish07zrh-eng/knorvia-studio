@@ -3,8 +3,16 @@
 import type { StudioKernelId, StudioRun, StudioStepResult } from "@knorvia/services";
 
 export type GroupProgressState =
-  | "queued" | "running" | "waiting" | "stopping" | "completed"
-  | "failed" | "blocked" | "stopped" | "unknown" | "unassigned";
+  | "queued"
+  | "running"
+  | "waiting"
+  | "stopping"
+  | "completed"
+  | "failed"
+  | "blocked"
+  | "stopped"
+  | "unknown"
+  | "unassigned";
 
 export interface GroupTaskProgress {
   id: string;

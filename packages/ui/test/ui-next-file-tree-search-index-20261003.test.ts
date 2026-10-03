@@ -3,13 +3,18 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  emptyWorkspaceFileSearchIndex, reduceWorkspaceFileSearchIndex, WorkspaceFileSearchIndexRequests,
+  emptyWorkspaceFileSearchIndex,
+  reduceWorkspaceFileSearchIndex,
+  WorkspaceFileSearchIndexRequests,
   type WorkspaceFileSearchIndexAction,
 } from "../src/workspace-file-tree/searchIndexState.js";
 
 function deferred() {
   let resolve!: (value: string) => void, reject!: (reason: unknown) => void;
-  const promise = new Promise<string>((accept, fail) => { resolve = accept; reject = fail; });
+  const promise = new Promise<string>((accept, fail) => {
+    resolve = accept;
+    reject = fail;
+  });
   return { promise, resolve, reject };
 }
 
@@ -24,10 +29,15 @@ function indexOwner() {
   return { requests, publish, journal, snapshot: () => snapshot };
 }
 
-const settle = async () => { await Promise.resolve(); await Promise.resolve(); };
+const settle = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 test("a newer request owns completion and old cleanup cannot revoke it", async () => {
-  const index = indexOwner(), first = deferred(), second = deferred();
+  const index = indexOwner(),
+    first = deferred(),
+    second = deferred();
   const cancelFirst = index.requests.start(() => first.promise);
   index.requests.start(() => second.promise);
   cancelFirst();
@@ -37,8 +47,16 @@ test("a newer request owns completion and old cleanup cannot revoke it", async (
   assert.equal(index.snapshot().loading, true);
   second.resolve("current");
   await settle();
-  assert.deepEqual(index.snapshot(), { packed: "current", loading: false, loaded: true, error: null });
-  assert.deepEqual(index.journal.map((action) => action.type), ["start", "start", "ready", "settled"]);
+  assert.deepEqual(index.snapshot(), {
+    packed: "current",
+    loading: false,
+    loaded: true,
+    error: null,
+  });
+  assert.deepEqual(
+    index.journal.map((action) => action.type),
+    ["start", "start", "ready", "settled"],
+  );
 });
 
 test("refresh retains completed bytes and loaded status, clears errors, and surfaces the current failure", async () => {
@@ -47,7 +65,12 @@ test("refresh retains completed bytes and loaded status, clears errors, and surf
   await settle();
   const refresh = deferred();
   index.requests.start(() => refresh.promise);
-  assert.deepEqual(index.snapshot(), { packed: "completed-index", loading: true, loaded: true, error: null });
+  assert.deepEqual(index.snapshot(), {
+    packed: "completed-index",
+    loading: true,
+    loaded: true,
+    error: null,
+  });
   refresh.reject("not-an-Error");
   await settle();
   assert.equal(index.snapshot().packed, "completed-index");
@@ -61,7 +84,8 @@ test("refresh retains completed bytes and loaded status, clears errors, and surf
 });
 
 test("disable or scope reset invalidates acceptance while preserving the selected state transition", async () => {
-  const index = indexOwner(), late = deferred();
+  const index = indexOwner(),
+    late = deferred();
   const cancel = index.requests.start(() => late.promise);
   cancel();
   index.publish({ type: "paused" });
@@ -80,7 +104,8 @@ test("disable or scope reset invalidates acceptance while preserving the selecte
 });
 
 test("unmount/replay permits a new request but the cancelled reply emits no state action", async () => {
-  const index = indexOwner(), previous = deferred();
+  const index = indexOwner(),
+    previous = deferred();
   index.requests.start(() => previous.promise)();
   const journalLength = index.journal.length;
   previous.reject(new Error("late-after-unmount"));
@@ -92,8 +117,11 @@ test("unmount/replay permits a new request but the cancelled reply emits no stat
 });
 
 test("a loader that throws synchronously settles and preserves the original Error object", async () => {
-  const index = indexOwner(), failure = new Error("loader setup");
-  index.requests.start(() => { throw failure; });
+  const index = indexOwner(),
+    failure = new Error("loader setup");
+  index.requests.start(() => {
+    throw failure;
+  });
   await settle();
   assert.equal(index.snapshot().error, failure);
   assert.equal(index.snapshot().loading, false);

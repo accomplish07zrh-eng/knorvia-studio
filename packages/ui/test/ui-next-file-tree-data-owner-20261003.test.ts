@@ -7,37 +7,77 @@ import { WorkspaceFileTreeDataOwner } from "../src/workspace-file-tree/fileTreeD
 
 function deferred<T>() {
   let resolve!: (value: T) => void, reject!: (reason: unknown) => void;
-  const promise = new Promise<T>((accept, fail) => { resolve = accept; reject = fail; });
+  const promise = new Promise<T>((accept, fail) => {
+    resolve = accept;
+    reject = fail;
+  });
   return { promise, resolve, reject };
 }
 
 const file = (path: string): FileEntry => ({ path, name: path.split("/").at(-1)!, type: "file" });
-const directory = (path: string, isSymbolicLink = false): FileEntry => ({ ...file(path), type: "directory", isSymbolicLink });
-const gitResult = (): GitRefreshResult => ({
-  summary: { workspacePath: "/w", repoRoot: "/w", workspaceInRepoPath: "", autoRefreshWatchPaths: [],
-    branchName: "main", trackingBranchName: null, headRefType: "branch", ahead: 0, behind: 0,
-    isDirty: false, isGitAvailable: true, isRepository: true },
-  identity: null, unstagedChanges: [], stagedChanges: [], branchComparison: null,
+const directory = (path: string, isSymbolicLink = false): FileEntry => ({
+  ...file(path),
+  type: "directory",
+  isSymbolicLink,
 });
-const settle = async () => { for (let count = 0; count < 8; count += 1) await Promise.resolve(); };
+const gitResult = (): GitRefreshResult => ({
+  summary: {
+    workspacePath: "/w",
+    repoRoot: "/w",
+    workspaceInRepoPath: "",
+    autoRefreshWatchPaths: [],
+    branchName: "main",
+    trackingBranchName: null,
+    headRefType: "branch",
+    ahead: 0,
+    behind: 0,
+    isDirty: false,
+    isGitAvailable: true,
+    isRepository: true,
+  },
+  identity: null,
+  unstagedChanges: [],
+  stagedChanges: [],
+  branchComparison: null,
+});
+const settle = async () => {
+  for (let count = 0; count < 8; count += 1) await Promise.resolve();
+};
 
 function harness(enableWorkspaceFeatures = false) {
-  const reads: Array<{ path: string; includeHidden?: boolean; reply: ReturnType<typeof deferred<FileEntry[]>> }> = [];
+  const reads: Array<{
+    path: string;
+    includeHidden?: boolean;
+    reply: ReturnType<typeof deferred<FileEntry[]>>;
+  }> = [];
   const ignored: Array<{ paths: string[]; reply: ReturnType<typeof deferred<string[]>> }> = [];
   const gitReads: Array<ReturnType<typeof deferred<GitRefreshResult>>> = [];
   const warnings: string[] = [];
   const owner = new WorkspaceFileTreeDataOwner({
-    workspacePath: "/w", enableWorkspaceFeatures,
-    fileService: { readdir: ({ path, includeHidden }) => {
-      const reply = deferred<FileEntry[]>();
-      reads.push({ path, includeHidden, reply });
-      return reply.promise;
-    } },
-    gitService: {
-      refresh: () => { const reply = deferred<GitRefreshResult>(); gitReads.push(reply); return reply.promise; },
-      getIgnoredPaths: ({ paths }) => { const reply = deferred<string[]>(); ignored.push({ paths, reply }); return reply.promise; },
+    workspacePath: "/w",
+    enableWorkspaceFeatures,
+    fileService: {
+      readdir: ({ path, includeHidden }) => {
+        const reply = deferred<FileEntry[]>();
+        reads.push({ path, includeHidden, reply });
+        return reply.promise;
+      },
     },
-    warn: (message) => { warnings.push(message); },
+    gitService: {
+      refresh: () => {
+        const reply = deferred<GitRefreshResult>();
+        gitReads.push(reply);
+        return reply.promise;
+      },
+      getIgnoredPaths: ({ paths }) => {
+        const reply = deferred<string[]>();
+        ignored.push({ paths, reply });
+        return reply.promise;
+      },
+    },
+    warn: (message) => {
+      warnings.push(message);
+    },
   });
   return { owner, reads, ignored, gitReads, warnings };
 }
@@ -55,7 +95,9 @@ test("non-force admission shares the loading fact, while only a newer force requ
   assert.equal(owner.read().loadingDirectoryPaths.has("/w"), true);
   reads[1]!.reply.resolve([file("/w/current")]);
   assert.equal(await forced, "loaded");
-  assert.deepEqual(owner.read().childrenByDirectory.get("/w"), [{ ...file("/w/current"), depth: 4, isSymbolicLink: false }]);
+  assert.deepEqual(owner.read().childrenByDirectory.get("/w"), [
+    { ...file("/w/current"), depth: 4, isSymbolicLink: false },
+  ]);
   assert.equal(owner.read().loadingDirectoryPaths.has("/w"), false);
   assert.equal(owner.loadedDirectoryPathsRef.current, owner.read().loadedDirectoryPaths);
   stop();
@@ -137,7 +179,10 @@ test("a manual deadline records the same error and revokes a late successful dir
   const refresh = owner.refreshLoadedDirectories();
   context.mock.timers.tick(15_000);
   await refresh;
-  assert.equal(owner.read().errorByDirectory.get("/w")?.message, "workspace file tree refresh /w timed out after 15000ms");
+  assert.equal(
+    owner.read().errorByDirectory.get("/w")?.message,
+    "workspace file tree refresh /w timed out after 15000ms",
+  );
   assert.equal(warnings.includes("[WorkspaceFileTree] 手动刷新目录超时或失败"), true);
   reads[1]!.reply.resolve([file("/w/late")]);
   await settle();
@@ -181,7 +226,10 @@ test("bulk watch fallback reads the current expanded set and cleanup clears its 
   owner.setExpandedPaths(new Set(["/w/current-expanded"]));
   for (let index = 0; index < 51; index += 1) owner.enqueueWatchRefresh(`/w/changed-${index}`);
   context.mock.timers.tick(300);
-  assert.deepEqual(reads.slice(1).map(({ path }) => path), ["/w", "/w/current-expanded"]);
+  assert.deepEqual(
+    reads.slice(1).map(({ path }) => path),
+    ["/w", "/w/current-expanded"],
+  );
   reads[1]!.reply.resolve([]);
   reads[2]!.reply.resolve([]);
   await settle();

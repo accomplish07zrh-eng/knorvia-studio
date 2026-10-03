@@ -41,14 +41,20 @@ export function getTaskListRowActivity(task: KnorviaTaskMeta): TaskListRowActivi
 
 const activePhases = new Set<SessionSummary["phase"]>(["prewarming", "running"]);
 const attentionPriority = [
-  { kind: "userInput", accepts: (summary: PendingInteractionSummary) => summary.userInputCount > 0 },
+  {
+    kind: "userInput",
+    accepts: (summary: PendingInteractionSummary) => summary.userInputCount > 0,
+  },
   { kind: "permission", accepts: (_summary: PendingInteractionSummary) => true },
 ] as const;
 
 /** Running phase or strict background work owns the activity layer; stale task status does not. */
 export function isTaskListRowActive(task: KnorviaTaskMeta): boolean {
   const phase = getTaskListRowActivity(task)?.phase;
-  return (phase !== undefined && activePhases.has(phase)) || getTaskListRowActivity(task)?.hasBackgroundWork === true;
+  return (
+    (phase !== undefined && activePhases.has(phase)) ||
+    getTaskListRowActivity(task)?.hasBackgroundWork === true
+  );
 }
 
 export function getTaskListAttention(
@@ -79,7 +85,8 @@ const membershipAuthorities = {
   createdAt: (facts: MembershipFacts) => facts.activityTask.createdAt,
   updatedAt: (facts: MembershipFacts) => facts.activity.lastActivityAt,
   status: (facts: MembershipFacts) => facts.activityTask.status,
-  unreadAt: (facts: MembershipFacts) => facts.membershipOwnsUnread ? facts.membershipTask.unreadAt : facts.activityTask.unreadAt,
+  unreadAt: (facts: MembershipFacts) =>
+    facts.membershipOwnsUnread ? facts.membershipTask.unreadAt : facts.activityTask.unreadAt,
 };
 
 export function mergeTaskListMembershipFields(
@@ -88,10 +95,16 @@ export function mergeTaskListMembershipFields(
 ): KnorviaTaskMeta {
   const activity = getTaskListRowActivity(activityTask);
   if (!activity) return membershipTask;
-  const facts = { activityTask, membershipTask, activity,
-    membershipOwnsUnread: Object.prototype.hasOwnProperty.call(membershipTask, "unreadAt") };
+  const facts = {
+    activityTask,
+    membershipTask,
+    activity,
+    membershipOwnsUnread: Object.prototype.hasOwnProperty.call(membershipTask, "unreadAt"),
+  };
   const merged = { ...activityTask, ...membershipTask };
   // 字段权威按既有读取顺序投影；spread 保留 metadata own/symbol 与 __proto__ 安全边界。
-  const fields = Object.fromEntries(Object.entries(membershipAuthorities).map(([field, resolve]) => [field, resolve(facts)])) as Pick<KnorviaTaskMeta, "createdAt" | "updatedAt" | "status" | "unreadAt">;
+  const fields = Object.fromEntries(
+    Object.entries(membershipAuthorities).map(([field, resolve]) => [field, resolve(facts)]),
+  ) as Pick<KnorviaTaskMeta, "createdAt" | "updatedAt" | "status" | "unreadAt">;
   return attachTaskListRowActivity({ ...merged, ...fields }, activity);
 }
