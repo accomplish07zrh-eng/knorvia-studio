@@ -1,0 +1,21 @@
+config: AgentRuntimeConfig
+needsPlanModeExitReminder: boolean
+activeTurn: ActiveTurnSteeringState | undefined
+cachedTools: ModelToolContract[] | null
+registry: ToolRegistry
+executor: ToolExecutor
+eventStore: SessionEventStorePort
+eventSinks: Set<SessionEventSink>
+permissionBroker: PermissionBrokerPort
+providerRuntimeHeadersPort: ProviderRuntimeHeadersPort | undefined
+sessionId: SessionId
+rootTraceContext: TraceContext
+sessionModelSelection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined
+workspaceRoot: string
+workingDirectory: string
+contextBuilder: ContextBuilder | null
+createConfigOnlyContextSnapshot: (workingDirectory: string) => ContextSourceSnapshot
+createContextBuilderFromSnapshot: (snapshot: ContextSourceSnapshot, memoryRoot?: string | undefined, options?: { memoryIndexContent?: string | undefined; model?: Model | undefined; persistEnvInfo?: boolean | undefined; } | undefined) => ContextBuilder
+notifyEventSinks: (event: SessionEvent, traceContext: TraceContext) => Promise<void>
+ensureSessionPersisted: (input: string, traceContext: TraceContext) => Promise<void>
+rebuildProjection: () => Promise<SessionProjection>

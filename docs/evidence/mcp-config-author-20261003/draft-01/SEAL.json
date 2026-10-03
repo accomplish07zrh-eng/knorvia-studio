@@ -1,0 +1,18 @@
+{
+  "state": "sealed-before-curator-review",
+  "root": "/tmp/knorvia-mcp-config-author-20261003/draft-01",
+  "finalSHA256": {
+    "mcp.ts": "c40eda214295c6b59c23351d947e50f30d75ced4519cc2e44bfafee8af4cad85",
+    "config.ts": "d70daee7b8003a5df141740c475f52f4af09e3b2961ca5e60ea390b5e10a8d0b"
+  },
+  "initialSHA256": {
+    "mcp.ts": "d416b90808109a2f82342196953d43beb416d77629cf6cd59b78daba1570544e",
+    "config.ts": "83c16f2b88079e5949949d7c20cc5725dbc3b6eb57cce2234d27ba50b89853e4"
+  },
+  "manifestSHA256": "b7d0ac5022e8bd19472d464ef2535db739ee6ebfac27802b574a44f8f06fd193",
+  "accessLogSHA256": "553d27a9854db084bad260d40641f107e289b0ad7f29e19a8289f94c24f9834b",
+  "packetAccessSHA256": "546c4da4abdd69629a40d2477d3c3f9d0f46ed62e25444586571d09d47cf5a80",
+  "allFilesManifestSHA256": "fdaf74251ce060db9e5a8a8e5e24d0277f106042145a3aa77a5d9baaa9514753",
+  "additionalInputAuthorization": "Curator explicitly authorized both ports.txt files and body-free clarifications before access.",
+  "instructionOnlySharedExecutorBoundary": true
+}
