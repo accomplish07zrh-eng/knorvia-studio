@@ -56,3 +56,5 @@ phase-fold 诊断已证实依赖迁移造成行为变化：历史 fold 通过 li
 fanout fixture 的 TypeScript require.resolve 输出是平台文件路径，动态 import 必须复用已生成的 pathToFileURL href；不把 Windows 的 D: 误当 URL scheme。parser fixture 的根保留为 file URL，读取与三个依赖替换及当前入口导入均通过 new URL(relative, root)；不将 pathname 拼回文件系统，避免双盘符或编码空格误读。保留所有固定摘要、历史存档、golden、错误/缺失拒绝和既有行为断言，不改生产代码或增加平台跳过。
 
 仅执行这两个现有入口的定向回归，以及绑定真实夹具表达式的 Windows/POSIX 文件 URL 探针；不重复已经通过的 core 十八入口、不改 CI、不重跑全库。当前执行环境为 Linux，合成 Windows 路径通过不能写成实际 Windows 测试通过，必须保留新 head 的真实 Windows CI 待确认状态。
+
+首轮 parser 通过后，fanout 间接导入的 causality fixture 在旧 cli-fold 摘要处拒绝本批新产物。旧调用者来自该 archive 明确基线 `5bf6129f0a5526af503d6215a5a3adae132bb692`；其完整源码用 TS 5.9.3/6.0.2 均重建出原 pin `f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145`。另存这个精确历史 sidecar 并绑定原 reducer，当前 fold 仍从自己的 source/dist 导入且使用本批固定 receipt 检查完整 graph 产物集合。既有 causality archive、selector、golden、行为断言不改，必要回归扩展仅为共享该夹具的 causality 入口，不把新的 bytes 当旧 oracle。
