@@ -1,0 +1,281 @@
+{
+  "scope": "Bounded desktop main metadata screen; three inquiry targets only; no target bodies/authors/source changes/runtime/compiler/tests/global licensing/private recovery.",
+  "baselineE": "cfbe2282d26af2adabe3d57098170b24dbcdb4cd",
+  "publisherBaseline": {
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+  },
+  "publishedHeads": {
+    "8": {
+      "draft": true,
+      "head": "cfbe2282d26af2adabe3d57098170b24dbcdb4cd",
+      "number": 8,
+      "state": "open"
+    },
+    "9": {
+      "draft": true,
+      "head": "6470e414fe38044fc68dd6c16be4cb6a753d3079",
+      "number": 9,
+      "state": "open"
+    },
+    "10": {
+      "draft": true,
+      "head": "e22d2bc32678d59ac2abeab4102a7794c8854d1b",
+      "number": 10,
+      "state": "open"
+    },
+    "11": {
+      "draft": true,
+      "head": "0a36f716872e70be1d10672bba24824dd2e22a7d",
+      "number": 11,
+      "state": "open"
+    },
+    "12": {
+      "draft": true,
+      "head": "b2c58b67915ec98f21f952aec6fb588f177fad0d",
+      "number": 12,
+      "state": "open"
+    }
+  },
+  "publishedExclusions": [
+    "packages/desktop/src/main/about.ts",
+    "packages/desktop/src/main/aboutWindow.ts",
+    "packages/desktop/src/main/dataSizeScanner.ts",
+    "packages/desktop/src/main/dataSizeWorkerClient.ts",
+    "packages/desktop/src/main/desktopApplicationMenu.ts",
+    "packages/desktop/src/main/desktopCommandHandlers.ts",
+    "packages/desktop/src/main/desktopCronScheduler.ts",
+    "packages/desktop/src/main/desktopHostProcess.ts",
+    "packages/desktop/src/main/desktopHostProcess/lifecycle.ts",
+    "packages/desktop/src/main/desktopHostProcess/messages.ts",
+    "packages/desktop/src/main/desktopMainIpcHelpers.ts",
+    "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+    "packages/desktop/src/main/desktopMainIpcRemote.ts",
+    "packages/desktop/src/main/desktopNetworkPolicy.ts",
+    "packages/desktop/src/main/desktopNotifications.ts",
+    "packages/desktop/src/main/desktopRemoteSessions.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/attachments.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/common.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/connections.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/controls.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/lifecycle.ts",
+    "packages/desktop/src/main/desktopRemoteSessions/types.ts",
+    "packages/desktop/src/main/desktopTray.ts",
+    "packages/desktop/src/main/desktopWindowChrome.ts",
+    "packages/desktop/src/main/desktopWindowChrome/guest.ts",
+    "packages/desktop/src/main/desktopWindowLifecycle.ts",
+    "packages/desktop/src/main/desktopWorkspaceDeepLink.ts",
+    "packages/desktop/src/main/localMediaPreviewProtocol.ts",
+    "packages/desktop/src/main/primaryWindowCoordinator.ts",
+    "packages/desktop/src/main/releaseUpdateCheck.ts",
+    "packages/desktop/src/main/startupWorkspace.ts",
+    "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts"
+  ],
+  "additionalReservations": [
+    "G browserPlaywright three owners; conservatively exclude browserView/browserPlaywright scope",
+    "root desktopNetworkPolicy.ts / desktopRuntimeEnv.ts",
+    "existing accepted candidates, known private HOLD, third-party material and small facade/data/helpers"
+  ],
+  "rootLatestDeltaMetadata": {
+    "ahead_by": 1,
+    "behind_by": 0,
+    "commits": [
+      {
+        "message": "Reconstruct desktop network policy owner with bounded trust checks",
+        "sha": "b2c58b67915ec98f21f952aec6fb588f177fad0d"
+      }
+    ],
+    "files": [
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/api.log",
+        "sha": "e6e9b2bc581bf3bba442e4345c1083a893ba6a8f",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/architecture.log",
+        "sha": "e40bbcbe760f222a28642facda2f1916d6fc5003",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/draft-desktopNetworkPolicy.ts.txt",
+        "sha": "d266b81fe689fcf049fb82a9e43b0309de1f4526",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/format.log",
+        "sha": "ab6c3bf6f4753628fed1d3db41867462e8d1df28",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/lint.log",
+        "sha": "068803f60e92efe3a60d20a87c5e5796372f8cb3",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/minimal.cjs.txt",
+        "sha": "11e1b67e9b6efc38b93ada19c127ba18c82b26a7",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/minimal.log",
+        "sha": "d528f6fad9837843beb40580cc1a0d73c337c863",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/contract.md",
+        "sha": "5f981bcbbc628989fcea47ac0b331cb5ff48ff0c",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/curator-manifest.json",
+        "sha": "b155c048c3b84a64e3ea332c821b688c808be63c",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/dependency-api.d.ts",
+        "sha": "af6236ead1b34fb21a4395ab9bd1affef37a5806",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/desktopNetworkPolicy-public-api.d.ts",
+        "sha": "ab3100bed12548e701dbfcc41c1e45055f923793",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/desktopRuntimeEnv-public-api.d.ts",
+        "sha": "908981b7576102e4c8bc7fa5f266c53a3b06ae3b",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/imports.json",
+        "sha": "e127429a7692823d206f346c0861f9655ec82e0c",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/public-type-qualifications.md",
+        "sha": "0cd196aa9179764218074d0131901c11e63eca55",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/reservation.json",
+        "sha": "e156e3607fae3d2c54446cb630d2b62d8b9ae417",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/packet/retained-data.json",
+        "sha": "3fd5a09a1a0df9584433a9d4b8c3a0cd4c2b0d51",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/recovery.json",
+        "sha": "254a29d3d23509d549a199d39e2a9c26a7593bd5",
+        "status": "added"
+      },
+      {
+        "filename": "docs/evidence/root-network-policy-20261003/review.json",
+        "sha": "7d175b11205f04268a69568f31c10c618112a54f",
+        "status": "added"
+      },
+      {
+        "filename": "docs/knorvia-root-network-policy-20261003.md",
+        "sha": "9c028ed805c58d85f0ac1dbdd93a7419ebfc4685",
+        "status": "added"
+      },
+      {
+        "filename": "packages/desktop/src/main/desktopNetworkPolicy.ts",
+        "sha": "c371dc5d1e1a46c519faadfcd02974ca35c70fb5",
+        "status": "modified"
+      },
+      {
+        "filename": "specs/knorvia-desktop-network-owner-20261003.md",
+        "sha": "a5eebf4a32df14bf1521e7ac5a81db09181be4ea",
+        "status": "added"
+      }
+    ],
+    "merge_base_commit": "dd963aae58aa6111e5c65532c30c152c040de30a",
+    "status": "ahead",
+    "total_commits": 1
+  },
+  "inquiryCandidates": [
+    {
+      "path": "packages/desktop/src/main/broadcastHub.ts",
+      "currentSha256": "a1216b85285bd6830b6c5afffe8e94b7e2b623882c127ffceedfd0e3374cf11e",
+      "currentBytes": 6526,
+      "currentGitBlob": "ab5d801e76d3e3f2008031d2a4494a62ffcf0e7e",
+      "actualDigestEqualsLedgerObserved": true,
+      "originClassification": "upstream-modified",
+      "license": "NOASSERTION",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/broadcastHub.ts",
+        "blob": "6194534bac2454f15765de42c9d6f23665ef12b1",
+        "normalizedSha256": "71159c59e0e4750c54d091dfba47cf1a51ea42a2669fd11ad7360576c92cbb64",
+        "contentMatchedPaths": []
+      },
+      "publisherUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/broadcastHub.ts",
+      "localExactPathReviews": [],
+      "status": "HOLD / ownership inquiry only",
+      "qualification": "No local exact-path review is not evidence against old acceptance; private root checkpoint coverage/current owner must be confirmed, no replacement allocated."
+    },
+    {
+      "path": "packages/desktop/src/main/taskRealtimeBus.ts",
+      "currentSha256": "21ff17c445ecff554d377a20ef072923f609f3aa24c73224d26049f7ce850b90",
+      "currentBytes": 35696,
+      "currentGitBlob": "336a742e057504c3da8178cd37130226ac6b2bcf",
+      "actualDigestEqualsLedgerObserved": true,
+      "originClassification": "upstream-modified",
+      "license": "NOASSERTION",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/taskRealtimeBus.ts",
+        "blob": "b31eb61f4dd1627d4b4c5e11fbe04cc462506973",
+        "normalizedSha256": "4f1764545489fe687456e956b42ee59c93a04f6aa08736c5168a932a1bcfa80b",
+        "contentMatchedPaths": []
+      },
+      "publisherUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/taskRealtimeBus.ts",
+      "localExactPathReviews": [],
+      "status": "HOLD / ownership inquiry only",
+      "qualification": "No local exact-path review is not evidence against old acceptance; private root checkpoint coverage/current owner must be confirmed, no replacement allocated."
+    },
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "currentSha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55",
+      "currentBytes": 4143,
+      "currentGitBlob": "6ea0dde542d70b758b00da53668a5d2866af4d24",
+      "actualDigestEqualsLedgerObserved": true,
+      "originClassification": "upstream-modified",
+      "license": "NOASSERTION",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+        "blob": "7b2ffb74ef057b6d7127ed52d55eed3ffaa771bd",
+        "normalizedSha256": "f21b6ba15a6d2f4bbe0ab7aa1a7cccc44b26d197661a80b25ce9dfbf0e0948ef",
+        "contentMatchedPaths": []
+      },
+      "publisherUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/databaseStartupRelay.ts",
+      "localExactPathReviews": [],
+      "status": "HOLD / ownership inquiry only",
+      "qualification": "No local exact-path review is not evidence against old acceptance; private root checkpoint coverage/current owner must be confirmed, no replacement allocated."
+    }
+  ],
+  "clearlyAssignableCandidates": [],
+  "publicResponsibilityEvidence": [
+    "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+    "docs/evidence/desktop-platform-host-root-packet-20261003/contract.md"
+  ],
+  "validation": {
+    "publishedPathExclusions": "PASS for three targets",
+    "threeCurrentSourceDigestMatches": "Observed PASS in one preceding metadata command",
+    "publicHeadDeltaMetadata": "PASS; exact root merge-base/one commit/20 files plus spec (21 total); no truncated 300-file compare used",
+    "targetBodiesRead": false,
+    "authorsSpawned": 0,
+    "sourceChanges": 0,
+    "testsRun": false
+  },
+  "limits": [
+    "Initial desktop main inventory metadata output truncated; later bounded top-level rows/three exact records used, no truncated output treated as complete source review.",
+    "Local history snapshot/format commits and exact-path receipt search absence do not prove originality or negate old acceptance.",
+    "Root private checkpoint unavailable; no access retry or alternative extraction.",
+    "No new material closure; all21 OPEN."
+  ]
+}
