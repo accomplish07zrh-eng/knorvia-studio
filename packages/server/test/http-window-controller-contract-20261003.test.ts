@@ -134,7 +134,11 @@ test("HTTP Web exposes the real controller descriptor and keeps task writes with
   const a = await left.subscribeControllerV4({ topic: CONTROLLER_TASKS_INDEX_TOPIC });
   const b = await right.subscribeControllerV4({ topic: CONTROLLER_TASKS_INDEX_TOPIC });
   assert.notEqual(a.ack.subscriptionId, b.ack.subscriptionId);
-  const query = { kind: "pinned" as const, sortBy: "updated" as const, workspaceScopes: [source.workspace] };
+  const query = {
+    kind: "pinned" as const,
+    sortBy: "updated" as const,
+    workspaceScopes: [source.workspace],
+  };
   const pinned = await left.listTaskList(query);
   assert.equal(pinned.items[0]?.taskId, source.meta.taskId);
   assert.equal(pinned.items[0]?.sourceAvailability, "online");
@@ -172,7 +176,11 @@ test("controller attachments isolate unsubscribe and close while sharing the Hos
   const a = await left.subscribeControllerV4({ topic: CONTROLLER_TASKS_INDEX_TOPIC });
   const b = await right.subscribeControllerV4({ topic: CONTROLLER_TASKS_INDEX_TOPIC });
   await right.unsubscribeControllerV4({ subscriptionId: a.ack.subscriptionId });
-  await left.listTaskList({ kind: "pinned", sortBy: "updated", workspaceScopes: [source.workspace] });
+  await left.listTaskList({
+    kind: "pinned",
+    sortBy: "updated",
+    workspaceScopes: [source.workspace],
+  });
   assert.equal((await readSnapshot(left, a.ack.subscriptionId)).length, 1);
   left.dispose();
   await assert.rejects(right.resyncControllerV4({ subscriptionId: a.ack.subscriptionId }));
