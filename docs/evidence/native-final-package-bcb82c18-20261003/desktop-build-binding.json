@@ -1,0 +1,11 @@
+{
+  "inputSha": "bcb82c184de740c2cd9571c115eafa3bd04480cf",
+  "metadata": {
+    "appVersion": "0.8.0-preview.3",
+    "buildCommitId": "bcb82c18",
+    "buildTime": "2026-10-03T14:03:23.091Z",
+    "electronBuilderVersion": "26.8.1"
+  },
+  "metadataSha256": "d24a0c1cb1932dffebc2439f4338a735bd3cd7c11f43a2b74bafa41cd6f13380",
+  "buildLogSha256": "cf2f5c7987f3aaae292fd5807f6e12b909a27c930959cea908c69f697e70eed7"
+}

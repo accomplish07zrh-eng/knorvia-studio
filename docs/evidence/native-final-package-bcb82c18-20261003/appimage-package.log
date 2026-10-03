@@ -1,0 +1,40 @@
+  • electron-builder  version=26.8.1 os=6.18.44
+  • loaded configuration  file=/workspace/knorvia-studio/packages/desktop/electron-builder.config.js
+  • @electron/rebuild already used by electron-builder, please consider to remove excess dependency from devDependencies
+
+To ensure your native dependencies are always matched electron version, simply add script `"postinstall": "electron-builder install-app-deps" to your `package.json`
+[ci][timer] beforePack:restoreTargetNodePtyPrebuild start
+[beforePack] node-pty prebuild restored: /workspace/knorvia-studio/node_modules/node-pty/prebuilds/linux-x64/pty.node
+[ci][timer] beforePack:restoreTargetNodePtyPrebuild end duration_ms=1
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • packaging       platform=linux arch=x64 electron=41.0.3 appOutDir=/workspace/knorvia-native-final-bcb82c18-20261003/desktop-release/linux-unpacked
+  • packageManager not detected by file, falling back to environment detection  resolvedPackageManager=pnpm detected=/workspace/knorvia-studio/packages/desktop
+  • detected workspace root for project using packageManager field  pm=pnpm config=pnpm@10.33.2 resolved=/workspace/knorvia-studio projectDir=/workspace/knorvia-studio/packages/desktop
+  • searching for node modules  pm=pnpm searchDir=/workspace/knorvia-studio/packages/desktop
+(node:25246) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  • dependency not found on disk  dependencies=["@radix-ui/react-primitive@2.1.4","@radix-ui/react-slot@1.2.4","marked@17.0.6","pngjs@5.0.0","commander@14.0.3","diff@8.0.4","immer@10.2.0","tslib@2.3.0","yargs@15.4.1","diff@8.0.3","@shikijs/types@3.23.0","zod@3.25.76","kleur@3.0.3","execa@9.6.1","fs-extra@11.3.4","open@11.0.0","commander@11.1.0","execa@5.1.1","get-stream@6.0.1","human-signals@2.1.0","is-stream@2.0.1","signal-exit@3.0.7","strip-final-newline@2.0.0","npm-run-path@4.0.1","ora@8.2.0","ts-morph@26.0.0","semver@6.3.1","wrap-ansi@7.0.0","tslib@2.3.0","y18n@4.0.3","yargs-parser@18.1.3","cliui@6.0.0","find-up@4.1.0","is-obj@3.0.0","human-signals@8.0.1","strip-final-newline@4.0.0","get-stream@9.0.1","npm-run-path@6.0.0","data-uri-to-buffer@4.0.1","ast-types@0.16.1","semver@6.3.1","wsl-utils@0.3.1","which@4.0.0","chalk@5.6.2","log-symbols@6.0.0","emoji-regex@10.6.0","@ts-morph/common@0.27.0","semver@6.3.1","picomatch@2.3.2","cookie@1.1.1","path-to-regexp@6.3.0","type-fest@5.5.0","strip-ansi@6.0.1","ansi-styles@4.3.0","ajv@8.18.0","@types/unist@2.0.11","locate-path@5.0.0","path-key@4.0.0","resolve-from@4.0.0","mimic-fn@2.1.0","onetime@7.0.0","lru-cache@5.1.1","json-schema-traverse@1.0.0","p-locate@4.1.0","brace-expansion@5.0.5","yallist@3.1.1","iconv-lite@0.7.2","escape-string-regexp@5.0.0","p-limit@2.3.0","balanced-match@4.0.4"]
+[ci][timer] afterPack:injectHoistedRuntimeModulesIntoAsar start
+[ci][timer] afterPack:scan-missing-runtime-modules start
+[ci][timer] afterPack:scan-missing-runtime-modules end duration_ms=249
+[afterPack] missing runtime modules count=22
+[ci][timer] afterPack:asar-extract start
+[ci][timer] afterPack:asar-extract end duration_ms=2712
+[ci][timer] afterPack:copy-runtime-modules start
+[ci][timer] afterPack:copy-runtime-modules end duration_ms=22
+[ci][timer] afterPack:asar-pack start
+[ci][timer] afterPack:asar-pack end duration_ms=15311
+[ci][timer] afterPack:injectHoistedRuntimeModulesIntoAsar end duration_ms=18587
+[ci][timer] afterPack:stripPackagedSourcemapReferences start
+[ci][timer] afterPack:sourcemap-cleanup:asar-extract start
+[ci][timer] afterPack:sourcemap-cleanup:asar-extract end duration_ms=3773
+[afterPack] stripped sourceMappingURL references=5533 files=5511 maps=162
+[ci][timer] afterPack:sourcemap-cleanup:asar-pack start
+[ci][timer] afterPack:sourcemap-cleanup:asar-pack end duration_ms=13810
+[afterPack] resources sourcemap cleanup references=0 files=0 maps=0
+[ci][timer] afterPack:stripPackagedSourcemapReferences end duration_ms=19446
+[ci][timer] afterPack:assertPackagedNativeResourcePolicy start
+[ci][timer] afterPack:assertPackagedNativeResourcePolicy end duration_ms=309
+[ci][timer] afterPack:assertPackagedNodePtyPrebuild start
+[ci][timer] afterPack:assertPackagedNodePtyPrebuild end duration_ms=0
+  • building        target=AppImage arch=x64 file=/workspace/knorvia-native-final-bcb82c18-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage

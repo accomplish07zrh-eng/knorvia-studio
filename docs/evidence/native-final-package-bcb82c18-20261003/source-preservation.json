@@ -1,0 +1,55 @@
+{
+  "inputSha": "bcb82c184de740c2cd9571c115eafa3bd04480cf",
+  "allRecordedInputsUnchanged": true,
+  "inputFileCount": 24,
+  "originalSmokeSha256": "83267d3e2e646a287116bca8f4f49c21cd60dd35042c1fc60c739f66d15e7c38",
+  "originalSmokeAssertSites": [
+    {
+      "line": 15,
+      "source": "assert.ok(archive, \"Usage: node scripts/distribution-smoke.mjs <archive.tar.gz>\");"
+    },
+    {
+      "line": 46,
+      "source": "assert.match(imported.stdout, /tui-runtime-ok/);"
+    },
+    {
+      "line": 65,
+      "source": "assert.equal(terminalExit, undefined, screen);"
+    },
+    {
+      "line": 66,
+      "source": "assert.doesNotMatch(screen, /Cannot find (?:module|package)|ERR_MODULE_NOT_FOUND/);"
+    },
+    {
+      "line": 77,
+      "source": "assert.equal(tuiExit.exitCode, 0, screen);"
+    },
+    {
+      "line": 118,
+      "source": "assert.equal(info.workspaces[0].path, workspace);"
+    },
+    {
+      "line": 120,
+      "source": "assert.equal(html.status, 200);"
+    },
+    {
+      "line": 121,
+      "source": "assert.match(await html.text(), /<html/i);"
+    },
+    {
+      "line": 129,
+      "source": "assert.deepEqual(await exited, [0, null]);"
+    }
+  ],
+  "originalSmokeResult": {
+    "version": "0.8.0-preview.3",
+    "platform": "linux",
+    "arch": "x64",
+    "tui": "native import, initialized render, keyboard exit passed",
+    "web": "HTML, server-info, workspace, WebSocket, shutdown passed",
+    "isolated": true
+  },
+  "originalSmokeExitCode": 0,
+  "originalSmokeFixtureRemoved": true,
+  "trackedWorktreeBeforeEvidence": "clean"
+}

@@ -1,0 +1,7 @@
+{
+  "inputSha": "bcb82c184de740c2cd9571c115eafa3bd04480cf",
+  "priorProbePath": "docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe-initial.py",
+  "priorProbeSha256": "0c8690da5d4ca58efbda9e8d82cdc5fc93ecb51e5295449eab9a2489c44df6b3",
+  "currentProbeSha256": "aa014344b6c86408840343ac96a7938113f653cd02090c0c1d0b7aaba5331ef1",
+  "onlyChange": "report.inputSha metadata literal; all assertions and installation commands byte-identical"
+}

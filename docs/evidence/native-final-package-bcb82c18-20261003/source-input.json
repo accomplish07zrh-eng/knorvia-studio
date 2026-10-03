@@ -1,0 +1,112 @@
+{
+  "inputSha": "bcb82c184de740c2cd9571c115eafa3bd04480cf",
+  "inputTree": "3c10f3a238fd6f7b82e3e139cb81a1c648f90b7d",
+  "branch": "rewrite/native-20261003",
+  "trackedWorktreeAtStart": "clean",
+  "recordedAtUtc": "2026-10-03T13:57:20.776612+00:00",
+  "platform": "linux-x64",
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "electron": "41.0.3",
+  "outputRoot": "/workspace/knorvia-native-final-bcb82c18-20261003",
+  "fixtureTempRoot": "/workspace/knorvia-native-final-bcb82c18-20261003/tmp",
+  "inputFiles": {
+    "pnpm-lock.yaml": {
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    "package.json": {
+      "bytes": 4490,
+      "sha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d"
+    },
+    "apps/cli/package.json": {
+      "bytes": 2045,
+      "sha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2"
+    },
+    "packages/desktop/package.json": {
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    "scripts/build.mjs": {
+      "bytes": 8801,
+      "sha256": "8e777bd4f7c3d3e1487e81e2a011bd3747f4b9240e09dc84dc94baf7b6fce313"
+    },
+    "scripts/distribution-smoke.mjs": {
+      "bytes": 5173,
+      "sha256": "83267d3e2e646a287116bca8f4f49c21cd60dd35042c1fc60c739f66d15e7c38"
+    },
+    "scripts/distribution/assets.mjs": {
+      "bytes": 6682,
+      "sha256": "7a1ecf45a8297a90b3946d9b4595ddeda6f471b9550a6c78d46fecab768d63a3"
+    },
+    "scripts/distribution/installer.mjs": {
+      "bytes": 1643,
+      "sha256": "d4e783305b5fbebe2cadb158594eb73e356ee9ce9677f761e7276a0053acca69"
+    },
+    "scripts/distribution/runner.mjs": {
+      "bytes": 8254,
+      "sha256": "3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd"
+    },
+    "scripts/build-desktop-agent-cli.mjs": {
+      "bytes": 9027,
+      "sha256": "a0e593e1e534bc26e372bc4d562b7439dddcfda0895e3f4ffbdefcd692940d7a"
+    },
+    "apps/cli/packages/tui/scripts/build.mjs": {
+      "bytes": 1463,
+      "sha256": "0c5c0a59bf1f3558e253c369c7ac37ea715e5bfdc4ce50b0a068ae6e669da14a"
+    },
+    "apps/cli/packages/tui/src/tui.tsx": {
+      "bytes": 5854,
+      "sha256": "9a9b5eefdfbdff70ae01e77af55a2ef546d847872e3e31251bdc758efffebf04"
+    },
+    "apps/cli/packages/cli/scripts/sea-workspace-package-assets.mjs": {
+      "bytes": 4129,
+      "sha256": "8d3b9f3ca0ac417cb67af7aa4857519340c4b9e8aa5fc383bc963a2fe69f804c"
+    },
+    "packages/desktop/electron-builder.config.js": {
+      "bytes": 36542,
+      "sha256": "9b435a568f3e82dbb691e23e9cf92fc7bfff1f1a56cfeff89897a7ccb5ec47ca"
+    },
+    "packages/desktop/scripts/prepare-runtime-assets.mjs": {
+      "bytes": 3009,
+      "sha256": "919a3c6e19f309e946cb1ba0c9ceb38aafdaad67d0919fc729c75bdd7632ea5a"
+    },
+    "packages/desktop/scripts/prepare-agent-node-bundle.mjs": {
+      "bytes": 4586,
+      "sha256": "d0d17d5e49102df01f302ac6d33ef898fdc82d21c5005bdf0c6e2f9cc0e294f3"
+    },
+    "packages/desktop/scripts/bundle.mjs": {
+      "bytes": 26386,
+      "sha256": "e70f5f4f540e633789d5928547a4ff3f17e23467fb8afb373847a25c367d3cd9"
+    },
+    "scripts/packaged-runtime-evidence.mjs": {
+      "bytes": 9387,
+      "sha256": "fcdc77ddcc73f75f3f3b6554d7e71f52ed959a2a5826cc81b7311ddb6bd69531"
+    },
+    "packages/services/src/process/processTreeSnapshot.ts": {
+      "bytes": 9890,
+      "sha256": "3a61005b31b7749737c00504308f395604772a34fe08b790998eebc828f957d1"
+    },
+    "packages/services/src/process/processTreeTypes.ts": {
+      "bytes": 2635,
+      "sha256": "959d80bb6b62ed9b6feeb383fb877b7d5d535bdb70ffe06f33810407173f0d22"
+    },
+    "packages/services/src/process/processTreeWaiter.ts": {
+      "bytes": 8521,
+      "sha256": "752d3a5e26f818a38383e74376c8143db49870cc4b4c4dd9ce03252fa111ea60"
+    },
+    "packages/desktop/test/native-browser-crash-contracts.test.ts": {
+      "bytes": 33255,
+      "sha256": "ff3b3f82f34d102b86b65494bf7ff39d76fe0f39e4d3ac364246a4d5e5ed1bb2"
+    },
+    "docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.mjs": {
+      "bytes": 8749,
+      "sha256": "7c0f278e1f5a27c474e24545529ad327dd2f70273749a547a36e682fd1e8f543"
+    },
+    "docs/evidence/native-packaged-acceptance-20261003/artifact-native-child.cjs": {
+      "bytes": 1775,
+      "sha256": "4fdb0c2c3534777c8ac1db84859e2ef73a4e967fdc59d1b9f1b4b7ec9761bdd7"
+    }
+  },
+  "originalSmokeAssertCalls": 9
+}

@@ -1,0 +1,2 @@
+[freshness] rewrite/native-20261003 没有远端跟踪分支，跳过 behind-remote 检查（是否忘了 push -u？）
+[freshness] 基线新鲜：rewrite/native-20261003，相对 origin/main：ahead 65 / behind 0（阈值 50）

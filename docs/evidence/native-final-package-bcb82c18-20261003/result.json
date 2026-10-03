@@ -1,0 +1,112 @@
+{
+  "status": "passed-with-platform-and-release-limits",
+  "inputSha": "bcb82c184de740c2cd9571c115eafa3bd04480cf",
+  "inputTree": "3c10f3a238fd6f7b82e3e139cb81a1c648f90b7d",
+  "recordedAtUtc": "2026-10-03T14:08:15.672526+00:00",
+  "branch": "rewrite/native-20261003",
+  "platform": "linux-x64",
+  "archive": {
+    "path": "/workspace/knorvia-native-final-bcb82c18-20261003/distribution-release/releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz",
+    "bytes": 90495472,
+    "sha256": "75a77e374b9c12b40e49a35e8867405a7a3fe96751d0dbf25b5ff0595da06f11"
+  },
+  "appImage": {
+    "path": "/workspace/knorvia-native-final-bcb82c18-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+    "bytes": 188674891,
+    "sha256": "f63774b7aeaff27e18df68e7f86e3061f9188214871519829b95ee1c39cb1175"
+  },
+  "desktopMetadata": {
+    "appVersion": "0.8.0-preview.3",
+    "buildCommitId": "bcb82c18",
+    "buildTime": "2026-10-03T14:03:23.091Z",
+    "electronBuilderVersion": "26.8.1"
+  },
+  "passed": {
+    "freshFullSourceArchiveBuild": true,
+    "originalUnchangedDistributionSmoke": {
+      "exitCode": 0,
+      "scriptSha256": "83267d3e2e646a287116bca8f4f49c21cd60dd35042c1fc60c739f66d15e7c38",
+      "sourceAssertCallSites": 9,
+      "allOriginalAssertSitesRetained": true,
+      "skips": [],
+      "actualResult": {
+        "version": "0.8.0-preview.3",
+        "platform": "linux",
+        "arch": "x64",
+        "tui": "native import, initialized render, keyboard exit passed",
+        "web": "HTML, server-info, workspace, WebSocket, shutdown passed",
+        "isolated": true
+      }
+    },
+    "freshDesktopSourceBuildAndConfiguredAppImage": true,
+    "actualAppImageExtraction": true,
+    "extractedIdentityMatchesFreshUnpacked": true,
+    "unchangedActualNativeProbe": {
+      "exitCode": 0,
+      "groups": 6,
+      "checks": [
+        "Canonical package identity measured outside repository",
+        "Existing ASAR native policy and required runtime entries passed",
+        "Packaged CLI executes in its Electron Node runtime",
+        "Artifact node-pty opens a real PTY, renders and exits zero; Electron SQLite writes a synthetic sentinel",
+        "Real package storage handshake/preparation succeeds twice with sentinel preserved",
+        "Packaged rg/ugrep/bfs execute against Unicode/spaced synthetic paths with notice/source files present"
+      ],
+      "electronNode": {
+        "node": "v24.14.0",
+        "electron": "41.0.3",
+        "arch": "x64",
+        "platform": "linux"
+      },
+      "pty": {
+        "exitCode": 0,
+        "output": "knorvia_native_pty"
+      },
+      "storageSentinel": {
+        "sentinel": "preserved after a second real storage preparation"
+      },
+      "fixtureRemoved": true
+    },
+    "isolatedActualInstallerReinstall": {
+      "exitCode": 0,
+      "runs": 2,
+      "requestsToOwnedLoopbackServer": 4,
+      "checks": [
+        "Fresh archive matches both generated checksum and latest metadata",
+        "Install run 1: local download/extraction/current symlink/executable launcher/version/help/exact artifact bytes/synthetic profile sentinel passed",
+        "Install run 2: local download/extraction/current symlink/executable launcher/version/help/exact artifact bytes/synthetic profile sentinel passed"
+      ],
+      "fixtureRemoved": true
+    },
+    "sourcePreservation": {
+      "recordedInputsUnchanged": 24,
+      "trackedSourceCleanBeforeEvidence": true
+    }
+  },
+  "remaining": [
+    "Integrator must register this new evidence packet in its shared frozen-evidence/current-source projections and follow CI37127601364; no local full source suite/lint/typecheck/audit repeated.",
+    "Real Windows NSIS/install/GUI/CUA and macOS acceptance remain unavailable in this Linux environment.",
+    "No Electron GUI/Host-Agent graceful process-tree shutdown acceptance is inferred from these Node-mode probes or the Web launcher exit; use the separately owned combined acceptance.",
+    "No .deb/.rpm/.pacman package was generated: factual public maintainer email remains unauthorized/unprovided. AppImage and standalone archive do not require it.",
+    "Remote SSH/WSL asset preparation was intentionally skipped by supported CI policy; no fresh remote-target acceptance is claimed.",
+    "Synthetic installer and SQLite sentinels are bounded data-retention checks, not complete legacy user-data migration coverage."
+  ],
+  "limits": [
+    "Exact bcb82c18 input and new artifact bytes only; older ad712690/ede838 receipts remain historical and unchanged.",
+    "No whole-product independent-authorship/MIT statement, licensing authority determination or two-clean-build reproducibility claim.",
+    "No product source/UI/shared protocol/root/CI/license/provenance edits in this batch.",
+    "The existing installer does not itself validate sha256.txt; external probe checksum matching is stated separately.",
+    "No model requests, credentials, real profiles or user computer operations; synthetic runtime fixtures removed.",
+    "No release publication or main merge."
+  ],
+  "handoff": {
+    "integrationBase": "integration/backlog-20261003",
+    "integrationObservedAtPackagingCompletion": "d555c2d76d8b76e6153832fca370976cc21b26f5",
+    "integrationChangesAfterInput": "Four documentation/source-record paths only; package input remains the explicitly supplied bcb82c18.",
+    "priorOwnRepairCommit": "598e1f117ebd1793620c6df4b926affd1be8a458",
+    "priorOwnRepairPr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/25",
+    "priorOwnRepairPrState": "merged; included in exact package input",
+    "parentIntegrationPr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/24",
+    "ciRunOwnedByIntegrator": "37127601364"
+  }
+}
