@@ -59,6 +59,8 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 
 父任务随后报告 native 第一轮完成于 `85ea4dcf9d0da20c14a487caaafc677a2f81f047`，GitHub API 已确认 #17 的同一 head；包含控制 client/server、JSONL decoder、状态持久化与停止确认两批源码。父任务已在原固定线程派下一批，故这是已完成批次的冻结输入，不把活动 PR 自动当作全路完成，也暂不合入或提前合 main。实际 desktop 路径一直按 `packages/desktop` 登记，renderer 全部归 UI，其余归 native；不得按旧别名遗漏根 renderer 文件。
 
+父任务随后报告 UI 四批交付于 `7393e33483aceedb1fad4e2ed3fe50dee10f3db1`，GitHub API 已确认 #15 的同一 head；范围为文件树投影、分组编辑/虚拟滚动、群任务进展、v4 引用稳定化。父任务复用原任务继续文件树 watch/search/sticky 和 Studio/v4；同样保持该批完整 SHA 为冻结输入，尚不接入、不当作全 UI 或消费者验收完成。整合者既有 renderer 完整路径已与父任务再确认，无重叠授权。
+
 ## 整合者范围的实现筛选
 
 已阅读的 shared assembly/projection 当前源码由 #9 的 `7caec377c3b6aace6f9a08344d77497726459eb2` 后续完整候选更新；虽然 saved inventory 仍标原 upstream-unchanged，当前 digest 已不同且完整 packet/receipt 已在基线。保留 wire-assembler、workflow-runs-artifacts、conversation-message-projection-policy、session-visible-content、tool-plan-adapter；不据陈旧 inventory 再重写一遍。
