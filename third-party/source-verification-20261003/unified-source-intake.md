@@ -27,7 +27,8 @@ contract/consumer、SEA runtime surface。它们是统一回归的实际输入�
 - Desktop controller 的三份实现下移至 services 专用 Node 入口，旧 Desktop 入口
   继续转发。原实现函数体保持相同字节，是共享装配调整，不是新增独立替换成果。
 - `licensing/current-files.json` 从旧 checkpoint 的未变更 descriptor 与实际改动文件
-  的当前字节增量重建。上游 pin、reviews、第三方记录和原许可通知不变；不新增授权、
+  的当前字节增量重建。上游 pin、reviews、第三方材料/依赖记录和原许可通知不变；
+  services manifest 新增共享 Node 入口，单独同步该 manifest 的真实输入摘要；不新增授权、
   不推广独立性分类，不因 source-exposed 合同证据声称 clean room 或全仓原创。
 - frozen evidence 实际新增 **73** 份：services11、native37、UI19、CLI6。此前的
   5716 个登记对象、baseline 与所有原证据字节保留；新记录绑定含实际字节的源提交。
@@ -52,3 +53,8 @@ frozen integrity 实际通过 **5789 文件 / 65864506 字节**。本地最初�
 时因 `/home/agent` 路径不可用失败；改用既有的固定 Node24.14.0/pnpm10.33.2 工具，
 未改 HOME 或 lockfile。完整类型、lint、格式、架构、CLI 构建和离线回归由统一 PR 的
 两平台 CI 按确切受检 SHA 执行，当前仍待结果。
+
+首轮 CI `37122670035` 的两平台均在来源 gate 失败：整合者新增 services 公共入口后，
+漏同步 `third-party/inventory.json.inputs["packages/services/package.json"]`。
+该 manifest 实际只有 exports 变化，依赖与其余字段不变。本次只补此输入的真实摘要，
+第三方材料/许可及 checker 不改；原 CI 后续类型/lint/构建/回归均 skipped，不写成通过。
