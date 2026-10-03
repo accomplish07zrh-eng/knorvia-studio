@@ -43,7 +43,7 @@ phase/log 字符串转换、事件次序与当前 phase 含义不变；workflow 
 
 先拒绝原 inline !`…` 或 fenced ```! shell pattern，保留原 Error 文本；不引入动态 shell 执行。trim 原 args 后解析：通用 ECMAScript whitespace 在引号外结束非空 token，引号可在 token 中开闭，非匹配引号在引号内为普通内容；反斜杠在所有位置逃逸下一个 Unicode code point，末尾反斜杠保留。空 quoted token 被忽略，未闭合引号允许到 EOF。独立 tokenizer 使用 lexeme 流（逃逸、引号、whitespace、普通片段）与 fragment buffer，不照搬逐字符 escaping 状态机。
 
-先替换所有 $ARGUMENTS 为 trimmed 原字符串，然后对所得正文中的 $digits 做一次位置展开。因此 args 引入的 $N 也展开，但替换结果不递归；$0、缺位或无限大索引为空，前导零按 Number。采用 capturing split 的 literal/position 段投影，段是否含位置字段决定 usedArgumentsPlaceholder，无回调修改 flag。无任何占位符且 args 非空才追加原 User arguments 区段。返回 argumentCount 是 tokenizer 数量。
+先以原生 string replacement 替换所有 $ARGUMENTS，然后对所得正文中的 $digits 做一次位置展开。第一步继续保留 trimmed args 中 $$、$&、$`、$' 的原生 replacement 含义，不擅自改成 literal callback。因此 args 引入的 $N 也展开，但位置替换结果不递归；$0、缺位或无限大索引为空，前导零按 Number。采用 capturing split 的 literal/position 段投影，段是否含位置字段决定 usedArgumentsPlaceholder，无回调修改 flag。无任何占位符且 args 非空才追加原 User arguments 区段。返回 argumentCount 是 tokenizer 数量。
 
 prompt 原行次序：Run command、source、可选两行 Required skills / Skill tool 指令、空行、trim 后正文；技能名称逐个反引号包装并逗号连接，原固定文字/空行保留。字段顺序 argumentCount/prompt/usedArgumentsPlaceholder 不变。测试经唯一公开入口和 command-center 的真实加载消费者，覆盖引号/Unicode/escape、参数引入占位符、不递归、空/缺位置、无 placeholder 的尾附及动态 shell 拒绝。
 

@@ -1,3 +1,7 @@
+// 2026-10-03: source-exposed behavior-contract implementation of argument lexing/template projection.
+// Origin: zai-org/ZCode 872ad960de7ec172591f7e1952f7849229f94521,
+// apps/zcode-cli/packages/cli/src/custom-command-expand.ts.
+// Existing Apache-2.0 attribution/history retained; see docs/lane-cli-20261003.md.
 interface CliCustomCommandContent {
   content: string;
   metadata: {
@@ -18,6 +22,7 @@ const ALL_ARGUMENTS_TOKEN = "$ARGUMENTS";
 const FENCED_SHELL_PATTERN = /```!\s*[\s\S]*?```/;
 const INLINE_SHELL_PATTERN = /!`[^`]*`/;
 const POSITIONAL_ARGUMENT_PATTERN = /\$(\d+)/g;
+const ARGUMENT_LEXEME_PATTERN = /\\(?:([\s\S])|$)|(['"])|(\s+)|([^\\'"\s]+)/gu;
 
 export function expandCliCustomCommandPrompt(input: {
   args: string;
@@ -31,12 +36,15 @@ export function expandCliCustomCommandPrompt(input: {
 
   const args = input.args.trim();
   const positional = splitCliCustomCommandArguments(args);
-  let usedArgumentsPlaceholder = input.command.content.includes(ALL_ARGUMENTS_TOKEN);
-  let body = input.command.content.replaceAll(ALL_ARGUMENTS_TOKEN, args);
-  body = body.replace(POSITIONAL_ARGUMENT_PATTERN, (_match, index: string) => {
-    usedArgumentsPlaceholder = true;
-    return positional[Number(index) - 1] ?? "";
-  });
+  const hasAllArguments = input.command.content.includes(ALL_ARGUMENTS_TOKEN);
+  // 分两步：原 args 带入的 $N 参与本轮展开，位置值本身不再次解析。
+  const segments = input.command.content
+    .replaceAll(ALL_ARGUMENTS_TOKEN, args)
+    .split(POSITIONAL_ARGUMENT_PATTERN);
+  const usedArgumentsPlaceholder = hasAllArguments || segments.length > 1;
+  let body = segments
+    .map((segment, index) => (index % 2 === 0 ? segment : (positional[Number(segment) - 1] ?? "")))
+    .join("");
 
   if (args.length > 0 && !usedArgumentsPlaceholder) {
     body = `${body.trimEnd()}\n\nUser arguments:\n${args}`;
@@ -65,43 +73,29 @@ function formatCommandSkillInstructions(skills: string[]): string[] {
 }
 
 function splitCliCustomCommandArguments(input: string): string[] {
-  const args: string[] = [];
-  let current = "";
-  let escaping = false;
-  let quote: "'" | '"' | null = null;
-
-  for (const char of input) {
-    if (escaping) {
-      current += char;
-      escaping = false;
-      continue;
+  const words: string[] = [];
+  let fragments: string[] = [];
+  let delimiter: string | undefined;
+  const flush = (): void => {
+    const word = fragments.join("");
+    if (word.length > 0) words.push(word);
+    fragments = [];
+  };
+  for (const lexeme of input.matchAll(ARGUMENT_LEXEME_PATTERN)) {
+    if (lexeme[0].startsWith("\\")) {
+      fragments.push(lexeme[1] ?? "\\");
+    } else if (lexeme[2] !== undefined) {
+      if (delimiter === lexeme[2]) delimiter = undefined;
+      else if (delimiter === undefined) delimiter = lexeme[2];
+      else fragments.push(lexeme[2]);
+    } else if (lexeme[3] !== undefined && delimiter === undefined) {
+      flush();
+    } else {
+      fragments.push(lexeme[0]);
     }
-    if (char === "\\") {
-      escaping = true;
-      continue;
-    }
-    if (quote) {
-      if (char === quote) quote = null;
-      else current += char;
-      continue;
-    }
-    if (char === "'" || char === '"') {
-      quote = char;
-      continue;
-    }
-    if (/\s/.test(char)) {
-      if (current.length > 0) {
-        args.push(current);
-        current = "";
-      }
-      continue;
-    }
-    current += char;
   }
-
-  if (escaping) current += "\\";
-  if (current.length > 0) args.push(current);
-  return args;
+  flush();
+  return words;
 }
 
 function usesUnsupportedDynamicShell(content: string): boolean {
