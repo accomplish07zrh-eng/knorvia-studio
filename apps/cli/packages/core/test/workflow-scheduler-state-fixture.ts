@@ -1,3 +1,4 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -21,8 +22,13 @@ const text = await read(new URL("./workflow-scheduler-state-current.json", impor
 assert.equal(sha(text), "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66");
 const pins: { files: Record<string, string> } = JSON.parse(text);
 export async function loadCurrent(reader = read) {
-  for (const [path, digest] of Object.entries(pins.files))
-    assert.equal(sha(await reader(new URL(path, root))), digest, path);
+  await verifyCurrentArtifacts(
+    "workflow-scheduler-state-current.json",
+    text,
+    pins.files,
+    root,
+    reader,
+  );
   return import(new URL(`contracts/${folder}/workflow/index.${extension}`, root).href) as Promise<
     typeof import("@knorvia/contracts")
   >;
@@ -53,7 +59,12 @@ assert.equal(sha(oldGraph), archive.dependencyPins["core/dist/workflow/scheduler
 const graphUrl = data(
   oldGraph.replace('from "@knorvia/contracts"', `from ${JSON.stringify(contractsOverlay)}`),
 );
-const schedulerText = await read(new URL("core/dist/workflow/scheduler.js", root));
+// 不能让当前 dist 字节冒充旧 dependencyPins；使用同摘要的已有 scheduler archive。
+const schedulerArchive = JSON.parse(
+  await read(new URL("./workflow-scheduler-observation-baseline.json", import.meta.url)),
+);
+const schedulerText: string = schedulerArchive.compiled;
+assert.equal(sha(schedulerText), schedulerArchive.emittedSha256);
 assert.equal(sha(schedulerText), archive.dependencyPins["core/dist/workflow/scheduler.js"]);
 const schedulerOld = schedulerText.replace(/from "([^"]+)"/gu, (_: string, path: string) => {
   const target =

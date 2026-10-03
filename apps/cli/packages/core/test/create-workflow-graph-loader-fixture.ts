@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { emitted, sha } from "./workflow-run-summary-fixture.js";
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 
 export type GraphModule = "fold" | "bounds" | "analysis";
 type ReadArtifact = (url: URL) => Promise<string>;
 const read: ReadArtifact = (url) => readFile(url, "utf8");
-const contract = JSON.parse(
-  await read(new URL("./create-workflow-graph-loader-contract.json", import.meta.url)),
-);
+const contractText = await read(new URL("./create-workflow-graph-loader-contract.json", import.meta.url));
+const contract = JSON.parse(contractText);
 const oldBounds = JSON.parse(
   await read(
     new URL("./create-workflow-graph-bounds-implementation-baseline.json", import.meta.url),
@@ -44,6 +44,7 @@ export function currentGraphUrl(name: GraphModule): URL {
 }
 export async function loadCurrentGraph(name: GraphModule, readArtifact = read) {
   // Verify the caller's complete graph closure even when its namespace is already cached.
+  const historicalFiles: Record<string, string> = {};
   for (const role of ["fold", "bounds", "analysis"] as const) {
     const expected = contract.current[role];
     assert.equal(expected.module, modules[role]);
@@ -52,12 +53,15 @@ export async function loadCurrentGraph(name: GraphModule, readArtifact = read) {
       ["dist", ".js", expected.emittedSha256],
       ["dist", ".d.ts", expected.declarationSha256],
     ]) {
-      const url = new URL(
-        `../${directory}/tool/handlers/${modules[role]}${extension}`,
-        import.meta.url,
-      );
-      assert.equal(sha(await readArtifact(url)), pin, url.pathname);
+      historicalFiles[`${directory}/tool/handlers/${modules[role]}${extension}`] = pin;
     }
   }
+  await verifyCurrentArtifacts(
+    "create-workflow-graph-loader-contract.json",
+    contractText,
+    historicalFiles,
+    new URL("../", import.meta.url),
+    readArtifact,
+  );
   return import(currentGraphUrl(name).href);
 }

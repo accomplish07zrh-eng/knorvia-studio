@@ -40,7 +40,24 @@ function moduleUrl(compiled: string, name: string, overrides: Record<string, str
   });
   return `data:text/javascript;base64,${Buffer.from(mapped).toString("base64")}`;
 }
-const oldUrl = moduleUrl(archive.compiled, "create-workflow-graph-fold");
+// 原 fold oracle 依赖原 reducer；live reducer 迁移会改变 NaN 见证并污染旧 golden。
+const reducerArchive = JSON.parse(
+  await readFile(new URL("./causality-reduction-baseline.json", import.meta.url), "utf8"),
+);
+assert.equal(
+  reducerArchive.sourceSha256,
+  "dc04aa06052c32a41bab2864b29ffd6bfc75edaf1ebd92d9b6aff0737af9c586",
+);
+assert.equal(sha(reducerArchive.compiled), reducerArchive.emittedSha256);
+assert.equal(
+  reducerArchive.emittedSha256,
+  "b935726d4a000be940c997e23262f2f6c0936131a57ecd87e019d72a96e12564",
+);
+const originalReducerUrl =
+  `data:text/javascript;base64,${Buffer.from(reducerArchive.compiled).toString("base64")}`;
+const oldUrl = moduleUrl(archive.compiled, "create-workflow-graph-fold", {
+  "@knorvia/dynamic-workflow/projections": originalReducerUrl,
+});
 export const old = await import(oldUrl);
 export const current = await loadCurrentGraph("fold");
 const boundsJs = historicalBoundsBytes();

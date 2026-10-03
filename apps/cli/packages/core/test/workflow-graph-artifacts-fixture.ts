@@ -1,3 +1,4 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -22,8 +23,13 @@ const pinText = await read(new URL("./workflow-graph-artifacts-current.json", im
 assert.equal(sha(pinText), "22816e4d40feedc60de5fcb4961699f24e2a5f5c1e3ca916de61b9c3607d44ba");
 const pins: { files: Record<string, string> } = JSON.parse(pinText);
 export async function loadCurrent(reader = read) {
-  for (const [path, digest] of Object.entries(pins.files))
-    assert.equal(sha(await reader(new URL(path, root))), digest, path);
+  await verifyCurrentArtifacts(
+    "workflow-graph-artifacts-current.json",
+    pinText,
+    pins.files,
+    root,
+    reader,
+  );
   return import(
     new URL(`core/${folder}/workflow/expert/graph-artifacts.${ext}`, root).href
   ) as Promise<typeof import("../src/workflow/expert/graph-artifacts.js")>;
