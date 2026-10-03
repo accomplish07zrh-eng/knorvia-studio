@@ -1,0 +1,260 @@
+{
+  "baseline": "1b64757edf64aa5983915d948220be2b5f37999b",
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "bytes": 15866,
+      "lines": 423,
+      "sha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+      "currentOriginRecord": {
+        "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+        "kind": "file",
+        "sha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+        "normalizedSha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+        "encoding": "utf8-lf",
+        "bytes": 15866,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+          "blob": "5a98136fe82ab0e17e2d160690ea8cfa59e678e1",
+          "normalizedSha256": "95bc08441fa13e06eacd75a58dd6daac9f8191f1cfced2f2b3fd43c0bd99f0f5",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamRecord": {
+        "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+        "mode": "100644",
+        "blob": "5a98136fe82ab0e17e2d160690ea8cfa59e678e1",
+        "kind": "file",
+        "sha256": "95bc08441fa13e06eacd75a58dd6daac9f8191f1cfced2f2b3fd43c0bd99f0f5",
+        "normalizedSha256": "95bc08441fa13e06eacd75a58dd6daac9f8191f1cfced2f2b3fd43c0bd99f0f5",
+        "encoding": "utf8-lf",
+        "bytes": 15666
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "bytes": 19380,
+      "lines": 536,
+      "sha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+      "currentOriginRecord": {
+        "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+        "kind": "file",
+        "sha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+        "normalizedSha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+        "encoding": "utf8-lf",
+        "bytes": 19380,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+          "blob": "07840d2a13584b442305e9463ab1084c32e10a99",
+          "normalizedSha256": "39d25be9d338d81615639c3c6f7188f72b0f5b169049bf62061e2589d1d35948",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamRecord": {
+        "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+        "mode": "100644",
+        "blob": "07840d2a13584b442305e9463ab1084c32e10a99",
+        "kind": "file",
+        "sha256": "39d25be9d338d81615639c3c6f7188f72b0f5b169049bf62061e2589d1d35948",
+        "normalizedSha256": "39d25be9d338d81615639c3c6f7188f72b0f5b169049bf62061e2589d1d35948",
+        "encoding": "utf8-lf",
+        "bytes": 27214
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    }
+  ],
+  "authorInputs": [
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/contract.md",
+      "bytes": 13755,
+      "lines": 45,
+      "sha256": "3012999e80237f68a4d943c71cd288a5e7f2e0e437ec6006149a4d0da830d287"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/lifecycle-public-api.d.ts",
+      "bytes": 3296,
+      "lines": 68,
+      "sha256": "9e54ec003b987894163c7977007d20d7136d4cc08ad1dc42759147dd60f131d4"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/chrome-public-api.d.ts",
+      "bytes": 1164,
+      "lines": 28,
+      "sha256": "463e4399ab0ccb0c11097d3a2384cbd69cc811d0dc925ba4da0560e8f22ad756"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 22080,
+      "lines": 392,
+      "sha256": "bb0a180638e5e8a79e53b2548f5813c3e074be5ba697f553721a10c8264d019d"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/external-port-notes.md",
+      "bytes": 3576,
+      "lines": 13,
+      "sha256": "295173b5cd6ee8a4f7dcd76143259a87fc264d59fd882cb65f81a5457b40b0f8"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/imports.json",
+      "bytes": 6105,
+      "lines": 210,
+      "sha256": "f2b4533ad7b675f36f931e8bfde330833c4059bfc6373f67161200ed748b8163"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/required-literal-data.json",
+      "bytes": 19419,
+      "lines": 726,
+      "sha256": "803f5d5ae3173e4f0d3c1d7e5c504113052262952663b0833ce83ef7daea05a4"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/public-dependency-data.json",
+      "bytes": 5241,
+      "lines": 82,
+      "sha256": "82da3d946c1935f6a213b071b2ab43f0ad91a57381db3105fd46765bd80e6904"
+    },
+    {
+      "path": "docs/evidence/desktop-window-root-packet-20261003/event-bindings.json",
+      "bytes": 5307,
+      "lines": 165,
+      "sha256": "90644c912f69a15108439e1e7de3adcb34e51cb2e3a393142580c04e405bff7e"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "bytes": 4143,
+      "sha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopHostProcess.ts",
+      "bytes": 25735,
+      "sha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5"
+    },
+    {
+      "path": "packages/desktop/src/main/startupWorkspace.ts",
+      "bytes": 5849,
+      "sha256": "4ba5e8b6fd8c579bc1a2678f40cc817e436c79220a02cd761c531a2caff5574b"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopDarwinCloseBehavior.ts",
+      "bytes": 1068,
+      "sha256": "491ef92eeb351b179d353c86d27b566a4a5480820c72e2d6feb1105eef577958"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopUnsavedChanges.ts",
+      "bytes": 1393,
+      "sha256": "3b43f066910742de6058a44162958a34cfad8fec1a82961066e8a700af5a201c"
+    },
+    {
+      "path": "packages/desktop/src/main/unreadBadge.ts",
+      "bytes": 905,
+      "sha256": "52a8e7cdfcd01ddcdf229e5ecb5157b257531e699d1256d70503033bc6526439"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowSize.ts",
+      "bytes": 3257,
+      "sha256": "d55d1453af0a46ef5f703f63f7d3a9af0a95dae84a30fa7b0780b6c770489fe7"
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "bytes": 16528,
+      "sha256": "75d07ce51425e4d7cba31ac9c2920987f0af9efad199e97f71f72b27a153bbd3"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+      "bytes": 4756,
+      "sha256": "f8788ab82065fa888a64797aa27d1e392bf3ff9b2aa51a3025baf4a020a0330b"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChromeState.ts",
+      "bytes": 1319,
+      "sha256": "2bb5d02ffcbdc12790e42e1ef77fbb197c866f8dec4e28042bb3ddb3d6ae7123"
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a"
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de"
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c"
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    {
+      "path": "package.json",
+      "bytes": 4337,
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "bytes": 11026,
+      "sha256": "93ea5812027c5b211b793b33c0b280af18312735cfdb1c0e057fb200555f87e3"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc"
+    }
+  ],
+  "excludedAuthorInputs": [
+    "reservation.json",
+    "curator-manifest.json",
+    "public-extraction-record.json",
+    "extract-public.cjs",
+    "verify-packet.cjs",
+    "packet-static-results.json"
+  ],
+  "qualification": "Only nine named public inputs, frozen0444 and exact source/dependency byte bindings. Source-exposed curator/raw diagnostics retained separately. Root implementation exclusively; no OS audit/rights/semantic closure/actual native execution; all21 materials open."
+}

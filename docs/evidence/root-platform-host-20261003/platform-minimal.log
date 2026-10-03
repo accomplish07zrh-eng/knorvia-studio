@@ -1,0 +1,3 @@
+baseline: all43 registration/order/arity bindings and three minimum synthetic identity/authority/data groups pass
+candidate: all43 registration/order/arity bindings and three minimum synthetic identity/authority/data groups pass
+Original frozen once-versus-on lifecycle mismatch reproduced and corrected. Native side-effect ports fully mocked; no real dialogs/files/settings/permissions/IPC/commands.

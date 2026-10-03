@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-02T23:15:02.726855+00:00",
+  "packetCommit": "f13bf0d5bf25eca17be4d1b6efbc875b55abdbfa",
+  "hostBodyRead": false,
+  "platformReviewedSeparately": true,
+  "plan": "Original module owns exited/disposal sets. Stateless private message dispatcher and disposal operations consume original dependencies and same sets. Preserve public declarations without new root exports.",
+  "sourceContext": "Public packet only for host; source-exposed curator and broad root/project/platform context qualified."
+}

@@ -1,0 +1,3 @@
+baseline: two paired minimum platform/window lifetime and guest/owner/URL/context admission groups pass
+candidate: two paired minimum platform/window lifetime and guest/owner/URL/context admission groups pass
+Frozen overlay-argument and guest-resolver capture regressions reproduced; working corrections preserve baseline. All native browser/window/menu/permissions/URL-open ports synthetic.

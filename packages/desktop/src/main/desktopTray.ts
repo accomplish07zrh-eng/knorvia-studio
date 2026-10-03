@@ -9,95 +9,72 @@ import {
 } from "@knorvia/shared";
 
 let desktopTray: Tray | null = null;
-let rebuildDesktopTrayContextMenu: (() => void) | null = null;
-
-function resolveDesktopTrayIconPath() {
-  return app.isPackaged
-    ? join(process.resourcesPath, "tray_icon.ico")
-    : join(import.meta.dirname, "../../build/icon.ico");
-}
-
+let rebuildMenu: (() => void) | null = null;
 export function createWindowsDesktopTray(options: {
   getLocale: () => Locale;
   showCurrentWindow: () => Promise<void> | void;
   executeDesktopCommand: (command: DesktopCommandId) => Promise<unknown>;
   quitApp: () => void;
   logger: { warn: (...args: unknown[]) => void };
-}) {
-  if (process.platform !== "win32") {
-    return null;
-  }
-
-  if (desktopTray) {
-    return desktopTray;
-  }
-
+}): Tray | null {
+  if (process.platform !== "win32") return null;
+  if (desktopTray) return desktopTray;
   try {
-    desktopTray = new Tray(resolveDesktopTrayIconPath());
+    const icon = app.isPackaged
+      ? join(process.resourcesPath, "tray_icon.ico")
+      : join(import.meta.dirname, "../../build/icon.ico");
+    desktopTray = new Tray(icon);
   } catch (error) {
     options.logger.warn("[desktop-tray] failed to create tray icon", error);
     return null;
   }
-
-  const getLabel = (id: (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds]) =>
+  const label = (id: Parameters<typeof getDesktopMenuMessage>[1]) =>
     getDesktopMenuMessage(options.getLocale(), id);
-  const showTrayWindow = () => {
-    void Promise.resolve(options.showCurrentWindow()).catch((error) => {
-      options.logger.warn("[desktop-tray] failed to show current window", error);
-    });
+  const show = () => {
+    void Promise.resolve(options.showCurrentWindow()).catch((error) =>
+      options.logger.warn("[desktop-tray] failed to show current window", error),
+    );
   };
-  const executeTrayCommand = (command: DesktopCommandId) => {
+  const execute = (command: DesktopCommandId) => {
     void Promise.resolve(options.showCurrentWindow())
       .then(() => options.executeDesktopCommand(command))
-      .catch((error) => {
-        options.logger.warn(`[desktop-tray] failed to execute tray command ${command}`, error);
-      });
+      .catch((error) =>
+        options.logger.warn(`[desktop-tray] failed to execute tray command ${command}`, error),
+      );
   };
-  const rebuildContextMenu = () => {
-    desktopTray?.setToolTip(getLabel(desktopMenuMessageIds.trayTooltip));
+  rebuildMenu = () => {
+    desktopTray?.setToolTip(label(desktopMenuMessageIds.trayTooltip));
     desktopTray?.setContextMenu(
       Menu.buildFromTemplate([
+        { label: label(desktopMenuMessageIds.trayOpenKnorvia), click: show },
+        { type: "separator" },
         {
-          label: getLabel(desktopMenuMessageIds.trayOpenKnorvia),
-          click: showTrayWindow,
+          label: label(desktopMenuMessageIds.fileNewTask),
+          click: () => execute(DesktopCommandIds.NewTask),
+        },
+        {
+          label: label(desktopMenuMessageIds.fileOpenWorkspace),
+          click: () => execute(DesktopCommandIds.OpenWorkspace),
         },
         { type: "separator" },
         {
-          label: getLabel(desktopMenuMessageIds.fileNewTask),
-          click: () => executeTrayCommand(DesktopCommandIds.NewTask),
+          label: label(desktopMenuMessageIds.helpAbout),
+          click: () => execute(DesktopCommandIds.ShowAbout),
         },
         {
-          label: getLabel(desktopMenuMessageIds.fileOpenWorkspace),
-          click: () => executeTrayCommand(DesktopCommandIds.OpenWorkspace),
+          label: label(desktopMenuMessageIds.helpClearAllData),
+          click: () => execute(DesktopCommandIds.ClearAllData),
         },
         { type: "separator" },
-        // 更新入口跟随产品身份：Preview（含生产后端的 Preview）禁用更新器，托盘也不能露出入口。
-
-        {
-          label: getLabel(desktopMenuMessageIds.helpAbout),
-          click: () => executeTrayCommand(DesktopCommandIds.ShowAbout),
-        },
-        {
-          label: getLabel(desktopMenuMessageIds.helpClearAllData),
-          click: () => executeTrayCommand(DesktopCommandIds.ClearAllData),
-        },
-        { type: "separator" },
-        {
-          label: getLabel(desktopMenuMessageIds.trayQuit),
-          click: () => options.quitApp(),
-        },
+        { label: label(desktopMenuMessageIds.trayQuit), click: () => options.quitApp() },
       ]),
     );
   };
-
-  rebuildDesktopTrayContextMenu = rebuildContextMenu;
-  desktopTray.on("click", showTrayWindow);
-  desktopTray.on("double-click", showTrayWindow);
-  rebuildContextMenu();
-
+  desktopTray.on("click", show);
+  desktopTray.on("double-click", show);
+  rebuildMenu();
   return desktopTray;
 }
-
-export function updateWindowsDesktopTrayMenu() {
-  rebuildDesktopTrayContextMenu?.();
+export function updateWindowsDesktopTrayMenu(): void {
+  rebuildMenu?.();
 }

@@ -1,0 +1,20 @@
+import { type PersonalProviderConfigRepository, type ProviderConfigLayerSnapshot, type ProviderConfigLayerUpdate } from "@knorvia/provider";
+export interface NodePersonalProviderConfigRepositoryOptions {
+    readonly filePath: string;
+    readonly importLegacy?: () => Promise<ProviderConfigLayerUpdate | null>;
+    readonly onRecovery?: (event: PersonalProviderConfigRecoveryEvent) => void;
+    readonly onPollingError?: (error: unknown) => void;
+    readonly pollingIntervalMs?: number | false;
+}
+export interface PersonalProviderConfigRecoveryEvent {
+    readonly error: unknown;
+}
+export declare class NodePersonalProviderConfigRepository implements PersonalProviderConfigRepository {
+    #private;
+    constructor(options: NodePersonalProviderConfigRepositoryOptions);
+    read(): Promise<ProviderConfigLayerSnapshot>;
+    update(transform: (current: ProviderConfigLayerSnapshot) => ProviderConfigLayerUpdate): Promise<ProviderConfigLayerSnapshot>;
+    onDidChange(listener: (reason: string) => void): () => void;
+    dispose(): void;
+}
+export declare function createNodePersonalProviderConfigRepository(options: NodePersonalProviderConfigRepositoryOptions): NodePersonalProviderConfigRepository;

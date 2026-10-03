@@ -1,0 +1,48 @@
+{
+  "recordedAtUtc": "2026-10-02T20:29:03.567270+00:00",
+  "baseline": "d12799b7219b8a0609a55c4ddb7e4a6dbc4bf926",
+  "allocation": "Parent root-exclusive body-free public/dependency/menu/command/window/dialog/error/receiver/order packet; no E implementation or source import",
+  "rootExposure": "Root reports only names/counts/reviewabsence deliberately observed this pass; earlier broad context/generic-tool exposure remains. No new no-exposure/fresh-context/OS-isolation/access-audit claim",
+  "sourceExposedCurator": true,
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/primaryWindowCoordinator.ts",
+      "lines": 101,
+      "bytes": 3164,
+      "sha256": "c57002e8563519a1b0456e916d681ac6528ae5320a3b313675d00793cb8355ca",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "Root-exclusive substantive candidate; E packet only"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopTray.ts",
+      "lines": 103,
+      "bytes": 3320,
+      "sha256": "0cf183091263876ac3e014fba6d4818a28cc1d4319f97328a7269e6dcaba5ef5",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "Root-exclusive substantive candidate; E packet only"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCommandHandlers.ts",
+      "lines": 272,
+      "bytes": 9544,
+      "sha256": "9055507db7a6b30052379ba957e0fdc330fcb022747ca9638997b9d8baee9280",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "Root-exclusive substantive candidate; E packet only"
+    }
+  ],
+  "boundedSearch": "Exact three filenames in docs/specs and exact licensing/reviews.json paths found no matching accepted record; not exhaustive history/rights audit",
+  "retainedMenuConfiguration": "Static menus/configuration/literals remain existing required expression, no novelty or rights grant",
+  "rootReportedPriorCheckpoint": {
+    "PR": 12,
+    "head": "9d92be5f35e89539e0077e79005f786f00778202",
+    "reportedChecks": "Scopedsemantic/API/lint/architecture and3fakeportgroups, originalbudget omission corrected afterfreeze",
+    "EImportedOrRereviewed": false
+  },
+  "limits": "No function/test/history/dependency implementation body in packet; no actual OS/window/commands/settings/userdata operations"
+}

@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-02T21:02:17.703239+00:00",
+  "sources": {
+    "packages/desktop/src/main/startupWorkspace.ts": {
+      "sha256": "8fa8ed27d9448219b2362ba3af55fc6d7dc25d472fd20680603925d181fa73a8",
+      "bytes": 4611
+    },
+    "packages/desktop/src/main/desktopWorkspaceDeepLink.ts": {
+      "sha256": "d2fa4d0aa598b57a33f7be5a4b3d3ef3ff4858d57911740e7f74115dc8af19a0",
+      "bytes": 6386
+    },
+    "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts": {
+      "sha256": "1356fdd06968fe0f9a0d546e7e449289c5442e094d5cd00bc58cb9a22905335f",
+      "bytes": 2352
+    }
+  },
+  "review": "Same-root postfreeze sourcecomparison preserves local/remote restoredidentity, read/default/availability order, bounded warmups, networkpath gates, confirmation-before-stat, readywindow/pending-route semantics and startup consumption. Schemas, URLclassifier, profilebootstrap, channels and exactdialog/log literals remain retained dependencies/data.",
+  "correction": "Restored separate persisted-active empty-session observation helper afterfreeze instead of inlineindex, matching specified argument and array-length observation stage. No ordinary supported-input regression found in other two drafts. Originaldrafts retained.",
+  "checks": "Scopedsemantictypes withactualNode/shared/localdeclarations0diag; publicAPIshapesmatchpacket;lint3files94rules0errors/warnings;architecture0;whitespaceclean.3pairedminimumfakeportgroupsstartupidentity/warmup,externalconfirmation/readinessroute,startupconsumption/admissionpass.",
+  "testSafety": "No real settings/filesystem/dialogs/windows/protocolregistration/network/provider/userdata. Fakeports blockunexpecteddependencyloads. Schema/classifier/selector mocked as public collaborators, not a claimofrealparser/nativeconsumeracceptance.",
+  "limits": "Fullsuites/builds/native/aggregateacceptance and separateindependentreview unrun. Priorbroadcontext/genericexposure and source-exposed same-rootreviewexplicit; noabsolutelegal/isolatedclaim, globallicence/inventoryorcrosslanechanges."
+}

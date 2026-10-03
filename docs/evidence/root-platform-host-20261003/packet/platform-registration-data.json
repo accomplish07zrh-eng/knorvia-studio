@@ -1,0 +1,291 @@
+[
+  {
+    "ordinal": 1,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.SelectDirectory",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 2,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.SelectFile",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 3,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.SelectFiles",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 4,
+    "publicPort": "registerDesktopSaveFileIpcHandler",
+    "argumentCount": 1
+  },
+  {
+    "ordinal": 5,
+    "publicPort": "registerDesktopPrintToPdfIpcHandler",
+    "argumentCount": 1
+  },
+  {
+    "ordinal": 6,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.CreateTempTextAttachment",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 7,
+    "publicPort": "registerDesktopBrowserIpcHandlers",
+    "argumentCount": 5
+  },
+  {
+    "ordinal": 8,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.ActivateOrSetWorkspace",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 9,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetResourceUsageSnapshot",
+    "argumentCount": 2,
+    "callbackParameterCount": 1
+  },
+  {
+    "ordinal": 10,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.SetResourceUsageSamplingActive",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 11,
+    "publicPort": "registerResourceManagerStorageIpc",
+    "argumentCount": 0
+  },
+  {
+    "ordinal": 12,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetKnorviaStdioTapDevState",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 13,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.OpenResourceManager",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 14,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.LoadMcpFromUserDirectory",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 15,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.SaveMcpToUserDirectory",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 16,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.MigrateLegacyCommonMcp",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 17,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.SetTitleBarTheme",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 18,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.SetWindowGlass",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 19,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.SetApplicationLocale",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 20,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetSystemLocale",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 21,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.SyncWindowTabs",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 22,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.SyncWindowUnreadCount",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 23,
+    "publicPort": "registerCuaPipActiveSessionIpc",
+    "argumentCount": 1
+  },
+  {
+    "ordinal": 24,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.WindowControlsOverlayReady",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 25,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.SyncAppSettings",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 26,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.SetShortcutRecordingActive",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 27,
+    "publicPort": "ipcMain.on",
+    "channel": "PlatformChannels.Log",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 28,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.OpenInFileManager",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 29,
+    "publicPort": "registerCuaPermissionIpcHandlers",
+    "argumentCount": 1
+  },
+  {
+    "ordinal": 30,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.CanOpenCommunity",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 31,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetDesktopSessionActivity",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 32,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetDesktopZoomLevel",
+    "argumentCount": 2,
+    "callbackParameterCount": 1
+  },
+  {
+    "ordinal": 33,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetDesktopWindowChromeState",
+    "argumentCount": 2,
+    "callbackParameterCount": 1
+  },
+  {
+    "ordinal": 34,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetInstalledEditors",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 35,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetApplicationIcon",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 36,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.GetDeviceId",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 37,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.ExportLogs",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 38,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.PreviewLocalDiagnostics",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 39,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.ExportLocalDiagnostics",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 40,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.CheckReleaseUpdate",
+    "argumentCount": 2,
+    "callbackParameterCount": 0
+  },
+  {
+    "ordinal": 41,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.CaptureWindowScreenshot",
+    "argumentCount": 2,
+    "callbackParameterCount": 1
+  },
+  {
+    "ordinal": 42,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.OpenInEditor",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  },
+  {
+    "ordinal": 43,
+    "publicPort": "ipcMain.handle",
+    "channel": "PlatformChannels.ExecuteDesktopCommand",
+    "argumentCount": 2,
+    "callbackParameterCount": 2
+  }
+]

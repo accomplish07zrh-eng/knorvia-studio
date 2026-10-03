@@ -1,0 +1,44 @@
+{
+  "before": {
+    "refresh": {
+      "calls": 2,
+      "sameSnapshot": false
+    },
+    "normalThenRefresh": {
+      "calls": 2,
+      "sameSnapshot": false
+    },
+    "stage": {
+      "calls": 1,
+      "error": "ENOTDIR"
+    },
+    "releaseLink": {
+      "calls": 0,
+      "error": null,
+      "promoted": true
+    }
+  },
+  "after": {
+    "refresh": {
+      "calls": 1,
+      "sameSnapshot": true
+    },
+    "normalThenRefresh": {
+      "calls": 2,
+      "sameSnapshot": false
+    },
+    "stage": {
+      "calls": 0,
+      "error": "EEXIST"
+    },
+    "releaseLink": {
+      "calls": 2,
+      "error": "Error: [remote-assets] failed to fetch node-runtime@1.2.3+f230cbef5143: https://assets.invalid/release/node.tar.gz -> Error: owned offline; https://assets.invalid/release/1.0.0/node.tar.gz -> Error: owned offline",
+      "promoted": false
+    }
+  },
+  "realNetwork": false,
+  "realUserData": false,
+  "fullSuite": false,
+  "scope": "Three concrete review gaps plus retained normal-then-refresh guard"
+}

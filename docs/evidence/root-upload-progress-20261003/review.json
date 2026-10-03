@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-02T19:01:07.007381+00:00",
+  "sourceSha256": "273d2c60ca99c540ef35778fd03cef716e77fb5ba14814240022b8510685f5f8",
+  "staticReview": "Root read original source only after complete frozen draft. Required APIs, status values/messages, numeric/getter ordering and admission semantics retained. Prior log state now in one closure-owned record and output assembled before one log call. Post-freeze correction restores two transferred-byte arithmetic evaluations in source order; ordinary numeric behavior was unchanged, coercion count preserved. Source-derived prompt data/common read/error idioms remain; no absolute independence or legal clearance.",
+  "check": "Scopedtypes/lint/APIdeclaration/architecture/whitespacepass; no runtime tests/builds/network/userdata access.",
+  "limits": "Same root authored and reviewed; no separate reviewer available (native agent thread limit). Arbitrary monkey-patching of console.log getter or primitive prototype formatting is not claimed equivalent. Global licence/inventory untouched.",
+  "retainedFile": "agentOfficialPluginAssets.ts unchanged: configuration/tiny helper material; no rewrite credit."
+}

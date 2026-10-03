@@ -7,8 +7,7 @@ interface CustomAboutDialogHtmlInput {
   versionLabel: string;
   okButtonLabel: string;
 }
-
-function escapeHtml(value: string): string {
+function encode(value: string): string {
   return value
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -16,7 +15,6 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
-
 export function createCustomAboutDialogHtml(input: CustomAboutDialogHtmlInput): string {
   return `<!doctype html>
 <html>
@@ -26,7 +24,7 @@ export function createCustomAboutDialogHtml(input: CustomAboutDialogHtmlInput): 
       http-equiv="Content-Security-Policy"
       content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'"
     />
-    <title>${escapeHtml(input.applicationName)}</title>
+    <title>${encode(input.applicationName)}</title>
     <style>
       :root {
         color-scheme: light dark;
@@ -156,30 +154,27 @@ export function createCustomAboutDialogHtml(input: CustomAboutDialogHtmlInput): 
     </style>
   </head>
   <body>
-    <main class="about-window" aria-label="${escapeHtml(input.applicationName)} About Window">
+    <main class="about-window" aria-label="${encode(input.applicationName)} About Window">
       <section class="about-card" role="dialog" aria-modal="true" aria-labelledby="about-title">
         <div class="content">
-          <img class="app-icon" src="${escapeHtml(input.iconDataUrl)}" alt="" />
+          <img class="app-icon" src="${encode(input.iconDataUrl)}" alt="" />
           <h1 id="about-title" class="title">
-            ${escapeHtml(input.applicationName)}<br />
-            ${escapeHtml(input.versionLabel)} ${escapeHtml(input.appVersion)}
+            ${encode(input.applicationName)}<br />
+            ${encode(input.versionLabel)} ${encode(input.appVersion)}
           </h1>
           <div class="meta">
-            ${input.optimizationLine ? `<div>${escapeHtml(input.optimizationLine)}</div>` : ""}
-            <div>${escapeHtml(input.copyright)}</div>
+            ${input.optimizationLine ? `<div>${encode(input.optimizationLine)}</div>` : ""}
+            <div>${encode(input.copyright)}</div>
           </div>
         </div>
         <div class="spacer"></div>
-        <button class="ok-button" type="button" autofocus>${escapeHtml(input.okButtonLabel)}</button>
+        <button class="ok-button" type="button" autofocus>${encode(input.okButtonLabel)}</button>
       </section>
     </main>
     <script>
-      const closeWindow = () => window.close();
-      document.querySelector(".ok-button")?.addEventListener("click", closeWindow);
+      document.querySelector(".ok-button")?.addEventListener("click", () => window.close());
       window.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" || event.key === "Enter") {
-          closeWindow();
-        }
+        if (event.key === "Escape" || event.key === "Enter") window.close();
       });
     </script>
   </body>

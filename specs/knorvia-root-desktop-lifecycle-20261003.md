@@ -1,0 +1,5 @@
+# Desktop release, notification and scheduler owners
+
+Root owns three bounded desktop lifecycle implementations. Release checks are read-only, bounded-size/fatal-UTF8/timeout-gated and delayed scheduled polling without installation. Notifications retain module-level dedupe/retention and exact sender-window foreground/click routing. Cron owns one child process and cached disposal promise, delegating dispatch authority, environment, metrics and protocol definitions to existing owners.
+
+Preserve API, side-effect/callback ordering, identities, errors, privacy settings and disposal semantics from E's frozen body-free packet. Freeze complete drafts before source comparison, retain prior generic-context exposure qualification. No actual OS notifications, release network, user settings, process scheduling, credentials or user data during implementation. Only minimal fake-port lifecycle/security checks; ordinary full tests/builds deferred. Final aggregate acceptance and licence review remain pending, no cross-lane/main merge.

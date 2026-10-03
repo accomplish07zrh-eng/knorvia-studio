@@ -1,0 +1,75 @@
+import type { z } from "zod";
+import type { completeModelConfigDataSchema } from "@knorvia/shared/model-config";
+import type { completeApiKeyAccessDataSchema, completeZhipuAccountAccessDataSchema, completeProviderConfigDataSchema } from "./config/provider-data-schema.js";
+import type { ConfigValidationIssue } from "./config-overlay.js";
+import { type ApiKeyAccessConfig, ModelConfig, ModelConfigRules, type ZhipuAccountAccessConfig, type ModelId, type ProviderConfig, type ProviderConfigRule, ProviderConfigMap, type ProviderTemplateMap, type ProviderId } from "./config/index.js";
+import type { AccountProviderStates } from "./account-provider-state.js";
+export type RegistryZhipuAccountAccessConfig = ZhipuAccountAccessConfig & z.infer<typeof completeZhipuAccountAccessDataSchema>;
+export type RegistryProviderAccessConfig = (ApiKeyAccessConfig & z.infer<typeof completeApiKeyAccessDataSchema>) | RegistryZhipuAccountAccessConfig;
+export type RegistryProviderConfig = ProviderConfig & z.infer<typeof completeProviderConfigDataSchema> & {
+    readonly access: RegistryProviderAccessConfig;
+};
+export type RegistryProviderConfigObject = z.infer<typeof completeProviderConfigDataSchema>;
+export declare function serializeRegistryProviderConfig(config: RegistryProviderConfig): RegistryProviderConfigObject;
+export type RegistryModelConfig = ModelConfig & z.infer<typeof completeModelConfigDataSchema>;
+export type RegistryModelConfigObject = z.infer<typeof completeModelConfigDataSchema>;
+export declare function serializeRegistryModelConfig(config: RegistryModelConfig): RegistryModelConfigObject;
+export type RegistryConfigResult<T> = {
+    readonly ok: true;
+    readonly config: T;
+} | {
+    readonly ok: false;
+    readonly issues: readonly ConfigValidationIssue[];
+};
+export declare function createRegistryProviderConfig(config: ProviderConfig, path?: readonly string[]): RegistryConfigResult<RegistryProviderConfig>;
+export declare function createRegistryModelConfig(config: ModelConfig, path?: readonly string[]): RegistryConfigResult<RegistryModelConfig>;
+export interface ProviderConfigResolverInput {
+    readonly knorviaBuiltinProviders: ProviderConfigMap;
+    readonly knorviaBuiltinProviderTemplates?: ProviderTemplateMap;
+    readonly personalProviders: ProviderConfigMap;
+    readonly knorviaBuiltinModelRules: ModelConfigRules;
+    readonly personalModels: ModelConfigRules;
+    readonly accountProviders: ProviderConfigMap;
+    readonly accountStates?: AccountProviderStates;
+    readonly personalProviderOrder?: readonly ProviderId[];
+}
+export interface ResolvedProviderModelCandidate {
+    readonly kind: "candidate";
+    readonly modelId: ModelId;
+    readonly source: "builtin" | "personal";
+    readonly config: ModelConfig;
+    readonly effectiveBuiltinConfig: ModelConfig;
+    readonly issues: readonly ConfigValidationIssue[];
+    readonly enabled: boolean;
+    readonly executable: boolean;
+    readonly selectable: boolean;
+}
+export type ResolvedProviderModel = ResolvedProviderModelCandidate;
+export interface ResolvedProvider extends Pick<ProviderConfigRule, "templateId" | "providerName"> {
+    readonly enabled: boolean;
+    readonly providerId: ProviderId;
+    readonly config: ProviderConfig;
+    readonly templateConfig?: ProviderConfig;
+    readonly effectiveBuiltinConfig?: ProviderConfig;
+    readonly providerIssues: readonly ConfigValidationIssue[];
+    readonly models: readonly ResolvedProviderModel[];
+}
+export interface ProviderModel {
+    readonly modelId: ModelId;
+    readonly config: RegistryModelConfig;
+}
+export interface Provider extends Pick<ProviderConfigRule, "templateId" | "providerName"> {
+    readonly providerId: ProviderId;
+    readonly config: RegistryProviderConfig;
+    readonly models: readonly ProviderModel[];
+}
+export interface ProviderConfigResolution {
+    readonly effectiveBuiltinProviders: ProviderConfigMap;
+    readonly effectiveProviders: ProviderConfigMap;
+    readonly resolvedProviders: readonly ResolvedProvider[];
+    readonly registryProviders: readonly Provider[];
+    readonly issues: readonly ConfigValidationIssue[];
+}
+export declare class ProviderConfigResolver {
+    resolve(input: ProviderConfigResolverInput): ProviderConfigResolution;
+}

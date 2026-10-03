@@ -1,0 +1,189 @@
+import { BrowserWindow } from "electron";
+import type { MessagePortMain, UtilityProcess as ElectronUtilityProcess } from "electron";
+import { type HostAgentProcessErrorResponse, type HostAgentProcessExceptionResponse, type HostAgentProcessExitedResponse, type HostAgentProcessReadyResponse, type HostAgentProcessSpawnedResponse, type HostCuaOperationStateResponse, type HostMcpTelemetryResponse, type HostSessionCreateTelemetryResponse, type TaskRealtimeHostDeliveryKind, HostMessageTypes, InternalChannels, type WorkspacePurpose } from "@knorvia/shared";
+import { BroadcastHub } from "./broadcastHub.js";
+import type { TaskRealtimeBus } from "./taskRealtimeBus.js";
+import { app, MessageChannelMain, utilityProcess as electronUtilityProcess } from "electron";
+import { randomUUID } from "node:crypto";
+import { join } from "node:path";
+import { formatKnorviaHostProcessName, LAUNCH_MARKS_QUERY_KEY, RUNTIME_KNORVIA_DEBUG, serializeLaunchMarks, KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV } from "@knorvia/shared";
+import { bindDatabaseStartupRelay } from "./databaseStartupRelay.js";
+import { getMainLaunchPartialMarks } from "./desktopLaunchMarks.js";
+import { createHostLogRelay } from "./hostLogRelay.js";
+import { registerHostProcess, unregisterHostProcess } from "./resourceManagerWindow.js";
+import { buildHostProcessEnv, hostModulePath, resolveBundledAgentBinaryPath } from "./desktopRuntimeEnv.js";
+import { buildHostE2ECoverageEnv } from "./e2eCoverage.js";
+import { dispatchHostMessage } from "./desktopHostProcess/messages.js";
+import { beginHostDisposal, awaitHostDisposal, type HostLifecycleState } from "./desktopHostProcess/lifecycle.js";
+const lifecycle: HostLifecycleState = {exited: new WeakSet(), disposing: new Set()};
+export interface WindowBootstrapOptions {
+    restoreSession?: boolean;
+    supportsSettings?: boolean;
+    initialWorkspacePath?: string;
+    initialWorkspacePurpose?: WorkspacePurpose;
+    unavailableWorkspacePath?: string;
+    windowKind?: "main" | "update-status";
+    locale?: string;
+}
+export interface HostInitMessage {
+    type: typeof HostMessageTypes.InitLocal;
+    hostId?: string;
+    databaseStartupId?: string;
+    deliveryKind?: TaskRealtimeHostDeliveryKind;
+    deviceMid?: string;
+    workspacePath?: string;
+    workspaceIdentity?: string;
+    agentWarmupTargets?: Array<{
+        workspacePath: string;
+        workspaceIdentity?: string;
+    }>;
+    agentSpawnFallbackCwd?: string;
+    knorviaBuiltinProviderConfigFilePath: string;
+    runtimeProcessEnvPatch?: Record<string, string>;
+}
+interface SpawnHostProcessOptions {
+    internalChannel?: typeof InternalChannels.ServicePort | typeof InternalChannels.ScopedServicePort;
+    internalPayload?: unknown;
+    registerBroadcast?: boolean;
+    taskRealtime?: {
+        workspaceKeys: Iterable<string>;
+        deliveryKind?: TaskRealtimeHostDeliveryKind;
+        onHostId?: (hostId: string) => void;
+    };
+    onPortReady?: (port: MessagePortMain) => void;
+    attachInitialServicePort?: boolean;
+}
+export function listDisposingHostProcesses(): ElectronUtilityProcess[] {
+return Array.from(lifecycle.disposing);
+}
+export function loadWindow(win: BrowserWindow, bootstrap: WindowBootstrapOptions = {}): Promise<void> {
+const values = { restoreSession: bootstrap.restoreSession != null ? String(bootstrap.restoreSession) : undefined, supportsSettings: bootstrap.supportsSettings != null ? String(bootstrap.supportsSettings) : undefined, initialWorkspacePath: bootstrap.initialWorkspacePath, initialWorkspacePurpose: bootstrap.initialWorkspacePurpose, unavailableWorkspacePath: bootstrap.unavailableWorkspacePath, windowKind: bootstrap.windowKind, locale: bootstrap.locale };
+const query = Object.fromEntries(Object.entries(values).filter(([,value]) => value != null)) as Record<string,string>;
+const partial = getMainLaunchPartialMarks();
+query[LAUNCH_MARKS_QUERY_KEY] = serializeLaunchMarks({...partial, loadUrl: Date.now()});
+if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
+ const url = new URL(process.env['ELECTRON_RENDERER_URL']);
+ for (const [key,value] of Object.entries(query)) url.searchParams.set(key,value);
+ return win.loadURL(url.toString());
+}
+return win.loadFile(join(import.meta.dirname, '../renderer/index.html'), {query});
+}
+export function spawnHostProcess(win: BrowserWindow, label: string, initMessage: HostInitMessage, dependencies: {
+    hostProcessLocalEnv: Record<string, string>;
+    desktopContextPromptEnabled?: () => boolean;
+    logger: {
+        info: (...args: unknown[]) => void;
+        warn: (...args: unknown[]) => void;
+    };
+    broadcastHub: BroadcastHub;
+    taskRealtimeBus?: TaskRealtimeBus;
+    windowHostProcessMap: Map<number, ElectronUtilityProcess>;
+    hostRunningTaskCountMap: Map<ElectronUtilityProcess, number>;
+    onWorkspaceRunningTaskCountChanged?: (child: ElectronUtilityProcess, event: {
+        workspacePath: string;
+        workspaceIdentity?: string;
+        runningTaskCount: number;
+    }) => void;
+    onAgentProcessExited?: (event: HostAgentProcessExitedResponse) => void;
+    onAgentProcessError?: (event: HostAgentProcessErrorResponse) => void;
+    onAgentProcessException?: (event: HostAgentProcessExceptionResponse) => void;
+    onAgentProcessReady?: (event: HostAgentProcessReadyResponse) => void;
+    onAgentProcessSpawned?: (event: HostAgentProcessSpawnedResponse) => void;
+    onMcpTelemetry?: (event: HostMcpTelemetryResponse) => void;
+    onSessionCreateTelemetry?: (event: HostSessionCreateTelemetryResponse) => void;
+    onCuaOperationStateChanged?: (source: ElectronUtilityProcess, event: HostCuaOperationStateResponse) => void;
+    onCuaOperationStateSourceExited?: (source: ElectronUtilityProcess) => void;
+    onCronRunResult?: (result: {
+        runId: string;
+        ok: boolean;
+        taskId?: string;
+        sessionId?: string;
+        error?: string;
+        failureKind?: "transient" | "permanent";
+    }) => void;
+    onOffPeakRunResult?: (result: {
+        offPeakTaskId: string;
+        ok: boolean;
+        conversationId?: string;
+        sessionId?: string;
+        error?: string;
+        failureKind?: "transient" | "permanent";
+    }) => void;
+    onCronSchedulerWakeRequested?: (automationId: string) => void;
+    onOffPeakSchedulerWakeRequested?: (offPeakTaskId?: string) => void;
+    handleBrowserExecuteRequest?: (params: {
+        win: BrowserWindow;
+        requestId: string;
+        browserId?: string;
+        browserGeneration?: number;
+        sessionId: string;
+        turnId?: string;
+        workspaceKey?: string;
+        workspacePath?: string;
+        workspaceIdentity?: string;
+        remoteSessionId?: string;
+        clientMode?: "desktop-continuous" | "web-remote-replayable";
+        sessionContext?: "live" | "cached";
+        command: unknown;
+    }) => Promise<{
+        ok: boolean;
+        [k: string]: unknown;
+    }>;
+    authorizeLocalMediaPreviewPath?: (path: string) => Promise<string>;
+}, options?: SpawnHostProcessOptions): ElectronUtilityProcess {
+const hostId = randomUUID();
+const binary = resolveBundledAgentBinaryPath();
+const execArgv = [...(RUNTIME_KNORVIA_DEBUG ? [`--inspect-brk=${RUNTIME_KNORVIA_DEBUG}`] : []), '--no-warnings'];
+const child = electronUtilityProcess.fork(hostModulePath, [], {serviceName: formatKnorviaHostProcessName(label), execArgv, env: {...buildHostProcessEnv(dependencies.hostProcessLocalEnv), ...buildHostE2ECoverageEnv(), KNORVIA_PROCESS_LABEL: label, ...(process.platform === 'darwin' ? {KNORVIA_CUA_LAUNCHER_PID: String(process.pid)} : {}), ...(dependencies.desktopContextPromptEnabled ? {[KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV]: dependencies.desktopContextPromptEnabled() ? '1' : '0'} : {})}});
+dependencies.logger.info(`[spawnHostProcess] forked host process for (${label}), pid=${child.pid}`);
+dependencies.logger.info(`[spawnHostProcess] host module path: ${hostModulePath}`);
+dependencies.logger.info(`[spawnHostProcess] Knorvia agent binary path: ${binary ?? '<not found>'}`);
+const logs = createHostLogRelay(label, dependencies.logger as Parameters<typeof createHostLogRelay>[1]);
+child.stderr?.on('data', (data: Buffer) => logs.onStderr(data.toString()));
+child.stdout?.on('data', (data: Buffer) => logs.onStdout(data.toString()));
+const database = bindDatabaseStartupRelay(win, child, hostId);
+child.on('message', (message: unknown) => dispatchHostMessage(win, child, label, dependencies, database, logs, message));
+const hasRealtime = options?.taskRealtime != null;
+const init = {...initMessage, databaseStartupId: database.startupId, ...(hasRealtime ? {hostId, deliveryKind: options?.taskRealtime?.deliveryKind} : {})};
+if (options?.attachInitialServicePort === false) child.postMessage(init);
+else {
+ const {port1, port2} = new MessageChannelMain();
+ child.postMessage(init, [port2]);
+ if (options?.onPortReady) options.onPortReady(port1);
+ else win.webContents.postMessage(options?.internalChannel ?? InternalChannels.ServicePort, options?.internalChannel === InternalChannels.ScopedServicePort ? options.internalPayload ?? null : {databaseStartupId: database.startupId}, [port1]);
+}
+const windowId = win.webContents.id;
+const broadcast = options?.registerBroadcast ?? true;
+if (broadcast) dependencies.broadcastHub.register(windowId,child);
+if (hasRealtime && dependencies.taskRealtimeBus && options?.taskRealtime) {
+ dependencies.taskRealtimeBus.registerHost({hostId, windowId: win.id, child, workspaceKeys: options.taskRealtime.workspaceKeys, deliveryKind: options.taskRealtime.deliveryKind});
+ options.taskRealtime.onHostId?.(hostId);
+}
+registerHostProcess(label,child);
+child.on('exit', (code) => {
+ lifecycle.exited.add(child);
+ dependencies.onCuaOperationStateSourceExited?.(child);
+ logs.flushRawLogs();
+ dependencies.logger.info(`[spawnHostProcess] host process (${label}) exited with code ${code}`);
+ dependencies.hostRunningTaskCountMap.delete(child);
+ if (broadcast) dependencies.broadcastHub.unregister(windowId);
+ unregisterHostProcess(label);
+ for (const [key,value] of dependencies.windowHostProcessMap) { if (value === child) {dependencies.windowHostProcessMap.delete(key);break;} }
+});
+return child;
+}
+export function disposeHostProcess(child: ElectronUtilityProcess, label: string, disposingHostProcessTimers: WeakMap<ElectronUtilityProcess, ReturnType<typeof setTimeout>>, logger: {
+    info: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+}, forceKillDelayMs: number = 300): void {
+beginHostDisposal(lifecycle, child, label, disposingHostProcessTimers, logger, forceKillDelayMs);
+}
+export function disposeHostProcessAndWait(child: ElectronUtilityProcess, label: string, disposingHostProcessTimers: WeakMap<ElectronUtilityProcess, ReturnType<typeof setTimeout>>, logger: {
+    info: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+}, options: {
+    forceKillDelayMs?: number;
+    waitTimeoutMs?: number;
+} = {}): Promise<void> {
+return awaitHostDisposal(lifecycle, child, label, disposingHostProcessTimers, logger, options);
+}

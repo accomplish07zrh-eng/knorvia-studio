@@ -1,0 +1,210 @@
+[
+  {
+    "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+    "imports": [
+      {
+        "module": "./databaseStartupRelay.js",
+        "clause": "{ getDatabaseStartupPortPayload }",
+        "names": [
+          "getDatabaseStartupPortPayload"
+        ]
+      },
+      {
+        "module": "node:crypto",
+        "clause": "{ randomUUID }",
+        "names": [
+          "randomUUID"
+        ]
+      },
+      {
+        "module": "electron",
+        "clause": "{ app, BrowserWindow, dialog, Menu, MessageChannelMain }",
+        "names": [
+          "app",
+          "BrowserWindow",
+          "dialog",
+          "Menu",
+          "MessageChannelMain"
+        ]
+      },
+      {
+        "module": "electron",
+        "clause": "type { UtilityProcess as ElectronUtilityProcess }",
+        "names": [
+          "UtilityProcess"
+        ]
+      },
+      {
+        "module": "@knorvia/shared",
+        "clause": "{ HostMessageTypes, InternalChannels, PlatformChannels, type Locale }",
+        "names": [
+          "HostMessageTypes",
+          "InternalChannels",
+          "PlatformChannels",
+          "Locale"
+        ]
+      },
+      {
+        "module": "./desktopWindowChrome.js",
+        "clause": "{ createBrowserWindow }",
+        "names": [
+          "createBrowserWindow"
+        ]
+      },
+      {
+        "module": "./desktopHostProcess.js",
+        "clause": "type { HostInitMessage, WindowBootstrapOptions }",
+        "names": [
+          "HostInitMessage",
+          "WindowBootstrapOptions"
+        ]
+      },
+      {
+        "module": "./startupWorkspace.js",
+        "clause": "type { StartupWorkspaceWarmupTarget }",
+        "names": [
+          "StartupWorkspaceWarmupTarget"
+        ]
+      },
+      {
+        "module": "./desktopDarwinCloseBehavior.js",
+        "clause": "{ handleDarwinWindowCloseRequest }",
+        "names": [
+          "handleDarwinWindowCloseRequest"
+        ]
+      },
+      {
+        "module": "./desktopUnsavedChanges.js",
+        "clause": "{ createUnsavedChangesGuard, unsavedChangesDialogOptions }",
+        "names": [
+          "createUnsavedChangesGuard",
+          "unsavedChangesDialogOptions"
+        ]
+      },
+      {
+        "module": "./unreadBadge.js",
+        "clause": "{\n  parseWindowUnreadCount,\n  sumWindowUnreadCounts,\n  syncAppUnreadBadge,\n}",
+        "names": [
+          "parseWindowUnreadCount",
+          "sumWindowUnreadCounts",
+          "syncAppUnreadBadge"
+        ]
+      },
+      {
+        "module": "./desktopWindowSize.js",
+        "clause": "{ attachDesktopWindowSizePersistence, type DesktopWindowSize }",
+        "names": [
+          "attachDesktopWindowSizePersistence",
+          "DesktopWindowSize"
+        ]
+      },
+      {
+        "module": "./resourceManagerWindow.js",
+        "clause": "{\n  registerMainApplicationWindow,\n  unregisterMainApplicationWindow,\n}",
+        "names": [
+          "registerMainApplicationWindow",
+          "unregisterMainApplicationWindow"
+        ]
+      }
+    ]
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+    "imports": [
+      {
+        "module": "electron",
+        "clause": "{ app, BrowserWindow, Menu, nativeImage, nativeTheme, screen, shell }",
+        "names": [
+          "app",
+          "BrowserWindow",
+          "Menu",
+          "nativeImage",
+          "nativeTheme",
+          "screen",
+          "shell"
+        ]
+      },
+      {
+        "module": "node:path",
+        "clause": "{ join }",
+        "names": [
+          "join"
+        ]
+      },
+      {
+        "module": "electron",
+        "clause": "type {\n  ContextMenuParams,\n  Input,\n  MenuItemConstructorOptions,\n  WebContents,\n  WindowOpenHandlerResponse,\n}",
+        "names": [
+          "ContextMenuParams",
+          "Input",
+          "MenuItemConstructorOptions",
+          "WebContents",
+          "WindowOpenHandlerResponse"
+        ]
+      },
+      {
+        "module": "@knorvia/shared",
+        "clause": "type { DesktopTitleBarTheme, Locale }",
+        "names": [
+          "DesktopTitleBarTheme",
+          "Locale"
+        ]
+      },
+      {
+        "module": "@knorvia/shared",
+        "clause": "{\n  DEFAULT_LOCALE,\n  desktopMenuMessageIds,\n  getDesktopMenuMessage,\n  PlatformChannels,\n}",
+        "names": [
+          "DEFAULT_LOCALE",
+          "desktopMenuMessageIds",
+          "getDesktopMenuMessage",
+          "PlatformChannels"
+        ]
+      },
+      {
+        "module": "./desktopHostProcess.js",
+        "clause": "{ loadWindow, type WindowBootstrapOptions }",
+        "names": [
+          "loadWindow",
+          "WindowBootstrapOptions"
+        ]
+      },
+      {
+        "module": "./desktopWindowButtonPosition.js",
+        "clause": "{\n  buildWindowsTitleBarOverlayForZoomLevel,\n  hasCustomWindowsControls,\n  registerCustomWindowsControls,\n  MACOS_TRAFFIC_LIGHT_BASE_POSITION,\n  syncWindowControlsOverlayForZoomLevel,\n}",
+        "names": [
+          "buildWindowsTitleBarOverlayForZoomLevel",
+          "hasCustomWindowsControls",
+          "registerCustomWindowsControls",
+          "MACOS_TRAFFIC_LIGHT_BASE_POSITION",
+          "syncWindowControlsOverlayForZoomLevel"
+        ]
+      },
+      {
+        "module": "./desktopZoom.js",
+        "clause": "{\n  clampDesktopZoomLevel,\n  resolveDesktopZoomFactorForLevel,\n  resolveDesktopZoomLevelFromFactor,\n}",
+        "names": [
+          "clampDesktopZoomLevel",
+          "resolveDesktopZoomFactorForLevel",
+          "resolveDesktopZoomLevelFromFactor"
+        ]
+      },
+      {
+        "module": "./desktopWindowChromeState.js",
+        "clause": "{ resolveDesktopWindowChromeState }",
+        "names": [
+          "resolveDesktopWindowChromeState"
+        ]
+      },
+      {
+        "module": "./desktopWindowSize.js",
+        "clause": "{\n  MIN_DESKTOP_WINDOW_HEIGHT,\n  MIN_DESKTOP_WINDOW_WIDTH,\n  resolveDesktopWindowSize,\n  type DesktopWindowSize,\n}",
+        "names": [
+          "MIN_DESKTOP_WINDOW_HEIGHT",
+          "MIN_DESKTOP_WINDOW_WIDTH",
+          "resolveDesktopWindowSize",
+          "DesktopWindowSize"
+        ]
+      }
+    ]
+  }
+]

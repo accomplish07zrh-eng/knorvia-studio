@@ -3,12 +3,7 @@ import { realpath } from "node:fs/promises";
 import { normalize } from "node:path";
 import type { BrowserWindow } from "electron";
 import { shell } from "electron";
-
-type DesktopIpcLogger = {
-  info?: (...args: unknown[]) => void;
-  warn: (...args: unknown[]) => void;
-};
-
+type DesktopIpcLogger = { info?: (...args: unknown[]) => void; warn: (...args: unknown[]) => void };
 export async function openPathInDefaultApp(
   rawPath: string,
   logger: DesktopIpcLogger,
@@ -19,15 +14,12 @@ export async function openPathInDefaultApp(
     logger.warn("[open-external] 本地文件打开失败", { path: rawPath, error });
     return { success: false, error };
   }
-
-  const normalized = normalize(trimmed);
-  let target = normalized;
+  let target = normalize(trimmed);
   try {
-    target = await realpath(normalized);
+    target = await realpath(target);
   } catch {
-    // 路径不存在或无法解析时仍尝试用规范化后的原路径，让系统返回更具体的错误。
+    /* Keep normalized fallback. */
   }
-
   try {
     const error = await shell.openPath(target);
     if (error) {
@@ -42,61 +34,15 @@ export async function openPathInDefaultApp(
     return { success: false, error: message };
   }
 }
-
-export async function openPathInFileManager(
-  rawPath: string,
+function runOpen(args: string[]): Promise<void> {
+  return new Promise((resolve, reject) => {
+    execFile("open", args, (error) => (error ? reject(error) : resolve()));
+  });
+}
+async function openOnDarwin(
+  target: string,
   logger: DesktopIpcLogger,
 ): Promise<{ success: boolean; error?: string }> {
-  const trimmed = typeof rawPath === "string" ? rawPath.trim() : "";
-  if (!trimmed) {
-    return { success: false, error: "empty path" };
-  }
-  const normalized = normalize(trimmed);
-  let target = normalized;
-  try {
-    target = await realpath(normalized);
-  } catch {
-    // 路径不存在或无法解析时仍尝试用规范化后的原路径打开，便于定位权限等问题。
-  }
-
-  if (process.platform === "darwin") {
-    return openDarwinPathInFileManager(target, logger);
-  }
-
-  const error = await shell.openPath(target);
-  if (error) {
-    logger.warn("[open-in-file-manager] shell.openPath 失败", {
-      path: target,
-      error,
-    });
-    return { success: false, error };
-  }
-  return { success: true };
-}
-
-export async function captureWindowScreenshot(senderWindow: BrowserWindow | null) {
-  if (!senderWindow || senderWindow.isDestroyed()) {
-    return null;
-  }
-
-  // 报错横幅里的反馈需要带上用户看到的现场。
-  // 这里在 main 进程截当前窗口，避免 renderer 走屏幕录制权限或只能截到局部 DOM。
-  const image = await senderWindow.webContents.capturePage();
-  const buffer = image.toPNG();
-  return {
-    dataBase64: buffer.toString("base64"),
-    filename: `knorvia-error-${new Date().toISOString().replace(/[:.]/g, "-")}.png`,
-    contentType: "image/png",
-    size: buffer.byteLength,
-  };
-}
-
-async function openDarwinPathInFileManager(target: string, logger: DesktopIpcLogger) {
-  const runOpen = (args: string[]) =>
-    new Promise<void>((resolve, reject) => {
-      execFile("open", args, (error) => (error ? reject(error) : resolve()));
-    });
-
   try {
     await runOpen([target]);
     return { success: true };
@@ -106,9 +52,7 @@ async function openDarwinPathInFileManager(target: string, logger: DesktopIpcLog
       return { success: true };
     } catch (finderError) {
       const shellMessage = await shell.openPath(target);
-      if (!shellMessage) {
-        return { success: true };
-      }
+      if (!shellMessage) return { success: true };
       logger.warn("[open-in-file-manager] macOS 打开目录均失败", {
         path: target,
         shellMessage,
@@ -118,4 +62,37 @@ async function openDarwinPathInFileManager(target: string, logger: DesktopIpcLog
       return { success: false, error: shellMessage };
     }
   }
+}
+export async function openPathInFileManager(
+  rawPath: string,
+  logger: DesktopIpcLogger,
+): Promise<{ success: boolean; error?: string }> {
+  const trimmed = typeof rawPath === "string" ? rawPath.trim() : "";
+  if (!trimmed) return { success: false, error: "empty path" };
+  let target = normalize(trimmed);
+  try {
+    target = await realpath(target);
+  } catch {
+    /* Preserve normalized fallback. */
+  }
+  if (process.platform === "darwin") return openOnDarwin(target, logger);
+  const error = await shell.openPath(target);
+  if (error) {
+    logger.warn("[open-in-file-manager] shell.openPath 失败", { path: target, error });
+    return { success: false, error };
+  }
+  return { success: true };
+}
+export async function captureWindowScreenshot(
+  senderWindow: BrowserWindow | null,
+): Promise<{ dataBase64: string; filename: string; contentType: string; size: number } | null> {
+  if (!senderWindow || senderWindow.isDestroyed()) return null;
+  const image = await senderWindow.webContents.capturePage();
+  const buffer = image.toPNG();
+  return {
+    dataBase64: buffer.toString("base64"),
+    filename: `knorvia-error-${new Date().toISOString().replace(/[:.]/g, "-")}.png`,
+    contentType: "image/png",
+    size: buffer.byteLength,
+  };
 }

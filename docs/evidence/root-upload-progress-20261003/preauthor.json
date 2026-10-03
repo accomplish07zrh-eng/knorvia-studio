@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-02T18:57:48.560481+00:00",
+  "packetCommit": "a27c9aaf4679d948bd5f6bd0cb2e4aafb0884a11",
+  "inputs": {
+    "bindings-and-selection.json": "bcdf0a2fc1e562e4f55fca1ea1e3f2c39eaf78503f40a50a49f9cd9b4cc317e5",
+    "ssh-upload-progress-contract.md": "5a5642570f8c246ea82bebfb15aca19b8c47fec3682e40b0e40122f730ef5cf3",
+    "agent-official-plugin-assets-contract.md": "84efe25c67ed461b1e0b9897942d944f80eca778944cd649711a4132e31a99a2"
+  },
+  "qualification": "Root broader context and prior generic tooling exposure retained; no deliberate target-body/history/test reading. Source-exposed G curated packet; not fresh-context or OS isolation.",
+  "selection": "Only sshUploadProgress substantive owner; plugin asset declarations/tiny helpers retained unchanged, no originality credit."
+}

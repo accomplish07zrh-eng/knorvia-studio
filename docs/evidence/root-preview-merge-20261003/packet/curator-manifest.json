@@ -1,0 +1,87 @@
+{
+  "sourceBaseline": "13d2a5902f536cc8e73db816098d8cfe11db8b37",
+  "reservationCommit": "240326c9",
+  "sourceBindings": [
+    {
+      "path": "packages/shared/src/conversation-preview-artifacts.ts",
+      "bytes": 13598,
+      "lines": 393,
+      "sha256": "07a99057b75335835784d8cdb94ea9f0026a75e0d3f4f3dcb47a44395d9d8d40"
+    },
+    {
+      "path": "packages/shared/src/persistedMessageMerge.ts",
+      "bytes": 4465,
+      "lines": 114,
+      "sha256": "f603412a7e5a69f5e8e41e672926d1e6bc8553a7ddf97c3a5f47d294d0d3fc22"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/contract.md",
+      "bytes": 12644,
+      "sha256": "50e623a623403ff4576f3aec0e227c5fb6bf9c5ed5c97c58448f75759de3659b"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/grammar.json",
+      "bytes": 2241,
+      "sha256": "df1ed341fcfc4bceadaca6ae49e2c426b3d658b99527fc3a1759b9089ab4d038"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/media-dependency-api.d.ts",
+      "bytes": 239,
+      "sha256": "20ef849b067116337a86efb18cf8d0a33a5d9c58d9fca9be4ecbfc0c8be77f31"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/merge-public-api.d.ts",
+      "bytes": 204,
+      "sha256": "1d70fb883c263b3594a5b84db6c68c393166268b9fbd2e9a928b8b791006e538"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/persisted-message-api.d.ts",
+      "bytes": 993,
+      "sha256": "460c47856dff36326ea036b0b776ad025dd988330a57118e9758e0c3a83d2147"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/preview-formats.json",
+      "bytes": 2315,
+      "sha256": "4ac68e36c202ae5480aad107e485718d76945a45d7e37213e360507ac38835c6"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/preview-public-api.d.ts",
+      "bytes": 2268,
+      "sha256": "e88cc8242a378e665cff3920fe8456b99d60c426d4c3ecf38618bcdcaf5d6dcb"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/reservation.json",
+      "bytes": 1056,
+      "sha256": "413ff0d5d8ede747f68f68d308a356cd8f6cebfa21ee73bdb98c7da207fbdf9e"
+    },
+    {
+      "path": "docs/evidence/shared-preview-merge-root-packet-20261003/schema-dependency-api.d.ts",
+      "bytes": 737,
+      "sha256": "2a34a5a80a83a872c55da22fd99556ba5dcd1ed5504f844e465713c938b36f47"
+    }
+  ],
+  "dependencySourceBindings": [
+    {
+      "path": "packages/shared/src/protocol-v4/rows.ts",
+      "bytes": 17382,
+      "sha256": "986c0ad8b581b93dbe0fc65aaf4a100f75bb9b293b1d670e2f6be5474c665db8"
+    },
+    {
+      "path": "packages/shared/src/media-preview.ts",
+      "bytes": 1281,
+      "sha256": "cb5662582f863a3c1c679324c3707d2c028cef2b5d5e02350e82042455f4f76e"
+    },
+    {
+      "path": "packages/shared/src/task-types-core.ts",
+      "bytes": 42832,
+      "sha256": "2c31e55054abb185971fe20d5df5e4fd217434baf4c5eebe2186b4232894b561"
+    }
+  ],
+  "sourceExposedCurator": true,
+  "rootExposure": "Reports target filenames/counts/review absence only in current pass; generic compiler input manifest previously included both exact targets, broader context/generic-tooling exposure applies.",
+  "ordinaryChecksRun": false,
+  "declarationExtraction": "Both target public and selected dependency extraction have zero diagnostics; not project/type-body/runtime acceptance.",
+  "reviewAbsence": "No matching records in current checkout licensing/reviews.json; no global inventory changed. Prior compiler bindings are exposure evidence, not accepted authored reconstruction."
+}

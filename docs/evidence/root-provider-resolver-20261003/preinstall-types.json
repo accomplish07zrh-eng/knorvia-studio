@@ -1,0 +1,12 @@
+[
+  {
+    "mode": "baseline",
+    "sourceFiles": 196,
+    "diagnostics": []
+  },
+  {
+    "mode": "candidate",
+    "sourceFiles": 196,
+    "diagnostics": []
+  }
+]

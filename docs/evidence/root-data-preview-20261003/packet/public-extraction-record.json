@@ -1,0 +1,10 @@
+{
+  "typescript": "6.0.2",
+  "kind": "Isolated declaration extraction only; no project or body compilation",
+  "diagnostics": {
+    "packages/desktop/src/main/dataSizeScanner.ts": [],
+    "packages/desktop/src/main/dataSizeWorkerClient.ts": [],
+    "packages/desktop/src/main/localMediaPreviewProtocol.ts": [],
+    "packages/desktop/src/main/dataSizeWorker.ts": []
+  }
+}

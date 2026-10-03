@@ -1,0 +1,76 @@
+{
+  "packages/desktop/src/main/desktopMainIpcHelpers.ts": [
+    {
+      "module": "node:child_process",
+      "clause": "{ execFile }"
+    },
+    {
+      "module": "node:fs/promises",
+      "clause": "{ realpath }"
+    },
+    {
+      "module": "node:path",
+      "clause": "{ normalize }"
+    },
+    {
+      "module": "electron",
+      "clause": "type { BrowserWindow }"
+    },
+    {
+      "module": "electron",
+      "clause": "{ shell }"
+    }
+  ],
+  "packages/desktop/src/main/desktopMainIpcRemote.ts": [
+    {
+      "module": "electron",
+      "clause": "{ app, BrowserWindow, ipcMain, shell }"
+    },
+    {
+      "module": "@knorvia/shared",
+      "clause": "{\n  buildRemoteWorkspaceConnectResultTelemetry,\n  classifyRemoteUsageError,\n  formatZodError,\n  normalizeUnknownError,\n  InternalChannels,\n  PlatformChannels,\n  remoteTargetSchema,\n  type RemoteTarget,\n  type TelemetryEventPayload,\n}"
+    },
+    {
+      "module": "./desktopNotifications.js",
+      "clause": "{ dispatchTaskNotification }"
+    },
+    {
+      "module": "./desktopWorkspaceDeepLink.js",
+      "clause": "{\n  clearWorkspaceRoutesForWindow,\n  deliverPendingDeepLink,\n}"
+    },
+    {
+      "module": "./desktopRemoteUsageArmsTelemetry.js",
+      "clause": "{ type RemoteConnectionStats }"
+    },
+    {
+      "module": "./desktopMainIpcHelpers.js",
+      "clause": "{ openPathInDefaultApp }"
+    }
+  ],
+  "packages/desktop/src/main/desktopRemoteSessions.ts": [
+    {
+      "module": "node:crypto",
+      "clause": "{ randomUUID }"
+    },
+    {
+      "module": "electron",
+      "clause": "{ BrowserWindow, MessageChannelMain }"
+    },
+    {
+      "module": "electron",
+      "clause": "type { MessagePortMain, UtilityProcess as ElectronUtilityProcess }"
+    },
+    {
+      "module": "@knorvia/shared",
+      "clause": "{\n  buildRemoteWorkspaceIdentity,\n  buildSshRemoteHostKey,\n  HostMessageTypes,\n  HostResponseTypes,\n  hostResponseMessageSchema,\n  InternalChannels,\n  PlatformChannels,\n  type RemoteTarget,\n  type WindowHostRemoteWorkspaceDescriptor,\n}"
+    },
+    {
+      "module": "./desktopRemoteUsageArmsTelemetry.js",
+      "clause": "type {\n  RemoteConnectionStats,\n  RemoteDisconnectReason,\n  RemoteGaugeTransition,\n}"
+    },
+    {
+      "module": "./desktopRuntimeEnv.js",
+      "clause": "type { RemoteAssetDirs }"
+    }
+  ]
+}

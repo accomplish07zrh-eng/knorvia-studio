@@ -1,0 +1,3 @@
+baseline: three paired minimum concurrent-session/proxy/trust-chain/error-isolation groups pass
+candidate: three paired minimum concurrent-session/proxy/trust-chain/error-isolation groups pass
+Frozen empty-proxy settings getter/error-boundary mismatch reproduced/corrected. No real certificates, files, Electron sessions, proxy/TLS settings or network operations.

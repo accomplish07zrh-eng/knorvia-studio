@@ -1,0 +1,5 @@
+# Remote asset candidate construction
+
+Root owns remoteAssetCdn and remoteAssetNetwork separately from the five parallel draft lanes. Preserve all eight CDN public functions and the transport selector: exact candidate order, deduplication, path rejection precedence, segment encoding, version guard messages, injected function identity and late global binding. Pure construction performs no IO. The network port remains caller-owned. E's frozen packet at 78c9080c provides the full functional/API inputs; root retains broader context and previous callable/declaration exposure, so this is not an isolated author claim.
+
+Freeze a complete packet-authored draft before comparison. Retain constrained strings/API and ordinary idioms honestly. No global licence conclusion or early cross-lane integration. Ordinary runtime tests/builds are deferred under the user's speed-first strategy; scoped static API/type/format checks are sufficient for this pure construction batch. Final acceptance must cover URL/path edge behavior and injected/native transport identity.

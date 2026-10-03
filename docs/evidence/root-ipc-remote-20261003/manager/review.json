@@ -1,0 +1,69 @@
+{
+  "at": "2026-10-02T21:58:05.037657+00:00",
+  "status": "whole manager candidate installed; final independence and native acceptance unresolved",
+  "predecessor_sha256": "d24288c326a97ae7b0356ece7fdc0a9903d4cd245cc6e8f5f83170b3fda09ef0",
+  "frozen_draft": "manager-freeze.json",
+  "author_context": "Root used E source-exposed curator functional/public packet before deliberate target-body reading. Root has broad repository/tooling context. After all seven drafts were frozen, root read entire predecessor manager and corrected behavior. This is not a separately isolated author/reviewer or legal clean room.",
+  "structure": "Sole main factory retains one pending map, one routes map, one listened-host WeakSet and shutdown flag. Private owners share this same state; no extra persistence/business owner or public barrel exports.",
+  "post_freeze_corrections": [
+    "Replayable payload preserves live parameter reads after injected channel creation; original frozen draft captured descriptor. Paired baseline/frozen/working counterexample preserved.",
+    "Host message handler preserves repeated parsed.data observation instead of caching it.",
+    "Invalid runtime target-kind fallback returns undefined as predecessor exhaustive switch; valid union unchanged.",
+    "Formatting and explicit type annotations are maintenance changes, not originality credit."
+  ],
+  "checks": {
+    "api": "AST structural options/context/all eleven methods/sole factory export match; raw disposeAll any qualified to Promise<void> from actual async behavior",
+    "minimal": "Five paired synthetic authority/lifecycle groups pass plus original replayable live-read counterexample. Mock Electron/schema/identity/Host/timers only. No actual integration.",
+    "lint": "7 files, 94 rules, 0 errors/warnings",
+    "architecture": "0 violations",
+    "semantic_types": "BLOCKED: feedbackLogArchive.ts TS2339 ReadableStream.destroy; appCaCert.ts TS7016 node-forge declarations. No target diagnostics observed, but this is not a passed closure. No dependency stubs or installs.",
+    "harness_error": "Initial API harness used reserved CommonJS exports binding; SyntaxError log retained, harness identifier corrected. Not a product failure.",
+    "deferred": [
+      "full suites",
+      "builds",
+      "real Electron/remote Host acceptance",
+      "consumer aggregation",
+      "cross-lane combination",
+      "source-expression/legal review"
+    ]
+  },
+  "retained_expression": "Public signatures, wire literals/errors, schema validation, identity/generation behavior, ordering and mandatory/common cleanup expressions remain. Strong behavioral/source correspondence is expected; no numeric original-authorship or licence-clearance credit is assigned.",
+  "safety": "No real remote connection, OS IPC, provider, credential, user data, permission or deployment operations. No source from another lane integrated. All material obligations remain open.",
+  "production": {
+    "packages/desktop/src/main/desktopRemoteSessions.ts": {
+      "bytes": 2370,
+      "lines": 48,
+      "sha256": "458e0032f790f907f0995e3ff2d2954be6e93ebdb4482f6c237b7b23cfbb5f16"
+    },
+    "packages/desktop/src/main/desktopRemoteSessions/attachments.ts": {
+      "bytes": 6149,
+      "lines": 165,
+      "sha256": "04b86706f65f89c28d6d8befb609b76ca31a1a3514191ce23071fa3bf6417871"
+    },
+    "packages/desktop/src/main/desktopRemoteSessions/common.ts": {
+      "bytes": 2133,
+      "lines": 72,
+      "sha256": "4dd70db727eaf66b33a0c78badd0466024577fbfd41a860ae145256e79559a9a"
+    },
+    "packages/desktop/src/main/desktopRemoteSessions/connections.ts": {
+      "bytes": 4216,
+      "lines": 104,
+      "sha256": "5cc2737c1d9490eba6ccc52540613a38da6c1efbc1902a4ce5c38abbfd823c9f"
+    },
+    "packages/desktop/src/main/desktopRemoteSessions/controls.ts": {
+      "bytes": 6853,
+      "lines": 165,
+      "sha256": "88efbf315a79d815120af70fba62a3ab6c84e6433cc4bb489b8c9282f03819a7"
+    },
+    "packages/desktop/src/main/desktopRemoteSessions/lifecycle.ts": {
+      "bytes": 7297,
+      "lines": 195,
+      "sha256": "b69b3d2a0ac9d08b4933ff5f4d68354b5458fac43cf42b9359186ba79e7d1578"
+    },
+    "packages/desktop/src/main/desktopRemoteSessions/types.ts": {
+      "bytes": 4159,
+      "lines": 141,
+      "sha256": "c8f6477bb90ed180404361f6996ec00edc10bcfc3badfa01f9b848aff2869257"
+    }
+  }
+}

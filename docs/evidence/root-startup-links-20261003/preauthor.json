@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-02T20:57:19.023193+00:00",
+  "packetRef": "250636854ad491f9d43ba5815680e983415bd979",
+  "targetHashesMatch": true,
+  "inputs": {
+    "contract-data.json": "88cb7d9deb96c61402d8323a11228c0ee4c35d2a34b40958acc99e1f3c270e17",
+    "contract.md": "5d37add471fa885018441e749f279931b03609472c3ccd6aa55e9f65e68365f3",
+    "curator-manifest.json": "d28074e3c2c616eaa6e98255eb04b255414a44af2c445fcdcfb344526c3f6962",
+    "dependency-api.d.ts": "a8ecf7ee36ad6d8a101206a3245a2c463a6f6c8ca0d6253e378a73833aa1539b",
+    "desktopWorkspaceDeepLink-public-api.d.ts": "ce26a0cd9e0b2b5f84ac3ececd623029a2cfaee0a4c89f288d664cef467074f2",
+    "imports.json": "a43e987a7fe46648f0bb5ad2fe3afad359f8e31eda93ac67143835da9fa2b0ee",
+    "public-extraction-record.json": "335d492a9458c30553e86def66bb00ec16080b745ef2a7548fa4d3b11cddf2f0",
+    "reservation.json": "5b41023c6770dac17d51fac7a039607704fd8572ea7803aea2b258f5cc4a10e4",
+    "retained-literal-data.json": "d157f21844d4532b2f322c05287a63e7890cf298b634fb8f0a9a080a0df5efd4",
+    "settings-schema-fields.json": "1d2d3ac42e4cd91f39ce0bd903b3255fae7725ff2441939b1895698e9941decd",
+    "startupWorkspace-public-api.d.ts": "cdcae5994b87d5579aee6e30816e45dda9467db30cce0074925dfac4abee7232",
+    "startupWorkspaceDeepLinkGate-public-api.d.ts": "a9a0546a407d1d72555f1af70f55b8644b40bdd2ba2e68b92bf52cccba62c07d"
+  },
+  "qualification": "Bodyfreepacketpublictypes/literals only inthispassbeforedraft; broadpriorcontext/genericexposure applies. Esourceexposedcurator, noisolated/legalclaim."
+}

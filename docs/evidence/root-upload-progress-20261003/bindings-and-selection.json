@@ -1,0 +1,64 @@
+{
+  "baselineHead": "f276fb97eaf15974befb814f80fc16d23e6db9f8",
+  "branch": "recovery/server-lifecycle-20261002",
+  "draftPR": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "selectedNewImplementationPaths": [],
+  "laneQueue": [
+    {
+      "path": "packages/server/src/http.ts",
+      "sha256": "3945e6e3d42e904f15792a6c240a98302c6add4b398bb84ddd3b7aad152dbdce",
+      "bytes": 10271,
+      "selection": "already-completed",
+      "completedCommit": "0ce9d9b13405e17f39fa8c3e73d51b8c0cee4544"
+    },
+    {
+      "path": "packages/server/src/stdio.ts",
+      "sha256": "2339efa61fd55b45743c223a9726e89ab2da66e791afb36a29d488ac319c1887",
+      "bytes": 2183,
+      "selection": "already-completed",
+      "completedCommit": "0ce9d9b13405e17f39fa8c3e73d51b8c0cee4544"
+    },
+    {
+      "path": "packages/server/src/stdioServices.ts",
+      "sha256": "3aa752394a5e1df507e4b56b349077b073f383fca6d1ac7215281c1e9550aa0c",
+      "bytes": 1270,
+      "selection": "already-completed",
+      "completedCommit": "0ce9d9b13405e17f39fa8c3e73d51b8c0cee4544"
+    },
+    {
+      "path": "packages/server/src/stdio-lifecycle.ts",
+      "sha256": "d11805729dc2bb2b3defc158c014df768c8a74b49e5950f6faec4e3a1943ec24",
+      "bytes": 2753,
+      "selection": "already-completed",
+      "completedCommit": "0ce9d9b13405e17f39fa8c3e73d51b8c0cee4544"
+    },
+    {
+      "path": "packages/server/src/bundledBuiltinProviderConfig.ts",
+      "sha256": "9efad6dd52e08d4f6aff9326f0ae144f371cbd34d65442ee4d190d1fe457d0b2",
+      "bytes": 1051,
+      "selection": "retained-config-and-thin-wrapper",
+      "completedCommit": null
+    }
+  ],
+  "rootTargets": [
+    {
+      "path": "packages/server/src/remote/agentOfficialPluginAssets.ts",
+      "sha256": "1153bcf21a3dc19c99d46d28d255ae42106d3967726816efd167739a69203bff",
+      "bytes": 3090,
+      "gitBlob": "9e6810b25478bcbcfd8688c95fac0f4d30594767",
+      "eligibility": "retained configuration with three tiny pure path helpers; no substantive lifecycle owner",
+      "packet": "agent-official-plugin-assets-contract.md",
+      "packetSha256": "84efe25c67ed461b1e0b9897942d944f80eca778944cd649711a4132e31a99a2"
+    },
+    {
+      "path": "packages/server/src/remote/sshUploadProgress.ts",
+      "sha256": "90810512ac42c2b2a795685d5f494c3827123d1f55f9107a9787127a8fb27941",
+      "bytes": 3825,
+      "gitBlob": "ffb721a780fa9603b287e1fac0a78aae28c5e346",
+      "eligibility": "substantive stateful progress owner eligible for complete root authoring",
+      "packet": "ssh-upload-progress-contract.md",
+      "packetSha256": "5a5642570f8c246ea82bebfb15aca19b8c47fec3682e40b0e40122f730ef5cf3"
+    }
+  ],
+  "packetCurator": "source-exposed lane root; read target bodies only for behavioral curation; not implementing targets"
+}

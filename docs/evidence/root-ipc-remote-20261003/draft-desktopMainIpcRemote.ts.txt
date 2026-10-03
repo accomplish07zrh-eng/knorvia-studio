@@ -1,0 +1,118 @@
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { buildRemoteWorkspaceConnectResultTelemetry, classifyRemoteUsageError, formatZodError, normalizeUnknownError, InternalChannels, PlatformChannels, remoteTargetSchema, type RemoteTarget, type TelemetryEventPayload } from '@knorvia/shared';
+import { dispatchTaskNotification } from './desktopNotifications.js';
+import { clearWorkspaceRoutesForWindow, deliverPendingDeepLink } from './desktopWorkspaceDeepLink.js';
+import type { RemoteConnectionStats } from './desktopRemoteUsageArmsTelemetry.js';
+import { openPathInDefaultApp } from './desktopMainIpcHelpers.js';
+function openRequest(payload: unknown): { sourceUrl?: string; url: string } | null {
+  if (typeof payload === 'string') return { url: payload };
+  if (!payload || typeof payload !== 'object') return null;
+  const record = payload as Record<string, unknown>;
+  if (typeof record.url !== 'string') return null;
+  return { sourceUrl: typeof record.sourceUrl === 'string' ? record.sourceUrl : undefined, url: record.url };
+}
+function allowedUrl(value: string): boolean {
+  try { const url = new URL(value); return url.protocol === 'http:' || url.protocol === 'https:' || url.protocol === 'file:'; } catch { return false; }
+}
+function reportRemoteConnectResultToArmsSafely(_params: unknown): void {}
+export function registerRemoteIpcHandlers(options: {
+    logger: {
+        info: (...args: unknown[]) => void;
+        warn: (...args: unknown[]) => void;
+        error: (...args: unknown[]) => void;
+    };
+    reportRemoteUsageEvent: (rendererId: number, event: TelemetryEventPayload) => void;
+    createRemoteWorkspaceSession: (win: BrowserWindow, target: RemoteTarget, requestId?: string, context?: {
+        workspacePath: string;
+        workspaceIdentity?: string;
+    }, lifecycle?: {
+        remoteUsageTelemetryEligible?: boolean;
+    }) => Promise<string>;
+    getRemoteConnectionStats: () => RemoteConnectionStats;
+    disposeRemoteWorkspaceSession: (sessionId: string, reason: string, signalGracePeriodMs?: number) => void;
+    cancelPendingRemoteWorkspaceSessionsForWindow: (wcId: number, reason: string, requestId?: string) => void;
+    bindRemoteWorkspaceSessionContext: (sessionId: string, context: {
+        workspacePath: string;
+        workspaceIdentity?: string;
+    }, expectedWebContentsId?: number) => Promise<void>;
+    confirmRendererAttachmentReady: (webContentsId: number, payload: {
+        sessionId: string;
+        attachmentId: string;
+    }) => void;
+    isDockerDaemonAvailable: () => Promise<boolean>;
+    listAvailableWSLDistros: () => Promise<unknown[]>;
+    listAvailableDockerContainers: () => Promise<unknown[]>;
+    listSSHConfigAliases: () => Promise<unknown[]>;
+}): void {
+  const report = (rendererId: number, event: TelemetryEventPayload) => {
+    try { options.reportRemoteUsageEvent(rendererId, event); }
+    catch (error) { options.logger.warn('[remote-usage-telemetry] dispatch failed', { elementName: event.elementName, error }); }
+  };
+  ipcMain.on(InternalChannels.ScopedServicePortReady, (event, raw: unknown) => {
+    if (!raw || typeof raw !== 'object') return;
+    const payload = raw as Record<string, unknown>;
+    const sessionId = typeof payload.sessionId === 'string' ? payload.sessionId.trim() : '';
+    const attachmentId = typeof payload.attachmentId === 'string' ? payload.attachmentId.trim() : '';
+    if (!sessionId || !attachmentId) return;
+    options.confirmRendererAttachmentReady(event.sender.id, { sessionId, attachmentId });
+  });
+  ipcMain.on(PlatformChannels.OpenExternal, (_event, payload: unknown) => {
+    const request = openRequest(payload);
+    if (!request) { options.logger.warn('[open-external] blocked unsupported request', payload); return; }
+    if (!allowedUrl(request.url)) { options.logger.warn('[open-external] blocked unsupported url', request.url); return; }
+    const url = request.url;
+    void Promise.resolve(shell.openExternal(url)).catch((error) => options.logger.warn('[open-external] 外部 URL 打开失败', { url, error: error instanceof Error ? error.message : String(error) }));
+  });
+  ipcMain.handle(PlatformChannels.OpenExternalFile, async (_event, rawPath: string) => openPathInDefaultApp(rawPath, options.logger));
+  ipcMain.on(PlatformChannels.RendererReady, (event) => deliverPendingDeepLink(event.sender));
+  ipcMain.on(PlatformChannels.ShowTaskNotification, (event, payload: unknown) => dispatchTaskNotification({ event, payload, logger: options.logger }));
+  ipcMain.handle(PlatformChannels.ShowTaskNotification, (event, payload: unknown) => dispatchTaskNotification({ event, payload, logger: options.logger }));
+  app.on('browser-window-created', (_event, win) => { const id = win.webContents.id; win.on('closed', () => clearWorkspaceRoutesForWindow(id)); });
+  ipcMain.handle(PlatformChannels.ConnectRemote, async (event, rawPayload: unknown) => {
+    const wrapped = rawPayload && typeof rawPayload === 'object' && 'target' in rawPayload ? rawPayload as Record<string, unknown> : { target: rawPayload, requestId: undefined } as Record<string, unknown>;
+    const result = remoteTargetSchema.safeParse(wrapped.target);
+    if (!result.success) { const error = `Invalid connect-remote payload: ${formatZodError(result.error)}`; options.logger.warn('[connect-remote]', error); return { success: false, error }; }
+    const requestId = typeof wrapped.requestId === 'string' && wrapped.requestId.trim().length > 0 ? wrapped.requestId.trim() : undefined;
+    const workspacePath = typeof wrapped.workspacePath === 'string' && wrapped.workspacePath.trim().length > 0 ? wrapped.workspacePath : undefined;
+    const workspaceIdentity = typeof wrapped.workspaceIdentity === 'string' && wrapped.workspaceIdentity.trim().length > 0 ? wrapped.workspaceIdentity : undefined;
+    const triggerValue = wrapped.connectTrigger;
+    const connectTrigger = triggerValue === 'reconnect' || triggerValue === 'restore' ? triggerValue : 'new';
+    try {
+      const win = BrowserWindow.fromWebContents(event.sender);
+      if (!win) throw new Error('未找到当前窗口，无法创建远程 session');
+      const sessionId = await options.createRemoteWorkspaceSession(win, result.data, requestId, workspacePath ? { workspacePath, workspaceIdentity } : undefined, { remoteUsageTelemetryEligible: true });
+      report(event.sender.id, buildRemoteWorkspaceConnectResultTelemetry({ result: 'success', remoteKind: result.data.kind, connectTrigger }));
+      reportRemoteConnectResultToArmsSafely({ rendererId: event.sender.id, result: 'success', remoteKind: result.data.kind, connectTrigger });
+      return { success: true, sessionId };
+    } catch (error) {
+      const normalizedError = normalizeUnknownError(error);
+      const errorCategory = classifyRemoteUsageError(error);
+      options.logger.error('[connect-remote] caught error:', { message: normalizedError.message, code: normalizedError.code, stack: error instanceof Error ? error.stack : undefined });
+      report(event.sender.id, buildRemoteWorkspaceConnectResultTelemetry({ result: 'failure', remoteKind: result.data.kind, connectTrigger, errorCategory }));
+      reportRemoteConnectResultToArmsSafely({ rendererId: event.sender.id, result: 'failure', remoteKind: result.data.kind, connectTrigger, errorCategory });
+      return { success: false, error: normalizedError.message };
+    }
+  });
+  ipcMain.handle(PlatformChannels.CancelPendingRemoteConnection, async (event, rawPayload: unknown) => {
+    const payload = rawPayload && typeof rawPayload === 'object' ? rawPayload as Record<string, unknown> : {};
+    const requestId = typeof payload.requestId === 'string' && payload.requestId.trim().length > 0 ? payload.requestId.trim() : undefined;
+    options.cancelPendingRemoteWorkspaceSessionsForWindow(event.sender.id, `cancel-pending-remote-connection:${event.sender.id}`, requestId);
+  });
+  ipcMain.handle(PlatformChannels.BindRemoteWorkspaceSessionContext, async (event, raw: unknown) => {
+    if (!raw || typeof raw !== 'object') throw new Error('远程 workspace context payload 无效');
+    const payload = raw as Record<string, unknown>;
+    const sessionId = typeof payload.remoteSessionId === 'string' ? payload.remoteSessionId.trim() : '';
+    const workspacePath = typeof payload.workspacePath === 'string' ? payload.workspacePath : '';
+    const identity = typeof payload.workspaceIdentity === 'string' ? payload.workspaceIdentity.trim() : '';
+    if (!sessionId || !workspacePath.trim()) throw new Error('远程 workspace context 缺少 sessionId 或 workspacePath');
+    await options.bindRemoteWorkspaceSessionContext(sessionId, { workspacePath, ...(identity ? { workspaceIdentity: identity } : {}) }, event.sender.id);
+  });
+  ipcMain.handle(PlatformChannels.DisposeRemoteSession, async (_event, sessionId: string) => { options.disposeRemoteWorkspaceSession(sessionId, `dispose-remote-session:${sessionId}`, 150); });
+  ipcMain.handle(PlatformChannels.IsDockerAvailable, async () => { try { return await options.isDockerDaemonAvailable(); } catch (error) { options.logger.warn('[is-docker-available] detect failed:', error); return false; } });
+  ipcMain.handle(PlatformChannels.ListWSLDistros, async () => { try { return await options.listAvailableWSLDistros(); } catch (error) { options.logger.warn('[list-wsl-distros] detect failed:', error); return []; } });
+  ipcMain.handle(PlatformChannels.ListDockerContainers, async () => { try { return await options.listAvailableDockerContainers(); } catch (error) { options.logger.warn('[list-docker-containers] detect failed:', error); return []; } });
+  ipcMain.handle(PlatformChannels.ListSSHConfigAliases, async () => {
+    try { return await options.listSSHConfigAliases(); }
+    catch (error) { const normalized = normalizeUnknownError(error); options.logger.warn('[list-ssh-config-aliases] detect failed:', { message: normalized.message, code: normalized.code, name: error instanceof Error ? error.name : undefined, stack: error instanceof Error ? error.stack : undefined }); return []; }
+  });
+}

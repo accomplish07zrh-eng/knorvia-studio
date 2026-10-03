@@ -1,0 +1,288 @@
+[
+  {
+    "mode": "baseline",
+    "sourceFiles": 333,
+    "diagnostics": [],
+    "api": [
+      {
+        "file": "builtin-download.ts",
+        "name": "downloadKnorviaBuiltinRelease",
+        "type": "(options: KnorviaBuiltinDownloadOptions) => Promise<KnorviaBuiltinRelease | null>",
+        "properties": [],
+        "calls": [
+          "(options: KnorviaBuiltinDownloadOptions): Promise<KnorviaBuiltinRelease | null>"
+        ]
+      },
+      {
+        "file": "builtin-download.ts",
+        "name": "KnorviaBuiltinDownloadOptions",
+        "type": "KnorviaBuiltinDownloadOptions",
+        "properties": [
+          {
+            "name": "endpointOrigin",
+            "type": "string"
+          },
+          {
+            "name": "appVersion",
+            "type": "string"
+          },
+          {
+            "name": "platform",
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "type": "(url: string | URL, init: RequestInit) => Promise<Response>"
+          },
+          {
+            "name": "signal",
+            "type": "AbortSignal | undefined"
+          }
+        ],
+        "calls": []
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "decodeKnorviaBuiltinRelease",
+        "type": "(input: unknown) => KnorviaBuiltinRelease",
+        "properties": [],
+        "calls": [
+          "(input: unknown): KnorviaBuiltinRelease"
+        ]
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "encodeKnorviaBuiltinRelease",
+        "type": "(release: KnorviaBuiltinRelease) => object",
+        "properties": [],
+        "calls": [
+          "(release: KnorviaBuiltinRelease): object"
+        ]
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "serializeKnorviaBuiltinRelease",
+        "type": "(release: KnorviaBuiltinRelease) => string",
+        "properties": [],
+        "calls": [
+          "(release: KnorviaBuiltinRelease): string"
+        ]
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "KNORVIA_BUILTIN_RELEASE_SCHEMA_VERSION",
+        "type": "1",
+        "properties": [
+          {
+            "name": "toString",
+            "type": "(radix?: number) => string"
+          },
+          {
+            "name": "toFixed",
+            "type": "(fractionDigits?: number) => string"
+          },
+          {
+            "name": "toExponential",
+            "type": "(fractionDigits?: number) => string"
+          },
+          {
+            "name": "toPrecision",
+            "type": "(precision?: number) => string"
+          },
+          {
+            "name": "valueOf",
+            "type": "() => number"
+          },
+          {
+            "name": "toLocaleString",
+            "type": "{ (locales?: string | string[], options?: Intl.NumberFormatOptions): string; (locales?: Intl.LocalesArgument, options?: Intl.NumberFormatOptions): string; }"
+          }
+        ],
+        "calls": []
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "KnorviaBuiltinConfigContent",
+        "type": "KnorviaBuiltinConfigContent",
+        "properties": [
+          {
+            "name": "providers",
+            "type": "ProviderConfigMap"
+          },
+          {
+            "name": "providerTemplates",
+            "type": "ProviderTemplateMap"
+          },
+          {
+            "name": "modelConfigRules",
+            "type": "ModelConfigRules"
+          }
+        ],
+        "calls": []
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "KnorviaBuiltinRelease",
+        "type": "KnorviaBuiltinRelease",
+        "properties": [
+          {
+            "name": "schemaVersion",
+            "type": "1"
+          },
+          {
+            "name": "revision",
+            "type": "number"
+          },
+          {
+            "name": "config",
+            "type": "KnorviaBuiltinConfigContent"
+          }
+        ],
+        "calls": []
+      }
+    ]
+  },
+  {
+    "mode": "candidate",
+    "sourceFiles": 333,
+    "diagnostics": [],
+    "api": [
+      {
+        "file": "builtin-download.ts",
+        "name": "downloadKnorviaBuiltinRelease",
+        "type": "(options: KnorviaBuiltinDownloadOptions) => Promise<KnorviaBuiltinRelease | null>",
+        "properties": [],
+        "calls": [
+          "(options: KnorviaBuiltinDownloadOptions): Promise<KnorviaBuiltinRelease | null>"
+        ]
+      },
+      {
+        "file": "builtin-download.ts",
+        "name": "KnorviaBuiltinDownloadOptions",
+        "type": "KnorviaBuiltinDownloadOptions",
+        "properties": [
+          {
+            "name": "endpointOrigin",
+            "type": "string"
+          },
+          {
+            "name": "appVersion",
+            "type": "string"
+          },
+          {
+            "name": "platform",
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "type": "(url: string | URL, init: RequestInit) => Promise<Response>"
+          },
+          {
+            "name": "signal",
+            "type": "AbortSignal | undefined"
+          }
+        ],
+        "calls": []
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "decodeKnorviaBuiltinRelease",
+        "type": "(input: unknown) => KnorviaBuiltinRelease",
+        "properties": [],
+        "calls": [
+          "(input: unknown): KnorviaBuiltinRelease"
+        ]
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "encodeKnorviaBuiltinRelease",
+        "type": "(release: KnorviaBuiltinRelease) => object",
+        "properties": [],
+        "calls": [
+          "(release: KnorviaBuiltinRelease): object"
+        ]
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "serializeKnorviaBuiltinRelease",
+        "type": "(release: KnorviaBuiltinRelease) => string",
+        "properties": [],
+        "calls": [
+          "(release: KnorviaBuiltinRelease): string"
+        ]
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "KNORVIA_BUILTIN_RELEASE_SCHEMA_VERSION",
+        "type": "1",
+        "properties": [
+          {
+            "name": "toString",
+            "type": "(radix?: number) => string"
+          },
+          {
+            "name": "toFixed",
+            "type": "(fractionDigits?: number) => string"
+          },
+          {
+            "name": "toExponential",
+            "type": "(fractionDigits?: number) => string"
+          },
+          {
+            "name": "toPrecision",
+            "type": "(precision?: number) => string"
+          },
+          {
+            "name": "valueOf",
+            "type": "() => number"
+          },
+          {
+            "name": "toLocaleString",
+            "type": "{ (locales?: string | string[], options?: Intl.NumberFormatOptions): string; (locales?: Intl.LocalesArgument, options?: Intl.NumberFormatOptions): string; }"
+          }
+        ],
+        "calls": []
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "KnorviaBuiltinConfigContent",
+        "type": "KnorviaBuiltinConfigContent",
+        "properties": [
+          {
+            "name": "providers",
+            "type": "ProviderConfigMap"
+          },
+          {
+            "name": "providerTemplates",
+            "type": "ProviderTemplateMap"
+          },
+          {
+            "name": "modelConfigRules",
+            "type": "ModelConfigRules"
+          }
+        ],
+        "calls": []
+      },
+      {
+        "file": "builtin-release.ts",
+        "name": "KnorviaBuiltinRelease",
+        "type": "KnorviaBuiltinRelease",
+        "properties": [
+          {
+            "name": "schemaVersion",
+            "type": "1"
+          },
+          {
+            "name": "revision",
+            "type": "number"
+          },
+          {
+            "name": "config",
+            "type": "KnorviaBuiltinConfigContent"
+          }
+        ],
+        "calls": []
+      }
+    ]
+  }
+]

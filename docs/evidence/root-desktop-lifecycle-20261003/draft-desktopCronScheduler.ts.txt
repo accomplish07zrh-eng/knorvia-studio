@@ -1,0 +1,94 @@
+import type { UtilityProcess as ElectronUtilityProcess } from "electron";
+export interface CronRunResultPayload {
+    runId: string;
+    ok: boolean;
+    taskId?: string;
+    sessionId?: string;
+    error?: string;
+    failureKind?: "transient" | "permanent";
+}
+export interface OffPeakRunResultPayload {
+    offPeakTaskId: string;
+    ok: boolean;
+    conversationId?: string;
+    sessionId?: string;
+    error?: string;
+    failureKind?: "transient" | "permanent";
+}
+interface CronSchedulerDeps {
+    hostProcessLocalEnv: Record<string, string>;
+    logger: {
+        info: (...args: unknown[]) => void;
+        warn: (...args: unknown[]) => void;
+        error: (...args: unknown[]) => void;
+    };
+    resolveDispatchHost: () => ElectronUtilityProcess | null;
+    onOffPeakActiveCountChanged?: (count: number) => void;
+}
+export interface CronSchedulerHandle {
+    handleCronRunResult: (result: CronRunResultPayload) => void;
+    handleOffPeakRunResult: (result: OffPeakRunResultPayload) => void;
+    wake: (automationId: string) => void;
+    dispose: () => Promise<void>;
+}
+
+import { utilityProcess as electronUtilityProcess } from 'electron';
+import { HostMessageTypes } from '@knorvia/shared';
+import { buildHostProcessEnv, schedulerModulePath } from './desktopRuntimeEnv.js';
+import { ingestSchedulerSelfResourceSample } from './processResourceSelfHeapSource.js';
+import { registerSchedulerProcess, unregisterSchedulerProcess } from './resourceManagerWindow.js';
+import type { MainToSchedulerMessage, SchedulerToMainMessage } from '../scheduler/schedulerProtocol.js';
+export function spawnCronScheduler(deps: CronSchedulerDeps): CronSchedulerHandle {
+  const child = electronUtilityProcess.fork(schedulerModulePath, [], {
+    serviceName: 'knorvia-cron-scheduler', execArgv: ['--no-warnings'],
+    env: { ...buildHostProcessEnv(deps.hostProcessLocalEnv), KNORVIA_PROCESS_LABEL: 'scheduler' },
+  });
+  deps.logger.info(`[cron-scheduler] forked scheduler process pid=${child.pid}`);
+  registerSchedulerProcess(child);
+  let isDisposing = false;
+  let disposePromise: Promise<void> | undefined;
+  const post = (message: MainToSchedulerMessage): void => {
+    try { child.postMessage(message); } catch (error) { deps.logger.warn('[cron-scheduler] postMessage to scheduler failed:', error); }
+  };
+  const fail = (runId: string, error: string): void => post({ type: 'cron-dispatch-result', runId, ok: false, error, failureKind: 'transient' });
+  child.on('message', (raw: unknown) => {
+    if (!raw || typeof raw !== 'object') return;
+    const message = raw as SchedulerToMainMessage;
+    if (message.type === 'scheduler-log') {
+      if (message.level === 'warn') deps.logger.warn(`[cron-scheduler] ${message.message}`);
+      else if (message.level === 'error') deps.logger.error(`[cron-scheduler] ${message.message}`);
+      else deps.logger.info(`[cron-scheduler] ${message.message}`);
+      return;
+    }
+    if (message.type === 'offpeak-active-count') { deps.onOffPeakActiveCountChanged?.(message.count); return; }
+    if (message.type === 'scheduler-resource-sample') { ingestSchedulerSelfResourceSample(message.sample); return; }
+    if (message.type !== 'cron-dispatch-request') return;
+    if (isDisposing) { fail(message.runId, 'app is shutting down'); return; }
+    const host = deps.resolveDispatchHost();
+    if (!host) { fail(message.runId, 'no local host available'); return; }
+    try {
+      host.postMessage({ type: HostMessageTypes.CronRun, automationId: message.automationId, runId: message.runId, prompt: message.prompt, targetTaskId: message.targetTaskId, studioWorkflowId: message.studioWorkflowId, modelSelection: message.modelSelection, mode: message.mode, workspacePath: message.workspacePath, workspaceIdentity: message.workspaceIdentity });
+    } catch (error) {
+      deps.logger.warn('[cron-scheduler] forward CronRun to host failed:', error);
+      fail(message.runId, error instanceof Error ? error.message : String(error));
+    }
+  });
+  child.on('exit', (code: number) => { unregisterSchedulerProcess(child); deps.logger.info(`[cron-scheduler] scheduler process exited code=${code}`); });
+  return {
+    handleCronRunResult(result) { post({ type: 'cron-dispatch-result', ...result }); },
+    handleOffPeakRunResult(_result) {},
+    wake(automationId) { if (!isDisposing) post({ type: 'scheduler-wake', automationId }); },
+    dispose() {
+      if (disposePromise) return disposePromise;
+      isDisposing = true;
+      post({ type: 'scheduler-dispose' });
+      disposePromise = new Promise<void>((resolve) => {
+        let settled = false;
+        const done = () => { if (settled) return; settled = true; clearTimeout(timer); resolve(); };
+        const timer = setTimeout(() => { try { child.kill(); } catch { /* Force-kill errors do not prevent disposal settlement. */ } done(); }, 1500);
+        child.once('exit', done);
+      });
+      return disposePromise;
+    },
+  };
+}

@@ -1,0 +1,31 @@
+{
+  "frozenAt": "2026-10-02T17:07:53.556976+00:00",
+  "draft": "draft-remoteAssetCache.ts",
+  "bytes": 35741,
+  "sha256": "a2bd47cd7ec589dad9acefe9cd0d19f4e8d1f8f6415871dbd789a7593d5cd869",
+  "inputs": [
+    {
+      "name": "messages.md",
+      "bytes": 6180,
+      "sha256": "58c09d25918cd6f8fc4c6fac3c6c4eff9fa751dbb383cde64ce1e2ae996a0c42"
+    },
+    {
+      "name": "dependency-signatures.d.ts",
+      "bytes": 1346,
+      "sha256": "f3d68a951adbcb7224cf9c5eb81880f1771437e93209fbf784db276ff373783d"
+    },
+    {
+      "name": "public-api.d.ts",
+      "bytes": 2494,
+      "sha256": "794a92db2912410a8747f377512312e75a2cf1e65f6ded1863f9342edc860fda"
+    },
+    {
+      "name": "contract.md",
+      "bytes": 23131,
+      "sha256": "75a5c9e20f1d1367b5020ee6d7bd865c20b235891f1bf14bf4709833643abb6f"
+    }
+  ],
+  "status": "Complete personally authored draft frozen before compiler, predecessor, test or source comparison. No execution or runtime acceptance.",
+  "authorContext": "Root broader project context and generic previous repository scanners disclosed in preauthor-record.json. Raw target implementation/history/test bodies not presented to author before this freeze. Functional packet curated by source-exposed E. No absolute clean-room claim.",
+  "implementationScope": "All11publicfunctions/5interfaces; request/cache ownership, manifest normalization, component migration/materialization, hash/integrity, partial publication and rollback; inherited collaborators imported with their existing signatures."
+}

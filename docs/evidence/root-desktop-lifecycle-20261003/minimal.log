@@ -1,0 +1,3 @@
+baseline: 3 minimal synthetic groups pass: bounded release, notification admission, cron dispatch/disposal. Fake network/OS/process/timers only.
+candidate: 3 minimal synthetic groups pass: bounded release, notification admission, cron dispatch/disposal. Fake network/OS/process/timers only.
+Frozen draft unnecessary current-version prerelease observation reproduced; candidate restores source short circuit.

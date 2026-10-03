@@ -1,0 +1,213 @@
+import type { z } from "zod";
+
+import type { completeModelConfigDataSchema } from "@knorvia/shared/model-config";
+
+import type { completeApiKeyAccessDataSchema, completeZhipuAccountAccessDataSchema, completeProviderConfigDataSchema, } from "./config/provider-data-schema.js";
+
+import type { ConfigValidationIssue } from "./config-overlay.js";
+
+import { ModelConfigRules, ProviderConfigMap, type ApiKeyAccessConfig, type ModelConfig, type ZhipuAccountAccessConfig, type ModelId, type ProviderConfig, type ProviderConfigRule, type ProviderTemplateMap, type ProviderId } from "./config/index.js";
+
+import { resolveOwnedOrder } from "./owned-order.js";
+
+import type { AccountProviderStates } from "./account-provider-state.js";
+
+export type RegistryZhipuAccountAccessConfig = ZhipuAccountAccessConfig & z.infer<typeof completeZhipuAccountAccessDataSchema>;
+
+export type RegistryProviderAccessConfig = (ApiKeyAccessConfig & z.infer<typeof completeApiKeyAccessDataSchema>) | RegistryZhipuAccountAccessConfig;
+
+export type RegistryProviderConfig = ProviderConfig & z.infer<typeof completeProviderConfigDataSchema> & {
+    readonly access: RegistryProviderAccessConfig;
+};
+
+export type RegistryProviderConfigObject = z.infer<typeof completeProviderConfigDataSchema>;
+
+export type RegistryModelConfig = ModelConfig & z.infer<typeof completeModelConfigDataSchema>;
+
+export type RegistryModelConfigObject = z.infer<typeof completeModelConfigDataSchema>;
+
+export type RegistryConfigResult<T> = {
+    readonly ok: true;
+    readonly config: T;
+} | {
+    readonly ok: false;
+    readonly issues: readonly ConfigValidationIssue[];
+};
+
+export interface ProviderConfigResolverInput {
+    readonly knorviaBuiltinProviders: ProviderConfigMap;
+    readonly knorviaBuiltinProviderTemplates?: ProviderTemplateMap;
+    readonly personalProviders: ProviderConfigMap;
+    readonly knorviaBuiltinModelRules: ModelConfigRules;
+    readonly personalModels: ModelConfigRules;
+    readonly accountProviders: ProviderConfigMap;
+    readonly accountStates?: AccountProviderStates;
+    readonly personalProviderOrder?: readonly ProviderId[];
+}
+
+export interface ResolvedProviderModelCandidate {
+    readonly kind: "candidate";
+    readonly modelId: ModelId;
+    readonly source: "builtin" | "personal";
+    readonly config: ModelConfig;
+    readonly effectiveBuiltinConfig: ModelConfig;
+    readonly issues: readonly ConfigValidationIssue[];
+    readonly enabled: boolean;
+    readonly executable: boolean;
+    readonly selectable: boolean;
+}
+
+export type ResolvedProviderModel = ResolvedProviderModelCandidate;
+
+export interface ResolvedProvider extends Pick<ProviderConfigRule, "templateId" | "providerName"> {
+    readonly enabled: boolean;
+    readonly providerId: ProviderId;
+    readonly config: ProviderConfig;
+    readonly templateConfig?: ProviderConfig;
+    readonly effectiveBuiltinConfig?: ProviderConfig;
+    readonly providerIssues: readonly ConfigValidationIssue[];
+    readonly models: readonly ResolvedProviderModel[];
+}
+
+export interface ProviderModel {
+    readonly modelId: ModelId;
+    readonly config: RegistryModelConfig;
+}
+
+export interface Provider extends Pick<ProviderConfigRule, "templateId" | "providerName"> {
+    readonly providerId: ProviderId;
+    readonly config: RegistryProviderConfig;
+    readonly models: readonly ProviderModel[];
+}
+
+export interface ProviderConfigResolution {
+    readonly effectiveBuiltinProviders: ProviderConfigMap;
+    readonly effectiveProviders: ProviderConfigMap;
+    readonly resolvedProviders: readonly ResolvedProvider[];
+    readonly registryProviders: readonly Provider[];
+    readonly issues: readonly ConfigValidationIssue[];
+}
+
+export function serializeRegistryProviderConfig(config: RegistryProviderConfig): RegistryProviderConfigObject {
+  const access = config.access;
+  return {
+    group: config.group,
+    ...(config.logo !== undefined ? {logo: config.logo} : {}),
+    access: access.type === "zhipu-account"
+      ? {type: access.type, accountType: access.accountType, mode: access.mode, entitled: access.entitled}
+      : {type: access.type, apiKey: access.apiKey, ...(access.apiKeyManagementUrl !== undefined ? {apiKeyManagementUrl: access.apiKeyManagementUrl} : {})},
+    api: {type: config.api.type, baseUrl: config.api.baseUrl, ...(config.api.headers != null ? {headers: config.api.headers} : {})},
+    ...(config.builtinModelIds != null ? {builtinModelIds: [...config.builtinModelIds]} : {}),
+    ...(config.personalModelIds != null ? {personalModelIds: [...config.personalModelIds]} : {}),
+    ...(config.modelOrder != null ? {modelOrder: [...config.modelOrder]} : {}),
+    ...(config.visibility !== undefined ? {visibility: config.visibility} : {}),
+  };
+}
+export function serializeRegistryModelConfig(config: RegistryModelConfig): RegistryModelConfigObject {
+  return {
+    enabled: config.enabled,
+    properties: {
+      requiresMfjsToolSchema: config.properties.requiresMfjsToolSchema,
+      contextWindow: config.properties.contextWindow,
+      inputFormat: {
+        supportsText: config.properties.inputFormat.supportsText,
+        supportsImage: config.properties.inputFormat.supportsImage,
+        supportsVideo: config.properties.inputFormat.supportsVideo,
+        supportsAudio: config.properties.inputFormat.supportsAudio,
+        supportsPdf: config.properties.inputFormat.supportsPdf,
+      },
+      outputFormat: {supportsText: config.properties.outputFormat.supportsText},
+      supportsToolCall: config.properties.supportsToolCall,
+      supportsJsonSchemaOutput: config.properties.supportsJsonSchemaOutput,
+      supportsNativeWebSearch: config.properties.supportsNativeWebSearch,
+      supportsMidConversationSystem: config.properties.supportsMidConversationSystem,
+    },
+    optionSpecs: {reasoningLevel: config.optionSpecs.reasoningLevel, maxOutputTokens: config.optionSpecs.maxOutputTokens},
+  };
+}
+export function createRegistryProviderConfig(config: ProviderConfig, path: readonly string[] = ["provider"]): RegistryConfigResult<RegistryProviderConfig> {
+  const issues = config.validateComplete(path);
+  return issues.length ? {ok:false,issues:Object.freeze([...issues])} : {ok:true,config:config as RegistryProviderConfig};
+}
+export function createRegistryModelConfig(config: ModelConfig, path: readonly string[] = ["model"]): RegistryConfigResult<RegistryModelConfig> {
+  const issues = config.validateComplete(path);
+  return issues.length ? {ok:false,issues:Object.freeze([...issues])} : {ok:true,config:config as RegistryModelConfig};
+}
+function providerLayers(input: ProviderConfigResolverInput) {
+  const accounts = new ProviderConfigMap(input.accountProviders.entries()
+    .filter(([id])=>input.knorviaBuiltinProviders.has(id))
+    .map(([id,config])=>[id,config.withoutGroup()] as const));
+  const effectiveBuiltinProviders = input.knorviaBuiltinProviders.overlay(accounts).mapConfigs((config,_id,rule)=>{
+    const template = rule.templateId ? input.knorviaBuiltinProviderTemplates?.get(rule.templateId)?.config : undefined;
+    return template ? template.overlay(config) : config;
+  });
+  const personal = input.personalProviders.mapConfigs((config,id,rule)=>{
+    if (effectiveBuiltinProviders.has(id)) return config.withoutGroup();
+    const template = rule.templateId ? input.knorviaBuiltinProviderTemplates?.get(rule.templateId)?.config : undefined;
+    return template ? template.overlay(config) : config;
+  });
+  return {effectiveBuiltinProviders,effectiveProviders:effectiveBuiltinProviders.overlay(personal)};
+}
+function providerOrder(input: ProviderConfigResolverInput, effective: ProviderConfigMap): readonly ProviderId[] {
+  const family = effective.keys().filter(id=>{
+    const group = effective.get(id)?.group;
+    return group === "zai-family" || group === "bigmodel-family";
+  });
+  const familySet = new Set(family);
+  const builtin = input.knorviaBuiltinProviders.keys().filter(id=>!familySet.has(id));
+  const builtinSet = new Set(input.knorviaBuiltinProviders.keys());
+  const personal = input.personalProviders.keys().filter(id=>!familySet.has(id)&&!builtinSet.has(id));
+  return [...family,...resolveOwnedOrder(builtin,personal,input.personalProviderOrder??[])];
+}
+function membership(config: ProviderConfig) {
+  const builtin = [...new Set(config.builtinModelIds??[])];
+  const builtinSet = new Set(builtin);
+  const personal = [...new Set(config.personalModelIds??[])].filter(id=>!builtinSet.has(id));
+  return {builtinSet,order:resolveOwnedOrder(builtin,personal,config.modelOrder??[])};
+}
+export class ProviderConfigResolver {
+  resolve(input: ProviderConfigResolverInput): ProviderConfigResolution {
+    const {effectiveBuiltinProviders,effectiveProviders} = providerLayers(input);
+    const rules = ModelConfigRules.composeEffective(input.knorviaBuiltinModelRules,input.personalModels);
+    const resolvedProviders: ResolvedProvider[] = [];
+    const registryProviders: Provider[] = [];
+    const issues: ConfigValidationIssue[] = [];
+    for (const providerId of providerOrder(input,effectiveProviders)) {
+      const rule = effectiveProviders.getRule(providerId)!;
+      const config = rule.config;
+      const enabled = config.access?.type === "zhipu-account" ? true : rule.enabled??true;
+      const proof = createRegistryProviderConfig(config,["providers",providerId]);
+      const providerIssues = proof.ok ? [] : [...proof.issues];
+      const templateId = rule.templateId??undefined;
+      const templateConfig = templateId ? input.knorviaBuiltinProviderTemplates?.get(templateId)?.config : undefined;
+      if (templateId&&!templateConfig) providerIssues.push({code:"missing-template",path:["providers",providerId,"templateId"],message:`Provider Template 不存在: ${templateId}`});
+      issues.push(...providerIssues);
+      const providerExecutable = enabled && (config.access?.type !== "zhipu-account" || config.access.entitled === true) && input.accountStates?.[providerId]?.current !== false && providerIssues.length===0;
+      const models: ResolvedProviderModel[] = [];
+      const members = membership(config);
+      for (const modelId of members.order) {
+        const coordinates = {providerId,templateId,modelId,apiType:config.api?.type,baseUrl:config.api?.baseUrl};
+        const effectiveModel = rules.resolve(coordinates);
+        const effectiveBuiltinConfig = input.knorviaBuiltinModelRules.resolve(coordinates);
+        const modelProof = createRegistryModelConfig(effectiveModel,["providers",providerId,"models",modelId]);
+        const modelIssues = modelProof.ok ? [] : [...modelProof.issues];
+        issues.push(...modelIssues);
+        const modelEnabled = effectiveModel.enabled === true;
+        const executable = providerExecutable && modelEnabled && modelIssues.length===0;
+        models.push(Object.freeze({kind:"candidate",modelId,source:members.builtinSet.has(modelId)?"builtin":"personal",config:effectiveModel,effectiveBuiltinConfig,issues:Object.freeze([...modelIssues]),enabled:modelEnabled,executable,selectable:executable&&config.visibility!=="hidden"}));
+      }
+      const builtinConfig = effectiveBuiltinProviders.get(providerId);
+      resolvedProviders.push(Object.freeze({providerId,providerName:rule.providerName,templateId,enabled,config,...(templateConfig?{templateConfig}:{}),...(builtinConfig?{effectiveBuiltinConfig:builtinConfig}:{}),providerIssues:Object.freeze([...providerIssues]),models:Object.freeze(models)}));
+      if (!proof.ok || providerIssues.length) continue;
+      const executableModels: ProviderModel[] = [];
+      for (const model of models) {
+        if (!model.executable) continue;
+        const checked = createRegistryModelConfig(model.config,["providers",providerId,"models",model.modelId]);
+        if (!checked.ok) throw new Error(`Registry Model 完整性结果不一致: ${providerId}/${model.modelId}`);
+        executableModels.push(Object.freeze({modelId:model.modelId,config:checked.config}));
+      }
+      if (executableModels.length) registryProviders.push(Object.freeze({providerId,providerName:rule.providerName,templateId,config:proof.config,models:Object.freeze(executableModels)}));
+    }
+    return Object.freeze({effectiveBuiltinProviders,effectiveProviders,resolvedProviders:Object.freeze(resolvedProviders),registryProviders:Object.freeze(registryProviders),issues:Object.freeze(issues)});
+  }
+}

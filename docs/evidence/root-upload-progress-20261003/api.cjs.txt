@@ -1,0 +1,4 @@
+const fs=require('fs'),cp=require('child_process'),assert=require('assert/strict'),ts=require(process.cwd()+'/node_modules/typescript');
+const file='packages/server/src/remote/sshUploadProgress.ts';const old=cp.execFileSync('git',['show','HEAD:'+file],{encoding:'utf8'}),current=fs.readFileSync(file,'utf8');
+function declarations(source){const d=ts.transpileDeclaration(source,{fileName:'progress.ts',compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext},reportDiagnostics:true});assert.equal(d.diagnostics.length,0);return d.outputText;}
+assert.equal(declarations(current),declarations(old));console.log('Public emitted declaration text identical to pinned predecessor. Extraction only; no runtime tests/builds.');

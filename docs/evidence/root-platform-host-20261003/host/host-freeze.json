@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-02T23:16:54.545255+00:00",
+  "hostBodyReadBeforeFreeze": false,
+  "drafts": {
+    "desktopHostProcess.ts": {
+      "bytes": 11008,
+      "sha256": "cd13dc4c81710051f1e7545656416c7b6d542aed19bc006046a8ba5d1cf1ff53"
+    },
+    "messages.ts": {
+      "bytes": 7379,
+      "sha256": "5bcf575ffa55f8374caf310a25d5ba1ed406c7bddd7eab001c17fb667db32ed4"
+    },
+    "lifecycle.ts": {
+      "bytes": 2351,
+      "sha256": "45ba455998d5bcd45b1eb5f907cb257478b6f0010f0cda6639b1939906cd3d7e"
+    }
+  },
+  "design": "Main owns sole exited WeakSet and disposing Set; private stateless message/lifecycle functions use same state and original dependency objects. Public declarations retained; source-exposed curator and broader root context qualified."
+}

@@ -1,0 +1,6 @@
+const fs=require('fs'),ts=require(process.cwd()+'/node_modules/typescript');const root='/tmp/knorvia-root-window-owners-20261003';
+const source=fs.readFileSync(root+'/packet/lifecycle-public-api.d.ts','utf8'),sf=ts.createSourceFile('lifecycle.ts',source,99,true);
+const imports=JSON.parse(fs.readFileSync(root+'/packet/imports.json','utf8'))[0].imports,bodies=JSON.parse(fs.readFileSync(root+'/lifecycle-bodies.json','utf8'));
+let out=imports.map(x=>'import '+x.clause+' from '+JSON.stringify(x.module)+';').join('\n')+'\n';
+for(const node of sf.statements){if(ts.isFunctionDeclaration(node))out+=node.getText(sf).replace('export declare function','export function').replace(/;$/,'')+' {\n'+bodies[node.name.text]+'\n}\n';}
+fs.mkdirSync(root+'/draft',{recursive:true});fs.writeFileSync(root+'/draft/desktopWindowLifecycle.ts',out);

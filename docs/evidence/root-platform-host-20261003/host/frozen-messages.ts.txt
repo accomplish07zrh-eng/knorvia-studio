@@ -1,0 +1,82 @@
+import type { BrowserWindow, UtilityProcess } from "electron";
+import { HostMessageTypes, HostResponseTypes, hostResponseMessageSchema } from "@knorvia/shared";
+import type { spawnHostProcess } from "../desktopHostProcess.js";
+import type { bindDatabaseStartupRelay } from "../databaseStartupRelay.js";
+import type { createHostLogRelay } from "../hostLogRelay.js";
+import { ingestToolExecResource } from "../desktopResourceTelemetry.js";
+import { ingestMcpResourceSamples } from "../processResourceMcpTelemetrySource.js";
+import { ingestHostNetworkObservations } from "../desktopNetworkTelemetry.js";
+import { ingestCliResourceSample } from "../processResourceCliSource.js";
+import { ingestHostSelfResourceSample } from "../processResourceSelfHeapSource.js";
+import { resolveHostResourceUsageResult } from "../resourceManagerHostSampling.js";
+import { registerHostAgentProcess, unregisterHostAgentProcess } from "../resourceManagerWindow.js";
+import { createFeedbackLogArchiveFromExportLogs } from "../exportLogs.js";
+type Dependencies = Parameters<typeof spawnHostProcess>[3];
+const messageOf = (error: unknown) => error instanceof Error ? error.message : String(error);
+export function dispatchHostMessage(win: BrowserWindow, child: UtilityProcess, label: string, dependencies: Dependencies, database: ReturnType<typeof bindDatabaseStartupRelay>, logs: ReturnType<typeof createHostLogRelay>, message: unknown): void {
+  const result = hostResponseMessageSchema.safeParse(message);
+  if (!result.success) return;
+  const data = result.data;
+  if (data.type === HostResponseTypes.DatabaseStartupState) { database.receive(data.state); return; }
+  if (data.type === HostResponseTypes.Log) { logs.onStructuredLog(data); return; }
+  if (data.type === HostResponseTypes.NetworkTelemetryBatch) { ingestHostNetworkObservations(data.observations); return; }
+  if (data.type === HostResponseTypes.AgentResourceSample) { ingestCliResourceSample(data.sample, data.runtimeSurface, data.environmentKey); return; }
+  if (data.type === HostResponseTypes.HostResourceSample) { ingestHostSelfResourceSample(data.sample); return; }
+  if (data.type === HostResponseTypes.ResourceUsageSnapshotResult) { resolveHostResourceUsageResult(label, data); return; }
+  if (data.type === HostResponseTypes.ToolExecResource) { ingestToolExecResource(data.sample, data.runtimeSurface); return; }
+  if (data.type === HostResponseTypes.McpResourceSamples) { ingestMcpResourceSamples(data.samples, data.runtimeSurface, data.environmentKey); return; }
+  if (data.type === HostResponseTypes.McpTelemetry) { dependencies.onMcpTelemetry?.(data); return; }
+  if (data.type === HostResponseTypes.SessionCreateTelemetry) { dependencies.onSessionCreateTelemetry?.(data); return; }
+  if (data.type === HostResponseTypes.LocalMediaPreviewPathAuthorizeRequest) {
+    const request = data;
+    const authorize = dependencies.authorizeLocalMediaPreviewPath;
+    if (!authorize) {
+      child.postMessage({type: HostMessageTypes.LocalMediaPreviewPathAuthorizeResult, requestId: request.requestId, ok: false, error: "Local media preview path authorization is unavailable."});
+      return;
+    }
+    void authorize(request.path).then((path) => {
+      child.postMessage({type: HostMessageTypes.LocalMediaPreviewPathAuthorizeResult, requestId: request.requestId, ok: true, path});
+    }).catch((error) => {
+      child.postMessage({type: HostMessageTypes.LocalMediaPreviewPathAuthorizeResult, requestId: request.requestId, ok: false, error: messageOf(error)});
+    });
+    return;
+  }
+  if (data.type === HostResponseTypes.CuaOperationState) { dependencies.onCuaOperationStateChanged?.(child, data); return; }
+  if (data.type === HostResponseTypes.FeedbackLogArchiveRequest) {
+    const request = data;
+    void createFeedbackLogArchiveFromExportLogs(request.sourceDir).then((archive) => {
+      child.postMessage({type: HostMessageTypes.FeedbackLogArchiveResult, requestId: request.requestId, ok: true, path: archive.path, size: archive.size});
+    }).catch((error) => {
+      child.postMessage({type: HostMessageTypes.FeedbackLogArchiveResult, requestId: request.requestId, ok: false, error: messageOf(error)});
+    });
+    return;
+  }
+  if (data.type === HostResponseTypes.BrowserExecuteRequest) {
+    const requestId = data.requestId;
+    const execute = dependencies.handleBrowserExecuteRequest;
+    const pending = execute ? execute({win, requestId, browserId: data.browserId, browserGeneration: data.browserGeneration, sessionId: data.sessionId, turnId: data.turnId, workspaceKey: data.workspaceKey, workspacePath: data.workspacePath, workspaceIdentity: data.workspaceIdentity, remoteSessionId: data.remoteSessionId, clientMode: data.clientMode, sessionContext: data.sessionContext, command: data.command}) : Promise.resolve({ok: false, error: {code: "backend_unavailable", message: "browser executor not ready"}, elapsedMs: 0});
+    void pending.catch((error) => ({ok: false, error: {code: "execution_error", message: messageOf(error)}, elapsedMs: 0})).then((commandResult) => {
+      child.postMessage({type: HostMessageTypes.BrowserExecuteResult, requestId, result: commandResult});
+    });
+    return;
+  }
+  if (data.type === HostResponseTypes.AgentProcessSpawned) {
+    registerHostAgentProcess(label, {pid: data.pid, provider: data.provider, workspacePath: data.workspacePath, command: data.command, args: data.args, startedAt: data.startedAt});
+    dependencies.onAgentProcessSpawned?.(data); return;
+  }
+  if (data.type === HostResponseTypes.AgentProcessReady) { dependencies.onAgentProcessReady?.(data); return; }
+  if (data.type === HostResponseTypes.AgentProcessExited) { unregisterHostAgentProcess(label, data.pid); dependencies.onAgentProcessExited?.(data); return; }
+  if (data.type === HostResponseTypes.AgentProcessError) { dependencies.onAgentProcessError?.(data); return; }
+  if (data.type === HostResponseTypes.AgentProcessException) { dependencies.onAgentProcessException?.(data); return; }
+  if (data.type === HostResponseTypes.CronRunResult) { dependencies.onCronRunResult?.({runId: data.runId, ok: data.ok, taskId: data.taskId, sessionId: data.sessionId, error: data.error, failureKind: data.failureKind}); return; }
+  if (data.type === HostResponseTypes.OffPeakRunResult) { dependencies.onOffPeakRunResult?.({offPeakTaskId: data.offPeakTaskId, ok: data.ok, conversationId: data.conversationId, sessionId: data.sessionId, error: data.error, failureKind: data.failureKind}); return; }
+  if (data.type === HostResponseTypes.CronSchedulerWakeRequest) { dependencies.onCronSchedulerWakeRequested?.(data.automationId); return; }
+  if (data.type === HostResponseTypes.OffPeakSchedulerWakeRequest) { dependencies.onOffPeakSchedulerWakeRequested?.(data.offPeakTaskId); return; }
+  if (data.type === HostResponseTypes.AgentRunningTaskCountChanged) {
+    if (data.runningTaskCount > 0) dependencies.hostRunningTaskCountMap.set(child, data.runningTaskCount);
+    else dependencies.hostRunningTaskCountMap.delete(child);
+    dependencies.logger.info(`[app-quit] host running agent sessions updated (${label}) count=${data.runningTaskCount}`);
+    return;
+  }
+  if (data.type === HostResponseTypes.WorkspaceRunningTaskCountChanged) dependencies.onWorkspaceRunningTaskCountChanged?.(child, {workspacePath: data.workspacePath, workspaceIdentity: data.workspaceIdentity, runningTaskCount: data.runningTaskCount});
+}

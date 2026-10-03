@@ -1,0 +1,36 @@
+{
+  "recordedAt": "2026-10-03T02:24:17.871084+00:00",
+  "baseline": "affea575c98a83e04871bb6b5655cf72cc08be75",
+  "packetCommit": "0dfff3f50fda63219112c351a26a0ffb4b6f8f8d",
+  "sourceSha256": "0e79be44c34d73aacfeb3b1d47acad3b62d067f81283cd470ad53b1f2489af29",
+  "sourceBytes": 14045,
+  "corrections": [
+    "Preserve two successive personal-map facade passes and capture template/name state at existing observation points.",
+    "Preserve sparse membership filtering rather than Set iteration over array holes.",
+    "Pass fresh model coordinates to each effective/builtin resolver and preserve original API getter reads.",
+    "Preserve provider membership/order observations before unconditional entitlement/current gates.",
+    "Preserve repeated builtin map lookup and provider output key order.",
+    "Preserve serializer access getter ordering instead of early captured access object; completeness checks use positive length."
+  ],
+  "checks": {
+    "minimum": "Three bounded groups for projection/eligibility, second validation consistency, and serializer/proof identity. Three frozen correction probes (sparse membership, coordinate mutation, accessor order) reproduce differences and final matches. Not an exhaustive matrix.",
+    "types": "Target-rooted actual installed dependency closure: baseline196 source files0diagnostics, candidate196files0diagnostics, strict/noUncheckedIndexedAccess/skipLibCheck. No projectwide pass claimed.",
+    "publicApi": "19export shapes identical, isolateddeclaration0diagnostics",
+    "lint": "0warnings/0errors",
+    "format": "pass",
+    "architecture": "0violations",
+    "fullNativeBuild": "deferred"
+  },
+  "fixtureFailure": {
+    "preservedScript": "minimal-initial.cjs.txt",
+    "result": "Initial mutated-coordinate probe incorrectly expected invalid-model issue after mock deliberately changed all IDs. Original failure is in tool transcript; conditional expectation corrected for that probe only. Ordinary issue-identity assertion remains unchanged.",
+    "notSourceFailure": true
+  },
+  "retained": [
+    "Public types, fixed diagnostic messages and schema/discriminator/serialization keys retained.",
+    "Canonical overlay, rule matching, schema and ordering implementations remain unchanged.",
+    "Strong predecessor correspondence persists in contract-bound fields, branches and routine expressions; no novel-expression/MIT clearance."
+  ],
+  "authorship": "Complete body-free-packet original frozen before deliberate target body review; root broader context, source-exposed curator and postfreeze reviewer, instruction-only shared executor, not isolated clean room.",
+  "safety": "Fictional maps/configs/accounts; no actual account/credential/files/provider/network or persistent writes. Dsource not imported; user-requested final aggregate integration deferred."
+}

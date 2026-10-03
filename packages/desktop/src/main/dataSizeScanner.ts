@@ -1,8 +1,4 @@
-import { lstat, opendir } from "node:fs/promises";
-import { join } from "node:path";
-
 export type KnorviaDataSizePartialReason = "file_limit" | "io_error" | "time_limit";
-
 export type KnorviaDataSizeScanResult = {
   bytes: number;
   directoriesScanned: number;
@@ -10,87 +6,82 @@ export type KnorviaDataSizeScanResult = {
   filesScanned: number;
   scanErrorCount: number;
 } & (
-  | { status: "complete"; partialReason?: never }
-  | { status: "partial"; partialReason: KnorviaDataSizePartialReason }
+  | {
+      status: "complete";
+      partialReason?: never;
+    }
+  | {
+      status: "partial";
+      partialReason: KnorviaDataSizePartialReason;
+    }
 );
-
 export interface KnorviaDataSizeScanRequest {
   rootPath: string;
   maxDurationMs: number;
   maxFiles: number;
 }
-
 interface KnorviaDataSizeScanOptions extends KnorviaDataSizeScanRequest {
   signal?: AbortSignal;
-  /** 仅用于定向测试时间上限，不进入 Worker 消息。 */
   now?: () => number;
 }
 
-function createAbortError(): DOMException {
-  return new DOMException("Knorvia Studio data size scan aborted", "AbortError");
-}
+import { lstat, opendir } from "node:fs/promises";
+import { join } from "node:path";
 
-function isMissingPathError(error: unknown): boolean {
-  return (
-    error instanceof Error && "code" in error && (error as NodeJS.ErrnoException).code === "ENOENT"
-  );
-}
-
-/**
- * 异步统计数据根下普通文件的逻辑字节数。调用方必须把它放在 Worker 中执行；这里不跟随
- * 符号链接，避免循环或越出用户选择的数据根。
- */
 export async function scanKnorviaDataDirectory(
   options: KnorviaDataSizeScanOptions,
 ): Promise<KnorviaDataSizeScanResult> {
   const now = options.now ?? Date.now;
   const startedAt = now();
-  const directories = [options.rootPath];
-  let bytes = 0;
-  let directoriesScanned = 0;
-  let filesScanned = 0;
-  let scanErrorCount = 0;
-  let terminalPartialReason: Exclude<KnorviaDataSizePartialReason, "io_error"> | null = null;
-
+  const pending = [options.rootPath];
+  const totals = { bytes: 0, directories: 0, files: 0, errors: 0 };
+  let reason: KnorviaDataSizePartialReason | undefined;
   const elapsed = () => Math.max(0, now() - startedAt);
-  const ensureWithinLimits = (): boolean => {
-    if (options.signal?.aborted) {
-      throw createAbortError();
-    }
+  const mayContinue = () => {
+    if (options.signal?.aborted)
+      throw new DOMException("Knorvia Studio data size scan aborted", "AbortError");
     if (elapsed() >= Math.max(0, options.maxDurationMs)) {
-      terminalPartialReason = "time_limit";
+      reason = "time_limit";
       return false;
     }
     return true;
   };
-
-  if (!ensureWithinLimits()) {
-    return {
-      bytes,
-      directoriesScanned,
-      durationMs: elapsed(),
-      filesScanned,
-      partialReason: "time_limit",
-      scanErrorCount,
-      status: "partial",
-    };
-  }
-
-  while (directories.length > 0 && terminalPartialReason == null) {
-    if (!ensureWithinLimits()) {
-      break;
-    }
-    const directoryPath = directories.pop();
-    if (!directoryPath) {
-      continue;
-    }
-
-    let directory;
+  const finish = (partial?: KnorviaDataSizePartialReason): KnorviaDataSizeScanResult =>
+    partial
+      ? {
+          bytes: totals.bytes,
+          directoriesScanned: totals.directories,
+          durationMs: elapsed(),
+          filesScanned: totals.files,
+          partialReason: partial,
+          scanErrorCount: totals.errors,
+          status: "partial",
+        }
+      : {
+          bytes: totals.bytes,
+          directoriesScanned: totals.directories,
+          durationMs: elapsed(),
+          filesScanned: totals.files,
+          scanErrorCount: totals.errors,
+          status: "complete",
+        };
+  // 保留首次门限观测，避免首次打开目录前漏掉已经耗尽的时间预算。
+  if (!mayContinue()) return finish("time_limit");
+  while (pending.length > 0 && reason === undefined) {
+    if (!mayContinue()) break;
+    const directoryPath = pending.pop();
+    if (!directoryPath) continue;
+    let directory: Awaited<ReturnType<typeof opendir>>;
     try {
       directory = await opendir(directoryPath);
-      directoriesScanned += 1;
+      totals.directories++;
     } catch (error) {
-      if (directoriesScanned === 0 && isMissingPathError(error)) {
+      if (
+        totals.directories === 0 &&
+        error instanceof Error &&
+        "code" in error &&
+        (error as NodeJS.ErrnoException).code === "ENOENT"
+      )
         return {
           bytes: 0,
           directoriesScanned: 0,
@@ -99,89 +90,52 @@ export async function scanKnorviaDataDirectory(
           scanErrorCount: 0,
           status: "complete",
         };
-      }
-      scanErrorCount += 1;
+      totals.errors++;
       continue;
     }
-
     try {
       for await (const entry of directory) {
-        if (!ensureWithinLimits()) {
+        if (!mayContinue()) break;
+        if (totals.files >= Math.max(0, options.maxFiles)) {
+          reason = "file_limit";
           break;
         }
-        if (filesScanned >= Math.max(0, options.maxFiles)) {
-          terminalPartialReason = "file_limit";
-          break;
-        }
-
-        const entryPath = join(directoryPath, entry.name);
+        const path = join(directoryPath, entry.name);
         try {
-          const metadata = await lstat(entryPath);
-          if (metadata.isSymbolicLink()) {
-            continue;
-          }
-          if (metadata.isDirectory()) {
-            directories.push(entryPath);
-            continue;
-          }
-          if (metadata.isFile()) {
-            bytes += metadata.size;
-            filesScanned += 1;
+          const info = await lstat(path);
+          if (info.isSymbolicLink()) continue;
+          if (info.isDirectory()) pending.push(path);
+          else if (info.isFile()) {
+            totals.bytes += info.size;
+            totals.files++;
           }
         } catch {
-          // 目录扫描期间文件可能被 Agent/日志轮转删除；局部错误不能让整次低频
-          // 遥测失败，但必须标记 partial，避免把下界误当完整值。
-          scanErrorCount += 1;
+          totals.errors++;
         }
       }
     } finally {
       await directory.close().catch(() => {});
     }
   }
-
-  const durationMs = elapsed();
-  const partialReason = terminalPartialReason ?? (scanErrorCount > 0 ? "io_error" : null);
-  if (partialReason) {
-    return {
-      bytes,
-      directoriesScanned,
-      durationMs,
-      filesScanned,
-      partialReason,
-      scanErrorCount,
-      status: "partial",
-    };
-  }
-  return {
-    bytes,
-    directoriesScanned,
-    durationMs,
-    filesScanned,
-    scanErrorCount,
-    status: "complete",
-  };
+  return finish(reason ?? (totals.errors > 0 ? "io_error" : undefined));
 }
-
 export function isKnorviaDataSizeScanResult(value: unknown): value is KnorviaDataSizeScanResult {
-  if (typeof value !== "object" || value === null) {
+  if (!value || typeof value !== "object") return false;
+  const result = value as Partial<KnorviaDataSizeScanResult>;
+  const numbers = [
+    result.bytes,
+    result.directoriesScanned,
+    result.durationMs,
+    result.filesScanned,
+    result.scanErrorCount,
+  ];
+  if (
+    !numbers.every((number) => typeof number === "number" && Number.isFinite(number) && number >= 0)
+  )
     return false;
-  }
-  const candidate = value as Partial<KnorviaDataSizeScanResult>;
-  const finiteNumbers = [
-    candidate.bytes,
-    candidate.directoriesScanned,
-    candidate.durationMs,
-    candidate.filesScanned,
-    candidate.scanErrorCount,
-  ].every((item) => typeof item === "number" && Number.isFinite(item) && item >= 0);
-  if (!finiteNumbers) {
-    return false;
-  }
-  if (candidate.status === "complete") {
-    return candidate.partialReason === undefined;
-  }
+  if (result.status === "complete") return result.partialReason === undefined;
   return (
-    candidate.status === "partial" &&
-    ["file_limit", "io_error", "time_limit"].includes(candidate.partialReason ?? "")
+    result.status === "partial" &&
+    ["file_limit", "io_error", "time_limit"].includes(result.partialReason ?? "")
   );
 }

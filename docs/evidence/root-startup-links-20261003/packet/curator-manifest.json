@@ -1,0 +1,761 @@
+{
+  "curatedAtUtc": "2026-10-02T20:52:16.821556+00:00",
+  "publishedBaseline": "1172d36bcd0c79a032c4c38427b77197b0d20a4d",
+  "reservationCommit": "9021dcd7",
+  "rootExclusive": true,
+  "noEImplementation": true,
+  "sourceBindings": [
+    {
+      "path": "packages/desktop/src/main/startupWorkspace.ts",
+      "bytes": 5849,
+      "sha256": "4ba5e8b6fd8c579bc1a2678f40cc817e436c79220a02cd761c531a2caff5574b",
+      "unchanged": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWorkspaceDeepLink.ts",
+      "bytes": 7359,
+      "sha256": "17cfe4ce3617d9905fb59d16f77695cfb30f0ab69f27971f7e174f5f2f566fe5",
+      "unchanged": true
+    },
+    {
+      "path": "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts",
+      "bytes": 3017,
+      "sha256": "c4b0adeb717415c41eebc75bb960bbce99c9f143884c570a385fcd300bff9bf6",
+      "unchanged": true
+    }
+  ],
+  "mechanicalDependencyBindings": [
+    {
+      "path": "packages/desktop/src/main/desktopDeepLinkUrl.ts",
+      "bytes": 5988,
+      "sha256": "d727e7b6b0ead5fff7f9494adda0446556827f0f64e84d28f1c6779c1c89d516",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/workspaceSessionRestore.ts",
+      "bytes": 1278,
+      "sha256": "5cea9749b2ad1d9f061bbd15e57279738947981e282b1ec4fc8a2c358265295f",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/validation.ts",
+      "bytes": 44442,
+      "sha256": "27c20a5a2e76a1f3300b79273da4eca3d0db86f29aa15ff6b9a019edacdac7c4",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspacePurpose.ts",
+      "bytes": 137,
+      "sha256": "1673bb8e44793108bbf2165b23f0a7c5961bbebe892484db2d217cc525563050",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/validationAppSettings.ts",
+      "bytes": 23275,
+      "sha256": "0f31497b00bdf6877deb045037295c24fc36df4e25e4496cb6162b1113025df3",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopEarlyDataBaseDirBootstrap.ts",
+      "bytes": 1651,
+      "sha256": "70393379fb009d9272ed4b2132b41b1714989bab6cda736103f0e193990afa6a",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopProfile.ts",
+      "bytes": 1856,
+      "sha256": "345504bec2138ba0ad603e901363581fb68f72570e7fd6c72022cdd73ef07329",
+      "diagnostics": [
+        {
+          "code": 9016,
+          "message": "Objects that contain shorthand properties can't be inferred with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/remoteAssetInstallMode.ts",
+      "bytes": 479,
+      "sha256": "918dcc8a86921af3185e5af96d2b9a189899e58a0e86fb20de44c47934f6ff8c",
+      "diagnostics": []
+    },
+    {
+      "path": "packages/shared/src/remoteResourcePackages.ts",
+      "bytes": 2980,
+      "sha256": "941cd1d1e7333b072136fd3ffc66c3ddb5b4e03d283176896d9fb0e8dec33d4d",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    }
+  ],
+  "targetIsolatedDiagnostics": {
+    "startupWorkspace": [],
+    "desktopWorkspaceDeepLink": [],
+    "startupWorkspaceDeepLinkGate": []
+  },
+  "dependencyDiagnosticCounts": {
+    "packages/desktop/src/main/desktopDeepLinkUrl.ts": {},
+    "packages/shared/src/workspaceSessionRestore.ts": {},
+    "packages/shared/src/validation.ts": {
+      "9010": 115
+    },
+    "packages/shared/src/workspacePurpose.ts": {},
+    "packages/shared/src/protocol.ts": {},
+    "packages/shared/src/validationAppSettings.ts": {
+      "9010": 6
+    },
+    "packages/desktop/src/main/desktopEarlyDataBaseDirBootstrap.ts": {
+      "9010": 1
+    },
+    "packages/desktop/src/main/desktopProfile.ts": {
+      "9016": 1
+    },
+    "packages/shared/src/channels.ts": {},
+    "packages/shared/src/remoteAssetInstallMode.ts": {},
+    "packages/shared/src/remoteResourcePackages.ts": {
+      "9010": 3
+    }
+  },
+  "authorInputFiles": [
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/contract.md",
+      "bytes": 17430,
+      "sha256": "5d37add471fa885018441e749f279931b03609472c3ccd6aa55e9f65e68365f3"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 3907,
+      "sha256": "a8ecf7ee36ad6d8a101206a3245a2c463a6f6c8ca0d6253e378a73833aa1539b"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/startupWorkspace-public-api.d.ts",
+      "bytes": 904,
+      "sha256": "cdcae5994b87d5579aee6e30816e45dda9467db30cce0074925dfac4abee7232"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/desktopWorkspaceDeepLink-public-api.d.ts",
+      "bytes": 1742,
+      "sha256": "ce26a0cd9e0b2b5f84ac3ececd623029a2cfaee0a4c89f288d664cef467074f2"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/startupWorkspaceDeepLinkGate-public-api.d.ts",
+      "bytes": 1198,
+      "sha256": "a9a0546a407d1d72555f1af70f55b8644b40bdd2ba2e68b92bf52cccba62c07d"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/imports.json",
+      "bytes": 1595,
+      "sha256": "a43e987a7fe46648f0bb5ad2fe3afad359f8e31eda93ac67143835da9fa2b0ee"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/retained-literal-data.json",
+      "bytes": 4724,
+      "sha256": "d157f21844d4532b2f322c05287a63e7890cf298b634fb8f0a9a080a0df5efd4"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/settings-schema-fields.json",
+      "bytes": 383,
+      "sha256": "1d2d3ac42e4cd91f39ce0bd903b3255fae7725ff2441939b1895698e9941decd"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/contract-data.json",
+      "bytes": 736,
+      "sha256": "88cb7d9deb96c61402d8323a11228c0ee4c35d2a34b40958acc99e1f3c270e17"
+    }
+  ],
+  "supportingFiles": [
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/contract-data.json",
+      "bytes": 736,
+      "sha256": "88cb7d9deb96c61402d8323a11228c0ee4c35d2a34b40958acc99e1f3c270e17"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/contract.md",
+      "bytes": 17430,
+      "sha256": "5d37add471fa885018441e749f279931b03609472c3ccd6aa55e9f65e68365f3"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 3907,
+      "sha256": "a8ecf7ee36ad6d8a101206a3245a2c463a6f6c8ca0d6253e378a73833aa1539b"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/desktopWorkspaceDeepLink-public-api.d.ts",
+      "bytes": 1742,
+      "sha256": "ce26a0cd9e0b2b5f84ac3ececd623029a2cfaee0a4c89f288d664cef467074f2"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/extract-public.cjs",
+      "bytes": 6342,
+      "sha256": "8b06d4d6c8c39439e424e46bc601daac9bfc5329bd46ad9e52583d8eab354fe0"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/imports.json",
+      "bytes": 1595,
+      "sha256": "a43e987a7fe46648f0bb5ad2fe3afad359f8e31eda93ac67143835da9fa2b0ee"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/public-extraction-record.json",
+      "bytes": 21405,
+      "sha256": "335d492a9458c30553e86def66bb00ec16080b745ef2a7548fa4d3b11cddf2f0"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/reservation.json",
+      "bytes": 1601,
+      "sha256": "5b41023c6770dac17d51fac7a039607704fd8572ea7803aea2b258f5cc4a10e4"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/retained-literal-data.json",
+      "bytes": 4724,
+      "sha256": "d157f21844d4532b2f322c05287a63e7890cf298b634fb8f0a9a080a0df5efd4"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/settings-schema-fields.json",
+      "bytes": 383,
+      "sha256": "1d2d3ac42e4cd91f39ce0bd903b3255fae7725ff2441939b1895698e9941decd"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/startupWorkspace-public-api.d.ts",
+      "bytes": 904,
+      "sha256": "cdcae5994b87d5579aee6e30816e45dda9467db30cce0074925dfac4abee7232"
+    },
+    {
+      "path": "docs/evidence/desktop-startup-deeplink-root-packet-20261003/startupWorkspaceDeepLinkGate-public-api.d.ts",
+      "bytes": 1198,
+      "sha256": "a9a0546a407d1d72555f1af70f55b8644b40bdd2ba2e68b92bf52cccba62c07d"
+    }
+  ],
+  "sourceExposedCurator": true,
+  "targetBodiesReviewedAfterReservation": [
+    "packages/desktop/src/main/startupWorkspace.ts",
+    "packages/desktop/src/main/desktopWorkspaceDeepLink.ts",
+    "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts"
+  ],
+  "dependencyExposure": "Mechanically parsed whole modules for stripped declarations/static data only, no implementation bodies delivered; public protocol shape regions and early bootstrap imports explicitly read",
+  "priorExposure": "Startup mechanically parsed in prior public dependency packet; earlier broad/context/tooling remains qualified for curator/root",
+  "instructionOnlyRestrictions": true,
+  "osIsolationOrAccessAuditProof": false,
+  "noTargetOrDependencyExecution": true,
+  "noActualFilesystemWindowDeepLinkNetworkUserSettingsOperations": true,
+  "noCredentialsOrUserData": true,
+  "ordinaryChecksDeferred": true,
+  "rootReportedSeparateCheckpoint": "PR12 5a050ec0c98328e47fba01af98e29f95a7927abf",
+  "rootSourceImported": false,
+  "materialObligationsClosed": 0,
+  "materialObligationsRemaining": 21,
+  "coreOwnersCompletedCheckpoint": "1172d36b",
+  "coreAllocatedOwnersRemaining": 0
+}

@@ -1,0 +1,19 @@
+{
+  "observations": [
+    {
+      "group": "manifest identity and validation",
+      "passed": true
+    },
+    {
+      "group": "pinned cached partial publication",
+      "passed": true
+    },
+    {
+      "group": "failed forced download retains existing cache",
+      "passed": true
+    }
+  ],
+  "realNetwork": false,
+  "realUserData": false,
+  "fullSuite": false
+}

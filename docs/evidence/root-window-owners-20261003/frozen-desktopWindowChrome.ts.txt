@@ -1,0 +1,82 @@
+import { app, BrowserWindow, Menu, nativeImage, nativeTheme, screen, shell } from "electron";
+import { join } from "node:path";
+import type {
+  ContextMenuParams,
+  Input,
+  MenuItemConstructorOptions,
+  WebContents,
+  WindowOpenHandlerResponse,
+} from "electron";
+import type { DesktopTitleBarTheme, Locale } from "@knorvia/shared";
+import {
+  DEFAULT_LOCALE,
+  desktopMenuMessageIds,
+  getDesktopMenuMessage,
+  PlatformChannels,
+} from "@knorvia/shared";
+import { loadWindow, type WindowBootstrapOptions } from "./desktopHostProcess.js";
+import {
+  buildWindowsTitleBarOverlayForZoomLevel,
+  hasCustomWindowsControls,
+  registerCustomWindowsControls,
+  MACOS_TRAFFIC_LIGHT_BASE_POSITION,
+  syncWindowControlsOverlayForZoomLevel,
+} from "./desktopWindowButtonPosition.js";
+import {
+  clampDesktopZoomLevel,
+  resolveDesktopZoomFactorForLevel,
+  resolveDesktopZoomLevelFromFactor,
+} from "./desktopZoom.js";
+import { resolveDesktopWindowChromeState } from "./desktopWindowChromeState.js";
+import {
+  MIN_DESKTOP_WINDOW_HEIGHT,
+  MIN_DESKTOP_WINDOW_WIDTH,
+  resolveDesktopWindowSize,
+  type DesktopWindowSize,
+} from "./desktopWindowSize.js";
+import { bindGuestPopup, presentContextMenu } from "./desktopWindowChrome/guest.js";
+const guestPreload=join(import.meta.dirname,"../preload/embeddedBrowserJavaScriptDialog.cjs");
+export function applyAppIcon(iconPath: string): void {
+if(process.platform!=='darwin'||app.dock==null)return;const icon=nativeImage.createFromPath(iconPath);if(!icon.isEmpty())app.dock.setIcon(icon);
+}
+export function getWindowOverlayTheme(): Exclude<DesktopTitleBarTheme, "system"> {
+return nativeTheme.shouldUseDarkColors?'dark':'light';
+}
+export function applyWindowsTitleBarTheme(targetWindow: BrowserWindow, theme: DesktopTitleBarTheme): void {
+if(process.platform!=='win32'||targetWindow.isDestroyed()||hasCustomWindowsControls(targetWindow))return;const selected=theme==='system'?getWindowOverlayTheme():theme;const level=resolveDesktopZoomLevelFromFactor(targetWindow.webContents.getZoomFactor());targetWindow.setTitleBarOverlay(buildWindowsTitleBarOverlayForZoomLevel(selected,level));
+}
+export function createBrowserWindow(options: {
+    iconPath: string;
+    preloadPath: string;
+    title?: string;
+    bootstrap?: WindowBootstrapOptions;
+    logger: {
+        warn: (...args: unknown[]) => void;
+    };
+    deviceMid?: string;
+    initialDesktopZoomLevel?: number;
+    initialWindowSize?: DesktopWindowSize;
+    currentApplicationLocale?: () => Locale;
+    resolveBrowserViewOwner?: (webContentsId: number) => {
+        workspaceKey: string;
+        remoteSessionId?: string;
+        sessionId: string;
+        browserId: string;
+        browserGeneration: number;
+        tabId: string;
+    } | undefined;
+}): BrowserWindow {
+const zoomLevel=clampDesktopZoomLevel(options.initialDesktopZoomLevel??0);const zoomFactor=resolveDesktopZoomFactorForLevel(zoomLevel);const size=resolveDesktopWindowSize(options.initialWindowSize,screen.getPrimaryDisplay().workAreaSize);
+const win=new BrowserWindow({width:size.width,height:size.height,minWidth:MIN_DESKTOP_WINDOW_WIDTH,minHeight:MIN_DESKTOP_WINDOW_HEIGHT,title:options.title,icon:options.iconPath,autoHideMenuBar:process.platform==='linux',...(process.platform==='darwin'?{backgroundColor:'#ffffff',titleBarStyle:'hidden' as const,trafficLightPosition:MACOS_TRAFFIC_LIGHT_BASE_POSITION,visualEffectState:'active' as const}:process.platform==='win32'?{backgroundColor:'#ffffff',frame:false,backgroundMaterial:'none' as const}:{backgroundColor:'#00000000',transparent:true,frame:false,hasShadow:false}),webPreferences:{preload:options.preloadPath,contextIsolation:true,nodeIntegration:false,webviewTag:true,zoomFactor}});
+win.webContents.setZoomFactor(zoomFactor);if(process.platform==='win32')registerCustomWindowsControls(win);syncWindowControlsOverlayForZoomLevel(win,zoomLevel);if(size.maximized)win.maximize();
+const fullscreen=()=>{if(!win.isDestroyed())win.webContents.send(PlatformChannels.WindowFullscreenChanged,win.isFullScreen());};const chrome=()=>{if(!win.isDestroyed())win.webContents.send(PlatformChannels.DesktopWindowChromeStateChanged,resolveDesktopWindowChromeState(win.isMaximized()));};
+win.on('enter-full-screen',fullscreen);win.on('leave-full-screen',fullscreen);win.on('maximize',chrome);win.on('unmaximize',chrome);
+if(process.platform==='win32'){let repaint:ReturnType<typeof setTimeout>|null=null;const paint=()=>{if(!win.isDestroyed()&&!win.webContents.isDestroyed())win.webContents.invalidate();};const schedule=()=>{paint();if(repaint!==null)clearTimeout(repaint);repaint=setTimeout(()=>{repaint=null;paint();},32);};win.on('resized',schedule);win.on('show',schedule);}
+win.webContents.once('did-finish-load',()=>{win.webContents.setZoomFactor(zoomFactor);syncWindowControlsOverlayForZoomLevel(win,zoomLevel);fullscreen();});
+win.webContents.on('did-fail-load',(_event,errorCode,errorDescription,validatedURL,isMainFrame)=>{if(isMainFrame)options.logger.warn('[desktop-window] renderer did-fail-load',{errorCode,errorDescription,validatedURL,webContentsId:win.webContents.id});});
+win.webContents.on('will-attach-webview',(event,webPreferences,params)=>{const src=params.src??'about:blank';webPreferences.preload=guestPreload;webPreferences.contextIsolation=true;webPreferences.nodeIntegration=false;webPreferences.nodeIntegrationInSubFrames=true;webPreferences.sandbox=true;delete params.preload;delete params.nodeintegration;params.nodeintegrationinsubframes='true';delete params.disablewebsecurity;delete params.allowpopups;params.allowpopups='true';let allowed=false;try{allowed=['about:','data:','http:','https:','knorvia-browser-restore:'].includes(new URL(src).protocol);}catch{/* invalid URL shares denial */}if(!allowed){options.logger.warn(`[browser-pane] blocked unsupported webview url: ${src}`);event.preventDefault();}});
+win.webContents.on('did-attach-webview',(_event,guest)=>bindGuestPopup(win,guest,options));
+win.webContents.on('context-menu',(_event,params)=>presentContextMenu(win,params,options));
+Promise.resolve(loadWindow(win,options.bootstrap)).catch(error=>options.logger.warn('[desktop-window] renderer navigation rejected',error));
+return win;
+}

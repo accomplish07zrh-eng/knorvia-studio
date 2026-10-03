@@ -1,0 +1,165 @@
+{
+  "events": [
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "lexicalOrdinal": 1,
+      "publicRole": "created main renderer",
+      "registrationMethod": "on",
+      "event": "will-prevent-unload",
+      "argumentCount": 2
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "lexicalOrdinal": 2,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "close",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 1
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "lexicalOrdinal": 3,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "close",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 1
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "lexicalOrdinal": 4,
+      "publicRole": "created main renderer",
+      "registrationMethod": "on",
+      "event": "dom-ready",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "lexicalOrdinal": 5,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "closed",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 6,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "resized",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 7,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "show",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 8,
+      "publicRole": "embedded guest",
+      "registrationMethod": "on",
+      "event": "before-input-event",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 2
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 9,
+      "publicRole": "embedded guest",
+      "registrationMethod": "setWindowOpenHandler",
+      "argumentCount": 1,
+      "inlineCallbackParameterCount": 1
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 10,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "enter-full-screen",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 11,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "leave-full-screen",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 12,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "maximize",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 13,
+      "publicRole": "created main window",
+      "registrationMethod": "on",
+      "event": "unmaximize",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 14,
+      "publicRole": "created main renderer",
+      "registrationMethod": "once",
+      "event": "did-finish-load",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 0
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 15,
+      "publicRole": "created main renderer",
+      "registrationMethod": "on",
+      "event": "did-fail-load",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 5
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 16,
+      "publicRole": "created main renderer",
+      "registrationMethod": "on",
+      "event": "will-attach-webview",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 3
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 17,
+      "publicRole": "created main renderer",
+      "registrationMethod": "on",
+      "event": "did-attach-webview",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 2
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "lexicalOrdinal": 18,
+      "publicRole": "created main renderer",
+      "registrationMethod": "on",
+      "event": "context-menu",
+      "argumentCount": 2,
+      "inlineCallbackParameterCount": 2
+    }
+  ],
+  "qualification": "Body-free registration metadata only. Lexical ordinal is source enumeration, not runtime order; contract specifies timing. Named callback identity/private names and bodies omitted. No actual native registration or source execution."
+}

@@ -1,0 +1,5 @@
+# Client transport lifecycle compatibility
+
+Root owns MessagePort and WebSocket connection adapters, while G owns unchanged RPC contracts and D services. A connection delegates framing/pending requests/cancellation to existing protocol/client; no new persistence, authorization or service owner. MessagePort has one one-way disposal latch; mark before client disposal, disconnect afterward only if disposal succeeds. WebSocket outer error/close/open order and inner message/close/error order remain unchanged, including repeated-event behavior, receiver identity and event-time callback reads.
+
+Freeze complete author draft from E's body-free packet before source comparison. Preserve injected service accessor, debug text/production checks, transport identities, console/callback exceptions, drop-write state checks and close semantics. RemoteServiceAccess is descriptor mapping/facade material retained unchanged, no novelty claim. Broad root context/tooling exposure retained; not isolated or legal-clean-room certification. Ordinary tests/builds deferred; scoped static/API checks and later aggregate acceptance remain required.
