@@ -1,0 +1,22 @@
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: git fetch origin --prune
+fatal: unable to access 'https://github.com/accomplish07zrh-eng/knorvia-studio.git/': Failed to connect to github.com port 443 after 5012 ms: Could not connect to server
+
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at ChildProcess.exithandler (node:child_process:417:12)
+    at ChildProcess.emit (node:events:508:28)
+    at maybeClose (node:internal/child_process:1100:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:305:5) {
+  code: 128,
+  killed: false,
+  signal: null,
+  cmd: 'git fetch origin --prune',
+  stdout: '',
+  stderr: "fatal: unable to access 'https://github.com/accomplish07zrh-eng/knorvia-studio.git/': Failed to connect to github.com port 443 after 5012 ms: Could not connect to server\n"
+}
+
+Node.js v24.14.0

@@ -912,3 +912,51 @@ this batch. The integrator owns run37127601364, registration of this new evidenc
 packet and final matching-source CI before its PR24/main decision. Global shared
 registries/protocol/config, production code/UI and existing source/license/NOTICE
 are untouched; no whole-product original/MIT conclusion, release or main merge.
+
+## Authorized public maintainer and complete Linux package targets
+
+The user now explicitly supplies `accomplish07zrh@gmail.com` for this project's
+public maintainer metadata, superseding the earlier hold. The same native task
+and branch fast-forward latest main
+`b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687`. Under the pre-edit
+[spec](../specs/knorvia-native-linux-maintainer-20261003.md), the existing Desktop
+extraMetadata.author gets that email; its name/homepage remain. Root Apache-2.0
+is also carried into previously omitted application package-license metadata.
+All existing root/component/source/NOTICE declarations remain; no new rights,
+originality or MIT conclusion is made.
+
+Actual format preparation exposes the existing Arch suffix/default mismatch:
+builder passes xz beneath .pkg.tar.zst. The first direct zstd property repair at
+cd801380 fails builder26.8.1's enum before targets start. The final supported
+fpm option override retains its schema/hooks and proves real Zstandard bytes.
+This leaves just four added production-config lines, including the explanatory
+comment; no root/shared config, protocol, runtime, UI or data-path change.
+
+Exact final product input is
+`b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8`; metadata is b5fbc3d8. Fresh
+Desktop and configured AppImage/deb/rpm/pacman packaging pass in one final
+invocation, exit0. Sequential CLI/plugin source preparation at df7f5987 is bound
+separately: the only subsequent source changes are config/spec, so all runtime
+component inputs remain identical. Missing build tools use signed official
+Debian downloads and task-local extraction; no global package installation.
+
+Deb/rpm/pacman package heads contain the exact authorized contact and Apache-2.0;
+all four physical ASAR manifests do too. Existing dependencies/package versions
+are preserved in platform-native spelling. Actual four extracted payloads have
+identical executable/ASAR/CLI/PTY and five legal-resource hashes. The unchanged
+native probe on actual deb passes six groups, including real PTY, SQLite sentinel
+retention after two storage handshakes and native searches with notices. Runtime
+fixtures are removed; no user profile/computer, models or global install hooks.
+
+[Linux maintainer packet](evidence/native-linux-maintainer-20261003/README.md)
+retains exact input/commands, all four artifact hashes and raw headers/probe
+results. The initial schema failure and a corrected harness doc-path assumption
+remain recorded; no failed result is replaced with a pass. All successful targets
+remain the same artifacts and are not rebuilt. File-only config lint/format and
+changed architecture pass; unrelated full suites and manual CI are not repeated.
+
+The public-email packaging blocker is now closed. Full OS/distro/GUI installation
+and complete legacy migration remain outside this bounded acceptance. Parent
+owns draft-PR integration into main and shared current-source/frozen-evidence
+registration; no cross-module interface dependency is introduced. No main merge
+or release publication occurred in this task.
