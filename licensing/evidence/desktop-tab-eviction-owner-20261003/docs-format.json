@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/README.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/README.md",
+      "sha256": "05f25465b29fde614cdbf5225e65a70f1c856f910a422cd397807615e7bde30c"
+    }
+  ],
+  "stdout": "Finished in 109ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

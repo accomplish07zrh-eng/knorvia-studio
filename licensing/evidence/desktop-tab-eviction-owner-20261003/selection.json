@@ -1,0 +1,90 @@
+{
+  "baseHead": "b6f2526ebac93c7df8284008791b214574733215",
+  "selected": [
+    {
+      "owner": "residency",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts",
+        "kind": "file",
+        "sha256": "ea7167f5a20c121a441967afbb3c929471ffa5ace79f5454909f62fd4a81f98f",
+        "normalizedSha256": "ea7167f5a20c121a441967afbb3c929471ffa5ace79f5454909f62fd4a81f98f",
+        "encoding": "utf8-lf",
+        "bytes": 2664,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts",
+          "blob": "b0f512dcef1dad0bf3fdfe89bda2edcc3fe18949",
+          "normalizedSha256": "ea7167f5a20c121a441967afbb3c929471ffa5ace79f5454909f62fd4a81f98f",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "currentSha256": "ea7167f5a20c121a441967afbb3c929471ffa5ace79f5454909f62fd4a81f98f",
+      "lines": 81,
+      "reviews": [],
+      "history": [
+        "7619e41 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "acceptedExactReceiptFound": false
+    }
+  ],
+  "otherPRs": [
+    {
+      "pr": 8,
+      "error": false,
+      "matched": [],
+      "shape": [
+        "filenames"
+      ]
+    },
+    {
+      "pr": 10,
+      "error": false,
+      "matched": [],
+      "shape": [
+        "filenames"
+      ]
+    },
+    {
+      "pr": 11,
+      "error": false,
+      "matched": [],
+      "shape": [
+        "filenames"
+      ]
+    },
+    {
+      "pr": 12,
+      "error": false,
+      "matched": [],
+      "shape": [
+        "filenames"
+      ]
+    }
+  ],
+  "exclusions": [
+    "all prior completed owners and packets",
+    "root HOLD/main-window/IPC/Host/network/runtime",
+    "D provider/config/registry and root resolver/personal repository",
+    "A scheduler/core/runtime",
+    "B UI and Library403",
+    "E global provenance",
+    "RecoveryStore dormant/unconnected"
+  ],
+  "screenedNotSelected": [
+    "browserCommandScripts.ts",
+    "browserVirtualClipboardPageScript.ts",
+    "browserCommandState.ts",
+    "browserScreenshotTransientRetry.ts"
+  ],
+  "CLI_browser_excluded_current_full_receipt_commit": "de46e4f",
+  "privateHistoryAbsenceProven": false,
+  "scopeAnnouncedBeforeAuthoring": true,
+  "publisherReadLimit": "three exact preliminary candidate paths; no further source reads this batch"
+}

@@ -1,0 +1,436 @@
+{
+  "residency": [
+    {
+      "export": "BROWSER_TAB_LIMIT",
+      "kind": "value",
+      "shape": "32"
+    },
+    {
+      "export": "BrowserTabResidency",
+      "kind": "type",
+      "shape": [
+        "\"live-background\"",
+        "\"live-visible\"",
+        "\"restoring\"",
+        "\"suspend-pending\"",
+        "\"suspended\""
+      ]
+    },
+    {
+      "export": "BrowserTabResidencyCandidate",
+      "kind": "interface",
+      "shape": {
+        "calls": [],
+        "properties": [
+          {
+            "name": "audible",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "captureActive",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "currentTask",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "downloadActive",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "guestAttached",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "lastActivityAt",
+            "optional": false,
+            "readonly": false,
+            "type": "number"
+          },
+          {
+            "name": "lastSelectedAt",
+            "optional": false,
+            "readonly": false,
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          {
+            "name": "loading",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "mediaActive",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "openedAt",
+            "optional": false,
+            "readonly": false,
+            "type": "number"
+          },
+          {
+            "name": "operationActive",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "preferred",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "residency",
+            "optional": false,
+            "readonly": false,
+            "type": [
+              "\"live-background\"",
+              "\"live-visible\"",
+              "\"restoring\"",
+              "\"suspend-pending\"",
+              "\"suspended\""
+            ]
+          },
+          {
+            "name": "selected",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sessionId",
+            "optional": false,
+            "readonly": false,
+            "type": "string"
+          },
+          {
+            "name": "tabId",
+            "optional": false,
+            "readonly": false,
+            "type": "string"
+          },
+          {
+            "name": "visible",
+            "optional": false,
+            "readonly": false,
+            "type": "boolean"
+          },
+          {
+            "name": "windowId",
+            "optional": false,
+            "readonly": false,
+            "type": "number"
+          }
+        ]
+      }
+    },
+    {
+      "export": "selectBrowserTabLimitVictim",
+      "kind": "value",
+      "shape": {
+        "calls": [
+          {
+            "parameters": [
+              {
+                "optional": false,
+                "type": {
+                  "array": [
+                    {
+                      "calls": [],
+                      "properties": [
+                        {
+                          "name": "audible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "captureActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "currentTask",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "downloadActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "guestAttached",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "lastActivityAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "lastSelectedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": [
+                            "null",
+                            "number"
+                          ]
+                        },
+                        {
+                          "name": "loading",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "mediaActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "openedAt",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        },
+                        {
+                          "name": "operationActive",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "preferred",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "residency",
+                          "optional": false,
+                          "readonly": false,
+                          "type": [
+                            "\"live-background\"",
+                            "\"live-visible\"",
+                            "\"restoring\"",
+                            "\"suspend-pending\"",
+                            "\"suspended\""
+                          ]
+                        },
+                        {
+                          "name": "selected",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "sessionId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "tabId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "string"
+                        },
+                        {
+                          "name": "visible",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "name": "windowId",
+                          "optional": false,
+                          "readonly": false,
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "optional": false,
+                "type": {
+                  "calls": [],
+                  "properties": [
+                    {
+                      "name": "tabLimit",
+                      "optional": true,
+                      "readonly": false,
+                      "type": [
+                        "number",
+                        "undefined"
+                      ]
+                    },
+                    {
+                      "name": "windowId",
+                      "optional": false,
+                      "readonly": false,
+                      "type": "number"
+                    }
+                  ]
+                }
+              }
+            ],
+            "returns": [
+              "null",
+              {
+                "calls": [],
+                "properties": [
+                  {
+                    "name": "audible",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "captureActive",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "currentTask",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "downloadActive",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "guestAttached",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "lastActivityAt",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "lastSelectedAt",
+                    "optional": false,
+                    "readonly": false,
+                    "type": [
+                      "null",
+                      "number"
+                    ]
+                  },
+                  {
+                    "name": "loading",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "mediaActive",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "openedAt",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  },
+                  {
+                    "name": "operationActive",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "preferred",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "residency",
+                    "optional": false,
+                    "readonly": false,
+                    "type": [
+                      "\"live-background\"",
+                      "\"live-visible\"",
+                      "\"restoring\"",
+                      "\"suspend-pending\"",
+                      "\"suspended\""
+                    ]
+                  },
+                  {
+                    "name": "selected",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "sessionId",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "tabId",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "visible",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "windowId",
+                    "optional": false,
+                    "readonly": false,
+                    "type": "number"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "properties": []
+      }
+    }
+  ]
+}

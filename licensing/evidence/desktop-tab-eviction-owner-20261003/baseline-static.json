@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/scoped-static.mjs",
+    "--baseline"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/scoped-static.mjs",
+      "sha256": "00d9871a6cc7871f394bbf0f702318610cc842ada15e73c9c38734b6a076d18d"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": true,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {},\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"syntaxFiles\": [\n    \"/tmp/knorvia-tab-eviction-baseline/residency.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotActivityController.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

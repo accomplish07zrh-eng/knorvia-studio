@@ -1,0 +1,92 @@
+{
+  "scope": "bounded screened browserView remainder, not global inventory/completeness proof",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+      "sha256": "84a53a67847f57a7674512ec7c281f58f9288ee733a5ce86677a7164cf4a638c",
+      "lines": 74,
+      "status": "uncovered navigation settle/state owner; no fixed publisher read this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+      "sha256": "4bb933a7c7e21abb3a4c0e127d108daa2d14918942b49a765060b58d9c5b9901",
+      "lines": 62,
+      "status": "uncovered transient budget state owner; no fixed publisher read this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+      "sha256": "6a22b7c65c50bdb7527ebf3bdc8a8798bb1d50dda109a561880badef7944ab8a",
+      "lines": 211,
+      "status": "uncovered generated page-program owner; publisher identity verified only, not authored/tested"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+      "sha256": "01919854d4de5f139e85683345af0d8dae99d188d3183d2b736ce7ebdf43cb58",
+      "lines": 101,
+      "status": "uncovered virtual paste page-program owner; publisher identity verified only, not authored/tested"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserGuestManager.ts",
+      "sha256": "5f36a48cbaa3d29500209d7c845e276717fc49486acc92679374dc00a42df515",
+      "lines": 4645,
+      "status": "excluded root orchestration and dormant RecoveryStore boundary; not allocated"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinatorWiring.ts",
+      "sha256": "f0e97b187e62f8d10690d5a72976acc7883dee90fdf5f6fc04ff18a1f6f6efe9",
+      "lines": 84,
+      "status": "retained thin wiring; not selected"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceContracts.ts",
+      "sha256": "3fca51aa36dac032b424633fe41195c67b9efde7b7fe821b288534942f21e764",
+      "lines": 125,
+      "status": "retained declarations; not selected"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserRestoreBootstrapProtocol.ts",
+      "sha256": "06a183b63873f42d8e86bae044f3365df6f3ddcb0e58ea31445a16ea3703ebda",
+      "lines": 28,
+      "status": "retained protocol helper/dormant restoration boundary; not selected"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightTimeout.ts",
+      "sha256": "9c4c6dc00fd99488795f73648a475ef69bcaec7c36dc5cfcabee6761f95a9b36",
+      "lines": 13,
+      "status": "retained thin helper; not selected"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserOperationIndicator.ts",
+      "sha256": "7659d8da3b0f78251a5799b6b2065b9bec55ae8f5bbb5e1ac0755aa0661242cd",
+      "lines": 38,
+      "status": "retained helper; not selected"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCloseTabNotification.ts",
+      "sha256": "a5655b73e41c1af2d9ea0834a5fc323b6fd31132e1f6df288ce8c7fedc7d1670",
+      "lines": 36,
+      "status": "retained notification glue; not selected"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/playwrightInjectedScriptSource.ts",
+      "sha256": "1f80508de134caa00a0c6b4cd583e894f329109bd1c0879ad46611e77a28c835",
+      "lines": 66,
+      "status": "retained source loader; further owner qualification needed"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandTypes.ts",
+      "sha256": "0b8f5fee0fdce1a96dc7ad74993f50d579c1476580ef68dbb7198738cbdd2450",
+      "lines": 52,
+      "status": "retained declarations; not selected"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandResult.ts",
+      "sha256": "08a2c904f3dc7af817c3e37eec45fbf10e4ee1902e4f70277c161fef67609a22",
+      "lines": 21,
+      "status": "retained result glue; not selected"
+    }
+  ],
+  "acceptedIndependentCredit": 0,
+  "priorCompletedOwnersAndDormantRecoveryExcluded": true,
+  "publisherReadBound": "three exact preliminary candidate sources, no further source reads this batch"
+}

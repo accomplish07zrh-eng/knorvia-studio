@@ -1,0 +1,22 @@
+{
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/common-contract.md",
+      "sha256": "47874a8adffea0bcb0f2e3026ddb660b5392b1808137afc68d4d0abad4295dc9"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/owner-contract.md",
+      "sha256": "ad78d4cfd46946d4d3b5589434ce10665e8c88b5acfc672d715dca4a3e9e2026"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/ports/residency.d.ts",
+      "sha256": "3bb33efbb038b0cb686053fe0bc766d78e684e7b3fa752e076cc92055110359d"
+    },
+    {
+      "path": "specs/knorvia-desktop-tab-eviction-owner-20261003.md",
+      "sha256": "267d4c82c6cbc0dd32b0568c7ebbc1d0ab3f8ad668b2e942eeedcb12a3390dd7"
+    }
+  ],
+  "sourceExposedCurator": true,
+  "freshAuthorNoInheritedContext": true
+}

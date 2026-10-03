@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-tab-eviction-owner-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/scoped-static.mjs",
+      "sha256": "4fd93494131e59705c7d0ad2df485dcbc83fd4408b86bebb7e09842c10938f3b"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": false,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {},\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"matchesBaseline\": true,\n  \"syntaxFiles\": [\n    \"packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts\",\n    \"packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

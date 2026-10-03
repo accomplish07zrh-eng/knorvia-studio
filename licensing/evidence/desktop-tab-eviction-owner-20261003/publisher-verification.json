@@ -1,0 +1,29 @@
+[
+  {
+    "path": "packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts",
+    "source": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "b0f512dcef1dad0bf3fdfe89bda2edcc3fe18949",
+    "normalizedSha256": "ea7167f5a20c121a441967afbb3c929471ffa5ace79f5454909f62fd4a81f98f",
+    "verified": true,
+    "selected": true
+  },
+  {
+    "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+    "source": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "0ec9f8a88ca28806a02614a335028178ef467602",
+    "normalizedSha256": "8058bf6a96cfa689abb67c13f7543bd182ee3fed62f45b2ad6f6d1204eb980f2",
+    "verified": true,
+    "selected": false
+  },
+  {
+    "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+    "source": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "8a1c314a15505228d06bac1095384c4c0109a042",
+    "normalizedSha256": "961d8acdd0ca7b2ec000a6cbbde255a43cbfaea587b609ab07a7b0b7276b9bf8",
+    "verified": true,
+    "selected": false
+  }
+]
