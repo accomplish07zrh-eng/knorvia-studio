@@ -13,7 +13,8 @@ import type { DatabaseMigrationFacts } from "@knorvia/shared";
 import { mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname } from "node:path";
-// 与既有 Repo 一致：避免构建器把 node:sqlite 改写成不存在的 npm sqlite 包。
+
+// Repo 使用相同原生入口，避免构建器把 node:sqlite 改写成 npm 包。
 const { DatabaseSync } = createRequire(import.meta.url)(
   "node:sqlite",
 ) as typeof import("node:sqlite");
@@ -27,105 +28,134 @@ type TasksStoragePhase =
   | "ready";
 const LOCK_WAIT_MS = 60 * 60_000;
 
-/** 由 Host Worker 调用，SQL 和迁移后修复与旧 Repo 共用，只有获取写锁异步等待。 */
+class StartupFailure {
+  private first: { error: unknown } | undefined;
+
+  remember(error: unknown, migration?: DatabaseMigrationFacts): void {
+    if (this.first) return;
+    // 用记录是否存在区分成功和失败，不能按异常值的真假丢失首因。
+    this.first = { error };
+    if (!migration || !error || typeof error !== "object") return;
+    try {
+      Object.assign(error, { startupMigration: { ...migration } });
+    } catch {
+      // 冻结异常的附加事实失败不改变原异常身份。
+    }
+  }
+
+  close(operation: () => void): void {
+    try {
+      operation();
+    } catch (error) {
+      this.remember(error);
+    }
+  }
+
+  raise(): void {
+    if (this.first) throw this.first.error;
+  }
+}
+
+function isBusyFailure(error: unknown): boolean {
+  if (error === null || error === undefined) return false;
+  try {
+    const code = (error as { errcode?: unknown }).errcode;
+    return typeof code === "number" && (code & 0xff) === 5;
+  } catch {
+    // 读取 errcode 不能用探测异常覆盖原失败，只有确切 BUSY 才能重试。
+    return false;
+  }
+}
+
+class StorageLockWindow {
+  private readonly expiresAt = Date.now() + LOCK_WAIT_MS;
+
+  constructor(private readonly blocked: () => void) {}
+
+  async acquire(operation: () => void): Promise<void> {
+    let announced = false;
+    while (true) {
+      try {
+        operation();
+        return;
+      } catch (error) {
+        if (!isBusyFailure(error)) throw error;
+        if (Date.now() >= this.expiresAt) {
+          throw Object.assign(new Error("Task storage lock wait expired", { cause: error }), {
+            kind: "lock_timeout",
+          });
+        }
+        if (!announced) {
+          announced = true;
+          this.blocked();
+        }
+        await new Promise<void>((resume) => setTimeout(resume, 100));
+      }
+    }
+  }
+}
+
+/** Host 的唯一存储准备入口；迁移和修复仍由现有数据库/Repo 所有者执行。 */
 export async function prepareTasksIndexStorage(
   path: string,
   onProgress: (phase: TasksStoragePhase, migration?: DatabaseMigrationFacts) => void,
 ): Promise<void> {
-  // 回调拿到的是当时事实，不共享后续执行会继续递增的内部对象。
-  const report = (phase: TasksStoragePhase, migration?: DatabaseMigrationFacts) =>
-    onProgress(phase, migration ? { ...migration } : undefined);
+  const report = (phase: TasksStoragePhase, facts?: DatabaseMigrationFacts) =>
+    onProgress(phase, facts ? { ...facts } : undefined);
   report("checking");
   await mkdir(dirname(path), { recursive: true });
-  const db = new DatabaseSync(path);
-  let failure: unknown;
-  let failed = false;
+
+  const database = new DatabaseSync(path);
+  const databaseFailure = new StartupFailure();
   let migration: DatabaseMigrationFacts | undefined;
   try {
-    db.exec("PRAGMA busy_timeout = 25");
-    db.exec("PRAGMA foreign_keys = ON");
-    const deadline = Date.now() + LOCK_WAIT_MS;
-    const acquire = async (operation: string | (() => void)) => {
-      // 预检前后可分别遇锁；确认迁移后的等待需要重新发布可见状态。
-      let waiting = false;
-      for (;;) {
-        try {
-          if (typeof operation === "string") db.exec(operation);
-          else operation();
-          return;
-        } catch (error) {
-          const code = (error as { errcode?: number }).errcode;
-          if (typeof code !== "number" || (code & 0xff) !== 5) throw error;
-          if (Date.now() >= deadline)
-            throw Object.assign(new Error("Task storage lock wait expired", { cause: error }), {
-              kind: "lock_timeout",
-            });
-          if (!waiting) {
-            waiting = true;
-            report("waiting_for_lock", migration);
-          }
-          await new Promise<void>((resolve) => setTimeout(resolve, 100));
-        }
-      }
-    };
-    await acquire(() => {
-      migration = { kind: inspectTasksMigrationKind(db), executedCount: 0, committedCount: 0 };
+    database.exec("PRAGMA busy_timeout = 25");
+    database.exec("PRAGMA foreign_keys = ON");
+    const locks = new StorageLockWindow(() => report("waiting_for_lock", migration));
+    await locks.acquire(() => {
+      migration = {
+        kind: inspectTasksMigrationKind(database),
+        executedCount: 0,
+        committedCount: 0,
+      };
     });
     report("checking", migration);
-    // 升级保护：写锁之前先落一致快照；备份失败直接抛出，不进入写事务（见 specs/knorvia-upgrade-protection.md）。
-    if (migration?.kind === "upgrade") await acquire(() => createTasksDatabaseSnapshot(db));
-    await acquire("PRAGMA journal_mode = WAL");
-    db.exec("PRAGMA synchronous = NORMAL");
-    await acquire("BEGIN IMMEDIATE");
-    runTasksDatabaseMigrations(db, { transactionOpen: true, migration, onProgress: report });
-    // COMMIT 已成功，先发布事实；后续 close 失败不能把已提交误报为未提交。
+    if (migration?.kind === "upgrade") {
+      // 规格要求升级快照先于 WAL/写事务；失败不能继续进入迁移。
+      await locks.acquire(() => createTasksDatabaseSnapshot(database));
+    }
+    await locks.acquire(() => database.exec("PRAGMA journal_mode = WAL"));
+    database.exec("PRAGMA synchronous = NORMAL");
+    await locks.acquire(() => database.exec("BEGIN IMMEDIATE"));
+    runTasksDatabaseMigrations(database, {
+      transactionOpen: true,
+      migration,
+      onProgress: report,
+    });
     report("maintaining", migration);
   } catch (error) {
-    failed = true;
-    failure = error;
-    // 失败事实随原异常交给 Worker，不倒退发布 checking/migrating，也不覆盖首因。
-    if (migration && error && typeof error === "object") {
-      try {
-        Object.assign(error, { startupMigration: { ...migration } });
-      } catch {
-        /* 不可扩展异常仍保留原错误。 */
-      }
-    }
+    databaseFailure.remember(error, migration);
   } finally {
-    try {
-      db.close();
-    } catch (error) {
-      // 清理失败不得覆盖首因；异常也可能是 undefined、null 或其它假值。
-      if (!failed) {
-        failed = true;
-        failure = error;
-      }
-    }
+    databaseFailure.close(() => database.close());
   }
-  if (failed) throw failure;
+  databaseFailure.raise();
+
   markTasksStorageMigrated(path);
-  const repos = [new TaskIndexRepo(path, LOCK_WAIT_MS), new AutomationRepo(path, LOCK_WAIT_MS)];
-  let preparationFailure: unknown;
-  let preparationFailed = false;
+  const repositories = [
+    new TaskIndexRepo(path, LOCK_WAIT_MS),
+    new AutomationRepo(path, LOCK_WAIT_MS),
+  ];
+  const repositoryFailure = new StartupFailure();
   try {
-    // 这些是原本就在初始化时执行的修复，不创建新的迁移或改变已有事务边界。
-    for (const repo of repos) await repo.ensureReady();
+    for (const repository of repositories) await repository.ensureReady();
   } catch (error) {
-    preparationFailed = true;
-    preparationFailure = error;
+    repositoryFailure.remember(error);
   } finally {
-    for (const repo of repos) {
-      try {
-        repo.close({ throwOnError: true });
-      } catch (error) {
-        if (!preparationFailed) {
-          preparationFailed = true;
-          preparationFailure = error;
-        }
-      }
+    for (const repository of repositories) {
+      repositoryFailure.close(() => repository.close({ throwOnError: true }));
     }
   }
-  if (preparationFailed) throw preparationFailure;
+  repositoryFailure.raise();
   markTasksStoragePrepared(path);
   report("ready", migration);
 }
