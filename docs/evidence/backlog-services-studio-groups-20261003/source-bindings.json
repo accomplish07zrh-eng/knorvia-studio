@@ -1,0 +1,71 @@
+{
+  "originalBranchBase": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "previousLaneCheckpoint": "90e7d290c2deae3e0a75a73f34710d23a6daefa4",
+  "uiHandoffHeadRead": "662b64276a7271324efcbc6de36497058250d521",
+  "specFirstCommit": "23c032680125af79f428a99475a00c5858bb38b1",
+  "sourceCommit": "b72410df0826bce93945940385213ef0bab98979",
+  "spec": "specs/knorvia-next-services-studio-groups-20261003.md",
+  "allocation": "Parent explicitly transferred exactly five Studio group UI sources to the same services task/branch/PR16. No other UI source or UI lane record was edited; no whole UI branch merge/rebase.",
+  "sourceScreen": {
+    "targetedComparison": "All five predecessor sources and the runtime-client callers are identical in this lane checkpoint and the specified UI head; its lane record was read.",
+    "historyRead": [
+      "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "530a64700d61d80715e4a120682a3942075395bc"
+    ],
+    "featureEvidence": "The latter published spec/source commit adds Knorvia stale-save conflicts and Host-only definition / draft-v2 ownership. New feature code is not automatically inherited ZCode expression.",
+    "savedInventory": "Read only the five exact rows of licensing/current-files.json: each predecessor digest matches current source, classification unreviewed, upstream null, review null and license NOASSERTION. No exact matching path/review in the read saved upstream/reviews records.",
+    "limit": "Bounded path/metadata/history reading is not a full provenance audit, independent-expression proof, absence-under-other-path proof or license decision. Existing global records are unchanged."
+  },
+  "newRuntimeOwners": [
+    {
+      "path": "packages/ui/src/studio/groups/useStudioGroups.ts",
+      "predecessorGitBlob": "168870dc0b93e005a115605536f013eacee684bd",
+      "predecessorSha256": "06bc03b732a1e8d8e2f1a87d881b4e8822f519f41e127b9ae747e90ba0957ab9",
+      "candidateGitBlob": "b778d89f1ddb36178f649af714612511d7c0853a",
+      "candidateSha256": "fea8e7a098ee09a9c17aab57475de6e39720e656b1439b59005bb06f4941ec42",
+      "bytes": 6725,
+      "design": "One connection-scoped view lease and unique per-group import flights; render-current owner plus lease gates local store/error publication; cleanup revokes permission and effect replay reopens it.",
+      "preserved": "Original public hook fields, draft exclusion, config/UUID/time/baseUpdatedAt rules, parallel onlyIfAbsent imports, imported/in-flight skips, existing-definition confirmation, error/retry latch, Host command Promise results and ACK projection.",
+      "specifiedRefinement": "Late import/save/delete replies cannot publish local receipts/errors into a replacement or unmounted view; old finally cannot release a newer flight. Already-issued Host commands finish through the original unchanged runtime client."
+    },
+    {
+      "path": "packages/ui/src/store/studioGroupStore.ts",
+      "predecessorGitBlob": "55045261b2b048c7c7e545b96052707122c53475",
+      "predecessorSha256": "eda1ca0dc411b5a859fdea5c9d52581497d0cb82ffd632aef4d6e2a7baae6038",
+      "candidateGitBlob": "a2029161fbebd2c7004711071f7bea4c19d68d0a",
+      "candidateSha256": "c1fa6b57f0f221690febc1695169c42848bf08dae918f8a2a5311d90386b3436",
+      "bytes": 10312,
+      "design": "One Map draft ledger supplies attached/unattached text projections and draft-only serialization; migration finalization owns successful v2 write followed by confirmed v1 removal.",
+      "preserved": "Exports/state/actions, browser-storage fallback, storage keys/envelopes/limits, legacy validation and initial draft precedence, corrupt/unavailable write protection, revision guards/overlay order/equality bailout, compare-before-clear and unchanged definition timestamps.",
+      "specifiedRefinement": "RetrySave/later successful persist resumes failed write/remove migration, and a final explicit Host save ACK also qualifies confirmation. Map text and own-entry revision reads preserve prototype-named ids as data rather than inherited properties.",
+      "retainedExpression": "Public declarations, fixed keys/values, existing legacy schema validation/normalizer and standard JSON/browser/Zustand conventions retain lineage; not whole-file original-expression acceptance."
+    }
+  ],
+  "retainedFeatureCandidates": [
+    {
+      "path": "packages/ui/src/studio/groups/groupModel.ts",
+      "gitBlob": "555ebb7dad62d9524ae4ed90bde6dd345195826d",
+      "sha256": "7ed60298cee1ab5f557eeebe13f1bdaf509d20e3e16d20983385cb48656d484e",
+      "bytes": 2353,
+      "qualification": "Existing Knorvia configuration/member/host/limit/default/mention feature rules retained byte-for-byte; not counted as a new owner and not rights accepted."
+    },
+    {
+      "path": "packages/ui/src/studio/groups/groupDefinitions.ts",
+      "gitBlob": "13d1fdd7990ba1e5ab6928a948f94c81c85c5017",
+      "sha256": "58b72a3b7e19755dc09a8533fce61b98e041963ca7c7bfaa8e2da80d02718e70",
+      "bytes": 918,
+      "qualification": "Existing revision-authoritative ACK/deletion overlay and order/reference projection retained byte-for-byte; not counted as a new owner and not rights accepted."
+    },
+    {
+      "path": "packages/ui/src/studio/groups/groupSubmission.ts",
+      "gitBlob": "052f355d9aaf4ad319cdb06e2e79dde69cf28a64",
+      "sha256": "26372d492fc62ac6f9c35cd5424827eeefea2d987a49582eadcdbf59de7aaf51",
+      "bytes": 1657,
+      "qualification": "Existing active-run selection, steer versus save/send, stop-epoch admission and ACK-only compare-and-clear retained byte-for-byte; not counted as a new owner and not rights accepted."
+    }
+  ],
+  "authoring": "Single source-exposed author read predecessor, saved targeted metadata, prior Knorvia feature spec/history and actual callers. Explicit contract preceded source; before the preferred implementation the spec clarified that a final explicit Host save ACK can finish the same confirmed migration. Full hook receipt and draft/migration runtime designs are new candidates; existing new-feature helpers/codecs/fixed declarations are retained rather than rewritten for counts. No clean-room, separate author or accepted whole-expression/rights assertion.",
+  "crossFileDependencies": "No new public interface required. Outside the transferred five-source scope, final-stage owners should extend existing packages/ui/test/studio-group-store.test.ts and studio-group-second-pass.test.ts with failed-write/remove retry, prototype ids, orphan/coexisting legacy text and hook connection/unmount/effect-replay/late-ACK coverage, then verify actual unchanged JSX/runtime consumers. No such files were edited here.",
+  "validation": "UNVERIFIED: no tests, lint, typecheck/compiler, build, formatter/architecture checks, full audit or CI rerun executed; no new tests or extra UI files. Only bounded source/spec/metadata/difference reading and exact five-source Git/SHA-256/byte binding; hooks skipped under the explicit phase instruction.",
+  "licenseDecision": "NOASSERTION"
+}

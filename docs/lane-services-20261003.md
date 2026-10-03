@@ -314,3 +314,36 @@ interfaces/codecs; retained declarations/fixed rules are not claimed newly autho
 **UNVERIFIED:** source-focused implementation only; no test/checker/build/audit/CI
 rerun and no extra UI/test files. Shared/runtime/JSX changes outside the five
 files, if needed, must be requested from the parent rather than made here.
+
+The first contract commit is `23c032680125af79f428a99475a00c5858bb38b1`; preferred
+source is `b72410df0826bce93945940385213ef0bab98979`, already pushed on the same
+branch. Before that preferred implementation, the contract also clarified that
+an explicit Host save ACK may confirm the final legacy id and finish the same
+migration. Exact new/retained five-source bindings are in
+[source-bindings.json](evidence/backlog-services-studio-groups-20261003/source-bindings.json).
+
+The hook now binds a view lease to connectionKey and uses unique import flights.
+Local ACK/error writes require the same current owner and open lease; effect
+cleanup/replay cannot let an old finally clear a newer flight. Host command
+admission/deduplication/Promise results remain with the unchanged runtime client.
+The draft store now derives text projections and draft-only envelopes from one
+Map ledger. Retry resumes write-before-remove finalization after either storage
+failure, retaining the original legacy copy until every required confirmation and
+the latest draft write succeed. Prototype-named ids remain text data. Initial
+legacy draft precedence, corruption protection, revisions/overlays, selectors,
+keys/envelopes and compare-before-clear behavior are kept on their contracts.
+
+Only useStudioGroups.ts and studioGroupStore.ts production sources changed;
+groupModel/groupDefinitions/groupSubmission keep their exact prior bytes as
+existing feature candidates. This is two completed runtime-owner candidates,
+not five new implementations or whole UI/rights acceptance. No other UI source,
+JSX/CSS, service public contract, root config/CI/global licensing or UI-lane record
+changed. No actual user localStorage/app/provider/DB operation was performed.
+
+No new cross-file signature is needed. Final-stage coordination should add the
+specified hook lease/late-ACK and failed-write/remove/prototype-id cases to the
+UI-owned existing group-store/second-pass acceptance coverage, and check the
+unchanged page/composer/runtime consumers on desktop/Web. This lane's current
+allocation does not permit those extra UI test/runtime/JSX files. Source/author/
+whole-expression/rights decisions for new and retained feature candidates still
+belong to the integrator. **UNVERIFIED:** no executable validation ran.
