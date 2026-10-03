@@ -567,3 +567,47 @@ Deliver the same persistent branch head to PR13; PR17 stays merged/closed. Integ
 owns current exporter source-input digest reconciliation and wider acceptance;
 global source/license/rights lists and CI remain untouched here. No current execution
 blocker and no new cross-module API dependency.
+
+## Windows-only path fixture failure repair
+
+Continued the same task/branch, fetched and normally merged exact integration
+`73e0687a78cc7354dfad0589a9e2ebedac159013` in
+`5ce3e1e63ac5d0c7039f85bccad6bd883b745cb2`. The previous staged-ZIP repair remains
+present. Four fixture/spec repairs are committed as
+`de0131baae27cab8c0c642ad2ef5d47741e9f280`; no new task/PR or main merge.
+
+Read the actual [Windows job log](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728).
+The run's trigger head was `7bfb867162cc11adbc237e1c39bf2d61b5c0f81e`, but checkout
+used synthetic merge `d03df27e30768649c77d004092d7508fa8b9afbc`. These four observed
+failures compare hardcoded POSIX physical paths with native separator/drive-qualified
+results; they are fixture portability errors. This does not classify the other
+Windows failures. All four fixture files and the recording loader were unchanged
+between the trigger head and integration73e0687a.
+
+The [spec](../specs/knorvia-next-platform-windows-fixtures-20261003.md) requires
+explicit absolute input roots and full expected paths for native, POSIX and Win32
+rules. The existing fake ports now supply the chosen public path API; tar imports
+have unique state keys to prevent module-cache reuse across variants. Production
+recording/tar owners and the recording loader remain byte-identical. Archive member
+and unsafe-link strings remain POSIX data. Full artifact metadata, security/authority,
+live mutation, FIFO/backpressure, error identity, cancellation/cleanup order, tar
+flags/content/permissions/call order, short-header bound and unsafe-link/no-publication/
+no-replacement assertions remain. No weakened checks, output normalization or skips.
+Unselected transparent-window bootstrap and WSL case bodies are byte-identical.
+
+Exactly the four affected scene selectors and their three path variants were run
+once under pinned Node24.14.0 on Linux x64: **12 passed,0 failed,0 skipped**, exit0.
+The [new own-lane result](evidence/backlog-platform-windows-fixtures-20261003/result.json)
+binds original CI excerpts, exact command/output and production/fixture digests.
+Win32 API cases exercise pure path rules on Linux, not a Windows operating system.
+No other scenes, full suite, types/lint/build/full audit, real Electron/media/native
+launch or user-data operations ran. Only affected fixtures/spec used write formatting;
+prior frozen/golden/source/failure/rights records are retained unchanged.
+
+The known integration workflow run37111228357 is cancelled, so Windows acceptance
+is **pending**. Read-only branch-head PR-run metadata will be checked after push;
+no CI workflow is dispatched/retried here. Integrator must integrate into PR13,
+reconcile shared inventory/current-input digests and obtain a successful matching
+real Windows job. PR17 stays merged/closed. No cross-module API dependency or new
+independent-source/old-accepted/rights/MIT credit; candidate and license qualifications
+remain in force.

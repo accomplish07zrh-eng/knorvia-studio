@@ -1,0 +1,37 @@
+{
+  "repo": "accomplish07zrh-eng/knorvia-studio",
+  "runId": 37110107123,
+  "jobId": 111166240728,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728",
+  "triggerHead": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "actualCheckedSyntheticMerge": "d03df27e30768649c77d004092d7508fa8b9afbc",
+  "mergeBase": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "source": "Authorized GitHub fetch_workflow_job_logs; checkout lines and bounded original failure blocks preserved",
+  "decodedLogCharacters": 1091570,
+  "decodedLogLines": 10615,
+  "excerpts": [
+    {
+      "name": "electronBrowserWebmRecorder.test.mjs",
+      "startLine": 10075,
+      "endLine": 10093
+    },
+    {
+      "name": "recordingOwners.test.mjs",
+      "startLine": 10094,
+      "endLine": 10120
+    },
+    {
+      "name": "local-tar-normalized-link-safety.test.mjs",
+      "startLine": 10146,
+      "endLine": 10173
+    },
+    {
+      "name": "remote-header-proxy-contract.test.mjs",
+      "startLine": 10174,
+      "endLine": 10241
+    }
+  ],
+  "transform": "CRLF -> LF; surrounding unrelated failures excluded",
+  "classification": "Four exact-path fixture comparisons; no conclusion about all Windows failures",
+  "qualification": "Trigger SHA is not the synthetic SHA actually checked; this log is original failure evidence, not current-tree acceptance"
+}

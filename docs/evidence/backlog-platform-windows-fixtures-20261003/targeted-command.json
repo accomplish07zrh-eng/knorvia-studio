@@ -1,0 +1,35 @@
+{
+  "command": [
+    "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+    "--test",
+    "--test-reporter=tap",
+    "--test-name-pattern=WebM fake authority gate|video transaction retains|normalized drive-like link targets|tar full headers preserve",
+    "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+    "packages/server/test/local-tar-normalized-link-safety.test.mjs",
+    "packages/server/test/remote-header-proxy-contract.test.mjs"
+  ],
+  "cwd": "/workspace/knorvia-studio",
+  "selectedFiles": [
+    "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+    "packages/server/test/local-tar-normalized-link-safety.test.mjs",
+    "packages/server/test/remote-header-proxy-contract.test.mjs"
+  ],
+  "selector": "WebM fake authority gate|video transaction retains|normalized drive-like link targets|tar full headers preserve",
+  "runtime": {
+    "node": "v24.14.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "startedAt": "2026-10-03T09:08:08.298963+00:00",
+  "endedAt": "2026-10-03T09:08:08.834278+00:00",
+  "exitCode": 0,
+  "environment": {
+    "removedKeys": [],
+    "KNORVIA_ENV": "test",
+    "DATA_BASE_DIR": "isolated temporary directory; removed after run",
+    "STORAGE_DIR": "isolated temporary directory; removed after run"
+  },
+  "scope": "Four affected synthetic scenes and their native/POSIX/Win32 path variants only; no Windows OS execution"
+}

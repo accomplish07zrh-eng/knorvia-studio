@@ -1,0 +1,219 @@
+{
+  "utc": "2026-10-03T09:09:50.076089+00:00",
+  "stage": "Authorized affected-only Windows path fixture repair; Linux fake-port path-rule checks",
+  "branch": "rewrite/native-20261003",
+  "integrationInput": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+  "mergeCommit": "5ce3e1e63ac5d0c7039f85bccad6bd883b745cb2",
+  "sourceCommit": "de0131baae27cab8c0c642ad2ef5d47741e9f280",
+  "integrationMode": "Normal merge into the same persistent native branch; previous export ZIP repair retained; no new task/PR or main merge",
+  "originalWindowsCI": {
+    "repo": "accomplish07zrh-eng/knorvia-studio",
+    "runId": 37110107123,
+    "jobId": 111166240728,
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728",
+    "triggerHead": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+    "actualCheckedSyntheticMerge": "d03df27e30768649c77d004092d7508fa8b9afbc",
+    "mergeBase": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+    "source": "Authorized GitHub fetch_workflow_job_logs; checkout lines and bounded original failure blocks preserved",
+    "decodedLogCharacters": 1091570,
+    "decodedLogLines": 10615,
+    "excerpts": [
+      {
+        "name": "electronBrowserWebmRecorder.test.mjs",
+        "startLine": 10075,
+        "endLine": 10093
+      },
+      {
+        "name": "recordingOwners.test.mjs",
+        "startLine": 10094,
+        "endLine": 10120
+      },
+      {
+        "name": "local-tar-normalized-link-safety.test.mjs",
+        "startLine": 10146,
+        "endLine": 10173
+      },
+      {
+        "name": "remote-header-proxy-contract.test.mjs",
+        "startLine": 10174,
+        "endLine": 10241
+      }
+    ],
+    "transform": "CRLF -> LF; surrounding unrelated failures excluded",
+    "classification": "Four exact-path fixture comparisons; no conclusion about all Windows failures",
+    "qualification": "Trigger SHA is not the synthetic SHA actually checked; this log is original failure evidence, not current-tree acceptance"
+  },
+  "classification": "All four observed mismatches are fixture portability defects: fixed POSIX expected paths differ from correctly native-separated or drive-qualified physical paths. No production owner modified; no classification of all Windows failures.",
+  "repair": "Explicit absolute input roots plus full fixed-filename expected paths; inject native/POSIX/Win32 public path APIs into the same fake-port owners. Unique archive import keys isolate each variant from module caching. No output normalization or basename-only comparison.",
+  "assertions": "Only physical path input/expected expressions adapted. All artifact fields, security/authority checks, bytes/flags/modes, event order, live mutation, error identity, unsafe-link rejection/no publication/no replacement and short-header bound retained. No skip or lowered expectation.",
+  "pathVariants": [
+    "native host API and absolute cwd-based synthetic root",
+    "POSIX /synthetic",
+    "Win32 C:\\synthetic"
+  ],
+  "selectedCases": 4,
+  "executedVariants": 12,
+  "targetedResult": {
+    "tests": 12,
+    "pass": 12,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "exitCode": 0,
+    "runtime": {
+      "node": "v24.14.0",
+      "platform": "linux",
+      "arch": "x64"
+    },
+    "log": "targeted-test.log",
+    "command": "targeted-command.json",
+    "qualification": "Linux x64 execution only, including pure Win32 path rules. Not Windows OS or real Electron/filesystem/native/media acceptance."
+  },
+  "sourceBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+      "beforeSha256": "292b5473f15edd270084954c0eab3e10240d240d0b7185d7b6a3035e132f5863",
+      "afterSha256": "838138a939eef6a23b1af1060632872f4f9cf161fdcfc92f926785d774aeb151",
+      "unchanged": false,
+      "repairGitBlob": "8d5d09dbb99fd6f3e76476dcfff639e721939631"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "beforeSha256": "e6bcceae74761350c788a97adc4744e0d58f25bb45fc58c795618a237460913b",
+      "afterSha256": "c4671e0422642128a4c444c51d63e7a2354932597d300c1a0c48f03cb58416f5",
+      "unchanged": false,
+      "repairGitBlob": "b8f7d78b6715e1b62516ea8ea9358b738ae2dab3"
+    },
+    {
+      "path": "packages/server/test/local-tar-normalized-link-safety.test.mjs",
+      "beforeSha256": "9cdf5ac8d8faf72a1f9b599e8a7e20e87607a6f6dc9c3e719a3e8ce9493391a0",
+      "afterSha256": "86b33b362c0d8bfc1a62e9403b8d8189a77ff33da25962134a4d4f80c469dc8e",
+      "unchanged": false,
+      "repairGitBlob": "de1999c8703ba36a68182bc78ee599ea92db7466"
+    },
+    {
+      "path": "packages/server/test/remote-header-proxy-contract.test.mjs",
+      "beforeSha256": "0bc72363b645786df6c36c7a1b585ba62dbf5fa02e2adac2f771c9997cdb113d",
+      "afterSha256": "42a5f45d78d045beab013fcea7a29cd5b9b8702d0b30df791e69f343bb5a47de",
+      "unchanged": false,
+      "repairGitBlob": "fc3e8ceb9c02212ee95ab01e56e905f322e48332"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwnerTestPorts.mjs",
+      "beforeSha256": "87582a4d3853dc54ab10bdaf7bcc001fd1b60d95fd4dbd2c5f0e7daeada4a4e1",
+      "afterSha256": "87582a4d3853dc54ab10bdaf7bcc001fd1b60d95fd4dbd2c5f0e7daeada4a4e1",
+      "unchanged": true,
+      "repairGitBlob": "9dead30c5f05e9a2f565adf24b39290ed551fe40"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+      "beforeSha256": "39cbad782488afef3a3d162bad5e4ad950e8c8501ba3c495e16143bfc1b7e0f2",
+      "afterSha256": "39cbad782488afef3a3d162bad5e4ad950e8c8501ba3c495e16143bfc1b7e0f2",
+      "unchanged": true,
+      "repairGitBlob": "40630c3e1b7c4e8487851e5ca21bac74b2d9e144"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+      "beforeSha256": "87e15d7b5c41be0bea1e848a5941d0320194657d044a88da10bc731ae2b742c1",
+      "afterSha256": "87e15d7b5c41be0bea1e848a5941d0320194657d044a88da10bc731ae2b742c1",
+      "unchanged": true,
+      "repairGitBlob": "1f6d0c332e6888e8f147d3e8743be38912e22447"
+    },
+    {
+      "path": "packages/server/src/remote/localTarGz.ts",
+      "beforeSha256": "07aaf7a19fce4d32d55850f542381f6b72ec691acf26b23d17b5ed1bb6be8a46",
+      "afterSha256": "07aaf7a19fce4d32d55850f542381f6b72ec691acf26b23d17b5ed1bb6be8a46",
+      "unchanged": true,
+      "repairGitBlob": "62f373646382d3467f0a1f2bf72056649aa67b28"
+    }
+  ],
+  "triggerToIntegrationComparison": [
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+      "triggerSha256": "292b5473f15edd270084954c0eab3e10240d240d0b7185d7b6a3035e132f5863",
+      "integrationSha256": "292b5473f15edd270084954c0eab3e10240d240d0b7185d7b6a3035e132f5863",
+      "unchanged": true
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "triggerSha256": "e6bcceae74761350c788a97adc4744e0d58f25bb45fc58c795618a237460913b",
+      "integrationSha256": "e6bcceae74761350c788a97adc4744e0d58f25bb45fc58c795618a237460913b",
+      "unchanged": true
+    },
+    {
+      "path": "packages/server/test/local-tar-normalized-link-safety.test.mjs",
+      "triggerSha256": "9cdf5ac8d8faf72a1f9b599e8a7e20e87607a6f6dc9c3e719a3e8ce9493391a0",
+      "integrationSha256": "9cdf5ac8d8faf72a1f9b599e8a7e20e87607a6f6dc9c3e719a3e8ce9493391a0",
+      "unchanged": true
+    },
+    {
+      "path": "packages/server/test/remote-header-proxy-contract.test.mjs",
+      "triggerSha256": "0bc72363b645786df6c36c7a1b585ba62dbf5fa02e2adac2f771c9997cdb113d",
+      "integrationSha256": "0bc72363b645786df6c36c7a1b585ba62dbf5fa02e2adac2f771c9997cdb113d",
+      "unchanged": true
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwnerTestPorts.mjs",
+      "triggerSha256": "87582a4d3853dc54ab10bdaf7bcc001fd1b60d95fd4dbd2c5f0e7daeada4a4e1",
+      "integrationSha256": "87582a4d3853dc54ab10bdaf7bcc001fd1b60d95fd4dbd2c5f0e7daeada4a4e1",
+      "unchanged": true
+    }
+  ],
+  "untouchedUnselectedBodies": [
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "testMarker": "test(\"transparent bootstrap releases presentation once and yields focus ownership\"",
+      "remainingSourceUnchanged": true,
+      "sha256": "73bc60e3580c77b68465f2ea4022103da006fc9108fc677b7539029539719de0"
+    },
+    {
+      "path": "packages/server/test/remote-header-proxy-contract.test.mjs",
+      "testMarker": "test(\"WSL gateway parsing keeps source priority, IPv4 octet limits, IPv6 and invalid exclusion\"",
+      "remainingSourceUnchanged": true,
+      "sha256": "58e93c0ab16a344eeb3b6e8c68be5678adc73a8013d85249c27eb977c627a1c3"
+    }
+  ],
+  "evidenceBindings": [
+    {
+      "path": "integration-ci-status.json",
+      "sha256": "526b0b14ae88160258da76fbb01a909d6368da63f36d6878aee5e97cf444b5d2"
+    },
+    {
+      "path": "original-ci-binding.json",
+      "sha256": "88cd0fcaf671e27d0b3669530a1fd1b97b796ce613ad8482a2cf4c38e97033c8"
+    },
+    {
+      "path": "original-windows-ci-excerpts.log",
+      "sha256": "51c53906834c74e479f81fa438cccd58b0360cf91af6dca8ec094cbf718b49da"
+    },
+    {
+      "path": "targeted-command.json",
+      "sha256": "55a11bec1e3e6ce4cc9f992a3016db1e58409dcc231b164e2161a5860ba41c8d"
+    },
+    {
+      "path": "targeted-test.log",
+      "sha256": "2c273f3b933d5fc1e736d1a886f04d86c9472d8d08efd1bdb9b1164007c155a8"
+    }
+  ],
+  "ciStatus": "The known integration run37111228357 is cancelled; no successful matching Windows run observed here. Read-only final branch-head PR-run metadata lookup follows push; no workflow dispatched or retried.",
+  "spec": "specs/knorvia-next-platform-windows-fixtures-20261003.md",
+  "formatter": "Write formatting of four affected fixtures and their new spec only; no formatter check or frozen/historical evidence changes",
+  "notRun": [
+    "Other scene selectors or full suite",
+    "Types/lint/build/architecture/full source or rights audit",
+    "Windows OS, real Electron/media/native filesystem/user-data/platform/installer acceptance"
+  ],
+  "historicalEvidence": "Original Windows failures preserved as historical evidence. Prior frozen/golden/unrun/failure/source records, licenses and third-party attribution retained without relabeling.",
+  "coordination": [
+    "Integrate this same persistent branch into PR13; PR17 remains merged/closed",
+    "Integrator owns shared inventory/current-input digest reconciliation for the four fixture paths and new evidence/spec files",
+    "Matching real Windows CI success still required; this lane has no Windows execution environment"
+  ],
+  "crossModuleAPIChanges": [],
+  "newIndependentRewriteCredit": 0,
+  "oldAcceptedClaimed": false,
+  "rightsAccepted": false,
+  "wholeTreeMITReady": false,
+  "mainMergedHere": false
+}

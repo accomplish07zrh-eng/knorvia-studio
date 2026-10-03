@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
@@ -21,7 +22,10 @@ async function load(name, state) {
           name: "native-final-remote-ports",
           setup(plugin) {
             plugin.onResolve(
-              { filter: /^(?:node:fs\/promises|@knorvia\/server\/remote\/posixShell\.js)$/ },
+              {
+                filter:
+                  /^(?:node:fs\/promises|node:path|@knorvia\/server\/remote\/posixShell\.js)$/,
+              },
               ({ path }) => ({ path, namespace: "native-final-port" }),
             );
             plugin.onLoad({ filter: /.*/, namespace: "native-final-port" }, ({ path }) => ({
@@ -35,7 +39,10 @@ async function load(name, state) {
                      export const chmod=async(...args)=>state.calls.push(['chmod',...args]);
                      const forbidden=async()=>{throw new Error('unexpected filesystem operation');};
                      export const lstat=forbidden,readlink=forbidden,symlink=forbidden,unlink=forbidden,readdir=forbidden;`
-                  : "export const quotePosixShellArg=value=>JSON.stringify(value);",
+                  : path === "node:path"
+                    ? `const state=globalThis[Symbol.for(${JSON.stringify(key)})];
+                       export const { posix, relative, resolve, isAbsolute, dirname, join, sep } = state.pathApi;`
+                    : "export const quotePosixShellArg=value=>JSON.stringify(value);",
             }));
           },
         },
@@ -49,36 +56,49 @@ async function load(name, state) {
   }
 }
 
-test("tar full headers preserve NUL and ASCII regular flags while short headers stay unread", async () => {
-  const blocks = [];
-  for (const [name, flag, content] of [
-    ["nul.txt", 0, "N"],
-    ["ascii.txt", "0".charCodeAt(0), "A"],
-  ]) {
-    const header = Buffer.alloc(512);
-    header.write(name);
-    header.write("0000600", 100, 7);
-    header.write("00000000001", 124, 11);
-    header[156] = flag;
-    blocks.push(header, Buffer.from(content), Buffer.alloc(511));
-  }
-  const state = { archive: gzipSync(Buffer.concat(blocks)), calls: [] };
-  const owner = await load("localTarGz", state);
-  await owner.extractTarGzArchive("/synthetic/archive", "/synthetic/target");
-  assert.deepEqual(state.calls, [
-    ["mkdir", "/synthetic/target", { recursive: true }],
-    ["mkdir", "/synthetic/target", { recursive: true }],
-    ["write", "/synthetic/target/nul.txt", "N"],
-    ["chmod", "/synthetic/target/nul.txt", 0o600],
-    ["mkdir", "/synthetic/target", { recursive: true }],
-    ["write", "/synthetic/target/ascii.txt", "A"],
-    ["chmod", "/synthetic/target/ascii.txt", 0o600],
-  ]);
-  state.archive = gzipSync(Buffer.alloc(511, 1));
-  state.calls.length = 0;
-  await owner.extractTarGzArchive("/synthetic/short", "/synthetic/target");
-  assert.deepEqual(state.calls, [["mkdir", "/synthetic/target", { recursive: true }]]);
-});
+// 归档成员保持 POSIX；物理路径单独覆盖宿主分隔符与 Windows 盘符。
+const pathVariants = [
+  ["native", path, path.resolve("synthetic")],
+  ["POSIX", path.posix, "/synthetic"],
+  ["Win32", path.win32, "C:\\synthetic"],
+];
+for (const [variant, pathApi, fixtureRoot] of pathVariants) {
+  test(
+    "tar full headers preserve NUL and ASCII regular flags while short headers stay unread" +
+      (variant === "native" ? "" : ` (${variant} paths)`),
+    async () => {
+      const blocks = [];
+      for (const [name, flag, content] of [
+        ["nul.txt", 0, "N"],
+        ["ascii.txt", "0".charCodeAt(0), "A"],
+      ]) {
+        const header = Buffer.alloc(512);
+        header.write(name);
+        header.write("0000600", 100, 7);
+        header.write("00000000001", 124, 11);
+        header[156] = flag;
+        blocks.push(header, Buffer.from(content), Buffer.alloc(511));
+      }
+      const state = { archive: gzipSync(Buffer.concat(blocks)), calls: [], pathApi };
+      const owner = await load("localTarGz", state);
+      const targetDir = pathApi.join(fixtureRoot, "target");
+      await owner.extractTarGzArchive(pathApi.join(fixtureRoot, "archive"), targetDir);
+      assert.deepEqual(state.calls, [
+        ["mkdir", targetDir, { recursive: true }],
+        ["mkdir", targetDir, { recursive: true }],
+        ["write", pathApi.join(targetDir, "nul.txt"), "N"],
+        ["chmod", pathApi.join(targetDir, "nul.txt"), 0o600],
+        ["mkdir", targetDir, { recursive: true }],
+        ["write", pathApi.join(targetDir, "ascii.txt"), "A"],
+        ["chmod", pathApi.join(targetDir, "ascii.txt"), 0o600],
+      ]);
+      state.archive = gzipSync(Buffer.alloc(511, 1));
+      state.calls.length = 0;
+      await owner.extractTarGzArchive(pathApi.join(fixtureRoot, "short"), targetDir);
+      assert.deepEqual(state.calls, [["mkdir", targetDir, { recursive: true }]]);
+    },
+  );
+}
 
 test("WSL gateway parsing keeps source priority, IPv4 octet limits, IPv6 and invalid exclusion", async () => {
   const { parseWslHostGatewayOutput: parse } = await load("wslProxy");
