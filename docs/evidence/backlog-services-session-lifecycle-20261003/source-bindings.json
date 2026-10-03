@@ -1,0 +1,29 @@
+{
+  "baseCommit": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "specFirstCommit": "1dcb4c1b61fada0c8ca6e19cc7c057642d64917d",
+  "batch": "complete session lifecycle coordinator",
+  "records": [
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "baselineSha256": "dbbd02c0aa1d5ceee811e36d32beb40c1a50b31ef75f7db8c1a1f0dfd3d16199",
+      "candidateSha256": "c7bfc7533aeb2aa1c79ae0d59fc00ac47f1fd43ebdffcf920cc82cb03dc9d14f",
+      "bytes": 12857
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionPreparation.ts",
+      "baselineSha256": null,
+      "candidateSha256": "13524718b5b348d888fc595e3661151f2e39ab050a25023e69bc2e89adfa8c96",
+      "bytes": 3138
+    },
+    {
+      "path": "packages/services/test/session-lifecycle-contract-20261003.test.ts",
+      "baselineSha256": null,
+      "candidateSha256": "74ccbfd64e4cba3a40d4d225118253f6500ea928d824d4fe95554982b9e9c56e",
+      "bytes": 9644
+    }
+  ],
+  "validation": "UNVERIFIED: no tests, lint, typecheck, formatting/architecture checker, build, audit or CI rerun executed; source and diff reading only",
+  "authoring": "Single source-exposed author reconstructed from recorded behavior contract; no separate author, clean-room or pre-exposure freeze asserted. Public APIs, data/policy values, diagnostics and collaborator expression retain lineage. Whole-expression and rights acceptance remain pending.",
+  "historicalOriginHold": "Preserved, not cleared by implementation allocation. Global source records remain integrator-owned.",
+  "licenseDecision": "NOASSERTION"
+}
