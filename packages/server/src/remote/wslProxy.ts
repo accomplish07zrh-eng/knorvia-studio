@@ -68,20 +68,22 @@ function isPrivateOrLinkLocal(candidate: string, family: number): boolean {
     return lower.startsWith("fc") || lower.startsWith("fd") || /^fe[89ab]/u.test(lower);
   }
   const parts = candidate.split(".").map(Number);
+  const [first, second] = parts;
+  // IPv4 已由 isIP 收窄；仍显式携带第二个 octet，避免长度检查被误当作索引类型证明。
   return (
     parts.length === 4 &&
-    (parts[0] === 10 ||
-      (parts[0] === 192 && parts[1] === 168) ||
-      (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) ||
+    (first === 10 ||
+      (first === 192 && second === 168) ||
+      (first === 172 && second !== undefined && second >= 16 && second <= 31) ||
       candidate.startsWith("169.254."))
   );
 }
 
 export function parseWslHostGatewayOutput(output: string): string | null {
   for (const token of output.trim().split(/\s+/u)) {
-    const matched = /^(route|resolv)=(.+)$/u.exec(token);
-    const source = matched ? matched[1] : "resolv";
-    const candidate = (matched ? matched[2] : token).replace(/^\[|\]$/gu, "");
+    // 无匹配时仍按原始 resolv token 处理；命中的 capture 与缺省值都是真实字符串。
+    const [, source = "resolv", value = token] = /^(route|resolv)=(.+)$/u.exec(token) ?? [];
+    const candidate = value.replace(/^\[|\]$/gu, "");
     const family = isIP(candidate);
     if (family !== 4 && family !== 6) continue;
     if (candidate === "::1" || (family === 4 && candidate.startsWith("127."))) continue;

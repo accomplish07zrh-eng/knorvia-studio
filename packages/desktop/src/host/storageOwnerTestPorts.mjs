@@ -133,7 +133,9 @@ export class PortEmitter {
     return this;
   }
   emit(name, ...args) {
-    for (const item of [...(this.handlers.get(name) ?? [])]) {
+    // 回调会增删监听条目；本轮派发集合必须先快照，不能直接迭代 live 数组。
+    const snapshot = [...(this.handlers.get(name) ?? [])];
+    for (const item of snapshot) {
       if (item.once)
         this.handlers.set(
           name,

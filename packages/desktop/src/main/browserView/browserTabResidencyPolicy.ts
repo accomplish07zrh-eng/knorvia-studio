@@ -86,5 +86,3 @@ export function selectBrowserTabLimitVictim(
 
   return eligible[0] ?? null;
 }
-
-export {};

@@ -53,7 +53,9 @@ class ControlExchange {
           fail(error, true);
         }
       });
-      this.socket.on("connect", () => this.socket.write(encodeJsonLine({ ...request, id: this.id })));
+      this.socket.on("connect", () =>
+        this.socket.write(encodeJsonLine({ ...request, id: this.id })),
+      );
     });
   }
 }

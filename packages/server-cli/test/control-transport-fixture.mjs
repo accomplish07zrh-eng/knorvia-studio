@@ -17,7 +17,14 @@ export function ports() {
     responses: [],
     uuid: () => "fixture-generated-id",
     setTimeout(callback, ms) {
-      const timer = { callback, ms, unrefed: false, unref() { this.unrefed = true; } };
+      const timer = {
+        callback,
+        ms,
+        unrefed: false,
+        unref() {
+          this.unrefed = true;
+        },
+      };
       deadlines.set(timer, timer);
       return timer;
     },
@@ -25,15 +32,22 @@ export function ports() {
       journal.push(["clear-timeout", timer]);
       deadlines.delete(timer);
     },
-    async rm(...args) { journal.push(["rm", ...args]); },
-    async mkdir(...args) { journal.push(["mkdir", ...args]); },
-    async chmod(...args) { journal.push(["chmod", ...args]); },
-    parseResponse(value) { state.responses.push(value); return value; },
+    async rm(...args) {
+      journal.push(["rm", ...args]);
+    },
+    async mkdir(...args) {
+      journal.push(["mkdir", ...args]);
+    },
+    async chmod(...args) {
+      journal.push(["chmod", ...args]);
+    },
+    parseResponse(value) {
+      state.responses.push(value);
+      return value;
+    },
     parseRequest(value) {
       state.requests.push(value);
-      return value?.command === "invalid"
-        ? { success: false }
-        : { success: true, data: value };
+      return value?.command === "invalid" ? { success: false } : { success: true, data: value };
     },
     connect(endpoint) {
       journal.push(["connect", endpoint]);
@@ -44,8 +58,16 @@ export function ports() {
       Object.assign(server, {
         accept,
         closeCalls: 0,
-        listen(endpoint, ready) { journal.push(["listen", endpoint]); ready(); return this; },
-        close(done) { this.closeCalls++; journal.push(["server-close"]); this.closed = done; },
+        listen(endpoint, ready) {
+          journal.push(["listen", endpoint]);
+          ready();
+          return this;
+        },
+        close(done) {
+          this.closeCalls++;
+          journal.push(["server-close"]);
+          this.closed = done;
+        },
       });
       state.server = server;
       return server;
@@ -64,7 +86,10 @@ export function socket(journal = []) {
     ends: 0,
     destroyed: false,
     writableEnded: false,
-    setEncoding(value) { journal.push(["encoding", value]); return this; },
+    setEncoding(value) {
+      journal.push(["encoding", value]);
+      return this;
+    },
     write(value, callback) {
       if (this.writeFailure) throw this.writeFailure;
       this.writes.push(value);
@@ -72,8 +97,18 @@ export function socket(journal = []) {
       if (callback) this.writeCallbacks.push(callback);
       return true;
     },
-    destroy() { this.destroys++; this.destroyed = true; journal.push(["destroy"]); return this; },
-    end() { this.ends++; this.writableEnded = true; journal.push(["end"]); return this; },
+    destroy() {
+      this.destroys++;
+      this.destroyed = true;
+      journal.push(["destroy"]);
+      return this;
+    },
+    end() {
+      this.ends++;
+      this.writableEnded = true;
+      journal.push(["end"]);
+      return this;
+    },
   });
 }
 
@@ -103,21 +138,28 @@ export async function loadOwner(name, state = ports()) {
       platform: "node",
       format: "esm",
       logLevel: "silent",
-      banner: { js: `const {setTimeout, clearTimeout} = globalThis[Symbol.for(${JSON.stringify(key)})];` },
-      plugins: [{
-        name: "deferred-control-ports",
-        setup(plugin) {
-          plugin.onResolve({ filter: /^(?:node:|\.\.\/contracts\.js$)/ }, ({ path }) => {
-            assert.ok(Object.hasOwn(replacements, path), `unexpected external port ${path}`);
-            return { path, namespace: "control-port" };
-          });
-          plugin.onLoad({ filter: /.*/, namespace: "control-port" }, ({ path }) => ({
-            contents: replacements[path], loader: "js",
-          }));
+      banner: {
+        js: `const {setTimeout, clearTimeout} = globalThis[Symbol.for(${JSON.stringify(key)})];`,
+      },
+      plugins: [
+        {
+          name: "deferred-control-ports",
+          setup(plugin) {
+            plugin.onResolve({ filter: /^(?:node:|\.\.\/contracts\.js$)/ }, ({ path }) => {
+              assert.ok(Object.hasOwn(replacements, path), `unexpected external port ${path}`);
+              return { path, namespace: "control-port" };
+            });
+            plugin.onLoad({ filter: /.*/, namespace: "control-port" }, ({ path }) => ({
+              contents: replacements[path],
+              loader: "js",
+            }));
+          },
         },
-      }],
+      ],
     });
-    return await import(`data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString("base64")}`);
+    return await import(
+      `data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString("base64")}`
+    );
   } finally {
     delete globalThis[Symbol.for(key)];
   }
@@ -130,6 +172,9 @@ export async function flush() {
 export function deferred() {
   let resolve;
   let reject;
-  const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
+  const promise = new Promise((yes, no) => {
+    resolve = yes;
+    reject = no;
+  });
   return { promise, resolve, reject };
 }

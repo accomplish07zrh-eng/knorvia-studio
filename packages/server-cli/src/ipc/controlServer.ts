@@ -34,7 +34,9 @@ class ControlSession {
     private readonly socket: Socket,
     private readonly handler: ControlHandler,
   ) {
-    socket.on("error", () => { socket.destroy(); });
+    socket.on("error", () => {
+      socket.destroy();
+    });
     socket.setEncoding("utf8");
     socket.on("data", (chunk: string) => this.receive(chunk));
     socket.on("end", () => {
@@ -100,7 +102,10 @@ class ControlListener {
   private readonly connections = new Set<Socket>();
   private shutdown: Promise<void> | undefined;
 
-  public constructor(private readonly endpoint: string, handler: ControlHandler) {
+  public constructor(
+    private readonly endpoint: string,
+    handler: ControlHandler,
+  ) {
     this.server = createServer((socket) => {
       this.connections.add(socket);
       socket.once("close", () => this.connections.delete(socket));

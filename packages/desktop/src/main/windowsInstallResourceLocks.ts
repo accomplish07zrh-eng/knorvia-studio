@@ -65,7 +65,8 @@ export async function runWindowsUpdateProcessCleanup<TTerminationResult>(
   }
   result.terminationPids = [
     ...new Set(
-      result.initialLockProcesses.map((row) => row.pid)
+      result.initialLockProcesses
+        .map((row) => row.pid)
         .filter((pid) => Number.isSafeInteger(pid) && pid > 0),
     ),
   ];
@@ -168,7 +169,10 @@ function probeDirectory(dir: string, path: string): WindowsPackagedResourceWrita
     removeSentinel(sentinel);
     removeSentinel(renamed);
     return {
-      dir, path, exists, writable: false,
+      dir,
+      path,
+      exists,
+      writable: false,
       error: error instanceof Error ? error.message : String(error),
     };
   }
@@ -217,16 +221,25 @@ export async function findWindowsProcessesReferencingResourceMarkers(
   if (markers.length === 0) return [];
   const { stdout } = await execFileAsync(
     "powershell.exe",
-    ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", queryScript(markers)],
+    [
+      "-NoProfile",
+      "-NonInteractive",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-Command",
+      queryScript(markers),
+    ],
     { encoding: "utf8", windowsHide: true, timeout: queryTimeoutMs, maxBuffer: 2 * 1024 * 1024 },
   );
   const text = stdout.trim();
   if (!text) return [];
   const value = JSON.parse(text) as WindowsProcessRow | WindowsProcessRow[];
   const rows = Array.isArray(value) ? value : [value];
-  return rows.map((row) => ({
-    pid: row.ProcessId ?? 0,
-    commandLine: row.CommandLine ?? undefined,
-    executablePath: row.ExecutablePath ?? undefined,
-  })).filter((row) => Number.isInteger(row.pid) && row.pid > 0);
+  return rows
+    .map((row) => ({
+      pid: row.ProcessId ?? 0,
+      commandLine: row.CommandLine ?? undefined,
+      executablePath: row.ExecutablePath ?? undefined,
+    }))
+    .filter((row) => Number.isInteger(row.pid) && row.pid > 0);
 }

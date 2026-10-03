@@ -8,18 +8,27 @@ let fixtureNumber = 0;
 
 export function ports() {
   const state = {
-    journal: [], reads: [], locks: [], writes: [], renameFailures: [], timers: [],
+    journal: [],
+    reads: [],
+    locks: [],
+    writes: [],
+    renameFailures: [],
+    timers: [],
     clock: 0,
     layout: { statusFile: "/fixture/status.json", lockFile: "/fixture/server.lock" },
     now: () => state.clock,
-    setTimeout(callback, ms) { state.timers.push({ callback, ms }); },
+    setTimeout(callback, ms) {
+      state.timers.push({ callback, ms });
+    },
     async readFile(path, encoding) {
       state.journal.push(["read", path, encoding]);
       const read = state.reads.shift();
       if (read instanceof Error || (read && typeof read === "object")) throw read;
       return read ?? '{"state":"stopped","updatedAt":11}';
     },
-    parseStatus(value) { return value; },
+    parseStatus(value) {
+      return value;
+    },
     async writeFile(...args) {
       state.journal.push(["write", ...args]);
       state.writes.push(args);
@@ -34,7 +43,10 @@ export function ports() {
       state.journal.push(["inspect", path]);
       return state.locks.shift() ?? { state: "missing" };
     },
-    describe(lock) { state.journal.push(["describe", lock]); return `fixture ${lock.state} lock`; },
+    describe(lock) {
+      state.journal.push(["describe", lock]);
+      return `fixture ${lock.state} lock`;
+    },
   };
   return state;
 }
@@ -65,21 +77,31 @@ export async function loadOwner(name, state = ports()) {
       platform: "node",
       format: "esm",
       logLevel: "silent",
-      banner: { js: `const suppliedClock = globalThis[Symbol.for(${JSON.stringify(key)})]; const Date = {now: suppliedClock.now}; const process = {pid: 7301}; const setTimeout = suppliedClock.setTimeout;` },
-      plugins: [{
-        name: "deferred-status-ports",
-        setup(plugin) {
-          plugin.onResolve({ filter: /^(?:node:|\.\.\/contracts\.js$|\.\/(?:paths|lock|uninstallGuard)\.js$)/ }, ({ path }) => {
-            assert.ok(Object.hasOwn(replacements, path), `unexpected external port ${path}`);
-            return { path, namespace: "status-port" };
-          });
-          plugin.onLoad({ filter: /.*/, namespace: "status-port" }, ({ path }) => ({
-            contents: replacements[path], loader: "js",
-          }));
+      banner: {
+        js: `const suppliedClock = globalThis[Symbol.for(${JSON.stringify(key)})]; const Date = {now: suppliedClock.now}; const process = {pid: 7301}; const setTimeout = suppliedClock.setTimeout;`,
+      },
+      plugins: [
+        {
+          name: "deferred-status-ports",
+          setup(plugin) {
+            plugin.onResolve(
+              { filter: /^(?:node:|\.\.\/contracts\.js$|\.\/(?:paths|lock|uninstallGuard)\.js$)/ },
+              ({ path }) => {
+                assert.ok(Object.hasOwn(replacements, path), `unexpected external port ${path}`);
+                return { path, namespace: "status-port" };
+              },
+            );
+            plugin.onLoad({ filter: /.*/, namespace: "status-port" }, ({ path }) => ({
+              contents: replacements[path],
+              loader: "js",
+            }));
+          },
         },
-      }],
+      ],
     });
-    return await import(`data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString("base64")}`);
+    return await import(
+      `data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString("base64")}`
+    );
   } finally {
     delete globalThis[Symbol.for(key)];
   }
@@ -91,6 +113,8 @@ export async function flush() {
 
 export function deferred() {
   let resolve;
-  const promise = new Promise((yes) => { resolve = yes; });
+  const promise = new Promise((yes) => {
+    resolve = yes;
+  });
   return { promise, resolve };
 }

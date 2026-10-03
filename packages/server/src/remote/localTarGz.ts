@@ -107,7 +107,9 @@ export async function extractTarGzArchive(archivePath: string, targetDir: string
     }
     const data = archive.subarray(dataStart, dataEnd);
     position = dataStart + Math.ceil(size / BLOCK_SIZE) * BLOCK_SIZE;
-    const typeFlag = header[156] === 0 ? "0" : String.fromCharCode(header[156]);
+    // 入场条件已保证完整 512-byte header，单字节 API 明确表达此有界读取。
+    const typeByte = header.readUInt8(156);
+    const typeFlag = typeByte === 0 ? "0" : String.fromCharCode(typeByte);
 
     if (typeFlag === "L") {
       pendingName = readString(data, 0, data.length);

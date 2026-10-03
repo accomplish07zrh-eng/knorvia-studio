@@ -1,12 +1,23 @@
 /* eslint-disable max-lines -- Native export selection, stream sanitization and archive lifetimes share one contract. */
 import { constants, createReadStream, createWriteStream, type Dirent } from "node:fs";
-import { access, mkdir, mkdtemp, open, readdir, realpath, rm, stat, writeFile } from "node:fs/promises";
+import {
+  access,
+  mkdir,
+  mkdtemp,
+  open,
+  readdir,
+  realpath,
+  rm,
+  stat,
+  writeFile,
+} from "node:fs/promises";
 import { dirname, join, posix } from "node:path";
 import { Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { ZipFile } from "yazl";
 import {
-  createFeedbackDiagnosticArchive, getAppConfigDir,
+  createFeedbackDiagnosticArchive,
+  getAppConfigDir,
   getExportLogDir as getDefaultExportLogDir,
   getExportLogStageDir as getDefaultExportLogStageDir,
   getFeedbackLogArchiveDir as getDefaultFeedbackLogArchiveDir,
@@ -153,8 +164,13 @@ interface TextDecodingScore {
 
 const UTF16_CODECS = ["utf-16le", "utf-16be"] as const;
 const PREFERRED_TEXT_RANGES = [
-  [0x20, 0x7e], [0x4e00, 0x9fff], [0x3400, 0x4dbf], [0x3000, 0x303f],
-  [0xff00, 0xffef], [0x3040, 0x30ff], [0xac00, 0xd7af],
+  [0x20, 0x7e],
+  [0x4e00, 0x9fff],
+  [0x3400, 0x4dbf],
+  [0x3000, 0x303f],
+  [0xff00, 0xffef],
+  [0x3040, 0x30ff],
+  [0xac00, 0xd7af],
 ] as const;
 const PRIVATE_KEY_LINE = /[^\r\n]*(?:\r?\n|$)/g;
 const PRIVATE_KEY_BEGIN = /-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----/;
@@ -164,15 +180,31 @@ function diagnosticError(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-function dataRoot(): string { return getAppConfigDir(); }
-function cliLogsRoot(): string { return join(join(dirname(getAppConfigDir()), "cli"), "log"); }
-function helperLogsRoot(): string { return join(dirname(getAppConfigDir()), "computer-use", "run"); }
-function portablePath(path: string): string { return path.replaceAll("\\", "/"); }
+function dataRoot(): string {
+  return getAppConfigDir();
+}
+function cliLogsRoot(): string {
+  return join(join(dirname(getAppConfigDir()), "cli"), "log");
+}
+function helperLogsRoot(): string {
+  return join(dirname(getAppConfigDir()), "computer-use", "run");
+}
+function portablePath(path: string): string {
+  return path.replaceAll("\\", "/");
+}
 
 function localTimestamp(date: Date): string {
-  const calendar = [date.getFullYear(), date.getMonth() + 1, date.getDate(),
-    date.getHours(), date.getMinutes(), date.getSeconds()];
-  const fields = calendar.map((part, index) => index === 0 ? String(part) : String(part).padStart(2, "0"));
+  const calendar = [
+    date.getFullYear(),
+    date.getMonth() + 1,
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+  ];
+  const fields = calendar.map((part, index) =>
+    index === 0 ? String(part) : String(part).padStart(2, "0"),
+  );
   return fields.slice(0, 3).join("") + "-" + fields.slice(3).join("");
 }
 
@@ -197,15 +229,25 @@ class ArchivePathPolicy {
     const descendantOf = (root: string) => normalized === root || normalized.startsWith(`${root}/`);
     if (HIGH_VOLUME_RUNTIME_ARCHIVE_PATHS.some(descendantOf)) return true;
     const first = normalized.split("/")[0] ?? "";
-    if (DOCSHOT_ARCHIVE_PATHS.some((root) => root === first) ||
-      DOCSHOT_ARCHIVE_PATH_PREFIXES.some((prefix) => first.startsWith(prefix))) return true;
-    if (RETIRED_ACP_RUNTIME_ARCHIVE_PATHS.some(descendantOf) || descendantOf("Library/Caches")) return true;
+    if (
+      DOCSHOT_ARCHIVE_PATHS.some((root) => root === first) ||
+      DOCSHOT_ARCHIVE_PATH_PREFIXES.some((prefix) => first.startsWith(prefix))
+    )
+      return true;
+    if (RETIRED_ACP_RUNTIME_ARCHIVE_PATHS.some(descendantOf) || descendantOf("Library/Caches"))
+      return true;
     if (ZIP_EXCLUDE_REGEXES.some((rule) => rule.test(normalized))) return true;
-    return lower !== "about.txt" && !["logs", ".knorvia-studio/cli/log", ".knorvia-studio/computer-use/run"]
-      .some((root) => lower === root || lower.startsWith(`${root}/`));
+    return (
+      lower !== "about.txt" &&
+      !["logs", ".knorvia-studio/cli/log", ".knorvia-studio/computer-use/run"].some(
+        (root) => lower === root || lower.startsWith(`${root}/`),
+      )
+    );
   }
 
-  public diagnostic(path: string): boolean { return DIAGNOSTIC_TEXT_EXTENSIONS.test(path); }
+  public diagnostic(path: string): boolean {
+    return DIAGNOSTIC_TEXT_EXTENSIONS.test(path);
+  }
 
   public aged(path: string): boolean {
     const normalized = portablePath(path);
@@ -227,7 +269,9 @@ class ArchiveSelection {
     this.visited.add(identity);
     const entries = await readdir(directory, { withFileTypes: true }).catch((error: unknown) => {
       logger.warn("[export-logs] 日志目录不可读，已在导出时自动跳过", {
-        absolutePath: directory, archivePath: prefix, error: diagnosticError(error),
+        absolutePath: directory,
+        archivePath: prefix,
+        error: diagnosticError(error),
       });
       return null;
     });
@@ -245,7 +289,10 @@ class ArchiveSelection {
     while (frames.length > 0) {
       const frame = frames[frames.length - 1]!;
       const next = frame.entries.next();
-      if (next.done) { frames.pop(); continue; }
+      if (next.done) {
+        frames.pop();
+        continue;
+      }
       const entry = next.value;
       const archivePath = frame.prefix ? posix.join(frame.prefix, entry.name) : entry.name;
       if (archivePolicy.excludes(archivePath)) continue;
@@ -287,26 +334,38 @@ function orderFiles(files: LogArchiveFileEntry[]): LogArchiveFileEntry[] {
   return files.sort((left, right) => left.archivePath.localeCompare(right.archivePath));
 }
 
-async function recentSelection(files: LogArchiveFileEntry[], options: CreateLogArchiveArtifactsOptions): Promise<LogArchiveFileEntry[]> {
+async function recentSelection(
+  files: LogArchiveFileEntry[],
+  options: CreateLogArchiveArtifactsOptions,
+): Promise<LogArchiveFileEntry[]> {
   const days = options.lookbackDays ?? DEFAULT_LOG_EXPORT_LOOKBACK_DAYS;
   if (days <= 0) return files;
   const now = options.now ?? (() => new Date());
   const cutoff = now().getTime() - days * MILLISECONDS_PER_DAY;
   const accepted: LogArchiveFileEntry[] = [];
   for (const file of files) {
-    if (!archivePolicy.aged(file.archivePath)) { accepted.push(file); continue; }
+    if (!archivePolicy.aged(file.archivePath)) {
+      accepted.push(file);
+      continue;
+    }
     const metadata = await stat(file.absolutePath).catch(() => null);
     if (metadata?.isFile() && metadata.mtimeMs >= cutoff) accepted.push(file);
   }
   return accepted;
 }
 
-async function buildLogArtifacts(sourceDir: string, options: CreateLogArchiveArtifactsOptions = {}): Promise<LogArchiveArtifacts> {
+async function buildLogArtifacts(
+  sourceDir: string,
+  options: CreateLogArchiveArtifactsOptions = {},
+): Promise<LogArchiveArtifacts> {
   const selection = new ArchiveSelection();
   await selection.directory(sourceDir, "");
   const cliRoot = cliLogsRoot();
   await selection.directory(cliRoot, posix.join(".knorvia-studio", "cli", "log"));
-  await selection.helperDirectory(helperLogsRoot(), posix.join(".knorvia-studio", "computer-use", "run"));
+  await selection.helperDirectory(
+    helperLogsRoot(),
+    posix.join(".knorvia-studio", "computer-use", "run"),
+  );
   const files = orderFiles(await recentSelection(selection.files, options));
   const snapshot = createAboutSnapshot({ buildMetadata: readBuildMetadata() });
   return { files, aboutContent: formatAboutDetail(snapshot) };
@@ -334,47 +393,68 @@ class EncodingEvidence {
   private asciiRuns(): SupportedTextEncoding | null {
     if (this.sample.length < 4) return null;
     const runs = { "utf-16le": { length: 0, score: 0 }, "utf-16be": { length: 0, score: 0 } };
-    const endRun = (codec: typeof UTF16_CODECS[number]) => {
+    const endRun = (codec: (typeof UTF16_CODECS)[number]) => {
       const run = runs[codec];
       if (run.length >= 3) run.score += run.length;
       run.length = 0;
     };
-    const ascii = (byte: number) => byte === 9 || byte === 10 || byte === 13 || (byte >= 0x20 && byte <= 0x7e);
+    const ascii = (byte: number) =>
+      byte === 9 || byte === 10 || byte === 13 || (byte >= 0x20 && byte <= 0x7e);
     for (let index = 0; index + 1 < this.sample.length; index += 2) {
       const left = this.sample[index] ?? 0;
       const right = this.sample[index + 1] ?? 0;
-      const direction = right === 0 && ascii(left) ? "utf-16le" : left === 0 && ascii(right) ? "utf-16be" : null;
+      const direction =
+        right === 0 && ascii(left) ? "utf-16le" : left === 0 && ascii(right) ? "utf-16be" : null;
       for (const codec of UTF16_CODECS) {
         if (codec === direction) runs[codec].length++;
         else endRun(codec);
       }
     }
     for (const codec of UTF16_CODECS) endRun(codec);
-    if (runs["utf-16le"].score >= 6 && runs["utf-16le"].score >= runs["utf-16be"].score * 1.5) return "utf-16le";
-    if (runs["utf-16be"].score >= 6 && runs["utf-16be"].score >= runs["utf-16le"].score * 1.5) return "utf-16be";
+    if (runs["utf-16le"].score >= 6 && runs["utf-16le"].score >= runs["utf-16be"].score * 1.5)
+      return "utf-16le";
+    if (runs["utf-16be"].score >= 6 && runs["utf-16be"].score >= runs["utf-16le"].score * 1.5)
+      return "utf-16be";
     return null;
   }
 
-  private decodedScore(codec: typeof UTF16_CODECS[number], bytes: Buffer): TextDecodingScore {
-    let count = 0; let preferred = 0; let invalid = 0;
+  private decodedScore(codec: (typeof UTF16_CODECS)[number], bytes: Buffer): TextDecodingScore {
+    let count = 0;
+    let preferred = 0;
+    let invalid = 0;
     for (const character of new TextDecoder(codec).decode(bytes)) {
       count++;
       const code = character.codePointAt(0) ?? 0;
-      if (code === 0xfffd || code === 0 || code === 0x7f || (code >= 0xd800 && code <= 0xdfff) ||
-        (code <= 0x1f && code !== 9 && code !== 10 && code !== 13)) invalid++;
-      else if (code === 9 || code === 10 || code === 13 ||
-        PREFERRED_TEXT_RANGES.some(([first, last]) => code >= first && code <= last)) preferred++;
+      if (
+        code === 0xfffd ||
+        code === 0 ||
+        code === 0x7f ||
+        (code >= 0xd800 && code <= 0xdfff) ||
+        (code <= 0x1f && code !== 9 && code !== 10 && code !== 13)
+      )
+        invalid++;
+      else if (
+        code === 9 ||
+        code === 10 ||
+        code === 13 ||
+        PREFERRED_TEXT_RANGES.some(([first, last]) => code >= first && code <= last)
+      )
+        preferred++;
     }
-    return { preferredCharRatio: preferred / Math.max(count, 1), invalidCharRatio: invalid / Math.max(count, 1) };
+    return {
+      preferredCharRatio: preferred / Math.max(count, 1),
+      invalidCharRatio: invalid / Math.max(count, 1),
+    };
   }
 
   private decodedHint(): SupportedTextEncoding | null {
-    const length = this.sample.length - this.sample.length % 2;
+    const length = this.sample.length - (this.sample.length % 2);
     if (length < 4) return null;
     const bytes = this.sample.subarray(0, length);
     const le = this.decodedScore("utf-16le", bytes);
     const be = this.decodedScore("utf-16be", bytes);
-    const qualified = (score: TextDecodingScore) => score.preferredCharRatio >= 0.55 && score.invalidCharRatio <= 0.2;
+    const qualified = (score: TextDecodingScore) =>
+      score.preferredCharRatio >= 0.55 && score.invalidCharRatio <= 0.2;
     if (qualified(le) !== qualified(be)) return qualified(le) ? "utf-16le" : "utf-16be";
     if (!qualified(le)) return null;
     if (Math.abs(le.preferredCharRatio - be.preferredCharRatio) >= 0.08) {
@@ -384,8 +464,12 @@ class EncodingEvidence {
   }
 
   private utf8Valid(): boolean {
-    try { new TextDecoder("utf-8", { fatal: true }).decode(this.sample); return true; }
-    catch { return false; }
+    try {
+      new TextDecoder("utf-8", { fatal: true }).decode(this.sample);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   public choose(): TextFileEncodingInfo | null {
@@ -394,11 +478,17 @@ class EncodingEvidence {
       { codec: "utf-8" as const, bytes: [0xef, 0xbb, 0xbf] },
       { codec: "utf-16le" as const, bytes: [0xff, 0xfe] },
       { codec: "utf-16be" as const, bytes: [0xfe, 0xff] },
-    ].find(({ bytes }) => this.sample.length >= bytes.length && bytes.every((byte, index) => this.sample[index] === byte));
-    if (bom) return { encoding: bom.codec, bomLength: bom.bytes.length, bomBytes: Buffer.from(bom.bytes) };
+    ].find(
+      ({ bytes }) =>
+        this.sample.length >= bytes.length &&
+        bytes.every((byte, index) => this.sample[index] === byte),
+    );
+    if (bom)
+      return { encoding: bom.codec, bomLength: bom.bytes.length, bomBytes: Buffer.from(bom.bytes) };
     // 沿用既有二进制门槛：含 NUL 却不具备明确字节序证据时不能进入评分兜底。
     if (this.sample.includes(0) && !this.nullParity()) return null;
-    if (!this.sample.includes(0) && this.utf8Valid()) return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
+    if (!this.sample.includes(0) && this.utf8Valid())
+      return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
     const codec = this.asciiRuns() ?? this.nullParity() ?? this.decodedHint();
     if (codec) return { encoding: codec, bomLength: 0, bomBytes: EMPTY_BOM };
     return this.utf8Valid() ? { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM } : null;
@@ -409,8 +499,12 @@ function maskScalar(raw: string): string {
   const leading = raw.match(/^\s*/)?.[0] ?? "";
   const trailing = raw.match(/\s*$/)?.[0] ?? "";
   const trimmed = raw.trim();
-  const quote = trimmed.startsWith('"') && trimmed.endsWith('"') ? '"' :
-    trimmed.startsWith("'") && trimmed.endsWith("'") ? "'" : "";
+  const quote =
+    trimmed.startsWith('"') && trimmed.endsWith('"')
+      ? '"'
+      : trimmed.startsWith("'") && trimmed.endsWith("'")
+        ? "'"
+        : "";
   return `${leading}${quote}${REDACTED_PLACEHOLDER}${quote}${trailing}`;
 }
 
@@ -421,20 +515,29 @@ function sensitiveKey(key: string): boolean {
 function maskDiagnosticText(content: string): string {
   const keyed = (match: string, prefix: string, key: string, separator: string, value: string) =>
     sensitiveKey(key) ? `${prefix}${key}${separator}${maskScalar(value)}` : match;
-  const connections = content.replace(CONNECTION_STRING_CREDENTIALS_REGEX,
-    (_match, scheme: string) => `${scheme}${REDACTED_PLACEHOLDER}:${REDACTED_PLACEHOLDER}@`);
-  const json = connections.replace(JSON_STYLE_SENSITIVE_VALUE_REGEX,
+  const connections = content.replace(
+    CONNECTION_STRING_CREDENTIALS_REGEX,
+    (_match, scheme: string) => `${scheme}${REDACTED_PLACEHOLDER}:${REDACTED_PLACEHOLDER}@`,
+  );
+  const json = connections.replace(
+    JSON_STYLE_SENSITIVE_VALUE_REGEX,
     (match, quote: string, key: string, separator: string, value: string) =>
-      sensitiveKey(key) ? `${quote}${key}${quote}${separator}${maskScalar(value)}` : match);
+      sensitiveKey(key) ? `${quote}${key}${quote}${separator}${maskScalar(value)}` : match,
+  );
   const assignments = json.replace(ASSIGNMENT_STYLE_SENSITIVE_VALUE_REGEX, keyed);
-  const headers = assignments.replace(HEADER_STYLE_SENSITIVE_VALUE_REGEX,
+  const headers = assignments.replace(
+    HEADER_STYLE_SENSITIVE_VALUE_REGEX,
     (match, prefix: string, key: string, separator: string, value: string) => {
       if (!sensitiveKey(key)) return match;
       const trimmed = value.trim();
-      const masked = /^bearer\s+/i.test(trimmed) ? trimmed.replace(/^bearer\s+.+$/i, `Bearer ${REDACTED_PLACEHOLDER}`) : REDACTED_PLACEHOLDER;
+      const masked = /^bearer\s+/i.test(trimmed)
+        ? trimmed.replace(/^bearer\s+.+$/i, `Bearer ${REDACTED_PLACEHOLDER}`)
+        : REDACTED_PLACEHOLDER;
       return `${prefix}${key}${separator}${masked}`;
-    });
-  return headers.replace(BEARER_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
+    },
+  );
+  return headers
+    .replace(BEARER_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
     .replace(QUERY_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
     .replace(/\b(?:sk|rk|pk)-[A-Za-z0-9_-]{12,}\b/gi, REDACTED_PLACEHOLDER)
     .replace(/\bgh[pousr]_[A-Za-z0-9]{20,}\b/g, REDACTED_PLACEHOLDER);
@@ -451,12 +554,17 @@ class SanitizerStreamState {
   private pending = "";
   private privateKey = false;
 
-  public constructor(private readonly codec: SupportedTextEncoding) { this.decoder = new TextDecoder(codec); }
+  public constructor(private readonly codec: SupportedTextEncoding) {
+    this.decoder = new TextDecoder(codec);
+  }
 
   private output(text: string): Buffer {
     const publicLines = text.replace(PRIVATE_KEY_LINE, (line) => {
       if (!line) return "";
-      if (PRIVATE_KEY_BEGIN.test(line)) { this.privateKey = true; return `${REDACTED_PLACEHOLDER}\n`; }
+      if (PRIVATE_KEY_BEGIN.test(line)) {
+        this.privateKey = true;
+        return `${REDACTED_PLACEHOLDER}\n`;
+      }
       if (!this.privateKey) return line;
       if (PRIVATE_KEY_END.test(line)) this.privateKey = false;
       return "";
@@ -489,14 +597,20 @@ function sanitizerTransform(codec: SupportedTextEncoding): Transform {
     transform(chunk, _encoding, callback) {
       try {
         const result = owner.receive(chunk);
-        if (result === undefined) callback(); else callback(null, result);
-      } catch (error) { callback(error as Error); }
+        if (result === undefined) callback();
+        else callback(null, result);
+      } catch (error) {
+        callback(error as Error);
+      }
     },
     flush(callback) {
       try {
         const result = owner.finish();
-        if (result === undefined) callback(); else callback(null, result);
-      } catch (error) { callback(error as Error); }
+        if (result === undefined) callback();
+        else callback(null, result);
+      } catch (error) {
+        callback(error as Error);
+      }
     },
   });
 }
@@ -507,10 +621,16 @@ async function sampleFile(path: string): Promise<Buffer> {
     const sample = Buffer.alloc(TEXT_DETECTION_SAMPLE_BYTES);
     const result = await handle.read(sample, 0, TEXT_DETECTION_SAMPLE_BYTES, 0);
     return sample.subarray(0, result.bytesRead);
-  } finally { await handle.close(); }
+  } finally {
+    await handle.close();
+  }
 }
 
-async function writeSanitizedFile(source: string, destination: string, info: TextFileEncodingInfo): Promise<void> {
+async function writeSanitizedFile(
+  source: string,
+  destination: string,
+  info: TextFileEncodingInfo,
+): Promise<void> {
   const input = createReadStream(source, { start: info.bomLength });
   const output = createWriteStream(destination);
   if (info.bomLength > 0) output.write(info.bomBytes);
@@ -521,45 +641,74 @@ class DiagnosticCopy {
   private readonly skipped: LogArchiveSkippedFileEntry[] = [];
 
   private record(file: LogArchiveFileEntry, error: unknown): void {
-    this.skipped.push({ absolutePath: file.absolutePath, archivePath: file.archivePath, error: diagnosticError(error) });
+    this.skipped.push({
+      absolutePath: file.absolutePath,
+      archivePath: file.archivePath,
+      error: diagnosticError(error),
+    });
   }
 
-  public async execute(output: string, files: LogArchiveFileEntry[]): Promise<LogArchiveSkippedFileEntry[]> {
+  public async execute(
+    output: string,
+    files: LogArchiveFileEntry[],
+  ): Promise<LogArchiveSkippedFileEntry[]> {
     for (const file of files) {
       const destination = join(output, ...file.archivePath.split("/"));
       await mkdir(dirname(destination), { recursive: true });
-      const metadata = await stat(file.absolutePath).catch((error: unknown) => { this.record(file, error); return null; });
+      const metadata = await stat(file.absolutePath).catch((error: unknown) => {
+        this.record(file, error);
+        return null;
+      });
       if (!metadata?.isFile()) continue;
-      const readable = await access(file.absolutePath, constants.R_OK).then(() => true)
-        .catch((error: unknown) => { this.record(file, error); return false; });
+      const readable = await access(file.absolutePath, constants.R_OK)
+        .then(() => true)
+        .catch((error: unknown) => {
+          this.record(file, error);
+          return false;
+        });
       if (!readable) continue;
       try {
         const info = new EncodingEvidence(await sampleFile(file.absolutePath)).choose();
-        if (info === null) { this.record(file, "unsupported binary diagnostic"); continue; }
+        if (info === null) {
+          this.record(file, "unsupported binary diagnostic");
+          continue;
+        }
         await writeSanitizedFile(file.absolutePath, destination, info);
       } catch (error) {
         const current = await stat(file.absolutePath).catch(() => null);
-        const stillReadable = current?.isFile() ? await access(file.absolutePath, constants.R_OK)
-          .then(() => true).catch(() => false) : false;
+        const stillReadable = current?.isFile()
+          ? await access(file.absolutePath, constants.R_OK)
+              .then(() => true)
+              .catch(() => false)
+          : false;
         // 保留轮转/权限竞态边界：源头已不可读才跳过；可读源的真正处理错误仍然失败。
-        if (!stillReadable) this.record(file, error); else throw error;
+        if (!stillReadable) this.record(file, error);
+        else throw error;
       }
     }
     return this.skipped;
   }
 }
 
-async function writeArchiveDirectory(output: string, artifacts: LogArchiveArtifacts): Promise<void> {
+async function writeArchiveDirectory(
+  output: string,
+  artifacts: LogArchiveArtifacts,
+): Promise<void> {
   await mkdir(output, { recursive: true });
   const skipped = await new DiagnosticCopy().execute(output, artifacts.files);
-  if (skipped.length > 0) logger.warn("[export-logs] 检测到不可读日志文件，已在导出时自动跳过", {
-    skippedCount: skipped.length, skippedFiles: skipped.slice(0, 10),
-  });
+  if (skipped.length > 0)
+    logger.warn("[export-logs] 检测到不可读日志文件，已在导出时自动跳过", {
+      skippedCount: skipped.length,
+      skippedFiles: skipped.slice(0, 10),
+    });
   await writeFile(join(output, "about.txt"), artifacts.aboutContent, "utf-8");
 }
 
 class StagedDiagnosticZip {
-  public constructor(private readonly output: string, private readonly artifacts: LogArchiveArtifacts) {}
+  public constructor(
+    private readonly output: string,
+    private readonly artifacts: LogArchiveArtifacts,
+  ) {}
 
   public async execute(options: WriteLogArchiveZipOptions): Promise<void> {
     const root = options.stageRootDir ?? getDefaultExportLogStageDir();
@@ -572,16 +721,24 @@ class StagedDiagnosticZip {
       await selection.directory(stage, "");
       const files = orderFiles(selection.files);
       const output = createWriteStream(this.output);
-      zip.once("error", (error) => { output.destroy(error instanceof Error ? error : new Error(String(error))); });
+      zip.once("error", (error) => {
+        output.destroy(error instanceof Error ? error : new Error(String(error)));
+      });
       for (const file of files) zip.addFile(file.absolutePath, file.archivePath);
       const completed = pipeline(zip.outputStream, output);
       zip.end();
       await completed;
-    } finally { await rm(stage, { recursive: true, force: true }).catch(() => {}); }
+    } finally {
+      await rm(stage, { recursive: true, force: true }).catch(() => {});
+    }
   }
 }
 
-async function writeArchiveZip(output: string, artifacts: LogArchiveArtifacts, options: WriteLogArchiveZipOptions = {}): Promise<void> {
+async function writeArchiveZip(
+  output: string,
+  artifacts: LogArchiveArtifacts,
+  options: WriteLogArchiveZipOptions = {},
+): Promise<void> {
   await new StagedDiagnosticZip(output, artifacts).execute(options);
 }
 
@@ -594,19 +751,37 @@ class DiagnosticExport {
     const createLogArchiveArtifacts = dependencies.createLogArchiveArtifacts ?? buildLogArtifacts;
     const writeLogArchiveZip = dependencies.writeLogArchiveZip ?? writeArchiveZip;
     const writeLogArchiveDirectory = dependencies.writeLogArchiveDirectory ?? writeArchiveDirectory;
-    const showItemInFolder = dependencies.showItemInFolder ?? (async (path: string) => {
-      const { shell } = await import("electron");
-      shell.showItemInFolder(path);
-    });
+    const showItemInFolder =
+      dependencies.showItemInFolder ??
+      (async (path: string) => {
+        const { shell } = await import("electron");
+        shell.showItemInFolder(path);
+      });
     const getExportLogStageDir = dependencies.getExportLogStageDir ?? getDefaultExportLogStageDir;
     const getExportLogDir = dependencies.getExportLogDir ?? getDefaultExportLogDir;
-    this.ports = { now, getKnorviaDataDir, createLogArchiveArtifacts, writeLogArchiveZip,
-      writeLogArchiveDirectory, showItemInFolder, getExportLogStageDir, getExportLogDir };
+    this.ports = {
+      now,
+      getKnorviaDataDir,
+      createLogArchiveArtifacts,
+      writeLogArchiveZip,
+      writeLogArchiveDirectory,
+      showItemInFolder,
+      getExportLogStageDir,
+      getExportLogDir,
+    };
   }
 
   public async execute(): Promise<{ success: boolean; path?: string; error?: string }> {
-    const { now, getKnorviaDataDir, createLogArchiveArtifacts, writeLogArchiveZip,
-      writeLogArchiveDirectory, showItemInFolder, getExportLogStageDir, getExportLogDir } = this.ports;
+    const {
+      now,
+      getKnorviaDataDir,
+      createLogArchiveArtifacts,
+      writeLogArchiveZip,
+      writeLogArchiveDirectory,
+      showItemInFolder,
+      getExportLogStageDir,
+      getExportLogDir,
+    } = this.ports;
     const source = getKnorviaDataDir();
     const name = `knorvia-logs-${localTimestamp(now())}`;
     const root = getExportLogDir();
@@ -623,10 +798,19 @@ class DiagnosticExport {
       return { success: true, path: zip };
     } catch (error) {
       const zipFailure = diagnosticError(error);
-      logger.warn("[export-logs] zip 导出失败，回退到目录导出", { error: zipFailure, zipPath: zip, fallbackPath: fallback });
+      logger.warn("[export-logs] zip 导出失败，回退到目录导出", {
+        error: zipFailure,
+        zipPath: zip,
+        fallbackPath: fallback,
+      });
       await rm(zip, { force: true }).catch(() => {});
-      try { await writeLogArchiveDirectory(fallback, artifacts); }
-      catch (directoryError) { throw new Error(`zip 导出失败：${zipFailure}；目录导出失败：${diagnosticError(directoryError)}`); }
+      try {
+        await writeLogArchiveDirectory(fallback, artifacts);
+      } catch (directoryError) {
+        throw new Error(
+          `zip 导出失败：${zipFailure}；目录导出失败：${diagnosticError(directoryError)}`,
+        );
+      }
       await showItemInFolder(fallback);
       logger.info("[export-logs] 日志导出完成", { path: fallback, format: "directory" });
       return { success: true, path: fallback };
@@ -634,28 +818,40 @@ class DiagnosticExport {
   }
 }
 
-export async function createFeedbackLogArchiveFromExportLogs(sourceDir: string,
-  options: CreateFeedbackLogArchiveFromExportLogsOptions = {}): Promise<{ path: string; size: number }> {
+export async function createFeedbackLogArchiveFromExportLogs(
+  sourceDir: string,
+  options: CreateFeedbackLogArchiveFromExportLogsOptions = {},
+): Promise<{ path: string; size: number }> {
   return createFeedbackDiagnosticArchive({
     sources: [
       { directory: join(sourceDir, "logs"), archivePrefix: "logs" },
       { directory: cliLogsRoot(), archivePrefix: ".knorvia-studio/cli/log" },
-      { directory: helperLogsRoot(), archivePrefix: ".knorvia-studio/computer-use/run", exitLogsOnly: true },
+      {
+        directory: helperLogsRoot(),
+        archivePrefix: ".knorvia-studio/computer-use/run",
+        exitLogsOnly: true,
+      },
     ],
     outputRootDir: options.outputRootDir ?? getDefaultFeedbackLogArchiveDir(),
-    now: options.now, onProgress: options.onProgress,
+    now: options.now,
+    onProgress: options.onProgress,
   });
 }
 
-export async function writeSanitizedDiagnosticLogSnapshot(outputDir: string,
-  options: { sourceDir?: string; now?: () => Date } = {}): Promise<void> {
+export async function writeSanitizedDiagnosticLogSnapshot(
+  outputDir: string,
+  options: { sourceDir?: string; now?: () => Date } = {},
+): Promise<void> {
   const artifacts = await buildLogArtifacts(options.sourceDir ?? dataRoot(), { now: options.now });
   await writeArchiveDirectory(outputDir, artifacts);
 }
 
-export async function exportLogs(dependencies: ExportLogsDependencies = {}): Promise<{ success: boolean; path?: string; error?: string }> {
-  try { return await new DiagnosticExport(dependencies).execute(); }
-  catch (error) {
+export async function exportLogs(
+  dependencies: ExportLogsDependencies = {},
+): Promise<{ success: boolean; path?: string; error?: string }> {
+  try {
+    return await new DiagnosticExport(dependencies).execute();
+  } catch (error) {
     const message = diagnosticError(error);
     logger.error("[export-logs] 日志导出失败", { error: message });
     return { success: false, error: message };

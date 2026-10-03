@@ -7,7 +7,8 @@ import { deferred, flush, loadOwner, ports, socket } from "./control-transport-f
 test("JSONL keeps byte limits, mutable options, native JSON failures and consumed suffixes", async () => {
   const { JsonLineDecoder, encodeJsonLine } = await loadOwner("framing");
   assert.equal(encodeJsonLine(undefined), "undefined\n");
-  const cycle = {}; cycle.self = cycle;
+  const cycle = {};
+  cycle.self = cycle;
   assert.throws(() => encodeJsonLine(cycle), TypeError);
 
   const options = { maxFrameBytes: 64 };
@@ -27,11 +28,14 @@ test("JSONL keeps byte limits, mutable options, native JSON failures and consume
   fourBytes.finish();
 
   const broken = new JsonLineDecoder();
-  assert.throws(() => broken.push('1\nbroken\n{"n":'), (error) => {
-    assert.equal(error.message, "Invalid JSONL frame");
-    assert.ok(error.cause instanceof SyntaxError);
-    return true;
-  });
+  assert.throws(
+    () => broken.push('1\nbroken\n{"n":'),
+    (error) => {
+      assert.equal(error.message, "Invalid JSONL frame");
+      assert.ok(error.cause instanceof SyntaxError);
+      return true;
+    },
+  );
   assert.deepEqual(broken.push("2}\n"), [{ n: 2 }]);
 
   const binary = new JsonLineDecoder();
@@ -48,7 +52,8 @@ test("server sessions isolate partial frames and admit concurrent calls through 
   const control = await createControlServer(endpoint, function (request) {
     assert.equal(this, undefined);
     admitted.push(request);
-    const reply = deferred(); waiting.set(request.id, reply);
+    const reply = deferred();
+    waiting.set(request.id, reply);
     return reply.promise;
   });
   assert.equal(control.server, state.server);
@@ -58,48 +63,72 @@ test("server sessions isolate partial frames and admit concurrent calls through 
     ["listen", endpoint],
     ["chmod", endpoint, 0o600],
   ]);
-  const first = socket(); const second = socket();
-  state.server.accept(first); state.server.accept(second);
+  const first = socket();
+  const second = socket();
+  state.server.accept(first);
+  state.server.accept(second);
   first.emit("data", '{"id":"a","command":"status"');
   second.emit("data", '{"id":"b","command":"ping"}\n');
   first.emit("data", '}\n{"id":"c","command":"status"}\n{"id":"bad","command":"invalid"}\n');
-  assert.deepEqual(admitted.map((value) => value.id), ["b", "a", "c"]);
+  assert.deepEqual(
+    admitted.map((value) => value.id),
+    ["b", "a", "c"],
+  );
   assert.deepEqual(JSON.parse(first.writes[0]), {
-    id: "fixture-generated-id", ok: false,
+    id: "fixture-generated-id",
+    ok: false,
     error: { code: "invalid-request", message: "Invalid control request" },
   });
-  waiting.get("c").resolve({ ordinal: 3 }); await flush();
-  waiting.get("a").resolve({ ordinal: 1 }); await flush();
-  assert.deepEqual(first.writes.slice(1).map((line) => JSON.parse(line).id), ["c", "a"]);
+  waiting.get("c").resolve({ ordinal: 3 });
+  await flush();
+  waiting.get("a").resolve({ ordinal: 1 });
+  await flush();
+  assert.deepEqual(
+    first.writes.slice(1).map((line) => JSON.parse(line).id),
+    ["c", "a"],
+  );
   const before = state.responses.length;
   second.destroyed = true;
-  waiting.get("b").resolve("late"); await flush();
+  waiting.get("b").resolve("late");
+  await flush();
   assert.equal(state.responses.length, before + 1);
   assert.deepEqual(second.writes, []);
 });
 
 test("server errors preserve control metadata and use best-effort socket write cleanup", async () => {
   const state = ports();
-  const { createControlServer, FixtureControlRequestError } = await loadOwner("controlServer", state);
+  const { createControlServer, FixtureControlRequestError } = await loadOwner(
+    "controlServer",
+    state,
+  );
   const typed = new FixtureControlRequestError("fixture-busy", "x".repeat(501), false);
-  await createControlServer("fixture-pipe", async () => { throw typed; });
-  const client = socket(); state.server.accept(client);
-  client.emit("data", '{"id":"held","command":"restart"}\n'); await flush();
+  await createControlServer("fixture-pipe", async () => {
+    throw typed;
+  });
+  const client = socket();
+  state.server.accept(client);
+  client.emit("data", '{"id":"held","command":"restart"}\n');
+  await flush();
   assert.deepEqual(JSON.parse(client.writes[0]), {
-    id: "held", ok: false,
+    id: "held",
+    ok: false,
     error: { code: "fixture-busy", message: "x".repeat(500), retryable: false },
   });
   client.writeCallbacks[0](new Error("fixture EPIPE"));
   assert.equal(client.destroys, 1);
 
-  const malformed = socket(); state.server.accept(malformed);
+  const malformed = socket();
+  state.server.accept(malformed);
   malformed.emit("data", "malformed\n");
   assert.equal(JSON.parse(malformed.writes[0]).error.code, "invalid-frame");
   assert.equal(malformed.destroys, 1);
-  const incomplete = socket(); state.server.accept(incomplete);
-  incomplete.emit("data", '{"id":'); incomplete.emit("end");
+  const incomplete = socket();
+  state.server.accept(incomplete);
+  incomplete.emit("data", '{"id":');
+  incomplete.emit("end");
   assert.equal(incomplete.destroys, 1);
-  const nativeFailure = socket(); state.server.accept(nativeFailure);
+  const nativeFailure = socket();
+  state.server.accept(nativeFailure);
   nativeFailure.emit("error", new Error("fixture ECONNRESET"));
   assert.equal(nativeFailure.destroys, 1);
 });
@@ -110,19 +139,29 @@ test("listener shutdown destroys live sockets once and bounds close before endpo
   const endpoint = String.raw`\\.\pipe\fixture-control`;
   const control = await createControlServer(endpoint, async () => undefined);
   assert.deepEqual(state.journal[1], ["mkdir", ".", { recursive: true }]);
-  const first = socket(state.journal); const retired = socket(); const last = socket(state.journal);
-  state.server.accept(first); state.server.accept(retired); state.server.accept(last);
+  const first = socket(state.journal);
+  const retired = socket();
+  const last = socket(state.journal);
+  state.server.accept(first);
+  state.server.accept(retired);
+  state.server.accept(last);
   retired.emit("close");
-  const one = control.close(); const two = control.close();
+  const one = control.close();
+  const two = control.close();
   assert.notEqual(one, two);
   assert.equal(state.server.closeCalls, 1);
-  assert.equal(first.destroys, 1); assert.equal(last.destroys, 1); assert.equal(retired.destroys, 0);
+  assert.equal(first.destroys, 1);
+  assert.equal(last.destroys, 1);
+  assert.equal(retired.destroys, 0);
   const [deadline] = state.deadlines.values();
-  assert.equal(deadline.ms, 2000); assert.equal(deadline.unrefed, true);
+  assert.equal(deadline.ms, 2000);
+  assert.equal(deadline.unrefed, true);
   assert.equal(state.journal.filter(([kind]) => kind === "rm").length, 1);
-  deadline.callback(); await Promise.all([one, two]);
+  deadline.callback();
+  await Promise.all([one, two]);
   assert.equal(state.journal.filter(([kind]) => kind === "rm").length, 2);
-  state.server.closed(); await control.close();
+  state.server.closed();
+  await control.close();
   assert.equal(state.server.closeCalls, 1);
 });
 
@@ -134,14 +173,21 @@ test("client retains first-frame correlation, command variant fields and late ca
   request.force = true;
   state.client.emit("connect");
   assert.deepEqual(JSON.parse(state.client.writes[0]), {
-    command: "apply-update", force: true, id: "fixture-generated-id",
+    command: "apply-update",
+    force: true,
+    id: "fixture-generated-id",
   });
   assert.equal([...state.deadlines.values()][0].ms, 17);
-  state.client.emit("data", '{"id":"different","ok":true}\n{"id":"fixture-generated-id","ok":true,"result":"discarded"}\n');
-  assert.equal(state.client.ends, 0); assert.equal(state.deadlines.size, 1);
+  state.client.emit(
+    "data",
+    '{"id":"different","ok":true}\n{"id":"fixture-generated-id","ok":true,"result":"discarded"}\n',
+  );
+  assert.equal(state.client.ends, 0);
+  assert.equal(state.deadlines.size, 1);
   state.client.emit("data", '{"id":"fixture-generated-id","ok":true,"result":{"held":true}}\n');
   assert.deepEqual(await promise, { held: true });
-  assert.equal(state.client.ends, 1); assert.equal(state.deadlines.size, 0);
+  assert.equal(state.client.ends, 1);
+  assert.equal(state.deadlines.size, 0);
   state.client.emit("data", "bad\n");
   assert.equal(state.client.destroys, 1);
 });
@@ -149,13 +195,20 @@ test("client retains first-frame correlation, command variant fields and late ca
 test("client projects remote control errors and preserves native failure/timer ownership", async () => {
   const state = ports();
   const { requestControl } = await loadOwner("controlClient", state);
-  const typed = requestControl("fixture", { command: "confirm-uninstall", confirmation: "fixture" }).catch((error) => error);
+  const typed = requestControl("fixture", {
+    command: "confirm-uninstall",
+    confirmation: "fixture",
+  }).catch((error) => error);
   state.client.emit("connect");
   assert.equal(JSON.parse(state.client.writes[0]).confirmation, "fixture");
-  state.client.emit("data", '{"id":"fixture-generated-id","ok":false,"error":{"code":"held","message":"wait","retryable":false}}\n');
+  state.client.emit(
+    "data",
+    '{"id":"fixture-generated-id","ok":false,"error":{"code":"held","message":"wait","retryable":false}}\n',
+  );
   const remoteError = await typed;
   assert.equal(remoteError.name, "ControlRequestError");
-  assert.equal(remoteError.code, "held"); assert.equal(remoteError.message, "wait");
+  assert.equal(remoteError.code, "held");
+  assert.equal(remoteError.message, "wait");
   assert.equal(remoteError.retryable, false);
 
   const native = ports();
@@ -163,13 +216,17 @@ test("client projects remote control errors and preserves native failure/timer o
   const original = new Error("fixture native failure");
   const failed = nativeOwner.requestControl("fixture", { command: "stop" }).catch((error) => error);
   native.client.emit("error", original);
-  assert.equal(await failed, original); assert.equal(native.client.destroys, 0);
+  assert.equal(await failed, original);
+  assert.equal(native.client.destroys, 0);
   assert.equal(native.deadlines.size, 0);
 
   const timed = ports();
   const timedOwner = await loadOwner("controlClient", timed);
-  const expired = timedOwner.requestControl("fixture", { command: "status" }).catch((error) => error);
-  const [timer] = timed.deadlines.values(); assert.equal(timer.ms, 10000);
+  const expired = timedOwner
+    .requestControl("fixture", { command: "status" })
+    .catch((error) => error);
+  const [timer] = timed.deadlines.values();
+  assert.equal(timer.ms, 10000);
   timer.callback();
   assert.equal((await expired).message, "Supervisor control request timed out");
   assert.equal(timed.client.destroys, 1);

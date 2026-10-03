@@ -34,9 +34,7 @@ function releaseResources(resources: EndpointResources): void {
   resources.source.dispose();
 }
 
-export class EndpointScopedKnorviaBuiltinSource
-  implements ProviderSource<ProviderConfigLayerSnapshot>
-{
+export class EndpointScopedKnorviaBuiltinSource implements ProviderSource<ProviderConfigLayerSnapshot> {
   readonly #options: EndpointScopedKnorviaBuiltinSourceOptions;
   readonly #listeners = new Set<(reason: string) => void>();
   #current: EndpointResources | null = null;
@@ -136,9 +134,8 @@ export class EndpointScopedKnorviaBuiltinSource
     const synchronizer = new KnorviaBuiltinRemoteSynchronizer({
       source,
       controlFilePath: paths.controlFilePath,
-      resolveEndpointKey: async () => normalizeKnorviaBuiltinEndpointOrigin(
-        await this.#options.resolveEndpointOrigin(),
-      ),
+      resolveEndpointKey: async () =>
+        normalizeKnorviaBuiltinEndpointOrigin(await this.#options.resolveEndpointOrigin()),
       fetchRelease: this.#options.fetchRelease,
       onRefreshResult: this.#options.onRefreshResult,
     });

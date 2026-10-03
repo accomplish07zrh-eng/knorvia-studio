@@ -14,10 +14,7 @@ export class JsonLineDecoder {
 
   public push(chunk: string | Uint8Array): unknown[] {
     this.pending += typeof chunk === "string" ? chunk : new TextDecoder().decode(chunk);
-    if (
-      Buffer.byteLength(this.pending, "utf8") > this.maximum() &&
-      !this.pending.includes("\n")
-    ) {
+    if (Buffer.byteLength(this.pending, "utf8") > this.maximum() && !this.pending.includes("\n")) {
       throw new Error("JSONL frame exceeds maximum size");
     }
 

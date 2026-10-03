@@ -132,8 +132,8 @@ export async function materializeRemotePromptAttachments(
   const nextAttachments: KnorviaPromptAttachment[] = [];
   const replacements = new Map<string, string>();
 
-  for (let position = 0; position < attachments.length; position += 1) {
-    const attachment = attachments[position];
+  // entries 保留上传序号和 live 迭代顺序，也直接携带当前附件，避免未收窄的索引读取。
+  for (const [position, attachment] of attachments.entries()) {
     const localPath = attachment.localPath;
     if (!localPath?.trim() || pathUnder(literalStagingRoot, localPath)) {
       nextAttachments.push(attachment);

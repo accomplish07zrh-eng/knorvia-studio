@@ -27,7 +27,8 @@ class DailyLogExpiryPolicy {
       candidate.getFullYear() !== year ||
       candidate.getMonth() !== monthIndex ||
       candidate.getDate() !== day
-    ) return false;
+    )
+      return false;
 
     const boundary = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
     boundary.setDate(boundary.getDate() - Math.max(this.retentionDays - 1, 0));

@@ -62,7 +62,9 @@ class WorkerScanRun {
         this.finish(() => this.reject(abortedScan()));
         return;
       case "error":
-        this.finish(() => this.reject(Object.assign(new Error(value.message), { code: value.code })));
+        this.finish(() =>
+          this.reject(Object.assign(new Error(value.message), { code: value.code })),
+        );
     }
   }
 

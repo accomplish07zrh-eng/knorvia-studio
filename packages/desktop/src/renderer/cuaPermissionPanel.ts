@@ -42,7 +42,8 @@ class CuaPermissionPanel {
 
   mount(): void {
     // Prewarm before the gesture; native startDrag cannot wait for async install.
-    this.bridge?.prepareDrag?.()
+    this.bridge
+      ?.prepareDrag?.()
       .then((result) => this.applyHelperDisplayName(result))
       .catch(() => {});
     this.bridge?.onState?.((state) => this.applyState(state));
