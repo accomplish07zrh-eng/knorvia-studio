@@ -161,6 +161,30 @@ No real directory/configuration, file, console stream, application or user data
 was operated. All source-exposure, expression/rights/native acceptance and MIT
 qualifications remain open; no services/shared/global source decision changed.
 
+## Complete native diagnostic export batch
+
+The whole `exportLogs.ts` candidate now uses ordered explicit DFS frames, a
+complete encoding-evidence owner, a decoder/pending-line/PEM state owner per
+stream, a skipped-file copy ledger, staging ZIP lifetime and one export-result
+operation. All three exported APIs, source-root selection, admission/retention,
+UTF8/UTF16/BOM thresholds, redaction formats, rotation rechecks, ZIP/directory
+fallback and error/reveal ordering are retained. Feedback remains an exact public
+call to the installed services archive; its progress callback is forwarded and
+its old unused stage option stays unused. No actual logs or user files were read,
+modified, exported or revealed.
+
+[Contract](../specs/knorvia-next-platform-export-logs-20261003.md) and
+[bindings](evidence/backlog-platform-export-logs-20261003/bindings.json) freeze the
+whole candidate before source diff and explicitly qualify retained public types,
+fixed path/key/regex/encoding data and original accompanying explanations. Same
+source-exposed author; no independent-expression, rights or MIT acceptance.
+Two scenarios in `packages/desktop/test/native-export-log-owner-contract.test.mjs`
+are **unrun**; supplied fs/ZIP/native ports and in-memory stream primitives do not
+establish real native or yazl acceptance. Existing security and services consumers
+remain unchanged and unrun here. Current feedback entry/policy still match their
+prior handoff digests; the candidates/snapshot helpers have later current digests
+bound here, so prior whole-service passes do not validate this combination.
+
 ## Exact next native decisions
 
 The bounded data-size queue is already installed and retained: scanner/client
@@ -169,14 +193,9 @@ from `9d92be5f35e89539e0077e79005f786f00778202` match
 `dataSizeWorker.ts` is explicitly retained tiny entry glue there, with no new
 originality credit. None was overwritten or counted by this lane.
 
-`packages/desktop/src/main/exportLogs.ts` still matches its upstream-modified
-recorded SHA256 `709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77`.
-The services feedback-archive handoff covers its existing wrapper consumer, not
-a whole desktop export owner. This is a specific next native implementation
-candidate: retain the installed `packages/services/src/feedback/feedbackLogArchive.ts`
-API/owner and all export data/progress/cancellation formats; do not rewrite the
-services archive implementation. The wrapper/export source has not yet been
-reconstructed by this lane. No change to the services interface is proposed.
+The previously pending `packages/desktop/src/main/exportLogs.ts` whole owner is
+now the candidate above. Its actual services/ZIP/Electron/public consumers still
+require final integration acceptance; no services interface change is proposed.
 
 Separately authorized `packages/server-cli/src/runtime/lock.ts` retains
 SHA256 `d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0`,

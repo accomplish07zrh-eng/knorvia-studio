@@ -17,7 +17,7 @@ export async function loadNativeOwner(name, state, modules, banner = "") {
       plugins: [{
         name: "deferred-native-owner-ports",
         setup(plugin) {
-          plugin.onResolve({ filter: /^(?:node:|electron$|@knorvia\/|\.\/(?:logger|storageScanWorkerClient)\.js$)/ }, ({ path }) => {
+          plugin.onResolve({ filter: /^(?:node:|electron$|yazl$|@knorvia\/|\.\/(?:about|logger|storageScanWorkerClient)\.js$)/ }, ({ path }) => {
             if (path === "node:path") return { path, external: true };
             assert.ok(Object.hasOwn(modules, path), `unsupplied native boundary ${path}`);
             return { path, namespace: "native-port" };
