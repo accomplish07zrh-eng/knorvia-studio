@@ -1,0 +1,106 @@
+{
+  "typescript": "6.0.2",
+  "records": [
+    {
+      "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+      "bytes": 19865,
+      "lines": 496,
+      "sha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194",
+      "rawPublicDeclaration": "import type { ConnectOptions } from \"@knorvia/server/remote\";\nimport { type KnorviaRuntimeEnv } from \"@knorvia/shared\";\nimport { type ResolveRemoteCdnOptions } from \"./remoteCdn.js\";\nexport declare const desktopRuntimeEnv: KnorviaRuntimeEnv;\nexport declare const runtimeApplicationName = \"Knorvia Studio\";\nexport declare const runtimeHomePath: any;\nexport declare const shouldUseElectronDefaultUserDataPath = false;\nexport declare const runtimeUserDataPath: any;\nexport declare const runtimeSessionDataPath: any;\nexport declare const hostModulePath: any;\nexport declare const schedulerModulePath: any;\nexport declare function getCredentialsDir(): any;\nexport type RemoteAssetDirs = Pick<ConnectOptions, \"mockCdnDir\" | \"remoteCdnBaseUrl\" | \"remoteCdnBaseUrls\" | \"remoteCacheDir\">;\ntype LocalRuntimeEnv = Record<string, string | undefined>;\nexport declare function isDockerDaemonAvailable(): Promise<boolean>;\nexport declare function listAvailableWSLDistros(): unknown;\nexport declare function listAvailableDockerContainers(): unknown;\nexport declare function listSSHConfigAliases(): unknown;\nexport declare function loadHostProcessEnvFromLocalFiles(): Record<string, string>;\nexport declare function resolveRemoteAssetDirs(options?: ResolveRemoteCdnOptions, localEnv?: LocalRuntimeEnv): RemoteAssetDirs;\nexport declare function resolveBundledAgentBinaryPath(): string | undefined;\nexport declare function buildHostProcessEnv(hostProcessLocalEnv: Record<string, string>): any;\nexport {};\n",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9038,
+          "message": "Computed property names on class or object literals cannot be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9038,
+          "message": "Computed property names on class or object literals cannot be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "message": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopNetworkPolicy.ts",
+      "bytes": 9750,
+      "lines": 273,
+      "sha256": "9ec488814c6cb08564ae814cd44ba9466861359473ee6d47b5f87b70bfb873d8",
+      "rawPublicDeclaration": "import type { Session } from \"electron\";\ninterface DesktopNetworkPolicySettings {\n    httpProxy?: string;\n    httpProxyNoProxy?: string;\n    httpProxyCaCertPath?: string;\n    embeddedBrowserAllowInsecureCertificates?: boolean;\n}\ninterface DesktopNetworkPolicyLogger {\n    info: (...args: unknown[]) => void;\n    warn: (...args: unknown[]) => void;\n}\ninterface DesktopSessionProvider {\n    readonly defaultSession: Session;\n    fromPartition(partition: string): Session;\n}\nexport declare function applyDesktopChromiumNetworkPolicies(sessionProvider: DesktopSessionProvider, settings: DesktopNetworkPolicySettings, logger: DesktopNetworkPolicyLogger): Promise<void>;\nexport {};\n",
+      "diagnostics": []
+    }
+  ],
+  "noTargetOrDependencyExecution": true,
+  "noSemanticProjectTypecheck": true,
+  "qualifications": [
+    "Raw inferred dependency/target any or isolated diagnostics do not establish semantic closure; exact original module return types stay authoritative.",
+    "Curator saw current target and three helper bodies; author packet excludes those bodies/private helper expressions, retains source-derived public data/observable rules honestly.",
+    "Unsuccessful guessed read: sed docs/evidence/desktop-lifecycle-root-packet-20261003/extract-public.cjs -> No such file or directory. No private material bypassed.",
+    "No real environment/config/HOME/credentials/native/network/certificate/session operations; source metadata IO only."
+  ]
+}
