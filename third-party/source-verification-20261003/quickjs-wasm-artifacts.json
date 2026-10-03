@@ -1,0 +1,5558 @@
+{
+  "id": "quickjs-wasi@2.2.0",
+  "archiveSha256": "f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1",
+  "artifacts": [
+    {
+      "path": "package/extensions/base64/base64.so",
+      "bytes": 12518,
+      "sha256": "f51012d6c63195a53ca9f2daa6c3de6b0995873888c8106979813015b3388adc",
+      "sections": [
+        {
+          "id": 0,
+          "bytes": 16,
+          "sha256": "2a3967a0bc4fe47ba1960bd730b12ecb69e6d920b3098b4833a069b23d0a5da3",
+          "name": "dylink.0"
+        },
+        {
+          "id": 1,
+          "bytes": 154,
+          "sha256": "6beb7306e2e671d1924eb614222a06f1bde405a9cb24ebdd11ef00f61dcf6c9c"
+        },
+        {
+          "id": 2,
+          "bytes": 614,
+          "sha256": "c9fd2a344d039a829e049c2d7e6518296f6b0d939ccd50ef859a5ebcc540b8f9"
+        },
+        {
+          "id": 3,
+          "bytes": 17,
+          "sha256": "afe68bdf8ee3dc86fcae42e8df6f7771426ad7f2bfaecfb626f86f6386bbf1f1"
+        },
+        {
+          "id": 7,
+          "bytes": 23,
+          "sha256": "3402ea140667b3bfafccc444fdcbb9e1918a73a93cbb89aa8a2d043b5d169849"
+        },
+        {
+          "id": 9,
+          "bytes": 14,
+          "sha256": "5cd39b6aa530251846fbffc89dfdeaa793d29cd8a1fda73b7d116a40168c00e6"
+        },
+        {
+          "id": 10,
+          "bytes": 9474,
+          "sha256": "5837607272a597e85f6298eec4ff07ad7aac7b8b127180fc3382b4018b869818"
+        },
+        {
+          "id": 11,
+          "bytes": 1111,
+          "sha256": "dd630644c3b38c48c105d9a7c103bce85304852e75ccba6a737dd6d80237f266"
+        },
+        {
+          "id": 0,
+          "bytes": 784,
+          "sha256": "bc35b6de539e35cbed3cf903749ce42d0f46e1c09b16e4080e03d80c23a6f914",
+          "name": "name"
+        },
+        {
+          "id": 0,
+          "bytes": 127,
+          "sha256": "aa12ad222aa91ae963bdbf7421b8f9cf722a78780a713cdf94d4a0133350be1b",
+          "name": "producers"
+        },
+        {
+          "id": 0,
+          "bytes": 148,
+          "sha256": "97ceea95e0687b14437e21c205ebb40eea27aa5ecaa971f7d87601e3aa213bfd",
+          "name": "target_features"
+        }
+      ],
+      "imports": [
+        {
+          "module": "env",
+          "name": "memory",
+          "kind": 2
+        },
+        {
+          "module": "env",
+          "name": "__indirect_function_table",
+          "kind": 1
+        },
+        {
+          "module": "env",
+          "name": "__stack_pointer",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__memory_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__table_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "JS_GetGlobalObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewCFunction2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewStringLen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToCStringLen2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_malloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeCString",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowTypeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewUint8ArrayCopy",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsFunction",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_CallConstructor",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_Throw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowRangeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetTypedArrayType",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetTypedArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strcmp",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToBool",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowSyntaxError",
+          "kind": 0
+        }
+      ],
+      "exports": [
+        {
+          "name": "qjs_ext_base64_init",
+          "kind": 0,
+          "index": 24
+        }
+      ],
+      "producerDeclarations": [
+        {
+          "field": "processed-by",
+          "values": [
+            {
+              "name": "clang",
+              "version": "22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "package/extensions/crypto/crypto.so",
+      "bytes": 187423,
+      "sha256": "3c0ca1e0ecbca51f88ae22ae5da75ee83e6f87170ec8c7efc2ec9ba52b1bd913",
+      "sections": [
+        {
+          "id": 0,
+          "bytes": 17,
+          "sha256": "f15a3d54039ef7a699b0dcd4dac882a7bd798972077517c9cd7576a219d44637",
+          "name": "dylink.0"
+        },
+        {
+          "id": 1,
+          "bytes": 349,
+          "sha256": "85b478cfcd6c013b0b054addefc6222aa87fde76dc0aad797643f51ba2cccf35"
+        },
+        {
+          "id": 2,
+          "bytes": 1337,
+          "sha256": "8f949047614865b894f080d334015b717e6894411b097313d3531ba75dbac733"
+        },
+        {
+          "id": 3,
+          "bytes": 394,
+          "sha256": "452463650dc6669c0547c2b5284ee82e7fffc2cb5cd2b43391df3778ffb6b9e8"
+        },
+        {
+          "id": 6,
+          "bytes": 27,
+          "sha256": "c63e782805173f2c570e2a4b6403786626e346eceff46b2ff956eca45294a3f5"
+        },
+        {
+          "id": 7,
+          "bytes": 76,
+          "sha256": "30ddf4d469005669def7865780c2448c02035e97d0cbe24109dbc21e43ecc5f2"
+        },
+        {
+          "id": 8,
+          "bytes": 1,
+          "sha256": "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67"
+        },
+        {
+          "id": 9,
+          "bytes": 56,
+          "sha256": "ac7b9efae2f22bf1e9e111bcd794b908731961115b070a3c180bbaf6424e1d85"
+        },
+        {
+          "id": 10,
+          "bytes": 156198,
+          "sha256": "a15d76d0c8e60ac2f3c8cd356be49615ff2e2803bed5b51387629010cff22071"
+        },
+        {
+          "id": 11,
+          "bytes": 17824,
+          "sha256": "83af2a42a57cd931692c54fc9719f1b8c09bcd0edf026aac6ef135f4e1e581f9"
+        },
+        {
+          "id": 0,
+          "bytes": 10826,
+          "sha256": "9326688a620e41db230e7ec965ac138021c0a2f46f84871a61503f5bab71b7ae",
+          "name": "name"
+        },
+        {
+          "id": 0,
+          "bytes": 127,
+          "sha256": "aa12ad222aa91ae963bdbf7421b8f9cf722a78780a713cdf94d4a0133350be1b",
+          "name": "producers"
+        },
+        {
+          "id": 0,
+          "bytes": 148,
+          "sha256": "97ceea95e0687b14437e21c205ebb40eea27aa5ecaa971f7d87601e3aa213bfd",
+          "name": "target_features"
+        }
+      ],
+      "imports": [
+        {
+          "module": "env",
+          "name": "memory",
+          "kind": 2
+        },
+        {
+          "module": "env",
+          "name": "__indirect_function_table",
+          "kind": 1
+        },
+        {
+          "module": "env",
+          "name": "__stack_pointer",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__memory_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__table_base",
+          "kind": 3
+        },
+        {
+          "module": "wasi_snapshot_preview1",
+          "name": "random_get",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetGlobalObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClassID",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyFunctionList",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ValueToAtom",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewStringLen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DefinePropertyValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeAtom",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObjectProtoClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DefinePropertyValueStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewCFunction2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowTypeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free_rt",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeValueRT",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strlen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewArrayBufferCopy",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_CallConstructor",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_Call",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DupValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToCStringLen2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeCString",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetException",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_malloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToBool",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToInt32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "snprintf",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_mallocz",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strcmp",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_realloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetTypedArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsArray",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyUint32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewArray",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyUint32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowRangeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowInternalError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "calloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "free",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "memcmp",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "mbedtls_hmac_drbg_init",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "mbedtls_hmac_drbg_seed_buf",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "mbedtls_hmac_drbg_free",
+          "kind": 0
+        },
+        {
+          "module": "GOT.func",
+          "name": "mbedtls_hmac_drbg_random",
+          "kind": 3
+        },
+        {
+          "module": "GOT.func",
+          "name": "memset",
+          "kind": 3
+        }
+      ],
+      "exports": [
+        {
+          "name": "qjs_ext_crypto_init",
+          "kind": 0,
+          "index": 60
+        },
+        {
+          "name": "qjs_ext_crypto_versions",
+          "kind": 0,
+          "index": 62
+        },
+        {
+          "name": "__wasm_apply_data_relocs",
+          "kind": 0,
+          "index": 55
+        }
+      ],
+      "producerDeclarations": [
+        {
+          "field": "processed-by",
+          "values": [
+            {
+              "name": "clang",
+              "version": "22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "package/extensions/encoding/encoding.so",
+      "bytes": 12780,
+      "sha256": "50af2847297183c0be2f97948cd83473b0888b424b98af51aaf4200160dce77f",
+      "sections": [
+        {
+          "id": 0,
+          "bytes": 16,
+          "sha256": "48356eda696df31887196292132938c91742cc8f2e4eb71c7945332f90e70a07",
+          "name": "dylink.0"
+        },
+        {
+          "id": 1,
+          "bytes": 153,
+          "sha256": "4db64150e7d772ccb2f3fe9a4d6cbaa10557dcc785f098339efe98767d26a58d"
+        },
+        {
+          "id": 2,
+          "bytes": 931,
+          "sha256": "fd1fff7fdddbce33a3fdcfd0087af57a24e589e5b8c0cbd4ea55de6189ed64a0"
+        },
+        {
+          "id": 3,
+          "bytes": 15,
+          "sha256": "6690acb73dab445717654f78654bc3579ab60ff8d611b2befb481ad1141c63a2"
+        },
+        {
+          "id": 7,
+          "bytes": 52,
+          "sha256": "ba57d434e312fcb4d58f81f958f22e0d03c69935114ca4223d0e3f60b209559f"
+        },
+        {
+          "id": 8,
+          "bytes": 1,
+          "sha256": "265fda17a34611b1533d8a281ff680dc5791b0ce0a11c25b35e11c8e75685509"
+        },
+        {
+          "id": 9,
+          "bytes": 16,
+          "sha256": "2f4c9ef170281570061f95eaf3555052d09ed12aec52edb9acd4a52864ff49e4"
+        },
+        {
+          "id": 10,
+          "bytes": 9330,
+          "sha256": "588312668a62108188871b3357322500251b68d95dbfe3cf933613940298a6a2"
+        },
+        {
+          "id": 11,
+          "bytes": 871,
+          "sha256": "40af7cb11ce2463d75b0270fb2fdbc73e2c868942807a03b0990522e3ee62183"
+        },
+        {
+          "id": 0,
+          "bytes": 1082,
+          "sha256": "3c14bb5073775b74573bba1d5e90afb45acdb170bcad3d895b43b858a52fa6a8",
+          "name": "name"
+        },
+        {
+          "id": 0,
+          "bytes": 127,
+          "sha256": "aa12ad222aa91ae963bdbf7421b8f9cf722a78780a713cdf94d4a0133350be1b",
+          "name": "producers"
+        },
+        {
+          "id": 0,
+          "bytes": 148,
+          "sha256": "97ceea95e0687b14437e21c205ebb40eea27aa5ecaa971f7d87601e3aa213bfd",
+          "name": "target_features"
+        }
+      ],
+      "imports": [
+        {
+          "module": "env",
+          "name": "memory",
+          "kind": 2
+        },
+        {
+          "module": "env",
+          "name": "__indirect_function_table",
+          "kind": 1
+        },
+        {
+          "module": "env",
+          "name": "__stack_pointer",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__memory_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__table_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "JS_GetGlobalObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClassID",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewCFunction2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyFunctionList",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DupValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DefinePropertyValueStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObjectProtoClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToCStringLen2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strlen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeCString",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowRangeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToBool",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_mallocz",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewStringLen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewUint8ArrayCopy",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToCStringLenUTF16",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_malloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeCStringUTF16",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowTypeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetTypedArrayType",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetTypedArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free_rt",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetException",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsDataView",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToInt32",
+          "kind": 0
+        }
+      ],
+      "exports": [
+        {
+          "name": "qjs_ext_encoding_init",
+          "kind": 0,
+          "index": 40
+        },
+        {
+          "name": "__wasm_apply_data_relocs",
+          "kind": 0,
+          "index": 38
+        }
+      ],
+      "producerDeclarations": [
+        {
+          "field": "processed-by",
+          "values": [
+            {
+              "name": "clang",
+              "version": "22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "package/extensions/headers/headers.so",
+      "bytes": 14232,
+      "sha256": "fcc7d25dfdda38d1d57d0a532540f3baa56a957f76f85548919716a174ac9037",
+      "sections": [
+        {
+          "id": 0,
+          "bytes": 16,
+          "sha256": "aa188c512bf5a11b206ab54ec9b06c913495c41a30ab5852eaacb2eb32839b62",
+          "name": "dylink.0"
+        },
+        {
+          "id": 1,
+          "bytes": 172,
+          "sha256": "b057ee962a855d76d3585d334a943d0047989132c53eb00b616267d3f2d9724f"
+        },
+        {
+          "id": 2,
+          "bytes": 926,
+          "sha256": "6a043e07b3189c7d3a8cdde8f560b459694c6b86237b397ff443bdd672c6827e"
+        },
+        {
+          "id": 3,
+          "bytes": 21,
+          "sha256": "f9bd38bb4d3b803db212c3c0f9666aff1b3861e5c50d0ddd22018b054e6987ab"
+        },
+        {
+          "id": 7,
+          "bytes": 51,
+          "sha256": "cd94b2a8e60b27903e7bddd317cace40bf87e5f3b40a0772a0b5c3f744014bb4"
+        },
+        {
+          "id": 8,
+          "bytes": 1,
+          "sha256": "ba5ec51d07a4ac0e951608704431d59a02b21a4e951acc10505a8dc407c501ee"
+        },
+        {
+          "id": 9,
+          "bytes": 18,
+          "sha256": "8aaa6958acb746fba198f8b270ff91493e2391e7727f6207f6e1763b16ddf41f"
+        },
+        {
+          "id": 10,
+          "bytes": 11031,
+          "sha256": "e1561f2efea1b0df97064da3cf5eb67826de8f99b37c7ee4499dd03625f964f5"
+        },
+        {
+          "id": 11,
+          "bytes": 583,
+          "sha256": "28fc500bb4e80deed0ddb65af848e3d05780e93a1e3d6e37e6b04d8e5ed8cdf5"
+        },
+        {
+          "id": 0,
+          "bytes": 1100,
+          "sha256": "17542cc367ee4aa0d4b6c5b8bd89adf2f2aa3cd57597d225898420ce13ea0fa6",
+          "name": "name"
+        },
+        {
+          "id": 0,
+          "bytes": 127,
+          "sha256": "aa12ad222aa91ae963bdbf7421b8f9cf722a78780a713cdf94d4a0133350be1b",
+          "name": "producers"
+        },
+        {
+          "id": 0,
+          "bytes": 148,
+          "sha256": "97ceea95e0687b14437e21c205ebb40eea27aa5ecaa971f7d87601e3aa213bfd",
+          "name": "target_features"
+        }
+      ],
+      "imports": [
+        {
+          "module": "env",
+          "name": "memory",
+          "kind": 2
+        },
+        {
+          "module": "env",
+          "name": "__indirect_function_table",
+          "kind": 1
+        },
+        {
+          "module": "env",
+          "name": "__stack_pointer",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__memory_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__table_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "JS_GetGlobalObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClassID",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewCFunction2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyFunctionList",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DupValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DefinePropertyValueStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ValueToAtom",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetProperty",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeAtom",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_mallocz",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strlen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsArray",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToInt32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyUint32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowTypeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToCStringLen2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeCString",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetOwnPropertyNames",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_AtomToString",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetProperty",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObjectProtoClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free_rt",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_realloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_malloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewStringLen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewArray",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyUint32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsFunction",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_Call",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strcmp",
+          "kind": 0
+        }
+      ],
+      "exports": [
+        {
+          "name": "qjs_ext_headers_init",
+          "kind": 0,
+          "index": 42
+        },
+        {
+          "name": "__wasm_apply_data_relocs",
+          "kind": 0,
+          "index": 40
+        }
+      ],
+      "producerDeclarations": [
+        {
+          "field": "processed-by",
+          "values": [
+            {
+              "name": "clang",
+              "version": "22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "package/extensions/structured-clone/structured-clone.so",
+      "bytes": 9648,
+      "sha256": "76356bc2983ce24b6c503a0cb1fa0308e09c18e60aa38d44ca737454ee769c06",
+      "sections": [
+        {
+          "id": 0,
+          "bytes": 16,
+          "sha256": "31b9af192ffc7b4b9219e85ce173da47b0b91386252a62ea7713c5e18c74be7f",
+          "name": "dylink.0"
+        },
+        {
+          "id": 1,
+          "bytes": 185,
+          "sha256": "ef7ace1a6e3f1099b93ad62284121f423ece2470833981cb2a7d2d3a43a121cb"
+        },
+        {
+          "id": 2,
+          "bytes": 1086,
+          "sha256": "bf7b5541882554e5f539a0a977db333540f309c4e389d7f70c2713ad321b287c"
+        },
+        {
+          "id": 3,
+          "bytes": 16,
+          "sha256": "fac0fdbb232e8ad48bde7acad4e8cdd1a9249e5d0f1174e687303623b2781a08"
+        },
+        {
+          "id": 7,
+          "bytes": 33,
+          "sha256": "c0f38a82df871e47744a57f7af43991a13ab2d7e4ef13125b10ce94f303aa3be"
+        },
+        {
+          "id": 9,
+          "bytes": 7,
+          "sha256": "0d44f11d6e336d91233bfcf8c962ff5d660b714d7b85b511d4d67ef40f4455b3"
+        },
+        {
+          "id": 10,
+          "bytes": 6390,
+          "sha256": "fa0d2e3461964814e3a53dc7fb872bc3fd49314c9c1679ce5f381bb51d19caf8"
+        },
+        {
+          "id": 11,
+          "bytes": 512,
+          "sha256": "c03d27e3361a567afeb375d541c36a3c3bda2483cb3608fcbe1098e40bad0030"
+        },
+        {
+          "id": 0,
+          "bytes": 1092,
+          "sha256": "82c7ab72be11a06d157d52e491b7af994f658ed574b477d1fe7dbdef2d3ff06e",
+          "name": "name"
+        },
+        {
+          "id": 0,
+          "bytes": 127,
+          "sha256": "aa12ad222aa91ae963bdbf7421b8f9cf722a78780a713cdf94d4a0133350be1b",
+          "name": "producers"
+        },
+        {
+          "id": 0,
+          "bytes": 148,
+          "sha256": "97ceea95e0687b14437e21c205ebb40eea27aa5ecaa971f7d87601e3aa213bfd",
+          "name": "target_features"
+        }
+      ],
+      "imports": [
+        {
+          "module": "env",
+          "name": "memory",
+          "kind": 2
+        },
+        {
+          "module": "env",
+          "name": "__indirect_function_table",
+          "kind": 1
+        },
+        {
+          "module": "env",
+          "name": "__stack_pointer",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__memory_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__table_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "JS_GetGlobalObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewCFunction2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowTypeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToInt32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_free",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsFunction",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "snprintf",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strlen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewStringLen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_CallConstructor",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_Throw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DupValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsPromise",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsProxy",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsDate",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsRegExp",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsDataView",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetTypedArrayType",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsMap",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsSet",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_IsArray",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewArray",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewAtomUInt32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_HasProperty",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeAtom",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyUint32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyUint32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_Call",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToFloat64",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewDate",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "js_realloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewArrayBufferCopy",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToCStringLen2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetTypedArrayBuffer",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeCString",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToBool",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strcmp",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetOwnPropertyNames",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetProperty",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreePropertyEnum",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetProperty",
+          "kind": 0
+        }
+      ],
+      "exports": [
+        {
+          "name": "qjs_ext_structured_clone_init",
+          "kind": 0,
+          "index": 49
+        }
+      ],
+      "producerDeclarations": [
+        {
+          "field": "processed-by",
+          "values": [
+            {
+              "name": "clang",
+              "version": "22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "package/extensions/url/url.so",
+      "bytes": 920499,
+      "sha256": "54167390c210290f0703752527000ba44885606c4ed1ae12be30462c147a9215",
+      "sections": [
+        {
+          "id": 0,
+          "bytes": 17,
+          "sha256": "bc606dfb12fb7c638e275840aaf221ac981b7c688d3210c74dda19a41b7dfdf3",
+          "name": "dylink.0"
+        },
+        {
+          "id": 1,
+          "bytes": 262,
+          "sha256": "5788a1adcedd561539a2b0d2c7ac4f239cb6a4f27d672d287330d6d9abaeafcf"
+        },
+        {
+          "id": 2,
+          "bytes": 9426,
+          "sha256": "619164c347cf02a3c55af2e72c4d331d2f40e80f2dafbc91d87ac45836f14aac"
+        },
+        {
+          "id": 3,
+          "bytes": 378,
+          "sha256": "b00fe59bf506cc21f0e11c82c19a401d20a1be1ba5018a0f2b372bd00f2a62cb"
+        },
+        {
+          "id": 6,
+          "bytes": 15,
+          "sha256": "ce18d2f45216e4834d7b4c45d219ab8eb2766870a6711a614b8c14debe38d23d"
+        },
+        {
+          "id": 7,
+          "bytes": 10294,
+          "sha256": "7e44bcded93427895dc5184b16bb8bdf462acf329b4285c934a750607e951804"
+        },
+        {
+          "id": 8,
+          "bytes": 2,
+          "sha256": "d01dda243abf602c3013611294153b0d81355ae7b3d851ec43c7f68be076acc3"
+        },
+        {
+          "id": 9,
+          "bytes": 118,
+          "sha256": "5fb0efc517d2a200e152b3fbde1bfeabfcb02fa3831ed14f4cd870d01b556fc8"
+        },
+        {
+          "id": 10,
+          "bytes": 198352,
+          "sha256": "56d35b65d56acd3197135dc465bf6cc12c9aaeb40655a7b7135b20695f79cda1"
+        },
+        {
+          "id": 11,
+          "bytes": 264579,
+          "sha256": "7372c5b74b12f4b92a6494563b78fe7484d790e7e8376d4f599348e549291a25"
+        },
+        {
+          "id": 0,
+          "bytes": 67133,
+          "sha256": "7f6938cd0af60fbb8acfab09dab66ad1c50edb4c1120a2a4604b5afafd51b845",
+          "name": ".debug_loc"
+        },
+        {
+          "id": 0,
+          "bytes": 2411,
+          "sha256": "4cec24162dae95daedf1d4b73878be15357071f59e74443c23c7da8830bd271e",
+          "name": ".debug_abbrev"
+        },
+        {
+          "id": 0,
+          "bytes": 138547,
+          "sha256": "9806f4d1e92c03c9ab50485ecb519eab1b22592163cb8beceb74cbdfd80cc279",
+          "name": ".debug_info"
+        },
+        {
+          "id": 0,
+          "bytes": 12214,
+          "sha256": "a6d4a3af7a765a3ccb4f98d74606f269d38cece853a899da77a4610f11a1b39e",
+          "name": ".debug_ranges"
+        },
+        {
+          "id": 0,
+          "bytes": 102291,
+          "sha256": "136e1f4ab64f46e6f6a1989cc20eeef36ae7836853f7e243471cef2aeef6d5c7",
+          "name": ".debug_str"
+        },
+        {
+          "id": 0,
+          "bytes": 35687,
+          "sha256": "04852a61838f266c3968985beac64b91ea6bf03a24e793537f77926d5b36b9bb",
+          "name": ".debug_line"
+        },
+        {
+          "id": 0,
+          "bytes": 78388,
+          "sha256": "062cce327e6bc7a1fe79d91ee86a2533a9dabe20ef0ae1e2c4f65cf914ca2f00",
+          "name": "name"
+        },
+        {
+          "id": 0,
+          "bytes": 153,
+          "sha256": "3cf84a0882dfb76afbd2c3cd8936d855276b70e1fe2742d5ed80ec84d9cbdf69",
+          "name": "producers"
+        },
+        {
+          "id": 0,
+          "bytes": 164,
+          "sha256": "331701cff887aa4a1d5bb76d8e96d2d11250b6e726a30814879b65b180edb994",
+          "name": "target_features"
+        }
+      ],
+      "imports": [
+        {
+          "module": "env",
+          "name": "memory",
+          "kind": 2
+        },
+        {
+          "module": "env",
+          "name": "__indirect_function_table",
+          "kind": 1
+        },
+        {
+          "module": "env",
+          "name": "__stack_pointer",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__memory_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "__table_base",
+          "kind": 3
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClassID",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewCFunction2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyFunctionList",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DupValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_DefinePropertyValueStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetClassProto",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetGlobalObject",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetPropertyStr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ValueToAtom",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeValue",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetProperty",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeAtom",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowTypeError",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ToCStringLen2",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_FreeCString",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewObjectProtoClass",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_ThrowOutOfMemory",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "snprintf",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetOpaque",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewStringLen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_NewArray",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_SetPropertyUint32",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_Call",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "JS_GetProperty",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strlen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "memcmp",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE9push_backEc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "memchr",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE21__grow_by_and_replaceEmmmmmmPKc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendEmc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_externalEPKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE26__erase_external_with_moveEmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_no_aliasILb0EEERS5_PKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_no_aliasILb1EEERS5_PKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4findEcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmPKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE25__init_copy_ctor_externalEPKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_externalEPKc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmPKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "malloc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "free",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6__initEPKwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEmc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC2ERKS5_mmRKS4_",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED2Ev",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEaSEc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6assignEmc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6assignERKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendEPKc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendEPKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendERKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmPKc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmmc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmRKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertENS_11__wrap_iterIPKcEEc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmPKc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmmc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmRKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6resizeEmc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7reserveEm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4copyEPcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4findEPKcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE5rfindEcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE5rfindEPKcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE13find_first_ofEPKcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE12find_last_ofEPKcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17find_first_not_ofEPKcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE16find_last_not_ofEPKcmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE2atEm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE2atEm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEPKc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEmmPKcm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEmmPKc",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEmmRKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6__initEPKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6__initEmw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEC2ERKS5_mmRKS4_",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEED2Ev",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEaSEw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6assignEmw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6assignERKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_externalEPKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendEmw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendEPKw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcslen",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE21__grow_by_and_replaceEmmmmmmPKw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendEPKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendERKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE9push_backEw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmPKw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmPKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmmw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmRKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertENS_11__wrap_iterIPKwEEw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmPKw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmPKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmmw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmRKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6resizeEmw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7reserveEm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4copyEPwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4findEwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4findEPKwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wmemcmp",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5rfindEwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5rfindEPKwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE13find_first_ofEPKwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE12find_last_ofEPKwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17find_first_not_ofEPKwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE16find_last_not_ofEPKwmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE2atEm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE2atEm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEPKw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEmmPKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEmmPKw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEmmRKS5_mm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE25__init_copy_ctor_externalEPKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_externalEPKw",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_no_aliasILb0EEERS5_PKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_no_aliasILb1EEERS5_PKwm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE26__erase_external_with_moveEmm",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__2plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EEPKS6_RKS9_",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strtol",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strtoul",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strtoll",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strtoull",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strtof",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strtod",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "strtold",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcstol",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcstoul",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcstoll",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcstoull",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcstof",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcstod",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "wcstold",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "swprintf",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEED1Ev",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_mmRKS4_",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEC1ERKS5_mmRKS4_",
+          "kind": 0
+        },
+        {
+          "module": "GOT.mem",
+          "name": "_ZSt7nothrow",
+          "kind": 3
+        },
+        {
+          "module": "GOT.mem",
+          "name": "errno",
+          "kind": 3
+        }
+      ],
+      "exports": [
+        {
+          "name": "qjs_ext_url_init",
+          "kind": 0,
+          "index": 151
+        },
+        {
+          "name": "qjs_ext_url_versions",
+          "kind": 0,
+          "index": 155
+        },
+        {
+          "name": "_Znwm",
+          "kind": 0,
+          "index": 380
+        },
+        {
+          "name": "_ZdlPvm",
+          "kind": 0,
+          "index": 384
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE9push_backEc",
+          "kind": 0,
+          "index": 406
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE21__grow_by_and_replaceEmmmmmmPKc",
+          "kind": 0,
+          "index": 403
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendEmc",
+          "kind": 0,
+          "index": 401
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_externalEPKcm",
+          "kind": 0,
+          "index": 400
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE26__erase_external_with_moveEmm",
+          "kind": 0,
+          "index": 437
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_no_aliasILb0EEERS5_PKcm",
+          "kind": 0,
+          "index": 435
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_no_aliasILb1EEERS5_PKcm",
+          "kind": 0,
+          "index": 436
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4findEcm",
+          "kind": 0,
+          "index": 419
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmPKcm",
+          "kind": 0,
+          "index": 408
+        },
+        {
+          "name": "_ZNSt3__29to_stringEi",
+          "kind": 0,
+          "index": 506
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE25__init_copy_ctor_externalEPKcm",
+          "kind": 0,
+          "index": 433
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_externalEPKc",
+          "kind": 0,
+          "index": 434
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmPKcm",
+          "kind": 0,
+          "index": 413
+        },
+        {
+          "name": "_ZNSt3__29to_stringEj",
+          "kind": 0,
+          "index": 509
+        },
+        {
+          "name": "_ZNSt3__29to_stringEm",
+          "kind": 0,
+          "index": 510
+        },
+        {
+          "name": "_Znam",
+          "kind": 0,
+          "index": 382
+        },
+        {
+          "name": "_ZdaPv",
+          "kind": 0,
+          "index": 385
+        },
+        {
+          "name": "_ZnwmRKSt9nothrow_t",
+          "kind": 0,
+          "index": 381
+        },
+        {
+          "name": "_ZdlPv",
+          "kind": 0,
+          "index": 383
+        },
+        {
+          "name": "_ZNSt3__222__libcpp_verbose_abortEPKcz",
+          "kind": 0,
+          "index": 388
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcmm",
+          "kind": 0,
+          "index": 390
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6__initEPKwmm",
+          "kind": 0,
+          "index": 391
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcm",
+          "kind": 0,
+          "index": 393
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEmc",
+          "kind": 0,
+          "index": 394
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC2ERKS5_mmRKS4_",
+          "kind": 0,
+          "index": 395
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED2Ev",
+          "kind": 0,
+          "index": 396
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEaSEc",
+          "kind": 0,
+          "index": 397
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6assignEmc",
+          "kind": 0,
+          "index": 398
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6assignERKS5_mm",
+          "kind": 0,
+          "index": 399
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendEPKc",
+          "kind": 0,
+          "index": 402
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendEPKcm",
+          "kind": 0,
+          "index": 404
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendERKS5_mm",
+          "kind": 0,
+          "index": 405
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmPKc",
+          "kind": 0,
+          "index": 407
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmmc",
+          "kind": 0,
+          "index": 409
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertEmRKS5_mm",
+          "kind": 0,
+          "index": 410
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6insertENS_11__wrap_iterIPKcEEc",
+          "kind": 0,
+          "index": 411
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmPKc",
+          "kind": 0,
+          "index": 412
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmmc",
+          "kind": 0,
+          "index": 414
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7replaceEmmRKS5_mm",
+          "kind": 0,
+          "index": 415
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6resizeEmc",
+          "kind": 0,
+          "index": 416
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7reserveEm",
+          "kind": 0,
+          "index": 417
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4copyEPcmm",
+          "kind": 0,
+          "index": 418
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4findEPKcmm",
+          "kind": 0,
+          "index": 420
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE5rfindEcm",
+          "kind": 0,
+          "index": 421
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE5rfindEPKcmm",
+          "kind": 0,
+          "index": 422
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE13find_first_ofEPKcmm",
+          "kind": 0,
+          "index": 423
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE12find_last_ofEPKcmm",
+          "kind": 0,
+          "index": 424
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17find_first_not_ofEPKcmm",
+          "kind": 0,
+          "index": 425
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE16find_last_not_ofEPKcmm",
+          "kind": 0,
+          "index": 426
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE2atEm",
+          "kind": 0,
+          "index": 427
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE2atEm",
+          "kind": 0,
+          "index": 428
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEPKc",
+          "kind": 0,
+          "index": 429
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEmmPKcm",
+          "kind": 0,
+          "index": 430
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEmmPKc",
+          "kind": 0,
+          "index": 431
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEmmRKS5_mm",
+          "kind": 0,
+          "index": 432
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6__initEPKwm",
+          "kind": 0,
+          "index": 438
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6__initEmw",
+          "kind": 0,
+          "index": 439
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEC2ERKS5_mmRKS4_",
+          "kind": 0,
+          "index": 440
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEED2Ev",
+          "kind": 0,
+          "index": 442
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEaSEw",
+          "kind": 0,
+          "index": 443
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6assignEmw",
+          "kind": 0,
+          "index": 444
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6assignERKS5_mm",
+          "kind": 0,
+          "index": 446
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_externalEPKwm",
+          "kind": 0,
+          "index": 447
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendEmw",
+          "kind": 0,
+          "index": 448
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendEPKw",
+          "kind": 0,
+          "index": 449
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE21__grow_by_and_replaceEmmmmmmPKw",
+          "kind": 0,
+          "index": 450
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendEPKwm",
+          "kind": 0,
+          "index": 451
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6appendERKS5_mm",
+          "kind": 0,
+          "index": 452
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE9push_backEw",
+          "kind": 0,
+          "index": 453
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmPKw",
+          "kind": 0,
+          "index": 454
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmPKwm",
+          "kind": 0,
+          "index": 455
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmmw",
+          "kind": 0,
+          "index": 456
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertEmRKS5_mm",
+          "kind": 0,
+          "index": 457
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6insertENS_11__wrap_iterIPKwEEw",
+          "kind": 0,
+          "index": 458
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmPKw",
+          "kind": 0,
+          "index": 459
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmPKwm",
+          "kind": 0,
+          "index": 460
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmmw",
+          "kind": 0,
+          "index": 461
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7replaceEmmRKS5_mm",
+          "kind": 0,
+          "index": 462
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE6resizeEmw",
+          "kind": 0,
+          "index": 463
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7reserveEm",
+          "kind": 0,
+          "index": 464
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4copyEPwmm",
+          "kind": 0,
+          "index": 465
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4findEwm",
+          "kind": 0,
+          "index": 466
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4findEPKwmm",
+          "kind": 0,
+          "index": 467
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5rfindEwm",
+          "kind": 0,
+          "index": 468
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5rfindEPKwmm",
+          "kind": 0,
+          "index": 469
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE13find_first_ofEPKwmm",
+          "kind": 0,
+          "index": 470
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE12find_last_ofEPKwmm",
+          "kind": 0,
+          "index": 471
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17find_first_not_ofEPKwmm",
+          "kind": 0,
+          "index": 472
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE16find_last_not_ofEPKwmm",
+          "kind": 0,
+          "index": 473
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE2atEm",
+          "kind": 0,
+          "index": 474
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE2atEm",
+          "kind": 0,
+          "index": 475
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEPKw",
+          "kind": 0,
+          "index": 476
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEmmPKwm",
+          "kind": 0,
+          "index": 477
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEmmPKw",
+          "kind": 0,
+          "index": 478
+        },
+        {
+          "name": "_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE7compareEmmRKS5_mm",
+          "kind": 0,
+          "index": 479
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE25__init_copy_ctor_externalEPKwm",
+          "kind": 0,
+          "index": 480
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_externalEPKw",
+          "kind": 0,
+          "index": 481
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_no_aliasILb0EEERS5_PKwm",
+          "kind": 0,
+          "index": 482
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE17__assign_no_aliasILb1EEERS5_PKwm",
+          "kind": 0,
+          "index": 483
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE26__erase_external_with_moveEmm",
+          "kind": 0,
+          "index": 484
+        },
+        {
+          "name": "_ZNSt3__2plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EEPKS6_RKS9_",
+          "kind": 0,
+          "index": 485
+        },
+        {
+          "name": "_ZNKSt3__221__basic_string_commonILb1EE20__throw_length_errorEv",
+          "kind": 0,
+          "index": 486
+        },
+        {
+          "name": "_ZNKSt3__221__basic_string_commonILb1EE20__throw_out_of_rangeEv",
+          "kind": 0,
+          "index": 487
+        },
+        {
+          "name": "_ZNSt3__24stoiERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPmi",
+          "kind": 0,
+          "index": 488
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev",
+          "kind": 0,
+          "index": 396
+        },
+        {
+          "name": "_ZNSt3__24stolERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPmi",
+          "kind": 0,
+          "index": 491
+        },
+        {
+          "name": "_ZNSt3__25stoulERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPmi",
+          "kind": 0,
+          "index": 492
+        },
+        {
+          "name": "_ZNSt3__25stollERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPmi",
+          "kind": 0,
+          "index": 493
+        },
+        {
+          "name": "_ZNSt3__26stoullERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPmi",
+          "kind": 0,
+          "index": 494
+        },
+        {
+          "name": "_ZNSt3__24stofERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPm",
+          "kind": 0,
+          "index": 495
+        },
+        {
+          "name": "_ZNSt3__24stodERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPm",
+          "kind": 0,
+          "index": 496
+        },
+        {
+          "name": "_ZNSt3__25stoldERKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEPm",
+          "kind": 0,
+          "index": 497
+        },
+        {
+          "name": "_ZNSt3__24stoiERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPmi",
+          "kind": 0,
+          "index": 498
+        },
+        {
+          "name": "_ZNSt3__24stolERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPmi",
+          "kind": 0,
+          "index": 499
+        },
+        {
+          "name": "_ZNSt3__25stoulERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPmi",
+          "kind": 0,
+          "index": 500
+        },
+        {
+          "name": "_ZNSt3__25stollERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPmi",
+          "kind": 0,
+          "index": 501
+        },
+        {
+          "name": "_ZNSt3__26stoullERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPmi",
+          "kind": 0,
+          "index": 502
+        },
+        {
+          "name": "_ZNSt3__24stofERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPm",
+          "kind": 0,
+          "index": 503
+        },
+        {
+          "name": "_ZNSt3__24stodERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPm",
+          "kind": 0,
+          "index": 504
+        },
+        {
+          "name": "_ZNSt3__25stoldERKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEPm",
+          "kind": 0,
+          "index": 505
+        },
+        {
+          "name": "_ZNSt3__29to_stringEl",
+          "kind": 0,
+          "index": 507
+        },
+        {
+          "name": "_ZNSt3__29to_stringEx",
+          "kind": 0,
+          "index": 508
+        },
+        {
+          "name": "_ZNSt3__29to_stringEy",
+          "kind": 0,
+          "index": 511
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEi",
+          "kind": 0,
+          "index": 512
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEl",
+          "kind": 0,
+          "index": 513
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEx",
+          "kind": 0,
+          "index": 514
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEj",
+          "kind": 0,
+          "index": 515
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEm",
+          "kind": 0,
+          "index": 516
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEy",
+          "kind": 0,
+          "index": 517
+        },
+        {
+          "name": "_ZNSt3__29to_stringEf",
+          "kind": 0,
+          "index": 518
+        },
+        {
+          "name": "_ZNSt3__29to_stringEd",
+          "kind": 0,
+          "index": 519
+        },
+        {
+          "name": "_ZNSt3__29to_stringEe",
+          "kind": 0,
+          "index": 520
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEf",
+          "kind": 0,
+          "index": 521
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEED1Ev",
+          "kind": 0,
+          "index": 442
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEd",
+          "kind": 0,
+          "index": 522
+        },
+        {
+          "name": "_ZNSt3__210to_wstringEe",
+          "kind": 0,
+          "index": 523
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE",
+          "kind": 3,
+          "index": 5
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE",
+          "kind": 3,
+          "index": 6
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_mmRKS4_",
+          "kind": 0,
+          "index": 395
+        },
+        {
+          "name": "_ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEC1ERKS5_mmRKS4_",
+          "kind": 0,
+          "index": 440
+        },
+        {
+          "name": "__wasm_apply_data_relocs",
+          "kind": 0,
+          "index": 149
+        }
+      ],
+      "producerDeclarations": [
+        {
+          "field": "language",
+          "values": [
+            {
+              "name": "C_plus_plus_14",
+              "version": ""
+            }
+          ]
+        },
+        {
+          "field": "processed-by",
+          "values": [
+            {
+              "name": "clang",
+              "version": "22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "package/quickjs.wasm",
+      "bytes": 1545650,
+      "sha256": "b92a9f3d9cd20c7a0b0163269437115314c96712e3248d2da1b631ca1c8b008e",
+      "sections": [
+        {
+          "id": 1,
+          "bytes": 864,
+          "sha256": "85923b93eee4d294daee083f9694b61f12702e4120584df165c1fd48de628dba"
+        },
+        {
+          "id": 2,
+          "bytes": 365,
+          "sha256": "40d63e28974a2885cb88ec49626288d3250805e25624668a6e014991a37d6dd4"
+        },
+        {
+          "id": 3,
+          "bytes": 1446,
+          "sha256": "9107c3ab65def07cbc9d0232575ff200308f0478fb78933d4e1fdd555d36c989"
+        },
+        {
+          "id": 4,
+          "bytes": 5,
+          "sha256": "c71e08d2bc1d299a8ab8f95d36f45785044abedf630297bf4af4def25f12d048"
+        },
+        {
+          "id": 5,
+          "bytes": 3,
+          "sha256": "e3c4e8c4be74ea7897d60436685f5014a88654a4f415f7e08b959984bf15f5d0"
+        },
+        {
+          "id": 6,
+          "bytes": 14,
+          "sha256": "90301628d2be66802f2b6c74e421e8b1ba3d417bd9e7554b834e1adf1177bf50"
+        },
+        {
+          "id": 7,
+          "bytes": 7685,
+          "sha256": "3b126238a5f5c6216b0985c890d90cb04c0494549296caaad4b2dc3d401f2fb8"
+        },
+        {
+          "id": 9,
+          "bytes": 972,
+          "sha256": "2270211e8fe03ab3374680adaa9d125a58854a9bace33e01f24a9586e3948d34"
+        },
+        {
+          "id": 10,
+          "bytes": 1002329,
+          "sha256": "c687176e1f344def088e1a4e5a75c6097c3f55f8d73617031a435c9fd1883ebe"
+        },
+        {
+          "id": 11,
+          "bytes": 109796,
+          "sha256": "bc6e8ae0328fd62b5d588df7e3d094159e3671569b8157921b3c2e531b079728"
+        },
+        {
+          "id": 0,
+          "bytes": 6305,
+          "sha256": "4bc168123585617ee66e869b8507962e57464125940e848edd53c1e0fce51f9e",
+          "name": ".debug_abbrev"
+        },
+        {
+          "id": 0,
+          "bytes": 109147,
+          "sha256": "d84d578dd4f4f516276d9c23c26da259ed9bbd33c7309c175dcb7bc18e1e2673",
+          "name": ".debug_info"
+        },
+        {
+          "id": 0,
+          "bytes": 29369,
+          "sha256": "bf91f1cf71fd35b6ed67101d8459309f45b4b04b17b2fcab996ba727122f706a",
+          "name": ".debug_str"
+        },
+        {
+          "id": 0,
+          "bytes": 136189,
+          "sha256": "db1ad90c1d6574639906efc2a63f854bee0bfe51e04b6fcd5728b82f1b439ff8",
+          "name": ".debug_line"
+        },
+        {
+          "id": 0,
+          "bytes": 105529,
+          "sha256": "63e8894961f80565a43d87234c43f8699e28613ff2f3d053b73348345066a303",
+          "name": ".debug_loc"
+        },
+        {
+          "id": 0,
+          "bytes": 6014,
+          "sha256": "69e0a7d750589ce3b70467d7f412cdcb5bce511c34c673016ba54485b84c189b",
+          "name": ".debug_ranges"
+        },
+        {
+          "id": 0,
+          "bytes": 29243,
+          "sha256": "e345cf91929e62ef6e88486b70214021eeecf68435ba3fa2319d614d0eeb8ce6",
+          "name": "name"
+        },
+        {
+          "id": 0,
+          "bytes": 142,
+          "sha256": "c8ab697bee33c0c08d2d3bb4c15e774f9ec9c2e17d9d295f4df3254a4d57d251",
+          "name": "producers"
+        },
+        {
+          "id": 0,
+          "bytes": 164,
+          "sha256": "331701cff887aa4a1d5bb76d8e96d2d11250b6e726a30814879b65b180edb994",
+          "name": "target_features"
+        }
+      ],
+      "imports": [
+        {
+          "module": "env",
+          "name": "host_get_timezone_offset",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "host_interrupt",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "host_promise_rejection",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "host_module_normalize",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "host_module_load",
+          "kind": 0
+        },
+        {
+          "module": "env",
+          "name": "host_call",
+          "kind": 0
+        },
+        {
+          "module": "wasi_snapshot_preview1",
+          "name": "clock_time_get",
+          "kind": 0
+        },
+        {
+          "module": "wasi_snapshot_preview1",
+          "name": "fd_close",
+          "kind": 0
+        },
+        {
+          "module": "wasi_snapshot_preview1",
+          "name": "fd_fdstat_get",
+          "kind": 0
+        },
+        {
+          "module": "wasi_snapshot_preview1",
+          "name": "fd_seek",
+          "kind": 0
+        },
+        {
+          "module": "wasi_snapshot_preview1",
+          "name": "fd_write",
+          "kind": 0
+        },
+        {
+          "module": "wasi_snapshot_preview1",
+          "name": "random_get",
+          "kind": 0
+        }
+      ],
+      "exports": [
+        {
+          "name": "memory",
+          "kind": 2,
+          "index": 0
+        },
+        {
+          "name": "__stack_pointer",
+          "kind": 3,
+          "index": 0
+        },
+        {
+          "name": "_initialize",
+          "kind": 0,
+          "index": 13
+        },
+        {
+          "name": "__indirect_function_table",
+          "kind": 1,
+          "index": 0
+        },
+        {
+          "name": "JS_GetVersion",
+          "kind": 0,
+          "index": 15
+        },
+        {
+          "name": "JS_NewNumber",
+          "kind": 0,
+          "index": 16
+        },
+        {
+          "name": "JS_DupValue",
+          "kind": 0,
+          "index": 17
+        },
+        {
+          "name": "JS_DupValueRT",
+          "kind": 0,
+          "index": 18
+        },
+        {
+          "name": "js_calloc_rt",
+          "kind": 0,
+          "index": 19
+        },
+        {
+          "name": "js_malloc_rt",
+          "kind": 0,
+          "index": 21
+        },
+        {
+          "name": "js_free_rt",
+          "kind": 0,
+          "index": 22
+        },
+        {
+          "name": "abort",
+          "kind": 0,
+          "index": 24
+        },
+        {
+          "name": "js_realloc_rt",
+          "kind": 0,
+          "index": 25
+        },
+        {
+          "name": "js_malloc_usable_size_rt",
+          "kind": 0,
+          "index": 26
+        },
+        {
+          "name": "js_mallocz_rt",
+          "kind": 0,
+          "index": 27
+        },
+        {
+          "name": "js_calloc",
+          "kind": 0,
+          "index": 28
+        },
+        {
+          "name": "JS_ThrowOutOfMemory",
+          "kind": 0,
+          "index": 353
+        },
+        {
+          "name": "js_malloc",
+          "kind": 0,
+          "index": 211
+        },
+        {
+          "name": "js_mallocz",
+          "kind": 0,
+          "index": 184
+        },
+        {
+          "name": "js_free",
+          "kind": 0,
+          "index": 227
+        },
+        {
+          "name": "js_realloc",
+          "kind": 0,
+          "index": 226
+        },
+        {
+          "name": "js_realloc2",
+          "kind": 0,
+          "index": 354
+        },
+        {
+          "name": "js_malloc_usable_size",
+          "kind": 0,
+          "index": 355
+        },
+        {
+          "name": "js_strndup",
+          "kind": 0,
+          "index": 356
+        },
+        {
+          "name": "js_strdup",
+          "kind": 0,
+          "index": 329
+        },
+        {
+          "name": "strlen",
+          "kind": 0,
+          "index": 35
+        },
+        {
+          "name": "JS_NewRuntime2",
+          "kind": 0,
+          "index": 357
+        },
+        {
+          "name": "JS_UpdateStackTop",
+          "kind": 0,
+          "index": 412
+        },
+        {
+          "name": "JS_FreeRuntime",
+          "kind": 0,
+          "index": 366
+        },
+        {
+          "name": "JS_GetRuntimeOpaque",
+          "kind": 0,
+          "index": 413
+        },
+        {
+          "name": "JS_SetRuntimeOpaque",
+          "kind": 0,
+          "index": 414
+        },
+        {
+          "name": "JS_AddRuntimeFinalizer",
+          "kind": 0,
+          "index": 415
+        },
+        {
+          "name": "JS_NewRuntime",
+          "kind": 0,
+          "index": 416
+        },
+        {
+          "name": "JS_SetMemoryLimit",
+          "kind": 0,
+          "index": 426
+        },
+        {
+          "name": "JS_SetDumpFlags",
+          "kind": 0,
+          "index": 427
+        },
+        {
+          "name": "JS_GetDumpFlags",
+          "kind": 0,
+          "index": 428
+        },
+        {
+          "name": "JS_GetGCThreshold",
+          "kind": 0,
+          "index": 429
+        },
+        {
+          "name": "JS_SetGCThreshold",
+          "kind": 0,
+          "index": 430
+        },
+        {
+          "name": "JS_SetInterruptHandler",
+          "kind": 0,
+          "index": 431
+        },
+        {
+          "name": "JS_SetCanBlock",
+          "kind": 0,
+          "index": 432
+        },
+        {
+          "name": "JS_SetSharedArrayBufferFunctions",
+          "kind": 0,
+          "index": 433
+        },
+        {
+          "name": "JS_EnqueueJob",
+          "kind": 0,
+          "index": 137
+        },
+        {
+          "name": "JS_IsJobPending",
+          "kind": 0,
+          "index": 434
+        },
+        {
+          "name": "JS_ExecutePendingJob",
+          "kind": 0,
+          "index": 435
+        },
+        {
+          "name": "JS_FreeValue",
+          "kind": 0,
+          "index": 436
+        },
+        {
+          "name": "JS_SetRuntimeInfo",
+          "kind": 0,
+          "index": 437
+        },
+        {
+          "name": "JS_FreeValueRT",
+          "kind": 0,
+          "index": 438
+        },
+        {
+          "name": "JS_RunGC",
+          "kind": 0,
+          "index": 149
+        },
+        {
+          "name": "JS_FreeAtomRT",
+          "kind": 0,
+          "index": 439
+        },
+        {
+          "name": "JS_NewContextRaw",
+          "kind": 0,
+          "index": 440
+        },
+        {
+          "name": "JS_FreeContext",
+          "kind": 0,
+          "index": 50
+        },
+        {
+          "name": "JS_NewContext",
+          "kind": 0,
+          "index": 444
+        },
+        {
+          "name": "JS_AddIntrinsicBaseObjects",
+          "kind": 0,
+          "index": 445
+        },
+        {
+          "name": "JS_AddIntrinsicDate",
+          "kind": 0,
+          "index": 1070
+        },
+        {
+          "name": "JS_AddIntrinsicEval",
+          "kind": 0,
+          "index": 1071
+        },
+        {
+          "name": "JS_AddIntrinsicRegExp",
+          "kind": 0,
+          "index": 449
+        },
+        {
+          "name": "JS_AddIntrinsicJSON",
+          "kind": 0,
+          "index": 1072
+        },
+        {
+          "name": "JS_AddIntrinsicProxy",
+          "kind": 0,
+          "index": 450
+        },
+        {
+          "name": "JS_AddIntrinsicMapSet",
+          "kind": 0,
+          "index": 451
+        },
+        {
+          "name": "JS_AddIntrinsicTypedArrays",
+          "kind": 0,
+          "index": 452
+        },
+        {
+          "name": "JS_AddIntrinsicPromise",
+          "kind": 0,
+          "index": 453
+        },
+        {
+          "name": "JS_AddIntrinsicWeakRef",
+          "kind": 0,
+          "index": 454
+        },
+        {
+          "name": "JS_AddIntrinsicDOMException",
+          "kind": 0,
+          "index": 455
+        },
+        {
+          "name": "JS_AddPerformance",
+          "kind": 0,
+          "index": 456
+        },
+        {
+          "name": "JS_GetContextOpaque",
+          "kind": 0,
+          "index": 1073
+        },
+        {
+          "name": "JS_SetContextOpaque",
+          "kind": 0,
+          "index": 1074
+        },
+        {
+          "name": "JS_SetClassProto",
+          "kind": 0,
+          "index": 1075
+        },
+        {
+          "name": "JS_GetClassProto",
+          "kind": 0,
+          "index": 1076
+        },
+        {
+          "name": "JS_GetFunctionProto",
+          "kind": 0,
+          "index": 1077
+        },
+        {
+          "name": "JS_DupContext",
+          "kind": 0,
+          "index": 1078
+        },
+        {
+          "name": "JS_ComputeMemoryUsage",
+          "kind": 0,
+          "index": 56
+        },
+        {
+          "name": "JS_DumpMemoryUsage",
+          "kind": 0,
+          "index": 57
+        },
+        {
+          "name": "JS_GetRuntime",
+          "kind": 0,
+          "index": 1079
+        },
+        {
+          "name": "JS_SetMaxStackSize",
+          "kind": 0,
+          "index": 1080
+        },
+        {
+          "name": "JS_DupAtomRT",
+          "kind": 0,
+          "index": 1081
+        },
+        {
+          "name": "JS_DupAtom",
+          "kind": 0,
+          "index": 1082
+        },
+        {
+          "name": "JS_NewAtomLen",
+          "kind": 0,
+          "index": 241
+        },
+        {
+          "name": "JS_NewStringLen",
+          "kind": 0,
+          "index": 36
+        },
+        {
+          "name": "JS_NewAtom",
+          "kind": 0,
+          "index": 1083
+        },
+        {
+          "name": "JS_NewAtomUInt32",
+          "kind": 0,
+          "index": 339
+        },
+        {
+          "name": "JS_NewSymbol",
+          "kind": 0,
+          "index": 1084
+        },
+        {
+          "name": "JS_AtomToValue",
+          "kind": 0,
+          "index": 1085
+        },
+        {
+          "name": "JS_AtomToString",
+          "kind": 0,
+          "index": 1086
+        },
+        {
+          "name": "JS_FreeAtom",
+          "kind": 0,
+          "index": 109
+        },
+        {
+          "name": "JS_AtomToCStringLen",
+          "kind": 0,
+          "index": 1087
+        },
+        {
+          "name": "JS_NewClassID",
+          "kind": 0,
+          "index": 1088
+        },
+        {
+          "name": "JS_GetClassID",
+          "kind": 0,
+          "index": 1089
+        },
+        {
+          "name": "JS_IsRegisteredClass",
+          "kind": 0,
+          "index": 1090
+        },
+        {
+          "name": "JS_GetClassName",
+          "kind": 0,
+          "index": 1091
+        },
+        {
+          "name": "JS_NewClass",
+          "kind": 0,
+          "index": 1092
+        },
+        {
+          "name": "JS_ThrowRangeError",
+          "kind": 0,
+          "index": 67
+        },
+        {
+          "name": "JS_NewStringUTF16",
+          "kind": 0,
+          "index": 1093
+        },
+        {
+          "name": "JS_NewAtomString",
+          "kind": 0,
+          "index": 1094
+        },
+        {
+          "name": "JS_ToCStringLen2",
+          "kind": 0,
+          "index": 86
+        },
+        {
+          "name": "JS_ToCStringLenUTF16",
+          "kind": 0,
+          "index": 1095
+        },
+        {
+          "name": "JS_FreeCString",
+          "kind": 0,
+          "index": 1096
+        },
+        {
+          "name": "JS_FreeCStringRT",
+          "kind": 0,
+          "index": 1097
+        },
+        {
+          "name": "JS_FreeCStringUTF16",
+          "kind": 0,
+          "index": 1098
+        },
+        {
+          "name": "JS_FreeCStringRT_UTF16",
+          "kind": 0,
+          "index": 1099
+        },
+        {
+          "name": "JS_NewObjectProtoClass",
+          "kind": 0,
+          "index": 1100
+        },
+        {
+          "name": "JS_NewObjectClass",
+          "kind": 0,
+          "index": 334
+        },
+        {
+          "name": "JS_NewObjectProto",
+          "kind": 0,
+          "index": 93
+        },
+        {
+          "name": "JS_NewObjectFrom",
+          "kind": 0,
+          "index": 1101
+        },
+        {
+          "name": "JS_NewObject",
+          "kind": 0,
+          "index": 319
+        },
+        {
+          "name": "JS_NewObjectFromStr",
+          "kind": 0,
+          "index": 1102
+        },
+        {
+          "name": "JS_NewArray",
+          "kind": 0,
+          "index": 1103
+        },
+        {
+          "name": "JS_NewArrayFrom",
+          "kind": 0,
+          "index": 75
+        },
+        {
+          "name": "JS_NewCFunction3",
+          "kind": 0,
+          "index": 244
+        },
+        {
+          "name": "JS_NewCFunction2",
+          "kind": 0,
+          "index": 1104
+        },
+        {
+          "name": "JS_NewCFunctionData2",
+          "kind": 0,
+          "index": 269
+        },
+        {
+          "name": "JS_NewCFunctionData",
+          "kind": 0,
+          "index": 1105
+        },
+        {
+          "name": "JS_NewCClosure",
+          "kind": 0,
+          "index": 1106
+        },
+        {
+          "name": "JS_MarkValue",
+          "kind": 0,
+          "index": 1107
+        },
+        {
+          "name": "JS_IsLiveObject",
+          "kind": 0,
+          "index": 1108
+        },
+        {
+          "name": "JS_GetGlobalObject",
+          "kind": 0,
+          "index": 1109
+        },
+        {
+          "name": "JS_Throw",
+          "kind": 0,
+          "index": 1110
+        },
+        {
+          "name": "JS_GetException",
+          "kind": 0,
+          "index": 1111
+        },
+        {
+          "name": "JS_HasException",
+          "kind": 0,
+          "index": 1112
+        },
+        {
+          "name": "JS_NewError",
+          "kind": 0,
+          "index": 1113
+        },
+        {
+          "name": "JS_NewInternalError",
+          "kind": 0,
+          "index": 1114
+        },
+        {
+          "name": "JS_ThrowInternalError",
+          "kind": 0,
+          "index": 29
+        },
+        {
+          "name": "JS_NewPlainError",
+          "kind": 0,
+          "index": 1115
+        },
+        {
+          "name": "JS_ThrowPlainError",
+          "kind": 0,
+          "index": 1116
+        },
+        {
+          "name": "JS_NewRangeError",
+          "kind": 0,
+          "index": 1117
+        },
+        {
+          "name": "JS_NewReferenceError",
+          "kind": 0,
+          "index": 1118
+        },
+        {
+          "name": "JS_ThrowReferenceError",
+          "kind": 0,
+          "index": 84
+        },
+        {
+          "name": "JS_NewSyntaxError",
+          "kind": 0,
+          "index": 1119
+        },
+        {
+          "name": "JS_ThrowSyntaxError",
+          "kind": 0,
+          "index": 135
+        },
+        {
+          "name": "JS_NewTypeError",
+          "kind": 0,
+          "index": 1120
+        },
+        {
+          "name": "JS_ThrowTypeError",
+          "kind": 0,
+          "index": 66
+        },
+        {
+          "name": "JS_SetPrototype",
+          "kind": 0,
+          "index": 1121
+        },
+        {
+          "name": "JS_GetPrototype",
+          "kind": 0,
+          "index": 153
+        },
+        {
+          "name": "JS_GetLength",
+          "kind": 0,
+          "index": 1122
+        },
+        {
+          "name": "JS_SetLength",
+          "kind": 0,
+          "index": 1123
+        },
+        {
+          "name": "JS_IsInstanceOf",
+          "kind": 0,
+          "index": 130
+        },
+        {
+          "name": "JS_GetProperty",
+          "kind": 0,
+          "index": 1124
+        },
+        {
+          "name": "JS_IsFunction",
+          "kind": 0,
+          "index": 1125
+        },
+        {
+          "name": "JS_GetOwnPropertyNames",
+          "kind": 0,
+          "index": 1126
+        },
+        {
+          "name": "JS_GetOwnProperty",
+          "kind": 0,
+          "index": 1127
+        },
+        {
+          "name": "JS_FreePropertyEnum",
+          "kind": 0,
+          "index": 96
+        },
+        {
+          "name": "JS_IsExtensible",
+          "kind": 0,
+          "index": 341
+        },
+        {
+          "name": "JS_PreventExtensions",
+          "kind": 0,
+          "index": 1128
+        },
+        {
+          "name": "JS_HasProperty",
+          "kind": 0,
+          "index": 98
+        },
+        {
+          "name": "JS_ValueToAtom",
+          "kind": 0,
+          "index": 1129
+        },
+        {
+          "name": "JS_GetPropertyUint32",
+          "kind": 0,
+          "index": 1130
+        },
+        {
+          "name": "JS_GetPropertyInt64",
+          "kind": 0,
+          "index": 146
+        },
+        {
+          "name": "JS_GetPropertyStr",
+          "kind": 0,
+          "index": 724
+        },
+        {
+          "name": "JS_SetProperty",
+          "kind": 0,
+          "index": 1131
+        },
+        {
+          "name": "JS_SetPropertyUint32",
+          "kind": 0,
+          "index": 1132
+        },
+        {
+          "name": "JS_SetPropertyInt64",
+          "kind": 0,
+          "index": 577
+        },
+        {
+          "name": "JS_SetPropertyStr",
+          "kind": 0,
+          "index": 1133
+        },
+        {
+          "name": "JS_DefineProperty",
+          "kind": 0,
+          "index": 37
+        },
+        {
+          "name": "JS_DefinePropertyValue",
+          "kind": 0,
+          "index": 95
+        },
+        {
+          "name": "JS_DefinePropertyValueUint32",
+          "kind": 0,
+          "index": 116
+        },
+        {
+          "name": "JS_DefinePropertyValueStr",
+          "kind": 0,
+          "index": 477
+        },
+        {
+          "name": "JS_DefinePropertyGetSet",
+          "kind": 0,
+          "index": 1134
+        },
+        {
+          "name": "JS_DeleteProperty",
+          "kind": 0,
+          "index": 132
+        },
+        {
+          "name": "JS_ToObject",
+          "kind": 0,
+          "index": 71
+        },
+        {
+          "name": "JS_IsConstructor",
+          "kind": 0,
+          "index": 1135
+        },
+        {
+          "name": "JS_SetConstructorBit",
+          "kind": 0,
+          "index": 1136
+        },
+        {
+          "name": "JS_IsRegExp",
+          "kind": 0,
+          "index": 1137
+        },
+        {
+          "name": "JS_IsMap",
+          "kind": 0,
+          "index": 1138
+        },
+        {
+          "name": "JS_IsSet",
+          "kind": 0,
+          "index": 1139
+        },
+        {
+          "name": "JS_IsWeakRef",
+          "kind": 0,
+          "index": 1140
+        },
+        {
+          "name": "JS_IsWeakSet",
+          "kind": 0,
+          "index": 1141
+        },
+        {
+          "name": "JS_IsWeakMap",
+          "kind": 0,
+          "index": 1142
+        },
+        {
+          "name": "JS_IsDataView",
+          "kind": 0,
+          "index": 1143
+        },
+        {
+          "name": "JS_IsError",
+          "kind": 0,
+          "index": 1144
+        },
+        {
+          "name": "JS_IsUncatchableError",
+          "kind": 0,
+          "index": 1145
+        },
+        {
+          "name": "JS_SetUncatchableError",
+          "kind": 0,
+          "index": 1146
+        },
+        {
+          "name": "JS_ClearUncatchableError",
+          "kind": 0,
+          "index": 1147
+        },
+        {
+          "name": "JS_ResetUncatchableError",
+          "kind": 0,
+          "index": 1148
+        },
+        {
+          "name": "JS_SetOpaque",
+          "kind": 0,
+          "index": 1149
+        },
+        {
+          "name": "JS_GetOpaque",
+          "kind": 0,
+          "index": 1150
+        },
+        {
+          "name": "JS_GetOpaque2",
+          "kind": 0,
+          "index": 1151
+        },
+        {
+          "name": "JS_GetAnyOpaque",
+          "kind": 0,
+          "index": 1152
+        },
+        {
+          "name": "JS_SetIsHTMLDDA",
+          "kind": 0,
+          "index": 1153
+        },
+        {
+          "name": "JS_ToBool",
+          "kind": 0,
+          "index": 1154
+        },
+        {
+          "name": "JS_ToFloat64",
+          "kind": 0,
+          "index": 595
+        },
+        {
+          "name": "JS_ToNumber",
+          "kind": 0,
+          "index": 1155
+        },
+        {
+          "name": "JS_ToInt64",
+          "kind": 0,
+          "index": 1156
+        },
+        {
+          "name": "JS_ToInt64Ext",
+          "kind": 0,
+          "index": 1157
+        },
+        {
+          "name": "JS_ToBigInt64",
+          "kind": 0,
+          "index": 594
+        },
+        {
+          "name": "JS_ToInt32",
+          "kind": 0,
+          "index": 338
+        },
+        {
+          "name": "JS_ToIndex",
+          "kind": 0,
+          "index": 322
+        },
+        {
+          "name": "JS_ToString",
+          "kind": 0,
+          "index": 1158
+        },
+        {
+          "name": "JS_ToPropertyKey",
+          "kind": 0,
+          "index": 1159
+        },
+        {
+          "name": "JS_IsArray",
+          "kind": 0,
+          "index": 1160
+        },
+        {
+          "name": "JS_NewBigInt64",
+          "kind": 0,
+          "index": 569
+        },
+        {
+          "name": "JS_NewBigUint64",
+          "kind": 0,
+          "index": 570
+        },
+        {
+          "name": "JS_ToBigUint64",
+          "kind": 0,
+          "index": 1161
+        },
+        {
+          "name": "JS_Call",
+          "kind": 0,
+          "index": 1162
+        },
+        {
+          "name": "JS_CallConstructor2",
+          "kind": 0,
+          "index": 1163
+        },
+        {
+          "name": "JS_CallConstructor",
+          "kind": 0,
+          "index": 1164
+        },
+        {
+          "name": "JS_Invoke",
+          "kind": 0,
+          "index": 591
+        },
+        {
+          "name": "JS_NewCModule",
+          "kind": 0,
+          "index": 1165
+        },
+        {
+          "name": "JS_AddModuleExport",
+          "kind": 0,
+          "index": 1166
+        },
+        {
+          "name": "JS_SetModuleExport",
+          "kind": 0,
+          "index": 1167
+        },
+        {
+          "name": "JS_SetModuleLoaderFunc",
+          "kind": 0,
+          "index": 1168
+        },
+        {
+          "name": "JS_SetModuleLoaderFunc2",
+          "kind": 0,
+          "index": 1169
+        },
+        {
+          "name": "JS_SetModuleNormalizeFunc2",
+          "kind": 0,
+          "index": 1170
+        },
+        {
+          "name": "JS_SetModulePrivateValue",
+          "kind": 0,
+          "index": 1171
+        },
+        {
+          "name": "JS_GetModulePrivateValue",
+          "kind": 0,
+          "index": 1172
+        },
+        {
+          "name": "JS_GetModuleNamespace",
+          "kind": 0,
+          "index": 239
+        },
+        {
+          "name": "JS_GetScriptOrModuleName",
+          "kind": 0,
+          "index": 1173
+        },
+        {
+          "name": "JS_GetModuleName",
+          "kind": 0,
+          "index": 1174
+        },
+        {
+          "name": "JS_GetImportMeta",
+          "kind": 0,
+          "index": 1175
+        },
+        {
+          "name": "JS_LoadModule",
+          "kind": 0,
+          "index": 1176
+        },
+        {
+          "name": "JS_NewPromiseCapability",
+          "kind": 0,
+          "index": 1177
+        },
+        {
+          "name": "JS_EvalFunction",
+          "kind": 0,
+          "index": 1178
+        },
+        {
+          "name": "JS_EvalThis",
+          "kind": 0,
+          "index": 1179
+        },
+        {
+          "name": "JS_EvalThis2",
+          "kind": 0,
+          "index": 1180
+        },
+        {
+          "name": "JS_Eval",
+          "kind": 0,
+          "index": 1181
+        },
+        {
+          "name": "JS_Eval2",
+          "kind": 0,
+          "index": 1182
+        },
+        {
+          "name": "JS_ResolveModule",
+          "kind": 0,
+          "index": 1183
+        },
+        {
+          "name": "JS_WriteObject2",
+          "kind": 0,
+          "index": 1184
+        },
+        {
+          "name": "JS_WriteObject",
+          "kind": 0,
+          "index": 1205
+        },
+        {
+          "name": "JS_ReadObject2",
+          "kind": 0,
+          "index": 254
+        },
+        {
+          "name": "JS_ReadObject",
+          "kind": 0,
+          "index": 1206
+        },
+        {
+          "name": "JS_SetPropertyFunctionList",
+          "kind": 0,
+          "index": 243
+        },
+        {
+          "name": "JS_AddModuleExportList",
+          "kind": 0,
+          "index": 1207
+        },
+        {
+          "name": "JS_SetModuleExportList",
+          "kind": 0,
+          "index": 1208
+        },
+        {
+          "name": "JS_SetConstructor",
+          "kind": 0,
+          "index": 1209
+        },
+        {
+          "name": "JS_ToObjectString",
+          "kind": 0,
+          "index": 1210
+        },
+        {
+          "name": "JS_SealObject",
+          "kind": 0,
+          "index": 1211
+        },
+        {
+          "name": "JS_FreezeObject",
+          "kind": 0,
+          "index": 1212
+        },
+        {
+          "name": "js_string_codePointRange",
+          "kind": 0,
+          "index": 1213
+        },
+        {
+          "name": "JS_AddIntrinsicRegExpCompiler",
+          "kind": 0,
+          "index": 1214
+        },
+        {
+          "name": "JS_ParseJSON",
+          "kind": 0,
+          "index": 687
+        },
+        {
+          "name": "JS_JSONStringify",
+          "kind": 0,
+          "index": 690
+        },
+        {
+          "name": "JS_NewProxy",
+          "kind": 0,
+          "index": 674
+        },
+        {
+          "name": "JS_IsProxy",
+          "kind": 0,
+          "index": 1215
+        },
+        {
+          "name": "JS_GetProxyTarget",
+          "kind": 0,
+          "index": 1216
+        },
+        {
+          "name": "JS_GetProxyHandler",
+          "kind": 0,
+          "index": 1217
+        },
+        {
+          "name": "JS_PromiseState",
+          "kind": 0,
+          "index": 1218
+        },
+        {
+          "name": "JS_PromiseResult",
+          "kind": 0,
+          "index": 1219
+        },
+        {
+          "name": "JS_IsPromise",
+          "kind": 0,
+          "index": 1220
+        },
+        {
+          "name": "JS_NewSettledPromise",
+          "kind": 0,
+          "index": 1221
+        },
+        {
+          "name": "JS_SetPromiseHook",
+          "kind": 0,
+          "index": 1222
+        },
+        {
+          "name": "JS_SetHostPromiseRejectionTracker",
+          "kind": 0,
+          "index": 1223
+        },
+        {
+          "name": "JS_NewDate",
+          "kind": 0,
+          "index": 1224
+        },
+        {
+          "name": "JS_IsDate",
+          "kind": 0,
+          "index": 1225
+        },
+        {
+          "name": "JS_AddIntrinsicBigInt",
+          "kind": 0,
+          "index": 473
+        },
+        {
+          "name": "JS_NewArrayBuffer",
+          "kind": 0,
+          "index": 1226
+        },
+        {
+          "name": "JS_IsArrayBuffer",
+          "kind": 0,
+          "index": 1227
+        },
+        {
+          "name": "JS_NewArrayBufferCopy",
+          "kind": 0,
+          "index": 1228
+        },
+        {
+          "name": "JS_DetachArrayBuffer",
+          "kind": 0,
+          "index": 650
+        },
+        {
+          "name": "JS_IsImmutableArrayBuffer",
+          "kind": 0,
+          "index": 1229
+        },
+        {
+          "name": "JS_SetImmutableArrayBuffer",
+          "kind": 0,
+          "index": 1230
+        },
+        {
+          "name": "JS_GetArrayBuffer",
+          "kind": 0,
+          "index": 1231
+        },
+        {
+          "name": "JS_NewTypedArray",
+          "kind": 0,
+          "index": 1232
+        },
+        {
+          "name": "JS_GetTypedArrayBuffer",
+          "kind": 0,
+          "index": 1233
+        },
+        {
+          "name": "JS_GetUint8Array",
+          "kind": 0,
+          "index": 1234
+        },
+        {
+          "name": "JS_NewUint8Array",
+          "kind": 0,
+          "index": 1235
+        },
+        {
+          "name": "JS_NewUint8ArrayCopy",
+          "kind": 0,
+          "index": 1237
+        },
+        {
+          "name": "JS_GetTypedArrayType",
+          "kind": 0,
+          "index": 1238
+        },
+        {
+          "name": "JS_IsEqual",
+          "kind": 0,
+          "index": 1239
+        },
+        {
+          "name": "JS_IsStrictEqual",
+          "kind": 0,
+          "index": 1240
+        },
+        {
+          "name": "JS_IsSameValue",
+          "kind": 0,
+          "index": 1241
+        },
+        {
+          "name": "JS_IsSameValueZero",
+          "kind": 0,
+          "index": 1242
+        },
+        {
+          "name": "JS_ThrowDOMException",
+          "kind": 0,
+          "index": 1243
+        },
+        {
+          "name": "vsnprintf",
+          "kind": 0,
+          "index": 30
+        },
+        {
+          "name": "JS_DetectModule",
+          "kind": 0,
+          "index": 1244
+        },
+        {
+          "name": "strstr",
+          "kind": 0,
+          "index": 1245
+        },
+        {
+          "name": "js_std_cmd",
+          "kind": 0,
+          "index": 1246
+        },
+        {
+          "name": "calloc",
+          "kind": 0,
+          "index": 418
+        },
+        {
+          "name": "malloc",
+          "kind": 0,
+          "index": 420
+        },
+        {
+          "name": "free",
+          "kind": 0,
+          "index": 422
+        },
+        {
+          "name": "realloc",
+          "kind": 0,
+          "index": 424
+        },
+        {
+          "name": "memcmp",
+          "kind": 0,
+          "index": 229
+        },
+        {
+          "name": "snprintf",
+          "kind": 0,
+          "index": 63
+        },
+        {
+          "name": "frexp",
+          "kind": 0,
+          "index": 336
+        },
+        {
+          "name": "strrchr",
+          "kind": 0,
+          "index": 330
+        },
+        {
+          "name": "strcmp",
+          "kind": 0,
+          "index": 528
+        },
+        {
+          "name": "strchr",
+          "kind": 0,
+          "index": 299
+        },
+        {
+          "name": "strtod",
+          "kind": 0,
+          "index": 709
+        },
+        {
+          "name": "memchr",
+          "kind": 0,
+          "index": 608
+        },
+        {
+          "name": "acosh",
+          "kind": 0,
+          "index": 909
+        },
+        {
+          "name": "asinh",
+          "kind": 0,
+          "index": 911
+        },
+        {
+          "name": "atanh",
+          "kind": 0,
+          "index": 913
+        },
+        {
+          "name": "cbrt",
+          "kind": 0,
+          "index": 923
+        },
+        {
+          "name": "strncmp",
+          "kind": 0,
+          "index": 1257
+        },
+        {
+          "name": "qjs_get_quickjs_version",
+          "kind": 0,
+          "index": 1319
+        },
+        {
+          "name": "qjs_init",
+          "kind": 0,
+          "index": 1328
+        },
+        {
+          "name": "qjs_init2",
+          "kind": 0,
+          "index": 1329
+        },
+        {
+          "name": "qjs_set_interrupt_handler",
+          "kind": 0,
+          "index": 1362
+        },
+        {
+          "name": "qjs_set_promise_rejection_handler",
+          "kind": 0,
+          "index": 1369
+        },
+        {
+          "name": "qjs_set_module_loader",
+          "kind": 0,
+          "index": 1366
+        },
+        {
+          "name": "qjs_set_memory_limit",
+          "kind": 0,
+          "index": 1365
+        },
+        {
+          "name": "qjs_set_max_stack_size",
+          "kind": 0,
+          "index": 1364
+        },
+        {
+          "name": "qjs_run_gc",
+          "kind": 0,
+          "index": 1360
+        },
+        {
+          "name": "qjs_set_gc_threshold",
+          "kind": 0,
+          "index": 1361
+        },
+        {
+          "name": "qjs_get_gc_threshold",
+          "kind": 0,
+          "index": 1310
+        },
+        {
+          "name": "qjs_compute_memory_usage",
+          "kind": 0,
+          "index": 1293
+        },
+        {
+          "name": "qjs_destroy",
+          "kind": 0,
+          "index": 1296
+        },
+        {
+          "name": "qjs_eval",
+          "kind": 0,
+          "index": 1298
+        },
+        {
+          "name": "qjs_compile",
+          "kind": 0,
+          "index": 1292
+        },
+        {
+          "name": "qjs_eval_bytecode",
+          "kind": 0,
+          "index": 1299
+        },
+        {
+          "name": "qjs_new_string",
+          "kind": 0,
+          "index": 1354
+        },
+        {
+          "name": "qjs_new_number",
+          "kind": 0,
+          "index": 1351
+        },
+        {
+          "name": "qjs_new_object",
+          "kind": 0,
+          "index": 1352
+        },
+        {
+          "name": "qjs_new_array",
+          "kind": 0,
+          "index": 1345
+        },
+        {
+          "name": "qjs_get_undefined",
+          "kind": 0,
+          "index": 1325
+        },
+        {
+          "name": "qjs_get_null",
+          "kind": 0,
+          "index": 1312
+        },
+        {
+          "name": "qjs_get_true",
+          "kind": 0,
+          "index": 1323
+        },
+        {
+          "name": "qjs_get_false",
+          "kind": 0,
+          "index": 1308
+        },
+        {
+          "name": "qjs_new_symbol",
+          "kind": 0,
+          "index": 1355
+        },
+        {
+          "name": "qjs_get_symbol_description",
+          "kind": 0,
+          "index": 1322
+        },
+        {
+          "name": "qjs_get_float64",
+          "kind": 0,
+          "index": 1309
+        },
+        {
+          "name": "qjs_get_string",
+          "kind": 0,
+          "index": 1321
+        },
+        {
+          "name": "qjs_free_cstring",
+          "kind": 0,
+          "index": 1301
+        },
+        {
+          "name": "qjs_typeof",
+          "kind": 0,
+          "index": 1376
+        },
+        {
+          "name": "qjs_is_exception",
+          "kind": 0,
+          "index": 1335
+        },
+        {
+          "name": "qjs_is_undefined",
+          "kind": 0,
+          "index": 1344
+        },
+        {
+          "name": "qjs_is_null",
+          "kind": 0,
+          "index": 1338
+        },
+        {
+          "name": "qjs_is_bool",
+          "kind": 0,
+          "index": 1333
+        },
+        {
+          "name": "qjs_is_number",
+          "kind": 0,
+          "index": 1339
+        },
+        {
+          "name": "qjs_is_string",
+          "kind": 0,
+          "index": 1342
+        },
+        {
+          "name": "qjs_is_object",
+          "kind": 0,
+          "index": 1340
+        },
+        {
+          "name": "qjs_is_array",
+          "kind": 0,
+          "index": 1330
+        },
+        {
+          "name": "qjs_is_function",
+          "kind": 0,
+          "index": 1336
+        },
+        {
+          "name": "qjs_is_error",
+          "kind": 0,
+          "index": 1334
+        },
+        {
+          "name": "qjs_is_promise",
+          "kind": 0,
+          "index": 1341
+        },
+        {
+          "name": "qjs_is_symbol",
+          "kind": 0,
+          "index": 1343
+        },
+        {
+          "name": "qjs_is_big_int",
+          "kind": 0,
+          "index": 1332
+        },
+        {
+          "name": "qjs_get_bool",
+          "kind": 0,
+          "index": 1305
+        },
+        {
+          "name": "qjs_dup_value",
+          "kind": 0,
+          "index": 1297
+        },
+        {
+          "name": "qjs_free_value",
+          "kind": 0,
+          "index": 1302
+        },
+        {
+          "name": "qjs_get_global",
+          "kind": 0,
+          "index": 1311
+        },
+        {
+          "name": "qjs_get_prop_string",
+          "kind": 0,
+          "index": 1315
+        },
+        {
+          "name": "qjs_set_prop_string",
+          "kind": 0,
+          "index": 1371
+        },
+        {
+          "name": "qjs_define_prop_string",
+          "kind": 0,
+          "index": 1294
+        },
+        {
+          "name": "qjs_define_prop_value",
+          "kind": 0,
+          "index": 1295
+        },
+        {
+          "name": "qjs_get_prop_value",
+          "kind": 0,
+          "index": 1317
+        },
+        {
+          "name": "qjs_set_prop_value",
+          "kind": 0,
+          "index": 1373
+        },
+        {
+          "name": "qjs_get_prop_uint32",
+          "kind": 0,
+          "index": 1316
+        },
+        {
+          "name": "qjs_set_prop_uint32",
+          "kind": 0,
+          "index": 1372
+        },
+        {
+          "name": "qjs_call",
+          "kind": 0,
+          "index": 1291
+        },
+        {
+          "name": "qjs_new_host_function",
+          "kind": 0,
+          "index": 1349
+        },
+        {
+          "name": "qjs_new_promise",
+          "kind": 0,
+          "index": 1353
+        },
+        {
+          "name": "qjs_promise_state",
+          "kind": 0,
+          "index": 1358
+        },
+        {
+          "name": "qjs_promise_result",
+          "kind": 0,
+          "index": 1357
+        },
+        {
+          "name": "qjs_is_job_pending",
+          "kind": 0,
+          "index": 1337
+        },
+        {
+          "name": "qjs_execute_pending_job",
+          "kind": 0,
+          "index": 1300
+        },
+        {
+          "name": "qjs_get_exception",
+          "kind": 0,
+          "index": 1307
+        },
+        {
+          "name": "qjs_throw",
+          "kind": 0,
+          "index": 1375
+        },
+        {
+          "name": "qjs_new_error",
+          "kind": 0,
+          "index": 1348
+        },
+        {
+          "name": "qjs_new_big_int64",
+          "kind": 0,
+          "index": 1347
+        },
+        {
+          "name": "qjs_get_big_int64",
+          "kind": 0,
+          "index": 1304
+        },
+        {
+          "name": "qjs_get_value_ptr",
+          "kind": 0,
+          "index": 1326
+        },
+        {
+          "name": "qjs_get_own_property_names",
+          "kind": 0,
+          "index": 1313
+        },
+        {
+          "name": "qjs_get_own_property_names_all",
+          "kind": 0,
+          "index": 1314
+        },
+        {
+          "name": "qjs_has_own_property",
+          "kind": 0,
+          "index": 1327
+        },
+        {
+          "name": "qjs_property_is_enumerable",
+          "kind": 0,
+          "index": 1359
+        },
+        {
+          "name": "qjs_get_prototype_of",
+          "kind": 0,
+          "index": 1318
+        },
+        {
+          "name": "qjs_new_array_buffer",
+          "kind": 0,
+          "index": 1346
+        },
+        {
+          "name": "qjs_get_array_buffer",
+          "kind": 0,
+          "index": 1303
+        },
+        {
+          "name": "qjs_is_array_buffer",
+          "kind": 0,
+          "index": 1331
+        },
+        {
+          "name": "qjs_new_uint8_array",
+          "kind": 0,
+          "index": 1356
+        },
+        {
+          "name": "qjs_get_typed_array_buffer",
+          "kind": 0,
+          "index": 1324
+        },
+        {
+          "name": "qjs_get_runtime_ptr",
+          "kind": 0,
+          "index": 1320
+        },
+        {
+          "name": "qjs_get_context_ptr",
+          "kind": 0,
+          "index": 1306
+        },
+        {
+          "name": "qjs_set_runtime_and_context",
+          "kind": 0,
+          "index": 1374
+        },
+        {
+          "name": "wasm_malloc",
+          "kind": 0,
+          "index": 1378
+        },
+        {
+          "name": "wasm_free",
+          "kind": 0,
+          "index": 1377
+        },
+        {
+          "name": "fmin",
+          "kind": 0,
+          "index": 1404
+        },
+        {
+          "name": "fmax",
+          "kind": 0,
+          "index": 1405
+        },
+        {
+          "name": "fabs",
+          "kind": 0,
+          "index": 1435
+        },
+        {
+          "name": "sqrt",
+          "kind": 0,
+          "index": 1436
+        },
+        {
+          "name": "copysign",
+          "kind": 0,
+          "index": 1437
+        },
+        {
+          "name": "ceil",
+          "kind": 0,
+          "index": 1438
+        },
+        {
+          "name": "floor",
+          "kind": 0,
+          "index": 1439
+        },
+        {
+          "name": "trunc",
+          "kind": 0,
+          "index": 1440
+        },
+        {
+          "name": "strerror",
+          "kind": 0,
+          "index": 1395
+        },
+        {
+          "name": "isalnum",
+          "kind": 0,
+          "index": 1454
+        },
+        {
+          "name": "isalpha",
+          "kind": 0,
+          "index": 1450
+        },
+        {
+          "name": "isdigit",
+          "kind": 0,
+          "index": 1452
+        },
+        {
+          "name": "islower",
+          "kind": 0,
+          "index": 1412
+        },
+        {
+          "name": "isprint",
+          "kind": 0,
+          "index": 1413
+        },
+        {
+          "name": "isspace",
+          "kind": 0,
+          "index": 1433
+        },
+        {
+          "name": "isupper",
+          "kind": 0,
+          "index": 1442
+        },
+        {
+          "name": "isxdigit",
+          "kind": 0,
+          "index": 1441
+        },
+        {
+          "name": "tolower",
+          "kind": 0,
+          "index": 1426
+        },
+        {
+          "name": "toupper",
+          "kind": 0,
+          "index": 1447
+        },
+        {
+          "name": "acos",
+          "kind": 0,
+          "index": 882
+        },
+        {
+          "name": "asin",
+          "kind": 0,
+          "index": 884
+        },
+        {
+          "name": "atan",
+          "kind": 0,
+          "index": 886
+        },
+        {
+          "name": "atan2",
+          "kind": 0,
+          "index": 888
+        },
+        {
+          "name": "cos",
+          "kind": 0,
+          "index": 890
+        },
+        {
+          "name": "cosh",
+          "kind": 0,
+          "index": 903
+        },
+        {
+          "name": "exp",
+          "kind": 0,
+          "index": 892
+        },
+        {
+          "name": "exp2",
+          "kind": 0,
+          "index": 1407
+        },
+        {
+          "name": "fmod",
+          "kind": 0,
+          "index": 202
+        },
+        {
+          "name": "ldexp",
+          "kind": 0,
+          "index": 1453
+        },
+        {
+          "name": "log",
+          "kind": 0,
+          "index": 894
+        },
+        {
+          "name": "log10",
+          "kind": 0,
+          "index": 921
+        },
+        {
+          "name": "log2",
+          "kind": 0,
+          "index": 919
+        },
+        {
+          "name": "modf",
+          "kind": 0,
+          "index": 1451
+        },
+        {
+          "name": "pow",
+          "kind": 0,
+          "index": 203
+        },
+        {
+          "name": "remainder",
+          "kind": 0,
+          "index": 1429
+        },
+        {
+          "name": "round",
+          "kind": 0,
+          "index": 59
+        },
+        {
+          "name": "sin",
+          "kind": 0,
+          "index": 897
+        },
+        {
+          "name": "sinh",
+          "kind": 0,
+          "index": 905
+        },
+        {
+          "name": "tan",
+          "kind": 0,
+          "index": 899
+        },
+        {
+          "name": "tanh",
+          "kind": 0,
+          "index": 907
+        },
+        {
+          "name": "sprintf",
+          "kind": 0,
+          "index": 1445
+        },
+        {
+          "name": "sscanf",
+          "kind": 0,
+          "index": 1419
+        },
+        {
+          "name": "atof",
+          "kind": 0,
+          "index": 1444
+        },
+        {
+          "name": "atoi",
+          "kind": 0,
+          "index": 1434
+        },
+        {
+          "name": "bsearch",
+          "kind": 0,
+          "index": 1406
+        },
+        {
+          "name": "qsort",
+          "kind": 0,
+          "index": 1414
+        },
+        {
+          "name": "strtoul",
+          "kind": 0,
+          "index": 1423
+        },
+        {
+          "name": "strtol",
+          "kind": 0,
+          "index": 1424
+        },
+        {
+          "name": "stpcpy",
+          "kind": 0,
+          "index": 1410
+        },
+        {
+          "name": "strcat",
+          "kind": 0,
+          "index": 1409
+        },
+        {
+          "name": "strcpy",
+          "kind": 0,
+          "index": 1411
+        },
+        {
+          "name": "strdup",
+          "kind": 0,
+          "index": 1427
+        },
+        {
+          "name": "strncat",
+          "kind": 0,
+          "index": 1449
+        },
+        {
+          "name": "strncpy",
+          "kind": 0,
+          "index": 1428
+        },
+        {
+          "name": "memcpy",
+          "kind": 0,
+          "index": 1448
+        },
+        {
+          "name": "memmove",
+          "kind": 0,
+          "index": 1425
+        },
+        {
+          "name": "memset",
+          "kind": 0,
+          "index": 1446
+        }
+      ],
+      "producerDeclarations": [
+        {
+          "field": "language",
+          "values": [
+            {
+              "name": "C11",
+              "version": ""
+            }
+          ]
+        },
+        {
+          "field": "processed-by",
+          "values": [
+            {
+              "name": "clang",
+              "version": "22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "qualification": "Read binary sections without execution. Producer metadata is the artifact declaration; it does not prove the complete original source/link manifest or copyright grant."
+}

@@ -1,0 +1,91 @@
+{
+  "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "scope": "Isolated synthetic data only; no real user profiles, credentials, local user machine or installer publication.",
+  "fixture": {
+    "path": "docs/evidence/post-main-source-verification-20261003/synthetic-gui-workspace.zip",
+    "sha256": "58ce25eb4195c1e8d45d08073a813d77a8db36bdeb93a5587649baaeca4bc191",
+    "entries": [
+      {
+        "path": "README.md",
+        "bytes": 58,
+        "sha256": "25970bdb9acd84a2578fa5793ee54e16cef2078c8589ae6ba70cee454d135ea2"
+      },
+      {
+        "path": "folder/01-first.txt",
+        "bytes": 16,
+        "sha256": "d8ca5681d2ff74f34fd3acf023a8370ca994af06372c90084f3ea8c91da3f127"
+      },
+      {
+        "path": "folder/02-second.txt",
+        "bytes": 17,
+        "sha256": "0c192299943ff61356877fe1cad635784e0ff71f6dec1630f16b1961ab72b4da"
+      },
+      {
+        "path": "文件夹/empty.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "项目 空格/src/duplicate.txt",
+        "bytes": 28,
+        "sha256": "f28721395825f82eda4a31b5cddef34f84f314b5b3acbfadcd7bc985ca223a3a"
+      },
+      {
+        "path": "项目 空格/src/main.ts",
+        "bytes": 61,
+        "sha256": "4a1c1c52dcd99dcc4c1cf600fcbc15d5cac9cae647a9d246a3cde05d9cdae375"
+      },
+      {
+        "path": "项目 空格/说明.md",
+        "bytes": 70,
+        "sha256": "ab2d84f4538da5dce559e679c07b564c2e6d7cb2da70461b6afb66b18a7b1fcf"
+      }
+    ]
+  },
+  "environment": {
+    "os": "Linux x86_64",
+    "displayConfigured": false,
+    "xvfbAvailable": false,
+    "desktopElectronRuntimeAvailable": false,
+    "desktopPlaywrightCoreAvailable": false,
+    "windowsEnvironmentAvailable": false,
+    "existingMainBundleBoundTo595": false
+  },
+  "executedGuiOrInstallerChecks": false,
+  "freshBuildRequiredBeforeGui": true,
+  "windowsCloudSequence": [
+    {
+      "step": "Check out immutable main source and install frozen dependencies on authorized Windows cloud environment",
+      "command": "git checkout 59517d9699519b0a7a44980da27df29d45f0e91e"
+    },
+    {
+      "step": "Once workspace build dependencies and runtime assets are available, produce current desktop outputs",
+      "command": "pnpm --filter @knorvia/desktop build:no-runtime-assets"
+    },
+    {
+      "step": "Run existing isolated activity/layout/material interaction assertions",
+      "command": "pnpm run test:studio:ui"
+    },
+    {
+      "step": "Extract synthetic workspace outside source repository; verify file tree/search/watch/groups/splits/reopen and data compatibility fixtures through assigned owners",
+      "command": null
+    },
+    {
+      "step": "For a real copied complete package outside repository, run existing packaged guarded acceptance",
+      "command": "pnpm test:studio:packaged \"<complete package>/Knorvia Studio.exe\""
+    }
+  ],
+  "coverageQualification": [
+    "The existing activity-rail harness hides windows and does not capture screenshots; geometry assertions do not count as visual review.",
+    "It uses Windows-style PATH and executable expectations; this Linux environment is not treated as equivalent Windows GUI execution.",
+    "Actual source-bound app.asar/package inventory is required before clearing the package-specific Canvas exclusion or WASM inclusion conditions.",
+    "Migration fixtures and any product fixes remain with services/native/CLI owners; this preparation does not invent or modify accepted user state."
+  ],
+  "plannedScenarios": [
+    "1360x900 and 900x650 activity rail, titlebar, shared sheet, keyboard focus, glass materials and light/dark surfaces",
+    "Kernel/settings/plugins round trips and independent unsent drafts",
+    "Unicode/space-containing workspace paths, duplicate search tokens, empty files, file watch and stable sorting",
+    "Group create/archive/order; split drag/editor restore/restart via public persistence flows",
+    "Packaged plugin/workspace/media smoke and isolated installer uninstall/reinstall behavior after package exists"
+  ]
+}
