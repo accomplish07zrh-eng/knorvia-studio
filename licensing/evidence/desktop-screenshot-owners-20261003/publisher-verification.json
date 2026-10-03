@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+      "repository": "zai-org/ZCode",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "returnedBlob": "4d7fb42e05bffa7b00c030d1bce24eb9d8b91717",
+      "recomputedBlob": "4d7fb42e05bffa7b00c030d1bce24eb9d8b91717",
+      "normalizedSha256": "92ca3ae1333672ea2777d9860fedb4688f1658933b8cd12a005f10c6f79b0409",
+      "bytes": 15254,
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+      "matchesInventory": true,
+      "authorReceivedSource": false,
+      "licenseAcceptance": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+      "repository": "zai-org/ZCode",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "returnedBlob": "76c8f8a7485d02a5fa5aaca160c7dbfe636c776b",
+      "recomputedBlob": "76c8f8a7485d02a5fa5aaca160c7dbfe636c776b",
+      "normalizedSha256": "f35ec99d96497b98587a4c4e52321df80b34c4740183b3dc6b8f55bbed106d51",
+      "bytes": 18811,
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+      "matchesInventory": true,
+      "authorReceivedSource": false,
+      "licenseAcceptance": false
+    }
+  ],
+  "qualification": "Two exact publisher-path reads through existing connector; byte mapping only, not rights clearance."
+}

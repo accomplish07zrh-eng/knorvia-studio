@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "licensing/evidence/desktop-screenshot-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/final-bindings.mjs",
+      "sha256": "eba540dcb6932bff7f762f821c952698a47da76a767bc047d848dc6d280466b5"
+    }
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 25ms on 1 file with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

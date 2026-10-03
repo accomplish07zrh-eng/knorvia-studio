@@ -30,13 +30,21 @@ type CoordinatorOptions = {
     windowId: number,
     payload: BrowserViewScreenshotSurfacePreparePayload,
   ) => BrowserScreenshotActivityLease | undefined;
-  sendPrepare: (windowId: number, payload: BrowserViewScreenshotSurfacePreparePayload) => boolean;
-  sendRelease: (windowId: number, payload: BrowserViewScreenshotSurfaceReleasePayload) => void;
+  sendPrepare: (
+    windowId: number,
+    payload: BrowserViewScreenshotSurfacePreparePayload,
+  ) => boolean;
+  sendRelease: (
+    windowId: number,
+    payload: BrowserViewScreenshotSurfaceReleasePayload,
+  ) => void;
   log?: (message: string) => void;
   warn?: (message: string) => void;
 };
 
-export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreenshotSurfaceCoordinator {
+export class DesktopBrowserScreenshotSurfaceCoordinator
+  implements BrowserScreenshotSurfaceCoordinator
+{
   private readonly timeoutMs: number;
   private readonly activityTimeoutMs: number;
   private readonly groupsByGuest = new Map<string, BrowserScreenshotPreparationGroup>();
@@ -59,9 +67,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       return Promise.reject(new Error("browser screenshot surface preparation cancelled"));
     }
     if (input.viewport.width <= 0 || input.viewport.height <= 0) {
-      return Promise.reject(
-        new Error("browser screenshot surface preparation requires a non-zero viewport"),
-      );
+      return Promise.reject(new Error("browser screenshot surface preparation requires a non-zero viewport"));
     }
 
     const key = JSON.stringify([
@@ -79,7 +85,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
     ]);
     let group = this.groupsByGuest.get(key);
     if (group?.ready) {
-      return Promise.resolve(this.makeLease(group, input.signal));
+      return Promise.resolve(this.makeLease(group, input));
     }
     if (!group) {
       group = {
@@ -114,7 +120,6 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       input.signal.addEventListener("abort", abortListener, { once: true });
       if (input.signal.aborted) {
         abortListener();
-        return;
       }
       this.activateNext();
     });
@@ -143,14 +148,11 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       this.options.log?.("[browser-screenshot-surface] ignored ready with mismatched identity");
       return;
     }
-    if (
-      group.senderWebContentsId !== undefined &&
-      group.senderWebContentsId !== event.senderWebContentsId
-    ) {
+    group.senderWebContentsId ??= event.senderWebContentsId;
+    if (group.senderWebContentsId !== event.senderWebContentsId) {
       this.options.log?.("[browser-screenshot-surface] ignored ready from a different renderer");
       return;
     }
-    group.senderWebContentsId ??= event.senderWebContentsId;
     if (!sameBrowserScreenshotViewport(expected.viewport, actual.viewport)) {
       this.options.log?.("[browser-screenshot-surface] ignored ready with unstable viewport");
       return;
@@ -159,10 +161,11 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       this.options.log?.("[browser-screenshot-surface] ignored ready with invalid surface scale");
       return;
     }
-    if (expected.surfaceScaleMode === "unscaled" && Math.abs(actual.surfaceScale - 1) > 0.001) {
-      this.options.log?.(
-        "[browser-screenshot-surface] ignored ready with scaled recording surface",
-      );
+    if (
+      expected.surfaceScaleMode === "unscaled" &&
+      Math.abs(actual.surfaceScale - 1) > 0.001
+    ) {
+      this.options.log?.("[browser-screenshot-surface] ignored ready with scaled recording surface");
       return;
     }
     group.activityLease?.markPrepared?.();
@@ -176,7 +179,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
     for (const request of requests) {
       clearTimeout(request.timer);
       request.input.signal.removeEventListener("abort", request.abortListener);
-      request.resolve(this.makeLease(group, request.input.signal));
+      request.resolve(this.makeLease(group, request.input));
     }
   }
 
@@ -209,7 +212,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
   }
 
   private activateNext(): void {
-    if (this.activeGroup || this.disposed) return;
+    if (this.activeGroup || this.disposed || this.schedulingSuspended) return;
     const group = this.queuedGroups.shift();
     if (!group) return;
     if (group.released || group.requests.size === 0) {
@@ -219,14 +222,16 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
     this.activeGroup = group;
     this.groupsByReadyRequestId.set(group.payload.requestId, group);
 
-    if (this.options.acquireActivity) {
-      const activityLease = this.options.acquireActivity(group.windowId, group.payload);
+    const acquireActivity = this.options.acquireActivity;
+    if (acquireActivity) {
+      const activityLease = acquireActivity(group.windowId, group.payload);
       if (!activityLease) {
         this.errorGroup(group, new Error("browser screenshot activity could not be acquired"));
         return;
       }
       group.activityLease = activityLease;
     }
+    if (group.released) return;
 
     const invalidated = group.activityLease?.invalidated;
     if (invalidated) {
@@ -241,11 +246,9 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       };
       group.activityAbortListener = onActivityAbort;
       invalidated.addEventListener("abort", onActivityAbort, { once: true });
-      if (invalidated.aborted) {
-        onActivityAbort();
-        return;
-      }
+      if (invalidated.aborted) onActivityAbort();
     }
+    if (group.released) return;
 
     const activityTimeout = group.activityTimeoutMs ?? this.activityTimeoutMs;
     group.activityTimer = setTimeout(() => {
@@ -263,10 +266,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       sent = this.options.sendPrepare(group.windowId, group.payload);
     } catch {
       if (!group.ready && !group.released) {
-        this.errorGroup(
-          group,
-          new Error("browser screenshot surface preparation could not be sent"),
-        );
+        this.errorGroup(group, new Error("browser screenshot surface preparation could not be sent"));
       }
       return;
     }
@@ -286,9 +286,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
 
   private errorGroup(group: BrowserScreenshotPreparationGroup, error: Error): void {
     if (group.released) return;
-    if (!group.invalidationController.signal.aborted) {
-      group.invalidationController.abort(error);
-    }
+    group.invalidationController.abort(error);
     const requests = Array.from(group.requests);
     group.requests.clear();
     for (const request of requests) {
@@ -301,18 +299,18 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
 
   private makeLease(
     group: BrowserScreenshotPreparationGroup,
-    signal: AbortSignal,
+    input: BrowserScreenshotSurfacePrepareInput,
   ): BrowserScreenshotSurfaceLease {
     const onAbort = () => release();
     const release = releaseBrowserScreenshotResourceOnce(() => {
-      signal.removeEventListener("abort", onAbort);
+      input.signal.removeEventListener("abort", onAbort);
       group.leaseReleases.delete(release);
       if (group.released) return;
       if (group.leaseReleases.size === 0) this.settleGroup(group);
     });
     group.leaseReleases.add(release);
-    signal.addEventListener("abort", onAbort, { once: true });
-    if (signal.aborted) release();
+    input.signal.addEventListener("abort", onAbort, { once: true });
+    if (input.signal.aborted) release();
     return {
       invalidated: group.invalidationController.signal,
       surfaceScale: group.readySurfaceScale ?? 1,
@@ -341,13 +339,15 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
         );
       }
     } catch {
-      this.options.log?.("[browser-screenshot-surface] release send failed");
+      this.options.warn?.("[browser-screenshot-surface] release send failed");
     } finally {
       for (const release of group.leaseReleases) release();
       group.leaseReleases.clear();
-      const activitySignal = group.activityLease?.invalidated;
-      if (activitySignal && group.activityAbortListener) {
-        activitySignal.removeEventListener("abort", group.activityAbortListener);
+      if (group.activityAbortListener) {
+        group.activityLease?.invalidated?.removeEventListener(
+          "abort",
+          group.activityAbortListener,
+        );
       }
       group.activityAbortListener = undefined;
       group.activityLease?.release();

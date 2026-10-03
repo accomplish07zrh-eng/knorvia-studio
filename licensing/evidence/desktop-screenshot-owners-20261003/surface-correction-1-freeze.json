@@ -1,0 +1,12 @@
+{
+  "sha256": "07c5a3a10ee7c138445dbbbe0462558927a78e11c6172fcd2874c9ee2a91cd6d",
+  "bytes": 13245,
+  "author": "/root/screenshot_surface_owner_author43",
+  "version": "correction-1",
+  "rawPath": "licensing/evidence/desktop-screenshot-owners-20261003/drafts/surface-correction-1.ts",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Own memory and bounded supplied facts only; no prior candidate, product/sibling source or other files; no new output inspection.",
+  "completeLiteral": true,
+  "curatorSemanticEdits": false
+}

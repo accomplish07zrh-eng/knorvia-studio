@@ -1,0 +1,14 @@
+{
+  "sha256": "797c808bfacd9e83de173720bcb2488e1b0475c8d5bff150581f2e10c8dcb1ac",
+  "bytes": 13192,
+  "author": "/root/screenshot_surface_owner_author43",
+  "access": "Read only common/surface contract and shared/contracts port declarations; no source/history/tests/evidence/dependency/draft/output reread.",
+  "version": "initial",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "rawPath": "licensing/evidence/desktop-screenshot-owners-20261003/drafts/surface-initial.ts",
+  "boundary": "Instructions/shared filesystem; no OS isolation or Fast guarantee"
+}

@@ -30,13 +30,21 @@ type CoordinatorOptions = {
     windowId: number,
     payload: BrowserViewScreenshotSurfacePreparePayload,
   ) => BrowserScreenshotActivityLease | undefined;
-  sendPrepare: (windowId: number, payload: BrowserViewScreenshotSurfacePreparePayload) => boolean;
-  sendRelease: (windowId: number, payload: BrowserViewScreenshotSurfaceReleasePayload) => void;
+  sendPrepare: (
+    windowId: number,
+    payload: BrowserViewScreenshotSurfacePreparePayload,
+  ) => boolean;
+  sendRelease: (
+    windowId: number,
+    payload: BrowserViewScreenshotSurfaceReleasePayload,
+  ) => void;
   log?: (message: string) => void;
   warn?: (message: string) => void;
 };
 
-export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreenshotSurfaceCoordinator {
+export class DesktopBrowserScreenshotSurfaceCoordinator
+  implements BrowserScreenshotSurfaceCoordinator
+{
   private readonly timeoutMs: number;
   private readonly activityTimeoutMs: number;
   private readonly groupsByGuest = new Map<string, BrowserScreenshotPreparationGroup>();
@@ -59,9 +67,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       return Promise.reject(new Error("browser screenshot surface preparation cancelled"));
     }
     if (input.viewport.width <= 0 || input.viewport.height <= 0) {
-      return Promise.reject(
-        new Error("browser screenshot surface preparation requires a non-zero viewport"),
-      );
+      return Promise.reject(new Error("browser screenshot surface preparation requires a non-zero viewport"));
     }
 
     const key = JSON.stringify([
@@ -159,10 +165,11 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       this.options.log?.("[browser-screenshot-surface] ignored ready with invalid surface scale");
       return;
     }
-    if (expected.surfaceScaleMode === "unscaled" && Math.abs(actual.surfaceScale - 1) > 0.001) {
-      this.options.log?.(
-        "[browser-screenshot-surface] ignored ready with scaled recording surface",
-      );
+    if (
+      expected.surfaceScaleMode === "unscaled" &&
+      Math.abs(actual.surfaceScale - 1) > 0.001
+    ) {
+      this.options.log?.("[browser-screenshot-surface] ignored ready with scaled recording surface");
       return;
     }
     group.activityLease?.markPrepared?.();
@@ -263,10 +270,7 @@ export class DesktopBrowserScreenshotSurfaceCoordinator implements BrowserScreen
       sent = this.options.sendPrepare(group.windowId, group.payload);
     } catch {
       if (!group.ready && !group.released) {
-        this.errorGroup(
-          group,
-          new Error("browser screenshot surface preparation could not be sent"),
-        );
+        this.errorGroup(group, new Error("browser screenshot surface preparation could not be sent"));
       }
       return;
     }
