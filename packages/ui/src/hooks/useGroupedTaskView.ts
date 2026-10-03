@@ -14,90 +14,24 @@ import { useLocalWorkspaceScopes } from "@/hooks/useLocalWorkspaceScopes.js";
 import type { WorkspaceTabState } from "@/store/tabStore.js";
 import { logger } from "@/logger.js";
 import { buildGroupedTaskViewFromSessions } from "@/lib/buildGroupedTaskViewFromSessions.js";
-import { mergeTaskListMembershipFields } from "@/v4/taskListRowActivity.js";
 import { fetchTaskListMembershipSets } from "@/lib/taskListMembershipSets.js";
 import { useTaskListMembershipVersion } from "@/v4/taskListMembershipVersion.js";
 import { useGlobalTaskList } from "@/hooks/useGlobalTaskList.js";
 import { selectWorkspaceKnorviaState, useKnorviaSessionStore } from "@/store/sessionStore.js";
 import { buildTaskEntityKey, buildTaskWorkspaceKey } from "@/lib/taskQueryCache.js";
-import { mergeTaskWithOptimisticMeta } from "@/lib/taskMetaMerge.js";
 import {
   useWorkspaceTaskOptimisticOverlayByWorkspaceKey,
-  type WorkspaceOptimisticTaskOverlay,
 } from "@/hooks/workspaceTaskListOptimisticOverlay.js";
-import { moveTaskToGroupStart } from "@/workspace-grouped-tasks/view.js";
 import { areStabilizedValuesEquivalent } from "@/v4/taskListItemStabilization.js";
-import { taskKey as groupedTaskKey } from "@/workspace-grouped-tasks/ids.js";
 import {
   GroupedRemoteDataSingleFlight, readCachedGroupedView, writeCachedGroupedView,
 } from "@/workspace-grouped-tasks/groupedRemoteDataCache.js";
 import { GroupedTaskViewRefreshOwner } from "@/workspace-grouped-tasks/groupedRefreshOwner.js";
-
-function applyPromotedGroupPlacements(
-  view: KnorviaGroupedTaskView,
-  promotedDraftByTaskKey: ReadonlyMap<
-    string,
-    WorkspaceOptimisticTaskOverlay["promotedGroupedDraftTaskByTaskId"][string]
-  >,
-  optimisticTaskByKey: ReadonlyMap<string, KnorviaTaskMeta>,
-): KnorviaGroupedTaskView {
-  let nextView = view;
-  for (const [taskKey, promotedDraft] of promotedDraftByTaskKey) {
-    if (promotedDraft.placement.type === "top") {
-      const rootIndex = nextView.nodes.findIndex(
-        (node) => node.type === "task" && buildTaskEntityKey(node.task) === taskKey,
-      );
-      if (rootIndex <= 0) continue;
-      // sessions-index 与 grouped structure 异步到达时，缺序 task 会被临时补到末尾。
-      // 提升态收敛前继续沿用 draft 的 root 顶部位置，避免同一行先到底部再回顶部。
-      const nodes = [...nextView.nodes];
-      const [rootTask] = nodes.splice(rootIndex, 1);
-      if (rootTask) nodes.unshift(rootTask);
-      nextView = { nodes };
-      continue;
-    }
-    const task = optimisticTaskByKey.get(taskKey);
-    if (!task) {
-      continue;
-    }
-    if (isTaskFirstInGroup(nextView, taskKey, promotedDraft.placement.groupId)) {
-      continue;
-    }
-    nextView = moveTaskToGroupStart(nextView, {
-      activeTaskKey: groupedTaskKey(task),
-      groupId: promotedDraft.placement.groupId,
-    });
-  }
-  return nextView;
-}
-
-function findTaskInGroupedView(
-  view: KnorviaGroupedTaskView,
-  taskEntityKey: string,
-): KnorviaTaskMeta | undefined {
-  for (const node of view.nodes) {
-    if (node.type === "group") {
-      const task = node.tasks.find((candidate) => buildTaskEntityKey(candidate) === taskEntityKey);
-      if (task) return task;
-      continue;
-    }
-    if (buildTaskEntityKey(node.task) === taskEntityKey) return node.task;
-  }
-  return undefined;
-}
-
-function isTaskFirstInGroup(
-  view: KnorviaGroupedTaskView,
-  taskEntityKey: string,
-  groupId: string,
-): boolean {
-  const group = view.nodes.find((node) => node.type === "group" && node.group.id === groupId);
-  return Boolean(
-    group?.type === "group" &&
-    group.tasks[0] &&
-    buildTaskEntityKey(group.tasks[0]) === taskEntityKey,
-  );
-}
+import {
+  collectGroupedViewTaskKeys, findGroupedEntityTask as findTaskInGroupedView,
+  isGroupedEntityFirst as isTaskFirstInGroup,
+  mergeGroupedTaskViewWithOptimistic, reconcileGroupedOptimisticTaskKeys,
+} from "@/workspace-grouped-tasks/groupedOptimisticProjection.js";
 
 function buildWorkspaceScopes(workspaceTabs: WorkspaceTabState[]) {
   return workspaceTabs.map((tab) => ({
@@ -128,185 +62,6 @@ function collectViewWorkspaceScopes(
   }
 
   return [...workspaceScopes.values()];
-}
-
-function mergeGroupedTaskViewWithOptimistic(params: {
-  view: KnorviaGroupedTaskView;
-  optimisticOverlays: Iterable<WorkspaceOptimisticTaskOverlay>;
-  visibleMissingTaskKeys: ReadonlySet<string>;
-}): KnorviaGroupedTaskView {
-  const optimisticTaskByKey = new Map<string, KnorviaTaskMeta>();
-  const placementTaskByKey = new Map<string, KnorviaTaskMeta>();
-  const promotedDraftByTaskKey = new Map<
-    string,
-    WorkspaceOptimisticTaskOverlay["promotedGroupedDraftTaskByTaskId"][string]
-  >();
-
-  for (const node of params.view.nodes) {
-    if (node.type === "group") {
-      for (const task of node.tasks) placementTaskByKey.set(buildTaskEntityKey(task), task);
-      continue;
-    }
-    placementTaskByKey.set(buildTaskEntityKey(node.task), node.task);
-  }
-
-  for (const overlay of params.optimisticOverlays) {
-    for (const task of overlay.tasks) {
-      const taskKey = buildTaskEntityKey(task);
-      optimisticTaskByKey.set(taskKey, task);
-      placementTaskByKey.set(taskKey, task);
-      // optimistic overlay 是跨 hook 的运行时对象，旧测试和旧调用可能还没有
-      // promotedGroupedDraftTaskByTaskId。这里用空对象兼容缺省字段，避免 grouped 合并阶段
-      // 因为草稿位置信息缺失而直接崩溃；缺省时按普通 optimistic task 顶层补入。
-    }
-    for (const [taskId, promotedDraft] of Object.entries(
-      overlay.promotedGroupedDraftTaskByTaskId ?? {},
-    )) {
-      promotedDraftByTaskKey.set(
-        buildTaskEntityKey({
-          taskId,
-          workspacePath: promotedDraft.workspacePath,
-          workspaceIdentity: promotedDraft.workspaceIdentity,
-        }),
-        promotedDraft,
-      );
-    }
-  }
-
-  if (optimisticTaskByKey.size === 0 && promotedDraftByTaskKey.size === 0) {
-    return params.view;
-  }
-
-  const visibleTaskKeys = new Set<string>();
-  let changed = false;
-  const nodes = params.view.nodes.map((node) => {
-    if (node.type === "group") {
-      let tasksChanged = false;
-      const tasks = node.tasks.map((task) => {
-        const taskKey = buildTaskEntityKey(task);
-        visibleTaskKeys.add(taskKey);
-        const optimisticTask = optimisticTaskByKey.get(taskKey);
-        if (!optimisticTask) {
-          return task;
-        }
-        tasksChanged = true;
-        // grouped optimistic meta 也不能整对象覆盖 sessions-index。
-        // 否则虽然显式 sort_order 没变，行内时间/phase 会被 tasks-index 时间污染。
-        // grouped draft 提升的最小 overlay 标题为空，整对象展开
-        // 会持续压住 sessions-index 后续下发的真实标题。先按 task meta 字段权威合并，
-        // 再保留 sessions-index 拥有的 membership/activity 字段。
-        return mergeTaskListMembershipFields(
-          task,
-          mergeTaskWithOptimisticMeta(task, optimisticTask),
-        );
-      });
-      if (!tasksChanged) {
-        return node;
-      }
-      changed = true;
-      return { ...node, tasks };
-    }
-
-    const taskKey = buildTaskEntityKey(node.task);
-    visibleTaskKeys.add(taskKey);
-    const optimisticTask = optimisticTaskByKey.get(taskKey);
-    if (!optimisticTask) {
-      return node;
-    }
-    changed = true;
-    return {
-      ...node,
-      task: mergeTaskListMembershipFields(
-        node.task,
-        mergeTaskWithOptimisticMeta(node.task, optimisticTask),
-      ),
-    };
-  });
-
-  const missingVisibleTasks = [...optimisticTaskByKey.entries()]
-    .filter(
-      ([taskKey]) => params.visibleMissingTaskKeys.has(taskKey) && !visibleTaskKeys.has(taskKey),
-    )
-    .map(([, task]) => task)
-    .sort((left, right) => {
-      if (right.updatedAt !== left.updatedAt) {
-        return right.updatedAt - left.updatedAt;
-      }
-      if (right.createdAt !== left.createdAt) {
-        return right.createdAt - left.createdAt;
-      }
-      return right.taskId.localeCompare(left.taskId);
-    });
-
-  if (missingVisibleTasks.length === 0) {
-    return applyPromotedGroupPlacements(
-      changed ? { nodes } : params.view,
-      promotedDraftByTaskKey,
-      placementTaskByKey,
-    );
-  }
-
-  const groupMissingTasksByGroupId = new Map<string, KnorviaTaskMeta[]>();
-  const topMissingTasks: KnorviaTaskMeta[] = [];
-  for (const task of missingVisibleTasks) {
-    const promotedDraft = promotedDraftByTaskKey.get(buildTaskEntityKey(task));
-    if (promotedDraft?.placement.type === "group") {
-      const groupTasks = groupMissingTasksByGroupId.get(promotedDraft.placement.groupId) ?? [];
-      groupTasks.push(task);
-      groupMissingTasksByGroupId.set(promotedDraft.placement.groupId, groupTasks);
-      continue;
-    }
-    topMissingTasks.push(task);
-  }
-
-  const nodesWithGroupDraftTasks = nodes.map((node) => {
-    if (node.type !== "group") {
-      return node;
-    }
-    const groupTasks = groupMissingTasksByGroupId.get(node.group.id);
-    if (!groupTasks?.length) {
-      return node;
-    }
-    return { ...node, tasks: [...groupTasks, ...node.tasks] };
-  });
-  const missingGroupTasksWithoutGroup = [...groupMissingTasksByGroupId.entries()]
-    .filter(([, tasks]) => tasks.length > 0)
-    .flatMap(([groupId, tasks]) =>
-      nodes.some((node) => node.type === "group" && node.group.id === groupId) ? [] : tasks,
-    );
-
-  // grouped 视图以前只展示 sqlite query 的结果；首发 task 已写入本地 optimistic
-  // cache，但服务端初始 snapshot 为避免闪 "New session" 会延后广播，导致 grouped 列表要等重启
-  // 或下一次全量刷新才看见新 task。这里只补已被 grouped hook 标记为临时可见的 optimistic task，
-  // 避免把已归档/置顶等其它本地缓存误插回 grouped 顶层；从 grouped 草稿提升来的 task
-  // 还会沿用临时实体所在的 group/top 位置，直到 sqlite 排序保存完成。
-  return applyPromotedGroupPlacements(
-    {
-      nodes: [
-        ...topMissingTasks.concat(missingGroupTasksWithoutGroup).map((task) => ({
-          type: "task" as const,
-          task,
-        })),
-        ...nodesWithGroupDraftTasks,
-      ],
-    },
-    promotedDraftByTaskKey,
-    placementTaskByKey,
-  );
-}
-
-function collectGroupedViewTaskKeys(view: KnorviaGroupedTaskView): Set<string> {
-  const taskKeys = new Set<string>();
-  for (const node of view.nodes) {
-    if (node.type === "group") {
-      for (const task of node.tasks) {
-        taskKeys.add(buildTaskEntityKey(task));
-      }
-      continue;
-    }
-    taskKeys.add(buildTaskEntityKey(node.task));
-  }
-  return taskKeys;
 }
 
 export function shouldHideGroupedTaskContent(params: {
@@ -364,35 +119,6 @@ function prependTaskGroupToView(
       ...view.nodes,
     ],
   };
-}
-
-function reconcileGroupedOptimisticTaskKeys(params: {
-  view: KnorviaGroupedTaskView;
-  optimisticOverlays: Iterable<WorkspaceOptimisticTaskOverlay>;
-  previousVisibleMissingTaskKeys: ReadonlySet<string>;
-}): Set<string> {
-  const groupedViewTaskKeys = collectGroupedViewTaskKeys(params.view);
-  const optimisticTaskKeys = new Set<string>();
-  const nextVisibleMissingTaskKeys = new Set<string>();
-
-  for (const overlay of params.optimisticOverlays) {
-    for (const task of overlay.tasks) {
-      const taskKey = buildTaskEntityKey(task);
-      optimisticTaskKeys.add(taskKey);
-      if (overlay.activeTaskId === task.taskId && !groupedViewTaskKeys.has(taskKey)) {
-        nextVisibleMissingTaskKeys.add(taskKey);
-      }
-    }
-  }
-
-  for (const taskKey of params.previousVisibleMissingTaskKeys) {
-    if (groupedViewTaskKeys.has(taskKey) || !optimisticTaskKeys.has(taskKey)) {
-      continue;
-    }
-    nextVisibleMissingTaskKeys.add(taskKey);
-  }
-
-  return nextVisibleMissingTaskKeys;
 }
 
 function groupedNodeIdentityKey(node: KnorviaGroupedTaskView["nodes"][number]): string {

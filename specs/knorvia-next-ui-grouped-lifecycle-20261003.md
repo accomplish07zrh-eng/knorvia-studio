@@ -48,6 +48,24 @@
   持久化失败恢复 origin 并用原 toast。Workbench 接受 task drop 不保存列表顺序。
   此边界看似不对称，需最终用户/DOM 验收，不在本批静默调整。
 
+## Optimistic 展示投影（后续批次先行契约）
+
+- 原 accepted view、overlay store、Controller membership/activity owner 不迁移。
+  本批是局部、可丢弃投影；没有第二份可写 accepted 状态。
+- 多 overlay 同身份最后 metadata 胜出，但 Map 首次插入次序保留；identity
+  使用原 entity key。无 tasks/promotions 时返回原 view；没有命中的节点保原引用。
+- 已有 task 先走原 meta 权威合并，再保留 sessions/membership/activity 字段。
+  即便合并后值相同，命中 overlay 的 node 按原规则创建候选，由展示稳定化收敛。
+- 缺失 task 只补 visibleMissingTaskKeys，按 updatedAt/createdAt/taskId 降序。
+  group promotion 补组首；没有该组的 promotion 暂补 root，并按 group 首次遇见
+  次序追加在普通 top missing 后。重复 group id 仍在每个匹配 node 补候选。
+- promotions 按原 Map 次序逐个应用。top 只重排已有 root task，不把 group 内
+  task 自动迁出；group 迁移到组首但已是首位 no-op。缺少 task/组保原规则。
+- 可见缺失闩锁：当前 active 且 accepted 缺失时加入；先前可见 key 仅在仍有
+  overlay、仍未 accepted 时保留。不把所有 optimistic task 插回 root。
+- 旧运行时 overlay 可能没有 promoted 字段，仍以空对象兼容。返回 shape、引用、
+  行排序、title 与 membership 权威、临时归档/pin 边界保持。
+
 ## 未验证
 
 不执行 tests/lint/types/build/架构或全量审计。新增 owner 合同只写不跑；仅源码
