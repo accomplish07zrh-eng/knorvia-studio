@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "candidateCommit": "d4407d0dddb94d58b9263063f2d17a9ec811c22f",
+  "freezeCommit": "15b41fc57e022410034fdcd42f926cb63ed96084",
+  "sealedDraftCommit": "7e861e022e0690faeb64e47ed3364a3771d2c34c",
+  "redProofCommit": "c28613eefe4375d00116dc2f29423418db5f33e1",
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/todo.ts",
+    "apps/cli/packages/core/src/runtime/methods/resume.ts"
+  ],
+  "configuration": {
+    "requested": "GPT-6.1 Sol/high/saved Fast unchanged",
+    "nativeAuthor": "GPT-6.1 Sol/high/no inherited conversation",
+    "uiModelTierIndependentlyReadable": false,
+    "environmentAccessSettingsChanged": false
+  },
+  "currentArtifacts": {
+    "path": "docs/evidence/knorvia-todo-resume-current-20261003.json",
+    "sha256": "2d5d04b499c6d6aaaded5b43d27d8627f9ad03c03c6bf561091cb8d90ec7e7eb",
+    "files": {
+      "todo.ts": {
+        "location": "tool/handlers/todo.ts",
+        "source": {
+          "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+          "sha256": "68f8d4f3268f3fe83f09f7a173e95df6a47929002242d0874c1c8cb658ed52dc"
+        },
+        "compiled": {
+          "path": "apps/cli/packages/core/dist/tool/handlers/todo.js",
+          "sha256": "495f438f4fd77fb9c262fe0d1ec3341840cd3761f289f21c54332eca621052ca"
+        },
+        "declaration": {
+          "path": "apps/cli/packages/core/dist/tool/handlers/todo.d.ts",
+          "sha256": "cf2ca94d399d607ab77fcdfba81ea1d6ee814799297dfaf10e113ac4223a2d63"
+        }
+      },
+      "resume.ts": {
+        "location": "runtime/methods/resume.ts",
+        "source": {
+          "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+          "sha256": "9e707eeb5b606c523ce844aed33970c2fe97f1279a2e7c4d6100b33c7ae5cdb5"
+        },
+        "compiled": {
+          "path": "apps/cli/packages/core/dist/runtime/methods/resume.js",
+          "sha256": "dfa4281f1a76bb47f7a2c3e6740a80086b8870b3631494168fc520c830c316ec"
+        },
+        "declaration": {
+          "path": "apps/cli/packages/core/dist/runtime/methods/resume.d.ts",
+          "sha256": "89bf0f1b1b3ae969a3a67c08a01e016303b15f7f71053f4c5eafffe7c095b6b9"
+        }
+      }
+    }
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/todo-resume-baseline-20261003.json",
+    "sha256": "4055a0d0225fee5c8aa3fe46f5c1367b9c5eb8a19a597606ae42294db8353e0d",
+    "sourceCompiledDeclarationsUnchanged": true,
+    "publicDeclarationsByteIdentical": true
+  },
+  "authorship": {
+    "curatorSourceExposed": true,
+    "packet": "12 source-derived body-free API/port/contract/public-data files, two clarifications, and status disclosure (freeze/eight pass groups; no test body/oracle).",
+    "nativeAccess": "Instruction-restricted shared executor; author-reported reads and original draft hashes sealed. Not enforced file isolation or clean-room.",
+    "seal": {
+      "path": "docs/evidence/todo-resume-author-20261003/draft-01/seal.json",
+      "sha256": "980b9752b407ce46728001adcd2c6c2f7f33135187707297a4f23e45cf48e428"
+    },
+    "corrections": {
+      "path": "docs/evidence/todo-resume-author-20261003/corrections.json",
+      "sha256": "5c30409225c448e28fb3c4db5269dd92f48bb8ece951266c9a6f281aa29c98ba"
+    },
+    "rightsDecision": "Unresolved. Source-derived control/read/await/field combinations and fixed prose strongly correspond. No whole-owner/file independent-expression or MIT/header/registry grant."
+  },
+  "retainedExpression": [
+    "Todo public metadata, prompts, schema bindings, parse/admission/read/write sequence and three status-filter passes strongly correspond to the predecessor.",
+    "Resume ordered hydration/authority/event/hook sequence, native awaits, result/log objects, mode precedence, continuity and fixed goal prose strongly correspond. Reverse/find snapshot and repeated field reads restored as explicit compatibility expressions.",
+    "Small conventional toScheduleState Map/object/reference projection remains identical standard glue; no originality credit. Discretionary predecessor commentary stays archived, not copied to installed candidates."
+  ],
+  "validation": {
+    "minimalSyntheticActualEmitted": {
+      "historicalGroups": 8,
+      "finalGroups": 8,
+      "fullCallRunnerConsumerIncluded": 1,
+      "resumeOwnedDependencyIntegrationIncluded": 4,
+      "postSealFocusedGroup": {
+        "baselinePass": 1,
+        "initialDraftExpectedFailure": 1,
+        "correctedPass": 1,
+        "observations": 3
+      },
+      "sourceBehaviorReplay": false,
+      "consumerLimit": "Exact emitted owner + existing emitted full call-runner; tsx resolves unchanged package source dependencies, not a fully emitted dependency graph. Resume rebound runtime methods use fake protected lower ports, not real bootstrap/hydration.",
+      "realAuthorityTaskProviderUserDataOperations": 0
+    },
+    "compiler": {
+      "typescript": "6.0.2",
+      "finalDiagnostics": 0,
+      "publicExports": 7,
+      "publicApiEqual": true,
+      "actualEmissions": 4,
+      "unselectedWrites": 0,
+      "initialDraftDiagnostics": 2,
+      "initialRuntimeVsTypeOnlyReviewEmissionASTEqual": true
+    },
+    "artifactProof": {
+      "currentPins": 6,
+      "wrongEmissionAndMissingDeclarationFailClosed": true,
+      "freezeEntries": 19,
+      "protectedSources": 78,
+      "priorUniquePaths": 111,
+      "sealedFiles": 4,
+      "historicalAssertionsPreserved": true,
+      "focusedFormatting": "Original bytes retained separately; parsed assertion AST equality checked."
+    },
+    "scopedLint": {
+      "files": 8,
+      "rules": 94,
+      "errors": 0,
+      "warnings": 3,
+      "warningReason": "Frozen resume synthetic port unused input/options parameters; no suppression."
+    },
+    "format": {
+      "files": 10,
+      "pass": true,
+      "sealedRawDrafts": "Archived exact bytes, excluded from production-format scope."
+    },
+    "architecture": {
+      "newViolations": 0,
+      "baseline": 0,
+      "cliScope": "existing unmanaged CLI scope"
+    },
+    "deferred": [
+      "ordinary source replay/related broad suites",
+      "whole product regression",
+      "CLI/desktop aggregate builds",
+      "root-wide types/lint",
+      "Windows/native acceptance"
+    ]
+  },
+  "upstream": {
+    "todoResumeLocalObjectsAvailable": false,
+    "inventedPublisherVerification": false,
+    "mcpConfigParentSupplement": {
+      "path": "docs/evidence/todo-resume-checks-20261003/parent-publisher-mcp-config-supplement.json",
+      "sha256": "87b9209ec0bb9e4177c3eebb3b1da12a618e11ec8815df35878e8a93c2d2beec",
+      "keepsHistoricalLocalMissingStatement": true,
+      "sentPublisherBodyToAuthor": false
+    }
+  },
+  "protected": "Lower services/state/permissions, E hydration/history/context, root registry/read-state HOLDs, previous owners and tool-perf untouched. No cross-lane merge/main/release/deploy."
+}
