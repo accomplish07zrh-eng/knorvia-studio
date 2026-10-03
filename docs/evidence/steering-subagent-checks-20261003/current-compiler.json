@@ -1,0 +1,11 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "apiEqual": true,
+  "publicMethods": 28,
+  "sources": 11,
+  "actualEmissions": 22,
+  "unselectedWrites": 0,
+  "executedCompiler": "temporary strict TS createProgram current selector; committed current compiler is reproducible but not separately rerun",
+  "currentManifestSha256": "ee7919ddfb7cc62e7a6c68e0baa55c2c400a1f785d9471e13bd0348b103ba960"
+}

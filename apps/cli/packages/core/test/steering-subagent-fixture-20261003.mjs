@@ -21,7 +21,7 @@ export async function load(mode, fixture) {
     const bytes = fs.readFileSync(
       path.join(repo, "docs/evidence/knorvia-steering-subagent-current-20261003.json"),
     );
-    assert.equal(hash(bytes), "CURRENT_PIN");
+    assert.equal(hash(bytes), "ee7919ddfb7cc62e7a6c68e0baa55c2c400a1f785d9471e13bd0348b103ba960");
     files = {};
     for (const [name, row] of Object.entries(JSON.parse(bytes).files)) {
       files[name] = {};
@@ -42,13 +42,6 @@ export async function load(mode, fixture) {
     const result = JSON.parse(bytes);
     assert.equal(result.diagnostics.length, 15);
     assert.equal(result.apiEqual, false);
-    files = result.files;
-  } else if (mode === "draft") {
-    const bytes = fs.readFileSync(process.argv[3]);
-    assert.equal(hash(bytes), "DRAFT_PIN");
-    const result = JSON.parse(bytes);
-    assert.deepEqual(result.diagnostics, []);
-    assert.equal(result.apiEqual, true);
     files = result.files;
   } else assert.equal(mode, "baseline");
   class OwnedDate extends Date {

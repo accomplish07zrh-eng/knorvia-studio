@@ -1,0 +1,159 @@
+{
+  "typescript": "6.0.2",
+  "files": {
+    "steering.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+        "sha256": "be59286696246b42f8b96aee308f52e6b98f2447a259746d3505474608dfe8ba"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering.js",
+        "sha256": "2b8015e134b6c3a45cc67e9483d8ad71b74e3fc6fac94cfd1bc462207b73d7c6"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering.d.ts",
+        "sha256": "9eb829e0473e5c2c4f41b9b4e08185ce77a92ad49a1d8ba397d0a70c3ba7cbde"
+      }
+    },
+    "subagent.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+        "sha256": "8558f73356011c319c8228e7570d7b9ee690daee8efaf795771c03941ec547e0"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent.js",
+        "sha256": "5abf06e968b5ee199f830bfe2b86261bd089efcf1a3c189d6eac45ac3a659980"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent.d.ts",
+        "sha256": "70bc53eb28aaf65bb838378c9795fb16ede623b85432facf55810ab25b691838"
+      }
+    },
+    "steering-active.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering-active.ts",
+        "sha256": "79b8ef983e370f2040b21d24a62049ad9e6b6ceac935461aec03adbc8745a7e3"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-active.js",
+        "sha256": "e80b9aa7e5faa918c1f8bd64b1f79d46a66e371646d6c0afaa787beb10d5b550"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-active.d.ts",
+        "sha256": "78f7cf91aea75fc07da2968a3829c2b30e92d5a9392a47eefd5cfa733e8b3e1d"
+      }
+    },
+    "steering-admission.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering-admission.ts",
+        "sha256": "294171076b56fa855a08a2650783411e4242f7bdb5c2bec9d97b5d94b2e7dd58"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-admission.js",
+        "sha256": "eb25718671c7b4aaea84d6663cf5fffe67223fff4bda998934b8b428a91eb229"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-admission.d.ts",
+        "sha256": "907521043eb7cb547bec0f9ac3a43f1e6301706f2b9c1a61a22808225f989976"
+      }
+    },
+    "steering-configuration.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering-configuration.ts",
+        "sha256": "45be5aa25a61e27c8c4b9fe173a0ecac44918a235ac66f6492ab65dbc87c03ea"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-configuration.js",
+        "sha256": "397bc9206e1c1cfbbf8661047b91f3de823255ad818066017b77cbd82c28a4e7"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-configuration.d.ts",
+        "sha256": "9ecb63fabaf621903dca40258d6fc4fd99de2e9f9fde2b72db4db611aa52bf52"
+      }
+    },
+    "steering-draining.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering-draining.ts",
+        "sha256": "238a0db98ca2871968c5523d896f8b8646f0216449cecaf882625245a4fe469f"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-draining.js",
+        "sha256": "53f474acac0a9f6a8f3c3889118cab7bc63126c24d3e8d54baf9ef16c87c65fc"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-draining.d.ts",
+        "sha256": "097ab9320ab3d0b58ae376b3206324e9f1fe32f61c894cdf5ef8db6eb0715bbd"
+      }
+    },
+    "steering-editing.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering-editing.ts",
+        "sha256": "a1b14ebaefbd31e68081296decfa2d1fbd18a954d4b217bdc765a36a9e07b776"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-editing.js",
+        "sha256": "b63d82a1893896000a88dd1adc6a6fade9bcbef021658faf2cd254dc213b53b1"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-editing.d.ts",
+        "sha256": "1df17f089ee7ea55b7a20be0b1b567b415c21282f5ad058c05a4a233a493d9c9"
+      }
+    },
+    "steering-guides.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering-guides.ts",
+        "sha256": "69635348df0c9d94fdfd145c3923837598f5357ea65e120a7f22f00851153462"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-guides.js",
+        "sha256": "56c07bc77d8ba5c9fc00838e5a09c4530c0877332cf6906c02f11bedba70bf34"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-guides.d.ts",
+        "sha256": "75bb8de9319560ca150dfb0b8ae11750690dbfd9e81dc218450e738b50d6b7fe"
+      }
+    },
+    "steering-persistence.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/steering-persistence.ts",
+        "sha256": "ddcd3b66c135926f7d24b7585d8291f460317b04f7f22138c8bcf39e6634a7c1"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-persistence.js",
+        "sha256": "851c78379a4a30bf7ba26770b4e7299a184e49c902ef25e030e254cc5288ced8"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/steering-persistence.d.ts",
+        "sha256": "87a89d896f725b1e453f6db1cb4d1b26bfb31fc160f9f788f746a57a518c81eb"
+      }
+    },
+    "subagent-authority.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/subagent-authority.ts",
+        "sha256": "97ff6e95408b28bddd8d69ac1cf4f668fdb709101f21478541a892d58053acf0"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent-authority.js",
+        "sha256": "f1559f202d871f10689a0a14d634c445dfae59bfe7016387ff4df9244374bed4"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent-authority.d.ts",
+        "sha256": "1f021dd23c7ef52997f66aac21b4df19ee0aff505af06eb6622c29ae0855ffc3"
+      }
+    },
+    "subagent-skills.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/subagent-skills.ts",
+        "sha256": "8e1161ae260807bd44892c80dc81741d0f126ae8db51a1c337ddd64a082378d3"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent-skills.js",
+        "sha256": "334db9ad2ecd43d4517a5671e2b21269dae1d32d68a4d40b8f01472f84a5b65e"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent-skills.d.ts",
+        "sha256": "b41cacffd73ad0959af06384a82502e02c37e147ccd7b1abe5d3d12e5da98fad"
+      }
+    }
+  }
+}
