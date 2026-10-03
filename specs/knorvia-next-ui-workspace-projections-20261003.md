@@ -116,3 +116,50 @@ scrollOffset=0 的初始失配时忽略旧 0，同消费者原 initialOffset 一
 no-op 引用；重复 task key 的查询/删除差异；原 task/不受影响节点引用；菜单离组
 位置和原无效目标边界；workspaceIdentity 隔离；隐藏归档行的过滤与恢复；垂直回顶
 屏障、显式零滚动、横向滚动及无 element。所有场景本阶段未运行。
+
+## Studio 群任务进展：只读事实关联
+
+当前 `groupProgress.ts` 的全局来源记录是 unreviewed，已有 Git history 包含
+`acc547409bc0edf042371456eb394dd00645efe3` 的功能新增及后续格式提交，不存在
+accepted MIT review。不能据目录或新功能身份宣称归属已闭合。本批只替换这一个
+纯进展 owner，保留群定义/草稿/发送、store、全部组件和既有新增功能；未审文件
+不按目录批量重写或授权。
+
+进展只读取 `StudioTimeline` 的第一个 run。没有 timeline、不是 group、不是任务
+模式或没有 members 定义则没有进展；旧 task run 不能越过首个更新的自由讨论。
+不从聊天文字/排序猜测状态，不累计用量，不读写 checkpoint。公开 GroupProgress、
+GroupTaskProgress、GroupProgressState 以及 `groupProgress` 导出保持原消费者路径。
+
+新实现先为当前 run/attempt 建立只读 turn 与 pending interaction 关联，再解码 plan
+并投影成员，不创建运行状态副本。每个 step 及主持人选第一个符合 run/attempt 的
+turn，不用较晚的重复记录覆盖。主持人 step 只接受既有 plan/review/steering 前缀。
+
+plan 只接收 version 1、非负安全整数 round、tasks/steering/complete phase 及 tasks
+数组；任务必须有 string id/instruction，成员属于定义。有效任务保留原引用及
+dependsOn，不迁移/修复历史 payload。review 只需安全整数 round、complete/revise
+status 和 string summary，保持原历史允许负数 review round 的边界及对象引用。
+
+任务状态按事实优先级选第一个成立项：运行中 turn 的取消请求且 run 活跃 →
+stopping；活跃 run 的 pending 交互 → waiting；活跃 run 的 running turn → running；
+resultKnown=false 或 checkpoint/turn interrupted → unknown；checkpoint 或 turn
+succeeded → completed；failed → failed；cancelled → stopped；残留 running turn
+且 run resultKnown=false → unknown；残留 running turn 且 run cancelled → stopped；
+queued/running/waiting run 且未取消 → queued；其他 unassigned。checkpoint 成功
+仍优先于 turn 失败，不能在纯重写中变更既有冲突解释。
+
+仅 queued task 遇到已存在且未 succeeded 的本 round dependency 时为 blocked。
+缺失依赖记录仍 queued；原行为不在此阶段修复。证据来自相同步 checkpoint，只有
+workspacePath 或 changesSummary 为 truthy 才返回 evidence，保留其原字段。
+
+主持人状态继续按原规则加入自身成员：running 时优先 stopping，其次 run
+interrupted/resultKnown=false → unknown，其次 pending → waiting，其他 running；
+主持人 succeeded/failed/cancelled/interrupted 映射原终态，没有 plan 的 queued/failed
+run 映射 queued/failed。成员总体优先级为 unknown > stopping > waiting > running >
+failed > blocked > queued > stopped > completed，空任务 unassigned。成员顺序与重复
+定义成员原样保留。phase 无 plan 为 planning；steering 原样；complete plan + queued
+run 为 steering；tasks plan + running review host turn 为 reviewing；其余 tasks。
+
+待执行场景包括旧 round/attempt 隔离、重复 turn 首条选择、pending/取消/未知冲突、
+依赖缺失或失败、缺 plan/旧 payload、负数 review round、证据缺省、主持人和成员
+优先级、首个 run 边界。既有 `studio-group-progress.test.ts` 及原 GroupProgressPanel
+消费者留给最终统一执行，本阶段无通过结论。

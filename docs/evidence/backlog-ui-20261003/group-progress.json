@@ -1,0 +1,46 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Only named Studio group progress projection files; byte record, not authorship certification or audit",
+  "sourceExposure": "Current groupProgress source, existing spec/tests, group state/ACK helpers and direct consumers read for behavior extraction",
+  "sourceHistory": {
+    "featureCommit": "acc547409bc0edf042371456eb394dd00645efe3",
+    "formatCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+    "inventoryStatus": "unreviewed/NOASSERTION; no accepted review; recent feature history is not a license conclusion"
+  },
+  "verification": "NOT RUN per user instruction; prior tests retained, new contract tests pending; source/emitted/React/platform/audit validation deferred",
+  "files": [
+    {
+      "path": "packages/ui/src/studio/groups/groupProgress.ts",
+      "baseBlob": "8978896eb6336276ba6d761c8fc806c4b11e250e",
+      "baseSha256": "8d0d7930150fdeaf5869a583f79e0cc8e0613d8cb0656a59f33c1e8a078a6c1a",
+      "candidateSha256": "e643ec76fbc0bb2a72674180342648099934da0d24269b444c74c51f9ed2165d",
+      "candidateBytes": 2602,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/studio/groups/groupProgressFacts.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "86d9fc074707966a60b953b1747f55560d5fc5a8a73d928b8fb0ccf5705f5b72",
+      "candidateBytes": 5292,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/studio/groups/groupProgressTypes.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "10f5dfc89f7f54f0c0d8af92bc040c89473f823f8ba71cbc2fc3acabe09dd8c8",
+      "candidateBytes": 1200,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-group-progress-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "a3eb8a2574fb7e4b8e362dc33c8741925fc8857ab524d0bf83d1e10624fdebe4",
+      "candidateBytes": 6949,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}
