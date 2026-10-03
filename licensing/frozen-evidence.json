@@ -606,6 +606,12 @@
       "sourceCommit": "b45a16770626c6b5803612b749f018cf61e38881"
     },
     {
+      "path": "docs/evidence/backlog-cli-20261003/integrator-tui-esm-smoke-20261003.patch",
+      "sha256": "3ebab76f0498467edf1224a19f95b666bf4b9d03452d853cba65b3a9b33d8a1d",
+      "bytes": 992,
+      "sourceCommit": "9fc26449845b3aa1910ee697964c58ab570165cf"
+    },
+    {
       "path": "docs/evidence/backlog-cli-20261003/registry-expression-static-20261003.cjs",
       "sha256": "9c0bd2ea1231248c46e53e1c04f22f77e4e823213f1c4ff7ca268aa748e17b71",
       "bytes": 8235,
@@ -622,6 +628,24 @@
       "sha256": "f1a5c1ba4a29011a0a09958c26c3c379f219779c790c53285675d9a29e5aeb64",
       "bytes": 41890,
       "sourceCommit": "801179367c13fce707049aeb8ae5f92fe7cc9328"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/tui-esm-distribution-delivery-20261003.json",
+      "sha256": "73a91c9c88d4b80ec7ed418629530bf39ffdb4ea2509c30f43e6a16eceaf5f83",
+      "bytes": 39173,
+      "sourceCommit": "9fc26449845b3aa1910ee697964c58ab570165cf"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/tui-esm-prepare-runtime-js.mjs",
+      "sha256": "857c3e292bc8edf266dbe330b2835f82737e04f9770bc79ba2fe45c71019480a",
+      "bytes": 3584,
+      "sourceCommit": "9fc26449845b3aa1910ee697964c58ab570165cf"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/tui-esm-stage-runtime.mjs",
+      "sha256": "c6cd08896b1651ae0db290c80292fb776eb1fba981d99dbf5e0c3d8b44e3c3b2",
+      "bytes": 3294,
+      "sourceCommit": "9fc26449845b3aa1910ee697964c58ab570165cf"
     },
     {
       "path": "docs/evidence/backlog-integration-20261003/final-first-format-paths.json",

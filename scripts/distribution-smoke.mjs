@@ -20,6 +20,8 @@ const workspace = join(directory, "workspace");
 const env = {
   ...process.env,
   KNORVIA_DATA_BASE_DIR: join(directory, "data"),
+  KNORVIA_SESSION_DB_PATH: join(directory, "data", ".knorvia-studio", "cli", "db", "db.sqlite"),
+  KNORVIA_STORAGE_DIR: join(directory, "data", ".knorvia-studio", "cli"),
   NODE_PATH: "",
   NODE_OPTIONS: "",
   TERM: "xterm-256color",

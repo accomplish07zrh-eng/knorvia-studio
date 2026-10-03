@@ -54,6 +54,7 @@ const explicitTests = [
   "apps/cli/packages/cli/test/custom-command-expansion-contract.test.ts",
   "apps/cli/packages/cli/test/custom-command-expansion-consumer.test.ts",
   "apps/cli/packages/cli/test/sea-runtime-surface.test.mjs",
+  "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs",
   "apps/cli/packages/dynamic-workflow/test/ask-scheduler-contract.test.ts",
   "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
   "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",

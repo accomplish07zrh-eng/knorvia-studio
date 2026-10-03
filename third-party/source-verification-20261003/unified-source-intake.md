@@ -169,3 +169,41 @@ macOS 安装升级、移动布局缺口继续保留。
 不增加权利或独立性判定。source80375ff6 的 Linux CI 实际通过，离线结果为
 **8261 tests / 8253 pass / 0 fail / 8 skip**；Windows 尚待实际结果。
 两平台 CI 按各自受检 SHA 报告，追加证据不改记已执行次数。
+
+## TUI ESM 与启动退出修复接收
+
+PR26 head `9fc26449845b3aa1910ee697964c58ab570165cf` 以普通 merge
+`2880270543b5faae990a3498efb24b481de6f1a4` 无冲突接收，已合入的 UI b7f3c26d
+仅证据提交继续保留。生产 ESM 上下文来自 `4ac5cc97734c7b84859dcad365a8f15164323304`，
+启动退出归属来自 `45791a532b344719f4df661c9085db735d531985`，真实 smoke harness
+checkpoint 为 `add7f37d2131587adf4a66e015edbad587110f11`。
+
+TUI 生产构建给生成的 ESM 文件提供 Node 原生、模块局部的 require/filename/dirname，
+保留 ESM、顶层 await、原 external/package 边界；没有在 smoke 或 globalThis 注入
+loader，也没有改第三方版本。主界面接管后，已过期的 startup 键盘回调不再决定退出；
+启动中取消仍为130，主界面原双 Ctrl-C guard 仍以0退出。没有改界面布局、数据格式、
+公开协议或 Renderer 的原键盘规则。
+
+作者三个真实生产构建合同通过；实际 Linux x64 的 staged runtime layout 原生导入、
+完整 initialized render、双 Ctrl-C exit0 和 pending-startup 取消130均实际通过，
+没有 prompt、模型或账号调用。此前 require-only 后暴露的 \_\_filename 故障、退出130
+误归属与临时诊断/恢复记录均保留。该 layout 不是完整 Web/Desktop/发行归档或 SEA
+验收，最终 archive 及根 distribution-smoke 仍须新统一 source 重建执行。
+
+根三行 patch 已精确应用：统一入口增加 TUI 三合同文件；发行 smoke 增加两个既有
+隔离存储环境字段。原 smoke 九个 assert 调用逐字保留，导入、渲染、键盘0退出、Web
+HTML/workspace/WebSocket/SIGTERM退出等原条件不删、不宽、不跳过。无需改变用户
+HOME、默认存储语义或 CI/checker。17 个具名输入的原 hash 与候选 Git blob 核对；
+两个根脚本的声明绑定是 patch 前真实字节，补丁后的实际摘要另行登记，不伪称相同。
+
+本批四份材料已登记；旧 **5912** 个对象及原字节、baseline/roots 不变，当前
+**5916 文件 / 67513791 字节**，相对稳定 main 新增 **200** 份。全部实际 hash/bytes
+与目录覆盖已核对，变更文件不属于 third-party inventory 输入集；依赖、材料和许可
+条款不变。来源投影按实际变更更新，不新增权利/独立性决定，不修改历史失败。
+
+前一基线 `80375ff62b3d9fc18c3d5b933d3d853802251d64` 的两平台完整 CI 实际通过，
+共同受检 SHA `5c33a2569b3246a2a4e847e00e52c49359d67753`，Git tree 与803完全相同。
+Linux **8261/8253 pass/0 fail/8 skip**，Windows **8261/8259 pass/0 fail/2 skip**。
+这只接受前一修复树；本次 TUI 与最终包装必须绑定新的统一输入及其实际 CI/smoke。
+根 Apache、各文件/组件许可、NOTICE、来源保留。公开维护邮箱仍仅影响指定 Linux
+全 target；真实模型/tool 后代、Electron/Windows/macOS GUI 的未测边界不消失。
