@@ -65,6 +65,11 @@ async function runTuiWithRenderer(options: TuiOptions, renderer: CliRenderer): P
     exitCode = code;
     renderer.destroy();
   };
+  const onStartupExit = (code: number) => {
+    // Native frames can outlive the startup keyboard subscription. After handoff,
+    // only the main app may decide keyboard exit and its confirmation behavior.
+    if (!appMounted) onExit(code);
+  };
   const handleThemeMode = (mode: UiThemeMode) => {
     if (destroyed) return;
     terminalThemeMode = mode;
@@ -134,7 +139,7 @@ async function runTuiWithRenderer(options: TuiOptions, renderer: CliRenderer): P
 
   if (options.loadStartupOptions) {
     renderer.once(CliRenderEvents.FRAME, initialize);
-    root.render(React.createElement(TuiStartupScreen, { options, onExit }));
+    root.render(React.createElement(TuiStartupScreen, { options, onExit: onStartupExit }));
   } else {
     renderApp(options);
   }
