@@ -401,21 +401,21 @@ Telemetry batch is pushed at
 
 The specifically assigned thirteen entries now have an explicit disposition:
 
-| Selected entry | Source checkpoint disposition |
-| --- | --- |
-| src/main.tsx | complete startup/remote FIFO candidate; JSX/boot data retained |
-| src/databaseStartupAdmission.ts | complete state/resource admission candidate |
-| src/performanceTimelineCleanup.ts | exact native maintenance glue; zero new credit |
-| src/userActionTraceBootstrap.ts | complete existing trace lifetime candidate |
-| src/localTtftBootstrap.ts | complete lifetime/bounded FIFO candidate |
-| src/desktopPlatform.ts | complete platform adapter candidate; route data retained |
-| src/desktopBrowserPlatformBridge.ts | complete browser adapter candidate; route data retained |
-| src/remoteWorkspaceSessionServices.ts | exact remote service selection; zero new credit |
-| src/remoteWorkspaceServicePortBridge.ts | exact thin admission/ready serializer; zero new credit |
-| src/resource-manager.tsx | complete appearance/mount candidate; JSX/font feature retained |
-| cuaPermissionPanel.ts | complete gesture/projection candidate; copy/style data retained |
-| cuaPermissionPanelMessages.ts | exact bilingual copy/lookup; zero new credit |
-| appTelemetryBridge.ts | exact one-call context delegate; zero new credit |
+| Selected entry                          | Source checkpoint disposition                                   |
+| --------------------------------------- | --------------------------------------------------------------- |
+| src/main.tsx                            | complete startup/remote FIFO candidate; JSX/boot data retained  |
+| src/databaseStartupAdmission.ts         | complete state/resource admission candidate                     |
+| src/performanceTimelineCleanup.ts       | exact native maintenance glue; zero new credit                  |
+| src/userActionTraceBootstrap.ts         | complete existing trace lifetime candidate                      |
+| src/localTtftBootstrap.ts               | complete lifetime/bounded FIFO candidate                        |
+| src/desktopPlatform.ts                  | complete platform adapter candidate; route data retained        |
+| src/desktopBrowserPlatformBridge.ts     | complete browser adapter candidate; route data retained         |
+| src/remoteWorkspaceSessionServices.ts   | exact remote service selection; zero new credit                 |
+| src/remoteWorkspaceServicePortBridge.ts | exact thin admission/ready serializer; zero new credit          |
+| src/resource-manager.tsx                | complete appearance/mount candidate; JSX/font feature retained  |
+| cuaPermissionPanel.ts                   | complete gesture/projection candidate; copy/style data retained |
+| cuaPermissionPanelMessages.ts           | exact bilingual copy/lookup; zero new credit                    |
+| appTelemetryBridge.ts                   | exact one-call context delegate; zero new credit                |
 
 Two new renderer-local appearance/invocation helpers support these eight existing
 target candidates, without another business owner. Six focused scenarios in
@@ -434,7 +434,7 @@ integration-owned; no MIT grant, main merge or deployment here.
 
 ## Client diagnostic declaration follow-up
 
-The parent confirmed packages/client/** remains this lane's exclusive scope.
+The parent confirmed packages/client/\*\* remains this lane's exclusive scope.
 After renderer checkpoint `124ed9e32715e6e0fb2caf1b1aa5bd8eac2de83e`,
 the declaration omission recorded above is now closed in
 `packages/client/src/globals.d.ts`: a three-line addition to the existing
@@ -453,3 +453,86 @@ No new tests were added and no tests/lint/types/build/other validation was run.
 The prior44 scenarios remain unrun. Actual declaration/consumer/type acceptance,
 source/rights reconciliation and server-cli runner integration remain deferred.
 Continue to freeze on the same branch/draft PR after commit/push/remote metadata.
+
+## Final-stage lock fixture repair
+
+Parent has started final concentrated acceptance. Read the current integration
+record at `19f6ccf74ba1064ca81d93194b4f25a36030e361`: native-selected ran14
+supplied-port scenarios,12 passed and the two lock cases failed at module load
+because port was declared twice. The root runner already admits server-cli/test.
+Its published failure record/log digest is bound in the
+[affected-only result](evidence/backlog-platform-lock-fixture-repair-20261003/result.json);
+raw native log contents were not present in the published tree. Lock/test baseline
+bytes match this lane's previous `f7ad7efa3e5e1bec72eaba818db6bce43fa33d97`.
+
+The raw esbuild banner declared const port outside the bundler's renaming scope,
+colliding with var port emitted for a virtual module. Only that banner binding now
+uses lockFixtureContext. The supplied IO/process/UUID/clock ports, both test bodies
+and every assertion remain. Production lock.ts is byte-identical; no production,
+protocol, root test entry/configuration, UI or data change.
+
+Exactly the two affected tests were executed once after the repair under pinned
+Node24.14.0 on Linux x64, esbuild0.27.7 and tsx4.21.0, using temporary minimal test
+tools with installation scripts disabled. Result: **2 passed,0 failed,0 skipped**,
+exit0. Exact command/tool/source bindings and
+[captured test-runner output](evidence/backlog-platform-lock-fixture-repair-20261003/targeted-test.log)
+are recorded. No other suites, lint, types, product build, full audit or actual
+native/user-data operation. The earlier implementation-phase unrun records remain
+historical; these two supplied-port passes are not whole-native/platform/rights/MIT
+acceptance and add no independent-source credit.
+
+PR17 is already merged/closed; continue on the same branch without reopening or
+creating a PR. Deliver this new complete SHA to the parent for PR13 integration.
+
+## Final-stage native type/lint/format acceptance repair
+
+After the user's explicit additional authorization, fetched and normally merged
+exact integration `19f6ccf74ba1064ca81d93194b4f25a36030e361` into this same persistent
+branch; merge `7feae5561dc00af9a6f81773e0767bf193d0284f` also retains the separately
+pushed lock repair `5c5447e0ddb078fe6b5acd53db33748f2f9c1666`. Source repair checkpoint
+is `04d4e167bb8bca3cf8ba726192443be6767f2943`; no new PR/task, no main merge.
+
+The [authorized spec](../specs/knorvia-next-platform-final-types-20261003.md) and
+[actual checks and source bindings](evidence/backlog-platform-final-types-20261003/result.json)
+close this lane's 18 desktop +4 server type diagnostics. Host now uses the validated
+startup `action` discriminator and existing media proxy `tryAcquire` port. Remote
+task metadata is its actual minimal identity contract; invocation closure preserves
+the original dynamic method/receiver/single-argument shape. Indexed task IDs,
+attachments, modifier keys, key-release order, snapshot ancestry, tar flag and WSL
+address/capture handling express their real bounds without any/ts-ignore, removed
+features, data changes or shared-contract/config edits.
+
+Seven long synthetic mjs test entries retain their paths, all40 scenarios, selection
+parameters, registered order and assertions through case/fixture modules. Host
+test UUID/reporter mutation remains in the original harness closure. The old empty
+export/unused type import and a new unused test import are removed; the listener
+event port still snapshots its dispatch set. No lint rule was disabled. Thirty-five
+old code format paths are formatted only; the limited AST difference-reading
+projection agrees for35/35, including renderer entry/keys. This is neither runtime
+nor legal/source-expression acceptance.
+
+Under Node24.14.0/pnpm10.33.2, frozen dependency closure installation with
+ignore-scripts completed exit0 without tracked manifest/lock or native hook changes.
+Directed server, Host and Main `--noEmit` checks each passed. The selected `tsc -b`
+reference graph **still failed exit2**:43 diagnostics across seven services-owned
+paths,0 in desktop/server. The owner checks use emitted dependency declarations
+from that reference check; root/clean dependency acceptance is not claimed.
+Owned seven-package lint reports580 files,0 warnings/0 errors. The77 affected code
+paths use the repository formatter; exact receipts and source digests are recorded.
+
+The43 selected synthetic scenes passed with0 skips. Later cleanup reran only six
+affected fixture consumers, then four Host scenes after the final Port extraction;
+all passed. Together with the separately recorded two lock passes, these receipts
+cover47 distinct supplied-port scenes, with repeated executions explicitly separate.
+No full native/root suite, build, full architecture/provenance audit, real native
+launch/UI/platform/installer/migration or user data operations ran here. Earlier
+unrun implementation receipts remain historical; this batch has zero new independent
+rewrite or MIT credit, and all source/rights/third-party HOLD and attribution remain.
+
+Parent coordination: integrate this head into PR13 and have services clear the43
+recorded diagnostics; reconcile global current-input/source bindings after formatting
+and moved test fixtures without overwriting frozen evidence or license decisions.
+The new tar/WSL boundary test is explicitly run from server/test here; adding it to
+the global runner, if required for final acceptance, belongs to the integrator.
+PR17 remains merged/closed, and the root runner/CI/config/global source lists remain
+untouched by this lane.

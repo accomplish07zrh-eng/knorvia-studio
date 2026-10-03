@@ -30,7 +30,7 @@ const namedKeys: Record<string, KeyDefinition> = {
   Space: { key: " ", code: "Space", windowsVirtualKeyCode: 32 },
 };
 
-const modifierKeys: Record<string, KeyDefinition> = {
+const modifierKeys: Record<BrowserKeyModifier, KeyDefinition> = {
   Alt: { key: "Alt", code: "AltLeft", windowsVirtualKeyCode: 18 },
   Control: { key: "Control", code: "ControlLeft", windowsVirtualKeyCode: 17 },
   ControlOrMeta: {
@@ -61,7 +61,8 @@ const aliases: Record<string, string> = {
   down: "ArrowDown",
 };
 
-function isModifier(key: string): boolean {
+// 共享 modifier 联合是封闭集合，完整映射与此判断共同保证查表结果存在。
+function isModifier(key: string): key is BrowserKeyModifier {
   return (
     key === "Alt" ||
     key === "Control" ||
@@ -273,8 +274,8 @@ export async function dispatchKeyPress(
   const active = new Set<BrowserKeyModifier>();
   const sendKey = async (type: "keyDown" | "keyUp", key: string): Promise<void> => {
     if (isModifier(key)) {
-      if (type === "keyDown") active.add(key as BrowserKeyModifier);
-      else active.delete(key as BrowserKeyModifier);
+      if (type === "keyDown") active.add(key);
+      else active.delete(key);
     }
     const modifiers = modifiersBitmask([...active]);
     const optionalModifiers = modifiers > 0 ? { modifiers } : {};
@@ -288,7 +289,8 @@ export async function dispatchKeyPress(
   for (const key of held) await sendKey("keyDown", key);
   await sendKey("keyDown", final);
   await sendKey("keyUp", final);
-  for (let i = held.length - 1; i >= 0; i--) await sendKey("keyUp", held[i]);
+  // 反向值迭代保持松键顺序，不对已拥有的按键数组做未收窄的下标访问。
+  for (const key of held.toReversed()) await sendKey("keyUp", key);
 }
 
 export async function dispatchKey(

@@ -171,7 +171,8 @@ class DesktopRendererStartup {
       event.source !== window ||
       event.data?.type !== InternalChannels.ServicePort ||
       this.initialized
-    ) return;
+    )
+      return;
     const port = event.ports[0];
     if (!port) return;
     this.admission.acceptPort({ databaseStartupId: event.data.databaseStartupId }, port);
@@ -181,10 +182,7 @@ class DesktopRendererStartup {
   private installRemotePort(registration: RemoteWorkspaceServicePortRegistration): void {
     if (!this.baseServices) return;
     const connection = createMessagePortServiceConnection(registration.port);
-    const services = buildRemoteWorkspaceSessionServices(
-      this.baseServices,
-      connection.services,
-    );
+    const services = buildRemoteWorkspaceSessionServices(this.baseServices, connection.services);
     registerRemoteWorkspaceSession({
       sessionId: registration.sessionId,
       target: registration.target,

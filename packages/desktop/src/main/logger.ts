@@ -7,15 +7,20 @@ import { getAppConfigDir, maybeThrowInjectedFsFault } from "@knorvia/services/no
 type LogLevel = "debug" | "info" | "warn" | "error";
 
 function activeLogDirectory(): string {
-  const override = process.env.KNORVIA_ENV === "test"
-    ? process.env.KNORVIA_E2E_RUNTIME_LOG_DIR?.trim()
-    : undefined;
+  const override =
+    process.env.KNORVIA_ENV === "test"
+      ? process.env.KNORVIA_E2E_RUNTIME_LOG_DIR?.trim()
+      : undefined;
   return override || join(getAppConfigDir(), "logs");
 }
 
 function hasPipeClosedCode(error: unknown): boolean {
-  return typeof error === "object" && error !== null && "code" in error &&
-    (error as { code?: unknown }).code === "EPIPE";
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    (error as { code?: unknown }).code === "EPIPE"
+  );
 }
 
 function handleStreamFailure(error: Error): void {
@@ -42,7 +47,9 @@ class PreparedLogRecord {
     const timestamp = formatTimestamp(this.date);
     const pid = process.pid;
     this.values = args.map((value) => redactDiagnosticValue(value));
-    const message = this.values.map((value) => typeof value === "string" ? value : JSON.stringify(value)).join(" ");
+    const message = this.values
+      .map((value) => (typeof value === "string" ? value : JSON.stringify(value)))
+      .join(" ");
     this.line = `[${timestamp}] [${level}] [pid:${pid}] [${source}] ${message}\n`;
     this.prefix = `[${timestamp}] [pid:${pid}] [${source}]`;
   }
@@ -61,8 +68,12 @@ class MainDiagnosticSink {
     mkdirSync(directory, { recursive: true });
     const retention = cleanupExpiredLogFiles(directory);
     if (retention.failedFiles.length > 0) {
-      publishConsole("warn", `[log-retention] failed to delete expired logs from ${directory}:`,
-        retention.failedFiles, `retentionDays=${LOG_RETENTION_DAYS}`);
+      publishConsole(
+        "warn",
+        `[log-retention] failed to delete expired logs from ${directory}:`,
+        retention.failedFiles,
+        `retentionDays=${LOG_RETENTION_DAYS}`,
+      );
     }
     process.stdout.on("error", handleStreamFailure);
     process.stderr.on("error", handleStreamFailure);

@@ -10,8 +10,7 @@ function confirmsShutdown(
   requireFreshSnapshot: boolean,
 ): boolean {
   const released = lock.state === "missing" || lock.state === "stale";
-  const terminal =
-    snapshot.status?.state === "stopped" || snapshot.status?.state === "uninstalled";
+  const terminal = snapshot.status?.state === "stopped" || snapshot.status?.state === "uninstalled";
   const newer = snapshot.status !== null && snapshot.status.updatedAt > minUpdatedAt;
   // 终态快照可能早于 lock.release；必须把两个既有 owner 的观测共同用作 admission。
   if (!released) return false;

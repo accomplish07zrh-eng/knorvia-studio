@@ -2,7 +2,7 @@ import type { IDisposable } from "@knorvia/rpc";
 
 import { resolveWorkspaceKey } from "@knorvia/shared";
 
-interface HostRemoteTaskMeta {
+export interface HostRemoteTaskMeta {
   taskId: string;
   traceId: string;
   workspacePath: string;

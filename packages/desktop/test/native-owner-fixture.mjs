@@ -12,32 +12,53 @@ export async function loadNativeOwner(name, state, modules, banner = "") {
   globalThis[Symbol.for(key)] = state;
   try {
     const output = await build({
-      entryPoints: [entry], bundle: true, write: false, format: "esm", platform: "node", logLevel: "silent",
-      banner: { js: `const nativeFixture = globalThis[Symbol.for(${JSON.stringify(key)})]; ${banner}` },
-      plugins: [{
-        name: "deferred-native-owner-ports",
-        setup(plugin) {
-          plugin.onResolve({ filter: /^(?:node:|electron$|yazl$|@knorvia\/|\.\/(?:about|logger|storageScanWorkerClient)\.js$)/ }, ({ path }) => {
-            if (path === "node:path") return { path, external: true };
-            assert.ok(Object.hasOwn(modules, path), `unsupplied native boundary ${path}`);
-            return { path, namespace: "native-port" };
-          });
-          plugin.onLoad({ filter: /.*/, namespace: "native-port" }, ({ path }) => ({
-            contents: `const port = globalThis[Symbol.for(${JSON.stringify(key)})];\n${modules[path]}`,
-            loader: "js",
-          }));
+      entryPoints: [entry],
+      bundle: true,
+      write: false,
+      format: "esm",
+      platform: "node",
+      logLevel: "silent",
+      banner: {
+        js: `const nativeFixture = globalThis[Symbol.for(${JSON.stringify(key)})]; ${banner}`,
+      },
+      plugins: [
+        {
+          name: "deferred-native-owner-ports",
+          setup(plugin) {
+            plugin.onResolve(
+              {
+                filter:
+                  /^(?:node:|electron$|yazl$|@knorvia\/|\.\/(?:about|logger|storageScanWorkerClient)\.js$)/,
+              },
+              ({ path }) => {
+                if (path === "node:path") return { path, external: true };
+                assert.ok(Object.hasOwn(modules, path), `unsupplied native boundary ${path}`);
+                return { path, namespace: "native-port" };
+              },
+            );
+            plugin.onLoad({ filter: /.*/, namespace: "native-port" }, ({ path }) => ({
+              contents: `const port = globalThis[Symbol.for(${JSON.stringify(key)})];\n${modules[path]}`,
+              loader: "js",
+            }));
+          },
         },
-      }],
+      ],
     });
-    return await import(`data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString("base64")}`);
+    return await import(
+      `data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString("base64")}`
+    );
   } finally {
     delete globalThis[Symbol.for(key)];
   }
 }
 
 export function deferred() {
-  let resolve; let reject;
-  const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
+  let resolve;
+  let reject;
+  const promise = new Promise((yes, no) => {
+    resolve = yes;
+    reject = no;
+  });
   return { promise, resolve, reject };
 }
 

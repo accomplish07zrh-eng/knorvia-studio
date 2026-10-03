@@ -42,7 +42,10 @@ class HostLogRelayOwner {
     const projected = {
       ...entry,
       timestamp: new Date().toLocaleTimeString(undefined, {
-        hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
       }),
     } satisfies EmitStructuredLogEntry;
     const level =

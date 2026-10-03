@@ -41,17 +41,20 @@ export class RendererPreloadCalls {
     const invoke = (args: unknown[]) => {
       const preload = window.knorvia as unknown as PreloadSurface;
       const method = preload[key];
-      const value = optional && method == null
-        ? undefined
-        : Reflect.apply(method!, preload, args);
+      const value = optional && method == null ? undefined : Reflect.apply(method!, preload, args);
       return value == null && fallback ? fallback() : value;
     };
     // Fixed wrappers preserve both positional undefined and public call arity.
     switch (arity) {
-      case 0: return (() => invoke([])) as PlatformCall<Key>;
-      case 1: return ((first: unknown) => invoke([first])) as PlatformCall<Key>;
-      case 2: return ((first: unknown, second: unknown) => invoke([first, second])) as PlatformCall<Key>;
-      case 3: return ((first: unknown, second: unknown, third: unknown) => invoke([first, second, third])) as PlatformCall<Key>;
+      case 0:
+        return (() => invoke([])) as PlatformCall<Key>;
+      case 1:
+        return ((first: unknown) => invoke([first])) as PlatformCall<Key>;
+      case 2:
+        return ((first: unknown, second: unknown) => invoke([first, second])) as PlatformCall<Key>;
+      case 3:
+        return ((first: unknown, second: unknown, third: unknown) =>
+          invoke([first, second, third])) as PlatformCall<Key>;
     }
   }
 }

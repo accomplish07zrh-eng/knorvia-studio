@@ -58,7 +58,6 @@ import {
   redactDiagnosticValue,
   type KnorviaPromptAttachment,
   type KnorviaStreamEvent,
-  type KnorviaTaskMeta,
   type TaskStreamMirrorableEvent,
   type TraceId,
   type KnorviaTaskMode,
@@ -89,7 +88,10 @@ import {
   createRemoteMediaPreviewProxy,
   type RemoteMediaPreviewProxy,
 } from "./remoteMediaPreviewProxy.js";
-import { createHostRemoteWorkspaceProxyState } from "./hostRemoteWorkspaceProxyState.js";
+import {
+  createHostRemoteWorkspaceProxyState,
+  type HostRemoteTaskMeta,
+} from "./hostRemoteWorkspaceProxyState.js";
 import { createRemoteWorkspaceServiceCollection } from "./remoteWorkspaceServiceCollection.js";
 import { createRemotePromptAttachmentTransferService } from "./promptAttachmentTransferService.js";
 import { shouldReportHostConsoleError, stringifyHostLogArg } from "./hostLog.js";
@@ -163,7 +165,8 @@ process.title = formatKnorviaHostProcessName(process.env["KNORVIA_PROCESS_LABEL"
 const remoteMediaEnabled = process.env["KNORVIA_REMOTE_MEDIA_RANGE_PREVIEW_ENABLED"] !== "0";
 let activeMediaRequests = 0;
 const mediaLimiter = {
-  acquire: () => {
+  // 媒体 proxy 的公开 admission 端口是 tryAcquire，必须复用这份 Host 计数。
+  tryAcquire: () => {
     if (activeMediaRequests >= 4) return false;
     activeMediaRequests += 1;
     return true;
@@ -573,7 +576,8 @@ async function openRemote(
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
-function isMeta(value: unknown): value is KnorviaTaskMeta {
+// 远端缓存只承诺这些身份字段，不能把它收窄成含标题/状态等字段的完整 task meta。
+function isMeta(value: unknown): value is HostRemoteTaskMeta {
   return (
     isObject(value) &&
     typeof value.taskId === "string" &&
@@ -629,7 +633,7 @@ function reportingFacade<T extends object>(base: T, options: ReportingOptions = 
     if (isObject(value.snapshot)) remember(value.snapshot.meta);
     remember(value.meta);
   };
-  const finish = (taskId: string, meta: KnorviaTaskMeta): void => {
+  const finish = (taskId: string, meta: Workspace): void => {
     state.disposeTaskReadySubscription(taskId);
     workspaceTracker.finish(taskId, meta);
   };
@@ -638,13 +642,13 @@ function reportingFacade<T extends object>(base: T, options: ReportingOptions = 
     return { ...params, ...(await options.materializePromptAttachments(params)) };
   };
   const submit = async (
-    sendPrompt: (...args: unknown[]) => unknown,
+    sendPrompt: (request: Prompt) => unknown,
     request: Prompt,
   ): Promise<unknown> => {
     const params = await prepare(request);
     const currentMeta = state.getTaskMeta(params.taskId);
     const bridge = options.realtime;
-    if (!bridge || !currentMeta) return sendPrompt.call(base, params);
+    if (!bridge || !currentMeta) return sendPrompt(params);
     const mirrorTarget = {
       workspacePath: currentMeta.workspacePath,
       workspaceIdentity: currentMeta.workspaceIdentity,
@@ -657,7 +661,7 @@ function reportingFacade<T extends object>(base: T, options: ReportingOptions = 
       logger.warn("Remote runtime realtime lease failed:", error);
       return null;
     });
-    if (!lease?.acquired) return sendPrompt.call(base, params);
+    if (!lease?.acquired) return sendPrompt(params);
     bridge.publishStreamOp(mirrorTarget, {
       kind: "user_message",
       messageId: "user-" + params.traceId,
@@ -680,7 +684,7 @@ function reportingFacade<T extends object>(base: T, options: ReportingOptions = 
         }
       });
     try {
-      return await sendPrompt.call(base, params);
+      return await sendPrompt(params);
     } finally {
       stream?.dispose();
       bridge.releaseTaskRunLease(mirrorTarget);
@@ -760,7 +764,10 @@ function reportingFacade<T extends object>(base: T, options: ReportingOptions = 
             rpcPrompts += 1;
             reportPromptCount();
           }
-          return valid ? await submit(value, params) : await value.apply(target, args);
+          // 动态方法保持原 target receiver；闭包只接收已收窄的单个 prompt 参数。
+          return valid
+            ? await submit((request) => value.call(target, request), params)
+            : await value.apply(target, args);
         } catch (error) {
           if (started && valid && meta) finish(params.taskId, meta);
           throw error;
@@ -783,10 +790,11 @@ function routedTask(
     get: (target, property, receiver) => {
       if (property === "deleteArchivedTasks")
         return async (params: Parameters<IKnorviaTaskService["deleteArchivedTasks"]>[0]) => {
-          if (!params.taskIds.length)
+          const [taskId] = params.taskIds;
+          if (taskId === undefined)
             return { deletedTaskIds: [], skippedTaskIds: [], failedTaskIds: [] };
           const address = await controller.resolveTaskAddress({
-            taskId: params.taskIds[0],
+            taskId,
             workspacePath: params.workspacePath,
             workspaceIdentity: params.workspaceIdentity,
             attachmentScope,
@@ -1374,8 +1382,9 @@ parentPort!.on("message", async (event) => {
   const msg = parsed.data;
   const port = event.ports[0];
   if (msg.type === HostMessageTypes.DatabaseStartupControl) {
-    if (msg.control.kind === "snapshot") startup?.coordinator.publish();
-    else if (msg.control.kind === "retry") void startup?.coordinator.retry(msg.control.attemptId);
+    // 共享 schema 与 Main relay 使用 action；旧 kind 字段会让合法控制静默失效。
+    if (msg.control.action === "snapshot") startup?.coordinator.publish();
+    else if (msg.control.action === "retry") void startup?.coordinator.retry(msg.control.attemptId);
     return;
   }
   if (msg.type === HostMessageTypes.CuaPipFocusChanged) {

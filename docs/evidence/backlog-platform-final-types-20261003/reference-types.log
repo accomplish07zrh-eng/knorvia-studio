@@ -1,0 +1,58 @@
+packages/services/src/commands/commandFileParser.ts(22,17): error TS2532: Object is possibly 'undefined'.
+packages/services/src/commands/commandFileParser.ts(22,36): error TS2532: Object is possibly 'undefined'.
+packages/services/src/commands/commandFileParser.ts(26,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/commands/commandFileParser.ts(27,23): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/commands/commandFileParser.ts(27,42): error TS18048: 'line' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(68,10): error TS18048: 'line' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(69,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliHelpers.ts(70,33): error TS18048: 'line' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(157,9): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+packages/services/src/git/repo/gitCliHelpers.ts(179,51): error TS18048: 'entry' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(181,21): error TS18048: 'entry' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(186,21): error TS18048: 'entry' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(31,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(32,20): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(37,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(38,35): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(41,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(42,22): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(47,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(48,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(50,32): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(64,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(65,77): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(67,28): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(67,28): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(67,50): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(67,64): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(68,16): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(69,83): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(74,16): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(75,89): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(83,30): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(86,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+packages/services/src/git/repo/gitCliParsing.ts(86,10): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(87,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+packages/services/src/git/repo/gitCliParsing.ts(87,10): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(107,20): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(109,34): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(110,36): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitRepoPush.ts(49,29): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/model-provider/legacyProviderEndpoints.ts(106,17): error TS2532: Object is possibly 'undefined'.
+packages/services/src/providers/api/nodeApiNetwork.ts(31,18): error TS18048: 'hostPart' is possibly 'undefined'.
+packages/services/src/skill-sync/skillSyncDiscovery.ts(43,20): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.

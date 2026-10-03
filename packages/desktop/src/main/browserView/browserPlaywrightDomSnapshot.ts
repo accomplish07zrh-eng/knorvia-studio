@@ -316,7 +316,8 @@ function normalize(full: string): string {
   if (!full.startsWith("- ") && !full.includes("\n- ") && !full.includes("\n  - ")) return full;
 
   const root: Node = { text: "", children: [] };
-  const stack: Array<{ indent: number; node: Node }> = [{ indent: -1, node: root }];
+  // root 不参与可弹出的祖先栈；栈空时它就是当前行的父节点。
+  const stack: Array<{ indent: number; node: Node }> = [];
   for (const line of full.split("\n")) {
     if (!line.trim()) continue;
     const indent = line.match(/^ */)?.[0].length ?? 0;
@@ -324,8 +325,13 @@ function normalize(full: string): string {
       text: line.slice(indent).replace(/ \[(?:ref|cursor)=[^\]]+\]/g, ""),
       children: [],
     };
-    while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
-    stack[stack.length - 1].node.children.push(node);
+    while (true) {
+      const parent = stack.at(-1);
+      if (parent === undefined || parent.indent < indent) break;
+      stack.pop();
+    }
+    const parent = stack.at(-1)?.node ?? root;
+    parent.children.push(node);
     stack.push({ indent, node });
   }
 

@@ -1,6 +1,5 @@
 import {
   BROWSER_SCREENSHOT_SURFACE_PREPARE_TIMEOUT_MS,
-  type BrowserViewportSize,
   type BrowserViewScreenshotSurfacePreparePayload,
   type BrowserViewScreenshotSurfaceReadyPayload,
   type BrowserViewScreenshotSurfaceReleasePayload,

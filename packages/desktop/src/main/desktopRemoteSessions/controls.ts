@@ -49,15 +49,13 @@ export function createSessionControls(
     (win, reason) => {
       for (const route of state.routes.values()) {
         if (route.webContentsId === win.webContents.id && route.attachmentState === "attachable") {
-          void attachments
-            .attachRendererPort(win, route, reason)
-            .catch((error) =>
-              options.logger.warn("[window-host-remote] renderer reattach failed", {
-                sessionId: route.descriptor.remoteSessionId,
-                reason,
-                error,
-              }),
-            );
+          void attachments.attachRendererPort(win, route, reason).catch((error) =>
+            options.logger.warn("[window-host-remote] renderer reattach failed", {
+              sessionId: route.descriptor.remoteSessionId,
+              reason,
+              error,
+            }),
+          );
         }
       }
     };

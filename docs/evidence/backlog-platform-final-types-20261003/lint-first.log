@@ -1,0 +1,48 @@
+
+  ! typescript-eslint(no-useless-empty-export): Empty exports do nothing in module files
+    ,-[packages/desktop/src/main/browserView/browserTabResidencyPolicy.ts:90:1]
+ 89 | 
+ 90 | export {};
+    : ^^^^^^^^^^
+    `----
+  help: Remove this empty export.
+
+  ! eslint(no-unused-vars): Type 'BrowserViewportSize' is imported but never used.
+   ,-[packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts:3:8]
+ 2 |   BROWSER_SCREENSHOT_SURFACE_PREPARE_TIMEOUT_MS,
+ 3 |   type BrowserViewportSize,
+   :        ^^^^^^^^^|^^^^^^^^^
+   :                 `-- 'BrowserViewportSize' is imported here
+ 4 |   type BrowserViewScreenshotSurfacePreparePayload,
+   `----
+  help: Consider removing this import.
+
+  x eslint(max-lines): File has too many lines (418).
+     ,-[packages/desktop/src/host/indexOwner.fixture.mjs:418:100]
+ 417 | }
+ 418 | export { assert, fs, path, vm, test, ts, baseline, selected, plain, defer, drain, check, harness };
+     :                                                                                                    ^
+     `----
+  help: Maximum allowed is 400.
+
+  ! eslint(no-unused-vars): Identifier 'path' is imported but never used.
+   ,-[packages/desktop/src/host/behaviorOwners.cases-1.mjs:2:3]
+ 1 | import {
+ 2 |   path,
+   :   ^^|^
+   :     `-- 'path' is imported here
+ 3 |   assert,
+   `----
+  help: Consider removing this import.
+
+  ! eslint-plugin-unicorn(no-useless-spread): Using a spread operator here creates a new array unnecessarily.
+     ,-[packages/desktop/src/host/storageOwnerTestPorts.mjs:136:25]
+ 135 |   emit(name, ...args) {
+ 136 |     for (const item of [...(this.handlers.get(name) ?? [])]) {
+     :                         ^^^
+ 137 |       if (item.once)
+     `----
+  help: `for…of` can iterate over iterable, it's unnecessary to convert to an array.
+
+Found 4 warnings and 1 error.
+Finished in 100ms on 579 files with 94 rules using 4 threads.

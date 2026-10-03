@@ -1,0 +1,10 @@
+✔ lock preserves exclusive receipt, inspection/liveness observations and token-owned release (19.69642ms)
+✔ stale recovery uses a double-closed gate and a post-rename later owner is restored rather than removed (8.799184ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 175.274115

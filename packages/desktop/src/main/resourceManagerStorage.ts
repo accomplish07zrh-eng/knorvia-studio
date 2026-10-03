@@ -89,7 +89,9 @@ class StorageIpcOwner {
   private async reveal(_event: IpcMainInvokeEvent, absolutePath: string): Promise<void> {
     const roots = await this.roots.resolveRoots();
     if (typeof absolutePath !== "string" || !belongsToStorageRoot(absolutePath, roots)) {
-      logger.warn("[resource-manager] refused to reveal path outside storage roots", { absolutePath });
+      logger.warn("[resource-manager] refused to reveal path outside storage roots", {
+        absolutePath,
+      });
       return;
     }
     shell.showItemInFolder(absolutePath);
