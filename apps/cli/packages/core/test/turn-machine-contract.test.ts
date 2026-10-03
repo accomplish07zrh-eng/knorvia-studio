@@ -60,8 +60,12 @@ test("supplied empty ids survive nullish defaults and model admission retains it
 test("streaming appends text and schedule projection strips extras while retaining schedule identity", () => {
   const owner = machine({ phase: TurnPhase.AwaitingModelResponse, streamingContent: "prefix" });
   assert.equal(owner.receiveModelResponse(" one").streamingContent, "prefix one");
-  owner.state = machine({ phase: TurnPhase.Streaming, streamingContent: "prefix" }).state;
+  owner.state = machine({ phase: TurnPhase.AwaitingModelResponse, streamingContent: "prefix" }).state;
   assert.equal(owner.addStreamingContent(" two").streamingContent, "prefix two");
+  owner.state = machine({ phase: TurnPhase.Streaming, streamingContent: "prefix" }).state;
+  assert.throws(() => owner.addStreamingContent(" rejected"), {
+    message: "Cannot transition from streaming to streaming",
+  });
   const input = { id: CALL_ID, name: "synthetic", input: {}, extra: "must not project" };
   const schedule = { items: [], parallelGroups: [], executionOrder: [CALL_ID] };
   const projected = owner.scheduleTools([input, input], schedule);
