@@ -1,0 +1,48 @@
+{
+  "packetHead": "6590bcdb2c01408d6da0e437779aaecd0c2db1da",
+  "directory": "docs/evidence/provider-node-builtin-bottom-root-packets-20261003",
+  "inputs": [
+    {
+      "path": "download-contract.md",
+      "bytes": 7938,
+      "sha256": "a742cbec9bd8aaa32821872240e45405f76e740741375d002e673a125a33eb88",
+      "gitBlob": "149691db0a29c823b62ea95472fe9ca65ac6abaa"
+    },
+    {
+      "path": "download-api.d.ts",
+      "bytes": 468,
+      "sha256": "2debe30951ffba7a672693ac315892c9fab03e13da0db52d196685d20e948da9",
+      "gitBlob": "57a126f9e57254dc405d22bf3a78036e4376d0a4"
+    },
+    {
+      "path": "release-contract.md",
+      "bytes": 5044,
+      "sha256": "b961dd5ec77f67ca5c5215f3726028f39c73930a62a3b41690922e9af898251b",
+      "gitBlob": "e3ca2f70a35f6abaac0b96add4665f635864a39b"
+    },
+    {
+      "path": "release-api.d.ts",
+      "bytes": 831,
+      "sha256": "5235cbf277e0667696724c0181e39dcc0c9269f58e63ab3fb3ce8933ab8fb4e2",
+      "gitBlob": "72b79278f0f48e0bc5e0bfc513b5c54bb3d720bf"
+    },
+    {
+      "path": "dependency-contract.md",
+      "bytes": 4590,
+      "sha256": "3375813934a402a5b33ac6609dc6d0ef86155f295a9dfa6a6cc2a232d01b1fa0",
+      "gitBlob": "d5669520d7f10a74dd31a0739e349992dbcb4754"
+    },
+    {
+      "path": "dependency-types.d.ts",
+      "bytes": 596,
+      "sha256": "d6ac40764d1d7c53fd89029407691ed47ee92a9bfe396f2be8075e45f535534f",
+      "gitBlob": "e4069b3a0bb84bf8d037228f3aa04b0a5340ab76"
+    },
+    {
+      "path": "retained-data.json",
+      "bytes": 3496,
+      "sha256": "2c61f3661fc6b78bfdc361036621a0c8595280643c1debef9e4d354247cc1167",
+      "gitBlob": "c55d88f2228c2d82ad13ee9fcaee7da05dce6506"
+    }
+  ]
+}
