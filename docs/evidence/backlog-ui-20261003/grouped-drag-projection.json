@@ -1,0 +1,61 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Grouped drag target/collision projection and direct installation only; not all section or drag lifecycle code",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Original target decoders, helper routing, start/move/cancel/end and consumers read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared target scenarios do not validate DndKit collision geometry, DOM, cancellation or persistence",
+  "retainedBehavior": [
+    "Task/group/empty/collapsed/header/footer targets and directional boundaries",
+    "Collision filtering depends on raw type, including malformed ids",
+    "Order-only signature tokens and identity separators",
+    "Original JSX/styles/measurement/animation and Workbench pointer lifecycle"
+  ],
+  "remaining": [
+    "Full drag session/pointer cleanup and save rollback owner",
+    "Grouped optimistic/mutation hook owners",
+    "DOM/React and emitted consumer acceptance"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+      "baseBlob": "ff19511c96396400b64dc198a413d716531a307e",
+      "baseSha256": "52b3acfa3832ff498b19f97108ff1aed7a7c9445b7c14f20197cd350578b79b5",
+      "candidateSha256": "9793236c6a0c11da8ff3aeb515f169d9a971fb2977ee1cbb7238e517b7b10bd1",
+      "candidateBytes": 53682,
+      "candidateRole": "partial target routing installation; JSX/styles/drag lifecycle retained and unreviewed",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+          "blob": "634261aa70746fb633d5c69abbb7c6580e61ff20",
+          "normalizedSha256": "73189664184f7366898c8023026574d48eb34df6a2eb4137b89f0d269b9d1c3e",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedDragProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "315c4a105af0890d0ce7ac8af385838f9f17eb41e7560213c2546352147c742a",
+      "candidateBytes": 3864,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-drag-projection-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "60353fadad9ab9a69bff2a86b1d94b08b223f92fb29ddc55a5f01c99b1ced1c8",
+      "candidateBytes": 5974,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

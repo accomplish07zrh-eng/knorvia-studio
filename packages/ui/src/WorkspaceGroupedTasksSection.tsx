@@ -48,18 +48,18 @@ import {
   findTaskInGroupedView,
   filterGroupedViewByTaskKeys,
   getGroupedTaskGroupIds,
-  moveGroupAroundTopLevelNode,
   moveTaskByMenu,
   moveTaskToTopByMenu,
-  moveTaskToGroupEnd,
-  moveTaskToGroupStart,
-  moveTaskToRootAroundGroup,
-  moveTaskOverTask,
   replaceTaskInGroupedView,
   resolveGroupedDraftTaskPlacementForTask,
   taskKey,
 } from "@/workspace-grouped-tasks/shared.js";
 import type { TaskGroupMenuItem } from "@/workspace-grouped-tasks/shared.js";
+import {
+  acceptsGroupedDragCollision, getGroupedTaskDragGroupId, getGroupedTaskDragTaskKey,
+  getGroupedTaskViewSignature, projectGroupedDragOver,
+  type GroupedTaskDragDirectionPosition,
+} from "@/workspace-grouped-tasks/groupedDragProjection.js";
 import type { WorkbenchSessionDragPayload } from "@/v4/workbenchDragDrop.js";
 import {
   cancelWorkbenchPointerDrag,
@@ -104,237 +104,11 @@ function areStringArraysEqual(left: readonly string[], right: readonly string[])
   return left.length === right.length && left.every((item, index) => item === right[index]);
 }
 
-function getGroupedTaskDragTaskKey(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown; taskKey?: unknown };
-  return data.type === "grouped-task" && typeof data.taskKey === "string" ? data.taskKey : null;
-}
-
-function getGroupedTaskDragGroupId(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown; groupId?: unknown };
-  return data.type === "grouped-group" && typeof data.groupId === "string" ? data.groupId : null;
-}
-
-function getGroupedTaskDragType(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown };
-  return typeof data.type === "string" ? data.type : null;
-}
-
-function getGroupedGroupOverGroupId(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown; groupId?: unknown };
-  return data.type === "grouped-group-over" && typeof data.groupId === "string"
-    ? data.groupId
-    : null;
-}
-
-function getGroupedTaskCollapsedOverGroupId(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown; groupId?: unknown };
-  return data.type === "grouped-collapsed-group" && typeof data.groupId === "string"
-    ? data.groupId
-    : null;
-}
-
-function getGroupedTaskHeaderOverGroupId(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown; groupId?: unknown };
-  return data.type === "grouped-expanded-group-header" && typeof data.groupId === "string"
-    ? data.groupId
-    : null;
-}
-
-function getGroupedTaskFooterOverGroupId(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown; groupId?: unknown };
-  return data.type === "grouped-expanded-group-footer" && typeof data.groupId === "string"
-    ? data.groupId
-    : null;
-}
-
-function getGroupedTaskEmptyOverGroupId(value: unknown): string | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-  const data = value as { type?: unknown; groupId?: unknown };
-  return data.type === "grouped-empty-drop-zone" && typeof data.groupId === "string"
-    ? data.groupId
-    : null;
-}
-
-type GroupedTaskDragDirectionPosition = "before" | "after";
-
-const groupedTaskCollisionDetection: CollisionDetection = (args) => {
-  const activeType = getGroupedTaskDragType(args.active.data.current);
-  const droppableContainers =
-    activeType === "grouped-group"
-      ? args.droppableContainers.filter((container) => {
-          const type = getGroupedTaskDragType(container.data.current);
-          return type === "grouped-task" || type === "grouped-group-over";
-        })
-      : args.droppableContainers.filter(
-          (container) => getGroupedTaskDragType(container.data.current) !== "grouped-group-over",
-        );
-  return closestCenter({
-    ...args,
-    droppableContainers,
-  });
-};
-
-function getGroupedTaskOverTaskPreviewView(
-  view: KnorviaGroupedTaskView,
-  event: DragOverEvent,
-  position: GroupedTaskDragDirectionPosition,
-): KnorviaGroupedTaskView {
-  const activeTaskKey = getGroupedTaskDragTaskKey(event.active.data.current);
-  const overTaskKey = getGroupedTaskDragTaskKey(event.over?.data.current);
-  if (!activeTaskKey || !overTaskKey || activeTaskKey === overTaskKey) {
-    return view;
-  }
-  return moveTaskOverTask(view, {
-    activeTaskKey,
-    overTaskKey,
-    position,
-  });
-}
-
-function getGroupedTaskOverCollapsedGroupPreviewView(
-  view: KnorviaGroupedTaskView,
-  event: DragOverEvent,
-  position: GroupedTaskDragDirectionPosition,
-): KnorviaGroupedTaskView {
-  const activeTaskKey = getGroupedTaskDragTaskKey(event.active.data.current);
-  const overGroupId = getGroupedTaskCollapsedOverGroupId(event.over?.data.current);
-  if (!activeTaskKey || !overGroupId) {
-    return view;
-  }
-  return moveTaskToRootAroundGroup(view, {
-    activeTaskKey,
-    groupId: overGroupId,
-    position,
-  });
-}
-
-function getGroupedTaskOverGroupHeaderPreviewView(
-  view: KnorviaGroupedTaskView,
-  event: DragOverEvent,
-  position: GroupedTaskDragDirectionPosition,
-): KnorviaGroupedTaskView {
-  const activeTaskKey = getGroupedTaskDragTaskKey(event.active.data.current);
-  const overGroupId = getGroupedTaskHeaderOverGroupId(event.over?.data.current);
-  if (!activeTaskKey || !overGroupId) {
-    return view;
-  }
-  if (position === "before") {
-    return moveTaskToRootAroundGroup(view, {
-      activeTaskKey,
-      groupId: overGroupId,
-      position: "before",
-    });
-  }
-  return moveTaskToGroupStart(view, {
-    activeTaskKey,
-    groupId: overGroupId,
-  });
-}
-
-function getGroupedTaskOverGroupFooterPreviewView(
-  view: KnorviaGroupedTaskView,
-  event: DragOverEvent,
-  position: GroupedTaskDragDirectionPosition,
-): KnorviaGroupedTaskView {
-  const activeTaskKey = getGroupedTaskDragTaskKey(event.active.data.current);
-  const overGroupId = getGroupedTaskFooterOverGroupId(event.over?.data.current);
-  if (!activeTaskKey || !overGroupId) {
-    return view;
-  }
-  if (position === "before") {
-    return moveTaskToGroupEnd(view, {
-      activeTaskKey,
-      groupId: overGroupId,
-    });
-  }
-  return moveTaskToRootAroundGroup(view, {
-    activeTaskKey,
-    groupId: overGroupId,
-    position: "after",
-  });
-}
-
-function getGroupedTaskOverEmptyDropZonePreviewView(
-  view: KnorviaGroupedTaskView,
-  event: DragOverEvent,
-): KnorviaGroupedTaskView {
-  const activeTaskKey = getGroupedTaskDragTaskKey(event.active.data.current);
-  const overGroupId = getGroupedTaskEmptyOverGroupId(event.over?.data.current);
-  if (!activeTaskKey || !overGroupId) {
-    return view;
-  }
-  return moveTaskToGroupStart(view, {
-    activeTaskKey,
-    groupId: overGroupId,
-  });
-}
-
-function getGroupedGroupOverGroupPreviewView(
-  view: KnorviaGroupedTaskView,
-  event: DragOverEvent,
-  position: GroupedTaskDragDirectionPosition,
-): KnorviaGroupedTaskView {
-  const activeGroupId = getGroupedTaskDragGroupId(event.active.data.current);
-  const overGroupId = getGroupedGroupOverGroupId(event.over?.data.current);
-  if (!activeGroupId || !overGroupId || activeGroupId === overGroupId) {
-    return view;
-  }
-  return moveGroupAroundTopLevelNode(view, {
-    activeGroupId,
-    over: { type: "group", groupId: overGroupId },
-    position,
-  });
-}
-
-function getGroupedGroupOverTaskPreviewView(
-  view: KnorviaGroupedTaskView,
-  event: DragOverEvent,
-  position: GroupedTaskDragDirectionPosition,
-): KnorviaGroupedTaskView {
-  const activeGroupId = getGroupedTaskDragGroupId(event.active.data.current);
-  const overTaskKey = getGroupedTaskDragTaskKey(event.over?.data.current);
-  if (!activeGroupId || !overTaskKey) {
-    return view;
-  }
-  return moveGroupAroundTopLevelNode(view, {
-    activeGroupId,
-    over: { type: "task", taskKey: overTaskKey },
-    position,
-  });
-}
-
-function getGroupedTaskViewSignature(view: KnorviaGroupedTaskView): string {
-  return view.nodes
-    .map((node) =>
-      node.type === "task"
-        ? `t:${taskKey(node.task)}`
-        : `g:${node.group.id}[${node.tasks.map(taskKey).join(",")}]`,
-    )
-    .join("|");
-}
+const groupedTaskCollisionDetection: CollisionDetection = (args) => closestCenter({
+  ...args,
+  droppableContainers: args.droppableContainers.filter((container) =>
+    acceptsGroupedDragCollision(args.active.data.current, container.data.current)),
+});
 
 type GroupedTaskLayoutRects = Map<
   string,
@@ -1270,33 +1044,8 @@ export function WorkspaceGroupedTasksSection({
         return;
       }
       const currentPreviewView = dragPreviewViewRef.current ?? authoritativeView;
-      const dragDirection = dragDirectionRef.current;
-      const nextView = activeGroupId
-        ? getGroupedGroupOverTaskPreviewView(
-            getGroupedGroupOverGroupPreviewView(currentPreviewView, event, dragDirection),
-            event,
-            dragDirection,
-          )
-        : getGroupedTaskOverTaskPreviewView(
-            getGroupedTaskOverEmptyDropZonePreviewView(
-              getGroupedTaskOverGroupFooterPreviewView(
-                getGroupedTaskOverGroupHeaderPreviewView(
-                  getGroupedTaskOverCollapsedGroupPreviewView(
-                    currentPreviewView,
-                    event,
-                    dragDirection,
-                  ),
-                  event,
-                  dragDirection,
-                ),
-                event,
-                dragDirection,
-              ),
-              event,
-            ),
-            event,
-            dragDirection,
-          );
+      const nextView = projectGroupedDragOver(currentPreviewView,
+        event.active.data.current, event.over.data.current, dragDirectionRef.current);
       if (
         nextView === currentPreviewView ||
         getGroupedTaskViewSignature(nextView) === getGroupedTaskViewSignature(currentPreviewView)
