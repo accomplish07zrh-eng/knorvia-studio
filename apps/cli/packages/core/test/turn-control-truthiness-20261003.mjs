@@ -26,7 +26,7 @@ if (mode === "baseline") {
   const b = await readFile(
     path.join(repo, "docs/evidence/knorvia-turn-control-current-20261003.json"),
   );
-  assert.equal(sha(b), "CURRENT_PIN");
+  assert.equal(sha(b), "eeaae751dfebb6cd71fef38889589be3a5c9c48cd640ab0740ccf1c0ef2fcefd");
   const row = Object.values(JSON.parse(b).files)[0];
   for (const e of Object.values(row))
     assert.equal(sha(await readFile(path.join(repo, e.path))), e.sha256);

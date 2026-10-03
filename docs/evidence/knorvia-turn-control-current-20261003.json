@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "typescript": "6.0.2",
+  "files": {
+    "apps/cli/packages/core/src/tool/executor/turn-control.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/turn-control.ts",
+        "sha256": "6b5786f06a49437846cff7edfc3ce09f99fc867164cdc546ac9f7a44bf9ef940"
+      },
+      "compiled": {
+        "path": "docs/evidence/turn-control-checks-20261003/current/compiled.txt",
+        "sha256": "7ca441484b89a29ca09d27decb0d4279f781db713b0c87e4ec6e3e507a6344ef"
+      },
+      "declaration": {
+        "path": "docs/evidence/turn-control-checks-20261003/current/declaration.txt",
+        "sha256": "0b19b7fe423e7d27a5c8b346b7dba8ee11a20e8330055696d5bdb22324610b03"
+      }
+    }
+  }
+}

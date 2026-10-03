@@ -25,7 +25,7 @@ if (mode === "current") {
   const b = await readFile(
     path.join(repo, "docs/evidence/knorvia-turn-control-current-20261003.json"),
   );
-  assert.equal(hash(b), "CURRENT_PIN");
+  assert.equal(hash(b), "eeaae751dfebb6cd71fef38889589be3a5c9c48cd640ab0740ccf1c0ef2fcefd");
   for (const [logical, row] of Object.entries(JSON.parse(b).files)) {
     for (const e of Object.values(row))
       assert.equal(hash(await readFile(path.join(repo, e.path))), e.sha256);
