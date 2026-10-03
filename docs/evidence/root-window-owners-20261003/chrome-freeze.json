@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-02T23:56:26.332461+00:00",
+  "chromeBodyReadBeforeFreeze": false,
+  "lifecycleBodyReviewedSeparately": true,
+  "drafts": {
+    "desktopWindowChrome.ts": {
+      "bytes": 6185,
+      "sha256": "fd4ef92f60b1e71432bbd07e18367438115bc55545afb53efa8e08edbafcccf1"
+    },
+    "guest.ts": {
+      "bytes": 3877,
+      "sha256": "312b511ab446a929e769ddd0cc677e7a06059708b6b6927eb9250e81586e1a83"
+    }
+  },
+  "qualification": "Whole packet-authored main/chrome and stateless private guest/context owner; source-exposed curator and broad root context qualified."
+}

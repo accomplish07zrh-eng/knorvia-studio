@@ -1,0 +1,7 @@
+{
+  "utc": "2026-10-02T23:45:58.574487+00:00",
+  "packetCommit": "450531c1e5c6ed9d661c7f867196b534a55fa82a",
+  "verified": "Nine packet inputs and both target digests match.",
+  "targetBodiesDeliberatelyRead": false,
+  "context": "Broad root/project context and public dependency signatures seen; source-exposed curator. Complete body-free contract/ports/data packet only for this authoring scope."
+}

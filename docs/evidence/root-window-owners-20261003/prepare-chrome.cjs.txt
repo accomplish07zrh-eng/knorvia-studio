@@ -1,0 +1,5 @@
+const fs=require('fs'),ts=require(process.cwd()+'/node_modules/typescript');const root='/tmp/knorvia-root-window-owners-20261003';
+const text=fs.readFileSync(root+'/packet/chrome-public-api.d.ts','utf8'),sf=ts.createSourceFile('chrome.ts',text,99,true),imports=JSON.parse(fs.readFileSync(root+'/packet/imports.json','utf8'))[1].imports,bodies=JSON.parse(fs.readFileSync(root+'/chrome-bodies.json','utf8'));
+let out=imports.map(x=>'import '+x.clause+' from '+JSON.stringify(x.module)+';').join('\n')+'\nimport { bindGuestPopup, presentContextMenu } from "./desktopWindowChrome/guest.js";\nconst guestPreload=join(import.meta.dirname,"../preload/embeddedBrowserJavaScriptDialog.cjs");\n';
+for(const node of sf.statements)if(ts.isFunctionDeclaration(node))out+=node.getText(sf).replace('export declare function','export function').replace(/;$/,'')+' {\n'+bodies[node.name.text]+'\n}\n';
+fs.writeFileSync(root+'/draft/desktopWindowChrome.ts',out);fs.copyFileSync(root+'/chrome-guest-draft.ts',root+'/draft/guest.ts');
