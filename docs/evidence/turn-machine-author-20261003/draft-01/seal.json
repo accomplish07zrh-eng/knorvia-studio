@@ -1,0 +1,10 @@
+{
+  "closureUTC": "2026-10-03T02:44:17.394599545Z",
+  "files": {
+    "accessed-inputs.sha256": "167d1db3fc3e730c375f5b3bbc5a2e1e7285363546449e1ae455c5a9f81153a7",
+    "author-record.md": "abcf76b0cd7d0dfe44acde2a6dbace5853ca261f5a90034c915b3f467df71806",
+    "candidate.sha256": "80690d17c7e4e5f3f67471e8ef31e8faabd9a7197d1d52cf85741f33cd159ca4",
+    "candidate.ts": "164e7f33a00d2e0ced92d11e845773483a9636f6960c531a2b1a116ce083b3d2"
+  },
+  "accessBoundary": "Five body-free source-derived inputs; same existing native author retains prior AgentRuntime conversation; instruction-only shared executor isolation. No clean-room claim."
+}
