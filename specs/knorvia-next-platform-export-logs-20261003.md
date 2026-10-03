@@ -166,3 +166,45 @@ synthetic), lint, types, format/architecture checks, build, application/native/U
 execution, full audit or real log/user data access. Only source/diff and byte/Git/
 remote metadata. Preserve source/licence records and qualify retained expressions;
 final integration owns native/platform/consumer acceptance and provenance/rights.
+
+## Authorized final-stage staged ZIP traversal repair
+
+Latest parent authorization reuses this same task/branch and fast-forwards to exact
+integration `7bfb867162cc11adbc237e1c39bf2d61b5c0f81e`. PR17 is merged/closed;
+no new task/PR or main merge. The final combined records and the single failing
+`complete default exporter` case at native-export-log-owner-contract.test.mjs:189
+are authoritative failure evidence, not an accepted-source or MIT decision.
+
+The existing fixture correctly provides the app, CLI and helper roots and expects
+all five diagnostic members. Source reading identifies a real production defect:
+writeArchiveDirectory stages CLI/helper diagnostics under their approved prefixes,
+then ZIP re-selection filters the intermediate `.knorvia-studio` directory before
+it can reach `.knorvia-studio/cli/log` and `.knorvia-studio/computer-use/run`.
+The original whole-case assertion is reproduced unchanged on the latest tree.
+Do not remove those members from the fixture or change expected archive keys.
+
+One ArchivePathPolicy still owns path exclusion. Only a staged-ZIP directory scan
+may traverse a real directory that is an ancestor of an already approved diagnostic
+root. This internal traversal mode does not admit ancestor files/symlinks, sibling
+private state, credentials, debug, or any previously excluded leaf. Ordinary source
+and CLI scans and helper exit-log selection retain their original mode and policies.
+No new public export, dependency, user option, protocol, data/UI or second selection
+owner is added. Existing sanitization, retention, artifact order, ZIP lifetime,
+directory fallback and stage cleanup remain unchanged.
+
+```mermaid
+flowchart LR
+    Roots[Existing diagnostic roots] --> Stage[Sanitized approved members in temporary directory]
+    Stage --> Ancestors[Stage-only approved-root directory ancestors]
+    Ancestors --> Leaves[Same diagnostic leaf exclusions]
+    Leaves --> ZIP[Complete ZIP with CLI and helper diagnostics]
+    ZIP --> Cleanup[Existing stage retirement]
+```
+
+Only this failed case is run before/after the targeted fix under pinned Node24.14.0
+with the same injected ports and isolated test environment. Test/fixture bytes and
+all historical/golden/source records are preserved. Full tests, builds, types,
+lint and audits are not rerun in this narrowly delegated group. New own-lane
+evidence binds the prior failure, repaired production bytes, unchanged test/loader
+bytes and actual focused result. The source-exposed candidate remains a candidate;
+no new independent-source/old-accepted/MIT credit or global rights/list changes.
