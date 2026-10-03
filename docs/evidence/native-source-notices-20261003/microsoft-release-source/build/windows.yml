@@ -1,0 +1,68 @@
+# Based on https://github.com/BurntSushi/ripgrep/blob/master/appveyor.yml
+
+parameters:
+  target: ''
+  rust_version: 'ms-1.88'
+
+steps:
+- powershell: |
+    gci env:*
+    $REPO=node -p "require('./config.json').ripgrepRepo"
+    $TREEISH=node -p "require('./config.json').ripgrepTag"
+    git clone https://github.com/${REPO}.git
+    cd ripgrep
+    git checkout $TREEISH
+  displayName: Clone ripgrep
+
+- powershell: |
+    $patches = node -p "require('../config.json').patches" | ConvertFrom-Json
+    foreach ($patch in $patches) {
+      git apply --ignore-whitespace --ignore-space-change ../patches/$patch
+    }
+  workingDirectory: ripgrep
+  displayName: Apply patches
+  condition: succeeded()
+
+- task: RustInstaller@1
+  inputs:
+    rustVersion: ${{ parameters.rust_version }}
+    toolchainFeed: https://pkgs.dev.azure.com/monacotools/Monaco/_packaging/RustTools/nuget/v3/index.json
+    additionalTargets: ${{ parameters.target }}
+  displayName: Install Rust toolchain
+
+- task: CargoAuthenticate@0
+  inputs:
+    configFile: 'ripgrep/.cargo/config.toml'
+
+- powershell: |
+    # Leave out the /sdl flag because it causes errors in pcre2/src/pcre2_jit_compile.c to fail the build.
+    $env:CFLAGS = "$env:CFLAGS /guard:cf /Qspectre /W3"
+    cargo build --release --target $env:TARGET --features pcre2
+
+    cargo test --target $env:TARGET --release --verbose --all --features 'pcre2'
+
+    pushd ..
+    $this_tag=git tag -l --contains HEAD
+    popd
+
+    $name="ripgrep-${this_tag}-${env:TARGET}.zip"
+    dir
+    dir .\target
+    dir .\target\${env:TARGET}\release\rg.exe
+    Compress-Archive -Update -Path .\target\${env:TARGET}\release\rg.exe -DestinationPath $env:BUILD_ARTIFACTSTAGINGDIRECTORY\$name
+    echo "##vso[task.setvariable variable=Name]$name"
+  displayName: Build
+  workingDirectory: ripgrep
+  env:
+    TARGET: ${{ parameters.target }}
+  condition: succeeded()
+
+- task: 1ES.PublishPipelineArtifact@1
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    targetPath: $(Build.ArtifactStagingDirectory)/$(Name)
+    artifactName: $(Name)
+    sbomBuildDropPath: $(Build.ArtifactStagingDirectory)
+    sbomBuildComponentPath: $(Build.SourcesDirectory)/ripgrep
+    sbomPackageName: "ripgrep-prebuilt (${{ parameters.target }})"
+  condition: succeeded()
