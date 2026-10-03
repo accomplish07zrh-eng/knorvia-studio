@@ -511,3 +511,25 @@ actual Windows checked SHA/result. Other lanes' failures remain outside this
 allocation. Existing accepted/golden/history evidence, licenses, source-exposure
 disclosures and session/task-index HOLD decisions remain unchanged. No MIT/main
 readiness or historical emitted-target acceptance is asserted by these repairs.
+
+## Batch 10 — stop MIT-specific work; retain confirmed Apache source facts
+
+The same branch was fast-forwarded to main checkpoint
+`59517d9699519b0a7a44980da27df29d45f0e91e`. Before the user's new instruction, the
+five current owners and their available Git/spec/source history were read.
+Pinned public source retrieval matched the existing saved upstream SHA-256/blob
+bindings, including the renamed ZCode session/task-index paths. The retained
+[bounded source facts](evidence/services-five-owner-provenance-20261003/README.md)
+provide the exact paths and licence attribution; no origin/ownership acceptance
+is inferred from source exposure, changed hashes or earlier CI results.
+
+The user now explicitly keeps Apache-2.0. Stop additional MIT rewrites,
+contribution-rights questions and material closure. Protect the uncommitted
+reading materials and unused reader draft in the local archive named in the
+receipt. No product source, root LICENSE/README/NOTICE, third-party notices,
+global source register or historical HOLD/accepted record was changed.
+
+**UNVERIFIED in this phase:** no tests, lint, typecheck, build, full audit or CI
+rerun. The integrator owns the repository-wide Apache declaration and must retain
+applicable third-party obligations. This MIT-specific lane work is stopped; no
+new task or PR is created for the paused review.
