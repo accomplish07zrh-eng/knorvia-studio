@@ -1,4 +1,5 @@
 import type { ChildProcess } from "node:child_process";
+import { readLinuxProcessIdentity } from "#src/process/processTreeSnapshot.js";
 
 import type {
   ProcessIdentity,
@@ -38,6 +39,7 @@ export async function waitForProcessTreeTermination(
   const forceAfterMs = Math.max(options.forceAfterMs ?? 2000, 0);
   const waitAfterForceMs = Math.max(options.waitAfterForceMs ?? 250, 0);
   const isWindows = process.platform === "win32";
+  const isLinux = process.platform === "linux";
   const windowsTaskkillBudgetMs = hasWindowsTaskkillTargets
     ? Math.max(options.windowsTaskkillTimeoutMs ?? 2000, 1)
     : 0;
@@ -69,12 +71,34 @@ export async function waitForProcessTreeTermination(
       return child.exitCode !== null || child.signalCode !== null;
     }
 
-    function alive(pid: number): boolean {
+    function alive(pid: number, identity?: ProcessIdentity): boolean {
+      if (isLinux) {
+        const current = readLinuxProcessIdentity(pid);
+        if (current) {
+          if (
+            identity &&
+            (current.startTime !== identity.startTime ||
+              (identity.processGroupId !== undefined &&
+                current.processGroupId !== identity.processGroupId))
+          ) {
+            // 复用 PID／变更 PGID 已超出旧身份的清理范围，不能把新进程算作旧树残留。
+            return false;
+          }
+          // Z 已停止执行；父进程尚未 waitpid 时 PID 仍存在，kill(0) 不能证明它还在工作。
+          if (current.linuxState === "Z") return false;
+        }
+      }
       try {
         process.kill(pid, 0);
         return true;
-      } catch {
-        return false;
+      } catch (error) {
+        if (!isLinux) return false;
+        // stat 不可确认时仅 ESRCH 能证明消失；EPERM 或诊断读取失败必须保守保留。
+        try {
+          return (error as NodeJS.ErrnoException | undefined)?.code !== "ESRCH";
+        } catch {
+          return true;
+        }
       }
     }
 
@@ -106,7 +130,7 @@ export async function waitForProcessTreeTermination(
     }
 
     function settleIfTreeExited(): void {
-      const trackedAlive = tracked.some((identity) => alive(identity.pid));
+      const trackedAlive = tracked.some((identity) => alive(identity.pid, identity));
       const unverifiedRootAlive =
         unverifiedRootPid !== undefined && !childExited() && alive(unverifiedRootPid);
       if (trackedAlive || unverifiedRootAlive) return;
@@ -121,7 +145,7 @@ export async function waitForProcessTreeTermination(
 
     function collectRemaining(): number[] {
       const remainingPids = tracked
-        .filter((identity) => alive(identity.pid))
+        .filter((identity) => alive(identity.pid, identity))
         .map((identity) => identity.pid);
       if (unverifiedRootPid !== undefined && !childExited() && alive(unverifiedRootPid)) {
         remainingPids.push(unverifiedRootPid);

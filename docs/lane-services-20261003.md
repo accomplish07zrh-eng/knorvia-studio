@@ -600,3 +600,36 @@ predecessor source blobs. Review uses a new draft PR on the continuing branch;
 no merge into main. **UNVERIFIED:** typecheck, lint, root formatter check, build,
 architecture checker, full regression/audit, native Windows/macOS and complete
 product/source-rights acceptance. No CI rerun is requested as part of this batch.
+
+## Batch 13 — actual Linux zombie cleanup failure
+
+The original task/branch/PR20 continues for the UI lane's actual Host exit1.
+Read PR22 `e229f601267a5a41b37d0e25391a186215cf2c46`: remaining esbuild PID17570
+was state Z, PPid1; this cannot be attributed only to missing Agent artifacts.
+Merge integration `e23ea3328716cbb3e5109e3f2d0082aca46de200` as baseline through
+`a42727feb6cb41205eb49dd88dc20de4c86593c8`, without merging into main.
+
+Spec/initial oracles precede production changes. Repair commit
+`21bbcf1ea6fb807197914089494d366ba6c338ab` changes only snapshot, waiter and
+service-local identity types: retain Linux stat state, observe it afresh, verify
+ticks/PGID, complete current Z and conservatively retain inconclusive Linux
+probes except ESRCH. Reparented S stays active; reused PID/changed PGID remains
+outside old authority. Non-Linux probes, ownership/force scheduling and stdio's
+remaining-PID exception stay unchanged. The existing waiter fixture additionally
+closes proc reads for synthetic PID503 in
+`8a617e31126c1292adcc15f5566eb085d7119cc4`.
+
+The same final seven fixtures genuinely reproduce the defect before the fix
+(Node-reported 20 pass/13 fail, exit1) and pass afterward (33/33, exit0), on
+Node v24.14.0 Linux. Real test-owned unreaped and sleeping children distinguish
+zombie-only completion from a live remaining PID; the supervisor reaps both.
+PPid1/reuse/permission/platform boundaries are synthetic. Exact source/oracle
+bindings, protected history, original UI input and all raw logs are in the
+[cleanup receipt](evidence/services-linux-zombie-cleanup-20261003/README.md).
+
+**UNVERIFIED:** typecheck, lint, build/root format/architecture checks, full
+regression/audit, native Windows/macOS and actual full GUI/Host shutdown. No
+manual CI rerun or native error downgrade. Integrator owns current source
+registration and real GUI disposal reacceptance; Agent artifacts are a separate
+blocker. No shared interface request, UI/data mutation or historical licence/HOLD
+release; Apache and applicable third-party obligations remain.

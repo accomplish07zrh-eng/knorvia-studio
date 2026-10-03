@@ -112,12 +112,10 @@ function queryIdentities(options: ProcessTreeTerminatorOptions): ProcessIdentity
     : queryPosixIdentities(options);
 }
 
-function refineIdentity(identity: ProcessIdentity): ProcessIdentity | undefined {
-  if (process.platform !== "linux") {
-    return identity;
-  }
+export function readLinuxProcessIdentity(pid: number): ProcessIdentity | undefined {
+  if (process.platform !== "linux" || !isPositiveInteger(pid)) return undefined;
   try {
-    const stat = readFileSync(`/proc/${identity.pid}/stat`, "utf8");
+    const stat = readFileSync(`/proc/${pid}/stat`, "utf8");
     const closeParen = stat.lastIndexOf(")");
     if (closeParen < 0) {
       return undefined;
@@ -129,24 +127,39 @@ function refineIdentity(identity: ProcessIdentity): ProcessIdentity | undefined 
     const parentPid = Number(fields[1]);
     const processGroupId = Number(fields[2]);
     const ticks = fields[19];
+    const linuxState = fields[0];
     if (
       !isNonnegativeInteger(parentPid) ||
       !isPositiveInteger(processGroupId) ||
       !ticks ||
-      parentPid !== identity.parentPid ||
-      processGroupId !== identity.processGroupId
+      !/^\d+$/.test(ticks) ||
+      linuxState?.length !== 1
     ) {
       return undefined;
     }
     return {
-      ...identity,
+      pid,
       parentPid,
       processGroupId,
       startTime: `linux-ticks:${ticks}`,
+      linuxState,
     };
   } catch {
     return undefined;
   }
+}
+
+function refineIdentity(identity: ProcessIdentity): ProcessIdentity | undefined {
+  if (process.platform !== "linux") return identity;
+  const current = readLinuxProcessIdentity(identity.pid);
+  if (
+    !current ||
+    current.parentPid !== identity.parentPid ||
+    current.processGroupId !== identity.processGroupId
+  ) {
+    return undefined;
+  }
+  return { ...identity, ...current };
 }
 
 function refineIdentities(identities: readonly ProcessIdentity[]): ProcessIdentity[] {

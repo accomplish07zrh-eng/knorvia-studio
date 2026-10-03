@@ -1,0 +1,501 @@
+TAP version 13
+# (node:16600) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic stdio ports preserve frames, callback backpressure, cleanup deadlines and process authority
+ok 1 - synthetic stdio ports preserve frames, callback backpressure, cleanup deadlines and process authority
+  ---
+  duration_ms: 5.421381
+  type: 'test'
+  ...
+# (node:16612) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Linux completion uses current state and identity without concealing active processes
+    # Subtest: snapshot retains Linux state with exact ticks and group even when comm contains parentheses
+    not ok 1 - snapshot retains Linux state with exact ticks and group even when comm contains parentheses
+      ---
+      duration_ms: 4.037382
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:2994'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        undefined !== 'Z'
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 'Z'
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:121:18)
+        Test.runInAsyncScope (node:async_hooks:228:14)
+        Test.run (node:internal/test_runner/test:1118:25)
+        Test.start (node:internal/test_runner/test:1015:17)
+        TestContext.test (node:internal/test_runner/test:368:20)
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:112:13)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: current Z settles a zombie-only tree despite an existing PID
+    not ok 2 - current Z settles a zombie-only tree despite an existing PID
+      ---
+      duration_ms: 1.399171
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:3422'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + [
+        +   902
+        + ]
+        - []
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+      actual:
+        0: 902
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:130:14)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:127:5)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: PPid 1 with current Z keeps the ticks/PGID authority boundary
+    not ok 3 - PPid 1 with current Z keeps the ticks/PGID authority boundary
+      ---
+      duration_ms: 0.544257
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:3630'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + [
+        +   902
+        + ]
+        - []
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+      actual:
+        0: 902
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:140:18)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:134:7)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: PPid 1 with current S keeps the ticks/PGID authority boundary
+    ok 4 - PPid 1 with current S keeps the ticks/PGID authority boundary
+      ---
+      duration_ms: 0.272059
+      type: 'test'
+      ...
+    # Subtest: force-completion observes transition from working to Z
+    not ok 5 - force-completion observes transition from working to Z
+      ---
+      duration_ms: 0.483346
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:3880'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + [
+        +   902
+        + ]
+        - []
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+      actual:
+        0: 902
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:146:14)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:144:5)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: current R remains active even with cached Z
+    ok 6 - current R remains active even with cached Z
+      ---
+      duration_ms: 0.280862
+      type: 'test'
+      ...
+    # Subtest: current S remains active even with cached Z
+    ok 7 - current S remains active even with cached Z
+      ---
+      duration_ms: 3.405654
+      type: 'test'
+      ...
+    # Subtest: current D remains active even with cached Z
+    ok 8 - current D remains active even with cached Z
+      ---
+      duration_ms: 0.251838
+      type: 'test'
+      ...
+    # Subtest: current T remains active even with cached Z
+    ok 9 - current T remains active even with cached Z
+      ---
+      duration_ms: 0.228283
+      type: 'test'
+      ...
+    # Subtest: current t remains active even with cached Z
+    ok 10 - current t remains active even with cached Z
+      ---
+      duration_ms: 0.318228
+      type: 'test'
+      ...
+    # Subtest: current I remains active even with cached Z
+    ok 11 - current I remains active even with cached Z
+      ---
+      duration_ms: 0.229915
+      type: 'test'
+      ...
+    # Subtest: current ? remains active even with cached Z
+    ok 12 - current ? remains active even with cached Z
+      ---
+      duration_ms: 0.192098
+      type: 'test'
+      ...
+    # Subtest: a reused PID is outside the old ticks identity
+    not ok 13 - a reused PID is outside the old ticks identity
+      ---
+      duration_ms: 0.503325
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:4280'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + [
+        +   902
+        + ]
+        - []
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+      actual:
+        0: 902
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:165:14)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:162:5)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: a different PGID is outside the tracked group identity
+    not ok 14 - a different PGID is outside the tracked group identity
+      ---
+      duration_ms: 0.395915
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:4411'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + [
+        +   902
+        + ]
+        - []
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+      actual:
+        0: 902
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:170:14)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:167:5)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: malformed stat is inconclusive while signal-zero still succeeds
+    ok 15 - malformed stat is inconclusive while signal-zero still succeeds
+      ---
+      duration_ms: 0.192919
+      type: 'test'
+      ...
+    # Subtest: malformed stat is inconclusive while signal-zero still succeeds
+    ok 16 - malformed stat is inconclusive while signal-zero still succeeds
+      ---
+      duration_ms: 0.110255
+      type: 'test'
+      ...
+    # Subtest: malformed stat is inconclusive while signal-zero still succeeds
+    ok 17 - malformed stat is inconclusive while signal-zero still succeeds
+      ---
+      duration_ms: 0.102344
+      type: 'test'
+      ...
+    # Subtest: unreadable stat keeps a PID that still responds to signal-zero
+    ok 18 - unreadable stat keeps a PID that still responds to signal-zero
+      ---
+      duration_ms: 0.140521
+      type: 'test'
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    not ok 19 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.308703
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:5186'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + []
+        - [
+        -   902
+        - ]
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+        0: 902
+      actual:
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:202:16)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:198:7)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    not ok 20 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.201332
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:5186'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + []
+        - [
+        -   902
+        - ]
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+        0: 902
+      actual:
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:202:16)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:198:7)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    not ok 21 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.265099
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:5186'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + []
+        - [
+        -   902
+        - ]
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+        0: 902
+      actual:
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:202:16)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:198:7)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: an inconclusive Linux probe failure does not prove absence
+    not ok 22 - an inconclusive Linux probe failure does not prove absence
+      ---
+      duration_ms: 0.345378
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:5186'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + []
+        - [
+        -   902
+        - ]
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+        0: 902
+      actual:
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:202:16)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:198:7)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: ESRCH establishes absence when stat is unavailable
+    ok 23 - ESRCH establishes absence when stat is unavailable
+      ---
+      duration_ms: 0.143565
+      type: 'test'
+      ...
+    # Subtest: a current zombie-only unverified Linux root has stopped work
+    not ok 24 - a current zombie-only unverified Linux root has stopped work
+      ---
+      duration_ms: 0.240341
+      type: 'test'
+      location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:5663'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly deep-equal:
+        + actual - expected
+        
+        + [
+        +   901
+        + ]
+        - []
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected:
+      actual:
+        0: 901
+      operator: 'deepStrictEqual'
+      stack: |-
+        TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:214:14)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:211:5)
+        async Test.run (node:internal/test_runner/test:1125:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+      ...
+    # Subtest: darwin observation keeps existing semantics and never reads proc
+    ok 25 - darwin observation keeps existing semantics and never reads proc
+      ---
+      duration_ms: 0.175213
+      type: 'test'
+      ...
+    # Subtest: win32 observation keeps existing semantics and never reads proc
+    ok 26 - win32 observation keeps existing semantics and never reads proc
+      ---
+      duration_ms: 0.445509
+      type: 'test'
+      ...
+    1..26
+not ok 2 - Linux completion uses current state and identity without concealing active processes
+  ---
+  duration_ms: 27.165163
+  type: 'test'
+  location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-contract-20261003.test.ts:1:220'
+  failureType: 'subtestsFailed'
+  error: '11 subtests failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: isolated Linux unreaped child is complete while a real sleeping child stays remaining
+not ok 3 - isolated Linux unreaped child is complete while a real sleeping child stays remaining
+  ---
+  duration_ms: 45.204101
+  type: 'test'
+  location: '/workspace/knorvia-studio/packages/services/test/process-linux-zombie-isolated-20261003.test.ts:30:249'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+    +   remainingPids: [
+    +     16637
+    +   ]
+    -   remainingPids: []
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    remainingPids:
+  actual:
+    remainingPids:
+      0: 16637
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/process-linux-zombie-isolated-20261003.test.ts:131:12)
+    async Test.run (node:internal/test_runner/test:1125:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)
+  ...
+# {"kind":"test-owned-processes","root":16636,"zombie":{"parentPid":16636,"pid":16637,"processGroupId":16636,"startTime":"linux-ticks:2771030"},"live":{"parentPid":16636,"pid":16638,"processGroupId":16636,"startTime":"linux-ticks:2771030"},"actualState":"Z"}
+# (node:16640) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fake ownership ports reject reused root and prohibit discovery when authorization is absent
+ok 4 - fake ownership ports reject reused root and prohibit discovery when authorization is absent
+  ---
+  duration_ms: 1.234474
+  type: 'test'
+  ...
+# (node:16652) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic snapshots deny missing or reused root identities and avoid unrelated proc reads
+ok 5 - synthetic snapshots deny missing or reused root identities and avoid unrelated proc reads
+  ---
+  duration_ms: 7.677578
+  type: 'test'
+  ...
+# (node:16664) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic termination preserves PID permissions, force containment and unavailable cleanup
+ok 6 - synthetic termination preserves PID permissions, force containment and unavailable cleanup
+  ---
+  duration_ms: 19.281719
+  type: 'test'
+  ...
+# (node:16676) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic waiter replaces stale identities and performs only signal-zero observations
+ok 7 - synthetic waiter replaces stale identities and performs only signal-zero observations
+  ---
+  duration_ms: 6.785684
+  type: 'test'
+  ...
+1..7
+# tests 33
+# suites 0
+# pass 20
+# fail 13
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1105.911954

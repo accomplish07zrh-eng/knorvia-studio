@@ -1,0 +1,185 @@
+{
+  "date": "2026-10-03",
+  "repository": "accomplish07zrh-eng/knorvia-studio",
+  "branch": "lane/services-20261003",
+  "integrationInput": "e23ea3328716cbb3e5109e3f2d0082aca46de200",
+  "syncedMerge": "a42727feb6cb41205eb49dd88dc20de4c86593c8",
+  "specFirstCommit": "e4e5fb4a590272b237b88c1a79f0937a377b55e7",
+  "initialOracleCommit": "5c3d29873ba6f0f334569cb3518a8c47377013a4",
+  "reparentedOracleCommit": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+  "checkedProductionCommit": "21bbcf1ea6fb807197914089494d366ba6c338ab",
+  "finalFrozenFixtureCommit": "8a617e31126c1292adcc15f5566eb085d7119cc4",
+  "reportedGuiInputs": [
+    {
+      "originalPath": "docs/evidence/backlog-ui-20261003/gui-acceptance/cross-module-handoff.md",
+      "retainedCopy": "reported-cross-module-handoff.md",
+      "commit": "e229f601267a5a41b37d0e25391a186215cf2c46",
+      "gitBlob": "207372ee90e956f5a0e9eb6ee5a246624b436285",
+      "sha256": "97689aad77690751301813af746cb7c156dc42e9cdcb431b9fc8b778e24fc311",
+      "bytes": 6480,
+      "lines": 78
+    },
+    {
+      "originalPath": "docs/evidence/backlog-ui-20261003/gui-acceptance/shutdown-failure.json",
+      "retainedCopy": "reported-shutdown-failure.json",
+      "commit": "e229f601267a5a41b37d0e25391a186215cf2c46",
+      "gitBlob": "96129857e409492b1b282daf07b205f6fb5631f5",
+      "sha256": "a8ae9bb0302a2bc82aedeb2c7b01f9f21c85155733679bbb95f9ed78258afe6b",
+      "bytes": 296,
+      "lines": 11
+    }
+  ],
+  "changedProductionFiles": [
+    {
+      "path": "packages/services/src/process/processTreeSnapshot.ts",
+      "preFix": {
+        "commit": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+        "gitBlob": "cf14b7bf5ba79be6377b58523245732bfb9890ed",
+        "sha256": "ed489b767eacfe66e92d53aeda3d550a1eb621cd0fc6af5b850acaf60897cef6",
+        "bytes": 9472,
+        "lines": 302
+      },
+      "fixed": {
+        "commit": "21bbcf1ea6fb807197914089494d366ba6c338ab",
+        "gitBlob": "d42158808cdeea1b879671acb38148be5707ec3e",
+        "sha256": "3a61005b31b7749737c00504308f395604772a34fe08b790998eebc828f957d1",
+        "bytes": 9890,
+        "lines": 315
+      }
+    },
+    {
+      "path": "packages/services/src/process/processTreeWaiter.ts",
+      "preFix": {
+        "commit": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+        "gitBlob": "93b84eeed800f282a746b4a4ea846a5511473449",
+        "sha256": "665d91481e736a34c764a90ab5d79a8aa2b25686d46164dd23fd32e83cc2b56d",
+        "bytes": 7391,
+        "lines": 211
+      },
+      "fixed": {
+        "commit": "21bbcf1ea6fb807197914089494d366ba6c338ab",
+        "gitBlob": "c9761a66a40583c13ae457ff0dc7b3d2f2357b15",
+        "sha256": "752d3a5e26f818a38383e74376c8143db49870cc4b4c4dd9ce03252fa111ea60",
+        "bytes": 8521,
+        "lines": 235
+      }
+    },
+    {
+      "path": "packages/services/src/process/processTreeTypes.ts",
+      "preFix": {
+        "commit": "000804e56c1fe570954d4eb35401e564e0c90a7e",
+        "gitBlob": "d4552761197ea20aefd02348567104a2b86c7004",
+        "sha256": "4f4a9beb1453087503e1e155adbcc97fa78ee1e74ca63fb7d991fd1ee69bc942",
+        "bytes": 2503,
+        "lines": 72
+      },
+      "fixed": {
+        "commit": "21bbcf1ea6fb807197914089494d366ba6c338ab",
+        "gitBlob": "640daa5fc9e02b64479683e5084eef4d1151d184",
+        "sha256": "959d80bb6b62ed9b6feeb383fb877b7d5d535bdb70ffe06f33810407173f0d22",
+        "bytes": 2635,
+        "lines": 74
+      }
+    }
+  ],
+  "protectedBindings": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "gitBlob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "723b7a199da9de1700060e06ecb2acb66e9067ee82a92ee16eda16fb0727c121",
+      "gitBlob": "9f62781f90ce2d2009cf18859b419cda13500c42",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd",
+      "gitBlob": "2ae93a249ca4996b7dfc2e9006d7fbf112b72f42",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "460beae13daaadfdacb3175804bbb04d0372324588dd549b52207d74faa1444e",
+      "gitBlob": "f7081a94aae40b775c5ee33179c0b5930d1e1ebc",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "licensing/frozen-evidence.json",
+      "sha256": "4a59656bdbad969c33acbeedd93908d453b52f20629a824e98b8b9c7a843cd2c",
+      "gitBlob": "498b649be7276587ceb3d21ee4f8815a59eb072f",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/agent/stdioTransport.ts",
+      "sha256": "c6fde535c47a3764c3c0bb0c22400f114504d1d6fff0eed99b7729fe3656de7c",
+      "gitBlob": "53a6660551e381b68ee6fb0c4f2a2f29d6b04ff0",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/process/processTreeOwnership.ts",
+      "sha256": "317d164711846cb34b133e13561a67652a718017a262cdbf7a7129abcd8b0b65",
+      "gitBlob": "cb94afd8a21a5249095127e5f2fa59c99c89227e",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/process/processTreeTerminator.ts",
+      "sha256": "01e42b5bc41a05e5fc3392dade11d5ee1316317b394d9ae536cb5732777a625c",
+      "gitBlob": "dd8ae25c7ced57981612644744c176df9dfe180a",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/process/processTreeSnapshotAsync.ts",
+      "sha256": "b56bf352935593da480356009ca2e8ccf518ad3927fc966866f52c67f0fa404a",
+      "gitBlob": "b04e2ec520e611e0908efa6a5fa723f90f022ba7",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/process/FINAL-OWNERS-AUTHOR-RECEIPTS-20261002.json",
+      "sha256": "d833d11eaa33b5d01de91d93cf016c71f4e406487c7fa8911e4bba2049f316ad",
+      "gitBlob": "c403ca3c945e12b7a0b8d65b4b67c7b62c368624",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/process/OBSERVATION-AUTHOR-RECEIPTS-20261002.json",
+      "sha256": "8fe415f983ac1b579636544ec1eaa98c807e44a556459a58c517669a21b2efba",
+      "gitBlob": "5a68b94862459a3abac3025dedbf6ab6a850b1e6",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/docs/NEXT-SERVICES-OWNER-HOLD-20261003.json",
+      "sha256": "cb514009ac711d772561d95d15c0e715af70100f53e6ec05cf5a58285f0517fd",
+      "gitBlob": "29fde53753864dfe91215c3784ad018357528690",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "sha256": "e6cd13e66954b5ea9e2cc69b63063acb6f9774ffdd1f91ac5566cc534e238329",
+      "gitBlob": "81a7b4ef362d1eaf36917d8922f4a763e040d29b",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+      "sha256": "b2eea7673a291a03efb1810a1179ced090b132c441c00afd9f867bea793517a4",
+      "gitBlob": "8e96d1addaafa49ad331f16aa196c95777907028",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+      "sha256": "e330262f06f42ab6434b03cbc67e6a60a580db78958063f4b40643c9ccdadfdb",
+      "gitBlob": "441ab24c5f62b53b97c3b6d47a1b69acfd8b0a1e",
+      "unchangedFromSyncedBase": true
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "sha256": "4ccbfc056d97eafbb09fff1f017b8302e7d839c9a8993d9ab7c5542dd7d91220",
+      "gitBlob": "23ddb041c84881492c186ed28053624e8b240667",
+      "unchangedFromSyncedBase": true
+    }
+  ],
+  "remainingBoundary": "The existing stdio remaining-PID exception, authority/force/retry logic and non-Linux probes remain. Current Linux Z is execution-complete. PID/ticks or group mismatch is outside old ownership, not a claim the new process died. Inconclusive Linux stat/probe stays remaining unless ESRCH.",
+  "registrationDecision": "Integrator owns current source registration for the three changed source files, two new fixtures, the modified waiter fixture and spec. Applicable Apache/third-party declarations and historical source/HOLD records remain. No legal-originality, MIT or full GUI/native acceptance claim."
+}

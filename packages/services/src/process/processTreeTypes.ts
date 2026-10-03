@@ -46,6 +46,8 @@ export interface ProcessIdentity {
   pid: number;
   processGroupId?: number;
   startTime: string;
+  /** Linux /proc stat 的观测状态；不参与身份 key，不能以旧快照判定当前已退出。 */
+  linuxState?: string;
 }
 
 export interface ProcessTreeOwnershipResolution {
