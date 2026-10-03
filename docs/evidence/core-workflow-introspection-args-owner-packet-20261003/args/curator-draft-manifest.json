@@ -1,0 +1,24 @@
+{
+  "scope": "args",
+  "files": [
+    {
+      "file": "args.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+      "bytes": 2651,
+      "lines": 98,
+      "sha256": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/args.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 15468,
+      "lines": 326,
+      "sha256": "cfd6249e07be0dde38cfd5e9196a9dff330c465c19059d414823a25de9fdb031",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole complete original source/full receipt frozen and committed before any body review; detached receipt selfdigest, original schema/validation/default/native lookup/prose retained, source-exposed curator/history/self-report/instruction-only/no OS audit/no grant qualifications retained."
+}
