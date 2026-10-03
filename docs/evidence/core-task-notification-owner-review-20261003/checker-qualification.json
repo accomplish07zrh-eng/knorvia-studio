@@ -1,0 +1,5 @@
+{
+  "staticGuard": "Initial verifier did not normalize author read_sha256/read_bytes/read_count or inherit a source path into own current/read_events records. All actual input/source hashes and public API/import/outside comparisons matched; false receipt matches retained. Corrected only metadata traversal, no author/source/receipt change.",
+  "minimumHarness": "Initial CommonJS harness declared module top-level reserved binding; parse failed before candidate execution. Full original harness, empty stdout and failure recorded. Renamed authorModule; no author source change. Follow-up parse of empty stdout failed JSONDecodeError, not a candidate result.",
+  "priorExtractorFailure": "CommonJS exports reserved binding parse failure remains in packet. These are curator script failures, no author runtime failure or progress credit."
+}

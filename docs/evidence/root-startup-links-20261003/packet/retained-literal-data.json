@@ -1,0 +1,236 @@
+{
+  "packages/desktop/src/main/startupWorkspace.ts": [
+    {
+      "kind": "text",
+      "text": "node:fs"
+    },
+    {
+      "kind": "text",
+      "text": "node:fs/promises"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "kind": "text",
+      "text": "utf-8"
+    },
+    {
+      "kind": "text",
+      "text": "[startup-workspace] invalid settings file, falling back to default workspace:"
+    },
+    {
+      "kind": "text",
+      "text": "lastWorkspaceSession"
+    },
+    {
+      "kind": "text",
+      "text": "recentProjects"
+    },
+    {
+      "kind": "text",
+      "text": "project"
+    },
+    {
+      "kind": "text",
+      "text": "local"
+    },
+    {
+      "kind": "text",
+      "text": "[startup-workspace] active local workspace unavailable; using read-only restore:"
+    },
+    {
+      "kind": "text",
+      "text": "local"
+    },
+    {
+      "kind": "text",
+      "text": "[startup-workspace] using conversation workspace:"
+    },
+    {
+      "kind": "text",
+      "text": "conversation"
+    }
+  ],
+  "packages/desktop/src/main/desktopWorkspaceDeepLink.ts": [
+    {
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "kind": "text",
+      "text": "node:fs"
+    },
+    {
+      "kind": "text",
+      "text": "node:path"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "kind": "text",
+      "text": "./desktopDeepLinkUrl.js"
+    },
+    {
+      "kind": "text",
+      "text": "./desktopEarlyDataBaseDirBootstrap.js"
+    },
+    {
+      "kind": "text",
+      "text": "darwin"
+    },
+    {
+      "kind": "text",
+      "text": "\u0000"
+    },
+    {
+      "kind": "text",
+      "text": "\\"
+    },
+    {
+      "kind": "text",
+      "text": "\\\\"
+    },
+    {
+      "kind": "text",
+      "text": "zh-CN"
+    },
+    {
+      "kind": "text",
+      "text": "打开文件夹"
+    },
+    {
+      "kind": "text",
+      "text": "取消"
+    },
+    {
+      "kind": "text",
+      "text": "打开外部 Knorvia Studio 链接？"
+    },
+    {
+      "kind": "text",
+      "text": "是否在 Knorvia Studio 中打开此文件夹？"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "path",
+          "text": "\n\n只打开你信任来源的文件夹。项目设置可能影响 agent runtime。"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "Open folder"
+    },
+    {
+      "kind": "text",
+      "text": "Cancel"
+    },
+    {
+      "kind": "text",
+      "text": "Open external Knorvia Studio link?"
+    },
+    {
+      "kind": "text",
+      "text": "Open this folder in Knorvia Studio?"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "path",
+          "text": "\n\nOnly open folders from sources you trust. Project settings may affect the agent runtime."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "en-US"
+    },
+    {
+      "kind": "text",
+      "text": "warning"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] 用户取消打开外部链接工作区"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] 打开工作区路径无效，已忽略"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] 工作区打开请求命中未就绪窗口，先缓存等待 renderer ready"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] 工作区打开请求路由成功"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] 工作区打开请求暂未命中窗口，已忽略"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] 工作区打开请求暂未命中窗口，先缓存等待 renderer ready"
+    },
+    {
+      "kind": "text",
+      "text": "knorvia-studio"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] Knorvia protocol registration failed"
+    }
+  ],
+  "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts": [
+    {
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "kind": "text",
+      "text": "./desktopWorkspaceDeepLink.js"
+    },
+    {
+      "kind": "text",
+      "text": "./startupWorkspace.js"
+    },
+    {
+      "kind": "text",
+      "text": "open-workspace-arg"
+    },
+    {
+      "kind": "text",
+      "text": "deep-link"
+    },
+    {
+      "kind": "text",
+      "text": "deep-link"
+    },
+    {
+      "kind": "text",
+      "text": "deep-link"
+    },
+    {
+      "kind": "text",
+      "text": "[deep-link] 网络工作区路径已拒绝"
+    },
+    {
+      "kind": "text",
+      "text": "[startup-workspace] open-workspace argv invalid, falling back"
+    },
+    {
+      "kind": "text",
+      "text": "[startup-workspace] using explicit open workspace:"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+  "imports": [
+    {
+      "module": "../../agent/message-history.js",
+      "clause": "{\n  legacySyntheticRuntimeMetadata,\n  systemReminderRuntimeMetadata,\n  todoReminderRuntimeMetadata,\n  isRuntimeAttachmentEntry,\n  type RuntimeMessageEntry,\n  type RuntimeMessageMetadata,\n}",
+      "text": "import {\n  legacySyntheticRuntimeMetadata,\n  systemReminderRuntimeMetadata,\n  todoReminderRuntimeMetadata,\n  isRuntimeAttachmentEntry,\n  type RuntimeMessageEntry,\n  type RuntimeMessageMetadata,\n} from \"../../agent/message-history.js\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "type {\n  CollaborationMode,\n  OutputStylePromptConfig,\n  SyntheticUserMessageSource,\n  TodoItem,\n}",
+      "text": "import type {\n  CollaborationMode,\n  OutputStylePromptConfig,\n  SyntheticUserMessageSource,\n  TodoItem,\n} from \"../deps.js\";"
+    },
+    {
+      "module": "@knorvia/contracts",
+      "clause": "{ ASK_USER_QUESTION_TOOL_NAME, EXIT_PLAN_MODE_TOOL_NAME }",
+      "text": "import { ASK_USER_QUESTION_TOOL_NAME, EXIT_PLAN_MODE_TOOL_NAME } from \"@knorvia/contracts\";"
+    },
+    {
+      "module": "../../subagent/explore.js",
+      "clause": "{ EXPLORE_AGENT_TYPE }",
+      "text": "import { EXPLORE_AGENT_TYPE } from \"../../subagent/explore.js\";"
+    }
+  ],
+  "reexports": []
+}

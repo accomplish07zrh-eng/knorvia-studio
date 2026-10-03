@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "originalCheckpoint": "9ef73347bd15d999cb02d2b5358556f2ea4c5478",
+  "currentCandidatePayloadSha256": "eaffe0936dcf47a439bc140c1ebc7977e67b43e6678906c4a4206d4a40c7fb65",
+  "rootIntegratedFiles": [
+    {
+      "path": "docs/knorvia-terminal-lifecycle-monitor-fast-handoff-20261001.md",
+      "sha256": "80b616b185b01195ae8c9ac9d2fc7e142aa049940ccee786474dde342aa24c06",
+      "blob": "4301951900b16b797104163c062c8d1b5227d449"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+      "sha256": "b1b0e4c98eb800e845a0d2fe71d522bf877fa909e1124b23003cf7419c37d39e",
+      "blob": "85e48f02136292faaea29129c32657c8a1a4f56d"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchivePolicy.ts",
+      "sha256": "7b8a7a6e0fea314c37a20702d306b416072aaa5d9a28971b7b263b580fa7c509",
+      "blob": "2157d7423317bf4b8d854147a7f00df26d7b9623"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+      "sha256": "b9c7ec24e7f02562066fb76a7b47e5cf387cbdc49a579afea966edef7288974c",
+      "blob": "8d8e03f627bc9a31c481ac6dc68f8aa0849c593b"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+      "sha256": "a056f81444db856597f7872a01b98014523488c3ac90ec79c984b9fc69a4d34a",
+      "blob": "43094816005233b4f70ea3da89d332c4a1532aaf"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcher.ts",
+      "sha256": "54c14389ba3c3a13d5e9e11b5b967cec4d57768adb0e85fe59d63d027ea24bac",
+      "blob": "e3372d11c0e5efdd8b3f26a28438cde0d2a2f96a"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherBatch.ts",
+      "sha256": "4e715e853724e7162c3d384bff2f5326095ebf21c3ede1a991a4192260ac10ea",
+      "blob": "e119d15f891f5318c855b7d30351972033e19b58"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherRuntime.ts",
+      "sha256": "a1ff8ae6056a6890baf033b22c24a04cb6a4a6662a2fc822e4f503cd82b7c37a",
+      "blob": "88d14acbb813836505b4d5afd28dfbd67d4f9cad"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherService.ts",
+      "sha256": "6a874c651b6d0421206ae34973c09d75eb5d537e51158f1afeccd5e1665ecaf7",
+      "blob": "33ae8f53f440f57cab10b8d77642ee8b2ff8ebbb"
+    },
+    {
+      "path": "packages/services/src/terminal/terminal.ts",
+      "sha256": "f840b36586ad17b93dd5fca7f411686d345127340c869e022cf558d05ea7f76c",
+      "blob": "f7188f1f253ed26109ba339615e068261d03f994"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfile.ts",
+      "sha256": "477f44cd9d1e27cbaa10fb939e047f53c6256bd6b6a9092229c45ae1c79d41f1",
+      "blob": "d923a44170c2c96e619cc2ac396a7fad55b69239"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+      "sha256": "703f953469e223bd409671d686776518b64fb6e70170918bc1884aeedd13fd52",
+      "blob": "3e46c5a3fdab6516e91a453ba460c2bb1b510c34"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
+      "sha256": "a54ac244a4264bb01ff12a1752139452adc2eda44db9f71a58de249ddd8d685d",
+      "blob": "95dfa550926937d9a9452c4704e2781e53dd02c8"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOsPlist.ts",
+      "sha256": "c16279d4cd983328c2dc8c7dcce91e07df4741593b01fde68c38b8924c5ed364",
+      "blob": "38c9344b9e3b010cea2894d285819ec11e2c3ea9"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfilePortableFormats.ts",
+      "sha256": "e507c2aaf2107fa7a84fd9859a3c68a168df64206c2db2e196c4a2dda98a7e71",
+      "blob": "ac8fc7171dad55b05f0e7d5e85334db673f5b95f"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfilePortablePlan.ts",
+      "sha256": "8ca6cd2923494f543769f583aded227c46ee9988fb092a35ab7c7f65c43c02c4",
+      "blob": "19f03959506f06179e11c5f943be57a0340630b7"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfilePortableRead.ts",
+      "sha256": "bdbcca134ffb604a2cb55a16a4f3cbddce0e6e2da576aa05fc7ab0f52a0a7570",
+      "blob": "3628ac0652a0b70e1e8495e38ef56b6d2eab69dc"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileTypes.ts",
+      "sha256": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b",
+      "blob": "c4218bf29ff3415c5e32d8863f1e6bf629fba607"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalService.ts",
+      "sha256": "965a6d2c2497f774949d2d8ba907b819de0b9d17cca1e5ff8f39c9725d93ec58",
+      "blob": "a403702908e4fe11e6ac17ea3125ab9c9f0bac95"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalServiceInstanceOwner.ts",
+      "sha256": "cdbc250649be8a8b91589e0c0d2e0db39f05a171b6da0c37520649a7fc829c96",
+      "blob": "b07b3954d48078abe1c0b5412e935c866ea44dff"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalServiceLaunchPlan.ts",
+      "sha256": "5c86f0ea5295a519e808a53734eca2e88999dcc961caf2a8e2fff1811338ba4d",
+      "blob": "02bed45873a6bb9058ef59fd7c61aa3377ac3dc2"
+    },
+    {
+      "path": "packages/services/test/feedback-archive-consumer-fast-20261001.test.ts",
+      "sha256": "188574221d7dd574e92a37c61a98716786a0b8c848194e4bdf084addfc451cb3",
+      "blob": "803b3bd2c2699af196676c2c9d259f1ef761ba56"
+    },
+    {
+      "path": "packages/services/test/feedback-archive-contract-fast-20261001.test.ts",
+      "sha256": "41fc902381e31155baf5bea44fd0d6709d95fa0a3b4c5192fc94365a18b8ece3",
+      "blob": "4aea8a65d39d71fc4489a976ad14d11b316a0717"
+    },
+    {
+      "path": "packages/services/test/feedback-archive-emitted-register-fast-20261001.mjs",
+      "sha256": "ee734b33b19b4e656f4dc0cd5ed29a749ea482ac3e8a6325b7187c0d95b90bd5",
+      "blob": "3649fe025baee04b4ce445a9572ba1d672cd06ae"
+    },
+    {
+      "path": "packages/services/test/feedback-archive-fixtures-fast-20261001.ts",
+      "sha256": "32ca6d423996c7023a88a93e982eb833c91c98ecca39637e19bb969519ece561",
+      "blob": "7e17531398f33661e3b3489b526c66f1dcf63e7e"
+    },
+    {
+      "path": "packages/services/test/feedback-archive-io-contract-fast-20261001.test.ts",
+      "sha256": "9f9c8aa6cb09963e3c0f15a996ff30f99dc25005a7631a0307c0024f8bf59efd",
+      "blob": "e8e8ee30146e6e240bb4c827c6eaa2b4865bf4bb"
+    },
+    {
+      "path": "packages/services/test/file-watcher-contract-fast-20261001.test.ts",
+      "sha256": "1866b16a8a8eebea99c8736cffdff176d3a392db5d7911f31db34d85691f0b86",
+      "blob": "61f3f253891ee9d64fb618246d9feeecb03df57c"
+    },
+    {
+      "path": "packages/services/test/file-watcher-emitted-register-fast-20261001.mjs",
+      "sha256": "defbc59e00b28178cf3b55d860a5a41be5cd381160b031fbd5119a66ba58a48f",
+      "blob": "4443d539dbca0823531685b08151f77ff0e58939"
+    },
+    {
+      "path": "packages/services/test/file-watcher-native-fast-20261001.test.ts",
+      "sha256": "ff6336951e07cc9064e364dc691414cffd9d6bf5ebc7b530ee2de326ea23e2d1",
+      "blob": "eeb0b7e9c895c60a98336e1c290df68ce7b5874c"
+    },
+    {
+      "path": "packages/services/test/file-watcher-ports-fast-20261001.test.ts",
+      "sha256": "4269ee2c27ef8cfaa94393c4b9f6b169b5369fa11c7a65d08957c8a47912ae9f",
+      "blob": "9c6ddf75ebde2d7a920242737651eb48db843f50"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-admission-fast-20261001.test.ts",
+      "sha256": "7383f42ca961dec8b9e9c73fe982f281e88c85a4643de30385deacef9a719b1a",
+      "blob": "955609ede8918ce0da68f4585bfa3f960f7297d9"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-contract-fast-20261001.test.ts",
+      "sha256": "5a3037406121cb787343aee71504e19c6e086f921e1730065afe0412432c6b07",
+      "blob": "638428d1acca11f190e7a77e1df4f77358c323a9"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-corrective-fast-20261001.test.ts",
+      "sha256": "9ffee5b2872c151582bc8e0466b2f4a46abe2e21c64d20b64db5eab90d2ecae5",
+      "blob": "69c4664214fd78cda11146dea8c7f211434f1e8a"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-fixture-fast-20261001.ts",
+      "sha256": "50e22519e197cee73f4c03395128ead7bcca97b99cb24cbbb4bc13a3e349704c",
+      "blob": "e4f3e5e01cdf15a635d71197be53de7a9ed6c533"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-monitor-fast-20261001.test.ts",
+      "sha256": "5cf3b09dc3b9025d9def3964bb685e683e56a54735bbb88aadf5ac0e2ed34bc6",
+      "blob": "7283e8293c0c48a8ffc77d02ff6decd1b0792643"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-monitor-ports-fast-20261001.ts",
+      "sha256": "3a55ca3dafccf9e206af3547ad92a8b86535fe9a5743e72cadd60b8db26fed23",
+      "blob": "0b505d390432d32864263ae8c7fc1308849d9b24"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-monitor-rpc-fast-20261001.test.ts",
+      "sha256": "36b37a84ee54512603239d42aaa813111081fb86900597a9a29072b5be0f1181",
+      "blob": "8e977660e9b6cfa96eabd4df6537f4dbc6f214ea"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-rpc-fast-20261001.test.ts",
+      "sha256": "d3de9312543ae3d08688d5f5f005250dd2394de9c922970625d7a11a2a43330a",
+      "blob": "81d28cd58582e18409743f783932b1bbf9afe715"
+    },
+    {
+      "path": "packages/services/test/terminal-profile-macos-consumer-fast-20261001.test.ts",
+      "sha256": "0fe1e7e7867331e36615c1e6054f103347b48c43231247d3f4991b6100a55ccb",
+      "blob": "36bb06f3cc7d3316fde9b6f5a59290bf5c3cc54c"
+    },
+    {
+      "path": "packages/services/test/terminal-profile-macos-contract-fast-20261001.test.ts",
+      "sha256": "0117a1f0a83539d04196515abcb50156b0d98e4edc89b2b245044cf97fc37e8d",
+      "blob": "a81d3bdbab7688edee82b9ce0f1917d46b7fe52b"
+    },
+    {
+      "path": "packages/services/test/terminal-profile-portable-consumer-fast-20261001.test.ts",
+      "sha256": "ee4f9dc1ad1ff68d9895d325f952d6cd9177f1601c65e5378aaa91c84290d870",
+      "blob": "1271a37836ce51b6a3c5578a91e5babe40f95506"
+    },
+    {
+      "path": "packages/services/test/terminal-profile-portable-contract-fast-20261001.test.ts",
+      "sha256": "89d4c4176ba292dfa269abb5b60ecfe3a8f86108bb06698e3b79845eddb60820",
+      "blob": "4071d98ace6044d08a0b77284e104af61cc8603e"
+    },
+    {
+      "path": "packages/services/test/terminal-profile-portable-emitted-register-fast-20261001.mjs",
+      "sha256": "0f9b24b8fbca547eef92d6c6e6f5b2cc818ba3398188588b91592abc829260af",
+      "blob": "fd0c9232b82dcee735d2ce47c35959f7975969c1"
+    },
+    {
+      "path": "packages/services/test/terminal-profile-portable-native-fast-20261001.test.ts",
+      "sha256": "32ba554f9294710e557bdee6bb79061f916b6e1869baee4f846752dfb1e938c9",
+      "blob": "65d56764014f21b5e5fd41a8d79aa662c8becf38"
+    },
+    {
+      "path": "packages/services/test/terminal-service-planning-consumer-fast-20261001.test.ts",
+      "sha256": "a5012d5c0b7a420bc213e0560a35451caf4610ca7c59827a29f90f11e7bd8d49",
+      "blob": "80532106cd9bf5c5b1f63b9ad2b9745bb3c18970"
+    },
+    {
+      "path": "packages/services/test/terminal-service-planning-helper-guard-fast-20261001.test.ts",
+      "sha256": "48a53d9b55e8e8ea7378cb5a376fd72046523e4df031e59c7d24feba5ccc63ce",
+      "blob": "1bf7119ca0b2af1602997e9880b31591bb170f52"
+    },
+    {
+      "path": "specs/knorvia-feedback-archive-fast-20261001.md",
+      "sha256": "faa3d045424e728fbe769653d2a0aabea79263c54b277c5f394ef9a63facad8c",
+      "blob": "835b6ba46f12109b8f71d9adf45dca37f8800c4a"
+    },
+    {
+      "path": "specs/knorvia-file-watcher-fast-20261001.md",
+      "sha256": "7df8a9afb49aa31f3e1218a77fc1f79dc5a5217be771950abd9c78febc1c990a",
+      "blob": "4628e84a0163d5f44a41a96e456e548ac2363db6"
+    },
+    {
+      "path": "specs/knorvia-terminal-lifecycle-admission-fast-20261001.md",
+      "sha256": "d5c57605bda6e0c7af727502f6e8d7276e1f3c4cd5844bc4a29f4c28188ffacd",
+      "blob": "eb65efc63c88a78aa2d837aa38f13498553a7390"
+    },
+    {
+      "path": "specs/knorvia-terminal-lifecycle-corrective-fast-20261001.md",
+      "sha256": "fcefd9a04102094ca5c2435b3cc48f5738f698b456a82bd2bf7dbb482f0e37a9",
+      "blob": "e2bb04a429ac58587b6d56b88236c98bc107086d"
+    },
+    {
+      "path": "specs/knorvia-terminal-lifecycle-fast-20261001.md",
+      "sha256": "7400d395c7db9f42426491f55df6bd5e722886e1eb10dbebb129d40e117433da",
+      "blob": "f2f5843c956678dc9deb2ac7fb9b4cdc98200bd1"
+    },
+    {
+      "path": "specs/knorvia-terminal-lifecycle-monitor-fast-20261001.md",
+      "sha256": "8b0a24a31f944e8f6ff2dcfc93138d8fecd1f3d390a0e14241c730e4f38852cb",
+      "blob": "ea88591d583e5604c359e51af2ec1424c72e5a94"
+    },
+    {
+      "path": "specs/knorvia-terminal-profile-macos-fast-20261001.md",
+      "sha256": "77c27f7f0d164ea3ac506c33e59cbcefbb09ec4a77515dea96694b2d32700566",
+      "blob": "6b3a987c51648c7b5c39163addde20f72680cf22"
+    },
+    {
+      "path": "specs/knorvia-terminal-profile-portable-fast-20261001.md",
+      "sha256": "ce24009e439c4e3b215612c195ca85d3ac0c33d1cc83c994376713cef326ed1f",
+      "blob": "67b72f945fa07bffc4b8bfa257b61059a562f417"
+    },
+    {
+      "path": "specs/knorvia-terminal-service-planning-fast-20261001.md",
+      "sha256": "559ff5c3020b366d09f09916dbee86b07e9a2ac391ce47ef82a1bdea3d87c639",
+      "blob": "fa2f596c2ba5f89ac18d50dc5495d7a7a6401aee"
+    },
+    {
+      "path": "packages/services/test/terminal-lifecycle-monitor-retry-order-fast-20261001.test.ts",
+      "sha256": "73f6cd6d97c01fa86c7b43e8d6f314efb22c3d24b6946d286967e1d8cd8be275",
+      "blob": "038448e2136a80c81196fc329e2cc02c389f3461"
+    },
+    {
+      "path": "specs/knorvia-terminal-lifecycle-monitor-retry-order-fast-20261001.md",
+      "sha256": "cee5cc8cce890b44b6fe023440c62936239d9094decea51d94f07ac658f53dac",
+      "blob": "514431dbba206b3ce57d15f0b6316b4faebc432d"
+    }
+  ],
+  "rootContainedInstalledArtifacts": [
+    {
+      "path": "node_modules/node-pty/package.json",
+      "sha256": "f8b6a14f7022c14f1cd5d109486f5dacd32bffb63a9a63e38eced37dacb47439",
+      "normalizedSha256": "f8b6a14f7022c14f1cd5d109486f5dacd32bffb63a9a63e38eced37dacb47439",
+      "encoding": "utf8-lf",
+      "bytes": 1615
+    },
+    {
+      "path": "node_modules/node-pty/lib/windowsPtyAgent.js",
+      "sha256": "8636d16b38266112204061a22b135734177c242837982fd3a4055be726efa64a",
+      "normalizedSha256": "8636d16b38266112204061a22b135734177c242837982fd3a4055be726efa64a",
+      "encoding": "utf8-lf",
+      "bytes": 12388
+    },
+    {
+      "path": "node_modules/node-pty/src/win/winpty.cc",
+      "sha256": "c6a380fe58f2915e737288f2e5ad75c0ddbbb68ad842a2219e899a2fe67becc4",
+      "normalizedSha256": "c6a380fe58f2915e737288f2e5ad75c0ddbbb68ad842a2219e899a2fe67becc4",
+      "encoding": "utf8-lf",
+      "bytes": 10021
+    }
+  ],
+  "originalReplay": {
+    "mode": "publisher-only in original detached checkpoint, not cherry-picked root lineage",
+    "tests": 170,
+    "pass": 170,
+    "fail": 0,
+    "skip": 0,
+    "node": "24.14.0",
+    "publisherReferences": 30,
+    "unavailableSpans": 0,
+    "protectedPaths": 19,
+    "protectedOwnerMethods": 17
+  },
+  "rejectedMode": "Detached --verify-installed rejected the node_modules symlink escaping the worktree. No guard was bypassed. Installed3 hashes were instead independently compared against contained root install; not claimed as a successful detached installed-mode replay.",
+  "limits": [
+    "Historical50/current55/appendix2 scopes distinct",
+    "Candidate evidence only; acceptedReview false, no MIT grant",
+    "Source exposure and27 material obligations remain",
+    "Root Linux native acceptance is separate from these historical/current candidate fields"
+  ]
+}

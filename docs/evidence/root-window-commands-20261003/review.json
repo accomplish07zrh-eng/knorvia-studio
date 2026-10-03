@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-02T20:44:46.149058+00:00",
+  "sources": {
+    "packages/desktop/src/main/primaryWindowCoordinator.ts": {
+      "sha256": "64419bdf2470497ea820a69a5d8517443c47c13dbc41bdd161f24b26a8534abb",
+      "bytes": 2464
+    },
+    "packages/desktop/src/main/desktopTray.ts": {
+      "sha256": "bb2b5f2765ff6c437baccbb45dcaa1956d78869a29488c79d93fcd137faf050e",
+      "bytes": 2808
+    },
+    "packages/desktop/src/main/desktopCommandHandlers.ts": {
+      "sha256": "99fb7bba9135f9f29873ca523f81caf677c1ba2827687ee8c146c3582c7e7301",
+      "bytes": 7823
+    }
+  },
+  "review": "Same-root post-freeze comparison of complete window creation/reuse gate, tray singleton/menu callbacks and command target/zoom/destructive-confirmation owner. Required menu/staticdata/prose/logs/platformidioms retained; no isolatedauthor/legalclearance claim.",
+  "corrections": "Frozen command draft reread senderWindow and reread command within shared zoom branch; corrected sender capture and selected action, preserving initial log+switch observations. Snapshot logger/settingService outside persistence catch restored with bounded helper. Frozen wrong zoom action under changing getter reproduced. Boolean crash conversion retained in temporary to satisfy lint; originalwarning preserved.",
+  "checks": "Public parameters/interfaces/constants matchpacket; explicit real return types match separatequalifiedcontracts, inherited isolatedextractionunknown/anydiagnostics retained. Scopedlint3files94rules0errors/warnings; architecture0;whitespaceclean.3pairedminimalfakeportgroupswindowgate/coalescence,traysingleton/ordering,commandnegativeconfirmation/approvedexacttarget/zoom capture passed.",
+  "testSafety": "All Electron/window/dialog/settings/file removal/application calls mocked with reject-by-default imports; approved destructivebranch only records fake rm against /synthetic/owned-fixture. No actual OS/window/userdata/filesystemsettings or deletion actions. Import.meta.dirname replaced only fixture.",
+  "unrun": "Semanticbody/projecttypes, fullsuites/builds/nativeconsumeracceptance; separate reviewer unavailable nativeagentthreadlimit. Broadercontext/genericexposure retained. No globallicence/inventory/crosslaneintegration."
+}

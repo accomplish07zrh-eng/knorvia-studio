@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "scope": "CI209 historical outcome before combined ComfyUI diagnostic expansion",
+  "head": "b43176c8d29663a1866d6e5a276cd4438769582b",
+  "checkedMergeSha": "1d741762e8ebf733aa05e516b71a04869cab6807",
+  "checkedTree": "d477a3352818bead43009b883fa4b51f7fb0e13b",
+  "headTreeExactMatch": true,
+  "run": 36803686799,
+  "runNumber": 209,
+  "attempt": 1,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36803686799",
+  "linux": {
+    "job": 110183327539,
+    "result": "success",
+    "tests": 6002,
+    "pass": 5994,
+    "fail": 0,
+    "skip": 8
+  },
+  "windows": {
+    "job": 110183327762,
+    "result": "failure",
+    "tests": 6002,
+    "pass": 6000,
+    "fail": 1,
+    "skip": 1
+  },
+  "renameCase": {
+    "linuxElapsedMs": 43,
+    "windowsElapsedMs": 45,
+    "injections": 1,
+    "submissions": 1,
+    "matchingRenames": 2,
+    "outcomes": [
+      "injected EPERM",
+      "committed"
+    ],
+    "sameTemporarySource": true,
+    "nativeFailures": 0,
+    "watchdogCancelled": true
+  },
+  "failure": {
+    "test": "comfyui classifies known failure, retry, timeout and cancellation offline",
+    "path": "packages/services/test/creation-polish.test.ts:870",
+    "phase": "initial known-failure terminal observation",
+    "budgetMs": 1000,
+    "lastStatus": "running",
+    "statusEvents": [
+      "queued@1ms",
+      "running@11ms"
+    ],
+    "getJobReads": 66,
+    "maxReadMs": 26.4
+  },
+  "limits": [
+    "Historical ComfyUI cause cannot be determined without provider/IO phase evidence",
+    "Passing rename case does not establish the native cause of CI208 extra attempt",
+    "No native UI, installer, live provider, data upgrade or MIT completion claim"
+  ]
+}

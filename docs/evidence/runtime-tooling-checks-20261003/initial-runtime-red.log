@@ -1,0 +1,47 @@
+ok authority gates and retained allowlist; actual refresh consumer
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   [
++     'Session mailbox input was not queued',
++     {
++       event: 'session.mailbox.queue_rejected',
++       module: 'core.runtime',
++       reason: undefined,
++       status: 'completed',
++       traceId: 'owned-trace',
++       turnId: 'owned-turn'
++     }
++   ]
++ ]
+- []
+
+    at file:///workspace/knorvia-studio/apps/cli/packages/core/test/runtime-tooling-safety-20261003.mjs:125:10
+    at async group (file:///workspace/knorvia-studio/apps/cli/packages/core/test/runtime-tooling-safety-20261003.mjs:6:3)
+    at async file:///workspace/knorvia-studio/apps/cli/packages/core/test/runtime-tooling-safety-20261003.mjs:100:1 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    [
+      'Session mailbox input was not queued',
+      {
+        traceId: 'owned-trace',
+        turnId: 'owned-turn',
+        event: 'session.mailbox.queue_rejected',
+        module: 'core.runtime',
+        reason: undefined,
+        status: 'completed'
+      }
+    ]
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

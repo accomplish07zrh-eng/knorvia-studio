@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/shared-settings-family-order-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "agent-model-state.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nmodel-provider-family.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\npluginStoreOrdering.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nremoteAppConfig.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nplan-identity.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n",
+  "stderr": "",
+  "exitCode": 0
+}

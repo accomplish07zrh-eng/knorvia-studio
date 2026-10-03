@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs",
+    "--baseline",
+    "--owner=merger"
+  ],
+  "stdout": "sourceMode=frozen-baseline; selectedOwner=merger\n✔ merger: stable scope priority, ordinary replacement, plugin keys and hook append (54.664451ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 58.707859\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,61 @@
+{
+  "requestTypes": {
+    "Promise": 100,
+    "PromiseCancel": 101,
+    "EventListen": 102,
+    "EventDispose": 103
+  },
+  "responseTypes": {
+    "Initialize": 200,
+    "PromiseSuccess": 201,
+    "PromiseError": 202,
+    "PromiseErrorObj": 203,
+    "EventFire": 204
+  },
+  "initialRequestId": 0,
+  "errors": {
+    "callAfterDispose": "ChannelClient is disposed",
+    "cancelled": "Cancelled",
+    "defaultDispose": "ChannelClient disposed",
+    "defaultDisposeName": "ConnectionClosed"
+  },
+  "remoteErrorPassthroughKeys": [
+    "code",
+    "kind",
+    "status",
+    "retryAfterMs",
+    "data",
+    "detail",
+    "details",
+    "taskId",
+    "traceId"
+  ],
+  "remoteStackJoin": "\n",
+  "callHeader": [
+    "RequestType.Promise",
+    "id",
+    "channelName",
+    "commandName"
+  ],
+  "eventHeader": [
+    "RequestType.EventListen",
+    "id",
+    "channelName",
+    "eventName"
+  ],
+  "cancelOrDisposeHeader": [
+    "type",
+    "id"
+  ],
+  "cancelOrDisposeBody": "undefined",
+  "packetValueCount": 2,
+  "defaultCancellationToken": "CancellationToken.None",
+  "disposedListenResult": "Event.None",
+  "disposePendingCallsBeforeActiveDisposables": true,
+  "eventDeferredSendDisposedGuard": false,
+  "eventHandlerReinstalledAfterLastListenerRemoval": false,
+  "emitterDisposeTriggersLastHook": false,
+  "transportSendErrorSuppressed": true,
+  "serializationErrorsSuppressed": false,
+  "autoTimeoutRetryReconnect": false
+}

@@ -1,0 +1,109 @@
+{
+  "curatorExposure": "Source-exposed curator read these three inherited bodies and finite origin/history/receipt metadata, derived body-free external behavior and public signatures/channel routing. Public constrained catalog/type declaration exposure disclosed; private predecessor helper/state/decomposition/bodies not supplied to authors. No novelty requirement.",
+  "authors": [
+    {
+      "owner": "index",
+      "agent": "/root/preload_index_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "saved/inherited requested mode, not independently tool-verified",
+      "declaredReads": [
+        "index-author-packet.md",
+        "index-correction-1-packet.md",
+        "existing-file-local-facade-exemption.md public non-runtime clarification delivered after correction-1 write",
+        "index-correction-2-packet.md",
+        "AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md"
+      ],
+      "wholeDrafts": [
+        {
+          "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/index-correction-1.ts.txt",
+          "sha256": "95ba1adf26bf963750a5dbd4aa0fe6c0fbc692251ce3bc4a1409fa23ab08a15b",
+          "bytes": 24326,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        },
+        {
+          "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/index-correction-2.ts.txt",
+          "sha256": "2d15fee4fe6e5a6fcb8ca6e2460f7434d90b761dc77a623ac186240aa00fa7ea",
+          "bytes": 24461,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        },
+        {
+          "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/index-initial.ts.txt",
+          "sha256": "b1307f6fe8516687551639819325469725cadcfbfaa0a4db6de39f6cdbc5a6fd",
+          "bytes": 24332,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        }
+      ],
+      "indexFullPacketReads": "all bytes/lines declared read through bounded chunks; correction-2 truncation remedied by rereading final section",
+      "postWrite": "SHA computation only; no reopening/executing/formatting/tests/network/repository edits",
+      "enforcement": "instruction-limited fresh author; shared filesystem, no OS clean-room certification",
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "wheel",
+      "agent": "/root/preload_wheel_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "saved/inherited requested mode, not independently tool-verified",
+      "declaredReads": [
+        "wheel-author-packet.md",
+        "wheel-correction-1-packet.md",
+        "AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md"
+      ],
+      "wholeDrafts": [
+        {
+          "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/wheel-correction-1.ts.txt",
+          "sha256": "91c6f8b58e9b41611a586848eadd3023b25ed803c01fe4ad21e4af1dc9a10725",
+          "bytes": 3275,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        },
+        {
+          "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/wheel-initial.ts.txt",
+          "sha256": "bce711e6f45871493d3025a2dc95e74258af57ea755bd8dfc582c58d9ad826aa",
+          "bytes": 3329,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        }
+      ],
+      "indexFullPacketReads": null,
+      "postWrite": "SHA computation only; no reopening/executing/formatting/tests/network/repository edits",
+      "enforcement": "instruction-limited fresh author; shared filesystem, no OS clean-room certification",
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "dialog",
+      "agent": "/root/preload_dialog_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "saved/inherited requested mode, not independently tool-verified",
+      "declaredReads": [
+        "dialog-author-packet.md",
+        "dialog-correction-1-packet.md",
+        "AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md"
+      ],
+      "wholeDrafts": [
+        {
+          "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/dialog-correction-1.ts.txt",
+          "sha256": "6df32c26a2934acd922ed8671880b72793eb2f3a126624432383478079bccb1d",
+          "bytes": 5001,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        },
+        {
+          "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/dialog-initial.ts.txt",
+          "sha256": "4a83912f52623b814f0d80fdb9f2ff83bbc899af0c1dadb31a935ac1837cc2a7",
+          "bytes": 4764,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        }
+      ],
+      "indexFullPacketReads": null,
+      "postWrite": "SHA computation only; no reopening/executing/formatting/tests/network/repository edits",
+      "enforcement": "instruction-limited fresh author; shared filesystem, no OS clean-room certification",
+      "acceptedCredit": 0
+    }
+  ]
+}

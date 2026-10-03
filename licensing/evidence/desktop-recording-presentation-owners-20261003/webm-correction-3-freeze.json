@@ -1,0 +1,20 @@
+{
+  "file": "/tmp/knorvia-webm45-correction-3.ts",
+  "rawPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/drafts/webm-correction-3.ts",
+  "bytes": 17483,
+  "sha256": "293e471ea11221a383e509d0ab0790f9a23b26e129a0171f0d00445f4f1d9a13",
+  "author": "/root/electron_webm_owner_author45",
+  "version": "correction-3",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Prior contract memory plus bounded facts; no file reread; after write only stat and sha256sum of own completed output",
+  "corrections": [
+    "Retain seven correction1 and three correction2 facts",
+    "read current .type after synchronous optional debug callback",
+    "live ordered dispatch predicates",
+    "fresh short-circuit MIME reads"
+  ]
+}

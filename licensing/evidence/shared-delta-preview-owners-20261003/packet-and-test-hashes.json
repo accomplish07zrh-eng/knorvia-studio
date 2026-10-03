@@ -1,0 +1,9 @@
+{
+  "permission-behavior-packet.md": "d7a9116088310f1c5ff2bbb13ff0f36926d82a039fe81a5f415f33db7a587593",
+  "summary-behavior-packet.md": "4fc98bb59b3d18373665b473792643b55b74a1b66df431497327514532968559",
+  "coalesce-behavior-packet.md": "fd4ff73e2a44dd34ee1594c9e2c2730e09187169b64b5fbdb4b63a883c78e327",
+  "streaming-behavior-packet.md": "5ebd51bc445db441089edb00147644f1127371631d40d65ee4fc2fa351c8b111",
+  "apply-behavior-packet.md": "169ed8617eec7fa70065572ad28bf32a498324feb5e901c7031258552afbba9a",
+  "finalTestSha256": "d6d599600bf748d902956f7328504a06c9819a645302364d81da72340bae3ed4",
+  "hashTiming": "Packets copied before authoring and never changed. Test hash after final formatting; cases and synthetic regression authored before baseline/candidate runs."
+}

@@ -1,0 +1,364 @@
+{
+  "passed": true,
+  "baseline": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "targets": [
+    {
+      "scope": "catalog",
+      "target": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/catalog.ts.txt",
+      "bytes": 2201,
+      "lines": 78,
+      "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
+      "authorRecord": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/author-record.json",
+      "authorRecordBytes": 13925,
+      "authorRecordSha256": "785f4288f883855093b3fee9a14831bda7eb568fca00f4230a453388b9090d5b",
+      "staticReview": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-v2-static.json",
+      "staticReviewSha256": "a6bd9d565a0215319bbc50983513d33fb6b026af431048cfa5bdaa028630de5d",
+      "original": {
+        "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+        "bytes": 3025,
+        "lines": 79,
+        "sha256": "0150fdf06c10cb19ba008fb0a2313a58ed78258017bee0ee8e625ffbdfd6aecb",
+        "receiptHits": [],
+        "originClassification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/plugin-reference/catalog.ts",
+          "blob": "bb17bf34166dd8bc5479f53a0a50e95cf3d6155f",
+          "normalizedSha256": "608029c012ecf704b691a85d4cc5d716088275aa2fd0b0303e79e864d3ce5e7f",
+          "contentMatchedPaths": []
+        },
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "receiptExact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    },
+    {
+      "scope": "references",
+      "target": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/references.ts.txt",
+      "bytes": 1826,
+      "lines": 60,
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+      "authorRecord": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/author-record.json",
+      "authorRecordBytes": 9388,
+      "authorRecordSha256": "ef3af2d43f2e841f48476d77cb2d4400052b2ed657be34d52c89e1fb277d6f16",
+      "staticReview": "docs/evidence/core-plugin-reference-owner-review-20261003/references-static.json",
+      "staticReviewSha256": "0a6d3324fd05b5a8af01e954734f20b0388526dafafadb7c492fdf07c245b897",
+      "original": {
+        "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+        "bytes": 3909,
+        "lines": 95,
+        "sha256": "6c827cccb0d91c32077785404bd6f1ff51a8fda7026e8c8c8b17befa746c32ed",
+        "receiptHits": [],
+        "originClassification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/plugin-reference/references.ts",
+          "blob": "84496b2d674f142db880de916017e5fa450f01f2",
+          "normalizedSha256": "7342ce922c3ee6c58956bcd2aaf7c5bdfe142a9c4efd2363077d174ccdbf6505",
+          "contentMatchedPaths": []
+        },
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "receiptExact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    },
+    {
+      "scope": "reminder",
+      "target": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "bytes": 7757,
+      "lines": 247,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860",
+      "authorRecord": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/author-record.json",
+      "authorRecordBytes": 11271,
+      "authorRecordSha256": "9f1a0e9f2c71e22ebb87c1079fd109a604bbb49346e70860a860b66921ba9097",
+      "staticReview": "docs/evidence/core-plugin-reference-owner-review-20261003/reminder-static.json",
+      "staticReviewSha256": "306abff7f0272386bc75c194dd4650dd8ff5b43fcd1cb7e8db750039b49a6dbe",
+      "original": {
+        "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+        "bytes": 11072,
+        "lines": 294,
+        "sha256": "497851ddee8fd619d9871174cefc742e7795b9523f9004366b50b878d86c1c35",
+        "receiptHits": [],
+        "originClassification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/plugin-reference/reminder.ts",
+          "blob": "b6c92b0a69a2166357ad4b15ebfe13abdf7dca71",
+          "normalizedSha256": "c341ac2e63b13547a1e7625d0ec677fa725579188591cb4bb814de131f24efa1",
+          "contentMatchedPaths": []
+        },
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "receiptExact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/contract.md",
+      "bytes": 3724,
+      "sha256": "21fbb047d7cdd257a0c62b192d9f35d693a66e7135cb30fe72c8ea3244684dae",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-api.d.ts",
+      "bytes": 385,
+      "sha256": "b6b903b13b059257ae9cab187b3be60c771f7f7400f65fcbf66970d947116ce5",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/dependency-api.d.ts",
+      "bytes": 79,
+      "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/public-shapes.d.ts",
+      "bytes": 2484,
+      "sha256": "29471a64b4cba0e3e95ec5095cdb11a89ce25780a1b6318e5184f14ffb506ec8",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/imports.json",
+      "bytes": 152,
+      "sha256": "f784bcd9850ec686a39b0d19e24094e501e44e3eed6e3682dbb2dad92709aa9e",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/output-data.json",
+      "bytes": 1010,
+      "sha256": "c3e1c23aceeb774eb764b45ff217590499c9621e3121526013e8e2361f229a40",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-scaling-review.md",
+      "bytes": 1420,
+      "sha256": "390b8f8ce9ce08d1150aa96b303bb759fe9cacd921bb74149e75e8457a071ec7",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/catalog.ts",
+      "archivedAs": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/catalog.ts.txt",
+      "bytes": 1692,
+      "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/author-record.json",
+      "archivedAs": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/author-record.json",
+      "bytes": 8446,
+      "sha256": "59e3fe0a63e205d916f265b0a962782ee7b504da715791f2d938c55c82d51b61",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/contract.md",
+      "bytes": 3522,
+      "sha256": "a9806aaaaedb614e7b548f66e83a32d1398665d811d018b7ff2af5cd0c93b854",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-api.d.ts",
+      "bytes": 358,
+      "sha256": "27727997343080438d20faade62895550ea7a3e58aa39108a02b773f884b27b3",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/dependency-api.d.ts",
+      "bytes": 79,
+      "sha256": "4405ecf237f3d5365dbad5d9cc8c96610d5736aae6afc631c871cf4284039287",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/public-shapes.d.ts",
+      "bytes": 59,
+      "sha256": "a6a5be92d3a01227790cf9ce67b1c94897681e1868bc92f4d104cc7a353f6ac4",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/imports.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/output-data.json",
+      "bytes": 826,
+      "sha256": "39de554663a9dd1c24f2199a086d7462d3d88540fca46cb5490e23e3e151468e",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/contract.md",
+      "bytes": 6683,
+      "sha256": "0545889004a9d576d098e200214db857bba4e74231c2fc7bd3dcddc8a514ce9f",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-api.d.ts",
+      "bytes": 1621,
+      "sha256": "a3e31dc3f56202e26633de627e70ad2a35d87cfb857efe371b9d34dcbc362c03",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/dependency-api.d.ts",
+      "bytes": 164,
+      "sha256": "dc564575aa72a25aa46db06c9c6af3de3487978c1d29a3c3e9de6dd66c7412ee",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-shapes.d.ts",
+      "bytes": 789,
+      "sha256": "9cd7e109f2435a9623f1db1c1dafe4475ba4c7f86c211bc2d008a1d7085d014e",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/imports.json",
+      "bytes": 209,
+      "sha256": "432760ef4b35f6588df217dbe36c1a5ec8bd6bc1caf9b9d89729bb61ec395684",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/output-data.json",
+      "bytes": 4572,
+      "sha256": "c0400254da81bccb97a4181468c0f69fde22dee4051fd844192d7505a2c3941b",
+      "exact": true,
+      "archiveAliasExact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/plugins/index.ts",
+      "bytes": 10553,
+      "sha256": "cadda3ab4fa60954c9ba7a7da3e6a3a72d614200f4e3b6ea821e14b0fde19ac8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/index.ts",
+      "bytes": 776,
+      "sha256": "518517bf64155789cc846105088e3d90b3aa773ec05be770541e72b482d09c7e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/retained-data.json",
+      "sha256": "145a80c3c9e0cf6f23080b2e7f68fe081512cf124d605d0f4b284d7b4d2f468d",
+      "exact": true,
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/minimal-safety.json",
+      "sha256": "4b14c2c8b7850521637480b1ceb0332b58eda26292e1b3d8dc8ad31ee345beef",
+      "exact": true,
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-v2-retained-data.json",
+      "sha256": "ce8d1bb9434eb79debb93352e1a5fd10797b7f7fc628ca9392447710fc74d033",
+      "exact": true,
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-v2-safety.json",
+      "sha256": "6434cef6f6215423822ff157eb5cb6e4bf6a2209b1e1ba57b5d1d8424e075516",
+      "exact": true,
+      "passed": true
+    }
+  ],
+  "reusedSafetyBindings": [
+    {
+      "scope": "catalog",
+      "exact": true
+    },
+    {
+      "scope": "references",
+      "exact": true
+    },
+    {
+      "scope": "reminder",
+      "exact": true
+    }
+  ],
+  "reusedDataBindings": [
+    {
+      "scope": "catalog",
+      "exact": true
+    },
+    {
+      "scope": "references",
+      "exact": true
+    },
+    {
+      "scope": "reminder",
+      "exact": true
+    }
+  ],
+  "sixDistinctSafetyGroups": [
+    {
+      "name": "catalog: exact identity, enabled conflicts and immutable declared names",
+      "passed": true
+    },
+    {
+      "name": "references: destination-only authority, strict invalid intents and retained-only dedup",
+      "passed": true
+    },
+    {
+      "name": "reminder: provenance, disabled/conflict priorities and identifiers-only privacy",
+      "passed": true
+    },
+    {
+      "name": "reminder: global capability budgets and null omission without live authority",
+      "passed": true
+    },
+    {
+      "name": "reminder: byte cap removes whole tail and does not expose paths or partial identifiers",
+      "passed": true
+    },
+    {
+      "name": "reminder: exact fixed disclaimer/rules and public port errors",
+      "passed": true
+    }
+  ],
+  "outsideAllocatedScope": [],
+  "qualification": "Installed bytes equal archived reviewed author outputs; public declaration/import/receipt/data and minimum safety gates reused by exact digest. No ordinary/runtime/project/semantic/compiler rerun; no cross-lane imports or global licensing edits. Metadata byte equality is not OS/access/novelty/rights/final acceptance proof."
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "scope": "GitHub CI receipt for the fourth binary Read and fifth provider-diagnostic root batches; not PDF or IO-observer verification",
+  "head": "5caa01fc1545c4cdc16cede76bf5550f42851d42",
+  "checkedMergeSha": "b6f4d67fbc51b0f0a70bf1e6d1c3fb88709e8925",
+  "checkedTree": "b84e9f40561940d8691e42e25e1ddd1d432ec6e0",
+  "headTreeExactMatch": true,
+  "run": 36756481785,
+  "runNumber": 199,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36756481785",
+  "windows": {
+    "job": 110027912917,
+    "result": "success",
+    "tests": 5189,
+    "pass": 5188,
+    "fail": 0,
+    "skip": 1,
+    "jsonVideoRetryMs": 132.2465,
+    "asyncJsonMs": 140.59
+  },
+  "linux": {
+    "job": 110027913182,
+    "result": "success",
+    "tests": 5189,
+    "pass": 5181,
+    "fail": 0,
+    "skip": 8,
+    "jsonVideoRetryMs": 73.942122,
+    "asyncJsonMs": 85.218413
+  },
+  "limits": [
+    "This run passed both platforms, but the intermittent CI 198 creation timeout cause is still unknown",
+    "Native application, installer, real provider, deployment and data-upgrade acceptance are not established",
+    "All 27 third-party material obligations remain; no additional MIT decision"
+  ]
+}

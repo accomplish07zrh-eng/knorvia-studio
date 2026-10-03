@@ -7,6 +7,7 @@ export async function checkRemoteSyncDirectoryWriteAccess(
   directoryPath: string,
 ): Promise<RemoteSyncWriteAccessResult> {
   const markerPath = join(directoryPath, `.knorvia-sync-preflight-${process.pid}-${randomUUID()}`);
+
   try {
     await mkdir(directoryPath, { recursive: true });
     await writeFile(markerPath, "ok", { encoding: "utf-8", flag: "wx" });
@@ -27,9 +28,8 @@ export async function checkRemoteSyncDirectoriesWriteAccess(
 ): Promise<RemoteSyncWriteAccessResult> {
   for (const directoryPath of directoryPaths) {
     const result = await checkRemoteSyncDirectoryWriteAccess(directoryPath);
-    if (!result.ok) {
-      return result;
-    }
+    if (!result.ok) return result;
   }
+
   return { ok: true, path: directoryPaths.join(", ") };
 }

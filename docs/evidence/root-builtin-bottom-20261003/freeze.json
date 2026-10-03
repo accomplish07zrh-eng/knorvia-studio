@@ -1,0 +1,16 @@
+{
+  "frozenAt": "2026-10-03T03:40:19.111699+00:00",
+  "inputs": "7body-free Epacket6590bcdb2c01408d6da0e437779aaecd0c2db1da verified. Root broaderprovider/sourcecontext, no deliberate targetbody read beforeboth completefreezes; source-exposedcurator, instruction-onlysharedexecutor, no cleanroom.",
+  "drafts": [
+    {
+      "path": "builtin-download.ts",
+      "bytes": 3794,
+      "sha256": "cf12eae8e61a656c06fe0f4fbf5486e0acaa6c5c0b7c14fe1d3ffb0a924f2fa1"
+    },
+    {
+      "path": "builtin-release.ts",
+      "bytes": 2103,
+      "sha256": "e6c3beac00844a39ee2e511edaf4ff9e4d564ee9cd7c2779f193d2f4a798ded7"
+    }
+  ]
+}

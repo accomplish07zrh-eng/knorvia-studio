@@ -1,0 +1,6 @@
+[
+  {
+    "module": "./attachment-data-url.js",
+    "clause": "{ base64PayloadByteLength, isStrictBase64Payload }"
+  }
+]

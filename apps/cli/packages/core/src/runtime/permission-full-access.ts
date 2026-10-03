@@ -1,26 +1,28 @@
 import {
   PERMISSION_FULL_ACCESS_ENTRY,
-  permissionFullAccessReceiptSchema,
   SessionEventType,
+  permissionFullAccessReceiptSchema,
   type SessionEvent,
   type SessionModeChangedPayload,
 } from "@knorvia/contracts";
+import { resolveExecutionState } from "@knorvia/shared";
+import { buildExecutionStateEntry } from "./execution-state.js";
 import type { AgentRuntimeInternal } from "./internal.js";
-import { buildExecutionStateEntry, readRuntimeExecutionState } from "./execution-state.js";
 import {
-  unpublishedPermissionGrants,
   recoverPendingPermissionGrant,
+  unpublishedPermissionGrants,
 } from "./permission-grant-recovery.js";
 
-const appliedGrants = new WeakMap<AgentRuntimeInternal, Set<string>>();
+const appliedPermissionGrants = new WeakMap<AgentRuntimeInternal, Set<string>>();
 
-/** 完全访问只改当前任务；receipt 固定目标集合，发布失败后不能重新抓取后来队列。 */
 export async function grantPermissionFullAccess(
   this: AgentRuntimeInternal,
   interactionId: string,
   signal?: AbortSignal,
 ): Promise<string> {
-  if (!this.sessionStore?.commitPermissionFullAccess) throw new Error("Full access is unsupported");
+  if (!this.sessionStore?.commitPermissionFullAccess) {
+    throw new Error("Full access is unsupported");
+  }
   if (
     this.permissionFullAccessPending ||
     this.pendingInputReservations.size > 0 ||
@@ -28,9 +30,12 @@ export async function grantPermissionFullAccess(
   ) {
     throw new Error("Queue mutation is busy; retry approval");
   }
+
   const unpublished = unpublishedPermissionGrants.get(this);
-  if (unpublished && unpublished.interactionId !== interactionId)
+  if (unpublished && unpublished.interactionId !== interactionId) {
     await recoverPendingPermissionGrant(this);
+  }
+
   this.permissionFullAccessPending = true;
   try {
     signal?.throwIfAborted();
@@ -39,18 +44,19 @@ export async function grantPermissionFullAccess(
       sessionID: this.sessionId,
       type: PERMISSION_FULL_ACCESS_ENTRY,
     });
-    const saved = entries?.find((entry) => entry.id === receiptId);
-    let event: SessionEvent;
-    if (saved) {
-      const data = permissionFullAccessReceiptSchema.parse(saved.data);
-      if (data.event.sessionId !== this.sessionId || data.interactionId !== interactionId) {
+    const receiptEntry = entries?.find((entry) => entry.id === receiptId);
+    let event: SessionEvent & { payload: SessionModeChangedPayload };
+
+    if (receiptEntry) {
+      const receipt = permissionFullAccessReceiptSchema.parse(receiptEntry.data);
+      if (receipt.event.sessionId !== this.sessionId || receipt.interactionId !== interactionId) {
         throw new Error("Permission receipt scope mismatch");
       }
-      event = data.event as SessionEvent;
+      event = receipt.event as SessionEvent & { payload: SessionModeChangedPayload };
     } else {
       const projection = await this.rebuildProjection();
-      const queueItemIds = projection.pendingSteerInputs.map((item) => item.pendingInputId);
-      const previous = readRuntimeExecutionState(this);
+      const queueItemIds = projection.pendingSteerInputs.map((input) => input.pendingInputId);
+      const previous = resolveExecutionState(this.config);
       const next = { ...previous, mode: "yolo" as const };
       event = this.createEvent(
         SessionEventType.SessionModeChanged,
@@ -62,7 +68,7 @@ export async function grantPermissionFullAccess(
           permissionGrant: { interactionId, queueItemIds },
         },
         this.rootTraceContext,
-      );
+      ) as SessionEvent & { payload: SessionModeChangedPayload };
       signal?.throwIfAborted();
       await this.sessionStore.commitPermissionFullAccess({
         sessionID: this.sessionId,
@@ -79,29 +85,37 @@ export async function grantPermissionFullAccess(
         },
       });
     }
-    const payload = event.payload as SessionModeChangedPayload;
+
+    const payload = event.payload;
     unpublishedPermissionGrants.set(this, {
       interactionId,
       recover: () => grantPermissionFullAccess.call(this, interactionId),
     });
-    const ids = new Set(payload.permissionGrant!.queueItemIds);
-    // 事务已提交：之后即使传输取消也必须完成内存和投影发布，不能制造半个授权。
-    const applied = appliedGrants.get(this) ?? new Set<string>();
-    if (!applied.has(interactionId)) {
+    const grantedIds = new Set(payload.permissionGrant!.queueItemIds);
+    const applied = appliedPermissionGrants.get(this);
+    if (!applied?.has(interactionId)) {
       this.lastPermissionGrantId = interactionId;
       this.config.mode = payload.mode;
       this.config.planEnabled = payload.planEnabled;
-      for (const item of this.activeTurn?.pendingInputs ?? []) {
-        if (ids.has(item.id) && item.intent) item.intent = { ...item.intent, mode: "yolo" };
+      for (const input of this.activeTurn?.pendingInputs ?? []) {
+        if (grantedIds.has(input.id) && input.intent) {
+          input.intent = { ...input.intent, mode: "yolo" };
+        }
       }
-      applied.add(interactionId);
-      appliedGrants.set(this, applied);
+      if (applied) {
+        applied.add(interactionId);
+      } else {
+        appliedPermissionGrants.set(this, new Set([interactionId]));
+      }
     }
-    const existing = (await this.eventStore.getEvents(this.sessionId)).find(
-      (item) => item.id === event.id,
-    );
-    if (existing) await this.notifyEventSinks(existing, this.rootTraceContext);
-    else await this.appendEvent(event, this.rootTraceContext);
+
+    const events = await this.eventStore.getEvents(this.sessionId);
+    const existing = events.find((candidate) => candidate.id === event.id);
+    if (existing) {
+      await this.notifyEventSinks(existing, this.rootTraceContext);
+    } else {
+      await this.appendEvent(event, this.rootTraceContext);
+    }
     unpublishedPermissionGrants.delete(this);
     return String(event.id);
   } finally {

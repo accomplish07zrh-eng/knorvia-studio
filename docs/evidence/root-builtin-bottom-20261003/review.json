@@ -1,0 +1,41 @@
+{
+  "status": "technical candidate; independent-expression and rights acceptance deferred",
+  "baseline": "5e3e1ab8e44a6a2b85e1f7da73e12e43cdb44fc8",
+  "bindings": [
+    {
+      "path": "packages/provider-node/src/builtin-download.ts",
+      "baselineSha256": "d2cbac226d3b1774f40ad653d927d11e2461834466633df96cad0865c51159bb",
+      "candidateSha256": "e5df4032b64d6a81dbfe4d3aabcfabae08c882c596181820969fa4f764bdcd42"
+    },
+    {
+      "path": "packages/provider-node/src/builtin-release.ts",
+      "baselineSha256": "a4b7a5da09c0cbca494c771fdc93e86220e507c3e0834f608f0a13c2ca198fc6",
+      "candidateSha256": "cddea91e2b219c1892708ad08ffcc820bfd62608c5fdc6b8c916577fefc67641"
+    }
+  ],
+  "checks": {
+    "minimal": "four bounded paired fake groups pass; two frozen counterexamples reproduced",
+    "types": "333 real dependency source files baseline and candidate; zero diagnostics; eight export shapes match",
+    "lint": "zero warnings/errors",
+    "format": "pass",
+    "architecture": "zero violations",
+    "fullSuiteBuildNative": "not run"
+  },
+  "corrections": [
+    "malformed URL refinement throw sanitized as invalid response",
+    "internal signal first and response promise late-abort boundary",
+    "capture templates before providers.has",
+    "revision observation before model parse"
+  ],
+  "retained": [
+    "strict canonical schema/protocol/error constants",
+    "conventional abort promise bridge",
+    "parser/serializer delegation expressions"
+  ],
+  "qualification": "Complete drafts frozen before deliberate body comparison; subsequent corrections source-exposed. Shared executor; no clean-room, independent-expression, MIT or global acceptance claim. No actual requests/user files/cache/accounts/permissions. All 21 material obligations remain open.",
+  "initialFailures": [
+    "Initial fake assertion compared cross-VM prototypes; normalized only decoded JSON fixture, preserved script",
+    "Attempted unavailable prettier; used repository oxfmt instead",
+    "Node refused .cjs.txt extension; copied unchanged artifact to temporary .cjs before execution, retained runner log"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/streaming-recovery.ts",
+  "kind": "file",
+  "sha256": "a9e421d9b8a12edcff6b93ba3acbad5498bbd4a87f4ea4029853d565c32af548",
+  "normalizedSha256": "a9e421d9b8a12edcff6b93ba3acbad5498bbd4a87f4ea4029853d565c32af548",
+  "encoding": "utf8-lf",
+  "bytes": 13538,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/streaming-recovery.ts",
+    "blob": "0ad1d7f2ba1a0449c094562016f473f617ae5466",
+    "normalizedSha256": "a9e421d9b8a12edcff6b93ba3acbad5498bbd4a87f4ea4029853d565c32af548",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/streaming-recovery.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

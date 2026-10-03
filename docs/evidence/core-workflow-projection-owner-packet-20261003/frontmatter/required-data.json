@@ -1,0 +1,127 @@
+{
+  "strings": [
+    {
+      "text": "yaml"
+    },
+    {
+      "text": "@knorvia/contracts"
+    },
+    {
+      "text": "/* knorvia-workflow"
+    },
+    {
+      "text": "/* zcode-workflow"
+    },
+    {
+      "text": "*/"
+    },
+    {
+      "text": "missing_frontmatter"
+    },
+    {
+      "text": "unterminated_frontmatter"
+    },
+    {
+      "text": "invalid_yaml"
+    },
+    {
+      "text": "invalid_metadata"
+    },
+    {
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": "\n"
+        },
+        {
+          "placeholder": "VALUE_2",
+          "text": ""
+        },
+        {
+          "placeholder": "VALUE_3",
+          "text": "\n"
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": ""
+    },
+    {
+      "text": "missing_frontmatter"
+    },
+    {
+      "head": "file does not start with the `",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": "` metadata block"
+        }
+      ]
+    },
+    {
+      "text": "unterminated_frontmatter"
+    },
+    {
+      "head": "metadata block is never closed with `",
+      "spans": [
+        {
+          "placeholder": "VALUE_6",
+          "text": "`"
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "invalid_yaml"
+    },
+    {
+      "text": "invalid_metadata"
+    },
+    {
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_7",
+          "text": ": "
+        },
+        {
+          "placeholder": "VALUE_8",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "text": "."
+    },
+    {
+      "text": "(root)"
+    },
+    {
+      "text": "; "
+    }
+  ],
+  "patterns": [],
+  "numbers": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+  ],
+  "qualification": "Exact required fixed public prose/XML/metadata/error/sentinel/newline/template data; private expression names/decomposition omitted. Source-derived preservation data, no novelty or rights credit."
+}

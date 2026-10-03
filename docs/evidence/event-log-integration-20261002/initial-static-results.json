@@ -1,0 +1,28 @@
+{
+  "kind": "static API/dependency compatibility and exact-byte binding; not project typecheck or runtime test",
+  "typescript": "6.0.2",
+  "baselineCommit": "04b06ee8bbd8350a4d1a02d0daf818b48a77ee8c",
+  "target": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+  "frozenDraft": "docs/evidence/event-log-author-packet-20261002/draft-events.ts.txt",
+  "baseline": {
+    "bytes": 3771,
+    "sha256": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d"
+  },
+  "integrated": {
+    "bytes": 3724,
+    "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174"
+  },
+  "byteIdenticalToFrozenDraft": true,
+  "publicDeclarationsEqualIgnoringOnlyPrivateStorage": true,
+  "publicDeclarationSha256": {
+    "baseline": "2ba7d819b9b12e92fe88f8e1ebb6c64e32958c379bc72583aee49a6de178fb4f",
+    "integrated": "2ba7d819b9b12e92fe88f8e1ebb6c64e32958c379bc72583aee49a6de178fb4f"
+  },
+  "importsEqual": false,
+  "declarationExtractionDiagnostics": {
+    "baseline": [],
+    "integrated": []
+  },
+  "runtimeChecksRun": false,
+  "fullSuitesRun": false
+}

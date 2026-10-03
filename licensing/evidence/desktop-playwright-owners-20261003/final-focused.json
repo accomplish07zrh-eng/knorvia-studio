@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/playwrightOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+      "sha256": "d57a1188dcd1bfb766c43a6aeacf1e548c1045bf792d56a0fd18059635f3d62f"
+    }
+  ],
+  "stdout": "✔ snapshot: normalization, OOPIF session ownership and release survive cleanup rejection (72.242061ms)\n✔ locator: iframe fill token/paste and press authority precede trusted dispatch (95.879163ms)\n✔ locator: pending probe cancellation releases listeners and owned session; forced click preserves rejection (30.054173ms)\n✔ executor: same-reference routing, done identity and screenshot cleanup error precedence (16.240768ms)\n✔ executor: evaluate abort listener identity, preabort and URL commit/readiness semantics (10.055477ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 456.939502\n",
+  "stderr": "",
+  "exitCode": 0
+}

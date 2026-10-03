@@ -18,13 +18,6 @@ const END_OF_STREAM_ATTEMPT_SUFFIX = "end-of-stream";
 const TOOL_RESULT_ANCHOR_SUFFIX = "tool-result";
 const DEFAULT_EXECUTION_TIMING: StreamingToolExecutionTiming = "end_of_stream";
 
-interface LedgerToolMetadata {
-  readOnly?: boolean;
-  destructive?: boolean;
-  concurrentSafe?: boolean;
-  sideEffectScope?: ModelToolSideEffectScope;
-}
-
 interface EmitLedgerUpdateOptions {
   assistantMessageId: MessageId;
   toolCall: ToolCall;
@@ -64,8 +57,19 @@ export async function emitStreamingToolLedgerUpdate(
   traceContext: TraceContext,
   options: EmitLedgerUpdateOptions,
 ): Promise<SessionEvent> {
+  const entry = runtime.registry.get(options.toolCall.name);
+  const metadata = entry?.metadata;
+  const sideEffectScope: ModelToolSideEffectScope | undefined =
+    entry?.permission?.sideEffectScope ?? metadata?.sideEffectScope;
   const payload: StreamingToolLedgerPayload = {
-    ...getLedgerToolMetadata(runtime, options.toolCall.name),
+    // 保持两次 metadata 读取；725d8d8 证明合并读取会改变观察。
+    readOnly:
+      metadata?.readOnly === undefined
+        ? undefined
+        : metadata.readOnly && sideEffectScope === "none",
+    destructive: metadata?.destructive,
+    concurrentSafe: metadata?.concurrentSafe,
+    sideEffectScope,
     attemptId: createStreamingToolAttemptId(options.assistantMessageId),
     assistantMessageId: options.assistantMessageId,
     toolCallId: options.toolCall.id as ToolCallId,
@@ -115,22 +119,4 @@ export async function emitStreamRecoveryAnchor(
   await runtime.appendEvent(event, traceContext);
   events.push(event);
   return event;
-}
-
-function getLedgerToolMetadata(
-  runtime: AgentRuntimeInternal,
-  toolName: string,
-): LedgerToolMetadata {
-  const entry = runtime.registry.get(toolName);
-  const metadata = entry?.metadata;
-  const sideEffectScope = entry?.permission?.sideEffectScope ?? metadata?.sideEffectScope;
-  return {
-    readOnly:
-      metadata?.readOnly === undefined
-        ? undefined
-        : metadata.readOnly && sideEffectScope === "none",
-    destructive: metadata?.destructive,
-    concurrentSafe: metadata?.concurrentSafe,
-    sideEffectScope,
-  };
 }

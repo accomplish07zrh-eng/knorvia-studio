@@ -1,0 +1,6 @@
+getCapturedKnorviaCuaBrokerCredentials: (): { socket: string | undefined; pluginAuthority: string | undefined; refreshMarker?: string | undefined; }
+KNORVIA_CUA_OFFICIAL_PLUGIN_ID: "computer-use@knorvia-plugins-bundled"
+KNORVIA_CUA_PLUGIN_AUTHORITY_ENV_KEY: "KNORVIA_CUA_PLUGIN_AUTHORITY"
+KNORVIA_PLUGIN_ID_ENV_KEY: "KNORVIA_PLUGIN_ID"
+registerMcpTools: (registry: ToolRegistry, mcpPort: McpPort, descriptors: readonly McpToolDescriptor[], options?: RegisterMcpToolsOptions): string[]
+traceContextToLogContext: (context: TraceContext): LogContext

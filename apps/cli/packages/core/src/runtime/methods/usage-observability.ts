@@ -1,21 +1,27 @@
 import {
-  CoreErrorType,
-  SessionEventType,
-  createModelUsageSummaryFromEvents,
-  isCoreError,
-  traceContextToLogContext,
-} from "../deps.js";
+  modelNetworkObservations,
+  firstModelTokenAt,
+  usageErrorInfo,
+  nonemptyString,
+  usageCount,
+  type ToolUsagePayload,
+} from "./usage-observability-projection.js";
 import type {
   MessageId,
   Model,
   SessionEvent,
-  ToolCallId,
   TraceContext,
   TurnId,
   UsageStorePort,
 } from "@knorvia/contracts";
-import type { RuntimeModelTextResult } from "../types.js";
+import {
+  CoreErrorType,
+  SessionEventType,
+  createModelUsageSummaryFromEvents,
+  traceContextToLogContext,
+} from "../deps.js";
 import type { AgentRuntimeInternal } from "../internal.js";
+import type { RuntimeModelTextResult } from "../types.js";
 import { isModelContextExceededError } from "../helpers/index.js";
 
 type ModelUsageQuerySource =
@@ -56,25 +62,31 @@ export async function recordModelUsageFact(
   runtime: AgentRuntimeInternal,
   input: RecordModelUsageInput,
 ): Promise<void> {
-  const usageStore = usageStoreFor(runtime);
-  if (!usageStore) return;
+  const candidate = runtime.sessionStore as typeof runtime.sessionStore & Partial<UsageStorePort>;
+  if (
+    !candidate?.recordModelUsage ||
+    !candidate.upsertTurnUsage ||
+    !candidate.upsertToolUsage ||
+    !candidate.pruneUsage
+  )
+    return;
 
   const completedAt = Date.now();
   const usage = input.result?.usage;
-  const networkEvents = modelNetworkEvents(input.events.slice(input.networkEventStartIndex));
-  const retryCount = networkEvents.filter((event) => event.type === "model_retry_scheduled").length;
-  const failedNetworkEvent = networkEvents.findLast(
-    (event) => event.type === "model_request_failed",
-  );
+  const network = modelNetworkObservations(input.events.slice(input.networkEventStartIndex));
+  const retryCount = network.filter(
+    (observation) => observation.type === "model_retry_scheduled",
+  ).length;
+  const failed = network.findLast((observation) => observation.type === "model_request_failed");
   const firstTokenAt = firstModelTokenAt(input.events, input.networkEventStartIndex);
   const durationMs = completedAt - input.startedAt;
-  const errorInfo = errorInfoFor(input.error, failedNetworkEvent);
+  const errorInfo = usageErrorInfo(input.error, failed);
   const contextExceeded =
-    isModelContextExceededError(input.error) || failedNetworkEvent?.reason === "context_exceeded";
+    isModelContextExceededError(input.error) || failed?.reason === "context_exceeded";
 
   try {
-    await usageStore.recordModelUsage({
-      id: modelUsageId(input),
+    await candidate.recordModelUsage({
+      id: modelFactId(input),
       logicalRequestId:
         input.assistantMessageId ??
         input.traceContext.spanId ??
@@ -132,33 +144,38 @@ export async function recordTurnUsageFact(
   runtime: AgentRuntimeInternal,
   input: RecordTurnUsageInput,
 ): Promise<void> {
-  const usageStore = usageStoreFor(runtime);
-  if (!usageStore) return;
+  const candidate = runtime.sessionStore as typeof runtime.sessionStore & Partial<UsageStorePort>;
+  if (
+    !candidate?.recordModelUsage ||
+    !candidate.upsertTurnUsage ||
+    !candidate.upsertToolUsage ||
+    !candidate.pruneUsage
+  )
+    return;
 
-  const usage = createModelUsageSummaryFromEvents(input.events);
+  const summary = createModelUsageSummaryFromEvents(input.events);
   const modelRequests = input.events.filter(
     (event) => event.type === SessionEventType.ModelRequest,
   );
   const firstModelStartAt = modelRequests[0]?.timestamp.getTime();
   const firstTokenAt = firstModelTokenAt(input.events, 0);
-  const toolScheduledIds = new Set<string>();
-  const toolErrorIds = new Set<string>();
+  const scheduled = new Set<unknown>();
+  const errors = new Set<unknown>();
   for (const event of input.events) {
     if (event.type === SessionEventType.ToolCallScheduled) {
-      const payload = event.payload as { toolCallId?: string };
-      if (payload.toolCallId) toolScheduledIds.add(payload.toolCallId);
+      const payload = event.payload as ToolUsagePayload;
+      if (payload.toolCallId) scheduled.add(payload.toolCallId);
     }
     if (event.type === SessionEventType.ToolCallError) {
-      const payload = event.payload as { toolCallId?: string };
-      if (payload.toolCallId) toolErrorIds.add(payload.toolCallId);
+      const payload = event.payload as ToolUsagePayload;
+      if (payload.toolCallId) errors.add(payload.toolCallId);
     }
   }
-
-  const errorInfo = errorInfoFor(input.error, undefined);
+  const errorInfo = usageErrorInfo(input.error, undefined);
   const contextExceeded = isModelContextExceededError(input.error);
 
   try {
-    await usageStore.upsertTurnUsage({
+    await candidate.upsertTurnUsage({
       sessionID: runtime.sessionId,
       turnID: input.turnId,
       traceID: input.traceContext.traceId,
@@ -171,17 +188,17 @@ export async function recordTurnUsageFact(
       durationMs: input.completedAt - input.startedAt,
       timeToFirstTokenMs: firstTokenAt === undefined ? undefined : firstTokenAt - input.startedAt,
       modelRequestCount: modelRequests.length,
-      modelRetryCount: modelNetworkEvents(input.events).filter(
-        (event) => event.type === "model_retry_scheduled",
+      modelRetryCount: modelNetworkObservations(input.events).filter(
+        (observation) => observation.type === "model_retry_scheduled",
       ).length,
-      toolCallCount: toolScheduledIds.size,
-      toolErrorCount: toolErrorIds.size,
-      inputTokens: usage?.inputTokens,
-      outputTokens: usage?.outputTokens,
-      reasoningTokens: usage?.reasoningTokens,
-      cacheCreationInputTokens: usage?.cacheWriteTokens,
-      cacheReadInputTokens: usage?.cacheReadTokens,
-      computedTotalTokens: usage?.totalTokens,
+      toolCallCount: scheduled.size,
+      toolErrorCount: errors.size,
+      inputTokens: summary?.inputTokens,
+      outputTokens: summary?.outputTokens,
+      reasoningTokens: summary?.reasoningTokens,
+      cacheCreationInputTokens: summary?.cacheWriteTokens,
+      cacheReadInputTokens: summary?.cacheReadTokens,
+      computedTotalTokens: summary?.totalTokens,
       retryable: errorInfo.retryable,
       cancelledByUser: input.status === "cancelled",
       contextExceeded,
@@ -204,22 +221,27 @@ export async function recordToolUsageFromEvent(
   event: SessionEvent,
   traceContext: TraceContext,
 ): Promise<void> {
-  const usageStore = usageStoreFor(runtime);
-  if (!usageStore) return;
+  const candidate = runtime.sessionStore as typeof runtime.sessionStore & Partial<UsageStorePort>;
+  if (
+    !candidate?.recordModelUsage ||
+    !candidate.upsertTurnUsage ||
+    !candidate.upsertToolUsage ||
+    !candidate.pruneUsage
+  )
+    return;
 
-  const payload = event.payload as Record<string, unknown>;
-  const toolCallId = stringValue(payload.toolCallId);
+  const payload = event.payload as ToolUsagePayload;
+  const toolCallId = nonemptyString(payload.toolCallId);
   if (!toolCallId) return;
-
-  const toolName = stringValue(payload.toolName) ?? "unknown";
+  const toolName = nonemptyString(payload.toolName) ?? "unknown";
   const metadata = runtime.registry.get(toolName)?.metadata;
   const startedAt = event.timestamp.getTime();
   const base = {
-    id: toolUsageId(runtime.sessionId, toolCallId),
+    id: `usage_tool_${runtime.sessionId}_${toolCallId}`,
     sessionID: runtime.sessionId,
     turnID: event.turnId ?? traceContext.turnId,
     traceID: event.traceId ?? traceContext.traceId,
-    toolCallID: toolCallId as ToolCallId,
+    toolCallID: toolCallId,
     toolName,
     sideEffectScope: metadata?.sideEffectScope,
     readOnly: metadata?.readOnly,
@@ -229,24 +251,16 @@ export async function recordToolUsageFromEvent(
 
   try {
     if (event.type === SessionEventType.ToolCallScheduled) {
-      await usageStore.upsertToolUsage({
-        ...base,
-        status: "running",
-        approvalStatus: "none",
-      });
+      await candidate.upsertToolUsage({ ...base, status: "running", approvalStatus: "none" });
       return;
     }
     if (event.type === SessionEventType.PermissionRequested) {
-      await usageStore.upsertToolUsage({
-        ...base,
-        status: "running",
-        approvalStatus: "requested",
-      });
+      await candidate.upsertToolUsage({ ...base, status: "running", approvalStatus: "requested" });
       return;
     }
     if (event.type === SessionEventType.PermissionResolved) {
-      const decision = stringValue(payload.decision);
-      await usageStore.upsertToolUsage({
+      const decision = nonemptyString(payload.decision);
+      await candidate.upsertToolUsage({
         ...base,
         status: "running",
         approvalStatus: decision === "deny" ? "denied" : "allowed",
@@ -254,28 +268,20 @@ export async function recordToolUsageFromEvent(
       return;
     }
     if (event.type === SessionEventType.PermissionDenied) {
-      await usageStore.upsertToolUsage({
-        ...base,
-        status: "error",
-        approvalStatus: "denied",
-      });
+      await candidate.upsertToolUsage({ ...base, status: "error", approvalStatus: "denied" });
       return;
     }
     if (event.type === SessionEventType.ToolCallStarted) {
       const payloadStartedAt =
         payload.startedAt instanceof Date ? payload.startedAt.getTime() : startedAt;
-      await usageStore.upsertToolUsage({
-        ...base,
-        startedAt: payloadStartedAt,
-        status: "running",
-      });
+      await candidate.upsertToolUsage({ ...base, startedAt: payloadStartedAt, status: "running" });
       return;
     }
     if (event.type === SessionEventType.ToolCallProgress) {
-      const outputBytes = numberValue(payload.outputBytes);
-      const stdoutBytes = numberValue(payload.stdoutBytes);
-      const stderrBytes = numberValue(payload.stderrBytes);
-      await usageStore.upsertToolUsage({
+      const outputBytes = usageCount(payload.outputBytes);
+      const stdoutBytes = usageCount(payload.stdoutBytes);
+      const stderrBytes = usageCount(payload.stderrBytes);
+      await candidate.upsertToolUsage({
         ...base,
         status: "running",
         firstOutputAt:
@@ -289,35 +295,32 @@ export async function recordToolUsageFromEvent(
       return;
     }
     if (event.type === SessionEventType.ToolCallResult) {
-      const result = payload.result as Record<string, unknown> | undefined;
-      const performance = result?.perf as Record<string, unknown> | undefined;
-      const detail = performance?.detail as Record<string, unknown> | undefined;
-      const command =
-        detail?.kind === "command"
-          ? (detail.command as Record<string, unknown> | undefined)
-          : undefined;
-      await usageStore.upsertToolUsage({
+      const result = payload.result;
+      const performance = result?.perf;
+      const detail = performance?.detail;
+      const command = detail?.kind === "command" ? detail.command : undefined;
+      await candidate.upsertToolUsage({
         ...base,
         status: "completed",
         completedAt: event.timestamp.getTime(),
-        durationMs: numberValue(payload.duration),
-        exitCode: numberValue(command?.exitCode),
-        outputBytes: numberValue(result?.returnedBytes ?? result?.originalBytes),
+        durationMs: usageCount(payload.duration),
+        exitCode: usageCount(command?.exitCode),
+        outputBytes: usageCount(result?.returnedBytes ?? result?.originalBytes),
         truncated: result?.truncated === true,
       });
       return;
     }
     if (event.type === SessionEventType.ToolCallError) {
-      const error = payload.error as Record<string, unknown> | undefined;
-      const errorType = stringValue(error?.type) ?? CoreErrorType.ToolExecutionFailed;
-      await usageStore.upsertToolUsage({
+      const error = payload.error;
+      const errorType = nonemptyString(error?.type) ?? CoreErrorType.ToolExecutionFailed;
+      await candidate.upsertToolUsage({
         ...base,
         status: errorType.includes("cancel") ? "cancelled" : "error",
         completedAt: event.timestamp.getTime(),
         cancelledByUser: errorType.includes("cancel"),
         errorType,
-        errorCode: stringValue(error?.code),
-        errorMessage: stringValue(error?.message),
+        errorCode: nonemptyString(error?.code),
+        errorMessage: nonemptyString(error?.message),
       });
     }
   } catch (error) {
@@ -332,95 +335,11 @@ export async function recordToolUsageFromEvent(
   }
 }
 
-function usageStoreFor(runtime: AgentRuntimeInternal): UsageStorePort | undefined {
-  const candidate = runtime.sessionStore as Partial<UsageStorePort> | undefined;
-  return candidate?.recordModelUsage &&
-    candidate.upsertTurnUsage &&
-    candidate.upsertToolUsage &&
-    candidate.pruneUsage
-    ? (candidate as UsageStorePort)
-    : undefined;
-}
-
-function modelUsageId(input: RecordModelUsageInput): string {
-  const logicalId =
+function modelFactId(input: RecordModelUsageInput): string {
+  // 先冻结逻辑身份再读取来源；usage-id-red.log 保留了内联求值造成身份改变的证据。
+  const logical =
     input.assistantMessageId ??
     input.traceContext.spanId ??
     `${input.querySource}_${input.startedAt}`;
-  return `usage_model_${input.querySource}_${logicalId}_${input.attemptIndex ?? 0}`;
-}
-
-function toolUsageId(sessionId: string, toolCallId: string): string {
-  return `usage_tool_${sessionId}_${toolCallId}`;
-}
-
-function modelNetworkEvents(events: readonly SessionEvent[]) {
-  return events
-    .filter((event) => event.type === SessionEventType.ModelNetworkStatus)
-    .map((event) => event.payload)
-    .filter(
-      (
-        payload,
-      ): payload is {
-        type: string;
-        reason?: string;
-        retryable?: boolean;
-        message?: string;
-      } => Boolean(payload && typeof payload === "object" && "type" in payload),
-    );
-}
-
-function firstModelTokenAt(
-  events: readonly SessionEvent[],
-  startIndex: number,
-): number | undefined {
-  for (const event of events.slice(startIndex)) {
-    if (event.type !== SessionEventType.ModelStreaming) continue;
-    const payload = event.payload as { delta?: string; kind?: string };
-    if (
-      (payload.kind === "text_delta" || payload.kind === "reasoning_delta") &&
-      payload.delta &&
-      payload.delta.length > 0
-    ) {
-      return event.timestamp.getTime();
-    }
-  }
-  return undefined;
-}
-
-function errorInfoFor(
-  error: unknown,
-  failedNetworkEvent: { reason?: string; retryable?: boolean; message?: string } | undefined,
-): { code?: string; message?: string; retryable?: boolean; type?: string } {
-  if (isCoreError(error)) {
-    return {
-      code: error.code,
-      message: error.message,
-      retryable: error.retryable,
-      type: error.type,
-    };
-  }
-  if (error instanceof Error) {
-    return {
-      message: error.message,
-      retryable: failedNetworkEvent?.retryable,
-      type: failedNetworkEvent?.reason ?? error.name,
-    };
-  }
-  if (failedNetworkEvent) {
-    return {
-      message: failedNetworkEvent.message,
-      retryable: failedNetworkEvent.retryable,
-      type: failedNetworkEvent.reason,
-    };
-  }
-  return {};
-}
-
-function stringValue(value: unknown): string | undefined {
-  return typeof value === "string" && value.length > 0 ? value : undefined;
-}
-
-function numberValue(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? Math.max(0, Math.trunc(value)) : 0;
+  return `usage_model_${input.querySource}_${logical}_${input.attemptIndex ?? 0}`;
 }

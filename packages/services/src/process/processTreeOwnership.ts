@@ -13,45 +13,37 @@ import type {
   ProcessTreeTerminatorOptions,
 } from "#src/process/processTreeTypes.js";
 
-function hasChildExited(child: ChildProcess): boolean {
+function hasExited(child: ChildProcess): boolean {
   return child.exitCode !== null || child.signalCode !== null;
 }
 
-function isPidAlive(pid: number): boolean {
-  try {
-    process.kill(pid, 0);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function mergeIdentities(...groups: readonly (readonly ProcessIdentity[])[]): ProcessIdentity[] {
-  const identitiesByPid = new Map<number, ProcessIdentity>();
-  for (const identities of groups) {
-    for (const identity of identities) {
-      identitiesByPid.set(identity.pid, identity);
-    }
-  }
-  return [...identitiesByPid.values()];
-}
-
-function captureLiveIdentities(
-  child: ChildProcess,
-  options: ProcessTreeTerminatorOptions,
-): ProcessIdentity[] {
-  if (hasChildExited(child)) {
-    return [];
-  }
-  return [...(captureProcessTreeSnapshot(child, options)?.identities ?? [])];
-}
-
-function isSameProcessIdentity(left: ProcessIdentity, right: ProcessIdentity): boolean {
+function sameIdentity(left: ProcessIdentity, right: ProcessIdentity): boolean {
   return (
     left.pid === right.pid &&
     left.startTime === right.startTime &&
     left.processGroupId === right.processGroupId
   );
+}
+
+function mergeIdentities(
+  known: readonly ProcessIdentity[],
+  fresh: readonly ProcessIdentity[],
+): ProcessIdentity[] {
+  const identities = new Map<number, ProcessIdentity>();
+  for (const identity of known) identities.set(identity.pid, identity);
+  for (const identity of fresh) identities.set(identity.pid, identity);
+  return [...identities.values()];
+}
+
+function resolveUnownedIdentities(
+  knownIdentities: readonly ProcessIdentity[],
+  options: ProcessTreeTerminatorOptions,
+): ProcessTreeOwnershipResolution {
+  return {
+    childStillOwned: false,
+    currentIdentities: filterCurrentProcessIdentities(knownIdentities, options),
+    knownIdentities: [...knownIdentities],
+  };
 }
 
 export function resolveCurrentOwnedIdentities(
@@ -61,68 +53,33 @@ export function resolveCurrentOwnedIdentities(
   allowRootDiscovery = true,
 ): ProcessTreeOwnershipResolution {
   const rootPid = child.pid!;
-  const knownRootIdentity = knownIdentities.find((identity) => identity.pid === rootPid);
-  const childHasNotExited = !hasChildExited(child);
-  // root PID 在 exit 回调落到 JS 前也可能进入延迟回收窗口。
-  // 没有固定 root 身份或生前身份已不匹配时，都禁止沿裸 PID 抓 fresh tree。
-  if (!childHasNotExited) {
-    return {
-      childStillOwned: false,
-      currentIdentities: filterCurrentProcessIdentities(knownIdentities, options),
-      knownIdentities: [...knownIdentities],
-    };
-  }
+  const knownRoot = knownIdentities.find((identity) => identity.pid === rootPid);
 
-  if (knownRootIdentity) {
-    const rootIdentityStillCurrent =
-      filterCurrentProcessIdentities([knownRootIdentity], options).length === 1;
-    if (!rootIdentityStillCurrent) {
-      return {
-        childStillOwned: false,
-        currentIdentities: filterCurrentProcessIdentities(knownIdentities, options),
-        knownIdentities: [...knownIdentities],
-      };
+  if (hasExited(child)) return resolveUnownedIdentities(knownIdentities, options);
+
+  if (knownRoot) {
+    const verifiedRoot = filterCurrentProcessIdentities([knownRoot], options);
+    if (verifiedRoot.length !== 1) {
+      return resolveUnownedIdentities(knownIdentities, options);
     }
+  } else if (!allowRootDiscovery) {
+    return { childStillOwned: false, currentIdentities: [], knownIdentities: [] };
   }
 
-  if (!knownRootIdentity && !allowRootDiscovery) {
-    // 首次查询失败后若在 force timer 中重新沿 rootPid 建立身份，
-    // 原 PID 已复用时会把无关进程树认领成 runtime；本轮回收必须永久 fail closed。
-    return {
-      childStillOwned: false,
-      currentIdentities: [],
-      knownIdentities: [],
-    };
+  const snapshot = hasExited(child) ? null : captureProcessTreeSnapshot(child, options);
+  const freshIdentities = snapshot ? [...snapshot.identities] : [];
+  const freshRoot = freshIdentities.find((identity) => identity.pid === rootPid);
+
+  if (!knownRoot && !freshRoot) {
+    return { childStillOwned: false, currentIdentities: [], knownIdentities: [] };
+  }
+  if (knownRoot && freshRoot && !sameIdentity(knownRoot, freshRoot)) {
+    return resolveUnownedIdentities(knownIdentities, options);
   }
 
-  const freshIdentities = captureLiveIdentities(child, options);
-  const freshRootIdentity = freshIdentities.find((identity) => identity.pid === rootPid);
-  if (!knownRootIdentity && !freshRootIdentity) {
-    return {
-      childStillOwned: false,
-      currentIdentities: [],
-      knownIdentities: [],
-    };
-  }
-  if (
-    knownRootIdentity &&
-    freshRootIdentity &&
-    !isSameProcessIdentity(knownRootIdentity, freshRootIdentity)
-  ) {
-    return {
-      childStillOwned: false,
-      currentIdentities: filterCurrentProcessIdentities(knownIdentities, options),
-      knownIdentities: [...knownIdentities],
-    };
-  }
-  const mergedIdentities = mergeIdentities(
-    knownIdentities,
-    freshRootIdentity ? freshIdentities : [],
-  );
+  const mergedIdentities = mergeIdentities(knownIdentities, freshRoot ? freshIdentities : []);
   const currentIdentities = filterCurrentProcessIdentities(mergedIdentities, options);
   return {
-    // root 可能在前一次身份核对与 fresh capture 之间退出；只有最终
-    // 复核集合仍包含 root，才能向 root PID/PGID 发信号，禁止信任过期布尔状态。
     childStillOwned: currentIdentities.some((identity) => identity.pid === rootPid),
     currentIdentities,
     knownIdentities: mergedIdentities,
@@ -140,22 +97,28 @@ export async function resolveCurrentOwnedIdentitiesAsync(
   }
 
   const rootPid = child.pid!;
-  const knownRootIdentity = knownIdentities.find((identity) => identity.pid === rootPid);
-  if (hasChildExited(child)) {
-    if (!knownIdentities.some((identity) => isPidAlive(identity.pid))) {
-      return {
-        childStillOwned: false,
-        currentIdentities: [],
-        knownIdentities: [...knownIdentities],
-      };
-    }
+  const knownRoot = knownIdentities.find((identity) => identity.pid === rootPid);
+
+  if (hasExited(child)) {
+    const anyKnownProcessAlive = knownIdentities.some((identity) => {
+      try {
+        process.kill(identity.pid, 0);
+        return true;
+      } catch {
+        return false;
+      }
+    });
+    const currentIdentities = anyKnownProcessAlive
+      ? await filterCurrentProcessIdentitiesAsync(knownIdentities, options)
+      : [];
     return {
       childStillOwned: false,
-      currentIdentities: await filterCurrentProcessIdentitiesAsync(knownIdentities, options),
+      currentIdentities,
       knownIdentities: [...knownIdentities],
     };
   }
-  if (knownRootIdentity) {
+
+  if (knownRoot) {
     const currentIdentities = await filterCurrentProcessIdentitiesAsync(knownIdentities, options);
     return {
       childStillOwned: currentIdentities.some((identity) => identity.pid === rootPid),
@@ -163,21 +126,19 @@ export async function resolveCurrentOwnedIdentitiesAsync(
       knownIdentities: [...knownIdentities],
     };
   }
+
   if (!allowRootDiscovery) {
-    return {
-      childStillOwned: false,
-      currentIdentities: [],
-      knownIdentities: [],
-    };
+    return { childStillOwned: false, currentIdentities: [], knownIdentities: [] };
   }
 
-  const freshIdentities = [
-    ...((await captureProcessTreeSnapshotAsync(child, options))?.identities ?? []),
-  ];
-  const freshRootIdentity = freshIdentities.find((identity) => identity.pid === rootPid);
-  return {
-    childStillOwned: Boolean(freshRootIdentity),
-    currentIdentities: freshRootIdentity ? freshIdentities : [],
-    knownIdentities: freshRootIdentity ? freshIdentities : [],
-  };
+  const snapshot = await captureProcessTreeSnapshotAsync(child, options);
+  const freshIdentities = snapshot ? [...snapshot.identities] : [];
+  if (freshIdentities.some((identity) => identity.pid === rootPid)) {
+    return {
+      childStillOwned: true,
+      currentIdentities: freshIdentities,
+      knownIdentities: freshIdentities,
+    };
+  }
+  return { childStillOwned: false, currentIdentities: [], knownIdentities: [] };
 }

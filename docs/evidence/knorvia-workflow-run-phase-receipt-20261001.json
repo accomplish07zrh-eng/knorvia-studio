@@ -1,0 +1,245 @@
+{
+  "formatVersion": 1,
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baseline": "6e9edda4fb4436f6c843a0b002546009d7cc2082",
+  "freeze": "aaf7dc05791500ef9def389e4f01bfb8cd6adee8",
+  "appendedFreeze": "c800a0608dc13500d38c727eb34f7f368a706f6c",
+  "production": "823c4218c8a3d54f648865f4250891478928fdc8",
+  "previousReceipt": {
+    "path": "docs/evidence/knorvia-workflow-run-activity-simple-receipt-20261001.json",
+    "sha256": "a767e296158ced4114a313b3d6d16218ef5b5973e9881517c2718b99b83f384d"
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "bytes": 10266,
+      "sha256": "d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493",
+      "blob": "b760d07be62a9ff85b84de1eeb56ee56e87f3a3e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-phase-fixture.ts",
+      "bytes": 8131,
+      "sha256": "70aeaf233e534e1e06c3952b5d1dcf63f9459fe17c3340e7d977699afbe9ff39",
+      "blob": "673f1a1690cdc9cc0cb0c5d17f934c1e5cf255af"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+      "bytes": 2946,
+      "sha256": "495f623e1a60f85704cfd7fbb7ab02708bf3b235bd84ef99b2cbdaa7d18d4a3f",
+      "blob": "64f36d7d592d71279a253b1b66dd2e0db3ca86d9"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-phase-contract.json",
+      "bytes": 3325,
+      "sha256": "ff04b26bf3d808ed75201559e877eb60e4f590b928dd6a0d5c13cd1dd7856723",
+      "blob": "a53fa8f4b783001b4526b8b4becce480e059aaf4"
+    },
+    {
+      "path": "specs/knorvia-workflow-run-phase-rows.md",
+      "bytes": 4272,
+      "sha256": "f4f0a89439ee452f5dbacd389d83737ac1854c005593d72b32439a57a6b2d7e2",
+      "blob": "f23cc733f8c069aed866d62302c5ce88f540cb5e"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+      "bytes": 10140,
+      "sha256": "afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.d.ts",
+      "bytes": 1650,
+      "sha256": "bd1ec9a70c34cf92baa3a7ead52676f2b763d5843caf64433dd2a705ac37f44b"
+    }
+  ],
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+    "apps/cli/packages/core/test/workflow-run-phase-fixture.ts",
+    "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+    "apps/cli/packages/core/test/workflow-run-phase-contract.json",
+    "specs/knorvia-workflow-run-phase-rows.md",
+    "docs/evidence/knorvia-workflow-run-phase-receipt-20261001.json",
+    "docs/evidence/knorvia-workflow-run-phase-check-20261001.mjs"
+  ],
+  "contract": "apps/cli/packages/core/test/workflow-run-phase-contract.json",
+  "checks": {
+    "freeze-source": {
+      "bytes": 528,
+      "sha256": "26aa1630e5f290a23c8a46741c16f4e9e44c6e5f5f1b60939f6002d6409a8368",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "freeze-emitted": {
+      "bytes": 528,
+      "sha256": "ba56ae5493db77d6d5b7158c403cad8c08965413d1ee7fa755cf230fb56c1f75",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "initial-row-source": {
+      "bytes": 1061,
+      "sha256": "4c3d9d4708b26dc207edd36c33716466cb1e07d12cf684f773e0e646838a398f",
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "initial-row-emitted": {
+      "bytes": 1059,
+      "sha256": "c6d6f9a8656140b83bf24c369bebf9c3caddb4b414f24c091a6075571164e43f",
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "source": {
+      "bytes": 1225,
+      "sha256": "2c6cef3f7a100ecb7eb37d6a76a2c64eb905b048a7f1eda442c985f7955f10fd",
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "emitted": {
+      "bytes": 1226,
+      "sha256": "0b78f794df9e50a7d42c56f3b91c6f12676914aa7595c84940aade20e993c140",
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "consumers": {
+      "bytes": 517,
+      "sha256": "455961d5e464ebc75743a3b151d5094184e9701413c412aab16c28701ea264dd",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "emission": {
+      "bytes": 414,
+      "sha256": "bad835e7950b1472ac58c4f7e27716752d1cff7750733fc73a8ab5de5d4eb242",
+      "pass": true
+    },
+    "types": {
+      "bytes": 295,
+      "sha256": "ecb996b1baefd81d807d63bc313c0b0c4ee9d3c440608bcc83dd3af12f0d94e1",
+      "pass": true
+    },
+    "owned-lint": {
+      "bytes": 90,
+      "sha256": "723f79e1c1676a0f2ca3cfb9dafda48758b02ffadb35f720ee7824b224d0f138",
+      "pass": true
+    },
+    "format": {
+      "bytes": 112,
+      "sha256": "5ce0053c58f73d9129fac0dc03c4157b29f31b9833a89a08e6babb127a53b367",
+      "pass": true
+    },
+    "architecture": {
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
+      "pass": true
+    },
+    "pre-native-source": {
+      "bytes": 1146,
+      "sha256": "f7dfe3f1f57def2edbfada99ac8f193250b0a565b566e9687396cbe1a17c43a4",
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "pre-native-emitted": {
+      "bytes": 1145,
+      "sha256": "c12545d974b203722285d0c937e14e44f5cb926b57395183c2c047e14d8f67d3",
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "native-red-source": {
+      "bytes": 1761,
+      "sha256": "d5993f5722ecc821bfcbba8f704472fb276ef2da15e89a05d896bb43f20db7ff",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "native-red-emitted": {
+      "bytes": 1761,
+      "sha256": "ac83780af6c031b92c7aab43bee63d41ec4f4bba6e5634c90188a958e54147ed",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "evidence-lint": {
+      "bytes": 89,
+      "sha256": "703654bdd901d04ad49070c9f83989de680c1a039c8e8d76bd66db16d8cfdfe1",
+      "pass": true
+    },
+    "evidence-format": {
+      "bytes": 112,
+      "sha256": "f27ed30162fc061dbb946bbae103f40baa2d957fc426a1bae4d6cfa858114f34",
+      "pass": true
+    }
+  },
+  "logPrefix": "/tmp/knorvia-phase-",
+  "design": "Phase-specific bounded width fold caps the running measurement after each length, retaining final result cap/native traversal/Math.max numeric coercion; one direct row-cell owner replaces three private clause-return helpers. Shared layout algorithms and all other formatter/handler/state/effect/await owners remain unchanged. No new interpreter or public API.",
+  "lineage": "Historical upstream-modified/null-review ledger. Reuse pinned publisher path/blob/hash and source-exposure facts through original activity receipt referenced by previousReceipt; no new publisher fetch/authorship verification. Current baseline source/emitted hashes are in contract; checker proves reused original actual emitted phase/shared-layout regions equal exact current baseline, avoiding another full archive.",
+  "retainedExpression": [
+    "Round/count/duration guards, property rereads, arithmetic formulas, fixed model words/plurals/punctuation and lower shared padding/escaping/time/join calls remain source-exposed compatibility expression, often resembling publisher expression. Consolidating these clauses alone would not establish independent expression; bounded measurement and row organization are review candidates only.",
+    "The target still retains inherited preamble/public explanatory declarations and health/log/shared layout/subagent roster implementations outside this slice. Activity helper is accepted and byte-identical. Mixed whole-file expression remains unresolved; repository attribution stays unchanged.",
+    "New owned fixture/control expression reuses earlier source-exposed synthetic fixture infrastructure and archived module. Golden text/digests and existing declarations contain inherited output/prose. Source exposure is disclosed without treating it as a permanent rights bar. Root owns independent expression/licence review; no MIT grant."
+  ],
+  "results": "Original freeze4source/4emitted:29 observations,3 supported call-runner outcomes,2 completion edges plus early control. Initial row9/9 and pre-native10/10 logs preserved separately. Appended3 Infinity/NaN/coercion controls retain original29 golden facts/assertions. Native getter1-case source/emitted red proof fails before correction. Final11source/11strict-emitted (new6phase plus unchanged5activity),4display:0fail/cancel/skip; activity39 observations/concurrent/stale paths remain unchanged. Scoped TypeScript6.0.2:zero diagnostics; actual typed emit3 target artifacts, owned3-root noEmit. Owned lint3files94rules0errors/warnings, format5files and architecture0violations. Evidence checker lint/format checked separately.",
+  "reproduce": {
+    "digest": "node docs/evidence/knorvia-workflow-run-phase-check-20261001.mjs --emitted --logs",
+    "source": "node --import tsx --test apps/cli/packages/core/test/workflow-run-phase.test.ts apps/cli/packages/core/test/workflow-run-activity.test.ts",
+    "emitted": "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/workflow-run-phase.test.ts apps/cli/packages/core/test/workflow-run-activity.test.ts",
+    "consumer": "node --import tsx --test apps/cli/packages/core/test/workflow-run-display.test.ts",
+    "compiler": "Same core tsconfig/scoped createProgram recipe as earlier receipt:one target production root, emit only that SourceFile; noEmit adds the two phase fixture/test roots. --emitted checker requires actual current dist and --logs requires retained /tmp logs; plain checker uses Git and installed TypeScript."
+  },
+  "licenseDecision": null,
+  "limits": [
+    "No broad/root-wide gates/full suite/aggregate CLI or desktop build/native-limit reruns. Aggregate/native Windows/macOS/GUI/packaged acceptance remains root-owned.",
+    "Old checkpoints/receipts/assertions/failure proofs, runtime/Host/shared licensing/dependencies/CI/other lanes untouched. All ports/data synthetic; fetch/DNS fail closed. No real providers/workflows/accounts/files/network or settings/security changes.",
+    "Demonstrated in-scope getter-order regression has saved source/emitted red proof and correction; final cases pass. No persistent executor blocker. Shared global layout/other inherited formatter slices remain for future review. No publication/rights decision."
+  ],
+  "regression": {
+    "initialProduction": "cc57fcb73d4b33976349c568bc148ebafd6d3ac4",
+    "proof": "78f3fe1ac2a795099a3702e892d40552da953150",
+    "correction": "823c4218c8a3d54f648865f4250891478928fdc8",
+    "initialEmitted": {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+      "bytes": 10058,
+      "sha256": "361ce24eccdfbcea18a501878799655445ffb5c24c0f6be25ea23e21c377d216"
+    },
+    "trigger": "Owned synchronous Math.min throwing getter/Math.max observer on valid synthetic phase inputs; both native descriptors restored in finally.",
+    "baseline": "Math.min getter throws before any Math.max getter read. Same owned failure and terminal synchronous error.",
+    "initial": "Extra two Math.max getter reads before Math.min throw; saved1-case source/emitted failures. Ten prior tests passed, so these historical successes are not completion evidence.",
+    "corrected": "Retain outer Math.min call expression, reading it before reduce and calling it once afterward. Preserve per-entry cap and all original row/guard/callback/getter/model prose/await semantics. No policy or assertions weakened."
+  },
+  "evidenceCorrection": {
+    "reason": "Digest checker caught an in-memory alias of initialEmitted and emitted[0]; updating current artifact metadata had overwritten the initial snapshot. Restore independent initial metadata from pinned initial source; derived hash matches originally recorded actual emission. Checker assertion unchanged, production/tests unchanged.",
+    "log": "/tmp/knorvia-phase-receipt-initial-check.log",
+    "bytes": 684,
+    "sha256": "6b1809515f2e00c2d2e1bb47005dc920ac0b8129d345145ab69b9c1b8db3e1d4",
+    "exitCode": 1
+  }
+}

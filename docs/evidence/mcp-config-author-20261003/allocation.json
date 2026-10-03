@@ -1,0 +1,89 @@
+{
+  "base": "0a36f716872e70be1d10672bba24824dd2e22a7d",
+  "sourceOnlyAllocated": {
+    "apps/cli/packages/core/src/runtime/methods/mcp.ts": "b871f0d4de0565a7d797c9aa01796957586feaf6b5f43581c9cfcbceb2def1b9",
+    "apps/cli/packages/core/src/runtime/methods/config.ts": "d854141e61054b89d44f84b5f99e91525fc773a8afb5ebcd172bf177d73df968"
+  },
+  "retainedThinFacade": {
+    "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+    "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+    "reason": "Existing execution-state admission/transition owner is already reconstructed; this facade supplies fixed port fields and previous-state projection. No cosmetic rewrite or whole-file acceptance claim."
+  },
+  "noAcceptedReview": {
+    "apps/cli/packages/core/src/runtime/methods/mcp.ts": true,
+    "apps/cli/packages/core/src/runtime/methods/config.ts": true,
+    "apps/cli/packages/core/src/runtime/session-mode-port.ts": true
+  },
+  "historicalInventory": {
+    "apps/cli/packages/core/src/runtime/methods/mcp.ts": {
+      "path": "apps/cli/packages/core/src/runtime/methods/mcp.ts",
+      "kind": "file",
+      "sha256": "b871f0d4de0565a7d797c9aa01796957586feaf6b5f43581c9cfcbceb2def1b9",
+      "normalizedSha256": "b871f0d4de0565a7d797c9aa01796957586feaf6b5f43581c9cfcbceb2def1b9",
+      "encoding": "utf8-lf",
+      "bytes": 6238,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime/methods/mcp.ts",
+        "blob": "e21f85b079b18e05e67be5bf99d3e56c826c04fc",
+        "normalizedSha256": "1feb7328acfe55d833a0e19880f06a5b2f7da4cf3fb91da160bb8f6dcec11b86",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    "apps/cli/packages/core/src/runtime/methods/config.ts": {
+      "path": "apps/cli/packages/core/src/runtime/methods/config.ts",
+      "kind": "file",
+      "sha256": "d854141e61054b89d44f84b5f99e91525fc773a8afb5ebcd172bf177d73df968",
+      "normalizedSha256": "d854141e61054b89d44f84b5f99e91525fc773a8afb5ebcd172bf177d73df968",
+      "encoding": "utf8-lf",
+      "bytes": 10727,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime/methods/config.ts",
+        "blob": "4e0bccc6e3f3b69be5b998851d38db4e32c8e0ef",
+        "normalizedSha256": "b54bcbb1b1c3b8d1ac4eedb8e785f2751b86369a3a2de7be488e108a40ee412b",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    "apps/cli/packages/core/src/runtime/session-mode-port.ts": {
+      "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+      "kind": "file",
+      "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+      "normalizedSha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+      "encoding": "utf8-lf",
+      "bytes": 1497,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/runtime/session-mode-port.ts",
+        "blob": "0172b60ca5ab77910558039ce45155387ca7acf9",
+        "normalizedSha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/runtime/session-mode-port.ts"
+        ]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  },
+  "priorProtectionSupersededOnlyForNewAllocation": [
+    "steering-subagent-protected-20261003.json MCP source entry; preserve old receipt/pin as historical, not edit it"
+  ],
+  "knownPrivateHolds": [
+    "runtime-task/registry.ts",
+    "agent/read-file-state-hydrator.ts"
+  ],
+  "parentRestoreBoundary": "Parent reports recovery only from published PR12 and unavailable private backup. This lane does not restore/adopt public predecessors for private HOLDs or import cross-lane source."
+}

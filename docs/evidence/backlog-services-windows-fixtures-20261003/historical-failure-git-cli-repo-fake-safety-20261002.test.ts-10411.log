@@ -1,0 +1,20 @@
+2026-10-03T08:53:19.2769207Z test at packages\services\test\git-cli-repo-fake-safety-20261002.test.ts:1:187
+2026-10-03T08:53:19.2770495Z ✖ synthetic CLI writes preserve argv, private-index scope and permission failures (82.1329ms)
+2026-10-03T08:53:19.2771422Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2771816Z   + actual - expected
+2026-10-03T08:53:19.2772005Z   
+2026-10-03T08:53:19.2772156Z     {
+2026-10-03T08:53:19.2772460Z   +   GIT_INDEX_FILE: '\\owned data\\tmp\\git-index-synthetic\\index'
+2026-10-03T08:53:19.2772920Z   -   GIT_INDEX_FILE: '/owned data/tmp/git-index-synthetic/index'
+2026-10-03T08:53:19.2773229Z     }
+2026-10-03T08:53:19.2773383Z   
+2026-10-03T08:53:19.2776702Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\git-cli-repo-fake-safety-20261002.test.ts:201:14)
+2026-10-03T08:53:19.2778152Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2779181Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2780445Z     generatedMessage: true,
+2026-10-03T08:53:19.2781186Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2781608Z     actual: { GIT_INDEX_FILE: '\\owned data\\tmp\\git-index-synthetic\\index' },
+2026-10-03T08:53:19.2782141Z     expected: { GIT_INDEX_FILE: '/owned data/tmp/git-index-synthetic/index' },
+2026-10-03T08:53:19.2782931Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2783269Z     diff: 'simple'
+2026-10-03T08:53:19.2783462Z   }

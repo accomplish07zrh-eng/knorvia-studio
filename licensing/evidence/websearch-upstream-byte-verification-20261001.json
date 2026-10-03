@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "source": "https://github.com/zai-org/ZCode",
+  "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+  "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+  "verifiedAt": "2026-10-01T08:24:36.021748+00:00",
+  "method": "Read-only exact publisher tree/blob fetch into separate bare repository. Hash raw bytes and CRLF-only normalization, compare manifest; no upstream implementation imported into production.",
+  "files": [
+    {
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/websearch-results.ts",
+      "blob": "90a6073c90a43aa90525d29a1b1886bbb9aa874e",
+      "bytes": 6156,
+      "sha256": "71690134c19cd0730c9061fbb06ca4c37942111f2e9214d55129dea75749d51d",
+      "normalizedSha256": "71690134c19cd0730c9061fbb06ca4c37942111f2e9214d55129dea75749d51d",
+      "matchesPinnedManifest": true
+    },
+    {
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/websearch-support.ts",
+      "blob": "0711244eb459c6b33779e32a096085396d87a09d",
+      "bytes": 521,
+      "sha256": "90194e63caaccd8dcb864d643a5e422ee7863d68507d639b371aa85c3836b197",
+      "normalizedSha256": "90194e63caaccd8dcb864d643a5e422ee7863d68507d639b371aa85c3836b197",
+      "matchesPinnedManifest": true
+    },
+    {
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/websearch.ts",
+      "blob": "a76996ec5103b6d0941c07fecdb15164831676d4",
+      "bytes": 6949,
+      "sha256": "20ef4b64c469415195b0ca824f30a05ae806c57d9f5e56c8dca6fb2fbc0471e7",
+      "normalizedSha256": "20ef4b64c469415195b0ca824f30a05ae806c57d9f5e56c8dca6fb2fbc0471e7",
+      "matchesPinnedManifest": true
+    }
+  ],
+  "limits": "Publisher byte verification only; no clean-room, whole-file originality or licence grant. Existing attribution and 27 obligations remain."
+}

@@ -1,7 +1,9 @@
 import { access, rm } from "node:fs/promises";
 import { constants } from "node:fs";
 import { normalize, resolve } from "node:path";
+
 import type { KnorviaImportSessionsResult, KnorviaTaskMeta } from "@knorvia/shared";
+
 import { createServiceLogger } from "#src/logger/serviceLogger.js";
 import { buildImportedClaudeTaskFile } from "#src/session/claude-native/buildImportedClaudeTaskFile.js";
 import type { ClaudeNativeImportedSessionSource } from "#src/session/claude-native/claudeNativeImportedSessionTypes.js";
@@ -16,12 +18,12 @@ import type { TaskIndexRepo } from "#src/session/taskIndexRepo.js";
 
 const logger = createServiceLogger("claude-native-import");
 
-function normalizePathForComparison(path: string): string {
-  const normalized = normalize(resolve(path));
-  return process.platform === "win32" ? normalized.toLowerCase() : normalized;
+function pathForComparison(path: string): string {
+  const resolvedPath = normalize(resolve(path));
+  return process.platform === "win32" ? resolvedPath.toLowerCase() : resolvedPath;
 }
 
-async function workspacePathExists(workspacePath: string): Promise<boolean> {
+async function workspaceExists(workspacePath: string): Promise<boolean> {
   try {
     await access(workspacePath, constants.F_OK);
     return true;
@@ -30,12 +32,12 @@ async function workspacePathExists(workspacePath: string): Promise<boolean> {
   }
 }
 
-async function cleanupCreatedArtifacts(paths: readonly string[]): Promise<void> {
-  for (const path of new Set(paths)) {
+async function cleanCreatedOutputs(paths: string[]): Promise<void> {
+  for (const outputPath of new Set(paths)) {
     try {
-      await rm(path, { force: true });
+      await rm(outputPath, { force: true });
     } catch {
-      // 清理失败不阻断主流程
+      // 清理仅限复制端口报告的新建路径；单个删除失败不能打断后续清理或会话导入。
     }
   }
 }
@@ -48,21 +50,17 @@ export async function importClaudeNativeSessions(params: {
   createImportedSession?: (source: ClaudeNativeImportedSessionSource) => Promise<KnorviaTaskMeta>;
   onTaskImported: (meta: KnorviaTaskMeta) => void;
 }): Promise<KnorviaImportSessionsResult> {
-  const normalizedSessionIds = [
-    ...new Set(params.sessionIds.map((item) => item.trim()).filter(Boolean)),
-  ];
-  const result: KnorviaImportSessionsResult = {
-    imported: [],
-    skipped: [],
-    failed: [],
-  };
-
+  const sessionIds = [...new Set(params.sessionIds.map((id) => id.trim()).filter(Boolean))];
+  const result: KnorviaImportSessionsResult = { imported: [], skipped: [], failed: [] };
   logger.info(
     undefined,
-    `开始导入 Claude 原生 session workspaceFilter=${params.workspacePath ?? "all"} count=${normalizedSessionIds.length}`,
+    "开始导入 Claude 原生 session workspaceFilter=" +
+      (params.workspacePath ?? "all") +
+      " count=" +
+      sessionIds.length,
   );
 
-  for (const sessionId of normalizedSessionIds) {
+  for (const sessionId of sessionIds) {
     let createdOutputPaths: string[] = [];
     let importedWorkspacePath: string | undefined;
     try {
@@ -81,7 +79,7 @@ export async function importClaudeNativeSessions(params: {
       }
 
       importedWorkspacePath = candidate.workspacePath;
-      if (!(await workspacePathExists(importedWorkspacePath))) {
+      if (!(await workspaceExists(importedWorkspacePath))) {
         result.skipped.push({
           provider: "claude",
           sessionId,
@@ -90,11 +88,9 @@ export async function importClaudeNativeSessions(params: {
         });
         continue;
       }
-
       if (
         params.workspacePath &&
-        normalizePathForComparison(importedWorkspacePath) !==
-          normalizePathForComparison(params.workspacePath)
+        pathForComparison(importedWorkspacePath) !== pathForComparison(params.workspacePath)
       ) {
         result.skipped.push({
           provider: "claude",
@@ -105,13 +101,12 @@ export async function importClaudeNativeSessions(params: {
         continue;
       }
 
-      const copiedArtifacts = await claudeNativeSessionImportRepo.copySessionFileToWorkspace({
+      const copiedSession = await claudeNativeSessionImportRepo.copySessionFileToWorkspace({
         workspacePath: importedWorkspacePath,
         workspaceIdentity: params.workspacePath ? params.workspaceIdentity : undefined,
         sourcePath: candidate.sourcePath,
       });
-      createdOutputPaths = copiedArtifacts.createdOutputPaths;
-
+      createdOutputPaths = copiedSession.createdOutputPaths;
       const importedSource = await parseClaudeNativeSessionFile({
         filePath: candidate.sourcePath,
         workspacePath: importedWorkspacePath,
@@ -121,6 +116,7 @@ export async function importClaudeNativeSessions(params: {
         fallbackUpdatedAt: candidate.updatedAt,
       });
 
+      // await 之后再读取当前筛选状态；identity 是不解析、不裁剪的外部身份值。
       const targetWorkspaceIdentity = params.workspacePath ? params.workspaceIdentity : undefined;
       let meta: KnorviaTaskMeta;
       if (params.createImportedSession) {
@@ -142,8 +138,6 @@ export async function importClaudeNativeSessions(params: {
             workspaceIdentity: targetWorkspaceIdentity ?? meta.workspaceIdentity,
           },
           searchableText: buildSearchableTextFromMessages(sessionFile.messages),
-          // 已导入会话被删除/归档后再次导入，不能继承旧行隐藏状态，
-          // 否则导入结果成功但 active 列表查不到对应会话。
           archived: false,
           deleted: false,
         });
@@ -155,8 +149,8 @@ export async function importClaudeNativeSessions(params: {
           workspaceIdentity: targetWorkspaceIdentity,
         });
       }
-      params.onTaskImported(meta);
 
+      params.onTaskImported(meta);
       result.imported.push({
         provider: "claude",
         sessionId,
@@ -164,9 +158,9 @@ export async function importClaudeNativeSessions(params: {
         workspacePath: meta.workspacePath,
       });
     } catch (error) {
-      await cleanupCreatedArtifacts(createdOutputPaths);
+      await cleanCreatedOutputs(createdOutputPaths);
       const reason = error instanceof Error ? error.message : String(error);
-      logger.warn(undefined, `导入 Claude 原生 session 失败 session=${sessionId}`, error);
+      logger.warn(undefined, "导入 Claude 原生 session 失败 session=" + sessionId, error);
       result.failed.push({
         provider: "claude",
         sessionId,
@@ -178,7 +172,12 @@ export async function importClaudeNativeSessions(params: {
 
   logger.info(
     undefined,
-    `Claude 原生 session 导入完成 imported=${result.imported.length} skipped=${result.skipped.length} failed=${result.failed.length}`,
+    "Claude 原生 session 导入完成 imported=" +
+      result.imported.length +
+      " skipped=" +
+      result.skipped.length +
+      " failed=" +
+      result.failed.length,
   );
   return result;
 }

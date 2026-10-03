@@ -1,0 +1,8 @@
+{
+  "recordedAtUtc": "2026-10-02T19:48:03.771744+00:00",
+  "finding": "Author requested exact rapid-refill constructor type omitted from first contract before final freeze. Original inputs remain unchanged.",
+  "constructor": "createCompactRapidRefillError",
+  "errorTypeReference": "CoreErrorType.ModelContextExceeded",
+  "typeModule": "../deps.js",
+  "contextAndProse": "Original contract/output-data remain authoritative; no body supplied or source grant inferred."
+}

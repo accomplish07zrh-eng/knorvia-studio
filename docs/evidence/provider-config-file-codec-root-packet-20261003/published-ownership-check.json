@@ -1,0 +1,24 @@
+{
+  "rootAllocation": "Explicit root codec preparation request; repository candidate already frozen/minimal/targettypes completed per root, do not reprepare or touch it",
+  "publishedExactPathChecks": [
+    {
+      "pr": 9,
+      "head": "327a2d773c9735c8b60c20ba7a1a99f23cbf5c67",
+      "branch": "recovery/server-lifecycle-20261002",
+      "exactTargetChanged": false
+    },
+    {
+      "pr": 10,
+      "head": "97cbe6226616e05321abae2bc63cd387e8571fa5",
+      "branch": "independent/settings-lifecycle-20261002",
+      "exactTargetChanged": false
+    },
+    {
+      "pr": 11,
+      "head": "4c0045d5a35071eca00e8390901aa2a29eb76b4b",
+      "branch": "parallel/cli-tools-fast-20261001",
+      "exactTargetChanged": false
+    }
+  ],
+  "qualification": "Public changed-path metadata/root allocation only; unpublished/private reservations not disproved; no other lane source fetched/imported, no cross-lane merge."
+}

@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-02T19:17:54.250183+00:00",
+  "packetRef": "c90944c30a5eff342157143c91893ad5863d1282",
+  "matchedInputs": 8,
+  "matchedSources": 3,
+  "qualification": "Broad context and generic tooling exposure retained; no deliberate target implementation/history/test body reading during this pass. Source-exposed E packet. Not isolated or legal determination.",
+  "selection": "Author messageport/websocket lifecycle owners; retain RemoteServiceAccess facade/config mapping unchanged, no cosmetic rewrite."
+}

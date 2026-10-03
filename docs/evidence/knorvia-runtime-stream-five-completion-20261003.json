@@ -1,0 +1,62 @@
+{
+  "base": "13b8f25ef1ac338cf34e9b9b9189c25d15beb7b5",
+  "productionHead": "4f42ac7787e57d8ddab9df9bb797b7d78d985651",
+  "productionCommits": {
+    "conversation": "a56815a984f2d7f05a28aca733ddc39a761c4506",
+    "streaming-tool-ledger": "a23a48e9e93d9620b734e2be8812754a064dcccc",
+    "model-streaming-event-queue": "f71bbc48ca1a10c7786d3ef07e91f3d9c16d3b53",
+    "streaming-tool-coordinator": "2b9a33de7afbf929ecd2561f9f5f4ec029c733c9",
+    "streaming-recovery": "4f42ac7787e57d8ddab9df9bb797b7d78d985651"
+  },
+  "freezeDraftAndFailureCommits": [
+    "64d0478",
+    "0955914",
+    "efd374a",
+    "725d8d8"
+  ],
+  "receipts": {
+    "conversation": "a070934010e2875fccdc6f5068bfeb5519e40a2d859b2c74bec4482b2e836373",
+    "streaming-tool-ledger": "edb831b1df8172dd26970bcc4072c276fe79299e05825b7bdd8ad2d2c57c37f6",
+    "streaming-tool-coordinator": "72e501436f0f2983d6204a0158354bad313378afce98042ed469c17081c262d3",
+    "model-streaming-event-queue": "64a9978f059cfcaf1a55f268c8ab5f40aa486b999f9637848b9add702a4c9806",
+    "streaming-recovery": "4689187cb89ed2fb87649c71c7e87b56addc5258a1c3dc1cb418164370fcf8f1"
+  },
+  "currentSelectorSha256": "4d88af5282a218999245472016f43adefe77a6dab1d940825485e2b520a7606a",
+  "finalFixtureSha256": "bd7438308c6339ab41f17df32438dfbc186ac112f290d046979fe59493d56033",
+  "checkFiles": {
+    "architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "artifact-proof.json": "f91707557c1002c5a13505845e828030275fda811199bffdd07bd3d857bdf462",
+    "final-safety.log": "8c6912a518cc9ba7bbf380bad70b77890c043ef367efd0706ec763d985cd7f81",
+    "owned-format.log": "61407638ba19d1420248f14f2905b9cd8c2f35e5697ca4fbbfa3028d819f205a",
+    "owned-lint.log": "bc7762ddacc6bf5046d9dbeca7ad6a436214a6c4f947bcce2fa6f491ec81037c",
+    "scoped-compile.cjs": "c1b7c0789271dc8131ae7758484775b33d99b17b8c52757c7fd4c534c41c7162",
+    "scoped-types.json": "1d4f5e6be6fbeade3f486d1d2118ba26710d4f72150e41ace73305c42a507769",
+    "verify-artifacts.cjs": "0a664db4d24749f10c418da48bcb25b4ebf9a2f0cf70ef10a65f2b13cabccaa8"
+  },
+  "checks": {
+    "scopedTypes": "TypeScript6.0.2,0 diagnostics,20exact public call signatures+1literal exported constant;fixed non-function declaration AST facts equal. Only6modules JS/dts emitted. Initial API enumeration-order false-negative preserved; canonical names/signature/constant equality proved without source/test relaxation.",
+    "syntheticSafety": "One coherent final strict actual-emitted pass4synthetic write/lifecycle groups+3preserved red observations+1appended error own-field observation.5owners do not multiply group counts. Corrected baseline4groups frozen before production; initial fixture registry-boundary failure and setup failures preserved separately.",
+    "artifacts": "18strict current source/JS/dts;5immutable historical source/compiler/declaration oracles;47 packet/draft/journal/seal files. Wrong ledgerJS/missing recovery declaration reject. Current private execution helper included in exact pins.",
+    "lint": "6sources94rules0 warnings/errors",
+    "format": "6sources+1fixture pass",
+    "architecture": "0violations;CLI unmanaged;all6sources<=400physical lines."
+  },
+  "originalFailureEvidence": "725d8d8 contains browser context read-phase,ledger readOnly count,and cached recovery attempt-ID failures with original sealed draft/transpile probe. Exact sealed-draft branded-ID compiler diagnostics remain. Setup failures and initial overstrict export enumeration report preserved separately; not credited as runtime failures or passing coverage.",
+  "authorship": "5fresh internal authors fork_turns=none,Sol/high. Source-derived body-free API/import/type/functional packets, declaration-only supplements and recorded facts. Drafts sealed before curator comparison. Conversation,ledger,coordinator disclosed incidental unrelated agent-status/design/hash summaries; workflow is not strict packet-only or absolutely isolated. Curator predecessor-exposed; public declaration restoration and compatibility corrections source-exposed.",
+  "retainedExpression": "Fixed protocol/type/record/order/API/runtime prose and native await/catch/timer/guard combinations retained; conventional loops/maps/sets/object/promise glue may match. Ledger/queue and recovery/coordinator retain strong structural correspondence to predecessor. Fresh authoring is evidence,not whole-file expression clearance; private execution separation has no extra originality credit. Root review required; no header/global inventory/licence/clean-room grant.",
+  "protectedScope": "Production diff vs13b8f25 exactly five selected owners+private streaming-tool-execution helper. E context/provider/media/compaction/workflow,accepted registry/admission/persistence/originals,permission/full-access,shared licensing/dependencies/CI and other lanes unchanged. No cross-lane integration.",
+  "remainingSelectedQueue": [],
+  "remainingReview": "Root independent correctness/expression/licence review and aggregate/native acceptance; no next runtime owner selected in this batch.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted matrices/full call-runner or live-runtime consumers deliberately deferred per user speed cadence.",
+    "Real callers statically traced;fake publication/write/lifecycle ports exercise4representative groups,not full execution/recovery/cancellation space. Pure conversation replay limited to one concrete red observation.",
+    "Selected historical ledger/recovery bindings explicit;unchanged transitive deps through tsx,not all-emitted.",
+    "Freshness fetch blocked configured proxy8080;no policy/access/settings bypass.",
+    "No real provider,credential,user-file/process or user-data action,main merge,release or deployment."
+  ],
+  "reproduce": [
+    "node docs/evidence/runtime-stream-five-checks-20261003/verify-artifacts.cjs",
+    "node docs/evidence/runtime-stream-five-checks-20261003/scoped-compile.cjs --emit",
+    "node --import tsx apps/cli/packages/core/test/runtime-stream-five-safety-20261003.test.mjs"
+  ]
+}

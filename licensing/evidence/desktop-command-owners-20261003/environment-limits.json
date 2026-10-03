@@ -1,0 +1,7 @@
+{
+  "priorWrapperFailure": "licensing/evidence/desktop-playwright-owners-20261003/pnpm-architecture-blocked.json",
+  "wrapper": "Prior ENOENT creating /home/agent/.local/share/pnpm; no retry/install/storage/permission workaround; not passing. Existing direct scripts are separate checks.",
+  "node": "v24.19.0",
+  "pinnedNode": "24.14.0",
+  "sourceObject": "Prior git ls-tree pinned upstream128 fatal:not a tree object; no fresh origin/rights acceptance."
+}

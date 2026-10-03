@@ -1,0 +1,124 @@
+{
+  "formatVersion": 1,
+  "kind": "ready-grouping-interleaving-checkpoint",
+  "freezeCommit": "08273a711b8e899dff5d035fc257df048c9ec7dd",
+  "authorDraftCommit": "be9a54dabd291db57bd06360efe63f4dd1e668be",
+  "implementationCommit": "0bfa826175e1b77948d8d4bbac6d00aa3db2ef0e",
+  "scope": "Only orderedReadyExecutableNodes body in graph.ts; all other helpers and protected planner/runtime files byte-unchanged. Exact current graph pins advanced in three named fixtures; historical archives unchanged.",
+  "design": "Packet-authored complete function forms ordered per-record contributions, combines repeated collection IDs, records exploratory membership, and consumes fixed group arrays with per-group cursors. A single result begins with nonexploratory references. Persistent rank advances only for a nonempty selected remainder; group removal retains rank. No new owner, async gate, policy or public API.",
+  "authorship": {
+    "attempts": 1,
+    "tool": "collaboration.spawn_agent; fork_turns=none; existing executor; gpt-6-astra/high",
+    "authorTask": "/root/ready_order_author",
+    "draftBytes": 1470,
+    "draftSha256": "78f6f77c4597457bd66068b11e5f1128dbaca58d6cbc490545dffc94a9b3b556",
+    "actualBoundary": "Author reports reading only the two authorized behavior/API inputs and saved draft for hashing; curator supplied no source/history/tests/oracles. Inputs are source-derived, curator is source-exposed, and filesystem is shared rather than technically isolated.",
+    "integration": "Saved/hash-reported before curator read draft. Only the selected source range was replaced. Parsed function equals saved draft; no post-review runtime correction.",
+    "retained": "Public signature/types, external helper names and eligibility/membership/fairness rules; ordinary Map/Set/filter/modulo/splice scheduling idioms necessarily overlap conventional expressions. Remaining graph.ts bodies stay inherited/unreviewed; no whole-file or algorithmic-novelty claim."
+  },
+  "results": {
+    "predecessorFreezePerMode": {
+      "groups": 5,
+      "pass": 5,
+      "fail": 0
+    },
+    "finalPerMode": {
+      "groups": 6,
+      "pass": 6,
+      "fail": 0
+    },
+    "counting": "Final6 =3direct historical/current ordering groups +1paired actual scheduler group (caps8and2) +1strict selector group +1existing planner-expansion scheduler consumer. Earlier5freeze groups recur; not11new groups.",
+    "selector": "44distinct pinned artifacts;42/43consumer manifest sets overlap.12wrong/missing owner/consumer/archive controls per mode. Direct current import equality and historical/current function/class separation asserted.",
+    "types": {
+      "node": "v24.19.0",
+      "typescript": "6.0.2",
+      "roots": [
+        "src/workflow/scheduler/graph.ts",
+        "test/workflow-ready-order.test.ts",
+        "test/workflow-ready-order-fixture.ts",
+        "test/workflow-planner-expansion.test.ts",
+        "test/workflow-planner-expansion-fixture.ts",
+        "test/workflow-collection-planner.test.ts",
+        "test/workflow-collection-planner-fixture.ts"
+      ],
+      "diagnostics": 0,
+      "originalPublicDeclarationBytesEqual": true,
+      "options": "Existing core options; rootDir extended to core only for owned test roots; no target/type-rule overrides"
+    },
+    "lint": "5owned files,94configured rules,0errors/0warnings; existing scoped root-rule config excludes no CLI paths, no repository rule changes",
+    "format": "14owned files passed; final receipt separately formatted",
+    "architecture": "0violations/0baseline/0new;CLI unmanaged by existing policy"
+  },
+  "proof": {
+    "authoredFunctionAstEqual": true,
+    "unrelatedGraphPrefixSuffixByteEqual": true,
+    "publicDeclarationByteEqual": true,
+    "protectedPaths": [
+      "src/workflow/scheduler/planner-expansion.ts",
+      "src/workflow/scheduler/collection-planner.ts",
+      "src/workflow/scheduler/collection-planner-admission.ts",
+      "src/workflow/scheduler.ts",
+      "src/workflow/scheduler/node-runner.ts",
+      "src/workflow/scheduler/events.ts",
+      "test/workflow-collection-planner.test.ts",
+      "test/workflow-planner-expansion.test.ts",
+      "test/workflow-collection-planner-baseline.json",
+      "test/workflow-planner-expansion-baseline.json"
+    ],
+    "freezeAssertionsAndArchiveUnchanged": true,
+    "currentBindings": {
+      "workflow-ready-order": 44,
+      "workflow-collection-planner": 42,
+      "workflow-planner-expansion": 43
+    },
+    "exactAuthorInputsPreserved": true,
+    "sourceSha256": "dccbfe7c63c8ec3ecdf89d656628ae73cb9bbf6464ae4de4ce07bfeab6a972df"
+  },
+  "failurePreservation": "Freeze receipt retains both original failed consumer drafts/logs. Reused port assertions were unchanged; owned result release pacing was corrected before freeze/authoring. A later Node execFileSync Git-read EPERM interrupted byte proof; normal local Git reads completed it, without settings/access changes or redoing the successful implementation commit.",
+  "fileSha256": {
+    "apps/cli/packages/core/src/workflow/scheduler/graph.ts": "dccbfe7c63c8ec3ecdf89d656628ae73cb9bbf6464ae4de4ce07bfeab6a972df",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph.js": "21dbfba2a542d99a099b17f9512f87c87731dc09efc5d18352d3b391cccb8c4a",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph.d.ts": "0c041833e2d9deab50587ad659ec7d300e4e8a6dd038fde483574f2f0f04a613",
+    "apps/cli/packages/core/test/workflow-ready-order.test.ts": "9af6cbac83bd9061c6a14fe0d089b9b5a0bc69b873e207aaaa1c1aa65e8fd3cf",
+    "apps/cli/packages/core/test/workflow-ready-order-baseline.json": "2b531cb55669db3a233b5031e160443651a1324e8b014bbe487743f34813e723",
+    "apps/cli/packages/core/test/workflow-ready-order-current.json": "8a22e1e9db93222f0d23d553de22c09560aeba9d4fcaf4ae89294ce4ee0c5a0a",
+    "apps/cli/packages/core/test/workflow-ready-order-fixture.ts": "76a6f77d62ee5bf1dff8cfb411f7baa1f52ccd74f9e0253f71d70e2093acb736",
+    "apps/cli/packages/core/test/workflow-collection-planner-current.json": "21e1c5dbd2a8fe8537650262dcd7f7df39591755d9fdd2524ecdae99012601a9",
+    "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts": "36644cd12d1f99498fa3cd054bd8f00ce2dd5a75ab9aa159367108638fd36fdc",
+    "apps/cli/packages/core/test/workflow-planner-expansion-current.json": "28c4274de796a8e426ca0cf7497caf04218cccd10b54c5bb6756dbb05dc7ced7",
+    "apps/cli/packages/core/test/workflow-planner-expansion-fixture.ts": "0969a46a9addfd9180688433a3882ee21f8366bc93ab3cbaf2476b4ab8f11c87",
+    "specs/knorvia-ready-node-ordering-20261002.md": "3c4928b4c2b9c611d5192bd1cb9436f81d1163ab61357ef9bfe62120674996ad",
+    "docs/evidence/knorvia-ready-order-freeze-20261002.json": "af42cf34e5dc1fcbf68968c8c5d0116fcb20140813ad9979c276ddb1994adfc0",
+    "docs/evidence/ready-order-author-20261002/inputs-exact.json": "b3ae70cef34994f1289ec77dfd7c62bb2921116daa50ffd21069ec6cc8a1ce93",
+    "docs/evidence/ready-order-author-20261002/draft-exact.json": "904d21c556b524c9a347016b2f63bee2a33273fc1531f2c60701d30df733c2fd"
+  },
+  "localEvidenceSha256": {
+    "/tmp/knorvia-ready-order-20261002/final-source.log": "d27192bb7550a6eec967a68ffef35ecfc16d8ce23590e5c87b64a92c30cccfc9",
+    "/tmp/knorvia-ready-order-20261002/final-emitted.log": "2b010b22cbe1f558b5d187e33e96fee1a3a34f11305438152774678df7cea1a1",
+    "/tmp/knorvia-ready-order-20261002/final-compile.log": "03ebe7177cb4bcbae3dbdfef8e4687c8d10f3fcf2dbd75915f760c8237268789",
+    "/tmp/knorvia-ready-order-20261002/types.log": "a0078c2efd828a3ff90030690fd1b661904185dd6c6ea19b2dd1187c7ac9589d",
+    "/tmp/knorvia-ready-order-20261002/lint.log": "9cbeb3d6ed89ab85dc9203895e3372f4ceccd2581715521fddf1fd41729be0a6",
+    "/tmp/knorvia-ready-order-20261002/format.log": "ceecef0d4791892aec3570b99acdfa7efbe0b08ec73b4793a1e0ae58557cb3de",
+    "/tmp/knorvia-ready-order-20261002/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "/tmp/knorvia-ready-order-20261002/proof.json": "769c270acfb096653c95777310e84cca4f6f7b0ec3b9202a68b887d77fb259f2",
+    "/tmp/knorvia-ready-order-20261002/proof-git.json": "e2a093c1fb377ea182e5a40d8801f29a580ff1a52c7e5c6d135ce7601c09100a",
+    "/tmp/knorvia-ready-order-20261002/proof-transport-note.json": "579734192b9e9a241f5915e946a2fcea69a525826a284cfeff57341ffae60486",
+    "/tmp/knorvia-ready-order-20261002/proof.mjs": "d061c35ed2d79794e4bd9e9c8d7d7afff1448ec0f513793cf908575dbddebe72",
+    "/tmp/knorvia-ready-order-20261002/prepare.mjs": "c26d6b400260f28de16cac7e345e5432118176501974541e1d1e8010b7b9d127",
+    "/tmp/knorvia-ready-order-20261002/check-types.mjs": "1cc1a30eb0ad842d048e182d4406391a5603e7185b99afd71e6c5f4e55db3640",
+    "/tmp/knorvia-ready-order-20261002/freshness.log": "84c6072a813e1e6419c1627eb2e606645d4423e24c4c634a415f8ddd25de154a"
+  },
+  "reproduction": {
+    "tests": "KNORVIA_ENV=test KNORVIA_DATA_BASE_DIR=<owned tmp> KNORVIA_STORAGE_DIR=<owned tmp>/cli KNORVIA_COLLECTION_PLANNER_TEST_EMITTED=<0 or1> node --import tsx --test --test-isolation=none --test-timeout=120000 --test-name-pattern=\"ready order|preserved actual scheduler expansion consumer\" apps/cli/packages/core/test/workflow-ready-order.test.ts apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+    "compile": "Scoped TypeScript program from existing core config; actual graph owner JS/declaration emitted, no aggregate build. Sources/tests use existing core type rules with only rootDir extended for test roots.",
+    "digests": "SHA256 exact bytes for fileSha256; baseline JSON internally pins source/compiled/declaration and exact scheduler JS. inputs-exact.json and draft-exact.json preserve raw text and original digests."
+  },
+  "limits": [
+    "Linux Node24.19.0/TypeScript6.0.2; pinned Node24.14.0, Windows/native, aggregate suite and root integrated scheduler not rerun.",
+    "Use explicit in-process groups because default isolated runner previously yielded only a file-level result; no timeout or assertion relaxation.",
+    "Consumer probe demonstrates concurrent admission/cap while terminal results are released one at a time with native turns drained. It does not claim overlapping terminal-publication stress coverage.",
+    "Ordinary synthetic data only; no broad accessor grid or live providers/user data. No publisher-byte acquisition; curator relies on existing local inventory facts.",
+    "Freshness fetch failed through current proxy; no environment/access change. Older unrelated scheduler/node-publication selectors retain historical graph pins; root owns their integration migration."
+  ],
+  "licenceGrant": null
+}

@@ -1,0 +1,19 @@
+{
+  "draftSha256": "a2bd47cd7ec589dad9acefe9cd0d19f4e8d1f8f6415871dbd789a7593d5cd869",
+  "workingSha256": "e7f1af1d8b010480a8de0b14077bf9208a8bd33fdd884165ee5e86b32fef34e2",
+  "changes": [
+    "Definite-assignment annotations for promises that are assigned before awaited continuations",
+    "Use explicit Node Stats type instead of overloaded stat return union",
+    "Use string[] for plain-name readdir result; remove unnecessary cast"
+  ],
+  "executableChange": "none: all changes are erased TypeScript annotations/type imports",
+  "compiler": "Standalone target with actual dependency declarations, explicit installed Node types and non-composite harness; zero diagnostics",
+  "minimalSafety": "Three actual-emitted synthetic groups pass: manifest identity/validation, pinned ready partial publication/hardlinks, checksum failure preserves forced old cache; no network/user data/full suite",
+  "limits": [
+    "Initial harness missing Node types/composite project-root restrictions preserved",
+    "Original draft8type diagnostics preserved",
+    "Migration, refresh concurrency, platform/rename retry/native acceptance deferred",
+    "No source/history/test-body comparison before original draft freeze",
+    "No cross-lane source integration"
+  ]
+}

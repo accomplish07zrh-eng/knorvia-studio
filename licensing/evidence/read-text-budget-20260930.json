@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "scope": "Read text projection, additive token estimate units and linear prefix planning; inherited-path test portability correction",
+  "baseCommit": "ec75ec43596a95ef459f09551c1aefb4d9105c11",
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "licenceDecision": "Technical replacement; no MIT grant or accepted independent-replacement source review. Existing output strings and source exposure remain recorded.",
+  "validation": {
+    "oldFrozenContract": {
+      "tests": 37,
+      "passed": 37
+    },
+    "source": {
+      "tests": 42,
+      "passed": 42
+    },
+    "actualEmitted": {
+      "tests": 42,
+      "passed": 42
+    },
+    "scopeDetails": [
+      "37 text request/projection/error/format/estimation cases",
+      "2 actual Read consumer cache/metadata cases",
+      "3 weight/prefix properties, including all 65536 UTF-16 code units"
+    ],
+    "differential": {
+      "comparisons": 576,
+      "mismatches": 0,
+      "scope": "adapter call and observer ordering, projected output, model text and structured error; ASCII/CJK/CRLF/surrogate/blank-line budget edges"
+    },
+    "aggregate": {
+      "tests": 5153,
+      "pass": 5087,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "baselineFailureSetUnchanged": true,
+    "rootTypes": "pass",
+    "cliTypes": "default recursive invocation killed137; same package scope passed with workspace-concurrency=1 and NODE_OPTIONS=--max-old-space-size=2048",
+    "rootAndCliLint": "pass",
+    "changedStrictLint": "6 files, 94 rules, zero diagnostics; ignorePatterns removed only in temporary config",
+    "format": "pass",
+    "architecture": "pass zero violations",
+    "prePush": "pass",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10
+    }
+  },
+  "correctedDuringDevelopment": [
+    "New incrementing line-label implementation differed at the large-number precision boundary. Failure-first regression retained; index plus original base restores old behavior. Old and new final 37-case fixture passes.",
+    "Initial per-character scan regressed the ASCII microbenchmark. Native CJK search fast path now avoids scanning ASCII in JavaScript; CJK counting still avoids match-array allocation."
+  ],
+  "portabilityCorrection": {
+    "observedCI": 197,
+    "runId": 36747939266,
+    "head": "ec75ec43596a95ef459f09551c1aefb4d9105c11",
+    "linux": {
+      "tests": 5111,
+      "passed": 5103,
+      "failed": 0,
+      "skipped": 8
+    },
+    "windows": {
+      "tests": 5111,
+      "passed": 5109,
+      "failed": 1,
+      "skipped": 1
+    },
+    "reason": "New test assumed POSIX separators for an explicit non-win32 parameter. Unchanged normalization helper uses host node:path.normalize in that branch. Two expected values now use host normalize, without changing production policy or skipping assertions.",
+    "nativeFocusedTests": 19,
+    "windowsNormalizeEmulationTests": 19,
+    "scope": "Focused tests rerun after this test-only correction. Full aggregate checks final production sources. Windows normalize emulation is not native Windows execution; new exact-commit CI remains required."
+  },
+  "microbenchmark": {
+    "initial": {
+      "iterations": 200,
+      "input": "synthetic UTF-16 strings",
+      "results": [
+        {
+          "kind": "ascii",
+          "old": {
+            "ms": 0.023605999999972482,
+            "sum": 6666800
+          },
+          "current": {
+            "ms": 58.164687999999956,
+            "sum": 6666800
+          }
+        },
+        {
+          "kind": "cjk",
+          "old": {
+            "ms": 441.3307829999999,
+            "sum": 13333400
+          },
+          "current": {
+            "ms": 39.334812000000056,
+            "sum": 13333400
+          }
+        },
+        {
+          "kind": "mixed",
+          "old": {
+            "ms": 98.13493300000005,
+            "sum": 8000000
+          },
+          "current": {
+            "ms": 48.10732599999983,
+            "sum": 8000000
+          }
+        }
+      ]
+    },
+    "final": {
+      "iterations": 200,
+      "input": "synthetic UTF-16 strings",
+      "results": [
+        {
+          "kind": "ascii",
+          "old": {
+            "ms": 0.03245900000001711,
+            "sum": 6666800
+          },
+          "current": {
+            "ms": 0.05397099999999,
+            "sum": 6666800
+          }
+        },
+        {
+          "kind": "cjk",
+          "old": {
+            "ms": 423.692091,
+            "sum": 13333400
+          },
+          "current": {
+            "ms": 34.86350200000004,
+            "sum": 13333400
+          }
+        },
+        {
+          "kind": "mixed",
+          "old": {
+            "ms": 95.12215600000002,
+            "sum": 8000000
+          },
+          "current": {
+            "ms": 47.84180399999991,
+            "sum": 8000000
+          }
+        }
+      ]
+    },
+    "method": "200 calls after 20 warm-up calls per synthetic 100000-UTF16-unit ASCII/CJK/mixed input. Other workspace activity was not isolated. Observational only; not an end-to-end product speed claim."
+  },
+  "sourceAndEmitted": [
+    {
+      "source": "apps/cli/packages/core/src/context/utils.ts",
+      "sourceSha256": "a257b1dc786f789fee7983e0a77f15ce9414014305ef48fb1318a0c4c26cf4da",
+      "emitted": "apps/cli/packages/core/dist/context/utils.js",
+      "emittedSha256": "f811819980b411f05ebe682fa05f99ba9a9351bdd935d26de30983a1adb14a41",
+      "declaration": "apps/cli/packages/core/dist/context/utils.d.ts",
+      "declarationSha256": "614fcec5941a7861f62e7091971398477d00b1ab2f50922ca91463eb9108e50f"
+    },
+    {
+      "source": "apps/cli/packages/core/src/tool/handlers/read-text.ts",
+      "sourceSha256": "a325a3fb34d7b51125b11e9033e9df79a0dde14bce1df79eaa7b3fd99ae8bd9e",
+      "emitted": "apps/cli/packages/core/dist/tool/handlers/read-text.js",
+      "emittedSha256": "5557e256af11e12f2d2d6af3b4dce5c5f7e6ed493c0d99a11b168d870cf7747c",
+      "declaration": "apps/cli/packages/core/dist/tool/handlers/read-text.d.ts",
+      "declarationSha256": "234565772a28c58d4c6fbde59036e8b475c2d074f907453ffeba4abb02115041"
+    },
+    {
+      "source": "apps/cli/packages/core/src/tool/handlers/read-text-budget.ts",
+      "sourceSha256": "e47757b31ee01ef6524262ed30fd0259e412b668510485e006361dad6a9ffbc3",
+      "emitted": "apps/cli/packages/core/dist/tool/handlers/read-text-budget.js",
+      "emittedSha256": "b4ed2cbf60e3f2bc8b05f09bd161b68573e1a2ade729973adfdf09ed993ea8cb",
+      "declaration": "apps/cli/packages/core/dist/tool/handlers/read-text-budget.d.ts",
+      "declarationSha256": "d6c36c7a3c2684a112b4b184395448002e9831d6a6ac6f28a9f800d20625c2a2"
+    }
+  ],
+  "logDigests": {
+    "read-text-old-final.tap": "a86236a8b7b6bb17d6bd9f7ae2997ff1115fa33edafcb2ae10c1eaf313b44f5d",
+    "read-text-source-combined.tap": "69c10bba73c529e535405bc04ea27a552f68a18837a08eca0098136288359eef",
+    "read-text-emitted.tap": "82599a7a134bdb35d84d38fbab0310a9f578f44f7abdb4ea6c44b484826a6ae8",
+    "read-text-differential.json": "7b2044f0630a842bd758fcd2801182f0c83775b9e048c64ba71a1658d9e50b0a",
+    "read-text-label-regression-before.tap": "176458dff223a42b71af7d24ecaeda99e1e677b3db45d77484cb7bfec42d51b5",
+    "read-text-estimator-initial-benchmark.json": "e6859ee457d0d6feb0249545131b83d0cba679752fb0f06db5eb04af52d937cb",
+    "read-text-estimator-final-benchmark.json": "c768871905c5cd548060f4319dd05bcf0c848c188eec936ac0ef2b5b75d9087f",
+    "read-text-full.tap": "fc3a37b0999dccd309633bba84839d86e67a50be25081404872f7703506cdd4e",
+    "read-text-root-types-final.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "read-text-cli-types-final.log": "06a871236f07e72d36f2b0b0d85327ada609806228b440c07977b91edea005b7",
+    "read-text-cli-types-serial.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "read-text-cli-build-final.log": "1b790fc132d318ef3e5751a9f603c60516a45dd87720e97aa5cb8a77841e3cb3",
+    "read-text-root-lint.log": "a9925428ec38fc01f1f57e58ffd1d60492b529740988246107f05f41c1ce3946",
+    "read-text-cli-lint.log": "610817f10685b73365a3179cc18caf1d6dd7d4be187ec79b1ed8ae5dbd4a725b",
+    "read-text-strict-lint.log": "4df2e2c33a16e09b558d784540663954e9a3ba0016b9ed0c6394e8113ff4d233",
+    "read-text-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "read-text-format.log": "37d2131393eca250a6ec1949be00a2fb82c5d4fc517dd8aa6b3027d62196573d",
+    "read-text-pre-push.log": "847603bdf07d4103e62b62f98f2ea93ee2074ab84a00c6bf6ba8087791f7b59b",
+    "read-state-portability-fix.tap": "2a22c6015451f0f8f8b1fd9660baec219d76e80a6ebe42509b8f67f695617c13",
+    "read-state-windows-normalize.tap": "70464e923cfb4c3eaf596c57392f8fe57364f87b514b52951ceebab78260ede8"
+  },
+  "limits": [
+    "59 local Unix socket EPERM failures and seven platform skips; no test disabled",
+    "Exact new-commit native Windows/Linux CI pending publication",
+    "No fresh native GUI, installers, live model calls or production data validation",
+    "Third-party obligations remain27; no licence closure inferred from tests"
+  ]
+}

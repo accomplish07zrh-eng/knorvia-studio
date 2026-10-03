@@ -1,0 +1,8 @@
+{
+  "debug-1": "[messageport] creating protocol and client...",
+  "debug-2": "[messageport] ChannelClient received Initialize from server",
+  "debug-3": "[messageport] client created, waiting for Initialize...",
+  "error-template-1": "WebSocket connection failed: ${wsUrl}",
+  "error-template-2": "WebSocket closed before ready: ${event.reason}",
+  "error-template-3": "WebSocket closed before ready (${event.code})"
+}

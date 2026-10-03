@@ -3,69 +3,45 @@ import type { SSHConnectOptions } from "./remoteTarget.js";
 
 type SshRemoteHostKeyTarget = SSHConnectOptions | Extract<RemoteTargetSnapshot, { kind: "ssh" }>;
 
-interface PrivateKeyPathRoot {
+// 既有 JSON 身份契约；词法归一不访问私钥或展开 home。
+// 来源暴露与兼容验收见 specs/knorvia-remote-identity-helpers-20260930.md。
+// Apache-2.0 与 NOTICE 继续适用。
+interface KeyPathPlan {
   prefix: string;
-  body: string;
-  blocksParentTraversal: boolean;
+  parts: string[];
+  anchored: boolean;
 }
 
-function splitPrivateKeyPathRoot(value: string): PrivateKeyPathRoot {
-  const windowsDriveRoot = value.match(/^([A-Z]:)\/(.*)$/);
-  if (windowsDriveRoot) {
+function planKeyPath(value: string): KeyPathPlan {
+  const code = value.charCodeAt(0);
+  const drive = value[1] === ":" && ((code >= 65 && code <= 90) || (code >= 97 && code <= 122));
+  if (drive) value = value[0]!.toUpperCase() + value.slice(1);
+
+  // 原盘符文法的 '.' 不匹配内部行分隔符；保留其回落到普通相对路径的结果。
+  const driveRoot = drive && !/[\n\r\u2028\u2029]/.test(value.slice(2));
+  if (driveRoot) {
+    const anchored = value[2] === "/";
     return {
-      prefix: `${windowsDriveRoot[1]}/`,
-      body: windowsDriveRoot[2] ?? "",
-      blocksParentTraversal: true,
+      prefix: value.slice(0, anchored ? 3 : 2),
+      parts: value.slice(anchored ? 3 : 2).split("/"),
+      anchored,
     };
   }
 
   if (value.startsWith("//")) {
-    const segments = value.slice(2).split("/").filter(Boolean);
-    if (segments.length >= 2) {
-      const [server, share, ...bodySegments] = segments;
-      return {
-        prefix: `//${server}/${share}/`,
-        body: bodySegments.join("/"),
-        blocksParentTraversal: true,
-      };
-    }
-    return {
-      prefix: "//",
-      body: segments.join("/"),
-      blocksParentTraversal: true,
-    };
+    const parts = value.split("/").filter(Boolean);
+    // UNC 的前两段是受保护的 server/share，点段名称也不进入 reducer。
+    return parts.length < 2
+      ? { prefix: "//", parts, anchored: true }
+      : { prefix: `//${parts[0]}/${parts[1]}/`, parts: parts.slice(2), anchored: true };
   }
-
   if (value.startsWith("/")) {
-    return {
-      prefix: "/",
-      body: value.replace(/^\/+/, ""),
-      blocksParentTraversal: true,
-    };
+    return { prefix: "/", parts: value.split("/"), anchored: true };
   }
-
   if (value.startsWith("~/")) {
-    return {
-      prefix: "~/",
-      body: value.slice(2),
-      blocksParentTraversal: false,
-    };
+    return { prefix: "~/", parts: value.slice(2).split("/"), anchored: false };
   }
-
-  const windowsDriveRelative = value.match(/^([A-Z]:)(.*)$/);
-  if (windowsDriveRelative) {
-    return {
-      prefix: windowsDriveRelative[1] ?? "",
-      body: windowsDriveRelative[2] ?? "",
-      blocksParentTraversal: false,
-    };
-  }
-
-  return {
-    prefix: "",
-    body: value,
-    blocksParentTraversal: false,
-  };
+  return { prefix: "", parts: value.split("/"), anchored: false };
 }
 
 function normalizePrivateKeyPath(value: string | undefined): string {
@@ -74,35 +50,19 @@ function normalizePrivateKeyPath(value: string | undefined): string {
     return "";
   }
 
-  const normalizedSeparators = trimmed.replace(/\\/g, "/");
-  const driveNormalized = normalizedSeparators.replace(
-    /^([a-z]):/i,
-    (_, drive: string) => `${drive.toUpperCase()}:`,
-  );
-  const root = splitPrivateKeyPathRoot(driveNormalized);
-  const segments: string[] = [];
-
-  for (const segment of root.body.split("/")) {
-    if (!segment || segment === ".") {
-      continue;
+  const plan = planKeyPath(trimmed.replace(/\\/g, "/"));
+  const remaining: string[] = [];
+  for (const part of plan.parts) {
+    if (part === "" || part === ".") continue;
+    if (part !== "..") {
+      remaining.push(part);
+    } else if (remaining.length && remaining[remaining.length - 1] !== "..") {
+      remaining.pop();
+    } else if (!plan.anchored) {
+      remaining.push("..");
     }
-    if (segment === "..") {
-      if (segments.length > 0 && segments.at(-1) !== "..") {
-        segments.pop();
-        continue;
-      }
-      // 盘符、UNC share 和 POSIX root 不是普通路径段，`..` 不能把根弹掉；
-      // 相对路径与 `~` 无法在浏览器侧安全求值，保留未消解的 parent segment 以避免错误复用。
-      if (root.blocksParentTraversal) {
-        continue;
-      }
-      segments.push(segment);
-      continue;
-    }
-    segments.push(segment);
   }
-
-  return `${root.prefix}${segments.join("/")}` || root.prefix;
+  return plan.prefix + remaining.join("/");
 }
 
 function resolveSshAuthKind(target: SshRemoteHostKeyTarget): "agent" | "password" | "private-key" {

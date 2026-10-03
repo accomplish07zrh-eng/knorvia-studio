@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "/tmp/knorvia-cli-media-formatted-frozen/image-index.ts",
+    "/tmp/knorvia-cli-media-formatted-frozen/image-compression.ts",
+    "/tmp/knorvia-cli-media-formatted-frozen/pdf-index.ts"
+  ],
+  "stdout": "Finished in 34ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

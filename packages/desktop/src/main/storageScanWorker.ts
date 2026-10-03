@@ -1,9 +1,4 @@
-/**
- * 存储扫描 Worker 入口（main 进程内的 worker_threads）。
- * 只负责把 services 的 runStorageScan 跑在独立线程里，并按节流把聚合快照发回主线程；
- * 遍历、分类、聚合逻辑全部来自 @knorvia/services（单一扫描路径）。
- */
-import { isMainThread, parentPort, workerData } from "node:worker_threads";
+import { isMainThread, parentPort, workerData, type MessagePort } from "node:worker_threads";
 import type { StorageRootSpec } from "@knorvia/shared";
 import { runStorageScan } from "@knorvia/services/node";
 import {
@@ -12,32 +7,46 @@ import {
   type StorageScanWorkerMessage,
 } from "./storageScanWorkerProtocol.js";
 
+class StorageWorkerBridge {
+  private readonly cancellation = new AbortController();
+
+  public constructor(
+    private readonly port: MessagePort,
+    private readonly input: StorageScanWorkerData,
+  ) {}
+
+  public start(): void {
+    this.port.on("message", (message: unknown) => {
+      if (isStorageScanWorkerCommand(message) && message.type === "abort") {
+        this.cancellation.abort();
+      }
+    });
+    void runStorageScan({
+      roots: this.input.roots as StorageRootSpec[],
+      signal: this.cancellation.signal,
+      progressIntervalMs: this.input.progressIntervalMs,
+      onProgress: (progress) => this.send({ type: "progress", progress }),
+    })
+      .then((progress) => this.send({ type: "done", progress }))
+      .catch((error: unknown) => this.reportFailure(error));
+  }
+
+  private send(message: StorageScanWorkerMessage): void {
+    this.port.postMessage(message);
+  }
+
+  private reportFailure(error: unknown): void {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    const message = error instanceof Error ? error.message : String(error);
+    const code =
+      error && typeof error === "object" && "code" in error && typeof error.code === "string"
+        ? error.code
+        : undefined;
+    this.send({ type: aborted ? "aborted" : "error", message, code });
+  }
+}
+
 const port = parentPort;
 if (!isMainThread && port) {
-  const data = workerData as StorageScanWorkerData;
-  const controller = new AbortController();
-  const post = (message: StorageScanWorkerMessage) => port.postMessage(message);
-  port.on("message", (message: unknown) => {
-    if (isStorageScanWorkerCommand(message) && message.type === "abort") {
-      controller.abort();
-    }
-  });
-  void runStorageScan({
-    roots: data.roots as StorageRootSpec[],
-    signal: controller.signal,
-    progressIntervalMs: data.progressIntervalMs,
-    onProgress: (progress) => post({ type: "progress", progress }),
-  })
-    .then((progress) => post({ type: "done", progress }))
-    .catch((error: unknown) => {
-      const isAbort = error instanceof Error && error.name === "AbortError";
-      post({
-        type: isAbort ? "aborted" : "error",
-        message: error instanceof Error ? error.message : String(error),
-        code:
-          error && typeof error === "object" && "code" in error && typeof error.code === "string"
-            ? error.code
-            : undefined,
-      });
-    });
+  new StorageWorkerBridge(port, workerData as StorageScanWorkerData).start();
 }

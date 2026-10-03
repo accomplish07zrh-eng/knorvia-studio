@@ -1,39 +1,38 @@
 import {
   CoreErrorType,
+  createModelUsageSummaryFromEvents,
+  evaluateRewindTarget,
+  parseWorkspaceCheckpointArtifact,
   RewindScope,
   RewindStrategy,
   SessionEventType,
-  createModelUsageSummaryFromEvents,
   createMessageId,
-  parseWorkspaceCheckpointArtifact,
-  evaluateRewindTarget,
   runWithContextAsync,
   traceContextToLogContext,
 } from "../deps.js";
 import type {
+  CheckpointCreatedPayload,
+  RewindTargetEvaluation,
   SessionEvent,
   TraceContext,
   TurnId,
-  CheckpointCreatedPayload,
-  RewindTargetEvaluation,
-  WorkspaceCheckpointArtifact,
 } from "../deps.js";
 import {
-  selectCheckpointForRewind,
-  buildRewindEvaluationItems,
-  formatWorkspaceRewindNoticeBody,
-  formatUnavailableRewindResponse,
-  throwIfTurnAborted,
-  createTurnFailureError,
-  createTurnCancelledError,
-  isTurnCancellationError,
   appendTurnOutcomeEvent,
+  buildRewindEvaluationItems,
+  createTurnCancelledError,
+  createTurnFailureError,
+  formatUnavailableRewindResponse,
+  formatWorkspaceRewindNoticeBody,
+  isTurnCancellationError,
+  selectCheckpointForRewind,
+  throwIfTurnAborted,
 } from "../helpers/index.js";
-import type { TurnResult, WorkspaceRewindResult, ParsedRewindCommand } from "../types.js";
 import type { AgentRuntimeInternal } from "../internal.js";
+import type { ParsedRewindCommand, TurnResult, WorkspaceRewindResult } from "../types.js";
 import { recordTurnUsageFact } from "./usage-observability.js";
 
-export async function executeRewindCommand(
+export function executeRewindCommand(
   this: AgentRuntimeInternal,
   input: string,
   command: ParsedRewindCommand,
@@ -45,7 +44,6 @@ export async function executeRewindCommand(
   const events: SessionEvent[] = [];
   const startedAt = Date.now();
   const activeTurn = this.beginActiveTurn(turnId, turnTraceContext, "rewind", false);
-
   return runWithContextAsync(turnTraceContext, async () => {
     this.logger?.info("Rewind command started", {
       ...traceContextToLogContext(turnTraceContext),
@@ -54,67 +52,70 @@ export async function executeRewindCommand(
       module: "core.runtime",
       status: "started",
     });
-
     await this.ensureSessionPersisted(input, turnTraceContext);
-
-    const turnStartedEvent = this.createEvent(
+    const startedEvent = this.createEvent(
       SessionEventType.TurnStarted,
-      { turnNumber: this.turnNumber, input, inputId },
+      {
+        turnNumber: this.turnNumber,
+        input,
+        inputId,
+      },
       turnTraceContext,
     );
-    await this.appendEvent(turnStartedEvent, turnTraceContext);
-    events.push(turnStartedEvent);
+    await this.appendEvent(startedEvent, turnTraceContext);
+    events.push(startedEvent);
 
     try {
       throwIfTurnAborted(abortSignal);
-      const response =
-        command.action === "status"
-          ? await this.formatRewindStatus()
-          : command.action === "fork"
-            ? (
-                await this.forkWorkspaceFromCheckpoint({
-                  abortSignal,
-                  targetCheckpointId: command.targetCheckpointId,
-                  traceContext: turnTraceContext,
-                })
-              ).response
-            : command.action === "message"
-              ? (
-                  await this.rewindToMessage({
-                    abortSignal,
-                    events,
-                    scope: command.scope,
-                    targetMessageId: command.targetMessageId,
-                    traceContext: turnTraceContext,
-                  })
-                ).response
-              : command.action === "cascade-message"
-                ? (
-                    await this.rewindCascadeToMessage({
-                      abortSignal,
-                      events,
-                      scope: command.scope,
-                      targetMessageId: command.targetMessageId,
-                      traceContext: turnTraceContext,
-                    })
-                  ).response
-                : (
-                    await this.rewindWorkspaceToCheckpoint({
-                      abortSignal,
-                      events,
-                      targetCheckpointId: command.targetCheckpointId,
-                      traceContext: turnTraceContext,
-                    })
-                  ).response;
+      let response: string;
+      if (command.action === "status") {
+        response = await this.formatRewindStatus();
+      } else if (command.action === "fork") {
+        response = (
+          await this.forkWorkspaceFromCheckpoint({
+            abortSignal,
+            targetCheckpointId: command.targetCheckpointId,
+            traceContext: turnTraceContext,
+          })
+        ).response;
+      } else if (command.action === "message") {
+        response = (
+          await this.rewindToMessage({
+            abortSignal,
+            events,
+            scope: command.scope,
+            targetMessageId: command.targetMessageId,
+            traceContext: turnTraceContext,
+          })
+        ).response;
+      } else if (command.action === "cascade-message") {
+        response = (
+          await this.rewindCascadeToMessage({
+            abortSignal,
+            events,
+            scope: command.scope,
+            targetMessageId: command.targetMessageId,
+            traceContext: turnTraceContext,
+          })
+        ).response;
+      } else {
+        response = (
+          await this.rewindWorkspaceToCheckpoint({
+            abortSignal,
+            events,
+            targetCheckpointId: command.targetCheckpointId,
+            traceContext: turnTraceContext,
+          })
+        ).response;
+      }
       throwIfTurnAborted(abortSignal);
-
-      const turnUsage = createModelUsageSummaryFromEvents(events);
-      const completeEvent = this.createEvent(
+      const usage = createModelUsageSummaryFromEvents(events);
+      const completedEvent = this.createEvent(
         SessionEventType.TurnComplete,
         {
           response,
           tokenCount: 0,
-          usage: turnUsage,
+          usage,
           toolCallCount: 0,
           duration: Date.now() - startedAt,
           resultType: "success",
@@ -123,8 +124,8 @@ export async function executeRewindCommand(
         },
         turnTraceContext,
       );
-      await this.appendEvent(completeEvent, turnTraceContext);
-      events.push(completeEvent);
+      await this.appendEvent(completedEvent, turnTraceContext);
+      events.push(completedEvent);
       await recordTurnUsageFact(this, {
         completedAt: Date.now(),
         events,
@@ -133,7 +134,6 @@ export async function executeRewindCommand(
         traceContext: turnTraceContext,
         turnId,
       });
-
       this.turnNumber++;
       const projection = await this.rebuildProjection();
       this.logger?.info("Rewind command completed", {
@@ -143,15 +143,7 @@ export async function executeRewindCommand(
         module: "core.runtime",
         status: "completed",
       });
-
-      return {
-        response,
-        turnId,
-        traceId: turnTraceContext.traceId,
-        usage: turnUsage,
-        events,
-        projection,
-      };
+      return { response, turnId, traceId: turnTraceContext.traceId, usage, events, projection };
     } catch (error) {
       const coreError = createTurnFailureError(error, abortSignal, "Rewind failed");
       await appendTurnOutcomeEvent(this, {
@@ -174,21 +166,15 @@ export async function executeRewindCommand(
         traceContext: turnTraceContext,
         turnId,
       });
-
       throw coreError;
     }
-  }).finally(() => {
-    this.finishActiveTurn(activeTurn);
-  });
+  }).finally(() => this.finishActiveTurn(activeTurn));
 }
 
 export async function formatRewindStatus(this: AgentRuntimeInternal): Promise<string> {
   const projection = await this.rebuildProjection();
   const checkpoint = projection.lastCheckpoint;
-  if (!checkpoint) {
-    return "No workspace checkpoint is available yet.";
-  }
-
+  if (!checkpoint) return "No workspace checkpoint is available yet.";
   const fileText =
     checkpoint.fileCount === undefined
       ? "unknown files"
@@ -209,9 +195,8 @@ export async function rewindWorkspaceToCheckpoint(
   },
 ): Promise<WorkspaceRewindResult> {
   const rewindId = `rewind_${crypto.randomUUID()}`;
-  const sessionEvents = await this.eventStore.getEvents(this.sessionId);
-  const checkpoint = selectCheckpointForRewind(sessionEvents, options.targetCheckpointId);
-
+  const persistedEvents = await this.eventStore.getEvents(this.sessionId);
+  const checkpoint = selectCheckpointForRewind(persistedEvents, options.targetCheckpointId);
   if (!checkpoint) {
     return this.finishUnavailableRewind({
       events: options.events,
@@ -223,7 +208,6 @@ export async function rewindWorkspaceToCheckpoint(
       traceContext: options.traceContext,
     });
   }
-
   if (!this.artifactStore || !this.fileSystemPort) {
     return this.finishUnavailableRewind({
       checkpoint,
@@ -236,14 +220,12 @@ export async function rewindWorkspaceToCheckpoint(
       traceContext: options.traceContext,
     });
   }
-
   const evaluation = evaluateRewindTarget({
     checkpointAvailable: true,
-    items: buildRewindEvaluationItems(sessionEvents),
+    items: buildRewindEvaluationItems(persistedEvents),
     scope: RewindScope.Workspace,
     targetMessageId: checkpoint.targetMessageId ?? checkpoint.messageId,
   });
-
   if (
     evaluation.strategy !== RewindStrategy.ActiveChain &&
     evaluation.strategy !== RewindStrategy.FileOnly
@@ -258,22 +240,19 @@ export async function rewindWorkspaceToCheckpoint(
       traceContext: options.traceContext,
     });
   }
-
-  let artifact: WorkspaceCheckpointArtifact;
+  let artifact: ReturnType<typeof parseWorkspaceCheckpointArtifact>;
   try {
     throwIfTurnAborted(options.abortSignal);
-    const read = await this.artifactStore.readToolResultArtifact(
+    const snapshot = await this.artifactStore.readToolResultArtifact(
       {
         uri: checkpoint.snapshotRef,
         trace: options.traceContext,
       },
       { signal: options.abortSignal },
     );
-    artifact = parseWorkspaceCheckpointArtifact(JSON.parse(read.content));
+    artifact = parseWorkspaceCheckpointArtifact(JSON.parse(snapshot.content));
   } catch (error) {
-    if (isTurnCancellationError(error, options.abortSignal)) {
-      throw createTurnCancelledError(error);
-    }
+    if (isTurnCancellationError(error, options.abortSignal)) throw createTurnCancelledError(error);
     this.logger?.warn("Workspace rewind checkpoint read failed", {
       ...traceContextToLogContext(options.traceContext),
       errorMessage: error instanceof Error ? error.message : String(error),
@@ -292,22 +271,20 @@ export async function rewindWorkspaceToCheckpoint(
       traceContext: options.traceContext,
     });
   }
-
   const restoredFiles = await this.restoreWorkspaceCheckpointArtifact(
     artifact,
     options.traceContext,
     options.abortSignal,
   );
   const createdMessageId = createMessageId();
-  const noticeBody = formatWorkspaceRewindNoticeBody({
+  const notice = formatWorkspaceRewindNoticeBody({
     checkpoint,
     evaluation,
     restoredFiles,
     rewindId,
   });
-  await this.persistSyntheticUserNotice(createdMessageId, noticeBody, options.traceContext);
-  this.messageHistory.addAttachment("rewind_notice", noticeBody);
-
+  await this.persistSyntheticUserNotice(createdMessageId, notice, options.traceContext);
+  this.messageHistory.addAttachment("rewind_notice", notice);
   const event = this.createEvent(
     SessionEventType.RewindTriggered,
     {
@@ -325,18 +302,15 @@ export async function rewindWorkspaceToCheckpoint(
   );
   await this.appendEvent(event, options.traceContext);
   options.events.push(event);
-
-  const fileText = `${restoredFiles.length} file${restoredFiles.length === 1 ? "" : "s"}`;
-  const strategyText =
+  const suffix =
     evaluation.strategy === RewindStrategy.FileOnly
       ? " Workspace files were restored; conversation history stayed at the compacted context."
       : "";
-
   return {
     checkpoint,
     evaluation,
     restoredFiles,
-    response: `Rewound workspace to checkpoint ${checkpoint.checkpointId}: restored ${fileText}.${strategyText}`,
+    response: `Rewound workspace to checkpoint ${checkpoint.checkpointId}: restored ${restoredFiles.length} file${restoredFiles.length === 1 ? "" : "s"}.${suffix}`,
     rewindId,
     strategy: evaluation.strategy,
   };
@@ -375,7 +349,6 @@ export async function finishUnavailableRewind(
   );
   await this.appendEvent(event, options.traceContext);
   options.events.push(event);
-
   return {
     checkpoint: options.checkpoint,
     evaluation: options.evaluation,

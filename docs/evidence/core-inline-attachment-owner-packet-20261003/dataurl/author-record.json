@@ -1,0 +1,170 @@
+{
+  "task": "Complete contract-only attachment-data-url author",
+  "input_freeze": {
+    "identifier": "8cc411c5",
+    "provenance": "Supplied by curator via parent task; not independently inspected or verified against git."
+  },
+  "author_configuration": {
+    "requested_model": "GPT-6.1 Sol",
+    "requested_reasoning_effort": "high",
+    "requested_fork": "none",
+    "verification": "These are parent-supplied requested settings; actual runtime model, effort, and fork settings were not independently verified.",
+    "fast": "Saved Fast unchanged/unverified, as stated by parent; no settings inspection or modification performed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/input/contract.md",
+      "bytes": 2651,
+      "sha256": "e87495b12647372b88b4c4e34115ebbafb36e2ec940829a281a41b2eb7548e5b",
+      "lines": 11,
+      "read_operations": [
+        {
+          "operation": "read_bytes",
+          "count": 1,
+          "scope": "entire file; same in-memory bytes used for UTF-8 display, SHA256 and splitlines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/input/public-api.d.ts",
+      "bytes": 248,
+      "sha256": "f22921b4350e5f7e15e2e82c2a2bf8158b67f65be7852936e069fee7c5d8a26e",
+      "lines": 5,
+      "read_operations": [
+        {
+          "operation": "read_bytes",
+          "count": 1,
+          "scope": "entire file; same in-memory bytes used for UTF-8 display, SHA256 and splitlines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/input/dependency-api.d.ts",
+      "bytes": 73,
+      "sha256": "a04bb18d63b184096f34047c9c964772419fd41a7d9db252c32f80d7bec6b073",
+      "lines": 1,
+      "read_operations": [
+        {
+          "operation": "read_bytes",
+          "count": 1,
+          "scope": "entire file; same in-memory bytes used for UTF-8 display, SHA256 and splitlines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/input/public-shapes.d.ts",
+      "bytes": 63,
+      "sha256": "f308256c34f7ee4d5012bdd8ead16028b65359b941557f45b5b6a8509c321061",
+      "lines": 1,
+      "read_operations": [
+        {
+          "operation": "read_bytes",
+          "count": 1,
+          "scope": "entire file; same in-memory bytes used for UTF-8 display, SHA256 and splitlines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/input/imports.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "lines": 1,
+      "read_operations": [
+        {
+          "operation": "read_bytes",
+          "count": 1,
+          "scope": "entire file; same in-memory bytes used for UTF-8 display, SHA256 and splitlines accounting"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/input/output-data.json",
+      "bytes": 929,
+      "sha256": "185a40f01b5a203622c3cf448568de93506c70ac0c926183c3c61ecd800c0bbd",
+      "lines": 71,
+      "read_operations": [
+        {
+          "operation": "read_bytes",
+          "count": 1,
+          "scope": "entire file; same in-memory bytes used for UTF-8 display, SHA256 and splitlines accounting"
+        }
+      ]
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/output/attachment-data-url.ts",
+    "bytes": 2218,
+    "sha256": "e8d9e6802e63480b93a591896feb007d1a93dcb759b312252e08062457f8e4c5",
+    "lines": 78,
+    "write_operations": [
+      {
+        "operation": "write_text",
+        "count": 1,
+        "encoding": "UTF-8"
+      }
+    ],
+    "read_operations": [
+      {
+        "operation": "read_bytes",
+        "count": 1,
+        "scope": "entire source; same bytes used for full display, SHA256 and splitlines accounting"
+      }
+    ]
+  },
+  "receipt": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/dataurl/output/author-record.json",
+    "write_operations": [
+      {
+        "operation": "write_text",
+        "count": 1,
+        "encoding": "UTF-8"
+      }
+    ],
+    "read_operations": [
+      {
+        "operation": "read_bytes",
+        "count": 1,
+        "scope": "entire receipt; same bytes used for full display, SHA256 and splitlines accounting in this finalization operation"
+      }
+    ],
+    "self_hash_note": "Receipt byte count, SHA256, and line count are emitted externally after writing; they are not recursively embedded."
+  },
+  "retained_expressions_data_and_idioms": [
+    "Exact public signatures and mediaType return property; no imports, additional exports, mutable shared state, or external dependency owners introduced.",
+    "Retained supplied protocol and delimiter data: data:, comma, semicolon, ==, and =. Repeated data: is factored into a private named constant.",
+    "Retained base64 numeric data: 0, 1, 2, 3, 4, ASCII ranges 65..90, 97..122, 48..57, plus 43, slash 47, padding 61. Character codes and base64 group sizes use private named constants.",
+    "Retained native indexOf, slice, toLowerCase, split with limit 1, optional first-item trim, endsWith, length, charCodeAt, and Math.floor arithmetic.",
+    "Retained ordinary branching, conditional padding selection, range comparisons, sequential loops and object-literal return idioms. Exact static data and ordinary idioms are retained honestly; no novelty, license, grant, or clean-separation claim."
+  ],
+  "manual_review": {
+    "method": "Inspection of all six input contents and one full source read, without execution.",
+    "findings": [
+      "parseDataUrlHeader calls indexOf before the prefix slice check, checks the prefix before the comma sentinel, retains optional trim and returns a fresh mediaType object only for a truthy trimmed header.",
+      "base64PayloadByteLength checks == before = and reads length only after suffix selection; floor arithmetic preserves the negative malformed = result.",
+      "isStrictBase64Payload preserves separate initial length reads, bypasses suffix reads for empty or non-multiple-of-four lengths, computes contentLength after padding selection, traverses each character in order, and checks remaining positions against ASCII 61 with a fresh length read per loop condition.",
+      "No padding-bit canonicalization, payload decoding, coercion, trimming beyond the first header item, MIME validation, or error wrapping added.",
+      "No own undefined keys are synthesized; native/getter errors remain uncaught.",
+      "Source is 78 lines, below the 400-line limit."
+    ],
+    "tests_compilation_build_lint_mocks": "Not performed, as instructed.",
+    "questions": [],
+    "blockers": []
+  },
+  "exposure_and_restrictions": {
+    "known_context": "System/developer instructions, environment description, tool schemas, parent task payload, the six complete authorized inputs, and this author\u2019s own generated source and receipt.",
+    "known_tool_operations": "Four exec_command calls via functions.exec: named input byte/display/hash/line reading; one source write; one source byte/display/hash/line read; receipt writing/reading/hashing/line accounting and permission/timestamp finalization.",
+    "utility_execution": "Python standard-library utilities pathlib, hashlib, json, datetime and os used for permitted file/accounting/chmod operations. No target source, repository source, dependency implementation, compiler, tests, build, lint or mocks executed.",
+    "reads_outside_allowlist": "No explicit task-content read outside the six named inputs and own two output files. Runtime/tool implementation incidental reads were not audited; no OS isolation or access-audit assertion is made.",
+    "restrictions": "Instruction-only restrictions in shared executor. No repository, git, history, review, tests, dependency bodies, collaborators\u2019 artifacts, private files, userdata, credentials or network inspected. No external parties contacted. Only the two specified output files written; output directory permissions changed for requested freeze.",
+    "known_breaches": [],
+    "separation_qualification": "No clean-separation, OS isolation, access-control enforcement or independently audited access claim."
+  },
+  "freeze": {
+    "utc": "2026-10-02T21:16:28.093433Z",
+    "timestamp_definition": "UTC timestamp captured at start of receipt-write/read and final permission-freeze transaction; completion UTC is emitted after chmod.",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "sequence": "Write receipt, read/display/hash/account receipt once, chmod source 0444, chmod receipt 0444, chmod output directory 0555, emit completion UTC; no later writes authorized."
+  }
+}

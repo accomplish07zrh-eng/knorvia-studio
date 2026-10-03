@@ -1,0 +1,230 @@
+import { conversationArtifactTypeSchema, type ConversationArtifactType } from "./protocol-v4/rows.js";
+export type ConversationPreviewFileKind = "markdown" | "html" | "docx" | "xlsx" | "pptx" | "pdf" | "video" | "audio";
+export type ConversationPreviewArtifactType = ConversationArtifactType | "video" | "audio";
+export interface ConversationPreviewFileReference {
+    end: number;
+    kind: ConversationPreviewFileKind;
+    path: string;
+    raw: string;
+    start: number;
+}
+export interface ConversationPreviewFileChange {
+    path: string;
+    state?: "active" | "reverted";
+}
+export interface ConversationPreviewArtifactCandidate {
+    artifactType: ConversationPreviewArtifactType;
+    displayName: string;
+    mimeType: string;
+    previewKind: ConversationPreviewFileKind;
+    productTurnId: string;
+    sourceKind: "user_input_attachment" | "assistant_preview_card";
+    sourceRef: string;
+    requiresFileChanges: boolean;
+}
+interface PreviewFileTypeDefinition {
+    extensions: readonly string[];
+    kind: ConversationPreviewFileKind;
+    mimeType: string;
+    artifactType: ConversationPreviewArtifactType;
+}
+
+import { MEDIA_PREVIEW_FORMATS } from "./media-preview.js";
+export { conversationArtifactTypeSchema };
+export const CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT = 15;
+export const CONVERSATION_PREVIEW_CARD_VISIBLE_LIMIT = 10;
+const definitions: PreviewFileTypeDefinition[] = [
+  {
+    "extensions": [
+      ".md"
+    ],
+    "kind": "markdown",
+    "mimeType": "text/markdown",
+    "artifactType": "md"
+  },
+  {
+    "extensions": [
+      ".html",
+      ".htm"
+    ],
+    "kind": "html",
+    "mimeType": "text/html",
+    "artifactType": "html"
+  },
+  {
+    "extensions": [
+      ".docx"
+    ],
+    "kind": "docx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "artifactType": "docx"
+  },
+  {
+    "extensions": [
+      ".xlsx"
+    ],
+    "kind": "xlsx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "artifactType": "xlsx"
+  },
+  {
+    "extensions": [
+      ".pptx"
+    ],
+    "kind": "pptx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "artifactType": "pptx"
+  },
+  {
+    "extensions": [
+      ".pdf"
+    ],
+    "kind": "pdf",
+    "mimeType": "application/pdf",
+    "artifactType": "pdf"
+  }
+, ...MEDIA_PREVIEW_FORMATS.map(({ extension, kind, mediaType }) => ({ extensions: [extension], kind, mimeType: mediaType, artifactType: kind }))];
+const fileUrls = /\bfile:\/\/[^\s<>()\]`"'*，。！？；：、]+/giu;
+const citations = /:{1,2}(?:knorvia|knorvia)-file-citation\{([^}]*)\}/giu;
+const markdownLinks = /\[([^\]\n]*)\]\(([^)\n]+)\)/g;
+const quotedPaths = /([`"'])([^`"'\r\n]+?\.(?:md|html?|docx|xlsx|pptx|pdf|mp4|mov|webm|m4v|mp3|wav|m4a|ogg|opus|flac|weba)(?::\d+(?::\d+)?)?)\1/giu;
+const plainPaths = /(?:^|[\s("'`,.;:!?，。！？；：、])((?:(?:\.{1,2}[\\/]|[a-zA-Z]:[\\/]|\/|[\p{L}\p{N}\p{M}\p{S}_.@()-]+[\\/])[\p{L}\p{N}\p{M}\p{S}_.@() -]+?(?:[\\/][\p{L}\p{N}\p{M}\p{S}_.@() -]+?)*|[\p{L}\p{N}\p{M}\p{S}_.@()-]+)\.(?:md|html?|docx|xlsx|pptx|pdf|mp4|mov|webm|m4v|mp3|wav|m4a|ogg|opus|flac|weba)(?::\d+(?::\d+)?)?)(?=$|[\s)"'`,.;:!?，。！？；：、])/giu;
+
+function clean(value: string): string {
+  return value.trim().replace(/[.,;!?，。！？；：、]+$/gu, '').replace(/:\d+(?::\d+)?$/u, '');
+}
+function slash(value: string): string { return value.replace(/\\/gu, '/'); }
+function absolute(value: string): boolean {
+  return value.startsWith('/') || /^[a-zA-Z]:[\\/]/u.test(value) || value.startsWith('\\\\');
+}
+function normalize(value: string, rejectAboveRoot: boolean): string | null {
+  const converted = slash(value).replace(/\/{2,}/gu, '/');
+  const parts: string[] = [];
+  for (const part of converted.split('/')) {
+    if (part === '' || part === '.') continue;
+    if (part === '..') {
+      if (rejectAboveRoot && parts.length === 0) return null;
+      parts.pop();
+    } else parts.push(part);
+  }
+  return (rejectAboveRoot ? '' : converted.startsWith('/') ? '/' : '') + parts.join('/');
+}
+function absoluteKey(value: string): string { return normalize(value, false)!; }
+function localFileUrl(value: string): string | null {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'file:') return null;
+    let path = url.pathname;
+    try { path = decodeURI(path); } catch { /* Preserve undecodable URL pathname. */ }
+    if (/^\/[a-zA-Z]:\//u.test(path)) return path.slice(1);
+    if (url.hostname && url.hostname !== 'localhost') return `//${url.hostname}${path}`;
+    return path;
+  } catch { return null; }
+}
+export function resolveConversationPreviewPath(workspacePath: string, rawPath: string): string | null {
+  const cleaned = clean(rawPath);
+  if (!cleaned || /^~[\\/]/u.test(cleaned)) return null;
+  const path = /^file:\/\//iu.test(cleaned) ? localFileUrl(cleaned) : cleaned;
+  if (path === null) return null;
+  if (absolute(path)) return absoluteKey(path);
+  const relative = normalize(path, true);
+  return relative === null ? null : `${absoluteKey(workspacePath).replace(/\/$/u, '')}/${relative}`;
+}
+export function getConversationPreviewFileType(path: string): PreviewFileTypeDefinition | null {
+  const lower = clean(path).toLowerCase();
+  return definitions.find((definition) => definition.extensions.some((extension) => lower.endsWith(extension))) ?? null;
+}
+function leaf(path: string): string {
+  return slash(path).replace(/\/+$/u, '').split('/').filter(Boolean).at(-1) ?? path;
+}
+function within(workspace: string, target: string): boolean {
+  const path = absoluteKey(target).replace(/\/$/u, '');
+  const root = absoluteKey(workspace).replace(/\/$/u, '');
+  return path === root || path.startsWith(`${root}/`);
+}
+function directiveParameter(text: string, name: string): string | undefined {
+  return new RegExp(`${name}\\s*=\\s*["']([^"']+)["']`, 'iu').exec(text)?.[1]?.trim() || undefined;
+}
+export function extractConversationPreviewFileReferences(content: string, workspacePath: string): ConversationPreviewFileReference[] {
+  if (!content.trim()) return [];
+  const protectedSpans: Array<[number, number]> = [];
+  const found: ConversationPreviewFileReference[] = [];
+  const overlaps = (start: number, end: number) => protectedSpans.some(([a, b]) => start < b && end > a);
+  const admit = (raw: string, start: number, end: number, citationKind?: string): void => {
+    const path = resolveConversationPreviewPath(workspacePath, raw);
+    if (path === null) return;
+    const type = getConversationPreviewFileType(path);
+    if (!type) return;
+    if (citationKind !== undefined) {
+      if (type.kind === 'markdown' || type.kind === 'html') return;
+      const expected = citationKind === 'document' ? 'docx' : citationKind === 'presentation' ? 'pptx' : citationKind === 'workbook' ? 'xlsx' : undefined;
+      if (expected && type.kind !== expected) return;
+    }
+    found.push({ start, end, kind: type.kind, path, raw });
+  };
+  for (const match of content.matchAll(citations)) {
+    const start = match.index; const end = start + match[0].length;
+    protectedSpans.push([start, end]);
+    const path = directiveParameter(match[1], 'path');
+    if (path) admit(path, start, end, directiveParameter(match[1], 'artifact_kind')?.toLowerCase() ?? '');
+  }
+  for (const match of content.matchAll(markdownLinks)) {
+    const raw = match[2].trim().replace(/^<|>$/gu, '');
+    const start = match.index; const end = start + match[0].length;
+    if (overlaps(start, end)) continue;
+    protectedSpans.push([start, end]); admit(raw, start, end);
+  }
+  for (const match of content.matchAll(fileUrls)) {
+    const raw = clean(match[0]); const start = match.index; const end = start + match[0].length;
+    if (overlaps(start, end)) continue;
+    protectedSpans.push([start, end]); admit(raw, start, end);
+  }
+  for (const match of content.matchAll(quotedPaths)) {
+    const raw = match[2].trim(); const fullStart = match.index; const fullEnd = fullStart + match[0].length;
+    if (!raw || overlaps(fullStart, fullEnd)) continue;
+    protectedSpans.push([fullStart, fullEnd]);
+    const start = fullStart + match[0].indexOf(raw); admit(raw, start, start + raw.length);
+  }
+  for (const match of content.matchAll(plainPaths)) {
+    const raw = match[1]; const start = match.index + match[0].lastIndexOf(raw); const end = start + raw.length;
+    if (!raw || overlaps(start, end)) continue;
+    admit(raw, start, end);
+  }
+  const seen = new Set<string>();
+  return found.sort((a, b) => b.start - a.start || b.end - a.end).filter((reference) => {
+    const key = absoluteKey(reference.path);
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  }).reverse();
+}
+export function buildConversationPreviewArtifactCandidatesFromReferences(input: {
+  references: readonly ConversationPreviewFileReference[];
+  productTurnId: string;
+  workspacePath: string;
+  fileChanges?: readonly ConversationPreviewFileChange[];
+  enforceWorkspaceBoundary?: boolean;
+}): ConversationPreviewArtifactCandidate[] {
+  const changes = input.fileChanges ?? [];
+  const active = new Set(changes.filter((change) => change.state !== 'reverted').map((change) => absoluteKey(resolveConversationPreviewPath(input.workspacePath, change.path) ?? change.path)));
+  const reverted = new Set(changes.filter((change) => change.state === 'reverted').map((change) => absoluteKey(resolveConversationPreviewPath(input.workspacePath, change.path) ?? change.path)));
+  const seen = new Set<string>();
+  return [...input.references].sort((a, b) => b.start - a.start || b.end - a.end).map((reference): ConversationPreviewArtifactCandidate | null => {
+    const definition = getConversationPreviewFileType(reference.path);
+    if (!definition) return null;
+    const path = absoluteKey(reference.path);
+    if (input.enforceWorkspaceBoundary !== false && !within(input.workspacePath, path)) return null;
+    const requiresFileChanges = reference.kind === 'markdown' || reference.kind === 'html';
+    if (requiresFileChanges && (!active.has(path) || reverted.has(path))) return null;
+    if (seen.has(path)) return null;
+    seen.add(path);
+    return { artifactType: definition.artifactType, displayName: leaf(reference.path), mimeType: definition.mimeType, previewKind: definition.kind, productTurnId: input.productTurnId, sourceKind: 'assistant_preview_card', sourceRef: reference.path, requiresFileChanges };
+  }).filter((candidate): candidate is ConversationPreviewArtifactCandidate => candidate !== null).slice(0, CONVERSATION_PREVIEW_CARD_CANDIDATE_LIMIT);
+}
+export function buildConversationPreviewArtifactCandidates(input: {
+  assistantText: string;
+  productTurnId: string;
+  workspacePath: string;
+  fileChanges?: readonly ConversationPreviewFileChange[];
+}): ConversationPreviewArtifactCandidate[] {
+  return buildConversationPreviewArtifactCandidatesFromReferences({ ...input, references: extractConversationPreviewFileReferences(input.assistantText, input.workspacePath) });
+}

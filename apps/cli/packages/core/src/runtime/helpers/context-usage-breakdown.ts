@@ -43,10 +43,7 @@ export function buildCategoryBreakdown(
 ): ContextUsageCategoryBreakdown | undefined {
   const category = categoryBySource.get(source);
   if (!category) return undefined;
-  return {
-    ...category,
-    contributors,
-  };
+  return { ...category, contributors };
 }
 
 export function sectionContributor(
@@ -126,3 +123,5 @@ export function messageRoleContributor(
     tokenizer: message.tokenizer,
   };
 }
+
+export {};

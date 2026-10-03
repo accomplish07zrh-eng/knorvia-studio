@@ -1,5 +1,7 @@
 import { getMediaPreviewFormat, ServiceChannels, type MediaPreviewKind } from "@knorvia/shared";
+
 import type { IFileService } from "../file/file.js";
+
 import { createServiceDescriptor } from "../descriptors.js";
 
 export type MediaPreviewPreparation =
@@ -49,17 +51,17 @@ export function createMediaPreviewService(options: {
   createLocalMediaPreviewUrl?: (path: string) => string;
   inlineMaxBytes?: number;
 }): IMediaPreviewService {
-  const inlineMaxBytes = options.inlineMaxBytes ?? 8 * 1024 * 1024;
+  const budget = options.inlineMaxBytes ?? 8 * 1024 * 1024;
 
   return {
-    async prepare({ path, expectedKind }) {
+    async prepare({ path, expectedKind }): Promise<MediaPreviewPreparation> {
       const format = getMediaPreviewFormat(path);
-      if (!format || format.kind !== expectedKind) {
+      if (format === null || format.kind !== expectedKind) {
         throw new Error(`Unsupported media preview format: ${path}`);
       }
 
-      const fileStat = await options.fileService.stat({ path });
-      if (fileStat.type !== "file" || typeof fileStat.size !== "number") {
+      const stat = await options.fileService.stat({ path });
+      if (stat.type !== "file" || typeof stat.size !== "number") {
         throw new Error(`Path is not a media file: ${path}`);
       }
 
@@ -69,19 +71,16 @@ export function createMediaPreviewService(options: {
           kind: "local-url",
           mediaType: format.mediaType,
           path: canonicalPath,
-          size: fileStat.size,
+          size: stat.size,
           url: options.createLocalMediaPreviewUrl(canonicalPath),
         };
       }
 
-      if (fileStat.size > inlineMaxBytes) {
+      if (stat.size > budget) {
         throw new Error(`Media file is too large for inline preview: ${path}`);
       }
 
-      const preview = await options.fileService.readMediaPreview({
-        path,
-        maxBytes: inlineMaxBytes,
-      });
+      const preview = await options.fileService.readMediaPreview({ path, maxBytes: budget });
       return {
         kind: "inline",
         dataBase64: preview.dataBase64,

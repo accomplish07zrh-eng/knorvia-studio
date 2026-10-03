@@ -1,0 +1,34 @@
+{
+  "bindings": {
+    "bridge": {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge-v2/index.ts.txt",
+      "bytes": 10766,
+      "sha256": "20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967"
+    },
+    "image": {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/image-v2/image-normalization.ts.txt",
+      "bytes": 11114,
+      "sha256": "fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1"
+    }
+  },
+  "groups": [
+    {
+      "name": "visibility, authority registration, policy/schema and synthetic dispatch preservation",
+      "passed": true
+    },
+    {
+      "name": "frame authority path hint, original producer gate and generic whole-block stripping",
+      "passed": true
+    },
+    {
+      "name": "image identity, inline byte boundary and original compression size contract",
+      "passed": true
+    },
+    {
+      "name": "result preservation, screenshot-adjacent identity and artifact/error ordering",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "qualification": "At most four distinct minimum synthetic groups (one bridge, three normalization); fake registration/MCP/name/visibility/Windows/frame/image/artifact ports and fictional data only. Buffer/Date/node:path formatting computations are allowed, no actual tools/providers/browser/frames/user media/files/network/credentials/grants. Isolated transpilation executes candidates only; no semantic/project compilation, full suite/build/lint or source-emitted matrix. Original dependency/policy implementation hashes remain bound unchanged. Exact installed-byte proof reuses these groups without replay."
+}

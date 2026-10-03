@@ -1,0 +1,37 @@
+[
+  {
+    "path": "apps/cli/packages/contracts/src/model/index.ts",
+    "bytes": 33076,
+    "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/tools/read.ts",
+    "bytes": 10410,
+    "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c"
+  },
+  {
+    "path": "apps/cli/packages/core/src/tool/handlers/read-text.ts",
+    "bytes": 7447,
+    "sha256": "75669f23f63902c6f226779d2d1aa0cef869de40ce9784f7a27faf6d35032d0e"
+  },
+  {
+    "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+    "bytes": 8319,
+    "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c"
+  },
+  {
+    "path": "apps/cli/packages/core/src/system-reminder/incoming-message.ts",
+    "bytes": 2676,
+    "sha256": "263b8ea544c2be4b215f6ccc4984f3a46981c297392ab04e78f01256c229d607"
+  },
+  {
+    "path": "apps/cli/packages/core/package.json",
+    "bytes": 1372,
+    "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+  },
+  {
+    "path": "pnpm-lock.yaml",
+    "bytes": 644882,
+    "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+  }
+]

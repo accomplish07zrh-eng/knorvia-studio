@@ -1,0 +1,1578 @@
+{
+  "schemaVersion": 1,
+  "receivedCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "branch": "lane/cli-rewrite-20261003",
+  "previousVerifiedLaneRemoteHead": "661e5f64bf819c93c13a7b077531239dec5199cf",
+  "specificationCommit": "4262e10442f1c90fe07d504171c49a48bbf5e746",
+  "codeDeliveryCommit": "10f38c6e27fa0c9c1ca1df53e9ceb1ebdfc34a6b",
+  "executionConnection": {
+    "status": "Recovered after one transient exec-server transport disconnection during parallel read-only inspection. Retried one read-only command successfully; no task, branch, workspace or implementation changes lost/replaced.",
+    "fullyOperationalForDirectedChecks": true
+  },
+  "inheritedCombinedResults": {
+    "paths": [
+      "docs/final-combined-checks-20261003.json",
+      "docs/final-bootstrap-combined-20261003.json"
+    ],
+    "fullCliBuildTasksPassed": 17,
+    "fullCliBuildTasksTotal": 17,
+    "fullCliTypecheckPackagesPassed": 15,
+    "notRepeated": true
+  },
+  "scope": {
+    "onlyProductionPath": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+    "requestedFailureEntries": [
+      "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+      "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+      "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+      "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+      "apps/cli/packages/core/test/workflow-graph-boundary.test.ts",
+      "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+      "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
+      "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+      "apps/cli/packages/core/test/workflow-ready-order.test.ts",
+      "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+      "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+      "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+      "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
+      "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+      "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+      "apps/cli/packages/core/test/workflow-scheduler-state.test.ts",
+      "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts"
+    ],
+    "otherProductionFilesChanged": false,
+    "sharedContractsRootConfigCIAndLicencesChanged": false,
+    "allBehaviorTestBodiesUnchanged": true
+  },
+  "repair": {
+    "phaseFold": "Actual contract drift came from the archived fold importing the live rewritten reducer. Existing reducer archive source matches the fold original baseline exactly. Restoring that historical dependency satisfies all 24 old goldens; current fold retains Map/SameValueZero-identical NaN component edges instead of passing them to the finite-endpoint reducer. Only two same-component decisions changed; original strict equality, including signed zero, remains first. Native NaN is preserved, not normalized.",
+    "currentArtifacts": "Old selectors cover earlier real implementation versions, not merely formatting. Kept every original file. Added one explicitly hashed current receipt, preserving each original selector SHA/path set and adding current delegated runtime-helper closure. Rejects missing/wrong/unregistered artifacts and preserves actual source/emitted module routing. Candidate contract checks are not old accepted-source or rights recovery.",
+    "historicalCallers": "Node-publication and scheduler-state reuse exact archived scheduler bytes matching their original hashes. Activity/phase parent JS is reconstructed from exact old source and matches original 99cb...; its new historical sidecar never imports current candidate bytes as the old oracle."
+  },
+  "sourceBinding": {
+    "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+    "beforeSha256": "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6",
+    "afterSha256": "fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66",
+    "publicDeclarationUnchanged": true
+  },
+  "currentArtifactReceipt": {
+    "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+    "sha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+    "selectors": 14,
+    "files": 217,
+    "status": "Explicit current source-exposed candidate input binding, not accepted independent expression or licence grant."
+  },
+  "historicalParentBinding": {
+    "path": "apps/cli/packages/core/test/workflow-run-activity-parent-history-20261003.json",
+    "sha256": "2ed9b88196ca6cdd2890c3a0761aac00611cabc2753bd27075d89b182045fb1f",
+    "sourceCommit": "8fa5375f0c590a836e84b6d0e67097628bab49eb",
+    "sourcePath": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+    "sourceSha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+    "emittedSha256": "99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858",
+    "reconstructionCompilerResults": [
+      "5.9.3",
+      "6.0.2"
+    ],
+    "originalParentHashUnchanged": true
+  },
+  "preservedHistoricalRecords": [
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json",
+      "sha256": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+      "sha256": "7e94786484de6bf9f0d8b50cb0325e41ee004cf5a1391ac6ade937deec51261f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-pins.json",
+      "sha256": "340e14254fbbe5fce2a123065448b2baedcaed7f8f2b36b6e52d44b5d8a13a05",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-graph-artifacts-current.json",
+      "sha256": "22816e4d40feedc60de5fcb4961699f24e2a5f5c1e3ca916de61b9c3607d44ba",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-phase-runner-current.json",
+      "sha256": "1ad6917f650d5c5ff5af80e9cdfff69f91d2e47edfb4e5663f97f2ebd0013d7d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+      "sha256": "dbd3a5981a8d996c82f9756f778ef023ba2a530f66a5abe75ed7cb8be3e57e91",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-ready-order-current.json",
+      "sha256": "e5a1716504bb240bddd2dd8a311482dfb3a702f7d7cddc052d5b62c90c5996df",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-loop-current.json",
+      "sha256": "6348e165702fcbf337af0dfa405c348afe96f7aa7d45956f2238487519e9a6d3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-runtime-context-current.json",
+      "sha256": "4829e023bd3862f49afac026ca9e26c024f83f36452a882ffc6cf61e05abad88",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+      "sha256": "0e3ba33f51a7ac11d918a25ec7ffdff1857311325b9c744dc272ad246637ea64",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+      "sha256": "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication-current.json",
+      "sha256": "ca126a097ad5ce750ccb6f4a09c21ed20042c9ea222bccc9e8a9ad1df58aa5f2",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-loader-contract.json",
+      "sha256": "6e63aeebd7628e5a31f807e1165c702f662531757e053af41649f3a768c84419",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity-baseline.json",
+      "sha256": "87eff43d90dfe7911f994d2f82f10640eaca8e1b35b521355b7c539af7a613bf",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observation-baseline.json",
+      "sha256": "4348a7528361cc1da95289b59185bca9de1747e2ba07b3536547c3b575a80553",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-baseline.json",
+      "sha256": "d280e53af9b42aef8af9d6f17bdb469be83718010afb8caa0a9f94cdcc3043ba",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-baseline.json",
+      "sha256": "42587916188ac52126294bbf248edb456461e9f6b95092756b9ec1bb13f84876",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-graph-artifacts-baseline.json",
+      "sha256": "4eff13c7ab1c4bdebecfe49d6f0a7a3d7730d80698d18bebd418e510b75d23bb",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication-baseline.json",
+      "sha256": "50ca9dcc03b563db48049c7296c4aad25914beabbd2b0d9fb0a4036a11da1370",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-phase-runner-baseline.json",
+      "sha256": "cbb19f1c309989e66ea2fda06130e61a420c3467ab736d264dbe8f75fda8e4ed",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion-baseline.json",
+      "sha256": "6b3a7d1ef9a4dd1ceeec287f68c45a035065b7b8907e27125ed207732f6fba49",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-ready-order-baseline.json",
+      "sha256": "2b531cb55669db3a233b5031e160443651a1324e8b014bbe487743f34813e723",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-loop-baseline.json",
+      "sha256": "c4622738963a61064b42a5f62bde27c86862ac3f0d71e78a457a1d57a08d5af0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-runtime-context-baseline.json",
+      "sha256": "8fa862a70b17684ba6bf95f60035e7b5c8683233e85f70f810dbaabc1f97e0d9",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-state-baseline.json",
+      "sha256": "7e50244bfb7ea66e8915394e7017d78b3829ad6ebfcba2d416e6e6477e228839",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold-baseline.json",
+      "sha256": "810334e84eb29841d5530557d9b7acce7a422ce61cb191f386d176f0416b6075",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold-contract.json",
+      "sha256": "5a561f5e70c3b88fb43556da587e129f17f175482f5fde4adfcf788fc44cb956",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-baseline.json",
+      "sha256": "815f57ebb52a8e1c56544f254ccc0e26564832aad6a5f1b05433712612684aea",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity-contract.json",
+      "sha256": "e245960a7b4e85389d5f11da718ab30851d6cbbb37531b421ed178921722312d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-phase-contract.json",
+      "sha256": "ff04b26bf3d808ed75201559e877eb60e4f590b928dd6a0d5c13cd1dd7856723",
+      "unchanged": true
+    }
+  ],
+  "behaviorAssertionBinding": [
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 2,
+      "sha256": "677f8d4bf5a0225efb6484b0b9a7248785c84bf1970c9f19cd88d8d873f7d3c7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 6,
+      "sha256": "02025acdfc6612d57679eceb8d1fd1fefe3b2d6fe923d1de1b23af0cfac597b1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 9,
+      "sha256": "4e6eed52309d62b22d6a2a87b9ccabfaec49b34bbfb70714c2aebf269634a557"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 4,
+      "sha256": "d27bebe409ca3b8515fbf26300d96650621dbf7b52d4fdf17915cf841d3756cf"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 4,
+      "sha256": "e3d3a8181fbd9e5438d146a708a1c26f30ee1e78b3ca54c86783db54fb606212"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-graph-boundary.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 2,
+      "sha256": "f7cfea8e0c5e260eae1538312eb41470fae6c55b4904743ac2f0b68a3129bb1e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 7,
+      "sha256": "e2506651fccd6165edf0210db330ae1b5101b3a7377a24d7fae245351b1c9d5c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
+      "unchangedEntireFile": false,
+      "unchangedTestBodies": true,
+      "testBodyCount": 1,
+      "sha256": "6bb9bf7660c897df1733f052fbf8c87fa76d5474009102bfa05338081d684ab0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 5,
+      "sha256": "7261463f8bb22e4189c96f0c3f622bb10437aee7df2ccabc2312af193fdfc814"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-ready-order.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 5,
+      "sha256": "9af6cbac83bd9061c6a14fe0d089b9b5a0bc69b873e207aaaa1c1aa65e8fd3cf"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 5,
+      "sha256": "706a86d548a4f30a83475aa1cf0d65a61533d293f8eb8e740df177c3ac2b085f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+      "unchangedEntireFile": false,
+      "unchangedTestBodies": true,
+      "testBodyCount": 1,
+      "sha256": "eb60ea6ce2d97819e5596ded649d586e363ea4859a0f5f3f23c7ea08fcf7e85d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 6,
+      "sha256": "495f623e1a60f85704cfd7fbb7ab02708bf3b235bd84ef99b2cbdaa7d18d4a3f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
+      "unchangedEntireFile": false,
+      "unchangedTestBodies": true,
+      "testBodyCount": 1,
+      "sha256": "b862f41c13d50acad8cb658a410dbf435288bfbf5db323a57afec437745ef138"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 2,
+      "sha256": "3140b97eb617cf3a80670ecc8f1abb99d4b1a96cb9513d3848ecfbcdae14564e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 5,
+      "sha256": "3a69c9eda5287b11a3c204226becb467dccc3cfdb66e7f408b8b2f5a5a53f186"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-state.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 5,
+      "sha256": "d9aa14ece76651e96fa5b452bb223aa03a1425aaa48db138d9e7553419aa779b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+      "unchangedEntireFile": true,
+      "unchangedTestBodies": true,
+      "testBodyCount": 7,
+      "sha256": "0f9399fbd8a6fba4cd61e04749c691b369013fce8ae3a682310e9b9d244945a5"
+    }
+  ],
+  "pinnedSourceDiagnosis": {
+    "scope": "Only sources registered by the twelve failing selector families; exact SHA search of the relevant tracked file histories. Missing matches are unconfirmed receipts, not proof that no source can exist elsewhere.",
+    "sourcePairs": 53,
+    "changedSourcePairs": 21,
+    "changedExactSourceMatches": 18,
+    "formatOnlySyntaxMatches": 0,
+    "unconfirmedExactSourcePairs": [
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+        "pinnedSha256": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+        "currentSha256": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": null
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+        "pinnedSha256": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "currentSha256": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-event-log-pins.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": null
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+        "pinnedSha256": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+        "currentSha256": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": null
+      }
+    ],
+    "recoveredSelectedPinComparisons": [
+      {
+        "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+        "pinnedSha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+        "currentSha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+        "selectors": [
+          "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json"
+        ],
+        "pinnedSourceCommit": "db54c1eb42732f6a9ba15977a4668f31fcab9191",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "1ee887cf146e9a872d3817059641cabfae3f1fff94aaa24a380d080973006d10",
+        "currentSyntaxSha256": "9976eb104d12b2c60e17cea518f90d81bbf9fa6c4b32de6f705b631b5f8a99e7"
+      },
+      {
+        "path": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+        "pinnedSha256": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989",
+        "currentSha256": "0c8677cc64d8799e84b44f1517fdb85e945238725fa30619f275c583bed8a644",
+        "selectors": [
+          "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "dc1f98b3667db7d28f0aba82d85f780a746a82fde454c3b3fe175147504896c1",
+        "currentSyntaxSha256": "78f8c2d7ad15f334bed38e0641951537479d485de78c91c61fad6e65108fd854"
+      },
+      {
+        "path": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+        "pinnedSha256": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed",
+        "currentSha256": "19ac834c02a1dad962ba222222f03051a6b47e0d5e58030651904dd0a707f271",
+        "selectors": [
+          "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "bb464dba9394222ef160b9fa586dc2c6e57d01801dc3a09309acd8f39e8005c6",
+        "currentSyntaxSha256": "cf45b90ee4d64ee9fbcde3f423031563fcd84b7e94c0a74d73ff07498e29652e"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/definition.ts",
+        "pinnedSha256": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6",
+        "currentSha256": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "54e17daeaa6c14b200cd18526f76485c758e86960271f2255fd2089e9685b772",
+        "currentSyntaxSha256": "0c6adab406135db7c1e238e75d18e2a06c6203064be086402783496769fa66c6"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+        "pinnedSha256": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+        "currentSha256": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-graph-artifacts-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "bb99f45990d98b341c8c6ac317168d5ee3617f3b8bd00f4e1d39467a6dfa9908",
+        "currentSyntaxSha256": "f965bacbecc2dac00eb1b715aee3c6f1f7f91e8fec5ddbad6be2b27efa5f5017"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "pinnedSha256": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "currentSha256": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-graph-artifacts-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "db1b93df62fe464a5c28393f2f3d998bb17fb7b2b900a60ba7e353c65d334311",
+        "currentSyntaxSha256": "bc0a9277bfb56f41a0cfd2566f0d96d37365203173158529b78f69760db8b5cd"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts",
+        "pinnedSha256": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0",
+        "currentSha256": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "cfbf70ab96bc46a6eb1d1f0393b2bf8ee859c17e33805f3de53264a67ee0c610",
+        "currentSyntaxSha256": "7e76fea668241effbc63c52577107c532fa2beb3d37716b6468ba92e0af35f3d"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/expert/prompts.ts",
+        "pinnedSha256": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03",
+        "currentSha256": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "d76f038d01ff111f76671e662b5312a3326144991c2916614e530825ef0276ea",
+        "currentSyntaxSha256": "efa6cd68a4dd1877c179a1d2426f9f50f4b2320ceb462b25e7ddc6c1296306ce"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts",
+        "pinnedSha256": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7",
+        "currentSha256": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "22d57bebc91e99d7154f179f07b7a6897233c738d0eb14f43e602c8242388d06",
+        "currentSyntaxSha256": "189d4cff51f6de717c8cb8306ccae5928da516c6a06c222758a70f5e6f111529"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+        "pinnedSha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "currentSha256": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-graph-artifacts-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "e0a5bfad00866c0ee4c345c022452919b28e13c75a17f73b765c4d4adb10dd88",
+        "currentSyntaxSha256": "e2ff8c5857b42c3bc22aa97f9643e9f21beb2385ea223f695046308cd298e660"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+        "pinnedSha256": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+        "currentSha256": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "53c66465fedba971099e3610222b91a5adce0878b343b77dc366277c0394561c",
+        "currentSyntaxSha256": "04b20e2d3698f53139983f24dfd27ec17bea28d25b526191d1508b41ec18b2d6"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+        "pinnedSha256": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "currentSha256": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-event-log-pins.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "8cc75c0f2bbdbee48010ee28033e2c7a4bb0b03da49d04b86816cbf20153afcd",
+        "currentSyntaxSha256": "09cb766320950119d85fb962db10b96eec36f3f786a7014305645e87e021e884"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+        "pinnedSha256": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+        "currentSha256": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+          "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+          "apps/cli/packages/core/test/workflow-ready-order-current.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "3b13b6a586f0be3cc242f8158f463d0e9c9ac2b8c7e21f87f14ab99ed2cd53ab",
+        "currentSyntaxSha256": "5bf4d7c87b5139993d0a595046881d0bbb54d7cb40c36e366a05332fede14609"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+        "pinnedSha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+        "currentSha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-event-log-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "6481a935eba44a8f4d67546a379b867f851da33598f2d1cf6623ab296192b542",
+        "currentSyntaxSha256": "a67d97dde50d312cf7d35ab41a2776d40b14915621542d497ce1f5267db4174d"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+        "pinnedSha256": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+        "currentSha256": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-event-log-pins.json",
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "1f20970fdc4ee22c436e8844dd28936edaaf6ff2dd1cd2dc38e1499b64ff8745",
+        "currentSyntaxSha256": "8d3e13ac073164b12a3af525255c4e200a06a6ed41650ba8b80b6b2a442e83fb"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+        "pinnedSha256": "454a1f0ed323844ea8db92fc99058c5391c8dc5fad16dab4dad2e79485146ead",
+        "currentSha256": "812efeb8112c526068a53be9fe8be40b8186df1606aff547f832e7e2e1d2f73e",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-graph-artifacts-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "3c08966479db386c2e38567fb73baa22320a26385a01a3e834d7a38127659165",
+        "currentSyntaxSha256": "6bc4bd2a9fa24b7e4a040f573ff1ef91269ac8d452807620ad85d77dda72f635"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/expert/formatters.ts",
+        "pinnedSha256": "bc8de5bea478f410cb955186f7f487acfd95fa6ff74c394c806f1938e35711d5",
+        "currentSha256": "66e8432c5e9895bc237fcdd6874200f7ebf462685a4f12a10d62130a90a3c089",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-graph-artifacts-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "217120adac77eb8d695206342003219f9b1912e8c236b68ad29c514a893c8b6a",
+        "currentSyntaxSha256": "1c38a9bb3c92a3a7cb55fbde71b75b7a51c574f1715eac0fa61c5b60596a2fb5"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+        "pinnedSha256": "7344f1884044f6ca8a6106bee0db8ee57169826a8c7588d4d28676a1e6272e8c",
+        "currentSha256": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316",
+        "selectors": [
+          "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+          "apps/cli/packages/core/test/workflow-node-publication-current.json"
+        ],
+        "pinnedSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "sameSourceSyntaxIgnoringFormattingAndComments": false,
+        "pinnedSyntaxSha256": "f72446f540fe772e42ea7bfd57f2e04d67d854691c5333857a2dd006ff354eec",
+        "currentSyntaxSha256": "a3b776c6d57b7b51b43f3703b132414a1f2735daaaa4f9b71d41afc62ff5be22"
+      }
+    ],
+    "note": "Earlier production rewrites require their real contract assertions; do not relabel them as byte-only formatting or resolve separate Registry/accepted-hash/right HOLDs."
+  },
+  "checks": [
+    {
+      "id": "phase-fold-dependency-diagnosis",
+      "command": "node(24.14.0) --import tsx --input-type=module; original archived reducer source/JS and all 24 old fold goldens compared",
+      "observedExitCode": 0,
+      "scope": "Read-only diagnosis before production repair. All 24 original goldens match with their original reducer dependency; old/live-reducer and current outputs both fail NaN before fix. Printed NaN serializes as null; native identity is checked separately.",
+      "outputSha256": "9a9cff123edfc19cd97d1e8109dbf40a00d06f0e8faee92ee67541b3a6374520",
+      "output": "{\"baseline\":\"a19f66fc6159b3ae83ca77f7628cbac00954d5d0\",\"originalReducerSourceSha256\":\"dc04aa06052c32a41bab2864b29ffd6bfc75edaf1ebd92d9b6aff0737af9c586\",\"archivedReducerSourceSha256\":\"dc04aa06052c32a41bab2864b29ffd6bfc75edaf1ebd92d9b6aff0737af9c586\",\"compiledSha256\":\"b935726d4a000be940c997e23262f2f6c0936131a57ecd87e019d72a96e12564\",\"archivedEmittedSha256\":\"b935726d4a000be940c997e23262f2f6c0936131a57ecd87e019d72a96e12564\"}\n{\n  \"all24OriginalDependencyGoldensEqual\": true,\n  \"mismatches\": [],\n  \"case16\": {\n    \"index\": 16,\n    \"originalDependencyDigest\": \"5bb3d27e42b3f75b9c14a50f6ef72d549f6c085680990c141e591c0fe7ca9e2b\",\n    \"golden\": \"5bb3d27e42b3f75b9c14a50f6ef72d549f6c085680990c141e591c0fe7ca9e2b\",\n    \"sameWithGolden\": true,\n    \"historicalOriginalDependency\": {\n      \"output\": [\n        {\n          \"from\": null,\n          \"to\": \"b\",\n          \"back\": false\n        },\n        {\n          \"from\": \"b\",\n          \"to\": null,\n          \"back\": false\n        }\n      ],\n      \"tape\": [],\n      \"keys\": [\n        [\n          \"from\",\n          \"to\",\n          \"back\"\n        ],\n        [\n          \"from\",\n          \"to\",\n          \"back\"\n        ]\n      ],\n      \"inputAliases\": [\n        false,\n        false\n      ]\n    },\n    \"historicalCurrentDependency\": {\n      \"output\": [],\n      \"tape\": [],\n      \"keys\": [],\n      \"inputAliases\": []\n    },\n    \"current\": {\n      \"output\": [],\n      \"tape\": [],\n      \"keys\": [],\n      \"inputAliases\": []\n    }\n  }\n}\n"
+    },
+    {
+      "id": "fold-directed-type-emission",
+      "command": "node(24.14.0), TypeScript 5.9.3, createProgram([foldPath], original core tsconfig); diagnostics then emit only this SourceFile",
+      "observedExitCode": 0,
+      "scope": "One fold source root; writes exactly fold JS/declaration/map, no package/aggregate build or fifteen-package typecheck rerun.",
+      "outputSha256": "4eda888b33324e3cfb80f58d1375888d7bcdc7c90ff926ba02ca99d5773592e0",
+      "output": "{\"typescript\":\"5.9.3\",\"roots\":1,\"diagnostics\":0,\"written\":[\"apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js\",\"apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts.map\",\"apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts\"]}\n"
+    },
+    {
+      "id": "phase-fold-default",
+      "command": "node(24.14.0) --experimental-test-module-mocks --import tsx --test apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+      "observedExitCode": 0,
+      "scope": "7 existing cases, all 24 direct goldens plus display/call-runner/ownership assertions.",
+      "outputSha256": "bb3549b60629c4a8f4413b43c90f38d86f1375925701f9288198b52afd68661a",
+      "output": "✔ phase component discovery does not read inherited numeric visit flags (2.036155ms)\n✔ phase graph public declaration and registry remain fixed (1.913012ms)\n✔ phase components preserve frozen pairs, cycles, malformed input, getter/coercion order and ownership (5.560929ms)\n✔ phase components keep input facts and intra-component competing branch edges (0.233217ms)\n✔ phase components preserve actual bounds and analysis/display consumers including whole-vocabulary limits (23.989525ms)\n✔ phase graph output through full call-runner retains completion-edge and early cancellation contracts (20.141169ms)\n✔ phase component calls share no mutable graph state across concurrent result consumers (4.378135ms)\nℹ tests 7\nℹ suites 0\nℹ pass 7\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3377.037837\n"
+    },
+    {
+      "id": "workflow-registry-first-default",
+      "command": "node(24.14.0) --experimental-test-module-mocks --import tsx --test --test-concurrency=2 apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts apps/cli/packages/core/test/runtime-task-registry-observations.test.ts apps/cli/packages/core/test/workflow-collection-planner.test.ts apps/cli/packages/core/test/workflow-event-log-observations.test.ts apps/cli/packages/core/test/workflow-graph-artifacts.test.ts apps/cli/packages/core/test/workflow-graph-boundary.test.ts apps/cli/packages/core/test/workflow-node-publication.test.ts apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs apps/cli/packages/core/test/workflow-planner-expansion.test.ts apps/cli/packages/core/test/workflow-ready-order.test.ts apps/cli/packages/core/test/workflow-run-activity.test.ts apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs apps/cli/packages/core/test/workflow-run-phase.test.ts apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts apps/cli/packages/core/test/workflow-scheduler-observations.test.ts apps/cli/packages/core/test/workflow-scheduler-state.test.ts",
+      "observedExitCode": 1,
+      "scope": "17 original failed suite entries: 59 behavior cases passed, two entry loads stopped at exact old activity parent hash. Retained as actual failure; no unloaded suite counted as pass.",
+      "processReceipt": {
+        "binary": "v24.14.0",
+        "args": [
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "--test",
+          "--test-concurrency=2",
+          "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+          "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+          "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+          "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+          "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+          "apps/cli/packages/core/test/workflow-graph-boundary.test.ts",
+          "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+          "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
+          "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+          "apps/cli/packages/core/test/workflow-ready-order.test.ts",
+          "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+          "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+          "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+          "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
+          "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+          "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+          "apps/cli/packages/core/test/workflow-scheduler-state.test.ts"
+        ],
+        "env": {},
+        "files": 17,
+        "observedExitCode": 1,
+        "signal": null,
+        "error": null,
+        "milliseconds": 16284
+      },
+      "outputSha256": "c76674eb84b79d500576a35877828e3cd6ef3a23afd525e79d915132e2773375",
+      "output": "✔ source: existing nonblocking TaskOutput observation uses same-surface memory owner (1.312746ms)\n✔ source: exact current source/JS/declaration routing rejects wrong and missing artifacts (76.035943ms)\n✔ source: snapshots/messages preserve copies, identity, ordering and drain reads (1.545744ms)\n✔ source: classification and immediate waits precede options admission (0.495909ms)\n✔ source: pending native promises, synchronous reads and inline abort admission (2.197455ms)\n✔ source: terminal/background publication commits first and preserves native order (0.940933ms)\n✔ source: reentrant admission, registration, removal and patcher partial effects (0.51689ms)\n✔ source: throwing cleanup retains commit/detachment and abandons later publication (0.605593ms)\n✔ source: admission bypass and planner-limit priority (2.785663ms)\n✔ source: activation/child gates and successful publication identity (4.207593ms)\n✔ source: runner failure retains linked identity and threshold exhaustion (1.249603ms)\n✔ source: activation failure and execution abort propagate exact errors (1.67751ms)\n✔ source: terminal projection rollback and retained late-child cursor (2.534198ms)\n✔ source: preserved actual scheduler expansion consumer (3.272699ms)\n✔ source: runner-visible collection mutation leaves original artifact identity/count (0.891269ms)\n✔ source: exact historical and current owner selection fail closed (109.132076ms)\n✔ source: failure publication keeps captured facts after collection append mutation (1.002815ms)\n✔ source: captured ports, receivers, clock and ordered primitive shapes (1.458424ms)\n✔ source: append/callback gates and exact partial errors (1.042434ms)\n✔ source: absent callback still yields and concurrent appends are independent (0.527597ms)\n✔ source: strict current/actual consumer and historical selection fail closed (10.965406ms)\n✔ source: artifact writes preserve admission, identities, late values and settlement (5.72917ms)\n✔ source: artifact publication rejects original failures and retains partial writes (3.751503ms)\n✔ source: artifact delayed persistence and real run-loop consumer (2.751993ms)\n✔ source: artifact exact owner and historical selectors fail closed (5.800957ms)\n✔ source: graph boundaries preserve public function and schema identities (0.888354ms)\n✔ source: graph boundaries reject wrong or missing private artifacts (80.56066ms)\n✔ source: started gate, child linkage, latest snapshot and completion publication (3.113201ms)\n✔ source: failure attempts, linked metadata, primitive errors and default prompt (1.487838ms)\n✔ source: startup escapes, success-publication failure converts, failure-publication escapes (1.661336ms)\n✔ source: queued thenables and throwing runner getter preserve error/effect order (1.158988ms)\n✔ source: abort controls and queued accepted-completion settlement (0.904658ms)\n✔ source: actual scheduler consumer completion, error threshold and terminal abort (4.046843ms)\n✔ source: immutable oracle and strict current/private artifact selectors fail closed (124.782216ms)\n✔ actual-emitted phase write safety and one real run-loop consumer (19.887165ms)\n✔ source: expansion projection, ordering and shared references (2.911099ms)\n✔ source: expansion diagnostic precedence and transactional validation (1.766022ms)\n✔ source: expansion no-op transitions, completion bookkeeping and omission (1.579734ms)\n✔ source: expansion explicit reservations and existing cyclic graph (0.53012ms)\n✔ source: expansion exact source/emitted selection fails closed (49.580422ms)\n✔ source: ready order unequal buckets retain shrinking-rank sequence (1.990758ms)\n✔ source: ready order repeated collection contributions, overlap and eligibility (0.652813ms)\n✔ source: ready order empty, absent collections and executable readiness (0.640806ms)\n✔ source: ready order actual scheduler launch list and concurrent cap (35.278514ms)\n✔ source: ready order historical/current graph and consumer selectors fail closed (96.019151ms)\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2'\n- '99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858'\n\n    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-run-activity-fixture.ts:48:8) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: '335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2',\n  expected: '99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n✖ apps/cli/packages/core/test/workflow-run-activity.test.ts (2247.293416ms)\n✔ emitted continuation terminal-write recovery and runtime.start consumer (21.219931ms)\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2'\n- '99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858'\n\n    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-run-activity-fixture.ts:48:8) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: '335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2',\n  expected: '99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n✖ apps/cli/packages/core/test/workflow-run-phase.test.ts (2196.338314ms)\n✔ emitted context initialization preserves definition metadata in journal (18.741346ms)\n✔ source: actual scheduled-phase caller retains summary and paused error (3.272949ms)\n✔ source: current owner/caller and exact historical loader remain distinct and fail closed (26.984022ms)\n✔ source: scope, resume repair, terminal priority and deadlock (3.628118ms)\n✔ source: started gate serializes admission, native completions reuse bounded slots (2.396072ms)\n✔ source: error threshold drains live work and successes reset observed error count (1.899861ms)\n✔ source: actual collection boundary expands executable scope before dispatch (2.78393ms)\n✔ source: invocation isolation, frontier failure and abort leave exact partial lifetimes (1.718301ms)\n✔ source: scheduler projection dependency order and occurrence counts (1.673895ms)\n✔ source: scheduler projection duplicate IDs, memberships and collection defaults (0.718571ms)\n✔ source: scheduler projection stable collection lists and per-call state (0.771159ms)\n✔ source: scheduler projection actual ready/blocked and scheduler consumer (4.009766ms)\n✔ source: scheduler projection exact artifacts and historical closure fail closed (59.946926ms)\nℹ tests 61\nℹ suites 0\nℹ pass 59\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16257.832477\n\n✖ failing tests:\n\ntest at apps/cli/packages/core/test/workflow-run-activity.test.ts:1:1\n✖ apps/cli/packages/core/test/workflow-run-activity.test.ts (2247.293416ms)\n  'test failed'\n\ntest at apps/cli/packages/core/test/workflow-run-phase.test.ts:1:1\n✖ apps/cli/packages/core/test/workflow-run-phase.test.ts (2196.338314ms)\n  'test failed'\n"
+    },
+    {
+      "id": "activity-phase-corrected-default",
+      "command": "node(24.14.0) --experimental-test-module-mocks --import tsx --test --test-concurrency=2 apps/cli/packages/core/test/workflow-run-activity.test.ts apps/cli/packages/core/test/workflow-run-phase.test.ts",
+      "observedExitCode": 0,
+      "scope": "Only the two remaining failed default-mode entries rerun: 11 existing cases. Previous 15 passed default entries are not rerun or counted twice.",
+      "outputSha256": "f513d45f082d606453773b8cb65d26154dfe23c51baec3731c23478ab1a87134",
+      "output": "✔ Workflow activity public declarations and supported GetWorkflowRun registry/model consumer (2.764742ms)\n✔ Workflow activity frozen route/getter/coercion/native callback contracts and repeat calls (10.084824ms)\n✔ Workflow activity full call-runner preserves model/display/result events and telemetry (39.81869ms)\n✔ Workflow activity model-completion abort edges and early control keep executor settlement (38.547865ms)\n✔ Workflow activity delayed concurrent/stale journal completion stays owned by executor (7.49238ms)\n✔ Workflow phase native getter error order matches frozen baseline (1.304886ms)\n✔ Workflow phase public declarations and supported registry remain unchanged (1.413146ms)\n✔ Workflow phase appended bounded-width malformed/coercion controls (1.168422ms)\n✔ Workflow phase frozen decision/getter/coercion/native callback contracts and repeat calls (4.496793ms)\n✔ Workflow phase actual call-runner preserves live/terminal/empty model and display output (20.940868ms)\n✔ Workflow phase completion-edge cancellation and early control retain terminal ownership (14.023936ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2618.889485\n"
+    },
+    {
+      "id": "all18-actual-emitted",
+      "command": "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 KNORVIA_COLLECTION_PLANNER_TEST_EMITTED=1 node(24.14.0) --experimental-test-module-mocks --import tsx --test --test-concurrency=2 apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts apps/cli/packages/core/test/runtime-task-registry-observations.test.ts apps/cli/packages/core/test/workflow-collection-planner.test.ts apps/cli/packages/core/test/workflow-event-log-observations.test.ts apps/cli/packages/core/test/workflow-graph-artifacts.test.ts apps/cli/packages/core/test/workflow-graph-boundary.test.ts apps/cli/packages/core/test/workflow-node-publication.test.ts apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs apps/cli/packages/core/test/workflow-planner-expansion.test.ts apps/cli/packages/core/test/workflow-ready-order.test.ts apps/cli/packages/core/test/workflow-run-activity.test.ts apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs apps/cli/packages/core/test/workflow-run-phase.test.ts apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts apps/cli/packages/core/test/workflow-scheduler-observations.test.ts apps/cli/packages/core/test/workflow-scheduler-state.test.ts apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+      "observedExitCode": 0,
+      "scope": "18 requested original failures in actual emitted mode: 77 cases, no source fallback; same cases across modes, not 154 unique behaviors. Three existing mjs suites always exercise actual emitted JS.",
+      "processReceipt": {
+        "binary": "v24.14.0",
+        "args": [
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "--test",
+          "--test-concurrency=2",
+          "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+          "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+          "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+          "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+          "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+          "apps/cli/packages/core/test/workflow-graph-boundary.test.ts",
+          "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+          "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
+          "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+          "apps/cli/packages/core/test/workflow-ready-order.test.ts",
+          "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+          "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+          "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+          "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
+          "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+          "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+          "apps/cli/packages/core/test/workflow-scheduler-state.test.ts",
+          "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts"
+        ],
+        "env": {
+          "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED": "1",
+          "KNORVIA_COLLECTION_PLANNER_TEST_EMITTED": "1"
+        },
+        "files": 18,
+        "observedExitCode": 0,
+        "signal": null,
+        "error": null,
+        "milliseconds": 17612
+      },
+      "outputSha256": "bb46859ce99be9b0d1b4a0e34ee966cc254ac1d45897849881ac9dc105942f0c",
+      "output": "✔ phase component discovery does not read inherited numeric visit flags (1.55658ms)\n✔ phase graph public declaration and registry remain fixed (1.240108ms)\n✔ phase components preserve frozen pairs, cycles, malformed input, getter/coercion order and ownership (6.267383ms)\n✔ phase components keep input facts and intra-component competing branch edges (0.192707ms)\n✔ phase components preserve actual bounds and analysis/display consumers including whole-vocabulary limits (22.898291ms)\n✔ phase graph output through full call-runner retains completion-edge and early cancellation contracts (23.655654ms)\n✔ phase component calls share no mutable graph state across concurrent result consumers (5.1652ms)\n✔ emitted: existing nonblocking TaskOutput observation uses same-surface memory owner (1.250133ms)\n✔ emitted: exact current source/JS/declaration routing rejects wrong and missing artifacts (75.071914ms)\n✔ emitted: snapshots/messages preserve copies, identity, ordering and drain reads (1.28837ms)\n✔ emitted: classification and immediate waits precede options admission (0.53038ms)\n✔ emitted: pending native promises, synchronous reads and inline abort admission (1.486797ms)\n✔ emitted: terminal/background publication commits first and preserves native order (0.629909ms)\n✔ emitted: reentrant admission, registration, removal and patcher partial effects (0.358034ms)\n✔ emitted: throwing cleanup retains commit/detachment and abandons later publication (0.446415ms)\n✔ emitted: admission bypass and planner-limit priority (2.725393ms)\n✔ emitted: activation/child gates and successful publication identity (3.833575ms)\n✔ emitted: runner failure retains linked identity and threshold exhaustion (1.052529ms)\n✔ emitted: activation failure and execution abort propagate exact errors (1.18064ms)\n✔ emitted: terminal projection rollback and retained late-child cursor (2.558354ms)\n✔ emitted: preserved actual scheduler expansion consumer (2.627937ms)\n✔ emitted: runner-visible collection mutation leaves original artifact identity/count (1.105959ms)\n✔ emitted: exact historical and current owner selection fail closed (122.409854ms)\n✔ emitted: failure publication keeps captured facts after collection append mutation (1.016695ms)\n✔ emitted: captured ports, receivers, clock and ordered primitive shapes (1.427358ms)\n✔ emitted: append/callback gates and exact partial errors (1.149914ms)\n✔ emitted: absent callback still yields and concurrent appends are independent (0.541597ms)\n✔ emitted: strict current/actual consumer and historical selection fail closed (12.673555ms)\n✔ emitted: artifact writes preserve admission, identities, late values and settlement (6.511648ms)\n✔ emitted: artifact publication rejects original failures and retains partial writes (3.990198ms)\n✔ emitted: artifact delayed persistence and real run-loop consumer (3.86347ms)\n✔ emitted: artifact exact owner and historical selectors fail closed (26.528037ms)\n✔ emitted: graph boundaries preserve public function and schema identities (0.938719ms)\n✔ emitted: graph boundaries reject wrong or missing private artifacts (61.229827ms)\n✔ emitted: started gate, child linkage, latest snapshot and completion publication (3.0512ms)\n✔ emitted: failure attempts, linked metadata, primitive errors and default prompt (1.472786ms)\n✔ emitted: startup escapes, success-publication failure converts, failure-publication escapes (1.751441ms)\n✔ emitted: queued thenables and throwing runner getter preserve error/effect order (1.145768ms)\n✔ emitted: abort controls and queued accepted-completion settlement (0.857368ms)\n✔ emitted: actual scheduler consumer completion, error threshold and terminal abort (3.889659ms)\n✔ emitted: immutable oracle and strict current/private artifact selectors fail closed (77.866612ms)\n✔ actual-emitted phase write safety and one real run-loop consumer (15.954807ms)\n✔ emitted: expansion projection, ordering and shared references (2.782659ms)\n✔ emitted: expansion diagnostic precedence and transactional validation (1.751772ms)\n✔ emitted: expansion no-op transitions, completion bookkeeping and omission (1.259037ms)\n✔ emitted: expansion explicit reservations and existing cyclic graph (0.468218ms)\n✔ emitted: expansion exact source/emitted selection fails closed (43.863697ms)\n✔ emitted: ready order unequal buckets retain shrinking-rank sequence (1.987103ms)\n✔ emitted: ready order repeated collection contributions, overlap and eligibility (0.694235ms)\n✔ emitted: ready order empty, absent collections and executable readiness (0.394909ms)\n✔ emitted: ready order actual scheduler launch list and concurrent cap (21.463551ms)\n✔ emitted: ready order historical/current graph and consumer selectors fail closed (77.415499ms)\n✔ Workflow activity public declarations and supported GetWorkflowRun registry/model consumer (2.845743ms)\n✔ Workflow activity frozen route/getter/coercion/native callback contracts and repeat calls (9.086636ms)\n✔ Workflow activity full call-runner preserves model/display/result events and telemetry (34.568063ms)\n✔ Workflow activity model-completion abort edges and early control keep executor settlement (18.317668ms)\n✔ Workflow activity delayed concurrent/stale journal completion stays owned by executor (8.32475ms)\n✔ emitted continuation terminal-write recovery and runtime.start consumer (32.443397ms)\n✔ Workflow phase native getter error order matches frozen baseline (1.505295ms)\n✔ Workflow phase public declarations and supported registry remain unchanged (1.407338ms)\n✔ Workflow phase appended bounded-width malformed/coercion controls (1.179519ms)\n✔ Workflow phase frozen decision/getter/coercion/native callback contracts and repeat calls (4.489966ms)\n✔ Workflow phase actual call-runner preserves live/terminal/empty model and display output (22.325705ms)\n✔ Workflow phase completion-edge cancellation and early control retain terminal ownership (15.022113ms)\n✔ emitted context initialization preserves definition metadata in journal (13.663377ms)\n✔ emitted: actual scheduled-phase caller retains summary and paused error (6.738739ms)\n✔ emitted: current owner/caller and exact historical loader remain distinct and fail closed (44.189351ms)\n✔ emitted: scope, resume repair, terminal priority and deadlock (3.666907ms)\n✔ emitted: started gate serializes admission, native completions reuse bounded slots (2.972141ms)\n✔ emitted: error threshold drains live work and successes reset observed error count (2.506667ms)\n✔ emitted: actual collection boundary expands executable scope before dispatch (2.863349ms)\n✔ emitted: invocation isolation, frontier failure and abort leave exact partial lifetimes (2.257235ms)\n✔ emitted: scheduler projection dependency order and occurrence counts (1.660866ms)\n✔ emitted: scheduler projection duplicate IDs, memberships and collection defaults (1.063255ms)\n✔ emitted: scheduler projection stable collection lists and per-call state (0.761856ms)\n✔ emitted: scheduler projection actual ready/blocked and scheduler consumer (3.686416ms)\n✔ emitted: scheduler projection exact artifacts and historical closure fail closed (63.553127ms)\nℹ tests 77\nℹ suites 0\nℹ pass 77\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 17587.111353\n"
+    },
+    {
+      "id": "source-output-probe-initial-options",
+      "command": "node(24.14.0) docs/evidence/backlog-cli-20261003/final-core-source-output-contract.mjs (initial ESNext-module override)",
+      "observedExitCode": 1,
+      "scope": "The new in-memory proof checker rejected its own inconsistent module/NodeNext-resolution setup with TS5110. Preserved failure; corrected to actual NodeNext with explicit ESM .mts filename, without changing product config or suppressing diagnostics.",
+      "outputSha256": "9121b4a58abb6360b60d4d6597ce79ec087f6d47b3f89b9e090ac4c24dde0ee4",
+      "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: apps/cli/packages/core/src/runtime-task/registry.ts\n+ actual - expected\n\n+ [\n+   {\n+     category: 1,\n+     code: 5110,\n+     file: undefined,\n+     length: undefined,\n+     messageText: \"Option 'module' must be set to 'NodeNext' when option 'moduleResolution' is set to 'NodeNext'.\",\n+     reportsDeprecated: undefined,\n+     reportsUnnecessary: undefined,\n+     start: undefined\n+   }\n+ ]\n- []\n\n    at file:///workspace/knorvia-studio/docs/evidence/backlog-cli-20261003/final-core-source-output-contract.mjs:61:10\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: [\n    {\n      file: undefined,\n      start: undefined,\n      length: undefined,\n      messageText: \"Option 'module' must be set to 'NodeNext' when option 'moduleResolution' is set to 'NodeNext'.\",\n      category: 1,\n      code: 5110,\n      reportsUnnecessary: undefined,\n      reportsDeprecated: undefined\n    }\n  ],\n  expected: [],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n"
+    },
+    {
+      "id": "source-output-proof-final",
+      "command": "node(24.14.0) docs/evidence/backlog-cli-20261003/final-core-source-output-contract.mjs",
+      "observedExitCode": 0,
+      "scope": "73 registered source/JS pairs; 67 identical emitted bytes and six comments/format differences with identical full runtime syntax, including all identifiers/literals/templates. Does not assert declaration equivalence or old source acceptance.",
+      "outputSha256": "505ea9acf14ab825f852e2316933a7d6c2fd0bb27bcf371d28cf4c00b1af0572",
+      "output": "{\n  \"typescript\": \"5.9.3\",\n  \"receiptPath\": \"apps/cli/packages/core/test/current-artifact-receipt-20261003.json\",\n  \"receiptSha256\": \"9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714\",\n  \"scope\": \"Only registered current source-to-emitted pairs. All identifiers/literals/templates retained; comments, positions and redundant parentheses excluded. No declaration equivalence, old accepted-source, product build or whole-CLI claim.\",\n  \"pairs\": 73,\n  \"results\": [\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/runtime-task/registry.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/runtime-task/registry.js\",\n      \"sourceSha256\": \"c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84\",\n      \"emittedSha256\": \"4a12edda3db2833925b00430589af95d1ceb09db6b02f195b80346934dd50a09\",\n      \"generatedSha256\": \"4a12edda3db2833925b00430589af95d1ceb09db6b02f195b80346934dd50a09\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"70ff0bffda2bd6ed562f5a89ad11bbfbd27eb50869402f22b5dc8f73d6cb19bd\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/task-output.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/task-output.js\",\n      \"sourceSha256\": \"65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e\",\n      \"emittedSha256\": \"8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573\",\n      \"generatedSha256\": \"8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"590a57323cbf11529f73811086859ea5fbbe3f81aca9d88bea8f1f4b4c9559bd\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/task-output-request.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/task-output-request.js\",\n      \"sourceSha256\": \"165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d\",\n      \"emittedSha256\": \"bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75\",\n      \"generatedSha256\": \"bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"9693245f546f01b2b764bfc2fc80afae60fd38b16191c0b0fc6a0e066d926b18\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/task-output-projection.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/task-output-projection.js\",\n      \"sourceSha256\": \"0c8677cc64d8799e84b44f1517fdb85e945238725fa30619f275c583bed8a644\",\n      \"emittedSha256\": \"833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e\",\n      \"generatedSha256\": \"833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"4691d82044b3a088a05404a92f665e5150e2535032d0111e2cd1c826c46b58af\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/task-output-bash.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/task-output-bash.js\",\n      \"sourceSha256\": \"19ac834c02a1dad962ba222222f03051a6b47e0d5e58030651904dd0a707f271\",\n      \"emittedSha256\": \"13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb\",\n      \"generatedSha256\": \"13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"86b9bc80778ba755fc3a71bd354f215b8214630855e533b42e0e47b308b86a6c\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/result-persistence-format.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/result-persistence-format.js\",\n      \"sourceSha256\": \"f4f309784e0e46ca9d39284446f010a5868138440d8dafa1723e563b92938688\",\n      \"emittedSha256\": \"2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb\",\n      \"generatedSha256\": \"2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"b9646ecc84c565e7aaf2b88be5fdf11fc62b677782a25745d16434e11f34bb6e\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/definition.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/definition.js\",\n      \"sourceSha256\": \"cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2\",\n      \"emittedSha256\": \"bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0\",\n      \"generatedSha256\": \"bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"2c1152e00f0eac3a3bee3f6ffce6ed614fc7f01f6fb15b5676068d5aaa4c6647\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/ids.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/ids.js\",\n      \"sourceSha256\": \"c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b\",\n      \"emittedSha256\": \"5f68c2762fac66f468d01bdcd1d4cda1d505093f8e655131ae22f3ef568cf3bf\",\n      \"generatedSha256\": \"5f68c2762fac66f468d01bdcd1d4cda1d505093f8e655131ae22f3ef568cf3bf\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"9b0675773ce8fc605fb7991c231eca5dcb94763f518c9811026a99036b0f325b\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js\",\n      \"sourceSha256\": \"4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f\",\n      \"emittedSha256\": \"b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5\",\n      \"generatedSha256\": \"b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"4f5f5a00648412d4f2dd1c9b5c71b70b5ab6fff2649fb6f0c3c47ae97bda2c4d\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/parsers/json.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/parsers/json.js\",\n      \"sourceSha256\": \"4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920\",\n      \"emittedSha256\": \"c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e\",\n      \"generatedSha256\": \"c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"48513fe7859e5c300d567eb4ce7aab82d538346e12f7164cc25f97edc01b076c\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.js\",\n      \"sourceSha256\": \"f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd\",\n      \"emittedSha256\": \"790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd\",\n      \"generatedSha256\": \"790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"e36767dedce53147af2d49c2a43869b367147bcc14d39e9500c8e590f01b0a9e\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/prompts.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/prompts.js\",\n      \"sourceSha256\": \"5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829\",\n      \"emittedSha256\": \"881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf\",\n      \"generatedSha256\": \"881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"699c658e47d22be8cbdaeacbff9ae7cfafd559a27979e6cb5e67837dfe7679df\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js\",\n      \"sourceSha256\": \"2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772\",\n      \"emittedSha256\": \"23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf\",\n      \"generatedSha256\": \"23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"5848e9ff534a54cd346f4138ba83df30bad9389e164850340ea51c47719da930\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/lifecycle.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/lifecycle.js\",\n      \"sourceSha256\": \"6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a\",\n      \"emittedSha256\": \"7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b\",\n      \"generatedSha256\": \"0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5\",\n      \"sameEmittedBytes\": false,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"54dc0ab06174f916a78a4ea8bca0bcc9764b317ce4a659150818e06133e4cc3e\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler.js\",\n      \"sourceSha256\": \"33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330\",\n      \"emittedSha256\": \"9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba\",\n      \"generatedSha256\": \"9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"6b14aecca834ef00bca475aebabc9f551c383684dc9836ca4cb827d0d28e014a\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/collection-events.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/collection-events.js\",\n      \"sourceSha256\": \"fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10\",\n      \"emittedSha256\": \"8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4\",\n      \"generatedSha256\": \"8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"e2d9bfb49f9cc4a11cdd8876942524b767fe4eeca5d45f4df9f76315d967a513\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js\",\n      \"sourceSha256\": \"e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab\",\n      \"emittedSha256\": \"1d2fbd8a585ffcf0aaa9efe0f91846b640bee57242cdc02e98f3aab45728f322\",\n      \"generatedSha256\": \"8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be\",\n      \"sameEmittedBytes\": false,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"a9cf674f6017751cbfe20a69dfd2f97612ad23494c09b5688e974e5f11d63761\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/events.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/events.js\",\n      \"sourceSha256\": \"76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35\",\n      \"emittedSha256\": \"7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04\",\n      \"generatedSha256\": \"7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"8a7b6cb4f8b383661a124d01ab126c7bab1d568de30c60a1221dea6d935c8ec2\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/graph.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/graph.js\",\n      \"sourceSha256\": \"8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69\",\n      \"emittedSha256\": \"8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69\",\n      \"generatedSha256\": \"8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"a67d97dde50d312cf7d35ab41a2776d40b14915621542d497ce1f5267db4174d\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.js\",\n      \"sourceSha256\": \"7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a\",\n      \"emittedSha256\": \"29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa\",\n      \"generatedSha256\": \"29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"df135baf6835d051f82e9131abcaab242855da8e2aaf64d382036c3034424e7e\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/node-runner.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/node-runner.js\",\n      \"sourceSha256\": \"9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34\",\n      \"emittedSha256\": \"f8c62d8254f79d170eb77db610dd907e89b581bb8efc02de1b6ca3e9ceb7dc6e\",\n      \"generatedSha256\": \"b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49\",\n      \"sameEmittedBytes\": false,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"37d0010a5ce71332223fdb4d11295eb4b031d188157e9b0b5c74fa16634d96f9\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js\",\n      \"sourceSha256\": \"b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316\",\n      \"emittedSha256\": \"dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b\",\n      \"generatedSha256\": \"dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"38ad0a9ad39f971a958328e8381c81293d80b3c690aaeb6290af8eb28806920f\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/prompts.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/prompts.js\",\n      \"sourceSha256\": \"313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d\",\n      \"emittedSha256\": \"619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989\",\n      \"generatedSha256\": \"619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"8b17bed8d97c0136dceaa946dd8050c7f3c7a98417ee4f042ad6c9856dafb981\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.js\",\n      \"sourceSha256\": \"aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9\",\n      \"emittedSha256\": \"9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f\",\n      \"generatedSha256\": \"9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"4c35ac813bb4608d9b4364f87620cbbbfd28454c699f2f1508072b46f92fda05\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/workflow/index.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/workflow/index.js\",\n      \"sourceSha256\": \"d2e5ceb97f06cbe0bcdeb45dc8306863d722f1a6f3dbb831c86d60b72b4d22a1\",\n      \"emittedSha256\": \"7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24\",\n      \"generatedSha256\": \"7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"188be482718356b580e7709d3caf576fcbccfa5106687be245df4612d35c496a\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/workflow/definition.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/workflow/definition.js\",\n      \"sourceSha256\": \"0e451f6aa2a279f9800a5a5cb59d85ebf4d2888083e8580d3e110317738673f3\",\n      \"emittedSha256\": \"8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57\",\n      \"generatedSha256\": \"8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"9bdff70ef91ad13306b86c7e7f8ae1dba3f8e8f779a4e4e830ca0b81a1a74ac5\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/workflow/graph-schema.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/workflow/graph-schema.js\",\n      \"sourceSha256\": \"26cb1bb521068bc587a6f134dcad55608c1586efc94cac2e0eac912c9b24a2a2\",\n      \"emittedSha256\": \"52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5\",\n      \"generatedSha256\": \"52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"c465031e14cff0fcc7156a8a8f7888d904e7381ced9d53efa7ae8cf41298628f\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/workflow/run-schema.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/workflow/run-schema.js\",\n      \"sourceSha256\": \"4beeefcee8749448719da64931ba76d09f7abce3dc2e2842a718a2f2fb37bc78\",\n      \"emittedSha256\": \"bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1\",\n      \"generatedSha256\": \"bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"b2932f04db68c3ff174cc4723c0c2970a59021c45be1ab8b82290fc1387c2541\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/workflow/scheduler-state.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/workflow/scheduler-state.js\",\n      \"sourceSha256\": \"5885b7ae0b77bd541d05c8973c0b4a8f50b11d73a0762759356846f812ad0e3c\",\n      \"emittedSha256\": \"e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16\",\n      \"generatedSha256\": \"e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"42689f5e539f680b6e3defe0fb280b365b9b5b0217d6ac93457d12c40ab8c95b\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/workflow/session-links.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/workflow/session-links.js\",\n      \"sourceSha256\": \"e01c5641fb5ee432ee0e50c5ae3fa72c0bf15a1bb5fdb20245382b08ee8d87dc\",\n      \"emittedSha256\": \"db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5\",\n      \"generatedSha256\": \"db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"863b38723eef37d0eb7ab44392599bbf0a23db85edfe0f097ec800b8ec3a5192\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/workflow/script.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/workflow/script.js\",\n      \"sourceSha256\": \"9282b115b4c7bf6bfc184c6aad657e6a8ad1a6336e6fb4620c228335b434eb8d\",\n      \"emittedSha256\": \"e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97\",\n      \"generatedSha256\": \"e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"6dad1a7212ce7d822a0acabd5afd94170dd4eeb69726e77b4404b5909102f5fb\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/contracts/src/index.ts\",\n      \"emittedPath\": \"apps/cli/packages/contracts/dist/index.js\",\n      \"sourceSha256\": \"3d9972674e770c92a16beaf414be53412f6f1ca10fe059b2f193041a2005bf27\",\n      \"emittedSha256\": \"6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc\",\n      \"generatedSha256\": \"6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"d89c775709c58c4cefdd53e74a24cc2cedcbee36ffdbfccba4fd2ba3fb6c028a\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/graph-helpers.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.js\",\n      \"sourceSha256\": \"803e4e94cb682f6e6cfb7e761fa303ea700022292d79cf7a56f6b10b95960feb\",\n      \"emittedSha256\": \"75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6\",\n      \"generatedSha256\": \"75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"9d765d598eac415b6247cb530c042f291b3ec9d7e295ffabbe6a9c35bfc6e649\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/scheduler/ready-order.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/scheduler/ready-order.js\",\n      \"sourceSha256\": \"b53a5452e39ecf77827b58fc534d597a5f1b55fdc931a122a583bac17a047032\",\n      \"emittedSha256\": \"3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba\",\n      \"generatedSha256\": \"3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"6d5d321828d0814456b23a55e21b9eb898224764b183bc44943568d336f47409\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js\",\n      \"sourceSha256\": \"5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f\",\n      \"emittedSha256\": \"fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf\",\n      \"generatedSha256\": \"fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"2a01bf6ecba9fee81978767a589b3bc53861f8b9e833edfcfa940534af7f1c9c\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/run-loop.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/run-loop.js\",\n      \"sourceSha256\": \"39182c7c05b39c72fda6df19ae4670cdf77773327f374100c1871ad511c06633\",\n      \"emittedSha256\": \"4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977\",\n      \"generatedSha256\": \"4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"13328d9d38bb804659351e89ed748fd10d5c205beed31856e4f8a89d26632367\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.js\",\n      \"sourceSha256\": \"812efeb8112c526068a53be9fe8be40b8186df1606aff547f832e7e2e1d2f73e\",\n      \"emittedSha256\": \"56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57\",\n      \"generatedSha256\": \"56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"3fd0d201128f940a7f0d894fb3825809dfa5d531a9cc51f0c1ecb02c592ff156\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/formatters.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/formatters.js\",\n      \"sourceSha256\": \"66e8432c5e9895bc237fcdd6874200f7ebf462685a4f12a10d62130a90a3c089\",\n      \"emittedSha256\": \"cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5\",\n      \"generatedSha256\": \"cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"8fcf4e37589d386bf48e3ddaf9421a2f698c0e172479a7379cfc04fcb23fe37c\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/phase-runner.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/phase-runner.js\",\n      \"sourceSha256\": \"4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0\",\n      \"emittedSha256\": \"c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26\",\n      \"generatedSha256\": \"c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"a797173aceb16a24035657583ccd6316bbd1b70fadaeeaf24536efde99cdfd05\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/runtime-context.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/runtime-context.js\",\n      \"sourceSha256\": \"61ca48e1f3c429d25701abeabdcd8b7c2ac6bf2d2b1a315cda77e4710171362e\",\n      \"emittedSha256\": \"53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef\",\n      \"generatedSha256\": \"53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"ebd1ba479dba7fe9517e9b358920f264b8a230186cbdacdd4f9c25c31b51660e\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js\",\n      \"sourceSha256\": \"fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66\",\n      \"emittedSha256\": \"59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a\",\n      \"generatedSha256\": \"59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"9336b138fe9302c70397643eb51c1fcd26aceac196f29b18ae7ec34432a95184\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js\",\n      \"sourceSha256\": \"880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09\",\n      \"emittedSha256\": \"de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca\",\n      \"generatedSha256\": \"de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"3428ff57d6ee9032c7fb75461c77908e27c6d1a954ecd0f46169d9ed5290500a\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.js\",\n      \"sourceSha256\": \"91c1b71be0108aacded780ce8bf98755b24833ac35fe392626ec2e7630f9a362\",\n      \"emittedSha256\": \"5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2\",\n      \"generatedSha256\": \"5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"c884fa5ffee508ac76c65fb552d73be0bb03b663b8d54d05c27cfbfc75d6ffc4\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/runtime-task/registry-waits.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/runtime-task/registry-waits.js\",\n      \"sourceSha256\": \"234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe\",\n      \"emittedSha256\": \"8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e\",\n      \"generatedSha256\": \"8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"8e1e3ce601528932b57ae8fdfb1dd2c9db44821a9e575b80394fe1cd21752590\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/task-output-file-window.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/task-output-file-window.js\",\n      \"sourceSha256\": \"1699a35e464da83d2a6a046274159c4cceca12dd882478599da8f3af9ea38566\",\n      \"emittedSha256\": \"8fb24f87da998f3a360a9a50650a7587773c847a61547b04dbc3bb47eae02fae\",\n      \"generatedSha256\": \"8fb24f87da998f3a360a9a50650a7587773c847a61547b04dbc3bb47eae02fae\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"77271fe84f6c2dcc8823d80cef19b1b207fb72e36e956a6ad1d5668d22eebb49\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/lifecycle-seed.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/lifecycle-seed.js\",\n      \"sourceSha256\": \"53712b28c4c7acb99b0a582bcbc055eb24f90191091dcc595c18d2cf9c2b38af\",\n      \"emittedSha256\": \"6a5757c48ed16a995b8a9a6b4a993c9c08084f8f698b044b4674990aa05938f6\",\n      \"generatedSha256\": \"5a9e3728ce70b19333c8a791ccee5bc86f60e7cb1b48a9e5bb78f69226e0736e\",\n      \"sameEmittedBytes\": false,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"a1ef45cc7d24881b6f5f290ac838908108efb332783335caf2598cf5feefa5c8\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/critic-loop.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/critic-loop.js\",\n      \"sourceSha256\": \"9bad65d06d2e7de38a7588a83523803c7ae2c572feda5ed44fdfae7424cb4df5\",\n      \"emittedSha256\": \"58312876224f082f7cf9c1f8c5c0f316f68c126e86af9005a07aa69b78621b0f\",\n      \"generatedSha256\": \"58312876224f082f7cf9c1f8c5c0f316f68c126e86af9005a07aa69b78621b0f\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"5c82c8223e611e881a1a3fe9c657543d1b7b9accf102d506abfb51fcbb964849\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/failures.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/failures.js\",\n      \"sourceSha256\": \"d93b9e128fc82618830d4e98d62506ea1b8465c8b449b0da6d8d6a6fa8748613\",\n      \"emittedSha256\": \"e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3\",\n      \"generatedSha256\": \"e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"761bcd20aa01ad2661cc6fdb23dc5a76605b5bd855a7e557c174569e5b05f627\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/workflow/expert/parsers/critic.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/workflow/expert/parsers/critic.js\",\n      \"sourceSha256\": \"a013b344938f4c8102985a791f02c0bcb4a296832111547fe846340befe45130\",\n      \"emittedSha256\": \"218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad\",\n      \"generatedSha256\": \"218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"8b7e3f4caf04b05ce6536245bade57af13badbd1bb8469ae5d3361d0701952a5\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/result-display.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/result-display.js\",\n      \"sourceSha256\": \"b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af\",\n      \"emittedSha256\": \"fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc\",\n      \"generatedSha256\": \"fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"3936ab65093ae47ace3e019e664b2b66e1d2970d93df6ef38d3f25a194b3cd15\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/bash-result-display.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/bash-result-display.js\",\n      \"sourceSha256\": \"8eddfa33f0b4774d50039fde774dcedd751c0df5628d2e4a0b0704cd0adef4b9\",\n      \"emittedSha256\": \"b7f202a96d3744296b8e60448d7534c807b73f5ebeb7cc9472f48530db7cb851\",\n      \"generatedSha256\": \"b7f202a96d3744296b8e60448d7534c807b73f5ebeb7cc9472f48530db7cb851\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"72fe2b2c0d3a41739f43c0f620543cec20bf7573ff51d3f03d160798514b38b4\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/create-workflow-display.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/create-workflow-display.js\",\n      \"sourceSha256\": \"9878f1f080f174edb9f73361c903e40fb0c777a86453887b8ddd842cfb137466\",\n      \"emittedSha256\": \"aedb0a555957b1b6ae25981273d6ad49a926affdbe9816a1754650b04bc16368\",\n      \"generatedSha256\": \"aedb0a555957b1b6ae25981273d6ad49a926affdbe9816a1754650b04bc16368\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"bec684f73c8d4667e9418d9b7a4449527df3c1e687c9745fc622bd21ad2531f4\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/workflow-observation-display.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/workflow-observation-display.js\",\n      \"sourceSha256\": \"81654ab513e337bbffad1a95062ec004ba44d77e987dfcb8be19e01c08f24f25\",\n      \"emittedSha256\": \"aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c\",\n      \"generatedSha256\": \"aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"92421039ebc5f6dde7b7e4296d7598234d2321372f405219d22d66821eaf232d\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/display/computer-card.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/display/computer-card.js\",\n      \"sourceSha256\": \"0f4e38dcefb58014a76bb1c0383f681f9c5879e039fbe0984da3b5aa49ca9a26\",\n      \"emittedSha256\": \"2b911848156ab5453bec0b083b8734f3578290b3361733b0711c11c353022d94\",\n      \"generatedSha256\": \"2b911848156ab5453bec0b083b8734f3578290b3361733b0711c11c353022d94\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"2cbb930d7dc8d5a1905c546bd24560facb0b47f59a819d087040d75dfc4b14fd\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/display/diff-card.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/display/diff-card.js\",\n      \"sourceSha256\": \"1afde7c0d4e76c06af4b3d7fa68d8d0711e66646bc0b560e6f66ea5eae4e7683\",\n      \"emittedSha256\": \"da7d5445387bbd6b26908007433238e8bf3fd1bbad078f2e7efa30d8db7ca332\",\n      \"generatedSha256\": \"da7d5445387bbd6b26908007433238e8bf3fd1bbad078f2e7efa30d8db7ca332\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"d3552f42abbfaa85439c887a5a5cafa74cab32802feaeb70f12dd70151178589\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/display/mcp-card.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/display/mcp-card.js\",\n      \"sourceSha256\": \"ef3378e55bb7de0c0abf0abed9611913ccff41a2f383e08ebdbb7aedb7420988\",\n      \"emittedSha256\": \"5bfab60547fddbba336cd30cf26ad677084b81480641bbdd9b377bdf044380fd\",\n      \"generatedSha256\": \"5bfab60547fddbba336cd30cf26ad677084b81480641bbdd9b377bdf044380fd\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"790e02d04b361b0e505bed56531c1332a52dfdb20d071b1e800407ca2f87a2cc\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/display/repl-card.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/display/repl-card.js\",\n      \"sourceSha256\": \"dbd246eb86ed12fb9544b84b848053216c95bfbf2f0d886cb28504417f680a36\",\n      \"emittedSha256\": \"8936469da803a3beb98dbdc3668521d34727bd2bb285e65a5847ab80f03f30e7\",\n      \"generatedSha256\": \"8936469da803a3beb98dbdc3668521d34727bd2bb285e65a5847ab80f03f30e7\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"d5b3bc3b4a635282c550d10c2f26152ba66d93538594b74ed58649545de6a862\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/display/task-cards.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/display/task-cards.js\",\n      \"sourceSha256\": \"55510561ec370088018fa54816fc51b6581a9af52378b12c52c700b5c8e84d23\",\n      \"emittedSha256\": \"8d6d2a95b5eba24d4c068de603e668f237191c1a200a92f93c0aac82082b9028\",\n      \"generatedSha256\": \"8d6d2a95b5eba24d4c068de603e668f237191c1a200a92f93c0aac82082b9028\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"72752b84538b200af2ea81776d02ed30bccc7941d65f4cf3976be5ce5030c51f\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/workflow-display/analysis-card.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.js\",\n      \"sourceSha256\": \"532140d24e4f67369a2b1de21f03aad2b5e3f5090b84746af12d39cfa6d4da3f\",\n      \"emittedSha256\": \"508efb240bb7e9b19185c85c73df61a4c9391645a39db6d0d68a2fc9b29e8ab8\",\n      \"generatedSha256\": \"508efb240bb7e9b19185c85c73df61a4c9391645a39db6d0d68a2fc9b29e8ab8\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"d9e5ea4cb02787f386c31132f2b9903af60944ea54a893036f7a64cfd891c298\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/workflow-display/policy.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/workflow-display/policy.js\",\n      \"sourceSha256\": \"50431c70e63723e4d32e95f142f552ffc6732f6dd81b57648d6c7c0c2bdaced0\",\n      \"emittedSha256\": \"c2d31ba4ad3ae799bd05a10b39a9bbac217c845b570f15dd1c4c267b35d5b0c7\",\n      \"generatedSha256\": \"c2d31ba4ad3ae799bd05a10b39a9bbac217c845b570f15dd1c4c267b35d5b0c7\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"c65e2c390fdf6de3e92e440dd5119b36891a959a1045db76fd41815fd8e1043e\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/workflow-display/catalog-cards.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.js\",\n      \"sourceSha256\": \"64e015d532a7ef13d14b8d73b035b3d8289c0b36672d5693ba4d5e7a750ffd19\",\n      \"emittedSha256\": \"a9195591904d2a86509f13dbaf207b763d25a2f47278137598de3d29c3e7e06f\",\n      \"generatedSha256\": \"a9195591904d2a86509f13dbaf207b763d25a2f47278137598de3d29c3e7e06f\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"412bbd2f1e0b9cc286e353169a0511dcad51ef17bdb72313f3683d6e38b60507\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/workflow-display/run-card.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.js\",\n      \"sourceSha256\": \"61edeef403aaec21796d54e86d3fb67b9cf9fe2f439351ad7f014055dffff378\",\n      \"emittedSha256\": \"1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e\",\n      \"generatedSha256\": \"1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"f942397215922d14790a23517eb808e38b1bd37a765bcc338d1f9cfcf9250293\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/display-text.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/display-text.js\",\n      \"sourceSha256\": \"274c5f8a4b0eca9e12a7772dba4e7afb9c40a95d59b63b278cc43236f11f81a0\",\n      \"emittedSha256\": \"eed8ce4f61845c698934834aa86c57f2ddb71c1e7844a363512686c9be6b2069\",\n      \"generatedSha256\": \"eed8ce4f61845c698934834aa86c57f2ddb71c1e7844a363512686c9be6b2069\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"f96cf0ae11263bfc803990f560a081857e5788c3aee25a387b7b2239226b1b93\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/utils.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/utils.js\",\n      \"sourceSha256\": \"9981f857013ddba2b7e100e5f2bf3a112e1e466797d4746027d1c3d6c907d474\",\n      \"emittedSha256\": \"9a978a579c69acb00453791b9cda5c6908c7d413aae7a50b8dfbb3c0f19ceec3\",\n      \"generatedSha256\": \"9a978a579c69acb00453791b9cda5c6908c7d413aae7a50b8dfbb3c0f19ceec3\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"e6cc3f06c7b3110260584ef96b60547e4e2b67c2ff59aa74c46e00563ff648c5\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/diff.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/diff.js\",\n      \"sourceSha256\": \"c9059395219e301da67a17cd5aafaa3d37890510a99961ee8b0ead477a8c75aa\",\n      \"emittedSha256\": \"677ca7e3b4be74ac980aeef6e3ff9050f8e6ccd578a574350fa122bb71b2add1\",\n      \"generatedSha256\": \"677ca7e3b4be74ac980aeef6e3ff9050f8e6ccd578a574350fa122bb71b2add1\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"020417298e98f994d79403e20d5a027d3e61bfc15c0a3a4eb0d6842181f671a4\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/result/byte-budget.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/result/byte-budget.js\",\n      \"sourceSha256\": \"c18b0b4c85cd854007f30259963e03d67420ef5e68668d039719fd59d3081e19\",\n      \"emittedSha256\": \"768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a\",\n      \"generatedSha256\": \"768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"3df5e609f6852c7a1e5abd13be6e66936bc75593dec00c2c3302ea7cafc396d4\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js\",\n      \"sourceSha256\": \"d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493\",\n      \"emittedSha256\": \"afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c\",\n      \"generatedSha256\": \"afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"a5478eee30188ac6bd39fbdb69a764a06007d804d8e0f2a285b9a01cf8b673b4\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js\",\n      \"sourceSha256\": \"c1043ddaa583e819a79b394093ae8e113dfff8f56faad65529739fd10b291c25\",\n      \"emittedSha256\": \"335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2\",\n      \"generatedSha256\": \"861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8\",\n      \"sameEmittedBytes\": false,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"9fdb70140d0718a200fe099cfe598ada9c1597ea12e8e94c67ec99d9a4bff4a4\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.js\",\n      \"sourceSha256\": \"f0ba0deb6a7c1e798bba988504da734ed32bf10582501cf635c130c3add0abca\",\n      \"emittedSha256\": \"6b9758d9585babeeabb3a2b7b6b7b9858c196a88f5da00929c8604c2666ce6c8\",\n      \"generatedSha256\": \"6b9758d9585babeeabb3a2b7b6b7b9858c196a88f5da00929c8604c2666ce6c8\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"8b40fb7d71cd510620a2628fdc44ca0bdf7773873ea398ff11676de14b493399\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js\",\n      \"sourceSha256\": \"4c939a6b4f59e769c81cfcf9e6a896b52df0cfba8de54e1a480dcb709f197608\",\n      \"emittedSha256\": \"99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e\",\n      \"generatedSha256\": \"99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"d52215f468a8310e8ce0ac9b286ab1c361f2ab8e070f4efc507e1191bc4422e2\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/runtime-task/notification.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/runtime-task/notification.js\",\n      \"sourceSha256\": \"e97ff8dcd6edcfae62c37d96125eeff0d87346f88d6966ef7786110bfc2f3c92\",\n      \"emittedSha256\": \"b3a7e116064cfe29d75b1a6ec25a805c48e29c20cf5eb9e204171950abef2e9a\",\n      \"generatedSha256\": \"0af4db091bb6bc2a865e2d963393387532a1dd2ad2f5aa249ed9af9bf1f35563\",\n      \"sameEmittedBytes\": false,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"d8d80aa7317b44995e0b526929210545564161adb2e35dc54e202e46d439c4e6\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.js\",\n      \"sourceSha256\": \"fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454\",\n      \"emittedSha256\": \"b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0\",\n      \"generatedSha256\": \"b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"116f50ff4bfe0ee82d739c30d95ea95d0383345f90e606f4772d6a9a7cb4fd5c\"\n    },\n    {\n      \"sourcePath\": \"apps/cli/packages/core/src/runtime-task/workflow-notification-copy.ts\",\n      \"emittedPath\": \"apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.js\",\n      \"sourceSha256\": \"9690c664fd3dc74f8deee3ef650af894a5a5fcdc329c5f6d6a66842dea4ae9e2\",\n      \"emittedSha256\": \"428dcb9c3d11aa2688f8e5d7bc207eac3b17c349a2a22b3e627e98fb5cd66e2d\",\n      \"generatedSha256\": \"428dcb9c3d11aa2688f8e5d7bc207eac3b17c349a2a22b3e627e98fb5cd66e2d\",\n      \"sameEmittedBytes\": true,\n      \"sameRuntimeSyntax\": true,\n      \"runtimeSyntaxSha256\": \"e37410970a88354402a0e8bd0099e65e7a96ff16725eb509b564276ea2ddd04c\"\n    }\n  ]\n}\n"
+    },
+    {
+      "id": "native-nan-after",
+      "command": "node(24.14.0) --import tsx --input-type=module; native NaN paired fold observation",
+      "observedExitCode": 0,
+      "scope": "Native historical/current deepEqual, both two edges and both fields remain Number.isNaN.",
+      "outputSha256": "37549feacfa2cf0cb483c88d29003ef3ac975ee5ca8713ac70e6271f0f98b69e",
+      "output": "{\"caseIndex\":16,\"originalDependencyBound\":true,\"baselineEdges\":2,\"currentEdges\":2,\"baselineFieldRemainsNaN\":true,\"currentFieldRemainsNaN\":true,\"pairedNativeDeepEqual\":true,\"serializationDoesNotReplaceNativeNaN\":true}\n"
+    }
+  ],
+  "currentSourceOutputProof": {
+    "typescript": "5.9.3",
+    "receiptPath": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+    "receiptSha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+    "scope": "Only registered current source-to-emitted pairs. All identifiers/literals/templates retained; comments, positions and redundant parentheses excluded. No declaration equivalence, old accepted-source, product build or whole-CLI claim.",
+    "pairs": 73,
+    "results": [
+      {
+        "sourcePath": "apps/cli/packages/core/src/runtime-task/registry.ts",
+        "emittedPath": "apps/cli/packages/core/dist/runtime-task/registry.js",
+        "sourceSha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+        "emittedSha256": "4a12edda3db2833925b00430589af95d1ceb09db6b02f195b80346934dd50a09",
+        "generatedSha256": "4a12edda3db2833925b00430589af95d1ceb09db6b02f195b80346934dd50a09",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "70ff0bffda2bd6ed562f5a89ad11bbfbd27eb50869402f22b5dc8f73d6cb19bd"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/task-output.js",
+        "sourceSha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e",
+        "emittedSha256": "8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573",
+        "generatedSha256": "8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "590a57323cbf11529f73811086859ea5fbbe3f81aca9d88bea8f1f4b4c9559bd"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/task-output-request.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/task-output-request.js",
+        "sourceSha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d",
+        "emittedSha256": "bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75",
+        "generatedSha256": "bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "9693245f546f01b2b764bfc2fc80afae60fd38b16191c0b0fc6a0e066d926b18"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/task-output-projection.js",
+        "sourceSha256": "0c8677cc64d8799e84b44f1517fdb85e945238725fa30619f275c583bed8a644",
+        "emittedSha256": "833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e",
+        "generatedSha256": "833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "4691d82044b3a088a05404a92f665e5150e2535032d0111e2cd1c826c46b58af"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/task-output-bash.js",
+        "sourceSha256": "19ac834c02a1dad962ba222222f03051a6b47e0d5e58030651904dd0a707f271",
+        "emittedSha256": "13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb",
+        "generatedSha256": "13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "86b9bc80778ba755fc3a71bd354f215b8214630855e533b42e0e47b308b86a6c"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/result-persistence-format.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/result-persistence-format.js",
+        "sourceSha256": "f4f309784e0e46ca9d39284446f010a5868138440d8dafa1723e563b92938688",
+        "emittedSha256": "2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb",
+        "generatedSha256": "2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "b9646ecc84c565e7aaf2b88be5fdf11fc62b677782a25745d16434e11f34bb6e"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/definition.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/definition.js",
+        "sourceSha256": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2",
+        "emittedSha256": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0",
+        "generatedSha256": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "2c1152e00f0eac3a3bee3f6ffce6ed614fc7f01f6fb15b5676068d5aaa4c6647"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/ids.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/ids.js",
+        "sourceSha256": "c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b",
+        "emittedSha256": "5f68c2762fac66f468d01bdcd1d4cda1d505093f8e655131ae22f3ef568cf3bf",
+        "generatedSha256": "5f68c2762fac66f468d01bdcd1d4cda1d505093f8e655131ae22f3ef568cf3bf",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "9b0675773ce8fc605fb7991c231eca5dcb94763f518c9811026a99036b0f325b"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+        "sourceSha256": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f",
+        "emittedSha256": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5",
+        "generatedSha256": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "4f5f5a00648412d4f2dd1c9b5c71b70b5ab6fff2649fb6f0c3c47ae97bda2c4d"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/parsers/json.js",
+        "sourceSha256": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920",
+        "emittedSha256": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e",
+        "generatedSha256": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "48513fe7859e5c300d567eb4ce7aab82d538346e12f7164cc25f97edc01b076c"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.js",
+        "sourceSha256": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd",
+        "emittedSha256": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd",
+        "generatedSha256": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "e36767dedce53147af2d49c2a43869b367147bcc14d39e9500c8e590f01b0a9e"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/prompts.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/prompts.js",
+        "sourceSha256": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829",
+        "emittedSha256": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf",
+        "generatedSha256": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "699c658e47d22be8cbdaeacbff9ae7cfafd559a27979e6cb5e67837dfe7679df"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js",
+        "sourceSha256": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772",
+        "emittedSha256": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf",
+        "generatedSha256": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "5848e9ff534a54cd346f4138ba83df30bad9389e164850340ea51c47719da930"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/lifecycle.js",
+        "sourceSha256": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a",
+        "emittedSha256": "7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b",
+        "generatedSha256": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5",
+        "sameEmittedBytes": false,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "54dc0ab06174f916a78a4ea8bca0bcc9764b317ce4a659150818e06133e4cc3e"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler.js",
+        "sourceSha256": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330",
+        "emittedSha256": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+        "generatedSha256": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "6b14aecca834ef00bca475aebabc9f551c383684dc9836ca4cb827d0d28e014a"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/collection-events.js",
+        "sourceSha256": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10",
+        "emittedSha256": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4",
+        "generatedSha256": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "e2d9bfb49f9cc4a11cdd8876942524b767fe4eeca5d45f4df9f76315d967a513"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+        "sourceSha256": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab",
+        "emittedSha256": "1d2fbd8a585ffcf0aaa9efe0f91846b640bee57242cdc02e98f3aab45728f322",
+        "generatedSha256": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be",
+        "sameEmittedBytes": false,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "a9cf674f6017751cbfe20a69dfd2f97612ad23494c09b5688e974e5f11d63761"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/events.js",
+        "sourceSha256": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35",
+        "emittedSha256": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04",
+        "generatedSha256": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "8a7b6cb4f8b383661a124d01ab126c7bab1d568de30c60a1221dea6d935c8ec2"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/graph.js",
+        "sourceSha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+        "emittedSha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+        "generatedSha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "a67d97dde50d312cf7d35ab41a2776d40b14915621542d497ce1f5267db4174d"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.js",
+        "sourceSha256": "7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a",
+        "emittedSha256": "29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa",
+        "generatedSha256": "29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "df135baf6835d051f82e9131abcaab242855da8e2aaf64d382036c3034424e7e"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/node-runner.js",
+        "sourceSha256": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34",
+        "emittedSha256": "f8c62d8254f79d170eb77db610dd907e89b581bb8efc02de1b6ca3e9ceb7dc6e",
+        "generatedSha256": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49",
+        "sameEmittedBytes": false,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "37d0010a5ce71332223fdb4d11295eb4b031d188157e9b0b5c74fa16634d96f9"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js",
+        "sourceSha256": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316",
+        "emittedSha256": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b",
+        "generatedSha256": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "38ad0a9ad39f971a958328e8381c81293d80b3c690aaeb6290af8eb28806920f"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/prompts.js",
+        "sourceSha256": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d",
+        "emittedSha256": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989",
+        "generatedSha256": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "8b17bed8d97c0136dceaa946dd8050c7f3c7a98417ee4f042ad6c9856dafb981"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.js",
+        "sourceSha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+        "emittedSha256": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+        "generatedSha256": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "4c35ac813bb4608d9b4364f87620cbbbfd28454c699f2f1508072b46f92fda05"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/workflow/index.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/workflow/index.js",
+        "sourceSha256": "d2e5ceb97f06cbe0bcdeb45dc8306863d722f1a6f3dbb831c86d60b72b4d22a1",
+        "emittedSha256": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
+        "generatedSha256": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "188be482718356b580e7709d3caf576fcbccfa5106687be245df4612d35c496a"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/workflow/definition.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/workflow/definition.js",
+        "sourceSha256": "0e451f6aa2a279f9800a5a5cb59d85ebf4d2888083e8580d3e110317738673f3",
+        "emittedSha256": "8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57",
+        "generatedSha256": "8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "9bdff70ef91ad13306b86c7e7f8ae1dba3f8e8f779a4e4e830ca0b81a1a74ac5"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/workflow/graph-schema.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/workflow/graph-schema.js",
+        "sourceSha256": "26cb1bb521068bc587a6f134dcad55608c1586efc94cac2e0eac912c9b24a2a2",
+        "emittedSha256": "52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5",
+        "generatedSha256": "52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "c465031e14cff0fcc7156a8a8f7888d904e7381ced9d53efa7ae8cf41298628f"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/workflow/run-schema.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/workflow/run-schema.js",
+        "sourceSha256": "4beeefcee8749448719da64931ba76d09f7abce3dc2e2842a718a2f2fb37bc78",
+        "emittedSha256": "bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1",
+        "generatedSha256": "bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "b2932f04db68c3ff174cc4723c0c2970a59021c45be1ab8b82290fc1387c2541"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/workflow/scheduler-state.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/workflow/scheduler-state.js",
+        "sourceSha256": "5885b7ae0b77bd541d05c8973c0b4a8f50b11d73a0762759356846f812ad0e3c",
+        "emittedSha256": "e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16",
+        "generatedSha256": "e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "42689f5e539f680b6e3defe0fb280b365b9b5b0217d6ac93457d12c40ab8c95b"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/workflow/session-links.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/workflow/session-links.js",
+        "sourceSha256": "e01c5641fb5ee432ee0e50c5ae3fa72c0bf15a1bb5fdb20245382b08ee8d87dc",
+        "emittedSha256": "db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5",
+        "generatedSha256": "db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "863b38723eef37d0eb7ab44392599bbf0a23db85edfe0f097ec800b8ec3a5192"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/workflow/script.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/workflow/script.js",
+        "sourceSha256": "9282b115b4c7bf6bfc184c6aad657e6a8ad1a6336e6fb4620c228335b434eb8d",
+        "emittedSha256": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97",
+        "generatedSha256": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "6dad1a7212ce7d822a0acabd5afd94170dd4eeb69726e77b4404b5909102f5fb"
+      },
+      {
+        "sourcePath": "apps/cli/packages/contracts/src/index.ts",
+        "emittedPath": "apps/cli/packages/contracts/dist/index.js",
+        "sourceSha256": "3d9972674e770c92a16beaf414be53412f6f1ca10fe059b2f193041a2005bf27",
+        "emittedSha256": "6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc",
+        "generatedSha256": "6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "d89c775709c58c4cefdd53e74a24cc2cedcbee36ffdbfccba4fd2ba3fb6c028a"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/graph-helpers.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.js",
+        "sourceSha256": "803e4e94cb682f6e6cfb7e761fa303ea700022292d79cf7a56f6b10b95960feb",
+        "emittedSha256": "75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6",
+        "generatedSha256": "75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "9d765d598eac415b6247cb530c042f291b3ec9d7e295ffabbe6a9c35bfc6e649"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/ready-order.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/ready-order.js",
+        "sourceSha256": "b53a5452e39ecf77827b58fc534d597a5f1b55fdc931a122a583bac17a047032",
+        "emittedSha256": "3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba",
+        "generatedSha256": "3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "6d5d321828d0814456b23a55e21b9eb898224764b183bc44943568d336f47409"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js",
+        "sourceSha256": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f",
+        "emittedSha256": "fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf",
+        "generatedSha256": "fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "2a01bf6ecba9fee81978767a589b3bc53861f8b9e833edfcfa940534af7f1c9c"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/run-loop.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/run-loop.js",
+        "sourceSha256": "39182c7c05b39c72fda6df19ae4670cdf77773327f374100c1871ad511c06633",
+        "emittedSha256": "4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977",
+        "generatedSha256": "4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "13328d9d38bb804659351e89ed748fd10d5c205beed31856e4f8a89d26632367"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.js",
+        "sourceSha256": "812efeb8112c526068a53be9fe8be40b8186df1606aff547f832e7e2e1d2f73e",
+        "emittedSha256": "56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57",
+        "generatedSha256": "56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "3fd0d201128f940a7f0d894fb3825809dfa5d531a9cc51f0c1ecb02c592ff156"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/formatters.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/formatters.js",
+        "sourceSha256": "66e8432c5e9895bc237fcdd6874200f7ebf462685a4f12a10d62130a90a3c089",
+        "emittedSha256": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5",
+        "generatedSha256": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "8fcf4e37589d386bf48e3ddaf9421a2f698c0e172479a7379cfc04fcb23fe37c"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/phase-runner.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/phase-runner.js",
+        "sourceSha256": "4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0",
+        "emittedSha256": "c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26",
+        "generatedSha256": "c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "a797173aceb16a24035657583ccd6316bbd1b70fadaeeaf24536efde99cdfd05"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/runtime-context.js",
+        "sourceSha256": "61ca48e1f3c429d25701abeabdcd8b7c2ac6bf2d2b1a315cda77e4710171362e",
+        "emittedSha256": "53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef",
+        "generatedSha256": "53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "ebd1ba479dba7fe9517e9b358920f264b8a230186cbdacdd4f9c25c31b51660e"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js",
+        "sourceSha256": "fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66",
+        "emittedSha256": "59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a",
+        "generatedSha256": "59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "9336b138fe9302c70397643eb51c1fcd26aceac196f29b18ae7ec34432a95184"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js",
+        "sourceSha256": "880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09",
+        "emittedSha256": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca",
+        "generatedSha256": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "3428ff57d6ee9032c7fb75461c77908e27c6d1a954ecd0f46169d9ed5290500a"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.js",
+        "sourceSha256": "91c1b71be0108aacded780ce8bf98755b24833ac35fe392626ec2e7630f9a362",
+        "emittedSha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2",
+        "generatedSha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "c884fa5ffee508ac76c65fb552d73be0bb03b663b8d54d05c27cfbfc75d6ffc4"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+        "emittedPath": "apps/cli/packages/core/dist/runtime-task/registry-waits.js",
+        "sourceSha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe",
+        "emittedSha256": "8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e",
+        "generatedSha256": "8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "8e1e3ce601528932b57ae8fdfb1dd2c9db44821a9e575b80394fe1cd21752590"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/task-output-file-window.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/task-output-file-window.js",
+        "sourceSha256": "1699a35e464da83d2a6a046274159c4cceca12dd882478599da8f3af9ea38566",
+        "emittedSha256": "8fb24f87da998f3a360a9a50650a7587773c847a61547b04dbc3bb47eae02fae",
+        "generatedSha256": "8fb24f87da998f3a360a9a50650a7587773c847a61547b04dbc3bb47eae02fae",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "77271fe84f6c2dcc8823d80cef19b1b207fb72e36e956a6ad1d5668d22eebb49"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/lifecycle-seed.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/lifecycle-seed.js",
+        "sourceSha256": "53712b28c4c7acb99b0a582bcbc055eb24f90191091dcc595c18d2cf9c2b38af",
+        "emittedSha256": "6a5757c48ed16a995b8a9a6b4a993c9c08084f8f698b044b4674990aa05938f6",
+        "generatedSha256": "5a9e3728ce70b19333c8a791ccee5bc86f60e7cb1b48a9e5bb78f69226e0736e",
+        "sameEmittedBytes": false,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "a1ef45cc7d24881b6f5f290ac838908108efb332783335caf2598cf5feefa5c8"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/critic-loop.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/critic-loop.js",
+        "sourceSha256": "9bad65d06d2e7de38a7588a83523803c7ae2c572feda5ed44fdfae7424cb4df5",
+        "emittedSha256": "58312876224f082f7cf9c1f8c5c0f316f68c126e86af9005a07aa69b78621b0f",
+        "generatedSha256": "58312876224f082f7cf9c1f8c5c0f316f68c126e86af9005a07aa69b78621b0f",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "5c82c8223e611e881a1a3fe9c657543d1b7b9accf102d506abfb51fcbb964849"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/failures.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/failures.js",
+        "sourceSha256": "d93b9e128fc82618830d4e98d62506ea1b8465c8b449b0da6d8d6a6fa8748613",
+        "emittedSha256": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3",
+        "generatedSha256": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "761bcd20aa01ad2661cc6fdb23dc5a76605b5bd855a7e557c174569e5b05f627"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/workflow/expert/parsers/critic.ts",
+        "emittedPath": "apps/cli/packages/core/dist/workflow/expert/parsers/critic.js",
+        "sourceSha256": "a013b344938f4c8102985a791f02c0bcb4a296832111547fe846340befe45130",
+        "emittedSha256": "218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad",
+        "generatedSha256": "218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "8b7e3f4caf04b05ce6536245bade57af13badbd1bb8469ae5d3361d0701952a5"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/result-display.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/result-display.js",
+        "sourceSha256": "b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af",
+        "emittedSha256": "fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc",
+        "generatedSha256": "fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "3936ab65093ae47ace3e019e664b2b66e1d2970d93df6ef38d3f25a194b3cd15"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/bash-result-display.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/bash-result-display.js",
+        "sourceSha256": "8eddfa33f0b4774d50039fde774dcedd751c0df5628d2e4a0b0704cd0adef4b9",
+        "emittedSha256": "b7f202a96d3744296b8e60448d7534c807b73f5ebeb7cc9472f48530db7cb851",
+        "generatedSha256": "b7f202a96d3744296b8e60448d7534c807b73f5ebeb7cc9472f48530db7cb851",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "72fe2b2c0d3a41739f43c0f620543cec20bf7573ff51d3f03d160798514b38b4"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/create-workflow-display.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/create-workflow-display.js",
+        "sourceSha256": "9878f1f080f174edb9f73361c903e40fb0c777a86453887b8ddd842cfb137466",
+        "emittedSha256": "aedb0a555957b1b6ae25981273d6ad49a926affdbe9816a1754650b04bc16368",
+        "generatedSha256": "aedb0a555957b1b6ae25981273d6ad49a926affdbe9816a1754650b04bc16368",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "bec684f73c8d4667e9418d9b7a4449527df3c1e687c9745fc622bd21ad2531f4"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/workflow-observation-display.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.js",
+        "sourceSha256": "81654ab513e337bbffad1a95062ec004ba44d77e987dfcb8be19e01c08f24f25",
+        "emittedSha256": "aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c",
+        "generatedSha256": "aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "92421039ebc5f6dde7b7e4296d7598234d2321372f405219d22d66821eaf232d"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/display/computer-card.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/display/computer-card.js",
+        "sourceSha256": "0f4e38dcefb58014a76bb1c0383f681f9c5879e039fbe0984da3b5aa49ca9a26",
+        "emittedSha256": "2b911848156ab5453bec0b083b8734f3578290b3361733b0711c11c353022d94",
+        "generatedSha256": "2b911848156ab5453bec0b083b8734f3578290b3361733b0711c11c353022d94",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "2cbb930d7dc8d5a1905c546bd24560facb0b47f59a819d087040d75dfc4b14fd"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/display/diff-card.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/display/diff-card.js",
+        "sourceSha256": "1afde7c0d4e76c06af4b3d7fa68d8d0711e66646bc0b560e6f66ea5eae4e7683",
+        "emittedSha256": "da7d5445387bbd6b26908007433238e8bf3fd1bbad078f2e7efa30d8db7ca332",
+        "generatedSha256": "da7d5445387bbd6b26908007433238e8bf3fd1bbad078f2e7efa30d8db7ca332",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "d3552f42abbfaa85439c887a5a5cafa74cab32802feaeb70f12dd70151178589"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/display/mcp-card.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/display/mcp-card.js",
+        "sourceSha256": "ef3378e55bb7de0c0abf0abed9611913ccff41a2f383e08ebdbb7aedb7420988",
+        "emittedSha256": "5bfab60547fddbba336cd30cf26ad677084b81480641bbdd9b377bdf044380fd",
+        "generatedSha256": "5bfab60547fddbba336cd30cf26ad677084b81480641bbdd9b377bdf044380fd",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "790e02d04b361b0e505bed56531c1332a52dfdb20d071b1e800407ca2f87a2cc"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/display/repl-card.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/display/repl-card.js",
+        "sourceSha256": "dbd246eb86ed12fb9544b84b848053216c95bfbf2f0d886cb28504417f680a36",
+        "emittedSha256": "8936469da803a3beb98dbdc3668521d34727bd2bb285e65a5847ab80f03f30e7",
+        "generatedSha256": "8936469da803a3beb98dbdc3668521d34727bd2bb285e65a5847ab80f03f30e7",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "d5b3bc3b4a635282c550d10c2f26152ba66d93538594b74ed58649545de6a862"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/display/task-cards.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/display/task-cards.js",
+        "sourceSha256": "55510561ec370088018fa54816fc51b6581a9af52378b12c52c700b5c8e84d23",
+        "emittedSha256": "8d6d2a95b5eba24d4c068de603e668f237191c1a200a92f93c0aac82082b9028",
+        "generatedSha256": "8d6d2a95b5eba24d4c068de603e668f237191c1a200a92f93c0aac82082b9028",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "72752b84538b200af2ea81776d02ed30bccc7941d65f4cf3976be5ce5030c51f"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/workflow-display/analysis-card.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.js",
+        "sourceSha256": "532140d24e4f67369a2b1de21f03aad2b5e3f5090b84746af12d39cfa6d4da3f",
+        "emittedSha256": "508efb240bb7e9b19185c85c73df61a4c9391645a39db6d0d68a2fc9b29e8ab8",
+        "generatedSha256": "508efb240bb7e9b19185c85c73df61a4c9391645a39db6d0d68a2fc9b29e8ab8",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "d9e5ea4cb02787f386c31132f2b9903af60944ea54a893036f7a64cfd891c298"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/workflow-display/policy.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/workflow-display/policy.js",
+        "sourceSha256": "50431c70e63723e4d32e95f142f552ffc6732f6dd81b57648d6c7c0c2bdaced0",
+        "emittedSha256": "c2d31ba4ad3ae799bd05a10b39a9bbac217c845b570f15dd1c4c267b35d5b0c7",
+        "generatedSha256": "c2d31ba4ad3ae799bd05a10b39a9bbac217c845b570f15dd1c4c267b35d5b0c7",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "c65e2c390fdf6de3e92e440dd5119b36891a959a1045db76fd41815fd8e1043e"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/workflow-display/catalog-cards.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.js",
+        "sourceSha256": "64e015d532a7ef13d14b8d73b035b3d8289c0b36672d5693ba4d5e7a750ffd19",
+        "emittedSha256": "a9195591904d2a86509f13dbaf207b763d25a2f47278137598de3d29c3e7e06f",
+        "generatedSha256": "a9195591904d2a86509f13dbaf207b763d25a2f47278137598de3d29c3e7e06f",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "412bbd2f1e0b9cc286e353169a0511dcad51ef17bdb72313f3683d6e38b60507"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/workflow-display/run-card.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.js",
+        "sourceSha256": "61edeef403aaec21796d54e86d3fb67b9cf9fe2f439351ad7f014055dffff378",
+        "emittedSha256": "1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e",
+        "generatedSha256": "1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "f942397215922d14790a23517eb808e38b1bd37a765bcc338d1f9cfcf9250293"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/display-text.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/display-text.js",
+        "sourceSha256": "274c5f8a4b0eca9e12a7772dba4e7afb9c40a95d59b63b278cc43236f11f81a0",
+        "emittedSha256": "eed8ce4f61845c698934834aa86c57f2ddb71c1e7844a363512686c9be6b2069",
+        "generatedSha256": "eed8ce4f61845c698934834aa86c57f2ddb71c1e7844a363512686c9be6b2069",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "f96cf0ae11263bfc803990f560a081857e5788c3aee25a387b7b2239226b1b93"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/utils.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/utils.js",
+        "sourceSha256": "9981f857013ddba2b7e100e5f2bf3a112e1e466797d4746027d1c3d6c907d474",
+        "emittedSha256": "9a978a579c69acb00453791b9cda5c6908c7d413aae7a50b8dfbb3c0f19ceec3",
+        "generatedSha256": "9a978a579c69acb00453791b9cda5c6908c7d413aae7a50b8dfbb3c0f19ceec3",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "e6cc3f06c7b3110260584ef96b60547e4e2b67c2ff59aa74c46e00563ff648c5"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/diff.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/diff.js",
+        "sourceSha256": "c9059395219e301da67a17cd5aafaa3d37890510a99961ee8b0ead477a8c75aa",
+        "emittedSha256": "677ca7e3b4be74ac980aeef6e3ff9050f8e6ccd578a574350fa122bb71b2add1",
+        "generatedSha256": "677ca7e3b4be74ac980aeef6e3ff9050f8e6ccd578a574350fa122bb71b2add1",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "020417298e98f994d79403e20d5a027d3e61bfc15c0a3a4eb0d6842181f671a4"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/result/byte-budget.js",
+        "sourceSha256": "c18b0b4c85cd854007f30259963e03d67420ef5e68668d039719fd59d3081e19",
+        "emittedSha256": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
+        "generatedSha256": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "3df5e609f6852c7a1e5abd13be6e66936bc75593dec00c2c3302ea7cafc396d4"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+        "sourceSha256": "d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493",
+        "emittedSha256": "afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c",
+        "generatedSha256": "afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "a5478eee30188ac6bd39fbdb69a764a06007d804d8e0f2a285b9a01cf8b673b4"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js",
+        "sourceSha256": "c1043ddaa583e819a79b394093ae8e113dfff8f56faad65529739fd10b291c25",
+        "emittedSha256": "335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2",
+        "generatedSha256": "861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8",
+        "sameEmittedBytes": false,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "9fdb70140d0718a200fe099cfe598ada9c1597ea12e8e94c67ec99d9a4bff4a4"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.js",
+        "sourceSha256": "f0ba0deb6a7c1e798bba988504da734ed32bf10582501cf635c130c3add0abca",
+        "emittedSha256": "6b9758d9585babeeabb3a2b7b6b7b9858c196a88f5da00929c8604c2666ce6c8",
+        "generatedSha256": "6b9758d9585babeeabb3a2b7b6b7b9858c196a88f5da00929c8604c2666ce6c8",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "8b40fb7d71cd510620a2628fdc44ca0bdf7773873ea398ff11676de14b493399"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js",
+        "sourceSha256": "4c939a6b4f59e769c81cfcf9e6a896b52df0cfba8de54e1a480dcb709f197608",
+        "emittedSha256": "99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e",
+        "generatedSha256": "99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "d52215f468a8310e8ce0ac9b286ab1c361f2ab8e070f4efc507e1191bc4422e2"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/runtime-task/notification.ts",
+        "emittedPath": "apps/cli/packages/core/dist/runtime-task/notification.js",
+        "sourceSha256": "e97ff8dcd6edcfae62c37d96125eeff0d87346f88d6966ef7786110bfc2f3c92",
+        "emittedSha256": "b3a7e116064cfe29d75b1a6ec25a805c48e29c20cf5eb9e204171950abef2e9a",
+        "generatedSha256": "0af4db091bb6bc2a865e2d963393387532a1dd2ad2f5aa249ed9af9bf1f35563",
+        "sameEmittedBytes": false,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "d8d80aa7317b44995e0b526929210545564161adb2e35dc54e202e46d439c4e6"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+        "emittedPath": "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.js",
+        "sourceSha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+        "emittedSha256": "b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0",
+        "generatedSha256": "b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "116f50ff4bfe0ee82d739c30d95ea95d0383345f90e606f4772d6a9a7cb4fd5c"
+      },
+      {
+        "sourcePath": "apps/cli/packages/core/src/runtime-task/workflow-notification-copy.ts",
+        "emittedPath": "apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.js",
+        "sourceSha256": "9690c664fd3dc74f8deee3ef650af894a5a5fcdc329c5f6d6a66842dea4ae9e2",
+        "emittedSha256": "428dcb9c3d11aa2688f8e5d7bc207eac3b17c349a2a22b3e627e98fb5cd66e2d",
+        "generatedSha256": "428dcb9c3d11aa2688f8e5d7bc207eac3b17c349a2a22b3e627e98fb5cd66e2d",
+        "sameEmittedBytes": true,
+        "sameRuntimeSyntax": true,
+        "runtimeSyntaxSha256": "e37410970a88354402a0e8bd0099e65e7a96ff16725eb509b564276ea2ddd04c"
+      }
+    ]
+  },
+  "checkerBinding": {
+    "path": "docs/evidence/backlog-cli-20261003/final-core-source-output-contract.mjs",
+    "sha256": "a0cdacd69c0edcb7a22d046bf60205555c57e73a5469dcc214097e70dabdeff9"
+  },
+  "result": {
+    "originalFailedEntriesResolved": 18,
+    "workflowRegistryEntryLoadsResolved": 17,
+    "defaultUniqueCasesPassed": 77,
+    "emittedCasesPassed": 77,
+    "uniqueBehaviorCasesAcrossModes": 77,
+    "skipped": 0,
+    "failedFinalCases": 0,
+    "oldGoldensSelectorsArchivesPreserved": true
+  },
+  "notRun": "No complete regression/777-file suite, full CLI/root build, fifteen-package types, lint/format, architecture/source audit, native UI or user data exercise. No new PR/main merge. Inherited complete checks are not reclassified as this follow-up passes.",
+  "remaining": "Integrator receives this head, refreshes current-input/source-to-output and global inventory/frozen-evidence registrations for new records while preserving all existing bytes. Continue whole-tree final acceptance and other lanes actual failures. Historical source/right HOLDs and material obligations remain; no MIT or ready-for-main claim."
+}

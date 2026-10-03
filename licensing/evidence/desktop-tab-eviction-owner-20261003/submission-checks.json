@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "baseline-fake": 0,
+    "baseline-static": 0,
+    "final-fake": 0,
+    "final-static": 0,
+    "final-lint": 0,
+    "final-format": 0,
+    "final-architecture": 0,
+    "final-bindings-after-api": 0
+  },
+  "lintWarnings": 1,
+  "lintErrors": 0,
+  "noFullOrNativeRuntimePassed": true,
+  "MITClaim": false,
+  "parentVerifiedPrimaryFastValue": 1,
+  "executorIndependentUIVerification": false
+}

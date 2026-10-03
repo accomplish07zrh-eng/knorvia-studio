@@ -1,0 +1,14 @@
+[
+  {
+    "path": "licensing/evidence/cli-managed-browser-owners-20261003/index-author-packet.md",
+    "sha256": "253ecc2c1cd46cf9ef3df74d282b01274c9b9acce09eb090647322baf137bf00"
+  },
+  {
+    "path": "licensing/evidence/cli-managed-browser-owners-20261003/session-author-packet.md",
+    "sha256": "99effddaf6ed9aa90ab23c4c5ee36441e5bd88212b74e180859f52f6ebf15f01"
+  },
+  {
+    "path": "licensing/evidence/cli-managed-browser-owners-20261003/page-command-author-packet.md",
+    "sha256": "ce2df0c54ee5afd91a88274794f374751fc4a13b2b4198827e032c55d334cfa5"
+  }
+]

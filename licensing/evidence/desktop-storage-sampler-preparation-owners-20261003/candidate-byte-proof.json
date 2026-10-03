@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/final-bindings.mjs",
+      "sha256": "03595ae9d6564bb6bba0f7b543438f633e4f084ab5463905bcde247092b06168"
+    }
+  ],
+  "stdout": "{\n  \"baseHead\": \"de5d230a858cc17b9edcbbd0bfe6cceb9f4ef420\",\n  \"selected\": [\n    {\n      \"owner\": \"disk\",\n      \"selectedVersion\": \"initial\",\n      \"rawSha256\": \"2183a2020ed33284c5c98d418f3edbdfe1662bebd1e55b5afa0b8940ebd17313\",\n      \"installedSha256\": \"db9b750549a9dd41433bc35410a83b767b72c6f1630ed48a5ee99703390ecf6c\",\n      \"installedLines\": 180,\n      \"installedBytes\": 5163\n    },\n    {\n      \"owner\": \"preparation\",\n      \"selectedVersion\": \"correction-1\",\n      \"rawSha256\": \"3dc85fa45f7ac535d2642b00ca41eea1c7ca84c0d40eed0b220ad57a08b895a4\",\n      \"installedSha256\": \"dfeb17ef3dc26fe35f4d3d47e114b1314bc9e6f5e2a308aa9e70a0a24062519d\",\n      \"installedLines\": 260,\n      \"installedBytes\": 7824\n    }\n  ],\n  \"exactWholeLiteralPlusFormatter\": true,\n  \"curatorSemanticEdits\": false,\n  \"rawVersionsVerified\": 3,\n  \"unchangedRetainedPaths\": 6190,\n  \"retentionCountsAreNotCompletion\": true,\n  \"authorInputAndSpecFreezeVerified\": true,\n  \"publicAndSerializedCompilerRawApiMatch\": true,\n  \"productionScopeExactlyTwoOwners\": true,\n  \"promptTransferPrivateAcceptedHold\": true,\n  \"promptTransferLocalMatchesAcceptedPrivateBytes\": false,\n  \"minimalSyntheticGroups\": 2,\n  \"nativeRuntimePassed\": false,\n  \"ordinarySuiteBuildRun\": false,\n  \"acceptedIndependentCredit\": 0,\n  \"MITClaim\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

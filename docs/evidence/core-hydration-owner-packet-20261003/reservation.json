@@ -1,0 +1,41 @@
+{
+  "baseline": "f9bd59f6bad64590e6d854ddff62fbebd20a841c",
+  "scopes": {
+    "media": {
+      "source": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+        "bytes": 5921,
+        "lines": 181,
+        "sha256": "a90fe7f601a845ef1c603ce8a71552ffb458d71033cc1379420293e453b42cdc"
+      },
+      "inputs": []
+    },
+    "history": {
+      "source": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+        "bytes": 20974,
+        "lines": 589,
+        "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+      },
+      "inputs": []
+    }
+  },
+  "allocation": "Root explicitly allocates exactly media and session-history owners at these hashes; A owns model/turn runtime. No other owner allocated.",
+  "holds": [
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "localSha256": "1b4a8d1acc994ed2717f8d403f8dc4e23b0f8242fe8bbf91a14e6799a3fd2488",
+      "rootSha256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+      "rootEvidence": "licensing/evidence/read-state-hydration-20260930.json",
+      "decision": "Preserve divergence for final combination; no reauthor/root source import."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "decision": "Held pending root historical receipt review; not authorized."
+    }
+  ],
+  "materialObligationsOpen": 21,
+  "ordinaryChecksDeferred": true
+}

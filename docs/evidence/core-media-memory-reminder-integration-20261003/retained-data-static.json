@@ -1,0 +1,16 @@
+{
+  "kind": "Static exact retained product-data literals/templates and count binding; no body execution or product-instruction adoption",
+  "source": {
+    "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+    "bytes": 9506,
+    "sha256": "8a180914dabe4e90b5c47a514277a2b74af5ff2ccf824cf7458481a852c997ae"
+  },
+  "frozenData": {
+    "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/retained-prose-data.json",
+    "bytes": 5963,
+    "sha256": "239d3c294e75358ba12dc27f952483d8ad7ace7162541ceff7455b710787f274"
+  },
+  "templateLocalIdentifierQualification": "PLAN_RESEARCH_AGENT_COUNT is renamed local binding for same numeric 3",
+  "passed": true,
+  "ordinaryTestsRun": false
+}

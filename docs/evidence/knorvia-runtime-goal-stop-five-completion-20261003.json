@@ -1,0 +1,75 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "productionHead": "0a44a15a84564a653b346521758b1ff787d9910f",
+  "productionCommits": {
+    "target": "4a2d92aa28f1c198c3fcd704e3dc6b4b48b24ca2",
+    "goal-summary-title": "0658b5ddc8864c695a34b7656e1d129b57d514d5",
+    "turn-stop": "8b2a08a7a2291b5d681c58806fb0edc17ba12b94",
+    "subagent-messages": "2089a16e3433347dd536dd468ff521c53caff944",
+    "control-only-turn": "0a44a15a84564a653b346521758b1ff787d9910f"
+  },
+  "freezeAndDraftFailureCommits": [
+    "9f4c740",
+    "aa8c75e"
+  ],
+  "receipts": {
+    "target": "e833f4e2c1eefba0162ece909d8eb08eb1442ce67d7813afb038e394e3a6ce6f",
+    "goal-summary-title": "c506c1315dd2cc037620e9ef19f37d48c0e20edc3ad18d75c64d12e6f4f376d0",
+    "turn-stop": "98f53e54d488db921911840c1079239c46a0d72c90c59245018fd9ba0acbedc7",
+    "subagent-messages": "4de70dbe26b4781c715ae6d508fe86dcd332bd99a173dc6d60343fa835608cae",
+    "control-only-turn": "08b343d896714c715d72a959513b2ea99dfbd9f86819b1e9c0e1684c301ef8f3"
+  },
+  "currentSelectorSha256": "e06ae4f72c92c4dfb27de9aca1ed5a1723bd6a45da048b9157964ba0e33165f8",
+  "fixtureDigests": {
+    "runtime-goal-stop-five-safety-20261003.mjs": "c25104e7a8fe0244038227becfac291624a10eade6caa5e891ba0a3dcbb1b09b",
+    "runtime-control-turn-presence-proof-20261003.mjs": "d8cd9c45ce9fc0a0b02b72516adaa89a0851271d72f48d50f2b7396c200ac0b6"
+  },
+  "checkFiles": {
+    "architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "artifact-proof.json": "a15ca3478da76633ddd63380cb29e00e15c86be5f534c4fe64ecafeccc5fcf62",
+    "final-safety.log": "8de1be592181cce9ab7e470c486380802dc71aacd4baed1e16c6fe4991eb8e56",
+    "owned-format.log": "262152180e3e667a1661d69e9b6e0a24d162dd014998027d93b45186fe5bf9eb",
+    "owned-lint.json": "6debee7d6c460f9679858035cb8ee9c4afc277e5dc46b3fc07fd884999baebf5",
+    "owned-lint.log": "735fa0183054b2e2e91b7f73ce008195adb723c592b47c06ad4fe8c5fa23bd37",
+    "presence-final.log": "b2ad117cfdd1d1d2d1dbce72b10d68b3cbbeef9784be505e1211e0af049084dd",
+    "scoped-compile.cjs": "1fc20f035448dac1b4225e7f72e66b07f50ab16716cf9806a3ce2ec7ba27b928",
+    "scoped-types.json": "a79df48cd0dcbcf1a0323770f5e22e198959d1a380c7e183615bdb725d9c7a84",
+    "verify-artifacts.cjs": "590ced452b8f42c9a78f1592912f0654fd8066271573af319ecefc14738f18d0"
+  },
+  "checks": {
+    "scopedTypes": "TypeScript6.0.2,0diagnostics;23exact exported call signatures and fixed non-function declaration AST facts equal. Only5selected modulesJS/dts emitted; no product build.",
+    "syntheticSafety": "One final strict actual-emitted5synthetic persistence/lifecycle groups. Separate1optional TurnStarted-field proof passes after preserving baseline-pass/draft-fail; overlaps control-only group, not additive broad coverage. No duplicate source-mode suite.",
+    "artifacts": {
+      "currentArtifacts": 15,
+      "historicalArtifacts": 15,
+      "historicalOracles": 5,
+      "packetDraftJournalFiles": 44,
+      "wrongCompiledRejected": true,
+      "missingDeclarationRejected": true,
+      "scope": "exact selectors and synthetic read controls; no actual artifact mutation"
+    },
+    "lint": "5sources94rules0warnings/errors",
+    "format": "5sources+2fixtures pass",
+    "architecture": "0violations;all5sources<=400physical lines"
+  },
+  "failureEvidence": "Immutable sealed draft ControlOnly optional-field failure and causation type failure; curator inline optional-type conversion failure and incorrect architecture invocation retained separately as implementation/setup failures, not passing coverage. Original assertions/oracles unchanged; only current-selector pins and mechanical formatting updated.",
+  "authorship": "5fresh internal authors fork_turns=none,GPT6.1Sol/high, body-free/source-derived API/import/supporting/functional packets and recorded supplemental port facts. All drafts/access journals/hash seals archived before source-exposed curator comparison. No team-status or predecessor-body accesses reported by these5authors; ordinary task/environment metadata still present. No absolute clean-room claim.",
+  "retainedExpression": "All5complete-owner candidates retain strong structural/expression correspondence in contract-specified field/call/guard/await/catch combinations. XML/template/join and public-record construction in particular are near predecessor. Standard glue and exact vocabulary are retained, but calling them conventional does not alone clear the combination. Fresh drafts and removed developer prose are evidence, not whole-file independent-expression/MIT determinations; root review remains required.",
+  "protectedScope": "Production diff vs f4ee4be exactly5selected method files, no private helper. Accepted originals/streaming,persistence/fork/rewind,permissions/fullaccess,E context/provider/media/workflow/compaction/history/attachments/memory/reminders/errors,shared licensing/dependencies/CI and other lanes unchanged. No cross-lane integration.",
+  "remainingSelectedQueue": [],
+  "remainingGaps": "Independent correctness/expression/rights review; aggregate/native acceptance; continuation model/verifier, guide/hook, actual queue/turn-machine/fullruntime consumers remain unexecuted. Resume context and oversized subagent/turn orchestration require separate coordination/selection; this batch does not claim nonsecurity runtime inventory exhausted.",
+  "limits": [
+    "Ordinary suites/builds/native/root-wide gates deliberately deferred per user speed-first cadence.",
+    "Direct real callers traced statically;5compact write/lifecycle groups do not cover complete cancellation/thenable/concurrency space.",
+    "Selected old/current modules actual compiler JS; import locations rebound only; unchanged transitive dependencies use tsx source resolution, not all-emitted.",
+    "Native ID and clock helpers unchanged; synthetic stored data/reference behavior asserted, not a wall-clock equivalence benchmark.",
+    "Baseline freshness fetch blocked configured proxy8080;no environment/settings/access workaround. Local filesystem/shell restored and remains available.",
+    "No actual provider,credential,user-file/communication or user-data action,mainmerge,release,deploy or licence/header/global inventory grant."
+  ],
+  "reproduce": [
+    "node docs/evidence/runtime-goal-stop-five-checks-20261003/verify-artifacts.cjs",
+    "node docs/evidence/runtime-goal-stop-five-checks-20261003/scoped-compile.cjs --emit",
+    "node --import tsx apps/cli/packages/core/test/runtime-goal-stop-five-safety-20261003.mjs current",
+    "node --import tsx apps/cli/packages/core/test/runtime-control-turn-presence-proof-20261003.mjs current"
+  ]
+}

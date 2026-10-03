@@ -1,0 +1,13 @@
+{
+  "mode": "sealed-draft-transpile-not-strict-compiler",
+  "before": {
+    "clientId": "after-selection",
+    "traceId": "stored-trace",
+    "turnId": "stored-turn"
+  },
+  "draft": {
+    "clientId": "before",
+    "traceId": "caller"
+  }
+}
+{"failure":"AssertionError","actual":{"clientId":"before","traceId":"caller"},"expected":{"clientId":"after-selection","traceId":"stored-trace","turnId":"stored-turn"}}

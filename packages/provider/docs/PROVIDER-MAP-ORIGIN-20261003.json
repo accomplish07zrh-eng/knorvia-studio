@@ -1,0 +1,149 @@
+{
+  "acceptedPredecessor": "97cbe6226616e05321abae2bc63cd387e8571fa5",
+  "path": "packages/provider/src/config/provider-config.ts",
+  "currentSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+  "requiredPublicSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+  "inventory": {
+    "path": "packages/provider/src/config/provider-config.ts",
+    "kind": "file",
+    "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+    "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+    "encoding": "utf8-lf",
+    "bytes": 18187,
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "packages/provider/src/config/provider-config.ts",
+      "blob": "a566b1333d3cb111af73171610789600b5cb4c91",
+      "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+      "contentMatchedPaths": ["packages/provider/src/config/provider-config.ts"]
+    },
+    "license": "NOASSERTION",
+    "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+    "thirdParty": [],
+    "review": null
+  },
+  "priorAcceptedRetainedBinding": {
+    "path": "packages/provider/src/config/provider-config.ts",
+    "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+    "byteIdenticalToAcceptedPredecessor": true
+  },
+  "localPublisher": {
+    "command": ["git", "cat-file", "blob", "a566b1333d3cb111af73171610789600b5cb4c91"],
+    "exit": 0,
+    "stderr": "",
+    "bytes": 18187,
+    "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+    "expected": {
+      "path": "packages/provider/src/config/provider-config.ts",
+      "mode": "100644",
+      "blob": "a566b1333d3cb111af73171610789600b5cb4c91",
+      "kind": "file",
+      "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+      "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+      "encoding": "utf8-lf",
+      "bytes": 18187
+    },
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521"
+  },
+  "positiveFullFileProof": {
+    "byteEqual": true,
+    "publisherSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+    "actualGitBlob": "a566b1333d3cb111af73171610789600b5cb4c91",
+    "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+    "qualification": "Local complete publisher blob bytes exact current, no transform/no Internet needed. Bounded inherited expression evidence only, not rights/MIT acceptance."
+  },
+  "exactStructuredOldReceiptRecords": [
+    {
+      "file": "licensing/current-files.json",
+      "jsonLocation": "$.files[4725]",
+      "record": {
+        "path": "packages/provider/src/config/provider-config.ts",
+        "kind": "file",
+        "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "encoding": "utf8-lf",
+        "bytes": 18187,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/provider/src/config/provider-config.ts",
+          "blob": "a566b1333d3cb111af73171610789600b5cb4c91",
+          "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+          "contentMatchedPaths": ["packages/provider/src/config/provider-config.ts"]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    },
+    {
+      "file": "licensing/current-files.json",
+      "jsonLocation": "$.files[4725].upstream",
+      "record": {
+        "relation": "unchanged",
+        "path": "packages/provider/src/config/provider-config.ts",
+        "blob": "a566b1333d3cb111af73171610789600b5cb4c91",
+        "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "contentMatchedPaths": ["packages/provider/src/config/provider-config.ts"]
+      }
+    },
+    {
+      "file": "licensing/upstream-baseline.json",
+      "jsonLocation": "$.files[3306]",
+      "record": {
+        "path": "packages/provider/src/config/provider-config.ts",
+        "mode": "100644",
+        "blob": "a566b1333d3cb111af73171610789600b5cb4c91",
+        "kind": "file",
+        "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "normalizedSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "encoding": "utf8-lf",
+        "bytes": 18187
+      }
+    },
+    {
+      "file": "licensing/evidence/repository-migration-scope-20260930.json",
+      "jsonLocation": "$.files[1849]",
+      "record": {
+        "path": "packages/provider/src/config/provider-config.ts",
+        "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "classification": "upstream-unchanged",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      }
+    },
+    {
+      "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+      "jsonLocation": "$.sourceBindings.retained[25]",
+      "record": {
+        "path": "packages/provider/src/config/provider-config.ts",
+        "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "byteIdenticalToPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+      "jsonLocation": "$.sourceBinding.retained[26]",
+      "record": {
+        "path": "packages/provider/src/config/provider-config.ts",
+        "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+      "jsonLocation": "$.sourceBinding.retained[27]",
+      "record": {
+        "path": "packages/provider/src/config/provider-config.ts",
+        "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    }
+  ],
+  "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+  "screen": "Exact source path/SHA/class owner in available licensing/provider/provider-node/services docs and all-ref local history; earlier accepted receipts retained dependency, no positive accepted reimplementation/conflicting current version found. Bounded absence not unpublished-history absence.",
+  "ownerBoundary": "Only complete ProviderConfigMap class. All surrounding simple value/schema/public field/default/templateMap/template-name/access/key/common-helper expression retained byte-for-byte. Mechanical public projections retained as contract/glue, no originality credit. Internal #values spelling retained for fixed mechanical integration binding; explicitly source-derived name, not independent naming claim.",
+  "excluded": "Root resolver (new PR12 not imported/local89332f5), personal-provider-config-repository, provider-config-file-codec next root owner, permissions/keys/realconfig/provider/native/network/other accepted source/global controls."
+}

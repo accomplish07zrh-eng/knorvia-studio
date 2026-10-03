@@ -1,0 +1,10 @@
+✔ artifact cohort settles before path projection (8.844673ms)
+✔ unsupported path retains only admitted unsafe tool names (0.558161ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.207152

@@ -1,0 +1,20 @@
+[
+  {
+    "record": "licensing/evidence/desktop-preload-owners-20261003/executed-index-token-proof.cjs.txt",
+    "sha256": "5caa0603cce6edc4a28ff0026247f302c93a68dd466ee688fbd38b2ce2ffd4a1",
+    "originalExecutionPath": "/tmp/preload-runtime-syntax-proof.cjs",
+    "reviewOnlySnapshotOfExecutedCheckTool": true
+  },
+  {
+    "record": "licensing/evidence/desktop-preload-owners-20261003/executed-scoped-syntax-check.cjs.txt",
+    "sha256": "de82b65c0f51d289c90cf0921a93592c9680bbe5d2f840c081b8b08b2b998311",
+    "originalExecutionPath": "/tmp/preload-syntax.cjs",
+    "reviewOnlySnapshotOfExecutedCheckTool": true
+  },
+  {
+    "record": "licensing/evidence/desktop-preload-owners-20261003/executed-check-recorder.mjs.txt",
+    "sha256": "e59cf49bdd14da7dc7a74f14c28924b19f92ce6d1741a11ac5bd7243f3e10df5",
+    "originalExecutionPath": "/tmp/preload-check.mjs",
+    "reviewOnlySnapshotOfExecutedCheckTool": true
+  }
+]

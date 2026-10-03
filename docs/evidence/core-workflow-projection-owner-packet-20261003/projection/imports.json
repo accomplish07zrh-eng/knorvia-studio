@@ -1,0 +1,64 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type {\n  DynamicWorkflowRunHealth,\n  DynamicWorkflowRunPhaseView,\n  DynamicWorkflowRunSubagentAsk,\n  DynamicWorkflowRunSubagentView,\n  DynamicWorkflowRunSubagentWait,\n  GetWorkflowRunHealth,\n  GetWorkflowRunPhase,\n  GetWorkflowRunSubagent,\n  GetWorkflowRunSubagentAsk,\n}",
+    "names": [
+      {
+        "name": "DynamicWorkflowRunHealth",
+        "local": "DynamicWorkflowRunHealth",
+        "typeOnly": true
+      },
+      {
+        "name": "DynamicWorkflowRunPhaseView",
+        "local": "DynamicWorkflowRunPhaseView",
+        "typeOnly": true
+      },
+      {
+        "name": "DynamicWorkflowRunSubagentAsk",
+        "local": "DynamicWorkflowRunSubagentAsk",
+        "typeOnly": true
+      },
+      {
+        "name": "DynamicWorkflowRunSubagentView",
+        "local": "DynamicWorkflowRunSubagentView",
+        "typeOnly": true
+      },
+      {
+        "name": "DynamicWorkflowRunSubagentWait",
+        "local": "DynamicWorkflowRunSubagentWait",
+        "typeOnly": true
+      },
+      {
+        "name": "GetWorkflowRunHealth",
+        "local": "GetWorkflowRunHealth",
+        "typeOnly": true
+      },
+      {
+        "name": "GetWorkflowRunPhase",
+        "local": "GetWorkflowRunPhase",
+        "typeOnly": true
+      },
+      {
+        "name": "GetWorkflowRunSubagent",
+        "local": "GetWorkflowRunSubagent",
+        "typeOnly": true
+      },
+      {
+        "name": "GetWorkflowRunSubagentAsk",
+        "local": "GetWorkflowRunSubagentAsk",
+        "typeOnly": true
+      }
+    ]
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "{ GET_WORKFLOW_RUN_ROSTER_LIMITS }",
+    "names": [
+      {
+        "name": "GET_WORKFLOW_RUN_ROSTER_LIMITS",
+        "local": "GET_WORKFLOW_RUN_ROSTER_LIMITS",
+        "typeOnly": false
+      }
+    ]
+  }
+]

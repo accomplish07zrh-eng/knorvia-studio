@@ -43,15 +43,12 @@ interface RefreshableProviderSource<TSnapshot> extends ProviderSource<TSnapshot>
   refresh?(reason: string): Promise<TSnapshot>;
 }
 
-/**
- * Registry 的结构兼容快照。Knorvia 不装配产品账号，也不提供账号凭据。
- * Account Provider 由当前 Built-in revision 对齐的 access.entitled=false Overlay 显式 fail-closed。
- */
 export class EmptyAccountProviderConfigSource implements ProviderSource<AccountProviderConfigSnapshot> {
   constructor(readonly configSource: ProviderSource<ProviderConfigSnapshot>) {}
 
   async read(): Promise<AccountProviderConfigSnapshot> {
-    return createFailClosedAccountProviderConfigSnapshot(await this.configSource.read());
+    const config = await this.configSource.read();
+    return createFailClosedAccountProviderConfigSnapshot(config);
   }
 
   onDidChange(): () => void {
@@ -59,105 +56,49 @@ export class EmptyAccountProviderConfigSource implements ProviderSource<AccountP
   }
 }
 
-/** 组装一个进程内共享的 Provider Config、Registry 与 Facade。 */
 export class ProviderRuntime {
   readonly configService: ProviderConfigRuntime["configService"];
   readonly registryService: ProviderRegistryService;
   readonly providerSettings: IProviderSettingsService;
   readonly modelSelection: IModelSelectionService;
-  readonly #configRuntime: ProviderConfigRuntime;
-  readonly #disposeAccountSource?: () => void;
-  readonly #modelSelectionRuntime: IModelSelectionService & { dispose(): void };
-  readonly #disposeModelSelectionConfiguredDefaultSource?: () => void;
-  #startPromise: ReturnType<ProviderRegistryService["start"]> | null = null;
+  #configRuntime: ProviderConfigRuntime;
+  #disposeSelection: () => void;
+  #disposeAccountSource: (() => void) | undefined;
+  #disposeConfiguredDefaultSource: (() => void) | undefined;
+  #startPromise: Promise<void> | undefined;
   #disposed = false;
 
   constructor(dependencies: ProviderRuntimeDependencies) {
-    this.#configRuntime = dependencies.configRuntime;
-    this.#disposeAccountSource = dependencies.disposeAccountSource;
-    this.#disposeModelSelectionConfiguredDefaultSource =
-      dependencies.disposeModelSelectionConfiguredDefaultSource;
-    this.configService = this.#configRuntime.configService;
+    const configRuntime = dependencies.configRuntime;
+    const configService = configRuntime.configService;
     const accountSource: RefreshableProviderSource<AccountProviderConfigSnapshot> =
-      dependencies.accountSource ?? new EmptyAccountProviderConfigSource(this.configService);
-    this.registryService = new ProviderRegistryService({
-      configSource: this.configService,
+      dependencies.accountSource ?? new EmptyAccountProviderConfigSource(configService);
+    const registryService = new ProviderRegistryService({
+      configSource: configService,
       accountSource,
     });
-    const mutations = createSettingsMutationTarget(
-      this.#configRuntime,
-      this.registryService,
-      accountSource,
-    );
-    const ensureReady = () => this.start();
-    const settingsFacade = new ProviderSettingsFacade(this.registryService, mutations);
-    this.providerSettings = createProviderSettingsService(
-      settingsFacade,
-      ensureReady,
-      dependencies.testConnectivity,
-    );
-    this.#modelSelectionRuntime = createModelSelectionService(
-      createNodeModelSelectionFacade(this.registryService),
-      ensureReady,
-      dependencies.modelSelectionConfiguredDefaultSource,
-    );
-    this.modelSelection = this.#modelSelectionRuntime;
-  }
-
-  start(): Promise<void> {
-    if (this.#disposed) throw new Error("ProviderRuntime 已 dispose");
-    if (this.#startPromise) return this.#startPromise;
-    const startPromise = this.#configRuntime.start().then(() => this.registryService.start());
-    this.#startPromise = startPromise;
-    void startPromise.catch(() => {
-      if (this.#startPromise === startPromise) this.#startPromise = null;
-    });
-    return startPromise;
-  }
-
-  dispose(): void {
-    if (this.#disposed) return;
-    this.#disposed = true;
-    this.#modelSelectionRuntime.dispose();
-    this.registryService.dispose();
-    this.#disposeAccountSource?.();
-    this.#disposeModelSelectionConfiguredDefaultSource?.();
-    this.#configRuntime.dispose();
-  }
-}
-
-function createSettingsMutationTarget(
-  configRuntime: ProviderConfigRuntime,
-  registryService: ProviderRegistryService,
-  accountSource: RefreshableProviderSource<AccountProviderConfigSnapshot>,
-): ProviderSettingsMutationTarget {
-  const configService = configRuntime.configService;
-  return {
-    createPersonalProvider: (input) => configService.createPersonalProvider(input),
-    savePersonalProviderOverlay: (providerId, config, membership, metadata) =>
-      configService.savePersonalProviderOverlay(providerId, config, membership, metadata),
-    deletePersonalProvider: (providerId) => configService.deletePersonalProvider(providerId),
-    reorderPersonalProviders: (providerIds) => configService.reorderPersonalProviders(providerIds),
-    reorderPersonalModels: (providerId, modelIds, membership) =>
-      configService.reorderPersonalModels(providerId, modelIds, membership),
-    // 手工四参数转发曾丢掉新增的配置模式；直接绑定完整签名，避免装配层截断写入意图。
-    addPersonalModel: configService.addPersonalModel.bind(configService),
-    renamePersonalModel: (providerId, currentModelId, nextModelId, membership) =>
-      configService.renamePersonalModel(providerId, currentModelId, nextModelId, membership),
-    deletePersonalModel: (providerId, modelId, membership) =>
-      configService.deletePersonalModel(providerId, modelId, membership),
-    setPersonalModelEnabled: (providerId, modelId, enabled, membership) =>
-      configService.setPersonalModelEnabled(providerId, modelId, enabled, membership),
-    savePersonalModelDraft: (
-      providerId,
-      originalModelId,
-      nextModelId,
-      config,
-      expectedPersonalRevision,
-      useRecommendedConfig,
-      membership,
-    ) =>
-      configService.savePersonalModelDraft(
+    this.#configRuntime = configRuntime;
+    this.#disposeAccountSource = dependencies.disposeAccountSource;
+    this.#disposeConfiguredDefaultSource =
+      dependencies.disposeModelSelectionConfiguredDefaultSource;
+    this.configService = configService;
+    this.registryService = registryService;
+    const mutations: ProviderSettingsMutationTarget = {
+      createPersonalProvider: (...args) => configService.createPersonalProvider(...args),
+      savePersonalProviderOverlay: (providerId, config, membership, metadata) =>
+        configService.savePersonalProviderOverlay(providerId, config, membership, metadata),
+      deletePersonalProvider: (...args) => configService.deletePersonalProvider(...args),
+      reorderPersonalProviders: (...args) => configService.reorderPersonalProviders(...args),
+      reorderPersonalModels: (providerId, modelIds, membership) =>
+        configService.reorderPersonalModels(providerId, modelIds, membership),
+      addPersonalModel: configService.addPersonalModel.bind(configService),
+      renamePersonalModel: (providerId, currentModelId, nextModelId, membership) =>
+        configService.renamePersonalModel(providerId, currentModelId, nextModelId, membership),
+      deletePersonalModel: (providerId, modelId, membership) =>
+        configService.deletePersonalModel(providerId, modelId, membership),
+      setPersonalModelEnabled: (providerId, modelId, enabled, membership) =>
+        configService.setPersonalModelEnabled(providerId, modelId, enabled, membership),
+      savePersonalModelDraft: (
         providerId,
         originalModelId,
         nextModelId,
@@ -165,36 +106,79 @@ function createSettingsMutationTarget(
         expectedPersonalRevision,
         useRecommendedConfig,
         membership,
-      ),
-    refresh: (reason) => registryService.refresh(reason),
-    refreshSources: async (reason) => {
-      const sourceResults = await Promise.allSettled([
-        configRuntime.refreshKnorviaBuiltin({ force: true }),
-        accountSource.refresh?.(reason) ?? Promise.resolve(),
-      ]);
-      const snapshot = await registryService.refresh(reason);
-      const failed = sourceResults.find(
-        (result): result is PromiseRejectedResult => result.status === "rejected",
-      );
-      if (failed) throw failed.reason;
-      return snapshot;
-    },
-  };
+      ) =>
+        configService.savePersonalModelDraft(
+          providerId,
+          originalModelId,
+          nextModelId,
+          config,
+          expectedPersonalRevision,
+          useRecommendedConfig,
+          membership,
+        ),
+      refresh: (reason) => registryService.refresh(reason),
+      refreshSources: async (reason) => {
+        const sources = await Promise.allSettled([
+          configRuntime.refreshKnorviaBuiltin({ force: true }),
+          accountSource.refresh?.(reason) ?? Promise.resolve(),
+        ]);
+        const snapshot = await registryService.refresh(reason);
+        for (const source of sources) {
+          if (source.status === "rejected") throw source.reason;
+        }
+        return snapshot;
+      },
+    };
+    const ensureReady = () => this.start();
+    const settingsFacade = new ProviderSettingsFacade(registryService, mutations);
+    this.providerSettings = createProviderSettingsService(
+      settingsFacade,
+      ensureReady,
+      dependencies.testConnectivity,
+    );
+    const selection = createModelSelectionService(
+      createNodeModelSelectionFacade(registryService),
+      ensureReady,
+      dependencies.modelSelectionConfiguredDefaultSource,
+    );
+    this.modelSelection = selection;
+    this.#disposeSelection = () => selection.dispose();
+  }
+
+  start(): Promise<void> {
+    if (this.#disposed) throw new Error("ProviderRuntime 已 dispose");
+    if (this.#startPromise) return this.#startPromise;
+    const promise = this.#configRuntime.start().then(() => this.registryService.start());
+    this.#startPromise = promise;
+    void promise.catch(() => {
+      if (this.#startPromise === promise) this.#startPromise = undefined;
+    });
+    return promise;
+  }
+
+  dispose(): void {
+    if (this.#disposed) return;
+    this.#disposed = true;
+    this.#disposeSelection();
+    this.registryService.dispose();
+    this.#disposeAccountSource?.();
+    this.#disposeConfiguredDefaultSource?.();
+    this.#configRuntime.dispose();
+  }
 }
 
 export function createProviderRuntime(options: ProviderRuntimeOptions): ProviderRuntime {
-  const { accountSource, testConnectivity, ...configRuntimeOptions } = options;
-  const configRuntime = createProviderConfigRuntime(configRuntimeOptions);
-  const modelSelectionConfiguredDefaultSource = new NodeModelSelectionConfigRepository({
+  const { accountSource, testConnectivity, ...configOptions } = options;
+  const configRuntime = createProviderConfigRuntime(configOptions);
+  const repository = new NodeModelSelectionConfigRepository({
     personalRepository: configRuntime.personalRepository,
   });
   return createProviderRuntimeFromConfigRuntime({
     configRuntime,
     accountSource,
     testConnectivity,
-    modelSelectionConfiguredDefaultSource,
-    disposeModelSelectionConfiguredDefaultSource: () =>
-      modelSelectionConfiguredDefaultSource.dispose(),
+    modelSelectionConfiguredDefaultSource: repository,
+    disposeModelSelectionConfiguredDefaultSource: () => repository.dispose(),
   });
 }
 

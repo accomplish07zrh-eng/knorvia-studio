@@ -1,0 +1,201 @@
+import fs from "node:fs";
+import path from "node:path";
+import assert from "node:assert/strict";
+import ts from "typescript";
+
+const directory = "packages/desktop/src/main/browserView";
+const names = [
+  "browserPlaywrightDomSnapshot",
+  "browserPlaywrightLocatorExecutor",
+  "browserPlaywrightExecutor",
+];
+const base = process.env.KNORVIA_OWNER_BASELINE ?? directory;
+const virtual = "/virtual-knorvia-playwright";
+const sources = new Map(
+  names.map((name) => [
+    virtual + "/" + name + ".ts",
+    fs.readFileSync(path.join(base, name + ".ts"), "utf8"),
+  ]),
+);
+sources.set(
+  virtual + "/browserCommandTypes.d.ts",
+  fs.readFileSync(directory + "/browserCommandTypes.ts", "utf8"),
+);
+sources.set(
+  virtual + "/shared.d.ts",
+  `
+export type BrowserPlaywrightModifier = 'Alt'|'Control'|'ControlOrMeta'|'Meta'|'Shift';
+type Timeout={timeoutMs?:number};
+export type BrowserPlaywrightAction =
+{name:'domSnapshot'}|{name:'elementInfo'|'elementScreenshot',x:number,y:number,includeNonInteractable?:boolean}|
+({name:'evaluate',expression:string,expressionKind:'string'|'function',arg?:unknown}&Timeout)|
+({name:'waitForURL',url:string,waitUntil?:'load'|'domcontentloaded'|'networkidle'|'commit'}&Timeout)|
+({name:'waitForLoadState',state?:'load'|'domcontentloaded'|'networkidle'}&Timeout)|
+{name:'waitForEvent'|'downloadPath'|'fileChooserSetFiles'}|
+({name:'locator',selector:string,operation:'allTextContents'|'click'|'count'|'dblclick'|'downloadMedia'|'evaluate'|'fill'|'getAttribute'|'innerText'|'isEnabled'|'isVisible'|'press'|'selectOption'|'setChecked'|'textContent'|'waitFor',value?:unknown,arg?:unknown,expression?:string,expressionKind?:'string'|'function',attribute?:string,checked?:boolean,replace?:boolean,force?:boolean,button?:'left'|'middle'|'right',modifiers?:BrowserPlaywrightModifier[],state?:'attached'|'detached'|'visible'|'hidden',selections?:Array<{value?:string,label?:string,index?:number}>}&Timeout);
+export type BrowserCommandResult = {ok:boolean,elapsedMs:number,value?:unknown,image?:{base64:string,mimeType:string},error?:{code:string,message:string,sideEffect?:string}};
+`,
+);
+sources.set(
+  virtual + "/ports.d.ts",
+  `
+import type {ControlledView, BrowserPoint} from './browserCommandTypes.js';
+import type {BrowserPlaywrightModifier} from '@knorvia/shared';
+export const logger:{debug(message:string,fields:unknown):void};
+export function modifiersBitmask(modifiers?:readonly BrowserPlaywrightModifier[]):number;
+export function dispatchClickAt(view:ControlledView,point:BrowserPoint,button:'left'|'middle'|'right',doubleClick:boolean,modifiers?:number):Promise<void>;
+export function dispatchKey(view:ControlledView,key:string,modifiers?:number,sessionId?:string):Promise<void>;
+export function createInputTargetToken():string;
+export const IAB_INPUT_TARGET_TOKEN_PROPERTY:string;
+export function assertFocusedInputTarget(view:ControlledView,target:{contextId?:number,sessionId?:string},token:string):Promise<void>;
+export function pasteTextIntoFocusedTarget(view:ControlledView,text:string,options?:{includeRichText?:boolean,initialTarget?:{contextId?:number,sessionId?:string},inputTargetToken?:string,replaceInputValue?:boolean}):Promise<void>;
+export function buildViewportScreenshotParams(view:ControlledView):Promise<Record<string,unknown>>;
+export function captureScreenshotWithCssPixelCorrection(view:ControlledView,params:Record<string,unknown>):Promise<{data?:string}>;
+export function getPlaywrightInjectedScriptSource():string;
+export function normalizePlaywrightTimeout(value?:number):number;
+`,
+);
+sources.set(virtual + "/globals.d.ts", "declare const process:{platform:string};");
+
+const options = {
+  strict: true,
+  target: ts.ScriptTarget.ESNext,
+  module: ts.ModuleKind.ESNext,
+  noEmit: true,
+  types: [],
+  skipLibCheck: false,
+};
+const standard = ts.createCompilerHost(options);
+const stdlib = path.dirname(ts.getDefaultLibFilePath(options)) + path.sep;
+const permits = (file) => sources.has(file) || path.resolve(file).startsWith(stdlib);
+const host = {
+  ...standard,
+  fileExists: (file) => sources.has(file) || (permits(file) && standard.fileExists(file)),
+  readFile: (file) => sources.get(file) ?? (permits(file) ? standard.readFile(file) : undefined),
+  getSourceFile: (file, version) => {
+    if (sources.has(file)) return ts.createSourceFile(file, sources.get(file), version, true);
+    if (permits(file)) return standard.getSourceFile(file, version);
+    return undefined;
+  },
+  resolveModuleNames: (requests) =>
+    requests.map((request) => {
+      const candidate = virtual + "/" + request.replace(/^\.\//, "").replace(/\.js$/, ".ts");
+      const target =
+        request === "@knorvia/shared"
+          ? virtual + "/shared.d.ts"
+          : sources.has(candidate)
+            ? candidate
+            : request === "./browserCommandTypes.js"
+              ? virtual + "/browserCommandTypes.d.ts"
+              : [
+                    "../logger.js",
+                    "./browserCommandInput.js",
+                    "./browserVirtualClipboard.js",
+                    "./browserCommandPageHandlers.js",
+                    "./browserScreenshotCapture.js",
+                    "./playwrightInjectedScriptSource.js",
+                    "./browserPlaywrightTimeout.js",
+                  ].includes(request)
+                ? virtual + "/ports.d.ts"
+                : undefined;
+      return target
+        ? {
+            resolvedFileName: target,
+            extension: target.endsWith(".d.ts") ? ts.Extension.Dts : ts.Extension.Ts,
+          }
+        : undefined;
+    }),
+};
+const program = ts.createProgram([...sources.keys()], options, host);
+const diagnostics = ts.getPreEmitDiagnostics(program);
+console.log(
+  ts.formatDiagnosticsWithColorAndContext(diagnostics, {
+    getCurrentDirectory: () => virtual,
+    getCanonicalFileName: (name) => name,
+    getNewLine: () => "\n",
+  }),
+);
+console.log(
+  `Restricted synthetic public-port semantic diagnostics: ${diagnostics.length}. Imported product/declaration/native acceptance NOT certified.`,
+);
+
+for (const name of [...names, "browserCommandExecutor"]) {
+  const file =
+    name === "browserCommandExecutor"
+      ? directory + "/" + name + ".ts"
+      : path.join(base, name + ".ts");
+  const syntax = ts.transpileModule(fs.readFileSync(file, "utf8"), {
+    fileName: file,
+    reportDiagnostics: true,
+    compilerOptions: options,
+  });
+  assert.equal(
+    syntax.diagnostics.filter((item) => item.category === ts.DiagnosticCategory.Error).length,
+    0,
+    file,
+  );
+}
+const checker = program.getTypeChecker();
+const publicShapes = [];
+for (const [index, name] of names.entries()) {
+  const file = program.getSourceFile(virtual + "/" + name + ".ts");
+  const exports = checker.getExportsOfModule(checker.getSymbolAtLocation(file));
+  const expected = [
+    "captureBrowserDomSnapshot",
+    "executeIabPlaywrightLocator",
+    "handlePlaywrightAction",
+  ][index];
+  assert.deepEqual(
+    exports.map((symbol) => symbol.name),
+    [expected],
+  );
+  const signature = checker.getTypeOfSymbolAtLocation(exports[0], file).getCallSignatures()[0];
+  console.log(
+    expected +
+      ": " +
+      checker.signatureToString(signature, undefined, ts.TypeFormatFlags.NoTruncation),
+  );
+  assert.equal(signature.parameters.length, index === 0 ? 2 : 4);
+  const returned = checker.getReturnTypeOfSignature(signature);
+  const inner = checker.getTypeArguments(returned)[0];
+  const returnShape = inner.isUnion()
+    ? inner.types
+        .map((member) =>
+          checker.getPropertiesOfType(member).map((symbol) => ({
+            name: symbol.name,
+            optional: Boolean(symbol.flags & ts.SymbolFlags.Optional),
+            type: checker.typeToString(
+              checker.getTypeOfSymbolAtLocation(symbol, file),
+              undefined,
+              ts.TypeFormatFlags.NoTruncation,
+            ),
+          })),
+        )
+        .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)))
+    : checker.typeToString(inner);
+  publicShapes.push({
+    name: expected,
+    parameters: signature.parameters.map((symbol) => ({
+      name: symbol.name,
+      type: checker.typeToString(
+        checker.getTypeOfSymbolAtLocation(symbol, file),
+        undefined,
+        ts.TypeFormatFlags.NoTruncation | ts.TypeFormatFlags.InTypeAlias,
+      ),
+      optional: Boolean(symbol.valueDeclaration.questionToken),
+    })),
+    promiseResult: returnShape,
+  });
+}
+if (process.env.KNORVIA_PUBLIC_SHAPE_OUT)
+  fs.writeFileSync(
+    process.env.KNORVIA_PUBLIC_SHAPE_OUT,
+    JSON.stringify(publicShapes, null, 2) + "\n",
+    { flag: "wx" },
+  );
+if (process.env.KNORVIA_PUBLIC_SHAPE_COMPARE)
+  assert.deepEqual(
+    publicShapes,
+    JSON.parse(fs.readFileSync(process.env.KNORVIA_PUBLIC_SHAPE_COMPARE, "utf8")),
+  );
+if (diagnostics.length) process.exitCode = 1;

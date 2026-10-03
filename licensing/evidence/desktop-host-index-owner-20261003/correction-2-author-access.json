@@ -1,0 +1,15 @@
+{
+  "agent": "/root/host_index_owner_author",
+  "declaredReads": [
+    "licensing/evidence/desktop-host-index-owner-20261003/index-correction-2-packet.md"
+  ],
+  "preWritePublicMessage": "Trimmed automation configuration mode requires KnorviaTaskMode|undefined; runtime unchanged",
+  "raw": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-2.ts.txt",
+  "sha256": "554fd6fab968821edbabc127ada86c9b72a65f8030fb4f383ee81c8c10af6bf9",
+  "bytes": 62927,
+  "write": "One literal heredoc, then SHA only; no prior reads/transforms/validation/format/repo/network/native",
+  "wholeCopyPlusFormat": "Installed with whole copy/format only; first final-* records are correction2 snapshot4/4, AST/lint/syntax pass, later full curator review discovers redaction callback arity mismatch",
+  "remainingAtThisSnapshot": "Whole correction3 and strengthened SAME startup fixture required; no semantic/native/provenance acceptance",
+  "acceptedCredit": 0,
+  "access": "Original author memory persists, instruction-limited shared filesystem, no OS isolation"
+}

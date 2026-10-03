@@ -1,4 +1,9 @@
 import {
+  type MessageId,
+  type MessageWithParts,
+  type SessionId,
+  type TraceContext,
+  type WorkspaceCheckpointArtifact,
   CoreErrorType,
   RewindScope,
   RewindStrategy,
@@ -10,13 +15,12 @@ import {
   parseCheckpointCreatedPayload,
   parseWorkspaceCheckpointArtifact,
 } from "../deps.js";
+import type { AgentRuntimeInternal } from "../internal.js";
 import type {
-  MessageId,
-  MessageWithParts,
-  SessionId,
-  TraceContext,
-  WorkspaceCheckpointArtifact,
-} from "../deps.js";
+  WorkspaceRewindRestoredFile,
+  WorkspaceForkResult,
+  WorkspaceCheckpointSummary,
+} from "../types.js";
 import {
   selectCheckpointForRewind,
   previewTextFromMessage,
@@ -32,12 +36,6 @@ import {
   resolveForkHistoryEndIndex,
 } from "./session-fork.js";
 import { forkWorkspaceAtMessage, restoreWorkspaceCheckpointFiles } from "./workspace-fork.js";
-import type {
-  WorkspaceRewindRestoredFile,
-  WorkspaceForkResult,
-  WorkspaceCheckpointSummary,
-} from "../types.js";
-import type { AgentRuntimeInternal } from "../internal.js";
 
 export async function restoreWorkspaceCheckpointArtifact(
   this: AgentRuntimeInternal,
@@ -59,12 +57,10 @@ export async function copySessionMessagesForFork(
   copiedMessageCount: number;
   messageIdMap: Map<MessageId, MessageId>;
 }> {
-  if (!this.sessionStore) {
-    return { copiedMessageCount: 0, messageIdMap: new Map() };
-  }
-
   const messageIdMap = new Map<MessageId, MessageId>();
-  let copied = 0;
+  let copiedMessageCount = 0;
+  if (!this.sessionStore) return { copiedMessageCount, messageIdMap };
+
   for (const message of options.messages) {
     const nextMessageId = createMessageId();
     messageIdMap.set(message.info.id, nextMessageId);
@@ -77,7 +73,6 @@ export async function copySessionMessagesForFork(
       options.traceContext,
       { sessionID: message.info.sessionID, id: message.info.id },
     );
-
     for (const part of message.parts) {
       await this.persistPart(
         clonePartForFork(part, {
@@ -89,29 +84,28 @@ export async function copySessionMessagesForFork(
         { sessionID: part.sessionID, id: part.id },
       );
     }
-    copied += 1;
+    copiedMessageCount += 1;
   }
-
-  return { copiedMessageCount: copied, messageIdMap };
+  return { copiedMessageCount, messageIdMap };
 }
 
 export async function listWorkspaceCheckpoints(
   this: AgentRuntimeInternal,
   options: { limit?: number } = {},
 ): Promise<WorkspaceCheckpointSummary[]> {
-  const sessionEvents = await this.eventStore.getEvents(this.sessionId);
+  const events = await this.eventStore.getEvents(this.sessionId);
   const previews = await this.loadCheckpointMessagePreviews();
-  const summaries = sessionEvents
+  const parsed = events
     .filter((event) => event.type === SessionEventType.CheckpointCreated)
-    .map((event) => {
-      const checkpoint = parseCheckpointCreatedPayload(event.payload);
-      return { checkpoint, timestamp: event.timestamp };
-    })
-    .filter(
-      ({ checkpoint }) =>
-        checkpoint.scope === RewindScope.Workspace || checkpoint.scope === RewindScope.Both,
-    )
-    .map(({ checkpoint, timestamp }) => ({
+    .map((event) => ({
+      checkpoint: parseCheckpointCreatedPayload(event.payload),
+      timestamp: event.timestamp,
+    }));
+  const checkpoints: WorkspaceCheckpointSummary[] = [];
+  for (const { checkpoint, timestamp } of parsed) {
+    if (checkpoint.scope !== RewindScope.Workspace && checkpoint.scope !== RewindScope.Both)
+      continue;
+    checkpoints.push({
       checkpointId: checkpoint.checkpointId,
       compactBoundaryId: checkpoint.compactBoundaryId,
       coveredByCompact: checkpoint.coveredByCompact,
@@ -124,10 +118,10 @@ export async function listWorkspaceCheckpoints(
       preview: previews.get(checkpoint.targetMessageId ?? checkpoint.messageId),
       scope: checkpoint.scope,
       snapshotRef: checkpoint.snapshotRef,
-    }))
-    .reverse();
-
-  return options.limit && options.limit > 0 ? summaries.slice(0, options.limit) : summaries;
+    });
+  }
+  checkpoints.reverse();
+  return options.limit && options.limit > 0 ? checkpoints.slice(0, options.limit) : checkpoints;
 }
 
 export async function forkWorkspaceFromCheckpoint(
@@ -141,12 +135,6 @@ export async function forkWorkspaceFromCheckpoint(
   } = {},
 ): Promise<WorkspaceForkResult> {
   const traceContext = options.traceContext ?? getCurrentTraceContext() ?? this.rootTraceContext;
-
-  // message 目标的 fork 语义是"历史包含目标回合，工作区停在 fork 点时刻"。
-  // 恢复目标回合自身 checkpoint 的 beforeContent 会把该回合刚产出的文件回退/删除——
-  // fork 与父会话共用工作区目录，父会话的产物也随之丢失（在最新回复上分叉时最明显）。
-  // message fork 只撤销 fork 点之后的 checkpoint；显式 checkpoint 目标（/fork latest、
-  // targetCheckpointId）仍保留"回到该 checkpoint 修改前"的 rewind 式语义。
   if (options.targetMessageId && !options.targetCheckpointId) {
     return await forkWorkspaceAtMessage.call(this, {
       abortSignal: options.abortSignal,
@@ -156,9 +144,8 @@ export async function forkWorkspaceFromCheckpoint(
     });
   }
 
-  const sessionEvents = await this.eventStore.getEvents(this.sessionId);
-  const checkpoint = selectCheckpointForRewind(sessionEvents, options.targetCheckpointId);
-
+  const events = await this.eventStore.getEvents(this.sessionId);
+  const checkpoint = selectCheckpointForRewind(events, options.targetCheckpointId);
   if (!checkpoint) {
     throw createCoreError(
       CoreErrorType.InvalidStateTransition,
@@ -174,7 +161,6 @@ export async function forkWorkspaceFromCheckpoint(
       },
     );
   }
-
   if (!this.sessionStore || !this.artifactStore || !this.fileSystemPort) {
     throw createCoreError(
       CoreErrorType.ConfigurationError,
@@ -189,42 +175,28 @@ export async function forkWorkspaceFromCheckpoint(
       },
     );
   }
-
   const parentSession = await this.sessionStore.getSession(this.sessionId);
   if (!parentSession) {
     throw createCoreError(CoreErrorType.SessionNotFound, `Session not found: ${this.sessionId}`, {
-      context: {
-        sessionId: this.sessionId,
-      },
+      context: { sessionId: this.sessionId },
       recoverable: true,
     });
   }
-
-  const read = await this.artifactStore.readToolResultArtifact(
-    {
-      uri: checkpoint.snapshotRef,
-      trace: traceContext,
-    },
+  const snapshot = await this.artifactStore.readToolResultArtifact(
+    { uri: checkpoint.snapshotRef, trace: traceContext },
     { signal: options.abortSignal },
   );
-  const artifact = parseWorkspaceCheckpointArtifact(JSON.parse(read.content));
+  const artifact = parseWorkspaceCheckpointArtifact(JSON.parse(snapshot.content));
   const parentMessages = await this.sessionStore.messages({ sessionID: this.sessionId });
-  // 编辑重发后 session store 会保留被 rewind 掉的旧分支。
-  // fork 复制历史必须基于 active branch，否则子会话会重新带入旧 prompt 和被取消的 assistant。
-  const forkSourceMessages = forkSourceMessagesForSession(parentMessages, parentSession);
-  const targetMessageIdResolved = checkpoint.targetMessageId ?? checkpoint.messageId;
-  const targetIndex = forkSourceMessages.findIndex(
-    (message) => message.info.id === targetMessageIdResolved,
-  );
+  const sourceMessages = forkSourceMessagesForSession(parentMessages, parentSession);
+  const targetResolved = checkpoint.targetMessageId ?? checkpoint.messageId;
+  const targetIndex = sourceMessages.findIndex((message) => message.info.id === targetResolved);
   if (targetIndex < 0) {
     throw createCoreError(
       CoreErrorType.InvalidStateTransition,
-      `Checkpoint message not found in session store: ${targetMessageIdResolved}`,
+      `Checkpoint message not found in session store: ${targetResolved}`,
       {
-        context: {
-          checkpointId: checkpoint.checkpointId,
-          messageId: targetMessageIdResolved,
-        },
+        context: { checkpointId: checkpoint.checkpointId, messageId: targetResolved },
         recoverable: true,
       },
     );
@@ -234,54 +206,41 @@ export async function forkWorkspaceFromCheckpoint(
     forkedSessionId: options.forkedSessionId,
     parentSession,
   });
-
-  const forkHistoryEndIndex = resolveForkHistoryEndIndex(forkSourceMessages, targetIndex, false);
-  const forkHistoryMessages = buildForkHistoryMessages(
-    parentMessages,
-    forkSourceMessages,
-    targetIndex,
-    forkHistoryEndIndex,
-  );
+  const historyEnd = resolveForkHistoryEndIndex(sourceMessages, targetIndex, false);
+  const history = buildForkHistoryMessages(parentMessages, sourceMessages, targetIndex, historyEnd);
   const { copiedMessageCount, messageIdMap } = await this.copySessionMessagesForFork({
     forkedSessionId,
-    messages: forkHistoryMessages,
+    messages: history,
     traceContext,
   });
-  await copyGoalStateForFork.call(this, {
-    forkedSessionId,
-    messageIdMap,
-    traceContext,
-  });
+  await copyGoalStateForFork.call(this, { forkedSessionId, messageIdMap, traceContext });
   const restoredFiles = await this.restoreWorkspaceCheckpointArtifact(
     artifact,
     traceContext,
     options.abortSignal,
   );
-  const copiedTargetMessageId = messageIdMap.get(targetMessageIdResolved);
-  const forkTimelineCreated = Date.now();
+  const copiedTarget = messageIdMap.get(targetResolved);
+  const created = Date.now();
   await this.persistAssistantTimelinePartForSession({
     sessionId: forkedSessionId,
     messageID: createMessageId(),
     partID: createPartId(
-      `fork_${String(this.sessionId)}_${String(targetMessageIdResolved)}_${checkpoint.checkpointId}_timeline`,
+      `fork_${String(this.sessionId)}_${String(targetResolved)}_${checkpoint.checkpointId}_timeline`,
     ),
-    parentID: copiedTargetMessageId,
-    created: forkTimelineCreated,
-    completed: forkTimelineCreated,
+    parentID: copiedTarget,
+    created,
+    completed: created,
     finish: "completed",
     timeline: {
       timelineType: "session_fork",
       display: "separator",
       status: "completed",
-      anchorMessageId: copiedTargetMessageId,
+      anchorMessageId: copiedTarget,
       parentSessionId: this.sessionId,
-      targetMessageId: targetMessageIdResolved,
+      targetMessageId: targetResolved,
       targetCheckpointId: checkpoint.checkpointId,
       restoredFileCount: restoredFiles.length,
-      time: {
-        start: forkTimelineCreated,
-        end: forkTimelineCreated,
-      },
+      time: { start: created, end: created },
     },
     traceContext,
   });
@@ -298,21 +257,20 @@ export async function forkWorkspaceFromCheckpoint(
       forkContext: {
         kind: "session_fork",
         parentSessionId: this.sessionId,
-        targetMessageId: targetMessageIdResolved,
+        targetMessageId: targetResolved,
         targetCheckpointId: checkpoint.checkpointId,
         restoredFileCount: restoredFiles.length,
       },
     },
     traceContext,
   });
-
-  const forkedEvent = this.createEvent(
+  const event = this.createEvent(
     SessionEventType.SessionForked,
     {
       originalSessionId: this.sessionId,
       forkedSessionId,
-      forkPoint: forkHistoryEndIndex,
-      targetMessageId: targetMessageIdResolved,
+      forkPoint: historyEnd,
+      targetMessageId: targetResolved,
       targetCheckpointId: checkpoint.checkpointId,
       restoredSnapshotRef: checkpoint.snapshotRef,
       restoredFileCount: restoredFiles.length,
@@ -320,38 +278,33 @@ export async function forkWorkspaceFromCheckpoint(
     },
     traceContext,
   );
-  await this.appendEvent(forkedEvent, traceContext);
-
-  const response = `Forked session ${forkedSessionId} from checkpoint ${checkpoint.checkpointId}: copied ${copiedMessageCount} messages and restored ${restoredFiles.length} file${restoredFiles.length === 1 ? "" : "s"}.`;
+  await this.appendEvent(event, traceContext);
   return {
     checkpoint,
     copiedMessageCount,
     forkedSessionId,
     parentSessionId: this.sessionId,
-    targetMessageId: targetMessageIdResolved,
+    targetMessageId: targetResolved,
     targetCheckpointId: checkpoint.checkpointId,
     restoredFiles,
-    response,
+    response: `Forked session ${forkedSessionId} from checkpoint ${checkpoint.checkpointId}: copied ${copiedMessageCount} messages and restored ${restoredFiles.length} file${restoredFiles.length === 1 ? "" : "s"}.`,
   };
 }
 
 export async function loadCheckpointMessagePreviews(
   this: AgentRuntimeInternal,
 ): Promise<Map<MessageId, string>> {
-  if (!this.sessionStore) return new Map();
-
-  const messages = await this.sessionStore.messages({ sessionID: this.sessionId });
-  const messagesById = new Map(messages.map((message) => [message.info.id, message]));
   const previews = new Map<MessageId, string>();
-
+  if (!this.sessionStore) return previews;
+  const messages = await this.sessionStore.messages({ sessionID: this.sessionId });
+  const messagesById = new Map<MessageId, MessageWithParts>();
+  for (const message of messages) messagesById.set(message.info.id, message);
   for (const message of messages) {
     const source =
       message.info.role === "assistant" ? messagesById.get(message.info.parentID) : message;
-    const preview = source ? previewTextFromMessage(source) : undefined;
-    if (preview) {
-      previews.set(message.info.id, preview);
-    }
+    if (!source) continue;
+    const preview = previewTextFromMessage(source);
+    if (preview) previews.set(message.info.id, preview);
   }
-
   return previews;
 }

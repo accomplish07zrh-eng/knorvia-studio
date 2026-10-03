@@ -1,0 +1,43 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "../tool/handlers/bash-command-parser.js"
+    },
+    {
+      "kind": "template",
+      "head": "Only read-only shell commands and rm with all paths inside ",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": " are permitted in this context (ls, find, grep, cat, stat, wc, head, tail, and similar)"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "only Read, Grep, Glob, read-only Bash, and Edit/Write within ",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": " are allowed"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "<tool_use_error>Error: No such tool available: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": "</tool_use_error>"
+        }
+      ]
+    }
+  ],
+  "regex": [
+    "/^-[a-zA-Z]*[rR]/u",
+    "/[*?[]/u"
+  ],
+  "qualification": "Exact externally visible prose/template/regex/static segment data retained; generic template placeholders disclose no predecessor private identifier or decomposition. Internal labels/names omitted. No novelty/grant claim."
+}

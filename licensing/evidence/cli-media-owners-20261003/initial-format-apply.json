@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/src/image/index.ts",
+    "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+    "apps/cli/packages/adapters/src/pdf/index.ts",
+    "apps/cli/packages/adapters/test/media-owner-compatibility/owners.test.mjs"
+  ],
+  "stdout": "Finished in 21ms on 4 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

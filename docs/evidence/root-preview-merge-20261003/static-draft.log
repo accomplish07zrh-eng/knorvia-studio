@@ -1,0 +1,28 @@
+[96mpackages/shared/src/conversation-preview-artifacts.ts[0m:[93m168[0m:[93m37[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+[7m168[0m     const path = directiveParameter(match[1], 'path');
+[7m   [0m [91m                                    ~~~~~~~~[0m
+[96mpackages/shared/src/conversation-preview-artifacts.ts[0m:[93m169[0m:[93m58[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+[7m169[0m     if (path) admit(path, start, end, directiveParameter(match[1], 'artifact_kind')?.toLowerCase() ?? '');
+[7m   [0m [91m                                                         ~~~~~~~~[0m
+[96mpackages/shared/src/conversation-preview-artifacts.ts[0m:[93m172[0m:[93m17[0m - [91merror[0m[90m TS2532: [0mObject is possibly 'undefined'.
+
+[7m172[0m     const raw = match[2].trim().replace(/^<|>$/gu, '');
+[7m   [0m [91m                ~~~~~~~~[0m
+[96mpackages/shared/src/conversation-preview-artifacts.ts[0m:[93m183[0m:[93m17[0m - [91merror[0m[90m TS2532: [0mObject is possibly 'undefined'.
+
+[7m183[0m     const raw = match[2].trim(); const fullStart = match.index; const fullEnd = fullStart + match[0].length;
+[7m   [0m [91m                ~~~~~~~~[0m
+[96mpackages/shared/src/conversation-preview-artifacts.ts[0m:[93m189[0m:[93m76[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+[7m189[0m     const raw = match[1]; const start = match.index + match[0].lastIndexOf(raw); const end = start + raw.length;
+[7m   [0m [91m                                                                           ~~~[0m
+[96mpackages/shared/src/conversation-preview-artifacts.ts[0m:[93m189[0m:[93m102[0m - [91merror[0m[90m TS18048: [0m'raw' is possibly 'undefined'.
+
+[7m189[0m     const raw = match[1]; const start = match.index + match[0].lastIndexOf(raw); const end = start + raw.length;
+[7m   [0m [91m                                                                                                     ~~~[0m
+

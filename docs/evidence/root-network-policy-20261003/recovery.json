@@ -1,0 +1,9 @@
+{
+  "recoveredAt": "2026-10-03T00:46:04.537782+00:00",
+  "originalFreezeUtc": "2026-10-03T00:23:59.344343+00:00",
+  "originalDraftBytes": 4824,
+  "originalDraftSha256": "17a6fa1004abfa44ead94a1f032feea5c163ecbbdf166b8c979d5d0ae4018328",
+  "recovery": "Recovered exact original draft from recorded author tool text; hash and length match pre-body-review freeze. Re-materialized8public packet inputs from preserved orchestration results and verified hashes. Published PR12 dd963aae source cloned independently; old private bundle was access-denied and NOT retrieved through any other route.",
+  "lostState": "Old local working checkout, toolchain and tmp files disappeared. No inference about cause. Private/unpublished historical checkpoint not recovered. Working network candidate must be recreated from recorded post-freeze corrections and checked again. Minimum harness was written after loss and has not run yet.",
+  "originQualification": "Original draft was frozen before deliberate network body review. Current root has since read that body. Restoring exact bytes is not a new unexposed author cycle. RuntimeEnv body remains unread/unimplemented."
+}

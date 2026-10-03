@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "licensing/evidence/shared-file-lock-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Finished in 25ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

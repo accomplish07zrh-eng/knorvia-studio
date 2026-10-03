@@ -1,0 +1,24 @@
+2026-10-03T08:53:19.2750837Z test at packages\services\test\git-checkpoint-repo-fake-safety-20261002.test.ts:1:210
+2026-10-03T08:53:19.2751687Z ✖ fake checkpoint repository keeps temporary index and conflict/permission admission (37.0326ms)
+2026-10-03T08:53:19.2752309Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2752701Z   + actual - expected
+2026-10-03T08:53:19.2752900Z   
+2026-10-03T08:53:19.2753054Z     [
+2026-10-03T08:53:19.2753209Z       [
+2026-10-03T08:53:19.2753839Z   +     'D:\\synthetic\\repo\\.git\\index',
+2026-10-03T08:53:19.2754181Z   +     'D:\\synthetic\\indexes\\index-fake\\index'
+2026-10-03T08:53:19.2754500Z   -     '\\synthetic\\repo\\.git\\index',
+2026-10-03T08:53:19.2754808Z   -     '\\synthetic\\indexes\\index-fake\\index'
+2026-10-03T08:53:19.2755080Z       ]
+2026-10-03T08:53:19.2755235Z     ]
+2026-10-03T08:53:19.2755383Z   
+2026-10-03T08:53:19.2756010Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\git-checkpoint-repo-fake-safety-20261002.test.ts:123:10)
+2026-10-03T08:53:19.2757061Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2757578Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2758001Z     generatedMessage: true,
+2026-10-03T08:53:19.2758228Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2758653Z     actual: [ [ 'D:\\synthetic\\repo\\.git\\index', 'D:\\synthetic\\indexes\\index-fake\\index' ] ],
+2026-10-03T08:53:19.2759275Z     expected: [ [ '\\synthetic\\repo\\.git\\index', '\\synthetic\\indexes\\index-fake\\index' ] ],
+2026-10-03T08:53:19.2759716Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2759953Z     diff: 'simple'
+2026-10-03T08:53:19.2760140Z   }

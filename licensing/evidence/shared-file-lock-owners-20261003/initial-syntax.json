@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/node/atomicFileLock.ts",
+    "packages/shared/src/node/privateFilePersistence.ts"
+  ],
+  "stdout": "packages/shared/src/node/atomicFileLock.ts: 0 syntax-only diagnostics\npackages/shared/src/node/privateFilePersistence.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

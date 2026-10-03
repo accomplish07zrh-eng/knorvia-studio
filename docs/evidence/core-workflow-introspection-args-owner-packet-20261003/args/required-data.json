@@ -1,0 +1,140 @@
+{
+  "strings": [
+    {
+      "kind": "literal",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "template",
+      "head": "unknown argument '",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "': this workflow declares no arguments"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "unknown argument '",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "' (declared: "
+        },
+        {
+          "slot": 1,
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "literal",
+      "text": ", "
+    },
+    {
+      "kind": "literal",
+      "text": "default value"
+    },
+    {
+      "kind": "template",
+      "head": "missing required argument '",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "'"
+        }
+      ]
+    },
+    {
+      "kind": "literal",
+      "text": "value"
+    },
+    {
+      "kind": "template",
+      "head": "argument '",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "': expected "
+        },
+        {
+          "slot": 1,
+          "text": ", got "
+        },
+        {
+          "slot": 2,
+          "text": " ("
+        },
+        {
+          "slot": 3,
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "literal",
+      "text": "string"
+    },
+    {
+      "kind": "literal",
+      "text": "string"
+    },
+    {
+      "kind": "literal",
+      "text": "a string"
+    },
+    {
+      "kind": "literal",
+      "text": "number"
+    },
+    {
+      "kind": "literal",
+      "text": "number"
+    },
+    {
+      "kind": "literal",
+      "text": "a finite number"
+    },
+    {
+      "kind": "literal",
+      "text": "boolean"
+    },
+    {
+      "kind": "literal",
+      "text": "boolean"
+    },
+    {
+      "kind": "literal",
+      "text": "a boolean"
+    },
+    {
+      "kind": "literal",
+      "text": "json"
+    },
+    {
+      "kind": "literal",
+      "text": "null"
+    },
+    {
+      "kind": "literal",
+      "text": "an array"
+    },
+    {
+      "kind": "template",
+      "head": "a ",
+      "spans": [
+        {
+          "slot": 0,
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "regex": [],
+  "numbers": [
+    "0",
+    "0"
+  ],
+  "publicExpressions": []
+}

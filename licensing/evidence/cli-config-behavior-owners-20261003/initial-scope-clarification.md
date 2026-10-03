@@ -1,0 +1,1 @@
+Public ConfigScope contract members used by callers are System,User,Project,Env,Cli. Merger compares ConfigScope.Project, not a guessed string cast. Public-only clarification; no implementation body/decomposition exposed.

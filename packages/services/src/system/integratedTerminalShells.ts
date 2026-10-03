@@ -1,125 +1,111 @@
-import { accessSync, constants as fsConstants } from "node:fs";
+import { accessSync, constants } from "node:fs";
 import { win32 } from "node:path";
 import type { IntegratedTerminalShellOption } from "@knorvia/shared";
 
-type ExecutableCheck = (path: string) => boolean;
+function environmentValue(env: NodeJS.ProcessEnv, name: string): string | undefined {
+  const wanted = name.toLowerCase();
+  const key = Object.keys(env).find((entry) => entry.toLowerCase() === wanted);
+  return key === undefined ? undefined : env[key];
+}
 
-const WINDOWS_GIT_BASH_PATHS = [
-  "C:\\Program Files\\Git\\bin\\bash.exe",
-  "C:\\Program Files (x86)\\Git\\bin\\bash.exe",
-] as const;
+function commandCandidates(command: string, env: NodeJS.ProcessEnv): string[] {
+  if (command.includes("/") || command.includes("\\")) {
+    return [command];
+  }
+
+  const searchPath = environmentValue(env, "PATH");
+  if (!searchPath) {
+    return [command];
+  }
+
+  const extensions = (
+    environmentValue(env, "PATHEXT")?.split(";") ?? [".COM", ".EXE", ".BAT", ".CMD"]
+  )
+    .map((extension) => extension.trim().toLowerCase())
+    .filter((extension) => extension.length > 0);
+  if (!extensions.includes(".exe")) {
+    extensions.unshift(".exe");
+  }
+
+  const candidates: string[] = [];
+  for (const directory of searchPath.split(";")) {
+    if (directory.trim().length === 0) {
+      continue;
+    }
+    for (const extension of extensions) {
+      candidates.push(win32.join(directory, `${command}${extension}`));
+    }
+  }
+  return candidates;
+}
 
 export function listIntegratedTerminalShellOptions(options: {
   env: NodeJS.ProcessEnv;
-  isExecutable?: ExecutableCheck;
+  isExecutable?: (path: string) => boolean;
   platform: NodeJS.Platform;
 }): IntegratedTerminalShellOption[] {
   if (options.platform !== "win32") {
     return [];
   }
 
-  const shellOptions: IntegratedTerminalShellOption[] = [createCommandPromptOption(options.env)];
-  const gitBash = resolveWindowsGitBash(options.env, options.isExecutable);
-  if (gitBash) {
-    shellOptions.push({
+  const cmdPath = environmentValue(options.env, "ComSpec")?.trim() || "cmd.exe";
+  const result: IntegratedTerminalShellOption[] = [
+    {
+      dialect: "cmd",
+      id: `cmd:${cmdPath}`,
+      label: "CMD",
+      path: cmdPath,
+      source: "system",
+    },
+  ];
+
+  const suppliedProbe = options.isExecutable;
+  const probe =
+    suppliedProbe ||
+    ((path: string): boolean => {
+      try {
+        accessSync(path, constants.X_OK);
+        return true;
+      } catch {
+        return false;
+      }
+    });
+
+  const installations = [
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "C:\\Program Files (x86)\\Git\\bin\\bash.exe",
+  ];
+  const installedShell = installations.find((path) => probe(path));
+  if (installedShell) {
+    result.push({
       dialect: "git-bash",
-      id: `git-bash:${gitBash.path}`,
+      id: `git-bash:${installedShell}`,
       label: "Git Bash",
-      path: gitBash.path,
-      source: gitBash.source,
+      path: installedShell,
+      source: "system",
+    });
+    return result;
+  }
+
+  const gitPath = commandCandidates("git", options.env).find((path) => probe(path));
+  if (!gitPath) {
+    return result;
+  }
+
+  const directory = win32.dirname(gitPath);
+  const inferredShells = [
+    win32.normalize(win32.join(directory, "..", "bin", "bash.exe")),
+    win32.normalize(win32.join(directory, "..", "..", "bin", "bash.exe")),
+  ];
+  const inferredShell = inferredShells.find((path) => probe(path));
+  if (inferredShell) {
+    result.push({
+      dialect: "git-bash",
+      id: `git-bash:${inferredShell}`,
+      label: "Git Bash",
+      path: inferredShell,
+      source: "path",
     });
   }
-
-  return shellOptions;
-}
-
-function createCommandPromptOption(env: NodeJS.ProcessEnv): IntegratedTerminalShellOption {
-  const path = getWindowsEnvValue(env, "ComSpec")?.trim() || "cmd.exe";
-  return {
-    dialect: "cmd",
-    id: `cmd:${path}`,
-    label: "CMD",
-    path,
-    source: "system",
-  };
-}
-
-function resolveWindowsGitBash(
-  env: NodeJS.ProcessEnv,
-  isExecutable?: ExecutableCheck,
-): { path: string; source: "system" | "path" } | undefined {
-  for (const candidate of WINDOWS_GIT_BASH_PATHS) {
-    if (isExecutableCandidate(candidate, isExecutable)) {
-      return { path: candidate, source: "system" };
-    }
-  }
-
-  const gitExe = windowsExecutableCandidates("git", env).find((candidate) =>
-    isExecutableCandidate(candidate, isExecutable),
-  );
-  if (!gitExe) {
-    return undefined;
-  }
-
-  const inferred = inferWindowsGitBashPathsFromGitExe(gitExe).find((candidate) =>
-    isExecutableCandidate(candidate, isExecutable),
-  );
-  return inferred ? { path: inferred, source: "path" } : undefined;
-}
-
-function inferWindowsGitBashPathsFromGitExe(gitExe: string): string[] {
-  const gitDir = win32.dirname(gitExe);
-  return [
-    win32.normalize(win32.join(gitDir, "..", "bin", "bash.exe")),
-    win32.normalize(win32.join(gitDir, "..", "..", "bin", "bash.exe")),
-  ];
-}
-
-function windowsExecutableCandidates(command: string, env: NodeJS.ProcessEnv): string[] {
-  if (/[\\/]/.test(command)) {
-    return [command];
-  }
-
-  const pathValue = getWindowsEnvValue(env, "PATH");
-  if (!pathValue) {
-    return [command];
-  }
-
-  const extensions = windowsExecutableExtensions(env);
-  return pathValue
-    .split(win32.delimiter)
-    .filter((entry) => entry.trim().length > 0)
-    .flatMap((entry) => extensions.map((extension) => win32.join(entry, `${command}${extension}`)));
-}
-
-function windowsExecutableExtensions(env: NodeJS.ProcessEnv): string[] {
-  const rawExtensions = getWindowsEnvValue(env, "PATHEXT")?.split(win32.delimiter) ?? [
-    ".COM",
-    ".EXE",
-    ".BAT",
-    ".CMD",
-  ];
-  const normalized = rawExtensions
-    .map((extension) => extension.trim().toLowerCase())
-    .filter((extension) => extension.length > 0);
-  return normalized.includes(".exe") ? normalized : [".exe", ...normalized];
-}
-
-function getWindowsEnvValue(env: NodeJS.ProcessEnv, key: string): string | undefined {
-  const lowerKey = key.toLowerCase();
-  const match = Object.keys(env).find((envKey) => envKey.toLowerCase() === lowerKey);
-  return match ? env[match] : undefined;
-}
-
-function isExecutableCandidate(path: string, isExecutable?: ExecutableCheck): boolean {
-  if (isExecutable) {
-    return isExecutable(path);
-  }
-
-  try {
-    accessSync(path, fsConstants.X_OK);
-    return true;
-  } catch {
-    return false;
-  }
+  return result;
 }

@@ -1,0 +1,23 @@
+{
+  "scope": "attachment",
+  "files": [
+    {
+      "file": "prompt-attachment.ts.txt",
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/prompt-attachment.ts",
+      "bytes": 3407,
+      "lines": 86,
+      "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8",
+      "mode": "444",
+      "target": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/author-record.json",
+      "bytes": 9876,
+      "lines": 143,
+      "sha256": "89995c7c3483f2f9922ad84881a81ee1342811a82a8801bb8aba9e149cdf2172",
+      "mode": "444"
+    }
+  ],
+  "qualification": "Whole original author source/full receipt frozen and archived before body review; exactly two scratch outputs. Curator bytes/hash review only before this archival checkpoint. No source patch or clean separation/rights claim."
+}

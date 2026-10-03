@@ -1,0 +1,316 @@
+{
+  "record_version": 1,
+  "scope": "Knorvia E lane: complete workflow-run-introspection.ts whole-owner reconstruction from exactly six frozen body-free public files.",
+  "author": {
+    "task_name": "/root/workflow_introspection_complete_author_20261003",
+    "role": "Fresh whole-owner author explicitly allocated by parent",
+    "requested_model_effort": "Sol/high",
+    "model_effort_qualification": "Parent-requested attribution; model or infrastructure identity is not independently audited by this record."
+  },
+  "source_target": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+  "authorized_inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/contract.md",
+      "sha256": "e00cbc1336bbffbc89390f137863f3fb97a309e4a81ef5a39b9e754bf21b8568",
+      "bytes": 4732,
+      "lines": 19,
+      "newline_count": 19,
+      "ends_with_newline": true,
+      "read_count": 1,
+      "write_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/public-api.d.ts",
+      "sha256": "4d6388fe06261245c024125d95b2f1468f9ef77d9693dbc35e390e83fded87c6",
+      "bytes": 910,
+      "lines": 12,
+      "newline_count": 12,
+      "ends_with_newline": true,
+      "read_count": 1,
+      "write_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/dependency-api.d.ts",
+      "sha256": "01d09c16cc4fd3a2ce5faf5b187a5e5939985a94a3a2cdba50a52afa0f7518fd",
+      "bytes": 251,
+      "lines": 3,
+      "newline_count": 3,
+      "ends_with_newline": true,
+      "read_count": 1,
+      "write_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/imports.json",
+      "sha256": "19eeccb2eff29680916128e75b2a75d70cdecafbe979298234dcd6b5592c9053",
+      "bytes": 176,
+      "lines": 10,
+      "newline_count": 10,
+      "ends_with_newline": true,
+      "read_count": 1,
+      "write_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/required-data.json",
+      "sha256": "8eb0984a1aa3d6172f0129b983773f66b26d64792fd0195bf5da76767b15e580",
+      "bytes": 3960,
+      "lines": 181,
+      "newline_count": 181,
+      "ends_with_newline": true,
+      "read_count": 1,
+      "write_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/public-data.json",
+      "sha256": "da04fb05f7f0b39f4f60061f3da9ea35137190e651b7f1d22f29b9b7b12024a0",
+      "bytes": 419,
+      "lines": 5,
+      "newline_count": 5,
+      "ends_with_newline": true,
+      "read_count": 1,
+      "write_count": 0
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/workflow-run-introspection.ts",
+      "sha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9",
+      "bytes": 3385,
+      "lines": 95,
+      "newline_count": 95,
+      "ends_with_newline": true,
+      "read_count": 1,
+      "manual_review_read_count": 1,
+      "write_count": 1,
+      "final_mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/author-record.json",
+      "sha256": null,
+      "bytes": 16089,
+      "lines": 316,
+      "newline_count": 316,
+      "ends_with_newline": true,
+      "sha256_location": "Detached SHA256 in final response, calculated from the exact in-memory bytes written; no embedded selfdigest.",
+      "read_count": 0,
+      "write_count": 1,
+      "final_mode": "0444"
+    }
+  ],
+  "io_events_in_order": [
+    {
+      "sequence": 1,
+      "operation": "content_read",
+      "purpose": "Frozen public input read for complete source authorship; UTF-8 content displayed to author.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/contract.md",
+      "sha256": "e00cbc1336bbffbc89390f137863f3fb97a309e4a81ef5a39b9e754bf21b8568",
+      "bytes": 4732,
+      "lines": 19,
+      "newline_count": 19,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 2,
+      "operation": "content_read",
+      "purpose": "Frozen public input read for complete source authorship; UTF-8 content displayed to author.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/public-api.d.ts",
+      "sha256": "4d6388fe06261245c024125d95b2f1468f9ef77d9693dbc35e390e83fded87c6",
+      "bytes": 910,
+      "lines": 12,
+      "newline_count": 12,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 3,
+      "operation": "content_read",
+      "purpose": "Frozen public input read for complete source authorship; UTF-8 content displayed to author.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/dependency-api.d.ts",
+      "sha256": "01d09c16cc4fd3a2ce5faf5b187a5e5939985a94a3a2cdba50a52afa0f7518fd",
+      "bytes": 251,
+      "lines": 3,
+      "newline_count": 3,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 4,
+      "operation": "content_read",
+      "purpose": "Frozen public input read for complete source authorship; UTF-8 content displayed to author.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/imports.json",
+      "sha256": "19eeccb2eff29680916128e75b2a75d70cdecafbe979298234dcd6b5592c9053",
+      "bytes": 176,
+      "lines": 10,
+      "newline_count": 10,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 5,
+      "operation": "content_read",
+      "purpose": "Frozen public input read for complete source authorship; UTF-8 content displayed to author.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/required-data.json",
+      "sha256": "8eb0984a1aa3d6172f0129b983773f66b26d64792fd0195bf5da76767b15e580",
+      "bytes": 3960,
+      "lines": 181,
+      "newline_count": 181,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 6,
+      "operation": "content_read",
+      "purpose": "Frozen public input read for complete source authorship; UTF-8 content displayed to author.",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/public-data.json",
+      "sha256": "da04fb05f7f0b39f4f60061f3da9ea35137190e651b7f1d22f29b9b7b12024a0",
+      "bytes": 419,
+      "lines": 5,
+      "newline_count": 5,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 7,
+      "operation": "ensure_directory",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection",
+      "parameters": {
+        "parents": true,
+        "exist_ok": true
+      },
+      "content_read": false,
+      "content_write": false,
+      "result": "success",
+      "qualification": "Directory metadata operation; existing versus newly created directory state was not separately inspected."
+    },
+    {
+      "sequence": 8,
+      "operation": "content_write",
+      "purpose": "Only complete source write; UTF-8 bytes supplied from an in-memory author literal.",
+      "result": "success",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/workflow-run-introspection.ts",
+      "sha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9",
+      "bytes": 3385,
+      "lines": 95,
+      "newline_count": 95,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 9,
+      "operation": "content_read",
+      "purpose": "Only own-source manual review read; content displayed without source execution.",
+      "result": "success",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/workflow-run-introspection.ts",
+      "sha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9",
+      "bytes": 3385,
+      "lines": 95,
+      "newline_count": 95,
+      "ends_with_newline": true
+    },
+    {
+      "sequence": 10,
+      "operation": "chmod",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/workflow-run-introspection.ts",
+      "mode": "0444",
+      "content_read": false,
+      "content_write": false,
+      "result": "success"
+    },
+    {
+      "sequence": 11,
+      "operation": "content_write",
+      "purpose": "Only full cumulative receipt write; exact UTF-8 bytes serialized in memory.",
+      "result": "success",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/author-record.json",
+      "sha256": null,
+      "bytes": 16089,
+      "lines": 316,
+      "newline_count": 316,
+      "ends_with_newline": true,
+      "sha256_location": "Detached SHA256 in final response, calculated from the exact in-memory bytes written; no embedded selfdigest."
+    },
+    {
+      "sequence": 12,
+      "operation": "chmod",
+      "path": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/author-record.json",
+      "mode": "0444",
+      "content_read": false,
+      "content_write": false,
+      "result": "success"
+    }
+  ],
+  "io_totals": {
+    "input_file_count": 6,
+    "output_file_count": 2,
+    "input_content_read_events": 6,
+    "own_source_content_read_events": 1,
+    "receipt_content_read_events": 0,
+    "all_content_read_events": 7,
+    "source_content_write_events": 1,
+    "receipt_content_write_events": 1,
+    "all_content_write_events": 2,
+    "source_rewrites": 0,
+    "input_bytes_read": 10448,
+    "input_lines_read": 230,
+    "input_newlines_read": 230,
+    "own_output_bytes_read": 3385,
+    "own_output_lines_read": 95,
+    "own_output_newlines_read": 95,
+    "all_bytes_read": 13833,
+    "all_lines_read": 325,
+    "all_newlines_read": 325,
+    "all_bytes_written": 19474,
+    "all_lines_written": 411,
+    "all_newlines_written": 411,
+    "directory_metadata_events": 1,
+    "permission_metadata_events": 2,
+    "failed_content_io_events": 0,
+    "extra_output_files": 0
+  },
+  "measurement_method": {
+    "input_measurements": "Each named input was read once as bytes in the first I/O-only Python command; SHA256, bytes, newline count and UTF-8 content were emitted from that same in-memory read.",
+    "source_measurements": "Source write bytes were hashed and counted in memory. One subsequent own-source byte read emitted its SHA256, byte count, newline count and full content for manual review.",
+    "receipt_measurements": "In-memory JSON serialization uses ensure_ascii=False, indent=2, UTF-8 and one trailing newline. Self byte/line counts and aggregate write totals reach a stable serialization before the one receipt write. Its detached SHA256 is calculated from those exact bytes, with no receipt file read.",
+    "line_definition": "Number of LF bytes plus one for a nonempty final unterminated line; every input and both outputs has a trailing LF, so line count equals newline count.",
+    "hash_algorithm": "SHA256",
+    "ledger_scope": "Explicit task input/output content I/O and output directory/permission operations only. Shell/Python/tool infrastructure and system library loading are not traced or included; no OS audit exists."
+  },
+  "manual_review": {
+    "performed": true,
+    "source_read_event_sequence": 9,
+    "method": "Human-style author inspection of the complete displayed source against the already-read frozen public packet; no source execution, compiler, checks or tests.",
+    "findings": [
+      "The complete exported surface, original import paths, type import and escapeXml reexport identity are retained.",
+      "Both failure functions allocate ordinary objects in result/errorCode/message order with exact codes, unavailable prose and unescaped caller runId template.",
+      "The explicitly string-typed steering constant retains the exact supplied array initializer and join expression, including both long strings and single newline.",
+      "Timestamp uses native finite gate and Date.toISOString with only constructor/ISO errors caught and native String fallback.",
+      "Duration uses finite positive milliseconds, strict unit thresholds, floor, exact remainders, two-digit minute/second padding and unpadded day hours.",
+      "Relative age checks missing/nonfinite inputs, uses duration of the subtraction, and preserves future/rollback zero flooring; instant computes age before timestamp.",
+      "Count uses native finite gate, sign rule, trunc(abs(value)), native String digits and retained grouping regex/replacement, including native exponent behavior.",
+      "Attribute collapses and trims only string values, converts other values with native String, preserves raw names and calls original escapeXml once without error interception.",
+      "The module has no workflow execution, provider/service/user/file/network I/O, clocks, locales, schema substitution or new maximum/magnitude rules."
+    ],
+    "empirical_behavior_verified": false,
+    "tests_run": false,
+    "compiler_run": false,
+    "source_executed": false,
+    "remaining_author_findings": []
+  },
+  "provenance_and_limits": {
+    "current_author_input_boundary": "This author session explicitly read only the six authorized frozen public files and its own source. The receipt was serialized and reviewed in memory without a file read. No repository source, AGENTS, history, tests, dependency bodies, private files, credentials or other-author outputs were inspected.",
+    "enforcement": "Instruction-only boundary in a shared executor; author self-report, not OS access isolation, independent monitoring or an access audit.",
+    "historical_context_reported_by_parent": "Historical broader and curator source exposure, including curator exposure to introspection and its public extraction, and a repaired scratch breach remain part of the context. This current scoped run does not erase, cure or independently verify that history.",
+    "retained_public_material": "Public packet signatures/schema, import/reexport identities, fixed strings/prose, constants, regex, numbers and steering initializer expression are source-derived retained material. No originality or authored production-expression novelty credit is claimed for them.",
+    "rights_or_independence_conclusion": "None. No rights, grant, license, clean-room independence, novelty or OS isolation assertion.",
+    "material_obligations": {
+      "count": 21,
+      "status_for_all": "OPEN",
+      "closed_count": 0,
+      "qualification": "No individual material identifiers were supplied in the six-file scope; this preserves the parent-reported all-21 status without inventing identities."
+    },
+    "publisher_contact": false,
+    "agreement_changes": false,
+    "license_changes": false,
+    "savedFast": "Unchanged/unverified; no savedFast file was read, edited or checked in this scoped run."
+  },
+  "handoff_requirements": {
+    "curator_archive_and_commit": "Curator MUST archive and commit the COMPLETE source and FULL receipt before curator body review; author has not performed that downstream archive/commit.",
+    "post_archive_review": "Only the scoped minimum synthetic proof authorized by the parent may follow; this author ran none.",
+    "corrections": "Real follow-up findings must return to this same author for a COMPLETE new source and FULL cumulative receipt under a new exact scope. No curator source patches and no overwrite of these frozen original outputs.",
+    "frozen_outputs": "Both authorized outputs chmod 0444 after their sole writes; mode change success is reflected by the ordered metadata events.",
+    "remaining_blockers": "None for delivery of the two authored outputs. Downstream curator archive/commit and scoped proof are not performed by this author."
+  }
+}

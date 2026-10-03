@@ -1,0 +1,136 @@
+{
+  "curatorSourceExposed": true,
+  "sharedFilesystemNotOsIsolation": true,
+  "authors": [
+    {
+      "agent": "/root/shared_retry_status_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "key": "retry",
+      "packet": "/tmp/knorvia-shared-retry-queue-packet.md",
+      "packetSha256": "d147d699b1c2eaa06d4267c435e63a41c669f0c0e6cadb66e1956e4e011dc839",
+      "exactInitialCommands": [
+        "cat /tmp/knorvia-shared-retry-queue-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+        "mkdir -p /tmp/knorvia-shared-retry-queue-authored",
+        "cat > /tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts <<'EOF' (whole authored literal)",
+        "sha256sum /tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts"
+      ],
+      "clarifications": [
+        "Progress discriminator is payload.kind, independent of lifecycle payload.type.",
+        "Recovery comes from payload.streamRecovery, not outer adapter payload; exact initial failure preserved."
+      ],
+      "reportedAccessLimit": "Only designated packet/exact two instruction reads and authored-byte SHA read; no source/dependency/test/history/other-output/repo writes/tests/format/env/runtime/network/credential/userdata access",
+      "exactCorrectionCommands": [
+        "cat > /tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts <<'EOF' (whole internal draft literal)",
+        "sha256sum /tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts"
+      ],
+      "correctionAdditionalAccess": "None; output hash read only"
+    },
+    {
+      "agent": "/root/shared_notification_parser_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "key": "notification",
+      "packet": "/tmp/knorvia-shared-notification-queue-packet.md",
+      "packetSha256": "dbd67f2778b8cb0b19fac01dd2a7176a60e46d4909f00707a03a887de189d7b2",
+      "exactInitialCommands": [
+        "cat /tmp/knorvia-shared-notification-queue-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+        "mkdir -p /tmp/knorvia-shared-notification-queue-authored",
+        "cat > /tmp/knorvia-shared-notification-queue-authored/background-task-notifications.ts <<'EOF' (whole authored literal)",
+        "sha256sum /tmp/knorvia-shared-notification-queue-authored/background-task-notifications.ts"
+      ],
+      "clarifications": [
+        "Packet regex display escaping clarified: construct lazy regex any-character class across newlines, not literal backslash notation."
+      ],
+      "reportedAccessLimit": "Only designated packet/exact two instruction reads and authored-byte SHA read; no source/dependency/test/history/other-output/repo writes/tests/format/env/runtime/network/credential/userdata access"
+    },
+    {
+      "agent": "/root/shared_network_debug_projection_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "key": "debug",
+      "packet": "/tmp/knorvia-shared-debug-queue-packet.md",
+      "packetSha256": "a2588377c9825bbb7dadae3c0412b4bab8bce5126f9eafdf5028e7568c7228b1",
+      "exactInitialCommands": [
+        "cat /tmp/knorvia-shared-debug-queue-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+        "mkdir -p /tmp/knorvia-shared-debug-queue-authored",
+        "apply_patch whole tmp target",
+        "sha256sum /tmp/knorvia-shared-debug-queue-authored/network-debug-status.ts"
+      ],
+      "clarifications": [
+        "statusType equals recognized payload.type verbatim including model_ prefix."
+      ],
+      "reportedAccessLimit": "Only designated packet/exact two instruction reads and authored-byte SHA read; no source/dependency/test/history/other-output/repo writes/tests/format/env/runtime/network/credential/userdata access"
+    },
+    {
+      "agent": "/root/shared_markdown_selection_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "key": "markdown",
+      "packet": "/tmp/knorvia-shared-markdown-queue-packet.md",
+      "packetSha256": "d174f08ccf9ead19b2d7b6beaf4ffa043f7674f3381506979453851f8cf42ffb",
+      "exactInitialCommands": [
+        "cat /tmp/knorvia-shared-markdown-queue-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+        "mkdir -p /tmp/knorvia-shared-markdown-queue-authored",
+        "cat > /tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts <<'EOF' (whole authored literal)",
+        "sha256sum /tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts"
+      ],
+      "clarifications": [
+        "Regex notation denotes actual BOM/tab/newline/backslash semantics.",
+        "noUncheckedIndexedAccess=true: guarded successful captures use string assertions; semantic checks deferred."
+      ],
+      "reportedAccessLimit": "Only designated packet/exact two instruction reads and authored-byte SHA read; no source/dependency/test/history/other-output/repo writes/tests/format/env/runtime/network/credential/userdata access",
+      "exactCorrectionCommands": [
+        "cat > /tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts <<'EOF' (whole internal draft literal)",
+        "sha256sum /tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts"
+      ],
+      "correctionAdditionalAccess": "None; output hash read only"
+    },
+    {
+      "agent": "/root/shared_line_change_stat_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "key": "lines",
+      "packet": "/tmp/knorvia-shared-lines-queue-packet.md",
+      "packetSha256": "1cd5d05637de80af1abe3ac45525d1b9f3008ba7423c2009054b315bd58f8db0",
+      "exactInitialCommands": [
+        "cat /tmp/knorvia-shared-lines-queue-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+        "mkdir -p /tmp/knorvia-shared-lines-queue-authored",
+        "cat > /tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts <<'EOF' (whole authored literal)",
+        "sha256sum /tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts"
+      ],
+      "clarifications": [
+        "Dense zero array construction required by no-new-array lint; warning preserved.",
+        "Initialized DP cells require explicit numeric assertions/fallback under noUncheckedIndexedAccess; no runtime guard or typecheck claim."
+      ],
+      "reportedAccessLimit": "Only designated packet/exact two instruction reads and authored-byte SHA read; no source/dependency/test/history/other-output/repo writes/tests/format/env/runtime/network/credential/userdata access",
+      "exactCorrectionCommands": [
+        "cat > /tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts <<'EOF' (whole internal draft literal)",
+        "sha256sum /tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts"
+      ],
+      "correctionAdditionalAccess": "None; output hash read only"
+    }
+  ],
+  "instructionHashes": {
+    "AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    ".agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "curatorSourceReads": "Five selected source bodies, selected import/public declaration ports; eligibility bodies also read agent-model-state, localTtft, model-provider-family, subagent-state-migration, conversation-share, controller, pluginStoreOrdering, processResourceTelemetry and transport initial bounded segment (all retained); public port rg -A12 exposed short dependency-body prefixes, explicitly source-exposed curator only. Initial combined output truncated, selected bodies completed bounded followup. Root reserved preview/merge and held reducer body not read.",
+  "provenanceLimit": "Required vocabulary, tables, validation predicates, regexes, LCS recurrence, nullish logic and API/control structure recur; precise source-exposed packets/fresh authors/tests/limited diffs do not prove independent provenance/MIT. No novelty requirement.",
+  "configurationObservation": "Manual scope read tsconfig.base.json noUncheckedIndexedAccess true; semantic types not executed. Initial rg referred missing tsconfig.json, printed path error; corrected to actual base path without workspace change."
+}

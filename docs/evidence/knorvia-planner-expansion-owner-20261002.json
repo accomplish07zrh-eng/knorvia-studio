@@ -1,0 +1,118 @@
+{
+  "formatVersion": 1,
+  "kind": "planner-expansion-runtime-checkpoint",
+  "freezeCommit": "72b400e88bd9449091c48e52d3bf90a48ddc2388",
+  "implementationCommit": "c903c5ccc3468e3241a22ae68f2c9ac7282df7ab",
+  "design": "One per-call ordered candidate list, reservation keys, accepted keys and adjacency index. Explicit edges reserve keys before dependency inference. Original edges seed adjacency once; each accepted edge extends it. Iterative reachability checks whether admitting the next edge would close a cycle. Node identity admission and collection/snapshot projection remain one synchronous transformation; no IO/await, policy or publication owner added.",
+  "retainedExpression": {
+    "exposure": "Author read local predecessor and callers. Local inventory classifies upstream-modified/unreviewed. Publisher blob7c1ccbcdc7e56b505307de3b21a2eac807568db3 is absent locally; no independent publisher-byte comparison claimed.",
+    "substantiveChange": "Reusable node membership and evolving edge adjacency replace repeated whole-edge-list adjacency reconstruction. Candidate admission returns the ordered graph delta. This is the main implementation change, not an extracted class wrapper.",
+    "retained": "Public signature/imported types/schema; node and snapshot field vocabulary/order; diagnostic template strings and self/source/target/duplicate/cycle check combination; explicit-before-inferred nested dependency ordering; helper-driven collection normalization and active/draining/exhausted protocol; ordinary Set/Map/spread glue. Projection/transition reorganizations alone are not claimed as independent reconstruction.",
+    "comments": "Two concise factual implementation comments newly written; predecessor had no developer comments to remove.",
+    "decision": "Mixed expression remains for independent root review; no whole-file independent-authorship or MIT grant."
+  },
+  "results": {
+    "preChange": {
+      "source": {
+        "groups": 5,
+        "pass": 5,
+        "fail": 0
+      },
+      "emitted": {
+        "groups": 5,
+        "pass": 5,
+        "fail": 0
+      }
+    },
+    "final": {
+      "source": {
+        "groups": 8,
+        "pass": 8,
+        "fail": 0
+      },
+      "emitted": {
+        "groups": 8,
+        "pass": 8,
+        "fail": 0
+      }
+    },
+    "overlap": "Final8 =4expansion differential groups +1strict selector group +3existing planner/scheduler consumer groups. The5freeze groups recur in final counts, not extra coverage. Existing historical collection-planner loads the current expansion dependency: those3groups are same-dependency consumer checks, not old-expansion differential proof.",
+    "selector": "43exact expansion/current-consumer source/emitted/declaration bindings;42consumer bindings overlap the same set.8wrong/missing artifact controls per mode. Current owner is explicitly identical to direct import and distinct from historical.",
+    "types": {
+      "node": "v24.19.0",
+      "typescript": "6.0.2",
+      "roots": [
+        "src/workflow/scheduler/planner-expansion.ts",
+        "test/workflow-planner-expansion.test.ts",
+        "test/workflow-planner-expansion-fixture.ts",
+        "test/workflow-collection-planner.test.ts",
+        "test/workflow-collection-planner-fixture.ts"
+      ],
+      "diagnostics": 0,
+      "originalPublicDeclarationBytesEqual": true,
+      "options": "Existing core options; rootDir extended to core only for owned test roots; no target/type-rule overrides"
+    },
+    "lint": "5owned files,94configured rules,0errors/0warnings; temporary root config clears CLI ignores only, no rule/config edits",
+    "format": "8changed source/fixture/spec/evidence files passed; receipt formatted separately",
+    "architecture": "0violations/0baseline/0new;CLI currently unmanaged by repository policy"
+  },
+  "preservation": {
+    "freezeCommit": "72b400e88bd9449091c48e52d3bf90a48ddc2388",
+    "protectedPaths": [
+      "src/workflow/scheduler/collection-planner.ts",
+      "src/workflow/scheduler/collection-planner-admission.ts",
+      "test/workflow-collection-planner.test.ts",
+      "test/workflow-collection-planner-baseline.json",
+      "src/workflow/scheduler/graph.ts",
+      "src/workflow/scheduler/events.ts",
+      "src/workflow/scheduler/collection-events.ts",
+      "src/workflow/scheduler/types.ts"
+    ],
+    "protectedSourceAndExistingTestsUnchanged": true,
+    "newAssertionsAndOracleUnchangedSinceFreeze": true,
+    "currentBindings": {
+      "workflow-planner-expansion-current.json": 43,
+      "workflow-collection-planner-current.json": 42
+    },
+    "publicDeclarationByteEquality": true,
+    "finalGroupsPerMode": 8
+  },
+  "fileSha256": {
+    "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+    "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js": "fcfbee23f5b9072a97369ea40512b641d65990727c50a0e3615fa42090d8744c",
+    "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.d.ts": "bd73cbec3754418db7fc8d75db28f8140875485fd741d6dece5a897dadbba32e",
+    "apps/cli/packages/core/test/workflow-planner-expansion-fixture.ts": "34d93f46439f1a3d97169b4b68769ea36e141ceb275844dc1a1519b7a2a2c1c0",
+    "apps/cli/packages/core/test/workflow-planner-expansion-baseline.json": "6b3a7d1ef9a4dd1ceeec287f68c45a035065b7b8907e27125ed207732f6fba49",
+    "apps/cli/packages/core/test/workflow-planner-expansion-current.json": "627c10c90f0bc76a0d8667d1411fbbdc4866b5fc4ee809f2b63a70a5c0f6b9ce",
+    "apps/cli/packages/core/test/workflow-planner-expansion.test.ts": "7261463f8bb22e4189c96f0c3f622bb10437aee7df2ccabc2312af193fdfc814",
+    "apps/cli/packages/core/test/workflow-collection-planner-current.json": "d0cb704e18394dd5a88ccb6cd86c26a18a9bd27ce61ed6986a035816dd91bdaa",
+    "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts": "e875a0dfb83a412964c7b7526c1e4e12ba4d9601be0213e829caa1867040ed2c",
+    "specs/knorvia-planner-expansion-20261002.md": "853168906b6380715b14fb1f37b778c9963b30d708b9a2b90797c0b353c4c02d",
+    "docs/evidence/knorvia-planner-expansion-freeze-20261002.json": "33e9f37f1559edeb09f88033c1c0a0045c57ee2ffc51f6d840f96e6ebb89ce79"
+  },
+  "localEvidenceSha256": {
+    "/tmp/knorvia-planner-expansion-20261002/final-source.log": "58b644e0c4062f5af57060637e7ea41b856beeda5704d86216b8f5e8fa6bc02c",
+    "/tmp/knorvia-planner-expansion-20261002/final-emitted.log": "e56eb8ac8226844216f54b5f3b63beece5e9e943b1012af6c764a58086641ff7",
+    "/tmp/knorvia-planner-expansion-20261002/final-compile.log": "a577298108c0004f2eb9111d290a6232df4bf0c894afa325854124f1cf5cdb95",
+    "/tmp/knorvia-planner-expansion-20261002/types.log": "09eac8bf07b892d49ed0a724ec58fc0341dd4205be32599d6612e59cb5d2632b",
+    "/tmp/knorvia-planner-expansion-20261002/lint.log": "59f30a13efc9eb3cb1c0e3d77c706f8932d08f8fc94bcb0c1d48ab074eee69a8",
+    "/tmp/knorvia-planner-expansion-20261002/format.log": "e242203a0a32c06ddaf31b4854d0a8cd044b86182437a028bcb1c4315e216249",
+    "/tmp/knorvia-planner-expansion-20261002/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "/tmp/knorvia-planner-expansion-20261002/preservation.json": "e15c52e7b8af2da5d36e522dc33c8cdc2988055394fe5157d54e277e67a650d9",
+    "/tmp/knorvia-planner-expansion-20261002/prepare.mjs": "666d0d6f36eaae31658342bcf57e259560fc0cc222a285225b661acff1e0a226",
+    "/tmp/knorvia-planner-expansion-20261002/check-types.mjs": "25331a9ff26b3d1c3cd7b815890b9c95cf65a75eeae7dcf2a057cf87aeefb55a"
+  },
+  "reproduce": {
+    "compile": "Scoped TypeScript Program uses existing core tsconfig, actual owner and dependencies; writes only planner-expansion JS/declaration. Compiler script hash bound above. Types add only the4named test/fixture roots with rootDir extended for them. No aggregate build.",
+    "tests": "KNORVIA_ENV=test KNORVIA_DATA_BASE_DIR=<owned tmp> KNORVIA_STORAGE_DIR=<owned tmp>/cli KNORVIA_COLLECTION_PLANNER_TEST_EMITTED=<0 or1> node --import tsx --test --test-isolation=none --test-timeout=120000 --test-name-pattern=\"expansion|activation/child gates|terminal projection rollback\" apps/cli/packages/core/test/workflow-planner-expansion.test.ts apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+    "digests": "For each fileSha256 entry, SHA256 the exact file bytes; historical source/JS/declaration text is stored and internally digest-bound in workflow-planner-expansion-baseline.json."
+  },
+  "limits": [
+    "Default isolated runner returned only a file-level pass; not counted as executed contracts. In-process runs explicitly reported8groups each. No test timeout or assertion was relaxed; initial diagnostic logs remain in freeze receipt.",
+    "Node24.19.0/TypeScript6.0.2 Linux. Pinned Node24.14.0, Windows/native, aggregate suite and root integrated dependencies not run.",
+    "Supported bounded plain graph records only; no broad accessor/proxy matrix, performance benchmark or real workflow/provider/user IO.",
+    "Existing older scheduler/node-publication selector files retain historical pins; root owns integration-specific selector migration. Current collection-planner selector advanced only the2expansion source/JS pins and its digest literal.",
+    "Freshness fetch was blocked by proxy connection; local parent39cc7b5 and protected source hashes verified."
+  ],
+  "licenceGrant": null
+}

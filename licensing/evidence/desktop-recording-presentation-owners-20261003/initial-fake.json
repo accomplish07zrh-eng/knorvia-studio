@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_RECORDING_BASELINE": "/tmp/knorvia-recording45-initial-fixture"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "sha256": "9dfe75dfbf15c0ede36c0fe8bba6db99691f9b60471fa8cf9cfeb7361b3f0d27"
+    }
+  ],
+  "stdout": "✔ video transaction retains phase order, live dimensions and failure identity (48.096052ms)\n✔ transparent bootstrap releases presentation once and yields focus ownership (9.202613ms)\n✖ WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (24.322324ms)\nℹ tests 3\nℹ suites 0\nℹ pass 2\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 311.931187\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/recordingOwners.test.mjs:125:1\n✖ WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (24.322324ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + '/synthetic/.synthetic-id-browser-video-recorder.html'\n  - '/synthetic/after-await/.synthetic-id-browser-video-recorder.html'\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/recordingOwners.test.mjs:199:10)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: '/synthetic/.synthetic-id-browser-video-recorder.html',\n    expected: '/synthetic/after-await/.synthetic-id-browser-video-recorder.html',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

@@ -1,0 +1,24 @@
+{
+  "archivedAtUtc": "2026-10-02T19:29:37.575193+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "delegationConfiguration": {
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "forkTurns": "none",
+    "separateFastTierExposed": false,
+    "independentRuntimeIntrospection": false
+  },
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 5371,
+      "sha256": "7f251388087a3e3ed451091573b778f026c9edb23c1533c108c10ced4245fdab"
+    },
+    {
+      "file": "draft-provider-mid-conversation-system.ts.txt",
+      "bytes": 5807,
+      "sha256": "9c340c880b941d81b904dd461773531752a18e51e7c1819ef62d213fbf88c0d5",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts"
+    }
+  ]
+}

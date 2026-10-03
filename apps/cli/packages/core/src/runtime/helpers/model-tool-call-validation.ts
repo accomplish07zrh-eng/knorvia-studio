@@ -8,6 +8,12 @@ interface ModelToolCallValidationContext {
   traceContext: TraceContext;
 }
 
+interface ToolCallNameContext extends ModelToolCallValidationContext {
+  providerExecuted?: boolean;
+  toolCallId?: string;
+  toolCallIndex?: number;
+}
+
 export function normalizeModelToolCallsForRuntime(
   toolCalls: readonly ModelToolCall[] | undefined,
   context: ModelToolCallValidationContext,
@@ -18,7 +24,7 @@ export function normalizeModelToolCallsForRuntime(
 
   return toolCalls.map((toolCall, index) => ({
     ...toolCall,
-    name: normalizeRuntimeModelToolName(toolCall.name, {
+    name: admitModelToolCallName(toolCall.name, {
       ...context,
       providerExecuted: toolCall.providerExecuted,
       toolCallId: toolCall.id,
@@ -31,60 +37,32 @@ export function requireRuntimeToolCallName(
   toolCall: Pick<ModelToolCall | ToolCall, "id" | "name">,
   context: ModelToolCallValidationContext,
 ): string {
-  return requireRuntimeToolName(toolCall.name, {
-    ...context,
-    toolCallId: toolCall.id,
-  });
-}
-
-function requireRuntimeToolName(
-  value: unknown,
-  context: ModelToolCallValidationContext & {
-    toolCallId?: string;
-    toolCallIndex?: number;
-  },
-): string {
-  const toolName = typeof value === "string" ? value.trim() : "";
-  if (toolName) {
-    return toolName;
+  const name = toolCall.name;
+  const callContext = { ...context, toolCallId: toolCall.id };
+  const trimmedName = typeof name === "string" ? name.trim() : "";
+  if (trimmedName.length > 0) {
+    return trimmedName;
   }
-
-  return throwInvalidRuntimeToolName(context);
+  return rejectToolCallName(callContext);
 }
 
-function normalizeRuntimeModelToolName(
-  value: unknown,
-  context: ModelToolCallValidationContext & {
-    providerExecuted?: boolean;
-    toolCallId?: string;
-    toolCallIndex?: number;
-  },
-): string {
-  if (typeof value === "string") {
-    const toolName = value.trim();
-    if (toolName) {
-      return toolName;
-    }
-    if (
-      context.providerExecuted !== true &&
-      typeof context.toolCallId === "string" &&
-      context.toolCallId.trim().length > 0
-    ) {
-      // Adapter 后仍可能存在自定义 Model 实现；runtime admission 必须与
-      // Adapter 一致保留可闭合的 client-executed 空名，而不是再次把 turn 截断。
-      return value;
-    }
+function admitModelToolCallName(name: unknown, context: ToolCallNameContext): string {
+  const trimmedName = typeof name === "string" ? name.trim() : "";
+  if (trimmedName.length > 0) {
+    return trimmedName;
   }
-
-  return throwInvalidRuntimeToolName(context);
+  if (
+    typeof name === "string" &&
+    context.providerExecuted !== true &&
+    typeof context.toolCallId === "string" &&
+    context.toolCallId.trim().length > 0
+  ) {
+    return name;
+  }
+  return rejectToolCallName(context);
 }
 
-function throwInvalidRuntimeToolName(
-  context: ModelToolCallValidationContext & {
-    toolCallId?: string;
-    toolCallIndex?: number;
-  },
-): never {
+function rejectToolCallName(context: ToolCallNameContext): never {
   const logContext = {
     ...traceContextToLogContext(context.traceContext),
     event: "model.invalid_tool_call",
@@ -98,14 +76,9 @@ function throwInvalidRuntimeToolName(
     toolCallIndex: context.toolCallIndex,
   };
   context.logger?.warn("Model returned invalid tool call", logContext);
-
   throw createCoreError(
     CoreErrorType.ModelError,
     "Model returned an invalid tool call: tool name is empty.",
-    {
-      context: logContext,
-      recoverable: true,
-      retryable: false,
-    },
+    { context: logContext, recoverable: true, retryable: false },
   );
 }

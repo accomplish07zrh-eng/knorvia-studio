@@ -1,0 +1,14 @@
+{
+  "file": "/tmp/knorvia-residency46-initial.ts",
+  "rawPath": "licensing/evidence/desktop-tab-eviction-owner-20261003/drafts/residency-initial.ts",
+  "bytes": 2516,
+  "sha256": "abe124a7d14cfaa2cd2a187ba8e388b2283268a30db58db0d7ae94f75397763a",
+  "author": "/root/tab_eviction_owner_author46",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Read exactly common-contract.md, owner-contract.md, ports/residency.d.ts; output written once, then only stat/hash; no output/other source/test/history/sibling reread, network/native/userdata/permissions",
+  "Fast": "Primary G UI parent-verified Fast1; author service separately not verified"
+}

@@ -1,0 +1,18 @@
+{
+  "owner": "preparation",
+  "version": "correction-1",
+  "file": "/tmp/knorvia-storage50-preparation-correction-1.ts",
+  "rawPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts/preparation-correction-1.ts",
+  "sha256": "3dc85fa45f7ac535d2642b00ca41eea1c7ca84c0d40eed0b220ad57a08b895a4",
+  "bytes": 7706,
+  "author": "/root/storage_preparation_owner_author50",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "authorStoppedEditing": true,
+  "completedBeforeCuratorInspection": true,
+  "access": "From memory and bounded duplicate-path construction/throw fact only; one fresh complete literal then own stat/hash. No rereads/transforms/tests/probes.",
+  "authorActualModelIndependentlyVerified": false,
+  "authorFastIndependentlyVerified": false,
+  "boundedFacts": "Duplicate always constructs and throws fresh transport_closed inside existing line try; outer catch then nullish-retains failure and terminates."
+}

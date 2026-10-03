@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-03T01:38:00.665073+00:00",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputHead": "dbbf8260e5e93d2b6067bea22c09a5d9da3c20d5",
+  "scope": "One fixed public Skia caller body/source-boundary question only. No new dependency/component enumeration, publication/permissions, private recovery or product implementation.",
+  "selectedQuestion": {
+    "path": "src/codec/SkJpegxlCodec.cpp",
+    "gitBlobFromRetainedSkiaTree": "5e2c9f12b0c3c366a2e94493bca83f27b5ae2fde",
+    "bytesFromTree": 18079,
+    "meaning": "Its name/blob and build selection are known; its body was not retained. Skia handling or persistence of returned ICC bytes cannot be traced locally."
+  },
+  "primaryPublisherRequest": {
+    "url": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkJpegxlCodec.cpp",
+    "requestLimit": 1,
+    "requestedAtUtc": "2026-10-03T01:36:15.499518+00:00",
+    "targetPath": "src/codec/SkJpegxlCodec.cpp",
+    "expectedGitBlob": "5e2c9f12b0c3c366a2e94493bca83f27b5ae2fde",
+    "expectedBytes": 18079,
+    "httpStatus": 200,
+    "finalUrl": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkJpegxlCodec.cpp",
+    "bytes": 18079,
+    "sha256": "7f4c7e002cf2546d9fdaf266115e1c40b7265a169bb481c79e7548c0431628a1",
+    "gitBlob": "5e2c9f12b0c3c366a2e94493bca83f27b5ae2fde",
+    "expectedBindingMatches": true
+  },
+  "publisherFileUrl": "https://github.com/google/skia/blob/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkJpegxlCodec.cpp",
+  "sourceRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+  "sourceChainReused": "Previously verified canvas0.1.100 gitHead db337893b9b53483050ca7b24c6d306e4da06741 -> Skia gitlink fe2718df5f53a681087be6f0539045ca1b4b8c09 -> libjxl DEPS a205468bc5d3a353fb15dae2398a101dff52f2d3; no archive or build rerun.",
+  "sourceTokenLines": {
+    "JxlDecoderGetICCProfileSize": [
+      167
+    ],
+    "JxlDecoderGetColorAsICCProfile": [
+      177
+    ],
+    "JXL_COLOR_PROFILE_TARGET_DATA": [
+      168,
+      179
+    ],
+    "SkData::MakeUninitialized": [
+      175
+    ],
+    "ColorProfile::MakeICCProfile": [
+      187
+    ],
+    "SkEncodedInfo::Make": [
+      194
+    ],
+    "INHERITED(std::move(info)": [
+      83
+    ],
+    "applyColorXform": [
+      334
+    ]
+  },
+  "verifiedUnknownReduction": {
+    "prior": "Caller path/blob/build selection known but body and libjxl-to-Skia ICC handling unavailable.",
+    "now": "Exact expected caller body bound. It requests DATA ICC size/bytes, moves the byte buffer to ColorProfile::MakeICCProfile, passes its resulting profile into SkEncodedInfo and codec; source color-transform calls are present.",
+    "resolvedAtSourceLevel": [
+      "missing exact caller source body",
+      "ICC bytebuffer-to-Skia profile/codec call boundary"
+    ],
+    "notResolved": [
+      "whether ColorProfile/base retains original cprt/raw ICC bytes",
+      "whether each DATA profile has the generated Google2019/CC-BY-SA statement",
+      "exact published native binary source/compiler/link provenance",
+      "Knorvia final distribution or profile persistence/export/material treatment"
+    ]
+  },
+  "conditionalBehavior": {
+    "iccSizeQueryFailure": "sets size zero; profile creation skipped when size zero",
+    "iccCopyFailure": "returns null codec",
+    "profileConstructionResult": "passed to encodedInfo without another caller-side success check",
+    "standaloneIccWriterInCaller": "No independent ICC file-output call observed in complete caller; not a downstream/API/application no-export proof."
+  },
+  "retainedSourceAttribution": {
+    "copyright": "Copyright 2021 Google LLC",
+    "licenseReference": "Existing Skia BSD-style LICENSE. No MIT assignment, whole-component grant or removal of libjxl BSD/PATENTS/ICC data statement.",
+    "newNoticeSnapshotAdded": false
+  },
+  "priorEvidenceBindings": [
+    {
+      "path": "licensing/evidence/skia-integration-partition-20261002.json",
+      "bytes": 38052,
+      "sha256": "6c4670a0dfce066c950d57e14eb78214b5176041e44cae638c3be452266a0582"
+    },
+    {
+      "path": "licensing/evidence/material-closure-20261002.json",
+      "bytes": 47632,
+      "sha256": "c47ff03186e806f9f7d580da6d53a470a004376bc5c4b75a31eaa8f2058823f1"
+    },
+    {
+      "path": "licensing/evidence/skia-source-notice-pass-20261002.json",
+      "bytes": 72088,
+      "sha256": "35ba70cac3eaafc6ad16df81a39318a03cb3fc69a44f4f4a8d100c8af06db206"
+    }
+  ],
+  "stopBoundary": {
+    "sourceRequests": 1,
+    "prior429Failures": 47,
+    "prior429Retries": 0,
+    "unrequestedIcuReferences": 799,
+    "newIcuRequests": 0,
+    "additionalCallerOrProfileHeaderRequests": 0,
+    "privateOrBackupRecovery": false
+  },
+  "verification": {
+    "expectedLengthAndGitBlob": "PASS",
+    "sourceSha256": "PASS",
+    "orderedIccCallTokens": "PASS",
+    "selectedFileOutsidePrior47FailureSet": "PASS",
+    "completeCallerRead": true,
+    "compilerOrUpstreamCodeExecution": false,
+    "ordinaryTestsBuildsRun": false,
+    "globalLicenseInventoryChanges": false,
+    "crossLaneImportsOrMerges": false
+  },
+  "fullyClosedParentObligations": 0,
+  "parentOpenObligationCountUnchanged": 21,
+  "remainingMinimumExternalEvidence": [
+    "Same-version ColorProfile::MakeICCProfile/downstream ICC accessor implementation to determine raw/cprt retention, if parent pursues that specific scope.",
+    "Build/link attestation or equivalent exact source/material mapping for a concrete delivered native artifact.",
+    "Concrete Knorvia ICC persistence/export call path or inspected final release artifact if distributed generated-profile scope needs determination."
+  ],
+  "legalCompatibilityDecision": null,
+  "retrievalLimitations": [
+    "Raw public source remains outside repository; this evidence commits URL/digests/line observations rather than reimporting third-party implementation.",
+    "Initial broad inventory rg output was truncated; conclusions use named prior JSON sections and this one exact publisher body, not that truncated output."
+  ]
+}

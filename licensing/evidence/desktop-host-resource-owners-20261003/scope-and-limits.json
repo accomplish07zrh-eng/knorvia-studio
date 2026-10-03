@@ -1,0 +1,35 @@
+{
+  "baselineCommit": "7d102a943141f5a970487b76132698c7c80d1114",
+  "batch": 38,
+  "selectedCompleteOwnerCandidates": 3,
+  "rawWholeDrafts": 4,
+  "uniqueSyntheticCases": 7,
+  "latestFocusedRuns": {
+    "recording": [
+      "initial-recording-synthetic.json",
+      2
+    ],
+    "proxy": [
+      "initial-proxy-synthetic.json",
+      2
+    ],
+    "registry": [
+      "correction-1-registry-synthetic.json",
+      3
+    ]
+  },
+  "retainedDesktopTrackedFiles": 1497,
+  "allTrackedCliAdapterFilesUnchanged": 295,
+  "retainedCliLedger": 33,
+  "typeEvidence": "AST exported/public/inferred13-method registry return signatures; strict local owner semantic checking against virtual synthetic ports only; isolated syntax/transpile. No imported product types/config/semantic project/declaration emit/native integration acceptance.",
+  "architecture": "Desktop unmanaged/unassigned, direct checked-in changed architecture baseline/new0/0. Prior batch frozen pnpm ENOENT remains; no wrapper retry/install/store/permissions/escalation in this batch.",
+  "nodeActual": "v24.19.0",
+  "nodePinned": "24.14.0",
+  "syntheticOnly": "VM injected fs/upload/registry/subscription/UUID/fake AbortController/timer ports; real node:path pure calculations only; real fs limited selected repo/baseline source and evidence/tooling, no user files/media/transfers/process/browser/SSH/network/permissions.",
+  "knownLifecycleQuirks": "Existing late-handle disposal memoization, synchronous-close publication, generation-zero cleanup and rapid live-generation rebinding retained; focused tests are not exhaustive reflective/native lifetime certification.",
+  "ordinarySuitesBuildsNativeAcceptance": false,
+  "mainCrossLaneIntegration": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "MITDecision": false,
+  "restrictions": "No Library403 alternate access or cancelled-upload retry; root main/B UI/large index/ambiguous Studio schedules/accepted adjacent owners/global license/inventory/manifests/security unchanged."
+}

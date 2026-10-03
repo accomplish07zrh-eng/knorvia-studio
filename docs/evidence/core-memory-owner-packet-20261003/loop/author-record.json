@@ -1,0 +1,158 @@
+{
+  "role": "Independent complete author of reserved memory-agent-loop owner; not curator.",
+  "status": "Complete candidate authored, manually reviewed, and frozen. No execution validation.",
+  "clock_utc_start": "2026-10-02 21:51:03 UTC",
+  "clock_utc_before_freeze": "2026-10-02 21:52:56 UTC",
+  "model": {
+    "requested": "GPT-6.1 Sol",
+    "requested_reasoning_effort": "high",
+    "selection_authorization": "Explicit user/parent authorization in delegated task.",
+    "actual_serving_model_effort_tier": "Not independently verified; no serving metadata or serving-tier proof obtained.",
+    "saved_fast_setting": "Unchanged by this author; unverified."
+  },
+  "scope": {
+    "initial_allowed_inputs": 6,
+    "additional_allowed_input": "receiver-addendum.md, explicitly authorized by parent before freeze, identified by parent as commit 052ca2dc.",
+    "only_authored_files": [
+      "/tmp/knorvia-memory-owners-20261003/loop/memory-agent-loop.ts",
+      "/tmp/knorvia-memory-owners-20261003/loop/author-record.json"
+    ],
+    "public_owner": "runMemoryAgentLoop",
+    "source_under_400_lines": true
+  },
+  "actual_explicit_file_read_events": [
+    {
+      "event": 1,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/loop/contract.md",
+      "bytes": 6160,
+      "sha256": "04a30a38a888a269a5ef894a893b1168506124db142c0e8695da40f2e5a15c55",
+      "extent": "Full file, UTF-8 decoded and displayed for author review."
+    },
+    {
+      "event": 2,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/loop/public-api.d.ts",
+      "bytes": 725,
+      "sha256": "ffd135d5d3b2cec6ed1cca57c791495468f5c48e037231ffa10a63f5650f09d9",
+      "extent": "Full file, UTF-8 decoded and displayed for author review."
+    },
+    {
+      "event": 3,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/loop/dependency-api.d.ts",
+      "bytes": 3671,
+      "sha256": "e497728eb00103c3baba3b965da29ddecf3309d86a83c8f7c4a4840e92dc3cef",
+      "extent": "Full file, UTF-8 decoded and displayed for author review."
+    },
+    {
+      "event": 4,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+      "bytes": 7616,
+      "sha256": "0624492a5dc88d2c5e96ffa28a3f8bb440d605323f6178ef1f07cd243b371809",
+      "extent": "Full file, UTF-8 decoded and displayed for author review."
+    },
+    {
+      "event": 5,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/loop/imports.json",
+      "bytes": 1119,
+      "sha256": "99e9bdf0dea30c90f110f272800b0ef66fe6afa273284c306f1e1ded60143b28",
+      "extent": "Full file, UTF-8 decoded and displayed for author review."
+    },
+    {
+      "event": 6,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/loop/output-data.json",
+      "bytes": 1176,
+      "sha256": "1a84b81ef4d7f8e299a2e87756f8e56232904afc94abbfabc1ee0c90fcadaafe",
+      "extent": "Full file, UTF-8 decoded and displayed for author review."
+    },
+    {
+      "event": 7,
+      "path": "/tmp/knorvia-memory-owners-20261003/loop/memory-agent-loop.ts",
+      "bytes": 7166,
+      "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+      "lines": 221,
+      "extent": "Full first candidate manual review."
+    },
+    {
+      "event": 8,
+      "path": "/tmp/knorvia-memory-owners-20261003/loop/memory-agent-loop.ts",
+      "bytes": 7166,
+      "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+      "lines": 221,
+      "extent": "Read before provisional callback-receiver amendment."
+    },
+    {
+      "event": 9,
+      "path": "/tmp/knorvia-memory-owners-20261003/loop/memory-agent-loop.ts",
+      "bytes": 7193,
+      "sha256": "226fed8170a60866ed668560873bd18de800b0075e50eb5f564ea43abf188fe1",
+      "lines": 222,
+      "extent": "Hash and line count of provisional amendment."
+    },
+    {
+      "event": 10,
+      "path": "/tmp/knorvia-memory-owners-20261003/loop/memory-agent-loop.ts",
+      "bytes": 7193,
+      "sha256": "226fed8170a60866ed668560873bd18de800b0075e50eb5f564ea43abf188fe1",
+      "lines": 222,
+      "extent": "Read before restoring property-call receiver under parent clarification."
+    },
+    {
+      "event": 11,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/loop/receiver-addendum.md",
+      "bytes": 527,
+      "sha256": "1250d02044a3d954281140c52eb9673f155096c533e40410ce8b3cb9dd554feb",
+      "extent": "Full file, UTF-8 decoded and displayed; additionally authorized seventh input by parent."
+    }
+  ],
+  "source_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/loop/memory-agent-loop.ts",
+    "bytes": 7166,
+    "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+    "lines": 221,
+    "encoding": "UTF-8",
+    "freeze_mode": "0444"
+  },
+  "receipt_output": {
+    "path": "/tmp/knorvia-memory-owners-20261003/loop/author-record.json",
+    "encoding": "UTF-8",
+    "freeze_mode": "0444",
+    "self_hash_policy": "Receipt bytes/hash computed from the serialization at write and returned externally; receipt not reread and no self-referential digest embedded."
+  },
+  "operations": [
+    "One shell/Python invocation fully read and hashed the six original allowed frozen files and displayed their complete contents.",
+    "Clock tool calls returned 21:51:03, 21:51:47, 21:52:06, 21:52:31, 21:52:46, and 21:52:56 UTC on 2026-10-02.",
+    "One shell/Python invocation created the assigned output directory if needed, wrote the first complete source, and computed payload bytes/hash/line count without rereading.",
+    "One shell/Python invocation read and hashed the complete first source for manual review.",
+    "One collaboration.send_message progress notification to the parent described receiver review and restrictions; it disclosed no source body or user data. This communication tool was outside the enumerated file/clock operation list and is recorded as a conservative scope deviation.",
+    "One shell/Python invocation reread the first source, provisionally changed callback invocation to a standalone function, rewrote the complete source, and displayed/computed the updated payload for manual review.",
+    "One shell/Python invocation reread the provisional source for hash and line count.",
+    "After the parent clarified the callback receiver, one shell/Python invocation reread the provisional source and restored input.executeTool property invocation. Final source matches the first fully reviewed source bytes/hash.",
+    "After additional explicit authorization, one shell/Python invocation fully read and hashed receiver-addendum.md and displayed its complete contents.",
+    "Manual contract/import/type/ordering/data review only; no source execution, compiler, build, lint, tests, mocks, dependency implementations, installs, or business filesystem/model/tool/provider calls.",
+    "This final shell/Python invocation serializes and writes only author-record.json, computes its payload bytes/hash/lines, chmods source and receipt 0444, and chmods assigned output directory 0555. No receipt read or extra scratch accounting file."
+  ],
+  "manual_review": [
+    "Public function and result/input shapes preserved structurally; no additional public exports. Imports retain exact module/name/type-only sets.",
+    "History and request copies retain shallow spread semantics and nested identities. Assistant reasoning preserves fields and shallow-copies providerOptions; toolCalls copied for assistant history.",
+    "Turn abort occurs before projection and after generation; model.generateText retains model receiver; request preserves own-field order and original unfiltered tool catalog identity.",
+    "First exact-name contract found before classification; missing/Agent/MCP/network denials occur before execution or later classifiers.",
+    "Write/Edit use original safe resolver; Bash uses original runtime classifier, then original parser and permission classifier; rm checks exact argv, redirects/env, options, regex, native absolute .md operands, and original contained resolver.",
+    "Path resolver exceptions deny. Other authority/classifier/model/execution/shaping failures propagate; Promise.all starts mapped calls concurrently and appends ordered results without rollback or extra tool abort checks.",
+    "Accepted callback invoked as input.executeTool with input receiver per the fully read addendum, using required own-field argument order; result shaping uses original public ports.",
+    "No-tool terminal response increments once; maxTurns <= 0 returns shallow cloned history with zero turns; no persistence."
+  ],
+  "retained_data_and_idioms": {
+    "required_data": "Exact externally observable missing-tool/generic/Bash denial templates, tool names, field names, .md suffix, rm and --/--recursive strings, and regex /^-[a-zA-Z]*[rR]/u and /[*?[]/u.",
+    "required_dependencies": "All supplied original imports and opaque public classifier/path/media/model-option/result-shaping ports retained.",
+    "ordinary_idioms": "Object spread, array map/find/slice/push, optional chaining, Promise.all, switch, boolean short-circuiting, loops, type-only imports and structural private helper types.",
+    "claims": "No novelty, clean-separation, licence-clearance, or global/adjacent-owner attestation made."
+  },
+  "exposures_breaches_and_limits": [
+    "Parent/curator is source-exposed. Delegation discloses prior broader source/tool/dependency context and a prior repaired scratch-write breach; these facts are inherited qualifications, not independently audited by this author.",
+    "Shared executor restrictions are instruction-only. No OS isolation or access audit was established, and shell/interpreter startup or implicit runtime file accesses are not measured. Read ledger covers explicit task file reads.",
+    "The additional seventh frozen input was read only after explicit parent authorization. No repository sources, history, tests, AGENTS, other author drafts, dependency implementations, actual memory/user data, credentials, network services, or business/provider/model/tool ports were intentionally read or executed in this restricted turn.",
+    "A single parent progress message via collaboration.send_message is conservatively disclosed as outside the enumerated operation-only list; no source body was sent and no additional file/port access resulted from that call.",
+    "Compiler/build/lint/tests/mocks and dependency execution were prohibited and unrun. Public declarations were explicitly not standalone compilation; runtime/type compatibility is manually assessed only.",
+    "No audit, novelty, licence, or clean separation claim. The complete source and receipt are frozen originals; future correction requires complete same-author lineage rather than in-place replacement."
+  ],
+  "remaining_blockers": "No authoring blocker. Compilation and runtime equivalence remain unverified under the mandated restrictions."
+}

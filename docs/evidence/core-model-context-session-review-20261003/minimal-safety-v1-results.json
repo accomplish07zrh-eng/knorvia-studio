@@ -1,0 +1,79 @@
+{
+  "kind": "Minimum candidate-only synthetic validation/privacy/data-safety gates",
+  "inputs": [
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/env-info.ts.txt",
+      "bytes": 2765,
+      "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/skills.ts.txt",
+      "bytes": 2127,
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/skills.ts.txt",
+      "bytes": 2127,
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/parts.ts.txt",
+      "bytes": 3337,
+      "sha256": "b6806d258a6714243d93abdf5beff85ad081718f945b0a8f8b174c247bee4ac9"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/read-session-context.ts.txt",
+      "bytes": 11537,
+      "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca"
+    }
+  ],
+  "results": [
+    {
+      "name": "environment explicit git false and live-model-only attribution",
+      "passed": true
+    },
+    {
+      "name": "git snapshot accepts supplied status precedence without environment access",
+      "passed": true
+    },
+    {
+      "name": "skills names-only budget retains identities and caller order",
+      "passed": true
+    },
+    {
+      "name": "skills description cap and estimate failure preserve existing boundary",
+      "passed": true
+    },
+    {
+      "name": "parts filter ignored reminder and excluded synthetic text before truncation",
+      "passed": true
+    },
+    {
+      "name": "parts dedupe last value first position and avoid raw file payload",
+      "passed": true
+    },
+    {
+      "name": "tool preview budgets and getter error identity",
+      "passed": true
+    },
+    {
+      "name": "session model-only user suppression and focused references without input mutation",
+      "passed": true
+    },
+    {
+      "name": "session budget clamps and handoff bounded reference ordering",
+      "passed": true
+    },
+    {
+      "name": "session failed/not-found results and native date error propagation",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "sourceIntegrationRun": false,
+  "crossDraftIntegrationRun": false,
+  "ordinaryChecksRun": false,
+  "sourceEmittedMatrixRun": false,
+  "actualContextSessionProviderOperations": false,
+  "qualification": "Pure fabricated supplied facts; explicit fake ports, no real sessions, user context, credentials, stores or providers; no whole integration proof."
+}

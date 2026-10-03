@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+  "kind": "file",
+  "sha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2",
+  "normalizedSha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2",
+  "encoding": "utf8-lf",
+  "bytes": 24444,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/events.ts",
+    "blob": "ab8752af1cc90442352a537af55533edac6578df",
+    "normalizedSha256": "5d39b577321ec60e453f58be38477de92b734c3e9f830a94576fe72cb70ac496",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

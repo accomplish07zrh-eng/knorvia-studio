@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "/tmp/knorvia-cli-config-format-proof/config-factory.ts",
+    "/tmp/knorvia-cli-config-format-proof/config-merger.ts",
+    "/tmp/knorvia-cli-config-format-proof/file-config.adapter.ts",
+    "/tmp/knorvia-cli-config-format-proof/project-config.adapter.ts"
+  ],
+  "stdout": "Finished in 13ms on 4 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

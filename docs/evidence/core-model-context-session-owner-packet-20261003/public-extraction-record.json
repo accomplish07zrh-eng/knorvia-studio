@@ -1,0 +1,144 @@
+{
+  "typescript": "6.0.2",
+  "mechanicalDeclarations": [
+    {
+      "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+      "bytes": 4233,
+      "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/utils.ts",
+      "bytes": 733,
+      "sha256": "f2d296821e4ae80510145151a6de3027f55ce548be269e6709fe1de1425eac68",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/types.ts",
+      "bytes": 4827,
+      "sha256": "5b61dcdc241dc8267c3fac04ef686a8011b475a461cb1245ede7a0d4cf9a0df6",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/context-source.port.ts",
+      "bytes": 2511,
+      "sha256": "ad4119f8083f4ca1b577e4e870443b7ced5d9213c87702c182ceab283f4c4caf",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/model.ts",
+      "bytes": 2186,
+      "sha256": "9f85b44235e4c221a9092c659a6fea3267c635b62ad77118873d9670167e9279",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "bytes": 2431,
+      "sha256": "7dce62317af0d505202e7cbeb58c59d814542c273138cd4348829dc458bb8b9a",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/skills/index.ts",
+      "bytes": 2973,
+      "sha256": "f127b85992f47c339e21313506a95b968ff81b77b0e612d83a3450e4164afec3",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/parts.ts",
+      "bytes": 3496,
+      "sha256": "963f0a85f5fdef0bb0fd3d981cf5e6d493f8f1728cf8f43b21cff7aac7c94d14",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/utils.ts",
+      "bytes": 369,
+      "sha256": "a472c6b1ebb04e38d9f7abbaf65b651f8e7c400b1020bd8a0ad2b12c9a71ef71",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "diagnostics": [
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9013,
+          "message": "Expression type can't be inferred with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "bytes": 11784,
+      "sha256": "77d802aba4d476812736b84b25991e2c1abb4005d37fbc377c5a2bc188f6c1f6",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "bytes": 20974,
+      "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/references.ts",
+      "bytes": 1147,
+      "sha256": "d6ed061730ee6f315c59ca1e4f46990a613dc8e86e0eae16a1e9ad9adc2408b1",
+      "diagnostics": []
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-session-context.ts",
+      "bytes": 2687,
+      "sha256": "14a7d0d15ac51132dc4eae001e09dab7771d1f1e491d00817a5fd3ca8fc87af9",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        }
+      ]
+    }
+  ],
+  "qualification": "Target4/retained13 curator bodies screened after directoryreservation, accepted2 not reread; selected dependency types mechanically stripped. Curator also observed small parseModelSelectionValue dependency body incidentally in model type read; no body delivered to authors. Earlier broader/source/tool context qualified. No semantic/project typecheck or OS isolation/access audit."
+}

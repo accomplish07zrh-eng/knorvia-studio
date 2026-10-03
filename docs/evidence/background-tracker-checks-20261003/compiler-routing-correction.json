@@ -1,0 +1,9 @@
+{
+  "initialProofSha256": "912284f7fa78f7d7d7d85a956e712214c805565fbec9d79a9e78ea9d61f3bbef",
+  "initialCompiler": "5.9.3",
+  "rootOracleCompiler": "6.0.2",
+  "initialDiagnostics": 0,
+  "initialArtifactsEqual": true,
+  "correction": "Resolve TypeScript from repository root package.json and assert manifest compiler version. This corrects proof selection; production and behavior assertions remain unchanged.",
+  "productionChanges": 0
+}

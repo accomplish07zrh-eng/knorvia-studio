@@ -1,0 +1,1 @@
+{"command": ["ls", "/tmp/knorvia-preload-index-correction-2.ts"], "stdout": "", "stderr": "ls: cannot access '/tmp/knorvia-preload-index-correction-2.ts': No such file or directory\n", "exitCode": 2, "meaning": "Read-only probe before pending author finished; no product/native operation or environment bypass"}

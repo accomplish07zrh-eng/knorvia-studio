@@ -1,0 +1,18 @@
+{
+  "base": "04c6c761f222107054c2b5f3508846cd21f0756a",
+  "owners": {
+    "target-completion-verification": "methods/target-completion-verification",
+    "turn-loop": "methods/turn-loop",
+    "turn-model": "methods/turn-model",
+    "plugin-reference": "methods/plugin-reference",
+    "session-shell-environment": "methods/session-shell-environment"
+  },
+  "modules": [
+    "methods/target-completion-verification",
+    "methods/turn-loop",
+    "methods/turn-model",
+    "methods/plugin-reference",
+    "methods/session-shell-environment"
+  ],
+  "excluded": "Accepted A originals/receipts;E workflow/definition/history/context/provider/media/compaction/attachments/project-memory/runtime-reminders/turn-errors;permission/fullaccess,command queue/submit/registry;sharedlicensing/CI/dependencies"
+}

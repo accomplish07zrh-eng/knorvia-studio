@@ -1,5 +1,10 @@
-import { HookEventName } from "../deps.js";
-import type { HookRunResult, Model, TraceContext, TurnState } from "../deps.js";
+import {
+  HookEventName,
+  type HookRunResult,
+  type Model,
+  type TraceContext,
+  type TurnState,
+} from "../deps.js";
 import type { HookEventName as HookEventNameType } from "@knorvia/contracts";
 import type { AgentRuntimeInternal } from "../internal.js";
 import {
@@ -7,15 +12,28 @@ import {
   type RuntimeMessageEntry,
 } from "../../agent/message-history.js";
 
+type SessionStartSource = "startup" | "resume" | "clear" | "compact";
+
+const HOOK_PREVIEW_MAX_CHARS = 4_000;
+const HOOK_CONTEXT_MAX_CHARS = 24_000;
 const MAX_STOP_HOOK_CONTINUATIONS = 3;
 
-const EMPTY_HOOK_RESULT: HookRunResult = {
-  additionalContexts: [],
-};
-const HOOK_CONTEXT_MAX_CHARS = 24_000;
-const HOOK_PREVIEW_MAX_CHARS = 4_000;
+const emptyHookResult: HookRunResult = { additionalContexts: [] };
 
-type SessionStartSource = "startup" | "resume" | "clear" | "compact";
+function summarizeAttachments(
+  attachments: TurnState["attachments"] | undefined,
+): string | undefined {
+  if (!attachments?.length) return undefined;
+  return attachments
+    .map((attachment, index) => {
+      if (attachment.path) return `${index + 1}:${attachment.type}:${attachment.path}`;
+      if (attachment.content) {
+        return `${index + 1}:${attachment.type}:inline:${attachment.content.length} chars`;
+      }
+      return `${index + 1}:${attachment.type}`;
+    })
+    .join("\n");
+}
 
 export async function runSessionStartHooks(
   this: AgentRuntimeInternal,
@@ -24,19 +42,19 @@ export async function runSessionStartHooks(
   signal?: AbortSignal,
   model?: Pick<Model, "providerId" | "modelId">,
 ): Promise<HookRunResult> {
-  if (this.sessionStartHookRan) return EMPTY_HOOK_RESULT;
+  if (this.sessionStartHookRan) return emptyHookResult;
   await this.workspaceHookAdmission?.activate(source, signal);
   this.sessionStartHookRan = true;
-  if (!this.hookRunner) return EMPTY_HOOK_RESULT;
+  if (!this.hookRunner) return emptyHookResult;
 
-  const selectedModel = model ?? this.getSessionModelSelection();
+  const selection = model ?? this.getSessionModelSelection();
   return this.hookRunner.run(
     {
       agentName: this.config.agentName,
       cwd: this.workingDirectory,
       hookEventName: HookEventName.SessionStart,
       mode: this.getMode(),
-      model: selectedModel ? `${selectedModel.providerId}/${selectedModel.modelId}` : undefined,
+      model: selection ? `${selection.providerId}/${selection.modelId}` : undefined,
       sessionId: this.sessionId,
       source,
       timestamp: new Date().toISOString(),
@@ -54,12 +72,11 @@ export async function runUserPromptSubmitHooks(
   traceContext: TraceContext,
   signal?: AbortSignal,
 ): Promise<HookRunResult> {
-  if (!this.hookRunner) return EMPTY_HOOK_RESULT;
-
+  if (!this.hookRunner) return emptyHookResult;
   return this.hookRunner.run(
     {
       agentName: this.config.agentName,
-      attachmentsSummary: summarizeTurnAttachments(attachments),
+      attachmentsSummary: summarizeAttachments(attachments),
       cwd: this.workingDirectory,
       hookEventName: HookEventName.UserPromptSubmit,
       mode: this.getMode(),
@@ -81,9 +98,11 @@ export async function runStopHooks(
   signal?: AbortSignal,
   stopHookActive = false,
 ): Promise<HookRunResult> {
-  if (!this.hookRunner) return EMPTY_HOOK_RESULT;
-  const responsePreview = truncateForHook(response, HOOK_PREVIEW_MAX_CHARS);
-
+  if (!this.hookRunner) return emptyHookResult;
+  const responsePreview =
+    response.length <= HOOK_PREVIEW_MAX_CHARS
+      ? response
+      : `${response.slice(0, HOOK_PREVIEW_MAX_CHARS)}...`;
   return this.hookRunner.run(
     {
       agentName: this.config.agentName,
@@ -109,10 +128,12 @@ export function injectHookAdditionalContextIntoMessageHistory(
   additionalContexts: readonly string[],
 ): RuntimeMessageEntry | undefined {
   if (additionalContexts.length === 0) return undefined;
-  const entry = systemReminderAttachmentEntry(
-    "hook_context",
-    formatLifecycleHookAdditionalContextBody(eventName, additionalContexts),
-  );
+  const contexts = additionalContexts
+    .map((context, index) => `#${index + 1}\n${context}`)
+    .join("\n\n");
+  let body = `${eventName} hook additional context: \n${contexts}`;
+  if (body.length > HOOK_CONTEXT_MAX_CHARS) body = `${body.slice(0, HOOK_CONTEXT_MAX_CHARS)}...`;
+  const entry = systemReminderAttachmentEntry("hook_context", body);
   this.messageHistory.addEntries([entry]);
   return entry;
 }
@@ -126,35 +147,4 @@ export function shouldContinueAfterStopHooks(
     result.additionalContexts.length > 0 &&
     continuationCount < MAX_STOP_HOOK_CONTINUATIONS
   );
-}
-
-function formatLifecycleHookAdditionalContextBody(
-  eventName: HookEventNameType,
-  additionalContexts: readonly string[],
-): string {
-  const body = additionalContexts.map((context, index) => `#${index + 1}\n${context}`).join("\n\n");
-  return truncateForHook(
-    [`${eventName} hook additional context: `, body].join("\n"),
-    HOOK_CONTEXT_MAX_CHARS,
-  );
-}
-
-function summarizeTurnAttachments(
-  attachments: TurnState["attachments"] | undefined,
-): string | undefined {
-  if (!attachments || attachments.length === 0) return undefined;
-
-  return attachments
-    .map((attachment, index) => {
-      if (attachment.path) return `${index + 1}:${attachment.type}:${attachment.path}`;
-      if (attachment.content)
-        return `${index + 1}:${attachment.type}:inline:${attachment.content.length} chars`;
-      return `${index + 1}:${attachment.type}`;
-    })
-    .join("\n");
-}
-
-function truncateForHook(value: string, maxChars: number): string {
-  if (value.length <= maxChars) return value;
-  return `${value.slice(0, maxChars)}...`;
 }

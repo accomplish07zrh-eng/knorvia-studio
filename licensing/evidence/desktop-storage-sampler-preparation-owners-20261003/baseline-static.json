@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+    "--baseline",
+    "--stable-symbols"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+      "sha256": "fbd67e63d03cc353571868e6591add7c3600499f57339aa0e3f6dec24ab27f0c"
+    }
+  ],
+  "stdout": "",
+  "stderr": "",
+  "exitCode": null
+}

@@ -1,0 +1,21 @@
+{
+  "bindings": {
+    "media": {
+      "path": "docs/evidence/core-hydration-owner-packet-20261003/media-v2/file-part-hydration.ts.txt",
+      "bytes": 5130,
+      "sha256": "3dfe9551132e36ea60f33ee8b8dedc08757c8cd19e4882fee33cbf6ba988ea35"
+    }
+  },
+  "groups": [
+    {
+      "name": "media identity, read recovery and immutable write boundary",
+      "passed": true
+    },
+    {
+      "name": "persisted media layout ordering, object identity and all-or-nothing rejection",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "qualification": "At most six distinct minimum synthetic candidate-only groups; --media-only restricts the initial media boundary review to two. In-memory VM and explicit fake original ports only; isolated transpilation to execute synthetic cases, no semantic/project compilation or source-emitted matrix, real session/media/provider/network/user data, business writes or dependency body execution. Installed exact-byte static binding reuses these checks without repeating them."
+}

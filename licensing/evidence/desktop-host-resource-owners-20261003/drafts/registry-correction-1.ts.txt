@@ -1,0 +1,692 @@
+/* eslint-disable max-lines -- 所有 transport 生命周期共享同一个 registry 状态机，必须原子演进。 */
+import {
+    buildSshRemoteHostKey,
+    stripRemoteTargetSecrets,
+    type RemoteTarget,
+    type WindowHostAttachmentScope,
+    type WindowHostRemoteWorkspaceDescriptor,
+} from "@knorvia/shared";
+
+interface WindowRemoteAssetDirs {
+    mockCdnDir?: string;
+    remoteCdnBaseUrl?: string;
+    remoteCdnBaseUrls?: string[];
+    remoteCacheDir?: string;
+}
+
+export interface WindowRemoteConnectionCloseEvent {
+    exitCode: number | null;
+    signal: string | null;
+    error?: string;
+}
+
+export interface WindowRemoteConnectionHandle<TServices, TCapabilities = never> {
+    services: TServices;
+    capabilities?: TCapabilities;
+    dispose(): void | Promise<void>;
+    onDidClose?(listener: (event: WindowRemoteConnectionCloseEvent) => void): {
+        dispose(): void;
+    };
+}
+
+interface WindowRemoteConnectionConnectRequest {
+    target: RemoteTarget;
+    remoteAssets: WindowRemoteAssetDirs;
+    signal: AbortSignal;
+}
+
+type WindowRemoteConnectionState =
+    | "connecting"
+    | "online"
+    | "closing"
+    | "failed"
+    | "disconnected";
+
+interface WindowRemoteLogicalSessionSnapshot {
+    remoteSessionId: string;
+    requestId: string;
+    target: RemoteTarget;
+    workspacePath?: string;
+    workspaceIdentity?: string;
+    generation: number;
+    state: WindowRemoteConnectionState;
+    sourceAvailability: "online" | "offline";
+}
+
+interface RemoteWorkspaceContext {
+    workspacePath: string;
+    workspaceIdentity?: string;
+}
+
+class WindowRemoteConnectCancelledError extends Error {
+    constructor() {
+        super("远程连接已取消");
+        this.name = "WindowRemoteConnectCancelledError";
+    }
+}
+
+class WindowRemoteConnectionUnavailableError extends Error {
+    constructor(remoteSessionId: string) {
+        super(`远程连接当前不可用，remoteSessionId=${remoteSessionId}`);
+        this.name = "WindowRemoteConnectionUnavailableError";
+    }
+}
+
+export function createWindowRemoteConnectionRegistry<TServices, TCapabilities = never>(options: {
+    connect: (
+        request: WindowRemoteConnectionConnectRequest,
+    ) => Promise<WindowRemoteConnectionHandle<TServices, TCapabilities>>;
+    createId: () => string;
+    onSessionClosed?: (
+        event: WindowRemoteConnectionCloseEvent & { remoteSessionId: string },
+    ) => void;
+    releaseWorkspace?: (services: TServices, context: RemoteWorkspaceContext) => Promise<void>;
+    onWorkspaceReleaseError?: (context: RemoteWorkspaceContext, error: unknown) => void;
+    wslIdleTtlMs?: number;
+}) {
+    type Handle = WindowRemoteConnectionHandle<TServices, TCapabilities>;
+    interface WorkspaceResource {
+        context: RemoteWorkspaceContext;
+        releaseGeneration: number;
+        deferredGeneration?: number;
+        releaseInFlight?: Promise<void>;
+    }
+    interface Transport {
+        key: string;
+        target: RemoteTarget;
+        controller: AbortController;
+        state: WindowRemoteConnectionState;
+        retired: boolean;
+        disposed: boolean;
+        owners: Set<string>;
+        readiness: Promise<Handle>;
+        handle?: Handle;
+        closeSubscription?: { dispose(): void };
+        disposal?: Promise<void>;
+        idleTimer?: ReturnType<typeof setTimeout>;
+        idleReason?: string;
+        workspaceKeys: Set<string>;
+        taskCounts: Map<string, number>;
+        workspaces: Map<string, WorkspaceResource>;
+    }
+    interface LogicalSession {
+        remoteSessionId: string;
+        requestId: string;
+        target: RemoteTarget;
+        workspacePath?: string;
+        workspaceIdentity?: string;
+        workspaceKey?: string;
+        releaseGeneration?: number;
+        generation: number;
+        state: WindowRemoteConnectionState;
+        sourceAvailability: "online" | "offline";
+        workspaceState: "pending" | "ready" | "failed";
+        workspaceReadiness: Promise<void>;
+        cancelled: boolean;
+        cancellation: Promise<never>;
+        rejectCancellation: (error: WindowRemoteConnectCancelledError) => void;
+        transport: Transport;
+    }
+
+    const idleTtl = options.wslIdleTtlMs ?? 60000;
+    const transports = new Map<string, Transport>();
+    const sessions = new Map<string, LogicalSession>();
+    const requests = new Map<string, LogicalSession>();
+    let registryDisposed = false;
+    let registryDisposal: Promise<void> | undefined;
+
+    function workspaceKey(path: string, identity?: string): string;
+    function workspaceKey(path: string | undefined, identity?: string): string | undefined;
+    function workspaceKey(path: string | undefined, identity?: string) {
+        return identity?.trim() || path;
+    }
+
+    function removeReuseSlot(transport: Transport) {
+        if (transports.get(transport.key) === transport) transports.delete(transport.key);
+    }
+
+    function clearIdleTimer(transport: Transport) {
+        if (!transport.idleTimer) return;
+        clearTimeout(transport.idleTimer);
+        transport.idleTimer = undefined;
+    }
+
+    function hasRunningTasks(transport: Transport) {
+        for (const count of transport.taskCounts.values()) {
+            if (count > 0) return true;
+        }
+        return false;
+    }
+
+    function hasWorkspaceOwner(transport: Transport, key: string, excludedId?: string) {
+        for (const owner of sessions.values()) {
+            if (
+                owner.remoteSessionId !== excludedId &&
+                owner.transport === transport &&
+                !owner.cancelled &&
+                owner.workspaceKey === key
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    async function disposeTransport(transport: Transport): Promise<void> {
+        if (transport.disposal) return transport.disposal;
+        transport.disposed = true;
+        transport.state = "closing";
+        clearIdleTimer(transport);
+        transport.controller.abort();
+        transport.closeSubscription?.dispose();
+        transport.closeSubscription = undefined;
+        removeReuseSlot(transport);
+        const result = transport.handle?.dispose();
+        transport.disposal = Promise.resolve(result).then(() => undefined);
+        return transport.disposal;
+    }
+
+    function scheduleIdle(transport: Transport, reason: string | undefined) {
+        clearIdleTimer(transport);
+        transport.idleReason = reason;
+        if (
+            transport.target.kind !== "wsl" ||
+            transport.disposed ||
+            transport.owners.size !== 0 ||
+            hasRunningTasks(transport)
+        ) {
+            return;
+        }
+        transport.idleTimer = setTimeout(() => {
+            transport.idleTimer = undefined;
+            if (
+                transports.get(transport.key) !== transport ||
+                transport.disposed ||
+                transport.owners.size !== 0 ||
+                hasRunningTasks(transport)
+            ) {
+                return;
+            }
+            void disposeTransport(transport);
+        }, idleTtl);
+    }
+
+    function startWorkspaceRelease(
+        transport: Transport,
+        key: string,
+        generation: number,
+    ): Promise<void> | undefined {
+        const resource = transport.workspaces.get(key);
+        if (!resource) return undefined;
+        if (
+            resource.releaseGeneration !== generation ||
+            resource.releaseInFlight ||
+            !transport.handle ||
+            transport.state !== "online" ||
+            !options.releaseWorkspace
+        ) {
+            return resource.releaseInFlight;
+        }
+        resource.deferredGeneration = undefined;
+        const operation = options.releaseWorkspace(transport.handle.services, resource.context);
+        const release = operation
+            .catch((error: unknown) => {
+                options.onWorkspaceReleaseError?.(resource.context, error);
+                throw error;
+            })
+            .finally(() => {
+                if (resource.releaseInFlight === release) resource.releaseInFlight = undefined;
+                if (
+                    resource.releaseGeneration === generation &&
+                    !resource.deferredGeneration &&
+                    !hasWorkspaceOwner(transport, key)
+                ) {
+                    transport.workspaces.delete(key);
+                }
+            });
+        resource.releaseInFlight = release;
+        void release.catch(() => undefined);
+        return release;
+    }
+
+    function requestWorkspaceRelease(
+        transport: Transport,
+        key: string | undefined,
+        generation: number | undefined,
+    ): Promise<void> | undefined {
+        if (transport.target.kind !== "wsl" || !key || !generation) return undefined;
+        const resource = transport.workspaces.get(key);
+        if (
+            !resource ||
+            hasWorkspaceOwner(transport, key) ||
+            resource.releaseGeneration !== generation
+        ) {
+            return undefined;
+        }
+        if ((transport.taskCounts.get(key) ?? 0) > 0) {
+            resource.deferredGeneration = generation;
+            return undefined;
+        }
+        return startWorkspaceRelease(transport, key, generation);
+    }
+
+    function prepareWorkspace(session: LogicalSession): Promise<void> {
+        const transport = session.transport;
+        const key = session.workspaceKey;
+        const path = session.workspacePath;
+        if (transport.target.kind !== "wsl" || !path || !key) {
+            session.workspaceState = "ready";
+            session.workspaceReadiness = Promise.resolve();
+            return session.workspaceReadiness;
+        }
+        const context: RemoteWorkspaceContext = {
+            workspacePath: path,
+            ...(session.workspaceIdentity ? { workspaceIdentity: session.workspaceIdentity } : {}),
+        };
+        const existing = transport.workspaces.get(key);
+        const resource: WorkspaceResource = existing ?? { context, releaseGeneration: 0 };
+        resource.context = context;
+        if (!existing) transport.workspaces.set(key, resource);
+        if (!hasWorkspaceOwner(transport, key, session.remoteSessionId)) {
+            resource.releaseGeneration += 1;
+        }
+        resource.deferredGeneration = undefined;
+        session.releaseGeneration = resource.releaseGeneration;
+        session.workspaceState = "pending";
+        const readiness = (resource.releaseInFlight ?? Promise.resolve())
+            .then(() => {
+                const currentResource = transport.workspaces.get(key);
+                if (
+                    sessions.get(session.remoteSessionId) !== session ||
+                    session.cancelled ||
+                    !currentResource ||
+                    currentResource.releaseGeneration !== session.releaseGeneration
+                ) {
+                    throw new WindowRemoteConnectCancelledError();
+                }
+                session.workspaceState = "ready";
+            })
+            .catch((error: unknown) => {
+                session.workspaceState = "failed";
+                throw error;
+            });
+        session.workspaceReadiness = readiness;
+        return readiness;
+    }
+
+    function observeClose(transport: Transport, event: WindowRemoteConnectionCloseEvent) {
+        if (transport.disposed || transport.state === "closing") return;
+        transport.state = "disconnected";
+        clearIdleTimer(transport);
+        removeReuseSlot(transport);
+        for (const id of transport.owners) {
+            const session = sessions.get(id);
+            if (!session) continue;
+            session.state = "disconnected";
+            session.sourceAvailability = "offline";
+            options.onSessionClosed?.({ remoteSessionId: session.remoteSessionId, ...event });
+        }
+    }
+
+    function createTransport(key: string, target: RemoteTarget, remoteAssets: WindowRemoteAssetDirs) {
+        const controller = new AbortController();
+        const transport: Transport = {
+            key,
+            target,
+            controller,
+            state: "connecting",
+            retired: false,
+            disposed: false,
+            owners: new Set(),
+            readiness: undefined as unknown as Promise<Handle>,
+            workspaceKeys: new Set(),
+            taskCounts: new Map(),
+            workspaces: new Map(),
+        };
+        const connection = options.connect({ target, remoteAssets, signal: controller.signal });
+        transport.readiness = connection
+            .then(async (handle) => {
+                transport.handle = handle;
+                if (transport.retired || transport.disposed || transport.owners.size === 0) {
+                    await disposeTransport(transport);
+                    return handle;
+                }
+                transport.state = "online";
+                transport.closeSubscription = handle.onDidClose?.((event) => {
+                    observeClose(transport, event);
+                });
+                for (const id of transport.owners) {
+                    const session = sessions.get(id);
+                    if (session && !session.cancelled) {
+                        session.state = "online";
+                        session.sourceAvailability = "online";
+                    }
+                }
+                return handle;
+            })
+            .catch((error: unknown) => {
+                transport.state = "failed";
+                removeReuseSlot(transport);
+                for (const id of transport.owners) {
+                    const session = sessions.get(id);
+                    if (!session) continue;
+                    session.state = "failed";
+                    session.sourceAvailability = "offline";
+                    sessions.delete(id);
+                    requests.delete(session.requestId);
+                }
+                transport.owners.clear();
+                throw error;
+            });
+        transports.set(key, transport);
+        return transport;
+    }
+
+    function acquireTransport(
+        logicalId: string,
+        target: RemoteTarget,
+        remoteAssets: WindowRemoteAssetDirs,
+    ) {
+        let key: string;
+        switch (target.kind) {
+            case "ssh":
+                key = `ssh:${buildSshRemoteHostKey(target)}`;
+                break;
+            case "wsl":
+                key = `wsl:${target.distro?.trim() || "<default>"}\0${target.user?.trim() || "<default>"}`;
+                break;
+            case "docker":
+                key = `docker:dedicated:${logicalId}`;
+                return createTransport(key, target, remoteAssets);
+        }
+        const previous = transports.get(key);
+        if (
+            previous &&
+            !previous.retired &&
+            !previous.disposed &&
+            !previous.controller.signal.aborted &&
+            (previous.state === "connecting" || previous.state === "online")
+        ) {
+            clearIdleTimer(previous);
+            return previous;
+        }
+        return createTransport(key, target, remoteAssets);
+    }
+
+    function snapshot(session: LogicalSession): WindowRemoteLogicalSessionSnapshot {
+        return {
+            remoteSessionId: session.remoteSessionId,
+            requestId: session.requestId,
+            target: stripRemoteTargetSecrets(session.target),
+            ...(session.workspacePath ? { workspacePath: session.workspacePath } : {}),
+            ...(session.workspaceIdentity ? { workspaceIdentity: session.workspaceIdentity } : {}),
+            generation: session.generation,
+            state: session.state,
+            sourceAvailability: session.sourceAvailability,
+        };
+    }
+
+    async function connect(params: {
+        requestId: string;
+        target: RemoteTarget;
+        remoteAssets: WindowRemoteAssetDirs;
+        workspacePath?: string;
+        workspaceIdentity?: string;
+    }): Promise<WindowHostRemoteWorkspaceDescriptor> {
+        if (registryDisposed) throw new Error("窗口 Host 的远程连接 registry 已释放");
+        if (requests.has(params.requestId)) {
+            throw new Error(`远程连接 requestId 重复，requestId=${params.requestId}`);
+        }
+        const remoteSessionId = options.createId();
+        const transport = acquireTransport(remoteSessionId, params.target, params.remoteAssets);
+        let rejectCancellation!: (error: WindowRemoteConnectCancelledError) => void;
+        const cancellation = new Promise<never>((_resolve, reject) => {
+            rejectCancellation = reject;
+        });
+        const session: LogicalSession = {
+            remoteSessionId,
+            requestId: params.requestId,
+            target: params.target,
+            ...(params.workspacePath ? { workspacePath: params.workspacePath } : {}),
+            ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
+            workspaceKey: workspaceKey(params.workspacePath || undefined, params.workspaceIdentity || undefined),
+            generation: 1,
+            state: transport.state === "online" ? "online" : "connecting",
+            sourceAvailability: transport.state === "online" ? "online" : "offline",
+            workspaceState: "pending",
+            workspaceReadiness: Promise.resolve(),
+            cancelled: false,
+            cancellation,
+            rejectCancellation,
+            transport,
+        };
+        sessions.set(remoteSessionId, session);
+        requests.set(params.requestId, session);
+        transport.owners.add(remoteSessionId);
+        if (session.workspaceKey) transport.workspaceKeys.add(session.workspaceKey);
+        try {
+            await Promise.race([transport.readiness, cancellation]);
+            await Promise.race([prepareWorkspace(session), cancellation]);
+            if (session.cancelled || !sessions.has(remoteSessionId)) {
+                throw new WindowRemoteConnectCancelledError();
+            }
+            session.state = "online";
+            session.sourceAvailability = "online";
+            return {
+                remoteSessionId,
+                target: stripRemoteTargetSecrets(params.target),
+                ...(session.workspacePath ? { workspacePath: session.workspacePath } : {}),
+                ...(session.workspaceIdentity ? { workspaceIdentity: session.workspaceIdentity } : {}),
+                generation: session.generation,
+            };
+        } catch (error) {
+            if (sessions.get(remoteSessionId) === session) {
+                sessions.delete(remoteSessionId);
+                transport.owners.delete(remoteSessionId);
+                session.state = "failed";
+                session.sourceAvailability = "offline";
+                if (transport.owners.size === 0 && transport.target.kind === "docker") {
+                    await disposeTransport(transport);
+                }
+            }
+            throw error;
+        } finally {
+            if (requests.get(params.requestId) === session) requests.delete(params.requestId);
+        }
+    }
+
+    function cancelConnect(requestId: string): void {
+        const session = requests.get(requestId);
+        if (!session || session.cancelled) return;
+        session.cancelled = true;
+        requests.delete(requestId);
+        sessions.delete(session.remoteSessionId);
+        const transport = session.transport;
+        transport.owners.delete(session.remoteSessionId);
+        const release = requestWorkspaceRelease(transport, session.workspaceKey, session.releaseGeneration);
+        if (release) void release.catch(() => undefined);
+        session.rejectCancellation(new WindowRemoteConnectCancelledError());
+        if (transport.owners.size !== 0) return;
+        if (transport.target.kind === "ssh" && transport.state === "connecting") {
+            transport.retired = true;
+            removeReuseSlot(transport);
+            transport.state = "closing";
+            transport.controller.abort();
+        } else if (transport.target.kind === "wsl" && transport.state === "online") {
+            scheduleIdle(transport, "cancelled-logical-connect");
+        } else if (transport.target.kind === "ssh" && transport.state === "online") {
+            clearIdleTimer(transport);
+        } else if (transport.handle) {
+            void disposeTransport(transport);
+        }
+    }
+
+    function bindWorkspaceContext(params: {
+        remoteSessionId: string;
+        workspacePath: string;
+        workspaceIdentity: string;
+    }): Promise<void> {
+        const session = sessions.get(params.remoteSessionId);
+        if (!session) {
+            throw new Error(`未找到远程 logical session，remoteSessionId=${params.remoteSessionId}`);
+        }
+        const priorKey = session.workspaceKey;
+        const priorGeneration = session.releaseGeneration;
+        session.workspacePath = params.workspacePath;
+        session.workspaceIdentity = params.workspaceIdentity;
+        session.generation += 1;
+        session.workspaceKey = workspaceKey(params.workspacePath, params.workspaceIdentity);
+        if (session.workspaceKey) session.transport.workspaceKeys.add(session.workspaceKey);
+        const readiness = prepareWorkspace(session);
+        if (priorKey !== session.workspaceKey) {
+            const release = requestWorkspaceRelease(session.transport, priorKey, priorGeneration);
+            if (release) void release.catch(() => undefined);
+        }
+        return readiness;
+    }
+
+    function scopedHandle(scope: WindowHostAttachmentScope): Handle {
+        if (scope.kind !== "remote") {
+            throw new Error("远程连接 registry 不能解析 local attachment scope");
+        }
+        const session = sessions.get(scope.remoteSessionId);
+        if (!session) throw new WindowRemoteConnectionUnavailableError(scope.remoteSessionId);
+        if (
+            session.workspacePath !== scope.workspacePath ||
+            session.workspaceIdentity !== scope.workspaceIdentity
+        ) {
+            throw new Error(`远程 attachment scope 与 logical session 不匹配，remoteSessionId=${scope.remoteSessionId}`);
+        }
+        if (
+            session.state !== "online" ||
+            session.sourceAvailability !== "online" ||
+            session.workspaceState !== "ready" ||
+            !session.transport.handle
+        ) {
+            throw new WindowRemoteConnectionUnavailableError(scope.remoteSessionId);
+        }
+        return session.transport.handle;
+    }
+
+    function resolveScopedServices(scope: WindowHostAttachmentScope): TServices {
+        return scopedHandle(scope).services;
+    }
+
+    function resolveScopedCapabilities(scope: WindowHostAttachmentScope): TCapabilities | undefined {
+        return scopedHandle(scope).capabilities;
+    }
+
+    function getSession(remoteSessionId: string): WindowRemoteLogicalSessionSnapshot | null {
+        const session = sessions.get(remoteSessionId);
+        return session ? snapshot(session) : null;
+    }
+
+    function listSessions(): WindowRemoteLogicalSessionSnapshot[] {
+        return Array.from(sessions.values(), snapshot);
+    }
+
+    function findSessionForWorkspace(params: {
+        workspacePath: string;
+        workspaceIdentity?: string;
+    }): WindowRemoteLogicalSessionSnapshot | null {
+        const matches = Array.from(sessions.values()).filter(
+            (session) =>
+                session.workspacePath === params.workspacePath &&
+                session.workspaceIdentity === params.workspaceIdentity,
+        );
+        const online = matches.filter(
+            (session) => session.state === "online" && session.sourceAvailability === "online",
+        );
+        if (online.length > 1 || (online.length === 0 && matches.length > 1)) {
+            throw new Error(`远程 workspace scope 匹配到多个 logical session，workspacePath=${params.workspacePath}`);
+        }
+        const chosen = online[0] ?? matches[0];
+        return chosen ? snapshot(chosen) : null;
+    }
+
+    function getStats(): { connectionCount: number; logicalSessionCount: number } {
+        return { connectionCount: transports.size, logicalSessionCount: sessions.size };
+    }
+
+    function setWorkspaceRunningTaskCount(params: {
+        workspacePath: string;
+        workspaceIdentity?: string;
+        runningTaskCount: number;
+    }): void {
+        const key = workspaceKey(params.workspacePath, params.workspaceIdentity);
+        for (const transport of transports.values()) {
+            if (transport.target.kind !== "wsl" || !transport.workspaceKeys.has(key)) continue;
+            if (params.runningTaskCount > 0) {
+                transport.taskCounts.set(key, params.runningTaskCount);
+                clearIdleTimer(transport);
+            } else {
+                transport.taskCounts.delete(key);
+                const deferredGeneration = transport.workspaces.get(key)?.deferredGeneration;
+                if (deferredGeneration) {
+                    const release = startWorkspaceRelease(transport, key, deferredGeneration);
+                    if (release) void release.catch(() => undefined);
+                }
+                scheduleIdle(transport, transport.idleReason);
+            }
+        }
+    }
+
+    async function waitForScopedServices(scope: WindowHostAttachmentScope): Promise<TServices> {
+        if (scope.kind !== "remote") {
+            throw new Error("远程连接 registry 不能解析 local attachment scope");
+        }
+        const session = sessions.get(scope.remoteSessionId);
+        if (!session) throw new WindowRemoteConnectionUnavailableError(scope.remoteSessionId);
+        await session.workspaceReadiness;
+        return resolveScopedServices(scope);
+    }
+
+    async function disposeSession(remoteSessionId: string): Promise<void> {
+        const session = sessions.get(remoteSessionId);
+        if (!session) return;
+        sessions.delete(remoteSessionId);
+        requests.delete(session.requestId);
+        const transport = session.transport;
+        transport.owners.delete(remoteSessionId);
+        const release = requestWorkspaceRelease(transport, session.workspaceKey, session.releaseGeneration);
+        if (transport.owners.size === 0) {
+            if (transport.target.kind === "wsl" && transport.state === "online") {
+                scheduleIdle(transport, "last-logical-session-disposed");
+            } else if (transport.target.kind === "ssh" && transport.state === "online") {
+                clearIdleTimer(transport);
+            } else {
+                await disposeTransport(transport);
+            }
+        }
+        await release?.catch(() => undefined);
+    }
+
+    async function dispose(): Promise<void> {
+        if (registryDisposal) return registryDisposal;
+        registryDisposed = true;
+        for (const requestId of Array.from(requests.keys())) cancelConnect(requestId);
+        const remaining = new Set<Transport>();
+        for (const session of sessions.values()) remaining.add(session.transport);
+        for (const transport of transports.values()) remaining.add(transport);
+        sessions.clear();
+        requests.clear();
+        registryDisposal = Promise.all(Array.from(remaining, disposeTransport)).then(() => undefined);
+        return registryDisposal;
+    }
+
+    return {
+        connect,
+        cancelConnect,
+        bindWorkspaceContext,
+        resolveScopedServices,
+        resolveScopedCapabilities,
+        getSession,
+        listSessions,
+        findSessionForWorkspace,
+        getStats,
+        setWorkspaceRunningTaskCount,
+        waitForScopedServices,
+        disposeSession,
+        dispose,
+    };
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "curator transport receipt of author SHA-bound initial files and access log, before candidate review/correction",
+  "authorReportedClosedAt": "2026-10-03T01:52:52.826907+00:00",
+  "files": {
+    "initial-SHA256SUMS.txt": "7c6eb9d1da6bacdfd66ec28365413138a364fc24ebc29be75220e754b389fe59",
+    "todo.ts": "4d2db9d1a6d43e59bc3438647db0dfa36e128e9d686aeed180f7e71e1a9aa10a",
+    "resume.ts": "e17b8ae38b6d459b76ad5b7495ed8cfd8ccc43ccdc507543b26cc0a803d12387",
+    "access-log.json": "845634a1b46db646b36447042ad17838f7a338e90e7c25890a4f153e4c2016c4"
+  },
+  "limits": "Source-derived functional packet; instruction-only read restriction in shared executor. No clean-room or licence claim."
+}

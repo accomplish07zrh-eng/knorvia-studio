@@ -144,51 +144,53 @@ const evalWorkflowSnippetHandler: ToolHandler = async (input, context) => {
     { signal: context.abortSignal },
   );
   const durationMs = Math.max(0, Date.now() - startedAt);
+  return snippetTerminalOutput(result, durationMs, location);
+};
 
+function snippetTerminalOutput(
+  result: Awaited<
+    ReturnType<NonNullable<ToolExecutionContext["dynamicWorkflowSnippetPort"]>["evalSnippet"]>
+  >,
+  durationMs: number,
+  location: Parameters<typeof formatWorkflowDiagnosticLines>[1],
+): EvalWorkflowSnippetOutput {
+  const output: EvalWorkflowSnippetOutput = {
+    ok: false,
+    diagnostics: [],
+    logs: [],
+    response: "",
+    durationMs,
+  };
   if (result.kind === "diagnostics") {
-    return {
-      ok: false,
-      diagnostics: result.diagnostics,
-      logs: [],
-      response: [
-        "The snippet has errors:",
-        ...formatWorkflowDiagnosticLines(result.diagnostics, location),
-        "",
-        NOT_EXECUTED_NOTE,
-      ].join("\n"),
-      durationMs,
-    } satisfies EvalWorkflowSnippetOutput;
+    output.diagnostics = result.diagnostics;
+    output.response = [
+      "The snippet has errors:",
+      ...formatWorkflowDiagnosticLines(result.diagnostics, location),
+      "",
+      NOT_EXECUTED_NOTE,
+    ].join("\n");
+    return output;
   }
 
   const logsSection = renderLogs(result.logs, result.logsTruncated);
-
   if (result.kind === "failed") {
-    return {
-      ok: false,
-      diagnostics: [],
-      logs: result.logs,
-      response: [
-        `The snippet failed (${result.error.code}): ${result.error.message}`,
-        ...logsSection,
-      ].join("\n"),
-      durationMs,
-    } satisfies EvalWorkflowSnippetOutput;
-  }
-
-  // completed。`undefined` 产物即「没有 return 值」——如实说，不去发明一个空对象。
-  const serialized = serializeWorkflowArtifact(result.artifact);
-  return {
-    ok: true,
-    diagnostics: [],
-    logs: result.logs,
-    response: [
+    output.logs = result.logs;
+    output.response = [
+      `The snippet failed (${result.error.code}): ${result.error.message}`,
+      ...logsSection,
+    ].join("\n");
+  } else {
+    const serialized = serializeWorkflowArtifact(result.artifact);
+    output.ok = true;
+    output.logs = result.logs;
+    output.response = [
       `The snippet completed in ${durationMs}ms.`,
       serialized === undefined ? "It returned no value." : `Return value:\n${serialized}`,
       ...logsSection,
-    ].join("\n"),
-    durationMs,
-  } satisfies EvalWorkflowSnippetOutput;
-};
+    ].join("\n");
+  }
+  return output;
+}
 
 /** logs 渲染进 response（formatModelContent 只交 response，logs 字段之外模型看不见它们）。 */
 function renderLogs(logs: string[], truncated: boolean): string[] {

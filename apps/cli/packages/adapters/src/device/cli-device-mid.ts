@@ -3,231 +3,139 @@ import { homedir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { createUuid } from "@knorvia/shared";
 
-const LOCK_RETRY_DELAY_MS = 10;
-const LOCK_RETRY_COUNT = 200;
-const LOCK_STALE_MS = 5 * 60 * 1000;
-const KNORVIA_DATA_BASE_DIR_ENV_KEY = "KNORVIA_DATA_BASE_DIR";
-
-interface TelemetryState {
-  deviceMid?: unknown;
-  [key: string]: unknown;
-}
-
-interface TelemetryLockOwner {
-  createdAt: number;
-  pid: number;
-}
-
+const DATA_ENV = "KNORVIA_DATA_BASE_DIR";
+const DIRECTORY = [".knorvia-studio", "v2"] as const;
+const STATE_NAME = "telemetry-state.json";
+const LOCK_NAME = "telemetry-state.lock";
+const ATTEMPTS = 200;
+const WAIT_MS = 10;
+const EXPIRED_MS = 5 * 60 * 1000;
 interface EnsureCliDeviceMidOptions {
   baseDir?: string;
   createId?: () => string;
   env?: Record<string, string | undefined>;
 }
+const requests = new Map<string, Promise<string>>();
 
-const deviceMidCacheByStateFile = new Map<string, Promise<string>>();
-
-/**
- * 在 CLI 所在主机独立确保 deviceMid 存在；它是反馈与 provider 请求头使用的设备身份，
- * 与 Desktop 共享同一个 state 文件与字段。
- * 文件系统异常不阻断模型请求；同一进程会继续使用首次生成的 fallback UUID。
- */
+/** 每个 state 路径只接受一次初始化；持久化失败仍复用这次请求的生成值。 */
 export function ensureCliDeviceMid(options: EnsureCliDeviceMidOptions = {}): Promise<string> {
-  const stateFile = resolveCliTelemetryStateFile(options);
-  const cached = deviceMidCacheByStateFile.get(stateFile);
-  if (cached) {
-    return cached;
-  }
-
-  const createId = options.createId ?? createUuid;
-  let generatedDeviceMid: string | undefined;
-  const getGeneratedDeviceMid = () => {
-    generatedDeviceMid ??= createId();
-    return generatedDeviceMid;
-  };
-  const pending = ensurePersistedDeviceMid({
-    getGeneratedDeviceMid,
-    stateFile,
-  }).catch(() => getGeneratedDeviceMid());
-  deviceMidCacheByStateFile.set(stateFile, pending);
+  const configured = options.baseDir ?? (options.env ?? process.env)[DATA_ENV]?.trim() ?? homedir();
+  const base = configured.length ? configured : homedir();
+  const directory =
+    base === "~"
+      ? homedir()
+      : base.startsWith("~/")
+        ? join(homedir(), base.slice(2))
+        : resolve(base);
+  const file = join(directory, ...DIRECTORY, STATE_NAME);
+  const accepted = requests.get(file);
+  if (accepted) return accepted;
+  const owner = new IdentityRequest(file, options.createId ?? createUuid);
+  const pending = owner.initialize().catch(() => owner.generated());
+  requests.set(file, pending);
   return pending;
 }
 
-function resolveCliTelemetryStateFile(options: EnsureCliDeviceMidOptions): string {
-  const env = options.env ?? process.env;
-  const configuredBaseDir =
-    options.baseDir ?? env[KNORVIA_DATA_BASE_DIR_ENV_KEY]?.trim() ?? homedir();
-  const baseDir = configuredBaseDir.length > 0 ? configuredBaseDir : homedir();
-  return join(resolveUserPath(baseDir), ".knorvia-studio", "v2", "telemetry-state.json");
+function record(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
 }
-
-async function ensurePersistedDeviceMid(input: {
-  getGeneratedDeviceMid: () => string;
-  stateFile: string;
-}): Promise<string> {
-  const existingDeviceMid = await readExistingDeviceMid(input.stateFile);
-  if (existingDeviceMid) {
-    return existingDeviceMid;
-  }
-
-  return withTelemetryStateLock(input.stateFile, async (state) => {
-    const lockedExistingDeviceMid = readDeviceMid(state);
-    if (lockedExistingDeviceMid) {
-      return lockedExistingDeviceMid;
-    }
-
-    const deviceMid = input.getGeneratedDeviceMid();
-    state.deviceMid = deviceMid;
-    await writeTelemetryState(input.stateFile, state);
-    return deviceMid;
-  });
+function nodeCode(value: unknown, code: string): boolean {
+  return value instanceof Error && "code" in value && value.code === code;
 }
-
-async function readExistingDeviceMid(stateFile: string): Promise<string | undefined> {
-  return readDeviceMid(await readTelemetryState(stateFile));
-}
-
-function readDeviceMid(state: TelemetryState): string | undefined {
-  return typeof state.deviceMid === "string" && state.deviceMid.length > 0
-    ? state.deviceMid
-    : undefined;
-}
-
-async function readTelemetryState(stateFile: string): Promise<TelemetryState> {
+async function snapshot(file: string): Promise<Record<string, unknown>> {
   try {
-    const parsed = JSON.parse(await readFile(stateFile, "utf-8")) as unknown;
-    return isRecord(parsed) ? parsed : {};
+    const value: unknown = JSON.parse(await readFile(file, "utf-8"));
+    return record(value) ? value : {};
   } catch {
     return {};
   }
 }
-
-async function writeTelemetryState(stateFile: string, state: TelemetryState): Promise<void> {
-  const directory = dirname(stateFile);
-  await mkdir(directory, { recursive: true });
-  const tempFile = join(
-    directory,
-    `.${basename(stateFile)}.${process.pid}.${Date.now()}.${Math.random()
-      .toString(16)
-      .slice(2)}.tmp`,
-  );
-
-  try {
-    await writeFile(tempFile, JSON.stringify(state, null, 2), "utf-8");
-    await rename(tempFile, stateFile);
-  } catch (error) {
-    await unlink(tempFile).catch(() => undefined);
-    throw error;
-  }
+function identity(state: Record<string, unknown>): string | undefined {
+  const value = state.deviceMid;
+  return typeof value === "string" && value.length > 0 ? value : undefined;
 }
 
-async function withTelemetryStateLock<T>(
-  stateFile: string,
-  run: (state: TelemetryState) => Promise<T>,
-): Promise<T> {
-  const lockFile = join(dirname(stateFile), "telemetry-state.lock");
-  await mkdir(dirname(lockFile), { recursive: true });
-
-  for (let attempt = 0; attempt < LOCK_RETRY_COUNT; attempt += 1) {
-    try {
-      const handle = await open(lockFile, "wx");
+class IdentityRequest {
+  private value: string | undefined;
+  private readonly lock: string;
+  constructor(
+    private readonly file: string,
+    private readonly create: () => string,
+  ) {
+    this.lock = join(dirname(file), LOCK_NAME);
+  }
+  generated(): string {
+    this.value ??= this.create();
+    return this.value;
+  }
+  async initialize(): Promise<string> {
+    const first = identity(await snapshot(this.file));
+    if (first) return first;
+    await mkdir(dirname(this.lock), { recursive: true });
+    for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
       try {
-        await handle.writeFile(
-          JSON.stringify({
-            createdAt: Date.now(),
-            pid: process.pid,
-          }),
-          "utf-8",
-        );
-        return await run(await readTelemetryState(stateFile));
-      } finally {
-        await handle.close();
-        await unlink(lockFile).catch(() => undefined);
+        return await this.exclusive();
+      } catch (error) {
+        if (!nodeCode(error, "EEXIST")) throw error;
+        if (await this.reclaim()) continue;
+        await new Promise<void>((done) => {
+          setTimeout(done, WAIT_MS);
+        });
       }
+    }
+    throw new Error("CLI telemetry state lock timeout");
+  }
+  private async exclusive(): Promise<string> {
+    const handle = await open(this.lock, "wx");
+    try {
+      await handle.writeFile(JSON.stringify({ createdAt: Date.now(), pid: process.pid }), "utf-8");
+      const state = await snapshot(this.file);
+      const winner = identity(state);
+      if (winner) return winner;
+      const chosen = this.generated();
+      state.deviceMid = chosen;
+      await this.publish(state);
+      return chosen;
+    } finally {
+      // 合同保留：close 失败时不继续 unlink，外层采用同请求的 fallback。
+      await handle.close();
+      await unlink(this.lock).catch(() => undefined);
+    }
+  }
+  private async publish(state: Record<string, unknown>): Promise<void> {
+    const directory = dirname(this.file);
+    await mkdir(directory, { recursive: true });
+    const temporary = join(
+      directory,
+      `.${basename(this.file)}.${process.pid}.${Date.now()}.${Math.random().toString(16).slice(2)}.tmp`,
+    );
+    try {
+      await writeFile(temporary, JSON.stringify(state, null, 2), "utf-8");
+      await rename(temporary, this.file);
     } catch (error) {
-      if (!isNodeErrorCode(error, "EEXIST")) {
-        throw error;
-      }
-      if (await removeStaleTelemetryLockIfNeeded(lockFile, Date.now())) {
-        continue;
-      }
-      await sleep(LOCK_RETRY_DELAY_MS);
+      await unlink(temporary).catch(() => undefined);
+      throw error;
     }
   }
-
-  throw new Error("CLI telemetry state lock timeout");
-}
-
-async function removeStaleTelemetryLockIfNeeded(
-  lockFile: string,
-  timestamp: number,
-): Promise<boolean> {
-  try {
-    const metadata = await stat(lockFile);
-    if (timestamp - metadata.mtimeMs < LOCK_STALE_MS) {
-      const owner = await readTelemetryLockOwner(lockFile);
-      if (!owner || isProcessAlive(owner.pid)) {
-        return false;
+  private async reclaim(): Promise<boolean> {
+    try {
+      const age = Date.now() - (await stat(this.lock)).mtimeMs;
+      if (age < EXPIRED_MS) {
+        const owner = await snapshot(this.lock);
+        if (typeof owner.pid !== "number" || typeof owner.createdAt !== "number") return false;
+        if (Number.isInteger(owner.pid) && owner.pid > 0) {
+          try {
+            process.kill(owner.pid, 0);
+            return false;
+          } catch (error) {
+            if (nodeCode(error, "EPERM")) return false;
+          }
+        }
       }
+      await unlink(this.lock).catch(() => undefined);
+      return true;
+    } catch {
+      return false;
     }
-
-    await unlink(lockFile).catch(() => undefined);
-    return true;
-  } catch {
-    return false;
   }
-}
-
-async function readTelemetryLockOwner(lockFile: string): Promise<TelemetryLockOwner | null> {
-  try {
-    const parsed = JSON.parse(await readFile(lockFile, "utf-8")) as unknown;
-    if (
-      !isRecord(parsed) ||
-      typeof parsed.pid !== "number" ||
-      typeof parsed.createdAt !== "number"
-    ) {
-      return null;
-    }
-    return {
-      createdAt: parsed.createdAt,
-      pid: parsed.pid,
-    };
-  } catch {
-    return null;
-  }
-}
-
-function isProcessAlive(pid: number): boolean {
-  if (!Number.isInteger(pid) || pid <= 0) {
-    return false;
-  }
-  try {
-    process.kill(pid, 0);
-    return true;
-  } catch (error) {
-    return isNodeErrorCode(error, "EPERM");
-  }
-}
-
-function resolveUserPath(value: string): string {
-  if (value === "~") {
-    return homedir();
-  }
-  if (value.startsWith("~/")) {
-    return join(homedir(), value.slice(2));
-  }
-  return resolve(value);
-}
-
-function sleep(delayMs: number): Promise<void> {
-  return new Promise((resolveSleep) => {
-    setTimeout(resolveSleep, delayMs);
-  });
-}
-
-function isNodeErrorCode(error: unknown, code: string): boolean {
-  return error instanceof Error && "code" in error && error.code === code;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }

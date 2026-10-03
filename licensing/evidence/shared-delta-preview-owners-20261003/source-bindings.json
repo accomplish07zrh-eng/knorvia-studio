@@ -1,0 +1,52 @@
+[
+  {
+    "path": "packages/shared/src/protocol-v4/apply.ts",
+    "baselineCommit": "dac90669d2a3afc3a8ad3437fa7ef55bfe2e436d",
+    "baselineBlob": "97028891fac5fbfd11009f33dca1d6177d585d7f",
+    "baselineSha256": "9704d61c1380bccdacb75e4a53f912af40e0ae53a2e82e1e158574594842f04c",
+    "initialFrozenSha256": "e9853b5dd22d1d15c0587c3003eef43a3bc283fcc0ca64e071f1d92175687734",
+    "selectedFrozenSha256": "652c544c6440cf68229706436952b58d590ba4e996deab6c3033da768377acfa",
+    "installedSha256": "f79f2b9e5e3d336625ab5c46f5fa5a314d009336477f96340707e2ed645596ad",
+    "formattedSelectedFreezeMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/protocol-v4/coalesce.ts",
+    "baselineCommit": "dac90669d2a3afc3a8ad3437fa7ef55bfe2e436d",
+    "baselineBlob": "d151df13cee6d826f8b8ea7785841761e5a16597",
+    "baselineSha256": "6ec1032feb5d9fef41be380131d2d67d3ea2cab217eafd6604a827027854345a",
+    "initialFrozenSha256": "2786a546bc6aa2472e2da2aa6a9c694c12e34a137f3125e8ab4a694f1fdbe984",
+    "selectedFrozenSha256": "2786a546bc6aa2472e2da2aa6a9c694c12e34a137f3125e8ab4a694f1fdbe984",
+    "installedSha256": "f8ede0f8f3aabaf042dfb7915d2c1ba2556f2368f0a2374a635da9cd815272ce",
+    "formattedSelectedFreezeMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/streaming-tool-input-preview.ts",
+    "baselineCommit": "dac90669d2a3afc3a8ad3437fa7ef55bfe2e436d",
+    "baselineBlob": "0e66acd35e80094ca922fcc0e0ea13d1f97bdca0",
+    "baselineSha256": "d3fea64c109ef03b8b9a5a3980b20259efb8e310973b88c1245b28d5bf507d42",
+    "initialFrozenSha256": "b27ffa70149d2844524542747234bff4d07a5e70ddac4db3965778e36dd5b498",
+    "selectedFrozenSha256": "b27ffa70149d2844524542747234bff4d07a5e70ddac4db3965778e36dd5b498",
+    "installedSha256": "9c635180501b268423b428353b82d786d49597a8baf368e796ed15310cc31e40",
+    "formattedSelectedFreezeMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/tool-call-summary.ts",
+    "baselineCommit": "dac90669d2a3afc3a8ad3437fa7ef55bfe2e436d",
+    "baselineBlob": "573ea8af0e2d99bd4a33e3589aefa5e72836748b",
+    "baselineSha256": "a3f5684ad53d3d7e489024ee041c6ff0a9f7e83ce4513b867a45a6d6df065043",
+    "initialFrozenSha256": "8b8e7836a5970e550f219f58267d3b5efbdd7cb44b6997d6f0e3d544af1a6853",
+    "selectedFrozenSha256": "8b8e7836a5970e550f219f58267d3b5efbdd7cb44b6997d6f0e3d544af1a6853",
+    "installedSha256": "b98e016ac4e388e2fd280ac9a79963dec854ac97c09406b98385a79a5b230d55",
+    "formattedSelectedFreezeMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/permission-request-preview.ts",
+    "baselineCommit": "dac90669d2a3afc3a8ad3437fa7ef55bfe2e436d",
+    "baselineBlob": "b5f711a86e228d364968b9d6203fd8f5a61fee91",
+    "baselineSha256": "c7c8cb8ac0275fe46b7e983f6014e9342124d73053bbf7b81911c767a2ea52c8",
+    "initialFrozenSha256": "e5251342d3678379815f40a7d83189ea60954c9631ff667c7b2f3b49b2457915",
+    "selectedFrozenSha256": "e5251342d3678379815f40a7d83189ea60954c9631ff667c7b2f3b49b2457915",
+    "installedSha256": "15206f483d22a6f86a2bb3878a88b890eabfab44aa2b946792d5e36744066d71",
+    "formattedSelectedFreezeMatchesInstalled": true
+  }
+]

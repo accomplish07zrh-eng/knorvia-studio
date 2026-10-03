@@ -1,31 +1,49 @@
 import { databaseStartupPortPayloadSchema, type DatabaseStartupState } from "@knorvia/shared";
 
-/** 页面只做同代准入；ready(A) 不能与端口(B) 拼成一次完成事实。 */
+/** The slot owns one transferred resource, independently of the observed phase. */
+class StartupPortSlot {
+  private offered?: { generation: string; resource: MessagePort };
+
+  replace(generation: string, resource: MessagePort): void {
+    const previous = this.offered;
+    if (previous && previous.resource !== resource) previous.resource.close();
+    this.offered = { generation, resource };
+  }
+
+  consume(generation: string): MessagePort | undefined {
+    const offer = this.offered;
+    if (!offer || offer.generation !== generation) return undefined;
+    this.offered = undefined;
+    return offer.resource;
+  }
+}
+
+/** Ready state and transferred port must describe the same startup generation. */
 export class DatabaseStartupAdmission {
   state: DatabaseStartupState | null = null;
-  private pending?: { startupId: string; port: MessagePort };
+  private readonly ports = new StartupPortSlot();
 
-  acceptState(state: DatabaseStartupState): boolean {
-    if (this.state?.startupId === state.startupId && this.state.sequence >= state.sequence)
-      return false;
-    this.state = state;
+  acceptState(next: DatabaseStartupState): boolean {
+    const previous = this.state;
+    if (previous && previous.startupId === next.startupId) {
+      if (previous.sequence >= next.sequence) return false;
+    }
+    this.state = next;
     return true;
   }
 
   acceptPort(payload: unknown, port: MessagePort): void {
-    const parsed = databaseStartupPortPayloadSchema.safeParse(payload);
-    if (!parsed.success) {
+    const result = databaseStartupPortPayloadSchema.safeParse(payload);
+    if (result.success) {
+      this.ports.replace(result.data.databaseStartupId, port);
+    } else {
       port.close();
-      return;
     }
-    if (this.pending?.port !== port) this.pending?.port.close();
-    this.pending = { startupId: parsed.data.databaseStartupId, port };
   }
 
   takeReadyPort(): MessagePort | undefined {
-    if (this.state?.phase !== "ready" || this.pending?.startupId !== this.state.startupId) return;
-    const port = this.pending.port;
-    this.pending = undefined;
-    return port;
+    const observed = this.state;
+    if (!observed || observed.phase !== "ready") return undefined;
+    return this.ports.consume(observed.startupId);
   }
 }

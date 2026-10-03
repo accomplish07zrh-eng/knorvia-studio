@@ -1,0 +1,26 @@
+{
+  "scope": "Two allocated whole hydration owners only",
+  "baseline": "f9bd59f6bad64590e6d854ddff62fbebd20a841c",
+  "requestedAuthors": "Two fresh GPT-6.1 Sol/high/fork:none authors; same authors create full v2 corrections; saved Fast unchanged/unverified",
+  "originalWholeArchivesBeforeBodyReview": {
+    "media": "73d6e803",
+    "history": "efeebc00"
+  },
+  "v2WholeArchivesBeforeBodyReview": {
+    "media": "978fea1c",
+    "history": "bff96303"
+  },
+  "realFailures": [
+    "Original media projection indexes attachment before late malformed layout rejection; whole validation/value-snapshot boundary omitted from initial prose; guarded getter probe failed, same author full v2 corrected.",
+    "Original history projection resolves result name after media await and caches pre-await state object; external timing detail omitted from initial prose; supplied media callback mutation probe failed, same author full v2 corrected. User content-before-metadata and end-of-processing message-count order also restored."
+  ],
+  "coverage": "Six distinct final minimum synthetic groups, two media and four history. Earlier passes/failures not additional completed groups. Exact installed/archive/proof bindings reuse final checks without replay.",
+  "boundary": "618 outside bindings, including all610 other core sources, unchanged. Exactly two authorized source paths differ from allocation baseline.",
+  "sourceExposure": "Source-exposed curator read whole target bodies. Incidental public-port discovery displays listed in public-extraction-record.json. All historical broader source/tool/dependency exposure and repaired earlier extra scratch-write breach remain.",
+  "declarationLimit": "Raw original diagnostics retained. Selected declarations preserve imported/typeof references without claiming standalone semantic closure; TypeQuery source-list constant references may remain unresolved inside the packet. Author source retains original imports and original dependency implementations; no policy table or alternate type owner added. Target isolated declaration public surfaces compare exactly, not semantic/project compilation.",
+  "accounting": "Full per-version author receipts and immutable input/output SHA256-byte bindings retained. Read counts are explicit-operation self-report, not executor/interpreter/OS access audit.",
+  "ordinaryChecks": "Deferred by parent; prior missing repository-local TypeScript architecture failure retained and not repeated. No new dependency installation or source-emitted matrix.",
+  "holds": "Root/local read-state hash divergence preserved; no reauthor/import. Runtime-task registry unallocated/held. Root desktop and A model/turn runtime untouched.",
+  "rights": "No clean separation, novelty, grant, licensing closure or MIT eligibility assertion. All21 material obligations remain open. No global licence/review/current-file edits, publisher contact/agreement, release, deployment, main merge or public bundle.",
+  "environment": "Saved shared cloud executor only, instruction-only author restrictions; no OS isolation or access audit, real data/credentials/private-file/Library403 bypass. No curator source patch."
+}

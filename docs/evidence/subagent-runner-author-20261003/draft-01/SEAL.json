@@ -1,0 +1,803 @@
+{
+  "closedAtUTC": "2026-10-02T23:25:54.188806+00:00",
+  "root": "/tmp/knorvia-subagent-runner-author-20261003/draft-01",
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "scope": "Complete createExploreSubagentPort owner and all private helpers",
+  "closureSHA256": "f3a5c56c080107f2f149c7e1e631b325aa44e9acdb80c32f54d2ed1b2c73028f",
+  "closureDefinition": "All recursively enumerated files except SEAL.json and SEAL.sha256, ordered by relative path; closure digest is SHA256 of canonical json.dumps(files,sort_keys=True,separators=(comma,colon)) UTF8. SEAL.json hash recorded separately in SEAL.sha256.",
+  "fileCount": 105,
+  "totalBytes": 547713,
+  "sourceCount": 10,
+  "sourceBytes": 52434,
+  "sourcePhysicalLines": 1502,
+  "maxSourcePhysicalLines": 234,
+  "sourceFiles": [
+    {
+      "path": "runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "runner-publication.ts",
+      "bytes": 7984,
+      "sha256": "385db6f5fcca7f500a470d3f2a6cb863b1a0f3c54931d68f751d0f10c7dfe4d5",
+      "physicalLines": 234
+    },
+    {
+      "path": "runner-state.ts",
+      "bytes": 6982,
+      "sha256": "40b020de39589f34bccfdd81952ec3364afa79d3907fc24ab9f3413b3b514675",
+      "physicalLines": 212
+    },
+    {
+      "path": "runner-stop.ts",
+      "bytes": 3846,
+      "sha256": "32a71a45b02e622c992a77103a6b32ee5c454dc996522a51302c8f569eb28f80",
+      "physicalLines": 106
+    },
+    {
+      "path": "runner.ts",
+      "bytes": 4255,
+      "sha256": "e71173f6bb6767fabb8a62039dbdc7b87edd8c55e3a676fc02236c3fcfdfcbed",
+      "physicalLines": 117
+    }
+  ],
+  "importClosure": {
+    "runner-artifacts.ts": [
+      "../runtime-task/registry.js",
+      "./runner-state.js",
+      "@knorvia/contracts",
+      "node:fs/promises",
+      "node:path"
+    ],
+    "runner-background.ts": [
+      "../runtime-task/registry.js",
+      "./runner-artifacts.js",
+      "./runner-cancellation.js",
+      "./runner-child.js",
+      "./runner-publication.js",
+      "./runner-state.js",
+      "@knorvia/contracts"
+    ],
+    "runner-cancellation.ts": [
+      "./runner-state.js",
+      "@knorvia/contracts"
+    ],
+    "runner-child.ts": [
+      "../runtime-task/registry.js",
+      "./runner-state.js",
+      "@knorvia/contracts"
+    ],
+    "runner-foreground.ts": [
+      "../errors/error-payload.js",
+      "./runner-artifacts.js",
+      "./runner-cancellation.js",
+      "./runner-child.js",
+      "./runner-publication.js",
+      "./runner-state.js",
+      "@knorvia/contracts"
+    ],
+    "runner-message.ts": [
+      "../runtime-task/registry.js",
+      "./runner-artifacts.js",
+      "./runner-background.js",
+      "./runner-cancellation.js",
+      "./runner-publication.js",
+      "./runner-state.js",
+      "@knorvia/contracts"
+    ],
+    "runner-publication.ts": [
+      "../errors/error-payload.js",
+      "../runtime-task/registry.js",
+      "./completion-notification.js",
+      "./runner-artifacts.js",
+      "./runner-state.js",
+      "@knorvia/contracts"
+    ],
+    "runner-state.ts": [
+      "../runtime-task/registry.js",
+      "./explore-tools.js",
+      "./profile.js",
+      "./runner.js",
+      "./tool-policy.js",
+      "@knorvia/contracts",
+      "node:os",
+      "node:path"
+    ],
+    "runner-stop.ts": [
+      "../runtime-task/registry.js",
+      "./completion-notification.js",
+      "./runner-artifacts.js",
+      "./runner-publication.js",
+      "./runner-state.js",
+      "@knorvia/contracts"
+    ],
+    "runner.ts": [
+      "../runtime-task/registry.js",
+      "./profile.js",
+      "./runner-background.js",
+      "./runner-foreground.js",
+      "./runner-message.js",
+      "./runner-state.js",
+      "./runner-stop.js",
+      "@knorvia/contracts"
+    ]
+  },
+  "representations": [
+    "00-pre-supplement-partial",
+    "01-initial-complete-unformatted",
+    "02-before-supplement-corrections",
+    "03-supplement-unformatted",
+    "04-first-formatted",
+    "05-stop-notification-supplement-unformatted",
+    "06-final-native-gate-unformatted",
+    "07-native-gate-formatted",
+    "08-final-launch-unformatted",
+    "09-final-formatted"
+  ],
+  "files": [
+    {
+      "path": "journal.json",
+      "bytes": 23362,
+      "sha256": "eff53c0bdf2b6e6d952cc719dd610f4a00a0468942709b486a55b65f42251eba"
+    },
+    {
+      "path": "representations/00-pre-supplement-partial/runner-artifacts.ts",
+      "bytes": 2727,
+      "sha256": "d338b3d3eaab76bd7e2a0a064edc444d070d93ac65ce499d54a991273042e370",
+      "physicalLines": 31
+    },
+    {
+      "path": "representations/00-pre-supplement-partial/runner-cancellation.ts",
+      "bytes": 4572,
+      "sha256": "c89df92513bfc63d7225ee6fa83c129d8500cbf046518567edb662f240831fa7",
+      "physicalLines": 61
+    },
+    {
+      "path": "representations/00-pre-supplement-partial/runner-child.ts",
+      "bytes": 4817,
+      "sha256": "3cf1bbd9c78297d9dd419dff287ac9a8212f2ed32bd4d8d9133fb69041f9e26e",
+      "physicalLines": 52
+    },
+    {
+      "path": "representations/00-pre-supplement-partial/runner-state.ts",
+      "bytes": 6231,
+      "sha256": "84edff97dc14dbd3a7a19b54ff582dc788202515003755047c8d8e6f563ca11e",
+      "physicalLines": 57
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-artifacts.ts",
+      "bytes": 2727,
+      "sha256": "d338b3d3eaab76bd7e2a0a064edc444d070d93ac65ce499d54a991273042e370",
+      "physicalLines": 31
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-background.ts",
+      "bytes": 3084,
+      "sha256": "5c20f7cda971397a708d5967e8a334aac0f8b4e059ed40783798538cf14255b4",
+      "physicalLines": 39
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-cancellation.ts",
+      "bytes": 4572,
+      "sha256": "c89df92513bfc63d7225ee6fa83c129d8500cbf046518567edb662f240831fa7",
+      "physicalLines": 61
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-child.ts",
+      "bytes": 4817,
+      "sha256": "3cf1bbd9c78297d9dd419dff287ac9a8212f2ed32bd4d8d9133fb69041f9e26e",
+      "physicalLines": 52
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-foreground.ts",
+      "bytes": 6010,
+      "sha256": "fca7d0e9f6994bc2a481aeb81cbbf4e93a61a0bdd532021f3ed377f4ead5f87a",
+      "physicalLines": 61
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-message.ts",
+      "bytes": 4456,
+      "sha256": "2c99ba52b133afc71857b4d4818f4d8fda9cacaba2363eaa31eac1199fb13858",
+      "physicalLines": 48
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-publication.ts",
+      "bytes": 7084,
+      "sha256": "1e6f6e6af0212fa3a4d058588c9e08f7c52a517493c1c4e6a1c010dcd2468f26",
+      "physicalLines": 60
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-state.ts",
+      "bytes": 6231,
+      "sha256": "84edff97dc14dbd3a7a19b54ff582dc788202515003755047c8d8e6f563ca11e",
+      "physicalLines": 57
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner-stop.ts",
+      "bytes": 3393,
+      "sha256": "79a552af3fa45c60da4fbc8a3b0cc5fda2accb1b429501345854b523797b2ed0",
+      "physicalLines": 36
+    },
+    {
+      "path": "representations/01-initial-complete-unformatted/runner.ts",
+      "bytes": 4036,
+      "sha256": "17fecd807b67d98743f60b64391b387cda7c125101ba58efd4be443064650b4d",
+      "physicalLines": 80
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-artifacts.ts",
+      "bytes": 2727,
+      "sha256": "d338b3d3eaab76bd7e2a0a064edc444d070d93ac65ce499d54a991273042e370",
+      "physicalLines": 31
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-background.ts",
+      "bytes": 3084,
+      "sha256": "5c20f7cda971397a708d5967e8a334aac0f8b4e059ed40783798538cf14255b4",
+      "physicalLines": 39
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-cancellation.ts",
+      "bytes": 4572,
+      "sha256": "c89df92513bfc63d7225ee6fa83c129d8500cbf046518567edb662f240831fa7",
+      "physicalLines": 61
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-child.ts",
+      "bytes": 4817,
+      "sha256": "3cf1bbd9c78297d9dd419dff287ac9a8212f2ed32bd4d8d9133fb69041f9e26e",
+      "physicalLines": 52
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-foreground.ts",
+      "bytes": 6010,
+      "sha256": "fca7d0e9f6994bc2a481aeb81cbbf4e93a61a0bdd532021f3ed377f4ead5f87a",
+      "physicalLines": 61
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-message.ts",
+      "bytes": 4456,
+      "sha256": "2c99ba52b133afc71857b4d4818f4d8fda9cacaba2363eaa31eac1199fb13858",
+      "physicalLines": 48
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-publication.ts",
+      "bytes": 7084,
+      "sha256": "1e6f6e6af0212fa3a4d058588c9e08f7c52a517493c1c4e6a1c010dcd2468f26",
+      "physicalLines": 60
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-state.ts",
+      "bytes": 6231,
+      "sha256": "84edff97dc14dbd3a7a19b54ff582dc788202515003755047c8d8e6f563ca11e",
+      "physicalLines": 57
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner-stop.ts",
+      "bytes": 3393,
+      "sha256": "79a552af3fa45c60da4fbc8a3b0cc5fda2accb1b429501345854b523797b2ed0",
+      "physicalLines": 36
+    },
+    {
+      "path": "representations/02-before-supplement-corrections/runner.ts",
+      "bytes": 4036,
+      "sha256": "17fecd807b67d98743f60b64391b387cda7c125101ba58efd4be443064650b4d",
+      "physicalLines": 80
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-artifacts.ts",
+      "bytes": 2727,
+      "sha256": "d338b3d3eaab76bd7e2a0a064edc444d070d93ac65ce499d54a991273042e370",
+      "physicalLines": 31
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-background.ts",
+      "bytes": 3084,
+      "sha256": "5c20f7cda971397a708d5967e8a334aac0f8b4e059ed40783798538cf14255b4",
+      "physicalLines": 39
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-cancellation.ts",
+      "bytes": 4572,
+      "sha256": "c89df92513bfc63d7225ee6fa83c129d8500cbf046518567edb662f240831fa7",
+      "physicalLines": 61
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-child.ts",
+      "bytes": 4817,
+      "sha256": "3cf1bbd9c78297d9dd419dff287ac9a8212f2ed32bd4d8d9133fb69041f9e26e",
+      "physicalLines": 52
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-foreground.ts",
+      "bytes": 5994,
+      "sha256": "f00ee72e05e5f117f3d3a24b6959ad2b07ba3c9d6c3850f45c1107f24db58909",
+      "physicalLines": 61
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-message.ts",
+      "bytes": 4428,
+      "sha256": "e034bbde6227792c28003ffdbd7e4eaa7fdcb4f1cafe94ecbfed453913a79412",
+      "physicalLines": 47
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-publication.ts",
+      "bytes": 7084,
+      "sha256": "1e6f6e6af0212fa3a4d058588c9e08f7c52a517493c1c4e6a1c010dcd2468f26",
+      "physicalLines": 60
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-state.ts",
+      "bytes": 6200,
+      "sha256": "b0b858376d096f4220d872f8cc451d6c90db9e31791a52f9de58cddd11f7abb9",
+      "physicalLines": 56
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner-stop.ts",
+      "bytes": 3410,
+      "sha256": "03e71cf3e0171d34bb01cbbe7d98b9d609842af18d827f13cc14ea8ceac37ce9",
+      "physicalLines": 36
+    },
+    {
+      "path": "representations/03-supplement-unformatted/runner.ts",
+      "bytes": 4036,
+      "sha256": "17fecd807b67d98743f60b64391b387cda7c125101ba58efd4be443064650b4d",
+      "physicalLines": 80
+    },
+    {
+      "path": "representations/04-first-formatted/runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "representations/04-first-formatted/runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "representations/04-first-formatted/runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "representations/04-first-formatted/runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "representations/04-first-formatted/runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "representations/04-first-formatted/runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "representations/04-first-formatted/runner-publication.ts",
+      "bytes": 7895,
+      "sha256": "3aba4fd29128bb82a6eba8d8ebf6d697e8bffb9a96dcd2129b8c54427f4676c1",
+      "physicalLines": 233
+    },
+    {
+      "path": "representations/04-first-formatted/runner-state.ts",
+      "bytes": 6948,
+      "sha256": "04c29452bb0e30a636b310b3a92ef53acb3643ac2cb2cb4b6bf52e20761218c4",
+      "physicalLines": 210
+    },
+    {
+      "path": "representations/04-first-formatted/runner-stop.ts",
+      "bytes": 3819,
+      "sha256": "403bcfe1aec4f6a46c53e99e2932f2d9cc6bb2cb14057d7a745139d8b97d172a",
+      "physicalLines": 101
+    },
+    {
+      "path": "representations/04-first-formatted/runner.ts",
+      "bytes": 4279,
+      "sha256": "993d953c6699db8507713cdb28f38f1ddc00796cf168865a10510a5ab3afdf33",
+      "physicalLines": 117
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-publication.ts",
+      "bytes": 7905,
+      "sha256": "c5d1e9a5e53fe9c96297311650a050618901cccec858d6bd228a07a5f533f74f",
+      "physicalLines": 233
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-state.ts",
+      "bytes": 6948,
+      "sha256": "04c29452bb0e30a636b310b3a92ef53acb3643ac2cb2cb4b6bf52e20761218c4",
+      "physicalLines": 210
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner-stop.ts",
+      "bytes": 3823,
+      "sha256": "c53a64694ff1cf3944710040eea3658515d5bba7e5750e962c88d577c3a0300f",
+      "physicalLines": 103
+    },
+    {
+      "path": "representations/05-stop-notification-supplement-unformatted/runner.ts",
+      "bytes": 4279,
+      "sha256": "993d953c6699db8507713cdb28f38f1ddc00796cf168865a10510a5ab3afdf33",
+      "physicalLines": 117
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-publication.ts",
+      "bytes": 7984,
+      "sha256": "385db6f5fcca7f500a470d3f2a6cb863b1a0f3c54931d68f751d0f10c7dfe4d5",
+      "physicalLines": 234
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-state.ts",
+      "bytes": 6982,
+      "sha256": "40b020de39589f34bccfdd81952ec3364afa79d3907fc24ab9f3413b3b514675",
+      "physicalLines": 212
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner-stop.ts",
+      "bytes": 3830,
+      "sha256": "a804b13e78ef458510c4115cf5c15ddf0f10ae36262672934ae086481d4da2d3",
+      "physicalLines": 103
+    },
+    {
+      "path": "representations/06-final-native-gate-unformatted/runner.ts",
+      "bytes": 4279,
+      "sha256": "993d953c6699db8507713cdb28f38f1ddc00796cf168865a10510a5ab3afdf33",
+      "physicalLines": 117
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-publication.ts",
+      "bytes": 7984,
+      "sha256": "385db6f5fcca7f500a470d3f2a6cb863b1a0f3c54931d68f751d0f10c7dfe4d5",
+      "physicalLines": 234
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-state.ts",
+      "bytes": 6982,
+      "sha256": "40b020de39589f34bccfdd81952ec3364afa79d3907fc24ab9f3413b3b514675",
+      "physicalLines": 212
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner-stop.ts",
+      "bytes": 3846,
+      "sha256": "32a71a45b02e622c992a77103a6b32ee5c454dc996522a51302c8f569eb28f80",
+      "physicalLines": 106
+    },
+    {
+      "path": "representations/07-native-gate-formatted/runner.ts",
+      "bytes": 4279,
+      "sha256": "993d953c6699db8507713cdb28f38f1ddc00796cf168865a10510a5ab3afdf33",
+      "physicalLines": 117
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-publication.ts",
+      "bytes": 7984,
+      "sha256": "385db6f5fcca7f500a470d3f2a6cb863b1a0f3c54931d68f751d0f10c7dfe4d5",
+      "physicalLines": 234
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-state.ts",
+      "bytes": 6982,
+      "sha256": "40b020de39589f34bccfdd81952ec3364afa79d3907fc24ab9f3413b3b514675",
+      "physicalLines": 212
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner-stop.ts",
+      "bytes": 3846,
+      "sha256": "32a71a45b02e622c992a77103a6b32ee5c454dc996522a51302c8f569eb28f80",
+      "physicalLines": 106
+    },
+    {
+      "path": "representations/08-final-launch-unformatted/runner.ts",
+      "bytes": 4255,
+      "sha256": "e71173f6bb6767fabb8a62039dbdc7b87edd8c55e3a676fc02236c3fcfdfcbed",
+      "physicalLines": 117
+    },
+    {
+      "path": "representations/09-final-formatted/runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "representations/09-final-formatted/runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "representations/09-final-formatted/runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "representations/09-final-formatted/runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "representations/09-final-formatted/runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "representations/09-final-formatted/runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "representations/09-final-formatted/runner-publication.ts",
+      "bytes": 7984,
+      "sha256": "385db6f5fcca7f500a470d3f2a6cb863b1a0f3c54931d68f751d0f10c7dfe4d5",
+      "physicalLines": 234
+    },
+    {
+      "path": "representations/09-final-formatted/runner-state.ts",
+      "bytes": 6982,
+      "sha256": "40b020de39589f34bccfdd81952ec3364afa79d3907fc24ab9f3413b3b514675",
+      "physicalLines": 212
+    },
+    {
+      "path": "representations/09-final-formatted/runner-stop.ts",
+      "bytes": 3846,
+      "sha256": "32a71a45b02e622c992a77103a6b32ee5c454dc996522a51302c8f569eb28f80",
+      "physicalLines": 106
+    },
+    {
+      "path": "representations/09-final-formatted/runner.ts",
+      "bytes": 4255,
+      "sha256": "e71173f6bb6767fabb8a62039dbdc7b87edd8c55e3a676fc02236c3fcfdfcbed",
+      "physicalLines": 117
+    },
+    {
+      "path": "runner-artifacts.ts",
+      "bytes": 2845,
+      "sha256": "454facf57550ed1bb056e601539ab82298ab331b307539297f4cbba4a9479218",
+      "physicalLines": 59
+    },
+    {
+      "path": "runner-background.ts",
+      "bytes": 3553,
+      "sha256": "a0e272af85a6a6b6d77b29874919b28761c6277bb590cf380cec4d203d495682",
+      "physicalLines": 113
+    },
+    {
+      "path": "runner-cancellation.ts",
+      "bytes": 5373,
+      "sha256": "433ca64c2a85520e24c163170ca72235df565d5651e3a65cab749e4f30a6057a",
+      "physicalLines": 161
+    },
+    {
+      "path": "runner-child.ts",
+      "bytes": 5406,
+      "sha256": "8aaaaa67b5c25d6c1c2ecae931350aea3f4099b8d77fc204c3653068b5227465",
+      "physicalLines": 155
+    },
+    {
+      "path": "runner-foreground.ts",
+      "bytes": 7060,
+      "sha256": "cc859d524e8d81aa283d2957e568075a890e3aa4d702d831f58c7d0a25b0401d",
+      "physicalLines": 192
+    },
+    {
+      "path": "runner-message.ts",
+      "bytes": 5130,
+      "sha256": "983257766574ac5ca8bcc08eb54adc396c90aae6cc8c7216e1deffbf9b74f7d4",
+      "physicalLines": 153
+    },
+    {
+      "path": "runner-publication.ts",
+      "bytes": 7984,
+      "sha256": "385db6f5fcca7f500a470d3f2a6cb863b1a0f3c54931d68f751d0f10c7dfe4d5",
+      "physicalLines": 234
+    },
+    {
+      "path": "runner-state.ts",
+      "bytes": 6982,
+      "sha256": "40b020de39589f34bccfdd81952ec3364afa79d3907fc24ab9f3413b3b514675",
+      "physicalLines": 212
+    },
+    {
+      "path": "runner-stop.ts",
+      "bytes": 3846,
+      "sha256": "32a71a45b02e622c992a77103a6b32ee5c454dc996522a51302c8f569eb28f80",
+      "physicalLines": 106
+    },
+    {
+      "path": "runner.ts",
+      "bytes": 4255,
+      "sha256": "e71173f6bb6767fabb8a62039dbdc7b87edd8c55e3a676fc02236c3fcfdfcbed",
+      "physicalLines": 117
+    }
+  ],
+  "limitations": "Curator is source-exposed. Packet, public declarations, runtime prose, log fields and narrow functional supplements are source-derived compatibility material. No clean-room, licence acceptance, whole-file-origin or cosmetic-independence claim is made. Private algorithms and module representation were authored from the permitted body-free contract and narrow facts.",
+  "checksPerformed": "Permitted input SHA/size verification, manual source-only review, authorized oxfmt; no compiler/tests/oracles/runtime execution or code comparison."
+}

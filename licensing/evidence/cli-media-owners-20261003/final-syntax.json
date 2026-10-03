@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/esbuild",
+    "apps/cli/packages/adapters/src/image/index.ts",
+    "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+    "apps/cli/packages/adapters/src/pdf/index.ts",
+    "--outdir=/tmp/knorvia-cli-media-final-syntax",
+    "--platform=node",
+    "--format=esm",
+    "--log-level=warning"
+  ],
+  "stdout": "",
+  "stderr": "",
+  "exitCode": 0
+}

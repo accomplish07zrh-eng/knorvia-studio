@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/preload/owners.test.mjs",
+    "--owner=dialog"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=dialog\n✔ dialog: isolated bridge admission, boolean filtering and sync fallback (53.714451ms)\n✔ dialog: serialized main-world frame lifetimes, native receivers and confirm identity guard (11.818262ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 69.939177\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,2494 @@
+{
+  "baseline": "803062001bf433d967d84f716d520cdf34d6b943",
+  "entryKeys": [
+    "capability",
+    "requiresUserInteraction",
+    "metadata",
+    "handler",
+    "formatModelContent",
+    "inputSchema",
+    "outputSchema",
+    "runtimeInputSchema",
+    "runtimeOutputSchema",
+    "permission",
+    "resultBudget",
+    "timeout",
+    "cancellation",
+    "trace"
+  ],
+  "declaration": {
+    "capability": "Ask the user multiple-choice clarification questions and continue with their answers",
+    "requiresUserInteraction": true,
+    "metadata": {
+      "name": "AskUserQuestion",
+      "description": "Use this tool only when you are blocked on a decision that is genuinely the user's to make: one you cannot resolve from the request, the code, or sensible defaults.\n\nUsage notes:\n- Users will always be able to select \"Other\" to provide custom text input\n- Use multiSelect: true to allow multiple answers to be selected for a question\n- If you recommend a specific option, make that the first option in the list and add \"(Recommended)\" at the end of the label\n\nPlan mode note: To switch into plan mode, use EnterPlanMode (not this tool). Once in plan mode, use this tool to clarify requirements or choose between approaches BEFORE finalizing your plan. Do NOT use this tool to ask \"Is my plan ready?\", \"Should I proceed?\", or otherwise reference \"the plan\" in questions — the user cannot see the plan until you call ExitPlanMode for approval.\n\nReserve this for decisions where the user's answer changes what you do next — not for choices with a conventional default or facts you can verify in the codebase yourself. In those cases pick the obvious option, mention it in your response, and proceed.\n\nPreview feature:\nUse the optional `preview` field on options when presenting concrete artifacts that users need to visually compare:\n- ASCII mockups of UI layouts or components\n- Code snippets showing different implementations\n- Diagram variations\n- Configuration examples\n\nPreview content is rendered as markdown in a monospace box. Multi-line text with newlines is supported. When any option has a preview, the UI switches to a side-by-side layout with a vertical option list on the left and preview on the right. Do not use previews for simple preference questions where labels and descriptions suffice. Note: previews are only supported for single-select questions (not multiSelect).\n",
+      "readOnly": true,
+      "destructive": false,
+      "concurrentSafe": true,
+      "requiresUserInteraction": true,
+      "timeoutMs": 30000,
+      "maxOutputBytes": 100000,
+      "sideEffectScope": "userInteraction",
+      "riskLevel": "low",
+      "needsApproval": true
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string",
+                "description": "The complete question to ask the user. Should be clear, specific, and end with a question mark. Example: \"Which library should we use for date formatting?\" If multiSelect is true, phrase it accordingly, e.g. \"Which features do you want to enable?\""
+              },
+              "header": {
+                "type": "string",
+                "description": "Very short label displayed as a chip/tag (max 12 chars). Examples: \"Auth method\", \"Library\", \"Approach\"."
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "The display text for this option that the user will see and select. Should be concise (1-5 words) and clearly describe the choice."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Explanation of what this option means or what will happen if chosen. Useful for providing context about trade-offs or implications."
+                    },
+                    "preview": {
+                      "type": "string",
+                      "description": "Optional preview content rendered when this option is focused. Use for mockups, code snippets, or visual comparisons that help users compare options. See the tool description for the expected content format."
+                    }
+                  },
+                  "required": ["label", "description"],
+                  "additionalProperties": false
+                },
+                "minItems": 2,
+                "maxItems": 4,
+                "description": "The available choices for this question. Must have 2-4 options. Each option should be a distinct, mutually exclusive choice (unless multiSelect is enabled). There should be no 'Other' option, that will be provided automatically."
+              },
+              "multiSelect": {
+                "type": "boolean",
+                "default": false,
+                "description": "Set to true to allow the user to select multiple options instead of just one. Use when choices are not mutually exclusive."
+              }
+            },
+            "required": ["question", "header", "options", "multiSelect"],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "description": "Questions to ask the user (1-4 questions)"
+        },
+        "answers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "User answers collected by the permission component",
+          "propertyNames": {
+            "type": "string"
+          }
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "preview": {
+                "type": "string",
+                "description": "The preview content of the selected option, if the question used previews."
+              },
+              "notes": {
+                "type": "string",
+                "description": "Free-text notes the user added to their selection."
+              }
+            },
+            "additionalProperties": false
+          },
+          "description": "Optional per-question annotations from the user (e.g., notes on preview selections). Keyed by question text.",
+          "propertyNames": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "Optional identifier for the source of this question (e.g., \"remember\" for /remember command). Used for analytics tracking."
+            }
+          },
+          "additionalProperties": false,
+          "description": "Optional metadata for tracking and analytics purposes. Not displayed to user."
+        }
+      },
+      "required": ["questions"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string",
+                "description": "The complete question to ask the user. Should be clear, specific, and end with a question mark. Example: \"Which library should we use for date formatting?\" If multiSelect is true, phrase it accordingly, e.g. \"Which features do you want to enable?\""
+              },
+              "header": {
+                "type": "string",
+                "description": "Very short label displayed as a chip/tag (max 12 chars). Examples: \"Auth method\", \"Library\", \"Approach\"."
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "The display text for this option that the user will see and select. Should be concise (1-5 words) and clearly describe the choice."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Explanation of what this option means or what will happen if chosen. Useful for providing context about trade-offs or implications."
+                    },
+                    "preview": {
+                      "type": "string",
+                      "description": "Optional preview content rendered when this option is focused. Use for mockups, code snippets, or visual comparisons that help users compare options. See the tool description for the expected content format."
+                    }
+                  },
+                  "required": ["label", "description"],
+                  "additionalProperties": false
+                },
+                "minItems": 2,
+                "maxItems": 4,
+                "description": "The available choices for this question. Must have 2-4 options. Each option should be a distinct, mutually exclusive choice (unless multiSelect is enabled). There should be no 'Other' option, that will be provided automatically."
+              },
+              "multiSelect": {
+                "type": "boolean",
+                "default": false,
+                "description": "Set to true to allow the user to select multiple options instead of just one. Use when choices are not mutually exclusive."
+              }
+            },
+            "required": ["question", "header", "options"],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "answers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "User answers keyed by question text.",
+          "propertyNames": {
+            "type": "string"
+          }
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "preview": {
+                "type": "string",
+                "description": "The preview content of the selected option, if the question used previews."
+              },
+              "notes": {
+                "type": "string",
+                "description": "Free-text notes the user added to their selection."
+              }
+            },
+            "additionalProperties": false
+          },
+          "description": "Optional per-question annotations keyed by question text.",
+          "propertyNames": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["questions", "answers"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "permission": {
+      "permission": "userInteraction.askQuestion",
+      "reason": "AskUserQuestion pauses execution to collect answers from the user",
+      "riskLevel": "low",
+      "sideEffectScope": "userInteraction",
+      "needsApproval": true,
+      "patternSources": ["toolName", "input"],
+      "alwaysAllowPatternSources": ["toolName"],
+      "denyPriority": "beforeAsk"
+    },
+    "resultBudget": {
+      "maxInlineBytes": 100000,
+      "maxModelBytes": 100000,
+      "strategy": "truncate",
+      "preview": {
+        "maxBytes": 100000,
+        "direction": "head"
+      }
+    },
+    "timeout": {
+      "defaultMs": 30000,
+      "maxMs": 30000,
+      "allowCallOverride": false
+    },
+    "cancellation": {
+      "supported": true,
+      "cleanup": "none",
+      "userVisibleMessage": "AskUserQuestion was cancelled before answers were returned"
+    },
+    "trace": {
+      "required": true,
+      "propagateToAdapters": false,
+      "recordInput": "summary",
+      "recordOutput": "summary"
+    }
+  },
+  "cases": [
+    {
+      "label": "missing",
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Required",
+              "path": []
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "null",
+      "input": null,
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected object, received null",
+              "path": []
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "array",
+      "input": [],
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected object, received array",
+              "path": []
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "primitive",
+      "input": 1,
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected object, received number",
+              "path": []
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "object",
+      "input": {},
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Required",
+              "path": ["questions"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "no-answers",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ]
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Answers have not been collected yet",
+              "path": ["answers"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "empty answers",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {}
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {}
+      },
+      "modelContent": "The user did not provide answers to these questions. Continue using your best judgment; do not treat this as a rejection or invent a user preference."
+    },
+    {
+      "label": "complete",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "modelContent": "User has answered your questions: \"Choose a colour?\"=\"Alpha (Recommended)\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "partial",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Choose a size?",
+            "header": "Size",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": true
+          }
+        ],
+        "answers": {
+          "Choose a size?": "Small, Large"
+        },
+        "annotations": {
+          "Choose a size?": {
+            "preview": "selected\nfragment",
+            "notes": "example note"
+          }
+        },
+        "metadata": {
+          "source": "example"
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          },
+          {
+            "question": "Choose a size?",
+            "header": "Size",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": true
+          }
+        ],
+        "answers": {
+          "Choose a size?": "Small, Large"
+        },
+        "annotations": {
+          "Choose a size?": {
+            "preview": "selected\nfragment",
+            "notes": "example note"
+          }
+        }
+      },
+      "modelContent": "The user answered some questions and skipped 1. Provided answers: \"Choose a size?\"=\"Small, Large\" selected preview:\nselected\nfragment user notes: example note. Continue with the provided answers and use your best judgment for the unanswered questions; do not invent user preferences."
+    },
+    {
+      "label": "reversed answers",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Choose a size?",
+            "header": "Size",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a size?": "Large",
+          "Choose a colour?": "Beta"
+        },
+        "annotations": {
+          "Choose a colour?": {
+            "preview": "",
+            "notes": ""
+          }
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          },
+          {
+            "question": "Choose a size?",
+            "header": "Size",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "Choose a size?": "Large",
+          "Choose a colour?": "Beta"
+        },
+        "annotations": {
+          "Choose a colour?": {
+            "preview": "",
+            "notes": ""
+          }
+        }
+      },
+      "modelContent": "User has answered your questions: \"Choose a size?\"=\"Large\", \"Choose a colour?\"=\"Beta\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "unknown answer keys",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "unlisted": "raw value"
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "unlisted": "raw value"
+        }
+      },
+      "modelContent": "The user answered some questions and skipped 1. Provided answers: \"unlisted\"=\"raw value\". Continue with the provided answers and use your best judgment for the unanswered questions; do not invent user preferences."
+    },
+    {
+      "label": "empty annotation map",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        },
+        "annotations": {}
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        },
+        "annotations": {}
+      },
+      "modelContent": "User has answered your questions: \"Choose a colour?\"=\"Alpha (Recommended)\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "raw whitespace",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": " raw answer \n"
+        },
+        "annotations": {
+          "unlisted": {
+            "notes": "outside"
+          },
+          "Choose a colour?": {
+            "preview": "<script>annotation</script>",
+            "notes": "  note  "
+          }
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "Choose a colour?": " raw answer \n"
+        },
+        "annotations": {
+          "unlisted": {
+            "notes": "outside"
+          },
+          "Choose a colour?": {
+            "preview": "<script>annotation</script>",
+            "notes": "  note  "
+          }
+        }
+      },
+      "modelContent": "User has answered your questions: \"Choose a colour?\"=\" raw answer \n\" selected preview:\n<script>annotation</script> user notes:   note  . You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "empty and long declarations",
+      "input": {
+        "questions": [
+          {
+            "question": "",
+            "header": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+            "options": [
+              {
+                "label": "",
+                "description": "Meaning of "
+              },
+              {
+                "label": "beta",
+                "description": "Meaning of beta"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "": "value"
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "",
+            "header": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+            "options": [
+              {
+                "label": "",
+                "description": "Meaning of "
+              },
+              {
+                "label": "beta",
+                "description": "Meaning of beta"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "": "value"
+        }
+      },
+      "modelContent": "User has answered your questions: \"\"=\"value\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "numeric answer order",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "2": "two",
+          "10": "ten",
+          "Choose a colour?": "Beta"
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "2": "two",
+          "10": "ten",
+          "Choose a colour?": "Beta"
+        }
+      },
+      "modelContent": "User has answered your questions: \"2\"=\"two\", \"10\"=\"ten\", \"Choose a colour?\"=\"Beta\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "multiselect previews",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": true
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Beta"
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": true
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Beta"
+        }
+      },
+      "modelContent": "User has answered your questions: \"Choose a colour?\"=\"Beta\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "four questions",
+      "input": {
+        "questions": [
+          {
+            "question": "Q0",
+            "header": "H0",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Q1",
+            "header": "H1",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Q2",
+            "header": "H2",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Q3",
+            "header": "H3",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Q0": "A"
+        }
+      },
+      "output": {
+        "questions": [
+          {
+            "question": "Q0",
+            "header": "H0",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          },
+          {
+            "question": "Q1",
+            "header": "H1",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          },
+          {
+            "question": "Q2",
+            "header": "H2",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          },
+          {
+            "question": "Q3",
+            "header": "H3",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "multiSelect": false
+          }
+        ],
+        "answers": {
+          "Q0": "A"
+        }
+      },
+      "modelContent": "The user answered some questions and skipped 3. Provided answers: \"Q0\"=\"A\". Continue with the provided answers and use your best judgment for the unanswered questions; do not invent user preferences."
+    },
+    {
+      "label": "blank known",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "  \n "
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Blank answer is not allowed for question: Choose a colour?",
+              "path": ["answers", "Choose a colour?"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "blank unknown",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "unknown": ""
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Blank answer is not allowed for question: unknown",
+              "path": ["answers", "unknown"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "wrong answer type",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": ["A"]
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected string, received array",
+              "path": ["answers", "Choose a colour?"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "wrong answer map",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": []
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected object, received array",
+              "path": ["answers"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "zero questions",
+      "input": {
+        "questions": [],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Array must contain at least 1 element(s)",
+              "path": ["questions"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "five questions",
+      "input": {
+        "questions": [
+          {
+            "question": "Q0",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Q1",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Q2",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Q3",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Q4",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Array must contain at most 4 element(s)",
+              "path": ["questions"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "one option",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Array must contain at least 2 element(s)",
+              "path": ["questions", 0, "options"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "five options",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "O0",
+                "description": "Meaning of O0"
+              },
+              {
+                "label": "O1",
+                "description": "Meaning of O1"
+              },
+              {
+                "label": "O2",
+                "description": "Meaning of O2"
+              },
+              {
+                "label": "O3",
+                "description": "Meaning of O3"
+              },
+              {
+                "label": "O4",
+                "description": "Meaning of O4"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Array must contain at most 4 element(s)",
+              "path": ["questions", 0, "options"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "duplicate labels",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A"
+              },
+              {
+                "label": "A",
+                "description": "Meaning of A"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Option labels must be unique within each question",
+              "path": ["questions", 0, "options"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "duplicate questions",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          },
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Question texts must be unique",
+              "path": ["questions"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "Other label",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A"
+              },
+              {
+                "label": " oThEr ",
+                "description": "Meaning of  oThEr "
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Do not include an Other option; clients provide it automatically",
+              "path": ["questions", 0, "options"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "root unknown",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        },
+        "extra": true
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Unrecognized key(s) in object: 'extra'",
+              "path": []
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "question id",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ],
+            "id": "example-id"
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Unrecognized key(s) in object: 'id'",
+              "path": ["questions", 0]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "option id",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A",
+                "id": "example-option"
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Unrecognized key(s) in object: 'id'",
+              "path": ["questions", 0, "options", 0]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "bad question types",
+      "input": {
+        "questions": [
+          {
+            "question": 8,
+            "header": null,
+            "options": [
+              {
+                "label": 1,
+                "description": null
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ],
+            "multiSelect": "yes"
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected string, received number",
+              "path": ["questions", 0, "question"]
+            },
+            {
+              "message": "Expected string, received null",
+              "path": ["questions", 0, "header"]
+            },
+            {
+              "message": "Expected string, received number",
+              "path": ["questions", 0, "options", 0, "label"]
+            },
+            {
+              "message": "Expected string, received null",
+              "path": ["questions", 0, "options", 0, "description"]
+            },
+            {
+              "message": "Expected boolean, received string",
+              "path": ["questions", 0, "multiSelect"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "bad annotations",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        },
+        "annotations": {
+          "Choose a colour?": {
+            "preview": 1,
+            "notes": null,
+            "extra": true
+          }
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected string, received number",
+              "path": ["annotations", "Choose a colour?", "preview"]
+            },
+            {
+              "message": "Expected string, received null",
+              "path": ["annotations", "Choose a colour?", "notes"]
+            },
+            {
+              "message": "Unrecognized key(s) in object: 'extra'",
+              "path": ["annotations", "Choose a colour?"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "metadata unknown",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        },
+        "metadata": {
+          "source": "example",
+          "extra": true
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Unrecognized key(s) in object: 'extra'",
+              "path": ["metadata"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "metadata type",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "Alpha (Recommended)",
+                "description": "Meaning of Alpha (Recommended)",
+                "preview": "<div>Alpha</div>"
+              },
+              {
+                "label": "Beta",
+                "description": "Meaning of Beta",
+                "preview": "plain\ncode"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        },
+        "metadata": {
+          "source": 1
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "Expected string, received number",
+              "path": ["metadata", "source"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "preview 0",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A",
+                "preview": "<!doctype html><div>x</div>"
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "HTML preview must be a fragment without html, body, or doctype",
+              "path": ["questions", 0, "options", 0, "preview"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "preview 1",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A",
+                "preview": "<html>x</html>"
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "HTML preview must be a fragment without html, body, or doctype",
+              "path": ["questions", 0, "options", 0, "preview"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "preview 2",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A",
+                "preview": "<body>x</body>"
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "HTML preview must be a fragment without html, body, or doctype",
+              "path": ["questions", 0, "options", 0, "preview"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "preview 3",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A",
+                "preview": "<script>x</script>"
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "HTML preview cannot contain script or style tags",
+              "path": ["questions", 0, "options", 0, "preview"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "preview 4",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A",
+                "preview": "<style>x</style>"
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "HTML preview cannot contain script or style tags",
+              "path": ["questions", 0, "options", 0, "preview"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    },
+    {
+      "label": "preview 5",
+      "input": {
+        "questions": [
+          {
+            "question": "Choose a colour?",
+            "header": "Colour",
+            "options": [
+              {
+                "label": "A",
+                "description": "Meaning of A",
+                "preview": "<!-- comment -->"
+              },
+              {
+                "label": "B",
+                "description": "Meaning of B"
+              }
+            ]
+          }
+        ],
+        "answers": {
+          "Choose a colour?": "Alpha (Recommended)"
+        }
+      },
+      "error": {
+        "name": "Error",
+        "type": "tool_execution_failed",
+        "code": "TOOL_EXECUTION_FAILED",
+        "message": "AskUserQuestion requires user answers before execution",
+        "context": {
+          "issues": [
+            {
+              "message": "HTML preview must contain an HTML tag",
+              "path": ["questions", 0, "options", 0, "preview"]
+            }
+          ],
+          "toolCallId": "example-question-call",
+          "toolName": "AskUserQuestion"
+        },
+        "recoverable": true,
+        "retryable": false
+      }
+    }
+  ],
+  "rawCases": [
+    {
+      "label": "empty answers before fields",
+      "output": {
+        "answers": {}
+      },
+      "modelContent": "The user did not provide answers to these questions. Continue using your best judgment; do not treat this as a rejection or invent a user preference."
+    },
+    {
+      "label": "no output",
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'answers')"
+      }
+    },
+    {
+      "label": "null output",
+      "output": null,
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of null (reading 'answers')"
+      }
+    },
+    {
+      "label": "missing answers",
+      "output": {},
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot convert undefined or null to object"
+      }
+    },
+    {
+      "label": "null answers",
+      "output": {
+        "answers": null
+      },
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot convert undefined or null to object"
+      }
+    },
+    {
+      "label": "missing questions",
+      "output": {
+        "answers": {
+          "Q": "A"
+        }
+      },
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'filter')"
+      }
+    },
+    {
+      "label": "null questions",
+      "output": {
+        "answers": {
+          "Q": "A"
+        },
+        "questions": null
+      },
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of null (reading 'filter')"
+      }
+    },
+    {
+      "label": "null question slot",
+      "output": {
+        "answers": {
+          "Q": "A"
+        },
+        "questions": [null]
+      },
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of null (reading 'question')"
+      }
+    },
+    {
+      "label": "raw annotations",
+      "output": {
+        "answers": {
+          "Q": "A"
+        },
+        "questions": [
+          {
+            "question": "Q"
+          }
+        ],
+        "annotations": {
+          "Q": {
+            "preview": "\npreview",
+            "notes": "\nnotes"
+          }
+        }
+      },
+      "modelContent": "User has answered your questions: \"Q\"=\"A\" selected preview:\n\npreview user notes: \nnotes. You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "raw numeric values",
+      "output": {
+        "answers": {
+          "Q": 7
+        },
+        "questions": [
+          {
+            "question": "Q"
+          }
+        ]
+      },
+      "modelContent": "User has answered your questions: \"Q\"=\"7\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "empty string answer",
+      "output": {
+        "answers": {
+          "Q": ""
+        },
+        "questions": [
+          {
+            "question": "Q"
+          }
+        ]
+      },
+      "modelContent": "User has answered your questions: \"Q\"=\"\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "prototype membership",
+      "output": {
+        "answers": {
+          "Q": "A"
+        },
+        "questions": [
+          {
+            "question": "toString"
+          }
+        ]
+      },
+      "modelContent": "User has answered your questions: \"Q\"=\"A\". You can now continue with the user's answers in mind."
+    },
+    {
+      "label": "duplicate missing questions",
+      "output": {
+        "answers": {
+          "Q": "A"
+        },
+        "questions": [
+          {
+            "question": "X"
+          },
+          {
+            "question": "X"
+          }
+        ]
+      },
+      "modelContent": "The user answered some questions and skipped 2. Provided answers: \"Q\"=\"A\". Continue with the provided answers and use your best judgment for the unanswered questions; do not invent user preferences."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "files": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+      "repository": "zai-org/ZCode",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "connector": "github_fetch_file",
+      "isError": false,
+      "encoding": "utf-8",
+      "bytes": 9125,
+      "returnedBlob": "5058cfadba4aa3b0f639e464e9a745d34f849a7e",
+      "recomputedGitBlob": "5058cfadba4aa3b0f639e464e9a745d34f849a7e",
+      "normalizedSha256": "58f90b82c044acf11e97d6932a482f1a451d3500c9f588351d7175ff03cd471a",
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+      "matchesInventoryBlobAndNormalizedSha": true,
+      "rawSourceUploadedOrPassedToAuthor": false,
+      "licenseIndependentExpressionAcceptance": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+      "repository": "zai-org/ZCode",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "connector": "github_fetch_file",
+      "isError": false,
+      "encoding": "utf-8",
+      "bytes": 10193,
+      "returnedBlob": "a4a6f3443928cf03d8ce74f57c3c0ddeabdb4a43",
+      "recomputedGitBlob": "a4a6f3443928cf03d8ce74f57c3c0ddeabdb4a43",
+      "normalizedSha256": "083ce8e798e2b7799c7af89a8468e74f07737a53bffd81679b343e5c8d0e093a",
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+      "matchesInventoryBlobAndNormalizedSha": true,
+      "rawSourceUploadedOrPassedToAuthor": false,
+      "licenseIndependentExpressionAcceptance": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+      "repository": "zai-org/ZCode",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "connector": "github_fetch_file",
+      "isError": false,
+      "encoding": "utf-8",
+      "bytes": 11150,
+      "returnedBlob": "0d82dce1ff08d9671204eb6a6b3480ead5d86218",
+      "recomputedGitBlob": "0d82dce1ff08d9671204eb6a6b3480ead5d86218",
+      "normalizedSha256": "1daa0ba9cd018f3663621d1ca599d78fccf079bbfdb41fbe4a8d3c740813d296",
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+      "matchesInventoryBlobAndNormalizedSha": true,
+      "rawSourceUploadedOrPassedToAuthor": false,
+      "licenseIndependentExpressionAcceptance": false
+    }
+  ],
+  "responseFileSha256": "174c11130d044681972ea41620c538faa691f80a4a23f9dccc2823d0b0c575e3",
+  "qualification": "Local git object gap persists; authorized fixed-path publisher reads succeeded, no equivalence between object gap and publisher denial. Mapping only, no MIT/right grant."
+}

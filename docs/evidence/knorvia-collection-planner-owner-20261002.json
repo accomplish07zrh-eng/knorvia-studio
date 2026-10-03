@@ -1,0 +1,314 @@
+{
+  "formatVersion": 1,
+  "kind": "collection-planner-complete-runtime-candidate",
+  "baseline": "129f47d6b2afe569538d0c76d9fe0840b061a7c7",
+  "freezeCommit": "a22cf34ad74d38cdc211241e3b5d4a0f9539870b",
+  "gapFreezeCommit": "cd8888dab9fa1de4b8393f0e020832883632d5a9",
+  "implementationCommit": "2dcdb5e5da481f00715097df0e527dd0bb3a6d95",
+  "design": {
+    "admission": "Synchronous ordered decisions; sweep exclusively accepts snapshot/additions/attempt count",
+    "attempt": "One async owner, original collection and immutable count, runner-visible active collection, child-only snapshot cursor",
+    "terminal": "Derived success/failure views, with failed publication rollback to cursor and retained late-child acceptance",
+    "awaitOwnership": "Original export/private-attempt/async-child callback levels; synchronous projection/admission helpers add no awaits",
+    "helperSplit": "Configured400-line limit; no contribution claim from splitting"
+  },
+  "ownedFiles": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "sha256": "c0038cbf4d18bd92030fe73b1c1c57a690283c7fafc9355397bf0a6c8f0032fc",
+      "bytes": 12819
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts",
+      "sha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+      "bytes": 3196
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-baseline.json",
+      "sha256": "d280e53af9b42aef8af9d6f17bdb469be83718010afb8caa0a9f94cdcc3043ba",
+      "bytes": 14432
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+      "sha256": "7cb12227f55f0d19e0c58e79c7166dc891671d0fd91686000e3ae4ff38a9054b",
+      "bytes": 4945
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
+      "sha256": "6fcf00289e9867624ccb8dff51820456c54ccf7edd222ef4b5b055ff0bf519a3",
+      "bytes": 2737
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "sha256": "c5669dd37cb433e21a7128c3c79aa66c32623c52801f6a7414b840d3f9ca3bd9",
+      "bytes": 14419
+    },
+    {
+      "path": "specs/knorvia-collection-planner-owner-20261002.md",
+      "sha256": "1569b6e2962d21d9277da1b28061ba5f5653ba5656470119db659802db0a8681",
+      "bytes": 5540
+    },
+    {
+      "path": "docs/evidence/knorvia-collection-planner-freeze-20261002.json",
+      "sha256": "6426fb9b58312cfab3a2a75add451b365e9348cebe45bc93ab5e64450d97bffb",
+      "bytes": 4626
+    },
+    {
+      "path": "docs/evidence/knorvia-collection-planner-mutation-red-20261002.json",
+      "sha256": "3ecc1dc302d57422e4a498e256cb62630bd7b66ef9eca44f56545fb38c626228",
+      "bytes": 4019
+    },
+    {
+      "path": "docs/knorvia-collection-planner-handoff-20261002.md",
+      "sha256": "5a9bc878a626e8dda35ab2cd7672ac6e8a2e35f9f2583afa0f5455951577886b",
+      "bytes": 3574
+    }
+  ],
+  "emittedFiles": [
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+      "sha256": "93cf2ad3b9dc842d4447cf5170313cff4207f8e0112cb7ac14f1ab1a92c078d1",
+      "bytes": 11934
+    },
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.d.ts",
+      "sha256": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+      "bytes": 560
+    },
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.js",
+      "sha256": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+      "bytes": 2563
+    },
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.d.ts",
+      "sha256": "094a501110470842331c4f70c1254305086d0ed73c257168cbf4b450c3c07d66",
+      "bytes": 791
+    }
+  ],
+  "validation": {
+    "source": {
+      "groups": 8,
+      "passed": 8,
+      "exit": 0
+    },
+    "emitted": {
+      "groups": 8,
+      "passed": 8,
+      "exit": 0
+    },
+    "groups": {
+      "pairedBehavior": 6,
+      "actualConsumer": 1,
+      "selector": 1,
+      "overlap": "Consumer reproduces earlier scheduler expansion observation; source/emitted are two modes of same eight groups, not sixteen unique cases"
+    },
+    "currentArtifactBindings": 42,
+    "wrongMissingControlsPerMode": 14,
+    "compilerOwner": {
+      "node": "v24.19.0",
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "sourceSha256": "c0038cbf4d18bd92030fe73b1c1c57a690283c7fafc9355397bf0a6c8f0032fc",
+      "emittedSha256": "93cf2ad3b9dc842d4447cf5170313cff4207f8e0112cb7ac14f1ab1a92c078d1",
+      "declarationSha256": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+      "pins": "7cb12227f55f0d19e0c58e79c7166dc891671d0fd91686000e3ae4ff38a9054b",
+      "bindings": 42
+    },
+    "scopedTypes": {
+      "node": "v24.19.0",
+      "typescript": "6.0.2",
+      "roots": [
+        "src/workflow/scheduler/collection-planner.ts",
+        "src/workflow/scheduler/collection-planner-admission.ts",
+        "test/workflow-collection-planner.test.ts",
+        "test/workflow-collection-planner-fixture.ts"
+      ],
+      "diagnostics": 0,
+      "originalPublicDeclarationBytesEqual": true,
+      "options": "Existing core options; rootDir extended to core only for owned test roots; no target/type-rule overrides"
+    },
+    "testTypeOnlyErasureProof": {
+      "beforeSourceSha256": "52b42252d3159f19cd4a93dfff5d5091955945f75d9a32e348337ea831a597aa",
+      "finalSourceSha256": "c5669dd37cb433e21a7128c3c79aa66c32623c52801f6a7414b840d3f9ca3bd9",
+      "runtimeTestSyntaxEqual": true,
+      "emittedTestSyntaxSha256": "617b0f319b8c09465b51c6b7b2bd675c219803a3c70e82916a912b7046872f02",
+      "change": "One type-only import/assertion through unknown and explanatory fixture comment; raw inputs and all assertions unchanged",
+      "scopedLint": "Exact root config/rules/overrides; remove ignorePatterns only for explicitly owned paths, no repository setting change"
+    },
+    "configuredRootLint": "0files: CLI excluded; not counted as owned coverage",
+    "ownedConfiguredLint": {
+      "files": 4,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "configuration": "Exact root rules/overrides; only ignorePatterns removed in temporary scoped configuration"
+    },
+    "additionalOwnedDefaultLint": {
+      "files": 4,
+      "rules": 93,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": "Nine owned source/fixture/spec/evidence files passed; type-only fixture final formatting passed separately",
+    "architecture": {
+      "mode": "changed",
+      "module": "cli (unmanaged in current policy)",
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    }
+  },
+  "portableFinalLogs": {
+    "final-source.log": "\u2714 source: admission bypass and planner-limit priority (4.751882ms)\n\u2714 source: activation/child gates and successful publication identity (5.163437ms)\n\u2714 source: runner failure retains linked identity and threshold exhaustion (1.51591ms)\n\u2714 source: activation failure and execution abort propagate exact errors (1.246645ms)\n\u2714 source: terminal projection rollback and retained late-child cursor (3.046753ms)\n\u2714 source: preserved actual scheduler expansion consumer (3.716829ms)\n\u2714 source: runner-visible collection mutation leaves original artifact identity/count (1.366581ms)\n\u2714 source: exact historical and current owner selection fail closed (133.869941ms)\n\u2139 tests 8\n\u2139 suites 0\n\u2139 pass 8\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2977.787511\n",
+    "final-emitted.log": "\u2714 emitted: admission bypass and planner-limit priority (4.212418ms)\n\u2714 emitted: activation/child gates and successful publication identity (4.477198ms)\n\u2714 emitted: runner failure retains linked identity and threshold exhaustion (1.572854ms)\n\u2714 emitted: activation failure and execution abort propagate exact errors (1.59682ms)\n\u2714 emitted: terminal projection rollback and retained late-child cursor (2.809454ms)\n\u2714 emitted: preserved actual scheduler expansion consumer (3.505568ms)\n\u2714 emitted: runner-visible collection mutation leaves original artifact identity/count (1.150643ms)\n\u2714 emitted: exact historical and current owner selection fail closed (86.593236ms)\n\u2139 tests 8\n\u2139 suites 0\n\u2139 pass 8\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2992.050824\n",
+    "final-types.log": "{\"node\":\"v24.19.0\",\"typescript\":\"6.0.2\",\"roots\":[\"src/workflow/scheduler/collection-planner.ts\",\"src/workflow/scheduler/collection-planner-admission.ts\",\"test/workflow-collection-planner.test.ts\",\"test/workflow-collection-planner-fixture.ts\"],\"diagnostics\":0,\"originalPublicDeclarationBytesEqual\":true,\"options\":\"Existing core options; rootDir extended to core only for owned test roots; no target/type-rule overrides\"}\n",
+    "scoped-configured-lint.log": "Found 0 warnings and 0 errors.\nFinished in 20ms on 4 files with 94 rules using 4 threads.\n",
+    "owned-lint.log": "Found 0 warnings and 0 errors.\nFinished in 17ms on 4 files with 93 rules using 4 threads.\n",
+    "architecture.log": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n"
+  },
+  "localProofBindings": [
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/final-owner-compile.log",
+      "sha256": "2fe2fa0c6233083f0360c6efc66a0ac0c48f259b77eaa46ce28294d893ca1c0c",
+      "bytes": 397
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/final-types.json",
+      "sha256": "109b0c706df30fc236ef21998b5edeff70c3eb16be98a2a7e6b0eaaa93154374",
+      "bytes": 468
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/final-types.log",
+      "sha256": "855756b345e7374f3a892f54a618b3bf0a220acaa445c541b75fbf862aa6ee6d",
+      "bytes": 420
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/final-source.log",
+      "sha256": "b22cefcc2f77dcab31bc261cc19944ad954a33758a0d1ee356f9b345a6b89711",
+      "bytes": 784
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/final-emitted.log",
+      "sha256": "6885bd9568d15bad83f0978b3a0f49bab0a8e52270d2f39a7813c3bf8227c5f8",
+      "bytes": 791
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/final-source-status.json",
+      "sha256": "5bc232b82de377a5655a39a2af9d7ae0fc868de5b9df957e18905cb914606c88",
+      "bytes": 12
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/final-emitted-status.json",
+      "sha256": "5bc232b82de377a5655a39a2af9d7ae0fc868de5b9df957e18905cb914606c88",
+      "bytes": 12
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/types-initial-failure.log",
+      "sha256": "b18ad01274c5800d2176196fe71dfe84005f1fa83ee3682fbaade40c888cfcc6",
+      "bytes": 2213
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/types-cast-failure.log",
+      "sha256": "ac3076e6d97586aa6f75b95daa067ec42e51e1c534e92e24d13c807ba43f136b",
+      "bytes": 2080
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/test-erasure.json",
+      "sha256": "def52a2592758e752b89b74a3c82c7a3a5de654e80814940954094b5fc2f1d86",
+      "bytes": 590
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/test-before-typefix.ts",
+      "sha256": "52b42252d3159f19cd4a93dfff5d5091955945f75d9a32e348337ea831a597aa",
+      "bytes": 14180
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/configured-lint.log",
+      "sha256": "ff10cf877305da154e7e3c4135cf5cfda98d89fa6dec14eed4d27a193c54fada",
+      "bytes": 127
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/scoped-configured-lint.log",
+      "sha256": "c7391156047a670ec762647da17bf59aa552aa2fd8499436540353911f6012a6",
+      "bytes": 90
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/owned-lint.log",
+      "sha256": "6a8957b1352a72a5dae22db8cc0620b23e2793d4450fb55f1cb0af671dbea0ad",
+      "bytes": 90
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "bytes": 50
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/format.log",
+      "sha256": "7338955acdc454da187f0373b7cee1b24262c550ee5c05351636165dc5ab7214",
+      "bytes": 112
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/prepare.mjs",
+      "sha256": "9398c85df7ee62f0a723914898adfddf5bf89b6a9bbc594b178423bfed371aa3",
+      "bytes": 3396
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/check-types.mjs",
+      "sha256": "8d465aa2822a88c80032dba1f7085850a9ae8ab9ad38a5e2214ad1ce23636a92",
+      "bytes": 1537
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/check-test-erasure.mjs",
+      "sha256": "43bf5d134410715bdba73aaf5a55adc91322d067b916148ad46f9ab65485150e",
+      "bytes": 1827
+    }
+  ],
+  "failuresPreserved": {
+    "draftMutation": "One failing group per source/emitted mode, baseline assertion first passes; cd8888d portable red evidence and immutable baseline retained",
+    "initialFixture": "Unsupported collection-reference equality caused an owned gate stall; corrected before initial freeze, interrupted exit130 recorded",
+    "fixtureTyping": [
+      "TS2322 raw partial node incompatible with declared output",
+      "TS2352 cast required explicit unknown boundary; runtime input/assertions unchanged, emitted syntax proof"
+    ],
+    "initialSetup": "Default freshness fetch blocked by proxy; succeeded through supported per-command executor permissions. Guessed architecture script/manifest paths absent, actual package scripts then succeeded"
+  },
+  "sourceFacts": {
+    "inventory": "upstream-modified/unreviewed at baseline",
+    "publisherPath": "apps/zcode-cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+    "publisherBlob": "bdcd8ba5e2abdc95cbe52c5a9280ec51079ab7f0",
+    "publisherNormalizedSha256": "3ccdf67a46bd88524debc3094d3a8455a74c8c16d64d5c787a043c0460594b24",
+    "verification": "Inventory metadata only; git object absent locally. No publisher fetch/verification invented",
+    "parentFreeze": "48f045d absent locally; parent-reported four areas not counted as local execution"
+  },
+  "sourceExposure": "Implementer read predecessor, API/callers/dependencies and source-derived functional spec; no restricted-input/clean-room author claim",
+  "retainedExpression": [
+    "Fixed runtime prose and protocol/type/ordered-field vocabulary",
+    "Conditional truthy/nullish model/session/trace/turn projections and conventional helper/spread/loop/await glue",
+    "Required graph/prompt/expansion/event helper calls and effect order; their bodies untouched"
+  ],
+  "historicalProofs": "Exact source commit/hash plus archived JS/declaration; old baseline assertions unchanged, one mutation group and private-helper selector controls appended. Original scheduler/node/event files/selectors untouched.",
+  "limits": [
+    "No full suite or aggregate build per authorized cadence",
+    "Node24.19.0 differs from pinned24.14.0; no native Windows/macOS/pinned-node pass",
+    "No broad getter/thenable grid; deterministic synthetic ordinary records and native gates",
+    "Root integrated scheduler/current-artifact migration and independent exact-publisher expression review remain",
+    "No live IO/provider/workflow/user data, security/settings/header/global inventory changes"
+  ],
+  "remainingBlocker": null,
+  "licenceGrant": null,
+  "publicationClaim": false,
+  "finalEvidenceChecks": {
+    "receiptBindings": 33,
+    "currentArtifactBindings": 42,
+    "frozenAssertionsRetainedInOrder": 80,
+    "immutableArchive": true,
+    "protectedPathsUnchanged": true,
+    "parsedCommentBoundaryCounts": {
+      "predecessor": 0,
+      "currentOwner": 1,
+      "currentAdmission": 1
+    },
+    "changedTrackedPaths": 9
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "owner": "WorkflowSchedulerEventLog",
+  "status": "frozen_uninstalled_evidence_draft",
+  "freeze_time_utc": "2026-10-02T16:36:53.365697Z",
+  "artifacts": [
+    {
+      "path": "/tmp/knorvia-event-log-author-20261002/inputs/contract.md",
+      "sha256": "ce4463a056fd19af8f34d7cfc61edc95fa449b4d9757f32868700bd0f92bab91",
+      "byte_count": 13647,
+      "role": "frozen_input"
+    },
+    {
+      "path": "/tmp/knorvia-event-log-author-20261002/inputs/public-api.d.ts",
+      "sha256": "7fee633393fd228aabf9057efe3d74ebd93d234b38ee50d240d76d6173a1fc33",
+      "byte_count": 3121,
+      "role": "frozen_input"
+    },
+    {
+      "path": "/tmp/knorvia-event-log-author-20261002/inputs/public-data-shapes.md",
+      "sha256": "b77596c0b62b857849836bb7c84ae4dfc67bca75230b6e0c0dccefb3cc738e44",
+      "byte_count": 6082,
+      "role": "frozen_input"
+    },
+    {
+      "path": "/tmp/knorvia-event-log-author-20261002/output/events.ts",
+      "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174",
+      "byte_count": 3724,
+      "role": "frozen_draft"
+    }
+  ],
+  "actual_reads": [
+    {
+      "operation": "cat for authoring",
+      "paths": [
+        "/tmp/knorvia-event-log-author-20261002/inputs/contract.md",
+        "/tmp/knorvia-event-log-author-20261002/inputs/public-api.d.ts",
+        "/tmp/knorvia-event-log-author-20261002/inputs/public-data-shapes.md"
+      ]
+    },
+    {
+      "operation": "read_bytes for freeze SHA-256 and byte count",
+      "paths": [
+        "/tmp/knorvia-event-log-author-20261002/inputs/contract.md",
+        "/tmp/knorvia-event-log-author-20261002/inputs/public-api.d.ts",
+        "/tmp/knorvia-event-log-author-20261002/inputs/public-data-shapes.md",
+        "/tmp/knorvia-event-log-author-20261002/output/events.ts"
+      ]
+    }
+  ],
+  "boundary_breaches": [],
+  "unresolved_questions": [],
+  "compilation_run": false,
+  "tests_run": false,
+  "comparisons_run": false,
+  "production_files_modified": false,
+  "other_authors_contacted": false,
+  "self_hash_policy": "This record is excluded from its embedded artifact hashes; its separate SHA-256 is reported after writing."
+}

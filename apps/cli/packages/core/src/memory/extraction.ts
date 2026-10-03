@@ -3,8 +3,6 @@ import { resolveContainedMemoryFilePath } from "./memory-file-path.js";
 import { formatMemoryManifest } from "./recall/manifest.js";
 import type { MemoryManifestEntry } from "./recall/types.js";
 
-const MINIMUM_USER_WORDS = 3;
-
 type MemoryExtractionExecutionStatus = "success" | "no-op" | "error" | "aborted";
 
 export interface MemoryExtractionSnapshot {
@@ -14,14 +12,6 @@ export interface MemoryExtractionSnapshot {
   workingDirectory: string;
   workspaceRoot: string;
 }
-
-type MemoryExtractionDecision =
-  | { decision: "run"; messageCount: number }
-  | {
-      decision: "skip";
-      messageCount: number;
-      reason: "direct-memory-write" | "no-user-prose";
-    };
 
 interface MemoryExtractionExecutionInput {
   abortSignal: AbortSignal;
@@ -43,44 +33,28 @@ export function buildMemoryExtractionPrompt(input: {
   manifest: readonly MemoryManifestEntry[];
   messageCount: number;
 }): string {
-  const existingMemories =
+  const existingFiles =
     input.manifest.length > 0
-      ? `\n\n## Existing memory files\n\n${formatMemoryManifest(input.manifest)}\n\nCheck this list before writing \u2014 update an existing file rather than creating a duplicate.`
+      ? `\n\n## Existing memory files\n\n${formatMemoryManifest(input.manifest)}\n\nCheck this list before writing — update an existing file rather than creating a duplicate.`
       : "";
-
   return [
     `You are now acting as the memory extraction subagent. Analyze the most recent ~${input.messageCount} messages above and use them to update your persistent memory systems.`,
     "",
-    "Available tools: Read, Grep, Glob, read-only Bash (ls/find/cat/stat/wc/head/tail and similar), and Edit/Write for paths inside the memory directory only, and Bash rm with paths inside the memory directory only. All other tools \u2014 MCP, Agent, write-capable Bash, etc \u2014 will be denied.",
+    "Available tools: Read, Grep, Glob, read-only Bash (ls/find/cat/stat/wc/head/tail and similar), and Edit/Write for paths inside the memory directory only, and Bash rm with paths inside the memory directory only. All other tools — MCP, Agent, write-capable Bash, etc — will be denied.",
     "",
-    "You have a limited turn budget. Edit requires a prior Read of the same file, so the efficient strategy is: turn 1 \u2014 issue all Read calls in parallel for every file you might update; turn 2 \u2014 issue all Write/Edit calls in parallel. Do not interleave reads and writes across multiple turns.",
+    "You have a limited turn budget. Edit requires a prior Read of the same file, so the efficient strategy is: turn 1 — issue all Read calls in parallel for every file you might update; turn 2 — issue all Write/Edit calls in parallel. Do not interleave reads and writes across multiple turns.",
     "",
-    `You MUST only use content from the last ~${input.messageCount} messages to update your persistent memories. Do not waste any turns attempting to investigate or verify that content further \u2014 no grepping source files, no reading code to confirm a pattern exists, no git commands.${existingMemories}`,
+    `You MUST only use content from the last ~${input.messageCount} messages to update your persistent memories. Do not waste any turns attempting to investigate or verify that content further — no grepping source files, no reading code to confirm a pattern exists, no git commands.${existingFiles}`,
     "",
     "If nothing is worth saving, output only 'Nothing to save.' Do not explain why.",
     "",
     "If the user explicitly asks you to remember something, save it immediately as whichever type fits best. If they ask you to forget something, find and remove the relevant entry.",
     "",
-    "Apply the memory types, what-not-to-save criteria, and frontmatter format from the Memory section of your system prompt \u2014 it is already in your context above.",
+    "Apply the memory types, what-not-to-save criteria, and frontmatter format from the Memory section of your system prompt — it is already in your context above.",
   ].join("\n");
 }
 
-function evaluateMemoryExtraction(
-  snapshot: MemoryExtractionSnapshot,
-  cursor: MessageId | undefined,
-): MemoryExtractionDecision {
-  const messageCount = countMessagesAfterCursor(snapshot.durableMessages, cursor);
-
-  if (containsDirectMemoryWrite(snapshot, cursor)) {
-    return { decision: "skip", messageCount, reason: "direct-memory-write" };
-  }
-
-  if (!containsEligibleUserProse(snapshot.durableMessages, cursor)) {
-    return { decision: "skip", messageCount, reason: "no-user-prose" };
-  }
-
-  return { decision: "run", messageCount };
-}
+type Acquisition<T> = Promise<{ snapshot: T } | undefined>;
 
 export function createMemoryExtractionScheduler<
   TSnapshot extends MemoryExtractionSnapshot = MemoryExtractionSnapshot,
@@ -89,213 +63,164 @@ export function createMemoryExtractionScheduler<
     input: Omit<MemoryExtractionExecutionInput, "snapshot"> & { snapshot: TSnapshot },
   ) => Promise<MemoryExtractionExecutionStatus>,
 ): MemoryExtractionScheduler<TSnapshot> {
+  const controller = new AbortController();
   let cursor: MessageId | undefined;
-  let latestPending: Promise<SnapshotAcquisition<TSnapshot>> | undefined;
-  let running: Promise<void> | undefined;
-  let shuttingDown = false;
-  const shutdownController = new AbortController();
+  let stopped = false;
+  let busy = false;
+  let accepted = 0;
+  let pending: Acquisition<TSnapshot> | undefined;
+  let completion: Promise<void> | undefined;
 
-  const processSnapshot = async (snapshot: TSnapshot): Promise<void> => {
-    const decision = evaluateMemoryExtraction(snapshot, cursor);
-    const snapshotEnd = snapshot.boundaryMessageId;
-
-    if (decision.decision === "skip") {
-      if (snapshotEnd) cursor = snapshotEnd;
-      return;
-    }
-
-    let status: MemoryExtractionExecutionStatus;
+  function acquire(snapshot: TSnapshot | Promise<TSnapshot>): Acquisition<TSnapshot> {
     try {
-      status = await execute({
-        abortSignal: shutdownController.signal,
-        messageCount: decision.messageCount,
-        snapshot,
-      });
+      return Promise.resolve(snapshot).then(
+        (value) => ({ snapshot: value }),
+        () => undefined,
+      );
     } catch {
-      return;
+      return Promise.resolve(undefined);
+    }
+  }
+
+  function waitForSnapshot(ticket: Acquisition<TSnapshot>): Acquisition<TSnapshot> {
+    const signal = controller.signal;
+    if (signal.aborted) return Promise.resolve(undefined);
+    return new Promise((resolve) => {
+      let finished = false;
+      const finish = (value: { snapshot: TSnapshot } | undefined) => {
+        if (finished) return;
+        finished = true;
+        signal.removeEventListener("abort", onAbort);
+        resolve(value);
+      };
+      const onAbort = () => finish(undefined);
+      signal.addEventListener("abort", onAbort, { once: true });
+      ticket.then(finish, () => finish(undefined));
+      if (signal.aborted) onAbort();
+    });
+  }
+
+  async function process(ticket: Acquisition<TSnapshot>): Promise<void> {
+    const acquired = await waitForSnapshot(ticket);
+    if (!acquired || stopped) return;
+    const snapshot = acquired.snapshot;
+    const messages = snapshot.durableMessages;
+    const previous = cursor;
+    const located = previous ? messages.findIndex((message) => message.info.id === previous) : -1;
+    const proseStart = previous && located >= 0 ? located + 1 : 0;
+    const messageCount = messages.length - proseStart;
+    const writeStart = previous && located < 0 ? messages.length : proseStart;
+    let directWrite = false;
+
+    for (let i = writeStart; i < messages.length && !directWrite; i += 1) {
+      const message = messages[i];
+      if (message.info.role !== "assistant") continue;
+      for (const part of message.parts) {
+        if (part.type !== "tool") continue;
+        const tool: ToolPart = part;
+        if (tool.tool !== "Write" && tool.tool !== "Edit") continue;
+        const filePath = tool.state.input.file_path;
+        if (typeof filePath !== "string" || filePath.length === 0) continue;
+        if (
+          resolveContainedMemoryFilePath({
+            filePath,
+            rootDir: snapshot.memoryRoot,
+            workingDirectory: snapshot.workingDirectory,
+            workspaceRoot: snapshot.workspaceRoot,
+          })
+        ) {
+          directWrite = true;
+          break;
+        }
+      }
     }
 
-    if (!shuttingDown && (status === "success" || status === "no-op") && snapshotEnd) {
-      cursor = snapshotEnd;
-    }
-  };
-
-  const run = async (first: Promise<SnapshotAcquisition<TSnapshot>>): Promise<void> => {
-    try {
-      let current: Promise<SnapshotAcquisition<TSnapshot>> | undefined = first;
-      while (current && !shuttingDown) {
-        const acquisition = await waitForSnapshotAcquisitionOrShutdown(
-          current,
-          shutdownController.signal,
-        );
-        if (acquisition.status === "shutdown" || shuttingDown) break;
-        if (acquisition.status === "acquired") {
-          try {
-            await processSnapshot(acquisition.snapshot);
-          } catch {
-            // 本次 error 不推进 cursor；latest pending 仍按既有 coalescing 语义继续。
+    let eligible = false;
+    if (!directWrite) {
+      for (let i = proseStart; i < messages.length && !eligible; i += 1) {
+        const message = messages[i];
+        if (
+          message.info.role !== "user" ||
+          message.info.synthetic === true ||
+          message.info.visibility === "model-only"
+        )
+          continue;
+        for (const part of message.parts) {
+          if (part.type !== "text" || part.ignored === true || part.synthetic === true) continue;
+          if (part.text.split(/\s+/u).filter((word) => word.length > 0).length >= 3) {
+            eligible = true;
+            break;
           }
         }
-        current = shuttingDown ? undefined : latestPending;
-        latestPending = undefined;
+      }
+    }
+
+    const boundary = snapshot.boundaryMessageId;
+    if (stopped) return;
+    if (directWrite || !eligible) {
+      if (boundary) cursor = boundary;
+      return;
+    }
+    const status = await execute({
+      abortSignal: controller.signal,
+      messageCount,
+      snapshot,
+    });
+    if (!stopped && boundary && (status === "success" || status === "no-op")) {
+      cursor = boundary;
+    }
+  }
+
+  async function run(first: Acquisition<TSnapshot>, release: () => void): Promise<void> {
+    let ticket: Acquisition<TSnapshot> | undefined = first;
+    try {
+      while (ticket && !stopped) {
+        try {
+          await process(ticket);
+        } catch {
+          // Failures belong to this operation; later accepted snapshots still run.
+        }
+        ticket = stopped ? undefined : pending;
+        pending = undefined;
       }
     } finally {
-      if (shuttingDown) latestPending = undefined;
-      running = undefined;
+      busy = false;
+      completion = undefined;
+      release();
     }
-  };
+  }
 
   return {
-    async drain() {
-      while (running) {
-        await running;
-      }
+    drain() {
+      return completion ?? Promise.resolve();
     },
     getCursor() {
       return cursor;
     },
     hasPendingWork() {
-      return running !== undefined || latestPending !== undefined;
+      return busy || pending !== undefined;
     },
     schedule(snapshot) {
-      if (shuttingDown) return;
-      const acquisition = acquireSnapshot(snapshot);
-      if (running) {
-        latestPending = acquisition;
+      if (stopped) return;
+      const order = ++accepted;
+      if (busy) {
+        const ticket = acquire(snapshot);
+        if (!stopped && order === accepted) pending = ticket;
         return;
       }
-
-      running = run(acquisition);
+      busy = true;
+      let release!: () => void;
+      completion = new Promise<void>((resolve) => {
+        release = resolve;
+      });
+      const first = acquire(snapshot);
+      void run(first, release);
     },
     shutdown() {
-      if (shuttingDown) return;
-      // Knorvia 关闭单个 session 后进程仍继续运行；旧 scheduler 只让调用方
-      // 放弃等待，running/pending Extraction 仍可能继续请求模型和写 Memory。
-      shuttingDown = true;
-      latestPending = undefined;
-      shutdownController.abort();
+      if (stopped) return;
+      stopped = true;
+      pending = undefined;
+      controller.abort();
     },
   };
-}
-
-type SnapshotAcquisition<TSnapshot> =
-  | { status: "acquired"; snapshot: TSnapshot }
-  | { status: "error" };
-
-type SnapshotAcquisitionWait<TSnapshot> = SnapshotAcquisition<TSnapshot> | { status: "shutdown" };
-
-function acquireSnapshot<TSnapshot>(
-  snapshot: TSnapshot | Promise<TSnapshot>,
-): Promise<SnapshotAcquisition<TSnapshot>> {
-  return Promise.resolve(snapshot).then(
-    (value) => ({ status: "acquired", snapshot: value }),
-    () => ({ status: "error" }),
-  );
-}
-
-function waitForSnapshotAcquisitionOrShutdown<TSnapshot>(
-  acquisition: Promise<SnapshotAcquisition<TSnapshot>>,
-  signal: AbortSignal,
-): Promise<SnapshotAcquisitionWait<TSnapshot>> {
-  if (signal.aborted) return Promise.resolve({ status: "shutdown" });
-
-  return new Promise((resolve) => {
-    const onAbort = (): void => {
-      cleanup();
-      resolve({ status: "shutdown" });
-    };
-    const cleanup = (): void => {
-      signal.removeEventListener("abort", onAbort);
-    };
-
-    signal.addEventListener("abort", onAbort, { once: true });
-    void acquisition.then((result) => {
-      cleanup();
-      resolve(result);
-    });
-  });
-}
-
-function countMessagesAfterCursor(
-  messages: readonly MessageWithParts[],
-  cursor: MessageId | undefined,
-): number {
-  if (!cursor) return messages.length;
-  const cursorIndex = messages.findIndex((message) => message.info.id === cursor);
-  return cursorIndex < 0 ? messages.length : messages.length - cursorIndex - 1;
-}
-
-function containsDirectMemoryWrite(
-  snapshot: MemoryExtractionSnapshot,
-  cursor: MessageId | undefined,
-): boolean {
-  const messages = messagesAfterFoundCursor(snapshot.durableMessages, cursor);
-  if (!messages) return false;
-
-  for (const message of messages) {
-    if (message.info.role !== "assistant") continue;
-    for (const part of message.parts) {
-      if (!isMemoryMutationToolPart(part)) continue;
-      const filePath = part.state.input.file_path;
-      if (typeof filePath !== "string" || filePath.length === 0) continue;
-      if (
-        resolveContainedMemoryFilePath({
-          filePath,
-          rootDir: snapshot.memoryRoot,
-          workingDirectory: snapshot.workingDirectory,
-          workspaceRoot: snapshot.workspaceRoot,
-        })
-      ) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-function containsEligibleUserProse(
-  messages: readonly MessageWithParts[],
-  cursor: MessageId | undefined,
-): boolean {
-  const messagesAfterCursor = messagesAfterFoundCursor(messages, cursor) ?? messages;
-  for (const message of messagesAfterCursor) {
-    if (!isNonMetaUserMessage(message)) continue;
-    for (const part of message.parts) {
-      if (
-        part.type === "text" &&
-        part.ignored !== true &&
-        part.synthetic !== true &&
-        countWords(part.text) >= MINIMUM_USER_WORDS
-      ) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-function messagesAfterFoundCursor(
-  messages: readonly MessageWithParts[],
-  cursor: MessageId | undefined,
-): readonly MessageWithParts[] | undefined {
-  if (!cursor) return messages;
-  const cursorIndex = messages.findIndex((message) => message.info.id === cursor);
-  return cursorIndex < 0 ? undefined : messages.slice(cursorIndex + 1);
-}
-
-function isNonMetaUserMessage(message: MessageWithParts): boolean {
-  return (
-    message.info.role === "user" &&
-    message.info.synthetic !== true &&
-    message.info.visibility !== "model-only"
-  );
-}
-
-function isMemoryMutationToolPart(part: MessageWithParts["parts"][number]): part is ToolPart {
-  return part.type === "tool" && (part.tool === "Write" || part.tool === "Edit");
-}
-
-function countWords(text: string): number {
-  return text.split(/\s+/u).filter(Boolean).length;
 }

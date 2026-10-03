@@ -1,0 +1,35 @@
+{
+  "reservedAtUtc": "2026-10-02T21:06:17.183575+00:00",
+  "baseline": "37df18f3bad1c966e3feb1d1aed5cb5d69c387a8",
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcHelpers.ts",
+      "lines": 121,
+      "bytes": 4008,
+      "sha256": "f1cdd0cc53d7a816a49ef3baeccfffee9440c4ac7b3fada0520b5f0b1d4f957a",
+      "targetBodyReviewedForReservation": false
+    },
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcRemote.ts",
+      "lines": 359,
+      "bytes": 13216,
+      "sha256": "c4aec50428f71f69961cf2444ce9d96a8e6b4a0e0640e5a7f4d441068c73774b",
+      "targetBodyReviewedForReservation": false
+    },
+    {
+      "path": "packages/desktop/src/main/desktopRemoteSessions.ts",
+      "lines": 808,
+      "bytes": 29431,
+      "sha256": "d24288c326a97ae7b0356ece7fdc0a9903d4cd245cc6e8f5f83170b3fda09ef0",
+      "targetBodyReviewedForReservation": false
+    }
+  ],
+  "acceptedSearch": "Exact three filenames in docs/evidence/specs/reviews gave no matches; bounded exact receipt check, not exhaustive rights/history audit",
+  "rootExclusive": true,
+  "noEImplementation": true,
+  "rootReportedSeparateCheckpoint": "PR12 2844b1c214b479a83cd80392cfe52306ed9b0f5c",
+  "rootExposure": "Names/counts/local review matches only in current pass; broader earlier context/tooling remains qualified",
+  "curatorExposure": "No new deliberate target body read before this metadata reservation; prior broader/dependency/tooling context remains qualified",
+  "ordinaryChecksDeferred": true,
+  "noActualIpcRemoteSettingsCredentialsUserdataOperations": true
+}

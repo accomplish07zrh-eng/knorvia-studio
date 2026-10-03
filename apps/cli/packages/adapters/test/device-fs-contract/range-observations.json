@@ -1,0 +1,1786 @@
+{
+  "baseCommit": "ab713db03e43bdf1890479158d2d8e18c2dd4224",
+  "records": [
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 0,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 0,
+        "totalLines": 0,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 0,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 0,
+        "totalLines": 0,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 1,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 1,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 2,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 2,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\r",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 2,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 2,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "﻿a\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "﻿a\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "﻿a\nb\n",
+        "encoding": "utf16le",
+        "lineEndings": "LF",
+        "bytesRead": 10,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "﻿a\nb\n",
+        "encoding": "utf16le",
+        "lineEndings": "LF",
+        "bytesRead": 10,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "你好\na",
+        "encoding": "gb2312",
+        "lineEndings": "LF",
+        "bytesRead": 6,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "你好\na",
+        "encoding": "gb2312",
+        "lineEndings": "LF",
+        "bytesRead": 6,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: $ROOT/range.txt",
+        "code": "unsupported",
+        "path": "$ROOT/range.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding",
+        "code": "unsupported",
+        "path": {
+          "$undefined": true
+        },
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "😀\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "😀\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 2,
+        "totalLines": 2,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [["stream", "$ROOT/range.txt"]]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "ൡ戊਍",
+        "encoding": "utf16le",
+        "lineEndings": "LF",
+        "bytesRead": 7,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "ൡ戊਍",
+        "encoding": "utf16le",
+        "lineEndings": "LF",
+        "bytesRead": 7,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [["stream", "$ROOT/range.txt"]]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "610d0a620d0a63",
+        "encoding": "hex",
+        "lineEndings": {
+          "$undefined": true
+        },
+        "bytesRead": 7,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "610d0a620d0a63",
+        "encoding": "hex",
+        "lineEndings": "LF",
+        "bytesRead": 7,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [["stream", "$ROOT/range.txt"]]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "YQ0KYg0KYw==",
+        "encoding": "base64",
+        "lineEndings": {
+          "$undefined": true
+        },
+        "bytesRead": 7,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "YQ0KYg0KYw==",
+        "encoding": "base64",
+        "lineEndings": "LF",
+        "bytesRead": 7,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [["stream", "$ROOT/range.txt"]]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "gbk",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a\nb\nc",
+        "encoding": "gbk",
+        "lineEndings": "CRLF",
+        "bytesRead": 7,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [["stream", "$ROOT/range.txt"]]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 6,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 6,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": {
+          "$number": "NaN"
+        },
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": {
+          "$number": "NaN"
+        },
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": {
+          "$number": "Infinity"
+        },
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": {
+          "$number": "Infinity"
+        },
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 1,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 2,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 2,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 0,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 2,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "b\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 2,
+        "lineCount": 2,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "error": {
+        "name": "AbortError",
+        "message": "File system operation was cancelled: file range read"
+      },
+      "events": []
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File content (10MB) exceeds maximum allowed size (-1B). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+        "code": "too_large",
+        "path": "$ROOT/range.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": []
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 1,
+        "sizeBytes": 10485760,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485760",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485760
+        }
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "error": {
+        "name": "Error",
+        "message": "Controlled range read failure"
+      },
+      "events": [
+        [
+          "readFile",
+          "$ROOT/range.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ]
+    },
+    {
+      "error": {
+        "name": "AbortError",
+        "message": "File system operation was cancelled: file range read"
+      },
+      "events": []
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File content (10MB) exceeds maximum allowed size (-1B). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+        "code": "too_large",
+        "path": "$ROOT/range.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": []
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File content (10MB) exceeds maximum allowed size (10MB). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+        "code": "too_large",
+        "path": "$ROOT/range.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": []
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 1,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 1,
+        "totalLines": 1,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "value": {
+        "path": "$ROOT/range.txt",
+        "content": "你好\nb\n",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 11,
+        "sizeBytes": 10485761,
+        "truncated": false,
+        "startLine": 1,
+        "lineCount": 3,
+        "totalLines": 3,
+        "revision": {
+          "id": "mtime:1000:size:10485761",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 10485761
+        }
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "error": {
+        "name": "Error",
+        "message": "Controlled head close failure"
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"]
+      ]
+    },
+    {
+      "error": {
+        "name": "AbortError",
+        "message": "File system operation was cancelled: file range read"
+      },
+      "events": [
+        ["open", "$ROOT/range.txt", "r"],
+        ["read", "$ROOT/range.txt", 4096, 0],
+        ["close", "$ROOT/range.txt"],
+        ["stream", "$ROOT/range.txt"]
+      ]
+    }
+  ]
+}

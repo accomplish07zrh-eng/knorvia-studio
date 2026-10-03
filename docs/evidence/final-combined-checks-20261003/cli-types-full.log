@@ -1,0 +1,117 @@
+Scope: 16 of 19 workspace projects
+packages/contracts typecheck$ tsc --noEmit
+packages/debug typecheck$ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit
+packages/dynamic-workflow typecheck$ node scripts/generate-libs.mjs && tsc --noEmit
+packages/shared-types typecheck$ tsc --noEmit
+packages/shared-types typecheck: Done
+packages/dynamic-workflow typecheck: Done
+packages/debug typecheck: Done
+packages/contracts typecheck: Done
+packages/adapters typecheck$ tsc --noEmit
+packages/core typecheck$ tsc --noEmit
+packages/dynamic-workflow-runtime pretypecheck$ pnpm --filter @knorvia/dynamic-workflow build
+packages/i18n typecheck$ tsc --noEmit
+packages/dynamic-workflow-runtime pretypecheck: > @knorvia/dynamic-workflow@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow
+packages/dynamic-workflow-runtime pretypecheck: > node scripts/generate-libs.mjs && tsc
+packages/dynamic-workflow-runtime pretypecheck: Done
+packages/dynamic-workflow-runtime typecheck$ tsc --noEmit
+packages/dynamic-workflow-runtime typecheck: Done
+packages/swift-bridge typecheck$ tsc --noEmit
+packages/i18n typecheck: Done
+packages/telemetry typecheck$ tsc --noEmit
+packages/swift-bridge typecheck: Done
+packages/adapters typecheck: Done
+packages/telemetry typecheck: Done
+packages/core typecheck: Done
+packages/bootstrap typecheck$ tsc --noEmit
+packages/node-repl-host typecheck$ tsc --noEmit
+packages/tui typecheck$ tsc --noEmit
+packages/node-repl-host typecheck: Done
+packages/tui typecheck: Done
+packages/bootstrap typecheck: src/protocol/message-info-projection.ts(19,3): error TS2322: Type '["role", () => string]' is not assignable to type 'readonly ["metadata", (source: UserMessageInfo) => Record<string, unknown> | undefined] | readonly ["sessionId", (source: UserMessageInfo) => string] | ... 10 more ... | readonly [...]'.
+packages/bootstrap typecheck:   Type '["role", () => string]' is not assignable to type 'readonly ["role", (source: UserMessageInfo) => "user"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"user"'.
+packages/bootstrap typecheck: src/protocol/message-info-projection.ts(50,3): error TS2322: Type '["role", () => string]' is not assignable to type 'readonly ["error", (source: AssistantMessageInfo) => Record<string, unknown> | undefined] | readonly ["path", (source: AssistantMessageInfo) => { ...; }] | ... 11 more ... | readonly [...]'.
+packages/bootstrap typecheck:   Type '["role", () => string]' is not assignable to type 'readonly ["role", (source: AssistantMessageInfo) => "assistant"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"assistant"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(36,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TextPart) => "text"] | readonly ["metadata", (source: TextPart) => Record<string, unknown> | undefined] | readonly ["text", (source: TextPart) => string] | readonly [...] | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TextPart) => "text"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"text"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(44,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ReasoningPart) => "reasoning"] | readonly ["metadata", (source: ReasoningPart) => Record<string, unknown> | undefined] | readonly ["text", (source: ReasoningPart) => string]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ReasoningPart) => "reasoning"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"reasoning"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(53,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: FilePart) => "file"] | readonly ["metadata", (source: FilePart) => Record<string, unknown> | undefined] | readonly ["url", (source: FilePart) => string] | readonly [...] | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: FilePart) => "file"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"file"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(64,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ToolPart) => "tool"] | readonly ["metadata", (source: ToolPart) => Record<string, unknown> | undefined] | readonly ["state", (source: ToolPart) => { ...; } | ... 2 more ... | { ...; }] | readonly [...] | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ToolPart) => "tool"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"tool"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(71,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepStartPart) => "step-start"] | readonly ["snapshot", (source: StepStartPart) => string | undefined]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepStartPart) => "step-start"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"step-start"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(81,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepFinishPart) => "step-finish"] | readonly ["snapshot", (source: StepFinishPart) => string | undefined] | readonly ["tokens", (source: StepFinishPart) => { ...; }] | readonly [...] | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepFinishPart) => "step-finish"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"step-finish"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(88,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SnapshotPart) => "snapshot"] | readonly ["snapshot", (source: SnapshotPart) => string]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SnapshotPart) => "snapshot"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"snapshot"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(96,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: PatchPart) => "patch"] | readonly ["files", (source: PatchPart) => string[]] | readonly ["hash", (source: PatchPart) => string]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: PatchPart) => "patch"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"patch"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(106,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: CompactionPart) => "compaction"] | readonly ["metadata", (source: CompactionPart) => Record<string, unknown> | undefined] | readonly [...] | readonly [...] | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: CompactionPart) => "compaction"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"compaction"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(118,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SubtaskPart) => "subagent"] | readonly ["description", (source: SubtaskPart) => string] | readonly ["agent", (source: SubtaskPart) => string] | readonly [...] | readonly [...] | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SubtaskPart) => "subagent"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"subagent"'.
+packages/bootstrap typecheck: src/protocol/message-part-projection.ts(125,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["name", (source: AgentPart) => string] | readonly ["type", (source: AgentPart) => "agent"]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: AgentPart) => "agent"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"agent"'.
+packages/bootstrap typecheck: src/protocol/message-timeline-projection.ts(105,3): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StoredTimeline) => "timeline"] | readonly ["trigger", (source: StoredTimeline) => "auto" | "partial" | "manual" | "reactive" | "session_memory" | undefined] | ... 26 more ... | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StoredTimeline) => "timeline"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"timeline"'.
+packages/bootstrap typecheck: src/protocol/session-event-projection.ts(191,3): error TS2322: Type '["type", (input: Envelope) => "session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | ... 17 more ... | "streamRecovery.updated"]' is not assignable to type 'readonly ["type", (source: Envelope) => "session.created"] | readonly ["type", (source: Envelope) => "session.resumed"] | readonly ["type", (source: Envelope) => "session.updated"] | ... 221 more ... | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", (input: Envelope) => "session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | ... 17 more ... | "streamRecovery.updated"]' is not assignable to type 'readonly ["type", (source: Envelope) => "session.created"] | readonly ["type", (source: Envelope) => "session.resumed"] | readonly ["type", (source: Envelope) => "session.updated"] | ... 21 more ... | readonly [...]'.
+packages/bootstrap typecheck:     Type '["type", (input: Envelope) => "session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | ... 17 more ... | "streamRecovery.updated"]' is not assignable to type 'readonly ["type", (source: Envelope) => "streamRecovery.updated"]'.
+packages/bootstrap typecheck:       Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:         Type '"session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | "turn.steerDrained" | "turn.completed" | ... 15 more ... | "streamRecovery.updated"' is not assignable to type '"streamRecovery.updated"'.
+packages/bootstrap typecheck:           Type '"session.created"' is not assignable to type '"streamRecovery.updated"'.
+packages/bootstrap typecheck: src/protocol/session-state-projection.ts(118,3): error TS2322: Type '["kind", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"] | readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"] | ... 4 more ... | readonly [...]'.
+packages/bootstrap typecheck:   Type '["kind", () => string]' is not assignable to type 'readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"synthetic"'.
+packages/bootstrap typecheck: src/protocol/session-state-projection.ts(119,3): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"] | readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"] | ... 4 more ... | readonly [...]'.
+packages/bootstrap typecheck:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"goal_verification"'.
+packages/bootstrap typecheck: src/protocol/session-state-projection.ts(120,3): error TS2322: Type '["display", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"] | readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"] | ... 4 more ... | readonly [...]'.
+packages/bootstrap typecheck:   Type '["display", () => string]' is not assignable to type 'readonly ["display", (source: TargetCompletionVerificationProjectionInfo) => "separator"]'.
+packages/bootstrap typecheck:     Type at position 1 in source is not compatible with type at position 1 in target.
+packages/bootstrap typecheck:       Type 'string' is not assignable to type '"separator"'.
+packages/bootstrap typecheck: Failed
+packages/browser-use-plugin typecheck$ tsc --noEmit
+packages/cli typecheck$ tsc --noEmit
+packages/browser-use-plugin typecheck: Done
+packages/cli typecheck: Done
+ ERR_PNPM_RECURSIVE_FAIL  
+
+
+Summary: 1 fails, 14 passes
+
+/workspace/knorvia-studio/apps/cli/packages/bootstrap:
+ ERROR  @knorvia/bootstrap@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2

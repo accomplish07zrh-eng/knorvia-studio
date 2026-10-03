@@ -1,5 +1,8 @@
-import { CompactTrigger } from "@knorvia/contracts";
-import { ESTIMATED_TOKEN_CHAR_DIVISOR } from "@knorvia/shared";
+import {
+  CompactTrigger,
+  modelMessageContentBlockToText,
+  modelMessageContentToText,
+} from "@knorvia/contracts";
 import type {
   CompactBoundaryPayload,
   CompactPhase,
@@ -10,10 +13,8 @@ import type {
   ModelMessageContent,
   TraceContext,
 } from "@knorvia/contracts";
-import { modelMessageContentBlockToText, modelMessageContentToText } from "@knorvia/contracts";
+import { ESTIMATED_TOKEN_CHAR_DIVISOR } from "@knorvia/shared";
 import { groupByAssistantStartedRounds } from "./rounds.js";
-
-const EMPTY_TOOL_CALL_INPUT_JSON = "{}";
 
 export interface CompactModelMessage {
   role: string;
@@ -62,16 +63,21 @@ export function getMessagesToSummarize(
   messages: readonly CompactModelMessage[],
 ): CompactModelMessage[] {
   return messages
-    .filter((message) => !isContextPrefixMessage(message))
+    .filter(
+      (message) =>
+        message.role !== "system" &&
+        !(
+          message.role === "user" &&
+          modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>")
+        ),
+    )
     .map((message) => ({ ...message }));
 }
 
 export function hasEnoughMessagesToCompact(messages: readonly CompactModelMessage[]): boolean {
-  const messagesToSummarize = getMessagesToSummarize(messages);
-  return (
-    groupMessagesByCompactRound(messagesToSummarize).length >= 2 &&
-    messagesToSummarize.some((message) => message.role === "assistant")
-  );
+  const summarizableMessages = getMessagesToSummarize(messages);
+  const rounds = groupByAssistantStartedRounds(summarizableMessages, (message) => message.role);
+  return rounds.length >= 2 && summarizableMessages.some((message) => message.role === "assistant");
 }
 
 export function buildManualCompactBoundary(
@@ -100,53 +106,33 @@ export function buildManualCompactBoundary(
 }
 
 export function estimateMessageTokens(messages: readonly CompactModelMessage[]): number {
-  return messages.reduce((total, message) => {
-    let estimatedCharacterCount = modelMessageContentToTokenEstimateText(message.content).length;
-    // assistant toolCalls 独立保存在 content 之外，旧估算只读取 content，
-    // 大型工具入参会被完整发给 provider，却在 auto compact 和 preflight 中计为 0。
+  let total = 0;
+  messages.forEach((message) => {
+    const content = message.content;
+    const text =
+      typeof content === "string"
+        ? content
+        : content
+            .map((block) =>
+              block.type === "reasoning" ? block.text : modelMessageContentBlockToText(block),
+            )
+            .filter(Boolean)
+            .join("\n\n");
+    let chars = text.length;
     for (const toolCall of message.toolCalls ?? []) {
-      estimatedCharacterCount += (
-        toolCall.name + stringifyToolCallInputForTokenEstimate(toolCall.input)
-      ).length;
+      const name = toolCall.name;
+      const input = toolCall.input ?? {};
+      let serializedInput = "{}";
+      try {
+        serializedInput = JSON.stringify(input) ?? "{}";
+      } catch {
+        // Serialization failures use the same empty-object fallback.
+      }
+      chars += (name + serializedInput).length;
     }
-    return total + Math.ceil(estimatedCharacterCount / ESTIMATED_TOKEN_CHAR_DIVISOR);
-  }, 0);
-}
-
-function stringifyToolCallInputForTokenEstimate(input: unknown): string {
-  try {
-    return JSON.stringify(input ?? {}) ?? EMPTY_TOOL_CALL_INPUT_JSON;
-  } catch {
-    // tool_use 解析失败时降级为空对象的 JSON 表示，供 estimator 估算。
-    // Knorvia Studio 的模型输入仍可能包含未知内容；异常输入不能让本地预算估算中断 compact。
-    return EMPTY_TOOL_CALL_INPUT_JSON;
-  }
-}
-
-function modelMessageContentToTokenEstimateText(content: ModelMessageContent): string {
-  if (typeof content === "string") return content;
-
-  // modelMessageContentToText 是“可见正文”投影，会有意隐藏 reasoning；
-  // compact fallback 却把它当作 provider 上下文体积，导致无 usage anchor 时 reasoning 全部计 0。
-  // token 估算使用独立投影，避免改变正文、memory、错误文案等既有消费者的语义。
-  return content
-    .map((block) =>
-      block.type === "reasoning" ? block.text : modelMessageContentBlockToText(block),
-    )
-    .filter(Boolean)
-    .join("\n\n");
-}
-
-function isContextPrefixMessage<T extends CompactModelMessage>(message: T): boolean {
-  return (
-    message.role === "system" ||
-    (message.role === "user" &&
-      modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>"))
-  );
-}
-
-function groupMessagesByCompactRound<T extends CompactModelMessage>(messages: readonly T[]): T[][] {
-  return groupByAssistantStartedRounds(messages, (message) => message.role);
+    total += Math.ceil(chars / ESTIMATED_TOKEN_CHAR_DIVISOR);
+  });
+  return total;
 }
 
 export function getUsageTotalTokens(usage?: TokenUsageLike): number {
@@ -158,5 +144,5 @@ export function getUsageTotalTokens(usage?: TokenUsageLike): number {
 export function createCompactBoundaryId(
   randomUUID: () => string = () => crypto.randomUUID(),
 ): string {
-  return `compact_${randomUUID()}`;
+  return "compact_" + randomUUID();
 }

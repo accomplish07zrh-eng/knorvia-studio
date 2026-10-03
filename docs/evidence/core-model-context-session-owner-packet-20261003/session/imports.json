@@ -1,0 +1,18 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "{\n  type MessageWithParts,\n  type ReadSessionContextInput,\n  type ReadSessionContextOutput,\n  type ReadSessionContextReference,\n  type SessionInfo,\n}"
+  },
+  {
+    "module": "../agent/session-history-hydrator.js",
+    "clause": "{ activeSessionMessages }"
+  },
+  {
+    "module": "./parts.js",
+    "clause": "{ dedupeParts, formatPartForContext }"
+  },
+  {
+    "module": "./utils.js",
+    "clause": "{ truncateText }"
+  }
+]

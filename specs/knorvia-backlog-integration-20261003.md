@@ -1,0 +1,161 @@
+# PR #7–12 持续整合基线
+
+2026-10-03。本轮用户授权先整合积压 PR，为父任务后续固定云端任务提供唯一基线；实现阶段不运行测试、lint、类型检查、构建或完整审计。代码阅读、冲突解决和远端提交确认继续进行。上述本轮要求优先于仓库/技能的中途验证命令。最终统一验收与合并 main 留待后续阶段。
+
+## 唯一分支与初始输入
+
+唯一整合分支为 `integration/backlog-20261003`，从 PR #7 的实际最新 head 建立。main 为 `bd0bb014c0974334557fa51814709d0b78f35f1d`。所有输入使用完整 SHA；不信任 PR 描述内较旧的 checkpoint，不强推、不改写源分支，不创建额外云端任务。
+
+| PR  | 分支                                       | 固定 head                                |
+| --- | ------------------------------------------ | ---------------------------------------- |
+| #7  | recovery/independent-logging-20260930-0456 | f25b931164ee6287167e965e9da7a7586131b264 |
+| #8  | parallel/material-closure-fast-20261002    | da2aae2e86e83f62ac9b8edd3496b408fcda2139 |
+| #9  | recovery/server-lifecycle-20261002         | 2458655c2644c487bb66967800e000943b9678cf |
+| #10 | independent/settings-lifecycle-20261002    | ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e |
+| #11 | parallel/cli-tools-fast-20261001           | e884311ee74df690cfe36e38d9bbe0eae86c791d |
+| #12 | independent/root-remote-cache-20261003     | b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8 |
+
+#9、#10、#12 继承 #7 实际最新 head；#8 从 main 分叉，#11 从 #7 的较早祖先分叉。分别以真正 merge-base 枚举改动，不把较旧分支缺少的后续文件误判为有意删除。使用保留父提交的 merge，不重放已整合提交。发现 head 推进时另记新 SHA 和增量，仍维护此唯一分支。
+
+## 冲突的版本选择
+
+- 保留 #7 的 `read-text-orchestration.ts`、`read.ts`、Read consumer fixture/test 与 `specs/knorvia-read-orchestration.md`。#11 携带的较旧版本没有同步 generator 的完成时序修复，也缺少 PDF golden 的跨平台 UTF-8 字节校正。保留 #7 的源码、规格和原测试，不削弱 oracle；#11 后续其他成果照常合入。
+- `workflow/scheduler/{collection-planner,node-runner,planner-expansion}.ts` 采用 #8 后续完整 E owner：planner `cf75d15f534f1d9855356fb9cb3a11b06a7c648d`、runner `dfae259be47287be6642ab8469009b008a01bdb2` 的实际 descendants。完整冻结稿与安装绑定先于本轮整合。#11 早期 mixed/corrected versions、额外 helper 和失败记录保留在提交历史及证据；不能把其旧 source/emitted selectors 写成 E 当前组合的通过证据。
+- `session-context/read-session-context.ts` 是 #7/#8 另一处冲突：采用 #8 `b5152875cb5aa236e920af07779b05fe2b8b8752` 已安装的完整 E owner，并同时保留 #7 的 material-selection helper、原有测试和历史记录。保留公开 API、筛选/排序/预算/引用/可见性行为；本轮不声称执行验证或绑定旧 helper receipt 为新 owner 验收。
+- 无冲突文件按 Git 三方合并保留；有冲突的文件逐一阅读并绑定选择来源，不用全局 ours/theirs 丢弃某一路成果。来源决定、LICENSE、NOTICE、第三方义务与历史失败不可为门禁修改。
+
+## 业务与来源边界
+
+本轮不增加产品行为、不改变 GUI、黑白视觉/玻璃/布局/快捷键/中英文，也不迁移或操作用户数据。保留 workspace identity、owner/lease、CommandInbox 串行 admission、stale run、桌面 continuous 与手机 replayable 的已有边界。
+
+```text
+固定 PR head → 三方合并 → 单一当前 source owner → 同一整合分支
+                           └→ 历史来源/失败/冻结稿继续保留
+后续固定任务 → 基于完整基线 SHA 的模块分支 → 此整合分支 → 最终统一验收 → main
+```
+
+#10 的 `sessionService` 与 `taskIndexSyncer` 仍为 UNALLOCATED / UNINSTALLED，保留 prior-root-allocation-and-origin-holds；其他 root/E accepted-hash HOLD 按精确路径与 descendant 查明，不能用本地缺 receipt 推断未分配。#8 的 todo/tool-perf 等询问仅作归属输入，不因文件短或 inventory 标签就重写。
+
+## 本轮完成记录与后续验收
+
+完成记录写入 `docs/knorvia-backlog-integration-20261003.md` 和同名独立整合证据目录：完整输入 SHA、merge commit、冲突选择与最终 blob、来源义务、后续模块文件归属、远端确认及未执行项。保留旧 PR open/draft 供活动分支继续提交；建立面向 main 的整合 draft PR，暂不合并 main。后续提交继续按 source head 记录，不修改历史通过/失败记录。
+
+本轮测试、lint、类型检查、格式/架构验证、构建、完整审计、原生/界面/真实消费者验收均 **未运行**。仅阅读既有 CI：#9 `37096643153`、#10 `37096385450`、#12 `37095110127` 的 Linux/Windows job 都失败于 file provenance inventory，安装及后续产品检查 skipped。不得写成通过，不重跑、不绕过门禁。来源清单新鲜度、跨模块兼容、source-expression/权利核验、原生 UI/平台、安装版/便携版/迁移与最终 Linux/Windows CI 仍待最终阶段完成；根许可不改称全量 MIT。
+
+## 四路冻结接收与最终集中验收
+
+2026-10-03，父任务明确通知四路完成并冻结，用户现在授权在唯一整合树执行最终集中验收。上文不运行验证的约束描述先前实现阶段，本节进入原定后续阶段；继续同一 `integration/backlog-20261003` / PR13，不新建任务，不重建分支，不提前合 main。
+
+输入为 #14 `5274ca99d13531377000fe0f2c529561f75ce046`、#15 `809374e21993bb03cabaf3d68adad6564baa41fa`、#16 `dac1483b661064ba64003a1137713646d2ebbc8c`、#17 `f7ad7efa3e5e1bec72eaba818db6bce43fa33d97`，整合者前置 `dc0c4ad2c746d311d9b34634677f93a96ecc642c`。必须先核对远端，不以 PR 文案中的历史 head 替代；按精确 SHA 普通 merge，保留各路 ancestry/spec/源码/来源与原 UI/数据兼容。本次相对共同基线的各路修改路径没有交集，仍需实际组合验收。
+
+根测试发现由 `scripts/test-studio.mjs` 继续唯一管理；新增 `packages/server-cli/test` 目录，当前三份控制传输、状态持久化与锁所有权测试及同目录 fixtures 随原规则选取。CLI 六个 explicitTests 为 bootstrap 的 message-mapper、session-projection、session-snapshot-images、session-snapshot，cli 的 argument-admission，以及 dynamic-workflow 的 ask-scheduler contract 文件。core 顶层发现不重复显式登记。保持已有 glob 对账、失败状态传播、120s 上限、并发 2、测试目录隔离与凭据过滤，不遗漏用例、不把 fixture 当测试。
+
+先提交推送组合 checkpoint，再在其后同一树集中运行必要类型、lint、格式、架构、CLI 构建与统一回归，并构建实际受影响产品入口。使用仓库固定 Node 24.14.0 / pnpm 10.33.2 与 frozen lockfile；缺依赖或工具错误如实区分，不标通过。先集中收集快速类型/组合失败，由父任务协调原任务按领域修复；仅在新修复或真实失败需要时复跑对应检查，不每次改动重复全套。
+
+CI 门禁保持；provenance report 只在对齐实际 SHA/源与真实候选、保留来源/义务后更新。候选接入、测试通过或清单新鲜度不解除历史 accepted-byte/权利 HOLD，也不是 clean room 或 MIT 验收。全量 MIT 只能基于完成的来源/出版者/贡献与第三方权利核验；不满足的具体文件、证据缺项和保留许可需明确。最终技术验收与必要来源边界就绪后先报父任务，再执行已授权 main 合并；实质失败时修复或报告阻塞。
+
+## 首轮真实编译失败的整合者修复边界
+
+受检组合 `8b9113d97379ec2e7b1d80f9a4277b008d40441c` 暴露 shared 的内部 presentation 索引和网络 header 字典，以及 contracts 的 background snapshot 动态字段投影类型问题。只修这些整合者路径；services、desktop/server、UI 与移交 CLI 切片的实际诊断交父任务协调原任务，不自行接管。
+
+assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 entries 同步迭代保留前向顺序、最后一个相同文本的选中 index 与原块身份，不增加输入验证/过滤。network-debug-status 对 Object.entries 的原 string 过滤补充真实 tuple type predicate，不改变值/顺序/own-property 投影或隐私规则。backgroundSnapshot 的固定字段白名单已包含 required taskId/status，started/completed typed payload 保障其类型；用 Partial<BackgroundTaskInfo> 记录动态阶段，然后在完整投影边界保留原完整 assertion，不加 unknown/any 双重转换、二次 payload getter 读取、字段默认值或新验证。三项是有依据的类型表达修复，不另计重写模块，不改变 API/状态/数据/安全边界。保留首轮失败，集中复跑受影响编译/真实组合检查。
+
+## 统一回归入口与 RPC 清单对齐边界
+
+源码阅读确认 shared 的九份边界测试及共用 authority fixture 原来强制 positional source root，根 runner 不传这个参数。保留显式历史/候选 root 模式，并在未提供时用 import.meta.url + fileURLToPath 指向本包当前 src；file-lock 套件指向实际 src/node。authority fixture 的真实编译入口使用本机 resolve，虚拟 authority 端口仍用固定 POSIX 夹具；不更改任何断言/fixture/虚拟端口/生产语义，不扩展到其他路测试。此修复使原永久发现真正运行当前树，不把 standalone probe 的旧通过改写为组合验收。
+
+第三方门禁实际失败于十二个 RPC current-input 摘要。逐项保存旧 input、当前原始/归一摘要、最近 source commit 和现有来源状态，结合已接收 candidate 历史再更新这十二个 current inputs。复制组件的 Microsoft 归属、原导入版本未知说明、原许可与 notice、source registers、reviewRequired、历史输入与权利 HOLD 均不删除或转通过；current input 是当前候选身份而非出版者来源/独立表达/权利证明。之后按模型对齐 current-files，原 review 决定保持；任何 stale/conflict 与未解决义务仍如实让检查失败，不批量授 MIT。首轮失败单独保存。
+
+## 根质量入口与冻结证据完整性
+
+父任务要求原四路处理各自类型与构建错误，整合者只维护根工具、共享和既有整合者模块，等修复 heads 收齐后再统一类型/构建。格式失败按冻结 head 相对共同基线的实际文件归属分配，不能因为 UI/v4 路径相近就覆盖另一任务；native 文件由原任务独占。本阶段只运行新增守卫与改动路径的必要定向验证，不重复根全套。
+
+根 lint 首轮把冻结 API 摘录/合并前草稿当可编译模块，fmt 把原来源证据当可改写文本。保持这些原始字节，并在任何根 lint/fmt 操作前加独立的、失败即阻断的完整性守卫。`licensing/frozen-evidence.json` 是唯一冻结集合与摘要登记，初始绑定完整 `19f6ccf74ba1064ca81d93194b4f25a36030e361` 中 `docs/evidence/**` 与 `licensing/evidence/**` 的 5493 个文件；保存 SHA-256 原字节与大小。根 lint/fmt 在先核验完整集合后把这两个数据目录交由该守卫负责，不忽略生产源码、现行 tests、spec 或顶层说明。根 CI 的来源、类型、lint、格式、架构、CLI 构建、统一回归仍全都必须成功。
+
+守卫拒绝摘要/大小变更、遗失、未登记新文件、重复或越界路径、目录中的 symlink/特殊文件；没有自动补摘要或授权豁免。未来证据新增/修订需记录精确 source head、保留原历史，并显式更新登记后接受复核。`.gitattributes` 对这两个数据目录保留原字节，防止平台换行转换影响固定证据。测试须覆盖篡改、新增、遗失、越界与 symlink，不能只测试正常输出。完整性通过不授予来源/版权/许可，也不消除 review/HOLD/26 项材料义务。
+
+已有 test/spec max-lines 例外补齐实际根 runner 使用的 `.test.mjs`/`.spec.mjs`，保留生产代码行数限制及其余 lint 规则。整合者只对自身 30 个格式失败源路径和未由四路持有的顶层文档/spec 作格式修复，不格式化任何冻结载荷，不更改 UI 常量、存储键、API 或断言。
+
+26 项材料义务另作逐项可执行分类，直接绑定现行 source registers 与 reviewRequired：保留第三方自己的独立许可范围；缺版本版权/来源、二进制链接证据或权利人材料继续 HOLD。npm/素材义务不能当作自有源重写数量，不能以替换格式、移除声明或当前清单一致推导 MIT 可发布。
+
+## 四路最终修复接收后的统一验收
+
+父任务交付并冻结 services `33072cae538f02b739406279733127c90ec96c50`、CLI `8f1e18d309cd475c0ba091a1b75961d8f8eef7df`、UI `73696902cbefbd084b54f6e4ac02b10d709adb40`、native `60480cf85887eac594d63d2095b53cab3821f14f`。四路都保留 `19f6ccf74ba1064ca81d93194b4f25a36030e361` 的 ancestry，相对它的修改路径与各路/整合者均无交集；按完整 SHA 普通 merge，不压缩或覆盖其他提交。新增31份原路证据逐项核对其冻结 head 字节后显式加入 raw manifest；原5493份原字节不变。来源材料、许可和权利 HOLD 不随接收清除。
+
+根 runner 增加实际存在的 `packages/server/test`，接纳新增 remote-header-proxy contract 并补齐同目录已有11套离线安全边界。另接纳三个已有 desktop native source test 目录（host、main/browserView、preload）的16套 Node fake-port tests，保留各自分拆的场景/fixture import；不把 fixtures/cases 文件当独立 tests。相同唯一扫描、glob完整集合对账、data隔离/凭据过滤、并发2/120s与原退出语义继续适用，不创建另一套根入口。
+
+提交发布组合 checkpoint，再按仓库标准工程引用集中执行根 typecheck/lint/fmt、CLI构建与合理完整根回归，并对CLI依赖图及实际产品入口补必要检查。UI的RPC22条来自关闭project references、启用UI索引严格项的单独源码driver；根RPC工程自身配置未启用该索引项。保留其原诊断，依据标准统一检查是否仍有故障，不能算UI未修或降低配置。如果新统一失败，保存精确路径/错误和真实scope，交原任务定向修复，不重复计旧快照或为通过抹来源。
+
+## 最终组合树的集中格式修复
+
+`d826add56755be673efd924b92cf24756af43d6d` 的标准根 types、lint、architecture、provenance 检查退出0；fmt剩余116个路径。四路已冻结，父任务授权整合者集中处理这些纯格式改动，避免各路重复安装/同步；不改变业务、接口、状态、UI取值、测试断言或许可事实。对源码比较格式前后语法结构，对JSON比较完整解析值，逐项绑定原提交、原blob与前后原字节SHA；这种静态等价核对不替代完整回归。
+
+其中12份历史JSON原记录先按原字节复制至 `docs/evidence/final-central-format-20261003/originals/` 并显式加入冻结清单，保留原路径及完整原提交指针。已有5524份冻结载荷不改写；格式工具继续先检查原字节完整性。原路径的JSON只允许空白、排版和等价转义变化，不能更新历史快照中的断言、hash、结果或来源判定。来源/版权 HOLD、原通知和26项材料义务保持原有边界，不能以格式或门禁通过推断MIT可发布。
+
+## 最终组合检查结果与失败归属
+
+`f5deb08595725c91d74ca96e09bba338fba1119d` 的完整根回归实际结束，Node 统计8034 tests、8004 pass、22 fail、8 skipped，退出1。17个CLI core套件被旧当前输入/产物绑定挡在加载前；另外CLI phase-fold历史NaN基线1个、native导出1个、services扫描及Git顺序2个、UI菜单1个。不能将加载失败、跳过或补充定向复现加为完整回归通过数。完整原日志/实际子进程退出码与源码SHA需冻结发布。
+
+根types/lint/fmt/architecture/provenance与Web、desktop源码构建退出0；实际CLI构建退出2，完整CLI工作区no-bail types退出1，均报bootstrap5文件同一18条TS2322。直接在根cwd发出的早期CLI过滤命令未选中项目，虽退出0也不接纳为通过。原CLI任务按父任务指示独占这5个projection文件；其他真实断言须按精确测试/来源路径交原native、services、UI任务修复，不降低规则、删除场景或盲目改golden。
+
+当前源码/标准构建产物绑定的失配需要区分格式变化、已经授权的新候选、编译器/配置变化与真实行为差异。原历史source/compiled/declaration/golden及其hash不能因当前绑定过期被覆盖；若对账当前输入，须保存旧绑定原字节、记录实际源码提交/配置/完整来源链，只更新证明属于当前输入的字段，并继续执行真实消费者与旧基线断言。技术结果不授予独立性/贡献者权利，不清除原accepted-hash/权利HOLD或26项材料义务。
+
+### bootstrap最终类型修复接收
+
+父任务冻结并交付CLI `661e5f64bf819c93c13a7b077531239dec5199cf`，生产提交 `9e3bc5f81ad63d6112185cb7abc908ab9250ae2c`。源分支远端完全匹配，普通merge为 `b5815bb4966e17ec5a515a0c7764ea41c511e666`；5个实际修改源码为message-info/part/record/timeline/session-state projection，session-event的union错误由共享recipe类型处理，无需额外改动该文件。两个新增证据按交付head原字节加入冻结清单，保留原已有5568记录。
+
+接收记录、真实来源输入清单与发布checkpoint完成后，在新组合树重跑此前确实失败的完整CLI build及实际CLI工作区no-bail types。原f5deb085的18类型失败和8034测试/22失败记录不改写；core当前输入pin、历史NaN基线、native/services/UI失败仍按已发布路径分别处理，不以27个原路定向通过声称完整组合验收通过。
+
+`b3721addfffb59ac56f8be9c13e6e5578e95a37d` 上实际完整CLI build退出0（17/17任务、13缓存），在真实CLI cwd执行的完整no-bail types退出0（15个包的types脚本完成）。这是此前18条bootstrap类型阻塞的后续解决结果，不覆盖原失败快照，不计为core旧pin/历史golden或其他native/services/UI场景已经通过。新增5源码及原路doc/spec加接收记录的8路径fmt检查退出0。CLI构建warning、Linux未运行Windows Cua driver staging及完整根回归的8skipped保留真实范围。
+
+## MIT 自有源码与第三方分发边界
+
+父任务已将22个回归失败交回原四路，要求从 `7bfb867162cc11adbc237e1c39bf2d61b5c0f81e` 同步、仅修复并验证失败项；整合者暂不编辑这些路径或重复全量检查，继续维护唯一整合分支。
+
+本次对已有26项材料义务补充按实际发布内容划分的处置矩阵。自有源码采用MIT的目标允许合法保留MIT、ISC、BSD、Apache及其他第三方组件的原许可、归属和适用NOTICE；不得要求第三方代码全部改称MIT，不把依赖材料缺项直接计为自有源码重写数量。Apache上游自身允许满足原许可条件的再分发，也允许为自己的修改附加不同条款；此事实不证明候选整体已独立创作或已获得贡献者权利。
+
+分别记录仅自有源码及依赖引用、完整现行Git源码树、实际包含依赖/素材的产品包、特定平台二进制/WASM的义务。缺项只阻止其涉及内容的发布就绪确认，不能扩大成禁止所有可能的开源子集，也不能借变更根许可解决未知素材或遗漏通知。保留当前功能、UI、数据及所有原许可/证据/HOLD；任何替换须有准确的原材料或确实无法补证的范围，且由父任务协调原模块维护者完成。
+
+原始材料、固定版本/来源指针、提取与失败读取记录按原字节冻结，人工登记新增摘要；不执行依赖包或安装脚本，不发送外部消息，不自动关闭26项或将已有NOASSERTION改成MIT。历史accepted-byte、贡献与权利缺项在26项之外另列，区分当前候选和缺失的历史源码/receipt，不能用新候选或技术检查覆盖历史权利边界。报告中明确仍未获得的材料与涉及发布范围；许可证、NOTICE和旧reviewRequired保持不变。
+
+### 三路已冻结失败修复的接收边界
+
+父任务确认native `7096de3d170eea2267b82db47fb2e9140fdf7b08`（生产 `ea5f1bc279b4756dcfcc95a7c8816116210df87c`）、UI `d6274d61fe6d15b976f3b7b5b24f8e62d470229e` 和services `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532`（生产/夹具 `0e73eb3cd6159e91be41e20d40cded0fc493ec03`）可集中接收，CLI仍由原任务续作。实际远端heads完全一致，三路相对共同基线7bfb867的路径没有交集，也不重叠本材料文档/登记。
+
+native只修真实ZIP stage诊断白名单祖先目录的遍历，叶子排除规则/原测试/共享fixture不改，恢复原约定5成员；UI只修把组内首项置顶no-op误当顶层移动的局部夹具，保留原六断言并补no-op/成员顺序断言，生产controller/UI/golden不改；services扫描夹具通过真实homedir/HOME/data-base-dir端口绑定临时根，保留排序/过滤/dirty-tail断言，Git生产helper恢复timeout budget在details前的原getter顺序，不删读取次序断言。
+
+普通merge保留三路完整ancestry与原失败，逐项核对7份新原路证据并人工加入冻结清单。刷新当前exporter/Git helper来源摘要仅记录当前候选，不授予独立性或MIT。发布组合checkpoint后用本环境Node24.14.0/相同规则，仅重跑原4个失败case，必要的改动文件格式检查保留其真实匹配scope；UI原任务使用24.19.0的结果不得改称统一24.14结果。不重复777文件全量、build、root types/lint或完整来源审计，不把4个定向结果扣减成未经运行的完整回归新统计。CLI原17个加载pin和1个NaN历史golden仍待其冻结修复，main继续暂缓。
+
+### Linux/Windows 后续验收的确切树边界
+
+父任务发现旧CI `37110107123` 的实际受检树为 synthetic merge `d03df27e30768649c77d004092d7508fa8b9afbc`，合并7bfb867到固定main。只读原job日志确认旧Linux8034/8004/22/8、Windows8031/7990/40/1；不能当作本次三路修复后的失败或与本地f5统计相加。新增Windows18文件由父任务追加原CLI2/native4/services12，整合者不重复修改或新派。
+
+本地c576b3fa的原4case通过只证明Linux Node24.14定向结果。等原任务的Windows兼容修复及CLI绑定/NaN冻结SHA接收后，必须统一验收真正最终树的Linux与Windows CI。旧failed、cancelled、skipped与尚在执行的步骤均保留实际状态；CI synthetic树与branch source各用完整SHA/URL，不只报告PR名称。根CI已有cancel-in-progress并发策略，普通新推送可能取代中间run；不能以取消或未开始的job声称两平台通过。没有另行重跑旧CI、降低规则或删测试。
+
+### CLI 当前产物/NaN 与 native Windows 路径夹具接收
+
+父任务交付CLI完整head `b7dc31ff315121e4302539a5309619b8d8a85b81`，包含core `10f38c6e27fa0c9c1ca1df53e9ceb1ebdfc34a6b` 与Windows follow-up `bab2b85c5b789e3a537349134da4448e6e7184a2`；native完整head `a77f03e5925fbe458bfed06e6ebe8d3af0fc684c` 包含 `7096de3d170eea2267b82db47fb2e9140fdf7b08` 及路径夹具修复 `de0131baae27cab8c0c642ad2ef5d47741e9f280`。先核对确切远端/提交/来源绑定、相对共同祖先的真实增量，普通merge保留父提交，不用快照覆盖较新root文件。
+
+CLI12个旧selector和原behavior tests/golden继续原字节不动；新增固定current receipt验证原selector SHA/完整路径集合/readerRoot及当前声明的source/emitted闭包，未知/缺失/错误摘要继续失败。历史scheduler/format/fold调用者从摘要匹配的原archive或明确原source重建sidecar取字节，不能从live候选取作旧oracle。原fold fixture误用live reducer；摘要匹配的原reducer依赖恢复后24个旧golden匹配，实际NaN也匹配原case16。此前序列化猜测只是未证实历史假设，不能据此修改golden。current fold仅两处component比较补SameValueZero兼容，保留原严格相等优先、signed-zero和真实NaN，不把NaN规范化为null，不改公开声明/数据/UI。
+
+CLI的source/emitted各77、Windows相关11唯一入口及4合成路径，native的native/POSIX/Win32变体12/12都是原路Linux Node24.14结果，不相加成独立用例数或真实Windows通过。native只改4个测试夹具，使用真实绝对路径/public path APIs及唯一导入键，保留全路径/固定文件名断言，不做basename归一、输出归一或删断言，生产不变。
+
+人工接收新增10个raw记录（CLI4、native6），逐一核对交付head原字节并保留本地现有5617记录/旧receipts/HOLD。新current receipt与historical sidecar另在接收JSON绑定确切源码SHA，不自动刷新旧selector或将技术结果授予来源/许可。先不重复原路77/12检查或777全量；等services Windows12项冻结后再集中构建当前fold产物，并统一最终实际树的Linux/Windows CI。root全局来源报告更新是当前候选身份的新鲜度，不是完整权利审计。
+
+### 最后一组 services Windows 夹具与统一 CI
+
+父任务已交services完整head `f5ebc48f033382706a945cf5ec5156b8905627e3`，修复 `80b5308132b9802555114269920fa6bb5bf81bcb`，保留已接收 `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532`；UI最终仍为 `d6274d61fe6d15b976f3b7b5b24f8e62d470229e`。原Windows12文件只修真实root/路径/别名夹具及必要共用test helper，不改变生产、权限/计数/字节/时序断言。源head/新helper/当前receipt/historical sidecar逐项绑定，新增原raw记录显式冻结，整个历史集合原字节保持。
+
+四组现已齐，先接收、做必要当前来源/完整性与改动路径格式检查，提交推送PR13统一head，以标准CI的实际Linux和Windows结果为主要验收；本地不再重复原路77/12或整套types/lint/build/777回归，再与CI跑同一套。CI自己的CLI build负责生成并验证当前fold/source/emitted闭包，未知/旧产物绑定不得盲更。取得真正受检synthetic SHA/branch head及两job完整结果，保留失败/取消/跳过，不猜测通过；剩余实质错误继续定位修复或交回明确原owner，无降规则、删用例或补虚假版权。功能/UI/数据/全部适用许可仍保持，MIT材料与整文件权利边界继续单列，main暂缓。
+
+实际receipt逐项读取得到14个原selector（早先12指原失败族范围），217个当前source/emitted条目；以原JSON实际路径集合为准，全部14个selector原字节和旧golden保持。services新增40份raw，连同CLI4与native6共50份，由完整交付head逐项核对；旧5617记录保持，另新增3份上轮c576实际CI结束观察，不能用其Linux18/Windows36失败替代最终统一树的结果。
+
+本轮改动路径格式检查实际发现5个CLI夹具/reader与新增冻结清单排版问题，仅对列明路径执行锁定oxfmt。交付时源码与SHA继续保存在整合记录，排版后当前SHA另列，source-exposed/NOASSERTION边界保持；current receipt JSON、14个旧selector、原golden和全部raw原字节不动。排版差异由实际diff核对，不把排版完成称为行为测试通过。
+
+### 统一实际CI后的CLI emitted绑定接收
+
+四组全部收齐并推送c4f9bbb后，run37113155595实际checked synthetic `d11e1efa27a7b7551ce637e5eadfbb292cafb94a` 双平台前置quality和CLI build全过，offline均13项失败：Linux8048/8027pass/13fail/8skip，Windows8048/8034pass/13fail/1skip。13个相同CLI workflow文件停在current reader的emit字节SHA；三个first-encountered实际digest精确吻合原冻结CLI source-output诊断中的fresh generated值，原诊断共六对sameEmittedBytes=false。保留原raw诊断的AST通过及字节不一致，不重写成exact-byte过。
+
+父任务已交原CLI固定任务修复，整合者不并行改receipt/code。后续确切冻结head才普通merge接收，逐项核对fixed compiler配置、current source与实际fresh emitted/declaration闭包，不盲刷新历史SHA，不降assertion或自动接受未知产物。原current receipt、14个selector、golden、accepted-source/贡献权利HOLD和全部5673冻结记录保持可追踪；新增证据显式绑定原head并登记。源分支与最终组合要区分，实际新CI两平台结束后才给出通过结论，本地不重复其他已过模块整套排查。
+
+本轮已完成的CI统计与材料结论先在本地保留，等新CLI输入同一次推送，避免仅为新文档触发重复整套CI。current helper/fold及六个已知整文件目标仍NOASSERTION/review null；八个SVG文件是四组字节的双目录副本，身份相同不能当授权。26材料项零关闭、整文件独立表达/权利仍待验收，main和根LICENSE保持当前授权边界。

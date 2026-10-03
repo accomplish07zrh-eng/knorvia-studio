@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/shared/src/agent-model-state.ts",
+    "packages/shared/src/model-provider-family.ts",
+    "packages/shared/src/pluginStoreOrdering.ts",
+    "packages/shared/src/remoteAppConfig.ts",
+    "packages/shared/src/plan-identity.ts",
+    "packages/shared/test/shared-settings-family-order-boundaries.test.mjs",
+    "licensing/evidence/shared-settings-family-order-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 35ms on 7 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

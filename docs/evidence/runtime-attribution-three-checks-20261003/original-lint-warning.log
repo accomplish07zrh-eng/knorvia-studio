@@ -1,0 +1,12 @@
+
+  ! typescript-eslint(no-this-alias): Unexpected aliasing of 'this' to local variable.
+     ,-[apps/cli/packages/core/src/runtime/methods/model-status.ts:165:9]
+ 164 | ): ModelStatusSink {
+ 165 |   const runtime = this;
+     :         ^^^^^^^
+ 166 |   return {
+     `----
+  help: Assigning a variable to this instead of properly using arrow lambdas may be a symptom of pre-ES2015 practices or not managing scope well.
+
+Found 1 warning and 0 errors.
+Finished in 23ms on 5 files with 94 rules using 4 threads.

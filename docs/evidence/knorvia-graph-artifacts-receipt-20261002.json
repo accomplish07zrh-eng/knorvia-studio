@@ -1,0 +1,97 @@
+{
+  "formatVersion": 1,
+  "kind": "phase-artifact-publication-owner",
+  "base": "0cca0d486ea9709a59caae138192f8a9c339c48d",
+  "freezeCommit": "c4512c4ee3545c1cb8619c6ca42cf8bd1c28fa1f",
+  "draftCommit": "056ef5be613f4158a918b5c1b31739877f459143",
+  "implementationCommit": "e0fbd6568914cfb7f1e8fe804991c5b1a28f329a",
+  "scope": "Complete expert/graph-artifacts.ts module only; existing lifecycle/parsers/IDs/context/run-loop production, graph boundaries, planner files and earlier oracles unchanged.",
+  "authorBoundary": "One fresh fork_turns none gpt-6-astra/high author in same executor. Two exact behavior/API inputs plus one recorded functional phase clarification; no source/history/tests/oracles per author report. Draft saved/hash reported and curator verified before reading. Shared filesystem instruction boundary; curator source-exposed, not clean-room isolation.",
+  "draftSha256": "391e11d04703de881d7eacbacd435c9fd9303bc28b1b88fda5541fc3bd62e9c4",
+  "design": "Two native async request owners retain distinct admission and settlement. Seed uses one private journal lifetime bound to its applied result, preserving the extra completion boundary and live member/run/definition projections. Prompt writes and publishes directly. Existing dependencies remain the sole parsing and graph transformation owners; no retry/state/cache/policy layer.",
+  "expressionBoundary": "Full candidate was authored from the packet, not mechanically extracted from predecessor input. Its constrained admission, three category append loops, awaited effect sequence and output object expressions remain very close to predecessor structure. Helper relocation/renaming is zero originality credit; restricted inputs do not automatically establish whole-file originality. Exact API/protocol strings, messages and conventional projections remain compatibility material. Independent root contribution/rights review is required; no MIT/header/registry grant.",
+  "integration": {
+    "draftBodyAstEqual": true,
+    "integration": "Formatting and relocation of type-only imports to preserve original declaration bytes; no executable draft correction.",
+    "declarationBytesEqual": true,
+    "bindings": 48
+  },
+  "verification": {
+    "predecessorFreeze": {
+      "sourceGroups": 4,
+      "pass": 4,
+      "emittedBehaviorRun": false,
+      "note": "Exact predecessor source/JS/declaration pinned and isolated compile verified; no separate prechange emitted behavior replay."
+    },
+    "finalSource": {
+      "groups": 4,
+      "pass": 4,
+      "fail": 0
+    },
+    "finalActualEmitted": {
+      "groups": 4,
+      "pass": 4,
+      "fail": 0
+    },
+    "coverage": "Minimal data-write/partial-failure/await checks under the latest reduced cadence: admission and live publication/ref/field ordering; original rejection/partial effects; delayed independent persistence; actual compiled run-loop with owned phase/context ports; strict selector rejection. No broad accessor/timing matrix.",
+    "consumer": "Actual unchanged compiler-emitted run-loop body in both dependency modes; graph-artifact source or actual emitted import, actual lifecycle/parsers/formatters. Phase execution is synthetic; unused runtime imports are throwing guards. Not a full provider/expert-runtime integration run.",
+    "types": {
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "noEmit": true
+    },
+    "lint": "94configured rules,0errors,1intentional no-thenable warning for the throwing-then-getter failure fixture. No suppressions/rule changes.",
+    "format": "10files passed; receipt checked separately.",
+    "architecture": "changed check:0violations; CLI not managed.",
+    "sourceAndEmitted": {
+      "node": "v24.19.0",
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "source": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f",
+      "emitted": "fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf",
+      "declaration": "05592b8fbf31a82d3219074ca09dc1bb98dd43bcc5506cf1d638bf1f1cda0344",
+      "bindings": 48,
+      "pins": "9d07ca7d22f9846e6402f41a662dfbfabc19bf5d6dd4b731fbc800d5dd63cdde"
+    },
+    "unchangedDeclaration": "05592b8fbf31a82d3219074ca09dc1bb98dd43bcc5506cf1d638bf1f1cda0344"
+  },
+  "knownLimits": [
+    "No full suite, broad build, root-wide checks or native Windows/macOS acceptance; Node24.19.0/TypeScript6.0.2 only.",
+    "Ordinary schema-shaped definitions/results and owned ports; no arbitrary accessor/proxy/dependency replacement equivalence claim. Cached admission configuration changes exotic property-read counts; actual caller uses ordinary definitions.",
+    "Root integrated planner-expansionv2 and recovery branch acceptance are separate. No graph/planner production changed.",
+    "Freshness fetch failed at configured proxy; local execution/tests worked. No settings/access change.",
+    "No root publication-tree retry, raw bundle upload, licence decision or merge/deploy."
+  ],
+  "draftPrPlan": "One draft against recovery/independent-logging-20260930-0456 from existing parallel/cli-tools-fast-20261001. Open-PR lookup returned none. Prepush GitHub comparison at previous branch head:161ahead/137behind; branch is divergent, root owns integration and no rebase/merge is attempted.",
+  "fileSha256": {
+    "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.d.ts": "05592b8fbf31a82d3219074ca09dc1bb98dd43bcc5506cf1d638bf1f1cda0344",
+    "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js": "fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf",
+    "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f",
+    "apps/cli/packages/core/test/workflow-graph-artifacts-baseline.json": "4eff13c7ab1c4bdebecfe49d6f0a7a3d7730d80698d18bebd418e510b75d23bb",
+    "apps/cli/packages/core/test/workflow-graph-artifacts-current.json": "9d07ca7d22f9846e6402f41a662dfbfabc19bf5d6dd4b731fbc800d5dd63cdde",
+    "apps/cli/packages/core/test/workflow-graph-artifacts-fixture.ts": "4c21dc1f5cb409dc8fd15d14e3b0b4201d9a91e23bfafc22b438fbb8006969f2",
+    "apps/cli/packages/core/test/workflow-graph-artifacts-ports.ts": "2b4c3c6dcf2f277eb2065b7a96ee1b633272c0ceda26419971c75247db4d4bb8",
+    "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts": "e3d3a8181fbd9e5438d146a708a1c26f30ee1e78b3ca54c86783db54fb606212",
+    "docs/evidence/graph-artifacts-author-20261002/api.d.ts": "639b00ff4d48d5e2bf79677eea09e28a23996518f3619119c3044d07fdc28e4e",
+    "docs/evidence/graph-artifacts-author-20261002/contract.md": "ae4398d290a96f6e5f49a815378b7cf201c501e03703f7b59cff0828491e6702",
+    "docs/evidence/graph-artifacts-author-20261002/draft-exact.json": "a322171881109484593ab6733e85540f49f47713d069b1be4955001d3eb39475",
+    "specs/knorvia-graph-artifacts-20261002.md": "0961179829d4d309f74f81307e59fd11c0f3e44555d037758af660446fd2738f"
+  },
+  "localEvidenceSha256": {
+    "/tmp/knorvia-graph-artifacts-20261002/freeze-compile.log": "adccc7e2b5d4e494d25df0015f37352a6309f853dde4a4495975ce9ce2f722cf",
+    "/tmp/knorvia-graph-artifacts-20261002/freeze-source.log": "c5b4883c7603a2b9e50a348b8227d6dc991f78650d0fe1122c78b5f946f80831",
+    "/tmp/knorvia-graph-artifacts-20261002/observations.json": "951b571a424d38c1123b040898be95cdc03b646c378b097a2bbbdb5af2c004b6",
+    "/tmp/knorvia-graph-artifacts-20261002/final-compile.log": "26bef27c16e82ca0298d3d0b0669c331cee90077f81ba66ac20d545f9b650851",
+    "/tmp/knorvia-graph-artifacts-20261002/final-source.log": "4a639ac8ba28e9634c3340d8f2be17ea1dd9f52fe06ff804a029787a71846a84",
+    "/tmp/knorvia-graph-artifacts-20261002/final-emitted.log": "3005887c9b5e6425f52b0c4d77a6b731cd1cff906125f205297fc707632cf719",
+    "/tmp/knorvia-graph-artifacts-20261002/final-types.log": "a46bbef2ce37acec88dfa69f7b13a055a6d178b881f3347d2a065c78b7b2a431",
+    "/tmp/knorvia-graph-artifacts-20261002/final-lint.log": "3af6dfd2c81c13affbd936659b6efb3a05b2ec6235147e3a10435d60a8dcf9d9",
+    "/tmp/knorvia-graph-artifacts-20261002/final-format.log": "9e70faa32caea6c0a07e1243188fd5752f6a7854ab388b73bfd4b9ceb00f3ca2",
+    "/tmp/knorvia-graph-artifacts-20261002/final-architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "/tmp/knorvia-graph-artifacts-20261002/integrity.json": "a9b11ce56ce8d6c73fed97666022dc8094cf14d224fc287f436456760a262004",
+    "/tmp/knorvia-graph-artifacts-20261002/prepare.mjs": "6dc29a69a8eaaef66b74a0a250cd8160b24307e90c9b13f9ffef57bded5af7e5",
+    "/tmp/knorvia-graph-artifacts-20261002/typecheck.mjs": "edb8c9de9934e264860dffb8d5bcf0efb9399f0512a130c2cb3b46b2be67d3e1",
+    "/tmp/knorvia-graph-artifacts-20261002/integrity.mjs": "dc3bc4c622db80d71e1864c597b3b8efd0c27a2abb4d60d06aa01ff5d6313c72"
+  },
+  "reproduce": "Compile only owner and unchanged run-loop using root TypeScript6.0.2/core tsconfig, preserving strict declaration equality. Run workflow-graph-artifacts.test.ts with node --import tsx --test --test-isolation=none --test-timeout=120000 and KNORVIA_COLLECTION_PLANNER_TEST_EMITTED=0/1, KNORVIA_ENV=test and owned temporary data/storage. Loader binds48exact owner/dependency artifacts; wrong artifacts fail rather than silently repin."
+}

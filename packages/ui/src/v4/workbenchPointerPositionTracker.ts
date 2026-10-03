@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed pointer/resource candidate; source and runtime review pending.
 interface WorkbenchPointerPosition {
   x: number;
   y: number;
@@ -8,55 +10,76 @@ interface WorkbenchPointerPositionTracker {
   getPosition: () => WorkbenchPointerPosition;
 }
 
-function readPointerPosition(event: Event): WorkbenchPointerPosition | null {
-  if (!("clientX" in event) || !("clientY" in event)) {
-    return null;
-  }
-  const { clientX, clientY } = event as Event & {
-    clientX: unknown;
-    clientY: unknown;
+const observations = ["pointermove", "pointerup", "pointercancel"] as const;
+
+/** One capture observer routes all events; its ledger owns every installed listener. */
+class PointerCaptureLease implements WorkbenchPointerPositionTracker {
+  private active = true;
+  private listeners: Array<(typeof observations)[number]> = [];
+
+  constructor(
+    private readonly document: Document,
+    private position: WorkbenchPointerPosition,
+  ) {}
+
+  getPosition = (): WorkbenchPointerPosition => this.position;
+
+  private consume = (event: Event): void => {
+    if (!this.active) return;
+    if (event.type !== "pointercancel") {
+      const pointer = event as PointerEvent;
+      this.position = { x: pointer.clientX, y: pointer.clientY };
+    }
+    if (event.type !== "pointermove") this.dispose();
   };
-  return typeof clientX === "number" && typeof clientY === "number"
-    ? { x: clientX, y: clientY }
-    : null;
+
+  install(): void {
+    try {
+      for (const type of observations) {
+        // 先登记：addEventListener 即使装入后抛错，仍有 owned 清理路径。
+        this.listeners.push(type);
+        this.document.addEventListener(type, this.consume, true);
+      }
+    } catch (error) {
+      try {
+        this.dispose();
+      } catch {
+        /* preserve the installation failure */
+      }
+      throw error;
+    }
+  }
+
+  dispose = (): void => {
+    if (!this.active) return;
+    this.active = false;
+    const listeners = this.listeners;
+    this.listeners = [];
+    let failed = false,
+      failure: unknown;
+    for (const type of listeners) {
+      try {
+        this.document.removeEventListener(type, this.consume, true);
+      } catch (error) {
+        if (!failed) failure = error;
+        failed = true;
+      }
+    }
+    if (failed) throw failure;
+  };
 }
 
 function createWorkbenchPointerPositionTracker(
   ownerDocument: Document,
   activatorEvent: Event,
 ): WorkbenchPointerPositionTracker | null {
-  const initialPosition = readPointerPosition(activatorEvent);
-  if (!initialPosition) {
-    return null;
-  }
-  let position: WorkbenchPointerPosition = initialPosition;
-  let disposed = false;
-  const stopObserving = () => {
-    if (disposed) {
-      return;
-    }
-    disposed = true;
-    ownerDocument.removeEventListener("pointermove", handlePointerMove, true);
-    ownerDocument.removeEventListener("pointerup", handlePointerUp, true);
-    ownerDocument.removeEventListener("pointercancel", handlePointerCancel, true);
-  };
-  const handlePointerMove = (event: PointerEvent) => {
-    position = { x: event.clientX, y: event.clientY };
-  };
-  const handlePointerUp = (event: PointerEvent) => {
-    position = { x: event.clientX, y: event.clientY };
-    stopObserving();
-  };
-  const handlePointerCancel = () => {
-    stopObserving();
-  };
-  ownerDocument.addEventListener("pointermove", handlePointerMove, true);
-  ownerDocument.addEventListener("pointerup", handlePointerUp, true);
-  ownerDocument.addEventListener("pointercancel", handlePointerCancel, true);
-  return {
-    dispose: stopObserving,
-    getPosition: () => position,
-  };
+  if (!("clientX" in activatorEvent) || !("clientY" in activatorEvent)) return null;
+  const { clientX, clientY } = activatorEvent as Event & { clientX: unknown; clientY: unknown };
+  // 保留原 number 契约（包含 NaN）；不把坐标准入改成新的数据格式约束。
+  if (typeof clientX !== "number" || typeof clientY !== "number") return null;
+  const lease = new PointerCaptureLease(ownerDocument, { x: clientX, y: clientY });
+  lease.install();
+  return lease;
 }
 
 export { createWorkbenchPointerPositionTracker, type WorkbenchPointerPositionTracker };

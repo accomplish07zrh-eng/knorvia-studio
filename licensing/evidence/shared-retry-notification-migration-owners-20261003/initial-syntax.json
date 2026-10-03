@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/api-retry-status.ts",
+    "packages/shared/src/background-task-notifications.ts",
+    "packages/shared/src/network-debug-status.ts",
+    "packages/shared/src/subagent-markdown-selection.ts",
+    "packages/shared/src/lineChangeStat.ts"
+  ],
+  "stdout": "packages/shared/src/api-retry-status.ts: 0 syntax-only diagnostics\npackages/shared/src/background-task-notifications.ts: 0 syntax-only diagnostics\npackages/shared/src/network-debug-status.ts: 0 syntax-only diagnostics\npackages/shared/src/subagent-markdown-selection.ts: 0 syntax-only diagnostics\npackages/shared/src/lineChangeStat.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,28 @@
+{
+  "mode": "AST/digest/source-data checks only, no repository or native port/runtime execution",
+  "typescript": "6.0.2",
+  "sourceMetadataBindings": 10,
+  "authorInputBindings": 6,
+  "exportDeclarations": 4,
+  "publicClassMembers": [
+    "constructor",
+    "read",
+    "update",
+    "onDidChange",
+    "dispose"
+  ],
+  "factorySignature": "PASS",
+  "constructorAndMethodSignatures": "PASS",
+  "declarationFiles": 3,
+  "bodyCount": 0,
+  "initializerCount": 0,
+  "parseErrors": 0,
+  "targetStaticValues": "PASS",
+  "snapshotAndEmptyOwnKeys": "PASS",
+  "codecWireKeys": "PASS",
+  "semanticTypeClosure": false,
+  "ordinaryTestsBuildRun": false,
+  "productionChanges": 0,
+  "materialOpen": 21,
+  "status": "PASS"
+}

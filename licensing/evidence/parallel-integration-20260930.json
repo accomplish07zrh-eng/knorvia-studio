@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "sourceIntegrationHeads": {
+    "deviceFilesystem": "fd2fed2",
+    "services": "98b886b",
+    "protocol": "1162786",
+    "processQa": "fe908b9"
+  },
+  "sourceCommits": {
+    "services": [
+      "8c412427e4f53d335301b326c21e27309b28da76",
+      "5a0def9b6e3ccf831fcbe2a47d5cf178806e1a12"
+    ],
+    "protocol": [
+      "0639cf675dec4dc6556b5ee9e57da87ddfb8c36e",
+      "5277f8074c5071d3fc90b72370347ddf6d53ee51"
+    ],
+    "processQa": "ffe064c275de5659fa5314ab81db63f812c01377"
+  },
+  "inputBindingChange": {
+    "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+    "oldSha256": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+    "newSha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+    "previousAuditResult": "Third-party input changed: packages/shared/src/protocol-v4/wire-codec.ts",
+    "basis": [
+      "specs/knorvia-protocol-wire-helpers-20260930.md",
+      "licensing/evidence/protocol-wire-20260930.json",
+      "specs/knorvia-integration-provenance-20260930.md"
+    ],
+    "oldCopiedDeclarationsRetained": [
+      {
+        "id": "Visual Studio Code IPC and common utilities",
+        "referenceRevision": "44825207bf4389c3bd17c92d3ec28cf784c324cc",
+        "source": "https://raw.githubusercontent.com/microsoft/vscode/44825207bf4389c3bd17c92d3ec28cf784c324cc/LICENSE.txt",
+        "file": "third-party/upstream/9480271317925265e806a9a196aaa33410a962fa9d4d1e248a4a5187bc8c9df9.txt",
+        "sha256": "9480271317925265e806a9a196aaa33410a962fa9d4d1e248a4a5187bc8c9df9",
+        "importRevision": null,
+        "provenance": "Original import revision is not recorded. This pinned upstream license/source reference is not asserted to be the original import version.",
+        "roots": [
+          "packages/rpc/src",
+          "packages/rpc/examples",
+          "packages/shared/src/protocol-v4/wire-codec.ts"
+        ],
+        "scope": "Upstream-derived IPC, serialization, buffer, lifecycle and event portions only. Local RPC extensions, transports and envelope measurement are ZCode adaptations; inclusion does not attribute all local code to Microsoft.",
+        "license": "MIT",
+        "historicalRoots": [
+          "packages/rpc/src",
+          "packages/rpc/examples",
+          "packages/shared/src/zcode-protocol-v4/wire-codec.ts"
+        ],
+        "files": [
+          {
+            "file": "packages/rpc/src/buffer.ts",
+            "sha256": "6bc6a44e6abd088f72d57616d9556d78ce078b6f3813bf75402dde386781492c"
+          },
+          {
+            "file": "packages/rpc/src/channelClient.ts",
+            "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac"
+          },
+          {
+            "file": "packages/rpc/src/channelServer.ts",
+            "sha256": "b9c61bd3881fff11b38a93853c60fa5c2bc871bcbea5dad0e9be0a4674f6c9da"
+          },
+          {
+            "file": "packages/rpc/src/channels.shared.ts",
+            "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2"
+          },
+          {
+            "file": "packages/rpc/src/channels.ts",
+            "sha256": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209"
+          },
+          {
+            "file": "packages/rpc/src/delayedChannel.ts",
+            "sha256": "e7607b7fe9f35c742db206df90852e2ccafb75abc088606cf1ddbae801574ecf"
+          },
+          {
+            "file": "packages/rpc/src/foundation.ts",
+            "sha256": "b4874401965e7bad7e84245a2fc5960657a349b146f355ac7343562fa724da9f"
+          },
+          {
+            "file": "packages/rpc/src/index.ts",
+            "sha256": "6a5adcfb0e6c7a7d385e10fede09c3e9c808e3555c27b938091868cdf0c3fbef"
+          },
+          {
+            "file": "packages/rpc/src/ipc.ts",
+            "sha256": "2ec3dfe0654a68300dbed7afd5ac436b563abf983d6e0f59a2b028469fdf71ef"
+          },
+          {
+            "file": "packages/rpc/src/logging-middleware.ts",
+            "sha256": "20edfd8e5d054097186f2498ec4e9c08c61740ed003fc69eecea8176a15fe025"
+          },
+          {
+            "file": "packages/rpc/src/network-telemetry-middleware.ts",
+            "sha256": "18a7cde46e6c65e0138af0623d07bf883ce278acf44654bc5144ecaadd36a536"
+          },
+          {
+            "file": "packages/rpc/src/persistent-protocol.ts",
+            "sha256": "80609595b89188272d743e557502c6cad3858f828acae31c2ef64206bb3c8978"
+          },
+          {
+            "file": "packages/rpc/src/protocol.ts",
+            "sha256": "aafc0c098c75fcba4519fad2ecbee7e025d5d8a27c15c87e5ccb4ca6ce554670"
+          },
+          {
+            "file": "packages/rpc/src/proxy-channel.ts",
+            "sha256": "ec5b43e6a3a622a88a8aaa6af9cb37dbfe517932ee7f4a337019ec138bb2d513"
+          },
+          {
+            "file": "packages/rpc/src/remote.ts",
+            "sha256": "a11e072d5df7e1c1ce64814a68f72afc081246b364f0da409b5c9d22bc815957"
+          },
+          {
+            "file": "packages/rpc/src/serialization.ts",
+            "sha256": "e949418e1cd17cc863c147fc8d1ff15237e1b5f0cb8e3344fd2a9ccfae9d54e7"
+          },
+          {
+            "file": "packages/rpc/examples/01-basic-ipc.ts",
+            "sha256": "bb4423c1642918846010f9307262c379536ca9541d79df6ebba120b5cf792f3e"
+          },
+          {
+            "file": "packages/rpc/examples/02-proxy-channel.ts",
+            "sha256": "66dda9aec12cd46da8a56560cb765a3de590917bbc40f329185e6fd05a388fff"
+          },
+          {
+            "file": "packages/rpc/examples/03-ipc-server-client.ts",
+            "sha256": "9b873f565b4a3426ee3a5338a975cb6ab76e29af094cf6bbee4f7030f872f758"
+          },
+          {
+            "file": "packages/rpc/examples/04-remote-connection.ts",
+            "sha256": "fe43a2d631ba54a1cf63a86e344b6e2e58d83c2e8c95f2f8b7371f63e6442541"
+          },
+          {
+            "file": "packages/shared/src/protocol-v4/wire-codec.ts",
+            "sha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+            "historicalFile": "packages/shared/src/zcode-protocol-v4/wire-codec.ts"
+          }
+        ]
+      }
+    ],
+    "claim": "Fresh build input only; not publisher exact-match or copyright eligibility"
+  },
+  "independentQaEvidence": {
+    "services": {
+      "edgeObservations": 8434,
+      "result": "Parent-provided independent QA: old/source/emitted JS agree; Win/mac simulations only"
+    },
+    "protocol": {
+      "fourWayObservations": 6627,
+      "result": "Parent-provided independent QA: old/new source/emitted JS agree; VM is simulated browser only"
+    },
+    "process": {
+      "initialCounterexampleFailures": 8,
+      "repairedSourceDistPasses": 8,
+      "boundaries": [
+        "1100ms event-loop stall must stop next /proc I/O",
+        "Duplicate roots visit each tree once",
+        "Finite fractional tick rounding",
+        "VmRSS zero whitespace before unit"
+      ],
+      "prior50CaseGateInsufficientForTheseCounterexamples": true
+    }
+  },
+  "materialObligationsRemain": 27,
+  "productionMitReviewsAdded": 0,
+  "licenseAndData": {
+    "rootLicenseSha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+    "thirdPartyNoticesSha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+    "userDataFormatChanges": 0,
+    "uiChanges": 0
+  },
+  "currentBuildProof": [
+    {
+      "path": "apps/cli/packages/adapters/dist/device/process-probe.js",
+      "sha256": "4f1320323826fac30d9894ccd60480e8d4ab8a7e260458fe18cc7b6e7b79aa5f",
+      "source": "apps/cli/packages/adapters/src/device/process-probe.ts",
+      "sourceSha256": "f1130eaf748b97813b9c79b78114f429f2f7a757e5578e6f901256831270b446",
+      "mapSource": "../../adapters/dist/device/process-probe.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/device/process-probe-linux.js",
+      "sha256": "782ae2df72bad20feee67e69f7eeefd679f85bb9e946830724213bf7df61a730",
+      "source": "apps/cli/packages/adapters/src/device/process-probe-linux.ts",
+      "sourceSha256": "8e2a8250f7cf72c78d6ed08aed4f59f7d92751619c14b56e2cc08a1b974e6150",
+      "mapSource": "../../adapters/dist/device/process-probe-linux.js",
+      "exactSourceMapMatch": true
+    }
+  ],
+  "cliBuild": {
+    "tasks": 17,
+    "passed": 17,
+    "cached": 11
+  },
+  "sharedWireBuildProof": [
+    {
+      "source": "packages/shared/src/protocol-v4/wire-binary.ts",
+      "sha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+      "mapSource": "../../../../../packages/shared/src/protocol-v4/wire-binary.ts",
+      "exactSourceMapMatch": true,
+      "compiledJsSha256": "9d68f06154fdec97ba672dfd81152a60a222e0a10a3c970f02f2761d2ea6201d",
+      "declarationSha256": "e774802412f58d695b2b9ab9af9a24679ab8712ebaa2caf8a468d7a282fc8a2a"
+    },
+    {
+      "source": "packages/shared/src/protocol-v4/wire-codec.ts",
+      "sha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "mapSource": "../../../../../packages/shared/src/protocol-v4/wire-codec.ts",
+      "exactSourceMapMatch": true,
+      "compiledJsSha256": "bd006f4197761ad8006d55b38d790281e7b238918077423750d813b9d6929096",
+      "declarationSha256": "ee1a7bff3954ee04de3686bb9b9e66b84f457c5f8e7d592305948cb5ac6f74b6"
+    },
+    {
+      "source": "packages/shared/src/protocol-v4/wire-reassembly.ts",
+      "sha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+      "mapSource": "../../../../../packages/shared/src/protocol-v4/wire-reassembly.ts",
+      "exactSourceMapMatch": true,
+      "compiledJsSha256": "5fe5cb2d543e81cbd00f97a1a11d6aecb6d0246ac6a9f95c069660842cb93e1a",
+      "declarationSha256": "63755ab271eb4b4f8657a524728eafd6f5fd2c2457e8a8dee91fd90be8a4a67c"
+    }
+  ],
+  "integratedValidation": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "aggregate": {
+      "tests": 4040,
+      "passed": 4033,
+      "skipped": 7,
+      "failed": 0,
+      "durationMs": 274516.087374
+    },
+    "rootTypecheck": true,
+    "cliTypecheck": true,
+    "rootLint": true,
+    "cliLint": true,
+    "architecture": {
+      "violations": 0,
+      "new": 0
+    },
+    "materialStrictGate": {
+      "rejected": true,
+      "obligations": 27
+    },
+    "deviceFilesystemSourceDistCasesEach": 390,
+    "scope": "Local combined source state; final commit CI separately verified"
+  }
+}

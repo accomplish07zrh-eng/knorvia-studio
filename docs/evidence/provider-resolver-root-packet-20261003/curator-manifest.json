@@ -1,0 +1,205 @@
+{
+  "checkedAtUtc": "2026-10-03T02:11:02.155426+00:00",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "cd754c7909a735545051fdfd68a5668d6f65feba",
+  "sourceAndMetadataBindings": [
+    {
+      "path": "packages/provider/src/resolver.ts",
+      "bytes": 14919,
+      "sha256": "89332f5db90101f88fe40176e75bd2c1991a940cbe827939f5e3284486fd505e",
+      "gitBlob": "e79fb0a691920cf500366dfc678569ba7c08a2e8"
+    },
+    {
+      "path": "packages/provider/src/config/provider-config.ts",
+      "bytes": 18187,
+      "sha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+      "gitBlob": "a566b1333d3cb111af73171610789600b5cb4c91"
+    },
+    {
+      "path": "packages/provider/src/config/model-config.ts",
+      "bytes": 21928,
+      "sha256": "67685b36112953bad17328398df36234f2997f74c5d46d2f5485d1b11a13666e",
+      "gitBlob": "00cbfed60c83f7dd5935f4d47823cba8c9840cbb"
+    },
+    {
+      "path": "packages/provider/src/config-overlay.ts",
+      "bytes": 1450,
+      "sha256": "5c8f55cc78036e3ac8b67f0be19a7a61d51342cd90f97de427c24e1c5f7b5883",
+      "gitBlob": "4a82278119ce164944d2ff759529b3aac7c8d5e5"
+    },
+    {
+      "path": "packages/provider/src/config/ids.ts",
+      "bytes": 104,
+      "sha256": "756cbd2c9ea5355b031ff0d14322faddf9caab56f76026bffebccc9633e4caec",
+      "gitBlob": "2d3f25231df131611f9fd1f884ca69128a7473f6"
+    },
+    {
+      "path": "packages/provider/src/account-provider-state.ts",
+      "bytes": 1557,
+      "sha256": "279fe874f71a09fe224bfeb31e04f0b7b37087369b6716b3f2bce9c279183a3a",
+      "gitBlob": "22bc4967486e79b3bb38453376c48e117cdd61dc"
+    },
+    {
+      "path": "packages/provider/src/owned-order.ts",
+      "bytes": 1186,
+      "sha256": "d124a0be9d4167e6f104e06f6f2020e8b72e8132f68d4663ab2f9ecb66fc4231",
+      "gitBlob": "9a758fb9694151548ab477c81144dcbabf6df7eb"
+    },
+    {
+      "path": "packages/provider/src/config/provider-data-schema.ts",
+      "bytes": 3739,
+      "sha256": "e38a81cd23b30f4430eac29ed822e16c199dc1a22c984d6ae866c294d4387419",
+      "gitBlob": "830211c6b8a9efc3bbee246470d256b4773b14c2"
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "bytes": 4370,
+      "sha256": "c25bbbfeee56d0eca660c7ee383296aab146c4456a9acaa2177d0cd497567b29",
+      "gitBlob": "3257a7bc05bbcdf6e633f991e7e124dd7d5fd9f2"
+    },
+    {
+      "path": "packages/provider/src/config/index.ts",
+      "bytes": 170,
+      "sha256": "3685ca118faea0b738e3c5815c98687931536f167b83d2047c43b83a53a16a2d",
+      "gitBlob": "5e1e06a10e368602c55813aabb9837ef68c69339"
+    },
+    {
+      "path": "packages/provider/src/index.ts",
+      "bytes": 539,
+      "sha256": "7d8731e02a97d0369b898a7d11f90411c0cd9e00da26ba6d9922cb8d9515bbce",
+      "gitBlob": "1df2c3018a4099a5ac55eba36344d44206411de0"
+    },
+    {
+      "path": "packages/provider/package.json",
+      "bytes": 398,
+      "sha256": "37166cc52e8863ec7987bc465422201aac7fcc6b7547c61371533e02111f97e6",
+      "gitBlob": "b1112a47ede24b964e052321ce65a82a7527b7c1"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    }
+  ],
+  "authorInputBindings": [
+    {
+      "path": "contract.md",
+      "bytes": 12166,
+      "sha256": "6ea4bd3d6da7f341a7832ff943108be8475fcded58b6908e4c46b43606140b86",
+      "gitBlob": "a4e5ffe5e35069f387bfab9f1b7aa94a32df2e27"
+    },
+    {
+      "path": "public-api.d.ts",
+      "bytes": 4282,
+      "sha256": "c853d4deac8dc06cac835b6169f894de525a7542ca7ece307c4d16c316fe4487",
+      "gitBlob": "21f645aa51ce745dac941b17af0fc073b616aab9"
+    },
+    {
+      "path": "dependency-contract.md",
+      "bytes": 3861,
+      "sha256": "f65fa17b1f4c6e6ce3c8119b394faa5c845213034131640be72c69f687f4d7a0",
+      "gitBlob": "8f82c640015ca387d6d5f028488fb2264ed2d6e5"
+    },
+    {
+      "path": "retained-data.json",
+      "bytes": 2973,
+      "sha256": "9d2ef53fb449a1b11bfc46c0fded6fad55d15acc5ebda008854147868a396404",
+      "gitBlob": "a26638203c2499e8932732d0689e134b04113995"
+    },
+    {
+      "path": "dependencies/provider-config.d.ts",
+      "bytes": 5448,
+      "sha256": "21883331cf6d8e5f46670993283fffc6007d5c4195151236d7f0dd715c9e773e",
+      "gitBlob": "28fb246c8068920b077dc1ee71cce86055cd1a6c"
+    },
+    {
+      "path": "dependencies/model-config.d.ts",
+      "bytes": 6358,
+      "sha256": "4ff1df364bb661b4c1a70917e3943278d3cec6ea35d4930b22f648008a13dcfc",
+      "gitBlob": "7ab43b50ef511391b7c59372ae9187fe23e36d3a"
+    },
+    {
+      "path": "dependencies/config-overlay.d.ts",
+      "bytes": 538,
+      "sha256": "4bedc3dbec407b40fe9e34530daa7fee54a82cedc4a159b044a1b8ad8b956ac4",
+      "gitBlob": "ddbdba174867d64b9dc03320ce69d3c051587094"
+    },
+    {
+      "path": "dependencies/ids.d.ts",
+      "bytes": 106,
+      "sha256": "acae81df0490a3d35f2c3a3a04264a6e3e4d854db6e820d022a869d61ba80c4e",
+      "gitBlob": "2be9b1a09a33f3fd34f1f942e88aae9cb4169e2b"
+    },
+    {
+      "path": "dependencies/account-provider-state.d.ts",
+      "bytes": 507,
+      "sha256": "5fd04d392f99a77413929c4e112ba1371b137afb4254fb9f573996fe0b48abc8",
+      "gitBlob": "bfa4d3b47302e2a69b76670896971a0db31319a5"
+    },
+    {
+      "path": "dependencies/owned-order.d.ts",
+      "bytes": 158,
+      "sha256": "9e47b3805c744cface4887af5d037f016e0dd496ccd31eee0aa93e11adf891dc",
+      "gitBlob": "0437c8bff79364c41ccecf1b9a8837c3c5f033e4"
+    }
+  ],
+  "extraction": "TypeScript6.0.2 AST parsing and declaration printing only; no semantic compiler/source emit/dependency import or execution. Original type relations and explicit return annotations retained; defaults converted to optional declaration parameters; comments, bodies, private members and initializers removed.",
+  "declarationQualifications": [
+    "Resolver public declaration topology complete, not entire provider package API",
+    "Dependency views preserve relevant field/type relations and resolver-consumed method contracts only; uncalled facade methods omitted",
+    "Readonly ZhipuAccountAccessConfig.type has no explicit source annotation: inferred manually/mechanically from string-as-const initializer as zhipu-account",
+    "Original relative imports retained as source-route identifiers; not a relocated standalone typechecked package; canonical schemas/rule-data type closure deferred to root supplied public surfaces"
+  ],
+  "preservedExtractorFailure": {
+    "script": "extract-declarations.initial.cjs.txt",
+    "exitCode": 1,
+    "nodeVersion": "24.19.0",
+    "error": "Error: Missing explicit field type:type",
+    "reason": "AST initializer was an as-const expression, not bare StringLiteral",
+    "correction": "Extractor unwraps AsExpression for readonly string literal type inference; no source/input implementation patch",
+    "output": "Original failure output retained in conversation tool transcript; not rerun or claimed as successful"
+  },
+  "curatorExposure": {
+    "targetBody": "Read complete allocated resolver source; not sent as an author input",
+    "publicBodyOrTypeContextRead": [
+      "config barrel exports",
+      "account state public type",
+      "canonical provider schema",
+      "canonical shared model schema including optionMapSchema validation body",
+      "config-overlay including protected helpers",
+      "config ids",
+      "selected config alias/import declarations"
+    ],
+    "machineAstSourceAccess": [
+      "provider-config.ts",
+      "model-config.ts",
+      "schema.ts exported declaration metadata",
+      "owned-order.ts signature",
+      "other directly bound dependency files"
+    ],
+    "noDependencyBehaviorImplementationGivenToAuthor": true,
+    "noNewAuthor": true,
+    "historicalBroaderExposureAndRepairedScratchWriteBreachQualification": "Retained unchanged; source-exposed curator is not a clean-room author. Shared executor/instruction-only/no OS isolation or independent access audit."
+  },
+  "checks": {
+    "freshness": "PASS ahead203/behind0 vs origin/main; no remote tracking branch so behind-remote portion skipped; exact published branch head independently confirmed",
+    "architecture": "Documentation-only packet; skill skips code architecture work. Prior missing-local-TypeScript architecture failure retained without rerun/install/bypass",
+    "fullTestsBuildTypesLint": false,
+    "providerNetworkAccountRuntimeExecution": false,
+    "userCredentialsOrPrivateRecovery": false,
+    "productionGlobalLicenseEdits": false,
+    "crossLaneMerge": false,
+    "packetStaticResults": "PASS14 source/metadata +10 input bindings;19 export declarations;4 function signatures;7 declaration files with0 body/initializer/parse failures",
+    "documentLinks": "PASS15 local links; JSON parsing passed"
+  },
+  "materialObligationsOpen": 21,
+  "wholeOwnerRightsAccepted": false
+}

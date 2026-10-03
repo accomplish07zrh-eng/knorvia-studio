@@ -1,0 +1,14 @@
+# CHECKPOINT-SERVICE complete owner specification
+
+2026-10-02, base `9733e1c6fed02a7948d2f1f5ddae9da60055e26e`. Body-free authoring; coordinator source-exposed. Same draft PR10. Existing root/metadata/index/ref/permission semantics and stored format preserved. No new safety hardening, public API, data migration or origin grant.
+
+Complete owner packages/services/src/git/gitCheckpointService.ts. Allowed packets service-api,checkpoint-api,repo-api,store-api,shared-api only plus this manual behavior, root AGENTS/architectureSKILL, own source. Import randomUUID node:crypto; shared checkpoint types @knorvia/shared; IGitCheckpointService type ./gitCheckpoint.js; createGitCheckpointRepo/typeGitCheckpointRepo ./repo/gitCheckpointRepo.js; GitCheckpointStore ./repo/gitCheckpointStore.js. Whole factory exported createGitCheckpointService(options?:{store?:GitCheckpointStore;repo?:GitCheckpointRepo}):IGitCheckpointService. Defaults evaluate store first options?.store??newStore then repo options?.repo??createRepo. Returned method order createCheckpoint,diffCheckpoints,restoreBetweenCheckpoints,deleteCheckpoint. No new ports/exports/API or state.
+Creation randomUUID once; await repo.createCheckpoint({workspacePath:params.workspacePath,checkpointId}); awaitstore.save(meta); return exactmeta. If save fails, repo side effect retained/no rollback new cleanup. Load helper awaitstore.load(workspacePath,id), if falsy Error(`Checkpoint does not exist: ${id}`); then strict meta.workspacePath!==requested path -> Error(`Checkpoint workspace mismatch: ${meta.checkpointId}`). Identity is exact caller string no normalization. Comparison strict left.repoRoot!==right -> Error("Checkpoint repoRoot mismatch."); scope -> Error("Checkpoint scope mismatch."); workspaceInRepoPath -> Error("Checkpoint workspace scope mismatch.") in that order. Diff/restore start both load helpers via Promise.all in from then to order; compare after both success; awaitrepo.diffCheckpoints({workspacePath,from,to}) orrestoreBetweenCheckpoints({workspacePath,from,to,force:params.force}) passing original metadata objects, force includingundefined. No independent current-repo validation here. Deletion loads/gates first, awaitrepo.deleteCheckpoint({workspacePath,checkpoint}), thenawaitstore.delete(workspacePath,id); if ref deletion fails do notdelete manifest. Return/result/error identities preserved, no concurrencyqueue/cache new.
+
+```text
+request -> sole service/repo/store/command owner -> existing admission gate
+        -> ordered port effects -> existing result/error
+        -> temp-index cleanup or per-target manifest queue as already defined
+```
+
+Acceptance: minimum original/replacement synthetic write/permission safety, source/types/lint/architecture only. No actual user repository/history/files/deletion/reset/remotes/credentials/network/process actions; no ordinary suites/builds or cross-lane integration. Missing ignore parser/dependency stays blocked/unverified.

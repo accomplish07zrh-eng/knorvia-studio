@@ -1,0 +1,33 @@
+{
+  "packages/desktop/src/main/primaryWindowCoordinator.ts": {
+    "static": [
+      "import type { StartupWindowBootstrap } from \"./startupWorkspace.js\";"
+    ],
+    "dynamic": []
+  },
+  "packages/desktop/src/main/desktopTray.ts": {
+    "static": [
+      "import { app, Menu, Tray } from \"electron\";",
+      "import { join } from \"node:path\";",
+      "import {\n  DesktopCommandIds,\n  desktopMenuMessageIds,\n  getDesktopMenuMessage,\n  type DesktopCommandId,\n  type Locale,\n} from \"@knorvia/shared\";"
+    ],
+    "dynamic": []
+  },
+  "packages/desktop/src/main/desktopCommandHandlers.ts": {
+    "static": [
+      "import { app, BrowserWindow, dialog } from \"electron\";",
+      "import {\n  DesktopCommandIds,\n  PlatformChannels,\n  type AppSettings,\n  type DesktopCommandId,\n  type Locale,\n} from \"@knorvia/shared\";",
+      "import { readKnorviaStdioTapDevState, setKnorviaStdioTapDevEnabled } from \"@knorvia/services/node\";",
+      "import { showAboutDialog } from \"./about.js\";",
+      "import { exportLogs } from \"./exportLogs.js\";",
+      "import { openResourceManager } from \"./resourceManagerWindow.js\";",
+      "import { resolveCuaOsSupport } from \"./cuaOsSupport.js\";",
+      "import { syncWindowControlsOverlayForZoomLevel } from \"./desktopWindowButtonPosition.js\";",
+      "import {\n  DEFAULT_DESKTOP_WINDOW_HEIGHT,\n  DEFAULT_DESKTOP_WINDOW_WIDTH,\n} from \"./desktopWindowSize.js\";",
+      "import {\n  clampDesktopZoomLevel,\n  resolveDesktopZoomFactorForLevel,\n  resolveDesktopZoomLevelFromFactor,\n} from \"./desktopZoom.js\";"
+    ],
+    "dynamic": [
+      "node:fs/promises"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+# Workflow-run subagent activity grammar
+
+Baseline `8fa5375f0c590a836e84b6d0e67097628bab49eb`. Own the activity decision/formatting slice of `get-workflow-run-format-roster.ts`, one private `get-workflow-run-activity-program.ts`, narrowly named fixtures/tests and a concise receipt. The historical ledger reports upstream-modified/null review; actual history has only `7619e41`, no accepted replacement of this slice. Public health/phases/log/table layout, GetWorkflowRun orchestration/output/snapshot/summary, model formatter, shared runtime and state owners are excluded.
+
+The existing roster formatter owns table layout and its per-call question-time lookup; the journal owns all workflow state. Replace the inherited activity branch/helper bodies with one synchronous grammar interpreter: ordered route admission selects parked, waiting, unfinished, executing or settled text; deferred bind/conditional/text instructions preserve evaluation before emitting. Frames and text parts live only for one row. No new cache, task state, await, clock, retry, notification, permission or cancellation policy.
+
+```text
+unchanged GetWorkflowRun journal await → unchanged output projection
+→ unchanged schema/model block/table projection → activity grammar → same table text
+→ unchanged result serialization/full call-runner events and terminal telemetry
+```
+
+Preserve route precedence and repeated state/currentAsk/parkedOn reads. Waiting wins even without wait details; unfinished with an ask says it was in flight, unknown states with an ask use executing detail. Parked age lookup precedes question escaping; waiting age precedes slot/reason/retry; settled failure suffix precedes count coercion. Ask step arithmetic precedes escaped address/ordinal; executing address precedes age/turn/tool count/last tool. Last-tool parent getters are re-read for target, age and name. Keep all template coercion/throw behavior, receiver/native callback order, escaping, age/count/duration lower helpers, omissions versus zero/empty values, one-based actorSeq, punctuation/plurals and exact retained prose. Main row read order, task head, column widths24, table gaps, truncation notice, question duplicate resolution and public declarations remain unchanged. No extra async settlement promise or altered deadline/request lifetime.
+
+Before production, pin exact source/blob and actual emitted bytes/declaration, archive only the original emitted module, and freeze concise observations of routes, changing/throwing getters, malformed fields and coercion ordering. Exercise current source and strict actual emission, unchanged parent model formatter and real registry/full call-runner with owned journal ports. Use owned synchronous observation callbacks and external abort controls around model completion, including early controls; preserve handler deadline/await and terminal result/error/Completed/Cancelled ownership. Repeated and concurrent synthetic calls must remain independent. Fetch/DNS fail closed; no live workflows/models/files/accounts/settings.
+
+Run affected source/strict-emitted and immediate display consumers, scoped TypeScript/emission, configured+owned lint, formatting and architecture. No aggregate build/full suite or unchanged native-limit probes. Preserve prior failure proofs and accepted files exactly. Source exposure and inherited archive/prose/compatibility expressions are disclosed; attribution remains, root owns independent expression/licence review under `docs/knorvia-mit-review-acceptance-criteria-20260930.md`. No MIT grant or publication claim.

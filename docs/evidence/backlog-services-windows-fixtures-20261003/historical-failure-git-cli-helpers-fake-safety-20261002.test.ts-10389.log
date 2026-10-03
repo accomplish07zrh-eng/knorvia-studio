@@ -1,0 +1,21 @@
+2026-10-03T08:53:19.2760534Z test at packages\services\test\git-cli-helpers-fake-safety-20261002.test.ts:1:187
+2026-10-03T08:53:19.2761264Z ✖ synthetic CLI parsing, repository paths and permission-limited file reads (29.5885ms)
+2026-10-03T08:53:19.2762137Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2762522Z   + actual - expected
+2026-10-03T08:53:19.2762709Z   
+2026-10-03T08:53:19.2762866Z     {
+2026-10-03T08:53:19.2763030Z   +   added: 0,
+2026-10-03T08:53:19.2763208Z   -   added: 2,
+2026-10-03T08:53:19.2763393Z       removed: 0
+2026-10-03T08:53:19.2763570Z     }
+2026-10-03T08:53:19.2763726Z   
+2026-10-03T08:53:19.2764322Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\git-cli-helpers-fake-safety-20261002.test.ts:114:10)
+2026-10-03T08:53:19.2765031Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2765523Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2766275Z     generatedMessage: true,
+2026-10-03T08:53:19.2766684Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2767029Z     actual: { added: 0, removed: 0 },
+2026-10-03T08:53:19.2767320Z     expected: { added: 2, removed: 0 },
+2026-10-03T08:53:19.2767714Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2768150Z     diff: 'simple'
+2026-10-03T08:53:19.2768477Z   }

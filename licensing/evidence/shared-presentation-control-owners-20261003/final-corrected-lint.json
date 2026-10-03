@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/assistant-presentation.ts",
+    "packages/shared/src/background-task-controls.ts",
+    "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts",
+    "packages/shared/test/shared-presentation-control-boundaries.test.mjs",
+    "licensing/evidence/shared-presentation-control-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 35ms on 5 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

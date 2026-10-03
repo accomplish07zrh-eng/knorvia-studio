@@ -1,0 +1,24 @@
+{
+  "scope": "frontmatter",
+  "files": [
+    {
+      "file": "frontmatter.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "bytes": 2909,
+      "lines": 101,
+      "sha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/frontmatter/frontmatter.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 8958,
+      "lines": 181,
+      "sha256": "d87e3cb3ae31da6f2b262a218c047bdcd65049e805d76ddc0916583cd157ce83",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/frontmatter/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole original source/full receipt frozen and committed before body review; no curator source patch, instruction-only author self-report/source-exposed curator qualifications retained."
+}

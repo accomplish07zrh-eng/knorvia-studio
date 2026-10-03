@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^hook digest",
+    "packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs",
+    "/tmp/knorvia-shared-error-version-config-digest-baseline"
+  ],
+  "stdout": "\u2714 hook digest preserves canonical payload order, optional distinctions and owned snapshot freezing (12.644445ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 16.696214\n",
+  "stderr": "",
+  "exitCode": 0
+}

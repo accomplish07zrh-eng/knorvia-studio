@@ -1,9 +1,7 @@
-/**
- * Knorvia Session Store 选择器与内部辅助函数
- *
- * 从 sessionStore.ts 拆分出来，包含 workspace 状态读取/更新辅助函数，
- * 以及所有按 task 粒度的只读访问器和独立选择器。
- */
+// SPDX-License-Identifier: Apache-2.0
+// Upstream-derived accessors remain. Authors have read the prior implementation;
+// the field-policy refactor does not establish independent authorship.
+/** Workspace reads and single-bucket patches for the existing session store. */
 import type { KnorviaTaskRuntimeStatus, KnorviaTaskMeta } from "@knorvia/shared";
 import { mergeTaskWithOptimisticMeta } from "@/lib/taskMetaMerge.js";
 import {
@@ -56,59 +54,82 @@ function collectIdentityTaskIds(
   return taskIds;
 }
 
+interface IdentityProjection {
+  source: WorkspaceKnorviaUIState;
+  defaults: WorkspaceKnorviaUIState;
+  taskIds: ReadonlySet<string>;
+  taskListCache: WorkspaceKnorviaUIState["taskListCache"];
+}
+
+type SeedPolicy = (target: WorkspaceKnorviaUIState, projection: IdentityProjection) => void;
+
+function seedField<K extends keyof WorkspaceKnorviaUIState>(
+  key: K,
+  read: (projection: IdentityProjection) => WorkspaceKnorviaUIState[K],
+): SeedPolicy {
+  return (target, projection) => {
+    target[key] = read(projection);
+  };
+}
+
+// These lists are ordered reads. Display fields survive without a matching task;
+// task fields are admitted together only after the identity's ID union is known.
+const displaySeedPolicies: readonly SeedPolicy[] = [
+  seedField("selectedSupplierKey", ({ source }) => source.selectedSupplierKey),
+  seedField("isGhostSupplier", ({ source }) => source.isGhostSupplier),
+  seedField("supplierMismatchReason", ({ source }) => source.supplierMismatchReason),
+  seedField("configOptions", ({ source }) => source.configOptions),
+  seedField("configOptionsStatus", ({ source }) => source.configOptionsStatus),
+  seedField("slashCommands", ({ source }) => source.slashCommands),
+];
+
+const taskSeedPolicies: readonly SeedPolicy[] = [
+  seedField("activeTaskId", ({ source, defaults, taskIds }) =>
+    source.activeTaskId && taskIds.has(source.activeTaskId)
+      ? source.activeTaskId
+      : defaults.activeTaskId,
+  ),
+  seedField("optimisticTaskListByTaskId", ({ source, taskIds }) =>
+    copyTaskRecordEntries(source.optimisticTaskListByTaskId, taskIds),
+  ),
+  seedField("taskConfigOptionsByTaskId", ({ source, taskIds }) =>
+    copyTaskRecordEntries(source.taskConfigOptionsByTaskId, taskIds),
+  ),
+  seedField("taskConfigOptionsStatusByTaskId", ({ source, taskIds }) =>
+    copyTaskRecordEntries(source.taskConfigOptionsStatusByTaskId, taskIds),
+  ),
+  seedField("taskListCache", ({ taskListCache }) => taskListCache),
+  seedField("taskListVersion", ({ source }) => source.taskListVersion),
+  seedField("taskRuntimeByTaskId", ({ source, taskIds }) =>
+    copyTaskRecordEntries(source.taskRuntimeByTaskId, taskIds),
+  ),
+  seedField("taskUiByTaskId", ({ source, taskIds }) =>
+    copyTaskRecordEntries(source.taskUiByTaskId, taskIds),
+  ),
+  seedField("taskUnreadByTaskId", ({ source, taskIds }) =>
+    copyTaskRecordEntries(source.taskUnreadByTaskId, taskIds),
+  ),
+];
+
 function createIdentityWorkspaceStateSeed(
-  baseState: WorkspaceKnorviaUIState | undefined,
+  source: WorkspaceKnorviaUIState | undefined,
   workspaceIdentity?: string,
 ): WorkspaceKnorviaUIState {
-  if (!baseState) {
+  if (!source) {
     return createDefaultWorkspaceState(getDefaultWorkspaceState().selectedProvider);
   }
 
-  const seededState = createDefaultWorkspaceState(baseState.selectedProvider);
-  const migratedTaskIds = workspaceIdentity
-    ? collectIdentityTaskIds(baseState, workspaceIdentity)
+  const defaults = createDefaultWorkspaceState(source.selectedProvider);
+  const taskIds = workspaceIdentity
+    ? collectIdentityTaskIds(source, workspaceIdentity)
     : new Set<string>();
-  const migratedTaskListCache =
-    baseState.taskListCache?.filter((task) => migratedTaskIds.has(task.taskId)) ?? null;
-  return {
-    ...seededState,
-    // identity 首次写入时可以继承 workspace/draft 级展示种子，
-    // 但 task 状态只能按已持久化的 workspaceIdentity 做一次性迁移，不能动态合并 path 桶。
-    selectedSupplierKey: baseState.selectedSupplierKey,
-    isGhostSupplier: baseState.isGhostSupplier,
-    supplierMismatchReason: baseState.supplierMismatchReason,
-    configOptions: baseState.configOptions,
-    configOptionsStatus: baseState.configOptionsStatus,
-    slashCommands: baseState.slashCommands,
-    ...(migratedTaskIds.size > 0
-      ? {
-          activeTaskId:
-            baseState.activeTaskId && migratedTaskIds.has(baseState.activeTaskId)
-              ? baseState.activeTaskId
-              : seededState.activeTaskId,
-          optimisticTaskListByTaskId: copyTaskRecordEntries(
-            baseState.optimisticTaskListByTaskId,
-            migratedTaskIds,
-          ),
-          taskConfigOptionsByTaskId: copyTaskRecordEntries(
-            baseState.taskConfigOptionsByTaskId,
-            migratedTaskIds,
-          ),
-          taskConfigOptionsStatusByTaskId: copyTaskRecordEntries(
-            baseState.taskConfigOptionsStatusByTaskId,
-            migratedTaskIds,
-          ),
-          taskListCache: migratedTaskListCache,
-          taskListVersion: baseState.taskListVersion,
-          taskRuntimeByTaskId: copyTaskRecordEntries(
-            baseState.taskRuntimeByTaskId,
-            migratedTaskIds,
-          ),
-          taskUiByTaskId: copyTaskRecordEntries(baseState.taskUiByTaskId, migratedTaskIds),
-          taskUnreadByTaskId: copyTaskRecordEntries(baseState.taskUnreadByTaskId, migratedTaskIds),
-        }
-      : {}),
-  };
+  const taskListCache = source.taskListCache?.filter((task) => taskIds.has(task.taskId)) ?? null;
+  const projection: IdentityProjection = { source, defaults, taskIds, taskListCache };
+  for (const apply of displaySeedPolicies) apply(defaults, projection);
+  if (taskIds.size > 0) {
+    for (const apply of taskSeedPolicies) apply(defaults, projection);
+  }
+  return defaults;
 }
 
 export function getWorkspaceState(
@@ -148,30 +169,12 @@ export function updateWorkspaceState(
   const nextWorkspaceState = updater(current);
 
   if (nextWorkspaceState === current) {
-    // 单 Knorvia Agent 迁移后旧 provider 选择都会归一为 glm，很多调用实际不会改变状态。
-    // 如果仍把 merged overlay 快照写回 identity bucket，会打破 selector 的引用缓存并触发无意义重渲染。
+    // A no-op must also leave an as-yet absent identity bucket absent.
     return { workspaces: state.workspaces };
   }
 
-  if (workspaceKey === workspacePath) {
-    return {
-      workspaces: {
-        ...state.workspaces,
-        [workspacePath]: nextWorkspaceState,
-      },
-    };
-  }
-
-  return {
-    workspaces: {
-      ...state.workspaces,
-      // 远程 workspace 的 workspace 级状态必须只写 identity key。
-      // 不能为了兼容未透传 identity 的调用同时写 path key：同一路径的另一个远程窗口会从 path fallback
-      // 读到这份状态，造成 slashCommands、模型切换与初始化状态串台。相关调用链已补齐 identity，
-      // 这里不再污染 path 桶。
-      [workspaceKey]: nextWorkspaceState,
-    },
-  };
+  // One resolved bucket owns the write, including when key and path are equal.
+  return { workspaces: { ...state.workspaces, [workspaceKey]: nextWorkspaceState } };
 }
 
 // ────────────────────────────────────────────

@@ -1,0 +1,203 @@
+{
+  "publishedBaseline": "d9c67ebd0bb2abd9c3e035c2ef952479494c3500",
+  "scopes": {
+    "dataurl": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "bytes": 1555,
+      "lines": 36,
+      "sha256": "5a96166bf920a55d2cef8f0b161f913ff4e7272c84302e4377c022a6f4ed4c86"
+    },
+    "pdf": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "bytes": 1237,
+      "lines": 40,
+      "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71"
+    },
+    "video": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "lines": 43,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+    },
+    "placeholder": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "bytes": 1732,
+      "lines": 48,
+      "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4"
+    }
+  },
+  "screening": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "bytes": 1555,
+      "lines": 36,
+      "sha256": "5a96166bf920a55d2cef8f0b161f913ff4e7272c84302e4377c022a6f4ed4c86",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "selected complete owner",
+      "reason": "substantive inline parsing/validation or persistence privacy projection"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "bytes": 1237,
+      "lines": 40,
+      "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "selected complete owner",
+      "reason": "substantive inline parsing/validation or persistence privacy projection"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "bytes": 1732,
+      "lines": 48,
+      "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "selected complete owner",
+      "reason": "substantive inline parsing/validation or persistence privacy projection"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "lines": 43,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "selected complete owner",
+      "reason": "substantive inline parsing/validation or persistence privacy projection"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/child-client-ports.ts",
+      "bytes": 3790,
+      "lines": 78,
+      "sha256": "5c605b4c6f68dee23181d634bacceaceb378ef161de5cac5dd98741fa28fa4c9",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "protected permission/provider routing adjacent owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-preservation.ts",
+      "bytes": 2512,
+      "lines": 59,
+      "sha256": "546f80d45beed0200f6999d18f9a25e04b2a96895c9fa29ba5f9520d4ebf2703",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "A compaction/recovery persistence adjacent owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "bytes": 961,
+      "lines": 27,
+      "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "tiny generic type guards/key/property projections"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/index.ts",
+      "bytes": 983,
+      "lines": 26,
+      "sha256": "9af2280dba789225996c11abfab763448dd0b4430bdbe1b049ab07011892e814",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "export-only barrel"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/official-cua-media.ts",
+      "bytes": 1030,
+      "lines": 25,
+      "sha256": "be48de64eb0c8106ac83449c1b2a49fdf673b01c92aacd26832f30102f082b89",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "small adjacent CUA credential classifier/static block"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+      "bytes": 871,
+      "lines": 27,
+      "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "small enablement facade to original memory root owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project.ts",
+      "bytes": 650,
+      "lines": 20,
+      "sha256": "19fbc2a4d6e0d94355c88615c6126b1916128c187b220b4ffc5cfc389783a800",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "tiny title/slug/ID normalization helper"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "bytes": 840,
+      "lines": 24,
+      "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "small configuration facade to accepted projection owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-interaction-broker.ts",
+      "bytes": 1877,
+      "lines": 46,
+      "sha256": "291e7f1e6243cde4d7532263937bf69aba76ebfb8d3358d601441ee6f7081e9f",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "protected permission routing and activation adjacent owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-selection.ts",
+      "bytes": 2984,
+      "lines": 58,
+      "sha256": "630f7b7c137235a5b09b6af700f0334a0443b3f4e79f0b634994dd8754fc6b12",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "subagent model/execution allocation adjacent owner; conservative exclusion"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "bytes": 6106,
+      "lines": 124,
+      "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70",
+      "status": "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite",
+      "bodyReviewedForThisInventory": false,
+      "bodyReviewedForThisScreening": true,
+      "decision": "retained; not rewritten",
+      "reason": "workflow/coordinator tool authority adjacent owner"
+    }
+  ],
+  "eligibleSelected": 4,
+  "targetBodyExposure": "All fifteen retained bodies reviewed solely by source-exposed curator for screening, before this reservation; exact exposure preserved. Authors will receive no implementation bodies. Earlier current-pass inventory was metadata only.",
+  "priorExactReceiptSearch": "Bounded exact filename search in existing docs/evidence and specs: dependency/boundary/static mentions, no accepted complete author record for selected four; nonexistent docs/reviews path error retained, no inferred exhaustive audit.",
+  "constraints": "Same E branch PR8, scoped static and minimum synthetic privacy/validation/error gates only; no actual data/network/runtime/OS operations; instruction-only restrictions; no license clearance; ordinary checks deferred; saved Fast unchanged/unverified",
+  "rootHandoff": "d9c67ebd; desktop packet only, no E desktop implementation",
+  "priorScratchWriteBreach": "Prior changes-v2 extra scratch accounting write was removed before freeze and disclosed in archived complete lineage; not erased or generalized as access-audit proof",
+  "utc": "2026-10-02T21:13:40.452418+00:00"
+}

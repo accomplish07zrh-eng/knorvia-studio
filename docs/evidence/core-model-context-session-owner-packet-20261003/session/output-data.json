@@ -1,0 +1,407 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "../agent/session-history-hydrator.js"
+    },
+    {
+      "kind": "text",
+      "text": "./parts.js"
+    },
+    {
+      "kind": "text",
+      "text": "./utils.js"
+    },
+    {
+      "kind": "text",
+      "text": "./references.js"
+    },
+    {
+      "kind": "text",
+      "text": "user"
+    },
+    {
+      "kind": "text",
+      "text": "assistant"
+    },
+    {
+      "kind": "text",
+      "text": "strategy"
+    },
+    {
+      "kind": "text",
+      "text": "Cleaned transcript"
+    },
+    {
+      "kind": "text",
+      "text": "not_found"
+    },
+    {
+      "kind": "template",
+      "head": "Session ",
+      "spans": [
+        {
+          "placeholder": "output.sessionId",
+          "text": " was not found."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "failed"
+    },
+    {
+      "kind": "template",
+      "head": "ReadSessionContext failed for ",
+      "spans": [
+        {
+          "placeholder": "output.sessionId",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Error: ",
+      "spans": [
+        {
+          "placeholder": "output.error",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "template",
+      "head": "ReadSessionContext returned ",
+      "spans": [
+        {
+          "placeholder": "output.source",
+          "text": " context for "
+        },
+        {
+          "placeholder": "output.sessionId",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Title: ",
+      "spans": [
+        {
+          "placeholder": "output.title",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "The returned context is truncated."
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "strategy"
+    },
+    {
+      "kind": "text",
+      "text": "not_found"
+    },
+    {
+      "kind": "text",
+      "text": "none"
+    },
+    {
+      "kind": "template",
+      "head": "No persisted session was found for ",
+      "spans": [
+        {
+          "placeholder": "input.sessionId",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "user"
+    },
+    {
+      "kind": "text",
+      "text": "model-only"
+    },
+    {
+      "kind": "text",
+      "text": "\n\n"
+    },
+    {
+      "kind": "template",
+      "head": "[",
+      "spans": [
+        {
+          "placeholder": "index + 1",
+          "text": "] "
+        },
+        {
+          "placeholder": "role",
+          "text": " "
+        },
+        {
+          "placeholder": "message.info.id",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "created: ",
+      "spans": [
+        {
+          "placeholder": "new Date(message.info.time.created).toISOString()",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "role",
+          "text": "\n"
+        },
+        {
+          "placeholder": "body",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "strategy"
+    },
+    {
+      "kind": "text",
+      "text": "handoff"
+    },
+    {
+      "kind": "text",
+      "text": "\n\n---\n\n"
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "strategy"
+    },
+    {
+      "kind": "text",
+      "text": "handoff"
+    },
+    {
+      "kind": "text",
+      "text": "strategy"
+    },
+    {
+      "kind": "template",
+      "head": "# ",
+      "spans": [
+        {
+          "placeholder": "options.heading",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Session: ",
+      "spans": [
+        {
+          "placeholder": "session.title",
+          "text": " ("
+        },
+        {
+          "placeholder": "session.id",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Directory: ",
+      "spans": [
+        {
+          "placeholder": "session.directory",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Path: ",
+      "spans": [
+        {
+          "placeholder": "session.path",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Strategy: ",
+      "spans": [
+        {
+          "placeholder": "options.strategy",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "Query: ",
+      "spans": [
+        {
+          "placeholder": "options.query",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "header",
+          "text": "No readable transcript content was found in the target session."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n\n---\n\n"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "header",
+          "text": ""
+        },
+        {
+          "placeholder": "body.join(\"\")",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "strategy"
+    },
+    {
+      "kind": "text",
+      "text": "handoff"
+    },
+    {
+      "kind": "text",
+      "text": "Recent session handoff context"
+    },
+    {
+      "kind": "text",
+      "text": "Relevant session context"
+    }
+  ],
+  "regex": [
+    "/[a-z0-9_./-]+|[\\p{Script=Han}]+/gu",
+    "/^[\\p{Script=Han}]+$/u"
+  ],
+  "numericLiterals": [
+    "24000",
+    "48000",
+    "80000",
+    "5",
+    "28000",
+    "0",
+    "0",
+    "4",
+    "0",
+    "1",
+    "0",
+    "10000",
+    "2",
+    "2",
+    "0",
+    "1",
+    "2",
+    "0",
+    "0",
+    "20",
+    "3",
+    "5",
+    "0",
+    "0",
+    "0",
+    "0",
+    "3",
+    "0",
+    "12",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "200",
+    "4000"
+  ],
+  "qualification": "Retained exact protocol/format/prose/template/regex/constant data and ordinary idioms, no novelty/license grant claim"
+}

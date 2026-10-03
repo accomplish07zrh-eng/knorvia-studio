@@ -1,0 +1,16 @@
+{
+  "files": {
+    "src/runtime/methods/rewind.ts": "ad4963ca66d8751407fbd1deda1ddab6ced566548915125c4fba15f34eb14e94",
+    "dist/runtime/methods/rewind.js": "da39c4c2dbff75a7ed318cc3175496d407afe23be03a52a051fa6b699988fb95",
+    "dist/runtime/methods/rewind.d.ts": "ff6cde1775986f42ac6a0e9d58c18fca6793470cfd503cf1c12c6a33decd94b3",
+    "src/runtime/methods/rewind-message.ts": "ba7396e385d1bb3d6e967a8ce62ccbfd9e2c991ec230cfe75dc38655afeaf351",
+    "dist/runtime/methods/rewind-message.js": "403d813b4d4ad26c012244ee488ff7cd76d5d3d9d07b424a9c5beaccdd11cec9",
+    "dist/runtime/methods/rewind-message.d.ts": "875370cddff947d5993de4c49a5b35c8793023d17df79b7613db04f844acb0dc",
+    "src/runtime/methods/rewind-conversation-state.ts": "09f0ef4dd4f1de9fb3c9fe3f2b4f0c5b8dabe5004c4acecb0587fa23265126e5",
+    "dist/runtime/methods/rewind-conversation-state.js": "437f9c2f5c9bf97dae4c669ba059107a55f12dd892d007bd37288c1ef011543b",
+    "dist/runtime/methods/rewind-conversation-state.d.ts": "efe2630daa65bedff7a4e6828c2cd6cfb76c2388f2cea0dc42f342f6f80a604f",
+    "src/runtime/methods/rewind-workspace-cascade.ts": "659047a862e013a986e186e97acddfe06400013595d084c14781a0c7ad0d6709",
+    "dist/runtime/methods/rewind-workspace-cascade.js": "310dfe992c6404714c41c53840a9974a03f1594cd423690417393fc56465a4fd",
+    "dist/runtime/methods/rewind-workspace-cascade.d.ts": "351b8ef909a233b7fdb0bbecc3f9d68b6238475cb880b2dd3da2963e3fd31eaf"
+  }
+}

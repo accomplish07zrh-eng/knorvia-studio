@@ -1,0 +1,111 @@
+import { RewindScope, RewindStrategy, SessionEventType, getCurrentTraceContext, traceContextToLogContext } from "../deps.js";
+import { throwIfTurnAborted } from "../helpers/index.js";
+import { planWorkspaceFileRewind, previewFromPlan, unavailableFile } from "./file-rewind-planning.js";
+import { compensate, errorMessage, readCurrentState } from "./file-rewind-storage.js";
+export async function previewWorkspaceFileRewind(options = {}) {
+    const plan = await planWorkspaceFileRewind(this, options);
+    return previewFromPlan(plan);
+}
+export async function applyWorkspaceFileRewind(options = {}) {
+    const trace = options.traceContext ?? getCurrentTraceContext() ?? this.rootTraceContext;
+    const plan = await planWorkspaceFileRewind(this, { ...options, traceContext: trace });
+    if (!plan.canApply) {
+        return {
+            applied: false,
+            preview: previewFromPlan(plan),
+            response: "File rewind was not applied because at least one file is unsafe.",
+        };
+    }
+    if (!this.fileSystemPort) {
+        return {
+            applied: false,
+            preview: {
+                canApply: false,
+                ignoredFiles: plan.ignoredFiles,
+                safeFiles: plan.safeFiles,
+                unsafeFiles: [
+                    ...plan.unsafeFiles,
+                    unavailableFile("workspace", "file_read_failed", "FileSystemPort is not configured."),
+                ],
+            },
+            response: "File rewind was not applied because the file-system adapter is unavailable.",
+        };
+    }
+    const journal = [];
+    let restoredFileCount = 0;
+    try {
+        for (const operation of plan.operations) {
+            throwIfTurnAborted(options.abortSignal);
+            const state = await readCurrentState(this, operation.path, trace, options.abortSignal);
+            if ("reason" in state)
+                throw new Error(state.message ?? "Failed to journal " + operation.path);
+            journal.push({ path: operation.path, state });
+            if (operation.action === "delete" || operation.beforeContent === null) {
+                await this.fileSystemPort.removeFile({ path: operation.path, missingOk: true, trace }, { signal: options.abortSignal });
+            }
+            else {
+                await this.fileSystemPort.writeTextFile({ path: operation.path, content: operation.beforeContent, createParents: true, atomic: true, trace }, { signal: options.abortSignal });
+            }
+            restoredFileCount += 1;
+        }
+        await options.commitAfterApply?.();
+    }
+    catch (error) {
+        try {
+            await compensate(this, journal, trace);
+        }
+        catch (compensationError) {
+            throw new AggregateError([error, compensationError], "Workspace file rewind failed and compensation was incomplete");
+        }
+        return {
+            applied: false,
+            preview: {
+                canApply: false,
+                ignoredFiles: plan.ignoredFiles,
+                safeFiles: plan.safeFiles,
+                unsafeFiles: [
+                    ...plan.unsafeFiles,
+                    {
+                        operationCount: Math.max(1, journal.length),
+                        path: journal[journal.length - 1]?.path ?? "workspace",
+                        reason: "file_read_failed",
+                        toolNames: [],
+                        message: errorMessage(error),
+                    },
+                ],
+            },
+            response: "File rewind was not applied because the write failed; prior files were restored.",
+        };
+    }
+    const targetOperation = plan.operations[plan.operations.length - 1];
+    const targetCheckpointId = targetOperation.checkpoint.checkpointId;
+    const restoredSnapshotRef = targetOperation.checkpoint.snapshotRef;
+    const targetMessageId = options.targetMessageId ?? options.targetMessageIds?.[0];
+    const rewindId = "rewind_" + crypto.randomUUID();
+    const event = this.createEvent(SessionEventType.RewindTriggered, {
+        rewindId,
+        scope: RewindScope.Workspace,
+        strategy: RewindStrategy.ActiveChain,
+        targetMessageId,
+        targetCheckpointId,
+        restoredSnapshotRef,
+        reason: "file_summary_rewind",
+    }, trace);
+    await this.appendEvent(event, trace);
+    this.logger?.info("Workspace file summary rewind applied", {
+        ...traceContextToLogContext(trace),
+        event: "rewind.file_summary.completed",
+        fileCount: plan.safeFiles.length,
+        module: "core.runtime",
+        operationCount: plan.operations.length,
+        restoredFileCount,
+        status: "completed",
+        targetCheckpointId,
+        targetMessageId,
+    });
+    return {
+        applied: true,
+        preview: previewFromPlan(plan),
+        response: `Rewound ${plan.safeFiles.length} file${plan.safeFiles.length === 1 ? "" : "s"} from summary checkpoints.`,
+    };
+}

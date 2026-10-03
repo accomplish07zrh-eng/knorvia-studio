@@ -1,0 +1,1 @@
+{"stage":"before any packet assembly/author delivery","error":"SyntaxError unmatched closing parenthesis in curator qualification regex for rebuildApplicationMenu","correction":"Use balanced public signature qualifier; original failed extractor preserved; no source mutation"}

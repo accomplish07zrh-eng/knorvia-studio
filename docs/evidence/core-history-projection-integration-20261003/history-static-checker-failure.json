@@ -1,0 +1,9 @@
+{
+  "kind": "Static checker implementation failure, not target/runtime failure",
+  "command": "node docs/evidence/core-history-projection-integration-20261003/verify-static.cjs history",
+  "exitCode": 1,
+  "failure": "Error: Debug Failure. False expression. at Object.resetTokenState / addSyntheticNodes / createSyntaxList while tokenizing a synthesized class with private declarations filtered out",
+  "incidentalFailure": "Subsequent Python JSON read failed because checker stdout was empty",
+  "sourceBodyExecuted": false,
+  "correction": "Print and reparse only filtered class declaration before token comparison; other owners have no class and their successful static results need no repeat. No authored source edit."
+}

@@ -1,0 +1,189 @@
+{
+  "typescript": "6.0.2",
+  "mode": "scoped six source modules;immutable historical and actual emitted API",
+  "diagnostics": [],
+  "api": [
+    {
+      "owner": "conversation",
+      "before": {
+        "buildRuntimeUserEntriesFromTurn": [
+          "(input: string, attachments: ResolvedTurnAttachment[], options?: { browserAmbientContext?: { tabCount: number; currentUrl?: string | undefined; } | undefined; } | undefined): RuntimeMessageEntry[]"
+        ],
+        "buildUserContentFromTurn": [
+          "(input: string, attachments: ResolvedTurnAttachment[]): ModelMessageContent"
+        ],
+        "findLatestRealUserMessageIndex": [
+          "(messages: ModelInputMessage[]): number"
+        ],
+        "getLatestActiveSessionMessageId": [
+          "(messages: MessageWithParts[], options?: { branchCutAfterMessageId?: MessageId | undefined; rewindCreatedMessageId?: MessageId | undefined; rewindKeptMessageIds?: readonly MessageId[] | undefined; rewindTargetMessageId?: MessageId | undefined; } | undefined): MessageId | undefined"
+        ],
+        "isMetaUserContextMessage": [
+          "(message: ModelInputMessage): boolean"
+        ]
+      },
+      "after": {
+        "buildRuntimeUserEntriesFromTurn": [
+          "(input: string, attachments: ResolvedTurnAttachment[], options?: { browserAmbientContext?: { tabCount: number; currentUrl?: string | undefined; } | undefined; } | undefined): RuntimeMessageEntry[]"
+        ],
+        "buildUserContentFromTurn": [
+          "(input: string, attachments: ResolvedTurnAttachment[]): ModelMessageContent"
+        ],
+        "findLatestRealUserMessageIndex": [
+          "(messages: ModelInputMessage[]): number"
+        ],
+        "getLatestActiveSessionMessageId": [
+          "(messages: MessageWithParts[], options?: { branchCutAfterMessageId?: MessageId | undefined; rewindCreatedMessageId?: MessageId | undefined; rewindKeptMessageIds?: readonly MessageId[] | undefined; rewindTargetMessageId?: MessageId | undefined; } | undefined): MessageId | undefined"
+        ],
+        "isMetaUserContextMessage": [
+          "(message: ModelInputMessage): boolean"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "streaming-tool-ledger",
+      "before": {
+        "createStreamRecoveryAnchorId": [
+          "(assistantMessageId: MessageId, toolCallId: ToolCallId): string"
+        ],
+        "createStreamingToolAttemptId": [
+          "(assistantMessageId: MessageId): string"
+        ],
+        "emitStreamRecoveryAnchor": [
+          "(runtime: AgentRuntimeInternal, events: SessionEvent[], traceContext: TraceContext, options: EmitRecoveryAnchorOptions): Promise<SessionEvent>"
+        ],
+        "emitStreamingToolLedgerUpdate": [
+          "(runtime: AgentRuntimeInternal, events: SessionEvent[], traceContext: TraceContext, options: EmitLedgerUpdateOptions): Promise<SessionEvent>"
+        ]
+      },
+      "after": {
+        "createStreamRecoveryAnchorId": [
+          "(assistantMessageId: MessageId, toolCallId: ToolCallId): string"
+        ],
+        "createStreamingToolAttemptId": [
+          "(assistantMessageId: MessageId): string"
+        ],
+        "emitStreamRecoveryAnchor": [
+          "(runtime: AgentRuntimeInternal, events: SessionEvent[], traceContext: TraceContext, options: EmitRecoveryAnchorOptions): Promise<SessionEvent>"
+        ],
+        "emitStreamingToolLedgerUpdate": [
+          "(runtime: AgentRuntimeInternal, events: SessionEvent[], traceContext: TraceContext, options: EmitLedgerUpdateOptions): Promise<SessionEvent>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "streaming-tool-coordinator",
+      "before": {
+        "createStreamingToolCoordinator": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; model: Model; traceContext: TraceContext; }): StreamingToolCoordinator"
+        ]
+      },
+      "after": {
+        "createStreamingToolCoordinator": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; model: Model; traceContext: TraceContext; }): StreamingToolCoordinator"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "model-streaming-event-queue",
+      "before": {
+        "createModelStreamingEventQueue": [
+          "(params: { events: SessionEvent[]; highWaterMark?: number | undefined; runtime: AgentRuntimeInternal; traceContext: TraceContext; }): ModelStreamingEventQueue"
+        ]
+      },
+      "after": {
+        "createModelStreamingEventQueue": [
+          "(params: { events: SessionEvent[]; highWaterMark?: number | undefined; runtime: AgentRuntimeInternal; traceContext: TraceContext; }): ModelStreamingEventQueue"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "streaming-recovery",
+      "before": {
+        "START_PLAN_BUSY_AUTO_RETRY_EXHAUSTED_MESSAGE": "\"Start Plan is busy and automatic model stream recovery reached the maximum retry count.\"",
+        "beginStartPlanBusyAdmissionRetryAttempt": [
+          "(state: RegularTurnLoopState): StreamRecoveryAttempt"
+        ],
+        "beginStreamRecoveryAttempt": [
+          "(state: RegularTurnLoopState): StreamRecoveryAttempt"
+        ],
+        "createStartPlanBusyAutoRetryExhaustedError": [
+          "(error: unknown): Error"
+        ],
+        "emitStreamRecoveryRetryEvents": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, recovery: StreamRecoveryAttempt & { discardedReasoningBytes: number; discardedTextBytes: number; reason: \"latest_committed_tool_result\" | \"no_tool_committed\"; toolCallIds: ToolCallId[]; }): Promise<void>"
+        ],
+        "emitStreamRecoveryStarted": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, error: unknown, recoveryAttempt: StreamRecoveryAttempt): Promise<void>"
+        ],
+        "getStartPlanBusyAdmissionRetryDelayMs": [
+          "(input: { error: unknown; providerId: string; state: RegularTurnLoopState; turnNumber: number; }): number | undefined"
+        ],
+        "hasStreamRecoveryBudget": [
+          "(state: RegularTurnLoopState): boolean"
+        ],
+        "isStartPlanBusyStreamRecoveryFailure": [
+          "(error: unknown): boolean"
+        ],
+        "recoverPartialAssistantOutputFailure": [
+          "(input: { abortController: AbortController; assistantCreatedAt: number; discardedReasoningBytes: number; discardedTextBytes: number; error: unknown; options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; model: Model; traceContext: TraceContext; }; runtime: AgentRuntimeInternal; state: RegularTurnLoopState; turnAbortListener: () => void; }): Promise<boolean>"
+        ]
+      },
+      "after": {
+        "START_PLAN_BUSY_AUTO_RETRY_EXHAUSTED_MESSAGE": "\"Start Plan is busy and automatic model stream recovery reached the maximum retry count.\"",
+        "beginStartPlanBusyAdmissionRetryAttempt": [
+          "(state: RegularTurnLoopState): StreamRecoveryAttempt"
+        ],
+        "beginStreamRecoveryAttempt": [
+          "(state: RegularTurnLoopState): StreamRecoveryAttempt"
+        ],
+        "createStartPlanBusyAutoRetryExhaustedError": [
+          "(error: unknown): Error"
+        ],
+        "emitStreamRecoveryRetryEvents": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, recovery: StreamRecoveryAttempt & { discardedReasoningBytes: number; discardedTextBytes: number; reason: \"latest_committed_tool_result\" | \"no_tool_committed\"; toolCallIds: ToolCallId[]; }): Promise<void>"
+        ],
+        "emitStreamRecoveryStarted": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, error: unknown, recoveryAttempt: StreamRecoveryAttempt): Promise<void>"
+        ],
+        "getStartPlanBusyAdmissionRetryDelayMs": [
+          "(input: { error: unknown; providerId: string; state: RegularTurnLoopState; turnNumber: number; }): number | undefined"
+        ],
+        "hasStreamRecoveryBudget": [
+          "(state: RegularTurnLoopState): boolean"
+        ],
+        "isStartPlanBusyStreamRecoveryFailure": [
+          "(error: unknown): boolean"
+        ],
+        "recoverPartialAssistantOutputFailure": [
+          "(input: { abortController: AbortController; assistantCreatedAt: number; discardedReasoningBytes: number; discardedTextBytes: number; error: unknown; options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; model: Model; traceContext: TraceContext; }; runtime: AgentRuntimeInternal; state: RegularTurnLoopState; turnAbortListener: () => void; }): Promise<boolean>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    }
+  ],
+  "emitted": [
+    "dist/runtime/helpers/conversation.js",
+    "dist/runtime/helpers/conversation.d.ts",
+    "dist/runtime/helpers/streaming-tool-ledger.js",
+    "dist/runtime/helpers/streaming-tool-ledger.d.ts",
+    "dist/runtime/methods/streaming-recovery.js",
+    "dist/runtime/methods/streaming-recovery.d.ts",
+    "dist/runtime/methods/streaming-tool-execution.js",
+    "dist/runtime/methods/streaming-tool-execution.d.ts",
+    "dist/runtime/methods/streaming-tool-coordinator.js",
+    "dist/runtime/methods/streaming-tool-coordinator.d.ts",
+    "dist/runtime/methods/model-streaming-event-queue.js",
+    "dist/runtime/methods/model-streaming-event-queue.d.ts"
+  ],
+  "apiCorrection": "Canonicalize exported-name enumeration order only; exact names, call signature strings, literal constant types and declaration AST facts unchanged. Original enumeration false-negative report preserved. No production or assertion relaxation."
+}

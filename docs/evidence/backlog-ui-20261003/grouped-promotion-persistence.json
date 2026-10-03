@@ -1,0 +1,62 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Grouped promoted-draft planning/persistence only",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Original promotion effect, view first-match queries, overlay/draft schema and mutation payload signatures read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared plan/permission scenarios do not validate React/RPC/store or emitted code",
+  "explicitCorrections": [
+    "Scope cleanup revokes old refresh/clear permission",
+    "Old failure cannot delete a newer same-signature reservation"
+  ],
+  "retainedBehavior": [
+    "Root-first immediate marker clear",
+    "Group full displayed-order write then refresh then clear",
+    "Successful signature retained; failed signature retryable",
+    "Original duplicate overlay iteration and payload/draft shapes"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "baseBlob": "2f391ffd57356e66b8c28f6f114e145018c02e7e",
+      "baseSha256": "66b5039e02f56db74a3cd42a8a0996f3edc913fe5d99bad44af102d6987ed763",
+      "candidateSha256": "8ee81e409beddfba3fedc98f03b94e951189cee85da9f249fa3e3c959466c6ed",
+      "candidateBytes": 18640,
+      "candidateRole": "partial installation; reference/initialization/event code still unreviewed",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "blob": "00ab8f20c321e14cc228d23266cf63634e5337a5",
+          "normalizedSha256": "589972fdb443b7ed1cff98c489e1976211a0ea71f38a284a7c8e5833f48f7f2c",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedPromotionPersistence.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "6925d7d9be181aa0216545e707f56e6c6b1105045d7ca31cfcdfc4b7a15de0cd",
+      "candidateBytes": 4649,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-promotion-persistence-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "b47d6a867e96c85d845b52cb7c87698ecdc80f5878c648684a0cb303759613cd",
+      "candidateBytes": 5928,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ],
+  "candidateCheckpoint": "1e6c5d4881e5425c8b6017cc8bbad43dff793d90",
+  "snapshotSemantics": "Historical adapter bytes and remaining-work statements at this checkpoint; later installation records separate"
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { MessageId, MessageWithParts, ToolPart }"
+  },
+  {
+    "module": "./memory-file-path.js",
+    "clause": "{ resolveContainedMemoryFilePath }"
+  },
+  {
+    "module": "./recall/manifest.js",
+    "clause": "{ formatMemoryManifest }"
+  },
+  {
+    "module": "./recall/types.js",
+    "clause": "type { MemoryManifestEntry }"
+  }
+]

@@ -1,0 +1,185 @@
+{
+  "formatVersion": 1,
+  "kind": "collection-planner-failure-publication-correction",
+  "preCorrectionCommit": "02e1751a6e0741110d53485b3a17644edfd02b6a",
+  "redProofCommit": "8a92cdb5a9cf3e9c1b1334e721c5ae34d4de3d97",
+  "correctionCommit": "33f3a5516df5fc69d1191a8d99481fd4fc420c31",
+  "finding": "Parent reproduced ordinary mutable collection publication changing failure payload and suppressing exhaustion. Lane independently reproduced one failing group in each source/actual-emitted mode before correction.",
+  "correction": "failAttempt returns primitive errorCount/exhausted separately; attemptPlanner captures them before publication and uses them for payload and terminal gate. Mutable collection object, await sequence, errors, partial effects and ports unchanged.",
+  "eventOrder": [
+    "calculate terminal facts",
+    "writeSnapshot",
+    "appendCollectionRecord (port may mutate collection)",
+    "planner_failed with captured facts",
+    "collection_exhausted when captured exhausted is true"
+  ],
+  "finalResults": {
+    "source": {
+      "mode": "source",
+      "exit": 0,
+      "pattern": "runner failure retains|activation failure and execution abort|terminal projection rollback|preserved actual scheduler expansion consumer|exact historical and current owner selection|failure publication keeps",
+      "definedGroups": 9,
+      "selectedGroups": 6,
+      "passed": 6,
+      "failed": 0,
+      "fullRegressionObservationEqualsHistorical": true
+    },
+    "emitted": {
+      "mode": "emitted",
+      "exit": 0,
+      "pattern": "runner failure retains|activation failure and execution abort|terminal projection rollback|preserved actual scheduler expansion consumer|exact historical and current owner selection|failure publication keeps",
+      "definedGroups": 9,
+      "selectedGroups": 6,
+      "passed": 6,
+      "failed": 0,
+      "fullRegressionObservationEqualsHistorical": true
+    }
+  },
+  "coverage": "Six selected groups out of nine defined: failure/threshold, activation/abort, terminal rollback/late child, actual scheduler expansion consumer, strict selector and new mutation regression. Consumer/selector included in six, not additional counts. Earlier8/8 per mode remains historical evidence, not a current9/9 run.",
+  "types": {
+    "node": "v24.19.0",
+    "typescript": "6.0.2",
+    "roots": [
+      "src/workflow/scheduler/collection-planner.ts",
+      "src/workflow/scheduler/collection-planner-admission.ts",
+      "test/workflow-collection-planner.test.ts",
+      "test/workflow-collection-planner-fixture.ts"
+    ],
+    "diagnostics": 0,
+    "originalPublicDeclarationBytesEqual": true,
+    "options": "Existing core options; rootDir extended to core only for owned test roots; no target/type-rule overrides"
+  },
+  "gates": {
+    "lint": "0warnings/0errors;4owned files;94configured rules;temporary exact root config with ignorePatterns cleared to include CLI; no repository config changes",
+    "format": "6touched source/fixture/test/spec/evidence files pass; receipt checked separately",
+    "architecture": "0violations/0baseline/0new; apps/cli unmanaged in existing policy"
+  },
+  "preservation": {
+    "originalTestBytePrefix": true,
+    "originalFreezeAssertions": 80,
+    "priorCheckpointAssertionsIncludingDraftProof": 83,
+    "strictCurrentBindings": 42,
+    "changedPaths": [
+      "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+      "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
+      "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "docs/evidence/knorvia-collection-planner-failure-publication-red-20261002.json",
+      "specs/knorvia-collection-planner-failure-publication-20261002.md"
+    ],
+    "allPriorTrackedEvidenceAndHelperUnchanged": true,
+    "fullFocusedObservationsEqual": true,
+    "checkerCorrection": "Initial preservation helper incorrectly expected80 assertions at02e1751; that checkpoint has83 including3 draft-red-proof assertions. Originala22cf34 has80. No product/test change needed."
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "sha256": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+      "bytes": 12942
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts",
+      "sha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+      "bytes": 3196
+    },
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+      "sha256": "d1178021a35239887a55a2768401bd42c5841b04533b1774060d9387d0bcab23",
+      "bytes": 12069
+    },
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.d.ts",
+      "sha256": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+      "bytes": 560
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "sha256": "4e6eed52309d62b22d6a2a87b9ccabfaec49b34bbfb70714c2aebf269634a557",
+      "bytes": 16726
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
+      "sha256": "ce31e568db0055680bfcacc3fc79c70341d5ce9e4bea8f00729bae9ddc4837a0",
+      "bytes": 2737
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+      "sha256": "0d08f8202aeb6e3f25e49551620b67c0d0bb41b3fe30cbd1e178514b7855f171",
+      "bytes": 4945
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-baseline.json",
+      "sha256": "d280e53af9b42aef8af9d6f17bdb469be83718010afb8caa0a9f94cdcc3043ba",
+      "bytes": 14432
+    },
+    {
+      "path": "specs/knorvia-collection-planner-failure-publication-20261002.md",
+      "sha256": "ce1a744e002549d2d7143f209510339f35d42b6e72de7ffbfa743672e4fe7bd8",
+      "bytes": 1475
+    },
+    {
+      "path": "docs/evidence/knorvia-collection-planner-failure-publication-red-20261002.json",
+      "sha256": "febb753585f049781305ed6f701df39edec1654cf4bb1d5f46af4ad59bee012c",
+      "bytes": 5534
+    }
+  ],
+  "localEvidence": [
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/green-source.log",
+      "sha256": "6c79d29a058c6f98c1afadadc92c5fc1ff75a936d28f3aed590965635d0de524",
+      "bytes": 17468
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/green-emitted.log",
+      "sha256": "f6bd72f688eea189e902459cbfcdcd4b8864f921d0d190e01ac121432af8b7b3",
+      "bytes": 17475
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/green-source-observations.json",
+      "sha256": "be5d2230fd60766a92a3e525edef1f50aaadfcf430955506a4ac812324f24eaf",
+      "bytes": 26066
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/green-emitted-observations.json",
+      "sha256": "b14ae31302bfccf66556ca36c663bf943f43c16f2051a580f85c5cb357ecea24",
+      "bytes": 26067
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/compile.log",
+      "sha256": "11510d7e87d42dba5f5474a8020d76d79d41ae7306eaf65dc374bf832c69561c",
+      "bytes": 397
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/types.log",
+      "sha256": "855756b345e7374f3a892f54a618b3bf0a220acaa445c541b75fbf862aa6ee6d",
+      "bytes": 420
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/lint.log",
+      "sha256": "fed173672835786dd4ea3bb34dfed628dcdee99ebd31eb50866ee392db470ada",
+      "bytes": 90
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/format.log",
+      "sha256": "e0e6d8bee1e31d4cc8288ca21f38819d35456a904d7b28d460e988f1ad9f7119",
+      "bytes": 112
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "bytes": 50
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/preservation.json",
+      "sha256": "80c9e32e55a6d0d02213ccfa8d488f43a7c92c6d0dc37ce3a568096a2862752b",
+      "bytes": 941
+    }
+  ],
+  "retainedExpression": "Source-exposed post-review correction to prior candidate; no restricted-authorship relabeling. Protocol fields, runtime strings, type/helper interfaces and existing compatibility expression retained. This regression correction does not resolve whole-owner expression/licence review.",
+  "limits": [
+    "Root integrated scheduler/EventLog artifact combination was parent-tested; lane uses its own42exact current source/emitted dependency bindings and historical oracle. Root independent correction acceptance pending.",
+    "Linux Node24.19.0/TS6.0.2; pinned Node24.14.0 and Windows/native not run.",
+    "No aggregate build, whole suite, live workflow/provider or user data. Raw local logs are digest-bound here; committed regression and red receipt preserve reproducible failure evidence."
+  ],
+  "licenceGrant": null
+}

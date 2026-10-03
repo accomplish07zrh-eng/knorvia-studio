@@ -1,0 +1,207 @@
+{
+  "baseline": "ee44306130f36450d3450618badcd21d05f115b6",
+  "targets": [
+    {
+      "scope": "bridge-v2",
+      "installed": {
+        "path": "apps/cli/packages/core/src/mcp/index.ts",
+        "bytes": 10766,
+        "lines": 271,
+        "sha256": "20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967"
+      },
+      "frozen": {
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge-v2/index.ts.txt",
+        "bytes": 10766,
+        "lines": 271,
+        "sha256": "20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967"
+      },
+      "exact": true,
+      "below400": true,
+      "proofs": [
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/bridge-v2-static.json",
+          "bytes": 4616,
+          "lines": 122,
+          "sha256": "9f22b02190f5d22fcead1416949d9e3e03ce437ac7b05a52fe76c8493aadf95e",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/bridge-v2-retained-data.json",
+          "bytes": 2281,
+          "lines": 74,
+          "sha256": "3d990be8b02ab0546374a1483947ab27b8349b176d8d95fba8901d1e504bf9d8",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/minimum-v2.json",
+          "bytes": 1638,
+          "lines": 34,
+          "sha256": "c9c5447c06a28861b3734c03d03c1102aacf68c8c609135ec5478cf820b79a63",
+          "passed": true,
+          "sourceBound": true,
+          "groups": 4
+        }
+      ],
+      "inputs": [
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/contract.md",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/dependency-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/imports.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/output-data.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-data.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/bridge-shared-title-finding.md",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "scope": "image-v2",
+      "installed": {
+        "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+        "bytes": 11114,
+        "lines": 310,
+        "sha256": "fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1"
+      },
+      "frozen": {
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image-v2/image-normalization.ts.txt",
+        "bytes": 11114,
+        "lines": 310,
+        "sha256": "fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1"
+      },
+      "exact": true,
+      "below400": true,
+      "proofs": [
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/image-v2-static.json",
+          "bytes": 4849,
+          "lines": 132,
+          "sha256": "59161107dd96db77cd960831961f1ab0294e3ec8863f8a4251577c64b85adacd",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/image-v2-retained-data.json",
+          "bytes": 2094,
+          "lines": 77,
+          "sha256": "2d49fdae2ef77055e1a916e53e31e40caa349a14c85464236decbb4abdb5a88a",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/minimum-v2.json",
+          "bytes": 1638,
+          "lines": 34,
+          "sha256": "c9c5447c06a28861b3734c03d03c1102aacf68c8c609135ec5478cf820b79a63",
+          "passed": true,
+          "sourceBound": true,
+          "groups": 4
+        }
+      ],
+      "inputs": [
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/image/contract.md",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/image/dependency-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/image/imports.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/image/output-data.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-data.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-review-20261003/image-await-identity-finding.md",
+          "unchanged": true
+        }
+      ]
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 622,
+    "unchanged": 622,
+    "failures": []
+  },
+  "coreDiff": [
+    "apps/cli/packages/core/src/mcp/image-normalization.ts",
+    "apps/cli/packages/core/src/mcp/index.ts"
+  ],
+  "originalArchives": [
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/index.ts.txt",
+      "bytes": 10728,
+      "lines": 269,
+      "sha256": "62d6f93ab109985e130d95be1204c5bf9f830d0a63f3117d1b939b1bc6360357",
+      "frozenCommit": "43842d54",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/author-record.json",
+      "bytes": 11976,
+      "lines": 193,
+      "sha256": "25e8b5e7814c5912f8d6f53dfaf721ff98a9e56ac6e6c33e7895bb81e877f843",
+      "frozenCommit": "43842d54",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/image/image-normalization.ts.txt",
+      "bytes": 10644,
+      "lines": 294,
+      "sha256": "409ef7e6faf758f178f31e57bebd2c70692c10c79d5ea0eef8d92c2eadf0e80c",
+      "frozenCommit": "274a61b1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/image/author-record.json",
+      "bytes": 12481,
+      "lines": 212,
+      "sha256": "2d93112d239f49c5bd02e8ba70ef41b8580bdb90fe94f8eac055af061754d1eb",
+      "frozenCommit": "274a61b1",
+      "unchanged": true
+    }
+  ],
+  "distinctMinimumGroups": 4,
+  "passed": true,
+  "qualification": "Exact installed/archive/proof/input/outside-source bindings only; reuse the single four-group MCP minimum proof (bound to both sources, counted once) by exact source digests without replay. No project/semantic compile, suite/build/lint/business I/O/cross-lane source import. Original full drafts/receipts/failures retained. Source-exposed curator, instruction-only shared executor/no OS access audit; no separation/rights/material closure claim."
+}

@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-03T00:06:55.997867+00:00",
+  "status": "Complete lifecycle/chrome candidates installed; native visual/process/consumer and independent expression acceptance pending",
+  "packetCommit": "450531c1e5c6ed9d661c7f867196b534a55fa82a",
+  "frozenDrafts": [
+    "lifecycle-freeze.json",
+    "chrome-freeze.json"
+  ],
+  "authorExposure": "Root read nine body-free public behavior/API/port/static-data inputs and verified target hashes before authoring. Complete lifecycle draft frozen before its target body review; complete chrome/main+guest draft frozen separately before chrome target body review. Source-exposed curator, prior root lifecycle/Host/platform work and broader project context remain qualified. Same-root review, not separately isolated cleanroom.",
+  "structure": "Per-window generation/env-cancel owner stays in lifecycle; per-window repaint stays in chrome; per-guest modifiers and captured popup identity in a private guest module. No duplicated accepted Host map, startup relay, data store or authority policy. Eleven root public functions unchanged.",
+  "corrections": [
+    "Lifecycle preserves early-settling dom-ready callback rather than awaiting an env promise; frozen settlement counterexample reproduced. Restored then(success,rejection) boundary, no extra stale-generation waiter suppression, exact bootstrap/init field/read order and nullish dock guard.",
+    "Chrome corrects zoom/theme overlay argument order; frozen reversed-argument counterexample preserved.",
+    "Guest attachment captures hostWebContents/resolver/logger in the same attach-time object and callback receiver rather than retaining mutable outer window options; frozen resolver replacement counterexample preserved.",
+    "Modifier release recognizes only meta/control in key and left/right modifiers in code, with original conditional property access and modifier-Set semantics. Captures popup URL/disposition once; original optional remote field/log property order retained.",
+    "Removed ten now-unused main imports after helper extraction; initial warnings retained. Minimum harness initially had one missing object brace; syntax error log retained, harness repaired without production change."
+  ],
+  "checks": {
+    "inputs": "All9 packet digests and2 target source hashes matched",
+    "minimal": "Three paired lifecycle groups plus two paired chrome groups; preserved original candidate settlement/overlay/guest capture counterexamples. All effects fake.",
+    "api": "11 public functions and referenced option/interfaces match qualified packets",
+    "lint": "Lifecycle1file and chrome2files,94 rules, final0errors/warnings",
+    "architecture": "0violations/baseline0/new0; all3production files below400lines",
+    "semantic_types": "BLOCKED: feedbackLogArchive TS2339 ReadableStream.destroy and appCaCert TS7016 node-forge declarations. No window target diagnostics observed, but not a successful closure. Actual dependencies used; no stubs/install.",
+    "whitespace": "clean",
+    "deferred": [
+      "ordinary suites",
+      "full builds",
+      "native OS/window/guest visual QA",
+      "real process/IPC/consumer acceptance",
+      "cross-lane combination",
+      "final source-expression/legal review"
+    ]
+  },
+  "retained": "Exact public interfaces/platform/theme/size/URL allowlists, accessibility/menu vocabulary, logs/errors, existing native/webview preferences, permissions and conventional lifecycle/Promise/Map/Set/glue expression are retained. Required/common expression receives no novelty credit; source correspondence remains for final review.",
+  "safety": "No actual windows/dialogs/menus/browsers/URL opens, processes/IPC/permission grants, credentials or user data operated. No other-lane source integrated, main merge/deployment/global licence change. All21 material obligations open.",
+  "production": {
+    "packages/desktop/src/main/desktopWindowLifecycle.ts": {
+      "bytes": 12741,
+      "lines": 338,
+      "sha256": "6c9278d4b449cb722646aeb24eb2a0ff21046ca55543a70403eccdeb5393fc60"
+    },
+    "packages/desktop/src/main/desktopWindowChrome.ts": {
+      "bytes": 7020,
+      "lines": 195,
+      "sha256": "31ae2aaa4a47cc77abe3f3477fee270750710a801c86ede7fe1ac03ed9ea8bc9"
+    },
+    "packages/desktop/src/main/desktopWindowChrome/guest.ts": {
+      "bytes": 4731,
+      "lines": 147,
+      "sha256": "5d5ee25a880bfdbfc41ecd55e5650ce97e20e4c9e03f1d433accc2f1c53a86d1"
+    }
+  }
+}

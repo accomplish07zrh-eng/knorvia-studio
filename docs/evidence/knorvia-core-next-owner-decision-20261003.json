@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "base": "4c0045d5a35071eca00e8390901aa2a29eb76b4b",
+  "scope": "Bounded A core state/notification and protected-owner screen, not an exhaustive core inventory. Historical ledger is not current parent acceptance authority.",
+  "installedProductionOwners": 0,
+  "productionPathsChanged": 0,
+  "originalityCompletionCredit": 0,
+  "selectedDraftRejected": true,
+  "sealedDraftSHA256": "164e7f33a00d2e0ced92d11e845773483a9636f6960c531a2b1a116ce083b3d2",
+  "checks": {
+    "baselineSyntheticGroups": 3,
+    "candidateBehaviorGroups": 0,
+    "initialCandidateTypeDiagnostics": 1,
+    "initialPublicAPIEqual": true,
+    "allProtectedSourceDigestsMatch": 698,
+    "unchangedSelectedSource": true,
+    "providerUserDataAuthorityIO": 0
+  },
+  "remaining": [
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-machine.ts",
+      "currentSHA256": "15f5c9fd911a150d932d07554432c1e494f1fda0b2d9fe897c5bd1125fa24a31",
+      "decision": "not-installed",
+      "reason": "Complete packet draft is substantially corresponding; preserved initial brand diagnostic; no independent implementation credit.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/turn-machine.ts",
+        "blob": "64011587ce4ee9c164628a021a204241b428b6a9",
+        "normalizedSha256": "c584424b5e969894e4637821befe8b115fe5ff226299d2ac0cadabac7a8e6ba3",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-state.ts",
+      "currentSHA256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2",
+      "decision": "fixed-protocol-retained",
+      "reason": "Public schemas, fixed phase vocabulary/default state shape and transition table; no separate substantive mutable-state owner selected.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/turn-state.ts",
+        "blob": "5b96c9bb12e847f8e6efdd1fe81c4ad9c2281976",
+        "normalizedSha256": "1b30d3b04e87b41f85abd4393703b59f08191a94065b96027c27fa0a27cb2cc9",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "currentSHA256": "6438eef51c94a13b8377c67d088a7d28236e40ab590b14b559d44ac5fc29163b",
+      "decision": "fixed-output-formatter-retained",
+      "reason": "Pure notification XML formatting and large fixed model-facing delivery prose; no actual task publication/lifecycle ownership in this file. Do not rewrite strings or turn standard escaping/tag emission into completion credit.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime-task/notification.ts",
+        "blob": "2686ae185ed00a2b63ff530fd96f14deda74f18f",
+        "normalizedSha256": "162cd5d71141f9eb9de87cf06ee0229b9899af114a30b55033702a850372ce01",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/workflow-notification-copy.ts",
+      "currentSHA256": "9690c664fd3dc74f8deee3ef650af894a5a5fcdc329c5f6d6a66842dea4ae9e2",
+      "decision": "fixed-prose-retained",
+      "reason": "Provider/stall/escalation output vocabulary and retained prose; no candidate authored.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime-task/workflow-notification-copy.ts",
+        "blob": "d2ff7236905b191f7d8b66601a73e66365629474",
+        "normalizedSha256": "d8d93b8f802c4ccf73ac203fc2c8e5a497e71c5b57a23eb3d9ab3762f77d27f8",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile-frontmatter.ts",
+      "currentSHA256": "a8561a0a1bf24fa4dc230eb6bff88b12baeece87daed889bd3c37125398891f6",
+      "decision": "explicit-protected-dependency",
+      "reason": "User earlier kept frontmatter/tool-policy/model-selection helpers outside runner/profile allocation; unchanged.",
+      "historicalClassification": "upstream-unchanged",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/subagent/profile-frontmatter.ts",
+        "blob": "280d7b4c885cd02d7a580e6e5837d52e70820ad2",
+        "normalizedSha256": "a8561a0a1bf24fa4dc230eb6bff88b12baeece87daed889bd3c37125398891f6",
+        "contentMatchedPaths": ["apps/zcode-cli/packages/core/src/subagent/profile-frontmatter.ts"]
+      },
+      "sourceHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/context-builder.ts",
+      "currentSHA256": "f130faf161f28013d6f38e6ca718410a7ab8d15023610c848db4510867c30140",
+      "decision": "E-context-reservation",
+      "reason": "Core context owner remains outside A; no source adopted.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/subagent/context-builder.ts",
+        "blob": "1c13bc8227d0dbcd0defd87ee0c332f9ebc68e5e",
+        "normalizedSha256": "9a5f0084d9f98e849bc4f8d7f9a09646a05d8ed432e17e3282d21c075cdf4fd2",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "currentSHA256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1",
+      "decision": "E-history-reservation",
+      "reason": "E completed/reserved history/context excluded regardless of historical unreviewed inventory.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/message-history.ts",
+        "blob": "3f270cfe978467eff893aeef896b49160da1cef6",
+        "normalizedSha256": "ea1729ffc04ee9c2f3418d23896d387480ec4ead4f4ecedc2a0d6add3601d97a",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "currentSHA256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+      "decision": "root-HOLD",
+      "reason": "Explicit parent-held technical replacement/receipt reconciliation; do not overwrite with this historical local source.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/read-file-state-hydrator.ts",
+        "blob": "67670d690769aefed10a7857d81574e5b691a526",
+        "normalizedSha256": "f534a2975df54fc3f704a83b8cfaaae8ac835d828f2fac095904d0760897fe4e",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "ec75ec43596a95ef459f09551c1aefb4d9105c11 refactor(core): admit and project historical read snapshots once",
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "currentSHA256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "decision": "root-HOLD",
+      "reason": "Explicit parent registry HOLD/receipt reconciliation; unchanged.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+        "blob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+        "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+      "currentSHA256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1",
+      "decision": "next-substantive-boundary-not-selected",
+      "reason": "Large background effect/admission/cancel/publication owner remains inherited in this local tree. Current caller touches permission flow and held task-registry publication; exact up-to-date cross-lane/private acceptance must be reconciled before a complete replacement. This is a concrete allocation/review decision, not a thin-helper substitute or a claim the entire core is exhausted.",
+      "historicalClassification": "upstream-modified",
+      "historicalReview": null,
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/background-tasks.ts",
+        "blob": "3fb41377739a96eb9c3a503a72162941042c7511",
+        "normalizedSha256": "3dc2eaf8c77f57b8a648130a7ec621c60622ba7373481b7fc4e08683e3660257",
+        "contentMatchedPaths": []
+      },
+      "sourceHistory": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    }
+  ],
+  "limits": [
+    "No new publisher-byte acquisition; origin fields are exact historical inventory facts.",
+    "Existing Sol/high author reused; prior AgentRuntime context persists; five authorized current-task body-free inputs only; instruction-only access isolation.",
+    "No current implementation manifest generated; current fixture fails closed without it, with no historical fallback.",
+    "Ordinary tests/full suite/build/native acceptance not run.",
+    "No licence/header/global inventory decision; source exposure remains."
+  ],
+  "nextDecision": "Keep turn-machine draft uninstalled rather than count reorganization. Parent may allocate/reconcile the complete tool/executor/background-tasks.ts resource owner or provide a confirmed distinct active owner. No broad repository exhaustion or source-rights conclusion."
+}

@@ -10,13 +10,9 @@ import {
   type AwaitedOperand,
 } from "./causality-order-strands.js";
 
-// causality-order.ts 顶到 oxlint max-lines 上限（400 行），把 await 屏障与神谕读取
-// 这一组（时间不变量准入、settle-certainty 规则、屏障、变量→step 绑定、守卫的控制依赖）拆到
-// 本文件；公开面仍从 causality-order.ts 导出。它们只读写 {@link TraceState}，不递归进 walk。
-// strand / frame 这一层的记账在 causality-order-strands.ts（同样是 400 行上限逼出来的）。
+// Oracle witnesses, barriers and guard bindings share the existing TraceState.
 
-/** An oracle lookup split by the settle-certainty rule. Readonly because {@link NO_CLAIM}
- * is a shared singleton — an in-place edit of an empty result would leak everywhere. */
+/** Ordered site claims; empty results share readonly arrays and must not be mutated. */
 interface OracleClaim {
   certain: readonly string[];
   maybe: readonly string[];
@@ -25,9 +21,8 @@ interface OracleClaim {
 const NO_CLAIM: OracleClaim = { certain: [], maybe: [] };
 
 /**
- * The iteration constructs (loop statements and iteration-candidate callbacks) that
- * lexically enclose a node, memoized. Repetition is what makes a settle of a
- * not-yet-issued step realizable, so this is the test {@link admissionOf} needs.
+ * Cache lexical loop/callback ancestors by node identity. Parent links and iteration
+ * indexes must remain stable while this TraceState cache is in use.
  */
 function iterationAncestorsOf(state: TraceState, node: ts.Node): Set<ts.Node> {
   const cached = state.iterationAncestorCache.get(node);
@@ -51,28 +46,8 @@ function iterationAncestorsOf(state: TraceState, node: ts.Node): Set<ts.Node> {
 }
 
 /**
- * THE TEMPORAL INVARIANT: a promise cannot settle before its request issues. The oracle
- * is flow-INsensitive while this walk is flow-sensitive, so an occurrence set can name a
- * step that has not been issued at this point in evaluation order, and settling it here
- * would be a temporally impossible event. Returns HOW the witness was admitted, because
- * the two ways carry different certainty (see {@link claimAt}).
- *
- * Bug this fixes: in async-promise-double-await-mutate, `first.steps.push(extra)` merges
- * ask#2's label into the very slot `plan` denotes, so the EARLIER `await plan` read
- * {ask#1, ask#2}. That phantom settle of ask#2 both cost the await its singleton-exact
- * certainty and emitted `ask#2 -> ask#3 seq maybe`, which dedupeFacts' min-certainty
- * merge then used to demote a true `data always` edge.
- *
- * The `repetition` carve-out is not optional. A step issued LATER IN THE WALK but sharing
- * an enclosing iteration construct with the await is realizable by REPETITION: iteration
- * k's promise settles at iteration k+1's await, which is exactly the loop-carried settle
- * the oracle exists to find (reduce-accumulator awaits the accumulator, i.e. the previous
- * round's ask, before issuing this round's). A bare `issued.has(step)` test drops it, the
- * barrier falls through to a widening that finds nothing pending inside the region, and
- * the step loses its `serial` cue for a `stack` that claims N concurrent instances the
- * script serializes — trading a model-only certainty bit for a wrong cue that is DRAWN.
- * This mirrors `realizableCarry` in causality-graph.ts, which decides backwards edges by
- * the same "a shared iteration region is what repetition can realize" rule.
+ * Admit issued requests, or later sites sharing an indexed lexical iteration with
+ * the await. Unissued sites outside that shared iteration are excluded.
  */
 function admissionOf(
   state: TraceState,
@@ -91,25 +66,10 @@ function admissionOf(
 }
 
 /**
- * Read one oracle position and split it by the SETTLE-CERTAINTY RULE: a singleton exact
- * witness is certain, anything else is a may-claim.
- *
- * `admit` applies the temporal invariant ({@link admissionOf}) BEFORE the singleton
- * judgement, and that order is load-bearing: dropping a phantom witness is what lets the
- * surviving set be a singleton and settle certainly. Judging first and filtering after
- * would leave the phantom's vote counted.
- *
- * A witness admitted by REPETITION never settles certainly, even as a singleton exact
- * one, because the ordering it would claim fails at BOTH ends of the loop: the first
- * iteration awaits the initial value and settles nothing, and the last iteration's issue
- * escapes the loop unawaited (the head await of iteration k+1 never runs), so that
- * instance is still pending afterwards. A certain claim there would assert a post-loop
- * ordering the final instance violates — over-ordering as a may-claim is the licensed
- * direction, over-CERTAINTY on a real edge is not. `order-loop-head-await-tail-issue`
- * pins it. The demotion costs the multiplicity cue nothing: `settledInside` records the
- * step whatever the event's certainty, so a `serial` cue survives it.
- *
- * Guard lookups pass no `admit` — see the note on {@link controllersOf}.
+ * Classify real, admitted sites in first-witness order, combining duplicate exactness.
+ * Only one exact issued site is certain. Repetition stays maybe: boundary iterations
+ * can await a seed or leave the final request pending. Guard reads omit temporal
+ * admission because they describe control evidence rather than settlement.
  */
 function claimAt(
   state: TraceState,
@@ -118,51 +78,34 @@ function claimAt(
   admit?: (step: string) => "issued" | "repetition" | undefined,
 ): OracleClaim {
   const occs = (map.get(at) ?? []).filter((occ) => state.realSteps.has(occ.site));
-  // Dedupe by site, OR-ing exactness the way the domain's own addOcc merges witnesses.
-  // `certainOk` is per-SITE: admission is a property of the site, not of an occurrence.
-  const bySite = new Map<string, { exact: boolean; certainOk: boolean }>();
+  // First admission owns eligibility; any admitted exact witness can establish exactness.
+  const eligible = new Map<string, boolean>();
+  const exact = new Set<string>();
   for (const occ of occs) {
     const how = admit === undefined ? "issued" : admit(occ.site);
-    if (how === undefined) continue; // temporally impossible at this point in the walk
-    const existing = bySite.get(occ.site);
-    if (existing === undefined)
-      bySite.set(occ.site, { certainOk: how === "issued", exact: occ.exact });
-    else existing.exact = existing.exact || occ.exact;
+    if (how === undefined) continue;
+    if (!eligible.has(occ.site)) eligible.set(occ.site, how === "issued");
+    if (!exact.has(occ.site) && occ.exact) exact.add(occ.site);
   }
-  const sites = [...bySite.keys()];
+  const sites = [...eligible.keys()];
   if (sites.length === 0) return NO_CLAIM;
   const only = sites[0] as string;
-  const solo = bySite.get(only) as { exact: boolean; certainOk: boolean };
-  if (sites.length === 1 && solo.exact && solo.certainOk) return { certain: [only], maybe: [] };
+  if (sites.length === 1 && exact.has(only) && eligible.get(only))
+    return { certain: [only], maybe: [] };
   return { certain: [], maybe: sites };
 }
 
+/** Read await-position witnesses using the current temporal admission rule. */
 export function settlesAt(state: TraceState, node: ts.Node, at: number): OracleClaim {
   return claimAt(state, state.oracle.awaitSettles, at, (step) => admissionOf(state, node, step));
 }
 
 /**
- * An `await` barrier over the union of what the two halves resolved, plus the summaries of
- * the STRANDS it joins: `certain` settles as a certainty, `maybe` as a may-claim (a step
- * claimed by both counts as certain). Steps already settled IN A VISIBLE FRAME drop out,
- * and a claim that has entirely settled already is a no-op. Widening is reached only when
- * the claim and every joined summary were empty to begin with.
- *
- * The already-settled no-op is not new; what changed is that it became REACHABLE. Before
- * the settle oracle, an indirect await (`await held`, `await p` in a helper, a second await of
- * one promise) resolved to the empty set, so every such await fell through to widening and
- * manufactured `seq maybe` claims over unrelated steps still in flight. The oracle makes
- * the claim non-empty, so the no-op catches it and those spurious barriers disappear —
- * which is why several async-promise-* snapshots got STRONGER certainties once the oracle
- * landed rather than gaining edges.
- *
- * Two frame rules carry the strand model:
- * freshness is judged against EVERY frame on the stack, because a step the spawner
- * already awaited is settled for the strands it spawns; fresh steps are recorded in the
- * CURRENT frame alone, because this activation's await tells the spawner nothing.
- * `awaited` is the operand this barrier stands over, which {@link joinStrands} scans for
- * the promises it names; a barrier with no operand (a deferred callback's receiver
- * prologue) can still LIFT a strand out of its own claim.
+ * Settle witnesses and joined summaries in certain-before-maybe order. Visibility
+ * spans active frames; writes affect only the current frame. Already-settled claims
+ * add no steps. Empty evidence widens to pending issued sites and may overstate order.
+ * Joins attach to the first event, including an empty event when only a join remains.
+ * Strand ownership and await-operand interpretation stay in joinStrands.
  */
 export function barrier(
   state: TraceState,
@@ -177,61 +120,43 @@ export function barrier(
     regions.flatMap((region) => [
       ...(state.strands.find((record) => record.region === region)?.summary ?? []),
     ]);
-  // A joined strand contributes what IT awaited: syntactically joined certainly, lifted
-  // with the certainty of the claim that lifted it.
-  const allCertain = [...certain, ...summaryOf(joins.certain)];
-  const allMaybe = [...maybe, ...summaryOf(joins.maybe)];
+  const batches: [string[], string[]] = [
+    [...certain, ...summaryOf(joins.certain)],
+    [...maybe, ...summaryOf(joins.maybe)],
+  ];
+  const resolved = batches.some((steps) => steps.length > 0);
   const joined = [...joins.certain, ...joins.maybe];
-
   const frame = currentFrame(state);
-  const freshCertain: string[] = [];
-  for (const step of allCertain) {
-    if (!isVisiblySettled(state, step) && !freshCertain.includes(step)) freshCertain.push(step);
-  }
-  for (const step of freshCertain) frame.settled.add(step);
-  const freshMaybe: string[] = [];
-  for (const step of allMaybe) {
-    if (!isVisiblySettled(state, step) && !freshMaybe.includes(step)) freshMaybe.push(step);
-  }
-  for (const step of freshMaybe) frame.settled.add(step);
 
-  // `joins` rides the FIRST event this barrier emits: it is a property of the barrier, not
-  // of either certainty side, and the control-flow projection reads it as one set.
-  const withJoins = joined.length === 0 ? {} : { joins: joined };
-  if (freshCertain.length > 0) {
-    events.push({ at: "settle", maybe: false, regions: chain, steps: freshCertain, ...withJoins });
+  // Commit one side before reading the next; certain steps become visible to maybe.
+  for (const [index, requests] of batches.entries()) {
+    const fresh: string[] = [];
+    for (const step of requests) {
+      if (!isVisiblySettled(state, step) && !fresh.includes(step)) fresh.push(step);
+    }
+    for (const step of fresh) frame.settled.add(step);
+    batches[index] = fresh;
   }
-  if (freshMaybe.length > 0) {
-    events.push({
-      at: "settle",
-      maybe: true,
-      regions: chain,
-      steps: freshMaybe,
-      ...(freshCertain.length > 0 ? {} : withJoins),
-    });
+  if (batches[0].length === 0 && batches[1].length === 0 && !resolved) {
+    batches[1] = [...issued].filter((step) => !isVisiblySettled(state, step));
+    for (const step of batches[1]) frame.settled.add(step);
   }
-  if (freshCertain.length > 0 || freshMaybe.length > 0) return;
-  // Nothing fresh to settle, but a join is a control-flow fact of its own: it is where the
-  // strand's parked exits reconnect, so it is recorded even with no steps to its name.
-  const joinOnly = (): void => {
-    if (joined.length === 0) return;
-    events.push({ at: "settle", joins: joined, maybe: false, regions: chain, steps: [] });
-  };
-  if (allCertain.length > 0 || allMaybe.length > 0) {
-    joinOnly(); // already settled: adds no step
+
+  // Resolve all state changes before publishing; a join with no steps still has an event.
+  if (batches[0].length === 0 && batches[1].length === 0) {
+    if (joined.length > 0)
+      events.push({ at: "settle", joins: joined, maybe: false, regions: chain, steps: [] });
     return;
   }
-  // Widened barrier: neither half resolved anything, so assume everything in flight
-  // settled. Over-orders (understates parallelism), never invents concurrency.
-  const pending = [...issued].filter((step) => !isVisiblySettled(state, step));
-  if (pending.length === 0) {
-    joinOnly();
-    return;
+  let withJoins: { joins?: string[] } = joined.length === 0 ? {} : { joins: joined };
+  for (const [index, steps] of batches.entries()) {
+    if (steps.length === 0) continue;
+    events.push({ at: "settle", maybe: index === 1, regions: chain, steps, ...withJoins });
+    withJoins = {};
   }
-  for (const step of pending) frame.settled.add(step);
-  events.push({ at: "settle", maybe: true, regions: chain, steps: pending, ...withJoins });
 }
 
+/** Bind each pattern leaf to ordered step identities; ignore identifiers without symbols. */
 export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void {
   if (steps.length === 0) return;
   for (const identifier of boundIdentifiers(name)) {
@@ -244,16 +169,9 @@ export function bindSteps(state: TraceState, name: ts.BindingName, steps: readon
 }
 
 /**
- * Steps whose answers the guard expression reads, as the UNION of the syntactic
- * `stepsBySymbol` scan (certain witnesses) and the taint oracle's `guardReads`. A step
- * both sides claim counts once, as certain.
- *
- * Do not "simplify" this into the oracle alone. The scan is the ONLY side that sees an
- * implicit flow — `const flag = (await ask()) ? 1 : 2; if (flag)` taints nothing, because
- * a condition never joins the data contract — and the oracle is the only side that sees a
- * derived binding (`const ok = t.escalate`), whose declaration issues nothing for the
- * scan to record. Dropping either half silently loses a `control` edge; both cases are
- * pinned (order-implicit-flow-guard, order-derived-guard-control).
+ * Scan guard bindings without entering nested functions, then merge oracle witnesses.
+ * Syntactic and exact singleton controllers take precedence over ambiguous sites.
+ * Both inputs are needed for implicit-control and derived-value evidence.
  */
 function controllersOf(
   state: TraceState,
@@ -281,7 +199,7 @@ function controllersOf(
   };
 }
 
-/** Record a guard's control dependence against a region, when it has any. */
+/** Append a control record only when either controller list has entries. */
 export function recordControl(state: TraceState, guard: ts.Expression, region: string): void {
   const { controllers, maybeControllers } = controllersOf(state, guard);
   if (controllers.length > 0 || maybeControllers.length > 0) {

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/shared/src/assistant-presentation.ts",
+    "packages/shared/src/background-task-controls.ts",
+    "packages/shared/src/memoryDiagnostics.ts",
+    "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts",
+    "packages/shared/src/tool-projection-memory.ts",
+    "packages/shared/test/shared-presentation-control-boundaries.test.mjs",
+    "licensing/evidence/shared-presentation-control-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 61ms on 7 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,10 @@
+{
+  "installedPath": "apps/cli/packages/adapters/src/commands/index.ts",
+  "installedSha256": "f22ff7be077724662128b0398008e4c9b514ce565d7cb6508795aff06eaab0b6",
+  "frozenBaselineSha256": "5b761f903a15305afcf1b41ba38f8853ded4fd6ee9619c3b9ec41c44ab8cd8d1",
+  "rawSha256": "bf4a1ba42a8312026baf9dbd78a6c393d37c017d240a7943690ff10b91a95971",
+  "rawArtifact": "licensing/evidence/cli-command-owner-20261003/drafts/index-initial.ts.txt",
+  "formattedFreezeSha256": "f22ff7be077724662128b0398008e4c9b514ce565d7cb6508795aff06eaab0b6",
+  "wholeFormattedFreezeEqualsInstalled": true,
+  "baselineCommit": "8588e3734557b9357a125990e4000529f7589e66"
+}

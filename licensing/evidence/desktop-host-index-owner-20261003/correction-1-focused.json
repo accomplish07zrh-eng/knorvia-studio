@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/indexOwner.test.mjs"
+  ],
+  "stdout": "✖ startup (151.941152ms)\n✔ remote (69.299995ms)\n✔ task-flow (46.800692ms)\n✔ dispatch-shutdown (44.265855ms)\nℹ tests 4\nℹ suites 0\nℹ pass 3\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 320.816775\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/indexOwner.test.mjs:23:39\n✖ startup (151.941152ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n    [\n  -   'factory:browser',\n      'factory:repo',\n      'factory:network',\n      'factory:self',\n  -   'factory:tracker',\n      'factory:logger',\n      'factory:usage',\n  +   'factory:tracker',\n      'factory:registry',\n  +   'factory:browser',\n      'factory:controller',\n      'factory:attachment'\n    ]\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/indexOwner.test.mjs:1006:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [Array],\n    expected: [Array],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

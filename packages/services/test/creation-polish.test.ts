@@ -1,15 +1,30 @@
 import assert from "node:assert/strict";
-import test from "node:test";
+import test, { mock } from "node:test";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createCreationService } from "../src/creation/creationService.js";
+import { createCreationIoFixtureTrace } from "./creation-io-fixture-trace.js";
 import { createRunDeadlineClock } from "./creation-run-deadline-clock-fixture.js";
+import { createProviderFixtureTrace } from "./creation-provider-fixture-trace.js";
 import {
   creationReferenceSlots,
   type CreationJob,
   type CreationJobStatus,
 } from "../src/creation/contract.js";
+
+// 仅包装真实存储调用以定位 Windows 的终态等待；不新增 IO、重试或等待层级。
+const creationIo = createCreationIoFixtureTrace();
+const actualStorage = await import("../src/creation/creationStorage.js");
+mock.module("../src/creation/creationStorage.js", {
+  namedExports: {
+    ...actualStorage,
+    writeRecords: (...args: Parameters<typeof actualStorage.writeRecords>) =>
+      creationIo.run(args[0], "records.write", () => actualStorage.writeRecords(...args)),
+    writeCreationOutput: (...args: Parameters<typeof actualStorage.writeCreationOutput>) =>
+      creationIo.run(args[0], "asset.write", () => actualStorage.writeCreationOutput(...args)),
+  },
+});
+const { createCreationService } = await import("../src/creation/creationService.js");
 
 const pngHeader = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 const first = Buffer.from([...pngHeader, 1]);
@@ -292,11 +307,15 @@ test("reference controls follow each model's explicit placeholders", () => {
 
 test("JSON video frames survive a known failure and exactly one parameter-preserving retry", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-frames-retry-"));
+  const io = creationIo.watch(root);
   let submissions = 0;
+  const trace = jsonFixtureTrace();
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
     fetchImpl: async (_url, init) => {
+      // Windows 超时原先缺少提交边界证据；只记阶段，不记请求体、帧字节或私有路径。
+      trace.record("submit:start");
       const body = JSON.parse(String(init?.body)) as {
         first: string;
         last: string;
@@ -306,11 +325,14 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
       assert.equal(body.last, last.toString("base64"));
       assert.equal(body.prompt, "Clip");
       submissions++;
-      return submissions === 1
-        ? new Response("failed", { status: 400 })
-        : new Response(JSON.stringify({ asset: mp4.toString("base64") }), {
-            headers: { "content-type": "application/json" },
-          });
+      const response =
+        submissions === 1
+          ? new Response("failed", { status: 400 })
+          : new Response(JSON.stringify({ asset: mp4.toString("base64") }), {
+              headers: { "content-type": "application/json" },
+            });
+      trace.record("submit:return");
+      return response;
     },
   });
   try {
@@ -336,8 +358,11 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
       firstFrame: frame("first.png", first),
       lastFrame: frame("last.png", last),
     };
-    const failed = await terminal(service, (await service.createJob(input)).id);
+    const failed = await terminal(service, (await service.createJob(input)).id, {
+      timeoutContext: () => [trace.describe("Clip"), io.describe()].join("\n"),
+    });
     assert.equal(failed.status, "failed");
+    assert.equal(submissions, 1);
     assert.equal(failed.firstFrameName, "first.png");
     assert.equal(failed.lastFrameName, "last.png");
     assert.equal("firstFramePath" in failed, false);
@@ -347,8 +372,18 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
     ]);
     assert.equal(retried.id, duplicate.id);
     assert.equal(retried.requestId, `retry-${failed.id}`);
-    assert.equal((await terminal(service, retried.id)).status, "succeeded");
+    assert.equal(
+      (
+        await terminal(service, retried.id, {
+          timeoutContext: () => [trace.describe("Clip"), io.describe()].join("\n"),
+        })
+      ).status,
+      "succeeded",
+    );
     assert.equal(submissions, 2);
+    // 健康路径也验证模块包装确实观测到真实落盘，而非只有纯辅助函数通过。
+    assert.match(io.describe(), /"asset.write":\{"started":1,"completed":1,"failed":0\}/);
+    assert.match(io.describe(), /"records.write":/);
     const reopened = createCreationService({ rootDir: root, credentials: credentials() });
     assert.equal((await reopened.retryJob(failed.id)).id, retried.id);
     assert.equal(submissions, 2);
@@ -358,6 +393,7 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
       /已用于其他内容/,
     );
   } finally {
+    io.release();
     await rm(root, { recursive: true, force: true });
   }
 });
@@ -366,6 +402,7 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
   const root = await mkdtemp(join(tmpdir(), "knorvia-comfy-frames-"));
   let uploads = 0;
   let graph: unknown;
+  const trace = createProviderFixtureTrace();
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
@@ -373,22 +410,37 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
     fetchImpl: async (url, init) => {
       const path = new URL(String(url)).pathname;
       if (path === "/upload/image") {
+        trace.record("upload:start");
         uploads++;
         assert(init?.body instanceof FormData);
         assert(init.body.get("image"));
-        return new Response(JSON.stringify({ name: `uploaded-${uploads}.png` }));
+        const response = new Response(JSON.stringify({ name: `uploaded-${uploads}.png` }));
+        trace.record("upload:return");
+        return response;
       }
       if (path === "/prompt") {
+        trace.record("submit:start");
         graph = (JSON.parse(String(init?.body)) as { prompt: unknown }).prompt;
-        return new Response(JSON.stringify({ prompt_id: "job-1" }));
+        const response = new Response(JSON.stringify({ prompt_id: "job-1" }));
+        trace.record("submit:return");
+        return response;
       }
-      if (path === "/history/job-1")
-        return new Response(
+      if (path === "/history/job-1") {
+        trace.record("history:start");
+        const response = new Response(
           JSON.stringify({
             "job-1": { outputs: { node: { videos: [{ filename: "clip.mp4" }] } } },
           }),
         );
-      if (path === "/view") return new Response(mp4);
+        trace.record("history:return");
+        return response;
+      }
+      if (path === "/view") {
+        trace.record("download:start");
+        const response = new Response(mp4);
+        trace.record("download:return");
+        return response;
+      }
       throw new Error(`Unexpected fixture path: ${path}`);
     },
   });
@@ -411,7 +463,10 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
       firstFrame: frame("first.png", first),
       lastFrame: frame("last.png", last),
     });
-    assert.equal((await terminal(service, job.id)).status, "succeeded");
+    assert.equal(
+      (await terminal(service, job.id, { timeoutContext: trace.describe })).status,
+      "succeeded",
+    );
     assert.equal(uploads, 2);
     assert.deepEqual(graph, {
       node: {
@@ -430,6 +485,7 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
 test("asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-json-async-"));
   let trace = jsonFixtureTrace();
+  let io = creationIo.watch(root);
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
@@ -489,6 +545,8 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       ["invalid", "failed"],
     ] as const) {
       trace = jsonFixtureTrace();
+      io.release();
+      io = creationIo.watch(root);
       const job = await service.createJob({
         requestId: prompt,
         kind: "video",
@@ -498,7 +556,7 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       assert.equal(
         (
           await terminal(service, job.id, {
-            timeoutContext: () => trace.describe(prompt),
+            timeoutContext: () => [trace.describe(prompt), io.describe()].join("\n"),
           })
         ).status,
         expected,
@@ -506,6 +564,7 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       );
     }
   } finally {
+    io.release();
     await rm(root, { recursive: true, force: true });
   }
 });
@@ -693,6 +752,10 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
     const root = await mkdtemp(join(tmpdir(), `knorvia-${protocol}-states-`));
     const keys = new Map<string, string>();
     const clock = createRunDeadlineClock();
+    const providerTrace = protocol === "comfyui" ? createProviderFixtureTrace() : undefined;
+    const io = protocol === "comfyui" ? creationIo.watch(root) : undefined;
+    const timeoutContext = () =>
+      `fixture protocol=${protocol}; mode=${mode}; submissions=${submissions}; deadline=${JSON.stringify(clock.snapshot())}; ${providerTrace?.describe() ?? ""}; ${io?.describe() ?? ""}`;
     // 真实看门狗独立于被测截止时间；慢磁盘不能决定“提交后超时/取消”的先后顺序。
     const realSetTimeout = setTimeout;
     const realClearTimeout = clearTimeout;
@@ -707,7 +770,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
               () =>
                 reject(
                   new Error(
-                    `任务 ${jobId} 在 ${TERMINAL_BUDGET_MS}ms 内未进入模拟供应商；已提交 ${submissions} 次`,
+                    `任务 ${jobId} 在 ${TERMINAL_BUDGET_MS}ms 内未进入模拟供应商；已提交 ${submissions} 次; ${timeoutContext()}`,
                   ),
                 ),
               TERMINAL_BUDGET_MS,
@@ -736,13 +799,23 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       },
       fetchImpl: async (url, init) => {
         const path = new URL(String(url)).pathname;
-        if (path === "/history/task")
-          return new Response(
+        if (path === "/history/task") {
+          providerTrace?.record("history:start");
+          const response = new Response(
             JSON.stringify({
               task: { outputs: { node: { images: [{ filename: "image.png" }] } } },
             }),
           );
-        if (path === "/view") return new Response(first);
+          providerTrace?.record("history:return");
+          return response;
+        }
+        if (path === "/view") {
+          providerTrace?.record("download:start");
+          const response = new Response(first);
+          providerTrace?.record("download:return");
+          return response;
+        }
+        providerTrace?.record("submit:start");
         submissions++;
         if (mode === "hang") {
           init?.signal?.throwIfAborted();
@@ -755,16 +828,22 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
             submissionEntered.resolve();
           });
         }
-        if (mode === "known-fail") return new Response("failed", { status: 400 });
+        if (mode === "known-fail") {
+          const response = new Response("failed", { status: 400 });
+          providerTrace?.record("submit:return");
+          return response;
+        }
         const result =
           protocol === "openai-images"
             ? { data: [{ b64_json: first.toString("base64") }] }
             : protocol === "comfyui"
               ? { prompt_id: "task" }
               : { asset: first.toString("base64") };
-        return new Response(JSON.stringify(result), {
+        const response = new Response(JSON.stringify(result), {
           headers: { "content-type": "application/json" },
         });
+        providerTrace?.record("submit:return");
+        return response;
       },
     });
     try {
@@ -797,7 +876,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       });
       // 提交前超时也会是 failed；只控制业务截止并检查 400，避免把它误作供应商拒绝。
       // 持久化退避与终态轮询仍走真实计时器，原来的 1000ms 验收预算不变。
-      const pollOptions = { pollScheduler: realSetTimeout };
+      const pollOptions = { pollScheduler: realSetTimeout, timeoutContext };
       const failed = await terminal(
         service,
         (await service.createJob(request("failed"))).id,
@@ -815,7 +894,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       const timeoutJob = await service.createJob(request("timeout"));
       await waitForSubmission(timeoutJob.id);
       clock.advanceBy(500);
-      const timedOut = await terminal(service, timeoutJob.id);
+      const timedOut = await terminal(service, timeoutJob.id, pollOptions);
       assert.equal(timedOut.status, "interrupted");
       await assert.rejects(service.retryJob(timedOut.id), /仅结果明确失败/);
       // 取消用独立的到达信号，不推进业务时钟，避免用户取消与截止竞速。
@@ -829,6 +908,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       await assert.rejects(service.retryJob(cancelled.id), /仅结果明确失败/);
       assert.equal(submissions, 4);
     } finally {
+      io?.release();
       await rm(root, { recursive: true, force: true });
     }
   });

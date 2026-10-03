@@ -1,0 +1,56 @@
+[
+  {
+    "name": "typescript",
+    "version": "6.0.2",
+    "url": "https://registry.npmjs.org/typescript/-/typescript-6.0.2.tgz",
+    "integrity": "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==",
+    "bytes": 4515770,
+    "sha256": "0ae5c188a2f5db22df72fe5e74dcbc122afb52031a86dbac33e78a86db39c65e",
+    "packagePath": "/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package"
+  },
+  {
+    "name": "@types/node",
+    "version": "24.12.2",
+    "url": "https://registry.npmjs.org/@types/node/-/node-24.12.2.tgz",
+    "integrity": "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g==",
+    "bytes": 461127,
+    "sha256": "d0d6910fab205566ade23a582838e93187f4337b03e63a799cd3443839943ed7",
+    "packagePath": "/tmp/knorvia-exact-type-review-20261002/packages/@types__node@24.12.2/node v24.12"
+  },
+  {
+    "name": "undici-types",
+    "version": "7.16.0",
+    "url": "https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz",
+    "integrity": "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==",
+    "bytes": 27127,
+    "sha256": "53b5e2fa12a4118a4838e80b1cc6e1d8cd30d6f7e5bea69640e5386f6eb3f8af",
+    "packagePath": "/tmp/knorvia-exact-type-review-20261002/packages/undici-types@7.16.0/package"
+  },
+  {
+    "name": "zod",
+    "version": "3.25.76",
+    "url": "https://registry.npmjs.org/zod/-/zod-3.25.76.tgz",
+    "integrity": "sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==",
+    "bytes": 583600,
+    "sha256": "9e1f1a05f0dd0c1dab64ee91ceb9bf55cd44d35368c70edda80a2fdc70a88377",
+    "packagePath": "/tmp/knorvia-exact-type-review-20261002/packages/zod@3.25.76/package"
+  },
+  {
+    "name": "zod",
+    "version": "4.6.5",
+    "url": "https://registry.npmjs.org/zod/-/zod-4.6.5.tgz",
+    "integrity": "sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==",
+    "bytes": 1052733,
+    "sha256": "a78c0c533de30dc1c4afc259ac43ac06e390cb0da8d2e32eae355301b50b36fc",
+    "packagePath": "/tmp/knorvia-exact-type-review-20261002/packages/zod@4.6.5/package"
+  },
+  {
+    "name": "zod-to-json-schema",
+    "version": "3.25.2",
+    "url": "https://registry.npmjs.org/zod-to-json-schema/-/zod-to-json-schema-3.25.2.tgz",
+    "integrity": "sha512-O/PgfnpT1xKSDeQYSCfRI5Gy3hPf91mKVDuYLUHZJMiDFptvP41MSnWofm8dnCm0256ZNfZIM7DSzuSMAFnjHA==",
+    "bytes": 46362,
+    "sha256": "a4919ab5a32aff4fd6c119c9f187f0dd4b4c490d30c4c4fdaf7c5ff6f38d93f4",
+    "packagePath": "/tmp/knorvia-exact-type-review-20261002/packages/zod-to-json-schema@3.25.2/package"
+  }
+]

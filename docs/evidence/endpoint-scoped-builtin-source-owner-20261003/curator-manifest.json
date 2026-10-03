@@ -1,0 +1,177 @@
+{
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "64d80fb8175700243997e26a905bb485708974e5",
+  "target": {
+    "path": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+    "bytes": 5087,
+    "sha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+    "gitBlob": "f56f8d04c8b7fb80b17479c63259bb3e39888fa1"
+  },
+  "authorInputBindings": [
+    {
+      "path": "specs/endpoint-scoped-builtin-source-independent.md",
+      "bytes": 10687,
+      "sha256": "a10ac429bfac43aee52733f0820bd3248547c8e9fe9e836a5696699ea788cd25",
+      "gitBlob": "3ae2eeb2ae7231fc94a542e5613ca04845bf9f6e"
+    },
+    {
+      "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/public-api.d.ts",
+      "bytes": 1125,
+      "sha256": "00d1b40b1ee0f009f31de2ca7c1c7bfde3ab6a61067e3722b3bfedfae219f3f7",
+      "gitBlob": "3f3d0b7d193df4e7ea3b9764a4c2ce898eeddf98"
+    },
+    {
+      "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/dependency-types.d.ts",
+      "bytes": 2332,
+      "sha256": "8161e5b6836c364987592979a9b61b2dc314a6ccbf1877a503b388e532808d59",
+      "gitBlob": "270010279a9df2ac530c32c8905ff2aafbaa14e1"
+    },
+    {
+      "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/retained-data.json",
+      "bytes": 876,
+      "sha256": "b43cb74484363137b552550eef9263fba1c1ba8eb2680b6510a28c9e80aac194",
+      "gitBlob": "52a392be80af478e20789f195e9ed7e9770f8149"
+    }
+  ],
+  "sourceMetadataBindings": [
+    {
+      "path": "packages/provider-node/src/builtin-cache-paths.ts",
+      "bytes": 2508,
+      "sha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+      "gitBlob": "e0da2c7918079056f16332eebb86191c60ea02d9"
+    },
+    {
+      "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+      "bytes": 8769,
+      "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+      "gitBlob": "16e9a3317139517e548db4039b52e8ea29151666"
+    },
+    {
+      "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+      "bytes": 7804,
+      "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+      "gitBlob": "c7cdadcc95aa3262943ea56023518007db322fce"
+    },
+    {
+      "path": "packages/provider/src/sources.ts",
+      "bytes": 3895,
+      "sha256": "dcbd61cbdd40657df3d39b4b74a24c3c75fb0e37999ad8fbdeaff3d00d8adff7",
+      "gitBlob": "734c9d98ff9a9f82bd1b568abdf200bb8bca118a"
+    },
+    {
+      "path": "packages/provider/src/config-service.ts",
+      "bytes": 31185,
+      "sha256": "0b400663d6a65c12faec5933667017149346fd3ef51526ee5c876b9db0b8d93e",
+      "gitBlob": "39788b41c4dd04a4b8eb4e6f6ddcb94153b4698b"
+    },
+    {
+      "path": "architecture-policy.yaml",
+      "bytes": 2524,
+      "sha256": "ee206ee0f27d112ed7ba875fb952d786fb1701034242441eb6f9c0d5828f9d51",
+      "gitBlob": "b6365b5a26a5f5309ed8498a91b0054f847950fa"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    },
+    {
+      "path": "docs/evidence/provider-node-builtin-fixed-upstream-20261003/bindings-comparison.json",
+      "bytes": 29208,
+      "sha256": "6b0adec6c022fd18692c9bd2b48476d7dde105ad21fca56acc3c30207b7b945f",
+      "gitBlob": "9835bb7cb9ed1ea2498a323a8c52919f27e9f645"
+    }
+  ],
+  "receiptBinding": {
+    "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/prior-receipt-search.json",
+    "bytes": 1091,
+    "sha256": "44d67c7b58d01c4cb0e85c4bebc456d65f79ceb3e46b42d3ba87c79e833f8e39",
+    "gitBlob": "1bda7b64fa38801a34a53f75b2728e5a862038ea"
+  },
+  "authorScope": "Fresh fork-none author reads only four body-free inputs; whole candidate in task scratch and frozen before original-source comparison, no public MIT claim",
+  "apiQualifications": "Exact used public source/cache/synchronizer views; original import-route nominal types retained; canonical ProviderSource/ProviderConfigLayerSnapshot opaque output. No standalone semantic closure.",
+  "rootHistoricalHold": "root-private-historical-hold.json",
+  "sourceExposure": "Source-exposed curator, prior broader exposure/repaired scratch-write breach/shared executor/instruction-only/no OS isolation/access-audit qualifications persist; no clean-room/MIT/whole-file rights claim",
+  "configuration": "Root reports Sol/high/Fast ON; fresh author selected explicit gpt-6.1-sol/high, UI Fast not independently verified",
+  "checks": {
+    "freshness": "PASS ahead210/behind0, remote tracking absent",
+    "architectureCheck": "FAILED before checker: pnpm auto-install attempted mkdir /home/agent/.local/share/pnpm ENOENT, engine wanted24.14.0 current24.19.0; no install retry/escalation",
+    "contextWrapper": "FAILED ERR_MODULE_NOT_FOUND typescript from scripts/architecture/policy.mjs; no install/path bypass",
+    "searchFailure": "Guessed packages/provider/src/types.ts missing (rg os error2); rg returned available relevant hits. provider-node contract/module/test/spec filename search no match exit1. No private recovery.",
+    "ordinaryFullsuiteBuild": false,
+    "realNetworkEndpointProviderCacheConfigCredentialsPermissionsNative": false,
+    "globalLicensingEdits": false,
+    "crossLaneMerge": false,
+    "postEditOfficialArchitectureCheck": "FAILED ERR_MODULE_NOT_FOUND typescript importing scripts/architecture/policy.mjs via direct official node checker; no install or resolution bypass."
+  },
+  "materialOpen": 21,
+  "rightsAccepted": false,
+  "phase": "INSTALLED_SOURCE_ONLY_TECHNICAL_CANDIDATE",
+  "packetClarificationBeforeFreeze": "Fresh author identified missing cache/source module routes in initial reading declarations; body-free explicit route table supplied in allowed spec before freeze. No original implementation exposed; first spec binding superseded before candidate freeze.",
+  "receiverCorrectionBeforeFreeze": "Source review: failed-prime local unsubscribe unbound, but published CurrentEndpointSource.sourceDispose is bundle-bound. Initial contract generalized unbound; corrected allowed spec and author notified before comparison. Exact freeze timing checked later; no silent frozen replacement.",
+  "frozenCandidateBinding": {
+    "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/candidate-frozen.ts",
+    "bytes": 5586,
+    "sha256": "f57a8611b029f7b13657ffebb95274d5d02387be38ce2a39ff36ac030fcda15b",
+    "gitBlob": "48a903dc2d5cde00f6b4c12230f978fc9a47854c"
+  },
+  "authorFreezeBinding": {
+    "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/author-freeze.json",
+    "bytes": 2811,
+    "sha256": "aa0ec5dbbb703e140ff4d6a9ae0ff530cd470f291e1d114109053e852ab92eef",
+    "gitBlob": "c1c81a904defeaf94f543d6ef55fc91278caa0a3"
+  },
+  "reviewedCandidateBinding": {
+    "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/candidate-reviewed.ts",
+    "bytes": 5505,
+    "sha256": "44fcdc12fc421892f7870138eaec5883bee6313e4604c5cb005d1cbd1335f051",
+    "gitBlob": "2a3e9545a42beb426ef1f507ad81b5773ec54ec3"
+  },
+  "installedTargetBinding": {
+    "path": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+    "bytes": 5505,
+    "sha256": "44fcdc12fc421892f7870138eaec5883bee6313e4604c5cb005d1cbd1335f051",
+    "gitBlob": "2a3e9545a42beb426ef1f507ad81b5773ec54ec3"
+  },
+  "candidateFailureBinding": {
+    "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/minimum-frozen-candidate.json",
+    "bytes": 6744,
+    "sha256": "a02c51c04f661724d0199a35b36f2d6b7c83a045a162168050d90dd2c8b33283",
+    "gitBlob": "d085466a707adf9895f40566e7cdff9e781eab27"
+  },
+  "reviewedFakeBinding": {
+    "path": "docs/evidence/endpoint-scoped-builtin-source-owner-20261003/minimum-reviewed-candidate.json",
+    "bytes": 4973,
+    "sha256": "9764f495dc6cef2814437a4a305d8ff811720febbb43010879f5ae7c6c6e93cd",
+    "gitBlob": "6596ec92664cf85c7e5a896b8bd37608f07a200c"
+  },
+  "sourceComparisonCorrections": [
+    {
+      "boundary": "Runtime-private state/methods",
+      "frozen": "TypeScript private emitted enumerable fields",
+      "reviewed": "Runtime # storage/methods; original empty Object.keys restored"
+    },
+    {
+      "boundary": "Synchronous resolver reentry before shared handle publication",
+      "frozen": "Placeholder published first; nested/outer both endpointA,1 resolver/source",
+      "reviewed": "Selection starts first; nested endpointB and outer endpointA,2 resolver/source; ordinary later callers still coalesce"
+    }
+  ],
+  "sourceOnlyQualifications": "New complete no-context author freeze is process evidence, not proof of independent expression/whole-owner original/MIT. Many lifecycle/option/guard sequences intentionally correspond to preserved contract. Frozen candidate retained; reviewed derivative has source-exposed curator corrections.",
+  "reviewedSpecAddendumBinding": {
+    "path": "specs/endpoint-scoped-builtin-source-review-addendum.md",
+    "bytes": 2128,
+    "sha256": "b658afe06bb1659206117127d41b108a63bcb1a2e4868a576d02a9d1ae6189f9",
+    "gitBlob": "afa77319f03b4158f93866f23785a1ab20fa505d"
+  },
+  "protectedRootAndDLaneBindings": "Initial cache/source/synchronizer metadata bytes still bind unchanged; root release/download not touched. No schema or permission default added.",
+  "newPrivateHoldMaterialRead": false
+}

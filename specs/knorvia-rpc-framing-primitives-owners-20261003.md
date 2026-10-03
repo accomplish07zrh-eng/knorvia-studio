@@ -1,0 +1,9 @@
+# RPC framing, proxy and primitive owners
+
+Scope: complete protocol.ts, proxy-channel.ts, buffer.ts, foundation.ts and serialization.ts owners in packages/rpc/src. Current inventory records inherited/mixed origins and no accepted-original review for these paths. Retain all exported APIs and their consumers; do not change global inventory/licence decisions.
+
+Protocol owns socket framing, chunk consumption and MessagePort binary/control admission. Proxy owns service receiver binding and buffered event dispatch. VSBuffer owns byte representation. Foundation owns disposal, broadcast snapshots, relays and cancellation event lifetimes. Serialization owns tagged values and nested binary compatibility. Existing desktop continuous and mobile replayable consumers keep their separate delivery semantics; this batch changes no business state, accepted queue or replay owner.
+
+Preserve the thirteen-byte frame header, numeric kinds, two-value RPC envelope, VQL and JSON marker compatibility, copied-versus-aliased bytes, callback/error identity, subscription order, deferred dispatch, receiver binding and port cleanup/backpressure delegation. Do not add validation or hardening policies. Frozen limitations remain documented.
+
+Fresh authors receive complete body-free API/behavior packets and only root/architecture guidance. Freeze/hash whole output and author-made corrections before source-exposed comparison. Shared filesystem is not enforced clean-room isolation. Scoped lint, syntax-only diagnostics, changed architecture and whitespace required. Minimal synthetic checks only for concrete control/data admission, byte preservation and lifecycle ownership; ordinary suites, semantic types, builds and native/network operations remain deferred. Same draft PR #9; no main/cross-lane integration or licence grant.

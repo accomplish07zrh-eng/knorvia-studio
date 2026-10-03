@@ -1,0 +1,45 @@
+{
+  "baselineCommit": "e188428fa9f62df70650230190e3127e4ff118d9",
+  "freezeCommit": "afed3f4",
+  "draftCommit": "1f5d140",
+  "owner": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+  "helpers": [
+    "apps/cli/packages/core/src/runtime/methods/usage-observability-projection.ts"
+  ],
+  "packetAndDraftPins": {
+    "api.d.ts": "39dcb67304a7b9c0dba7e455746309c183bb0fd271c619e78266ac1baa1c64a3",
+    "contract.md": "10d1aa06abb014548ff2258cb612d0e5d357dc174c2fa4dff2bcc1fcb5efe485",
+    "draft-01/SHA256SUMS": "8c735d02e642cb2904a71c39d4a10506aba5752fc5981dd60cd37f3c98decd60",
+    "draft-01/access-journal.json": "5f6232b826f003fbe974d0afa91a8fd1c77459646729c7db0d8841b70249c2ed",
+    "draft-01/usage-observability.ts": "c22bd5f69c8f5ba74a7b88a9dca135aeff8f8fc7bd4161e9b5fda3a67ffa49c6",
+    "lineage.json": "69507460eba79e70ea53f37858d9e9e1c0bcc62ebbfcc809bc255e396828ff4f",
+    "supporting-facts.md": "6cffe32baa843fe5c22122a2d7871814f983ddbd78b09b694814e3840430204a"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-usage-observability-baseline-20261003.json",
+    "sha256": "917c7909aabdd7753a4e3bd5744dea9b324c1b21cfa26982ccdc2c1dd3e13446"
+  },
+  "finalPins": {
+    "src/runtime/methods/usage-observability.ts": "8711f5a9ae77a06397b180ba4279ff0c2d22df58b3697e4bd93e0aef11dcf604",
+    "dist/runtime/methods/usage-observability.js": "a7a9df6e685f64b2e20b51371fe44f0a4483f464a6c26994d947e45bacafbd98",
+    "src/runtime/methods/usage-observability-projection.ts": "a09cc13474608ce27d00ffc0148d5a97e30fc2049215ce47b62e5e4f77d4ecf0",
+    "dist/runtime/methods/usage-observability-projection.js": "37940944f5ead3427fd482044de06c89cd9787e82d897ae92df3dd2069e123b7"
+  },
+  "design": "Three complete writer lifecycles keep capability admission, eager normalization/error propagation and recoverable row/write warning boundaries. Pure recorded-observation projection is a lower module; existing usage store remains sole writer.",
+  "postDraftCorrections": [
+    "838ea02 preserves sealed-draft ID capture failure; captured logical identity restored before query-source read.",
+    "Source-exposed compatibility corrections restore reverse findLast and single scheduled/error payload capture.",
+    "Pure parsing/projection relocation receives no separate originality credit."
+  ],
+  "authorship": "Fresh internal fork_turns=none authors, Sol/high, only own body-free API/contract/supporting facts and recorded clarifications. Journals report accesses; sealed drafts precede curator comparison. Curator source-exposed; packet and feedback source-derived. No absolute isolation/clean-room or whole-file rights claim.",
+  "retainedExpression": "Fixed APIs/type/protocol names, record fields and key order, runtime errors/log/prose labels, original dependency seams and native await/effect combinations retained. Conventional maps, object projections, spreads, predicates and loop glue may match. Authorship process and tests do not resolve licensing; attribution/notice obligations unchanged.",
+  "checks": "Shared scoped compiler:0 diagnostics,10 historical/current call signatures equal.5source lint94rules0;6format files pass;architecture0. One final coherent emitted safety pass3groups+1ID regression+1cancelled-log observation. Subsequent model-status-only lint correction rerun1overlapping group+1overlapping log observation; no extra distinct group credit.15 exact current artifacts.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted duplicate matrices deliberately unrun per speed cadence.",
+    "Three synthetic groups do not cover all stop/usage/status branches; actual consumer call sites traced, not full runtime launched.",
+    "Transitive dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no bypass or settings change.",
+    "Root independently reviews correctness/expression/licence; no header/inventory grant, integration or publication claim."
+  ],
+  "redProofCommit": "838ea02"
+}

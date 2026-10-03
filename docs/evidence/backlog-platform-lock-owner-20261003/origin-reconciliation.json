@@ -1,0 +1,86 @@
+{
+  "selectedSources": [
+    {
+      "path": "packages/server-cli/src/runtime/lock.ts",
+      "baselineCommit": "33f812b483582dd6a6152618b4a57406b94a15ea",
+      "baselineBlob": "3a09adef6faf21ba7170e3a04ab20067f632aabd",
+      "baselineSha256": "d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0",
+      "currentRecordedSource": {
+        "path": "packages/server-cli/src/runtime/lock.ts",
+        "kind": "file",
+        "sha256": "d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0",
+        "normalizedSha256": "d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0",
+        "encoding": "utf8-lf",
+        "bytes": 7284,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "renamedUpstreamRecord": {
+        "path": "packages/zcode-server-cli/src/runtime/lock.ts",
+        "mode": "100644",
+        "blob": "9d09b358e65e681761ff16c7b61cc0f4b4bc3f3f",
+        "kind": "file",
+        "sha256": "514b56ea3c44e2d4da1d7c47699d5eda7a7a010625e48451e0b5a23df2aea825",
+        "normalizedSha256": "514b56ea3c44e2d4da1d7c47699d5eda7a7a010625e48451e0b5a23df2aea825",
+        "encoding": "utf8-lf",
+        "bytes": 7257
+      },
+      "normalization": {
+        "onlyReplacement": "Knorvia Studio Server -> ZCode Server",
+        "occurrences": 3,
+        "resultBytes": 7257,
+        "resultSha256": "514b56ea3c44e2d4da1d7c47699d5eda7a7a010625e48451e0b5a23df2aea825",
+        "matchesRecordedBytesAndSha256": true
+      },
+      "upstreamBlobLocallyAvailable": false,
+      "history": "Selected current paths have only imported snapshot 7619e41b950bd52073ebf36754146cf25659d9fa; no matching accepted whole-owner receipt found in bounded exact-path search.",
+      "disposition": "substantive lock owner reconstructed in this batch; source/rights review pending"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/startupRecovery.ts",
+      "baselineCommit": "33f812b483582dd6a6152618b4a57406b94a15ea",
+      "baselineBlob": "d59d81c4d9a9f351586f3dea6ef101d9c0050fe6",
+      "baselineSha256": "17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80",
+      "currentRecordedSource": {
+        "path": "packages/server-cli/src/runtime/startupRecovery.ts",
+        "kind": "file",
+        "sha256": "17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80",
+        "normalizedSha256": "17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80",
+        "encoding": "utf8-lf",
+        "bytes": 748,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "renamedUpstreamRecord": {
+        "path": "packages/zcode-server-cli/src/runtime/startupRecovery.ts",
+        "mode": "100644",
+        "blob": "dfa471d395a04098492238e920717884f870b963",
+        "kind": "file",
+        "sha256": "0bb40677b5a0c0ae7eb76ae62fa860c0b9374d7c499d33e3b1d71912a5dcb88a",
+        "normalizedSha256": "0bb40677b5a0c0ae7eb76ae62fa860c0b9374d7c499d33e3b1d71912a5dcb88a",
+        "encoding": "utf8-lf",
+        "bytes": 739
+      },
+      "normalization": {
+        "onlyReplacement": "Knorvia Studio Server -> ZCode Server",
+        "occurrences": 1,
+        "resultBytes": 739,
+        "resultSha256": "0bb40677b5a0c0ae7eb76ae62fa860c0b9374d7c499d33e3b1d71912a5dcb88a",
+        "matchesRecordedBytesAndSha256": true
+      },
+      "upstreamBlobLocallyAvailable": false,
+      "history": "Selected current paths have only imported snapshot 7619e41b950bd52073ebf36754146cf25659d9fa; no matching accepted whole-owner receipt found in bounded exact-path search.",
+      "disposition": "exact retained thin marker/delegation facade, zero new reconstruction/originality credit; renamed-source and expression/rights disposition stays with integration"
+    }
+  ],
+  "classificationDecision": "Report the two missing renamed upstream relationships to integration; global source/review/license files untouched. Retained startup facade does not acquire originality/MIT credit.",
+  "checksRun": []
+}

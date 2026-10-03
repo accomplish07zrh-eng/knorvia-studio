@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "kind": "complete contract-authored executor business candidate; independent expression acceptance unresolved",
+  "productionCommit": "9b23c51bfc634234142d31f1fdfb77cde439cc36",
+  "freezeCommit": "f6e0efab995410d096a13727d3aba9f55751b015",
+  "sealedDraftRedCommit": "c1ef01bec47cd3da0facc736e34f65c540ed8e56",
+  "scope": [
+    "apps/cli/packages/core/src/tool/executor/turn-control.ts"
+  ],
+  "origin": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/tool/executor/turn-control.ts",
+    "blob": "19fcf3d204f9857b89684affe6aa49a61adcf386",
+    "normalizedSha256": "d5d10ee6af94dae4e7461e2538542353f711ce0151d08583232be83c4b3faf1b",
+    "contentMatchedPaths": []
+  },
+  "originVerification": {
+    "object": "19fcf3d204f9857b89684affe6aa49a61adcf386",
+    "available": false,
+    "verification": "local Git object only; no remote publisher acquisition this turn"
+  },
+  "receiptReconciliation": {
+    "exactPriorReferences": 9,
+    "classification": "protectedInputs/protected map only; see exact bindings/pointers in freeze; no accepted full-owner review located; absence alone is not acceptance evidence",
+    "branchAllocation": "Current parent explicitly allocated up-to-two eligible executor business owners"
+  },
+  "design": "One synchronous outcome-control module owns automation limit, plan refusal, workflow feedback and metadata terminal-success decisions. Private feedback authority/trim helper shares the two prescribed reason-source routes. No accepted queue/state/runtime owner changes, asynchronous wrapper or framework. Entire candidate authored from body-free rules before curator comparison, not an old body moved into a new file.",
+  "authorAccess": {
+    "route": "Existing native agent reused; no new task/environment/retry",
+    "closureUTC": "2026-10-03T03:43:48.071153802Z",
+    "currentInputs": [
+      "docs/evidence/turn-control-author-20261003/api.d.ts",
+      "docs/evidence/turn-control-author-20261003/contract.md",
+      "docs/evidence/turn-control-author-20261003/dependency-api.d.ts",
+      "docs/evidence/turn-control-author-20261003/model-strings.json",
+      "docs/evidence/turn-control-author-20261003/public-types.d.ts"
+    ],
+    "currentInputCount": 5,
+    "initialSourceSHA256": "24ea43e40fc04737ea513410a8a3880114aa22189f481873a272d0188d6e4594",
+    "limits": "Prior AgentRuntime/TurnMachine/background packet/draft context remains; shared-filesystem instruction-only boundaries, self-reported five current inputs. Curator read predecessor. No absolute packet-only/clean-room or licence claim."
+  },
+  "correction": {
+    "kind": "post-seal source-exposed success truthiness restoration",
+    "initialScopedCompile": "TS6.0.2 zero diagnostics, four public signatures equal",
+    "red": "One appended group with four comparisons: initial all fail; exact historical compiled predecessor passes. Values undefined/1 exceed boolean public type contract; no defect claimed in ordinary typed callers.",
+    "change": "Replace three strict failure gates with original success truthiness and terminal strict success gate with original failure falsiness. Formatting afterward only. Complete unformatted correction and all initial bytes preserved."
+  },
+  "final": {
+    "typescript": "6.0.2",
+    "diagnostics": 0,
+    "publicApiEqual": true,
+    "sourceSHA256": "6b5786f06a49437846cff7edfc3ce09f99fc867164cdc546ac9f7a44bf9ef940",
+    "compiledSHA256": "7ca441484b89a29ca09d27decb0d4279f781db713b0c87e4ec6e3e507a6344ef",
+    "declarationSHA256": "0b19b7fe423e7d27a5c8b346b7dba8ee11a20e8330055696d5bdb22324610b03"
+  },
+  "validation": {
+    "historicalMinimumGroups": 2,
+    "historicalAppendedGroups": 1,
+    "historicalAppendedComparisons": 4,
+    "finalActualEmittedMinimumGroups": 2,
+    "actualDirectConsumersWithinMinimumGroups": [
+      "Admission.rejectPermission",
+      "failedExecution"
+    ],
+    "finalAppendedGroups": 1,
+    "finalAppendedComparisons": 4,
+    "counting": "Historical/final repetitions not aggregated; consumers are within two groups, not additional cases. Appended group overlaps the four public routes but targets only JS success truthiness. Artifact/compiler proof is one separate proof group, not behavioral coverage.",
+    "currentArtifactProof": {
+      "groups": 1,
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "exactCurrentArtifacts": true,
+      "publicApiEqual": true,
+      "immutableHistoricalModules": 3,
+      "unchangedDirectConsumers": 2,
+      "protectedSources": 700,
+      "wrongMissingArtifactsFailClosed": true,
+      "wholeBuild": false
+    },
+    "ownedLint": "4 files,94 rules,0 warnings/errors; preserved max400 configuration used without editing repository lint",
+    "configuredLint": "No files found,exit1: root config ignores CLI, exclusion is not a pass",
+    "ownedFormat": "4 files passed",
+    "architecture": "Changed check0 violations; CLI tree unmanaged/unassigned in current policy, not managed-layer certification",
+    "warnings": "Expected native ExperimentalWarning for VM Modules only",
+    "unrun": [
+      "ordinary source-mode replay",
+      "ordinary suites",
+      "full CLI/desktop/aggregate builds",
+      "native/live acceptance",
+      "real tool/agent/process/provider/permission/user-data operations"
+    ]
+  },
+  "retainedExpression": {
+    "fixed": "All public imports/signatures/protocol reason values and model-facing messages remain exact compatibility facts. Standard short-circuit operators, property reads, trim, object-spread shallow copying and field literals remain conventional expression.",
+    "combination": "Admission gate order, authority checks and spread/result-field combinations strongly correspond to predecessor; independent contribution/whole-file expression eligibility remains unresolved for root review. Entire body-free drafting route is evidence of process, not automatic originality credit.",
+    "comments": "Publisher discretionary explanatory comments not carried into candidate; no header or registry grant. Removal does not earn runtime reconstruction credit.",
+    "credit": "One complete installed implementation candidate, zero audited independent-origin/licence completion claims; no file-count/changed-hash/test-passing inference."
+  },
+  "remainingBoundedInventory": {
+    "events.ts": "Fixed event/protocol construction, kept without originality claim",
+    "workflow-published-artifacts.ts": "Shared lower protected dependency of the new background owner, not reopened",
+    "background-task-registry.ts": "Adjacent registry/lower identity boundary protected here; no overlap with root held runtime-task registry",
+    "tool/repl/session-registry.ts": "Existing authored complete owner ee9b8b5, retained",
+    "tool/scheduler.ts": "Existing authored scheduling owner3aa6b87, retained",
+    "execution/batch/deadline/invocation/result/permission owners": "Existing substantive replacement histories/receipts, retained"
+  },
+  "protected": "700 exact other core sources verified, including current three background files, accepted runtime methods and root/E/HOLDs. Historical background receipt remains unchanged and historical at its original checkpoint. No second eligible complete owner forced.",
+  "configuration": "Current Sol/high/FastON parent UI evidence02:58; no tool-independent UI introspection or settings changes, no retroactive Fast claim.",
+  "commands": [
+    "node --experimental-vm-modules apps/cli/packages/core/test/turn-control-safety-20261003.mjs current",
+    "node --experimental-vm-modules apps/cli/packages/core/test/turn-control-truthiness-20261003.mjs current",
+    "node apps/cli/packages/core/test/turn-control-artifact-proof-20261003.mjs"
+  ],
+  "bindings": {
+    "apps/cli/packages/core/test/turn-control-artifact-proof-20261003.mjs": "535a072b006e7d40d254cd5d623ba08a6ac9b09630478b7009ed3dfad6ae7ac9",
+    "apps/cli/packages/core/test/turn-control-baseline-20261003.json": "c9a7caf599ac40c22bc20e50f8b67fc6af97ae72ff9aae5e5485a3addd530bbd",
+    "apps/cli/packages/core/test/turn-control-observations-20261003.json": "573faae5e61e2aa4ed82127e3b8f8f6c678939da6073141261492ec77ac0f604",
+    "apps/cli/packages/core/test/turn-control-safety-20261003.mjs": "943e8220a5056ee554871378c71a416f4238d428249eadefcef23b411c06f9f4",
+    "apps/cli/packages/core/test/turn-control-truthiness-20261003.mjs": "409f2f3cd8988145b65cd7a17b37558fca138b37f4f8fa97aa0e69ad3a72633a",
+    "docs/evidence/knorvia-turn-control-current-20261003.json": "eeaae751dfebb6cd71fef38889589be3a5c9c48cd640ab0740ccf1c0ef2fcefd",
+    "docs/evidence/turn-control-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "docs/evidence/turn-control-checks-20261003/baseline-compiler.log": "c95c7412e029519f414cd50c9cad92c67ac9ded7316e1c9aafe5e248192a63e7",
+    "docs/evidence/turn-control-checks-20261003/baseline-safety-initial-setup.log": "0d978d365c44d33b4345f088455641973e34dfe7256b0892d7e5d0dfd22a2d6f",
+    "docs/evidence/turn-control-checks-20261003/baseline-safety.log": "fd179cafcdc63215a0a7f54eb7528f0e91e8c9062251b5598bbb97a9c7354577",
+    "docs/evidence/turn-control-checks-20261003/configured-lint.log": "350da91ee991d1383c4b26909151b1eca1d4870994d438c80f50618fe1065cef",
+    "docs/evidence/turn-control-checks-20261003/current-artifact-proof.log": "244024a6c96eed869f6dde2143e47bf2ac40fd36d1417c4e186fd52030945f05",
+    "docs/evidence/turn-control-checks-20261003/current-safety.log": "7fe6b42a9dfab730f62e672eca49282dc38b15fb32737a7637ba6bb870014d98",
+    "docs/evidence/turn-control-checks-20261003/current-truthiness.log": "dffe624ab5791938f20febc77e35618f68b6da452152d19570aacc57fdcc65a1",
+    "docs/evidence/turn-control-checks-20261003/current/compiled.txt": "7ca441484b89a29ca09d27decb0d4279f781db713b0c87e4ec6e3e507a6344ef",
+    "docs/evidence/turn-control-checks-20261003/current/declaration.txt": "0b19b7fe423e7d27a5c8b346b7dba8ee11a20e8330055696d5bdb22324610b03",
+    "docs/evidence/turn-control-checks-20261003/current/result.json": "16a34ce1ef54a726a14cb46b806be9b90389880a6594895fdb9a5029303f1369",
+    "docs/evidence/turn-control-checks-20261003/freeze.json": "b84bf3abe8088f7b19c3441c92053104680b145d2ec7f6d2fe080646f5292c83",
+    "docs/evidence/turn-control-checks-20261003/initial-compile/compiled.txt": "e9953af06b1522096184dcf4f4e1142b9838af8dcba968e9859f514cb9f578b3",
+    "docs/evidence/turn-control-checks-20261003/initial-compile/declaration.txt": "0b19b7fe423e7d27a5c8b346b7dba8ee11a20e8330055696d5bdb22324610b03",
+    "docs/evidence/turn-control-checks-20261003/initial-compile/result.json": "c638510ebcfbd52b40f16746728ca34b7af5f5ee3adeda0c67da176e6427cc9c",
+    "docs/evidence/turn-control-checks-20261003/local-origin.json": "f919ee7fb0c4e45c62bf7cd19fa793d09d1bc6eb16a0fb3c7a1e6d33eec01312",
+    "docs/evidence/turn-control-checks-20261003/owned-format.log": "2fe8bf62e26c00632c9721f695851e67c643d5a75ce0c71b36d2081907f4e2cd",
+    "docs/evidence/turn-control-checks-20261003/owned-lint.log": "3c71e5fc2254e8ccb039c3cff4824048b688363080c060f82b309ae6c7d4b834",
+    "docs/evidence/turn-control-checks-20261003/truthiness-baseline.log": "ede6da5725052a2b376d5cd4059a513aa5cd448ecc2eb186ecf981426bc06af6",
+    "docs/evidence/turn-control-checks-20261003/truthiness-initial-red.log": "2da317566601de83704e5e9754395ade98015171ef2602583dc07002a7cc5b19",
+    "docs/evidence/turn-control-draft-20261003/correction/correction.json": "bf1a1b9fbfb3398be5b4b692f5a6dcb3918b759e50627d983e87f6c237396ef0",
+    "docs/evidence/turn-control-draft-20261003/correction/turn-control.ts": "d842b0709f00cc1a73a722c8f3ba13cfa72e095db4f1ef2b87b6a7b14ae93402",
+    "docs/evidence/turn-control-draft-20261003/initial/SHA256SUMS": "1f2a710e0bf40d4ab581b4f0dbe5b112370353b745b53392f0c68eb8ab6a8540",
+    "docs/evidence/turn-control-draft-20261003/initial/accessed-inputs.sha256": "7ceffa75e52a6a827e95738078889297f7be7a5d6ac014595dc223866231ee0c",
+    "docs/evidence/turn-control-draft-20261003/initial/author-record.md": "0e88ddef0d939db2e073b9bed1139ce3000bea6327bf192d694722eb58eca90c",
+    "docs/evidence/turn-control-draft-20261003/initial/core/src/tool/executor/turn-control.ts": "24ea43e40fc04737ea513410a8a3880114aa22189f481873a272d0188d6e4594",
+    "specs/knorvia-turn-control-owner-20261003.md": "f531219569945f61dc5969b690ee3e3622317f5eb198e12a22d24ebf15b0b52f"
+  },
+  "integration": "Own branch/draftPR11 only; no cross-lane merge/main/recovery write, publication or MIT/header/inventory grant"
+}

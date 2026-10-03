@@ -1,0 +1,11 @@
+{
+  "reviewedReceiptMetadataFiles": 75,
+  "exactTargetHits": {
+    "apps/cli/packages/core/src/memory/extraction.ts": [],
+    "apps/cli/packages/core/src/memory/memory-agent-loop.ts": [],
+    "apps/cli/packages/core/src/memory/memory-file-path.ts": [],
+    "apps/cli/packages/core/src/memory/index-content.ts": [],
+    "apps/cli/packages/core/src/memory/recall/manifest.ts": []
+  },
+  "qualification": "Bounded E accepted draft/install/integration metadata search; no global completion or rights claim; source boundaries and dependency references are not accepted implementation receipts."
+}

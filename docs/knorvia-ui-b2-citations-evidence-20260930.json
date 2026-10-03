@@ -1,0 +1,61 @@
+{
+  "baseline": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "productionLicense": "Apache-2.0",
+  "sourceExposure": true,
+  "authorshipReview": "pending",
+  "sources": [
+    {
+      "path": "packages/ui/src/lib/fileCitation.ts",
+      "beforeSha256": "4bb79b3384efd1561f31eafd311a87c0811cf8046aa4d39ab9149e424fc57209",
+      "afterSha256": "449e6cd6c25b528a83606b855dce545b96a0a120a7d10e9099c06458d54a1812",
+      "beforeBytes": 5222,
+      "afterBytes": 5055,
+      "compiledPath": "packages/ui/dist/lib/fileCitation.js",
+      "compiledSha256": "5b81f31349df8dc0ac47abb6f8d96e52c7b34557561e9ebc8cc6531e7eefd0e9",
+      "webSourceMapBindings": [
+        {
+          "map": "packages/web/dist/assets/useStudioRuntime-DVIfxQ0S.js.map",
+          "source": "../../../ui/src/lib/fileCitation.ts",
+          "sourceContentSha256": "449e6cd6c25b528a83606b855dce545b96a0a120a7d10e9099c06458d54a1812"
+        }
+      ]
+    },
+    {
+      "path": "packages/ui/src/lib/fileCitationRemarkPlugin.ts",
+      "beforeSha256": "1c1e9ed0e7df26eae7ef5b4260ad17a871c5b5cf719c03fe17aa049191e4f943",
+      "afterSha256": "abd8d05a26f9346c8f44af93237906abdc2e57271f1ce2c0ea75add21fc135d1",
+      "beforeBytes": 2427,
+      "afterBytes": 3078,
+      "compiledPath": "packages/ui/dist/lib/fileCitationRemarkPlugin.js",
+      "compiledSha256": "ae6fee2491d1166bc3634705c782cd5952911741b5e3f48451266dbe2a82b146",
+      "webSourceMapBindings": [
+        {
+          "map": "packages/web/dist/assets/useStudioRuntime-DVIfxQ0S.js.map",
+          "source": "../../../ui/src/lib/fileCitationRemarkPlugin.ts",
+          "sourceContentSha256": "abd8d05a26f9346c8f44af93237906abdc2e57271f1ce2c0ea75add21fc135d1"
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "frozenBeforeProduction": 42,
+    "baselineFinal": {
+      "pass": 43,
+      "fail": 0,
+      "skip": 0
+    },
+    "sourceFinalWithExistingProtocol": {
+      "pass": 45,
+      "fail": 0,
+      "skip": 0
+    },
+    "compiledB2": {
+      "pass": 43,
+      "fail": 0,
+      "skip": 0
+    },
+    "finiteComparisons": 51166,
+    "finiteDifferences": 0,
+    "largeInputCitations": 150001
+  }
+}

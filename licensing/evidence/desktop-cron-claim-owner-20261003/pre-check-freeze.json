@@ -1,0 +1,17 @@
+[
+  {
+    "originalPath": "licensing/evidence/desktop-cron-claim-owner-20261003/scoped-static.mjs",
+    "snapshotPath": "licensing/evidence/desktop-cron-claim-owner-20261003/pre-check-snapshots/scoped-static.mjs",
+    "sha256": "34d0f3aa5132d4917b284771c9b403b9cffbe6eb8a17c0bb078c2aa8235b1acb"
+  },
+  {
+    "originalPath": "licensing/evidence/desktop-cron-claim-owner-20261003/record-run.mjs",
+    "snapshotPath": "licensing/evidence/desktop-cron-claim-owner-20261003/pre-check-snapshots/record-run.mjs",
+    "sha256": "f7a14dc04339f31d4b3c99c117d2af467f1451f6d6dcb8b346ef5a89897d581c"
+  },
+  {
+    "originalPath": "packages/desktop/src/host/cronClaimOwner.test.mjs",
+    "snapshotPath": "licensing/evidence/desktop-cron-claim-owner-20261003/pre-check-snapshots/cronClaimOwner.test.mjs",
+    "sha256": "7ab743ea1848e7b15257dd7e3b27c870c06ba6f4337c8d8ae4b5ba003c65dac3"
+  }
+]

@@ -1,0 +1,17 @@
+const fs=require('node:fs'),path=require('node:path'),ts=require('/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js');
+const dir=path.join(process.cwd(),'docs/evidence/personal-provider-config-repository-root-packet-20261003'),src='packages/provider-node/src/personal-provider-config-repository.ts';
+const sf=ts.createSourceFile(src,fs.readFileSync(src,'utf8'),ts.ScriptTarget.Latest,true),printer=ts.createPrinter({removeComments:true}),lines=[];
+function params(n){return n.parameters.map(p=>{if(p.initializer)throw Error('Unexpected public default parameter');return p.getText(sf)}).join(', ')}
+for(const n of sf.statements){
+ if(ts.isImportDeclaration(n)){let s=printer.printNode(ts.EmitHint.Unspecified,n,sf);s=s.replace(/^import /,'import type ').replace(/\btype (?=[\w])/g,'');s=s.replace(/^import /,'import type ');lines.push(s);continue;}
+ if(!n.modifiers?.some(m=>m.kind===ts.SyntaxKind.ExportKeyword))continue;
+ if(ts.isInterfaceDeclaration(n)||ts.isTypeAliasDeclaration(n))lines.push(printer.printNode(ts.EmitHint.Unspecified,n,sf));
+ else if(ts.isFunctionDeclaration(n))lines.push('export declare function '+n.name.text+'('+params(n)+'): '+n.type.getText(sf)+';');
+ else if(ts.isClassDeclaration(n)){const members=[];for(const m of n.members){if(m.name&&ts.isPrivateIdentifier(m.name))continue;if(m.modifiers?.some(x=>[ts.SyntaxKind.PrivateKeyword,ts.SyntaxKind.ProtectedKeyword].includes(x.kind)))continue;if(ts.isConstructorDeclaration(m))members.push('constructor('+params(m)+');');else if(ts.isMethodDeclaration(m))members.push(m.name.getText(sf)+'('+params(m)+'): '+m.type.getText(sf)+';');else throw Error('Unexpected public member');}lines.push('export declare class '+n.name.text+' '+(n.heritageClauses?.map(x=>x.getText(sf)).join(' ')??'')+' {\n'+members.map(x=>'  '+x).join('\n')+'\n}');}}
+fs.writeFileSync(path.join(dir,'public-api.d.ts'),lines.join('\n\n')+'\n');
+const dep='packages/provider/src/config-service.ts',ds=ts.createSourceFile(dep,fs.readFileSync(dep,'utf8'),ts.ScriptTarget.Latest,true);
+const names=['ProviderConfigLayerSnapshot','ProviderConfigLayerUpdate','PersonalProviderConfigRepository'];
+const heads=['import type { ProviderConfigMap, ModelConfigRules, ProviderTemplateMap, ProviderId } from "@knorvia/provider";','import type { ModelSelection } from "@knorvia/shared/model-selection";','export interface ProviderSource<TSnapshot> { read(): Promise<TSnapshot>; onDidChange(listener: (reason: string) => void): () => void; }'];
+for(const n of ds.statements)if(ts.isInterfaceDeclaration(n)&&names.includes(n.name.text))heads.push(printer.printNode(ts.EmitHint.Unspecified,n,ds));
+fs.writeFileSync(path.join(dir,'dependency-types.d.ts'),heads.join('\n\n')+'\n');
+console.log(JSON.stringify({mainExportDeclarations:sf.statements.filter(n=>n.modifiers?.some(m=>m.kind===ts.SyntaxKind.ExportKeyword)).length,dependencyLayerInterfaces:names,mode:'AST parse/print only; no source emit, semantic compiler or runtime repository imports'}));

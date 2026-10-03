@@ -1,0 +1,86 @@
+import { randomUUID } from 'node:crypto';
+import { BrowserWindow, type UtilityProcess as ElectronUtilityProcess } from 'electron';
+import { HostMessageTypes, HostResponseTypes, PlatformChannels, hostResponseMessageSchema, type WindowHostRemoteWorkspaceDescriptor } from '@knorvia/shared';
+import type { RemoteDisconnectReason } from '../desktopRemoteUsageArmsTelemetry.js';
+import type { ManagerContext, RemoteAttachmentRoute } from './types.js';
+import type { AttachmentOwner } from './attachments.js';
+import { asError, emitLog, requestKey } from './common.js';
+export function createHostLifecycleOwner(context: ManagerContext, attachments: AttachmentOwner) {
+  const { options, state, monotonicNowMs } = context;
+  function retireActiveRoute(route: RemoteAttachmentRoute, reason: RemoteDisconnectReason, mutate: () => void): void {
+    const wasActive = route.remoteUsageTelemetryEligible && route.attachmentState === 'attachable' && route.connectFinalized;
+    mutate(); if (!wasActive) return;
+    const common = { rendererId: route.webContentsId, remoteKind: route.descriptor.target.kind };
+    try { options.reportRemoteConnectionStateChanged?.({ ...common, transition: reason }); }
+    catch (error) { options.logger.warn('[remote-usage-arms] disconnect gauge reporter failed', { error }); }
+    try { options.reportRemoteDisconnect?.({ ...common, disconnectReason: reason, durationMs: Math.max(0, Math.round(monotonicNowMs() - route.connectedAtMonotonicMs)) }); }
+    catch (error) { options.logger.warn('[remote-usage-arms] disconnect reporter failed', { error }); }
+  }
+  function handleConnected(child: ElectronUtilityProcess, webContentsId: number, requestId: string, descriptor: WindowHostRemoteWorkspaceDescriptor): void {
+    const key = requestKey(webContentsId, requestId); const pending = state.pending.get(key);
+    if (!pending) { child.postMessage({ type: HostMessageTypes.DisposeRemoteWorkspaceSession, requestId: randomUUID(), remoteSessionId: descriptor.remoteSessionId }); return; }
+    state.pending.delete(key);
+    const route: RemoteAttachmentRoute = { webContentsId, descriptor, attachmentState: 'attachable', connectedAtMonotonicMs: monotonicNowMs(), connectFinalized: false, remoteUsageTelemetryEligible: pending.remoteUsageTelemetryEligible };
+    state.routes.set(descriptor.remoteSessionId, route);
+    void attachments.attachRendererPort(pending.win, route, 'connect').then(() => {
+      emitLog(pending.win, { requestId, sessionId: descriptor.remoteSessionId, level: 'info', message: `远程 ${descriptor.target.kind} workspace 已连接` });
+      pending.resolve(descriptor.remoteSessionId);
+    }).catch((error) => {
+      state.routes.delete(descriptor.remoteSessionId);
+      child.postMessage({ type: HostMessageTypes.DisposeRemoteWorkspaceSession, requestId: randomUUID(), remoteSessionId: descriptor.remoteSessionId });
+      pending.reject(asError(error));
+    });
+  }
+  function handleClosed(webContentsId: number, event: { remoteSessionId: string; reason: 'connection-closed' | 'disposed' | 'connect-cancelled'; exitCode?: number | null; signal?: string | null; error?: string }): void {
+    const route = state.routes.get(event.remoteSessionId);
+    if (!route || route.webContentsId !== webContentsId) return;
+    if (event.reason !== 'connection-closed') {
+      retireActiveRoute(route, 'disposed', () => { state.routes.delete(event.remoteSessionId); });
+      attachments.detachRouteAttachments(route, 'session-released', new Error(`远程 workspace 已释放，sessionId=${event.remoteSessionId}`)); return;
+    }
+    retireActiveRoute(route, 'connection-closed', () => { route.attachmentState = 'closed'; });
+    attachments.detachRouteAttachments(route, 'session-connection-closed', new Error(`远程 workspace 已关闭，sessionId=${event.remoteSessionId}`));
+    const win = BrowserWindow.getAllWindows().find((candidate) => candidate.webContents.id === webContentsId);
+    if (win && !win.isDestroyed() && !win.webContents.isDestroyed()) {
+      win.webContents.send(PlatformChannels.RemoteSessionClosed, { sessionId: event.remoteSessionId, reason: 'host-exit', exitCode: event.exitCode ?? null, signal: event.signal ?? null });
+      emitLog(win, { sessionId: event.remoteSessionId, level: 'warn', message: event.error || '远程 workspace 连接已断开' });
+    }
+  }
+  function ensureHostListener(child: ElectronUtilityProcess, webContentsId: number): void {
+    if (state.listenedHosts.has(child)) return;
+    state.listenedHosts.add(child);
+    child.on('message', (message: unknown) => {
+      const result = hostResponseMessageSchema.safeParse(message);
+      if (!result.success) return;
+      const parsed = result.data;
+      if (parsed.type === HostResponseTypes.RemoteWorkspaceConnectionLog) {
+        const pending = state.pending.get(requestKey(webContentsId, parsed.requestId));
+        if (!pending) return;
+        emitLog(pending.win, { requestId: parsed.requestId, level: parsed.level, message: parsed.message }); return;
+      }
+      if (parsed.type === HostResponseTypes.RemoteWorkspaceConnected) { handleConnected(child, webContentsId, parsed.requestId, parsed.descriptor); return; }
+      if (parsed.type === HostResponseTypes.RemoteWorkspaceConnectFailed) {
+        const key = requestKey(webContentsId, parsed.requestId); const pending = state.pending.get(key);
+        if (!pending) return;
+        state.pending.delete(key);
+        emitLog(pending.win, { requestId: parsed.requestId, level: 'error', message: parsed.error });
+        pending.reject(new Error(parsed.error)); return;
+      }
+      if (parsed.type === HostResponseTypes.RemoteWorkspaceClosed) handleClosed(webContentsId, parsed);
+    });
+    child.once('exit', () => {
+      const error = new Error('窗口 Local Host 已退出');
+      for (const [key, pending] of Array.from(state.pending)) {
+        if (pending.webContentsId !== webContentsId) continue;
+        state.pending.delete(key); pending.reject(error);
+      }
+      for (const [sessionId, route] of Array.from(state.routes)) {
+        if (route.webContentsId !== webContentsId) continue;
+        retireActiveRoute(route, 'host-exit', () => { state.routes.delete(sessionId); });
+        if (route.pendingRendererAttachment) { clearTimeout(route.pendingRendererAttachment.timeout); route.pendingRendererAttachment.reject(error); }
+      }
+    });
+  }
+  return { retireActiveRoute, ensureHostListener };
+}
+export type HostLifecycleOwner = ReturnType<typeof createHostLifecycleOwner>;

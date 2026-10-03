@@ -1,0 +1,64 @@
+{
+  "task": "Restricted-input ordered model streaming event queue author",
+  "allowed_input_packet": "/workspace/knorvia-studio/docs/evidence/runtime-model-streaming-event-queue-author-20261003",
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-streaming-event-queue-author-20261003/api.d.ts",
+      "bytes": 537,
+      "sha256": "026344eed8706c00ca5e57eb381b4313d6a470c2a56f4fb6b6fece466b3be0ec",
+      "accesses": [
+        "Read complete contents once through the initial cat invocation.",
+        "Read bytes once in this sealing invocation to record the input hash."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-streaming-event-queue-author-20261003/imports.d.ts",
+      "bytes": 145,
+      "sha256": "a9cd3354880ef05b2898149f3cfc709eab46c23a00e7cf4525ef2a5940badf07",
+      "accesses": [
+        "Read complete contents once through the initial cat invocation.",
+        "Read bytes once in this sealing invocation to record the input hash."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-streaming-event-queue-author-20261003/supporting-api.d.ts",
+      "bytes": 88,
+      "sha256": "6774567f065b82a0e9fe1e9665df82c74b66b59c7612332d85aafae3f3a3e0c9",
+      "accesses": [
+        "Read complete contents once through the initial cat invocation.",
+        "Read bytes once in this sealing invocation to record the input hash."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-streaming-event-queue-author-20261003/contract.md",
+      "bytes": 1656,
+      "sha256": "aac005c0de617c074cd076d6aab2f0ecdcf3be981a796f5e7c886aebd6900185",
+      "accesses": [
+        "Read complete contents once through the initial cat invocation.",
+        "Read bytes once in this sealing invocation to record the input hash."
+      ]
+    }
+  ],
+  "other_input_context": [
+    "Delegated task and execution/tool instructions present in the conversation."
+  ],
+  "access_scope": {
+    "production_edits": false,
+    "tests_or_builds_run": false,
+    "provider_or_network_access": false,
+    "dependency_bodies_read": false,
+    "predecessor_source_history_lineage_or_oracles_read": false,
+    "workspace_instructions_or_AGENTS_read": false,
+    "subagents_spawned": false,
+    "user_data_or_running_processes_inspected": false
+  },
+  "output": {
+    "path": "/tmp/knorvia-runtime-stream-five-20261003/model-streaming-event-queue/model-streaming-event-queue.ts",
+    "bytes": 1851,
+    "physical_lines": 67,
+    "sha256": "b0cb12a8217122aea944ad3e6d3f112e48207782d258e7872cc3e12acc37977c"
+  },
+  "authorship_disclosure": "Authored from the supplied body-free API packet and behavioral contract. The prescribed native Promise then/async-write/catch/finally pipeline, two async drain boundaries, nullish failure assignment and truthy guards constrain the available expression. Standard promise primitives may match other implementations. No novelty, clean-room status, or rights grant is claimed.",
+  "seal_order": "Source draft written and hashed, then this journal written and hashed, then seal.sha256 written; no curator comparison performed.",
+  "verification": "Static reasoning against the supplied contract only; no tests or builds run."
+}

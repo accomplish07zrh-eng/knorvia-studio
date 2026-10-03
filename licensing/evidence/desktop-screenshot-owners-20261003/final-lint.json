@@ -1,0 +1,45 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinatorWiring.ts",
+    "licensing/evidence/desktop-screenshot-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-screenshot-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-screenshot-owners-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts",
+      "sha256": "594b592f81e485b788f781d28fba7f2657e54332554714021ec89cc77212fce9"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+      "sha256": "df8e32d4826318aaf87a982e2eb5709650a50e6f8653b4e861360d8b7a726cc4"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinatorWiring.ts",
+      "sha256": "f0e97b187e62f8d10690d5a72976acc7883dee90fdf5f6fc04ff18a1f6f6efe9"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/scoped-static.mjs",
+      "sha256": "ed4e18cd2fafb45edd2222dae812608a485e05760ed22976a198d369c48f67eb"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/record-run.mjs",
+      "sha256": "7ae3fef86d68253d27db89693ee896c112c160c8596f247a67b49bb9990a32d1"
+    },
+    {
+      "path": "licensing/evidence/desktop-screenshot-owners-20261003/retained-shapes.mjs",
+      "sha256": "e7ac989e450802f31ea1593f711fef7876e298db12b3aad14fb709f1e7acc974"
+    }
+  ],
+  "stdout": "\n  ! eslint(no-unused-vars): Type 'BrowserViewportSize' is imported but never used.\n   ,-[packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinator.ts:3:8]\n 2 |   BROWSER_SCREENSHOT_SURFACE_PREPARE_TIMEOUT_MS,\n 3 |   type BrowserViewportSize,\n   :        ^^^^^^^^^|^^^^^^^^^\n   :                 `-- 'BrowserViewportSize' is imported here\n 4 |   type BrowserViewScreenshotSurfacePreparePayload,\n   `----\n  help: Consider removing this import.\n\nFound 1 warning and 0 errors.\nFinished in 17ms on 6 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

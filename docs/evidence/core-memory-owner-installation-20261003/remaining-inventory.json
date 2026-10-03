@@ -1,0 +1,88 @@
+{
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/memory/directory.ts",
+      "bytes": 814,
+      "lines": 26,
+      "sha256": "04058c420517931bb3366ad590ba0acfadee132fe875e51b5b7cb22febfeca93",
+      "decision": "retained adjacent identity/write helper or static recall schema/barrel",
+      "acceptedReceipt": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/extraction.ts",
+      "bytes": 8265,
+      "lines": 220,
+      "sha256": "7c4ae83f19d893a00dbca51c0b97960ccbc9c438a816191115b59189ab0b4e77",
+      "decision": "own complete reviewed installed owner",
+      "acceptedReceipt": "docs/evidence/core-memory-owner-packet-20261003/extraction/extraction.ts.txt"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/index-content.ts",
+      "bytes": 2281,
+      "lines": 68,
+      "sha256": "de62e45a34a9d79d1683fcc4fbfe82442d8d4bbfcc1849ab4bf1e8f30915c50a",
+      "decision": "own complete reviewed installed owner",
+      "acceptedReceipt": "docs/evidence/core-memory-owner-packet-20261003/index/index-content.ts.txt"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "bytes": 7166,
+      "lines": 221,
+      "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+      "decision": "own complete reviewed installed owner",
+      "acceptedReceipt": "docs/evidence/core-memory-owner-packet-20261003/loop/memory-agent-loop.ts.txt"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+      "bytes": 1966,
+      "lines": 81,
+      "sha256": "4aeef1a821f78f0ea8340e3406734ddb46899601dad82e9142ad056298a25f74",
+      "decision": "own complete reviewed installed owner",
+      "acceptedReceipt": "docs/evidence/core-memory-owner-packet-20261003/path-v2/memory-file-path.ts.txt"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/origin-session.ts",
+      "bytes": 1859,
+      "lines": 51,
+      "sha256": "5fd667e140c5b79c697c973cb6f05597c8c37d0ea2b404754f31eb94621e4fc0",
+      "decision": "retained adjacent identity/write helper or static recall schema/barrel",
+      "acceptedReceipt": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/project-root.ts",
+      "bytes": 1106,
+      "lines": 33,
+      "sha256": "69ea16dc573f1e60e5579be494d02dc7735ab24821208071f304e5699c2d7f55",
+      "decision": "retained adjacent identity/write helper or static recall schema/barrel",
+      "acceptedReceipt": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/index.ts",
+      "bytes": 147,
+      "lines": 2,
+      "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25",
+      "decision": "retained adjacent identity/write helper or static recall schema/barrel",
+      "acceptedReceipt": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "bytes": 3738,
+      "lines": 97,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "decision": "own complete reviewed installed owner",
+      "acceptedReceipt": "docs/evidence/core-memory-owner-packet-20261003/manifest-v2/manifest.ts.txt"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/types.ts",
+      "bytes": 312,
+      "lines": 11,
+      "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40",
+      "decision": "retained adjacent identity/write helper or static recall schema/barrel",
+      "acceptedReceipt": null
+    }
+  ],
+  "installed": 5,
+  "retained": 5,
+  "materialObligationsRemaining": 21,
+  "qualification": "Exact allocated memory directory inventory only; no global completion/rights assertion or further allocation inferred."
+}

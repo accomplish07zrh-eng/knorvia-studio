@@ -1,0 +1,11 @@
+{
+  "author": "/root/media_image_compression_author",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "fork": "none",
+  "output": "/tmp/knorvia-cli-media-image-compression-author.ts",
+  "freeze": "/tmp/knorvia-cli-media-freezes/image-compression-initial.ts",
+  "archive": "licensing/evidence/cli-media-owners-20261003/drafts/image-compression-initial.ts.txt",
+  "sha256": "e6347a47f55086f4b00574215d0c8cf36d51f923edd17becf27429782e7cf0dc",
+  "frozenBeforeCuratorInspection": true
+}

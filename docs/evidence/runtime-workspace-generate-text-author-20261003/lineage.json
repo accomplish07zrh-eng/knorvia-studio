@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/workspace-generate-text.ts",
+  "kind": "file",
+  "sha256": "7e48c29825be5b1b5df910f4eb561c08bb797aa0e86dd4ff2b1b88696772fb72",
+  "normalizedSha256": "7e48c29825be5b1b5df910f4eb561c08bb797aa0e86dd4ff2b1b88696772fb72",
+  "encoding": "utf8-lf",
+  "bytes": 9638,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/workspace-generate-text.ts",
+    "blob": "4a7dcecef569b89355773ab747fd49ee86353dea",
+    "normalizedSha256": "ae8a5b63b88f4158b36a2e771e39ce3e09a1e4e296189fd38ab4b15d14bb2604",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

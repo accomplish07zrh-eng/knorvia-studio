@@ -1,0 +1,11 @@
+
+  x eslint(max-lines): File has too many lines (402).
+     ,-[packages/desktop/src/host/indexOwner.fixture.mjs:402:100]
+ 401 | }
+ 402 | export { assert, fs, path, vm, test, ts, baseline, selected, plain, defer, drain, check, harness };
+     :                                                                                                    ^
+     `----
+  help: Maximum allowed is 400.
+
+Found 0 warnings and 1 error.
+Finished in 137ms on 580 files with 94 rules using 4 threads.

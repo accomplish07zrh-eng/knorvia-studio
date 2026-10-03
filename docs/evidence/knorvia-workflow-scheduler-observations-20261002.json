@@ -1,0 +1,246 @@
+{
+  "formatVersion": 1,
+  "kind": "restricted-workflow-scheduler-packet-and-predecessor-freeze",
+  "baseline": "e972ca88b458787d59b31b914a73f32d0297f567",
+  "freezeCommit": "bc5010f2d0aedf3cbdf0ab8c5cf46ca33fa5bc73",
+  "branch": "parallel/cli-tools-fast-20261001",
+  "productionScope": ["apps/cli/packages/core/src/workflow/scheduler.ts"],
+  "productionChanges": 0,
+  "candidateProduced": false,
+  "nativeAuthorRetries": 0,
+  "sourceExposure": "Curator read predecessor and real callers. Only six named projected-type/behavior/data inputs exclude bodies/history/oracles; no absolute clean-room or rights conclusion.",
+  "packetFiles": [
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/api.d.ts",
+      "sha256": "62e80e5ad71227b526f6249b1acce51db76b78abfe7ef8e05f0b3bf839489909",
+      "bytes": 4855
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/behavior.md",
+      "sha256": "8301decc47ee0b097c6c1282c094a77385082d3c9fc0fdbda32a4d14d4be9086",
+      "bytes": 9698
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/dependencies.d.ts",
+      "sha256": "e4c7d07742cfc9444650c8ba96b14634e66612fa08325cf33539ae0ec26b3664",
+      "bytes": 3984
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/inputs.json",
+      "sha256": "c11f7ff09c66e8c8cca7e91115cc3a58e36e57a8db11a6d5b6486378e5828fcf",
+      "bytes": 9209
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/supporting-types.d.ts",
+      "sha256": "3b630e1e552ef6a9bec3c0ffb6cfd7b618395ea2272cbaf5323d30431fd1b01d",
+      "bytes": 5674
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/workflow-types.d.ts",
+      "sha256": "91c9a6680cc92d9972954c7f24a53a40c0b2ee18445af43e606d007fd52385a3",
+      "bytes": 11328
+    }
+  ],
+  "freezeFiles": [
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+      "sha256": "3140b97eb617cf3a80670ecc8f1abb99d4b1a96cb9513d3848ecfbcdae14564e",
+      "bytes": 4563
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observation-baseline.json",
+      "sha256": "4348a7528361cc1da95289b59185bca9de1747e2ba07b3536547c3b575a80553",
+      "bytes": 8725
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observation-fixture.ts",
+      "sha256": "272360596e8d0e45c2e63975562adbe39ff5c8008099bab8a047f0d7b5ffcfd7",
+      "bytes": 2555
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+      "sha256": "0e3ba33f51a7ac11d918a25ec7ffdff1857311325b9c744dc272ad246637ea64",
+      "bytes": 4194
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observation-ports.ts",
+      "sha256": "ba30b1c9ca62afc84356287cbb32b675c84d0fb269f6b4c0804a02e0e63bb40d",
+      "bytes": 4880
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+      "sha256": "3a69c9eda5287b11a3c204226becb467dccc3cfdb66e7f408b8b2f5a5a53f186",
+      "bytes": 12635
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-handoff-20261002.md",
+      "sha256": "431e5bc4f38f505272b46f4800907d08fd991ed2e67270e975beb001096768c1",
+      "bytes": 7150
+    },
+    {
+      "path": "specs/knorvia-workflow-scheduler-observations-20261002.md",
+      "sha256": "48699d5b66de4f194dfa68fc2675aede7b90e16806a5e07fcdaefcc007a26ca3",
+      "bytes": 2746
+    },
+    {
+      "path": "docs/evidence/check-knorvia-workflow-scheduler-observations-20261002.mjs",
+      "sha256": "7aabc9ace3e4358d522b1b82e86ed00b775aaf1adc0aa5f5d425f9219f809b03",
+      "bytes": 2282
+    },
+    {
+      "path": "docs/evidence/knorvia-workflow-scheduler-observations-20261002.logs.json",
+      "sha256": "86dcda638728d8896e3bceddc22044589278f5bd9f2f73a5e76fbdc3aab6e3dc",
+      "bytes": 16280
+    }
+  ],
+  "historicalReceipts": [
+    {
+      "path": "docs/evidence/knorvia-workflow-node-publication-20261002.json",
+      "sha256": "df89ddc1bc49ba8f877a58203583882fffade7ee698439ada06511538c28c8c3",
+      "bytes": 9960
+    },
+    {
+      "path": "docs/evidence/knorvia-task-registry-root-review-20261002.json",
+      "sha256": "573ef04c2ec7e62840db26a602bb91810d67937f727859cc62101b40f780e650",
+      "bytes": 13202
+    }
+  ],
+  "protectedHistoricalFiles": {
+    "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts": "7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a",
+    "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+    "apps/cli/packages/core/test/workflow-node-publication-baseline.json": "50ca9dcc03b563db48049c7296c4aad25914beabbd2b0d9fb0a4036a11da1370",
+    "apps/cli/packages/core/test/workflow-node-publication-current.json": "ca126a097ad5ce750ccb6f4a09c21ed20042c9ea222bccc9e8a9ad1df58aa5f2",
+    "apps/cli/packages/core/test/workflow-node-publication-fixture.ts": "7abab625157546ee92082e0d1402de3b94315367c95ab745437dee812547441b",
+    "apps/cli/packages/core/test/workflow-node-publication-ports.ts": "6ff293ba74f59de2db63daef1082ca51ee9ff37b0f49f461182b90fd2489e65f",
+    "apps/cli/packages/core/test/workflow-node-publication.test.ts": "e2506651fccd6165edf0210db330ae1b5101b3a7377a24d7fae245351b1c9d5c",
+    "docs/evidence/knorvia-workflow-node-publication-freeze-20261002.json": "f55ecbb367a0e3a560edf2ecef87a6a7ce1de5e6294f8afff7e6e2762db87ced",
+    "specs/knorvia-workflow-node-publication-20261002.md": "3b665f5fc03692d18c5333b12b379fa21a8bbc9951c68b33eaebe34f18eb9035",
+    "docs/knorvia-workflow-node-publication-handoff-20261002.md": "e36cef0eb7949bb898eca67fa8c60444d1a65b5341aebb576bed6b1f767cd1e9",
+    "docs/evidence/check-knorvia-workflow-node-publication-20261002.mjs": "f0f2056c56c376b960d213d07250cb8256815855a413b36d3241ca4995c9eb79",
+    "apps/cli/packages/core/src/runtime-task/registry.ts": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+    "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts": "02025acdfc6612d57679eceb8d1fd1fefe3b2d6fe923d1de1b23af0cfac597b1",
+    "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts": "677f8d4bf5a0225efb6484b0b9a7248785c84bf1970c9f19cd88d8d873f7d3c7",
+    "apps/cli/packages/core/test/runtime-task-registry-observation-fixture.ts": "56608fed5fca01b52786f708811b2e64eda8813dc6d0ec07c0165ca68485a6b9",
+    "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31",
+    "docs/knorvia-task-registry-author-inputs-20261002/behavior.md": "918777ef3172833d9c43402a285a507243da6fe2c88dac27a8840cfe45ff7de2",
+    "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts": "85ed2e4107308299028ab7e04fd78a1a608f55eba0657ba27d293be226688b2e",
+    "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts": "a0ce162223ca6a22c3d91b0a1123c82f44f231ecd5656c6ed967f826f6b30035",
+    "docs/knorvia-task-registry-author-inputs-20261002/inputs.json": "894bec72002c7d1b1f19500690b76dac3826edb9163d5dd60fc14e5161519d5a"
+  },
+  "baselineArchive": "apps/cli/packages/core/test/workflow-scheduler-observation-baseline.json",
+  "currentSelector": "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+  "sourceOrigin": {
+    "path": "apps/zcode-cli/packages/core/src/workflow/scheduler.ts",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "0fb8dac4ff4a8ed4f4b8d03a26531906f8a55aa7",
+    "publisherSha256": "b37db5b55a94dae9946c022cafcca07f3e77a12f1448acfa99a79d43026a814a",
+    "localSha256": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330",
+    "factSource": "Existing inventory only; no new exact publisher-byte acquisition."
+  },
+  "scopeDecision": "Complete scheduling lifecycle owner. Collection planner/result and runtime interface stay existing dependencies; no joint implementation change required.",
+  "validation": {
+    "distinctGroupsPerMode": 7,
+    "runtimeGroups": 5,
+    "runtimeScenarios": 10,
+    "consumerAndSelectorGroups": 2,
+    "actualCallerScenarios": 2,
+    "sourcePass": 7,
+    "emittedPass": 7,
+    "consumerRecheckPerMode": 2,
+    "consumerRecheckIsOverlap": true,
+    "countLimit": "Five runtime groups from final seven-group source/emitted runs unchanged after those runs. Only consumer/selector groups rechecked after required owned task option was added. Two rechecks overlap; no 9-group or summed historical total.",
+    "reusedHistoricalGroupRerun": false,
+    "reusedHistoricalEvidence": "One prior actual scheduler group per mode: three success/error-threshold/node-completion-abort baseline/current pairs, reused from immutable node-publication receipt.",
+    "scopedCompilerRoots": 13,
+    "typescript": "6.0.2",
+    "scopedCompilerDiagnostics": 0,
+    "supportingTypePairs": 19,
+    "schedulerTypePairs": 17,
+    "publicSchedulerMembers": 2,
+    "dependencyShapePairs": 13,
+    "additionalProjectedDeriveDeclarations": 2,
+    "parsedBodiesInitializersComments": 0,
+    "exactExistingOwnerEmittedJs": true,
+    "exactExistingOwnerDeclaration": true,
+    "localCurrentArtifactBindings": 36,
+    "artifactNegativeControls": "Wrong/missing source/JS/declaration for owner and caller, exact archive wrong/missing controls: 14 controls within selector group.",
+    "ownedLintFiles": 8,
+    "ownedLintRules": 94,
+    "ownedLintErrors": 0,
+    "ownedLintWarnings": 1,
+    "warning": "Intentional no-this-alias receiver capture; no suppression/config change.",
+    "format": "15 freeze/checker files passed; final portable evidence files checked separately.",
+    "architecture": "Staged changed-scope check: 0 violations/baseline/new; cli context exists, unmanaged/unassigned. Initial cli-core context request failed as unknown module and was corrected to cli.",
+    "aggregateSuite": false,
+    "wholeBuild": false,
+    "nativeAcceptance": false
+  },
+  "resolvedObservations": [
+    "Concurrent run appends can precede either callback; exact appended ordinal/object identity and event-one/event-two/callback-one/callback-two trace preserved.",
+    "Pending native node race is not interrupted by abort alone. Owned signal-ignoring port can finish node publication; next opportunity rejects exact abort Error.",
+    "Accepted executor_completed publication can return success with a queued abort. Reused node-completion abort rejects at next opportunity without executor_completed."
+  ],
+  "knownLimits": [
+    "Existing startup outcome rejection can leave started pending; no timeout/recovery/policy fix.",
+    "Getter and already-settled race facts in packet are source-derived beyond representative observations, not broad matrix coverage.",
+    "Actual scheduled-phase consumer uses an owned partial context; no live runtime/provider/store/model or full call-runner/native/platform acceptance.",
+    "Root owns restricted authoring, candidate input-access record and strict current-artifact migration; current packet has no candidate."
+  ],
+  "failureEvidence": {
+    "portableLogFile": {
+      "path": "docs/evidence/knorvia-workflow-scheduler-observations-20261002.logs.json",
+      "sha256": "86dcda638728d8896e3bceddc22044589278f5bd9f2f73a5e76fbdc3aab6e3dc",
+      "bytes": 16280
+    },
+    "firstRun": "6/7; new fixture imposed invalid globally latest-event identity on concurrent calls. Original serial assertion preserved; exact concurrent assertions added.",
+    "interruptedRun": "Preserved exit-130 log, no runtime total claimed; incorrect immediate-abort expectation blocked on owned pending port. Exact targeted predecessor probe resolved timing before correction.",
+    "compiler": "Initial one diagnostic: required ExpertWorkflowRunOptions.task missing; owned task supplied, output assertions unchanged.",
+    "lint": "Expanded type packet exceeded 400-line rule; declarations split with identical shapes, rules not relaxed.",
+    "approvalReview": "Membership-check weakening rejected; restored disputed assertion and used exact ordinal/interleaving alternative."
+  },
+  "localProofFiles": [
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-scoped-proof-20261002.mjs",
+      "sha256": "40a8ed82658d9324e5a912000754d5b4b0b9ac687c4408b284e01fee137de4eb",
+      "bytes": 7483
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-packet-project-20261002.mjs",
+      "sha256": "4fd101c9b991651fdd079a3d73324cf98fc6642d7d3131435b0cd667df0b87f7",
+      "bytes": 5592
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-types-20261002.mjs",
+      "sha256": "e0beb897fb8e50b3f2bb6139ea33619daa6600f0d01bdb4e02a83df442aeaeff",
+      "bytes": 2177
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-abort-probe-20261002.mts",
+      "sha256": "583075c947fcbd00542f52e80a04109a9909f0ffaab243a9bdd7b2f541c36bd6",
+      "bytes": 1472
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-initial-ports-20261002.ts",
+      "sha256": "ba30b1c9ca62afc84356287cbb32b675c84d0fb269f6b4c0804a02e0e63bb40d",
+      "bytes": 4880
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-interrupted-tests-20261002.ts",
+      "sha256": "2cb8e404ae29ef305a8a208538459e1ec03c5a35498ba8d5fe11d40d61035afa",
+      "bytes": 12494
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-initial-compile-20261002.mjs",
+      "sha256": "9cd4fbdde699775659e12b679fbd297b6af104c3bfb7d48d3304a5d468e8f0b7",
+      "bytes": 4092
+    }
+  ],
+  "retainedMaterial": "Type/API/port declarations, fixed statuses, runtime prose and historical compiled/declaration oracle remain source-derived retained material. New fixture/spec expression is not itself runtime reconstruction or a whole-file licence conclusion.",
+  "grant": null,
+  "reproduce": {
+    "source": "node --import tsx --test apps/cli/packages/core/test/workflow-scheduler-observations.test.ts apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+    "emitted": "Same command with KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1",
+    "receipt": "node docs/evidence/check-knorvia-workflow-scheduler-observations-20261002.mjs"
+  },
+  "remainingBlocker": null
+}

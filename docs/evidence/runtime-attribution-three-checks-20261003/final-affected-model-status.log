@@ -1,0 +1,1 @@
+{"mode":"strict current actual compiler emitted","syntheticWriteLifecycleGroups":1,"usageRowsWithinGroup":0,"appendedIdentityRegression":0,"appendedCancellationLogObservation":1,"observations":{"modelStatus":["callback","log","create","append"]},"limits":"Owned synthetic ports/clock only; transitive dependencies via tsx, not all-emitted. Ordinary suites/builds/native skipped."}

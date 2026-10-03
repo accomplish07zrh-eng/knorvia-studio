@@ -1,0 +1,66 @@
+✔ complete default exporter selects diagnostic roots, sanitizes chunked encodings, stages ZIP and retires the stage (62.784746ms)
+[2026-10-03 08:57:36.582] [pid:45911] [claude-native-import] 扫描 Claude 原生 session 失败 path=/tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl {
+  name: 'Error',
+  message: `[claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON`,
+  stack: `Error: [claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON\n` +
+    '    at parseJsonLine (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:13:11)\n' +
+    '    at readJsonLinesFileHead (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:58:20)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at async ClaudeNativeSessionImportRepo.scanImportableSessions (/workspace/knorvia-studio/packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts:110:25)\n' +
+    '    at async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/claude-leaf-contract-fast-2057.test.ts:705:18)\n' +
+    '    at async Test.run (node:internal/test_runner/test:1125:7)\n' +
+    '    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)'
+}
+[2026-10-03 08:57:36.592] [pid:45911] [claude-native-import] Claude 原生 session 扫描完成 workspaceFilter=/synthetic/project fileCount=6 candidateCount=2
+[2026-10-03 08:57:36.593] [pid:45911] [claude-native-import] 扫描 Claude 原生 session 失败 path=/tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl {
+  name: 'Error',
+  message: `[claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON`,
+  stack: `Error: [claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON\n` +
+    '    at parseJsonLine (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:13:11)\n' +
+    '    at readJsonLinesFileHead (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:58:20)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at async ClaudeNativeSessionImportRepo.scanImportableSessions (/workspace/knorvia-studio/packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts:110:25)\n' +
+    '    at async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/claude-leaf-contract-fast-2057.test.ts:715:7)\n' +
+    '    at async Test.run (node:internal/test_runner/test:1125:7)\n' +
+    '    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)'
+}
+[2026-10-03 08:57:36.602] [pid:45911] [claude-native-import] Claude 原生 session 扫描完成 workspaceFilter=/synthetic/project fileCount=6 candidateCount=1
+[2026-10-03 08:57:36.603] [pid:45911] [claude-native-import] 扫描 Claude 原生 session 失败 path=/tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl {
+  name: 'Error',
+  message: `[claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON`,
+  stack: `Error: [claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON\n` +
+    '    at parseJsonLine (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:13:11)\n' +
+    '    at readJsonLinesFileHead (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:58:20)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at async ClaudeNativeSessionImportRepo.scanImportableSessions (/workspace/knorvia-studio/packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts:110:25)\n' +
+    '    at async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/claude-leaf-contract-fast-2057.test.ts:721:7)\n' +
+    '    at async Test.run (node:internal/test_runner/test:1125:7)\n' +
+    '    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)'
+}
+[2026-10-03 08:57:36.606] [pid:45911] [claude-native-import] Claude 原生 session 扫描完成 workspaceFilter=/synthetic/project fileCount=6 candidateCount=1
+[2026-10-03 08:57:36.606] [pid:45911] [claude-native-import] 扫描 Claude 原生 session 失败 path=/tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl {
+  name: 'Error',
+  message: `[claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON`,
+  stack: `Error: [claude-native] 解析 JSONL 失败 /tmp/knorvia-claude-leaf-2057-WQ1cML/.claude/projects/broken.jsonl:1 Unexpected token 'b', "bad" is not valid JSON\n` +
+    '    at parseJsonLine (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:13:11)\n' +
+    '    at readJsonLinesFileHead (/workspace/knorvia-studio/packages/services/src/session/claude-native/sessionHistoryJsonl.ts:58:20)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n' +
+    '    at async ClaudeNativeSessionImportRepo.scanImportableSessions (/workspace/knorvia-studio/packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts:110:25)\n' +
+    '    at async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/claude-leaf-contract-fast-2057.test.ts:729:6)\n' +
+    '    at async Test.run (node:internal/test_runner/test:1125:7)\n' +
+    '    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)'
+}
+[2026-10-03 08:57:36.609] [pid:45911] [claude-native-import] Claude 原生 session 扫描完成 workspaceFilter=/tail fileCount=6 candidateCount=1
+✔ real import repository scan preserves sort/filter/ignored directories and dirty tails (49.996912ms)
+(node:45949) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ failed command reads unborn stderr before timeout validation and never stdout (2.926217ms)
+✔ menu order retains hidden archive members and the shared bridge permission revokes old order callbacks (1.720421ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1399.234738

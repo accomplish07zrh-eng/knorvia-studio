@@ -1,0 +1,125 @@
+{
+  "baseHead": "3f416c7a4d633fb373593b65de764542c93d40e7",
+  "requestedOwner": "packages/rpc/src/persistent-protocol.ts",
+  "scope": "Only one RPC persistent lifetime owner; root channelClient/E channelServer and remote/ipc excluded from writes/author input",
+  "decision": "Previously covered complete technical candidate; fail qualification as newly uncovered owner. No new author/functional packet/draft/install/test initiated. Not an accepted independence decision.",
+  "current": {
+    "sha256": "409baee902025acbdfc4f5e3059ff57f9e0f64679d73359ecc063d9d9f0540c0",
+    "bytes": 6973,
+    "lines": 219,
+    "exactPriorCandidateReceipt": "licensing/evidence/rpc-request-reliability-owners-20261003/source-hashes.json",
+    "priorCompleteCandidateCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+    "commitAncestor": true,
+    "commitBytesExactlyCurrent": true
+  },
+  "baseline": {
+    "sha256": "80609595b89188272d743e557502c6cad3858f828acae31c2ef64206bb3c8978",
+    "bytes": 9918,
+    "baselineCommit": "ca62bd4d3895c7f8676d01aee6a1fe9c7b6b8f1e",
+    "blob": "deef78b78320fdcf8541fc6bdacd246300f9561e",
+    "publisher": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "fixedPublisherBlobAndNormalizedDigestVerified": true,
+    "publisherResponseSHA": "848e5d94b83bc68597f282519963f20036c66363655a4b22f620aa213d5653bd",
+    "notCurrentSource": true
+  },
+  "EPacket": {
+    "commit": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+    "path": "docs/evidence/rpc-channel-client-root-packet-20261003/README.md",
+    "blob": "f85f1a7c3002b5fef3ab47707fe68f743ffe54c6",
+    "contentSHA": "f8a8346f0d7ccadb26a1fd1b2e6173cc87d376200f226f201a9fd47ae460a1ac",
+    "listedSize": 9918,
+    "listedSourceMatchesOldInheritedBaseline": true,
+    "listedProspectMetadataOnly": true,
+    "claim": "E snapshot did not see RPC paths in public PR9 heads it recorded; historical bounded observation, not current source coverage or private absence"
+  },
+  "priorFrozen": {
+    "rawSHA": "76b8f25df13ee003742840d4dfd6ad07ebfeee80e270b00caf8ebf85abe86f3f",
+    "bytes": 6922,
+    "receipt": "licensing/evidence/rpc-request-reliability-owners-20261003/persistent-initial-freeze.txt",
+    "temporaryPath": "/tmp/knorvia-rpc-persistent-freeze-1/persistent-protocol.ts",
+    "temporaryBytesAvailable": true,
+    "temporaryDigestVerified": true,
+    "rawDraftCommittedInPacket": false,
+    "authorAccessClaim": "Prior README author-reported Sol/high/fork-none/body-free inputs; actual model/Fast/access not reverified in this metadata batch",
+    "curatorSourceExposed": true,
+    "instructionOnlySharedFilesystem": true
+  },
+  "privateAcceptance": {
+    "explicitKnownHOLDForTargetLocated": false,
+    "visibleExactReviewDecision": [],
+    "privateUnpublishedAbsenceProven": false,
+    "currentTechnicalCandidateNotIndependentOrMITAccepted": true,
+    "requirements": "Private/HOLD cannot be overwritten with public old bytes; no new private-source retrieval/recovery route"
+  },
+  "thirdParty": {
+    "baselineRecordedOrigin": "upstream unchanged with partial Visual Studio Code IPC/common utilities MIT-derived portions and local ZCode adaptations",
+    "wholeFileMITEstablished": false,
+    "publisherVerificationIsMappingNotLicenseOrAuthorshipProof": true
+  },
+  "newAuthors": 0,
+  "newDrafts": 0,
+  "newProductEdits": 0,
+  "newTests": 0,
+  "oldSuitesRerun": false,
+  "semanticTypesBuildNativeRun": false,
+  "acceptedIndependentCredit": 0,
+  "MITClaim": false,
+  "mainIntegration": false,
+  "retainedBindings": [
+    {
+      "path": "packages/rpc/src/persistent-protocol.ts",
+      "sha256": "409baee902025acbdfc4f5e3059ff57f9e0f64679d73359ecc063d9d9f0540c0"
+    },
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "sha256": "5f2409b75cfaba1c9e5e093bc1f4273ab243aeec05dd0bac1bb28b442a5ef6fd"
+    },
+    {
+      "path": "packages/rpc/src/channelServer.ts",
+      "sha256": "00757689372616d9fb8b3e82d722f4774a968649323ae31724dc140eb22c557b"
+    },
+    {
+      "path": "packages/rpc/src/remote.ts",
+      "sha256": "793b3e8723436177e0f3f0412fbece45403b435f35511db990004723a57028fe"
+    },
+    {
+      "path": "packages/rpc/src/ipc.ts",
+      "sha256": "b74ebf2694a2504e884df80cd727673893bfcc4d2d0dd97fc92ce6a104c230a7"
+    },
+    {
+      "path": "packages/rpc/package.json",
+      "sha256": "d45f6e1cbdb8218a91f18ecf276aa0d7fa3dcc6cb5a98ac1e60438f33297c95b"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "architecture-policy.yaml",
+      "sha256": "ee206ee0f27d112ed7ba875fb952d786fb1701034242441eb6f9c0d5828f9d51"
+    }
+  ],
+  "remainingBlocker": "Current-target selection relies on stale inherited size; parent must classify existing candidate or explicitly request expression review of it, rather than treating it as new uncovered work",
+  "model": "Existing primary Sol/high/Fast parent UI report only; no new author claim"
+}

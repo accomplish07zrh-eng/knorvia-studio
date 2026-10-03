@@ -1,0 +1,38 @@
+[
+  {
+    "owner": "factory",
+    "path": "apps/cli/packages/adapters/src/config/config-factory.ts",
+    "sourceSha256": "4457184f3eb3d152fccb4c11d1d993da33e32e55461075a7b750a1e22aba37b5",
+    "selectedWholeDraft": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-correction-2.ts.txt",
+    "rawSha256": "a2018e9a3e25763686a54c8f484d9c805ae5b0dd66e9523d5233d24fa8725aeb",
+    "formattedFrozenSha256": "4457184f3eb3d152fccb4c11d1d993da33e32e55461075a7b750a1e22aba37b5",
+    "wholeDraftPlusFormatterOnly": true
+  },
+  {
+    "owner": "merger",
+    "path": "apps/cli/packages/adapters/src/config/config-merger.ts",
+    "sourceSha256": "8e2632ad489779bbe9942202d1f2aceb547ca64b15d35a12b5ad73e394a5d991",
+    "selectedWholeDraft": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/merger-correction-1.ts.txt",
+    "rawSha256": "d2fd6ecd6c1262051516695a4d5c9553c386a8b9f5480db27fd6c962c59d25e2",
+    "formattedFrozenSha256": "8e2632ad489779bbe9942202d1f2aceb547ca64b15d35a12b5ad73e394a5d991",
+    "wholeDraftPlusFormatterOnly": true
+  },
+  {
+    "owner": "file",
+    "path": "apps/cli/packages/adapters/src/config/file-config.adapter.ts",
+    "sourceSha256": "726f125de8191a4a317cdf8f7d4cb482c0c4cd9344ec4fb00b9952c153dd4ccb",
+    "selectedWholeDraft": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/file-initial.ts.txt",
+    "rawSha256": "ec1be5aab23afd9d12aaf6c8a7142d4da8b3f5bf2f8a857a49dc0ce40030723c",
+    "formattedFrozenSha256": "726f125de8191a4a317cdf8f7d4cb482c0c4cd9344ec4fb00b9952c153dd4ccb",
+    "wholeDraftPlusFormatterOnly": true
+  },
+  {
+    "owner": "project",
+    "path": "apps/cli/packages/adapters/src/config/project-config.adapter.ts",
+    "sourceSha256": "b9b028066b45d2ffec8953e2218788634f080dbf14bb3a62bd345c7ffcfc57df",
+    "selectedWholeDraft": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/project-correction-1.ts.txt",
+    "rawSha256": "9a38180ace3cea5b9e6661087f8c95affecdb399f6d4dccb563396d7bce51d65",
+    "formattedFrozenSha256": "b9b028066b45d2ffec8953e2218788634f080dbf14bb3a62bd345c7ffcfc57df",
+    "wholeDraftPlusFormatterOnly": true
+  }
+]

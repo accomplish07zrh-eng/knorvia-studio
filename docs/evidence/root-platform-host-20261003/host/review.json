@@ -1,0 +1,51 @@
+{
+  "utc": "2026-10-02T23:25:32.638983+00:00",
+  "status": "Complete Host lifecycle/bootstrap/message owner candidate installed; final native/source-expression acceptance open",
+  "packetCommit": "f13bf0d5bf25eca17be4d1b6efbc875b55abdbfa",
+  "originalSha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5",
+  "freeze": "host-freeze.json",
+  "exposure": "Three full drafts frozen before deliberate Host-body review. Root then read full714-line predecessor. Source-exposed curator, prior platform review and broad root context qualified; no separately isolated author/reviewer or legal clean room.",
+  "structure": "Main retains sole module exited WeakSet and disposing Set. Private message dispatch and disposal helpers are stateless and consume same objects. Five original functions and two exported interfaces retained; no additional root exports.",
+  "postFreeze": [
+    "loadWindow retains optional/null bootstrap guards rather than default empty object with unguarded null reads; frozen counterexample preserved.",
+    "Missing browser handler fallback has no extra catch/microtask; present handler rejection still normalizes before result post, synchronous throw still propagates; frozen one-tick counterexample preserved.",
+    "Message dispatch repeats parsed.data reads instead of caching the schema result data object.",
+    "Disposal force-kill default is applied at the original call boundary; settling clears/nulls wait timer only in the original truthy branch.",
+    "Formatting/type annotations do not establish originality."
+  ],
+  "checks": {
+    "minimum": "Four paired synthetic bootstrap/identity/request-authority/disposal groups; two preserved frozen counterexamples. All native process/OS/IPC/timer/provider/data ports mocked.",
+    "api": "All5 public functions and referenced interfaces match exact qualified packet declarations.",
+    "lint": "3 files,94 rules,0 errors/warnings",
+    "architecture": "0 violations/baseline0/new0; main302, lifecycle87, messages243 lines",
+    "semantic_types": "BLOCKED: feedbackLogArchive.ts:24 TS2339 ReadableStream.destroy and appCaCert.ts:4 TS7016 node-forge declarations. No Host target diagnostic observed, not a passing closure. Actual installed declarations used; no stubs/install.",
+    "whitespace": "clean",
+    "deferred": [
+      "ordinary suites",
+      "full builds",
+      "real UtilityProcess/MessagePort/Electron acceptance",
+      "consumer aggregation",
+      "cross-lane combination",
+      "final source-expression/licence review"
+    ]
+  },
+  "retained": "Public/environment/channel/schema/types, log/errors, exact request forwarding/authority, lifetime ordering and conventional Promise/collection/timer expressions retained. Strong predecessor correspondence is not cleared by frozen authorship or synthetic checks. No numeric independent-origin/MIT credit.",
+  "safety": "No actual process fork/kill, IPC, environment secret, file, browser/provider, credentials, user data or permissions operated. Other lanes/source untouched; main/deploy unchanged. All21 material obligations remain open.",
+  "production": {
+    "packages/desktop/src/main/desktopHostProcess.ts": {
+      "bytes": 11539,
+      "lines": 302,
+      "sha256": "37861138c166a361ae7c6636a196415a50ad4db9c71f669c548d43e1b99b0d96"
+    },
+    "packages/desktop/src/main/desktopHostProcess/lifecycle.ts": {
+      "bytes": 2518,
+      "lines": 87,
+      "sha256": "284cf19b71c150d942eeac753417478c63da5f09f7c0ffb5e865c5c155eea674"
+    },
+    "packages/desktop/src/main/desktopHostProcess/messages.ts": {
+      "bytes": 8984,
+      "lines": 243,
+      "sha256": "b104dbeb941efcdc6237d424d138b829f75a8341dca85ae50e5c96c59709f6b3"
+    }
+  }
+}

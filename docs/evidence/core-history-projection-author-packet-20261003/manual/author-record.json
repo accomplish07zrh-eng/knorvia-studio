@@ -1,0 +1,71 @@
+{
+  "freeze_utc": "2026-10-02T19:10:45.264974+00:00",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "requested_service_tier": "Fast",
+  "service_tier_note": "No separate Fast tool tier is exposed; actual service tier was not independently observed.",
+  "inherited_conversation": false,
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/contract.md",
+      "bytes": 4252,
+      "sha256": "37e4b24804bbf5fe6be1a14ce4e2d0dd342c559c54080ed61d963d10ff36b550"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-api.d.ts",
+      "bytes": 2130,
+      "sha256": "04cb5d009e13fbddf8703b60f84922b5c9545fbafb9677547dee7660a30eca3d"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/dependency-api.d.ts",
+      "bytes": 776,
+      "sha256": "6e1b494f9a97d32af4d9d10dfa5a6d48f6374c242116755263428764a30a93c4"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-shapes.d.ts",
+      "bytes": 3740,
+      "sha256": "636d75e20a2f008f11e59e3645f793d6edcc96ad4f6268ff0276f26dacf022db"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/manual/output/manual.ts",
+      "bytes": 4955,
+      "sha256": "c4971faab34fd963e7032a33dd16cb36beb100135ff6c5be7a4cf819c04a3a44"
+    }
+  ],
+  "intended_module_location": "apps/cli/packages/core/src/compact/manual.ts",
+  "actual_files_read": [
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/contract.md",
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/dependency-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/manual/inputs/public-shapes.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/manual/output/manual.ts"
+  ],
+  "source_exposure": {
+    "permitted": "Four supplied functional/API/dependency/public-shape inputs and own output for digest computation.",
+    "other_source_exposure": [],
+    "repository_or_history_bodies_read": false,
+    "other_author_outputs_or_prior_drafts_read": false,
+    "inherited_context_note": "Received only environment/tool instructions and the delegated scoped author task, with no prior conversation or implementation."
+  },
+  "retained_contract_expression": [
+    "Exported public interfaces and signatures from public-api.d.ts.",
+    "Exact retry count, retry marker, and user-facing message literals.",
+    "Existing contracts/shared/rounds imports and collaborator semantics.",
+    "Mandated boundary field ordering, field presence, defaults, identities, and model source literal.",
+    "Exact system-reminder prefix and compact_ ID prefix.",
+    "Required filtering, cloning, grouping, projection, per-message ceiling, serialization fallback, nullish usage observation order, and lazy UUID behavior."
+  ],
+  "discretionary_design": [
+    "Separate runtime and type imports, standard two-space formatting, no private helper.",
+    "Two-pass filter/map; local summarizable list and delegated rounds call.",
+    "Ordered for-of loops for token accumulation, captured name/input outside serialization-only catch, and initialized empty-object fallback.",
+    "Local input-token count to preserve required usage getter order."
+  ],
+  "unresolved_questions": [],
+  "breaches": [],
+  "validation": "No tests, builds, typechecks, lint, mocks, compiler, git, repository inspection, or network operations were run. Draft is frozen after this receipt.",
+  "output_line_count": 163,
+  "receipt_selfhash": "Omitted as allowed."
+}

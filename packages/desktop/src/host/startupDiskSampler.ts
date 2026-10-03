@@ -3,15 +3,21 @@ import { dirname } from "node:path";
 import { createHash } from "node:crypto";
 import type { StartupDiskSummary } from "@knorvia/shared";
 
-const SAMPLE_INTERVAL_MS = 2000;
-type Probe = (path: string) => Promise<{ scope: string; availableBytes: number }>;
-type Scope = StartupDiskSummary & { path: string; baseline: number | null };
+type Probe = (path: string) => Promise<{
+  scope: string;
+  availableBytes: number;
+}>;
 
-/** 仅查询已知目录元数据；dev 只在首次解析时读取，周期内只做 statfs。 */
-function createProbe(): Probe {
-  const resolved = new Map<string, { path: string; scope: string }>();
-  return async (path) => {
-    let location = resolved.get(path);
+type Entry = StartupDiskSummary & {
+  path: string;
+  baseline: number | null;
+};
+
+function defaultProbe(): Probe {
+  const locations = new Map<string, { path: string; scope: string }>();
+
+  return async function (path: string) {
+    let location = locations.get(path);
     if (!location) {
       let parent = dirname(path);
       for (;;) {
@@ -21,63 +27,75 @@ function createProbe(): Probe {
             path: parent,
             scope: createHash("sha256").update(String(info.dev)).digest("hex"),
           };
-          resolved.set(path, location);
+          locations.set(path, location);
           break;
         } catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== "ENOENT" || dirname(parent) === parent)
+          if ((error as NodeJS.ErrnoException).code === "ENOENT" && dirname(parent) !== parent) {
+            parent = dirname(parent);
+          } else {
             throw error;
-          parent = dirname(parent);
+          }
         }
       }
     }
+
     const info = await statfs(location.path, { bigint: true });
     const bytes = info.bavail * info.bsize;
-    if (bytes > BigInt(Number.MAX_SAFE_INTEGER))
+    if (bytes > BigInt(Number.MAX_SAFE_INTEGER)) {
       throw new Error("Storage size exceeds safe numeric range");
-    return { scope: location.scope, availableBytes: Number(bytes > 0n ? bytes : 0n) };
+    }
+    return {
+      scope: location.scope,
+      availableBytes: Number(bytes > 0n ? bytes : 0n),
+    };
   };
 }
 
 export class StartupDiskSampler {
   private readonly probe: Probe;
-  private readonly scopes = new Map<string, Scope>();
+  private readonly entries = new Map<string, Entry>();
   private readonly sealed = new Set<string>();
-  private timer?: ReturnType<typeof setInterval>;
   private busy = false;
   private stopped = false;
+  private timer: ReturnType<typeof setInterval> | null = null;
+
   constructor(
     private readonly options: {
       probe?: Probe;
       onSample?: (summary: StartupDiskSummary[]) => void;
     } = {},
   ) {
-    this.probe = options.probe ?? createProbe();
+    this.probe = options.probe ?? defaultProbe();
   }
+
   async addPath(path: string): Promise<void> {
-    if (this.scopes.size >= 8 || this.stopped) return;
-    const unknownKey = createHash("sha256").update(path).digest("hex");
-    const unknown: Scope = {
+    if (this.entries.size >= 8 || this.stopped) return;
+
+    const scopeId = createHash("sha256").update(path).digest("hex");
+    const entry: Entry = {
       path,
-      scopeId: unknownKey,
+      scopeId,
       baseline: null,
       observedAvailableDropPeakBytes: null,
       minAvailableBytes: null,
       quality: "unknown",
       sampledAt: null,
     };
-    this.scopes.set(unknownKey, unknown);
-    // 准备只短暂等待基线；慢探测继续异步运行，结果到达时据 sealBaseline 判定是否完整。
+    this.entries.set(scopeId, entry);
     if (this.busy) return;
+
     this.busy = true;
     try {
       const result = await this.probe(path);
       if (this.stopped) return;
-      this.scopes.delete(unknownKey);
-      const existing = this.scopes.get(result.scope);
-      if (existing) this.record(existing, result.availableBytes);
-      else
-        this.scopes.set(result.scope, {
-          ...unknown,
+
+      this.entries.delete(scopeId);
+      const existing = this.entries.get(result.scope);
+      if (existing) {
+        this.measure(existing, result.availableBytes);
+      } else {
+        this.entries.set(result.scope, {
+          ...entry,
           scopeId: result.scope,
           baseline: this.sealed.has(path) ? null : result.availableBytes,
           minAvailableBytes: result.availableBytes,
@@ -85,65 +103,76 @@ export class StartupDiskSampler {
           observedAvailableDropPeakBytes: this.sealed.has(path) ? null : 0,
           quality: this.sealed.has(path) ? "partial" : "complete",
         });
+      }
     } catch {
-      /* 满盘/权限错误不要求再次读取故障磁盘才能显示失败。 */
+      // A failed addition retains any mutations completed before the failure.
     } finally {
       this.busy = false;
     }
   }
+
   sealBaseline(path: string): void {
     this.sealed.add(path);
   }
+
   start(): void {
-    if (!this.timer && !this.stopped)
+    if (!this.timer && !this.stopped) {
       this.timer = setInterval(() => {
-        void this.sample();
-      }, SAMPLE_INTERVAL_MS);
+        this.sample();
+      }, 2000);
+    }
   }
+
   async sample(): Promise<void> {
     if (this.busy || this.stopped) return;
+
     this.busy = true;
     try {
-      // 异步采样期间 scope 可变更，本轮保持开始时的集合。
-      const scopes = [...this.scopes.values()];
-      for (const scope of scopes) {
+      const captured = [...this.entries.values()];
+      for (const entry of captured) {
         if (this.stopped) break;
         try {
-          const result = await this.probe(scope.path);
-          if (!this.stopped) {
-            if (scope.scopeId !== result.scope) {
-              this.scopes.delete(scope.scopeId);
-              const existing = this.scopes.get(result.scope);
-              if (existing) {
-                this.record(existing, result.availableBytes);
-                continue;
-              }
-              scope.scopeId = result.scope;
-              scope.quality = "partial";
-              this.scopes.set(result.scope, scope);
+          const result = await this.probe(entry.path);
+          if (this.stopped) continue;
+
+          if (entry.scopeId !== result.scope) {
+            this.entries.delete(entry.scopeId);
+            const existing = this.entries.get(result.scope);
+            if (existing) {
+              this.measure(existing, result.availableBytes);
+              continue;
             }
-            this.record(scope, result.availableBytes);
+            entry.scopeId = result.scope;
+            entry.quality = "partial";
+            this.entries.set(result.scope, entry);
           }
+          this.measure(entry, result.availableBytes);
         } catch {
-          if (scope.quality === "complete") scope.quality = "partial";
+          if (entry.quality === "complete") entry.quality = "partial";
         }
       }
+
       if (!this.stopped) this.options.onSample?.(this.snapshot());
     } finally {
       this.busy = false;
     }
   }
-  private record(scope: Scope, available: number): void {
-    scope.minAvailableBytes = Math.min(scope.minAvailableBytes ?? available, available);
-    scope.sampledAt = Date.now();
-    if (scope.baseline !== null)
-      scope.observedAvailableDropPeakBytes = Math.max(0, scope.baseline - scope.minAvailableBytes);
+
+  private measure(entry: Entry, availableBytes: number): void {
+    entry.minAvailableBytes = Math.min(entry.minAvailableBytes ?? availableBytes, availableBytes);
+    entry.sampledAt = Date.now();
+    if (entry.baseline !== null) {
+      entry.observedAvailableDropPeakBytes = Math.max(0, entry.baseline - entry.minAvailableBytes);
+    }
   }
+
   snapshot(): StartupDiskSummary[] {
-    return [...this.scopes.values()].map(({ path: _path, baseline: _baseline, ...summary }) => ({
-      ...summary,
-    }));
+    return [...this.entries.values()].map((entry) => {
+      const { path: _path, baseline: _baseline, ...summary } = entry;
+      return summary;
+    });
   }
+
   stop(): void {
     this.stopped = true;
     if (this.timer) clearInterval(this.timer);

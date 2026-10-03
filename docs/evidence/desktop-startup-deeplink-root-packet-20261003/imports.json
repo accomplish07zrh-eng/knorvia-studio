@@ -1,0 +1,56 @@
+{
+  "packages/desktop/src/main/startupWorkspace.ts": [
+    {
+      "module": "node:fs",
+      "clause": "{ constants }"
+    },
+    {
+      "module": "node:fs/promises",
+      "clause": "{ access, mkdir, readFile, stat }"
+    },
+    {
+      "module": "@knorvia/shared",
+      "clause": "{\n  appSettingsSchema,\n  formatZodError,\n  resolveStartupLocalWorkspaceSessionIndex,\n  type WorkspacePurpose,\n}"
+    }
+  ],
+  "packages/desktop/src/main/desktopWorkspaceDeepLink.ts": [
+    {
+      "module": "electron",
+      "clause": "{ app, BrowserWindow, dialog, type WebContents }"
+    },
+    {
+      "module": "node:fs",
+      "clause": "{ statSync }"
+    },
+    {
+      "module": "node:path",
+      "clause": "{ isAbsolute, resolve }"
+    },
+    {
+      "module": "@knorvia/shared",
+      "clause": "{ PlatformChannels, type Locale }"
+    },
+    {
+      "module": "./desktopDeepLinkUrl.js",
+      "clause": "{ extractWorkspaceOpenPath, isWorkspaceOpenUrl }"
+    },
+    {
+      "module": "./desktopEarlyDataBaseDirBootstrap.js",
+      "clause": "{ desktopProfile }"
+    }
+  ],
+  "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts": [
+    {
+      "module": "electron",
+      "clause": "type { BrowserWindow }"
+    },
+    {
+      "module": "./desktopWorkspaceDeepLink.js",
+      "clause": "{\n  type ExternalWorkspaceOpenDialogCopy,\n  confirmExternalWorkspaceOpen,\n  isNetworkWorkspacePath,\n  isValidLocalWorkspaceDirectory,\n}"
+    },
+    {
+      "module": "./startupWorkspace.js",
+      "clause": "{\n  createOpenWorkspaceStartupBootstrap,\n  type StartupWindowBootstrap,\n}"
+    }
+  ]
+}

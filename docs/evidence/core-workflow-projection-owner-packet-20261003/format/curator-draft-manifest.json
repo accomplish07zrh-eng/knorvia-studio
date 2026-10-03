@@ -1,0 +1,24 @@
+{
+  "scope": "format",
+  "files": [
+    {
+      "file": "get-workflow-run-format.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "bytes": 9541,
+      "lines": 209,
+      "sha256": "a26629d5cfde6bd2c8711d2cb913a3daccd2acb2c50f5ebc83daa04f1f3b6c93",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/format/get-workflow-run-format.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 11255,
+      "lines": 234,
+      "sha256": "6e7431ea8b6cc43ae19e855f08e98879be76f1bb0199cb50bc31a8dca11d15c2",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/format/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole original source/full receipt frozen and committed before body review; no curator source patch, instruction-only author self-report/source-exposed curator qualifications retained."
+}

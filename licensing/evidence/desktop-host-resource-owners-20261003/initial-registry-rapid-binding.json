@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "--owner=registry"
+  ],
+  "stdout": "✔ registry: SSH pending cancellation retires reuse slot; scope and event identities (131.351387ms)\n✖ registry: WSL ownership generations, task deferral, release barrier and idle clock (66.040631ms)\n✔ registry: dedicated Docker handles, registry shutdown and error identity (129.5893ms)\nℹ tests 3\nℹ suites 0\nℹ pass 2\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 336.296001\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/resourceOwners.test.mjs:67:40\n✖ registry: WSL ownership generations, task deferral, release barrier and idle clock (66.040631ms)\n  WindowRemoteConnectCancelledError: 远程连接已取消\n      at /workspace/knorvia-studio/packages/desktop/src/host/windowRemoteConnectionRegistry.ts:175:23\n      at async Promise.all (index 0)\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/resourceOwners.test.mjs:544:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)\n",
+  "stderr": "",
+  "exitCode": 1
+}

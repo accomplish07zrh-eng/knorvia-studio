@@ -1,0 +1,35 @@
+{
+  "baseHead": "a8a2305a55719b900556f0c50fbdadf7f1ac48b4",
+  "selected": [
+    {
+      "owner": "command",
+      "selectedVersion": "correction-1",
+      "rawSha256": "e40ce6866829f57edc8c932e73f343ee08125e1f60212f43e021363331a1c3fc",
+      "installedSha256": "8e38357510ccb82ea43d57de7f5c105e31b815b926d7adad65946a5e2839fae1",
+      "installedBytes": 4232,
+      "installedLines": 124,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    },
+    {
+      "owner": "capture",
+      "selectedVersion": "correction-1",
+      "rawSha256": "8b3477d91d861f55d85487c896d7f210a93555977ce69c2358566d71a38f1ddb",
+      "installedSha256": "468311e0eb4881fe131d828f03c5c98ab5dc6dfcee373ea50980dc0390e32104",
+      "installedBytes": 5127,
+      "installedLines": 153,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    }
+  ],
+  "rawVersionsVerified": 4,
+  "unchangedRetainedPaths": 4274,
+  "retentionCountsAreNotCompletionCounts": true,
+  "authorInputFreezeVerified": true,
+  "publicApiMatches": true,
+  "productionScopeExactlyTwoOwners": true,
+  "ordinaryTestsRun": false,
+  "nativeRuntimePassed": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "MITClaim": false
+}

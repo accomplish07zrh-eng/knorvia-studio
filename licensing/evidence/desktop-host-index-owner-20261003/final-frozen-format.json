@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-host-index-owner-20261003/frozen-format-proof.mjs"
+  ],
+  "stdout": "Finished in 48ms on 1 files using 4 threads.\n{\"raw\":\"licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-3.ts.txt\",\"rawSha256\":\"dd82b10f8b1e0584874fa0da6691df8775b10809111ac8680616a429de724517\",\"installed\":\"packages/desktop/src/host/index.ts\",\"installedSha256\":\"020aaef083b63631e008d0d002f692e53657a3ba6ec2d7923061177b76fdbcab\",\"independentlyFormattedFrozenMatches\":true,\"curatorProductEdits\":\"Whole copy and formatting only\"}\n",
+  "stderr": "",
+  "exitCode": 0
+}

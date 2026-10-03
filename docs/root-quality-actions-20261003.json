@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "baseline": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+  "rootSourceCommit": "f453c0717fcecad07776b5de809697eb0ceff15f",
+  "readyForMain": false,
+  "rightsAccepted": false,
+  "sourceOwnership": "Integrator root tools/config, contracts/shared/Web/formal/model-option-map and unassigned root narrative paths; no original lane source, native test or asset edits.",
+  "frozenEvidence": {
+    "baselineCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+    "files": 5493,
+    "bytes": 61318000,
+    "comparedAgainstOriginalGitObjects": true,
+    "modifiedFrozenPayloadFiles": 0,
+    "rawCheckBeforeEveryRootLintOrFormat": true,
+    "noAutomaticRefresh": true
+  },
+  "checks": [
+    {
+      "id": "evidence-guard-boundaries",
+      "command": "node --test scripts/check-evidence-integrity.test.mjs",
+      "scope": "8 positive/tampering/missing/new/duplicate/path/symlink cases; Linux only",
+      "observedExitCode": 0,
+      "logSha256": "477366560d6f269f31601dbe99bcf176a9448b81e17711214eee3cc9ebc6b562"
+    },
+    {
+      "id": "root-tool-and-node-test-lint",
+      "command": "node scripts/run-quality.mjs lint <4 root files + 7 exact native .test.mjs files>",
+      "scope": "11 files, 94 unchanged lint rules; native source/tests not edited",
+      "observedExitCode": 0,
+      "logSha256": "44a26fd40f6ecf59f4956ec76160e5ef1d44f7135eec00df74e9fed2c13afe58"
+    },
+    {
+      "id": "owned-source-lint",
+      "command": "pnpm exec oxlint --config <temporary root policy without ignores> <30 exact owned source paths>",
+      "scope": "All 30 source paths inspected, 94 rules. Temporary config changes no repository policy; no root/global/other-lane lint pass inferred.",
+      "observedExitCode": 0,
+      "logSha256": "3f897ce569043045b69570853f7924d82517f98c119fd270ea4076d1e0726e40"
+    },
+    {
+      "id": "owned-and-narrative-format",
+      "command": "node scripts/run-quality.mjs fmt:check <92 exact paths>",
+      "scope": "30 source, 53 unassigned top-level narratives/specs and 9 root/manifest/new-tool paths; no frozen payload formatted",
+      "observedExitCode": 0,
+      "logSha256": "4cef0c02057390bf53b109909e5f92e66db059d0bd4a0382d7143434045425ba"
+    }
+  ],
+  "formatAstRead": {
+    "scope": "Structure, literal text and variable-declaration flags; excludes source-file whole text, comments, grouping-only nodes and indentation-only JSX text. Not runtime/type/build/UI acceptance.",
+    "initialProbe": "Incorrectly included SourceFile.text; it compared whole formatted source, yielding 29 expected textual differences, not source behavior failures.",
+    "results": [
+      {
+        "path": "apps/cli/packages/contracts/src/events/event-reducer-helpers.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/events/in-memory-session-event-store.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/events/session-event-journal.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/events/session-projection-ledgers.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/events/session-projection-transition.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/tracing/span-residence.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/decision-policy.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/explorer-shell.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/graph-canvas.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/main.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/model-catalog.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/model-types.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/model.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/trace-enumeration.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/formal-proof/src/trace-graph.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/model-option-map/src/compiler.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/model-option-map/src/evaluator.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/model-option-map/src/merge-patch.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/model-option-map/src/option-maps.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/model-option-map/src/parser.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/model-option-map/src/patch-path-claims.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/model-option-map/src/tokenizer.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/shared/src/protocol-v4/workflow-run-nodes.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/shared/src/protocol-v4/workflow-run-observations.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/shared/src/protocol-v4/workflow-run-projection.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/web/src/main.tsx",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/web/src/webBootstrap.ts",
+        "structuralAstEqual": true
+      },
+      {
+        "path": "packages/web/src/webPlatform.ts",
+        "structuralAstEqual": true
+      }
+    ]
+  },
+  "rootPackageCurrentInputReconciliation": {
+    "previousInput": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+    "currentNormalizedSha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d",
+    "sourceCommit": "f453c0717fcecad07776b5de809697eb0ceff15f",
+    "basis": "Root package scripts only: enforce raw evidence integrity before lint/fmt and expose evidence:check. All dependency/engine/packageManager/license/other package fields unchanged; no license/notice/review/source register or obligation removal.",
+    "materialObligationsRetained": 26
+  },
+  "firstPassFailuresPreserved": "Original root type/lint/format/CLI build/selected-suite failures remain bound to 8b/0f24 in the untouched frozen first-pass receipt; this scoped work does not promote them to passes.",
+  "pendingParentReportedRepairs": [
+    {
+      "lane": "services",
+      "branch": "lane/services-20261003",
+      "head": "33072cae538f02b739406279733127c90ec96c50",
+      "source": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "status": "parent delivered; awaiting combined intake. Its reported scoped checks are not rerun or claimed as integrator execution."
+    },
+    {
+      "lane": "cli",
+      "branch": "lane/cli-rewrite-20261003",
+      "head": "4893d82b5541b7782dab5c022e45234089f26546",
+      "status": "intermediate parent-delivered head; original CLI lane continues compact/policy.ts five TS2322 fixes. Await final exact head; no CLI source edits or duplicate type/build run by integrator."
+    }
+  ],
+  "notRun": [
+    "Root full typecheck/lint/fmt after repairs",
+    "Full CLI build/typecheck and pnpm test:studio pending other heads",
+    "Windows/macOS/native GUI/installer/portable/real-user data acceptance",
+    "Whole-tree independence/contributor/publication-rights acceptance"
+  ],
+  "materialClassification": {
+    "file": "docs/material-obligation-actions-20261003.json",
+    "existingIds": 26,
+    "publisherNoticeRequired": 15,
+    "platformBuildLinkEvidenceRequired": 3,
+    "originalSvgSourceRequired": 8,
+    "confirmedFirstPartyReplacementItemsWithinThisList": 0,
+    "closed": 0
+  },
+  "inventoryCommandObservation": {
+    "pnpmReportExitMarker": 0,
+    "pnpmCheckExitMarker": 0,
+    "outerExecSessionReportedExit": 1,
+    "summaryReviewProblems": 0,
+    "unresolvedMaterialObligations": 26,
+    "note": "The captured inner command exits are zero while the outer exec session reported one. Preserve the discrepancy; final metadata is checked directly with the pinned Node entrypoint after this receipt write. No CI or whole-tree rights success is inferred."
+  }
+}

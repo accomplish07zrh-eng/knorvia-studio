@@ -1,0 +1,88 @@
+{
+  "author_scope": "Fresh bounded author of the complete target completion verification owner.",
+  "context_read": [
+    "System and developer instructions provided in this turn, including tool definitions, sandbox rules, skill catalog, multi-agent restrictions, and execution-environment instructions.",
+    "User environment_context: cwd /workspace, bash shell, date 2026-10-02, timezone Etc/UTC, filesystem permission profile.",
+    "Parent NEW_TASK delegation containing the bounded packet location, scope, output paths, and prohibitions.",
+    "Outputs of the recorded tools: packet text, successful directory creation, successful draft write, successful draft patch, and final hash metadata."
+  ],
+  "file_reads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-target-completion-verification-author-20261003/contract.md",
+      "purpose": "Bounded source-derived functional/API input",
+      "transport": "Single exact cat command"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-target-completion-verification-author-20261003/api.d.ts",
+      "purpose": "Bounded source-derived functional/API input",
+      "transport": "Single exact cat command"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-target-completion-verification-author-20261003/imports.d.ts",
+      "purpose": "Bounded source-derived functional/API input",
+      "transport": "Single exact cat command"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-target-completion-verification-author-20261003/literals.json",
+      "purpose": "Bounded source-derived functional/API input",
+      "transport": "Single exact cat command"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-target-completion-verification-author-20261003/supporting.d.ts",
+      "purpose": "Bounded source-derived functional/API input",
+      "transport": "Single exact cat command"
+    },
+    {
+      "path": "/tmp/knorvia-target-verifier-packet-author/draft.ts",
+      "purpose": "Own draft patch and final SHA256 sealing; line count derived from the same hash bytes"
+    },
+    {
+      "path": "/tmp/knorvia-target-verifier-packet-author/access.json",
+      "purpose": "Final SHA256 sealing of own access manifest"
+    }
+  ],
+  "tools_used": [
+    {
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Read exactly the five allowed packet files in one cat command."
+    },
+    {
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "mkdir -p /tmp/knorvia-target-verifier-packet-author"
+    },
+    {
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Write draft.ts with a single quoted shell heredoc."
+    },
+    {
+      "tool": "functions.exec -> tools.apply_patch",
+      "action": "Patch only own draft: retain live target access after rebuild, add type-only sessionStore assertion and invocation-context annotation."
+    },
+    {
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Run the manifest/sealing Python script: write access.json, read own draft and access bytes for SHA256, derive physical line count from draft bytes, write seal.json, print seal metadata."
+    }
+  ],
+  "writes": [
+    "/tmp/knorvia-target-verifier-packet-author/draft.ts",
+    "/tmp/knorvia-target-verifier-packet-author/access.json",
+    "/tmp/knorvia-target-verifier-packet-author/seal.json"
+  ],
+  "design": {
+    "exports": [
+      "TargetCompletionVerificationResult",
+      "verifyActiveTargetCompletionForContinuation"
+    ],
+    "organization": "Public guards and settlement; private iteration lookup, history trim, verification lifecycle, and native retry loop.",
+    "state": "Supplied runtime and dependency owners retain all state; local variables hold only specified execution values.",
+    "correspondence": "Retains conventional async try/catch, spread, optional chaining, retry-loop, and Promise timer idioms. Strong expression correspondence follows the explicit contract; no contribution percentage is asserted."
+  },
+  "limits": [
+    "Read no production source, history, tests, oracles, lineage, dependency bodies, other packets, team status, or agent lists.",
+    "No compilation, tests, candidate execution, provider/model/MCP/network calls, user-data access, credentials, tasks, or runtime effects.",
+    "No checkout edits; all writes are confined to the requested temporary output directory.",
+    "The packet provides supporting imports and API facts without dependency bodies. Dependency type compatibility and runtime behavior were not executed or compiled.",
+    "Ordinary environment/task context was present; this is a bounded packet authorship record, not an absolute clean-room claim.",
+    "No curator comparison was performed before sealing."
+  ]
+}

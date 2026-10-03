@@ -1,0 +1,200 @@
+{
+  "task": "Complete contract-only read-session-context.ts authoring",
+  "supplied_inputfreeze": "e544dcc4",
+  "inputfreeze_verification": "Supplied by parent; not git-verified. Seven input byte hashes measured at read time.",
+  "author_request": {
+    "model": "GPT-6.1 Sol",
+    "reasoning": "high",
+    "fork_turns": "none",
+    "saved_fast": "unchanged and unverified",
+    "qualification": "Requested model/reasoning/fork values are parent-supplied instructions, not a provider/session/model configuration attestation. No runtime/provider inspection or settings change performed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/session/input/contract.md",
+      "bytes": 8355,
+      "sha256": "f24c143b12f0c286f4a421700f410e500e680e1d4e3555d1a225eb6cddc69bf2",
+      "lines": 23,
+      "read_operations": [
+        {
+          "ordinal": 1,
+          "operation": "Python pathlib.Path.read_bytes; full UTF-8 content printed; byte count, hashlib.sha256, len(bytes.splitlines()) computed from same bytes",
+          "count": 1,
+          "coverage": "entire file"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/session/input/public-api.d.ts",
+      "bytes": 1623,
+      "sha256": "18a2c30360257258f98c9129ca857784d72da04043e6b0b7f70006e6d5c5280a",
+      "lines": 40,
+      "read_operations": [
+        {
+          "ordinal": 2,
+          "operation": "Python pathlib.Path.read_bytes; full UTF-8 content printed; byte count, hashlib.sha256, len(bytes.splitlines()) computed from same bytes",
+          "count": 1,
+          "coverage": "entire file"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/session/input/dependency-api.d.ts",
+      "bytes": 1405,
+      "sha256": "f4955c8d364520e4bc9ecd213232cd3f2cb9f017102d354acf816001362fdbd8",
+      "lines": 21,
+      "read_operations": [
+        {
+          "ordinal": 3,
+          "operation": "Python pathlib.Path.read_bytes; full UTF-8 content printed; byte count, hashlib.sha256, len(bytes.splitlines()) computed from same bytes",
+          "count": 1,
+          "coverage": "entire file"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/session/input/public-shapes.d.ts",
+      "bytes": 13697,
+      "sha256": "033978f2070e30b60e586cad90ba8fd561ffe2d811af00d04a8536273ecfed1f",
+      "lines": 485,
+      "read_operations": [
+        {
+          "ordinal": 4,
+          "operation": "Python pathlib.Path.read_bytes; full UTF-8 content printed; byte count, hashlib.sha256, len(bytes.splitlines()) computed from same bytes",
+          "count": 1,
+          "coverage": "entire file"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/session/input/imports.json",
+      "bytes": 486,
+      "sha256": "20add8d5d0ff06ecca675cad50784cbc42375e5d4a8a7aa62b7d305bf7cd6e5c",
+      "lines": 18,
+      "read_operations": [
+        {
+          "ordinal": 5,
+          "operation": "Python pathlib.Path.read_bytes; full UTF-8 content printed; byte count, hashlib.sha256, len(bytes.splitlines()) computed from same bytes",
+          "count": 1,
+          "coverage": "entire file"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/session/input/output-data.json",
+      "bytes": 6679,
+      "sha256": "27c384f88b34c4a092322aa7308ce1ff77985a49c91bbc7c8659843f3cf11f6d",
+      "lines": 407,
+      "read_operations": [
+        {
+          "ordinal": 6,
+          "operation": "Python pathlib.Path.read_bytes; full UTF-8 content printed; byte count, hashlib.sha256, len(bytes.splitlines()) computed from same bytes",
+          "count": 1,
+          "coverage": "entire file"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/session/input/protocol-schema-data.json",
+      "bytes": 2570,
+      "sha256": "c80b1b80e69229822b31dac4917d533d16110093d4992b19dc169c36fc860c88",
+      "lines": 30,
+      "read_operations": [
+        {
+          "ordinal": 7,
+          "operation": "Python pathlib.Path.read_bytes; full UTF-8 content printed; byte count, hashlib.sha256, len(bytes.splitlines()) computed from same bytes",
+          "count": 1,
+          "coverage": "entire file"
+        }
+      ]
+    }
+  ],
+  "line_count_definition": "len(bytes.splitlines()); all supplied files and source have final newlines",
+  "source": {
+    "path": "/tmp/knorvia-model-context-session-20261003/session/output/read-session-context.ts",
+    "bytes": 11537,
+    "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca",
+    "lines": 336,
+    "writes": [
+      {
+        "operation": "shell here-document into exact authorized source path",
+        "count": 1
+      }
+    ],
+    "own_reads": [
+      {
+        "ordinal": 1,
+        "operation": "Python Path.read_bytes; full UTF-8 content printed for manual review; byte count, SHA256, lines computed",
+        "coverage": "entire source"
+      },
+      {
+        "ordinal": 2,
+        "operation": "Python Path.read_bytes; byte count, SHA256, lines recomputed for receipt",
+        "coverage": "entire source bytes; source not executed"
+      }
+    ]
+  },
+  "receipt": {
+    "path": "/tmp/knorvia-model-context-session-20261003/session/output/author-record.json",
+    "writes": 1,
+    "own_reads": [
+      {
+        "ordinal": 1,
+        "operation": "Final post-freeze Python Path.read_bytes; full UTF-8 content, bytes, SHA256, lines printed",
+        "coverage": "entire receipt; final action before reporting; self-hash omitted to avoid recursive hash"
+      }
+    ]
+  },
+  "retained_data_and_expressions": [
+    "Exact original four import modules and named bindings; original @knorvia/contracts type owner; exact two reference-helper reexports.",
+    "Exact two public interface field orders/types and six public function signatures; private helpers and constants only.",
+    "Required status/role/visibility/strategy strings, headings, prose, template expressions, separators/newlines, public own-key orders, exact Unicode and ASCII regexes.",
+    "Budgets 24000/48000/4000/80000, chunk count 5, chunk size 28000, fallback 12, index denominator 10000, phrase score 20, term base 3, occurrence cap 5, transcript cutoff 200; semantic numeric literals 0/1/2/4 retained.",
+    "Native Date/toISOString, Boolean filtering, array map/filter/flatMap/reduce/slice/sort/reverse, Set insertion order, Map replacement/insertion order, spread cloning, indexOf nonoverlap counting, template interpolation and math idioms retained.",
+    "Static schema expressions supplied only as type/shape evidence; original inferred protocol types remain authoritative. No Zod schema reimplementation or execution."
+  ],
+  "manual_findings": [
+    "One complete source, 336 lines, below 400; exact six exported functions, two exported interfaces, two reexports; no additional imports, dependencies, public exports or mutable module application state.",
+    "Build clamps first, calls original activeSessionMessages exactly once without options, preserves active indices, then scores, formats all content, builds/selects chunks, selects snippets, formats local content and returns exact field order.",
+    "Only user model-only messages are rejected before parts/date; opaque part ports run in prescribed order; kept text is untrimmed; native Date/getter/port errors propagate with no catches.",
+    "Tokenization precedes query trim/lowercase; ordered unique terms and adjacent UTF-16 Han slices preserved; scores use full phrase, included terms, nonoverlap occurrences and index fraction.",
+    "Relevant selection preserves pre-add usedChars > budget behavior, equality continuation and first oversize selection; handoff preserves always-first-latest and strict subsequent sum > budget break.",
+    "Chunk sizes count snippet content without separators, keep oversize singles, preserve sparse indices; <=5 returns same array; relevant Map top four plus last can yield four; identities retained.",
+    "Transcript header removes undefined only and retains trailing newline; empty transcript fallback, finite remaining allowance and >200 truncation cutoff preserved; header never truncated; references/counts remain based on selected snippets.",
+    "Model formatter filters Boolean including deliberate removal of blank line; immediate not_found and failed branch formatting preserved; unknown statuses follow normal branch; local not_found has exact fresh keys.",
+    "Manual reasoning only. No compile/typecheck/tests/build/lint/mocks or execution of source/dependencies; selected declaration files are not standalone semantic compilation units."
+  ],
+  "known_exposure": [
+    "Parent task instructions, environment/developer/tool metadata and the full seven authorized input file contents were visible to this agent.",
+    "The agent saw and manually reviewed its own complete source. Receipt describes its own final post-freeze read.",
+    "Shared executor filesystem restrictions are instruction-only. No OS isolation, access audit, clean-separation, novelty or license-grant assertion is made."
+  ],
+  "known_breaches": [],
+  "questions": [],
+  "blockers": [],
+  "deferred": [
+    "Repository integration and external verification remain with parent; no repository edit performed."
+  ],
+  "self_report_limits": [
+    "Read/write history is a self-report of this agent tool actions, not an OS/process-wide access audit or attestation of other agents.",
+    "No repository/history/reviews/tests/predecessor/dependency implementations/other-author drafts/private userdata/credentials/network were read or executed by this agent.",
+    "No actual provider/session/context/store/model/environment business operations were called. Shell/Python were used only for authorized file content/bytes/hash/line read/write and permission/timestamp handling.",
+    "Original ports remain opaque and no new privacy, budget, ranking or count policies were added. Accepted/retained repository files were not accessed or changed.",
+    "Requested GPT-6.1 Sol/high/fork-none and saved Fast are reported without provider/configuration verification."
+  ],
+  "freeze": {
+    "freeze_utc": "2026-10-02T21:30:48.961981Z",
+    "timestamp_meaning": "UTC marker captured immediately before final receipt serialization and sequential permission freeze in this same tool command; completion time is printed after chmod.",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "directory_mode": "0555",
+    "sequence": [
+      "serialize receipt once",
+      "chmod source 0444",
+      "chmod receipt 0444",
+      "chmod output directory 0555",
+      "print completion timestamp"
+    ],
+    "qualification": "Permission freeze is instruction-only in shared executor; no immutable or OS isolation guarantee."
+  }
+}

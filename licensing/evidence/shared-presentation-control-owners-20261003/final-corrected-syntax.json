@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/assistant-presentation.ts",
+    "packages/shared/src/background-task-controls.ts",
+    "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts"
+  ],
+  "stdout": "packages/shared/src/assistant-presentation.ts: 0 syntax-only diagnostics\npackages/shared/src/background-task-controls.ts: 0 syntax-only diagnostics\npackages/shared/src/protocol-v4/sessions-index-workflow-activity.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,71 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": ","
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": ";"
+    },
+    {
+      "kind": "text",
+      "text": "=="
+    },
+    {
+      "kind": "text",
+      "text": "="
+    },
+    {
+      "kind": "text",
+      "text": "=="
+    },
+    {
+      "kind": "text",
+      "text": "="
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "2",
+    "1",
+    "0",
+    "3",
+    "4",
+    "0",
+    "4",
+    "0",
+    "2",
+    "1",
+    "0",
+    "0",
+    "1",
+    "65",
+    "90",
+    "97",
+    "122",
+    "48",
+    "57",
+    "43",
+    "47",
+    "1",
+    "61"
+  ],
+  "qualification": "Retained exact MIME/protocol/template/regex/constants and ordinary idioms; not novelty/grant claim"
+}

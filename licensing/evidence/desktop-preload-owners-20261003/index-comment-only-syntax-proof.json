@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/preload-runtime-syntax-proof.cjs"
+  ],
+  "stdout": "{\"before\":\"aff6df7256aadeb2acbf1323ba64ff9c8337d025b240371eedcad5910b7bbaa9\",\"after\":\"aff6df7256aadeb2acbf1323ba64ff9c8337d025b240371eedcad5910b7bbaa9\",\"identical\":true,\"comparison\":\"Full TypeScript AST printer/token stream, comments/format/quote/numeric separator normalization; identifiers/types/order/control flow preserved; parse/hash only, no build/import/execution\",\"runtimeRerunRequired\":false}\n",
+  "stderr": "",
+  "exitCode": 0
+}

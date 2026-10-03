@@ -1,18 +1,17 @@
-import { databaseMigrationIdSchema, type DatabaseMigrationFacts } from "@knorvia/shared";
 import { createHash } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
+import { databaseMigrationIdSchema, type DatabaseMigrationFacts } from "@knorvia/shared";
 import {
+  TASK_INDEX_SCHEMA,
   AUTOMATION_SCHEMA,
   OFF_PEAK_SCHEMA,
-  TASK_INDEX_SCHEMA,
 } from "#src/session/tasksDatabase/schema-v1.js";
 import { importLegacyAutomationSelections } from "#src/session/tasksDatabase/provider-selection-v2.js";
 import { OFFICIAL_GLM_SELECTION_MIGRATION_SQL } from "#src/session/tasksDatabase/official-glm-selection-v3.js";
 import { AGENT_IDENTITY_MIGRATION_SQL } from "#src/session/tasksDatabase/agent-identity-v4.js";
 import { createSqliteSnapshot } from "#src/session/tasksDatabase/sqliteSnapshot.js";
 
-// 冻结历史列声明，不能以实时 Repo/schema 代替，否则新版构建会改变已应用 checksum。
-const columns = [
+const historicalColumns = [
   ["tasks", "title_overridden", "INTEGER NOT NULL DEFAULT 0"],
   ["tasks", "last_unread_at", "INTEGER NOT NULL DEFAULT 0"],
   ["tasks", "searchable_text", "TEXT NOT NULL DEFAULT ''"],
@@ -32,50 +31,135 @@ const columns = [
   ["off_peak_tasks", "model_selection", "TEXT"],
   ["off_peak_tasks", "history_deleted_at", "INTEGER"],
 ] as const;
-const indexes = `
-  CREATE INDEX IF NOT EXISTS idx_tasks_cron_automation ON tasks(cron_automation_id, updated_at DESC)
-    WHERE cron_automation_id IS NOT NULL AND deleted=0;
-  CREATE INDEX IF NOT EXISTS idx_tasks_off_peak_task ON tasks(off_peak_task_id, updated_at DESC)
-    WHERE off_peak_task_id IS NOT NULL AND deleted=0;
-  CREATE INDEX IF NOT EXISTS idx_automations_target_task ON automations(target_task_id) WHERE target_task_id IS NOT NULL;
-`;
-const terminalStatuses = "'completed','failed','cancelled'";
-const activePredicate = `session_id IS NOT NULL AND status NOT IN (${terminalStatuses})`;
-const boundIndex = `CREATE UNIQUE INDEX IF NOT EXISTS idx_off_peak_bound_active ON off_peak_tasks(workspace_key,session_id) WHERE ${activePredicate}`;
-const STUDIO_WORKFLOW_SCHEDULE_SQL = "ALTER TABLE automations ADD COLUMN studio_workflow_id TEXT";
+const secondaryIndexesSql =
+  "\n  CREATE INDEX IF NOT EXISTS idx_tasks_cron_automation ON tasks(cron_automation_id, updated_at DESC)\n    WHERE cron_automation_id IS NOT NULL AND deleted=0;\n  CREATE INDEX IF NOT EXISTS idx_tasks_off_peak_task ON tasks(off_peak_task_id, updated_at DESC)\n    WHERE off_peak_task_id IS NOT NULL AND deleted=0;\n  CREATE INDEX IF NOT EXISTS idx_automations_target_task ON automations(target_task_id) WHERE target_task_id IS NOT NULL;\n";
+const uniqueBoundIndexSql =
+  "CREATE UNIQUE INDEX IF NOT EXISTS idx_off_peak_bound_active ON off_peak_tasks(workspace_key,session_id) WHERE session_id IS NOT NULL AND status NOT IN ('completed','failed','cancelled')";
+const duplicateBindingsSql =
+  "SELECT 1 FROM off_peak_tasks WHERE session_id IS NOT NULL AND status NOT IN ('completed','failed','cancelled')\n    GROUP BY workspace_key, session_id HAVING count(*)>1 LIMIT 1";
+const scheduledCountBackfillSql = "UPDATE automations SET scheduled_run_count=run_count";
+const workflowScheduleSql = "ALTER TABLE automations ADD COLUMN studio_workflow_id TEXT";
+const ledgerExistsSql =
+  "SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'";
+const allIdsSql = "SELECT id FROM tasks_schema_migration";
+const latestIdSql = "SELECT id FROM tasks_schema_migration ORDER BY id DESC LIMIT 1";
+const checksumSql = "SELECT checksum FROM tasks_schema_migration WHERE id=?";
+const userTablesSql =
+  "SELECT 1 FROM sqlite_master WHERE type='table' AND name NOT IN ('tasks_schema_migration', 'sqlite_sequence') LIMIT 1";
+const createLedgerSql =
+  "CREATE TABLE IF NOT EXISTS tasks_schema_migration (\n      id TEXT PRIMARY KEY, checksum TEXT NOT NULL, time_applied INTEGER NOT NULL\n    )";
+const insertLedgerSql = "INSERT INTO tasks_schema_migration VALUES(?,?,?)";
 
-// 与 Agent 同样是库级串行事务，但不跨域依赖其具体 adapter。TS 转换使用冻结语义版本，
-// 禁用 function.toString 哈希：Electron/SEA 打包会改变函数文本而非迁移语义。
-const definitions = [
+function adoptSchema(db: DatabaseSync): void {
+  db.exec(TASK_INDEX_SCHEMA + AUTOMATION_SCHEMA + OFF_PEAK_SCHEMA);
+  for (const [table, column, declaration] of historicalColumns) {
+    const columns = db.prepare(`PRAGMA table_info(${table})`).all();
+    if (columns.some((entry) => entry.name === column)) continue;
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${declaration}`);
+    if (table === "automations" && column === "scheduled_run_count") {
+      db.exec(scheduledCountBackfillSql);
+    }
+  }
+  db.exec(secondaryIndexesSql);
+  if (!db.prepare(duplicateBindingsSql).get()) db.exec(uniqueBoundIndexSql);
+}
+
+const versions = [
   {
     id: "0001_adopt_task_schema",
-    checksumInput: [
+    inputs: [
       TASK_INDEX_SCHEMA,
       AUTOMATION_SCHEMA,
       OFF_PEAK_SCHEMA,
-      columns,
-      indexes,
-      boundIndex,
+      historicalColumns,
+      secondaryIndexesSql,
+      uniqueBoundIndexSql,
       "scheduled-count-backfill-v1",
     ],
+    apply: adoptSchema,
   },
   {
     id: "0002_provider_selection",
-    checksumInput: ["legacy-automation-selection-v1", "no-provider-for-legacy-off-peak-v1"],
+    inputs: ["legacy-automation-selection-v1", "no-provider-for-legacy-off-peak-v1"],
+    apply: importLegacyAutomationSelections,
   },
   {
     id: "0003_official_glm_selection",
-    checksumInput: [OFFICIAL_GLM_SELECTION_MIGRATION_SQL],
+    inputs: [OFFICIAL_GLM_SELECTION_MIGRATION_SQL],
+    apply: (db: DatabaseSync) => db.exec(OFFICIAL_GLM_SELECTION_MIGRATION_SQL),
   },
   {
     id: "0004_agent_identity",
-    checksumInput: [AGENT_IDENTITY_MIGRATION_SQL],
+    inputs: [AGENT_IDENTITY_MIGRATION_SQL],
+    apply: (db: DatabaseSync) => db.exec(AGENT_IDENTITY_MIGRATION_SQL),
   },
   {
     id: "0005_studio_workflow_schedule",
-    checksumInput: [STUDIO_WORKFLOW_SCHEDULE_SQL],
+    inputs: [workflowScheduleSql],
+    apply: (db: DatabaseSync) => db.exec(workflowScheduleSql),
   },
 ] as const;
+
+function checksumFor(version: (typeof versions)[number]): string {
+  return createHash("sha256").update(JSON.stringify(version.inputs)).digest("hex");
+}
+
+function verifyKnownVersions(db: DatabaseSync): void {
+  if (!db.prepare(ledgerExistsSql).get()) return;
+  const knownIds = new Set<string>(versions.map((version) => version.id));
+  for (const row of db.prepare(allIdsSql).all()) {
+    if (!knownIds.has(String(row.id))) {
+      throw Object.assign(new Error("任务数据库版本较新，请使用兼容的较新版本打开。"), {
+        kind: "newer_database",
+      });
+    }
+  }
+}
+
+function checksumMismatch(id: string): Error & { kind: string } {
+  return Object.assign(new Error(`Task database migration checksum mismatch: ${id}`), {
+    kind: "checksum_mismatch",
+  });
+}
+
+export function inspectTasksMigrationKind(db: DatabaseSync): DatabaseMigrationFacts["kind"] {
+  verifyKnownVersions(db);
+  const ledgerExists = !!db.prepare(ledgerExistsSql).get();
+  let pending = false;
+  for (const version of versions) {
+    const row = ledgerExists ? db.prepare(checksumSql).get(version.id) : undefined;
+    if (!row) {
+      pending = true;
+    } else if (row.checksum !== checksumFor(version)) {
+      throw Object.assign(checksumMismatch(version.id), { migrationId: version.id });
+    }
+  }
+  if (!pending) return "none";
+  return db.prepare(userTablesSql).get() ? "upgrade" : "initialize";
+}
+
+export function areTasksDatabaseMigrationsApplied(db: DatabaseSync): boolean {
+  verifyKnownVersions(db);
+  if (!db.prepare(ledgerExistsSql).get()) return false;
+  for (const version of versions) {
+    const row = db.prepare(checksumSql).get(version.id);
+    if (!row) return false;
+    if (row.checksum !== checksumFor(version)) throw checksumMismatch(version.id);
+  }
+  return true;
+}
+
+export function lastAppliedTasksMigrationId(db: DatabaseSync): string | null {
+  if (!db.prepare(ledgerExistsSql).get()) return null;
+  const row = db.prepare(latestIdSql).get();
+  return row ? String(row.id) : null;
+}
+
+export function createTasksDatabaseSnapshot(db: DatabaseSync): string | undefined {
+  const path = db.location();
+  if (!path) return undefined;
+  return createSqliteSnapshot(db, path, lastAppliedTasksMigrationId(db) ?? "unversioned");
+}
 
 export function runTasksDatabaseMigrations(
   db: DatabaseSync,
@@ -86,188 +170,49 @@ export function runTasksDatabaseMigrations(
   } = {},
 ): void {
   if (!options.transactionOpen) {
-    // 自持事务的调用方（Repo 直接打开旧库）同样先落迁移前快照；备份失败即抛错，不进入写事务。
-    // 由 startup 传入已开启事务的调用方，备份已在 BEGIN IMMEDIATE 之前完成，此处不重复。
     if (inspectTasksMigrationKind(db) === "upgrade") createTasksDatabaseSnapshot(db);
     db.exec("BEGIN IMMEDIATE");
   }
-  const migrationFacts: DatabaseMigrationFacts = options.migration ?? {
+  const facts: DatabaseMigrationFacts = options.migration ?? {
     kind: "none",
     executedCount: 0,
     committedCount: 0,
   };
   let currentMigrationId: string | undefined;
   try {
-    // 进程内 ready 凭据及锁前预检都不是账本授权；锁内必须再次拒绝新版本。
-    const currentKind = inspectTasksMigrationKind(db);
-    if (!options.migration) migrationFacts.kind = currentKind;
-    db.exec(`CREATE TABLE IF NOT EXISTS tasks_schema_migration (
-      id TEXT PRIMARY KEY, checksum TEXT NOT NULL, time_applied INTEGER NOT NULL
-    )`);
-    // 锁内、版本 SQL 之前采集；空账本是 none，异常编号不作为遥测原文发送。
-    const baseline = db
-      .prepare("SELECT id FROM tasks_schema_migration ORDER BY id DESC LIMIT 1")
-      .get();
-    migrationFacts.lastAppliedMigrationId = baseline
-      ? databaseMigrationIdSchema.safeParse(baseline.id).data
+    const kind = inspectTasksMigrationKind(db);
+    if (!options.migration) facts.kind = kind;
+    db.exec(createLedgerSql);
+    const latest = db.prepare(latestIdSql).get();
+    facts.lastAppliedMigrationId = latest
+      ? databaseMigrationIdSchema.safeParse(latest.id).data
       : null;
-    for (const migration of definitions) {
-      currentMigrationId = migration.id;
-      const checksum = createHash("sha256")
-        .update(JSON.stringify(migration.checksumInput))
-        .digest("hex");
-      const applied = db
-        .prepare("SELECT checksum FROM tasks_schema_migration WHERE id=?")
-        .get(migration.id);
-      if (applied) {
-        if (applied.checksum !== checksum)
-          throw Object.assign(
-            new Error(`Task database migration checksum mismatch: ${migration.id}`),
-            { kind: "checksum_mismatch" },
-          );
+    for (const version of versions) {
+      currentMigrationId = version.id;
+      const checksum = checksumFor(version);
+      const row = db.prepare(checksumSql).get(version.id);
+      if (row) {
+        if (row.checksum !== checksum) throw checksumMismatch(version.id);
         continue;
       }
-      if (migrationFacts.kind === "none") migrationFacts.kind = "upgrade";
-      options.onProgress?.("migrating", { ...migrationFacts });
-      if (migration.id === "0001_adopt_task_schema") adoptSchema(db);
-      else if (migration.id === "0002_provider_selection") importLegacyAutomationSelections(db);
-      else if (migration.id === "0003_official_glm_selection")
-        db.exec(OFFICIAL_GLM_SELECTION_MIGRATION_SQL);
-      else if (migration.id === "0004_agent_identity") db.exec(AGENT_IDENTITY_MIGRATION_SQL);
-      else db.exec(STUDIO_WORKFLOW_SCHEDULE_SQL);
-      migrationFacts.executedCount++;
-      db.prepare("INSERT INTO tasks_schema_migration VALUES(?,?,?)").run(
-        migration.id,
-        checksum,
-        Date.now(),
-      );
+      if (facts.kind === "none") facts.kind = "upgrade";
+      options.onProgress?.("migrating", { ...facts });
+      version.apply(db);
+      facts.executedCount++;
+      db.prepare(insertLedgerSql).run(version.id, checksum, Date.now());
     }
-    options.onProgress?.("committing", { ...migrationFacts });
+    options.onProgress?.("committing", { ...facts });
     db.exec("COMMIT");
-    migrationFacts.committedCount = migrationFacts.executedCount;
+    facts.committedCount = facts.executedCount;
   } catch (error) {
-    // 回滚也可能因 IO 失败，不能覆盖真正导致迁移失败的异常。
     try {
       if (db.isTransaction) db.exec("ROLLBACK");
     } catch {
-      /* 调用方关闭连接恢复。 */
+      // Preserve the migration failure if rollback also fails.
     }
-    if (error && typeof error === "object" && currentMigrationId)
+    if (error && typeof error === "object" && currentMigrationId) {
       Object.assign(error, { migrationId: currentMigrationId });
+    }
     throw error;
   }
-}
-
-/** 备份文件名里的“迁移起点”：最后一次已应用迁移；账本不存在或为空时返回 null。 */
-export function lastAppliedTasksMigrationId(db: DatabaseSync): string | null {
-  if (
-    !db
-      .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
-      .get()
-  )
-    return null;
-  const row = db.prepare("SELECT id FROM tasks_schema_migration ORDER BY id DESC LIMIT 1").get();
-  return row ? String(row.id) : null;
-}
-
-/** 迁移前快照：无文件路径（:memory:）没有可保护的数据，返回 undefined 不写备份。 */
-export function createTasksDatabaseSnapshot(db: DatabaseSync): string | undefined {
-  const path = db.location();
-  if (!path) return undefined;
-  return createSqliteSnapshot(db, path, lastAppliedTasksMigrationId(db) ?? "unversioned");
-}
-
-function adoptSchema(db: DatabaseSync): void {
-  db.exec(TASK_INDEX_SCHEMA + AUTOMATION_SCHEMA + OFF_PEAK_SCHEMA);
-  for (const [table, column, definition] of columns) {
-    const existing = db.prepare(`PRAGMA table_info(${table})`).all();
-    if (existing.some((entry) => entry.name === column)) continue;
-    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
-    if (table === "automations" && column === "scheduled_run_count") {
-      db.exec("UPDATE automations SET scheduled_run_count=run_count");
-    }
-  }
-  db.exec(indexes);
-  // 沿用已裁决的旧重复绑定保留策略，但不再吞掉权限/语法/磁盘等真实 SQL 错误。
-  const duplicate = db
-    .prepare(`SELECT 1 FROM off_peak_tasks WHERE ${activePredicate}
-    GROUP BY workspace_key, session_id HAVING count(*)>1 LIMIT 1`)
-    .get();
-  if (!duplicate) db.exec(boundIndex);
-}
-
-/** 交接只复用已完成初始化；每个新连接仍按冻结账本确认，替换/清空文件不能假 ready。 */
-export function areTasksDatabaseMigrationsApplied(db: DatabaseSync): boolean {
-  assertKnownTasksMigrations(db);
-  if (
-    !db
-      .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
-      .get()
-  )
-    return false;
-  for (const migration of definitions) {
-    const row = db
-      .prepare("SELECT checksum FROM tasks_schema_migration WHERE id=?")
-      .get(migration.id);
-    if (!row) return false;
-    const expected = createHash("sha256")
-      .update(JSON.stringify(migration.checksumInput))
-      .digest("hex");
-    if (row.checksum !== expected)
-      throw Object.assign(new Error(`Task database migration checksum mismatch: ${migration.id}`), {
-        kind: "checksum_mismatch",
-      });
-  }
-  return true;
-}
-
-/** 只读账本的展示预检，不授权执行；迁移 runner 拿锁后仍复查每一项。 */
-export function inspectTasksMigrationKind(db: DatabaseSync): DatabaseMigrationFacts["kind"] {
-  assertKnownTasksMigrations(db);
-  const hasLedger = db
-    .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
-    .get();
-  let pending = false;
-  for (const migration of definitions) {
-    const row = hasLedger
-      ? db.prepare("SELECT checksum FROM tasks_schema_migration WHERE id=?").get(migration.id)
-      : undefined;
-    if (!row) pending = true;
-    else if (
-      row.checksum !==
-      createHash("sha256").update(JSON.stringify(migration.checksumInput)).digest("hex")
-    )
-      throw Object.assign(new Error(`Task database migration checksum mismatch: ${migration.id}`), {
-        kind: "checksum_mismatch",
-        migrationId: migration.id,
-      });
-  }
-  if (!pending) return "none";
-  return db
-    .prepare(
-      "SELECT 1 FROM sqlite_master WHERE type='table' AND name NOT IN ('tasks_schema_migration', 'sqlite_sequence') LIMIT 1",
-    )
-    .get()
-    ? "upgrade"
-    : "initialize";
-}
-
-/** 未知 id 无论排序高低都代表不兼容；拒绝时不回传数据库中的任意编号原文。 */
-function assertKnownTasksMigrations(db: DatabaseSync): void {
-  if (
-    !db
-      .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
-      .get()
-  )
-    return;
-  const knownIds: ReadonlySet<string> = new Set(definitions.map((migration) => migration.id));
-  if (
-    db
-      .prepare("SELECT id FROM tasks_schema_migration")
-      .all()
-      .some((row) => !knownIds.has(String(row.id)))
-  )
-    throw Object.assign(new Error("任务数据库版本较新，请使用兼容的较新版本打开。"), {
-      kind: "newer_database",
-    });
 }

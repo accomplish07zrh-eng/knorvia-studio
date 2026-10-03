@@ -1,0 +1,20 @@
+{
+  "owner": "desktop Playwright locator executor correction 2",
+  "readPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/common-author-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/locator-owner-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/public-view.d.ts"
+  ],
+  "accessExceptions": [],
+  "writtenPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/locator/browserPlaywrightLocatorExecutor-correction-2.ts",
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/locator/access-correction-2.json"
+  ],
+  "provenance": "Complete new literal authored from my own memory of the allowed contracts and the curator's behavior-only correction packet. I did not read, copy, transform, patch, or roll back any previous output or inherited source for this correction.",
+  "limitations": [
+    "No correction-2 candidate was installed, compiled, linted, tested, or run in a browser.",
+    "The reported focused checks and restricted synthetic type failure were curator-provided observations, not independently executed by this author.",
+    "No inherited implementation, helper, test body, repository history, sibling output, global instruction, or skill was read.",
+    "No MIT, clean-room, Fast-verification, or novelty claim is made."
+  ]
+}

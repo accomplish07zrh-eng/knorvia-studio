@@ -1,0 +1,4 @@
+Fresh native task /root/node_runner_packet_author; fork_turns:none; model:gpt-6.1-sol; reasoning_effort:high; Fast service-tier control not exposed. Input freeze commit356f3d35.
+Allowed reads: /tmp/knorvia-node-runner-author-20261003/inputs/{contract.md,public-api.d.ts,dependency-api.d.ts,public-data-shapes.md}, plus own output files. No repository/AGENTS/source/history/tests/reviews/network/other-author or other-scratch reads.
+Complete runWorkflowNode/WorkflowNodeRunnerRuntime replacement from frozen behavior/public inputs; no other implementation/outcome helper import. Ordinary idioms/contract-required matches permitted, no novelty requirement. Keep readable below400lines or disclose a genuine private additional file.
+Freeze all source bytes and input/output hashes/read receipt before compiler/tests/comparison. No production edits/git operations/other-author contact. Receipt excludes own hash; report separate bytes/SHA256. Stop after freeze.

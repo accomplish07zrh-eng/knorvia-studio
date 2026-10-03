@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--owner=browser"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=browser\n✔ browser: captured authority, duplicate correlation and dispose settlement (67.88986ms)\n✖ browser: timeout cancellation and detached recording identity (17.318591ms)\nℹ tests 2\nℹ suites 0\nℹ pass 1\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 89.769197\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/behaviorOwners.test.mjs:55:40\n✖ browser: timeout cancellation and detached recording identity (17.318591ms)\n  Error: synthetic-artifact-path-failure\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/behaviorOwners.test.mjs:243:21)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)\n",
+  "stderr": "",
+  "exitCode": 1
+}

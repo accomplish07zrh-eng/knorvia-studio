@@ -1,0 +1,8 @@
+{
+  "path": "packages/desktop/src/host/index.ts",
+  "sha256": "d763448784016ba750a24c9ddde42d844ea1933d0b94a596a70d424b74855d8f",
+  "bytes": 68400,
+  "rawSha256": "554fd6fab968821edbabc127ada86c9b72a65f8030fb4f383ee81c8c10af6bf9",
+  "resultFiles": "Earlier first final-* JSON files refer to this source snapshot; later correction-2-redaction-boundary failure supersedes acceptance. Results immutable, not overwritten or relabeled.",
+  "scope": "Whole copy and formatting only; no curator product body patches"
+}

@@ -1,0 +1,13 @@
+✔ MessagePort rejects forged controls and objects while preserving admitted binary identity and cleanup (13.708607ms)
+✔ socket consumes only complete frames, retains wire bytes and delegates drain without disposing shared socket (0.951402ms)
+✔ foundation cleanup latches before failure and broadcast uses one listener snapshot (0.653073ms)
+✔ proxy keeps receiver/context ownership, blocks then/symbol RPC probes and releases lazy event source (0.69069ms)
+✔ serialization admits exact legacy/current nested binary markers and preserves byte copy/alias boundaries (1.14307ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 88.475538

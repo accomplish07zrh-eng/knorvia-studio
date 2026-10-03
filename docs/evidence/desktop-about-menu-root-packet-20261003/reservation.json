@@ -1,0 +1,37 @@
+{
+  "baseline": "3ce00a9e0a60afa1a87b6569b2c35beaa23d1a28",
+  "utc": "2026-10-02T22:03:10.935622+00:00",
+  "rootExclusive": true,
+  "candidates": [
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "bytes": 9114,
+      "lines": 271,
+      "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b",
+      "priorCompleteEReceiptHits": [],
+      "bodyReadForThisReservation": false
+    },
+    {
+      "path": "packages/desktop/src/main/aboutWindow.ts",
+      "bytes": 4837,
+      "lines": 187,
+      "sha256": "f95c664be0cd894815bfe8db5ba27d509a575c563a6d566363c130cbc42819a6",
+      "priorCompleteEReceiptHits": [],
+      "bodyReadForThisReservation": false
+    },
+    {
+      "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "bytes": 13080,
+      "lines": 320,
+      "sha256": "dfd11178f06f2ada16612bb7cdf9603eb1d012649d819872688f790a68c1ea3d",
+      "priorCompleteEReceiptHits": [],
+      "bodyReadForThisReservation": false
+    }
+  ],
+  "receiptFilesScreened": 83,
+  "originRule": "No reviews.json entry is not inherited-source proof. Establish available history/source digest evidence separately; missing records remain origin-unresolved. Retain clearly original/config-only surfaces; no forced cosmetic rewrite, licence closure or clean-separation claim.",
+  "authorInputRule": "Body-free public behavior/API/dependency type/static data only, generic template placeholders; no predecessor private helper names, bodies or decomposition; implementation owner root, B renderer untouched.",
+  "ordinaryChecksDeferred": true,
+  "noImplementation": true,
+  "exposure": "Curator prior root-window packet/dependency source exposure qualified; shared executor instruction-only/no OS access audit; prior repaired scratch-write breach remains explicit."
+}

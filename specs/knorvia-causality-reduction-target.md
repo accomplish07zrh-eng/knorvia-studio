@@ -1,0 +1,11 @@
+# Target-limited witness traversal
+
+Baseline `886523c223ac23a6ccb2bdd22dbdd4c90e5bdc5f`. Keep the accepted identity/liveness, adjacency, greedy ordering and documentation owner. Add an optional target to the existing forward queue traversal. A target in the initial seeds is a valid zero-length suffix; otherwise return on discovering it, only after liveness, allowed-kind and direct-pair exclusions pass. Test target presence with `target !== undefined`, including empty-string IDs. Empty seeds do not imply reachability.
+
+Forward candidate queries and carry suffix queries ask only whether a target exists. Carry prefixes require the entire reachable set and must omit the target argument. Do not reuse a target-limited result as a prefix. Preserve the forward self-loop guard, exact single-carry bridge rules, shared alias liveness, original references and output/candidate order. No new state, framework, permission, I/O, clock, deadline or runtime string.
+
+Add only empty-string forward/parallel-carry/no-bridge and a self-carry whose witness occurs late in the full prefix. Reuse all existing lattice/cycle/alias cases and direct graph consumers. Preserve old oracle/declaration proof/digests/assertions. Pin exact source/JS from the finished documentary checkpoint so its historical syntax-identity assertions remain meaningful after this runtime change; current behavior/pins and current API/comments remain separate live checks.
+
+Run the existing nine reducer/quotient groups once per source/actual-emitted mode, plus the three documentary groups affected by explicit historical loading. Scoped owner emission/types, owned lint/format/architecture only. Run one diagnostic for n=100 chain, chain+skip, dense DAG and chain+return carries: fresh ordinary records, one warmup and five measured calls per implementation/recipe, median, no timing threshold. Compare original oracle, pre-correction owner and final owner with deep ordered equality and explicit original-reference/index order checks outside timing. Display caps are not reducer workload bounds.
+
+Retain prior receipts/failure records and document actual measured results, final hashes, source exposure/compatibility material and native limits. No graph-file/shared-licensing/runtime/Host/dependency/CI edits, broad suite/build, licence grant or publication.

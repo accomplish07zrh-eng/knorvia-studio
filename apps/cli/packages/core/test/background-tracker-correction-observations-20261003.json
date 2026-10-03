@@ -1,0 +1,58 @@
+[
+  {
+    "name": "no-snapshot waiter native admission",
+    "order": ["tick1", "tick2", "tick3", "wait", "tick4", "track.complete", "tick5", "tick6"]
+  },
+  {
+    "name": "payload error remains before event native boundary",
+    "order": ["payload.read", "track.reject", "tick1", "tick2", "tick3", "tick4", "tick5", "tick6"],
+    "events": 0
+  },
+  {
+    "name": "existing supersession admission has no new tool-name gate",
+    "notifications": 0,
+    "claimed": true
+  },
+  {
+    "name": "event/text/origin have separate output read phases",
+    "eventDescriptions": ["Owned launch label", "Owned launch label"],
+    "originTitle": "owned-task",
+    "textUsesResultLabel": true,
+    "eventKeys": [
+      "id",
+      "sessionId",
+      "turnId",
+      "type",
+      "timestamp",
+      "traceId",
+      "sequenceNumber",
+      "payload"
+    ],
+    "payloadKeys": [
+      "taskId",
+      "toolCallId",
+      "toolName",
+      "taskKind",
+      "childSessionId",
+      "cancellable",
+      "command",
+      "description",
+      "status",
+      "pid",
+      "startedAt",
+      "completedAt",
+      "outputPath",
+      "stderrPersistedOutputPath",
+      "stdoutPersistedOutputPath",
+      "outputBytes",
+      "outputTruncated",
+      "outputTail",
+      "stderrBytes",
+      "stderrTail",
+      "stdoutBytes",
+      "stdoutTail",
+      "terminalId"
+    ],
+    "explicitUndefined": true
+  }
+]

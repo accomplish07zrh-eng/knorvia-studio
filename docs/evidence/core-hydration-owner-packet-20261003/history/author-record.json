@@ -1,0 +1,210 @@
+{
+  "record_version": 1,
+  "owner": "agent/session-history-hydrator.ts",
+  "authorship": {
+    "scope": "Entire new TypeScript owner from the six frozen behavior/public-port inputs; new internal organization; no predecessor implementation supplied or read by this author.",
+    "requested_model": "GPT-6.1 Sol",
+    "requested_reasoning_effort": "high",
+    "requested_fork": "none",
+    "model_verification": "Requested configuration reported by delegating parent; actual model/runtime configuration is not independently verified by this author.",
+    "saved_fast_preference": "Unchanged and unverified; no settings were read or changed.",
+    "qualification": "Instruction-only author self-report of explicit actions in this delegated session; not an independent access audit, isolation proof, novelty assessment, licence review, or rights assertion."
+  },
+  "input_allowlist": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/history/contract.md",
+      "sha256": "8ed9203b4902a25bd7cb8f7036b554384f237853775cf357aa12abf241c5cacb",
+      "bytes": 12036,
+      "lines": 29,
+      "full_content_read_count": 2,
+      "cumulative_content_bytes_read": 24072,
+      "content_write_count": 0,
+      "cumulative_content_bytes_written": 0,
+      "read_events": [
+        "Full cat read displayed without truncation.",
+        "Full byte read for SHA256, byte and newline accounting."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/history/public-api.d.ts",
+      "sha256": "cc2cc021464d401e24efee178a4871671156a550fe7cbc5627f5c71f7178053c",
+      "bytes": 1033,
+      "lines": 24,
+      "full_content_read_count": 2,
+      "cumulative_content_bytes_read": 2066,
+      "content_write_count": 0,
+      "cumulative_content_bytes_written": 0,
+      "read_events": [
+        "Full cat read displayed without truncation.",
+        "Full byte read for SHA256, byte and newline accounting."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+      "sha256": "7815b389ee963843be55e99c7a2d3ca0b3a98cc445b6ceafd32a3466bfdf31f1",
+      "bytes": 16768,
+      "lines": 581,
+      "full_content_read_count": 2,
+      "cumulative_content_bytes_read": 33536,
+      "content_write_count": 0,
+      "cumulative_content_bytes_written": 0,
+      "read_events": [
+        "Full cat read displayed without truncation.",
+        "Full byte read for SHA256, byte and newline accounting."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/history/dependency-api.d.ts",
+      "sha256": "db91e3c7b008b37ca99e735207a0ebd05019e0715ee1706b7f53c43b3d110669",
+      "bytes": 9729,
+      "lines": 206,
+      "full_content_read_count": 2,
+      "cumulative_content_bytes_read": 19458,
+      "content_write_count": 0,
+      "cumulative_content_bytes_written": 0,
+      "read_events": [
+        "Full cat read displayed without truncation.",
+        "Full byte read for SHA256, byte and newline accounting."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/history/imports.json",
+      "sha256": "da49ddaa4aa78957753f2ccbc4f073dedcf1554d58d49f4f5a54efed492d43cc",
+      "bytes": 1670,
+      "lines": 42,
+      "full_content_read_count": 2,
+      "cumulative_content_bytes_read": 3340,
+      "content_write_count": 0,
+      "cumulative_content_bytes_written": 0,
+      "read_events": [
+        "Full cat read displayed without truncation.",
+        "Full byte read for SHA256, byte and newline accounting."
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/history/output-data.json",
+      "sha256": "3a87e77a642ae1296e20c4f731c070816267ecb83660e9f60556081c67b54140",
+      "bytes": 5772,
+      "lines": 348,
+      "full_content_read_count": 2,
+      "cumulative_content_bytes_read": 11544,
+      "content_write_count": 0,
+      "cumulative_content_bytes_written": 0,
+      "read_events": [
+        "Full cat read displayed without truncation.",
+        "Full byte read for SHA256, byte and newline accounting."
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-hydration-owner-20261003/history/session-history-hydrator.ts",
+      "sha256": "ee762760a80950b8965b1c02b64aa4ddda70df85bced6be6482fdeab22ac2ab0",
+      "bytes": 13071,
+      "lines": 289,
+      "full_content_read_count": 2,
+      "cumulative_content_bytes_read": 26142,
+      "content_write_count": 1,
+      "cumulative_content_bytes_written": 13071,
+      "read_events": [
+        "Full read displayed for manual entire-draft review and SHA256/byte/newline accounting.",
+        "Full read after freeze for final SHA256/byte/newline confirmation."
+      ],
+      "write_events": [
+        "One complete source creation; no patches or rewrites."
+      ],
+      "final_mode": "0444",
+      "mode_change_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-hydration-owner-20261003/history/author-record.json",
+      "sha256": null,
+      "sha256_qualification": "The receipt cannot contain its own complete-file SHA256 without self-reference; its exact final SHA256 is emitted separately after the post-freeze read and included in the final response.",
+      "bytes": 11562,
+      "lines": 210,
+      "full_content_read_count": 1,
+      "cumulative_content_bytes_read": 11562,
+      "content_write_count": 1,
+      "cumulative_content_bytes_written": 11562,
+      "read_events": [
+        "Full read after freeze for final SHA256/byte/newline confirmation."
+      ],
+      "write_events": [
+        "One complete receipt creation; byte/line/accounting fixed point calculated in memory before this sole write."
+      ],
+      "final_mode": "0444",
+      "mode_change_count": 1
+    }
+  ],
+  "cumulative_explicit_content_accounting": {
+    "distinct_input_files": 6,
+    "input_unique_bytes": 47008,
+    "input_unique_lines": 1230,
+    "input_full_read_count": 12,
+    "input_bytes_read": 94016,
+    "input_content_write_count": 0,
+    "input_bytes_written": 0,
+    "distinct_output_files": 2,
+    "output_full_read_count": 3,
+    "output_bytes_read": 37704,
+    "output_content_write_count": 2,
+    "output_bytes_written": 24633,
+    "all_full_read_count": 15,
+    "all_bytes_read": 131720,
+    "all_content_write_count": 2,
+    "all_bytes_written": 24633,
+    "line_convention": "Number of newline bytes; all six inputs and both authored outputs end with a newline.",
+    "scope": "All explicit task file-content operations in this delegated author session, including the final post-freeze reads performed by this receipt-creation invocation. Tool/executor/OS implicit activity is not measured; no access audit is claimed.",
+    "other_explicit_content_reads": 0,
+    "other_explicit_content_writes": 0,
+    "directory_creation": "mkdir -p only for the assigned output directory and any missing parent components.",
+    "mode_changes": 2
+  },
+  "manual_entire_draft_review": {
+    "completed": true,
+    "method": "Read the complete authored 289-line draft without truncation and manually compare every function and projection path to the six full frozen inputs; no compiler, tests, dependency loading or source execution.",
+    "findings": [
+      "All original import module/name identities and public exported declarations retained; whole source is below 400 lines.",
+      "Newest-first boundary search, branch-before-compaction cut path, compaction-before-branch legacy path, original-tail kept-ID comparison and empty kept-list early return preserved.",
+      "Fresh four-field selection options and ordered four-field result; last-value/first-position per-message deduplication; every selected message and deduplicated part counted.",
+      "Shared-context privacy skip occurs before reminder/media/presentation work; undefined legacy status accepted, null and non-attached statuses skipped.",
+      "Single visible eligible raw synthetic reminder retains source identity via addAttachment; other reminders use original entry factory; wrapped/nonsynthetic text and nested-versus-broader metadata precedence preserved.",
+      "User file media awaits sequentially; prompt-attachment eligibility, argument field order, body joining, user envelope anchor and attachment-entry preservation reviewed.",
+      "User block group order and shallow cloning preserve nested identities; all-text truthy values join with double newline; original meaningful-content formatter used.",
+      "Assistant empty-text/reasoning/selected-tools skip uses short-circuited persisted usage baseline; reasoning providerOptions own undefined/copy semantics and five-argument append retained.",
+      "Provider tool names include empty strings; call fields ordered id/input/name, token/input identity preserved, model fields ordered modelId/providerId.",
+      "Completed tool media starts concurrently within each selected tool, awaits all in stable order, projects only nonempty block sets, preserves nullish fallback; error persisted strings include empty; interrupted count precedes four-argument failure append.",
+      "Original history method receivers retained; no clear/reset/replacement/session writes, global cache, catches, retries, rollback or real business I/O introduced.",
+      "No manual defect identified in the reviewed draft; compilation, runtime equivalence and integration remain unverified."
+    ]
+  },
+  "provenance_and_historical_limitations": {
+    "parent_and_curator": "Source-exposed parent/curator; this author does not assert separation of the overall workflow.",
+    "historical_exposure": "Earlier source, tool and dependency exposure in the wider task is retained as a provenance limitation; this fresh author consumed the six frozen exact files only.",
+    "historical_breach": "Earlier extra scratch-write breach was reported repaired by the parent and remains disclosed; this author did not independently inspect or audit that repair.",
+    "execution_environment": "Shared executor; instruction-only read/write restriction. No dedicated OS isolation or independent access audit.",
+    "required_material": "Import/export identities, public shapes, protocol strings, native behavior and public ports remain honestly source-derived.",
+    "claims_not_made": [
+      "novelty",
+      "independent clean-room separation",
+      "licence or grant",
+      "rights ownership",
+      "OS isolation",
+      "independent access audit",
+      "verified runtime equivalence"
+    ]
+  },
+  "actions_not_performed": [
+    "No repository/source/history/AGENTS/other-author/dependency discovery or reads beyond the exact six inputs.",
+    "No compiler, tests, dependency execution, authored-source runtime execution or business I/O.",
+    "No extra scratch/accounting files, repository edits, subagent creation or parent progress calls.",
+    "No source snippets sent in parent messages before freeze; complete draft file read used only for the required manual review."
+  ],
+  "remaining_limitations": [
+    "Static manual review only.",
+    "Integration and runtime behavior require downstream validation.",
+    "Actual requested model configuration and saved Fast setting unverified.",
+    "Self-report accounting covers explicit task operations, not executor/OS internals."
+  ],
+  "freeze": "Both deliverables chmod0444 before their final full reads; final metrics independently emitted by the same accounting invocation."
+}

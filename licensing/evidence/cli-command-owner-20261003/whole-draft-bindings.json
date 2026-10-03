@@ -1,0 +1,10 @@
+[
+  {
+    "owner": "commands/index.ts",
+    "version": "initial",
+    "frozen": "/tmp/knorvia-cli-command-freezes/index-initial.ts",
+    "artifact": "licensing/evidence/cli-command-owner-20261003/drafts/index-initial.ts.txt",
+    "sha256": "bf4a1ba42a8312026baf9dbd78a6c393d37c017d240a7943690ff10b91a95971",
+    "artifactEqualsFrozen": true
+  }
+]

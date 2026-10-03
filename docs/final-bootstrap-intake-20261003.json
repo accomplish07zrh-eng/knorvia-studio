@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "receivedHead": "661e5f64bf819c93c13a7b077531239dec5199cf",
+  "productionCommit": "9e3bc5f81ad63d6112185cb7abc908ab9250ae2c",
+  "ordinaryMergeCommit": "b5815bb4966e17ec5a515a0c7764ea41c511e666",
+  "receivedBase": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "previousIntegrationHead": "c73718609d73cbdfac13ea5f2df07803954004af",
+  "remoteSourceRef": "refs/heads/lane/cli-rewrite-20261003",
+  "remoteShaMatched": true,
+  "mergeConflicts": 0,
+  "parentReportedResults": {
+    "scope": "Original CLI task scoped results, not new unified acceptance",
+    "bootstrapTypecheckPassed": true,
+    "directedRegressionCasesPassed": 27,
+    "typePositiveNegativeProbeCasesMatched": 7,
+    "fiveDecommentedEmittedJavaScriptSame": true
+  },
+  "exactSourceBindingsVerified": [
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-record-projection.ts",
+      "beforeSha256": "6968dab3792f35f71de7eaec313c9dcb5da10dd7b1b2c9013ee42f073a8d4190",
+      "afterSha256": "2d7f14f8e6d90ae387bb67987704d943b49ded2e6778cc6510620d90938a579b",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "81d9bb3941b1b87ed696e9065735d73bee5fc3d04f30f6fa05951ebb227687b8"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+      "beforeSha256": "0d1328e0dcdcbb7686f26cc9710d06bcc4b6802e992fd16761473708d31b0340",
+      "afterSha256": "58bb27ca3176c7e912772f4062355f41d92736a4da64164fc9b0727f57652dc6",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "26cce08ace57b896738a309708a587ec7cf290b1e667bf69d733c11066212caf"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "beforeSha256": "ebabd3949cc8778072664d96fc433c771d305bd91b42af02e620c18d79afdf0d",
+      "afterSha256": "b296b8f1ac9b8b474b974faf22c0dddb6a02f39cc458364dedcf3fb6ee8aca15",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "f3af4cc45c49a66395a3922de4f0fcb8fd4d2e7d377cba4f172bf02ad8ac40fd"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+      "beforeSha256": "fbe47f26d7d499e6d840332f90fbd50ff064b07eb5afbe27454531ee34e407c5",
+      "afterSha256": "d66c43c38a9aee8a2d69777b597f9ec14e9036f497a604773d17503ade690a91",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "4b2797af20cf85de3f68696a55ef5db328e14e7d372260610628bd04852d84b0"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+      "beforeSha256": "6b041f4001061aaa1e0157a32755100013f424368bfd88f887d9643114911ec6",
+      "afterSha256": "e2d5bfae54fc1905132a0d4b260ed46a81db7ca7f7bc4894694aea8fbb9af015",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "b3c3d1eadc2ef3cedee384626d973ccce477baf1cc575a19508addc9961ff981"
+    }
+  ],
+  "newEvidence": [
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-bootstrap-projection-type-repair.json",
+      "sha256": "72c05b7f1abdefc739e53f35c371c90ae5fa237a8e975f1923097d283a6467ca",
+      "bytes": 35098,
+      "sourceCommit": "661e5f64bf819c93c13a7b077531239dec5199cf"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-bootstrap-recipe-type-contract.mjs",
+      "sha256": "e089c172d95f5a2a17be347c2709c448ec29a33c82532498eb142725af1dd87e",
+      "bytes": 5044,
+      "sourceCommit": "661e5f64bf819c93c13a7b077531239dec5199cf"
+    }
+  ],
+  "frozenEvidence": {
+    "previousFiles": 5568,
+    "previousRecordsAndBytesUnchanged": true,
+    "newFiles": 2,
+    "totalFiles": 5570,
+    "totalBytes": 63434269
+  },
+  "unifiedCliBuildAndTypes": {
+    "status": "Pending on published combined checkpoint; prior f5 failures remain immutable records"
+  },
+  "remainingFullRegressionFailures": "Original f5 complete run: 17 current artifact pin loads, 1 old phase-fold baseline, 1 native, 2 services, 1 UI. No fresh full-suite pass claimed.",
+  "sourceRights": "No historical hash/golden/archive, LICENSE/NOTICE, material obligations or rights HOLD changed."
+}

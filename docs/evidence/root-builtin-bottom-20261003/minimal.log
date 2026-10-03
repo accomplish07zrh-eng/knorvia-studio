@@ -1,0 +1,1 @@
+Four bounded groups pass: two-stage download, sanitized security/size boundary, timeout/cancel/late cleanup, and release identity/guard/serialization. Both frozen URL-refinement and provider-template capture counterexamples reproduced. Actual Zod/native in-memory cancellation plus fake request/readers/timers/parsers; no actual network/cache/account/file/permission operations.

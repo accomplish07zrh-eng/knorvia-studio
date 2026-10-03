@@ -1,0 +1,3 @@
+baseline:3 minimum fake-port groups pass (window gate/coalescence, tray ownership, command confirmation/target/zoom capture).
+candidate:3 minimum fake-port groups pass (window gate/coalescence, tray ownership, command confirmation/target/zoom capture).
+Frozen extra command observation regression reproduced; corrected candidate retains selected zoom action. Destructive branch uses only blocked-by-default mock rm, no filesystem/OS/settings mutation.

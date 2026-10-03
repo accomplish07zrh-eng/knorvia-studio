@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "scope": "Image and video Read binary admission, shared input policy and port result projection",
+  "baseCommit": "6e2ca4eee7f66332654ba68dcd5794e6a1ffce06",
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "licenceDecision": "Technical replacement only; retain transition notices and prior source exposure. No new MIT or accepted independent-replacement decision.",
+  "validation": {
+    "oldFrozenContract": {
+      "tests": 34,
+      "passed": 34
+    },
+    "sourceWithRealReadRouting": {
+      "tests": 36,
+      "passed": 36
+    },
+    "actualEmitted": {
+      "tests": 36,
+      "passed": 36
+    },
+    "differential": {
+      "comparisons": 430,
+      "mismatches": 0,
+      "scope": "image MIME/flags/dimensions/byte-view projection, video MIME/empty/size semantics, exact calls and filename inference"
+    },
+    "aggregate": {
+      "tests": 5189,
+      "pass": 5123,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "baselineFailureSetUnchanged": true,
+    "rootTypes": "pass",
+    "cliTypes": "same package scope passed serially with 2048MB heap cap",
+    "rootAndCliLint": "pass",
+    "strictChangedLint": "5 files, 94 rules, zero diagnostics using temporary non-ignoring config",
+    "format": "pass",
+    "architecture": "pass zero violations",
+    "prePush": "pass",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10
+    }
+  },
+  "invariants": [
+    "FileSystemPort owns actual bytes and input limits; ImageProcessorPort owns image transformation",
+    "One captured filesystem port, one read request and one original pending promise; no extra await layer",
+    "Image processor selected after input IO; shared trace object forwarded unchanged",
+    "Input and processor errors retain distinct capture scopes and original causes",
+    "Byte subviews copied without surrounding bytes; image dimensions and source/transformed sizes remain distinct",
+    "No video transcoding or new dependency"
+  ],
+  "sourceAndEmitted": [
+    {
+      "source": "apps/cli/packages/core/src/tool/handlers/read-image.ts",
+      "sourceSha256": "f0782abd5b35cdfc146e28fd3fb16346dc2d011cbf875c9feb5abf115643d9d0",
+      "emitted": "apps/cli/packages/core/dist/tool/handlers/read-image.js",
+      "emittedSha256": "ede191f58a3b32047b8f62bc8e26a520c97133f7a24c1b4cc206287e8d5f2d07",
+      "declaration": "apps/cli/packages/core/dist/tool/handlers/read-image.d.ts",
+      "declarationSha256": "4ff8d3145e30f35186e94079bc53f3f8da734cc0d9ce2db7136bf9f29b202988"
+    },
+    {
+      "source": "apps/cli/packages/core/src/tool/handlers/read-video.ts",
+      "sourceSha256": "1314ff7a4b11c0d4215163d8c13a1cadd0d3edb5fe5fde7ab94e01b8acd25b89",
+      "emitted": "apps/cli/packages/core/dist/tool/handlers/read-video.js",
+      "emittedSha256": "66f5e86a71554f681865082d0d7956503d80ce245231e4dd47473d7be855973e",
+      "declaration": "apps/cli/packages/core/dist/tool/handlers/read-video.d.ts",
+      "declarationSha256": "499c8ff6b3c895c89f26be2f4d152af2bc4fcb68ce43666253e2f6e69dc69118"
+    },
+    {
+      "source": "apps/cli/packages/core/src/tool/handlers/read-binary-input.ts",
+      "sourceSha256": "07cc86a444f724f86051f2d444c70c4b190c23e88c7edbfe317b1287ef69cd67",
+      "emitted": "apps/cli/packages/core/dist/tool/handlers/read-binary-input.js",
+      "emittedSha256": "ab9b86b5936ea0697c4ad0f341d7a677a570b2271048273f7dc03521d6f93470",
+      "declaration": "apps/cli/packages/core/dist/tool/handlers/read-binary-input.d.ts",
+      "declarationSha256": "c9d9c28c6cee1760f2e17356ddfd89a50dd42190b3ebdb9768e4b68d17dd8bc6"
+    }
+  ],
+  "logDigests": {
+    "read-binary-before-final.tap": "8908181cc676ca4a3f24c0fa940bf11f2dfe64b2479008fa5f61311ae812bd5a",
+    "read-binary-source.tap": "e5218178d3147556d4ef061d81193e385bd0da42eeb2edd29a443d17a1da9ba6",
+    "read-binary-emitted.tap": "c24edec5defa3be13a3d52cb21c66a89af1159204d28ec9fcf59604228ed3c99",
+    "read-binary-differential.json": "3b44912a57cfd6f421613fb56ff75df5f4d82ef763582afaf5642c4e75ae5e8d",
+    "read-binary-full.tap": "a5a62c9f2f0c77cdcd3677131749f375d20479f56cff8607e61eee46b13a9e3d",
+    "read-binary-core-types.log": "6d20ccffda58d37532f8ec011b436269f46a7604ffdbcf3c49e542d374bb0167",
+    "read-binary-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "read-binary-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "read-binary-cli-build.log": "d72efd6bce22987c85e91bf582ea059b08efe96e06e79cf943a9a9401b2e8295",
+    "read-binary-root-lint.log": "32504f45d16b1b3c2f45f241066c645f657867c0e475281fddb5b5fb0d415598",
+    "read-binary-cli-lint.log": "1ef0552b9c067b5f6ad9f005bf770eb5488d654b54929ec1ed439a537e6a4550",
+    "read-binary-strict-lint.log": "d219f7d10339f1c866700f3e913155ffafe0b403f034964c81a9e17cb4c9dddb",
+    "read-binary-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "read-binary-format.log": "1880aaf01352ba0ce5360dbe2e07284b261dcca1db65dcc62c281d7be8aa90da",
+    "read-binary-pre-push.log": "18e214eb1b35680d9b7dacbb78268d27cf45d9902ad8aebfe68f5e90d41d5088"
+  },
+  "baselineCIObservation": {
+    "run": 198,
+    "runId": 36750884203,
+    "head": "6e2ca4eee7f66332654ba68dcd5794e6a1ffce06",
+    "checkedMergeSha": "fd70bc14af7fcd50539750a5ad5fc20d18a1c7d1",
+    "checkedTree": "61492d6577a128cddca3d4a8cf2f919d3ea00038",
+    "treeMatchesHead": true,
+    "linux": "success",
+    "windows": "one existing creation-polish video retry fixture remained running after1000ms; path assertion correction passed",
+    "sameVersionRetry": "requested; pending at this checkpoint; rerun is not a defect fix"
+  },
+  "limits": [
+    "59 local Unix socket EPERM failures and seven platform skips remain",
+    "Native image decoding, GUI, installers, production files and live model execution not performed",
+    "Existing processors and27third-party material obligations remain open",
+    "Exact new-commit CI pending publication"
+  ]
+}

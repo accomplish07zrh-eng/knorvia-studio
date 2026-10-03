@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts",
+  "kind": "file",
+  "sha256": "f1c034ca71a396f0bb53e3352a2bc1ac778ca3cd6bfbfdcb3b6d639eec4fc3b2",
+  "normalizedSha256": "f1c034ca71a396f0bb53e3352a2bc1ac778ca3cd6bfbfdcb3b6d639eec4fc3b2",
+  "encoding": "utf8-lf",
+  "bytes": 7027,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts",
+    "blob": "5c6924be26835771f7ccdbcf2ec39ff451021766",
+    "normalizedSha256": "305e26fb7e887bd1baeb734d5fbd1067cc480775ecc18b401fdb52d6f8d60eb1",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

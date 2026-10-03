@@ -1,0 +1,42 @@
+{
+  "baselineCommit": "51a7112e2ea77cbed03133a2e5788c78e7e44e9a",
+  "freezeCommit": "d3f910f",
+  "draftCommit": "0e94759",
+  "redProofCommit": "3674157",
+  "owner": "apps/cli/packages/core/src/runtime/methods/workspace-generate-text.ts",
+  "lineageReference": "docs/evidence/runtime-workspace-generate-text-author-20261003/lineage.json",
+  "packetPins": {
+    "api.d.ts": "1545017a072fc43c00cb38010e6c0129c526108e4d5cd625a384851f7c7208fc",
+    "receiver-facts.md": "2deedd5789e4b99e55525d1bdb497b0b52f0f44c99d6731924400ebeef493011",
+    "contract.md": "14f6ce004396fd58e16509de12ab026de9412a62a34fb0d0620e448e97ed2874",
+    "lineage.json": "c1f10332e7ac5c44a2f2aa166aabc1ae5f3e1df97a95d6208a0c55da87ed055b"
+  },
+  "draftPins": {
+    "workspace-generate-text-io.json": "64dd4f5c65da5c5a42609ed44c011fe5547db3489d4aaf43d40d2e05de1574e2",
+    "workspace-generate-text.ts.sha256": "d3a4860181c575856861200ae6dd48c93cbbf613f81f783d6f963dc05066a942",
+    "workspace-generate-text.ts": "42ef97969bb724a424953bceb08c151a13e5e95789ea09d3b1401c012e2bb8b4"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-workspace-generate-text-baseline-20261003.json",
+    "sha256": "59b4bc9bbff157c26cff543ac35d25a034addebf69304351a1610debda7a8d62"
+  },
+  "finalPins": {
+    "src/runtime/methods/workspace-generate-text.ts": "34643a907130279756f89a3c89b2b9dd2c752579a88f2cf56481e6a07f8ca83d",
+    "dist/runtime/methods/workspace-generate-text.js": "4df661ca284042839c905f3b62e3d35ab02baf88a55e11d2508f7c2e0886729e",
+    "dist/runtime/methods/workspace-generate-text.d.ts": "32cf10a15a7cdff70d5a57624bedd4ec3f4569cbc15192fec3909739770a5e3a"
+  },
+  "design": "Complete workspace/connectivity request owners including validation, auxiliary binding, telemetry, event/usage publication and selection projection. Fresh body-free draft retains native inner request boundary and async stream drain. Connectivity prompt and errors, model/usage protocol and conventional message spreads remain retained/constrained.",
+  "postDraftCorrections": [
+    "Base telemetry trace captured before detached factory property evaluation; named timeout/budget/query constants restored. Post-comparison/source-exposed compatibility correction."
+  ],
+  "authorship": "Fresh internal author fork_turns=none, GPT-6.1 Sol high. Only own api.d.ts, contract.md, receiver-facts.md and recorded body-free clarifications supplied; sealed draft before curator source comparison. Curator exposed to predecessor. Packets source-derived, no absolute isolation/clean-room claim; author-reported input journal preserved.",
+  "retention": "Existing attribution/license/notice obligations unchanged. Fixed runtime prose/prompts, schema/declarations, dependency seams, regex compatibility vocabulary and conventional async/object/loop glue remain. Shared required combinations may match; root independently assesses expression/rights. No automatic file eligibility from hashes/tests or drafting process.",
+  "checks": "Shared final scoped compiler report:0 diagnostics;18 call signatures + interface/constant shapes equal. One final strict actual-emitted pass:5 shared safety groups +2 appended concrete regressions (overlap, not per-owner multiplicative counts).5 owner lint94rules0,6 format files0,architecture0.",
+  "limits": [
+    "Ordinary suites, broad builds, source/emitted duplication, native/live-provider acceptance deliberately unrun per user speed cadence.",
+    "Synthetic port observations do not establish all request success/error/cancellation branches. Direct runtime consumers statically traced, not launched.",
+    "Transitive workspace dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no proxy bypass/configuration change.",
+    "Root independent correctness/expression/licence review remains; no header/global inventory grant, no publication claim."
+  ]
+}

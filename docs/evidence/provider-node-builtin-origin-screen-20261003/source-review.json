@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-03T03:02:32.211758+00:00",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputPublishedHead": "aad74a96ce81ab187ac5ccf56a013810c54bed55",
+  "scope": "One bounded7-file metadata/history/receipt pass; adaptive fixed-prefixed-path metadata lookup; exactly1 representative source/ancestry comparison; no network source fetch",
+  "fixedUpstream": {
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "inventoryFileCount": 6973,
+    "providerNodeFileCount": 19,
+    "encoding": "UTF-8 CRLF normalized to LF only; binary bytes and original blob IDs preserved",
+    "localTreeAvailable": false
+  },
+  "metadataBindings": [
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "gitBlob": "0d3311701cb322fa2b98b0c0a05d9dd8ae4a2493"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "gitBlob": "55966cd52c540bf17228144048561cfc60bdeb47"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "gitBlob": "85add53e94269a526c379cff3b327dacd7a382c6"
+    },
+    {
+      "path": "specs/knorvia-identity-rename.md",
+      "bytes": 12523,
+      "sha256": "860cbbfe36fe3704c7c0d6dc8fc913434c83a583635d1cfe5883456afe6b4c52",
+      "gitBlob": "2270fbede6af6c7041bf1d033b3659f6ac8e9516"
+    }
+  ],
+  "rows": [
+    {
+      "current": {
+        "path": "packages/provider-node/src/builtin-cache-paths.ts",
+        "bytes": 2508,
+        "sha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+        "gitBlob": "e0da2c7918079056f16332eebb86191c60ea02d9"
+      },
+      "inventoryState": "unreviewed / NOASSERTION / upstream:null / review:null",
+      "exactAcceptedReviewRecordsFound": 0,
+      "firstVisibleHistory": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "date": "2026-09-24T22:50:46+08:00",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "change": "A",
+        "parents": [],
+        "bytes": 2508,
+        "sha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+        "currentByteEqual": true
+      },
+      "laterVisibleHistory": [],
+      "fixedUpstreamCounterpart": {
+        "path": "packages/provider-node/src/zcode-builtin-cache-paths.ts",
+        "mode": "100644",
+        "blob": "85bf918929132d3a36580c0375a0ae85e391c315",
+        "kind": "file",
+        "sha256": "b750530279418fae005487646fb79c258187bad66801b473a2dabf1d1054ee5d",
+        "normalizedSha256": "b750530279418fae005487646fb79c258187bad66801b473a2dabf1d1054ee5d",
+        "encoding": "utf8-lf",
+        "bytes": 2463
+      },
+      "sourceUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-cache-paths.ts",
+      "directPathBasenameOrCurrentInitialContentMatch": false,
+      "localUpstreamObjectAvailable": false,
+      "classification": "UPSTREAM_COUNTERPART_LOCATED_EXACT_LINEAGE_UNRESOLVED",
+      "action": "HOLD provenance/rights; retain current behavior and notices. Candidate only for a future explicit exact-expression comparison, not a new independent owner assignment.",
+      "basis": "Fixed old prefixed path/blob/digest counterpart and collapsed snapshot addition are real evidence, but no exact renamed-content or modification proof within this bounded pass. Filename/size similarity and no direct matches do not prove origin."
+    },
+    {
+      "current": {
+        "path": "packages/provider-node/src/builtin-download.ts",
+        "bytes": 4572,
+        "sha256": "d2cbac226d3b1774f40ad653d927d11e2461834466633df96cad0865c51159bb",
+        "gitBlob": "5b179f9b07728d16aa00efec0f4cabfd5b24bb83"
+      },
+      "inventoryState": "unreviewed / NOASSERTION / upstream:null / review:null",
+      "exactAcceptedReviewRecordsFound": 0,
+      "firstVisibleHistory": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "date": "2026-09-24T22:50:46+08:00",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "change": "A",
+        "parents": [],
+        "bytes": 4572,
+        "sha256": "d2cbac226d3b1774f40ad653d927d11e2461834466633df96cad0865c51159bb",
+        "currentByteEqual": true
+      },
+      "laterVisibleHistory": [],
+      "fixedUpstreamCounterpart": {
+        "path": "packages/provider-node/src/zcode-builtin-download.ts",
+        "mode": "100644",
+        "blob": "6a24a40dd32eca7d4fa4c32927de1517c62a206b",
+        "kind": "file",
+        "sha256": "2337b2ab39c40bd03fd7d808fa835c7372e1e39b4ec1e7cc1cd620932d5a55e4",
+        "normalizedSha256": "2337b2ab39c40bd03fd7d808fa835c7372e1e39b4ec1e7cc1cd620932d5a55e4",
+        "encoding": "utf8-lf",
+        "bytes": 4555
+      },
+      "sourceUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-download.ts",
+      "directPathBasenameOrCurrentInitialContentMatch": false,
+      "localUpstreamObjectAvailable": false,
+      "classification": "UPSTREAM_COUNTERPART_LOCATED_EXACT_LINEAGE_UNRESOLVED",
+      "action": "HOLD provenance/rights; retain current behavior and notices. Candidate only for a future explicit exact-expression comparison, not a new independent owner assignment.",
+      "basis": "Fixed old prefixed path/blob/digest counterpart and collapsed snapshot addition are real evidence, but no exact renamed-content or modification proof within this bounded pass. Filename/size similarity and no direct matches do not prove origin."
+    },
+    {
+      "current": {
+        "path": "packages/provider-node/src/builtin-provider-config-materializer.ts",
+        "bytes": 1582,
+        "sha256": "f8e1e90169107ed2f8519bb10dbc88be365f054d878d93474081eb2551978dd1",
+        "gitBlob": "49c5da9b629e0ab90a413d7fbe859d9591d7685b"
+      },
+      "inventoryState": "unreviewed / NOASSERTION / upstream:null / review:null",
+      "exactAcceptedReviewRecordsFound": 0,
+      "firstVisibleHistory": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "date": "2026-09-24T22:50:46+08:00",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "change": "A",
+        "parents": [],
+        "bytes": 1587,
+        "sha256": "34628012ee1092622dd978201906f8143490359f8aac4c628e9426845402d75e",
+        "currentByteEqual": false
+      },
+      "laterVisibleHistory": [
+        {
+          "commit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+          "date": "2026-09-25T03:49:32Z",
+          "subject": "style: format the repository with oxfmt and enforce fmt:check in CI",
+          "change": "M"
+        }
+      ],
+      "fixedUpstreamCounterpart": {
+        "path": "packages/provider-node/src/zcode-builtin-provider-config-materializer.ts",
+        "mode": "100644",
+        "blob": "2c619d3f2ce9eb2176352572f1930d4ccdb33657",
+        "kind": "file",
+        "sha256": "bd87ea6fc926bfabb334102fe4d40ec8e93fc913abab8c4068b9f614b2ca0a2f",
+        "normalizedSha256": "bd87ea6fc926bfabb334102fe4d40ec8e93fc913abab8c4068b9f614b2ca0a2f",
+        "encoding": "utf8-lf",
+        "bytes": 1583
+      },
+      "sourceUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-provider-config-materializer.ts",
+      "directPathBasenameOrCurrentInitialContentMatch": false,
+      "localUpstreamObjectAvailable": false,
+      "classification": "KNOWN_UPSTREAM_DERIVED_RENAME_AND_FORMAT",
+      "action": "RETAIN proven upstream lineage; no originality/MIT acceptance or reauthor solely because inventory says unreviewed",
+      "basis": "Exact inverse identity transform matches fixed upstream bytes/SHA256/Git blob; current vs initial AST only formatting difference"
+    },
+    {
+      "current": {
+        "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+        "bytes": 8769,
+        "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+        "gitBlob": "16e9a3317139517e548db4039b52e8ea29151666"
+      },
+      "inventoryState": "unreviewed / NOASSERTION / upstream:null / review:null",
+      "exactAcceptedReviewRecordsFound": 0,
+      "firstVisibleHistory": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "date": "2026-09-24T22:50:46+08:00",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "change": "A",
+        "parents": [],
+        "bytes": 8754,
+        "sha256": "88fc4821acff3a282785009eeead395546e8672dbb1f0f2dbdcae79407e98b68",
+        "currentByteEqual": false
+      },
+      "laterVisibleHistory": [
+        {
+          "commit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+          "date": "2026-09-25T03:49:32Z",
+          "subject": "style: format the repository with oxfmt and enforce fmt:check in CI",
+          "change": "M"
+        }
+      ],
+      "fixedUpstreamCounterpart": {
+        "path": "packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+        "mode": "100644",
+        "blob": "016b3351edf2fae219bf33c36a6cd6f09c019495",
+        "kind": "file",
+        "sha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+        "normalizedSha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+        "encoding": "utf8-lf",
+        "bytes": 8675
+      },
+      "sourceUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+      "directPathBasenameOrCurrentInitialContentMatch": false,
+      "localUpstreamObjectAvailable": false,
+      "classification": "UPSTREAM_COUNTERPART_LOCATED_EXACT_LINEAGE_UNRESOLVED",
+      "action": "HOLD provenance/rights; retain current behavior and notices. Candidate only for a future explicit exact-expression comparison, not a new independent owner assignment.",
+      "basis": "Fixed old prefixed path/blob/digest counterpart and collapsed snapshot addition are real evidence, but no exact renamed-content or modification proof within this bounded pass. Filename/size similarity and no direct matches do not prove origin."
+    },
+    {
+      "current": {
+        "path": "packages/provider-node/src/builtin-release.ts",
+        "bytes": 2623,
+        "sha256": "a4b7a5da09c0cbca494c771fdc93e86220e507c3e0834f608f0a13c2ca198fc6",
+        "gitBlob": "325f9f365db7a92fbec34277f97b28c74f266efd"
+      },
+      "inventoryState": "unreviewed / NOASSERTION / upstream:null / review:null",
+      "exactAcceptedReviewRecordsFound": 0,
+      "firstVisibleHistory": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "date": "2026-09-24T22:50:46+08:00",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "change": "A",
+        "parents": [],
+        "bytes": 2623,
+        "sha256": "a4b7a5da09c0cbca494c771fdc93e86220e507c3e0834f608f0a13c2ca198fc6",
+        "currentByteEqual": true
+      },
+      "laterVisibleHistory": [],
+      "fixedUpstreamCounterpart": {
+        "path": "packages/provider-node/src/zcode-builtin-release.ts",
+        "mode": "100644",
+        "blob": "0f1327b4a94899887e70545d7b35f454e1aa8b21",
+        "kind": "file",
+        "sha256": "6a994e18aca08a06b45c0a6e787160c061e9b8ec21a4ebdacdd7cc61c6dd9355",
+        "normalizedSha256": "6a994e18aca08a06b45c0a6e787160c061e9b8ec21a4ebdacdd7cc61c6dd9355",
+        "encoding": "utf8-lf",
+        "bytes": 2559
+      },
+      "sourceUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-release.ts",
+      "directPathBasenameOrCurrentInitialContentMatch": false,
+      "localUpstreamObjectAvailable": false,
+      "classification": "UPSTREAM_COUNTERPART_LOCATED_EXACT_LINEAGE_UNRESOLVED",
+      "action": "HOLD provenance/rights; retain current behavior and notices. Candidate only for a future explicit exact-expression comparison, not a new independent owner assignment.",
+      "basis": "Fixed old prefixed path/blob/digest counterpart and collapsed snapshot addition are real evidence, but no exact renamed-content or modification proof within this bounded pass. Filename/size similarity and no direct matches do not prove origin."
+    },
+    {
+      "current": {
+        "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+        "bytes": 7804,
+        "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "gitBlob": "c7cdadcc95aa3262943ea56023518007db322fce"
+      },
+      "inventoryState": "unreviewed / NOASSERTION / upstream:null / review:null",
+      "exactAcceptedReviewRecordsFound": 0,
+      "firstVisibleHistory": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "date": "2026-09-24T22:50:46+08:00",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "change": "A",
+        "parents": [],
+        "bytes": 7804,
+        "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "currentByteEqual": true
+      },
+      "laterVisibleHistory": [],
+      "fixedUpstreamCounterpart": {
+        "path": "packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+        "mode": "100644",
+        "blob": "ad6842fccb0b82a36c5fe596dba8c0714169f568",
+        "kind": "file",
+        "sha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+        "normalizedSha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+        "encoding": "utf8-lf",
+        "bytes": 7773
+      },
+      "sourceUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+      "directPathBasenameOrCurrentInitialContentMatch": false,
+      "localUpstreamObjectAvailable": false,
+      "classification": "UPSTREAM_COUNTERPART_LOCATED_EXACT_LINEAGE_UNRESOLVED",
+      "action": "HOLD provenance/rights; retain current behavior and notices. Candidate only for a future explicit exact-expression comparison, not a new independent owner assignment.",
+      "basis": "Fixed old prefixed path/blob/digest counterpart and collapsed snapshot addition are real evidence, but no exact renamed-content or modification proof within this bounded pass. Filename/size similarity and no direct matches do not prove origin."
+    },
+    {
+      "current": {
+        "path": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+        "bytes": 5087,
+        "sha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+        "gitBlob": "f56f8d04c8b7fb80b17479c63259bb3e39888fa1"
+      },
+      "inventoryState": "unreviewed / NOASSERTION / upstream:null / review:null",
+      "exactAcceptedReviewRecordsFound": 0,
+      "firstVisibleHistory": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "date": "2026-09-24T22:50:46+08:00",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "change": "A",
+        "parents": [],
+        "bytes": 5087,
+        "sha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+        "currentByteEqual": true
+      },
+      "laterVisibleHistory": [],
+      "fixedUpstreamCounterpart": {
+        "path": "packages/provider-node/src/endpoint-scoped-zcode-builtin-source.ts",
+        "mode": "100644",
+        "blob": "06ad7c39eead83570a11ee7f33e1210acda3f8fc",
+        "kind": "file",
+        "sha256": "1e24e14e9fd89a62b307ec7545455a8e5726d2b881034e95ee2ab3dc38644878",
+        "normalizedSha256": "1e24e14e9fd89a62b307ec7545455a8e5726d2b881034e95ee2ab3dc38644878",
+        "encoding": "utf8-lf",
+        "bytes": 5057
+      },
+      "sourceUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/endpoint-scoped-zcode-builtin-source.ts",
+      "directPathBasenameOrCurrentInitialContentMatch": false,
+      "localUpstreamObjectAvailable": false,
+      "classification": "UPSTREAM_COUNTERPART_LOCATED_EXACT_LINEAGE_UNRESOLVED",
+      "action": "HOLD provenance/rights; retain current behavior and notices. Candidate only for a future explicit exact-expression comparison, not a new independent owner assignment.",
+      "basis": "Fixed old prefixed path/blob/digest counterpart and collapsed snapshot addition are real evidence, but no exact renamed-content or modification proof within this bounded pass. Filename/size similarity and no direct matches do not prove origin."
+    }
+  ],
+  "representative": {
+    "path": "packages/provider-node/src/builtin-provider-config-materializer.ts",
+    "onlyFileDeeplyReviewed": true,
+    "initialSnapshotSha256": "34628012ee1092622dd978201906f8143490359f8aac4c628e9426845402d75e",
+    "inverseIdentityTranslations": [
+      {
+        "current": "Knorvia",
+        "upstream": "ZCode"
+      },
+      {
+        "current": "@knorvia/shared/node",
+        "upstream": "@zcode/shared/node"
+      },
+      {
+        "current": "./builtin-release.js",
+        "upstream": "./zcode-builtin-release.js"
+      },
+      {
+        "current": "\"builtin.json\"",
+        "upstream": "\"zcode-builtin.json\""
+      }
+    ],
+    "reconstructedPriorBytes": 1583,
+    "reconstructedPriorSha256": "bd87ea6fc926bfabb334102fe4d40ec8e93fc913abab8c4068b9f614b2ca0a2f",
+    "reconstructedPriorGitBlob": "2c619d3f2ce9eb2176352572f1930d4ccdb33657",
+    "fixedMetadataAllThreeMatch": true,
+    "renamedPriorBodyStoredInEvidence": false,
+    "currentVsInitial": {
+      "visibleDiff": "Multiline import collapsed to single line, including removed trailing comma; no other hunk",
+      "astStructureEqual": true,
+      "astStructureSha256": "7983e75ae8c4acdd0fcf8031a5eb990e15f049dfe1b2e52d458967fe8500cb18",
+      "typescript": "6.0.2",
+      "qualification": "AST comparison ignores trivia/raw SourceFile.text and trailing-comma list flags; not execution or a rights grant"
+    },
+    "qualification": "Hash binding demonstrates exact identity-transformed upstream predecessor plus formatter descendant for this file only. No extension to the other6 or source-authorship/clean-room/MIT claim."
+  },
+  "summary": {
+    "knownNewIndependentImplementation": 0,
+    "provenUpstreamDerived": 1,
+    "upstreamCounterpartButLineageUnresolved": 6,
+    "exactAcceptedReceiptsFound": 0,
+    "newAuthors": 0,
+    "productionChanges": 0,
+    "globalOriginOrLicenseChanges": 0,
+    "materialOpen": 21
+  },
+  "receiptSearch": "Structured licensing/reviews exact7-path scan returned0. Named public docs/evidence/licensing/evidence/spec records yielded identity-rename spec and prior progress counts only; not accepted whole-owner/source receipts. Missing private/unpublished history not denied.",
+  "preservedLimitationsAndFailedChecks": [
+    {
+      "kind": "fixedUpstreamTreeUnavailable",
+      "command": "git cat-file -e 872ad960de7ec172591f7e1952f7849229f94521^{tree}",
+      "exitCode": 128,
+      "message": "Not a valid object name; no fetch/recovery attempted"
+    },
+    {
+      "kind": "representativeUpstreamBlobUnavailable",
+      "command": "git cat-file blob 2c619d3f2ce9eb2176352572f1930d4ccdb33657",
+      "message": "bad file; no upstream body read"
+    },
+    {
+      "kind": "all7UpstreamBlobMetadata",
+      "result": "git cat-file --batch-check returned7 missing lines; command exit0 indicates query success, not object availability"
+    },
+    {
+      "kind": "nonDecisiveGuessedPaths",
+      "paths": [
+        "packages/provider/docs",
+        "scripts/check-license-provenance*"
+      ],
+      "exitCode": 2,
+      "message": "Nonexistent paths/glob; no conclusion from those failures or external local-drive refs in rename spec"
+    },
+    {
+      "kind": "initialRepresentativeTokenComparison",
+      "result": false,
+      "tokenCount": 87,
+      "initialTokenSequenceSha256": "dde9382bcc0be3963a465bae1b805a62e1a3bdbf9b73446c2f5ddd4f9a54a479",
+      "reason": "Raw non-trivia tokens differ when formatter removes trailing comma; not a formatting-invariant test"
+    },
+    {
+      "kind": "initialASTComparison",
+      "result": false,
+      "initialDigest": "1f06caad7a6e9c6392ee967b4ed16afaabbf002e5c068292f2d77823537c6dcb",
+      "currentDigest": "f52e531c16fc404d474a0a0c33e5f9d4ed946e33b325ea204bcd7b2347080997",
+      "reason": "Generic n.text included full raw SourceFile.text, so check encoded source formatting. Corrected only the checker to identifier/literal text; no source changes"
+    }
+  ],
+  "rightAndExposureQualification": "Known upstream derivation/metadata counterpart evidence does not resolve applicable component rights or MIT release. Preserve notices/NOASSERTION inventory until final review. Source-exposed curator/historical broader exposure/repaired scratch-write breach/shared executor/instruction-only/no OS isolation/access-audit qualifications persist.",
+  "executionConfiguration": "Sol/high and current FastON per root direct UI report; previous FastOFF retained, not retrospectively relabeled",
+  "verification": {
+    "freshness": "PASS ahead206/behind0 vs origin/main; remote tracking absent so behind-remote portion skipped",
+    "ordinaryTestsBuildOrRuntimeExecuted": false,
+    "newNetworkSourceRequests": 0,
+    "previous429OrIcuRetries": 0,
+    "privateBackupCredentialsUserDataAccess": false,
+    "crossLaneSourceImportMerge": false,
+    "architecture": "Documentation-only; prior missing-TypeScript failure retained without rerun/install/bypass",
+    "newEvidenceChecks": "PASS4 metadata/7 current bindings/7 fixed counterpart records +1 inverse/AST representative; JSON/2 local links; no production changes"
+  }
+}

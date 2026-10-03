@@ -1,0 +1,22 @@
+{
+  "protectedSources": 16,
+  "retainedAdaptersExact": 2,
+  "priorCurrentManifests": {
+    "knorvia-subagent-owners-current-20261003.json": {
+      "manifestSha256": "42ef2a67a991b11b624a0126caa5d5c047b50dcc898c1a0277186ef90170341a",
+      "exactArtifacts": 33
+    },
+    "knorvia-runtime-model-tools-current-20261003.json": {
+      "manifestSha256": "2a1e933bbe0972e1191365df848f5de1502b1a4903b9c6b7c930874b69fc50ae",
+      "exactArtifacts": 15
+    },
+    "knorvia-runtime-turn-model-step-current-20261003.json": {
+      "manifestSha256": "c26360942ea6f1de1867fce6e473ca2c5b310a30ea3776d90b70ffc6b737da3b",
+      "exactArtifacts": 15
+    },
+    "knorvia-runtime-turn-command-current-20261003.json": {
+      "manifestSha256": "beacb27633635d85f901a63d3eeebc6936d6fc4de34c2ae3006fa3749e23d057",
+      "exactArtifacts": 12
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+    "--stable-symbols"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+      "sha256": "da55688b17cd245d9c61ddb07978199b9084b8bea500f754e25806c02df2be0e"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": false,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"./browserCommandTypes.js\": \"view\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"matchesBaseline\": true,\n  \"compilerRawMatchesBaseline\": false,\n  \"sourceLiteralProjection\": \"Only opaque generated source-string exports project to consumer string contract; raw comparison retained. Fixed VIEWPORT value separately checked.\",\n  \"syntaxFiles\": [\n    \"packages/desktop/src/main/browserView/browserCommandState.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandScripts.ts\",\n    \"packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandPageHandlers.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandInput.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts\",\n    \"packages/desktop/src/main/browserView/browserVirtualClipboard.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotActivityController.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

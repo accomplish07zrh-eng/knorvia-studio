@@ -1,0 +1,34 @@
+{
+  "role": "restricted-input source-only native steering author",
+  "allowed_packet": [
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/imports.txt"
+  ],
+  "packet_sha256": {
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/contract.md": "365e1cee2174beaedd4d8c1390c50edb92082c28c517f79e0841c643e614c86c",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/api.d.ts": "47256696730666ec7df7b6ecf66ef085f3dbf3231f108bff99dde5b5d8c4207e",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/imports.txt": "e1ed0d8805d5ba4d2b47580879b55894f68047ebad7be0daa7b9c625416093ed"
+  },
+  "repository_source_reads": [
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/imports.txt"
+  ],
+  "other_repository_source_body_history_test_oracle_package_reads": [],
+  "imported_implementation_or_type_file_reads": [],
+  "runtime_tests_compilations_network_or_file_ports_invoked": [],
+  "author_output_directory": "/tmp/knorvia-steering-methods-author-20261003/draft-01",
+  "initial_snapshot_directory": "/tmp/knorvia-steering-methods-author-20261003/draft-01/initial",
+  "formatter": "/workspace/knorvia-studio/node_modules/.bin/oxfmt",
+  "formatter_scope": "Only own draft root TypeScript files; initial snapshot retained unchanged.",
+  "operations": [
+    "Read contract.md, api.d.ts, imports.txt together once for authoring.",
+    "Created own draft directory and authored all eight TypeScript files.",
+    "Copied entire raw first draft set to initial/ before formatting or correction.",
+    "Formatted own eight draft-root TypeScript files with authorized absolute oxfmt.",
+    "Counted own formatted file lines.",
+    "Added a PendingTurnInput intent annotation in own guide module and reformatted that module.",
+    "Read only allowed packet and own draft artifacts for static inventory and SHA256 sealing."
+  ]
+}

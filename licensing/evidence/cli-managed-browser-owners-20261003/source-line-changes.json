@@ -1,0 +1,20 @@
+[
+  {
+    "path": "apps/cli/packages/adapters/src/browser/index.ts",
+    "added": 255,
+    "deleted": 303,
+    "net": -48
+  },
+  {
+    "path": "apps/cli/packages/adapters/src/browser/page-command.ts",
+    "added": 141,
+    "deleted": 118,
+    "net": 23
+  },
+  {
+    "path": "apps/cli/packages/adapters/src/browser/session.ts",
+    "added": 85,
+    "deleted": 52,
+    "net": 33
+  }
+]

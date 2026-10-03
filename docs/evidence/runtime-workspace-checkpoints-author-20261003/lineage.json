@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/workspace-checkpoints.ts",
+  "kind": "file",
+  "sha256": "4e26a9eb8f71fb1302d7f130666f2ac85d6e50210fb4ceaf26fedb0cb1873286",
+  "normalizedSha256": "4e26a9eb8f71fb1302d7f130666f2ac85d6e50210fb4ceaf26fedb0cb1873286",
+  "encoding": "utf8-lf",
+  "bytes": 11799,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/workspace-checkpoints.ts",
+    "blob": "ec3fa8cb1d4dea5655a4f6b420db38e6d55a7281",
+    "normalizedSha256": "4e26a9eb8f71fb1302d7f130666f2ac85d6e50210fb4ceaf26fedb0cb1873286",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/workspace-checkpoints.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

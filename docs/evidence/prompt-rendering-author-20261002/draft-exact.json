@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "path": "prompts.ts",
+      "bytes": 7624,
+      "sha256": "991af4632ddf718768ecd7c34b916e9ce5f540aad17fd995acc9c52ceb11c204"
+    },
+    {
+      "path": "formatters.ts",
+      "bytes": 1291,
+      "sha256": "74ca27ef118a2f60486192f0469a04c64801762d4a38c9fb0242ba3096d39fcb"
+    }
+  ],
+  "access": "Read only packet contract.md and api.json; fixed output prose retained; hashed before curator comparison"
+}

@@ -1,0 +1,6 @@
+{
+  "batch": "prompt-rendering",
+  "typescript": "6.0.2",
+  "noEmit": true,
+  "diagnostics": []
+}

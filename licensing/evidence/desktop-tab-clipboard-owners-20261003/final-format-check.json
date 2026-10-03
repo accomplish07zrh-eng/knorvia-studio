@@ -1,0 +1,71 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+    "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+    "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/README.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/corrections-and-access.md",
+    "specs/knorvia-desktop-tab-clipboard-owners-20261003.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+      "sha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+      "sha256": "fb626c4ce574b584a2f2ac5b187b5edf2b8dc29ef4e0c2292ec5179e185cf75b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+      "sha256": "9476d0876f408a2d5dfb3e90884b3f8b2eeeb648c04610f6eef09a3ceb82ffec"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "c8a67bc50c58fc138bb0d37ba490431fb4bf465c452cb7fcb4d688e0f4314369"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-static.mjs",
+      "sha256": "35e64186726db1fe1b02fa139a636fbfb4bf849f365a9499c93008c8fb780ce5"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/record-run.mjs",
+      "sha256": "20f9c410ebc9f506d1960c73f9a325c250dd67f18f634d7c2c1c02cd612b1ac0"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/final-bindings.mjs",
+      "sha256": "b7b2f66bde329c636fda4d597c6379b14a25a38f371d590673a4feba01ba26be"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/retained-shapes.mjs",
+      "sha256": "c40051ae35c216df1fc3a70979d8642f68dfa8403a478e1b117a91d5201a4813"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/README.md",
+      "sha256": "788adca09fa4d8c365b43f2f08d53ce5f840957111f3541c98b957a2bc88bc38"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/corrections-and-access.md",
+      "sha256": "614ee106de7680579b22d1f818560774b71bd8d36bcc1eee2a4391fda3f32284"
+    },
+    {
+      "path": "specs/knorvia-desktop-tab-clipboard-owners-20261003.md",
+      "sha256": "534e1e8dbb89c2a57ba104fb03b22e4e165ea683f2543d05d2a54edf614f0847"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 94ms on 11 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,2 @@
+packages/rpc/src/ipc.ts: 0 syntax-only diagnostics
+packages/rpc/src/remote.ts: 0 syntax-only diagnostics

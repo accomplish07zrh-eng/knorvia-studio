@@ -1,0 +1,74 @@
+{
+  "typescript": "6.0.2",
+  "selection": "current actual owned source/compiler JS/declaration only; immutable historical oracle remains separately selected",
+  "files": {
+    "turn-command-data": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-command-data.ts",
+        "sha256": "fad2ccecca30f7ec8d608e3d88a1927e0d27e24b0ae9763398996290b13a304b",
+        "bytes": 9102
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-command-data.js",
+        "sha256": "528848465ed967dec4b72ffeadb0db4b7b0ba7f9e12f27a10f8969cdce4ad756",
+        "bytes": 8398
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-command-data.d.ts",
+        "sha256": "bea79f363068dda7cd3b081511e76fe83c136ac7678224ed47375bf45c83863d",
+        "bytes": 3730
+      }
+    },
+    "turn-command-operation": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts",
+        "sha256": "e6b25f12c41b98e81e4f240b7c03b0b25168c0c0abadca24e3674401b0662b75",
+        "bytes": 14744
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-command-operation.js",
+        "sha256": "b32937aa4e0f472013fcc2ac5e61d7f6bd1054207422a5f2dcf56aac657bb13c",
+        "bytes": 15727
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-command-operation.d.ts",
+        "sha256": "abeba625fd101f71d1e4f6a571e57992d935c53e9e3fff81f9c006c2ebdc29ec",
+        "bytes": 270
+      }
+    },
+    "turn-command-state": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-command-state.ts",
+        "sha256": "40f86126d05a15fa9c5dd60895f0a48573715f0cb617fe577b1e6cede3149338",
+        "bytes": 4376
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-command-state.js",
+        "sha256": "aa14019be4786f0aa708e29560fe822c185d446cbe735b0627ba364dd6a23382",
+        "bytes": 2833
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-command-state.d.ts",
+        "sha256": "ad17d12ad01b6948383f0e3536b9f57bacaca6e09416a47122ce67763dcf8cca",
+        "bytes": 2224
+      }
+    },
+    "turn": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+        "sha256": "c991e57787e7063b6a45a0cfc248568b90adda3d741cb45423a31814fb75b37a",
+        "bytes": 4880
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn.js",
+        "sha256": "4f20741b5c7f4c1c77b8f33dec2a533f9e5576fd38281bc447b20523ca69c348",
+        "bytes": 4659
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn.d.ts",
+        "sha256": "d71ad03f12d8cbfaf82f017f6b8e04429b3f69c90225508548712d3ddd15489b",
+        "bytes": 630
+      }
+    }
+  }
+}

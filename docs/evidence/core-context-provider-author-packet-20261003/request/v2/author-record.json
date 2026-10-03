@@ -1,0 +1,97 @@
+{
+  "status": "frozen",
+  "version": 2,
+  "freezeUtc": "2026-10-02T19:31:31.473207Z",
+  "authorConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "forkTurns": "none",
+    "configurationEvidence": "Delegating parent confirmed tool configuration; no independent runtime model introspection was available.",
+    "requestedServiceTier": "Fast",
+    "fastLimit": "No separate Fast service-tier setting was exposed; no verified Fast runtime claim is made."
+  },
+  "authorEvent": "Same-author correction to complete v1 using a separately frozen sixth functional input; not a fresh-author event.",
+  "ancestry": {
+    "v1FreezeUtc": "2026-10-02T19:26:04.056509Z",
+    "v1Source": {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/output/request-user-context.ts",
+      "bytes": 2882,
+      "sha256": "b212bcddab0c3133fc3d57df5290661af1df5a42830fe0b3578562e764bbcd20"
+    },
+    "v1Receipt": {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/output/author-record.json",
+      "bytes": 4703,
+      "sha256": "15fad502118de852d74db8f5ede69ee916f4a9057482d4fd1ce8419dfbaef842"
+    },
+    "v1ArchiveIdentifierReportedByParent": "f76e9688",
+    "clarificationFreezeIdentifierReportedByParent": "ba03cac4",
+    "identifierVerificationLimit": "Identifiers were supplied by the parent; no git or archive implementation was accessed.",
+    "v1Preservation": "No v1 edits were performed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/contract.md",
+      "bytes": 3275,
+      "sha256": "7a6eb3f488d31add7eaf151d17101a6f54d7fb2aac909335274c237584fa760f"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/public-api.d.ts",
+      "bytes": 275,
+      "sha256": "990fafc6f9371ebb172332ec69c1d8cf0f910725221fdb7185aca1187a2c7c0a"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/dependency-api.d.ts",
+      "bytes": 333,
+      "sha256": "7c67a3e612ca4c130b74d422159d220ea2ebf9a4354494903e21ab23a843bd7d"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/public-shapes.d.ts",
+      "bytes": 739,
+      "sha256": "5a214e5205745adeea64e1ed5ad666f74b0bd3a2981f841b1fe3ba3348ccb0e8"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/output-text.json",
+      "bytes": 690,
+      "sha256": "1edd638e6ca30f8b77b8733ea5702587318f112da3a3f6fa241742bd1ad483b3"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/heading-observation-clarification.md",
+      "bytes": 950,
+      "sha256": "4f10025b2a328fac7ecedff275bd015e44539cdebcefa248513a27c8f399dc5f"
+    }
+  ],
+  "sourceOutput": {
+    "path": "/tmp/knorvia-core-context-provider-20261003/request/output-v2/request-user-context.ts",
+    "bytes": 2917,
+    "sha256": "3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d"
+  },
+  "receiptOutput": {
+    "path": "/tmp/knorvia-core-context-provider-20261003/request/output-v2/author-record.json",
+    "digestPolicy": "Exact receipt bytes and SHA256 are reported separately after its final write to avoid a self-referential digest."
+  },
+  "correction": "After successful instruction-body construction and trimming, capture source.filePath before observing source.scope, then derive the scope phrase and construct the exact heading with the captured path. All other source text remains as in v1.",
+  "readExposure": {
+    "originalAuthoring": "Five scoped inputs were read once via cat and once for hashing; source and receipt were authored and hashed. Original event used fork_turns none.",
+    "correctionInputReads": "The sixth clarification was read once via cat and once for hashing. Each original input was read once more for current binding hashes.",
+    "ownOutputReads": "Complete v1 source and receipt were read once via cat and once as bytes for v2 derivation and ancestry. Complete v2 source was read for hashing; final v2 receipt bytes are read only for its reported hash.",
+    "currentInheritedContext": "Retained this same author conversation, its own v1 source/receipt, the original five inputs, parent metadata clarification, and the new functional qualification. This correction was not isolated from the author own v1.",
+    "otherExposedMetadata": "Parent reported a static comparison and omitted primitive read order, without supplying runtime failure, review body, source body, dependency body, test body, or another author output.",
+    "excludedExposure": "No repository files, AGENTS files, implementation bodies beyond own outputs, dependency bodies, tests, history, review bodies, git state, network, compiler, other author outputs, or third-party prior drafts were accessed."
+  },
+  "retainedExpression": [
+    "Exact section name/source, agentsMd header, instruction-relevance prose, MEMORY.md filename, instruction and memory headings, scope phrases, and truncation marker from output-text.json.",
+    "Declared public function/type imports, existing runtime imports, input/property names, fallback property ordering, section property ordering, map/filter/join projection semantics, and ordinary TypeScript idioms required by the scoped contract.",
+    "Required live instruction reads, original source-array use, memory root/index capture, formatter-before-path order, final estimate timing, preview and error propagation semantics.",
+    "The separately frozen sixth input requires source.filePath observation before source.scope after successful body trimming."
+  ],
+  "discretionaryDesign": [
+    "One exported function with inline instruction and memory stages; no helper or new public API.",
+    "Local identifiers parts, instructions, sources, body, trimmedBody, scopePhrase, instructionContent, memoryRoot, memoryIndexContent, formattedMemory, memoryPath, and content.",
+    "Conventional import ordering, indentation, braces, and line wrapping; no cosmetic novelty claim.",
+    "Added the local filePath capture to enforce the newly specified source-heading read order."
+  ],
+  "questions": [],
+  "breaches": [],
+  "validation": "Manual contract-to-source reasoning only. No tests, builds, project checks, typechecks, lint, mocks, compiler, or repository inspection.",
+  "freezePolicy": "Complete v2 source and receipt will receive no edits after this freeze without a separately frozen clarification."
+}

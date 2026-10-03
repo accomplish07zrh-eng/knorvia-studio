@@ -1,0 +1,100 @@
+{
+  "task": "Complete turn-stop.ts publication and settlement owner from bounded body-free packet",
+  "input_reads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-stop-author-20261003/contract.md",
+      "method": "shell cat",
+      "count": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-stop-author-20261003/api.d.ts",
+      "method": "shell cat",
+      "count": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-stop-author-20261003/imports.d.ts",
+      "method": "shell cat",
+      "count": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-stop-author-20261003/literals.json",
+      "method": "shell cat",
+      "count": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-stop-author-20261003/supporting.d.ts",
+      "method": "shell cat",
+      "count": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-stop-author-20261003/clarification.md",
+      "method": "shell cat",
+      "count": 1
+    }
+  ],
+  "tool_events": [
+    {
+      "sequence": 1,
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Read the five initially permitted input files with one cat command"
+    },
+    {
+      "sequence": 2,
+      "tool": "collaboration.send_message",
+      "action": "Ask parent for omitted runtime session property public fact; no file read"
+    },
+    {
+      "sequence": 3,
+      "tool": "collaboration.send_message",
+      "action": "Report chosen direct native-async organization; no file read"
+    },
+    {
+      "sequence": 4,
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Create own /tmp draft directory"
+    },
+    {
+      "sequence": 5,
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Write own draft.ts with literal heredoc"
+    },
+    {
+      "sequence": 6,
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Read exact clarification.md authorized by parent"
+    },
+    {
+      "sequence": 7,
+      "tool": "functions.exec -> tools.exec_command",
+      "action": "Write access.json; read own draft bytes for SHA256 and line count; write seal.json and report seal metadata"
+    }
+  ],
+  "communication_inputs": [
+    "Initial parent bounded author assignment",
+    "Parent clarification authorizing exact clarification.md and confirming runtime.sessionId"
+  ],
+  "own_artifact_reads": [
+    {
+      "path": "/tmp/knorvia-turn-stop-packet-author/draft.ts",
+      "method": "Path.read_bytes for hashing and physical line count",
+      "count": 1
+    }
+  ],
+  "limitations": [
+    "No production, history, tests, oracles, lineage, other packet, dependency-body, agent-status or unrelated file reads",
+    "No candidate compilation, execution or tests",
+    "No actual provider, model, network, persistence, communication or subprocess task operations; shell transport only for exact inputs and own draft artifacts",
+    "No checkout edits",
+    "No private module, added async helper, runtime state, retry, cache, queue or policy",
+    "Type compatibility and behavioral validation deferred to curator; imported dependencies remain unchanged"
+  ],
+  "design": [
+    "Four declared APIs remain direct native functions; persistence and settlement each retain their mandated sequential phases",
+    "Only contract-authorized model, message identity, creation time and token objects are captured",
+    "Direct receiver-bound runtime calls retain callee lookup before record construction and native awaits",
+    "Discard restoration follows successful optional deletion; failures leave earlier writes intact",
+    "Separate active-turn checks preserve the different automation-limit and normal-stop read phases",
+    "Conventional imports, signatures, ordered protocol records, awaits and fixed vocabulary impose constrained resemblance; no predecessor body was available",
+    "Two original factual comments describe discard pointer ownership and the staged error carrier"
+  ]
+}

@@ -1,0 +1,3 @@
+baseline: four paired minimum fake-port bootstrap/identity/request-authority/disposal groups pass
+candidate: four paired minimum fake-port bootstrap/identity/request-authority/disposal groups pass
+Frozen null-bootstrap and absent-browser extra-microtask counterexamples reproduced/corrected. All OS/process/IPC/timer/provider/data ports synthetic, no native execution.

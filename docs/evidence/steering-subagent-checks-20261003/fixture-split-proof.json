@@ -1,0 +1,7 @@
+{
+  "originalFakePortsExpressionIdentical": true,
+  "splitReason": "Keep unchanged owned lint400-line module limit",
+  "originalityCredit": false,
+  "baselineSafetyAssertionsUnchanged": true,
+  "originalFixtureSha256": "2b892f81dc83de2c7dd4b27e3fbb4e5668d98ae76ebc6e8d995b67986678d42d"
+}

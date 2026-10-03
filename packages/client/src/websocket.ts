@@ -1,8 +1,8 @@
 import {
-  Emitter,
-  VSBuffer,
-  SocketProtocol,
   ChannelClient,
+  Emitter,
+  SocketProtocol,
+  VSBuffer,
   type IMessagePassingProtocol,
   type ISocket,
 } from "@knorvia/rpc";
@@ -20,32 +20,26 @@ interface WebSocketConnectionOptions {
   onOpenSocket?: (socket: WebSocket) => void;
 }
 
-function wrapBrowserWebSocket(ws: WebSocket): ISocket {
-  const onData = new Emitter<VSBuffer>();
-  const onClose = new Emitter<void>();
-  const onEnd = new Emitter<void>();
-
+function socketPort(ws: WebSocket): ISocket {
+  const data = new Emitter<VSBuffer>();
+  const closed = new Emitter<void>();
+  const ended = new Emitter<void>();
   ws.binaryType = "arraybuffer";
-  ws.addEventListener("message", (e) => {
-    onData.fire(VSBuffer.wrap(new Uint8Array(e.data as ArrayBuffer)));
+  ws.addEventListener("message", (event) => {
+    data.fire(VSBuffer.wrap(new Uint8Array(event.data as ArrayBuffer)));
   });
-  ws.addEventListener("close", () => {
-    onClose.fire();
-    onEnd.fire();
-  });
-  ws.addEventListener("error", () => {
-    onClose.fire();
-    onEnd.fire();
-  });
-
+  const finish = () => {
+    closed.fire(undefined);
+    ended.fire(undefined);
+  };
+  ws.addEventListener("close", finish);
+  ws.addEventListener("error", finish);
   return {
-    onData: onData.event,
-    onClose: onClose.event,
-    onEnd: onEnd.event,
-    write(buffer: VSBuffer) {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(buffer.buffer as Uint8Array<ArrayBuffer>);
-      }
+    onData: data.event,
+    onClose: closed.event,
+    onEnd: ended.event,
+    write(buffer) {
+      if (ws.readyState === WebSocket.OPEN) ws.send(buffer.buffer as Uint8Array<ArrayBuffer>);
     },
     end() {
       ws.close();
@@ -65,21 +59,13 @@ export function connectViaWebSocket(
 ): Promise<IServiceAccessor> {
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(wsUrl);
-    let settled = false;
-
+    let opened = false;
     ws.addEventListener("error", () => {
-      if (!settled) {
-        reject(new Error(`WebSocket connection failed: ${wsUrl}`));
-      }
+      if (!opened) reject(new Error(`WebSocket connection failed: ${wsUrl}`));
     });
     ws.addEventListener("close", (event) => {
-      options?.onClose?.({
-        code: event.code,
-        reason: event.reason,
-        wasClean: event.wasClean,
-      });
-
-      if (!settled) {
+      options?.onClose?.({ code: event.code, reason: event.reason, wasClean: event.wasClean });
+      if (!opened) {
         reject(
           new Error(
             event.reason
@@ -89,17 +75,14 @@ export function connectViaWebSocket(
         );
       }
     });
-
     ws.addEventListener("open", () => {
-      settled = true;
+      opened = true;
       options?.onOpenSocket?.(ws);
-      const socket = wrapBrowserWebSocket(ws);
-      resolve(connectViaProtocol(new SocketProtocol(socket)));
+      resolve(connectViaProtocol(new SocketProtocol(socketPort(ws))));
     });
   });
 }
 
 export function connectViaProtocol(protocol: IMessagePassingProtocol): IServiceAccessor {
-  const client = new ChannelClient(protocol);
-  return new RemoteServiceAccess(client);
+  return new RemoteServiceAccess(new ChannelClient(protocol));
 }

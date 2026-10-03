@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "scope": "Root portable terminal profile review",
+  "baseline": "23faa21e90231301f11587d4fbd2afd18f5f4f4f",
+  "laneCheckpoint": "be96657",
+  "rootCodeHead": "d401ecaba3f4c7b779aa39b25c685af74b37d661",
+  "validation": {
+    "source": 60,
+    "strictEmitted": 60,
+    "syntheticJsoncComparisonsPerMode": 60000,
+    "mismatches": 0,
+    "seed": 22318,
+    "full": {
+      "tests": 6317,
+      "pass": 6251,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0,
+      "exactPriorFailureEventMultiset": true
+    },
+    "gates": [
+      "root typecheck",
+      "root lint",
+      "format",
+      "changed architecture",
+      "desktop build:no-runtime-assets"
+    ],
+    "desktop": "Actual generated host output contains portable plan/read/format routines; no launched GUI or native acceptance"
+  },
+  "logSha256": {
+    "portable-root-jsonc-diff-emitted.log": "133acf8fe0046510caeb137c27d082413811d8a81eb044f17be773e780a624c2",
+    "portable-root-jsonc-diff-source.log": "133acf8fe0046510caeb137c27d082413811d8a81eb044f17be773e780a624c2",
+    "portable-root-desktop-build.log": "80ad0aa0b3a1e7d6330efa685ea24453ed3f008172dcc20e5f01f48b67cbfd61",
+    "portable-root-full.tap": "e2ee6de359c6f5f45b55184551664b4c47f267b0e188bf8236beb33d4211ab01",
+    "portable-root-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "portable-root-format.log": "d63c8000b127516ff20b43ed8fac4cf5605261af94383d979c6603d543b21f72",
+    "portable-root-lint.log": "cd49a6f10d58da549d1339ad36b5ea5afef855dc70db55ee893c73f07b20308f",
+    "portable-root-jsonc-diff.log": "133acf8fe0046510caeb137c27d082413811d8a81eb044f17be773e780a624c2",
+    "portable-root-emitted.tap": "5f59d80dc197e06110a37d724be4dd3ad2f3a0c0babab76a32125fac12336cce",
+    "portable-root-source.tap": "04d4277b21266a9a095ed361fb58bed13b66b9480ca71ba7d0fc8f9e61449560",
+    "portable-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988"
+  },
+  "limits": [
+    "Source-exposed replacement; retained declarations, parser rules and applicable licences remain",
+    "All 27 material obligations remain",
+    "Mac detector unchanged in this checkpoint",
+    "No actual user profile or native Windows/macOS acceptance",
+    "No final MIT or clean-room claim",
+    "Exact remote CI pending for this checkpoint"
+  ]
+}

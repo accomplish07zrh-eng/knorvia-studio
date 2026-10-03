@@ -1,0 +1,44 @@
+{
+  "baselineCommit": "9b6b31a525cae783ffb1a0eb709f23e5ba5a9e57",
+  "branch": "recovery/server-lifecycle-20261002",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "target": "recovery/independent-logging-20260930-0456",
+  "selectedPaths": [
+    "apps/cli/packages/adapters/src/browser/index.ts",
+    "apps/cli/packages/adapters/src/browser/page-command.ts",
+    "apps/cli/packages/adapters/src/browser/session.ts"
+  ],
+  "newMITDecisions": 0,
+  "acceptedIndependentReplacementCredit": 0,
+  "curatorExposure": "Selected predecessor bodies, finite public schemas/ports and receipt metadata reviewed; public/private body normalization performed after fresh drafts froze. Source-exposed curator built synthetic tests. Authors received external behavior/public APIs, not predecessor private helper names/state/decomposition or bodies.",
+  "authorBoundary": "Self-reported allowed reads on a shared filesystem, not OS-enforced clean room. Corrections used own prior generated context, not previous output inspection.",
+  "checks": "Minimum synthetic injected boundary cases plus scoped lint/syntax/AST API/static/format/architecture/whitespace. No full ordinary suites, semantic project typecheck, declaration emit or builds.",
+  "virtualPorts": [
+    "browser/context/page/CDP/dialog/keyboard/mouse",
+    "executable validation/resolution and Chromium loader/launch",
+    "snapshot/playwright action/evaluation",
+    "session dependency in runtime-only fixtures",
+    "request abort/error/side-effect ports",
+    "UUID",
+    "Date.now",
+    "timer handles/deadlines",
+    "process.platform fixed linux"
+  ],
+  "pureBuiltinObjects": "Native URL parsing and synthetic AbortController/DOMException/Buffer values only; no native browser/system integration.",
+  "notExecuted": [
+    "actual Chromium/Playwright/provider/native browser process",
+    "real executable/filesystem/environment probes or browser profiles",
+    "network URLs/userdata/credentials/auth/SSH/servers/deployment",
+    "unchanged dependency implementations/fully composed real owner consumer integration",
+    "cross-lane/main integration",
+    "Library access or cancelled source-tree upload"
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "pinnedNode": "24.14.0",
+    "contractsDistPresent": false,
+    "tools": "existing local esbuild, TypeScript AST, oxfmt, oxlint; no dependency installation/build"
+  },
+  "architecture": "cli is existing unmanaged module; baseline/new violation counts 0; no policy/baseline update; no enforced managed-layer coverage claimed.",
+  "lint": "Root config ignores apps/cli even with --no-ignore: failed zero-file attempt retained. Scoped config copies root rules and removes file ignores; exact synthetic .test.mjs max-lines exception (mirrors existing TS test exemption), source max-lines retained; no product permission/policy/security change. Initial scoped pattern failure/unused test import/warning retained; fixed scoped pattern and test import, complete runtime correction removes warning."
+}

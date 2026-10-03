@@ -1,0 +1,37 @@
+{
+  "base": "890d289ed319610f58792f26327ca5f0068520f7",
+  "freezeCommit": "f06acb9",
+  "draftAndBaselineCommit": "cf1bb69",
+  "redProofCommit": "04f77a0",
+  "ownedModules": [
+    "bash-shell-snapshot"
+  ],
+  "currentArtifacts": {
+    "bash-shell-snapshot": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/bash-shell-snapshot.ts",
+        "sha256": "ab3cedc50c63ef5ae315cc0a40021682946b346fb4c7ec75b96f28df54ff317f"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/bash-shell-snapshot.js",
+        "sha256": "f25f8c35929769292366a6240c8a533ffe7049bebd3d074104dac465ddb832c6"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/bash-shell-snapshot.d.ts",
+        "sha256": "9b0662e91e348766d7814e431488ad5ed701ae9442171cd468ebd0aacc2d5a54"
+      }
+    }
+  },
+  "sealedDrafts": {
+    "sealed-draft.txt": "7bf1dec9a17862772712af86ffde5bbb3cc2bacf0198b829e05c01232ad4c4e3",
+    "sealed-access.json": "9cbb92f327c27ca7f029682f1d8a9a95176209ec247dd8c5068979b1a99b9735",
+    "sealed-seal.json": "91d7bc772aa3a237c077ac800ac8e3d27bc6e3f68b48f3fcef1be7d1477df6b9"
+  },
+  "design": "Complete persisted shell snapshot admission/clone/parse/usability/fallback owner;existing session store and resume caller retain selection ownership.",
+  "retained": "Persistence/read catches,clone projections,validation vocabulary,accessSync/X_OK test and stale/fallback combinations strongly correspond to predecessor. Fixed record/log keys,strings and public union retained. Equal constrained expression/body-free authoring does not itself resolve whole-file acceptance.",
+  "correction": "Source-exposed restoration of live options/port/logger/trace reads,final-entry optional handling and dialect/path/optional-field read phases. No new shell/process/access policy. Initial pre-clarification draft bytes were overwritten by author before preservation message;only reported initial hashes survive. Final supplemented draft/seal/journal exact.",
+  "sourceExposure": "Curator read predecessor;3fresh internal authors fork_turns=none,GPT6.1Sol/high,only recorded body-free source-derived API/import/type/functional/literal inputs and authorized clarifications. Final drafts hashed/archived before source-exposed curator comparison. Ordinary environment metadata available;no clean-room claim.",
+  "checks": "Shared scoped compiler0diagnostics,6exported call signatures and fixed declaration AST facts equal;5modules actual JS/declarations emitted;owned lint/format/architecture pass. Final3minimum actual-emitted persistence groups;separate2rewind red-proof closures overlap that owner. No broad count inflation. See runtime-persistence-recovery-three-checks-20261003.",
+  "limits": "Ordinary source/emitted matrices,suites/builds/native/full runtime consumers deferred. Unchanged transitive dependencies through tsx source;synthetic fs-access seam and memory ports. No real user files/providers/credentials/processes. Independent correctness/expression/rights review remains pending;no header/global registry/licence grant.",
+  "lineageReference": "docs/evidence/runtime-bash-shell-snapshot-author-20261003/lineage.json"
+}

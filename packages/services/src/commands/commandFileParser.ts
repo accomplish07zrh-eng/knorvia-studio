@@ -1,145 +1,33 @@
-import type { CommandConfig } from "@knorvia/shared";
+import type { CommandConfig, CommandInfo } from "@knorvia/shared";
 
 export type CommandFileFormat = "markdown";
 
-interface ParsedCommandFile {
-  name: string;
-  prompt: string;
-  content: string;
-  filePath: string;
-  description?: string;
-  argumentHint?: string;
-}
-
-interface MarkdownCommandParts {
-  frontmatterLines: string[];
-  contentLines: string[];
-}
-
-function getCrossPlatformBasename(filePath: string): string {
-  return filePath.split(/[\\/]+/).pop() ?? "";
-}
-
-function splitMarkdownCommandContent(content: string): MarkdownCommandParts {
+function sections(content: string): { metadata: string[]; body: string[] } {
   const lines = content.split("\n");
-  const frontmatterStart = lines.findIndex((line) => line.trim() === "---");
-  const frontmatterEnd = lines.findIndex(
-    (line, index) => index > frontmatterStart && line.trim() === "---",
-  );
-
-  if (frontmatterStart === -1 || frontmatterEnd === -1) {
-    return { frontmatterLines: [], contentLines: lines };
-  }
-
-  return {
-    frontmatterLines: lines.slice(frontmatterStart + 1, frontmatterEnd),
-    contentLines: lines.slice(frontmatterEnd + 1),
-  };
+  const opening = lines.findIndex((line) => line.trim() === "---");
+  const closing = lines.findIndex((line, index) => index > opening && line.trim() === "---");
+  if (opening < 0 || closing < 0) return { metadata: [], body: lines };
+  return { metadata: lines.slice(opening + 1, closing), body: lines.slice(closing + 1) };
 }
 
-function readFrontmatterKey(line: string): string | undefined {
-  if (line.startsWith(" ") || line.startsWith("\t")) {
-    return undefined;
-  }
-  const match = /^([A-Za-z0-9_-]+)\s*:/.exec(line.trim());
-  return match?.[1]?.toLowerCase();
+function metadataKey(line: string): string | undefined {
+  if (/^[ \t]/.test(line)) return undefined;
+  return /^([A-Za-z0-9_-]+)\s*:/.exec(line.trim())?.[1]?.toLowerCase();
 }
 
-function readFrontmatterMultilineValue(
-  lines: readonly string[],
-  targetKey: string,
-): string | undefined {
-  const collected: string[] = [];
-  let collecting = false;
-
-  for (const line of lines) {
-    const key = readFrontmatterKey(line);
-    if (key) {
-      if (collecting) {
-        break;
-      }
-      if (key === targetKey) {
-        collecting = true;
-        const value = line.split(":").slice(1).join(":").trim();
-        if (value) {
-          collected.push(value);
-        }
-      }
-      continue;
-    }
-
-    if (collecting && (line.startsWith(" ") || line.startsWith("\t"))) {
-      collected.push(line.trim());
-    }
+function metadataValue(lines: string[], target: string): string | undefined {
+  const start = lines.findIndex((line) => metadataKey(line) === target);
+  if (start < 0) return undefined;
+  const header = lines[start];
+  if (header === undefined) return undefined;
+  const values: string[] = [];
+  const first = header.slice(header.indexOf(":") + 1).trim();
+  if (first) values.push(first);
+  for (const line of lines.slice(start + 1)) {
+    if (metadataKey(line)) break;
+    if (/^[ \t]/.test(line)) values.push(line.trim());
   }
-
-  const value = collected.join(" ").trim();
-  return value || undefined;
-}
-
-function preserveFrontmatterLines(
-  existingContent: string | undefined,
-  replacedKeys: ReadonlySet<string>,
-): string[] {
-  const preserved: string[] = [];
-  let skipUntilNextKey = false;
-
-  for (const line of splitMarkdownCommandContent(existingContent ?? "").frontmatterLines) {
-    const key = readFrontmatterKey(line);
-    if (key) {
-      skipUntilNextKey = replacedKeys.has(key);
-    }
-    if (!skipUntilNextKey) {
-      preserved.push(line);
-    }
-  }
-
-  return preserved;
-}
-
-function parseMarkdownCommandFile(content: string, filePath: string): ParsedCommandFile | null {
-  const { frontmatterLines, contentLines } = splitMarkdownCommandContent(content);
-  const fileName = getCrossPlatformBasename(filePath);
-  const name = `/${fileName.replace(/\.md$/i, "")}`;
-  const prompt = contentLines.join("\n").trim();
-
-  if (!name) {
-    return null;
-  }
-
-  return {
-    name,
-    prompt,
-    content: contentLines.join("\n"),
-    filePath,
-    description: readFrontmatterMultilineValue(frontmatterLines, "description"),
-    argumentHint: readFrontmatterMultilineValue(frontmatterLines, "argument-hint"),
-  };
-}
-
-function generateMarkdownCommandFileContent(
-  config: CommandConfig,
-  existingContent?: string,
-): string {
-  const replacedKeys = new Set<string>(["description", "argument-hint"]);
-  const frontmatterLines = preserveFrontmatterLines(existingContent, replacedKeys);
-
-  if (config.description?.trim()) {
-    frontmatterLines.push(`description: ${config.description.trim()}`);
-  }
-  if (config.argumentHint?.trim()) {
-    frontmatterLines.push(`argument-hint: ${config.argumentHint.trim()}`);
-  }
-
-  if (frontmatterLines.length === 0) {
-    return config.prompt;
-  }
-
-  return `---
-${frontmatterLines.join("\n")}
----
-
-${config.prompt}`;
+  return values.join(" ").trim() || undefined;
 }
 
 export class CommandFileParser {
@@ -147,9 +35,19 @@ export class CommandFileParser {
     content: string,
     filePath: string,
     _format: CommandFileFormat = "markdown",
-  ): ParsedCommandFile | null {
+  ): CommandInfo | null {
     try {
-      return parseMarkdownCommandFile(content, filePath);
+      const { metadata, body } = sections(content);
+      const commandContent = body.join("\n");
+      const filename = filePath.split(/[\\/]+/).pop() ?? "";
+      return {
+        name: `/${filename.replace(/\.md$/i, "")}`,
+        prompt: commandContent.trim(),
+        content: commandContent,
+        filePath,
+        description: metadataValue(metadata, "description"),
+        argumentHint: metadataValue(metadata, "argument-hint"),
+      };
     } catch {
       return null;
     }
@@ -160,6 +58,19 @@ export class CommandFileParser {
     _format: CommandFileFormat = "markdown",
     existingContent?: string,
   ): string {
-    return generateMarkdownCommandFileContent(config, existingContent);
+    const lines: string[] = [];
+    let skip = false;
+    const previous = existingContent === undefined ? [] : sections(existingContent).metadata;
+    for (const line of previous) {
+      const key = metadataKey(line);
+      if (key) skip = key === "description" || key === "argument-hint";
+      if (!skip) lines.push(line);
+    }
+    const description = config.description?.trim();
+    const argumentHint = config.argumentHint?.trim();
+    if (description) lines.push(`description: ${description}`);
+    if (argumentHint) lines.push(`argument-hint: ${argumentHint}`);
+    if (lines.length === 0) return config.prompt;
+    return `---\n${lines.join("\n")}\n---\n\n${config.prompt}`;
   }
 }

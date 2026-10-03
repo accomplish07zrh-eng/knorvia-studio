@@ -1,0 +1,1 @@
+76b8f25df13ee003742840d4dfd6ad07ebfeee80e270b00caf8ebf85abe86f3f  /tmp/knorvia-rpc-persistent-freeze-1/persistent-protocol.ts

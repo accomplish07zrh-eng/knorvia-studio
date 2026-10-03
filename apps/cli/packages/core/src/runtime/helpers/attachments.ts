@@ -30,6 +30,9 @@ import {
   resolvedPathReferenceAttachment,
 } from "./attachment-path-reference.js";
 
+export { parseDataUrlHeader } from "./attachment-data-url.js";
+export { inferImageMimeFromPath, prepareImageDataUrl } from "./attachment-image.js";
+
 type ResolveAttachmentOptions = {
   abortSignal?: AbortSignal;
   artifactStore?: ToolArtifactStorePort;
@@ -41,16 +44,19 @@ type ResolveAttachmentOptions = {
   workingDirectory: string;
 };
 
-/**
- * 附件 → TurnStarted 事件的轻量展示元信息（TurnAttachmentMeta）。
- * 在 resolve/persist 之前即可用（TurnStarted 先于 resolveTurnAttachments 发出），
- * 因此只做无 IO 推断：filename/mimeType/sizeBytes 优先取协议边界透传值，
- * 缺省按 path basename / 扩展名 / data URL 头 / content 长度兜底。
- */
+type InlineAttachmentOptions = ResolveAttachmentOptions & {
+  existingArtifactUri?: string;
+};
+
+type LocalAttachmentOptions = ResolveAttachmentOptions & {
+  fileSystemPort: FileSystemPort;
+};
+
 export function summarizeTurnAttachmentsForEvent(
   attachments: TurnState["attachments"],
 ): TurnAttachmentMeta[] | undefined {
   if (!attachments || attachments.length === 0) return undefined;
+
   return attachments.map((attachment, index) => {
     const path = attachment.path;
     const fileName =
@@ -72,7 +78,6 @@ export function summarizeTurnAttachmentsForEvent(
     const bytes =
       attachment.sizeBytes ??
       (attachment.content !== undefined ? Buffer.byteLength(attachment.content, "utf8") : 0);
-    // data URL/inline 内容无稳定引用；路径/URL 作为展示层引用。
     const ref =
       path && !isDataOrArtifactUrl(path)
         ? path
@@ -89,12 +94,13 @@ export async function resolveTurnAttachments(
 ): Promise<ResolvedTurnAttachment[]> {
   const resolved: ResolvedTurnAttachment[] = [];
   for (const [index, attachment] of (attachments ?? []).entries()) {
-    resolved.push(await resolveTurnAttachment(attachment, index, options));
+    const item = await resolveAttachment(attachment, index, options);
+    resolved.push(item);
   }
   return resolved;
 }
 
-async function resolveTurnAttachment(
+async function resolveAttachment(
   attachment: TurnAttachment,
   index: number,
   options: ResolveAttachmentOptions,
@@ -115,8 +121,6 @@ async function resolveTurnAttachment(
 
   if (attachment.content) {
     if (attachment.type === "pdf" && !isDataOrArtifactUrl(attachment.content)) {
-      // PDF 曾沿用普通 file 的 inline 文本分支，损坏或伪造的正文会被 UTF-8
-      // 解码后送进 provider；PDF 必须只接受 data URL 或 artifact URI，并在请求前明确降级。
       return resolvedPlaceholderAttachment(
         attachment,
         attachment.path ?? `attachment-${index + 1}`,
@@ -131,13 +135,15 @@ async function resolveTurnAttachment(
     if (attachment.type !== "image" && !isDataOrArtifactUrl(attachment.content)) {
       return resolvedInlineTextAttachment(attachment, index);
     }
-
     const inline = await readInlineAttachmentContent(attachment, options);
     if (!inline) {
-      const placeholder = attachment.path ?? `attachment-${index + 1}`;
-      return resolvedPlaceholderAttachment(attachment, placeholder, "attachment_read_failed");
+      return resolvedPlaceholderAttachment(
+        attachment,
+        attachment.path ?? `attachment-${index + 1}`,
+        "attachment_read_failed",
+      );
     }
-    return await resolvedInlineAttachment({ ...attachment, content: inline.dataUrl }, index, {
+    return await resolveInlineAttachment({ ...attachment, content: inline.dataUrl }, index, {
       ...options,
       existingArtifactUri: inline.artifactUri,
     });
@@ -151,28 +157,22 @@ async function resolveTurnAttachment(
         fileSystemPort,
       });
     }
-    return await resolveLocalFileAttachment(attachment, {
+    return await resolveLocalTextAttachment(attachment, {
       ...options,
       fileSystemPort,
     });
   }
-
-  const placeholder = attachment.path ?? `attachment-${index + 1}`;
-  return resolvedPlaceholderAttachment(attachment, placeholder, "attachment_read_failed");
+  return resolvedPlaceholderAttachment(
+    attachment,
+    attachment.path ?? `attachment-${index + 1}`,
+    "attachment_read_failed",
+  );
 }
 
-async function resolvedInlineAttachment(
+async function resolveInlineAttachment(
   attachment: TurnAttachment,
   index: number,
-  options: {
-    abortSignal?: AbortSignal;
-    artifactStore?: ToolArtifactStorePort;
-    existingArtifactUri?: string;
-    imageProcessorPort?: ImageProcessorPort;
-    sessionId?: SessionId;
-    traceContext: TraceContext;
-    turnId?: TurnId;
-  },
+  options: InlineAttachmentOptions,
 ): Promise<ResolvedTurnAttachment> {
   const parsed = attachment.content?.startsWith("data:")
     ? parseDataUrlHeader(attachment.content)
@@ -199,14 +199,9 @@ async function resolvedInlineAttachment(
   };
 }
 
-async function resolveLocalFileAttachment(
+async function resolveLocalTextAttachment(
   attachment: TurnAttachment,
-  options: {
-    abortSignal?: AbortSignal;
-    fileSystemPort: FileSystemPort;
-    traceContext: TraceContext;
-    workingDirectory: string;
-  },
+  options: LocalAttachmentOptions,
 ): Promise<ResolvedTurnAttachment> {
   const absolutePath = resolvePath(options.workingDirectory, attachment.path!);
   const filename = basename(absolutePath);
@@ -214,7 +209,11 @@ async function resolveLocalFileAttachment(
   const source: FilePartSource = {
     type: "file",
     path: absolutePath,
-    text: { value: attachment.path!, start: 0, end: attachment.path!.length },
+    text: {
+      value: attachment.path!,
+      start: 0,
+      end: attachment.path!.length,
+    },
   };
 
   try {
@@ -230,41 +229,31 @@ async function resolveLocalFileAttachment(
         source,
       });
     }
-
     if (!isTextLikePath(absolutePath)) {
-      // 疑似二进制文件不能误当文本读入 prompt，只交付路径引用给后续工具处理。
       return resolvedPathReferenceAttachment(attachment, attachment.path!, {
         filename,
         mime: inferAttachmentMimeFromPath(absolutePath),
+        reason: "binary_file",
         sizeBytes: stat.sizeBytes,
         source,
-        reason: "binary_file",
       });
     }
-
     if (attachment.sourceKind === "clipboard-text") {
-      // 长粘贴文本已经落成临时文件，预读会重新把正文塞进 prompt_attachment 系统提示。
-      // 这里只交付真实本地附件引用，等模型明确需要时再通过文件读取工具进入上下文。
       return resolvedPathReferenceAttachment(attachment, attachment.path!, {
         filename,
         mime,
+        reason: "deferred_clipboard_text",
         sizeBytes: stat.sizeBytes,
         source,
-        reason: "deferred_clipboard_text",
       });
     }
-
-    const isOversizedText = stat.sizeBytes > READ_MAX_FILE_SIZE_BYTES;
+    const oversized = stat.sizeBytes > READ_MAX_FILE_SIZE_BYTES;
     const read = await readTextFileForModel({
       abortSignal: options.abortSignal,
       filePath: absolutePath,
       fileSystemPort: options.fileSystemPort,
-      ...(isOversizedText
-        ? {
-            allowPartialFallback: true,
-            limit: READ_DEFAULT_MAX_LINES,
-            offset: 1,
-          }
+      ...(oversized
+        ? { allowPartialFallback: true, limit: READ_DEFAULT_MAX_LINES, offset: 1 }
         : {}),
       trace: options.traceContext,
     });
@@ -290,7 +279,7 @@ async function resolveLocalFileAttachment(
         ...(read.sizeBytes !== undefined ? { sizeBytes: read.sizeBytes } : {}),
         storageKind: "inline",
       },
-      mime: "text/plain",
+      mime,
       source,
       url: attachment.path!,
     };
@@ -302,6 +291,3 @@ async function resolveLocalFileAttachment(
     });
   }
 }
-
-export { parseDataUrlHeader } from "./attachment-data-url.js";
-export { inferImageMimeFromPath, prepareImageDataUrl } from "./attachment-image.js";

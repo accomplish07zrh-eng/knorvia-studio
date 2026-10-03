@@ -1,6 +1,4 @@
 import {
-  CoreErrorType,
-  SessionEventType,
   TASK_OUTPUT_ALIASES,
   TASK_OUTPUT_PROVIDER_DESCRIPTION,
   TASK_OUTPUT_TOOL_NAME,
@@ -8,76 +6,18 @@ import {
   TaskOutputResultSchema,
   TaskOutputResultJsonSchema,
   TaskOutputInputJsonSchema,
-  createCoreError,
-  type TaskOutputInput,
-  type TaskOutputResult,
-  type TaskOutputTask,
 } from "@knorvia/contracts";
-import type { RuntimeTaskSnapshot } from "../../runtime-task/registry.js";
 import { formatPersistedOutputEnvelope } from "../result-persistence-format.js";
-import type {
-  ToolEntry,
-  ToolExecutionContext,
-  ToolHandler,
-  ToolHandlerFailure,
-  ToolInputValidationContext,
-  ToolInputValidationResult,
-  ToolPersistedModelContentInput,
-} from "../types.js";
-import { formatCompactFileSize, projectTask, throwIfAborted } from "./task-output-projection.js";
+import type { ToolEntry, ToolPersistedModelContentInput } from "../types.js";
+import { formatCompactFileSize } from "./task-output-projection.js";
+
+import { executeTaskOutput, validateTaskOutputRequest } from "./task-output-request.js";
 
 const TASK_OUTPUT_DEFAULT_LENGTH = 32_000;
 const TASK_OUTPUT_MAX_LENGTH = 160_000;
 const TASK_OUTPUT_PERSIST_THRESHOLD_CHARS = 100_000;
 const TASK_OUTPUT_RESULT_BUDGET_BYTES = 400_000;
 const TASK_OUTPUT_PERSIST_PREVIEW_CHARS = 2_000;
-const TASK_OUTPUT_POLL_INTERVAL_MS = 100;
-const TASK_OUTPUT_ERROR_CODE = {
-  TASK_ID_REQUIRED: 1,
-  TASK_NOT_FOUND: 2,
-} as const;
-
-const taskOutputHandler: ToolHandler = async (input, context) => {
-  const parsed = TaskOutputInputSchema.parse(input) as TaskOutputInput;
-  const inputFailure = getTaskOutputInputFailure(parsed, context.runtimeTaskRegistry);
-  if (inputFailure) return inputFailure;
-
-  const registry = requireRuntimeTaskRegistry(context);
-
-  const initialTask = registry.get(parsed.task_id);
-  if (!initialTask) {
-    return taskOutputFailure(
-      TASK_OUTPUT_ERROR_CODE.TASK_NOT_FOUND,
-      `No task found with ID: ${parsed.task_id}`,
-    );
-  }
-
-  if (!parsed.block) {
-    if (isTaskActive(initialTask.status)) {
-      return taskOutputResult("not_ready", await projectTask(initialTask, context));
-    }
-    const projectedTask = await projectTask(initialTask, context);
-    // notified 是完成结果已成功交付的 claim；投影前写入会在读取失败或
-    // abort 时吞掉后续 completion notification。异步投影不会被外层取消竞态强制
-    // 停止，因此 await 返回后必须再次检查 signal，再提交 claim。
-    throwIfAborted(context.abortSignal);
-    markTaskNotified(initialTask, context);
-    return taskOutputResult("success", projectedTask);
-  }
-
-  await emitWaitingProgress(context);
-  const task = await waitForTask(parsed.task_id, parsed.timeout, context);
-  if (!task) {
-    return taskOutputResult("timeout", null);
-  }
-  if (isTaskActive(task.status)) {
-    return taskOutputResult("timeout", await projectTask(task, context));
-  }
-  const projectedTask = await projectTask(task, context);
-  throwIfAborted(context.abortSignal);
-  markTaskNotified(task, context);
-  return taskOutputResult("success", projectedTask);
-};
 
 export const taskOutputToolEntry: ToolEntry = {
   aliases: TASK_OUTPUT_ALIASES,
@@ -94,8 +34,8 @@ export const taskOutputToolEntry: ToolEntry = {
     riskLevel: "low",
     needsApproval: false,
   },
-  handler: taskOutputHandler,
-  validateInput: validateTaskOutputInput,
+  handler: executeTaskOutput,
+  validateInput: validateTaskOutputRequest,
   formatModelContent: formatTaskOutputModelContent,
   formatPersistedModelContent: formatPersistedTaskOutputModelContent,
   inputSchema: TaskOutputInputJsonSchema,
@@ -141,34 +81,6 @@ export const taskOutputToolEntry: ToolEntry = {
     recordOutput: "summary",
   },
 };
-
-function taskOutputFailure(errorCode: number, message: string): ToolHandlerFailure {
-  return { result: false, errorCode, message };
-}
-
-function validateTaskOutputInput(
-  input: unknown,
-  context: ToolInputValidationContext,
-): ToolInputValidationResult {
-  const parsed = TaskOutputInputSchema.parse(input) as TaskOutputInput;
-  return getTaskOutputInputFailure(parsed, context.runtimeTaskRegistry) ?? { result: true };
-}
-
-function getTaskOutputInputFailure(
-  input: TaskOutputInput,
-  registry: ToolInputValidationContext["runtimeTaskRegistry"],
-): ToolHandlerFailure | undefined {
-  if (!input.task_id) {
-    return taskOutputFailure(TASK_OUTPUT_ERROR_CODE.TASK_ID_REQUIRED, "Task ID is required");
-  }
-  if (registry && !registry.get(input.task_id)) {
-    return taskOutputFailure(
-      TASK_OUTPUT_ERROR_CODE.TASK_NOT_FOUND,
-      `No task found with ID: ${input.task_id}`,
-    );
-  }
-  return undefined;
-}
 
 function formatTaskOutputModelContent(output: unknown): string {
   const parsed = TaskOutputResultSchema.parse(output);
@@ -224,80 +136,4 @@ function formatPersistedTaskOutputModelContent(input: ToolPersistedModelContentI
     persistedPath: input.persistedPath,
     previewChars: TASK_OUTPUT_PERSIST_PREVIEW_CHARS,
   });
-}
-
-async function waitForTask(
-  taskId: string,
-  timeoutMs: number,
-  context: ToolExecutionContext,
-): Promise<RuntimeTaskSnapshot | undefined> {
-  const startedAt = Date.now();
-  while (Date.now() - startedAt < timeoutMs) {
-    throwIfAborted(context.abortSignal);
-    const task = context.runtimeTaskRegistry?.get(taskId);
-    if (!task) return undefined;
-    if (!isTaskActive(task.status)) return task;
-    await delay(TASK_OUTPUT_POLL_INTERVAL_MS);
-  }
-  return context.runtimeTaskRegistry?.get(taskId);
-}
-
-function delay(milliseconds: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, milliseconds);
-  });
-}
-
-const isTaskActive = (status: string): boolean => status === "running" || status === "pending";
-
-function markTaskNotified(task: RuntimeTaskSnapshot, context: ToolExecutionContext): void {
-  context.runtimeTaskRegistry?.update(task.taskId, (current) =>
-    current.notified ? current : { ...current, notified: true },
-  );
-}
-
-async function emitWaitingProgress(context: ToolExecutionContext): Promise<void> {
-  if (!context.emitEvent) return;
-
-  await context.emitEvent({
-    id: crypto.randomUUID() as never,
-    sessionId: context.sessionId,
-    turnId: context.turnId,
-    type: SessionEventType.ToolCallProgress,
-    timestamp: new Date(),
-    traceId: context.traceId,
-    sequenceNumber: 0,
-    payload: {
-      toolCallId: context.toolCallId as never,
-      toolName: TASK_OUTPUT_TOOL_NAME,
-      elapsedMs: 0,
-    },
-  });
-}
-
-function taskOutputResult(
-  retrievalStatus: TaskOutputResult["retrieval_status"],
-  task: TaskOutputTask | null,
-): TaskOutputResult {
-  return {
-    retrieval_status: retrievalStatus,
-    task,
-  };
-}
-
-function requireRuntimeTaskRegistry(context: ToolExecutionContext) {
-  const registry = context.runtimeTaskRegistry;
-  if (registry) return registry;
-
-  throw createCoreError(
-    CoreErrorType.ConfigurationError,
-    "Runtime task registry is not configured for TaskOutput",
-    {
-      context: {
-        toolCallId: context.toolCallId,
-        toolName: TASK_OUTPUT_TOOL_NAME,
-      },
-      recoverable: false,
-    },
-  );
 }

@@ -1,0 +1,1160 @@
+[
+  {
+    "selector": "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 13,
+    "mismatches": [
+      {
+        "path": "src/runtime-task/registry.ts",
+        "expected": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+        "actual": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84"
+      },
+      {
+        "path": "dist/runtime-task/registry.js",
+        "expected": "72ba6d6b54a0e082f7ae889c4bac7e243393b2d2da079c31f3c95ce9df1e092f",
+        "actual": "4a12edda3db2833925b00430589af95d1ceb09db6b02f195b80346934dd50a09"
+      },
+      {
+        "path": "dist/runtime-task/registry.d.ts",
+        "expected": "8318d6f0fc2ead388d7ac42c0cc4a9192db11255f88180b0c3a15e0adada48b0",
+        "actual": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a"
+      },
+      {
+        "path": "src/tool/handlers/task-output-projection.ts",
+        "expected": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989",
+        "actual": "0c8677cc64d8799e84b44f1517fdb85e945238725fa30619f275c583bed8a644"
+      },
+      {
+        "path": "dist/tool/handlers/task-output-projection.js",
+        "expected": "bee530a8baffb93e2bdf53f25a65fb83896478b1113c8924703955df9407d5a5",
+        "actual": "833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e"
+      },
+      {
+        "path": "src/tool/handlers/task-output-bash.ts",
+        "expected": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed",
+        "actual": "19ac834c02a1dad962ba222222f03051a6b47e0d5e58030651904dd0a707f271"
+      },
+      {
+        "path": "dist/tool/handlers/task-output-bash.js",
+        "expected": "6fffd745f64f95d1ebf8b842ed7eb745c0d63ff3dbeca8618f1f1be264f1cec3",
+        "actual": "13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 73,
+    "mismatches": [
+      {
+        "path": "dist/workflow/definition.js",
+        "expected": "076c2a0c5a7b0a810d0fc44287d526ff8d0584b1bc0fbe43a320f4ef57f989b6",
+        "actual": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/graph-seed.js",
+        "expected": "1028c077cd3fccc7ed8cf35097c2d35d9f2677fc6c13a73ba8d9199bfc46ae59",
+        "actual": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/json.js",
+        "expected": "ee0dfb4a7581f3e4056cdc986d22933fe7fff7d64b7ff4d07a9c2ea732484d97",
+        "actual": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/planner-result.js",
+        "expected": "22efd42908bda7f084dc651d9c331a74dfb63bf056cc72d8aa08f24557126202",
+        "actual": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd"
+      },
+      {
+        "path": "dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      {
+        "path": "dist/workflow/expert/scheduled-phase.js",
+        "expected": "bc99aafa540a552b73a9d20ae34b985ef5b7cdf2a3e1ad6099a6f7fc79a3f11c",
+        "actual": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf"
+      },
+      {
+        "path": "dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-events.js",
+        "expected": "3f739c7e641b759943991a1212c29875a24bd626a344c1832fdc286c2f89ae22",
+        "actual": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.js",
+        "expected": "d1178021a35239887a55a2768401bd42c5841b04533b1774060d9387d0bcab23",
+        "actual": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "dist/workflow/scheduler/events.js",
+        "expected": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+        "actual": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04"
+      },
+      {
+        "path": "dist/workflow/scheduler/node-runner.js",
+        "expected": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+        "actual": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "dist/workflow/scheduler/planner-expansion.js",
+        "expected": "fcfbee23f5b9072a97369ea40512b641d65990727c50a0e3615fa42090d8744c",
+        "actual": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b"
+      },
+      {
+        "path": "dist/workflow/scheduler/prompts.js",
+        "expected": "aa37b9c506c29fdbf2e557ef3fdd0cd5c7a11c049eab55fcf0e8d1cbddd14404",
+        "actual": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989"
+      },
+      {
+        "path": "src/workflow/definition.ts",
+        "expected": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6",
+        "actual": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2"
+      },
+      {
+        "path": "src/workflow/expert/parsers/graph-seed.ts",
+        "expected": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+        "actual": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f"
+      },
+      {
+        "path": "src/workflow/expert/parsers/json.ts",
+        "expected": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "actual": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920"
+      },
+      {
+        "path": "src/workflow/expert/parsers/planner-result.ts",
+        "expected": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0",
+        "actual": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd"
+      },
+      {
+        "path": "src/workflow/expert/prompts.ts",
+        "expected": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03",
+        "actual": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829"
+      },
+      {
+        "path": "src/workflow/expert/scheduled-phase.ts",
+        "expected": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7",
+        "actual": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772"
+      },
+      {
+        "path": "src/workflow/lifecycle.ts",
+        "expected": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "actual": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-events.ts",
+        "expected": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+        "actual": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-planner.ts",
+        "expected": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+        "actual": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab"
+      },
+      {
+        "path": "src/workflow/scheduler/events.ts",
+        "expected": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "actual": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35"
+      },
+      {
+        "path": "src/workflow/scheduler/node-runner.ts",
+        "expected": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "actual": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34"
+      },
+      {
+        "path": "src/workflow/scheduler/planner-expansion.ts",
+        "expected": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+        "actual": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316"
+      },
+      {
+        "path": "src/workflow/scheduler/prompts.ts",
+        "expected": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+        "actual": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.d.ts",
+        "expected": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+        "actual": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406"
+      },
+      {
+        "path": "../contracts/dist/workflow/definition.d.ts",
+        "expected": "08b8b54988631ab96cd57ec68e11b74f9a4b708cd68de0e6bc0f23ad5f60c3ee",
+        "actual": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3"
+      },
+      {
+        "path": "../contracts/dist/workflow/graph-schema.d.ts",
+        "expected": "ade8f9d86b1cc58f6fa98bad9dc7e443528a1afbb4da9dce6a4d36fb1415bdd6",
+        "actual": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2"
+      },
+      {
+        "path": "../contracts/dist/workflow/run-schema.d.ts",
+        "expected": "ec8e25ab549ff0db090bb7e30f0374830fc6dc70ce9a3b2b48ac0e1631c9a69f",
+        "actual": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816"
+      },
+      {
+        "path": "../contracts/dist/workflow/scheduler-state.d.ts",
+        "expected": "9f12bdcbe795bb43da1770240fb5fed2437e2fbbab1ac8a115e84e2170885f48",
+        "actual": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-event-log-pins.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 15,
+    "mismatches": [
+      {
+        "path": "src/workflow/scheduler/events.ts",
+        "expected": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "actual": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35"
+      },
+      {
+        "path": "dist/workflow/scheduler/events.js",
+        "expected": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+        "actual": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04"
+      },
+      {
+        "path": "dist/workflow/scheduler/events.d.ts",
+        "expected": "5745e4a1748f0531f66b1aaebbe7382ebc18381611e2652479f6c0de60149f15",
+        "actual": "29d17214257c7ffad8ee4c0083117531a206dac9a99f517e85aa944ad3aaed9f"
+      },
+      {
+        "path": "src/workflow/scheduler/graph.ts",
+        "expected": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+        "actual": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69"
+      },
+      {
+        "path": "dist/workflow/scheduler/graph.js",
+        "expected": "b2330aefde3b0808b6e9ef484da839eff8badfb5e07eae51952d2910600e13d9",
+        "actual": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69"
+      },
+      {
+        "path": "dist/workflow/scheduler/graph.d.ts",
+        "expected": "0c041833e2d9deab50587ad659ec7d300e4e8a6dd038fde483574f2f0f04a613",
+        "actual": "032f23777c276c3705362abec0ab8b52f516d923ac9a04e0b9b43eae2d3210fc"
+      },
+      {
+        "path": "src/workflow/scheduler/node-runner.ts",
+        "expected": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "actual": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34"
+      },
+      {
+        "path": "dist/workflow/scheduler/node-runner.js",
+        "expected": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+        "actual": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-planner.ts",
+        "expected": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+        "actual": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.js",
+        "expected": "5c4edfca4583ee36008fa4a7508e82dc2d8b2b77388a9501d6f8914dd0b73dee",
+        "actual": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.d.ts",
+        "expected": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+        "actual": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-graph-artifacts-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 48,
+    "mismatches": [
+      {
+        "path": "core/src/workflow/lifecycle.ts",
+        "expected": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "actual": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a"
+      },
+      {
+        "path": "core/dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "core/dist/workflow/lifecycle.d.ts",
+        "expected": "86e7029b491f3c1bb1adec1d849651ab2cb63ab148348720302cab7105755cca",
+        "actual": "7cf2b6ed2951bc18d700e7e5176a72256a0ae8e588f028955d2524d2db387c73"
+      },
+      {
+        "path": "core/src/workflow/expert/parsers/graph-seed.ts",
+        "expected": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+        "actual": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f"
+      },
+      {
+        "path": "core/dist/workflow/expert/parsers/graph-seed.js",
+        "expected": "1028c077cd3fccc7ed8cf35097c2d35d9f2677fc6c13a73ba8d9199bfc46ae59",
+        "actual": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5"
+      },
+      {
+        "path": "core/src/workflow/expert/parsers/node-prompts.ts",
+        "expected": "454a1f0ed323844ea8db92fc99058c5391c8dc5fad16dab4dad2e79485146ead",
+        "actual": "812efeb8112c526068a53be9fe8be40b8186df1606aff547f832e7e2e1d2f73e"
+      },
+      {
+        "path": "core/dist/workflow/expert/parsers/node-prompts.js",
+        "expected": "d12c906ef256e62c8dd51e73dcacb6681be94fa336538a63f1db441e903baf5f",
+        "actual": "56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57"
+      },
+      {
+        "path": "core/src/workflow/expert/parsers/json.ts",
+        "expected": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "actual": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920"
+      },
+      {
+        "path": "core/dist/workflow/expert/parsers/json.js",
+        "expected": "ee0dfb4a7581f3e4056cdc986d22933fe7fff7d64b7ff4d07a9c2ea732484d97",
+        "actual": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e"
+      },
+      {
+        "path": "core/src/workflow/expert/formatters.ts",
+        "expected": "bc8de5bea478f410cb955186f7f487acfd95fa6ff74c394c806f1938e35711d5",
+        "actual": "66e8432c5e9895bc237fcdd6874200f7ebf462685a4f12a10d62130a90a3c089"
+      },
+      {
+        "path": "core/dist/workflow/expert/formatters.js",
+        "expected": "da8b7403e2547070350e3a13e92bf3fc55c2658fe2ddb0c4d6a4055bcd552aa7",
+        "actual": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5"
+      },
+      {
+        "path": "contracts/dist/workflow/definition.d.ts",
+        "expected": "08b8b54988631ab96cd57ec68e11b74f9a4b708cd68de0e6bc0f23ad5f60c3ee",
+        "actual": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3"
+      },
+      {
+        "path": "contracts/dist/workflow/graph-schema.d.ts",
+        "expected": "ade8f9d86b1cc58f6fa98bad9dc7e443528a1afbb4da9dce6a4d36fb1415bdd6",
+        "actual": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2"
+      },
+      {
+        "path": "contracts/dist/workflow/run-schema.d.ts",
+        "expected": "ec8e25ab549ff0db090bb7e30f0374830fc6dc70ce9a3b2b48ac0e1631c9a69f",
+        "actual": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816"
+      },
+      {
+        "path": "contracts/dist/workflow/scheduler-state.d.ts",
+        "expected": "9f12bdcbe795bb43da1770240fb5fed2437e2fbbab1ac8a115e84e2170885f48",
+        "actual": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473"
+      }
+    ],
+    "readerRoot": "apps/cli/packages",
+    "probeCorrection": "Respect each fixture reader root; core/ and contracts/ entries are relative to apps/cli/packages, not core. Initial read-only probe resolved two selector roots incorrectly; discarded missing-file inference."
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-phase-runner-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 9,
+    "mismatches": [
+      {
+        "path": "dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      {
+        "path": "dist/workflow/definition.js",
+        "expected": "076c2a0c5a7b0a810d0fc44287d526ff8d0584b1bc0fbe43a320f4ef57f989b6",
+        "actual": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 74,
+    "mismatches": [
+      {
+        "path": "dist/workflow/definition.js",
+        "expected": "076c2a0c5a7b0a810d0fc44287d526ff8d0584b1bc0fbe43a320f4ef57f989b6",
+        "actual": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/graph-seed.js",
+        "expected": "1028c077cd3fccc7ed8cf35097c2d35d9f2677fc6c13a73ba8d9199bfc46ae59",
+        "actual": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/json.js",
+        "expected": "ee0dfb4a7581f3e4056cdc986d22933fe7fff7d64b7ff4d07a9c2ea732484d97",
+        "actual": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/planner-result.js",
+        "expected": "22efd42908bda7f084dc651d9c331a74dfb63bf056cc72d8aa08f24557126202",
+        "actual": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd"
+      },
+      {
+        "path": "dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      {
+        "path": "dist/workflow/expert/scheduled-phase.js",
+        "expected": "bc99aafa540a552b73a9d20ae34b985ef5b7cdf2a3e1ad6099a6f7fc79a3f11c",
+        "actual": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf"
+      },
+      {
+        "path": "dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-events.js",
+        "expected": "3f739c7e641b759943991a1212c29875a24bd626a344c1832fdc286c2f89ae22",
+        "actual": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.js",
+        "expected": "d1178021a35239887a55a2768401bd42c5841b04533b1774060d9387d0bcab23",
+        "actual": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "dist/workflow/scheduler/events.js",
+        "expected": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+        "actual": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04"
+      },
+      {
+        "path": "dist/workflow/scheduler/node-runner.js",
+        "expected": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+        "actual": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "dist/workflow/scheduler/planner-expansion.js",
+        "expected": "fcfbee23f5b9072a97369ea40512b641d65990727c50a0e3615fa42090d8744c",
+        "actual": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b"
+      },
+      {
+        "path": "dist/workflow/scheduler/prompts.js",
+        "expected": "aa37b9c506c29fdbf2e557ef3fdd0cd5c7a11c049eab55fcf0e8d1cbddd14404",
+        "actual": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989"
+      },
+      {
+        "path": "src/workflow/definition.ts",
+        "expected": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6",
+        "actual": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2"
+      },
+      {
+        "path": "src/workflow/expert/parsers/graph-seed.ts",
+        "expected": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+        "actual": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f"
+      },
+      {
+        "path": "src/workflow/expert/parsers/json.ts",
+        "expected": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "actual": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920"
+      },
+      {
+        "path": "src/workflow/expert/parsers/planner-result.ts",
+        "expected": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0",
+        "actual": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd"
+      },
+      {
+        "path": "src/workflow/expert/prompts.ts",
+        "expected": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03",
+        "actual": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829"
+      },
+      {
+        "path": "src/workflow/expert/scheduled-phase.ts",
+        "expected": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7",
+        "actual": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772"
+      },
+      {
+        "path": "src/workflow/lifecycle.ts",
+        "expected": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "actual": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-events.ts",
+        "expected": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+        "actual": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-planner.ts",
+        "expected": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+        "actual": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab"
+      },
+      {
+        "path": "src/workflow/scheduler/events.ts",
+        "expected": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "actual": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35"
+      },
+      {
+        "path": "src/workflow/scheduler/node-runner.ts",
+        "expected": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "actual": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34"
+      },
+      {
+        "path": "src/workflow/scheduler/planner-expansion.ts",
+        "expected": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+        "actual": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316"
+      },
+      {
+        "path": "src/workflow/scheduler/prompts.ts",
+        "expected": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+        "actual": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.d.ts",
+        "expected": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+        "actual": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406"
+      },
+      {
+        "path": "../contracts/dist/workflow/definition.d.ts",
+        "expected": "08b8b54988631ab96cd57ec68e11b74f9a4b708cd68de0e6bc0f23ad5f60c3ee",
+        "actual": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3"
+      },
+      {
+        "path": "../contracts/dist/workflow/graph-schema.d.ts",
+        "expected": "ade8f9d86b1cc58f6fa98bad9dc7e443528a1afbb4da9dce6a4d36fb1415bdd6",
+        "actual": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2"
+      },
+      {
+        "path": "../contracts/dist/workflow/run-schema.d.ts",
+        "expected": "ec8e25ab549ff0db090bb7e30f0374830fc6dc70ce9a3b2b48ac0e1631c9a69f",
+        "actual": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816"
+      },
+      {
+        "path": "../contracts/dist/workflow/scheduler-state.d.ts",
+        "expected": "9f12bdcbe795bb43da1770240fb5fed2437e2fbbab1ac8a115e84e2170885f48",
+        "actual": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-ready-order-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 74,
+    "mismatches": [
+      {
+        "path": "dist/workflow/definition.js",
+        "expected": "076c2a0c5a7b0a810d0fc44287d526ff8d0584b1bc0fbe43a320f4ef57f989b6",
+        "actual": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/graph-seed.js",
+        "expected": "1028c077cd3fccc7ed8cf35097c2d35d9f2677fc6c13a73ba8d9199bfc46ae59",
+        "actual": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/json.js",
+        "expected": "ee0dfb4a7581f3e4056cdc986d22933fe7fff7d64b7ff4d07a9c2ea732484d97",
+        "actual": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/planner-result.js",
+        "expected": "22efd42908bda7f084dc651d9c331a74dfb63bf056cc72d8aa08f24557126202",
+        "actual": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd"
+      },
+      {
+        "path": "dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      {
+        "path": "dist/workflow/expert/scheduled-phase.js",
+        "expected": "bc99aafa540a552b73a9d20ae34b985ef5b7cdf2a3e1ad6099a6f7fc79a3f11c",
+        "actual": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf"
+      },
+      {
+        "path": "dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-events.js",
+        "expected": "3f739c7e641b759943991a1212c29875a24bd626a344c1832fdc286c2f89ae22",
+        "actual": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.js",
+        "expected": "d1178021a35239887a55a2768401bd42c5841b04533b1774060d9387d0bcab23",
+        "actual": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "dist/workflow/scheduler/events.js",
+        "expected": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+        "actual": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04"
+      },
+      {
+        "path": "dist/workflow/scheduler/node-runner.js",
+        "expected": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+        "actual": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "dist/workflow/scheduler/planner-expansion.js",
+        "expected": "fcfbee23f5b9072a97369ea40512b641d65990727c50a0e3615fa42090d8744c",
+        "actual": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b"
+      },
+      {
+        "path": "dist/workflow/scheduler/prompts.js",
+        "expected": "aa37b9c506c29fdbf2e557ef3fdd0cd5c7a11c049eab55fcf0e8d1cbddd14404",
+        "actual": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989"
+      },
+      {
+        "path": "src/workflow/definition.ts",
+        "expected": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6",
+        "actual": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2"
+      },
+      {
+        "path": "src/workflow/expert/parsers/graph-seed.ts",
+        "expected": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+        "actual": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f"
+      },
+      {
+        "path": "src/workflow/expert/parsers/json.ts",
+        "expected": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "actual": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920"
+      },
+      {
+        "path": "src/workflow/expert/parsers/planner-result.ts",
+        "expected": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0",
+        "actual": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd"
+      },
+      {
+        "path": "src/workflow/expert/prompts.ts",
+        "expected": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03",
+        "actual": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829"
+      },
+      {
+        "path": "src/workflow/expert/scheduled-phase.ts",
+        "expected": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7",
+        "actual": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772"
+      },
+      {
+        "path": "src/workflow/lifecycle.ts",
+        "expected": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "actual": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-events.ts",
+        "expected": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+        "actual": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-planner.ts",
+        "expected": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+        "actual": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab"
+      },
+      {
+        "path": "src/workflow/scheduler/events.ts",
+        "expected": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "actual": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35"
+      },
+      {
+        "path": "src/workflow/scheduler/node-runner.ts",
+        "expected": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "actual": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34"
+      },
+      {
+        "path": "src/workflow/scheduler/planner-expansion.ts",
+        "expected": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+        "actual": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316"
+      },
+      {
+        "path": "src/workflow/scheduler/prompts.ts",
+        "expected": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+        "actual": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.d.ts",
+        "expected": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+        "actual": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406"
+      },
+      {
+        "path": "../contracts/dist/workflow/definition.d.ts",
+        "expected": "08b8b54988631ab96cd57ec68e11b74f9a4b708cd68de0e6bc0f23ad5f60c3ee",
+        "actual": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3"
+      },
+      {
+        "path": "../contracts/dist/workflow/graph-schema.d.ts",
+        "expected": "ade8f9d86b1cc58f6fa98bad9dc7e443528a1afbb4da9dce6a4d36fb1415bdd6",
+        "actual": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2"
+      },
+      {
+        "path": "../contracts/dist/workflow/run-schema.d.ts",
+        "expected": "ec8e25ab549ff0db090bb7e30f0374830fc6dc70ce9a3b2b48ac0e1631c9a69f",
+        "actual": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816"
+      },
+      {
+        "path": "../contracts/dist/workflow/scheduler-state.d.ts",
+        "expected": "9f12bdcbe795bb43da1770240fb5fed2437e2fbbab1ac8a115e84e2170885f48",
+        "actual": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-run-loop-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 11,
+    "mismatches": [
+      {
+        "path": "dist/workflow/expert/runtime.js",
+        "expected": "f05db4bb566e5dcfbd3802d63f633f327f7b493f9c543fa10ee11c8df4e6caec",
+        "actual": "76150019c870323dcb3e21d1aaaad8cf58b3939a2ed08dc5e2629e061b231086"
+      },
+      {
+        "path": "dist/workflow/expert/formatters.js",
+        "expected": "da8b7403e2547070350e3a13e92bf3fc55c2658fe2ddb0c4d6a4055bcd552aa7",
+        "actual": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5"
+      },
+      {
+        "path": "dist/workflow/expert/failures.js",
+        "expected": "54c6102b8a08a13c789c557251bda5596261ffd9218750e1c7170aec0ef9c5e6",
+        "actual": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3"
+      },
+      {
+        "path": "dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      {
+        "path": "dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-runtime-context-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 6,
+    "mismatches": [
+      {
+        "path": "dist/workflow/definition.js",
+        "expected": "076c2a0c5a7b0a810d0fc44287d526ff8d0584b1bc0fbe43a320f4ef57f989b6",
+        "actual": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0"
+      },
+      {
+        "path": "dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 36,
+    "mismatches": [
+      {
+        "path": "dist/workflow/definition.js",
+        "expected": "076c2a0c5a7b0a810d0fc44287d526ff8d0584b1bc0fbe43a320f4ef57f989b6",
+        "actual": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/graph-seed.js",
+        "expected": "1028c077cd3fccc7ed8cf35097c2d35d9f2677fc6c13a73ba8d9199bfc46ae59",
+        "actual": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/json.js",
+        "expected": "ee0dfb4a7581f3e4056cdc986d22933fe7fff7d64b7ff4d07a9c2ea732484d97",
+        "actual": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e"
+      },
+      {
+        "path": "dist/workflow/expert/parsers/planner-result.js",
+        "expected": "22efd42908bda7f084dc651d9c331a74dfb63bf056cc72d8aa08f24557126202",
+        "actual": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd"
+      },
+      {
+        "path": "dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      {
+        "path": "dist/workflow/expert/scheduled-phase.js",
+        "expected": "bc99aafa540a552b73a9d20ae34b985ef5b7cdf2a3e1ad6099a6f7fc79a3f11c",
+        "actual": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf"
+      },
+      {
+        "path": "dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-events.js",
+        "expected": "3f739c7e641b759943991a1212c29875a24bd626a344c1832fdc286c2f89ae22",
+        "actual": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.js",
+        "expected": "5c4edfca4583ee36008fa4a7508e82dc2d8b2b77388a9501d6f8914dd0b73dee",
+        "actual": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "dist/workflow/scheduler/events.js",
+        "expected": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+        "actual": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04"
+      },
+      {
+        "path": "dist/workflow/scheduler/graph.js",
+        "expected": "b2330aefde3b0808b6e9ef484da839eff8badfb5e07eae51952d2910600e13d9",
+        "actual": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69"
+      },
+      {
+        "path": "dist/workflow/scheduler/node-runner.js",
+        "expected": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+        "actual": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "dist/workflow/scheduler/planner-expansion.js",
+        "expected": "6718225808f6d147c9baaface892a22d7fe6bb11dcb59ca6d7009e64fe12252a",
+        "actual": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b"
+      },
+      {
+        "path": "dist/workflow/scheduler/prompts.js",
+        "expected": "aa37b9c506c29fdbf2e557ef3fdd0cd5c7a11c049eab55fcf0e8d1cbddd14404",
+        "actual": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989"
+      },
+      {
+        "path": "src/workflow/definition.ts",
+        "expected": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6",
+        "actual": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2"
+      },
+      {
+        "path": "src/workflow/expert/parsers/graph-seed.ts",
+        "expected": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+        "actual": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f"
+      },
+      {
+        "path": "src/workflow/expert/parsers/json.ts",
+        "expected": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "actual": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920"
+      },
+      {
+        "path": "src/workflow/expert/parsers/planner-result.ts",
+        "expected": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0",
+        "actual": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd"
+      },
+      {
+        "path": "src/workflow/expert/prompts.ts",
+        "expected": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03",
+        "actual": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829"
+      },
+      {
+        "path": "src/workflow/expert/scheduled-phase.ts",
+        "expected": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7",
+        "actual": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772"
+      },
+      {
+        "path": "src/workflow/lifecycle.ts",
+        "expected": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "actual": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-events.ts",
+        "expected": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+        "actual": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-planner.ts",
+        "expected": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+        "actual": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab"
+      },
+      {
+        "path": "src/workflow/scheduler/events.ts",
+        "expected": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "actual": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35"
+      },
+      {
+        "path": "src/workflow/scheduler/graph.ts",
+        "expected": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+        "actual": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69"
+      },
+      {
+        "path": "src/workflow/scheduler/node-runner.ts",
+        "expected": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "actual": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34"
+      },
+      {
+        "path": "src/workflow/scheduler/planner-expansion.ts",
+        "expected": "7344f1884044f6ca8a6106bee0db8ee57169826a8c7588d4d28676a1e6272e8c",
+        "actual": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316"
+      },
+      {
+        "path": "src/workflow/scheduler/prompts.ts",
+        "expected": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+        "actual": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 74,
+    "mismatches": [
+      {
+        "path": "core/dist/workflow/definition.js",
+        "expected": "076c2a0c5a7b0a810d0fc44287d526ff8d0584b1bc0fbe43a320f4ef57f989b6",
+        "actual": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0"
+      },
+      {
+        "path": "core/dist/workflow/expert/parsers/graph-seed.js",
+        "expected": "1028c077cd3fccc7ed8cf35097c2d35d9f2677fc6c13a73ba8d9199bfc46ae59",
+        "actual": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5"
+      },
+      {
+        "path": "core/dist/workflow/expert/parsers/json.js",
+        "expected": "ee0dfb4a7581f3e4056cdc986d22933fe7fff7d64b7ff4d07a9c2ea732484d97",
+        "actual": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e"
+      },
+      {
+        "path": "core/dist/workflow/expert/parsers/planner-result.js",
+        "expected": "22efd42908bda7f084dc651d9c331a74dfb63bf056cc72d8aa08f24557126202",
+        "actual": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd"
+      },
+      {
+        "path": "core/dist/workflow/expert/prompts.js",
+        "expected": "bbebb5b2fe22b5e425b353b140c5481fda7078e082639551af313e53ee693168",
+        "actual": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      {
+        "path": "core/dist/workflow/expert/scheduled-phase.js",
+        "expected": "bc99aafa540a552b73a9d20ae34b985ef5b7cdf2a3e1ad6099a6f7fc79a3f11c",
+        "actual": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf"
+      },
+      {
+        "path": "core/dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "core/dist/workflow/scheduler/collection-events.js",
+        "expected": "3f739c7e641b759943991a1212c29875a24bd626a344c1832fdc286c2f89ae22",
+        "actual": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4"
+      },
+      {
+        "path": "core/dist/workflow/scheduler/collection-planner.js",
+        "expected": "d1178021a35239887a55a2768401bd42c5841b04533b1774060d9387d0bcab23",
+        "actual": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "core/dist/workflow/scheduler/events.js",
+        "expected": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+        "actual": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04"
+      },
+      {
+        "path": "core/dist/workflow/scheduler/node-runner.js",
+        "expected": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+        "actual": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "core/dist/workflow/scheduler/planner-expansion.js",
+        "expected": "fcfbee23f5b9072a97369ea40512b641d65990727c50a0e3615fa42090d8744c",
+        "actual": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b"
+      },
+      {
+        "path": "core/dist/workflow/scheduler/prompts.js",
+        "expected": "aa37b9c506c29fdbf2e557ef3fdd0cd5c7a11c049eab55fcf0e8d1cbddd14404",
+        "actual": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989"
+      },
+      {
+        "path": "core/src/workflow/definition.ts",
+        "expected": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6",
+        "actual": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2"
+      },
+      {
+        "path": "core/src/workflow/expert/parsers/graph-seed.ts",
+        "expected": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+        "actual": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f"
+      },
+      {
+        "path": "core/src/workflow/expert/parsers/json.ts",
+        "expected": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "actual": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920"
+      },
+      {
+        "path": "core/src/workflow/expert/parsers/planner-result.ts",
+        "expected": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0",
+        "actual": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd"
+      },
+      {
+        "path": "core/src/workflow/expert/prompts.ts",
+        "expected": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03",
+        "actual": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829"
+      },
+      {
+        "path": "core/src/workflow/expert/scheduled-phase.ts",
+        "expected": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7",
+        "actual": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772"
+      },
+      {
+        "path": "core/src/workflow/lifecycle.ts",
+        "expected": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "actual": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a"
+      },
+      {
+        "path": "core/src/workflow/scheduler/collection-events.ts",
+        "expected": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+        "actual": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10"
+      },
+      {
+        "path": "core/src/workflow/scheduler/collection-planner.ts",
+        "expected": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+        "actual": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab"
+      },
+      {
+        "path": "core/src/workflow/scheduler/events.ts",
+        "expected": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "actual": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35"
+      },
+      {
+        "path": "core/src/workflow/scheduler/node-runner.ts",
+        "expected": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "actual": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34"
+      },
+      {
+        "path": "core/src/workflow/scheduler/planner-expansion.ts",
+        "expected": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+        "actual": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316"
+      },
+      {
+        "path": "core/src/workflow/scheduler/prompts.ts",
+        "expected": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+        "actual": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d"
+      },
+      {
+        "path": "core/dist/workflow/scheduler/collection-planner.d.ts",
+        "expected": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+        "actual": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406"
+      },
+      {
+        "path": "contracts/dist/workflow/definition.d.ts",
+        "expected": "08b8b54988631ab96cd57ec68e11b74f9a4b708cd68de0e6bc0f23ad5f60c3ee",
+        "actual": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3"
+      },
+      {
+        "path": "contracts/dist/workflow/graph-schema.d.ts",
+        "expected": "ade8f9d86b1cc58f6fa98bad9dc7e443528a1afbb4da9dce6a4d36fb1415bdd6",
+        "actual": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2"
+      },
+      {
+        "path": "contracts/dist/workflow/run-schema.d.ts",
+        "expected": "ec8e25ab549ff0db090bb7e30f0374830fc6dc70ce9a3b2b48ac0e1631c9a69f",
+        "actual": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816"
+      },
+      {
+        "path": "contracts/dist/workflow/scheduler-state.d.ts",
+        "expected": "9f12bdcbe795bb43da1770240fb5fed2437e2fbbab1ac8a115e84e2170885f48",
+        "actual": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473"
+      }
+    ],
+    "readerRoot": "apps/cli/packages",
+    "probeCorrection": "Respect each fixture reader root; core/ and contracts/ entries are relative to apps/cli/packages, not core. Initial read-only probe resolved two selector roots incorrectly; discarded missing-file inference."
+  },
+  {
+    "selector": "apps/cli/packages/core/test/workflow-node-publication-current.json",
+    "selectorOriginalCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "registeredFiles": 22,
+    "mismatches": [
+      {
+        "path": "src/workflow/scheduler/node-runner.ts",
+        "expected": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "actual": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34"
+      },
+      {
+        "path": "dist/workflow/scheduler/node-runner.js",
+        "expected": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+        "actual": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "src/workflow/scheduler/graph.ts",
+        "expected": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+        "actual": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69"
+      },
+      {
+        "path": "dist/workflow/scheduler/graph.js",
+        "expected": "b2330aefde3b0808b6e9ef484da839eff8badfb5e07eae51952d2910600e13d9",
+        "actual": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69"
+      },
+      {
+        "path": "src/workflow/scheduler/events.ts",
+        "expected": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+        "actual": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35"
+      },
+      {
+        "path": "dist/workflow/scheduler/events.js",
+        "expected": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+        "actual": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04"
+      },
+      {
+        "path": "src/workflow/scheduler/prompts.ts",
+        "expected": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+        "actual": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d"
+      },
+      {
+        "path": "dist/workflow/scheduler/prompts.js",
+        "expected": "aa37b9c506c29fdbf2e557ef3fdd0cd5c7a11c049eab55fcf0e8d1cbddd14404",
+        "actual": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989"
+      },
+      {
+        "path": "src/workflow/lifecycle.ts",
+        "expected": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+        "actual": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a"
+      },
+      {
+        "path": "dist/workflow/lifecycle.js",
+        "expected": "3f966de68413f8589c1787c4988fd8685c6e216d6117b22b23c8a403bc5747cf",
+        "actual": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-planner.ts",
+        "expected": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+        "actual": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-planner.js",
+        "expected": "5c4edfca4583ee36008fa4a7508e82dc2d8b2b77388a9501d6f8914dd0b73dee",
+        "actual": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "src/workflow/scheduler/collection-events.ts",
+        "expected": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+        "actual": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10"
+      },
+      {
+        "path": "dist/workflow/scheduler/collection-events.js",
+        "expected": "3f739c7e641b759943991a1212c29875a24bd626a344c1832fdc286c2f89ae22",
+        "actual": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4"
+      },
+      {
+        "path": "src/workflow/scheduler/planner-expansion.ts",
+        "expected": "7344f1884044f6ca8a6106bee0db8ee57169826a8c7588d4d28676a1e6272e8c",
+        "actual": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316"
+      },
+      {
+        "path": "dist/workflow/scheduler/planner-expansion.js",
+        "expected": "6718225808f6d147c9baaface892a22d7fe6bb11dcb59ca6d7009e64fe12252a",
+        "actual": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b"
+      }
+    ],
+    "readerRoot": "apps/cli/packages/core",
+    "probeCorrection": null
+  }
+]

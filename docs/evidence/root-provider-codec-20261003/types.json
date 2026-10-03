@@ -1,0 +1,58 @@
+[
+  {
+    "mode": "baseline",
+    "sourceFiles": 332,
+    "diagnostics": [],
+    "api": [
+      {
+        "name": "decodeProviderConfigFile",
+        "calls": [
+          "(input: unknown): ProviderConfigLayerUpdate"
+        ],
+        "constructs": []
+      },
+      {
+        "name": "encodeProviderConfigFile",
+        "calls": [
+          "(update: ProviderConfigLayerUpdate): { schemaVersion: 1; config: { defaultModelSelection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; providerConfigRules: { providerRules: { providerId: string; config: { group?: \"standard-personal\" | \"zai-family\" | \"bigmodel-family\" | null | undefined; logo?: { type: \"builtin\"; key: string; } | null | undefined; access?: { type: \"api-key\" | \"zhipu-coding-plan-api-key\"; apiKey?: string | null | undefined; apiKeyManagementUrl?: string | null | undefined; } | { type: \"zhipu-account\"; accountType?: \"zai\" | \"bigmodel\" | null | undefined; mode?: \"start-plan\" | \"individual-coding-plan\" | \"team-coding-plan\" | \"off-peak\" | null | undefined; entitled?: boolean | null | undefined; } | null | undefined; api?: { baseUrl?: string | null | undefined; type?: \"anthropic-messages\" | \"openai-chat-completions\" | \"openai-responses\" | null | undefined; headers?: Readonly<Record<string, string>> | null | undefined; } | null | undefined; builtinModelIds?: readonly string[] | null | undefined; personalModelIds?: readonly string[] | null | undefined; modelOrder?: readonly string[] | null | undefined; visibility?: \"visible\" | \"hidden\" | null | undefined; }; templateId?: string | null | undefined; providerName?: string | null | undefined; enabled?: boolean | undefined; }[]; }; modelConfigRules: { providerModelRules: { modelId: string; config: { properties?: { inputFormat?: { supportsText?: boolean | null | undefined; supportsImage?: boolean | null | undefined; supportsVideo?: boolean | null | undefined; supportsAudio?: boolean | null | undefined; supportsPdf?: boolean | null | undefined; } | null | undefined; outputFormat?: { supportsText?: boolean | null | undefined; } | null | undefined; requiresMfjsToolSchema?: boolean | null | undefined; contextWindow?: number | null | undefined; supportsToolCall?: boolean | null | undefined; supportsJsonSchemaOutput?: boolean | null | undefined; supportsNativeWebSearch?: boolean | null | undefined; supportsMidConversationSystem?: boolean | null | undefined; } | null | undefined; optionSpecs?: { reasoningLevel?: { values?: readonly string[] | null | undefined; map?: string | null | undefined; } | null | undefined; maxOutputTokens?: { max?: number | null | undefined; map?: string | null | undefined; } | null | undefined; } | null | undefined; enabled?: boolean | null | undefined; }; providerId: string; }[]; manualProviderModelRules: { modelId: string; providerId: string; config: { properties: { contextWindow: number; supportsJsonSchemaOutput: boolean; supportsNativeWebSearch: boolean; supportsMidConversationSystem: boolean; inputFormat: { supportsImage: boolean; supportsVideo: boolean; supportsPdf: boolean; }; }; optionSpecs: { reasoningLevel: { values: readonly string[]; map: string; }; maxOutputTokens: { max: number; }; }; enabled?: boolean | null | undefined; }; }[]; }; providerOrder?: readonly string[] | undefined; }; }"
+        ],
+        "constructs": []
+      },
+      {
+        "name": "UnsupportedProviderConfigVersionError",
+        "calls": [],
+        "constructs": [
+          "(message: string, version: number | null): UnsupportedProviderConfigVersionError"
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "candidate",
+    "sourceFiles": 332,
+    "diagnostics": [],
+    "api": [
+      {
+        "name": "decodeProviderConfigFile",
+        "calls": [
+          "(input: unknown): ProviderConfigLayerUpdate"
+        ],
+        "constructs": []
+      },
+      {
+        "name": "encodeProviderConfigFile",
+        "calls": [
+          "(update: ProviderConfigLayerUpdate): { schemaVersion: 1; config: { defaultModelSelection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; providerConfigRules: { providerRules: { providerId: string; config: { group?: \"standard-personal\" | \"zai-family\" | \"bigmodel-family\" | null | undefined; logo?: { type: \"builtin\"; key: string; } | null | undefined; access?: { type: \"api-key\" | \"zhipu-coding-plan-api-key\"; apiKey?: string | null | undefined; apiKeyManagementUrl?: string | null | undefined; } | { type: \"zhipu-account\"; accountType?: \"zai\" | \"bigmodel\" | null | undefined; mode?: \"start-plan\" | \"individual-coding-plan\" | \"team-coding-plan\" | \"off-peak\" | null | undefined; entitled?: boolean | null | undefined; } | null | undefined; api?: { baseUrl?: string | null | undefined; type?: \"anthropic-messages\" | \"openai-chat-completions\" | \"openai-responses\" | null | undefined; headers?: Readonly<Record<string, string>> | null | undefined; } | null | undefined; builtinModelIds?: readonly string[] | null | undefined; personalModelIds?: readonly string[] | null | undefined; modelOrder?: readonly string[] | null | undefined; visibility?: \"visible\" | \"hidden\" | null | undefined; }; templateId?: string | null | undefined; providerName?: string | null | undefined; enabled?: boolean | undefined; }[]; }; modelConfigRules: { providerModelRules: { modelId: string; config: { properties?: { inputFormat?: { supportsText?: boolean | null | undefined; supportsImage?: boolean | null | undefined; supportsVideo?: boolean | null | undefined; supportsAudio?: boolean | null | undefined; supportsPdf?: boolean | null | undefined; } | null | undefined; outputFormat?: { supportsText?: boolean | null | undefined; } | null | undefined; requiresMfjsToolSchema?: boolean | null | undefined; contextWindow?: number | null | undefined; supportsToolCall?: boolean | null | undefined; supportsJsonSchemaOutput?: boolean | null | undefined; supportsNativeWebSearch?: boolean | null | undefined; supportsMidConversationSystem?: boolean | null | undefined; } | null | undefined; optionSpecs?: { reasoningLevel?: { values?: readonly string[] | null | undefined; map?: string | null | undefined; } | null | undefined; maxOutputTokens?: { max?: number | null | undefined; map?: string | null | undefined; } | null | undefined; } | null | undefined; enabled?: boolean | null | undefined; }; providerId: string; }[]; manualProviderModelRules: { modelId: string; providerId: string; config: { properties: { contextWindow: number; supportsJsonSchemaOutput: boolean; supportsNativeWebSearch: boolean; supportsMidConversationSystem: boolean; inputFormat: { supportsImage: boolean; supportsVideo: boolean; supportsPdf: boolean; }; }; optionSpecs: { reasoningLevel: { values: readonly string[]; map: string; }; maxOutputTokens: { max: number; }; }; enabled?: boolean | null | undefined; }; }[]; }; providerOrder?: readonly string[] | undefined; }; }"
+        ],
+        "constructs": []
+      },
+      {
+        "name": "UnsupportedProviderConfigVersionError",
+        "calls": [],
+        "constructs": [
+          "(message: string, version: number | null): UnsupportedProviderConfigVersionError"
+        ]
+      }
+    ]
+  }
+]

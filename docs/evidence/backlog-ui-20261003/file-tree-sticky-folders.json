@@ -1,0 +1,55 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Named file-tree sticky projection files only; byte record, not audit or verification",
+  "spec": "specs/knorvia-next-ui-file-tree-lifecycle-20261003.md",
+  "sourceExposure": "Existing hook, file-tree virtualizer consumer and row/depth/constants read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared projection scenarios do not validate actual scroll, CSS or DOM behavior",
+  "retainedBehavior": [
+    "28px cumulative probe and 0.5px tolerance",
+    "Count-stable fixed point and original bounded iteration",
+    "Exact-depth predecessor including compressed/gapped depths",
+    "Original row references; no scrollTop writes"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+      "baseBlob": "5fb0af0876436025004adc6004aa540b5790a927",
+      "baseSha256": "027b5938c5797fcae7557850224e46b075059546c410405a53907e0bf0043f97",
+      "candidateSha256": "d232ad48a648886d6ab9c5afc958943c1a0b11c5e42edd492e2c56139f87e52f",
+      "candidateBytes": 1051,
+      "priorSource": {
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts",
+          "blob": "5fb0af0876436025004adc6004aa540b5790a927",
+          "normalizedSha256": "027b5938c5797fcae7557850224e46b075059546c410405a53907e0bf0043f97",
+          "contentMatchedPaths": [
+            "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeStickyFolders.ts"
+          ]
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/stickyFolderProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "5c9e1c296f8442fa20006935f705689ce2744f8f52db763f986216e33a163048",
+      "candidateBytes": 2832,
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-sticky-folders-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "326f390ccb9f3d12a8d159cc1be617b89756d6ffaa9c78d00166a7797666d682",
+      "candidateBytes": 3390,
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

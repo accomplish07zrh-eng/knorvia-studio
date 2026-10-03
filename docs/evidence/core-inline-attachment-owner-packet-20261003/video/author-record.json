@@ -1,0 +1,177 @@
+{
+  "task": "complete contract-only attachment-video.ts author",
+  "input_freeze": {
+    "curator_supplied": "8cc411c5",
+    "independently_git_inspected": false
+  },
+  "author_configuration": {
+    "model": "GPT-6.1 Sol",
+    "reasoning": "high",
+    "fork": "none",
+    "qualification": "Requested configuration reported by the parent task; actual backend configuration was not independently verified.",
+    "saved_Fast": "Unchanged by this author; unverified. No settings inspection or change was performed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/video/input/contract.md",
+      "bytes": 2387,
+      "sha256": "b34609fffeb7390920971d0775d93c2df161968f2206df35780b44c1b63275a7",
+      "lines": 7,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file; decoded and displayed in full; bytes hashed and lines counted from the same in-memory bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/video/input/public-api.d.ts",
+      "bytes": 344,
+      "sha256": "b0c7b2da2f0f959dfe079760c0b85fb4ec6406a03c65096e3887ecb9148010ac",
+      "lines": 7,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file; decoded and displayed in full; bytes hashed and lines counted from the same in-memory bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/video/input/dependency-api.d.ts",
+      "bytes": 305,
+      "sha256": "c26376aa69c070b9ee4c6e38f30857b42363c5329663617f179904a2961e140c",
+      "lines": 4,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file; decoded and displayed in full; bytes hashed and lines counted from the same in-memory bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/video/input/public-shapes.d.ts",
+      "bytes": 349,
+      "sha256": "6f10f04fd99094cbb8a33b9380887c981d30312665247b8a36f011c501016281",
+      "lines": 8,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file; decoded and displayed in full; bytes hashed and lines counted from the same in-memory bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/video/input/imports.json",
+      "bytes": 207,
+      "sha256": "bd8893b2dadaf7c6439e67de413a20702b9062ed9232fe10e369a2f0e8ffe942",
+      "lines": 10,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file; decoded and displayed in full; bytes hashed and lines counted from the same in-memory bytes"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-inline-attachment-20261003/video/input/output-data.json",
+      "bytes": 1232,
+      "sha256": "961245c4f0360efd4b26acd8da6e13762d2378127dd9314bbd5af29035a2f539",
+      "lines": 76,
+      "read_operations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file; decoded and displayed in full; bytes hashed and lines counted from the same in-memory bytes"
+        }
+      ]
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/video/output/attachment-video.ts",
+    "bytes": 1231,
+    "sha256": "607d0d48862299727dcc8231a51aecef026821b6a788a71f52c8b0e143415535",
+    "lines": 41,
+    "write_operations": [
+      {
+        "operation": "Path.write_text",
+        "count": 1
+      }
+    ],
+    "read_operations": [
+      {
+        "operation": "Path.read_bytes",
+        "count": 1,
+        "scope": "entire own source; hash and line accounting; full numbered display for manual review"
+      }
+    ]
+  },
+  "receipt": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/video/output/author-record.json",
+    "write_operations": [
+      {
+        "operation": "Path.write_text",
+        "count": 1
+      }
+    ],
+    "read_operations": [
+      {
+        "operation": "Path.read_bytes",
+        "count": 1,
+        "scope": "entire own receipt after freeze, for full display and metadata accounting"
+      }
+    ],
+    "metadata_qualification": "The receipt hash, byte count, and line count are emitted by the final read operation and final report; a self-referential hash is not embedded."
+  },
+  "retained_expressions_and_data": [
+    "Original import modules and named clauses from imports.json.",
+    "VideoInputMimeType = ReadVideoOutput[\"mimeType\"]; original contracts remain sole MIME type owner.",
+    "Ordered .mp4/video/mp4, .m4v/video/x-m4v, .mov/video/quicktime, .webm/video/webm, .mkv/video/x-matroska, .avi/video/x-msvideo fixed pairs.",
+    "Exact /^data:([^;,]+);base64,(.*)$/i regex, video/ prefix, and match indices 1 and 2.",
+    "Original base64PayloadByteLength and isStrictBase64Payload ownership and calls.",
+    "Ordinary optional chaining, tuple iteration, short-circuit conditions, undefined return, and object literal idioms; no novelty or grant claim."
+  ],
+  "manual_review": {
+    "method": "Read full numbered own source and compare against the six already-read supplied fragments without source/dependency execution.",
+    "findings": [
+      "41 lines, below the 400-line limit; exactly the requested exports and imports.",
+      "Lowercases the entire path before ordered suffix checks; unmatched path returns undefined.",
+      "Executes the exact native non-dotall regex on the original dataUrl; native final-line-terminator behavior retained.",
+      "Evaluates match group 1 and its native lowercase before group 2; checks video prefix, then defined payload, then original strict helper.",
+      "No empty-payload rejection, MIME enum restriction, header parsing, trimming, decoding, path normalization, or query stripping.",
+      "Successful own object keys occur in mediaType then sizeBytes order; byte-length dependency evaluated only after validation.",
+      "No catches or wrappers intercept native or dependency exceptions.",
+      "No additional exports, mutable application state, imports, dependencies, or actual media/provider/store/network I/O."
+    ],
+    "compiler_tests_build_lint_mocks": "Not performed, as prohibited.",
+    "comparison_limit": "Manual contract review only; no predecessor implementation, tests, or dependency bodies were read."
+  },
+  "restrictions": {
+    "allowed": "Named six input file content/bytes/hash/line reading; own two output writing/reading/hash/line/manual review; chmod and accounting timestamps.",
+    "prohibited": "Other files, repository, git/history, predecessor/review/test/dependency bodies, collaborators, private data, credentials, network; source/dependency execution; compiler/tests/build/lint/mocks; extra scratch files; repository edits or outside contact.",
+    "enforcement": "Instruction-only restrictions inside a shared executor; no OS isolation or access audit was performed or attested."
+  },
+  "known_context_and_tool_exposure": [
+    "System/developer instructions, tool schemas and names, environment description, skills catalog, and delegated parent task were visible.",
+    "The six named input contents and metadata were displayed by exec_command; own source was written and fully displayed.",
+    "Python filesystem/accounting scripts were executed solely for permitted named reads/writes, metadata and chmod; the authored TypeScript and dependencies were never executed.",
+    "The receipt itself is scheduled for one full permitted post-freeze read and display.",
+    "No other file or repository content was requested or displayed, and no external contact or network tool call was made.",
+    "Shared filesystem access exists; no clean-separation or independently audited access claim is made."
+  ],
+  "known_breaches": [],
+  "questions": [],
+  "blockers": [],
+  "freeze": {
+    "utc": "2026-10-02T21:16:34.155714Z",
+    "timestamp_semantics": "Exact UTC accounting instant immediately before writing the receipt and performing the final file/directory chmod sequence in this command.",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "review_order": "Source and receipt frozen before release to parent for source review."
+  }
+}

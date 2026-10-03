@@ -1,0 +1,234 @@
+{
+  "owner": "get-workflow-run-format.ts",
+  "date": "2026-10-03",
+  "scope": "Whole independent TypeScript owner authored from exactly the six frozen public format packet files, preserving existing public ports and fixed output data.",
+  "status": "Authored and manually reviewed only; both allocated outputs frozen with mode 0444 before curator body review.",
+  "files": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/contract.md",
+      "readCount": 1,
+      "writeCount": 0,
+      "bytes": 6954,
+      "lines": 23,
+      "sha256": "59156a2548f66a786d3ec61575e5ba03796b860898e3cc7e6e9e26d4765ca82e"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-api.d.ts",
+      "readCount": 1,
+      "writeCount": 0,
+      "bytes": 159,
+      "lines": 2,
+      "sha256": "e219ca28776052cd86a8ba6deb022b012fd1607d861b849fcf90b81825799f1b"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/dependency-api.d.ts",
+      "readCount": 1,
+      "writeCount": 0,
+      "bytes": 3988,
+      "lines": 96,
+      "sha256": "429080ca04fdfbe3bb6cb76db5a01da3cae9654a3389d851d5b9ba0c7ff48abd"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/imports.json",
+      "readCount": 1,
+      "writeCount": 0,
+      "bytes": 2794,
+      "lines": 102,
+      "sha256": "51b2c1da926840022568c4028d05ee159864bcf036f7ceef8bde144e51ed5561"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/required-data.json",
+      "readCount": 1,
+      "writeCount": 0,
+      "bytes": 10867,
+      "lines": 488,
+      "sha256": "94cb76fc93184d0d239c0b88703f2317429589935583df4d550a858e47c6a9b8"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-data.json",
+      "readCount": 1,
+      "writeCount": 0,
+      "bytes": 9676,
+      "lines": 35,
+      "sha256": "29e3f23b30731a6852a071957fef20ccd8867316cd80f6ee989ce1381007c80c"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/format/get-workflow-run-format.ts",
+      "bytes": 9541,
+      "lines": 209,
+      "sha256": "a26629d5cfde6bd2c8711d2cb913a3daccd2acb2c50f5ebc83daa04f1f3b6c93",
+      "readCount": 1,
+      "writeCount": 1,
+      "chmodCount": 1,
+      "finalMode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/format/author-record.json",
+      "readCount": 0,
+      "writeCount": 1,
+      "chmodCount": 1,
+      "bytes": 11255,
+      "lines": 234,
+      "sha256": null,
+      "sha256Location": "Full final UTF-8 file SHA256 is calculated in memory and reported in the author final response. Embedding its own full-file digest would be self-referential.",
+      "finalMode": "0444"
+    }
+  ],
+  "operations": [
+    {
+      "sequence": 1,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/contract.md",
+      "count": 1,
+      "bytes": 6954,
+      "lines": 23,
+      "sha256": "59156a2548f66a786d3ec61575e5ba03796b860898e3cc7e6e9e26d4765ca82e"
+    },
+    {
+      "sequence": 2,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-api.d.ts",
+      "count": 1,
+      "bytes": 159,
+      "lines": 2,
+      "sha256": "e219ca28776052cd86a8ba6deb022b012fd1607d861b849fcf90b81825799f1b"
+    },
+    {
+      "sequence": 3,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/dependency-api.d.ts",
+      "count": 1,
+      "bytes": 3988,
+      "lines": 96,
+      "sha256": "429080ca04fdfbe3bb6cb76db5a01da3cae9654a3389d851d5b9ba0c7ff48abd"
+    },
+    {
+      "sequence": 4,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/imports.json",
+      "count": 1,
+      "bytes": 2794,
+      "lines": 102,
+      "sha256": "51b2c1da926840022568c4028d05ee159864bcf036f7ceef8bde144e51ed5561"
+    },
+    {
+      "sequence": 5,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/required-data.json",
+      "count": 1,
+      "bytes": 10867,
+      "lines": 488,
+      "sha256": "94cb76fc93184d0d239c0b88703f2317429589935583df4d550a858e47c6a9b8"
+    },
+    {
+      "sequence": 6,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-data.json",
+      "count": 1,
+      "bytes": 9676,
+      "lines": 35,
+      "sha256": "29e3f23b30731a6852a071957fef20ccd8867316cd80f6ee989ce1381007c80c"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/format/get-workflow-run-format.ts",
+      "bytes": 9541,
+      "lines": 209,
+      "sha256": "a26629d5cfde6bd2c8711d2cb913a3daccd2acb2c50f5ebc83daa04f1f3b6c93",
+      "sequence": 7,
+      "operation": "write",
+      "count": 1
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/format/get-workflow-run-format.ts",
+      "bytes": 9541,
+      "lines": 209,
+      "sha256": "a26629d5cfde6bd2c8711d2cb913a3daccd2acb2c50f5ebc83daa04f1f3b6c93",
+      "sequence": 8,
+      "operation": "read",
+      "count": 1
+    },
+    {
+      "sequence": 9,
+      "operation": "chmod",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/format/get-workflow-run-format.ts",
+      "count": 1,
+      "mode": "0444",
+      "contentChanged": false
+    },
+    {
+      "sequence": 10,
+      "operation": "write",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/format/author-record.json",
+      "count": 1,
+      "bytes": 11255,
+      "lines": 234,
+      "sha256": null,
+      "sha256Location": "author final response"
+    },
+    {
+      "sequence": 11,
+      "operation": "chmod",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/format/author-record.json",
+      "count": 1,
+      "mode": "0444",
+      "contentChanged": false
+    }
+  ],
+  "totals": {
+    "fileReadCount": 7,
+    "fileWriteCount": 2,
+    "chmodCount": 2,
+    "readBytes": 43979,
+    "readLines": 955,
+    "writeBytes": 20796,
+    "writeLines": 443,
+    "supersededWrites": 0,
+    "receiptFilesystemReads": 0
+  },
+  "accounting": {
+    "readDefinition": "Each complete read_bytes call is one file read. Output printed to the model was manually reviewed and is not an additional filesystem read.",
+    "lineDefinition": "len(bytes.splitlines()); both authored outputs end in a newline.",
+    "hashDefinition": "SHA256 of full exact file bytes. Input and source hashes were calculated at each read/write. Receipt hash is calculated from the final serialized bytes in memory and reported externally.",
+    "receiptSerialization": "Metadata stabilization happens solely in memory before the single receipt write. No accounting file, receipt read, or superseded output write.",
+    "metadataOperations": "mkdir of the allocated output directory and chmod of the two allocated outputs do not read or alter file contents. No directory enumeration or other file access was performed."
+  },
+  "reasoningFromContract": [
+    "Call the imported schema safeParse once as its receiver method with the exact supplied output; failure returns the fixed invalid-result text. Successful projection uses parsed.data and never changes supplied objects.",
+    "Use exact imported modules, names and type-only identities. Imported schema, time, escaping, attribute, roster, provider and artifact policies remain opaque and are consumed rather than implemented.",
+    "Append summary, each identity/lifecycle block, pending questions, health, optional phases including empty text, subagents, log tail, usage, outcome and routing in contract order, separated by two newlines.",
+    "Use generatedAt as the sole time basis; preserve nullish actor-name fallback and age fallback, empty optional strings, raw result, numeric usage values, artifact order, and the exact helper argument references.",
+    "Route superseded stop reason before status; otherwise stopped receives the fixed resumable block and every status receives amendable. The healthy-running short branch requires stalledSince to be undefined, including treating zero as present.",
+    "Required prose, XML, punctuation, backticks, separators and template fragments are source-derived fixed preservation material, not novel author expression. Full paragraphs use single spaces and script paths receive separate original escaping calls.",
+    "No catches, new clocks, runtime port substitutes, normalization, truncation, schema reconstruction, actual workflows, agents, files, network or user data were added to formatter behavior."
+  ],
+  "manualReview": {
+    "sourceReadCount": 1,
+    "reviewed": "Read the complete authored source once and manually checked API/imports, output text and separators, block/port order, optional value presence, identity forwarding, routing and synchronous propagation against the six displayed packet inputs.",
+    "validationExecuted": [],
+    "notRun": [
+      "compiler",
+      "tests",
+      "transpiler",
+      "lint",
+      "source execution",
+      "project validation",
+      "actual workflows",
+      "actual agents",
+      "network requests",
+      "semantic compilation"
+    ],
+    "unverified": "No runtime equivalence or compilability claim; safeParse availability and all imported policy behavior remain actual-owner dependencies."
+  },
+  "exposureAndClaims": {
+    "authorInputs": "Only the six named frozen public packet files were read from disk; their source-derived declarations, schema metadata and required fixed data are acknowledged exposure.",
+    "excludedReads": "No predecessor source, source history, tests, other packets, actual dependency bodies, broad environment, repository or user-data reads.",
+    "context": "The task instructions and packet note source-exposed curator, historical exposure and a repaired breach. These contextual qualifications are retained; this author did not investigate or independently verify them.",
+    "executor": "Shared executor with instruction-only restrictions and author self-report; no OS isolation, enforced independence, independent access audit or proof of non-exposure is claimed.",
+    "rights": "No originality, novelty, copyright, licensing, legal clearance or rights conclusion is claimed for fixed source-derived material or the authored whole.",
+    "savedFast": "Unchanged and unverified; no measurement, benchmark or savedFast inspection was performed."
+  },
+  "handoff": {
+    "curator": "Archive and commit the complete source and receipt before body review. Any later real correction must be a complete same-author replacement with a full cumulative receipt, not a curator patch.",
+    "remaining": "Manual-only artifact; curator archival/commit and any authorized later checks are outside this author turn."
+  }
+}

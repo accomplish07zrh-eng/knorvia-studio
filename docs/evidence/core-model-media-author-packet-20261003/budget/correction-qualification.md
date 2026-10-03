@@ -1,0 +1,3 @@
+# Same-author complete correction: content union fallback
+
+Original six inputs/draft/receipt remain frozen. Static source comparison found an added blanket default cloning case for unknown content discriminants. Preserve the supplied six-member content union exactly: image/video/file shallow block+optional source copy; text/reasoning/resource_link shallow block. There is no catch-all clone/retained-object fallback beyond that supported union; an out-of-union discriminant yields the existing undefined projection value (without mutating input). Do not expand media admission or invent normalization for malformed content. Other budget/protection/capability/log contracts unchanged. No implementation/helper body supplied.

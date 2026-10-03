@@ -1,0 +1,35 @@
+[
+  {
+    "owner": "executable",
+    "frozenBaselineSha256": "a85d37fe974232626bd0313a8b1d5d7dc83bd203ef17bedd7bf371d8a5fd6268",
+    "rawSha256": "2fb2a34122308dd174d1ff9c1790d61e23dbd9dea5a95b3af589b5f81ed20019",
+    "rawArtifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/executable-correction-1.ts.txt",
+    "formattedFreezeSha256": "a5573db44505bcd820b56586beba12e78ec899b48eb5d2bf08f0dcd871f0d4dc",
+    "installedPath": "apps/cli/packages/adapters/src/browser/executable.ts",
+    "installedSha256": "a5573db44505bcd820b56586beba12e78ec899b48eb5d2bf08f0dcd871f0d4dc",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "3df52de3e9441894a875963d63b480ede6156c15"
+  },
+  {
+    "owner": "playwright-command",
+    "frozenBaselineSha256": "aa3bf34b970a16002d10a76221f8b4ea38c9dc8bd9642b88e3b43eb5c759a964",
+    "rawSha256": "4790c2fe391847c9382a0ccf8a845b4b95bb3f5221083b3ca9ca7d193ade5582",
+    "rawArtifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/playwright-command-correction-1.ts.txt",
+    "formattedFreezeSha256": "7bfc5d3d9e463219ab015565711987ff596d5b6f25e22007ab9b85657705010f",
+    "installedPath": "apps/cli/packages/adapters/src/browser/playwright-command.ts",
+    "installedSha256": "7bfc5d3d9e463219ab015565711987ff596d5b6f25e22007ab9b85657705010f",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "3df52de3e9441894a875963d63b480ede6156c15"
+  },
+  {
+    "owner": "snapshot",
+    "frozenBaselineSha256": "3927cf2c8cf6ede9bc696644574463480eb5e5cb5e5a30f368bd49ae15401b96",
+    "rawSha256": "1cb98396a5e08d72d0f4688225b5c43e441e55a45c8ddb3c3c91300131f29a02",
+    "rawArtifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/snapshot-correction-1.ts.txt",
+    "formattedFreezeSha256": "3021f61430e18e52a05d71b04cf752477a31e2b8e6323618436dbe94514c2344",
+    "installedPath": "apps/cli/packages/adapters/src/browser/snapshot.ts",
+    "installedSha256": "3021f61430e18e52a05d71b04cf752477a31e2b8e6323618436dbe94514c2344",
+    "wholeFormattedFreezeEqualsInstalled": true,
+    "baselineCommit": "3df52de3e9441894a875963d63b480ede6156c15"
+  }
+]

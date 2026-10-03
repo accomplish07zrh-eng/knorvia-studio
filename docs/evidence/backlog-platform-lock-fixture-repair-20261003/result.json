@@ -1,0 +1,82 @@
+{
+  "utc": "2026-10-03T07:23:16.369473+00:00",
+  "stage": "parent-authorized final concentrated acceptance; only two affected lock tests",
+  "branch": "rewrite/native-20261003",
+  "delivery": "same branch commit for parent integration PR13; PR17 remains closed",
+  "spec": "specs/knorvia-next-platform-lock-owner-20261003.md#authorized-final-stage-fixture-repair",
+  "parentFailure": {
+    "publishedCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+    "record": "docs/evidence/backlog-integration-20261003/final-first-pass.json",
+    "checkId": "native-selected",
+    "testedSourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+    "tests": 14,
+    "pass": 12,
+    "fail": 2,
+    "scope": "two lock fixtures failed to load due duplicate port declaration",
+    "rawLogSha256": "8bdb3c3bf13a1195ff0069344dc50fa6faadf66586d8d7aef9a9cd3daddec00a",
+    "qualification": "read published failure record; raw native log contents not present in the published tree"
+  },
+  "rootRunnerRead": {
+    "commit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+    "path": "scripts/test-studio.mjs",
+    "sha256": "31d2c1762808cf21fb602ec680022bace6e77afe3f5b16343c6b50c6ec7bba12",
+    "serverCliAlreadyAdmitted": true,
+    "modified": false,
+    "executed": false
+  },
+  "cause": "raw esbuild banner const port collided with bundled virtual-module var port; banner is outside esbuild symbol renaming",
+  "repair": "use lockFixtureContext exclusively in the raw banner, preserving module bindings, fake port implementations and all assertions",
+  "files": [
+    {
+      "path": "packages/server-cli/test/lock-ownership-contract.test.mjs",
+      "baselineCommit": "f7ad7efa3e5e1bec72eaba818db6bce43fa33d97",
+      "baselineBlob": "013d5c87fbd57d56dc6b60c3fbd9fc46de9ad837",
+      "baselineSha256": "a827be7ac845bd0e53bf47873398be7d4cae0c120321a0ece56f8032c6b79cc3",
+      "testedSha256": "8ff6a54ff894284b56021f6cc89f43016eabade3b215fa33b50b9f8f094396df",
+      "testedGitBlob": "755979135535728b6110976ee64f78a1c43853c0",
+      "baselineMatchesIntegration": true,
+      "productionUnchanged": null
+    },
+    {
+      "path": "packages/server-cli/src/runtime/lock.ts",
+      "baselineCommit": "f7ad7efa3e5e1bec72eaba818db6bce43fa33d97",
+      "baselineBlob": "e64ccfa3adff7b02ac316f523f9886e0328c72fd",
+      "baselineSha256": "6d686e81695747f755787f6d2122e35275bb0e6e2b622231ea3bb35574a447b0",
+      "testedSha256": "6d686e81695747f755787f6d2122e35275bb0e6e2b622231ea3bb35574a447b0",
+      "testedGitBlob": "e64ccfa3adff7b02ac316f523f9886e0328c72fd",
+      "baselineMatchesIntegration": true,
+      "productionUnchanged": true
+    }
+  ],
+  "runtime": {
+    "node": "24.14.0",
+    "os": "linux",
+    "arch": "x64",
+    "testTools": {
+      "esbuild": "0.27.7",
+      "tsx": "4.21.0"
+    },
+    "setup": "temporary pinned Node and minimal esbuild/tsx tools; npm ignore-scripts; no workspace manifest/lock changes"
+  },
+  "command": "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node --experimental-test-module-mocks --import tsx --test --test-concurrency=2 --test-timeout=120000 test/lock-ownership-contract.test.mjs",
+  "cwd": "packages/server-cli",
+  "environment": {
+    "KNORVIA_ENV": "test"
+  },
+  "observedExitCode": 0,
+  "tests": 2,
+  "pass": 2,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "log": {
+    "path": "targeted-test.log",
+    "sha256": "e7d45f839b15d5ca60495b87f33a3629e980d3bb8002800ed8c192ef993f9a67",
+    "format": "Node spec reporter; exact captured output"
+  },
+  "limits": "two in-memory IO/process/UUID/clock scenarios only; no real native filesystem/process/platform, whole-tree or MIT acceptance",
+  "otherVerificationRun": [],
+  "newIndependentSourceCredit": 0,
+  "globalLicenseDecisionChanged": false
+}

@@ -1,0 +1,35 @@
+{
+  "baseHead": "42bccd729bf2fef1b5d874ef8c3bdc90df29ebcf",
+  "selected": [
+    {
+      "owner": "surface",
+      "selectedVersion": "correction-1",
+      "rawSha256": "07c5a3a10ee7c138445dbbbe0462558927a78e11c6172fcd2874c9ee2a91cd6d",
+      "installedSha256": "594b592f81e485b788f781d28fba7f2657e54332554714021ec89cc77212fce9",
+      "installedBytes": 13264,
+      "installedLines": 361,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    },
+    {
+      "owner": "activity",
+      "selectedVersion": "correction-1",
+      "rawSha256": "3eca2d93766c3ab86e075fcc896c0ac175b59825e5720fca2d5077826c94f4d6",
+      "installedSha256": "df8e32d4826318aaf87a982e2eb5709650a50e6f8653b4e861360d8b7a726cc4",
+      "installedBytes": 12494,
+      "installedLines": 381,
+      "exactFullCopyPlusFormatterOnly": true,
+      "curatorSemanticEdits": false
+    }
+  ],
+  "rawVersionsVerified": 4,
+  "unchangedRetainedPaths": 4233,
+  "retentionCountsAreNotCompletionCounts": true,
+  "authorInputFreezeVerified": true,
+  "publicApiMatches": true,
+  "productionScopeExactlyTwoOwners": true,
+  "ordinaryTestsRun": false,
+  "nativeRuntimePassed": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "MITClaim": false
+}

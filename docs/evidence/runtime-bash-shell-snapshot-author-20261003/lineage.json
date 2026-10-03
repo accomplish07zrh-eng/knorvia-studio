@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/bash-shell-snapshot.ts",
+  "kind": "file",
+  "sha256": "319d2c281d7b1bf6d71ba9a5ee9f7a9799dd7942a14b2496a5d2a982faf5be9e",
+  "normalizedSha256": "319d2c281d7b1bf6d71ba9a5ee9f7a9799dd7942a14b2496a5d2a982faf5be9e",
+  "encoding": "utf8-lf",
+  "bytes": 6808,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/bash-shell-snapshot.ts",
+    "blob": "13ddb2dc5d24eb583bc2e8fb196afd074041168e",
+    "normalizedSha256": "33f1ae36f05e7f8af064a207262e32b715aa10eaeea2d02353ebe2be8897c994",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

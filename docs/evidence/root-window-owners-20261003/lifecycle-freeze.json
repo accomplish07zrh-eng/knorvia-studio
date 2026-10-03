@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-02T23:50:21.636111+00:00",
+  "draft": "desktopWindowLifecycle.ts",
+  "bytes": 11199,
+  "sha256": "711850e7f00bbb45c6e08564fd236af7f398978d17d4615fd5cd72d6fb7a1bb6",
+  "lifecycleBodyReadBeforeFreeze": false,
+  "chromeBodyReadOrAuthored": false,
+  "qualification": "Complete functional/public packet-authored draft; source-exposed curator and broad root context qualified."
+}

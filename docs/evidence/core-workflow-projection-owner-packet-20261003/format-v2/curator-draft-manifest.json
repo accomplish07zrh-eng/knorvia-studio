@@ -1,0 +1,24 @@
+{
+  "scope": "format-v2",
+  "files": [
+    {
+      "file": "get-workflow-run-format.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "bytes": 9541,
+      "lines": 209,
+      "sha256": "4789202a577547ba4630cfae3301cd40945f845727a327bde8e987467c038d2b",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/format-v2/get-workflow-run-format.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 17339,
+      "lines": 364,
+      "sha256": "4a51e707b0c09649669ab3669975049116825dc774bc4f2dfbd00eaa420d6663",
+      "scratch": "/tmp/knorvia-workflow-projection-owners-20261003/format-v2/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Complete same-author correction/full cumulative receipt archived and committed before body review; detached receipt self-hash; original failure and all source-exposure/instruction-only/rights qualifications retained."
+}

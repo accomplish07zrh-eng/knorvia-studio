@@ -1,0 +1,3 @@
+baseline: five minimum fake-port authority/lifecycle groups pass
+candidate: five minimum fake-port authority/lifecycle groups pass
+Frozen replayable live-read counterexample reproduced; working correction matches baseline. No actual Electron, Host, provider, file writes, credentials or network.

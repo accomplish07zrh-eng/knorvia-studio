@@ -1,0 +1,89 @@
+{
+  "kind": "Static exact retained prose/template literal pieces/regex data only; no owner execution or interpolation semantic claim",
+  "typescript": "6.0.2",
+  "results": [
+    {
+      "scope": "result",
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+        "bytes": 3458,
+        "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e"
+      },
+      "data": {
+        "bytes": 1417,
+        "sha256": "90653d5358c8c50dcda9c115ac2ff9b5d3e76cc28a7e077cc23604a271f6f374"
+      },
+      "productTextCount": 0,
+      "templateCount": 0,
+      "regexCount": 0,
+      "passed": true
+    },
+    {
+      "scope": "changes",
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+        "bytes": 2969,
+        "sha256": "b8a960e8e5923ed4e3c9633e09709b5889d861ad39d2109d5cdc7e07d7498d06"
+      },
+      "data": {
+        "bytes": 858,
+        "sha256": "4cdb05d1df8f63008a74f97b9ac02b81c83124f9900218d4075ca3075bfeed0e"
+      },
+      "productTextCount": 0,
+      "templateCount": 0,
+      "regexCount": 0,
+      "passed": true
+    },
+    {
+      "scope": "image",
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+        "bytes": 2185,
+        "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097"
+      },
+      "data": {
+        "bytes": 1535,
+        "sha256": "333a5114c57c9db08a84fe2489d3e33a7df85b5a2004e07c4e437340b89084f3"
+      },
+      "productTextCount": 0,
+      "templateCount": 1,
+      "regexCount": 1,
+      "passed": true
+    },
+    {
+      "scope": "reference",
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+        "bytes": 3842,
+        "sha256": "f8846157dcc8870e6ddcdd082a3c6f8085f3ed1c7960847435c829377edbce47"
+      },
+      "data": {
+        "bytes": 4813,
+        "sha256": "5c09780fd4cb480dc8b71fb0e5edb2cc7c35e7678e6cc2f5bd6555139f1b9ca9"
+      },
+      "productTextCount": 7,
+      "templateCount": 3,
+      "regexCount": 1,
+      "passed": true
+    },
+    {
+      "scope": "postcompact",
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+        "bytes": 4263,
+        "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037"
+      },
+      "data": {
+        "bytes": 2281,
+        "sha256": "6496c7e58e81efe42525c6e1baed622567598baaeeeee98250dc698b276cc008"
+      },
+      "productTextCount": 2,
+      "templateCount": 3,
+      "regexCount": 2,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "placeholderQualification": "Dynamic expression identity/evaluation assessed separately against contracts; names are not originality proof",
+  "ordinaryTestsRun": false
+}

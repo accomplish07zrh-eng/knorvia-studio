@@ -1,0 +1,18 @@
+{
+  "author": "/root/cli_custom_command_author",
+  "requestedModel": "gpt-6.1-sol",
+  "requestedReasoning": "high",
+  "fork": "none",
+  "actualReportedReads": [
+    "licensing/evidence/cli-command-owner-20261003/author-packet.md",
+    "AGENTS.md",
+    "apps/cli/AGENTS.md",
+    ".agents/skills/architecture-governance/SKILL.md"
+  ],
+  "mode": "One whole literal heredoc then SHA only; no output inspection/transformation/assembly/runtime/tests/builds/format/network/repowrites reported",
+  "accessEnforcement": "instructional restrictions on shared filesystem, not OS clean-room guarantee",
+  "speed": "saved Fast inherited; no separate tool verification",
+  "curatorExposure": "Curator reviewed selected predecessor, root-resolution and skill adapter bodies during screening plus public command contract module. Requirements/tests are source-exposed; authors received public DTO/behavior facts only.",
+  "acceptedIndependentReplacementCredit": 0,
+  "newMITDecisions": 0
+}

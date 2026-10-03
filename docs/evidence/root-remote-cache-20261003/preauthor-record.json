@@ -1,0 +1,25 @@
+{
+  "scope": "packages/server/src/remote/remoteAssetCache.ts",
+  "branch": "parallel/root-remote-cache-20261003",
+  "base": "eeb771982115368398e6d6ed7cfb9b0fbc0b1b34",
+  "phase": "functional contract preparation; no candidate yet",
+  "inputs": [
+    {
+      "path": "packages/server/dist/remote/remoteAssetCache.d.ts",
+      "bytes": 2938,
+      "sha256": "c33d5d4d1d588449789acddab94dc3fd508f9792345cf000b05bf9b968f3ea29"
+    },
+    {
+      "path": "packages/server/dist/remote/remoteAssetNetwork.d.ts",
+      "bytes": 247,
+      "sha256": "3f30ffcb8ca8a575ae848f8b3896e9f500406ba1d6024f9208b9296d3880b875"
+    },
+    {
+      "path": "packages/server/dist/remote/remoteAssetCdn.d.ts",
+      "bytes": 1069,
+      "sha256": "e2ccd95393f7aaa6db3d413187d281e64dd6b559f64c50ba6fc9702eee00247e"
+    }
+  ],
+  "authorBoundary": "Root personally authors this lane. Target implementation bodies/history/test code have not been presented in current author context; only public declarations and caller identities viewed. Root has broad project context, and earlier generic repository inventory/history scanners may have processed filesystem bytes without presenting this module body. Not a fresh context, strict file-read isolation, or absolute clean-room claim. Source-exposed E curator prepares additional functional packet.",
+  "instructions": "Do not open predecessor implementation/history/tests before a complete draft is saved and hashed. No cross-lane source merges. Only synthetic/disposable files if a minimal data-write safety check is later necessary; no real user caches, network credentials or servers."
+}

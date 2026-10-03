@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/official-mcp-auth.ts",
+    "packages/shared/src/validationAppSettings.ts",
+    "packages/shared/src/workspace-hook-config.ts",
+    "packages/shared/src/workspace-hook-mutation.ts",
+    "licensing/evidence/shared-authority-settings-hook-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Finished in 27ms on 5 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

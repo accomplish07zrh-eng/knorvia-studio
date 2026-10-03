@@ -1,0 +1,22 @@
+[
+  {
+    "path": "packages/shared/src/node/atomicFileLock.ts",
+    "selectedRaw": "/tmp/knorvia-shared-file-lock-freezes/initial-atomicFileLock.ts",
+    "rawSha256": "6a7b1d3d14bbc0a62f98612570ee440bca9cde907237f54259bd7e9fc23f53f4",
+    "formattedFrozen": "/tmp/knorvia-shared-file-lock-freezes/formatted-selected/atomicFileLock.ts",
+    "formattedSha256": "40e7500b2b898c0da85e54d9b7e28253851e74cd7c408447fe602f6c71c5161f",
+    "installedSha256": "40e7500b2b898c0da85e54d9b7e28253851e74cd7c408447fe602f6c71c5161f",
+    "baselineSha256": "0eb08dc10262b78e5ae8e66047e576b6630c392ce9aaeb1031c0203787fd5961",
+    "exactWholeFilePlusFormattingMatch": true
+  },
+  {
+    "path": "packages/shared/src/node/privateFilePersistence.ts",
+    "selectedRaw": "/tmp/knorvia-shared-file-lock-freezes/corrected/privateFilePersistence.ts",
+    "rawSha256": "5ab252bbe153deb796a4e10983303949b15d7428477022488878d2efcdbfeb7e",
+    "formattedFrozen": "/tmp/knorvia-shared-file-lock-freezes/formatted-selected/privateFilePersistence.ts",
+    "formattedSha256": "a9cb4100b9496cc3c9fd57e4a2e6f404b2ff89c09d1ade07037d35983a85042d",
+    "installedSha256": "a9cb4100b9496cc3c9fd57e4a2e6f404b2ff89c09d1ade07037d35983a85042d",
+    "baselineSha256": "7698ee250ffd3710be3e6d0db3f4207954e1e0d12f1d87f30fce6187f0ee2f9b",
+    "exactWholeFilePlusFormattingMatch": true
+  }
+]

@@ -5,41 +5,45 @@ export function encodeJsonLine(value: unknown): string {
 }
 
 export class JsonLineDecoder {
-  private buffer = "";
-  public constructor(private readonly options: { maxFrameBytes?: number } = {}) {}
+  private pending = "";
+  private readonly options: { maxFrameBytes?: number };
+
+  public constructor(options: { maxFrameBytes?: number } = {}) {
+    this.options = options;
+  }
 
   public push(chunk: string | Uint8Array): unknown[] {
-    const text = typeof chunk === "string" ? chunk : new TextDecoder().decode(chunk);
-    this.buffer += text;
-    if (
-      Buffer.byteLength(this.buffer, "utf8") >
-        (this.options.maxFrameBytes ?? MAX_CONTROL_FRAME_BYTES) &&
-      !this.buffer.includes("\n")
-    ) {
+    this.pending += typeof chunk === "string" ? chunk : new TextDecoder().decode(chunk);
+    if (Buffer.byteLength(this.pending, "utf8") > this.maximum() && !this.pending.includes("\n")) {
       throw new Error("JSONL frame exceeds maximum size");
     }
-    const frames: unknown[] = [];
-    let newlineIndex = this.buffer.indexOf("\n");
-    while (newlineIndex >= 0) {
-      const line = this.buffer.slice(0, newlineIndex).trim();
-      this.buffer = this.buffer.slice(newlineIndex + 1);
-      newlineIndex = this.buffer.indexOf("\n");
-      if (!line) continue;
-      if (
-        Buffer.byteLength(line, "utf8") > (this.options.maxFrameBytes ?? MAX_CONTROL_FRAME_BYTES)
-      ) {
+
+    const batch = this.pending;
+    const values: unknown[] = [];
+    let cursor = 0;
+    for (let end = batch.indexOf("\n"); end !== -1; end = batch.indexOf("\n", cursor)) {
+      const line = batch.slice(cursor, end).trim();
+      cursor = end + 1;
+      // 失败帧也已被消费；保留其后的原始尾部，避免下一次 push 重放已处理的命令。
+      this.pending = batch.slice(cursor);
+      if (line.length === 0) continue;
+      if (Buffer.byteLength(line, "utf8") > this.maximum()) {
         throw new Error("JSONL frame exceeds maximum size");
       }
       try {
-        frames.push(JSON.parse(line) as unknown);
-      } catch (error) {
-        throw new Error("Invalid JSONL frame", { cause: error });
+        values.push(JSON.parse(line) as unknown);
+      } catch (cause) {
+        throw new Error("Invalid JSONL frame", { cause });
       }
     }
-    return frames;
+    return values;
   }
 
   public finish(): void {
-    if (this.buffer.trim()) throw new Error("Incomplete JSONL frame");
+    if (this.pending.trim().length !== 0) throw new Error("Incomplete JSONL frame");
+  }
+
+  private maximum(): number {
+    return this.options.maxFrameBytes ?? MAX_CONTROL_FRAME_BYTES;
   }
 }

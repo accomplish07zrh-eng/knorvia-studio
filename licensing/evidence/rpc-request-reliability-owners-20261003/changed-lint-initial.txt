@@ -1,0 +1,12 @@
+
+  ! eslint-plugin-unicorn(no-useless-spread): Using a spread operator here creates a new array unnecessarily.
+     ,-[packages/rpc/test/request-replay-owner-safety.test.mjs:105:25]
+ 104 |     fire: (value) => {
+ 105 |       for (const fn of [...listeners]) fn(value);
+     :                         ^^^
+ 106 |     },
+     `----
+  help: `for…of` can iterate over iterable, it's unnecessary to convert to an array.
+
+Found 1 warning and 0 errors.
+Finished in 25ms on 4 files with 94 rules using 4 threads.

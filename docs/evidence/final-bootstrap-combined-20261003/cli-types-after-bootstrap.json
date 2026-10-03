@@ -1,0 +1,18 @@
+{
+  "name": "cli-types-after-bootstrap",
+  "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+  "command": [
+    "pnpm",
+    "-r",
+    "--no-bail",
+    "--filter",
+    "./packages/*",
+    "typecheck"
+  ],
+  "workingDirectory": "/workspace/knorvia-studio/apps/cli",
+  "actualChildExitCode": 0,
+  "seconds": 35.841,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "log": "/tmp/knorvia-final-unified-cli-types-after-bootstrap.log"
+}

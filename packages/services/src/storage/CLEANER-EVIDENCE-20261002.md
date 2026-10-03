@@ -1,0 +1,16 @@
+# Bounded storage cleaner authorship evidence
+
+Baseline `628e207a0bcc093d0aeaf6d15d5a6592df83fbe1`; inventory/spec `527d336`. Complete owner fresh-authored by GPT-6.1 Sol high `fresh_storage_cleaner_author`, fork with no inherited conversation. Allowed manual packet, root AGENTS/architecture skill, unchanged type-only ports/contract and own candidate; reported no inherited target/domain/walker bodies/tests/history/diff/original snapshots/previous draft reads. Coordinator source-exposed for extraction/review. No novelty or entire-file/directory/MIT license acceptance claim.
+
+| Stage           | SHA-256                                                            | Blob                                       |
+| --------------- | ------------------------------------------------------------------ | ------------------------------------------ |
+| Frozen original | `74a3f4ddda8076406a40d122a7e12177e340f86b5ecc0e39e8244a5163c9481e` | `eeeaedf31f74b0aee74eaafa09d89778426096df` |
+| Raw first-ready | `2a1e56316714e142727ac13c52b0ecaff3a799923fff0c6e9cf1e772a18791f5` | local frozen                               |
+| Author revision | `6bd07a050b5e4be34c8416a10364ef258d823a72fee2a54de09f70917097c4f3` | local frozen                               |
+| Submitted       | `1732a134972e5245816c23e796354dd7996a0ff0525d53c305a4c7c685fdfb83` | created at commit                          |
+
+First scoped lint found one unused StorageCleanScope import, full frozen output `/tmp/knorvia-cleaner-first-lint-warning-20261002.txt`. Fresh author typed scopes parameter with original StorageCleanScope[] signature; runtime unchanged, initial bytes retained. Packet clarification supplied retained normalizeStorageRelativePath import path only (no body). Raw/revised files and precise access receipt `/tmp/knorvia-file-storage-candidates-20261002/cleaner`; originals `/tmp/knorvia-file-storage-originals-20261002`. Local snapshots ephemeral, durable hashes above.
+
+Complete shallow/recursive enumeration, stable last-value dedupe, eight-worker deletion admission, exact conservative lexical path gate, per-target errors/counters and deepest-first empty-parent pruning retained. Domain normalization/protection/catalog and walker remain unmodified retained dependencies. No realpath/symlink/new security policy, broad deletion, rollback or data format/location change. Only admitted synthetic targets removed in fake safety check; keep category directory retained; outside/permission-denied targets become failures.
+
+Minimum positive/negative safety check original/replacement 1/1 passed; three-owner aggregate 3/3 each. Scoped source/test types passed before/after annotation, final lint zero warnings/errors; formatting/whitespace and changed architecture 0/0/0 passed. No ordinary suites/builds/user files/database/network/device/process operations. Full platform/UI/adversarial/concurrency/provenance acceptance deferred. Original file-owner types still blocked by missing ignore dependency TS2307, separate exact baseline retained. Node24.19.0 vs pinned24.14.0, module-mocking experimental/deprecated namedExports warnings disclosed. No shared/UI/client/RPC/CLI changes, root license/global provenance/manifests or main/cross-lane integration.

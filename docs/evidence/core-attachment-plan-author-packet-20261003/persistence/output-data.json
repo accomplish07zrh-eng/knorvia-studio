@@ -1,0 +1,49 @@
+{
+  "retainedExpression": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+  "missingStore": "Cannot persist tool result media without an artifact store",
+  "dataPrefix": "data:",
+  "writeFields": [
+    "content",
+    "contentType",
+    "retention",
+    "sessionId",
+    "toolCallId",
+    "toolName",
+    "trace",
+    "turnId"
+  ],
+  "contentType": "text/plain",
+  "retention": "session",
+  "toolCallId": "${toolCallId}-media-${index+1}",
+  "filePartKeys": [
+    "id",
+    "messageID",
+    "sessionID",
+    "type",
+    "mime",
+    "filename?",
+    "url",
+    "metadata"
+  ],
+  "metadataKeys": [
+    "artifactUri",
+    "recoverability",
+    "storageKind",
+    "sizeBytes?",
+    "sha256?"
+  ],
+  "recoverability": "provider_ready",
+  "storageKind": "artifact",
+  "layoutTextKeys": [
+    "type",
+    "text"
+  ],
+  "layoutAttachmentKeys": [
+    "type",
+    "attachmentIndex"
+  ],
+  "resultKeys": [
+    "attachments",
+    "modelContentLayout"
+  ]
+}

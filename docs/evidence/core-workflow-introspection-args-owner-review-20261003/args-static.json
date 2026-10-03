@@ -1,0 +1,98 @@
+{
+  "scope": "args",
+  "baseline": "02ad30c7539e8f0967dde9349e6fd676292dc0b1",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "publicTypeQualifications": [
+    "Steering raw inferred any/9010 is qualified as exact string result of two retained strings.join newline; original raw diagnostic preserved.",
+    "Opaque public imported schema/types/ports preserved; no semantic/project check/body execution.",
+    "Curator target and relevant public schema/type source exposure, historical broader exposure/repaired scratch breach, shared executor instructions/self-report/no OS isolation/audit qualified."
+  ],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/contract.md",
+      "bytes": 4855,
+      "sha256": "b19f9a5ebe570d11aaed80ff4888eb1ffdaeeb93392584d3c7f427632ea44ed6",
+      "lines": 13,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-api.d.ts",
+      "bytes": 378,
+      "sha256": "bd84a9b7e798e5747117512e0a61d8d36750b7bdbad469d8c532c5e69f8841d5",
+      "lines": 9,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/dependency-api.d.ts",
+      "bytes": 281,
+      "sha256": "ea4ca13a7132f2f3eb23d2b70018f61e07352da57c40bfb2a797847dd59ada1c",
+      "lines": 3,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/imports.json",
+      "bytes": 131,
+      "sha256": "5dcf5df7293a509b03507fe1ea07d96e8d0cdf7ae96e75548115cef584e7b8da",
+      "lines": 6,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/required-data.json",
+      "bytes": 2226,
+      "sha256": "a136b424e9fa6ae6922226cd3f820c813d2a87e61cac9423c91dfdd0a36585a4",
+      "lines": 140,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/args/public-data.json",
+      "bytes": 2054,
+      "sha256": "ca1fd0dde0ec4c8f66e2c89473ac86f76bfaf3efb271d65c995fdfdc176a713e",
+      "lines": 24,
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "args.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+      "bytes": 2651,
+      "lines": 98,
+      "sha256": "1f010a27306750f95c9e7256d78f5c3b6184312273df66a7978650fb1a9ec36b",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/args.ts",
+      "frozenMode": "0o444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 15468,
+      "lines": 326,
+      "sha256": "cfd6249e07be0dde38cfd5e9196a9dff330c465c19059d414823a25de9fdb031",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/args/author-record.json",
+      "frozenMode": "0o444",
+      "exact": true
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 619,
+    "unchanged": 619,
+    "failures": []
+  },
+  "passed": true,
+  "qualification": "Compare frozen qualified export/reexport surfaces and original source import identities, isolated declarations only; original raw diagnostics/opaque ports preserved, no semantic/project typechecking/standalone declaration closure. Exact explicit target signatures retained; required prose/static material honestly retained. Full whole archives before body review; author self-report/instruction-only shared executor, source-exposed curator/historical broader exposure/repaired scratch breach, no OS access audit/novelty/rights assertion. Ordinary checks deferred."
+}

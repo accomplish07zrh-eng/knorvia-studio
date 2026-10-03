@@ -1,0 +1,14 @@
+{
+  "residency": [
+    "browserTabResidencyCoordinator",
+    "correction-1"
+  ],
+  "recovery": [
+    "browserTabRecoveryStore",
+    "initial"
+  ],
+  "clipboard": [
+    "browserVirtualClipboard",
+    "correction-1"
+  ]
+}

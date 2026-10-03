@@ -1,0 +1,28 @@
+{
+  "beforeCandidate": true,
+  "groups": 4,
+  "mode": "exact historical strict-emitted owner with owned fake lower constructors/ports/installer; no real runtime construction",
+  "files": {
+    "docs/evidence/agent-runtime-author-20261003/ports.txt": "ed977a685de7eb1e924709bedee3814f1fedf9e54ae0bf441a60ae2f375a8593",
+    "docs/evidence/agent-runtime-author-20261003/dependencies.txt": "2fa6a18e4a18976a1f2d3c6dfd500ebf631942f5bcbad93f6342e600db25deb3",
+    "docs/evidence/agent-runtime-author-20261003/api.d.ts": "59df02b340e0a74dc4b5b62026badf6752451a5b5bbf3f184676715d81d08a24",
+    "docs/evidence/agent-runtime-author-20261003/imports.txt": "266630dde43482b634f93d7c6acd6e34905634c55a09e5fb69ad60d957ca7ad7",
+    "docs/evidence/agent-runtime-author-20261003/allocation.json": "9ba79a88d4d45b0da43b9eb9bdfae9d373c7cdf66805811b1e69f24b71ec2312",
+    "docs/evidence/agent-runtime-author-20261003/protected.json": "6c5d35bccd5091362778b85f2d28606cc000bb37dcb25e42bf556e24019b20e1",
+    "docs/evidence/agent-runtime-author-20261003/state-types.txt": "4ed29e8bbc3077d88bd181cda803ba591d6db496300e6bc3d50677e489ef50ad",
+    "docs/evidence/agent-runtime-author-20261003/contract.md": "83275bd1ae0ffc63276e1610188cfe4cc3c89536007322ba2d5180d901e86d2f",
+    "specs/knorvia-agent-runtime-composition-20261003.md": "70b98c0151f40415d55c7d5167c8280c0f94fd8dcdabc25005dc07e49c791f15",
+    "apps/cli/packages/core/test/agent-runtime-fixture-20261003.mjs": "a5ca9eb68c2aa2027650138ef11f1bca19c86b3fbec22db63e49780947d4bc29",
+    "apps/cli/packages/core/test/agent-runtime-baseline-20261003.json": "9f984bbe8006567a20894bfac07830c3cc04481bd6e872c9d6385518ef6e9a66",
+    "apps/cli/packages/core/test/agent-runtime-safety-20261003.mjs": "312b3f7f909f48011ffb31145ae8f63e18ba9c241f18841fc96d1423e4f9121e"
+  },
+  "nativeAuthorReadInputs": [
+    "api.d.ts",
+    "imports.txt",
+    "dependencies.txt",
+    "state-types.txt",
+    "ports.txt",
+    "contract.md"
+  ],
+  "preserved": "Other methods/helper/registry owners and public/interface bytes, defaults are unmodified dependencies. Explicit allocation supersedes historical agent-runtime protected-input status only."
+}

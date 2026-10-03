@@ -1,8 +1,4 @@
 import { runtimeInputMetadata } from "./runtime-input-presentation.js";
-// ============================================================
-// Session History Hydration - rebuild provider-visible context
-// ============================================================
-
 import { modelMessageContentToText, selectActiveConversationBranch } from "@knorvia/contracts";
 import type {
   FilePart,
@@ -42,8 +38,6 @@ import { compactActiveSessionMessages, isActiveCompactionBoundaryPart } from "./
 import { filePartToContentBlock, projectPersistedToolMediaContent } from "./file-part-hydration.js";
 import { selectToolPartsForHistory } from "./tool-part-order.js";
 
-const INTERRUPTED_TOOL_RESULT = "[Tool execution was interrupted before resume]";
-
 export interface SessionHistoryHydrationResult {
   appliedMessageCount: number;
   interruptedToolCount: number;
@@ -51,151 +45,14 @@ export interface SessionHistoryHydrationResult {
   partCount: number;
 }
 
-export async function hydrateMessageHistoryFromSession(input: {
-  artifactStore?: ToolArtifactStorePort;
-  branchCutAfterMessageId?: MessageId;
-  history: MessageHistory;
-  messages: MessageWithParts[];
-  rewindCreatedMessageId?: MessageId;
-  rewindKeptMessageIds?: readonly MessageId[];
-  rewindTargetMessageId?: MessageId;
-}): Promise<SessionHistoryHydrationResult> {
-  const activeMessages = activeSessionMessages(input.messages, {
-    branchCutAfterMessageId: input.branchCutAfterMessageId,
-    rewindCreatedMessageId: input.rewindCreatedMessageId,
-    rewindKeptMessageIds: input.rewindKeptMessageIds,
-    rewindTargetMessageId: input.rewindTargetMessageId,
-  });
-  let appliedMessageCount = 0,
-    interruptedToolCount = 0,
-    partCount = 0;
+type Text = Extract<MessagePart, { type: "text" }>;
+type HydrationInput = Parameters<typeof hydrateMessageHistoryFromSession>[0];
 
-  for (const message of activeMessages) {
-    const parts = dedupeParts(message.parts);
-    partCount += parts.length;
-
-    if (message.info.role === "user") {
-      const sharedContextStatus =
-        message.info.source === "shared_context" &&
-        message.info.metadata &&
-        typeof message.info.metadata === "object"
-          ? (message.info.metadata as Record<string, unknown>).sharedContextStatus
-          : undefined;
-      if (
-        message.info.source === "shared_context" &&
-        sharedContextStatus !== undefined &&
-        sharedContextStatus !== "attached"
-      ) {
-        // Share handover 的 pending/reserved context 只是本地候选，不能在用户首次
-        // 发送前偷偷进入 provider history；attach 后由 runtime 显式注入一次。
-        continue;
-      }
-      // session 持久化的是 raw synthetic notice，hydrate 阶段若提前包成
-      // user <system-reminder>，后续 mid-conversation system projection 会失去 attachment source。
-      const syntheticAttachment = syntheticSystemReminderAttachmentFromParts(parts);
-      if (syntheticAttachment) {
-        input.history.addAttachment(syntheticAttachment.source, syntheticAttachment.content);
-        appliedMessageCount++;
-        continue;
-      }
-
-      const entries = await userEntriesFromParts(parts, input.artifactStore);
-      if (entries.length === 0) continue;
-      const presentation = runtimeInputMetadata(
-        (message.info.metadata as Record<string, unknown> | undefined)?.inputPresentation,
-      );
-      input.history.addEntries(
-        presentation
-          ? entries.map((entry) =>
-              entry.kind === "attachment" ? entry : { ...entry, metadata: presentation },
-            )
-          : entries,
-      );
-      appliedMessageCount++;
-      continue;
-    }
-
-    const text = assistantTextFromParts(parts);
-    const reasoning = assistantReasoningFromParts(parts);
-    const toolParts = selectToolPartsForHistory(parts.filter(isToolPart));
-    // live history 会保留带合法 provider usage 的空 assistant 作为估算锚点，
-    // 旧 hydration 却无条件丢弃它，导致重启前后的 context estimate 不一致。
-    if (
-      text.trim().length === 0 &&
-      reasoning.length === 0 &&
-      toolParts.length === 0 &&
-      !persistedTokenUsageBaseline(message.info.tokens)
-    ) {
-      continue;
-    }
-
-    input.history.addAssistant(
-      text,
-      toolParts.map(
-        (part): ToolCallInput => ({
-          id: part.callID,
-          input: part.state.input,
-          name: providerToolNameFromPart(part),
-        }),
-      ),
-      reasoning,
-      message.info.modelId && message.info.providerId
-        ? { modelId: message.info.modelId, providerId: message.info.providerId }
-        : undefined,
-      message.info.tokens,
-    );
-    appliedMessageCount++;
-
-    for (const part of toolParts) {
-      const providerToolName = providerToolNameFromPart(part);
-      if (part.state.status === "completed") {
-        // live tool result 使用结构化媒体，但旧恢复只读取 output 摘要，
-        // 导致模型切换或冷恢复后丢失 Read/MCP 产生的真实媒体。
-        const attachmentBlocks = part.state.attachments
-          ? await Promise.all(
-              part.state.attachments.map((attachment) =>
-                filePartToContentBlock(attachment, input.artifactStore),
-              ),
-            )
-          : [];
-        // 旧 completed part 也可能有 attachments；只有完整有效的 layout 才能证明
-        // 它们属于新的 provider-visible 媒体内容，缺失或损坏时必须保留 legacy output。
-        const projectedMediaContent =
-          attachmentBlocks.length > 0
-            ? projectPersistedToolMediaContent(
-                part.state.metadata?.modelContentLayout,
-                attachmentBlocks,
-              )
-            : undefined;
-        const content = projectedMediaContent ?? part.state.output;
-        input.history.addToolResult(part.callID, providerToolName, content, true);
-        continue;
-      }
-
-      if (part.state.status === "error") {
-        const persistedModelContent = part.state.metadata?.modelContent;
-        // 实时链路使用 ToolExecutionResult.modelContent，但旧恢复逻辑只重放
-        // 面向 UI / 日志的 state.error；优先使用持久化字符串并兼容旧 session。
-        input.history.addToolResult(
-          part.callID,
-          providerToolName,
-          typeof persistedModelContent === "string" ? persistedModelContent : part.state.error,
-          false,
-        );
-        continue;
-      }
-
-      interruptedToolCount++;
-      input.history.addToolResult(part.callID, providerToolName, INTERRUPTED_TOOL_RESULT, false);
-    }
+function lastBoundary(messages: MessageWithParts[]): number {
+  for (let index = messages.length - 1; index >= 0; index--) {
+    if (messages[index]!.parts.some(isActiveCompactionBoundaryPart)) return index;
   }
-
-  return {
-    appliedMessageCount,
-    interruptedToolCount,
-    messageCount: activeMessages.length,
-    partCount,
-  };
+  return -1;
 }
 
 export function activeSessionMessages(
@@ -208,170 +65,100 @@ export function activeSessionMessages(
     rewindTargetMessageId?: MessageId;
   } = {},
 ): MessageWithParts[] {
-  if (!options.branchCutAfterMessageId) {
-    // 旧数据没有 branch cut，继续使用 compact-first/createdMessageID 兼容语义；不能把
-    // 历史上非法的 compact 前 kept IDs 解释成新式 branch，从而改变既有冷恢复结果。
-    let legacyCompactIndex = -1;
-    for (let index = messages.length - 1; index >= 0; index--) {
-      if (messages[index]!.parts.some(isActiveCompactionBoundaryPart)) {
-        legacyCompactIndex = index;
-        break;
-      }
-    }
-    const compactActiveMessages =
-      legacyCompactIndex >= 0
-        ? compactActiveSessionMessages(
-            messages,
-            legacyCompactIndex,
-            options.includeCompactPreservedSegment !== false,
-          )
-        : messages;
-    if (options.rewindKeptMessageIds && legacyCompactIndex >= 0) {
-      const postCompactIds = new Set(
-        messages.slice(legacyCompactIndex).map((message) => message.info.id),
-      );
-      if (!options.rewindKeptMessageIds.some((messageId) => postCompactIds.has(messageId))) {
-        return compactActiveMessages;
-      }
-    }
-    return selectActiveConversationBranch(compactActiveMessages, options);
-  }
-
-  // 最后一个 compact boundary。顺序相反会让 compact 前 kept prefix 永远无法恢复。
-  const branchActiveMessages = selectActiveConversationBranch(messages, options);
-  let lastCompactionIndex = -1;
-  for (let index = branchActiveMessages.length - 1; index >= 0; index--) {
-    if (branchActiveMessages[index]!.parts.some(isActiveCompactionBoundaryPart)) {
-      lastCompactionIndex = index;
-      break;
-    }
-  }
-  return lastCompactionIndex >= 0
-    ? compactActiveSessionMessages(
-        branchActiveMessages,
-        lastCompactionIndex,
-        options.includeCompactPreservedSegment !== false,
-      )
-    : branchActiveMessages;
-}
-
-function dedupeParts(parts: MessagePart[]): MessagePart[] {
-  const byId = new Map<string, MessagePart>();
-  for (const part of parts) {
-    byId.set(part.id, part);
-  }
-  return [...byId.values()];
-}
-
-async function userEntriesFromParts(
-  parts: MessagePart[],
-  artifactStore: ToolArtifactStorePort | undefined,
-): Promise<RuntimeMessageEntry[]> {
-  const attachmentBlocks: ModelMessageContentBlock[] = [];
-  // 媒体数据块（image/video）统一后置组，恢复顺序对齐 live 主路径 [text, media]。
-  const inlineMediaBlocks: ModelMessageContentBlock[] = [];
-  const promptBlocks: ModelMessageContentBlock[] = [];
-  const syntheticAttachmentEntries: RuntimeMessageEntry[] = [];
-  const promptAttachmentEntries: RuntimeMessageEntry[] = [];
-
-  for (const part of parts) {
-    if (part.type === "text" && !part.ignored) {
-      const syntheticAttachment = syntheticSystemReminderAttachmentFromTextPart(part);
-      if (syntheticAttachment) {
-        syntheticAttachmentEntries.push(
-          systemReminderAttachmentEntry(syntheticAttachment.source, syntheticAttachment.content),
+  if (options.branchCutAfterMessageId) {
+    const branch = selectActiveConversationBranch(messages, options);
+    const boundary = lastBoundary(branch);
+    return boundary < 0
+      ? branch
+      : compactActiveSessionMessages(
+          branch,
+          boundary,
+          options.includeCompactPreservedSegment !== false,
         );
-        continue;
-      }
-      promptBlocks.push({ type: "text", text: textPartToProviderText(part) });
-      continue;
-    }
-
-    if (part.type === "file") {
-      const block = await filePartToContentBlock(part, artifactStore);
-      // local_ref 是附件恢复历史时的唯一路径句柄，不能因为 metadata_only 过滤。
-      if (block.type === "text") {
-        const promptAttachmentInput = promptAttachmentReminderInputForFilePart(part, block);
-        if (promptAttachmentInput) {
-          const reminderBody =
-            buildPromptAttachmentReminderBodies(promptAttachmentInput).join("\n");
-          promptAttachmentEntries.push(
-            systemReminderAttachmentEntry("prompt_attachment", reminderBody),
-          );
-          continue;
-        }
-      }
-      if (block.type === "image" || block.type === "video") {
-        inlineMediaBlocks.push(block);
-      } else {
-        attachmentBlocks.push(block);
-      }
-      continue;
-    }
-
-    if (part.type === "agent") {
-      promptBlocks.push({ type: "text", text: `[Selected agent: ${part.name}]` });
-    }
   }
+  const boundary = lastBoundary(messages);
+  const projected =
+    boundary < 0
+      ? messages
+      : compactActiveSessionMessages(
+          messages,
+          boundary,
+          options.includeCompactPreservedSegment !== false,
+        );
+  if (options.rewindKeptMessageIds && boundary >= 0) {
+    const kept = options.rewindKeptMessageIds;
+    if (!messages.slice(boundary).some((message) => kept.includes(message.info.id)))
+      return projected;
+  }
+  return selectActiveConversationBranch(projected, options);
+}
 
-  const content = contentFromUserBlocks(
-    [...attachmentBlocks, ...promptBlocks, ...inlineMediaBlocks],
-    {
-      preserveBlocks: attachmentBlocks.length > 0 || inlineMediaBlocks.length > 0,
-    },
-  );
-  const hasUserContent = modelMessageContentToText(content).trim().length > 0;
-  const userMetadata = metadataFromUserParts(parts);
-  // 文本附件从原始 file part 恢复为 prompt_attachment 后，空正文的
-  // real_user envelope 曾被 trim 判空丢弃，导致 live 与 resume 的 provider history 不一致。
-  // 这里只恢复 Agent 内存锚点；bare-empty 和纯 synthetic/meta user 仍不生成空消息。
-  const shouldRestoreRealUserEnvelope =
-    hasUserContent || (userMetadata.source === "real_user" && promptAttachmentEntries.length > 0);
+function nestedMetadata(part: Text): RuntimeMessageMetadata | undefined {
+  const value = part.metadata?.runtimeMessage;
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  const runtime = value as Record<string, unknown>;
+  const presentation = runtimeInputMetadata(runtime.inputPresentation);
+  if (presentation) return presentation;
+  const source = runtime.source as RuntimeMessageSource | undefined;
+  if (source === "real_user") return realUserRuntimeMetadata();
+  if (source === "legacy_synthetic") return legacySyntheticRuntimeMetadata();
+  if (source === "todo_reminder") return todoReminderRuntimeMetadata();
+  return isKnownSystemReminderSource(source) ? systemReminderRuntimeMetadata(source) : undefined;
+}
+
+function syntheticMetadata(part: Text): RuntimeMessageMetadata {
+  const source = part.metadata?.source;
+  if (source === "background_task" || source === "subagent_message") {
+    return legacySyntheticRuntimeMetadata();
+  }
+  const nested = nestedMetadata(part);
+  if (nested) return nested;
+  if (source === "subagent") return systemReminderRuntimeMetadata("queued_system_notification");
+  if (source === "todo_reminder") return todoReminderRuntimeMetadata();
+  if (source === "goal-continuation") return systemReminderRuntimeMetadata("target_continuation");
+  if (source === "rewind" || source === "fork")
+    return systemReminderRuntimeMetadata("rewind_notice");
+  return isKnownSystemReminderSource(source)
+    ? systemReminderRuntimeMetadata(source)
+    : legacySyntheticRuntimeMetadata();
+}
+
+function rawReminderSource(part: MessagePart): SystemReminderSource | undefined {
   if (
-    !shouldRestoreRealUserEnvelope &&
-    syntheticAttachmentEntries.length === 0 &&
-    promptAttachmentEntries.length === 0
-  ) {
-    return [];
-  }
-  return [
-    ...(shouldRestoreRealUserEnvelope
-      ? [
-          {
-            message: { role: "user" as const, content },
-            metadata: userMetadata,
-          },
-        ]
-      : []),
-    ...syntheticAttachmentEntries,
-    ...promptAttachmentEntries,
-  ];
+    part.type !== "text" ||
+    !part.synthetic ||
+    !part.text.trim() ||
+    part.text.trimStart().startsWith("<system-reminder")
+  )
+    return undefined;
+  const source = syntheticMetadata(part).source;
+  if (!isKnownSystemReminderSource(source)) return undefined;
+  const descriptor = getSystemReminderDescriptor(source);
+  return descriptor.isMeta &&
+    descriptor.providerVisibility === "provider_visible" &&
+    descriptor.channel !== "real_user" &&
+    descriptor.channel !== "tool_result"
+    ? source
+    : undefined;
 }
 
-function contentFromUserBlocks(
-  blocks: readonly ModelMessageContentBlock[],
-  options: { preserveBlocks?: boolean } = {},
-): ModelMessageContent {
-  if (options.preserveBlocks) {
-    return blocks.map((block) => ({ ...block })) as ModelMessageContentBlock[];
+function providerText(part: Text): string {
+  if (!part.synthetic || part.text.trimStart().startsWith("<system-reminder")) return part.text;
+  const source = nestedMetadata(part)?.source;
+  if (source === "task_status" && part.metadata?.source !== "background_task") {
+    return wrapSystemReminderForSource("task_status", part.text);
   }
-  const textBlocks = blocks.filter(
-    (block): block is Extract<ModelMessageContentBlock, { type: "text" }> => block.type === "text",
-  );
-  if (blocks.length === textBlocks.length) {
-    return textBlocks
-      .map((block) => block.text)
-      .filter(Boolean)
-      .join("\n\n");
+  if (source === "queued_system_notification" || part.metadata?.source === "subagent") {
+    return wrapSystemReminderForSource("queued_system_notification", part.text);
   }
-  return blocks.map((block) => ({ ...block })) as ModelMessageContentBlock[];
+  return part.text;
 }
 
-function promptAttachmentReminderInputForFilePart(
+function promptAttachment(
   part: FilePart,
-  block: Extract<ModelMessageContentBlock, { type: "text" }>,
-): (PromptAttachmentReminderInput & { content: string; kind: "file" | "inline_text" }) | undefined {
-  if (!part.mime.startsWith("text/")) return undefined;
+  block: ModelMessageContentBlock,
+): PromptAttachmentReminderInput | undefined {
+  if (block.type !== "text" || !part.mime.startsWith("text/")) return undefined;
   if (!part.source) {
     return {
       content: block.text,
@@ -380,210 +167,219 @@ function promptAttachmentReminderInputForFilePart(
       preview: part.metadata?.preview,
     };
   }
-  if (part.metadata?.storageKind !== "inline") return undefined;
+  const metadata = part.metadata;
   if (
-    part.metadata.recoverability !== "provider_ready" &&
-    part.metadata.recoverability !== "preview_only"
-  ) {
+    metadata?.storageKind !== "inline" ||
+    (metadata.recoverability !== "provider_ready" && metadata.recoverability !== "preview_only") ||
+    metadata.preview?.text !== block.text
+  )
     return undefined;
-  }
-  if (part.metadata.preview?.text !== block.text) return undefined;
   return {
     content: block.text,
     kind: "file",
     label: part.source.text.value ?? part.filename,
-    preview: part.metadata.preview,
+    preview: metadata.preview,
   };
 }
 
-function textPartToProviderText(part: Extract<MessagePart, { type: "text" }>): string {
-  if (!part.synthetic) {
-    return part.text;
-  }
-  if (isProviderWrappedSystemReminderText(part.text)) {
-    return part.text;
-  }
-
-  const runtimeMetadata = runtimeMessageMetadataFromPartMetadata(part.metadata);
-  if (runtimeMetadata?.source === "task_status" && part.metadata?.source !== "background_task") {
-    return wrapSystemReminderForSource("task_status", part.text);
-  }
+function userMetadata(parts: MessagePart[]): RuntimeMessageMetadata {
   if (
-    runtimeMetadata?.source === "queued_system_notification" ||
-    part.metadata?.source === "subagent"
-  ) {
-    // subagent notification 同样只在 provider history 恢复时包外层，避免改动 session/UI raw transcript。
-    return wrapSystemReminderForSource("queued_system_notification", part.text);
-  }
-  return part.text;
+    parts.some(
+      (part) =>
+        part.type === "file" ||
+        part.type === "agent" ||
+        (part.type === "text" && !part.ignored && !part.synthetic),
+    )
+  )
+    return realUserRuntimeMetadata();
+  const synthetic = parts.find(
+    (part): part is Text => part.type === "text" && !part.ignored && !!part.synthetic,
+  );
+  return synthetic ? syntheticMetadata(synthetic) : realUserRuntimeMetadata();
 }
 
-interface SyntheticSystemReminderAttachment {
-  source: SystemReminderSource;
-  content: string;
-}
-
-function syntheticSystemReminderAttachmentFromParts(
+async function appendUser(
+  input: HydrationInput,
+  message: MessageWithParts,
   parts: MessagePart[],
-): SyntheticSystemReminderAttachment | undefined {
-  const visibleParts = parts.filter((part) => !(part.type === "text" && part.ignored));
-  if (visibleParts.length !== 1) return undefined;
-
-  const part = visibleParts[0]!;
-  if (part.type !== "text" || !part.synthetic) return undefined;
-  return syntheticSystemReminderAttachmentFromTextPart(part);
-}
-
-function syntheticSystemReminderAttachmentFromTextPart(
-  part: Extract<MessagePart, { type: "text" }>,
-): SyntheticSystemReminderAttachment | undefined {
-  if (!part.synthetic) return undefined;
-  if (part.text.trim().length === 0) return undefined;
-  if (isProviderWrappedSystemReminderText(part.text)) return undefined;
-  const metadata = metadataFromSyntheticTextPart(part);
-  if (!isRestorableSystemReminderAttachmentSource(metadata.source)) return undefined;
-
-  return {
-    source: metadata.source,
-    content: part.text,
-  };
-}
-
-function isRestorableSystemReminderAttachmentSource(
-  source: RuntimeMessageSource,
-): source is SystemReminderSource {
-  if (!isKnownSystemReminderSource(source)) return false;
-  const descriptor = getSystemReminderDescriptor(source);
-  return (
-    descriptor.isMeta &&
-    descriptor.providerVisibility === "provider_visible" &&
-    descriptor.channel !== "real_user" &&
-    descriptor.channel !== "tool_result"
-  );
-}
-
-function isProviderWrappedSystemReminderText(text: string): boolean {
-  return text.trimStart().startsWith("<system-reminder");
-}
-
-function metadataFromUserParts(parts: MessagePart[]): RuntimeMessageMetadata {
-  const visibleTextParts = parts.filter(
-    (part): part is Extract<MessagePart, { type: "text" }> => part.type === "text" && !part.ignored,
-  );
-  const hasRealUserText = visibleTextParts.some((part) => !part.synthetic);
-  const hasStructuredUserPart = parts.some((part) => part.type === "file" || part.type === "agent");
-  if (hasRealUserText || hasStructuredUserPart) {
-    return realUserRuntimeMetadata();
+): Promise<boolean> {
+  const info = message.info;
+  if (
+    info.role === "user" &&
+    info.source === "shared_context" &&
+    info.metadata !== null &&
+    typeof info.metadata === "object"
+  ) {
+    const status = info.metadata.sharedContextStatus;
+    if (status !== undefined && status !== "attached") return false;
   }
-
-  const syntheticTextPart = visibleTextParts.find((part) => part.synthetic);
-  if (!syntheticTextPart) {
-    return realUserRuntimeMetadata();
-  }
-
-  return metadataFromSyntheticTextPart(syntheticTextPart);
-}
-
-function metadataFromSyntheticTextPart(
-  part: Extract<MessagePart, { type: "text" }>,
-): RuntimeMessageMetadata {
-  const source = part.metadata?.source;
-  if (source === "background_task" || source === "subagent_message") {
-    // runtime command carrier 对齐直接 user-like 注入；即使旧持久化里带过
-    // system reminder metadata，恢复时也不能把后台完成或 child 回复重新包成 reminder。
-    return legacySyntheticRuntimeMetadata();
-  }
-
-  const persistedRuntimeMetadata = runtimeMessageMetadataFromPartMetadata(part.metadata);
-  if (persistedRuntimeMetadata) {
-    return persistedRuntimeMetadata;
-  }
-
-  if (source === "subagent") {
-    return systemReminderRuntimeMetadata("queued_system_notification");
-  }
-  if (source === "todo_reminder") {
-    return todoReminderRuntimeMetadata();
-  }
-  if (source === "goal-continuation") {
-    return systemReminderRuntimeMetadata("target_continuation");
-  }
-  if (source === "rewind" || source === "fork") {
-    return systemReminderRuntimeMetadata("rewind_notice");
-  }
-  if (isKnownSystemReminderSource(source)) {
-    return systemReminderRuntimeMetadata(source);
-  }
-
-  return legacySyntheticRuntimeMetadata();
-}
-
-function runtimeMessageMetadataFromPartMetadata(
-  metadata: Record<string, unknown> | undefined,
-): RuntimeMessageMetadata | undefined {
-  const runtimeMessage = metadata?.runtimeMessage;
-  if (!isRecord(runtimeMessage)) return undefined;
-
-  const presentation = runtimeInputMetadata(runtimeMessage.inputPresentation);
-  if (presentation) return presentation;
-  const source = runtimeMessage.source;
-  if (source === "real_user") {
-    return realUserRuntimeMetadata();
-  }
-  if (source === "legacy_synthetic") {
-    return legacySyntheticRuntimeMetadata();
-  }
-  if (source === "todo_reminder") {
-    return todoReminderRuntimeMetadata();
-  }
-  if (isKnownSystemReminderSource(source)) {
-    return systemReminderRuntimeMetadata(source);
-  }
-
-  return undefined;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function assistantTextFromParts(parts: MessagePart[]): string {
-  const chunks: string[] = [];
-
-  for (const part of parts) {
-    if (part.type === "text" && !part.ignored) {
-      chunks.push(part.text);
+  const visible = parts.filter((part) => part.type !== "text" || !part.ignored);
+  if (visible.length === 1) {
+    const only = visible[0]!;
+    const source = rawReminderSource(only);
+    if (source && only.type === "text") {
+      input.history.addAttachment(source, only.text);
+      return true;
     }
   }
-
-  return chunks.join("\n\n");
+  const attachments: ModelMessageContentBlock[] = [];
+  const prompts: ModelMessageContentBlock[] = [];
+  const media: ModelMessageContentBlock[] = [];
+  const reminders: RuntimeMessageEntry[] = [];
+  const promptEntries: RuntimeMessageEntry[] = [];
+  for (const part of parts) {
+    if (part.type === "text") {
+      if (part.ignored) continue;
+      const source = rawReminderSource(part);
+      if (source) reminders.push(systemReminderAttachmentEntry(source, part.text));
+      else prompts.push({ type: "text", text: providerText(part) });
+    } else if (part.type === "file") {
+      const block = await filePartToContentBlock(part, input.artifactStore);
+      const reminder = promptAttachment(part, block);
+      if (reminder) {
+        promptEntries.push(
+          systemReminderAttachmentEntry(
+            "prompt_attachment",
+            buildPromptAttachmentReminderBodies(reminder).join("\n"),
+          ),
+        );
+      } else if (block.type === "image" || block.type === "video") media.push(block);
+      else attachments.push(block);
+    } else if (part.type === "agent") {
+      prompts.push({ type: "text", text: `[Selected agent: ${part.name}]` });
+    }
+  }
+  const ordered = [...attachments, ...prompts, ...media];
+  const content: ModelMessageContent =
+    attachments.length || media.length
+      ? ordered.map((block) => ({ ...block }))
+      : prompts
+          .filter(
+            (block): block is Extract<ModelMessageContentBlock, { type: "text" }> =>
+              block.type === "text",
+          )
+          .map((block) => block.text)
+          .filter(Boolean)
+          .join("\n\n");
+  const meaningful = !!modelMessageContentToText(content).trim();
+  const metadata = userMetadata(parts);
+  const restoreEnvelope =
+    meaningful || (metadata.source === "real_user" && promptEntries.length > 0);
+  const entries: RuntimeMessageEntry[] = restoreEnvelope
+    ? [{ message: { role: "user", content }, metadata }, ...reminders, ...promptEntries]
+    : [...reminders, ...promptEntries];
+  if (!entries.length) return false;
+  const presentation = runtimeInputMetadata(info.metadata?.inputPresentation);
+  input.history.addEntries(
+    presentation
+      ? entries.map((entry) =>
+          entry.kind === "attachment" ? entry : { ...entry, metadata: presentation },
+        )
+      : entries,
+  );
+  return true;
 }
 
-function assistantReasoningFromParts(parts: MessagePart[]): ModelReasoningContentBlock[] {
-  const blocks: ModelReasoningContentBlock[] = [];
+function providerToolName(part: ToolPart): string {
+  const name = part.metadata?.providerToolName;
+  return typeof name === "string" ? name : part.tool;
+}
 
-  for (const part of parts) {
-    if (part.type === "reasoning") {
-      blocks.push({
+export async function hydrateMessageHistoryFromSession(input: {
+  artifactStore?: ToolArtifactStorePort;
+  branchCutAfterMessageId?: MessageId;
+  history: MessageHistory;
+  messages: MessageWithParts[];
+  rewindCreatedMessageId?: MessageId;
+  rewindKeptMessageIds?: readonly MessageId[];
+  rewindTargetMessageId?: MessageId;
+}): Promise<SessionHistoryHydrationResult> {
+  const messages = activeSessionMessages(input.messages, {
+    branchCutAfterMessageId: input.branchCutAfterMessageId,
+    rewindCreatedMessageId: input.rewindCreatedMessageId,
+    rewindKeptMessageIds: input.rewindKeptMessageIds,
+    rewindTargetMessageId: input.rewindTargetMessageId,
+  });
+  const counts = { appliedMessageCount: 0, interruptedToolCount: 0, partCount: 0 };
+  for (const message of messages) {
+    const byId = new Map<MessagePart["id"], MessagePart>();
+    for (const part of message.parts) byId.set(part.id, part);
+    const parts = [...byId.values()];
+    counts.partCount += parts.length;
+    const info = message.info;
+    if (info.role === "user") {
+      if (await appendUser(input, message, parts)) counts.appliedMessageCount++;
+      continue;
+    }
+    const text = parts
+      .filter((part): part is Text => part.type === "text" && !part.ignored)
+      .map((part) => part.text)
+      .join("\n\n");
+    const reasoning: ModelReasoningContentBlock[] = parts
+      .filter((part) => part.type === "reasoning")
+      .map((part) => ({
         type: "reasoning",
         text: part.text,
         providerOptions: part.metadata ? { ...part.metadata } : undefined,
-      });
+      }));
+    const tools = selectToolPartsForHistory(
+      parts.filter((part): part is ToolPart => part.type === "tool"),
+    );
+    if (
+      !text.trim() &&
+      !reasoning.length &&
+      !tools.length &&
+      !persistedTokenUsageBaseline(info.tokens)
+    )
+      continue;
+    const calls: ToolCallInput[] = tools.map((part) => ({
+      id: part.callID,
+      input: part.state.input,
+      name: providerToolName(part),
+    }));
+    const model =
+      info.modelId && info.providerId
+        ? { modelId: info.modelId, providerId: info.providerId }
+        : undefined;
+    input.history.addAssistant(text, calls, reasoning, model, info.tokens);
+    counts.appliedMessageCount++;
+    for (const part of tools) {
+      const name = providerToolName(part);
+      if (part.state.status === "completed") {
+        const blocks = part.state.attachments
+          ? await Promise.all(
+              part.state.attachments.map((attachment) =>
+                filePartToContentBlock(attachment, input.artifactStore),
+              ),
+            )
+          : [];
+        const projection = blocks.length
+          ? projectPersistedToolMediaContent(part.state.metadata?.modelContentLayout, blocks)
+          : undefined;
+        input.history.addToolResult(part.callID, name, projection ?? part.state.output, true);
+      } else if (part.state.status === "error") {
+        const persisted = part.state.metadata?.modelContent;
+        input.history.addToolResult(
+          part.callID,
+          name,
+          typeof persisted === "string" ? persisted : part.state.error,
+          false,
+        );
+      } else {
+        counts.interruptedToolCount++;
+        input.history.addToolResult(
+          part.callID,
+          name,
+          "[Tool execution was interrupted before resume]",
+          false,
+        );
+      }
     }
   }
-
-  return blocks;
-}
-
-function isToolPart(part: MessagePart): part is ToolPart {
-  return part.type === "tool";
-}
-
-function providerToolNameFromPart(part: ToolPart): string {
-  const providerToolName = part.metadata?.providerToolName;
-  // 空字符串在 cold hydration 中曾只能依赖 non-empty ToolPart.tool；
-  // 必须按字段存在性恢复原值，不能用 truthy 判断把空名重新覆盖成占位值。
-  return providerToolName !== undefined && typeof providerToolName === "string"
-    ? providerToolName
-    : part.tool;
+  return {
+    appliedMessageCount: counts.appliedMessageCount,
+    interruptedToolCount: counts.interruptedToolCount,
+    messageCount: messages.length,
+    partCount: counts.partCount,
+  };
 }

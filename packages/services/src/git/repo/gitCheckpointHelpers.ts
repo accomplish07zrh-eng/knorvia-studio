@@ -26,116 +26,74 @@ export function getWorkspacePathspec(workspaceInRepoPath: string): string {
 }
 
 export function getCheckpointRefName(workspacePath: string, checkpointId: string): string {
-  const workspaceHash = getWorkspaceHash(workspacePath);
-  return `refs/knorvia/checkpoints/${workspaceHash}/${checkpointId}`;
-}
-
-function mapNameStatusKind(status: string): GitCheckpointFileDiff["kind"] {
-  const normalized = status[0] ?? "M";
-  if (normalized === "A") {
-    return "added";
-  }
-  if (normalized === "D") {
-    return "deleted";
-  }
-  if (normalized === "R" || normalized === "C") {
-    return "renamed";
-  }
-  return "modified";
+  return `refs/knorvia/checkpoints/${getWorkspaceHash(workspacePath)}/${checkpointId}`;
 }
 
 export function parseNameStatus(stdout: string): GitCheckpointNameStatusEntry[] {
-  const records = stdout.split("\0").filter((record) => record.length > 0);
+  const records = stdout.split("\0").filter(Boolean);
   const entries: GitCheckpointNameStatusEntry[] = [];
-
-  for (let index = 0; index < records.length; index += 1) {
-    const status = records[index]!;
-    const kind = mapNameStatusKind(status);
-    if (kind === "renamed") {
-      const originalPath = records[index + 1] ?? null;
-      const path = records[index + 2] ?? null;
-      index += 2;
-      if (!originalPath || !path) {
-        continue;
+  let cursor = 0;
+  while (cursor < records.length) {
+    const status = records[cursor++]?.[0] ?? "M";
+    if (status === "R" || status === "C") {
+      const originalPath = records[cursor++];
+      const path = records[cursor++];
+      if (originalPath && path) {
+        entries.push({
+          kind: "renamed",
+          originalPath: normalizeGitPath(originalPath),
+          path: normalizeGitPath(path),
+        });
       }
-      entries.push({
-        kind,
-        originalPath: normalizeGitPath(originalPath),
-        path: normalizeGitPath(path),
-      });
       continue;
     }
-
-    const path = records[index + 1] ?? null;
-    index += 1;
-    if (!path) {
-      continue;
-    }
-    entries.push({
-      kind,
-      originalPath: null,
-      path: normalizeGitPath(path),
-    });
+    const path = records[cursor++];
+    if (!path) continue;
+    const kind = status === "A" ? "added" : status === "D" ? "deleted" : "modified";
+    entries.push({ kind, originalPath: null, path: normalizeGitPath(path) });
   }
-
   return entries;
 }
 
 export function parseNumstat(stdout: string): Map<string, { added: number; removed: number }> {
-  const records = stdout.split("\0").filter((record) => record.length > 0);
-  const stats = new Map<string, { added: number; removed: number }>();
-
-  for (let index = 0; index < records.length; index += 1) {
-    const record = records[index]!;
-    const fields = record.split("\t");
-    if (fields.length < 3) {
+  const records = stdout.split("\0").filter(Boolean);
+  const result = new Map<string, { added: number; removed: number }>();
+  let cursor = 0;
+  while (cursor < records.length) {
+    const fields = (records[cursor++] ?? "").split("\t");
+    if (fields.length < 3) continue;
+    const added = fields[0] === "-" ? 0 : parseInt(fields[0] ?? "0", 10) || 0;
+    const removed = fields[1] === "-" ? 0 : parseInt(fields[1] ?? "0", 10) || 0;
+    const path = fields.slice(2).join("\t");
+    if (path) {
+      result.set(normalizeGitPath(path), { added, removed });
       continue;
     }
-
-    const added = fields[0] === "-" ? 0 : Number.parseInt(fields[0] ?? "0", 10) || 0;
-    const removed = fields[1] === "-" ? 0 : Number.parseInt(fields[1] ?? "0", 10) || 0;
-    const pathField = fields.slice(2).join("\t");
-    if (pathField.length > 0) {
-      stats.set(normalizeGitPath(pathField), { added, removed });
-      continue;
-    }
-
-    const originalPath = records[index + 1] ?? "";
-    const renamedPath = records[index + 2] ?? "";
-    index += 2;
-    if (!renamedPath) {
-      continue;
-    }
-    stats.set(normalizeGitPath(renamedPath), { added, removed });
-    if (originalPath) {
-      stats.set(normalizeGitPath(originalPath), { added, removed });
-    }
+    const originalPath = records[cursor++];
+    const newPath = records[cursor++];
+    if (!newPath) continue;
+    result.set(normalizeGitPath(newPath), { added, removed });
+    if (originalPath) result.set(normalizeGitPath(originalPath), { added, removed });
   }
-
-  return stats;
+  return result;
 }
 
 export function parseLsTree(stdout: string): Map<string, GitTreeEntry> {
-  const records = stdout.split("\0").filter((record) => record.length > 0);
-  const entries = new Map<string, GitTreeEntry>();
-  for (const record of records) {
-    const tabIndex = record.indexOf("\t");
-    if (tabIndex < 0) {
-      continue;
-    }
-    const header = record.slice(0, tabIndex).split(" ");
-    if (header.length < 3) {
-      continue;
-    }
-    const path = normalizeGitPath(record.slice(tabIndex + 1));
-    entries.set(path, {
+  const result = new Map<string, GitTreeEntry>();
+  for (const record of stdout.split("\0").filter(Boolean)) {
+    const separator = record.indexOf("\t");
+    if (separator < 0) continue;
+    const header = record.slice(0, separator).split(" ");
+    if (header.length < 3) continue;
+    const path = normalizeGitPath(record.slice(separator + 1));
+    result.set(path, {
       mode: header[0] ?? "100644",
       type: header[1] ?? "blob",
       objectId: header[2] ?? "",
       path,
     });
   }
-  return entries;
+  return result;
 }
 
 export function mergeCheckpointDiff(params: {
@@ -148,10 +106,7 @@ export function mergeCheckpointDiff(params: {
 }): GitCheckpointDiff {
   const files: GitCheckpointFileDiff[] = params.nameStatusEntries.map((entry) => {
     const stat = params.numstat.get(entry.path) ??
-      params.numstat.get(entry.originalPath ?? "") ?? {
-        added: 0,
-        removed: 0,
-      };
+      params.numstat.get(entry.originalPath ?? "") ?? { added: 0, removed: 0 };
     return {
       path: toAbsolutePath(params.repoRoot, entry.path),
       repoRelativePath: entry.path,
@@ -162,7 +117,6 @@ export function mergeCheckpointDiff(params: {
       removed: stat.removed,
     };
   });
-
   return {
     fromCheckpointId: params.fromCheckpointId,
     toCheckpointId: params.toCheckpointId,
@@ -171,14 +125,12 @@ export function mergeCheckpointDiff(params: {
 }
 
 export function buildAffectedRepoPaths(files: GitCheckpointFileDiff[]): string[] {
-  const values = new Set<string>();
+  const paths = new Set<string>();
   for (const file of files) {
-    values.add(file.repoRelativePath);
-    if (file.originalPath) {
-      values.add(file.originalPath);
-    }
+    paths.add(file.repoRelativePath);
+    if (file.originalPath) paths.add(file.originalPath);
   }
-  return [...values];
+  return [...paths];
 }
 
 export function buildCheckpointEnv(tempIndexPath: string): NodeJS.ProcessEnv {
@@ -192,16 +144,9 @@ export function buildCheckpointEnv(tempIndexPath: string): NodeJS.ProcessEnv {
 }
 
 export async function removeFileIfExists(path: string): Promise<void> {
-  await rm(path, {
-    force: true,
-    recursive: true,
-  });
-}
-
-function toRepoRelativePathFromAbsolute(repoRoot: string, absolutePath: string): string {
-  return normalizeGitPath(absolutePath.replace(`${repoRoot}${sep}`, ""));
+  await rm(path, { force: true, recursive: true });
 }
 
 export function normalizeAffectedRepoPath(repoRoot: string, path: string): string {
-  return normalizeGitPath(isAbsolute(path) ? toRepoRelativePathFromAbsolute(repoRoot, path) : path);
+  return normalizeGitPath(isAbsolute(path) ? path.replace(`${repoRoot}${sep}`, "") : path);
 }

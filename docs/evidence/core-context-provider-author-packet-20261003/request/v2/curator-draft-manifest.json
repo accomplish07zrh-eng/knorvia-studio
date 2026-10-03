@@ -1,0 +1,26 @@
+{
+  "archivedAtUtc": "2026-10-02T19:32:41.427925+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "f76e9688",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-context-provider-author-packet-20261003/request/heading-observation-clarification.md",
+      "bytes": 950,
+      "sha256": "4f10025b2a328fac7ecedff275bd015e44539cdebcefa248513a27c8f399dc5f"
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 6425,
+      "sha256": "a26a53cbae4e7f157607be19c47118a0388d700cf65c5e9e6c46b7747c38791b"
+    },
+    {
+      "file": "draft-request-user-context.ts.txt",
+      "bytes": 2917,
+      "sha256": "3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d",
+      "target": "apps/cli/packages/core/src/context/sections/request-user-context.ts"
+    }
+  ]
+}

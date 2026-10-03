@@ -1,18 +1,4 @@
 /* eslint-disable max-lines -- Host 入口集中编排 local/remote service wiring，本次退出保护需要在同一处桥接 host 上报。 */
-/* eslint-disable max-lines -- host process 入口集中维护 local/remote 初始化和资源回收，realtime bridge 接入后先保持同文件收口。 */
-/**
- * Host Process 入口 —— 每个窗口对应一个独立的 host process
- *
- * 同一窗口的 Renderer 和手机 都 attachment 到这个 Host：
- *   Renderer / Mobile ←MessagePort→ Window Host
- *                                      ├─ local services
- *                                      └─ remote connection registry
- *
- * 启动流程：
- * 1. main 进程通过 Electron `utilityProcess.fork()` 创建本进程
- * 2. main 进程只发送一次 init-local 初始化窗口 Host
- * 3. 后续远端 connect / scoped attachment 都由同一 Host 处理
- */
 import { createHostDatabaseStartup } from "./hostDatabaseStartup.js";
 import { randomUUID } from "node:crypto";
 import {
@@ -72,7 +58,6 @@ import {
   redactDiagnosticValue,
   type KnorviaPromptAttachment,
   type KnorviaStreamEvent,
-  type KnorviaTaskMeta,
   type TaskStreamMirrorableEvent,
   type TraceId,
   type KnorviaTaskMode,
@@ -86,9 +71,6 @@ import {
   parseHostIncomingMessageEvent,
   rejectUnavailableAttachedServicePort,
 } from "./hostMessagePortGuard.js";
-// remote backend 相关模块延迟加载：ssh2 的 CJS 依赖链（asn1 等）在 asar 打包后路径断裂，
-// 静态 import 会导致 local 模式的 host process 也崩溃。
-// 改为动态 import，仅 remote 模式时才加载。
 import type {
   ConnectOptions,
   DeployLockMode,
@@ -106,7 +88,10 @@ import {
   createRemoteMediaPreviewProxy,
   type RemoteMediaPreviewProxy,
 } from "./remoteMediaPreviewProxy.js";
-import { createHostRemoteWorkspaceProxyState } from "./hostRemoteWorkspaceProxyState.js";
+import {
+  createHostRemoteWorkspaceProxyState,
+  type HostRemoteTaskMeta,
+} from "./hostRemoteWorkspaceProxyState.js";
 import { createRemoteWorkspaceServiceCollection } from "./remoteWorkspaceServiceCollection.js";
 import { createRemotePromptAttachmentTransferService } from "./promptAttachmentTransferService.js";
 import { shouldReportHostConsoleError, stringifyHostLogArg } from "./hostLog.js";
@@ -135,167 +120,27 @@ import { createWindowHostControllerRuntime } from "./windowHostControllerService
 import { resolveAutomationSubmissionModelSelection } from "./automationModelSelection.js";
 import { createRemoteConnectionProgressContext } from "@knorvia/server/remote/remoteConnectionProgressContext.js";
 import { startHostSelfResourceTelemetry } from "./hostSelfResourceTelemetry.js";
-type RemoteBackendHostConnection = RemoteConnection & {
-  backend: IRemoteBackend;
-};
-type HostRemoteConnection = RemoteBackendHostConnection;
-interface HostRemoteConnectionCapabilities {
+
+type Severity = "info" | "warn" | "error";
+type Workspace = { workspacePath: string; workspaceIdentity?: string };
+type RemoteScope = Extract<WindowHostAttachmentScope, { kind: "remote" }>;
+type Capabilities = {
   browserRecordingUploader?: Pick<IRemoteBackend, "upload">;
-  remoteMediaPreviewFactory?: (
-    scope: Extract<WindowHostAttachmentScope, { kind: "remote" }>,
-  ) => RemoteMediaPreviewProxy;
-}
-
-let activeRemoteMediaRequests = 0;
-const hostRemoteMediaRequestLimiter = {
-  tryAcquire: () => {
-    if (activeRemoteMediaRequests >= 4) return false;
-    activeRemoteMediaRequests += 1;
-    return true;
-  },
-  release: () => {
-    activeRemoteMediaRequests = Math.max(0, activeRemoteMediaRequests - 1);
-  },
-  getState: () => ({ active: activeRemoteMediaRequests, limit: 4 }),
+  remoteMediaPreviewFactory?: (scope: RemoteScope) => RemoteMediaPreviewProxy;
 };
-const remoteMediaRangePreviewEnabled =
-  process.env["KNORVIA_REMOTE_MEDIA_RANGE_PREVIEW_ENABLED"] !== "0";
-
-type RemoteAssetDirs = Pick<
+type Assets = Pick<
   ConnectOptions,
   "mockCdnDir" | "remoteCdnBaseUrl" | "remoteCdnBaseUrls" | "remoteCacheDir"
 >;
-
-const { parentPort } = process;
-
-// 进程检索体验优化：host 由 utilityProcess 拉起时外壳仍是 Electron Helper，
-// 这里根据 main 传入的窗口 label 补一层稳定的 knorvia-* title，方便系统进程列表过滤。
-process.title = formatKnorviaHostProcessName(process.env["KNORVIA_PROCESS_LABEL"]);
-
-type HostLogLevel = "info" | "warn" | "error";
-
-interface PendingLocalMediaPreviewPathAuthorization {
-  resolve: (path: string) => void;
-  reject: (error: Error) => void;
-}
-
-const pendingLocalMediaPreviewPathAuthorizations = new Map<
-  string,
-  PendingLocalMediaPreviewPathAuthorization
->();
-
-function authorizeLocalMediaPreviewPath(path: string): Promise<string> {
-  if (!parentPort) {
-    return Promise.reject(new Error("parentPort unavailable"));
-  }
-  const requestId = randomUUID();
-  return new Promise<string>((resolve, reject) => {
-    pendingLocalMediaPreviewPathAuthorizations.set(requestId, { resolve, reject });
-    try {
-      parentPort.postMessage({
-        type: HostResponseTypes.LocalMediaPreviewPathAuthorizeRequest,
-        requestId,
-        path,
-      });
-    } catch (error) {
-      pendingLocalMediaPreviewPathAuthorizations.delete(requestId);
-      reject(error instanceof Error ? error : new Error(String(error)));
-    }
-  });
-}
-
-// browser-use host↔main 桥：把 agent 的 browser 命令经 parentPort 转给 main（WebContentsView+CDP）。
-// parentPort 为空（不应发生于 host 进程）时 postToMain 抛错，bridge 自身返回 backend_unavailable。
-const browserControlMainBridge = createBrowserControlMainBridge({
-  postToMain: (message) => {
-    if (!parentPort) {
-      throw new Error("parentPort unavailable");
-    }
-    parentPort.postMessage(message);
-  },
-  materializeRecording: (input) => {
-    let remoteBackend: Pick<IRemoteBackend, "upload"> | undefined;
-    if (input.remoteSessionId) {
-      const workspaceIdentity = input.workspaceIdentity;
-      if (!workspaceIdentity?.trim()) {
-        throw new Error("remote Browser recording materialization requires workspaceIdentity");
-      }
-      // Window Host 重构后同一进程可同时持有多个远端连接，旧的进程级
-      // remoteConnection 会串 session。必须用完整 scope 从 registry 的权威 entry 取 uploader。
-      remoteBackend = windowRemoteConnectionRegistry.resolveScopedCapabilities({
-        kind: "remote",
-        remoteSessionId: input.remoteSessionId,
-        workspacePath: input.workspacePath,
-        workspaceIdentity,
-      })?.browserRecordingUploader;
-    }
-    return materializeBrowserRecordingArtifact({
-      ...input,
-      ...(remoteBackend ? { remoteBackend } : {}),
-    });
-  },
-});
-
-function reportHostLog(level: HostLogLevel, args: unknown[]): void {
-  if (!parentPort) {
-    return;
-  }
-
-  try {
-    parentPort.postMessage({
-      type: HostResponseTypes.Log,
-      level,
-      source: "host",
-      message: args.map((arg) => stringifyHostLogArg(arg)).join(" "),
-    });
-  } catch {
-    // 日志上报失败不应影响 host 主流程。
-  }
-}
-
-const rawConsole = {
-  log: console.log.bind(console),
-  warn: console.warn.bind(console),
-  error: console.error.bind(console),
+type Realtime = NonNullable<ReturnType<typeof createTaskRealtimeBridgeForHostInit>>;
+type Prompt = Parameters<IKnorviaTaskService["sendPrompt"]>[0];
+type Prepared = { content: string; attachments?: KnorviaPromptAttachment[] };
+type ReportingOptions = {
+  reportRunningPromptCount?: boolean;
+  realtime?: Realtime;
+  materializePromptAttachments?: (request: Prompt) => Promise<Prepared>;
 };
-
-const remoteConnectionProgressContext = createRemoteConnectionProgressContext({
-  emit: ({ requestId, level, args }) => {
-    if (!parentPort) {
-      return;
-    }
-    try {
-      parentPort.postMessage({
-        type: HostResponseTypes.RemoteWorkspaceConnectionLog,
-        requestId,
-        level,
-        message: args.map((arg) => stringifyHostLogArg(arg)).join(" "),
-      });
-    } catch {
-      // 连接进度上报失败不应中断 SSH/WSL/Docker 的真实连接流程。
-    }
-  },
-});
-
-function writeHostLog(level: HostLogLevel, ...args: unknown[]): void {
-  const prefix = formatLogPrefix("knorvia-host", process.pid);
-  const consoleFn =
-    level === "error" ? rawConsole.error : level === "warn" ? rawConsole.warn : rawConsole.log;
-  consoleFn(prefix, ...args);
-  reportHostLog(level, [prefix, ...args]);
-}
-
-const logger = {
-  info: (...args: unknown[]) => writeHostLog("info", ...args),
-  warn: (...args: unknown[]) => writeHostLog("warn", ...args),
-  error: (...args: unknown[]) => writeHostLog("error", ...args),
-};
-
-const cronAutomationRepo = new AutomationRepo();
-const cronRunSubscriptions = new Map<string, { dispose(): void }>();
-let studioScheduleOutcomeObserver: StudioScheduleOutcomeObserver | null = null;
-
-interface CronRunDispatchRequest {
+type CronRequest = Workspace & {
   automationId: string;
   runId: string;
   prompt: string;
@@ -303,1129 +148,181 @@ interface CronRunDispatchRequest {
   studioWorkflowId?: string;
   modelSelection?: ModelSelection;
   mode?: KnorviaTaskMode;
-  workspacePath: string;
-  workspaceIdentity?: string;
-}
-
-function resolveAutomationTargetServices(request: {
-  workspacePath: string;
-  workspaceIdentity?: string;
-}): ServiceCollection {
-  const remoteSession = windowRemoteConnectionRegistry.findSessionForWorkspace(request);
-  if (remoteSession) {
-    if (!remoteSession.workspaceIdentity) {
-      throw new Error("Automation 目标 Remote Host 缺少 workspaceIdentity");
-    }
-    return windowRemoteConnectionRegistry.resolveScopedServices({
-      kind: "remote",
-      remoteSessionId: remoteSession.remoteSessionId,
-      workspacePath: request.workspacePath,
-      workspaceIdentity: remoteSession.workspaceIdentity,
-    });
-  }
-  // 远程 Automation 找不到目标 logical session 时，旧派发会静默落到 Local Host，
-  // 从而使用本地模型首选与 Registry。远程身份只能失败，不能跨 Environment fallback。
-  if (request.workspaceIdentity && isRemoteWorkspaceIdentity(request.workspaceIdentity)) {
-    throw new Error("Automation 目标 Remote Host 当前不可用");
-  }
-  if (!activeServices) {
-    throw new Error("Local Host services are not initialized.");
-  }
-  return activeServices;
-}
-
-function cronRunSubscriptionKey(taskId: string, traceId: TraceId): string {
-  return `${taskId}\u0000${traceId}`;
-}
-
-function parseCronRunScheduledAt(runId: string, automationId: string): number | null {
-  const prefix = `${automationId}:`;
-  if (!runId.startsWith(prefix)) return null;
-  const value = Number(runId.slice(prefix.length).split(":")[0]);
-  return Number.isSafeInteger(value) && value > 0 ? value : null;
-}
-
-function markCronRunOutcome(params: {
-  runId: string;
+};
+type RunContext = {
   automationId: string;
+  runId: string;
   workspaceKey: string;
   scheduledAt: number | null;
-  trigger: "schedule" | "manual";
-  outcome: KnorviaAutomationRunOutcome;
-  error?: string;
-}): void {
-  void recordCronRunOutcomeBestEffort({
-    ...params,
-    repo: cronAutomationRepo,
-    logWarn: (message, error) => logger.warn(message, error),
-  });
-}
+  trigger: "manual" | "schedule";
+};
+type Port = Parameters<typeof wrapElectronPort>[0];
+type Exposed = { server: IChannelServer & { ready(): void }; dispose(): void };
 
-function disposeCronRunSubscription(key: string): void {
-  const disposable = cronRunSubscriptions.get(key);
-  if (!disposable) return;
-  cronRunSubscriptions.delete(key);
-  disposable.dispose();
-}
+const parentPort = process.parentPort;
+process.title = formatKnorviaHostProcessName(process.env["KNORVIA_PROCESS_LABEL"]);
 
-async function applyCronRunConfigToExistingTask(params: {
-  taskService: IKnorviaTaskService;
-  taskId: string;
-  traceId: TraceId;
-  modelSelection?: ModelSelection;
-  mode?: string;
-}): Promise<void> {
-  let thoughtAppliedWithModel = false;
-  let modeAppliedWithModel = false;
-  if (params.modelSelection) {
-    await params.taskService.setAutomationSessionConfig({
-      taskId: params.taskId,
-      traceId: params.traceId,
-      modelSelection: params.modelSelection,
-      thoughtLevel: params.modelSelection.options?.reasoningLevel,
-      mode: params.mode?.trim() as KnorviaTaskMode | undefined,
-    });
-    thoughtAppliedWithModel = true;
-    modeAppliedWithModel = true;
-  }
-  if (!modeAppliedWithModel && params.mode?.trim()) {
-    await params.taskService.setConfigOption({
-      taskId: params.taskId,
-      traceId: params.traceId,
-      configId: "mode",
-      value: params.mode.trim(),
-    });
-  }
-  if (!thoughtAppliedWithModel && params.modelSelection?.options?.reasoningLevel) {
-    await params.taskService.setConfigOption({
-      taskId: params.taskId,
-      traceId: params.traceId,
-      configId: "thought_level",
-      value: params.modelSelection.options.reasoningLevel,
-    });
-  }
-}
+const remoteMediaEnabled = process.env["KNORVIA_REMOTE_MEDIA_RANGE_PREVIEW_ENABLED"] !== "0";
+let activeMediaRequests = 0;
+const mediaLimiter = {
+  // 媒体 proxy 的公开 admission 端口是 tryAcquire，必须复用这份 Host 计数。
+  tryAcquire: () => {
+    if (activeMediaRequests >= 4) return false;
+    activeMediaRequests += 1;
+    return true;
+  },
+  release: () => {
+    activeMediaRequests = Math.max(0, activeMediaRequests - 1);
+  },
+  getState: () => ({ active: activeMediaRequests, limit: 4 }),
+};
+const mediaRequests = new Map<
+  string,
+  { resolve(path: string): void; reject(error: Error): void }
+>();
+let services: ServiceCollection | null = null;
+let network: HostApiNetworkTransport | null = null;
+let realtime: ReturnType<typeof createTaskRealtimeBridgeForHostInit> = null;
+let localTelemetry: IDisposable | null = null;
+let studioObserver: StudioScheduleOutcomeObserver | null = null;
+let startup: ReturnType<typeof createHostDatabaseStartup> | null = null;
+let disposed = false;
+let cleanup: Promise<HostShutdownResult> | null = null;
+let handlingFatal = false;
+let rpcPrompts = 0;
+const deferredAttachments = new Map<string, () => void>();
+const cronSubscriptions = new Map<string, IDisposable>();
 
-function trackCronRunOutcome(params: {
-  taskService: IKnorviaTaskService;
-  taskId: string;
-  traceId: TraceId;
-  workspacePath: string;
-  workspaceIdentity?: string;
-  runId: string;
-  automationId: string;
-  workspaceKey: string;
-  scheduledAt: number | null;
-  trigger: "schedule" | "manual";
-}): void {
-  const key = cronRunSubscriptionKey(params.taskId, params.traceId);
-  disposeCronRunSubscription(key);
-  markCronRunOutcome({ ...params, outcome: "running" });
-  const disposable = params.taskService.onDynamicTaskTerminalOutcome(params.taskId)((result) => {
-    if (result.inputId !== params.traceId) return;
-    void settleCronRunTerminalOutcome({
-      ...params,
-      outcome: result.outcome,
-      error: result.error,
-      repo: cronAutomationRepo,
-      logWarn: (message, error) => logger.warn(message, error),
-    });
-    // 定时任务在后台完成后统一置为未读，真正打开 task 时再由导航链路清除。
-    void params.taskService.setTaskUnread({
-      taskId: params.taskId,
-      workspacePath: params.workspacePath,
-      ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
-      unread: true,
-    });
-    disposeCronRunSubscription(key);
-  });
-  const claimHeartbeat =
-    params.trigger === "manual"
-      ? startManualClaimHeartbeat({
-          ...params,
-          repo: cronAutomationRepo,
-          logWarn: (message, error) => logger.warn(message, error),
-        })
-      : null;
-  cronRunSubscriptions.set(key, {
-    dispose() {
-      claimHeartbeat?.dispose();
-      disposable.dispose();
-    },
-  });
-}
-
-/**
- * 把一次 cron/manual run 直接提交给当前 host 的 V4 task service。
- * 会话内 automation 可能绑定到未激活 session，必须先恢复再应用保存的运行参数。
- */
-async function dispatchCronRun(request: CronRunDispatchRequest): Promise<{
-  taskId: string;
-  sessionId: string;
-}> {
-  const targetServices = resolveAutomationTargetServices(request);
-  const savedAutomation = await cronAutomationRepo.get(request.automationId);
-  if (!savedAutomation || savedAutomation.workspaceKey !== resolveWorkspaceKey(request))
-    throw new Error("计划任务已删除或目标项目不匹配");
-  if (savedAutomation.studioWorkflowId || request.studioWorkflowId) {
-    if (
-      !savedAutomation.studioWorkflowId ||
-      request.studioWorkflowId !== savedAutomation.studioWorkflowId
-    )
-      throw new Error("Studio 工作流计划目标与已保存的任务不一致");
-    if (request.workspaceIdentity && isRemoteWorkspaceIdentity(request.workspaceIdentity))
-      throw new Error("本地 Studio 工作流计划不能派发到远端 Host");
-    const studio = targetServices.getOptional(IStudioRuntimeService);
-    if (!studio) throw new Error("Studio Runtime 尚未就绪");
-    const runId = await submitScheduledStudioWorkflow({
-      service: studio,
-      automation: savedAutomation,
-      runId: request.runId,
-      workspacePath: request.workspacePath,
-      prompt: savedAutomation.prompt,
-    });
-    markCronRunOutcome({
-      runId: request.runId,
-      automationId: request.automationId,
-      workspaceKey: savedAutomation.workspaceKey,
-      scheduledAt: parseCronRunScheduledAt(request.runId, request.automationId),
-      trigger: request.runId.includes(":manual:") ? "manual" : "schedule",
-      outcome: "running",
-    });
-    studioScheduleOutcomeObserver?.observe({
-      automationRunId: request.runId,
-      automationId: request.automationId,
-      workspaceKey: savedAutomation.workspaceKey,
-      scheduledAt: parseCronRunScheduledAt(request.runId, request.automationId),
-      trigger: request.runId.includes(":manual:") ? "manual" : "schedule",
-      studioRunId: runId,
-      workflowId: savedAutomation.studioWorkflowId,
-    });
-    return { taskId: runId, sessionId: runId };
-  }
-  const taskService = targetServices.getOptional(IKnorviaTaskService);
-  if (!taskService) {
-    throw new Error("Knorvia Studio task service is not initialized.");
-  }
-  const modelSelectionService = targetServices.getOptional(IModelSelectionService);
-  if (!modelSelectionService) {
-    throw new Error("目标 Host Model Selection service is not initialized.");
-  }
-  // 长期配置是原意图；首次派发在目标 Host 解析后固定。已有 run 必须直接复用，
-  // 不能因账号变化或本次 Registry 读取失败重新解释历史执行选择。
-  const existingRun = await cronAutomationRepo.getRun(request.runId);
-  const resolvedSubmissionModelSelection = await resolveAutomationSubmissionModelSelection({
-    selection: request.modelSelection,
-    fixedSelection: existingRun?.modelSelection,
-    modelSelectionService,
-    // Repo 已在读取前完成离线导入；不再为迁移绕行 Agent/账号服务。
-    // 未迁入或损坏的新值仍由此入口明确拒绝，不能当成跟随 Workspace。
-    readSelection: () =>
-      cronAutomationRepo.getModelSelectionForDispatch(
-        request.automationId,
-        resolveWorkspaceKey(request),
-      ),
-  });
-  const submissionModelSelection = await cronAutomationRepo.fixRunModelSelection(
-    request.runId,
-    resolvedSubmissionModelSelection,
-  );
-  let trackedKey: string | null = null;
-  const workspaceKey = resolveWorkspaceKey(request);
-  const trigger = request.runId.includes(":manual:") ? "manual" : "schedule";
-  const scheduledAt = parseCronRunScheduledAt(request.runId, request.automationId);
-  try {
-    const task = request.targetTaskId
-      ? { taskId: request.targetTaskId }
-      : await taskService.createTask({
-          workspacePath: request.workspacePath,
-          workspaceIdentity: request.workspaceIdentity,
-          model: formatModelPickerValue(submissionModelSelection),
-          mode: request.mode,
-          thoughtLevel: submissionModelSelection.options?.reasoningLevel,
-          automationId: request.automationId,
-        });
-    // 未绑定会话时不能沿用 createTask 的 session trace 作为首条 prompt trace：
-    // CLI 无法从 inputId 还原 manual/schedule admission。
-    // 建会话 trace 与执行 runId 是两种身份；两条派发路径的 prompt 都必须统一使用 runId。
-    const promptTraceId = request.runId as TraceId;
-    if (request.targetTaskId) {
-      // 绑定会话在 app 重启或切换 workspace 后通常不处于 active；旧实现直接
-      // setConfig/sendPrompt 会立即报 Session is not active，看起来像「立即运行」没有触发。
-      await taskService.resumeTask({
-        taskId: task.taskId,
-        workspacePath: request.workspacePath,
-        workspaceIdentity: request.workspaceIdentity,
-        model: formatModelPickerValue(submissionModelSelection),
-        thoughtLevel: submissionModelSelection.options?.reasoningLevel,
-        automationId: request.automationId,
-      });
-      await applyCronRunConfigToExistingTask({
-        taskService,
-        taskId: task.taskId,
-        traceId: promptTraceId,
-        modelSelection: submissionModelSelection,
-        mode: request.mode,
-      });
+const browser = createBrowserControlMainBridge({
+  postToMain: (message) => {
+    if (!parentPort) throw new Error("parentPort unavailable");
+    parentPort.postMessage(message);
+  },
+  materializeRecording: (input) => {
+    let uploader: Pick<IRemoteBackend, "upload"> | undefined;
+    if (input.remoteSessionId) {
+      if (!input.workspaceIdentity?.trim())
+        throw new Error("remote Browser recording materialization requires workspaceIdentity");
+      uploader = registry.resolveScopedCapabilities(
+        remoteScope(input.remoteSessionId, input.workspacePath, input.workspaceIdentity),
+      )?.browserRecordingUploader;
     }
-    trackedKey = cronRunSubscriptionKey(task.taskId, promptTraceId);
-    trackCronRunOutcome({
-      taskService,
-      taskId: task.taskId,
-      traceId: promptTraceId,
-      workspacePath: request.workspacePath,
-      workspaceIdentity: request.workspaceIdentity,
-      runId: request.runId,
-      automationId: request.automationId,
-      workspaceKey,
-      scheduledAt,
-      trigger,
+    return materializeBrowserRecordingArtifact({
+      ...input,
+      ...(uploader ? { remoteBackend: uploader } : {}),
     });
-    await taskService.sendPrompt({
-      taskId: task.taskId,
-      traceId: promptTraceId,
-      content: request.prompt,
-      clientMode: "desktop-continuous",
-      automationId: request.automationId,
-    });
-    // prompt 创建的定时任务带 targetTaskId，追加原会话不能计成 session_create。
-    if (!request.targetTaskId) {
-      reportHostSessionCreate(parentPort, {
-        sessionId: task.taskId,
-        messageId: promptTraceId,
-        source: "automation_scheduled",
-        workspaceIdentity: request.workspaceIdentity,
+  },
+});
+const originals = {
+  info: console.log.bind(console),
+  warn: console.warn.bind(console),
+  error: console.error.bind(console),
+};
+const progress = createRemoteConnectionProgressContext({
+  emit: (event) => {
+    try {
+      parentPort?.postMessage({
+        type: HostResponseTypes.RemoteWorkspaceConnectionLog,
+        requestId: event.requestId,
+        level: event.level,
+        message: event.args.map(stringifyHostLogArg).join(" "),
       });
+    } catch {
+      // 进度消息采用尽力上报。
     }
-    return { taskId: task.taskId, sessionId: task.taskId };
-  } catch (error) {
-    if (trackedKey) disposeCronRunSubscription(trackedKey);
-    markCronRunOutcome({
-      runId: request.runId,
-      automationId: request.automationId,
-      workspaceKey,
-      scheduledAt,
-      trigger,
-      outcome: "failed",
-      error: error instanceof Error ? error.message : String(error),
+  },
+});
+function reportLog(level: Severity, args: unknown[]): void {
+  try {
+    parentPort?.postMessage({
+      type: HostResponseTypes.Log,
+      level,
+      source: "host",
+      message: args.map(stringifyHostLogArg).join(" "),
     });
-    throw error;
+  } catch {
+    // 日志上报失败不改变业务调用结果。
   }
 }
-
-async function dispatchManualAutomationRun(params: {
-  automation: KnorviaAutomation;
-  run: KnorviaAutomationRun;
-}): Promise<void> {
-  logger.info(
-    `direct manual automation dispatch started automation=${params.automation.automationId} runId=${params.run.runId}`,
-  );
-  let result: Awaited<ReturnType<typeof dispatchCronRun>>;
-  try {
-    result = await dispatchCronRun({
-      automationId: params.automation.automationId,
-      runId: params.run.runId,
-      prompt: params.automation.prompt,
-      targetTaskId: params.automation.targetTaskId,
-      studioWorkflowId: params.automation.studioWorkflowId,
-      modelSelection: params.run.modelSelection ?? params.automation.modelSelection,
-      mode: params.automation.mode,
-      workspacePath: params.automation.workspacePath,
-      workspaceIdentity: params.automation.workspaceIdentity,
-    });
-  } catch (error) {
-    logger.warn(
-      `direct manual automation dispatch failed automation=${params.automation.automationId} runId=${params.run.runId}:`,
-      error,
-    );
-    await settleManualDispatchFailureBestEffort({
-      repo: cronAutomationRepo,
-      automationId: params.automation.automationId,
-      runId: params.run.runId,
-      workspaceKey: params.automation.workspaceKey,
-      scheduledAt: params.run.scheduledAt ?? null,
-      trigger: "manual",
-      dispatchError: error,
-      logWarn: (message, releaseError) => logger.warn(message, releaseError),
-    });
-    throw error;
-  }
-
-  try {
-    await cronAutomationRepo.markManualRunDispatched({
-      runId: params.run.runId,
-      sessionId: result.sessionId,
-      dispatchedAt: Date.now(),
-    });
-  } catch (error) {
-    // prompt 已经 accepted/queued，台账和累计次数回写失败不能伪装成派发失败并提前释放锁；
-    // 真实终态仍由 trackCronRunOutcome 收口，避免同一 automation 重复排队。
-    logger.warn(
-      `回写 manual automation dispatched 状态与运行次数失败 automation=${params.automation.automationId} runId=${params.run.runId}`,
-      error,
-    );
-  }
-  // sendPrompt ACK 可能只表示进入 busy queue；manual claim 必须保留到对应 turn 终态。
-  logger.info(
-    `direct manual automation dispatch accepted automation=${params.automation.automationId} runId=${params.run.runId} taskId=${result.taskId}`,
-  );
+function writeLog(level: Severity, args: unknown[]): void {
+  const prefixed = [formatLogPrefix("knorvia-host", process.pid), ...args];
+  originals[level](...prefixed);
+  reportLog(level, prefixed);
 }
-
-// Node warning 不是远端连接失败，改成结构化 warn，避免默认 stderr 被误染成 error。
-process.on("warning", (warning) => logger.warn(`${warning.name}: ${warning.message}`));
-
+const logger = {
+  info: (...args: unknown[]) => writeLog("info", args),
+  warn: (...args: unknown[]) => writeLog("warn", args),
+  error: (...args: unknown[]) => writeLog("error", args),
+};
+const repo = new AutomationRepo();
+process.on("warning", (warning) => logger.warn(warning.name + ": " + warning.message));
 registerHostNetworkTelemetry(parentPort);
-// Host 进程自身的 60 秒采样：一次读数两个出口——门控后写本地
-// `[memory]` 行，同一次读数换算成 HostResourceSample 经 parentPort 送 main 作 heap 来源。
-// services 计数器由各 service 工厂自注册。
-const hostSelfResourceTelemetry = startHostSelfResourceTelemetry({
+const selfTelemetry = startHostSelfResourceTelemetry({
   logger,
   collectCounters: collectServiceMemoryDiagnostics,
   postMessage: parentPort ? (message) => parentPort.postMessage(message) : undefined,
 });
-
-const runtimeProcessLifecycleReporter = {
-  onSpawn(event) {
-    if (!parentPort) {
-      return;
-    }
-
-    parentPort.postMessage({
-      type: HostResponseTypes.AgentProcessSpawned,
-      ...event,
-    });
-  },
-  onReady(event) {
-    if (!parentPort) {
-      return;
-    }
-
-    parentPort.postMessage({
-      type: HostResponseTypes.AgentProcessReady,
-      ...event,
-    });
-  },
-  onExit(event) {
-    if (!parentPort) {
-      return;
-    }
-
-    parentPort.postMessage({
-      type: HostResponseTypes.AgentProcessExited,
-      ...event,
-      signal: event.signal ?? null,
-    });
-  },
-  onError(event) {
-    if (!parentPort) {
-      return;
-    }
-
-    parentPort.postMessage({
-      type: HostResponseTypes.AgentProcessError,
-      ...event,
-    });
-  },
-  onException(event) {
-    parentPort?.postMessage({ type: HostResponseTypes.AgentProcessException, ...event });
-  },
-} satisfies NonNullable<Parameters<typeof createLocalServices>[0]>["processLifecycleReporter"];
-
-const runtimeTaskReporter = {
-  onRunningTaskCountChanged(event) {
-    if (!parentPort) {
-      return;
-    }
-
-    parentPort.postMessage({
-      type: HostResponseTypes.AgentRunningTaskCountChanged,
-      runningTaskCount: event.runningTaskCount,
-    });
-  },
-} satisfies NonNullable<Parameters<typeof createLocalServices>[0]>["taskRuntimeReporter"];
-
-const cuaOperationStateReporter = {
-  onStateChanged(event) {
-    if (!parentPort) {
-      return;
-    }
-    parentPort.postMessage({
-      type: HostResponseTypes.CuaOperationState,
-      ...event,
-    });
-  },
-} satisfies NonNullable<Parameters<typeof createLocalServices>[0]>["cuaOperationStateReporter"];
-
-let untrackedPromptRpcCount = 0;
-function reportHostRunningTaskCount(): void {
-  runtimeTaskReporter.onRunningTaskCountChanged({
-    runningTaskCount: workspaceTaskTracker.getTotalRunningTaskCount() + untrackedPromptRpcCount,
-  });
-}
-
-const workspaceTaskTracker = createHostWorkspaceTaskTracker((event) => {
-  parentPort?.postMessage({
-    type: HostResponseTypes.WorkspaceRunningTaskCountChanged,
-    ...event,
-  });
-  windowRemoteConnectionRegistry.setWorkspaceRunningTaskCount(event);
-  reportHostRunningTaskCount();
+const workspaceTracker = createHostWorkspaceTaskTracker((event) => {
+  parentPort?.postMessage({ type: HostResponseTypes.WorkspaceRunningTaskCountChanged, ...event });
+  registry.setWorkspaceRunningTaskCount(event);
+  reportPromptCount();
 });
-
-function isKnorviaTaskMeta(value: unknown): value is KnorviaTaskMeta {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "taskId" in value &&
-    "workspacePath" in value &&
-    "traceId" in value &&
-    typeof (value as { taskId?: unknown }).taskId === "string" &&
-    typeof (value as { workspacePath?: unknown }).workspacePath === "string" &&
-    typeof (value as { traceId?: unknown }).traceId === "string"
-  );
-}
-
-function isRemoteMirrorableStreamEvent(
-  event: KnorviaStreamEvent,
-): event is TaskStreamMirrorableEvent {
-  return event.type !== "task_stream_mirror_batch" && event.type !== "task_snapshot_updated";
-}
-
-function createReportingRemoteKnorviaTaskService<T extends object>(
-  service: T,
-  options?: {
-    reportRunningPromptCount?: boolean;
-    taskRealtimePort?: ReturnType<typeof createTaskRealtimeBridgeForHostInit>;
-    materializePromptAttachments?: (params: {
-      taskId: string;
-      traceId: TraceId;
-      content: string;
-      attachments?: KnorviaPromptAttachment[];
-    }) => Promise<{ content: string; attachments?: KnorviaPromptAttachment[] }>;
-  },
-): T {
-  const workspaceProxyState = createHostRemoteWorkspaceProxyState();
-
-  function forwardSessionMessageRequest(request: unknown): void {
-    parentPort?.postMessage({
-      type: HostResponseTypes.SessionMessageSendRequested,
-      request,
-    });
-  }
-
-  function subscribeSessionMessageRequests(target: T, meta: KnorviaTaskMeta): void {
-    const onDynamicWorkspaceEvent = Reflect.get(target, "onDynamicWorkspaceEvent");
-    if (typeof onDynamicWorkspaceEvent !== "function") {
-      return;
-    }
-    const subscribe = onDynamicWorkspaceEvent.call(target, {
-      workspacePath: meta.workspacePath,
-      ...(meta.workspaceIdentity ? { workspaceIdentity: meta.workspaceIdentity } : {}),
-    });
-    if (typeof subscribe !== "function") {
-      return;
-    }
-    workspaceProxyState.ensureWorkspaceSubscription(meta, () =>
-      subscribe((event: unknown) => {
-        if (
-          typeof event === "object" &&
-          event !== null &&
-          (event as { type?: unknown }).type === "workspace_session_message_send_requested"
-        ) {
-          forwardSessionMessageRequest((event as { request?: unknown }).request);
-        }
-      }),
-    );
-  }
-
-  function rememberTaskMeta(result: unknown): void {
-    if (isKnorviaTaskMeta(result)) {
-      workspaceProxyState.rememberTaskMeta(result);
-      subscribeSessionMessageRequests(service, result);
-      parentPort?.postMessage({
-        type: HostResponseTypes.SessionRouteAnnounce,
-        route: {
-          sessionId: result.taskId,
-        },
-      });
-    }
-  }
-
-  function rememberTaskMetasFromResult(result: unknown): void {
-    if (Array.isArray(result)) {
-      for (const item of result) {
-        rememberTaskMetasFromResult(item);
-      }
-      return;
-    }
-    rememberTaskMeta(result);
-    if (typeof result !== "object" || result === null) {
-      return;
-    }
-    const items = (result as { items?: unknown }).items;
-    if (Array.isArray(items)) {
-      for (const item of items) {
-        rememberTaskMeta(item);
-      }
-    }
-    const snapshot = (result as { snapshot?: unknown }).snapshot;
-    if (typeof snapshot === "object" && snapshot !== null) {
-      rememberTaskMeta((snapshot as { meta?: unknown }).meta);
-    }
-    rememberTaskMeta((result as { meta?: unknown }).meta);
-  }
-
-  async function prepareRemotePromptParams(params: {
-    taskId: string;
-    traceId: TraceId;
-    content: string;
-    attachments?: KnorviaPromptAttachment[];
-  }): Promise<{
-    taskId: string;
-    traceId: TraceId;
-    content: string;
-    attachments?: KnorviaPromptAttachment[];
-  }> {
-    if (!options?.materializePromptAttachments) {
-      return params;
-    }
-    return {
-      ...params,
-      ...(await options.materializePromptAttachments(params)),
-    };
-  }
-
-  async function mirrorRemotePrompt(
-    target: T,
-    sendPrompt: (...args: unknown[]) => Promise<unknown>,
-    params: {
-      taskId: string;
-      traceId: TraceId;
-      content: string;
-      attachments?: KnorviaPromptAttachment[];
-    },
-  ): Promise<unknown> {
-    const taskRealtimePort = options?.taskRealtimePort;
-    const meta = workspaceProxyState.getTaskMeta(params.taskId);
-    if (!taskRealtimePort || !meta) {
-      return sendPrompt.call(target, params);
-    }
-
-    const mirrorTarget = {
-      workspacePath: meta.workspacePath,
-      workspaceIdentity: meta.workspaceIdentity,
-      workspaceKey: resolveWorkspaceKey(meta),
-      taskId: params.taskId,
-      runId: params.traceId,
-      traceId: params.traceId,
-    };
-    const leaseResult = await taskRealtimePort
-      .acquireTaskRunLease(mirrorTarget)
-      .catch((error: unknown) => {
-        logger.warn("Remote runtime realtime lease failed:", error);
-        return null;
-      });
-    if (!leaseResult?.acquired) {
-      return sendPrompt.call(target, params);
-    }
-
-    taskRealtimePort.publishStreamOp(mirrorTarget, {
-      kind: "user_message",
-      messageId: `user-${params.traceId}`,
-      content: params.content,
-      attachments: params.attachments,
-      timestamp: Date.now(),
-    });
-
-    // 写路径（send/stop/交互回执）已收敛 v4 命令面；本镜像属**读路径**——
-    // taskRealtimePort → 手机 relay → 手机端
-    // sessionStore 的整条消费链词表都是 KnorviaStreamEvent。两个方案的评估结论：
-    // a) relay 直接转发 v4 帧、手机端消费 v4 store（正解）：需要重做 relay stream-op
-    //    协议 + 手机端 store；
-    // b) 帧→KnorviaStreamEvent 薄映射：等价复刻 adapter mapSessionEvent，
-    //    否决。
-    // 结论：本镜像保持 legacy 源不动。
-    const dynamicStreamEvent = Reflect.get(target, "onDynamicStreamEvent");
-    const streamDisposable =
-      typeof dynamicStreamEvent === "function"
-        ? dynamicStreamEvent.call(
-            target,
-            params.taskId,
-          )((event: KnorviaStreamEvent) => {
-            if (isRemoteMirrorableStreamEvent(event)) {
-              taskRealtimePort.publishStreamOp(mirrorTarget, {
-                kind: "stream_event",
-                event,
-              });
-            }
-          })
-        : null;
-
-    try {
-      return await sendPrompt.call(target, params);
-    } finally {
-      // 远端 knorvia-server 没有 desktop realtime port；由窗口 Host 内的
-      // remote facade 接管 lease 和 stream mirror，确保 UI 能持续收到远端会话流。
-      streamDisposable?.dispose();
-      taskRealtimePort.releaseTaskRunLease(mirrorTarget);
-    }
-  }
-
-  function finishWorkspaceTask(taskId: string, meta: KnorviaTaskMeta): void {
-    workspaceProxyState.disposeTaskReadySubscription(taskId);
-    workspaceTaskTracker.finish(taskId, meta);
-  }
-
-  function beginWorkspaceTask(target: T, taskId: string, meta: KnorviaTaskMeta): boolean {
-    const started = workspaceTaskTracker.begin(taskId, meta);
-    if (!started) {
-      return false;
-    }
-    const onDynamicTaskReady = Reflect.get(target, "onDynamicTaskReady");
-    if (typeof onDynamicTaskReady !== "function") {
-      workspaceTaskTracker.finish(taskId, meta);
-      throw new Error("remote Knorvia Studio task service does not expose onDynamicTaskReady");
-    }
-    const subscribe = onDynamicTaskReady.call(target, taskId);
-    if (typeof subscribe !== "function") {
-      workspaceTaskTracker.finish(taskId, meta);
-      throw new Error("remote Knorvia Studio task ready event is not subscribable");
-    }
-    workspaceProxyState.trackTaskReady(
-      taskId,
-      meta,
-      (listener) => subscribe(listener),
-      () => finishWorkspaceTask(taskId, meta),
-    );
-    return true;
-  }
-
-  // remote workspace 的 Knorvia Agent manager 跑在远端 server，desktop main 不能直接看到
-  // `handles` 状态。sendPrompt Promise 只是远端 ACK，必须等待 task ready 才能允许回收 workspace。
-  return new Proxy(service, {
-    get(target, property, receiver) {
-      const value = Reflect.get(target, property, receiver);
-      if ((property === "createTask" || property === "resumeTask") && typeof value === "function") {
-        return async (...args: unknown[]) => {
-          const result = await value.apply(target, args);
-          rememberTaskMeta(result);
-          return result;
-        };
-      }
-      if (
-        (property === "listTasks" ||
-          property === "listPinnedTasks" ||
-          property === "listTaskList" ||
-          property === "listArchivedTasks" ||
-          property === "getTaskMeta" ||
-          property === "getTaskSnapshot" ||
-          property === "getTaskSnapshotWithEtag") &&
-        typeof value === "function"
-      ) {
-        return async (...args: unknown[]) => {
-          const result = await value.apply(target, args);
-          rememberTaskMetasFromResult(result);
-          return result;
-        };
-      }
-      if (property === "releaseWorkspacePreparation" && typeof value === "function") {
-        return async (...args: unknown[]) => {
-          const result = await value.apply(target, args);
-          const context = args[0];
-          if (
-            typeof context === "object" &&
-            context !== null &&
-            typeof (context as { workspacePath?: unknown }).workspacePath === "string"
-          ) {
-            const workspaceContext = context as {
-              workspacePath: string;
-              workspaceIdentity?: string;
-            };
-            // pooled Host 不随 tab 退出；runtime 成功释放后必须同步解除 Host 代理层引用，
-            // 否则 task meta 和动态事件 listener 会在整个应用生命周期内单调增长。
-            workspaceProxyState.clearWorkspace(workspaceContext);
-            workspaceTaskTracker.clearWorkspace(workspaceContext);
-          }
-          return result;
-        };
-      }
-      const shouldWrapSendPrompt =
-        options?.reportRunningPromptCount !== false ||
-        Boolean(options?.taskRealtimePort) ||
-        Boolean(options?.materializePromptAttachments);
-      if (property !== "sendPrompt" || typeof value !== "function" || !shouldWrapSendPrompt) {
-        return value;
-      }
-
-      return async (...args: unknown[]) => {
-        let trackedTask: { taskId: string; meta: KnorviaTaskMeta; started: boolean } | undefined;
-        let tracksOnlyRpcLifetime = false;
-        try {
-          const params = args[0];
-          if (
-            typeof params === "object" &&
-            params !== null &&
-            typeof (params as { taskId?: unknown }).taskId === "string" &&
-            typeof (params as { traceId?: unknown }).traceId === "string" &&
-            typeof (params as { content?: unknown }).content === "string"
-          ) {
-            const promptParams = params as {
-              taskId: string;
-              traceId: TraceId;
-              content: string;
-              attachments?: KnorviaPromptAttachment[];
-            };
-            const taskMeta = workspaceProxyState.getTaskMeta(promptParams.taskId) as
-              | KnorviaTaskMeta
-              | undefined;
-            if (taskMeta) {
-              trackedTask = {
-                taskId: promptParams.taskId,
-                meta: taskMeta,
-                started: beginWorkspaceTask(target, promptParams.taskId, taskMeta),
-              };
-            } else if (options?.reportRunningPromptCount !== false) {
-              // task meta 缺失时无法安全伪造 workspace identity；仅保留 ACK 期间的 Host 退出诊断，
-              // 不让该 fallback 参与 workspace runtime 的释放裁决。
-              tracksOnlyRpcLifetime = true;
-              untrackedPromptRpcCount += 1;
-              reportHostRunningTaskCount();
-            }
-            const preparedParams = await prepareRemotePromptParams(promptParams);
-            return await mirrorRemotePrompt(
-              target,
-              value.bind(target) as (...promptArgs: unknown[]) => Promise<unknown>,
-              preparedParams,
-            );
-          }
-          if (options?.reportRunningPromptCount !== false) {
-            tracksOnlyRpcLifetime = true;
-            untrackedPromptRpcCount += 1;
-            reportHostRunningTaskCount();
-          }
-          return await value.apply(target, args);
-        } catch (error) {
-          if (trackedTask?.started) {
-            finishWorkspaceTask(trackedTask.taskId, trackedTask.meta);
-          }
-          throw error;
-        } finally {
-          if (tracksOnlyRpcLifetime) {
-            untrackedPromptRpcCount = Math.max(0, untrackedPromptRpcCount - 1);
-            reportHostRunningTaskCount();
-          }
-        }
-      };
-    },
-  });
-}
-
-function warmUpKnorviaAgent(
-  services: ServiceCollection,
-  context: { workspacePath?: string; workspaceIdentity?: string },
-  reason: string,
-): void {
-  if (!context.workspacePath) {
-    return;
-  }
-  const workspacePath = context.workspacePath;
-  const workspaceIdentity = context.workspaceIdentity;
-  const sessionService = services.getOptional(IKnorviaSessionService);
-  if (!sessionService) {
-    return;
-  }
-  void sessionService
-    .initializeWorkspace({
-      workspacePath,
-      ...(workspaceIdentity ? { workspaceIdentity } : {}),
-    })
-    .then((result) => {
-      if (!result.available) {
-        if (result.reasonCode === "provider_not_ready") {
-          logger.info(
-            `Knorvia Studio agent warmup waiting for provider/model (${reason}) workspace=${workspacePath}`,
-          );
-          return;
-        }
-        logger.warn(
-          `Knorvia Studio agent warmup unavailable (${reason}) workspace=${workspacePath} reason=${result.reason ?? "unknown"}`,
-        );
-        return;
-      }
-      // 模型候选和首选项已经由目标 Host ModelSelectionView 提供；workspace
-      // presentation 只剩 mode 与 slash commands。预热不能为读取 presentation 额外创建
-      // Agent App，否则其 MCP close 会占住协议通道并阻塞真正的 Session 初始化。
-      logger.info(
-        `Knorvia Studio agent warmup ready (${reason}) workspace=${workspacePath} transport=${result.transportKind ?? "unknown"}`,
-      );
-    })
-    .catch((error) => {
-      logger.warn(
-        `Knorvia Studio agent warmup failed (${reason}) workspace=${workspacePath}:`,
-        error,
-      );
-    });
-}
-
-// 后台输出轮询仍需独立的 debug logger，不能随其他日志调用方移除而丢失工厂导入。
-const rpcDebugLogger = createServiceLogger("rpc");
-
+const rpcLogger = createServiceLogger("rpc");
 function logRpc(message: string, ...args: unknown[]): void {
   const level = resolveRpcLogLevel(message, ...args);
-  if (level === "debug") {
-    rpcDebugLogger.debug(undefined, message, ...args);
-    return;
-  }
-  logger[level](message, ...args);
+  if (level === "debug") rpcLogger.debug(undefined, message, ...args);
+  else logger[level](message, ...args);
 }
-
-function formatRemoteTargetForLog(target: RemoteTarget): string {
-  switch (target.kind) {
-    case "ssh":
-      return `ssh:${target.username}@${target.host}:${target.port ?? 22}`;
-    case "wsl": {
-      const user = target.user?.trim();
-      const distro = target.distro ?? "default";
-      return user ? `wsl:${distro}:${user}` : `wsl:${distro}`;
-    }
-    case "docker":
-      return `docker:${target.container}`;
-  }
-}
-
 console.log = (...args: unknown[]) => {
   const safe = args.map((arg) => redactDiagnosticValue(arg));
-  rawConsole.log(...safe);
-  reportHostLog("info", safe);
-  remoteConnectionProgressContext.report("info", safe);
+  originals.info(...safe);
+  reportLog("info", safe);
+  progress.report("info", safe);
 };
-
 console.warn = (...args: unknown[]) => {
   const safe = args.map((arg) => redactDiagnosticValue(arg));
-  rawConsole.warn(...safe);
-  reportHostLog("warn", safe);
-  remoteConnectionProgressContext.report("warn", safe);
+  originals.warn(...safe);
+  reportLog("warn", safe);
+  progress.report("warn", safe);
 };
-
 console.error = (...args: unknown[]) => {
   const safe = args.map((arg) => redactDiagnosticValue(arg));
-  rawConsole.error(...safe);
-  // Electron 会把 Node warning 先走 console.error，而 process warning listener 随后还会
-  // 结构化记录 warn；若这里继续上报，就会为同一个 warning 留下一条 error 和一条 warn。
-  if (!shouldReportHostConsoleError(safe)) {
-    return;
-  }
-  reportHostLog("error", safe);
-  remoteConnectionProgressContext.report("error", safe);
+  originals.error(...safe);
+  if (!shouldReportHostConsoleError(safe)) return;
+  reportLog("error", safe);
+  progress.report("error", safe);
 };
-
-/** 当前 host 已注册的服务集合，进程退出时用于统一回收本地资源 */
-let databaseStartup: ReturnType<typeof createHostDatabaseStartup> | undefined;
-const pendingStartupAttachments = new Map<string, () => void>();
-let activeServices: ServiceCollection | null = null;
-let activeHostApiNetworkTransport: HostApiNetworkTransport | null = null;
-/** 本地 host services 的资源遥测订阅；远端连接的订阅由各自的 connection handle 持有。 */
-let activeLocalResourceTelemetry: IDisposable | null = null;
-// 资源管理器采样只在 main 请求时执行一次，Host 不维护任何周期定时器。
-const hostResourceUsageResponder = createHostResourceUsageResponder({
-  getAgentService: () => activeServices?.getOptional(IKnorviaAgentService),
+const usageResponder = createHostResourceUsageResponder({
+  getAgentService: () => services?.getOptional(IKnorviaAgentService),
   postMessage: (message) => parentPort?.postMessage(message),
 });
-let activeSessionRealtimePort: ReturnType<typeof createTaskRealtimeBridgeForHostInit> = null;
-let hasDisposedHostResources = false;
-let disposeHostResourcesInFlight: Promise<HostShutdownResult> | null = null;
-
-function requireActiveHostApiNetworkTransport(): HostApiNetworkTransport {
-  if (!activeHostApiNetworkTransport) {
-    // Bug 原因：remote asset 若在 Host 网络策略就绪前回退 global fetch，会绕过设置页显式代理。
-    throw new Error("Window Host network transport is not initialized");
-  }
-  return activeHostApiNetworkTransport;
-}
-
-async function resolveDesktopRemoteRuntimeNetwork(
-  target: RemoteTarget,
-): Promise<RemoteRuntimeNetworkOptions | undefined> {
-  if (target.kind !== "wsl") {
-    return undefined;
-  }
-  const settingService = activeServices?.getOptional(ISettingService);
-  if (!settingService) {
-    return undefined;
-  }
-  try {
-    const settings = await settingService.get();
-    return {
-      authoritative: true,
-      httpProxy: settings.httpProxy,
-      noProxy: settings.httpProxyNoProxy,
-    };
-  } catch {
-    // 设置读取失败时保留原有远程连接行为，不让网络增强把 WSL 工作区直接阻断。
-    return undefined;
-  }
-}
-
-async function disposeHostRemoteConnection(connection: HostRemoteConnection): Promise<void> {
-  await connection.disposeAndWait({ timeoutMs: 5_000 });
-}
-
-async function createWindowRemoteConnectionHandle(params: {
-  target: RemoteTarget;
-  remoteAssets: RemoteAssetDirs;
-  signal: AbortSignal;
-}): Promise<WindowRemoteConnectionHandle<ServiceCollection, HostRemoteConnectionCapabilities>> {
-  if (!activeServices) throw new Error("Local Host services are not initialized.");
-  if (params.signal.aborted) {
-    throw new Error("远程连接已取消");
-  }
-  const closeListeners = new Set<(event: WindowRemoteConnectionCloseEvent) => void>();
-  const notifyClose = (event: WindowRemoteConnectionCloseEvent) => {
-    for (const listener of closeListeners) {
-      listener(event);
-    }
-  };
-  const connection = await setupRemoteConnection(
-    params.target,
-    params.remoteAssets,
-    { fetch: requireActiveHostApiNetworkTransport().fetch },
-    await resolveDesktopRemoteRuntimeNetwork(params.target),
-    (exitCode) => notifyClose({ exitCode, signal: null }),
-    params.target.kind === "ssh" ? "caller-serialized" : "remote",
-    params.target.kind === "ssh" ? params.signal : undefined,
-  );
-
-  if (params.signal.aborted) {
-    await disposeHostRemoteConnection(connection);
-    throw new Error("远程连接已取消");
-  }
-
-  const backendConnection = connection;
-  const materializePromptAttachments = async (request: {
-    taskId: string;
-    traceId: TraceId | string;
-    content: string;
-    attachments?: KnorviaPromptAttachment[];
-  }) => {
-    const result = await materializeRemotePromptAttachments(request, {
-      backend: backendConnection.backend,
-    });
-    return { content: result.content, attachments: result.attachments };
-  };
-  const promptAttachmentTransferService = createRemotePromptAttachmentTransferService(
-    backendConnection.backend,
-    {
-      onJanitorError: (error: unknown) =>
-        logger.warn("remote prompt attachment janitor failed", error),
-    },
-  );
-  const services = createRemoteWorkspaceServiceCollection({
-    connectionServices: backendConnection.services,
-    sourceServices: activeServices ?? undefined,
-    parentPort,
-    createRemotePromptAttachmentSessionService: (service) =>
-      createRemotePromptAttachmentSessionService(service, {
-        materializePromptAttachments,
-      }),
-    createRemotePromptAttachmentTaskService: (service) =>
-      createRemotePromptAttachmentTaskService(service, {
-        materializePromptAttachments,
-      }),
-    createReportingRemoteKnorviaTaskService: (service) =>
-      createReportingRemoteKnorviaTaskService(service, {
-        taskRealtimePort: activeSessionRealtimePort ?? undefined,
-      }),
-    promptAttachmentTransferService,
-    runtimePreferencesBridge: {
-      onError: (error: unknown) => logger.warn("remote runtime preferences bridge failed", error),
-    },
-  });
-
-  let disposed = false;
-  // 远端 workspace 的 CLI 与 MCP 样本走与本地同一条路径：远端 knorvia-server → 本地 Host → main。
-  // 订阅寿命等于这份远端 services 的寿命：由 connection handle 持有，registry 释放 entry
-  // （WSL idle 回收、最后一个 logical session 关闭、掉线后的 session 清理）时随 dispose 一起收口。
-  const resourceTelemetry = registerHostServiceResourceTelemetry({
-    services,
-    postMessage: (message) => parentPort?.postMessage(message),
-    runtimeSurface: "remote",
-    environmentKey: resolveResourceTelemetryEnvironmentKey(params.target),
-    onError: (error) => logger.warn("remote resource telemetry subscription failed", error),
-  });
-  const remoteMediaPreviewFactory = !remoteMediaRangePreviewEnabled
-    ? undefined
-    : (scope: Extract<WindowHostAttachmentScope, { kind: "remote" }>) =>
-        createRemoteMediaPreviewProxy({
-          fileService: services.get(IFileService),
-          logger: {
-            debug: (message, metadata) => {
-              if (process.env.NODE_ENV !== "production") logger.info(message, metadata);
-            },
-            warn: (message, metadata) => logger.warn(message, metadata),
-          },
-          scope,
-          requestLimiter: hostRemoteMediaRequestLimiter,
-        });
-  return {
-    services,
-    capabilities:
-      "backend" in connection
-        ? {
-            browserRecordingUploader: connection.backend,
-            ...(remoteMediaPreviewFactory ? { remoteMediaPreviewFactory } : {}),
-          }
-        : {},
-    onDidClose(listener) {
-      closeListeners.add(listener);
-      return { dispose: () => closeListeners.delete(listener) };
-    },
-    async dispose() {
-      if (disposed) {
-        return;
-      }
-      disposed = true;
-      closeListeners.clear();
-      resourceTelemetry.dispose();
-      await disposeServiceResourcesAndWait(services);
-      await disposeHostRemoteConnection(connection);
-    },
-  };
-}
-
-const windowRemoteConnectionRegistry = createWindowRemoteConnectionRegistry<
-  ServiceCollection,
-  HostRemoteConnectionCapabilities
->({
-  connect: (request) => createWindowRemoteConnectionHandle(request),
+const registry = createWindowRemoteConnectionRegistry<ServiceCollection, Capabilities>({
   createId: randomUUID,
-  releaseWorkspace: async (services, context) => {
-    await services.get(IKnorviaTaskService).releaseWorkspacePreparation({
+  connect: ({ target, remoteAssets, signal }) => openRemote(target, remoteAssets, signal),
+  releaseWorkspace: async (collection, context) => {
+    await collection.get(IKnorviaTaskService).releaseWorkspacePreparation({
       workspacePath: context.workspacePath,
       ...(context.workspaceIdentity ? { workspaceIdentity: context.workspaceIdentity } : {}),
       provider: "knorvia",
     });
     logger.info(
-      `released WSL workspace runtime, workspaceKey=${context.workspaceIdentity?.trim() || context.workspacePath}`,
+      "released WSL workspace runtime, workspaceKey=" +
+        (context.workspaceIdentity?.trim() || context.workspacePath),
     );
   },
-  onWorkspaceReleaseError: (context, error) => {
+  onWorkspaceReleaseError: (context, error) =>
     logger.warn(
-      `failed to release WSL workspace runtime, workspaceKey=${context.workspaceIdentity?.trim() || context.workspacePath}`,
+      "failed to release WSL workspace runtime, workspaceKey=" +
+        (context.workspaceIdentity?.trim() || context.workspacePath),
       error,
-    );
-  },
+    ),
   onSessionClosed: (event) => {
-    // logical session 已离线时 attachment 仍持有旧 services/订阅；后续 sessionId
-    // 换代只释放 transport，无法按旧 ID 找回这些端口。Host 在失效源头统一关闭所有 clientMode。
-    windowHostAttachmentRegistry.detachRemoteSessionAttachments(event.remoteSessionId);
-    const session = windowRemoteConnectionRegistry.getSession(event.remoteSessionId);
+    attachments.detachRemoteSessionAttachments(event.remoteSessionId);
+    const session = registry.getSession(event.remoteSessionId);
     if (session?.workspacePath && session.workspaceIdentity) {
-      windowHostControllerRuntime.disconnectSource({
-        kind: "remote",
-        remoteSessionId: event.remoteSessionId,
-        workspacePath: session.workspacePath,
-        workspaceIdentity: session.workspaceIdentity,
-      });
+      controller.disconnectSource(
+        remoteScope(event.remoteSessionId, session.workspacePath, session.workspaceIdentity),
+      );
     }
     parentPort?.postMessage({
       type: HostResponseTypes.RemoteWorkspaceClosed,
@@ -1435,534 +332,1088 @@ const windowRemoteConnectionRegistry = createWindowRemoteConnectionRegistry<
       signal: event.signal,
       ...(event.error ? { error: event.error } : {}),
     });
-    logWindowHostTopology("remote-connection-closed");
+    topology("remote-connection-closed");
   },
 });
-
-const windowHostControllerRuntime = createWindowHostControllerRuntime({
+const controller = createWindowHostControllerRuntime({
   createId: randomUUID,
-  onSourceError: (scope, operation, error) => {
+  onSourceError: (scope, operation, error) =>
     logger.warn(
-      `window Controller source ${operation} failed, scope=${scope.kind}, workspaceKey=${scope.workspaceIdentity?.trim() || scope.workspacePath}`,
+      "window Controller source " +
+        operation +
+        " failed, scope=" +
+        scope.kind +
+        ", workspaceKey=" +
+        (scope.workspaceIdentity?.trim() || scope.workspacePath),
       error,
-    );
-  },
-  resolveSource: (scope) => {
-    const remoteSession = windowRemoteConnectionRegistry.findSessionForWorkspace(scope);
-    if (remoteSession?.workspacePath && remoteSession.workspaceIdentity) {
-      const controllerScope = {
-        kind: "remote" as const,
-        remoteSessionId: remoteSession.remoteSessionId,
-        workspacePath: remoteSession.workspacePath,
-        workspaceIdentity: remoteSession.workspaceIdentity,
-      };
-      if (remoteSession.sourceAvailability !== "online") {
-        return { scope: controllerScope, sourceAvailability: "offline" as const };
-      }
-      const services = windowRemoteConnectionRegistry.resolveScopedServices(controllerScope);
+    ),
+  resolveSource: (context) => {
+    const session = registry.findSessionForWorkspace(context);
+    if (session?.workspacePath && session.workspaceIdentity) {
+      const scope = remoteScope(
+        session.remoteSessionId,
+        session.workspacePath,
+        session.workspaceIdentity,
+      );
+      if (session.sourceAvailability !== "online") return { scope, sourceAvailability: "offline" };
+      const collection = registry.resolveScopedServices(scope);
       return {
-        scope: controllerScope,
-        taskService: services.get(IKnorviaTaskService),
-        agentService: services.getOptional(IKnorviaAgentService),
-        sourceAvailability: "online" as const,
+        scope,
+        taskService: collection.get(IKnorviaTaskService),
+        agentService: collection.getOptional(IKnorviaAgentService),
+        sourceAvailability: "online",
       };
     }
-    // 远程 history scope 未连接或已被移除时，绝不能落回本地 tasks-index。
-    if (scope.workspaceIdentity && isRemoteWorkspaceIdentity(scope.workspaceIdentity)) {
+    if (
+      !session &&
+      context.workspaceIdentity &&
+      isRemoteWorkspaceIdentity(context.workspaceIdentity)
+    )
       return null;
-    }
-    const taskService = activeServices?.getOptional(IKnorviaTaskService);
-    if (!taskService) {
-      return null;
-    }
+    const taskService = services?.getOptional(IKnorviaTaskService);
+    if (!taskService) return null;
     return {
       scope: {
-        kind: "local" as const,
-        workspacePath: scope.workspacePath,
-        ...(scope.workspaceIdentity ? { workspaceIdentity: scope.workspaceIdentity } : {}),
+        kind: "local",
+        workspacePath: context.workspacePath,
+        ...(context.workspaceIdentity ? { workspaceIdentity: context.workspaceIdentity } : {}),
       },
       taskService,
-      agentService: activeServices?.getOptional(IKnorviaAgentService),
-      sourceAvailability: "online" as const,
+      agentService: services?.getOptional(IKnorviaAgentService),
+      sourceAvailability: "online",
     };
   },
 });
+const attachments = createWindowHostAttachmentRegistry<ServiceCollection, Port, Capabilities>({
+  resolveScope: (scope) => {
+    if (scope.kind === "local") {
+      if (!services) throw new Error("local services 尚未初始化");
+      return { services, generation: 1 };
+    }
+    const session = registry.getSession(scope.remoteSessionId);
+    if (!session)
+      throw new Error("未找到远程 logical session，remoteSessionId=" + scope.remoteSessionId);
+    return {
+      services: registry.resolveScopedServices(scope),
+      generation: session.generation,
+      capabilities: registry.resolveScopedCapabilities(scope),
+    };
+  },
+  expose: ({ port, services: collection, clientMode, scope, capabilities }) =>
+    expose(port, collection, false, clientMode, scope, capabilities),
+});
 
-function wireLocalResourceTelemetry(services: ServiceCollection): void {
-  activeLocalResourceTelemetry?.dispose();
-  activeLocalResourceTelemetry = registerHostServiceResourceTelemetry({
-    services,
+function errorText(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+function authorizeLocalMediaPreviewPath(path: string): Promise<string> {
+  if (!parentPort) return Promise.reject(new Error("parentPort unavailable"));
+  const requestId = randomUUID();
+  return new Promise((resolve, reject) => {
+    mediaRequests.set(requestId, { resolve, reject });
+    try {
+      parentPort.postMessage({
+        type: HostResponseTypes.LocalMediaPreviewPathAuthorizeRequest,
+        requestId,
+        path,
+      });
+    } catch (error) {
+      mediaRequests.delete(requestId);
+      reject(error instanceof Error ? error : new Error(String(error)));
+    }
+  });
+}
+function reportPromptCount(): void {
+  parentPort?.postMessage({
+    type: HostResponseTypes.AgentRunningTaskCountChanged,
+    runningTaskCount: workspaceTracker.getTotalRunningTaskCount() + rpcPrompts,
+  });
+}
+function remoteScope(
+  remoteSessionId: string,
+  workspacePath: string,
+  workspaceIdentity: string,
+): RemoteScope {
+  return { kind: "remote", remoteSessionId, workspacePath, workspaceIdentity };
+}
+function topology(reason: string): void {
+  const stats = registry.getStats();
+  logger.info(
+    "window Host topology, reason=" +
+      reason +
+      ", pid=" +
+      process.pid +
+      ", connections=" +
+      stats.connectionCount +
+      ", logicalSessions=" +
+      stats.logicalSessionCount +
+      ", attachments=" +
+      attachments.size(),
+  );
+}
+async function openRemote(
+  target: RemoteTarget,
+  assets: Assets,
+  signal: AbortSignal,
+): Promise<WindowRemoteConnectionHandle<ServiceCollection, Capabilities>> {
+  if (!services) throw new Error("Local Host services are not initialized.");
+  if (signal.aborted) throw new Error("远程连接已取消");
+  const listeners = new Set<(event: WindowRemoteConnectionCloseEvent) => void>();
+  const notify = (event: WindowRemoteConnectionCloseEvent): void => {
+    for (const listener of listeners) listener(event);
+  };
+  const transport = network;
+  if (!transport) throw new Error("Window Host network transport is not initialized");
+  const remoteAssetNetwork: RemoteAssetNetworkPort = { fetch: transport.fetch };
+  let remoteRuntimeNetwork: RemoteRuntimeNetworkOptions | undefined;
+  if (target.kind === "wsl") {
+    try {
+      const setting = services.getOptional(ISettingService);
+      if (setting) {
+        const settings = await setting.get();
+        remoteRuntimeNetwork = {
+          authoritative: true,
+          httpProxy: settings.httpProxy,
+          noProxy: settings.httpProxyNoProxy,
+        };
+      }
+    } catch {
+      remoteRuntimeNetwork = undefined;
+    }
+  }
+  const { createRemoteBackend, connectRemote, pickRemoteRuntimeEnv } =
+    await import("@knorvia/server/remote");
+  const backend = await createRemoteBackend(target);
+  const deployLockMode: DeployLockMode = target.kind === "ssh" ? "caller-serialized" : "remote";
+  const connected = await connectRemote(backend, {
+    ...assets,
+    remoteAssetNetwork,
+    remoteRuntimeNetwork,
+    signal: target.kind === "ssh" ? signal : undefined,
+    appVersion: KNORVIA_VERSION,
+    remoteRuntimeEnv: pickRemoteRuntimeEnv(process.env),
+    assetInstallMode: target.kind === "ssh" ? target.assetInstallMode : undefined,
+    deployLockMode,
+    onDidRemoteClose: ({ code }) => notify({ exitCode: code, signal: null }),
+  });
+  const connection: RemoteConnection & { backend: IRemoteBackend } = { ...connected, backend };
+  if (signal.aborted) {
+    await connection.disposeAndWait({ timeoutMs: 5000 });
+    throw new Error("远程连接已取消");
+  }
+  const materializePromptAttachments = async (request: Prompt): Promise<Prepared> => {
+    const materialized = await materializeRemotePromptAttachments(request, { backend });
+    return { content: materialized.content, attachments: materialized.attachments };
+  };
+  const transfer = createRemotePromptAttachmentTransferService(backend, {
+    onJanitorError: (error) => logger.warn("remote prompt attachment janitor failed", error),
+  });
+  const collection = createRemoteWorkspaceServiceCollection({
+    connectionServices: connection.services,
+    sourceServices: services ?? undefined,
+    parentPort,
+    createRemotePromptAttachmentSessionService: (base) =>
+      createRemotePromptAttachmentSessionService(base, { materializePromptAttachments }),
+    createRemotePromptAttachmentTaskService: (base) =>
+      createRemotePromptAttachmentTaskService(base, { materializePromptAttachments }),
+    createReportingRemoteKnorviaTaskService: (base) =>
+      reportingFacade(base, { realtime: realtime ?? undefined }),
+    promptAttachmentTransferService: transfer,
+    runtimePreferencesBridge: {
+      onError: (error) => logger.warn("remote runtime preferences bridge failed", error),
+    },
+  });
+  const telemetry = registerHostServiceResourceTelemetry({
+    services: collection,
     postMessage: (message) => parentPort?.postMessage(message),
-    runtimeSurface: "local",
-    onError: (error) => logger.warn("local resource telemetry subscription failed", error),
+    runtimeSurface: "remote",
+    environmentKey: resolveResourceTelemetryEnvironmentKey(target),
+    onError: (error) => logger.warn("remote resource telemetry subscription failed", error),
+  });
+  const mediaFactory = remoteMediaEnabled
+    ? (scope: RemoteScope) =>
+        createRemoteMediaPreviewProxy({
+          fileService: collection.get(IFileService),
+          logger: {
+            debug: (...args: unknown[]) => {
+              if (process.env["NODE_ENV"] !== "production") logger.info(...args);
+            },
+            warn: logger.warn,
+          },
+          scope,
+          requestLimiter: mediaLimiter,
+        })
+    : undefined;
+  let closed = false;
+  return {
+    services: collection,
+    capabilities:
+      "backend" in connection
+        ? {
+            browserRecordingUploader: connection.backend,
+            ...(mediaFactory ? { remoteMediaPreviewFactory: mediaFactory } : {}),
+          }
+        : {},
+    onDidClose: (listener) => {
+      listeners.add(listener);
+      return {
+        dispose: () => {
+          listeners.delete(listener);
+        },
+      };
+    },
+    dispose: async () => {
+      if (closed) return;
+      closed = true;
+      listeners.clear();
+      telemetry.dispose();
+      await disposeServiceResourcesAndWait(collection);
+      await connection.disposeAndWait({ timeoutMs: 5000 });
+    },
+  };
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+// 远端缓存只承诺这些身份字段，不能把它收窄成含标题/状态等字段的完整 task meta。
+function isMeta(value: unknown): value is HostRemoteTaskMeta {
+  return (
+    isObject(value) &&
+    typeof value.taskId === "string" &&
+    typeof value.workspacePath === "string" &&
+    typeof value.traceId === "string"
+  );
+}
+function isPrompt(value: unknown): value is Prompt {
+  return (
+    isObject(value) &&
+    typeof value.taskId === "string" &&
+    typeof value.traceId === "string" &&
+    typeof value.content === "string"
+  );
+}
+function reportingFacade<T extends object>(base: T, options: ReportingOptions = {}): T {
+  const state = createHostRemoteWorkspaceProxyState();
+  const countsEnabled = options.reportRunningPromptCount !== false;
+  const remember = (value: unknown): void => {
+    if (!isMeta(value)) return;
+    state.rememberTaskMeta(value);
+    const eventPort = Reflect.get(base, "onDynamicWorkspaceEvent");
+    if (typeof eventPort === "function") {
+      const subscribe = eventPort.call(base, {
+        workspacePath: value.workspacePath,
+        ...(value.workspaceIdentity ? { workspaceIdentity: value.workspaceIdentity } : {}),
+      });
+      if (typeof subscribe === "function")
+        state.ensureWorkspaceSubscription(value, () =>
+          subscribe((event: unknown) => {
+            if (isObject(event) && event.type === "workspace_session_message_send_requested") {
+              parentPort?.postMessage({
+                type: HostResponseTypes.SessionMessageSendRequested,
+                request: event.request,
+              });
+            }
+          }),
+        );
+    }
+    parentPort?.postMessage({
+      type: HostResponseTypes.SessionRouteAnnounce,
+      route: { sessionId: value.taskId },
+    });
+  };
+  const rememberResult = (value: unknown): void => {
+    if (Array.isArray(value)) {
+      for (const entry of value) rememberResult(entry);
+      return;
+    }
+    if (!isObject(value)) return;
+    remember(value);
+    if (Array.isArray(value.items)) for (const entry of value.items) remember(entry);
+    if (isObject(value.snapshot)) remember(value.snapshot.meta);
+    remember(value.meta);
+  };
+  const finish = (taskId: string, meta: Workspace): void => {
+    state.disposeTaskReadySubscription(taskId);
+    workspaceTracker.finish(taskId, meta);
+  };
+  const prepare = async (params: Prompt): Promise<Prompt> => {
+    if (!options.materializePromptAttachments) return params;
+    return { ...params, ...(await options.materializePromptAttachments(params)) };
+  };
+  const submit = async (
+    sendPrompt: (request: Prompt) => unknown,
+    request: Prompt,
+  ): Promise<unknown> => {
+    const params = await prepare(request);
+    const currentMeta = state.getTaskMeta(params.taskId);
+    const bridge = options.realtime;
+    if (!bridge || !currentMeta) return sendPrompt(params);
+    const mirrorTarget = {
+      workspacePath: currentMeta.workspacePath,
+      workspaceIdentity: currentMeta.workspaceIdentity,
+      workspaceKey: resolveWorkspaceKey(currentMeta),
+      taskId: params.taskId,
+      runId: params.traceId,
+      traceId: params.traceId,
+    };
+    const lease = await bridge.acquireTaskRunLease(mirrorTarget).catch((error) => {
+      logger.warn("Remote runtime realtime lease failed:", error);
+      return null;
+    });
+    if (!lease?.acquired) return sendPrompt(params);
+    bridge.publishStreamOp(mirrorTarget, {
+      kind: "user_message",
+      messageId: "user-" + params.traceId,
+      content: params.content,
+      attachments: params.attachments,
+      timestamp: Date.now(),
+    });
+    let stream: IDisposable | undefined;
+    const events = Reflect.get(base, "onDynamicStreamEvent");
+    if (typeof events === "function")
+      stream = events.call(
+        base,
+        params.taskId,
+      )((event: KnorviaStreamEvent) => {
+        if (event.type !== "task_stream_mirror_batch" && event.type !== "task_snapshot_updated") {
+          bridge.publishStreamOp(mirrorTarget, {
+            kind: "stream_event",
+            event: event as TaskStreamMirrorableEvent,
+          });
+        }
+      });
+    try {
+      return await sendPrompt(params);
+    } finally {
+      stream?.dispose();
+      bridge.releaseTaskRunLease(mirrorTarget);
+    }
+  };
+  return new Proxy(base, {
+    get: (target, property, receiver) => {
+      const value = Reflect.get(target, property, receiver);
+      if (typeof value !== "function") return value;
+      if (property === "createTask" || property === "resumeTask")
+        return async (...args: unknown[]) => {
+          const result = await value.apply(target, args);
+          remember(result);
+          return result;
+        };
+      if (
+        property === "listTasks" ||
+        property === "listPinnedTasks" ||
+        property === "listTaskList" ||
+        property === "listArchivedTasks" ||
+        property === "getTaskMeta" ||
+        property === "getTaskSnapshot" ||
+        property === "getTaskSnapshotWithEtag"
+      )
+        return async (...args: unknown[]) => {
+          const result = await value.apply(target, args);
+          rememberResult(result);
+          return result;
+        };
+      if (property === "releaseWorkspacePreparation")
+        return async (...args: unknown[]) => {
+          const result = await value.apply(target, args);
+          const context = args[0];
+          if (isObject(context) && typeof context.workspacePath === "string") {
+            state.clearWorkspace(context as Workspace);
+            workspaceTracker.clearWorkspace(context as Workspace);
+          }
+          return result;
+        };
+      if (
+        property !== "sendPrompt" ||
+        (!countsEnabled && !options.realtime && !options.materializePromptAttachments)
+      )
+        return value;
+      return async (...args: unknown[]) => {
+        const params = args[0];
+        const valid = isPrompt(params);
+        const meta = valid ? state.getTaskMeta(params.taskId) : undefined;
+        let started = false;
+        if (meta && valid) {
+          started = workspaceTracker.begin(params.taskId, meta);
+          if (started) {
+            const ready = Reflect.get(target, "onDynamicTaskReady");
+            if (typeof ready !== "function") {
+              workspaceTracker.finish(params.taskId, meta);
+              throw new Error(
+                "remote Knorvia Studio task service does not expose onDynamicTaskReady",
+              );
+            }
+            const subscribe = ready.call(target, params.taskId);
+            if (typeof subscribe !== "function") {
+              workspaceTracker.finish(params.taskId, meta);
+              throw new Error("remote Knorvia Studio task ready event is not subscribable");
+            }
+            state.trackTaskReady(
+              params.taskId,
+              meta,
+              (listener) => subscribe(listener),
+              () => finish(params.taskId, meta),
+            );
+          }
+        }
+        let counted = false;
+        try {
+          if (countsEnabled && !meta) {
+            counted = true;
+            rpcPrompts += 1;
+            reportPromptCount();
+          }
+          // 动态方法保持原 target receiver；闭包只接收已收窄的单个 prompt 参数。
+          return valid
+            ? await submit((request) => value.call(target, request), params)
+            : await value.apply(target, args);
+        } catch (error) {
+          if (started && valid && meta) finish(params.taskId, meta);
+          throw error;
+        } finally {
+          if (counted) {
+            rpcPrompts = Math.max(0, rpcPrompts - 1);
+            reportPromptCount();
+          }
+        }
+      };
+    },
   });
 }
 
-function disposeLocalResourceTelemetry(): void {
-  try {
-    activeLocalResourceTelemetry?.dispose();
-  } catch {
-    // 资源遥测释放失败不能阻塞 Host 的既有 shutdown barrier。
-  } finally {
-    activeLocalResourceTelemetry = null;
-  }
-}
-
-type ExposedServicePortHandle = {
-  server: IChannelServer & { ready(): void };
-  dispose(): void;
-};
-
-function createControllerRoutedTaskService(
-  base: IKnorviaTaskService,
+function routedTask(
+  task: IKnorviaTaskService,
   attachmentScope: WindowHostAttachmentScope,
 ): IKnorviaTaskService {
-  const route = async (
-    params: {
-      taskId: string;
-      workspacePath: string;
-      workspaceIdentity?: string;
-    },
-    mutation:
-      | { kind: "pin"; pinned: boolean }
-      | { kind: "archive"; archived: boolean }
-      | { kind: "delete" }
-      | { kind: "mark-read"; expectedUnreadAt?: number }
-      | { kind: "mark-unread" },
-  ) =>
-    windowHostControllerRuntime.service.mutateTask({
-      address: await windowHostControllerRuntime.resolveTaskAddress({
-        taskId: params.taskId,
-        workspacePath: params.workspacePath,
-        ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
-        attachmentScope,
-      }),
-      mutation,
-    });
-
-  return new Proxy(base, {
-    get(target, property, receiver) {
-      if (property === "setTaskPinned") {
-        return async (params: Parameters<IKnorviaTaskService["setTaskPinned"]>[0]) => {
-          const meta = await route(params, { kind: "pin", pinned: params.pinned });
-          if (!meta) throw new Error("pin mutation 后 task 投影缺失");
-          return meta;
-        };
-      }
-      if (property === "archiveTask" || property === "unarchiveTask") {
-        return async (
-          params:
-            | Parameters<IKnorviaTaskService["archiveTask"]>[0]
-            | Parameters<IKnorviaTaskService["unarchiveTask"]>[0],
-        ) => {
-          const meta = await route(params, {
-            kind: "archive",
-            archived: property === "archiveTask",
-          });
-          if (!meta) throw new Error("archive mutation 后 task 投影缺失");
-          return meta;
-        };
-      }
-      if (property === "deleteTask") {
-        return async (params: Parameters<IKnorviaTaskService["deleteTask"]>[0]) => {
-          await route(params, { kind: "delete" });
-        };
-      }
-      if (property === "deleteArchivedTasks") {
+  return new Proxy(task, {
+    get: (target, property, receiver) => {
+      if (property === "deleteArchivedTasks")
         return async (params: Parameters<IKnorviaTaskService["deleteArchivedTasks"]>[0]) => {
-          if (params.taskIds.length === 0) {
+          const [taskId] = params.taskIds;
+          if (taskId === undefined)
             return { deletedTaskIds: [], skippedTaskIds: [], failedTaskIds: [] };
-          }
-          return windowHostControllerRuntime.service.deleteArchivedTasks({
-            address: await windowHostControllerRuntime.resolveTaskAddress({
-              workspacePath: params.workspacePath,
-              workspaceIdentity: params.workspaceIdentity,
-              taskId: params.taskIds[0]!,
-              attachmentScope,
-              allowMissingTask: true,
-            }),
-            taskIds: params.taskIds,
+          const address = await controller.resolveTaskAddress({
+            taskId,
+            workspacePath: params.workspacePath,
+            workspaceIdentity: params.workspaceIdentity,
+            attachmentScope,
+            allowMissingTask: true,
           });
+          return controller.service.deleteArchivedTasks({ address, taskIds: params.taskIds });
         };
-      }
-      if (property === "deleteArchivedTask") {
-        return async (params: Parameters<IKnorviaTaskService["deleteArchivedTask"]>[0]) =>
-          windowHostControllerRuntime.service.deleteArchivedTask({
-            address: await windowHostControllerRuntime.resolveTaskAddress({
-              ...params,
-              attachmentScope,
-              allowMissingTask: true,
-            }),
+      if (property === "deleteArchivedTask")
+        return async (params: Parameters<IKnorviaTaskService["deleteArchivedTask"]>[0]) => {
+          const address = await controller.resolveTaskAddress({
+            ...params,
+            attachmentScope,
+            allowMissingTask: true,
           });
-      }
-      if (property === "setTaskUnread") {
-        return async (params: Parameters<IKnorviaTaskService["setTaskUnread"]>[0]) => {
-          const meta = await route(
-            params,
-            params.unread
-              ? { kind: "mark-unread" }
-              : {
-                  kind: "mark-read",
-                  ...(params.expectedUnreadAt != null
-                    ? { expectedUnreadAt: params.expectedUnreadAt }
-                    : {}),
-                },
-          );
+          return controller.service.deleteArchivedTask({ address });
+        };
+      if (
+        property === "setTaskPinned" ||
+        property === "archiveTask" ||
+        property === "unarchiveTask" ||
+        property === "deleteTask" ||
+        property === "setTaskUnread"
+      ) {
+        return async (
+          params: Workspace & {
+            taskId: string;
+            pinned?: boolean;
+            unread?: boolean;
+            expectedUnreadAt?: number | null;
+          },
+        ) => {
+          const address = await controller.resolveTaskAddress({
+            taskId: params.taskId,
+            workspacePath: params.workspacePath,
+            ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
+            attachmentScope,
+          });
+          if (property === "deleteTask") {
+            await controller.service.mutateTask({ address, mutation: { kind: "delete" } });
+            return;
+          }
+          if (property === "setTaskPinned") {
+            const meta = await controller.service.mutateTask({
+              address,
+              mutation: { kind: "pin", pinned: params.pinned! },
+            });
+            if (!meta) throw new Error("pin mutation 后 task 投影缺失");
+            return meta;
+          }
+          if (property === "archiveTask" || property === "unarchiveTask") {
+            const meta = await controller.service.mutateTask({
+              address,
+              mutation: { kind: "archive", archived: property === "archiveTask" },
+            });
+            if (!meta) throw new Error("archive mutation 后 task 投影缺失");
+            return meta;
+          }
+          const mutation = params.unread
+            ? { kind: "mark-unread" as const }
+            : {
+                kind: "mark-read" as const,
+                ...(params.expectedUnreadAt != null
+                  ? { expectedUnreadAt: params.expectedUnreadAt }
+                  : {}),
+              };
+          const meta = await controller.service.mutateTask({ address, mutation });
           if (!meta) throw new Error("unread mutation 后 task 投影缺失");
           return meta;
         };
       }
-      const value = Reflect.get(target, property, receiver) as unknown;
+      const value = Reflect.get(target, property, receiver);
       return typeof value === "function" ? value.bind(target) : value;
     },
   });
 }
-
-function exposeServicesOnMessagePort(
-  port: Electron.MessagePortMain,
-  services: ServiceCollection,
-  deferInit: boolean,
+function expose(
+  port: Port,
+  collection: ServiceCollection,
+  deferInit = false,
   clientMode: KnorviaAgentV4ClientMode = "desktop-continuous",
-  attachmentScope: WindowHostAttachmentScope = { kind: "local" },
-  capabilities?: HostRemoteConnectionCapabilities,
-): ExposedServicePortHandle {
-  const wrappedPort = wrapElectronPort(port);
-  const protocol = new MessagePortProtocol(wrappedPort);
-  // remote 模式延迟发送 Initialize：远程建连需要时间，如果构造时就发 Initialize，
-  // renderer 会立即发请求但 channel 还没注册，导致 "Unknown channel" 超时错误。
-  // attach 模式复用已就绪服务，必须立即初始化新的 RPC MessagePort。
-  logger.info(`creating ChannelServer (deferInit=${deferInit})`);
-  const rawServer = new ChannelServer(protocol, "host", 1000, deferInit);
-  const loggedServer = new LoggingChannelServer(rawServer, logRpc);
-  const server = new NetworkTelemetryChannelServer(loggedServer);
-  const agentService = services.getOptional(IKnorviaAgentService);
-  const connectionScope = agentService
-    ? createKnorviaAgentConnectionScope(agentService, {
-        connectionId: `host-rpc-${randomUUID()}`,
+  scope: WindowHostAttachmentScope = { kind: "local" },
+  capabilities?: Capabilities,
+): Exposed {
+  logger.info("creating ChannelServer (deferInit=" + deferInit + ")");
+  const protocol = new MessagePortProtocol(wrapElectronPort(port));
+  const raw = new ChannelServer(protocol, "host", 1000, deferInit);
+  const server = new NetworkTelemetryChannelServer(new LoggingChannelServer(raw, logRpc));
+  const agent = collection.getOptional(IKnorviaAgentService);
+  const agentScope = agent
+    ? createKnorviaAgentConnectionScope(agent, {
+        connectionId: "host-rpc-" + randomUUID(),
         clientMode,
       })
     : undefined;
-  services.register(IWindowControllerService, windowHostControllerRuntime.service);
-  const controllerAttachment = windowHostControllerRuntime.createAttachmentService();
-  const overrides = new Map<string, unknown>([
-    [IWindowControllerService.channelName, controllerAttachment],
-  ]);
-  // 远端媒体必须按 attachment 的 clientMode 选择数据面：桌面使用 Host loopback Range，手机保持 inline。
-  const remoteMediaPreviewProxy =
-    attachmentScope.kind === "remote" && clientMode === "desktop-continuous"
-      ? capabilities?.remoteMediaPreviewFactory?.(attachmentScope)
+  collection.register(IWindowControllerService, controller.service);
+  const controllerAttachment = controller.createAttachmentService();
+  const overrides = new Map<string, object>();
+  overrides.set(IWindowControllerService.channelName, controllerAttachment);
+  const media =
+    scope.kind === "remote" && clientMode === "desktop-continuous"
+      ? capabilities?.remoteMediaPreviewFactory?.(scope)
       : undefined;
-  if (remoteMediaPreviewProxy) {
-    overrides.set(IMediaPreviewService.channelName, remoteMediaPreviewProxy.service);
-  }
-  const taskService = services.getOptional(IKnorviaTaskService);
-  if (taskService) {
-    overrides.set(
-      IKnorviaTaskService.channelName,
-      createControllerRoutedTaskService(taskService, attachmentScope),
-    );
-  }
-  if (connectionScope) {
-    overrides.set(IKnorviaAgentService.channelName, connectionScope.service);
-  }
-  services.exposeOnChannelServer(server, overrides);
-  let disposed = false;
-  let flowUpdateChain = Promise.resolve();
-  const forwardFlowState = (state: "saturated" | "drained" | "closed") => {
-    if (!connectionScope) return Promise.resolve();
-    const update = flowUpdateChain.then(() => connectionScope.setTransportFlowState(state));
-    flowUpdateChain = update.catch((error) => {
+  if (media) overrides.set(IMediaPreviewService.channelName, media.service);
+  const task = collection.getOptional(IKnorviaTaskService);
+  if (task) overrides.set(IKnorviaTaskService.channelName, routedTask(task, scope));
+  if (agentScope) overrides.set(IKnorviaAgentService.channelName, agentScope.service);
+  collection.exposeOnChannelServer(server, overrides);
+  let closed = false;
+  let flowTail: Promise<void> = Promise.resolve();
+  const updateFlow = (state: "saturated" | "drained" | "closed"): Promise<void> => {
+    if (!agentScope) return Promise.resolve();
+    const update = flowTail.then(() => agentScope.setTransportFlowState(state));
+    flowTail = update.catch((error) =>
       logger.warn("failed to forward attachment connection flow state", {
         state,
-        message: error instanceof Error ? error.message : String(error),
-      });
-    });
+        message: errorText(error),
+      }),
+    );
     return update;
   };
-  const flowStateDisposable = protocol.onFlowState((state) => {
-    if (disposed) return;
-    // MessagePort sideband 已在 protocol 层与 Uint8Array 分流；这里只把 owning scope
-    // 的 edge 串行送往 CLI，不能由 control object 指定 connectionId。
-    void forwardFlowState(state).catch(() => {});
+  const flowListener = protocol.onFlowState((state) => {
+    if (!closed) void updateFlow(state).catch(() => {});
   });
-  const handle: ExposedServicePortHandle = {
+  const handle = {
     server,
-    dispose() {
-      if (disposed) return;
-      disposed = true;
-      flowStateDisposable.dispose();
+    dispose: () => {
+      if (closed) return;
+      closed = true;
+      flowListener.dispose();
       controllerAttachment.dispose();
-      void remoteMediaPreviewProxy?.dispose().catch((error: unknown) => {
-        logger.warn("failed to dispose remote media preview proxy", error);
-      });
-      // close 排在所有已接收 SAT/DRN 之后；scope.dispose 自身会再次幂等确保 closed，
-      // 但绝不让迟到 saturated 在 close 后复活 CLI pause state。
-      void forwardFlowState("closed")
+      if (media)
+        void media
+          .dispose()
+          .catch((error) => logger.warn("failed to dispose remote media preview proxy", error));
+      void updateFlow("closed")
         .catch(() => {})
-        .then(() => connectionScope?.dispose());
-      rawServer.dispose();
+        .then(() => agentScope?.dispose());
+      raw.dispose();
       protocol.disconnect();
     },
   };
   port.once("close", () => handle.dispose());
-  logger.info(`service connection ready mode=${clientMode}`);
+  logger.info("service connection ready mode=" + clientMode);
   return handle;
 }
 
-const windowHostAttachmentRegistry = createWindowHostAttachmentRegistry<
-  ServiceCollection,
-  Electron.MessagePortMain,
-  HostRemoteConnectionCapabilities
->({
-  resolveScope: (scope: WindowHostAttachmentScope) => {
-    if (scope.kind === "local") {
-      if (!activeServices) {
-        throw new Error("local services 尚未初始化");
-      }
-      return { services: activeServices, generation: 1 };
-    }
-    const session = windowRemoteConnectionRegistry.getSession(scope.remoteSessionId);
-    if (!session) {
-      throw new Error(`未找到远程 logical session，remoteSessionId=${scope.remoteSessionId}`);
-    }
-    return {
-      services: windowRemoteConnectionRegistry.resolveScopedServices(scope),
-      generation: session.generation,
-      capabilities: windowRemoteConnectionRegistry.resolveScopedCapabilities(scope),
-    };
-  },
-  expose: ({ port, services, clientMode, scope, capabilities }) =>
-    exposeServicesOnMessagePort(port, services, false, clientMode, scope, capabilities),
-});
-
-function logWindowHostTopology(reason: string): void {
-  const stats = windowRemoteConnectionRegistry.getStats();
-  logger.info(
-    `window Host topology, reason=${reason}, pid=${process.pid}, connections=${stats.connectionCount}, logicalSessions=${stats.logicalSessionCount}, attachments=${windowHostAttachmentRegistry.size()}`,
-  );
+function runContext(request: CronRequest): RunContext {
+  const prefix = request.automationId + ":";
+  const timestamp = request.runId.startsWith(prefix)
+    ? Number(request.runId.slice(prefix.length).split(":")[0])
+    : NaN;
+  return {
+    automationId: request.automationId,
+    runId: request.runId,
+    workspaceKey: resolveWorkspaceKey(request),
+    scheduledAt: Number.isSafeInteger(timestamp) && timestamp > 0 ? timestamp : null,
+    trigger: request.runId.includes(":manual:") ? "manual" : "schedule",
+  };
 }
-
-function disposeAttachedServicePorts(): void {
-  windowHostAttachmentRegistry.dispose();
-}
-
-async function disposeHostResources(reason: string): Promise<HostShutdownResult> {
-  databaseStartup?.dispose();
-  pendingStartupAttachments.clear();
-  if (hasDisposedHostResources) {
-    return (
-      (await disposeHostResourcesInFlight) ?? {
-        exitCode: 0,
-        failedPhases: [],
-        timedOutPhases: [],
-      }
+function selectAutomationServices(request: Workspace): ServiceCollection {
+  const session = registry.findSessionForWorkspace(request);
+  if (session) {
+    if (!session.workspaceIdentity)
+      throw new Error("Automation 目标 Remote Host 缺少 workspaceIdentity");
+    return registry.resolveScopedServices(
+      remoteScope(session.remoteSessionId, request.workspacePath, session.workspaceIdentity),
     );
   }
-  hasDisposedHostResources = true;
+  if (request.workspaceIdentity && isRemoteWorkspaceIdentity(request.workspaceIdentity))
+    throw new Error("Automation 目标 Remote Host 当前不可用");
+  if (!services) throw new Error("Local Host services are not initialized.");
+  return services;
+}
+function disposeCron(key: string): void {
+  const subscription = cronSubscriptions.get(key);
+  cronSubscriptions.delete(key);
+  subscription?.dispose();
+}
+function recordRun(
+  context: RunContext,
+  outcome: KnorviaAutomationRunOutcome,
+  error?: string,
+): void {
+  void recordCronRunOutcomeBestEffort({
+    ...context,
+    outcome,
+    ...(error !== undefined ? { error } : {}),
+    repo,
+    logWarn: logger.warn,
+  });
+}
+async function dispatchCron(request: CronRequest): Promise<{ taskId: string; sessionId: string }> {
+  const collection = selectAutomationServices(request);
+  const saved = await repo.get(request.automationId);
+  if (!saved || saved.workspaceKey !== resolveWorkspaceKey(request))
+    throw new Error("计划任务已删除或目标项目不匹配");
+  const context = runContext(request);
+  if (saved.studioWorkflowId || request.studioWorkflowId) {
+    if (!saved.studioWorkflowId || request.studioWorkflowId !== saved.studioWorkflowId)
+      throw new Error("Studio 工作流计划目标与已保存的任务不一致");
+    if (request.workspaceIdentity && isRemoteWorkspaceIdentity(request.workspaceIdentity))
+      throw new Error("本地 Studio 工作流计划不能派发到远端 Host");
+    const studio = collection.getOptional(IStudioRuntimeService);
+    if (!studio) throw new Error("Studio Runtime 尚未就绪");
+    const studioRunId = await submitScheduledStudioWorkflow({
+      service: studio,
+      automation: saved,
+      runId: request.runId,
+      workspacePath: request.workspacePath,
+      prompt: saved.prompt,
+    });
+    recordRun({ ...context, workspaceKey: saved.workspaceKey }, "running");
+    studioObserver?.observe({
+      automationRunId: request.runId,
+      automationId: request.automationId,
+      workspaceKey: saved.workspaceKey,
+      scheduledAt: context.scheduledAt,
+      trigger: context.trigger,
+      studioRunId,
+      workflowId: saved.studioWorkflowId,
+    });
+    return { taskId: studioRunId, sessionId: studioRunId };
+  }
+  const taskService = collection.getOptional(IKnorviaTaskService);
+  if (!taskService) throw new Error("Knorvia Studio task service is not initialized.");
+  const modelSelectionService = collection.getOptional(IModelSelectionService);
+  if (!modelSelectionService)
+    throw new Error("目标 Host Model Selection service is not initialized.");
+  const existing = await repo.getRun(request.runId);
+  const resolved = await resolveAutomationSubmissionModelSelection({
+    selection: request.modelSelection,
+    fixedSelection: existing?.modelSelection,
+    modelSelectionService,
+    readSelection: () =>
+      repo.getModelSelectionForDispatch(request.automationId, resolveWorkspaceKey(request)),
+  });
+  const fixed = await repo.fixRunModelSelection(request.runId, resolved);
+  const thoughtLevel = fixed.options?.reasoningLevel;
+  const traceId = request.runId as TraceId;
+  let key: string | undefined;
+  try {
+    let taskId: string;
+    if (request.targetTaskId) {
+      taskId = request.targetTaskId;
+      await taskService.resumeTask({
+        taskId,
+        workspacePath: request.workspacePath,
+        workspaceIdentity: request.workspaceIdentity,
+        model: formatModelPickerValue(fixed),
+        thoughtLevel,
+        automationId: request.automationId,
+      });
+      if (fixed) {
+        await taskService.setAutomationSessionConfig({
+          taskId,
+          traceId,
+          modelSelection: fixed,
+          thoughtLevel,
+          mode: request.mode?.trim() as KnorviaTaskMode | undefined,
+        });
+      } else {
+        const mode = request.mode?.trim();
+        if (mode)
+          await taskService.setConfigOption({ taskId, traceId, configId: "mode", value: mode });
+        if (thoughtLevel)
+          await taskService.setConfigOption({
+            taskId,
+            traceId,
+            configId: "thought_level",
+            value: thoughtLevel,
+          });
+      }
+    } else {
+      const task = await taskService.createTask({
+        workspacePath: request.workspacePath,
+        workspaceIdentity: request.workspaceIdentity,
+        model: formatModelPickerValue(fixed),
+        mode: request.mode,
+        thoughtLevel,
+        automationId: request.automationId,
+      });
+      taskId = task.taskId;
+    }
+    key = taskId + "\u0000" + traceId;
+    disposeCron(key);
+    const tracking = {
+      ...context,
+      taskService,
+      taskId,
+      traceId,
+      workspacePath: request.workspacePath,
+      workspaceIdentity: request.workspaceIdentity,
+    };
+    void recordCronRunOutcomeBestEffort({
+      ...tracking,
+      outcome: "running",
+      repo,
+      logWarn: logger.warn,
+    });
+    const currentKey = key;
+    const terminal = taskService.onDynamicTaskTerminalOutcome(taskId)((result) => {
+      if (result.inputId !== traceId) return;
+      void settleCronRunTerminalOutcome({
+        ...tracking,
+        outcome: result.outcome,
+        error: result.error,
+        repo,
+        logWarn: logger.warn,
+      });
+      void taskService.setTaskUnread({
+        taskId,
+        workspacePath: request.workspacePath,
+        ...(request.workspaceIdentity ? { workspaceIdentity: request.workspaceIdentity } : {}),
+        unread: true,
+      });
+      disposeCron(currentKey);
+    });
+    const heartbeat =
+      context.trigger === "manual"
+        ? startManualClaimHeartbeat({ ...tracking, repo, logWarn: logger.warn })
+        : undefined;
+    cronSubscriptions.set(currentKey, {
+      dispose: () => {
+        heartbeat?.dispose();
+        terminal.dispose();
+      },
+    });
+    await taskService.sendPrompt({
+      taskId,
+      traceId,
+      content: request.prompt,
+      clientMode: "desktop-continuous",
+      automationId: request.automationId,
+    });
+    if (!request.targetTaskId)
+      reportHostSessionCreate(parentPort, {
+        sessionId: taskId,
+        messageId: request.runId,
+        source: "automation_scheduled",
+        workspaceIdentity: request.workspaceIdentity,
+      });
+    return { taskId, sessionId: taskId };
+  } catch (error) {
+    if (key) disposeCron(key);
+    recordRun(context, "failed", errorText(error));
+    throw error;
+  }
+}
+async function dispatchManual({
+  automation,
+  run,
+}: {
+  automation: KnorviaAutomation;
+  run: KnorviaAutomationRun;
+}): Promise<void> {
+  logger.info(
+    "direct manual automation dispatch started automation=" +
+      automation.automationId +
+      " runId=" +
+      run.runId,
+  );
+  let accepted: { taskId: string; sessionId: string };
+  try {
+    accepted = await dispatchCron({
+      automationId: automation.automationId,
+      runId: run.runId,
+      prompt: automation.prompt,
+      targetTaskId: automation.targetTaskId,
+      studioWorkflowId: automation.studioWorkflowId,
+      modelSelection: run.modelSelection ?? automation.modelSelection,
+      mode: automation.mode as KnorviaTaskMode | undefined,
+      workspacePath: automation.workspacePath,
+      workspaceIdentity: automation.workspaceIdentity,
+    });
+  } catch (error) {
+    logger.warn(
+      "direct manual automation dispatch failed automation=" +
+        automation.automationId +
+        " runId=" +
+        run.runId,
+      error,
+    );
+    await settleManualDispatchFailureBestEffort({
+      repo,
+      automationId: automation.automationId,
+      runId: run.runId,
+      workspaceKey: automation.workspaceKey,
+      scheduledAt: run.scheduledAt ?? null,
+      trigger: "manual",
+      dispatchError: error,
+      logWarn: logger.warn,
+    });
+    throw error;
+  }
+  try {
+    await repo.markManualRunDispatched({
+      runId: run.runId,
+      sessionId: accepted.sessionId,
+      dispatchedAt: Date.now(),
+    });
+  } catch (error) {
+    logger.warn(
+      "回写 manual automation dispatched 状态与运行次数失败 automation=" +
+        automation.automationId +
+        " runId=" +
+        run.runId,
+      error,
+    );
+  }
+  logger.info(
+    "direct manual automation dispatch accepted automation=" +
+      automation.automationId +
+      " runId=" +
+      run.runId +
+      " taskId=" +
+      accepted.taskId,
+  );
+}
+function clearLocalTelemetry(): void {
+  try {
+    localTelemetry?.dispose();
+  } catch {
+    // 退出路径尽力释放，并总是清除本地句柄。
+  } finally {
+    localTelemetry = null;
+  }
+}
+function remoteStudioEnvironments() {
+  const result: {
+    workspaceIdentity: string;
+    workspacePath: string;
+    label: string;
+    service: IStudioRuntimeService;
+  }[] = [];
+  for (const session of registry.listSessions()) {
+    if (
+      session.target.kind !== "ssh" ||
+      session.state !== "online" ||
+      session.sourceAvailability !== "online" ||
+      !session.workspacePath ||
+      !session.workspaceIdentity
+    )
+      continue;
+    try {
+      const studio = registry
+        .resolveScopedServices(
+          remoteScope(session.remoteSessionId, session.workspacePath, session.workspaceIdentity),
+        )
+        .getOptional(IStudioRuntimeService);
+      if (studio)
+        result.push({
+          workspaceIdentity: session.workspaceIdentity,
+          workspacePath: session.workspacePath,
+          label: session.target.username + "@" + session.target.host,
+          service: studio,
+        });
+    } catch {
+      // 服务查询失败不建立其他环境作为替代。
+    }
+  }
+  return result;
+}
 
-  disposeHostResourcesInFlight = (async () => {
-    logger.info(`disposing host resources, reason=${reason}`);
-
+async function shutdown(reason: string): Promise<HostShutdownResult> {
+  startup?.dispose();
+  deferredAttachments.clear();
+  if (disposed) return (await cleanup) ?? { exitCode: 0, failedPhases: [], timedOutPhases: [] };
+  disposed = true;
+  cleanup = (async () => {
+    logger.info("disposing host resources, reason=" + reason);
     stopHostNetworkTelemetry();
-    hostSelfResourceTelemetry.stop();
-    disposeLocalResourceTelemetry();
-    disposeAttachedServicePorts();
-    windowHostControllerRuntime.dispose();
-    for (const key of Array.from(cronRunSubscriptions.keys())) {
-      disposeCronRunSubscription(key);
-    }
-    studioScheduleOutcomeObserver?.dispose();
-    studioScheduleOutcomeObserver = null;
-    cronAutomationRepo.close();
-
-    if (activeSessionRealtimePort) {
-      activeSessionRealtimePort.dispose();
-      activeSessionRealtimePort = null;
-    }
-
-    const servicesToDispose = activeServices;
-    activeServices = null;
-    // Registry 是全部远端 connection 的唯一 owner；释放失败不能阻塞本地服务继续收口。
-    const shutdownResult = await runHostShutdownPhases(
+    selfTelemetry.stop();
+    clearLocalTelemetry();
+    attachments.dispose();
+    controller.dispose();
+    for (const subscription of cronSubscriptions.values()) subscription.dispose();
+    cronSubscriptions.clear();
+    studioObserver?.dispose();
+    studioObserver = null;
+    repo.close();
+    realtime?.dispose();
+    realtime = null;
+    const local = services;
+    services = null;
+    const result = await runHostShutdownPhases(
       [
-        {
-          name: "remote-registry-dispose",
-          run: () => windowRemoteConnectionRegistry.dispose(),
-          timeoutMs: 6_000,
-        },
-        ...(servicesToDispose
+        { name: "remote-registry-dispose", run: () => registry.dispose(), timeoutMs: 6000 },
+        ...(local
           ? [
               {
                 name: "service-dispose",
-                run: () => disposeServiceResourcesAndWait(servicesToDispose),
-                // 三方 CLI 的原生取消确认及仅所属进程树清理必须先于 Host 退出。
-                timeoutMs: 20_000,
+                run: () => disposeServiceResourcesAndWait(local),
+                timeoutMs: 20000,
               },
             ]
           : []),
       ],
-      {
-        phaseTimeoutMs: 5_000,
-        log: (message, details) => logger.warn(message, details),
-      },
+      { phaseTimeoutMs: 5000, log: logger.warn },
     );
-    if (shutdownResult.exitCode !== 0) {
+    if (result.exitCode !== 0)
       logger.warn("host resource cleanup completed with errors", {
-        failedPhases: shutdownResult.failedPhases,
+        failedPhases: result.failedPhases,
         reason,
-        timedOutPhases: shutdownResult.timedOutPhases,
+        timedOutPhases: result.timedOutPhases,
       });
-    }
-    activeHostApiNetworkTransport = null;
-    return shutdownResult;
+    network = null;
+    return result;
   })();
-
-  const shutdownResult = await disposeHostResourcesInFlight;
-  flushHostE2ECoverage((error) => {
-    logger.warn("[e2e-coverage] host coverage flush failed", error);
-  });
-  return shutdownResult;
+  const result = await cleanup;
+  flushHostE2ECoverage((error) => logger.warn("[e2e-coverage] host coverage flush failed", error));
+  return result;
 }
-
-function disposeHostResourcesBestEffort(reason: string): void {
-  if (hasDisposedHostResources) {
-    return;
-  }
-  hasDisposedHostResources = true;
-
-  logger.info(`disposing host resources, reason=${reason}`);
+function cleanupOnExit(reason: string): void {
+  if (disposed) return;
+  disposed = true;
+  logger.info("disposing host resources, reason=" + reason);
   stopHostNetworkTelemetry();
-  disposeLocalResourceTelemetry();
-  disposeAttachedServicePorts();
-  windowHostControllerRuntime.dispose();
-  for (const key of Array.from(cronRunSubscriptions.keys())) {
-    disposeCronRunSubscription(key);
-  }
-  studioScheduleOutcomeObserver?.dispose();
-  studioScheduleOutcomeObserver = null;
-  cronAutomationRepo.close();
-  void windowRemoteConnectionRegistry.dispose();
-
-  if (activeServices) {
+  clearLocalTelemetry();
+  attachments.dispose();
+  controller.dispose();
+  for (const subscription of cronSubscriptions.values()) subscription.dispose();
+  cronSubscriptions.clear();
+  studioObserver?.dispose();
+  studioObserver = null;
+  repo.close();
+  void registry.dispose();
+  if (services) {
     try {
-      disposeServiceResources(activeServices);
+      disposeServiceResources(services);
     } catch (error) {
       logger.error("failed to dispose local services:", error);
     } finally {
-      activeServices = null;
-      activeHostApiNetworkTransport = null;
+      services = null;
+      network = null;
     }
   }
-
-  if (activeSessionRealtimePort) {
-    activeSessionRealtimePort.dispose();
-    activeSessionRealtimePort = null;
-  }
+  realtime?.dispose();
+  realtime = null;
 }
-
 process.once("SIGTERM", () => {
-  void disposeHostResources("SIGTERM").then(
+  void shutdown("SIGTERM").then(
     (result) => process.exit(result.exitCode),
     () => process.exit(1),
   );
 });
-
 process.once("SIGINT", () => {
-  void disposeHostResources("SIGINT").then(
+  void shutdown("SIGINT").then(
     (result) => process.exit(result.exitCode),
     () => process.exit(1),
   );
 });
-
 process.once("disconnect", () => {
-  // parent IPC 消失后不会再有人发送 Dispose；有界清理结束后必须明确退出，避免 Host 常驻。
-  void disposeHostResources("disconnect").finally(() => process.exit(1));
+  void shutdown("disconnect").finally(() => process.exit(1));
 });
-
-process.once("exit", () => {
-  disposeHostResourcesBestEffort("exit");
-});
-
-let handlingFatalUncaughtException = false;
+process.once("exit", () => cleanupOnExit("exit"));
 process.on(
   "uncaughtException",
   createHostUncaughtExceptionHandler({
     onRecovered: (error, origin) => {
-      const memoryUsage = process.memoryUsage();
+      const memory = process.memoryUsage();
       logger.warn("contained host allocation failure from native TLS callback", {
-        arrayBuffers: memoryUsage.arrayBuffers,
-        external: memoryUsage.external,
-        heapUsed: memoryUsage.heapUsed,
+        arrayBuffers: memory.arrayBuffers,
+        external: memory.external,
+        heapUsed: memory.heapUsed,
         message: error.message,
         origin,
-        rss: memoryUsage.rss,
+        rss: memory.rss,
       });
     },
     onFatal: (error, origin) => {
-      if (handlingFatalUncaughtException) {
-        process.exit(1);
-      }
-      handlingFatalUncaughtException = true;
-      logger.error(`uncaughtException origin=${origin}:`, error);
-      void disposeHostResources(`uncaughtException:${origin}`).finally(() => process.exit(1));
+      if (handlingFatal) process.exit(1);
+      handlingFatal = true;
+      logger.error("uncaughtException origin=" + origin, error);
+      void shutdown("uncaughtException:" + origin).finally(() => process.exit(1));
     },
   }),
 );
 
-parentPort.on("message", async (e: Electron.MessageEvent) => {
-  const result = parseHostIncomingMessageEvent(e);
-  if (!result.success) {
-    logger.error("invalid parentPort message:", formatZodError(result.error));
+parentPort!.on("message", async (event) => {
+  const parsed = parseHostIncomingMessageEvent(event);
+  if (!parsed.success) {
+    logger.warn("invalid parentPort message:", formatZodError(parsed.error));
     return;
   }
-
-  const msg = result.data;
-  const port = e.ports[0];
+  const msg = parsed.data;
+  const port = event.ports[0];
   if (msg.type === HostMessageTypes.DatabaseStartupControl) {
-    if (msg.control.action === "snapshot") databaseStartup?.coordinator.publish();
-    else if (msg.control.action === "retry")
-      void databaseStartup?.coordinator.retry(msg.control.attemptId);
+    // 共享 schema 与 Main relay 使用 action；旧 kind 字段会让合法控制静默失效。
+    if (msg.control.action === "snapshot") startup?.coordinator.publish();
+    else if (msg.control.action === "retry") void startup?.coordinator.retry(msg.control.attemptId);
     return;
   }
-
   if (msg.type === HostMessageTypes.CuaPipFocusChanged) {
-    const service = activeServices?.getOptional(ICuaPipSessionService);
-    if (service) {
-      void service.publishFocus(msg.event);
-    } else {
-      // 取不到服务时过去静默丢弃，focus-changed 于是从链路上凭空消失
-      // （dev 实测 0 条，正式包同期 92 条）。补这条才能把「main 没发」与
-      // 「host 收到了但服务没注册」分开。
-      logger.warn("[cua-pip-session] focus event dropped: service unavailable");
-    }
+    const cua = services?.getOptional(ICuaPipSessionService);
+    if (cua) void cua.publishFocus(msg.event);
+    else logger.warn("[cua-pip-session] focus event dropped: service unavailable");
     return;
   }
-
   if (msg.type === HostMessageTypes.ResourceUsageSnapshotRequest) {
-    void hostResourceUsageResponder.handleRequest(msg);
+    void usageResponder.handleRequest(msg);
     return;
   }
   if (msg.type === HostMessageTypes.ResourceUsageSnapshotCancel) {
-    hostResourceUsageResponder.cancelRequest(msg.requestId);
+    usageResponder.cancelRequest(msg.requestId);
     return;
   }
-
   if (msg.type === HostMessageTypes.LocalMediaPreviewPathAuthorizeResult) {
-    const pending = pendingLocalMediaPreviewPathAuthorizations.get(msg.requestId);
-    if (!pending) return;
-    pendingLocalMediaPreviewPathAuthorizations.delete(msg.requestId);
+    const request = mediaRequests.get(msg.requestId);
+    if (!request) return;
+    mediaRequests.delete(msg.requestId);
     if (msg.ok && msg.path) {
-      logger.info("local media preview path authorization OK");
-      pending.resolve(msg.path);
-    } else {
-      pending.reject(new Error(msg.error ?? "本地视频预览路径授权失败"));
-    }
+      logger.info("local media preview path authorization OK", msg.path);
+      request.resolve(msg.path);
+    } else request.reject(new Error(msg.error ?? "本地视频预览路径授权失败"));
     return;
   }
-
   if (msg.type === HostMessageTypes.CronRun) {
-    if (databaseStartup?.coordinator.snapshot.phase !== "ready") {
-      parentPort.postMessage({
+    if (startup?.coordinator.snapshot.phase !== "ready") {
+      parentPort!.postMessage({
         type: HostResponseTypes.CronRunResult,
         runId: msg.runId,
         ok: false,
@@ -1971,115 +1422,91 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
       });
       return;
     }
-    void (async () => {
-      try {
-        const dispatchResult = await dispatchCronRun({
-          ...msg,
-          mode: msg.mode as KnorviaTaskMode | undefined,
-        });
-        parentPort.postMessage({
+    void dispatchCron({ ...msg, mode: msg.mode as KnorviaTaskMode | undefined })
+      .then((result) => {
+        parentPort!.postMessage({
           type: HostResponseTypes.CronRunResult,
           runId: msg.runId,
           ok: true,
-          ...dispatchResult,
+          ...result,
         });
-      } catch (error) {
-        parentPort.postMessage({
+      })
+      .catch((error) =>
+        parentPort!.postMessage({
           type: HostResponseTypes.CronRunResult,
           runId: msg.runId,
           ok: false,
-          error: error instanceof Error ? error.message : String(error),
+          error: errorText(error),
           failureKind: "transient",
-        });
-      }
-    })();
+        }),
+      );
     return;
   }
-
   if (msg.type === HostMessageTypes.BrowserExecuteResult) {
-    // main 的 WebContentsView+CDP 执行完 browser 命令，按 requestId 关联回 bridge 的 pending。
-    void browserControlMainBridge.handleResult({
-      requestId: msg.requestId,
-      result: msg.result,
-    });
+    void browser.handleResult({ requestId: msg.requestId, result: msg.result });
     return;
   }
-
   if (msg.type === HostMessageTypes.Dispose) {
-    // main 进程通知清理（窗口关闭 / app 退出时）
-    // 这里必须等待统一资源清理完成（含异步收尾写回），再让进程退出；main 侧仍有强杀 timer 兜底。
-    const result = await disposeHostResources("parent dispose");
+    const result = await shutdown("parent dispose");
     process.exit(result.exitCode);
     return;
   }
-
-  if (msg.type === HostMessageTypes.Broadcast) {
-    return;
-  }
-
+  if (msg.type === HostMessageTypes.Broadcast) return;
   if (msg.type === HostMessageTypes.SessionMessageDeliver) {
-    const taskService = activeServices?.getOptional(IKnorviaTaskService);
-    if (!taskService) {
-      parentPort.postMessage({
+    const task = services?.getOptional(IKnorviaTaskService);
+    const fail = (error: string) =>
+      parentPort!.postMessage({
         type: HostResponseTypes.SessionMessageDeliverResult,
         result: {
-          error: "Knorvia Studio task service is not initialized.",
+          error,
           messageId: msg.request.messageId,
           requestId: msg.request.requestId,
           sessionId: msg.request.fromSessionId,
           status: "failed",
         },
       });
-      return;
-    }
-
-    void taskService
-      .deliverSessionMessage(msg.request)
-      .then((deliveryResult) => {
-        parentPort.postMessage({
-          type: HostResponseTypes.SessionMessageDeliverResult,
-          result: deliveryResult,
-        });
-      })
-      .catch((error) => {
-        parentPort.postMessage({
-          type: HostResponseTypes.SessionMessageDeliverResult,
-          result: {
-            error: error instanceof Error ? error.message : String(error),
-            messageId: msg.request.messageId,
-            requestId: msg.request.requestId,
-            sessionId: msg.request.fromSessionId,
-            status: "failed",
-          },
-        });
-      });
+    if (!task) fail("Knorvia Studio task service is not initialized.");
+    else
+      void task
+        .deliverSessionMessage(msg.request)
+        .then((result) =>
+          parentPort!.postMessage({
+            type: HostResponseTypes.SessionMessageDeliverResult,
+            result,
+          }),
+        )
+        .catch((error) => fail(errorText(error)));
     return;
   }
-
   if (msg.type === HostMessageTypes.SessionMessageDeliveryResult) {
-    const taskService = activeServices?.getOptional(IKnorviaTaskService);
-    if (!taskService) {
+    const task = services?.getOptional(IKnorviaTaskService);
+    if (!task)
       logger.warn(
         "session message delivery result received before Knorvia Studio task service initialized",
       );
-      return;
-    }
-    void taskService.sendSessionMessageDeliveryResult(msg.result).catch((error) => {
-      logger.warn("failed to forward session message delivery result:", error);
-    });
+    else
+      void task
+        .sendSessionMessageDeliveryResult(msg.result)
+        .catch((error) => logger.warn("failed to forward session message delivery result:", error));
     return;
   }
-
   if (msg.type === HostMessageTypes.ConnectRemoteWorkspace) {
     const workspacePath = msg.workspacePath ?? "/";
     const workspaceIdentity =
       msg.workspaceIdentity ?? buildRemoteWorkspaceIdentity(workspacePath, msg.target);
+    let label: string;
+    if (msg.target.kind === "ssh")
+      label = "ssh:" + msg.target.username + "@" + msg.target.host + ":" + (msg.target.port ?? 22);
+    else if (msg.target.kind === "wsl") {
+      const user = msg.target.user?.trim();
+      label = "wsl:" + (msg.target.distro ?? "default") + (user ? ":" + user : "");
+    } else label = "docker:" + msg.target.container;
     logger.info(
-      `connecting window-scoped remote source, requestId=${msg.requestId}, target=${formatRemoteTargetForLog(msg.target)}`,
+      "connecting window-scoped remote source, requestId=" + msg.requestId + ", target=" + label,
     );
-    void remoteConnectionProgressContext
+    void progress
       .run(msg.requestId, () =>
-        windowRemoteConnectionRegistry.connect({
+        registry.connect({
           requestId: msg.requestId,
           target: msg.target,
           remoteAssets: msg.remoteAssets,
@@ -2088,168 +1515,141 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
         }),
       )
       .then(async (descriptor) => {
-        const replacedOfflineSessions = windowRemoteConnectionRegistry
+        const oldSessions = registry
           .listSessions()
           .filter(
             (session) =>
               session.remoteSessionId !== descriptor.remoteSessionId &&
-              session.state === "disconnected" &&
               session.workspacePath === descriptor.workspacePath &&
-              session.workspaceIdentity === descriptor.workspaceIdentity,
+              session.workspaceIdentity === descriptor.workspaceIdentity &&
+              session.state === "disconnected",
           );
-        for (const replaced of replacedOfflineSessions) {
-          if (replaced.workspacePath && replaced.workspaceIdentity) {
-            const previousScope = {
-              kind: "remote",
-              remoteSessionId: replaced.remoteSessionId,
-              workspacePath: replaced.workspacePath,
-              workspaceIdentity: replaced.workspaceIdentity,
-            } as const;
-            const nextScope = {
-              kind: "remote",
-              remoteSessionId: descriptor.remoteSessionId,
-              workspacePath: replaced.workspacePath,
-              workspaceIdentity: replaced.workspaceIdentity,
-            } as const;
+        for (const old of oldSessions) {
+          if (old.workspacePath && old.workspaceIdentity) {
+            const previous = remoteScope(
+              old.remoteSessionId,
+              old.workspacePath,
+              old.workspaceIdentity,
+            );
+            const next = remoteScope(
+              descriptor.remoteSessionId,
+              old.workspacePath,
+              old.workspaceIdentity,
+            );
             try {
-              const services = windowRemoteConnectionRegistry.resolveScopedServices(nextScope);
-              await windowHostControllerRuntime.replaceDisconnectedSource(previousScope, {
-                scope: nextScope,
-                taskService: services.get(IKnorviaTaskService),
+              const collection = registry.resolveScopedServices(next);
+              await controller.replaceDisconnectedSource(previous, {
+                scope: next,
+                taskService: collection.get(IKnorviaTaskService),
                 sourceAvailability: "online",
               });
             } catch (error) {
-              // source 已连接但 task-index 暂时不可读时不能回滚 transport，也不能删除上一代
-              // 离线可信投影。Controller 会保留 pending replacement，后续 query 成功后原子替换。
               logger.warn("failed to atomically replace disconnected Controller source", error);
             }
           }
-          windowHostAttachmentRegistry.detachRemoteSessionAttachments(replaced.remoteSessionId);
-          await windowRemoteConnectionRegistry.disposeSession(replaced.remoteSessionId);
-          // 重连替换后旧 remoteSessionId 已不再可 attachment；同步清理 Main 的端口请求关联，
-          // 但不向 Renderer 伪报一次新的 transport failure。
-          parentPort.postMessage({
+          attachments.detachRemoteSessionAttachments(old.remoteSessionId);
+          await registry.disposeSession(old.remoteSessionId);
+          parentPort!.postMessage({
             type: HostResponseTypes.RemoteWorkspaceClosed,
-            remoteSessionId: replaced.remoteSessionId,
+            remoteSessionId: old.remoteSessionId,
             reason: "disposed",
           });
         }
-        parentPort.postMessage({
+        parentPort!.postMessage({
           type: HostResponseTypes.RemoteWorkspaceConnected,
           requestId: msg.requestId,
           descriptor,
         });
-        logWindowHostTopology("remote-connected");
+        topology("remote-connected");
       })
-      .catch((error) => {
-        parentPort.postMessage({
+      .catch((error) =>
+        parentPort!.postMessage({
           type: HostResponseTypes.RemoteWorkspaceConnectFailed,
           requestId: msg.requestId,
-          error: error instanceof Error ? error.message : String(error),
-        });
-      });
+          error: errorText(error),
+        }),
+      );
     return;
   }
-
   if (msg.type === HostMessageTypes.CancelRemoteWorkspaceConnect) {
-    windowRemoteConnectionRegistry.cancelConnect(msg.requestId);
+    registry.cancelConnect(msg.requestId);
     return;
   }
-
   if (msg.type === HostMessageTypes.BindRemoteWorkspaceContext) {
-    const previous = windowRemoteConnectionRegistry.getSession(msg.remoteSessionId);
-    let workspaceReady: Promise<void>;
+    const previous = registry.getSession(msg.remoteSessionId);
+    let ready: Promise<void>;
     try {
-      workspaceReady = windowRemoteConnectionRegistry.bindWorkspaceContext({
+      ready = registry.bindWorkspaceContext({
         remoteSessionId: msg.remoteSessionId,
         workspacePath: msg.workspacePath,
         workspaceIdentity: msg.workspaceIdentity,
       });
     } catch (error) {
       logger.warn(
-        `failed to bind remote workspace context, remoteSessionId=${msg.remoteSessionId}`,
+        "failed to bind remote workspace context, remoteSessionId=" + msg.remoteSessionId,
         error,
       );
       return;
     }
-    const current = windowRemoteConnectionRegistry.getSession(msg.remoteSessionId);
-    if (current) {
-      // scope generation 换代后，旧 Renderer/手机 attachment 不得继续持有远端 IO facade。
-      windowHostAttachmentRegistry.detachStaleRemoteSessionAttachments(
-        msg.remoteSessionId,
-        current.generation,
-      );
-    }
-    void workspaceReady.catch((error) => {
+    const current = registry.getSession(msg.remoteSessionId);
+    if (current)
+      attachments.detachStaleRemoteSessionAttachments(msg.remoteSessionId, current.generation);
+    void ready.catch((error) =>
       logger.warn(
-        `failed to prepare bound remote workspace, remoteSessionId=${msg.remoteSessionId}`,
+        "failed to prepare bound remote workspace, remoteSessionId=" + msg.remoteSessionId,
         error,
+      ),
+    );
+    if (previous?.workspacePath && previous.workspaceIdentity)
+      controller.removeSource(
+        remoteScope(msg.remoteSessionId, previous.workspacePath, previous.workspaceIdentity),
       );
-    });
-    if (previous?.workspacePath && previous.workspaceIdentity) {
-      windowHostControllerRuntime.removeSource({
-        kind: "remote",
-        remoteSessionId: msg.remoteSessionId,
-        workspacePath: previous.workspacePath,
-        workspaceIdentity: previous.workspaceIdentity,
-      });
-    }
     logger.info(
-      `bound remote workspace context, remoteSessionId=${msg.remoteSessionId}, workspacePath=${msg.workspacePath}`,
+      "bound remote workspace context, remoteSessionId=" +
+        msg.remoteSessionId +
+        ", workspacePath=" +
+        msg.workspacePath,
     );
     return;
   }
-
   if (msg.type === HostMessageTypes.DisposeRemoteWorkspaceSession) {
-    const disposedSession = windowRemoteConnectionRegistry.getSession(msg.remoteSessionId);
-    windowHostAttachmentRegistry.detachRemoteSessionAttachments(msg.remoteSessionId);
-    void windowRemoteConnectionRegistry
+    const previous = registry.getSession(msg.remoteSessionId);
+    attachments.detachRemoteSessionAttachments(msg.remoteSessionId);
+    void registry
       .disposeSession(msg.remoteSessionId)
       .then(() => {
-        if (disposedSession?.workspacePath && disposedSession.workspaceIdentity) {
-          windowHostControllerRuntime.removeSource({
-            kind: "remote",
-            remoteSessionId: msg.remoteSessionId,
-            workspacePath: disposedSession.workspacePath,
-            workspaceIdentity: disposedSession.workspaceIdentity,
-          });
-        }
-        parentPort.postMessage({
+        if (previous?.workspacePath && previous.workspaceIdentity)
+          controller.removeSource(
+            remoteScope(msg.remoteSessionId, previous.workspacePath, previous.workspaceIdentity),
+          );
+        parentPort!.postMessage({
           type: HostResponseTypes.RemoteWorkspaceClosed,
           remoteSessionId: msg.remoteSessionId,
           reason: "disposed",
         });
-        logWindowHostTopology("remote-session-disposed");
+        topology("remote-session-disposed");
       })
-      .catch((error) => {
+      .catch((error) =>
         logger.warn(
-          `failed to dispose remote logical session, remoteSessionId=${msg.remoteSessionId}`,
+          "failed to dispose remote logical session, remoteSessionId=" + msg.remoteSessionId,
           error,
-        );
-      });
+        ),
+      );
     return;
   }
-
   if (msg.type === HostMessageTypes.AttachServicePort) {
     if (!port) {
-      logger.error("attach-service-port message missing MessagePort");
+      logger.warn("attach-service-port message missing MessagePort");
       return;
     }
-    if (msg.scope.kind === "local" && databaseStartup?.coordinator.snapshot.phase !== "ready") {
-      // 刷新/手机 attachment 复用同一 Host，等待现有准备，不启动第二个执行者。
-      pendingStartupAttachments.set(msg.attachmentId, () => {
-        windowHostAttachmentRegistry.attach({ ...msg, port });
-      });
-      port.once("close", () => pendingStartupAttachments.delete(msg.attachmentId));
+    if (msg.scope.kind === "local" && startup?.coordinator.snapshot.phase !== "ready") {
+      deferredAttachments.set(msg.attachmentId, () => attachments.attach({ ...msg, port }));
+      port.once("close", () => deferredAttachments.delete(msg.attachmentId));
       return;
     }
     try {
-      if (msg.scope.kind === "remote") {
-        // Bind 与 Attach 共用 parentPort，但 WSL 上一代 workspace release 可能仍在途。
-        // 持有已转移 port 等待 Host 内 generation barrier，避免新 attachment 踩过旧 runtime 清理。
-        await windowRemoteConnectionRegistry.waitForScopedServices(msg.scope);
-      }
-      windowHostAttachmentRegistry.attach({
+      if (msg.scope.kind === "remote") await registry.waitForScopedServices(msg.scope);
+      attachments.attach({
         requestId: msg.requestId,
         attachmentId: msg.attachmentId,
         clientMode: msg.clientMode,
@@ -2257,238 +1657,241 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
         port,
       });
       logger.info(
-        `attached scoped service port, attachmentId=${msg.attachmentId}, scope=${msg.scope.kind}, clientMode=${msg.clientMode}`,
+        "attached scoped service port, attachmentId=" +
+          msg.attachmentId +
+          ", scope=" +
+          msg.scope.kind +
+          ", clientMode=" +
+          msg.clientMode,
       );
-      logWindowHostTopology("attachment-added");
+      topology("attachment-added");
     } catch (error) {
-      // 跨 logical session 或旧 identity 的 port 若继续暴露，会把远端请求路由到错误 source。
-      // scope 校验失败必须关闭已转移端口并明确记录，禁止回退 active local services。
       rejectUnavailableAttachedServicePort(port, false);
-      logger.warn(`failed to attach scoped service port, attachmentId=${msg.attachmentId}`, error);
+      logger.warn("failed to attach scoped service port, attachmentId=" + msg.attachmentId, error);
     }
     return;
   }
-
   if (msg.type === HostMessageTypes.DetachServicePort) {
-    pendingStartupAttachments.delete(msg.attachmentId);
-    windowHostAttachmentRegistry.detach(msg.attachmentId);
-    logger.info(`detached service port, attachmentId=${msg.attachmentId}`);
-    logWindowHostTopology("attachment-removed");
+    deferredAttachments.delete(msg.attachmentId);
+    attachments.detach(msg.attachmentId);
+    logger.info("detached service port, attachmentId=" + msg.attachmentId);
+    topology("attachment-removed");
     return;
   }
-
-  if (!port) {
+  if (!port) return;
+  if (msg.type !== HostMessageTypes.InitLocal) return;
+  if (startup) {
+    port.close();
+    startup.coordinator.publish();
     return;
   }
-
-  if (msg.type === HostMessageTypes.InitLocal) {
-    if (!port) {
-      logger.error("init-local message missing MessagePort");
-      return;
-    }
-    if (databaseStartup) {
-      port.close();
-      databaseStartup.coordinator.publish();
-      return;
-    }
-    let basePortClosed = false;
-    port.once("close", () => {
-      basePortClosed = true;
-    });
-    databaseStartup = createHostDatabaseStartup({
-      startupId: msg.databaseStartupId,
-      cwd: msg.agentSpawnFallbackCwd ?? process.cwd(),
-      workingDirectories:
-        msg.agentWarmupTargets?.map((target) => target.workspacePath) ??
-        (msg.workspacePath ? [msg.workspacePath] : []),
-      env: msg.runtimeProcessEnvPatch,
-      publish: (state) => {
-        parentPort?.postMessage({ type: HostResponseTypes.DatabaseStartupState, state });
-        if (state.phase === "ready") {
-          for (const attach of pendingStartupAttachments.values()) {
-            try {
-              attach();
-            } catch (error) {
-              logger.warn("startup attachment failed", error);
-            }
+  let baseClosed = false;
+  port.once("close", () => {
+    baseClosed = true;
+  });
+  startup = createHostDatabaseStartup({
+    startupId: msg.databaseStartupId,
+    cwd: msg.agentSpawnFallbackCwd ?? process.cwd(),
+    workingDirectories:
+      msg.agentWarmupTargets?.map((target) => target.workspacePath) ??
+      (msg.workspacePath ? [msg.workspacePath] : []),
+    env: msg.runtimeProcessEnvPatch,
+    publish: (state) => {
+      parentPort!.postMessage({ type: HostResponseTypes.DatabaseStartupState, state });
+      if (state.phase === "ready") {
+        for (const attach of deferredAttachments.values()) {
+          try {
+            attach();
+          } catch (error) {
+            logger.warn("startup attachment failed", error);
           }
-          pendingStartupAttachments.clear();
         }
-      },
-      onFailure: (error) =>
-        logger.error(
-          `local database startup failed attempt=${databaseStartup?.coordinator.snapshot.attemptId}`,
-          error,
-        ),
-      initializeServices: async () => {
-        logger.info("initializing local services");
-        activeSessionRealtimePort = createTaskRealtimeBridgeForHostInit(msg, parentPort);
-        const { service: settingService } = createSettingServiceWithMigrations();
-        const hostApiNetworkTransport = createHostApiNetworkTransport(async () => {
-          const settings = await settingService.get();
-          return {
-            httpProxy: settings.httpProxy,
-            noProxy: settings.httpProxyNoProxy,
-            caCertPath: settings.httpProxyCaCertPath,
-          };
-        });
-        const services = await initializeHostApiNetworkTransportOwner({
-          transport: hostApiNetworkTransport,
-          log: (message, details) => logger.warn(message, details),
-          establishOwner: () => {
-            const initializedServices = createLocalServices({
-              parentPort,
-              settingService,
-              hostApiNetworkTransport,
-              authorizeLocalMediaPreviewPath,
-              runtimeProcessEnvPatch: msg.runtimeProcessEnvPatch,
-              agentRuntimeContext: {
-                getDeviceMid: () => msg.deviceMid,
-                runtimeSurface: "desktop_local_host",
+        deferredAttachments.clear();
+      }
+    },
+    onFailure: (error) =>
+      logger.error(
+        "local database startup failed attempt=" + startup?.coordinator.snapshot.attemptId,
+        error,
+      ),
+    initializeServices: async () => {
+      logger.info("initializing local services");
+      realtime = createTaskRealtimeBridgeForHostInit(msg, parentPort);
+      const { service: settingService } = createSettingServiceWithMigrations();
+      const transport = createHostApiNetworkTransport(async () => {
+        const settings = await settingService.get();
+        return {
+          httpProxy: settings.httpProxy,
+          noProxy: settings.httpProxyNoProxy,
+          caCertPath: settings.httpProxyCaCertPath,
+        };
+      });
+      const collection = await initializeHostApiNetworkTransportOwner({
+        transport,
+        log: logger.warn,
+        establishOwner: () => {
+          const initialized = createLocalServices({
+            parentPort,
+            settingService,
+            hostApiNetworkTransport: transport,
+            authorizeLocalMediaPreviewPath,
+            runtimeProcessEnvPatch: msg.runtimeProcessEnvPatch,
+            agentRuntimeContext: {
+              getDeviceMid: () => msg.deviceMid,
+              runtimeSurface: "desktop_local_host",
+            },
+            serviceAuthorityMode: "desktop-local",
+            remoteStudioEnvironments,
+            agentSpawnFallbackCwd: msg.agentSpawnFallbackCwd,
+            knorviaBuiltinProviderConfigFilePath: msg.knorviaBuiltinProviderConfigFilePath,
+            processLifecycleReporter: {
+              onSpawn: (event) => {
+                if (parentPort)
+                  parentPort.postMessage({ type: HostResponseTypes.AgentProcessSpawned, ...event });
               },
-              serviceAuthorityMode: "desktop-local",
-              remoteStudioEnvironments: () =>
-                windowRemoteConnectionRegistry.listSessions().flatMap((session) => {
-                  if (
-                    session.target.kind !== "ssh" ||
-                    session.state !== "online" ||
-                    session.sourceAvailability !== "online" ||
-                    !session.workspacePath ||
-                    !session.workspaceIdentity
-                  )
-                    return [];
-                  try {
-                    const services = windowRemoteConnectionRegistry.resolveScopedServices({
-                      kind: "remote",
-                      remoteSessionId: session.remoteSessionId,
-                      workspacePath: session.workspacePath,
-                      workspaceIdentity: session.workspaceIdentity,
-                    });
-                    const studio = services.getOptional(IStudioRuntimeService);
-                    if (!studio) return [];
-                    return [
-                      {
-                        workspaceIdentity: session.workspaceIdentity,
-                        workspacePath: session.workspacePath,
-                        label: `${session.target.username}@${session.target.host}`,
-                        service: studio,
-                      },
-                    ];
-                  } catch {
-                    // 已恢复的 tab 尚未重新绑定 Host 时，不能用本机 Agent 顶替。
-                    return [];
-                  }
-                }),
-              agentSpawnFallbackCwd: msg.agentSpawnFallbackCwd,
-              knorviaBuiltinProviderConfigFilePath: msg.knorviaBuiltinProviderConfigFilePath,
-              processLifecycleReporter: runtimeProcessLifecycleReporter,
-              taskRuntimeReporter: runtimeTaskReporter,
-              forwardSessionMessageSendRequested: (request) => {
+              onReady: (event) => {
+                if (parentPort)
+                  parentPort.postMessage({ type: HostResponseTypes.AgentProcessReady, ...event });
+              },
+              onError: (event) => {
+                if (parentPort)
+                  parentPort.postMessage({ type: HostResponseTypes.AgentProcessError, ...event });
+              },
+              onExit: (event) => {
+                if (parentPort)
+                  parentPort.postMessage({
+                    type: HostResponseTypes.AgentProcessExited,
+                    ...event,
+                    signal: event.signal ?? null,
+                  });
+              },
+              onException: (event) =>
                 parentPort?.postMessage({
-                  type: HostResponseTypes.SessionMessageSendRequested,
-                  request,
-                });
+                  type: HostResponseTypes.AgentProcessException,
+                  ...event,
+                }),
+            },
+            taskRuntimeReporter: {
+              onRunningTaskCountChanged: (event) =>
+                parentPort?.postMessage({
+                  type: HostResponseTypes.AgentRunningTaskCountChanged,
+                  runningTaskCount: event.runningTaskCount,
+                }),
+            },
+            forwardSessionMessageSendRequested: (request) =>
+              parentPort?.postMessage({
+                type: HostResponseTypes.SessionMessageSendRequested,
+                request,
+              }),
+            onAutomationManualRunRequested: dispatchManual,
+            browserControlExecutor: browser,
+            cuaOperationStateReporter:
+              process.platform === "win32"
+                ? {
+                    onStateChanged: (event) =>
+                      parentPort?.postMessage({
+                        type: HostResponseTypes.CuaOperationState,
+                        ...event,
+                      }),
+                  }
+                : undefined,
+          });
+          services = initialized;
+          const studio = initialized.getOptional(IStudioRuntimeService);
+          if (studio) {
+            studioObserver?.dispose();
+            studioObserver = new StudioScheduleOutcomeObserver(studio, repo, logger.warn);
+            void studioObserver.recover();
+          }
+          network = transport;
+          return initialized;
+        },
+      });
+      const task = collection.getOptional(IKnorviaTaskService);
+      if (task)
+        collection.register(
+          IKnorviaTaskService,
+          reportingFacade(task, { reportRunningPromptCount: false }),
+        );
+      localTelemetry?.dispose();
+      localTelemetry = registerHostServiceResourceTelemetry({
+        services: collection,
+        postMessage: (message) => parentPort?.postMessage(message),
+        runtimeSurface: "local",
+        onError: (error) => logger.warn("local resource telemetry subscription failed", error),
+      });
+      disposed = false;
+      cleanup = null;
+      const targets = msg.agentWarmupTargets?.length
+        ? msg.agentWarmupTargets
+        : msg.workspacePath
+          ? [
+              {
+                workspacePath: msg.workspacePath,
+                ...(msg.workspaceIdentity ? { workspaceIdentity: msg.workspaceIdentity } : {}),
               },
-              onAutomationManualRunRequested: dispatchManualAutomationRun,
-              // browser-use：agent 的 interaction/browserExecute 经 agentService 转到这个 executor，
-              // 再经 parentPort 到 main 的 WebContentsView+CDP 执行。
-              browserControlExecutor: browserControlMainBridge,
-              // CUA 顶部提示属于物理 Windows 桌面投影；非 Windows 和远端 authority 都不得上报。
-              cuaOperationStateReporter:
-                process.platform === "win32" ? cuaOperationStateReporter : undefined,
-            });
-            activeServices = initializedServices;
-            const studio = initializedServices.getOptional(IStudioRuntimeService);
-            if (studio) {
-              studioScheduleOutcomeObserver?.dispose();
-              studioScheduleOutcomeObserver = new StudioScheduleOutcomeObserver(
-                studio,
-                cronAutomationRepo,
-                (message, error) => logger.warn(message, error),
+            ]
+          : [];
+      const sessions = collection.getOptional(IKnorviaSessionService);
+      targets.forEach((target, index) => {
+        if (!target.workspacePath || !sessions) return;
+        const reason = "local host init (" + (index + 1) + "/" + targets.length + ")";
+        void sessions
+          .initializeWorkspace({
+            workspacePath: target.workspacePath,
+            ...(target.workspaceIdentity ? { workspaceIdentity: target.workspaceIdentity } : {}),
+          })
+          .then((result) => {
+            if (!result.available) {
+              if (result.reasonCode === "provider_not_ready")
+                logger.info(
+                  "Knorvia Studio agent warmup waiting for provider/model (" +
+                    reason +
+                    ") workspace=" +
+                    target.workspacePath,
+                );
+              else
+                logger.warn(
+                  "Knorvia Studio agent warmup unavailable (" +
+                    reason +
+                    ") workspace=" +
+                    target.workspacePath +
+                    " reason=" +
+                    (result.reason ?? "unknown"),
+                );
+            } else
+              logger.info(
+                "Knorvia Studio agent warmup ready (" +
+                  reason +
+                  ") workspace=" +
+                  target.workspacePath +
+                  " transport=" +
+                  (result.transportKind ?? "unknown"),
               );
-              void studioScheduleOutcomeObserver.recover();
-            }
-            activeHostApiNetworkTransport = hostApiNetworkTransport;
-            return initializedServices;
-          },
-        });
-        const taskService = services.getOptional(IKnorviaTaskService);
-        if (taskService) {
-          const reportingKnorviaTaskService = createReportingRemoteKnorviaTaskService(taskService, {
-            reportRunningPromptCount: false,
-          });
-          services.register(IKnorviaTaskService, reportingKnorviaTaskService);
-        }
-        wireLocalResourceTelemetry(services);
-        hasDisposedHostResources = false;
-        disposeHostResourcesInFlight = null;
-        const agentWarmupTargets =
-          msg.agentWarmupTargets && msg.agentWarmupTargets.length > 0
-            ? msg.agentWarmupTargets
-            : msg.workspacePath
-              ? [
-                  {
-                    workspacePath: msg.workspacePath,
-                    ...(msg.workspaceIdentity ? { workspaceIdentity: msg.workspaceIdentity } : {}),
-                  },
-                ]
-              : [];
-        // Main 已按最近使用顺序把启动预热限制为 3 个；Host 必须显式消费这份
-        // 固定名单，不能让后续 task-list observer 再隐式扩大，也不能因单个失败扫描补位。
-        agentWarmupTargets.forEach((target, index) => {
-          warmUpKnorviaAgent(
-            services,
-            target,
-            `local host init (${index + 1}/${agentWarmupTargets.length})`,
+          })
+          .catch((error) =>
+            logger.warn(
+              "Knorvia Studio agent warmup failed (" +
+                reason +
+                ") workspace=" +
+                target.workspacePath +
+                ":",
+              error,
+            ),
           );
+      });
+      logger.info("exposing services on ChannelServer...");
+      if (!baseClosed)
+        attachments.attach({
+          requestId: "init-local-" + randomUUID(),
+          attachmentId: "base-" + randomUUID(),
+          clientMode: "desktop-continuous",
+          scope: { kind: "local" },
+          port,
         });
-        logger.info("exposing services on ChannelServer...");
-        if (!basePortClosed)
-          windowHostAttachmentRegistry.attach({
-            requestId: `init-local-${randomUUID()}`,
-            attachmentId: `base-${randomUUID()}`,
-            clientMode: "desktop-continuous",
-            scope: { kind: "local" },
-            port,
-          });
-        logWindowHostTopology("base-attachment-ready");
-        logger.info("local services ready, all channels registered");
-      },
-    });
-    await databaseStartup.coordinator.start();
-  }
-});
-
-async function setupRemoteConnection(
-  target: RemoteTarget,
-  remoteAssets: RemoteAssetDirs,
-  remoteAssetNetwork: RemoteAssetNetworkPort,
-  remoteRuntimeNetwork: RemoteRuntimeNetworkOptions | undefined,
-  onDidRemoteClose: (exitCode: number) => void,
-  deployLockMode: DeployLockMode = "remote",
-  signal?: AbortSignal,
-): Promise<HostRemoteConnection> {
-  // 延迟加载 remote backend，避免 local 模式下因 ssh2 依赖链进入 asar 后崩溃
-  const { createRemoteBackend, connectRemote, pickRemoteRuntimeEnv } =
-    await import("@knorvia/server/remote");
-  const backend = await createRemoteBackend(target);
-  const connection = await connectRemote(backend, {
-    ...remoteAssets,
-    remoteAssetNetwork,
-    remoteRuntimeNetwork,
-    signal,
-    // SSH/Docker 远端 server 由 host process 单独启动，不能依赖桌面 main 的环境继承。
-    // 这里显式透传编译期版本，避免漏导入后生成裸 KNORVIA_VERSION 引用导致 SSH 初始化直接 ReferenceError。
-    appVersion: KNORVIA_VERSION,
-    // 远端 knorvia-server/agent 是独立进程，不能继承 host 里的测试/生产 endpoint 选择。
-    // 这里只透传 server 侧白名单允许的公开环境变量，避免把 credential/token 带到远端机器。
-    remoteRuntimeEnv: pickRemoteRuntimeEnv(process.env),
-    assetInstallMode: target.kind === "ssh" ? target.assetInstallMode : undefined,
-    // SSH 由窗口级 registry 串行复用，其余 transport 仍保留远端 connector 自身锁。
-    deployLockMode,
-    onDidRemoteClose: ({ code }) => {
-      onDidRemoteClose(code);
+      topology("base-attachment-ready");
+      logger.info("local services ready, all channels registered");
     },
   });
-  return { ...connection, backend };
-}
+  await startup.coordinator.start();
+});

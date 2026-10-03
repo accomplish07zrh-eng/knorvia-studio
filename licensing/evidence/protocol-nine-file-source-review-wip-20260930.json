@@ -1,0 +1,2804 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-09-30",
+  "status": "bounded span review packet prepared; technical findings only; independent acceptance and grants pending",
+  "branch": "parallel/protocol-source-review-20260930-nine",
+  "checkpointBaseCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+  "productionEdits": 0,
+  "acceptedNewSourceClosuresOrMitGrants": 0,
+  "sourceExposure": true,
+  "cleanRoomClaim": false,
+  "independentReviewer": null,
+  "newRuntimeTestsExecuted": false,
+  "scope": {
+    "reviewOnlyExistingProductionFiles": 9,
+    "candidateLines": 950,
+    "sharedSourceDenominatorAtPreviousHandoff": 227,
+    "existingAcceptedHashMatched": 12,
+    "unclosed": 215,
+    "previousTrackBehaviorVerified": 9,
+    "unclosedNotReplacedByTrack": 206
+  },
+  "files": [
+    {
+      "path": "packages/shared/src/protocol-v4/wire-binary.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+      "bytes": 1722,
+      "lineCount": 44,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "28f287c5764d3d7afa56b6291e3cc67f4234ccb5749f365a66cc7260ddcfbfee",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-binary.ts",
+        "blob": "bb4633f9f46a334f29cd9b6c7af44ec08c158cb8",
+        "normalizedSha256": "28f287c5764d3d7afa56b6291e3cc67f4234ccb5749f365a66cc7260ddcfbfee",
+        "contentMatchedPaths": ["packages/shared/src/zcode-protocol-v4/wire-binary.ts"]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [4, 10],
+          "baselineLines": [3, 9],
+          "sha256": "4f4e1861e43d8605aaa22ab5a76dc4de8b4a9006c5abf24532c7dbd1c12a26a0"
+        },
+        {
+          "candidateLines": [37, 39],
+          "baselineLines": [44, 46],
+          "sha256": "844f2196b5371ca2dfa57eb5b6bae115912bc2683331ea5b26f9e1f81f3507cc"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-binary.ts",
+        "blob": "bb4633f9f46a334f29cd9b6c7af44ec08c158cb8",
+        "sha256": "28f287c5764d3d7afa56b6291e3cc67f4234ccb5749f365a66cc7260ddcfbfee",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+        "gitBlob": "4137d49bb9047e7f22cc436a971cc20fbcd7b0be",
+        "bytes": 1722,
+        "lineCount": 44,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "wire-binary-1",
+          "candidateLines": [1, 5],
+          "sha256": "ca8ad3b914b1f7cbcc049bbe9f00f9419e4251a82b1b898ece9d54baafaec2d9",
+          "categories": ["interface-constraint", "new-design-candidate"],
+          "subject": "Migration notice and Zod import",
+          "engineeringBaselineCorrespondence": [],
+          "designBasis": "W: pure Node/browser boundary; notices disclose exposure.",
+          "reviewQuestion": "Confirm notice authorship; an import binds a third-party API, not ownership of Zod.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-binary-2",
+          "candidateLines": [6, 10],
+          "sha256": "115ae614d40873ed593b996f6e72c8224ea87b54d561bcbf27a0a3772043107f",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Existing Base64 Zod schema",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [5, 9],
+              "sha256": "115ae614d40873ed593b996f6e72c8224ea87b54d561bcbf27a0a3772043107f",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "W: minimum four characters, alphabet, padding shape; empty/noncanonical-bit acceptance is project policy.",
+          "reviewQuestion": "Separate the accepted language from the verbatim regex/schema chain; RFC4648 does not require this exact code.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-binary-3",
+          "candidateLines": [11, 26],
+          "sha256": "aa21d0f82e0bd5e42f8b672db918eca1d446b1e49983658c46ba6bc1cf818203",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "CRC table generation and table-driven reduction",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [10, 19],
+              "sha256": "7e3255e1e56ad13c4ba140f63338894b55dfb63dfc80f6ebb9a28209ec74a0fc",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W plus RFC1952 section 3.2 and Appendix: reflected CRC parameters; table precomputation replaces per-input-bit iteration.",
+          "reviewQuestion": "Review table-generation expression and design history; numeric polynomial and test agreement alone cannot grant rights.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-binary-4",
+          "candidateLines": [27, 38],
+          "sha256": "24ab1a9d799f057c45e027779f86e6d4a8adb7107e4914105d7dab31446c9c76",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Bounded native Base64 encoding",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [21, 44],
+              "sha256": "9e71a61f358643dfc45aecfd511a020b68e7fb4fef365bde64330067abd8aa4a",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W plus RFC4648 section 4 and HTML btoa: chunks end on three-byte boundaries; input block is 12288 bytes.",
+          "reviewQuestion": "Confirm chunk-size rationale and generation record; no RFC sample implementation was copied into this packet.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-binary-5",
+          "candidateLines": [39, 44],
+          "sha256": "888ee1085adb6ed3d70e58ac5b6ffd8450b393ce9e74ac0ff54a5b64717c174f",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Schema-gated native Base64 decoding",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [46, 65],
+              "sha256": "6d559d58795f72dd06b8a02be1d1e95ade2b093e3ac3313916ee385c6727e7d5",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W plus HTML atob: retain protocol gate before forgiving native decoding; return byte array.",
+          "reviewQuestion": "Review the retained safeParse guard separately from new native conversion; do not tighten accepted padding bits.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "bytes": 6940,
+      "lineCount": 191,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+      "ledgerClassification": "upstream-modified",
+      "ledgerUpstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+        "blob": "0332e837eac7b8805a12cb8dd3210599632e373e",
+        "normalizedSha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+        "contentMatchedPaths": []
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [4, 12],
+          "baselineLines": [3, 11],
+          "sha256": "196afc3ef2315794dabb22642007d83bb69d8f115c2e9398e8b9831a3ddb4450"
+        },
+        {
+          "candidateLines": [45, 55],
+          "baselineLines": [20, 30],
+          "sha256": "40294c97130e9d6d1e36e8ebf0a5b36d62093e708d181e74720204ac0844af50"
+        },
+        {
+          "candidateLines": [61, 72],
+          "baselineLines": [71, 82],
+          "sha256": "bf339850349ecc47df739cfd63a0998478ef4cddf53060b64ab79080b631626a"
+        },
+        {
+          "candidateLines": [73, 77],
+          "baselineLines": [87, 91],
+          "sha256": "01567cf93fcf6415867f7d84e1f0abc6dd3aa5d65c6e0591b45c87eebe2a9ee8"
+        },
+        {
+          "candidateLines": [78, 90],
+          "baselineLines": [100, 112],
+          "sha256": "882dcf7d12a6a2be7e647626e3f9a633e8baa4ac3b18a6d9cf9f46bbf172cc8f"
+        },
+        {
+          "candidateLines": [108, 110],
+          "baselineLines": [134, 136],
+          "sha256": "92040e095a94e2ada74e421f3718751a91a810bfd66f48f4e939c7b7480eb670"
+        },
+        {
+          "candidateLines": [126, 131],
+          "baselineLines": [167, 172],
+          "sha256": "ed8d42a98f75c4beea8ab1d0529436683e81631e8abe1c35c922f0277acdf166"
+        },
+        {
+          "candidateLines": [133, 136],
+          "baselineLines": [174, 177],
+          "sha256": "6a0563d3f5b848d0ec4ae195f6c493cefb080b9381c15959091200189a172f6d"
+        },
+        {
+          "candidateLines": [138, 141],
+          "baselineLines": [179, 182],
+          "sha256": "b7a78778708055ba045f8f667503ea0207cfc54199569443f56a46e27c717103"
+        },
+        {
+          "candidateLines": [175, 177],
+          "baselineLines": [216, 218],
+          "sha256": "d0334ecf8d049bfe8a20968f0ec66248f29d6bcc532d2a198db97b78615908f4"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+        "blob": "0332e837eac7b8805a12cb8dd3210599632e373e",
+        "sha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+        "engineeringBaselineEqualsUpstreamBytes": false
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+        "gitBlob": "b3018a3c5f457dada220d8b7cd410c379d48062e",
+        "bytes": 6940,
+        "lineCount": 191,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "wire-codec-1",
+          "candidateLines": [1, 12],
+          "sha256": "ec4b7bab1043a91d0ced83e0089abf74146fbe9c599467c25b78c22744b003ff",
+          "categories": ["interface-constraint", "new-design-candidate"],
+          "subject": "Migration notices and imports",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [3, 11],
+              "sha256": "196afc3ef2315794dabb22642007d83bb69d8f115c2e9398e8b9831a3ddb4450",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: no RPC implementation dependency in shared; partial VS Code attribution remains.",
+          "reviewQuestion": "Keep the existing partial attribution until exact source portions and import history are resolved.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-2",
+          "candidateLines": [13, 30],
+          "sha256": "e467d85c73f8e299db2f4c841d417f6fea33ef456966dabf7c1db1ebfb280bc0",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Closed-form VQL/JSON/RPC header byte model",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [13, 19],
+              "sha256": "f0c8d47acf75a1d807c27415dbdd094ad65eeed54bd4bce2d0c70e4ce5493153",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [37, 49],
+              "sha256": "9f3e1a941d359868a76c309cd07a0b146e8d13124d2f84c9b5df7f6d034fb232",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: unsigned-32 VQL thresholds and existing EventFire/MAX_SAFE_INTEGER encoding.",
+          "reviewQuestion": "Distinguish measuring a format from reproducing serializer expression; existing VS Code directory attribution does not prove this span is Microsoft code.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-3",
+          "candidateLines": [31, 45],
+          "sha256": "cf8d155cfad98f94586a9e0d80e113468935b9db49f3f9123184c13793e8eed9",
+          "categories": [
+            "interface-constraint",
+            "retained-product-expression",
+            "new-design-candidate",
+            "unknown-provenance"
+          ],
+          "subject": "Hoisted fixed mobile envelope projection",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [56, 69],
+              "sha256": "7b29d8f08e0bd73928351079d538cb7c236169449d8810948835abf2eaa0ebdd",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: transport field names/order, maximum IDs, native JSON byte length, conservative legacy outer budget.",
+          "reviewQuestion": "Hoisting an old object literal is not independent expression; classify literal projection and new precomputation separately.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-4",
+          "candidateLines": [46, 55],
+          "sha256": "7023dad4cb20edd1ae4996a09119a20ebe77607bfb8e5a09cc4e04745c015e3c",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Public measurement comment and return declaration",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [20, 30],
+              "sha256": "40294c97130e9d6d1e36e8ebf0a5b36d62093e708d181e74720204ac0844af50",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: three transport budgets are exported; comment is inherited prose.",
+          "reviewQuestion": "Retain functional declarations as justified; inherited explanatory prose needs a source decision or newly authored documentation.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-5",
+          "candidateLines": [56, 68],
+          "sha256": "4015b5741cd9211cdf14943bb468197dbadba73d2d3cc2b5353ae6466a79ecf0",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Envelope arithmetic and result projection",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [31, 77],
+              "sha256": "e7fdc5605972ca125c11652cb9de6df7ee42b3579c216dccecf8f4de96c4a18d",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: NDJSON newline, 13-byte socket header, Base64 expansion and exact result property order.",
+          "reviewQuestion": "Check whether arithmetic structure is newly derived; result keys and old comment/result expressions are disclosed, not accepted as original.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-6",
+          "candidateLines": [69, 79],
+          "sha256": "ef00f4f8401fa08d0809a55e5b438819217f9bbc4cfc32c62dc0f13020b6c198",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "JSON byte helper and encoding error class",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [79, 92],
+              "sha256": "31cdd6d7776b5fedac5f71ea5bf3f2af49bfd1327be1768421e781efa4618967",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: native stringify/TextEncoder, reasonCode/name/message and enumerability.",
+          "reviewQuestion": "Both bodies retain exact old expression; assess necessity of interface behavior versus optional implementation.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-7",
+          "candidateLines": [80, 90],
+          "sha256": "1b322f6df6f4661402786c070ed6bd7297055f42ac8f6dd77ff7e344aa9bf5a3",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Encoding options interface",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [102, 112],
+              "sha256": "1b322f6df6f4661402786c070ed6bd7297055f42ac8f6dd77ff7e344aa9bf5a3",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "W: exports, generic types, optional limits and measurement callback signature.",
+          "reviewQuestion": "Accept only the justified interface scope; a declaration decision cannot authorize the remaining file.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-8",
+          "candidateLines": [91, 98],
+          "sha256": "ce672ed880b49ecff0710ab495385f9f315e2c02361cad4d99e26c9062260e58",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Limit resolution helper",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [94, 100],
+              "sha256": "9c5ac59cb4b93f089ee2fde891d223794277b1bd5fecf2bd6f9793b2bad24640",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: nullish default, finite positive check, floor/clamp and error namespace.",
+          "reviewQuestion": "Review reorganized helper against old hardBound; changed name/order alone is insufficient.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-9",
+          "candidateLines": [99, 110],
+          "sha256": "db34afcf3a3f27678ad55479cc9f1c76a2ded30c6ee09a4773bad07fd7b83442",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Common frame envelope factory",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [121, 128],
+              "sha256": "b6c9162c95ed8d8b371503bac7a107eadb541f09d521d4c474769d6848a1e0be",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [188, 197],
+              "sha256": "73364b75a9d6f509db7ce4756da89083c188ed195ee6290072b1a8212ad40f5a",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: version/kind/routing/reservation fields and insertion order.",
+          "reviewQuestion": "Review the factored literal against inherited complete/fragment projections; no ownership state is created.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-10",
+          "candidateLines": [111, 127],
+          "sha256": "0daac8ec1f7f72b544f5e562614b93d142a13461de87b3ac2089fd38a0df42e1",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Fragment closure factory",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [113, 135],
+              "sha256": "8bd2b7c5e7b6ab81f9fecd144d2f78718d926508e935ea5b50b5596f78046354",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: one reservation supplies every physical frame; metadata/checksum/property order frozen.",
+          "reviewQuestion": "Determine originality of closure design while accounting for inherited field projection expression.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-11",
+          "candidateLines": [128, 148],
+          "sha256": "ebd5cc34a2c17940959974946002c1779dd8f5c23cbc9694064ab54cdeb1869c",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Encoder admission and complete-frame path",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [169, 200],
+              "sha256": "a7383c5ec468f828ab4d88c13148b87d0a01bfa389c5dfc136c582cc964a2904",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: assembly validation precedes callback; limits and complete payload identity frozen.",
+          "reviewQuestion": "Assess retained branch topology separately from helper factoring and native serialization.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-12",
+          "candidateLines": [149, 173],
+          "sha256": "25e775bf23722a7fd903708676d27487c4b150547ecf0bddbd7eee854b046f0b",
+          "categories": [
+            "interface-constraint",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "CRC setup and integer bisection/probe loop",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [137, 166],
+              "sha256": "1f40afdf2bdcabc61df7e3b0051f432c80799f5bc80570e7df19f7a17d914e3e",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [202, 214],
+              "sha256": "2ad0f380283849d4d41af86eca812df3901ca91780f1c66c2c59baaa47123c61",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: exact probe sequence and stateful callback observations were deliberately frozen.",
+          "reviewQuestion": "Explicitly review inherited search/control flow; freezing a sequence does not prove every lexical expression necessary or independent.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-codec-13",
+          "candidateLines": [174, 191],
+          "sha256": "c48316bbca0685dab48d78e8ad4e4106683886f6eb7e7d464bd45ea2fdadbe4c",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Fragment materialization and final measurement",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [215, 240],
+              "sha256": "57c25011f5318a98bd01aae7b20d38cd07d09b1c426ea049fdadef7c66d982d8",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: exact chunks, count limit, per-output recheck, propagated callback failures; no partial result.",
+          "reviewQuestion": "Array.from replaces accumulation but retains payload/error projection; review substantive new structure, not identifier differences.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true,
+      "upstreamToEngineeringBaselineChanges": [
+        {
+          "upstreamLines": [38, 38],
+          "baselineLines": [38, 38],
+          "change": "branding token only; not independent replacement"
+        },
+        {
+          "upstreamLines": [60, 60],
+          "baselineLines": [60, 60],
+          "change": "branding token only; not independent replacement"
+        }
+      ]
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-reassembly.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+      "bytes": 7045,
+      "lineCount": 176,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "fc090b21e32eea5e3c8f7a1606336d74a6d19c85a1f560701d01987335b10ea6",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-reassembly.ts",
+        "blob": "629c67182dfecdaab03347781b318d230b8d4c71",
+        "normalizedSha256": "fc090b21e32eea5e3c8f7a1606336d74a6d19c85a1f560701d01987335b10ea6",
+        "contentMatchedPaths": ["packages/shared/src/zcode-protocol-v4/wire-reassembly.ts"]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [4, 17],
+          "baselineLines": [3, 16],
+          "sha256": "4a68226e8c0c80af2f92f60b0a47393bfa046e04d9eb053ebdb69a8d7053d582"
+        },
+        {
+          "candidateLines": [142, 148],
+          "baselineLines": [28, 34],
+          "sha256": "6a4ab7256529a4a4b538d9b08a900e19058ccc8b73c931a61a1eada754037410"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-reassembly.ts",
+        "blob": "629c67182dfecdaab03347781b318d230b8d4c71",
+        "sha256": "fc090b21e32eea5e3c8f7a1606336d74a6d19c85a1f560701d01987335b10ea6",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+        "gitBlob": "57acde12808f62f9cff98a53f2835990b0a11929",
+        "bytes": 7045,
+        "lineCount": 176,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "wire-reassembly-1",
+          "candidateLines": [1, 17],
+          "sha256": "da6d9cd222533fab254f7057122456011a1295599fa40645ea6378defbab29ee",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression"
+          ],
+          "subject": "Migration notes, imports and public result union",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [3, 16],
+              "sha256": "4a68226e8c0c80af2f92f60b0a47393bfa046e04d9eb053ebdb69a8d7053d582",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: complete/incomplete/rejected shapes and delivery metadata.",
+          "reviewQuestion": "Separate new notices from identical declaration expression; retain third-party Zod scope.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-2",
+          "candidateLines": [18, 29],
+          "sha256": "6d962a0923c4f6f7c70782b0ac4c01018746ebf6b09206bed7047fb2f10563be",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Private stage/result types and rejection helper",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [35, 36],
+              "sha256": "93abc7e38e25e949cd218083ae023d1c7517f3c6b0f7028b5e440fb78e84e5f6",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [103, 106],
+              "sha256": "10b63553b5dca1d0b938b90440df4a96b55b70870bfd77805de9c9e94fd58d93",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: pure batch phases with no persistent state; common reason projection.",
+          "reviewQuestion": "Review new private phase vocabulary and helper authorship, without assigning ownership to error identifiers.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-3",
+          "candidateLines": [30, 38],
+          "sha256": "57560ce1c02a90121e12659a297a3a0c54dc6a752594ed3b6be39fa7721fd110",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Inner routing predicate",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [21, 28],
+              "sha256": "56a521dc838acb2c8a175e02eb1ccceaee991ce947e470ac7b040cc8af1658fe",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: object guard and topic/subscription match, no stricter schema.",
+          "reviewQuestion": "Reversed guard and renamed locals remain close to old body; independent derivation remains an open question.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-4",
+          "candidateLines": [39, 49],
+          "sha256": "80bd9d5a06e4d120e865d6da777b23cf9477892a908c87104c5fa5d985b996eb",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Payload schema validation helper",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [64, 67],
+              "sha256": "df21ea47974d66f72902b2c7380aec23a4a01f980041a5ec8ece7cb36c74e3b8",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [203, 206],
+              "sha256": "2e9085b6b59b5608d83be821f289b9d5406151635785f159835fd4ac14a0fabf",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: parsed.data is returned and deliveryKind is read after schema transformation.",
+          "reviewQuestion": "Review factoring against old ternary expression; preserve mutation/getter timing already covered by reviewed engineering evidence.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-5",
+          "candidateLines": [50, 71],
+          "sha256": "67a2af15422459e12e14dd8cb4ac01658079fd44bf06a33bd431c737ed385888",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Assembly field table and metadata check",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [88, 106],
+              "sha256": "545448ac0bc0f2e6021267ed103743daa158f22370d9e553d06dbc79d7f53746",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: identity/checksum/index/count comparisons and their ordering.",
+          "reviewQuestion": "Field-array design is new candidate expression; old predicates/fault namespace remain disclosed.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-6",
+          "candidateLines": [72, 75],
+          "sha256": "61f5491292debb6b8330688d4984672945b55facf5dac4312c7a87c958bc193d",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Decoded byte equality",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [117, 125],
+              "sha256": "afea5e4b33a8709c96fac3018ab3c76c00e15ae51608d41877fe86eec4066692",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: duplicates compare decoded bytes, including alternate Base64 spellings.",
+          "reviewQuestion": "Review every-versus-some transformation and common idiom; do not infer independence from its short length.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-7",
+          "candidateLines": [76, 101],
+          "sha256": "50c956feeb9b96e2028eb21d49dbde5bcc536907889eefbac47ddefb2a867d34",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Ordered per-fragment staging",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [85, 145],
+              "sha256": "a102a8bb82abf27e805d67a1e517fb19fc7371258b7f1cd4df695764099620fb",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: metadata, Base64, duplicate conflict, cumulative hard limit, then advertised-length limit for each arrival.",
+          "reviewQuestion": "The staged object is a new design candidate; old loop/error precedence and Map updates need substantive expression review.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-8",
+          "candidateLines": [102, 125],
+          "sha256": "27317b3fd9aaf2ff3c229927504de5026519f5f3f9cb41890d6f5958c6236573",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Missing-index detection and byte reconstruction",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [147, 171],
+              "sha256": "ea1763e3b33b29eac9badd848ab76dc705fe2e0dacb223cd81689a573c3be1f9",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: ascending missing indices before length check, ordered assembly with one allocation.",
+          "reviewQuestion": "Review split phase and typed outcome against inherited iteration/concatenation structure.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-9",
+          "candidateLines": [126, 143],
+          "sha256": "ac403da5440799548a04080372280e267bdbcbeed7189d056e051ca69637fa8a",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Checksum, fatal UTF-8 and JSON decoding",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [172, 196],
+              "sha256": "29718fbd086d441bfdfc10958ae9a57951a7ae2c83abf61a3727d45fc882b366",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: checksum precedes decoder and native JSON parsing; exact failure namespace.",
+          "reviewQuestion": "Separate required failure precedence/native calls from inherited try/catch and return structure.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-10",
+          "candidateLines": [144, 163],
+          "sha256": "98f57ab67f12a8b994fdbd35fc87afa5ebeb9eef66fe5a5e2e1de0b956bf0c21",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Public entry and complete path",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [30, 68],
+              "sha256": "da906daa4ab431d793fddfda0395bbfa0731922d85c605d5f419cb3743ba64d9",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: empty/limit errors, complete metadata/byte/schema checks in frozen order.",
+          "reviewQuestion": "Stage extraction alone is not a source closure; assess retained admission expressions.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wire-reassembly-11",
+          "candidateLines": [164, 176],
+          "sha256": "94755c484ecf39bc32f5991bae4fff09b57ea17485e7478d89727ce7e9cefd1c",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Fragment orchestration",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [70, 83],
+              "sha256": "b125f53a1c792a395039b52d9f04311b746ed2e2c706f9bab7fade58a81f8433",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [197, 206],
+              "sha256": "812e6e70d31fb9a54b6e1c44880fa8533cb97405ec979d3743329c10915bc878",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "W: count/size before staging, then reconstruct/decode/routing/schema; atomic logical output.",
+          "reviewQuestion": "Review the explicit stage orchestration as new candidate design; preserve existing count, error and routing semantics.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604",
+      "bytes": 5675,
+      "lineCount": 117,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "71e40267d7c4ae5d72c5a6033c6c256f5293b743cd9c48d8015f6108002496ef",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-concurrency.ts",
+        "blob": "bbadd8560723bfc4b39ce87445d3f8fdf44e785f",
+        "normalizedSha256": "71e40267d7c4ae5d72c5a6033c6c256f5293b743cd9c48d8015f6108002496ef",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/workflow-runs-concurrency.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [2, 32],
+          "baselineLines": [1, 31],
+          "sha256": "24a0b8271d160ac8faa3238096f67b689eb35c336a773c4977cb73883fd4c03c"
+        },
+        {
+          "candidateLines": [52, 69],
+          "baselineLines": [52, 69],
+          "sha256": "554178eba4fd9c4dee439edbcccb69ab87c239a1f1c3d844d143f5004d992044"
+        },
+        {
+          "candidateLines": [72, 75],
+          "baselineLines": [72, 75],
+          "sha256": "935e3e8b085da5244b1905d7b1406000d7426298d0e1b7a4f5ad7175d8f730e5"
+        },
+        {
+          "candidateLines": [89, 97],
+          "baselineLines": [92, 100],
+          "sha256": "39ff3fbc5b3adf936452ca44025f82a33ba50e8bc5a8ad965cbaefc649b578cb"
+        },
+        {
+          "candidateLines": [107, 117],
+          "baselineLines": [111, 121],
+          "sha256": "9bcba3dd8edde07cc778ba8a1d13c31e14d5446e45d4b13df728a3c6cae86702"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-concurrency.ts",
+        "blob": "bbadd8560723bfc4b39ce87445d3f8fdf44e785f",
+        "sha256": "71e40267d7c4ae5d72c5a6033c6c256f5293b743cd9c48d8015f6108002496ef",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604",
+        "gitBlob": "7d6f2a0898f9550f3a76238f8ea7ffeb4007075f",
+        "bytes": 5675,
+        "lineCount": 117,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "workflow-runs-concurrency-1",
+          "candidateLines": [1, 14],
+          "sha256": "f555b185afde6fdd4ea5f1399f67f270d521a0b500a2cc384b40f75126faa111",
+          "categories": [
+            "interface-constraint",
+            "retained-product-expression",
+            "new-design-candidate"
+          ],
+          "subject": "Migration note, inherited module commentary and imports",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [1, 13],
+              "sha256": "7a1a02e846887729f21ebf4da1e917f9c25822e9ca43dfa2e7d7bc70de62f89c",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: pure event projection; deadline ownership remains outside shared.",
+          "reviewQuestion": "The historical extraction/max-lines prose is inherited and not proof of a Knorvia design.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-2",
+          "candidateLines": [15, 28],
+          "sha256": "5ad2b41b1dca5147eb010fd829c9c37aacea19503b3ca3204e82fc008af29778",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Idle-reset constant and concurrency commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [14, 27],
+              "sha256": "5ad2b41b1dca5147eb010fd829c9c37aacea19503b3ca3204e82fc008af29778",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: idle_reset clears cooldown; per-run limit differs from shared bucket.",
+          "reviewQuestion": "Separate reason token from substantial verbatim explanatory prose.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-3",
+          "candidateLines": [29, 53],
+          "sha256": "3e39e084e90a5c3d96f9a01da11a97d73bea52bdab811c1c50b2e3ca5e5e86c7",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Conditional concurrency projection",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [28, 52],
+              "sha256": "c7ee153d6faf2eaf393c266dfbafd642e27aca45543890f34169e7cfabc6cce8",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: validate next/previous; monotonic ceiling; ordered optional key/limit/cooldown fields.",
+          "reviewQuestion": "Explicit assignments replace spreads, but old reads/order remain; determine substantive originality rather than cosmetic differences.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-4",
+          "candidateLines": [54, 65],
+          "sha256": "15bbfc2e73fd3aa3ec209b8dc492088be5e1f7cc6a4d70d646ed3c2f438010de",
+          "categories": ["retained-product-expression", "interface-constraint"],
+          "subject": "Run-started concurrency commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [54, 65],
+              "sha256": "15bbfc2e73fd3aa3ec209b8dc492088be5e1f7cc6a4d70d646ed3c2f438010de",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: retain learned bucket cap on resume and expose configured ceiling.",
+          "reviewQuestion": "Inherited commentary remains source material even if code below is changed.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-5",
+          "candidateLines": [66, 90],
+          "sha256": "cad876b33bab512a2c5ba995719aca1be7802fac39739bc65b20efbed4e3810f",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Planned run-started changes",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [66, 92],
+              "sha256": "e9c654fa057ef00d658fac17dc2b2179d27084199b1ee503fb12e8c6c3dc151f",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: independent ceiling/configuration and bucket observation changes, one final run copy, no-op identity.",
+          "reviewQuestion": "Review change-plan design/history against old withCeiling path and retained bucket projection.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-6",
+          "candidateLines": [91, 95],
+          "sha256": "cd331fefcf5af91e0efd282ae55393a9e49804dc10037550523a98339f767863",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Terminal cooldown commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [94, 98],
+              "sha256": "cd331fefcf5af91e0efd282ae55393a9e49804dc10037550523a98339f767863",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: terminal event removes cooldown and preserves historical cap/ceiling.",
+          "reviewQuestion": "Distinguish rule from verbatim narrative; documentation can be rewritten from a factual contract.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-7",
+          "candidateLines": [96, 102],
+          "sha256": "c4f6ea93282d611a300933f6278d90c147066664be8f2e2c9fe7f25c9253fc57",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Cooldown deletion projection",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [99, 103],
+              "sha256": "a24b7a86246e56fe654926efba514360f5c79c61c4d53f4b215c30589ab524c2",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: preserve no-op reference; clone concurrency, remove only cooldown.",
+          "reviewQuestion": "Compare copy/delete with old rest projection; do not call a small syntactic change independent.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-8",
+          "candidateLines": [103, 108],
+          "sha256": "2a4388d3ea36e3b0babe1e55a0c156af350169eeedf59d42ab31af42527b21b7",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Parameterized integer reader",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [105, 111],
+              "sha256": "2765874c35b174eb5751db7c9c5b8d04e774b6a0f27f13d9dc775221a8605ecb",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: Number.isInteger thresholds 1/0, no safe-integer tightening.",
+          "reviewQuestion": "Review helper consolidation as new candidate; primitive comparisons do not establish grant authority.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-concurrency-9",
+          "candidateLines": [109, 117],
+          "sha256": "00293a69b6990eb357285e8c19a436738e6ff453051f7a9df56dd505760a9a76",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "String and record readers",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [113, 121],
+              "sha256": "00293a69b6990eb357285e8c19a436738e6ff453051f7a9df56dd505760a9a76",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: nonempty untrimmed string, object/non-null/non-array record.",
+          "reviewQuestion": "Bodies remain exact old expression; determine justified commonplace constraints versus inherited product code.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+      "bytes": 4940,
+      "lineCount": 105,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "cdf68ca8274f35adc36e52318804fec3dac59a9c5a542da57d4f218de203d0df",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-phases.ts",
+        "blob": "f1c223bd06befe04cbb2d2248058755dae5f18e5",
+        "normalizedSha256": "cdf68ca8274f35adc36e52318804fec3dac59a9c5a542da57d4f218de203d0df",
+        "contentMatchedPaths": ["packages/shared/src/zcode-protocol-v4/workflow-runs-phases.ts"]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [3, 50],
+          "baselineLines": [6, 53],
+          "sha256": "2b046ccd61073718512e8d6a14217a9426cb79af9cb81374bdc92de322731f49"
+        },
+        {
+          "candidateLines": [76, 89],
+          "baselineLines": [72, 85],
+          "sha256": "880f342f6a49cdabce1105927f8b14c16b00a17409e162067e0cd54b15e75e53"
+        },
+        {
+          "candidateLines": [98, 102],
+          "baselineLines": [100, 104],
+          "sha256": "3714f2da7c18e0aa1fade66faaba65691d03c3d0e3b206131b83dcfcdad7daed"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-phases.ts",
+        "blob": "f1c223bd06befe04cbb2d2248058755dae5f18e5",
+        "sha256": "cdf68ca8274f35adc36e52318804fec3dac59a9c5a542da57d4f218de203d0df",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+        "gitBlob": "7f66f1089ed8aea49e59743c3ac42a81ba0cea54",
+        "bytes": 4940,
+        "lineCount": 105,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "workflow-runs-phases-1",
+          "candidateLines": [1, 3],
+          "sha256": "c6763925a7c79dae7e188da561bad512ddf9979fb84e87b5b1e628f06e1f51fa",
+          "categories": ["interface-constraint", "new-design-candidate"],
+          "subject": "Migration note and imports",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [1, 6],
+              "sha256": "d83aac29b2783e49ffcfb90a1d1f1f4341f5c114cd6445f2acf46f47f2b5c94e",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: phase updates do not own node/actor lifecycle.",
+          "reviewQuestion": "Confirm new notice origin; removing an unused type import is not independent implementation.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-phases-2",
+          "candidateLines": [4, 21],
+          "sha256": "2b592e56fec2cb7f24978abd112505944b29c787913e11c20fc8d18433231c52",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Phase-entered and run-launched commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [7, 24],
+              "sha256": "2b592e56fec2cb7f24978abd112505944b29c787913e11c20fc8d18433231c52",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: replay semantics, phase limits, accepted name-table indices.",
+          "reviewQuestion": "Both substantial comment blocks are verbatim inherited expression, including their placement.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-phases-3",
+          "candidateLines": [22, 39],
+          "sha256": "ddaba0296fbd452b30f5505a963f6a392cb639a281cae006f4c234a161c9ec24",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Run-launched projection",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [25, 42],
+              "sha256": "ddaba0296fbd452b30f5505a963f6a392cb639a281cae006f4c234a161c9ec24",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: accept/truncate names in order, reject empty, then derive alongside table; absence preserves old keys.",
+          "reviewQuestion": "The full function body is byte-identical to old source; this is a concrete unresolved product implementation, not a new design claim.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-phases-4",
+          "candidateLines": [40, 50],
+          "sha256": "4b9aacb5b0efaa16f494a8213e53a89f8b6ba5c7dcdbfd216b5806b9d671097d",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Alongside commentary and admission",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [43, 53],
+              "sha256": "4b9aacb5b0efaa16f494a8213e53a89f8b6ba5c7dcdbfd216b5806b9d671097d",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: accepted table indices, self-edge rejection, stable order, absent empty adjacency.",
+          "reviewQuestion": "Keep rules distinct from inherited prose/signature/guard expression.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-phases-5",
+          "candidateLines": [51, 77],
+          "sha256": "74d630841d356925414e2ca544dc3834690ba9811b0e98043ec3bbe7bb3ee260",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Stable-set adjacency reduction",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [54, 72],
+              "sha256": "af098ceb0fd59422b80399245866099d1ee36cd2492f29f5fa97812f585a823b",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: Set tests duplicates, original scalar is pushed, including first -0; fill all accepted rows.",
+          "reviewQuestion": "Review Set design against old includes loop; preserve original scalar and cap behavior.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-phases-6",
+          "candidateLines": [78, 89],
+          "sha256": "0899d020f936f28a314f4dbbe72ae94f4a95a5120d7a59ab441f89d2008d20bb",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Phase-entered signature and scalar admission",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [74, 85],
+              "sha256": "0899d020f936f28a314f4dbbe72ae94f4a95a5120d7a59ab441f89d2008d20bb",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: name bounds, ordinal fallback, no-op for invalid names.",
+          "reviewQuestion": "Retained reads and ternary are disclosed; a public signature does not make its body an interface.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-phases-7",
+          "candidateLines": [90, 105],
+          "sha256": "af9bc6c21561626280906686a668e725f04e76c83e763d023b45b47ae2b59995",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Single-slot phase update and truncation",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [86, 107],
+              "sha256": "db728bcca93068887775881a59d77f3a32ff7fe6917a2a77b76fb91fada49348",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: first matching name, monotonic rounds with old >=/NaN behavior, full-table rejection but currentPhase update.",
+          "reviewQuestion": "Review slice/single-slot design against old map branch; no cosmetic-only acceptance.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+      "bytes": 6890,
+      "lineCount": 131,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "2d56d1582fabc564ad9b087eafeef72a2c5fbd6cad16414b4d1051008f811ca1",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-node-progress.ts",
+        "blob": "072f72283743594f12304cb40dcb01e59db5ef19",
+        "normalizedSha256": "2d56d1582fabc564ad9b087eafeef72a2c5fbd6cad16414b4d1051008f811ca1",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/workflow-runs-node-progress.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [2, 50],
+          "baselineLines": [1, 49],
+          "sha256": "fccbb410920bee0ecfc86757b430b77144ad8fdf110289a7ea4001e0c011f08e"
+        },
+        {
+          "candidateLines": [53, 56],
+          "baselineLines": [53, 56],
+          "sha256": "32d8c339b224ac68e3b185c2ab0619524c070dce3cbaed335ff1d3bf4d7f5281"
+        },
+        {
+          "candidateLines": [67, 83],
+          "baselineLines": [64, 80],
+          "sha256": "4192aabf7e7df78cc5b53e2470a2b063d4856b591fe725a3eba152a3372714d5"
+        },
+        {
+          "candidateLines": [100, 102],
+          "baselineLines": [96, 98],
+          "sha256": "d2147f1aa0f11793f22fc90472734a6a373dddfcbfde55016584cd0ae376a7a2"
+        },
+        {
+          "candidateLines": [107, 131],
+          "baselineLines": [107, 131],
+          "sha256": "10fdf16c07373a5b81b6c4e0e5ac986baf135acddeb2d4bd2d59d303fa295629"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-node-progress.ts",
+        "blob": "072f72283743594f12304cb40dcb01e59db5ef19",
+        "sha256": "2d56d1582fabc564ad9b087eafeef72a2c5fbd6cad16414b4d1051008f811ca1",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+        "gitBlob": "0a6890bb75e8e8ed8773e0926f94ffbcdbeee7aa",
+        "bytes": 6890,
+        "lineCount": 131,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "workflow-runs-node-progress-1",
+          "candidateLines": [1, 28],
+          "sha256": "87eb6526a61df172c506e6777c75de8953c3c7b47745b0577faf66ced69f2fae",
+          "categories": [
+            "interface-constraint",
+            "retained-product-expression",
+            "new-design-candidate"
+          ],
+          "subject": "Migration notice, inherited lifecycle narrative and imports",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [1, 27],
+              "sha256": "b80d08ae32f1643582c300db1d965157d4083999dbd956a0b76ac088e74f5931",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: node events rebuild records; birth/replay reset counts.",
+          "reviewQuestion": "Long narrative comments are inherited expression, not a public standard.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-node-progress-2",
+          "candidateLines": [29, 45],
+          "sha256": "a53c053945b64799921ebf8c211ab8d2ec1e226acf8457d097fce9c60be1b980",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Progress field type and carry commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [28, 44],
+              "sha256": "a53c053945b64799921ebf8c211ab8d2ec1e226acf8457d097fce9c60be1b980",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: instructionsHead and three progress readings have different cached-birth rules.",
+          "reviewQuestion": "Separate field vocabulary from verbatim explanatory narrative.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-node-progress-3",
+          "candidateLines": [46, 68],
+          "sha256": "727aa626c2e1333dd24be823b0b9564ef8fc0afff7a3156ddd2f7d26b71b7567",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Birth/carry field policy projection",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [45, 65],
+              "sha256": "0d8571fc530486a0326b24903d10b253c404a2c3da5e6a5012725e6b35c26190",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: queued/cached birth clears readings; queued head is fresh; other events may carry prior head/readings.",
+          "reviewQuestion": "Review policy-loop design versus old spread projection; retained rule and getter/field order remain constraints.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-node-progress-4",
+          "candidateLines": [69, 78],
+          "sha256": "7aeb2544d4d0d065ba47d5ce043e922358ce96733b12f0209b6eed6f6814bbdb",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Node-progress commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [66, 75],
+              "sha256": "7aeb2544d4d0d065ba47d5ce043e922358ce96733b12f0209b6eed6f6814bbdb",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: only existing nodes, later valid readings overwrite and absent/invalid readings carry.",
+          "reviewQuestion": "This entire comment is retained upstream prose.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-node-progress-5",
+          "candidateLines": [79, 102],
+          "sha256": "844383dbbb2af3741828243886433f8dbf6fdf433bc567f8092e86d42310a8c0",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Matched-node readings and copy update",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [76, 97],
+              "sha256": "4746fdcba1e271ea1cfc850789727f7ccaa9267e6a84758d962d1d14d3dfa7da",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: first siteId/ordinal match, no-op when absent, copy only selected node/path; preserve unknown fields.",
+          "reviewQuestion": "Review reading object and Object.entries update against old inline object; no lifecycle or ownership scope expansion.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-node-progress-6",
+          "candidateLines": [103, 108],
+          "sha256": "2a4388d3ea36e3b0babe1e55a0c156af350169eeedf59d42ab31af42527b21b7",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Parameterized integer reader",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [99, 107],
+              "sha256": "056486b70e7a8c87b50e7dab8466ed4f47e9316a2332c80c912c2932f7adc1ae",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "P: turn >=1, toolCalls >=0 with original integer predicate.",
+          "reviewQuestion": "Review consolidation; the loss of old helper comments is not itself independent authorship.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-node-progress-7",
+          "candidateLines": [109, 118],
+          "sha256": "42be326ea60485de28b57ef20e8b2e85bf6922ff8b1b7609a1a7b332c8225ef9",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Last-tool reader and commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [109, 118],
+              "sha256": "42be326ea60485de28b57ef20e8b2e85bf6922ff8b1b7609a1a7b332c8225ef9",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: object-only, bounded name required, optional bounded target, ordered object keys.",
+          "reviewQuestion": "Comment and full readLastTool body are byte-identical to baseline; needs a retained-expression or replacement decision.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "workflow-runs-node-progress-8",
+          "candidateLines": [119, 131],
+          "sha256": "7a61670af90f1d89dcc3b7f42353eca5bf9ec6f8758924347f70a65ef9c04642",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Bounded-text helper and commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [119, 131],
+              "sha256": "7a61670af90f1d89dcc3b7f42353eca5bf9ec6f8758924347f70a65ef9c04642",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "P: UTF-16 slice, no trim/ellipsis, empty means absent.",
+          "reviewQuestion": "Full comment and body are byte-identical; implementation remains inherited pending review.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    },
+    {
+      "path": "packages/shared/src/remote-workspace-identity.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+      "bytes": 2830,
+      "lineCount": 67,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "1392ae30f222a4aedaf0427318527839a623e7b43dd455f061f5babc1264ce0f",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remote-workspace-identity.ts",
+        "blob": "f246cb325b36e9c933fe2689199bc616d0c6fe79",
+        "normalizedSha256": "1392ae30f222a4aedaf0427318527839a623e7b43dd455f061f5babc1264ce0f",
+        "contentMatchedPaths": ["packages/shared/src/remote-workspace-identity.ts"]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [4, 13],
+          "baselineLines": [13, 22],
+          "sha256": "8573de944e88ed67af00d3dbfe7e4566bdd667a1134aa4d2cd555d23ba8c62e6"
+        },
+        {
+          "candidateLines": [21, 26],
+          "baselineLines": [41, 46],
+          "sha256": "cade0c5454fd2674d6dd49f70c300b24064d3bd4c4dc2d7b881971c60bc3bfa1"
+        },
+        {
+          "candidateLines": [29, 51],
+          "baselineLines": [48, 70],
+          "sha256": "52f5b86b53b9619bb0348608e9deb77889bbd5b9835688be49d27029eb11d8c3"
+        },
+        {
+          "candidateLines": [62, 67],
+          "baselineLines": [108, 113],
+          "sha256": "47dc5433b9becb91f4a5c462470225964afa1abd9ef2dd9bea35e7d8053354bd"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/remote-workspace-identity.ts",
+        "blob": "f246cb325b36e9c933fe2689199bc616d0c6fe79",
+        "sha256": "1392ae30f222a4aedaf0427318527839a623e7b43dd455f061f5babc1264ce0f",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+        "gitBlob": "954edb05e529bf04f250c2353ac1b2e31c20fc3f",
+        "bytes": 2830,
+        "lineCount": 67,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "remote-workspace-identity-1",
+          "candidateLines": [1, 13],
+          "sha256": "2a84a964ba3d288c2d61a0908d90e2b31d415a20eb065c6b61f2aa98fa672d62",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression"
+          ],
+          "subject": "Migration notes, imports and public parsed identity types",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [13, 22],
+              "sha256": "8573de944e88ed67af00d3dbfe7e4566bdd667a1134aa4d2cd555d23ba8c62e6",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: distinguish identity key from actual IO path.",
+          "reviewQuestion": "Preserved field comment/declarations have source provenance; interface facts do not authorize all prose.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remote-workspace-identity-2",
+          "candidateLines": [14, 21],
+          "sha256": "1157918454dae97115d872a214b444e4431ef08db1b93a74d163b7f1a31d5668",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Anchored identity grammar table",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [23, 35],
+              "sha256": "7cab3d0cf5d9a099c57eb55fc480dceaa8b7fa195f0afc1101a41e3488701d9f",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [70, 107],
+              "sha256": "96999de5d0d1f7dc158300719609c1be11115b558f13772f41f034c5a3ae347e",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: exact ssh/wsl/docker language including legacy WSL and arbitrary path suffix; authority colon limitations frozen.",
+          "reviewQuestion": "Review regular expressions as new design candidates; project grammar is not a published independent standard.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remote-workspace-identity-3",
+          "candidateLines": [22, 26],
+          "sha256": "166e134109ee2ed683643af27ebfd99e7b9eb275f81b148e127fabb241b16ee3",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Builder commentary and public signature",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [43, 47],
+              "sha256": "383a75d7753190dd53342bb6196e7383a1a6698f9ccc1ed68cebc5559f23f048",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: one shared builder prevents conflicting identity keys.",
+          "reviewQuestion": "Comment is verbatim inherited; review separately from export compatibility.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remote-workspace-identity-4",
+          "candidateLines": [27, 28],
+          "sha256": "ad0b1e9e771bda3e782fa231b735be0ebc6dcc53c3dd8f47b69cc72bd1a22377",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Workspace path token normalization",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [37, 41],
+              "sha256": "991340e19b17ddfd7bd145c642d7898a94313ae7f1125108daec46921174543c",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [48, 48],
+              "sha256": "00fafab0b0d7a210dfb9696cc8eeca0ce809327bcaf8b0239f416b10ebf4e6e8",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: normalize separators/repeated slashes only; retain dot segments, whitespace and percent text.",
+          "reviewQuestion": "Tokenization replaces regexp chaining; review independent derivation and preserve IO-path separation.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remote-workspace-identity-5",
+          "candidateLines": [29, 43],
+          "sha256": "7935cf7932e4c62cacb1d5caf07bde06bb2c475d1466774e7750e239af1edc2c",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Remote-kind identity construction templates",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [49, 63],
+              "sha256": "fb65ea2d8e22a46348c5e7c94e3100f0110145ba1da2dcbe2f7dfed5dd99142d",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: SSH trim/lower/default port, WSL default/user, Docker verbatim container and exact string grammar.",
+          "reviewQuestion": "Full switch/template expression is inherited; necessary output bytes do not prove the switch body is independently authored.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remote-workspace-identity-6",
+          "candidateLines": [44, 51],
+          "sha256": "5e31dbac0a0b62b711bb42deea5e747040836b971de819f0739fcac528ba1891",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Parser commentary and signature",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [65, 72],
+              "sha256": "670a1f126cf4c654d4ca27d1880a7a61bba9c52b294e7c0ad87216f21f73de6e",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: return only kind/path or null, with local fallback left to callers.",
+          "reviewQuestion": "Inherited prose/signature needs a bounded interface/documentation decision.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remote-workspace-identity-7",
+          "candidateLines": [52, 63],
+          "sha256": "85550ed1b375eb68bc8d0a17055c448a532a2217f3a6f4e4f90c1765a3f9ce42",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Table-driven parser",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [73, 108],
+              "sha256": "b631eaf040cfe6fb57bb889102f06c9878c71859c7eed62a8bd8f644ed503f89",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: prefix guard, first matching anchored grammar, preserve suffix path verbatim.",
+          "reviewQuestion": "Review table-driven parser design; no stricter authority validation or identity migration is implied.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remote-workspace-identity-8",
+          "candidateLines": [64, 67],
+          "sha256": "f364eadb79b77bc3d1a627319e7ea55de73a5af162a1cb08305cf2e7289256f7",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Remote predicate and commentary",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [110, 113],
+              "sha256": "f364eadb79b77bc3d1a627319e7ea55de73a5af162a1cb08305cf2e7289256f7",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "R: predicate tracks shared parser result.",
+          "reviewQuestion": "Body and comment are inherited; conventional predicate structure still needs a reasoned source decision.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    },
+    {
+      "path": "packages/shared/src/remoteSshHostKey.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+      "bytes": 3184,
+      "lineCount": 94,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "1359d0dc69d76771cf84d2a432d2d0a1e119be381d3d0a49537279b67e10641d",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remoteSshHostKey.ts",
+        "blob": "3057acd946c7e6ea0eafacb9aee7dac5cf4149fa",
+        "normalizedSha256": "1359d0dc69d76771cf84d2a432d2d0a1e119be381d3d0a49537279b67e10641d",
+        "contentMatchedPaths": ["packages/shared/src/remoteSshHostKey.ts"]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [1, 5],
+          "baselineLines": [1, 5],
+          "sha256": "22f3fcc3eb9fe83a027546347f4f5e6dea5a53d02289bd44f189b6abe2dbec60"
+        },
+        {
+          "candidateLines": [28, 31],
+          "baselineLines": [19, 22],
+          "sha256": "e5e8550b1ad0d204bbc05e9c824ed975b826f45b510c6cf67afe80ed98e3f927"
+        },
+        {
+          "candidateLines": [45, 52],
+          "baselineLines": [69, 76],
+          "sha256": "c467422a16964368aa4751e533304dbf1bd2a3c2ef8050b5b2e0a525e48cbf3a"
+        },
+        {
+          "candidateLines": [66, 94],
+          "baselineLines": [106, 134],
+          "sha256": "ec2cd9efa2e7f36e4b88d89e87ef916b7435709db2f9c257871e627bba33e4a5"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/remoteSshHostKey.ts",
+        "blob": "3057acd946c7e6ea0eafacb9aee7dac5cf4149fa",
+        "sha256": "1359d0dc69d76771cf84d2a432d2d0a1e119be381d3d0a49537279b67e10641d",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+        "gitBlob": "d2afe566ec6920370ad006f5ca0caf0621bc3bf8",
+        "bytes": 3184,
+        "lineCount": 94,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "remoteSshHostKey-1",
+          "candidateLines": [1, 5],
+          "sha256": "22f3fcc3eb9fe83a027546347f4f5e6dea5a53d02289bd44f189b6abe2dbec60",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Public dependency imports and private target alias",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [1, 5],
+              "sha256": "22f3fcc3eb9fe83a027546347f4f5e6dea5a53d02289bd44f189b6abe2dbec60",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "R: accepts live SSH options and persisted SSH snapshot.",
+          "reviewQuestion": "Exact old alias/imports bind interface types, not proof of original rights.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remoteSshHostKey-2",
+          "candidateLines": [6, 14],
+          "sha256": "e780cf2db7d2d05ffad741c73afcb84f96b358937d416a86fd8e49cfd76b474e",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Migration notes and key-path plan",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [6, 10],
+              "sha256": "bf40a334394ef590f0b3c18f82a63850863e67d258a5e1eae73ea80cd6be4f6a",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: lexical only, no key reads/home expansion; separate protected root and reducible tokens.",
+          "reviewQuestion": "Review plan object vocabulary and generation history against old root/body structure.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remoteSshHostKey-3",
+          "candidateLines": [15, 46],
+          "sha256": "9893328c56a3ed64201a7016fba39e9594b356c866a484eead4a97e65840637f",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Root classification and path planning",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [12, 69],
+              "sha256": "63fc68922177d2a2945c160879c16f38a1c055d30eae416c0710e6c2354f1968",
+              "candidateWholeSpanByteIdentical": false
+            },
+            {
+              "lines": [77, 82],
+              "sha256": "baff1b65e7dbac359f616e404e7727d87e179ee4f467db8d3c5f13567f5332ff",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: ASCII drive normalization, old line-terminator fallback, protected UNC share, POSIX/tilde/relative roots.",
+          "reviewQuestion": "Review branch priority and root-expression derivation; Windows lexical conventions do not require this exact classifier.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remoteSshHostKey-4",
+          "candidateLines": [47, 67],
+          "sha256": "2a81dcc072f2b8d687bf99c28a8ae61eaf2f022288fe669a984af1fe7bceba82",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Token-stack private key normalization",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [71, 106],
+              "sha256": "458d2179dc7af25e0e3c4c82d64c7fac776249b53006fb08e9270cae0f13d56d",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: dot suppression, parent reduction and absolute-root bounds; no file/auth operations.",
+          "reviewQuestion": "Stack reducer remains semantically close to old normalizer; new names/compact branches are not source closure.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remoteSshHostKey-5",
+          "candidateLines": [68, 80],
+          "sha256": "a331f5c2361a045c4e32d7bda950effef40069014ea84621e4e5696f7effe201",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "SSH authentication kind classification",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [108, 120],
+              "sha256": "a331f5c2361a045c4e32d7bda950effef40069014ea84621e4e5696f7effe201",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "R: private-key priority, password presence including empty string/credential-key existence, else agent.",
+          "reviewQuestion": "Full body is byte-identical; do not claim an authentication design change or independent rewrite.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "remoteSshHostKey-6",
+          "candidateLines": [81, 94],
+          "sha256": "88ceedeaf24027fe80e4c33afa20a6029b6ebac18382c481a13e8f6438576965",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "SSH shared-key commentary and JSON builder",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [121, 134],
+              "sha256": "88ceedeaf24027fe80e4c33afa20a6029b6ebac18382c481a13e8f6438576965",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "R: exact six-element ssh:v1 tuple and getter order; secret values absent.",
+          "reviewQuestion": "Entire comment/body is byte-identical; review identity interface versus retained implementation expression.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    },
+    {
+      "path": "packages/shared/src/wslUserValidation.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+      "bytes": 834,
+      "lineCount": 25,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "96c18113f6273cc80bae560e04353cf3e991f4607ab6eb29d088954a8eec167c",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/wslUserValidation.ts",
+        "blob": "879e1366c3caa2ef4521fce160620fc36aa687b5",
+        "normalizedSha256": "96c18113f6273cc80bae560e04353cf3e991f4607ab6eb29d088954a8eec167c",
+        "contentMatchedPaths": ["packages/shared/src/wslUserValidation.ts"]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [1, 3],
+          "baselineLines": [1, 3],
+          "sha256": "600e1baee343e3a6a92749eaf17b57d8754910a3bed201141f7cc8e5a2ca6230"
+        },
+        {
+          "candidateLines": [9, 14],
+          "baselineLines": [4, 9],
+          "sha256": "8bea55c0cb3038035f2c462fb2fdce7521aaf4754d155a81d13b483e8af7ee6c"
+        },
+        {
+          "candidateLines": [17, 25],
+          "baselineLines": [25, 33],
+          "sha256": "4dde56daea65f2efc60f311470ef86afc77cb1f37de329acec50bc6fffe31e27"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "all lines assigned to provisional semantic spans; acceptance pending separate reviewer and contributor authority",
+      "upstreamBindingRevalidated": {
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "path": "packages/shared/src/wslUserValidation.ts",
+        "blob": "879e1366c3caa2ef4521fce160620fc36aa687b5",
+        "sha256": "96c18113f6273cc80bae560e04353cf3e991f4607ab6eb29d088954a8eec167c",
+        "engineeringBaselineEqualsUpstreamBytes": true
+      },
+      "candidateBindingRevalidated": {
+        "checkpointCommit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+        "sha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+        "gitBlob": "227208cf25356c5765099d058de3650d8a729a52",
+        "bytes": 834,
+        "lineCount": 25,
+        "candidateCommitAndWorktreeByteIdentical": true
+      },
+      "spans": [
+        {
+          "id": "wslUserValidation-1",
+          "candidateLines": [1, 4],
+          "sha256": "65497d36335820b0eff73bebbf01b1b0cc0ca549b27da1e10275a42e7c100578",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "Zod import and maximum length constant",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [1, 4],
+              "sha256": "65497d36335820b0eff73bebbf01b1b0cc0ca549b27da1e10275a42e7c100578",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "R: existing export and UTF-16 max length 64.",
+          "reviewQuestion": "Numeric bound is a contract fact; preserve Zod dependency license and review declaration scope.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wslUserValidation-2",
+          "candidateLines": [5, 9],
+          "sha256": "cffbc8d3a24a18696cc47b30719c1468db00e4264ee71d770eef8e89883b677a",
+          "categories": ["interface-constraint", "new-design-candidate", "unknown-provenance"],
+          "subject": "Migration comments and forbidden-character set",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [17, 26],
+              "sha256": "7582b26b2f294189c3ca2b66f658502cc8520b441bea00c9ee7fee8ac963305d",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: C0/DEL/colon/slashes forbidden; C1/Unicode remains allowed.",
+          "reviewQuestion": "Review set predicate independently; old control-character loop supplied behavior, not a published WSL standard.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wslUserValidation-3",
+          "candidateLines": [10, 18],
+          "sha256": "2debe4a6be5f03aebde1a98ca671bd90c38b57eaae316af8c221f91fc94522f8",
+          "categories": [
+            "interface-constraint",
+            "new-design-candidate",
+            "retained-product-expression",
+            "unknown-provenance"
+          ],
+          "subject": "Trim/length/set predicate",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [5, 16],
+              "sha256": "c2c0a672c624f2d048e9cf5d68f897aff901ab8ef77b0f1cc43c812e86c7e3ea",
+              "candidateWholeSpanByteIdentical": false
+            }
+          ],
+          "designBasis": "R: direct predicate rejects empty, permits all other old characters and native errors.",
+          "reviewQuestion": "Most trim/length expression remains; changing loop/includes to one regex is not alone an independent rewrite.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        },
+        {
+          "id": "wslUserValidation-4",
+          "candidateLines": [19, 25],
+          "sha256": "68ece7f98887f2bab42be9502e755b0cc70209e99c3120ac4687d52b2dc650d1",
+          "categories": ["interface-constraint", "retained-product-expression"],
+          "subject": "WSL user Zod schema",
+          "engineeringBaselineCorrespondence": [
+            {
+              "lines": [27, 33],
+              "sha256": "68ece7f98887f2bab42be9502e755b0cc70209e99c3120ac4687d52b2dc650d1",
+              "candidateWholeSpanByteIdentical": true
+            }
+          ],
+          "designBasis": "R: trim/max/refine order, empty default user and exact issue message.",
+          "reviewQuestion": "Complete schema chain is byte-identical; preserving observable Zod issue order does not by itself require this code expression.",
+          "decision": "unaccepted; retain existing licenses/notices",
+          "contributorAuthorityEvidence": "not supplied in examined packet/history; absence is an evidence gap, not proof no rights exist"
+        }
+      ],
+      "checkpointMechanicalMatchPositionsRevalidated": true
+    }
+  ],
+  "primarySourceFetch": {
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/LICENSE",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "gitBlob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "lineCount": 202
+    },
+    "packages/shared/src/zcode-protocol-v4/wire-codec.ts": {
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+      "bytes": 8428,
+      "sha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+      "gitBlob": "0332e837eac7b8805a12cb8dd3210599632e373e",
+      "lineCount": 240
+    }
+  },
+  "licenseMaterialChecks": [
+    {
+      "package": "echarts@6.1.0",
+      "member": "LICENSE",
+      "expectedSha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+      "actualSha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+      "path": "node_modules/echarts/LICENSE"
+    },
+    {
+      "package": "echarts@6.1.0",
+      "member": "licenses/LICENSE-d3",
+      "expectedSha256": "e1211892da0b0e0585b7aebe8f98c1274fba15bafe47fa1f4ee8a7a502c06304",
+      "actualSha256": "e1211892da0b0e0585b7aebe8f98c1274fba15bafe47fa1f4ee8a7a502c06304",
+      "path": "node_modules/echarts/licenses/LICENSE-d3"
+    },
+    {
+      "package": "echarts@6.1.0",
+      "member": "NOTICE",
+      "expectedSha256": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016",
+      "actualSha256": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016",
+      "path": "node_modules/echarts/NOTICE"
+    },
+    {
+      "package": "echarts@6.1.0",
+      "member": "README.md (license section)",
+      "expectedSha256": "8a4c3eb1acbbc8ae95185e93061600adc6a51988e5c5ac264738a5cc5aa3667d",
+      "actualSha256": "8a4c3eb1acbbc8ae95185e93061600adc6a51988e5c5ac264738a5cc5aa3667d",
+      "path": null,
+      "verificationContext": "current Standard packet: registry tarball read in memory; extraction matches checkpoint repository rule",
+      "sourceUrl": "https://registry.npmjs.org/echarts/-/echarts-6.1.0.tgz"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "cmaps/LICENSE",
+      "expectedSha256": "aa92ab5a472974865a96fd4a4e9c13bb41bf6fe1b309cb6b8da48bc9e19839a2",
+      "actualSha256": "aa92ab5a472974865a96fd4a4e9c13bb41bf6fe1b309cb6b8da48bc9e19839a2",
+      "path": "node_modules/pdfjs-dist/cmaps/LICENSE"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "iccs/LICENSE",
+      "expectedSha256": "286e4fd7b447330b2c88e23890e3cd0a9d38cb398d4a59cb247f578ccbda3213",
+      "actualSha256": "286e4fd7b447330b2c88e23890e3cd0a9d38cb398d4a59cb247f578ccbda3213",
+      "path": "node_modules/pdfjs-dist/iccs/LICENSE"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "LICENSE",
+      "expectedSha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "actualSha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "path": "node_modules/pdfjs-dist/LICENSE"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "standard_fonts/LICENSE_FOXIT",
+      "expectedSha256": "b578cdd2345840ada550bd12519533812320d5f1d21cf4c1c7e1b1b0a31c98b7",
+      "actualSha256": "b578cdd2345840ada550bd12519533812320d5f1d21cf4c1c7e1b1b0a31c98b7",
+      "path": "node_modules/pdfjs-dist/standard_fonts/LICENSE_FOXIT"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "standard_fonts/LICENSE_LIBERATION",
+      "expectedSha256": "93fed46019c38bbe566b479d22148e2e8a1e85ada614accb0211c37b2c61c19b",
+      "actualSha256": "93fed46019c38bbe566b479d22148e2e8a1e85ada614accb0211c37b2c61c19b",
+      "path": "node_modules/pdfjs-dist/standard_fonts/LICENSE_LIBERATION"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_OPENJPEG",
+      "expectedSha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+      "actualSha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_OPENJPEG"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_PDFJS_OPENJPEG",
+      "expectedSha256": "717fc62da03292dbb4dd0c8280bd4ce7bb8550dcf31d772bc93455fb50313425",
+      "actualSha256": "717fc62da03292dbb4dd0c8280bd4ce7bb8550dcf31d772bc93455fb50313425",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_PDFJS_OPENJPEG"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_PDFJS_QCMS",
+      "expectedSha256": "eb5104ca33552be007857a28351bc408f379ddd4bfacab1226b09c6d1e9fd7c4",
+      "actualSha256": "eb5104ca33552be007857a28351bc408f379ddd4bfacab1226b09c6d1e9fd7c4",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_PDFJS_QCMS"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_QCMS",
+      "expectedSha256": "36d847ae882f6574ebc72f56a4f354e4f104fde4a584373496482e97d52d31bc",
+      "actualSha256": "36d847ae882f6574ebc72f56a4f354e4f104fde4a584373496482e97d52d31bc",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_QCMS"
+    },
+    {
+      "package": "playwright-core@1.59.1",
+      "member": "LICENSE",
+      "expectedSha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "actualSha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "path": "node_modules/playwright-core/LICENSE"
+    },
+    {
+      "package": "playwright-core@1.59.1",
+      "member": "NOTICE",
+      "expectedSha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "actualSha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "path": "node_modules/playwright-core/NOTICE"
+    },
+    {
+      "package": "typescript@6.0.2",
+      "member": "LICENSE.txt",
+      "expectedSha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47",
+      "actualSha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47",
+      "path": "node_modules/typescript/LICENSE.txt"
+    }
+  ],
+  "noticeCheckResult": {
+    "wholeNoticeFilesMatched": 15,
+    "wholeNoticeMismatches": 0,
+    "notReproduced": [],
+    "distributionClosureVerified": false,
+    "historicalWholeNoticeFilesMatched": 15,
+    "currentReadmeExtractionMatched": true
+  },
+  "pending": [
+    "Independent reviewer must answer each provisional span question and bind a file-level decision to the exact candidate hash; accepted new source count remains zero",
+    "Contributor authority and generation/design evidence still absent for claimed first-party increments",
+    "Retained whole bodies, schema chains, bisection control flow and narrative comments require explicit retained/replaced/interface-only findings; no relabeling shortcut",
+    "VS Code original import revision and exact code attribution remain unknown; keep preserved partial MIT notice",
+    "Integrator alone decides whether and when to repair wire-codec inventory input binding and shared registry freshness; this packet does not edit either",
+    "Validate actual distribution license/NOTICE/submaterial closure at integration/release; 27 prior unresolved materials are not retired",
+    "Any subsequent production-byte change invalidates these bindings; rerun relevant engineering contracts only for changed production or unresolved engineering concerns"
+  ],
+  "existingEngineeringEvidence": [
+    "licensing/evidence/protocol-wire-20260930.json",
+    "licensing/evidence/remote-identity-20260930.json",
+    "licensing/evidence/workflow-projections-20260930.json"
+  ],
+  "supersedesCheckpoint": {
+    "commit": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+    "priorStatus": "WIP stopped on Fast shutdown",
+    "priorPacketSha256": "2f1152321e2336342c2d5519eafd585c89036319a75a400a5ab4613f490263bc",
+    "historyPreservedInGit": true
+  },
+  "reviewMethod": {
+    "role": "source-exposed technical packet preparer; not a clean-room or grant authority",
+    "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+    "engineeringBaselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+    "fixedUpstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "spanHashEncoding": "SHA-256 of complete inclusive lines, with their original LF terminators; blank lines are assigned to adjacent spans",
+    "baselineCorrespondence": "semantic navigation; each range has its own hash; identical blocks separately marked mechanically",
+    "categories": {
+      "interface-constraint": "required public behavior or data/format compatibility; not a copyright exemption decision",
+      "retained-product-expression": "observed retained product code/prose or close expression; not an infringement determination",
+      "new-design-candidate": "changed design/expression candidate supported by frozen contract chronology; independent status unaccepted",
+      "unknown-provenance": "origin, derivation or contributor authority remains unproved",
+      "original-Knorvia-expression": "accepted originality/authority would be recorded here; this packet accepts none"
+    },
+    "allCategoryLabelsAreProvisional": true,
+    "diffPercentageUsedAsProof": false
+  },
+  "primarySourceRevalidation": [
+    {
+      "material": "LICENSE",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "gitBlob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "bytes": 11344,
+      "matchesCheckpoint": true,
+      "storedInWorkspaceOrGitObjectDatabase": false
+    },
+    {
+      "material": "packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+      "sha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+      "gitBlob": "0332e837eac7b8805a12cb8dd3210599632e373e",
+      "bytes": 8428,
+      "matchesCheckpoint": true,
+      "storedInWorkspaceOrGitObjectDatabase": false
+    },
+    {
+      "material": "VS Code pinned license reference only; original import revision unknown",
+      "url": "https://raw.githubusercontent.com/microsoft/vscode/44825207bf4389c3bd17c92d3ec28cf784c324cc/LICENSE.txt",
+      "sha256": "9480271317925265e806a9a196aaa33410a962fa9d4d1e248a4a5187bc8c9df9",
+      "gitBlob": "0ac28ee234d232ac0691f39cebf95bf6b2a763a5",
+      "bytes": 1088,
+      "matchesPreservedLicense": true
+    }
+  ],
+  "retainedWholeExpressions": [
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+      "subject": "reduceRunLaunched full function",
+      "candidateLines": [22, 38],
+      "candidateSha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+      "spanSha256": "7c8d045d250674783fa69d7d43fe5d436c5d3bcaada15841266e99b75beef0b0",
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineLines": [25, 41],
+      "wholeExpressionByteIdentical": true,
+      "licenseDecision": "none; retained root Apache scope; product migration unresolved"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+      "subject": "readLastTool comment and full function",
+      "candidateLines": [109, 117],
+      "candidateSha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+      "spanSha256": "4e814500203514d096df819c052aca67fc0cdd417b3f5517460564343ad6b7b5",
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineLines": [109, 117],
+      "wholeExpressionByteIdentical": true,
+      "licenseDecision": "none; retained root Apache scope; product migration unresolved"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+      "subject": "boundedText comment and full function",
+      "candidateLines": [119, 131],
+      "candidateSha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+      "spanSha256": "7a61670af90f1d89dcc3b7f42353eca5bf9ec6f8758924347f70a65ef9c04642",
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineLines": [119, 131],
+      "wholeExpressionByteIdentical": true,
+      "licenseDecision": "none; retained root Apache scope; product migration unresolved"
+    },
+    {
+      "path": "packages/shared/src/remoteSshHostKey.ts",
+      "subject": "resolveSshAuthKind full function",
+      "candidateLines": [68, 79],
+      "candidateSha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+      "spanSha256": "da033a125ddf6ea92b4330b068ace50990eb83e295e4c2b57cbbc74dc6032e90",
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineLines": [108, 119],
+      "wholeExpressionByteIdentical": true,
+      "licenseDecision": "none; retained root Apache scope; product migration unresolved"
+    },
+    {
+      "path": "packages/shared/src/remoteSshHostKey.ts",
+      "subject": "buildSshRemoteHostKey comment and full function",
+      "candidateLines": [81, 94],
+      "candidateSha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+      "spanSha256": "88ceedeaf24027fe80e4c33afa20a6029b6ebac18382c481a13e8f6438576965",
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineLines": [121, 134],
+      "wholeExpressionByteIdentical": true,
+      "licenseDecision": "none; retained root Apache scope; product migration unresolved"
+    },
+    {
+      "path": "packages/shared/src/wslUserValidation.ts",
+      "subject": "wslUserSchema full declaration",
+      "candidateLines": [19, 25],
+      "candidateSha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+      "spanSha256": "68ece7f98887f2bab42be9502e755b0cc70209e99c3120ac4687d52b2dc650d1",
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineLines": [27, 33],
+      "wholeExpressionByteIdentical": true,
+      "licenseDecision": "none; retained root Apache scope; product migration unresolved"
+    },
+    {
+      "path": "packages/shared/src/remote-workspace-identity.ts",
+      "subject": "remote builder switch and function close",
+      "candidateLines": [29, 42],
+      "candidateSha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+      "spanSha256": "4614c265e0253432838f658a03d83011f283b27eccd0763e6bb9df6a265a4c7f",
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineLines": [48, 61],
+      "wholeExpressionByteIdentical": true,
+      "licenseDecision": "none; retained root Apache scope; product migration unresolved"
+    }
+  ],
+  "boundDesignContracts": [
+    {
+      "id": "W",
+      "evidencePath": "licensing/evidence/protocol-wire-20260930.json",
+      "evidenceSha256": "9385c88c5712abccb23c83d878f05f86c00624b65b13d61bc25336c6b3a5e08c",
+      "contractCheckpoint": "0639cf675dec4dc6556b5ee9e57da87ddfb8c36e",
+      "implementationCommit": "5277f8074c5071d3fc90b72370347ddf6d53ee51",
+      "contractCheckpointIsAncestor": true,
+      "materials": [
+        {
+          "path": "specs/knorvia-protocol-wire-helpers-20260930.md",
+          "sha256": "f61f50997eaca407c792e342594f3035fb6559727acea6cfe854ebe0befce03d",
+          "bytes": 5437,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/protocol-wire-contract-cases.ts",
+          "sha256": "af6398c2f55034ca51b40498449af294028f02cce4c264cf2eb354cea515b22c",
+          "bytes": 12053,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/protocol-wire-contract.test.ts",
+          "sha256": "8240385a502d12b7053e4deae77376fe9c9717cfa664a5a8badfbad483cf34ba",
+          "bytes": 3101,
+          "unchangedSinceContractCheckpoint": false
+        },
+        {
+          "path": "packages/shared/test/protocol-wire-consumers.test.ts",
+          "sha256": "dd98b822420892a5f4b69940d6d4968d23ff5f588b766da537e828181b0ec9c8",
+          "bytes": 4862,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/protocol-wire-cross-version.mjs",
+          "sha256": "c9574aa0a0be8e626a8a37fd2c54f0c97a8ae5b3a4443a6fa5b05641a2a8c299",
+          "bytes": 4279,
+          "unchangedSinceContractCheckpoint": false
+        },
+        {
+          "path": "packages/shared/test/protocol-wire-contract-observations.json",
+          "sha256": "73e281f846a86c61d86d227201740589f92e101f1c55829f697d6211f005af0b",
+          "bytes": 62769,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "docs/knorvia-protocol-wire-acceptance-20260930.md",
+          "sha256": "51eaca4afdb8f7dcf9cc1af4885a4f65df25e59a25997a81919fa2c0a9c10009",
+          "bytes": 8160,
+          "unchangedSinceContractCheckpoint": false
+        }
+      ],
+      "existingEngineeringResultsNotRerun": {
+        "observations": 136,
+        "observationSha256": "73e281f846a86c61d86d227201740589f92e101f1c55829f697d6211f005af0b",
+        "byteIdenticalToCheckpoint": true,
+        "oldSource": {
+          "tests": 145,
+          "passCount": 145,
+          "fail": 0,
+          "skip": 0
+        },
+        "oldDistReviewed": {
+          "tests": 146,
+          "passCount": 146,
+          "fail": 0,
+          "skip": 0
+        },
+        "candidateSourceReviewed": {
+          "tests": 146,
+          "passCount": 146,
+          "fail": 0,
+          "skip": 0
+        },
+        "candidateDistReviewed": {
+          "tests": 146,
+          "passCount": 146,
+          "fail": 0,
+          "skip": 0
+        },
+        "extraReviewRegression": "Delivery metadata is projected after caller schema transformation; old emitted dist and final source/dist agree."
+      },
+      "limitations": "source-exposed behavioral/consumer evidence; no contributor rights grant or clean-room proof"
+    },
+    {
+      "id": "R",
+      "evidencePath": "licensing/evidence/remote-identity-20260930.json",
+      "evidenceSha256": "ee701f97f7f285e6fc5c1eae0a27b244ddf92356359de614c5f342b689e2642e",
+      "contractCheckpoint": "9eeb7892d87d9d95d34ab9252c6c482b81ff8174",
+      "implementationCommit": "bc36df98da36e56cda66051137b99d31f2184666",
+      "contractCheckpointIsAncestor": true,
+      "materials": [
+        {
+          "path": "specs/knorvia-remote-identity-helpers-20260930.md",
+          "sha256": "0aabd49595f9207420dd2cbdc030af103a371d7497fe0511556a4c3303358140",
+          "bytes": 5357,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/remote-identity-contract-cases.ts",
+          "sha256": "2eb3584e79d06ea01fd5ef8d2a9dfa774bcbb2df4fa8996daea8174aacb016bf",
+          "bytes": 9287,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/remote-identity-contract.test.ts",
+          "sha256": "33efa24ec39169aa5b1ee21dab808a073334220a3b3f13d48fd95a390d67d537",
+          "bytes": 2513,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/remote-identity-consumers.test.ts",
+          "sha256": "051c9440967d6bda76090cec016d8e3b6b1c3c488a6470acc13f214719b2554d",
+          "bytes": 6872,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/remote-identity-cross-version.mjs",
+          "sha256": "b5f3f32df0f7dbb0a9c9f5a7d5ca602294c3516634b74641410ebe72f82acce4",
+          "bytes": 4974,
+          "unchangedSinceContractCheckpoint": false
+        },
+        {
+          "path": "packages/shared/test/remote-identity-observations.json",
+          "sha256": "314b9413149a725a2b57859764a7dbd18e3f9a2dbb76e07be192e90d6033b47c",
+          "bytes": 40750,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "docs/knorvia-remote-identity-acceptance-20260930.md",
+          "sha256": "22f8707779b5c12fe7819255c8667252874ee0eac92294ecc5f4c03c69ce8adb",
+          "bytes": 7643,
+          "unchangedSinceContractCheckpoint": false
+        }
+      ],
+      "existingEngineeringResultsNotRerun": {
+        "observations": 249,
+        "observationSha256": "314b9413149a725a2b57859764a7dbd18e3f9a2dbb76e07be192e90d6033b47c",
+        "byteIdenticalToCheckpoint": true,
+        "oldSource": {
+          "tests": 257,
+          "passed": 257,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oldDist": {
+          "tests": 257,
+          "passed": 257,
+          "failed": 0,
+          "skipped": 0
+        },
+        "candidateSource": {
+          "tests": 257,
+          "passed": 257,
+          "failed": 0,
+          "skipped": 0
+        },
+        "finalDist": {
+          "tests": 257,
+          "passed": 257,
+          "failed": 0,
+          "skipped": 0
+        },
+        "negativeFixturesRelaxed": false
+      },
+      "limitations": "source-exposed behavioral/consumer evidence; no contributor rights grant or clean-room proof"
+    },
+    {
+      "id": "P",
+      "evidencePath": "licensing/evidence/workflow-projections-20260930.json",
+      "evidenceSha256": "1002edf14da3b62708ad9782ceff08aedc435291790ebe5002ddcae106a4c594",
+      "contractCheckpoint": "b65d9f01ed74c0c844273a49eee6fd8e942a4b7e",
+      "implementationCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "contractCheckpointIsAncestor": true,
+      "materials": [
+        {
+          "path": "specs/knorvia-workflow-projections-20260930.md",
+          "sha256": "55c0e94174aa9601da66e16e62e9da72707ee479e45379816a355e609bd30baa",
+          "bytes": 5249,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "docs/knorvia-protocol-source-review-strategy-20260930.md",
+          "sha256": "413111a2db97a0678e30543c35ea6a7006413a37fca7ddc53fb00a80d624b26f",
+          "bytes": 8953,
+          "unchangedSinceContractCheckpoint": false
+        },
+        {
+          "path": "packages/shared/test/workflow-projection-cases.ts",
+          "sha256": "20e75d6ce0883ea009ae376392e0d94b5a4b023497f62c0c15f7c86a16ed143b",
+          "bytes": 10712,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/workflow-projection-contract.test.ts",
+          "sha256": "3d7af44bc523c65fc0319f34315bd30160e97fb60ea38d4721e542f9c64f799c",
+          "bytes": 3050,
+          "unchangedSinceContractCheckpoint": false
+        },
+        {
+          "path": "packages/shared/test/workflow-projection-consumers.test.ts",
+          "sha256": "1b7839068f829a310dc3663f7aec5db04ee25b0ab2b0b30cf46d0fd5efb397a9",
+          "bytes": 6917,
+          "unchangedSinceContractCheckpoint": false
+        },
+        {
+          "path": "packages/shared/test/workflow-projection-observations.json",
+          "sha256": "bff3c2486cbc6fae47d9e9783189b0b1146f94fbcbaf99aa240e5783eed5ffbf",
+          "bytes": 369885,
+          "unchangedSinceContractCheckpoint": true
+        },
+        {
+          "path": "packages/shared/test/workflow-projection-cross-version.mjs",
+          "sha256": "61eda194dba3bb178b334ca900b6a17f22d49ad351125f883bdc8ec232418fd9",
+          "bytes": 6944,
+          "unchangedSinceContractCheckpoint": false
+        },
+        {
+          "path": "docs/knorvia-workflow-projections-acceptance-20260930.md",
+          "sha256": "55c2216528e1e8e797969a8700426763a90c78ec9dfe60c9041a396c8653c664",
+          "bytes": 7595,
+          "unchangedSinceContractCheckpoint": false
+        }
+      ],
+      "existingEngineeringResultsNotRerun": {
+        "observations": 301,
+        "observationSha256": "bff3c2486cbc6fae47d9e9783189b0b1146f94fbcbaf99aa240e5783eed5ffbf",
+        "byteIdenticalToCheckpoint": true,
+        "negativeFixturesRelaxed": false,
+        "oldSource": {
+          "tests": 310,
+          "passed": 310,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oldDist": {
+          "tests": 310,
+          "passed": 310,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oldDistReviewed": {
+          "tests": 311,
+          "passed": 311,
+          "failed": 0,
+          "skipped": 0
+        },
+        "candidateSourceReviewed": {
+          "tests": 311,
+          "passed": 311,
+          "failed": 0,
+          "skipped": 0
+        },
+        "candidateDistReviewed": {
+          "tests": 311,
+          "passed": 311,
+          "failed": 0,
+          "skipped": 0
+        },
+        "reviewRegression": "NaN prior rounds must follow the original >= branch direction; old dist/candidate agree."
+      },
+      "limitations": "source-exposed behavioral/consumer evidence; no contributor rights grant or clean-room proof"
+    }
+  ],
+  "protectedMaterials": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "130dfc81b61e8d3e57e19fde06be46ebde3a028eb1afb7414315ca6304e37499",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "aad86141add9489906662238ca5179ad5c629e3d29ce543c918beaf94343a543",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "third-party/copied-components.json",
+      "sha256": "ff2e8e6c6f3373bf741254a5418d6fe1fc303e9ef5ae48122e13f031b342c177",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "third-party/inventory.json",
+      "sha256": "ad7ca0953bf788f302b2eb764b48b61d52c64ad27ac4cf2f1791a5350df0ece7",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "architecture-policy.yaml",
+      "sha256": "ee206ee0f27d112ed7ba875fb952d786fb1701034242441eb6f9c0d5828f9d51",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+      "unchangedFromCheckpoint": true
+    }
+  ],
+  "matrixCoverage": {
+    "files": 9,
+    "spans": 71,
+    "candidateLines": 950,
+    "allCandidateLinesCoveredExactlyOnce": true,
+    "acceptedOriginalKnorviaExpressionSpans": 0,
+    "independentReviewerAcceptance": false
+  },
+  "contributorAuthorityReview": {
+    "status": "evidence gap; no new grant decision",
+    "gitAuthorshipIsGrantProof": false,
+    "aiGenerationIsGrantProof": false,
+    "taskRewriteAuthorizationIsGrantProof": false,
+    "recordsExamined": [
+      "AGENTS.md",
+      "specs/knorvia-independent-implementation.md",
+      "FORK-NOTES.md",
+      "licensing/reviews.json",
+      "three implementation evidence packets",
+      "contract-before-implementation commit ancestry"
+    ],
+    "needed": [
+      "identify actual authors/contributors and applicable employment, commission or contribution terms for claimed increments",
+      "record authority to license each increment and exclusions for retained upstream/third-party expression",
+      "give an independent reviewer a hash-bound finding per file/span; preparer does not certify own/source-exposed clean-room history"
+    ],
+    "externalContactsSent": 0
+  },
+  "licenseMaterialChecksProvenance": {
+    "wholeFileChecks": "15 historical checks transferred from 281dc094; this environment has no installed workspace dependencies; not represented as newly rerun",
+    "currentReadmeCheck": "one previously missing extraction reproduced from registry tarball in memory; no dependency installation or asset extraction into workspace"
+  },
+  "echartsReadmeExtractionReproduced": {
+    "package": "echarts@6.1.0",
+    "metadataUrl": "https://registry.npmjs.org/echarts/6.1.0",
+    "tarballUrl": "https://registry.npmjs.org/echarts/-/echarts-6.1.0.tgz",
+    "tarballSha256": "681aff88cc1038c3fa941a3a53d1b177a52250b05335efc607d6105ae13be481",
+    "registryIntegrity": "sha512-q0yaFPggC9FUdsWH4blavRWFmxdrIodbkoKNAjJudAI6CA9gNPxHtV2RcZNEepZVlk4yvBYkOkbk6HIVpIyHZA==",
+    "integrityMatches": true,
+    "member": "README.md (license section)",
+    "readmeSha256": "8cc8864325843d975f082cba0fd4cf208093feffb03568f48f164725dab8ebf9",
+    "actualSha256": "8a4c3eb1acbbc8ae95185e93061600adc6a51988e5c5ac264738a5cc5aa3667d",
+    "expectedSha256": "8a4c3eb1acbbc8ae95185e93061600adc6a51988e5c5ac264738a5cc5aa3667d",
+    "extractionAuthority": "scripts/third-party-npm.mjs:34-41 at 281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+    "sectionBytes": 62,
+    "fullTarballDistributionVerified": false
+  },
+  "retentionVsMigration": {
+    "genericThirdPartyCandidates": [
+      {
+        "package": "typescript@6.0.2",
+        "treatment": "retain under actual version license/NOTICE and submaterial terms; no rewrite solely to make first-party files MIT",
+        "packageDistributionAcceptance": "pending actual source/dist/bundle closure"
+      },
+      {
+        "package": "playwright-core@1.59.1",
+        "treatment": "retain under actual version license/NOTICE and submaterial terms; no rewrite solely to make first-party files MIT",
+        "packageDistributionAcceptance": "pending actual source/dist/bundle closure"
+      },
+      {
+        "package": "echarts@6.1.0",
+        "treatment": "retain under actual version license/NOTICE and submaterial terms; no rewrite solely to make first-party files MIT",
+        "packageDistributionAcceptance": "pending actual source/dist/bundle closure"
+      },
+      {
+        "package": "pdfjs-dist@5.4.296",
+        "treatment": "retain under actual version license/NOTICE and submaterial terms; no rewrite solely to make first-party files MIT",
+        "packageDistributionAcceptance": "pending actual source/dist/bundle closure"
+      }
+    ],
+    "productImplementation": "inherited ZCode code/prose requires specific source acceptance or substantive independent replacement for user migration target, even if Apache redistribution is permitted",
+    "vscodePartialMit": "pinned LICENSE matches, importRevision null, exact code-span attribution unknown; local envelope measurement is recorded as a ZCode adaptation",
+    "existingUnresolvedMaterialObligations": 27,
+    "existingObligationsClosedByThisPacket": 0,
+    "additionalLicenseLabelsApplied": 0
+  },
+  "primaryDesignSources": [
+    {
+      "url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "sections": "1-5",
+      "role": "grant, contributor/derivative definitions and redistribution conditions; no proof of new contributor authority"
+    },
+    {
+      "url": "https://www.apache.org/foundation/license-faq.html",
+      "sections": "improvements and distribution",
+      "role": "retained Apache obligations persist after modification"
+    },
+    {
+      "url": "https://opensource.org/license/mit",
+      "sections": "permission and notice condition",
+      "role": "terms only; not a new first-party grant"
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc4648.html",
+      "sections": "3.2, 3.3, 3.5, 4",
+      "role": "Base64 alphabet/padding facts; project minimum length and regex are separate"
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc1952.html",
+      "sections": "3.2 and Appendix",
+      "role": "CRC-32 parameters; no copied reference C expression accepted"
+    },
+    {
+      "url": "https://html.spec.whatwg.org/multipage/webappapis.html#atob",
+      "sections": "Base64 utility methods",
+      "role": "native btoa/atob behavior; protocol gate still needed"
+    },
+    {
+      "url": "https://www.copyright.gov/circs/circ61.pdf",
+      "sections": "copyrightable authorship",
+      "role": "US program/expression distinction only; not a project-specific legal determination"
+    }
+  ],
+  "ownershipHandoff": "This bounded docs/evidence packet is complete as a preparation task. Parent assigns a separate accepting reviewer and next production scope. No production ownership expansion, integration, merge, deployment or authority contact.",
+  "artifactValidation": {
+    "candidateAndBaselineBindings": "9/9 passed; source bytes unchanged from candidate/checkpoint",
+    "spanCoverage": "71/71 SHA-256 matches; 950 lines covered once with no gaps or overlaps",
+    "upstreamBindings": "9/9 digest/blob checks passed; missing wire-codec original retrieved read-only, not inserted into Git",
+    "checkpointMechanicalMatches": "all recorded at-least-three-line positions and hashes passed",
+    "retainedWholeExpressions": "7/7 exact old expression locations passed",
+    "designContractAncestry": "3/3 contract checkpoints are ancestors of their implementation commits",
+    "protectedMaterials": "11/11 bytes and hashes match checkpoint",
+    "relativeDocumentationLinks": "passed",
+    "changeBoundary": "exactly two preauthorized docs/evidence paths; production edits 0",
+    "jsonStructure": "parsed; schemaVersion2 provisional fields present; acceptance and grants remain zero",
+    "formatting": {
+      "tool": "oxfmt@0.41.0 installed via temporary npm cache; no project dependency changes",
+      "command": "oxfmt --config /tmp/knorvia-protocol-review/format-config.json --check docs/knorvia-protocol-nine-file-source-review-wip-20260930.md licensing/evidence/protocol-nine-file-source-review-wip-20260930.json",
+      "config": "temporary empty config required because root configuration ignores evidence JSON; repository config unchanged",
+      "result": "passed on both files"
+    },
+    "gitDiffCheck": "passed",
+    "runtimeTestsAndBuilds": "not run; docs/evidence-only changes",
+    "rootQualityAttempts": {
+      "typecheck": "attempted pnpm typecheck; script never started: fallback pnpm11.19.0 entered install then ENOENT mkdir /home/agent/.local/share/pnpm",
+      "lint": "attempted pnpm lint; script never started: same dependency-install ENOENT",
+      "changedArchitecture": "attempted direct command; ERR_MODULE_NOT_FOUND typescript",
+      "verifyPrePush": "not run; root lint and architecture dependencies unavailable",
+      "node": "24.19.0 (repository pin24.14.0)",
+      "pnpmFallback": "11.19.0 (repository pin10.33.2)",
+      "workspaceDependenciesInstalled": false,
+      "globalConfigEdits": 0,
+      "approvalRequests": 0
+    },
+    "baselineSemanticRangeBounds": "all old ranges are inclusive, within old source line counts and hash-matched; WSL schema final reference corrected to the exact full declaration",
+    "correctedFinalCheckFinding": {
+      "priorPacketCommit": "8bea087a99b38ceeb747ef56d3f8828590ffedb8",
+      "finding": "WSL semantic schema reference29-35 exceeded old file33 lines; Python slicing had produced a valid partial hash without validating bounds",
+      "fix": "schema exact old27-33, control helper17-26, predicate5-16; added explicit range-bound check",
+      "productionEdits": 0
+    }
+  }
+}

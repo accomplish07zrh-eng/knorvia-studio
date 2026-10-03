@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "kind": "pre-change workflow node terminal-publication freeze",
+  "baseline": "9670185fbd9ae890840b4c43a0dc22b47cd64f0e",
+  "productionChanges": 0,
+  "sourceExposure": true,
+  "publisherVerification": "Inventory association only; no new exact publisher acquisition",
+  "groupsPerMode": 7,
+  "consumerGroupIncluded": true,
+  "initialFixtureFailure": {
+    "source": {
+      "pass": 6,
+      "fail": 1
+    },
+    "emitted": {
+      "pass": 6,
+      "fail": 1
+    },
+    "error": "TypeError: node.dependsOn is not iterable",
+    "correction": "Supply schema-required dependsOn array and typed kind in owned node fixtures; no assertion changes"
+  },
+  "logs": [
+    {
+      "label": "source-initial",
+      "path": "/tmp/knorvia-workflow-node-freeze-source-initial.log",
+      "sha256": "57555ceb7b87fa0a841a3ab1fef7864c2755977c185cecf2b07916452650d2e7"
+    },
+    {
+      "label": "emitted-initial",
+      "path": "/tmp/knorvia-workflow-node-freeze-emitted-initial.log",
+      "sha256": "5ec7715c73580df0ced323ee3adcc9fe27daaf8c1bc8ab8342d2d0970ea8d301"
+    },
+    {
+      "label": "source-final",
+      "path": "/tmp/knorvia-workflow-node-freeze-source-final.log",
+      "sha256": "2bc436d8e878350fa5163894c1cbff553209dc41075d7e225e73802effb8e4da",
+      "text": "\u2714 source: started gate, child linkage, latest snapshot and completion publication (5.342744ms)\n\u2714 source: failure attempts, linked metadata, primitive errors and default prompt (3.096781ms)\n\u2714 source: startup escapes, success-publication failure converts, failure-publication escapes (3.79809ms)\n\u2714 source: queued thenables and throwing runner getter preserve error/effect order (3.443067ms)\n\u2714 source: abort controls and queued accepted-completion settlement (1.453744ms)\n\u2714 source: actual scheduler consumer completion, error threshold and terminal abort (6.362878ms)\n\u2714 source: immutable oracle and strict current/private artifact selectors fail closed (114.112798ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2951.509104\n"
+    },
+    {
+      "label": "emitted-final",
+      "path": "/tmp/knorvia-workflow-node-freeze-emitted-final.log",
+      "sha256": "79a83064f57d83bb4c2a3de27c5da5a8e650d175f4bedb97b88f7870102f3949",
+      "text": "\u2714 emitted: started gate, child linkage, latest snapshot and completion publication (5.097876ms)\n\u2714 emitted: failure attempts, linked metadata, primitive errors and default prompt (2.335079ms)\n\u2714 emitted: startup escapes, success-publication failure converts, failure-publication escapes (2.613639ms)\n\u2714 emitted: queued thenables and throwing runner getter preserve error/effect order (1.847238ms)\n\u2714 emitted: abort controls and queued accepted-completion settlement (1.246767ms)\n\u2714 emitted: actual scheduler consumer completion, error threshold and terminal abort (6.146183ms)\n\u2714 emitted: immutable oracle and strict current/private artifact selectors fail closed (87.855186ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2876.850033\n"
+    }
+  ]
+}

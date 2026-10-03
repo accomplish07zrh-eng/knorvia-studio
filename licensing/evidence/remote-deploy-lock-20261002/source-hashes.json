@@ -1,0 +1,13 @@
+{
+  "baselineCommit": "de3ff5c2cf6418a35186f3a9e5895984551e0c23",
+  "files": [
+    {
+      "path": "packages/server/src/remote/remoteDeployLock.ts",
+      "baselineSha256": "b9379204555464954035efa644896cf524fc32c9d20f4a1a00f07e06b93eda9e",
+      "baselineBlob": "5d9ec53dad7043397d9106dab8f5992ccf7c33f8",
+      "authorOutputSha256": "c931e7459bab3734e266fe7b50daf7c54b67fcf12e3ebdbfff23e7a0819dc7b2",
+      "candidateSha256": "703e89111590b4e1e9070f710ec228d52a8bf872bdf4d391df5e30be3a06e24b"
+    }
+  ],
+  "observerEditsAfterAuthoring": "Integrated the complete authored owner and applied oxfmt only. Fresh author made bounded shell-path/output and sequential cleanup/property-access corrections before final integration."
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "path": "packages/shared/src/official-mcp-auth.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/official-mcp-auth.ts",
+    "sha256": "c823244d067359e0ec3a075d8ec40129ae37e0c384402ce575cec640b5851953"
+  },
+  {
+    "path": "packages/shared/src/workspace-hook-mutation.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/workspace-hook-mutation.ts",
+    "sha256": "0c37277d2ce9bdc821a2b2e724087c6b39d37a8a6ec0d757edb38c9ce14134ac"
+  },
+  {
+    "path": "packages/shared/src/workspace-hook-config.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/workspace-hook-config.ts",
+    "sha256": "25a323361601221f3ffc377360be994043e82ee6e8a763afa2ba042547c2dbca"
+  },
+  {
+    "path": "packages/shared/src/validationAppSettings.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/validationAppSettings.ts",
+    "sha256": "e927c2e9fcb7979f10cb4266d8e7ef360df57417b95af7dc6fb4b35f95a8cba0"
+  }
+]

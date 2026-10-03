@@ -1,0 +1,14 @@
+[
+  {
+    "path": "licensing/evidence/cli-media-owners-20261003/image-index-author-packet.md",
+    "sha256": "30755ff14e1f3dab4a497832deb0d38c7882fd6cda21b77d1788ebe9d3891eca"
+  },
+  {
+    "path": "licensing/evidence/cli-media-owners-20261003/image-compression-author-packet.md",
+    "sha256": "58999e8bac74b73ba8853c550fe03049598b166ba4e5831b1e073add60ba1e3e"
+  },
+  {
+    "path": "licensing/evidence/cli-media-owners-20261003/pdf-index-author-packet.md",
+    "sha256": "587958d920857d9ac2fbc172a62a86e8e2166aa417fef07c06ac9e9b0084dfa4"
+  }
+]

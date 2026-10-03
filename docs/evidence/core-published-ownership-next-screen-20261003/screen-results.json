@@ -1,0 +1,1080 @@
+{
+  "baseline": "0652e224ad49630ec4f46b68d1b2868e03c222e3",
+  "branch": "parallel/material-closure-fast-20261002",
+  "metadataInputs": [
+    {
+      "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+      "bytes": 312065,
+      "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc"
+    },
+    {
+      "path": "docs/evidence/core-remaining-screen-20261003/selected-ledger.json",
+      "bytes": 11041,
+      "sha256": "70727941a1bce3c926d5ee5e0e704c55aadc9da07118bd70e427686d2e7c61a2"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/reservation.json",
+      "bytes": 13662,
+      "sha256": "fb59c3ac6fe2a7992f5008354f19260a1b932804b88cd9486c79a6ae5ed13bfb"
+    }
+  ],
+  "eligibleEWholeOwnerShortlist": [],
+  "eligibleECount": 0,
+  "conditionalRoutingInquiries": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/tool-perf.ts",
+      "bytes": 5123,
+      "sha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8",
+      "lines": 134,
+      "existingLedgerExact": true,
+      "origin": {
+        "path": "apps/cli/packages/core/src/tool/handlers/tool-perf.ts",
+        "kind": "file",
+        "sha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8",
+        "normalizedSha256": "282e3c0e15234bbc03c5d9ce1fc0549aaab699342b1e3e8fe0cef70622dba9e8",
+        "encoding": "utf8-lf",
+        "bytes": 5123,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/tool-perf.ts",
+          "blob": "56e7020c1eb18daf945e5faa7e8b4e787d3d4545",
+          "normalizedSha256": "417caac0058ab5ea722d97aa8724e76648f0bdda22de8db850a52ca18b277a1d",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "globalReviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "ledgerAllocation": "requires parent lane/receipt allocation; runtime/tools/adapter/business boundaries, no inferred E ownership",
+      "pr11ChangedPath": false,
+      "pr8ChangedPath": false,
+      "existingAuthorCandidate": false,
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124810,
+          "sha256": "284a45b908204508c43be18c679ca0d95e77bc087c14237172018063ae80d09d",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        }
+      ],
+      "ownershipQuestion": "134-line diagnostics/performance handler name only. Root must confirm whether presentation/input owner is separable from A runtime instrumentation and G/native benchmarking/execution. No E allocation or pure formatter inference.",
+      "status": "Conditional routing inquiry ONLY; NOT an eligible/allocated E owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+      "bytes": 5663,
+      "sha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+      "lines": 198,
+      "existingLedgerExact": true,
+      "origin": {
+        "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+        "kind": "file",
+        "sha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+        "normalizedSha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+        "encoding": "utf8-lf",
+        "bytes": 5663,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/todo.ts",
+          "blob": "01c8b0b1d6df448c286968fba249e2f77d784d5b",
+          "normalizedSha256": "6cd7d34b9e12d6c9bcddb1e5eedafdd001b9f73baf83f8414927be8de1047a04",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "globalReviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "ledgerAllocation": "requires parent lane/receipt allocation; runtime/tools/adapter/business boundaries, no inferred E ownership",
+      "pr11ChangedPath": false,
+      "pr8ChangedPath": false,
+      "existingAuthorCandidate": false,
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124810,
+          "sha256": "284a45b908204508c43be18c679ca0d95e77bc087c14237172018063ae80d09d",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        }
+      ],
+      "ownershipQuestion": "198-line stateful task-list handler name only. Root must assign state/service authority before work; not assumed E projection scope. Published-path absence does not release ongoing A ownership.",
+      "status": "Conditional routing inquiry ONLY; NOT an eligible/allocated E owner"
+    }
+  ],
+  "retainedExactDecisions": [
+    {
+      "path": "apps/cli/packages/core/src/mcp/result-format.ts",
+      "bytes": 4602,
+      "sha256": "7badce4066976fc18270873fecb2164d2736fd0838d8827f12ce4c7579e4a627",
+      "lines": 120,
+      "existingLedgerExact": true,
+      "origin": {
+        "path": "apps/cli/packages/core/src/mcp/result-format.ts",
+        "kind": "file",
+        "sha256": "7badce4066976fc18270873fecb2164d2736fd0838d8827f12ce4c7579e4a627",
+        "normalizedSha256": "7badce4066976fc18270873fecb2164d2736fd0838d8827f12ce4c7579e4a627",
+        "encoding": "utf8-lf",
+        "bytes": 4602,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "globalReviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "ledgerAllocation": "retain helpers/original result projection; authority/provider/connection implementation requires allocation",
+      "pr11ChangedPath": false,
+      "pr8ChangedPath": false,
+      "existingAuthorCandidate": false,
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/screened-core-metadata.json",
+          "bytes": 24380,
+          "sha256": "e4d778ab222960f4a711bbd9cbb27b8f01e50560246f4c64d6a7d7a84826e979",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-installation-20261003/remaining-inventory.json",
+          "bytes": 4200,
+          "sha256": "f304b7687c95b3f8b730165d5280a8ab0b67de816997cc7a3ff4cba6095cfffb",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124810,
+          "sha256": "284a45b908204508c43be18c679ca0d95e77bc087c14237172018063ae80d09d",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/reservation.json",
+          "bytes": 1516,
+          "sha256": "e2b7605fe2aaddea2549487edf3b057d07f9f74d45b3cbabaf5f9b5ff550d74f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/reservation.json",
+          "bytes": 9372,
+          "sha256": "382625563b16a46ad2963d9aeefda461bc707ed3b58fb9f7e9d1363521f235d6",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/selected-ledger.json",
+          "bytes": 11041,
+          "sha256": "70727941a1bce3c926d5ee5e0e704c55aadc9da07118bd70e427686d2e7c61a2",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/public-extraction-record.json",
+          "bytes": 7157,
+          "sha256": "d32f096eb86ff17e68889d77bec221d263842e250b8878d8a98cba25b3f77d36",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        }
+      ],
+      "priorExactRetainedDecision": "retain existing post-snapshot result projection implementation; initial available creation history supports original-product work, does not grant licence/origin clearance",
+      "reason": null,
+      "priorDecisionEvidence": "core-remaining-screen-20261003/selected-ledger.json",
+      "status": "RETAIN; not promoted or force-reauthored based on size/receipt absence"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/dynamic-sections.ts",
+      "bytes": 8600,
+      "sha256": "3ac44ccbb1f1708f7e1cbcbd0a10649ea7c8f41adeed444be7c32270db541108",
+      "lines": 130,
+      "existingLedgerExact": true,
+      "origin": {
+        "path": "apps/cli/packages/core/src/context/dynamic-sections.ts",
+        "kind": "file",
+        "sha256": "3ac44ccbb1f1708f7e1cbcbd0a10649ea7c8f41adeed444be7c32270db541108",
+        "normalizedSha256": "3ac44ccbb1f1708f7e1cbcbd0a10649ea7c8f41adeed444be7c32270db541108",
+        "encoding": "utf8-lf",
+        "bytes": 8600,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/context/dynamic-sections.ts",
+          "blob": "75698abd46c01333493e21231c08e0c5398d3c80",
+          "normalizedSha256": "3fe09a5400770dc4d7c773be64aa18e12aa849e75c42439dfdfc72bbe60d8377",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "globalReviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "ledgerAllocation": "completed queue or retained adjacent public surface; exclude this batch",
+      "pr11ChangedPath": false,
+      "pr8ChangedPath": false,
+      "existingAuthorCandidate": false,
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 2855,
+          "sha256": "833fbfb1b8c4e2c776f6e16656a019e2c52ae5110086c992437139344fc33911",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/usage-static-results.json",
+          "bytes": 9313,
+          "sha256": "c74c3448b209ebb1b272764c9130d946e0f9deca18b5028a19b310d26cbe356b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/request-static-results.json",
+          "bytes": 11614,
+          "sha256": "836266d45daa248913531f8cb7bf713fc25bf6f317c4aacddf5e60139343eed9",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/origins-static-results.json",
+          "bytes": 11522,
+          "sha256": "3222c07d4f558348e96db6bca8e0fecb543e4654cbfff86574748cdf5fbf67d0",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/builder-static-results.json",
+          "bytes": 15517,
+          "sha256": "8ac7cf40e12856d6142da539a1c9576d8a497116e4d6be9200ea3bb5a0ee5478",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/mid-system-static-results.json",
+          "bytes": 13158,
+          "sha256": "8ed5b1f09996e3692206d2827e42ac747a528dbae974721275ed37f81587331f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/reservation.json",
+          "bytes": 13662,
+          "sha256": "fb59c3ac6fe2a7992f5008354f19260a1b932804b88cd9486c79a6ae5ed13bfb",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/directory-reservation.json",
+          "bytes": 7831,
+          "sha256": "40ecea413acc0b4cdce87e504e98236b059afe02956765ce237ea1923729a170",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 4068,
+          "sha256": "2d1296c43ca84cc90be1f7ad82dcdfaec712b4e953cb3d3a99a523c949b5b7cd",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-installation-20261003/session-installed-static.json",
+          "bytes": 9682,
+          "sha256": "4933ace2a3bd21580f2d0dbe9f51522fdd834e0dbc855e4667f5a1e663fb644b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-installation-20261003/env-installed-static.json",
+          "bytes": 9172,
+          "sha256": "b4275d0ab2afa0b7ad6013eb4a0436279dc8588405ccf0bf4050101b557992bb",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-installation-20261003/remaining-inventory.json",
+          "bytes": 12445,
+          "sha256": "49028aabbb68aa11fd88b3c449b9fbafa72bf373773267ee7152203c267e6fc1",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-installation-20261003/parts-installed-static.json",
+          "bytes": 9176,
+          "sha256": "af0766285bd6375daee3f5db4578fb2df53d6931a653f660a7f3a56640f2e852",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-installation-20261003/skills-installed-static.json",
+          "bytes": 9191,
+          "sha256": "2187fbb4cda198b0e0e8f4f756e9bd3e0229c48cda325ce5b564e1475211426b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124810,
+          "sha256": "284a45b908204508c43be18c679ca0d95e77bc087c14237172018063ae80d09d",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-review-20261003/env-static-v1.json",
+          "bytes": 9151,
+          "sha256": "4a29ab200a8ea3cdc9d4a6077e95076068027071e3a5f9b06faa5ad3d825cf7c",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-review-20261003/parts-static-v1.json",
+          "bytes": 9155,
+          "sha256": "c2e310b782d254e74d04b9b412a9631a109deb72a8276bcfd957323c5fa7c942",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-review-20261003/skills-static-v1.json",
+          "bytes": 9170,
+          "sha256": "00fbf2261411a98a74edca50404495e3b32f3685fb13e7d3281869416236b535",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-review-20261003/session-static-v1.json",
+          "bytes": 9661,
+          "sha256": "2f9c2f780314028f15fceaf2812fccb2175e4235e61ec4dc1196d6cf83af8979",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-context-session-review-20261003/remaining-inventory.json",
+          "bytes": 11994,
+          "sha256": "3e2cb4f1a8f068608da81f527fc33f2a359845d8267ccf4195f47ead61e6448d",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        }
+      ],
+      "priorExactRetainedDecision": "retained; not rewritten",
+      "reason": "Predominantly retained static prompt blocks and small section/configuration wrappers; not forced substantive owner",
+      "priorDecisionEvidence": "core-model-context-session-owner-packet-20261003/reservation.json",
+      "status": "RETAIN; not promoted or force-reauthored based on size/receipt absence"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+      "bytes": 8319,
+      "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+      "lines": 237,
+      "existingLedgerExact": true,
+      "origin": {
+        "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+        "kind": "file",
+        "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+        "normalizedSha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+        "encoding": "utf8-lf",
+        "bytes": 8319,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "apps/zcode-cli/packages/core/src/system-reminder/source.ts",
+          "blob": "74de0d6386d84660f0419b92568b0befd9bcfcbe",
+          "normalizedSha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+          "contentMatchedPaths": [
+            "apps/zcode-cli/packages/core/src/system-reminder/source.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "globalReviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "ledgerAllocation": "selected prompt-attachment only; retain protocol/presentation surfaces",
+      "pr11ChangedPath": false,
+      "pr8ChangedPath": false,
+      "existingAuthorCandidate": false,
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/public-extraction-record.json",
+          "bytes": 5167,
+          "sha256": "147717e1605040620d6b5b583a3763a2caf8fdd81b00e68140a13fc1f455b48f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 1189,
+          "sha256": "45b60dd52d68305bb5e7550946ffb8d5687c61ec2e9ff211aa6ae828d1980ac4",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-author-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 2855,
+          "sha256": "833fbfb1b8c4e2c776f6e16656a019e2c52ae5110086c992437139344fc33911",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/usage-static-results.json",
+          "bytes": 9313,
+          "sha256": "c74c3448b209ebb1b272764c9130d946e0f9deca18b5028a19b310d26cbe356b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/request-static-results.json",
+          "bytes": 11614,
+          "sha256": "836266d45daa248913531f8cb7bf713fc25bf6f317c4aacddf5e60139343eed9",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/origins-static-results.json",
+          "bytes": 11522,
+          "sha256": "3222c07d4f558348e96db6bca8e0fecb543e4654cbfff86574748cdf5fbf67d0",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/builder-static-results.json",
+          "bytes": 15517,
+          "sha256": "8ac7cf40e12856d6142da539a1c9576d8a497116e4d6be9200ea3bb5a0ee5478",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-context-provider-integration-20261003/mid-system-static-results.json",
+          "bytes": 13158,
+          "sha256": "8ed5b1f09996e3692206d2827e42ac747a528dbae974721275ed37f81587331f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 3048,
+          "sha256": "6a757bfa0f2c56d716ecb4160ba535cd950f1b35a6d443fd899decf247897df9",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/curator-input-manifest.json",
+          "bytes": 10026,
+          "sha256": "b5c905261256c48349eecc1fabbe702dd47ca890cd69ecb8f62843da9cd83719",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/screened-core-metadata.json",
+          "bytes": 24380,
+          "sha256": "e4d778ab222960f4a711bbd9cbb27b8f01e50560246f4c64d6a7d7a84826e979",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-history-projection-integration-20261003/media-static-results.json",
+          "bytes": 10891,
+          "sha256": "ec9e285a83e65abe0d521ad3fb843fefd3d77fa1722cf5bb702ac53cb809a315",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-history-projection-integration-20261003/history-static-predecessor-qualification-failure.json",
+          "bytes": 10139,
+          "sha256": "3dfacd490c93a3836b74ed41a8cd711e7967dbccd39a6c5abbd4b01470cc096c",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-history-projection-integration-20261003/breakdown-static-results.json",
+          "bytes": 9412,
+          "sha256": "68c92f4c2524390398a973bbe1929054c743505d96d58f4e37246a7c1be2cb1a",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-history-projection-integration-20261003/history-static-results.json",
+          "bytes": 10137,
+          "sha256": "00e2ae3de955da57681dde2d86605067c20f97253897cb3011c8b802745d213e",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-history-projection-integration-20261003/manual-static-results.json",
+          "bytes": 10069,
+          "sha256": "b93c2edb9d6cb1faaa4c7041947c6f7ef2a97639d7ad666aeabe4c0c89243d31",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-installation-20261003/installed-static.json",
+          "bytes": 10111,
+          "sha256": "efc9a0bbe3c89bd2c050aa70b1e97c85c42f70b040058d59dd07208229ca7cea",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-installation-20261003/remaining-inventory.json",
+          "bytes": 4200,
+          "sha256": "f304b7687c95b3f8b730165d5280a8ab0b67de816997cc7a3ff4cba6095cfffb",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124810,
+          "sha256": "284a45b908204508c43be18c679ca0d95e77bc087c14237172018063ae80d09d",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/reservation.json",
+          "bytes": 9372,
+          "sha256": "382625563b16a46ad2963d9aeefda461bc707ed3b58fb9f7e9d1363521f235d6",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/selected-ledger.json",
+          "bytes": 11041,
+          "sha256": "70727941a1bce3c926d5ee5e0e704c55aadc9da07118bd70e427686d2e7c61a2",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-media-integration-20261003/request-static-results.json",
+          "bytes": 17115,
+          "sha256": "6fa0809868410708c883328d3e3453ea62dd963fcbbe28ea022ee2792e9d1f63",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-media-integration-20261003/budget-static-results.json",
+          "bytes": 15243,
+          "sha256": "b784add587969ddea5a036371d3e1cb27853f467a71ff21579c88fc907a26845",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-media-integration-20261003/capability-static-results.json",
+          "bytes": 15177,
+          "sha256": "12b5b51d66c974db9cd46390940345edb56676a3034dd26e22e42177fc8e647b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-media-integration-20261003/validation-static-results.json",
+          "bytes": 12646,
+          "sha256": "a1e06e611bb9c21bf7162dc26c859d116e5ad390ee19310aefa9a0718efb5fd6",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-model-media-integration-20261003/errors-static-results.json",
+          "bytes": 14861,
+          "sha256": "a955f8a65ee17f79dad5b4785dc3004c7b1ce94e1cbc39a4e4afd2d82cbfc85b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/public-extraction-record.json",
+          "bytes": 6889,
+          "sha256": "3840c41be3c10c51c93d6f94db3dd9a5fd58846f7e931d7841819cb7bcde679a",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/curator-qualification.json",
+          "bytes": 7118,
+          "sha256": "9872614066d3ecca3e35bdfd2e01acbcbff3baa942d5c1d265a1d416e1505403",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/attachment-v2-static.json",
+          "bytes": 5859,
+          "sha256": "b8f06f3dc850e52f651a9df44292dbc5a511493512041911bbc89c9ee2239409",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/attachment-static.json",
+          "bytes": 4824,
+          "sha256": "2a8d084cc6a77b989071f1eb888d5aefaaa27e79b88c518ff62e6f3112375af6",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 2451,
+          "sha256": "47f46a102b25f7f0c9ddbba14c9b50feaf570af02d7e6fba2da80dfa40a2f70e",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        }
+      ],
+      "priorExactRetainedDecision": "retain public protocol/type/descriptor data and fixed steering/presentation envelope; do not cosmetically reauthor",
+      "reason": null,
+      "priorDecisionEvidence": "core-remaining-screen-20261003/selected-ledger.json",
+      "status": "RETAIN; not promoted or force-reauthored based on size/receipt absence"
+    }
+  ],
+  "protectedAExclusion": [
+    {
+      "path": "apps/cli/packages/core/src/hooks/configured-runner-input.ts",
+      "bytes": 5271,
+      "sha256": "d3db5f0239bdb4d51db9c0da579a79ba8bd323dfbaaf5f9aa3520c1df5670d7e",
+      "lines": 157,
+      "existingLedgerExact": true,
+      "origin": {
+        "path": "apps/cli/packages/core/src/hooks/configured-runner-input.ts",
+        "kind": "file",
+        "sha256": "d3db5f0239bdb4d51db9c0da579a79ba8bd323dfbaaf5f9aa3520c1df5670d7e",
+        "normalizedSha256": "d3db5f0239bdb4d51db9c0da579a79ba8bd323dfbaaf5f9aa3520c1df5670d7e",
+        "encoding": "utf8-lf",
+        "bytes": 5271,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/hooks/configured-runner-input.ts",
+          "blob": "e1d18df9ffb2f9a82df05dc230e341688ce80032",
+          "normalizedSha256": "9004e5c185a0e38e4b42d0fa73769e251a08785859a29aa78bfa181912927432",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "globalReviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "ledgerAllocation": "protected A/runtime/permission/trust boundary; not E allocation",
+      "pr11ChangedPath": false,
+      "pr8ChangedPath": false,
+      "existingAuthorCandidate": false,
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/screened-core-metadata.json",
+          "bytes": 24380,
+          "sha256": "e4d778ab222960f4a711bbd9cbb27b8f01e50560246f4c64d6a7d7a84826e979",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124810,
+          "sha256": "284a45b908204508c43be18c679ca0d95e77bc087c14237172018063ae80d09d",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Metadata reference; classify explicit retained/reservation below, no new owner receipt located."
+        }
+      ],
+      "status": "EXCLUDE existing A runtime/permission/trust reservation even absent from PR11 changed paths"
+    }
+  ],
+  "publishedOwnershipEvidence": {
+    "path": "docs/evidence/core-published-ownership-next-screen-20261003/published-ownership-snapshot.json",
+    "bytes": 42765,
+    "sha256": "0bd0c497730547d782dc2d056a856ea1aa8396c9b92eff5acea5d9085baf4fa8"
+  },
+  "excludedCounts": {
+    "pr11CoreUnion": 181,
+    "pr8Core": 79,
+    "independentCore": 155,
+    "independentTool": 90,
+    "existingAuthorCandidateCore": 67
+  },
+  "excludedExistingAuthorCandidatePaths": [
+    "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+    "apps/cli/packages/core/src/agent/message-history-usage.ts",
+    "apps/cli/packages/core/src/agent/message-history.ts",
+    "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+    "apps/cli/packages/core/src/compact/manual.ts",
+    "apps/cli/packages/core/src/context/builder.ts",
+    "apps/cli/packages/core/src/context/sections/env-info.ts",
+    "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+    "apps/cli/packages/core/src/context/sections/skills.ts",
+    "apps/cli/packages/core/src/mcp/image-normalization.ts",
+    "apps/cli/packages/core/src/mcp/index.ts",
+    "apps/cli/packages/core/src/memory/extraction.ts",
+    "apps/cli/packages/core/src/memory/index-content.ts",
+    "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+    "apps/cli/packages/core/src/memory/memory-file-path.ts",
+    "apps/cli/packages/core/src/memory/recall/manifest.ts",
+    "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+    "apps/cli/packages/core/src/plugin-reference/references.ts",
+    "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+    "apps/cli/packages/core/src/runtime-task/notification.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+    "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+    "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+    "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+    "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+    "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+    "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+    "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+    "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+    "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+    "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+    "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+    "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+    "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+    "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+    "apps/cli/packages/core/src/session-context/parts.ts",
+    "apps/cli/packages/core/src/session-context/read-session-context.ts",
+    "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+    "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+    "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+    "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+    "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts"
+  ],
+  "retainedRootHashHolds": {
+    "format-roster": {
+      "localSha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e",
+      "rootSha256": "d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493",
+      "evidence": "direct-root-phase-refresh-integration-20261001.json",
+      "commits": [
+        "692425a",
+        "38f9832",
+        "e106175"
+      ],
+      "status": "HOLD for final combination, existing technical work; no reauthor/import or whole-file MIT acceptance; parent report not locally revalidated"
+    },
+    "summary": {
+      "localSha256": "b201973924df1b9741fb3be169c37001ed4d06d161f6d70f830be93fc04957a0",
+      "rootSha256": "59d19958a577bcab782724c6397b839ff5f9457fba87621bbc78eeafb7007747",
+      "evidence": "workflow-summary-expression-20261001.json",
+      "status": "HOLD local source; root accepted evidence parent-reported only, no private root file access/import/reauthor"
+    },
+    "graphFoldBounds": {
+      "evidence": "graph-display-expression-20261002.json",
+      "localFold": "ed9f00051bdea60751f2f86191c4c83076f02c7d52d96c6ae8485ca2b9726487",
+      "rootFold": "89d83bcce02667f800f3b409475f7812a1b8b9d495878af4da74362e17adfdd4",
+      "localBounds": "7c5da335dd06647654013e8950c1b1644ccfc1039d8221cbdb6107c4b411a8df",
+      "rootBounds": "df3076e726eddd682e529c9907eb699476176d60092c37a0765bc4fbde7606bd",
+      "status": "Known accepted root technical HOLD for final combination, no import/reauthor or whole-file MIT acceptance."
+    }
+  },
+  "otherHolds": "Registry ac09(local)/12a18abd(root) and read-state1b4(local)/5ac(root), summary/format-roster/graph exact hash holds unchanged; parent accepted reports only, no private root access/reauthor/import.",
+  "rootRecoveryBoundary": "Root PR12dd963aae58aa6111e5c65532c30c152c040de30a parent-reported intact. Unavailable private checkpoint/Library-scope denial left untouched: no alternate extraction, credentials, private files, recovery/source import; root owns its network draft.",
+  "noSourceBodyApiAstReview": true,
+  "noAuthorCycles": true,
+  "noTestsBuildsRuntimeOrGlobalLicensing": true,
+  "materialObligationsOpen": 21,
+  "qualification": "Remaining name/size inquiries are not allocation/eligibility or rights proof. Existing612core metadata reused; bounded selected hash/count IO only. No fresh source bodies/helper/API extraction, source-emitted matrix, actual workflow/tool/provider/user data/native/network configuration. Prior curator source exposure of retained records/historical broader exposures/repaired scratch breach qualified; metadata absence not release of lane ownership. SavedSol/high/Fast unchanged/unverified, no OS isolation/access audit. No new unallocated work.",
+  "passed": true
+}

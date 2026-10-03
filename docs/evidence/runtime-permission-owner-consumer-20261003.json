@@ -1,0 +1,20 @@
+{
+  "scope": "Unchanged actual SessionModePort supported caller; import of execution owner rebound to selected emitted current or exact historical mode, never current-to-old fallback",
+  "files": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+      "bytes": 1497,
+      "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/session-mode-port.js",
+      "bytes": 1352,
+      "sha256": "7f9679e04f8742ef46c90739df6447a679a1e01b51addf3ca4fbc83444eb890f"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/session-mode-port.d.ts",
+      "bytes": 258,
+      "sha256": "4acbb4b53a4239ed8f9d067dc80dfe6d228ebbfc6b1d352d89fdaebe06a15d46"
+    }
+  }
+}

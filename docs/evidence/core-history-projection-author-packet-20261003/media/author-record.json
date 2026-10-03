@@ -1,0 +1,81 @@
+{
+  "task": "Complete compact-media implementation from scoped public packet",
+  "intended_repository_path": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+  "freeze_utc": "2026-10-02T19:10:58.797912Z",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "model_and_effort_basis": "Delegated author assignment; no independent runtime model introspection",
+  "service_tier": "Fast requested; tool exposes no separate Fast tier",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/media/inputs/contract.md",
+      "bytes": 3472,
+      "sha256": "2dd87eebb3e95d16d5030cb3b4385393b1f362e15fd8d758458a1fe9905bb61e"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/media/inputs/public-api.d.ts",
+      "bytes": 494,
+      "sha256": "bff420b9192074e9a3f2a72f752accbe999438e9286a53e5efb17637fdcc70aa"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/media/inputs/dependency-api.d.ts",
+      "bytes": 1038,
+      "sha256": "855311db1f15da226d7d9354fa1baca8291e39b87351b6c80f2035cae99dcc0c"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/media/inputs/message-api.d.ts",
+      "bytes": 607,
+      "sha256": "7641dfb998ed170fb474f23f30a922ceb3c0b3e5daba50d0802eed3b526643ec"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/media/inputs/public-shapes.d.ts",
+      "bytes": 2563,
+      "sha256": "478c65cd46aa7309f4616480920c6add0e143e32c306c2d209d0b396f0d79371"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/media/output/compact-media.ts",
+      "bytes": 2975,
+      "sha256": "a0a0ffad3619dc18c38da7806880770a35a44414695d719cc70ca46e0bf80ce4"
+    }
+  ],
+  "receipt_self_hash": "Omitted intentionally; receipt fingerprint reported separately",
+  "actual_inputs_read": [
+    "/tmp/knorvia-core-history-projection-20261003/media/inputs/contract.md",
+    "/tmp/knorvia-core-history-projection-20261003/media/inputs/public-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/media/inputs/dependency-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/media/inputs/message-api.d.ts",
+    "/tmp/knorvia-core-history-projection-20261003/media/inputs/public-shapes.d.ts"
+  ],
+  "source_exposure": {
+    "packet_declarations_and_contract_only": true,
+    "own_scratch_output": [
+      "/tmp/knorvia-core-history-projection-20261003/media/output/compact-media.ts"
+    ],
+    "repository_or_existing_implementation_access": false,
+    "dependency_bodies_or_tests_or_history_or_reviews_access": false,
+    "other_authors_or_prior_drafts_access": false,
+    "network_or_compiler_access": false,
+    "inherited_conversation": false,
+    "task_context": "Scoped delegation instructions and environment context only"
+  },
+  "retained_contract_expression": [
+    "Existing runtime traceContextToLogContext and both official-CUA helper imports",
+    "Public function names, projection interface and imported actual public types",
+    "Exact placeholder strings, debug text, event, module and status vocabulary",
+    "Ordered message/block mapping, no-op identity, clone depth and own undefined overrides",
+    "Exact original array and replaced-index set passed to the CUA collaborator; collaborator iteration order retained",
+    "Zero-count logging gate, optional debug receiver, lazy context evaluation and unsanitized nonzero counts"
+  ],
+  "discretionary_design": [
+    "Inline content projection inside the message map, without new helper functions or modules",
+    "A request-local Set tracks replaced block indices and supplies per-message replacement count",
+    "Separate runtime and type imports with contract block type imported from @knorvia/contracts",
+    "Ordinary shallow spread expressions retain extension fields and nested input identity"
+  ],
+  "validation": "No tests, builds, typechecks, lint, mocks or compiler invocation performed; only SHA256/byte metadata computed",
+  "unresolved_questions": [],
+  "scope_breaches": [],
+  "freeze_policy": "Outputs frozen before report; no post-freeze modification without separately frozen functional clarification"
+}

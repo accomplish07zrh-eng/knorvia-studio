@@ -1,0 +1,25 @@
+{
+  "imports": [
+    {
+      "module": "node:path",
+      "clause": "{ isAbsolute, resolve }"
+    },
+    {
+      "module": "@knorvia/contracts",
+      "clause": "{\n  KNORVIA_MCP_BROWSER_SCREENSHOT_CONTENT_INDICES_META_KEY,\n  type McpContentBlock,\n  type McpToolCallResult,\n  type McpToolDescriptor,\n  type TraceContext,\n}"
+    },
+    {
+      "module": "@knorvia/cua/frame-contract",
+      "clause": "{\n  isOfficialCuaImageRefText,\n  OFFICIAL_CUA_FRAME_INTEGRITY_META_KEY,\n}"
+    },
+    {
+      "module": "../tool/types.js",
+      "clause": "type { ToolExecutionContext }"
+    },
+    {
+      "module": "@knorvia/cua/frame-contract",
+      "clause": "{ preserveOfficialCuaFrameResult }"
+    }
+  ],
+  "reexports": []
+}

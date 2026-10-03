@@ -1,0 +1,3536 @@
+{
+  "baseline": "7b37339",
+  "declarations": {
+    "create": {
+      "keys": [
+        "capability",
+        "metadata",
+        "handler",
+        "inputSchema",
+        "outputSchema",
+        "runtimeInputSchema",
+        "runtimeOutputSchema",
+        "permission",
+        "resultBudget",
+        "timeout",
+        "cancellation",
+        "trace"
+      ],
+      "permissionKeys": [
+        "permission",
+        "reason",
+        "riskLevel",
+        "sideEffectScope",
+        "needsApproval",
+        "patternSources",
+        "alwaysAllowPatternSources",
+        "denyPriority"
+      ],
+      "data": {
+        "capability": "Create an idle-time task queued for free off-peak execution",
+        "metadata": {
+          "name": "OffPeakCreate",
+          "description": "Create a one-off idle-time task in the current workspace: it takes a queue ticket immediately and later runs unattended in THIS session (with the full conversation history) when the server grants off-peak compute, at no plan-quota cost. There is no guaranteed start time. Unlike CronCreate (recurring or clock-scheduled work), use this for deferrable work the user wants done cheaply 'when compute is idle'. The prompt must describe the final work directly and must never ask the run to create, schedule, or configure another idle-time task or automation.",
+          "modelInstructions": [
+            "Use this only when the user explicitly asks for idle-time/off-peak execution (闲时任务/闲时执行/低峰跑), or explicitly accepts deferring the work to the free idle-time queue.",
+            "Choose CronCreate instead for anything time-scheduled or recurring ('every day at 9', 'in 10 minutes'). OffPeakCreate has no clock: the server decides when the task starts.",
+            "The task later continues THIS conversation unattended with the full history available, so prompt may refer to context already established here; still state the expected deliverable explicitly because nobody will answer questions during the run.",
+            "By default the task runs in full-automatic mode with the default allowed model at the highest reasoning level. Only set permissionMode/model/thoughtLevel when the user explicitly asks for confirmation-gated execution, a specific model, or a lower reasoning effort.",
+            "Do not include workspace paths or identities in the input; the current session workspace is used.",
+            "Keep title concise and task-descriptive without file paths.",
+            "Creation consumes a limited free take-number quota. If creation fails with a quota error, relay the limit to the user instead of retrying.",
+            "After a successful creation, reply with only a brief confirmation; the UI renders a task card with a link to the Automations page for edits.",
+            "Never call OffPeakCreate from within an idle-time task run, and never write a prompt asking the run to create more idle-time tasks or automations."
+          ],
+          "readOnly": false,
+          "destructive": false,
+          "concurrentSafe": false,
+          "timeoutMs": 30000,
+          "maxOutputBytes": 32000,
+          "sideEffectScope": "workspace",
+          "riskLevel": "medium",
+          "needsApproval": true
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Concise idle-time task title describing the deferred work, for example '重构 utils 目录' or 'Fix flaky auth tests'. Keep it short and do not include file paths."
+            },
+            "prompt": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Instructions for the deferred run, which later continues THIS conversation unattended with the full history available, so it may refer to context already established here. State the expected deliverable explicitly (nobody will answer questions during the run); never ask the run to create, schedule, or configure another idle-time task or automation."
+            },
+            "permissionMode": {
+              "type": "string",
+              "enum": ["build", "edit", "plan", "yolo"],
+              "description": "Unattended run permission mode. Omit for the default full-automatic mode (yolo). Set only when the user explicitly asks for confirmation-gated execution: 'build' pauses for approval before changes, 'edit' auto-applies edits, 'plan' is read-only planning."
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Idle-plan model id. Must be one of the idle-time allowed models; omit to use the default (the newest allowed model). Set only when the user names a specific model."
+            },
+            "thoughtLevel": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Reasoning effort level for the chosen model. Omit to use the default (the highest level). Set only when the user explicitly asks for a lower reasoning effort."
+            }
+          },
+          "required": ["title", "prompt"],
+          "additionalProperties": false,
+          "$schema": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "task": {
+              "type": "object",
+              "properties": {
+                "offPeakTaskId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["queued", "paused", "running", "completed", "failed", "cancelled"]
+                },
+                "queuePosition": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "sessionId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "createdAt": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["offPeakTaskId", "title", "status", "createdAt"],
+              "additionalProperties": false
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["task", "message"],
+          "additionalProperties": false,
+          "$schema": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "runtimeInputSchema": {
+          "_def": {
+            "unknownKeys": "strict",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "runtimeOutputSchema": {
+          "_def": {
+            "unknownKeys": "strict",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "permission": {
+          "permission": "offpeak.create",
+          "reason": "OffPeakCreate queues an unattended idle-time task and consumes a free take-number quota",
+          "riskLevel": "medium",
+          "sideEffectScope": "workspace",
+          "needsApproval": true,
+          "patternSources": ["toolName", "input"],
+          "denyPriority": "beforeAsk"
+        },
+        "resultBudget": {
+          "maxInlineBytes": 32000,
+          "maxModelBytes": 32000,
+          "strategy": "truncate",
+          "preview": {
+            "maxBytes": 32000,
+            "direction": "head"
+          }
+        },
+        "timeout": {
+          "defaultMs": 30000,
+          "maxMs": 30000,
+          "allowCallOverride": false
+        },
+        "cancellation": {
+          "supported": true,
+          "cleanup": "none",
+          "userVisibleMessage": "OffPeakCreate was cancelled before the idle-time task was created"
+        },
+        "trace": {
+          "required": true,
+          "propagateToAdapters": true,
+          "recordInput": "summary",
+          "recordOutput": "summary"
+        }
+      }
+    },
+    "list": {
+      "keys": [
+        "capability",
+        "metadata",
+        "handler",
+        "inputSchema",
+        "outputSchema",
+        "runtimeInputSchema",
+        "runtimeOutputSchema",
+        "permission",
+        "resultBudget",
+        "timeout",
+        "cancellation",
+        "trace"
+      ],
+      "permissionKeys": [
+        "permission",
+        "reason",
+        "riskLevel",
+        "sideEffectScope",
+        "needsApproval",
+        "patternSources",
+        "alwaysAllowPatternSources",
+        "denyPriority"
+      ],
+      "data": {
+        "capability": "List idle-time tasks for the current workspace",
+        "metadata": {
+          "name": "OffPeakList",
+          "description": "List idle-time tasks in the current workspace with status and queue position. Read-only.",
+          "readOnly": true,
+          "destructive": false,
+          "concurrentSafe": true,
+          "timeoutMs": 30000,
+          "maxOutputBytes": 32000,
+          "sideEffectScope": "none",
+          "riskLevel": "low",
+          "needsApproval": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false,
+          "$schema": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "tasks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "offPeakTaskId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["queued", "paused", "running", "completed", "failed", "cancelled"]
+                  },
+                  "queuePosition": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "sessionId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "createdAt": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": ["offPeakTaskId", "title", "status", "createdAt"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": ["tasks"],
+          "additionalProperties": false,
+          "$schema": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "runtimeInputSchema": {
+          "_def": {
+            "unknownKeys": "strict",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "runtimeOutputSchema": {
+          "_def": {
+            "unknownKeys": "strict",
+            "catchall": {
+              "_def": {
+                "typeName": "ZodNever"
+              },
+              "~standard": {
+                "version": 1,
+                "vendor": "zod"
+              }
+            },
+            "typeName": "ZodObject"
+          },
+          "~standard": {
+            "version": 1,
+            "vendor": "zod"
+          },
+          "_cached": null
+        },
+        "permission": {
+          "permission": "offpeak.read",
+          "reason": "OffPeakList only reads idle-time tasks for this workspace",
+          "riskLevel": "low",
+          "sideEffectScope": "none",
+          "needsApproval": false,
+          "patternSources": ["toolName"],
+          "alwaysAllowPatternSources": ["toolName"],
+          "denyPriority": "beforeAsk"
+        },
+        "resultBudget": {
+          "maxInlineBytes": 32000,
+          "maxModelBytes": 32000,
+          "strategy": "truncate",
+          "preview": {
+            "maxBytes": 32000,
+            "direction": "head"
+          }
+        },
+        "timeout": {
+          "defaultMs": 30000,
+          "maxMs": 30000,
+          "allowCallOverride": false
+        },
+        "cancellation": {
+          "supported": true,
+          "cleanup": "none",
+          "userVisibleMessage": "OffPeakList was cancelled before idle-time tasks were returned"
+        },
+        "trace": {
+          "required": true,
+          "propagateToAdapters": false,
+          "recordInput": "summary",
+          "recordOutput": "summary"
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "label": "create trimmed defaults",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. "
+      },
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "create build",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "permissionMode": "build",
+        "model": " example-model ",
+        "thoughtLevel": " high "
+      },
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable.",
+                "permissionMode": "build",
+                "model": "example-model",
+                "thoughtLevel": "high"
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "create edit",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "permissionMode": "edit",
+        "model": " example-model ",
+        "thoughtLevel": " high "
+      },
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable.",
+                "permissionMode": "edit",
+                "model": "example-model",
+                "thoughtLevel": "high"
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "create plan",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "permissionMode": "plan",
+        "model": " example-model ",
+        "thoughtLevel": " high "
+      },
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable.",
+                "permissionMode": "plan",
+                "model": "example-model",
+                "thoughtLevel": "high"
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "create yolo",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "permissionMode": "yolo",
+        "model": " example-model ",
+        "thoughtLevel": " high "
+      },
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable.",
+                "permissionMode": "yolo",
+                "model": "example-model",
+                "thoughtLevel": "high"
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "ordinary automation create",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. "
+      },
+      "automationTurn": true,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "idle create before missing input/port",
+      "operation": "create",
+      "offPeakTurn": true,
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "permission_denied",
+          "code": "PERMISSION_DENIED",
+          "message": "OffPeakCreate is not allowed while running an idle-time task.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "idle create before input schema",
+      "operation": "create",
+      "input": {},
+      "offPeakTurn": true,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "permission_denied",
+          "code": "PERMISSION_DENIED",
+          "message": "OffPeakCreate is not allowed while running an idle-time task.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "both turn flags deny create",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. "
+      },
+      "offPeakTurn": true,
+      "automationTurn": true,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "permission_denied",
+          "code": "PERMISSION_DENIED",
+          "message": "OffPeakCreate is not allowed while running an idle-time task.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "create missing port",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. "
+      },
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "configuration_error",
+          "code": "CONFIGURATION_ERROR",
+          "message": "OffPeakPort is not configured for OffPeakCreate",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 0",
+      "operation": "create",
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"undefined\",\n    \"path\": [],\n    \"message\": \"Required\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "undefined",
+              "path": [],
+              "message": "Required"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 1",
+      "operation": "create",
+      "input": null,
+      "noPort": false,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"null\",\n    \"path\": [],\n    \"message\": \"Expected object, received null\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "null",
+              "path": [],
+              "message": "Expected object, received null"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 2",
+      "operation": "create",
+      "input": [],
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"array\",\n    \"path\": [],\n    \"message\": \"Expected object, received array\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "array",
+              "path": [],
+              "message": "Expected object, received array"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 3",
+      "operation": "create",
+      "input": "value",
+      "noPort": false,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"string\",\n    \"path\": [],\n    \"message\": \"Expected object, received string\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "string",
+              "path": [],
+              "message": "Expected object, received string"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 4",
+      "operation": "create",
+      "input": {},
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"title\"\n    ],\n    \"message\": \"Required\"\n  },\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"prompt\"\n    ],\n    \"message\": \"Required\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "undefined",
+              "path": ["title"],
+              "message": "Required"
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "undefined",
+              "path": ["prompt"],
+              "message": "Required"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 5",
+      "operation": "create",
+      "input": {
+        "title": " ",
+        "prompt": " "
+      },
+      "noPort": false,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"too_small\",\n    \"minimum\": 1,\n    \"type\": \"string\",\n    \"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"String must contain at least 1 character(s)\",\n    \"path\": [\n      \"title\"\n    ]\n  },\n  {\n    \"code\": \"too_small\",\n    \"minimum\": 1,\n    \"type\": \"string\",\n    \"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"String must contain at least 1 character(s)\",\n    \"path\": [\n      \"prompt\"\n    ]\n  }\n]",
+          "issues": [
+            {
+              "code": "too_small",
+              "minimum": 1,
+              "type": "string",
+              "inclusive": true,
+              "exact": false,
+              "message": "String must contain at least 1 character(s)",
+              "path": ["title"]
+            },
+            {
+              "code": "too_small",
+              "minimum": 1,
+              "type": "string",
+              "inclusive": true,
+              "exact": false,
+              "message": "String must contain at least 1 character(s)",
+              "path": ["prompt"]
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 6",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "permissionMode": "auto"
+      },
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"received\": \"auto\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": [\n      \"build\",\n      \"edit\",\n      \"plan\",\n      \"yolo\"\n    ],\n    \"path\": [\n      \"permissionMode\"\n    ],\n    \"message\": \"Invalid enum value. Expected 'build' | 'edit' | 'plan' | 'yolo', received 'auto'\"\n  }\n]",
+          "issues": [
+            {
+              "received": "auto",
+              "code": "invalid_enum_value",
+              "options": ["build", "edit", "plan", "yolo"],
+              "path": ["permissionMode"],
+              "message": "Invalid enum value. Expected 'build' | 'edit' | 'plan' | 'yolo', received 'auto'"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 7",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "model": " "
+      },
+      "noPort": false,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"too_small\",\n    \"minimum\": 1,\n    \"type\": \"string\",\n    \"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"String must contain at least 1 character(s)\",\n    \"path\": [\n      \"model\"\n    ]\n  }\n]",
+          "issues": [
+            {
+              "code": "too_small",
+              "minimum": 1,
+              "type": "string",
+              "inclusive": true,
+              "exact": false,
+              "message": "String must contain at least 1 character(s)",
+              "path": ["model"]
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 8",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "thoughtLevel": 2
+      },
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"number\",\n    \"path\": [\n      \"thoughtLevel\"\n    ],\n    \"message\": \"Expected string, received number\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "received": "number",
+              "path": ["thoughtLevel"],
+              "message": "Expected string, received number"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 9",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "sessionId": "injected"
+      },
+      "noPort": false,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"sessionId\"\n    ],\n    \"path\": [],\n    \"message\": \"Unrecognized key(s) in object: 'sessionId'\"\n  }\n]",
+          "issues": [
+            {
+              "code": "unrecognized_keys",
+              "keys": ["sessionId"],
+              "path": [],
+              "message": "Unrecognized key(s) in object: 'sessionId'"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 10",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "workspace": "injected"
+      },
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"workspace\"\n    ],\n    \"path\": [],\n    \"message\": \"Unrecognized key(s) in object: 'workspace'\"\n  }\n]",
+          "issues": [
+            {
+              "code": "unrecognized_keys",
+              "keys": ["workspace"],
+              "path": [],
+              "message": "Unrecognized key(s) in object: 'workspace'"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed create 11",
+      "operation": "create",
+      "input": {
+        "title": " Deferred example ",
+        "prompt": " Produce the example deliverable. ",
+        "extra": true
+      },
+      "noPort": false,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"extra\"\n    ],\n    \"path\": [],\n    \"message\": \"Unrecognized key(s) in object: 'extra'\"\n  }\n]",
+          "issues": [
+            {
+              "code": "unrecognized_keys",
+              "keys": ["extra"],
+              "path": [],
+              "message": "Unrecognized key(s) in object: 'extra'"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "list",
+      "operation": "list",
+      "input": {},
+      "observed": {
+        "output": {
+          "tasks": [
+            {
+              "offPeakTaskId": "example-idle",
+              "title": "Example deferred work",
+              "status": "queued",
+              "queuePosition": 3,
+              "sessionId": "example-session",
+              "createdAt": 123
+            }
+          ]
+        },
+        "calls": [
+          {
+            "method": "list",
+            "receiver": true,
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "label": "idle list",
+      "operation": "list",
+      "input": {},
+      "offPeakTurn": true,
+      "observed": {
+        "output": {
+          "tasks": [
+            {
+              "offPeakTaskId": "example-idle",
+              "title": "Example deferred work",
+              "status": "queued",
+              "queuePosition": 3,
+              "sessionId": "example-session",
+              "createdAt": 123
+            }
+          ]
+        },
+        "calls": [
+          {
+            "method": "list",
+            "receiver": true,
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "label": "both flags list",
+      "operation": "list",
+      "input": {},
+      "offPeakTurn": true,
+      "automationTurn": true,
+      "observed": {
+        "output": {
+          "tasks": [
+            {
+              "offPeakTaskId": "example-idle",
+              "title": "Example deferred work",
+              "status": "queued",
+              "queuePosition": 3,
+              "sessionId": "example-session",
+              "createdAt": 123
+            }
+          ]
+        },
+        "calls": [
+          {
+            "method": "list",
+            "receiver": true,
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "label": "list missing port",
+      "operation": "list",
+      "input": {},
+      "noPort": true,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "configuration_error",
+          "code": "CONFIGURATION_ERROR",
+          "message": "OffPeakPort is not configured for OffPeakList",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakList"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed list 0",
+      "operation": "list",
+      "noPort": true,
+      "offPeakTurn": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"undefined\",\n    \"path\": [],\n    \"message\": \"Required\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "undefined",
+              "path": [],
+              "message": "Required"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed list 1",
+      "operation": "list",
+      "input": null,
+      "noPort": true,
+      "offPeakTurn": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"null\",\n    \"path\": [],\n    \"message\": \"Expected object, received null\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "null",
+              "path": [],
+              "message": "Expected object, received null"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed list 2",
+      "operation": "list",
+      "input": [],
+      "noPort": true,
+      "offPeakTurn": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"array\",\n    \"path\": [],\n    \"message\": \"Expected object, received array\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "array",
+              "path": [],
+              "message": "Expected object, received array"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed list 3",
+      "operation": "list",
+      "input": 7,
+      "noPort": true,
+      "offPeakTurn": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"object\",\n    \"received\": \"number\",\n    \"path\": [],\n    \"message\": \"Expected object, received number\"\n  }\n]",
+          "issues": [
+            {
+              "code": "invalid_type",
+              "expected": "object",
+              "received": "number",
+              "path": [],
+              "message": "Expected object, received number"
+            }
+          ]
+        },
+        "calls": []
+      }
+    },
+    {
+      "label": "malformed list 4",
+      "operation": "list",
+      "input": {
+        "extra": true
+      },
+      "noPort": true,
+      "offPeakTurn": true,
+      "observed": {
+        "error": {
+          "name": "ZodError",
+          "message": "[\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"extra\"\n    ],\n    \"path\": [],\n    \"message\": \"Unrecognized key(s) in object: 'extra'\"\n  }\n]",
+          "issues": [
+            {
+              "code": "unrecognized_keys",
+              "keys": ["extra"],
+              "path": [],
+              "message": "Unrecognized key(s) in object: 'extra'"
+            }
+          ]
+        },
+        "calls": []
+      }
+    }
+  ],
+  "failures": [
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "quota_3103",
+        "errorCode": "model_not_allowed"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "quota_3103",
+            "errorCode": "model_not_allowed"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "quota_3103",
+        "errorCode": "session_bound"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "quota_3103",
+            "errorCode": "session_bound"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "quota_3103",
+        "errorCode": "offpeak_disabled"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "quota_3103",
+            "errorCode": "offpeak_disabled"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "quota_3103",
+        "errorCode": "3103"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "quota_3103",
+            "errorCode": "3103"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "quota_3103",
+        "errorCode": "3101"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "quota_3103",
+            "errorCode": "3101"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "quota_3103",
+        "errorCode": "unknown"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "quota_3103",
+            "errorCode": "unknown"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "eligibility_3101",
+        "errorCode": "model_not_allowed"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The current account has no eligible Coding Plan connection for idle-time tasks. Tell the user to select a ZAI/BigModel Coding Plan connection first.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "eligibility_3101",
+            "errorCode": "model_not_allowed"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "eligibility_3101",
+        "errorCode": "session_bound"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The current account has no eligible Coding Plan connection for idle-time tasks. Tell the user to select a ZAI/BigModel Coding Plan connection first.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "eligibility_3101",
+            "errorCode": "session_bound"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "eligibility_3101",
+        "errorCode": "offpeak_disabled"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The current account has no eligible Coding Plan connection for idle-time tasks. Tell the user to select a ZAI/BigModel Coding Plan connection first.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "eligibility_3101",
+            "errorCode": "offpeak_disabled"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "eligibility_3101",
+        "errorCode": "3103"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The current account has no eligible Coding Plan connection for idle-time tasks. Tell the user to select a ZAI/BigModel Coding Plan connection first.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "eligibility_3101",
+            "errorCode": "3103"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "eligibility_3101",
+        "errorCode": "3101"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The current account has no eligible Coding Plan connection for idle-time tasks. Tell the user to select a ZAI/BigModel Coding Plan connection first.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "eligibility_3101",
+            "errorCode": "3101"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "eligibility_3101",
+        "errorCode": "unknown"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The current account has no eligible Coding Plan connection for idle-time tasks. Tell the user to select a ZAI/BigModel Coding Plan connection first.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "eligibility_3101",
+            "errorCode": "unknown"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "client_validation",
+        "errorCode": "model_not_allowed"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The requested model is not in the idle-time allowed model list. Omit the model field to use the default allowed model.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "client_validation",
+            "errorCode": "model_not_allowed"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "client_validation",
+        "errorCode": "session_bound"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "This session already has a pending idle-time task. Tell the user to wait for it to finish or cancel it in Automations before creating another one here.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "client_validation",
+            "errorCode": "session_bound"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "client_validation",
+        "errorCode": "offpeak_disabled"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Idle-time tasks are not enabled for this account right now. Tell the user the feature is unavailable; do not retry with different parameters.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "client_validation",
+            "errorCode": "offpeak_disabled"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "client_validation",
+        "errorCode": "3103"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task input was rejected by validation.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "client_validation",
+            "errorCode": "3103"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "client_validation",
+        "errorCode": "3101"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task input was rejected by validation.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "client_validation",
+            "errorCode": "3101"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "client_validation",
+        "errorCode": "unknown"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task input was rejected by validation.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "client_validation",
+            "errorCode": "unknown"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "network",
+        "errorCode": "model_not_allowed"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time ticket service is unreachable. Tell the user to retry later.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "network",
+            "errorCode": "model_not_allowed"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "network",
+        "errorCode": "session_bound"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time ticket service is unreachable. Tell the user to retry later.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "network",
+            "errorCode": "session_bound"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "network",
+        "errorCode": "offpeak_disabled"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time ticket service is unreachable. Tell the user to retry later.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "network",
+            "errorCode": "offpeak_disabled"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "network",
+        "errorCode": "3103"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time ticket service is unreachable. Tell the user to retry later.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "network",
+            "errorCode": "3103"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "network",
+        "errorCode": "3101"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time ticket service is unreachable. Tell the user to retry later.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "network",
+            "errorCode": "3101"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "network",
+        "errorCode": "unknown"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time ticket service is unreachable. Tell the user to retry later.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "network",
+            "errorCode": "unknown"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "invalid_response",
+        "errorCode": "model_not_allowed"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "invalid_response",
+            "errorCode": "model_not_allowed"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "invalid_response",
+        "errorCode": "session_bound"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "invalid_response",
+            "errorCode": "session_bound"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "invalid_response",
+        "errorCode": "offpeak_disabled"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "invalid_response",
+            "errorCode": "offpeak_disabled"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "invalid_response",
+        "errorCode": "3103"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "invalid_response",
+            "errorCode": "3103"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "invalid_response",
+        "errorCode": "3101"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "invalid_response",
+            "errorCode": "3101"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "invalid_response",
+        "errorCode": "unknown"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "invalid_response",
+            "errorCode": "unknown"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "local_persist",
+        "errorCode": "model_not_allowed"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "local_persist",
+            "errorCode": "model_not_allowed"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "local_persist",
+        "errorCode": "session_bound"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "local_persist",
+            "errorCode": "session_bound"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "local_persist",
+        "errorCode": "offpeak_disabled"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "local_persist",
+            "errorCode": "offpeak_disabled"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "local_persist",
+        "errorCode": "3103"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "local_persist",
+            "errorCode": "3103"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "local_persist",
+        "errorCode": "3101"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "local_persist",
+            "errorCode": "3101"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "local_persist",
+        "errorCode": "unknown"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "local_persist",
+            "errorCode": "unknown"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "unknown",
+        "errorCode": "model_not_allowed"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "unknown",
+            "errorCode": "model_not_allowed"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "unknown",
+        "errorCode": "session_bound"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "unknown",
+            "errorCode": "session_bound"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "unknown",
+        "errorCode": "offpeak_disabled"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "unknown",
+            "errorCode": "offpeak_disabled"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "client_validation",
+        "errorCategory": "unknown",
+        "errorCode": "3103"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "client_validation",
+            "errorCategory": "unknown",
+            "errorCode": "3103"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "ticket_request",
+        "errorCategory": "unknown",
+        "errorCode": "3101"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "ticket_request",
+            "errorCategory": "unknown",
+            "errorCode": "3101"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "outcome": {
+        "ok": false,
+        "failureStage": "local_persist",
+        "errorCategory": "unknown",
+        "errorCode": "unknown"
+      },
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "local_persist",
+            "errorCategory": "unknown",
+            "errorCode": "unknown"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "raw": [
+    {
+      "index": 0,
+      "observed": {
+        "error": {
+          "name": "TypeError",
+          "message": "Cannot read properties of undefined (reading 'ok')"
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "observed": {
+        "error": {
+          "name": "TypeError",
+          "message": "Cannot read properties of null (reading 'ok')"
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "Creating the idle-time task failed. Tell the user to retry from the Automations page.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "observed": {
+        "error": {
+          "name": "Error",
+          "type": "tool_execution_failed",
+          "code": "TOOL_EXECUTION_FAILED",
+          "message": "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.",
+          "context": {
+            "toolCallId": "example-offpeak-call",
+            "toolName": "OffPeakCreate",
+            "failureStage": "example",
+            "errorCategory": "quota_3103",
+            "errorCode": "different"
+          },
+          "recoverable": false,
+          "retryable": false
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "observed": {
+        "error": {
+          "name": "TypeError",
+          "message": "Cannot read properties of undefined (reading 'queuePosition')"
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 7,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 0,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#0 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 8,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": -1,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#-1 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 9,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 2,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#2 in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 10,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": "2",
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": null,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "index": 12,
+      "observed": {
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": null,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#NaN in queue)."
+        },
+        "calls": [
+          {
+            "method": "create",
+            "receiver": true,
+            "args": [
+              {
+                "title": "Deferred example",
+                "prompt": "Produce the example deliverable."
+              },
+              {
+                "sessionId": "example-session"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "executions": [
+    {
+      "operation": "create",
+      "options": {},
+      "observed": {
+        "success": true,
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "modelContent": "{\"task\":{\"offPeakTaskId\":\"example-idle\",\"title\":\"Example deferred work\",\"status\":\"queued\",\"queuePosition\":3,\"sessionId\":\"example-session\",\"createdAt\":123},\"message\":\"Created idle-time task example-idle (#3 in queue).\"}",
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUse",
+          "tool_call_result",
+          "background"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"]
+      }
+    },
+    {
+      "operation": "create",
+      "options": {
+        "automationTurn": true
+      },
+      "observed": {
+        "success": true,
+        "output": {
+          "task": {
+            "offPeakTaskId": "example-idle",
+            "title": "Example deferred work",
+            "status": "queued",
+            "queuePosition": 3,
+            "sessionId": "example-session",
+            "createdAt": 123
+          },
+          "message": "Created idle-time task example-idle (#3 in queue)."
+        },
+        "modelContent": "{\"task\":{\"offPeakTaskId\":\"example-idle\",\"title\":\"Example deferred work\",\"status\":\"queued\",\"queuePosition\":3,\"sessionId\":\"example-session\",\"createdAt\":123},\"message\":\"Created idle-time task example-idle (#3 in queue).\"}",
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUse",
+          "tool_call_result",
+          "background"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"]
+      }
+    },
+    {
+      "operation": "create",
+      "options": {
+        "offPeakTurn": true
+      },
+      "observed": {
+        "success": false,
+        "output": null,
+        "error": {
+          "type": "permission_denied",
+          "code": "PERMISSION_DENIED",
+          "message": "OffPeakCreate is not allowed while running an idle-time task."
+        },
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUseFailure",
+          "tool_call_error"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"]
+      }
+    },
+    {
+      "operation": "create",
+      "options": {
+        "automationTurn": true,
+        "offPeakTurn": true
+      },
+      "observed": {
+        "success": false,
+        "output": null,
+        "error": {
+          "type": "permission_denied",
+          "code": "PERMISSION_DENIED",
+          "message": "OffPeakCreate is not allowed while running an idle-time task."
+        },
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUseFailure",
+          "tool_call_error"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"]
+      }
+    },
+    {
+      "operation": "list",
+      "options": {},
+      "observed": {
+        "success": true,
+        "output": {
+          "tasks": [
+            {
+              "offPeakTaskId": "example-idle",
+              "title": "Example deferred work",
+              "status": "queued",
+              "queuePosition": 3,
+              "sessionId": "example-session",
+              "createdAt": 123
+            }
+          ]
+        },
+        "modelContent": "{\"tasks\":[{\"offPeakTaskId\":\"example-idle\",\"title\":\"Example deferred work\",\"status\":\"queued\",\"queuePosition\":3,\"sessionId\":\"example-session\",\"createdAt\":123}]}",
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUse",
+          "tool_call_result",
+          "background"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"]
+      }
+    },
+    {
+      "operation": "list",
+      "options": {
+        "automationTurn": true
+      },
+      "observed": {
+        "success": true,
+        "output": {
+          "tasks": [
+            {
+              "offPeakTaskId": "example-idle",
+              "title": "Example deferred work",
+              "status": "queued",
+              "queuePosition": 3,
+              "sessionId": "example-session",
+              "createdAt": 123
+            }
+          ]
+        },
+        "modelContent": "{\"tasks\":[{\"offPeakTaskId\":\"example-idle\",\"title\":\"Example deferred work\",\"status\":\"queued\",\"queuePosition\":3,\"sessionId\":\"example-session\",\"createdAt\":123}]}",
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUse",
+          "tool_call_result",
+          "background"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"]
+      }
+    },
+    {
+      "operation": "list",
+      "options": {
+        "offPeakTurn": true
+      },
+      "observed": {
+        "success": true,
+        "output": {
+          "tasks": [
+            {
+              "offPeakTaskId": "example-idle",
+              "title": "Example deferred work",
+              "status": "queued",
+              "queuePosition": 3,
+              "sessionId": "example-session",
+              "createdAt": 123
+            }
+          ]
+        },
+        "modelContent": "{\"tasks\":[{\"offPeakTaskId\":\"example-idle\",\"title\":\"Example deferred work\",\"status\":\"queued\",\"queuePosition\":3,\"sessionId\":\"example-session\",\"createdAt\":123}]}",
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUse",
+          "tool_call_result",
+          "background"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"]
+      }
+    },
+    {
+      "operation": "list",
+      "options": {
+        "automationTurn": true,
+        "offPeakTurn": true
+      },
+      "observed": {
+        "success": true,
+        "output": {
+          "tasks": [
+            {
+              "offPeakTaskId": "example-idle",
+              "title": "Example deferred work",
+              "status": "queued",
+              "queuePosition": 3,
+              "sessionId": "example-session",
+              "createdAt": 123
+            }
+          ]
+        },
+        "modelContent": "{\"tasks\":[{\"offPeakTaskId\":\"example-idle\",\"title\":\"Example deferred work\",\"status\":\"queued\",\"queuePosition\":3,\"sessionId\":\"example-session\",\"createdAt\":123}]}",
+        "timeline": [
+          "PreToolUse",
+          "permission",
+          "tool_call_started",
+          "handler",
+          "PostToolUse",
+          "tool_call_result",
+          "background"
+        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"]
+      }
+    }
+  ]
+}

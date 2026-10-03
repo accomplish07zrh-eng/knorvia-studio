@@ -8,6 +8,7 @@ import {
   loadUiFontSizePx,
   subscribeToUiFontSizeStorageChanges,
 } from "@knorvia/ui";
+import { resolveRendererAppearance } from "./rendererAppearance.js";
 
 declare global {
   interface Window {
@@ -19,46 +20,27 @@ declare global {
   }
 }
 
-type Theme = "light" | "dark" | "knorvia-light" | "knorvia-dark" | "system";
-
-function resolveTheme(theme: Theme): "light" | "dark" {
-  if (theme === "system") {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  }
-  return theme === "dark" || theme === "knorvia-dark" ? "dark" : "light";
-}
-
-function applyResourceManagerTheme(): void {
-  const savedTheme = (localStorage.getItem("knorvia-theme") as Theme | null) ?? "knorvia-light";
-  const resolvedTheme = resolveTheme(savedTheme);
-  const appliedTheme =
-    savedTheme === "system"
-      ? resolvedTheme === "dark"
-        ? "knorvia-dark"
-        : "knorvia-light"
-      : savedTheme === "dark"
-        ? "knorvia-dark"
-        : savedTheme === "light"
-          ? "knorvia-light"
-          : savedTheme;
-  document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
+function mountResourceManager(): void {
+  const appearance = resolveRendererAppearance(
+    localStorage.getItem("knorvia-theme") ?? "knorvia-light",
+    () => window.matchMedia("(prefers-color-scheme: dark)").matches,
+  );
+  document.documentElement.classList.toggle("dark", appearance.dark);
   document.documentElement.classList.toggle(
     "theme-knorvia-light",
-    appliedTheme === "knorvia-light",
+    appearance.theme === "knorvia-light",
   );
-  document.documentElement.classList.toggle("theme-knorvia-dark", appliedTheme === "knorvia-dark");
-}
+  document.documentElement.classList.toggle(
+    "theme-knorvia-dark",
+    appearance.theme === "knorvia-dark",
+  );
 
-applyResourceManagerTheme();
-// 资源管理器不创建主窗口的 Zustand store，text-ui-* 无法自动获得持久化基准。
-// 首屏前显式应用，运行中再由 storage 事件同步，且不改变 html font-size 或接入业务 Host。
-applyUiFontSizePx(loadUiFontSizePx());
-subscribeToUiFontSizeStorageChanges();
-
-const root = document.getElementById("root");
-if (root) {
+  // This window has no main-window store or RPC; apply persistence before mount.
+  applyUiFontSizePx(loadUiFontSizePx());
+  subscribeToUiFontSizeStorageChanges();
+  const root = document.getElementById("root");
+  if (!root) return;
   createRoot(root).render(
-    // 语言沿用主窗口写入 localStorage 的偏好；不接 settingService，避免独立窗口再起一份 RPC。
     <KnorviaIntlProvider>
       <ResourceManagerApp
         setSamplingActive={window.resourceManager?.setSamplingActive}
@@ -70,3 +52,5 @@ if (root) {
     </KnorviaIntlProvider>,
   );
 }
+
+mountResourceManager();

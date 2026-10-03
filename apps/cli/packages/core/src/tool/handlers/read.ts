@@ -1,8 +1,9 @@
+import { formatReadModelContent } from "./read-model-content.js";
 // ============================================================
 // Read Tool Handler
 // ============================================================
 
-import { basename, dirname, extname } from "node:path";
+import { findReadFileSuggestion } from "./read-file-suggestion.js";
 import type {
   ReadFileStateEntry,
   ReadFileStateMap,
@@ -23,24 +24,19 @@ import {
   getReadPdfPagesValidationFailure,
   isFileSystemPortError,
   type ReadInput,
-  type ReadImageOutput,
-  type ReadVideoOutput,
-  type ModelMessageContent,
   type ReadOutput,
   type ReadTextOutput,
   type FileSystemStatResult,
   type TraceContext,
 } from "@knorvia/contracts";
 import { resolveWorkspacePath } from "../path-policy.js";
-import { createReadFileStateKey, normalizeReadFileStateMtimeMs } from "../read-file-state.js";
+import { normalizeReadFileStateMtimeMs } from "../read-file-state.js";
 import { createReadFileStateMetadata } from "../read-file-state-metadata.js";
 import { inferImageMimeFromPath, readImageFile } from "./read-image.js";
 import { inferVideoMimeFromPath } from "../../runtime/helpers/attachment-video.js";
 import { readVideoFile } from "./read-video.js";
-import { formatReadTextOutput, readTextFileForModel } from "./read-text.js";
+import { planReadTextOrchestration } from "./read-text-orchestration.js";
 import {
-  formatReadPdfOutput,
-  formatReadPdfPagesOutput,
   isPdfPath,
   READ_PDF_TOOL_TIMEOUT_MS,
   readPdfFile,
@@ -52,8 +48,6 @@ import {
 
 export { addReadLineNumbers } from "./read-text.js";
 
-const FILE_UNCHANGED_STUB =
-  "Wasted call — file unchanged since your last Read. Refer to that earlier tool_result instead.";
 const READ_PROVIDER_DESCRIPTION = [
   "Reads a file from the local filesystem.",
   "",
@@ -68,75 +62,6 @@ const READ_PROVIDER_DESCRIPTION = [
 ].join("\n");
 
 const fallbackReadFileStates = new WeakMap<ToolExecutionContext, ReadFileStateMap>();
-
-function formatReadModelContent(output: unknown): ModelMessageContent {
-  const parsed = ReadOutputSchema.safeParse(output);
-  if (!parsed.success) {
-    return stringifyReadOutputFallback(output);
-  }
-
-  return formatReadOutput(parsed.data);
-}
-
-function formatReadOutput(output: ReadOutput): ModelMessageContent {
-  switch (output.type) {
-    case "text":
-      return formatReadTextOutput(output);
-    case "file_unchanged":
-      return FILE_UNCHANGED_STUB;
-    case "image":
-      return formatReadImageOutput(output);
-    case "video":
-      return formatReadVideoOutput(output);
-    case "pdf":
-      return formatReadPdfOutput(output);
-    case "parts":
-      return formatReadPdfPagesOutput(output);
-    case "notebook":
-      return stringifyReadOutputFallback(output);
-  }
-}
-
-function formatReadImageOutput(output: ReadImageOutput): ModelMessageContent {
-  const imageBlock = {
-    type: "image" as const,
-    mediaType: output.mimeType,
-    dataUrl: `data:${output.mimeType};base64,${output.base64}`,
-    source: {
-      id: "read-image",
-      kind: "inline" as const,
-      mimeType: output.mimeType,
-      placeholder: "Read image",
-      sizeBytes: output.originalSize,
-    },
-  };
-  // 尺寸提示拼进 tool result 会让 provider-visible content 随是否缩放而改变；
-  // 图片结果只保留媒体 block，dimensions 继续留在结构化 output 供 UI 和调试使用。
-  return [imageBlock];
-}
-
-// 与图片同构：tool result 只保留媒体 block；OpenAI 系 provider 由
-// tool-result-media-projection 拆成后置 user part（AI SDK tool result 无 video part 变体）。
-function formatReadVideoOutput(output: ReadVideoOutput): ModelMessageContent {
-  const videoBlock = {
-    type: "video" as const,
-    mediaType: output.mimeType,
-    dataUrl: `data:${output.mimeType};base64,${output.base64}`,
-    source: {
-      id: "read-video",
-      kind: "inline" as const,
-      mimeType: output.mimeType,
-      placeholder: "Read video",
-      sizeBytes: output.originalSize,
-    },
-  };
-  return [videoBlock];
-}
-
-function stringifyReadOutputFallback(output: unknown): string {
-  if (typeof output === "string") return output;
-  return JSON.stringify(output) ?? "";
-}
 
 const readHandler: ToolHandler = async (input, context) => {
   const { file_path, offset, limit, pages } = parseReadInput(input);
@@ -179,50 +104,23 @@ const readHandler: ToolHandler = async (input, context) => {
     }
 
     const trace = createReadTrace(context);
-    const stat = await fileSystemPort.stat(
-      { path: filePath, trace },
-      { signal: context.abortSignal },
-    );
-    const readFileState = getReadFileState(context);
-    const cacheOffset = normalizeCacheOffset(offset);
-    const cacheKey = createReadFileStateKey(filePath, cacheOffset, limit);
-    const cached = readFileState.get(cacheKey);
-    if (cached && isCachedReadFresh(cached, stat)) {
-      const output = { type: "file_unchanged", filePath } satisfies ReadOutput;
-      recordReadFileStateMetadata(context, {
-        output,
-        readFileState,
-        toolInput: input,
-      });
-      return output;
-    }
-
-    let rangeReadRevision: FileSystemStatResult["revision"] | undefined;
-    const output = await readTextFileForModel({
-      abortSignal: context.abortSignal,
-      filePath,
-      fileSystemPort,
-      limit,
-      onRead: (read) => {
-        rangeReadRevision = read.revision;
+    const operation = planReadTextOrchestration(
+      { context, fileSystemPort, filePath, offset, limit, trace, toolInput: input },
+      {
+        snapshot: getReadFileState,
+        normalizeOffset: normalizeCacheOffset,
+        fresh: isCachedReadFresh,
+        update: updateReadFileState,
+        complete: recordReadFileStateMetadata,
       },
-      offset,
-      trace,
-    });
-    updateReadFileState(readFileState, cacheKey, {
-      output,
-      path: filePath,
-      stat,
-      rangeReadRevision,
-      offset,
-      limit,
-    });
-    recordReadFileStateMetadata(context, {
-      output,
-      readFileState,
-      toolInput: input,
-    });
-    return output;
+    );
+    let step = operation.next();
+    for (;;) {
+      if (step.done === true) return step.value;
+      // 修复：完成后再 await 编排 Promise 会扩大取消窗口；入口只等待原 stat/range 两处 IO。
+      const result = await step.value();
+      step = operation.next(result);
+    }
   } catch (error) {
     if (isFileSystemPortError(error) && error.code === "not_found") {
       const message = await createMissingReadFileMessage(filePath, context);
@@ -402,63 +300,11 @@ async function createMissingReadFileMessage(
   filePath: string,
   context: ToolExecutionContext,
 ): Promise<string> {
-  const suggestion = await findSimilarFilename(filePath, context);
+  const suggestion = await findReadFileSuggestion(filePath, context);
   return [
     `File does not exist. Note: your current working directory is ${context.workingDirectory}.`,
     suggestion ? ` Did you mean ${suggestion}?` : "",
   ].join("");
-}
-
-async function findSimilarFilename(
-  filePath: string,
-  context: ToolExecutionContext,
-): Promise<string | undefined> {
-  const fileSystemPort = context.fileSystemPort;
-  if (!fileSystemPort) return undefined;
-
-  try {
-    const parent = dirname(filePath);
-    const targetName = basename(filePath);
-    const targetStem = basename(filePath, extname(filePath));
-    const listed = await fileSystemPort.listDirectory(
-      { path: parent, trace: createReadTrace(context) },
-      { signal: context.abortSignal },
-    );
-    const entries = listed.entries
-      .filter((entry) => entry.kind === "file" || entry.kind === "symlink")
-      .map((entry) => entry.name)
-      .filter((name) => name !== targetName)
-      .sort();
-
-    const sameStem = entries.find((name) => basename(name, extname(name)) === targetStem);
-    if (sameStem) return sameStem;
-
-    return entries.find((name) => levenshteinDistance(name, targetName) <= 3);
-  } catch {
-    return undefined;
-  }
-}
-
-function levenshteinDistance(left: string, right: string): number {
-  const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
-  const current = Array.from({ length: right.length + 1 }, () => 0);
-
-  for (let leftIndex = 1; leftIndex <= left.length; leftIndex += 1) {
-    current[0] = leftIndex;
-    for (let rightIndex = 1; rightIndex <= right.length; rightIndex += 1) {
-      const cost = left[leftIndex - 1] === right[rightIndex - 1] ? 0 : 1;
-      current[rightIndex] = Math.min(
-        current[rightIndex - 1]! + 1,
-        previous[rightIndex]! + 1,
-        previous[rightIndex - 1]! + cost,
-      );
-    }
-    for (let index = 0; index < previous.length; index += 1) {
-      previous[index] = current[index]!;
-    }
-  }
-
-  return previous[right.length] ?? 0;
 }
 
 export const readToolEntry: ToolEntry = {

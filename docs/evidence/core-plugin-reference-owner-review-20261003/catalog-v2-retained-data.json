@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "scope": "catalog",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/catalog.ts.txt",
+      "bytes": 2201,
+      "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
+      "texts": [
+        {
+          "text": "@knorvia/contracts",
+          "retained": true
+        },
+        {
+          "text": "skill",
+          "retained": true
+        },
+        {
+          "text": ":",
+          "retained": true
+        },
+        {
+          "text": "agent",
+          "retained": true
+        }
+      ],
+      "regex": [],
+      "passed": true
+    }
+  ],
+  "qualification": "Required literal/protocol/schema/regex/template fragment preservation, generic expression placeholders no internal-name equivalence requirement. Numeric/ordering/cap/identity data checked via public shapes/manual review and minimum synthetic safety gates. No source-emitted matrix, helper layout/novelty/origin/rights attestation."
+}

@@ -1,0 +1,1 @@
+Initial exact AST-shape assertion failed because oxfmt inserted redundant ParenthesizedExpression wrappers around awaits. The comparison was then limited to the same complete syntax tree with only parenthesis wrappers elided; it passed. No implementation or behavioral assertion was changed. The initial frozen draft and type-only corrections remain unchanged.

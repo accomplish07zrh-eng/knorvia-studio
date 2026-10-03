@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/src/commands/index.ts",
+    "apps/cli/packages/adapters/test/custom-command-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-command-owner-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-command-owner-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 20ms on 4 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

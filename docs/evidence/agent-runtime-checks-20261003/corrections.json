@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "initialDraftSHA256": "113830b866f526d93a0faf911fbb1377f98ab398a6cb3b24d87ef5710b7fa6f2",
+  "preservedFailure": "initial-binding-compiler.json",
+  "changes": [
+    {
+      "boundary": "native class type binding",
+      "failure": "Four diagnostics after installing transport functions as native members.",
+      "correction": "Restore the original same-object AgentRuntimeInternal cast for four internal method/tooling calls.",
+      "runtimeEffect": "No additional runtime call, object, promise or receiver change."
+    },
+    {
+      "boundary": "public merged interface",
+      "failure": "Relocation left one rather than two native lifecycle call signatures in the checker surface.",
+      "correction": "Retain both beginShutdown and closeBrowserSession declarations on the merged AgentRuntime interface in addition to AgentRuntimeApi.",
+      "runtimeEffect": "Type-only; all 90 public members and constructor API match."
+    }
+  ],
+  "documentaryChanges": "Selected native constructor/lifecycle explanatory comments are absent from the sealed candidate. Retained field comments/defaults and all 27 moved public JSDoc blocks remain unchanged. No runtime/model-facing strings changed.",
+  "finalFacts": {
+    "compilerDiagnostics": 0,
+    "runtimeJSASTEqualsPredecessor": true,
+    "publicAPIEqual": true
+  },
+  "limits": "Corrections are curator/source-exposed. No runtime defect is invented; no independent-expression, clean-room or licence conclusion follows from equality or body-free drafting."
+}

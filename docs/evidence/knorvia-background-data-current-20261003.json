@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "typescript": "6.0.2",
+  "files": {
+    "apps/cli/packages/core/src/tool/executor/background-task-output.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/background-task-output.ts",
+        "sha256": "f5be07e43ae222852b14c2df2614ae5579fd85e51921f931f4fbae37708549ec"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-data-checks-20261003/current/background-task-output.js.txt",
+        "sha256": "8b696149aed0a26f481ea0187f37ef27705d45fc186ed89459972c83c04ba717"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-data-checks-20261003/current/background-task-output.d.ts.txt",
+        "sha256": "4b64c5c8298daf456c4005f9f5cb2def82bf519733d2e3fd1c3101c455215090"
+      }
+    },
+    "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts",
+        "sha256": "2261f9b56a2955c12d8557a1be801ff80f44c902a2da3cd29d3de0abaa4eb925"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-data-checks-20261003/current/workflow-artifact.js.txt",
+        "sha256": "aa8fc724bc44d307551eefdcbb09df1e4f6de3ab4a7493cf3257f3926d719ff1"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-data-checks-20261003/current/workflow-artifact.d.ts.txt",
+        "sha256": "d57ba3ac5695d400c17427bebc3deb68758ac47a697b5b4a958f417221791320"
+      }
+    }
+  }
+}

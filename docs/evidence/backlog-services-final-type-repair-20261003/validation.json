@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-03T07:34:06.096355+00:00",
+  "branch": "lane/services-20261003",
+  "previousLaneHead": "dac1483b661064ba64003a1137713646d2ebbc8c",
+  "mergedCombinedCheckpoint": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+  "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+  "originalPr": {
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/16",
+    "disposition": "Merged/closed by integration; no new PR or task created",
+    "confirmedState": "closed",
+    "confirmedMerged": true,
+    "mergedAtUtc": "2026-10-03T06:55:05Z",
+    "mergeCommitSha": "3e2b789bdf6b6534bfe92384777ed6dc07b4a0b1",
+    "frozenHeadSha": "dac1483b661064ba64003a1137713646d2ebbc8c"
+  },
+  "initialDiagnostics": {
+    "parentReceipt": "docs/evidence/backlog-integration-20261003/final-first-pass.json",
+    "parentReceiptSha256": "d235554612a7ecc41edb6b55f4b89f01e4992ce1a6fb7cdca651a29d7210b050",
+    "parentTypecheckSourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+    "distinctAssignedCount": 43,
+    "assignedFileCount": 7,
+    "byFile": {
+      "packages/services/src/commands/commandFileParser.ts": 5,
+      "packages/services/src/git/repo/gitCliHelpers.ts": 7,
+      "packages/services/src/git/repo/gitCliParsing.ts": 27,
+      "packages/services/src/git/repo/gitRepoPush.ts": 1,
+      "packages/services/src/model-provider/legacyProviderEndpoints.ts": 1,
+      "packages/services/src/providers/api/nodeApiNetwork.ts": 1,
+      "packages/services/src/skill-sync/skillSyncDiscovery.ts": 1
+    }
+  },
+  "finalRuntime": {
+    "node": "24.14.0",
+    "platform": "linux-x64",
+    "typescript": "6.0.2",
+    "oxlint": "1.60.0",
+    "tsx": "4.21.0",
+    "dependencyInstaller": "pnpm 10.33.2 with frozen lockfile and ignored lifecycle scripts",
+    "nodeArchive": {
+      "url": "https://nodejs.org/dist/v24.14.0/node-v24.14.0-linux-x64.tar.xz",
+      "sha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+      "matchedPublishedChecksums": "https://nodejs.org/dist/v24.14.0/SHASUMS256.txt",
+      "temporaryDirectoryOnly": true
+    }
+  },
+  "prerequisitesAndSupplementalChecks": {
+    "freshnessObservedExitCode": 0,
+    "freshnessNote": "No configured upstream at restored checkout; explicitly fetched and compared the original remote lane instead. Upstream is set by final push.",
+    "initialArchitectureAttempts": "pnpm 11.19.0 commands exited 1 before checker execution because dependency auto-install could not create its home store. The equivalent direct Node checker and context ran after setup.",
+    "initialDeclarationOnlyTypecheck": {
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "-b",
+        "packages/services/tsconfig.json",
+        "--emitDeclarationOnly",
+        "--pretty",
+        "false"
+      ],
+      "runtime": "Node 24.19.0",
+      "observedExitCode": 0,
+      "diagnostics": 0,
+      "scope": "Services plus required shared/RPC reference declarations; same seven source bytes as sourceCommit. No application JS build."
+    },
+    "initialNode2419LintAndTests": "Same ten-file lint passed with 0 errors/warnings; same six offline files passed 13/13. Final canonical results above use repository-required Node 24.14.0.",
+    "formatting": "oxfmt 0.41.0 formatted only the three changed test files; exited 0.",
+    "architectureContext": "services legacy/unmanaged; no new public contract or dependency introduced."
+  },
+  "checks": [
+    {
+      "id": "services-typecheck",
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--project",
+        "packages/services/tsconfig.json",
+        "--pretty",
+        "false"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "diagnostics": 0,
+      "log": "services-typecheck.log.txt",
+      "logSha256": "7bd0afc2c3b058eb1fde05725836c4af7d97784a82ecd3d56240a19b29f2242d"
+    },
+    {
+      "id": "changed-file-lint",
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "node_modules/oxlint/bin/oxlint",
+        "packages/services/src/commands/commandFileParser.ts",
+        "packages/services/src/git/repo/gitCliHelpers.ts",
+        "packages/services/src/git/repo/gitCliParsing.ts",
+        "packages/services/src/git/repo/gitRepoPush.ts",
+        "packages/services/src/model-provider/legacyProviderEndpoints.ts",
+        "packages/services/src/providers/api/nodeApiNetwork.ts",
+        "packages/services/src/skill-sync/skillSyncDiscovery.ts",
+        "packages/services/test/services-parsing-boundaries-final-20261003.test.ts",
+        "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "files": 10,
+      "errors": 0,
+      "warnings": 0,
+      "log": "changed-file-lint.log.txt",
+      "logSha256": "32e3b6e28df786a6561256c8c818cd5ddf6ad3eb7fa1d2b91fd446189dbf82b4"
+    },
+    {
+      "id": "targeted-offline-tests",
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=120000",
+        "packages/services/test/services-parsing-boundaries-final-20261003.test.ts",
+        "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/commands-fake-write-safety-20261002.test.ts",
+        "packages/services/test/skill-sync-write-integrity-20261002.test.ts",
+        "packages/services/test/providerConfigMigration.test.ts"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "files": 6,
+      "tests": 13,
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "log": "targeted-offline-tests.log.txt",
+      "logSha256": "d50a0bb4849c70be61288ae94541f2c2ceb0bdea12667d26e1c43482bfab017b"
+    },
+    {
+      "id": "architecture-changed",
+      "command": [
+        "node",
+        "scripts/architecture/architecture-check.mjs",
+        "check",
+        "--changed"
+      ],
+      "observedExitCode": 0,
+      "status": "passed",
+      "runtime": "Node 24.19.0",
+      "sourceBinding": "pre-commit worktree; same changed source/test bytes as c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "module": "services (legacy/unmanaged)",
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "log": "architecture-changed.log.txt",
+      "logSha256": "107c29ac9b43987f5f07b8757ac82f8c050ee72271dd2b5cfac88d42051f477c"
+    }
+  ],
+  "offlineTestEnvironment": {
+    "temporaryDataAndStorageDirectories": true,
+    "temporaryDirectoriesRemoved": true,
+    "credentialVariablesRemovedFromChildEnvironment": true,
+    "tsxTsconfigPath": "packages/ui/tsconfig.json (read only; existing runner alias configuration)",
+    "realModelRequests": false,
+    "realGitBusinessCommands": false,
+    "realUserDataWrites": false
+  },
+  "sourceBindings": [
+    {
+      "path": "packages/services/src/commands/commandFileParser.ts",
+      "resolvedInitialDiagnostics": 5,
+      "predecessorCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+      "predecessorGitBlob": "5663a2506b276334e60858993b039133c4b4560a",
+      "predecessorSha256": "a2cfb99247d2130f395300c8a5bc6ad9f718f228bbd52c5220488d53998fab4b",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "sourceGitBlob": "b7be2bf9da5e099aca08fcdc118f872f77dfeda5",
+      "sourceSha256": "39286e0782be8da7d014c9e1ac6d5bfeb28076cf6f9656a289ad2dab2a705619",
+      "bytes": 2832,
+      "lines": 76,
+      "changeKind": "Compatibility/type-boundary repair of retained implementation; no new whole-owner authorship or rights acceptance"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "resolvedInitialDiagnostics": 7,
+      "predecessorCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+      "predecessorGitBlob": "0aa56365df35d77cced9e9ad37660f8e94709355",
+      "predecessorSha256": "3430fdd7cd6a565022a82d2cd56b9ee779aa5fe180c2b32566cab777a2285533",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "sourceGitBlob": "f4614b2690c3f0ebf0418911e66f4db839998bdb",
+      "sourceSha256": "01f25cf296c409bfd719b9f6ffe8ca3850ee2e7246e5657c139b541a39896960",
+      "bytes": 11428,
+      "lines": 331,
+      "changeKind": "Compatibility/type-boundary repair of retained implementation; no new whole-owner authorship or rights acceptance"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliParsing.ts",
+      "resolvedInitialDiagnostics": 27,
+      "predecessorCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+      "predecessorGitBlob": "5cd98ec40c3a6561a57c122f5007732b25885eba",
+      "predecessorSha256": "7789656c7dbe2d7d2ac5529856e03023179af53fc766a2aa90ebc98eb0ee90eb",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "sourceGitBlob": "c2ac6d0679f1be6271d1ee1c3c951f70ad0836e9",
+      "sourceSha256": "e7a113d2c350ffca03dd9e92443b656c596f38b5cbb29d200ad4398fcf0fa167",
+      "bytes": 4637,
+      "lines": 131,
+      "changeKind": "Compatibility/type-boundary repair of retained implementation; no new whole-owner authorship or rights acceptance"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoPush.ts",
+      "resolvedInitialDiagnostics": 1,
+      "predecessorCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+      "predecessorGitBlob": "9f6979f1ff7aa11ef006353aae3f3cd171768d87",
+      "predecessorSha256": "9351272abf7cfea970dcc9f701586e4c0e99512d700af6598b3bb1555c060541",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "sourceGitBlob": "340ee817078d36dc42f8f6d9924c6f5588051794",
+      "sourceSha256": "58c20b54d4ecf8340fb3cdcd544d06d23643fd8e0a16e16b0f6a52f0fd98492c",
+      "bytes": 3543,
+      "lines": 88,
+      "changeKind": "Compatibility/type-boundary repair of retained implementation; no new whole-owner authorship or rights acceptance"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyProviderEndpoints.ts",
+      "resolvedInitialDiagnostics": 1,
+      "predecessorCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+      "predecessorGitBlob": "4140944907faa7ea6b0c6705b4b28db0d20da2de",
+      "predecessorSha256": "2426bef6a24b5a4672b4f8edeb3128cf3be14e20f0a0bb1f9c4f78908c9c0850",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "sourceGitBlob": "1fd2cc332fc94da778ddc4278e61baf03296adfd",
+      "sourceSha256": "cb5135b9e3a945a6847d3c38e6ff8fdeebdf2d25d6d44b18609e39d089d67521",
+      "bytes": 4254,
+      "lines": 121,
+      "changeKind": "Compatibility/type-boundary repair of retained implementation; no new whole-owner authorship or rights acceptance"
+    },
+    {
+      "path": "packages/services/src/providers/api/nodeApiNetwork.ts",
+      "resolvedInitialDiagnostics": 1,
+      "predecessorCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+      "predecessorGitBlob": "aaa2928bb9af49c147b530630920ef60051232ca",
+      "predecessorSha256": "a34c633fbe53362f8039e7c0af0beeb5fd31365b3b95929388ccab1f5fcbc132",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "sourceGitBlob": "c4d806bcd8dc1d2e7913a26508898e8e36444fd2",
+      "sourceSha256": "5eea856a1c1980b6d340f45be5d6962bfc2d2b8d5a633ec63f36efdc9067c9ce",
+      "bytes": 7336,
+      "lines": 208,
+      "changeKind": "Compatibility/type-boundary repair of retained implementation; no new whole-owner authorship or rights acceptance"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncDiscovery.ts",
+      "resolvedInitialDiagnostics": 1,
+      "predecessorCommit": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+      "predecessorGitBlob": "33e248da6e34783e016b46a7115fa220383a2bfc",
+      "predecessorSha256": "8d21e2f6740c106f43b21395f2c9867319a886dcc6915413d2b3fd6250980a9e",
+      "sourceCommit": "c448bfcb18dbe3107b97ace675701eba704c4a86",
+      "sourceGitBlob": "4cdb58745e66a0b46f1af76ce301f6cabddbd800",
+      "sourceSha256": "a4f81a609853a28e0fab0793f9ae94c957d554f82f1fc5808039b94a70b69a0f",
+      "bytes": 7743,
+      "lines": 200,
+      "changeKind": "Compatibility/type-boundary repair of retained implementation; no new whole-owner authorship or rights acceptance"
+    }
+  ],
+  "validationBoundary": {
+    "assignedDiagnosticsResolved": true,
+    "readyForMain": false,
+    "rightsAccepted": false,
+    "crossModuleSignatureChangesRequested": [],
+    "localRepairBlockers": [],
+    "notRun": [
+      "Full root typecheck/lint/format/audit/CI rerun",
+      "Full studio offline suite or application/desktop/CLI build",
+      "Windows, desktop/Web/mobile and older owner acceptance cases outside the selected tests"
+    ],
+    "historicalHoldsAndNotices": "Preserved; no global provenance/license/notice edit or historical clearance asserted",
+    "parentNextStep": "Merge the new pushed descendant into integration and complete unified validation and separate source/rights decisions"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "path": "apps/cli/packages/adapters/src/config/config-factory.ts",
+      "added": 213,
+      "removed": 327,
+      "net": -114
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/config-merger.ts",
+      "added": 99,
+      "removed": 176,
+      "net": -77
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/file-config.adapter.ts",
+      "added": 247,
+      "removed": 491,
+      "net": -244
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/project-config.adapter.ts",
+      "added": 84,
+      "removed": 86,
+      "net": -2
+    }
+  ],
+  "net": -437,
+  "limit": "Diff size/control-flow/private name changes are not proof of independent provenance"
+}

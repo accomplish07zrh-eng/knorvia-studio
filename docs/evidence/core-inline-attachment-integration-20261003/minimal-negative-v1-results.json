@@ -1,0 +1,69 @@
+{
+  "kind": "Minimum synthetic validation/privacy/error gates only",
+  "inputs": [
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/attachment-data-url.ts.txt",
+      "bytes": 2218,
+      "sha256": "e8d9e6802e63480b93a591896feb007d1a93dcb759b312252e08062457f8e4c5"
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/attachment-pdf.ts.txt",
+      "bytes": 1407,
+      "sha256": "a1c1211340fc2ff130b75a3ed7ae033add1a45cf3f6334b7670c81994854ff01"
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/attachment-pdf.ts.txt",
+      "bytes": 1407,
+      "sha256": "a1c1211340fc2ff130b75a3ed7ae033add1a45cf3f6334b7670c81994854ff01"
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/attachment-video.ts.txt",
+      "bytes": 1231,
+      "sha256": "607d0d48862299727dcc8231a51aecef026821b6a788a71f52c8b0e143415535"
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/attachment-placeholder.ts.txt",
+      "bytes": 1782,
+      "sha256": "05b629591d6d2ff1d7e94d99cc6a38674e2d5c537b13e822b0bdc6a463d7e712"
+    }
+  ],
+  "results": [
+    {
+      "name": "header native prefix and header-only acceptance",
+      "passed": true
+    },
+    {
+      "name": "base64 validation rejects invalid payloads but retains empty/noncanonical bits",
+      "passed": true
+    },
+    {
+      "name": "PDF validation before decode and size projection",
+      "passed": true
+    },
+    {
+      "name": "PDF dependency failure propagates by identity",
+      "passed": true
+    },
+    {
+      "name": "video strict payload, native regex and fixed MIME projection",
+      "passed": true
+    },
+    {
+      "name": "placeholder raw PDF/video privacy and artifact/local identity",
+      "passed": true
+    },
+    {
+      "name": "placeholder own undefined keys, native empty overrides and source identity",
+      "passed": true
+    },
+    {
+      "name": "placeholder delegated and native getter failures retain identity",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "ordinaryChecksRun": false,
+  "sourceEmittedMatrixRun": false,
+  "actualRuntimeIo": false,
+  "qualification": "Candidate-only narrow VM transcription. Explicit fake dependency ports are synthetic; no whole integration/platform/OS behavior assertion."
+}

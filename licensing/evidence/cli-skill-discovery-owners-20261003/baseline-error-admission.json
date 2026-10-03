@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs",
+    "--baseline",
+    "--only=discovery error"
+  ],
+  "stdout": "✔ discovery error admission preserves absent-code property observation before diagnostics (14.271253ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 17.772049\n",
+  "stderr": "",
+  "exitCode": 0
+}

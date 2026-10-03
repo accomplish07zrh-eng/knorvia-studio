@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "previousCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "scope": "Logging-only temporary JSONL fixture; unrelated JSON and binary sentinel hashes checked. No database schema migration or actual user data.",
+  "results": [
+    {
+      "mode": "source",
+      "oldWrites": 2,
+      "currentWrites": 1,
+      "records": 3,
+      "oldPrefixPreserved": true,
+      "upgradedPrefixPreserved": true,
+      "unrelatedSentinelsPreserved": true
+    },
+    {
+      "mode": "dist",
+      "oldWrites": 2,
+      "currentWrites": 1,
+      "records": 3,
+      "oldPrefixPreserved": true,
+      "upgradedPrefixPreserved": true,
+      "unrelatedSentinelsPreserved": true
+    }
+  ]
+}

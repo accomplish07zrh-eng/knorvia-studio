@@ -1,0 +1,11 @@
+# Local archive owner evidence
+
+Complete localTarGz owner authored by fresh `/root/local_tar_owner_author`, Sol high, without inherited conversation. Permitted reads only author packet, exact root AGENTS and architecture skill. Declared tools: three cat reads, mkdir tmp output, apply_patch full file, sha256sum; corrective apply_patch/hash only. No tests, source/dependency/history access, repository writes or runtime by author. Shared filesystem access is a declared restriction, not OS isolation.
+
+Source-exposed curator read the baseline owner and reviewed complete output. Body-free compatibility corrections restored exact initial-prefix normalization, normalized-drive symlink rejection and non-leading-slash header splits. Curator installed whole output and formatted only; no production implementation edits by curator. Structural reimplementation controls archive parsing/writing, private framing and async IO. Differences do not independently establish provenance; no novelty requirement or licence grant.
+
+One concrete write-boundary discrepancy warranted a single synthetic test: normalized drive-like links reject before archive publication or link replacement. Baseline and corrected candidate each pass 1/fail 0. All fs operations are injected, no actual archive extraction, chmod, unlink or symlink; built-in gzip operates on synthetic bytes. In-memory esbuild transformation is test loading, not a package build. Both raw results retained. No inherited baseline failures observed by this limited check.
+
+Changed owner/test lint: 0 warnings/errors. Syntax-only transpile diagnostics: 0. Changed architecture: 0 violations. Whitespace clear. No semantic types, ordinary runtime suites, builds, native commands, credentials/user data, remote deployment, root cache/network/security edits or global licence/provenance edits. Runtime/platform safety beyond the one synthetic case remains deferred for final aggregate validation.
+
+Spec: `specs/knorvia-deployment-owners-20261003.md`. Exact source/input hashes in source-hashes.json; original initial author hash 4142a4e430321f6f93ad47db876f31517efd2fecbd3a20b7e8530335b050ed8f, corrected raw hash recorded. Initial packet hash after appended clarification records final reviewable contract, not first-turn bytes.

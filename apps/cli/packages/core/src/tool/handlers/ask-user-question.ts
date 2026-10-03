@@ -4,16 +4,14 @@
 
 import {
   ASK_USER_QUESTION_TOOL_NAME,
-  AskUserQuestionAnsweredInputSchema,
   AskUserQuestionInputJsonSchema,
   AskUserQuestionInputSchema,
   AskUserQuestionOutputJsonSchema,
   AskUserQuestionOutputSchema,
-  CoreErrorType,
-  createCoreError,
-  type AskUserQuestionOutput,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolHandler } from "../types.js";
+import type { ToolEntry } from "../types.js";
+import { executeAnsweredQuestion } from "./ask-user-question-result.js";
+import { renderAnsweredQuestion } from "./ask-user-question-narration.js";
 
 const MAX_ASK_USER_QUESTION_MODEL_BYTES = 100_000;
 
@@ -40,34 +38,6 @@ const ASK_USER_QUESTION_DESCRIPTION =
     "Preview content is rendered as markdown in a monospace box. Multi-line text with newlines is supported. When any option has a preview, the UI switches to a side-by-side layout with a vertical option list on the left and preview on the right. Do not use previews for simple preference questions where labels and descriptions suffice. Note: previews are only supported for single-select questions (not multiSelect).",
   ].join("\n") + "\n";
 
-const askUserQuestionHandler: ToolHandler = async (input, context) => {
-  const parsed = AskUserQuestionAnsweredInputSchema.safeParse(input);
-
-  if (!parsed.success) {
-    throw createCoreError(
-      CoreErrorType.ToolExecutionFailed,
-      "AskUserQuestion requires user answers before execution",
-      {
-        context: {
-          issues: parsed.error.issues.map((issue) => ({
-            message: issue.message,
-            path: issue.path,
-          })),
-          toolCallId: context.toolCallId,
-          toolName: ASK_USER_QUESTION_TOOL_NAME,
-        },
-        recoverable: true,
-      },
-    );
-  }
-
-  return {
-    questions: parsed.data.questions,
-    answers: parsed.data.answers ?? {},
-    ...(parsed.data.annotations ? { annotations: parsed.data.annotations } : {}),
-  } satisfies AskUserQuestionOutput;
-};
-
 export const askUserQuestionToolEntry: ToolEntry = {
   capability:
     "Ask the user multiple-choice clarification questions and continue with their answers",
@@ -85,8 +55,8 @@ export const askUserQuestionToolEntry: ToolEntry = {
     riskLevel: "low",
     needsApproval: true,
   },
-  handler: askUserQuestionHandler,
-  formatModelContent: formatAskUserQuestionModelContent,
+  handler: executeAnsweredQuestion,
+  formatModelContent: renderAnsweredQuestion,
   inputSchema: AskUserQuestionInputJsonSchema,
   outputSchema: AskUserQuestionOutputJsonSchema,
   runtimeInputSchema: AskUserQuestionInputSchema,
@@ -127,32 +97,3 @@ export const askUserQuestionToolEntry: ToolEntry = {
     recordOutput: "summary",
   },
 };
-
-function formatAskUserQuestionModelContent(output: unknown): string {
-  const result = output as AskUserQuestionOutput;
-  if (Object.keys(result.answers).length === 0) {
-    return "The user did not provide answers to these questions. Continue using your best judgment; do not treat this as a rejection or invent a user preference.";
-  }
-  const answersText = Object.entries(result.answers)
-    .map(([questionText, answer]) => {
-      const annotation = result.annotations?.[questionText];
-      const parts = [`"${questionText}"="${answer}"`];
-      if (annotation?.preview) {
-        parts.push(`selected preview:\n${annotation.preview}`);
-      }
-      if (annotation?.notes) {
-        parts.push(`user notes: ${annotation.notes}`);
-      }
-      return parts.join(" ");
-    })
-    .join(", ");
-
-  const unansweredCount = result.questions.filter(
-    (question) => !(question.question in result.answers),
-  ).length;
-  if (unansweredCount > 0) {
-    return `The user answered some questions and skipped ${unansweredCount}. Provided answers: ${answersText}. Continue with the provided answers and use your best judgment for the unanswered questions; do not invent user preferences.`;
-  }
-
-  return `User has answered your questions: ${answersText}. You can now continue with the user's answers in mind.`;
-}

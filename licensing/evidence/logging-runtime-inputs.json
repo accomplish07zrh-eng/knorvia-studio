@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "contractCases": 51,
+  "originalFrozenCases": 47,
+  "supplementaryOldSourcePassed": 4,
+  "supplementaryOldDistPassed": 4,
+  "sourcePassed": 51,
+  "distPassed": 51,
+  "publicApiProbe": {
+    "oldSource": true,
+    "oldDist": true,
+    "currentSource": true,
+    "currentDist": true
+  },
+  "contractFiles": [
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract.test.mjs",
+      "sha256": "217377bd6da5430038a71086a58e56bd095ef43ca614d1f199e01e3688e9b895"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/subject.mjs",
+      "sha256": "c6811be563f34bab5d4e17badf8a8c838f1497307d1f631c4197e774bcb6f1de"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/serialization.test.mjs",
+      "sha256": "94210fe38ed28bd5415f815854b8baf1c0de75aec504f88c4134b7f36bd43987"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/retention.test.mjs",
+      "sha256": "94c70ecb8dee1fac8ff0e34b006582323f1cff7a9c571cb50633d476459e027d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/edges.test.mjs",
+      "sha256": "7267485df0d6364799c0d8e1473ec5946bcc39bd9c53c4d1ed523f6588f0b739"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/check-api.mjs",
+      "sha256": "228410154a499fbcbaba69f8a2f20fc3ed8a67c0ca0563f488d8ac327053cc54"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/api-probe.ts",
+      "sha256": "2901a7301b1484904750ed39a8f4698fa53947d9f48c21a5d9ed7133861aa171"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/upgrade-fixture.mjs",
+      "sha256": "3b2c6428e8f3b3bc8c466ba093bc83f9adc58825d26745136117c4579f249cc0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/logger-output.test.mjs",
+      "sha256": "1b3ab5712725e30ff3311456d95d890c08153279aaf0f44577cefd3d5f88d537"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/logger-factory.test.mjs",
+      "sha256": "92c4323003f5409e89f727770bb0a02745d209e7dd07a365421c826c83400d28"
+    }
+  ],
+  "modules": [
+    {
+      "sourcePath": "apps/cli/packages/adapters/src/logging/index.ts",
+      "sourceSha256": "7a18c42c83eae8a0e7488c894d1086d53d1769dd72ee61b473ccd05c72fbe29a",
+      "distPath": "apps/cli/packages/adapters/dist/logging/index.js",
+      "distSha256": "74e2de76b483abc696fda19ee51660dedbd01f80b666e8d09ade2c7dd7c57ea7",
+      "cliSourceMapEntry": "../../adapters/dist/logging/index.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "sourcePath": "apps/cli/packages/adapters/src/logging/serialize.ts",
+      "sourceSha256": "0721b9dab69f7c74526ba213415a46ad866387df772d9e35d2d69d0268d330b2",
+      "distPath": "apps/cli/packages/adapters/dist/logging/serialize.js",
+      "distSha256": "0e2cf4621b0fa9699d845f08420c79e8849ae5ecd6ac1288fe99ad9b9b6b97ab",
+      "cliSourceMapEntry": "../../adapters/dist/logging/serialize.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "sourcePath": "apps/cli/packages/adapters/src/logging/retention.ts",
+      "sourceSha256": "893398776b0f4b0d9e2dc705e365a36678f91d24ec6257ea5620628eef279c4c",
+      "distPath": "apps/cli/packages/adapters/dist/logging/retention.js",
+      "distSha256": "66653c8e8a6e6237cbf23614b9e80cf2cf53d8e8975878d28e258f6b76516c54",
+      "cliSourceMapEntry": "../../adapters/dist/logging/retention.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "sourcePath": "apps/cli/packages/adapters/src/logging/entry.ts",
+      "sourceSha256": "586e95dd02fcae4a973dd47effec5c12a19092e4a45b71819424ca5559d756e5",
+      "distPath": "apps/cli/packages/adapters/dist/logging/entry.js",
+      "distSha256": "7741024572bb7f2cb2a574cdea3d712c95dafdcfc822280d17578d89f5d175a6",
+      "cliSourceMapEntry": "../../adapters/dist/logging/entry.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "sourcePath": "apps/cli/packages/adapters/src/logging/file-sink.ts",
+      "sourceSha256": "42ccac644aa422f3159e1011735708679c07c2d1303d81fa3f933cd61b892aa1",
+      "distPath": "apps/cli/packages/adapters/dist/logging/file-sink.js",
+      "distSha256": "3e8df03e9fdc0784624f8194e6fc5fb3f449a430e3d32d537ace7d9a8e804fd7",
+      "cliSourceMapEntry": "../../adapters/dist/logging/file-sink.js",
+      "exactSourceMapMatch": true
+    }
+  ],
+  "cli": {
+    "path": "apps/cli/packages/cli/dist/knorvia.cjs",
+    "sha256": "61c59516ed786841874bbf261edee4e93e44b9b7a865fd66c1013b33b91fe9d4",
+    "mapSha256": "a71567d43ae621b44fb3ee8a316df2a502da287a5014391bbdbfa48689db08a8"
+  },
+  "limits": [
+    "Contract and implementation author saw the prior bodies; no clean-room assertion.",
+    "Production source license review remains open; Apache-2.0 retained.",
+    "Map byte equality binds tested dist inputs to this build, not semantic correctness or complete application provenance."
+  ],
+  "testLayoutNote": "The frozen logger case bodies were split into two files after formatting exceeded the 400-line repository limit; no assertion, case or time budget changed. The original freeze manifest records historical pre-split inputs."
+}

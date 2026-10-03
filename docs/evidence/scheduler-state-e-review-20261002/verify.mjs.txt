@@ -1,0 +1,71 @@
+import ts from '/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js';
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const repo='/workspace/knorvia-studio';
+const out='/tmp/knorvia-scheduler-state-e-review-20261002';
+const source='/tmp/knorvia-exact-type-review-20261002/source';
+const git=(ref,file)=>execFileSync('git',['show',`${ref}:${file}`],{cwd:repo,encoding:'utf8',maxBuffer:20e6});
+const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+const contracts='apps/cli/packages/contracts/src/workflow/';
+const core='apps/cli/packages/core/src/workflow/scheduler/';
+const author=JSON.parse(git('fcd4f125','docs/evidence/scheduler-state-author-20261002/draft.json'));
+assert.equal(sha(author.draft),author.draftSha256);
+assert.equal(Buffer.byteLength(author.draft),author.draftBytes);
+for(const [file,b] of Object.entries(author.inputs)) {const s=git('fcd4f125','docs/evidence/scheduler-state-author-20261002/'+file);assert.equal(sha(s),b.sha256);assert.equal(Buffer.byteLength(s),b.bytes);assert.equal(s,git('0dcdc63','docs/evidence/scheduler-state-author-20261002/'+file));}
+const parse=text=>ts.createSourceFile('owner.ts',text,ts.ScriptTarget.Latest,true);
+const printer=ts.createPrinter({newLine:ts.NewLineKind.LineFeed});
+const fn=(s,name)=>{const f=parse(s);const n=f.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);assert.ok(n);return {file:f,node:n,text:n.getText(f),printed:printer.printNode(ts.EmitHint.Unspecified,n,f),remainder:s.slice(0,n.getStart(f))+s.slice(n.end)};};
+const pre=git('f72c514',contracts+'index.ts'), selected=git('fcd4f125',contracts+'index.ts');
+assert.equal(pre,fs.readFileSync(out+'/publisher-workflow-index.ts','utf8'));
+const d=fn(author.draft,'deriveWorkflowSchedulerState'),a=fn(selected,'deriveWorkflowSchedulerState'),p=fn(pre,'deriveWorkflowSchedulerState');
+assert.equal(d.printed,a.printed);assert.equal(p.remainder,a.remainder);
+const paths=JSON.parse(fs.readFileSync('/tmp/knorvia-exact-type-review-20261002/v2-compile.json','utf8')).options.paths;
+const common={...JSON.parse(fs.readFileSync('/tmp/knorvia-exact-type-review-20261002/v2-compile.json','utf8')).options};
+const cNames=['index','definition','graph-schema','run-schema','scheduler-state','session-links'];
+const gNames=['graph','graph-helpers','ready-order'];
+function compile(label,ref,cPaths,gPaths) {
+ const overrides=new Map();
+ for(const file of [contracts+'index.ts',core+'graph.ts',core+'planner-expansion.ts',...cPaths,...gPaths])overrides.set(source+'/'+file,git(ref,file));
+ const options={...common,outDir:out+'/emitted-'+label};
+ const host=ts.createCompilerHost(options),read=host.readFile.bind(host),exists=host.fileExists.bind(host);
+ host.readFile=f=>overrides.get(path.resolve(f))??read(f);host.fileExists=f=>overrides.has(path.resolve(f))||exists(f);
+ const roots=[...cPaths,...gPaths].map(f=>source+'/'+f);
+ const program=ts.createProgram(roots,options,host);const diagnostics=ts.getPreEmitDiagnostics(program);
+ fs.writeFileSync(out+'/'+label+'-diagnostics.json',JSON.stringify(diagnostics.map(d=>({code:d.code,file:d.file?.fileName,message:ts.flattenDiagnosticMessageText(d.messageText,'\n')})),null,2)+'\n');
+ assert.equal(diagnostics.length,0,label+': '+diagnostics.map(d=>ts.flattenDiagnosticMessageText(d.messageText,'\n')).join('\n'));
+ const emitted=new Map();program.emit(undefined,(f,text)=>emitted.set(f,text));
+ const checker=program.getTypeChecker();const exports={};
+ for(const file of [contracts+'index.ts',core+'graph.ts']) {const f=program.getSourceFile(source+'/'+file);if(f)exports[file]=checker.getExportsOfModule(checker.getSymbolAtLocation(f)).map(s=>s.name).sort();}
+ const declarations={};for(const file of [...cPaths,...gPaths]) {const f=out+'/emitted-'+label+'/'+file.replace(/\.ts$/,'.d.ts');assert.ok(emitted.has(f),f);declarations[file]=emitted.get(f);}
+ return {overrides,declarations,exports,diagnostics:diagnostics.length};
+}
+const before=compile('state-before','f72c514',[contracts+'index.ts'],[core+'graph.ts']);
+const after=compile('state-after','fcd4f125',[contracts+'index.ts'],[core+'graph.ts']);
+const moved=compile('boundary','0cca0d48',cNames.map(n=>contracts+n+'.ts'),gNames.map(n=>core+n+'.ts'));
+function canonicalDeclaration(text) {
+ const f=parse(text),print=ts.createPrinter({removeComments:true,newLine:ts.NewLineKind.LineFeed});
+ const str=n=>print.printNode(ts.EmitHint.Unspecified,n,f);
+ const transform=context=>{const visit=n=>{const x=ts.visitEachChild(n,visit,context);if(ts.isUnionTypeNode(x))return ts.factory.updateUnionTypeNode(x,[...x.types].sort((a,b)=>str(a).localeCompare(str(b))));if(ts.isTypeLiteralNode(x)){assert.ok(x.members.every(ts.isPropertySignature),'No call/index/overload order normalization');return ts.factory.updateTypeLiteralNode(x,[...x.members].sort((a,b)=>str(a).localeCompare(str(b))));}return x;};return root=>ts.visitNode(root,visit);};
+ const result=ts.transform(f,[transform]);try{return print.printFile(result.transformed[0]);}finally{result.dispose();}
+}
+function statements(text,canonical=false) {
+ const f=parse(text),result={};for(const n of f.statements){if(ts.isImportDeclaration(n)||ts.isExportDeclaration(n))continue;const name=n.name?.getText(f)??(ts.isVariableStatement(n)?n.declarationList.declarations.map(d=>d.name.getText(f)).join(','):undefined);assert.ok(name);assert.ok(!result[name]);result[name]=sha(canonical?canonicalDeclaration(n.getText(f)):printer.printNode(ts.EmitHint.Unspecified,n,f));}return result;
+}
+function merge(items) {const result={};for(const item of items)for(const [n,v]of Object.entries(item)){assert.ok(!result[n]);result[n]=v;}return result;}
+const result={node:process.version,typescript:ts.version,publisherEqualsLocalPredecessor:true,draft:{bytes:author.draftBytes,sha256:author.draftSha256,integratedPrintedAstEqual:true,predecessorRemainderBytesEqual:true,remainderSha256:sha(a.remainder)},state:{diagnosticsBefore:before.diagnostics,diagnosticsAfter:after.diagnostics,rawDeclarationEqual:before.declarations[contracts+'index.ts']===after.declarations[contracts+'index.ts'],canonicalDeclarationEqual:canonicalDeclaration(before.declarations[contracts+'index.ts'])===canonicalDeclaration(after.declarations[contracts+'index.ts'])},boundary:{diagnostics:moved.diagnostics,groups:{}}};
+assert.ok(result.state.canonicalDeclarationEqual);assert.deepEqual(before.exports[contracts+'index.ts'],after.exports[contracts+'index.ts']);
+for(const [name,base,files]of [['contracts',contracts,cNames.map(n=>contracts+n+'.ts')],['graph',core,gNames.map(n=>core+n+'.ts')]]){
+ const originalFile=name==='contracts'?contracts+'index.ts':core+'graph.ts';
+ const oldSource=statements(after.overrides.get(source+'/'+originalFile));
+ const newSource=merge(files.map(f=>statements(moved.overrides.get(source+'/'+f))));assert.deepEqual(newSource,oldSource);
+ const oldDeclarations=statements(after.declarations[originalFile],true);
+ const newDeclarations=merge(files.map(f=>statements(moved.declarations[f],true)));assert.deepEqual(newDeclarations,oldDeclarations);
+ assert.deepEqual(moved.exports[originalFile],after.exports[originalFile]);
+ result.boundary.groups[name]={sourceDeclarations:Object.keys(oldSource).length,publicDeclarations:Object.keys(oldDeclarations).length,exports:after.exports[originalFile].length,sourceStatementsEqual:true,flattenedPublicDeclarationsEqual:true,publicExportNamesEqual:true,sourceStatementBindings:oldSource};
+}
+const movedFunction=fn(moved.overrides.get(source+'/'+contracts+'scheduler-state.ts'),'deriveWorkflowSchedulerState');assert.equal(movedFunction.printed,d.printed);result.boundary.authoredStateFunctionStillDraftEqual=true;
+for(const [label,program]of [['state-before',before],['state-after',after],['boundary',moved]])for(const [name,text]of Object.entries(program.declarations)){const dest=out+'/declarations/'+label+'/'+name.replace(/\.ts$/,'.d.ts');fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text);}
+fs.writeFileSync(out+'/independent-results.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({...result,boundary:{...result.boundary,groups:Object.fromEntries(Object.entries(result.boundary.groups).map(([k,v])=>[k,{...v,sourceStatementBindings:undefined}]))}},null,2));

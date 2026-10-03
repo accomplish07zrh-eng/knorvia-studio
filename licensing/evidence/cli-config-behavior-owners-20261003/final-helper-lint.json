@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/cli-config-behavior-owners-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "licensing/evidence/cli-config-behavior-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-config-behavior-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 23ms on 2 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

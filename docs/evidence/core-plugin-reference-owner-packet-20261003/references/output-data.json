@@ -1,0 +1,39 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "plugin://"
+    },
+    {
+      "kind": "text",
+      "text": "@"
+    },
+    {
+      "kind": "text",
+      "text": "@"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    }
+  ],
+  "regex": [
+    "/\\[(?:\\\\.|[^\\\\\\]])*\\]\\((?:<((?:\\\\.|[^>])*?)>|((?:\\\\.|[^)\\s])*))\\)/g",
+    "/^[A-Za-z0-9][A-Za-z0-9._-]*$/",
+    "/^plugin:\\/\\//i"
+  ],
+  "numericLiterals": [
+    "8",
+    "256",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "2"
+  ],
+  "qualification": "Required externally visible protocol/schema/format/prompt/regex/numeric/static data and ordinary idioms retained honestly; generic placeholders omit target private expression identifiers. No private helper body/name/decomposition prescribed, no novelty/grant claim."
+}

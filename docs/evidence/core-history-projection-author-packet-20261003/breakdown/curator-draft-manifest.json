@@ -1,0 +1,17 @@
+{
+  "archivedAtUtc": "2026-10-02T19:11:09.810319+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 3144,
+      "sha256": "63fe462a04eb256e99e6e6ce2fab6a6e20b0b131849cdc739b7052f4cfbe2d4e"
+    },
+    {
+      "file": "draft-context-usage-breakdown.ts.txt",
+      "bytes": 3587,
+      "sha256": "cd34d73c15a052795cf3c2dab4ac13724e99d6137f8cc1185194a6bc938d1c41",
+      "target": "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts"
+    }
+  ]
+}

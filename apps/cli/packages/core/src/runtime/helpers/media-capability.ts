@@ -27,6 +27,19 @@ export interface MediaCapabilityProjection {
   retainedMediaCount: number;
 }
 
+function cloneUnchangedBlock(block: ModelMessageContentBlock): ModelMessageContentBlock {
+  switch (block.type) {
+    case "image":
+    case "video":
+    case "file":
+      return { ...block, source: block.source ? { ...block.source } : undefined };
+    case "text":
+    case "reasoning":
+    case "resource_link":
+      return { ...block };
+  }
+}
+
 export function projectMessagesForInputFormat(
   messages: ModelInputMessage[],
   inputFormat: ModelInputFormat,
@@ -38,56 +51,82 @@ export function projectMessagesForInputFormat(
       omittedMediaCount: 0,
       omittedPdfCount: 0,
       omittedVideoCount: 0,
-      retainedMediaCount: countProviderVisibleMedia(messages),
+      retainedMediaCount: messages.reduce(
+        (count, message) =>
+          count +
+          (Array.isArray(message.content)
+            ? message.content.filter(isProviderVisibleModelInputMediaBlock).length
+            : 0),
+        0,
+      ),
     };
   }
 
-  let omittedOtherMediaCount = 0;
+  let changed = false;
   let omittedImageCount = 0;
   let omittedPdfCount = 0;
   let omittedVideoCount = 0;
+  let omittedOtherCount = 0;
   let retainedMediaCount = 0;
-  let changed = false;
 
   const projectedMessages = messages.map((message) => {
     if (!Array.isArray(message.content)) {
       return message;
     }
 
-    let messageChanged = false;
     const unavailableMediaIndexes = new Set<number>();
     message.content.forEach((block, index) => {
-      if (unsupportedMediaReplacement(block, inputFormat)) unavailableMediaIndexes.add(index);
+      const kind = getUnsupportedModelInputMediaKind(block, inputFormat);
+      const replacement: ModelMessageContentBlock | undefined = kind
+        ? { type: "text", text: createUnsupportedModelInputMediaText(block, kind) }
+        : undefined;
+      if (replacement) {
+        unavailableMediaIndexes.add(index);
+      }
     });
-    const imageRefIndexes = officialCuaImageRefIndexesForUnavailableMedia(
+    const pairedImageRefIndexes = officialCuaImageRefIndexesForUnavailableMedia(
       message.content,
       unavailableMediaIndexes,
     );
+
+    let messageChanged = false;
     const content = message.content.map((block, index) => {
-      if (imageRefIndexes.has(index)) {
+      if (pairedImageRefIndexes.has(index)) {
         messageChanged = true;
         changed = true;
         return { type: "text" as const, text: "" };
       }
-      const replacement = unsupportedMediaReplacement(block, inputFormat);
+
+      const kind = getUnsupportedModelInputMediaKind(block, inputFormat);
+      const replacement: ModelMessageContentBlock | undefined = kind
+        ? { type: "text", text: createUnsupportedModelInputMediaText(block, kind) }
+        : undefined;
       if (!replacement) {
-        if (isProviderVisibleModelInputMediaBlock(block)) retainedMediaCount++;
-        return cloneContentBlock(block);
+        if (isProviderVisibleModelInputMediaBlock(block)) {
+          retainedMediaCount += 1;
+        }
+        return cloneUnchangedBlock(block);
       }
 
       messageChanged = true;
       changed = true;
-      if (block.type === "image") omittedImageCount++;
-      else if (isProviderVisiblePdfModelInputBlock(block)) omittedPdfCount++;
-      else if (isProviderVisibleVideoModelInputBlock(block)) omittedVideoCount++;
-      else omittedOtherMediaCount++;
-      return imageRefIndexes.has(index + 1) ? officialCuaRasterUnavailableBlock() : replacement;
+      if (block.type === "image") {
+        omittedImageCount += 1;
+      } else if (isProviderVisiblePdfModelInputBlock(block)) {
+        omittedPdfCount += 1;
+      } else if (isProviderVisibleVideoModelInputBlock(block)) {
+        omittedVideoCount += 1;
+      } else {
+        omittedOtherCount += 1;
+      }
+      return pairedImageRefIndexes.has(index + 1)
+        ? officialCuaRasterUnavailableBlock()
+        : replacement;
     });
 
     if (!messageChanged) {
       return message;
     }
-
     return {
       ...message,
       cacheControl: message.cacheControl ? { ...message.cacheControl } : undefined,
@@ -96,12 +135,10 @@ export function projectMessagesForInputFormat(
     };
   });
 
-  const omittedMediaCount =
-    omittedImageCount + omittedPdfCount + omittedVideoCount + omittedOtherMediaCount;
   return {
     messages: changed ? projectedMessages : messages,
     omittedImageCount,
-    omittedMediaCount,
+    omittedMediaCount: omittedImageCount + omittedPdfCount + omittedVideoCount + omittedOtherCount,
     omittedPdfCount,
     omittedVideoCount,
     retainedMediaCount,
@@ -114,7 +151,9 @@ export function logMediaCapabilityProjection(
   projection: MediaCapabilityProjection,
   options: { event: string; message: string; model: string },
 ): void {
-  if (projection.omittedMediaCount === 0) return;
+  if (projection.omittedMediaCount === 0) {
+    return;
+  }
   logger?.debug(options.message, {
     ...traceContextToLogContext(traceContext),
     event: options.event,
@@ -127,34 +166,4 @@ export function logMediaCapabilityProjection(
     retainedMediaCount: projection.retainedMediaCount,
     status: "completed",
   });
-}
-
-function unsupportedMediaReplacement(
-  block: ModelMessageContentBlock,
-  inputFormat: ModelInputFormat,
-): ModelMessageContentBlock | undefined {
-  const unsupportedKind = getUnsupportedModelInputMediaKind(block, inputFormat);
-  return unsupportedKind
-    ? { type: "text", text: createUnsupportedModelInputMediaText(block, unsupportedKind) }
-    : undefined;
-}
-
-function countProviderVisibleMedia(messages: ModelInputMessage[]): number {
-  return messages.reduce((count, message) => {
-    if (!Array.isArray(message.content)) return count;
-    return count + message.content.filter(isProviderVisibleModelInputMediaBlock).length;
-  }, 0);
-}
-
-function cloneContentBlock(block: ModelMessageContentBlock): ModelMessageContentBlock {
-  switch (block.type) {
-    case "image":
-    case "video":
-    case "file":
-      return { ...block, source: block.source ? { ...block.source } : undefined };
-    case "text":
-    case "reasoning":
-    case "resource_link":
-      return { ...block };
-  }
 }

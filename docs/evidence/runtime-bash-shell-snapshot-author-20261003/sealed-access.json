@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "authorScope": "Single bounded body-free author attempt with an authorized fixed-fact supplement",
+  "filesRead": [
+    "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/imports.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/supporting.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/literals.json",
+    "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/clarification.md"
+  ],
+  "readOperations": [
+    {
+      "operation": "cat",
+      "files": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/contract.md",
+        "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/api.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/imports.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/supporting.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/literals.json"
+      ]
+    },
+    {
+      "operation": "cat",
+      "files": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/clarification.md"
+      ]
+    }
+  ],
+  "filesWritten": [
+    "/tmp/knorvia-shell-snapshot-recovery-author/draft.ts",
+    "/tmp/knorvia-shell-snapshot-recovery-author/access.json",
+    "/tmp/knorvia-shell-snapshot-recovery-author/seal.json"
+  ],
+  "revisionRecord": "An initial draft/journal/seal was written before clarification.md authorization arrived; the same three outputs were replaced to incorporate the authorized supplement. No source review occurred.",
+  "supportingTypeFacts": {
+    "provided": [
+      "ExecutionShellSelection has dialect, display, source, and optional string id, label, path.",
+      "Dialect values are cmd, posix, git-bash, legacy-shell.",
+      "Source values are auto-detected, user-config, legacy-fallback.",
+      "saveSessionEntry returns Promise<unknown>; sessionEntries returns Promise<Array<{data: unknown}>>.",
+      "logger.warn accepts a message and fields; traceContextToLogContext is the imported conversion.",
+      "clarification.md supplies exact warning field order and Error.message/String(error) rendering."
+    ],
+    "inferred": [
+      "SessionId supports string concatenation for the specified entry ID.",
+      "The provided existing dependency declarations will accept the entry structure and warning fields required by the contract."
+    ]
+  },
+  "limitations": [
+    "No source, history, tests, oracles, lineage, status, team context, or broader repository inspection.",
+    "No production edits, git operations, compilation, tests, provider calls, or executed filesystem access probes.",
+    "Draft has not been compiled or runtime-validated.",
+    "Hashes were computed from the exact UTF-8 bytes held in memory and then written; output files were not reread.",
+    "Attribution and licensing remain curator-owned; no clean-room or MIT claim is made."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "run": 36827788586,
+  "runNumber": 217,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36827788586",
+  "head": "20d6ca5987f5bcb8cb1caacbcac759b25b9eb452",
+  "checkedMerge": "9d6648aa12702330b5fafc9f0f7daa757a100647",
+  "headAndCheckedTree": "71cf54118cd91f785f9f6de3f9c4b8d4934ff543",
+  "status": "success",
+  "jobs": {
+    "linux": {
+      "id": 110257271816,
+      "tests": 6577,
+      "pass": 6569,
+      "fail": 0,
+      "skip": 8
+    },
+    "windows": {
+      "id": 110257271996,
+      "tests": 6577,
+      "pass": 6576,
+      "fail": 0,
+      "skip": 1
+    }
+  },
+  "verification": "Root independently checked both terminal jobs/logs, checked-merge Git object and fetched remote recovery head. Head and checked trees match. Earlier ca7a821 publication was blocked before push; corrected head passed without test relaxation."
+}

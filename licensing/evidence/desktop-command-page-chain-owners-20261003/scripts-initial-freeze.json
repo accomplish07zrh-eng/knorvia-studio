@@ -1,0 +1,17 @@
+{
+  "owner": "scripts",
+  "version": "initial",
+  "file": "/tmp/knorvia-scripts47-initial.ts",
+  "rawPath": "licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/scripts-initial.ts",
+  "sha256": "c0f1aa9860a7237f47d03c03092c1f6e95024cc787dc1a1f2570b3444b5975eb",
+  "bytes": 13173,
+  "author": "/root/command_page_scripts_owner_author47",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Only common/scripts complete behavior/public declarations; declaration exposed retained VIEWPORT_SCRIPT literal, zero credit; one output write then stat/hash only; no other inherited implementation/history/test/evidence/sibling/draft reads or native/browser/userdata/network/permissions",
+  "fixedInheritedGlueExposed": "VIEWPORT_SCRIPT exact literal, zero new credit",
+  "authorFastIndependentlyVerified": false
+}

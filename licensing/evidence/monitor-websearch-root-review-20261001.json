@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "reviewedHeadBeforeReceipt": "d0d680e7",
+  "terminal": {
+    "laneHead": "fd71001",
+    "ownerSha256": "cdbc250649be8a8b91589e0c0d2e0db39f05a171b6da0c37520649a7fc829c96",
+    "sourceCases": 366,
+    "strictEmittedCases": 366,
+    "independentSourceProbes": 5,
+    "independentEmittedProbes": 4,
+    "nativePorts": "synthetic only",
+    "retryOrder": "Initial acquisition order; failed disposers requeued. Retained exit monitor can precede failed data disposer on next accepted-kill retry. No production ordering change.",
+    "unchangedOtherTerminalFiles": [
+      {
+        "path": "packages/services/src/terminal/terminal.ts",
+        "sha256": "f840b36586ad17b93dd5fca7f411686d345127340c869e022cf558d05ea7f76c"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfile.ts",
+        "sha256": "477f44cd9d1e27cbaa10fb939e047f53c6256bd6b6a9092229c45ae1c79d41f1"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+        "sha256": "703f953469e223bd409671d686776518b64fb6e70170918bc1884aeedd13fd52"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
+        "sha256": "a54ac244a4264bb01ff12a1752139452adc2eda44db9f71a58de249ddd8d685d"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfileMacOsPlist.ts",
+        "sha256": "c16279d4cd983328c2dc8c7dcce91e07df4741593b01fde68c38b8924c5ed364"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfilePortableFormats.ts",
+        "sha256": "e507c2aaf2107fa7a84fd9859a3c68a168df64206c2db2e196c4a2dda98a7e71"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfilePortablePlan.ts",
+        "sha256": "8ca6cd2923494f543769f583aded227c46ee9988fb092a35ab7c7f65c43c02c4"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfilePortableRead.ts",
+        "sha256": "bdbcca134ffb604a2cb55a16a4f3cbddce0e6e2da576aa05fc7ab0f52a0a7570"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfileTypes.ts",
+        "sha256": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalService.ts",
+        "sha256": "965a6d2c2497f774949d2d8ba907b819de0b9d17cca1e5ff8f39c9725d93ec58"
+      },
+      {
+        "path": "packages/services/src/terminal/terminalServiceLaunchPlan.ts",
+        "sha256": "5c86f0ea5295a519e808a53734eca2e88999dcc961caf2a8e2fff1811338ba4d"
+      }
+    ],
+    "builtHostSha256": "dd09b62ccec14a367b07bec95b40c22559b7c36434e9146a09fa0c167f76db53"
+  },
+  "websearch": {
+    "laneHead": "20dfa27",
+    "receiptFilesVerified": 14,
+    "sourceCases": 23,
+    "emittedCases": 23,
+    "differentialPerMode": {
+      "stream": 4096,
+      "projection": 4096
+    },
+    "seed": 1465074225,
+    "observationSha256": "ac1501eb25c3859db4d215b8c9042581f31ebf9d27f87a3c1b3169adf3eef0a0",
+    "publisherBlobsIndependentlyVerified": 3
+  },
+  "qualityGates": {
+    "cliBuildPackages": 17,
+    "rootTypes": "pass",
+    "cliTypes": "pass",
+    "rootConfiguredLint": "pass",
+    "cliConfiguredLint": "pass",
+    "ownedLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "desktopNoRuntimeAssets": "pass"
+  },
+  "focusedLogSha256": {
+    "terminal-monitor-root-dist.log": "7d0da71979f8d58e7f8fae61573b040405b48f574951c8bcd265b98774255ae1",
+    "terminal-monitor-root-source.log": "b887c6c6e9249292aead1782247ae73ce3b1b8a83859694349cdfe8c3fc1346e",
+    "terminal-monitor-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988"
+  },
+  "limits": [
+    "No actual native platform or provider acceptance",
+    "No whole-file MIT or clean-room grant",
+    "27 material obligations remain",
+    "B6 onward UI artifacts remain access-blocked and unintegrated"
+  ],
+  "fullRegression": {
+    "tests": 6743,
+    "pass": 6677,
+    "fail": 59,
+    "cancelled": 0,
+    "skipped": 7,
+    "exactFailureMultisetMatchesPublishedBase": true,
+    "baseline": "20d7040",
+    "environmentFailure": "listen EPERM"
+  }
+}

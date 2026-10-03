@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed activity/field-authority candidate; retained API/sidecar, rights review pending.
 import type { KnorviaTaskMeta } from "@knorvia/shared";
 import type {
   PendingInteractionSummary,
@@ -37,22 +39,22 @@ export function getTaskListRowActivity(task: KnorviaTaskMeta): TaskListRowActivi
   return activity ?? null;
 }
 
-/** 只采信 sessions-index 的实时 phase；tasks-index 残留 status=running 不能置顶历史任务。 */
-function isTaskListRowRunning(task: KnorviaTaskMeta): boolean {
-  const phase = getTaskListRowActivity(task)?.phase;
-  return phase === "prewarming" || phase === "running";
-}
+const activePhases = new Set<SessionSummary["phase"]>(["prewarming", "running"]);
+const attentionPriority = [
+  {
+    kind: "userInput",
+    accepts: (summary: PendingInteractionSummary) => summary.userInputCount > 0,
+  },
+  { kind: "permission", accepts: (_summary: PendingInteractionSummary) => true },
+] as const;
 
-/**
- * 列表运行层的成员判定：回合在跑（prewarming/running）**或**挂着后台工作（hasBackgroundWork）。
- *
- * 动态工作流 run 是后台工作——启动轮收口后父会话 phase 已回到 completedSuccess，
- * 但每条 run 进度事件仍会推进 lastActivityAt。运行层若只看 phase，两个各跑一个 run 的会话
- * 都落在按 updatedAt 排序的非运行层，随进度事件互相换位。后台 bash / 分离子代理同理。
- * 转圈图标仍只认 phase（isTaskListRowRunning），这里只决定排序层。
- */
+/** Running phase or strict background work owns the activity layer; stale task status does not. */
 export function isTaskListRowActive(task: KnorviaTaskMeta): boolean {
-  return isTaskListRowRunning(task) || getTaskListRowActivity(task)?.hasBackgroundWork === true;
+  const phase = getTaskListRowActivity(task)?.phase;
+  return (
+    (phase !== undefined && activePhases.has(phase)) ||
+    getTaskListRowActivity(task)?.hasBackgroundWork === true
+  );
 }
 
 export function getTaskListAttention(
@@ -67,32 +69,42 @@ export function getTaskListAttention(
     return null;
   }
   return {
-    kind: summary.userInputCount > 0 ? "userInput" : "permission",
+    kind: attentionPriority.find((policy) => policy.accepts(summary))!.kind,
     count,
   };
 }
+
+type MembershipFacts = {
+  activityTask: KnorviaTaskMeta;
+  membershipTask: KnorviaTaskMeta;
+  activity: TaskListRowActivity;
+  membershipOwnsUnread: boolean;
+};
+
+const membershipAuthorities = {
+  createdAt: (facts: MembershipFacts) => facts.activityTask.createdAt,
+  updatedAt: (facts: MembershipFacts) => facts.activity.lastActivityAt,
+  status: (facts: MembershipFacts) => facts.activityTask.status,
+  unreadAt: (facts: MembershipFacts) =>
+    facts.membershipOwnsUnread ? facts.membershipTask.unreadAt : facts.activityTask.unreadAt,
+};
 
 export function mergeTaskListMembershipFields(
   activityTask: KnorviaTaskMeta,
   membershipTask: KnorviaTaskMeta,
 ): KnorviaTaskMeta {
   const activity = getTaskListRowActivity(activityTask);
-  if (!activity) {
-    return membershipTask;
-  }
-  const membershipOwnsUnreadAt = Object.prototype.hasOwnProperty.call(membershipTask, "unreadAt");
-  // rename/pin/archive/unread 的 tasks-index 响应会携带自己的 updatedAt/status，
-  // 但侧栏 activity 与 Updated 排序只属于 sessions-index。mutation 只能覆盖 membership/meta
-  // 字段，不能把整行替换后让任务无真实活动却跳序或丢掉实时 phase。
-  return attachTaskListRowActivity(
-    {
-      ...activityTask,
-      ...membershipTask,
-      createdAt: activityTask.createdAt,
-      updatedAt: activity.lastActivityAt,
-      status: activityTask.status,
-      unreadAt: membershipOwnsUnreadAt ? membershipTask.unreadAt : activityTask.unreadAt,
-    },
+  if (!activity) return membershipTask;
+  const facts = {
+    activityTask,
+    membershipTask,
     activity,
-  );
+    membershipOwnsUnread: Object.prototype.hasOwnProperty.call(membershipTask, "unreadAt"),
+  };
+  const merged = { ...activityTask, ...membershipTask };
+  // 字段权威按既有读取顺序投影；spread 保留 metadata own/symbol 与 __proto__ 安全边界。
+  const fields = Object.fromEntries(
+    Object.entries(membershipAuthorities).map(([field, resolve]) => [field, resolve(facts)]),
+  ) as Pick<KnorviaTaskMeta, "createdAt" | "updatedAt" | "status" | "unreadAt">;
+  return attachTaskListRowActivity({ ...merged, ...fields }, activity);
 }

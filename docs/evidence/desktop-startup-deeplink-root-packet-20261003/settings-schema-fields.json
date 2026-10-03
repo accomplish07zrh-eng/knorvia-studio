@@ -1,0 +1,14 @@
+{
+  "recentProjects": [
+    "z.array(z.string()).default([])",
+    "z.array(z.string()).optional()"
+  ],
+  "lastWorkspaceSession": [
+    "z.array(appWorkspaceSessionEntrySchema).default([])",
+    "z.array(appWorkspaceSessionEntrySchema).optional()"
+  ],
+  "lastActiveTabIndex": [
+    "z.number().int().nonnegative().default(0)",
+    "z.number().int().nonnegative().optional()"
+  ]
+}

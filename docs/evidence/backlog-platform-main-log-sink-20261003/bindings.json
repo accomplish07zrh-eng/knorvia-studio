@@ -1,0 +1,60 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-main-log-sink-20261003.md",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/logger.ts",
+      "baselineCommit": "2dadc42e566e3bc13abebd82700b48195e4dfd0b",
+      "baselineBlob": "52c0b7efeaa329b626943e19e23313c6974855fa",
+      "baselineSha256": "6a181e7deb5dbddb7310c8e29c2d016b58fb1322abbd444e880698d2f1cbf20f",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/logger.ts",
+        "kind": "file",
+        "sha256": "6a181e7deb5dbddb7310c8e29c2d016b58fb1322abbd444e880698d2f1cbf20f",
+        "normalizedSha256": "6a181e7deb5dbddb7310c8e29c2d016b58fb1322abbd444e880698d2f1cbf20f",
+        "encoding": "utf8-lf",
+        "bytes": 4141,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/logger.ts",
+          "blob": "35b6632efdf3dc0609feb1b116fcc5c72446003b",
+          "normalizedSha256": "b0f7a8418c48b40648a56eff354565649d924b96c1f047555a97ac5c9ff6ede1",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "00f2f4e4ffc5824c1bd4a4a144e45ff3731320d2fe5368b012afdd9e2af818f7",
+      "frozenCandidateBytes": 3933
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/desktop/src/main/logRetention.ts",
+      "gitBlob": "497306b999fc6da7bd26f5b45799d091a76e5bb1",
+      "sha256": "f1811c0c2b1e75b82c894e70e3a1bcfb2750e0e34b922618b8ed12a54c9968ee",
+      "disposition": "retained public boundary; no source/rights acceptance added"
+    },
+    {
+      "path": "packages/shared/src/log-format.ts",
+      "gitBlob": "61d4182b23302db3c8d7c7c3e4607484e78dff55",
+      "sha256": "d30c2e09c722d7c2e975e80f48468c62fb17ac52299ff0f20101a272ded5c618",
+      "disposition": "retained public boundary; no source/rights acceptance added"
+    },
+    {
+      "path": "packages/shared/src/diagnosticSecrets.ts",
+      "gitBlob": "e5babfed9b9473268d2509403966c3b545f85b6d",
+      "sha256": "1bc26d66eb7f8d4dc5bfd5003009781bfda986ebcf600f54a20b52be66e4811a",
+      "disposition": "retained public boundary; no source/rights acceptance added"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent curated and authored the complete prepared-record/main-sink candidate. Exact line/path/warning data, public entry shapes, calendar/EPIPE predicates and native logging idioms are qualified compatibility material. No isolated-author/independent-origin/rights/MIT acceptance.",
+  "checksRun": [],
+  "testsStatus": "four supplied-native-port scenarios authored, not executed; existing retention candidate also consumes the fake filesystem",
+  "globalLicenseDecisionChanged": false
+}

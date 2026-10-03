@@ -1,0 +1,15 @@
+{
+  "baseHead": "b6bd05af4ff1f33f972fb0b57a6c64b124398df4",
+  "serverScreenCounts": {
+    "priorExactCandidateReceipts": 38,
+    "rootExcluded": 4,
+    "retainedDeclarationsConfigurationExports": 5
+  },
+  "eligibleNewServerOwners": 0,
+  "desktopReportOnlyCandidates": 2,
+  "exactMetadataInputsVerified": true,
+  "protectedPathsUnchanged": 56,
+  "trackedSourceDiff": false,
+  "sourceRuntimeTestsBuildTypesLintRun": false,
+  "MITClaim": false
+}

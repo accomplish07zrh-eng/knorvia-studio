@@ -1,0 +1,198 @@
+[
+  {
+    "utc": "2026-10-02T22:45:30.006459+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/packet.json",
+    "bytes": 1665,
+    "sha256": "f4e8a9e4d369ed7cb78d9e14095677d4b711a566f864a73b570719be895125a3",
+    "action": "read packet (also initial tool cat)"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006525+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/contract.md",
+    "bytes": 15148,
+    "sha256": "ea631225168185f3cd5dfb955054ced13a9fd48d0e7de6d602f1e22402a0940c",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006548+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/api.d.ts",
+    "bytes": 631,
+    "sha256": "39ee2f8e101188de7254b8f0cd8487ceb2af83707ec9360cc5ec862f72479eb6",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006567+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/imports.d.ts",
+    "bytes": 2536,
+    "sha256": "96fe25f1c8829b5038dc5a209b40d915d85861d095762723a08aa87430c6b52d",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006612+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+    "bytes": 30057,
+    "sha256": "faa4f17892f61a48bca2a908e9f7ccc2ee2df59bf6270347f780f9ff3fdd5916",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006633+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/runtime-ports.d.ts",
+    "bytes": 5406,
+    "sha256": "e40cef9fec8f4a5b0ba1d06d6b508f072994591ea41cd1d192c3b50bedd58654",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006659+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/dependency-ports.json",
+    "bytes": 17842,
+    "sha256": "c2485e295a8df3982b27ce4b71aef3279c5d02931307cb3e692fe98df9aadb03",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006674+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/literals.json",
+    "bytes": 1477,
+    "sha256": "b5454e7d8b71ea02be54e73f0010eff01f331b58d3856604ac2206cbca68a22f",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006687+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/log-fields.json",
+    "bytes": 1138,
+    "sha256": "d7e83a3cac79206fd4a24ba997cb86780b45aa1b3d06c3cd867fc48347e8a6f9",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006709+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/port-clarification.d.ts",
+    "bytes": 11702,
+    "sha256": "9d9eb48c88bb8a7f3c18570381bb3736f40f78c8ffb1589740fb5b1cbd7bc0e3",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:30.006724+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/event-fields.json",
+    "bytes": 1433,
+    "sha256": "6044b99cc5543937111b07ad44428b90b8e1485ffe125959a04284364225b51c",
+    "action": "hash verification"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062743+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/contract.md",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062766+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/api.d.ts",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062777+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/imports.d.ts",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062784+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/runtime-ports.d.ts",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062792+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/port-clarification.d.ts",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062798+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/event-fields.json",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062803+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/literals.json",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062808+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/log-fields.json",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062813+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/dependency-ports.json",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:45:43.062817+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+    "action": "cat read (combined output supporting/dependency partly truncated)"
+  },
+  {
+    "utc": "2026-10-02T22:46:06.350318+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/dependency-ports.json",
+    "action": "read signatures extraction"
+  },
+  {
+    "utc": "2026-10-02T22:46:06.350343+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+    "action": "rg targeted declaration search"
+  },
+  {
+    "utc": "2026-10-02T22:46:06.350355+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+    "action": "sed read lines 1-325"
+  },
+  {
+    "utc": "2026-10-02T22:46:06.350362+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/dependency-ports.json",
+    "action": "read enum/machine extraction"
+  },
+  {
+    "utc": "2026-10-02T22:46:56.001961+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/dependency-ports.json",
+    "action": "read non-callable type metadata extraction"
+  },
+  {
+    "utc": "2026-10-02T22:47:13.150098+00:00",
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-command-author-20261003/additional-public-ports.d.ts",
+    "bytes": 12966,
+    "sha256": "7c13480846c2222d91fa94909f52f100c66a562292c198be63fab0efceb747b8",
+    "action": "verify and read authorized supplemental public declarations"
+  },
+  {
+    "utc": "2026-10-02T22:47:13.150111+00:00",
+    "source": "curator message",
+    "action": "authorized additional public facts",
+    "facts": [
+      "telemetry.turn signature, run and settlement methods",
+      "execution beginLocalTurnPreparation(trace, execution) immediately finish",
+      "unhandled errorMessage Error.message else String",
+      "browserAmbientContext direct options field",
+      "synthetic metadata targetId/inputPresentation/visibility keys",
+      "TurnStarted originMeta/inputSource/inputVisibility no defaults",
+      "subagentModelOverride selection/requestDependencies/background fields",
+      "noncancelled failure reads rebuilt projection.pendingSteerInputs.length"
+    ]
+  },
+  {
+    "utc": "2026-10-02T22:50:04.719965+00:00",
+    "source": "curator messages",
+    "action": "authorized further public field facts",
+    "facts": [
+      "targetId in event/notice directly options.targetId",
+      "offPeakRunType only truthy in offPeakTaskId branch, automation wins",
+      "shared context reads message.info.role/source/metadata/contextId, message.parts text discriminant",
+      "activeForegroundExecution.foregroundExecutionId",
+      "usage completedAt Date.now, performance clock only executionStartedAt"
+    ]
+  },
+  {
+    "utc": "2026-10-02T22:51:41.384675+00:00",
+    "source": "curator message",
+    "action": "authorized final public field facts",
+    "facts": [
+      "phase/start/completion/unhandled log status values confirmed started/completed/started/completed/failed",
+      "failure consumed flags use exact-true input OR exact-true optional loop flag and yield boolean",
+      "private modelSelectionScope included only if selectionScope equals execution with literal execution value"
+    ]
+  }
+]

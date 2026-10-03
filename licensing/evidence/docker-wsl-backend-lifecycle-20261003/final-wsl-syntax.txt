@@ -1,0 +1,2 @@
+packages/server/src/remote/wsl-backend.ts: 0 syntax/transpile diagnostics
+Syntax/transpile diagnostics only, no semantic typecheck or package build.

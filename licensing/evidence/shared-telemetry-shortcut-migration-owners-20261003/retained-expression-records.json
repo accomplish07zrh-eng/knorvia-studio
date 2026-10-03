@@ -1,0 +1,79 @@
+{
+  "files": {
+    "telemetry.ts": {
+      "retainedUncounted": [
+        "all public/private data contracts and field vocabulary"
+      ],
+      "requiredRecurrence": [
+        "HTTP(S) URL hostname parse/lowercase and catch",
+        "truthy error text => [redacted]",
+        "login hostname idempotence predicate",
+        "native detail entry order/fresh copy",
+        "Intl eager evaluation followed by nullish context/screen precedence"
+      ],
+      "limit": "sanitizeTelemetryErrorMessage normalized body identical; hostname/context structure remains close to original, no independent licence conclusion."
+    },
+    "processResourceTelemetry.ts": {
+      "retainedUncounted": [
+        "role/lane/event/limit/global-key/event-key tables",
+        "property whitelist mapping",
+        "privacy regex",
+        "public interface/types"
+      ],
+      "requiredRecurrence": [
+        "undefined/chat lane decision",
+        "new whitelist Set/current mapping",
+        "native entries filter undefined/map keys",
+        "unknown/forbidden lists, count>20 and combined ok"
+      ],
+      "limit": "BOTH authored named function bodies match baseline after printer/comment/whitespace normalization. Whole fresh author access is bounded evidence, not an accepted independent rewrite. Static tables/mappings are zero rewrite credit."
+    },
+    "remoteUsageTelemetry.ts": {
+      "retainedUncounted": [
+        "types/import facade",
+        "event/status/identity vocabulary and exact ordered regex languages"
+      ],
+      "requiredRecurrence": [
+        "truthy identity short-circuit remoteSession read",
+        "scope/result own-key layouts",
+        "code then message inherited-key/coercion extraction",
+        "auth/deploy/host_start/attach/relay/connect/unknown match order"
+      ],
+      "limit": "Scope/result normalized bodies identical; classifier structurally close, read helper inlined. Source-exposed contract and internal fresh author report do not establish independent provenance."
+    },
+    "shortcutCommands.ts": {
+      "retainedUncounted": [
+        "exact command table/default bindings",
+        "modifier/alias/named-key tables and static named-key Array.from initializer",
+        "single-key regex",
+        "types/interfaces"
+      ],
+      "requiredRecurrence": [
+        "known default array reference",
+        "alias then regex/named-key admission",
+        "split trailing key and duplicate/unknown modifier rejection",
+        "fixed parsed key insertion and serialization order",
+        "round-trip exact canonical validity"
+      ],
+      "limit": "normalizeShortcutKey and isValidShortcutBinding normalized bodies identical; remaining parse/serialize structure close. No novelty requirement and no accepted provenance/MIT count."
+    },
+    "node/subagentMarkdownMigration.ts": {
+      "retainedUncounted": [
+        "imports/result/API contracts",
+        "existing lock/link/mode/CAS rules and literal FS options/error vocabulary"
+      ],
+      "requiredRecurrence": [
+        "initial and lock stat checks",
+        "unchanged transform/no-op bytes",
+        "wx temp creation/original mode/chmod",
+        "ordered file/physical directory/text CAS and rename",
+        "finally rm overriding return/error",
+        "JSON compact comparison and syntax/ENOENT silence",
+        "depth-first native readdir order/non-link traversal/per-file errors"
+      ],
+      "limit": "migrateSubagentStateFile normalized body identical; core guard/cleanup/CAS ordering and recursive structure necessarily recur. Fresh complete draft and fake tests do not verify native FS/security behavior or establish independent provenance."
+    }
+  },
+  "matchingReceipt": "retained-static-body-shapes.json with original helper command/output; formatted helper retained for review. Normalization strips comments/whitespace including string whitespace, not semantic equivalence or byte originality.",
+  "globalLimits": "All top-level static variable declarations match baseline after lexical normalization and are uncounted. Bodies supplied anew by fresh nofork authors from source-exposed curator contracts, not independently verified clean room or MIT. No novelty or acceptance claim."
+}

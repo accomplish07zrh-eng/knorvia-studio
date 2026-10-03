@@ -6,98 +6,152 @@ import {
   type DatabaseStartupErrorCode,
 } from "@knorvia/shared";
 
-const FIRST_STATUS_TIMEOUT_MS = 30_000;
+interface StartupCompletion {
+  view(): Promise<void>;
+  ready(): void;
+  failed(error: Error): void;
+}
 
-/** 一个 protocol client 对应一个进程代次，状态只来自该连接的合法控制帧。 */
-export class KnorviaStorageStartupGate {
-  private current?: KnorviaStorageStartupState;
-  private terminalError?: Error;
-  private pending?: Promise<void>;
-  private resolve?: () => void;
-  private reject?: (error: Error) => void;
-  private timer?: ReturnType<typeof setTimeout>;
-  private readonly changed = new Emitter<KnorviaStorageStartupState>();
-  readonly onDidChange = this.changed.event;
+type CompletionOutcome = { kind: "ready" } | { kind: "failed"; error: Error };
+interface CompletionObserver {
+  ready(): void;
+  failed(error: Error): void;
+}
 
-  constructor(required: boolean, firstStatusTimeoutMs = FIRST_STATUS_TIMEOUT_MS) {
-    if (required) {
-      this.ensurePending();
-      this.timer = setTimeout(() => this.fail("startup_status_timeout"), firstStatusTimeoutMs);
-      this.timer.unref?.();
-    }
+interface StartupObservation {
+  report?: KnorviaStorageStartupState;
+  rejection?: Error;
+  completion?: StartupCompletion;
+}
+
+function createCompletion(): StartupCompletion {
+  let outcome: CompletionOutcome | undefined;
+  const observers = new Set<CompletionObserver>();
+  function deliver(observer: CompletionObserver, completed: CompletionOutcome): void {
+    if (completed.kind === "ready") observer.ready();
+    else observer.failed(completed.error);
   }
+  function settle(completed: CompletionOutcome): void {
+    if (outcome) return;
+    outcome = completed;
+    for (const observer of observers) deliver(observer, completed);
+    observers.clear();
+  }
+  return {
+    view() {
+      return new Promise<void>((resolve, reject) => {
+        const observer: CompletionObserver = { ready: resolve, failed: reject };
+        if (outcome) deliver(observer, outcome);
+        else observers.add(observer);
+      });
+    },
+    ready: () => settle({ kind: "ready" }),
+    failed: (error) => settle({ kind: "failed", error }),
+  };
+}
 
-  get isWaiting(): boolean {
-    return Boolean(this.terminalError || (this.pending && this.current?.phase !== "ready"));
+/** One process attempt owns the observed fact, shared completion and first-status clock. */
+export class KnorviaStorageStartupGate {
+  private readonly observation: StartupObservation = {};
+  private readonly events = new Emitter<KnorviaStorageStartupState>();
+  private firstStatusDeadline?: ReturnType<typeof setTimeout>;
+  readonly onDidChange = this.events.event;
+
+  constructor(required: boolean, firstStatusTimeoutMs = 30_000) {
+    if (!required) return;
+    this.completion();
+    this.firstStatusDeadline = setTimeout(
+      () => this.rejectStartup("startup_status_timeout"),
+      firstStatusTimeoutMs,
+    );
+    this.firstStatusDeadline.unref?.();
   }
 
   get snapshot(): KnorviaStorageStartupState | undefined {
-    return this.current;
+    return this.observation.report;
+  }
+
+  get isWaiting(): boolean {
+    if (this.observation.rejection) return true;
+    return this.observation.completion !== undefined && this.observation.report?.phase !== "ready";
   }
 
   accept(input: unknown): boolean {
     const parsed = knorviaStorageStartupStateSchema.safeParse(input);
-    if (!parsed.success || this.terminalError) return false;
+    if (!parsed.success || this.observation.rejection) return false;
     const next = parsed.data;
+    const current = this.observation.report;
+    if (current?.phase === "ready" || current?.phase === "failed") return false;
     if (
-      this.current &&
-      (next.attemptId !== this.current.attemptId ||
-        next.databaseId !== this.current.databaseId ||
-        next.sequence <= this.current.sequence ||
-        this.current.phase === "ready" ||
-        this.current.phase === "failed")
+      current &&
+      (current.attemptId !== next.attemptId ||
+        current.databaseId !== next.databaseId ||
+        next.sequence <= current.sequence)
     )
       return false;
-    clearTimeout(this.timer);
-    this.current = next;
-    if (next.phase === "ready") this.resolve?.();
-    else if (next.phase === "failed") this.fail(next.errorCode ?? "sql_failed");
-    else this.ensurePending();
-    this.changed.fire(next);
+
+    clearTimeout(this.firstStatusDeadline);
+    this.observation.report = next;
+    switch (next.phase) {
+      case "ready":
+        this.observation.completion?.ready();
+        break;
+      case "failed":
+        this.rejectStartup(next.errorCode ?? "sql_failed");
+        break;
+      default:
+        this.completion();
+    }
+    this.events.fire(next);
     return true;
   }
 
   async wait(signal?: AbortSignal): Promise<void> {
     signal?.throwIfAborted();
-    if (this.terminalError) throw this.terminalError;
-    if (!this.pending || this.current?.phase === "ready") return;
-    if (!signal) return this.pending;
-    let abort!: () => void;
+    const failure = this.observation.rejection;
+    if (failure) throw failure;
+    const completion = this.observation.completion;
+    if (!completion || this.observation.report?.phase === "ready") return;
+    if (!signal) return completion.view();
+
+    let cancel!: () => void;
     try {
       await Promise.race([
-        this.pending,
+        completion.view(),
         new Promise<never>((_, reject) => {
-          abort = () => reject(signal.reason);
-          signal.addEventListener("abort", abort, { once: true });
+          cancel = () => reject(signal.reason);
+          signal.addEventListener("abort", cancel, { once: true });
         }),
       ]);
     } finally {
-      signal.removeEventListener("abort", abort);
+      signal.removeEventListener("abort", cancel);
     }
   }
 
   dispose(): void {
-    clearTimeout(this.timer);
-    if (this.pending && this.current?.phase !== "ready" && !this.terminalError)
-      this.fail("transport_closed");
-    this.changed.dispose();
+    clearTimeout(this.firstStatusDeadline);
+    if (
+      this.observation.completion &&
+      this.observation.report?.phase !== "ready" &&
+      !this.observation.rejection
+    ) {
+      this.rejectStartup("transport_closed");
+    }
+    this.events.dispose();
   }
 
-  private ensurePending(): void {
-    if (this.pending) return;
-    this.pending = new Promise<void>((resolve, reject) => {
-      this.resolve = resolve;
-      this.reject = reject;
-    });
-    // 尚无业务调用时也可能先收到失败；仍保留 rejected promise 给之后的调用者。
-    void this.pending.catch(() => undefined);
+  private completion(): StartupCompletion {
+    if (this.observation.completion) return this.observation.completion;
+    const completion = createCompletion();
+    this.observation.completion = completion;
+    return completion;
   }
 
-  private fail(code: DatabaseStartupErrorCode): void {
-    // 首帧之前失败也必须形成快照；未知数据库身份不能伪装成某个已解析路径。
-    if (this.current?.phase !== "failed") {
-      this.current = this.current
-        ? { ...this.current, phase: "failed", errorCode: code, sequence: this.current.sequence + 1 }
+  private rejectStartup(code: DatabaseStartupErrorCode): void {
+    const current = this.observation.report;
+    if (current?.phase !== "failed") {
+      this.observation.report = current
+        ? { ...current, phase: "failed", errorCode: code, sequence: current.sequence + 1 }
         : {
             schemaVersion: 1,
             attemptId: randomUUID(),
@@ -108,9 +162,11 @@ export class KnorviaStorageStartupGate {
             elapsedMs: 0,
             errorCode: code,
           };
-      this.changed.fire(this.current);
+      // 原边界先发布合成失败事实，随后才保存错误与拒绝共享 completion。
+      this.events.fire(this.observation.report);
     }
-    this.terminalError = new Error(`SQLite startup failed: ${code}`);
-    this.reject?.(this.terminalError);
+    const failure = new Error(`SQLite startup failed: ${code}`);
+    this.observation.rejection = failure;
+    this.observation.completion?.failed(failure);
   }
 }

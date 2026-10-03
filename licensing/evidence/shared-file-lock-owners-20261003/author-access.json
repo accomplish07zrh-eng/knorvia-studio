@@ -1,0 +1,49 @@
+{
+  "authors": [
+    {
+      "author": "/root/shared_atomic_lock_owner_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-lock-atomicFileLock-packet.md",
+      "packetSha256": "caba676ad92b14639fb05140aa159c0b799ba0896b11535a63f1bb546b6d945d",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-lock-atomicFileLock-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One whole literal heredoc to /tmp/knorvia-lock-atomicFileLock-authored.ts; no patches",
+      "hashRead": "sha256sum /tmp/knorvia-lock-atomicFileLock-authored.ts",
+      "otherAccess": "None reported; no source/tests/deps/history/config/env/other outputs/runtime/format/architecture/network/native/repository access beyond two instruction files. Shared filesystem not OS isolation."
+    },
+    {
+      "author": "/root/shared_private_persistence_owner_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-lock-privateFilePersistence-packet.md",
+      "packetSha256": "edbe455c147293e00192526650bf95ab3902d8780cd6c3d3e16c6bbaeb98c213",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-lock-privateFilePersistence-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One whole literal heredoc to /tmp/knorvia-lock-privateFilePersistence-authored.ts; no patches",
+      "hashRead": "sha256sum /tmp/knorvia-lock-privateFilePersistence-authored.ts",
+      "otherAccess": "None reported; no source/tests/deps/history/config/env/other outputs/runtime/format/architecture/network/native/repository access beyond two instruction files. Shared filesystem not OS isolation.",
+      "correction": {
+        "clarification": "Capture unknown error.code once before its string type check; initial candidate failed the dynamic errno safety regression that passed on the baseline. No source excerpt sent.",
+        "write": "One whole literal heredoc replacement; no patches, new reads or output inspection reported.",
+        "hashRead": "sha256sum /tmp/knorvia-lock-privateFilePersistence-authored.ts",
+        "rawSha256": "5ab252bbe153deb796a4e10983303949b15d7428477022488878d2efcdbfeb7e",
+        "frozenBeforeOpening": "/tmp/knorvia-shared-file-lock-freezes/corrected/privateFilePersistence.ts"
+      }
+    }
+  ],
+  "instructionHashes": {
+    "AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    ".agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "curatorAccess": "Source-exposed selected whole owners and retained observer implementation, plus structural AST screen of other29 candidates excluding held reducer body. Additional body/schema snippets read for eligibility/routing in validationAppSettings/workspace-hook-config/workspace-hook-mutation/runtimeEnv/conversation-share/nodeSelfResourceTelemetry. No selected private user files, process.env, root preview/merge or held reducer bodies read. Fresh authors receive declarations/data plus behavior-only packets, no observer implementation body.",
+  "provenanceLimit": "Fresh complete-owner drafts and precise source-exposed contracts are bounded candidates only, not independent replacements or licence clearance. Previous five identical-normalized-body files receive zero independent-replacement credit. No cosmetic difference cycle."
+}

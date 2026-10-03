@@ -1,193 +1,92 @@
-// ============================================================
-// Tracing - Trace context propagation
-// ============================================================
-
+import { AsyncLocalStorage } from "node:async_hooks";
 import type { QueryId, SessionId, TraceId, TurnId } from "../interfaces/shared.js";
 import { createTraceId } from "../interfaces/shared.js";
-import { AsyncLocalStorage } from "async_hooks";
-import type { Logger, LogContext } from "../logging/logger.js";
+import type { LogContext } from "../logging/logger.js";
+import { createResidentSpan, createSpanIdentifier } from "./span-residence.js";
+import type { Span, TraceContext, Tracer } from "./tracer-types.js";
+export type { ExecutionContext, Span, TraceContext, Tracer } from "./tracer-types.js";
 
-// -----------------------------------------------
-// Trace Context
-// -----------------------------------------------
+const ambientTrace = new AsyncLocalStorage<TraceContext>();
 
-export interface TraceContext {
-  traceId: TraceId;
-  queryId?: QueryId;
-  spanId?: string;
-  parentSpanId?: string;
-  parentId?: string;
-  sessionId?: SessionId;
-  turnId?: TurnId;
-  attributes?: Record<string, string | number | boolean>;
+function errorForSpan(error: unknown): Error {
+  return error instanceof Error ? error : new Error(String(error));
 }
 
-export interface ExecutionContext {
-  trace: TraceContext;
-  logger: Logger;
-  abortSignal?: AbortSignal;
-}
-
-// -----------------------------------------------
-// Span (single unit of work within a trace)
-// -----------------------------------------------
-
-export interface Span {
-  readonly traceId: TraceId;
-  readonly spanId: string;
-  readonly parentId?: string;
-  readonly name: string;
-  readonly startTime: Date;
-  endTime?: Date;
-  attributes: Record<string, string | number | boolean>;
-  status: "running" | "completed" | "error";
-  error?: Error;
-
-  setAttribute(key: string, value: string | number | boolean): void;
-  setAttributes(attributes: Record<string, string | number | boolean>): void;
-  end(error?: Error): void;
-  addEvent(name: string, attributes?: Record<string, string | number | boolean>): void;
-}
-
-class SpanImpl implements Span {
-  readonly traceId: TraceId;
-  readonly spanId: string;
-  readonly parentId?: string;
-  readonly name: string;
-  readonly startTime: Date;
-  endTime?: Date;
-  attributes: Record<string, string | number | boolean>;
-  status: "running" | "completed" | "error" = "running";
-  error?: Error;
-
-  private onEnd?: (span: Span) => void;
-
-  constructor(name: string, traceId: TraceId, parentId?: string, onEnd?: (span: Span) => void) {
-    this.name = name;
-    this.traceId = traceId;
-    this.spanId = generateSpanId();
-    this.parentId = parentId;
-    this.startTime = new Date();
-    this.attributes = {};
-    this.onEnd = onEnd;
-  }
-
-  setAttribute(key: string, value: string | number | boolean): void {
-    this.attributes[key] = value;
-  }
-
-  setAttributes(attributes: Record<string, string | number | boolean>): void {
-    Object.assign(this.attributes, attributes);
-  }
-
-  end(error?: Error): void {
-    if (this.status !== "running") return;
-    this.endTime = new Date();
-    if (error) {
-      this.status = "error";
-      this.error = error;
-    } else {
-      this.status = "completed";
-    }
-    this.onEnd?.(this);
-  }
-
-  addEvent(_name: string, _attributes?: Record<string, string | number | boolean>): void {
-    // Could emit events for external tracing systems
+function synchronousSpanScope<T>(
+  this: Tracer,
+  name: string,
+  fn: (span: Span) => T,
+  parentContext?: TraceContext,
+): T {
+  const span = this.startSpan(name, parentContext);
+  try {
+    const value = fn(span);
+    span.end();
+    return value;
+  } catch (error) {
+    span.end(errorForSpan(error));
+    throw error;
   }
 }
 
-function generateSpanId(): string {
-  return crypto.randomUUID().slice(0, 16);
-}
-
-// -----------------------------------------------
-// Tracer
-// -----------------------------------------------
-
-export interface Tracer {
-  readonly name: string;
-  startSpan(name: string, parentContext?: TraceContext): Span;
-  withSpan<T>(name: string, fn: (span: Span) => T, parentContext?: TraceContext): T;
-  withSpanAsync<T>(
-    name: string,
-    fn: (span: Span) => Promise<T>,
-    parentContext?: TraceContext,
-  ): Promise<T>;
+function asynchronousSpanScope<T>(
+  this: Tracer,
+  name: string,
+  fn: (span: Span) => Promise<T>,
+  parentContext?: TraceContext,
+): Promise<T> {
+  const span = this.startSpan(name, parentContext);
+  // direct then 保留同步 callback throw 的既有边界，不用 async 包装改变错误时序。
+  return fn(span).then(
+    (value) => {
+      span.end();
+      return value;
+    },
+    (error: unknown) => {
+      span.end(errorForSpan(error));
+      throw error;
+    },
+  );
 }
 
 export function createTracer(name: string, onSpanEnd?: (span: Span) => void): Tracer {
   return {
     name,
-    startSpan(name: string, parentContext?: TraceContext): Span {
-      const traceId = parentContext?.traceId ?? (createTraceId() as TraceId);
-      return new SpanImpl(
-        name,
-        traceId,
+    startSpan(spanName: string, parentContext?: TraceContext): Span {
+      return createResidentSpan(
+        spanName,
+        parentContext?.traceId ?? createTraceId(),
         parentContext?.spanId ?? parentContext?.parentSpanId,
         onSpanEnd,
       );
     },
-    withSpan<T>(name: string, fn: (span: Span) => T, parentContext?: TraceContext): T {
-      const span = this.startSpan(name, parentContext);
-      try {
-        const result = fn(span);
-        span.end();
-        return result;
-      } catch (error) {
-        span.end(error instanceof Error ? error : new Error(String(error)));
-        throw error;
-      }
-    },
-    withSpanAsync<T>(
-      name: string,
-      fn: (span: Span) => Promise<T>,
-      parentContext?: TraceContext,
-    ): Promise<T> {
-      const span = this.startSpan(name, parentContext);
-      return fn(span).then(
-        (result) => {
-          span.end();
-          return result;
-        },
-        (error) => {
-          span.end(error instanceof Error ? error : new Error(String(error)));
-          throw error;
-        },
-      );
-    },
+    withSpan: synchronousSpanScope,
+    withSpanAsync: asynchronousSpanScope,
   };
 }
 
-// -----------------------------------------------
-// Async Local Storage for Context Propagation
-// -----------------------------------------------
-
-const _storage = new AsyncLocalStorage<TraceContext>();
-
 export function getCurrentTraceContext(): TraceContext | undefined {
-  return _storage.getStore();
+  return ambientTrace.getStore();
 }
 
 export function runWithContext<T>(context: TraceContext, fn: () => T): T {
-  return _storage.run(context, fn);
+  return ambientTrace.run(context, fn);
 }
 
 export async function runWithContextAsync<T>(
   context: TraceContext,
   fn: () => Promise<T>,
 ): Promise<T> {
-  return _storage.run(context, fn);
+  return ambientTrace.run(context, fn);
 }
 
-// -----------------------------------------------
-// Convenience: create span from current context
-// -----------------------------------------------
-
 export function createSpan(name: string): Span {
-  const currentContext = getCurrentTraceContext();
-  const traceId = currentContext?.traceId ?? (createTraceId() as TraceId);
-  return new SpanImpl(name, traceId, currentContext?.spanId ?? currentContext?.parentSpanId);
+  const context = getCurrentTraceContext();
+  return createResidentSpan(
+    name,
+    context?.traceId ?? createTraceId(),
+    context?.spanId ?? context?.parentSpanId,
+  );
 }
 
 export function createRootTraceContext(
@@ -202,7 +101,7 @@ export function createRootTraceContext(
   return {
     traceId: options.traceId ?? createTraceId(),
     queryId: options.queryId,
-    spanId: generateSpanId(),
+    spanId: createSpanIdentifier(),
     sessionId: options.sessionId,
     turnId: options.turnId,
     attributes: options.attributes,
@@ -221,15 +120,12 @@ export function createChildTraceContext(
   return {
     traceId: parent.traceId,
     queryId: options.queryId ?? parent.queryId,
-    spanId: generateSpanId(),
+    spanId: createSpanIdentifier(),
     parentSpanId: parent.spanId,
     parentId: parent.spanId,
     sessionId: options.sessionId ?? parent.sessionId,
     turnId: options.turnId ?? parent.turnId,
-    attributes: {
-      ...parent.attributes,
-      ...options.attributes,
-    },
+    attributes: { ...parent.attributes, ...options.attributes },
   };
 }
 

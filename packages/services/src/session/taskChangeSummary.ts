@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed reimplementation; see specs/knorvia-session-leaf-contract-8389.md.
 import type {
   KnorviaPersistedFileChange,
   KnorviaTaskChangeSummary,
@@ -5,133 +7,69 @@ import type {
 } from "@knorvia/shared";
 import { computeLineChangeStat } from "@knorvia/shared";
 
-interface AggregatedFileChange {
-  path: string;
-  originalContent: string | null;
-  finalContent: string;
-  writeCount: number;
-  lastTurnIndex: number;
+type FileEndpoints = {
+  before: string | null;
+  after: string;
+  writes: number;
+  turn: number;
+};
+
+/** A transient projection: caller order determines the endpoints, not turn numbers. */
+class ChangeSummaryProjection {
+  private readonly endpoints = new Map<string, FileEndpoints>();
+
+  accept({ turnIndex, snapshots }: KnorviaPersistedFileChange): void {
+    for (const { path, beforeContent, afterContent, writeCount } of snapshots) {
+      const endpoints = this.endpoints.get(path);
+      this.endpoints.set(path, {
+        before: endpoints ? endpoints.before : beforeContent,
+        after: afterContent,
+        writes: endpoints ? endpoints.writes + writeCount : writeCount,
+        turn: turnIndex,
+      });
+    }
+  }
+
+  finish(): KnorviaTaskChangeSummary | undefined {
+    if (this.endpoints.size === 0) return undefined;
+
+    const files: KnorviaTaskChangedFileSummary[] = [];
+    let added = 0;
+    let removed = 0;
+    for (const [path, endpoints] of this.endpoints) {
+      const stat = computeLineChangeStat(endpoints.before, endpoints.after);
+      files.push({
+        path,
+        added: stat.added,
+        removed: stat.removed,
+        writeCount: endpoints.writes,
+        lastTurnIndex: endpoints.turn,
+      });
+      added += stat.added;
+      removed += stat.removed;
+    }
+    files.sort((left, right) => left.path.localeCompare(right.path));
+    return { fileCount: files.length, added, removed, files };
+  }
 }
 
-/**
- * 按轮次分组构建文件变更摘要。
- * 每个轮次独立计算 diff，用于在每条 assistant 消息下方显示该轮的文件改动。
- */
 export function buildPerTurnChangeSummaries(
   fileChanges: readonly KnorviaPersistedFileChange[] | undefined,
 ): Map<number, KnorviaTaskChangeSummary> {
-  const result = new Map<number, KnorviaTaskChangeSummary>();
-  if (!fileChanges || fileChanges.length === 0) {
-    return result;
+  const summaries = new Map<number, KnorviaTaskChangeSummary>();
+  for (const turn of fileChanges ?? []) {
+    const projection = new ChangeSummaryProjection();
+    projection.accept(turn);
+    const summary = projection.finish();
+    if (summary) summaries.set(turn.turnIndex, summary);
   }
-
-  for (const turn of fileChanges) {
-    if (turn.snapshots.length === 0) {
-      continue;
-    }
-
-    // Aggregate snapshots by path so that the same file edited multiple times
-    // within one turn produces a single entry (original before → final after).
-    const turnFileMap = new Map<
-      string,
-      { beforeContent: string | null; afterContent: string; writeCount: number }
-    >();
-    for (const snapshot of turn.snapshots) {
-      const existing = turnFileMap.get(snapshot.path);
-      if (existing) {
-        existing.afterContent = snapshot.afterContent;
-        existing.writeCount += snapshot.writeCount;
-      } else {
-        turnFileMap.set(snapshot.path, {
-          beforeContent: snapshot.beforeContent,
-          afterContent: snapshot.afterContent,
-          writeCount: snapshot.writeCount,
-        });
-      }
-    }
-
-    let added = 0;
-    let removed = 0;
-    const files: KnorviaTaskChangedFileSummary[] = Array.from(turnFileMap.entries())
-      .map(([path, file]) => {
-        const fileStat = computeLineChangeStat(file.beforeContent, file.afterContent);
-        added += fileStat.added;
-        removed += fileStat.removed;
-        return {
-          path,
-          added: fileStat.added,
-          removed: fileStat.removed,
-          writeCount: file.writeCount,
-          lastTurnIndex: turn.turnIndex,
-        };
-      })
-      .sort((left, right) => left.path.localeCompare(right.path));
-
-    result.set(turn.turnIndex, {
-      fileCount: files.length,
-      added,
-      removed,
-      files,
-    });
-  }
-
-  return result;
+  return summaries;
 }
 
 export function buildTaskChangeSummary(
   fileChanges: readonly KnorviaPersistedFileChange[] | undefined,
 ): KnorviaTaskChangeSummary | undefined {
-  if (!fileChanges || fileChanges.length === 0) {
-    return undefined;
-  }
-
-  const changedFileMap = new Map<string, AggregatedFileChange>();
-
-  for (const turn of fileChanges) {
-    for (const snapshot of turn.snapshots) {
-      const existing = changedFileMap.get(snapshot.path);
-      if (existing) {
-        existing.finalContent = snapshot.afterContent;
-        existing.writeCount += snapshot.writeCount;
-        existing.lastTurnIndex = turn.turnIndex;
-        continue;
-      }
-
-      changedFileMap.set(snapshot.path, {
-        path: snapshot.path,
-        originalContent: snapshot.beforeContent,
-        finalContent: snapshot.afterContent,
-        writeCount: snapshot.writeCount,
-        lastTurnIndex: turn.turnIndex,
-      });
-    }
-  }
-
-  if (changedFileMap.size === 0) {
-    return undefined;
-  }
-
-  let added = 0;
-  let removed = 0;
-  const files: KnorviaTaskChangedFileSummary[] = Array.from(changedFileMap.values())
-    .map((file) => {
-      const fileStat = computeLineChangeStat(file.originalContent, file.finalContent);
-      added += fileStat.added;
-      removed += fileStat.removed;
-      return {
-        path: file.path,
-        added: fileStat.added,
-        removed: fileStat.removed,
-        writeCount: file.writeCount,
-        lastTurnIndex: file.lastTurnIndex,
-      };
-    })
-    .sort((left, right) => left.path.localeCompare(right.path));
-
-  return {
-    fileCount: files.length,
-    added,
-    removed,
-    files,
-  };
+  const projection = new ChangeSummaryProjection();
+  for (const turn of fileChanges ?? []) projection.accept(turn);
+  return projection.finish();
 }

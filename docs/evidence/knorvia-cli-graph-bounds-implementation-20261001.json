@@ -1,0 +1,249 @@
+{
+  "formatVersion": 1,
+  "sourceExposure": true,
+  "wholeFileRightsDecision": null,
+  "baseline": "150539341e9d415fdfa79c73d6debbd2581fa0e8",
+  "freeze": "e75046515917b2830a4335abb5025e19a9ff9c25",
+  "implementation": "5b5e99eb44ed4c5692ea1a347ce9e01a133eef4f",
+  "production": {
+    "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+    "bytes": 12385,
+    "sha256": "880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09",
+    "commit": "5b5e99eb44ed4c5692ea1a347ce9e01a133eef4f",
+    "blob": "285920bc4a81f251713b92df3b937ce6e5bbf454"
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "bytes": 12385,
+      "sha256": "880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-fixture.ts",
+      "bytes": 5303,
+      "sha256": "941e78603baa86e5cf0db29f6fa41cd805c09426d66306d8814ef3c8e0dda98f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation.test.ts",
+      "bytes": 2826,
+      "sha256": "378d046d0ebe29e5ad3d4761fa78e9f20906555cfc85ab2626b6df9337075782"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-baseline.json",
+      "bytes": 12694,
+      "sha256": "7760480f71c2f151a45ec0d4ebf4d1f7163d6422cc611ebdda383b144b4197b6"
+    },
+    {
+      "path": "specs/knorvia-create-workflow-graph-bounds-implementation.md",
+      "bytes": 3458,
+      "sha256": "450028cf872d658e23cd22c914ca7050fc6b024222bcf9ab383143d1ed27fd00"
+    }
+  ],
+  "checker": {
+    "path": "docs/evidence/knorvia-cli-graph-bounds-implementation-check-20261001.mjs",
+    "bytes": 4899,
+    "sha256": "4111e8365d5141fff4efc2c58df3d4e96e7c36f7b0586eebb863357a18db62cc"
+  },
+  "previousReview": {
+    "path": "docs/evidence/knorvia-cli-graph-bounds-review-20261001.json",
+    "bytes": 13902,
+    "sha256": "ba3fe5d767ade31ac1f98de418985f659fc23bdb8a0213ae1b93aa34f9740bb3"
+  },
+  "archivePath": "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-baseline.json",
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js",
+      "bytes": 12262,
+      "sha256": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.d.ts",
+      "bytes": 396,
+      "sha256": "97e1a676b5152025a72c6a1cd7f9cdd97dab373a06d9c67455b1ee5d7d3c11ff"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.d.ts.map",
+      "bytes": 417,
+      "sha256": "837a47b4c1946452996df8c40f59d0d833c0913188cb4d328d4a5a8be172800b"
+    }
+  ],
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-baseline.json",
+    "specs/knorvia-create-workflow-graph-bounds-implementation.md",
+    "docs/evidence/knorvia-cli-graph-bounds-implementation-check-20261001.mjs",
+    "docs/evidence/knorvia-cli-graph-bounds-implementation-20261001.json",
+    "docs/knorvia-cli-graph-bounds-implementation-20261001.md"
+  ],
+  "historicalLoaders": [
+    "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-fold-baseline.json",
+    "apps/cli/packages/core/test/create-workflow-graph-quotient-fixture.ts"
+  ],
+  "design": {
+    "owner": "One synchronous call-local projection frame, closure sets and shared lazy omission flag. Card admission counts replace a full projected over-capacity card array; handoff source endpoint admission finishes before payload projection, with capped retained row storage. Every admitted row still evaluates all fields. Phase folding/quota, late lane/step fields and card normalization keep their original read stages.",
+    "effects": "No new await, I/O, timer, deadline, cache, permission, state owner, algorithm framework or operation interpreter. Only the exported body changes.",
+    "comments": "Within the owned body, old non-runtime explanations were replaced with four original factual stage comments. Header/imports/signature and full private-helper/comment tail are byte-identical. Runtime/import string tokens and declaration remain exact; frozen caller/error/completion assertions are unchanged."
+  },
+  "expression": {
+    "new": "Call-local typed output frame; counted card admission with projection-before-retention; complete endpoint admission followed by projected handoff prefix retention; final payload composition from that frame. New targeted synthetic gap and successful call-runner observations, using the accepted executor/clock fixture.",
+    "retained": "Substantial lane/step reference filters and ID sets, phase classification/folding admission, vocabulary/alongside/exits logic, field-literal projection expressions and optional-field guards remain compatibility expression. Constants/public subpath/imports/signature, surrogate/name-pattern helpers and their comments, file header/public explanation remain retained. Conventional map/filter/Set idioms are disclosed rather than replaced with a novelty framework. Existing attribution remains applicable.",
+    "baselineEvidence": "The exact old emitted owner, including inherited commentary and expressions, is retained only in the comparison archive. It is not a newly authored test implementation or an originality proof. Old output/prose in expected observations likewise remain compatibility facts.",
+    "status": "Mixed/source-exposed whole file; root independently reviews expression and contributor/publisher rights. Exposure alone is not a permanent rights bar; no rights conclusion follows from hashes, tests, code size or reorganized ownership. No MIT grant or attribution invention."
+  },
+  "upstream": {
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "path": "apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+    "blob": "d5ec2b7e21e5769091e820cbce2e7487b0efe54f",
+    "lfSha256": "26928094a669c6f6383c4b49cb9672c9e123c41f1f281b9e2e47a0c2254020e3",
+    "verification": "Recorded inventory facts from the prior review, not a new local publisher-byte check. Root said it will acquire the pinned bytes separately. Their absence from this local Git store does not decide rights."
+  },
+  "checks": {
+    "baselineAddedGaps": {
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "logIndex": 1,
+      "unchangedBaselineRunsRepeated": false
+    },
+    "finalSource": {
+      "tests": 13,
+      "pass": 13,
+      "fail": 0,
+      "groups": {
+        "existingFrozenCaller": 4,
+        "addedGapAndConsumer": 4,
+        "unchangedDirectDisplay": 5
+      },
+      "logIndex": 3
+    },
+    "finalStrictEmitted": {
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "noSourceFallback": true,
+      "logIndex": 4
+    },
+    "types": {
+      "typescript": "6.0.2",
+      "productionRoots": 1,
+      "testRoots": 4,
+      "diagnostics": 0,
+      "logIndex": 5
+    },
+    "typedEmission": {
+      "productionRoots": 1,
+      "diagnostics": 0,
+      "actualDistArtifacts": 3,
+      "logIndex": 2
+    },
+    "ownedLint": {
+      "files": 3,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "logIndex": 7
+    },
+    "configuredLint": {
+      "files": 0,
+      "exitCode": 1,
+      "reason": ".oxlintrc.json intentionally ignores apps/cli; no files found. This is not a passing configured coverage claim. Separate owned config checks all three changed TS files with 94 rules.",
+      "logIndex": 6
+    },
+    "format": {
+      "files": 5,
+      "logIndex": 8
+    },
+    "architecture": {
+      "violations": 0,
+      "logIndex": 9
+    },
+    "runtimeConsumers": "Per mode: four normal/model-begin/model-end/early cases and two concurrent calls, compared against exact old emitted projection. Registered CreateWorkflow schema/metadata/formatter and complete deadline/call-runner execute through owned producer/approval fixtures. Normal and completion aborts return success/Completed; early abort returns Cancelled, no producer/event. Result metadata/events/telemetry/terminal/calls are compared exactly after existing span/permission-ID normalization."
+  },
+  "preImplementationFailure": {
+    "logIndex": 0,
+    "tests": 4,
+    "pass": 3,
+    "fail": 1,
+    "classification": "Draft fixture assumption, not a production regression. Initial early-abort assertion required events although the baseline has none. Inspection also showed the synchronous draft producer hit handler(...).then is not a function through the actual deadline owner. Before freezing, producer was made async and assertions strengthened to require success/Completed for normal and completion aborts, Cancelled/no events for early abort. Both passing freeze and failed log remain; final assertions are immutable after e750465."
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-freeze.log",
+      "bytes": 1537,
+      "sha256": "2dfb55afb3373bbbb55ce605a61e1a58a550c493b732512ed2b4100f30256a88"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-freeze-corrected.log",
+      "bytes": 502,
+      "sha256": "1e091aaefbbb1537a8fd83d90729db0529b43809c35fcbb08fae330153d7bfc2"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-emit.log",
+      "bytes": 406,
+      "sha256": "8bf2420c79e439e8e88df1a6fcc9d69a2cd84ff106db610526a4ade82b9e6230"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-source.log",
+      "bytes": 1399,
+      "sha256": "c7d0719dc6ca17bf11760b5719b0f65a63de4285b53b89d38a19ed7bed0cac6b"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-emitted.log",
+      "bytes": 901,
+      "sha256": "15d2138b3817a6fc5d83812edb13b904f513b1ad219785a9a9ebba109b931d08"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-types.log",
+      "bytes": 494,
+      "sha256": "2958afefeeae4666a9126cc6a6f8807b33d3f7d527e28e32096b3f2dbe293f14"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-lint.log",
+      "bytes": 127,
+      "sha256": "1e9e2f99d11cba9de5ee59b196f8ef385eff0f7a5fa6aa75d34556a6071effa0"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-owned-lint.log",
+      "bytes": 90,
+      "sha256": "6cd8f5df17bb4937609a4a1188bdad42109d080a801e25265cc176c83f10926b"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-format.log",
+      "bytes": 112,
+      "sha256": "f459a75ee9c24f59ed89310c331a432cd9dc551450c4625fe732c1add61e515f"
+    },
+    {
+      "path": "/tmp/knorvia-graph-bounds-implementation-architecture.log",
+      "bytes": 200,
+      "sha256": "12391dfc1524ed9718011a106e439ae17463fc750552adb52859fada1e2ab911"
+    }
+  ],
+  "preservedOriginalSccRedLogs": [
+    {
+      "path": "/tmp/knorvia-graph-fold-native-red-source.log",
+      "bytes": 1517,
+      "sha256": "d7782c6d07dff77b4ccee4f97451e1c57032389b1faf27277da40e7784a0dd1c"
+    },
+    {
+      "path": "/tmp/knorvia-graph-fold-native-red-emitted.log",
+      "bytes": 1515,
+      "sha256": "c901e5352cf05a681ce9fda0622ca605d12967d7c8d77a77958391830e5d7cb4"
+    }
+  ],
+  "limits": [
+    "No full suite, aggregate build, broad root checks, native Windows/macOS/UI/browser acceptance or live script analysis/workflow creation. Scope follows the reduced cadence; root owns aggregate/native gates.",
+    "The original fold fixture and its old bounds-JS digest remain unchanged. Current emitted owner necessarily has a new digest, so that historical loader rejects it; quotient fixtures transitively import that loader. No historical assertion was weakened, loader rewritten, or old dist impersonated. Root needs a deliberate aggregate loader migration preserving the old oracle; this checkpoint uses the new exact-owner reconstruction plus original caller contracts. Historical fold suites were not rerun.",
+    "No arbitrary collection/prototype replacement equivalence or exhaustive graph enumeration claimed. New getters target meaningful source-count and over-capacity read phases only. Existing over-capacity card/handoff errors and five caller graphs remain frozen.",
+    "Fake graphs/approval/executor/clock only. No runtime/Host, permission/network/filesystem/security policy, user data, provider, credential, shared licensing, dependency/CI, lower fold/text-helper or other-lane change.",
+    "Earlier SCC red proofs, review/contracts and receipts stay byte-identical. Root independently reviews whole-file expression/rights; no material-obligation closure, merge, release/deployment or publication claim."
+  ],
+  "reproduce": [
+    "node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts apps/cli/packages/core/test/create-workflow-graph-bounds-implementation.test.ts apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts apps/cli/packages/core/test/create-workflow-graph-bounds-implementation.test.ts",
+    "Scoped TS6.0.2 emission used actual core tsconfig and only the bounds source root, writing only its JS/d.ts/d.ts.map. Scoped noEmit adds the two existing review and two new implementation test files, with rootDir undefined. Executor script: /tmp/knorvia-graph-bounds-implementation-types.mjs; no whole build.",
+    "node docs/evidence/knorvia-cli-graph-bounds-implementation-check-20261001.mjs --emitted --scope; add --logs only in this executor where original local logs remain."
+  ]
+}

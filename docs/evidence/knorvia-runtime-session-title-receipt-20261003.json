@@ -1,0 +1,43 @@
+{
+  "baselineCommit": "51a7112e2ea77cbed03133a2e5788c78e7e44e9a",
+  "freezeCommit": "d3f910f",
+  "draftCommit": "0e94759",
+  "redProofCommit": "3674157",
+  "owner": "apps/cli/packages/core/src/runtime/methods/session-title.ts",
+  "lineageReference": "docs/evidence/runtime-session-title-author-20261003/lineage.json",
+  "packetPins": {
+    "api.d.ts": "7ebb29b7988e3cff52790e186fecef309fcabe014dfc48749ace68ac6829ceb1",
+    "receiver-facts.md": "2b30351a4be086ad16982eb4637222f19b27f7bceeb24d3286543bd41010fb4e",
+    "contract.md": "1039b8e7531b4272028787ffb10b674ce8989fb9219aec6a420bbbc75f489e41",
+    "lineage.json": "a03ef2063d95a171a5797d35a21d6f11ae391aabec78935b85ffaa1548b372b4"
+  },
+  "draftPins": {
+    "input-output-hashes.json": "9632e60c14da68bfe00702d6f7624162c30dc813c3afbe4edf5a7f3d764f5a1e",
+    "draft.sha256": "870b86b67c3d5ceb95db9d37fba6acd1946185ca369c823a8c015923986dfb41",
+    "session-title.ts": "256454d10e898122161f7af641798e1edda19d05765dd4453a2983dda5ce1046"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-session-title-baseline-20261003.json",
+    "sha256": "b9d3677033700714a8c06b6fe1183e2767988c0770b9d7e19572b657b9aad536"
+  },
+  "finalPins": {
+    "src/runtime/methods/session-title.ts": "f214bb0512c583516cbc1a66466421bb169af6a05e4c65dec9b2479f17a77da5",
+    "dist/runtime/methods/session-title.js": "6af6fe6a8bd1b3642f342ee46d4be7f714147630009010a6cc1fe93f76fc793a",
+    "dist/runtime/methods/session-title.d.ts": "93e894b04be6e6806ad90788efa805bfbf6e61e42605ec6838b41f6b03fe2c39"
+  },
+  "design": "Complete title seed admission, detached lifetime, edit suppression, custom rename and guarded generated-title writeback. One runtime attempt flag/store owner; native async stale-edit/write gates kept. Original long comments replaced by concise factual author prose. Source-derived guards and update/publication schema/order remain compatibility expression.",
+  "postDraftCorrections": [
+    "Preserved draft lifecycle failure: catch observes trackResidencyBlockingWork return rather than pre-track generation promise; correction is source-exposed.",
+    "Optional titleGeneration read and one revert/info capture restored for receiver/read compatibility; constants named."
+  ],
+  "authorship": "Fresh internal author fork_turns=none, GPT-6.1 Sol high. Only own api.d.ts, contract.md, receiver-facts.md and recorded body-free clarifications supplied; sealed draft before curator source comparison. Curator exposed to predecessor. Packets source-derived, no absolute isolation/clean-room claim; author-reported input journal preserved.",
+  "retention": "Existing attribution/license/notice obligations unchanged. Fixed runtime prose/prompts, schema/declarations, dependency seams, regex compatibility vocabulary and conventional async/object/loop glue remain. Shared required combinations may match; root independently assesses expression/rights. No automatic file eligibility from hashes/tests or drafting process.",
+  "checks": "Shared final scoped compiler report:0 diagnostics;18 call signatures + interface/constant shapes equal. One final strict actual-emitted pass:5 shared safety groups +2 appended concrete regressions (overlap, not per-owner multiplicative counts).5 owner lint94rules0,6 format files0,architecture0.",
+  "limits": [
+    "Ordinary suites, broad builds, source/emitted duplication, native/live-provider acceptance deliberately unrun per user speed cadence.",
+    "Synthetic port observations do not establish all request success/error/cancellation branches. Direct runtime consumers statically traced, not launched.",
+    "Transitive workspace dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no proxy bypass/configuration change.",
+    "Root independent correctness/expression/licence review remains; no header/global inventory grant, no publication claim."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": 0,
+  "capturedModules": 5,
+  "sourceSHA256": {
+    "tool/handlers/bash-output": "a8be37b54102dc22a70283f461135aa689bc4f56a60ff18e1f1c7d86139edfa7",
+    "tool/handlers/bash-model-content": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728"
+  }
+}

@@ -1,0 +1,2 @@
+baseline:3 minimum fake-port groups pass (path/capture gates, Darwin fallback order, IPC admission/identity/teardown). No actual shell/capture/IPC/files/remote/network.
+candidate:3 minimum fake-port groups pass (path/capture gates, Darwin fallback order, IPC admission/identity/teardown). No actual shell/capture/IPC/files/remote/network.

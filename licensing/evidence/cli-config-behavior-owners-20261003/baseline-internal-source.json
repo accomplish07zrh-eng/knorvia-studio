@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs",
+    "--baseline",
+    "--case=internal"
+  ],
+  "stdout": "sourceMode=frozen-baseline; selectedOwner=all\n✔ factory: internal hook sources keep exact payloads and existing source references (92.967645ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 97.514529\n",
+  "stderr": "",
+  "exitCode": 0
+}

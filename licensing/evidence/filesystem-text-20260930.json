@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-30",
+  "baseCommit": "ab713db03e43bdf1890479158d2d8e18c2dd4224",
+  "completedLogicalModules": [
+    "fs/text-metadata.ts",
+    "fs/text-range-reader.ts"
+  ],
+  "pendingLogicalModules": [
+    "device/cli-device-mid.ts",
+    "fs/index.ts (all operations including search)"
+  ],
+  "implementation": {
+    "oldImplementationBodiesAccessedForContract": true,
+    "cleanRoomClaim": false,
+    "mitEligibilityResolved": false,
+    "productionLicense": "Apache-2.0 retained; no production original/MIT review added",
+    "design": [
+      "One codec choice boundary for complete decoding/encoding and stream state",
+      "Incremental line-window owner; fragments retained only for selected lines; skipped line keeps last character and counts"
+    ]
+  },
+  "baselineFiles": [
+    {
+      "path": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+      "sourceSha256": "6d335b29abf6e9362f41c3419c1e2326ad02056b22f09efd9618ac181ff688e2",
+      "builtJsSha256": "967dbce5c2eb608068897918ce3d19422e33e08d49520bdbfb4e44d564f8dbe8",
+      "declarationSha256": "2e2097ed11bb4601461415f9690c2959ff4a00c3d274e3e92aba2cb890761bef"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/index.ts",
+      "sourceSha256": "4bbb761d5fe663aa3cb547387051d908b1319ef9af19fda3fb286cca96a5825e",
+      "builtJsSha256": "4babe3f5fdc50218ccebcb690f985996306284450bfb8a3331b65a799f2cb796",
+      "declarationSha256": "1c901db6de53900d3db352b1eaea871df3a25181fa87e407a29e13f88a80505d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+      "sourceSha256": "a538e47a026d7599064a0e426c67c3bdfaba115c80749fd8d7cb28e1a5228cec",
+      "builtJsSha256": "fa5e660661be3f528e0d9b07ffdfb0c93fcdbe407c71be8468b519530200f743",
+      "declarationSha256": "92b978c42672e294e70a3e743dcc500c475bf25f6a8748f1653ab50a015312a1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+      "sourceSha256": "ffbfd512571ed1e03e6026b4ba53f2a3c38eb9a0ca3565cdb283f846b2f5bb0a",
+      "builtJsSha256": "5b854c6bcb5eee6c473b7cb13b57c4353e6391dfc0f867894415e2cf90cb8b84",
+      "declarationSha256": "61cc59b8d42be5fd60929f82dbac9e064b85591b796edee6fa27e9411140c8c7"
+    }
+  ],
+  "candidateFiles": [
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+      "sha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+      "sha256": "df90936480261ab01d925e9ebda672113b7fdf9eb0d2b9a1b062abc42085cf9d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-line-window.ts",
+      "sha256": "936390c8fee4112d243610bbba4220b20161c7468e45be40b93a55c8208e25e9"
+    }
+  ],
+  "unchangedBoundaries": [
+    {
+      "path": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+      "sha256": "6d335b29abf6e9362f41c3419c1e2326ad02056b22f09efd9618ac181ff688e2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/index.ts",
+      "sha256": "4bbb761d5fe663aa3cb547387051d908b1319ef9af19fda3fb286cca96a5825e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text.ts",
+      "sha256": "75669f23f63902c6f226779d2d1aa0cef869de40ce9784f7a27faf6d35032d0e"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f"
+    }
+  ],
+  "frozenContracts": {
+    "preImplementationCasesPerMode": 186,
+    "oldSourcePassed": 186,
+    "oldDistPassed": 186,
+    "finalCasesPerMode": 191,
+    "postImplementationRealConsumerCases": 4,
+    "memoryRegressionCases": 1,
+    "publicApi": "TypeScript public signature and result projection of actual old declarations matches source/dist",
+    "fixtures": [
+      {
+        "path": "apps/cli/packages/adapters/test/device-fs-contract/api-text-shape.json",
+        "sha256": "771fe48953c94346748b04ca6075e71f4995ab5f61e2c05defb338447cb33d87"
+      },
+      {
+        "path": "apps/cli/packages/adapters/test/device-fs-contract/metadata-observations.json",
+        "sha256": "b2e2602d5edd2d9074e334b690aaf81e74c383da5007e1f99aa214ebda8a1991"
+      },
+      {
+        "path": "apps/cli/packages/adapters/test/device-fs-contract/range-observations.json",
+        "sha256": "8a46763c3afbe9b7aee13ed9162ba43b124c5f4af1fc8594025580be6e66d5f5"
+      }
+    ]
+  },
+  "longSkippedLine": {
+    "fixtureBytes": 67108864,
+    "chunkBytes": 65536,
+    "limitLines": 0,
+    "rawHeap": {
+      "oldSource": {
+        "extraHeap": 648128472,
+        "content": "",
+        "lineCount": 0,
+        "totalLines": 1,
+        "bytesRead": 67108864,
+        "sizeBytes": 67108864,
+        "lineEndings": "LF"
+      },
+      "oldDist": {
+        "extraHeap": 630669016,
+        "content": "",
+        "lineCount": 0,
+        "totalLines": 1,
+        "bytesRead": 67108864,
+        "sizeBytes": 67108864,
+        "lineEndings": "LF"
+      },
+      "initialCandidateTest": {
+        "extraHeap": 33680128,
+        "passed": false
+      }
+    },
+    "retainedHeap": {
+      "sampling": "After load GC, GC every 128 chunks and last chunk; fixed <32MiB budget",
+      "oldSource": {
+        "extraHeap": 66096240,
+        "content": "",
+        "lineCount": 0,
+        "totalLines": 1,
+        "bytesRead": 67108864,
+        "sizeBytes": 67108864,
+        "lineEndings": "LF"
+      },
+      "candidateSource": {
+        "extraHeap": 348408,
+        "content": "",
+        "lineCount": 0,
+        "totalLines": 1,
+        "bytesRead": 67108864,
+        "sizeBytes": 67108864,
+        "lineEndings": "LF"
+      },
+      "candidateDist": {
+        "status": "passed permanent isolated <32MiB assertion"
+      }
+    }
+  },
+  "compatibility": {
+    "sequence": [
+      "old",
+      "new",
+      "old"
+    ],
+    "scope": "Synthetic byte fixtures through real facade; no user data or database migration",
+    "sourcePassed": true,
+    "distPassed": true,
+    "sourceFixtureSha256": "a01752b46cb2297438b082237127b2b2a21f50f50c1d6a103353d9032758e53b",
+    "distFixtureSha256": "a01752b46cb2297438b082237127b2b2a21f50f50c1d6a103353d9032758e53b"
+  },
+  "buildProof": [
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-metadata.js",
+      "sha256": "7c6c06a049becbe368a3bf87b3063beeb69db5968501d40bb8550d0d6116024f",
+      "mapSource": "../../adapters/dist/fs/text-metadata.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-range-reader.js",
+      "sha256": "565463f7952a215bd2f4286f7ebc98ca4110fdbfd13b8cf46b4504ed7328e567",
+      "mapSource": "../../adapters/dist/fs/text-range-reader.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-line-window.js",
+      "sha256": "89ad80acb5101af7393eec69f4f3bbc32728f2626768439fa7096ddac7072f3a",
+      "mapSource": "../../adapters/dist/fs/text-line-window.js",
+      "exactSourceMapMatch": true
+    }
+  ],
+  "checks": {
+    "candidateSource": {
+      "cases": 191,
+      "passed": 191,
+      "failed": 0
+    },
+    "candidateDist": {
+      "cases": 191,
+      "passed": 191,
+      "failed": 0
+    },
+    "cliBuild": {
+      "successfulTasks": 17,
+      "totalTasks": 17,
+      "cachedTasks": 12
+    },
+    "rootAndCliTypecheck": "passed",
+    "rootAndCliLint": "passed",
+    "format": "passed",
+    "architecture": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    "fullOffline": {
+      "cases": 3874,
+      "passed": 3867,
+      "skipped": 7,
+      "failed": 0,
+      "durationMs": 264586.64393
+    },
+    "provenanceFreshness": {
+      "status": "passed",
+      "reviewProblems": 0,
+      "strictOpenCount": 27
+    }
+  },
+  "materialObligations": {
+    "strictOpenCount": 27,
+    "unchanged": true,
+    "eightColoredAssetsResolved": false
+  },
+  "baselineCi": {
+    "runNumber": 191,
+    "runId": 36699066638,
+    "headSha": "ab713db03e43bdf1890479158d2d8e18c2dd4224",
+    "status": "success",
+    "confirmation": "Parent and current task read independently; does not validate this text slice"
+  },
+  "preparationAndImplementationFailures": [
+    "Loader banner identifier collision",
+    "Consumer used incorrect class name before correcting to actual NodeFileSystemAdapter",
+    "API checker lib target lacked findLastIndex in unrelated actual shared types; corrected to ES2023",
+    "Candidate Chinese encoding branch needed an explicit type predicate; fixed without unsafe BufferEncoding casts",
+    "CLI child workspace exec turbo was unavailable; used actual configured typecheck/lint scripts",
+    "Initial transient heap test depended on GC schedule; replaced with fixed post-GC retained-heap sampling, same 32MiB budget"
+  ],
+  "unrun": [
+    "Native Windows/macOS process precision",
+    "Electron native GUI with supported sandbox helper ownership",
+    "Installer and final release payload validation"
+  ],
+  "rollback": "Revert the two-module slice and internal helper; no persisted data format changes",
+  "buildProofReverification": {
+    "recordedArtifactSha256": "7c6c06a049becbe368a3bf87b3063beeb69db5968501d40bb8550d0d6116024f",
+    "currentArtifactSha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+    "historicalArtifactRecovered": true,
+    "historicalArtifactCacheKey": "a1c3d4664865302a",
+    "historicalCliCacheKey": "9385273e016cdfa7",
+    "historicalSourceMapBytesMatch": true,
+    "currentSourceSha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542",
+    "lockedTypeScript": "6.0.2",
+    "command": "pnpm build:cli-packages (adapters tsc, CLI bundle)",
+    "onlyDifference": "The historical output splits one if condition over two lines; current output keeps it on one line. TypeScript scanner tokens identical.",
+    "sourceBindingCorrection": "The original source hash describes the final formatted source; its old cached dist hash is historical and is not asserted to be an exact rebuild of that final source. Original digest retained.",
+    "currentBuildProof": [
+      {
+        "path": "apps/cli/packages/adapters/dist/fs/text-metadata.js",
+        "sha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+        "source": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+        "sourceSha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542",
+        "mapSource": "../../adapters/dist/fs/text-metadata.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/fs/text-range-reader.js",
+        "sha256": "565463f7952a215bd2f4286f7ebc98ca4110fdbfd13b8cf46b4504ed7328e567",
+        "source": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+        "sourceSha256": "df90936480261ab01d925e9ebda672113b7fdf9eb0d2b9a1b062abc42085cf9d",
+        "mapSource": "../../adapters/dist/fs/text-range-reader.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/fs/text-line-window.js",
+        "sha256": "89ad80acb5101af7393eec69f4f3bbc32728f2626768439fa7096ddac7072f3a",
+        "source": "apps/cli/packages/adapters/src/fs/text-line-window.ts",
+        "sourceSha256": "936390c8fee4112d243610bbba4220b20161c7468e45be40b93a55c8208e25e9",
+        "mapSource": "../../adapters/dist/fs/text-line-window.js",
+        "exactSourceMapMatch": true
+      }
+    ]
+  }
+}

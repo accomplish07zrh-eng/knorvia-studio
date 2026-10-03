@@ -24,18 +24,7 @@ export interface ToolCallSummary {
   changeStat?: ToolCallChangeStat;
 }
 
-const TOOL_CALL_RUNNING_STATES = new Set<CompactToolCallState>([
-  "input-streaming",
-  "input-available",
-]);
-
-const TOOL_CALL_FINISHED_STATES = new Set<CompactToolCallState>([
-  "output-available",
-  "output-error",
-  "output-denied",
-]);
-
-const TOOL_CALL_STATUS_MESSAGE_IDS: Record<CompactToolCallState, string> = {
+const statusMessageIds: Record<string, string> = {
   "input-streaming": "chat.toolCall.status.pending",
   "input-available": "chat.toolCall.status.running",
   "output-available": "chat.toolCall.status.completed",
@@ -43,165 +32,125 @@ const TOOL_CALL_STATUS_MESSAGE_IDS: Record<CompactToolCallState, string> = {
   "output-denied": "chat.toolCall.status.denied",
 };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function normalizeDisplayText(value: string): string {
-  return value.trim().replace(/\s+/g, " ");
-}
-
-function countLines(value: string): number {
-  if (value.length === 0) return 0;
-  let count = 1;
-  for (let i = 0; i < value.length; i++) {
-    if (value.charCodeAt(i) === 10) count++;
-  }
-  if (value.charCodeAt(value.length - 1) === 10) count--;
-  return count;
-}
-
-function readFirstStringField(
-  value: Record<string, unknown>,
-  keys: readonly string[],
-): string | undefined {
-  for (const key of keys) {
-    const candidate = value[key];
-    if (typeof candidate === "string") {
-      return candidate;
-    }
-  }
-  return undefined;
-}
-
-function extractBeforeAfterText(source: unknown): { before: string; after: string } | null {
-  if (!isRecord(source)) {
-    return null;
-  }
-
-  const before = readFirstStringField(source, ["old_string", "oldString", "oldText", "before"]);
-  const after = readFirstStringField(source, [
-    "new_string",
-    "newString",
-    "newText",
-    "after",
-    "content",
-  ]);
-  if (before !== undefined && after !== undefined) {
-    return { before, after };
-  }
-
-  const metadata = source["metadata"];
-  if (isRecord(metadata)) {
-    const fileDiff = metadata["filediff"];
-    if (isRecord(fileDiff)) {
-      const nestedBefore = readFirstStringField(fileDiff, [
-        "old_string",
-        "oldString",
-        "oldText",
-        "before",
-      ]);
-      const nestedAfter = readFirstStringField(fileDiff, [
-        "new_string",
-        "newString",
-        "newText",
-        "after",
-        "content",
-      ]);
-      if (nestedBefore !== undefined && nestedAfter !== undefined) {
-        return { before: nestedBefore, after: nestedAfter };
-      }
-    }
-  }
-
-  const contentBlocks = source["content"];
-  if (Array.isArray(contentBlocks)) {
-    for (const block of contentBlocks) {
-      if (!isRecord(block)) {
-        continue;
-      }
-      const blockBefore = readFirstStringField(block, [
-        "old_string",
-        "oldString",
-        "oldText",
-        "before",
-      ]);
-      const blockAfter = readFirstStringField(block, [
-        "new_string",
-        "newString",
-        "newText",
-        "after",
-        "content",
-      ]);
-      if (blockBefore !== undefined && blockAfter !== undefined) {
-        return { before: blockBefore, after: blockAfter };
-      }
-    }
-  }
-
-  return null;
-}
-
-function getChangeStat(
-  kind: string,
-  input: unknown,
-  output?: unknown,
-  raw?: unknown,
-): ToolCallChangeStat | undefined {
-  if (!/(edit|patch|replace|multi.?edit)/i.test(kind)) return undefined;
-
-  const changeSource =
-    extractBeforeAfterText(input) ?? extractBeforeAfterText(output) ?? extractBeforeAfterText(raw);
-  if (!changeSource) return undefined;
-
-  const removed = countLines(changeSource.before);
-  const added = countLines(changeSource.after);
-  if (added === 0 && removed === 0) return undefined;
-
-  return { added, removed };
-}
-
-function getInputSummary(input: unknown): string | undefined {
-  if (typeof input === "string") {
-    const summary = normalizeDisplayText(input);
-    return summary.length > 0 ? summary : undefined;
-  }
-
-  if (!isRecord(input)) {
-    return undefined;
-  }
-
-  for (const key of ["command", "path", "file_path", "filePath", "prompt"] as const) {
-    const candidate = input[key];
-    if (typeof candidate !== "string") {
-      continue;
-    }
-
-    const summary = normalizeDisplayText(candidate);
-    if (summary.length > 0) {
-      return summary;
-    }
-  }
-
-  return undefined;
-}
-
 export function isCompactToolCallRunningState(state: string): state is CompactToolCallState {
-  return TOOL_CALL_RUNNING_STATES.has(state as CompactToolCallState);
+  return state === "input-streaming" || state === "input-available";
 }
 
 export function isCompactToolCallFinishedState(state: string): state is CompactToolCallState {
-  return TOOL_CALL_FINISHED_STATES.has(state as CompactToolCallState);
+  return state === "output-available" || state === "output-error" || state === "output-denied";
 }
 
 export function getCompactToolCallStatusMessageId(state: string, rawStatus?: string): string {
   if (rawStatus === "stopped") {
     return "chat.toolCall.status.stopped";
   }
+  return statusMessageIds[state] ?? "chat.toolCall.status.pending";
+}
 
-  return (
-    TOOL_CALL_STATUS_MESSAGE_IDS[state as CompactToolCallState] ?? "chat.toolCall.status.pending"
-  );
+function normalizeDisplay(value: string): string {
+  return value.trim().replace(/\s+/g, " ");
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function summarizeInput(input: unknown): string | undefined {
+  if (typeof input === "string") {
+    return normalizeDisplay(input) || undefined;
+  }
+  if (!isRecord(input)) {
+    return undefined;
+  }
+  for (const key of ["command", "path", "file_path", "filePath", "prompt"]) {
+    const candidate = input[key];
+    if (typeof candidate === "string") {
+      const text = normalizeDisplay(candidate);
+      if (text) {
+        return text;
+      }
+    }
+  }
+  return undefined;
+}
+
+function firstString(record: Record<string, unknown>, keys: readonly string[]): string | undefined {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === "string") {
+      return value;
+    }
+  }
+  return undefined;
+}
+
+function readTextPair(record: Record<string, unknown>): [string, string] | undefined {
+  const before = firstString(record, ["old_string", "oldString", "oldText", "before"]);
+  const after = firstString(record, ["new_string", "newString", "newText", "after", "content"]);
+  return before !== undefined && after !== undefined ? [before, after] : undefined;
+}
+
+function findTextPair(value: unknown): [string, string] | undefined {
+  if (!isRecord(value)) {
+    return undefined;
+  }
+  const directPair = readTextPair(value);
+  if (directPair !== undefined) {
+    return directPair;
+  }
+  const metadata = value.metadata;
+  if (isRecord(metadata)) {
+    const fileDiff = metadata.filediff;
+    if (isRecord(fileDiff)) {
+      const metadataPair = readTextPair(fileDiff);
+      if (metadataPair !== undefined) {
+        return metadataPair;
+      }
+    }
+  }
+  const content = value.content;
+  if (Array.isArray(content)) {
+    for (const block of content) {
+      if (isRecord(block)) {
+        const blockPair = readTextPair(block);
+        if (blockPair !== undefined) {
+          return blockPair;
+        }
+      }
+    }
+  }
+  return undefined;
+}
+
+function countLines(text: string): number {
+  if (text.length === 0) {
+    return 0;
+  }
+  let lines = 1;
+  for (let index = 0; index < text.length; index += 1) {
+    if (text.charCodeAt(index) === 10) {
+      lines += 1;
+    }
+  }
+  return text.charCodeAt(text.length - 1) === 10 ? lines - 1 : lines;
+}
+
+function getChangeStat(
+  kind: string,
+  input: unknown,
+  output: unknown,
+  raw: unknown,
+): ToolCallChangeStat | undefined {
+  if (!/edit|patch|replace|multi.?edit/i.test(kind)) {
+    return undefined;
+  }
+  const pair = findTextPair(input) ?? findTextPair(output) ?? findTextPair(raw);
+  if (pair === undefined) {
+    return undefined;
+  }
+  const removed = countLines(pair[0]);
+  const added = countLines(pair[1]);
+  return added === 0 && removed === 0 ? undefined : { added, removed };
 }
 
 export function getCompactToolCallSummary({
@@ -212,11 +161,7 @@ export function getCompactToolCallSummary({
   raw,
 }: ToolCallSummarySource): ToolCallSummary {
   const changeStat = getChangeStat(kind, input, output, raw);
-  const primaryText = (title && normalizeDisplayText(title)) || "tool";
-  const secondaryText = getInputSummary(input);
-  return {
-    primaryText,
-    secondaryText,
-    changeStat,
-  };
+  const primaryText = (title && normalizeDisplay(title)) || "tool";
+  const secondaryText = summarizeInput(input);
+  return { primaryText, secondaryText, changeStat };
 }

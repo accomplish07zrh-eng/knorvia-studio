@@ -1,0 +1,10 @@
+[
+  {
+    "module": "@knorvia/shared",
+    "clause": "{ isArtifactUri }"
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type {\n  AttachmentRef,\n  FilePart,\n  ModelMessageContentBlock,\n  ToolArtifactStorePort,\n}"
+  }
+]

@@ -1,65 +1,44 @@
 import { readFile } from "node:fs/promises";
 import { isAbsolute, join } from "node:path";
 
-interface InstalledPluginRoot {
-  defaultEnabled: boolean;
-  marketplace: string;
-  rootPath: string;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-const INSTALLED_PLUGINS_FILE = "installed_plugins.json";
-
-interface InstalledPluginRecord {
-  id: string;
-  installPath: string;
-  marketplace: string;
+function trimmedString(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
 }
 
 export async function readInstalledPluginRoots(
   pluginStorageRoot: string,
-): Promise<InstalledPluginRoot[]> {
-  const records = await readInstalledPluginRecords(pluginStorageRoot);
-  return records.map((record) => ({
-    defaultEnabled: false,
-    marketplace: record.marketplace,
-    rootPath: record.installPath,
-  }));
-}
-
-async function readInstalledPluginRecords(
-  pluginStorageRoot: string,
-): Promise<InstalledPluginRecord[]> {
-  let raw: string;
+): Promise<Array<{ defaultEnabled: boolean; marketplace: string; rootPath: string }>> {
+  let index: unknown;
   try {
-    raw = await readFile(join(pluginStorageRoot, INSTALLED_PLUGINS_FILE), "utf-8");
+    const source = await readFile(join(pluginStorageRoot, "installed_plugins.json"), "utf8");
+    index = JSON.parse(source);
   } catch {
     return [];
   }
 
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw) as unknown;
-  } catch {
-    return [];
-  }
-  if (!isRecord(parsed) || !Array.isArray(parsed.plugins)) {
+  if (!isRecord(index) || !Array.isArray(index.plugins)) {
     return [];
   }
 
-  const records: InstalledPluginRecord[] = [];
-  for (const item of parsed.plugins) {
-    if (!isRecord(item)) continue;
-    const id = typeof item.id === "string" ? item.id.trim() : "";
-    const marketplace = typeof item.marketplace === "string" ? item.marketplace.trim() : "";
-    const installPath = typeof item.installPath === "string" ? item.installPath.trim() : "";
-    if (!id || !marketplace || !installPath || !isAbsolute(installPath)) {
+  const roots: Array<{ defaultEnabled: boolean; marketplace: string; rootPath: string }> = [];
+  for (const plugin of index.plugins) {
+    if (!isRecord(plugin)) {
       continue;
     }
-    records.push({ id, installPath, marketplace });
-  }
-  return records;
-}
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+    const id = trimmedString(plugin.id);
+    const marketplace = trimmedString(plugin.marketplace);
+    const rootPath = trimmedString(plugin.installPath);
+    if (!id || !marketplace || !rootPath || !isAbsolute(rootPath)) {
+      continue;
+    }
+
+    roots.push({ defaultEnabled: false, marketplace, rootPath });
+  }
+
+  return roots;
 }

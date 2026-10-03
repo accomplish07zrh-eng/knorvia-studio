@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "run": 36847964898,
+  "runNumber": 222,
+  "head": "0dc764eb7f3e4fb5c71a84d29a05f69043630744",
+  "tree": "b0fdae850b044c83f2add5a1be09849a13bd4e19",
+  "checkedMerge": "cd16844c3152e03c81e4c09308501fb56c521513",
+  "conclusion": "failure",
+  "linux": {
+    "job": 110322553595,
+    "tests": 6914,
+    "pass": 6906,
+    "fail": 0,
+    "skip": 8,
+    "cancel": 0
+  },
+  "windows": {
+    "job": 110322553480,
+    "tests": 6914,
+    "pass": 6912,
+    "fail": 1,
+    "skip": 1,
+    "cancel": 0
+  },
+  "failure": {
+    "file": "packages/services/test/git-read-projection-consumers-fast-20261001.test.ts",
+    "test": "actual tree consumer through RPC preserves untracked priority and scope",
+    "cause": "New test expected native Windows backslashes; unchanged file-tree model canonicalizes separators to forward slashes. Product code unchanged.",
+    "actualSyntheticKey": "D:/a/knorvia-studio/knorvia-studio/synthetic-owned-git-read-projection/work/owned.txt",
+    "expectedUsedNativeSeparators": true
+  },
+  "correction": {
+    "sourceCasesPassed": 127,
+    "strictEmittedCasesPassed": 127,
+    "additionalHostIndependentTest": "Literal Windows and POSIX paths retain canonical slash keys and untracked priority",
+    "fullRegression": {
+      "tests": 6915,
+      "pass": 6849,
+      "fail": 59,
+      "skip": 7,
+      "cancel": 0,
+      "failureMultisetExactlyMatchesPriorRoot": true,
+      "localLimitation": "listen EPERM",
+      "fullPass": false
+    },
+    "newCi": "pending",
+    "qualityGates": [
+      "root typecheck",
+      "configured lint",
+      "owned lint",
+      "format",
+      "architecture"
+    ]
+  },
+  "authDiagnosticEmitted": false,
+  "limits": [
+    "CI218 original auth failure remains unexplained.",
+    "CI222 failure is retained; later passing runs do not retroactively make it green."
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "task": "Bounded session-shell-environment.ts runtime snapshot owner authoring",
+  "file_inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/contract.md",
+      "sha256": "51793b89a8663c6c3e8c7bb12adc98d717842cbf2e6dee71be37ff9fc625dd11",
+      "access": "complete text read and SHA-256 hash"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/api.d.ts",
+      "sha256": "76ae7437a9a11806730cb1ca55ad0cce0e54aca2edbf48c11f3fb2ca4316eaeb",
+      "access": "complete text read and SHA-256 hash"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/imports.d.ts",
+      "sha256": "e3562799402cc5dd9749d6c110ba2ee15063a42934f80f668ec222bf48c85a7b",
+      "access": "complete text read and SHA-256 hash"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/literals.json",
+      "sha256": "2f791ae78ac19da26c863ae03c0d6e18e43ab6e88ae0064bbbd8507e2840694d",
+      "access": "complete text read and SHA-256 hash"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/supporting.d.ts",
+      "sha256": "4e046a92b1e2070482d4b3c98deca9bb04059bb46f0dbbbc41f4201820df83b8",
+      "access": "complete text read and SHA-256 hash"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/clarification.md",
+      "sha256": "de7bd017f418f618ed55bfe340f383c2180075d707c6b554350a0ae920efcd99",
+      "access": "complete text read and SHA-256 hash"
+    }
+  ],
+  "context_inputs": [
+    {
+      "source": "ordinary inherited system/developer context",
+      "content": "API assistant and Codex collaboration, available tools/skills, execution permissions, bounded delegated-task completion, multi-agent instructions; no skill read or applied."
+    },
+    {
+      "source": "user environment_context",
+      "content": "cwd /workspace; bash; date 2026-10-02; timezone Etc/UTC; managed restricted filesystem with /workspace and /tmp writable."
+    },
+    {
+      "source": "parent NEW_TASK",
+      "content": "Read only five named packet files; draft entire owner from body-free/source-derived contracts; write only this directory draft.ts/access.json/seal.json; keep API and specified semantics; maximum 400 physical lines; seal before curator review; no source/history/tests/oracles/lineage/dependency bodies/other files/team status/candidate execution/compilation/testing/environment discovery/network/provider/model/userdata/settings effects."
+    },
+    {
+      "source": "parent MESSAGE",
+      "content": "Exact authorized supplementary clarification.md under packet now states runtime.messageHistory.borrowReadOnlyRuntimeEntries() for both inspection paths. Read/journal this body-free port fact. No other reads."
+    },
+    {
+      "source": "tool results",
+      "content": "Complete authorized packet text, authorized clarification text, their SHA-256 hashes, and successful command completion metadata. No production source or dependency implementation was exposed."
+    }
+  ],
+  "tool_journal": [
+    {
+      "order": 1,
+      "tool": "functions.exec -> tools.exec_command",
+      "operation": "cat",
+      "reads": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/contract.md",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/api.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/imports.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/literals.json",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/supporting.d.ts"
+      ],
+      "writes": [],
+      "result": "exit 0; complete text returned"
+    },
+    {
+      "order": 2,
+      "tool": "collaboration.send_message",
+      "operation": "Request exact omitted history accessor from parent /root",
+      "reads": [],
+      "writes": [],
+      "result": "message delivered; parent authorized supplementary clarification"
+    },
+    {
+      "order": 3,
+      "tool": "functions.exec -> tools.exec_command",
+      "operation": "sha256sum",
+      "reads": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/contract.md",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/api.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/imports.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/literals.json",
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/supporting.d.ts"
+      ],
+      "writes": [],
+      "result": "exit 0; five hashes returned"
+    },
+    {
+      "order": 4,
+      "tool": "functions.exec -> tools.exec_command",
+      "operation": "cat and sha256sum",
+      "reads": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-session-shell-environment-author-20261003/clarification.md"
+      ],
+      "writes": [],
+      "result": "exit 0; complete clarification and hash returned"
+    },
+    {
+      "order": 5,
+      "tool": "functions.exec -> tools.exec_command",
+      "operation": "Python file transport, own-draft byte read, line count, SHA-256 sealing",
+      "reads": [
+        "/tmp/knorvia-session-shell-packet-author/draft.ts"
+      ],
+      "writes": [
+        "/tmp/knorvia-session-shell-packet-author/draft.ts",
+        "/tmp/knorvia-session-shell-packet-author/access.json",
+        "/tmp/knorvia-session-shell-packet-author/seal.json"
+      ],
+      "result": "Artifacts authored and sealed; no candidate code executed"
+    }
+  ],
+  "limits": {
+    "allowed": "Exact authorized packet reads and own artifact writes/reads/hash only",
+    "not_performed": [
+      "production/source/history/lineage/oracle/test/dependency-body reads",
+      "other packet or workspace reads",
+      "team status/list_agents",
+      "compile or tests",
+      "candidate execution",
+      "OS/process discovery or shell execution by candidate",
+      "network/provider/model/MCP/userdata/credential/settings effects",
+      "checkout edits",
+      "subagent delegation"
+    ],
+    "validation": "Contract-based manual semantic review and byte/physical-line accounting only; no compile or runtime validation.",
+    "knowledge_boundary": "Ordinary environment/task context and curator/source-derived functional/API facts were available. No absolute clean-room claim is made.",
+    "retained_conventional_idioms": [
+      "direct exported functions",
+      "native async await",
+      "ordered object literals",
+      "optional chaining",
+      "early-return guards",
+      "object spread projection",
+      "Array.some duplicate detection",
+      "private helper overloads"
+    ],
+    "correspondence": "The functional/API contract tightly specifies names, fields, evaluation order, identity, awaits, guards, and effects, producing strong contract-expression correspondence. No contribution percentages are claimed."
+  }
+}

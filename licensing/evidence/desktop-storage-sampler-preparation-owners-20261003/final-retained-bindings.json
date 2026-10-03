@@ -1,0 +1,36 @@
+{
+  "baseHead": "de5d230a858cc17b9edcbbd0bfe6cceb9f4ef420",
+  "selected": [
+    {
+      "owner": "disk",
+      "selectedVersion": "initial",
+      "rawSha256": "2183a2020ed33284c5c98d418f3edbdfe1662bebd1e55b5afa0b8940ebd17313",
+      "installedSha256": "db9b750549a9dd41433bc35410a83b767b72c6f1630ed48a5ee99703390ecf6c",
+      "installedLines": 180,
+      "installedBytes": 5163
+    },
+    {
+      "owner": "preparation",
+      "selectedVersion": "correction-1",
+      "rawSha256": "3dc85fa45f7ac535d2642b00ca41eea1c7ca84c0d40eed0b220ad57a08b895a4",
+      "installedSha256": "dfeb17ef3dc26fe35f4d3d47e114b1314bc9e6f5e2a308aa9e70a0a24062519d",
+      "installedLines": 260,
+      "installedBytes": 7824
+    }
+  ],
+  "exactWholeLiteralPlusFormatter": true,
+  "curatorSemanticEdits": false,
+  "rawVersionsVerified": 3,
+  "unchangedRetainedPaths": 6190,
+  "retentionCountsAreNotCompletion": true,
+  "authorInputAndSpecFreezeVerified": true,
+  "publicAndSerializedCompilerRawApiMatch": true,
+  "productionScopeExactlyTwoOwners": true,
+  "promptTransferPrivateAcceptedHold": true,
+  "promptTransferLocalMatchesAcceptedPrivateBytes": false,
+  "minimalSyntheticGroups": 2,
+  "nativeRuntimePassed": false,
+  "ordinarySuiteBuildRun": false,
+  "acceptedIndependentCredit": 0,
+  "MITClaim": false
+}

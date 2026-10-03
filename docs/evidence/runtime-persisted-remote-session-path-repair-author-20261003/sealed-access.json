@@ -1,0 +1,28 @@
+{
+  "source_read_paths": [
+    "/workspace/knorvia-studio/docs/evidence/runtime-persisted-remote-session-path-repair-author-20261003/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/runtime-persisted-remote-session-path-repair-author-20261003/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-persisted-remote-session-path-repair-author-20261003/imports.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-persisted-remote-session-path-repair-author-20261003/supporting.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-persisted-remote-session-path-repair-author-20261003/literals.json",
+    "/workspace/knorvia-studio/docs/evidence/runtime-persisted-remote-session-path-repair-author-20261003/clarification.md"
+  ],
+  "authored_artifact_hash_read_paths": [
+    "/tmp/knorvia-remote-path-cas-author/draft.ts",
+    "/tmp/knorvia-remote-path-cas-author/access.json"
+  ],
+  "written_paths": [
+    "/tmp/knorvia-remote-path-cas-author/draft.ts",
+    "/tmp/knorvia-remote-path-cas-author/access.json",
+    "/tmp/knorvia-remote-path-cas-author/seal.json"
+  ],
+  "extra_source_reads": [],
+  "comparison_performed": false,
+  "production_edits": false,
+  "git_used": false,
+  "tests_or_compilation_run": false,
+  "network_used": false,
+  "real_stores_or_user_data_accessed": false,
+  "executor_attempts": 1,
+  "authorized_supplementary_input": "Parent authorized clarification.md containing only dependency signatures; read before final seal."
+}

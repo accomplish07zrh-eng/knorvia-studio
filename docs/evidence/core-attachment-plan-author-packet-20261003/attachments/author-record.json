@@ -1,0 +1,150 @@
+{
+  "scope": "attachments.ts complete independent owner",
+  "sourceModule": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+  "freezeReference": "f337904a",
+  "authorTask": "/root/attachments_complete_author",
+  "assignment": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "fork": "none",
+    "fastRequested": true,
+    "fastQualifier": "Fast was requested; separate service-tier control was not exposed. No distinct Fast tier is asserted."
+  },
+  "accessBoundary": {
+    "mechanism": "Instruction-only restriction in a shared executor",
+    "osIsolationClaim": false,
+    "accessAuditClaim": false,
+    "sourceExposedCurator": true
+  },
+  "readPaths": [
+    "/tmp/knorvia-attachment-plan-20261003/attachments/input/contract.md",
+    "/tmp/knorvia-attachment-plan-20261003/attachments/input/public-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/attachments/input/dependency-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/attachments/input/public-shapes.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/attachments/input/imports.json",
+    "/tmp/knorvia-attachment-plan-20261003/attachments/input/output-data.json",
+    "/tmp/knorvia-attachment-plan-20261003/attachments/output/attachments.ts",
+    "/tmp/knorvia-attachment-plan-20261003/attachments/output/author-record.json"
+  ],
+  "readAccounting": {
+    "sixInputFiles": "First read all six as text; imports.json reread for unchanged import construction; all six reread as bytes for accounting.",
+    "ownSource": "Read authored attachments.ts to make sequential await-then-push explicit and for output accounting.",
+    "otherContentRead": false,
+    "ownReceipt": "Read authored author-record.json for complete read-path accounting and final receipt byte/hash/mode accounting."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/input/contract.md",
+      "bytes": 8795,
+      "sha256": "14a3f03d8d02c1521b5548127beaea3e9c0b32a9188a92dbfc87f95b65a802ca",
+      "lineCount": 22,
+      "mode": "0o444"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/input/public-api.d.ts",
+      "bytes": 955,
+      "sha256": "36d1e2e53054d6eba3a4afc0f47516dad25e752580874e7d94415f53ef6b0950",
+      "lineCount": 16,
+      "mode": "0o444"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/input/dependency-api.d.ts",
+      "bytes": 3959,
+      "sha256": "0d1348832248fdabf8a4c053c593cb8d29f4c744d012718309c37d179657dc3f",
+      "lineCount": 73,
+      "mode": "0o444"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/input/public-shapes.d.ts",
+      "bytes": 8950,
+      "sha256": "0e81afc517d37a155d16417c8424e623560b836876e8e0925045ecc18a379279",
+      "lineCount": 303,
+      "mode": "0o444"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/input/imports.json",
+      "bytes": 2849,
+      "sha256": "c61cded659474da0a8c8988693575271bb2089ce60ac4e9fbb4888840a3d804e",
+      "lineCount": 60,
+      "mode": "0o444"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/input/output-data.json",
+      "bytes": 1511,
+      "sha256": "7dcba5db04d4548871a1da92c0dbe0c325c184629eaf052b8772bbfd81d6a76c",
+      "lineCount": 80,
+      "mode": "0o444"
+    }
+  ],
+  "outputs": {
+    "source": {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/output/attachments.ts",
+      "bytes": 9466,
+      "sha256": "67746d867a4f377eb8626ac6f04a6adeae3197b917521e44614074479d8d6470",
+      "lineCount": 314,
+      "mode": "0o444"
+    },
+    "authorRecord": {
+      "path": "/tmp/knorvia-attachment-plan-20261003/attachments/output/author-record.json",
+      "bytes": 7901,
+      "mode": "0o444",
+      "sha256Location": "Reported separately to the parent and in the final response; a receipt cannot contain its own ordinary SHA256 digest without recursive self-reference."
+    }
+  },
+  "retainedExpression": {
+    "statement": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material is required retained expression. No new grant or cosmetic novelty claim is made.",
+    "details": [
+      "Unchanged imports and public reexports; public options and exported functions.",
+      "Fallback attachment names; MIME strings; error codes; reason strings; storage and recoverability values.",
+      "Metadata and content block fields, own optional/undefined properties, nullish and truthy semantics, spread behavior, Buffer.byteLength calls and getter observation order.",
+      "READ_DEFAULT_MAX_LINES and READ_MAX_FILE_SIZE_BYTES owners and strict oversized boundary.",
+      "Port stat receiver and request/operation argument shapes; delegated collaborator ownership."
+    ]
+  },
+  "chosenStructure": {
+    "summary": "Public metadata summary and sequential collection loop; private single-item dispatcher; private inline resolver; private local text resolver.",
+    "privateFunctions": [
+      "resolveAttachment",
+      "resolveInlineAttachment",
+      "resolveLocalTextAttachment"
+    ],
+    "rationale": "Dispatch gates are grouped in one owner operation. Inline media fallback and local file admission each retain their own evaluation and exception boundary."
+  },
+  "contractCoverage": {
+    "eventSummary": "No I/O; native map preserves holes; path captured; filename/header/MIME/bytes/ref priority retained; truthy ref only.",
+    "sequence": "Fresh result array; entries iterator; each resolution awaited into a local before push and next; sparse element property failures retained.",
+    "url": "URL dispatch precedes every other gate and preserves empty strings; no inline/local/store call.",
+    "pdfAdmission": "Truthy plain PDF content returns attachment_pdf_invalid placeholder using original attachment and required PDF options.",
+    "inlineAdmission": "Plain nonimage content delegates unchanged inline-text helper; data/artifact reading delegates unchanged collaborator; failed reading does not fall through; new spread objects preserve caller input.",
+    "inlineFallback": "Header condition and content reread; media collaborator always awaited; truthy result exact; separate byteLength calls and required fields preserved.",
+    "localAdmission": "Captured port passed through options spread; media types delegate unchanged; local path/source construction before try.",
+    "binaryClipboard": "Binary path-reference branch precedes clipboard-text branch; neither calls text reader; no restoring clipboard body to prompt attachment.",
+    "localRead": "Method receiver retained for stat; strict oversized comparison and conditional options only; no added authority, fs, storage, cache or resolver validation.",
+    "localSuccess": "Direct live read-property evaluation; metadata field order; defined false/zero/empty optionals; own undefined startLine and totalLines.",
+    "localCatch": "Catch covers stat/read/reference/success construction including abort; initial path/source errors escape; failed-placeholder errors escape; failure options omit sizeBytes."
+  },
+  "verification": {
+    "method": "Manual review against the six frozen declaration/contract inputs and authored source only. Byte/hash/line/mode accounting only.",
+    "testsRun": false,
+    "compilerRun": false,
+    "lintRun": false,
+    "buildRun": false,
+    "mocksUsed": false,
+    "dependencyBodiesRead": false,
+    "repositoryOrHistoryOrReviewOrTestsRead": false,
+    "networkUsed": false,
+    "providerOrUserDataOperations": false,
+    "repositorySourceEdits": false
+  },
+  "breaches": [],
+  "questions": [],
+  "remainingBlockers": [],
+  "freezeUTC": "2026-10-02T20:24:14.341439Z",
+  "cooperativeFreeze": {
+    "sourceMode": "0444",
+    "receiptMode": "0444",
+    "outputDirectoryMode": "0555",
+    "beforeCuratorBodyReview": true,
+    "claim": "Cooperative permission freeze only; no OS isolation or access-audit claim."
+  }
+}

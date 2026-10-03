@@ -1,0 +1,24 @@
+{
+  "stable-fork-boundary": {
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/stable-fork-boundary.ts",
+      "blob": "547243e05f1c3f65492c6f12eb6be87285301902",
+      "normalizedSha256": "00d2411beb81c87aad743b442054c821e372425dd0d0294d2635d5bf47baeba4",
+      "contentMatchedPaths": []
+    },
+    "review": null
+  },
+  "workspace-fork": {
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/workspace-fork.ts",
+      "blob": "82f8808e7bd4930c2ca696bddfca71ec22191645",
+      "normalizedSha256": "1e8f906ab982c54eca19f59704e69456e91e8799ca48f9e1aa590777a8969477",
+      "contentMatchedPaths": []
+    },
+    "review": null
+  }
+}

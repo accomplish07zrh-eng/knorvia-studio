@@ -1,0 +1,48 @@
+{
+  "utc": "2026-10-02T22:31:55.670513+00:00",
+  "packetCommit": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "draftFreeze": "freeze.json",
+  "sourceReview": "All three complete drafts frozen before deliberate whole-target body reading. Same root then read original bodies and corrected behavior. Source-exposed curator, broad root context and instruction-only separation qualified, not separately isolated authorship/legal acceptance.",
+  "corrections": [
+    "About Apple Silicon line uses normalized snapshot osPlatform/osArch, not process.platform/arch. Frozen counterexample preserved.",
+    "Copyright local year is observed while assembling HTML input after window construction/icon read, not before construction.",
+    "Menu rereads app.isPackaged after setApplicationMenu, not construction-time local-runtime snapshot; frozen counterexample preserved.",
+    "Shortcut classifier receives one argument through wrapper, not native find callback index/array; top-level label observation precedes child labels; command ID read stays deferred to click.",
+    "Qualified public readBuildMetadata string parameter annotation; formatting only otherwise."
+  ],
+  "retained": "All HTML/CSS/CSP/accessibility/product/localization/static menu ordering and public contracts retained. Tiny close-key script, standard escaping/JSON/nullish/port expressions are common or constrained and earn no separate originality credit. Strong predecessor correspondence remains a final source-expression review concern.",
+  "checks": {
+    "packet": "11 input digests and 3 predecessor source hashes match curator manifest",
+    "api": "All 9 exported functions and referenced interfaces match qualified declarations; no semantic project claim",
+    "minimum": "Three paired synthetic groups: escaped HTML/static visual bytes/close keys; metadata/window lifecycle; menu accelerator/authority/captured callback. Two frozen counterexamples reproduced and working corrections match.",
+    "lint": "3 files, 94 rules, 0 errors/warnings",
+    "architecture": "0 violations/baseline0/new0",
+    "whitespace": "git diff --check clean",
+    "semantic_types": "Not run for this batch. Earlier root manager closure dependency TS2339 feedbackLogArchive and TS7016 node-forge remains unresolved, not reclassified.",
+    "deferred": [
+      "ordinary suites",
+      "full builds",
+      "native window/menu rendering",
+      "actual consumer integration",
+      "final origin/expression/licence review"
+    ]
+  },
+  "safety": "All data/system/window/menu/command/filesystem ports synthetic. No real files/system identity, OS UI, commands, credentials or user data. No other lane integrated; main/deploy unchanged. All21 material obligations remain open.",
+  "production": {
+    "packages/desktop/src/main/about.ts": {
+      "sha256": "de0bb771fec9b0b370087375b680be968b82089bafb88af85c5a3453f03bb79d",
+      "bytes": 6647,
+      "lines": 192
+    },
+    "packages/desktop/src/main/aboutWindow.ts": {
+      "sha256": "ac62992d509f2df36f6f693d8d4633f0da9a2fab72b1a6d5e3515218064f8be7",
+      "bytes": 4735,
+      "lines": 182
+    },
+    "packages/desktop/src/main/desktopApplicationMenu.ts": {
+      "sha256": "077462b6f0bfbf68ab289c799b905c5ff34a751f23ce36b8c3a3a9dff12898c2",
+      "bytes": 7358,
+      "lines": 205
+    }
+  }
+}

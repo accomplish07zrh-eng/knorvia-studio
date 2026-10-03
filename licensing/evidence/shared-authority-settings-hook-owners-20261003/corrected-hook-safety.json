@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-hook-write-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "stdout": "\u2714 hook discovery owner keeps worktree order, duplicate ownership and per-source errors (33.875646ms)\n\u2714 hook mutation owner denies unreviewed writes and preserves flushed cleanup order (7.434231ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 45.412955\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/control-only-turn.ts",
+  "kind": "file",
+  "sha256": "f43077f3709233514c63b1dfa246e7a88395661f912337395c47d2f51f124f32",
+  "normalizedSha256": "f43077f3709233514c63b1dfa246e7a88395661f912337395c47d2f51f124f32",
+  "encoding": "utf8-lf",
+  "bytes": 10370,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/control-only-turn.ts",
+    "blob": "34e03530db4290b06767100bf59e275d74d0d50d",
+    "normalizedSha256": "201f476c2171b2500ebfe395b29d848b2c0b3ea53febed5d4223fed25f16be38",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

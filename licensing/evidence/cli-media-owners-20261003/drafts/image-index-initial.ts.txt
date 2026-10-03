@@ -1,0 +1,81 @@
+import type {
+  ImagePrepareForModelRequest,
+  ImagePrepareForModelResult,
+  ImageProcessorPort,
+  ImageResizeRequest,
+  ImageResizeResult,
+} from '@knorvia/contracts';
+import { Jimp, ResizeStrategy } from 'jimp';
+import { prepareJimpImageForModel } from './jimp-compression.js';
+import { jimpOutputMediaType, throwIfAborted } from './jimp-media.js';
+
+const WEBP_MEDIA_TYPE = 'image/webp';
+const MINIMUM_DIMENSION = 0;
+const INVALID_DIMENSION_MESSAGE =
+  'Image resize maxDimension must be a positive finite number';
+
+export function createJimpImageProcessorAdapter(): ImageProcessorPort {
+  return {
+    async resizeToFit(
+      request: ImageResizeRequest,
+      options: { signal?: AbortSignal } = {},
+    ): Promise<ImageResizeResult> {
+      throwIfAborted(options.signal);
+      const limit = request.maxDimension;
+      if (!Number.isFinite(limit) || limit <= MINIMUM_DIMENSION) {
+        throw new Error(INVALID_DIMENSION_MESSAGE);
+      }
+
+      const copiedInput = Buffer.from(request.data);
+      if (request.mediaType === WEBP_MEDIA_TYPE) {
+        return {
+          data: copiedInput,
+          mediaType: request.mediaType,
+          resized: false,
+        };
+      }
+
+      const decoded = await Jimp.read(copiedInput);
+      throwIfAborted(options.signal);
+      const originalWidth = decoded.bitmap.width;
+      const originalHeight = decoded.bitmap.height;
+      if (originalWidth <= limit && originalHeight <= limit) {
+        return {
+          data: copiedInput,
+          mediaType: request.mediaType,
+          originalWidth,
+          originalHeight,
+          width: originalWidth,
+          height: originalHeight,
+          resized: false,
+        };
+      }
+
+      decoded.scaleToFit({
+        h: limit,
+        mode: ResizeStrategy.BICUBIC,
+        w: limit,
+      });
+      throwIfAborted(options.signal);
+      const encodedType = jimpOutputMediaType(request.mediaType, decoded.mime);
+      const encodedData = await decoded.getBuffer(encodedType);
+      throwIfAborted(options.signal);
+      return {
+        data: encodedData,
+        mediaType: encodedType,
+        originalWidth,
+        originalHeight,
+        width: decoded.bitmap.width,
+        height: decoded.bitmap.height,
+        resized: true,
+      };
+    },
+
+    prepareForModel(
+      request: ImagePrepareForModelRequest,
+      options: { signal?: AbortSignal } = {},
+    ): Promise<ImagePrepareForModelResult> {
+      return prepareJimpImageForModel(request, options);
+    },
+  };
+}

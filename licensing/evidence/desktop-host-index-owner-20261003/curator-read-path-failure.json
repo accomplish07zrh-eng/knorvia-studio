@@ -1,0 +1,13 @@
+{
+  "command": [
+    "sed",
+    "-n",
+    "1,85p",
+    "licensing/evidence/desktop-host-resource-owners-20261003/final-bindings.json"
+  ],
+  "stdout": "",
+  "stderr": "sed: can't read licensing/evidence/desktop-host-resource-owners-20261003/final-bindings.json: No such file or directory\n",
+  "context": "Failed read diagnostic captured in combined exec output. Other independent reads completed and combined shell returned0. Located real checked-in final-source-bindings.json with rg --files and read that distinct authorized file. No product write/permission/network consequence.",
+  "shellExitCode": 0,
+  "sedExitCode": "Not captured independently inside the combined shell; no inferred exit-code claim"
+}

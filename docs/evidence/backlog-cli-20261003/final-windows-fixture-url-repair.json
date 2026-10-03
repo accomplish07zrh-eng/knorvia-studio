@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "branch": "lane/cli-rewrite-20261003",
+  "receivedCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "codeDeliveryCommit": "bab2b85c5b789e3a537349134da4448e6e7184a2",
+  "scope": {
+    "assignedWindowsEntries": [
+      "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+      "apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs"
+    ],
+    "additionalAffectedEntry": "apps/cli/packages/core/test/causality-reduction.test.ts",
+    "fixtureOnlyFollowUp": true,
+    "productionChangesInThisFollowUp": []
+  },
+  "integrationComparison": {
+    "requestedHead": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+    "receivedCliTree": "6f83994a6cafd92c804a4ad3dafac605bfc46401",
+    "comparedCliTree": "6f83994a6cafd92c804a4ad3dafac605bfc46401",
+    "changedCliPaths": [],
+    "exactlyComparedBeforeEdits": true,
+    "notMerged": "Only comparison requested; original exact received checkpoint preserved."
+  },
+  "originalWindowsCI": {
+    "requestedRunHead": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+    "actualCheckedHead": "d03df27e30768649c77d004092d7508fa8b9afbc",
+    "metadataRead": {
+      "argv": [
+        "gh",
+        "api",
+        "repos/accomplish07zrh-eng/knorvia-studio/actions/jobs/111166240728"
+      ],
+      "exitCode": 0
+    },
+    "job": {
+      "id": 111166240728,
+      "run_id": 37110107123,
+      "name": "windows / quality",
+      "html_url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728",
+      "status": "completed",
+      "conclusion": "failure",
+      "started_at": "2026-10-03T08:33:55Z",
+      "completed_at": "2026-10-03T08:53:26Z",
+      "labels": [
+        "windows-latest"
+      ],
+      "failedSteps": [
+        {
+          "name": "Offline Studio regression",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    "decodedJobLogEvidence": {
+      "workflowRun": 37110107123,
+      "job": 111166240728,
+      "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728",
+      "source": "authorized GitHub fetch_workflow_job_logs; decoded full log",
+      "decodedLogLength": 1091570,
+      "decodedLogLines": 10615,
+      "blocks": [
+        {
+          "purpose": "actual checked head",
+          "start": 33,
+          "length": 7,
+          "lineStart": 34,
+          "text": "2026-10-03T08:33:58.1306070Z Uses: accomplish07zrh-eng/knorvia-studio/.github/workflows/studio-quality.yml@refs/pull/13/merge (d03df27e30768649c77d004092d7508fa8b9afbc)\n2026-10-03T08:33:58.1313457Z ##[group] Inputs\n2026-10-03T08:33:58.1314370Z   ref: \n2026-10-03T08:33:58.1315100Z   runs-on: windows-latest\n2026-10-03T08:33:58.1316037Z   install-args: --frozen-lockfile\n2026-10-03T08:33:58.1317701Z   timeout-minutes: 60\n2026-10-03T08:33:58.1318533Z ##[endgroup]"
+        },
+        {
+          "purpose": "fanout ESM error",
+          "start": 3671,
+          "length": 20,
+          "lineStart": 3672,
+          "text": "2026-10-03T08:45:55.2371342Z ✔ cardinality historical declaration and documentary API proof fail closed (13.8022ms)\n2026-10-03T08:45:55.8867338Z \n2026-10-03T08:45:55.8885549Z node:internal/modules/run_main:107\n2026-10-03T08:45:55.8888797Z     triggerUncaughtException(\n2026-10-03T08:45:55.8909135Z     ^\n2026-10-03T08:45:55.8925950Z Error [ERR_UNSUPPORTED_ESM_URL_SCHEME]: Only URLs with a scheme in: file, data, and node are supported by the default ESM loader. On Windows, absolute paths must be valid file:// URLs. Received protocol 'd:'\n2026-10-03T08:45:55.8928423Z     at throwIfUnsupportedURLScheme (node:internal/modules/esm/load:195:11)\n2026-10-03T08:45:55.8935853Z     at defaultLoad (node:internal/modules/esm/load:78:3)\n2026-10-03T08:45:55.8936740Z     at nextLoad (node:internal/modules/esm/hooks:785:28)\n2026-10-03T08:45:55.8937922Z     at load (file:///D:/a/knorvia-studio/knorvia-studio/node_modules/tsx/dist/esm/index.mjs?1791017153561:2:1777)\n2026-10-03T08:45:55.8939083Z     at nextLoad (node:internal/modules/esm/hooks:785:28)\n2026-10-03T08:45:55.8942118Z     at AsyncLoaderHooksOnLoaderHookWorker.load (node:internal/modules/esm/hooks:410:26)\n2026-10-03T08:45:55.8943439Z     at handleMessage (node:internal/modules/esm/worker:251:24)\n2026-10-03T08:45:55.8944659Z     at Immediate.checkForMessages (node:internal/modules/esm/worker:193:28)\n2026-10-03T08:45:55.8945679Z     at process.processImmediate (node:internal/timers:504:21) {\n2026-10-03T08:45:55.8946493Z   code: 'ERR_UNSUPPORTED_ESM_URL_SCHEME'\n2026-10-03T08:45:55.8947136Z }\n2026-10-03T08:45:55.8947439Z \n2026-10-03T08:45:55.8948079Z Node.js v24.14.0\n2026-10-03T08:45:55.9208152Z ✖ apps\\cli\\packages\\core\\test\\fanout-cardinality.test.ts (2491.6982ms)"
+        },
+        {
+          "purpose": "parser duplicate drive error",
+          "start": 5319,
+          "length": 22,
+          "lineStart": 5320,
+          "text": "2026-10-03T08:48:42.6580126Z node:fs:560\n2026-10-03T08:48:42.6580836Z   return binding.open(\n2026-10-03T08:48:42.6581220Z                  ^\n2026-10-03T08:48:42.6581372Z \n2026-10-03T08:48:42.6581955Z Error: ENOENT: no such file or directory, open 'D:\\D:\\a\\knorvia-studio\\knorvia-studio\\apps\\cli\\packages\\core\\src\\workflow\\expert\\parsers\\json.ts'\n2026-10-03T08:48:42.6582630Z     at Object.openSync (node:fs:560:18)\n2026-10-03T08:48:42.6582943Z     at Object.readFileSync (node:fs:444:35)\n2026-10-03T08:48:42.6583575Z     at check (D:\\a\\knorvia-studio\\knorvia-studio\\apps\\cli\\packages\\core\\test\\workflow-expert-parser-safety.test.mjs:35:12)\n2026-10-03T08:48:42.6584528Z     at <anonymous> (D:\\a\\knorvia-studio\\knorvia-studio\\apps\\cli\\packages\\core\\test\\workflow-expert-parser-safety.test.mjs:41:47)\n2026-10-03T08:48:42.6585237Z     at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n2026-10-03T08:48:42.6585769Z     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n2026-10-03T08:48:42.6586390Z     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n2026-10-03T08:48:42.6586819Z   errno: -4058,\n2026-10-03T08:48:42.6587022Z   code: 'ENOENT',\n2026-10-03T08:48:42.6587229Z   syscall: 'open',\n2026-10-03T08:48:42.6587737Z   path: 'D:\\\\D:\\\\a\\\\knorvia-studio\\\\knorvia-studio\\\\apps\\\\cli\\\\packages\\\\core\\\\src\\\\workflow\\\\expert\\\\parsers\\\\json.ts'\n2026-10-03T08:48:42.6588258Z }\n2026-10-03T08:48:42.6588360Z \n2026-10-03T08:48:42.6588448Z Node.js v24.14.0\n2026-10-03T08:48:42.6589018Z ✖ apps\\cli\\packages\\core\\test\\workflow-expert-parser-safety.test.mjs (303.3846ms)\n2026-10-03T08:48:44.0682444Z {\"mode\":\"actual compiler-emitted owner; unchanged dependencies via tsx\",\"pairedArtifactCheck\":\"pass\",\"observations\":1,\"selectors\":\"exact historical/current, wrong/missing reject\"}\n2026-10-03T08:48:44.1457846Z ✔ apps\\cli\\packages\\core\\test\\workflow-expert-rendering-safety.test.mjs (1629.827ms)"
+        }
+      ]
+    },
+    "logAccess": "gh job-log Azure redirect returned HTTP403; authorized GitHub connector successfully fetched and decoded the original full job log. No workflow rerun or mutation."
+  },
+  "changes": [
+    "Fanout imports the existing pathToFileURL(require.resolve TypeScript).href rather than a Windows filesystem string.",
+    "Parser root stays a file URL; artifact reads, three historical dependency import replacements and actual current parser import resolve relative URLs without pathname concatenation.",
+    "The directed fanout check exposed its shared causality fixture using live new fold bytes as the old caller. Original baseline fold source reconstructs the exact existing expected JS hash under both pinned compiler versions. A separate fixed historical sidecar is used with the original archived reducer; current graph closure is independently bound by the already fixed receipt."
+  ],
+  "sourceBindings": [
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+      "sha256": "a1341a7ef43b4bf885ceea99ca7b9de79f325c153d9c3605a13bffedfbe35fcf"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs",
+      "sha256": "82a560537d4862ae4716ac65c23b6f148ed51909ad6f066a204e81d8d0b8f619"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+      "sha256": "afcf432e70274bb4b9b6875b874660122fc61b8de9581ae93aa189bb0c41fb58"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-fold-caller-history-20261003.json",
+      "sha256": "ff6c7443b825ddfe970d1c5a23999eeaef5b5cb5a0d6c031838d52b9f907ab42"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-windows-fixture-url-contract.mjs",
+      "sha256": "27538201b50e82e4ad4fa4743eb8ca18d2acddffcd625bf4ee8bddb43d302cd5"
+    }
+  ],
+  "currentGraphReceipt": {
+    "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+    "sha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+    "unchangedFromCoreDelivery": "10f38c6e27fa0c9c1ca1df53e9ceb1ebdfc34a6b",
+    "noHistoricalSelectorRefresh": true
+  },
+  "historicalCallerReconstruction": {
+    "formatVersion": 1,
+    "baseline": "5bf6129f0a5526af503d6215a5a3adae132bb692",
+    "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+    "sourceSha256": "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6",
+    "compiledSha256": "f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145",
+    "reconstruction": {
+      "fileName": "historical-fold.ts",
+      "target": "ESNext",
+      "module": "ESNext",
+      "esModuleInterop": true,
+      "compilerRuns": [
+        {
+          "typescript": "5.9.3",
+          "diagnostics": 0,
+          "compiledSha256": "f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145"
+        },
+        {
+          "typescript": "6.0.2",
+          "diagnostics": 0,
+          "compiledSha256": "f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145"
+        }
+      ]
+    },
+    "retention": "Exact historical caller reconstructed from the named original archive baseline; comparison evidence only, no new expression or rights claim.",
+    "outputPath": "apps/cli/packages/core/test/causality-fold-caller-history-20261003.json",
+    "sidecarSha256": "ff6c7443b825ddfe970d1c5a23999eeaef5b5cb5a0d6c031838d52b9f907ab42"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+        "apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs"
+      ],
+      "mode": "default source fanout / actual emitted parser",
+      "exitCode": 1,
+      "logPath": "/tmp/knorvia-cli-core-repair-20261003/windows-fixtures-after-source.txt",
+      "outputSha256": "f3283f2d9ca9ce8b9b23412fb75944a760aaf3750bf9bc78a56531d2b4998926",
+      "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a'\n- 'f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145'\n\n    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/causality-reduction-fixture.ts:83:8) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: '59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a',\n  expected: 'f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n✖ apps/cli/packages/core/test/fanout-cardinality.test.ts (1272.241369ms)\n{\"mode\":\"actual compiler-emitted owner, workspace dependencies via tsx\",\"pairedSafetyCheck\":\"pass\",\"observations\":2,\"selectors\":\"exact current and historical; wrong/missing reject\"}\n✔ apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs (816.661794ms)\nℹ tests 2\nℹ suites 0\nℹ pass 1\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1279.435774\n\n✖ failing tests:\n\ntest at apps/cli/packages/core/test/fanout-cardinality.test.ts:1:1\n✖ apps/cli/packages/core/test/fanout-cardinality.test.ts (1272.241369ms)\n  'test failed'\n"
+    },
+    {
+      "argv": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+        "apps/cli/packages/core/test/causality-reduction.test.ts"
+      ],
+      "mode": "default source fanout and affected causality caller",
+      "exitCode": 0,
+      "logPath": "/tmp/knorvia-cli-core-repair-20261003/windows-fanout-causality-after-source.txt",
+      "outputSha256": "64b1ec9cb1170fdaaa01e8ea30e8445ba77a04da7cba8712c705b0f2e0a6b35b",
+      "output": "✔ typed reducer public exports/declarations remain fixed and actual artifacts fail closed (246.633063ms)\n✔ typed strength lattice stays independent of exported dedup rank (1.133459ms)\n✔ forward reduction preserves greedy cyclic order, direct duplicates and alias deletion (0.40286ms)\n✔ carry reduction requires exactly one eligible surviving bridge and defaults to hard strength (0.514897ms)\n✔ reduction keeps original edge/extras identity without mutation or cross-call state (0.968123ms)\n✔ actual phase, causality and CLI quotient consumers preserve graph outputs (398.21071ms)\n✔ literal-cardinality positive array proof and symbol-write contracts stay frozen (1924.818248ms)\n✔ literal-cardinality checker receivers and failures remain owned by caller (217.774906ms)\n✔ literal-cardinality strict current artifacts never fall back to old oracle (17.761423ms)\n✔ actual virtual interpreter core and handoff renderers preserve fan-out semantics (309.786736ms)\nℹ tests 10\nℹ suites 0\nℹ pass 10\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3724.714291\n"
+    },
+    {
+      "argv": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+        "apps/cli/packages/core/test/causality-reduction.test.ts"
+      ],
+      "environment": {
+        "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED": "1"
+      },
+      "mode": "actual emitted fanout and affected causality caller",
+      "exitCode": 0,
+      "logPath": "/tmp/knorvia-cli-core-repair-20261003/windows-fanout-causality-after-emitted.txt",
+      "outputSha256": "7061b3fe18315ec3845420168d8a07876f60a5d324e0094e6d299e8b7ddadaa2",
+      "output": "✔ typed reducer public exports/declarations remain fixed and actual artifacts fail closed (52.490848ms)\n✔ typed strength lattice stays independent of exported dedup rank (1.077786ms)\n✔ forward reduction preserves greedy cyclic order, direct duplicates and alias deletion (0.455219ms)\n✔ carry reduction requires exactly one eligible surviving bridge and defaults to hard strength (0.840963ms)\n✔ reduction keeps original edge/extras identity without mutation or cross-call state (1.673595ms)\n✔ actual phase, causality and CLI quotient consumers preserve graph outputs (467.558213ms)\n✔ literal-cardinality positive array proof and symbol-write contracts stay frozen (1887.580641ms)\n✔ literal-cardinality checker receivers and failures remain owned by caller (200.304425ms)\n✔ literal-cardinality strict current artifacts never fall back to old oracle (23.020492ms)\n✔ actual virtual interpreter core and handoff renderers preserve fan-out semantics (305.193291ms)\nℹ tests 10\nℹ suites 0\nℹ pass 10\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3544.575276\n"
+    },
+    {
+      "argv": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "docs/evidence/backlog-cli-20261003/final-windows-fixture-url-contract.mjs"
+      ],
+      "exitCode": 0,
+      "logPath": "/tmp/knorvia-cli-core-repair-20261003/windows-fixture-url-proof.txt",
+      "outputSha256": "d0c549ebebed75b20619c06ca359d6c767af7577352ad89cdd09ca0b0c3db94c",
+      "output": "{\n  \"receivedCheckpoint\": \"7bfb867162cc11adbc237e1c39bf2d61b5c0f81e\",\n  \"hostPlatform\": \"linux\",\n  \"nodeVersion\": \"v24.14.0\",\n  \"sourceBindings\": [\n    {\n      \"path\": \"apps/cli/packages/core/test/fanout-cardinality-fixture.ts\",\n      \"sha256\": \"a1341a7ef43b4bf885ceea99ca7b9de79f325c153d9c3605a13bffedfbe35fcf\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs\",\n      \"sha256\": \"82a560537d4862ae4716ac65c23b6f148ed51909ad6f066a204e81d8d0b8f619\"\n    }\n  ],\n  \"result\": \"pass\",\n  \"scope\": \"Actual fixture expressions and Node file URL APIs with synthetic paths; no Windows I/O or import execution\",\n  \"syntheticPlatformCases\": [\n    {\n      \"name\": \"Windows CI drive\",\n      \"root\": \"file:///D:/a/knorvia-studio/knorvia-studio/\",\n      \"reader\": \"file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts\",\n      \"rewrittenImports\": [\n        \"file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/contracts/dist/index.js\",\n        \"file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js\",\n        \"file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js\"\n      ],\n      \"currentEntry\": \"file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js\",\n      \"typescriptSpecifier\": \"file:///D:/a/knorvia-studio/knorvia-studio/node_modules/typescript/lib/typescript.js\",\n      \"oldReaderMismatch\": true,\n      \"oldFanoutSpecifier\": \"D:\\\\a\\\\knorvia-studio\\\\knorvia-studio\\\\node_modules\\\\typescript\\\\lib\\\\typescript.js\",\n      \"actualWindowsExecution\": false\n    },\n    {\n      \"name\": \"Windows encoded workspace\",\n      \"root\": \"file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/\",\n      \"reader\": \"file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts\",\n      \"rewrittenImports\": [\n        \"file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/contracts/dist/index.js\",\n        \"file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js\",\n        \"file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js\"\n      ],\n      \"currentEntry\": \"file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js\",\n      \"typescriptSpecifier\": \"file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/node_modules/typescript/lib/typescript.js\",\n      \"oldReaderMismatch\": true,\n      \"oldFanoutSpecifier\": \"D:\\\\CI Workspace\\\\含#号\\\\knorvia-studio\\\\node_modules\\\\typescript\\\\lib\\\\typescript.js\",\n      \"actualWindowsExecution\": false\n    },\n    {\n      \"name\": \"Windows UNC workspace\",\n      \"root\": \"file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/\",\n      \"reader\": \"file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts\",\n      \"rewrittenImports\": [\n        \"file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/contracts/dist/index.js\",\n        \"file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js\",\n        \"file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js\"\n      ],\n      \"currentEntry\": \"file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js\",\n      \"typescriptSpecifier\": \"file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/node_modules/typescript/lib/typescript.js\",\n      \"oldReaderMismatch\": true,\n      \"oldFanoutSpecifier\": \"\\\\\\\\fixture-server\\\\owned share\\\\含#号\\\\knorvia-studio\\\\node_modules\\\\typescript\\\\lib\\\\typescript.js\",\n      \"actualWindowsExecution\": false\n    },\n    {\n      \"name\": \"POSIX encoded workspace\",\n      \"root\": \"file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/\",\n      \"reader\": \"file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts\",\n      \"rewrittenImports\": [\n        \"file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/contracts/dist/index.js\",\n        \"file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js\",\n        \"file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js\"\n      ],\n      \"currentEntry\": \"file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js\",\n      \"typescriptSpecifier\": \"file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/node_modules/typescript/lib/typescript.js\",\n      \"oldReaderMismatch\": true,\n      \"oldFanoutSpecifier\": \"/tmp/CI Workspace/含#号/knorvia-studio/node_modules/typescript/lib/typescript.js\",\n      \"actualWindowsExecution\": false\n    }\n  ],\n  \"historicalRecordsAndWholeBehaviorTestsUnchanged\": [\n    {\n      \"path\": \"apps/cli/packages/core/test/fanout-cardinality-baseline.json\",\n      \"sha256\": \"9e9d325801c1a6ca2f7d83123a53fc50a40342427abd6ea3a4955bc27d71090d\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/fanout-cardinality-current.json\",\n      \"sha256\": \"07f725a1466f9d2f8e0581fa7d2283f6f3eabd3490b4e25670a5b442caf1def8\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/fanout-cardinality-contract.json\",\n      \"sha256\": \"ef20cf43e15e20504d4e7d1925f485b027af6183caf35e6e140ebbc1a11cd936\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/causality-reduction-baseline.json\",\n      \"sha256\": \"815f57ebb52a8e1c56544f254ccc0e26564832aad6a5f1b05433712612684aea\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/causality-reduction-current.json\",\n      \"sha256\": \"34377c11cc94304ad0f195a66c37ea6ee14a8c1e2d817af017b591d65b27893f\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/causality-reduction-contract.json\",\n      \"sha256\": \"759d54bb9b0ff7addcc18b1dd32fb5db4c19ca6baa16ca0b84ecae93a10a2e00\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/workflow-expert-parser-normalization-baseline.json\",\n      \"sha256\": \"066ef0fa49fd0ef1d656c4068d8c383ca148b2e39d1dcab117b62192cb0dac58\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/workflow-expert-parser-normalization-current.json\",\n      \"sha256\": \"4ebf7addf0a508092ed280e648cd9a787697dcd73f054df993af70f478247fea\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/create-workflow-graph-loader-contract.json\",\n      \"sha256\": \"6e63aeebd7628e5a31f807e1165c702f662531757e053af41649f3a768c84419\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/fanout-cardinality.test.ts\",\n      \"sha256\": \"257c22d4857d06d3e72e3c93f640ef1c12efb72c51a2e64ff82914c97dda6359\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/test/causality-reduction.test.ts\",\n      \"sha256\": \"6f1e8a8e717582cd5b81075adddd6a908d49896c4e67c2b91fdd8a0850955c72\"\n    }\n  ],\n  \"parserBehaviorAssertionSuffixUnchanged\": true,\n  \"actualWindowsPassed\": false\n}\n"
+    }
+  ],
+  "crossPlatformFixtureProbe": {
+    "receivedCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+    "hostPlatform": "linux",
+    "nodeVersion": "v24.14.0",
+    "sourceBindings": [
+      {
+        "path": "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+        "sha256": "a1341a7ef43b4bf885ceea99ca7b9de79f325c153d9c3605a13bffedfbe35fcf"
+      },
+      {
+        "path": "apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs",
+        "sha256": "82a560537d4862ae4716ac65c23b6f148ed51909ad6f066a204e81d8d0b8f619"
+      }
+    ],
+    "result": "pass",
+    "scope": "Actual fixture expressions and Node file URL APIs with synthetic paths; no Windows I/O or import execution",
+    "syntheticPlatformCases": [
+      {
+        "name": "Windows CI drive",
+        "root": "file:///D:/a/knorvia-studio/knorvia-studio/",
+        "reader": "file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "rewrittenImports": [
+          "file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/contracts/dist/index.js",
+          "file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js",
+          "file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js"
+        ],
+        "currentEntry": "file:///D:/a/knorvia-studio/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+        "typescriptSpecifier": "file:///D:/a/knorvia-studio/knorvia-studio/node_modules/typescript/lib/typescript.js",
+        "oldReaderMismatch": true,
+        "oldFanoutSpecifier": "D:\\a\\knorvia-studio\\knorvia-studio\\node_modules\\typescript\\lib\\typescript.js",
+        "actualWindowsExecution": false
+      },
+      {
+        "name": "Windows encoded workspace",
+        "root": "file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/",
+        "reader": "file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "rewrittenImports": [
+          "file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/contracts/dist/index.js",
+          "file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js",
+          "file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js"
+        ],
+        "currentEntry": "file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+        "typescriptSpecifier": "file:///D:/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/node_modules/typescript/lib/typescript.js",
+        "oldReaderMismatch": true,
+        "oldFanoutSpecifier": "D:\\CI Workspace\\含#号\\knorvia-studio\\node_modules\\typescript\\lib\\typescript.js",
+        "actualWindowsExecution": false
+      },
+      {
+        "name": "Windows UNC workspace",
+        "root": "file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/",
+        "reader": "file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "rewrittenImports": [
+          "file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/contracts/dist/index.js",
+          "file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js",
+          "file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js"
+        ],
+        "currentEntry": "file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+        "typescriptSpecifier": "file://fixture-server/owned%20share/%E5%90%AB%23%E5%8F%B7/knorvia-studio/node_modules/typescript/lib/typescript.js",
+        "oldReaderMismatch": true,
+        "oldFanoutSpecifier": "\\\\fixture-server\\owned share\\含#号\\knorvia-studio\\node_modules\\typescript\\lib\\typescript.js",
+        "actualWindowsExecution": false
+      },
+      {
+        "name": "POSIX encoded workspace",
+        "root": "file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/",
+        "reader": "file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "rewrittenImports": [
+          "file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/contracts/dist/index.js",
+          "file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/ids.js",
+          "file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/json.js"
+        ],
+        "currentEntry": "file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+        "typescriptSpecifier": "file:///tmp/CI%20Workspace/%E5%90%AB%23%E5%8F%B7/knorvia-studio/node_modules/typescript/lib/typescript.js",
+        "oldReaderMismatch": true,
+        "oldFanoutSpecifier": "/tmp/CI Workspace/含#号/knorvia-studio/node_modules/typescript/lib/typescript.js",
+        "actualWindowsExecution": false
+      }
+    ],
+    "historicalRecordsAndWholeBehaviorTestsUnchanged": [
+      {
+        "path": "apps/cli/packages/core/test/fanout-cardinality-baseline.json",
+        "sha256": "9e9d325801c1a6ca2f7d83123a53fc50a40342427abd6ea3a4955bc27d71090d"
+      },
+      {
+        "path": "apps/cli/packages/core/test/fanout-cardinality-current.json",
+        "sha256": "07f725a1466f9d2f8e0581fa7d2283f6f3eabd3490b4e25670a5b442caf1def8"
+      },
+      {
+        "path": "apps/cli/packages/core/test/fanout-cardinality-contract.json",
+        "sha256": "ef20cf43e15e20504d4e7d1925f485b027af6183caf35e6e140ebbc1a11cd936"
+      },
+      {
+        "path": "apps/cli/packages/core/test/causality-reduction-baseline.json",
+        "sha256": "815f57ebb52a8e1c56544f254ccc0e26564832aad6a5f1b05433712612684aea"
+      },
+      {
+        "path": "apps/cli/packages/core/test/causality-reduction-current.json",
+        "sha256": "34377c11cc94304ad0f195a66c37ea6ee14a8c1e2d817af017b591d65b27893f"
+      },
+      {
+        "path": "apps/cli/packages/core/test/causality-reduction-contract.json",
+        "sha256": "759d54bb9b0ff7addcc18b1dd32fb5db4c19ca6baa16ca0b84ecae93a10a2e00"
+      },
+      {
+        "path": "apps/cli/packages/core/test/workflow-expert-parser-normalization-baseline.json",
+        "sha256": "066ef0fa49fd0ef1d656c4068d8c383ca148b2e39d1dcab117b62192cb0dac58"
+      },
+      {
+        "path": "apps/cli/packages/core/test/workflow-expert-parser-normalization-current.json",
+        "sha256": "4ebf7addf0a508092ed280e648cd9a787697dcd73f054df993af70f478247fea"
+      },
+      {
+        "path": "apps/cli/packages/core/test/create-workflow-graph-loader-contract.json",
+        "sha256": "6e63aeebd7628e5a31f807e1165c702f662531757e053af41649f3a768c84419"
+      },
+      {
+        "path": "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+        "sha256": "257c22d4857d06d3e72e3c93f640ef1c12efb72c51a2e64ff82914c97dda6359"
+      },
+      {
+        "path": "apps/cli/packages/core/test/causality-reduction.test.ts",
+        "sha256": "6f1e8a8e717582cd5b81075adddd6a908d49896c4e67c2b91fdd8a0850955c72"
+      }
+    ],
+    "parserBehaviorAssertionSuffixUnchanged": true,
+    "actualWindowsPassed": false
+  },
+  "result": {
+    "assignedFanoutDefaultCasesPassed": 4,
+    "assignedFanoutActualEmittedCasesPassed": 4,
+    "assignedParserActualEmittedScriptEntriesPassed": 1,
+    "parserIndependentBehaviorObservations": 2,
+    "affectedCausalityDefaultCasesPassed": 6,
+    "affectedCausalityActualEmittedCasesPassed": 6,
+    "uniqueExistingCasesAndScriptEntries": 11,
+    "syntheticPlatformCasesPassed": 4,
+    "skipped": 0,
+    "finalFailedCases": 0,
+    "actualWindowsPassed": false
+  },
+  "notRun": "No full 777/offline regression, root/full CLI build or typecheck, lint, format, architecture/source audit, browser/UI or real user data. Previously passed original eighteen core failure entries were not repeated for this independent follow-up. No new PR, CI edit, dispatch/rerun or main merge.",
+  "remaining": "Integrator must receive this exact code head, register the new historical sidecar/probe/current-source evidence without replacing old archives, and obtain actual Windows CI for the final combined head. Synthetic Windows URL observations are not a Windows loader/filesystem pass. Other Windows failures stay with their assigned owners. Whole-tree acceptance and original source/expression/rights HOLDs remain; no MIT grant or accepted-source recovery is asserted."
+}

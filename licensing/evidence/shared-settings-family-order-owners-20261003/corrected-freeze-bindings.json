@@ -1,0 +1,17 @@
+[
+  {
+    "path": "packages/shared/src/agent-model-state.ts",
+    "freezeBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/corrected-agent-model-state.ts",
+    "sha256": "5d3b2107f6e36df42c9c9487bb2550be97ad00d6ae832336e7de5546d2c331e4"
+  },
+  {
+    "path": "packages/shared/src/model-provider-family.ts",
+    "freezeBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/corrected-model-provider-family.ts",
+    "sha256": "405bf04a349e99f44b72ab221ab1638f7daa816a04d3d39c56b23a9495daf449"
+  },
+  {
+    "path": "packages/shared/src/pluginStoreOrdering.ts",
+    "freezeBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/corrected-pluginStoreOrdering.ts",
+    "sha256": "f7918d57fa2ee63c4dd0d2cb99d06eb6f119ae085dcea190659ef1f0df08c345"
+  }
+]

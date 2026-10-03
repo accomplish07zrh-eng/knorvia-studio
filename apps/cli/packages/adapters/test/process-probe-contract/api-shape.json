@@ -1,0 +1,226 @@
+{
+  "process-probe": {
+    "createProcessProbe": {
+      "type": "(options?: CreateProcessProbeOptions) => ProcessProbe"
+    },
+    "PROCESS_PROBE_SAMPLE_TIMEOUT_MS": {
+      "type": "1000"
+    },
+    "ProcessProbe": {
+      "type": "ProcessProbe",
+      "members": {
+        "reset": {
+          "optional": false,
+          "type": "() => void"
+        },
+        "sampleProcessGroup": {
+          "optional": false,
+          "type": "(processGroupId: number) => Promise<readonly ProcessProbeSample[] | undefined>"
+        },
+        "sampleProcessTrees": {
+          "optional": false,
+          "type": "(rootPids: readonly number[]) => Promise<ReadonlyMap<number, readonly ProcessProbeSample[]> | undefined>"
+        },
+        "treeScope": {
+          "optional": false,
+          "type": "ProcessTreeScope"
+        }
+      }
+    },
+    "ProcessProbeCommandResult": {
+      "type": "ProcessProbeCommandResult",
+      "members": {
+        "error": {
+          "optional": true,
+          "type": "unknown"
+        },
+        "status": {
+          "optional": false,
+          "type": "number | null"
+        },
+        "stderr": {
+          "optional": false,
+          "type": "string"
+        },
+        "stdout": {
+          "optional": false,
+          "type": "string"
+        }
+      }
+    },
+    "ProcessProbeExecFile": {
+      "type": "ProcessProbeExecFile"
+    },
+    "ProcessProbeSample": {
+      "type": "ProcessProbeSample",
+      "members": {
+        "cpuTimeMs": {
+          "optional": true,
+          "type": "number | undefined"
+        },
+        "pid": {
+          "optional": false,
+          "type": "number"
+        },
+        "rssKb": {
+          "optional": false,
+          "type": "number"
+        }
+      }
+    },
+    "ProcessTreeScope": {
+      "type": "ProcessTreeScope"
+    }
+  },
+  "process-probe-shared": {
+    "collectProcessTreePids": {
+      "type": "(relations: readonly ProcessRelation[], rootPids: readonly number[]) => ReadonlyMap<number, readonly number[]>"
+    },
+    "defaultProbeExecFile": {
+      "type": "(file: string, args: readonly string[], options: ExecFileOptionsWithStringEncoding) => Promise<ProcessProbeCommandResult>"
+    },
+    "groupProcessTrees": {
+      "type": "(rows: readonly ProcessRow[], rootPids: readonly number[]) => ReadonlyMap<number, readonly ProcessProbeSample[]>"
+    },
+    "isSamplablePid": {
+      "type": "(pid: number) => boolean"
+    },
+    "PROCESS_PROBE_SAMPLE_TIMEOUT_MS": {
+      "type": "1000"
+    },
+    "ProcessProbeCommandResult": {
+      "type": "ProcessProbeCommandResult",
+      "members": {
+        "error": {
+          "optional": true,
+          "type": "unknown"
+        },
+        "status": {
+          "optional": false,
+          "type": "number | null"
+        },
+        "stderr": {
+          "optional": false,
+          "type": "string"
+        },
+        "stdout": {
+          "optional": false,
+          "type": "string"
+        }
+      }
+    },
+    "ProcessProbeExecFile": {
+      "type": "ProcessProbeExecFile"
+    },
+    "ProcessProbeFailure": {
+      "type": "typeof ProcessProbeFailure"
+    },
+    "ProcessProbeSample": {
+      "type": "ProcessProbeSample",
+      "members": {
+        "cpuTimeMs": {
+          "optional": true,
+          "type": "number | undefined"
+        },
+        "pid": {
+          "optional": false,
+          "type": "number"
+        },
+        "rssKb": {
+          "optional": false,
+          "type": "number"
+        }
+      }
+    },
+    "ProcessRelation": {
+      "type": "ProcessRelation",
+      "members": {
+        "cpuTimeMs": {
+          "optional": true,
+          "type": "number | undefined"
+        },
+        "parentPid": {
+          "optional": true,
+          "type": "number | undefined"
+        },
+        "pid": {
+          "optional": false,
+          "type": "number"
+        },
+        "processGroupId": {
+          "optional": true,
+          "type": "number | undefined"
+        }
+      }
+    },
+    "ProcessRow": {
+      "type": "ProcessRow",
+      "members": {
+        "cpuTimeMs": {
+          "optional": true,
+          "type": "number | undefined"
+        },
+        "parentPid": {
+          "optional": true,
+          "type": "number | undefined"
+        },
+        "pid": {
+          "optional": false,
+          "type": "number"
+        },
+        "processGroupId": {
+          "optional": true,
+          "type": "number | undefined"
+        },
+        "rssKb": {
+          "optional": false,
+          "type": "number"
+        }
+      }
+    },
+    "runProbeCommand": {
+      "type": "(execFile: ProcessProbeExecFile, file: string, args: readonly string[], extraOptions?: Partial<ExecFileOptionsWithStringEncoding>) => Promise<string>"
+    },
+    "toSample": {
+      "type": "(row: ProcessRow) => ProcessProbeSample"
+    }
+  },
+  "process-probe-linux": {
+    "LinuxProcReaders": {
+      "type": "LinuxProcReaders",
+      "members": {
+        "isExpired": {
+          "optional": true,
+          "type": "(() => boolean) | undefined"
+        },
+        "listProcDirectory": {
+          "optional": false,
+          "type": "() => Promise<readonly string[]>"
+        },
+        "readProcFile": {
+          "optional": false,
+          "type": "(path: string) => Promise<string>"
+        }
+      }
+    },
+    "sampleLinuxProcessGroup": {
+      "type": "(readers: LinuxProcReaders, processGroupId: number) => Promise<readonly ProcessProbeSample[]>"
+    },
+    "sampleLinuxProcessTrees": {
+      "type": "(readers: LinuxProcReaders, rootPids: readonly number[]) => Promise<ReadonlyMap<number, readonly ProcessProbeSample[]>>"
+    }
+  },
+  "process-probe-darwin": {
+    "readDarwinProcessGroup": {
+      "type": "(execFile: ProcessProbeExecFile, processGroupId: number) => Promise<readonly ProcessRow[]>"
+    },
+    "readDarwinProcessTable": {
+      "type": "(execFile: ProcessProbeExecFile) => Promise<readonly ProcessRow[]>"
+    }
+  },
+  "process-probe-windows": {
+    "readWindowsProcessMemory": {
+      "type": "(execFile: ProcessProbeExecFile, pids: readonly number[]) => Promise<readonly ProcessProbeSample[]>"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+Target source path: apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts
+Allowed imports (names/signatures only; do not open implementation):
+../deps.js values createConfiguredHookRunner,createInMemoryHookRunner,createSessionMailboxHookRegistrations,createToolExecutor,getCurrentTraceContext,registerBuiltInTools,traceContextToLogContext; types HookRunner,SessionId,ToolExecutor,TraceContext.
+../internal.js type AgentRuntimeInternal (runtime fields described in contract).
+../types.js type AgentRuntimeDeps (dependency fields described in contract).
+../methods/embedded-search-branch.js resolveRuntimeEmbeddedSearchEnabled(runtime):boolean.
+../methods/session-shell-environment.js getSessionShellSelectionFromConfig(config):executor shell-selection port result.
+../session-mode-port.js createRuntimeSessionModePort(runtime):executor sessionModePort.
+../../runtime-task/notification-policy.js shouldSuppressSealedSubagentBashNotification(options):boolean.
+./tool-allowlist.js resolveBuiltInToolAllowlist(config):readonly string[]|undefined; resolveRuntimeDisallowedTools(config):readonly string[]|undefined; resolveRuntimeDynamicWorkflowToolsIncluded(config):boolean.
+../methods/runtime-command-generation.js isStaleBranchRuntimeTaskEvent(runtime,event):boolean.
+./project-memory.js resolveEnabledProjectMemoryRoot(config,workspaceRoot):string|undefined.
+Use imported actual types/contextual callback types; do not invent any, cast with any, or require changing these dependencies. External APIs don't need an alternative algorithm. Author may choose a cohesive private module if necessary, but keep scope within runtime-tooling-named helper files and <=400 code lines each.

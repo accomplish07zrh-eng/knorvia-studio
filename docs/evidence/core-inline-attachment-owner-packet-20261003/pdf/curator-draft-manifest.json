@@ -1,0 +1,26 @@
+{
+  "scope": "pdf",
+  "archivedBeforeCuratorBodyReview": true,
+  "archivedAtUtc": "2026-10-02T21:17:04.819481+00:00",
+  "files": [
+    {
+      "file": "attachment-pdf.ts.txt",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/pdf/output/attachment-pdf.ts",
+      "bytes": 1407,
+      "sha256": "a1c1211340fc2ff130b75a3ed7ae033add1a45cf3f6334b7670c81994854ff01",
+      "lines": 54,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/pdf/output/author-record.json",
+      "bytes": 9594,
+      "sha256": "f78916088548c35e0d3e991615b156075b2b03c0a95985884caf7872a460e510",
+      "lines": 206,
+      "freezeMode": "0444"
+    }
+  ],
+  "authorReceiptSelfReported": true,
+  "noOsIsolationOrAccessAudit": true
+}

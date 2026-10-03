@@ -1,0 +1,42 @@
+[2026-10-03 08:16:12.404] [pid:42395] [claude-native-import] Claude 原生 session 扫描完成 workspaceFilter=/synthetic/project fileCount=0 candidateCount=0
+✖ real import repository scan preserves sort/filter/ignored directories and dirty tails (30.327546ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 731.013608
+
+✖ failing tests:
+
+test at packages/services/test/claude-leaf-contract-fast-2057.test.ts:1:18857
+✖ real import repository scan preserves sort/filter/ignored directories and dirty tails (30.327546ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   [
+  -     'newer',
+  -     'New',
+  -     1700000000000
+  -   ],
+  -   [
+  -     'older',
+  -     'Old',
+  -     1700000000000
+  -   ]
+  - ]
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/claude-leaf-contract-fast-2057.test.ts:697:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ [ 'newer', 'New', 1700000000000 ], [ 'older', 'Old', 1700000000000 ] ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

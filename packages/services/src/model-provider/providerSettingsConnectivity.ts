@@ -14,10 +14,6 @@ type FormalModelConnectivityExecutor = (
   input: FormalModelConnectivityInput,
 ) => Promise<{ readonly success: true }>;
 
-/**
- * 设置页只负责把已经落盘并进入 Registry 的 ModelSelection 交给目标 Environment。
- * Provider 鉴权、headers、reasoning 映射和流消费全部由正式 Model 执行链负责。
- */
 export function createProviderSettingsConnectivityTester(dependencies: {
   readonly testModelConnectivity: FormalModelConnectivityExecutor;
 }): ProviderSettingsConnectivityTester {
@@ -26,10 +22,7 @@ export function createProviderSettingsConnectivityTester(dependencies: {
       await dependencies.testModelConnectivity({
         workspacePath: input.workspacePath,
         ...(input.workspaceIdentity ? { workspaceIdentity: input.workspaceIdentity } : {}),
-        selection: {
-          providerId: input.providerId,
-          modelId: input.modelId,
-        },
+        selection: { providerId: input.providerId, modelId: input.modelId },
       });
       return { success: true };
     } catch (error) {

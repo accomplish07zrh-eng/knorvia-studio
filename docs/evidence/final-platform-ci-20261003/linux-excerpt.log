@@ -1,0 +1,107 @@
+Generated timestamp-preserving subset of decoded original job logs, UTF-8 LF (Windows CRLF converted to LF); normalized failure file list follows. No whole-log-byte identity or passing result claimed.
+2026-10-03T09:28:20.9889528Z Uses: accomplish07zrh-eng/knorvia-studio/.github/workflows/studio-quality.yml@refs/pull/13/merge (d11e1efa27a7b7551ce637e5eadfbb292cafb94a)
+2026-10-03T09:28:27.7343612Z HEAD is now at d11e1efa Merge c4f9bbb01cffa283e7179cc5adb53bc5956cb72a into bd0bb014c0974334557fa51814709d0b78f35f1d
+
+2026-10-03T09:36:01.2869009Z AssertionError [ERR_ASSERTION]: dist/workflow/lifecycle.js
+2026-10-03T09:36:01.2869480Z + actual - expected
+2026-10-03T09:36:01.2869652Z 
+2026-10-03T09:36:01.2870018Z + '0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5'
+2026-10-03T09:36:01.2870688Z - '7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b'
+2026-10-03T09:36:01.2871035Z 
+2026-10-03T09:36:01.2871855Z     at verifyCurrentArtifacts (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/current-artifact-receipt-20261003.ts:51:12)
+2026-10-03T09:36:01.2873304Z     at async loadCurrent (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/workflow-collection-planner-fixture.ts:29:3)
+2026-10-03T09:36:01.2874565Z     at async <anonymous> (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/workflow-collection-planner-fixture.ts:40:24) {
+2026-10-03T09:36:01.2875364Z   generatedMessage: false,
+2026-10-03T09:36:01.2875638Z   code: 'ERR_ASSERTION',
+2026-10-03T09:36:01.2876097Z   actual: '0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5',
+2026-10-03T09:36:01.2876874Z   expected: '7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b',
+2026-10-03T09:36:01.2877355Z   operator: 'strictEqual',
+2026-10-03T09:36:01.2877614Z   diff: 'simple'
+2026-10-03T09:36:01.2877832Z }
+2026-10-03T09:36:01.2877980Z 
+2026-10-03T09:36:01.2878203Z Node.js v24.14.0
+2026-10-03T09:36:01.3192561Z ✖ apps/cli/packages/core/test/workflow-collection-planner.test.ts (2303.969867ms)
+2026-10-03T09:36:02.0819800Z node:internal/modules/run_main:107
+2026-10-03T09:36:02.0821629Z AssertionError [ERR_ASSERTION]: dist/workflow/scheduler/node-runner.js
+2026-10-03T09:36:02.0822170Z + actual - expected
+2026-10-03T09:36:02.0822350Z 
+2026-10-03T09:36:02.0822767Z + 'b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49'
+2026-10-03T09:36:02.0823631Z - 'f8c62d8254f79d170eb77db610dd907e89b581bb8efc02de1b6ca3e9ceb7dc6e'
+2026-10-03T09:36:02.0824024Z 
+2026-10-03T09:36:02.0824834Z     at verifyCurrentArtifacts (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/current-artifact-receipt-20261003.ts:51:12)
+2026-10-03T09:36:02.0826387Z     at async loadCurrent (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/workflow-event-log-fixture.ts:25:3)
+2026-10-03T09:36:02.0827749Z     at async <anonymous> (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/workflow-event-log-fixture.ts:36:24) {
+2026-10-03T09:36:02.0828739Z   generatedMessage: false,
+2026-10-03T09:36:02.0829095Z   code: 'ERR_ASSERTION',
+2026-10-03T09:36:02.0829571Z   actual: 'b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49',
+2026-10-03T09:36:02.0830762Z   expected: 'f8c62d8254f79d170eb77db610dd907e89b581bb8efc02de1b6ca3e9ceb7dc6e',
+2026-10-03T09:36:02.0831597Z   operator: 'strictEqual',
+2026-10-03T09:36:02.0831957Z   diff: 'simple'
+2026-10-03T09:36:02.0832215Z }
+2026-10-03T09:36:02.0832334Z 
+2026-10-03T09:36:02.0832436Z Node.js v24.14.0
+2026-10-03T09:36:02.1176420Z ✖ apps/cli/packages/core/test/workflow-event-log-observations.test.ts (2291.115629ms)
+2026-10-03T09:36:02.1794326Z {"mode":"actual compiler-emitted owner with real branch scheduler/context; workspace dependencies via tsx","pairedPublicationCheck":"pass","observations":1,"selectors":"wrong/missing reject"}
+2026-10-03T09:36:05.2869775Z AssertionError [ERR_ASSERTION]: core/dist/workflow/lifecycle.js
+2026-10-03T09:36:05.2870349Z + actual - expected
+2026-10-03T09:36:05.2870532Z 
+2026-10-03T09:36:05.2870936Z + '0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5'
+2026-10-03T09:36:05.2871557Z - '7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b'
+2026-10-03T09:36:05.2871795Z 
+2026-10-03T09:36:05.2872325Z     at verifyCurrentArtifacts (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/current-artifact-receipt-20261003.ts:51:12)
+2026-10-03T09:36:05.2873273Z     at async loadCurrent (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/workflow-graph-artifacts-fixture.ts:26:3)
+2026-10-03T09:36:05.2874168Z     at async <anonymous> (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/workflow-graph-artifacts-fixture.ts:37:24) {
+2026-10-03T09:36:05.2874726Z   generatedMessage: false,
+2026-10-03T09:36:05.2874933Z   code: 'ERR_ASSERTION',
+2026-10-03T09:36:05.2875279Z   actual: '0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5',
+2026-10-03T09:36:05.2875950Z   expected: '7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b',
+2026-10-03T09:36:05.2876429Z   operator: 'strictEqual',
+2026-10-03T09:36:05.2876651Z   diff: 'simple'
+2026-10-03T09:36:05.2876827Z }
+2026-10-03T09:36:05.2876911Z 
+2026-10-03T09:36:05.2876988Z Node.js v24.14.0
+2026-10-03T09:36:05.3226816Z ✖ apps/cli/packages/core/test/workflow-graph-artifacts.test.ts (2327.003349ms)
+2026-10-03T09:36:05.3227910Z node:internal/modules/run_main:107
+2026-10-03T09:36:10.7748919Z AssertionError [ERR_ASSERTION]: dist/tool/handlers/get-workflow-run-format.js
+2026-10-03T09:36:10.7749424Z + actual - expected
+2026-10-03T09:36:10.7749577Z 
+2026-10-03T09:36:10.7749908Z + '861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8'
+2026-10-03T09:36:10.7750587Z - '335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2'
+2026-10-03T09:36:10.7750953Z 
+2026-10-03T09:36:10.7751729Z     at verifyCurrentArtifacts (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/current-artifact-receipt-20261003.ts:51:12)
+2026-10-03T09:36:10.7753229Z     at async <anonymous> (/home/runner/work/knorvia-studio/knorvia-studio/apps/cli/packages/core/test/workflow-run-activity-fixture.ts:27:1) {
+2026-10-03T09:36:10.7754051Z   generatedMessage: false,
+2026-10-03T09:36:10.7754394Z   code: 'ERR_ASSERTION',
+2026-10-03T09:36:10.7754930Z   actual: '861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8',
+2026-10-03T09:36:10.7755780Z   expected: '335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2',
+2026-10-03T09:36:10.7756216Z   operator: 'strictEqual',
+2026-10-03T09:36:10.7756437Z   diff: 'simple'
+2026-10-03T09:36:10.7756605Z }
+2026-10-03T09:36:10.7756709Z 
+2026-10-03T09:36:10.7756785Z Node.js v24.14.0
+2026-10-03T09:36:10.8063418Z ✖ apps/cli/packages/core/test/workflow-run-activity.test.ts (2317.490626ms)
+2026-10-03T09:36:10.8065600Z ✔ run details keep leading actors and trailing logs without generating timestamps (3.455405ms)
+2026-10-03T09:36:10.8067102Z ✔ run detail optional fields retain empty results and omit empty phases and false interruption (0.795622ms)
+
+2026-10-03T09:37:14.9820221Z ℹ duration_ms 13.404127
+2026-10-03T09:38:16.2180496Z ℹ tests 8048
+2026-10-03T09:38:16.2180865Z ℹ suites 6
+2026-10-03T09:38:16.2181149Z ℹ pass 8027
+2026-10-03T09:38:16.2181419Z ℹ fail 13
+2026-10-03T09:38:16.2181702Z ℹ cancelled 0
+2026-10-03T09:38:16.2181978Z ℹ skipped 8
+2026-10-03T09:38:16.2183219Z ℹ duration_ms 434967.09691
+
+Observed failed file: apps/cli/packages/core/test/workflow-collection-planner.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-event-log-observations.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-graph-artifacts.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-graph-boundary.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-node-publication.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-planner-expansion.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-ready-order.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-run-activity.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs
+Observed failed file: apps/cli/packages/core/test/workflow-run-phase.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-scheduler-observations.test.ts
+Observed failed file: apps/cli/packages/core/test/workflow-scheduler-state.test.ts

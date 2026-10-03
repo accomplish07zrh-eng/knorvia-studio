@@ -1,0 +1,12 @@
+{
+  "sha256": "3eca2d93766c3ab86e075fcc896c0ac175b59825e5720fca2d5077826c94f4d6",
+  "bytes": 14240,
+  "author": "/root/screenshot_activity_owner_author43",
+  "version": "correction-1",
+  "rawPath": "licensing/evidence/desktop-screenshot-owners-20261003/drafts/activity-correction-1.ts",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Own memory and bounded supplied facts only; no prior candidate, product/sibling source or other files; no new output inspection.",
+  "completeLiteral": true,
+  "curatorSemanticEdits": false
+}

@@ -1,0 +1,10 @@
+{
+  "author": "/root/cli_skill_index_author",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "fork": "none",
+  "freeze": "/tmp/knorvia-cli-skill-freezes/index-initial.ts",
+  "archive": "licensing/evidence/cli-skill-discovery-owners-20261003/drafts/index-initial.ts.txt",
+  "sha256": "54b1cdad7972799666bb68da8c1d56699d1a6901add356f6d9ea5cc694e92732",
+  "frozenBeforeCuratorInspection": true
+}

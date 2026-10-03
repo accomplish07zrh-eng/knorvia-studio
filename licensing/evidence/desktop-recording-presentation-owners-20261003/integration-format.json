@@ -1,0 +1,60 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+    "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+    "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/review-notes.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+      "sha256": "87e15d7b5c41be0bea1e848a5941d0320194657d044a88da10bc731ae2b742c1"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+      "sha256": "39cbad782488afef3a3d162bad5e4ad950e8c8501ba3c495e16143bfc1b7e0f2"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+      "sha256": "815ad4d580dc2b1160e1e01a18173c26eecd8064f953e9c2d2ef12acf8b25ce9"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "sha256": "1c7e90336c3420348588668b4fb978efd173702e0f43488d17eea8cc788e6832"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+      "sha256": "327dbe3941c3b96642b04c7be2c5c004d8d0b9b565dc7fe031055d76a32d5ff5"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/record-run.mjs",
+      "sha256": "1b197d7f7e3bfbd1fb3e31a9fbeacaa43b776775c0c3a63299a54619acb4fed4"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/final-bindings.mjs",
+      "sha256": "286f32ea873a38dfce15b61677b3cd3ba7acac678bde36f31013efa1cadf4364"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-shapes.mjs",
+      "sha256": "350f1c2595b8d68bef5817e0e76b2c17112d0fe8ef8b778c09b6e65761f5304c"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/review-notes.md",
+      "sha256": "9587aac3708de48557e8f94e3ecfc3a11b5011269f2d7a24ce534f27da911378"
+    }
+  ],
+  "stdout": "Finished in 95ms on 9 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

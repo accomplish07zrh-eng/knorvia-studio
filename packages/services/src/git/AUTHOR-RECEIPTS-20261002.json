@@ -1,0 +1,609 @@
+{
+  "service": {
+    "access-receipt.json": {
+      "author": "git_checkpoint_service_author",
+      "reads": [
+        "/tmp/knorvia-git-contracts-20261002/service.md",
+        "/workspace/knorvia-studio/AGENTS.md",
+        "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+        "/tmp/knorvia-git-contracts-20261002/service-api.ts",
+        "/tmp/knorvia-git-contracts-20261002/checkpoint-api.ts",
+        "/tmp/knorvia-git-contracts-20261002/repo-api.ts",
+        "/tmp/knorvia-git-contracts-20261002/store-api.ts",
+        "/tmp/knorvia-git-contracts-20261002/shared-api.ts"
+      ],
+      "filename_discoveries": [],
+      "forbidden_bodies_accessed": false,
+      "git_network_import_execution_typecheck_tests_run": false,
+      "repository_edits": false,
+      "source": "/tmp/knorvia-git-candidates-20261002/service/gitCheckpointService.ts",
+      "first_ready": "/tmp/knorvia-git-candidates-20261002/service/first-ready/gitCheckpointService.ts",
+      "sha256": "c6eaa411281c99dfd76760a45d55a689bf350dc3ded2a1a91b0ccef66d71029d",
+      "nonblank_source_lines": 74,
+      "revisions": [],
+      "freeze_method": "Candidate and first-ready written from identical raw UTF-8 bytes; SHA256 computed from those same bytes."
+    }
+  },
+  "store": {
+    "access-receipt.json": {
+      "task": "gitCheckpointStore complete-owner draft",
+      "reads": [
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/store.md",
+          "operation": "cat",
+          "count": 1
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "operation": "cat",
+          "count": 1
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "operation": "cat",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/store-api.ts",
+          "operation": "cat",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/shared-api.ts",
+          "operation": "cat",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/store/gitCheckpointStore.ts",
+          "operations": [
+            "cp source first-ready",
+            "sha256sum first-ready",
+            "apply_patch revision1",
+            "cp source revision1",
+            "sha256sum revision1"
+          ],
+          "count": 5
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/store/first-ready/gitCheckpointStore.ts",
+          "operation": "sha256sum",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/store/revision1/gitCheckpointStore.ts",
+          "operation": "sha256sum",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/store/access-receipt.json",
+          "operation": "apply_patch revision1 receipt update",
+          "count": 1
+        }
+      ],
+      "filenameDiscovery": [],
+      "forbiddenBodiesAccessed": false,
+      "repositoryEdits": false,
+      "gitNetworkImportsTypecheckTestsExecuted": false,
+      "revision": "revision1",
+      "notes": "Read only named contracts, root guidance, architecture skill, and own source or receipt. No target or dependency implementations, tests, external snapshots, history, diffs, other-agent source, or earlier queue source were accessed. First-ready remains frozen with its original hash. Revision1 preserves the coordinator's timing clarification: load awaits an async helper that captures the pending entry and awaits its rejection-ignored completion, retaining both async await boundaries even when no entry exists. The current source and revision1 frozen copy have matching hashes recorded in revision1.sha256. No tests, imports, git, network, or repository edits."
+    }
+  },
+  "helpers": {
+    "access-receipt.json": {
+      "owner": "gitCheckpointHelpers.ts",
+      "reads": [
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/helpers.md",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/helpers-api.ts",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/shared-api.ts",
+          "count": 1
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "count": 1
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/helpers/gitCheckpointHelpers.ts",
+          "count": 1
+        }
+      ],
+      "filename_discoveries": [],
+      "forbidden_bodies_accessed": false,
+      "repository_edits": false,
+      "git_network_imports_tsc_tests_executed": false,
+      "retained_shared_specifier": "@knorvia/shared",
+      "shared_specifier_source": "Coordinator behavior-only clarification",
+      "first_ready": {
+        "source": "/tmp/knorvia-git-candidates-20261002/helpers/gitCheckpointHelpers.ts",
+        "snapshot": "/tmp/knorvia-git-candidates-20261002/helpers/gitCheckpointHelpers.first-ready.ts",
+        "sha256": "ac978f6870e2bcba8558baa0fc330c758173ac401c65f0f9f91edb223dff5201"
+      },
+      "revisions": [],
+      "nonblank_source_lines": 141
+    }
+  },
+  "repo": {
+    "access-receipt.json": {
+      "owner": "git_checkpoint_repo_author",
+      "candidate": "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+      "readOperations": [
+        {
+          "operation": "Initial contract and instruction read via cat",
+          "paths": [
+            "/tmp/knorvia-git-contracts-20261002/repo.md",
+            "/tmp/knorvia-git-contracts-20261002/repo-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/command-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/cli-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/helpers-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/shared-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+          ]
+        },
+        {
+          "operation": "Count nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze first-ready bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the draft and frozen artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the first-ready hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/first-ready.sha256"]
+        },
+        {
+          "operation": "Apply revision1 patches to own source and receipt",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "Count revision1 nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze revision1 bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the current and frozen revision1 artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision1/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision1/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the revision1 hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/revision1.sha256"]
+        },
+        {
+          "operation": "Apply revision2 patches to own source and receipt",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "Count revision2 nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze revision2 bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the current and frozen revision2 artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision2/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision2/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the revision2 hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/revision2.sha256"]
+        }
+      ],
+      "filenameDiscovery": [],
+      "signatureClarifications": [
+        "Coordinator supplied declaration-only shared types import: @knorvia/shared",
+        "Coordinator supplied declaration-only toWorkspaceRelativeGitPath(repoRelativePath, workspaceInRepoPath)",
+        "Coordinator supplied declaration-only ensureGitCommandSucceeded(label, result, allowedExitCodes = [0])"
+      ],
+      "forbiddenBodiesAccessed": false,
+      "repositoryEdits": false,
+      "gitNetworkImportsTypecheckTestsExecuted": false,
+      "sourceRevisions": ["first-ready", "revision1", "revision2"],
+      "revision2Notes": "Coordinator branch-gate correction: read and trim the discovered index stdout only inside exitCode === 0, using one local trim for empty and copy checks. Nonzero index discovery falls back without reading stdout. Prior timing captures retained.",
+      "revision1Notes": "Coordinator behavior-only clarification: restore constructs a fresh diff argument object; conflict collection captures repoRoot and workspaceInRepoPath scalars at invocation; expected-entry lstat uses direct try/await/catch; missing tree entries use a separate async pathExists wait boundary; initial copied index stdout is trimmed once into a local. No new validation, APIs, or security policy.",
+      "notes": "Whole-owner implementation drafted only from allowed contracts and instructions. No target or dependency bodies, tests, snapshots, history, diffs, other candidates, or unrelated filenames were read. The receipt lists the bounded freeze and hash reads performed for this delivery."
+    },
+    "revision2/access-receipt.json": {
+      "owner": "git_checkpoint_repo_author",
+      "candidate": "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+      "readOperations": [
+        {
+          "operation": "Initial contract and instruction read via cat",
+          "paths": [
+            "/tmp/knorvia-git-contracts-20261002/repo.md",
+            "/tmp/knorvia-git-contracts-20261002/repo-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/command-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/cli-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/helpers-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/shared-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+          ]
+        },
+        {
+          "operation": "Count nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze first-ready bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the draft and frozen artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the first-ready hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/first-ready.sha256"]
+        },
+        {
+          "operation": "Apply revision1 patches to own source and receipt",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "Count revision1 nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze revision1 bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the current and frozen revision1 artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision1/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision1/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the revision1 hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/revision1.sha256"]
+        },
+        {
+          "operation": "Apply revision2 patches to own source and receipt",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "Count revision2 nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze revision2 bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the current and frozen revision2 artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision2/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision2/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the revision2 hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/revision2.sha256"]
+        }
+      ],
+      "filenameDiscovery": [],
+      "signatureClarifications": [
+        "Coordinator supplied declaration-only shared types import: @knorvia/shared",
+        "Coordinator supplied declaration-only toWorkspaceRelativeGitPath(repoRelativePath, workspaceInRepoPath)",
+        "Coordinator supplied declaration-only ensureGitCommandSucceeded(label, result, allowedExitCodes = [0])"
+      ],
+      "forbiddenBodiesAccessed": false,
+      "repositoryEdits": false,
+      "gitNetworkImportsTypecheckTestsExecuted": false,
+      "sourceRevisions": ["first-ready", "revision1", "revision2"],
+      "revision2Notes": "Coordinator branch-gate correction: read and trim the discovered index stdout only inside exitCode === 0, using one local trim for empty and copy checks. Nonzero index discovery falls back without reading stdout. Prior timing captures retained.",
+      "revision1Notes": "Coordinator behavior-only clarification: restore constructs a fresh diff argument object; conflict collection captures repoRoot and workspaceInRepoPath scalars at invocation; expected-entry lstat uses direct try/await/catch; missing tree entries use a separate async pathExists wait boundary; initial copied index stdout is trimmed once into a local. No new validation, APIs, or security policy.",
+      "notes": "Whole-owner implementation drafted only from allowed contracts and instructions. No target or dependency bodies, tests, snapshots, history, diffs, other candidates, or unrelated filenames were read. The receipt lists the bounded freeze and hash reads performed for this delivery."
+    },
+    "revision1/access-receipt.json": {
+      "owner": "git_checkpoint_repo_author",
+      "candidate": "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+      "readOperations": [
+        {
+          "operation": "Initial contract and instruction read via cat",
+          "paths": [
+            "/tmp/knorvia-git-contracts-20261002/repo.md",
+            "/tmp/knorvia-git-contracts-20261002/repo-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/command-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/cli-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/helpers-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/shared-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+          ]
+        },
+        {
+          "operation": "Count nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze first-ready bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the draft and frozen artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the first-ready hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/first-ready.sha256"]
+        },
+        {
+          "operation": "Apply revision1 patches to own source and receipt",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "Count revision1 nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze revision1 bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the current and frozen revision1 artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision1/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/revision1/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the revision1 hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/revision1.sha256"]
+        }
+      ],
+      "filenameDiscovery": [],
+      "signatureClarifications": [
+        "Coordinator supplied declaration-only shared types import: @knorvia/shared",
+        "Coordinator supplied declaration-only toWorkspaceRelativeGitPath(repoRelativePath, workspaceInRepoPath)",
+        "Coordinator supplied declaration-only ensureGitCommandSucceeded(label, result, allowedExitCodes = [0])"
+      ],
+      "forbiddenBodiesAccessed": false,
+      "repositoryEdits": false,
+      "gitNetworkImportsTypecheckTestsExecuted": false,
+      "sourceRevisions": ["first-ready", "revision1"],
+      "revision1Notes": "Coordinator behavior-only clarification: restore constructs a fresh diff argument object; conflict collection captures repoRoot and workspaceInRepoPath scalars at invocation; expected-entry lstat uses direct try/await/catch; missing tree entries use a separate async pathExists wait boundary; initial copied index stdout is trimmed once into a local. No new validation, APIs, or security policy.",
+      "notes": "Whole-owner implementation drafted only from allowed contracts and instructions. No target or dependency bodies, tests, snapshots, history, diffs, other candidates, or unrelated filenames were read. The receipt lists the bounded freeze and hash reads performed for this delivery."
+    },
+    "first-ready/access-receipt.json": {
+      "owner": "git_checkpoint_repo_author",
+      "candidate": "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+      "readOperations": [
+        {
+          "operation": "Initial contract and instruction read via cat",
+          "paths": [
+            "/tmp/knorvia-git-contracts-20261002/repo.md",
+            "/tmp/knorvia-git-contracts-20261002/repo-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/command-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/cli-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/helpers-api.ts",
+            "/tmp/knorvia-git-contracts-20261002/shared-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+          ]
+        },
+        {
+          "operation": "Count nonblank source lines via awk",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts"]
+        },
+        {
+          "operation": "Freeze first-ready bytes via cp",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the draft and frozen artifacts",
+          "paths": [
+            "/tmp/knorvia-git-candidates-20261002/repo/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/access-receipt.json",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/gitCheckpointRepo.ts",
+            "/tmp/knorvia-git-candidates-20261002/repo/first-ready/access-receipt.json"
+          ]
+        },
+        {
+          "operation": "SHA256 the first-ready hash manifest",
+          "paths": ["/tmp/knorvia-git-candidates-20261002/repo/first-ready.sha256"]
+        }
+      ],
+      "filenameDiscovery": [],
+      "signatureClarifications": [
+        "Coordinator supplied declaration-only shared types import: @knorvia/shared",
+        "Coordinator supplied declaration-only toWorkspaceRelativeGitPath(repoRelativePath, workspaceInRepoPath)",
+        "Coordinator supplied declaration-only ensureGitCommandSucceeded(label, result, allowedExitCodes = [0])"
+      ],
+      "forbiddenBodiesAccessed": false,
+      "repositoryEdits": false,
+      "gitNetworkImportsTypecheckTestsExecuted": false,
+      "sourceRevisions": ["first-ready"],
+      "notes": "Whole-owner implementation drafted only from allowed contracts and instructions. No target or dependency bodies, tests, snapshots, history, diffs, other candidates, or unrelated filenames were read. The receipt lists the bounded freeze and hash reads performed for this delivery."
+    }
+  },
+  "command": {
+    "access-receipt.json": {
+      "owner": "git_command_provider_author",
+      "candidate": "/tmp/knorvia-git-candidates-20261002/command/gitCommandProvider.ts",
+      "firstReadySnapshot": "/tmp/knorvia-git-candidates-20261002/command/first-ready/gitCommandProvider.ts",
+      "firstReadySha256": "66f8cf9fda8be4e70d02113f9eaae8e8f9aeb9fc00c7c40d51de0de960308659",
+      "reads": [
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/command.md",
+          "operations": ["cat"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "operations": ["cat"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "operations": ["cat"]
+        },
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/command-api.ts",
+          "operations": ["cat"]
+        },
+        {
+          "path": "/tmp/knorvia-git-contracts-20261002/environment-api.ts",
+          "operations": ["cat"]
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/command/gitCommandProvider.ts",
+          "operations": [
+            "copy to first-ready snapshot",
+            "sha256sum first-ready",
+            "awk first-ready nonblank count",
+            "apply_patch revision1",
+            "copy to revision1 snapshot",
+            "sha256sum revision1",
+            "awk revision1 nonblank count",
+            "apply_patch revision2",
+            "copy to revision2 snapshot",
+            "sha256sum revision2",
+            "awk revision2 nonblank count"
+          ]
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/command/first-ready/gitCommandProvider.ts",
+          "operations": ["sha256sum"]
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/command/revision1/gitCommandProvider.ts",
+          "operations": ["sha256sum"]
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/command/revision2/gitCommandProvider.ts",
+          "operations": ["sha256sum"]
+        },
+        {
+          "path": "/tmp/knorvia-git-candidates-20261002/command/access-receipt.json",
+          "operations": ["apply_patch revision1 access notes", "apply_patch revision2 access notes"]
+        }
+      ],
+      "filenameDiscoveries": [],
+      "laterRevisions": [
+        {
+          "revision": 1,
+          "snapshot": "/tmp/knorvia-git-candidates-20261002/command/revision1/gitCommandProvider.ts",
+          "sha256": "40f160321ea1eff5115b66b535393c1099ed1a983cd3233003cd5e4db35a0f7e",
+          "nonblankSourceLines": 184,
+          "reason": "Coordinator behavior-only clarification: optional factory parameter with optional chaining; direct environment-provider await in run; error listener before data listeners; discard timeout handler promise in callback."
+        },
+        {
+          "revision": 2,
+          "snapshot": "/tmp/knorvia-git-candidates-20261002/command/revision2/gitCommandProvider.ts",
+          "sha256": "8e8fd4f8f42760f1c078fd2b8d43eb22f93ad716b1934e3a60c31bbacb40bb6c",
+          "nonblankSourceLines": 185,
+          "reason": "Coordinator-reported scoped replacement typecheck found TS2322 at buildResult binaryPath: string | null not assignable to string. Added separate inferred string binding after successful binary guard. No assertion, suppression, or API change."
+        }
+      ],
+      "coordinatorReportedValidation": [
+        {
+          "revision": 1,
+          "scopedReplacementTypes": "failed",
+          "failure": "TS2322 at buildResult binaryPath field: Type 'string | null' not assignable to string in nested function.",
+          "tests": "5/5 passed",
+          "source": "Coordinator message; no validation executed or validation files read by author."
+        }
+      ],
+      "forbiddenBodiesAccessed": false,
+      "runtimeImportsExecuted": false,
+      "actualProcessesSpawnedByCandidate": false,
+      "signalsSent": false,
+      "gitOrNetworkUsed": false,
+      "repositoryEdited": false,
+      "testsOrTypecheckRun": false,
+      "validation": "Draft only; runtime validation delegated to coordinator mocked ports."
+    }
+  }
+}

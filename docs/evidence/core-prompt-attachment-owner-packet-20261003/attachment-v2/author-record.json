@@ -1,0 +1,258 @@
+{
+  "schema": "bounded-complete-owner-author-record-v2",
+  "reserved_owner": "attachment/prompt-attachment.ts",
+  "deliverable": "Complete same-author v2 TypeScript file in newly reserved attachment-v2 directory; no patch. Original two outputs unchanged.",
+  "configuration": {
+    "originally_requested_model": "GPT-6.1 Sol",
+    "originally_requested_reasoning": "high",
+    "originally_requested_fork": "none",
+    "continuation": "Same author continued after parent public review finding; not another claimed fresh author.",
+    "effective_runtime": "Unverified; requested configuration is not an attestation of effective runtime.",
+    "saved_Fast": "Unchanged and unverified; no settings inspection or mutation performed."
+  },
+  "all_cumulative_file_reads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/contract.md",
+      "sha256": "62eedc7002adbc11ffbee3913f2dd59b4a1353b5cc5c2e4f1d35deb059c0b48d",
+      "bytes": 5173,
+      "lines": 17,
+      "file_read_count": 1,
+      "read_events": [
+        "First author tool call: whole exact frozen bytes, SHA-256/bytes/lines, decoded full UTF-8 content displayed."
+      ],
+      "v2_reread_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/public-api.d.ts",
+      "sha256": "8e8f5a505740092a66ed5e8c5357d98052c26956e9918235e18db794a91c7680",
+      "bytes": 690,
+      "lines": 18,
+      "file_read_count": 1,
+      "read_events": [
+        "First author tool call: whole exact frozen bytes, SHA-256/bytes/lines, decoded full UTF-8 content displayed."
+      ],
+      "v2_reread_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/dependency-api.d.ts",
+      "sha256": "932088c1da938a76ea16ab3ce7a69b40cf57d0b026419797f140cb6c1f749ddc",
+      "bytes": 2792,
+      "lines": 30,
+      "file_read_count": 1,
+      "read_events": [
+        "First author tool call: whole exact frozen bytes, SHA-256/bytes/lines, decoded full UTF-8 content displayed."
+      ],
+      "v2_reread_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/public-shapes.d.ts",
+      "sha256": "47111f82a7565ef57538080d8d454f95f281154949655174e4432b6862efac3c",
+      "bytes": 2277,
+      "lines": 71,
+      "file_read_count": 1,
+      "read_events": [
+        "First author tool call: whole exact frozen bytes, SHA-256/bytes/lines, decoded full UTF-8 content displayed."
+      ],
+      "v2_reread_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/dependency-data.json",
+      "sha256": "158941b3139087b71612e91c16388b7b389fb2d8bcd15d962637b0958bd5a8e4",
+      "bytes": 126,
+      "lines": 4,
+      "file_read_count": 1,
+      "read_events": [
+        "First author tool call: whole exact frozen bytes, SHA-256/bytes/lines, decoded full UTF-8 content displayed."
+      ],
+      "v2_reread_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/imports.json",
+      "sha256": "569bbb492711eb43ced92cc3030fd345b2649f004c55ff9a594338e01eeeabf6",
+      "bytes": 305,
+      "lines": 14,
+      "file_read_count": 1,
+      "read_events": [
+        "First author tool call: whole exact frozen bytes, SHA-256/bytes/lines, decoded full UTF-8 content displayed."
+      ],
+      "v2_reread_count": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/output-data.json",
+      "sha256": "e6c5e0b066c8e63a0604b5ba0e88b1dbc49393204107e220634fb0334a171557",
+      "bytes": 4746,
+      "lines": 255,
+      "file_read_count": 1,
+      "read_events": [
+        "First author tool call: whole exact frozen bytes, SHA-256/bytes/lines, decoded full UTF-8 content displayed."
+      ],
+      "v2_reread_count": 0
+    },
+    {
+      "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/prompt-attachment.ts",
+      "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8",
+      "bytes": 3407,
+      "lines": 86,
+      "file_read_count": 2,
+      "file_write_count": 1,
+      "read_events": [
+        "Second author tool call: whole source read for exact byte/hash/line accounting after writing.",
+        "Third author tool call: whole frozen original source read and displayed to review same-author source."
+      ],
+      "v2_write_or_chmod_count": 0,
+      "frozen_mode_from_original_operation": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/author-record.json",
+      "sha256": "89995c7c3483f2f9922ad84881a81ee1342811a82a8801bb8aba9e149cdf2172",
+      "bytes": 9876,
+      "lines": 143,
+      "file_read_count": 1,
+      "file_write_count": 1,
+      "read_events": [
+        "Third author tool call: whole frozen original receipt read and displayed."
+      ],
+      "v2_write_or_chmod_count": 0,
+      "frozen_mode_from_original_operation": "0444"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/file-body-boundary-finding.md",
+      "sha256": "239471bcc1292c6a99cf5204fb408902b6e7935f0d91f945c7f76b6d08c1dc30",
+      "bytes": 1385,
+      "lines": 5,
+      "file_read_count": 1,
+      "read_events": [
+        "Third author tool call: whole exact bytes; decoded full UTF-8 finding shown."
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment-v2/prompt-attachment.ts",
+      "sha256": "0a42762c74366ea0e2012ffbce960db14b75d7649a24614c669711346a457f33",
+      "bytes": 3410,
+      "lines": 86,
+      "file_read_count": 1,
+      "file_write_count": 1,
+      "frozen_mode": "0444",
+      "read_events": [
+        "Fourth author tool call: whole authored v2 source read for exact byte/hash/line accounting after writing; no source body displayed."
+      ]
+    }
+  ],
+  "own_v2_receipt_accounting": {
+    "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment-v2/author-record.json",
+    "file_read_count": 0,
+    "file_write_count": 1,
+    "frozen_mode": "0444",
+    "exact_sha256_bytes_lines": "Reported from exact UTF-8 write buffer in final tool result and final response, without file read; omitted here to avoid self-referential hash."
+  },
+  "cumulative_read_accounting": {
+    "original_seven_named_input_reads": 7,
+    "additional_finding_reads": 1,
+    "original_source_reads": 2,
+    "original_receipt_reads": 1,
+    "v2_source_reads": 1,
+    "v2_receipt_reads": 0,
+    "total_explicit_file_reads": 12,
+    "prior_phase_reads": 8,
+    "v2_phase_reads": 4,
+    "additional_file_reads_by_author_commands": 0,
+    "accounting_boundary": "Explicit author-command file reads only; executor/interpreter internal activity is not audited."
+  },
+  "original_review_and_revision": {
+    "original_source_binding": {
+      "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/prompt-attachment.ts",
+      "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8",
+      "bytes": 3407,
+      "lines": 86,
+      "file_read_count": 2,
+      "file_write_count": 1,
+      "read_events": [
+        "Second author tool call: whole source read for exact byte/hash/line accounting after writing.",
+        "Third author tool call: whole frozen original source read and displayed to review same-author source."
+      ],
+      "v2_write_or_chmod_count": 0,
+      "frozen_mode_from_original_operation": "0444"
+    },
+    "original_receipt_binding": {
+      "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/author-record.json",
+      "sha256": "89995c7c3483f2f9922ad84881a81ee1342811a82a8801bb8aba9e149cdf2172",
+      "bytes": 9876,
+      "lines": 143,
+      "file_read_count": 1,
+      "file_write_count": 1,
+      "read_events": [
+        "Third author tool call: whole frozen original receipt read and displayed."
+      ],
+      "v2_write_or_chmod_count": 0,
+      "frozen_mode_from_original_operation": "0444"
+    },
+    "finding_binding": {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/file-body-boundary-finding.md",
+      "sha256": "239471bcc1292c6a99cf5204fb408902b6e7935f0d91f945c7f76b6d08c1dc30",
+      "bytes": 1385,
+      "lines": 5,
+      "file_read_count": 1,
+      "read_events": [
+        "Third author tool call: whole exact bytes; decoded full UTF-8 finding shown."
+      ]
+    },
+    "parent_archive_before_original_body_review": "8ec895b3 as reported by parent; archive not read or independently verified by author.",
+    "original_passes_reported": "Original static API/import/input/receipt checks passed, as reported by parent and frozen public finding.",
+    "original_failure": "Original file input kind:file/content:raw/truncated:true yielded two bodies and two blocks because the truncation note was joined to the formatter-result body; required public behavior is three distinct array bodies and three wrapper calls/blocks.",
+    "v2_correction": "Called-Read body and Result-of-Read body remain separate and first. Applicable file truncation note is pushed as a standalone third body without a leading newline. Blocks then wrap each of the three bodies once in array order.",
+    "finding_interpretation": "Additional frozen public finding clarifies append in original contract as append a distinct third array body for file truncation. It supplies no private helper identities or prescribed decomposition.",
+    "v2_validation_status": "Manual review only; parent archival and authorized minimum synthetic/static review remain outstanding.",
+    "original_retention": "Original source and receipt were read but neither written nor chmodded during v2 work."
+  },
+  "all_visible_operations_in_order": [
+    "First functions.exec/exec_command Python call: seven exact named frozen input reads in given order, hashes/bytes/lines and full UTF-8 displays.",
+    "Manual complete original-source design and review from seven-input specification.",
+    "Second functions.exec/exec_command Python call: permitted output parent creation, original whole source write and full own-source accounting read, original receipt write, both original outputs chmod0444, final metadata printed.",
+    "Original final message sent with frozen file paths/hash/bytes/lines and validation qualifications only.",
+    "Parent supplied archive/check/failure report and authorized complete same-author v2 after review; no author review/test invocation.",
+    "Third functions.exec/exec_command Python call: full finding read, full original frozen source read, full original frozen receipt read, each hashed/count/displayed.",
+    "Manual review of complete original frozen source and complete new authored v2 source literal against original specification and additional public boundary finding.",
+    "Fourth functions.exec/exec_command Python call: create only reserved v2 parent directories if needed, write complete v2 source, read complete v2 source once for exact hash/bytes/lines accounting, write complete cumulative v2 receipt from known exact UTF-8 buffer.",
+    "Freeze both v2 outputs with chmod0444 and print metadata only; original outputs untouched."
+  ],
+  "manual_review": {
+    "scope": "Entire original frozen source and entire complete authored v2 source literal, every line. Own v2 source subsequently read in full for exact-byte accounting.",
+    "method": "Manual reasoning only. No code execution, compiler, build, lint, tests, synthetic probes or dependency implementation loading by author.",
+    "findings": [
+      "Exact original imports and supplied exported interface/function signatures preserved.",
+      "Label normalization precedes kind/content handling; supplied whitespace regex, ASCII replacement, trim and 200/197 UTF-16 limits retained.",
+      "Kind nullish default and inline_text display preserved; unlabelled heading has output-data trailing period.",
+      "Absent content returns one exact disclaimer body; empty string remains present and content unchanged.",
+      "Top-level preview fields retain nullish fallback, including false, zero and empty string overrides.",
+      "Formatter is called once only for file content with specified own-field order and unchanged content, exact line-count regex, defaults and notice; no truncated field is supplied.",
+      "File result preserves formatter text verbatim. When truncated is truthy and notice falsy, note is distinct third body. Truthy notice suppresses that body only.",
+      "File text/order and public Read name/constant reference preserved; no inline authority disclaimer added to file bodies.",
+      "Inline output retains exact heading/content, optional available-preview note and authority disclaimer; no formatter or fictitious Read operation.",
+      "Blocks obtain all bodies first, then create fresh type/text blocks and call original wrapper once per body in order. Formatter failure precedes wrapping; wrapper failures stop mapping naturally.",
+      "No catches, sanitization, input/preview mutation, business I/O, persistence, permissions or replacement dependencies."
+    ],
+    "qualification": "Original manual review missed the array-boundary defect; frozen public review finding retained rather than overwritten. Manual v2 reasoning is not executable verification."
+  },
+  "preserved_material_and_ordinary_idioms": {
+    "required_material": "Supplied imports, public types/signatures, protocol/prompt strings, templates, regexes, numeric limits, original READ_DEFAULT_MAX_LINES/formatter/wrapper identities and native exception propagation.",
+    "constant_data": "Original public constant value supplied as 2000 by dependency-data.json. Source imports original constant, no dependency implementation read or run.",
+    "ordinary_idioms": "Optional chaining, nullish coalescing, conditionals, string replace/trim/slice/split, template literals, object literals, JSON.stringify, arrays, push, map, local variables and branches.",
+    "qualification": "Required expression/text structure and ordinary idioms retained honestly. Complete same-author source uses bounded reconstruction, not a novelty claim."
+  },
+  "exposure_and_scope": {
+    "this_author": "Consumed delegation/continuation instructions, the seven original frozen named files, the additional frozen public finding, own original source/receipt and own v2 source. No other repository/source/history/AGENTS, dependency implementation, drafts, user data, inventory, provider, network or credential access performed by author commands.",
+    "same_author_exposure": "V2 author has explicitly read its own original frozen source and receipt, plus public failure finding; continuation is not independently fresh or separated from own earlier draft.",
+    "packet": "Mechanically stripped original public declarations and exact required original static data are source-derived bounded specification material.",
+    "parent_and_curator": "Parent/curator remains source-exposed. Earlier broader/tool/dependency exposure and repaired extra scratch-write breach remain declared as parent-reported; exact earlier operations/scratch path were not supplied and not independently verified by this author.",
+    "prior_scratch_breach": "No extra scratch/accounting file written by this author in either phase. The parent-reported earlier scratch breach remains material despite repair.",
+    "delivery": "Final-only paths/hash/bytes/lines after both v2 outputs frozen. No new v2 source snippets sent to parent messages before freeze; parent intends archive before v2 source-body review."
+  },
+  "restrictions_and_assertions": {
+    "boundary": "Shared executor instruction-only restrictions; no OS isolation, access audit, enforced separation or independent provenance attestation.",
+    "authorship": "Complete same-author bounded reconstruction from public behavior/port specification and public boundary finding. Parent source exposure remains material.",
+    "rights": "No novelty, separation, licence, grant or rights-clearance assertion.",
+    "business_IO": "None; formatter/wrapper ports are referenced in authored source but not invoked by author.",
+    "tools": "Four cumulative functions.exec/exec_command calls for permitted reads/writes/hash/freeze. No metadata discovery, subagents, progress messages/plans, tests or compilation."
+  },
+  "remaining_work": "Parent archive then minimum authorized synthetic/static review of v2. No author executable validation."
+}

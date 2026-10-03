@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-02T19:17:54.583114+00:00",
+  "drafts": {
+    "draft-websocket.ts": {
+      "bytes": 2309,
+      "sha256": "a9d42b0cdfc15b8419ea173975866a6f5cc5a71fd1eadc5324ebd8cb372c0cbd"
+    },
+    "draft-messageport.ts": {
+      "bytes": 1332,
+      "sha256": "0fb5d3e723872e2af69be3659ec60977a70448dbc98a6ee5f706958eea9d467c"
+    }
+  },
+  "targetBodyReadBeforeFreeze": false
+}

@@ -1,5 +1,7 @@
 import type { KnorviaMessageWithParts } from "./protocol-legacy-types.js";
+
 import { textFromKnorviaMessageParts } from "./protocol-legacy-types.js";
+
 import type { KnorviaStreamEvent } from "./task-types-core.js";
 
 export interface KnorviaBackgroundTaskNotificationInfo {
@@ -11,27 +13,44 @@ export interface KnorviaBackgroundTaskNotificationInfo {
   taskId?: string;
 }
 
-export function parseKnorviaBackgroundTaskNotificationText(
-  text: string | undefined,
-): { notification: KnorviaBackgroundTaskNotificationInfo; toolUseId: string } | null {
-  const trimmed = text?.trim();
-  if (!trimmed?.startsWith("<task-notification>")) {
+function notificationField(text: string, tag: string): string | undefined {
+  const capture = new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`, "u").exec(text);
+  const body = capture?.[1]?.trim();
+  if (!body) {
+    return undefined;
+  }
+  return body
+    .replace(/&quot;/gu, '"')
+    .replace(/&apos;/gu, "'")
+    .replace(/&lt;/gu, "<")
+    .replace(/&gt;/gu, ">")
+    .replace(/&amp;/gu, "&");
+}
+
+export function parseKnorviaBackgroundTaskNotificationText(text: string | undefined): {
+  notification: KnorviaBackgroundTaskNotificationInfo;
+  toolUseId: string;
+} | null {
+  const content = text?.trim();
+  if (!content?.startsWith("<task-notification>")) {
     return null;
   }
-  const toolUseId = readTaskNotificationTag(trimmed, "tool-use-id");
+
+  const toolUseId = notificationField(content, "tool-use-id");
   if (!toolUseId) {
     return null;
   }
+
   return {
-    toolUseId,
     notification: {
-      error: readTaskNotificationTag(trimmed, "error"),
-      outputFile: readTaskNotificationTag(trimmed, "output-file"),
-      result: readTaskNotificationTag(trimmed, "result"),
-      status: readTaskNotificationTag(trimmed, "status"),
-      summary: readTaskNotificationTag(trimmed, "summary"),
-      taskId: readTaskNotificationTag(trimmed, "task-id"),
+      error: notificationField(content, "error"),
+      outputFile: notificationField(content, "output-file"),
+      result: notificationField(content, "result"),
+      status: notificationField(content, "status"),
+      summary: notificationField(content, "summary"),
+      taskId: notificationField(content, "task-id"),
     },
+    toolUseId,
   };
 }
 
@@ -46,10 +65,9 @@ export function collectKnorviaBackgroundTaskNotificationsByToolUseId(
     const parsed = parseKnorviaBackgroundTaskNotificationText(
       textFromKnorviaMessageParts(message.parts),
     );
-    if (!parsed) {
-      continue;
+    if (parsed) {
+      notifications.set(parsed.toolUseId, parsed.notification);
     }
-    notifications.set(parsed.toolUseId, parsed.notification);
   }
   return notifications;
 }
@@ -60,14 +78,23 @@ export function knorviaBackgroundTaskNotificationToolUpdateStatus(
   Extract<KnorviaStreamEvent, { type: "tool_call_update" }>["status"],
   "completed" | "failed" | "stopped"
 > {
-  if (status === "failed" || status === "lost") {
-    return "failed";
+  switch (status) {
+    case "failed":
+    case "lost":
+      return "failed";
+    case "stopped":
+    case "killed":
+      // killed 和 stopped 表示任务被中止，不能将它们映射为已完成。
+      return "stopped";
+    default:
+      return "completed";
   }
-  // task-notification 的 killed/stopped 都表示被停止，不能折成 completed。
-  if (status === "stopped" || status === "killed") {
-    return "stopped";
-  }
-  return "completed";
+}
+
+function notificationRecord(value: unknown): Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
 }
 
 export function attachKnorviaBackgroundTaskNotificationToRaw(
@@ -77,38 +104,18 @@ export function attachKnorviaBackgroundTaskNotificationToRaw(
   if (!notification) {
     return raw;
   }
-  const record = asPlainRecord(raw);
-  const meta = asPlainRecord(record._meta);
-  const knorvia = asPlainRecord(meta.knorvia);
+
+  const record = notificationRecord(raw);
+  const metadata = notificationRecord(record._meta);
+  const knorvia = notificationRecord(metadata.knorvia);
   return {
     ...record,
     _meta: {
-      ...meta,
+      ...metadata,
       knorvia: {
         ...knorvia,
         taskNotification: notification,
       },
     },
   };
-}
-
-function readTaskNotificationTag(text: string, tag: string): string | undefined {
-  const match = text.match(new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`, "u"));
-  const value = match?.[1]?.trim();
-  return value ? decodeTaskNotificationXmlText(value) : undefined;
-}
-
-function decodeTaskNotificationXmlText(value: string): string {
-  return value
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&");
-}
-
-function asPlainRecord(value: unknown): Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : {};
 }

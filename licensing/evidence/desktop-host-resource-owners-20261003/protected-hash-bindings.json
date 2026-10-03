@@ -1,0 +1,8 @@
+{
+  "hashOnlyNoBodyInspection": {
+    "packages/shared/src/conversation-preview-artifacts.ts": "07a99057b75335835784d8cdb94ea9f0026a75e0d3f4f3dcb47a44395d9d8d40",
+    "packages/shared/src/persistedMessageMerge.ts": "f603412a7e5a69f5e8e41e672926d1e6bc8553a7ddf97c3a5f47d294d0d3fc22",
+    "packages/shared/src/protocol-v4/workflow-runs-reducer.ts": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6"
+  },
+  "unchanged": true
+}

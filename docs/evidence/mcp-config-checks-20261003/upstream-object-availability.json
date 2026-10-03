@@ -1,0 +1,14 @@
+{
+  "mcp.ts": {
+    "recordedPublisherBlob": "e21f85b079b18e05e67be5bf99d3e56c826c04fc",
+    "localExactObjectAvailable": false,
+    "localObjectType": null,
+    "verification": "Recorded inventory only; no publisher fetch/byte equivalence claim"
+  },
+  "config.ts": {
+    "recordedPublisherBlob": "4e0bccc6e3f3b69be5b998851d38db4e32c8e0ef",
+    "localExactObjectAvailable": false,
+    "localObjectType": null,
+    "verification": "Recorded inventory only; no publisher fetch/byte equivalence claim"
+  }
+}

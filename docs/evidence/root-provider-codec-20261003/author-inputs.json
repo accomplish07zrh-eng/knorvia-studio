@@ -1,0 +1,37 @@
+{
+  "repository": "accomplish07zrh-eng/knorvia-studio",
+  "commit": "aad74a96ce81ab187ac5ccf56a013810c54bed55",
+  "directory": "docs/evidence/provider-config-file-codec-root-packet-20261003",
+  "inputs": [
+    {
+      "path": "contract.md",
+      "bytes": 10639,
+      "sha256": "c32afa5759cb3d6458d559a1262546f61dac88fa75305e388675d72bbf4f48a9",
+      "gitBlob": "90e23c7fde8a1a4bf6570321d93a39ec9da12faf"
+    },
+    {
+      "path": "public-api.d.ts",
+      "bytes": 1101,
+      "sha256": "8077e4a5b0cd9c2e316eaf2dfddefd61cd3f83dfb638d9225f3f46e426aead9c",
+      "gitBlob": "9b7fe853ba0bc5055de87ff501c2fc51f8e9d5b6"
+    },
+    {
+      "path": "dependency-types.d.ts",
+      "bytes": 759,
+      "sha256": "8b09c326cfa78677502bc356ffa8e219a36eb86aaeedf93e16f2398a4c05de58",
+      "gitBlob": "9ac35cf196ee0e1dbb5b1b97510b1069a174ad6a"
+    },
+    {
+      "path": "schema-contract.md",
+      "bytes": 4565,
+      "sha256": "826aeb09c805ea06375327a243f765c0af8843cad1d99e3f5b2b54e318b7b470",
+      "gitBlob": "b2f87b3d6080da49c59de800ff877144e246f1e7"
+    },
+    {
+      "path": "retained-data.json",
+      "bytes": 4009,
+      "sha256": "1e6907059f26eceb8f370e780fb269a310ac07af9dd7ed622e3001e3eaaf4c05",
+      "gitBlob": "8956835cde883ce7e05fc487e3490ddc739b7c53"
+    }
+  ]
+}

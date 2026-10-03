@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "scope": "Root review of collected AskUserQuestion result and macOS terminal profile decoding",
+  "baseline": "2d4f85a40858c73d874277739ee8d269e9042a79",
+  "reviewedCodeHead": "c63714541e1a1ae02dfbfee08e35b54d7a5156aa",
+  "laneCheckpoints": {
+    "askUserQuestion": "7b37339",
+    "macosProfile": "8c463b2"
+  },
+  "validation": {
+    "askSource": 19,
+    "askEmitted": 19,
+    "askFiniteComparisonPerMode": {
+      "admissions": 4096,
+      "narrations": 6247,
+      "sha256": "d70e6c5f9ac014a68dce1e9051416e50675dddfb6547785c25a6b0be7dae71ce"
+    },
+    "macosAndPortableSource": 164,
+    "macosAndPortableStrictEmitted": 164,
+    "full": {
+      "tests": 6440,
+      "pass": 6374,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0,
+      "exactPriorFailureEventMultiset": true
+    },
+    "gates": [
+      "root types",
+      "CLI build",
+      "serial CLI types",
+      "root lint",
+      "explicit seven CLI files lint",
+      "format",
+      "changed architecture",
+      "desktop build:no-runtime-assets"
+    ],
+    "productionHostContains": [
+      "decodeTerminalProfileMacOs",
+      "readTerminalProfileMacOsPlist"
+    ]
+  },
+  "logSha256": {
+    "ask-root-explicit-lint.log": "b9ea9004de5d8090c69a40677168ed99e6436cdffd8f5a7e5ab374c4be988f3e",
+    "ask-root-differential-emitted.log": "5e5f62db79e2de309da7757e3ecf5c4ce5c6f02bebde4bb6f72226ca6e42f51b",
+    "ask-root-differential-source.log": "5e5f62db79e2de309da7757e3ecf5c4ce5c6f02bebde4bb6f72226ca6e42f51b",
+    "ask-root-emitted.tap": "f0549d5451e08594ff24fb3f64294ee9137130a4cb53fb3b143ac1740eef6834",
+    "ask-root-source.tap": "9f928ef1fb60ca9ceee61d717916361dda3c4a2781d2ab1c3e4d0416d8fd1e66",
+    "ask-root-cli-build.log": "71e0980e92547502ab18a57f39032b44618f3c0f166bec6ebe87653f9f740637",
+    "macos-root-emitted.tap": "6c36e316a1697a70ae096c696f6e7c29e7b18d095d4ffc143f55253debebc05e",
+    "macos-root-source.tap": "60ff642764bc9c658400b6acd616a286489b24c288b0eb53891411d6b557f3ac",
+    "ask-macos-root-full.tap": "27e37a6e6b071c4234afad3d47ab9fae9981c511d6970de78bff707425eeed37",
+    "ask-macos-root-desktop-build.log": "8d609f06cc123f0cbe276f2e19bc7113d2be153bb58c0d3213d46fb48e9531f7",
+    "ask-macos-root-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "ask-macos-root-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "ask-macos-root-format.log": "58ce1930e3f1f25bf7a3edfff8dfebce066971a28e2b2a040960894c4f958e62",
+    "ask-macos-root-lint.log": "ea724c4329f7f6cd546e20ed5ee08c34ca2f2d9a030ee35be28334ce977a97c1",
+    "ask-macos-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988"
+  },
+  "limits": [
+    "Source-exposed, shared schemas/public declarations/prose and all applicable attribution remain",
+    "All 27 material obligations remain unresolved",
+    "Linux mocked platform/plutil/PTY does not establish native macOS acceptance",
+    "No real user interaction, account, provider, settings, or user filesystem acceptance",
+    "Broader core standalone lint retains 24 errors and 11 warnings outside changed scope",
+    "Exact remote CI pending for this batch; CI212 receipt applies to its earlier head only"
+  ],
+  "emittedReceiptCorrection": "Initial root macOS invocation omitted its separate selector and mixed104sourcewith60emittedcases. Exact168d1ba was subsequently rechecked with both selectors:164strict emitted runtime cases passed. See emitted-mode-recheck-20261001.json for preserved logs and detached-worktree typecheck failure; original main typecheck/CI are separate evidence."
+}

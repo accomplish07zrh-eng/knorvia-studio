@@ -1,51 +1,27 @@
 import { KnorviaStorageStartupGate } from "#src/agent/storageStartupGate.js";
-import { Emitter } from "@knorvia/rpc";
-import type { IDisposable } from "@knorvia/rpc";
+import { Emitter, type IDisposable } from "@knorvia/rpc";
 import type {
-  KnorviaProtocolMethod,
   KnorviaProtocolNotification,
   KnorviaProtocolRequest,
   KnorviaProtocolRequestId,
-  KnorviaProtocolTrace,
 } from "@knorvia/shared";
-import type { V4Method } from "@knorvia/shared/protocol-v4";
 import type { z } from "zod";
 import type { KnorviaProtocolTransport } from "./protocolTransport.js";
+import {
+  createProtocolRequestBook,
+  type ProtocolClientMethod,
+  type ProtocolRequestOptions,
+  type ProtocolTimeoutFact,
+} from "./protocolRequestBook.js";
 
-/** 客户端可发的方法名：旧 knorviaProtocolMethods + v4/*（并存，收敛为 v4）。 */
-type KnorviaProtocolClientMethod = KnorviaProtocolMethod | V4Method;
+type KnorviaProtocolClientMethod = ProtocolClientMethod;
+type KnorviaProtocolClientRequestOptions = ProtocolRequestOptions;
+type KnorviaProtocolRequestTimeoutEvent = ProtocolTimeoutFact;
 
 interface KnorviaProtocolClientOptions {
   requireStorageStartup?: boolean;
   requestTimeoutMs?: number;
 }
-
-interface KnorviaProtocolRequestTimeoutEvent {
-  method: KnorviaProtocolClientMethod;
-  requestId: KnorviaProtocolRequestId;
-  timeoutMs: number;
-}
-
-interface PendingRequest<T> {
-  method: string;
-  observation: boolean;
-  timeout: ReturnType<typeof setTimeout>;
-  resumeTimeout: () => void;
-  resolve: (value: T) => void;
-  reject: (error: Error) => void;
-  resultSchema?: z.ZodType<T>;
-  cleanupAbort?: () => void;
-}
-
-interface KnorviaProtocolClientRequestOptions {
-  /** 观测不得参与 runtime 健康判定或业务空闲续期；默认保持业务请求语义。 */
-  lifecycle?: "operation" | "observation";
-  signal?: AbortSignal;
-  trace?: KnorviaProtocolTrace;
-  timeoutMs?: number;
-}
-
-const DEFAULT_KNORVIA_PROTOCOL_REQUEST_TIMEOUT_MS = 3 * 60_000;
 
 class KnorviaProtocolClientError extends Error {
   constructor(
@@ -69,67 +45,63 @@ export class KnorviaProtocolRequestTimeoutError extends Error {
   }
 }
 
+/** Protocol facade; the request book owns pending settlement and watchdogs. */
 export class KnorviaProtocolClient implements IDisposable {
   readonly storageStartup: KnorviaStorageStartupGate;
-  private readonly pending = new Map<string, PendingRequest<unknown>>();
-  private readonly notificationEmitter = new Emitter<KnorviaProtocolNotification>();
-  private readonly requestEmitter = new Emitter<KnorviaProtocolRequest>();
-  private readonly requestTimeoutEmitter = new Emitter<KnorviaProtocolRequestTimeoutEvent>();
-  // 业务请求归零时触发；观测完成不能给被观察进程续命。
-  private readonly pendingDrainedEmitter = new Emitter<void>();
-  private readonly closeEmitter = new Emitter<void>();
-  private readonly disposables: IDisposable[] = [];
-  private nextRequestId = 1;
   private disposed = false;
-  private readonly requestTimeoutMs: number;
+  private requestSerial = 1;
+  private readonly timeoutMs: number;
+  private readonly notifications = new Emitter<KnorviaProtocolNotification>();
+  private readonly serverRequests = new Emitter<KnorviaProtocolRequest>();
+  private readonly timeouts = new Emitter<KnorviaProtocolRequestTimeoutEvent>();
+  private readonly drained = new Emitter<void>();
+  private readonly closed = new Emitter<void>();
+  private readonly listeners: IDisposable[];
+  private readonly requests = createProtocolRequestBook({
+    disposed: () => this.disposed,
+    drained: () => this.drained.fire(),
+    timedOut: (fact) => this.timeouts.fire(fact),
+    timeoutError: ({ method, requestId, timeoutMs }) =>
+      new KnorviaProtocolRequestTimeoutError(method, requestId, timeoutMs),
+  });
 
-  /**
-   * client 是否已 dispose（进程被回收/transport 关闭后为 true）。
-   * 调用方（如 getClient 复用 active entry）必须在复用前检查此标记，
-   * 避免对一个已被 processManager 回收但尚未触发 onClose 的 client 发请求，
-   * 否则会立即抛 "Knorvia Protocol client is disposed"。
-   */
-  get isDisposed(): boolean {
-    return this.disposed;
-  }
-
-  readonly onNotification = this.notificationEmitter.event;
-  readonly onRequest = this.requestEmitter.event;
-  readonly onRequestTimeout = this.requestTimeoutEmitter.event;
-  readonly onPendingRequestsDrained = this.pendingDrainedEmitter.event;
-  readonly onClose = this.closeEmitter.event;
-
-  /** 当前尚未收到响应的请求数。 */
-  get pendingRequestCount(): number {
-    return this.pending.size;
-  }
-
-  get pendingOperationRequestCount(): number {
-    let count = 0;
-    for (const pending of this.pending.values()) if (!pending.observation) count += 1;
-    return count;
-  }
+  readonly onNotification = this.notifications.event;
+  readonly onRequest = this.serverRequests.event;
+  readonly onRequestTimeout = this.timeouts.event;
+  readonly onPendingRequestsDrained = this.drained.event;
+  readonly onClose = this.closed.event;
 
   constructor(
     private readonly transport: KnorviaProtocolTransport,
     options?: KnorviaProtocolClientOptions,
   ) {
     this.storageStartup = new KnorviaStorageStartupGate(options?.requireStorageStartup ?? false);
-    this.requestTimeoutMs =
-      options?.requestTimeoutMs ?? DEFAULT_KNORVIA_PROTOCOL_REQUEST_TIMEOUT_MS;
-    this.disposables.push(
-      transport.onMessage((message) => this.handleMessage(message)),
+    this.timeoutMs = options?.requestTimeoutMs ?? 180_000;
+    this.listeners = [
+      transport.onMessage((message) => this.route(message)),
       transport.onClose((event) => {
         this.storageStartup.dispose();
-        const suffix = event.reason ? `: ${event.reason}` : "";
-        this.rejectAll(new Error(`Knorvia Studio agent transport closed${suffix}`));
-        this.closeEmitter.fire();
+        this.requests.failAll(
+          new Error(
+            `Knorvia Studio agent transport closed${event.reason ? `: ${event.reason}` : ""}`,
+          ),
+        );
+        this.closed.fire();
       }),
-    );
+    ];
   }
 
+  get isDisposed(): boolean {
+    return this.disposed;
+  }
   get transportKind() {
     return this.transport.kind;
+  }
+  get pendingRequestCount(): number {
+    return this.requests.count;
+  }
+  get pendingOperationRequestCount(): number {
+    return this.requests.operationCount;
   }
 
   async request<T = unknown>(
@@ -138,70 +110,20 @@ export class KnorviaProtocolClient implements IDisposable {
     resultSchema?: z.ZodType<T>,
     options?: KnorviaProtocolClientRequestOptions,
   ): Promise<T> {
-    this.assertNotDisposed();
-    // 不先创建请求/启动 watchdog；只在真实 COMMIT 后进入原有协议请求生命周期。
+    this.assertOpen();
     if (this.storageStartup.isWaiting) await this.storageStartup.wait(options?.signal);
-    this.assertNotDisposed();
+    this.assertOpen();
     options?.signal?.throwIfAborted();
-    const id = this.nextRequestId++;
-    const requestKey = String(id);
-    const requestTimeoutMs = options?.timeoutMs ?? this.requestTimeoutMs;
-    const observation = options?.lifecycle === "observation";
-
-    const resultPromise = new Promise<T>((resolve, reject) => {
-      const expire = () => {
-        const pending = this.pending.get(requestKey);
-        pending?.cleanupAbort?.();
-        this.deletePending(requestKey);
-        const error = new KnorviaProtocolRequestTimeoutError(method, id, requestTimeoutMs);
-        // 子进程仍存活但协议 event loop 已无响应时，只让单次 request 超时是不够的：
-        // process manager 仍复用这个 stale client，导致后续 plugins/list 等请求连续卡在超时窗口。
-        // 超时事件把“连接已不可信”的事实上抛给 owner，由 owner 负责淘汰进程。
-        // 资源查询的短超时只表示本轮无数据，不能被升级成整个 Agent 的故障回收。
-        if (!observation) {
-          this.requestTimeoutEmitter.fire({ method, requestId: id, timeoutMs: requestTimeoutMs });
-        }
-        reject(error);
-      };
-      const timeout = setTimeout(expire, requestTimeoutMs);
-
-      const abortHandler = () => {
-        const pending = this.pending.get(requestKey);
-        if (!pending) return;
-        clearTimeout(pending.timeout);
-        pending.cleanupAbort?.();
-        this.deletePending(requestKey);
-        const reason = options?.signal?.reason;
-        reject(
-          reason instanceof Error ? reason : new DOMException("Request aborted", "AbortError"),
-        );
-      };
-      const pending: PendingRequest<T> = {
-        method,
-        observation,
-        timeout,
-        resumeTimeout: () => {
-          pending.timeout = setTimeout(expire, requestTimeoutMs);
-        },
-        resolve: resolve as (value: unknown) => void,
-        reject,
-        resultSchema,
-        cleanupAbort: () => options?.signal?.removeEventListener("abort", abortHandler),
-      };
-      this.pending.set(requestKey, pending as PendingRequest<unknown>);
-      if (options?.signal?.aborted) {
-        abortHandler();
-      } else {
-        options?.signal?.addEventListener("abort", abortHandler, { once: true });
-      }
-    });
-
-    // 已在发送前取消的请求不能继续写入 transport；否则服务端会执行一个客户端已经
-    // 放弃、也无法接收响应的模型任务。
-    if (!this.pending.has(requestKey)) {
-      return resultPromise;
-    }
-
+    const id = this.requestSerial++;
+    const request = this.requests.open(
+      method,
+      id,
+      options?.timeoutMs ?? this.timeoutMs,
+      resultSchema,
+      options?.signal,
+      options?.lifecycle === "observation",
+    );
+    if (!this.requests.has(request.key)) return request.result;
     try {
       await this.transport.send({
         id,
@@ -210,25 +132,19 @@ export class KnorviaProtocolClient implements IDisposable {
         ...(options?.trace ? { trace: options.trace } : {}),
       });
     } catch (error) {
-      const pending = this.pending.get(requestKey);
-      if (pending) {
-        clearTimeout(pending.timeout);
-        pending.cleanupAbort?.();
-        this.deletePending(requestKey);
-      }
+      this.requests.discard(request.key);
       throw error;
     }
-
-    return resultPromise;
+    return request.result;
   }
 
   async notify(method: KnorviaProtocolClientMethod, params?: unknown): Promise<void> {
-    this.assertNotDisposed();
+    this.assertOpen();
     await this.transport.send({ method, params });
   }
 
   async respond(id: KnorviaProtocolRequestId, result: unknown): Promise<void> {
-    this.assertNotDisposed();
+    this.assertOpen();
     await this.transport.send({ id, result });
   }
 
@@ -236,163 +152,69 @@ export class KnorviaProtocolClient implements IDisposable {
     id: KnorviaProtocolRequestId,
     error: { code: number; message: string; data?: unknown },
   ): Promise<void> {
-    this.assertNotDisposed();
+    this.assertOpen();
     await this.transport.send({ id, error });
   }
 
   dispose(): void {
-    if (this.disposed) {
-      return;
-    }
-    this.disposed = true;
-    this.disposeLocalResources();
-    this.transport.dispose();
+    if (this.beginDisposal()) this.transport.dispose();
   }
 
   async disposeAndWait(): Promise<void> {
-    const wasDisposed = this.disposed;
-    if (!wasDisposed) {
-      this.disposed = true;
-      this.disposeLocalResources();
-    }
-    if (this.transport.disposeAndWait) {
-      await this.transport.disposeAndWait();
-      return;
-    }
-    if (!wasDisposed) {
-      this.transport.dispose();
-    }
+    const firstDisposal = this.beginDisposal();
+    if (this.transport.disposeAndWait) await this.transport.disposeAndWait();
+    else if (firstDisposal) this.transport.dispose();
   }
 
-  private handleMessage(message: unknown): void {
-    if (!message || typeof message !== "object") {
+  private route(value: unknown): void {
+    if (value === null || typeof value !== "object") return;
+    if ("id" in value) {
+      const id = value.id as KnorviaProtocolRequestId;
+      if ("result" in value) this.requests.accept(id, value.result);
+      else if ("error" in value) {
+        const error = value.error as { code: number; message: string; data?: unknown };
+        this.requests.reject(
+          id,
+          new KnorviaProtocolClientError(error.message, error.code, error.data),
+        );
+      } else if ("method" in value) this.serverRequests.fire(value as KnorviaProtocolRequest);
       return;
     }
-
-    if ("result" in message && "id" in message) {
-      this.resolveResponse(
-        (message as { id: KnorviaProtocolRequestId; result: unknown }).id,
-        (message as { result: unknown }).result,
-      );
-      return;
-    }
-
-    if ("error" in message && "id" in message) {
-      const errorMessage = message as {
-        id: KnorviaProtocolRequestId;
-        error: { code: number; message: string; data?: unknown };
-      };
-      this.rejectResponse(
-        errorMessage.id,
-        new KnorviaProtocolClientError(
-          errorMessage.error.message,
-          errorMessage.error.code,
-          errorMessage.error.data,
-        ),
-      );
-      return;
-    }
-
-    if ("method" in message && "id" in message) {
-      this.requestEmitter.fire(message as KnorviaProtocolRequest);
-      return;
-    }
-
-    if ("method" in message) {
-      if (
-        message.method === "startup/storageState" &&
-        this.storageStartup.accept((message as KnorviaProtocolNotification).params)
-      ) {
-        // 自定义/旧部署命令无法事先声明能力；首个请求可能已发出。只有首次合法启动帧
-        // 能暂停这些计时器，ready 后恢复；该进程的终态不能被后续通知重新续期。
-        for (const pending of this.pending.values()) {
-          clearTimeout(pending.timeout);
-          if (this.storageStartup.snapshot?.phase === "ready") pending.resumeTimeout();
-        }
-        if (this.storageStartup.snapshot?.phase === "failed") {
-          this.rejectAll(
-            new Error(`SQLite startup failed: ${this.storageStartup.snapshot.errorCode}`),
-          );
-        }
+    if (!("method" in value)) return;
+    const notification = value as KnorviaProtocolNotification;
+    if (
+      notification.method === "startup/storageState" &&
+      this.storageStartup.accept(notification.params)
+    ) {
+      const state = this.storageStartup.snapshot;
+      this.requests.setWatchdogsReady(state?.phase === "ready");
+      if (state?.phase === "failed") {
+        this.requests.failAll(new Error(`SQLite startup failed: ${state.errorCode}`));
       }
-      this.notificationEmitter.fire(message as KnorviaProtocolNotification);
     }
+    this.notifications.fire(notification);
   }
 
-  private resolveResponse(id: KnorviaProtocolRequestId, result: unknown): void {
-    const requestKey = String(id);
-    const pending = this.pending.get(requestKey);
-    if (!pending) {
-      return;
-    }
-    clearTimeout(pending.timeout);
-    pending.cleanupAbort?.();
-    this.deletePending(requestKey);
-
-    try {
-      const parsed = pending.resultSchema ? pending.resultSchema.parse(result) : result;
-      pending.resolve(parsed);
-    } catch (error) {
-      pending.reject(
-        error instanceof Error
-          ? error
-          : new Error(`Knorvia Studio Protocol response parse failed: ${pending.method}`),
-      );
-    }
-  }
-
-  private rejectResponse(id: KnorviaProtocolRequestId, error: Error): void {
-    const requestKey = String(id);
-    const pending = this.pending.get(requestKey);
-    if (!pending) {
-      return;
-    }
-    clearTimeout(pending.timeout);
-    pending.cleanupAbort?.();
-    this.deletePending(requestKey);
-    pending.reject(error);
-  }
-
-  private rejectAll(error: Error): void {
-    const hadPending = this.pendingOperationRequestCount > 0;
-    for (const pending of this.pending.values()) {
-      clearTimeout(pending.timeout);
-      pending.cleanupAbort?.();
-      pending.reject(error);
-    }
-    this.pending.clear();
-    if (hadPending && !this.disposed) {
-      this.pendingDrainedEmitter.fire();
-    }
-  }
-
-  private deletePending(requestKey: string): void {
-    const pending = this.pending.get(requestKey);
-    if (!this.pending.delete(requestKey)) {
-      return;
-    }
-    if (!pending?.observation && this.pendingOperationRequestCount === 0 && !this.disposed) {
-      this.pendingDrainedEmitter.fire();
-    }
-  }
-
-  private disposeLocalResources(): void {
-    this.rejectAll(new Error("Knorvia Studio Protocol client disposed"));
-    for (const disposable of this.disposables) {
-      disposable.dispose();
-    }
-    this.disposables.length = 0;
+  private beginDisposal(): boolean {
+    if (this.disposed) return false;
+    this.disposed = true;
+    this.requests.failAll(new Error("Knorvia Studio Protocol client disposed"));
+    for (const listener of this.listeners) listener.dispose();
+    this.listeners.length = 0;
     this.storageStartup.dispose();
-    this.notificationEmitter.dispose();
-    this.requestEmitter.dispose();
-    this.requestTimeoutEmitter.dispose();
-    this.pendingDrainedEmitter.dispose();
-    this.closeEmitter.dispose();
+    for (const emitter of [
+      this.notifications,
+      this.serverRequests,
+      this.timeouts,
+      this.drained,
+      this.closed,
+    ]) {
+      emitter.dispose();
+    }
+    return true;
   }
 
-  private assertNotDisposed(): void {
-    if (this.disposed) {
-      throw new Error("Knorvia Studio Protocol client is disposed");
-    }
+  private assertOpen(): void {
+    if (this.disposed) throw new Error("Knorvia Studio Protocol client is disposed");
   }
 }

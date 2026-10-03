@@ -1,0 +1,49 @@
+{
+  "typescript": "6.0.2",
+  "mode": "scoped owned model/tool source modules;immutable historical and actual emitted API",
+  "diagnostics": [],
+  "api": [
+    {
+      "owner": "model-request",
+      "before": {
+        "runModelTextRequest": [
+          "(this: AgentRuntimeInternal, options: RunModelTextRequestOptions): Promise<RuntimeModelTextResult>"
+        ]
+      },
+      "after": {
+        "runModelTextRequest": [
+          "(this: AgentRuntimeInternal, options: RunModelTextRequestOptions): Promise<RuntimeModelTextResult>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "turn-tool-batch",
+      "before": {
+        "executeToolCallsForModelStep": [
+          "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; streamedToolResults?: StreamedToolExecutionResult[] | undefined; toolCalls: ModelToolCall[]; }): Promise<\"continue\" | \"break\">"
+        ]
+      },
+      "after": {
+        "executeToolCallsForModelStep": [
+          "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; streamedToolResults?: StreamedToolExecutionResult[] | undefined; toolCalls: ModelToolCall[]; }): Promise<\"continue\" | \"break\">"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    }
+  ],
+  "emitted": [
+    "dist/runtime/methods/model-request-stream-state.js",
+    "dist/runtime/methods/model-request-stream-state.d.ts",
+    "dist/runtime/methods/model.js",
+    "dist/runtime/methods/model.d.ts",
+    "dist/runtime/methods/turn-tool-batch-parts.js",
+    "dist/runtime/methods/turn-tool-batch-parts.d.ts",
+    "dist/runtime/methods/turn-tool-batch-follow-up.js",
+    "dist/runtime/methods/turn-tool-batch-follow-up.d.ts",
+    "dist/runtime/methods/turn-tools.js",
+    "dist/runtime/methods/turn-tools.d.ts"
+  ]
+}

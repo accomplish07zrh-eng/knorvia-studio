@@ -1,0 +1,16 @@
+/workspace/knorvia-studio/docs/evidence/desktop-broadcast-startup-root-packet-20261003/verify-packet.cjs:9
+const assert = (condition,label) => { if (!condition) throw new Error(label); };
+                                                      ^
+
+Error: public signature broadcast
+    at assert (/workspace/knorvia-studio/docs/evidence/desktop-broadcast-startup-root-packet-20261003/verify-packet.cjs:9:61)
+    at Object.<anonymous> (/workspace/knorvia-studio/docs/evidence/desktop-broadcast-startup-root-packet-20261003/verify-packet.cjs:47:3)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47
+
+Node.js v24.19.0

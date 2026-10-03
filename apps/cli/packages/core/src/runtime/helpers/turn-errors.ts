@@ -22,75 +22,68 @@ interface TurnAbortScope {
   signal: AbortSignal;
 }
 
-const EXTERNAL_TURN_FAULT_MARKER = "knorvia.externalTurnFault";
+const externalFaultMarker = "knorvia.externalTurnFault";
 
-interface ExternalTurnFaultError extends Error {
-  code: string;
-  knorviaTurnFault: typeof EXTERNAL_TURN_FAULT_MARKER;
-}
+type ExternalTurnFault = Error & { code: string };
 
-/** 宿主用此窄入口中止 turn，同时要求 core 持久化 TurnError 而不是用户取消。 */
-export function createExternalTurnFaultError(code: string, message = code): Error {
-  return Object.assign(new Error(message), {
-    code,
-    knorviaTurnFault: EXTERNAL_TURN_FAULT_MARKER as typeof EXTERNAL_TURN_FAULT_MARKER,
-  }) satisfies ExternalTurnFaultError;
-}
-
-function findExternalTurnFault(error: unknown): ExternalTurnFaultError | null {
-  let current = error;
+function findExternalFault(error: unknown): ExternalTurnFault | null {
   const seen = new WeakSet<object>();
+  let current = error;
   for (let depth = 0; depth <= 6; depth += 1) {
-    if (!current || typeof current !== "object" || seen.has(current)) return null;
+    if (!current || typeof current !== "object" || seen.has(current)) {
+      return null;
+    }
     seen.add(current);
     const record = current as Record<string, unknown>;
     if (
-      record.knorviaTurnFault === EXTERNAL_TURN_FAULT_MARKER &&
+      record.knorviaTurnFault === externalFaultMarker &&
       typeof record.code === "string" &&
       current instanceof Error
     ) {
-      return current as ExternalTurnFaultError;
+      return current as ExternalTurnFault;
     }
     current = record.cause;
   }
   return null;
 }
 
+export function createExternalTurnFaultError(code: string, message: string = code): Error {
+  return Object.assign(new Error(message), {
+    code,
+    knorviaTurnFault: externalFaultMarker,
+  });
+}
+
 export function createTurnAbortScope(parentSignal?: AbortSignal): TurnAbortScope {
   const controller = new AbortController();
-
-  const abortTurn = () => {
+  const abort = () => {
     if (!controller.signal.aborted) {
       controller.abort(parentSignal?.reason);
     }
   };
-
   if (parentSignal?.aborted) {
-    abortTurn();
+    abort();
     return { dispose: () => {}, signal: controller.signal };
   }
-
-  parentSignal?.addEventListener("abort", abortTurn, { once: true });
-
+  parentSignal?.addEventListener("abort", abort, { once: true });
   return {
-    dispose: () => {
-      parentSignal?.removeEventListener("abort", abortTurn);
-    },
+    dispose: () => parentSignal?.removeEventListener("abort", abort),
     signal: controller.signal,
   };
 }
 
 export function throwIfTurnAborted(signal?: AbortSignal): void {
-  if (!signal?.aborted) return;
-  throw createTurnCancelledError(signal.reason);
+  if (signal?.aborted) {
+    throw createTurnCancelledError(signal.reason);
+  }
 }
 
 export function createTurnFailureError(
   error: unknown,
   abortSignal: AbortSignal | undefined,
   fallbackMessage: string,
-) {
-  const externalFault = findExternalTurnFault(abortSignal?.reason) ?? findExternalTurnFault(error);
+): ReturnType<typeof createCoreError> {
+  const externalFault = findExternalFault(abortSignal?.reason) ?? findExternalFault(error);
   if (externalFault) {
     return createCoreError(CoreErrorType.UnknownError, externalFault.message, {
       cause: externalFault,
@@ -100,7 +93,6 @@ export function createTurnFailureError(
   if (isTurnCancellationError(error, abortSignal)) {
     return createTurnCancelledError(error);
   }
-
   if (
     isCoreError(error) &&
     (error.type === CoreErrorType.ModelContextExceeded ||
@@ -108,38 +100,33 @@ export function createTurnFailureError(
   ) {
     return error;
   }
-
   if (isModelContextExceededError(error)) {
     return createCoreError(
       CoreErrorType.ModelContextExceeded,
       "Model request exceeded the provider context window.",
-      { cause: error instanceof Error ? error : undefined, recoverable: true, retryable: true },
+      {
+        cause: error instanceof Error ? error : undefined,
+        recoverable: true,
+        retryable: true,
+      },
     );
   }
-
   return createCoreError(CoreErrorType.UnknownError, fallbackMessage, {
     cause: error instanceof Error ? error : undefined,
-    // turn 级 UnknownError 只是统一生命周期包装；UI/error payload
-    // 需要展示下层 provider/tool 给出的用户可读根因，不能让泛化文案抢占摘要。
     context: withErrorPayloadRole(undefined, ErrorPayloadRole.Wrapper),
   });
 }
 
-export function createTurnCancelledError(error: unknown) {
+export function createTurnCancelledError(error: unknown): ReturnType<typeof createCoreError> {
   if (isCoreError(error) && error.type === CoreErrorType.TurnCancelled) {
     return error;
   }
-
   return createCoreError(CoreErrorType.TurnCancelled, "Turn was cancelled.", {
     cause: error instanceof Error ? error : undefined,
     recoverable: true,
   });
 }
 
-// 用户主动中断（TurnCancelled）属于正常结束，不应记为错误。turn/compact/rewind 三处 catch
-// 之前都无条件 emit TurnError，会被 reducer/UI/桌面统一映射成 turn.failed（status:error、追加错误消息）。
-// 这里统一收口：取消时改发 TurnComplete(resultType:"cancelled") 让状态干净回到 idle，真实错误才发 TurnError。
-// 调用方仍负责向上 throw coreError 与记录 usage。
 export async function appendTurnOutcomeEvent(
   runtime: AgentRuntimeInternal,
   params: {
@@ -160,8 +147,7 @@ export async function appendTurnOutcomeEvent(
 ): Promise<void> {
   const { coreError, events, traceContext, turnPhase, inputId } = params;
   const cancelled = coreError.type === CoreErrorType.TurnCancelled;
-  const externalFault = findExternalTurnFault(coreError);
-
+  const externalFault = findExternalFault(coreError);
   const outcomeEvent = cancelled
     ? runtime.createEvent(
         SessionEventType.TurnComplete,
@@ -189,8 +175,6 @@ export async function appendTurnOutcomeEvent(
         {
           error: {
             type: externalFault?.code ?? coreError.type,
-            // coreError.message 常是泛化文案，真实 provider/network 原因藏在 cause 链里；
-            // 写入可读 payload fields 让桌面端和恢复链路都能展示根因。
             ...projectExecutionErrorPayload(coreError, params.fallbackMessage),
             stack: coreError.stack,
           },
@@ -205,7 +189,6 @@ export async function appendTurnOutcomeEvent(
       );
   await runtime.appendEvent(outcomeEvent, traceContext);
   events.push(outcomeEvent);
-
   runtime.logger?.error(`${params.logLabel} failed`, coreError, {
     ...traceContextToLogContext(traceContext),
     event: params.logEvent,
@@ -216,21 +199,25 @@ export async function appendTurnOutcomeEvent(
 }
 
 export function isTurnCancellationError(error: unknown, abortSignal?: AbortSignal): boolean {
-  if (findExternalTurnFault(abortSignal?.reason) || findExternalTurnFault(error)) return false;
-  if (abortSignal?.aborted) return true;
-
-  let current = error;
+  if (findExternalFault(abortSignal?.reason) || findExternalFault(error)) {
+    return false;
+  }
+  if (abortSignal?.aborted) {
+    return true;
+  }
   const seen = new WeakSet<object>();
+  let current = error;
   for (let depth = 0; depth <= 6; depth += 1) {
-    if (current === undefined || current === null) return false;
-    if (typeof current !== "object") return false;
-    if (seen.has(current)) return false;
+    if (current === undefined || current === null || typeof current !== "object") {
+      return false;
+    }
+    if (seen.has(current)) {
+      return false;
+    }
     seen.add(current);
-
     if (isCoreError(current) && current.type === CoreErrorType.TurnCancelled) {
       return true;
     }
-
     const record = current as Record<string, unknown>;
     const type = typeof record.type === "string" ? record.type : undefined;
     const code = typeof record.code === "string" ? record.code : undefined;
@@ -245,9 +232,7 @@ export function isTurnCancellationError(error: unknown, abortSignal?: AbortSigna
     ) {
       return true;
     }
-
     current = record.cause;
   }
-
   return false;
 }

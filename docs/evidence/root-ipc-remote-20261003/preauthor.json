@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-02T21:16:52.367072+00:00",
+  "packetRef": "95171e8da619945e10a4ceb8ab77041f31382f3c",
+  "targetHashesMatch": true,
+  "inputs": {
+    "validation-data.json": "959f701a0196251d84a141331b9fba1d1bef2781fd9c26fb95842c848dfcccbf",
+    "state-shapes.d.ts": "e57b381bac62c49aff13c9ef1dcd59678df32a5cdfd1c796456c02f37777fe51",
+    "retained-literal-data.json": "1b2afc5412cf8c904ac56803be0cc7032e5dc45b8ac9092a5e2a4f1dcf876253",
+    "reservation.json": "e34a590f13c072399b7b52b610618698561cb16b78a03d6f660e7fd8a1c79c6d",
+    "qualified-return-contracts.d.ts": "8f0445e1fb89f19d8acf0af86ab9c5e958c5b2a02506bef091b0ac6b6a435c87",
+    "public-extraction-record.json": "0af8f1fd2193c1dd0a184886a1ae4e28b3c0af68869bd629b2b0ee1175438b10",
+    "imports.json": "fd24c6da49262427d9e7f6edfd71800f9ea14b2a7fda0fdee5f22b029d1c4483",
+    "desktopRemoteSessions-public-api.d.ts": "06aa0c2b37c57d584531c6b5dc0466b299da1d512b74fbd566d2f13823f2388c",
+    "desktopMainIpcRemote-public-api.d.ts": "efccf7e743454a404f96927fc1716ccae93516d40cf2bb8960dfbd2223d52452",
+    "desktopMainIpcHelpers-public-api.d.ts": "e90f1cb80c9208cbcb392cea847ef2468f6a1fb1e7a5c08023826b527f602881",
+    "dependency-api.d.ts": "5dd4da30abb88ed1d7e84b8157e4632cf16e97c7d75777dbe251cd873163dc04",
+    "curator-manifest.json": "32f99ff78e9f715dd66c3ae52448d9a046c8035059f5f5b7ed3ef99fed8540a1",
+    "contract.md": "30b15081dd118579aa1a65ca8da4e7d3ef8e6ebcec7fbec20da5d3b28fc9a7ac",
+    "channel-data.json": "d19b293983c5e5828fa7cae08425e69e9455d6e8a4f7534c3690e3a2383e4f63"
+  },
+  "qualification": "Bodyfreepacket/declarations/literals only deliberately seen beforedraftthispass; broad/generic priorcontext retained. Esourceexposedcurator; noisolated/legalclaim.",
+  "setupFailure": "Combined packet write exceeded OS argv length before processcreation; bounded per-file chunks succeeded, no target changed."
+}

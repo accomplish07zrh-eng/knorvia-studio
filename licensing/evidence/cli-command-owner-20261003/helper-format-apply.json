@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "licensing/evidence/cli-command-owner-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-command-owner-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Finished in 13ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

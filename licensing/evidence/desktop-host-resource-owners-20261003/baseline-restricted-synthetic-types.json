@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs",
+    "--baseline"
+  ],
+  "stdout": "",
+  "stderr": "/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:129472\n      Debug.assert(resolutions.length === moduleNames.length);\n            ^\n\nError: Debug Failure. False expression.\n    at processImportedModules (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:129472:13)\n    at findSourceFileWorker (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:129283:7)\n    at findSourceFile (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:129136:20)\n    at /workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:129087:22\n    at getSourceFileFromReferenceWorker (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:129058:26)\n    at processSourceFile (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:129085:5)\n    at processRootFile (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:128917:5)\n    at /workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:127690:41\n    at forEach (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:2309:22)\n    at Object.createProgram (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:127690:5)\n\nNode.js v24.19.0\n",
+  "exitCode": 1
+}

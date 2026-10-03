@@ -1,5 +1,4 @@
 import { Worker } from "node:worker_threads";
-
 import {
   isKnorviaDataSizeScanResult,
   type KnorviaDataSizeScanRequest,
@@ -15,41 +14,35 @@ export function scanKnorviaDataDirectoryInWorker(
       workerData: request,
     });
     let settled = false;
-
-    const finish = (run: () => void) => {
-      if (settled) {
-        return;
-      }
+    const finish = (complete: () => void) => {
+      if (settled) return;
       settled = true;
       signal.removeEventListener("abort", abort);
-      run();
+      complete();
     };
     const abort = () => {
       void worker.terminate();
       finish(() => reject(new DOMException("Knorvia Studio data size scan aborted", "AbortError")));
     };
-
-    worker.once("message", (message: unknown) => {
-      const response = message as { ok?: unknown; result?: unknown; error?: unknown };
+    worker.once("message", (raw: unknown) => {
+      const response = raw as { ok: boolean; result?: unknown; error?: unknown };
       if (response.ok === true && isKnorviaDataSizeScanResult(response.result)) {
         finish(() => resolve(response.result as KnorviaDataSizeScanResult));
-        return;
-      }
-      finish(() =>
-        reject(
-          new Error(
-            response.ok === false && typeof response.error === "string"
-              ? response.error
-              : "Invalid Knorvia Studio data size worker response",
+      } else
+        finish(() =>
+          reject(
+            new Error(
+              response.ok === false && typeof response.error === "string"
+                ? response.error
+                : "Invalid Knorvia Studio data size worker response",
+            ),
           ),
-        ),
-      );
+        );
     });
     worker.once("error", (error) => finish(() => reject(error)));
     worker.once("exit", (code) => {
-      if (code !== 0) {
+      if (code !== 0)
         finish(() => reject(new Error(`Knorvia Studio data size worker exited with code ${code}`)));
-      }
     });
     signal.addEventListener("abort", abort, { once: true });
     if (signal.aborted) {

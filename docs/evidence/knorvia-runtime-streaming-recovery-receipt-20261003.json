@@ -1,0 +1,46 @@
+{
+  "baselineCommit": "13b8f25ef1ac338cf34e9b9b9189c25d15beb7b5",
+  "freezeCommit": "64d0478",
+  "portFactsAndFixtureBoundaryCommit": "0955914",
+  "draftCommit": "efd374a",
+  "redProofCommit": "725d8d8",
+  "owner": "apps/cli/packages/core/src/runtime/methods/streaming-recovery.ts",
+  "privateHelpers": [],
+  "packetAndDraftPins": {
+    "api.d.ts": "a2bfc546d72a62d165ea15e31bd5a50dbd6aae14688f84fc8aa4c3e09382e767",
+    "contract.md": "1b836bf4e074525f411ace6170df548bd8f38d1585a4ecf8ed444645c148c7aa",
+    "draft-01/access-journal.json": "9edceaed149969ac4c2d337d627a8c7ba16b3ca37e182628defb42500de71097",
+    "draft-01/seal.sha256": "caf98b14510b2fe22efdf9b4058cf91c1220dc12160c88e2bdbc19cea0d5436f",
+    "draft-01/streaming-recovery.ts": "1e72170568b84c7b68e1478c9e06a08e8c232fb1d90a1c7d6605eeb391397e2a",
+    "imports.d.ts": "2d080ea4248a8b4bd882234df5dee458ca0a90a82dd2bb2c289930fc0ebb95c8",
+    "lineage.json": "0bd5113608c79f09bc35494b03236501165a2f4605024563c87eab73a63c8335",
+    "port-facts.md": "ec8b92d353a61e6c20f16ebc2be9b39ce86ee45e6f47e7aaf18dc525ae879bf9",
+    "protocol.json": "34dccd09a04d2ece361d6cef0694d1b517e3d8585cb5bc29803fdbe0f25f7fb3",
+    "supporting-api.d.ts": "d30a9e965da06475d28ea49876cb6e1a9a1da608dfa52d3d81d7172da7b5ea73"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-streaming-recovery-baseline-20261003.json",
+    "sha256": "f6e6431afc28ba1d1567f0a3b493db2ab181ca247840ff57a1c1cc2e3f01c8b1"
+  },
+  "finalPins": {
+    "src/runtime/methods/streaming-recovery.ts": "2e45a941051fa9ca911050bf32df0c48885924e47a38fb09e7adcc5f7b98f745",
+    "dist/runtime/methods/streaming-recovery.js": "dd5438ec36dd8ae6948ae9528a36e41ad7617ef07161f6459df5e9540e1f18ab",
+    "dist/runtime/methods/streaming-recovery.d.ts": "a959914a860ea9c86e7cf641b8883ec499cab04ecbfd58d62448fcbcb7feb85d"
+  },
+  "design": "Lazy bounded error-record walk with distinct busy admission/exhausted-code selection, direct retry cohort construction/sequential publication and partial-assistant recovery state advancement. All actual retry/provider policy remains fixed.",
+  "postDraftCorrections": [
+    "Original public declarations/defaults and named bounds/delays retained.",
+    "725d8d8 preserves cached-live-ID failure; fresh option reads restored for each record and pending request.",
+    "Source-exposed restores Started payload before create-method lookup, original <= comparisons, at(-1) read and own undefined cause on non-Error exhausted error."
+  ],
+  "authorship": "Fresh internal authors fork_turns=none,Sol/high; own body-free source-derived functional/API/import/type packets, declaration-only supplements and recorded messages. Drafts sealed before curator source comparison. Conversation,ledger,coordinator journals disclose incidental sibling agent-status/design/hash summaries; no strict packet-only or absolute clean-room claim. Curator source-exposed; public declarations copied as fixed API and compatibility corrections source-exposed.",
+  "retention": "Fixed APIs/protocol/type vocabulary, ordered payload fields, runtime errors/log/prose, permission predicates, retry bounds and async/promise combinations remain. Ordinary loops/maps/sets/objects/promise glue can match. Ledger/queue and recovery/coordinator phases have strong predecessor structural correspondence; fresh drafting does not establish whole-file expression clearance. Existing attribution/notice obligations unchanged; root independently reviews.",
+  "checks": "Shared scoped types0 diagnostics;20 public call signatures+1literal public constant exact, fixed non-function declaration AST facts equal. One final actual-emitted4write/lifecycle groups+3concrete preserved red observations+1error own-field observation.18 strict current source/JS/dts,5immutable oracles;6source lint94rules0;7format files pass;architecture0. No per-owner multiplied case totals.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted duplication/full runtime consumer launches deferred per user speed cadence.",
+    "Conversation has only its concrete red observation,no general pure projection replay; eligibility/execution and partial recovery success paths statically reviewed,not fully exercised.",
+    "Transitive unchanged workspace dependencies via tsx,not all-emitted. Selected historical ledger/recovery bindings explicitly rebound for predecessor comparisons; raw archives unchanged.",
+    "Root expression/correctness/licence and aggregate acceptance pending; no header/global inventory/MIT or publication grant.",
+    "Freshness fetch blocked configured proxy8080;no access/settings bypass."
+  ]
+}

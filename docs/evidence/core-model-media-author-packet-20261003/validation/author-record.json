@@ -1,0 +1,112 @@
+{
+  "authorTask": "/root/tool_validation_complete_author",
+  "scope": "Independent complete synchronous model tool-call name validation reconstruction",
+  "configuredModel": {
+    "name": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "basis": "Parent task-tool allocation as supplied in delegated task; no independent runtime model introspection performed"
+  },
+  "tierQualification": {
+    "requested": "Fast",
+    "actual": "Not independently observable or configurable through available task controls; no Fast-tier execution claim"
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/validation/input/contract.md",
+      "bytes": 2852,
+      "sha256": "b43e857cee56adf8880a52190b0e54a421b5b8c3a664cd1c5d91db29711f7b58",
+      "lineCount": 9
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/validation/input/public-api.d.ts",
+      "bytes": 603,
+      "sha256": "2715975bd31c7c128be67f6ab78c46f2f5c5ebeb5045519c0202e885c5695b61",
+      "lineCount": 10
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/validation/input/dependency-api.d.ts",
+      "bytes": 618,
+      "sha256": "7cd65d48d6a7f09412b0498963cfe17cf1a7571dda93b3af62e346d1b11b27ae",
+      "lineCount": 7
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/validation/input/public-shapes.d.ts",
+      "bytes": 4410,
+      "sha256": "50892bc034d5dc41d33c825256d61d65ae7591e636cf70e7042515acfb1f6b07",
+      "lineCount": 151
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/validation/input/output-data.json",
+      "bytes": 524,
+      "sha256": "21817c983ff7a89c7846a84d339f242ea11920aff92347eabe7ef9ab9b87e616",
+      "lineCount": 14
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/validation/input/imports.json",
+      "bytes": 1517,
+      "sha256": "fb925289c342d0f47caa87a4ccb7479783b7905e03f16d565c80c75358910ad7",
+      "lineCount": 56
+    }
+  ],
+  "inputQualification": {
+    "initialFivePublishedFreeze": "49ca0267",
+    "exactMappingPublishedFreeze": "b834d31a",
+    "mappingAuthorization": "Parent separately authorized sixth imports.json after confirming omission; original five inputs unchanged",
+    "mappingTiming": "Five inputs read before implementation. Fresh unfrozen logic draft, without runtime imports, written while clarification pending. Sixth exact module/export mapping read before final source completion and freeze. Mapping was not available before the first draft statements.",
+    "priorFrozenDraft": false
+  },
+  "actualReadPaths": [
+    "/tmp/knorvia-core-model-media-20261003/validation/input/contract.md",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/public-api.d.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/dependency-api.d.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/public-shapes.d.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/output-data.json",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/imports.json",
+    "/tmp/knorvia-core-model-media-20261003/validation/output/model-tool-call-validation.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/output/author-record.json"
+  ],
+  "actualExposurePaths": [
+    "/tmp/knorvia-core-model-media-20261003/validation/input/contract.md",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/public-api.d.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/dependency-api.d.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/public-shapes.d.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/output-data.json",
+    "/tmp/knorvia-core-model-media-20261003/validation/input/imports.json",
+    "/tmp/knorvia-core-model-media-20261003/validation/output/model-tool-call-validation.ts",
+    "/tmp/knorvia-core-model-media-20261003/validation/output/author-record.json"
+  ],
+  "readPathQualification": "Scoped input contents read by cat and by byte hashing; own draft source read for final completion and hashing; own receipt read for final digest reporting. No OS-level access audit or absolute process isolation claim.",
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/validation/output/model-tool-call-validation.ts",
+      "bytes": 2821,
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450",
+      "lineCount": 84
+    }
+  ],
+  "receiptPath": "/tmp/knorvia-core-model-media-20261003/validation/output/author-record.json",
+  "freezeUtc": "2026-10-02T19:46:24.566865Z",
+  "freezeMethod": "Complete source and author record set to mode 0444; output directory set to 0555 after receipt write. No post-freeze source revisions.",
+  "retainedExpression": [
+    "Required ../deps.js runtime/type-only module mappings, export and type names, two public function signatures and context schema",
+    "Exact diagnostic messages, event/module/status constants, model format, CoreErrorType.ModelError reference, recoverable true and retryable false",
+    "Required diagnostic field names and insertion/evaluation ordering; same logContext reference for warn and delegated error",
+    "Ordinary map, spread, trim, strict boolean/string checks, optional logger chaining, template interpolation and undefined return idioms",
+    "Retained required protocol/schema/data/prose is not claimed as new authorship, novelty or a global grant"
+  ],
+  "discretionaryDesign": [
+    "One private admission helper and one shared rejection helper keep blank admission isolated from the strict public execution-name check",
+    "Strict API captures name and builds a per-call context before trimming; normalization delegates only after ordered spread and field observations",
+    "A private optional-field context type expresses captured admission and diagnostic fields without replacing opaque collaborator types",
+    "Complete source confined to one file; no helper files, permission logic or tool authority implementation"
+  ],
+  "verification": "Manual contract reasoning and artifact byte/line/hash reporting only. No compiler, tests, build, lint, mocks, repository, git, history, reviews, predecessor/dependency bodies, other-author outputs, install or network access.",
+  "questions": [
+    {
+      "question": "Exact runtime import module paths omitted from initial inputs",
+      "resolution": "Parent supplied and authorized imports.json; all three runtime bindings use ../deps.js"
+    }
+  ],
+  "breaches": [],
+  "remainingBlockers": []
+}

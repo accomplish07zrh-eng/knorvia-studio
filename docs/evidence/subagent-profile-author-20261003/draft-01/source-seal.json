@@ -1,0 +1,32 @@
+{
+  "scope": "subagent/profile.ts",
+  "closureUTC": "2026-10-02T23:18:52.231596+00:00",
+  "sealedBeforeComparison": true,
+  "files": [
+    {
+      "path": "profile.ts",
+      "bytes": 10834,
+      "sha256": "28ccb53cb3e25712391e6f24db35704e8c55057dff1b8491dc003aa2c6bd29a3",
+      "physicalLines": 290
+    },
+    {
+      "path": "representations/profile.001-authored.ts",
+      "bytes": 10550,
+      "sha256": "d20476dfbfbde79918df6252eeeb8e7f2005e65616e2332c114adcf2aa2dbff0",
+      "physicalLines": 227
+    },
+    {
+      "path": "representations/profile.002-formatted.ts",
+      "bytes": 10834,
+      "sha256": "28ccb53cb3e25712391e6f24db35704e8c55057dff1b8491dc003aa2c6bd29a3",
+      "physicalLines": 290
+    },
+    {
+      "path": "input-access-journal.json",
+      "bytes": 5690,
+      "sha256": "ef825b0ec69b234b4709c15701f905953f582174feb3aea0123318251e98e3ac",
+      "physicalLines": null
+    }
+  ],
+  "limits": "Source-derived contract, public declarations, runtime prose; no licence, clean-room, or whole-file independence claim. No predecessor source/history/tests/compiled oracles read. Validation delegated to root curator."
+}

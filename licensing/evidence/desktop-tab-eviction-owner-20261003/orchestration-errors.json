@@ -1,0 +1,18 @@
+{
+  "errors": [
+    {
+      "action": "first dependent byte proof",
+      "error": "ENOENT candidate-public-api.json because incorrectly ran in parallel with producer",
+      "retainedOutput": "final-bindings.json",
+      "correctedResult": "final-bindings-after-api.json"
+    },
+    {
+      "action": "bounded remaining metadata preparation",
+      "error": "FileNotFoundError packages/desktop/src/main/browserView/browserPlaywrightInjectedScriptSource.ts",
+      "cause": "mistyped known tracked filename",
+      "correction": "playwrightInjectedScriptSource.ts",
+      "noProductOrEnvironmentChange": true
+    }
+  ],
+  "scopeNote": "baseline validator checked old ActivityController syntax instead of direct ResidencyCoordinator; original helper/output retained; final helper direct-consumer scope corrected"
+}

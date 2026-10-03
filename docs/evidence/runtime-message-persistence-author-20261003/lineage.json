@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/message-persistence.ts",
+  "kind": "file",
+  "sha256": "2462ad5ec833176f36bc5e956cd64dcb9241d586d795f9975ed128907a114694",
+  "normalizedSha256": "2462ad5ec833176f36bc5e956cd64dcb9241d586d795f9975ed128907a114694",
+  "encoding": "utf8-lf",
+  "bytes": 12238,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/message-persistence.ts",
+    "blob": "55888f1306a4389cbf0491ddfa9aa92a886fd8fb",
+    "normalizedSha256": "52b825954befd98953cfaed77763555bd12384be4bbae2a434d53dd67d1f1871",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

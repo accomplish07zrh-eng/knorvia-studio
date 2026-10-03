@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "kind": "Existing synthetic caller observation, translated to data; not a new suite",
+  "observations": [
+    {
+      "id": "registry-notification-after-delivery",
+      "input": {
+        "taskId": "task",
+        "type": "local_dynamic_workflow",
+        "description": "synthetic",
+        "status": "completed",
+        "resultText": "result"
+      },
+      "sequence": [
+        "Construct registry and register this metadata",
+        "Supply registry to nonblocking TaskOutput with owned synthetic execution context",
+        "After TaskOutput resolves, inspect registry.get(task)"
+      ],
+      "expected": {
+        "retrieval_status": "success",
+        "storedNotified": true,
+        "storedBranchGeneration": 0
+      },
+      "limit": "The existing fixture casts partial metadata; registration adds no schema validation. This observation does not freeze all wait/cleanup behavior."
+    }
+  ],
+  "execution": "No inputs are executed during handoff preparation. All future candidate effects must remain owned synthetic ports/data."
+}

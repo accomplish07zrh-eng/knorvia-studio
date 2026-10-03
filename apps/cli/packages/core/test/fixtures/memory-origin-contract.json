@@ -1,0 +1,643 @@
+[
+  {
+    "label": "yaml-0-1-0",
+    "content": "---\ntitle: Example\nmetadata: {}\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\ntitle: Example\nmetadata: { node_type: memory, originSessionId: session }\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-0-1-1",
+    "content": "﻿---\ntitle: Example\nmetadata: {}\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\ntitle: Example\nmetadata: { node_type: memory, originSessionId: session }\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-0-2-0",
+    "content": "---\r\ntitle: Example\r\nmetadata: {}\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\ntitle: Example\r\nmetadata: { node_type: memory, originSessionId: session }\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-0-2-1",
+    "content": "﻿---\r\ntitle: Example\r\nmetadata: {}\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\ntitle: Example\r\nmetadata: { node_type: memory, originSessionId: session }\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-1-1-0",
+    "content": "---\ntitle: Example\nmetadata:\n  other: keep\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\ntitle: Example\nmetadata:\n  node_type: memory\n  other: keep\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-1-1-1",
+    "content": "﻿---\ntitle: Example\nmetadata:\n  other: keep\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\ntitle: Example\nmetadata:\n  node_type: memory\n  other: keep\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-1-2-0",
+    "content": "---\r\ntitle: Example\r\nmetadata:\r\n  other: keep\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\ntitle: Example\r\nmetadata:\r\n  node_type: memory\r\n  other: keep\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-1-2-1",
+    "content": "﻿---\r\ntitle: Example\r\nmetadata:\r\n  other: keep\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\ntitle: Example\r\nmetadata:\r\n  node_type: memory\r\n  other: keep\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-2-1-0",
+    "content": "---\nmetadata:\n  node_type: old\n  other: keep\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  node_type: memory\n  other: keep\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-2-1-1",
+    "content": "﻿---\nmetadata:\n  node_type: old\n  other: keep\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata:\n  node_type: memory\n  other: keep\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-2-2-0",
+    "content": "---\r\nmetadata:\r\n  node_type: old\r\n  other: keep\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata:\r\n  node_type: memory\r\n  other: keep\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-2-2-1",
+    "content": "﻿---\r\nmetadata:\r\n  node_type: old\r\n  other: keep\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata:\r\n  node_type: memory\r\n  other: keep\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-3-1-0",
+    "content": "---\nmetadata:\n  originSessionId: already\n  node_type: old\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  originSessionId: already\n  node_type: old\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-3-1-1",
+    "content": "﻿---\nmetadata:\n  originSessionId: already\n  node_type: old\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata:\n  originSessionId: already\n  node_type: old\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-3-2-0",
+    "content": "---\r\nmetadata:\r\n  originSessionId: already\r\n  node_type: old\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata:\r\n  originSessionId: already\r\n  node_type: old\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-3-2-1",
+    "content": "﻿---\r\nmetadata:\r\n  originSessionId: already\r\n  node_type: old\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata:\r\n  originSessionId: already\r\n  node_type: old\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-4-1-0",
+    "content": "---\nmetadata:\n  originSessionId: \" \"\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  originSessionId: \" \"\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-4-1-1",
+    "content": "﻿---\nmetadata:\n  originSessionId: \" \"\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata:\n  originSessionId: \" \"\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-4-2-0",
+    "content": "---\r\nmetadata:\r\n  originSessionId: \" \"\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata:\r\n  originSessionId: \" \"\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-4-2-1",
+    "content": "﻿---\r\nmetadata:\r\n  originSessionId: \" \"\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata:\r\n  originSessionId: \" \"\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-5-1-0",
+    "content": "---\nmetadata:\n  originSessionId: \"\"\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  node_type: memory\n  originSessionId: \"session\"\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-5-1-1",
+    "content": "﻿---\nmetadata:\n  originSessionId: \"\"\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata:\n  node_type: memory\n  originSessionId: \"session\"\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-5-2-0",
+    "content": "---\r\nmetadata:\r\n  originSessionId: \"\"\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: \"session\"\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-5-2-1",
+    "content": "﻿---\r\nmetadata:\r\n  originSessionId: \"\"\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: \"session\"\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-6-1-0",
+    "content": "---\nmetadata:\n  originSessionId: 42\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-6-1-1",
+    "content": "﻿---\nmetadata:\n  originSessionId: 42\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-6-2-0",
+    "content": "---\r\nmetadata:\r\n  originSessionId: 42\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-6-2-1",
+    "content": "﻿---\r\nmetadata:\r\n  originSessionId: 42\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-7-1-0",
+    "content": "---\nmetadata:\n  originSessionId: false\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-7-1-1",
+    "content": "﻿---\nmetadata:\n  originSessionId: false\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-7-2-0",
+    "content": "---\r\nmetadata:\r\n  originSessionId: false\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-7-2-1",
+    "content": "﻿---\r\nmetadata:\r\n  originSessionId: false\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-8-1-0",
+    "content": "---\nmetadata: null\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata: null\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-8-1-1",
+    "content": "﻿---\nmetadata: null\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata: null\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-8-2-0",
+    "content": "---\r\nmetadata: null\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata: null\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-8-2-1",
+    "content": "﻿---\r\nmetadata: null\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata: null\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-9-1-0",
+    "content": "---\nmetadata: []\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata: []\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-9-1-1",
+    "content": "﻿---\nmetadata: []\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata: []\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-9-2-0",
+    "content": "---\r\nmetadata: []\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata: []\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-9-2-1",
+    "content": "﻿---\r\nmetadata: []\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata: []\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-10-1-0",
+    "content": "---\nmetadata: invalid\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata: invalid\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-10-1-1",
+    "content": "﻿---\nmetadata: invalid\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata: invalid\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-10-2-0",
+    "content": "---\r\nmetadata: invalid\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata: invalid\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-10-2-1",
+    "content": "﻿---\r\nmetadata: invalid\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata: invalid\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-11-1-0",
+    "content": "---\n- list\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\n- list\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-11-1-1",
+    "content": "﻿---\n- list\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\n- list\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-11-2-0",
+    "content": "---\r\n- list\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\n- list\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-11-2-1",
+    "content": "﻿---\r\n- list\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\n- list\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-12-1-0",
+    "content": "---\nscalar\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nscalar\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-12-1-1",
+    "content": "﻿---\nscalar\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nscalar\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-12-2-0",
+    "content": "---\r\nscalar\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nscalar\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-12-2-1",
+    "content": "﻿---\r\nscalar\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nscalar\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-13-1-0",
+    "content": "---\nmetadata: {broken\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata: {broken\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-13-1-1",
+    "content": "﻿---\nmetadata: {broken\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata: {broken\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-13-2-0",
+    "content": "---\r\nmetadata: {broken\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata: {broken\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-13-2-1",
+    "content": "﻿---\r\nmetadata: {broken\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata: {broken\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-14-1-0",
+    "content": "---\n# comment only\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\n# comment only\n\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-14-1-1",
+    "content": "﻿---\n# comment only\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\n# comment only\n\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-14-2-0",
+    "content": "---\r\n# comment only\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\n# comment only\r\n\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-14-2-1",
+    "content": "﻿---\r\n# comment only\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\n# comment only\r\n\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-15-1-0",
+    "content": "---\ntitle: Example\nmetadata: {other: keep, node_type: old}\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\ntitle: Example\nmetadata: { node_type: memory, other: keep, originSessionId: session }\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-15-1-1",
+    "content": "﻿---\ntitle: Example\nmetadata: {other: keep, node_type: old}\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\ntitle: Example\nmetadata: { node_type: memory, other: keep, originSessionId: session }\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-15-2-0",
+    "content": "---\r\ntitle: Example\r\nmetadata: {other: keep, node_type: old}\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\ntitle: Example\r\nmetadata: { node_type: memory, other: keep, originSessionId: session }\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-15-2-1",
+    "content": "﻿---\r\ntitle: Example\r\nmetadata: {other: keep, node_type: old}\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\ntitle: Example\r\nmetadata: { node_type: memory, other: keep, originSessionId: session }\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-16-1-0",
+    "content": "---\nmetadata:\n  other: |\n    body text\n    next\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  node_type: memory\n  other: |\n    body text\n    next\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-16-1-1",
+    "content": "﻿---\nmetadata:\n  other: |\n    body text\n    next\n---\nBODY\n---\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\nmetadata:\n  node_type: memory\n  other: |\n    body text\n    next\n  originSessionId: session\n---\nBODY\n---\nend"
+  },
+  {
+    "label": "yaml-16-2-0",
+    "content": "---\r\nmetadata:\r\n  other: |\r\n    body text\r\n    next\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\nmetadata:\r\n  node_type: memory\r\n  other: |\r\n    body text\r\n    next\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "yaml-16-2-1",
+    "content": "﻿---\r\nmetadata:\r\n  other: |\r\n    body text\r\n    next\r\n---\r\nBODY\r\n---\r\nend",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\nmetadata:\r\n  node_type: memory\r\n  other: |\r\n    body text\r\n    next\r\n  originSessionId: session\r\n---\r\nBODY\r\n---\r\nend"
+  },
+  {
+    "label": "scope-outside",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "outside",
+    "sessionId": "session",
+    "before": "---\nmetadata: {}\n---\nbody"
+  },
+  {
+    "label": "scope-root",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "root",
+    "sessionId": "session",
+    "before": "---\nmetadata: {}\n---\nbody"
+  },
+  {
+    "label": "scope-uppercase",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "uppercase",
+    "sessionId": "session",
+    "before": "---\nmetadata: {}\n---\nbody"
+  },
+  {
+    "label": "scope-disabled",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "disabled",
+    "sessionId": "session",
+    "before": "---\nmetadata: {}\n---\nbody"
+  },
+  {
+    "label": "fence-0",
+    "content": "text",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "text"
+  },
+  {
+    "label": "fence-1",
+    "content": "---\n---\nbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\n---\nbody"
+  },
+  {
+    "label": "fence-2",
+    "content": "---\n\n---\nbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nbody"
+  },
+  {
+    "label": "fence-3",
+    "content": " ---\nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": " ---\nmetadata: {}\n---\nbody"
+  },
+  {
+    "label": "fence-4",
+    "content": "--- \nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "--- \nmetadata: {}\n---\nbody"
+  },
+  {
+    "label": "fence-5",
+    "content": "---\nmetadata: {}\n--- trailing\nbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata: {}\n--- trailing\nbody"
+  },
+  {
+    "label": "fence-6",
+    "content": "---\nmetadata: {}\n---",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata: { node_type: memory, originSessionId: session }\n---"
+  },
+  {
+    "label": "fence-7",
+    "content": "---\nmetadata: {}\n---\rbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\nmetadata: {}\n---\rbody"
+  },
+  {
+    "label": "fence-8",
+    "content": "---\rmetadata: {}\r---\rbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\rmetadata: {}\r---\rbody"
+  },
+  {
+    "label": "fence-9",
+    "content": "﻿﻿---\nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿﻿---\nmetadata: {}\n---\nbody"
+  },
+  {
+    "label": "session-82",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "session: quoted",
+    "before": "---\nmetadata: { node_type: memory, originSessionId: \"session: quoted\" }\n---\nbody"
+  },
+  {
+    "label": "session-83",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "line\nnext",
+    "before": "---\nmetadata:\n  {\n    node_type: memory,\n    originSessionId: line\n\n      next\n  }\n---\nbody"
+  },
+  {
+    "label": "session-84",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "中😀",
+    "before": "---\nmetadata: { node_type: memory, originSessionId: 中😀 }\n---\nbody"
+  },
+  {
+    "label": "session-85",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "",
+    "before": "---\nmetadata: { node_type: memory, originSessionId: \"\" }\n---\nbody"
+  },
+  {
+    "label": "session-86",
+    "content": "---\nmetadata: {}\n---\nbody",
+    "scope": "inside",
+    "sessionId": "true",
+    "before": "---\nmetadata: { node_type: memory, originSessionId: \"true\" }\n---\nbody"
+  },
+  {
+    "label": "missing-map-1-0",
+    "content": "---\ntitle: Example\n---\nBODY",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\ntitle: Example\n---\nBODY",
+    "after": "---\ntitle: Example\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY"
+  },
+  {
+    "label": "missing-map-1-1",
+    "content": "﻿---\ntitle: Example\n---\nBODY",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\ntitle: Example\n---\nBODY",
+    "after": "﻿---\ntitle: Example\nmetadata:\n  node_type: memory\n  originSessionId: session\n---\nBODY"
+  },
+  {
+    "label": "missing-map-2-0",
+    "content": "---\r\ntitle: Example\r\n---\r\nBODY",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "---\r\ntitle: Example\r\n---\r\nBODY",
+    "after": "---\r\ntitle: Example\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY"
+  },
+  {
+    "label": "missing-map-2-1",
+    "content": "﻿---\r\ntitle: Example\r\n---\r\nBODY",
+    "scope": "inside",
+    "sessionId": "session",
+    "before": "﻿---\r\ntitle: Example\r\n---\r\nBODY",
+    "after": "﻿---\r\ntitle: Example\r\nmetadata:\r\n  node_type: memory\r\n  originSessionId: session\r\n---\r\nBODY"
+  }
+]

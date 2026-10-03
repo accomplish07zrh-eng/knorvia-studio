@@ -1,15 +1,13 @@
 import {
-  CoreErrorType,
   TASK_STOP_TOOL_NAME,
   TaskStopInputJsonSchema,
   TaskStopInputSchema,
   TaskStopOutputJsonSchema,
   TaskStopOutputSchema,
-  createCoreError,
-  type TaskStopInput,
-  type TaskStopOutput,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolHandler } from "../types.js";
+import type { ToolEntry } from "../types.js";
+
+import { executeTaskStop } from "./task-stop-request.js";
 
 const MAX_TASK_STOP_MODEL_BYTES = 100_000;
 
@@ -23,75 +21,6 @@ const TASK_STOP_PROVIDER_DESCRIPTION = [
   "- Use this tool when you need to terminate a long-running task",
   "",
 ].join("\n");
-
-const taskStopHandler: ToolHandler = async (input, context) => {
-  const parsed = TaskStopInputSchema.parse(input) as TaskStopInput;
-  const taskId = parsed.task_id ?? parsed.shell_id;
-  if (!taskId) {
-    throw taskStopError("Missing required parameter: task_id", 1, {
-      toolCallId: context.toolCallId,
-    });
-  }
-
-  if (!context.backgroundTaskControlPort) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "Background task control is not configured for TaskStop",
-      {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: TASK_STOP_TOOL_NAME,
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  const result = await context.backgroundTaskControlPort.stopBackgroundTask(taskId, {
-    // 模型自己停的：终态通知会说「stopped by you」，而不是把它写成用户的决定。
-    initiator: "model",
-    strict: true,
-    traceContext: context.traceContext,
-  });
-  if (!result.ok) {
-    if (result.reason === "background_task_not_running") {
-      throw taskStopError(
-        `Task ${taskId} is not running (status: ${result.status ?? "unknown"})`,
-        3,
-        {
-          status: result.status,
-          taskId,
-          taskType: result.type,
-          toolCallId: context.toolCallId,
-        },
-      );
-    }
-    if (result.reason === "background_task_cancel_not_supported") {
-      throw taskStopError(`Task ${taskId} cannot be stopped`, 1, {
-        reason: result.reason,
-        status: result.status,
-        taskId,
-        taskType: result.type,
-        toolCallId: context.toolCallId,
-      });
-    }
-    throw taskStopError(`No task found with ID: ${taskId}`, 1, {
-      reason: result.reason,
-      taskId,
-      taskType: result.type,
-      toolCallId: context.toolCallId,
-    });
-  }
-
-  const taskType = result.type ?? "background_task";
-  const output: TaskStopOutput = {
-    message: `Successfully stopped task: ${result.taskId} (${result.command ?? taskType})`,
-    task_id: result.taskId,
-    task_type: taskType,
-    ...(result.command ? { command: result.command } : {}),
-  };
-  return output;
-};
 
 export const taskStopToolEntry: ToolEntry = {
   aliases: ["KillShell", "KillBash"],
@@ -108,7 +37,7 @@ export const taskStopToolEntry: ToolEntry = {
     riskLevel: "low",
     needsApproval: false,
   },
-  handler: taskStopHandler,
+  handler: executeTaskStop,
   formatModelContent: formatTaskStopModelContent,
   inputSchema: TaskStopInputJsonSchema,
   outputSchema: TaskStopOutputJsonSchema,
@@ -153,15 +82,4 @@ export const taskStopToolEntry: ToolEntry = {
 
 function formatTaskStopModelContent(output: unknown): string {
   return JSON.stringify(TaskStopOutputSchema.parse(output));
-}
-
-function taskStopError(message: string, code: 1 | 3, context: Record<string, unknown>): Error {
-  return createCoreError(CoreErrorType.ToolExecutionFailed, message, {
-    context: {
-      ...context,
-      code,
-      toolName: TASK_STOP_TOOL_NAME,
-    },
-    recoverable: true,
-  });
 }

@@ -16,14 +16,20 @@ import {
 } from "./project-memory-agent.js";
 import { resolveEnabledProjectMemoryRoot } from "./project-memory.js";
 
-const EXTRACTION_MAX_TURNS = 5;
-const EXTRACTION_DRAIN_TIMEOUT_MS = 60_000;
-
 interface ProjectMemoryExtractionSnapshot
   extends MemoryExtractionSnapshot, ProjectMemoryAgentContext {}
 
 export type ProjectMemoryExtractionScheduler =
   MemoryExtractionScheduler<ProjectMemoryExtractionSnapshot>;
+
+interface ExtractionExecution {
+  abortSignal: AbortSignal;
+  messageCount: number;
+  snapshot: ProjectMemoryExtractionSnapshot;
+}
+
+const MAX_EXTRACTION_TURNS = 5;
+const DRAIN_TIMEOUT_MS = 60_000;
 
 export function isProjectMemoryEnabled(this: AgentRuntimeInternal): boolean {
   return resolveEnabledProjectMemoryRoot(this.config, this.workspaceRoot) !== undefined;
@@ -31,12 +37,14 @@ export function isProjectMemoryEnabled(this: AgentRuntimeInternal): boolean {
 
 export function scheduleProjectMemoryExtraction(
   runtime: AgentRuntimeInternal,
-  input: { model: ProjectMemoryAgentContext["model"]; traceContext: TraceContext },
+  input: {
+    model: ProjectMemoryAgentContext["model"];
+    traceContext: TraceContext;
+  },
 ): void {
   if (runtime.shuttingDown) return;
-  // 原因：headless 只关闭自动 Extraction，必须在读取快照或访问文件前返回，避免后台副作用。
   if (runtime.config.memory?.extractionEnabled === false) return;
-  // Bash cd 只改变执行 cwd，project Memory 身份必须继续使用会话 workspace root。
+
   const memoryRoot = resolveEnabledProjectMemoryRoot(runtime.config, runtime.workspaceRoot);
   if (!memoryRoot) return;
   if (runtime.isRemoteWorkspace()) return;
@@ -48,45 +56,46 @@ export function scheduleProjectMemoryExtraction(
     operation: "project_memory_extract",
     traceContext: input.traceContext,
   });
-  const snapshotBoundaryMessageId = runtime.latestConversationMessageId;
-  if (!snapshotBoundaryMessageId) return;
-  const durableMessages = runtime.sessionStore.messages({ sessionID: runtime.sessionId });
+  const boundaryMessageId = runtime.latestConversationMessageId;
+  if (!boundaryMessageId) return;
+
+  const durableMessages = runtime.sessionStore.messages({
+    sessionID: runtime.sessionId,
+  });
   const session = runtime.sessionStore.getSession(runtime.sessionId);
-  const snapshot = Promise.all([durableMessages, session]).then(
+  const snapshotPromise = Promise.all([durableMessages, session]).then(
     ([messages, scheduledSession]): ProjectMemoryExtractionSnapshot => {
-      const activeMessages = selectActiveConversationBranch(messages, {
+      const active = selectActiveConversationBranch(messages, {
         branchCutAfterMessageId: scheduledSession?.revert?.branchCutAfterMessageID,
         rewindCreatedMessageId: scheduledSession?.revert?.createdMessageID,
         rewindKeptMessageIds: scheduledSession?.revert?.keptMessageIDs,
         rewindTargetMessageId: scheduledSession?.revert?.targetMessageID,
       });
-      const boundaryIndex = activeMessages.findIndex(
-        (message) => message.info.id === snapshotBoundaryMessageId,
-      );
+      const boundaryIndex = active.findIndex((message) => message.info.id === boundaryMessageId);
       if (boundaryIndex < 0) {
         throw new Error("Extraction boundary is missing from the scheduled active branch");
       }
       return {
         ...snapshotBase,
-        boundaryMessageId: snapshotBoundaryMessageId,
-        durableMessages: activeMessages.slice(0, boundaryIndex + 1),
+        boundaryMessageId,
+        durableMessages: active.slice(0, boundaryIndex + 1),
       };
     },
   );
 
-  runtime.memoryExtractionScheduler ??= createMemoryExtractionScheduler((extraction) =>
-    executeProjectMemoryExtraction(runtime, extraction),
-  );
-  runtime.memoryExtractionScheduler.schedule(snapshot);
+  runtime.memoryExtractionScheduler ??=
+    createMemoryExtractionScheduler<ProjectMemoryExtractionSnapshot>((extraction) =>
+      execute(runtime, extraction),
+    );
+  runtime.memoryExtractionScheduler.schedule(snapshotPromise);
 }
 
 export async function drainMemoryExtractions(
   this: AgentRuntimeInternal,
-  timeoutMs: number | null = EXTRACTION_DRAIN_TIMEOUT_MS,
+  timeoutMs: number | null = DRAIN_TIMEOUT_MS,
 ): Promise<void> {
   const scheduler = this.memoryExtractionScheduler;
   if (!scheduler) return;
-  // benchmark 显式等待自然结束；普通 session close 仍保留原有有界取消清理。
   if (timeoutMs === null) {
     await scheduler.drain();
     return;
@@ -106,14 +115,10 @@ export async function drainMemoryExtractions(
   }
 }
 
-async function executeProjectMemoryExtraction(
+function execute(
   runtime: AgentRuntimeInternal,
-  input: {
-    abortSignal: AbortSignal;
-    messageCount: number;
-    snapshot: ProjectMemoryExtractionSnapshot;
-  },
-) {
+  input: ExtractionExecution,
+): Promise<"success" | "error" | "aborted"> {
   const telemetry = runtime.agentTelemetry.detached({
     causation: input.snapshot.causation,
     executionKind: "background",
@@ -123,7 +128,7 @@ async function executeProjectMemoryExtraction(
     trigger: "scheduler",
   });
 
-  return telemetry.run(async () => {
+  return telemetry.run(async (): Promise<"success" | "error" | "aborted"> => {
     try {
       const manifest = await scanMemoryManifest({
         fileSystem: runtime.fileSystemPort!,
@@ -132,8 +137,9 @@ async function executeProjectMemoryExtraction(
       });
       if (input.abortSignal.aborted) {
         telemetry.finishCancelled("abort_signal");
-        return "aborted" as const;
+        return "aborted";
       }
+
       const prompt = buildMemoryExtractionPrompt({
         manifest,
         messageCount: input.messageCount,
@@ -144,7 +150,6 @@ async function executeProjectMemoryExtraction(
         prompt,
       );
       const executor = createProjectMemoryAgentToolExecutor(runtime, input.snapshot);
-
       await runMemoryAgentLoop({
         abortSignal: input.abortSignal,
         executeTool: (toolCall, options) =>
@@ -152,7 +157,7 @@ async function executeProjectMemoryExtraction(
             signal: options.abortSignal,
             traceContext: input.snapshot.traceContext,
           }),
-        maxTurns: EXTRACTION_MAX_TURNS,
+        maxTurns: MAX_EXTRACTION_TURNS,
         messages: providerMessages,
         model: input.snapshot.model,
         rootDir: input.snapshot.memoryRoot,
@@ -161,18 +166,17 @@ async function executeProjectMemoryExtraction(
         workspaceRoot: input.snapshot.workspaceRoot,
       });
       telemetry.finishCompleted();
-      return "success" as const;
+      return "success";
     } catch (error) {
-      if (input.abortSignal.aborted || isAbortError(error)) {
+      if (
+        input.abortSignal.aborted ||
+        (error instanceof DOMException && error.name === "AbortError")
+      ) {
         telemetry.finishCancelled("abort_signal");
-        return "aborted" as const;
+        return "aborted";
       }
       telemetry.finishFailed("execute", "internal", error);
-      return "error" as const;
+      return "error";
     }
   });
-}
-
-function isAbortError(error: unknown): boolean {
-  return error instanceof DOMException && error.name === "AbortError";
 }

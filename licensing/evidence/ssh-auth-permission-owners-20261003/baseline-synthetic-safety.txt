@@ -1,0 +1,13 @@
+✔ caller-selected auth keeps implicit agent disabled for password and preserves explicit inputs (10.23675ms)
+✔ keyboard callback responds only from caller input and keeps empty-input gates (2.619824ms)
+✔ auth normalization retains denial messages, passphrase branches and unrelated Error identity (3.399367ms)
+✔ permission repair addresses only its quoted directory with retained conditional mode (4.484961ms)
+✔ repair completion failure is recoverable while invocation failure retains identity (3.785108ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.637833

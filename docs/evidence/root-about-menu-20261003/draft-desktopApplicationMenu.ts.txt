@@ -1,0 +1,90 @@
+import { app, type BrowserWindow, Menu } from "electron";
+import { DesktopCommandIds, desktopMenuMessageIds, getDesktopMenuMessage, isValidShortcutBinding, type DesktopCommandId, type Locale } from "@knorvia/shared";
+import { readKnorviaStdioTapDevState } from "@knorvia/services/node";
+import { DESKTOP_ZOOM_MAX_LEVEL, DESKTOP_ZOOM_MIN_LEVEL, clampDesktopZoomLevel } from "./desktopZoom.js";
+import { HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID, HELP_TOGGLE_DEV_TOOLS_MENU_ID } from "./desktopCommandHandlers.js";
+export function getDesktopMenuLabel(locale: Locale, id: (typeof desktopMenuMessageIds)[keyof typeof desktopMenuMessageIds]): string {
+  return getDesktopMenuMessage(locale, id);
+}
+export function resolveSystemApplicationLocale(): Locale {
+  const language = app.getPreferredSystemLanguages?.()[0] ?? app.getLocale();
+  return language.toLowerCase().startsWith("zh") ? "zh-CN" : "en-US";
+}
+export function updateKnorviaStdioTapDevMenuState(): void {
+  const item = Menu.getApplicationMenu()?.getMenuItemById(HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID);
+  if (!item) return;
+  const state = readKnorviaStdioTapDevState();
+  item.checked = state.enabled;
+  item.visible = state.visible;
+}
+export function rebuildApplicationMenu(options: {
+  currentApplicationLocale: Locale;
+  endpointSelection?: "production" | "test" | "custom";
+  executeDesktopCommand: (command: DesktopCommandId, senderWindow?: BrowserWindow | null) => Promise<unknown>;
+  currentZoomLevel?: number;
+  shortcutBindings?: Record<string, string[]>;
+  disableShortcutAccelerators?: boolean;
+}): void {
+  const context = {
+    currentApplicationLocale: options.currentApplicationLocale,
+    endpointSelection: options.endpointSelection,
+    executeDesktopCommand: options.executeDesktopCommand,
+    currentZoomLevel: options.currentZoomLevel,
+    shortcutBindings: options.shortcutBindings,
+    disableShortcutAccelerators: options.disableShortcutAccelerators,
+  };
+  const tap = readKnorviaStdioTapDevState();
+  const local = !app.isPackaged;
+  const zoom = clampDesktopZoomLevel(context.currentZoomLevel ?? 0);
+  const label = (key: keyof typeof desktopMenuMessageIds) => getDesktopMenuLabel(context.currentApplicationLocale, desktopMenuMessageIds[key]);
+  const execute = (command: DesktopCommandId) => () => { void context.executeDesktopCommand(command); };
+  function binding(command: string, fallback: string): string | undefined {
+    if (context.disableShortcutAccelerators) return undefined;
+    const values = context.shortcutBindings?.[command];
+    if (values === undefined) return fallback;
+    if (values.length === 0) return undefined;
+    return values.find(isValidShortcutBinding) ?? fallback;
+  }
+  const zoomIn = binding("zoomIn", "CmdOrCtrl+=");
+  const visibleZoomIn = zoomIn?.replace("=", "Plus");
+  const template: Electron.MenuItemConstructorOptions[] = [];
+  if (process.platform === "darwin") template.push({label: app.name, submenu:[
+    {label:label("helpAbout"),click:execute(DesktopCommandIds.ShowAbout)}, {type:"separator"},
+    {label:label("appServices"),role:"services"}, {type:"separator"},
+    {label:label("appHide").replaceAll("{appName}",app.name),role:"hide"},
+    {label:label("appHideOthers"),role:"hideOthers"}, {label:label("appShowAll"),role:"unhide"}, {type:"separator"},
+    {label:label("appQuit").replaceAll("{appName}",app.name),role:"quit"},
+  ]});
+  template.push({label:label("file"),submenu:[
+    {label:label("fileNewTask"),accelerator:binding("newTask","CmdOrCtrl+N"),click:execute(DesktopCommandIds.NewTask)},
+    {label:label("fileOpenWorkspace"),accelerator:binding("openWorkspace","CmdOrCtrl+O"),click:execute(DesktopCommandIds.OpenWorkspace)}, {type:"separator"},
+    {label:label("fileCloseWindow"),accelerator:binding("closeActiveContext","CmdOrCtrl+W"),click:execute(DesktopCommandIds.CloseActiveContext)},
+  ]});
+  template.push({label:label("edit"),submenu:[
+    {label:label("editUndo"),role:"undo"}, {label:label("editRedo"),role:"redo"}, {type:"separator"},
+    {label:label("editCut"),role:"cut"}, {label:label("editCopy"),role:"copy"}, {label:label("editPaste"),role:"paste"}, {type:"separator"},
+    {label:label("editSelectAll"),role:"selectAll"},
+  ]});
+  const view: Electron.MenuItemConstructorOptions[] = [
+    {label:label("viewToggleFullScreen"),role:"togglefullscreen",click:execute(DesktopCommandIds.ToggleFullScreen)}, {type:"separator"},
+    {label:label("viewZoomIn"),accelerator:visibleZoomIn,enabled:zoom<DESKTOP_ZOOM_MAX_LEVEL,click:execute(DesktopCommandIds.ZoomIn)},
+  ];
+  if (visibleZoomIn !== undefined && visibleZoomIn !== zoomIn) view.push({label:label("viewZoomIn"),visible:false,accelerator:zoomIn,enabled:zoom<DESKTOP_ZOOM_MAX_LEVEL,click:execute(DesktopCommandIds.ZoomIn)});
+  view.push({label:label("viewZoomOut"),accelerator:binding("zoomOut","CmdOrCtrl+-"),enabled:zoom>DESKTOP_ZOOM_MIN_LEVEL,click:execute(DesktopCommandIds.ZoomOut)},
+    {label:label("viewActualSize"),accelerator:binding("resetZoom","CmdOrCtrl+0"),enabled:zoom!==0,click:execute(DesktopCommandIds.ResetZoom)});
+  template.push({label:label("view"),submenu:view});
+  const windowItems: Electron.MenuItemConstructorOptions[] = [{label:label("windowMinimize"),role:"minimize"}];
+  if (process.platform === "darwin") windowItems.push({label:label("windowZoom"),role:"zoom"},{type:"separator"},{label:label("windowBringAllToFront"),role:"front"});
+  template.push({label:label("window"),submenu:windowItems});
+  const help: Electron.MenuItemConstructorOptions[] = [];
+  if (process.platform !== "darwin") help.push({label:label("helpAbout"),click:execute(DesktopCommandIds.ShowAbout)},{type:"separator"});
+  help.push({type:"separator"});
+  if (local && tap.visible) help.push({id:HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID,label:label("helpToggleKnorviaStdioTap"),type:"checkbox",checked:tap.enabled,click:execute(DesktopCommandIds.ToggleKnorviaStdioTapDevProxy)},{type:"separator"});
+  help.push({id:HELP_TOGGLE_DEV_TOOLS_MENU_ID,label:label("helpToggleDevTools"),role:"toggleDevTools",click:execute(DesktopCommandIds.ToggleDevTools)},{type:"separator"},
+    {label:label("helpResourceManager"),click:execute(DesktopCommandIds.OpenResourceManager)},{type:"separator"},
+    {label:label("helpExportLogs"),click:execute(DesktopCommandIds.ExportLogs)},{type:"separator"},
+    {label:label("helpClearAllData"),click:execute(DesktopCommandIds.ClearAllData)});
+  template.push({label:label("help"),submenu:help});
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  if (local) updateKnorviaStdioTapDevMenuState();
+}

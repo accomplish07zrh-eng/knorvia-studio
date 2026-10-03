@@ -1,0 +1,460 @@
+{
+  "task": "Same-author complete V2 style-only timeout constant restoration",
+  "inputFreeze": "95edef01",
+  "deliverables": [
+    "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output-v2/turn-file-changes.ts",
+    "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output-v2/author-record.json"
+  ],
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/contract.md",
+      "bytes": 4384,
+      "sha256": "64b5184721a7d9120ea71f6fb74658cb545a04f6da7042c2b34de7484377e866",
+      "lines": 15,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-api.d.ts",
+      "bytes": 483,
+      "sha256": "85b3e6310e3eb517f7d304a262160afaf617b2a6c7905aa158f457f39f40e4ad",
+      "lines": 10,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/dependency-api.d.ts",
+      "bytes": 171,
+      "sha256": "a06ff734a96635b63dc0bad2d9a1b18131546266cdd516570280a1f6008e1891",
+      "lines": 2,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-shapes.d.ts",
+      "bytes": 992,
+      "sha256": "0748c6e492b7f794ca0e3683bd5defb84fcc0a819cd13c0301717fc6539a4425",
+      "lines": 36,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/imports.json",
+      "bytes": 252,
+      "sha256": "c34af24197316361b229be4a3e5ec4e0a4857e8e6b9d21db3fc9ba463b30ba00",
+      "lines": 14,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/output-data.json",
+      "bytes": 858,
+      "sha256": "4cdb05d1df8f63008a74f97b9ac02b81c83124f9900218d4075ca3075bfeed0e",
+      "lines": 48,
+      "fullContentReadCount": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/correction-input/owner-correction.md",
+      "bytes": 1184,
+      "sha256": "95e9c436cf4ed197243354b3420b5c854a90f2c78af79d987f2b88d23376eb4d",
+      "lines": 3,
+      "fullContentReadCount": 1
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output-v2/turn-file-changes.ts",
+    "bytes": 3011,
+    "sha256": "5555e83415364680d32cf2ca54b8074465844cce945f668e0f4631a2f90d2c20",
+    "lines": 92,
+    "fullContentReadCount": 1,
+    "sourceLimit": "strictly less than 400 lines"
+  },
+  "accounting": {
+    "byteDefinition": "Raw file bytes; UTF-8 source and JSON.",
+    "hashDefinition": "SHA-256 of exact raw bytes.",
+    "lineDefinition": "len(raw_bytes.splitlines()); all listed files end in newline.",
+    "inputMetadataOrigin": "Computed in the first V2 scoped read operation for all seven named inputs. Original six bindings also match the preserved V1 receipt.",
+    "sourceMetadataOrigin": "Computed during the sole full read of the newly written complete V2 source."
+  },
+  "exactReads": [
+    {
+      "sequence": 1,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/contract.md",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Authorized V2 contract and correction binding"
+    },
+    {
+      "sequence": 2,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-api.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Authorized V2 contract and correction binding"
+    },
+    {
+      "sequence": 3,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/dependency-api.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Authorized V2 contract and correction binding"
+    },
+    {
+      "sequence": 4,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-shapes.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Authorized V2 contract and correction binding"
+    },
+    {
+      "sequence": 5,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/imports.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Authorized V2 contract and correction binding"
+    },
+    {
+      "sequence": 6,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/output-data.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Authorized V2 contract and correction binding"
+    },
+    {
+      "sequence": 7,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/correction-input/owner-correction.md",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Authorized V2 contract and correction binding"
+    },
+    {
+      "sequence": 8,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/turn-file-changes.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own frozen V1 ancestry and source review"
+    },
+    {
+      "sequence": 9,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/author-record.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own frozen V1 receipt ancestry"
+    },
+    {
+      "sequence": 10,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/turn-file-changes.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own V1 source used for exact style-only replacement and preservation accounting"
+    },
+    {
+      "sequence": 11,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/author-record.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own V1 receipt used to carry forward comprehensive author record and preservation accounting"
+    },
+    {
+      "sequence": 12,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output-v2/turn-file-changes.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own complete V2 source manual review and hash/byte/line accounting"
+    },
+    {
+      "sequence": 13,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output-v2/author-record.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own frozen final V2 receipt hash/byte/line accounting"
+    }
+  ],
+  "otherReads": [],
+  "chosenStructure": {
+    "fileCount": 1,
+    "privateHelpers": [
+      "countPatchLines",
+      "diffLineStat"
+    ],
+    "exports": [
+      "recordTurnFileChange",
+      "buildTurnFileChangeSummary"
+    ],
+    "design": "A shared private line counter implements the mandated native traversal. A private diff helper supplies the exact opaque structuredPatch call and timeout behavior. Two exported functions retain the caller-owned map and project content-free summary data. The original private DIFF_TIMEOUT_MS name is restored for the existing 5000 ms timeout budget.",
+    "newState": "No new mutable state; the required immutable timeout constant name is restored. Per-call counters, patch reference, fallback/stat objects and summary arrays retain V1 behavior.",
+    "ownership": "Caller owns supplied RuntimeTurnFileChangeMap and contents; existing map, entries and Sets retain their identities.",
+    "privateConstants": [
+      "DIFF_TIMEOUT_MS"
+    ]
+  },
+  "retainedExpression": {
+    "imports": [
+      {
+        "module": "diff",
+        "clause": "{ structuredPatch }",
+        "runtime": true
+      },
+      {
+        "module": "../deps.js",
+        "clause": "type { DiffHunk, TurnFileChangeSummary }",
+        "runtime": false
+      },
+      {
+        "module": "../types.js",
+        "clause": "type { RuntimeTurnFileChangeMap }",
+        "runtime": false
+      }
+    ],
+    "publicAPI": "Exactly the two exported functions and supplied parameter/return types; no additional public API.",
+    "originalOwnerTypes": "Imported ports stay at their original owners. The declaration fragments are not standalone compilation units; no duplicate schema owners were introduced.",
+    "requiredStrings": [
+      "diff",
+      "../deps.js",
+      "../types.js",
+      "",
+      "+",
+      "-"
+    ],
+    "regex": [],
+    "numericLiteralOccurrences": {
+      "5000": 1,
+      "1": 4,
+      "0": 5
+    },
+    "requiredFields": [
+      "afterContent",
+      "beforeContent",
+      "fallbackAdditions",
+      "fallbackDeletions",
+      "path",
+      "toolNames",
+      "writeCount",
+      "additions",
+      "deletions",
+      "files",
+      "items"
+    ],
+    "ordinaryIdioms": [
+      "for-of",
+      "startsWith",
+      "Map.get/set with receiver",
+      "new Set",
+      "nullish coalescing",
+      "optional chaining",
+      "Array.from",
+      "native default sort",
+      "localeCompare",
+      "reduce"
+    ],
+    "outputDataExternalConstants": {
+      "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+      "READ_IMAGE_TARGET_BYTES": 3932160,
+      "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+      "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+    },
+    "externalConstantsQualification": "These exact supplied values remain recorded as input contract data. They are unrelated to this owner and were not introduced into its runtime source.",
+    "proseAndFormatQualification": "Exact required prose/protocol/schema/format/constant data and ordinary idioms are retained as requirements, without a novelty or rights claim. No source bodies were supplied in the six inputs.",
+    "licenseGrant": "None; no license decision, dependency-body copy or rights grant was made.",
+    "privateTimeoutConstant": {
+      "name": "DIFF_TIMEOUT_MS",
+      "value": 5000,
+      "qualification": "Required original named budget constant, ordinary expression, no novelty or license grant."
+    }
+  },
+  "dependency": {
+    "opaqueRuntimePort": "structuredPatch from diff",
+    "packageRange": "^9.0.0",
+    "rootLockVersion": "9.0.0",
+    "rootLockIntegrity": "sha512-svtcdpS8CgJyqAjEQIXdb3OjhFVVYjzGAPO8WGCmRbrml64SPw/jJD4GoE98aR7r25A0XcgrK3F02yw9R/vhQw==",
+    "verification": "Values supplied by frozen contract, not independently checked against repository or installed package.",
+    "librarySourceAccess": false,
+    "replacementOrCaching": false
+  },
+  "manualContractReview": {
+    "method": "Manual comparison of authorized seven inputs and own frozen V1, followed by manual review of the complete V2 source. Only scoped text replacement and file accounting; no runtime execution, compiler, tests, lint, mocks or build.",
+    "status": "All V1 behavioral clauses retained; the requested private named timeout constant is restored. Execution correctness is unverified.",
+    "checks": [
+      "Only the supplied runtime/type imports and exactly two exports appear.",
+      "Counter starts fresh additions/deletions at zero; nested for-of visits each hunk and line; independent plus and minus startsWith checks each increment by one.",
+      "No counter header filtering, skipping, trimming, normalization, validation or catch changes native failure behavior.",
+      "recordTurnFileChange fully computes fallback before any changes.get or input.path access, even for an existing record.",
+      "changes.get retains its receiver; falsey existing branch uses changes.set with repeated live path reads.",
+      "New record own fields follow afterContent, beforeContent, fallbackAdditions, fallbackDeletions, path, toolNames, writeCount order; undefined afterContent and null beforeContent remain stored.",
+      "New record has new Set([input.toolName]), writeCount one and no retained patch array.",
+      "Existing record performs afterContent nullish update, fallback additions, fallback deletions, Set.add, writeCount increment in the required order.",
+      "Existing entry/Set identities, original beforeContent/path and existing map are preserved; no replacement or duplicate collection.",
+      "Empty string remains meaningful; runtime null or undefined afterContent preserves existing via nullish behavior.",
+      "Native getter, iterator, mutation and port errors propagate with possible partial changes; no catch or rollback.",
+      "Empty map size strictly equal to zero returns undefined before values iteration.",
+      "Array.from(changes.values()).map evaluates records in map iteration order.",
+      "afterContent undefined selects fresh fallback stat object; otherwise live beforeContent nullish empty, afterContent and path are evaluated in that order.",
+      "structuredPatch receives filePath twice, beforeContent, afterContent, undefined twice and timeout 5000.",
+      "patch optional hunks nullish empty array leads to zero counts for undefined timed-out patch, without fallback substitution.",
+      "Mapped items have additions, deletions, path, Array.from(toolNames).sort() and writeCount in order.",
+      "Items use native sort with left.path.localeCompare(right.path); default tool name sort and native stable item sort are preserved.",
+      "Summary owns additions and deletions computed by separate zero-based reductions, files from items.length and the same produced items array.",
+      "Summary contains no content or patch bodies and does not mutate caller-owned maps, records or Sets.",
+      "Source is a single 92-line file, below the 400-line limit, with no added features, persistence, I/O, logs, grants or transactions.",
+      "Private DIFF_TIMEOUT_MS equals 5000 and is referenced in the existing structuredPatch timeout option.",
+      "Only the two authorized source text edits are present; naming restoration does not expand behavior, APIs, imports, state, data or ports.",
+      "Own frozen V1 source and receipt retain their observed bytes, hashes and modes; V1 output directory mode remains 0555."
+    ]
+  },
+  "configuration": {
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "high",
+    "requestedForkTurns": "none",
+    "configuredAsReportedByParent": "gpt-6.1-sol/high/fork:none",
+    "configurationVerification": "Parent-reported/requested configuration only; no independent model, reasoning or fork introspection performed.",
+    "savedFastPreference": "Unchanged; requested saved Fast state unverified.",
+    "serviceTierControl": "No service-tier control exposed or used; actual tier unverified."
+  },
+  "restrictions": {
+    "allowed": "Only seven named input reads, own frozen V1 reads and scoped output scratch write/read/hash/line/mode/time accounting. Correction permits writing only the V2 source and receipt.",
+    "excluded": [
+      "repository",
+      "git",
+      "history",
+      "tests",
+      "reviews",
+      "predecessor",
+      "other-author",
+      "dependency bodies",
+      "network",
+      "private data",
+      "user data",
+      "credentials",
+      "compiler",
+      "lint",
+      "build",
+      "mocks",
+      "provider operations",
+      "store operations",
+      "filesystem/OS operations outside permitted scratch accounting"
+    ],
+    "actualWork": "Two V2 scoped accounting/authoring tool invocations. Seven inputs were read once; own V1 source and receipt twice each; own V2 source once; own V2 frozen receipt once. An extra read-accounting.json scratch write breached the two-output rule and was removed before freeze; no read of that extra file occurred. No V1 writes occurred.",
+    "accessControlQualification": "Instruction-only shared executor restrictions. No OS isolation or independent access audit proof is claimed.",
+    "contextQualification": "This is a same-author correction with prior own V1 context, not a new fresh author or clean-room claim. The correction reports a curator review and repository style requirement; neither the review nor repository was read. The parent and curator can see this source and may have broader prior context. No source-blind curator or erased knowledge claim is made.",
+    "collaborators": "No subagents spawned. Parent was notified of the extra scratch write; no other collaborator identities or acts invented."
+  },
+  "breaches": [
+    {
+      "kind": "Unauthorized extra scratch output write",
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output-v2/read-accounting.json",
+      "restriction": "The seventh correction input permits writing ONLY output-v2/turn-file-changes.ts and output-v2/author-record.json.",
+      "actualAction": "First V2 tool operation wrote read-accounting.json containing paths, byte counts, SHA-256 digests, line counts and modes for the seven authorized inputs and own V1 source/receipt.",
+      "readOfExtraFile": false,
+      "mitigation": "Removed the extra file at the start of the second V2 tool operation, before source/receipt freeze. Parent notified promptly. V1 source/receipt/modes preserved.",
+      "remainingEffect": "The write occurred and is not erased by cleanup; no extra deliverable remains. No private, user or credential data was accessed or written.",
+      "status": "Repaired scoped scratch-output breach, disclosed for curator assessment."
+    }
+  ],
+  "breachQualification": "One known scoped scratch-output write breach disclosed above. No independent access audit or OS isolation proof is claimed.",
+  "questions": [],
+  "missingContract": false,
+  "blockers": [],
+  "freeze": {
+    "freezeUTC": "2026-10-02T21:03:04.241234+00:00",
+    "timeMeaning": "UTC marker recorded immediately before writing the final receipt and applying final immutable-for-review modes.",
+    "sourceMode": "0444",
+    "receiptMode": "0444",
+    "outputDirectoryMode": "0555",
+    "sequence": "Write complete V2 receipt, chmod complete V2 source 0444, chmod V2 receipt 0444, chmod output-v2 directory 0555, read own frozen receipt for final accounting; request curator review only after all modes are applied.",
+    "postFreezeEdits": "None planned or performed by this author; V1 remains frozen separately."
+  },
+  "version": "v2",
+  "correctionQualifiedCommit": "c9ea5661",
+  "ancestry": {
+    "sameAuthor": true,
+    "originalInputFreeze": "95edef01",
+    "correctionQualifiedCommit": "c9ea5661",
+    "v1ArchiveIdentifierAsSuppliedByCorrection": "c609f99a",
+    "archiveIdentifierVerification": "Supplied in the correction input; no archive, commit, history or repository read performed.",
+    "v1Source": {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/turn-file-changes.ts",
+      "bytes": 2969,
+      "sha256": "b8a960e8e5923ed4e3c9633e09709b5889d861ad39d2109d5cdc7e07d7498d06",
+      "lines": 90,
+      "fullContentReadCountInV2Turn": 2,
+      "mode": "0444"
+    },
+    "v1Receipt": {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/author-record.json",
+      "bytes": 13970,
+      "sha256": "c631b52b194fa43f144031d16b6e160fac517f7bccc20e3cc04f7e875b253771",
+      "lines": 296,
+      "fullContentReadCountInV2Turn": 2,
+      "mode": "0444"
+    },
+    "v1OutputDirectory": {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output",
+      "mode": "0555"
+    },
+    "v1Preservation": "No V1 writes or chmod operations performed. Re-read V1 source and receipt hashes match their initial V2 read bindings; modes remain 0444/0444/0555.",
+    "scope": "Same-author V2 correction uses the seven named inputs plus own frozen V1 source and receipt. No other author, reviewer, predecessor, repository or dependency body was read."
+  },
+  "priorV1ReadLedger": [
+    {
+      "sequence": 1,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/contract.md",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 2,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-api.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 3,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/dependency-api.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 4,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/public-shapes.d.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 5,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/imports.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 6,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/input/output-data.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Contract-only authoring and input accounting"
+    },
+    {
+      "sequence": 7,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/turn-file-changes.ts",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own source manual contract review and source accounting"
+    },
+    {
+      "sequence": 8,
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/changes/output/author-record.json",
+      "operation": "read_bytes",
+      "scope": "entire file",
+      "reason": "Own frozen receipt hash/byte/line accounting for final report"
+    }
+  ],
+  "priorV1ReadLedgerQualification": "Preserved V1 receipt ledger, historical to the prior author turn; not additional reads performed in the V2 turn.",
+  "styleCorrection": {
+    "classification": "Original named-constant restoration, style-only; no novelty, license closure or material closure claim.",
+    "privateDeclaration": "const DIFF_TIMEOUT_MS = 5000;",
+    "existingOptionBefore": "{ timeout: 5000 }",
+    "existingOptionAfter": "{ timeout: DIFF_TIMEOUT_MS }",
+    "placement": "Immediately after the existing three imports and before the first private helper.",
+    "sourceTransformation": "Insert the private named constant declaration and one following blank line; replace the one existing timeout option literal with the constant reference. The rest of the V1 source text is retained byte-for-byte.",
+    "behavior": "Same 5000 ms opaque structuredPatch timeout value; no API/import/port/record identity/mutation order/diff projection/privacy/error/native behavior change.",
+    "state": "Only the mandated immutable named numeric timeout binding is restored; no new mutable state, persistence, collection or feature."
+  }
+}

@@ -1,0 +1,19 @@
+from pathlib import Path
+import json,re,collections
+exts={'.ts','.tsx','.js','.jsx','.mjs','.cjs','.css','.scss','.sass','.less','.html','.rs','.swift','.go','.c','.cc','.cpp','.h','.hpp','.mm','.m','.sql'}
+def prod(p):
+ q=Path(p)
+ return p.startswith(('apps/','packages/')) and q.suffix in exts and not p.endswith('.d.ts') and not re.search(r'(^|/)(node_modules|dist|build|out|target|tests?|__tests__|__mocks__|fixtures|scripts|e2e|examples|storybook|coverage)(/|$)',p) and not re.search(r'\.(test|spec|stories|config)\.',q.name)
+origin=json.loads(Path('licensing/current-files.json').read_text())['files'];o={r['path']:r for r in origin};base={}
+for l in Path('/tmp/knorvia-progress-base-tree-20261003.txt').read_text().splitlines():
+ left,p=l.split('\t',1);mode,typ,sha,size=left.split();base[p]={'sha':sha,'bytes':int(size)if size!='-'else0}
+baseprod={p:r for p,r in base.items()if prod(p) and o.get(p,{}).get('classification') not in ['third-party','generated-report']}
+heads={};diffs={};new={};removed={}
+for n in [8,9,10,11,12]:
+ d=json.loads(Path(f'/tmp/knorvia-progress-pr{n}-tree-20261003.json').read_text());assert not d['truncated'];h={r['path']:r for r in d['tree']};heads[n]=h;diffs[n]={p for p in baseprod if p in h and h[p]['sha']!=base[p]['sha']};new[n]={p for p in h if prod(p) and p not in base and o.get(p,{}).get('classification') not in ['third-party','generated-report']};removed[n]={p for p in baseprod if p not in h}
+changed=set.union(*diffs.values());newunion=set.union(*new.values());removedunion=set.union(*removed.values());foundation={p for p in baseprod if o.get(p,{}).get('classification') in ['original','independent-replacement','reviewed-retained']};covered=changed|foundation
+byroot=collections.defaultdict(lambda:dict(total=0,changed=0,foundation=0,combined=0,bytes=0,changedBytes=0,coveredBytes=0))
+for p,r in baseprod.items():
+ parts=p.split('/');key='/'.join(parts[:2]);z=byroot[key];z['total']+=1;z['changed']+=p in changed;z['foundation']+=p in foundation;z['combined']+=p in covered;z['bytes']+=r['bytes'];z['changedBytes']+=r['bytes']if p in changed else0;z['coveredBytes']+=r['bytes']if p in covered else0
+res={'baseline':'f25b931164ee6287167e965e9da7a7586131b264','denominator':len(baseprod),'baseBytes':sum(r['bytes']for r in baseprod.values()),'baseOriginClassification':dict(collections.Counter(o.get(p,{}).get('classification','no-ledger-row')for p in baseprod)),'publishedChangedExistingOwners':len(changed),'newArtifacts':len(newunion),'removedOwnerPaths':len(removedunion),'ledgerFoundationLabels':len(foundation),'combinedCoverageUpper':len(covered),'changedFraction':len(changed)/len(baseprod),'combinedFraction':len(covered)/len(baseprod),'byteChangedFraction':sum(baseprod[p]['bytes']for p in changed)/sum(r['bytes']for r in baseprod.values()),'byteCombinedFraction':sum(baseprod[p]['bytes']for p in covered)/sum(r['bytes']for r in baseprod.values()),'perPR':{n:{'existingOwnerChanged':len(diffs[n]),'newSourceArtifacts':len(new[n]),'removedBaseOwners':len(removed[n])}for n in diffs},'byRoot':dict(byroot),'ownerPaths':{'base':sorted(baseprod),'changed':sorted(changed),'new':sorted(newunion),'foundation':sorted(foundation),'removed':sorted(removedunion)}}
+Path('/tmp/knorvia-progress-results-20261003.json').write_text(json.dumps(res,indent=2)+'\n');print(json.dumps({k:v for k,v in res.items()if k!='ownerPaths'},indent=2))

@@ -20,35 +20,52 @@ interface ToolCallBudgetWarningObservation {
   warningInjected: boolean;
 }
 
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => stableJson(item)).join(",")}]`;
+  }
+  if (value && typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson(record[key])}`)
+      .join(",")}}`;
+  }
+  return JSON.stringify(value) ?? "undefined";
+}
+
+function toolCallSignature(toolName: string, input: unknown): string {
+  return `${JSON.stringify(toolName)}:${stableJson(input)}`;
+}
+
 export function detectRepeatedToolCallWarnings(
   toolCalls: readonly ModelToolCall[],
   state: RepeatedToolCallWarningState,
   config: Partial<ModelAnomalyGuardConfig> | undefined,
 ): RepeatedToolCallWarningObservation[] {
   const threshold = config?.repeatedToolCallWarningThreshold ?? 3;
-  const maxBudgetWarningsPerTurn = config?.maxBudgetWarningsPerTurn ?? 3;
-  if (threshold <= 0) return [];
+  const maxWarnings = config?.maxBudgetWarningsPerTurn ?? 3;
+  if (threshold <= 0) {
+    return [];
+  }
 
   const observations: RepeatedToolCallWarningObservation[] = [];
-
   for (const toolCall of toolCalls) {
-    const signature = buildRepeatedToolCallSignature(toolCall.name, toolCall.input);
+    const signature = toolCallSignature(toolCall.name, toolCall.input);
     if (state.repeatedToolCallSignature === signature) {
       state.repeatedToolCallStreakCount += 1;
     } else {
       state.repeatedToolCallSignature = signature;
       state.repeatedToolCallStreakCount = 1;
     }
-
     if (state.repeatedToolCallStreakCount !== threshold) {
       continue;
     }
 
-    const warningInjected = state.anomalyWarningsInjected < maxBudgetWarningsPerTurn;
+    const warningInjected = state.anomalyWarningsInjected < maxWarnings;
     if (warningInjected) {
       state.anomalyWarningsInjected += 1;
     }
-
     observations.push({
       observedCount: state.repeatedToolCallStreakCount,
       threshold,
@@ -57,7 +74,6 @@ export function detectRepeatedToolCallWarnings(
       warningInjected,
     });
   }
-
   return observations;
 }
 
@@ -71,18 +87,16 @@ export function detectToolCallBudgetWarning(
   if (threshold === undefined || threshold <= 0) {
     return undefined;
   }
-
   const previousToolCallCount = currentToolCallCount - newToolCallCount;
   if (previousToolCallCount >= threshold || currentToolCallCount < threshold) {
     return undefined;
   }
 
-  const maxBudgetWarningsPerTurn = config?.maxBudgetWarningsPerTurn ?? 3;
-  const warningInjected = state.anomalyWarningsInjected < maxBudgetWarningsPerTurn;
+  const maxWarnings = config?.maxBudgetWarningsPerTurn ?? 3;
+  const warningInjected = state.anomalyWarningsInjected < maxWarnings;
   if (warningInjected) {
     state.anomalyWarningsInjected += 1;
   }
-
   return {
     observedCount: currentToolCallCount,
     threshold,
@@ -103,22 +117,4 @@ export function buildToolCallBudgetReminderBody(observedCount: number): string {
     `This turn has already made ${observedCount} tool calls.`,
     "Do not keep calling tools reflexively. Use the gathered results to choose a different next step, summarize the blocker, or ask the user for guidance if you are stuck.",
   ].join("\n");
-}
-
-function buildRepeatedToolCallSignature(toolName: string, input: unknown): string {
-  return `${JSON.stringify(toolName)}:${stableJson(input)}`;
-}
-
-function stableJson(value: unknown): string {
-  if (Array.isArray(value)) {
-    return `[${value.map((item) => stableJson(item)).join(",")}]`;
-  }
-  if (value && typeof value === "object") {
-    const record = value as Record<string, unknown>;
-    return `{${Object.keys(record)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${stableJson(record[key])}`)
-      .join(",")}}`;
-  }
-  return JSON.stringify(value) ?? "undefined";
 }

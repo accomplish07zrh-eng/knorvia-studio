@@ -1,0 +1,69 @@
+{
+  "files": {
+    "bash-shell-snapshot": {
+      "rel": "methods",
+      "artifacts": {
+        "js": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-bash-shell-snapshot.js",
+          "sha256": "a227b2e29454c5d799b23c56b940a4e2c8784e16d3bd0fd9c7ed139b5b82c33a"
+        },
+        "d.ts": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-bash-shell-snapshot.d.ts",
+          "sha256": "9b0662e91e348766d7814e431488ad5ed701ae9442171cd468ebd0aacc2d5a54"
+        }
+      }
+    },
+    "persisted-remote-session-path-repair": {
+      "rel": "helpers",
+      "artifacts": {
+        "js": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-persisted-remote-session-path-repair.js",
+          "sha256": "9748894785a7d190fe75f9a4a0b07a6d658be93218117b00b2cbfc173faa1b27"
+        },
+        "d.ts": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-persisted-remote-session-path-repair.d.ts",
+          "sha256": "9b35ff338ea20f47ec6528ed676955c93c71fc6e0d90e815f743ca7c9bc02036"
+        }
+      }
+    },
+    "file-rewind": {
+      "rel": "methods",
+      "artifacts": {
+        "js": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-file-rewind.js",
+          "sha256": "f61f9b7bf87324acb24ec36e9772c692ff34bff9f512bba487ff662fa89ac8ff"
+        },
+        "d.ts": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-file-rewind.d.ts",
+          "sha256": "fca5e0c340301026127e1672c7959c7281b70fd81cc702a9369fec0e506969ce"
+        }
+      }
+    },
+    "file-rewind-planning": {
+      "rel": "methods",
+      "artifacts": {
+        "js": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-file-rewind-planning.js",
+          "sha256": "5551ecf2435d10b1796943337cf596b6f3cc68984dda77b87219f95eb487085a"
+        },
+        "d.ts": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-file-rewind-planning.d.ts",
+          "sha256": "9787371cc53311e401470c76c6012b87bca0c9a67636bf4535ffaff91d35ec8f"
+        }
+      }
+    },
+    "file-rewind-storage": {
+      "rel": "methods",
+      "artifacts": {
+        "js": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-file-rewind-storage.js",
+          "sha256": "7bfabbcdece9d74d71ccc4475192bb5235433d8e6d21e455e54b706b629ce5e1"
+        },
+        "d.ts": {
+          "path": "docs/evidence/runtime-persistence-recovery-three-failures-20261003/draft-file-rewind-storage.d.ts",
+          "sha256": "d4cc86095ba921e3e1dbc33bfa3f2bc126aba0fb4194011b4db50c649077c685"
+        }
+      }
+    }
+  }
+}

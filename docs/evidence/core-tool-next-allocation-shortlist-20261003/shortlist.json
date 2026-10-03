@@ -1,0 +1,1494 @@
+{
+  "baseline": "b9fb04e407654e08b15e555e0275acb3f16f81a9",
+  "branch": "parallel/material-closure-fast-20261002",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "metadataInputs": [
+    {
+      "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+      "bytes": 312065,
+      "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc"
+    }
+  ],
+  "sourceBodiesReviewed": false,
+  "selectedSourceByteReads": "Only SHA256/bytes/newline count; no body text/output/API/import/AST examination, no git history bodies.",
+  "scope": "Bounded eight-name root allocation screen from existing612core/233tool metadata; not new exhaustive implementation census.",
+  "excludedIndependentFlags": {
+    "totalCore": 155,
+    "tool": 90,
+    "paths": [
+      "apps/cli/packages/core/src/browser-client/api-catalog.ts",
+      "apps/cli/packages/core/src/browser-client/api-contract.ts",
+      "apps/cli/packages/core/src/browser-client/api-policy.ts",
+      "apps/cli/packages/core/src/browser-client/browser-capabilities.ts",
+      "apps/cli/packages/core/src/browser-client/browser-commands.ts",
+      "apps/cli/packages/core/src/browser-client/browser-connection.ts",
+      "apps/cli/packages/core/src/browser-client/browser-dialogs.ts",
+      "apps/cli/packages/core/src/browser-client/browser-objects.ts",
+      "apps/cli/packages/core/src/browser-client/browser-recording.ts",
+      "apps/cli/packages/core/src/browser-client/browser-registry.ts",
+      "apps/cli/packages/core/src/browser-client/browser-tabs.ts",
+      "apps/cli/packages/core/src/browser-client/documentation-render.ts",
+      "apps/cli/packages/core/src/browser-client/documentation.ts",
+      "apps/cli/packages/core/src/browser-client/facade-contract.ts",
+      "apps/cli/packages/core/src/browser-client/facade.ts",
+      "apps/cli/packages/core/src/browser-client/index.ts",
+      "apps/cli/packages/core/src/browser-client/manifest.ts",
+      "apps/cli/packages/core/src/browser-client/playwright-contract.ts",
+      "apps/cli/packages/core/src/browser-client/playwright-frame.ts",
+      "apps/cli/packages/core/src/browser-client/playwright-handles.ts",
+      "apps/cli/packages/core/src/browser-client/playwright-locator.ts",
+      "apps/cli/packages/core/src/browser-client/playwright-page.ts",
+      "apps/cli/packages/core/src/browser-client/playwright-runtime.ts",
+      "apps/cli/packages/core/src/browser-client/playwright-selectors.ts",
+      "apps/cli/packages/core/src/browser-client/playwright.ts",
+      "apps/cli/packages/core/src/browser-client/raw-tab.ts",
+      "apps/cli/packages/core/src/browser-client/result.ts",
+      "apps/cli/packages/core/src/browser-client/runtime-installation.ts",
+      "apps/cli/packages/core/src/browser-client/selection.ts",
+      "apps/cli/packages/core/src/browser-client/tab-cua.ts",
+      "apps/cli/packages/core/src/browser-client/tab.ts",
+      "apps/cli/packages/core/src/errors/error-payload.ts",
+      "apps/cli/packages/core/src/errors/payload/context.ts",
+      "apps/cli/packages/core/src/errors/payload/frames.ts",
+      "apps/cli/packages/core/src/errors/payload/selection.ts",
+      "apps/cli/packages/core/src/errors/payload/text.ts",
+      "apps/cli/packages/core/src/hooks/output-projection.ts",
+      "apps/cli/packages/core/src/hooks/output-reduction.ts",
+      "apps/cli/packages/core/src/hooks/output.ts",
+      "apps/cli/packages/core/src/hooks/runner-callback.ts",
+      "apps/cli/packages/core/src/hooks/runner-driver.ts",
+      "apps/cli/packages/core/src/hooks/runner-helpers.ts",
+      "apps/cli/packages/core/src/hooks/runner-lifecycle.ts",
+      "apps/cli/packages/core/src/hooks/runner-plan.ts",
+      "apps/cli/packages/core/src/hooks/runner-program.ts",
+      "apps/cli/packages/core/src/hooks/runner.ts",
+      "apps/cli/packages/core/src/permission/broker.ts",
+      "apps/cli/packages/core/src/permission/capability.ts",
+      "apps/cli/packages/core/src/permission/policy-evaluation.ts",
+      "apps/cli/packages/core/src/permission/policy-program.ts",
+      "apps/cli/packages/core/src/permission/prepared-request.ts",
+      "apps/cli/packages/core/src/permission/project-rule-matching.ts",
+      "apps/cli/packages/core/src/permission/rule-content-program.ts",
+      "apps/cli/packages/core/src/permission/rule-matching.ts",
+      "apps/cli/packages/core/src/permission/service.ts",
+      "apps/cli/packages/core/src/repl/browser-turn-state.ts",
+      "apps/cli/packages/core/src/repl/cell-compiler.ts",
+      "apps/cli/packages/core/src/repl/cell-executor.ts",
+      "apps/cli/packages/core/src/repl/context-resources.ts",
+      "apps/cli/packages/core/src/repl/executors.ts",
+      "apps/cli/packages/core/src/repl/node-repl-session.ts",
+      "apps/cli/packages/core/src/repl/run-output.ts",
+      "apps/cli/packages/core/src/repl/runtime-values.ts",
+      "apps/cli/packages/core/src/repl/session-contract.ts",
+      "apps/cli/packages/core/src/repl/session-runtime.ts",
+      "apps/cli/packages/core/src/tool/executor/approval-gate.ts",
+      "apps/cli/packages/core/src/tool/executor/approval/ask-projection.ts",
+      "apps/cli/packages/core/src/tool/executor/approval/responder-choice.ts",
+      "apps/cli/packages/core/src/tool/executor/bash-result-display.ts",
+      "apps/cli/packages/core/src/tool/executor/batch-runner.ts",
+      "apps/cli/packages/core/src/tool/executor/batches/execution-ledger.ts",
+      "apps/cli/packages/core/src/tool/executor/call-runner.ts",
+      "apps/cli/packages/core/src/tool/executor/create-workflow-display.ts",
+      "apps/cli/packages/core/src/tool/executor/deadline/budget-ledger.ts",
+      "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
+      "apps/cli/packages/core/src/tool/executor/deadline/pausable-deadline.ts",
+      "apps/cli/packages/core/src/tool/executor/display-text.ts",
+      "apps/cli/packages/core/src/tool/executor/display/computer-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/diff-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/mcp-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/repl-card.ts",
+      "apps/cli/packages/core/src/tool/executor/display/task-cards.ts",
+      "apps/cli/packages/core/src/tool/executor/errors.ts",
+      "apps/cli/packages/core/src/tool/executor/hook-decisions.ts",
+      "apps/cli/packages/core/src/tool/executor/hook-envelope.ts",
+      "apps/cli/packages/core/src/tool/executor/hook-flow.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/admission.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/context.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/identity.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
+      "apps/cli/packages/core/src/tool/executor/invocation/outcome.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-capability.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/assessment.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/observations.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/plan-driver.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/plan.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/publication.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/refusals.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-flow/responders.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-grants.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-input-recheck.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-responder-race.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-rules-persistence.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-rules.ts",
+      "apps/cli/packages/core/src/tool/executor/permission-suggestions.ts",
+      "apps/cli/packages/core/src/tool/executor/result-content-projection.ts",
+      "apps/cli/packages/core/src/tool/executor/result-display.ts",
+      "apps/cli/packages/core/src/tool/executor/result-serialization.ts",
+      "apps/cli/packages/core/src/tool/executor/result/artifact-result.ts",
+      "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts",
+      "apps/cli/packages/core/src/tool/executor/result/hook-result.ts",
+      "apps/cli/packages/core/src/tool/executor/result/model-content.ts",
+      "apps/cli/packages/core/src/tool/executor/result/protected-frame.ts",
+      "apps/cli/packages/core/src/tool/executor/result/serialization-policy.ts",
+      "apps/cli/packages/core/src/tool/executor/result/structured-content.ts",
+      "apps/cli/packages/core/src/tool/executor/timeout.ts",
+      "apps/cli/packages/core/src/tool/executor/validation.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/analysis-card.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/catalog-cards.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/policy.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-display/run-card.ts",
+      "apps/cli/packages/core/src/tool/executor/workflow-observation-display.ts",
+      "apps/cli/packages/core/src/tool/handlers/node-repl-model-content.ts",
+      "apps/cli/packages/core/src/tool/handlers/node-repl.ts",
+      "apps/cli/packages/core/src/tool/input-normalization.ts",
+      "apps/cli/packages/core/src/tool/input-validation-model-content.ts",
+      "apps/cli/packages/core/src/tool/json-schema.ts",
+      "apps/cli/packages/core/src/tool/registry.ts",
+      "apps/cli/packages/core/src/tool/registry/model-contracts.ts",
+      "apps/cli/packages/core/src/tool/registry/name-ledger.ts",
+      "apps/cli/packages/core/src/tool/repl/artifacts.ts",
+      "apps/cli/packages/core/src/tool/repl/browser-observations.ts",
+      "apps/cli/packages/core/src/tool/repl/description.ts",
+      "apps/cli/packages/core/src/tool/repl/output.ts",
+      "apps/cli/packages/core/src/tool/repl/session-registry.ts",
+      "apps/cli/packages/core/src/tool/result-persistence-format.ts",
+      "apps/cli/packages/core/src/tool/runtime-schema.ts",
+      "apps/cli/packages/core/src/tool/scheduler.ts",
+      "apps/cli/packages/core/src/tool/scheduler/capability-policy.ts",
+      "apps/cli/packages/core/src/tool/scheduler/dependency-plan.ts",
+      "apps/cli/packages/core/src/tool/scheduler/parallel-layers.ts",
+      "apps/cli/packages/core/src/tool/schema-validation/constraints.ts",
+      "apps/cli/packages/core/src/tool/schema-validation/frame.ts",
+      "apps/cli/packages/core/src/tool/schema-validation/machine.ts",
+      "apps/cli/packages/core/src/tool/tool-input-validation-issues.ts",
+      "apps/cli/packages/core/src/tool/validation-display/identity.ts",
+      "apps/cli/packages/core/src/tool/validation-display/issue-json.ts",
+      "apps/cli/packages/core/src/tool/validation-display/order.ts",
+      "apps/cli/packages/core/src/tool/validation-display/projection.ts",
+      "apps/cli/packages/core/src/tool/validation-display/runtime.ts",
+      "apps/cli/packages/core/src/tool/validation-display/text.ts",
+      "apps/cli/packages/core/src/tool/validation-issues/description.ts",
+      "apps/cli/packages/core/src/tool/validation-issues/protocol.ts",
+      "apps/cli/packages/core/src/tool/validation-issues/write.ts"
+    ],
+    "qualification": "Existing flags excluded, not treated as grants/final source rights approval."
+  },
+  "excludedExistingCandidates": [
+    "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+    "apps/cli/packages/core/src/agent/message-history-usage.ts",
+    "apps/cli/packages/core/src/agent/message-history.ts",
+    "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+    "apps/cli/packages/core/src/compact/manual.ts",
+    "apps/cli/packages/core/src/context/builder.ts",
+    "apps/cli/packages/core/src/context/sections/env-info.ts",
+    "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+    "apps/cli/packages/core/src/context/sections/skills.ts",
+    "apps/cli/packages/core/src/mcp/image-normalization.ts",
+    "apps/cli/packages/core/src/mcp/index.ts",
+    "apps/cli/packages/core/src/memory/extraction.ts",
+    "apps/cli/packages/core/src/memory/index-content.ts",
+    "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+    "apps/cli/packages/core/src/memory/memory-file-path.ts",
+    "apps/cli/packages/core/src/memory/recall/manifest.ts",
+    "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+    "apps/cli/packages/core/src/plugin-reference/references.ts",
+    "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+    "apps/cli/packages/core/src/runtime-task/notification.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+    "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+    "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+    "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+    "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+    "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+    "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+    "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+    "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+    "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+    "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+    "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+    "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+    "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+    "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+    "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+    "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+    "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+    "apps/cli/packages/core/src/session-context/parts.ts",
+    "apps/cli/packages/core/src/session-context/read-session-context.ts",
+    "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+    "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+    "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+    "apps/cli/packages/core/src/tool/read-file-state.ts",
+    "apps/cli/packages/core/src/tool/registry.ts"
+  ],
+  "candidateManifestBindings": [
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "manifest": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/curator-draft-manifest.json",
+      "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "manifest": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment-v2/curator-draft-manifest.json",
+      "sha256": "0a42762c74366ea0e2012ffbce960db14b75d7649a24614c669711346a457f33",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/builder.ts",
+      "manifest": "docs/evidence/core-context-provider-author-packet-20261003/builder/curator-draft-manifest.json",
+      "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+      "manifest": "docs/evidence/core-context-provider-author-packet-20261003/request/curator-draft-manifest.json",
+      "sha256": "b212bcddab0c3133fc3d57df5290661af1df5a42830fe0b3578562e764bbcd20",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+      "manifest": "docs/evidence/core-context-provider-author-packet-20261003/request/v2/curator-draft-manifest.json",
+      "sha256": "3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "manifest": "docs/evidence/core-context-provider-author-packet-20261003/origins/curator-draft-manifest.json",
+      "sha256": "7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history-usage.ts",
+      "manifest": "docs/evidence/core-context-provider-author-packet-20261003/usage/curator-draft-manifest.json",
+      "sha256": "9fac6296a442e429b67ec714b3a328bb809add2da7bd842e615fc3e07ee409f1",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "manifest": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/curator-draft-manifest.json",
+      "sha256": "9c340c880b941d81b904dd461773531752a18e51e7c1819ef62d213fbf88c0d5",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "manifest": "docs/evidence/core-context-provider-author-packet-20261003/mid-system/v2/curator-draft-manifest.json",
+      "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "manifest": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/curator-draft-manifest.json",
+      "sha256": "a26629d5cfde6bd2c8711d2cb913a3daccd2acb2c50f5ebc83daa04f1f3b6c93",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "manifest": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter-v2/curator-draft-manifest.json",
+      "sha256": "07e40701dc696516abcdd669fef3559ecc6a2d0c628fc6970dc0e26e5f6723ae",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+      "manifest": "docs/evidence/core-model-context-session-owner-packet-20261003/env/curator-draft-manifest.json",
+      "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "manifest": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/curator-draft-manifest.json",
+      "sha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/parts.ts",
+      "manifest": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/curator-draft-manifest.json",
+      "sha256": "b6806d258a6714243d93abdf5beff85ad081718f945b0a8f8b174c247bee4ac9",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "manifest": "docs/evidence/core-model-context-session-owner-packet-20261003/session/curator-draft-manifest.json",
+      "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "manifest": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/curator-draft-manifest.json",
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/request/curator-draft-manifest.json",
+      "sha256": "a1d217e2f3c579f460826a16ceead7bc5e42cee7a2b2f0f4ecc8cf3465d99bf7",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "manifest": "docs/evidence/core-workflow-projection-owner-packet-20261003/format-v2/curator-draft-manifest.json",
+      "sha256": "4789202a577547ba4630cfae3301cd40945f845727a327bde8e987467c038d2b",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/request/v2/curator-draft-manifest.json",
+      "sha256": "730f9bdaa14cd10ae01d9b10f121b8c0ef13c4f9226812c3eb34f0fc8372bde9",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "manifest": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/curator-draft-manifest.json",
+      "sha256": "ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "manifest": "docs/evidence/core-task-notification-owner-packet-20261003/notification/curator-draft-manifest.json",
+      "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/errors/curator-draft-manifest.json",
+      "sha256": "49bcb877fbe4b6219ab54646988a7984ecdcbe75457091b95a2390efb9c7b31c",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/errors/v2/curator-draft-manifest.json",
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/curator-draft-manifest.json",
+      "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "manifest": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/curator-draft-manifest.json",
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/validation/curator-draft-manifest.json",
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/curator-draft-manifest.json",
+      "sha256": "4f14af4aa285de7bb34532afcd075c2c7df176f8e52f5614d9761a413b61b83b",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/capability/curator-draft-manifest.json",
+      "sha256": "cf8893b96f25bda6181747c3209d3b5e4ca807418c9249bd2be204c5eb5c62fc",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/curator-draft-manifest.json",
+      "sha256": "5229c2ab9f6a860a1c4cf39bb0908dbe58040c6e050af9920cc623497338df3e",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/capability/v2/curator-draft-manifest.json",
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "ad4527bd21a5faa47eb2cb9b137f93e460be42a94a15eff673e6976eab1715c5",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "159728269b5686d933ad09ff8e3f3250d7edfbe76edbc44d3b20cfc4e76a4a30",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "e0eb6edd40ab19e7af1dc13d1a0689f414af9aef9406e4e4931832cd6caf1ab1",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "8b73272b463c4d0a234af93960baf70a6300f3571b86cae8e6dc75f07aaf9b5d",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "1f037d8d89d47c1a52cfa376f1d0cec31b1546a099b0d8cde53dc2b6c4cc2a71",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "d5d78a8ddae643eda84af10c261268643700d0e77f759da7f95c966a23ce84ae",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "0df4450b8825e85750226d8207bd8321e9729e750ee8bd56cdce93e480dc864e",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/curator-draft-manifest.json",
+      "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/budget/curator-draft-manifest.json",
+      "sha256": "c76f28c5550313085ce3f587ab4e7982f82192335620182f367d335aa62d934c",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "manifest": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/curator-draft-manifest.json",
+      "sha256": "8a180914dabe4e90b5c47a514277a2b74af5ff2ccf824cf7458481a852c997ae",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "manifest": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/curator-draft-manifest.json",
+      "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "manifest": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/curator-draft-manifest.json",
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "manifest": "docs/evidence/core-model-media-author-packet-20261003/budget/v2/curator-draft-manifest.json",
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "manifest": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/curator-draft-manifest.json",
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+      "manifest": "docs/evidence/core-memory-owner-packet-20261003/path/curator-draft-manifest.json",
+      "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "manifest": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/curator-draft-manifest.json",
+      "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/extraction.ts",
+      "manifest": "docs/evidence/core-memory-owner-packet-20261003/extraction/curator-draft-manifest.json",
+      "sha256": "7c4ae83f19d893a00dbca51c0b97960ccbc9c438a816191115b59189ab0b4e77",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "manifest": "docs/evidence/core-memory-owner-packet-20261003/manifest-v2/curator-draft-manifest.json",
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "manifest": "docs/evidence/core-memory-owner-packet-20261003/manifest/curator-draft-manifest.json",
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "manifest": "docs/evidence/core-hydration-owner-packet-20261003/history/curator-draft-manifest.json",
+      "sha256": "ee762760a80950b8965b1c02b64aa4ddda70df85bced6be6482fdeab22ac2ab0",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "manifest": "docs/evidence/core-memory-owner-packet-20261003/loop/curator-draft-manifest.json",
+      "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "manifest": "docs/evidence/core-hydration-owner-packet-20261003/media-v2/curator-draft-manifest.json",
+      "sha256": "3dfe9551132e36ea60f33ee8b8dedc08757c8cd19e4882fee33cbf6ba988ea35",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/index-content.ts",
+      "manifest": "docs/evidence/core-memory-owner-packet-20261003/index/curator-draft-manifest.json",
+      "sha256": "de62e45a34a9d79d1683fcc4fbfe82442d8d4bbfcc1849ab4bf1e8f30915c50a",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "manifest": "docs/evidence/core-hydration-owner-packet-20261003/media/curator-draft-manifest.json",
+      "sha256": "01c5a7b27cda2e2e1b56a874654847ae90d8430983fea7cc21258516bcb1200a",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+      "manifest": "docs/evidence/core-memory-owner-packet-20261003/path-v2/curator-draft-manifest.json",
+      "sha256": "4aeef1a821f78f0ea8340e3406734ddb46899601dad82e9142ad056298a25f74",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "manifest": "docs/evidence/core-hydration-owner-packet-20261003/history-v2/curator-draft-manifest.json",
+      "sha256": "458997f92dc55e1ecfed0fc6155fc6676128a0d710c725e13f77479976e9be7f",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "manifest": "docs/evidence/core-history-projection-author-packet-20261003/history/curator-draft-manifest.json",
+      "sha256": "6510c3ccc241b19bb4d5c2fd754b5c39070758e52f1993992c1302665b68c3cf",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "manifest": "docs/evidence/core-history-projection-author-packet-20261003/history/v2/curator-draft-manifest.json",
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "manifest": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/curator-draft-manifest.json",
+      "sha256": "b8a960e8e5923ed4e3c9633e09709b5889d861ad39d2109d5cdc7e07d7498d06",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+      "manifest": "docs/evidence/core-history-projection-author-packet-20261003/breakdown/curator-draft-manifest.json",
+      "sha256": "cd34d73c15a052795cf3c2dab4ac13724e99d6137f8cc1185194a6bc938d1c41",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "manifest": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/v2/curator-draft-manifest.json",
+      "sha256": "5555e83415364680d32cf2ca54b8074465844cce945f668e0f4631a2f90d2c20",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "manifest": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/curator-draft-manifest.json",
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "manifest": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/curator-draft-manifest.json",
+      "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "manifest": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/curator-draft-manifest.json",
+      "sha256": "f8846157dcc8870e6ddcdd082a3c6f8085f3ed1c7960847435c829377edbce47",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts",
+      "manifest": "docs/evidence/core-error-telemetry-author-packet-20261003/anomaly/curator-draft-manifest.json",
+      "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+      "manifest": "docs/evidence/core-history-projection-author-packet-20261003/media/curator-draft-manifest.json",
+      "sha256": "a0a0ffad3619dc18c38da7806880770a35a44414695d719cc70ca46e0bf80ce4",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "manifest": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/curator-draft-manifest.json",
+      "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "manifest": "docs/evidence/core-error-telemetry-author-packet-20261003/business/curator-draft-manifest.json",
+      "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/manual.ts",
+      "manifest": "docs/evidence/core-history-projection-author-packet-20261003/manual/curator-draft-manifest.json",
+      "sha256": "c4971faab34fd963e7032a33dd16cb36beb100135ff6c5be7a4cf819c04a3a44",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "manifest": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/curator-draft-manifest.json",
+      "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "manifest": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/curator-draft-manifest.json",
+      "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/manual.ts",
+      "manifest": "docs/evidence/core-history-projection-author-packet-20261003/manual/v2/curator-draft-manifest.json",
+      "sha256": "a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "manifest": "docs/evidence/core-mcp-owner-packet-20261003/bridge-v2/curator-draft-manifest.json",
+      "sha256": "20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "manifest": "docs/evidence/core-mcp-owner-packet-20261003/image-v2/curator-draft-manifest.json",
+      "sha256": "fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "manifest": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/v2/curator-draft-manifest.json",
+      "sha256": "91d1ab6d39c2827a41e7006ca59245bf363bfe4a1cac8127997bd5fa9cd060dc",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "manifest": "docs/evidence/core-attachment-plan-author-packet-20261003/plan/curator-draft-manifest.json",
+      "sha256": "b4c854cdbf68e735048d5575f79a35d088696260f87ffb3200242ead2d32cf04",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "manifest": "docs/evidence/core-mcp-owner-packet-20261003/bridge/curator-draft-manifest.json",
+      "sha256": "62d6f93ab109985e130d95be1204c5bf9f830d0a63f3117d1b939b1bc6360357",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+      "manifest": "docs/evidence/core-attachment-plan-author-packet-20261003/persistence/curator-draft-manifest.json",
+      "sha256": "58772c0f67eaf9ab8344d75e28a1d0093d6386e73b4ee6b5d5479056786c0676",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "manifest": "docs/evidence/core-mcp-owner-packet-20261003/image/curator-draft-manifest.json",
+      "sha256": "409ef7e6faf758f178f31e57bebd2c70692c10c79d5ea0eef8d92c2eadf0e80c",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "manifest": "docs/evidence/core-attachment-plan-author-packet-20261003/attachments/curator-draft-manifest.json",
+      "sha256": "67746d867a4f377eb8626ac6f04a6adeae3197b917521e44614074479d8d6470",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "manifest": "docs/evidence/core-attachment-plan-author-packet-20261003/artifacts/curator-draft-manifest.json",
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "manifest": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/curator-draft-manifest.json",
+      "sha256": "a1c1211340fc2ff130b75a3ed7ae033add1a45cf3f6334b7670c81994854ff01",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "manifest": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/curator-draft-manifest.json",
+      "sha256": "607d0d48862299727dcc8231a51aecef026821b6a788a71f52c8b0e143415535",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "manifest": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/curator-draft-manifest.json",
+      "sha256": "05b629591d6d2ff1d7e94d99cc6a38674e2d5c537b13e822b0bdc6a463d7e712",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "manifest": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/curator-draft-manifest.json",
+      "sha256": "e8d9e6802e63480b93a591896feb007d1a93dcb759b312252e08062457f8e4c5",
+      "qualification": "Existing whole author candidate or accepted work; exclusion only, not rights/final integration acceptance"
+    }
+  ],
+  "excludedReservations": [
+    "A runtime/permission/trust/task/turn/subagent/model/admission/executor and workflow execution policies",
+    "G adapters/native/external IO: bash/read/edit/write/glob/grep/webfetch/websearch and their policy/state/parser helpers",
+    "Root desktop/current allocated work, E complete sources/current author candidates, all accepted90 tool flags",
+    "Tiny fixed prose/config/description/reexports kept without forced novelty; plan-mode-prompts, workflow-analysis-display, descriptions/types/constants not promoted"
+  ],
+  "rootReportedReconciliation": {
+    "format-roster": {
+      "localSha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e",
+      "rootSha256": "d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493",
+      "evidence": "direct-root-phase-refresh-integration-20261001.json",
+      "commits": [
+        "692425a",
+        "38f9832",
+        "e106175"
+      ],
+      "status": "HOLD for final combination, existing technical work; no reauthor/import or whole-file MIT acceptance; parent report not locally revalidated"
+    },
+    "summary": {
+      "localSha256": "b201973924df1b9741fb3be169c37001ed4d06d161f6d70f830be93fc04957a0",
+      "rootSha256": "59d19958a577bcab782724c6397b839ff5f9457fba87621bbc78eeafb7007747",
+      "evidence": "workflow-summary-expression-20261001.json",
+      "status": "HOLD local source; root accepted evidence parent-reported only, no private root file access/import/reauthor"
+    }
+  },
+  "shortlist": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "bytes": 7348,
+      "sha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67",
+      "lines": 152,
+      "priority": "first tool inquiry",
+      "existingLedgerExact": true,
+      "classification": "upstream-unchanged",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+        "blob": "ffcff744bdcb9e25a4a86e20b25a529d69d9b29a",
+        "normalizedSha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/tool/handlers/workflow-run-introspection.ts"
+        ]
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/public-extraction-record.json",
+          "bytes": 17729,
+          "sha256": "39ca787a5c94cbc80d3e1348341c59ee067624c17502e1394c5f3b4a1e73b3a2",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "Name/size suggest formatting/time/text projections; earlier curator source exposure remains qualified, no fresh body read. Imported-policy/native behavior must be retained if root allocates.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+      "bytes": 4043,
+      "sha256": "0206bf54ca7fd0786ebb9dca4b800a40c59c49ca1f6e2574b5f614d1da4bc16e",
+      "lines": 101,
+      "priority": "first tool inquiry",
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+        "blob": "02108b8018d2a60e6f7aca064b1847e32666342b",
+        "normalizedSha256": "4b7a2bc35c9c77d0f043903a6d9c79e25796300be636e6c001e554859cb1c0bf",
+        "contentMatchedPaths": []
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "Name/size suggest saved-workflow argument parsing/validation. Root must confirm separation from A schema/admission authority; no replacement of imported validation policy.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "bytes": 5920,
+      "sha256": "ed9f00051bdea60751f2f86191c4c83076f02c7d52d96c6ae8485ca2b9726487",
+      "lines": 136,
+      "priority": "ownership question",
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+        "blob": "b365beb32e497fee8f61741fd6fabff08e992715",
+        "normalizedSha256": "6c646e75884f6bc364c48220c936d5121d00b91276252d11d2547f966d97b84c",
+        "contentMatchedPaths": []
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "Substantial graph projection/folding name; may belong to A workflow compilation. Root must determine owner and preserved graph ordering/identity before any allocation.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "bytes": 15473,
+      "sha256": "7c5da335dd06647654013e8950c1b1644ccfc1039d8221cbdb6107c4b411a8df",
+      "lines": 288,
+      "priority": "ownership question",
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+        "blob": "d5ec2b7e21e5769091e820cbce2e7487b0efe54f",
+        "normalizedSha256": "26928094a669c6f6383c4b49cb9672c9e123c41f1f281b9e2e47a0c2254020e3",
+        "contentMatchedPaths": []
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "Substantial graph bounds analysis name; likely compilation/validation policy overlap. Do not infer a pure presentation boundary or transfer A authority.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/critic.ts",
+      "bytes": 3796,
+      "sha256": "d9c6980a73c6f0a4080a3ba34138266cbf57c4c649e94fa9eb11b08e6d758a27",
+      "lines": 114,
+      "priority": "other substantive parser inquiry",
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/workflow/expert/parsers/critic.ts",
+        "blob": "3da0fbad18c96f34d58ca36c3bc0f80d4fb3027c",
+        "normalizedSha256": "2367803811bcf8578e527dd7e13fbaf5bbfa39c72cb2d64e73f75a5a20bdf542",
+        "contentMatchedPaths": []
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-integration-20261003/static-results.json",
+          "bytes": 22209,
+          "sha256": "b27abdc95cf778d027d19cf4979681637f253aa2691dfdb47bf974399e36edf4",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-author-packet-20261003/untouched-owner-bindings.json",
+          "bytes": 5308,
+          "sha256": "624d700658358d09297a1520c92cc418662426ccb01039b4fa33bec5fb54de6c",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "Parser name/size only. Expert/run-loop/model/provider scope remains excluded; root must confirm parser-only scope outside A reservations.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+      "bytes": 6404,
+      "sha256": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+      "lines": 189,
+      "priority": "other substantive parser inquiry",
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+        "blob": "f9ecac0bda5785493d4c2755cf280b5708f1efde",
+        "normalizedSha256": "fba55a85cb071b56919e9ddd09d78b132cc71b9357ec37665a6d8210eec074da",
+        "contentMatchedPaths": []
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-integration-20261003/static-results.json",
+          "bytes": 22209,
+          "sha256": "b27abdc95cf778d027d19cf4979681637f253aa2691dfdb47bf974399e36edf4",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-author-packet-20261003/untouched-owner-bindings.json",
+          "bytes": 5308,
+          "sha256": "624d700658358d09297a1520c92cc418662426ccb01039b4fa33bec5fb54de6c",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "Parser name/size only, graph parsing may encode workflow semantics. Root/A ownership confirmation before allocation.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+      "bytes": 2901,
+      "sha256": "454a1f0ed323844ea8db92fc99058c5391c8dc5fad16dab4dad2e79485146ead",
+      "lines": 106,
+      "priority": "other substantive parser inquiry",
+      "existingLedgerExact": true,
+      "classification": "upstream-modified",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+        "blob": "39b60e60ce52bd9d15d9da6ba8f2038a94927a53",
+        "normalizedSha256": "e908b4c88ba107c01d651c2672ef58497061dad0c76a5da6dfac26545b2e16e1",
+        "contentMatchedPaths": []
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-integration-20261003/static-results.json",
+          "bytes": 22209,
+          "sha256": "b27abdc95cf778d027d19cf4979681637f253aa2691dfdb47bf974399e36edf4",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-author-packet-20261003/untouched-owner-bindings.json",
+          "bytes": 5308,
+          "sha256": "624d700658358d09297a1520c92cc418662426ccb01039b4fa33bec5fb54de6c",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "Parser name/size only, text/result parsing may overlap expert/model authority. Root/A ownership confirmation before allocation.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+      "bytes": 2723,
+      "sha256": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+      "lines": 89,
+      "priority": "other substantive parser inquiry",
+      "existingLedgerExact": true,
+      "classification": "upstream-unchanged",
+      "inventoryReview": null,
+      "reviewHits": [],
+      "ledgerExactPriorSourceRecords": [],
+      "ledgerOlderOrDifferentSourceRecordCount": 0,
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "blob": "3ec08019fb2684eb7c05a21566ba1277903da39e",
+        "normalizedSha256": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/workflow/expert/parsers/json.ts"
+        ]
+      },
+      "metadataReceiptHits": [
+        {
+          "path": "docs/evidence/core-task-notification-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113643,
+          "sha256": "f7f6d68ce88d5317cce1fff849fb4951263b29e28b6e8e6dd1a1caff89833f9b",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 124793,
+          "sha256": "65fe20492d573aedade28bc4a3c04939bd849e1faa1df62f1343c53241b1afdf",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 113970,
+          "sha256": "ac1aec595557ea111a3a804879fb3bf322a79eecfdadc58d91c3aa6edcdf7620",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+          "bytes": 312065,
+          "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-integration-20261003/static-results.json",
+          "bytes": 22209,
+          "sha256": "b27abdc95cf778d027d19cf4979681637f253aa2691dfdb47bf974399e36edf4",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/lifecycle-definition-author-packet-20261003/untouched-owner-bindings.json",
+          "bytes": 5308,
+          "sha256": "624d700658358d09297a1520c92cc418662426ccb01039b4fa33bec5fb54de6c",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-static.json",
+          "bytes": 150856,
+          "sha256": "070e6d41b83780aa23ba160b6c3324869e0a7ebfa3e5cc24c7e7d74ecc6bb5b1",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-static.json",
+          "bytes": 150813,
+          "sha256": "db6047430cdf76912fe8b71a6981affa80dca6a455d9561a862de9d7b0135c7f",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        },
+        {
+          "path": "docs/evidence/core-mcp-owner-packet-20261003/untouched-boundary-bindings.json",
+          "bytes": 125559,
+          "sha256": "54b62bba78d7da95e1d57aa19b22ce00e897af9daa6e810ec043539cf015c823",
+          "role": "Boundary/inventory/reference metadata only; no whole-owner acceptance found"
+        }
+      ],
+      "wholeOwnerAcceptanceLocated": false,
+      "ownershipQuestion": "89-line JSON parser name/size; no evidence it is tiny fixed configuration, no assertion of originality/eligibility. Root confirms cohesive algorithm scope before any work.",
+      "allocation": "NOT allocated; no author cycle/public behavior/body extraction/implementation initiated"
+    }
+  ],
+  "passed": true,
+  "failuresPreserved": [
+    "Initial rg requested absent docs/evidence/core-implementation-inventory-20261003 => exit2; actual existing ledger path subsequently used.",
+    "Initial metadata inspection treated receiptMetadataFiles integer97 as list => TypeError int not subscriptable, exit1; subsequent inspection used receiptMetadataBindings. No source content/extra extraction exposed.",
+    "Initial candidate manifest files mapping treated as list => AttributeError str has no get exit1; original script/failure preserved, metadata list/mapping qualification corrected."
+  ],
+  "qualification": "Only exact local metadata absence, no root-private/Library403 bypass or publisher/grant inference. All21 material obligations OPEN, no source/global licensing/reviews/current-files changes, no tests/builds/body review/tool/provider/user-data/native/runtime actions. Existing curator source exposure of workflow-run-introspection and earlier broader/historical exposures remain qualified; this metadata screen is not fresh author independence evidence. No new authors spawned; savedSol/high/Fast unchanged/unverified."
+}

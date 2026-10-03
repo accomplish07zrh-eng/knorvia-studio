@@ -1,0 +1,5 @@
+# Trigger timestamp capture qualification
+
+Original v1 source/receipt remain frozen. Curator static review identified a clock-observation detail omitted from the original functional packet: after the disabled gate, the incoming lastAssistantCompletedAtMs and supplied nowMs primitive values are captured before trigger resolution's idle-config normalization/finite check/possible Date.now call. That call cannot replace the already captured last-completion value through a mutation of caller options. Keep valid-timestamp/nullish-now clock admission, strict elapsed boundary, time-before-pressure priority and all other behavior unchanged. No runtime probe or failure is claimed.
+
+This is a behavior-only clarification; no target implementation/helper structure is provided. Same author may read this fifth input plus original four inputs and own outputs only. Keep original source/receipt untouched; produce complete output-v2/microcompact.ts and separate receipt, freeze before tests/compiler/comparison and report independent metadata. Record the packet omission/correction chronology honestly; not a new fresh-author event.

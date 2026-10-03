@@ -1,0 +1,29 @@
+{
+  "baselineHead": "a27c9aaf4679d948bd5f6bd0cb2e4aafb0884a11",
+  "freshAuthor": "/root/ssh_auth_permission_author",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "fork": "none",
+  "inputs": {
+    "/tmp/knorvia-ssh-auth-permission-packet.md": "d7eb14a1464c36eda52d962d4c2b72b4af58f3a973c7d87070d9a1c43934262a",
+    "/workspace/knorvia-studio/AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "freeze": "Initial complete outputs copied and hashed before curator content read/comparison; no semantic corrections requested. Formatting only after comparison.",
+  "owners": [
+    {
+      "path": "packages/server/src/remote/sshAuth.ts",
+      "baselineSha256": "11fd6bbf8c3a3d58efe32ad6defdeee530146925cc2ca73f40e3456caf8af62d",
+      "baselineBytes": 4426,
+      "frozenRawAuthorSha256": "cf0976c372b52f072b857196ad5db066dc2a3cfc3934a2f94e77a38672e40157",
+      "formattedCandidateSha256": "fb33e8bb7ddaf22064a1eb341063cc9db07eb11914b2578cd000a86fafecf3db"
+    },
+    {
+      "path": "packages/server/src/remote/agentOfficialPluginPermissionRepair.ts",
+      "baselineSha256": "e7c6b02aa9c1168f2eac2a789993a3b7b6da4abfba04aae0b1972c12f65a5429",
+      "baselineBytes": 2002,
+      "frozenRawAuthorSha256": "dd53a3a0ca99391f66d0b094fece3f7fe79f444ed03507cb73d122cea28ca3d2",
+      "formattedCandidateSha256": "c70f72809c7cd4405ac1e4324315a234b606a74cbe6dceb913c4634239f6ac9f"
+    }
+  ]
+}

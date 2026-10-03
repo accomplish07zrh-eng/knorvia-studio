@@ -1,0 +1,13 @@
+# CLI custom command complete-owner candidate
+
+Continue PR9 from8588e3734557b9357a125990e4000529f7589e66. Select only commands/index.ts under apps/cli/packages/adapters/src: per-instance disabled-path snapshot, recursive discovery/diagnostics, metadata/name/frontmatter projection, first-name selection and bounded content handle lifecycle. Preserve every public class/interface/factory/method signature, existing policy/data/cancellation and dynamic root-options reference behavior. Keep root-resolution helpers unchanged. No new invocation, execution, permission/security setting, path admission, schema or validation policy.
+
+request → abort → existing roots port → priority scan → recursive virtual discovery → metadata
+→ disabled snapshot → first-name selection → sorted outcome
+load → public discovery dispatch → name lookup → stat budget → full read OR owned handle/read/close
+
+Of40 remaining adapters,18 device/filesystem files match prior candidate/source build receipts; do not repeat completed authorship or confer acceptance. Logging prior candidate/helper5, config7, constrained image3, barrel2, root-resolution2 stay retained. Skill index/scan2 carry plugin trust/canonical disable boundaries and require explicit root allocation under ongoing settings/security scope limits; this is a conservative screening inference, not a newly imposed historical HOLD. Select1, leave39 bounded paths for parent classification/allocation.
+
+One fresh Sol/high fork-none author receives frozen external behavior/public-port facts only; own private implementation free, no predecessor private helpers/state/decomposition/bodies. Whole literal draft/corrections freeze/hash before source-exposed curator review and installation; retain full raw .ts.txt files, format selected whole freeze independently and prove installed equality. Shared filesystem is not OS-enforced clean room; identical normalized bodies/expressions and whole candidate get0 accepted independence/MIT credit pending parent review.
+
+Minimum synthetic checks cover priority/duplicate/disabled projection and parser diagnostics, aborted admission, bounded handle closure/error precedence and public discovery dispatch/reference propagation. All fs/root/path runtime ports virtual with synthetic markdown only; no real command/skill/userdata/provider/network/filesystem/native acceptance, suites/builds/semantic project types. Scope lint/syntax/AST API/format/architecture/whitespace and hash bindings only; retain exact failures and rerun only affected cases. Other242 adapter sources/root holds/accepted/model/browser/media remain hash-unchanged. No global licence/provenance/manifests/settings/security/permission changes, cross-lane/main merge, Library403 alternate access or cancelled upload retry.

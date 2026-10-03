@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/errors.ts",
+    "packages/shared/src/forceUpdate.ts",
+    "packages/shared/src/subagent-state-migration.ts",
+    "packages/shared/src/mcp.ts",
+    "packages/shared/src/workspace-hook-digest.ts",
+    "packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs"
+  ],
+  "stdout": "Finished in 19ms on 6 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

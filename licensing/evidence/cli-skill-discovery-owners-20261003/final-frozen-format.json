@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "/tmp/knorvia-cli-skill-formatted-frozen/index.ts",
+    "/tmp/knorvia-cli-skill-formatted-frozen/scan.ts"
+  ],
+  "stdout": "Finished in 19ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

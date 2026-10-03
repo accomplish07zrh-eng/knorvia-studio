@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/agent-model-state.ts",
+    "packages/shared/src/model-provider-family.ts",
+    "packages/shared/src/pluginStoreOrdering.ts"
+  ],
+  "stdout": "packages/shared/src/agent-model-state.ts: 0 syntax-only diagnostics\npackages/shared/src/model-provider-family.ts: 0 syntax-only diagnostics\npackages/shared/src/pluginStoreOrdering.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

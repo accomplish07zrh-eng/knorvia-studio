@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-02T20:25:26.004052+00:00",
+  "sources": {
+    "packages/desktop/src/main/dataSizeScanner.ts": {
+      "sha256": "cc0a7ce2fe6e78b4979260773c77bf9ed95eec9073cbaacef978869d74337e2c",
+      "bytes": 4397
+    },
+    "packages/desktop/src/main/dataSizeWorkerClient.ts": {
+      "sha256": "7ccb0a9be9a1b6b62c94c438184a9462b198bd6f46fd05865ae90d3cef26229c",
+      "bytes": 1830
+    },
+    "packages/desktop/src/main/localMediaPreviewProtocol.ts": {
+      "sha256": "3783105d06147af85013771b8c5fd970a4bd4b47bcb315a8de1ddd1b311b0ab3",
+      "bytes": 4493
+    },
+    "packages/desktop/src/main/dataSizeWorker.ts": {
+      "sha256": "9b4d5df03691e57a61467e792563655f0e50fdb851b3d1a1e9a847dbda1eb372",
+      "bytes": 783
+    }
+  },
+  "retained": "dataSizeWorker.ts tinyentry unchanged, no originalitycredit. Shared URLbuilder and host/session/workspace authorization remain existingowners.",
+  "review": "Same-root postfreeze sourcecomparison; prior generic/context exposure explicit. Complete scan/worker/registry/protocolcandidate, required types/constants/errorstrings and ordinary lifecycle idioms retained. No isolated/legalclearance.",
+  "corrections": "Scanner lacked separate initialcontinuation budget observation: corrected beforeloop, frozen failure reproduced. Restored join/entryname outside metadata catch, counter-first ENOENT guard and zeroresult, dependencydefault-object semantics (null not silently defaulted). Originaldrafts retained.",
+  "checks": "3-targetsemantictypes withactualNode/shareddeclarations0diag; APIsignaturesmatchpacket;lint3files94rules0errors/warnings;architecture0;whitespaceclean.3pairedminimalfakeportgroupsscanlimit/symlink,exactpreviewauthority/TTL,workerabort/settlementpassed. Frozen missingbudget gate openedonefake directoryinstead ofzero and incorrectlyreturnedcomplete; corrected ownerrejectstimebudgetbeforeIO.",
+  "testQualification": "Transpiled modules withfakefilesystem/worker/protocol ports; import.meta.url replacedsynthetically onlyforCommonJSfixture, notactualworkerbundling/nativeacceptance. No realfiles/network/worker/OS/userdata/credential/permissionactions.",
+  "unrun": "Fulltests/builds/nativeElectron/platform/consumeracceptance and separate independentreview (agentthreadlimit). No globallicence/inventoryorcrosslanechanges."
+}

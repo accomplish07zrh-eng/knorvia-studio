@@ -1,0 +1,1449 @@
+{
+  "surface": {
+    "export": "DesktopBrowserScreenshotSurfaceCoordinator",
+    "members": [
+      {
+        "name": "constructor",
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "acquireActivity",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "number"
+                            },
+                            {
+                              "optional": false,
+                              "type": {
+                                "calls": [],
+                                "properties": [
+                                  {
+                                    "name": "browserGeneration",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "browserId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "name": "remoteSessionId",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": [
+                                      "string",
+                                      "undefined"
+                                    ]
+                                  },
+                                  {
+                                    "name": "requestId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "name": "resetsResizeBaseline",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": [
+                                      "false",
+                                      "true",
+                                      "undefined"
+                                    ]
+                                  },
+                                  {
+                                    "name": "sessionId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "name": "surfaceScaleMode",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"current\"",
+                                      "\"unscaled\"",
+                                      "undefined"
+                                    ]
+                                  },
+                                  {
+                                    "name": "tabId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  },
+                                  {
+                                    "name": "timeoutMs",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": [
+                                      "number",
+                                      "undefined"
+                                    ]
+                                  },
+                                  {
+                                    "name": "viewport",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": {
+                                      "calls": [],
+                                      "properties": [
+                                        {
+                                          "name": "height",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "number"
+                                        },
+                                        {
+                                          "name": "width",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "number"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "name": "viewportMode",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"emulated\"",
+                                      "\"natural\"",
+                                      "undefined"
+                                    ]
+                                  },
+                                  {
+                                    "name": "webContentsId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "workspaceKey",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "returns": [
+                            "undefined",
+                            {
+                              "calls": [],
+                              "properties": [
+                                {
+                                  "name": "invalidated",
+                                  "optional": true,
+                                  "readonly": true,
+                                  "type": [
+                                    "AbortSignal",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "markPrepared",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "undefined",
+                                    {
+                                      "calls": [
+                                        {
+                                          "parameters": [],
+                                          "returns": "void"
+                                        }
+                                      ],
+                                      "properties": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "release",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "void"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                },
+                {
+                  "name": "activityTimeoutMs",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "number",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "log",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": "void"
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                },
+                {
+                  "name": "sendPrepare",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": "number"
+                          },
+                          {
+                            "optional": false,
+                            "type": {
+                              "calls": [],
+                              "properties": [
+                                {
+                                  "name": "browserGeneration",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "browserId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "remoteSessionId",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "string",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "requestId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "resetsResizeBaseline",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "false",
+                                    "true",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "sessionId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "surfaceScaleMode",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "\"current\"",
+                                    "\"unscaled\"",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "tabId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "timeoutMs",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "number",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "viewport",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": {
+                                    "calls": [],
+                                    "properties": [
+                                      {
+                                        "name": "height",
+                                        "optional": false,
+                                        "readonly": false,
+                                        "type": "number"
+                                      },
+                                      {
+                                        "name": "width",
+                                        "optional": false,
+                                        "readonly": false,
+                                        "type": "number"
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "viewportMode",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "\"emulated\"",
+                                    "\"natural\"",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "webContentsId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "workspaceKey",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "returns": "boolean"
+                      }
+                    ],
+                    "properties": []
+                  }
+                },
+                {
+                  "name": "sendRelease",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": "number"
+                          },
+                          {
+                            "optional": false,
+                            "type": {
+                              "calls": [],
+                              "properties": [
+                                {
+                                  "name": "browserGeneration",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "browserId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "remoteSessionId",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "string",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "requestId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "resetsResizeBaseline",
+                                  "optional": true,
+                                  "readonly": false,
+                                  "type": [
+                                    "false",
+                                    "true",
+                                    "undefined"
+                                  ]
+                                },
+                                {
+                                  "name": "sessionId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "tabId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "webContentsId",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "number"
+                                },
+                                {
+                                  "name": "workspaceKey",
+                                  "optional": false,
+                                  "readonly": false,
+                                  "type": "string"
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "returns": "void"
+                      }
+                    ],
+                    "properties": []
+                  }
+                },
+                {
+                  "name": "timeoutMs",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "number",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "warn",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": "void"
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "returns": "instance"
+      },
+      {
+        "name": "dispose",
+        "parameters": [],
+        "returns": "void"
+      },
+      {
+        "name": "handleReady",
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "payload",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [],
+                    "properties": [
+                      {
+                        "name": "browserGeneration",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "number"
+                      },
+                      {
+                        "name": "browserId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "remoteSessionId",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "string",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "requestId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "resetsResizeBaseline",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "false",
+                          "true",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "sessionId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "surfaceScale",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "number"
+                      },
+                      {
+                        "name": "surfaceScaleMode",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "\"current\"",
+                          "\"unscaled\"",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "tabId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "timeoutMs",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "number",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "viewport",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "properties": [
+                            {
+                              "name": "height",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "number"
+                            },
+                            {
+                              "name": "width",
+                              "optional": false,
+                              "readonly": false,
+                              "type": "number"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "viewportMode",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "\"emulated\"",
+                          "\"natural\"",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "webContentsId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "number"
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "senderWebContentsId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "windowId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                }
+              ]
+            }
+          }
+        ],
+        "returns": "void"
+      },
+      {
+        "name": "handleWindowDestroyed",
+        "parameters": [
+          {
+            "optional": false,
+            "type": "number"
+          }
+        ],
+        "returns": "void"
+      },
+      {
+        "name": "prepare",
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "activityTimeoutMs",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "number",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "browserGeneration",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "browserId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "string"
+                },
+                {
+                  "name": "requestId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "string"
+                },
+                {
+                  "name": "sessionId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "string"
+                },
+                {
+                  "name": "signal",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "AbortSignal"
+                },
+                {
+                  "name": "surfaceScaleMode",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "\"current\"",
+                    "\"unscaled\"",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "tabId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "string"
+                },
+                {
+                  "name": "viewport",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [],
+                    "properties": [
+                      {
+                        "name": "height",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "number"
+                      },
+                      {
+                        "name": "width",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "number"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "viewportMode",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "\"emulated\"",
+                    "\"natural\"",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "webContentsId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "windowId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "workspaceKey",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ],
+        "returns": {
+          "promise": [
+            {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "invalidated",
+                  "optional": true,
+                  "readonly": true,
+                  "type": [
+                    "AbortSignal",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "release",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [],
+                        "returns": "void"
+                      }
+                    ],
+                    "properties": []
+                  }
+                },
+                {
+                  "name": "surfaceScale",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "viewport",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [],
+                    "properties": [
+                      {
+                        "name": "height",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "number"
+                      },
+                      {
+                        "name": "width",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "number"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "webContentsId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "activity": {
+    "export": "DesktopBrowserScreenshotActivityController",
+    "members": [
+      {
+        "name": "acquire",
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "reason",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "\"browser-screenshot\""
+                },
+                {
+                  "name": "requestId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "string"
+                },
+                {
+                  "name": "webContentsId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                },
+                {
+                  "name": "windowId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": "number"
+                }
+              ]
+            }
+          }
+        ],
+        "returns": [
+          "undefined",
+          {
+            "calls": [],
+            "properties": [
+              {
+                "name": "invalidated",
+                "optional": true,
+                "readonly": true,
+                "type": [
+                  "AbortSignal",
+                  "undefined"
+                ]
+              },
+              {
+                "name": "markPrepared",
+                "optional": true,
+                "readonly": false,
+                "type": [
+                  "undefined",
+                  {
+                    "calls": [
+                      {
+                        "parameters": [],
+                        "returns": "void"
+                      }
+                    ],
+                    "properties": []
+                  }
+                ]
+              },
+              {
+                "name": "release",
+                "optional": false,
+                "readonly": false,
+                "type": {
+                  "calls": [
+                    {
+                      "parameters": [],
+                      "returns": "void"
+                    }
+                  ],
+                  "properties": []
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "constructor",
+        "parameters": [
+          {
+            "optional": false,
+            "type": {
+              "calls": [],
+              "properties": [
+                {
+                  "name": "allowTransparentWindowBootstrap",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "false",
+                    "true",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "fromId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": "number"
+                          }
+                        ],
+                        "returns": [
+                          "null",
+                          {
+                            "calls": [],
+                            "properties": [
+                              {
+                                "name": "getOpacity",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "number"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "hide",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "void"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "isDestroyed",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [],
+                                      "returns": "boolean"
+                                    }
+                                  ],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "isFocused",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "isMinimized",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "isVisible",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "boolean"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "on",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [
+                                          {
+                                            "optional": false,
+                                            "type": "\"focus\""
+                                          },
+                                          {
+                                            "optional": false,
+                                            "type": {
+                                              "calls": [
+                                                {
+                                                  "parameters": [],
+                                                  "returns": "void"
+                                                }
+                                              ],
+                                              "properties": []
+                                            }
+                                          }
+                                        ],
+                                        "returns": "void"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "removeListener",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [
+                                          {
+                                            "optional": false,
+                                            "type": "\"focus\""
+                                          },
+                                          {
+                                            "optional": false,
+                                            "type": {
+                                              "calls": [
+                                                {
+                                                  "parameters": [],
+                                                  "returns": "void"
+                                                }
+                                              ],
+                                              "properties": []
+                                            }
+                                          }
+                                        ],
+                                        "returns": "void"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "setOpacity",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [
+                                          {
+                                            "optional": false,
+                                            "type": "number"
+                                          }
+                                        ],
+                                        "returns": "void"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "setSkipTaskbar",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [
+                                          {
+                                            "optional": false,
+                                            "type": "boolean"
+                                          }
+                                        ],
+                                        "returns": "void"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "showInactive",
+                                "optional": true,
+                                "readonly": false,
+                                "type": [
+                                  "undefined",
+                                  {
+                                    "calls": [
+                                      {
+                                        "parameters": [],
+                                        "returns": "void"
+                                      }
+                                    ],
+                                    "properties": []
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "webContents",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [],
+                                  "properties": [
+                                    {
+                                      "name": "capturePage",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": {
+                                        "calls": [
+                                          {
+                                            "parameters": [
+                                              {
+                                                "optional": false,
+                                                "type": {
+                                                  "calls": [],
+                                                  "properties": [
+                                                    {
+                                                      "name": "height",
+                                                      "optional": false,
+                                                      "readonly": false,
+                                                      "type": "number"
+                                                    },
+                                                    {
+                                                      "name": "width",
+                                                      "optional": false,
+                                                      "readonly": false,
+                                                      "type": "number"
+                                                    },
+                                                    {
+                                                      "name": "x",
+                                                      "optional": false,
+                                                      "readonly": false,
+                                                      "type": "number"
+                                                    },
+                                                    {
+                                                      "name": "y",
+                                                      "optional": false,
+                                                      "readonly": false,
+                                                      "type": "number"
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            "returns": {
+                                              "promise": [
+                                                "unknown"
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        "properties": []
+                                      }
+                                    },
+                                    {
+                                      "name": "id",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": "number"
+                                    },
+                                    {
+                                      "name": "isDestroyed",
+                                      "optional": false,
+                                      "readonly": false,
+                                      "type": {
+                                        "calls": [
+                                          {
+                                            "parameters": [],
+                                            "returns": "boolean"
+                                          }
+                                        ],
+                                        "properties": []
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "properties": []
+                  }
+                },
+                {
+                  "name": "fromWebContentsId",
+                  "optional": false,
+                  "readonly": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": "number"
+                          }
+                        ],
+                        "returns": [
+                          "null",
+                          {
+                            "calls": [],
+                            "properties": [
+                              {
+                                "name": "capturePage",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [
+                                        {
+                                          "optional": false,
+                                          "type": {
+                                            "calls": [],
+                                            "properties": [
+                                              {
+                                                "name": "height",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "number"
+                                              },
+                                              {
+                                                "name": "width",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "number"
+                                              },
+                                              {
+                                                "name": "x",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "number"
+                                              },
+                                              {
+                                                "name": "y",
+                                                "optional": false,
+                                                "readonly": false,
+                                                "type": "number"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ],
+                                      "returns": {
+                                        "promise": [
+                                          "unknown"
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "properties": []
+                                }
+                              },
+                              {
+                                "name": "hostWebContents",
+                                "optional": false,
+                                "readonly": true,
+                                "type": [
+                                  "null",
+                                  {
+                                    "calls": [],
+                                    "properties": [
+                                      {
+                                        "name": "id",
+                                        "optional": false,
+                                        "readonly": false,
+                                        "type": "number"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "id",
+                                "optional": false,
+                                "readonly": false,
+                                "type": "number"
+                              },
+                              {
+                                "name": "isDestroyed",
+                                "optional": false,
+                                "readonly": false,
+                                "type": {
+                                  "calls": [
+                                    {
+                                      "parameters": [],
+                                      "returns": "boolean"
+                                    }
+                                  ],
+                                  "properties": []
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "properties": []
+                  }
+                },
+                {
+                  "name": "hideTaskbarDuringTransparentWindowBootstrap",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "false",
+                    "true",
+                    "undefined"
+                  ]
+                },
+                {
+                  "name": "log",
+                  "optional": true,
+                  "readonly": false,
+                  "type": [
+                    "undefined",
+                    {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": "void"
+                        }
+                      ],
+                      "properties": []
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "returns": "instance"
+      }
+    ]
+  }
+}

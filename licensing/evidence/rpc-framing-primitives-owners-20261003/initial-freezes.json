@@ -1,0 +1,22 @@
+{
+  "protocol": {
+    "sha256": "32fe0aabb9a32582238400486c00056c81e611ccd2220fcfc34191e5c132baba",
+    "bytes": 8100
+  },
+  "proxy-channel": {
+    "sha256": "c44aa025615f0809e43299ac3efb8096b56312e42f242623bfc1ff8c6d4246c2",
+    "bytes": 3814
+  },
+  "buffer": {
+    "sha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+    "bytes": 1866
+  },
+  "foundation": {
+    "sha256": "b9d3ec194e1e0cb6b74049a81fc9aa275504e546f37375fc5d2de0324801a9b6",
+    "bytes": 4655
+  },
+  "serialization": {
+    "sha256": "0abdd657ea24cd3cb8ff76f9de4b781e6ab64102b3d7e6e3e68bbf2523f46f0b",
+    "bytes": 5634
+  }
+}

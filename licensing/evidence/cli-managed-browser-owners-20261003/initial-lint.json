@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--no-ignore",
+    "--deny-warnings",
+    "apps/cli/packages/adapters/src/browser/index.ts",
+    "apps/cli/packages/adapters/src/browser/session.ts",
+    "apps/cli/packages/adapters/src/browser/page-command.ts",
+    "apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs"
+  ],
+  "stdout": "No files found to lint. Please check your paths and ignore patterns.\nFinished in 3ms on 0 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 1
+}

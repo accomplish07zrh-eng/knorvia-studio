@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--baseline"
+  ],
+  "stdout": "sourceMode=frozen-baseline; owner=all\n✔ browser: captured authority, duplicate correlation and dispose settlement (69.367367ms)\n✔ browser: timeout cancellation and detached recording identity (15.972313ms)\n✔ attachments: sequential staging preserves data and task/session proxy identity (23.2311ms)\n✔ attachments: lexical containment and failure cleanup preserve original cause (14.244842ms)\n✔ collection: ordered registry preserves local/remote authority and wrapper placement (12.907319ms)\n✔ collection: runtime preferences retain settings authority and response failure identity (11.49336ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 155.615484\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,13 @@
+{
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-tab-eviction-owner-20261003/scoped-static-baseline.mjs",
+      "sha256": "00d9871a6cc7871f394bbf0f702318610cc842ada15e73c9c38734b6a076d18d"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/tabEvictionOwner.test.mjs",
+      "sha256": "b206905816dd729afe5d3aa8189457d36644cdd60d499ff6f489d432bdc89088"
+    }
+  ],
+  "consumerCorrection": "Baseline helper incorrectly retained old ActivityController syntax consumer from template; final helper checks actual ResidencyCoordinator. Owner semantic/API baseline unaffected. No old-owner tests run."
+}

@@ -1,0 +1,18 @@
+# MCP/configuration owner checkpoint
+
+Candidate commit `fbbec66b5a63be68e33737fcda24f7b393af7084` follows contract freeze `51ade7d`, complete sealed author set `9a2d56b`, and focused lifetime red proof `cf02d81`. Only `runtime/methods/mcp.ts` and `config.ts` production source changed. `session-mode-port.ts` remains the exact `f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d` thin facade, without rewrite/count credit.
+
+MCP SHA256: `58922bd1ce1366d551d98e30e6a8ea01fed6a7411e2823ef78f6d9f8f0048664`.
+Config SHA256: `70c7252ee3a1c81d7c7ad2f20dafd2af50c63102c94048076144d957a70613f7`.
+Exact source/compiler-JS/declaration manifest: `docs/evidence/knorvia-mcp-config-current-20261003.json`, SHA256 `c04d9319795fbb444a25315e4e21f7ce7bfc482bca492cd972b8989f04a45a45`.
+Completion receipt: `docs/evidence/knorvia-mcp-config-completion-20261003.json`, SHA256 `5b0a0f8f040c928d3948b7168b3988419069b5499fe14a348c55d6bcf141fb87`.
+
+One fresh native GPT-6.1 Sol/high author received ten body-free source-derived inputs plus recorded clarifications. Entire initial/self-corrected/final sets and access log were sealed before curator comparison. Shared-executor isolation was instruction-only. Curator source exposure and post-seal corrections are explicit. The debug publication callback can change the runtime startup reference; the predecessor/current pass and sealed draft failure are retained. Current source returns the current owner field after publication. Static corrections also preserve capability truthiness and field-read boundaries; no new permission, timeout, cancellation or connection policy.
+
+Final minimum synthetic actual-emitted results:6 groups plus1 focused lifetime proof pass (predecessor6+1 separately, sealed draft1 expected failure). No ordinary source replay or full suite/build. Compiler0 diagnostics/27 public exports equal/4 selected emissions.6 current pins,66 protected source hashes,105 unique prior artifact paths and23 sealed author file entries match. Wrong JS/missing declaration fail closed. Owned lint7 files/94 rules/0 warnings/0 errors; formatting9 files pass; architecture0 violations, CLI unmanaged. Frozen assertions and historical source/compiled/declaration bytes remain exact. Initial fixture failure and correction are preserved. The committed strict compiler reproducer was not separately rerun after the equivalent final temporary compiler.
+
+Config delegates/getters/field projections and MCP native admission/publication combinations have strong conventional or predecessor correspondence. They remain unresolved for independent expression review; sealed inputs, smaller source and passing checks do not close licensing. Existing source/NOTICE obligations remain. Local exact publisher objects are unavailable, recorded inventory is metadata rather than a claimed byte verification; absence does not permanently disqualify expression. No header/shared inventory grant.
+
+Earlier steering/subagent/source/evidence and lower E/MCP/context policies remain unchanged. Only the prior historical MCP protected-input row is superseded by this explicit new allocation; old receipts are untouched. Private HOLDs remain exact locally; no old public source or other-lane code was imported over them. Parent PR12 recovery/private-backup limitation is parent-reported, not locally repaired.
+
+Original branch and draft PR11 continue. User-reported GPT-6.1 Sol/high/saved Fast and environment/access are unchanged; the executor cannot independently read UI model/tier state. Native author Sol/high is explicit. No actual services, credentials, grants, user data, settings or runtime ports operated. Root retains integration, independent rights review and native/aggregate acceptance. No merge/deploy/publication claim.

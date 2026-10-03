@@ -1,0 +1,24 @@
+{
+  "scope": "image",
+  "recordedAtUtc": "2026-10-02T21:01:20.197897+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "savedFastUnchanged": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "noOsIsolationOrAccessAuditProof": true,
+  "files": [
+    {
+      "file": "attachment-image.ts.txt",
+      "bytes": 2185,
+      "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 10525,
+      "sha256": "8dfcb56ab2c106dcf9bcbae24f146e01f7aa4a7b8f64e0c6b5255b04c0292299"
+    }
+  ]
+}

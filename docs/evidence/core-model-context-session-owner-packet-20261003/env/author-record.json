@@ -1,0 +1,128 @@
+{
+  "task": "Complete independent contract-only env-info.ts author",
+  "requestedConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "forkTurns": "none",
+    "verification": "Requested in parent task; actual runtime model, effort, and fork metadata not independently inspected or verified.",
+    "savedFast": "Retained unchanged per parent instruction; unverified. No settings operation performed."
+  },
+  "suppliedInputFreeze": {
+    "value": "e544dcc4",
+    "qualification": "Parent-supplied label only; no git or repository verification performed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/env/input/contract.md",
+      "bytes": 3607,
+      "sha256": "890fc20012ccd1354b1bad10a772bcddea6bd3b00d903553bd1041061841128d",
+      "lines": 11,
+      "readOperations": ["cat: full content once", "wc -c -l: metadata once", "sha256sum: byte hash once"]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/env/input/public-api.d.ts",
+      "bytes": 370,
+      "sha256": "46d931eae9100027b2c9c357fdb8d023238bf066c36d08c96ca644c9797bb853",
+      "lines": 5,
+      "readOperations": ["cat: full content once", "wc -c -l: metadata once", "sha256sum: byte hash once"]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/env/input/dependency-api.d.ts",
+      "bytes": 221,
+      "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f",
+      "lines": 3,
+      "readOperations": ["cat: full content once", "wc -c -l: metadata once", "sha256sum: byte hash once"]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/env/input/public-shapes.d.ts",
+      "bytes": 2961,
+      "sha256": "0007cab7b3e45c8c6635630d90e942b571606b664bb75358dbdece236da92412",
+      "lines": 64,
+      "readOperations": ["cat: full content once", "wc -c -l: metadata once", "sha256sum: byte hash once"]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/env/input/imports.json",
+      "bytes": 239,
+      "sha256": "0a2d281d0d02d8ca7535f2f58bf55f63bc8c293b454e319424ab3759a9b49e35",
+      "lines": 14,
+      "readOperations": ["cat: full content once", "wc -c -l: metadata once", "sha256sum: byte hash once"]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/env/input/output-data.json",
+      "bytes": 6019,
+      "sha256": "62c46970a18deaddbf553dc80cc1465da87c4b7bab19fd353327b42cfd9655d2",
+      "lines": 344,
+      "readOperations": ["cat: full content once", "wc -c -l: metadata once", "sha256sum: byte hash once"]
+    }
+  ],
+  "inputReadOperationGrouping": "One cat command read all six full files in the listed order, followed by one wc command and one sha256sum command over the same six paths. Outputs were received without truncation.",
+  "source": {
+    "path": "/tmp/knorvia-model-context-session-20261003/env/output/env-info.ts",
+    "bytes": 2765,
+    "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192",
+    "lines": 97,
+    "writeOperations": ["One quoted heredoc write; no later source edits"],
+    "readOperations": [
+      "cat: full content once for manual review before freeze",
+      "wc -c -l: metadata once before freeze",
+      "sha256sum: byte hash once before freeze",
+      "wc -c -l: metadata once in the final post-freeze verification command",
+      "sha256sum: byte hash once in the final post-freeze verification command"
+    ]
+  },
+  "receipt": {
+    "path": "/tmp/knorvia-model-context-session-20261003/env/output/author-record.json",
+    "writeOperations": ["One heredoc write; no later receipt edits"],
+    "readOperations": [
+      "cat: full content once in the final post-freeze verification command",
+      "wc -c -l: metadata once in the final post-freeze verification command",
+      "sha256sum: byte hash once in the final post-freeze verification command"
+    ],
+    "selfHash": "Not embedded to avoid a recursive self-hash; final delivery reports the observed receipt hash."
+  },
+  "manualFindings": [
+    "Exactly the three prescribed imports and three prescribed function exports; public signatures remain owned by the supplied existing declarations.",
+    "Private cohesive formatting and section helpers, plus one immutable prefix constant; no additional export, mutable module state, or dependency owner.",
+    "Repository predicate uses nullish coalescing, one explicit repository read, the prescribed gitStatus reread, and Boolean branch fallback. Explicit false is retained; outside-type null status follows the required undefined-only check.",
+    "Environment builder computes the predicate once before cwd, platform, shell, and osVersion reads; live model truthiness and providerId then modelId interpolation remain ordered.",
+    "Git builder returns null before snapshot reads or token estimation when the predicate is false. Branch, main branch, and user retain gate/read repetition and ordering.",
+    "Status and commit arrays retain truthy gate, repeated length read, repeated join read, and native behavior; dirty and clean are separately compared in the prescribed order.",
+    "Section objects preserve own key order name, source, injectionTarget, cacheHint, chars, tokens, content, preview. Token estimation follows chars and precedes preview; opaque errors propagate.",
+    "All formatted lines, blank lines, trailing empty commits, prefix prose, labels, static values, preview bound, and newline joins are retained according to the supplied contract and output data.",
+    "Native getter, interpolation, array join, property, and dependency errors are uncaught. No historical model fields or nodeVersion are read.",
+    "97 newline-terminated source lines satisfy the below-400-line limit. No source integration performed."
+  ],
+  "retentionQualification": {
+    "data": "Exact specified prefix prose, headings, labels, source/name/cache/target strings, status markers, empty string, newline, and preview numeric bounds are retained data.",
+    "expressions": "Required property interpolation, nullish fallback, undefined comparison, truthy gates, rereads, newline joins, chars/content/preview construction, and estimateTokens invocation preserve supplied expressions and behavior.",
+    "ordinaryIdioms": "Imports, object literals, arrays, template strings, nullish coalescing, conditional expressions, Boolean conversion, if/return, push, join, and slice are ordinary implementation idioms.",
+    "authorshipLimit": "No novelty, clean separation, copyright clearance, or license grant assertion is made."
+  },
+  "knownExposure": [
+    "Platform system/developer/tool instructions and the supplied environment-context message were visible.",
+    "Parent delegated task text was visible, including the supplied freeze label and requested configuration.",
+    "Exactly the six named input file contents and their recorded byte/line/hash metadata were read.",
+    "Own authored source and receipt, own metadata/hash outputs, and permitted freeze timestamp were or are read as recorded.",
+    "Input output-data.json includes expression placeholders, static data, and retained prose; contract.md includes detailed behavior. Those exposures are expressly acknowledged.",
+    "No predecessor bodies, other-author drafts, repository files/history/reviews/tests, dependency implementations, private/user data, credentials, or network sources were intentionally read. This is a self-report about this author turn, not an access audit."
+  ],
+  "knownBreaches": [],
+  "questions": [],
+  "blockers": [],
+  "deferredVerification": [
+    "No compilation, tests, builds, lint, mocks, authored-source execution, or dependency execution performed, as instructed.",
+    "No actual environment, git, provider, session, context, store, OS business, or network operations performed; only permitted file operations and timestamp capture.",
+    "No runtime configuration, inputfreeze git identity, global access history, or restriction enforcement independently verified.",
+    "Integration and runtime equivalence verification remain outside this author scope."
+  ],
+  "freezeUTC": "2026-10-02T21:29:37.284515907Z",
+  "freeze": {
+    "sourceMode": "0444",
+    "receiptMode": "0444",
+    "directory": "/tmp/knorvia-model-context-session-20261003/env/output",
+    "directoryMode": "0555",
+    "timestampSemantics": "Exact UTC timestamp captured at the start of the terminal freeze sequence. Receipt write and chmod operations follow in the same command; no claim of an atomic simultaneous transition.",
+    "sequence": "Capture UTC timestamp; write receipt; chmod both output files to 0444; chmod output directory to 0555; print timestamp. Final read-only verification follows before delivery."
+  },
+  "assuranceLimit": "Instruction-only restrictions in a shared executor. This receipt is an author self-report with tool-result metadata, not OS isolation evidence, an access audit, an independently verified model/configuration statement, or proof of clean separation."
+}

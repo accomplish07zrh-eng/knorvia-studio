@@ -1,0 +1,125 @@
+{
+  "archivedAtUtc": "2026-10-02T18:06:41.183624+00:00",
+  "phase": "Exact complete outputs archived before curator body read/comparison",
+  "inputFreezeCommit": "7355f039",
+  "task": "/root/collection_events_prompts_author",
+  "fork_turns": "none",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "fastControl": "Not exposed separately",
+  "files": [
+    {
+      "file": "draft-collection-events.ts.txt",
+      "bytes": 2636,
+      "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7"
+    },
+    {
+      "file": "draft-prompts.ts.txt",
+      "bytes": 3275,
+      "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 2680,
+      "sha256": "799fc5cef845f71a491431f6dfad830760f0f83615c87b0899861a289defda70"
+    }
+  ],
+  "authorReported": {
+    "frozen_at_utc": "2026-10-02T18:06:18.996867Z",
+    "workspace": "/tmp/knorvia-collection-events-prompts-author-20261003",
+    "restriction": "Instruction-based restriction in shared executor; not OS isolation.",
+    "inputs": [
+      {
+        "path": "inputs/contract.md",
+        "bytes": 9662,
+        "sha256": "51b7ca930573b16c7c2088c6733874b73db9e39a85a8133f0fc3eb98f09fb3b6",
+        "lines": 59
+      },
+      {
+        "path": "inputs/public-api.d.ts",
+        "bytes": 1235,
+        "sha256": "a65fee17c0e415cb381e0e082df89e5912ee566ac4094abc380423e36e22ba13",
+        "lines": 13
+      },
+      {
+        "path": "inputs/dependency-api.d.ts",
+        "bytes": 3100,
+        "sha256": "2cfd25133e6e9b4c163e6bd13279c032aa9a986a7913cffaced499068570633d",
+        "lines": 67
+      },
+      {
+        "path": "inputs/public-data-shapes.md",
+        "bytes": 2987,
+        "sha256": "bee4c49cfcbf2df68dac801b0aa8751af9bfca086f2b0ca5b23ea797d6b681c8",
+        "lines": 86
+      },
+      {
+        "path": "inputs/rendered-text.json",
+        "bytes": 2316,
+        "sha256": "57c2bde6d8e26b41fba9654670d2b8af6659c55712b0e7c11a9a306097f9d65f",
+        "lines": 38
+      }
+    ],
+    "outputs": [
+      {
+        "path": "output/collection-events.ts",
+        "bytes": 2636,
+        "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7",
+        "lines": 74
+      },
+      {
+        "path": "output/prompts.ts",
+        "bytes": 3275,
+        "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5",
+        "lines": 92
+      }
+    ],
+    "actual_reads": [
+      {
+        "paths": [
+          "inputs/contract.md",
+          "inputs/public-api.d.ts",
+          "inputs/dependency-api.d.ts",
+          "inputs/public-data-shapes.md",
+          "inputs/rendered-text.json"
+        ],
+        "method": "cat",
+        "purpose": "Read public author inputs once."
+      },
+      {
+        "paths": [
+          "output/collection-events.ts",
+          "output/prompts.ts"
+        ],
+        "method": "cat",
+        "purpose": "Inspect own complete authored outputs once."
+      },
+      {
+        "paths": [
+          "inputs/contract.md",
+          "inputs/public-api.d.ts",
+          "inputs/dependency-api.d.ts",
+          "inputs/public-data-shapes.md",
+          "inputs/rendered-text.json",
+          "output/collection-events.ts",
+          "output/prompts.ts"
+        ],
+        "method": "Path.read_bytes",
+        "purpose": "Compute freeze receipt metadata once per file."
+      }
+    ],
+    "breaches": [],
+    "unresolved_questions": [],
+    "compilation": false,
+    "tests": false,
+    "source_comparison": false,
+    "production_edits": false,
+    "git_operations": false,
+    "network_access": false,
+    "other_authors_contacted": false,
+    "receipt_self_hash_excluded": true,
+    "frozen": true
+  },
+  "curatorSourceExposed": true,
+  "osIsolated": false
+}

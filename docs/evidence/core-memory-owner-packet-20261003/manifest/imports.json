@@ -1,0 +1,18 @@
+[
+  {
+    "module": "node:path",
+    "clause": "{ basename, relative, sep }"
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { FileSystemPort }"
+  },
+  {
+    "module": "yaml",
+    "clause": "{ parse as parseYaml }"
+  },
+  {
+    "module": "./types.js",
+    "clause": "{ MEMORY_RECALL_TYPES, type MemoryManifestEntry, type MemoryRecallType }"
+  }
+]

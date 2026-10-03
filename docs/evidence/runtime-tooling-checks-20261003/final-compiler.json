@@ -1,0 +1,19 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "apiEqual": true,
+  "proof": {
+    "runtime/helpers/runtime-tools.ts": {
+      "equal": true
+    },
+    "runtime/helpers/tool-allowlist.ts": {
+      "equal": true
+    },
+    "runtime/helpers/permission-grant-resume.ts": {
+      "equal": true
+    }
+  },
+  "selectedSourceRoots": 8,
+  "actualSelectedJsAndDeclaration": 16,
+  "writesOutsideSelectedEmissions": 0
+}

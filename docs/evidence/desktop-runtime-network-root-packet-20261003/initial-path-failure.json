@@ -1,0 +1,1 @@
+{"command":"node extract-public.cjs","exitCode":1,"node":"24.19.0","errno":-2,"code":"ENOENT","syscall":"open","path":"packages/cua/src/broker/helperConstants.ts","qualification":"Guessed public dependency source path absent. Preserve failed extraction; resolve actual package export before frozen delivery. No runtime execution or private material access."}

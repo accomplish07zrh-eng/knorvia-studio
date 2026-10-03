@@ -1,0 +1,60 @@
+{
+  "task": "model-status publication/logging restricted-input author draft02",
+  "sealStage": "before draft02 curator comparison or report",
+  "inputAccesses": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-status-author-20261003/api.d.ts",
+      "actions": ["retained complete content from allowed earlier read", "sha256 in draft02 task"],
+      "sha256": "526d163f748098c9da2b26b7876a0983beb0c299de23cf4f9f24e69aa4b8bc7c"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-status-author-20261003/contract.md",
+      "actions": ["retained complete content from allowed earlier read", "sha256 in draft02 task"],
+      "sha256": "44aff76e0359634ad0396552e2454c08da2edbd890d59d4a33c0746128c58990"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/model-status/model-status.ts",
+      "actions": ["retained own authored content", "sha256 before drafting", "sha256 after draft02 to verify immutability"],
+      "sha256": "09ec02297c290a3e83106ffc4a4712fe7bc602b550c17f224fac421ee163b300",
+      "immutable": true
+    }
+  ],
+  "messageInputs": [
+    {
+      "source": "parent agent /root earlier body-free clarification",
+      "fact": "this.logger?.debug/info/warn(label:string,metadata:object): label first; optional logger object only; methods are required when object exists."
+    },
+    {
+      "source": "parent agent /root draft02 task; source-derived curator finding and design input",
+      "finding": "Curator compared sealed draft01; most discretionary expression remains equivalent dispatcher reshuffling, which is insufficient implementation credit.",
+      "designInput": "Keep draft01 immutable. Develop a cohesive direct data-oriented logging owner with one explicit logger effect if maintainable, such as typed fixed status profiles with delayed field projection; no generic interpreter or new state/policy. Preserve eager base reads, branch selection before logger lookup, branch-field reads only inside optional-call argument evaluation, receiver binding, exact fields/order/labels and publication timing. No novelty requirement."
+    },
+    {
+      "source": "parent agent /root draft02 body-free type clarification",
+      "fact": "ModelNetworkStatusEvent is a union with each of the seven listed types as a separate discriminated interface; Extract<Event,{type:literal}> works. An additional milestone member has type='model_first_provider_event'|'model_first_content'|'model_first_text' and keeps no-log behavior after eager base reads. Branch property names/types are as contract."
+    }
+  ],
+  "outputAccesses": [
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/model-status-v2/model-status.ts",
+      "actions": ["created and amended via apply_patch", "sha256", "line count"],
+      "sha256": "1425fa8832ca9eca3d19267cc1c63a6da32c8aa4bd4c710a543da656dbc0ace3",
+      "lines": 214,
+      "sealed": true
+    },
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/model-status-v2/access-journal.json",
+      "actions": ["created via apply_patch", "sha256 after creation"],
+      "hashLocation": "/tmp/knorvia-runtime-attribution-three-20261003/model-status-v2/seal.sha256"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/model-status-v2/seal.sha256",
+      "actions": ["created by sha256sum for draft02 and journal", "read via cat"]
+    }
+  ],
+  "design": "Seven private fixed status profiles hold level, exact label and delayed ordered field projectors. Eager base metadata remains first. A private ReadonlyMap lookup selects the profile before logger lookup and has no profiles for milestone or unknown types. One optional computed logger-method call binds the method to its logger and evaluates the projector only in its metadata argument. Publication implementation and timing remain unchanged from draft01.",
+  "designBenefit": "Each fixed status policy occupies one local profile; the owner has one explicit logger effect and one place for base metadata and argument assembly. Projectors are direct per-status object construction, with no generic field interpreter or new policy.",
+  "remainingAmbiguities": [],
+  "checks": "Only hash and line-count checks performed; draft01 remains byte-identical. No tests or builds run.",
+  "restrictions": "No predecessor, lineage, history, tests, oracle, other packet or dependency-body reads. No production edits, live providers, user data, runtime settings or new agents. Curator feedback and contract are source-derived inputs. No clean-room, MIT or whole-file rights claim."
+}

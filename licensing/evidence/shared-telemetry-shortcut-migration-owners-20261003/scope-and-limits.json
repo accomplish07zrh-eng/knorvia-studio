@@ -1,0 +1,35 @@
+{
+  "queueBaseline": "7ba2dde032dcc56e058917b91f9aba708c1d0d0c",
+  "changedExistingPaths": [
+    "packages/shared/src/node/subagentMarkdownMigration.ts",
+    "packages/shared/src/processResourceTelemetry.ts",
+    "packages/shared/src/remoteUsageTelemetry.ts",
+    "packages/shared/src/shortcutCommands.ts",
+    "packages/shared/src/telemetry.ts"
+  ],
+  "onlySelectedExistingSourcesChanged": true,
+  "sourceInsertions": 117,
+  "sourceDeletions": 191,
+  "sourceNetLines": -74,
+  "heldReducer": {
+    "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+    "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+    "unchanged": true,
+    "classification": "HOLD; no historical WIP import, no accepted/superseded claim"
+  },
+  "rootReservedPreviewMergeOtherLanesUnchanged": true,
+  "globalLicenceInventoryReviewsManifestsUnchanged": true,
+  "remainingMetadataCandidates": 30,
+  "remainingIsEligibilityApproval": false,
+  "runtimePorts": "Synthetic VM Intl/screen, parsed identity, in-memory fs/lock/path/uuid/state/Markdown migration. Native URL parsing only fixed synthetic strings. No actual environment/dependency/fs/native state/locks/modes/disk/symlink/rename behavior verified.",
+  "noActions": "No real userdata/Library/accounts/credentials/native process/clock/listener/fs sampling/transport/network/auth/permission/security/control/deployment action. Source mode/lock/link/CAS behavior retained, no policy/settings change. Scoped Git source push/PR update authorized remote exception only. No main/cross-lane integration.",
+  "deferred": [
+    "ordinary suites",
+    "semantic project types",
+    "builds",
+    "actual retained dependency/consumer integration",
+    "native/runtime/aggregate audit",
+    "provenance and licence clearance"
+  ],
+  "provenanceLimits": "Fresh complete body-free author drafts, exact contracts, retained static declarations, source-exposed curator and shared filesystem without OS isolation are bounded evidence. Several bodies normalize identically (resource owner both funcs); limited changes/required recurrence do not establish independent provenance or MIT. No novelty requirement."
+}

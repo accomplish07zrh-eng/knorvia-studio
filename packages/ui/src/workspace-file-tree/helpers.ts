@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Label policy candidate; short Set/Error/HTML expressions and URI/sort dependencies retained.
 import { sortInstalledEditorsForOpenWith } from "@/lib/openWithEditors.js";
 import { toFileUrl } from "@/lib/path.js";
 import type { WorkspaceFileTreeRow } from "@/workspace-file-tree/model.js";
@@ -16,31 +18,17 @@ export function replaceSetValue(set: Set<string>, value: string, present: boolea
   return next;
 }
 
-function isMacLike(): boolean {
-  if (typeof navigator === "undefined") {
-    return false;
-  }
-
-  return /mac/i.test(navigator.userAgent);
-}
-
-function isWindowsLike(): boolean {
-  if (typeof navigator === "undefined") {
-    return false;
-  }
-
-  return /windows/i.test(navigator.userAgent);
-}
+const fileManagerLabels = [
+  { agent: /mac/i, id: "appHeader.openInFinder" },
+  { agent: /windows/i, id: "appHeader.openInFileExplorer" },
+] as const;
 
 export function getFileManagerLabel(intl: { formatMessage: (desc: { id: string }) => string }) {
-  if (isMacLike()) {
-    return intl.formatMessage({ id: "appHeader.openInFinder" });
+  for (const policy of fileManagerLabels) {
+    if (typeof navigator !== "undefined" && policy.agent.test(navigator.userAgent)) {
+      return intl.formatMessage({ id: policy.id });
+    }
   }
-
-  if (isWindowsLike()) {
-    return intl.formatMessage({ id: "appHeader.openInFileExplorer" });
-  }
-
   return intl.formatMessage({ id: "appHeader.openInFileManager" });
 }
 

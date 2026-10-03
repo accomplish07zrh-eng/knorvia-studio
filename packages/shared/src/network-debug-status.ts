@@ -6,13 +6,51 @@ import type {
   KnorviaTaskNetworkDebugStatusType,
 } from "./task-types-core.js";
 
-const MODEL_NETWORK_STATUS_TYPES = new Set<KnorviaTaskNetworkDebugStatusType>([
-  "model_request_started",
-  "model_request_completed",
-  "model_request_failed",
-  "model_retry_scheduled",
-  "model_stream_stalled",
-]);
+function diagnosticType(value: unknown): KnorviaTaskNetworkDebugStatusType | undefined {
+  switch (value) {
+    case "model_request_started":
+    case "model_request_completed":
+    case "model_request_failed":
+    case "model_retry_scheduled":
+    case "model_stream_stalled":
+      return value;
+    default:
+      return undefined;
+  }
+}
+
+function recordValue(value: unknown): Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+}
+
+function textValue(value: unknown): string | undefined {
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function integerValue(value: unknown, minimum: number): number | undefined {
+  return typeof value === "number" && Number.isInteger(value) && value >= minimum
+    ? value
+    : undefined;
+}
+
+function elapsedValue(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : undefined;
+}
+
+function headerValues(value: unknown): Record<string, string> {
+  return Object.fromEntries(
+    // 沿用原 string 准入，显式谓词让 fromEntries 只得到已验证的 header 值。
+    Object.entries(recordValue(value)).filter(
+      (entry): entry is [string, string] => typeof entry[1] === "string",
+    ),
+  );
+}
+
+function suppliedField<K extends string, V>(key: K, value: V | undefined): Partial<Record<K, V>> {
+  return value === undefined ? {} : ({ [key]: value } as Partial<Record<K, V>>);
+}
 
 export function knorviaTaskNetworkDebugStatusFromPayload(params: {
   taskId: string;
@@ -21,20 +59,25 @@ export function knorviaTaskNetworkDebugStatusFromPayload(params: {
   queryId?: QueryId;
   eventId?: string;
   payload: Record<string, unknown>;
-}): Extract<KnorviaStreamEvent, { type: "task_network_debug_status" }> | null {
-  const statusType = networkStatusTypeValue(params.payload.type);
-  if (!statusType) {
+}): Extract<
+  KnorviaStreamEvent,
+  {
+    type: "task_network_debug_status";
+  }
+> | null {
+  const statusType = diagnosticType(params.payload.type);
+  if (statusType === undefined) {
     return null;
   }
 
-  const requestHeaders = stringRecordValue(params.payload.requestHeaders);
-  const responseHeaders = stringRecordValue(params.payload.responseHeaders);
-  const model = asRecord(params.payload.model);
-  const requestId = stringValue(params.payload.requestId);
-  const queryId = stringValue(params.payload.queryId) as QueryId | undefined;
-  const resolvedQueryId = params.queryId ?? queryId;
-  const attempt = positiveIntegerValue(params.payload.attempt);
-  const timestamp = stringValue(params.payload.timestamp);
+  const payload = params.payload;
+  const model = recordValue(payload.model);
+  const requestHeaders = headerValues(payload.requestHeaders);
+  const responseHeaders = headerValues(payload.responseHeaders);
+  const requestId = textValue(payload.requestId);
+  const attempt = integerValue(payload.attempt, 1);
+  const timestamp = textValue(payload.timestamp);
+  const queryId = params.queryId ?? (textValue(payload.queryId) as QueryId | undefined);
   const eventKey =
     params.eventId ??
     [
@@ -50,104 +93,38 @@ export function knorviaTaskNetworkDebugStatusFromPayload(params: {
     type: "task_network_debug_status",
     taskId: params.taskId,
     traceId: params.traceId,
-    ...(params.inputId ? { inputId: params.inputId } : {}),
-    ...(resolvedQueryId ? { queryId: resolvedQueryId } : {}),
-    eventKey,
-    ...(params.eventId ? { eventId: params.eventId } : {}),
     statusType,
-    ...(requestId ? { requestId } : {}),
-    ...(stringValue(model.providerId) ? { providerId: stringValue(model.providerId) } : {}),
-    ...(stringValue(model.modelId) ? { modelId: stringValue(model.modelId) } : {}),
-    ...(stringValue(params.payload.providerKind)
-      ? { providerKind: stringValue(params.payload.providerKind) }
-      : {}),
-    ...(stringValue(params.payload.transport)
-      ? { transport: stringValue(params.payload.transport) }
-      : {}),
-    ...(stringValue(params.payload.baseURL)
-      ? { baseURL: stringValue(params.payload.baseURL) }
-      : {}),
-    ...(stringValue(params.payload.querySource)
-      ? { querySource: stringValue(params.payload.querySource) }
-      : {}),
-    ...(attempt !== undefined ? { attempt } : {}),
-    ...(positiveIntegerValue(params.payload.maxAttempts) !== undefined
-      ? { maxAttempts: positiveIntegerValue(params.payload.maxAttempts) }
-      : {}),
-    ...(positiveIntegerValue(params.payload.nextAttempt) !== undefined
-      ? { nextAttempt: positiveIntegerValue(params.payload.nextAttempt) }
-      : {}),
-    ...(booleanValue(params.payload.retryable) !== undefined
-      ? { retryable: booleanValue(params.payload.retryable) }
-      : {}),
-    ...(nonNegativeIntegerValue(params.payload.statusCode) !== undefined
-      ? { statusCode: nonNegativeIntegerValue(params.payload.statusCode) }
-      : {}),
-    ...(nonNegativeNumberValue(params.payload.durationMs) !== undefined
-      ? { durationMs: nonNegativeNumberValue(params.payload.durationMs) }
-      : {}),
-    ...(nonNegativeNumberValue(params.payload.delayMs) !== undefined
-      ? { delayMs: nonNegativeNumberValue(params.payload.delayMs) }
-      : {}),
-    ...(nonNegativeNumberValue(params.payload.idleMs) !== undefined
-      ? { idleMs: nonNegativeNumberValue(params.payload.idleMs) }
-      : {}),
-    ...(nonNegativeNumberValue(params.payload.timeoutMs) !== undefined
-      ? { timeoutMs: nonNegativeNumberValue(params.payload.timeoutMs) }
-      : {}),
-    ...(stringValue(params.payload.reason) ? { reason: stringValue(params.payload.reason) } : {}),
-    ...(stringValue(params.payload.message)
-      ? { message: stringValue(params.payload.message) }
-      : {}),
-    ...(timestamp ? { timestamp } : {}),
+    eventKey,
     requestHeaders,
     responseHeaders,
     requestHeaderCount:
-      nonNegativeIntegerValue(params.payload.requestHeaderCount) ??
-      Object.keys(requestHeaders).length,
+      integerValue(payload.requestHeaderCount, 0) ?? Object.keys(requestHeaders).length,
     responseHeaderCount:
-      nonNegativeIntegerValue(params.payload.responseHeaderCount) ??
-      Object.keys(responseHeaders).length,
+      integerValue(payload.responseHeaderCount, 0) ?? Object.keys(responseHeaders).length,
+    ...suppliedField("inputId", params.inputId || undefined),
+    ...suppliedField("queryId", queryId || undefined),
+    ...suppliedField("eventId", params.eventId || undefined),
+    ...suppliedField("requestId", requestId),
+    ...suppliedField("providerKind", textValue(payload.providerKind)),
+    ...suppliedField("providerId", textValue(model.providerId)),
+    ...suppliedField("modelId", textValue(model.modelId)),
+    ...suppliedField("transport", textValue(payload.transport)),
+    ...suppliedField("baseURL", textValue(payload.baseURL)),
+    ...suppliedField("querySource", textValue(payload.querySource)),
+    ...suppliedField("reason", textValue(payload.reason)),
+    ...suppliedField("message", textValue(payload.message)),
+    ...suppliedField("timestamp", timestamp),
+    ...suppliedField("attempt", attempt),
+    ...suppliedField("maxAttempts", integerValue(payload.maxAttempts, 1)),
+    ...suppliedField("nextAttempt", integerValue(payload.nextAttempt, 1)),
+    ...suppliedField("statusCode", integerValue(payload.statusCode, 0)),
+    ...suppliedField("durationMs", elapsedValue(payload.durationMs)),
+    ...suppliedField("delayMs", elapsedValue(payload.delayMs)),
+    ...suppliedField("idleMs", elapsedValue(payload.idleMs)),
+    ...suppliedField("timeoutMs", elapsedValue(payload.timeoutMs)),
+    ...suppliedField(
+      "retryable",
+      typeof payload.retryable === "boolean" ? payload.retryable : undefined,
+    ),
   };
-}
-
-function networkStatusTypeValue(value: unknown): KnorviaTaskNetworkDebugStatusType | undefined {
-  return typeof value === "string" && MODEL_NETWORK_STATUS_TYPES.has(value as never)
-    ? (value as KnorviaTaskNetworkDebugStatusType)
-    : undefined;
-}
-
-function asRecord(value: unknown): Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : {};
-}
-
-function stringRecordValue(value: unknown): Record<string, string> {
-  const record = asRecord(value);
-  return Object.fromEntries(
-    Object.entries(record)
-      .filter((entry): entry is [string, string] => typeof entry[1] === "string")
-      .map(([key, entryValue]) => [key, entryValue]),
-  );
-}
-
-function stringValue(value: unknown): string | undefined {
-  return typeof value === "string" && value.length > 0 ? value : undefined;
-}
-
-function booleanValue(value: unknown): boolean | undefined {
-  return typeof value === "boolean" ? value : undefined;
-}
-
-function nonNegativeNumberValue(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : undefined;
-}
-
-function nonNegativeIntegerValue(value: unknown): number | undefined {
-  return Number.isInteger(value) && typeof value === "number" && value >= 0 ? value : undefined;
-}
-
-function positiveIntegerValue(value: unknown): number | undefined {
-  return Number.isInteger(value) && typeof value === "number" && value > 0 ? value : undefined;
 }

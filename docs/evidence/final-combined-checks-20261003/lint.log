@@ -1,0 +1,19 @@
+
+> knorvia-studio@0.8.0-preview.3 lint /workspace/knorvia-studio
+> node scripts/run-quality.mjs lint
+
+Frozen evidence integrity passed: 5536 files / 62290850 bytes
+
+  ! eslint(no-control-regex): Unexpected control characters
+     ,-[scripts/packaged-runtime-evidence.mjs:121:20]
+ 120 |         !text(entry.path) ||
+ 121 |         /[\\:*?"<>|\u0000-\u001f]/u.test(entry.path) ||
+     :                    ^^^|^^ ^^^|^^
+     :                       |      `-- 'U+001F' is a control character.
+     :                       `-- 'U+0000' is a control character.
+ 122 |         entry.path
+     `----
+  help: Avoid matching control characters in regular expressions. If intentional, consider using a Unicode escape instead.
+
+Found 1 warning and 0 errors.
+Finished in 1.2s on 3265 files using 4 threads.

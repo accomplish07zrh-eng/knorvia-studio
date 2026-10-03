@@ -1,0 +1,30 @@
+const fs=require('fs'),ts=require(process.cwd()+'/node_modules/typescript');
+const root='/tmp/knorvia-root-platform-host-20261003';
+const source=fs.readFileSync(root+'/packet/host-public-api.d.ts','utf8');
+const sf=ts.createSourceFile('host.ts',source,ts.ScriptTarget.Latest,true);
+const bodies=JSON.parse(fs.readFileSync(root+'/host-draft/main-bodies.json','utf8'));
+let output=sf.statements.filter(ts.isImportDeclaration).map(n=>n.getText(sf)).join('\n')+'\n';
+output+=`import { app, MessageChannelMain, utilityProcess as electronUtilityProcess } from "electron";
+import { randomUUID } from "node:crypto";
+import { join } from "node:path";
+import { formatKnorviaHostProcessName, LAUNCH_MARKS_QUERY_KEY, RUNTIME_KNORVIA_DEBUG, serializeLaunchMarks, KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV } from "@knorvia/shared";
+import { bindDatabaseStartupRelay } from "./databaseStartupRelay.js";
+import { getMainLaunchPartialMarks } from "./desktopLaunchMarks.js";
+import { createHostLogRelay } from "./hostLogRelay.js";
+import { registerHostProcess, unregisterHostProcess } from "./resourceManagerWindow.js";
+import { buildHostProcessEnv, hostModulePath, resolveBundledAgentBinaryPath } from "./desktopRuntimeEnv.js";
+import { buildHostE2ECoverageEnv } from "./e2eCoverage.js";
+import { dispatchHostMessage } from "./desktopHostProcess/messages.js";
+import { beginHostDisposal, awaitHostDisposal, type HostLifecycleState } from "./desktopHostProcess/lifecycle.js";
+const lifecycle: HostLifecycleState = {exited: new WeakSet(), disposing: new Set()};
+`;
+for(const n of sf.statements){
+ if(ts.isInterfaceDeclaration(n))output+=n.getText(sf)+'\n';
+ if(!ts.isFunctionDeclaration(n))continue;
+ let signature=n.getText(sf).replace('export declare function','export function').replace(/;$/,'');
+ if(n.name.text==='loadWindow')signature=signature.replace('bootstrap?: WindowBootstrapOptions','bootstrap: WindowBootstrapOptions = {}');
+ if(n.name.text==='disposeHostProcess')signature=signature.replace('forceKillDelayMs?: number','forceKillDelayMs: number = 300');
+ if(n.name.text==='disposeHostProcessAndWait')signature=signature.replace('options?: {','options: {').replace('}): Promise<void>','} = {}): Promise<void>');
+ output+=signature+' {\n'+bodies[n.name.text]+'\n}\n';
+}
+fs.writeFileSync(root+'/host-draft/desktopHostProcess.ts',output);

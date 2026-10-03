@@ -1,22 +1,19 @@
 import type { ChildProcessWithoutNullStreams } from "node:child_process";
 import { StringDecoder } from "node:string_decoder";
 import { Emitter } from "@knorvia/rpc";
-import type { KnorviaProtocolMessage } from "@knorvia/shared";
-import { knorviaProtocolMessageSchema } from "@knorvia/shared";
+import { knorviaProtocolMessageSchema, type KnorviaProtocolMessage } from "@knorvia/shared";
 import { createServiceLogger } from "#src/logger/serviceLogger.js";
-import type {
-  KnorviaProtocolTransport,
-  KnorviaProtocolTransportClosedEvent,
-} from "./protocolTransport.js";
 import {
-  captureProcessGroupSnapshot,
   captureExitedRootDescendantsSnapshotAsync,
+  captureProcessGroupSnapshot,
   captureProcessTreeSnapshotAsync,
   terminateProcessTree,
   terminateProcessTreeAndWait,
+  type ProcessTreeTerminatorWaitOptions,
+  type ProcessTreeSnapshot,
 } from "#src/process/processTreeTerminator.js";
-import type { ProcessTreeSnapshot } from "#src/process/processTreeTerminator.js";
 import { AgentStderrCollector, EXIT_STDERR_DRAIN_MS } from "./agentStderrCollector.js";
+import type { KnorviaProtocolTransportClosedEvent } from "./protocolTransport.js";
 
 interface KnorviaStdioTransportOptions {
   onStderrLine?: (line: string) => void;
@@ -24,56 +21,49 @@ interface KnorviaStdioTransportOptions {
   ownedProcessStartedAtMs?: number;
 }
 
-const STDIO_EOF_EXIT_WAIT_MS = 1_800;
-const DISPOSE_STDERR_DRAIN_MS = 3_250;
-const E2E_COVERAGE_STDIO_EOF_EXIT_WAIT_MS = 5_000;
-const PROCESS_TREE_FORCE_AFTER_MS = 2_000;
-const PROCESS_TREE_WINDOWS_TASKKILL_TIMEOUT_MS = 1_000;
-const PROCESS_TREE_WINDOWS_EXIT_OBSERVATION_GRACE_MS = 250;
-const processTreeLogger = createServiceLogger("agent-process-tree");
+const logger = createServiceLogger("agent-process-tree");
 
-export class KnorviaStdioTransport implements KnorviaProtocolTransport {
+export class KnorviaStdioTransport {
   readonly kind = "stdio" as const;
-
   private readonly messageEmitter = new Emitter<KnorviaProtocolMessage>();
   private readonly closeEmitter = new Emitter<KnorviaProtocolTransportClosedEvent>();
-  private readonly stderrCollector: AgentStderrCollector;
-  private readonly stdoutDecoder = new StringDecoder("utf8");
-  private stdoutBuffer = "";
-  private stdoutFlushed = false;
-  private readersDisposed = false;
-  private disposed = false;
-  private closed = false;
-  private disposeAndWaitPromise: Promise<void> | undefined;
-  private cleanupProcessTreeSnapshot: ProcessTreeSnapshot | undefined;
-  private cleanupAttemptCount = 0;
-  private childExitedAtMs: number | undefined;
-
   readonly onMessage = this.messageEmitter.event;
   readonly onClose = this.closeEmitter.event;
+  private readonly decoder = new StringDecoder("utf8");
+  private readonly stderrCollector: AgentStderrCollector;
+  private buffer = "";
+  private decoderEnded = false;
+  private readersRemoved = false;
+  private closed = false;
+  private disposed = false;
+  private childExitedAtMs: number | undefined;
+  private cleanupPromise: Promise<void> | undefined;
+  private cleanupAttempts = 0;
+  private cleanupSnapshot: ProcessTreeSnapshot | undefined;
 
   constructor(
     private readonly child: ChildProcessWithoutNullStreams,
     private readonly options?: KnorviaStdioTransportOptions,
   ) {
     this.stderrCollector = new AgentStderrCollector(child.stderr, options?.onStderrLine);
-
-    // Knorvia Protocol stdio 帧边界只认 LF。Node readline 会把 U+2028/U+2029
-    // 当作换行，模型文本包含这类字符时会把合法 JSON 字符串切成半帧。
-    child.stdout.on("data", this.handleStdoutData);
-    child.stdout.once("end", this.handleStdoutEnd);
-    child.stdout.once("close", this.handleStdoutEnd);
-    child.stdin.on("error", (error) => this.handleStreamError("stdin", error));
-    child.stdout.on("error", (error) => this.handleStreamError("stdout", error));
+    child.stdout.on("data", this.receiveData);
+    child.stdout.once("end", this.finishStdout);
+    child.stdout.once("close", this.finishStdout);
+    child.stdin.on("error", (error: Error) => {
+      this.publishClose({ reason: `stdin_error: ${error.message}` });
+    });
+    child.stdout.on("error", (error: Error) => {
+      this.publishClose({ reason: `stdout_error: ${error.message}` });
+    });
     child.once("exit", (code, signal) => {
       this.childExitedAtMs = Date.now();
-      this.fireClose({ code, signal });
-      this.disposeReaders();
+      this.publishClose({ code, signal });
+      this.removeStdoutReaders();
       void this.waitForStderrDrain();
     });
-    child.once("error", (error) => {
-      this.fireClose({ reason: error.message });
-      this.disposeReaders();
+    child.once("error", (error: Error) => {
+      this.publishClose({ reason: error.message });
+      this.removeStdoutReaders();
       void this.waitForStderrDrain();
     });
   }
@@ -82,244 +72,161 @@ export class KnorviaStdioTransport implements KnorviaProtocolTransport {
     if (this.disposed || this.closed || this.child.killed || !this.child.stdin.writable) {
       throw new Error("Knorvia Studio agent stdio transport is closed");
     }
-    const frame = `${JSON.stringify(message)}\n`;
+    const frame = JSON.stringify(message) + "\n";
     await new Promise<void>((resolve, reject) => {
       this.child.stdin.write(frame, (error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
+        if (error) reject(error);
+        else resolve();
       });
     });
   }
 
   dispose(): void {
-    if (this.disposed) {
-      return;
-    }
-    this.disposed = true;
+    if (this.disposed) return;
     this.disposeLocalResources();
-    void this.stderrCollector.waitForDrain(DISPOSE_STDERR_DRAIN_MS);
-    if (!this.hasChildExited()) {
-      // Windows 和 POSIX 下 agent wrapper 可能继续拉起 runtime/MCP 子进程，
-      // 只 kill 父进程会留下后代进程或短时间锁住 workspace cwd。
-      const ownedProcessGroupId = this.options?.ownedProcessGroupId;
-      terminateProcessTree(this.child, ownedProcessGroupId ? { ownedProcessGroupId } : {});
+    void this.stderrCollector.waitForDrain(3250);
+    if (this.child.exitCode === null && this.child.signalCode === null) {
+      const groupId = this.options?.ownedProcessGroupId;
+      terminateProcessTree(this.child, groupId ? { ownedProcessGroupId: groupId } : {});
     }
   }
 
   disposeAndWait(): Promise<void> {
-    if (!this.disposeAndWaitPromise) {
-      const inFlight = this.disposeAndWaitOnce().finally(() => {
-        if (this.disposeAndWaitPromise === inFlight) {
-          this.disposeAndWaitPromise = undefined;
-        }
+    if (!this.cleanupPromise) {
+      const flight: Promise<void> = this.performCleanup().finally(() => {
+        if (this.cleanupPromise === flight) this.cleanupPromise = undefined;
       });
-      this.disposeAndWaitPromise = inFlight;
+      this.cleanupPromise = flight;
     }
-    return this.disposeAndWaitPromise;
+    return this.cleanupPromise;
   }
 
   waitForStderrDrain(): Promise<void> {
     return this.stderrCollector.waitForDrain();
   }
 
-  private async disposeAndWaitOnce(): Promise<void> {
-    if (!this.disposed) {
-      this.disposed = true;
-      this.disposeLocalResources();
-    }
-    // stdin EOF 可能让 CLI 根进程先退出，而 detached MCP 仍继续运行。
-    // 必须在发 EOF 前保存树成员，否则根退出、后代被系统接管后无法再按 PPID 找回。
-    this.cleanupAttemptCount += 1;
-    const cleanupStartedAtMs = Date.now();
-    const forceBudgetMs = this.cleanupAttemptCount > 1 ? 0 : PROCESS_TREE_FORCE_AFTER_MS;
-    // 只扣减 forceAfterMs 无法约束慢 CIM；force 触底为 0 后 waiter 还会重新
-    // 获得 taskkill + exit 宽限。Windows 必须从 cleanup 起点固定同一个绝对 deadline，
-    // 并贯穿快照、EOF 和 waiter，才能稳定落在 Host 3.5s service phase 内。
-    const windowsCleanupDeadlineAtMs =
-      process.platform === "win32"
-        ? cleanupStartedAtMs +
-          forceBudgetMs +
-          PROCESS_TREE_WINDOWS_TASKKILL_TIMEOUT_MS +
-          PROCESS_TREE_WINDOWS_EXIT_OBSERVATION_GRACE_MS
-        : undefined;
-    this.cleanupProcessTreeSnapshot ??= await this.captureCleanupSnapshot(
-      windowsCleanupDeadlineAtMs,
-    );
-    const processTreeSnapshot = this.cleanupProcessTreeSnapshot;
-    if (!this.hasChildExited()) {
-      // app-server --stdio 的正常退出边界是 stdin EOF。直接 taskkill
-      // 进程树，既跳过 agent 自身 shutdown，也会让 host 固定等强杀兜底窗口。
-      // 这里先请求协议入口自然收尾；短时间无响应再进入进程树兜底，仍保证不残留子进程。
-      this.requestStdioClose();
-      // coverage CLI bundle 未压缩且带完整 source map，启动/收尾明显慢于发布包。
-      // coverage 下继续保留额外写盘宽限；普通窗口覆盖 CLI 的 1500ms 退出 deadline。
-      const configuredEofWaitMs =
-        process.env.KNORVIA_E2E_COVERAGE === "1"
-          ? E2E_COVERAGE_STDIO_EOF_EXIT_WAIT_MS
-          : STDIO_EOF_EXIT_WAIT_MS;
-      const remainingCleanupMs =
-        windowsCleanupDeadlineAtMs === undefined
-          ? configuredEofWaitMs
-          : Math.max(windowsCleanupDeadlineAtMs - Date.now(), 0);
-      await this.waitForChildExit(Math.min(configuredEofWaitMs, remainingCleanupMs));
-    }
-    // app 关闭时 host 必须等进程树的 SIGTERM/SIGKILL 兜底跑完；
-    // 即使根 child 已在 EOF 窗口内退出，也要用预先保存的快照回收后代。
-    const terminationResult = await terminateProcessTreeAndWait(this.child, {
-      ...(this.options?.ownedProcessGroupId
-        ? { ownedProcessGroupId: this.options.ownedProcessGroupId }
-        : {}),
-      ...(this.options?.ownedProcessStartedAtMs
-        ? {
-            ownedProcessStartedAtMs: this.options.ownedProcessStartedAtMs,
-            ownedProcessExitedAtMs: this.childExitedAtMs ?? Date.now(),
-          }
-        : {}),
-      ...(processTreeSnapshot ? { snapshot: processTreeSnapshot } : {}),
-      log: processTreeLogger,
-      // Windows 等待式清理的绝对 deadline 是 force 余量 + taskkill 上限 + exit 宽限。
-      // 将命令上限控制在 1s，使完整 cleanup 仍落在 Host service phase 的 3.5s 内。
-      windowsTaskkillTimeoutMs: PROCESS_TREE_WINDOWS_TASKKILL_TIMEOUT_MS,
-      ...(windowsCleanupDeadlineAtMs === undefined ? {} : { windowsCleanupDeadlineAtMs }),
-      // 前一次 cleanup 若报告残留，app quit 的最终重试不能再等待完整
-      // graceful 窗口；直接进入 force，确保仍落在 main 给 Host 的退出预算内。
-      forceAfterMs: Math.max(forceBudgetMs - (Date.now() - cleanupStartedAtMs), 0),
-    });
-    // Windows taskkill 已确认 OS 进程退出后，Node 的 ChildProcess exit 事件
-    // 仍可能晚一轮投递。waiter 已同时检查 PID 存活与身份门禁，这里若再用滞后的
-    // exitCode/signalCode 追加 root PID，会把成功回收误报为残留并触发无效重试。
-    const remainingPids = terminationResult.remainingPids;
-    await this.stderrCollector.waitForDrain(
-      windowsCleanupDeadlineAtMs === undefined
-        ? undefined
-        : Math.max(0, Math.min(EXIT_STDERR_DRAIN_MS, windowsCleanupDeadlineAtMs - Date.now())),
-    );
-    if (remainingPids.length > 0) {
-      // 只写 warning 后把 cleanup 当成功会让 manager 随即释放 ownership，
-      // app quit 无法再次处理残留。这里把残留提升为失败并保留快照供最终重试。
-      throw new Error(
-        `runtime process tree cleanup incomplete; remaining pid=${[...new Set(remainingPids)].join(",")}`,
-      );
-    }
-  }
-
-  private readonly handleStdoutData = (chunk: Buffer | string): void => {
-    if (this.closed) {
-      return;
-    }
-    this.stdoutBuffer += typeof chunk === "string" ? chunk : this.stdoutDecoder.write(chunk);
-    this.drainStdoutFrames();
-  };
-
-  private readonly handleStdoutEnd = (): void => {
-    if (this.stdoutFlushed) {
-      return;
-    }
-    this.stdoutFlushed = true;
-    this.stdoutBuffer += this.stdoutDecoder.end();
-    const trailing = this.stdoutBuffer;
-    this.stdoutBuffer = "";
-    if (trailing.length > 0 && !this.closed) {
-      this.handleStdoutFrame(trailing);
-    }
-    this.fireClose({ reason: "stdout_closed" });
-  };
-
-  private drainStdoutFrames(): void {
-    let newlineIndex = this.stdoutBuffer.indexOf("\n");
-    while (newlineIndex >= 0) {
-      const frame = this.stdoutBuffer.slice(0, newlineIndex);
-      this.stdoutBuffer = this.stdoutBuffer.slice(newlineIndex + 1);
-      this.handleStdoutFrame(frame);
-      if (this.closed) {
-        return;
-      }
-      newlineIndex = this.stdoutBuffer.indexOf("\n");
-    }
-  }
-
-  private handleStdoutFrame(frame: string): void {
-    const line = frame.endsWith("\r") ? frame.slice(0, -1) : frame;
-    if (line.trim().length === 0) {
-      return;
-    }
-    try {
-      const parsed = knorviaProtocolMessageSchema.parse(JSON.parse(line));
-      // 协议帧分发曾同步查询系统进程表，telemetry/streaming 高峰会阻塞
-      // Host event loop 并让 subagent 面板无输出。运行期 data plane 只做解析和转发；
-      // 完整进程树查询严格留在 dispose cleanup 边界。
-      this.messageEmitter.fire(parsed);
-    } catch (error) {
-      const reason = error instanceof Error ? error.message : String(error);
-      this.fireClose({ reason: `protocol_parse_error: ${reason}` });
-    }
-  }
-
-  private handleStreamError(stream: "stdin" | "stdout", error: Error): void {
-    // 远端 WSL/SSH agent 秒退后，host 仍可能正在写入尚未完成的协议请求。
-    // Node 的 stdin write 回调会 reject，但底层 Socket 还会额外触发 error 事件；若没有长期监听，
-    // knorvia-server 会因未处理的 EPIPE 直接崩溃，UI 只能看到远端连接断开而不是协议请求失败。
-    // 这里把 stream error 视为 transport 已关闭，阻止后续继续向失效 agent 写入。
-    this.fireClose({ reason: `${stream}_error: ${error.message}` });
-  }
-
-  private fireClose(event: KnorviaProtocolTransportClosedEvent): void {
-    if (this.closed) {
-      return;
-    }
+  private publishClose(event: KnorviaProtocolTransportClosedEvent): void {
+    if (this.closed) return;
     this.closed = true;
     this.closeEmitter.fire(event);
   }
 
-  private disposeReaders(): void {
-    if (this.readersDisposed) {
-      return;
+  private readonly receiveData = (chunk: Buffer | string): void => {
+    if (this.closed) return;
+    this.buffer += typeof chunk === "string" ? chunk : this.decoder.write(chunk);
+    while (!this.closed) {
+      const newline = this.buffer.indexOf("\n");
+      if (newline < 0) return;
+      const frame = this.buffer.slice(0, newline);
+      this.buffer = this.buffer.slice(newline + 1);
+      this.dispatchFrame(frame);
     }
-    this.readersDisposed = true;
-    this.child.stdout.off("data", this.handleStdoutData);
-    this.child.stdout.off("end", this.handleStdoutEnd);
-    this.child.stdout.off("close", this.handleStdoutEnd);
+  };
+
+  private dispatchFrame(frame: string): void {
+    if (frame.endsWith("\r")) frame = frame.slice(0, -1);
+    if (!frame.trim()) return;
+    try {
+      const parsed: unknown = JSON.parse(frame);
+      this.messageEmitter.fire(knorviaProtocolMessageSchema.parse(parsed));
+    } catch (error: unknown) {
+      const reason = error instanceof Error ? error.message : String(error);
+      this.publishClose({ reason: `protocol_parse_error: ${reason}` });
+    }
+  }
+
+  private readonly finishStdout = (): void => {
+    if (this.decoderEnded) return;
+    this.decoderEnded = true;
+    this.buffer += this.decoder.end();
+    const trailingFrame = this.buffer;
+    this.buffer = "";
+    if (!this.closed && trailingFrame.length > 0) this.dispatchFrame(trailingFrame);
+    this.publishClose({ reason: "stdout_closed" });
+  };
+
+  private removeStdoutReaders(): void {
+    if (this.readersRemoved) return;
+    this.readersRemoved = true;
+    this.child.stdout.off("data", this.receiveData);
+    this.child.stdout.off("end", this.finishStdout);
+    this.child.stdout.off("close", this.finishStdout);
     this.child.stdout.resume();
   }
 
   private disposeLocalResources(): void {
-    this.disposeReaders();
+    if (this.disposed) return;
+    this.disposed = true;
+    this.removeStdoutReaders();
     this.messageEmitter.dispose();
     this.closeEmitter.dispose();
   }
 
-  private requestStdioClose(): void {
-    if (this.child.stdin.destroyed || !this.child.stdin.writable) {
-      return;
+  private childHasExited(): boolean {
+    return this.child.exitCode !== null || this.child.signalCode !== null;
+  }
+
+  private unavailableSnapshot(pid: number): ProcessTreeSnapshot {
+    return {
+      rootPid: pid,
+      descendantPids: [],
+      identities: [],
+      identityVerification: "unavailable",
+    };
+  }
+
+  private async captureSnapshot(
+    windowsDeadlineAtMs: number | undefined,
+  ): Promise<ProcessTreeSnapshot | undefined> {
+    const childAlreadyExited = this.childHasExited();
+    const deadlineOptions =
+      windowsDeadlineAtMs === undefined ? {} : { windowsCleanupDeadlineAtMs: windowsDeadlineAtMs };
+    if (!childAlreadyExited) {
+      const liveSnapshot = await captureProcessTreeSnapshotAsync(this.child, {
+        log: logger,
+        ...deadlineOptions,
+        ownedProcessStartedAtMs: this.options?.ownedProcessStartedAtMs,
+        resolveOwnedProcessExitedAtMs: () => this.childExitedAtMs,
+      });
+      if (liveSnapshot) return liveSnapshot;
     }
+    if (process.platform === "win32" && !childAlreadyExited && this.child.pid) {
+      return this.unavailableSnapshot(this.child.pid);
+    }
+    const groupId = this.options?.ownedProcessGroupId;
+    if (groupId) return captureProcessGroupSnapshot(groupId);
+    const exitedSnapshot = await captureExitedRootDescendantsSnapshotAsync(this.child.pid ?? 0, {
+      log: logger,
+      ...deadlineOptions,
+      ownedProcessStartedAtMs: this.options?.ownedProcessStartedAtMs,
+      ownedProcessExitedAtMs: this.childExitedAtMs ?? Date.now(),
+    });
+    if (exitedSnapshot) return exitedSnapshot;
+    if (process.platform === "win32" && this.child.pid) {
+      return this.unavailableSnapshot(this.child.pid);
+    }
+    return undefined;
+  }
+
+  private requestStdinEof(): void {
+    if (this.child.stdin.destroyed || !this.child.stdin.writable) return;
     try {
-      this.child.stdin.once("error", () => undefined);
+      this.child.stdin.once("error", () => {});
       this.child.stdin.end();
     } catch {
-      // agent 可能正好在 disposeAndWait 期间退出，stdin 已半关闭时 EOF 请求失败；
-      // 失败不应打断后续进程树兜底，否则关闭路径又可能留下 runtime 残留。
+      // EOF is a best-effort cooperative request; tree cleanup still follows.
     }
   }
 
   private waitForChildExit(timeoutMs: number): Promise<void> {
-    if (this.hasChildExited()) {
-      return Promise.resolve();
-    }
-    return new Promise((resolve) => {
+    if (this.childHasExited()) return Promise.resolve();
+    return new Promise<void>((resolve) => {
       let settled = false;
       let timer: ReturnType<typeof setTimeout> | undefined;
-      const settle = () => {
-        if (settled) {
-          return;
-        }
+      const settle = (): void => {
+        if (settled) return;
         settled = true;
-        if (timer) {
-          clearTimeout(timer);
-          timer = undefined;
-        }
+        if (timer) clearTimeout(timer);
         this.child.off?.("exit", settle);
         resolve();
       };
@@ -329,61 +236,53 @@ export class KnorviaStdioTransport implements KnorviaProtocolTransport {
     });
   }
 
-  private hasChildExited(): boolean {
-    return this.child.exitCode !== null || this.child.signalCode !== null;
-  }
-
-  private async captureCleanupSnapshot(
-    windowsCleanupDeadlineAtMs?: number,
-  ): Promise<ProcessTreeSnapshot | undefined> {
-    const childHadExited = this.hasChildExited();
-    const liveTree = childHadExited
-      ? undefined
-      : await captureProcessTreeSnapshotAsync(this.child, {
-          log: processTreeLogger,
-          ...(windowsCleanupDeadlineAtMs === undefined ? {} : { windowsCleanupDeadlineAtMs }),
-          ownedProcessStartedAtMs: this.options?.ownedProcessStartedAtMs,
-          // root 可能在 WMIC/CIM 查询期间退出。查询开始时还没有退出时间，
-          // 必须在同轮查询完成后读取 exit 事件记录，才能安全恢复旧后代且排除 PID 复用。
-          resolveOwnedProcessExitedAtMs: () => this.childExitedAtMs,
-        });
-    if (liveTree) {
-      return liveTree;
+  private async performCleanup(): Promise<void> {
+    this.disposeLocalResources();
+    const forceBudgetMs = this.cleanupAttempts++ === 0 ? 2000 : 0;
+    const cleanupStartedAtMs = Date.now();
+    const windowsDeadlineAtMs =
+      process.platform === "win32" ? cleanupStartedAtMs + forceBudgetMs + 1000 + 250 : undefined;
+    if (this.cleanupSnapshot == null) {
+      this.cleanupSnapshot = await this.captureSnapshot(windowsDeadlineAtMs);
     }
-    if (process.platform === "win32" && !childHadExited && this.child.pid) {
-      // 查询失败时不再串行追加第二次查询；查询期间 root 正常退出的后代已经由
-      // captureProcessTreeSnapshotAsync 使用同轮进程表和 root 生命周期恢复。这里必须
-      // 显式保留“身份不可验证”，否则空 identities 会被误判为进程树已经退出。
-      return {
-        rootPid: this.child.pid,
-        descendantPids: [],
-        identities: [],
-        identityVerification: "unavailable",
-      };
+    if (!this.childHasExited()) {
+      this.requestStdinEof();
+      const configuredWaitMs = process.env.KNORVIA_E2E_COVERAGE === "1" ? 5000 : 1800;
+      const waitMs =
+        windowsDeadlineAtMs === undefined
+          ? configuredWaitMs
+          : Math.min(configuredWaitMs, Math.max(windowsDeadlineAtMs - Date.now(), 0));
+      await this.waitForChildExit(waitMs);
     }
-    const processGroupId = this.options?.ownedProcessGroupId;
-    if (processGroupId) {
-      return captureProcessGroupSnapshot(processGroupId);
+    const groupId = this.options?.ownedProcessGroupId;
+    const startedAtMs = this.options?.ownedProcessStartedAtMs;
+    const terminationOptions: ProcessTreeTerminatorWaitOptions = {
+      ...(groupId ? { ownedProcessGroupId: groupId } : {}),
+      ...(startedAtMs
+        ? {
+            ownedProcessStartedAtMs: startedAtMs,
+            ownedProcessExitedAtMs: this.childExitedAtMs ?? Date.now(),
+          }
+        : {}),
+      ...(this.cleanupSnapshot ? { snapshot: this.cleanupSnapshot } : {}),
+      log: logger,
+      windowsTaskkillTimeoutMs: 1000,
+      ...(windowsDeadlineAtMs === undefined
+        ? {}
+        : { windowsCleanupDeadlineAtMs: windowsDeadlineAtMs }),
+      forceAfterMs: Math.max(forceBudgetMs - (Date.now() - cleanupStartedAtMs), 0),
+    };
+    const result = await terminateProcessTreeAndWait(this.child, terminationOptions);
+    const remainingPids = result.remainingPids;
+    const stderrDrainMs =
+      windowsDeadlineAtMs === undefined
+        ? undefined
+        : Math.max(0, Math.min(EXIT_STDERR_DRAIN_MS, windowsDeadlineAtMs - Date.now()));
+    await this.stderrCollector.waitForDrain(stderrDrainMs);
+    if (remainingPids.length > 0) {
+      throw new Error(
+        `runtime process tree cleanup incomplete; remaining pid=${[...new Set(remainingPids)].join(",")}`,
+      );
     }
-    const exitedTree = await captureExitedRootDescendantsSnapshotAsync(this.child.pid ?? 0, {
-      log: processTreeLogger,
-      ...(windowsCleanupDeadlineAtMs === undefined ? {} : { windowsCleanupDeadlineAtMs }),
-      ownedProcessStartedAtMs: this.options?.ownedProcessStartedAtMs,
-      ownedProcessExitedAtMs: this.childExitedAtMs ?? Date.now(),
-    });
-    if (exitedTree) {
-      return exitedTree;
-    }
-    // Windows 异步 CIM 查询失败后不能在 terminateAndWait 内立刻再查一次，
-    // 否则两个查询超时会串行叠加并吃满 Main 的退出预算。不可验证快照会继续观察
-    // 原 ChildProcess，并在超时后明确报告残留，但绝不向未经验证的复用 PID 发信号。
-    return process.platform === "win32" && this.child.pid
-      ? {
-          rootPid: this.child.pid,
-          descendantPids: [],
-          identities: [],
-          identityVerification: "unavailable",
-        }
-      : undefined;
   }
 }

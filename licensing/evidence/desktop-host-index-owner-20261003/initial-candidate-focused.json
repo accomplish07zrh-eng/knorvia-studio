@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/indexOwner.test.mjs"
+  ],
+  "stdout": "✔ startup (209.925245ms)\n✔ remote (76.852899ms)\n✔ task-flow (49.399401ms)\n✖ dispatch-shutdown (49.047677ms)\nℹ tests 4\nℹ suites 0\nℹ pass 3\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 391.458085\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/indexOwner.test.mjs:23:39\n✖ dispatch-shutdown (49.047677ms)\n  Error: 计划任务已删除或目标项目不匹配\n      at dispatchCron (/workspace/knorvia-studio/packages/desktop/src/host/index.ts:897:15)\n      at async Object.dispatchManual [as onAutomationManualRunRequested] (/workspace/knorvia-studio/packages/desktop/src/host/index.ts:1052:20)\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/indexOwner.test.mjs:1299:3)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)\n",
+  "stderr": "",
+  "exitCode": 1
+}

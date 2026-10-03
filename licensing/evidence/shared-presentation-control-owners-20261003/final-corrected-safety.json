@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^(assistant presentation|background control|workflow activity)",
+    "packages/shared/test/shared-presentation-control-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "stdout": "\u2714 assistant presentation preserves root tool identity and ordered partial/settled content (102.672092ms)\n\u2714 background control validates aliases and keeps cancel task identity without executing (15.817982ms)\n\u2714 workflow activity bounds snapshot projection and validates summary fields through fake ports (13.588907ms)\n\u2139 tests 3\n\u2139 suites 0\n\u2139 pass 3\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 137.494623\n",
+  "stderr": "",
+  "exitCode": 0
+}

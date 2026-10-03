@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "scripts/architecture/architecture-check.mjs",
+    "context",
+    "cli-adapters"
+  ],
+  "stdout": "",
+  "stderr": "file:///workspace/knorvia-studio/scripts/architecture/index.mjs:328\n  if (!module) throw new Error(`未知模块: ${moduleId}`);\n                     ^\n\nError: 未知模块: cli-adapters\n    at generateContext (file:///workspace/knorvia-studio/scripts/architecture/index.mjs:328:22)\n    at async file:///workspace/knorvia-studio/scripts/architecture/architecture-check.mjs:18:15\n\nNode.js v24.19.0\n",
+  "exitCode": 1,
+  "capture": "Exact original failed tool output; not rerun"
+}

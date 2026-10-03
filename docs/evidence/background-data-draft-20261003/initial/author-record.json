@@ -1,0 +1,60 @@
+{
+  "author_closure_utc": "2026-10-03T04:22:29.981072+00:00",
+  "source_hashes": {
+    "tool/executor/background-task-output.ts": "6957b8e3e74f72e462463891b5864cc8af39f2d65362a39502962a72a9b24254",
+    "tool/executor/workflow-artifact.ts": "f3c85d49ea2b897ee11e072fed9e218be6d90aeb5f7cd01692a8c13b3dd732f5"
+  },
+  "sha256sums_sha256": "43a81aae7e70753b0874232400f6cdab11450e75c98313be350a89b838007ab9",
+  "complete_owners": [
+    "tool/executor/background-task-output.ts",
+    "tool/executor/workflow-artifact.ts"
+  ],
+  "design": [
+    "Metadata is a fresh ordered plain record. Private typed-field readers preserve in-presence, inherited properties, one property read, exact typeof admission, phased nullish/truthy fallbacks, strict-true truncation and permissive number facts.",
+    "Notification reports use native entries iteration, serialize each encountered candidate before budget admission, charge the final newline, always admit the first line and read count after iteration.",
+    "Manifest reports use native values iteration with the eight-item guard inside the loop, preserving the ninth fetch boundary, then return the current count and clipped previews.",
+    "The original serializer binding is imported and re-exported directly. No competing serializer, state, policy, async boundary, catch, retry, mutation, live operation or framework was introduced."
+  ],
+  "unresolved_contract_questions": [],
+  "current_task_access": {
+    "repository_inputs": [
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/contract.md",
+        "sha256": "ae2cd939e3129abb3c322676dcce421d1267aea78a8a63652fca6c19b274fc90"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/background-task-output-api.d.ts",
+        "sha256": "a1653378a1f39242ff39fd40ae4468dee1b6e8d459bfdad3b1a872122d4c07c9"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/workflow-artifact-api.d.ts",
+        "sha256": "e547212f31feb12bcc13d7db6f573b4665f99c25c9ae68db5983e53a61481fef"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/dependency-api.d.ts",
+        "sha256": "83703a63fdacfc700aea3b3c0b3ed0643a7644fa1aff49e9eaf0c5beb65f04b8"
+      }
+    ],
+    "read_phases": "The exact four packet files were read together for authoring and reread only for SHA256 binding. Owned source artifacts were read only for their source hashes.",
+    "writes": "Only the two owned initial sources, SHA256SUMS, accessed-inputs.json and author-record.json in draft-01. These artifacts were made read-only after sealing.",
+    "excluded": "No predecessor/current production source, history, tests, evidence outside the four packet files, oracles, receipts, compiled bodies, dependency implementations, git data, or other repository files were read.",
+    "operations": "Only shell filesystem packet/artifact reads and writes, clock recording, hashing and artifact permission changes. No live task, notification, process, artifact, provider, user-file, model, network, permission or business operation; no extra agents/tasks or settings changes."
+  },
+  "inherited_context": {
+    "prior_assignments": [
+      "AgentRuntime",
+      "TurnMachine",
+      "background-tracker",
+      "turn-control",
+      "Bash-results"
+    ],
+    "retained": "Prior packet contents, author draft content, outcome reports and parent functional clarifications remain in this reused conversation/executor.",
+    "limits": "Prior source/draft files were not reopened or revised during this assignment. Access restrictions were instruction-bound on a shared filesystem, not enforced isolation. No absolute packet-only, clean-room, licence, independence or originality assertion is made.",
+    "settings": "Existing parent-reported model/reasoning/Fast settings were retained without query or change."
+  },
+  "validation": {
+    "pre_seal_checks": "None. No compiler, tests, authored code execution, formatting or source comparison was run.",
+    "initial_preservation": "Both complete initial sources were saved before hashing and curator comparison. No in-place source edits occurred after their initial write, and no post-seal revision is included.",
+    "next_boundary": "Stop after reporting sealed hashes; curator owns any subsequent comparison and validation."
+  }
+}

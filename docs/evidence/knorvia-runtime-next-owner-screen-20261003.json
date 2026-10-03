@@ -1,0 +1,141 @@
+{
+  "base": "890d289ed319610f58792f26327ca5f0068520f7",
+  "selected": [
+    "apps/cli/packages/core/src/runtime/methods/bash-shell-snapshot.ts",
+    "apps/cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts",
+    "apps/cli/packages/core/src/runtime/methods/file-rewind.ts"
+  ],
+  "screenedReceiptDigests": {
+    "preparation-five-completion": "0ab16d73a14a212f7beae09b0e6dcd975cb4a122c765b4e58e77670491e4c378",
+    "goal-stop-five-completion": "e4f473e9deb10fe818d2b2399891e3c04637bb128c0f18b78d2420562da96b00",
+    "stream-five-completion": "1322b8649e0c7cf5ba248a5213908b292acf64edbbde52572ab1b4477a972d38",
+    "attribution-three-completion": "cecd8aa1cf3d614b92a0b34f3be2ab4c6af42946511ff9af9fb5ef81ae86655f",
+    "lifecycle-five-completion": "8d2161bfc956e1e7ab7a1f34d68d8c209fec5a09ac078ee63f10d2874df63bf7",
+    "publication-completion": "ffd8bec44d08c820bf3048139ea3b4d57498622922c298fd677f92c5d21d5c88",
+    "persistence-queue-completion": "4b3d3ffcee256a4d2ef8ebebbc0716cce4555785a807c7e3a165f4c76bc2c485"
+  },
+  "remainingActiveCandidates": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "physicalLines": 518,
+      "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80",
+      "historicalClassification": "upstream-modified",
+      "review": null,
+      "decision": "Substantive complete turn/model/tool lifecycle remains;not selected/reimplemented here. Needs bounded contract and current E ownership confirmation at next allocation;existing E helper implementations remain dependencies."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+      "physicalLines": 803,
+      "sha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa",
+      "historicalClassification": "upstream-modified",
+      "review": null,
+      "decision": "Substantive complete turn/model/tool lifecycle remains;not selected/reimplemented here. Needs bounded contract and current E ownership confirmation at next allocation;existing E helper implementations remain dependencies."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "physicalLines": 527,
+      "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d",
+      "historicalClassification": "upstream-unchanged",
+      "review": null,
+      "decision": "Substantive complete turn/model/tool lifecycle remains;not selected/reimplemented here. Needs bounded contract and current E ownership confirmation at next allocation;existing E helper implementations remain dependencies."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+      "physicalLines": 874,
+      "sha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c",
+      "historicalClassification": "upstream-modified",
+      "review": null,
+      "decision": "Substantive complete turn/model/tool lifecycle remains;not selected/reimplemented here. Needs bounded contract and current E ownership confirmation at next allocation;existing E helper implementations remain dependencies."
+    }
+  ],
+  "separatelyProtected": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/permission-full-access.ts",
+      "sha256": "6d595a6a18a1d3a627330c2a59ae3e3c08e6da004cfb521e57e7e4b74bed8911",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/permission-grant-recovery.ts",
+      "sha256": "b1c9aefdb0b2a537f3877df2fee104251532174d7b91b6f6617c1c21510a09f6",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/execution-state.ts",
+      "sha256": "66cb9f4372a60b6d3edb2dd8f9084cc8991a2aa6c291c9eda650d3a4461773ff",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-broker.ts",
+      "sha256": "33799281b80409733d857e8a3c46eb0ed5e147ca2fbff7c8bdb65234671354fb",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+      "sha256": "040dfca80dca1da74d0ec16d837a4a898c2f1efd70728cace8f7f6c55069e387",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "sha256": "3bc27ba51890a2d1d4377b3b58459702fc9cc930235569cea270aa4ac5400024",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+      "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+      "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "sha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/mcp.ts",
+      "sha256": "b871f0d4de0565a7d797c9aa01796957586feaf6b5f43581c9cfcbceb2def1b9",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/config.ts",
+      "sha256": "d854141e61054b89d44f84b5f99e91525fc773a8afb5ebcd172bf177d73df968",
+      "reason": "Permission/fullaccess/trust/approval surface or mixed owner entangled with protected gates;not allocated or edited."
+    }
+  ],
+  "protectedAccepted": [
+    "apps/cli/packages/core/src/runtime/command-queue.ts",
+    "apps/cli/packages/core/src/runtime/methods/runtime-command-submit.ts",
+    "apps/cli/packages/core/src/runtime/methods/prompt-admission.ts",
+    "apps/cli/packages/core/src/runtime-task/registry.ts"
+  ],
+  "coordination": [
+    "methods/resume.ts:E history/context and permission grant restoration intertwined;unchanged.",
+    "agent-runtime.ts:composition/root wiring with permission owners;unchanged."
+  ],
+  "smallAdaptersLeftUnchanged": [
+    "methods/residency.ts",
+    "methods/model-request-session-type.ts",
+    "methods/runtime-model.ts",
+    "methods/shell-environment.ts",
+    "helpers/child-client-ports.ts",
+    "helpers/project.ts",
+    "model-selection.ts"
+  ],
+  "fixedDataLeftUnchanged": [
+    "types.ts",
+    "deps.ts",
+    "internal*.ts declarations",
+    "methods/index.ts export wiring"
+  ],
+  "EReservations": "All earlier workflow/lifecycle/definition,context/provider/media/compaction/history,context-usage-breakdown/compact-media,attachment-media-resolver,project-memory-extraction/project-memory-agent,runtime-reminders,turn-errors. These are user-stated reservations,not inferred acceptance. No E source imported or merged.",
+  "notExhausted": true,
+  "qualification": "Bounded runtime screen,not exhaustive project or licence inventory. Shared inventory historical metadata only;no new publisher acquisition. Existing accepted receipts preserved. Larger active candidates and separately protected owners listed for next distinct allocation;small glue left alone."
+}

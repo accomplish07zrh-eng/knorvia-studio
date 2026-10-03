@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "archivedAtUtc": "2026-10-02T13:56:29.485168+00:00",
+  "phase": "same-author v2 exact bytes archived before curator body/delta review or execution",
+  "clarificationFreezeCommit": "fc8742f5a2635741c38068d6f174e69b47579702",
+  "sameNativeAuthor": "/root/collection_planner_packet_author",
+  "authorReportedFreezeUtc": "2026-10-02T13:56:06.711661Z",
+  "files": {
+    "draft-collection-planner-v2.ts.txt": {
+      "bytes": 11883,
+      "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af"
+    },
+    "author-record-v2.json": {
+      "bytes": 3974,
+      "sha256": "d412ebd9671dc9bac5ce4d055b55801849e88cfed381e9b5e43c7f7c365ad2ae"
+    },
+    "author-continuation.txt": {
+      "bytes": 979,
+      "sha256": "84d5208ba25283818d9e853f6aa09520358fa51e763521e11bd08de552b69b84"
+    }
+  },
+  "authorReported": {
+    "boundaryBreaches": [],
+    "unresolvedQuestions": [],
+    "compiled": false,
+    "tested": false,
+    "compared": false
+  },
+  "limitations": [
+    "Same instruction-restricted author, shared executor, no independent filesystem isolation.",
+    "Source-exposed curator; no source, tests, patch instructions or review sent to author.",
+    "Archive not production integration or licence disposition."
+  ]
+}

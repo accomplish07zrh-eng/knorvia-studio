@@ -1,0 +1,26 @@
+[
+  {
+    "owner": "index",
+    "source": "packages/desktop/src/preload/index.ts",
+    "baselineSha256": "aa0db341ed4fbda215cd1eb899ddf81a8b7a1ed3f65bd018a4697ab5b1b6821a",
+    "packet": "licensing/evidence/desktop-preload-owners-20261003/index-author-packet.md",
+    "packetSha256": "d59dfefce951d80920af1ba5f6f5c27f9912d87dda1e3bc05f6e875f0fe3e1c9",
+    "output": "/tmp/knorvia-preload-index-author.ts"
+  },
+  {
+    "owner": "wheel",
+    "source": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+    "baselineSha256": "5d573da2090905aa045a725eea6abca383361fdb1fa254a944bc09421cb9c219",
+    "packet": "licensing/evidence/desktop-preload-owners-20261003/wheel-author-packet.md",
+    "packetSha256": "29c7455c4eb04153cdff0d6d5b15c8d0dde97f8ab10d18486869a9cf9fea1eac",
+    "output": "/tmp/knorvia-preload-wheel-author.ts"
+  },
+  {
+    "owner": "dialog",
+    "source": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+    "baselineSha256": "8f4297751f2a5c411db78f0a8741204bfe51cfa1dd7b76716d522d520ca9dad1",
+    "packet": "licensing/evidence/desktop-preload-owners-20261003/dialog-author-packet.md",
+    "packetSha256": "eb715969dcfb7c77987e22144edb14b40b3044e6b85c09b10908d067fe1206d0",
+    "output": "/tmp/knorvia-preload-dialog-author.ts"
+  }
+]

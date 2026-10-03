@@ -1,0 +1,21 @@
+{
+  "strings": [
+    {
+      "text": "@knorvia/contracts"
+    },
+    {
+      "text": "@knorvia/contracts"
+    },
+    {
+      "text": "wait"
+    }
+  ],
+  "patterns": [],
+  "numbers": [
+    "0",
+    "0",
+    "0",
+    "0"
+  ],
+  "qualification": "Exact required fixed public prose/XML/metadata/error/sentinel/newline/template data; private expression names/decomposition omitted. Source-derived preservation data, no novelty or rights credit."
+}

@@ -1,0 +1,17 @@
+{
+  "archivedAtUtc": "2026-10-02T19:11:09.810020+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 3640,
+      "sha256": "85144f73b43beb664cc686a4fac43e70edefa32fd0bd96c6d07c7cffcd3318aa"
+    },
+    {
+      "file": "draft-manual.ts.txt",
+      "bytes": 4955,
+      "sha256": "c4971faab34fd963e7032a33dd16cb36beb100135ff6c5be7a4cf819c04a3a44",
+      "target": "apps/cli/packages/core/src/compact/manual.ts"
+    }
+  ]
+}

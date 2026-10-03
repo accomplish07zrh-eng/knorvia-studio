@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-name-pattern=interaction: ref",
+    "packages/desktop/src/main/browserView/commandOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/commandOwners.test.mjs",
+      "sha256": "b4e85940e7242000dce0e4b1aac71d28f282c80f65bfb73c3c85744edfb09ad7"
+    }
+  ],
+  "stdout": "✖ interaction: ref and clipboard authority, schema identity, short circuits and optional arity (72.750368ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 314.462369\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/commandOwners.test.mjs:67:1\n✖ interaction: ref and clipboard authority, schema identity, short circuits and optional arity (72.750368ms)\n  Error: ref authority must not read coordinates\n      at get x (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/commandOwners.test.mjs:85:56)\n      at Object.handleClick (packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts:38:59)\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/commandOwners.test.mjs:85:199)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)\n",
+  "stderr": "",
+  "exitCode": 1
+}

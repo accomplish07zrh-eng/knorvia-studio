@@ -1,0 +1,76 @@
+export type KnorviaDataSizePartialReason = "file_limit" | "io_error" | "time_limit";
+export type KnorviaDataSizeScanResult = {
+    bytes: number;
+    directoriesScanned: number;
+    durationMs: number;
+    filesScanned: number;
+    scanErrorCount: number;
+} & ({
+    status: "complete";
+    partialReason?: never;
+} | {
+    status: "partial";
+    partialReason: KnorviaDataSizePartialReason;
+});
+export interface KnorviaDataSizeScanRequest {
+    rootPath: string;
+    maxDurationMs: number;
+    maxFiles: number;
+}
+interface KnorviaDataSizeScanOptions extends KnorviaDataSizeScanRequest {
+    signal?: AbortSignal;
+    now?: () => number;
+}
+
+import { lstat, opendir } from 'node:fs/promises';
+import { join } from 'node:path';
+
+export async function scanKnorviaDataDirectory(options: KnorviaDataSizeScanOptions): Promise<KnorviaDataSizeScanResult> {
+  const now = options.now ?? Date.now;
+  const startedAt = now();
+  const pending = [options.rootPath];
+  const totals = { bytes: 0, directories: 0, files: 0, errors: 0 };
+  let reason: KnorviaDataSizePartialReason | undefined;
+  const elapsed = () => Math.max(0, now() - startedAt);
+  const mayContinue = () => {
+    if (options.signal?.aborted) throw new DOMException('Knorvia Studio data size scan aborted', 'AbortError');
+    if (elapsed() >= Math.max(0, options.maxDurationMs)) { reason = 'time_limit'; return false; }
+    return true;
+  };
+  const finish = (partial?: KnorviaDataSizePartialReason): KnorviaDataSizeScanResult => partial
+    ? { bytes: totals.bytes, directoriesScanned: totals.directories, durationMs: elapsed(), filesScanned: totals.files, partialReason: partial, scanErrorCount: totals.errors, status: 'partial' }
+    : { bytes: totals.bytes, directoriesScanned: totals.directories, durationMs: elapsed(), filesScanned: totals.files, scanErrorCount: totals.errors, status: 'complete' };
+  while (pending.length > 0 && reason === undefined) {
+    if (!mayContinue()) break;
+    const directoryPath = pending.pop();
+    if (!directoryPath) continue;
+    let directory: Awaited<ReturnType<typeof opendir>>;
+    try { directory = await opendir(directoryPath); totals.directories++; }
+    catch (error) {
+      if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'ENOENT' && totals.directories === 0) return finish();
+      totals.errors++; continue;
+    }
+    try {
+      for await (const entry of directory) {
+        if (!mayContinue()) break;
+        if (totals.files >= Math.max(0, options.maxFiles)) { reason = 'file_limit'; break; }
+        try {
+          const path = join(directoryPath, entry.name);
+          const info = await lstat(path);
+          if (info.isSymbolicLink()) continue;
+          if (info.isDirectory()) pending.push(path);
+          else if (info.isFile()) { totals.bytes += info.size; totals.files++; }
+        } catch { totals.errors++; }
+      }
+    } finally { await directory.close().catch(() => {}); }
+  }
+  return finish(reason ?? (totals.errors > 0 ? 'io_error' : undefined));
+}
+export function isKnorviaDataSizeScanResult(value: unknown): value is KnorviaDataSizeScanResult {
+  if (!value || typeof value !== 'object') return false;
+  const result = value as Partial<KnorviaDataSizeScanResult>;
+  const numbers = [result.bytes, result.directoriesScanned, result.durationMs, result.filesScanned, result.scanErrorCount];
+  if (!numbers.every((number) => typeof number === 'number' && Number.isFinite(number) && number >= 0)) return false;
+  if (result.status === 'complete') return result.partialReason === undefined;
+  return result.status === 'partial' && ['file_limit', 'io_error', 'time_limit'].includes(result.partialReason ?? '');
+}

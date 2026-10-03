@@ -1,0 +1,37 @@
+import type { BrowserWindow } from 'electron';
+import type { ManagerOptions, ManagerResult, ManagerContext } from './desktopRemoteSessions/types.js';
+import { createAttachmentOwner } from './desktopRemoteSessions/attachments.js';
+import { createHostLifecycleOwner } from './desktopRemoteSessions/lifecycle.js';
+import { createConnectionOwner } from './desktopRemoteSessions/connections.js';
+import { createSessionControls } from './desktopRemoteSessions/controls.js';
+
+export function createRemoteWorkspaceSessionManager(options: ManagerOptions): ManagerResult {
+  const context: ManagerContext = {
+    options,
+    state: { pending: new Map(), routes: new Map(), listenedHosts: new WeakSet(), appShutdownStarted: false },
+    monotonicNowMs: options.monotonicNowMs ?? (() => performance.now()),
+  };
+  function getWindowHost(win: BrowserWindow) {
+    const child = options.windowHostProcessMap.get(win.webContents.id);
+    if (!child || child.pid == null) throw new Error(`未找到窗口 Local Host，windowId=${win.webContents.id}`);
+    lifecycle.ensureHostListener(child, win.webContents.id);
+    return child;
+  }
+  const attachments = createAttachmentOwner(context, getWindowHost);
+  const lifecycle = createHostLifecycleOwner(context, attachments);
+  const connections = createConnectionOwner(context, getWindowHost, attachments);
+  const controls = createSessionControls(context, attachments, lifecycle);
+  return {
+    createRemoteWorkspaceSession: connections.createRemoteWorkspaceSession,
+    attachRemoteWorkspaceSessionHost: connections.attachRemoteWorkspaceSessionHost,
+    bindRemoteWorkspaceSessionContext: controls.bindRemoteWorkspaceSessionContext,
+    confirmRendererAttachmentReady: attachments.confirmRendererAttachmentReady,
+    reattachRemoteWorkspaceSessionsForWindow: controls.reattachRemoteWorkspaceSessionsForWindow,
+    getRemoteConnectionStats: controls.getRemoteConnectionStats,
+    disposeRemoteWorkspaceSession: controls.disposeRemoteWorkspaceSession,
+    disposeRemoteWorkspaceSessionsForWindow: controls.disposeRemoteWorkspaceSessionsForWindow,
+    disposeAllAndWaitForAppShutdown: controls.disposeAllAndWaitForAppShutdown,
+    cancelPendingRemoteWorkspaceSessionsForWindow: controls.cancelPendingRemoteWorkspaceSessionsForWindow,
+    handleWorkspaceRunningTaskCountChanged() {},
+  };
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "module": "yaml",
+    "clause": "{ parse as parseYaml, stringify as stringifyYaml }",
+    "names": [
+      {
+        "name": "parse",
+        "local": "parseYaml",
+        "typeOnly": false
+      },
+      {
+        "name": "stringify",
+        "local": "stringifyYaml",
+        "typeOnly": false
+      }
+    ]
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "{ SavedWorkflowMetaSchema, type SavedWorkflowMeta }",
+    "names": [
+      {
+        "name": "SavedWorkflowMetaSchema",
+        "local": "SavedWorkflowMetaSchema",
+        "typeOnly": false
+      },
+      {
+        "name": "SavedWorkflowMeta",
+        "local": "SavedWorkflowMeta",
+        "typeOnly": true
+      }
+    ]
+  }
+]

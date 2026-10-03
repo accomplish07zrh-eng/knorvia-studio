@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// Modified for Knorvia Studio: B1 contract-based projection, 2026-09-30.
+// Prior source was reviewed; independent authorship/license review remains pending.
 import type { KnorviaError, TraceId } from "@knorvia/shared";
 import { errorAttributionSchema, type ErrorAttribution } from "@knorvia/shared/protocol-v4";
 
@@ -15,7 +18,10 @@ interface NormalizeKnorviaUiErrorOptions {
   taskId?: string;
 }
 
-const GENERIC_KNORVIA_UI_ERROR_MESSAGES = new Set([
+type ErrorRecord = Record<string, unknown>;
+type FieldPath = readonly string[];
+
+const wrappers = new Set([
   "Internal error",
   "Turn execution failed",
   "Compact failed",
@@ -23,167 +29,139 @@ const GENERIC_KNORVIA_UI_ERROR_MESSAGES = new Set([
   "Knorvia Studio session failed",
 ]);
 
-function isObjectRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+const envelopes: readonly FieldPath[] = [
+  [],
+  ["data"],
+  ["data", "error"],
+  ["data", "knorvia", "error"],
+];
+
+function envelopePaths(field: string): FieldPath[] {
+  return envelopes.map((envelope) => [...envelope, field]);
 }
 
-function normalizeString(value: unknown): string | null {
-  if (typeof value !== "string") {
-    return null;
-  }
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
+// 字段规则保持协议优先级；details/reason 只参与文案，不参与业务码 detail 提取。
+const messagePaths: readonly FieldPath[] = [
+  ["message"],
+  ["detail"],
+  ["data", "message"],
+  ["data", "detail"],
+  ["data", "details"],
+  ["data", "reason"],
+  ["data", "error", "message"],
+  ["data", "error", "detail"],
+  ["data", "error", "details"],
+  ["data", "knorvia", "error", "message"],
+  ["data", "knorvia", "error", "detail"],
+  ["data", "knorvia", "error", "details"],
+];
+const codePaths: readonly FieldPath[] = [
+  ["code"],
+  ["providerCode"],
+  ["data", "code"],
+  ["data", "error", "code"],
+  ["data", "knorvia", "error", "code"],
+  ["data", "knorvia", "error", "context", "providerCode"],
+  ["data", "error", "context", "providerCode"],
+  ["context", "providerCode"],
+];
+const fieldPaths = {
+  detail: envelopePaths("detail"),
+  underlyingErrorMessage: envelopePaths("underlyingErrorMessage"),
+  underlyingErrorDetail: envelopePaths("underlyingErrorDetail"),
+  traceId: envelopePaths("traceId"),
+  taskId: envelopePaths("taskId"),
+  attribution: envelopePaths("attribution"),
+};
+
+function record(value: unknown): ErrorRecord | undefined {
+  return value !== null && typeof value === "object" && !Array.isArray(value)
+    ? (value as ErrorRecord)
+    : undefined;
 }
 
-function tryParseJsonString(value: string): unknown | null {
+function text(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
-  if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
-    return null;
-  }
+  return trimmed || undefined;
+}
 
+function jsonRecord(value: string): ErrorRecord | undefined {
+  const input = value.trim();
+  if (input[0] !== "{" && input[0] !== "[") return undefined;
   try {
-    return JSON.parse(trimmed);
+    return record(JSON.parse(input));
   } catch {
-    return null;
-  }
-}
-
-function readValueByPath(record: Record<string, unknown>, path: readonly string[]): unknown {
-  let current: unknown = record;
-  for (const segment of path) {
-    if (!isObjectRecord(current)) {
-      return undefined;
-    }
-    current = current[segment];
-  }
-  return current;
-}
-
-function collectMessageCandidatesFromRecord(record: Record<string, unknown>): string[] {
-  const result: string[] = [];
-  const push = (value: unknown) => {
-    const normalized = normalizeString(value);
-    if (!normalized || result.includes(normalized)) {
-      return;
-    }
-    result.push(normalized);
-  };
-
-  const messagePaths: Array<readonly string[]> = [
-    ["message"],
-    ["detail"],
-    ["data", "message"],
-    ["data", "detail"],
-    // Knorvia Agent 常把可读原因放在 data.details（复数）里；之前只识别 detail，
-    // 会导致 UI 只能看到 “Internal error” 而丢掉关键可执行提示。
-    ["data", "details"],
-    ["data", "reason"],
-    ["data", "error", "message"],
-    ["data", "error", "detail"],
-    ["data", "error", "details"],
-    // cli 会把模型/网络错误摘要放在 data.knorvia.error 下。
-    // 之前 UI 只读 data.error，导致已经结构化好的 provider 根因仍被 “Internal error” 盖住。
-    ["data", "knorvia", "error", "message"],
-    ["data", "knorvia", "error", "detail"],
-    ["data", "knorvia", "error", "details"],
-  ];
-  for (const path of messagePaths) {
-    push(readValueByPath(record, path));
-  }
-
-  return result;
-}
-
-function collectMessageCandidates(error: unknown): string[] {
-  const result: string[] = [];
-  const push = (value: unknown) => {
-    const normalized = normalizeString(value);
-    if (!normalized || result.includes(normalized)) {
-      return;
-    }
-    result.push(normalized);
-  };
-
-  if (error instanceof Error) {
-    push(error.message);
-  }
-
-  if (typeof error === "string") {
-    const parsed = tryParseJsonString(error);
-    if (isObjectRecord(parsed)) {
-      for (const candidate of collectMessageCandidatesFromRecord(parsed)) {
-        push(candidate);
-      }
-      if (result.length > 0) {
-        return result;
-      }
-    }
-    // task_error 常见为 JSON 字符串，优先展示其中的 message/detail，
-    // 只有解析不到结构化字段时才回退到整段原始字符串。
-    push(error);
-    return result;
-  }
-
-  if (isObjectRecord(error)) {
-    for (const candidate of collectMessageCandidatesFromRecord(error)) {
-      push(candidate);
-      const parsed = tryParseJsonString(candidate);
-      if (isObjectRecord(parsed)) {
-        for (const nestedCandidate of collectMessageCandidatesFromRecord(parsed)) {
-          push(nestedCandidate);
-        }
-      }
-    }
-    return result;
-  }
-
-  push(String(error));
-  return result;
-}
-
-function readFirstStringFromPaths(
-  error: unknown,
-  paths: Array<readonly string[]>,
-): string | undefined {
-  const record = isObjectRecord(error)
-    ? error
-    : typeof error === "string"
-      ? tryParseJsonString(error)
-      : null;
-  if (!isObjectRecord(record)) {
     return undefined;
   }
+}
 
+function valueAt(input: ErrorRecord | undefined, path: FieldPath): unknown {
+  let cursor: unknown = input;
+  for (const key of path) {
+    const parent = record(cursor);
+    if (!parent) return undefined;
+    cursor = parent[key];
+  }
+  return cursor;
+}
+
+function textsAt(input: ErrorRecord, paths: readonly FieldPath[]): string[] {
+  const values = new Set<string>();
   for (const path of paths) {
-    const value = normalizeString(readValueByPath(record, path));
-    if (value) {
-      return value;
-    }
+    const value = text(valueAt(input, path));
+    if (value !== undefined) values.add(value);
+  }
+  return [...values];
+}
+
+function candidatesFor(input: unknown): string[] {
+  const values = new Set<string>();
+  const append = (value: unknown) => {
+    const normalized = text(value);
+    if (normalized !== undefined) values.add(normalized);
+  };
+
+  if (input instanceof Error) append(input.message);
+  if (typeof input === "string") {
+    const parsed = jsonRecord(input);
+    const candidates = parsed ? textsAt(parsed, messagePaths) : [];
+    if (candidates.length) return candidates;
+    append(input);
+    return [...values];
+  }
+
+  const source = record(input);
+  if (!source) {
+    append(String(input));
+    return [...values];
+  }
+  // 先采集一层字段，再展开每个候选；顶层 JSON 字符串不走这次展开。
+  for (const candidate of textsAt(source, messagePaths)) {
+    values.add(candidate);
+    const nested = jsonRecord(candidate);
+    if (nested) for (const value of textsAt(nested, messagePaths)) values.add(value);
+  }
+  return [...values];
+}
+
+function firstText(
+  source: ErrorRecord | undefined,
+  paths: readonly FieldPath[],
+): string | undefined {
+  if (!source) return undefined;
+  for (const path of paths) {
+    const candidate = text(valueAt(source, path));
+    if (candidate !== undefined) return candidate;
   }
   return undefined;
 }
 
-function readFirstAttributionFromPaths(error: unknown): ErrorAttribution | undefined {
-  const record = isObjectRecord(error)
-    ? error
-    : typeof error === "string"
-      ? tryParseJsonString(error)
-      : null;
-  if (!isObjectRecord(record)) {
-    return undefined;
-  }
-
-  const paths: Array<readonly string[]> = [
-    ["attribution"],
-    ["data", "attribution"],
-    ["data", "error", "attribution"],
-    ["data", "knorvia", "error", "attribution"],
-  ];
-  for (const path of paths) {
-    const parsed = errorAttributionSchema.safeParse(readValueByPath(record, path));
-    if (parsed.success) {
-      return parsed.data;
-    }
+function attributionFor(source: ErrorRecord | undefined): ErrorAttribution | undefined {
+  if (!source) return undefined;
+  for (const path of fieldPaths.attribution) {
+    const result = errorAttributionSchema.safeParse(valueAt(source, path));
+    if (result.success) return result.data;
   }
   return undefined;
 }
@@ -192,73 +170,32 @@ export function normalizeKnorviaUiError(
   error: unknown,
   options: NormalizeKnorviaUiErrorOptions = {},
 ): KnorviaUiError {
-  const candidates = collectMessageCandidates(error);
-  // cli 已经把 provider/network 根因放进 detail 或 data.knorvia.error，
-  // 外层仍可能保留 "Internal error" 这类包装文案。主提示优先选非泛化候选，避免根因被盖住。
-  const primaryMessage =
-    candidates.find((candidate) => !GENERIC_KNORVIA_UI_ERROR_MESSAGES.has(candidate)) ??
+  const candidates = candidatesFor(error);
+  const message =
+    candidates.find((candidate) => !wrappers.has(candidate)) ??
     candidates[0] ??
     options.fallbackMessage ??
     "Internal error";
-  const detailMessage = candidates.find(
-    (candidate) =>
-      candidate !== primaryMessage && !GENERIC_KNORVIA_UI_ERROR_MESSAGES.has(candidate),
-  );
-  const codeFromError = readFirstStringFromPaths(error, [
-    ["code"],
-    ["providerCode"],
-    ["data", "code"],
-    ["data", "error", "code"],
-    ["data", "knorvia", "error", "code"],
-    // turn-errors 会把 provider 业务码写入 summary.code；部分链路仍只落在 context.providerCode。
-    ["data", "knorvia", "error", "context", "providerCode"],
-    ["data", "error", "context", "providerCode"],
-    ["context", "providerCode"],
-  ]);
-  const detailFromError = readFirstStringFromPaths(error, [
-    ["detail"],
-    ["data", "detail"],
-    ["data", "error", "detail"],
-    ["data", "knorvia", "error", "detail"],
-  ]);
-  const underlyingErrorMessage = readFirstStringFromPaths(error, [
-    ["underlyingErrorMessage"],
-    ["data", "underlyingErrorMessage"],
-    ["data", "error", "underlyingErrorMessage"],
-    ["data", "knorvia", "error", "underlyingErrorMessage"],
-  ]);
-  const underlyingErrorDetail = readFirstStringFromPaths(error, [
-    ["underlyingErrorDetail"],
-    ["data", "underlyingErrorDetail"],
-    ["data", "error", "underlyingErrorDetail"],
-    ["data", "knorvia", "error", "underlyingErrorDetail"],
-  ]);
-  const providerCodeFromDetail = detailFromError?.match(/provider_code=([0-9]+)/)?.[1];
-  const traceIdFromError = readFirstStringFromPaths(error, [
-    ["traceId"],
-    ["data", "traceId"],
-    ["data", "error", "traceId"],
-    ["data", "knorvia", "error", "traceId"],
-  ]) as TraceId | undefined;
-  const taskIdFromError = readFirstStringFromPaths(error, [
-    ["taskId"],
-    ["data", "taskId"],
-    ["data", "error", "taskId"],
-    ["data", "knorvia", "error", "taskId"],
-  ]);
-  const attribution = readFirstAttributionFromPaths(error);
+  const detail = candidates.find((candidate) => candidate !== message && !wrappers.has(candidate));
+  const source = typeof error === "string" ? jsonRecord(error) : record(error);
+  const code = firstText(source, codePaths);
+  const providerDetail = firstText(source, fieldPaths.detail);
+  const underlyingErrorMessage = firstText(source, fieldPaths.underlyingErrorMessage);
+  const underlyingErrorDetail = firstText(source, fieldPaths.underlyingErrorDetail);
+  // 第一份 detail 中的业务码优先于包装层 code，保证 quota 横幅仍能识别。
+  const providerCode = providerDetail?.match(/provider_code=([0-9]+)/)?.[1];
+  const traceId = firstText(source, fieldPaths.traceId) as TraceId | undefined;
+  const taskId = firstText(source, fieldPaths.taskId);
+  const attribution = attributionFor(source);
 
   return {
-    // 部分上游错误外层 code 只是 PROVIDER_BUSINESS_ERROR，
-    // 真实 GLM / knorvia-plan 业务码只保存在 detail 的 provider_code=xxxx。
-    // 业务码需要进入统一错误分类层，否则 ChatView quota 横幅无法命中。
-    code: providerCodeFromDetail ?? codeFromError ?? options.fallbackCode ?? "UNKNOWN",
-    message: primaryMessage,
-    detail: detailMessage,
+    code: providerCode ?? code ?? options.fallbackCode ?? "UNKNOWN",
+    message,
+    detail,
     ...(underlyingErrorMessage ? { underlyingErrorMessage } : {}),
     ...(underlyingErrorDetail ? { underlyingErrorDetail } : {}),
-    traceId: options.traceId ?? traceIdFromError,
-    taskId: options.taskId ?? taskIdFromError,
+    traceId: options.traceId ?? traceId,
+    taskId: options.taskId ?? taskId,
     ...(attribution ? { attribution } : {}),
   };
 }

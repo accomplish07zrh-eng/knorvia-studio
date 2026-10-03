@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "scope": "Add bounded provider-stage diagnostics to the existing JSON video known-failure/retry fixture",
+  "baseLocalCommit": "f201abbab26f78446832824a0b6daa0533f37d33",
+  "observedFailure": {
+    "runId": 36750884203,
+    "runNumber": 198,
+    "jobId": 110008894402,
+    "head": "6e2ca4eee7f66332654ba68dcd5794e6a1ffce06",
+    "checkedMergeSha": "fd70bc14af7fcd50539750a5ad5fc20d18a1c7d1",
+    "checkedTree": "61492d6577a128cddca3d4a8cf2f919d3ea00038",
+    "test": "JSON video frames survive a known failure and exactly one parameter-preserving retry",
+    "phase": "first terminal wait, before the retry operation",
+    "lastStatus": "running",
+    "budgetMs": 1000,
+    "pollMs": 10,
+    "observedReads": 67,
+    "maxReadMs": 1.8,
+    "events": [
+      "queued@1ms",
+      "running@12ms"
+    ],
+    "cause": "not established"
+  },
+  "change": [
+    "Reuse existing jsonFixtureTrace inside only this synthetic fetch",
+    "Record submit entry and constructed Response return; no request body, frame bytes, URL, credentials or file paths",
+    "Append trace to both terminal diagnostics and assert exactly one submission after the initial known failure"
+  ],
+  "unchanged": [
+    "1000ms/10ms timing and real IO",
+    "Two frames, parameter equality, exactly two final submissions and retry idempotency",
+    "Production creation implementation and source licence decisions",
+    "No new retry, fake global timer or enlarged budget"
+  ],
+  "validation": {
+    "focused": {
+      "tests": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "aggregate": {
+      "tests": 5189,
+      "pass": 5123,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "baselineFailureSetUnchanged": true,
+    "rootTypes": "pass",
+    "lint": "pass",
+    "architecture": "pass zero violations",
+    "format": "pass"
+  },
+  "source": {
+    "path": "packages/services/test/creation-polish.test.ts",
+    "sha256": "ab36e05e873cfa9a743f70a4b5f40fd35de3fa2faa8cc50eb4d826a598303171"
+  },
+  "sameVersionCIRepeat": {
+    "attempt": 2,
+    "windowsJob": 110016183283,
+    "result": "failure",
+    "tests": 5153,
+    "passed": 5151,
+    "failed": 1,
+    "skipped": 1,
+    "firstFailureRetest": "JSON video retry passed in107.6ms",
+    "newFailure": "asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs",
+    "lastStatus": "running",
+    "budgetMs": 1000,
+    "reads": 66,
+    "fixturePrompt": "good",
+    "providerStages": "submit and poll each entered and returned once; poll returned around10.9ms",
+    "interpretation": "Failure moved between existing creation fixtures. First failure cause not established; no test budget relaxation or claim of repair."
+  },
+  "logDigests": {
+    "creation-polish-trace.tap": "94fbbd7082af7385265c6a6ce51ee9293f30b99d329d40a18519fe1c839c2b15",
+    "creation-trace-full.tap": "ef11fa59c31878c6614ed6c836fd41578a6e5f7ae5127f08b2fd2f70d6825e37",
+    "creation-trace-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "creation-trace-lint.log": "63db76495565c2659d8fe94dcc68ff0764aab0a6d62e845dc9e6cc8b562b5478",
+    "creation-trace-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "creation-trace-format.log": "4f9059ac1228368489a37738a533e5a928e54ebe9aa94456613b28d1783bf37a"
+  },
+  "limitations": [
+    "Diagnostics are not a production fix",
+    "Windows cause remains unknown",
+    "59 local socket EPERM failures and seven platform skips remain",
+    "27 third-party material obligations remain open"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "task": "Restricted-input streaming tool lifecycle owner",
+  "author": "/root/streaming_coordinator_author",
+  "environmentDateProvided": "2026-10-02",
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-coordinator-author-20261003/api.d.ts",
+      "sha256": "b91ea1f8db1d7a1ab506119bd058344d39abbebf3f106851a6456bf4d3918e20",
+      "kind": "Public declaration",
+      "reads": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-coordinator-author-20261003/imports.d.ts",
+      "sha256": "2e3226a0b7b1b7bcc8209f0a623e74cef7a0d457985c9aa7f28fcf5527eabbf1",
+      "kind": "Import declaration",
+      "reads": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-coordinator-author-20261003/supporting-api.d.ts",
+      "sha256": "8ba55118d77749fbbf97a0aa540d1d10a0ad591934feded162da69f0dca05b69",
+      "kind": "Body-free selected type facts",
+      "reads": 2
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-coordinator-author-20261003/contract.md",
+      "sha256": "74933e4c8d218bd3e2a70dd66b22fd547c6d69cecb61256c5fe6817d2baf9f4d",
+      "kind": "Behavior contract",
+      "reads": 1
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-coordinator-author-20261003/port-facts.md",
+      "sha256": "f29bbe4e28ad6ded285bed29ca4123b9ecd791e5e7ea7230b412b474e202e86f",
+      "kind": "Explicitly authorized additional body-free public port facts, curator source-derived",
+      "reads": 1
+    }
+  ],
+  "parentClarifications": [
+    "Authorized reading the declaration-only port-facts.md supplement; seal before curator source review.",
+    "runtime.sessionId supplies running part sessionID. Metadata property is sideEffectScope; use entry.permission?.sideEffectScope ?? metadata.sideEffectScope.",
+    "Closed, queued and started status literals are tool_call_closed, tool_queued and tool_started; executionTiming is during_stream.",
+    "Finish and seal both files before comparison."
+  ],
+  "incidentalContext": {
+    "tool": "collaboration.list_agents",
+    "observed": "Team task names and statuses, with unrelated model-status and streaming-write-queue completion summaries and hashes. No target predecessor executable body or dependency body appeared.",
+    "useInImplementation": "None; target implementation decisions come from its authorized packet, authorized supplement and parent clarifications."
+  },
+  "operations": [
+    "Read the four original permitted files together via cat.",
+    "Requested missing public type and port facts from the parent, without requesting dependency bodies.",
+    "Read supporting-api.d.ts once more while awaiting the supplement.",
+    "Read the explicitly authorized port-facts.md supplement.",
+    "Created the isolated output directory and wrote the two TypeScript draft files via heredocs.",
+    "Adjusted the own draft abandonment projection to snapshot declaration values before invoking ledger ports.",
+    "Counted physical source lines and hashed permitted input files and own draft files.",
+    "Wrote this journal and generated the seal before any target source comparison."
+  ],
+  "outputs": [
+    {
+      "file": "streaming-tool-coordinator.ts",
+      "physicalLines": 213,
+      "sha256": "6057aef48cd043b1d40bdcafa18e7828ed50fd4f5a73dfcca4adb5ac5e765115",
+      "role": "Owns declaration admission, one-launch execution records, abort linkage, byte counts, abandonment, sequential drain, result collection and recovery commit/publication."
+    },
+    {
+      "file": "streaming-tool-execution.ts",
+      "physicalLines": 114,
+      "sha256": "1af458ce902fdd23a0d8425d176d21bca754b0b4ae39f5140341b91ab6f35ebc",
+      "role": "Private during-stream native async execution boundary; owns ordered pending persistence, ledger phases, scheduling, execution callback and result projection."
+    }
+  ],
+  "verification": {
+    "method": "Manual contract and declaration review of authored code; physical line counts and SHA-256 hashes only.",
+    "authoredCodeExecuted": false,
+    "testsOrBuildsRun": false,
+    "productionFilesEdited": false,
+    "liveModelToolProviderTasksRun": false,
+    "targetSourceOrDependencyBodiesRead": false,
+    "targetSourceComparedBeforeSeal": false,
+    "subagentsSpawned": false,
+    "remainingBodyFreeTypeAmbiguities": []
+  },
+  "limitations": [
+    "No execution or compilation was authorized, so API compatibility and behavioral parity require independent curator verification.",
+    "Inputs constrain behavior, names, import paths, native await phases and partial publication effects; conventional standard promise and map expressions may coincide with other implementations.",
+    "The supplement and parent facts are source-derived public declarations and clarifications. This is restricted-input authorship, not a clean-room or novelty claim and not a license or rights grant."
+  ]
+}

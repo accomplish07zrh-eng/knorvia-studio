@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "archivedAtUtc": "2026-10-02T13:44:27.418532+00:00",
+  "phase": "exact draft archived before curator body review or comparison",
+  "inputFreezeCommit": "d90976cd24203ca40554197dc24a509f733a09e8",
+  "author": {
+    "nativeTask": "/root/collection_planner_packet_author",
+    "fork_turns": "none",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "high",
+    "fastControl": "Not exposed by native tool",
+    "reusedExpansionAuthor": false
+  },
+  "files": {
+    "draft-collection-planner.ts.txt": {
+      "bytes": 11700,
+      "sha256": "23403026dd2dadc7cab3221b90f863e6b3762a628b6920a95caeb065c13d5703"
+    },
+    "author-record.json": {
+      "bytes": 2383,
+      "sha256": "db0d92b7c8aa66f0aff6b8f1e0d930dc0aff64a047c7026e9f3164b407f60d6c"
+    },
+    "author-invocation.txt": {
+      "bytes": 1649,
+      "sha256": "232f5b66d8654cabab038e05580b9d2d60dd2e97e370009b21938a48555c8557"
+    }
+  },
+  "authorReported": {
+    "frozenAtUtc": "2026-10-02T13:44:05.970439Z",
+    "boundaryBreaches": [],
+    "unresolvedQuestions": [],
+    "compiled": false,
+    "tested": false,
+    "compared": false,
+    "installed": false
+  },
+  "curatorLimit": "Source-exposed curator; instruction-restricted author with shared filesystem. No absolute isolation claim; preserve earlier mixed-source finding."
+}

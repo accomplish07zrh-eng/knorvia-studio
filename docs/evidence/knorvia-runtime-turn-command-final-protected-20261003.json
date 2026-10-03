@@ -1,0 +1,28 @@
+{
+  "protectedPriorArtifactMatches": {
+    "model-tools": 15,
+    "turn-model-step": 15
+  },
+  "protectedNewCoordination": [
+    {
+      "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "sha256": "a90fe7f601a845ef1c603ce8a71552ffb458d71033cc1379420293e453b42cdc",
+      "unchangedFrom": "c5705a3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+      "unchangedFrom": "c5705a3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "sha256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+      "unchangedFrom": "c5705a3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "unchangedFrom": "c5705a3"
+    }
+  ]
+}

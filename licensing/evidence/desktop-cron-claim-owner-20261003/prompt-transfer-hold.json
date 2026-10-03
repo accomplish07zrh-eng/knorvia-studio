@@ -1,0 +1,17 @@
+{
+  "path": "packages/desktop/src/host/promptAttachmentTransferService.ts",
+  "parentReportedAcceptance": {
+    "checkpoint": "a3d4b1f6812cb3651514840a1c9b608008b2ebf4",
+    "time": "2026-10-01 19:58",
+    "acceptedSha256": "a777a064c6cbfe84c4ff45b2b191ab18f00a7134d5b207f2e2cde2b14b5e72d6",
+    "receipt": "licensing/evidence/prompt-transfer-owner-replacement-20261001.json",
+    "scope": "175-line Host transfer lifecycle and Host/composer consumers; services same-name44-line file is separate D scope"
+  },
+  "currentLocalSha256": "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7",
+  "acceptedPrivateBytesAccessible": false,
+  "localAcceptedBytesEqualityVerified": false,
+  "privateReceiptAvailableInCheckout": false,
+  "status": "HOLD; old accepted provenance must not be overwritten by public old baseline/current local bytes; no new authoring/tests/read route",
+  "supersedes": "Batch48 report-only potential attachment next candidate; withdrawn",
+  "noPrivateFetchOrAlternateRouteAttempted": true
+}

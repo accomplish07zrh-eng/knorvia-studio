@@ -1,0 +1,63 @@
+{
+  "predecessor": "c2dd77ca763b25582b40d31d1e26ac85b80d06b9",
+  "selected": [
+    {
+      "path": "packages/provider/src/config-service.ts",
+      "currentSha256": "0b400663d6a65c12faec5933667017149346fd3ef51526ee5c876b9db0b8d93e",
+      "inventory": {
+        "path": "packages/provider/src/config-service.ts",
+        "kind": "file",
+        "sha256": "0b400663d6a65c12faec5933667017149346fd3ef51526ee5c876b9db0b8d93e",
+        "normalizedSha256": "0b400663d6a65c12faec5933667017149346fd3ef51526ee5c876b9db0b8d93e",
+        "encoding": "utf8-lf",
+        "bytes": 31185,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider/src/config-service.ts",
+          "blob": "5ae36c696cf780473589daa044d8f64f404a92c5",
+          "normalizedSha256": "0b04f9c58779c4b4c3945332d816fe5524de02acb179e0a9f68f421cf4b3b202",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobExit": 128,
+      "upstreamBlobError": "fatal: git cat-file 5ae36c696cf780473589daa044d8f64f404a92c5: bad file\n",
+      "upstreamNormalizedSha256": null,
+      "localHistory": "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI\n7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n"
+    },
+    {
+      "path": "packages/provider/src/registry-service.ts",
+      "currentSha256": "1415e475f9f8dbd89ba6017316676ebd9bcd911bb256ce3c0c3fb4ab7bb75b4e",
+      "inventory": {
+        "path": "packages/provider/src/registry-service.ts",
+        "kind": "file",
+        "sha256": "1415e475f9f8dbd89ba6017316676ebd9bcd911bb256ce3c0c3fb4ab7bb75b4e",
+        "normalizedSha256": "1415e475f9f8dbd89ba6017316676ebd9bcd911bb256ce3c0c3fb4ab7bb75b4e",
+        "encoding": "utf8-lf",
+        "bytes": 11213,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider/src/registry-service.ts",
+          "blob": "107bbf21eeeae00d2c9fe03eade458e79f0b9fcd",
+          "normalizedSha256": "4f70522a0b4b5e5dde12d16d955106ee7f0293df7adb3f8523a9a025df59dc84",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobExit": 128,
+      "upstreamBlobError": "fatal: git cat-file 107bbf21eeeae00d2c9fe03eade458e79f0b9fcd: bad file\n",
+      "upstreamNormalizedSha256": null,
+      "localHistory": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n"
+    }
+  ],
+  "receiptSearch": "Exact paths/names/current SHA in existing licensing evidence and all services/provider scoped receipts/docs/specs; no accepted complete owner replacement found. licensing/reviews directory does not exist (initial search reported this); no such directory was assumed searched. Local all-ref provider history has only root snapshot7619e41 and formatting88001f0. Parent public PR8–12 changedpaths observation is not unpublished-history proof. Current inventory upstream-modified bindings govern allocated baseline, not an unreviewed/missing-receipt inference.",
+  "limits": "No imported auth/access/key policy implementation allocated. Fixed public types/data/dependency policy retained. If actual accepted version conflict is discovered, HOLD; bounded absence cannot prove no unpublished history. No MIT/global provenance classification."
+}

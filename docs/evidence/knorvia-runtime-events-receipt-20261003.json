@@ -1,0 +1,58 @@
+{
+  "owner": "events",
+  "modules": [
+    "events",
+    "events-durable",
+    "events-summary",
+    "events-session"
+  ],
+  "baselineContainerSha256": "4b15968d50e872fdc5b60d0d8a7d02cfd8f59eed106d6e6dffa9c773961b9d82",
+  "sourceBaseline": "811877b3d5df766276e0d21dfd06a9f11529384b",
+  "draft": {
+    "events-session.ts": "2c306f48093bfbd8583af4f85d8e01722600c0df2f418767e703f22f087eec93",
+    "SHA256SUMS": "6c7016a3065992bc39038bf6f772acd616c8a17fd491b3b01ac61553a1785a91",
+    "events-durable.ts": "5bb2ad3a5898fb2ead98a59a419355ce51b34df89ddb69441376bf49d35d6c1c",
+    "events-summary.ts": "fabc502ec06c7b8665ee2c5f9381394086a597d95a6d42465fcbe743a69debf7",
+    "events.ts": "1fac7a4eec416ad462e6581eff85df17ded5518b69a06febba44682944958dc0",
+    "ACCESS-REPORT.md": "0669f6ddcc4dbdfb37dfa9cdeb028277e3efd82bd435103c9f64ea36d9641b4a"
+  },
+  "currentArtifacts": {
+    "src/runtime/methods/events-session.ts": "86196161b02167d9834e040e204ae7f4b5c4906bbc2bd14824421ef67da22f20",
+    "dist/runtime/methods/events-session.js": "5062c4dab031b76b6acca66453fc1c3882e63731dd1cb7787e0d346e81e3ec59",
+    "dist/runtime/methods/events-session.d.ts": "389a51d666ed65d7ced4b6f598e4699fa6af2d73f614709ebb920d480b1e850e",
+    "src/runtime/methods/events-durable.ts": "71af0bcb66b04e9961fe7bebe71754726085ab680668c77664c527f1fc7bb997",
+    "dist/runtime/methods/events-durable.js": "4ca457fcab7fb31d79177a04ff44dc2ac0bf9a4a042e981122c256319c8e4674",
+    "dist/runtime/methods/events-durable.d.ts": "ae7ccd29272c483963098221b65052771811b2d625c6b3750fa1b99713017d1b",
+    "src/runtime/methods/events-summary.ts": "e6c60e6c7114e09f19d7e0b403a5a795c8ac4d3d185322a0f94d68ee2f16d3f9",
+    "dist/runtime/methods/events-summary.js": "500c459cacdeb906c4b9426812e27ff474317917a6a15880084c9b671ec12a61",
+    "dist/runtime/methods/events-summary.d.ts": "528f366c52fd28d9f45e1493dd1c43d12460c1c4eabaafb035622b846e72ee49",
+    "src/runtime/methods/events.ts": "49f3ccff0f2330e54861713dadc897c777e95a572f22156286769fa8e503f312",
+    "dist/runtime/methods/events.js": "f0f8101512b8566bda4ea1c062152bcc468e5aeaf251652d81137a0752e14bf0",
+    "dist/runtime/methods/events.d.ts": "6b55bdd84eaece2039c4d11b383626e011445599c1ce612feab17561eb77c200"
+  },
+  "workflow": "Three fresh no-inherited-context internal authors read only body-free functional/API packets and recorded API clarifications. Exact drafts saved/hashed before curator comparison; curator source-exposed.",
+  "corrections": [
+    "Saved 40abbff red: durable entry trace used caller context instead of canonical stored event. Restore stored event traceId/turnId.",
+    "Static compatibility restores target timeline key read after awaited ports, JSON byte-measure update order, log field order and session title append/create order."
+  ],
+  "retained": "Fixed API/schema/protocol vocabulary, model/log/error prose and conventional field/map/loop/await projection are deliberately retained or contract-constrained. Restore wrapper and ordinary compatibility glue receive no originality credit. Detailed source-derived packets constrain combinations; no automatic whole-body/file independence or MIT claim. Root independently reviews actual expression.",
+  "checks": {
+    "compiler": "zero final diagnostics; immutable historical vs current emitted declaration resolved signatures equal",
+    "ownerPublicSignatures": 5,
+    "lint": "0 warnings/errors on six changed files, unchanged94rules",
+    "format": "six owners/helpers and safety fixture",
+    "architecture": "changed check0 violations, unmanaged CLI",
+    "minimalSyntheticSafety": "Shared final strict-emitted pass:3 paired persistence groups plus2 appended concrete regression observations. No additional per-owner suite or double-counted totals.",
+    "selector": "current source/JS/declaration exact18 pins across six modules; wrong/missing private artifact controls reject"
+  },
+  "deferred": [
+    "Ordinary suites/full builds/native acceptance",
+    "Remaining branches, cancellation/concurrency and logger reentrancy dynamically unrun; static comparison only",
+    "Transitive workspace dependencies via tsx, not all-emitted",
+    "Root independent contribution/runtime/licence acceptance"
+  ],
+  "limitations": [
+    "Freshness fetch blocked by configured proxy8080; no bypass/settings change",
+    "Node24.19.0 vs pinned24.14 retained environment"
+  ]
+}

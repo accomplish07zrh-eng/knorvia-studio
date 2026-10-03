@@ -1,0 +1,9 @@
+{
+  "initialFailure": "All frozen input bytes and SHA256 digests matched. Seven receiptMatches checks falsely failed because v2 cumulative read entries use bytes_per_read rather than bytes.",
+  "correction": "Checker recognizes bytes_per_read as the per-read size alongside bytes. Path basename, exact size, and SHA256 checks remain required. Author receipt and all authored source unchanged.",
+  "preservedFailure": [
+    "verify-static.catalog-v2-initial.cjs.txt",
+    "catalog-v2-static-initial-failure.json"
+  ],
+  "focusedRerun": "Only catalog v2 static and retained data; references/reminder original successful checks reused by exact digest. Catalog v2 identity gate already passed; no repeated ordinary or performance suites."
+}

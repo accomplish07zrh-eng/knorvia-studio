@@ -1,0 +1,228 @@
+import { BrowserWindow, dialog, ipcMain, nativeTheme } from "electron";
+import { readKnorviaStdioTapDevState } from "@knorvia/services/node";
+import {
+  DesktopCommandIds,
+  appSettingsPatchSchema,
+  formatZodError,
+  localeSchema,
+  nonEmptyStringSchema,
+  PlatformChannels,
+  rendererLogPayloadSchema,
+  stringArraySchema,
+  type DesktopCommandId,
+  type AppSettings,
+  type ReleaseUpdateCheckResult,
+  type ApplicationIconRequest,
+  type Locale,
+  type LoadCliMcpFromUserDirectoryRequest,
+  type MigrateLegacyCommonMcpRequest,
+  type OpenInEditorOptions,
+  type SaveCliMcpToUserDirectoryRequest,
+  type CreateTempTextAttachmentRequest,
+  type WindowControlsOverlayReadyPayload,
+} from "@knorvia/shared";
+import { getInstalledEditors } from "./editors.js";
+import { getApplicationIcon } from "./applicationIcons.js";
+import { exportLogs } from "./exportLogs.js";
+import { exportLocalDiagnostics, previewLocalDiagnostics } from "./localDiagnostics.js";
+import { resolveCommunityUrl } from "./desktopCommandHandlers.js";
+import { openInEditor } from "./openInEditor.js";
+import {
+  openResourceManager,
+  getResourceUsageSnapshot,
+  setResourceUsageSamplingActive,
+} from "./resourceManagerWindow.js";
+import { registerResourceManagerStorageIpc } from "./resourceManagerStorage.js";
+import { applyWindowsTitleBarTheme, getWindowOverlayTheme } from "./desktopWindowChrome.js";
+import { syncWindowControlsOverlayForZoomLevel } from "./desktopWindowButtonPosition.js";
+import { resolveDesktopZoomLevelFromFactor } from "./desktopZoom.js";
+import { resolveDesktopWindowChromeState } from "./desktopWindowChromeState.js";
+import { handleWindowUnreadCountSync } from "./desktopWindowLifecycle.js";
+import { captureWindowScreenshot, openPathInFileManager } from "./desktopMainIpcHelpers.js";
+import { registerCuaPermissionIpcHandlers } from "./desktopCuaPermissionIpc.js";
+import {
+  registerDesktopBrowserIpcHandlers,
+  type AttachBrowserGuest,
+  type ReportBrowserScreenshotSurfaceReady,
+  type UpdateBrowserGuestViewport,
+  type BrowserViewResidencyIpcHandlers,
+} from "./desktopBrowserViewIpc.js";
+import {
+  loadCliMcpFromUserDirectory,
+  migrateLegacyCommonMcp,
+  saveCliMcpToUserDirectory,
+} from "./mcpUserDirectory/index.js";
+import { createTempTextAttachment } from "./tempTextAttachment.js";
+import { registerDesktopSaveFileIpcHandler } from "./desktopSaveFile.js";
+import { registerDesktopPrintToPdfIpcHandler } from "./desktopPrintToPdf.js";
+import { applyDesktopWindowGlass } from "./desktopWindowGlass.js";
+import { registerCuaPipActiveSessionIpc } from "./desktopCuaPipIpc.js";
+export function registerPlatformIpcHandlers(options: {
+    checkReleaseUpdate?: () => Promise<ReleaseUpdateCheckResult>;
+    fetchHelpConfig?: () => Promise<unknown>;
+    logger: {
+        info: (...args: unknown[]) => void;
+        warn: (...args: unknown[]) => void;
+    };
+    applyApplicationLocale: (locale: Locale) => Promise<void>;
+    resolveSystemLocale: () => Locale;
+    focusWorkspaceInExistingWindow: (path: string, extra?: {
+        skipWindowId?: number;
+    }) => {
+        activated: boolean;
+        winId?: number;
+    };
+    windowWorkspaceMap: Map<number, Set<string>>;
+    windowUnreadCountMap: Map<number, number>;
+    currentApplicationLocale: () => Locale;
+    executeDesktopCommand: (command: DesktopCommandId, senderWindow?: BrowserWindow | null) => Promise<unknown>;
+    syncActiveTaskSession: (windowId: number, sessionId: string | null) => void;
+    syncTaskRealtimeWorkspaceKeys: (windowId: number, workspaceKeys: Iterable<string>) => void;
+    getDesktopSessionActivity: () => {
+        runningAgentSessionCount: number;
+    };
+    syncAppSettings: (patch: Partial<Pick<AppSettings, "closeToTrayOnWindows" | "keepAwakeWhileRunning" | "shortcutBindings">>) => void;
+    setShortcutRecordingActive?: (active: boolean, ownerWebContentsId?: number | null) => void;
+    deviceMid: string;
+    attachBrowserGuest?: AttachBrowserGuest;
+    updateBrowserGuestViewport?: UpdateBrowserGuestViewport;
+    reportBrowserScreenshotSurfaceReady?: ReportBrowserScreenshotSurfaceReady;
+    browserViewResidencyHandlers?: BrowserViewResidencyIpcHandlers;
+}): void {
+  ipcMain.handle(PlatformChannels.SelectDirectory, async () => {
+    const result = await dialog.showOpenDialog({ properties: ["openDirectory", "createDirectory"] });
+    return result.canceled || result.filePaths.length === 0 ? null : result.filePaths[0];
+  });
+  ipcMain.handle(PlatformChannels.SelectFile, async () => {
+    const result = await dialog.showOpenDialog({ properties: ["openFile"] });
+    return result.canceled || result.filePaths.length === 0 ? null : result.filePaths[0];
+  });
+  ipcMain.handle(PlatformChannels.SelectFiles, async () => {
+    const result = await dialog.showOpenDialog({ properties: ["openFile", "multiSelections"] });
+    return result.canceled || result.filePaths.length === 0 ? [] : result.filePaths;
+  });
+  registerDesktopSaveFileIpcHandler(options.logger);
+  registerDesktopPrintToPdfIpcHandler(options.logger);
+  ipcMain.handle(PlatformChannels.CreateTempTextAttachment, async (_event, payload: CreateTempTextAttachmentRequest) => createTempTextAttachment(payload));
+  registerDesktopBrowserIpcHandlers(options.attachBrowserGuest, options.updateBrowserGuestViewport, options.logger, options.reportBrowserScreenshotSurfaceReady, options.browserViewResidencyHandlers);
+  ipcMain.handle(PlatformChannels.ActivateOrSetWorkspace, (event, path: string) => {
+    const workspacePath = nonEmptyStringSchema.parse(path);
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (options.focusWorkspaceInExistingWindow(workspacePath, { skipWindowId: win?.id }).activated) return { activated: true };
+    if (win) {
+      let paths = options.windowWorkspaceMap.get(win.id);
+      if (!paths) {
+        paths = new Set<string>();
+        options.windowWorkspaceMap.set(win.id, paths);
+        win.once("closed", () => { options.windowWorkspaceMap.delete(win.id); });
+      }
+      paths.add(workspacePath);
+      options.syncTaskRealtimeWorkspaceKeys(win.id, paths);
+    }
+    return { activated: false };
+  });
+  ipcMain.handle(PlatformChannels.GetResourceUsageSnapshot, (event) => getResourceUsageSnapshot(event.sender.id));
+  ipcMain.on(PlatformChannels.SetResourceUsageSamplingActive, (event, active: unknown) => {
+    if (typeof active === "boolean") setResourceUsageSamplingActive(event.sender.id, active);
+  });
+  registerResourceManagerStorageIpc();
+  ipcMain.handle(PlatformChannels.GetKnorviaStdioTapDevState, () => readKnorviaStdioTapDevState());
+  ipcMain.on(PlatformChannels.OpenResourceManager, () => { openResourceManager(); });
+  ipcMain.handle(PlatformChannels.LoadMcpFromUserDirectory, async (_event, payload?: LoadCliMcpFromUserDirectoryRequest) => loadCliMcpFromUserDirectory(payload));
+  ipcMain.handle(PlatformChannels.SaveMcpToUserDirectory, async (_event, payload: SaveCliMcpToUserDirectoryRequest) => {
+    try {
+      await saveCliMcpToUserDirectory(payload);
+      return { success: true };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      options.logger.warn("[mcp-user-directory] save failed", message);
+      return { success: false, error: message };
+    }
+  });
+  ipcMain.handle(PlatformChannels.MigrateLegacyCommonMcp, async (_event, payload?: MigrateLegacyCommonMcpRequest) => migrateLegacyCommonMcp(payload));
+  ipcMain.handle(PlatformChannels.SetTitleBarTheme, (event, theme: unknown) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!win) return;
+    if (theme !== "light" && theme !== "dark" && theme !== "system") {
+      options.logger.warn("[title-bar-theme] invalid theme:", theme);
+      return;
+    }
+    nativeTheme.themeSource = theme;
+    applyWindowsTitleBarTheme(win, theme === "system" ? getWindowOverlayTheme() : theme);
+  });
+  ipcMain.handle(PlatformChannels.SetWindowGlass, (event, enabled: unknown) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (typeof enabled !== "boolean" || !win || win.isDestroyed() || win.webContents !== event.sender || event.senderFrame !== event.sender.mainFrame) return false;
+    try { return applyDesktopWindowGlass(win, enabled); }
+    catch (error) { options.logger.warn("[window-glass] native material unavailable", error); return false; }
+  });
+  ipcMain.handle(PlatformChannels.SetApplicationLocale, (_event, locale: unknown) => {
+    const parsed = localeSchema.safeParse(locale);
+    if (!parsed.success) { options.logger.warn("[application-locale] invalid locale:", formatZodError(parsed.error)); return; }
+    return options.applyApplicationLocale(parsed.data);
+  });
+  ipcMain.handle(PlatformChannels.GetSystemLocale, () => options.resolveSystemLocale());
+  ipcMain.on(PlatformChannels.SyncWindowTabs, (event, payload: unknown) => {
+    const parsed = stringArraySchema.safeParse(payload);
+    if (!parsed.success) { options.logger.warn("[sync-window-tabs] invalid payload:", formatZodError(parsed.error)); return; }
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!win) return;
+    options.windowWorkspaceMap.set(win.id, new Set(parsed.data));
+    options.syncTaskRealtimeWorkspaceKeys(win.id, parsed.data);
+  });
+  ipcMain.on(PlatformChannels.SyncWindowUnreadCount, (event, payload: unknown) => {
+    handleWindowUnreadCountSync(BrowserWindow.fromWebContents(event.sender), payload, options.windowUnreadCountMap, options.logger);
+  });
+  registerCuaPipActiveSessionIpc({ syncActiveTaskSession: options.syncActiveTaskSession, warn: (message) => options.logger.warn(message) });
+  ipcMain.on(PlatformChannels.WindowControlsOverlayReady, (event, payload: WindowControlsOverlayReadyPayload) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!win || !Number.isFinite(payload.zoomLevel)) return;
+    syncWindowControlsOverlayForZoomLevel(win, payload.zoomLevel);
+  });
+  ipcMain.on(PlatformChannels.SyncAppSettings, (_event, payload: unknown) => {
+    const parsed = appSettingsPatchSchema.safeParse(payload);
+    if (!parsed.success) { options.logger.warn("[settings] invalid app settings sync payload:", formatZodError(parsed.error)); return; }
+    options.syncAppSettings(parsed.data);
+  });
+  ipcMain.on(PlatformChannels.SetShortcutRecordingActive, (event, payload: unknown) => {
+    if (typeof payload !== "boolean") { options.logger.warn("[shortcuts] invalid recording-active payload:", payload); return; }
+    options.setShortcutRecordingActive?.(payload, event.sender.id);
+  });
+  ipcMain.on(PlatformChannels.Log, (_event, payload: unknown) => {
+    const parsed = rendererLogPayloadSchema.safeParse(payload);
+    if (!parsed.success) { options.logger.warn("[renderer-log] invalid payload:", formatZodError(parsed.error)); return; }
+    const logger = options.logger as typeof options.logger & { fromRenderer?: (level: string, args: unknown[]) => void };
+    logger.fromRenderer?.(parsed.data.level, parsed.data.args);
+  });
+  ipcMain.handle(PlatformChannels.OpenInFileManager, async (_event, rawPath: string) => openPathInFileManager(rawPath, options.logger));
+  registerCuaPermissionIpcHandlers({ logger: options.logger, currentApplicationLocale: options.currentApplicationLocale });
+  ipcMain.handle(PlatformChannels.CanOpenCommunity, async (_event, locale: unknown) => {
+    const parsed = localeSchema.safeParse(locale);
+    if (!parsed.success) { options.logger.warn("[community] invalid locale:", formatZodError(parsed.error)); return false; }
+    const url = await resolveCommunityUrl({ locale: parsed.data, fetchRemoteConfig: options.fetchHelpConfig, logger: options.logger });
+    return typeof url === "string" && url.length > 0;
+  });
+  ipcMain.handle(PlatformChannels.GetDesktopSessionActivity, () => options.getDesktopSessionActivity());
+  ipcMain.handle(PlatformChannels.GetDesktopZoomLevel, (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    return !win || win.isDestroyed() ? { zoomLevel: 0 } : { zoomLevel: resolveDesktopZoomLevelFromFactor(win.webContents.getZoomFactor()) };
+  });
+  ipcMain.handle(PlatformChannels.GetDesktopWindowChromeState, (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    return resolveDesktopWindowChromeState(win?.isMaximized() ?? false);
+  });
+  ipcMain.handle(PlatformChannels.GetInstalledEditors, () => getInstalledEditors());
+  ipcMain.handle(PlatformChannels.GetApplicationIcon, (_event, request: ApplicationIconRequest) => getApplicationIcon(request));
+  ipcMain.handle(PlatformChannels.GetDeviceId, () => options.deviceMid);
+  ipcMain.handle(PlatformChannels.ExportLogs, () => exportLogs());
+  ipcMain.handle(PlatformChannels.PreviewLocalDiagnostics, (_event, request: unknown) => previewLocalDiagnostics(request as import("@knorvia/shared").LocalDiagnosticsRequest));
+  ipcMain.handle(PlatformChannels.ExportLocalDiagnostics, (_event, id: unknown) => exportLocalDiagnostics(typeof id === "string" ? id : ""));
+  ipcMain.handle(PlatformChannels.CheckReleaseUpdate, () => options.checkReleaseUpdate?.() ?? Promise.resolve({ status: "failed", currentVersion: "unknown", reason: "settings" }));
+  ipcMain.handle(PlatformChannels.CaptureWindowScreenshot, async (event) => captureWindowScreenshot(BrowserWindow.fromWebContents(event.sender)));
+  ipcMain.handle(PlatformChannels.OpenInEditor, (_event, payload: { editorId: string; path: string; options?: OpenInEditorOptions }) => openInEditor(payload.editorId, payload.path, payload.options));
+  ipcMain.handle(PlatformChannels.ExecuteDesktopCommand, async (event, command: DesktopCommandId) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!Object.values(DesktopCommandIds).includes(command)) { options.logger.warn("[desktop-command] invalid command:", command); return; }
+    return await options.executeDesktopCommand(command, win);
+  });
+}

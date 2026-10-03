@@ -1,0 +1,30 @@
+{
+  "kind": "Exact existing module/import mapping; no bodies/new edges",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "CoreErrorType",
+          "localName": "CoreErrorType",
+          "typeOnly": false
+        },
+        {
+          "name": "createCoreError",
+          "localName": "createCoreError",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./data.js",
+      "bindings": [
+        {
+          "name": "isPlainRecord",
+          "localName": "isPlainRecord",
+          "typeOnly": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "baseline": "cf1fcca3fa8d4ea3fa1a7f6dc3d9a2ad9607d1c5",
+  "scopes": {
+    "format": {
+      "source": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+        "bytes": 14662,
+        "lines": 266,
+        "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/contract.md",
+          "bytes": 6954,
+          "lines": 23,
+          "sha256": "59156a2548f66a786d3ec61575e5ba03796b860898e3cc7e6e9e26d4765ca82e"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-api.d.ts",
+          "bytes": 159,
+          "lines": 2,
+          "sha256": "e219ca28776052cd86a8ba6deb022b012fd1607d861b849fcf90b81825799f1b"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/dependency-api.d.ts",
+          "bytes": 3988,
+          "lines": 96,
+          "sha256": "429080ca04fdfbe3bb6cb76db5a01da3cae9654a3389d851d5b9ba0c7ff48abd"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/imports.json",
+          "bytes": 2794,
+          "lines": 102,
+          "sha256": "51b2c1da926840022568c4028d05ee159864bcf036f7ceef8bde144e51ed5561"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/required-data.json",
+          "bytes": 10867,
+          "lines": 488,
+          "sha256": "94cb76fc93184d0d239c0b88703f2317429589935583df4d550a858e47c6a9b8"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-data.json",
+          "bytes": 9676,
+          "lines": 35,
+          "sha256": "29e3f23b30731a6852a071957fef20ccd8867316cd80f6ee989ce1381007c80c"
+        }
+      ]
+    },
+    "projection": {
+      "source": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+        "bytes": 5753,
+        "lines": 127,
+        "sha256": "f2510e9d6d2643400f58bde25823d4ae75d0d932b7ab8f618dd6849c94d2baab"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/contract.md",
+          "bytes": 3475,
+          "lines": 13,
+          "sha256": "83ec83cd9ac972f915c2f57d1a9981efad9d5f602803b36e869cf39503330020"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/public-api.d.ts",
+          "bytes": 618,
+          "lines": 7,
+          "sha256": "d2b7615ce2d5db6eaf7854b30cc089c4571cd524debb90a42ed617725dbb0a26"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/dependency-api.d.ts",
+          "bytes": 3048,
+          "lines": 85,
+          "sha256": "565b19ed81b981249e1eccac10e6c8deb92a2ff234ba6c1e638ef87ea7cf7fcf"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/imports.json",
+          "bytes": 1826,
+          "lines": 64,
+          "sha256": "919b2c4e8dcdf30d9144729e00dfbb9e952f3e38179f8a207714a18dd83a9ea4"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/required-data.json",
+          "bytes": 443,
+          "lines": 21,
+          "sha256": "df15a40cb6d095145022dda66e33ece3c4d98a519ae532519caed73a857a74f7"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/public-data.json",
+          "bytes": 6026,
+          "lines": 45,
+          "sha256": "101ce24839c7d5e10c5780e4dbd54d296f3f48a85cd31d73af77d66a8a84b900"
+        }
+      ]
+    },
+    "frontmatter": {
+      "source": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+        "bytes": 5390,
+        "lines": 131,
+        "sha256": "e9a9113081afab46df9cb79bad8ea18b3897059efb58a7138c5987f8388ca2a5"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/contract.md",
+          "bytes": 3979,
+          "lines": 11,
+          "sha256": "0c560b00d81a44790a60a36c52930bd664c599dc8bac4483b1a2c1f54d652a87"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/public-api.d.ts",
+          "bytes": 815,
+          "lines": 17,
+          "sha256": "e3f8606c7bc1709ac88b0d335fa738a65dba3d57ed498968d6739bc2a1f0ed71"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/dependency-api.d.ts",
+          "bytes": 568,
+          "lines": 9,
+          "sha256": "ef567f33689967b0d70d4da49b2203776acfceaa198be65bf942682a2c4df5a1"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/imports.json",
+          "bytes": 707,
+          "lines": 34,
+          "sha256": "9f58a0b35f676a67b52e9ca317e881eeefd496801ee63b69219220443e315f75"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/required-data.json",
+          "bytes": 2091,
+          "lines": 127,
+          "sha256": "0cbf66db7f28e87f9c7fd5ab41162c27b46dc812a64e82d68b3f464c35c41e4a"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/public-data.json",
+          "bytes": 2575,
+          "lines": 40,
+          "sha256": "582f801ff3db13d022b030df32b638b53af46b7a15a728e31cdb092fbebe72ca"
+        }
+      ]
+    },
+    "notes": {
+      "source": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+        "bytes": 4416,
+        "lines": 86,
+        "sha256": "f53af315077d7553f40d98987bf30ecb20b3879ea8a94d68ec98553b431835ea"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/contract.md",
+          "bytes": 2687,
+          "lines": 11,
+          "sha256": "cc337f4ebde9ccf198b6bf449a78ca0faa455c2e38951471a8d21ec7ab288962"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-api.d.ts",
+          "bytes": 768,
+          "lines": 15,
+          "sha256": "59f0f189697a38553899ca49a6adafa0ff3e6cbea6a3c8a73c79ec43736f6d9f"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/dependency-api.d.ts",
+          "bytes": 378,
+          "lines": 6,
+          "sha256": "da30d2d56c9209c60279efdce41456ff58e3bb4e4556ad2d0e94cbb1f7bd33c7"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/imports.json",
+          "bytes": 250,
+          "lines": 13,
+          "sha256": "a37302976fb582ff47bc4f194027ee1313e99e7db179af8fc4849da6d72fea3d"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/required-data.json",
+          "bytes": 3105,
+          "lines": 148,
+          "sha256": "a9db64bddc569b3aa0caf2d6e3e6f09f55d1c74e11519707033db8b69dc3a3d3"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-data.json",
+          "bytes": 544,
+          "lines": 10,
+          "sha256": "fb8c983de1e560c4bffb27848863e5c9ba9945ff9473d2af1e5bc815de348ca0"
+        }
+      ]
+    },
+    "format-v2": {
+      "source": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+        "bytes": 14662,
+        "lines": 266,
+        "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/contract.md",
+          "bytes": 6954,
+          "lines": 23,
+          "sha256": "59156a2548f66a786d3ec61575e5ba03796b860898e3cc7e6e9e26d4765ca82e"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-api.d.ts",
+          "bytes": 159,
+          "lines": 2,
+          "sha256": "e219ca28776052cd86a8ba6deb022b012fd1607d861b849fcf90b81825799f1b"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/dependency-api.d.ts",
+          "bytes": 3988,
+          "lines": 96,
+          "sha256": "429080ca04fdfbe3bb6cb76db5a01da3cae9654a3389d851d5b9ba0c7ff48abd"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/imports.json",
+          "bytes": 2794,
+          "lines": 102,
+          "sha256": "51b2c1da926840022568c4028d05ee159864bcf036f7ceef8bde144e51ed5561"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/required-data.json",
+          "bytes": 10867,
+          "lines": 488,
+          "sha256": "94cb76fc93184d0d239c0b88703f2317429589935583df4d550a858e47c6a9b8"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-data.json",
+          "bytes": 9676,
+          "lines": 35,
+          "sha256": "29e3f23b30731a6852a071957fef20ccd8867316cd80f6ee989ce1381007c80c"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/format-provider-order-finding.md",
+          "bytes": 1705,
+          "lines": 5,
+          "sha256": "80b32853fe1eecbf043201b77ec0bffa210d7efbc6bffe17d5299787bb123b57"
+        }
+      ]
+    },
+    "frontmatter-v2": {
+      "source": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+        "bytes": 5390,
+        "lines": 131,
+        "sha256": "e9a9113081afab46df9cb79bad8ea18b3897059efb58a7138c5987f8388ca2a5"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/contract.md",
+          "bytes": 3979,
+          "lines": 11,
+          "sha256": "0c560b00d81a44790a60a36c52930bd664c599dc8bac4483b1a2c1f54d652a87"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/public-api.d.ts",
+          "bytes": 815,
+          "lines": 17,
+          "sha256": "e3f8606c7bc1709ac88b0d335fa738a65dba3d57ed498968d6739bc2a1f0ed71"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/dependency-api.d.ts",
+          "bytes": 568,
+          "lines": 9,
+          "sha256": "ef567f33689967b0d70d4da49b2203776acfceaa198be65bf942682a2c4df5a1"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/imports.json",
+          "bytes": 707,
+          "lines": 34,
+          "sha256": "9f58a0b35f676a67b52e9ca317e881eeefd496801ee63b69219220443e315f75"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/required-data.json",
+          "bytes": 2091,
+          "lines": 127,
+          "sha256": "0cbf66db7f28e87f9c7fd5ab41162c27b46dc812a64e82d68b3f464c35c41e4a"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/public-data.json",
+          "bytes": 2575,
+          "lines": 40,
+          "sha256": "582f801ff3db13d022b030df32b638b53af46b7a15a728e31cdb092fbebe72ca"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/frontmatter-index-type-finding.md",
+          "bytes": 1575,
+          "lines": 5,
+          "sha256": "af9796345bb51478c034f33ee81e382d09ccd9c260b8dd375ed4b63e3010258c"
+        }
+      ]
+    }
+  }
+}

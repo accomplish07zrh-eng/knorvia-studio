@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "scope": "Root Cron admission and single-effect review",
+  "baseline": "d20bfa4a312deda80f2a48b8a9bcae0013f71e47",
+  "laneCheckpoint": "20e293e",
+  "rootCodeHead": "a3d8f2d85e767e016060d058a6a42d9f0c6a4981",
+  "validation": {
+    "source": 19,
+    "emitted": 19,
+    "differentialPerMode": {
+      "calls": 16384,
+      "perOperation": 4096,
+      "seed": 1129467726,
+      "sha256": "f6d1c12b5cdf97ebdc24a7bd058a8cc917bdee3ffe4126243fae46dca672f291"
+    },
+    "full": {
+      "tests": 6558,
+      "pass": 6492,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0,
+      "exactPriorFailureEventMultiset": true
+    },
+    "gates": [
+      "root types",
+      "CLI build",
+      "serial CLI types",
+      "root lint",
+      "explicit eight owned CLI files lint",
+      "format",
+      "changed architecture"
+    ]
+  },
+  "logSha256": {
+    "cron-root-full.tap": "adc70a3a7f7701150e2ed11686c74c94d64a29eae5d91072fa91106ac62df66b",
+    "cron-root-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "cron-root-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "cron-root-format.log": "256172793049bd310987becd2a67fdbe305f1fb80ad52bb8b7f63446ef4e0816",
+    "cron-root-lint.log": "d123e188327c17516dbbb1aff2e4c9d39a94c6b4864773296be9243198e73941",
+    "cron-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "cron-root-explicit-lint.log": "28ad87c42c1d7c99d3be5d6b6d1bb9d9b779c3d59619553ea9bc80d011fbe978",
+    "cron-root-differential-emitted.log": "0ca9e88108795f0d84b1ef1165cdfeb11517c4a7ff488555e858f2e46485e71b",
+    "cron-root-differential-source.log": "f2175424f5319f7a26af33f8d3858b9d56aa6e6bb4ac3ef39240cb7c180cd03e",
+    "cron-root-emitted.tap": "dc190339d50be1097e6f7b0b63ea514209ed816a39e6f0c77f16d9178a431fe5",
+    "cron-root-source.tap": "f8b437456e5199f8adba57a5aa78782347c1e4a0d62f81e99afd95aae209675e",
+    "cron-root-cli-build.log": "b56f9f52b9bb43bb1e0315a37771528dfad98800bc4230ca4d3194e38f3b941b"
+  },
+  "retained": "Guard bodies, declarations, model-facing prose and existing shared schemas retain their source/licence status. No actual scheduled task or account effect in tests.",
+  "limits": [
+    "Source-exposed; no clean-room or final MIT eligibility determination",
+    "27 material obligations remain",
+    "Live scheduling/persistence/account and native visual acceptance unverified",
+    "Native CI for this exact new checkpoint pending"
+  ]
+}

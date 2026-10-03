@@ -1,0 +1,32 @@
+{
+  "scope": "changes",
+  "version": 2,
+  "recordedAtUtc": "2026-10-02T21:03:40.044024+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "originalArchive": "c609f99a",
+  "qualificationCommit": "c9ea5661",
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 22837,
+      "sha256": "aa49239c16943b39706b9f0f004d13c0252c70def177ff0bdc3fd9e6abfa9a66"
+    },
+    {
+      "file": "turn-file-changes.ts.txt",
+      "bytes": 3011,
+      "sha256": "5555e83415364680d32cf2ca54b8074465844cce945f668e0f4631a2f90d2c20",
+      "target": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts"
+    }
+  ],
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/v2/owner-correction.md",
+      "bytes": 1184,
+      "sha256": "95e9c436cf4ed197243354b3420b5c854a90f2c78af79d987f2b88d23376eb4d"
+    }
+  ],
+  "savedFastUnchanged": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "noOsIsolationOrAccessAuditProof": true
+}

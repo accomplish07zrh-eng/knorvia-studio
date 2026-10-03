@@ -1,0 +1,150 @@
+{
+  "formatVersion": 1,
+  "baseline": "42a480c68bb97199138320f508f4c8f1d3019848",
+  "previousExpansion": "28722857f448dcf21cf66a247030cb136b846f26",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+  "scope": [
+    "docs/knorvia-may-set-expansion-review-20261002.md",
+    "docs/evidence/knorvia-may-set-expansion-review-check-20261002.mjs",
+    "docs/evidence/knorvia-may-set-expansion-review-20261002.json"
+  ],
+  "decision": "Retain mixed expansion; no production change",
+  "body": {
+    "bytes": 2364,
+    "sha256": "c4fb11c868d323bb164846bc1620be22d851b867eeaedc9ec4c5d2aa0b7a38d9"
+  },
+  "publisher": {
+    "commitAssociation": "872ad960de7ec172591f7e1952f7849229f94521",
+    "path": "apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+    "blob": "3ea22f6ef15e14fbf1dffdc98e7b3c989bcf183d",
+    "bytes": 7426,
+    "normalizedSha256": "34999bfbe0c10983adf3d62cd9989cf6a288456d03d6530e3e82668f754d7846",
+    "verification": "Local actual bytes; commit/path association from existing inventory, no new remote acquisition or authorship proof"
+  },
+  "archive": "apps/cli/packages/core/test/may-set-lane-expansion-baseline.json",
+  "historical": {
+    "emittedSha256": "9462643311ccaa73350c480ae923347c1e686da69cbb885e2537e1ef4b111de8",
+    "declarationSha256": "0e29131a14c0104b949792c25696ee4caded78b5c95eaf4caa088f8c982d8889"
+  },
+  "artifacts": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+      "bytes": 4856,
+      "sha256": "98892ea6b13e93227677f1fe9c103e30e2fbf8dccd9dd95982d000140a12b1d7"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.js",
+      "bytes": 4938,
+      "sha256": "35f6ef1114cc8ca76eb1dbdd75f5bd469f51faa7a7cf6962179962c63f40b691"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.d.ts",
+      "bytes": 881,
+      "sha256": "dde82e79069d3d5c7f3fedc1d8fc2199dd327852259d755771b5870dd2a252b4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-current.json",
+      "bytes": 267,
+      "sha256": "580fd1934cfd61d2fdfbeb408f6267e75dafb312a642be92d25f345c32ba0ea7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-baseline.json",
+      "bytes": 9689,
+      "sha256": "211a58a6d6737900ca4f6331992e8e8ce2e27e8739880a076d8e360c5d6a704b"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-lane-documentation-20261001.json",
+      "bytes": 12039,
+      "sha256": "46a06800239ac515b662323bd37af6e405e78ec65194b796cfdc6b6a037cb5e2"
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/knorvia-may-set-expansion-review-20261002.md",
+      "bytes": 6104,
+      "sha256": "c74bd9759031d3f2450577d9e7f4e5b84f335512d05b7089ac9de826ed41e8dd"
+    },
+    {
+      "path": "docs/evidence/knorvia-may-set-expansion-review-check-20261002.mjs",
+      "bytes": 4257,
+      "sha256": "f467e14fac9425a94abeaae26bea5348d7affbccafe4f5f80411ff521e644d6a"
+    }
+  ],
+  "retainedExpression": {
+    "narrowReviewedChange": "Unified replacement/original entry and direct generated-copy resolution",
+    "remainingCombination": "Candidate admission and ordered copy spreads; untouched branch and nested tail/head products; FIFO filter and certainty arguments; final step/sink flat projections",
+    "exactComparisons": "Emitted step/edge clone expressions, FIFO predicate and complete weakest function match the pinned publisher/oracle",
+    "ordinaryPrimitives": "Map/loop/spread and fixed vocabulary may be conventional; this does not establish independence of their retained combination",
+    "commentsAndFactJoin": "Separate candidates under root review, not evidence clearing expansion",
+    "sourceExposure": true,
+    "rights": "Mixed unresolved; existing attribution/obligations remain; no header/registry/MIT/whole-file independence grant"
+  },
+  "coverage": {
+    "realDifferential": {
+      "fixture": "apps/cli/packages/core/test/may-set-lane-expansion-fixture.ts",
+      "historicalSourceGroups": 5,
+      "historicalEmittedGroups": 5,
+      "routing": "Exact old lanes injected into old analyzer graph; current imports target current source/actual emitted module",
+      "browserLimit": "Browser reprojection uses current projection module even for old analyzer core"
+    },
+    "neighboringSmoke": {
+      "fixture": "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+      "historicalSourceGroups": 1,
+      "historicalEmittedGroups": 1,
+      "isMaySetDifferential": false,
+      "reason": "Fixed receivers; historical graph overrides reducer/phase while importing current lanes"
+    },
+    "endpointGettersCovered": false,
+    "getterLimit": "Only graph-level getter controls, not arbitrary endpoint getters",
+    "simultaneousCallsProved": false,
+    "repeatLimit": "Synchronous calls run in separate microtasks; isolation/aliases only"
+  },
+  "supersedesDescriptionsIn": [
+    "docs/knorvia-may-set-lane-expansion-20261001.md",
+    "docs/evidence/knorvia-may-set-lane-expansion-20261001.json",
+    "docs/knorvia-causality-lane-facts-20261001.md",
+    "docs/evidence/knorvia-causality-lane-facts-20261001.json",
+    "docs/knorvia-causality-lane-documentation-20261001.md",
+    "docs/evidence/knorvia-causality-lane-documentation-20261001.json"
+  ],
+  "checks": {
+    "behavioralRuns": 0,
+    "documentaryBehaviorRuns": 0,
+    "productionChanges": 0,
+    "historicalPreservation": "Git scope comparison against exact baseline preserves all tracked production, selectors, assertions, oracles and receipts",
+    "gates": "New evidence checker, scoped evidence lint/format, architecture; no production compile or aggregate gates",
+    "digestCheck": {
+      "pass": true,
+      "boundDigests": 8,
+      "unchangedBody": true,
+      "exactRetainedCloneAndFifoExpressions": 3
+    },
+    "evidenceGates": {
+      "nodeSyntax": "pass",
+      "configuredLint": {
+        "files": 1,
+        "rules": 94,
+        "errors": 0,
+        "warnings": 0
+      },
+      "ownedLint": {
+        "files": 1,
+        "rules": 94,
+        "errors": 0,
+        "warnings": 0
+      },
+      "format": {
+        "files": 3,
+        "pass": true
+      },
+      "architecture": {
+        "violations": 0,
+        "new": 0
+      },
+      "whitespace": "pass"
+    }
+  },
+  "executionNotes": "Default freshness fetch failed at proxy and default Node child-process inspection reported EPERM. Existing supported executor invocation succeeded; no environment/settings change or persistent blocker.",
+  "nextDecision": "Retained expansion combination requires root independent expression/rights review or a separately justified substantive design; causality-order-settle remains untouched next ledger candidate",
+  "limits": "No new behavioral coverage, arbitrary endpoint-getter/simultaneous-call proof, build/full suite/native acceptance, provider/user data, licence grant or publication"
+}

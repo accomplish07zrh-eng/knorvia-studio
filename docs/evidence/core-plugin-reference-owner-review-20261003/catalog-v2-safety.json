@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "groups": [
+    {
+      "name": "catalog: exact identity, enabled conflicts and immutable declared names",
+      "passed": true
+    }
+  ],
+  "bindings": [
+    {
+      "scope": "catalog",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/catalog.ts.txt",
+      "bytes": 2201,
+      "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507"
+    }
+  ],
+  "qualification": "Six distinct minimum synthetic public identity/privacy/authority/budget/error gates, archived complete candidates only with fake original validation port and native pure operations. No predecessor/dependency/business runtime, actualplugins/users/provider/network/credentials/FS/model/tool operations. No ordinary suites/build/project/semantic/lint or source-emitted behavior matrix; not final functional/origin/licence acceptance."
+}

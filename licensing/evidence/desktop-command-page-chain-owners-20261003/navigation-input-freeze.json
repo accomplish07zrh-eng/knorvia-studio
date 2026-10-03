@@ -1,0 +1,26 @@
+{
+  "owner": "navigation",
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/common-contract.md",
+      "sha256": "f56b5cf9fa04cd7a9989740b6bd84cdcad4cfa461e18f74d4dbee7610fbb1e57"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/navigation-owner-contract.md",
+      "sha256": "af9fea85b7fcad3f6f9f3be019b10ef770528a8044fb13cdc381a0da29701d14"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/ports/navigation.d.ts",
+      "sha256": "fe75e2dda6d802c336c79e8bde623aca9c659fccd0e7fa4b56ce1f13e1c4530c"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/ports/shared.d.ts",
+      "sha256": "7e6b4942cac036b9d42bf3f9581661c578574d22eebefe81995ffb709f05f6b5"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/ports/view.d.ts",
+      "sha256": "e3671e3a3fcb44a690f500347ff49287b08d46cc655774843c0e10998824c031"
+    }
+  ],
+  "beforeAuthoring": true
+}

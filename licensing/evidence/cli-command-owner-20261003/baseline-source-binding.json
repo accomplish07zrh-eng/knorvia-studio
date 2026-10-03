@@ -1,0 +1,8 @@
+{
+  "path": "apps/cli/packages/adapters/src/commands/index.ts",
+  "sha256": "5b761f903a15305afcf1b41ba38f8853ded4fd6ee9619c3b9ec41c44ab8cd8d1",
+  "baselineCommit": "8588e3734557b9357a125990e4000529f7589e66",
+  "testRecord": "baseline-synthetic.json",
+  "testRoute": "installed unchanged predecessor before any candidate installation; --baseline option not passed; frozen byte hash equals tested source",
+  "cases": 2
+}

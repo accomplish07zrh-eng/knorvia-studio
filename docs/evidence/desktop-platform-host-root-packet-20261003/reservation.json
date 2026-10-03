@@ -1,0 +1,99 @@
+{
+  "baseline": "b5c932451925e02d8916e13095ceea8de24c7447",
+  "origin": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "bytes": 16310,
+      "lines": 418,
+      "sha256": "4446b188438efe3243dc5db6102c06d92b3934b4ed178980449c15ee608f1906",
+      "acceptedSourceReceiptCandidates": [],
+      "currentInventory": {
+        "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+        "kind": "file",
+        "sha256": "4446b188438efe3243dc5db6102c06d92b3934b4ed178980449c15ee608f1906",
+        "normalizedSha256": "4446b188438efe3243dc5db6102c06d92b3934b4ed178980449c15ee608f1906",
+        "encoding": "utf8-lf",
+        "bytes": 16310,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+          "blob": "edca8347d9fc2ad9ac84a484eb78f4a68effe6e0",
+          "normalizedSha256": "c70a95f043ae3ddac2b4292ed93f1ee1e56e5cd54b7bb2419b6ddc8940672d84",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamRecord": {
+        "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+        "mode": "100644",
+        "blob": "edca8347d9fc2ad9ac84a484eb78f4a68effe6e0",
+        "kind": "file",
+        "sha256": "c70a95f043ae3ddac2b4292ed93f1ee1e56e5cd54b7bb2419b6ddc8940672d84",
+        "normalizedSha256": "c70a95f043ae3ddac2b4292ed93f1ee1e56e5cd54b7bb2419b6ddc8940672d84",
+        "encoding": "utf8-lf",
+        "bytes": 15910
+      },
+      "reviewMetadata": null,
+      "availableHistory": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25 style: format the repository with oxfmt and enforce fmt:check in CI",
+        "682dcc84438e92af4715b7759387202166505ec7 2026-09-25 feat: finalize Knorvia Studio 0.8.0 preview",
+        "dfbf2b66db3b2dd3e16fb09417b260ef6e33114c 2026-09-25 chore: refresh Knorvia Studio preview snapshot",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "bodyReviewedForThisReservation": false
+    },
+    {
+      "path": "packages/desktop/src/main/desktopHostProcess.ts",
+      "bytes": 25735,
+      "lines": 714,
+      "sha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5",
+      "acceptedSourceReceiptCandidates": [],
+      "currentInventory": {
+        "path": "packages/desktop/src/main/desktopHostProcess.ts",
+        "kind": "file",
+        "sha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5",
+        "normalizedSha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5",
+        "encoding": "utf8-lf",
+        "bytes": 25735,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/desktopHostProcess.ts",
+          "blob": "622ee39170d310c5a282d6c3b576cdfe15a046f1",
+          "normalizedSha256": "920b44415d8215384905fed61d5b8f3430f8285de4ae77cdc4d234a15f1e0306",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamRecord": {
+        "path": "packages/desktop/src/main/desktopHostProcess.ts",
+        "mode": "100644",
+        "blob": "622ee39170d310c5a282d6c3b576cdfe15a046f1",
+        "kind": "file",
+        "sha256": "920b44415d8215384905fed61d5b8f3430f8285de4ae77cdc4d234a15f1e0306",
+        "normalizedSha256": "920b44415d8215384905fed61d5b8f3430f8285de4ae77cdc4d234a15f1e0306",
+        "encoding": "utf8-lf",
+        "bytes": 26009
+      },
+      "reviewMetadata": null,
+      "availableHistory": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25 style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "bodyReviewedForThisReservation": false
+    }
+  ],
+  "receiptMetadataFilesScreened": 101,
+  "rootExclusive": true,
+  "noEImplementation": true,
+  "parentReportedAboutMenuCheckpoint": "PR12e3a77cf0a0e541440f83880df56533aae40358fc, API/lint/architecture/3minimum groups pass, types/native unrun; parent-reported, no E import/revalidation",
+  "qualification": "Metadata-only reservation before curator body screening. Missing receipts/reviews not sole origin proof; exact source/history/inventory lineage qualified. No credentials/system/process/IPC business operations. Existing curator/source/tool/dependency exposure, repaired scratch-write breach remain. Instruction-only/no OS audit, no rights clearance."
+}

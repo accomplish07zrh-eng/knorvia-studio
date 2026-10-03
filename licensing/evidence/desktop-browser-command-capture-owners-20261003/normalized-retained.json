@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-shapes.mjs",
+      "sha256": "7b0a55d877160bfa963e76234b9e72421a2d8bf0abeff6691751ee15e615124c"
+    }
+  ],
+  "stdout": "[{\"owner\":\"command\",\"commandCases\":22,\"identicalBodies\":[{\"baseline\":\"done\",\"candidate\":\"done\",\"bodyHash\":\"679b7ba3be45b9925a0b4f73c8ea0ef9a90cade9fe0115f7e7ce58fa1682c185\"}],\"identicalExpressionCount\":157},{\"owner\":\"capture\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":128},{\"owner\":\"capture\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":128},{\"owner\":\"capture\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":131},{\"owner\":\"command\",\"commandCases\":22,\"identicalBodies\":[{\"baseline\":\"done\",\"candidate\":\"done\",\"bodyHash\":\"679b7ba3be45b9925a0b4f73c8ea0ef9a90cade9fe0115f7e7ce58fa1682c185\"}],\"identicalExpressionCount\":157},{\"owner\":\"command\",\"commandCases\":22,\"identicalBodies\":[{\"baseline\":\"done\",\"candidate\":\"done\",\"bodyHash\":\"679b7ba3be45b9925a0b4f73c8ea0ef9a90cade9fe0115f7e7ce58fa1682c185\"}],\"identicalExpressionCount\":157}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

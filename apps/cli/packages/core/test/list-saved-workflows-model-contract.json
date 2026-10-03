@@ -1,0 +1,191 @@
+{
+  "directDigests": [
+    "571f3ba13b4d25d6c6a0298b7196739e62e755cd38694959117f13dacc2f3bd3",
+    "1bdf90389c11fc9ba670005f1a26739bb6c0864eb4f0b484aa5c8d23cb8e6e3d",
+    "9f1d3acc64638f565898c514d5502e4e3998290af5bc166e80c4ca25e99307ba",
+    "1522265a68c9b71fcec0dc58cc5bf86a6828e17670459fb902de724b1de1d938",
+    "af5406412166c38100e1bc9ffa3b0eb07d61ed9e407e5375c5b584d21cc94e49",
+    "8f569654c415dd5db96acf79defbe351eeba82b5267b2d0cd8026b74c3fe47d5",
+    "d2d44a9126c10f824b71ad61178212c6a44f9d8fe76d5c81adb65f98f176ca0c",
+    "9f1d3acc64638f565898c514d5502e4e3998290af5bc166e80c4ca25e99307ba",
+    "9f1d3acc64638f565898c514d5502e4e3998290af5bc166e80c4ca25e99307ba",
+    "953d07cf8bb7f55c949995aaf2afb44af21455d99e322f7e65797f4f93a0c969",
+    "fa470f4abcded3506121ce6144c3851e8babe5a72c2e1b82e1269e8135975839",
+    "b87b1953a24c5dff34adc1dfcd22ac950402cfdb3b09edda09c06ca5d9d43e25",
+    "f4ea4c721c315cc6712ae59831b10a137f0b95aa4826560c7536b085a69c1d39",
+    "538a1b35da8d79dac9db59ff83eb75920a6cd09f92fa95aa378b2386b200672d",
+    "848bc2de3dce7c9a32cc501948249856fbd070917f9fcddc37dbc7bef54a038a",
+    "8487a7eefff77569f1260f6bd01de3cf51f8e3ef6fdac562d9ed769f1891b849",
+    "800d41d8c7829b2e11e73bdce9266fe437b19e8d9aed4381a13226c9e86801f6",
+    "678a1b3df0e671d1ea8877fabed4ffe01fefd876cad63173832fde93b41b4c69",
+    "8b3300a026a10ab061b1f59298384d6d5171af85584056999b7a67d1ce3e4d8e",
+    "493ade2373cd7105a322d3214bfb807ef56a3ef752f2e137f8c3c8cea741e8a6",
+    "1d899ce482a5d0ca867549bc4e1cfa9f85c644ca400b473bd8b43978d8f333c5",
+    "0126d02a3bdf37872eaa21f7999338f68ae795a53873eb244cd1c9df1e79c7e4"
+  ],
+  "executorDigests": [
+    "39ef16103f83cd2169ec4b485b9083baaec5812f4aeaaee10a8de4ce7b140c93",
+    "1f6742099df65e80decb0ac3029a2369df7bf11672f4564e4a3489d7f5e7d00e",
+    "a6f3d114b88d9a11661f1deda517059105bfe97ff0430dfd9d5dae277057fc6a",
+    "8afb89a3a21ef0c1e624a546be0c96d0b1846bd696559208ac2561cde55dd0ed",
+    "e02d8b16b02e358f82692029b9b3a3246234c87ac8ec2c6a60e906255fc8d20b",
+    "5f035ab970b31537433031ff1840f3fa00ca1351412f1a974e3c9fc2737e84f0"
+  ],
+  "edgeDigests": [
+    "ace5e165b251c9e172ee3127d580a03a89a3c7c0539b738808030c0aee203de8",
+    "058f7adf2c02c6bdfe10eda4b700d538525333d8358daa912a9a9333e23599cf",
+    "dc7c22644ad930dcc29fda1a8682db2f8516ed0395280f5e369acf4b6122ea76",
+    "b4c4c446b3759053da6fccfd9eed43572026d3214ed0623d53a8994abf3c5e92",
+    "3ecf25125a3e248be96f7be2d36de2980d3e19122f9219a062cca9a669a76dff",
+    "b022efb3f1fbebd887c48fad4fc72a6da946415af55807b73cb64549a809c7a6",
+    "34fa09302cdf6d90450e6ef9389c8d0d5fa2e3c53ad91c257d229279bb12c8e3",
+    "6b7678cc1bb662c74292b16a787a49d4af7acbc316a7838e2a227c1f0b5edb64",
+    "6489c7ef77a6f1d0da66328cda84d501e2b15631f1c7b8cf6e8b5b6e55f735e5"
+  ],
+  "declaration": "import type { ToolEntry } from \"../types.js\";\nexport declare const listSavedWorkflowsToolEntry: ToolEntry;\n//# sourceMappingURL=list-saved-workflows.d.ts.map",
+  "metadata": {
+    "capability": "List the reusable dynamic-workflow definitions saved in this project",
+    "metadata": {
+      "name": "ListSavedWorkflows",
+      "description": "Lists the dynamic workflows saved in this project (`.knorvia-studio/workflows/`, keyed on the session's working directory) and the global archive (`~/.knorvia-studio/workflows`, available from every project). These are workflow DEFINITIONS you can run, not past runs — for the run history use ListWorkflowRuns instead.\n\n- Each row gives the name, what the workflow does, when to reach for it, and the arguments it takes.\n- Run one by passing its name to CreateWorkflow as `saved: { name, args }`. The user still confirms the run.\n- Check here before writing a workflow from scratch: if the project already saved one that fits, running it beats rebuilding it.\n- `invalid` lists saved files that could not be read (usually a hand-edited metadata block). They are named so they can be fixed, not silently skipped.",
+      "readOnly": true,
+      "destructive": false,
+      "concurrentSafe": true,
+      "timeoutMs": 10000,
+      "maxOutputBytes": 24000,
+      "sideEffectScope": "none",
+      "riskLevel": "low",
+      "needsApproval": false
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "workflows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "string"
+              },
+              "whenToUse": {
+                "type": "string"
+              },
+              "args": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["string", "number", "boolean", "json"],
+                      "description": "Value type. \"json\" accepts any JSON value without further checking."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "What this argument means, for whoever calls the workflow later."
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "description": "When true the workflow cannot run without this argument."
+                    },
+                    "default": {
+                      "description": "Value used when the caller omits this argument."
+                    }
+                  },
+                  "required": ["type"],
+                  "additionalProperties": false
+                },
+                "propertyNames": {
+                  "type": "string"
+                }
+              },
+              "scope": {
+                "type": "string",
+                "enum": ["project", "global"]
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["name", "description", "scope", "path"],
+            "additionalProperties": false
+          }
+        },
+        "invalid": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["path", "reason"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["workflows"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "permission": {
+      "permission": "listSavedWorkflows",
+      "reason": "ListSavedWorkflows reads the saved workflow definitions of the current project",
+      "riskLevel": "low",
+      "sideEffectScope": "none",
+      "needsApproval": false,
+      "patternSources": ["toolName"],
+      "alwaysAllowPatternSources": ["toolName"],
+      "denyPriority": "beforeAsk"
+    },
+    "resultBudget": {
+      "maxInlineBytes": 24000,
+      "maxModelBytes": 24000,
+      "strategy": "truncate",
+      "preview": {
+        "maxBytes": 24000,
+        "direction": "head"
+      }
+    },
+    "timeout": {
+      "kind": "timed",
+      "defaultMs": 10000,
+      "maxMs": 10000,
+      "allowCallOverride": false
+    },
+    "cancellation": {
+      "supported": false,
+      "cleanup": "none",
+      "userVisibleMessage": "ListSavedWorkflows scans the project's workflow directory synchronously and cannot be cancelled"
+    },
+    "trace": {
+      "required": true,
+      "propagateToAdapters": false,
+      "recordInput": "summary",
+      "recordOutput": "summary"
+    }
+  },
+  "ordinary": {
+    "success": true,
+    "model": "<saved_workflows count=\"1\">\n<workflow name=\"synthetic&lt;&amp;&quot;\" scope=\"project\">\n  Synthetic description\nsecond line\n  When to use: \n  arg z (json, required, default null) — \n  arg a (boolean, default false)\n  arg n (number, default 0)\n  arg synthetic (json, default \"synthetic default\")\n</workflow>\n</saved_workflows>",
+    "tape": ["then", "then", "then", "workflows", "invalid"]
+  }
+}

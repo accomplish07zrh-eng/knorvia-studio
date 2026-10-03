@@ -1,0 +1,17 @@
+{
+  "archivedAtUtc": "2026-10-02T19:11:38.054871+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 4171,
+      "sha256": "7692dbc9974c9eaf6a38d095e917ddd6ab744521a6648dd96dfdbc1241d910a6"
+    },
+    {
+      "file": "draft-compact-media.ts.txt",
+      "bytes": 2975,
+      "sha256": "a0a0ffad3619dc18c38da7806880770a35a44414695d719cc70ca46e0bf80ce4",
+      "target": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts"
+    }
+  ]
+}

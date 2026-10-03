@@ -1,0 +1,15 @@
+{
+  "controlOnly": {
+    "finding": "Sealed draft adds undefined workflowLaunch/intent own properties in absent-options TurnStarted. Exact predecessor omits both.",
+    "baseline": "1 actual compiler-emitted focused presence group passed",
+    "sealedDraft": "same focused group fails ERR_ASSERTION; immutable compiled fragment pinned",
+    "correction": "restore truthy conditional property presence; preserve original failure"
+  },
+  "types": {
+    "finding": "private title request causation parameter rejects AgentTelemetryCausation | undefined",
+    "diagnostics": 1,
+    "correction": "allow optional causation; no runtime behavior or public API change"
+  },
+  "api": "Control draft uses private parameter type aliases; curator will restore exact historical inline public declaration shapes rather than accepting altered emitted documentary form.",
+  "scope": "Source-exposed curator corrections after draft seal; no licence inference"
+}

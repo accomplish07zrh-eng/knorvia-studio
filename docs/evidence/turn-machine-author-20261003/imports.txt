@@ -1,0 +1,2 @@
+Implementation path: apps/cli/packages/core/src/agent/turn-machine.ts
+Type and value imports may use ./turn-state.js and @knorvia/contracts. Preserve public TurnMachine and TurnMachineImpl names; the existing state module is unchanged.

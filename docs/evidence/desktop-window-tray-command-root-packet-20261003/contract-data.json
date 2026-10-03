@@ -1,0 +1,116 @@
+{
+  "retainedExpression": "Static menu/configuration/protocol/literals/prose and ordinary platform semantics; no novelty/licence claim",
+  "coordinatorLogs": {
+    "discarded": "[primary-window] discarded crashed renderer window",
+    "blocked": "[primary-window] window creation blocked (${reason})",
+    "reused": "[primary-window] reused existing window (${reason})",
+    "pending": "[primary-window] window creation already pending (${reason})",
+    "creating": "[primary-window] creating main window (${reason})",
+    "available": "[primary-window] window became available before create (${reason})"
+  },
+  "tray": {
+    "platform": "win32",
+    "packagedIcon": "tray_icon.ico",
+    "developmentIconRelative": "../../build/icon.ico",
+    "events": [
+      "click",
+      "double-click"
+    ],
+    "warnCreate": "[desktop-tray] failed to create tray icon",
+    "warnShow": "[desktop-tray] failed to show current window",
+    "warnCommand": "[desktop-tray] failed to execute tray command ${command}",
+    "tooltipId": "trayTooltip",
+    "menu": [
+      {
+        "labelId": "trayOpenKnorvia",
+        "action": "showCurrentWindow"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "labelId": "fileNewTask",
+        "commandIdKey": "NewTask"
+      },
+      {
+        "labelId": "fileOpenWorkspace",
+        "commandIdKey": "OpenWorkspace"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "labelId": "helpAbout",
+        "commandIdKey": "ShowAbout"
+      },
+      {
+        "labelId": "helpClearAllData",
+        "commandIdKey": "ClearAllData"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "labelId": "trayQuit",
+        "action": "quitApp"
+      }
+    ]
+  },
+  "menuIds": {
+    "HELP_TOGGLE_DEV_TOOLS_MENU_ID": "help.toggle-dev-tools",
+    "HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID": "help.toggle-stdio-tap"
+  },
+  "dispatcherLog": "[desktop-command] execute ${command} windowId=${idOrNone}",
+  "absentWindowLabel": "<none>",
+  "windowSize": {
+    "width": 1200,
+    "height": 800,
+    "animate": true
+  },
+  "zoom": {
+    "minLevel": -3,
+    "maxLevel": 5,
+    "step": 1.1,
+    "resetLevel": 0,
+    "patchField": "desktopZoomLevel",
+    "ipcPayload": [
+      "zoomLevel"
+    ],
+    "persistWarn": "[desktop-zoom] persist zoom level failed:"
+  },
+  "stdioToggleLog": {
+    "message": "[stdio-tap] dev proxy toggled",
+    "fields": [
+      "enabled",
+      "visible",
+      "logDir"
+    ]
+  },
+  "clearDialog": {
+    "type": "warning",
+    "buttons": [
+      "Cancel",
+      "Clear All"
+    ],
+    "defaultId": 0,
+    "cancelId": 0,
+    "title": "Clear All Data",
+    "message": "确定要清除所有数据吗？",
+    "detail": "将删除 ~/.knorvia-studio/v2（配置、凭据、日志）和浏览器缓存（localStorage）。操作不可恢复，清除后应用将自动重启。"
+  },
+  "clearConfirmedResponse": 1,
+  "clearRmOptions": {
+    "recursive": true,
+    "force": true
+  },
+  "clearWindowJavascript": "localStorage.clear()",
+  "clearLogs": {
+    "deleted": "[clear-all-data] deleted ~/.knorvia-studio/v2",
+    "deleteFailed": "[clear-all-data] failed to delete ~/.knorvia-studio/v2:",
+    "sessionCleared": "[clear-all-data] cleared session storage data",
+    "sessionFailed": "[clear-all-data] failed to clear session data:"
+  },
+  "appExitCode": 0,
+  "communityResult": "undefined",
+  "noActualOperations": true
+}

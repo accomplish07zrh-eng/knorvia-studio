@@ -1,0 +1,22 @@
+ok captured authority requires trusted stdio identity and exact private authority
+ok startup has one captured native lifetime and discovery/configured receiver semantics
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+0 !== 2
+
+    at file:///workspace/knorvia-studio/apps/cli/packages/core/test/mcp-config-safety-20261003.mjs:165:12
+    at async group (file:///workspace/knorvia-studio/apps/cli/packages/core/test/mcp-config-safety-20261003.mjs:6:3)
+    at async file:///workspace/knorvia-studio/apps/cli/packages/core/test/mcp-config-safety-20261003.mjs:122:1 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 2,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,27 @@
+{
+  "target": {
+    "path": "packages/provider-node/src/personal-provider-config-repository.ts",
+    "bytes": 10292,
+    "sha256": "8a60302f6a4e6595a18ba526de430a7952b03baea9f110165707e6bfc76c8eba",
+    "gitBlob": "6a822a1463568849264472984624460c0b823446"
+  },
+  "inputPublishedHead": "0dfff3f50fda63219112c351a26a0ffb4b6f8f8d",
+  "exactReviewsPathHits": 0,
+  "currentFilesExact": {
+    "classification": "upstream-modified",
+    "license": "NOASSERTION",
+    "review": null,
+    "upstreamPath": "packages/provider-node/src/personal-provider-config-repository.ts",
+    "upstreamBlob": "45bf401026c5593fcac68f915bf93dd6258f1cc1",
+    "upstreamNormalizedSha256": "5bc314ecb9ff43bd5c011ce5c4c5b8f9fbf1597f08591ab03969c77854e68255"
+  },
+  "namedPublicReceiptReservationSearch": "No matches; rg exit1 is normal no-match; exact available record scope only",
+  "gitTargetHistory": [
+    {
+      "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "subject": "chore: publish Knorvia Studio latest preview snapshot"
+    }
+  ],
+  "decision": "Prepare root-only body-free complete owner packet; no prior accepted exact record found within scope. Stop/HOLD if genuine accepted record/hash conflict supplied.",
+  "privateHistoryCoverage": "Unavailable, not searched/recovered/bypassed; local absence cannot erase prior accepted history."
+}

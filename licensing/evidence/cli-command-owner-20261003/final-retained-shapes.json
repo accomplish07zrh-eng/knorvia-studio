@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/cli-command-owner-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "[{\"owner\":\"index\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"throwIfAborted\",\"candidate\":\"cancelled\",\"bodyHash\":\"6f26cc6e3fcea2becf26eb335df64e10c159482b33a0132ff9080db8ba2deed1\"},{\"baseline\":\"isNotFoundError\",\"candidate\":\"missing\",\"bodyHash\":\"289e582ffe6ee9d35323c315a495687792d385d3d6b09bda0ce4ea3d45ff6db3\"},{\"baseline\":\"createNodeCustomCommandAdapter\",\"candidate\":\"createNodeCustomCommandAdapter\",\"bodyHash\":\"b6760eac32c473861a5a3a2d73c3533d1908d70e869f28b5e45d0504ece4ef7e\"}],\"identicalExpressionCount\":289}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

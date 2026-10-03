@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "run": 36855634045,
+  "runNumber": 224,
+  "head": "32d4b186dc1e331861e6dab8a29badf86032060c",
+  "tree": "dfbd7afa1802e582cf6f21d78d634857a199758e",
+  "checkedMerge": "4cc624f24345753a7691674cf92c05c0f0f7b139",
+  "checkedTreeMatchesHead": true,
+  "conclusion": "failure",
+  "linux": {
+    "job": 110347340947,
+    "tests": 7101,
+    "pass": 7093,
+    "fail": 0,
+    "skip": 8,
+    "cancel": 0
+  },
+  "windows": {
+    "job": 110347340723,
+    "testsStarted": false,
+    "tests": null,
+    "pass": null,
+    "fail": null,
+    "error": "spawn ENAMETOOLONG",
+    "stage": "scripts/test-studio.mjs:94 before test runner launch",
+    "testFileCount": 552,
+    "expandedArgvCharactersExcludingExecutable": 32807,
+    "windowsCreateProcessLimitIncludingNull": 32767,
+    "allEarlierBuildQualityGatesPassed": true
+  },
+  "correction": {
+    "scope": "native CLI globs with exact discovered-set preflight; unchanged flags/env/timeout/concurrency/exit/cleanup",
+    "newRegressionTests": 8,
+    "rootFocusedPassed": 8,
+    "fullRegression": {
+      "tests": 7109,
+      "pass": 7043,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7,
+      "exactPriorFailureMultiset": true,
+      "localLimitation": "listen EPERM"
+    },
+    "nativeWindowsAcceptance": "pending new CI",
+    "compactSelection": {
+      "files": 553,
+      "arguments": 31,
+      "trailingArgumentCharacters": 1696,
+      "allOldFilesRetained": 552
+    },
+    "independentReview": "No blocking issue; exact selected set, flags, concurrency, timeouts, environment, exit and cleanup unchanged; module mocks, TS, failure status and hidden/case/long-path fixtures verified on Node24.14."
+  },
+  "materialObligations": 26
+}

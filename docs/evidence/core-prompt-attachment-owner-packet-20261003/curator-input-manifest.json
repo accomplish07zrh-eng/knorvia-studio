@@ -1,0 +1,67 @@
+{
+  "baseline": "735395542692589c572bd5c0941b27ce872f92de",
+  "directoryReservation": "160b706b",
+  "selectedReservation": "07eded53",
+  "scopes": {
+    "attachment": {
+      "source": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/contract.md",
+          "bytes": 5173,
+          "sha256": "62eedc7002adbc11ffbee3913f2dd59b4a1353b5cc5c2e4f1d35deb059c0b48d"
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/public-api.d.ts",
+          "bytes": 690,
+          "sha256": "8e8f5a505740092a66ed5e8c5357d98052c26956e9918235e18db794a91c7680"
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/dependency-api.d.ts",
+          "bytes": 2792,
+          "sha256": "932088c1da938a76ea16ab3ce7a69b40cf57d0b026419797f140cb6c1f749ddc"
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/public-shapes.d.ts",
+          "bytes": 2277,
+          "sha256": "47111f82a7565ef57538080d8d454f95f281154949655174e4432b6862efac3c"
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/dependency-data.json",
+          "bytes": 126,
+          "sha256": "158941b3139087b71612e91c16388b7b389fb2d8bcd15d962637b0958bd5a8e4"
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/imports.json",
+          "bytes": 305,
+          "sha256": "569bbb492711eb43ced92cc3030fd345b2649f004c55ff9a594338e01eeeabf6"
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/output-data.json",
+          "bytes": 4746,
+          "sha256": "e6c5e0b066c8e63a0604b5ba0e88b1dbc49393204107e220634fb0334a171557"
+        },
+        {
+          "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/file-body-boundary-finding.md",
+          "bytes": 1385,
+          "sha256": "239471bcc1292c6a99cf5204fb408902b6e7935f0d91f945c7f76b6d08c1dc30"
+        },
+        {
+          "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/prompt-attachment.ts",
+          "bytes": 3407,
+          "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8",
+          "archivedAs": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/prompt-attachment.ts.txt"
+        },
+        {
+          "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/author-record.json",
+          "bytes": 9876,
+          "sha256": "89995c7c3483f2f9922ad84881a81ee1342811a82a8801bb8aba9e149cdf2172",
+          "archivedAs": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/author-record.json"
+        }
+      ],
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment-v2",
+      "archiveDirectory": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment-v2"
+    }
+  },
+  "qualification": "Whole body-free original public contracts/data only; no helper/body/decomposition. Curator source-exposed with earlier context/dependency/scratch breach qualifications. Instruction-only/no OS access audit; Sol/high/fork-none requested/Fast unverified."
+}

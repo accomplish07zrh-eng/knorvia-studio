@@ -11,7 +11,7 @@ interface WorkspaceFileTreeGitStatusState {
 }
 
 export async function loadWorkspaceFileTreeGitStatus(params: {
-  gitService: IGitService;
+  gitService: Pick<IGitService, "refresh">;
   workspacePath: string;
 }): Promise<WorkspaceFileTreeGitStatusState> {
   const gitRefresh = await params.gitService.refresh({

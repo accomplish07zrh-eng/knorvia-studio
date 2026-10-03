@@ -1,0 +1,10 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "chunk_id": "b20870",
+    "wall_time_seconds": 0.265855812,
+    "exit_code": 0,
+    "original_token_count": 63,
+    "output": "[freshness] recovery/server-lifecycle-20261002 没有远端跟踪分支，跳过 behind-remote 检查（是否忘了 push -u？）\n[freshness] 基线新鲜：recovery/server-lifecycle-20261002，相对 origin/main：ahead 242 / behind 0（阈值 50）\n"
+  }
+}

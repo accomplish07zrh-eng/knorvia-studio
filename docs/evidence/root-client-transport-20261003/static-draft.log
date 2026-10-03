@@ -1,0 +1,40 @@
+[96mpackages/client/src/websocket.ts[0m:[93m35[0m:[93m53[0m - [91merror[0m[90m TS2345: [0mArgument of type 'Uint8Array<ArrayBufferLike>' is not assignable to parameter of type 'string | BufferSource | Blob'.
+  Type 'Uint8Array<ArrayBufferLike>' is not assignable to type 'ArrayBufferView<ArrayBuffer>'.
+    Types of property 'buffer' are incompatible.
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+
+[7m35[0m       if (ws.readyState === WebSocket.OPEN) ws.send(buffer.buffer);
+[7m  [0m [91m                                                    ~~~~~~~~~~~~~[0m
+[96mpackages/services/src/agent/agent.ts[0m:[93m106[0m:[93m15[0m - [91merror[0m[90m TS6059: [0mFile '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/src/agent/agentPluginParams.ts' is not under 'rootDir' '/workspace/scratch/b3909646a66c/knorvia-direct/packages/client/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Imported via "./agentPluginParams.js" from file '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/src/agent/agent.ts'
+    Imported via "./agentPluginParams.js" from file '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/src/agent/agentWorkflowParams.ts'
+    Imported via "./agentPluginParams.js" from file '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/src/agent/agent.ts'
+  File is ECMAScript module because '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/package.json' has field "type" with value "module"
+
+[7m106[0m export * from "./agentPluginParams.js";
+[7m   [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96mpackages/services/src/agent/agentWorkflowParams.ts[0m:[93m2[0m:[93m50[0m
+    [7m2[0m import type { KnorviaAgentWorkspaceTarget } from "./agentPluginParams.js";
+    [7m [0m [96m                                                 ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    File is included via import here.
+  [96mpackages/services/src/agent/agent.ts[0m:[93m133[0m:[93m8[0m
+    [7m133[0m } from "./agentPluginParams.js";
+    [7m   [0m [96m       ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    File is included via import here.
+[96mpackages/services/src/agent/agent.ts[0m:[93m107[0m:[93m15[0m - [91merror[0m[90m TS6059: [0mFile '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/src/agent/agentWorkflowParams.ts' is not under 'rootDir' '/workspace/scratch/b3909646a66c/knorvia-direct/packages/client/src'. 'rootDir' is expected to contain all source files.
+  The file is in the program because:
+    Imported via "./agentWorkflowParams.js" from file '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/src/agent/agent.ts'
+    Imported via "./agentWorkflowParams.js" from file '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/src/agent/agent.ts'
+  File is ECMAScript module because '/workspace/scratch/b3909646a66c/knorvia-direct/packages/services/package.json' has field "type" with value "module"
+
+[7m107[0m export * from "./agentWorkflowParams.js";
+[7m   [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96mpackages/services/src/agent/agent.ts[0m:[93m141[0m:[93m8[0m
+    [7m141[0m } from "./agentWorkflowParams.js";
+    [7m   [0m [96m       ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    File is included via import here.
+

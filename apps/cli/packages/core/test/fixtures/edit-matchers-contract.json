@@ -1,0 +1,956 @@
+{
+  "match": [
+    {
+      "label": "exact-single",
+      "input": {
+        "content": "before alpha after",
+        "search": "alpha",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "alpha",
+        "strategy": "exact",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "exact-repeat",
+      "input": {
+        "content": "alpha alpha alpha",
+        "search": "alpha",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "alpha",
+        "strategy": "exact",
+        "candidateCount": 3
+      }
+    },
+    {
+      "label": "exact-nonoverlap",
+      "input": {
+        "content": "aaaaa",
+        "search": "aa",
+        "replaceAll": true
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "aa",
+        "strategy": "exact",
+        "candidateCount": 2
+      }
+    },
+    {
+      "label": "exact-before-quote",
+      "input": {
+        "content": "“x” then \"x\"",
+        "search": "\"x\"",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "\"x\"",
+        "strategy": "exact",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "quote-curly",
+      "input": {
+        "content": "“x”",
+        "search": "\"x\"",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "“x”",
+        "strategy": "quote_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "quote-repeat",
+      "input": {
+        "content": "“x” “x”",
+        "search": "\"x\"",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "“x”",
+        "strategy": "quote_normalized",
+        "candidateCount": 2
+      }
+    },
+    {
+      "label": "quote-ambiguous",
+      "input": {
+        "content": "“x” ”x“",
+        "search": "\"x\"",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "ambiguous",
+        "strategy": "quote_normalized",
+        "candidateCount": 2
+      }
+    },
+    {
+      "label": "quote-single",
+      "input": {
+        "content": "‘x’",
+        "search": "'x'",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "‘x’",
+        "strategy": "quote_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "empty-content",
+      "input": {
+        "content": "",
+        "search": "",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "",
+        "strategy": "quote_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "empty-search",
+      "input": {
+        "content": "abc",
+        "search": "",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "",
+        "strategy": "quote_normalized",
+        "candidateCount": 4
+      }
+    },
+    {
+      "label": "empty-replace-all",
+      "input": {
+        "content": "abc",
+        "search": "",
+        "replaceAll": true
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "",
+        "strategy": "quote_normalized",
+        "candidateCount": 4
+      }
+    },
+    {
+      "label": "prefix-colon",
+      "input": {
+        "content": "one\ntwo",
+        "search": "1: one\n2: two",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "one\ntwo",
+        "strategy": "line_number_prefix_stripped",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "prefix-tab",
+      "input": {
+        "content": "one\ntwo",
+        "search": "1\tone\n2\ttwo",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "one\ntwo",
+        "strategy": "line_number_prefix_stripped",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "prefix-mixed",
+      "input": {
+        "content": "one\ntwo",
+        "search": "99: one\n1\ttwo",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "one\ntwo",
+        "strategy": "line_number_prefix_stripped",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "prefix-missing-line",
+      "input": {
+        "content": "one\ntwo",
+        "search": "1: one\ntwo",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "prefix-trailing-newline",
+      "input": {
+        "content": "one\ntwo",
+        "search": "1: one\n2: two\n",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "prefix-crlf",
+      "input": {
+        "content": "one\ntwo",
+        "search": "1: one\r\n2: two",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "visible-newline",
+      "input": {
+        "content": "one\ntwo",
+        "search": "one\\ntwo",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "one\ntwo",
+        "strategy": "escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "visible-tab",
+      "input": {
+        "content": "a\tb",
+        "search": "a\\tb",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "a\tb",
+        "strategy": "escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "visible-return",
+      "input": {
+        "content": "a\rb",
+        "search": "a\\rb",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "a\rb",
+        "strategy": "escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "visible-quotes",
+      "input": {
+        "content": "\"x\"",
+        "search": "\\\"x\\\"",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "\"x\"",
+        "strategy": "escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "visible-dollar",
+      "input": {
+        "content": "$x",
+        "search": "\\$x",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "$x",
+        "strategy": "escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "visible-slashes",
+      "input": {
+        "content": "a\\nb",
+        "search": "a\\\\nb",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "a\\nb",
+        "strategy": "escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "unicode",
+      "input": {
+        "content": "中",
+        "search": "\\u4e2d",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "中",
+        "strategy": "unicode_escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "unicode-pair",
+      "input": {
+        "content": "😀",
+        "search": "\\uD83D\\uDE00",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "😀",
+        "strategy": "unicode_escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "unicode-five-digits",
+      "input": {
+        "content": "ሴ5",
+        "search": "\\u12345",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "ሴ5",
+        "strategy": "unicode_escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "unicode-escaped-slash",
+      "input": {
+        "content": "中",
+        "search": "\\\\u4e2d",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "unicode-triple-slash",
+      "input": {
+        "content": "\\\\中",
+        "search": "\\\\\\u4e2d",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "\\\\中",
+        "strategy": "unicode_escape_normalized",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "unicode-bad",
+      "input": {
+        "content": "中",
+        "search": "\\uZZZZ",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "trim-one-line",
+      "input": {
+        "content": "  alpha  ",
+        "search": "alpha\n",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "  alpha  ",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "trim-multi",
+      "input": {
+        "content": "  a \n  b ",
+        "search": "a\nb",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "  a \n  b ",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "trim-trailing-newline",
+      "input": {
+        "content": "  a \n  b \n",
+        "search": "a\nb\n",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "  a \n  b ",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "trim-double-newline",
+      "input": {
+        "content": "  a \n  b \n",
+        "search": "a\nb\n\n",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "  a \n  b \n",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "trim-distinct",
+      "input": {
+        "content": " a \n  a  ",
+        "search": "a\n",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "ambiguous",
+        "strategy": "line_trimmed",
+        "candidateCount": 2
+      }
+    },
+    {
+      "label": "trim-identical",
+      "input": {
+        "content": " a \n a ",
+        "search": "a\n",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": " a ",
+        "strategy": "line_trimmed",
+        "candidateCount": 2
+      }
+    },
+    {
+      "label": "replace-all-skips-trim",
+      "input": {
+        "content": "  a \n  b ",
+        "search": "a\nb",
+        "replaceAll": true
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "indent-tabs",
+      "input": {
+        "content": "\tfoo\n\t\tbar",
+        "search": "foo\n  bar",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "\tfoo\n\t\tbar",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "indent-blank",
+      "input": {
+        "content": "   a\n  \n     b",
+        "search": "a\n\n  b",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "   a\n  \n     b",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "anchor-90",
+      "input": {
+        "content": "head\nabcdefghij\ntail",
+        "search": "head\nabcdefghiX\ntail",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "head\nabcdefghij\ntail",
+        "strategy": "block_anchor",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "anchor-80",
+      "input": {
+        "content": "head\nabcdefghij\ntail",
+        "search": "head\nabcdefghXX\ntail",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "head\nabcdefghij\ntail",
+        "strategy": "block_anchor",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "anchor-70",
+      "input": {
+        "content": "head\nabcdefghij\ntail",
+        "search": "head\nabcdefgXXX\ntail",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "anchor-equal-weights",
+      "input": {
+        "content": "head\nx\nabcdefghij\ntail",
+        "search": "head\nx\nabcdefXXXX\ntail",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "head\nx\nabcdefghij\ntail",
+        "strategy": "block_anchor",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "anchor-empty-middle",
+      "input": {
+        "content": "head\n\nabcdefghij\ntail",
+        "search": "head\n\nabcdefghXX\ntail",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "head\n\nabcdefghij\ntail",
+        "strategy": "block_anchor",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "anchor-two-lines",
+      "input": {
+        "content": "head\ntail",
+        "search": "head\ntaiX",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "anchor-replace-all",
+      "input": {
+        "content": "head\nabcdefghij\ntail",
+        "search": "head\nabcdefghiX\ntail",
+        "replaceAll": true
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "anchor-ambiguous",
+      "input": {
+        "content": "head\nabcdefghij\ntail\nhead\nabcdefghiZ\ntail",
+        "search": "head\nabcdefghiX\ntail",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "ambiguous",
+        "strategy": "block_anchor",
+        "candidateCount": 2
+      }
+    },
+    {
+      "label": "whitespace-search",
+      "input": {
+        "content": " ",
+        "search": "\n",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": " ",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    },
+    {
+      "label": "missing",
+      "input": {
+        "content": "alpha beta",
+        "search": "gamma",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "lone-cr",
+      "input": {
+        "content": "a\rb",
+        "search": "a\nb",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "not_found"
+      }
+    },
+    {
+      "label": "unicode-trim",
+      "input": {
+        "content": "　中　\n　文　",
+        "search": "中\n文",
+        "replaceAll": false
+      },
+      "expected": {
+        "status": "matched",
+        "actualString": "　中　\n　文　",
+        "strategy": "line_trimmed",
+        "candidateCount": 1
+      }
+    }
+  ],
+  "quote": [
+    {
+      "label": "quote-style-0",
+      "args": ["same", "same", "\"new\" 'text'"],
+      "expected": "\"new\" 'text'"
+    },
+    {
+      "label": "quote-style-1",
+      "args": ["“same”", "“same”", "\"new\""],
+      "expected": "\"new\""
+    },
+    {
+      "label": "quote-style-2",
+      "args": ["\"old\"", "“old”", "\"new\""],
+      "expected": "“new”"
+    },
+    {
+      "label": "quote-style-3",
+      "args": ["'old'", "‘old’", "'new' can't"],
+      "expected": "‘new’ can’t"
+    },
+    {
+      "label": "quote-style-4",
+      "args": ["old", "“‘old’”", "\"a\" 'b' can't"],
+      "expected": "“a” ‘b’ can’t"
+    },
+    {
+      "label": "quote-style-5",
+      "args": ["old", "“old”", "(\"a\") [\"b\"] {\"c\"} —\"d\" –\"e\""],
+      "expected": "(“a”) [“b”] {“c”} —“d” –“e”"
+    },
+    {
+      "label": "quote-style-6",
+      "args": ["old", "“old”", "x\"a\" \t\"b\"\n\"c\"\r\"d\""],
+      "expected": "x”a” \t“b”\n“c”\r“d”"
+    },
+    {
+      "label": "quote-style-7",
+      "args": ["old", "‘old’", "α'β 𐐀'𐐁 a'1 1'b"],
+      "expected": "α’β 𐐀’𐐁 a’1 1’b"
+    },
+    {
+      "label": "quote-style-8",
+      "args": ["old", "‘old’", " 'x' : 'y'"],
+      "expected": " ’x’ : ‘y’"
+    },
+    {
+      "label": "quote-style-9",
+      "args": ["old", "plain", "\"unchanged\" 'same'"],
+      "expected": "\"unchanged\" 'same'"
+    },
+    {
+      "label": "quote-style-10",
+      "args": ["old", "’", "'a' 'b'"],
+      "expected": "‘a’ ‘b’"
+    },
+    {
+      "label": "quote-style-11",
+      "args": ["old", "”", "\"a\" \"b\""],
+      "expected": "“a” “b”"
+    },
+    {
+      "label": "quote-style-12",
+      "args": ["old", "‘’“”", "already ‘curly’ “quotes”"],
+      "expected": "already ‘curly’ “quotes”"
+    }
+  ],
+  "endings": [
+    {
+      "label": "endings-0",
+      "input": "a\r\nb",
+      "expected": "a\nb"
+    },
+    {
+      "label": "endings-1",
+      "input": "a\rb",
+      "expected": "a\rb"
+    },
+    {
+      "label": "endings-2",
+      "input": "a\nb",
+      "expected": "a\nb"
+    },
+    {
+      "label": "endings-3",
+      "input": "\r\r\n",
+      "expected": "\r\n"
+    },
+    {
+      "label": "endings-4",
+      "input": "",
+      "expected": ""
+    }
+  ],
+  "replacement": [
+    {
+      "label": "exact-0",
+      "strategy": "exact",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\\nb\\tc\\rd"
+    },
+    {
+      "label": "exact-1",
+      "strategy": "exact",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`"
+    },
+    {
+      "label": "exact-2",
+      "strategy": "exact",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "exact-3",
+      "strategy": "exact",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    },
+    {
+      "label": "quote_normalized-0",
+      "strategy": "quote_normalized",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\\nb\\tc\\rd"
+    },
+    {
+      "label": "quote_normalized-1",
+      "strategy": "quote_normalized",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`"
+    },
+    {
+      "label": "quote_normalized-2",
+      "strategy": "quote_normalized",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "quote_normalized-3",
+      "strategy": "quote_normalized",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    },
+    {
+      "label": "line_number_prefix_stripped-0",
+      "strategy": "line_number_prefix_stripped",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\\nb\\tc\\rd"
+    },
+    {
+      "label": "line_number_prefix_stripped-1",
+      "strategy": "line_number_prefix_stripped",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`"
+    },
+    {
+      "label": "line_number_prefix_stripped-2",
+      "strategy": "line_number_prefix_stripped",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "line_number_prefix_stripped-3",
+      "strategy": "line_number_prefix_stripped",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    },
+    {
+      "label": "escape_normalized-0",
+      "strategy": "escape_normalized",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\nb\tc\rd"
+    },
+    {
+      "label": "escape_normalized-1",
+      "strategy": "escape_normalized",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\"x\" 'y' \\ $ `"
+    },
+    {
+      "label": "escape_normalized-2",
+      "strategy": "escape_normalized",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "escape_normalized-3",
+      "strategy": "escape_normalized",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    },
+    {
+      "label": "unicode_escape_normalized-0",
+      "strategy": "unicode_escape_normalized",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\\nb\\tc\\rd"
+    },
+    {
+      "label": "unicode_escape_normalized-1",
+      "strategy": "unicode_escape_normalized",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`"
+    },
+    {
+      "label": "unicode_escape_normalized-2",
+      "strategy": "unicode_escape_normalized",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "unicode_escape_normalized-3",
+      "strategy": "unicode_escape_normalized",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    },
+    {
+      "label": "line_trimmed-0",
+      "strategy": "line_trimmed",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\\nb\\tc\\rd"
+    },
+    {
+      "label": "line_trimmed-1",
+      "strategy": "line_trimmed",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`"
+    },
+    {
+      "label": "line_trimmed-2",
+      "strategy": "line_trimmed",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "line_trimmed-3",
+      "strategy": "line_trimmed",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    },
+    {
+      "label": "indentation_flexible-0",
+      "strategy": "indentation_flexible",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\\nb\\tc\\rd"
+    },
+    {
+      "label": "indentation_flexible-1",
+      "strategy": "indentation_flexible",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`"
+    },
+    {
+      "label": "indentation_flexible-2",
+      "strategy": "indentation_flexible",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "indentation_flexible-3",
+      "strategy": "indentation_flexible",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    },
+    {
+      "label": "block_anchor-0",
+      "strategy": "block_anchor",
+      "input": "a\\nb\\tc\\rd",
+      "expected": "a\\nb\\tc\\rd"
+    },
+    {
+      "label": "block_anchor-1",
+      "strategy": "block_anchor",
+      "input": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`",
+      "expected": "\\\"x\\\" \\'y\\' \\\\ \\$ \\`"
+    },
+    {
+      "label": "block_anchor-2",
+      "strategy": "block_anchor",
+      "input": "\\u4e2d",
+      "expected": "\\u4e2d"
+    },
+    {
+      "label": "block_anchor-3",
+      "strategy": "block_anchor",
+      "input": "literal\\q",
+      "expected": "literal\\q"
+    }
+  ]
+}

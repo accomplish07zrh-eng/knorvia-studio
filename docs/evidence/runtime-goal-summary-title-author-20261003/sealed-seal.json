@@ -1,0 +1,11 @@
+{
+  "algorithm": "SHA256",
+  "files": {
+    "draft.ts": "5ac3db373077b414a05413d852406da757c5e903730dd49867cfe6c962031e21"
+  },
+  "physical_lines": {
+    "draft.ts": 249
+  },
+  "private_modules": [],
+  "sealed_before_final_response": true
+}

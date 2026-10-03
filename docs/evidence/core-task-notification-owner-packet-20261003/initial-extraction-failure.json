@@ -1,0 +1,7 @@
+{
+  "command": "node docs/evidence/core-task-notification-owner-packet-20261003/extract-public.cjs",
+  "exitCode": 1,
+  "failure": "SyntaxError: Identifier exports has already been declared",
+  "basis": "Curator assembler declared CommonJS reserved module binding exports. Parsing failed before extraction/output; no target or author source involved.",
+  "correction": "Rename assembler binding exportRecords; preserve original script and this failure. No failed unchanged replay."
+}

@@ -1,0 +1,53 @@
+{
+  "draft_path": "/tmp/knorvia-expansion-author-20261002/output/planner-expansion-v2.ts",
+  "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73",
+  "byte_count": 5249,
+  "clarification_input": {
+    "filename": "inputs-v2/collection-identity-api.md",
+    "sha256": "50b0e6654624a4ddf350ecee092055343fa9c5fdce43731e4498b800e503f849",
+    "byte_count": 2108
+  },
+  "reused_v1_input_bindings": [
+    {
+      "filename": "inputs/contract.md",
+      "sha256": "11490555e4c19a3f72cb947e7407ae3405bf4d788a23b3792a654f480b6ec358",
+      "byte_count": 8595
+    },
+    {
+      "filename": "inputs/public-api.d.ts",
+      "sha256": "bd73cbec3754418db7fc8d75db28f8140875485fd741d6dece5a897dadbba32e",
+      "byte_count": 474
+    },
+    {
+      "filename": "inputs/dependency-api.d.ts",
+      "sha256": "00da614b794de5b38add26cf15d1c2f302d381cc6c12f57648eb5c77fdad1dbf",
+      "byte_count": 1634
+    }
+  ],
+  "reused_v1_draft_binding": {
+    "filename": "output/planner-expansion.ts",
+    "sha256": "b0ceffd900a1228b57546d06fa8656b6d52a383cb17482a60c7c3a2693b1385d",
+    "byte_count": 5219
+  },
+  "actual_reads_this_continuation": [
+    {
+      "filename": "inputs-v2/collection-identity-api.md",
+      "read_count": 1
+    },
+    {
+      "filename": "output/planner-expansion.ts",
+      "read_count": 2
+    },
+    {
+      "filename": "output/planner-expansion-v2.ts",
+      "read_count": 1,
+      "purpose": "Immediate post-save byte count and SHA-256"
+    }
+  ],
+  "v1_packet_reread_this_continuation": false,
+  "input_limit_violations": [],
+  "unresolved_contract_questions": [],
+  "changes": "Use collection.collectionId for new-node collection fallback and entry.collectionId for collection replacement identity.",
+  "validation": "No compilation, runtime, comparison, or correctness tests performed. Complete v2 draft is frozen at this checkpoint. All v1 files were left unchanged.",
+  "authorship_scope": "Continuation of the same input-restricted author role using the authorized collection API clarification and own v1 draft. No authorship or licensing clearance or absolute clean-room claim."
+}

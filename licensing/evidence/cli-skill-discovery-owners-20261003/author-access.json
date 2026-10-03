@@ -1,0 +1,44 @@
+[
+  {
+    "owner": "index",
+    "author": "/root/cli_skill_index_author",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoning": "high",
+    "fork": "none",
+    "actualReportedReads": [
+      "licensing/evidence/cli-skill-discovery-owners-20261003/index-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "postWrite": "SHA256 only, not semantic inspection",
+    "mode": "one whole literal heredoc; no source/test/history/deps/config/env/otherauthors/output/selfinspection/transformation/extraction/assembly/runtime/build/format/network/repowrites reported",
+    "accessEnforcement": "instructional read restriction on shared filesystem, not OS-enforced clean room",
+    "speed": "saved Fast inherited; no separate setting/tool verification",
+    "acceptedIndependentReplacementCredit": 0,
+    "newMITDecisions": 0,
+    "correctionReportedNewReads": [
+      "licensing/evidence/cli-skill-discovery-owners-20261003/index-correction-1-packet.md"
+    ],
+    "correctionMode": "one whole literal heredoc and SHA only; no source/selfinspection/runtime/build/format/network/repowrites reported"
+  },
+  {
+    "owner": "scan",
+    "author": "/root/cli_skill_scan_author",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoning": "high",
+    "fork": "none",
+    "actualReportedReads": [
+      "licensing/evidence/cli-skill-discovery-owners-20261003/scan-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "postWrite": "SHA256 only, not semantic inspection",
+    "mode": "one whole literal heredoc; no source/test/history/deps/config/env/otherauthors/output/selfinspection/transformation/extraction/assembly/runtime/build/format/network/repowrites reported",
+    "accessEnforcement": "instructional read restriction on shared filesystem, not OS-enforced clean room",
+    "speed": "saved Fast inherited; no separate setting/tool verification",
+    "acceptedIndependentReplacementCredit": 0,
+    "newMITDecisions": 0
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--baseline",
+    "--owner=attachments"
+  ],
+  "stdout": "sourceMode=frozen-baseline; owner=attachments\n✔ attachments: sequential staging preserves data and task/session proxy identity (91.337189ms)\n✔ attachments: lexical containment and failure cleanup preserve original cause (28.24203ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 129.423052\n",
+  "stderr": "",
+  "exitCode": 0
+}

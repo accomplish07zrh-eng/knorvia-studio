@@ -1,0 +1,187 @@
+[
+  {
+    "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+    "bytes": 2712,
+    "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+    "bytes": 7056,
+    "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/model/index.ts",
+    "bytes": 33076,
+    "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+  },
+  {
+    "path": "apps/cli/packages/core/src/agent/message-history.ts",
+    "bytes": 12225,
+    "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+    "bytes": 2904,
+    "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+    "bytes": 1732,
+    "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+    "bytes": 3919,
+    "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+    "bytes": 2135,
+    "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+    "bytes": 1733,
+    "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+    "bytes": 1237,
+    "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/errors/index.ts",
+    "bytes": 4087,
+    "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+  },
+  {
+    "path": "apps/cli/packages/core/src/errors/error-payload.ts",
+    "bytes": 874,
+    "sha256": "33ea9d41169e5c5bcff51d5750cd006300d5c29a6fadf768e9e1421e3ef43450"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+    "bytes": 9586,
+    "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+  },
+  {
+    "path": "apps/cli/packages/core/src/memory/extraction.ts",
+    "bytes": 10405,
+    "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b"
+  },
+  {
+    "path": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+    "bytes": 9755,
+    "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9"
+  },
+  {
+    "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+    "bytes": 4516,
+    "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53"
+  },
+  {
+    "path": "apps/cli/packages/core/src/memory/recall/types.ts",
+    "bytes": 312,
+    "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/rewind/index.ts",
+    "bytes": 11458,
+    "sha256": "f224ad8bed838fcb747eb246da9b6d505610d7a27111f700563f4b79b1b2d606"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+    "bytes": 871,
+    "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+    "bytes": 840,
+    "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be"
+  },
+  {
+    "path": "apps/cli/packages/core/src/tool/executor/types.ts",
+    "bytes": 8692,
+    "sha256": "8c11c83d53fafc8e384d29f4d57262b8634c4c41a4366c37e49beec0460a1533"
+  },
+  {
+    "path": "apps/cli/packages/core/src/tool/types.ts",
+    "bytes": 17225,
+    "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/telemetry/agent-execution.ts",
+    "bytes": 8689,
+    "sha256": "4506eae0a05822c7053d8984d1be358cad6f7dd4f9f9878c058584963ec1a8d5"
+  },
+  {
+    "path": "apps/cli/packages/core/src/agent/turn-state.ts",
+    "bytes": 7032,
+    "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/types.ts",
+    "bytes": 30820,
+    "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+    "bytes": 36215,
+    "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+    "bytes": 9283,
+    "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/deps.ts",
+    "bytes": 9333,
+    "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+  },
+  {
+    "path": "apps/cli/packages/core/src/memory/recall/index.ts",
+    "bytes": 147,
+    "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/internal.ts",
+    "bytes": 5204,
+    "sha256": "c315cfd7b00594891a8a6406693d1686720585492c1c245c8ced638ed3ba684c"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+    "bytes": 7343,
+    "sha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/methods/model-runtime-headers.ts",
+    "bytes": 2625,
+    "sha256": "b25d3fffc072ac5f592a7ce689060bac441e84d85af43ed7cee446b16da642ea"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/methods/runtime-model.ts",
+    "bytes": 3071,
+    "sha256": "91412883b5b40b7b096c3e3c118410c915668cdb1e5207c404b2347c1670c459"
+  },
+  {
+    "path": "apps/cli/packages/core/src/subagent/explore.ts",
+    "bytes": 3526,
+    "sha256": "25f554fd08a19471c455daa42d799873af338eda3c9efeb34a12ea477786811a"
+  },
+  {
+    "path": "packages/shared/src/media-policy.ts",
+    "bytes": 453,
+    "sha256": "4bffde9443de70e68fd8582dbc8d1a1d02b557735baf8eb2f1596bc061095805"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/tools/ask-user-question.ts",
+    "bytes": 8729,
+    "sha256": "43051c1a3ed7c8e5cfa2b369c2d201542a508e251d6fc4f4959b21f3ba7ddd96"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/tools/plan-mode.ts",
+    "bytes": 4404,
+    "sha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6"
+  }
+]

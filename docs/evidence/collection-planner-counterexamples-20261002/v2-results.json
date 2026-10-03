@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-02T13:56:40.656Z",
+  "expectation": "equivalent",
+  "runtime": {
+    "node": "v24.19.0",
+    "v8": "13.6.233.17-node.51",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "fixtureBindings": {
+    "harness": {
+      "bytes": 7314,
+      "sha256": "47b1f8da0f9c453e222581f4607da80eba3cceea1796378a0061a76048592141"
+    },
+    "dependencies": {
+      "bytes": 2855,
+      "sha256": "fc13827281eb20f071f971a15c0dbd4e184393f7fb529ac460f461f5011e84fb"
+    }
+  },
+  "subjects": {
+    "corrected": {
+      "path": "/tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts",
+      "bytes": 12942,
+      "sha256": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+      "url": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts"
+    },
+    "admission": {
+      "path": "/tmp/knorvia-collection-counterexamples-20261002/subjects/collection-planner-admission.ts",
+      "bytes": 3196,
+      "sha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+      "url": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/collection-planner-admission.ts"
+    },
+    "candidate": {
+      "path": "/workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "bytes": 11883,
+      "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af",
+      "url": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt"
+    }
+  },
+  "resolvedBindings": [
+    {
+      "from": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts",
+      "specifier": "@knorvia/contracts",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts",
+      "specifier": "./collection-planner-admission.js",
+      "target": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/collection-planner-admission.ts"
+    },
+    {
+      "from": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/collection-planner-admission.ts",
+      "specifier": "./graph.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts",
+      "specifier": "./collection-events.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts",
+      "specifier": "./graph.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts",
+      "specifier": "./planner-expansion.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///tmp/knorvia-collection-counterexamples-20261002/subjects/corrected.ts",
+      "specifier": "./prompts.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "specifier": "@knorvia/contracts",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "specifier": "./collection-events.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "specifier": "./graph.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "specifier": "./planner-expansion.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    },
+    {
+      "from": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "specifier": "./prompts.js",
+      "target": "file:///workspace/knorvia-studio/docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs"
+    }
+  ],
+  "phase": {
+    "corrected": {
+      "outcome": "fulfilled",
+      "addedCount": 1,
+      "plannersRan": 1,
+      "observations": [
+        {
+          "port": "planner_started",
+          "phase": "phase-b"
+        },
+        {
+          "port": "runner",
+          "phase": "phase-b",
+          "prompt": "phase=phase-b"
+        },
+        {
+          "port": "expansion-records",
+          "phase": "phase-b"
+        },
+        {
+          "port": "planner_completed",
+          "phase": "phase-b"
+        },
+        {
+          "port": "graph_expanded",
+          "phase": "phase-b"
+        }
+      ],
+      "writes": 2,
+      "ticks": 8,
+      "artifactPhase": "phase-b",
+      "terminalActivityPhase": "phase-b"
+    },
+    "candidate": {
+      "outcome": "fulfilled",
+      "addedCount": 1,
+      "plannersRan": 1,
+      "observations": [
+        {
+          "port": "planner_started",
+          "phase": "phase-b"
+        },
+        {
+          "port": "runner",
+          "phase": "phase-b",
+          "prompt": "phase=phase-b"
+        },
+        {
+          "port": "expansion-records",
+          "phase": "phase-b"
+        },
+        {
+          "port": "planner_completed",
+          "phase": "phase-b"
+        },
+        {
+          "port": "graph_expanded",
+          "phase": "phase-b"
+        }
+      ],
+      "writes": 2,
+      "ticks": 8,
+      "artifactPhase": "phase-b",
+      "terminalActivityPhase": "phase-b"
+    }
+  },
+  "aggregation": {
+    "acceptedCount": 200000,
+    "corrected": {
+      "outcome": "fulfilled",
+      "addedCount": 200000,
+      "plannersRan": 1,
+      "observations": [
+        {
+          "port": "planner_started",
+          "phase": "phase-a"
+        },
+        {
+          "port": "runner",
+          "phase": "phase-a",
+          "prompt": "phase=phase-a"
+        },
+        {
+          "port": "expansion-records",
+          "phase": "phase-a"
+        },
+        {
+          "port": "planner_completed",
+          "phase": "phase-a"
+        },
+        {
+          "port": "graph_expanded",
+          "phase": "phase-a"
+        }
+      ],
+      "writes": 2,
+      "ticks": 8,
+      "artifactPhase": "phase-a",
+      "terminalActivityPhase": "phase-a"
+    },
+    "candidate": {
+      "outcome": "fulfilled",
+      "addedCount": 200000,
+      "plannersRan": 1,
+      "observations": [
+        {
+          "port": "planner_started",
+          "phase": "phase-a"
+        },
+        {
+          "port": "runner",
+          "phase": "phase-a",
+          "prompt": "phase=phase-a"
+        },
+        {
+          "port": "expansion-records",
+          "phase": "phase-a"
+        },
+        {
+          "port": "planner_completed",
+          "phase": "phase-a"
+        },
+        {
+          "port": "graph_expanded",
+          "phase": "phase-a"
+        }
+      ],
+      "writes": 2,
+      "ticks": 8,
+      "artifactPhase": "phase-a",
+      "terminalActivityPhase": "phase-a"
+    }
+  },
+  "limits": [
+    "Only two focused owner-boundary probes; runtime dependencies are controlled diagnostic doubles.",
+    "Exact owner/admission bytes are SHA-bound and executed after Node type stripping only.",
+    "No strict compilation, emitted build, real scheduler consumer, broad suite or production integration.",
+    "Argument threshold is engine-specific; this records one 200000-ID counterexample, not the exact threshold."
+  ]
+}

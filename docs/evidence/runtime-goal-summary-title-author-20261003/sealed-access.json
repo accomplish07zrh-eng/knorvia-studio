@@ -1,0 +1,63 @@
+{
+  "author_scope": "Bounded fresh implementation of the entire goal-summary-title.ts owner",
+  "input_reads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-goal-summary-title-author-20261003/contract.md",
+      "reads": 1,
+      "transport": "exec_command cat; initial combined packet read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-goal-summary-title-author-20261003/api.d.ts",
+      "reads": 1,
+      "transport": "exec_command cat; initial combined packet read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-goal-summary-title-author-20261003/imports.d.ts",
+      "reads": 1,
+      "transport": "exec_command cat; initial combined packet read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-goal-summary-title-author-20261003/literals.json",
+      "reads": 1,
+      "transport": "exec_command cat; initial combined packet read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-goal-summary-title-author-20261003/supporting.d.ts",
+      "reads": 1,
+      "transport": "exec_command cat; initial combined packet read",
+      "note": "Contained only a comment, with no supporting declarations."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-goal-summary-title-author-20261003/clarification.md",
+      "reads": 2,
+      "transport": "exec_command cat; first port clarification and subsequently appended identifier/evaluation-order clarification",
+      "authorization": "Parent explicitly authorized this supplemental source-derived packet input in messages."
+    }
+  ],
+  "tool_access": [
+    "functions.exec -> exec_command: combined cat of the five initial permitted inputs",
+    "collaboration.send_message: parent packet-completeness clarification request; no team-status query",
+    "functions.exec -> exec_command: mkdir own output directory",
+    "functions.exec -> exec_command: cat first authorized clarification.md",
+    "collaboration.send_message: parent identifier/evaluation-boundary clarification request; no team-status query",
+    "functions.exec -> exec_command: heredoc write own draft.ts",
+    "functions.exec -> exec_command: cat appended authorized clarification.md",
+    "functions.exec -> apply_patch: read/update own draft.ts only, correcting targetID field and eligible tracking lookup boundary",
+    "functions.exec -> exec_command: heredoc write own access.json; sha256sum and wc read own draft.ts bytes for sealing and physical-line count",
+    "functions.exec -> apply_patch: write own seal.json"
+  ],
+  "context_received": [
+    "Bounded parent task and ordinary system/developer/environment instructions",
+    "Parent messages authorizing clarification.md and stating its source-derived property/evaluation facts"
+  ],
+  "design": "State stays on AgentRuntimeInternal. A synchronous admission predicate reads eligibility ports in contract order. A private native async request routine owns generation awaits. Exported native async persistence routines retain live input/runtime reads and exact previous/updated record references. Eligible generation is caught before tracking lookup; ineligible fallback is evaluated within the tracking argument. Failure catches attach to returned tracked promises.",
+  "retained_contract_vocabulary": "Public signatures, permitted import paths/dependency names, runtime port names, log labels/events/enums, ordered record properties, and conventional optional-chain/call/Promise glue are retained contractual protocol. No source body, attribution, license claim, or predecessor comments were read or copied.",
+  "limitations": [
+    "No production, history, tests, oracles, lineage, other packets, user files, agent status, or dependency bodies were read.",
+    "No candidate execution, compiler, tests, provider/model/network call, communication to external users, persistence task, or subprocess task was performed.",
+    "Shell use was limited to exact authorized packet reads and author-owned output directory, writes, hash, and line count.",
+    "Public/runtime type compatibility and behavior remain for curator review; draft was not compiled or tested under the bounded author rules.",
+    "No checkout files were changed; only files under /tmp/knorvia-goal-title-packet-author were written.",
+    "No private module was necessary; the entire owner is draft.ts."
+  ]
+}

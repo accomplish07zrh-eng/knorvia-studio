@@ -1,0 +1,49 @@
+{
+  "authorInputCommit": "d90976cd",
+  "freezeTimeUtc": "2026-10-02T13:44:05.970439Z",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/inputs/contract.md",
+      "sha256": "8d30af0ee267ebd78cb21a1766bb44d12037dcac766b42e34fe4ffdfadee0338",
+      "byteCount": 16218
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/inputs/public-api.d.ts",
+      "sha256": "87b2aa349520f64feb3b9cf350886658fb316bca902485a859c3d58b55b7c4ed",
+      "byteCount": 6801
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/inputs/public-data-shapes.md",
+      "sha256": "6c24dc857739d0be6ca8edeaf2e98d7de020784147a72fc4f1457bbed83fd809",
+      "byteCount": 3931
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/output/collection-planner.ts",
+      "sha256": "23403026dd2dadc7cab3221b90f863e6b3762a628b6920a95caeb065c13d5703",
+      "byteCount": 11700
+    }
+  ],
+  "actualFilesRead": [
+    "/tmp/knorvia-collection-planner-author-20261002/inputs/contract.md",
+    "/tmp/knorvia-collection-planner-author-20261002/inputs/public-api.d.ts",
+    "/tmp/knorvia-collection-planner-author-20261002/inputs/public-data-shapes.md",
+    "/tmp/knorvia-collection-planner-author-20261002/output/collection-planner.ts",
+    "/tmp/knorvia-collection-planner-author-20261002/output/author-record.json"
+  ],
+  "readPurposes": {
+    "inputs": "Contract and public API/schema authoring input; SHA-256 and byte count at freeze.",
+    "collection-planner.ts": "SHA-256 and byte count only at freeze.",
+    "author-record.json": "SHA-256 and byte count only immediately after freezing the record."
+  },
+  "unresolvedQuestions": [],
+  "boundaryBreaches": [],
+  "validation": "No compilation, tests, comparison, repository inspection, or network access performed.",
+  "limitations": [
+    "Uninstalled standalone evidence candidate; integration and behavior remain unverified.",
+    "Dependency imports are based solely on the supplied public API module labels.",
+    "Requested GPT-6 Astra/high was handled by the parent; this author did not independently verify model/service-tier configuration."
+  ],
+  "recordIntegrity": "This metadata record is excluded from its embedded output hashes to avoid self-reference. Its exact SHA-256 and byte count are emitted separately immediately after write."
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs"
+  ],
+  "stdout": "/workspace/knorvia-studio/packages/desktop/src/host/windowRemoteConnectionRegistry.ts:639:75 TS2345 Argument of type 'string | undefined' is not assignable to parameter of type 'string'.\n  Type 'undefined' is not assignable to type 'string'.\n/workspace/knorvia-studio/packages/desktop/src/host/windowRemoteConnectionRegistry.ts:641:34 TS2345 Argument of type 'string | undefined' is not assignable to parameter of type 'string'.\n  Type 'undefined' is not assignable to type 'string'.\n/workspace/knorvia-studio/packages/desktop/src/host/windowRemoteConnectionRegistry.ts:644:37 TS2345 Argument of type 'string | undefined' is not assignable to parameter of type 'string'.\n  Type 'undefined' is not assignable to type 'string'.\n/workspace/knorvia-studio/packages/desktop/src/host/windowRemoteConnectionRegistry.ts:645:61 TS2345 Argument of type 'string | undefined' is not assignable to parameter of type 'string'.\n  Type 'undefined' is not assignable to type 'string'.\n/workspace/knorvia-studio/packages/desktop/src/host/windowRemoteConnectionRegistry.ts:647:60 TS2345 Argument of type 'string | undefined' is not assignable to parameter of type 'string'.\n  Type 'undefined' is not assignable to type 'string'.\nStrict synthetic-port owner diagnostics: 5; no imported product types/config, declaration emit, native or full-project acceptance.\n",
+  "stderr": "",
+  "exitCode": 1
+}

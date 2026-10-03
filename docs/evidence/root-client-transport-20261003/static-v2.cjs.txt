@@ -1,0 +1,8 @@
+const fs=require('fs'),path=require('path'),ts=require(process.cwd()+'/node_modules/typescript');
+const root=path.resolve('packages/client'),names=['messageport','websocket'],dir='/tmp/knorvia-root-client-20261003';
+const options=ts.parseJsonConfigFileContent(ts.readConfigFile(root+'/tsconfig.json',ts.sys.readFile).config,ts.sys,root).options;
+Object.assign(options,{types:['node'],typeRoots:[path.resolve('node_modules/@types')],composite:false,noEmit:true});
+options.paths={...options.paths,'@knorvia/rpc':[path.resolve('packages/rpc/dist/index.d.ts')],'@knorvia/services':[path.resolve('packages/services/dist/index.d.ts')],'@knorvia/services/*':[path.resolve('packages/services/dist/*')],'@knorvia/rpc/*':[path.resolve('packages/rpc/dist/*')]};
+const contents=Object.fromEntries(names.map(n=>[root+'/src/'+n+'.ts',fs.readFileSync(process.argv.includes('--working')?root+'/src/'+n+'.ts':dir+'/draft-'+n+'.ts','utf8')]));
+const host=ts.createCompilerHost(options),get=host.getSourceFile;host.getSourceFile=(f,l,e,n)=>contents[f]!==undefined?ts.createSourceFile(f,contents[f],l,true):get(f,l,e,n);
+const p=ts.createProgram(Object.keys(contents),options,host),ds=ts.getPreEmitDiagnostics(p);if(ds.length){console.error(ts.formatDiagnosticsWithColorAndContext(ds,{getCanonicalFileName:f=>f,getCurrentDirectory:()=>process.cwd(),getNewLine:()=> '\n'}));process.exit(1)}console.log('Scoped client targets and local collaborators: zero diagnostics against actual installed RPC/services declarations; no runtime tests/builds.');

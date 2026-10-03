@@ -10,83 +10,63 @@ import {
   type RestrictedCelValue,
 } from "./types.js";
 
-const programCache = new Map<string, RestrictedCelProgram>();
-const optionMapCache = new Map<string, ModelOptionMapProgram>();
-const expressionCache = new Map<string, RestrictedCelExpression>();
+interface CompiledSource {
+  readonly expression: RestrictedCelExpression;
+  restricted?: RestrictedCelProgram;
+  objectMap?: ModelOptionMapProgram;
+}
+const sources = new Map<string, CompiledSource>();
+
+function sourceEntry(source: string, variableName: ModelOptionName): [string, CompiledSource] {
+  const normalized = source.trim();
+  if (!normalized.length) throw new RestrictedCelError("expression must not be empty", 0);
+  const key = `${variableName}\0${normalized}`;
+  let entry = sources.get(key);
+  if (!entry) {
+    entry = { expression: parseRestrictedCel(tokenizeRestrictedCel(normalized), variableName) };
+    sources.set(key, entry);
+  }
+  return [normalized, entry];
+}
 
 export function compileRestrictedCel(
   source: string,
   variableName: ModelOptionName,
 ): RestrictedCelProgram {
-  const normalizedSource = normalizeSource(source);
-  const cacheKey = createCacheKey(normalizedSource, variableName);
-  const cached = programCache.get(cacheKey);
-  if (cached) return cached;
-
-  const expression = parseExpression(normalizedSource, variableName);
-  const program: RestrictedCelProgram = Object.freeze({
-    source: normalizedSource,
-    evaluate: (input: RestrictedCelValue) => evaluateRestrictedCel(expression, input),
-  });
-  programCache.set(cacheKey, program);
-  return program;
+  const [normalized, entry] = sourceEntry(source, variableName);
+  if (!entry.restricted) {
+    entry.restricted = Object.freeze({
+      source: normalized,
+      evaluate: (input: RestrictedCelValue) => evaluateRestrictedCel(entry.expression, input),
+    });
+  }
+  return entry.restricted;
 }
 
 export function compileModelOptionMap(
   source: string,
   variableName: ModelOptionName,
 ): ModelOptionMapProgram {
-  const normalizedSource = normalizeSource(source);
-  const cacheKey = createCacheKey(normalizedSource, variableName);
-  const cached = optionMapCache.get(cacheKey);
-  if (cached) return cached;
-  const expression = parseExpression(normalizedSource, variableName);
-  assertObjectResultExpression(expression);
-  const program: ModelOptionMapProgram = Object.freeze({
-    source: normalizedSource,
+  const [normalized, entry] = sourceEntry(source, variableName);
+  if (entry.objectMap) return entry.objectMap;
+  const pending = [entry.expression];
+  while (pending.length) {
+    const expression = pending.pop()!;
+    if (expression.type === "object") continue;
+    if (expression.type !== "conditional") {
+      throw new RestrictedCelError("model option map must return a JSON object", expression.offset);
+    }
+    pending.push(expression.whenFalse, expression.whenTrue);
+  }
+  entry.objectMap = Object.freeze({
+    source: normalized,
     evaluate(input: RestrictedCelValue): JsonObject {
-      const result = evaluateRestrictedCel(expression, input);
-      if (!isJsonObject(result)) {
+      const value = evaluateRestrictedCel(entry.expression, input);
+      if (value === null || typeof value !== "object" || Array.isArray(value)) {
         throw new RestrictedCelError("model option map must return a JSON object", 0);
       }
-      return result;
+      return value as JsonObject;
     },
   });
-  optionMapCache.set(cacheKey, program);
-  return program;
-}
-
-function normalizeSource(source: string): string {
-  const normalizedSource = source.trim();
-  if (normalizedSource.length === 0) {
-    throw new RestrictedCelError("expression must not be empty", 0);
-  }
-  return normalizedSource;
-}
-
-function parseExpression(source: string, variableName: ModelOptionName): RestrictedCelExpression {
-  const cacheKey = createCacheKey(source, variableName);
-  const cached = expressionCache.get(cacheKey);
-  if (cached) return cached;
-  const expression = parseRestrictedCel(tokenizeRestrictedCel(source), variableName);
-  expressionCache.set(cacheKey, expression);
-  return expression;
-}
-
-function createCacheKey(source: string, variableName: ModelOptionName): string {
-  return `${variableName}\0${source}`;
-}
-
-function assertObjectResultExpression(expression: RestrictedCelExpression): void {
-  if (expression.type === "object") return;
-  if (expression.type === "conditional") {
-    assertObjectResultExpression(expression.whenTrue);
-    assertObjectResultExpression(expression.whenFalse);
-    return;
-  }
-  throw new RestrictedCelError("model option map must return a JSON object", expression.offset);
-}
-
-function isJsonObject(value: unknown): value is JsonObject {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
+  return entry.objectMap;
 }

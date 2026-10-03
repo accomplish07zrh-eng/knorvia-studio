@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "validatedSourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "finalRepairIntakeCommit": "d826add56755be673efd924b92cf24756af43d6d",
+  "phase": "Concentrated final acceptance explicitly authorized after implementation phase",
+  "baseMain": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "branch": "integration/backlog-20261003",
+  "pullRequest": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/13",
+  "readyForMain": false,
+  "allFourFinalRepairHeadsReceived": true,
+  "runtime": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "rootTypeScript": "6.0.2",
+    "cliTypeScript": "5.9.3",
+    "rootOxfmt": "0.41.0",
+    "rootOxlint": "1.57.0",
+    "turbo": "2.9.14"
+  },
+  "results": [
+    {
+      "name": "types",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "typecheck"],
+      "actualChildExitCode": 0,
+      "seconds": 14.576,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-types.log"
+    },
+    {
+      "name": "lint",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "lint"],
+      "actualChildExitCode": 0,
+      "seconds": 2.963,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-lint.log"
+    },
+    {
+      "name": "format",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "fmt:check"],
+      "actualChildExitCode": 0,
+      "seconds": 21.65,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-format.log"
+    },
+    {
+      "name": "architecture",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "architecture:check"],
+      "actualChildExitCode": 0,
+      "seconds": 2.053,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-architecture.log"
+    },
+    {
+      "name": "provenance",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["node", "scripts/provenance/cli.mjs", "--check"],
+      "actualChildExitCode": 0,
+      "seconds": 13.619,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-provenance.log"
+    },
+    {
+      "name": "cli-build",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "build:cli-packages"],
+      "actualChildExitCode": 2,
+      "seconds": 42.496,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-cli-build.log"
+    },
+    {
+      "name": "cli-types-full",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "-r", "--no-bail", "--filter", "./packages/*", "typecheck"],
+      "workingDirectory": "/workspace/knorvia-studio/apps/cli",
+      "actualChildExitCode": 1,
+      "seconds": 63.866,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-cli-types-full.log"
+    },
+    {
+      "name": "regression",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "test:studio"],
+      "actualChildExitCode": 1,
+      "seconds": 437.024,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-regression.log"
+    },
+    {
+      "name": "web-build",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "--filter", "@knorvia/web", "build"],
+      "workingDirectory": "/workspace/knorvia-studio",
+      "actualChildExitCode": 0,
+      "seconds": 41.756,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-web-build.log"
+    },
+    {
+      "name": "desktop-build",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": ["pnpm", "--filter", "@knorvia/desktop", "build:no-runtime-assets"],
+      "workingDirectory": "/workspace/knorvia-studio",
+      "actualChildExitCode": 0,
+      "seconds": 43.259,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-desktop-build.log"
+    },
+    {
+      "name": "phase-fold-repro",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": [
+        "node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern",
+        "phase components preserve frozen pairs",
+        "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts"
+      ],
+      "workingDirectory": "/workspace/knorvia-studio",
+      "actualChildExitCode": 1,
+      "seconds": 2.434,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-phase-fold-repro.log"
+    },
+    {
+      "name": "native-export-repro",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": [
+        "node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern",
+        "complete default exporter",
+        "packages/desktop/test/native-export-log-owner-contract.test.mjs"
+      ],
+      "workingDirectory": "/workspace/knorvia-studio",
+      "actualChildExitCode": 1,
+      "seconds": 0.279,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-native-export-repro.log"
+    },
+    {
+      "name": "services-import-repro",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": [
+        "node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern",
+        "real import repository scan preserves sort",
+        "packages/services/test/claude-leaf-contract-fast-2057.test.ts"
+      ],
+      "workingDirectory": "/workspace/knorvia-studio",
+      "actualChildExitCode": 1,
+      "seconds": 0.758,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-services-import-repro.log"
+    },
+    {
+      "name": "services-git-repro",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": [
+        "node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern",
+        "failed command reads unborn stderr",
+        "packages/services/test/git-graph-query-contract-fast-20261001.test.ts"
+      ],
+      "workingDirectory": "/workspace/knorvia-studio",
+      "actualChildExitCode": 1,
+      "seconds": 0.782,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-services-git-repro.log"
+    },
+    {
+      "name": "cli-types",
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "command": [
+        "pnpm",
+        "--dir",
+        "apps/cli",
+        "-r",
+        "--no-bail",
+        "--filter",
+        "./packages/*",
+        "typecheck"
+      ],
+      "actualChildExitCode": 0,
+      "seconds": 0.276,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-cli-types.log"
+    }
+  ],
+  "rootResults": {
+    "types": {
+      "exitCode": 0,
+      "i18nKeys": 5422,
+      "scope": "Unchanged standard project-reference configurations"
+    },
+    "lint": {
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 1,
+      "files": 3265,
+      "scope": "Unchanged root ignore/rules; control-character path validation warning retained"
+    },
+    "format": {
+      "exitCode": 0,
+      "files": 7368
+    },
+    "architecture": {
+      "exitCode": 0,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "managedOnly": true
+    },
+    "provenance": {
+      "exitCode": 0,
+      "reviewProblems": 0,
+      "materialObligationsUnresolved": 26
+    },
+    "webBuild": {
+      "exitCode": 0
+    },
+    "desktopBuild": {
+      "exitCode": 0,
+      "scope": "build:no-runtime-assets; Host/main/renderer source bundles, not native payload/installer/real GUI"
+    }
+  },
+  "cliResults": {
+    "buildExitCode": 2,
+    "attemptedTasks": 15,
+    "successfulTasks": 14,
+    "cachedTasks": 4,
+    "fullTypecheckExitCode": 1,
+    "typecheckPackagesPassed": 14,
+    "typecheckPackagesFailed": 1,
+    "distinctDiagnostics": 18,
+    "distinctDiagnosticFiles": 5,
+    "buildAndTypecheckSameFrontier": true,
+    "emptyRootCwdFilterExcluded": true,
+    "originalCliTaskExclusiveProjectionOwnership": true,
+    "diagnosticEvidence": "docs/evidence/final-combined-checks-20261003/diagnostics.json"
+  },
+  "completeRegression": {
+    "command": "pnpm test:studio",
+    "actualExitCode": 1,
+    "selectedOfflineFiles": 777,
+    "tests": 8034,
+    "suites": 6,
+    "pass": 8004,
+    "fail": 22,
+    "cancelled": 0,
+    "skipped": 8,
+    "todo": 0,
+    "durationMs": 436526.022786,
+    "loadFailuresBeforeBehavior": [
+      "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+      "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+      "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+      "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+      "apps/cli/packages/core/test/workflow-graph-boundary.test.ts",
+      "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+      "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
+      "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+      "apps/cli/packages/core/test/workflow-ready-order.test.ts",
+      "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+      "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+      "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+      "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
+      "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+      "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+      "apps/cli/packages/core/test/workflow-scheduler-state.test.ts"
+    ],
+    "failureCategories": {
+      "cliCurrentArtifactPinLoadFailures": 17,
+      "cliHistoricalPhaseFoldBaseline": 1,
+      "nativeExporter": 1,
+      "services": 2,
+      "ui": 1
+    },
+    "focusedReproductionsAddedToTotal": false,
+    "nestedProcessSummariesAddedToTotal": false,
+    "rawLog": "docs/evidence/final-combined-checks-20261003/regression.log"
+  },
+  "otherFailureFrontier": [
+    {
+      "owner": "native",
+      "test": "packages/desktop/test/native-export-log-owner-contract.test.mjs:189",
+      "actual": "Archive lacks .knorvia-studio/cli/log/cli.log and .knorvia-studio/computer-use/run/helper.exit.log under standard isolated test environment; app logs/about exist",
+      "focusedExitCode": 1
+    },
+    {
+      "owner": "services",
+      "test": "packages/services/test/claude-leaf-contract-fast-2057.test.ts:697",
+      "actual": "Repository scan returns [] instead of two sorted synthetic newer/older records after old private-root injection",
+      "focusedExitCode": 1
+    },
+    {
+      "owner": "services",
+      "test": "packages/services/test/git-graph-query-contract-fast-20261001.test.ts:323",
+      "actual": "timeoutMs/durationMs getter reads occur after duration/elapsed/close/forceKill/orphaned fields; original trace requires them earlier",
+      "focusedExitCode": 1
+    },
+    {
+      "owner": "ui",
+      "test": "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts:190",
+      "actual": "h.orders[0] is undefined; reading reordered.view throws; fixture or behavior cause not accepted yet"
+    },
+    {
+      "owner": "cli-core-baseline",
+      "test": "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts:50",
+      "actual": "historical baseline:16 digest mismatch before current comparison; NaN edge case. Do not replace old golden blindly",
+      "focusedExitCode": 1
+    }
+  ],
+  "frozenEvidence": {
+    "previousFiles": 5536,
+    "previousRowsAndBytesUnchanged": true,
+    "newObservedFiles": 32,
+    "totalFiles": 5568,
+    "totalBytes": 63394127
+  },
+  "rights": {
+    "wholeTreeMITReady": false,
+    "materialObligationsClosed": 0,
+    "historicalHoldsAndLicenseNoticesRetained": true,
+    "pastInstallAndOuterTerminalExitAmbiguitiesRetained": true
+  },
+  "remainingAcceptance": {
+    "windowsMacOS": false,
+    "nativeGui": false,
+    "installerPortable": false,
+    "realUserDataMigrationReplay": false,
+    "newCiSuccessClaimed": false
+  },
+  "integrationNext": "Preserve original CLI projection exclusive repair and reuse original native/services/UI tasks for exact failures. Investigate current selector/standard build source-to-output bindings without changing old archive, golden, accepted-hash or rights claims."
+}

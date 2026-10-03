@@ -1,0 +1,7 @@
+{
+  "recordKind": "Tool transcript captures before any production edits, not runner invocation",
+  "freshness": "baseline fresh ahead246 behind0; no tracking branch skips behind-remote check",
+  "architecture": "direct script OK baseline0 new0",
+  "context": "desktop unmanaged/unassigned no contracts",
+  "countsAreAcceptedOwnerCounts": false
+}

@@ -1,0 +1,10 @@
+{
+  "authorOutput": "/tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts",
+  "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/corrected-subagent-markdown-selection.ts",
+  "sha256": "e3c413ffb2399d8ecc8e31fbbe33cebd3cc790965dd3f6cd27e296c94c22b272",
+  "exactCommands": [
+    "cat > /tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts <<'EOF' (whole internal draft)",
+    "sha256sum /tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts"
+  ],
+  "otherReadsWritesChecks": "None; adds non-null assertions to three known successful captures only"
+}

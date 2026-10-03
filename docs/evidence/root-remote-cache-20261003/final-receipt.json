@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-03 Asia/Shanghai",
+  "scope": "packages/server/src/remote/remoteAssetCache.ts",
+  "frozenDraftSha256": "a2bd47cd7ec589dad9acefe9cd0d19f4e8d1f8f6415871dbd789a7593d5cd869",
+  "typeCorrectedDraftSha256": "e7f1af1d8b010480a8de0b14077bf9208a8bd33fdd884165ee5e86b32fef34e2",
+  "sourceSha256": "cf8784854ee0dd912f1e6969b428c13fbf192548cf20530ed592051cb1499d76",
+  "emittedSha256": "f01edc47bc07d5f579027ecea6102b1e0d8a4163f72567cbb9a1185bae216d70",
+  "formatOnlyAstEqualIgnoringRedundantParentheses": true,
+  "compiler": "Zero diagnostics in explicitly Node-typed, non-composite one-root harness using installed actual dependency declarations; original harness failure and8annotation diagnostics preserved",
+  "minimalChecks": "Three synthetic actual-emitted data-safety groups passed before formatting; syntax tree unchanged after formatting. No real network or user data.",
+  "lint": "One known max-lines error997/400; zero warnings and no other errors; not declared passed",
+  "acceptance": "Draft only: full migration/refresh-concurrency/platform/rollback/runtime/build checks and complete source-expression/licence review deferred. No MIT grant.",
+  "integration": "Root sixth lane only; no cross-lane code merge. Earlier local combined WIP remains outside this scoped publication."
+}

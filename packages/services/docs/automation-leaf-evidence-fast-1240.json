@@ -1,0 +1,160 @@
+{
+  "baseSha": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "contractCommit": "d216b4667a4859261108e70742f48b617372ea33",
+  "sourceExposure": "Author inspected old and upstream source. Source-exposed behavioral work; inherited snippets and adapter/error/formula portions retained. No clean-room, whole-file independence, production MIT eligibility or whole-app completion established.",
+  "upstream": {
+    "repository": "zai-org/ZCode",
+    "sha": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blobs": {
+      "automationCron.ts": "56e3d225aa8f095123ee114fe832b3fcce698bde",
+      "automationCronValidation.ts": "f72def81bbd2cdccf0edb5810a77df50c54aa4c7",
+      "automationIntervalCarrier.ts": "517c32d3b19b016ceb859e226721dd0e285169dc",
+      "automationValidation.ts-origin-in-automationService.ts": "4b4d28e94b04d201586f80c5e88576a41e5157e8"
+    },
+    "validatorMoveCommit": "4fd3e373748a08e798beeacc42f91d87bc451378"
+  },
+  "checks": {
+    "oldSourceCompatibility": {
+      "passed": 107,
+      "failed": 0
+    },
+    "oldDistCompatibility": {
+      "passed": 107,
+      "failed": 0
+    },
+    "candidateSourceFocused": {
+      "passed": 111,
+      "failed": 0,
+      "composition": "107 frozen compatibility + 1 construction budget + 3 existing SQLite workflow consumer tests"
+    },
+    "candidateDist": {
+      "passed": 108,
+      "failed": 0
+    },
+    "initialCandidateExpandedReview": {
+      "passed": 95,
+      "failed": 6,
+      "reason": "field-access ordering changes, corrected and retested"
+    },
+    "oldPerformanceRegression": {
+      "passed": 0,
+      "failed": 1,
+      "reason": "intended measurable improvement; old daily horizon constructs 73201 dates vs permanent budget 40"
+    },
+    "sourceDifferential": {
+      "comparisons": 3045,
+      "roundTrips": 18,
+      "timezones": ["UTC", "America/New_York", "Pacific/Apia"],
+      "result": "pass"
+    },
+    "distDifferential": {
+      "comparisons": 3045,
+      "roundTrips": 18,
+      "timezones": ["UTC", "America/New_York", "Pacific/Apia"],
+      "result": "pass"
+    },
+    "calendarAllocation": [
+      {
+        "name": "old-dist",
+        "result": null,
+        "dateConstructions": 73201
+      },
+      {
+        "name": "new-source",
+        "result": null,
+        "dateConstructions": 31
+      },
+      {
+        "name": "new-dist",
+        "result": null,
+        "dateConstructions": 31
+      }
+    ],
+    "existingPublicDeclarations": "four declaration ASTs equal after removing comments",
+    "rootTypecheck": "pass; 5422 matching i18n keys",
+    "rootLint": "pass; zero warnings/errors",
+    "architecture": "pass; zero baseline/new violations",
+    "provenanceFreshness": "failed: shared inventory stale; reconciliation reserved for integrator"
+  },
+  "production": [
+    {
+      "path": "packages/services/src/session/automationCron.ts",
+      "baseNormalizedSha256": "933d616c5335c02a58cd88e1069e846032f98e62ad5d3fcf6f3ad8907d502e80",
+      "finalNormalizedSha256": "ce189612fce54acec2725056910e454a38295bcb4513b3b42d676fe4351ed094",
+      "changed": true,
+      "retainedLicense": "Apache-2.0",
+      "reviewProposal": "retain upstream/exposure facts; no independent-replacement or MIT decision from this batch"
+    },
+    {
+      "path": "packages/services/src/session/automationCronValidation.ts",
+      "baseNormalizedSha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3",
+      "finalNormalizedSha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3",
+      "changed": false,
+      "retainedLicense": "Apache-2.0",
+      "reviewProposal": "retain upstream/exposure facts; no independent-replacement or MIT decision from this batch"
+    },
+    {
+      "path": "packages/services/src/session/automationIntervalCarrier.ts",
+      "baseNormalizedSha256": "5cce5ce7b0b2ac660752eb2ba796c587c8fd41e155e911867e9dcb689eb22e5a",
+      "finalNormalizedSha256": "72fa6ee1f7debd2fa841ba239c308abe9dc762153c73617c786eea8f6f0dccf5",
+      "changed": true,
+      "retainedLicense": "Apache-2.0",
+      "reviewProposal": "retain upstream/exposure facts; no independent-replacement or MIT decision from this batch"
+    },
+    {
+      "path": "packages/services/src/session/automationValidation.ts",
+      "baseNormalizedSha256": "22d0f171df4466e9cd1a5335a80207789642f2eb7325a221c59fa26d3692f473",
+      "finalNormalizedSha256": "b4df09d74e6d4d7b6ef67a335ef066ddd9b62d27299cbbde47c14b7528e7b284",
+      "changed": true,
+      "retainedLicense": "Apache-2.0",
+      "reviewProposal": "retain upstream/exposure facts; no independent-replacement or MIT decision from this batch"
+    },
+    {
+      "path": "packages/services/src/session/automationAdmissionConstraints.ts",
+      "baseNormalizedSha256": null,
+      "finalNormalizedSha256": "700513a71ac658f27e18dffdd401cda07595e72f63172df47e320ca5730a53fe",
+      "changed": true,
+      "retainedLicense": "Apache-2.0",
+      "reviewProposal": "new internal source expression; propose separate original/Apache-2.0 review only after parent source audit"
+    }
+  ],
+  "support": [
+    {
+      "path": "packages/services/specs/automation-leaf-contract-fast-1240.md",
+      "normalizedSha256": "fb8e28734ffa98b49396fc5d4b32407183c5a28eb0c0cb4e634fa3a430c6a493",
+      "licenseProposal": "repository default Apache-2.0 pending separate document review"
+    },
+    {
+      "path": "packages/services/test/automation-leaf-contract-fast-1240.test.ts",
+      "normalizedSha256": "fa86bb73c68b6cafd4a75fa2d8e1636851cb5895bedefe216e4f691356eb8957",
+      "licenseProposal": "separately review new fixture/harness expression as original/MIT; does not cover production"
+    },
+    {
+      "path": "packages/services/test/automation-calendar-cost-fast-1240.test.ts",
+      "normalizedSha256": "edc7090c46e470038d85cd445772b705ae93a95babc8cf30a4f8407be9a234b3",
+      "licenseProposal": "separately review new fixture/harness expression as original/MIT; does not cover production"
+    },
+    {
+      "path": "packages/services/test/automation-leaf-differential-fast-1240.mjs",
+      "normalizedSha256": "40c6a7bff40fd9c9b4e0869ca32944d9f6d412862c88dde7b0747a4b9defe4cf",
+      "licenseProposal": "separately review new fixture/harness expression as original/MIT; does not cover production"
+    },
+    {
+      "path": "packages/services/docs/service-scope-map-fast-1240.json",
+      "normalizedSha256": "77d3efcdbe94166a7bd5776b31289908f00ff4538b081c2f22299fcc439efec8",
+      "licenseProposal": "repository default Apache-2.0 pending separate document review"
+    }
+  ],
+  "unrun": [
+    "native Windows/macOS",
+    "Electron GUI/UI interaction",
+    "actual model/MCP calls",
+    "full studio regression",
+    "full CLI build"
+  ],
+  "environment": {
+    "node": "24.19.0 (mise pins 24.14.0)",
+    "pnpm": "10.33.2 via Corepack; frozen-lockfile ignore-scripts install",
+    "serviceTier": "requested Fast successor; no tool-level control exposed or changed"
+  }
+}

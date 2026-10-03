@@ -1,0 +1,488 @@
+{
+  "strings": [
+    {
+      "text": "@knorvia/contracts"
+    },
+    {
+      "text": "../../runtime-task/notification.js"
+    },
+    {
+      "text": "../executor/workflow-published-artifacts.js"
+    },
+    {
+      "text": "./get-workflow-run-format-roster.js"
+    },
+    {
+      "text": "./workflow-run-introspection.js"
+    },
+    {
+      "text": "completed"
+    },
+    {
+      "text": "errored"
+    },
+    {
+      "text": "stopped"
+    },
+    {
+      "text": "Unknown: pending questions are tracked only by the process that owns the run, and this session does not. Resuming the run will re-ask any question its subagent still needs answered."
+    },
+    {
+      "text": "Each of these subagents is parked waiting for an answer and nothing times out on its behalf. Answer one with ResolveWorkflowQuestion using the ID in brackets. The rest of the run keeps running meanwhile."
+    },
+    {
+      "text": "GetWorkflowRun returned an invalid result."
+    },
+    {
+      "head": "<summary>",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": "</summary>"
+        }
+      ]
+    },
+    {
+      "text": "\n\n"
+    },
+    {
+      "head": "<run_id>",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": "</run_id>"
+        }
+      ]
+    },
+    {
+      "head": "<label ",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": ">"
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": "</label>"
+        }
+      ]
+    },
+    {
+      "text": "source"
+    },
+    {
+      "head": "<status>",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": "</status>"
+        }
+      ]
+    },
+    {
+      "head": "<stop_reason>",
+      "spans": [
+        {
+          "placeholder": "VALUE_6",
+          "text": "</stop_reason>"
+        }
+      ]
+    },
+    {
+      "head": "<resumed_from>",
+      "spans": [
+        {
+          "placeholder": "VALUE_7",
+          "text": "</resumed_from>"
+        }
+      ]
+    },
+    {
+      "head": "<max_concurrency>",
+      "spans": [
+        {
+          "placeholder": "VALUE_8",
+          "text": "</max_concurrency>"
+        }
+      ]
+    },
+    {
+      "head": "<subagent_model>",
+      "spans": [
+        {
+          "placeholder": "VALUE_9",
+          "text": "</subagent_model>"
+        }
+      ]
+    },
+    {
+      "head": "<superseded_by>",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": "</superseded_by>"
+        }
+      ]
+    },
+    {
+      "head": "<owned_by_this_session>",
+      "spans": [
+        {
+          "placeholder": "VALUE_11",
+          "text": "</owned_by_this_session>"
+        }
+      ]
+    },
+    {
+      "text": "<possibly_interrupted>true — this session cannot confirm the run is still alive</possibly_interrupted>"
+    },
+    {
+      "head": "<created_at>",
+      "spans": [
+        {
+          "placeholder": "VALUE_12",
+          "text": "</created_at>"
+        }
+      ]
+    },
+    {
+      "head": "<updated_at>",
+      "spans": [
+        {
+          "placeholder": "VALUE_13",
+          "text": "</updated_at>"
+        }
+      ]
+    },
+    {
+      "head": "<pending_questions>",
+      "spans": [
+        {
+          "placeholder": "VALUE_14",
+          "text": "</pending_questions>"
+        }
+      ]
+    },
+    {
+      "head": "asked at ",
+      "spans": [
+        {
+          "placeholder": "VALUE_15",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "asked ",
+      "spans": [
+        {
+          "placeholder": "VALUE_16",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "[",
+      "spans": [
+        {
+          "placeholder": "VALUE_17",
+          "text": "] "
+        },
+        {
+          "placeholder": "VALUE_18",
+          "text": " "
+        },
+        {
+          "placeholder": "VALUE_19",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "context: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_20",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "head": "<pending_questions>\n",
+      "spans": [
+        {
+          "placeholder": "VALUE_21",
+          "text": "\n\n"
+        },
+        {
+          "placeholder": "VALUE_22",
+          "text": "\n</pending_questions>"
+        }
+      ]
+    },
+    {
+      "text": "\n\n"
+    },
+    {
+      "head": "spent_tokens=",
+      "spans": [
+        {
+          "placeholder": "VALUE_23",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "nodes_observed=",
+      "spans": [
+        {
+          "placeholder": "VALUE_24",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "nodes_running=",
+      "spans": [
+        {
+          "placeholder": "VALUE_25",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "nodes_completed=",
+      "spans": [
+        {
+          "placeholder": "VALUE_26",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "nodes_failed=",
+      "spans": [
+        {
+          "placeholder": "VALUE_27",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "text": " "
+    },
+    {
+      "head": "<usage>",
+      "spans": [
+        {
+          "placeholder": "VALUE_28",
+          "text": "</usage>"
+        }
+      ]
+    },
+    {
+      "head": "<result>\n",
+      "spans": [
+        {
+          "placeholder": "VALUE_29",
+          "text": "\n</result>"
+        }
+      ]
+    },
+    {
+      "head": "\n",
+      "spans": [
+        {
+          "placeholder": "VALUE_30",
+          "text": "\n"
+        }
+      ]
+    },
+    {
+      "head": "<error ",
+      "spans": [
+        {
+          "placeholder": "VALUE_31",
+          "text": ">"
+        },
+        {
+          "placeholder": "VALUE_32",
+          "text": "</error>"
+        }
+      ]
+    },
+    {
+      "text": "code"
+    },
+    {
+      "head": "<artifacts count=\"",
+      "spans": [
+        {
+          "placeholder": "VALUE_33",
+          "text": "\">\n"
+        },
+        {
+          "placeholder": "VALUE_34",
+          "text": "\n</artifacts>"
+        }
+      ]
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "superseded"
+    },
+    {
+      "text": "its successor"
+    },
+    {
+      "head": "run ",
+      "spans": [
+        {
+          "placeholder": "VALUE_35",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "head": "<superseded>This run was stopped by an AmendWorkflow and superseded by ",
+      "spans": [
+        {
+          "placeholder": "VALUE_36",
+          "text": ", which owns its unfinished work. Do not resume it (ResumeWorkflowRun will refuse) and do not amend it again; read or amend "
+        },
+        {
+          "placeholder": "VALUE_37",
+          "text": " instead.</superseded>"
+        }
+      ]
+    },
+    {
+      "text": "user"
+    },
+    {
+      "text": " This run was stopped on purpose by the user: resume it only when the user asks."
+    },
+    {
+      "text": "model"
+    },
+    {
+      "text": " You stopped this run yourself with TaskStop: resume it unchanged only if that is what the user wants. If you stopped it to fix the script, do not wait — amend it now, see <amendable>."
+    },
+    {
+      "text": "provider"
+    },
+    {
+      "text": " A provider-side error stopped it: resolve the cause named in <error> with the user before resuming, or it will stop again the same way."
+    },
+    {
+      "text": ""
+    },
+    {
+      "head": "<resumable>This run can be continued with ResumeWorkflowRun — it will resume under the same run ID, replaying finished steps and re-dispatching the unfinished ones.",
+      "spans": [
+        {
+          "placeholder": "VALUE_38",
+          "text": " The script must be byte-for-byte the one this run was started with; to change it, see <amendable>.</resumable>"
+        }
+      ]
+    },
+    {
+      "text": ""
+    },
+    {
+      "head": " Its script is at ",
+      "spans": [
+        {
+          "placeholder": "VALUE_39",
+          "text": ": edit that file in place and pass `path: \""
+        },
+        {
+          "placeholder": "VALUE_40",
+          "text": "\"` to AmendWorkflow instead of a script."
+        }
+      ]
+    },
+    {
+      "text": "running"
+    },
+    {
+      "head": "<amendable>AmendWorkflow with run_id \"",
+      "spans": [
+        {
+          "placeholder": "VALUE_41",
+          "text": "\" supersedes this run with a revised script and imports its finished work as cache."
+        },
+        {
+          "placeholder": "VALUE_42",
+          "text": "</amendable>"
+        }
+      ]
+    },
+    {
+      "text": "errored"
+    },
+    {
+      "text": "This is the highest-value case for it: the script itself failed, so fix the script and re-run — every step that already succeeded is imported instead of being paid for a second time. Do NOT rewrite from scratch."
+    },
+    {
+      "text": "completed"
+    },
+    {
+      "text": "Use it to extend or refine a finished workflow — added steps run live, unchanged ones cost nothing."
+    },
+    {
+      "text": "stopped"
+    },
+    {
+      "text": "Use it when the script or a setting needs to change; use ResumeWorkflowRun to continue it unchanged. A run stopped because its script was wrong is amended now, not after the user asks: the cache holds everything that settled before the stop, and waiting buys nothing."
+    },
+    {
+      "text": "It is still running: if the script is visibly wrong, amend it now — AmendWorkflow stops this run, imports everything that settled so far, and starts the revision in one call. Do not TaskStop it first and do not wait for it to finish."
+    },
+    {
+      "head": "This run can be superseded by a revised script: call AmendWorkflow with `run_id: \"",
+      "spans": [
+        {
+          "placeholder": "VALUE_43",
+          "text": "\"` and your new script."
+        }
+      ]
+    },
+    {
+      "text": "That mints a NEW run and imports this one's finished work as a warm cache — matched per named subagent along its conversation prefix — so steps you did not change settle from cache at zero tokens and only the revised part runs live."
+    },
+    {
+      "text": "To change only its settings (max_concurrency, subagent_model, name), omit both `script` and `path`: the new run keeps this run's script."
+    },
+    {
+      "text": " "
+    },
+    {
+      "head": "<amendable>",
+      "spans": [
+        {
+          "placeholder": "VALUE_44",
+          "text": ""
+        },
+        {
+          "placeholder": "VALUE_45",
+          "text": "</amendable>"
+        }
+      ]
+    },
+    {
+      "text": "stopped"
+    }
+  ],
+  "patterns": [],
+  "numbers": [
+    "0",
+    "0"
+  ],
+  "qualification": "Exact required fixed public prose/XML/metadata/error/sentinel/newline/template data; private expression names/decomposition omitted. Source-derived preservation data, no novelty or rights credit."
+}

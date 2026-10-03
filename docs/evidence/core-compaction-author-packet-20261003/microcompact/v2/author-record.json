@@ -1,0 +1,170 @@
+{
+  "author_role": "same input-limited local-microcompaction author, correction v2",
+  "new_fresh_author_event": false,
+  "workspace": "/tmp/knorvia-core-compaction-microcompact-author-20261003",
+  "original_input_revision_as_supplied": "5440a760",
+  "clarification_revision_as_supplied": "c598241d",
+  "frozen": true,
+  "source_frozen_at_utc": "2026-10-02T18:57:15.240580Z",
+  "record_created_at_utc": "2026-10-02T18:57:15.240580Z",
+  "receipt_self_hash_excluded": true,
+  "restriction_qualification": "Instruction-based restrictions in a shared executor; no OS isolation claimed.",
+  "correction_chronology": [
+    {
+      "event": "v1 independently authored and frozen from the original four-input packet",
+      "utc": "2026-10-02T18:53:09.538836Z",
+      "source_sha256": "d79852364561f15e5f87ed2f5ca83dbe1a456fd355d04fe30dd481c760991e5f",
+      "receipt_sha256": "ab6945e48a6f1192f0759aadff7e95a3e00f6d495190b664922df9810daf6a08"
+    },
+    {
+      "event": "Curator reported v1 archived unchanged before body review",
+      "archive_revision_as_supplied": "c765cb4c",
+      "independently_verified": false
+    },
+    {
+      "event": "Received an authorized behavior-only clock-capture clarification identifying an omission from the original packet",
+      "qualification": "No target source, helper structure, runtime probe, test failure, or review body supplied or read."
+    },
+    {
+      "event": "Captured incoming lastAssistantCompletedAtMs and nowMs after the disabled gate, before idle normalization and clock admission; elapsed uses those captured values",
+      "utc": "2026-10-02T18:57:15.240580Z",
+      "v1_source_or_receipt_modified": false
+    }
+  ],
+  "actual_reads": [
+    {
+      "phase": "v1",
+      "method": "exec_command: cat with four explicit permitted input paths",
+      "paths": [
+        "inputs/contract.md",
+        "inputs/public-api.d.ts",
+        "inputs/dependency-api.d.ts",
+        "inputs/public-data-shapes.md"
+      ]
+    },
+    {
+      "phase": "v1",
+      "method": "exec_command: Python pathlib.Path.read_bytes, one read per path",
+      "paths": [
+        "inputs/contract.md",
+        "inputs/public-api.d.ts",
+        "inputs/dependency-api.d.ts",
+        "inputs/public-data-shapes.md",
+        "output/microcompact.ts"
+      ]
+    },
+    {
+      "phase": "v1",
+      "method": "exec_command: Python pathlib.Path.read_bytes after receipt write",
+      "paths": [
+        "output/author-record.json"
+      ]
+    },
+    {
+      "phase": "v2",
+      "method": "exec_command: cat with explicit authorized clarification and own v1 output paths",
+      "paths": [
+        "inputs/clock-capture-clarification.md",
+        "output/microcompact.ts"
+      ]
+    },
+    {
+      "phase": "v2",
+      "method": "exec_command: Python pathlib.Path.read_text",
+      "paths": [
+        "output/microcompact.ts"
+      ],
+      "purpose": "Carry the complete own v1 source into a separate v2 with the capture correction."
+    },
+    {
+      "phase": "v2",
+      "method": "exec_command: Python pathlib.Path.read_bytes, one read per path",
+      "paths": [
+        "inputs/contract.md",
+        "inputs/public-api.d.ts",
+        "inputs/dependency-api.d.ts",
+        "inputs/public-data-shapes.md",
+        "inputs/clock-capture-clarification.md",
+        "output-v2/microcompact.ts"
+      ],
+      "purpose": "Bind five authorized inputs and frozen v2 output to metadata."
+    },
+    {
+      "phase": "v2",
+      "method": "exec_command: Python pathlib.Path.read_bytes after receipt write",
+      "paths": [
+        "output-v2/author-record.json"
+      ],
+      "purpose": "Compute independent receipt metadata for reporting."
+    }
+  ],
+  "authoring_methods": [
+    "v1: Direct TypeScript authoring from four inputs; quoted heredoc source write and Python JSON receipt write.",
+    "v2: Python text substitution in own source for timestamp capture; separate complete source and JSON receipt writes."
+  ],
+  "bindings": [
+    {
+      "path": "inputs/contract.md",
+      "bytes": 7682,
+      "sha256": "a8681a82c64b17a903385f413dff7153eff35d35134dd3ac1003cbb1ea3c42e2",
+      "lines": 37
+    },
+    {
+      "path": "inputs/public-api.d.ts",
+      "bytes": 2229,
+      "sha256": "e1f4ac9218b485f1d7c5b452669b6c9ac25d125bd287a93e4a1acf37530565c0",
+      "lines": 47
+    },
+    {
+      "path": "inputs/dependency-api.d.ts",
+      "bytes": 927,
+      "sha256": "0ef504ad1d740c02c8f4529651a9cba39f79eee28b0b837ec3957393b831ec5a",
+      "lines": 11
+    },
+    {
+      "path": "inputs/public-data-shapes.md",
+      "bytes": 4743,
+      "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164",
+      "lines": 52
+    },
+    {
+      "path": "inputs/clock-capture-clarification.md",
+      "bytes": 1128,
+      "sha256": "3758d868482573f96ac67031fa760e49c4b5d20d045c795b595035524a018d9c",
+      "lines": 5
+    },
+    {
+      "path": "output-v2/microcompact.ts",
+      "bytes": 8400,
+      "sha256": "3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64",
+      "lines": 251
+    }
+  ],
+  "breaches": [],
+  "questions": [],
+  "uncertainties": [
+    "No compiler, tests, dependency resolution, runtime execution, or comparison performed; compatibility is unverified.",
+    "Requested Sol/high/Fast remains a request; no separate tool Fast control was exposed or used."
+  ],
+  "forbidden_action_flags": {
+    "repository_read": false,
+    "commit_or_history_read": false,
+    "agents_or_skills_read": false,
+    "target_implementation_read": false,
+    "tests_read": false,
+    "target_review_bodies_read": false,
+    "network_access": false,
+    "other_scratch_read": false,
+    "other_author_access": false,
+    "compiler_run": false,
+    "tests_run": false,
+    "comparison_run": false,
+    "production_write": false,
+    "git_operation": false,
+    "publication": false,
+    "implementation_io_store_state_or_write_added": false,
+    "public_api_changed": false,
+    "frozen_v1_modified": false
+  },
+  "authorized_behavior_clarification_received": true
+}

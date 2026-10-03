@@ -30,40 +30,60 @@ export type ManualModelConfig = z.infer<typeof manualModelConfigSchema>;
 
 /** 草稿/旧完整规则提取复用 schema 结构，避免维护第二份可编辑字段清单。 */
 export function extractManualModelConfig(input: unknown): ManualModelConfig {
-  return manualModelConfigSchema.parse(pickSchemaFields(manualModelConfigSchema, input));
+  return manualModelConfigSchema.parse(pickManualFields(manualModelConfigSchema, input));
 }
 
-/** 保留独立 enabled 和系统叶子；恢复智能配置及规则合成都使用同一字段归属。 */
 export function clearManualModelConfig(input: z.infer<typeof modelConfigDataSchema>) {
   return modelConfigDataSchema.parse(
-    omitSchemaFields(manualModelConfigSchema.omit({ enabled: true }), input),
+    removeManualFields(manualModelConfigSchema.omit({ enabled: true }), input),
   );
 }
 
-function omitSchemaFields(schema: z.ZodObject, input: unknown): unknown {
-  if (!input || typeof input !== "object" || Array.isArray(input)) return input;
-  return Object.fromEntries(
-    Object.entries(input).flatMap(([key, value]) => {
-      const child = schema.shape[key];
-      if (!child) return [[key, value]];
-      if (!(child instanceof z.ZodObject) || value == null) return [];
-      const remaining = omitSchemaFields(child, value);
-      return remaining && typeof remaining === "object" && Object.keys(remaining).length
-        ? [[key, remaining]]
-        : [];
-    }),
-  );
-}
+function pickManualFields(schema: z.ZodObject, input: unknown): unknown {
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    return input;
+  }
 
-function pickSchemaFields(schema: z.ZodObject, input: unknown): unknown {
-  if (!input || typeof input !== "object" || Array.isArray(input)) return input;
   const source = input as Record<string, unknown>;
-  return Object.fromEntries(
-    Object.entries(schema.shape).flatMap(([key, child]) => {
-      if (!(key in source)) return [];
-      return [
-        [key, child instanceof z.ZodObject ? pickSchemaFields(child, source[key]) : source[key]],
-      ];
-    }),
-  );
+  const schemaEntries = Object.entries(schema.shape);
+  const selected: [string, unknown][] = [];
+
+  for (const [key, child] of schemaEntries) {
+    if (key in source) {
+      selected.push([
+        key,
+        child instanceof z.ZodObject ? pickManualFields(child, source[key]) : source[key],
+      ]);
+    }
+  }
+
+  return Object.fromEntries(selected);
+}
+
+function removeManualFields(schema: z.ZodObject, input: unknown): unknown {
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    return input;
+  }
+
+  const sourceEntries = Object.entries(input);
+  const remainingEntries: [string, unknown][] = [];
+
+  for (const [key, value] of sourceEntries) {
+    const child = schema.shape[key];
+    if (!child) {
+      remainingEntries.push([key, value]);
+      continue;
+    }
+
+    if (!(child instanceof z.ZodObject) || value == null) {
+      continue;
+    }
+
+    const remaining = removeManualFields(child, value);
+    if (remaining && typeof remaining === "object" && Object.keys(remaining).length > 0) {
+      remainingEntries.push([key, remaining]);
+    }
+  }
+
+  return Object.fromEntries(remainingEntries);
 }

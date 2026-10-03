@@ -1,0 +1,164 @@
+import { isArtifactUri } from "@knorvia/shared";
+import type {
+  AttachmentRef,
+  FilePart,
+  ModelMessageContentBlock,
+  ToolArtifactStorePort,
+} from "@knorvia/contracts";
+
+function isInlinePayload(value: unknown): value is string {
+  if (typeof value !== "string" || !value.startsWith("data:")) {
+    return false;
+  }
+  const separator = value.indexOf(",");
+  return separator >= 0 && separator < value.length - 1;
+}
+
+function isImageMime(mime: string): boolean {
+  return mime === "image/*" || mime.startsWith("image/");
+}
+
+function isPdfMime(mime: string): boolean {
+  return mime.split(";", 1)[0]?.trim().toLowerCase() === "application/pdf";
+}
+
+export async function filePartToContentBlock(
+  part: FilePart,
+  artifactStore: ToolArtifactStorePort | undefined,
+): Promise<ModelMessageContentBlock> {
+  const origin = part.source;
+  const durableUri = part.metadata?.artifactUri ?? part.url;
+  const localOrigin = origin?.type === "file" || origin?.type === "symbol";
+  const mediaOrigin =
+    isImageMime(part.mime) ||
+    part.mime.startsWith("video/") ||
+    isPdfMime(part.mime);
+  const useArtifactIdentity =
+    localOrigin && mediaOrigin && isArtifactUri(durableUri);
+
+  const reference: AttachmentRef = {
+    id: part.id,
+    kind: useArtifactIdentity
+      ? "inline"
+      : origin?.type === "resource"
+        ? "resource"
+        : origin
+          ? "local_file"
+          : "inline",
+    uri: useArtifactIdentity
+      ? durableUri
+      : origin?.type === "resource"
+        ? origin.uri
+        : part.url,
+    path: useArtifactIdentity
+      ? undefined
+      : origin?.type === "file" || origin?.type === "symbol"
+        ? origin.path
+        : undefined,
+    mimeType: part.mime,
+    sizeBytes: part.metadata?.sizeBytes,
+    sha256: part.metadata?.sha256,
+    placeholder: origin?.text.value ?? part.filename,
+  };
+
+  let payload: string | undefined;
+  if (isInlinePayload(part.url)) {
+    payload = part.url;
+  } else if (artifactStore && isArtifactUri(durableUri)) {
+    try {
+      const result = await artifactStore.readToolResultArtifact({ uri: durableUri });
+      const content = result.content;
+      if (isInlinePayload(content)) {
+        payload = content;
+      }
+    } catch {
+      // An unavailable or unusable artifact leaves the text fallback available.
+    }
+  }
+
+  if (payload !== undefined && isImageMime(part.mime)) {
+    const mediaType = part.mime === "image/*"
+      ? payload.match(/^data:([^;,]+)(?:;base64)?,/i)?.[1]?.toLowerCase() ?? "image/png"
+      : part.mime;
+    return {
+      type: "image",
+      mediaType,
+      dataUrl: payload,
+      source: reference,
+    };
+  }
+
+  if (payload !== undefined && part.mime.startsWith("video/")) {
+    return {
+      type: "video",
+      mediaType: part.mime,
+      dataUrl: payload,
+      source: reference,
+    };
+  }
+
+  if (payload !== undefined && isPdfMime(part.mime)) {
+    return {
+      type: "file",
+      mediaType: "application/pdf",
+      name: part.filename,
+      dataUrl: payload,
+      source: reference,
+    };
+  }
+
+  if (part.mime.startsWith("text/")) {
+    const preview = part.metadata?.preview?.text;
+    if (typeof preview === "string") {
+      return { type: "text", text: preview };
+    }
+  }
+
+  let label: string;
+  if (part.metadata?.storageKind === "local_ref") {
+    const currentOrigin = part.source;
+    const localPath = currentOrigin?.type === "file" || currentOrigin?.type === "symbol"
+      ? currentOrigin.path
+      : undefined;
+    label = currentOrigin?.text.value ?? localPath ?? part.metadata.originalUrl ?? part.url;
+  } else {
+    label = part.filename ?? part.url;
+  }
+  return { type: "text", text: `[Attached ${part.mime}: ${label}]` };
+}
+
+export function projectPersistedToolMediaContent(
+  value: unknown,
+  attachmentBlocks: ModelMessageContentBlock[],
+): ModelMessageContentBlock[] | undefined {
+  if (!Array.isArray(value) || value.length === 0) {
+    return undefined;
+  }
+
+  const projected: ModelMessageContentBlock[] = [];
+  for (const entry of value) {
+    if (entry === null || typeof entry !== "object" || Array.isArray(entry)) {
+      return undefined;
+    }
+    const row = entry as Record<string, unknown>;
+    if (row.type === "text") {
+      if (typeof row.text !== "string") {
+        return undefined;
+      }
+      projected.push({ type: "text", text: row.text });
+    } else if (row.type === "attachment") {
+      const index = row.attachmentIndex;
+      if (typeof index !== "number" || !Number.isInteger(index) || index < 0) {
+        return undefined;
+      }
+      const attachment = attachmentBlocks[index];
+      if (!attachment) {
+        return undefined;
+      }
+      projected.push(attachment);
+    } else {
+      return undefined;
+    }
+  }
+  return projected;
+}

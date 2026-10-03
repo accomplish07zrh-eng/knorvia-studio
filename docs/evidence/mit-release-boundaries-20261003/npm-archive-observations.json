@@ -1,0 +1,2124 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "archiveBytesRetainedInRepository": false,
+  "items": [
+    {
+      "id": "@arms/rum-browser@0.1.8",
+      "archiveUrl": "https://registry.npmjs.org/@arms/rum-browser/-/rum-browser-0.1.8.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.556193+00:00",
+      "npmMetadataSha256": "c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 157402,
+      "sha256": "c931065b3ca66a504fde9fb00cab1100cd771da95226cc67011247a48c0eb377",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": null,
+      "sameAsPreviouslyRecordedArchive": null,
+      "members": [
+        {
+          "name": "package/lib/collector/resource/api.js",
+          "bytes": 7618,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/api.js",
+          "bytes": 942,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/base.js",
+          "bytes": 1625,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/exception/blank.js",
+          "bytes": 5593,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/browser-sdk.js",
+          "bytes": 284638,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/action/click.js",
+          "bytes": 6403,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/client.js",
+          "bytes": 35,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/replay/compress.js",
+          "bytes": 6559,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/configManager.js",
+          "bytes": 5204,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/cookie.js",
+          "bytes": 612,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/processor/default-processor.js",
+          "bytes": 643,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/dom.js",
+          "bytes": 7134,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/event.js",
+          "bytes": 214,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/exception.js",
+          "bytes": 259,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/global.js",
+          "bytes": 366,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/html2canvas.js",
+          "bytes": 12425,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/exception/index.js",
+          "bytes": 2808,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/index.js",
+          "bytes": 1591,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/longtask/index.js",
+          "bytes": 5427,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.js",
+          "bytes": 848,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/reporter/index.js",
+          "bytes": 3190,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/index.js",
+          "bytes": 456,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/index.js",
+          "bytes": 3251,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/longtask.js",
+          "bytes": 35,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/replay/manager.js",
+          "bytes": 4865,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/modules.js",
+          "bytes": 2040,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/perf.js",
+          "bytes": 4110,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/performance.js",
+          "bytes": 10346,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/pv.js",
+          "bytes": 2431,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/replay.js",
+          "bytes": 4504,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/replay.js",
+          "bytes": 415,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/replay/rrweb-record.js",
+          "bytes": 83314,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/sampleCheck.js",
+          "bytes": 1264,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/screenshotCheck.js",
+          "bytes": 3110,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/replay/segment.js",
+          "bytes": 1468,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/processor/session-processor.js",
+          "bytes": 1871,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/session.js",
+          "bytes": 5224,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/shell.js",
+          "bytes": 3448,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/stack-parser.js",
+          "bytes": 3384,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/resource/static-resource.js",
+          "bytes": 4896,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/style.js",
+          "bytes": 12,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/url.js",
+          "bytes": 1524,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/utils.js",
+          "bytes": 882,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/view-stats.js",
+          "bytes": 3777,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/view.js",
+          "bytes": 199,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/webvitals.js",
+          "bytes": 2032,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 817,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 139,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/resource/api.d.ts",
+          "bytes": 730,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/api.d.ts",
+          "bytes": 782,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/base.d.ts",
+          "bytes": 512,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/exception/blank.d.ts",
+          "bytes": 559,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/action/click.d.ts",
+          "bytes": 2065,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/client.d.ts",
+          "bytes": 5415,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/replay/compress.d.ts",
+          "bytes": 263,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/configManager.d.ts",
+          "bytes": 618,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/cookie.d.ts",
+          "bytes": 292,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/processor/default-processor.d.ts",
+          "bytes": 185,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/dom.d.ts",
+          "bytes": 2208,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/event.d.ts",
+          "bytes": 114,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/exception.d.ts",
+          "bytes": 147,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/global.d.ts",
+          "bytes": 179,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/html2canvas.d.ts",
+          "bytes": 257,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/exception/index.d.ts",
+          "bytes": 526,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/index.d.ts",
+          "bytes": 696,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/longtask/index.d.ts",
+          "bytes": 1297,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.d.ts",
+          "bytes": 179,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/reporter/index.d.ts",
+          "bytes": 480,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/index.d.ts",
+          "bytes": 308,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/index.d.ts",
+          "bytes": 3524,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/longtask.d.ts",
+          "bytes": 872,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/replay/manager.d.ts",
+          "bytes": 1052,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/modules.d.ts",
+          "bytes": 397,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/perf.d.ts",
+          "bytes": 575,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/performance.d.ts",
+          "bytes": 5050,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/pv.d.ts",
+          "bytes": 528,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/replay.d.ts",
+          "bytes": 853,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/replay.d.ts",
+          "bytes": 865,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/sampleCheck.d.ts",
+          "bytes": 1576,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/screenshotCheck.d.ts",
+          "bytes": 2447,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/replay/segment.d.ts",
+          "bytes": 533,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/processor/session-processor.d.ts",
+          "bytes": 363,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/session.d.ts",
+          "bytes": 1247,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/shell.d.ts",
+          "bytes": 1437,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/stack-parser.d.ts",
+          "bytes": 199,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/resource/static-resource.d.ts",
+          "bytes": 1648,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/url.d.ts",
+          "bytes": 700,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/blank/utils.d.ts",
+          "bytes": 565,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/view-stats.d.ts",
+          "bytes": 504,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/view.d.ts",
+          "bytes": 185,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/collector/view/webvitals.d.ts",
+          "bytes": 546,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 139,
+          "sha256": "616ebcec092bdb4b8d53c9c872d988f93be23e85555d6553eb1e11c4441e7d1a",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "ISC",
+      "publisherGitHead": "b3bb39c51630c034572644f845f5e68b7da994d0",
+      "publisherRepository": null
+    },
+    {
+      "id": "@arms/rum-core@0.1.4",
+      "archiveUrl": "https://registry.npmjs.org/@arms/rum-core/-/rum-core-0.1.4.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.556845+00:00",
+      "npmMetadataSha256": "02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 27485,
+      "sha256": "9ea195bb1504209879359247a39c8ca2cb46b832e9e5f00932c0c0661d3a083f",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": null,
+      "sameAsPreviouslyRecordedArchive": null,
+      "members": [
+        {
+          "name": "package/es/utils/base.js",
+          "bytes": 6820,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/base.js",
+          "bytes": 7188,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/client.js",
+          "bytes": 3357,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/client.js",
+          "bytes": 249,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/client.js",
+          "bytes": 3591,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/client.js",
+          "bytes": 331,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/collector.js",
+          "bytes": 10,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/collector.js",
+          "bytes": 41,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/config.js",
+          "bytes": 10,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/config.js",
+          "bytes": 41,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/configManager.js",
+          "bytes": 5682,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/configManager.js",
+          "bytes": 6036,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/context.js",
+          "bytes": 1519,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/context.js",
+          "bytes": 1613,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/events.js",
+          "bytes": 2284,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/events.js",
+          "bytes": 2373,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/exception.js",
+          "bytes": 313,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/exception.js",
+          "bytes": 398,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/index.js",
+          "bytes": 749,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.js",
+          "bytes": 6006,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/is.js",
+          "bytes": 1238,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/is.js",
+          "bytes": 1602,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/match.js",
+          "bytes": 2115,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/match.js",
+          "bytes": 2299,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/number.js",
+          "bytes": 925,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/number.js",
+          "bytes": 1163,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/polyfills.js",
+          "bytes": 807,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/polyfills.js",
+          "bytes": 929,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/processor.js",
+          "bytes": 10,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/processor.js",
+          "bytes": 41,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/reporter.js",
+          "bytes": 7952,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/reporter.js",
+          "bytes": 10,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/reporter.js",
+          "bytes": 8297,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/reporter.js",
+          "bytes": 41,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/rum-event.js",
+          "bytes": 1067,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/rum-event.js",
+          "bytes": 1226,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/shell.js",
+          "bytes": 2999,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/shell.js",
+          "bytes": 10,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/shell.js",
+          "bytes": 3331,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/shell.js",
+          "bytes": 41,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/style.js",
+          "bytes": 12,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/style.js",
+          "bytes": 12,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/trace.js",
+          "bytes": 3933,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/trace.js",
+          "bytes": 4134,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/url.js",
+          "bytes": 2009,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/url.js",
+          "bytes": 2081,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/verify.js",
+          "bytes": 903,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/verify.js",
+          "bytes": 993,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 726,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 69,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/base.d.ts",
+          "bytes": 1427,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/base.d.ts",
+          "bytes": 1427,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/client.d.ts",
+          "bytes": 887,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/client.d.ts",
+          "bytes": 5736,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/client.d.ts",
+          "bytes": 887,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/client.d.ts",
+          "bytes": 5736,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/collector.d.ts",
+          "bytes": 221,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/collector.d.ts",
+          "bytes": 221,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/config.d.ts",
+          "bytes": 1231,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/config.d.ts",
+          "bytes": 1231,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/configManager.d.ts",
+          "bytes": 1887,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/configManager.d.ts",
+          "bytes": 1887,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/context.d.ts",
+          "bytes": 824,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/context.d.ts",
+          "bytes": 824,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/events.d.ts",
+          "bytes": 853,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/events.d.ts",
+          "bytes": 853,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/exception.d.ts",
+          "bytes": 141,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/exception.d.ts",
+          "bytes": 141,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/index.d.ts",
+          "bytes": 750,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.d.ts",
+          "bytes": 750,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/is.d.ts",
+          "bytes": 733,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/is.d.ts",
+          "bytes": 733,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/match.d.ts",
+          "bytes": 740,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/match.d.ts",
+          "bytes": 740,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/number.d.ts",
+          "bytes": 561,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/number.d.ts",
+          "bytes": 561,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/polyfills.d.ts",
+          "bytes": 667,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/polyfills.d.ts",
+          "bytes": 667,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/processor.d.ts",
+          "bytes": 234,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/processor.d.ts",
+          "bytes": 234,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/reporter.d.ts",
+          "bytes": 1092,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/reporter.d.ts",
+          "bytes": 254,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/reporter.d.ts",
+          "bytes": 1092,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/reporter.d.ts",
+          "bytes": 254,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/rum-event.d.ts",
+          "bytes": 7561,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/rum-event.d.ts",
+          "bytes": 7561,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/model/shell.d.ts",
+          "bytes": 1114,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/types/shell.d.ts",
+          "bytes": 968,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/model/shell.d.ts",
+          "bytes": 1114,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/types/shell.d.ts",
+          "bytes": 968,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/trace.d.ts",
+          "bytes": 1141,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/trace.d.ts",
+          "bytes": 1141,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/url.d.ts",
+          "bytes": 123,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/url.d.ts",
+          "bytes": 123,
+          "kind": "file"
+        },
+        {
+          "name": "package/es/utils/verify.d.ts",
+          "bytes": 122,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/utils/verify.d.ts",
+          "bytes": 122,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 69,
+          "sha256": "5da126320694ef3fdd58a65e2bbbe3a59042c992ed8e72b47370631a05dfd736",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "ISC",
+      "publisherGitHead": "b63b290389cb1ece96a05324414318d12241563f",
+      "publisherRepository": null
+    },
+    {
+      "id": "@arms/rum-electron@0.0.3",
+      "archiveUrl": "https://registry.npmjs.org/@arms/rum-electron/-/rum-electron-0.0.3.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.558038+00:00",
+      "npmMetadataSha256": "8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 1429061,
+      "sha256": "05aa61fd5b6bc4778e9f1f96053dfd5fc1f4e6994576bfe72273d6bd80ee8ff7",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": null,
+      "sameAsPreviouslyRecordedArchive": null,
+      "members": [
+        {
+          "name": "package/dist/index.cjs",
+          "bytes": 1767229,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/preload.cjs",
+          "bytes": 344,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/browser.js",
+          "bytes": 97596,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 2332,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 11606,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/browser.mjs",
+          "bytes": 143556,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.mjs",
+          "bytes": 1783620,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/browser.d.ts",
+          "bytes": 3720,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.d.ts",
+          "bytes": 4682,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 11606,
+          "sha256": "698fdb0ab31ec9b151ca6d2da464524db3cbcfcb05da3c6abc00f96610212084",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": "d472fec87e50b4bceb552800da99a8e7510bf1e1",
+      "publisherRepository": null
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "archiveUrl": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.3.0.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.562006+00:00",
+      "npmMetadataSha256": "d0bb5df5a75d08dc2cb27c04e7bb8497aab60679cd83364b826e868dbe7b63bc",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 7890,
+      "sha256": "48b94f87b85ca84428491d7275f0fad16450254bd49d9b2b4f621539fda8a2af",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "48b94f87b85ca84428491d7275f0fad16450254bd49d9b2b4f621539fda8a2af",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/CHANGELOG.md",
+          "bytes": 6392,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 664,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.cjs",
+          "bytes": 5644,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.d.cts",
+          "bytes": 831,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.d.cts.map",
+          "bytes": 466,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.d.ts",
+          "bytes": 830,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.d.ts.map",
+          "bytes": 465,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.js",
+          "bytes": 4581,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.js.map",
+          "bytes": 10202,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 1401,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 664,
+          "sha256": "5fbb43438fcc582491d1b089fff6b4e024a43c1856ae1c9f9c5a4b6441acbe66",
+          "copyrightLines": [
+            "  upgradeWebSocket((c) => ({"
+          ]
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": "2c026b9d5bfff006dc9abdc1b33c53856d2d784f",
+      "publisherRepository": {
+        "url": "git+https://github.com/honojs/middleware.git",
+        "type": "git",
+        "directory": "packages/node-ws"
+      }
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "archiveUrl": "https://registry.npmjs.org/@open-draft/deferred-promise/-/deferred-promise-2.2.0.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.559146+00:00",
+      "npmMetadataSha256": "11629b539d361afffd0f84f340a15da656eedf59fb846fba3c6c0e1298f750ab",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 5032,
+      "sha256": "57f8d0cf303951c66dcdab2a10c2fe57194ad4cbb851880c604d4c3e521def2b",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "57f8d0cf303951c66dcdab2a10c2fe57194ad4cbb851880c604d4c3e521def2b",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/build/index.js",
+          "bytes": 3022,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 1235,
+          "kind": "file"
+        },
+        {
+          "name": "package/build/index.js.map",
+          "bytes": 4943,
+          "kind": "file"
+        },
+        {
+          "name": "package/build/index.mjs.map",
+          "bytes": 4795,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 6219,
+          "kind": "file"
+        },
+        {
+          "name": "package/build/index.mjs",
+          "bytes": 1950,
+          "kind": "file"
+        },
+        {
+          "name": "package/build/index.d.mts",
+          "bytes": 1596,
+          "kind": "file"
+        },
+        {
+          "name": "package/build/index.d.ts",
+          "bytes": 1596,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 6219,
+          "sha256": "494d6ba6d6c0b322c66efebc2468232d98b59e92c9e5d3fab78d174950d83929",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": "b30f1b683311030e92fcdd08d2bd6574d652b77f",
+      "publisherRepository": {
+        "url": "git+https://github.com/open-draft/deferred-promise.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "archiveUrl": "https://registry.npmjs.org/ansi-to-react/-/ansi-to-react-6.2.6.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.561672+00:00",
+      "npmMetadataSha256": "97034123b60cd1bdbaa6f5430137b95abf3250547776e98bd37639fda3784893",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 4229,
+      "sha256": "e06fc6be19323cf447f0058975cfcf41923d3422ea613cff2e67d8fd8ee1d655",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "e06fc6be19323cf447f0058975cfcf41923d3422ea613cff2e67d8fd8ee1d655",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/lib/index.js",
+          "bytes": 8077,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 1845,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 2064,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.d.ts",
+          "bytes": 241,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 2064,
+          "sha256": "b681c6d6ab80ff5412c6b377a8b88941d2aefa312a7d74e32972ae5eadceb67a",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "BSD-3-Clause",
+      "publisherGitHead": "145140971e9d83ccac32265f24b1c55dea437896",
+      "publisherRepository": {
+        "url": "git+https://github.com/nteract/ansi-to-react.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "boolbase@1.0.0",
+      "archiveUrl": "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.558583+00:00",
+      "npmMetadataSha256": "cdbdd0892df76fdcb117aa6c87cef12aeb99225cb90b8e12f182f3f6f1efce3b",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 851,
+      "sha256": "69628ff8092c5ff940ea4a0f29da98d520615bae138755c9e059033606c6caa8",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "69628ff8092c5ff940ea4a0f29da98d520615bae138755c9e059033606c6caa8",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/package.json",
+          "bytes": 550,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 655,
+          "kind": "file"
+        },
+        {
+          "name": "package/index.js",
+          "bytes": 125,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 655,
+          "sha256": "9cac5bfc290d30ccd13fa833923cb545584481e8ced66380bf758f1053f9d81d",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "ISC",
+      "publisherGitHead": null,
+      "publisherRepository": {
+        "url": "https://github.com/fb55/boolbase",
+        "type": "git"
+      }
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "archiveUrl": "https://registry.npmjs.org/is-node-process/-/is-node-process-1.2.0.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.563953+00:00",
+      "npmMetadataSha256": "e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 2199,
+      "sha256": "810d5c86ac247ffbfab3dcdee3cef95fb830e1f5eea9674858e8dcd6de4accba",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "810d5c86ac247ffbfab3dcdee3cef95fb830e1f5eea9674858e8dcd6de4accba",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/lib/index.js",
+          "bytes": 1431,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 1103,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.js.map",
+          "bytes": 959,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.mjs.map",
+          "bytes": 916,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 1002,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.mjs",
+          "bytes": 436,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.d.ts",
+          "bytes": 137,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 1002,
+          "sha256": "99ec68724abdc41fb27309e31cd81700a9ac17c7ba33802ccc8bd72695dd27b4",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": null,
+      "publisherRepository": {
+        "url": "git+https://github.com/mswjs/is-node-process.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "archiveUrl": "https://registry.npmjs.org/lazy-val/-/lazy-val-1.0.5.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.648376+00:00",
+      "npmMetadataSha256": "b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 1182,
+      "sha256": "7d8602ad98db3d19fbd5b46fbf3831dd996197a013ef1ff7badc205e41435372",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "7d8602ad98db3d19fbd5b46fbf3831dd996197a013ef1ff7badc205e41435372",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/out/main.js",
+          "bytes": 605,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 491,
+          "kind": "file"
+        },
+        {
+          "name": "package/out/main.js.map",
+          "bytes": 1156,
+          "kind": "file"
+        },
+        {
+          "name": "package/readme.md",
+          "bytes": 158,
+          "kind": "file"
+        },
+        {
+          "name": "package/out/main.d.ts",
+          "bytes": 173,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/readme.md",
+          "bytes": 158,
+          "sha256": "87dd77cd27b045ab279f6f2c99acedaeec6b7c92e296a354bb2687b9f2965438",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": "b69ad4119f1b19bdab13c61ee2fcc88d46b89071",
+      "publisherRepository": {
+        "url": "git+https://github.com/develar/lazy-val.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "quickjs-wasi@2.2.0",
+      "archiveUrl": "https://registry.npmjs.org/quickjs-wasi/-/quickjs-wasi-2.2.0.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.668343+00:00",
+      "npmMetadataSha256": "19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 934604,
+      "sha256": "f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/dist/base64.js",
+          "bytes": 1626,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/crypto.js",
+          "bytes": 1994,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/encoding.js",
+          "bytes": 1232,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/extensions.js",
+          "bytes": 15720,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/headers.js",
+          "bytes": 1104,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.js",
+          "bytes": 79118,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/structured-clone.js",
+          "bytes": 1445,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/url.js",
+          "bytes": 1161,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/version.js",
+          "bytes": 131,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/wasi-shim.js",
+          "bytes": 4033,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 2666,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/base64.d.ts.map",
+          "bytes": 208,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/base64.js.map",
+          "bytes": 384,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/crypto.d.ts.map",
+          "bytes": 208,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/crypto.js.map",
+          "bytes": 397,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/encoding.d.ts.map",
+          "bytes": 214,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/encoding.js.map",
+          "bytes": 383,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/extensions.d.ts.map",
+          "bytes": 2036,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/extensions.js.map",
+          "bytes": 11916,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/headers.d.ts.map",
+          "bytes": 211,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/headers.js.map",
+          "bytes": 375,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.d.ts.map",
+          "bytes": 14434,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.js.map",
+          "bytes": 60614,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/structured-clone.d.ts.map",
+          "bytes": 229,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/structured-clone.js.map",
+          "bytes": 402,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/url.d.ts.map",
+          "bytes": 202,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/url.js.map",
+          "bytes": 369,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/version.d.ts.map",
+          "bytes": 137,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/version.js.map",
+          "bytes": 158,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/wasi-shim.d.ts.map",
+          "bytes": 612,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/wasi-shim.js.map",
+          "bytes": 3277,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 23973,
+          "kind": "file"
+        },
+        {
+          "name": "package/extensions/base64/base64.so",
+          "bytes": 12518,
+          "kind": "file"
+        },
+        {
+          "name": "package/extensions/crypto/crypto.so",
+          "bytes": 187423,
+          "kind": "file"
+        },
+        {
+          "name": "package/extensions/encoding/encoding.so",
+          "bytes": 12780,
+          "kind": "file"
+        },
+        {
+          "name": "package/extensions/headers/headers.so",
+          "bytes": 14232,
+          "kind": "file"
+        },
+        {
+          "name": "package/extensions/structured-clone/structured-clone.so",
+          "bytes": 9648,
+          "kind": "file"
+        },
+        {
+          "name": "package/extensions/url/url.so",
+          "bytes": 920499,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/base64.d.ts",
+          "bytes": 407,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/crypto.d.ts",
+          "bytes": 389,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/encoding.d.ts",
+          "bytes": 405,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/extensions.d.ts",
+          "bytes": 5164,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/headers.d.ts",
+          "bytes": 369,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/index.d.ts",
+          "bytes": 33611,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/structured-clone.d.ts",
+          "bytes": 394,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/url.d.ts",
+          "bytes": 386,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/version.d.ts",
+          "bytes": 77,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/wasi-shim.d.ts",
+          "bytes": 2478,
+          "kind": "file"
+        },
+        {
+          "name": "package/quickjs.wasm",
+          "bytes": 1545650,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 23973,
+          "sha256": "f8db37af6ecfe7a7fba9483ff42e22409ef5dd395e60d762c9b5f3ca31229d9a",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": null,
+      "publisherRepository": {
+        "url": "git://github.com/vercel-labs/quickjs-wasi.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "react-remove-scroll-bar@2.3.8",
+      "archiveUrl": "https://registry.npmjs.org/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.8.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.674801+00:00",
+      "npmMetadataSha256": "826c618ece09367334160c1ab3a272fd54f8f12e3b0a45f75b0f2660d285855a",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 4937,
+      "sha256": "ccc872d7a2dc007cbf9d755f30d56b8d80eabdbe22c44c95a709129bfdc46f01",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "ccc872d7a2dc007cbf9d755f30d56b8d80eabdbe22c44c95a709129bfdc46f01",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/dist/es2015/component.js",
+          "bytes": 3395,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/component.js",
+          "bytes": 2811,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/component.js",
+          "bytes": 3807,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2015/constants.js",
+          "bytes": 375,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/constants.js",
+          "bytes": 383,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/constants.js",
+          "bytes": 571,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2015/index.js",
+          "bytes": 332,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/index.js",
+          "bytes": 332,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/index.js",
+          "bytes": 1186,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2015/utils.js",
+          "bytes": 998,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/utils.js",
+          "bytes": 949,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/utils.js",
+          "bytes": 1156,
+          "kind": "file"
+        },
+        {
+          "name": "package/constants/package.json",
+          "bytes": 234,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 2221,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 1716,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2015/component.d.ts",
+          "bytes": 415,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/component.d.ts",
+          "bytes": 415,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/component.d.ts",
+          "bytes": 415,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2015/constants.d.ts",
+          "bytes": 415,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/constants.d.ts",
+          "bytes": 415,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/constants.d.ts",
+          "bytes": 415,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2015/index.d.ts",
+          "bytes": 332,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/index.d.ts",
+          "bytes": 332,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/index.d.ts",
+          "bytes": 332,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2015/utils.d.ts",
+          "bytes": 328,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es2019/utils.d.ts",
+          "bytes": 328,
+          "kind": "file"
+        },
+        {
+          "name": "package/dist/es5/utils.d.ts",
+          "bytes": 328,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 1716,
+          "sha256": "486442209236ffa3893312e508694699a6b8834d30a2f9c083c1f3379983e4f9",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": "b3b1287aad81def2e2ae707274b74531b61ddbaf",
+      "publisherRepository": {
+        "url": "git+https://github.com/theKashey/react-remove-scroll-bar.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "archiveUrl": "https://registry.npmjs.org/semaphore/-/semaphore-1.1.0.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.688599+00:00",
+      "npmMetadataSha256": "0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 2817,
+      "sha256": "72002cc502d607af8e2dbcbdafa3495bf4efe34394e1a037b92038d157f077a2",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "72002cc502d607af8e2dbcbdafa3495bf4efe34394e1a037b92038d157f077a2",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/package.json",
+          "bytes": 443,
+          "kind": "file"
+        },
+        {
+          "name": "package/.npmignore",
+          "bytes": 96,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 1187,
+          "kind": "file"
+        },
+        {
+          "name": "package/.travis.yml",
+          "bytes": 95,
+          "kind": "file"
+        },
+        {
+          "name": "package/bower.json",
+          "bytes": 484,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/semaphore.js",
+          "bytes": 2152,
+          "kind": "file"
+        },
+        {
+          "name": "package/test/semaphore.js",
+          "bytes": 3676,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 1187,
+          "sha256": "be2a8a71f8055b65f5b5d2724418aef1642c5d4ba243f3206eebd915d35ba228",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": null,
+      "publisherGitHead": "88a33875b168cc7b5943d7fe987c36d08321d252",
+      "publisherRepository": {
+        "url": "git+ssh://git@github.com/abrkn/semaphore.js.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "archiveUrl": "https://registry.npmjs.org/strict-event-emitter/-/strict-event-emitter-0.5.1.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.691875+00:00",
+      "npmMetadataSha256": "42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 7189,
+      "sha256": "43c456f72612074a13e8399c29ffd59c8c277274924b633f6e4fa07342f63cab",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "43c456f72612074a13e8399c29ffd59c8c277274924b633f6e4fa07342f63cab",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/lib/index.js",
+          "bytes": 6113,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 1052,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.js.map",
+          "bytes": 13548,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.mjs.map",
+          "bytes": 13415,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 2243,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.mjs",
+          "bytes": 5071,
+          "kind": "file"
+        },
+        {
+          "name": "package/lib/index.d.ts",
+          "bytes": 4296,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 2243,
+          "sha256": "c99806746abe863eaa7e941fed608eadf89d1ff9bde0216ea76d024ee0e14843",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": null,
+      "publisherRepository": {
+        "url": "git+ssh://git@github.com/open-draft/strict-event-emitter.git",
+        "type": "git"
+      }
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "archiveUrl": "https://registry.npmjs.org/unsafe-pointer/-/unsafe-pointer-0.2.0.tgz",
+      "checkedAtUtc": "2026-10-03T08:46:19.719008+00:00",
+      "npmMetadataSha256": "37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f",
+      "execution": "not executed; parsed archive in memory; no extraction or installation",
+      "status": 200,
+      "bytes": 207052,
+      "sha256": "9c9795688a9e224759468aeee2ff88d917fadc65f7b3480e62571f0853eaa446",
+      "sha1MatchesPublisherShasum": true,
+      "sriMatches": true,
+      "previousArchiveSha256": "9c9795688a9e224759468aeee2ff88d917fadc65f7b3480e62571f0853eaa446",
+      "sameAsPreviouslyRecordedArchive": true,
+      "members": [
+        {
+          "name": "package/src/binding.c",
+          "bytes": 12301,
+          "kind": "file"
+        },
+        {
+          "name": "package/binding.gyp",
+          "bytes": 183,
+          "kind": "file"
+        },
+        {
+          "name": "package/index.js",
+          "bytes": 68,
+          "kind": "file"
+        },
+        {
+          "name": "package/package.json",
+          "bytes": 1501,
+          "kind": "file"
+        },
+        {
+          "name": "package/README.md",
+          "bytes": 4244,
+          "kind": "file"
+        },
+        {
+          "name": "package/index.mjs",
+          "bytes": 463,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/linux-arm64/unsafe-pointer.glibc.node",
+          "bytes": 28032,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/linux-x64/unsafe-pointer.glibc.node",
+          "bytes": 28488,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/linux-arm64/unsafe-pointer.musl.node",
+          "bytes": 27216,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/linux-x64/unsafe-pointer.musl.node",
+          "bytes": 27680,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/darwin-arm64/unsafe-pointer.node",
+          "bytes": 54816,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/darwin-x64/unsafe-pointer.node",
+          "bytes": 25035,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/win32-arm64/unsafe-pointer.node",
+          "bytes": 160768,
+          "kind": "file"
+        },
+        {
+          "name": "package/prebuilds/win32-x64/unsafe-pointer.node",
+          "bytes": 172032,
+          "kind": "file"
+        },
+        {
+          "name": "package/index.d.ts",
+          "bytes": 2898,
+          "kind": "file"
+        }
+      ],
+      "standaloneLicenseMembers": [],
+      "readmeMembers": [
+        {
+          "member": "package/README.md",
+          "bytes": 4244,
+          "sha256": "8a37f04b4927ff5751875b3a95e1df2af838aca89961a28a6983965cbc3bf8a7",
+          "copyrightLines": []
+        }
+      ],
+      "publisherPackageJsonLicense": "MIT",
+      "publisherGitHead": null,
+      "publisherRepository": {
+        "url": "git+https://github.com/justjake/node-unsafe-pointer.git"
+      }
+    }
+  ]
+}

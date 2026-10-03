@@ -1,0 +1,12 @@
+{
+  "batch": "workspace-fork",
+  "diagnostics": 0,
+  "emitted": [
+    "apps/cli/packages/core/dist/runtime/methods/stable-fork-boundary.js",
+    "apps/cli/packages/core/dist/runtime/methods/stable-fork-boundary.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/stable-fork-boundary.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/workspace-fork.js",
+    "apps/cli/packages/core/dist/runtime/methods/workspace-fork.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/workspace-fork.d.ts"
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "scope": "Bounded existing A runtime/method/model/turn screen,not entire repository or source-rights inventory.",
+  "baseAfterRuntimeCandidate": "5716e71c43a9db283084b5410c4b853a1bc8c7a2",
+  "completedThisTurn": [
+    "turn-model-step.ts and private fields/operation/records/recovery",
+    "turn.ts executeTurnCommand and private data/operation/state"
+  ],
+  "additionalEligibleSubstantialOwnersSelected": 1,
+  "whyNotTwo": "Remaining screened substantial files overlap protected trust/permission/composition or E-owned context/history; small fixed adapters are not forced into cosmetic reauthoring.",
+  "remaining": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/permission-full-access.ts",
+      "sha256": "6d595a6a18a1d3a627330c2a59ae3e3c08e6da004cfb521e57e7e4b74bed8911",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/permission-grant-recovery.ts",
+      "sha256": "b1c9aefdb0b2a537f3877df2fee104251532174d7b91b6f6617c1c21510a09f6",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/execution-state.ts",
+      "sha256": "66cb9f4372a60b6d3edb2dd8f9084cc8991a2aa6c291c9eda650d3a4461773ff",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-broker.ts",
+      "sha256": "33799281b80409733d857e8a3c46eb0ed5e147ca2fbff7c8bdb65234671354fb",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+      "sha256": "040dfca80dca1da74d0ec16d837a4a898c2f1efd70728cace8f7f6c55069e387",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "sha256": "3bc27ba51890a2d1d4377b3b58459702fc9cc930235569cea270aa4ac5400024",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+      "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+      "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "sha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/mcp.ts",
+      "sha256": "b871f0d4de0565a7d797c9aa01796957586feaf6b5f43581c9cfcbceb2def1b9",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/config.ts",
+      "sha256": "d854141e61054b89d44f84b5f99e91525fc773a8afb5ebcd172bf177d73df968",
+      "decision": "permission/trust protected; requires distinct allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+      "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec",
+      "decision": "mixed ownership; excludes E history/context and permission restoration"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+      "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+      "decision": "mixed ownership; excludes E history/context and permission restoration"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/residency.ts",
+      "sha256": "31eaa0967ef51267fdeb16dcf1f15a6618cba5fd2b024223558496940356e234",
+      "decision": "bounded screen: conventional adapters; no substantive rewrite selected"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-request-session-type.ts",
+      "sha256": "ae4f003112d6eda28f52399c8328e43904f8799cc4b77ade7da579008d6bcad5",
+      "decision": "bounded screen: conventional adapters; no substantive rewrite selected"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/runtime-model.ts",
+      "sha256": "91412883b5b40b7b096c3e3c118410c915668cdb1e5207c404b2347c1670c459",
+      "decision": "bounded screen: conventional adapters; no substantive rewrite selected"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/shell-environment.ts",
+      "sha256": "9f647f88abf46b0ed47845660ed6d8aad9552b35d96af5dda0c52d4ec2674381",
+      "decision": "bounded screen: conventional adapters; no substantive rewrite selected"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/child-client-ports.ts",
+      "sha256": "5c605b4c6f68dee23181d634bacceaceb378ef161de5cac5dd98741fa28fa4c9",
+      "decision": "bounded screen: conventional adapters; no substantive rewrite selected"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project.ts",
+      "sha256": "19fbc2a4d6e0d94355c88615c6126b1916128c187b220b4ffc5cfc389783a800",
+      "decision": "bounded screen: conventional adapters; no substantive rewrite selected"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/model-selection.ts",
+      "sha256": "a7b1c3b95cbd11bf10f23c257687718acfaabac3c648fab9dcb076de1d515fe1",
+      "decision": "bounded screen: conventional adapters; no substantive rewrite selected"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "decision": "fixed type/wiring declarations; left unchanged"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "decision": "fixed type/wiring declarations; left unchanged"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/internal.ts",
+      "sha256": "c315cfd7b00594891a8a6406693d1686720585492c1c245c8ced638ed3ba684c",
+      "decision": "fixed type/wiring declarations; left unchanged"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/index.ts",
+      "sha256": "3a09b844cfa092175b3aa3ffe5c888b1632ea2b5db0276cec149c8526b3224f3",
+      "decision": "fixed type/wiring declarations; left unchanged"
+    }
+  ],
+  "heldOutsideRuntime": [
+    "apps/cli/packages/core/src/runtime-task/registry.ts",
+    "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts"
+  ],
+  "newExclusiveEOwners": [
+    "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+    "apps/cli/packages/core/src/agent/session-history-hydrator.ts"
+  ],
+  "acceptedProtected": [
+    "runtime/command-queue.ts",
+    "runtime/methods/runtime-command-submit.ts",
+    "runtime/methods/prompt-admission.ts",
+    "all earlier receipt-bound A model/tool/streaming/preparation/goal/persistence/fork/rewind/publication queues"
+  ],
+  "otherReservations": "E memory/context/provider/media/compaction/history/workflow owners,G CLI adapters and root desktop excluded. No other-lane source adopted.",
+  "nextDecision": "Parent can allocate a distinct permission/composition owner with explicit E/G boundary,or another substantive scope. No unallocated substantial non-security turn owner identified in this bounded screen. Strong predecessor correspondence/independent expression review remains pending,not license closure."
+}

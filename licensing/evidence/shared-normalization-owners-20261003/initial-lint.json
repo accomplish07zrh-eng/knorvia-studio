@@ -1,0 +1,10 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "chunk_id": "01bb9a",
+    "wall_time_seconds": 0.000017216,
+    "exit_code": 0,
+    "original_token_count": 405,
+    "output": "\n  ! eslint(no-useless-escape): Unnecessary escape character '/'\n    ,-[packages/shared/src/telemetryRedaction.ts:51:48]\n 50 |     )\n 51 |     .replace(/\\b(Bearer|Basic)\\s+[A-Za-z0-9._~+\\/=-]+/giu, '$1 {redacted}')\n    :                                                ^^\n 52 |     .replace(/\\b(?:sk|rk|pk)-[A-Za-z0-9_-]{12,}\\b/giu, '{secret}')\n    `----\n  help: Replace `\\/` with `/`.\n\n  ! eslint(no-useless-escape): Unnecessary escape character '}'\n    ,-[packages/shared/src/telemetryRedaction.ts:57:63]\n 56 |     .replace(/[^/@\\s]+@[^/@\\s]+\\.[^/@\\s]+/gu, '{email}')\n 57 |     .replace(/\\/(?:private\\/)?(?:var\\/folders|tmp)\\/[^\\s:;,)\\]\\}]+/gu, '{path}')\n    :                                                               ^^\n 58 |     .replace(\n    `----\n  help: Replace `\\}` with `}`.\n\n  ! eslint(no-useless-escape): Unnecessary escape character '}'\n    ,-[packages/shared/src/telemetryRedaction.ts:59:82]\n 58 |     .replace(\n 59 |       /\\/(?:Users|home|root|workspace|workspaces|Volumes)\\/[^/\\s]+(?:\\/[^\\s:;,)\\]\\}]+)*/gu,\n    :                                                                                  ^^\n 60 |       '{path}',\n    `----\n  help: Replace `\\}` with `}`.\n\n  ! eslint(no-useless-escape): Unnecessary escape character '}'\n    ,-[packages/shared/src/telemetryRedaction.ts:62:51]\n 61 |     )\n 62 |     .replace(/\\b[A-Za-z]:\\\\[^\\\\\\s]+(?:\\\\[^\\s:;,)\\]\\}]+)*/gu, '{path}')\n    :                                                   ^^\n 63 |     .replace(/\\p{Cc}+/gu, ' ')\n    `----\n  help: Replace `\\}` with `}`.\n\nFound 4 warnings and 0 errors.\nFinished in 19ms on 6 files with 94 rules using 4 threads.\n"
+  }
+}

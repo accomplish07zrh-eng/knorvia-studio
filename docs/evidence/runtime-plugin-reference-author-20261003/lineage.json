@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/plugin-reference.ts",
+  "kind": "file",
+  "sha256": "60c51ea9bb4fba1dd7de7a35d9201459f086d2d664f71b0b29175c2826a96ceb",
+  "normalizedSha256": "60c51ea9bb4fba1dd7de7a35d9201459f086d2d664f71b0b29175c2826a96ceb",
+  "encoding": "utf8-lf",
+  "bytes": 6877,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/plugin-reference.ts",
+    "blob": "1cf732fe743ad3f51d2a285b2e042471f4516bfd",
+    "normalizedSha256": "60c51ea9bb4fba1dd7de7a35d9201459f086d2d664f71b0b29175c2826a96ceb",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/plugin-reference.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

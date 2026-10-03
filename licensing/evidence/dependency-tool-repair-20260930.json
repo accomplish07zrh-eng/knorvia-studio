@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-30",
+  "baseCommit": "234af1fff3910ddc951ac2f68f69bab910602547",
+  "delegatedReport": {
+    "libraryId": "libfile_63c7ca271598819194106ec5813b8d80",
+    "name": "Knorvia-dependency-license-evidence-2026-09-30.txt",
+    "version": 1,
+    "readInFull": true,
+    "role": "Independent read-only dependency evidence; all 15 exceptions stay open. Seventeen full Skia notices and the 692-byte leading jcarith comment were checked by that researcher; no notice digest refresh. Native final-link closure remains incomplete.",
+    "localReproduction": "Effective pnpm platform selection, fixed current graph, two cached musl archives, generation preview and exact retained notices union; other archive/source research is attributed to the report."
+  },
+  "sourceInputs": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "apps/cli/pnpm-lock.yaml",
+      "sha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "e537f84078905ca7fb2c25b235b2a6951f47bbb9202f474b6850086f46b2c7be"
+    },
+    {
+      "path": "third-party/npm-overrides.json",
+      "sha256": "08e2b41ea681c0058e7430f8d285e0693433af2ead0b0bc96d80aecbe7ecad19"
+    },
+    {
+      "path": "third-party/embedded-components.json",
+      "sha256": "9586ccca15897f56d4ca1d703dffe9e02880fedd766c1dff93f7ac1f52ea891a"
+    }
+  ],
+  "toolFixes": [
+    "Use exact lock os/cpu/libc plus effective pnpm selection; recover optional snapshot edges flattened by pnpm ls, require every path optional, reject missing required/stale/unknown inputs",
+    "Verify prior inventory and entire notice document before collection or write; validate individual original notice digests and retain prior historical/development package union",
+    "Keep verified ZCode modification attribution for baseline-identical copied files; changed files require separate local modification notices"
+  ],
+  "preview": {
+    "originalNoticeBlocks": 928,
+    "allOriginalNoticeBytesAndReferencesRetained": true,
+    "originalNoticesSha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+    "previewSha256": "2a7e6e78826ccd0440dcc62981167af7c5f986ee8e780cd38912ac3a893957ce",
+    "retainedPackages": [
+      "@arms/rum-browser@0.1.8",
+      "@arms/rum-core@0.1.4",
+      "@arms/rum-electron@0.0.3",
+      "@electron/get@2.0.3",
+      "@napi-rs/canvas-linux-arm64-musl@0.1.100",
+      "@napi-rs/canvas-linux-x64-musl@0.1.100",
+      "@rrweb/types@2.1.6",
+      "@rrweb/utils@2.1.6",
+      "@sindresorhus/is@4.6.0",
+      "@stripe/react-stripe-js@6.4.0",
+      "@stripe/stripe-js@9.6.0",
+      "@szmarczak/http-timer@4.0.6",
+      "@types/cacheable-request@6.0.3",
+      "@types/css-font-loading-module@0.0.7",
+      "@types/http-cache-semantics@4.2.0",
+      "@types/keyv@3.1.4",
+      "@types/node@24.12.2",
+      "@types/responselike@1.0.3",
+      "@types/yauzl@2.10.3",
+      "@xstate/fsm@1.6.5",
+      "base64-arraybuffer@1.0.2",
+      "boolean@3.2.0",
+      "builder-util-runtime@9.5.1",
+      "cacheable-lookup@5.0.4",
+      "cacheable-request@7.0.4",
+      "clone-response@1.0.3",
+      "decompress-response@6.0.0",
+      "defer-to-connect@2.0.1",
+      "define-data-property@1.1.4",
+      "define-properties@1.2.1",
+      "detect-node@2.1.0",
+      "electron-updater@6.8.3",
+      "electron@41.0.3",
+      "end-of-stream@1.4.5",
+      "es6-error@4.1.1",
+      "escape-string-regexp@4.0.0",
+      "extract-zip@2.0.1",
+      "fd-slicer@1.1.0",
+      "fs-extra@10.1.0",
+      "fs-extra@8.1.0",
+      "get-stream@5.2.0",
+      "global-agent@3.0.0",
+      "globalthis@1.0.4",
+      "got@11.8.6",
+      "has-property-descriptors@1.0.2",
+      "http-cache-semantics@4.2.0",
+      "http2-wrapper@1.0.3",
+      "json-buffer@3.0.1",
+      "json-stringify-safe@5.0.1",
+      "jsonfile@4.0.0",
+      "keyv@4.5.4",
+      "lazy-val@1.0.5",
+      "lodash.escaperegexp@4.1.2",
+      "lodash.isequal@4.5.0",
+      "lowercase-keys@2.0.0",
+      "matcher@3.0.0",
+      "mimic-response@1.0.1",
+      "mimic-response@3.1.0",
+      "mitt@3.0.1",
+      "normalize-url@6.1.0",
+      "object-keys@1.1.1",
+      "p-cancelable@2.1.1",
+      "progress@2.0.3",
+      "prop-types@15.8.1",
+      "pump@3.0.4",
+      "quick-lru@5.1.1",
+      "react-is@16.13.1",
+      "resolve-alpn@1.2.1",
+      "responselike@2.0.1",
+      "roarr@2.15.4",
+      "rrdom@2.1.6",
+      "rrweb-snapshot@2.1.6",
+      "rrweb@2.1.6",
+      "semver-compare@1.0.0",
+      "serialize-error@7.0.1",
+      "sprintf-js@1.1.3",
+      "sumchecker@3.0.1",
+      "tiny-typed-emitter@2.1.0",
+      "type-fest@0.13.1",
+      "undici-types@7.16.0",
+      "universalify@0.1.2",
+      "web-vitals@3.5.2",
+      "yauzl@2.10.0"
+    ],
+    "unionPackages": 1201,
+    "currentProduction": 1123,
+    "notInstalled": [
+      {
+        "name": "@napi-rs/canvas-android-arm64",
+        "version": "0.1.100",
+        "optional": true,
+        "omissionReason": "Platform constraint os=android excludes selected linux,darwin,win32",
+        "platformEvidence": {
+          "constraints": {
+            "cpu": [
+              "arm64"
+            ],
+            "os": [
+              "android"
+            ]
+          },
+          "selection": {
+            "os": [
+              "linux",
+              "darwin",
+              "win32"
+            ],
+            "cpu": [
+              "x64",
+              "arm64"
+            ],
+            "libc": [
+              "glibc"
+            ]
+          },
+          "host": {
+            "os": "linux",
+            "cpu": "x64",
+            "libc": "glibc"
+          }
+        }
+      },
+      {
+        "name": "@napi-rs/canvas-linux-arm-gnueabihf",
+        "version": "0.1.100",
+        "optional": true,
+        "omissionReason": "Platform constraint cpu=arm excludes selected x64,arm64",
+        "platformEvidence": {
+          "constraints": {
+            "cpu": [
+              "arm"
+            ],
+            "os": [
+              "linux"
+            ]
+          },
+          "selection": {
+            "os": [
+              "linux",
+              "darwin",
+              "win32"
+            ],
+            "cpu": [
+              "x64",
+              "arm64"
+            ],
+            "libc": [
+              "glibc"
+            ]
+          },
+          "host": {
+            "os": "linux",
+            "cpu": "x64",
+            "libc": "glibc"
+          }
+        }
+      },
+      {
+        "name": "@napi-rs/canvas-linux-arm64-musl",
+        "version": "0.1.100",
+        "optional": true,
+        "omissionReason": "Platform constraint libc=musl excludes selected glibc",
+        "platformEvidence": {
+          "constraints": {
+            "cpu": [
+              "arm64"
+            ],
+            "os": [
+              "linux"
+            ],
+            "libc": [
+              "musl"
+            ]
+          },
+          "selection": {
+            "os": [
+              "linux",
+              "darwin",
+              "win32"
+            ],
+            "cpu": [
+              "x64",
+              "arm64"
+            ],
+            "libc": [
+              "glibc"
+            ]
+          },
+          "host": {
+            "os": "linux",
+            "cpu": "x64",
+            "libc": "glibc"
+          }
+        }
+      },
+      {
+        "name": "@napi-rs/canvas-linux-riscv64-gnu",
+        "version": "0.1.100",
+        "optional": true,
+        "omissionReason": "Platform constraint cpu=riscv64 excludes selected x64,arm64",
+        "platformEvidence": {
+          "constraints": {
+            "cpu": [
+              "riscv64"
+            ],
+            "os": [
+              "linux"
+            ],
+            "libc": [
+              "glibc"
+            ]
+          },
+          "selection": {
+            "os": [
+              "linux",
+              "darwin",
+              "win32"
+            ],
+            "cpu": [
+              "x64",
+              "arm64"
+            ],
+            "libc": [
+              "glibc"
+            ]
+          },
+          "host": {
+            "os": "linux",
+            "cpu": "x64",
+            "libc": "glibc"
+          }
+        }
+      },
+      {
+        "name": "@napi-rs/canvas-linux-x64-musl",
+        "version": "0.1.100",
+        "optional": true,
+        "omissionReason": "Platform constraint libc=musl excludes selected glibc",
+        "platformEvidence": {
+          "constraints": {
+            "cpu": [
+              "x64"
+            ],
+            "os": [
+              "linux"
+            ],
+            "libc": [
+              "musl"
+            ]
+          },
+          "selection": {
+            "os": [
+              "linux",
+              "darwin",
+              "win32"
+            ],
+            "cpu": [
+              "x64",
+              "arm64"
+            ],
+            "libc": [
+              "glibc"
+            ]
+          },
+          "host": {
+            "os": "linux",
+            "cpu": "x64",
+            "libc": "glibc"
+          }
+        }
+      }
+    ],
+    "obligations": 27
+  },
+  "uiNoticeOnlyChanges": [
+    {
+      "path": "packages/ui/src/components/ai-elements/code-block.tsx",
+      "beforeSha256": "ce44be141a382c8121e2c8b82dc99e6a2b8a068b96edb9ded57bbbc75aabe740",
+      "afterSha256": "05b1ef981c092d8f8ea4f0975fcfd5d6effa964f5e644a9de60a50a92823d258",
+      "onlyAddedModificationNotice": true,
+      "fileRemainsUnreviewed": true
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/context.tsx",
+      "beforeSha256": "7aa6f9d7908f0c4300b476427da76cd3f082a41fbf020ad8f0c566640a73b2e1",
+      "afterSha256": "c46c58dc85e9a88a9fc862c5fda91d09e50039990dafc958a5ef9c46df522dbb",
+      "onlyAddedModificationNotice": true,
+      "fileRemainsUnreviewed": true
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/conversation.tsx",
+      "beforeSha256": "409944a7d83085d5c28e9c9ad222fcdd84f47c9cc2cf24e203c47001362da14d",
+      "afterSha256": "ea6b2110aa60d98314cc47cdc1823cb5369ada0f4e3969ff4d9d59a0cd1f1599",
+      "onlyAddedModificationNotice": true,
+      "fileRemainsUnreviewed": true
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/message.tsx",
+      "beforeSha256": "8b95f4606e9531f5004b3257a9217d9d6fce1c7bf8fa79e87cebb4a29af9e822",
+      "afterSha256": "7725956e51ecb59a6722ee5d8737df050971fff03e2661141ec465b8a2564a40",
+      "onlyAddedModificationNotice": true,
+      "fileRemainsUnreviewed": true
+    },
+    {
+      "path": "packages/ui/src/components/ai-elements/reasoning.tsx",
+      "beforeSha256": "ec09573901f3c1d20033446028af709d4d730f87936904f5f1cb921867b31ed9",
+      "afterSha256": "9c8fe833871ac8a84abbb0f8e7a7bc637a073989d244387c274c021b270e31a1",
+      "onlyAddedModificationNotice": true,
+      "fileRemainsUnreviewed": true
+    }
+  ],
+  "cachedMuslArchives": [
+    {
+      "package": "@napi-rs/canvas-linux-arm64-musl@0.1.100",
+      "archiveSha256": "2536891a79b54a0eaeea6d85517af2fcc4df834a216e74a7a7f460ff242d84b9",
+      "binaryMember": "package/skia.linux-arm64-musl.node",
+      "binarySha256": "e76d9425c6cd74ae27bb639fa3950cb1c0a5a03ab337f0074f3f8de448f4f99d",
+      "archiveMembers": [
+        "package/package.json",
+        "package/README.md",
+        "package/skia.linux-arm64-musl.node"
+      ],
+      "standaloneLicensePresent": false,
+      "localVerification": "cached publisher archive bytes and binary checksum; no install or release payload assertion",
+      "linkClosure": "OPEN"
+    },
+    {
+      "package": "@napi-rs/canvas-linux-x64-musl@0.1.100",
+      "archiveSha256": "d00792d0d7c6cf0c2807eca935aefc0f293b43f3e175d331caec4a288d4dcf23",
+      "binaryMember": "package/skia.linux-x64-musl.node",
+      "binarySha256": "0396e3f0d1cec95684ace216b2fe397532901ed628ab5572f511a1786cbe361c",
+      "archiveMembers": [
+        "package/package.json",
+        "package/README.md",
+        "package/skia.linux-x64-musl.node"
+      ],
+      "standaloneLicensePresent": false,
+      "localVerification": "cached publisher archive bytes and binary checksum; no install or release payload assertion",
+      "linkClosure": "OPEN"
+    }
+  ],
+  "npmExceptions": [
+    {
+      "package": "unsafe-pointer@0.2.0",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/unsafe-pointer/0.2.0",
+      "retainedFile": "third-party/upstream/0ab717053f3e24736cd404a0801407fb305db75d1b58f7e6487d14feee30d28a.txt",
+      "retainedSha256": "0ab717053f3e24736cd404a0801407fb305db75d1b58f7e6487d14feee30d28a",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "react-remove-scroll-bar@2.3.8",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/react-remove-scroll-bar/2.3.8",
+      "retainedFile": "third-party/upstream/f158b3bd10b867740fdbf81447216f1f8685473acf61e6a105ef91ba9fe8ebc3.txt",
+      "retainedSha256": "f158b3bd10b867740fdbf81447216f1f8685473acf61e6a105ef91ba9fe8ebc3",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "quickjs-wasi@2.2.0",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/quickjs-wasi/2.2.0",
+      "retainedFile": "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
+      "retainedSha256": "f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "@hono/node-ws@1.3.0",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/@hono%2fnode-ws/1.3.0",
+      "retainedFile": "third-party/upstream/c681d64256e752c1435814cf045f4467720a8473e425ea54103a0f5128bfc817.txt",
+      "retainedSha256": "c681d64256e752c1435814cf045f4467720a8473e425ea54103a0f5128bfc817",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "strict-event-emitter@0.5.1",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/strict-event-emitter/0.5.1",
+      "retainedFile": "third-party/upstream/93f24a47f95aea2be1b0dad78de98dc6d3de01ce22c0b72dc73e453c7917b955.txt",
+      "retainedSha256": "93f24a47f95aea2be1b0dad78de98dc6d3de01ce22c0b72dc73e453c7917b955",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "lazy-val@1.0.5",
+      "scopeFromDelegatedReport": "development",
+      "source": "https://registry.npmjs.org/lazy-val/1.0.5",
+      "retainedFile": "third-party/upstream/f18c12b8e7daf98d572518b7db133b2dc66a713921dac4825410dd656e0c1a1a.txt",
+      "retainedSha256": "f18c12b8e7daf98d572518b7db133b2dc66a713921dac4825410dd656e0c1a1a",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "semaphore@1.1.0",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/semaphore/1.1.0",
+      "retainedFile": "third-party/upstream/1b8910ad1a22011c632f7ff544708be6cf08818ef80e8d4b45b6808ee8b05c17.txt",
+      "retainedSha256": "1b8910ad1a22011c632f7ff544708be6cf08818ef80e8d4b45b6808ee8b05c17",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "boolbase@1.0.0",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/boolbase/1.0.0",
+      "retainedFile": "third-party/upstream/2d2349188616c4b64ceeae33e1386bb546b0658864b4f7f8c9785757cb065b5d.txt",
+      "retainedSha256": "2d2349188616c4b64ceeae33e1386bb546b0658864b4f7f8c9785757cb065b5d",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "@open-draft/deferred-promise@2.2.0",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/@open-draft%2fdeferred-promise/2.2.0",
+      "retainedFile": "third-party/upstream/b1688598c3e32605b3973902a546225e0159349c05a0f74db67f76e08e116e65.txt",
+      "retainedSha256": "b1688598c3e32605b3973902a546225e0159349c05a0f74db67f76e08e116e65",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "is-node-process@1.2.0",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/is-node-process/1.2.0",
+      "retainedFile": "third-party/upstream/000ffa2d773c511f4459fb31d89f841806f93bf5caf2050468ab2097c081b443.txt",
+      "retainedSha256": "000ffa2d773c511f4459fb31d89f841806f93bf5caf2050468ab2097c081b443",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "ansi-to-react@6.2.6",
+      "scopeFromDelegatedReport": "production",
+      "source": "https://registry.npmjs.org/ansi-to-react/6.2.6",
+      "retainedFile": "third-party/upstream/2c88816684a40c718113a10062a8335b665cec00d3c7b32e2b3fe9c620a3e03e.txt",
+      "retainedSha256": "2c88816684a40c718113a10062a8335b665cec00d3c7b32e2b3fe9c620a3e03e",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "keyv@4.5.4",
+      "scopeFromDelegatedReport": "development",
+      "source": "https://registry.npmjs.org/keyv/4.5.4",
+      "retainedFile": "third-party/upstream/6f7e6eae2a2afbaa67b266650f7342e7bf8e82cb57f6ab98148b3d6e0fb4450a.txt",
+      "retainedSha256": "6f7e6eae2a2afbaa67b266650f7342e7bf8e82cb57f6ab98148b3d6e0fb4450a",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "@arms/rum-browser@0.1.8",
+      "scopeFromDelegatedReport": "historical",
+      "source": "https://registry.npmjs.org/%40arms%2frum-browser%400.1.8",
+      "retainedFile": "third-party/upstream/2c976d327b293bd74c257cd53e9b4ecef97a06b1651baa3b24327c97192cb3de.txt",
+      "retainedSha256": "2c976d327b293bd74c257cd53e9b4ecef97a06b1651baa3b24327c97192cb3de",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "@arms/rum-core@0.1.4",
+      "scopeFromDelegatedReport": "historical",
+      "source": "https://registry.npmjs.org/%40arms%2frum-core%400.1.4",
+      "retainedFile": "third-party/upstream/328eb7864c20ab77607b26ee1913b65a9b880f6300eea9e667b890da896a2f40.txt",
+      "retainedSha256": "328eb7864c20ab77607b26ee1913b65a9b880f6300eea9e667b890da896a2f40",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    },
+    {
+      "package": "@arms/rum-electron@0.0.3",
+      "scopeFromDelegatedReport": "historical",
+      "source": "https://registry.npmjs.org/%40arms%2frum-electron%400.0.3",
+      "retainedFile": "third-party/upstream/38b6f63a0aa422b5c329e75f1aeecd2b02e83caab1747644c00810870d77bacb.txt",
+      "retainedSha256": "38b6f63a0aa422b5c329e75f1aeecd2b02e83caab1747644c00810870d77bacb",
+      "review": "OPEN",
+      "missingEvidence": "Complete original version-specific publisher copyright/license or other explicit rights grant; metadata author is insufficient"
+    }
+  ],
+  "checks": {
+    "provenanceFocused": {
+      "total": 81,
+      "passed": 81
+    },
+    "studioAggregate": {
+      "total": 3870,
+      "passed": 3863,
+      "skipped": 7,
+      "failed": 0,
+      "durationMs": 245160.298457
+    },
+    "rootTypecheck": "PASS",
+    "rootLint": "PASS, zero warnings",
+    "basicLicenseCheck": "PASS, 1692 installed packages; 27 open material obligations",
+    "nativeUI": "NOT RUN in this environment; independent QA reports sandbox helper ownership blocks Electron and Chromium; supported runner required",
+    "releasePayload": "NOT RUN; source canvas-pruning policy does not prove final binary coverage",
+    "format": "PASS",
+    "architectureChanged": "PASS, zero violations",
+    "provenanceFreshness": "PASS, zero review problems",
+    "strictMaterialGate": "FAIL by design on the same 27 missing material obligations"
+  },
+  "remainingMaterialObligations": 27,
+  "mitApplicationEligibility": "UNRESOLVED; root Apache-2.0 and original third-party declarations retained",
+  "toolInputs": [
+    {
+      "path": "scripts/third-party-platform.mjs",
+      "sha256": "4a3b3c7f41ab0cb81c88d22e1d4cc1ab2560fb06445852bc5c665e4f35edb4f5"
+    },
+    {
+      "path": "scripts/third-party-npm.mjs",
+      "sha256": "14793ff338829dc2ebb2488e5b738ba54c4f5bd5bda2b6ac75ac68cb78dfa655"
+    },
+    {
+      "path": "scripts/generate-third-party-notices.mjs",
+      "sha256": "1865bb961f6adb734a4effe8fcf483202a1af1b1a2805b35379eb3dc9599a60b"
+    },
+    {
+      "path": "scripts/test-studio.mjs",
+      "sha256": "aead9df3539a25f2c49232953dbe664e66af2b3207a8f9cd2c2ead9a48fac9b9"
+    },
+    {
+      "path": "scripts/provenance/retained-npm-notices.mjs",
+      "sha256": "a473bce0423215e1be41b6aaf491f524a7d335c95677cdac16ee7174ec74c2f3"
+    },
+    {
+      "path": "scripts/provenance/retained-npm-notices.test.mjs",
+      "sha256": "97d15a0a1065d570d4752e1fd90fa4c4b677af0ab450deb9562eb45119e256a8"
+    },
+    {
+      "path": "scripts/provenance/third-party-platform.test.mjs",
+      "sha256": "d833141bff0a6d1db4d28f8ac5994b0c31694c60f7d9f3e53b3464520949aed4"
+    }
+  ]
+}

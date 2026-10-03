@@ -1,0 +1,52 @@
+[
+  {
+    "path": "apps/cli/packages/core/src/compact/manual.ts",
+    "bytes": 5976,
+    "sha256": "e544b902f3ab732ef734d2733d820e2d5d18aec45478697e6ca00b45197ae3da"
+  },
+  {
+    "path": "apps/cli/packages/core/src/compact/rounds.ts",
+    "bytes": 874,
+    "sha256": "3728026601cd2ed977f0b3d2becc2728393ec32a026d4b95808ce43e998d4625"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/deps.ts",
+    "bytes": 9333,
+    "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+  },
+  {
+    "path": "apps/cli/packages/core/src/agent/message-history.ts",
+    "bytes": 16116,
+    "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+    "bytes": 11797,
+    "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/compact.ts",
+    "bytes": 5562,
+    "sha256": "626c52b87f086b41e076176111b4bb6d5d1ae4a7c4ebb698bc4060f7f3afd991"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+    "bytes": 16397,
+    "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+    "bytes": 27775,
+    "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+    "bytes": 10662,
+    "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/definition.ts",
+    "bytes": 4621,
+    "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+  }
+]

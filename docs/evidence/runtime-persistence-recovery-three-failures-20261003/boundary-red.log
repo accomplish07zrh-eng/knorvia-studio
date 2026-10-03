@@ -1,0 +1,55 @@
+✖ artifact cohort settles before path projection (11.390299ms)
+✖ unsupported path retains only admitted unsafe tool names (0.708092ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16.612924
+
+✖ failing tests:
+
+test at apps/cli/packages/core/test/runtime-file-rewind-boundary-proof-20261003.mjs:64:1
+✖ artifact cohort settles before path projection (11.390299ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      '/owned/new/second.txt',
+  +   '/owned/old/owned.txt'
+  -   '/owned/new/owned.txt'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-file-rewind-boundary-proof-20261003.mjs:67:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at apps/cli/packages/core/test/runtime-file-rewind-boundary-proof-20261003.mjs:70:1
+✖ unsupported path retains only admitted unsafe tool names (0.708092ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'ApplyPatch',
+  +   'Write'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-file-rewind-boundary-proof-20261003.mjs:74:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Array],
+    expected: [Array],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

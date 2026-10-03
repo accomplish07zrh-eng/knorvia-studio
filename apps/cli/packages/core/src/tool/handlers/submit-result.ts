@@ -10,61 +10,24 @@
 // 不变式）；本 handler 只做通用转交，schema 校验由引擎在 port 侧完成。
 
 import {
-  CoreErrorType,
   SUBMIT_RESULT_TOOL_NAME,
   SubmitResultInputJsonSchema,
   SubmitResultInputSchema,
   SubmitResultOutputJsonSchema,
   SubmitResultOutputSchema,
-  createCoreError,
   typedSubmitResultInputSchema,
   type JsonSchema,
-  type SubmitResultInput,
-  type SubmitResultOutput,
-  type SubmitViolation,
-  type TraceContext,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolHandler, ToolHandlerFailure } from "../types.js";
+import type { ToolEntry } from "../types.js";
+import { createSubmissionHandler } from "./collaboration-invocation.js";
+import { submitResultModelContent } from "./collaboration-result.js";
 
 const MAX_SUBMIT_RESULT_MODEL_BYTES = 16_000;
 
 // reject 的违规列表以此 errorCode 归一化，落到 error tool_result 的 code 字段。
 const SUBMIT_RESULT_REJECTED_ERROR_CODE = 1;
 
-const submitResultHandler: ToolHandler = async (input, context) => {
-  const parsed = SubmitResultInputSchema.parse(input) as SubmitResultInput;
-
-  // Gate：workflow actor 会话才注入 workflowSubmitPort。不按 runtimeScope 判断——workflow
-  // actor 是 taskType "workflow_child"，其 runtimeScope 目前是 "main"；端口存在与否才是
-  // 与 taskType 无关的正确判据。
-  if (!context.workflowSubmitPort) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "Workflow submit port is not configured for submit_result",
-      {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: SUBMIT_RESULT_TOOL_NAME,
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  const verdict = await context.workflowSubmitPort.respond({
-    toolCallId: context.toolCallId,
-    result: parsed.result,
-    trace: resolveToolTraceContext(context),
-  });
-
-  if (verdict.accept) {
-    return { status: "accepted" } satisfies SubmitResultOutput;
-  }
-
-  // reject：以 ToolHandlerFailure 返回，call-runner 将其转成 error tool_result，
-  // 违规列表作为 modelContent 存活；不挂 turnControl，循环继续 → 模型在会话内修复重试。
-  return submitResultRejection(verdict.violations);
-};
+const submitResultHandler = createSubmissionHandler(SUBMIT_RESULT_REJECTED_ERROR_CODE);
 
 /**
  * submit_result 的工具条目。不带 schema = 通用声明（`result` 任意 JSON，per-ask schema 走 ask 尾注）；
@@ -98,7 +61,7 @@ export function createSubmitResultToolEntry(resultSchema?: JsonSchema): ToolEntr
       needsApproval: false,
     },
     handler: submitResultHandler,
-    formatModelContent: formatSubmitResultModelContent,
+    formatModelContent: submitResultModelContent,
     inputSchema: typed ? typedSubmitResultInputSchema(resultSchema) : SubmitResultInputJsonSchema,
     ...(typed ? { strict: true } : {}),
     outputSchema: SubmitResultOutputJsonSchema,
@@ -144,42 +107,3 @@ export function createSubmitResultToolEntry(resultSchema?: JsonSchema): ToolEntr
 
 /** 通用声明的条目（内建工具表里的那一份）。 */
 export const submitResultToolEntry: ToolEntry = createSubmitResultToolEntry();
-
-function submitResultRejection(violations: readonly SubmitViolation[]): ToolHandlerFailure {
-  return {
-    result: false,
-    errorCode: SUBMIT_RESULT_REJECTED_ERROR_CODE,
-    message: formatSubmitViolations(violations),
-  };
-}
-
-// 违规格式与 dynamic-workflow 合成侧一致：一行一条，`<path>: expected <expected>, got <got>`，
-// 便于模型逐条对照修复。
-function formatSubmitViolations(violations: readonly SubmitViolation[]): string {
-  const header = "The submitted result does not match the required schema:";
-  if (violations.length === 0) {
-    return `${header}\n(no details provided)`;
-  }
-  const lines = violations.map(
-    (violation) => `${violation.path}: expected ${violation.expected}, got ${violation.got}`,
-  );
-  return [header, ...lines].join("\n");
-}
-
-function formatSubmitResultModelContent(output: unknown): string {
-  const parsed = SubmitResultOutputSchema.safeParse(output);
-  if (!parsed.success) return "submit_result returned an invalid result.";
-  return "The result was accepted.";
-}
-
-function resolveToolTraceContext(context: Parameters<ToolHandler>[1]): TraceContext {
-  return (
-    context.traceContext ?? {
-      traceId: context.traceId,
-      spanId: context.spanId,
-      parentSpanId: context.parentSpanId,
-      sessionId: context.sessionId,
-      turnId: context.turnId,
-    }
-  );
-}

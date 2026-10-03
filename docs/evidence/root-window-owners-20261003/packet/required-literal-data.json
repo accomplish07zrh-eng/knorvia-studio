@@ -1,0 +1,726 @@
+{
+  "strings": [
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./databaseStartupRelay.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "node:crypto"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./desktopWindowChrome.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./desktopHostProcess.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./startupWorkspace.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./desktopDarwinCloseBehavior.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./desktopUnsavedChanges.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./unreadBadge.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./desktopWindowSize.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "./resourceManagerWindow.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "knorviaBuiltinProviderConfigFilePath"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "resolveBrowserViewOwner"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "local-",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "will-prevent-unload"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "en-US"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "[desktop-window] unsaved draft confirmation failed"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "[desktop-window] failed to persist main window size"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "close"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "close"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "dom-ready"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] dom-ready fired (",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "win32"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "Previous Host startup binding is unavailable"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "desktop-continuous"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "local"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] renderer reloaded, reattached to existing host (",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": "), pid="
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": ":renderer-reload"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] reattach to existing host failed (",
+      "spans": [
+        {
+          "placeholder": "VALUE_6",
+          "text": "), falling back to respawn:"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] killing previous host process for (",
+      "spans": [
+        {
+          "placeholder": "VALUE_7",
+          "text": "), pid="
+        },
+        {
+          "placeholder": "VALUE_8",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "unknown"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_9",
+          "text": ":reload"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": ":renderer-ready"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] runtime env prewarm exceeded ",
+      "spans": [
+        {
+          "placeholder": "VALUE_11",
+          "text": "ms after dom-ready ("
+        },
+        {
+          "placeholder": "VALUE_12",
+          "text": "), using shell-free fallback"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] runtime env prewarm failed (",
+      "spans": [
+        {
+          "placeholder": "VALUE_13",
+          "text": "), using shell-free fallback:"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "closed"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] window closed, killing host process (",
+      "spans": [
+        {
+          "placeholder": "VALUE_14",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_15",
+          "text": ":window-closed"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_16",
+          "text": ":window-closed"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "dock-show-current-window"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "[sync-window-unread-count] invalid payload:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "win32"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] window close hidden to tray (",
+      "spans": [
+        {
+          "placeholder": "VALUE_17",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] last window close skipped confirmation, quitting app (",
+      "spans": [
+        {
+          "placeholder": "VALUE_18",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] last window close canceled by user (",
+      "spans": [
+        {
+          "placeholder": "VALUE_19",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "head": "[createWindow] last window close confirmed, quitting app (",
+      "spans": [
+        {
+          "placeholder": "VALUE_20",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "node:path"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "./desktopHostProcess.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "./desktopWindowButtonPosition.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "./desktopZoom.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "./desktopWindowChromeState.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "./desktopWindowSize.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "about:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "data:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "http:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "https:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "knorvia-browser-restore:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "http:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "https:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "background-tab"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "../preload/embeddedBrowserJavaScriptDialog.cjs"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "linux"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "#ffffff"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "hidden"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "active"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "win32"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "#ffffff"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "none"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "#00000000"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "system"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "dark"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "light"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "win32"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "system"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "win32"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "resized"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "show"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "meta"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "command"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "cmd"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "control"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "ctrl"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "meta"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "control"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "metaleft"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "metaright"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "controlleft"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "controlright"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "before-input-event"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "keyUp"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "head": "[browser-pane] blocked unsupported webview popup url: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "deny"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "[browser-pane] failed to open webview popup externally"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "deny"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "deny"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "undo"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "redo"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "cut"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "copy"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "paste"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "delete"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "selectAll"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "copy"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "win32"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "enter-full-screen"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "leave-full-screen"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "maximize"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "unmaximize"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "did-finish-load"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "did-fail-load"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "[desktop-window] renderer did-fail-load"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "will-attach-webview"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "about:blank"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "true"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "true"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "head": "[browser-pane] blocked unsupported webview url: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "did-attach-webview"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "context-menu"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "Inspect Element"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "[desktop-window] renderer navigation rejected"
+    }
+  ],
+  "patterns": [],
+  "numericLiterals": [
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "4500"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "1"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "150"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "32"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "text": "0"
+    }
+  ],
+  "qualification": "Exact protocol/event/log/error/path/theme/menu/text/numeric data, generic template placeholders only; no private helper expressions or decomposition. Static preservation obligations, no rights grant."
+}

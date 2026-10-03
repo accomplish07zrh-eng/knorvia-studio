@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-03 Asia/Shanghai",
+  "priorPublicCommit": "f4937e27fa780c9fd027d3ed4beac97b8ff2ad67",
+  "sourceSha256": "93e53e72168c1b29d91a35461c730afab9cc53f607cc70ca2d1b1ea0f0ddfec1",
+  "emittedSha256": "a9d26874022e0e12529803c5719fea709cb986c8bb428d14f25272d846bb0647",
+  "review": "E static review dbfbccfe2c3bc9d8262cde4f04b3941518b913f7 and subsequent behavioral clarification",
+  "postFreezeSourceExposure": {
+    "baseline": "f25b931164ee6287167e965e9da7a7586131b264",
+    "path": "packages/server/src/remote/remoteAssetCache.ts",
+    "readAfterOriginalDraftFreeze": "Targeted staging and manifest-request control sections were read after 17:07:53Z original draft freeze, to resolve packet omissions/compatibility questions. Corrections are source-aware descendants; original frozen draft/inputs unchanged."
+  },
+  "corrections": [
+    "Register refresh-designated initial work, including applicable content-identity decisions, as active refresh",
+    "Retain normal-first pending request behavior: later explicit refresh may issue a second request; do not over-coalesce normal work",
+    "Preserve asynchronous public refresh-decision yield and active-only refresh handoff",
+    "Only provide ensure refresh predicate for content-addressed selection, retaining public identity predicate edge semantics",
+    "Exclude symlink version-directory entries from legacy release migration",
+    "Resolve candidate URLs, prepare cache/staging and extract before resolving/calling artifact fetch; preparation remains outside download cleanup try block"
+  ],
+  "minimalChecks": {
+    "refreshDesignatedOverlap": "Before two fetches/different references; after one fetch/shared reference",
+    "normalThenRefreshGuard": "Two fetches/different references before and after",
+    "blockedStaging": "Before one artifact fetch; after zero, with original local-preparation error gate restored",
+    "legacyReleaseSymlink": "Before symlink-root migration promoted; after excluded and injected offline fetch attempted; owned source preserved",
+    "runtime": "Actual emitted code, synthetic owned files/responses only; no network/user data/full suite"
+  },
+  "compiler": "Corrected target zero diagnostics in existing scoped harness",
+  "deferred": [
+    "997/400 historical line gate remains open; not retested/cleared",
+    "Other migration/concurrency/platform/full-runtime/build acceptance",
+    "Final source-expression/licence disposition"
+  ],
+  "crossLaneMerge": false
+}

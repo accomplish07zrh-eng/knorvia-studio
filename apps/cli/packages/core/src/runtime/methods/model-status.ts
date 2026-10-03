@@ -1,10 +1,11 @@
-import { SessionEventType, traceContextToLogContext } from "../deps.js";
-import type {
-  ModelNetworkStatusEvent,
-  ModelStatusSink,
-  ModelStreamRecoveryStatus,
-  SessionEvent,
-  TraceContext,
+import {
+  SessionEventType,
+  traceContextToLogContext,
+  type ModelNetworkStatusEvent,
+  type ModelStatusSink,
+  type ModelStreamRecoveryStatus,
+  type SessionEvent,
+  type TraceContext,
 } from "../deps.js";
 import type { AgentRuntimeInternal } from "../internal.js";
 
@@ -13,6 +14,148 @@ interface ModelStatusSinkOptions {
   streamRecovery?: ModelStreamRecoveryStatus;
 }
 
+interface ModelStatusLogProfile {
+  level: "debug" | "info" | "warn";
+  label: string;
+  project: (event: ModelNetworkStatusEvent) => Record<string, unknown>;
+}
+
+const statusLogProfiles: ReadonlyMap<string, ModelStatusLogProfile> = new Map<
+  string,
+  ModelStatusLogProfile
+>([
+  [
+    "model_request_queued",
+    {
+      level: "debug",
+      label: "Model network request queued for admission",
+      project: () => ({
+        event: "model.network.queued",
+        module: "core.runtime",
+        status: "waiting",
+      }),
+    },
+  ],
+  [
+    "model_request_admitted",
+    {
+      level: "debug",
+      label: "Model network request admitted",
+      project: (statusEvent) => {
+        const event = statusEvent as Extract<
+          ModelNetworkStatusEvent,
+          { type: "model_request_admitted" }
+        >;
+        return {
+          event: "model.network.admitted",
+          module: "core.runtime",
+          queuedMs: event.queuedMs,
+          status: "started",
+        };
+      },
+    },
+  ],
+  [
+    "model_request_started",
+    {
+      level: "debug",
+      label: "Model network request started",
+      project: () => ({
+        event: "model.network.started",
+        module: "core.runtime",
+        status: "started",
+      }),
+    },
+  ],
+  [
+    "model_request_completed",
+    {
+      level: "info",
+      label: "Model network request completed",
+      project: (statusEvent) => {
+        const event = statusEvent as Extract<
+          ModelNetworkStatusEvent,
+          { type: "model_request_completed" }
+        >;
+        return {
+          durationMs: event.durationMs,
+          event: "model.network.completed",
+          finishReason: event.finishReason,
+          module: "core.runtime",
+          status: "completed",
+        };
+      },
+    },
+  ],
+  [
+    "model_request_failed",
+    {
+      level: "warn",
+      label: "Model network request failed",
+      project: (statusEvent) => {
+        const event = statusEvent as Extract<
+          ModelNetworkStatusEvent,
+          { type: "model_request_failed" }
+        >;
+        return {
+          durationMs: event.durationMs,
+          event: "model.network.failed",
+          module: "core.runtime",
+          reason: event.reason,
+          retryable: event.retryable,
+          status: event.reason === "cancelled" ? "cancelled" : "failed",
+          statusCode: event.statusCode,
+          statusMessage: event.message,
+        };
+      },
+    },
+  ],
+  [
+    "model_retry_scheduled",
+    {
+      level: "warn",
+      label: "Model network retry scheduled",
+      project: (statusEvent) => {
+        const event = statusEvent as Extract<
+          ModelNetworkStatusEvent,
+          { type: "model_retry_scheduled" }
+        >;
+        return {
+          delayMs: event.delayMs,
+          event: "model.network.retry_scheduled",
+          module: "core.runtime",
+          nextAttempt: event.nextAttempt,
+          reason: event.reason,
+          status: "waiting",
+          statusCode: event.statusCode,
+          statusMessage: event.message,
+        };
+      },
+    },
+  ],
+  [
+    "model_stream_stalled",
+    {
+      level: "warn",
+      label: "Model network stream stalled",
+      project: (statusEvent) => {
+        const event = statusEvent as Extract<
+          ModelNetworkStatusEvent,
+          { type: "model_stream_stalled" }
+        >;
+        return {
+          event: "model.network.stream_stalled",
+          idleMs: event.idleMs,
+          module: "core.runtime",
+          status: "waiting",
+          statusMessage: event.message,
+          timeoutMs: event.timeoutMs,
+        };
+      },
+    },
+  ],
+]);
+
 export function createModelStatusSink(
   this: AgentRuntimeInternal,
   traceContext: TraceContext,
@@ -20,10 +163,11 @@ export function createModelStatusSink(
   options: ModelStatusSinkOptions = {},
 ): ModelStatusSink {
   return {
-    publish: async (statusEvent: ModelNetworkStatusEvent): Promise<void> => {
+    publish: async (statusEvent) => {
       const eventPayload = options.streamRecovery
         ? { ...statusEvent, streamRecovery: options.streamRecovery }
         : statusEvent;
+
       options.onStatus?.(eventPayload);
       this.logModelNetworkStatus(eventPayload, traceContext);
       const event = this.createEvent(
@@ -42,7 +186,7 @@ export function logModelNetworkStatus(
   statusEvent: ModelNetworkStatusEvent,
   traceContext: TraceContext,
 ): void {
-  const baseContext = {
+  const metadata = {
     ...traceContextToLogContext(traceContext),
     attempt: statusEvent.attempt,
     baseURL: statusEvent.baseURL,
@@ -58,83 +202,11 @@ export function logModelNetworkStatus(
     transport: statusEvent.transport,
   };
 
-  switch (statusEvent.type) {
-    case "model_request_queued":
-      this.logger?.debug("Model network request queued for admission", {
-        ...baseContext,
-        event: "model.network.queued",
-        module: "core.runtime",
-        status: "waiting",
-      });
-      return;
-
-    case "model_request_admitted":
-      this.logger?.debug("Model network request admitted", {
-        ...baseContext,
-        event: "model.network.admitted",
-        module: "core.runtime",
-        queuedMs: statusEvent.queuedMs,
-        status: "started",
-      });
-      return;
-
-    case "model_request_started":
-      this.logger?.debug("Model network request started", {
-        ...baseContext,
-        event: "model.network.started",
-        module: "core.runtime",
-        status: "started",
-      });
-      return;
-
-    case "model_request_completed":
-      this.logger?.info("Model network request completed", {
-        ...baseContext,
-        durationMs: statusEvent.durationMs,
-        event: "model.network.completed",
-        finishReason: statusEvent.finishReason,
-        module: "core.runtime",
-        status: "completed",
-      });
-      return;
-
-    case "model_request_failed":
-      this.logger?.warn("Model network request failed", {
-        ...baseContext,
-        durationMs: statusEvent.durationMs,
-        event: "model.network.failed",
-        module: "core.runtime",
-        reason: statusEvent.reason,
-        retryable: statusEvent.retryable,
-        status: statusEvent.reason === "cancelled" ? "cancelled" : "failed",
-        statusCode: statusEvent.statusCode,
-        statusMessage: statusEvent.message,
-      });
-      return;
-
-    case "model_retry_scheduled":
-      this.logger?.warn("Model network retry scheduled", {
-        ...baseContext,
-        delayMs: statusEvent.delayMs,
-        event: "model.network.retry_scheduled",
-        module: "core.runtime",
-        nextAttempt: statusEvent.nextAttempt,
-        reason: statusEvent.reason,
-        status: "waiting",
-        statusCode: statusEvent.statusCode,
-        statusMessage: statusEvent.message,
-      });
-      return;
-
-    case "model_stream_stalled":
-      this.logger?.warn("Model network stream stalled", {
-        ...baseContext,
-        event: "model.network.stream_stalled",
-        idleMs: statusEvent.idleMs,
-        module: "core.runtime",
-        status: "waiting",
-        statusMessage: statusEvent.message,
-        timeoutMs: statusEvent.timeoutMs,
-      });
+  const profile = statusLogProfiles.get(statusEvent.type);
+  if (profile) {
+    this.logger?.[profile.level](profile.label, {
+      ...metadata,
+      ...profile.project(statusEvent),
+    });
   }
 }

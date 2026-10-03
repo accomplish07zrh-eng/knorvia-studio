@@ -1,0 +1,18 @@
+{
+  "owner": "snapshot",
+  "source": "browserPlaywrightDomSnapshot-correction-1.ts",
+  "sha256": "6379aa3e4a38f15d706fbb73153b9b26baca79cc585fdd58180cb138ebfeadcd",
+  "bytes": 12347,
+  "reads": [
+    "licensing/evidence/desktop-playwright-owners-20261003/common-author-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/snapshot-owner-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/public-view.d.ts"
+  ],
+  "readTiming": "These three files were read in the initial author turn; no file was read during the correction turn. The correction packet was supplied in parent messages.",
+  "accessExceptions": [],
+  "limitations": [
+    "The correction was authored as a complete new literal without reading or transforming the initial frozen draft, inherited source, tests, sibling outputs, or repository history.",
+    "The correction was not installed, compiled, linted, tested, or run in a browser under the author isolation contract.",
+    "Exact compatibility and edge-case behavior remain unverified until curator comparison."
+  ]
+}

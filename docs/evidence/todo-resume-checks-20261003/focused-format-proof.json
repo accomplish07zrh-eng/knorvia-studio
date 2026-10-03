@@ -1,0 +1,8 @@
+{
+  "historicalAssertions": "docs/evidence/todo-resume-checks-20261003/focused-proof-before-format.mjs.txt",
+  "currentTest": "apps/cli/packages/core/test/todo-resume-focused-proof-20261003.mjs",
+  "parsedASTEqualIgnoringPositionsAndParentheses": true,
+  "initialComparatorFailure": "Printer comparison retained multiline/trailing format state and failed; structural AST comparison succeeds. No assertion or executable edit.",
+  "oldSha256": "77d1d81961683db56baa6cfaeb68f68e887ae6f94a309d3edbe59045c8d71765",
+  "currentSha256": "5e0c6271e155be94d2d5d21b8f976b854bcb7adb26e0bf943f16a28e649bc747"
+}

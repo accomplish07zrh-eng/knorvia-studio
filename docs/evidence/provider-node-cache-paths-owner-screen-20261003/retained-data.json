@@ -1,0 +1,75 @@
+{
+  "platformMapping": {
+    "win32": "windows"
+  },
+  "architectureMapping": {
+    "arm64": "aarch64",
+    "x64": "x86_64"
+  },
+  "clientPlatformTemplate": "${target}-${arch}",
+  "allowedOriginProtocols": [
+    "http:",
+    "https:"
+  ],
+  "emptyOriginError": "Knorvia Studio Built-in Endpoint Origin 不能为空",
+  "unsupportedProtocolError": "Knorvia Studio Built-in Endpoint Origin 只支持 HTTP(S)",
+  "invalidSegmentErrorTemplate": "Knorvia Studio Built-in ${name} 不是合法路径段",
+  "segmentNamesInValidationOrder": [
+    "platform",
+    "appVersion"
+  ],
+  "segmentPolicy": {
+    "trim": true,
+    "rejectEmpty": true,
+    "rejectExact": [
+      ".",
+      ".."
+    ],
+    "rejectCharacters": [
+      "/",
+      "\\"
+    ],
+    "additionalFilenameChecks": false
+  },
+  "endpointKey": {
+    "algorithm": "sha256",
+    "encoding": "hex",
+    "hexPrefixLength": 32,
+    "prefix": "endpoint-",
+    "hashInput": "trimmed absolute HTTP(S) URL origin",
+    "injectivityClaim": false
+  },
+  "directorySegments": [
+    "environmentConfigRoot",
+    "runtime",
+    "provider",
+    "normalized platform",
+    "normalized appVersion",
+    "endpoint key"
+  ],
+  "activeFilename": "builtin.json",
+  "controlFilename": "builtin-refresh.json",
+  "returnedKeys": [
+    "activeFilePath",
+    "controlFilePath"
+  ],
+  "runtimeFreeze": false,
+  "filesystemIo": false,
+  "cacheFallback": false,
+  "materializerRetained": {
+    "directorySegments": [
+      "environmentConfigRoot",
+      "runtime",
+      "provider",
+      "bundled"
+    ],
+    "filename": "builtin.json",
+    "textEncoding": "utf8",
+    "canonicalTrailingNewline": "\n",
+    "optionalReadErrorCode": "ENOENT",
+    "errorMustBeActualError": true,
+    "writeOnlyOnByteDifference": true,
+    "privateWriterMode": "0600 (retained helper request, no ACL certification)",
+    "authorPacket": false
+  }
+}

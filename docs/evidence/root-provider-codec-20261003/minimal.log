@@ -1,0 +1,1 @@
+Three bounded in-memory version/strict-envelope, parser/legacy-identity, and serialization groups pass. Frozen retained-schema/union-timing mismatch reproduced and corrected. Actual Zod plus fake parsers/facades only; no real configuration/account/file/provider/network operations.

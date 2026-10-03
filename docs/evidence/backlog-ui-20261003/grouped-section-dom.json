@@ -1,0 +1,72 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "parentCheckpoint": "415dbc4f4a76b36089db75ca8bdae9ab5b969ce5",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Narrowed UI lane: final grouped section DOM lifecycle candidate; five reassigned consumer items reach a freeze boundary",
+  "spec": "specs/knorvia-next-ui-consumer-boundaries-20261003.md",
+  "sourceExposure": "Selected existing section DOM blocks and native/React/public drag ports read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; pending geometry/resource/frame contracts do not constitute browser/React/DndKit/output/data-recovery or rights acceptance",
+  "retainedCompatibility": [
+    "Original JSX/classes/labels/icons/resources, drop animation, sensors and auto-scroll",
+    "Original selectors, CSS.escape, raw/encoded width keys, 0.5px/32px thresholds and 150ms/easing/keyframe values",
+    "Native/React/API/type shapes and short mathematical/label/focus/painted/store/query compatibility bridges not independent-author credit",
+    "Original accepted grouped view, session draft, collapse prefs, drag/session owner and persistence schemas",
+    "Prior receipts bind historical source checkpoints; this receipt binds the current section adapter"
+  ],
+  "explicitCorrections": [
+    "One revocable resource ledger releases every acquired cleanup after errors; first error preserved",
+    "Owned animation replacement/finish/cancel/unmount restores overflow synchronously and blocks late listener overwrites",
+    "Latest synchronous layout admission stops older batch commands; cancelled frame callbacks cannot animate",
+    "Physical DOM scope keeps sticky/top-draft/cursor behavior across grouped service changes; only layout leases reset"
+  ],
+  "remainingEngineeringItemsInNarrowedLane": [],
+  "newSharedInterfaceRequirements": [],
+  "pendingIntegrationWork": [
+    "Final unified tests/types/lint/build/React/platform/data-recovery verification",
+    "Integrator-led retained-source/authorship/license review and global inventory/MIT decision"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+      "baseBlob": "ff19511c96396400b64dc198a413d716531a307e",
+      "baseSha256": "52b3acfa3832ff498b19f97108ff1aed7a7c9445b7c14f20197cd350578b79b5",
+      "candidateSha256": "023e129768efcba6d1ff1894e9dace2741c29a240485ec2007e8a208b712bc54",
+      "candidateBytes": 29468,
+      "candidateRole": "section command/resource candidate installation plus retained JSX/presentation/compatibility bridges; not a whole-file authorship clearance",
+      "priorSource": {
+        "status": "existing record retained, not reclassified"
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionDomOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "fdc2fe2abefb7e2f15e661aae3e825dcc019b33e4ae77774a964d813f7f93531",
+      "candidateBytes": 11478,
+      "candidateRole": "source-exposed DOM/resource/geometry candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionGeometry.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "63cab52f973f7f9b50e495e09f456d81adc13a90533d5e5d4e38587ce5542871",
+      "candidateBytes": 1490,
+      "candidateRole": "source-exposed DOM/resource/geometry candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-section-dom-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "40a6ff5db66b0e9b6d31811fe8f0b46ef40a53842461c3df19151c19220d7144",
+      "candidateBytes": 14161,
+      "candidateRole": "source-exposed DOM/resource/geometry candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    }
+  ]
+}

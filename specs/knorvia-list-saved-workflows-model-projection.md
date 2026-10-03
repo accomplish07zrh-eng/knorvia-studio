@@ -1,0 +1,11 @@
+# ListSavedWorkflows model projection
+
+Baseline `e32191b62decc906338d5eabadcae76a4c7c8fae`. Owned scope: `list-saved-workflows.ts`, one private renderer, named synthetic tests/spec/receipt. Ledger is upstream-modified/null review; only snapshot history. No accepted slice is reworked.
+
+The existing store/handler owns directory enumeration and schema admission; both remain byte-identical. The existing formatter owns output safeParse, invalid-result prose and the empty-with-no-invalid special case. A synchronous private renderer owns only workflow blocks, argument notes, invalid rows and container projection. Replace the inherited nested push/concatenation structure with a row generator and ordered argument-note readers. No state, await, IO, cache, retries, permissions, budgets or new policy.
+
+Preserve exact strings/newlines, workflow and argument order, empty-description/whenToUse semantics, required===true, default undefined versus null/false/zero and JSON.stringify exceptions/receiver/read order, description suffix, attribute escaping and invalid row order. Empty invalid array differs from missing invalid array. Preserve all public metadata/declarations/schema identities, handler parse/cwd/store behavior,10-second deadline, cancellation and approval policy.
+
+Freeze actual source and byte-identical core emission before code. Test real registry formatter and complete executor result projection using only a synthetic listing-result handler port. Do not invoke the filesystem handler/store: that excluded path is bound by unchanged byte regions, not claimed as executed acceptance. Use synthetic getter/default/toJSON/clock/abort controls, malformed data, rejection, repeated/concurrent calls and completion-edge abort through existing deadline/full runner. No actual filesystem/workflow/provider/network/user-data/account/security actions.
+
+Focused source/strict emitted and immediate catalog consumers; relevant core types/emission, configured/owned lint, format and architecture. No full suite or full CLI/desktop build, per explicit reduced cadence. Source exposure, inherited prose/syntax/expressions and baseline archive remain attributable. No clean-room or whole-file MIT claim. Root owns aggregate publication/native/licence decisions.

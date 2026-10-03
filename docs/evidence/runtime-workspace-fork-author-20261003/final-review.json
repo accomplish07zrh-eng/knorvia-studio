@@ -1,0 +1,15 @@
+{
+  "batch": "workspace-fork",
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "api": [
+    {
+      "module": "stable-fork-boundary",
+      "equal": true
+    },
+    {
+      "module": "workspace-fork",
+      "equal": true
+    }
+  ]
+}

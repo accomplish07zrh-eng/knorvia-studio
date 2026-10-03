@@ -1,0 +1,86 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/server/src/stdio-lifecycle.ts",
+    "packages/server/src/stdio.ts",
+    "packages/server/src/stdioServices.ts",
+    "packages/server/src/entry-stdio.ts",
+    "packages/server/src/http.ts",
+    "packages/server/src/entry-http.ts",
+    "packages/server/src/hostCapability.ts",
+    "packages/server/src/index.ts",
+    "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+    "packages/server/test/host-capability-policy.test.mjs",
+    "specs/knorvia-server-lifecycle-validation-20261003.md",
+    "licensing/evidence/server-lifecycle-validation-20261003/README.md",
+    "licensing/evidence/server-lifecycle-validation-20261003/record-run.mjs",
+    "licensing/evidence/server-lifecycle-validation-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/server/src/stdio-lifecycle.ts",
+      "sha256": "d11805729dc2bb2b3defc158c014df768c8a74b49e5950f6faec4e3a1943ec24"
+    },
+    {
+      "path": "packages/server/src/stdio.ts",
+      "sha256": "2339efa61fd55b45743c223a9726e89ab2da66e791afb36a29d488ac319c1887"
+    },
+    {
+      "path": "packages/server/src/stdioServices.ts",
+      "sha256": "3aa752394a5e1df507e4b56b349077b073f383fca6d1ac7215281c1e9550aa0c"
+    },
+    {
+      "path": "packages/server/src/entry-stdio.ts",
+      "sha256": "f146b1e31266a79cd72b0f5c8a608f14fb19d550977a1111c5a76599368ab96a"
+    },
+    {
+      "path": "packages/server/src/http.ts",
+      "sha256": "3945e6e3d42e904f15792a6c240a98302c6add4b398bb84ddd3b7aad152dbdce"
+    },
+    {
+      "path": "packages/server/src/entry-http.ts",
+      "sha256": "7e17a999f415edf3e048a5101e1d2cfa306a7ec7fca0ce5a5210585ffde9d5f0"
+    },
+    {
+      "path": "packages/server/src/hostCapability.ts",
+      "sha256": "33ba59366619a8a01eb002b627af69108e04a76772372593f17e04e5524b2c20"
+    },
+    {
+      "path": "packages/server/src/index.ts",
+      "sha256": "827240e9515f54e07390069e2e1250405282c9f1e5f34038457d4c373558bb76"
+    },
+    {
+      "path": "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+      "sha256": "9dd19a761041e04cdf49099b5ff61d6e92adf5b70aec6215a19025e5bcb5ff24"
+    },
+    {
+      "path": "packages/server/test/host-capability-policy.test.mjs",
+      "sha256": "5ab0abdd732ba12b79c2f661eef3ce5246d0857e45364bd84bc6858085ed46ed"
+    },
+    {
+      "path": "specs/knorvia-server-lifecycle-validation-20261003.md",
+      "sha256": "7aaa5e813710ca87c4f0b2a36a0b8b6ecdabf3909fbf98a626d8416ba308c891"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-validation-20261003/README.md",
+      "sha256": "df6ab0dc23328307a51f2595b600eb7663fcc04d556547a34ab1d08cbddfebe6"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-validation-20261003/record-run.mjs",
+      "sha256": "f5ccbe2ef38befbaee422d056fc0e363a1cb3be1560c3348b3c0f73754417209"
+    },
+    {
+      "path": "licensing/evidence/server-lifecycle-validation-20261003/scoped-static.mjs",
+      "sha256": "0af08f0487e71a2f195383b30e7672581bc613cb7e6cdc41ad90e06b607a4d25"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 98ms on 14 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

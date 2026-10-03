@@ -1,0 +1,849 @@
+/* eslint-disable max-lines -- The locator invocation owns frame sessions, injected contexts, deadlines, input targeting, and their shared cleanup lifetime. */
+import type { BrowserPlaywrightAction, BrowserPlaywrightModifier } from '@knorvia/shared';
+import { logger } from '../logger.js';
+import { dispatchClickAt, dispatchKey, modifiersBitmask } from './browserCommandInput.js';
+import type { ControlledView } from './browserCommandTypes.js';
+import {
+  assertFocusedInputTarget,
+  createInputTargetToken,
+  IAB_INPUT_TARGET_TOKEN_PROPERTY,
+  pasteTextIntoFocusedTarget,
+} from './browserVirtualClipboard.js';
+import { getPlaywrightInjectedScriptSource } from './playwrightInjectedScriptSource.js';
+
+type LocatorAction = Extract<BrowserPlaywrightAction, { name: 'locator' }>;
+type Outcome =
+  | { kind: 'done'; value?: unknown }
+  | { kind: 'timeout'; reason: string }
+  | { kind: 'cancelled' };
+type CdpRecord = Record<string, any>;
+
+interface LocatorContext {
+  frameId: string;
+  contextId: number;
+  sessionId?: string;
+}
+
+interface TargetFrame {
+  frameId: string;
+  sessionId?: string;
+  context?: LocatorContext;
+}
+
+interface FrameBoundary {
+  parent: TargetFrame;
+  backendNodeId: number;
+  quad: number[];
+  childWidth: number;
+  childHeight: number;
+}
+
+interface ResolvedLocator {
+  selector: string;
+  target: TargetFrame;
+  boundaries: FrameBoundary[];
+}
+
+interface Probe {
+  count: 0 | 1;
+  actionable: boolean;
+  reason?: string;
+  obstruction?: string;
+  x?: number;
+  y?: number;
+  checked?: boolean;
+}
+
+const PAGE_HELPERS = String.raw`
+  const injected = globalThis.__knorviaPlaywrightInjected;
+  function matches(selector) {
+    const parsed = injected.parseSelector(selector);
+    return { parsed, elements: injected.querySelectorAll(parsed, document) };
+  }
+  function strict(selector) {
+    const { parsed, elements } = matches(selector);
+    if (elements.length <= 1) {
+      injected.checkDeprecatedSelectorUsage(parsed, elements);
+      return elements[0] ?? null;
+    }
+    const visible = elements.filter(element => Boolean(injected.elementState(element, 'visible').matches));
+    if (visible.length === 1) return visible[0];
+    throw injected.strictModeViolationError(parsed, elements);
+  }
+  function required(selector) {
+    const element = strict(selector);
+    if (!element) throw new Error('No element matched selector');
+    return element;
+  }
+`;
+
+function pageScript(body: string, payload: unknown): string {
+  return `(async () => { const input = ${JSON.stringify(payload)}; ${PAGE_HELPERS} ${body} })()`;
+}
+
+function splitSelector(selector: string): { frames: string[]; leaf: string } {
+  const parts: string[] = [];
+  let token = '';
+  let quote = '';
+  let escaped = false;
+  for (let index = 0; index < selector.length; index += 1) {
+    const char = selector[index]!;
+    if (escaped) {
+      token += char;
+      escaped = false;
+      continue;
+    }
+    if (char === '\\') {
+      token += char;
+      escaped = true;
+      continue;
+    }
+    if (quote) {
+      token += char;
+      if (char === quote) quote = '';
+      continue;
+    }
+    if (char === '"' || char === "'" || char === '`') {
+      token += char;
+      quote = char;
+      continue;
+    }
+    if (selector.slice(index, index + 4) === ' >> ') {
+      parts.push(token.trim());
+      token = '';
+      index += 3;
+      continue;
+    }
+    token += char;
+  }
+  if (token.trim()) parts.push(token.trim());
+  const frames: string[] = [];
+  let current: string[] = [];
+  for (const part of parts) {
+    if (part === 'internal:control=enter-frame') {
+      if (!current.length) throw new Error('frame locator is missing a frame selector');
+      frames.push(current.join(' >> '));
+      current = [];
+    } else {
+      current.push(part);
+    }
+  }
+  if (!current.length) throw new Error('frame locator is missing a child selector');
+  return { frames, leaf: current.join(' >> ') };
+}
+
+function aborted(): DOMException {
+  return new DOMException('Browser locator action aborted', 'AbortError');
+}
+
+function mapModifiers(modifiers?: BrowserPlaywrightModifier[]): number {
+  const mapped = (modifiers ?? []).map(modifier =>
+    modifier === 'ControlOrMeta'
+      ? (process.platform === 'darwin' ? 'Meta' : 'Control')
+      : modifier,
+  ) as Array<'Alt' | 'Control' | 'Meta' | 'Shift'>;
+  return modifiersBitmask(mapped);
+}
+
+function sleep(ms: number, signal?: AbortSignal): Promise<boolean> {
+  if (signal?.aborted) return Promise.resolve(false);
+  return new Promise(resolve => {
+    let timer: ReturnType<typeof setTimeout>;
+    const finish = (completed: boolean) => {
+      clearTimeout(timer);
+      signal?.removeEventListener('abort', onAbort);
+      resolve(completed);
+    };
+    const onAbort = () => finish(false);
+    timer = setTimeout(() => finish(true), ms);
+    signal?.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
+function isDocumentRace(error: unknown): error is Error {
+  return error instanceof Error &&
+    /execution context (was )?destroyed|cannot find context|frame (was )?detached|inspected target navigated/iu.test(error.message);
+}
+
+class LocatorExecution {
+  private rootFrameId?: string;
+  private contexts = new Map<string, LocatorContext>();
+  private sessions = new Set<string>();
+
+  constructor(
+    private readonly view: ControlledView,
+    private readonly action: LocatorAction,
+    private readonly timeoutMs: number,
+    private readonly signal?: AbortSignal,
+  ) {}
+
+  async run(): Promise<Outcome> {
+    try {
+      const locator = await this.resolve();
+      switch (this.action.operation) {
+        case 'count':
+        case 'allTextContents':
+        case 'isVisible':
+        case 'isEnabled':
+          return { kind: 'done', value: await this.queryImmediate(locator) };
+        case 'waitFor':
+          return await this.waitFor(locator);
+        case 'textContent':
+        case 'innerText':
+        case 'getAttribute':
+        case 'evaluate': {
+          const ready = await this.waitForElement(locator);
+          return ready.kind === 'done' ? { kind: 'done', value: await this.read(locator) } : ready;
+        }
+        default:
+          return await this.act(locator);
+      }
+    } finally {
+      await this.releaseSessions();
+    }
+  }
+
+  private async send(method: string, params?: unknown, sessionId?: string): Promise<CdpRecord> {
+    if (this.signal?.aborted) throw aborted();
+    return await this.view.cdp.send(method, params, sessionId) as CdpRecord;
+  }
+
+  private async rootTarget(): Promise<TargetFrame> {
+    if (!this.rootFrameId) {
+      await this.view.cdp.send('Page.enable');
+      await this.view.cdp.send('Runtime.enable');
+      await this.view.cdp.send('DOM.enable');
+      const tree = await this.view.cdp.send('Page.getFrameTree') as CdpRecord;
+      const id = tree.frameTree?.frame?.id;
+      if (!id) throw new Error('Page.getFrameTree returned no main frame id');
+      this.rootFrameId = id;
+    }
+    return { frameId: this.rootFrameId! };
+  }
+
+  private async contextFor(target: TargetFrame): Promise<LocatorContext> {
+    if (this.signal?.aborted) throw aborted();
+    if (target.context) return target.context;
+    const key = `${target.sessionId ?? 'root'}:${target.frameId}`;
+    const cached = this.contexts.get(key);
+    if (cached) {
+      target.context = cached;
+      return cached;
+    }
+    const world = await this.send('Page.createIsolatedWorld', {
+      frameId: target.frameId,
+      worldName: 'knorvia-playwright-locator',
+      grantUniveralAccess: false,
+    }, target.sessionId);
+    const contextId = world.executionContextId;
+    if (!contextId) throw new Error(`unable to create locator world for ${target.frameId}`);
+    const context: LocatorContext = 'sessionId' in target
+      ? { frameId: target.frameId, contextId, sessionId: target.sessionId }
+      : { frameId: target.frameId, contextId };
+    const exists = await this.evaluate(context,
+      'Boolean(globalThis.__knorviaPlaywrightInjected)');
+    if (exists !== true) {
+      const source = getPlaywrightInjectedScriptSource();
+      const install = `(async () => {
+        const module = {};
+        ${source}
+        globalThis.__knorviaPlaywrightInjected = new (module.exports.InjectedScript())(globalThis, {
+          browserName: 'chromium', customEngines: [], isUnderTest: false,
+          sdkLanguage: 'javascript', stableRafCount: 1, testIdAttributeName: 'data-testid'
+        });
+        return true;
+      })()`;
+      const installed = await this.evaluate(context, install);
+      if (installed !== true) throw new Error('unable to initialize Playwright locator runtime');
+    }
+    this.contexts.set(key, context);
+    target.context = context;
+    return context;
+  }
+
+  private async evaluate(
+    context: LocatorContext,
+    expression: string,
+    returnByValue = true,
+    timeout = this.timeoutMs,
+  ): Promise<any> {
+    if (this.signal?.aborted) throw aborted();
+    const onAbort = () => {
+      void this.view.cdp.send('Runtime.terminateExecution', undefined, context.sessionId).catch(() => undefined);
+    };
+    this.signal?.addEventListener('abort', onAbort, { once: true });
+    try {
+      const response = await this.send('Runtime.evaluate', {
+        awaitPromise: true,
+        contextId: context.contextId,
+        expression,
+        returnByValue,
+        timeout,
+      }, context.sessionId);
+      if (response.exceptionDetails) {
+        const details = response.exceptionDetails;
+        const message = details.exception?.description ??
+          (details.exception?.value == null ? undefined : String(details.exception.value)) ??
+          details.text ?? 'Playwright locator evaluation failed';
+        if (message) throw new Error(message);
+      }
+      return returnByValue ? response.result?.value : response.result ?? {};
+    } finally {
+      this.signal?.removeEventListener('abort', onAbort);
+    }
+  }
+
+  private async page(locator: ResolvedLocator, body: string, payload: unknown): Promise<any> {
+    const context = await this.contextFor(locator.target);
+    return await this.evaluate(context, pageScript(body, payload));
+  }
+
+  private async releaseObject(context: LocatorContext, objectId?: string): Promise<void> {
+    if (!objectId) return;
+    try {
+      await this.send('Runtime.releaseObject', { objectId }, context.sessionId);
+    } catch {
+      // The object may already be gone after navigation or termination.
+    }
+  }
+
+  private async releaseSessions(): Promise<void> {
+    const sessions = [...this.sessions];
+    await Promise.allSettled(sessions.map(sessionId =>
+      this.view.cdp.send('Target.detachFromTarget', { sessionId }),
+    ));
+    this.sessions.clear();
+  }
+
+  private async resolve(): Promise<ResolvedLocator> {
+    const { frames, leaf } = splitSelector(this.action.selector);
+    let target = await this.rootTarget();
+    const boundaries: FrameBoundary[] = [];
+    for (const selector of frames) {
+      const parent = target;
+      const parentContext = await this.contextFor(parent);
+      const handle = await this.evaluate(parentContext, pageScript(`
+        const element = strict(input.selector);
+        if (!element) throw new Error('frame locator resolved to no elements: ' + input.selector);
+        return element;
+      `, { selector }), false);
+      const objectId = handle?.subtype === 'null' ? undefined : handle?.objectId;
+      if (!objectId) throw new Error('frame locator became detached');
+      try {
+        const description = await this.send('DOM.describeNode', { objectId }, parent.sessionId);
+        const frameId = description.node?.frameId;
+        const backendNodeId = description.node?.backendNodeId;
+        if (!frameId) throw new Error('frame locator did not resolve to a frame owner');
+        if (!backendNodeId) throw new Error('frame locator returned no backend node identity');
+        const quads = await this.send('DOM.getContentQuads', { backendNodeId }, parent.sessionId);
+        const quad = quads.quads?.[0];
+        if (!quad || quad.length !== 8 || !quad.every(Number.isFinite)) {
+          throw new Error('frame owner returned no valid content quad');
+        }
+        const child: TargetFrame = { frameId, sessionId: parent.sessionId };
+        try {
+          await this.contextFor(child);
+        } catch {
+          let attached: CdpRecord | undefined;
+          try {
+            attached = await this.view.cdp.send('Target.attachToTarget',
+              { flatten: true, targetId: frameId }) as CdpRecord;
+          } catch {
+            // A failed attach produces the common missing-session error below.
+          }
+          const sessionId = attached?.sessionId;
+          if (!sessionId) throw new Error(`unable to attach frame target ${frameId}`);
+          this.sessions.add(sessionId);
+          child.sessionId = sessionId;
+          await this.send('Page.enable', undefined, sessionId);
+          await this.send('Runtime.enable', undefined, sessionId);
+          await this.send('DOM.enable', undefined, sessionId);
+          await this.contextFor(child);
+        }
+        const viewport = await this.evaluate(child.context!,
+          '({ width: globalThis.innerWidth, height: globalThis.innerHeight })');
+        if (!Number.isFinite(viewport?.width) || viewport.width <= 0 ||
+            !Number.isFinite(viewport?.height) || viewport.height <= 0) {
+          throw new Error('child frame returned no valid viewport size');
+        }
+        boundaries.push({ parent, backendNodeId, quad,
+          childWidth: viewport.width, childHeight: viewport.height });
+        target = child;
+      } finally {
+        await this.releaseObject(parentContext, objectId);
+      }
+    }
+    return { selector: leaf, target, boundaries };
+  }
+
+  private async queryImmediate(locator: ResolvedLocator): Promise<unknown> {
+    return await this.page(locator, `
+      const { elements } = matches(input.selector);
+      switch (input.operation) {
+        case 'count': return elements.length;
+        case 'allTextContents': return elements.map(element => element.textContent ?? '');
+        case 'isVisible': return Boolean(elements[0] && injected.elementState(elements[0], 'visible').matches);
+        case 'isEnabled': return Boolean(elements[0] && injected.elementState(elements[0], 'enabled').matches);
+      }
+    `, { selector: locator.selector, operation: this.action.operation });
+  }
+
+  private async waitFor(locator: ResolvedLocator): Promise<Outcome> {
+    const state = this.action.state ?? 'visible';
+    const deadline = Date.now() + this.timeoutMs;
+    while (true) {
+      if (this.signal?.aborted) return { kind: 'cancelled' };
+      const status = await this.page(locator, `
+        const { elements } = matches(input.selector);
+        return { exists: elements.length > 0,
+          visible: Boolean(elements[0] && injected.elementState(elements[0], 'visible').matches) };
+      `, { selector: locator.selector });
+      const matchesState = state === 'attached' ? status.exists :
+        state === 'detached' ? !status.exists :
+        state === 'visible' ? status.visible : !status.visible;
+      if (matchesState) return { kind: 'done' };
+      const remaining = deadline - Date.now();
+      if (remaining <= 0) {
+        return { kind: 'timeout', reason: `${this.action.selector} to be ${state}` };
+      }
+      if (!await sleep(Math.min(50, remaining), this.signal)) return { kind: 'cancelled' };
+    }
+  }
+
+  private async waitForElement(locator: ResolvedLocator): Promise<Outcome> {
+    const deadline = Date.now() + this.timeoutMs;
+    while (true) {
+      if (this.signal?.aborted) return { kind: 'cancelled' };
+      const found = await this.page(locator,
+        'return Boolean(strict(input.selector));', { selector: locator.selector });
+      if (found === true) return { kind: 'done' };
+      const remaining = deadline - Date.now();
+      if (remaining <= 0) {
+        return { kind: 'timeout', reason: `locator ${this.action.selector}` };
+      }
+      if (!await sleep(Math.min(50, remaining), this.signal)) return { kind: 'cancelled' };
+    }
+  }
+
+  private async read(locator: ResolvedLocator): Promise<unknown> {
+    if (this.action.operation === 'evaluate') {
+      const context = await this.contextFor(locator.target);
+      const handle = await this.evaluate(context,
+        pageScript('return required(input.selector);', { selector: locator.selector }), false);
+      const objectId = handle?.subtype === 'null' ? undefined : handle?.objectId;
+      if (!objectId) throw new Error('locator resolved to no elements');
+      try {
+        const functionDeclaration = this.action.expressionKind === 'function'
+          ? `function(arg) { return (${this.action.expression})(this, arg); }`
+          : `function(arg) { const element = this; return (${this.action.expression}); }`;
+        const response = await this.send('Runtime.callFunctionOn', {
+          objectId,
+          functionDeclaration,
+          arguments: [{ value: this.action.arg }],
+          awaitPromise: true,
+          returnByValue: true,
+        }, context.sessionId);
+        if (response.exceptionDetails) {
+          const detail = response.exceptionDetails;
+          const message = detail.exception?.description ??
+            (detail.exception?.value == null ? undefined : String(detail.exception.value)) ??
+            detail.text ?? 'Playwright locator evaluation failed';
+          if (message) throw new Error(`playwright.evaluate failed: ${message}`);
+        }
+        return response.result?.value;
+      } finally {
+        await this.releaseObject(context, objectId);
+      }
+    }
+    return await this.page(locator, `
+      const element = required(input.selector);
+      switch (input.operation) {
+        case 'textContent': return element.textContent;
+        case 'innerText': return element.innerText;
+        case 'getAttribute': return element.getAttribute(input.attribute);
+      }
+    `, { selector: locator.selector, operation: this.action.operation,
+      attribute: this.action.attribute });
+  }
+
+  private probeScript(locator: ResolvedLocator, attempt: number): string {
+    const operation = this.action.operation;
+    const pointer = operation === 'click' || operation === 'dblclick' || operation === 'setChecked';
+    const needsEnabled = pointer || operation === 'fill' || operation === 'press' || operation === 'selectOption';
+    const needsEditable = operation === 'fill';
+    const force = operation === 'fill' ? false : this.action.force === true;
+    const alignment = force ? ['center', 'center'] :
+      ([['center', 'center'], ['end', 'end'], ['start', 'start'], ['nearest', 'nearest']][attempt % 4]!);
+    return pageScript(String.raw`
+      const selector = input.selector;
+      let element = strict(selector);
+      if (!element) return { count: 0, actionable: false };
+      const state = (node, name) => injected.elementState(node, name);
+      const fail = reason => reason === 'detached'
+        ? { count: 0, actionable: false, reason: 'not-stable' }
+        : { count: 1, actionable: false, reason };
+      const check = node => {
+        if (!node.isConnected) return 'detached';
+        if (!input.force) {
+          const visible = state(node, 'visible');
+          if (visible.received === 'error:notconnected') return 'detached';
+          if (!visible.matches) return 'hidden';
+        }
+        if (input.needsEnabled && !input.force) {
+          const enabled = state(node, 'enabled');
+          if (enabled.received === 'error:notconnected') return 'detached';
+          if (!enabled.matches) return 'disabled';
+        }
+        if (input.needsEditable) {
+          const editable = state(node, 'editable');
+          if (editable.received === 'error:notconnected') return 'detached';
+          if (!editable.matches) return 'not-editable';
+        }
+        return null;
+      };
+      let reason = check(element);
+      if (reason) return fail(reason);
+      element.scrollIntoView({ block: input.block, inline: input.inline, behavior: 'instant' });
+      let rect = element.getBoundingClientRect();
+      if (input.stable) {
+        let previous = rect;
+        let consecutive = 0;
+        let stable = false;
+        for (let index = 0; index < 10; index += 1) {
+          await new Promise(resolve => {
+            const raf = element.ownerDocument?.defaultView?.requestAnimationFrame;
+            if (typeof raf === 'function') raf.call(element.ownerDocument.defaultView, resolve);
+            else globalThis.setTimeout(resolve, 0);
+          });
+          if (!element.isConnected) {
+            element = strict(selector);
+            if (!element) return { count: 0, actionable: false };
+          }
+          rect = element.getBoundingClientRect();
+          const unchanged = rect.left === previous.left && rect.top === previous.top &&
+            rect.width === previous.width && rect.height === previous.height;
+          consecutive = unchanged ? consecutive + 1 : 0;
+          if (consecutive >= 2) { stable = true; break; }
+          previous = rect;
+        }
+        if (!stable) return fail('not-stable');
+      }
+      reason = check(element);
+      if (reason) return fail(reason);
+      const checked = 'checked' in element ? Boolean(element.checked) : undefined;
+      if (!input.hitTarget) return { count: 1, actionable: true, checked };
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      if (!(rect.width > 0 && rect.height > 0 && x >= 0 && y >= 0 &&
+          x <= globalThis.innerWidth && y <= globalThis.innerHeight)) {
+        return { count: 1, actionable: false, reason: 'outside-viewport', checked };
+      }
+      const hit = injected.expectHitTarget({ x, y }, element);
+      if (hit !== 'done') {
+        const obstruction = typeof hit === 'string' ? hit : hit?.hitTargetDescription ?? 'another element';
+        return { count: 1, actionable: false, reason: 'covered', obstruction, checked };
+      }
+      return { count: 1, actionable: true, x, y, checked };
+    `, {
+      selector: locator.selector,
+      needsEnabled, needsEditable, force,
+      stable: pointer,
+      hitTarget: pointer && !force,
+      block: alignment[0], inline: alignment[1],
+    });
+  }
+
+  private validateProbe(value: unknown, selector: string): Probe {
+    const data = value as CdpRecord | null;
+    const valid = data && typeof data === 'object' &&
+      Number.isInteger(data.count) && data.count >= 0 && data.count <= 1 &&
+      typeof data.actionable === 'boolean';
+    if (!valid) {
+      logger.debug('[browser-use] invalid pointer probe payload', {
+        selector,
+        valueKeys: data && typeof data === 'object' ? Object.keys(data) : [],
+        valueType: value === null ? 'null' : typeof value,
+      });
+      throw new Error(`Playwright pointer probe returned an invalid payload for selector ${selector}`);
+    }
+    if ((data.x !== undefined && !Number.isFinite(data.x)) ||
+        (data.y !== undefined && !Number.isFinite(data.y))) {
+      throw new Error(`Playwright pointer probe returned invalid coordinates for selector ${selector}`);
+    }
+    return data as Probe;
+  }
+
+  private async probe(locator: ResolvedLocator, attempt: number, budget: number): Promise<
+    { kind: 'value'; value: Probe } | { kind: 'timeout' } | { kind: 'cancelled' }
+  > {
+    const started = (async () => {
+      const context = await this.contextFor(locator.target);
+      return this.validateProbe(await this.evaluate(context,
+        this.probeScript(locator, attempt), true, budget), locator.selector);
+    })();
+    if (this.signal?.aborted) return { kind: 'cancelled' };
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      let timer: ReturnType<typeof setTimeout>;
+      const finish = (result: { kind: 'value'; value: Probe } | { kind: 'timeout' } | { kind: 'cancelled' }) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        this.signal?.removeEventListener('abort', onAbort);
+        resolve(result);
+      };
+      const terminate = () => {
+        void this.view.cdp.send('Runtime.terminateExecution', undefined,
+          locator.target.sessionId).catch(() => undefined);
+      };
+      const onAbort = () => { terminate(); finish({ kind: 'cancelled' }); };
+      timer = setTimeout(() => { terminate(); finish({ kind: 'timeout' }); }, Math.max(0, budget));
+      this.signal?.addEventListener('abort', onAbort, { once: true });
+      if (this.signal?.aborted) onAbort();
+      started.then(value => finish({ kind: 'value', value }), error => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          this.signal?.removeEventListener('abort', onAbort);
+          reject(error);
+        }
+      });
+    });
+  }
+
+  private pointThroughFrames(locator: ResolvedLocator, x: number, y: number): {
+    x: number; y: number; points: Array<{ boundary: FrameBoundary; x: number; y: number }>;
+  } {
+    const points: Array<{ boundary: FrameBoundary; x: number; y: number }> = [];
+    for (const boundary of [...locator.boundaries].reverse()) {
+      const u = x / boundary.childWidth;
+      const v = y / boundary.childHeight;
+      const q = boundary.quad;
+      const nextX = (1 - u) * (1 - v) * q[0]! + u * (1 - v) * q[2]! +
+        u * v * q[4]! + (1 - u) * v * q[6]!;
+      const nextY = (1 - u) * (1 - v) * q[1]! + u * (1 - v) * q[3]! +
+        u * v * q[5]! + (1 - u) * v * q[7]!;
+      x = nextX;
+      y = nextY;
+      points.push({ boundary, x, y });
+    }
+    return { x, y, points };
+  }
+
+  private async frameObstruction(
+    locator: ResolvedLocator,
+    points: Array<{ boundary: FrameBoundary; x: number; y: number }>,
+  ): Promise<string | undefined> {
+    for (const boundary of [...locator.boundaries].reverse()) {
+      const point = points.find(entry => entry.boundary === boundary);
+      if (!point) throw new Error('Playwright pointer frame chain is incomplete');
+      try {
+        const located = await this.send('DOM.getNodeForLocation', {
+          includeUserAgentShadowDOM: true, x: Math.round(point.x), y: Math.round(point.y),
+        }, boundary.parent.sessionId);
+        const backendNodeId = located.backendNodeId;
+        if (!backendNodeId || backendNodeId === boundary.backendNodeId) continue;
+        const described = await this.send('DOM.describeNode', { backendNodeId }, boundary.parent.sessionId);
+        const node = described.node;
+        const label = node?.localName || node?.nodeName?.toLowerCase() || 'another element';
+        return `<${label}>`;
+      } catch {
+        // An auxiliary hit-test failure leaves the inner target usable.
+      }
+    }
+    return undefined;
+  }
+
+  private async act(initial: ResolvedLocator): Promise<Outcome> {
+    let locator = initial;
+    const deadline = Date.now() + this.timeoutMs;
+    let lastReason = `locator ${this.action.selector}`;
+    let attempt = 0;
+    while (true) {
+      if (this.signal?.aborted) return { kind: 'cancelled' };
+      const remaining = deadline - Date.now();
+      if (remaining <= 0) return { kind: 'timeout', reason: lastReason };
+      let result: Awaited<ReturnType<LocatorExecution['probe']>>;
+      try {
+        result = await this.probe(locator, attempt, remaining);
+      } catch (error) {
+        if (!isDocumentRace(error)) throw error;
+        logger.debug('[browser-use] recovering locator after document race', {
+          error: error.message, operation: this.action.operation, selector: this.action.selector,
+        });
+        await this.releaseSessions();
+        this.contexts.clear();
+        this.rootFrameId = undefined;
+        locator = await this.resolve();
+        attempt += 1;
+        continue;
+      }
+      if (result.kind === 'cancelled') return { kind: 'cancelled' };
+      if (result.kind === 'timeout') return { kind: 'timeout', reason: lastReason };
+      const probe = result.value;
+      if (probe.count === 1 && probe.actionable) {
+        const pointer = this.action.operation === 'click' ||
+          this.action.operation === 'dblclick' || this.action.operation === 'setChecked';
+        if (pointer) {
+          if (probe.x === undefined || probe.y === undefined) {
+            throw new Error(`Playwright pointer probe returned no click point for selector ${locator.selector}`);
+          }
+          const transformed = this.pointThroughFrames(locator, probe.x, probe.y);
+          if (this.action.force !== true) {
+            const obstruction = await this.frameObstruction(locator, transformed.points);
+            if (obstruction) {
+              lastReason = `${this.action.operation} actionability (covered by ${obstruction}) for selector ${this.action.selector}`;
+              attempt += 1;
+              continue;
+            }
+          }
+          return { kind: 'done', value: await this.perform(locator,
+            { ...probe, x: transformed.x, y: transformed.y }) };
+        }
+        return { kind: 'done', value: await this.perform(locator, probe) };
+      }
+      lastReason = probe.count === 0 ? `locator ${this.action.selector}` :
+        `${this.action.operation} actionability (${probe.reason ?? 'not-actionable'}${probe.obstruction ? ` by ${probe.obstruction}` : ''}) for selector ${this.action.selector}`;
+      attempt += 1;
+      const left = deadline - Date.now();
+      if (left <= 0) return { kind: 'timeout', reason: lastReason };
+      if (!await sleep(Math.min(50, left), this.signal)) return { kind: 'cancelled' };
+    }
+  }
+
+  private async perform(locator: ResolvedLocator, probe: Probe): Promise<unknown> {
+    const operation = this.action.operation;
+    switch (operation) {
+      case 'click':
+      case 'dblclick':
+        await dispatchClickAt(this.view, { cx: probe.x!, cy: probe.y! },
+          this.action.button ?? 'left', operation === 'dblclick', mapModifiers(this.action.modifiers));
+        return null;
+      case 'setChecked': {
+        if (probe.checked !== this.action.checked) {
+          await dispatchClickAt(this.view, { cx: probe.x!, cy: probe.y! }, 'left', false);
+        }
+        const checked = await this.page(locator,
+          'return Boolean(required(input.selector).checked);', { selector: locator.selector });
+        if (checked !== this.action.checked) {
+          throw new Error(`locator.setChecked(${this.action.checked}) did not change the element state`);
+        }
+        return null;
+      }
+      case 'fill':
+        return await this.fill(locator);
+      case 'press':
+        return await this.press(locator);
+      case 'selectOption': {
+        const selected = await this.page(locator,
+          'return injected.selectOptions(required(input.selector), input.selections);',
+          { selector: locator.selector, selections: this.action.selections ?? [] });
+        if (typeof selected === 'string' && selected.startsWith('error:')) {
+          throw new Error(`locator.selectOption failed: ${selected}`);
+        }
+        return selected;
+      }
+      case 'downloadMedia': {
+        await this.page(locator, `
+          const element = required(input.selector);
+          element.scrollIntoView({ block: 'center', inline: 'nearest' });
+          const source = element.closest?.('img, video, source, a[href]') ??
+            element.querySelector?.('img, video, source, a[href]') ?? element;
+          const url = typeof source.currentSrc === 'string' ? source.currentSrc :
+            typeof source.src === 'string' ? source.src :
+            typeof source.href === 'string' ? source.href : '';
+          if (!url) throw new Error('Matched element does not expose a downloadable URL');
+          const anchor = document.createElement('a');
+          anchor.href = url;
+          anchor.download = url.split('/').pop()?.split('?')[0] || 'download';
+          anchor.rel = 'noopener';
+          anchor.style.display = 'none';
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+          return true;
+        `, { selector: locator.selector });
+        return null;
+      }
+      default:
+        throw new Error(`unsupported locator operation: ${operation}`);
+    }
+  }
+
+  private async fill(locator: ResolvedLocator): Promise<null> {
+    const text = String(this.action.value ?? '');
+    const token = createInputTargetToken();
+    const replace = this.action.replace !== false;
+    const status = await this.page(locator, `
+      let element = required(input.selector);
+      if (input.replace) {
+        const result = injected.fill(element, input.text);
+        if (result === 'needsinput') {
+          element = injected.retarget(element, 'follow-label') ?? element;
+          Object.defineProperty(element, input.tokenProperty, {
+            configurable: true, value: input.token, writable: true,
+          });
+        }
+        return result;
+      }
+      element = injected.retarget(element, 'follow-label') ?? element;
+      const focus = element.matches(':focus') ? 'done' : injected.focusNode(element, false);
+      if (focus !== 'done') return focus;
+      Object.defineProperty(element, input.tokenProperty, {
+        configurable: true, value: input.token, writable: true,
+      });
+      return 'needsinput';
+    `, { selector: locator.selector, text, token, replace,
+      tokenProperty: IAB_INPUT_TARGET_TOKEN_PROPERTY });
+    if (replace && status !== 'done' && status !== 'needsinput') {
+      throw new Error(`locator.fill failed: ${String(status)}`);
+    }
+    if (!replace && status !== 'needsinput') {
+      throw new Error(`locator could not focus element: ${String(status)}`);
+    }
+    if (status === 'done') return null;
+    const context = await this.contextFor(locator.target);
+    await pasteTextIntoFocusedTarget(this.view, text, {
+      includeRichText: false,
+      initialTarget: { contextId: context.contextId, sessionId: context.sessionId },
+      inputTargetToken: token,
+      replaceInputValue: replace,
+    });
+    return null;
+  }
+
+  private async press(locator: ResolvedLocator): Promise<null> {
+    const token = createInputTargetToken();
+    const focus = await this.page(locator, `
+      const element = required(input.selector);
+      const result = element.matches(':focus') ? 'done' : injected.focusNode(element, false);
+      if (result === 'done') {
+        Object.defineProperty(element, input.tokenProperty, {
+          configurable: true, value: input.token, writable: true,
+        });
+      }
+      return result;
+    `, { selector: locator.selector, token, tokenProperty: IAB_INPUT_TARGET_TOKEN_PROPERTY });
+    if (focus !== 'done') throw new Error(`locator could not focus element: ${String(focus)}`);
+    const context = await this.contextFor(locator.target);
+    await assertFocusedInputTarget(this.view, context, token);
+    const keys = String(this.action.value ?? '').split('+').filter(Boolean);
+    if (!keys.length) throw new Error('locator.press requires a key');
+    const key = keys.pop()!;
+    const inlineModifiers = keys.filter((part): part is BrowserPlaywrightModifier =>
+      part === 'Alt' || part === 'Control' || part === 'ControlOrMeta' ||
+      part === 'Meta' || part === 'Shift');
+    await dispatchKey(this.view, key,
+      mapModifiers([...(this.action.modifiers ?? []), ...inlineModifiers]), context.sessionId);
+    return null;
+  }
+}
+
+export async function executeIabPlaywrightLocator(
+  view: ControlledView,
+  action: LocatorAction,
+  timeoutMs: number,
+  signal?: AbortSignal,
+): Promise<Outcome> {
+  return await new LocatorExecution(view, action, timeoutMs, signal).run();
+}

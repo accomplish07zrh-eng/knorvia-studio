@@ -1,0 +1,31 @@
+{
+  "batch": "runtime-commands",
+  "baseline": "c5a983668e9d0e93c3ea56785f8c0218cf93abf4",
+  "sources": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime.ts",
+      "sha256": "7ffe3a957323fc70a0279fc2bd6f43ef63e1eb421c86776c2ce5abfd030bce58"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/retry-state.ts",
+      "sha256": "4e66335cbb232e0d84909bf688168b5deab3a65cd02a997a6d63423b2fe0bcba"
+    }
+  ],
+  "authoring": "Original drafts saved at a92ff25. API-only activityId revision separately saved at b1a0dc6. Curator exposed to predecessor; only source correction changes dedupe helper import to runtime-context after preserved TS2305. No clean-room or whole-file independent/rights conclusion.",
+  "retained": "Fixed messages, public fields, native await/finally gates, alias, conditional reset and conventional map/set/spread expression largely match source-derived functional constraints; substantial expression similarity remains for independent review.",
+  "checks": {
+    "scopedTypes": "0 diagnostics",
+    "publicDeclarationShape": "2/2 equal; declaration-only in-memory comparison, no current dist overwrite",
+    "ownedLint": "0 warnings/errors, 94 unchanged rules",
+    "format": "2 files",
+    "architecture": "0 violations"
+  },
+  "unrun": [
+    "behavioral tests",
+    "actual-emitted candidate tests",
+    "full suites",
+    "builds",
+    "native acceptance"
+  ],
+  "artifactLimit": "dist remains historical until root aggregate build; do not claim old compiled bytes exercise current candidate. Historical baseline and assertions unchanged."
+}

@@ -1,0 +1,65 @@
+{
+  "abort": {
+    "name": "AbortError",
+    "message": "Knorvia Studio data size scan aborted"
+  },
+  "workerErrors": {
+    "invalid": "Invalid Knorvia Studio data size worker response",
+    "exitTemplate": "Knorvia Studio data size worker exited with code ${code}",
+    "entryFallback": "unknown worker error"
+  },
+  "scanReasons": [
+    "file_limit",
+    "io_error",
+    "time_limit"
+  ],
+  "completeFields": [
+    "bytes",
+    "directoriesScanned",
+    "durationMs",
+    "filesScanned",
+    "scanErrorCount",
+    "status"
+  ],
+  "partialFields": [
+    "bytes",
+    "directoriesScanned",
+    "durationMs",
+    "filesScanned",
+    "partialReason",
+    "scanErrorCount",
+    "status"
+  ],
+  "preview": {
+    "scheme": "knorvia-media",
+    "hostname": "local",
+    "pathname": "/preview",
+    "queryKey": "path",
+    "invalidUrlError": -300,
+    "ttlMs": 1800000,
+    "maxEntries": 256,
+    "absoluteError": "Local media preview path must be absolute",
+    "registrationError": "Failed to register local media preview protocol",
+    "privileges": {
+      "standard": true,
+      "secure": true,
+      "stream": true
+    }
+  },
+  "worker": {
+    "url": "./dataSizeWorker.js",
+    "options": [
+      "workerData"
+    ],
+    "eventRegistrationOrder": [
+      "message",
+      "error",
+      "exit",
+      "abort"
+    ],
+    "abortListenerOnce": true,
+    "zeroExitSettles": false,
+    "signalTransferred": false
+  },
+  "limits": "Contract constants and output keys only; no target bodies or input/user data."
+}

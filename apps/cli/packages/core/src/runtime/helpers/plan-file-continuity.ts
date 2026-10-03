@@ -13,18 +13,22 @@ import {
   type RuntimeMessageEntry,
 } from "../../agent/message-history.js";
 
-const PLAN_FILE_REFERENCE_MAX_BYTES = PLAN_MODE_MAX_PLAN_CHARS * 4 + 1024;
+function planFilePath(input: { sessionId: SessionId | string; workspaceRoot: string }): string {
+  const workspaceRoot = input.workspaceRoot;
+  const sanitizedSession = String(input.sessionId)
+    .trim()
+    .replace(/[^A-Za-z0-9._-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
-function resolveApprovedPlanFilePath(input: {
-  sessionId: SessionId | string;
-  workspaceRoot: string;
-}): string {
-  return join(
-    input.workspaceRoot,
-    ".knorvia-studio",
-    "plans",
-    `plan-${sanitizePlanFileSessionId(input.sessionId)}.md`,
-  );
+  if (!sanitizedSession) {
+    throw createCoreError(
+      CoreErrorType.InvalidInput,
+      "Session id cannot produce a plan file name",
+      { recoverable: false },
+    );
+  }
+
+  return join(workspaceRoot, ".knorvia-studio", "plans", `plan-${sanitizedSession}.md`);
 }
 
 export async function writeApprovedPlanFile(input: {
@@ -41,7 +45,7 @@ export async function writeApprovedPlanFile(input: {
     });
   }
 
-  const path = resolveApprovedPlanFilePath(input);
+  const path = planFilePath(input);
   await input.fileSystemPort.writeTextFile(
     {
       atomic: true,
@@ -63,12 +67,12 @@ export async function readApprovedPlanFileReferenceEntry(input: {
   traceContext?: TraceContext;
   workspaceRoot: string;
 }): Promise<RuntimeMessageEntry | undefined> {
-  const path = resolveApprovedPlanFilePath(input);
+  const path = planFilePath(input);
   let content: string;
   try {
     const read = await input.fileSystemPort.readTextFile(
       {
-        maxBytes: PLAN_FILE_REFERENCE_MAX_BYTES,
+        maxBytes: PLAN_MODE_MAX_PLAN_CHARS * 4 + 1024,
         path,
         trace: input.traceContext,
       },
@@ -82,38 +86,20 @@ export async function readApprovedPlanFileReferenceEntry(input: {
     throw error;
   }
 
-  if (!content.trim()) return undefined;
+  if (!content.trim()) {
+    return undefined;
+  }
+
   return systemReminderAttachmentEntry(
     "plan_file_reference",
-    formatPlanFileReference({ planContent: content, planFilePath: path }),
+    [
+      `A plan file exists from plan mode at: ${path}`,
+      "",
+      "Plan contents:",
+      "",
+      content,
+      "",
+      "If this plan is relevant to the current work and not already complete, continue working on it.",
+    ].join("\n"),
   );
-}
-
-function formatPlanFileReference(input: { planContent: string; planFilePath: string }): string {
-  return [
-    `A plan file exists from plan mode at: ${input.planFilePath}`,
-    "",
-    "Plan contents:",
-    "",
-    input.planContent,
-    "",
-    "If this plan is relevant to the current work and not already complete, continue working on it.",
-  ].join("\n");
-}
-
-function sanitizePlanFileSessionId(sessionId: SessionId | string): string {
-  const sanitized = String(sessionId)
-    .trim()
-    .replace(/[^A-Za-z0-9._-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  if (!sanitized) {
-    throw createCoreError(
-      CoreErrorType.InvalidInput,
-      "Session id cannot produce a plan file name",
-      {
-        recoverable: false,
-      },
-    );
-  }
-  return sanitized;
 }

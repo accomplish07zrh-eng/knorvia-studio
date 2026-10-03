@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-assembly-projection-boundaries.test.mjs",
+    "/tmp/knorvia-shared-assembly-projection-baseline"
+  ],
+  "exitCode": 0,
+  "stdout": "\u2714 wire assembly admits owned recovery after expiry and rejects stale/conflicting or invalid payloads (18.410094ms)\n\u2714 artifact data boundary admits bounded summaries and same-id updates while excluding invalid/private payload fields (3.461161ms)\n\u2714 message policy admits visible assistant/user data and excludes model-only/synthetic carriers from visible input (3.459478ms)\n\u2714 session snapshot projection preserves visible identities and goal boundaries without inheriting stopped-goal iterations (4.129777ms)\n\u2714 plan projection admits complete main-agent collections and rejects malformed/child or non-plan data (5.587201ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 39.324719\n",
+  "stderr": ""
+}

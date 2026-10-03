@@ -1,0 +1,33 @@
+{
+  "typescript": "6.0.2",
+  "files": {
+    "mcp.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/mcp.ts",
+        "sha256": "58922bd1ce1366d551d98e30e6a8ea01fed6a7411e2823ef78f6d9f8f0048664"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/mcp.js",
+        "sha256": "638e3ab9afaf252cffc8b45d400a920065e1a741934e7853895801302b8b359e"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/mcp.d.ts",
+        "sha256": "f87d79128333bd8286d28e4404af60c6cf585ed9f68cf94818d81da5d59f6a39"
+      }
+    },
+    "config.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/config.ts",
+        "sha256": "70c7252ee3a1c81d7c7ad2f20dafd2af50c63102c94048076144d957a70613f7"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/config.js",
+        "sha256": "42cad92cf45b28f559e4d1dfb18b0f9cdb8d93a6e6c9f85144e5cb69fbfea10e"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/config.d.ts",
+        "sha256": "b76ccaf44103495b7bae1d66123e3b95463e6803d8046aab696a3731eefcb05f"
+      }
+    }
+  }
+}

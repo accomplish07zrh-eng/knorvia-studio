@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--owner=attachments"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=attachments\n✖ attachments: sequential staging preserves data and task/session proxy identity (75.715971ms)\n✔ attachments: lexical containment and failure cleanup preserve original cause (18.49365ms)\nℹ tests 2\nℹ suites 0\nℹ pass 1\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 98.928793\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/behaviorOwners.test.mjs:55:40\n✖ attachments: sequential staging preserves data and task/session proxy identity (75.715971ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'undefined'\n  - 'object'\n  \n      at materializePromptAttachments (file:///workspace/knorvia-studio/packages/desktop/src/host/behaviorOwners.test.mjs:339:12)\n      at Proxy.<anonymous> (/workspace/knorvia-studio/packages/desktop/src/host/remotePromptAttachments.ts:190:40)\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/behaviorOwners.test.mjs:356:29)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'undefined',\n    expected: 'object',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

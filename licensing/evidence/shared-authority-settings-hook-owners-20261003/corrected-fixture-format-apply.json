@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs"
+  ],
+  "stdout": "Finished in 31ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

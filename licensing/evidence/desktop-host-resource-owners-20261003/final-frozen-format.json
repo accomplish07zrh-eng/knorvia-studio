@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "-c",
+    "from pathlib import Path; import hashlib; names=[\"browserRecordingArtifactMaterializer\",\"hostRemoteWorkspaceProxyState\",\"windowRemoteConnectionRegistry\"]; [(print(n+\": independent raw-copy format equals installed \"+hashlib.sha256(Path(\"packages/desktop/src/host/\"+n+\".ts\").read_bytes()).hexdigest()),None) if Path(\"/tmp/knorvia-host-resource-format-proof/\"+n+\".ts\").read_bytes()==Path(\"packages/desktop/src/host/\"+n+\".ts\").read_bytes() else (_ for _ in ()).throw(AssertionError(n)) for n in names]"
+  ],
+  "stdout": "browserRecordingArtifactMaterializer: independent raw-copy format equals installed bdd72be0b986e402750b8e4d3f7ea5cce7e120ff6b424c18fd2c215f9db6e946\nhostRemoteWorkspaceProxyState: independent raw-copy format equals installed cc294aa9dee4c494fb78fb7d78fb2cf52fb2bb353f183bdb2bfdd5dfb77fbcbf\nwindowRemoteConnectionRegistry: independent raw-copy format equals installed 08736fcc524e2eca3ea1be79446214d52308b6ce1065b0c7c102bb3b6f77e2d5\n",
+  "stderr": "",
+  "exitCode": 0
+}

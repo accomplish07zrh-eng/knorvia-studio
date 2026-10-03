@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+  "kind": "file",
+  "sha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3",
+  "normalizedSha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3",
+  "encoding": "utf8-lf",
+  "bytes": 3860,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/subagent-messages.ts",
+    "blob": "5d88232beab2a0f364a26e02baf5d8acedb1837f",
+    "normalizedSha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/subagent-messages.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

@@ -1,0 +1,19 @@
+# Causality lane fact aggregation and documentation
+
+Baseline `28722857f448dcf21cf66a247030cb136b846f26`. Own `dedupeFacts` and a narrow private record-join helper in `causality-graph-lanes.ts`, then its discretionary comments and named fixture/evidence files. Preserve expansion executable syntax, `weakest` executable bytes, imports/constants, public types, all callers and protected cardinality/reducer/graph/runtime owners. Source exposure is explicit; root owns expression/licence decisions.
+
+`projectCausalityGraph` aggregates before back-edge typing/reduction; expansion and the main projection use `weakest`. Facts are finite compiler-produced records. Group by the existing `${from}|${to}` key; the delimiter collision behavior is compatibility, not a new identity policy. Output follows first key occurrence. First contribution is shallow-cloned, including extras and field order; a present phase set is separately cloned. Other original fields (including carryOf) retain their first contribution. Input objects/sets remain untouched, aliases and repeated calls introduce no shared generated state.
+
+For later contributions, preserve these joins in kind → exact → certainty → jump → provenance read order:
+
+- A strictly higher `KIND_RANK` replaces kind; a tie retains the earlier kind. Read the current exported rank rather than caching a second lattice.
+- Exactness becomes the first present boolean, with true absorbing later false/absence. Preserve explicit undefined versus missing fields and when a new field is inserted.
+- Maybe certainty is absorbing. Do not strengthen an earlier maybe.
+- A contribution without `viaJump === true` deletes that field; later contributions cannot restore it. The first snapshot's property/value is preserved until such a deletion.
+- Missing provenance deletes toPhases and dominates every later contribution. When both sides still have provenance, union phase values in encounter order into the aggregation-owned set; no additional input set/iterator reads. Preserve explicit undefined in the first snapshot until a later absent contribution removes it.
+
+Design: the keyed fold replaces a fact record with the result of a field-value join, rather than conditionally mutating the published fact fields in the inherited loop. The first snapshot owns its phase set; subsequent record versions may share only that internal aggregation-owned set, avoiding cumulative set cloning. No generic interpreter, additional accepted state, cache, scheduling or policy. Standard Map grouping, first shallow clone, literal rank vocabulary, optional-field deletion and Set union are disclosed compatibility glue. The operation is synchronous and has no port/deadline/cancellation owner to change.
+
+Freeze a small representative set of join/provenance/alias/order cases, meaningful getter/iterator failures, weakest receiver behavior and two actual analyzer/browser/render consumers using existing fake-network infrastructure and the immutable old lane oracle. Run final affected source/actual-emitted, immediate consumers and scoped types/lint/format/architecture only. No broad suite/build or matrix.
+
+After the runtime checkpoint, replace only discretionary comments with concise original facts. Preserve exact old JS/declaration/archive/behavior assertions. Migrate only current-vs-historical JSDoc byte equality to a separately digest-bound exact historical declaration plus parsed API-shape equality. Current source/JS/declaration pins remain exact; wrong/missing proofs/artifacts fail closed and current tests import actual current code. Parsed comment boundaries must include template-adjacent comments. Comments-only verification compares pre-documentary source/JS/API trees and runs loader/documentary proofs without rerunning behavior groups. Existing attribution remains; no header/registry grant.

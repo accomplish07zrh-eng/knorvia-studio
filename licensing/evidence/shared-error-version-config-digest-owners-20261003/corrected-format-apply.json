@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/workspace-hook-digest.ts",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Finished in 11ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0,
+  "receipt": "Exact tool-returned output from installation formatting; persisted after successful checks."
+}

@@ -1,0 +1,80 @@
+{
+  "retainedExpression": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+  "fallbackName": "attachment-${index+1}",
+  "eventKeys": [
+    "fileName",
+    "mime",
+    "bytes",
+    "ref?"
+  ],
+  "mimeTypes": [
+    "text/uri-list",
+    "application/octet-stream",
+    "application/pdf",
+    "image/*",
+    "text/plain"
+  ],
+  "errors": [
+    "attachment_pdf_invalid",
+    "attachment_read_failed",
+    "attachment_not_file"
+  ],
+  "reasons": [
+    "binary_file",
+    "deferred_clipboard_text"
+  ],
+  "states": [
+    "metadata_only",
+    "provider_ready",
+    "preview_only"
+  ],
+  "storageKinds": [
+    "remote_ref",
+    "inline"
+  ],
+  "oversizedStrictBoundary": 262144,
+  "readDefaultLines": 2000,
+  "oversizedReadOptions": {
+    "allowPartialFallback": true,
+    "limit": 2000,
+    "offset": 1
+  },
+  "textFileSource": {
+    "type": "file",
+    "path": "absolutePath",
+    "text": {
+      "value": "attachment.path",
+      "start": 0,
+      "end": "attachment.path.length"
+    }
+  },
+  "readPreviewKeys": [
+    "text",
+    "truncated",
+    "originalBytes?",
+    "startLine",
+    "totalLines",
+    "truncatedByTokenCap?",
+    "partialViewNotice?"
+  ],
+  "localResultKeys": [
+    "contentBlock",
+    "filename",
+    "metadata",
+    "mime",
+    "source",
+    "url"
+  ],
+  "inlineFallbackResultKeys": [
+    "contentBlock",
+    "metadata",
+    "mime",
+    "url"
+  ],
+  "urlResultKeys": [
+    "contentBlock",
+    "metadata",
+    "mime",
+    "url"
+  ]
+}

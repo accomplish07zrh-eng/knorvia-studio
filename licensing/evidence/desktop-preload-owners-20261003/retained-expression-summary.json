@@ -1,0 +1,27 @@
+{
+  "recordsForInstalledAndEveryRawDraft": 10,
+  "installed": [
+    {
+      "owner": "index",
+      "matchingBodyPairs": 47,
+      "uniqueBodyHashes": 12,
+      "identicalExpressionCount": 490,
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "wheel",
+      "matchingBodyPairs": 0,
+      "uniqueBodyHashes": 0,
+      "identicalExpressionCount": 111,
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "dialog",
+      "matchingBodyPairs": 1,
+      "uniqueBodyHashes": 1,
+      "identicalExpressionCount": 99,
+      "acceptedCredit": 0
+    }
+  ],
+  "limit": "Arrow/function/method/getter/setter bodies and expressions included. Pair counts contain repeated/no-op/handler matches and are not distinct work counts. Identifiers retained; changed identifiers/control flow not proof of independence. Static contract facade data and all normalized identical bodies/expressions zero credit."
+}

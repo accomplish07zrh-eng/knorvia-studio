@@ -1,0 +1,97 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "../types.js"
+    },
+    {
+      "kind": "text",
+      "text": "./attachment-artifacts.js"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "image/*"
+    },
+    {
+      "kind": "text",
+      "text": "pdf"
+    },
+    {
+      "kind": "text",
+      "text": "application/pdf"
+    },
+    {
+      "kind": "text",
+      "text": "text/plain"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "template",
+      "head": "[Attached ",
+      "spans": [
+        {
+          "placeholder": "mime",
+          "text": ": "
+        },
+        {
+          "placeholder": "placeholder",
+          "text": "]"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "metadata_only"
+    },
+    {
+      "kind": "text",
+      "text": "local_ref"
+    },
+    {
+      "kind": "text",
+      "text": "metadata_only"
+    },
+    {
+      "kind": "text",
+      "text": "video"
+    },
+    {
+      "kind": "text",
+      "text": "pdf"
+    },
+    {
+      "kind": "text",
+      "text": "pdf"
+    },
+    {
+      "kind": "text",
+      "text": "inline:pdf"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": ""
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [],
+  "qualification": "Retained exact MIME/protocol/template/regex/constants and ordinary idioms; not novelty/grant claim"
+}

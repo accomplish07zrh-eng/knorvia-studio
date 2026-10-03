@@ -1,0 +1,1 @@
+{"stage": "functions.exec before execution", "errors": ["SyntaxError: Unexpected token '{'", "ReferenceError: name is not defined at exec_main.mjs:15:56"], "productExecution": false}

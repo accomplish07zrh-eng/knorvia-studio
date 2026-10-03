@@ -1,0 +1,69 @@
+{
+  "base": "890d289ed319610f58792f26327ca5f0068520f7",
+  "freezeCommit": "f06acb9",
+  "draftAndBaselineCommit": "cf1bb69",
+  "redProofCommit": "04f77a0",
+  "ownedModules": [
+    "file-rewind",
+    "file-rewind-planning",
+    "file-rewind-storage"
+  ],
+  "currentArtifacts": {
+    "file-rewind": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+        "sha256": "e57413c4f267f5509f34cf0d0bab1ce5da8d05b8b89237802ede62080312adc5"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind.js",
+        "sha256": "423a845b9eae7cdcebda5cca18b7fd85551b967fed3a91c0cadf726ec8c7ae91"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind.d.ts",
+        "sha256": "fca5e0c340301026127e1672c7959c7281b70fd81cc702a9369fec0e506969ce"
+      }
+    },
+    "file-rewind-planning": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/file-rewind-planning.ts",
+        "sha256": "2ac12361f7bddf7ef1294ce53334887ce898e296024787176ce9899960c3cf4b"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-planning.js",
+        "sha256": "fd05c967a58f41f8f8faf0684a1fcc658baff790bfd73563aef1826981c95f40"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-planning.d.ts",
+        "sha256": "9787371cc53311e401470c76c6012b87bca0c9a67636bf4535ffaff91d35ec8f"
+      }
+    },
+    "file-rewind-storage": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/file-rewind-storage.ts",
+        "sha256": "09f7fe0f2cfdfb550b0b67e40143f317a8da5254707fdea645988d7a6c1123ce"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-storage.js",
+        "sha256": "859e8fc6defc3e37ed6131b39e4505eab6acc24c79256490eec07f1b7c8870e9"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-storage.d.ts",
+        "sha256": "d4cc86095ba921e3e1dbc33bfa3f2bc126aba0fb4194011b4db50c649077c685"
+      }
+    }
+  },
+  "sealedDrafts": {
+    "sealed-file-rewind.txt": "f357278a5d9e00ebbd7184cb4dccecdcaba3c34fdbd4d07a0f2b14989442b6fb",
+    "sealed-file-rewind-planning.txt": "876ff667f1fbe97fb0af3bc4c23ffcacf71014393a97e86f5591de25011d80b2",
+    "sealed-file-rewind-storage.txt": "6270d78ea6eb56e9ac2e8432a55312ddb69c1726b4aa289dfa783d7ed2ff5163",
+    "sealed-access.json": "d5cacd2a48ce3519379484012fe98c3b411858b6504383b2ba31e96c8d7d473e",
+    "sealed-seal.json": "05dcf4d3ed6c6f8fa3515d7739decfd2763bb00c059812b277680244a91ef224"
+  },
+  "design": "Complete checkpoint cohort read,reverse simulation and journal/commit/publication owner,with coherent planning and storage modules. Single operation stream,journal and existing filesystem/event owners;no parallel cache or retry layer.",
+  "retained": "Checkpoint dependency calls,reverse operation/simulation/aggregation,awaited journal/compensation and postcommit event combinations strongly correspond. Fixed prose,record keys,hash/patch options and path/tool normalization glue retained. Module separation alone earns zero originality credit;complete body-free drafts require independent expression review.",
+  "correction": "04f77a0 preserves emitted baseline2pass/sealed draft2fail:late workspaceRoot mutation exposed interleaved artifact projection;unsupported unsafe rows gained skipped tool names. Source-exposed correction restores cohort read frontier and admitted-only unsafe names. Raw checkpoint patch path and terminal field read phases restored. Public targetTurnId remains ignored by selection;publication failure still does not compensate.",
+  "sourceExposure": "Curator read predecessor;3fresh internal authors fork_turns=none,GPT6.1Sol/high,only recorded body-free source-derived API/import/type/functional/literal inputs and authorized clarifications. Final drafts hashed/archived before source-exposed curator comparison. Ordinary environment metadata available;no clean-room claim.",
+  "checks": "Shared scoped compiler0diagnostics,6exported call signatures and fixed declaration AST facts equal;5modules actual JS/declarations emitted;owned lint/format/architecture pass. Final3minimum actual-emitted persistence groups;separate2rewind red-proof closures overlap that owner. No broad count inflation. See runtime-persistence-recovery-three-checks-20261003.",
+  "limits": "Ordinary source/emitted matrices,suites/builds/native/full runtime consumers deferred. Unchanged transitive dependencies through tsx source;synthetic fs-access seam and memory ports. No real user files/providers/credentials/processes. Independent correctness/expression/rights review remains pending;no header/global registry/licence grant.",
+  "lineageReference": "docs/evidence/runtime-file-rewind-author-20261003/lineage.json"
+}

@@ -1,0 +1,223 @@
+{
+  "baselineCommit": "7d102a943141f5a970487b76132698c7c80d1114",
+  "selected": [
+    "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+    "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+    "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts"
+  ],
+  "reason": "Exact current digests match inherited-modified inventory/pinned same-path origin/migration; bounded basename/case-insensitive public symbol and exact-hash receipt searches found no prior whole candidate. Historical product specs are behavior/feature evidence, not independence acceptance. Substantive source decision/lifetimes inspected, no review-absence-only selection.",
+  "remaining": [
+    {
+      "path": "packages/desktop/src/host/automationModelSelection.ts",
+      "sha256": "23d9f25b9737412d03ffb714ab09151b5c163a2e8f87c5eb8cd3113a77afbbf8",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/browserControlMainBridge.ts",
+      "sha256": "dbb922f5cccfd0f69ae2f2d7306703b1461aaa99c4c61a69d24185a72557b0a7",
+      "state": "G batch37 complete candidate, do not repeat"
+    },
+    {
+      "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+      "sha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/databaseStartupCoordinator.ts",
+      "sha256": "d2b27354ef1f6cd2911a5e77c73a7cef71200ee96f755c98b13e40680a85363b",
+      "state": "user excluded accepted database startup"
+    },
+    {
+      "path": "packages/desktop/src/host/e2eCoverage.ts",
+      "sha256": "1c84b852f2079ef367a6effc112542f15a7fbf667bf2065d687f8d782c6e1ad4",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/electronPort.ts",
+      "sha256": "4c80188403e2bfced74f6c806697de5c144b5850807bad903f81ea4e157cb86c",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostAgentResourceTelemetry.ts",
+      "sha256": "5e0dfbc97cb388e8388bae3e2ed234b30ecb5b34a7c789c8a8dc7ad1ec42eabc",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostDatabaseStartup.ts",
+      "sha256": "5622e1d91de0a29433fe4cdeabcae571e557034338354e628e0fee3581f7468d",
+      "state": "user excluded accepted database startup"
+    },
+    {
+      "path": "packages/desktop/src/host/hostInitialization.ts",
+      "sha256": "a257ec8505b35592a8dd9099bc83532074d3ed10261e58afb07f7df8ceac271a",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostLog.ts",
+      "sha256": "1deb15f081ae0041cddef7382ac8f85c0d60590f2132a5aee3f5969ec7bb1166",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostMcpResourceTelemetry.ts",
+      "sha256": "e00ba83e8caae193fb1df82e39f0c609cdf1c93ad7cbec4f2ccef3998c4dca64",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostMcpTelemetry.ts",
+      "sha256": "113b798da410ee2dc5e9979b13dfe08a8ce35d8fe002c1b5ca9f2bfcb906f4d0",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostMemoryDiagnosticsLog.ts",
+      "sha256": "69b8b342d087566da98b55dfe33671dce10b35e83d143e2e7d92d957e11dfea4",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostMessagePortGuard.ts",
+      "sha256": "894a5652fa85f14ed4c7fb121436280abf47e2c19627088812513fc53628318b",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostNetworkTelemetry.ts",
+      "sha256": "f57078a89bed0f0d1af0d994fca271405b803958285f40a93ebaf4f9205adbe6",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostResourceTelemetryEnvironment.ts",
+      "sha256": "81254af64cc4da73c1ea6a7e50f52efe60f88fabf6de37902d009cb648f0fac2",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostResourceUsage.ts",
+      "sha256": "d56cb585f9744eb48f2b0d802e1cd80fa7d0ba3361a3b9c492a6bdbd4aea50ca",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostSelfResourceTelemetry.ts",
+      "sha256": "64170342d57f5f59b3c4e018da55d1588c9a979eed75937f8b4befc6ec4b19af",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostServiceResourceTelemetry.ts",
+      "sha256": "b7940be828e754ba974775ce6561aa861b419179e81f232b713d4da4baa2cbce",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostSessionCreateTelemetry.ts",
+      "sha256": "a43931a14c499575187b392367c3da4feedf52bf3e6dd0180a6f97bdfa1bfcf6",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostShutdownPhases.ts",
+      "sha256": "25fb6fb4b4e62699f3fc800ba820640ec41c996022bc70b9b2f0a246fb75a1ab",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostToolExecResourceTelemetry.ts",
+      "sha256": "d96d29e3ac48cc002257e622c45734498f86ff628849d28225db999a3515242e",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostUncaughtExceptionGuard.ts",
+      "sha256": "eb1aa7f71e75f7af0a980bd505745b98a63d8fd32b9949be5d7650d2b253a5ba",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/hostWorkspaceTaskTracker.ts",
+      "sha256": "c4646643653fd3e791b80ac3aba761372dc2c7d65d8094d0c5aa8f5c8ed1658c",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/index.ts",
+      "sha256": "fef90ea4f8057372f31b6af1f5f4a24bfaabf3083d8717ad480d73b5678d4d15",
+      "state": "large host index held for explicit allocation"
+    },
+    {
+      "path": "packages/desktop/src/host/legacyRemoteWorkspaceRpcContract.ts",
+      "sha256": "ceb22696c5cc5065b17ec94b8dfdfaae939d6e772517fa9f0977c189ecab553d",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/promptAttachmentTransferService.ts",
+      "sha256": "3d7dc93679dde534d818a38510e07829e31f21bf4f9156e6ffc05f4a413d2fd7",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/remoteMediaPreviewProxy.ts",
+      "sha256": "9398f2fb356c39cec7394a8a4c5a8c562e4574d7dba22f9c6326081c2f2b2c4d",
+      "state": "user excluded accepted media proxy"
+    },
+    {
+      "path": "packages/desktop/src/host/remoteMediaPreviewProxyHelpers.ts",
+      "sha256": "5b06e094218c5e9f5d41ed23e538e6c6df4ad5d6aca86d4dfb6a8b1e09847b26",
+      "state": "user excluded accepted media proxy"
+    },
+    {
+      "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+      "sha256": "f9165da562d254ef28ab8cd8d91b43509da565f1a8b9665d9a0261ee55af67f2",
+      "state": "G batch37 complete candidate, do not repeat"
+    },
+    {
+      "path": "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
+      "sha256": "4c245da1baa6184988d77add70ab0dc0c2c538f1aa8ada293e5d9cbedb595249",
+      "state": "G batch37 complete candidate, do not repeat"
+    },
+    {
+      "path": "packages/desktop/src/host/rpcLogLevel.ts",
+      "sha256": "65fb177668f44093fcd689455199eb799686d61bd793c38dbc3ee0763e76cfc5",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/startupDiskSampler.ts",
+      "sha256": "c1c9ac53858e673dc7a3c936c4bd718ca75964762144493a726ee8cbc05760e0",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/storagePreparationProcesses.ts",
+      "sha256": "c6c69fa42f7997f10b3eb34af6bdadf73b60184efc4d37973e88572c7e6d6b8b",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/studioScheduleOutcome.ts",
+      "sha256": "32bcc46002bca19b3dbc58a4731ea7629c4b1add6ae05cb66f86e0595b43ad52",
+      "state": "held ambiguous already-authored feature without upstream relationship; explicit allocation needed"
+    },
+    {
+      "path": "packages/desktop/src/host/studioWorkflowSchedule.ts",
+      "sha256": "62711d1acae4767ba34b0bb8d8eb87d2ee2ad27a85bc52e495271fbafc4460eb",
+      "state": "held ambiguous already-authored feature without upstream relationship; explicit allocation needed"
+    },
+    {
+      "path": "packages/desktop/src/host/taskRealtimeBridge.ts",
+      "sha256": "022571bef2930001b595aa2ce85c6b3045a64df242b846c231e00b7342b36d65",
+      "state": "user excluded accepted realtime owner"
+    },
+    {
+      "path": "packages/desktop/src/host/tasksStorageWorker.ts",
+      "sha256": "71326234a1188029d709b1311be71c9f4c1e5936f241031b8a6259afd3ce8e7e",
+      "state": "retained unselected; metadata screen only, no blanket substantive eligibility or acceptance; simple telemetry/type/config surfaces not forced into authoring"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostAttachmentRegistry.ts",
+      "sha256": "9ce91f68277fe785c1326d62cdecb5cd795e79151f8f917bd003b8f137d750b0",
+      "state": "user excluded accepted attachment registry"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostControllerProjection.ts",
+      "sha256": "9fed0b6e7fdc5852d9b73ffe0e9189a3b47cf082b586e9bdc416cc4e53ef5395",
+      "state": "user excluded accepted controller projection"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostControllerService.ts",
+      "sha256": "a7ea7ce20468ca71692ca6cc960d2edb302870350e1cea5e8f65d289241a3879",
+      "state": "user excluded accepted controller owner"
+    },
+    {
+      "path": "packages/desktop/src/host/windowHostSessionsIndexObserver.ts",
+      "sha256": "650e6346e6300730b5b9aab9c36fe374e7109764e48111762085cacf5846dd56",
+      "state": "user excluded accepted session index observer"
+    }
+  ],
+  "sourceExposure": "Curator inspected only three selected inherited bodies and their two historical behavioral specs; metadata/hash-only other hosts. No inherited/private body to authors.",
+  "credit": 0
+}

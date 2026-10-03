@@ -1,0 +1,26 @@
+[
+  {
+    "owner": "factory",
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-initial.ts.txt",
+    "sha256": "d1a0e0648cdfb8387997ec9e15f36884fa5bf883c5c6b460452d3b6384ffa066",
+    "bytes": 13036
+  },
+  {
+    "owner": "merger",
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/merger-initial.ts.txt",
+    "sha256": "f27c94ffdf7f7245f1cfad8ea4042062d6298d5cb2f825bcc10943242a47e276",
+    "bytes": 4200
+  },
+  {
+    "owner": "file",
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/file-initial.ts.txt",
+    "sha256": "ec1be5aab23afd9d12aaf6c8a7142d4da8b3f5bf2f8a857a49dc0ce40030723c",
+    "bytes": 12797
+  },
+  {
+    "owner": "project",
+    "raw": "licensing/evidence/cli-config-behavior-owners-20261003/drafts/project-initial.ts.txt",
+    "sha256": "3aff48555d1f956131b181936e141d69b137c1e3ed159c5b5d9a5e7c5bf867d2",
+    "bytes": 5375
+  }
+]

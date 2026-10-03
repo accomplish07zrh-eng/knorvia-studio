@@ -1,0 +1,1 @@
+{"reason": "First reply assertion stopped combined case before independent frame-load boundary; split so both externally observable failures have exact evidence", "productChange": false, "uniqueCaseCount": 8}

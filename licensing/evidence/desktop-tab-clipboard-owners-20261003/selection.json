@@ -1,0 +1,116 @@
+{
+  "baseHead": "686ad40895582aa02e50ca34df0e9ccb9d17c5fc",
+  "selected": [
+    {
+      "owner": "residency",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+        "kind": "file",
+        "sha256": "58f90b82c044acf11e97d6932a482f1a451d3500c9f588351d7175ff03cd471a",
+        "normalizedSha256": "58f90b82c044acf11e97d6932a482f1a451d3500c9f588351d7175ff03cd471a",
+        "encoding": "utf8-lf",
+        "bytes": 9125,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+          "blob": "5058cfadba4aa3b0f639e464e9a745d34f849a7e",
+          "normalizedSha256": "58f90b82c044acf11e97d6932a482f1a451d3500c9f588351d7175ff03cd471a",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 275,
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "owner": "recovery",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+        "kind": "file",
+        "sha256": "47724e818f97e75f7762c9624c1f0db85b397c29db3e94fb270f3ca14ef80304",
+        "normalizedSha256": "47724e818f97e75f7762c9624c1f0db85b397c29db3e94fb270f3ca14ef80304",
+        "encoding": "utf8-lf",
+        "bytes": 10195,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+          "blob": "a4a6f3443928cf03d8ce74f57c3c0ddeabdb4a43",
+          "normalizedSha256": "083ce8e798e2b7799c7af89a8468e74f07737a53bffd81679b343e5c8d0e093a",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 297,
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "owner": "clipboard",
+      "inventory": {
+        "path": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+        "kind": "file",
+        "sha256": "1daa0ba9cd018f3663621d1ca599d78fccf079bbfdb41fbe4a8d3c740813d296",
+        "normalizedSha256": "1daa0ba9cd018f3663621d1ca599d78fccf079bbfdb41fbe4a8d3c740813d296",
+        "encoding": "utf8-lf",
+        "bytes": 11150,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+          "blob": "0d82dce1ff08d9671204eb6a6b3480ead5d86218",
+          "normalizedSha256": "1daa0ba9cd018f3663621d1ca599d78fccf079bbfdb41fbe4a8d3c740813d296",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/browserView/browserVirtualClipboard.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "lines": 313,
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    }
+  ],
+  "prOccupation": {
+    "prOccupation": [
+      {
+        "pr": 8,
+        "isError": false,
+        "selectedMatches": []
+      },
+      {
+        "pr": 10,
+        "isError": false,
+        "selectedMatches": []
+      },
+      {
+        "pr": 11,
+        "isError": false,
+        "selectedMatches": []
+      },
+      {
+        "pr": 12,
+        "isError": false,
+        "selectedMatches": []
+      }
+    ]
+  },
+  "receiptScreen": "Exact SHA/upstream mapping verified; single snapshot history; bounded path/symbol searches only migration/retained bindings/public ports, no accepted whole-owner receipt. reviews exact entries absent, not alone inference.",
+  "excluded": "Root broadcastHub/databaseStartupRelay/taskRealtimeBus HOLD; D provider/config-service/registry-service; prior owners/UI/private403/otherlanes"
+}

@@ -1,0 +1,71 @@
+{
+  "kind": "Existing exact module/export import mapping; no bodies or new dependencies",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "CoreErrorType",
+          "localName": "CoreErrorType",
+          "typeOnly": false
+        },
+        {
+          "name": "ModelErrorCode",
+          "localName": "ModelErrorCode",
+          "typeOnly": false
+        },
+        {
+          "name": "createCoreError",
+          "localName": "createCoreError",
+          "typeOnly": false
+        },
+        {
+          "name": "isCoreError",
+          "localName": "isCoreError",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "ModelUsage",
+          "localName": "ModelUsage",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "./data.js",
+      "bindings": [
+        {
+          "name": "isPlainRecord",
+          "localName": "isPlainRecord",
+          "typeOnly": false
+        },
+        {
+          "name": "stringProperty",
+          "localName": "stringProperty",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./provider-business-error.js",
+      "bindings": [
+        {
+          "name": "createCoreErrorFromProviderBusinessLike",
+          "localName": "createCoreErrorFromProviderBusinessLike",
+          "typeOnly": false
+        },
+        {
+          "name": "findProviderBusinessFailureInMetadata",
+          "localName": "findProviderBusinessFailureInMetadata",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "constantQualification": "Imported constant values and opaque type details stay with unchanged original collaborators; do not define replacements. Follow original type-only versus value imports. A retained dormant import may be used only by reconstructed dormant behavior, never enabling it."
+}

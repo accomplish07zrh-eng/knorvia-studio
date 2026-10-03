@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-10-03T01:22:25.527723+00:00",
+  "sourceSha256": "9efd45d0aacea7928ab175ba65d73d24da93129796b6ee442aa729a0d1126546",
+  "baseline": "b2c58b67915ec98f21f952aec6fb588f177fad0d",
+  "packet": "../root-network-policy-20261003/packet/",
+  "clarification": "E cfbe2282d26af2adabe3d57098170b24dbcdb4cd: KNORVIA_CUA_HELPER_ALLOW_UNSIGNED_LOCAL accepts1,true,on; KNORVIA_CUA_HELPER_INSTALL_VARIANT preview; dynamic key KNORVIA_DYNAMIC_WORKFLOW_MODE alwaysOn",
+  "corrections": [
+    "Call dynamically imported remote exports unbound rather than using module receiver.",
+    "Preserve native join vs resolve helpers and all discovery descriptor property/packaged/platform evaluation order.",
+    "Read CDN override before options spread.",
+    "Read live packaged/resources again in Windows guard instead of reusing host packaged snapshot.",
+    "Use explicit output KNORVIA_ENV key to remove new isolated-declaration9016; inherited19diagnostics remain."
+  ],
+  "checks": {
+    "minimum": "Four paired fake environment/profile/discovery/authority groups pass; frozen receiver/order counterexamples reproduced in4groups",
+    "api": "Raw declarations exact match; inherited19isolated diagnostics unchanged, not semantic pass",
+    "lint": "zero warnings/errors",
+    "format": "pass",
+    "architecture": "zero violations",
+    "semanticFullNativeBuild": "unrun/deferred"
+  },
+  "limits": [
+    "Frozen functional-packet authored candidate with broader root context and dependency body exposure; postfreeze target review source-exposed, no OS isolation or legal clearance.",
+    "Retain static config, regex, constant paths, descriptor grammar, security policy and public/conventional expression without novelty credit.",
+    "No real environment, HOME, configuration, certificates, user files, discovery processes, providers, browser or network/permission operations.",
+    "No other lane source integrated, no main merge; private checkpoint access still blocked."
+  ]
+}

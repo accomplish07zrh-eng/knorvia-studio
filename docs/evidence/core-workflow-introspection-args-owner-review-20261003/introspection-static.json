@@ -1,0 +1,103 @@
+{
+  "scope": "introspection",
+  "baseline": "02ad30c7539e8f0967dde9349e6fd676292dc0b1",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [
+    {
+      "code": 9010,
+      "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+    }
+  ],
+  "publicTypeQualifications": [
+    "Steering raw inferred any/9010 is qualified as exact string result of two retained strings.join newline; original raw diagnostic preserved.",
+    "Opaque public imported schema/types/ports preserved; no semantic/project check/body execution.",
+    "Curator target and relevant public schema/type source exposure, historical broader exposure/repaired scratch breach, shared executor instructions/self-report/no OS isolation/audit qualified."
+  ],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/contract.md",
+      "bytes": 4732,
+      "sha256": "e00cbc1336bbffbc89390f137863f3fb97a309e4a81ef5a39b9e754bf21b8568",
+      "lines": 19,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/public-api.d.ts",
+      "bytes": 910,
+      "sha256": "4d6388fe06261245c024125d95b2f1468f9ef77d9693dbc35e390e83fded87c6",
+      "lines": 12,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/dependency-api.d.ts",
+      "bytes": 251,
+      "sha256": "01d09c16cc4fd3a2ce5faf5b187a5e5939985a94a3a2cdba50a52afa0f7518fd",
+      "lines": 3,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/imports.json",
+      "bytes": 176,
+      "sha256": "19eeccb2eff29680916128e75b2a75d70cdecafbe979298234dcd6b5592c9053",
+      "lines": 10,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/required-data.json",
+      "bytes": 3960,
+      "sha256": "8eb0984a1aa3d6172f0129b983773f66b26d64792fd0195bf5da76767b15e580",
+      "lines": 181,
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-introspection-args-owner-packet-20261003/introspection/public-data.json",
+      "bytes": 419,
+      "sha256": "da04fb05f7f0b39f4f60061f3da9ea35137190e651b7f1d22f29b9b7b12024a0",
+      "lines": 5,
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "workflow-run-introspection.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "bytes": 3385,
+      "lines": 95,
+      "sha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/workflow-run-introspection.ts",
+      "frozenMode": "0o444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 16089,
+      "lines": 316,
+      "sha256": "811e97a2223ff67b75254ce2db83b565070d20c522c322c84db5b2c79c1fabdd",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/author-record.json",
+      "frozenMode": "0o444",
+      "exact": true
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 619,
+    "unchanged": 619,
+    "failures": []
+  },
+  "passed": true,
+  "qualification": "Compare frozen qualified export/reexport surfaces and original source import identities, isolated declarations only; original raw diagnostics/opaque ports preserved, no semantic/project typechecking/standalone declaration closure. Exact explicit target signatures retained; required prose/static material honestly retained. Full whole archives before body review; author self-report/instruction-only shared executor, source-exposed curator/historical broader exposure/repaired scratch breach, no OS access audit/novelty/rights assertion. Ordinary checks deferred."
+}

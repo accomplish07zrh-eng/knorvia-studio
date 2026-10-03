@@ -1,0 +1,342 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "image",
+  "baseline": "6ef553405a64328590961dc548950f05fb28ce48",
+  "target": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+  "qualifiedCandidateReturns": true,
+  "reexportsEqual": true,
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "6a0214fd1220fd0f25e578423ba996b9d401ffd46e71202d7d56f1ff8bb7c1b5",
+    "candidate": "6a0214fd1220fd0f25e578423ba996b9d401ffd46e71202d7d56f1ff8bb7c1b5"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeMultiplicityQualification": "Exact runtime import multiset unchanged",
+  "runtimeImports": {
+    "predecessor": [
+      "apps/cli/packages/core/src/runtime/deps.js#READ_IMAGE_MAX_BASE64_BYTES",
+      "apps/cli/packages/core/src/runtime/deps.js#READ_IMAGE_TARGET_BYTES",
+      "apps/cli/packages/core/src/runtime/types.js#MAX_IMAGE_ATTACHMENT_DIMENSION"
+    ],
+    "candidate": [
+      "apps/cli/packages/core/src/runtime/deps.js#READ_IMAGE_MAX_BASE64_BYTES",
+      "apps/cli/packages/core/src/runtime/deps.js#READ_IMAGE_TARGET_BYTES",
+      "apps/cli/packages/core/src/runtime/types.js#MAX_IMAGE_ATTACHMENT_DIMENSION"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/contract.md",
+      "bytes": 3916,
+      "sha256": "85b9bfbe8ea14f5cd07fc6fc0f62e004361d9288fbbd92fc47ef8c54abbd6df7",
+      "actual": {
+        "bytes": 3916,
+        "sha256": "85b9bfbe8ea14f5cd07fc6fc0f62e004361d9288fbbd92fc47ef8c54abbd6df7"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/public-api.d.ts",
+      "bytes": 440,
+      "sha256": "2758f0006b3f936159b9aab8b9c56b84a20a84484d4bb9369b96e77ae10f19bf",
+      "actual": {
+        "bytes": 440,
+        "sha256": "2758f0006b3f936159b9aab8b9c56b84a20a84484d4bb9369b96e77ae10f19bf"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/dependency-api.d.ts",
+      "bytes": 414,
+      "sha256": "700ccbaea85167f3c2a949d746a3138addd1caed5a75ff1218e1bbdbd6c8a5a1",
+      "actual": {
+        "bytes": 414,
+        "sha256": "700ccbaea85167f3c2a949d746a3138addd1caed5a75ff1218e1bbdbd6c8a5a1"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/public-shapes.d.ts",
+      "bytes": 1597,
+      "sha256": "c7348e7d99f5eebc1feb7d357e5c85234eedfa13f2cff92d8039d41d4d225e94",
+      "actual": {
+        "bytes": 1597,
+        "sha256": "c7348e7d99f5eebc1feb7d357e5c85234eedfa13f2cff92d8039d41d4d225e94"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/imports.json",
+      "bytes": 341,
+      "sha256": "2b7794a9ea2f4c476f98539bf69651ae5d622f0845939387500f454630cbb3df",
+      "actual": {
+        "bytes": 341,
+        "sha256": "2b7794a9ea2f4c476f98539bf69651ae5d622f0845939387500f454630cbb3df"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/output-data.json",
+      "bytes": 1535,
+      "sha256": "333a5114c57c9db08a84fe2489d3e33a7df85b5a2004e07c4e437340b89084f3",
+      "actual": {
+        "bytes": 1535,
+        "sha256": "333a5114c57c9db08a84fe2489d3e33a7df85b5a2004e07c4e437340b89084f3"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "attachment-image.ts.txt",
+      "bytes": 2185,
+      "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "actual": {
+        "bytes": 2185,
+        "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 2185,
+        "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 76
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 10525,
+      "sha256": "8dfcb56ab2c106dcf9bcbae24f146e01f7aa4a7b8f64e0c6b5255b04c0292299",
+      "actual": {
+        "bytes": 10525,
+        "sha256": "8dfcb56ab2c106dcf9bcbae24f146e01f7aa4a7b8f64e0c6b5255b04c0292299"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "attachment-image.ts.txt",
+      "bytes": 2185,
+      "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 10525,
+      "sha256": "8dfcb56ab2c106dcf9bcbae24f146e01f7aa4a7b8f64e0c6b5255b04c0292299",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+      "bytes": 7184,
+      "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728",
+      "actual": {
+        "bytes": 7184,
+        "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "actual": {
+        "bytes": 17225,
+        "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler.ts",
+      "bytes": 2000,
+      "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e",
+      "actual": {
+        "bytes": 2000,
+        "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/write.ts",
+      "bytes": 4118,
+      "sha256": "a7cf94cc0ec1dc2acdf540a5796e30d6491c3752539cd05ba9ea1520c0285c53",
+      "actual": {
+        "bytes": 4118,
+        "sha256": "a7cf94cc0ec1dc2acdf540a5796e30d6491c3752539cd05ba9ea1520c0285c53"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/events/session.events.ts",
+      "bytes": 42930,
+      "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c",
+      "actual": {
+        "bytes": 42930,
+        "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/image-processor.port.ts",
+      "bytes": 2122,
+      "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93",
+      "actual": {
+        "bytes": 2122,
+        "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "actual": {
+        "bytes": 2904,
+        "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "actual": {
+        "bytes": 1733,
+        "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "actual": {
+        "bytes": 10410,
+        "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/usage-stats.ts",
+      "bytes": 15523,
+      "sha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081",
+      "actual": {
+        "bytes": 15523,
+        "sha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "actual": {
+        "bytes": 1372,
+        "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "actual": {
+        "bytes": 644882,
+        "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "module": "../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "module": "../types.js",
+      "exists": true
+    }
+  ],
+  "predecessorDiagnosticsMatchFrozen": true,
+  "extractionDiagnosticsQualified": true,
+  "inheritedInferenceQualification": "All five predecessor/candidate isolated extractions must be zero; original-owner opaque fragments are not semantic/project typing",
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

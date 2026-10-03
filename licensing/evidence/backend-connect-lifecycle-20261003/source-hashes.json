@@ -1,0 +1,31 @@
+{
+  "baselineCommit": "b088fe3883d162e61700a769faec4a624242678c",
+  "files": [
+    {
+      "path": "packages/server/src/remote/create-backend.ts",
+      "baselineSha256": "a4062fc52deecd08986b019a4dac1ad199ef984f0ab4cc2bdb0109cc58016d0f",
+      "baselineBlob": "04346729ed7709838987d78fb0788bcc742c18f5",
+      "authorOutputSha256": "19967075dc5348d2c1313ecc81e1bddafabd9814146ffc753984cf2a0eddccc5",
+      "candidateSha256": "29d70c36ecde3db2e9b80a2dc8fc52629cf7a0c6afa2ae288da7b818d02e78a9"
+    },
+    {
+      "path": "packages/server/src/remote/connect.ts",
+      "baselineSha256": "cb74b0c5e223d7d2ca8b08104c4682081e09926dceb89eec82f89768f8af3011",
+      "baselineBlob": "43667dedaf375cfd8d44b2053c548aa2187d77bc",
+      "authorOutputSha256": "7c4e3e25da8e6724b90021c1163e56d3dbd2df9e4e0af086007ac2ed061ac745",
+      "candidateSha256": "547b60cda3c081905d916e87bdd8b8d017f8b2a8af886810487a8527677a9e07"
+    }
+  ],
+  "observerEditsAfterAuthoring": "Repository formatting only; authority gate, structural stream view, reason accessor corrections authored by fresh author.",
+  "freshAuthor": {
+    "task": "/root/backend_connect_author",
+    "forkTurns": "none",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authorReadPacketSha256": "ac1264b51b6a7bd9bf657ee8d6c80399dc5fc1934858ebe3a3189f572408b5ff",
+    "rootGuidanceSha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    "architectureGuidanceSha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+    "finalPacketSha256": "5902b61162701fe3a1d8fff3ec83c2cd7728571a24a544c5782da7deac32da09",
+    "boundary": "Declared input exclusions; shared filesystem not OS-enforced."
+  }
+}

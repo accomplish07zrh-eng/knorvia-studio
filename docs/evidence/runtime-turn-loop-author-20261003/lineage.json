@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/turn-loop.ts",
+  "kind": "file",
+  "sha256": "b051501fa61547cdcc8dfacfa796f3a1066673ef4b353fafe2fa3b7fa17b21a4",
+  "normalizedSha256": "b051501fa61547cdcc8dfacfa796f3a1066673ef4b353fafe2fa3b7fa17b21a4",
+  "encoding": "utf8-lf",
+  "bytes": 9733,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/turn-loop.ts",
+    "blob": "3b28f71942e3917893bafb54b316c7a980e8056e",
+    "normalizedSha256": "f35db230f9dd7036c013d2025e9ffc7cb225d301409e2a2c28307b1376fbb219",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

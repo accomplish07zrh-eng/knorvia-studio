@@ -1,0 +1,108 @@
+{
+  "frozen_at_utc": "2026-10-02T19:27:02.074102Z",
+  "status": "complete_frozen_author_output",
+  "intended_repository_path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+  "configured_model": "gpt-6.1-sol",
+  "configured_reasoning_effort": "high",
+  "model_verification": "Configuration confirmed by parent; runtime model identity not independently verified.",
+  "fast_tier": {
+    "requested": true,
+    "separate_control_exposed": false,
+    "limitation": "Delegation interface exposes no separate Fast tier control."
+  },
+  "fork_turns": "none",
+  "inherited_context": "No inherited parent conversation or repository context; received only delegated task and system/developer instructions.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/contract.md",
+      "bytes": 5592,
+      "sha256": "5c4284519353630ebbf6cc2b5d6e048c3ded19a8b5eff1d0efd8adc5f9c8205f"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-api.d.ts",
+      "bytes": 971,
+      "sha256": "394426a93a0aac19693d62516273eee2043fca7f00eb318aba1c3b74a75d0467"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts",
+      "bytes": 1173,
+      "sha256": "4076cc1d2dfc0190244e7177ba4f0a8fbd0922b7d18a18e62cc0013cf49e1c11"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-shapes.d.ts",
+      "bytes": 1816,
+      "sha256": "e0b10f738c83d859b0773c8e5e5152c78e35672293035f917f4eb261c07b58da"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/mid-system/output/provider-mid-conversation-system.ts",
+      "bytes": 5807,
+      "sha256": "9c340c880b941d81b904dd461773531752a18e51e7c1819ef62d213fbf88c0d5",
+      "lines": 206
+    }
+  ],
+  "actual_reads": [
+    {
+      "operation": "Content read through one cat command",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/contract.md",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-shapes.d.ts"
+      ]
+    },
+    {
+      "operation": "Second content read to disambiguate collaborator import locations",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts"
+      ]
+    },
+    {
+      "operation": "Byte reads for receipt SHA-256 and byte counts",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/contract.md",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/dependency-api.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/inputs/public-shapes.d.ts",
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output/provider-mid-conversation-system.ts"
+      ]
+    },
+    {
+      "operation": "Own receipt byte read for final receipt digest",
+      "paths": [
+        "/tmp/knorvia-core-context-provider-20261003/mid-system/output/author-record.json"
+      ]
+    }
+  ],
+  "source_exposure": {
+    "existing_implementation": false,
+    "dependency_implementation": false,
+    "repository_or_AGENTS": false,
+    "tests_or_history_or_review_bodies": false,
+    "other_authors_or_prior_drafts": false,
+    "network_or_git": false,
+    "exposed_source": "Only the four authorized input packet files and this author's own output."
+  },
+  "retained_expression": [
+    "All public type/function names, signatures, projection/fallback fields and opaque collaborator calls supplied by the packet.",
+    "Ordered two-phase processing; live for-of projection traversal; pending short circuits; marker identity and existing-marker mutation; origins method receiver and mapping order.",
+    "Exact empty-string, joining, anchor, legality, fallback construction, field absence, tool-result predicate and legacy queue behavior specified by the contract.",
+    "Ordinary arrays, pending queues, shallow spread, string interpolation and object construction express the mandated behavior; no prior implementation was read."
+  ],
+  "discretionary_design": [
+    "Local names projected, validated, moved, pending, items and flushPending.",
+    "One request-local flush closure inside the exported projection function; no helper file or additional public API.",
+    "Explicit inline marker and anchor checks, with an indexed validation traversal for access to the next first-phase entry.",
+    "For-of queue appends preserve original entry references without spread-based bulk append."
+  ],
+  "questions": [
+    {
+      "question": "Confirm configured author model and effort.",
+      "resolution": "Parent confirmed gpt-6.1-sol, high, fork_turns none; no separately exposed Fast tier control."
+    }
+  ],
+  "breaches": [],
+  "verification": "No tests, builds, typechecks, lint, mocks, compilers, repository reads or network calls performed. Byte hashing and line counting were receipt operations only.",
+  "post_freeze_policy": "No source or receipt edits after this freeze without a separately frozen clarification."
+}

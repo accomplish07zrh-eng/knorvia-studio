@@ -1,0 +1,23 @@
+{
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-background-notifications-author-20261003/api.d.ts",
+      "sha256": "3c6c3c57b9999c4a292700f3aa87dadf36880ceb9b3316e27f9c881280ece746"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-background-notifications-author-20261003/contract.md",
+      "sha256": "e7b54daf48374851561a8583cf232aab61081767f67e6b74f44cd007a8785821"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-background-notifications-author-20261003/receiver-facts.md",
+      "sha256": "cbbb1100180f041db18d2c95f20643dc69187ea4345df952fd6649c448c553d2"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-runtime-lifecycle-five-20261003/background-notifications/background-notifications.ts",
+      "sha256": "856c467b010c75277f119b5858d07b515881dc17dcd61e6425edb331da6485e2",
+      "lines": 238
+    }
+  ]
+}

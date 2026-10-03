@@ -6,8 +6,6 @@ import {
   shouldWalkSkillDirectoryEntry,
 } from "@knorvia/shared";
 
-// 扫描策略来自 @knorvia/shared，供桌面端（本包）与 agent 端（@knorvia/adapters）共享，
-// 避免两端对“该进入哪些目录”产生分歧。这里转出，保持既有导入路径不变。
 export {
   MAX_SKILL_SCAN_DEPTH,
   SKILL_FILE_NAME,
@@ -15,93 +13,50 @@ export {
   shouldWalkSkillDirectoryEntry,
 } from "@knorvia/shared";
 
-interface WalkSkillMarkdownOptions {
-  /** readdir / stat 失败时回调；不传则静默跳过该目录，调用方按需收集诊断。 */
-  onError?: (path: string, error: unknown) => void;
-}
-
-/**
- * 自根目录起深度优先遍历，产出每个 SKILL.md 的绝对路径。
- *
- * 受 @knorvia/shared 的扫描策略约束：
- * - 跳过 node_modules 等内容目录与（除 .system 外的）点目录；
- * - 限制最大深度（MAX_SKILL_SCAN_DEPTH），作为超深目录链的兜底刹车；
- * - 仅对软链接目录按 realpath 去重，避免 Windows junction / 环路造成重复或无限扫描，
- *   普通目录树不会成环，故热路径上不额外 realpath。
- *
- */
 export async function* walkSkillMarkdownPaths(
   rootPath: string,
-  options: WalkSkillMarkdownOptions = {},
+  options: { onError?: (path: string, error: unknown) => void } = {},
 ): AsyncGenerator<string> {
-  const stack: Array<{ dir: string; depth: number }> = [{ dir: rootPath, depth: 0 }];
-  const visitedSymlinkTargets = new Set<string>();
-
-  while (stack.length > 0) {
-    const current = stack.pop();
-    if (!current) {
-      continue;
-    }
-    const { dir, depth } = current;
-
+  const pending = [{ dir: rootPath, depth: 0 }];
+  const symlinkTargets = new Set<string>();
+  while (pending.length) {
+    const next = pending.pop();
+    if (!next) break;
     let entries;
     try {
-      entries = await readdir(dir, { withFileTypes: true });
+      entries = await readdir(next.dir, { withFileTypes: true });
     } catch (error) {
-      options.onError?.(dir, error);
+      options.onError?.(next.dir, error);
       continue;
     }
-
-    let hasSkillFile = false;
-    const childDirectories: string[] = [];
-    const childSymlinks: string[] = [];
+    let hasDefinition = false;
+    const directories: string[] = [];
+    const links: string[] = [];
     for (const entry of entries) {
-      // 普通文件或指向文件的软链命名为 SKILL.md 都视为技能定义。
       if (entry.name === SKILL_FILE_NAME && !entry.isDirectory()) {
-        hasSkillFile = true;
+        hasDefinition = true;
         continue;
       }
-      if (!shouldWalkSkillDirectoryEntry(entry.name)) {
-        continue;
-      }
-      const entryPath = join(dir, entry.name);
-      if (entry.isDirectory()) {
-        childDirectories.push(entryPath);
-      } else if (entry.isSymbolicLink()) {
-        childSymlinks.push(entryPath);
-      }
+      if (!shouldWalkSkillDirectoryEntry(entry.name)) continue;
+      if (entry.isDirectory()) directories.push(join(next.dir, entry.name));
+      else if (entry.isSymbolicLink()) links.push(join(next.dir, entry.name));
     }
-
-    if (hasSkillFile) {
-      yield join(dir, SKILL_FILE_NAME);
-    }
-
-    if (depth >= MAX_SKILL_SCAN_DEPTH) {
-      continue;
-    }
-
-    for (const childDirectory of childDirectories) {
-      stack.push({ dir: childDirectory, depth: depth + 1 });
-    }
-
-    // 软链目录：先确认指向目录、再按 realpath 去重，避免 junction / 环路重复或无限扫描。
-    for (const childSymlink of childSymlinks) {
-      let targetStat;
+    if (hasDefinition) yield join(next.dir, SKILL_FILE_NAME);
+    if (next.depth >= MAX_SKILL_SCAN_DEPTH) continue;
+    for (const dir of directories) pending.push({ dir, depth: next.depth + 1 });
+    for (const link of links) {
+      let target;
       try {
-        targetStat = await stat(childSymlink);
+        target = await stat(link);
       } catch (error) {
-        options.onError?.(childSymlink, error);
+        options.onError?.(link, error);
         continue;
       }
-      if (!targetStat.isDirectory()) {
-        continue;
-      }
-      const canonical = await realpath(childSymlink).catch(() => childSymlink);
-      if (visitedSymlinkTargets.has(canonical)) {
-        continue;
-      }
-      visitedSymlinkTargets.add(canonical);
-      stack.push({ dir: childSymlink, depth: depth + 1 });
+      if (!target.isDirectory()) continue;
+      const canonical = await realpath(link).catch(() => link);
+      if (symlinkTargets.has(canonical)) continue;
+      symlinkTargets.add(canonical);
+      pending.push({ dir: link, depth: next.depth + 1 });
     }
   }
 }

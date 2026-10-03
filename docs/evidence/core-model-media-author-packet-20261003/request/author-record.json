@@ -1,0 +1,119 @@
+{
+  "task": "Fresh scoped complete provider-request-messages.ts reconstruction from frozen public and behavior contracts",
+  "agent_task": "/root/provider_request_complete_author",
+  "configured_task_model": "gpt-6.1-sol",
+  "configured_reasoning_effort": "high",
+  "fork_turns": "none",
+  "tier_qualification": "Fast was requested by the parent; the task tool exposes no independent Fast setting. Model/effort are allocated task configuration, not independently measured runtime identity or service-tier evidence.",
+  "input_freeze_refs": {
+    "original_five": "49ca0267",
+    "separate_import_mapping": "b834d31a"
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/request/input/contract.md",
+      "bytes": 5530,
+      "sha256": "b050d56bcbf39d7aa9f5799d53711696a9e291cb969e2d7060200a9f1e215a8a",
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/request/input/public-api.d.ts",
+      "bytes": 696,
+      "sha256": "370285fca94c5d8cd16c9fb2f9ccf003de4c3f6a21a9f0686f3305348ab0774f",
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/request/input/dependency-api.d.ts",
+      "bytes": 2604,
+      "sha256": "06e2d96243a347b6506d5e80220e502335207c26ff6f80aac31253556ab8d134",
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/request/input/public-shapes.d.ts",
+      "bytes": 2548,
+      "sha256": "0ee47b570c5af9b011d7bea18c8ef91d7238787c9b4e64415f94f772f87f5e34",
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/request/input/output-data.json",
+      "bytes": 423,
+      "sha256": "2b351cdc5bc972b7afc280acef837b8d7df80cc536ced007fa848a5ba5557dd8",
+      "read_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/request/input/imports.json",
+      "bytes": 3741,
+      "sha256": "313c323c5188bae6a67b7c8dc88e7b6ee46b8ffd323a9f07470807a58e09d531",
+      "read_count": 1
+    }
+  ],
+  "actual_exposure": {
+    "task_files_read": [
+      "/tmp/knorvia-core-model-media-20261003/request/input/contract.md",
+      "/tmp/knorvia-core-model-media-20261003/request/input/public-api.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/request/input/dependency-api.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/request/input/public-shapes.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/request/input/output-data.json",
+      "/tmp/knorvia-core-model-media-20261003/request/input/imports.json",
+      "/tmp/knorvia-core-model-media-20261003/request/output/provider-request-messages.ts",
+      "/tmp/knorvia-core-model-media-20261003/request/output/author-record.json"
+    ],
+    "task_files_written": [
+      "/tmp/knorvia-core-model-media-20261003/request/output/provider-request-messages.ts",
+      "/tmp/knorvia-core-model-media-20261003/request/output/author-record.json"
+    ],
+    "received_context": "Scoped parent assignment and body-free parent messages authorizing the import supplement; no full history fork.",
+    "other_source_exposure": "No repository, git/history, tests/reviews, predecessor/dependency/other-author bodies, network, compiler, test, build, lint, or mock access.",
+    "qualification": "Restrictions were instruction-based in a shared executor. This is a report of task actions, not an OS isolation or access-audit claim."
+  },
+  "source": {
+    "path": "/tmp/knorvia-core-model-media-20261003/request/output/provider-request-messages.ts",
+    "bytes": 8705,
+    "sha256": "a1d217e2f3c579f460826a16ceead7bc5e42cee7a2b2f0f4ecc8cf3465d99bf7",
+    "line_count": 214
+  },
+  "retained_expression": {
+    "qualification": "Exact mandatory protocol/format/constants/text data from existing product, not a new authorship or grant claim",
+    "required_policy": [
+      "Adjacent user merging remains disabled",
+      "Request-local projection only",
+      "Canonical messages and caches remain unmodified",
+      "Opaque registry, wrappers, clone and origin collaborators retain ownership"
+    ],
+    "required_identifiers_and_data": [
+      "Exported function and interface names and shapes",
+      "All six-module import binding names, paths, and value/type-only roles",
+      "Source, role, delivery-channel and provider-visibility literals",
+      "Error: Attachment source ${source} is not a system reminder source",
+      "cacheControl: { type: ephemeral }",
+      "Dormant text separator: newline",
+      "Diagnostic field names and insertion order",
+      "Source-entry identity and explicit undefined assignments"
+    ],
+    "ordinary_idioms": [
+      "Native array map, findLastIndex, some, filter and shallow spreads",
+      "Reverse index traversal and a pending array",
+      "Truthy checks, exact true/false comparisons, optional chaining and nullish coalescing",
+      "Plain function decomposition and TypeScript public types"
+    ]
+  },
+  "discretionary_architecture_choices": [
+    "Local descriptor, bubble-admission, boundary, reorder, render, dormant merge and cache helpers keep the projection orchestration explicit.",
+    "Pending flush is a closure sharing its accumulator and count; no separate helper file was needed.",
+    "A disabled merge helper returns a new shallow messages array and a native map index vector; reconstructed unreachable merge code retains cloneModelMessageContent as a runtime collaborator edge.",
+    "Source attribution iterates the rendered index vector, preserving holes and assigning representatives only when an entry exists.",
+    "Sparse ordering input slots are skipped; final collaborator output uses native findLastIndex/map admission as specified."
+  ],
+  "contract_review": "Manual correspondence review against supplied frozen contracts and own output; no executable validation was run under the scoped restrictions.",
+  "questions_and_qualifications": [
+    "Before implementation, the initial five contracts lacked exact runtime import paths. Asked parent for mapping and paused implementation. Parent authorized and froze separate sixth body-free imports.json; original five files stayed unchanged.",
+    "No prior draft existed and no prior implementation bodies were inspected.",
+    "Explicitly disclosed receipt-only re-freeze before parent review: added own receipt reads for digest/accounting to the exposure list; frozen source bytes remained unchanged. Initial receipt SHA256 was 602c51d29cc371d692d5fe6339abafba4b36462d53e46f2e8ccb6250738e564c."
+  ],
+  "breaches": [],
+  "remaining_blockers": [],
+  "freeze_utc": "2026-10-02T19:47:37.367019Z",
+  "freeze_policy": "Source and receipt set to mode 0444, output directory to 0555 before review. No silent post-freeze byte changes.",
+  "receipt_digest": "Computed after receipt creation and reported separately to avoid a self-referential digest.",
+  "initial_freeze_utc": "2026-10-02T19:47:20.446436Z"
+}

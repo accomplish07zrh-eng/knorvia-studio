@@ -1,0 +1,139 @@
+{
+  "scope": "turn-errors.ts complete independent owner",
+  "input_freeze_identifier": "c4eda8a6",
+  "configuration": {
+    "requested_model": "Sol",
+    "requested_reasoning_effort": "high",
+    "requested_fork": "none",
+    "requested_service_tier": "Fast",
+    "service_tier_control_exposed": false,
+    "service_tier_verified": false,
+    "execution_configuration_independently_verified": false,
+    "configuration_evidence": "Delegation message requests Sol/high/fork:none and Fast; no exposed tier control or independent runtime attestation."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/contract.md",
+      "bytes": 6876,
+      "sha256": "09dd6dea92c41e5d0093973506cde054e039140c2a2fbba0214918900fa775ed",
+      "lines": 17
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/public-api.d.ts",
+      "bytes": 1369,
+      "sha256": "454bdaf51b17f300834fc9f68420d7599729af985c0ca6c3d7da8593e56f3add",
+      "lines": 28
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/dependency-api.d.ts",
+      "bytes": 1684,
+      "sha256": "bfe0c7f1ace8dd9a0cfffe069a0444fbae5f6e7fdc37381c70e975dbb8d8798f",
+      "lines": 30
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/public-shapes.d.ts",
+      "bytes": 6075,
+      "sha256": "b66c6d2ebef97ed8d85695db9b3bac64bfd292126c26c482d3e39700cee386e1",
+      "lines": 170
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/imports.json",
+      "bytes": 1451,
+      "sha256": "ae61332dd74590a6e33133819901e45021d3eb751092cc4bb624d4d6a9a06671",
+      "lines": 33
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/output-data.json",
+      "bytes": 1233,
+      "sha256": "cffd0016578f825b6eb97a735944c892e4bb333716f80920bdc324f70aaa173f",
+      "lines": 48
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/qualified-return-contracts.d.ts",
+      "bytes": 529,
+      "sha256": "b9b2e217883a945327df4c5a725819fc65b2f4209ed05be536c5c5ef92702edb",
+      "lines": 4
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/output/turn-errors.ts",
+    "bytes": 7609,
+    "sha256": "5229c2ab9f6a860a1c4cf39bb0908dbe58040c6e050af9920cc623497338df3e",
+    "lines": 252,
+    "encoding": "utf-8",
+    "final_newline": true
+  },
+  "read_paths": [
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/contract.md",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/public-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/dependency-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/public-shapes.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/imports.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/output-data.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/input/qualified-return-contracts.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/output/turn-errors.ts"
+  ],
+  "write_paths": [
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/output/turn-errors.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/turn-errors/output/author-record.json"
+  ],
+  "chosen_structure": {
+    "module": "Exact import ports and payload reexport, nonexported TurnAbortScope interface, one marker constant and one private Error intersection type.",
+    "external_fault": "One private bounded iterative cause traversal with WeakSet, preserving lazy marker/code/Error gate order and fault identity.",
+    "abort_scope": "Per-call controller and one guarded callback shared by initial abort, once listener, and disposal removal.",
+    "failure": "Ordered external-fault, cancellation, eligible CoreError identity, context classifier, then wrapper factory branches.",
+    "outcome": "One branch expression creates exactly one event, then awaited receiver append, same-object local push, then optional receiver logger.",
+    "cancellation": "External-fault guards precede aborted-signal and a separate seven-node WeakSet cause traversal with independent string field observations."
+  },
+  "retained_expression": {
+    "classification": "Required existing schemas/protocol/fields/prose/format/constants/evaluation and ordinary idioms; no naming-only novelty or licence grant claimed.",
+    "imports_reexports": "All imports.json ports and exact reexport preserved.",
+    "constants_prose": [
+      "knorvia.externalTurnFault",
+      "Turn execution failed",
+      "Model request exceeded the provider context window.",
+      "Turn was cancelled.",
+      "MODEL_REQUEST_CANCELLED",
+      "model_request_cancelled",
+      "ABORT_ERR",
+      "AbortError",
+      "abort",
+      "core.runtime",
+      "${params.logLabel} failed"
+    ],
+    "public_returns": "Both factory-returning public error functions explicitly use ReturnType<typeof createCoreError>. External-fault message explicitly uses message: string = code.",
+    "raw_inference_qualification": "The frozen fragments retain inherited raw TS9007 and TS9011 evidence as contract qualifications; no compiler was invoked and no fresh diagnostic claim is made.",
+    "error_observations": "Depth 0 through 6 inclusive, cycle protection, exact marker and string code including empty string, instanceof Error identity, parent-reason precedence, cancellation guards, same-object CoreError returns, exact causes/options and collaborator ownership.",
+    "event_observations": "Exact TurnComplete/TurnError fields, own inputId even undefined, truthy-only flags, nullish history count, payload spread after type and before stack, cancelled logging at error level, optional logger argument laziness, append-before-push-before-log ordering, receivers and propagation."
+  },
+  "review": {
+    "method": "Manual source reasoning against the seven frozen body-free inputs only.",
+    "compiler_tests_lint_build_mocks_run": false,
+    "runtime_operations_performed": false,
+    "dependency_or_other_author_bodies_read": false,
+    "repository_or_git_access": false,
+    "network_external_or_library_access": false,
+    "input_files_modified": false,
+    "source_line_limit": "<400",
+    "no_new_features": "No new retry, state, root authority, queue policy, eventstore, classifier implementation, cache, transaction, rollback, or collaborator clone."
+  },
+  "limits": [
+    "Shared-executor read restrictions are instruction-only, not OS isolation or access-audit proof.",
+    "Source will be exposed to curator body comparison; this is a qualified source-exposed review workflow.",
+    "Prior broad context is a workflow qualification; this author used only the seven specified frozen inputs and own generated source in this delegated turn.",
+    "Authoring is grounded in body-free contracts and opaque original-owner types, which are not standalone compilation units.",
+    "No compiler or execution validation was authorized or performed.",
+    "Fast requested but no exposed or verified tier control is available.",
+    "Receipt binds inputs and source; no circular self-hash claim is made for the receipt."
+  ],
+  "breaches": [],
+  "questions": [],
+  "blockers": [],
+  "freeze": {
+    "utc": "2026-10-02T20:43:01.651408Z",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "timing": "Source and receipt frozen before return for curator comparison."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/host-index-syntax.cjs"
+  ],
+  "stdout": "packages/desktop/src/host/index.ts: isolated syntax/transpile pass; no imported semantic/native acceptance\n",
+  "stderr": "",
+  "exitCode": 0
+}

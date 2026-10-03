@@ -1,0 +1,4 @@
+packages/server/src/remote/docker-backend.ts: 0 syntax/transpile diagnostics
+packages/server/src/remote/wsl-backend.ts: 0 syntax/transpile diagnostics
+packages/server/src/remote/wslProxy.ts: 0 syntax/transpile diagnostics
+Syntax/transpile diagnostics only, no semantic typecheck or package build.

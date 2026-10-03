@@ -1,9 +1,13 @@
 import { BIGMODEL_PROVIDER_ID, type OAuthProviderId, ZAI_PROVIDER_ID } from "./oauth.js";
+
 import { BUILTIN_MODEL_PROVIDER_IDS, type BuiltinModelProviderId } from "./model-provider-types.js";
+
 import { KNORVIA_ENV } from "./env.js";
+
 import { buildBigModelCodingPlanTeamManageUrl } from "./endpoint.js";
 
 export type ModelProviderFamilyId = "zai" | "bigmodel";
+
 export type ProviderFamilyDomain = ModelProviderFamilyId;
 
 export interface ModelProviderFamilySpec {
@@ -46,45 +50,43 @@ export const MODEL_PROVIDER_FAMILY_SPECS = [
   },
 ] as const satisfies readonly ModelProviderFamilySpec[];
 
-const MODEL_PROVIDER_FAMILY_SPEC_BY_ID = new Map<ModelProviderFamilyId, ModelProviderFamilySpec>(
-  MODEL_PROVIDER_FAMILY_SPECS.map((spec) => [spec.id, spec]),
-);
+const familySpecsById = new Map<ModelProviderFamilyId, ModelProviderFamilySpec>();
+const familyIdsByProviderId = new Map<string, ModelProviderFamilyId>();
 
-const MODEL_PROVIDER_FAMILY_ID_BY_PROVIDER_ID = new Map<
-  BuiltinModelProviderId,
-  ModelProviderFamilyId
->(
-  MODEL_PROVIDER_FAMILY_SPECS.flatMap((spec) =>
-    [
-      spec.startPlanProviderId,
-      spec.individualCodingPlanProviderId,
-      spec.teamCodingPlanProviderId,
-    ].map((providerId) => [providerId, spec.id] as const),
-  ),
-);
+for (const spec of MODEL_PROVIDER_FAMILY_SPECS) {
+  familySpecsById.set(spec.id, spec);
+  const providerIds: BuiltinModelProviderId[] = [
+    spec.startPlanProviderId,
+    spec.individualCodingPlanProviderId,
+    spec.teamCodingPlanProviderId,
+  ];
+  for (const providerId of providerIds) {
+    familyIdsByProviderId.set(providerId, spec.id);
+  }
+}
 
 export function getModelProviderFamilySpec(
   familyId: ModelProviderFamilyId,
 ): ModelProviderFamilySpec {
-  return MODEL_PROVIDER_FAMILY_SPEC_BY_ID.get(familyId)!;
+  return familySpecsById.get(familyId) as ModelProviderFamilySpec;
 }
 
 export function resolveModelProviderFamilyIdByProviderId(
   providerId: string,
 ): ModelProviderFamilyId | null {
-  return MODEL_PROVIDER_FAMILY_ID_BY_PROVIDER_ID.get(providerId as BuiltinModelProviderId) ?? null;
+  return familyIdsByProviderId.get(providerId) ?? null;
 }
 
 export function resolveModelProviderFamilyIdByBaseURL(
   baseURL: string | null | undefined,
 ): ModelProviderFamilyId | null {
-  const trimmed = baseURL?.trim();
-  if (!trimmed) {
+  const trimmedURL = baseURL?.trim();
+  if (!trimmedURL) {
     return null;
   }
   let hostname: string;
   try {
-    hostname = new URL(trimmed).hostname.toLowerCase();
+    hostname = new URL(trimmedURL).hostname.toLowerCase();
   } catch {
     return null;
   }
@@ -100,7 +102,7 @@ export function resolveModelProviderFamilySpecByProviderId(
   providerId: string,
 ): ModelProviderFamilySpec | null {
   const familyId = resolveModelProviderFamilyIdByProviderId(providerId);
-  return familyId ? getModelProviderFamilySpec(familyId) : null;
+  return familyId === null ? null : getModelProviderFamilySpec(familyId);
 }
 
 export function resolveModelProviderFamilyLabelByProviderId(providerId: string): string | null {
@@ -129,11 +131,8 @@ export function shouldShowModelProviderFamilyForDomain(params: {
   familyId: ModelProviderFamilyId;
   providerFamilyDomain: ProviderFamilyDomain | null | undefined;
 }): boolean {
-  const providerFamilyDomain = normalizeProviderFamilyDomain(params.providerFamilyDomain);
-  if (!providerFamilyDomain) {
-    return true;
-  }
-  return params.familyId === providerFamilyDomain;
+  const domain = normalizeProviderFamilyDomain(params.providerFamilyDomain);
+  return domain === null || params.familyId === domain;
 }
 
 export function shouldShowModelProviderFamilyForActiveOAuth(params: {
@@ -151,13 +150,13 @@ export function shouldShowBuiltinModelProviderForDomain(params: {
   providerFamilyDomain: ProviderFamilyDomain | null | undefined;
 }): boolean {
   const familyId = resolveModelProviderFamilyIdByProviderId(params.providerId);
-  if (!familyId) {
-    return true;
-  }
-  return shouldShowModelProviderFamilyForDomain({
-    familyId,
-    providerFamilyDomain: params.providerFamilyDomain,
-  });
+  return (
+    familyId === null ||
+    shouldShowModelProviderFamilyForDomain({
+      familyId,
+      providerFamilyDomain: params.providerFamilyDomain,
+    })
+  );
 }
 
 export function shouldShowBuiltinModelProviderForActiveOAuth(params: {

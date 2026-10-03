@@ -1,0 +1,472 @@
+{
+  "passed": true,
+  "baseline": "b5c932451925e02d8916e13095ceea8de24c7447",
+  "frozenInputs": 9,
+  "totalBindings": 68,
+  "bindings": [
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "bytes": 16310,
+      "lines": 418,
+      "sha256": "4446b188438efe3243dc5db6102c06d92b3934b4ed178980449c15ee608f1906",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopHostProcess.ts",
+      "bytes": 25735,
+      "lines": 714,
+      "sha256": "fceabd3490d375d8a4658bd55e2d277fa51d599a9fcf0fdfcbb4d9b911f589b5",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/contract.md",
+      "bytes": 22363,
+      "sha256": "df66978c6f9f7781485f6f11127e4033850fb853bfb8d9e1aa653d393f48a421",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/platform-public-api.d.ts",
+      "bytes": 1931,
+      "sha256": "c80e06821ac565c6416bbcebfce2bb49283717fe3d64cb3929260c4b36b24704",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/host-public-api.d.ts",
+      "bytes": 5565,
+      "sha256": "27c42795c33e51022a295cc559c3527e7dc7af9a1a752cf4946f36f8a369eea1",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 42450,
+      "sha256": "668623e362a5388e0f04575416fc646557c21e0667b0793937bda95ecc8eeff4",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/external-port-notes.md",
+      "bytes": 5307,
+      "sha256": "a40a492ef237aaa83b2e4a77075db2e1b6b48e896549cfd4d8cf10b1f5bebd30",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/imports.json",
+      "bytes": 12012,
+      "sha256": "7fd6963ff2eabc2820cee933c1853319cec2a1988ac75a99d067d9de02e556bf",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/required-literal-data.json",
+      "bytes": 20212,
+      "sha256": "3a7473264cd60834ce1565831bdb4ddd14bd8adc148d4ecde7c5e81684241aae",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/public-dependency-data.json",
+      "bytes": 28976,
+      "sha256": "2c05bdf5d0b8819fe5bf50b550dfbc003f8f780fd3d1fb7cbe9e889556d30f39",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/platform-registration-data.json",
+      "bytes": 7068,
+      "sha256": "3877b329d387ddd640337e22b225fbb5563c7feddcfeedf29d5c14de916c77df",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/editors.ts",
+      "bytes": 21761,
+      "sha256": "20f0c2caaa325bf8b2830c7aa290a480780c85c87e82abd840e009425931f472",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/applicationIcons.ts",
+      "bytes": 10275,
+      "sha256": "ba6e4ac5719594df067c08a23e0499ba265c3957da1115bf82eb3324770cec9f",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "bytes": 45656,
+      "sha256": "709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/localDiagnostics.ts",
+      "bytes": 10710,
+      "sha256": "02dcfc33faab160dcc8494868df8b2e7c27c007f0a591eb2f5080adb871c2d41",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCommandHandlers.ts",
+      "bytes": 9544,
+      "sha256": "9055507db7a6b30052379ba957e0fdc330fcb022747ca9638997b9d8baee9280",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/openInEditor.ts",
+      "bytes": 13056,
+      "sha256": "751fe17bb9a4bb03caefdf3393ff92d8426e66743bf6e4bf3c9bff860575314a",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "bytes": 16528,
+      "sha256": "75d07ce51425e4d7cba31ac9c2920987f0af9efad199e97f71f72b27a153bbd3",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerStorage.ts",
+      "bytes": 3869,
+      "sha256": "93809e3dcdaf923b4bd1f89000de94cc22d3fa3602143480731284fcd213455f",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "bytes": 19380,
+      "sha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+      "bytes": 4756,
+      "sha256": "f8788ab82065fa888a64797aa27d1e392bf3ff9b2aa51a3025baf4a020a0330b",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChromeState.ts",
+      "bytes": 1319,
+      "sha256": "2bb5d02ffcbdc12790e42e1ef77fbb197c866f8dec4e28042bb3ddb3d6ae7123",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "bytes": 15866,
+      "sha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcHelpers.ts",
+      "bytes": 4008,
+      "sha256": "f1cdd0cc53d7a816a49ef3baeccfffee9440c4ac7b3fada0520b5f0b1d4f957a",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCuaPermissionIpc.ts",
+      "bytes": 24755,
+      "sha256": "e711ae65bcf68ddd1fde2b41706c5209725dcb17ed60e97323503c285336070f",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopBrowserViewIpc.ts",
+      "bytes": 10010,
+      "sha256": "a268aad10085cb2257971b5a7e453be4934377ecdbd586fcefc50dd61edde6fc",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/mcpUserDirectory/index.ts",
+      "bytes": 14408,
+      "sha256": "4c7d8e46f4c0b44fd0b6f54dfc50c6ce3ea116b294bfa0a977a567b3228b8610",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/mcpUserDirectory/legacy.ts",
+      "bytes": 6260,
+      "sha256": "508df0622fabe35a0ea423f2f237319fc675170b0ea05dab77974c3c6f5fd3fa",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/tempTextAttachment.ts",
+      "bytes": 1886,
+      "sha256": "a740c78660e4e3e2f184c1c6b666aceb1d0d05236450708cdf5720fac19c691c",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopSaveFile.ts",
+      "bytes": 8644,
+      "sha256": "b111ef27a32f5baba928bc34e6db0a5946468891877056c79624a02829f314e1",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopPrintToPdf.ts",
+      "bytes": 1436,
+      "sha256": "3e4e0bc4f204dd0c5989a3469f7b07f6deab209aa38c0a4c78e14506b0fd59af",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowGlass.ts",
+      "bytes": 687,
+      "sha256": "6e01b560b9b50b1f8e958ea0c3ce7a403cb7a1fdf7522fc94cfda576a5d05806",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCuaPipIpc.ts",
+      "bytes": 842,
+      "sha256": "4634e895c7d632b3b3d9763dac416c83452e7738e7a2441f93604d87267c7a5e",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopResourceTelemetry.ts",
+      "bytes": 17343,
+      "sha256": "0665d0d9bb08b224e97bf6d9f2101f4325c35d9bc0f25c90cadda4c1af23dc8c",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/processResourceMcpTelemetrySource.ts",
+      "bytes": 5013,
+      "sha256": "e057c49f02ecec029a71e319917e3e981ab812b9d9ca61a5f0de6b926896dbe1",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "bytes": 4143,
+      "sha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopLaunchMarks.ts",
+      "bytes": 853,
+      "sha256": "0319717119434e1c075782e68bc68b8bdd746b4052bbb6ed74328dcd8411901f",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/broadcastHub.ts",
+      "bytes": 6526,
+      "sha256": "a1216b85285bd6830b6c5afffe8e94b7e2b623882c127ffceedfd0e3374cf11e",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/taskRealtimeBus.ts",
+      "bytes": 35696,
+      "sha256": "21ff17c445ecff554d377a20ef072923f609f3aa24c73224d26049f7ce850b90",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/hostLogRelay.ts",
+      "bytes": 3524,
+      "sha256": "b8624ff7f740350f61e0203adfbe40774b105f23534b49a04b2c1583ba952c4b",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerHostSampling.ts",
+      "bytes": 3240,
+      "sha256": "a8cd514aa8c30fe7186380033181a07ccdb985ca1588d562c8b0af59691bda90",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+      "bytes": 19865,
+      "sha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopNetworkTelemetry.ts",
+      "bytes": 4594,
+      "sha256": "37b8a7658275e115d98b8d82da7768277abf30d18b0ce7d1552a828ca9b92562",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/processResourceCliSource.ts",
+      "bytes": 10305,
+      "sha256": "1fd3036eb729abac42446b7900fc752f49e7e87cc9a45d6dd162165fc84d60ca",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/processResourceSelfHeapSource.ts",
+      "bytes": 2338,
+      "sha256": "1dfd4738279d6c6eb1d8eec0054b9aff572506c04e12ef6951e1883d678a72f6",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/e2eCoverage.ts",
+      "bytes": 1143,
+      "sha256": "e7ff1f88b072867cce3fe310dd8dcf9e2d643c13bcc038fb1bb0ecab9350c772",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/releaseUpdate.ts",
+      "bytes": 1366,
+      "sha256": "76b1322a82c3f87ff42b67920a8bcdfa9b83ef37cb4c0876e8d3fd942e27a822",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/mcp.ts",
+      "bytes": 13136,
+      "sha256": "cad82a46c8ae59c6314f641de2b8d5e35f753f4228c5e82cdec786df7e99cc67",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/validation.ts",
+      "bytes": 44442,
+      "sha256": "27c20a5a2e76a1f3300b79273da4eca3d0db86f29aa15ff6b9a019edacdac7c4",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/validationAppSettings.ts",
+      "bytes": 23275,
+      "sha256": "0f31497b00bdf6877deb045037295c24fc36df4e25e4496cb6162b1113025df3",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/task-realtime.ts",
+      "bytes": 6069,
+      "sha256": "79c9675774a4739116f911eaa9d8c7b3fa8553520ec0bf2a1c971ed0b7656fbd",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/launchMarks.ts",
+      "bytes": 1383,
+      "sha256": "30de70ec0c82adb647451374eb3fe94627603511a72f5964c8d7278c4dd8f43c",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/env.ts",
+      "bytes": 2620,
+      "sha256": "bc4307ae7fef1cc5633c45da4df067bdfc077e2f1d52a4f4b65146c052e77ee3",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/runtimeEnv.ts",
+      "bytes": 13326,
+      "sha256": "9dce22428cc26c2a676e1f0a295d62f836780c5645477f6cd82bea7358622a84",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/workspacePurpose.ts",
+      "bytes": 137,
+      "sha256": "1673bb8e44793108bbf2165b23f0a7c5961bbebe892484db2d217cc525563050",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/process-names.ts",
+      "bytes": 2374,
+      "sha256": "c3acd4dd4fabc54aa0be932e6c80929dd969e5388447915b25a110be831af54c",
+      "exact": true
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "bytes": 2086,
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "bytes": 11026,
+      "sha256": "93ea5812027c5b211b793b33c0b280af18312735cfdb1c0e057fb200555f87e3",
+      "exact": true
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "bytes": 98523,
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "exact": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "exact": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "exact": true
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "exact": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "exact": true
+    }
+  ],
+  "publicApiChecks": [
+    {
+      "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "baselineExact": true,
+      "publicApiEqual": true,
+      "rawDiagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ],
+      "rawDiagnosticsFrozen": true,
+      "rawEmittedReturn": "void",
+      "qualifiedReturn": "void"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopHostProcess.ts",
+      "baselineExact": true,
+      "publicApiEqual": true,
+      "rawDiagnostics": [
+        {
+          "code": 9007,
+          "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        }
+      ],
+      "rawDiagnosticsFrozen": true,
+      "rawEmittedReturn": "void",
+      "qualifiedReturn": "void"
+    }
+  ],
+  "bodyFreeDeclarationInputs": [
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/platform-public-api.d.ts",
+      "noImplementationBodies": true,
+      "noPrivateClassMembers": true,
+      "parseDiagnostics": []
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/host-public-api.d.ts",
+      "noImplementationBodies": true,
+      "noPrivateClassMembers": true,
+      "parseDiagnostics": []
+    },
+    {
+      "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+      "noImplementationBodies": true,
+      "noPrivateClassMembers": true,
+      "parseDiagnostics": []
+    }
+  ],
+  "registrationCalls": 43,
+  "registrationExact": true,
+  "outsideAllocatedDocs": [],
+  "qualification": "Exact packet/source/port/data metadata with qualified target void returns only; raw diagnostics retained. No semantic/dependency/compiler/native/runtime/project gate, upstream grant/access isolation/novelty/rights/final acceptance proof. Nine named root author inputs only; historical failure artifacts excluded."
+}

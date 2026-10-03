@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+    "--baseline",
+    "--stable-symbols"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+      "sha256": "df4353f764549f5d48b4aaec9eb292d6694157ea7a370959e32e422d14f9747d"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": true,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"@knorvia/services/storage-startup\": \"services\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"sourceLiteralProjection\": \"No source-literal projection applies to this owner; raw and public contracts must both match.\",\n  \"syntaxFiles\": [\n    \"/tmp/knorvia-storage50-baseline/disk.ts\",\n    \"/tmp/knorvia-storage50-baseline/preparation.ts\",\n    \"packages/desktop/src/host/hostDatabaseStartup.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

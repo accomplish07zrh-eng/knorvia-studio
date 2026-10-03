@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/src/pdf/index.ts"
+  ],
+  "stdout": "Finished in 14ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

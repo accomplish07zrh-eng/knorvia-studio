@@ -1,0 +1,473 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-02",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputHead": "72efa1d424c37cfd262034063b28c95a110a5c2a",
+  "publishedBaselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "scope": "One nested Skia component: the exact Chromium zlib copy and selected CPU/SIMD source notices. Original material additions only; not a complete Skia or binary linkage audit.",
+  "fullyClosedParentObligations": 0,
+  "newOriginalAttributionExtracts": 6,
+  "reusedEvidence": {
+    "commit": "c583205ff672ceb3471c0dba07a7c4e0009a0486",
+    "file": "licensing/evidence/material-closure-20261002.json",
+    "sha256": "c47ff03186e806f9f7d580da6d53a470a004376bc5c4b75a31eaa8f2058823f1",
+    "bindingsReused": [
+      "canvas 0.1.100 root and eight native package archive/registry/lockfile bindings",
+      "canvas publisher source db337893b9b53483050ca7b24c6d306e4da06741",
+      "Skia gitlink fe2718df5f53a681087be6f0539045ca1b4b8c09"
+    ],
+    "archiveMatrixRechecked": false
+  },
+  "skia": {
+    "status": "open-platform-linkage-and-complete-nested-attribution",
+    "parentPackage": "@napi-rs/canvas@0.1.100",
+    "publisherSourceRevision": "db337893b9b53483050ca7b24c6d306e4da06741",
+    "skiaRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+    "zlibRevision": "646b7f569718921d7d4b5b8e22572ff6c76f2596",
+    "originChromiumRevision": "2f39ac8d0a414dd65c0e1d5aae38c8f97aa06ae9",
+    "declaredZlibHeaderVersion": "1.3.0.1",
+    "zlibVersionMacro": "1.3.0.1-motley",
+    "rootLicenseVersion": "1.2.12",
+    "noticeAdditions": [
+      {
+        "component": "Chromium BSD license for zlib contributions",
+        "source": "https://chromium.googlesource.com/chromium/src/+/2f39ac8d0a414dd65c0e1d5aae38c8f97aa06ae9/LICENSE?format=TEXT",
+        "sourceSha256": "368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b",
+        "sourceGitBlob": "2249a28657f86c645f8978b75babc1bd52aca318",
+        "file": "third-party/upstream/368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b.txt",
+        "sha256": "368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b",
+        "bytes": 1536,
+        "extraction": "Whole source file, without newline normalization.",
+        "reason": "Selected zlib source headers explicitly refer to the Chromium source repository license; its exact originating repository revision is bound by the export metadata and matching tree."
+      },
+      {
+        "component": "Chromium zlib 1.3.0.1 original zlib notice",
+        "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/zlib.h?format=TEXT",
+        "sourceSha256": "d6e12754edb0c019107c7560902c741eab10c15ced7e5f249e642b82c007c0bf",
+        "sourceGitBlob": "f1b149b93e43466ae57d72e10dda35b9f357e9ca",
+        "file": "third-party/upstream/df694330c5856149838d49b822ec23986329fd8413bde5e816874f0ee04d1c56.txt",
+        "sha256": "df694330c5856149838d49b822ec23986329fd8413bde5e816874f0ee04d1c56",
+        "bytes": 1329,
+        "extraction": "First C block comment, byte-for-byte, including its original trailing LF.",
+        "reason": "The pinned header contains version 1.3.0.1 and copyright 1995-2023; the retained root LICENSE is the older 1.2.12/copyright 1995-2022 text. Preserve both.",
+        "extractedSourceLines": [
+          1,
+          29
+        ]
+      },
+      {
+        "component": "Chromium zlib CPU detection attribution",
+        "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/cpu_features.c?format=TEXT",
+        "sourceSha256": "10cedfb372a28a8c30f842def6213eeb40e6f7d59c3f98737e4eb78bd1999e06",
+        "sourceGitBlob": "64e0428cd2fc2d965cf18c2af9212df68d2ea8c8",
+        "file": "third-party/upstream/aca9c8fbe556e770221641d454905105c1c9ab7dac5491ceafa9793323ed72a4.txt",
+        "sha256": "aca9c8fbe556e770221641d454905105c1c9ab7dac5491ceafa9793323ed72a4",
+        "bytes": 228,
+        "extraction": "First C block comment, byte-for-byte, including its original trailing LF.",
+        "reason": "Preserves the original selected-source copyright and license reference alongside the full applicable permission text.",
+        "extractedSourceLines": [
+          1,
+          6
+        ],
+        "pairedPermissionNoticeSha256": "368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b"
+      },
+      {
+        "component": "Chromium zlib CRC32 SIMD attribution",
+        "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/crc32_simd.c?format=TEXT",
+        "sourceSha256": "8db6cd08c69e69020a857d0472e89aa26a5b526a8b2999444015914de656f79c",
+        "sourceGitBlob": "7428270920a03e06da4a037434de0255e486058b",
+        "file": "third-party/upstream/55b223e3f0fdcf0c262d3ff37aeb32ba063d300e53b97d56057bd3a34c8ae989.txt",
+        "sha256": "55b223e3f0fdcf0c262d3ff37aeb32ba063d300e53b97d56057bd3a34c8ae989",
+        "bytes": 193,
+        "extraction": "First C block comment, byte-for-byte, including its original trailing LF.",
+        "reason": "Preserves the original selected-source copyright and license reference alongside the full applicable permission text.",
+        "extractedSourceLines": [
+          1,
+          6
+        ],
+        "pairedPermissionNoticeSha256": "368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b"
+      },
+      {
+        "component": "Chromium zlib slide-hash SIMD attribution",
+        "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/slide_hash_simd.h?format=TEXT",
+        "sourceSha256": "0524fd845c79ac31bf7e23436e68aa9eb20d21a849088f4ec3250d460214284c",
+        "sourceGitBlob": "1000b774ccb60a601e42d9a30a18e0aa00357ae1",
+        "file": "third-party/upstream/dfe146342f94e1595214e12a377ff40d383db36dadbc09b8cc071ef354114dc3.txt",
+        "sha256": "dfe146342f94e1595214e12a377ff40d383db36dadbc09b8cc071ef354114dc3",
+        "bytes": 198,
+        "extraction": "First C block comment, byte-for-byte, including its original trailing LF.",
+        "reason": "Preserves the original selected-source copyright and license reference alongside the full applicable permission text.",
+        "extractedSourceLines": [
+          1,
+          6
+        ],
+        "pairedPermissionNoticeSha256": "368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b"
+      },
+      {
+        "component": "ARM/Chromium zlib chunk-copy attribution",
+        "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/contrib/optimizations/chunkcopy.h?format=TEXT",
+        "sourceSha256": "10fae79493be1ab143476151b88dcb8ec7bc94ff10c90cdd77c153dac68d8209",
+        "sourceGitBlob": "f40546d54dbe770c9e4625881317efadceaf0b5b",
+        "file": "third-party/upstream/ca7047566630aa93a701f06df3817e2b7cfd7f12807281b2e09013b8f9132c70.txt",
+        "sha256": "ca7047566630aa93a701f06df3817e2b7cfd7f12807281b2e09013b8f9132c70",
+        "bytes": 259,
+        "extraction": "First C block comment, byte-for-byte, including its original trailing LF.",
+        "reason": "Preserves the original selected-source copyright and license reference alongside the full applicable permission text.",
+        "extractedSourceLines": [
+          1,
+          6
+        ],
+        "pairedPermissionNoticeSha256": "368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b"
+      },
+      {
+        "component": "Intel zlib CRC folding attribution",
+        "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/crc_folding.c?format=TEXT",
+        "sourceSha256": "0b2ec29d92cb44d10499a397bbace1d970b0ff11192cea0ecb6ad01a5e78e6bf",
+        "sourceGitBlob": "1b4f4e1d193871bd02d91d048e9f9ba268ec1ffb",
+        "file": "third-party/upstream/b6d3d72e3ecc9d33d5de6d6547f68c577c203d623585adb6455d20216cced592.txt",
+        "sha256": "b6d3d72e3ecc9d33d5de6d6547f68c577c203d623585adb6455d20216cced592",
+        "bytes": 695,
+        "extraction": "First C block comment, byte-for-byte, including its original trailing LF.",
+        "reason": "Preserves the original selected-source copyright and license reference alongside the full applicable permission text.",
+        "extractedSourceLines": [
+          1,
+          17
+        ],
+        "pairedPermissionNoticeSha256": "df694330c5856149838d49b822ec23986329fd8413bde5e816874f0ee04d1c56"
+      },
+      {
+        "component": "Mark Adler/Chromium zlib fast-inflate attribution",
+        "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/contrib/optimizations/inffast_chunk.c?format=TEXT",
+        "sourceSha256": "1d30b2735708b139da9de8198e11cb036115f39e9752bec3d2547bd2e586b767",
+        "sourceGitBlob": "b1db452c2e7232f1d57258379232dd55d8045a1a",
+        "file": "third-party/upstream/a76c3d70aed9b52b78196199da23e207ae6a01513ade15f40cfffe172b74b345.txt",
+        "sha256": "a76c3d70aed9b52b78196199da23e207ae6a01513ade15f40cfffe172b74b345",
+        "bytes": 191,
+        "extraction": "First C block comment, byte-for-byte, including its original trailing LF.",
+        "reason": "Preserves the original selected-source copyright and license reference alongside the full applicable permission text.",
+        "extractedSourceLines": [
+          1,
+          5
+        ],
+        "pairedPermissionNoticeSha256": "df694330c5856149838d49b822ec23986329fd8413bde5e816874f0ee04d1c56"
+      }
+    ],
+    "requiredIntegration": "Append all eight noticeAdditions to the existing Skia notices for the relevant target and regenerate its notices/provenance. Preserve the old zlib root LICENSE and the distinct FreeType-bundled zlib 1.3.1 material already integrated by the parent. Keep Skia.reviewRequired; this is not complete obligation closure."
+  },
+  "originBinding": {
+    "exportCommitSource": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596?format=JSON",
+    "exportCommitResponseSha256": "d574d3ba18e9ae83f4eb4c5d3c19ab6d35508885ba9a68ca793465902b18ca42",
+    "responseDigestEncoding": "Gitiles JSON body after removing its XSSI prefix",
+    "gitOriginRevId": "2f39ac8d0a414dd65c0e1d5aae38c8f97aa06ae9",
+    "exportTree": "15d5d748ce2060ea03b9e9b60d9d0ee512274520",
+    "originSubtree": "15d5d748ce2060ea03b9e9b60d9d0ee512274520",
+    "exportTreeMatchesOriginSubtree": true,
+    "exportRootTreeSource": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/?format=JSON",
+    "originSubtreeSource": "https://chromium.googlesource.com/chromium/src/+/2f39ac8d0a414dd65c0e1d5aae38c8f97aa06ae9/third_party/zlib/?format=JSON",
+    "matchingTreeResponseSha256": "dca9dda3921bda10adbedc524ca179fa8e02a3c27b515c809018bbf517824f5f",
+    "rootLicenseGitBlob": "2249a28657f86c645f8978b75babc1bd52aca318",
+    "rootLicenseTreeSource": "https://chromium.googlesource.com/chromium/src/+/2f39ac8d0a414dd65c0e1d5aae38c8f97aa06ae9/?format=JSON",
+    "rootLicenseTreeResponseSha256": "9bbe9892c1da33401f7f184ecf77a9bb602fce8034cfb51e5e2732a7cf60a226",
+    "qualification": "License is retrieved from the exact GitOrigin-RevId, not from current main or a similar package. Whole exported subtree equality independently binds that origin."
+  },
+  "sourceBuildSelection": {
+    "reusedCanvasBuildEvidence": {
+      "source": "https://raw.githubusercontent.com/Brooooooklyn/canvas/db337893b9b53483050ca7b24c6d306e4da06741/scripts/build-skia.js",
+      "file": "third-party/upstream/4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f.txt",
+      "sha256": "4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f",
+      "gitBlob": "9ceeed33e4c8f98a670f6346a63f1f4d1a1aabfd"
+    },
+    "skiaDeps": {
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/DEPS",
+      "file": "third-party/upstream/d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965.txt",
+      "sha256": "d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965",
+      "zlibSource": "https://chromium.googlesource.com/chromium/src/third_party/zlib@646b7f569718921d7d4b5b8e22572ff6c76f2596",
+      "gitBlob": "2885e01d9d46479dfc00e75dcf048ce70d696c70"
+    },
+    "newBuildFiles": [
+      {
+        "path": "BUILD.gn",
+        "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/BUILD.gn",
+        "bytes": 110866,
+        "sha256": "a6339f05324b266aed20121a408c8ccc9f10b8e0c7e1fe0e972bcfd032f8742b",
+        "gitBlob": "0c14a659a21786efd51b8f89bd7242aa3cc33480"
+      },
+      {
+        "path": "gn/skia.gni",
+        "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/gn/skia.gni",
+        "bytes": 9391,
+        "sha256": "f1295483a038e3cec0f087c85a6505653f6f05b715317e5136d1e57199ca1575",
+        "gitBlob": "442a4b4ba743dd0f49d45592af6d3edda1b3689d"
+      },
+      {
+        "path": "third_party/zlib/BUILD.gn",
+        "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/zlib/BUILD.gn",
+        "sha256": "7f8accc36d1f560553ad4eb0d0383816ee3b317830ff455c42d85ffe3f7e82b6",
+        "bytes": 7953,
+        "gitBlob": "7ebdbdb0e0a3cf0667209213b3bc6ce49c983386"
+      },
+      {
+        "path": "third_party/zlib/zlib.gni",
+        "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/zlib/zlib.gni",
+        "sha256": "87695bdd2bc6a83944b1575180828d2a0c32bfd74a74929cea573a7a343f2501",
+        "bytes": 196,
+        "gitBlob": "3c1838d8cb84905f57079871d6bbf3a6b819b324"
+      }
+    ],
+    "consumerConditions": [
+      {
+        "path": "gn/skia.gni",
+        "line": 104,
+        "finding": "Default skia_use_zlib=true."
+      },
+      {
+        "path": "scripts/build-skia.js in canvas",
+        "lines": [
+          84,
+          113
+        ],
+        "finding": "Requests skia_enable_pdf=true and skia_use_system_zlib=false."
+      },
+      {
+        "path": "BUILD.gn in Skia",
+        "lines": [
+          1244,
+          1250
+        ],
+        "finding": "The PDF target is enabled by skia_use_zlib && skia_enable_pdf and depends on //third_party/zlib."
+      }
+    ],
+    "simdConditions": {
+      "use_x86_x64_optimizations": "(current_cpu == x86 || current_cpu == x64) && !is_ios",
+      "use_arm_neon_optimizations": "(current_cpu == arm || current_cpu == arm64) && (is_clang || !is_win)",
+      "resolvedGnArgsObserved": false
+    },
+    "selectedSourceReferences": [
+      {
+        "sourcePath": "cpu_features.c",
+        "gnSourceLines": [
+          244
+        ],
+        "condition": "Always in the bundled zlib source list; requires skia_use_system_zlib=false.",
+        "licenseReference": "Chromium source repository LICENSE"
+      },
+      {
+        "sourcePath": "adler32_simd.c",
+        "gnSourceLines": [
+          57,
+          68
+        ],
+        "condition": "use_x86_x64_optimizations or use_arm_neon_optimizations; included by zlib_adler32_simd source set.",
+        "licenseReference": "Chromium source repository LICENSE"
+      },
+      {
+        "sourcePath": "crc32_simd.c",
+        "gnSourceLines": [
+          111,
+          176
+        ],
+        "condition": "use_x86_x64_optimizations via zlib_crc32_simd, or use_arm_neon_optimizations via zlib_arm_crc32.",
+        "licenseReference": "Chromium source repository LICENSE"
+      },
+      {
+        "sourcePath": "slide_hash_simd.h",
+        "gnSourceLines": [
+          210,
+          214
+        ],
+        "condition": "use_x86_x64_optimizations or use_arm_neon_optimizations; included by zlib_slide_hash_simd.",
+        "licenseReference": "Chromium source repository LICENSE"
+      },
+      {
+        "sourcePath": "contrib/optimizations/chunkcopy.h",
+        "gnSourceLines": [
+          150
+        ],
+        "condition": "use_x86_x64_optimizations or use_arm_neon_optimizations; included by zlib_inflate_chunk_simd.",
+        "licenseReference": "Chromium source repository LICENSE"
+      },
+      {
+        "sourcePath": "crc_folding.c",
+        "gnSourceLines": [
+          178
+        ],
+        "condition": "use_x86_x64_optimizations; included by zlib_crc32_simd.",
+        "licenseReference": "zlib.h"
+      },
+      {
+        "sourcePath": "contrib/optimizations/inffast_chunk.c",
+        "gnSourceLines": [
+          151
+        ],
+        "condition": "use_x86_x64_optimizations or use_arm_neon_optimizations; included by zlib_inflate_chunk_simd.",
+        "licenseReference": "zlib.h"
+      }
+    ],
+    "qualification": "The pinned recipe and source rules select bundled zlib and reference the scoped source files. No resolved per-platform GN args, compile/link map or reproduction of the published native binaries was obtained.",
+    "canvasScriptTreeBinding": {
+      "publisherCommit": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "scriptsTree": "ac9fe590c43f2e037b1feb3a7c1e779165353349",
+      "source": "https://api.github.com/repos/Brooooooklyn/canvas/git/trees/ac9fe590c43f2e037b1feb3a7c1e779165353349",
+      "responseSha256": "da7518ffbf30a5f31ff326102fb2368b6d5cd1e10e75c81a962aac2e5985dd72",
+      "buildScriptGitBlob": "9ceeed33e4c8f98a670f6346a63f1f4d1a1aabfd"
+    }
+  },
+  "publisherSourceFiles": [
+    {
+      "path": "crc32_simd.c",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/crc32_simd.c?format=TEXT",
+      "bytes": 18193,
+      "sha256": "8db6cd08c69e69020a857d0472e89aa26a5b526a8b2999444015914de656f79c",
+      "gitBlob": "7428270920a03e06da4a037434de0255e486058b"
+    },
+    {
+      "path": "adler32_simd.c",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/adler32_simd.c?format=TEXT",
+      "bytes": 10649,
+      "sha256": "48bf89b890c80fd737d91a18389439a348a91a18f59f695af72005c7fc17f5d3",
+      "gitBlob": "58966eecf0b8009fcd3a84239ebfd8f614f31cf4"
+    },
+    {
+      "path": "crc_folding.c",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/crc_folding.c?format=TEXT",
+      "bytes": 16251,
+      "sha256": "0b2ec29d92cb44d10499a397bbace1d970b0ff11192cea0ecb6ad01a5e78e6bf",
+      "gitBlob": "1b4f4e1d193871bd02d91d048e9f9ba268ec1ffb"
+    },
+    {
+      "path": "slide_hash_simd.h",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/slide_hash_simd.h?format=TEXT",
+      "bytes": 3685,
+      "sha256": "0524fd845c79ac31bf7e23436e68aa9eb20d21a849088f4ec3250d460214284c",
+      "gitBlob": "1000b774ccb60a601e42d9a30a18e0aa00357ae1"
+    },
+    {
+      "path": "cpu_features.c",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/cpu_features.c?format=TEXT",
+      "bytes": 6653,
+      "sha256": "10cedfb372a28a8c30f842def6213eeb40e6f7d59c3f98737e4eb78bd1999e06",
+      "gitBlob": "64e0428cd2fc2d965cf18c2af9212df68d2ea8c8"
+    },
+    {
+      "path": "README.chromium",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/README.chromium?format=TEXT",
+      "bytes": 1289,
+      "sha256": "fe9fe30ca3776e4ed9e2bdde015e0cb03f26f32c42640955d213de2df7ff8669",
+      "gitBlob": "31b9d55860f9e5d850fd603d64232ffc66e04284"
+    },
+    {
+      "path": "zlib.h",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/zlib.h?format=TEXT",
+      "bytes": 97418,
+      "sha256": "d6e12754edb0c019107c7560902c741eab10c15ced7e5f249e642b82c007c0bf",
+      "gitBlob": "f1b149b93e43466ae57d72e10dda35b9f357e9ca"
+    },
+    {
+      "path": "contrib/optimizations/chunkcopy.h",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/contrib/optimizations/chunkcopy.h?format=TEXT",
+      "bytes": 15089,
+      "sha256": "10fae79493be1ab143476151b88dcb8ec7bc94ff10c90cdd77c153dac68d8209",
+      "gitBlob": "f40546d54dbe770c9e4625881317efadceaf0b5b"
+    },
+    {
+      "path": "contrib/optimizations/inffast_chunk.c",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/contrib/optimizations/inffast_chunk.c?format=TEXT",
+      "bytes": 15832,
+      "sha256": "1d30b2735708b139da9de8198e11cb036115f39e9752bec3d2547bd2e586b767",
+      "gitBlob": "b1db452c2e7232f1d57258379232dd55d8045a1a"
+    },
+    {
+      "path": "contrib/optimizations/inflate.c",
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/contrib/optimizations/inflate.c?format=TEXT",
+      "bytes": 57482,
+      "sha256": "e1e6affe42a3539e6558aac361ed4957655a70180a658f15d486740e4e2a63b2",
+      "gitBlob": "c535c5af0c89ee52fbb6925e0f37191c6fced75a"
+    }
+  ],
+  "existingNoticeRetained": {
+    "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/LICENSE?format=TEXT",
+    "file": "third-party/upstream/e1cfcc55c325b3f78cf55df9664abaa066e2271dffe8213347d9fccdfbac8f2c.txt",
+    "sha256": "e1cfcc55c325b3f78cf55df9664abaa066e2271dffe8213347d9fccdfbac8f2c",
+    "gitBlob": "8aca25d8c7a1336c991a2bc84bc2aa341a920885",
+    "publisherBodyMatchesExistingSnapshot": true,
+    "scope": "Publisher root license with version 1.2.12 and copyright 1995-2022. Preserve it alongside the pinned 1.3.0.1 header and Chromium/ARM/Intel attribution."
+  },
+  "checks": [
+    {
+      "name": "workspace freshness and correct checkout/remote/branch",
+      "result": "pass; ahead 2 / behind 0 against published baseline at input head; remote branch matched input head"
+    },
+    {
+      "name": "export-origin subtree and original root license binding",
+      "result": "pass; exact tree equality plus root LICENSE Git blob"
+    },
+    {
+      "name": "pinned source Git-blob verification",
+      "result": "pass",
+      "skiaBuildFiles": 4,
+      "zlibFilesIncludingExistingRootLicense": 11,
+      "originLicenseFiles": 1
+    },
+    {
+      "name": "notice extraction and SHA-256",
+      "result": "pass; all eight contents exactly match their verified publisher source or source comment, including original newlines"
+    },
+    {
+      "name": "package archive matrix and product builds/tests",
+      "result": "not rerun; reused verified packages; evidence-only scope"
+    },
+    {
+      "name": "all scoped source/snapshot bindings and document links",
+      "result": "pass",
+      "verifiedSourceBindingsIncludingReusedBuildFiles": 18,
+      "noticeExtractions": 8,
+      "scopedSelectedSourceReferences": 7,
+      "priorEvidenceDigestUnchanged": true
+    }
+  ],
+  "sourceFetchFailures": [
+    {
+      "source": "https://chromium.googlesource.com/chromium/src/+/646b7f569718921d7d4b5b8e22572ff6c76f2596?format=JSON",
+      "result": "HTTP 404",
+      "resolution": "Export commit belongs to the standalone zlib repository. Its GitOrigin-RevId identifies the exact monorepo revision; that revision and matching subtree were retrieved successfully."
+    },
+    {
+      "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/",
+      "result": "Web renderer reported HTTP 503; the primary Gitiles JSON and base64 TEXT endpoints succeeded."
+    },
+    {
+      "source": "https://chromium.googlesource.com/chromium/src/+/2f39ac8d0a414dd65c0e1d5aae38c8f97aa06ae9/LICENSE",
+      "result": "Web renderer could not access the page; the exact primary base64 TEXT body and root tree succeeded."
+    }
+  ],
+  "candidateSelection": {
+    "initialCandidate": "Highway 424360251cdcfc314cfc528f53c872ecd63af0f0",
+    "primaryTreeSource": "https://api.github.com/repos/google/highway/git/trees/424360251cdcfc314cfc528f53c872ecd63af0f0?recursive=1",
+    "treeResponseSha256": "ebdd337190dede71f57ea868ad1843056c9cf88b1a85a7029ade4a51d9214690",
+    "result": "The nontruncated publisher tree exposes only a LICENSE file among notice names, already retained; no new root notice established. Bounded work proceeded with Chromium zlib.",
+    "webRendererFailure": "Pinned Highway page failed to fetch; its primary public Git tree succeeded."
+  },
+  "remaining": [
+    "Skia per-platform linked-source proof remains open; source selection is not published-binary proof.",
+    "This addition covers the exact checked Chromium/zlib/ARM/Intel notice material, not all Skia nested files.",
+    "Parent applies component notice bindings and refreshes inventories; this lane makes no global edits."
+  ],
+  "excludedActions": [
+    "No runtime changes",
+    "No global inventories, generated notices or licensing decisions changed",
+    "No current-files.json or reviews.json edits",
+    "No credentials, real user data, private Library/root files or production servers accessed",
+    "No settings/access changes or new executor",
+    "No new agreements or publisher contact",
+    "No deployments, releases, main merge, public bundle upload or whole-project MIT grant"
+  ],
+  "newExactLicenseOrNoticeTexts": 2,
+  "validationFailures": [
+    {
+      "check": "Initial source-binding harness",
+      "result": "KeyError for scripts/build-skia.js in cached canvas root tree",
+      "resolution": "The cached root tree is nonrecursive. Its scripts tree entry was resolved through the primary Git tree endpoint; the exact build-script blob and existing body were then verified."
+    }
+  ]
+}

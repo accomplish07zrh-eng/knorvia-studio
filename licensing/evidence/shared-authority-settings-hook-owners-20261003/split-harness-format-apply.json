@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/test/shared-authority-fixture.mjs",
+    "packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs",
+    "packages/shared/test/shared-hook-write-boundaries.test.mjs"
+  ],
+  "stdout": "Finished in 17ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

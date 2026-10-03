@@ -1,0 +1,146 @@
+[
+  {
+    "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+    "bytes": 19865,
+    "lines": 496,
+    "sha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194"
+  },
+  {
+    "path": "packages/desktop/src/main/desktopNetworkPolicy.ts",
+    "bytes": 9750,
+    "lines": 273,
+    "sha256": "9ec488814c6cb08564ae814cd44ba9466861359473ee6d47b5f87b70bfb873d8"
+  },
+  {
+    "path": "packages/desktop/src/main/desktopProfile.ts",
+    "bytes": 1856,
+    "lines": 50,
+    "sha256": "345504bec2138ba0ad603e901363581fb68f72570e7fd6c72022cdd73ef07329"
+  },
+  {
+    "path": "packages/desktop/src/main/desktopElectronApp.ts",
+    "bytes": 855,
+    "lines": 22,
+    "sha256": "5329fe824c380441f95967099132087bac12fc4f439dd987d6dc06349770e4cc"
+  },
+  {
+    "path": "packages/desktop/src/main/remoteCdn.ts",
+    "bytes": 819,
+    "lines": 26,
+    "sha256": "30b2ea3b4fb3d5d0936e1a9912f6b49cb893310b9de6b2e047ec8d0ee47d7a2d"
+  },
+  {
+    "path": "packages/desktop/src/main/browserDataManager.ts",
+    "bytes": 9329,
+    "lines": 231,
+    "sha256": "ae9807adfa89d3d2eb6a61ca08fa0dbbdeda68b50ff2630fe592afef645549b3"
+  },
+  {
+    "path": "packages/desktop/scripts/target-platform.mjs",
+    "bytes": 1451,
+    "lines": 57,
+    "sha256": "6e58136c0e09c42404b679ab6b1fc2f022a961e3f0e5f529802413e38cd014c8"
+  },
+  {
+    "path": "packages/shared/src/env.ts",
+    "bytes": 2620,
+    "lines": 56,
+    "sha256": "bc4307ae7fef1cc5633c45da4df067bdfc077e2f1d52a4f4b65146c052e77ee3"
+  },
+  {
+    "path": "packages/shared/src/runtimeEnv.ts",
+    "bytes": 13326,
+    "lines": 317,
+    "sha256": "9dce22428cc26c2a676e1f0a295d62f836780c5645477f6cd82bea7358622a84"
+  },
+  {
+    "path": "packages/shared/src/agent-runtime.ts",
+    "bytes": 1746,
+    "lines": 45,
+    "sha256": "121f6f72023d3d0580f13d259f0011b4efa4ee36e6e718638b7bb7e90219cac3"
+  },
+  {
+    "path": "packages/shared/src/dynamic-workflow-feature.ts",
+    "bytes": 3767,
+    "lines": 76,
+    "sha256": "210b8d1bdda0981b85ddf465f91c4c882245d974f68d7910d792e32233d84c42"
+  },
+  {
+    "path": "packages/shared/src/version.ts",
+    "bytes": 725,
+    "lines": 13,
+    "sha256": "212bafb37bfea57fea69672991fdad94e65652c17c300a28ab39753820ef7b49"
+  },
+  {
+    "path": "packages/cua/broker-helper-constants.d.ts",
+    "bytes": 248,
+    "lines": 5,
+    "sha256": "5fe1d5e6074b8b48e38d061b42a67d668aa9e2157d1111419e44e751f3c677ba"
+  },
+  {
+    "path": "packages/services/src/node.ts",
+    "bytes": 98523,
+    "lines": 2036,
+    "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743"
+  },
+  {
+    "path": "packages/services/src/paths.ts",
+    "bytes": 8906,
+    "lines": 257,
+    "sha256": "ca67067abcbbc11d8ed0ccc530363e8607ae39e0a352ca47702c80fabb99763a"
+  },
+  {
+    "path": "packages/services/src/system/sshConfigAlias.ts",
+    "bytes": 17771,
+    "lines": 708,
+    "sha256": "d79a9c9da8e48f5e3ad80d61e33ce84b83c74102685a232642de9cba741eecab"
+  },
+  {
+    "path": "packages/server/src/remote/connect.ts",
+    "bytes": 13791,
+    "lines": 389,
+    "sha256": "cb74b0c5e223d7d2ca8b08104c4682081e09926dceb89eec82f89768f8af3011"
+  },
+  {
+    "path": "packages/server/src/remote/index.ts",
+    "bytes": 1039,
+    "lines": 35,
+    "sha256": "acb6be39c838c5245aa868a5a719be1b09d144927c31ebd61cdc83b974d46b7c"
+  },
+  {
+    "path": "packages/desktop/package.json",
+    "bytes": 4262,
+    "lines": 84,
+    "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+  },
+  {
+    "path": "packages/shared/package.json",
+    "bytes": 1520,
+    "lines": 39,
+    "sha256": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408"
+  },
+  {
+    "path": "packages/server/package.json",
+    "bytes": 1490,
+    "lines": 53,
+    "sha256": "e56d2f2bc155038cc5e33bc2c2481c1a10ad2d186e3046c26364785162d84a40"
+  },
+  {
+    "path": "packages/services/package.json",
+    "bytes": 1051,
+    "lines": 41,
+    "sha256": "377ce3f4bd08c61de4b81ea726185be37847d7a98612627bc014962dc3ba39b8"
+  },
+  {
+    "path": "packages/cua/package.json",
+    "bytes": 2005,
+    "lines": 73,
+    "sha256": "e343310171a485d0c21535893cf118fba052890b499c0f8046f76ae6a3642ab9"
+  },
+  {
+    "path": "pnpm-lock.yaml",
+    "bytes": 644882,
+    "lines": 19036,
+    "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+  }
+]

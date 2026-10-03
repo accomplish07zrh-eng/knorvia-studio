@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-10-03T02:44:09.740764+00:00",
+  "baseline": "73d56d6a6de58144a1968ebdfa28c6d65641bf3d",
+  "packetCommit": "1fe07e43974c0e229724763f6f4318463d7fec8a",
+  "sourceSha256": "9f84cafb05f218e11cdc4d686a0ab7c3d849e1fedc4da7992f2c8bfd3bd07ea6",
+  "sourceBytes": 7991,
+  "corrections": [
+    "Freeze empty update before passing it to codec.",
+    "Encode compact snapshot content before creating hash port.",
+    "Locked read computes encoded canonical form before comparing JSON order.",
+    "Retain separate async poll-snapshot completion boundary."
+  ],
+  "checks": {
+    "minimum": "Three bounded fake-only IO/lock/recovery/commit/poll-generation/disposal groups pass; corrupt read preserves raw material and corrupt update rejects without overwrite; frozen empty-freeze/hash-order trace mismatch reproduced. No exhaustive timer/listener matrix.",
+    "types": "Actual target-rooted installed dependency closure baseline414files0diagnostics, final414files0diagnostics, strict/noUncheckedIndexedAccess/skipLibCheck; not wholeprojecttypes",
+    "api": "4exports including constructor/4methods/factory shapes identical, isolated0diagnostics",
+    "lint": "0warnings/errors",
+    "format": "pass",
+    "architecture": "0violations",
+    "nativeFullBuild": "deferred"
+  },
+  "retained": [
+    "Existing version1 codec, shared lock and private atomic writer unchanged. Requested mode0600 is inherited collaborator behavior, not proof of platform ACLs.",
+    "Public declarations, defaults/error/event constants, standard private state/callback and async lock/poll idioms retain constrained correspondence. No novelty/MIT acceptance."
+  ],
+  "exposure": "Full initial7334byte functional-packet authored draft frozen before deliberate target-body reading; postfreeze review source-exposed. Broader rootcontext, curator/source exposure, instruction-only shared executor, not isolated cleanroom.",
+  "safety": "Fake path/configuration/IO/codec/hash/timer/lock only; no real account/files/credentials/permissions/lock/native timer/provider/network operations; no otherlane imports or mainmerge."
+}

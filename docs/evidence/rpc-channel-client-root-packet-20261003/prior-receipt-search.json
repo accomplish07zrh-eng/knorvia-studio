@@ -1,0 +1,53 @@
+{
+  "inputPublishedHead": "c749bb0b2f4d96414573becd8ad0ea498174b0da",
+  "targets": [
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "bytes": 8369,
+      "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+      "gitBlob": "27675cd7a6a9771926c14d0f0df7a79222854820"
+    },
+    {
+      "path": "packages/rpc/src/channelServer.ts",
+      "bytes": 7784,
+      "sha256": "b9c61bd3881fff11b38a93853c60fa5c2bc871bcbea5dad0e9be0a4674f6c9da",
+      "gitBlob": "fe7a8d8a49bebab4d2d45be64a558bae44664cc6"
+    },
+    {
+      "path": "packages/rpc/src/persistent-protocol.ts",
+      "bytes": 9918,
+      "sha256": "80609595b89188272d743e557502c6cad3858f828acae31c2ef64206bb3c8978",
+      "gitBlob": "deef78b78320fdcf8541fc6bdacd246300f9561e"
+    },
+    {
+      "path": "packages/rpc/src/remote.ts",
+      "bytes": 10935,
+      "sha256": "a11e072d5df7e1c1ce64814a68f72afc081246b364f0da409b5c9d22bc815957",
+      "gitBlob": "dab4dadb63dd17b18872767d445528037e0a4aaf"
+    },
+    {
+      "path": "packages/rpc/src/ipc.ts",
+      "bytes": 11545,
+      "sha256": "53bcc9f09406515ee75b1bec8768d88f19351a05c33e66ed3a87f8c58f481d94",
+      "gitBlob": "b93dccaf47346b4d0c998a00c14af1b19a21770a"
+    }
+  ],
+  "exactReviewHits": 0,
+  "namedFilesScanned": 220,
+  "namedHits": [
+    {
+      "path": "docs/evidence/client-transport-root-packet-20261003/curator-manifest.json",
+      "sha256": "a4beba8e0b8eba8000d1916ed7bbd84a5401e483be4c877e59adfec4c54088a2"
+    }
+  ],
+  "privateHistory": "Public absence does not disprove private/unpublished acceptance; genuine accepted receipt/conflicting allocation requires HOLD",
+  "excludedRootParentScopes": [
+    "PR12 client transport (RPC declarations were retained dependencies, not replacements)",
+    "root download/release technical candidates",
+    "cache-paths retained candidate/no credit",
+    "D upper provider owners",
+    "G ServiceCollection",
+    "all root HASH HOLD including desktop prompt-transfer175-line accepted owner"
+  ],
+  "newPublisherRequests": 0
+}

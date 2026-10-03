@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "scope": "Fixed CLI lane WebSearch synthetic compatibility validation",
+  "branch": "parallel/cli-tools-fast-20261001",
+  "baselineCommit": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+  "frozenContractCommit": "8aa66c7e510ac8f251c617e257b591423131fbd2",
+  "frozenProtocolCommit": "cf356e373b496fbbce9bb0d2a572f22f1982830e",
+  "implementationCommit": "4192a62a84afe8c6ff724d25d69eccaa40e13a55",
+  "sourceExposure": {
+    "inspectedInheritedSource": true,
+    "cleanRoom": false,
+    "wholeFileOriginalityDetermination": null,
+    "licenseDetermination": null,
+    "existingAttributionRetained": true,
+    "sharedLicensingEdited": false
+  },
+  "upstreamEvidence": {
+    "kind": "recorded-manifest-facts-only",
+    "path": "licensing/upstream-baseline.json",
+    "pinnedCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "localFreshPublisherByteVerification": false,
+    "parentEarlierSevenBlobEvidenceCoversTheseWebSearchFiles": false
+  },
+  "frozenObservations": {
+    "directCases": 43,
+    "projectionCases": 45,
+    "executorCases": 9,
+    "formatterCases": 10,
+    "monthDescriptions": 12,
+    "getterProbes": 3,
+    "additionalProtocolTests": 2,
+    "baselineSourceNamedTests": 23,
+    "baselineEmittedNamedTests": 23,
+    "sha256": "f2f9598d783463d237d8e1a48d22ec311563534ee409216cfe8dd912c0bc46ca",
+    "file": "apps/cli/packages/core/test/websearch-contract.json"
+  },
+  "finalValidation": {
+    "source": {
+      "namedTests": 23,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0
+    },
+    "emitted": {
+      "namedTests": 23,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0
+    },
+    "differential": {
+      "seed": 1465074225,
+      "streamComparisonsPerMode": 4096,
+      "projectionComparisonsPerMode": 4096,
+      "modes": ["source", "emitted"],
+      "baselineObservationSha256": "ac1501eb25c3859db4d215b8c9042581f31ebf9d27f87a3c1b3169adf3eef0a0",
+      "normalization": "JSON observation omits undefined; differential retains fixture trace/receiver/iteration fields. Static contracts separately assert own undefined output keys, identities, ordering and dynamic executor span presence/propagation."
+    },
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10,
+      "windowsCuaDriverSkipped": true,
+      "existingWarnings": ["Debug chunk size", "CLI/TUI dynamic import options"]
+    },
+    "rootTypecheck": "passed including 5422 i18n matching keys",
+    "cliRecursiveTypecheck": "passed including core",
+    "rootConfiguredLint": {
+      "errors": 0,
+      "warnings": 0,
+      "files": 2841
+    },
+    "cliConfiguredLint": {
+      "errors": 0,
+      "warnings": 0,
+      "files": 97
+    },
+    "ownedLint": {
+      "errors": 0,
+      "warnings": 0,
+      "files": 12,
+      "rules": 94,
+      "configuration": "Existing root JSONC policy with ignorePatterns cleared in temporary configuration; repository rules/config unchanged"
+    },
+    "coreConfiguredLint": {
+      "status": "failed-existing-unowned",
+      "errors": 24,
+      "warnings": 11,
+      "unchangedFiles": 27,
+      "files": [
+        {
+          "path": "apps/cli/packages/core/src/agent/message-history.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/internal-turn-methods.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "cdc5b01f2fd1782109390ea2156b1a1ba9f95f388adcedc071df21aa0df37527"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-persistence.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "422a587999db16ceea860e2be3d4134228ce9f225b4eb4b893780665d85da648"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/runtime-command-queue.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "a2096f3de850c1c37f2000fb9401733110fc72cb61cf300bc6e8b8ae7d6f07ac"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/session-fork.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "e1a496dec0581987f6f8ee28d7e68f5b7bbba097b4b2e8bf0983d19db9ae187d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/telemetry/runtime-telemetry.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "af1e19734428033b26ee5dcc728bdc4cad30cda7c128ed646c032a59f1445b8e"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+          "unchangedFrom": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+          "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f"
+        }
+      ]
+    },
+    "format": {
+      "status": "passed",
+      "files": 5892
+    },
+    "architecture": {
+      "changed": "passed",
+      "full": "passed",
+      "newViolations": 0,
+      "baselineViolations": 0
+    },
+    "fullRegression": {
+      "status": "passed",
+      "files": 513,
+      "tests": 6127,
+      "passed": 6119,
+      "failed": 0,
+      "skipped": 8,
+      "cancelled": 0,
+      "durationMs": 345577.448542,
+      "perTestTimeoutMs": 120000,
+      "concurrency": 2,
+      "timeoutOrSkipPolicyChanged": false,
+      "logSha256": "16fd3eb9a2643e06f20bed1ef5081d7f814537d60b801a4ec3f847b613041a71",
+      "skippedCases": [
+        "﹣ Windows bootstrap passes the explicit offline CUA archive environment to driver staging # SKIP",
+        "﹣ 真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 真实交付脚本在 8.3 短名 Source 上也能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ Source 末尾带分隔符时仍能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 路径含空格与中文时仍能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 程序文件确实被篡改时交付必须失败并给出可定位诊断 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ deterministic old/new Claude leaf observations and public declarations # SKIP",
+        "﹣ Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced # SKIP"
+      ]
+    }
+  },
+  "remainingGaps": [
+    "No fresh publisher-byte check for these three WebSearch blobs; manifest lineage disclosed",
+    "Source-exposed retained material prevents whole-file originality or final MIT eligibility; root reviews attribution and all 27 obligations",
+    "No native Windows/macOS acceptance or real provider/search/network/billing/account/user-data execution"
+  ],
+  "fileDigests": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-execution.ts",
+      "commit": "4192a62a84afe8c6ff724d25d69eccaa40e13a55",
+      "gitBlob": "c2cdeaad98c4818c572f1bf29ce71cdf295c9aec",
+      "bytes": 6281,
+      "sha256": "6c8dba798d9763cd810d290c68a76185d0145cd776fc157123d27d60ab9ef833",
+      "lfNormalizedSha256": "6c8dba798d9763cd810d290c68a76185d0145cd776fc157123d27d60ab9ef833"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-response-tree.ts",
+      "commit": "4192a62a84afe8c6ff724d25d69eccaa40e13a55",
+      "gitBlob": "1d34e755344125b63b8696e77d79082af53b1666",
+      "bytes": 1946,
+      "sha256": "05f9bb27f5898b998d727b96bc40e770abbffc5922efbf97b98d362851b5441f",
+      "lfNormalizedSha256": "05f9bb27f5898b998d727b96bc40e770abbffc5922efbf97b98d362851b5441f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-results.ts",
+      "commit": "4192a62a84afe8c6ff724d25d69eccaa40e13a55",
+      "gitBlob": "2154b19d09822dcdc928998043fdfee433530fe5",
+      "bytes": 4048,
+      "sha256": "d62b0dec9f83bce86b53b10d0718c23bfecda2363cd5de1369123314de5095fd",
+      "lfNormalizedSha256": "d62b0dec9f83bce86b53b10d0718c23bfecda2363cd5de1369123314de5095fd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-support.ts",
+      "commit": "4192a62a84afe8c6ff724d25d69eccaa40e13a55",
+      "gitBlob": "4c222198dda2b1f4ec614e5feaaf2b37c21fb883",
+      "bytes": 575,
+      "sha256": "9c802aed73c36fdf672990a2e66eb187a32770f5e9ccce4563c8c837180d224e",
+      "lfNormalizedSha256": "9c802aed73c36fdf672990a2e66eb187a32770f5e9ccce4563c8c837180d224e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch.ts",
+      "commit": "4192a62a84afe8c6ff724d25d69eccaa40e13a55",
+      "gitBlob": "79fe757bfe46aa6c49256cbdee57fa35f4cfae1e",
+      "bytes": 2204,
+      "sha256": "5494581667f6db3ae6a2ed048938e1a296174801378b8e59e11bfd343d992e7b",
+      "lfNormalizedSha256": "5494581667f6db3ae6a2ed048938e1a296174801378b8e59e11bfd343d992e7b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-cases.ts",
+      "commit": "8aa66c7e510ac8f251c617e257b591423131fbd2",
+      "gitBlob": "ca693cfa937a72ee20455b4735ccd5f04c24f40f",
+      "bytes": 6817,
+      "sha256": "5e039b830873ed4decd409960c472226d3fe6a1e36943272d23f7e7f581c40b0",
+      "lfNormalizedSha256": "5e039b830873ed4decd409960c472226d3fe6a1e36943272d23f7e7f581c40b0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-consumers.test.ts",
+      "commit": "8aa66c7e510ac8f251c617e257b591423131fbd2",
+      "gitBlob": "905afd62096955924f0ef1d4a321111516f057b2",
+      "bytes": 8233,
+      "sha256": "32b5f616a10c88554d683acaf7ad5abaed49a1d2cab5dd47a2b10f83b7cad2e7",
+      "lfNormalizedSha256": "32b5f616a10c88554d683acaf7ad5abaed49a1d2cab5dd47a2b10f83b7cad2e7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-contract.json",
+      "commit": "8aa66c7e510ac8f251c617e257b591423131fbd2",
+      "gitBlob": "8f3b038391f54bb99d9a2c6ccf9675dcecb39c8c",
+      "bytes": 299552,
+      "sha256": "f2f9598d783463d237d8e1a48d22ec311563534ee409216cfe8dd912c0bc46ca",
+      "lfNormalizedSha256": "f2f9598d783463d237d8e1a48d22ec311563534ee409216cfe8dd912c0bc46ca"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-contract.test.ts",
+      "commit": "8aa66c7e510ac8f251c617e257b591423131fbd2",
+      "gitBlob": "0a0a3ab5eebe9f80cf32e92a64336d3cbad3365c",
+      "bytes": 8399,
+      "sha256": "e4481e211aa410288130f82f7ea91887b7e154005821629825d6d7f93a760d52",
+      "lfNormalizedSha256": "e4481e211aa410288130f82f7ea91887b7e154005821629825d6d7f93a760d52"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-differential.mts",
+      "commit": "4192a62a84afe8c6ff724d25d69eccaa40e13a55",
+      "gitBlob": "0f335fb485c57e30c3c9b46096f485df4b9060f5",
+      "bytes": 4729,
+      "sha256": "822cce3b43cef116ce011ec410167455034477f80eac1d540fd9fdeccb7031e7",
+      "lfNormalizedSha256": "822cce3b43cef116ce011ec410167455034477f80eac1d540fd9fdeccb7031e7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-fixture.ts",
+      "commit": "8aa66c7e510ac8f251c617e257b591423131fbd2",
+      "gitBlob": "fdb9e6a7f19bfb792b0660f25ab57c3af8ff0a54",
+      "bytes": 10599,
+      "sha256": "57806e7aa94de6691b9d34bae55e1f98a9a9a3ed25e1a4cb472c3c704ab35a80",
+      "lfNormalizedSha256": "57806e7aa94de6691b9d34bae55e1f98a9a9a3ed25e1a4cb472c3c704ab35a80"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-projection.test.ts",
+      "commit": "8aa66c7e510ac8f251c617e257b591423131fbd2",
+      "gitBlob": "cb1fc5005f0a96ab3295c1e4762588f9d40f502c",
+      "bytes": 3253,
+      "sha256": "a08529f162913821fcfcb2d0de18870aa925069725b54db075b9fa6f7a3c13b4",
+      "lfNormalizedSha256": "a08529f162913821fcfcb2d0de18870aa925069725b54db075b9fa6f7a3c13b4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/websearch-stream-protocol.test.ts",
+      "commit": "cf356e373b496fbbce9bb0d2a572f22f1982830e",
+      "gitBlob": "1fe5f2fc646a75bd108027ec997570411bd0185e",
+      "bytes": 2456,
+      "sha256": "6e3409ff8fe658ee65b0260e0bf705031ca33e14c73d7d08a27dc66849a523da",
+      "lfNormalizedSha256": "6e3409ff8fe658ee65b0260e0bf705031ca33e14c73d7d08a27dc66849a523da"
+    },
+    {
+      "path": "specs/knorvia-websearch-execution.md",
+      "commit": "cd7c8e5118ffeebbe9bf6748fb303bf4f2eea0dd",
+      "gitBlob": "5500959e443d64cf84e054a7f9e2c4e4fd9af745",
+      "bytes": 8223,
+      "sha256": "9ea6126439b7d32a2edee91e3cfb12c5d239e472fd05c392f3dc3a120eb05f96",
+      "lfNormalizedSha256": "9ea6126439b7d32a2edee91e3cfb12c5d239e472fd05c392f3dc3a120eb05f96"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# Complete agent stderr drain owner
+
+Parent authorizes at most two eligible remaining services owners after b317bc; current bounded screen selects only AgentStderrCollector. Exact current SHA3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128 matches declared upstream-unchanged file. Upstream blob2c164e8b7ab8f78b6e60efce49c9ab9e73e9bca0 exists; full CRLF-to-LF normalized blob SHA equals current bytes. [Exact origin/exclusions](STDERR-ORIGIN-20261003.json) precede reconstruction. Prior stdio/event complete receipts retained this dependency, not an accepted stderr owner replacement. No contradictory receipt/lane allocation found in bounded exact checks. Positive inheritance evidence is not rights clearance or MIT grant.
+
+Reconstruct entire public constant/class from frozen body-free declarations/external behavior with a fresh fork-none Sol high author. One owner for reader, shared drain promise, completion flag, earliest absolute deadline and timer. Preserve callback/event registration order, raw line/reference/failure identity, immediate destroyed/ended completion, same Promise identity, default250 budget, strict earlier-deadline replacement, truthy-only timer cancellation, native clear/close failures and legacy pending-after-failed-completion. Completion stops diagnostics only; no stdin/stdout protocol shutdown, listener detachment, input destruction, unref, process signals or application authority. Node readline/dependency policy remains external and unclaimed.
+
+```text
+input → one reader/diagnostic callback → close/error or earliest requested timer
+                                  └→ committed completion → timer clear → reader close → same Promise resolve
+```
+
+Freeze complete first-ready source/design/exact inputs/instruction/access/manifest before separate own review; preserve all corrections/revisions and source exposure limits. Coordinator is source-exposed and installs author byte copies+format only, verifies parsed identity. Shared workspace/self-reported access is not hardware/model/process cleanroom proof. Saved Fast actual switching unavailable; no novelty requirement.
+
+Minimum fake readline/input/timers only for identity/data/lifecycle/error order; scoped owner/test types/lint/format and directly affected stdio consumer types. No native stream/process/user data/diagnostics/write/config/network/permission/application execution or broad tests/builds. Preserve previous21RPC/25transport/CUA6/15 and all frozen failures; types blocked remain blocked. Root startup/commitMessageFileScope/task preparation HOLDS, other lanes/entrypoints, static tables/interfaces and credential/CA/proxy/installer/policy boundaries excluded. No second owner forced. No global license/provenance/inventory/dependencies/security policies/MIT/origin acceptance, merge/integration/force-push/source upload/Library403 alternate access/cancelled parent upload retry. Integrate only after all implementation collected.

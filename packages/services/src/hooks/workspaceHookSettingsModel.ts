@@ -1,4 +1,5 @@
 import { dirname } from "node:path";
+
 import type {
   Hook,
   HookConfiguredState,
@@ -39,122 +40,104 @@ export interface LegacyHooksConfig {
   [key: string]: unknown;
 }
 
-function isHookType(value: unknown): value is Hook["type"] {
-  return value === "command" || value === "process";
-}
+const declarationFields = [
+  "type",
+  "command",
+  "args",
+  "async",
+  "enabled",
+  "shell",
+  "statusMessage",
+  "timeout",
+  "timeoutMs",
+];
 
-function getCustomHookFields(hook: LegacyHookDefinition | WorkspaceHookDefinition) {
-  const {
-    type: _type,
-    command: _command,
-    args: _args,
-    async: _async,
-    enabled: _enabled,
-    shell: _shell,
-    statusMessage: _statusMessage,
-    timeout: _timeout,
-    timeoutMs: _timeoutMs,
-    ...custom
-  } = hook;
+function customFields(raw: WorkspaceHookDefinition): Record<string, unknown> | undefined {
+  const custom = { ...raw } as Record<string, unknown>;
+  for (const field of declarationFields) delete custom[field];
   return Object.keys(custom).length > 0 ? custom : undefined;
 }
 
-function resolveWritableDeclarationEnabled(hook: Hook): boolean {
+function declarationEnabled(hook: Hook): boolean {
   const configured = hook.configuredState;
-  if (!configured) return hook.enabled;
-  return hook.enabled === configured.configuredEnabled
+  return configured && hook.enabled === configured.configuredEnabled
     ? configured.declarationEnabled
     : hook.enabled;
 }
 
-function getWritableHook(hook: Hook): LegacyHookDefinition {
-  const common: LegacyHookDefinition = {
+function writableDeclaration(hook: Hook): WorkspaceHookDefinition {
+  const common = {
     ...hook.custom,
     type: hook.type,
     command: hook.command,
-    enabled: resolveWritableDeclarationEnabled(hook),
+    enabled: declarationEnabled(hook),
     ...(hook.statusMessage ? { statusMessage: hook.statusMessage } : {}),
   };
-  if (hook.type === "command") {
+  if (hook.type === "process") {
     return {
       ...common,
-      ...(hook.async ? { async: true } : {}),
-      ...(hook.shell ? { shell: hook.shell } : {}),
-      ...(hook.timeout ? { timeout: hook.timeout } : {}),
+      type: "process",
+      ...(hook.args && hook.args.length > 0 ? { args: hook.args } : {}),
+      ...(hook.timeout ? { timeoutMs: hook.timeout * 1000 } : {}),
     };
   }
   return {
     ...common,
-    ...(hook.args && hook.args.length > 0 ? { args: hook.args } : {}),
-    ...(hook.timeout ? { timeoutMs: hook.timeout * 1000 } : {}),
+    type: "command",
+    ...(hook.async ? { async: true } : {}),
+    ...(hook.shell ? { shell: hook.shell } : {}),
+    ...(hook.timeout ? { timeout: hook.timeout } : {}),
   };
 }
 
-function getRawHook(
-  source: WorkspaceHookSourceInput,
-  entry: CanonicalWorkspaceHookEntryData,
-): WorkspaceHookDefinition {
-  const hook = source.hooks.events?.[entry.event]?.[entry.matcherIndex]?.hooks[entry.hookIndex];
-  if (!hook) throw new Error(`Workspace Hook provenance is incomplete for ${entry.reviewItemId}`);
-  return hook;
-}
-
-function toConfiguredState(
-  entry: CanonicalWorkspaceHookEntryData,
-  sourcePath: string,
-): HookConfiguredState {
-  return {
+function canonicalView(input: {
+  source: WorkspaceHookSourceInput;
+  entry: CanonicalWorkspaceHookEntryData;
+  id: string;
+  location: SettingsDirectoryLocation;
+  workspaceFields?: Pick<
+    WorkspaceHookDiscoveryState,
+    "workspaceIdentity" | "bundleDigest" | "hookDeclarationDigest" | "trustState"
+  >;
+}): Hook {
+  const { source, entry, id, location, workspaceFields } = input;
+  const raw = source.hooks.events?.[entry.event]?.[entry.matcherIndex]?.hooks[entry.hookIndex];
+  if (!raw) throw new Error(`Workspace Hook provenance is incomplete for ${entry.reviewItemId}`);
+  const configuredState: HookConfiguredState = {
     sourceRootEnabled: entry.sourceRootEnabled,
     declarationEnabled: entry.declarationEnabled,
     runtimeHooksEnabled: entry.runtimeHooksEnabled,
     configuredEnabled: entry.configuredEnabled,
-    sourcePath,
+    sourcePath: source.canonicalPath,
   };
-}
-
-function toHook(input: {
-  entry: CanonicalWorkspaceHookEntryData;
-  source: WorkspaceHookSourceInput;
-  id: string;
-  location: SettingsDirectoryLocation;
-  workspaceHook?: Omit<
-    WorkspaceHookDiscoveryState,
-    keyof HookConfiguredState | "reviewItemId" | "sourceFileIndex"
-  >;
-}): Hook {
-  const raw = getRawHook(input.source, input.entry);
-  const configuredState = toConfiguredState(input.entry, input.source.canonicalPath);
-  const workspaceHook = input.workspaceHook
-    ? {
-        ...configuredState,
-        reviewItemId: input.entry.reviewItemId,
-        sourceFileIndex: input.entry.sourceFileIndex,
-        ...input.workspaceHook,
-      }
-    : undefined;
   return {
-    id: input.id,
-    event: input.entry.event,
-    matcher: input.entry.matcher ?? undefined,
-    type: input.entry.type,
-    command: input.entry.command,
-    ...(input.entry.type === "process" ? { args: [...(input.entry.args ?? [])] } : {}),
-    ...(input.entry.type === "command" && input.entry.async !== undefined
-      ? { async: input.entry.async }
-      : {}),
-    ...(input.entry.type === "command" && input.entry.shell !== undefined
-      ? { shell: input.entry.shell }
-      : {}),
-    ...(input.entry.statusMessage ? { statusMessage: input.entry.statusMessage } : {}),
+    id,
+    event: entry.event,
+    matcher: entry.matcher ?? undefined,
+    type: entry.type,
+    command: entry.command,
+    ...(entry.type === "process" ? { args: [...(entry.args ?? [])] } : {}),
+    ...(entry.type === "command" && entry.async !== undefined ? { async: entry.async } : {}),
+    ...(entry.type === "command" && entry.shell !== undefined ? { shell: entry.shell } : {}),
+    ...(entry.statusMessage ? { statusMessage: entry.statusMessage } : {}),
     timeout:
       (raw.type === "command" ? raw.timeout : undefined) ??
       (raw.timeoutMs !== undefined ? Math.round(raw.timeoutMs) / 1000 : undefined),
-    enabled: input.entry.configuredEnabled,
-    editable: input.entry.editable,
+    enabled: entry.configuredEnabled,
+    editable: entry.editable,
     configuredState,
-    ...(workspaceHook ? { workspaceHook } : {}),
-    custom: getCustomHookFields(raw),
-    location: input.location,
+    ...(workspaceFields
+      ? {
+          workspaceHook: {
+            ...configuredState,
+            reviewItemId: entry.reviewItemId,
+            sourceFileIndex: entry.sourceFileIndex,
+            ...workspaceFields,
+          },
+        }
+      : {}),
+    custom: customFields(raw),
+    location,
   };
 }
 
@@ -165,14 +148,14 @@ export function fromProjectSnapshot(input: {
   workspacePath: string;
   persistentTrustedDigests?: ReadonlySet<string>;
 }): Hook[] {
+  if (!input.snapshot) return [];
   const snapshot = input.snapshot;
-  if (!snapshot) return [];
   return snapshot.hooks.map((entry) => {
     const source = input.sources[entry.sourceFileIndex];
     if (!source) throw new Error(`Workspace Hook source is missing for ${entry.reviewItemId}`);
-    return toHook({
-      entry,
+    return canonicalView({
       source,
+      entry,
       id: entry.reviewItemId,
       location: {
         source: "knorvia",
@@ -180,7 +163,7 @@ export function fromProjectSnapshot(input: {
         directoryPath: dirname(source.canonicalPath),
         projectPath: input.workspacePath,
       },
-      workspaceHook: {
+      workspaceFields: {
         workspaceIdentity: input.workspaceIdentity,
         bundleDigest: snapshot.bundleDigest,
         hookDeclarationDigest: entry.hookDeclarationDigest,
@@ -199,17 +182,13 @@ export function fromUserKnorviaSource(input: {
   location: SettingsDirectoryLocation;
 }): Hook[] {
   if (!input.source) return [];
+  const source = input.source;
   return resolveWorkspaceHookEntries({
     workspacePath: input.workspacePath,
-    sources: [input.source],
+    sources: [source],
     runtimeRoot: input.runtimeRoot,
   }).map((entry, index) =>
-    toHook({
-      entry,
-      source: input.source!,
-      id: `hook-knorvia-user-${index}`,
-      location: input.location,
-    }),
+    canonicalView({ source, entry, id: `hook-knorvia-user-${index}`, location: input.location }),
   );
 }
 
@@ -219,15 +198,14 @@ export function fromLegacyHooksConfig(input: {
   isHookEvent: (value: string) => value is HookEvent;
 }): Hook[] {
   const hooks: Hook[] = [];
-  let idCounter = 0;
-  for (const [eventName, matchers] of Object.entries(input.legacyConfig?.hooks ?? {})) {
-    if (!input.isHookEvent(eventName) || !Array.isArray(matchers)) continue;
+  for (const [event, matchers] of Object.entries(input.legacyConfig?.hooks ?? {})) {
+    if (!input.isHookEvent(event) || !Array.isArray(matchers)) continue;
     for (const matcher of matchers) {
       for (const hook of matcher.hooks ?? []) {
-        if (!isHookType(hook.type) || !hook.command) continue;
+        if ((hook.type !== "command" && hook.type !== "process") || !hook.command) continue;
         hooks.push({
-          id: `hook-${input.location.source}-${input.location.scope}-${idCounter++}`,
-          event: eventName,
+          id: `hook-${input.location.source}-${input.location.scope}-${hooks.length}`,
+          event,
           matcher: matcher.matcher,
           type: hook.type,
           command: hook.command,
@@ -249,19 +227,16 @@ export function fromLegacyHooksConfig(input: {
 }
 
 export function toKnorviaHooksEvents(hooks: Hook[]): WorkspaceHooksConfig["events"] {
-  const events: WorkspaceHooksConfig["events"] = {};
+  const events: NonNullable<WorkspaceHooksConfig["events"]> = {};
   for (const hook of hooks) {
-    const eventMatchers = events[hook.event] ?? [];
-    let matcher = eventMatchers.find((item) => item.matcher === hook.matcher);
+    const matchers = events[hook.event] ?? [];
+    let matcher = matchers.find((candidate) => candidate.matcher === hook.matcher);
     if (!matcher) {
-      matcher = {
-        ...(hook.matcher ? { matcher: hook.matcher } : {}),
-        hooks: [],
-      };
-      eventMatchers.push(matcher);
-      events[hook.event] = eventMatchers;
+      matcher = { ...(hook.matcher ? { matcher: hook.matcher } : {}), hooks: [] };
+      matchers.push(matcher);
+      events[hook.event] = matchers;
     }
-    matcher.hooks.push(getWritableHook(hook) as WorkspaceHookDefinition);
+    matcher.hooks.push(writableDeclaration(hook));
   }
   return events;
 }
@@ -270,14 +245,11 @@ export function resolveNextRootEnabled(
   existingEnabled: boolean | undefined,
   hooks: Hook[],
 ): boolean | undefined {
-  if (
-    hooks.some(
-      (hook) =>
-        hook.enabled &&
-        (!hook.configuredState || hook.enabled !== hook.configuredState.configuredEnabled),
-    )
-  ) {
-    return true;
-  }
-  return existingEnabled;
+  return hooks.some(
+    (hook) =>
+      hook.enabled &&
+      (!hook.configuredState || hook.enabled !== hook.configuredState.configuredEnabled),
+  )
+    ? true
+    : existingEnabled;
 }

@@ -1,0 +1,70 @@
+[
+  {
+    "message": "Turn phase started",
+    "level": "info",
+    "orderedFields": [
+      "...trace",
+      "event",
+      "module",
+      "phase",
+      "status"
+    ]
+  },
+  {
+    "message": "Turn phase completed",
+    "level": "info",
+    "orderedFields": [
+      "...trace",
+      "durationMs",
+      "event",
+      "module",
+      "phase",
+      "status"
+    ]
+  },
+  {
+    "message": "Turn started",
+    "level": "info",
+    "orderedFields": [
+      "...trace",
+      "event",
+      "inputLength",
+      "module",
+      "status"
+    ]
+  },
+  {
+    "message": "Turn completed",
+    "level": "info",
+    "orderedFields": [
+      "...trace",
+      "durationMs",
+      "event",
+      "module",
+      "status",
+      "toolCallCount"
+    ]
+  },
+  {
+    "message": "Turn execution escaped lifecycle handler",
+    "level": "warn",
+    "orderedFields": [
+      "...trace",
+      "durationMs",
+      "errorMessage",
+      "event",
+      "module",
+      "phase",
+      "status"
+    ]
+  },
+  {
+    "message": "Browser turn cleanup failed",
+    "level": "warn",
+    "orderedFields": [
+      "error",
+      "event",
+      "turnId"
+    ]
+  }
+]

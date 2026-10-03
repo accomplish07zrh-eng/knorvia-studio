@@ -1,0 +1,20 @@
+[
+  {
+    "path": "apps/cli/packages/adapters/src/browser/executable.ts",
+    "added": 47,
+    "deleted": 43,
+    "net": 4
+  },
+  {
+    "path": "apps/cli/packages/adapters/src/browser/playwright-command.ts",
+    "added": 144,
+    "deleted": 133,
+    "net": 11
+  },
+  {
+    "path": "apps/cli/packages/adapters/src/browser/snapshot.ts",
+    "added": 226,
+    "deleted": 235,
+    "net": -9
+  }
+]

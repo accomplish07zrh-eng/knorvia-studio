@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTabResidencyCoordinator.ts",
+      "sha256": "9b53c768b9e2119b7358389cc06efd3e6902fab2d5318940667e8befad4a02e8"
+    }
+  ],
+  "stdout": "Finished in 26ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

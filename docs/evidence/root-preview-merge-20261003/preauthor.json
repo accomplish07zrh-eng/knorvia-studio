@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-02T19:35:13.569890+00:00",
+  "packetRef": "ba03cac450388eb3ff6ae333d8ed69ab2ab584ce",
+  "sourceHashesMatch": true,
+  "inputsVerified": 9,
+  "qualification": "Only body-free packet, declarations, grammar/format data; broader context retained and earlier generic compiler read these exact targets per packet. No deliberate body/history/test reads in this pass; not isolated/rights determination.",
+  "stableTies": "Earlier accumulated pass wins exact start/end/path tie; additive clarification retained."
+}

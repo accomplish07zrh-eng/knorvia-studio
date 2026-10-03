@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-02T19:35:13.939017+00:00",
+  "drafts": {
+    "draft-conversation-preview-artifacts.ts": {
+      "bytes": 10983,
+      "sha256": "cb4fc6f074c71a55d349ead1dc33e5acc45795cdd84fcbde5a831d3668cfbc46"
+    },
+    "draft-persistedMessageMerge.ts": {
+      "bytes": 2965,
+      "sha256": "4a619c89eb146da779672c46a1f5d8046cf6e195f358322b71325c8ba2579bb2"
+    }
+  },
+  "bodyReadBeforeFreeze": false
+}

@@ -1,0 +1,300 @@
+{
+  "method": "TypeScript AST parse only; no emit/typecheck/product execution. Target bodies remain curator-only; output contains public signatures/imports/literal data, no body source/private helper names.",
+  "results": [
+    {
+      "source": "packages/desktop/src/main/broadcastHub.ts",
+      "parseDiagnostics": [],
+      "publicExports": [
+        {
+          "kind": "class",
+          "name": "BroadcastHub",
+          "methods": [
+            {
+              "name": "collectMemoryDiagnostics",
+              "parameters": [],
+              "explicitReturn": "Record<string, number>"
+            },
+            {
+              "name": "register",
+              "parameters": [
+                {
+                  "name": "windowId",
+                  "type": "number",
+                  "optional": false
+                },
+                {
+                  "name": "child",
+                  "type": "ElectronUtilityProcess",
+                  "optional": false
+                }
+              ],
+              "explicitReturn": "void"
+            },
+            {
+              "name": "unregister",
+              "parameters": [
+                {
+                  "name": "windowId",
+                  "type": "number",
+                  "optional": false
+                }
+              ],
+              "explicitReturn": "void"
+            }
+          ]
+        }
+      ],
+      "runtimeImports": [
+        {
+          "module": "electron",
+          "typeOnly": true,
+          "names": [
+            {
+              "name": "UtilityProcess",
+              "local": "ElectronUtilityProcess",
+              "typeOnly": false
+            }
+          ]
+        },
+        {
+          "module": "@knorvia/shared",
+          "typeOnly": false,
+          "names": [
+            {
+              "name": "HostMessageTypes",
+              "local": "HostMessageTypes",
+              "typeOnly": false
+            },
+            {
+              "name": "HostResponseTypes",
+              "local": "HostResponseTypes",
+              "typeOnly": false
+            },
+            {
+              "name": "broadcastMessageSchema",
+              "local": "broadcastMessageSchema",
+              "typeOnly": false
+            },
+            {
+              "name": "formatZodError",
+              "local": "formatZodError",
+              "typeOnly": false
+            },
+            {
+              "name": "hostResponseMessageSchema",
+              "local": "hostResponseMessageSchema",
+              "typeOnly": false
+            }
+          ]
+        },
+        {
+          "module": "@knorvia/services",
+          "typeOnly": true,
+          "names": [
+            {
+              "name": "BroadcastMessage",
+              "local": "BroadcastMessage",
+              "typeOnly": false
+            }
+          ]
+        },
+        {
+          "module": "./logger.js",
+          "typeOnly": false,
+          "names": [
+            {
+              "name": "logger",
+              "local": "logger",
+              "typeOnly": false
+            }
+          ]
+        }
+      ],
+      "retainedLiteralData": {
+        "strings": [
+          "electron",
+          "@knorvia/shared",
+          "@knorvia/services",
+          "./logger.js",
+          "reserved",
+          "committed",
+          "message",
+          "[BroadcastHub] invalid host response message:",
+          "busy",
+          "acquired",
+          "[BroadcastHub] invalid broadcast message:"
+        ],
+        "numericLexemes": [
+          "1_024",
+          "5_000",
+          "250",
+          "0",
+          "1"
+        ],
+        "templateStaticParts": [
+          [
+            "",
+            ":",
+            ":",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "source": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "parseDiagnostics": [],
+      "publicExports": [
+        {
+          "kind": "function",
+          "name": "configureDatabaseStartupQuit",
+          "parameters": [
+            {
+              "name": "handler",
+              "type": "() => void",
+              "optional": false
+            }
+          ],
+          "explicitReturn": "void"
+        },
+        {
+          "kind": "function",
+          "name": "onLocalDatabaseStartupReady",
+          "parameters": [
+            {
+              "name": "listener",
+              "type": "() => void",
+              "optional": false
+            }
+          ],
+          "explicitReturn": "void"
+        },
+        {
+          "kind": "function",
+          "name": "getDatabaseStartupPortPayload",
+          "parameters": [
+            {
+              "name": "child",
+              "type": "UtilityProcess",
+              "optional": false
+            }
+          ],
+          "explicitReturn": "{ databaseStartupId: string } | undefined"
+        },
+        {
+          "kind": "function",
+          "name": "bindDatabaseStartupRelay",
+          "parameters": [
+            {
+              "name": "win",
+              "type": "BrowserWindow",
+              "optional": false
+            },
+            {
+              "name": "child",
+              "type": "UtilityProcess",
+              "optional": false
+            },
+            {
+              "name": "startupId",
+              "type": null,
+              "optional": true
+            }
+          ],
+          "explicitReturn": null
+        }
+      ],
+      "runtimeImports": [
+        {
+          "module": "node:crypto",
+          "typeOnly": false,
+          "names": [
+            {
+              "name": "randomUUID",
+              "local": "randomUUID",
+              "typeOnly": false
+            }
+          ]
+        },
+        {
+          "module": "electron",
+          "typeOnly": false,
+          "names": [
+            {
+              "name": "ipcMain",
+              "local": "ipcMain",
+              "typeOnly": false
+            },
+            {
+              "name": "BrowserWindow",
+              "local": "BrowserWindow",
+              "typeOnly": true
+            },
+            {
+              "name": "UtilityProcess",
+              "local": "UtilityProcess",
+              "typeOnly": true
+            }
+          ]
+        },
+        {
+          "module": "@knorvia/shared",
+          "typeOnly": false,
+          "names": [
+            {
+              "name": "HostMessageTypes",
+              "local": "HostMessageTypes",
+              "typeOnly": false
+            },
+            {
+              "name": "InternalChannels",
+              "local": "InternalChannels",
+              "typeOnly": false
+            },
+            {
+              "name": "databaseStartupControlSchema",
+              "local": "databaseStartupControlSchema",
+              "typeOnly": false
+            },
+            {
+              "name": "DatabaseStartupState",
+              "local": "DatabaseStartupState",
+              "typeOnly": true
+            }
+          ]
+        },
+        {
+          "module": "./databaseStartupTelemetry.js",
+          "typeOnly": false,
+          "names": [
+            {
+              "name": "reportDatabaseStartupState",
+              "local": "reportDatabaseStartupState",
+              "typeOnly": false
+            }
+          ]
+        }
+      ],
+      "retainedLiteralData": {
+        "strings": [
+          "node:crypto",
+          "electron",
+          "@knorvia/shared",
+          "./databaseStartupTelemetry.js",
+          "ready",
+          "exit",
+          "snapshot",
+          "starting",
+          "failed",
+          "transport_closed",
+          "closed"
+        ],
+        "numericLexemes": [
+          "1",
+          "0"
+        ],
+        "templateStaticParts": []
+      }
+    }
+  ]
+}

@@ -1,33 +1,72 @@
 import { type MessagePart } from "@knorvia/contracts";
 import { safeJson, truncateText } from "./utils.js";
 
-const SYSTEM_REMINDER_PATTERN = /<\/?system-reminder\b/i;
+const TEXT_PART_PREVIEW_CHARS = 3000;
+const FILE_PART_PREVIEW_CHARS = 1600;
 const TOOL_INPUT_PREVIEW_CHARS = 900;
 const TOOL_OUTPUT_PREVIEW_CHARS = 1600;
-const TEXT_PART_PREVIEW_CHARS = 3000;
-const FILE_PREVIEW_CHARS = 1600;
 
-const SKIPPED_SYNTHETIC_TEXT_SOURCES = new Set([
-  "background_task",
-  "subagent_message",
-  "diagnostics",
-  "goal_state_change",
-  "hook_context",
-  "model_anomaly",
-  "queued_system_notification",
-  "runtime_mode",
-  "todo_reminder",
-]);
+function isSuppressedSyntheticSource(source: unknown): boolean {
+  if (typeof source !== "string") return false;
+  switch (source) {
+    case "background_task":
+    case "subagent_message":
+    case "diagnostics":
+    case "goal_state_change":
+    case "hook_context":
+    case "model_anomaly":
+    case "queued_system_notification":
+    case "runtime_mode":
+    case "todo_reminder":
+      return true;
+    default:
+      return false;
+  }
+}
+
+function formatFile(part: Extract<MessagePart, { type: "file" }>): string {
+  const path = !part.source
+    ? undefined
+    : part.source.type === "resource"
+      ? part.source.uri
+      : part.source.path;
+  const preview = part.metadata?.preview?.text ?? part.source?.text.value;
+  const header = [
+    "File attachment",
+    part.filename ? `filename=${part.filename}` : undefined,
+    `mime=${part.mime}`,
+    path ? `path=${path}` : undefined,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  if (!preview) return header;
+  return `${header}\n${truncateText(preview, FILE_PART_PREVIEW_CHARS)}`;
+}
+
+function formatTool(part: Extract<MessagePart, { type: "tool" }>): string {
+  const lines = [`Tool ${part.tool} ${part.state.status}`];
+  if ("input" in part.state) {
+    lines.push(`input: ${truncateText(safeJson(part.state.input), TOOL_INPUT_PREVIEW_CHARS)}`);
+  }
+  if (part.state.status === "completed") {
+    lines.push(`output: ${truncateText(part.state.output, TOOL_OUTPUT_PREVIEW_CHARS)}`);
+  } else if (part.state.status === "error") {
+    lines.push(`error: ${truncateText(part.state.error, TOOL_OUTPUT_PREVIEW_CHARS)}`);
+  } else if (part.state.status === "pending") {
+    lines.push(`raw: ${truncateText(part.state.raw, TOOL_INPUT_PREVIEW_CHARS)}`);
+  }
+  return lines.join("\n");
+}
 
 export function formatPartForContext(part: MessagePart): string | null {
   switch (part.type) {
     case "text":
       if (part.ignored) return null;
-      if (SYSTEM_REMINDER_PATTERN.test(part.text)) return null;
-      if (part.synthetic && shouldSkipSyntheticTextPart(part.metadata?.source)) return null;
+      if (/<\/?system-reminder\b/i.test(part.text)) return null;
+      if (part.synthetic && isSuppressedSyntheticSource(part.metadata?.source)) return null;
       return truncateText(part.text, TEXT_PART_PREVIEW_CHARS);
     case "file":
-      return formatFilePart(part);
+      return formatFile(part);
     case "agent":
       return `[Selected agent: ${part.name}]`;
     case "subtask":
@@ -39,7 +78,7 @@ export function formatPartForContext(part: MessagePart): string | null {
         .filter(Boolean)
         .join("\n");
     case "tool":
-      return formatToolPart(part);
+      return formatTool(part);
     case "patch":
       return `Patch files: ${part.files.join(", ")}`;
     case "compaction":
@@ -57,46 +96,5 @@ export function formatPartForContext(part: MessagePart): string | null {
 }
 
 export function dedupeParts(parts: MessagePart[]): MessagePart[] {
-  return [...new Map(parts.map((part) => [part.id, part])).values()];
-}
-
-function shouldSkipSyntheticTextPart(source: unknown): boolean {
-  return typeof source === "string" && SKIPPED_SYNTHETIC_TEXT_SOURCES.has(source);
-}
-
-function formatFilePart(part: Extract<MessagePart, { type: "file" }>): string {
-  const path = fileSourcePath(part);
-  const preview = part.metadata?.preview?.text ?? part.source?.text.value;
-  const header = [
-    "File attachment",
-    part.filename ? `filename=${part.filename}` : undefined,
-    `mime=${part.mime}`,
-    path ? `path=${path}` : undefined,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  if (!preview) return header;
-  return [header, truncateText(preview, FILE_PREVIEW_CHARS)].join("\n");
-}
-
-function fileSourcePath(part: Extract<MessagePart, { type: "file" }>): string | undefined {
-  if (!part.source) return undefined;
-  if (part.source.type === "resource") return part.source.uri;
-  return part.source.path;
-}
-
-function formatToolPart(part: Extract<MessagePart, { type: "tool" }>): string {
-  const lines = [`Tool ${part.tool} ${part.state.status}`];
-  if ("input" in part.state) {
-    lines.push(`input: ${truncateText(safeJson(part.state.input), TOOL_INPUT_PREVIEW_CHARS)}`);
-  }
-  if (part.state.status === "completed") {
-    lines.push(`output: ${truncateText(part.state.output, TOOL_OUTPUT_PREVIEW_CHARS)}`);
-  } else if (part.state.status === "error") {
-    lines.push(`error: ${truncateText(part.state.error, TOOL_OUTPUT_PREVIEW_CHARS)}`);
-  } else if (part.state.status === "pending") {
-    lines.push(`raw: ${truncateText(part.state.raw, TOOL_INPUT_PREVIEW_CHARS)}`);
-  }
-  return lines.join("\n");
+  return Array.from(new Map(parts.map((part) => [part.id, part] as const)).values());
 }

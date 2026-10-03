@@ -1,0 +1,14 @@
+{
+  "sha256": "9deff1d44bd2e96948eb79d26ae1c7044dd41bc5b73e82bc3eecd0b4829e718c",
+  "bytes": 14250,
+  "author": "/root/screenshot_activity_owner_author43",
+  "access": "Read only common/activity contract and shared/contracts/bootstrap/retry declarations; no source/history/tests/evidence/dependency/draft/output reread.",
+  "version": "initial",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "rawPath": "licensing/evidence/desktop-screenshot-owners-20261003/drafts/activity-initial.ts",
+  "boundary": "Instructions/shared filesystem; no OS isolation or Fast guarantee"
+}

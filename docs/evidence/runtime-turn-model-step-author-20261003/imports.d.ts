@@ -1,0 +1,18 @@
+import { beginLocalTurnPreparation } from "@knorvia/contracts";
+import { CompactTrigger, CoreErrorType, SessionEventType, createChildTraceContext, createCoreError, createMessageId, createPartId, getModelUsageTotalTokens, traceContextToLogContext, TurnMachineImpl, } from "../deps.js";
+import type { MessageId, ModelNetworkStatusEvent, ModelToolContract } from "../deps.js";
+import { createRuntimeAssistantEntry, type RuntimeMessageEntry, } from "../../agent/message-history.js";
+import { createModelContextExceededFinishError, createCompactRapidRefillError, objectKeys, projectExecutionErrorPayload, finalizeSuspiciousEmptyModelResult, isContextExceededFinishReason, isSuspiciousEmptyModelResult, readRawFinishReason, throwIfTurnAborted, isModelContextExceededError, isTurnCancellationError, buildTurnFileChangeSummary, } from "../helpers/index.js";
+import type { DrainedPendingInputDiagnostics, RunModelTextRequestOptions, RuntimeModelStreamSnapshot, RuntimeModelTextResult, } from "../types.js";
+import type { AgentRuntimeInternal } from "../internal.js";
+import { executeToolCallsForModelStep } from "./turn-tools.js";
+import { captureAssistantPersistenceAnchor, finishModelStepWithoutToolCalls, persistCompletedAssistantStep, persistOutputTokenLimitErrorCarrier, } from "./turn-stop.js";
+import { createStreamingToolCoordinator } from "./streaming-tool-coordinator.js";
+import { persistCancelledStreamSnapshot } from "./cancelled-stream-persistence.js";
+import { beginStartPlanBusyAdmissionRetryAttempt, createStartPlanBusyAutoRetryExhaustedError, emitStreamRecoveryRetryEvents, emitStreamRecoveryStarted, getStartPlanBusyAdmissionRetryDelayMs, isStartPlanBusyStreamRecoveryFailure, } from "./streaming-recovery.js";
+import type { RegularTurnLoopState } from "./turn-loop-state.js";
+import { evaluateRapidRefill, MAX_CONSECUTIVE_RAPID_REFILLS, RAPID_REFILL_TOOL_TURN_THRESHOLD, recordCompactHistoryRound, recordCompactSuccess, recordModelHistoryRound, } from "./turn-loop-state.js";
+import { querySourceForTask, recordMainTurnCacheHitUsage, recordMainTurnModelUsage, } from "./turn-model-step-usage.js";
+import { estimateCurrentModelInputTokens } from "./compact.js";
+import { resolveModelStepMaxOutputTokens, resolveNormalRequestMaxOutputTokens, } from "./model-token-limits.js";
+import { appendOutputTokenContinuation, classifyOutputTokenContinuation, commitAssistantToTurnRequest, commitTurnRequestEntries, completeOutputTokenRecovery, hasAssistantReasoningContent, OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE, } from "./turn-output-token-continuation.js";

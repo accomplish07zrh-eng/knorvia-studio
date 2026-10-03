@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+  "kind": "file",
+  "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+  "normalizedSha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+  "encoding": "utf8-lf",
+  "bytes": 4164,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+    "blob": "299832372db2174021709d67ff51aac74df8451f",
+    "normalizedSha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

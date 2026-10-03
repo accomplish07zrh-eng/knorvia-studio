@@ -6,155 +6,12 @@ import type {
   ToolArtifactStorePort,
 } from "@knorvia/contracts";
 
-export async function filePartToContentBlock(
-  part: FilePart,
-  artifactStore: ToolArtifactStorePort | undefined,
-): Promise<ModelMessageContentBlock> {
-  const source = attachmentRefFromFilePart(part);
-  const dataUrl = await filePartDataUrl(part, artifactStore);
-  if (isImageMime(part.mime) && dataUrl) {
-    return {
-      type: "image",
-      mediaType: concreteMediaType(part.mime, dataUrl),
-      dataUrl,
-      source,
-    };
+function isInlinePayload(value: unknown): value is string {
+  if (typeof value !== "string" || !value.startsWith("data:")) {
+    return false;
   }
-
-  if (part.mime.startsWith("video/") && dataUrl) {
-    return {
-      type: "video",
-      mediaType: part.mime,
-      dataUrl,
-      source,
-    };
-  }
-
-  // 增加 video 时曾把原有 PDF allowlist 泛化为所有非文本 MIME，
-  // 导致 audio 等未支持类型在冷恢复后意外变成 provider file 输入。
-  if (isPdfMime(part.mime) && dataUrl) {
-    return {
-      type: "file",
-      mediaType: "application/pdf",
-      name: part.filename,
-      dataUrl,
-      source,
-    };
-  }
-
-  const previewText = part.metadata?.preview?.text;
-  if (part.mime.startsWith("text/") && typeof previewText === "string") {
-    return { type: "text", text: previewText };
-  }
-
-  const label =
-    part.metadata?.storageKind === "local_ref"
-      ? (part.source?.text.value ??
-        (part.source?.type === "file" || part.source?.type === "symbol"
-          ? part.source.path
-          : undefined) ??
-        part.metadata.originalUrl ??
-        part.url)
-      : (part.filename ?? part.url);
-  return { type: "text", text: `[Attached ${part.mime}: ${label}]` };
-}
-
-type PersistedToolMediaLayoutEntry =
-  | { type: "attachment"; attachmentIndex: number }
-  | { type: "text"; text: string };
-
-export function projectPersistedToolMediaContent(
-  value: unknown,
-  attachmentBlocks: ModelMessageContentBlock[],
-): ModelMessageContentBlock[] | undefined {
-  const layout = parsePersistedToolMediaLayout(value);
-  if (!layout) return undefined;
-  const content: ModelMessageContentBlock[] = [];
-  for (const entry of layout) {
-    if (entry.type === "text") {
-      content.push({ type: "text", text: entry.text });
-      continue;
-    }
-    const block = attachmentBlocks[entry.attachmentIndex];
-    if (!block) return undefined;
-    content.push(block);
-  }
-  return content;
-}
-
-function parsePersistedToolMediaLayout(
-  value: unknown,
-): PersistedToolMediaLayoutEntry[] | undefined {
-  if (!Array.isArray(value) || value.length === 0) return undefined;
-  const layout: PersistedToolMediaLayoutEntry[] = [];
-  for (const entry of value) {
-    if (!isRecord(entry)) return undefined;
-    if (entry.type === "text" && typeof entry.text === "string") {
-      layout.push({ type: "text", text: entry.text });
-      continue;
-    }
-    if (
-      entry.type === "attachment" &&
-      typeof entry.attachmentIndex === "number" &&
-      Number.isInteger(entry.attachmentIndex) &&
-      entry.attachmentIndex >= 0
-    ) {
-      layout.push({ type: "attachment", attachmentIndex: entry.attachmentIndex });
-      continue;
-    }
-    return undefined;
-  }
-  return layout;
-}
-
-async function filePartDataUrl(
-  part: FilePart,
-  artifactStore: ToolArtifactStorePort | undefined,
-): Promise<string | undefined> {
-  if (isUsableDataUrl(part.url)) return part.url;
-  const artifactUri = durableArtifactUriFromFilePart(part);
-  if (!artifactStore || !artifactUri) return undefined;
-  try {
-    const artifact = await artifactStore.readToolResultArtifact({ uri: artifactUri });
-    return isUsableDataUrl(artifact.content) ? artifact.content : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-function attachmentRefFromFilePart(part: FilePart): AttachmentRef {
-  const artifactUri =
-    (part.source?.type === "file" || part.source?.type === "symbol") &&
-    (isImageMime(part.mime) || part.mime.startsWith("video/") || isPdfMime(part.mime))
-      ? durableArtifactUriFromFilePart(part)
-      : undefined;
-  return {
-    id: part.id,
-    // 冷恢复的正文来自 durable artifact，若仍把持久化的原始 path 当作
-    // 当前请求路径，原文件删除或修改后会让 base64 与 source path 指向不同内容；
-    // image/video 有 artifact 时统一按 inline 恢复，由请求投影从同一 artifact 重建 path。
-    kind: artifactUri
-      ? "inline"
-      : part.source?.type === "resource"
-        ? "resource"
-        : part.source
-          ? "local_file"
-          : "inline",
-    uri: artifactUri ?? (part.source?.type === "resource" ? part.source.uri : part.url),
-    path:
-      !artifactUri && (part.source?.type === "file" || part.source?.type === "symbol")
-        ? part.source.path
-        : undefined,
-    mimeType: part.mime,
-    sizeBytes: part.metadata?.sizeBytes,
-    sha256: part.metadata?.sha256,
-    placeholder: part.source?.text.value ?? part.filename,
-  };
-}
-
-function durableArtifactUriFromFilePart(part: FilePart): string | undefined {
-  const artifactUri = part.metadata?.artifactUri ?? part.url;
-  return isArtifactUri(artifactUri) ? artifactUri : undefined;
+  const separator = value.indexOf(",");
+  return separator >= 0 && separator < value.length - 1;
 }
 
 function isImageMime(mime: string): boolean {
@@ -165,17 +22,151 @@ function isPdfMime(mime: string): boolean {
   return mime.split(";", 1)[0]?.trim().toLowerCase() === "application/pdf";
 }
 
-function isUsableDataUrl(value: string): boolean {
-  const commaIndex = value.indexOf(",");
-  return value.startsWith("data:") && commaIndex >= 0 && value.slice(commaIndex + 1).length > 0;
+export async function filePartToContentBlock(
+  part: FilePart,
+  artifactStore: ToolArtifactStorePort | undefined,
+): Promise<ModelMessageContentBlock> {
+  const origin = part.source;
+  const durableUri = part.metadata?.artifactUri ?? part.url;
+  const localOrigin = origin?.type === "file" || origin?.type === "symbol";
+  const mediaOrigin =
+    isImageMime(part.mime) || part.mime.startsWith("video/") || isPdfMime(part.mime);
+  const useArtifactIdentity = localOrigin && mediaOrigin && isArtifactUri(durableUri);
+
+  const reference: AttachmentRef = {
+    id: part.id,
+    kind: useArtifactIdentity
+      ? "inline"
+      : origin?.type === "resource"
+        ? "resource"
+        : origin
+          ? "local_file"
+          : "inline",
+    uri: useArtifactIdentity ? durableUri : origin?.type === "resource" ? origin.uri : part.url,
+    path: useArtifactIdentity
+      ? undefined
+      : origin?.type === "file" || origin?.type === "symbol"
+        ? origin.path
+        : undefined,
+    mimeType: part.mime,
+    sizeBytes: part.metadata?.sizeBytes,
+    sha256: part.metadata?.sha256,
+    placeholder: origin?.text.value ?? part.filename,
+  };
+
+  let payload: string | undefined;
+  if (isInlinePayload(part.url)) {
+    payload = part.url;
+  } else if (artifactStore && isArtifactUri(durableUri)) {
+    try {
+      const result = await artifactStore.readToolResultArtifact({ uri: durableUri });
+      const content = result.content;
+      if (isInlinePayload(content)) {
+        payload = content;
+      }
+    } catch {
+      // An unavailable or unusable artifact leaves the text fallback available.
+    }
+  }
+
+  if (payload !== undefined && isImageMime(part.mime)) {
+    const mediaType =
+      part.mime === "image/*"
+        ? (payload.match(/^data:([^;,]+)(?:;base64)?,/i)?.[1]?.toLowerCase() ?? "image/png")
+        : part.mime;
+    return {
+      type: "image",
+      mediaType,
+      dataUrl: payload,
+      source: reference,
+    };
+  }
+
+  if (payload !== undefined && part.mime.startsWith("video/")) {
+    return {
+      type: "video",
+      mediaType: part.mime,
+      dataUrl: payload,
+      source: reference,
+    };
+  }
+
+  if (payload !== undefined && isPdfMime(part.mime)) {
+    return {
+      type: "file",
+      mediaType: "application/pdf",
+      name: part.filename,
+      dataUrl: payload,
+      source: reference,
+    };
+  }
+
+  if (part.mime.startsWith("text/")) {
+    const preview = part.metadata?.preview?.text;
+    if (typeof preview === "string") {
+      return { type: "text", text: preview };
+    }
+  }
+
+  let label: string;
+  if (part.metadata?.storageKind === "local_ref") {
+    const currentOrigin = part.source;
+    const localPath =
+      currentOrigin?.type === "file" || currentOrigin?.type === "symbol"
+        ? currentOrigin.path
+        : undefined;
+    label = currentOrigin?.text.value ?? localPath ?? part.metadata.originalUrl ?? part.url;
+  } else {
+    label = part.filename ?? part.url;
+  }
+  return { type: "text", text: `[Attached ${part.mime}: ${label}]` };
 }
 
-function concreteMediaType(mime: string, dataUrl: string): string {
-  if (mime !== "image/*") return mime;
-  const match = /^data:([^;,]+)(?:;base64)?,/i.exec(dataUrl);
-  return match?.[1]?.toLowerCase() ?? "image/png";
-}
+export function projectPersistedToolMediaContent(
+  value: unknown,
+  attachmentBlocks: ModelMessageContentBlock[],
+): ModelMessageContentBlock[] | undefined {
+  if (!Array.isArray(value) || value.length === 0) {
+    return undefined;
+  }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+  const accepted: Array<
+    { type: "text"; text: string } | { type: "attachment"; attachmentIndex: number }
+  > = [];
+  for (const entry of value) {
+    if (entry === null || typeof entry !== "object" || Array.isArray(entry)) {
+      return undefined;
+    }
+    const row = entry as Record<string, unknown>;
+    const type = row.type;
+    if (type === "text") {
+      const text = row.text;
+      if (typeof text !== "string") {
+        return undefined;
+      }
+      accepted.push({ type: "text", text });
+    } else if (type === "attachment") {
+      const index = row.attachmentIndex;
+      if (typeof index !== "number" || !Number.isInteger(index) || index < 0) {
+        return undefined;
+      }
+      accepted.push({ type: "attachment", attachmentIndex: index });
+    } else {
+      return undefined;
+    }
+  }
+
+  const projected: ModelMessageContentBlock[] = [];
+  for (const entry of accepted) {
+    if (entry.type === "text") {
+      projected.push({ type: "text", text: entry.text });
+    } else {
+      const attachment = attachmentBlocks[entry.attachmentIndex];
+      if (!attachment) {
+        return undefined;
+      }
+      projected.push(attachment);
+    }
+  }
+  return projected;
 }

@@ -1,0 +1,26 @@
+{
+  "retainedExpression": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+  "pdfMime": "application/pdf",
+  "pdfMediaKind": "pdf",
+  "emptyDerivedPath": "empty derived path",
+  "materializationError": "Unable to materialize ${mediaKind} attachment path: ${label}",
+  "sourceAnnotations": {
+    "image": "[Image: source: ${path}]",
+    "video": "[Video: source: ${path}]",
+    "file": "[PDF: source: ${path}]"
+  },
+  "sourceKinds": [
+    "inline",
+    "local_file"
+  ],
+  "unsupportedStatus": "unsupported",
+  "ensureFields": [
+    "mediaType",
+    "uri"
+  ],
+  "changedMessageFields": [
+    "cacheControl",
+    "content",
+    "toolCalls"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "command": "ls /tmp/preload-check.mjs /tmp/preload-syntax.cjs /tmp/preload-runtime-syntax-proof.cjs /tmp/preload-final-evidence.py node_modules/typescript/package.json node_modules/.bin/prettier node_modules/.bin/eslint",
+  "combinedToolOutput": "ls: cannot access 'node_modules/.bin/prettier': No such file or directory\nls: cannot access 'node_modules/.bin/eslint': No such file or directory\n/tmp/preload-check.mjs\n/tmp/preload-final-evidence.py\n/tmp/preload-runtime-syntax-proof.cjs\n/tmp/preload-syntax.cjs\nnode_modules/typescript/package.json\n",
+  "exitCode": 2,
+  "result": "Optional tool probe failed; repository native oxfmt/oxlint binaries exist and were used without installation or escalation."
+}

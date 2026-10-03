@@ -1,0 +1,21 @@
+{
+  "checkpoint": "42bccd729bf2fef1b5d874ef8c3bdc90df29ebcf",
+  "conclusion": "dormant/unconnected candidate; not completed active functionality",
+  "currentCandidateSha256": "fb626c4ce574b584a2f2ac5b187b5edf2b8dc29ef4e0c2292ec5179e185cf75b",
+  "currentCandidateBytes": 8971,
+  "mainConstructorMatches": 0,
+  "mainInjectionMatches": 0,
+  "onlyImportCaller": "browserGuestManager.ts type-only import lines44-49; optional recoveryStore port/calls",
+  "fullExitRule": "index.ts lines339-341 deliberately omits recoveryStore injection; no cross-process shell/pageState restore, full-exit clears and avoids duplicate attach",
+  "historicalFactsSource": "parent report, not new private-history access",
+  "parentHistoricalStatus": "2026-10-02 04:13 rejected dormant candidate; no modification/commit/acceptance; no accepted-version conflict found",
+  "historicalSourceByteBinding": {
+    "commit": "686ad40895582aa02e50ca34df0e9ccb9d17c5fc",
+    "path": "packages/desktop/src/main/browserView/browserTabRecoveryStore.ts",
+    "bytes": 10195,
+    "sha256": "47724e818f97e75f7762c9624c1f0db85b397c29db3e94fb270f3ca14ef80304"
+  },
+  "implementationOrInjectionChanged": false,
+  "testsRun": false,
+  "privateHistoryAbsenceProven": false
+}

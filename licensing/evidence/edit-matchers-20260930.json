@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "scope": "Streaming Edit candidate selection, pure transformations and exact UTF-16 line distance",
+  "baseCommit": "d0534dfad55121d43cb51063dd0ec79681939ba7",
+  "oldSource": {
+    "path": "apps/cli/packages/core/src/tool/edit-matchers.ts",
+    "sha256": "f26bd9a0f1b3e18562751451eb831676fd7a84eabf5706672a00517156ea202a",
+    "exposure": "Author inspected earlier source to freeze observed behaviour; no isolated-author or clean-room claim"
+  },
+  "implementation": [
+    "Stream candidate count, first actual value and diversity instead of allocating a Candidate array",
+    "Reuse a line view and offsets across broad strategy passes; preserve first successful strategy, same-value repetitions, ambiguity and replaceAll exclusions",
+    "Exact line distance removes common prefix/suffix then uses one Uint32 row; it is not the fixed-three Read-suggestion predicate",
+    "Sparse escape walkers copy slices between backslashes; quote placement remains Unicode-code-point based while distances remain UTF-16-code-unit based"
+  ],
+  "unchanged": [
+    "Four public matcher exports and all strategy labels",
+    "Empty-search quote-normalized boundary behaviour and one-trailing-empty-line handling",
+    "Original Edit handler, permission/read-before-edit gates, atomic writes, expectedRevision and state metadata",
+    "UI, user data formats, original licence/attribution and all 27 material obligations"
+  ],
+  "validation": {
+    "frozenOld": {
+      "contractCases": 100,
+      "realEditConsumers": 8,
+      "largeSparseAssertions": 2
+    },
+    "permanentDualGate": {
+      "tests": 222,
+      "pass": 222,
+      "fail": 0,
+      "source": 111,
+      "actualEmitted": 111,
+      "perMode": "100 frozen API cases, eight actual Edit synthetic-port consumers, two distance contracts and one sparse-escape contract"
+    },
+    "exactDistanceReferencePairsPerMode": 14641,
+    "differential": {
+      "generatedInputs": 14000,
+      "apiComparisons": 62000,
+      "mismatches": 0,
+      "outcomes": {
+        "matched:quote_normalized": 1848,
+        "not_found:none": 6563,
+        "matched:unicode_escape_normalized": 1361,
+        "matched:exact": 2791,
+        "matched:escape_normalized": 114,
+        "matched:line_number_prefix_stripped": 180,
+        "ambiguous:quote_normalized": 7,
+        "ambiguous:line_trimmed": 333,
+        "matched:line_trimmed": 422,
+        "ambiguous:block_anchor": 191,
+        "matched:block_anchor": 190
+      }
+    },
+    "publicExports": {
+      "exports": [
+        "findEditMatch",
+        "normalizeLineEndings",
+        "normalizeReplacementForMatch",
+        "preserveQuoteStyle"
+      ],
+      "distinctSourceAndEmitted": true
+    },
+    "aggregate": {
+      "tests": 5482,
+      "pass": 5416,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "baselineFailureEvents": 59,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass concurrency=1 heap=2048MiB",
+    "rootCliAndExplicitSixFileLint": "pass",
+    "fullFormat": "pass",
+    "architecture": "pass",
+    "cliBuild": {
+      "success": 17,
+      "total": 17,
+      "cache": 10
+    },
+    "emittedGraphSha256": {
+      "apps/cli/packages/core/dist/tool/edit-matchers.js": "610b51c11dc93c8d75076c9451958e88495e4d57849f39ff43197b9e07449819",
+      "apps/cli/packages/core/dist/tool/edit-match-text.js": "4587e555398818833cb5b674bda9973cc37543080cfc722f3bedca405def1ab2",
+      "apps/cli/packages/core/dist/tool/edit-match-distance.js": "4120f42a06bfa5f0f9b82ac503b93a12f8d34cb3a4d7f1c76fe45c23a6e722ba"
+    },
+    "cliStartupSmoke": {
+      "command": "bundled CLI --version",
+      "exitCode": 0,
+      "output": "0.16.9",
+      "isolation": "Empty temporary working directory and HOME, cleared environment, explicit temporary data/config/cache roots; no model credentials",
+      "bundleSha256": "645d54a8727be6c3790214e63269e3039f7aa6b8558f3f6614cfb249a341f89f"
+    }
+  },
+  "performanceObservation": {
+    "fixture": "5000 repeated trimmed-line candidates; observations only, not an application benchmark",
+    "beforeMs": [
+      11.609849999999994,
+      12.138102000000003,
+      11.690661999999975
+    ],
+    "afterMs": [
+      1.0533489999999688,
+      0.8935000000000173,
+      0.5414420000000177
+    ]
+  },
+  "refinement": "Before final acceptance, permanent source/dist gates were added and escape handling was changed from per-unit reconstruction to sparse slice copying. Intermediate full runs were retained and the final tree was retested; no budgets or assertions were relaxed.",
+  "fileDigests": {
+    "apps/cli/packages/core/src/tool/edit-matchers.ts": "5fd2dfc2b6505255be02e87fd987f88025c0351009761b65978fceab9f9d788d",
+    "apps/cli/packages/core/src/tool/edit-match-text.ts": "dc7b9077c5b1fcf97a5a9f50d9f0dabe9d32277cf1a45d7ce3a3754c2add6eea",
+    "apps/cli/packages/core/src/tool/edit-match-distance.ts": "e1c82ef2fa94554b8041f3d5bd16297150ded8044d79b1bb74c248af4149358a",
+    "apps/cli/packages/core/test/edit-matchers-contract.test.ts": "1dc7c90f0646f5b47338416d5967cb1d3cc0fdd204436ce136ad4c6af2d84020",
+    "apps/cli/packages/core/test/edit-match-consumer.test.ts": "cc51fa19435e225dbe58096909cc8b7561b11a5185e8c2187928e80c15c3788e",
+    "apps/cli/packages/core/test/edit-match-distance.test.ts": "9bd76e024a0fc81cd5de2478bf767faccaccef9465aa92aa94248341b2826d83",
+    "apps/cli/packages/core/test/fixtures/edit-matchers-contract.json": "b7199b1b950673f25a13a332065d5d743f942a5228d2e12b374a05d4b3b7febb"
+  },
+  "logDigests": {
+    "edit-match-frozen.tap": "7309dce01b42236051580f5937286704a22fea4647b07cc15d2b389c1be1ec50",
+    "edit-match-consumer-frozen.tap": "ff49af9d5ab4243d9354653b7873f48e26a644da7815b89efee9a56a2ff9df87",
+    "edit-match-frozen-replay.log": "6662627de12802033f1db51b27fb00c9d9b86b8e30890b94a754d01c60c55225",
+    "edit-match-permanent-dual.tap": "bb11cfe049ae4d0c6c086b4fa321f85b7df8cf5b8e2b7721bfca8b5de1404ead",
+    "edit-match-differential.log": "d59707f0bb50ddca8f2b614b2d986ea3345fc1bf40525ff18d114a927e3d514a",
+    "edit-match-exports.log": "4b0c52caf9e8b24ee213261beae7177450c3a61a3959d689b515e9fb5c89e968",
+    "edit-match-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "edit-match-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "edit-match-build.log": "9afaef8b096a35caf47e606ba74d1b449016356220aa9609ab48cd31d061af8c",
+    "edit-match-lint.log": "49bd291b2873d2fdb2eea08312426b46494a94c0b43b421f0c9448780fbc9b64",
+    "edit-match-cli-lint.log": "610817f10685b73365a3179cc18caf1d6dd7d4be187ec79b1ed8ae5dbd4a725b",
+    "edit-match-strict-lint.log": "28abd771ba3508c1b9448c816c42915788c4ad8ac39dc0d600ce9f398618b08a",
+    "edit-match-format.log": "66eaf41d071d3d6ac15f9ff92a4b144100e580eb5d8aaa320eb5a992856d994b",
+    "edit-match-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "edit-match-full.tap": "414a1c7c76a0ced7185862e249a08e41ec46735e0eaaaa4b8fe844bfeae29bd3",
+    "edit-match-full-before-dual.tap": "f01282b01f5feb4e776f0a3b7d8b31710dfca0d15ed1e0d615025bde387ffe4c",
+    "edit-match-full-before-sparse.tap": "48d5a93813fb8e2ace3ecfd8c8711e13301598c0452b00ebe9ca42f77a6a83ff",
+    "edit-match-cli-version.log": "5dd0ca386ae83caaa4d32488cec1f155c8a4caae321e1689b6ffba3c45bd9b61"
+  },
+  "sourceReview": {
+    "newMitDecision": false,
+    "runtimeFallbackToEarlierMatcher": false,
+    "pendingThirdPartyMaterials": 27
+  },
+  "limits": [
+    "Own-cloud aggregate retains 59 known socket EPERM failures and seven platform skips",
+    "The pure emitted matcher graph is directly imported; actual Edit consumers still include retained dependency exports",
+    "Synthetic ports never write user files; native filesystem/installer/UI/data-upgrade acceptance is not established",
+    "Timing samples are synthetic observations, not an application speed claim",
+    "New remote CI for this candidate is pending; the entire independent-rewrite/MIT goal remains open"
+  ]
+}

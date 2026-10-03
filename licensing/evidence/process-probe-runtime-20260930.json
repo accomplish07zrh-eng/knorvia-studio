@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-30",
+  "baseCommit": "76c233875181793a340b1e41da99f18b4f8e279f",
+  "scope": "Five process-probe modules; unchanged callers, device identity, UI and storage",
+  "implementation": {
+    "method": "Specification and public declarations, controlled observation and counterexamples before a fresh implementation; no old implementation body used as a template in this batch",
+    "priorAuthorExposure": true,
+    "cleanRoomClaim": false,
+    "mitEligibilityResolved": false,
+    "productionLicense": "Apache-2.0 retained; original source declarations and notices retained",
+    "design": [
+      "Relation-edge index and iterative DFS with last sample per PID",
+      "Bounded 64-read Linux batches, relation discovery before targeted RSS reads",
+      "Independent platform parsers and per-instance consecutive failure owner",
+      "Per-call deadlines and observer isolation without new queue or single-flight behavior"
+    ]
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe.ts",
+      "baselineSourceSha256": "bc9d9c28ce8b018cd75bd2a2bd8e72df69c56960572c22911af891bc327c5774",
+      "baselineBuiltJsSha256": "52731feb3c7811aaf7ef5cc9bf468a8fba1a004ccc84c84576fccd0dee861415",
+      "baselineDeclarationSha256": "0c206c333753ec45bd3aec923e21d0038b258fe8bb4025f9492f5ba9c14b6554",
+      "candidateSourceSha256": "3a11b62cd2c0dbd53658f3b093e91aef7ed37e3c3e347ac510b1205f9d3fef74",
+      "licenseRetained": "Apache-2.0",
+      "productionOriginReviewAdded": false
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-shared.ts",
+      "baselineSourceSha256": "03b685dcee520d1edebefd80144f7104091f97bbacc81f25572fbd3be6f031da",
+      "baselineBuiltJsSha256": "09f45d8d16b248f6349a5909adbb28edf783ad65e46b96c221dca4af805eb195",
+      "baselineDeclarationSha256": "09b533787940db0a596520aa198760feb7cd659dd9c16283c7a67e23b3e09f03",
+      "candidateSourceSha256": "fc3fbfa68530e3414b7ae3d6af03074b0892737848e8b37a8231fd21585da628",
+      "licenseRetained": "Apache-2.0",
+      "productionOriginReviewAdded": false
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-linux.ts",
+      "baselineSourceSha256": "883b6398beccf83cf0e972c49f55976e812ce80d242cfaf35c375abe281c4b18",
+      "baselineBuiltJsSha256": "af41176bf1c4cb8735ec0870cd835f016a9967f9a9cd1c450db6d14bd354fa27",
+      "baselineDeclarationSha256": "d614104602e9f1a72b28c5b5975eb34f777d132d1650fcb1d8fca65c61fa05ae",
+      "candidateSourceSha256": "de127e6caeae9988568e2229aa606865398cf56ce80536d16e4c822031a8569b",
+      "licenseRetained": "Apache-2.0",
+      "productionOriginReviewAdded": false
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-darwin.ts",
+      "baselineSourceSha256": "d6fce18d9ab154ddd4ae5c5b7340bf57d6cea4ca4165085efa425116cf6a3623",
+      "baselineBuiltJsSha256": "ac7f1b2b3fa8d5ce9a73e9cc5ed502d417753ec235a9aca334245489cf649983",
+      "baselineDeclarationSha256": "0f5529767b60689f0718b1f79fb2f5e4dcb0edc4be288fc6a5b5a9fade447c07",
+      "candidateSourceSha256": "641f94d35fe1d480236cec325ce82a214b7aec731dbb185487251879f4fda825",
+      "licenseRetained": "Apache-2.0",
+      "productionOriginReviewAdded": false
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-windows.ts",
+      "baselineSourceSha256": "f4ae0b01dcc7e8d1fa3fad4cb98d8c5c92f441f430edd0f65fd2ba57a8896d56",
+      "baselineBuiltJsSha256": "8f3b3e195972c2485596578ec1deb401bbe5f51e5d0dbc478bc030fccdcfa1a4",
+      "baselineDeclarationSha256": "02663cbc1aaef7045a125885e07b23f114e21ce8336afe89760f0f0d1bdda02e",
+      "candidateSourceSha256": "45779634c871853f812fdf16268c9b9e7332714c1064eca74dc557bf5a2aadc8",
+      "licenseRetained": "Apache-2.0",
+      "productionOriginReviewAdded": false
+    }
+  ],
+  "unchangedBoundaries": [
+    {
+      "path": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+      "sha256": "6d335b29abf6e9362f41c3419c1e2326ad02056b22f09efd9618ac181ff688e2",
+      "baselineBytesUnchanged": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/resource-telemetry.ts",
+      "sha256": "ff85a73c86300dd746e7e234c64faf17a6f56b06b8642722eeb6664c5db66c45",
+      "baselineBytesUnchanged": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-resource-telemetry.ts",
+      "sha256": "bd15be03f3178428ae3ca15917b857f28789b767f032b5fdf2af18d5132a0b4e",
+      "baselineBytesUnchanged": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+      "baselineBytesUnchanged": true
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "baselineBytesUnchanged": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "baselineBytesUnchanged": true
+    }
+  ],
+  "frozenContracts": {
+    "preImplementationCasesPerMode": 48,
+    "finalCasesPerMode": 50,
+    "postImplementationIntegrationCases": 2,
+    "parserBoundaryInputs": 53,
+    "fixtures": [
+      {
+        "path": "apps/cli/packages/adapters/test/process-probe-contract/api-shape.json",
+        "sha256": "405cf1f8b9677b7d84e4de5a70d72eb7a62808de3260f0f2229f6bf863824487"
+      },
+      {
+        "path": "apps/cli/packages/adapters/test/process-probe-contract/parser-matrix.json",
+        "sha256": "0dd98a85bcc305320e9b7c3c45e6fbd62a2075772a22270e646286319dca114d"
+      }
+    ],
+    "ioIsolation": "Target fs/promises and child_process including default platform fallback and target timers sealed; synthetic process data only",
+    "publicApi": "Semantic projection of frozen old declarations matches candidate source and dist",
+    "initialFailures": {
+      "oldCases": 42,
+      "passed": 36,
+      "failed": 6,
+      "cause": "Incorrect contract assumptions corrected before production changes; not product regressions",
+      "corrections": [
+        "Windows low-level still executes for empty/invalid input and accepts requested finite fractional PID; factory owns positive-integer validation",
+        "Unknown platforms fall back to ps",
+        "Linux directory errors are wrapped and admitted batches finish before deadline checks"
+      ]
+    },
+    "testPreparationFailures": [
+      "Loader banner identifier collision",
+      "Shared TypeScript caller import required tsx wiring",
+      "Synthetic MCP identifier failed actual schema and was replaced with builtin:controlled",
+      "Use standard file URL for external shared-schema ESM import so Windows drive paths are not treated as URL protocols"
+    ],
+    "provisionalObservationExcluded": "Earlier unsealed default-platform observations are not frozen evidence"
+  },
+  "checks": [
+    {
+      "name": "Frozen old source runtime gate",
+      "cases": 48,
+      "passed": 48,
+      "failed": 0
+    },
+    {
+      "name": "Frozen old dist runtime gate",
+      "cases": 48,
+      "passed": 48,
+      "failed": 0
+    },
+    {
+      "name": "Expanded old source including real callers",
+      "cases": 50,
+      "passed": 50,
+      "failed": 0
+    },
+    {
+      "name": "Expanded old dist including real callers",
+      "cases": 50,
+      "passed": 50,
+      "failed": 0
+    },
+    {
+      "name": "Candidate source including public API and real callers",
+      "cases": 50,
+      "passed": 50,
+      "failed": 0
+    },
+    {
+      "name": "Candidate dist including public API and real callers",
+      "cases": 50,
+      "passed": 50,
+      "failed": 0
+    },
+    {
+      "name": "Root and CLI typecheck/lint",
+      "status": "passed"
+    },
+    {
+      "name": "CLI build",
+      "successfulTasks": 17,
+      "totalTasks": 17,
+      "cachedTasks": 12
+    },
+    {
+      "name": "Full offline Studio regression",
+      "cases": 3872,
+      "passed": 3865,
+      "skipped": 7,
+      "failed": 0
+    },
+    {
+      "name": "Web static build",
+      "status": "passed",
+      "warnings": "Large bundle chunks and existing ineffective dynamic imports"
+    },
+    {
+      "name": "Desktop build:no-runtime-assets",
+      "status": "passed",
+      "scope": "Static main/host/renderer build, not native UI or installer"
+    },
+    {
+      "name": "Formatting",
+      "status": "passed"
+    },
+    {
+      "name": "Changed architecture",
+      "status": "passed",
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    {
+      "name": "Provenance freshness",
+      "status": "passed",
+      "reviewProblems": 0
+    },
+    {
+      "name": "Strict third-party material gate",
+      "status": "expected rejection",
+      "unresolved": 27
+    }
+  ],
+  "consumerCompatibility": {
+    "sequence": [
+      "old",
+      "new",
+      "old"
+    ],
+    "status": "passed",
+    "fixtureKind": "Synthetic MCP/Bash consumer telemetry JSON, schema checked; no user database migration",
+    "fixtureSha256": "db71a208b2d2c7f463af9f88ef73a8c819733348b3ca3bfd5798dcba2e294f28",
+    "randomIdentifiers": "Validated against actual shared schema before exclusion from deterministic equality"
+  },
+  "buildProof": {
+    "nativeOwnProcess": {
+      "platform": "linux",
+      "runs": [
+        {
+          "mode": "src",
+          "ownProcessFound": true,
+          "finitePositiveRss": true,
+          "finiteCpu": true,
+          "scope": "process_tree"
+        },
+        {
+          "mode": "dist",
+          "ownProcessFound": true,
+          "finitePositiveRss": true,
+          "finiteCpu": true,
+          "scope": "process_tree"
+        }
+      ]
+    },
+    "cliMap": [
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe.js",
+        "sha256": "4674fb7b48743a339cfddc1a13fe588ae5843af25ae176ea93dd5aeeaf3a5105",
+        "mapSource": "../../adapters/dist/device/process-probe.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe-shared.js",
+        "sha256": "73120d8cddc0dc26ec3f75113c6509c0fe3348584b59ffe735fc42584980fccc",
+        "mapSource": "../../adapters/dist/device/process-probe-shared.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe-linux.js",
+        "sha256": "8bdd4d15b0ba04d92f3b56aaac02b39e59f159ba87b961d203c4b678b8bbaa6a",
+        "mapSource": "../../adapters/dist/device/process-probe-linux.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe-darwin.js",
+        "sha256": "47688fc79adab23d3ca67fb1ae7dde7aa4be17b162fa52c9a892c4ff4e68e75b",
+        "mapSource": "../../adapters/dist/device/process-probe-darwin.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe-windows.js",
+        "sha256": "9f33b965ce1bd6a6996a7a47cad78e64c2747d331b57c2fe7fb7816264ae085c",
+        "mapSource": "../../adapters/dist/device/process-probe-windows.js",
+        "exactSourceMapMatch": true
+      }
+    ]
+  },
+  "materialObligations": {
+    "strictOpenCount": 27,
+    "unchanged": true,
+    "eightColoredAssetClaimsResolved": false
+  },
+  "baselineCi": {
+    "runNumber": 189,
+    "headSha": "76c233875181793a340b1e41da99f18b4f8e279f",
+    "status": "success",
+    "confirmation": "Parent verified; does not validate this new batch"
+  },
+  "unrun": [
+    "Native Windows and macOS probe precision",
+    "Electron GUI on a runner with correctly configured sandbox helper ownership",
+    "Installer and final release payload validation"
+  ],
+  "rollback": "Revert this isolated batch; no user directories deleted or data formats migrated",
+  "ci190Failure": {
+    "headSha": "ad32dfb4aecc8a3d00306ba3a19c540a80d7e1e4",
+    "runId": 36696766563,
+    "linux": {
+      "jobId": 109826472435,
+      "status": "success",
+      "cases": 3872,
+      "passed": 3865,
+      "skipped": 7,
+      "failed": 0
+    },
+    "windows": {
+      "jobId": 109826472758,
+      "status": "failure",
+      "cases": 3872,
+      "passed": 3870,
+      "skipped": 0,
+      "failed": 2
+    },
+    "cause": "Both new runtime wrappers failed because caller-fixture.mjs dynamically imported a bare Windows drive path from require.resolve; ERR_UNSUPPORTED_ESM_URL_SCHEME prevented the two caller cases loading. Other 48 inner cases passed in each mode; 49 reported includes the failed caller file rather than two loaded cases.",
+    "repair": "Convert the fixture dynamic schema import to a file URL; retain real schema and all 50 case assertions/time budgets. No product source change.",
+    "localRevalidation": "Old source/dist and candidate source/dist gates, plus exact unsupported bare-drive URL failure and actual schema loading. Native Windows CI needed for final platform validation.",
+    "buildScope": "Existing successful full regression/static/CLI builds cover identical product source; no unrelated repeat builds."
+  },
+  "qaCounterexampleRepair": {
+    "sourceCommit": "ffe064c275de5659fa5314ab81db63f812c01377",
+    "integratedCommit": "fe908b9",
+    "baseline": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+    "initialSourceDistFailures": 8,
+    "postFixSourceDistPasses": 8,
+    "providedBy": "Independent QA track; both original pass records and newly reproduced failures retained",
+    "boundaries": [
+      "Absolute wall-clock deadline despite delayed timer callback",
+      "Root PID deduplication before DFS",
+      "Historical finite tick rounding",
+      "VmRSS no whitespace before kB"
+    ],
+    "productionMitReviewAdded": false,
+    "checksSource": "Integrated aggregate also executes source/dist regressions; final result recorded in parallel integration evidence",
+    "currentBuildProof": [
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe.js",
+        "sha256": "4f1320323826fac30d9894ccd60480e8d4ab8a7e260458fe18cc7b6e7b79aa5f",
+        "source": "apps/cli/packages/adapters/src/device/process-probe.ts",
+        "sourceSha256": "f1130eaf748b97813b9c79b78114f429f2f7a757e5578e6f901256831270b446",
+        "mapSource": "../../adapters/dist/device/process-probe.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe-linux.js",
+        "sha256": "782ae2df72bad20feee67e69f7eeefd679f85bb9e946830724213bf7df61a730",
+        "source": "apps/cli/packages/adapters/src/device/process-probe-linux.ts",
+        "sourceSha256": "8e2a8250f7cf72c78d6ed08aed4f59f7d92751619c14b56e2cc08a1b974e6150",
+        "mapSource": "../../adapters/dist/device/process-probe-linux.js",
+        "exactSourceMapMatch": true
+      }
+    ]
+  }
+}

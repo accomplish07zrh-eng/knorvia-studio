@@ -1,0 +1,36 @@
+{
+  "archivedAtUtc": "2026-10-02T20:27:19.289948+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct exposed control",
+  "sameAuthorDescendant": true,
+  "originalArchiveCommit": "c6c98884",
+  "correctionQualificationCommit": "cb97fc3b",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/source-observation-qualification.md",
+      "bytes": 1325,
+      "sha256": "cfee6f475825f16c4b78f7e5353c778cfc90bdd38c52ada68d6ee2540443e199"
+    },
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/error-cause-qualification.md",
+      "bytes": 1377,
+      "sha256": "f32b25f37b511ee1cc48fef82a4203513dfcaa0852c9bcb46a468099ea559dd9"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-attachment-path.ts.txt",
+      "bytes": 4278,
+      "sha256": "91d1ab6d39c2827a41e7006ca59245bf363bfe4a1cac8127997bd5fa9cd060dc",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 12140,
+      "sha256": "256e31a964491637ca902ef1be4cc81d9d7191b67cae176c91617264b22812fb"
+    }
+  ]
+}

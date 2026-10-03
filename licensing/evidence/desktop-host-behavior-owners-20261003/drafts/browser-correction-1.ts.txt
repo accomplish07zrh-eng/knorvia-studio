@@ -1,0 +1,402 @@
+import { randomUUID } from "node:crypto";
+
+import { HostResponseTypes } from "@knorvia/shared";
+
+import type {
+    BrowserBackendDescriptor,
+    BrowserClientMode,
+    BrowserCommand,
+    BrowserCommandResult,
+    BrowserRecordingArtifact,
+} from "@knorvia/shared";
+
+interface BrowserExecuteRequestMessage {
+    type: typeof HostResponseTypes.BrowserExecuteRequest;
+    requestId: string;
+    browserId: string;
+    browserGeneration: number;
+    sessionId: string;
+    turnId?: string;
+    workspaceKey: string;
+    workspacePath: string;
+    workspaceIdentity?: string;
+    remoteSessionId?: string;
+    clientMode: BrowserClientMode;
+    sessionContext: "live" | "cached";
+    command: BrowserCommand;
+}
+
+interface BrowserExecuteResultMessage {
+    requestId: string;
+    result: BrowserCommandResult;
+}
+
+interface BrowserControlMainBridge {
+    list(): Promise<BrowserBackendDescriptor[]>;
+    execute(input: {
+        requestId?: string;
+        browserId?: string;
+        browserGeneration?: number;
+        sessionId: string;
+        turnId?: string;
+        workspaceKey?: string;
+        workspacePath?: string;
+        workspaceIdentity?: string;
+        remoteSessionId?: string;
+        clientMode?: BrowserClientMode;
+        sessionContext?: "live" | "cached";
+        command: BrowserCommand;
+    }): Promise<BrowserCommandResult>;
+    handleResult(message: BrowserExecuteResultMessage): Promise<void>;
+    dispose(): void;
+}
+
+type RequestScope = Omit<BrowserExecuteRequestMessage, "type" | "requestId">;
+
+interface Flight {
+    began: number;
+    timeout: ReturnType<typeof setTimeout> | undefined;
+    scope: RequestScope;
+    recordingDestination: string | undefined;
+    finish: (result: BrowserCommandResult) => void;
+}
+
+function asErrorText(error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
+}
+
+function timeoutBudget(command: BrowserCommand, defaultBudget: number): number {
+    if (command.method === "playwrightWaitForTimeout") {
+        return command.timeoutMs + 2000;
+    }
+    if (command.method === "playwright") {
+        return (
+            ("timeoutMs" in command.action
+                ? command.action.timeoutMs ?? defaultBudget
+                : defaultBudget) + 2000
+        );
+    }
+    return defaultBudget;
+}
+
+function canChangeBrowser(command: BrowserCommand): boolean {
+    if (command.method === "playwright" && command.action.name === "locator") {
+        switch (command.action.operation) {
+            case "click":
+            case "dblclick":
+            case "downloadMedia":
+            case "fill":
+            case "press":
+            case "selectOption":
+            case "setChecked":
+                return true;
+            default:
+                return false;
+        }
+    }
+    switch (command.method) {
+        case "navigate":
+        case "back":
+        case "forward":
+        case "reload":
+        case "click":
+        case "fill":
+        case "type":
+        case "press":
+        case "cuaKeypress":
+        case "scroll":
+        case "cuaScroll":
+        case "domCuaScroll":
+        case "hover":
+        case "select":
+        case "check":
+        case "drag":
+        case "cuaDrag":
+        case "recordingStart":
+        case "recordingCancel":
+        case "handleDialog":
+        case "close":
+        case "finalize":
+        case "newTab":
+            return true;
+        default:
+            return false;
+    }
+}
+
+export function createBrowserControlMainBridge(deps: {
+    postToMain: (message: BrowserExecuteRequestMessage) => void;
+    timeoutMs?: number;
+    materializeRecording?(input: {
+        artifact: BrowserRecordingArtifact;
+        localPath: string;
+        outputPath: string;
+        workspacePath: string;
+        workspaceIdentity?: string;
+        remoteSessionId?: string;
+    }): Promise<BrowserRecordingArtifact>;
+}): BrowserControlMainBridge {
+    const defaultBudget = deps.timeoutMs ?? 30000;
+    const browserId = `iab:${randomUUID()}`;
+    const browserGeneration = Date.now();
+    const backend: BrowserBackendDescriptor = {
+        id: browserId,
+        generation: browserGeneration,
+        type: "iab",
+        name: "Knorvia Studio In-app Browser",
+        metadata: { provider: "knorvia-desktop-iab" },
+        capabilities: {
+            browser: [
+                {
+                    id: "visibility",
+                    description:
+                        "Use to show or hide the browser to the user, and to determine the browser's current visibility. Keep browser work in the background unless the user asks to see it or live viewing is useful. When the browser should be visible, call set(true).",
+                },
+            ],
+            tab: [],
+        },
+        apiSupportOverrides: {
+            "BrowserUser.claimTab": true,
+            "Tabs.finalize": true,
+            "Tab.markDeliverable": true,
+            "Tab.markHandoff": true,
+            "BrowserRecordingAPI.start": true,
+            "BrowserRecordingAPI.status": true,
+            "BrowserRecordingAPI.cancel": true,
+        },
+    };
+    const running = new Map<string, Flight>();
+
+    function detach(id: string, flight: Flight): boolean {
+        if (running.get(id) !== flight) {
+            return false;
+        }
+        if (flight.timeout !== undefined) {
+            clearTimeout(flight.timeout);
+        }
+        running.delete(id);
+        return true;
+    }
+
+    async function list(): Promise<BrowserBackendDescriptor[]> {
+        return [backend];
+    }
+
+    async function execute(
+        input: Parameters<BrowserControlMainBridge["execute"]>[0],
+    ): Promise<BrowserCommandResult> {
+        const requestedBrowser = input.browserId;
+        if (requestedBrowser && requestedBrowser !== browserId) {
+            return {
+                ok: false,
+                error: {
+                    code: "backend_unavailable",
+                    message: `browser backend '${requestedBrowser}' is no longer available`,
+                },
+                elapsedMs: 0,
+            };
+        }
+        const requestedGeneration = input.browserGeneration;
+        if (requestedGeneration !== undefined && requestedGeneration !== browserGeneration) {
+            return {
+                ok: false,
+                error: {
+                    code: "backend_unavailable",
+                    message: `browser backend '${browserId}' generation ${requestedGeneration} is stale`,
+                },
+                elapsedMs: 0,
+            };
+        }
+
+        const id = input.requestId ?? randomUUID();
+        if (running.has(id)) {
+            return {
+                ok: false,
+                error: {
+                    code: "duplicate_request_id",
+                    message: `browser requestId '${id}' is already running`,
+                    sideEffect: "none",
+                },
+                elapsedMs: 0,
+            };
+        }
+
+        const began = Date.now();
+        const {
+            sessionId,
+            turnId,
+            workspaceKey = sessionId,
+            workspacePath = workspaceKey,
+            workspaceIdentity,
+            remoteSessionId,
+            clientMode = "desktop-continuous",
+            sessionContext = "live",
+            command,
+        } = input;
+        const scope: RequestScope = {
+            browserId,
+            browserGeneration,
+            sessionId,
+            turnId,
+            workspaceKey,
+            workspacePath,
+            workspaceIdentity,
+            remoteSessionId,
+            clientMode,
+            sessionContext,
+            command,
+        };
+        const budget = timeoutBudget(command, defaultBudget);
+        const recordingDestination =
+            command.method === "recordingStatus" && command.outputPath
+                ? command.outputPath
+                : undefined;
+
+        return new Promise<BrowserCommandResult>((finish) => {
+            const flight: Flight = {
+                began,
+                timeout: undefined,
+                scope,
+                recordingDestination,
+                finish,
+            };
+            running.set(id, flight);
+            flight.timeout = setTimeout(() => {
+                if (!detach(id, flight)) {
+                    return;
+                }
+                try {
+                    deps.postToMain({
+                        type: HostResponseTypes.BrowserExecuteRequest,
+                        requestId: randomUUID(),
+                        ...scope,
+                        command: { method: "cancelRequest", requestId: id },
+                    });
+                } catch {
+                    // 取消发送失败不改变已经确定的原请求超时结果。
+                }
+                finish({
+                    ok: false,
+                    error: {
+                        code: "timeout",
+                        message: `browser 命令 ${command.method} 超时（${budget}ms）`,
+                        sideEffect: canChangeBrowser(command) ? "uncertain" : "none",
+                    },
+                    elapsedMs: Date.now() - began,
+                });
+            }, budget);
+
+            try {
+                deps.postToMain({
+                    type: HostResponseTypes.BrowserExecuteRequest,
+                    requestId: id,
+                    ...scope,
+                });
+            } catch (error) {
+                if (detach(id, flight)) {
+                    finish({
+                        ok: false,
+                        error: {
+                            code: "backend_unavailable",
+                            message: asErrorText(error),
+                        },
+                        elapsedMs: Date.now() - began,
+                    });
+                }
+            }
+        });
+    }
+
+    async function handleResult(message: BrowserExecuteResultMessage): Promise<void> {
+        const flight = running.get(message.requestId);
+        if (!flight || !detach(message.requestId, flight)) {
+            return;
+        }
+
+        const artifact = message.result.recording?.artifact;
+        if (message.result.recording?.status === "completed" && artifact) {
+            if (!flight.recordingDestination) {
+                const recording = { ...message.result.recording };
+                delete recording.artifact;
+                flight.finish({ ...message.result, recording });
+                return;
+            }
+            if (message.result.ok) {
+                if (!deps.materializeRecording) {
+                    flight.finish({
+                        ok: false,
+                        error: {
+                            code: "backend_unavailable",
+                            message: "browser recording artifact materialization is unavailable",
+                            sideEffect: "none",
+                        },
+                        elapsedMs: Date.now() - flight.began,
+                    });
+                    return;
+                }
+
+                const materialization: {
+                    artifact: BrowserRecordingArtifact;
+                    localPath: string;
+                    outputPath: string;
+                    workspacePath: string;
+                    workspaceIdentity?: string;
+                    remoteSessionId?: string;
+                } = {
+                    artifact,
+                    localPath: artifact.path,
+                    outputPath: flight.recordingDestination,
+                    workspacePath: flight.scope.workspacePath,
+                };
+                if (flight.scope.workspaceIdentity) {
+                    materialization.workspaceIdentity = flight.scope.workspaceIdentity;
+                }
+                if (flight.scope.remoteSessionId) {
+                    materialization.remoteSessionId = flight.scope.remoteSessionId;
+                }
+                try {
+                    const materializedArtifact = await deps.materializeRecording(materialization);
+                    // 等待期间允许调用方替换结果；完成时保留当时的数据，仅替换 artifact。
+                    flight.finish({
+                        ...message.result,
+                        recording: {
+                            ...message.result.recording,
+                            artifact: materializedArtifact,
+                        },
+                    });
+                } catch (error) {
+                    flight.finish({
+                        ok: false,
+                        error: {
+                            code: "execution_error",
+                            message: asErrorText(error),
+                            sideEffect: "none",
+                        },
+                        elapsedMs: Date.now() - flight.began,
+                    });
+                }
+                return;
+            }
+        }
+
+        flight.finish(message.result);
+    }
+
+    function dispose(): void {
+        for (const [id, flight] of running) {
+            if (detach(id, flight)) {
+                flight.finish({
+                    ok: false,
+                    error: {
+                        code: "backend_unavailable",
+                        message: "browser bridge disposed while command was pending",
+                        sideEffect: "uncertain",
+                    },
+                    elapsedMs: Date.now() - flight.began,
+                });
+            }
+        }
+    }
+
+    return { list, execute, handleResult, dispose };
+}

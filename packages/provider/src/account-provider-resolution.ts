@@ -59,122 +59,121 @@ export function createAccountProviderConfigResolver(
       connections,
     });
     const states: Record<string, AccountProviderState> = {};
+
     for (const connection of connections) {
       const previous = connection.resetPrevious
         ? undefined
         : input.previousStates?.[connection.providerId];
       const access = providers.get(connection.providerId)?.access;
-      // unknown 仅保留上次展示事实；current 始终来自本轮选择，不能复活旧连接。
-      // 原因字段与 availability 同规则：unknown 沿用上一轮，避免一次网络抖动把
-      // "明确无权益"降级成原因未知。
       const unavailableReason =
         connection.status === "unknown" && previous
           ? previous.unavailableReason
           : connection.status === "unavailable"
             ? connection.unavailableReason
             : undefined;
+
       states[connection.providerId] = Object.freeze({
         ...(connection.status === "unknown" ? previous : {}),
         availability:
           connection.status === "unknown" && previous ? previous.availability : connection.status,
         entitled: access?.type === "zhipu-account" && access.entitled === true,
-        ...(unavailableReason === undefined ? {} : { unavailableReason }),
-        ...(connection.current === undefined ? {} : { current: connection.current }),
+        ...(unavailableReason !== undefined ? { unavailableReason } : {}),
+        ...(connection.current !== undefined ? { current: connection.current } : {}),
         connectionKey: connection.connectionKey,
-        ...(connection.effectiveAt === undefined ? {} : { effectiveAt: connection.effectiveAt }),
+        ...(connection.effectiveAt !== undefined ? { effectiveAt: connection.effectiveAt } : {}),
       });
     }
+
     return Object.freeze({ providers, states: Object.freeze(states) });
   };
 }
 
-/** 把账号连接结果转换为 Registry 使用的第三层 Account Provider Config。 */
 export function resolveAccountProviderConfigs(
   input: ResolveAccountProviderConfigsInput,
 ): ProviderConfigMap {
-  const connectionByProviderId = indexConnections(input.configuredProviders, input.connections);
-  const resolved: Array<readonly [ProviderId, ProviderConfig]> = [];
+  const connections = indexConnections(input.configuredProviders, input.connections);
+  const entries: Array<readonly [ProviderId, ProviderConfig]> = [];
+
   for (const [providerId, configured] of input.configuredProviders.entries()) {
     const access = configured.access;
-    if (access?.type !== "zhipu-account") continue;
-    const connection = connectionByProviderId.get(providerId) ?? {
+    if (access?.type !== "zhipu-account") {
+      continue;
+    }
+
+    const connection: AccountProviderConnectionResult = connections.get(providerId) ?? {
       providerId,
-      status: "unknown" as const,
+      status: "unknown",
     };
-
-    if (connection.status === "available" || connection.status === "pending") {
-      if (access.mode === "start-plan") {
-        const models = normalizeModelIds(connection.models);
-        resolved.push([
-          providerId,
-          new ProviderConfig({
-            // 明确空模型是本轮权威结果，不能保留已经失效的旧白名单。
-            access: new ZhipuAccountAccessConfig({ entitled: connection.status === "available" }),
-            builtinModelIds: models,
-          }),
-        ]);
-        continue;
-      }
-      resolved.push([
-        providerId,
-        new ProviderConfig({
-          access: new ZhipuAccountAccessConfig({ entitled: connection.status === "available" }),
-        }),
-      ]);
-      continue;
-    }
-
-    if (connection.status === "unavailable") {
-      resolved.push([providerId, createEntitlementOverlay(false)]);
-      continue;
-    }
-
-    const previous = connection.resetPrevious ? undefined : input.previousProviders.get(providerId);
-    if (previous) {
-      resolved.push([providerId, previous]);
-    } else {
-      resolved.push([providerId, createEntitlementOverlay(false)]);
-    }
+    entries.push([providerId, resolveAccountConfig(providerId, access, connection, input)]);
   }
 
-  return new ProviderConfigMap(resolved);
-}
-
-function createEntitlementOverlay(entitled: boolean): ProviderConfig {
-  return new ProviderConfig({ access: new ZhipuAccountAccessConfig({ entitled }) });
+  return new ProviderConfigMap(entries);
 }
 
 function indexConnections(
   configuredProviders: ProviderConfigMap,
   connections: readonly AccountProviderConnectionResult[],
-): ReadonlyMap<ProviderId, AccountProviderConnectionResult> {
-  const result = new Map<ProviderId, AccountProviderConnectionResult>();
+): Map<ProviderId, AccountProviderConnectionResult> {
+  const indexed = new Map<ProviderId, AccountProviderConnectionResult>();
+
   for (const connection of connections) {
-    if (result.has(connection.providerId)) {
+    if (indexed.has(connection.providerId)) {
       throw new Error(`重复 Account Provider 连接结果: ${connection.providerId}`);
     }
+
     const configured = configuredProviders.get(connection.providerId);
     if (!configured) {
       throw new Error(`Account 连接指向未配置 Provider: ${connection.providerId}`);
     }
-    if (!isAccountConstrainedProvider(configured)) {
+    if (configured.access?.type !== "zhipu-account") {
       throw new Error(`Account 连接指向非 Account Provider: ${connection.providerId}`);
     }
-    result.set(connection.providerId, connection);
+
+    indexed.set(connection.providerId, connection);
   }
-  return result;
+
+  return indexed;
 }
 
-function isAccountConstrainedProvider(config: ProviderConfig): boolean {
-  return config.access?.type === "zhipu-account";
+function resolveAccountConfig(
+  providerId: ProviderId,
+  access: ZhipuAccountAccessConfig,
+  connection: AccountProviderConnectionResult,
+  input: ResolveAccountProviderConfigsInput,
+): ProviderConfig {
+  if (connection.status === "available" || connection.status === "pending") {
+    const builtinModelIds =
+      access.mode === "start-plan" ? normalizeModelIds(connection.models) : undefined;
+
+    return new ProviderConfig({
+      access: new ZhipuAccountAccessConfig({
+        entitled: connection.status === "available",
+      }),
+      ...(builtinModelIds !== undefined ? { builtinModelIds } : {}),
+    });
+  }
+
+  if (connection.status === "unavailable") {
+    return withoutEntitlement();
+  }
+
+  const previous = connection.resetPrevious ? undefined : input.previousProviders.get(providerId);
+  return previous || withoutEntitlement();
 }
 
-function normalizeModelIds(values: readonly ModelId[] | null | undefined): readonly ModelId[] {
-  const result: ModelId[] = [];
+function withoutEntitlement(): ProviderConfig {
+  return new ProviderConfig({
+    access: new ZhipuAccountAccessConfig({ entitled: false }),
+  });
+}
+
+function normalizeModelIds(values: readonly ModelId[] | undefined): readonly ModelId[] {
+  const normalized: ModelId[] = [];
   for (const value of values ?? []) {
     const modelId = value.trim();
-    if (!modelId) continue;
-    result.push(modelId);
+    if (modelId) {
+      normalized.push(modelId);
+    }
   }
-  return Object.freeze(result);
+  return Object.freeze(normalized);
 }

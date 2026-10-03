@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "run": 36830423985,
+  "runNumber": 218,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36830423985",
+  "head": "20d70402ab7773f78e06c63f07deb2c34f359610",
+  "checkedMerge": "d08eef8dec40c821e644bc246f02b32c83a6b1bb",
+  "headAndCheckedTree": "9eed69ac1e2fe8f584c3dafb54066436d19a9647",
+  "status": "failure",
+  "jobs": {
+    "linux": {
+      "id": 110265522569,
+      "tests": 6581,
+      "pass": 6573,
+      "fail": 0,
+      "skip": 8
+    },
+    "windows": {
+      "id": 110265523046,
+      "tests": 6581,
+      "pass": 6579,
+      "fail": 1,
+      "skip": 1
+    }
+  },
+  "failure": "Windows source auth group: first case A-STO-10, assertion 1 !== 0. Emitted auth group passed. Inner output was ephemeral and not uploaded; root cause unknown.",
+  "verification": "Root independently checked terminal jobs/logs and checked-merge tree. Auth implementation and harness were unchanged from green CI217. No retry or acceptance relaxation."
+}

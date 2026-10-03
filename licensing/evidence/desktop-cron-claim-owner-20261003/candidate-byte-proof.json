@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-cron-claim-owner-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/final-bindings.mjs",
+      "sha256": "c376b87c4cd44556058263b8ddc0a28c7ec591fa54d895903e2f5914647c9a9b"
+    }
+  ],
+  "stdout": "{\n  \"baseHead\": \"89382dab9a909e7317bbcc2d8e923a37e075c839\",\n  \"selectedVersion\": \"correction-1\",\n  \"rawSha256\": \"87de6a8a0c93aa1e12faacb94fd24077bc6a6600bf22751b12be6e6b39ef6933\",\n  \"installedSha256\": \"770caf6291821f0b8f46f964567d5a4c8cce306a95b30ceff013a0918318093b\",\n  \"installedLines\": 138,\n  \"installedBytes\": 3998,\n  \"exactWholeLiteralPlusFormatter\": true,\n  \"curatorSemanticEdits\": false,\n  \"rawVersionsVerified\": 2,\n  \"unchangedRetainedPaths\": 6142,\n  \"retentionCountsAreNotCompletion\": true,\n  \"authorInputAndSpecFreezeVerified\": true,\n  \"publicFourExportsAndRawApiMatch\": true,\n  \"productionScopeExactlyOneOwner\": true,\n  \"promptTransferPrivateAcceptedHold\": true,\n  \"promptTransferLocalMatchesAcceptedPrivateBytes\": false,\n  \"minimalSyntheticGroups\": 1,\n  \"nativeRuntimePassed\": false,\n  \"ordinarySuiteBuildRun\": false,\n  \"acceptedIndependentCredit\": 0,\n  \"MITClaim\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

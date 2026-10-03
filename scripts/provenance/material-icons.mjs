@@ -5,6 +5,7 @@ import { basename, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { git, readRepositoryFile } from "./git.mjs";
 import { assertRelativePath, fingerprint } from "./model.mjs";
+import { materialIconReferences, matchesIconReference } from "./material-icon-references.mjs";
 
 export async function compareMaterialIcons(root, sourceDirectory, component) {
   const commit = component.referenceRevision;
@@ -31,7 +32,10 @@ export async function compareMaterialIcons(root, sourceDirectory, component) {
       return { path: assertRelativePath(row.slice(tab + 1)), blob };
     });
   const ids = [...new Set(tree.map((entry) => entry.blob))];
-  const contents = await git(sourceDirectory, ["cat-file", "--batch"], `${ids.join("\n")}\n`);
+  // 空参考树没有对象；向 cat-file 发送空行会产生 missing 响应，不能当作畸形 SVG 流。
+  const contents = ids.length
+    ? await git(sourceDirectory, ["cat-file", "--batch"], `${ids.join("\n")}\n`)
+    : Buffer.alloc(0);
   const hashes = new Map();
   let cursor = 0;
   for (const id of ids) {
@@ -65,6 +69,9 @@ export async function compareMaterialIcons(root, sourceDirectory, component) {
         path: current.path,
         sourcePath: source.path,
         sourceBlob: source.blob,
+        sourceCommit: commit,
+        license: "MIT",
+        licenseSha256: saved.sha256,
         sha256: current.sha256,
         normalizedSha256: current.normalizedSha256,
       });
@@ -72,6 +79,11 @@ export async function compareMaterialIcons(root, sourceDirectory, component) {
       unresolved.push({
         path: current.path,
         reason: source ? "content-different" : "source-path-not-found",
+        sha256: current.sha256,
+        normalizedSha256: current.normalizedSha256,
+        ...(source
+          ? { sourcePath: source.path, sourceBlob: source.blob, sourceSha256: source.sha256 }
+          : {}),
       });
     }
   }
@@ -91,6 +103,33 @@ export async function compareMaterialIcons(root, sourceDirectory, component) {
   };
 }
 
+export async function compareMaterialIconReferences(root, sourceDirectory, component) {
+  const referenceSources = materialIconReferences(component);
+  let report;
+  const matched = new Map();
+  for (const reference of referenceSources) {
+    const comparison = await compareMaterialIcons(root, sourceDirectory, {
+      ...component,
+      referenceRevision: reference.commit,
+      files: component.files.filter(
+        (item) => !matched.has(item.file) && matchesIconReference(item.file, reference),
+      ),
+    });
+    report ??= comparison;
+    for (const item of comparison.matched) matched.set(item.path, item);
+  }
+  // 补充固定参考只消解真实字节匹配；其余项保留原参考的失败事实，不能按名字清空。
+  return {
+    ...report,
+    schemaVersion: 2,
+    referenceSources,
+    originalImportRevision: null,
+    trademarkAssessment: "Excluded; copyright provenance only, no brand or trademark grant",
+    matched: [...matched.values()].sort((a, b) => a.path.localeCompare(b.path, "en")),
+    unresolved: report.unresolved.filter((item) => !matched.has(item.path)),
+  };
+}
+
 async function main() {
   const [flag, sourceDirectory, output, ...extra] = process.argv.slice(2);
   if (flag !== "--source-repo" || !sourceDirectory || !output || extra.length) {
@@ -104,7 +143,7 @@ async function main() {
   if (component?.referenceRevision !== "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b") {
     throw new Error("Unexpected Material Icon Theme reference; review the source pin first");
   }
-  const report = await compareMaterialIcons(root, sourceDirectory, component);
+  const report = await compareMaterialIconReferences(root, sourceDirectory, component);
   await writeFile(resolve(output), `${JSON.stringify(report, null, 2)}\n`);
   console.log(
     JSON.stringify({ matched: report.matched.length, unresolved: report.unresolved.length }),

@@ -1,0 +1,80 @@
+{
+  "task": "Complete contract-only attachment-placeholder author",
+  "input_freeze": { "identifier": "8cc411c5", "basis": "Supplied by curator in parent task; not independently inspected through git." },
+  "author_configuration": {
+    "requested_model": "GPT-6.1 Sol",
+    "requested_reasoning": "high",
+    "requested_fork": "none",
+    "actual_runtime_configuration": "Not independently verified from tool or runtime metadata.",
+    "Fast": "Saved unchanged/unverified as supplied by parent; no setting inspected or changed."
+  },
+  "input_accounting": [
+    { "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/input/contract.md", "bytes": 3014, "lines": 11, "sha256": "f203a4517e5a6a4933b5230a17186dfa1fd2752fa912f5a069f0b6721df56365", "reads": ["cat: complete content once", "sha256sum: bytes once", "wc -lc: bytes and newline accounting once"] },
+    { "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/input/public-api.d.ts", "bytes": 382, "lines": 8, "sha256": "d10eef7b29be84e70f10762e3ca025ae283c10b6e48808697eaf8820df1e2b45", "reads": ["cat: complete content once", "sha256sum: bytes once", "wc -lc: bytes and newline accounting once"] },
+    { "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/input/dependency-api.d.ts", "bytes": 408, "lines": 5, "sha256": "bcf503a05aab2e2d517c5dbd0291b15ed573950743dbc0197f05335d82aaab32", "reads": ["cat: complete content once", "sha256sum: bytes once", "wc -lc: bytes and newline accounting once"] },
+    { "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/input/public-shapes.d.ts", "bytes": 2213, "lines": 79, "sha256": "e9f0ad7bd65a044e1799280398531c9db31ab12f4ae175e578a5623b770b698c", "reads": ["cat: complete content once", "sha256sum: bytes once", "wc -lc: bytes and newline accounting once"] },
+    { "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/input/imports.json", "bytes": 356, "lines": 18, "sha256": "e4cc7006496b9f2bfbdb7d2415c8660e9201f80a07264133552b17ddda2e2ce4", "reads": ["cat: complete content once", "sha256sum: bytes once", "wc -lc: bytes and newline accounting once"] },
+    { "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/input/output-data.json", "bytes": 1583, "lines": 97, "sha256": "41dfddc42e6eee94ce752fbccf58c8f27bf8b812a371e620556997e29a05db1b", "reads": ["cat: complete content once", "sha256sum: bytes once", "wc -lc: bytes and newline accounting once"] }
+  ],
+  "source_accounting": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/output/attachment-placeholder.ts",
+    "bytes": 1782,
+    "lines": 58,
+    "sha256": "05b629591d6d2ff1d7e94d99cc6a38674e2d5c537b13e822b0bdc6a463d7e712",
+    "writes": ["One complete heredoc write; no revisions or curator patches."],
+    "reads": ["cat: complete content once for manual review", "sha256sum: bytes once before freeze", "wc -lc: bytes and newline accounting once before freeze", "sha256sum: bytes once after freeze in the freeze command", "wc -lc: bytes and newline accounting once after freeze in the freeze command"],
+    "metadata_operations": ["chmod 0444", "stat mode check after freeze"]
+  },
+  "receipt_accounting": {
+    "path": "/tmp/knorvia-inline-attachment-20261003/placeholder/output/author-record.json",
+    "writes": ["One complete heredoc write in the freeze command."],
+    "reads": ["cat: complete content once after freeze", "sha256sum: bytes once after freeze", "wc -lc: bytes and newline accounting once after freeze"],
+    "metadata_operations": ["chmod 0444", "stat mode check after freeze"],
+    "self_hash": "Reported externally; no recursive self-hash included."
+  },
+  "retained_data_and_expressions": [
+    "All four exact import modules and clauses retain supplied dependency and public type owners.",
+    "Exact image, pdf, video, text, image/*, application/pdf, text/plain, inline:pdf, local_ref, metadata_only and empty-string values retained.",
+    "Exact attachment text template and contentBlock key order retained.",
+    "Exact result and metadata key order retained, including own undefined filename, originalUrl, sizeBytes and source values.",
+    "Nullish coalescing, default parameter object, short-circuit comparisons, ternary MIME and URL fallback, property access, object literals and template interpolation are retained ordinary idioms; no novelty or grant claimed.",
+    "Primitive private named MIME/reference constants and one cohesive private URL helper structure the implementation; no new exports, mutable state or dependencies."
+  ],
+  "manual_findings": [
+    "Default options object applies only to undefined; an outside-type null options value throws on options.mime before dependency invocation.",
+    "options.mime is read first. Type fallback reads preserve image then pdf short-circuit order, and explicit empty MIME is retained.",
+    "safeAttachmentOriginalRef receives the original attachment exactly once after MIME resolution for every kind; errors propagate.",
+    "Result evaluation proceeds contentBlock, options.filename, metadata errorCode/originalUrl/recoverability/options.sizeBytes/attachment.path truthiness, mime, options.source, then URL.",
+    "Media URL selection reads type for video then, if needed, pdf; isArtifactUri receives the first content read before any URL path read and a truthy result returns a second content read unchanged.",
+    "A false artifact predicate uses path nullishly, including empty string; a nullish path reads type for pdf, otherwise uses the captured safe reference nullishly.",
+    "Other kinds use path then conditionally content then empty string; they do not call isArtifactUri.",
+    "No input mutation, catch, sanitization, filename/MIME/size inference, file part creation, raw media-content URL fallback, storageKind artifact forcing, logger, persistence, Buffer, credentials or actual I/O exists in the authored implementation.",
+    "No compilation, tests, mocks, build, lint, source execution, dependency execution or synthetic verification was performed; manual review only."
+  ],
+  "context_and_tool_exposure": {
+    "provided_context": ["System and developer instructions", "Tool descriptions and shared-executor/environment metadata", "Parent's delegated task including curator freeze identifier and requested configuration"],
+    "file_content_exposure": "Only the six named full input files and this author's own source/receipt through the accounted reads.",
+    "tool_operations": ["functions.exec orchestration", "exec_command for named-file cat/sha256sum/wc, permitted output heredoc writes, date timestamps and chmod/stat accounting"],
+    "timestamp_reads": ["date -u after initial input accounting", "date -u in this freeze command"],
+    "unrequested_repository_history_dependency_collaborator_reads": [],
+    "network_or_external_party_operations": [],
+    "known_breaches": [],
+    "qualification": "Restrictions were instruction-only within a shared executor. No OS isolation, access-audit, clean-separation, license or novelty attestation is made. Ordinary tooling's runtime was not independently audited."
+  },
+  "restrictions": {
+    "authorized_input_paths": "Only six explicitly named files under /tmp/knorvia-inline-attachment-20261003/placeholder/input/.",
+    "authorized_output_paths": ["/tmp/knorvia-inline-attachment-20261003/placeholder/output/attachment-placeholder.ts", "/tmp/knorvia-inline-attachment-20261003/placeholder/output/author-record.json"],
+    "prohibited": "Other file/repository/git/history/review/test/dependency/body/collaborator/private/userdata/credential/network reads; compiler/tests/build/lint/mocks and source/dependency execution; scratch files; repository modification; external contacts.",
+    "permitted": "Named input content/byte/hash/line reads, own output writes/reads/hashes/line accounting/manual review, chmod and accounting timestamps."
+  },
+  "freeze": {
+    "utc": "2026-10-02T21:17:12.182084812Z",
+    "timestamp_basis": "UTC captured at the start of the final receipt-write/chmod freeze transaction; no source review by parent requested before this transaction.",
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory": "/tmp/knorvia-inline-attachment-20261003/placeholder/output",
+    "output_directory_mode": "0555"
+  },
+  "questions": [],
+  "blockers": []
+}

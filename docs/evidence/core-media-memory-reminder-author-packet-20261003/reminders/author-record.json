@@ -1,0 +1,219 @@
+{
+  "task": "Complete independent runtime-reminders behavior owner",
+  "freeze_identifier": "c4eda8a6",
+  "original_source_mapping": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/contract.md",
+      "bytes": 5216,
+      "sha256": "d2ec347fa334f98b535e8c4aa53fb0756ff2f5c953abd90b1544e2ac3c178f18",
+      "line_count": 17,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/public-api.d.ts",
+      "bytes": 986,
+      "sha256": "208b573e8a4b2f73507b9b358b43b00f279c281277882f760c2ae71888ed5479",
+      "line_count": 9,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/dependency-api.d.ts",
+      "bytes": 1462,
+      "sha256": "9d8edf1602021b9c42d02c4766a4251a6480baae770c40eb5f50e3444be37d7e",
+      "line_count": 28,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/public-shapes.d.ts",
+      "bytes": 1570,
+      "sha256": "65ad4b76937a7c87b576685ac08f4770ceba5f88b937ee631cd53ae308b102b0",
+      "line_count": 29,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/imports.json",
+      "bytes": 1392,
+      "sha256": "5fa84449000195d7207fc8cfdd2923e196c9af6b84ef664c7f0dcaf71ff434c8",
+      "line_count": 26,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/output-data.json",
+      "bytes": 1363,
+      "sha256": "054d717a2c1b88498129908e585b30709307a245744e81f2cb61f954af9fedd8",
+      "line_count": 33,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/retained-prose-data.json",
+      "bytes": 5963,
+      "sha256": "239d3c294e75358ba12dc27f952483d8ad7ace7162541ceff7455b710787f274",
+      "line_count": 103,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/qualified-parameter-contracts.d.ts",
+      "bytes": 195,
+      "sha256": "660774052ec07fbbd4275c16bad8bfb12b6a2f014059364c90326379ff82658b",
+      "line_count": 2,
+      "encoding": "UTF-8",
+      "mode": "0444"
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/output/runtime-reminders.ts",
+    "bytes": 9506,
+    "sha256": "8a180914dabe4e90b5c47a514277a2b74af5ff2ccf824cf7458481a852c997ae",
+    "line_count": 192,
+    "encoding": "UTF-8",
+    "mode": "0444"
+  },
+  "receipt_path": "/tmp/knorvia-media-memory-reminder-20261003/reminders/output/author-record.json",
+  "configuration": {
+    "requested_model_family": "Sol",
+    "requested_reasoning_effort": "high",
+    "requested_fork_turns": "none",
+    "requested_service_tier": "Fast",
+    "service_tier_control_exposed": false,
+    "service_tier_verified": false,
+    "model_effort_fork_independent_verification": "Task assignment supplies Sol/high/fork:none; no introspection or independent verification was available."
+  },
+  "access_limits": {
+    "allowed": "Eight frozen input file bodies and own output bodies; scoped shell/Python reads, writes, hashes, byte/line counts and modes.",
+    "restriction_enforcement": "Instruction-only shared executor; no OS sandbox/access audit proof claimed.",
+    "curator": "Source-exposed review required after freeze; author did not read curator or other author material.",
+    "prior_context": "Author received only environment/instruction context and delegated task in this turn; no repository, predecessor or dependency implementation body was consulted.",
+    "forbidden_operations_performed": false,
+    "not_performed": [
+      "repository/git/history access",
+      "reviews or predecessor/other-author reads",
+      "tests/compiler/lint/build",
+      "mocks or runtime execution",
+      "dependency implementation reads",
+      "network/external/private-file/Library access",
+      "real memory/artifactstore/provider/credential/userdata operations",
+      "OS or access audit",
+      "new model/server/action/state, caches, transactions or root grants"
+    ]
+  },
+  "read_paths": [
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/contract.md",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/public-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/dependency-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/public-shapes.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/imports.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/output-data.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/retained-prose-data.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/input/qualified-parameter-contracts.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/reminders/output/runtime-reminders.ts"
+  ],
+  "read_path_note": "Own source was read for a source-only inspection. Authorized inputs were reread to create source and receipt hashes. Hash/mode verification of the frozen own receipt follows receipt creation.",
+  "initial_metadata_commands": [
+    "pwd reported /workspace, the supplied cwd; no workspace file body was read",
+    "ls -l listed only the authorized input directory and file modes"
+  ],
+  "chosen_private_structure": {
+    "summary": "A single complete module with literal retained output data, two cohesive backward-scan helpers, and seven exported behavior functions.",
+    "countTodoDistances": "Owns assistant-turn accumulation and two independently discovered distances, allowing shouldBuildTodoReminder to express the conjunction.",
+    "findModeReminder": "Owns the most recent runtime-mode marker and real-user-turn distance; the public builder owns admission and native total-marker reduction.",
+    "prose": "A cooked multiline template holds workflow interpolation; full/sparse/exit arrays hold existing output expression and LF joins.",
+    "metadata": "Direct switch dispatch returns each collaborator factory result unchanged.",
+    "new_behavior_or_state": false,
+    "authorship_claim": "Cohesive private decomposition was freely chosen from the behavior contract. Retained expression and ordinary idioms are required expression; this record makes no naming-only novelty or license grant claim."
+  },
+  "retained_expression": {
+    "classification": "Existing schemas/protocol/types/fields/prose/formats/constants/evaluation and ordinary idioms, with no new grant or novelty claim.",
+    "product_data_only": true,
+    "prose_workflow_followed_by_author": false,
+    "sources": [
+      "retained-prose-data.json",
+      "output-data.json",
+      "imports.json",
+      "public-api.d.ts",
+      "dependency-api.d.ts",
+      "public-shapes.d.ts",
+      "qualified-parameter-contracts.d.ts"
+    ],
+    "workflow": "head and ordered span text retained as exact cooked template text; Explore and tool-name imports interpolate dynamically; planResearchAgentCount interpolates the required constant 3 twice.",
+    "full_sparse_exit_todo": "Exact retained lead/array strings, punctuation, LF breaks, Unicode em dash and blank segments preserved.",
+    "joins": "Output builders use LF joins with no added final newline; source has one final LF.",
+    "date": "Exact required format; _previousDate never inspected.",
+    "todo_format": "Native map and LF join preserve holes; unmodified status/content interpolation and canonical header.",
+    "output_style": "Exact name format; trimmed prompt gates admission only and is neither emitted nor logged."
+  },
+  "public_surface": {
+    "exports": [
+      "buildDateChangeReminderBody",
+      "runtimeMetadataForSyntheticUserMessageSource",
+      "shouldBuildTodoReminder",
+      "buildTodoReminderBody",
+      "buildRuntimeModeReminderBody",
+      "buildPlanModeExitReminderBody",
+      "buildRuntimeOutputStyleReminderBody"
+    ],
+    "imports": "All four import statements retained exactly from imports.json; no additional imports or reexports.",
+    "readonly_inputs": true,
+    "qualified_parameter": "planEnabled: boolean = mode === \"plan\" retains the inherited optional boolean public parameter/default while supplying the explicit TS9011 annotation."
+  },
+  "behavior_preservation": {
+    "metadata_sources": {
+      "background_task": "legacySyntheticRuntimeMetadata()",
+      "subagent_message": "legacySyntheticRuntimeMetadata()",
+      "shared_context": "legacySyntheticRuntimeMetadata()",
+      "subagent": "systemReminderRuntimeMetadata(\"queued_system_notification\")",
+      "todo_reminder": "todoReminderRuntimeMetadata()",
+      "goal_state_change": "systemReminderRuntimeMetadata(\"goal_state_change\")",
+      "plugin_reference": "systemReminderRuntimeMetadata(\"plugin_reference\")",
+      "selection_side_chat": "systemReminderRuntimeMetadata(\"selection_side_chat\")",
+      "goal-continuation": "systemReminderRuntimeMetadata(\"target_continuation\")",
+      "default": "systemReminderRuntimeMetadata(\"rewind_notice\")"
+    },
+    "factory_identity": "Returned factory object is unchanged; no alias conversion or admission.",
+    "todo_scan": "Backward live index reads; metadata marker detection precedes both-found break and attachment classification; assistant tool-call match captures distance before increment; post-increment both-found break retained; absent distances fall back to total assistant count.",
+    "todo_native_semantics": "Non-null assertion creates no runtime guard; undefined/hole entry property failures propagate. toolCalls?.some retains native behavior; synthetic assistants count normally, attachment markers are discoverable.",
+    "todo_gate": "Both assistant distances must be >= 10; no human/date counts or persistence.",
+    "mode_gate": "Explicit false returns null before inspecting entries; explicit true enables every mode; omitted parameter defaults to mode === plan.",
+    "mode_scan": "Backward live scan finds marker before attachment classification; only user messages marked real_user increment human turns; found marker with fewer than 5 returns null.",
+    "mode_cadence": "Native reduce counts all runtime_mode metadata markers, including attachments and synthetic entries, plus one; modulo 5 === 1 selects full reminder for 1/6/11, otherwise sparse; reduce skips native holes.",
+    "style_gate": "Optional outputStyle then native prompt.trim evaluated first; property/trim failures propagate; falsey trimmed prompt or absent style returns null; name is interpolated unchanged."
+  },
+  "verification": {
+    "performed": [
+      "Scoped source-only visual inspection against the eight contracts",
+      "Input and source byte/line counts and SHA-256 calculation",
+      "Frozen output file/directory mode checks after write"
+    ],
+    "not_performed": [
+      "compilation",
+      "tests",
+      "lint",
+      "build",
+      "mocks",
+      "provider or OS integration"
+    ],
+    "reason": "Frozen owner contract explicitly prohibits those execution checks; no standalone compilation claim is made from body-free fragments.",
+    "line_limit": 400,
+    "source_line_count": 192
+  },
+  "breaches": [],
+  "scope_qualifications": [
+    "Initial pwd queried the already supplied cwd and ls enumerated allowed input directory metadata; these did not read any additional file body. No OS/access-audit proof is asserted."
+  ],
+  "questions": [],
+  "remaining_blockers": [],
+  "freeze_utc": "2026-10-02T20:42:46.498346Z",
+  "freeze": {
+    "source_mode": "0444",
+    "receipt_mode": "0444",
+    "output_directory_mode": "0555",
+    "timing": "UTC recorded immediately before writing receipt and applying freeze modes; source-exposed curator review must occur after this freeze."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "SHA256",
+  "draft": {
+    "path": "/tmp/knorvia-shell-snapshot-recovery-author/draft.ts",
+    "sha256": "7bf1dec9a17862772712af86ffde5bbb3cc2bacf0198b829e05c01232ad4c4e3"
+  },
+  "accessJournal": {
+    "path": "/tmp/knorvia-shell-snapshot-recovery-author/access.json",
+    "sha256": "9cbb92f327c27ca7f029682f1d8a9a95176209ec247dd8c5068979b1a99b9735"
+  },
+  "sourceReview": "No implementation source review performed before or after saving the draft.",
+  "attempts": 1,
+  "authorizedSupplementApplied": "/workspace/knorvia-studio/docs/evidence/runtime-bash-shell-snapshot-author-20261003/clarification.md"
+}

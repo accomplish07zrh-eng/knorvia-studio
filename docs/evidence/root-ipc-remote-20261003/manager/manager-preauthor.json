@@ -1,0 +1,7 @@
+{
+  "at": "2026-10-02T21:31:10.702Z",
+  "target": "packages/desktop/src/main/desktopRemoteSessions.ts",
+  "sourceSha256": "d24288c326a97ae7b0356ece7fdc0a9903d4cd245cc6e8f5f83170b3fda09ef0",
+  "inputs": "Previously frozen IPC packet only; no deliberate manager body/history/test reading. Helpers/registration authored and source-reviewed separately; broad root/tooling context retained.",
+  "decomposition": "One factory-owned shared state object; private attachment, host lifecycle, controls and connection owners use same maps/ports. No module-global manager state or additional root exports."
+}

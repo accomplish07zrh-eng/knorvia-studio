@@ -1,0 +1,19 @@
+{
+  "mode": "Hash/AST/source comparison only; cached authorized connector bodies, no new requests or application execution",
+  "metadataBindings": 5,
+  "upstreamByteShaNormalizedShaGitBlobBindings": "PASS6/6",
+  "currentSourceBindings": "PASS6/6",
+  "mappedAstInitialAndCurrent": "PASS6/6",
+  "mappedByteEqualInitial": 5,
+  "mappedByteEqualCurrent": 4,
+  "requestsPreviouslyAuthorized": 6,
+  "requestRetries": 0,
+  "extraRequests": 0,
+  "exactRelationUnknownsResolved": 6,
+  "knownNewIndependentImplementations": 0,
+  "rightsAcceptance": false,
+  "ordinaryTestsBuilds": false,
+  "productionChanges": 0,
+  "materialOpen": 21,
+  "status": "PASS"
+}

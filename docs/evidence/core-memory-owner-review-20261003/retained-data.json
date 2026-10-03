@@ -1,0 +1,326 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "scope": "extraction",
+      "textChecks": [
+        {
+          "text": "\n\n## Existing memory files\n\n",
+          "retained": true
+        },
+        {
+          "text": "\n\nCheck this list before writing — update an existing file rather than creating a duplicate.",
+          "retained": true
+        },
+        {
+          "text": "You are now acting as the memory extraction subagent. Analyze the most recent ~",
+          "retained": true
+        },
+        {
+          "text": " messages above and use them to update your persistent memory systems.",
+          "retained": true
+        },
+        {
+          "text": "Available tools: Read, Grep, Glob, read-only Bash (ls/find/cat/stat/wc/head/tail and similar), and Edit/Write for paths inside the memory directory only, and Bash rm with paths inside the memory directory only. All other tools — MCP, Agent, write-capable Bash, etc — will be denied.",
+          "retained": true
+        },
+        {
+          "text": "You have a limited turn budget. Edit requires a prior Read of the same file, so the efficient strategy is: turn 1 — issue all Read calls in parallel for every file you might update; turn 2 — issue all Write/Edit calls in parallel. Do not interleave reads and writes across multiple turns.",
+          "retained": true
+        },
+        {
+          "text": "You MUST only use content from the last ~",
+          "retained": true
+        },
+        {
+          "text": " messages to update your persistent memories. Do not waste any turns attempting to investigate or verify that content further — no grepping source files, no reading code to confirm a pattern exists, no git commands.",
+          "retained": true
+        },
+        {
+          "text": "If nothing is worth saving, output only 'Nothing to save.' Do not explain why.",
+          "retained": true
+        },
+        {
+          "text": "If the user explicitly asks you to remember something, save it immediately as whichever type fits best. If they ask you to forget something, find and remove the relevant entry.",
+          "retained": true
+        },
+        {
+          "text": "Apply the memory types, what-not-to-save criteria, and frontmatter format from the Memory section of your system prompt — it is already in your context above.",
+          "retained": true
+        }
+      ],
+      "regexChecks": [
+        {
+          "regex": "/\\s+/u",
+          "retained": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scope": "loop",
+      "textChecks": [
+        {
+          "text": "../tool/handlers/bash-command-parser.js",
+          "retained": true
+        },
+        {
+          "text": "Only read-only shell commands and rm with all paths inside ",
+          "retained": true
+        },
+        {
+          "text": " are permitted in this context (ls, find, grep, cat, stat, wc, head, tail, and similar)",
+          "retained": true
+        },
+        {
+          "text": "only Read, Grep, Glob, read-only Bash, and Edit/Write within ",
+          "retained": true
+        },
+        {
+          "text": " are allowed",
+          "retained": true
+        },
+        {
+          "text": "<tool_use_error>Error: No such tool available: ",
+          "retained": true
+        },
+        {
+          "text": "</tool_use_error>",
+          "retained": true
+        }
+      ],
+      "regexChecks": [
+        {
+          "regex": "/^-[a-zA-Z]*[rR]/u",
+          "retained": true
+        },
+        {
+          "regex": "/[*?[]/u",
+          "retained": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scope": "path",
+      "textChecks": [
+        {
+          "text": "node:path",
+          "retained": true
+        },
+        {
+          "text": "../tool/path-policy.js",
+          "retained": true
+        },
+        {
+          "text": ".git",
+          "retained": true
+        },
+        {
+          "text": "hooks",
+          "retained": true
+        },
+        {
+          "text": ".husky",
+          "retained": true
+        },
+        {
+          "text": ".githooks",
+          "retained": true
+        },
+        {
+          "text": "node_modules",
+          "retained": true
+        },
+        {
+          "text": ".vscode",
+          "retained": true
+        },
+        {
+          "text": ".idea",
+          "retained": true
+        },
+        {
+          "text": "head",
+          "retained": true
+        },
+        {
+          "text": "config",
+          "retained": true
+        },
+        {
+          "text": "objects",
+          "retained": true
+        },
+        {
+          "text": "refs",
+          "retained": true
+        },
+        {
+          "text": ".knorvia-studio",
+          "retained": true
+        },
+        {
+          "text": "skills",
+          "retained": true
+        },
+        {
+          "text": "commands",
+          "retained": true
+        },
+        {
+          "text": "agents",
+          "retained": true
+        },
+        {
+          "text": ".cargo",
+          "retained": true
+        },
+        {
+          "text": ".devcontainer",
+          "retained": true
+        },
+        {
+          "text": ".yarn",
+          "retained": true
+        },
+        {
+          "text": ".mvn",
+          "retained": true
+        },
+        {
+          "text": "write",
+          "retained": true
+        },
+        {
+          "text": "..",
+          "retained": true
+        },
+        {
+          "text": "../",
+          "retained": true
+        },
+        {
+          "text": "..\\",
+          "retained": true
+        },
+        {
+          "text": ":",
+          "retained": true
+        }
+      ],
+      "regexChecks": [
+        {
+          "regex": "/[\\\\/]+/u",
+          "retained": true
+        },
+        {
+          "regex": "/[\\u200c-\\u200f\\u202a-\\u202e\\u206a-\\u206f\\ufeff]/gu",
+          "retained": true
+        },
+        {
+          "regex": "/[. ]+$/u",
+          "retained": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scope": "index",
+      "textChecks": [
+        {
+          "text": "\n\n> WARNING: MEMORY.md is ",
+          "retained": true
+        },
+        {
+          "text": ". Only part of it was loaded. Keep index entries to one line under ~200 chars; move detail into topic files.",
+          "retained": true
+        },
+        {
+          "text": " (limit: ",
+          "retained": true
+        },
+        {
+          "text": ") — index entries are too long",
+          "retained": true
+        },
+        {
+          "text": "KB",
+          "retained": true
+        },
+        {
+          "text": "MB",
+          "retained": true
+        },
+        {
+          "text": "GB",
+          "retained": true
+        }
+      ],
+      "regexChecks": [
+        {
+          "regex": "/^---\\s*\\n[\\s\\S]*?---\\s*\\n?/u",
+          "retained": true
+        },
+        {
+          "regex": "/<!--[\\s\\S]*?-->/gu",
+          "retained": true
+        },
+        {
+          "regex": "/\\.0$/u",
+          "retained": true
+        },
+        {
+          "regex": "/\\.0$/u",
+          "retained": true
+        },
+        {
+          "regex": "/\\.0$/u",
+          "retained": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scope": "manifest",
+      "textChecks": [
+        {
+          "text": "[",
+          "retained": true
+        },
+        {
+          "text": "] ",
+          "retained": true
+        },
+        {
+          "text": "- ",
+          "retained": true
+        },
+        {
+          "text": " (",
+          "retained": true
+        },
+        {
+          "text": ")",
+          "retained": true
+        },
+        {
+          "text": ": ",
+          "retained": true
+        }
+      ],
+      "regexChecks": [
+        {
+          "regex": "/^\\uFEFF/u",
+          "retained": true
+        },
+        {
+          "regex": "/\\r\\n/gu",
+          "retained": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "qualification": "Static required externally visible literal/regex preservation, generic expression identifiers discarded, no private layout equality requirement. Numeric bounds/schema/date formatting/cursor/tool identity assessed by manual public contract review and minimum synthetic gates; no source-emitted behavioral matrix. Retaining required data/ordinary idioms is not a novelty, grant or licence closure claim."
+}

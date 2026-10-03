@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { buildTarget } from "./harness/build-target.mjs";
 import { checkedChild } from "./harness/checked-child.mjs";
 import { ownedEnvironment } from "./harness/owned-env.mjs";
+import { emitAuthFailureDiagnostic } from "./harness/failure-diagnostic.mjs";
 import { isAssertedSuccess, parseNodeTestSummary } from "./harness/tap-summary.mjs";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -53,6 +54,7 @@ export async function runAuthGroup({ mode, repoRoot, evidenceRoot }) {
   const started = Date.now();
   const results = [];
   let firstFailure;
+  let firstFailureOutput;
   for (const entry of matrix.cases) {
     const caseRoot = path.join(evidenceRoot, entry.id);
     await mkdir(caseRoot, { recursive: true });
@@ -114,6 +116,7 @@ export async function runAuthGroup({ mode, repoRoot, evidenceRoot }) {
       await rm(owned, { force: true, recursive: true });
     } else if (!firstFailure) {
       firstFailure = result;
+      firstFailureOutput = { stdout: child.stdout, stderr: child.stderr };
       await json(path.join(evidenceRoot, "FIRST-FAILURE.json"), result);
     }
   }
@@ -126,6 +129,11 @@ export async function runAuthGroup({ mode, repoRoot, evidenceRoot }) {
     results,
   };
   await json(path.join(evidenceRoot, "summary.json"), report);
+  if (firstFailure) {
+    emitAuthFailureDiagnostic({ ...firstFailure, mode, ...firstFailureOutput }, (line) =>
+      process.stderr.write(line),
+    );
+  }
   assert.equal(
     report.failed,
     0,

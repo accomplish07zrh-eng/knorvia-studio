@@ -1,0 +1,1 @@
+[freshness] 基线新鲜：parallel/cli-tools-fast-20261001（与 origin/parallel/cli-tools-fast-20261001 同步），相对 origin/main：ahead 351 / behind 0（阈值 50）

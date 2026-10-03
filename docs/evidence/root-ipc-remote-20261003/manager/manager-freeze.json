@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-02T21:34:44.769720+00:00",
+  "drafts": {
+    "desktopRemoteSessions.ts": {
+      "bytes": 2322,
+      "sha256": "2db29293ec93f49d662a4cb01a367367f0b11907e0b21c93421b256fe1b37e17"
+    },
+    "controls.ts": {
+      "bytes": 6076,
+      "sha256": "d4506411e12884d717f568b26af820979dfe27b6289976a396c9de03e0378f57"
+    },
+    "connections.ts": {
+      "bytes": 3777,
+      "sha256": "2b94ded23f15d7a95a1a1a1d057f059dc5aedaa2effaedd7fa95d8b9d2e1b8ad"
+    },
+    "lifecycle.ts": {
+      "bytes": 6502,
+      "sha256": "fa02397cec91108d085cb7a378864bfab7e601d2792d77c7f7d82e1106440554"
+    },
+    "attachments.ts": {
+      "bytes": 5403,
+      "sha256": "bf970b8779a7f845283457dc1c6e200f65b5d51b1d6b6515d89d3059e57d6fd9"
+    },
+    "common.ts": {
+      "bytes": 1904,
+      "sha256": "fece694646f18311f2cca0449c9bb94025bd9f1238f15c5228e59667ea2643ad"
+    },
+    "types.ts": {
+      "bytes": 4202,
+      "sha256": "005e701541dc4f08ef2bb28133c0dc281b4c7c48bbc1ed98c5eca53c8cc7c8f4"
+    }
+  },
+  "managerBodyReadBeforeFreeze": false,
+  "decomposition": "Main factory creates sole maps/listener/shutdown context and passes same state/options to four private owners; types/common are stateless. Only original factory exported from main."
+}

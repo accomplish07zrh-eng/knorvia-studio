@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/esbuild",
+    "apps/cli/packages/adapters/src/skills/index.ts",
+    "apps/cli/packages/adapters/src/skills/scan.ts",
+    "--outdir=/tmp/knorvia-cli-skill-final-syntax",
+    "--platform=node",
+    "--format=esm",
+    "--log-level=warning"
+  ],
+  "stdout": "",
+  "stderr": "",
+  "exitCode": 0
+}

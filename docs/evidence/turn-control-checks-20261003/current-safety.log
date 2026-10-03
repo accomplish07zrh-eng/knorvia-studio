@@ -1,0 +1,3 @@
+(node:244092) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"mode":"current","groups":2,"actualConsumers":["Admission.rejectPermission","failedExecution"],"currentComparedToImmutableObservations":true,"liveToolsTasksProcessesPermissionsProvidersUserData":0}

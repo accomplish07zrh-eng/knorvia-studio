@@ -1,0 +1,21 @@
+{
+  "scope": "executeTurnCommand only",
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "predecessorBodyAllowed": false,
+  "structure": "Synchronous admission and data builders share one private lifetime record. A synchronous factory returns the original single native async operation callback. Root native async export adopts telemetry.run(execute).finally(native async cleanup), preserving direct shortcut returns and existing then handlers.",
+  "settlementConstraints": [
+    "No async factory wrappers",
+    "No extra awaited orchestration functions",
+    "The context callback owns the original operation",
+    "Finalizer remains one native async callback"
+  ],
+  "authority": "Existing public/dependency ports retain their ownership; executeTurn wrapper is outside author scope. Correspondence is qualified and no licence or independent-origin claim is made.",
+  "inputScope": "Original verified ten packet files, authorized additional-public-ports.d.ts, and journaled bounded curator declarations/field clarifications",
+  "actualFiles": [
+    "turn.ts",
+    "turn-command-state.ts",
+    "turn-command-data.ts",
+    "turn-command-operation.ts"
+  ]
+}

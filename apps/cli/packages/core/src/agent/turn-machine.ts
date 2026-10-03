@@ -1,42 +1,37 @@
-// ============================================================
-// Turn Machine - State machine for turn lifecycle
-// ============================================================
-
-import type {
-  TurnState,
-  TurnPhase,
-  ToolCall,
-  ToolScheduleState,
-  PermissionRequestState,
-  PermissionDecision,
-  TurnResultType,
-  TurnErrorState,
-  ModelRequestState,
-} from "./turn-state.js";
 import {
-  TurnPhase as Phase,
-  createTurnState,
-  canTransitionTo,
-  isTerminalPhase,
-} from "./turn-state.js";
-import type {
-  ModelMessageContent,
-  SessionId,
-  TraceId,
-  ToolCallId,
-  TurnId,
-} from "@knorvia/contracts";
-import type { PendingTurnInput } from "@knorvia/contracts";
-import {
-  createTurnId,
-  createCoreError,
   CoreErrorType,
+  createCoreError,
+  createTurnId,
   modelMessageContentToText,
+  type ModelMessageContent,
+  type PendingTurnInput,
+  type SessionId,
+  type ToolCallId,
+  type TraceId,
+  type TurnId,
 } from "@knorvia/contracts";
-
-// -----------------------------------------------
-// Turn Machine
-// -----------------------------------------------
+import {
+  TurnPhase,
+  canTransitionTo,
+  createTurnState,
+  isTerminalPhase,
+  type ModelRequestState,
+  type PermissionDecision,
+  type PermissionRequestState,
+  type ToolCall,
+  type ToolScheduleState,
+  type TurnErrorState,
+  type TurnResultType,
+  type TurnState,
+} from "./turn-state.js";
+import {
+  TurnCallStatus,
+  beginToolCalls,
+  decideToolCalls,
+  finishToolCalls,
+  scheduleToolCalls,
+  waitForToolPermission,
+} from "./turn-tool-projection.js";
 
 export interface TurnMachine {
   state: TurnState;
@@ -65,12 +60,12 @@ export interface TurnMachine {
   isComplete(): boolean;
 }
 
-export class TurnMachineImpl implements TurnMachine {
-  state: TurnState;
+const SUCCESS_RESULT: TurnResultType = "success";
+const TOOL_ERROR_TYPE = "tool_error";
+const MODEL_ADMISSION_MESSAGE = "Must be in ProcessingInput or AggregatingResults phase";
 
-  constructor(state: TurnState) {
-    this.state = state;
-  }
+export class TurnMachineImpl implements TurnMachine {
+  constructor(public state: TurnState) {}
 
   static create(
     sessionId: SessionId,
@@ -79,173 +74,97 @@ export class TurnMachineImpl implements TurnMachine {
     traceId?: TraceId,
     turnId?: TurnId,
   ): TurnMachineImpl {
-    const state = createTurnState(
-      turnId ?? createTurnId(),
-      sessionId,
-      turnNumber,
-      traceId ?? (crypto.randomUUID() as TraceId),
-      input,
-    );
-    return new TurnMachineImpl(state);
-  }
-
-  private transition(phase: TurnPhase): TurnState {
-    if (!canTransitionTo(this.state.phase, phase)) {
-      throw createCoreError(
-        CoreErrorType.InvalidTurnPhase,
-        `Cannot transition from ${this.state.phase} to ${phase}`,
-        {
-          context: { current: this.state.phase, target: phase },
-          recoverable: true,
-        },
-      );
-    }
-    return { ...this.state, phase };
+    const id = turnId ?? createTurnId();
+    const trace = traceId ?? (crypto.randomUUID() as TraceId);
+    return new TurnMachineImpl(createTurnState(id, sessionId, turnNumber, trace, input));
   }
 
   start(): TurnState {
-    return this.transition(Phase.ProcessingInput);
+    return this.atPhase(TurnPhase.ProcessingInput);
   }
 
   startModelRequest(model: string, messages: ModelRequestState["messages"]): TurnState {
-    if (
-      this.state.phase !== Phase.ProcessingInput &&
-      this.state.phase !== Phase.AggregatingResults
-    ) {
-      throw createCoreError(
-        CoreErrorType.InvalidTurnPhase,
-        "Must be in ProcessingInput or AggregatingResults phase",
-        {
-          context: { current: this.state.phase },
-          recoverable: true,
-        },
-      );
+    const current = this.state.phase;
+    if (current !== TurnPhase.ProcessingInput && current !== TurnPhase.AggregatingResults) {
+      throw createCoreError(CoreErrorType.InvalidTurnPhase, MODEL_ADMISSION_MESSAGE, {
+        context: { current },
+        recoverable: true,
+      });
     }
-
-    const state = this.transition(Phase.AwaitingModelResponse);
-    return {
-      ...state,
-      modelRequest: {
-        model,
-        messages,
-      },
-    };
+    const next = this.atPhase(TurnPhase.AwaitingModelResponse);
+    next.modelRequest = { model, messages };
+    return next;
   }
 
   receiveModelResponse(content: string): TurnState {
-    const state = this.transition(Phase.Streaming);
-    return {
-      ...state,
-      streamingContent: state.streamingContent + content,
-    };
+    const next = this.atPhase(TurnPhase.Streaming);
+    next.streamingContent += content;
+    return next;
   }
 
   addStreamingContent(content: string): TurnState {
-    const state = this.transition(Phase.Streaming);
-    return {
-      ...state,
-      streamingContent: state.streamingContent + content,
-    };
+    const next = this.atPhase(TurnPhase.Streaming);
+    next.streamingContent += content;
+    return next;
   }
 
   scheduleTools(toolCalls: ToolCall[], schedule: ToolScheduleState): TurnState {
-    const state = this.transition(Phase.SchedulingTools);
-    return {
-      ...state,
-      toolCalls: toolCalls.map((tc) => ({
-        id: tc.id as ToolCallId,
-        name: tc.name,
-        input: tc.input,
-        status: "scheduled" as TurnState["toolCalls"][number]["status"],
-        scheduledAt: new Date(),
-      })),
-      scheduledTools: schedule,
-    };
+    const next = this.atPhase(TurnPhase.SchedulingTools);
+    next.toolCalls = scheduleToolCalls(toolCalls);
+    next.scheduledTools = schedule;
+    return next;
   }
 
   startToolExecution(): TurnState {
-    const needsPermission = this.state.toolCalls.some((tc) => tc.status === "waiting_permission");
-    const nextPhase = needsPermission ? Phase.AwaitingPermission : Phase.ExecutingTools;
-
-    const state = this.transition(nextPhase);
-    return {
-      ...state,
-      toolCalls: state.toolCalls.map((tc) => ({
-        ...tc,
-        status:
-          tc.status === "waiting_permission"
-            ? tc.status
-            : ("running" as TurnState["toolCalls"][number]["status"]),
-        startedAt: tc.status !== "waiting_permission" ? new Date() : tc.startedAt,
-      })),
-    };
+    const waiting = this.state.toolCalls.some((call) => call.status === TurnCallStatus.Waiting);
+    const next = this.atPhase(waiting ? TurnPhase.AwaitingPermission : TurnPhase.ExecutingTools);
+    next.toolCalls = beginToolCalls(this.state.toolCalls);
+    return next;
   }
 
   completeTool(
     toolCallId: ToolCallId,
     result: { success: boolean; content: ModelMessageContent },
   ): TurnState {
-    const errorMessage = result.success ? undefined : modelMessageContentToText(result.content);
-    const updatedToolCalls = this.state.toolCalls.map((tc) =>
-      tc.id === toolCallId
-        ? {
-            ...tc,
-            status: (result.success
-              ? "completed"
-              : "failed") as TurnState["toolCalls"][number]["status"],
-            completedAt: new Date(),
-            result: {
-              success: result.success,
-              content: result.content,
-            },
-          }
-        : tc,
-    );
-
-    return {
-      ...this.state,
-      toolCalls: updatedToolCalls,
-      toolResults: [
-        ...this.state.toolResults,
-        {
-          success: result.success,
-          content: result.content,
-          error: result.success
-            ? undefined
-            : { type: "tool_error", message: errorMessage ?? "", recoverable: true },
-        },
-      ],
-    };
+    const error = result.success
+      ? undefined
+      : {
+          type: TOOL_ERROR_TYPE,
+          message: modelMessageContentToText(result.content) ?? "",
+          recoverable: true,
+        };
+    const calls = finishToolCalls(this.state.toolCalls, toolCallId, result);
+    const next = this.project();
+    next.toolCalls = calls;
+    next.toolResults = Array.from(this.state.toolResults);
+    next.toolResults.push({
+      success: result.success,
+      content: result.content,
+      error,
+    });
+    return next;
   }
 
   queuePendingInput(input: PendingTurnInput): TurnState {
-    return {
-      ...this.state,
-      pendingInputs: [...this.state.pendingInputs, input],
-    };
+    const next = this.project();
+    next.pendingInputs = Array.from(this.state.pendingInputs);
+    next.pendingInputs.push(input);
+    return next;
   }
 
   drainPendingInputs(): { inputs: PendingTurnInput[]; state: TurnState } {
-    return {
-      inputs: this.state.pendingInputs,
-      state: {
-        ...this.state,
-        pendingInputs: [],
-      },
-    };
+    const inputs = this.state.pendingInputs;
+    const next = this.project();
+    next.pendingInputs = [];
+    return { inputs, state: next };
   }
 
   requestPermission(request: PermissionRequestState): TurnState {
-    const state = this.transition(Phase.AwaitingPermission);
-    return {
-      ...state,
-      toolCalls: state.toolCalls.map((tc) =>
-        tc.id === request.toolCallId
-          ? { ...tc, status: "waiting_permission" as TurnState["toolCalls"][number]["status"] }
-          : tc,
-      ),
-      pendingPermissions: [...state.pendingPermissions, request],
-    };
+    const next = this.atPhase(TurnPhase.AwaitingPermission);
+    next.toolCalls = waitForToolPermission(this.state.toolCalls, request.toolCallId);
+    next.pendingPermissions = Array.from(this.state.pendingPermissions);
+    next.pendingPermissions.push(request);
+    return next;
   }
 
   resolvePermission(
@@ -253,92 +172,90 @@ export class TurnMachineImpl implements TurnMachine {
     decision: PermissionDecision,
     modifiedInput?: unknown,
   ): TurnState {
-    const updatedToolCalls = this.state.toolCalls.map((tc) =>
-      tc.id === toolCallId
-        ? {
-            ...tc,
-            status:
-              decision === "deny"
-                ? ("permission_denied" as TurnState["toolCalls"][number]["status"])
-                : tc.status,
-            input: modifiedInput ?? tc.input,
-          }
-        : tc,
-    );
-
-    return {
-      ...this.state,
-      toolCalls: updatedToolCalls,
-      pendingPermissions: this.state.pendingPermissions.filter((p) => p.toolCallId !== toolCallId),
-      resolvedPermissions: [
-        ...this.state.resolvedPermissions,
-        {
-          toolCallId,
-          decision,
-          modifiedInput,
-          resolvedAt: new Date(),
-        },
-      ],
-    };
+    const calls = decideToolCalls(this.state.toolCalls, toolCallId, decision, modifiedInput);
+    const next = this.project();
+    next.toolCalls = calls;
+    const pending: PermissionRequestState[] = [];
+    this.state.pendingPermissions.forEach((request) => {
+      if (request.toolCallId !== toolCallId) pending.push(request);
+    });
+    next.pendingPermissions = pending;
+    next.resolvedPermissions = Array.from(this.state.resolvedPermissions);
+    next.resolvedPermissions.push({
+      toolCallId,
+      decision,
+      modifiedInput,
+      resolvedAt: new Date(),
+    });
+    return next;
   }
 
   aggregateResults(): TurnState {
-    return this.transition(Phase.AggregatingResults);
+    return this.atPhase(TurnPhase.AggregatingResults);
   }
 
-  complete(response: string, resultType: TurnResultType = "success"): TurnState {
-    const state = this.transition(Phase.Completing);
-    return {
-      ...state,
-      finalResponse: response,
-      resultType,
-      completedAt: new Date(),
-    };
+  complete(response: string, resultType: TurnResultType = SUCCESS_RESULT): TurnState {
+    const next = this.atPhase(TurnPhase.Completing);
+    next.finalResponse = response;
+    next.resultType = resultType;
+    next.completedAt = new Date();
+    return next;
   }
 
   fail(error: TurnErrorState): TurnState {
-    return {
-      ...this.state,
-      phase: Phase.Error,
-      error,
-      completedAt: new Date(),
-    };
+    const next = this.project();
+    next.phase = TurnPhase.Error;
+    next.error = error;
+    next.completedAt = new Date();
+    return next;
   }
 
   getNextPhase(): TurnPhase {
     const { phase, toolCalls, streamingContent } = this.state;
-
-    if (phase === Phase.Streaming && toolCalls.length > 0) {
-      return Phase.SchedulingTools;
+    if (phase === TurnPhase.Streaming) {
+      if (toolCalls.length !== 0) return TurnPhase.SchedulingTools;
+      return streamingContent ? TurnPhase.Completing : phase;
     }
-
-    if (phase === Phase.Streaming && toolCalls.length === 0 && streamingContent) {
-      return Phase.Completing;
+    if (phase === TurnPhase.ExecutingTools) {
+      let unsettled = false;
+      toolCalls.forEach((call) => {
+        if (call.status === TurnCallStatus.Running || call.status === TurnCallStatus.Waiting) {
+          unsettled = true;
+        }
+      });
+      return unsettled ? phase : TurnPhase.AggregatingResults;
     }
-
-    if (phase === Phase.ExecutingTools) {
-      const pendingTools = toolCalls.filter(
-        (tc) => tc.status === "running" || tc.status === "waiting_permission",
-      );
-      if (pendingTools.length === 0) {
-        return Phase.AggregatingResults;
-      }
+    if (phase === TurnPhase.AggregatingResults) {
+      let failed = false;
+      toolCalls.forEach((call) => {
+        if (call.status === TurnCallStatus.Failed || call.status === TurnCallStatus.Denied) {
+          failed = true;
+        }
+      });
+      return failed ? TurnPhase.Completing : TurnPhase.AwaitingModelResponse;
     }
-
-    if (phase === Phase.AggregatingResults) {
-      const failedTools = toolCalls.filter(
-        (tc) => tc.status === "failed" || tc.status === "permission_denied",
-      );
-      if (failedTools.length > 0) {
-        return Phase.Completing;
-      }
-      return Phase.AwaitingModelResponse;
-    }
-
     return phase;
   }
 
   isComplete(): boolean {
     return isTerminalPhase(this.state.phase);
+  }
+
+  private project(): TurnState {
+    return { ...this.state };
+  }
+
+  private atPhase(target: TurnPhase): TurnState {
+    const current = this.state.phase;
+    if (!canTransitionTo(current, target)) {
+      throw createCoreError(
+        CoreErrorType.InvalidTurnPhase,
+        `Cannot transition from ${current} to ${target}`,
+        { context: { current, target }, recoverable: true },
+      );
+    }
+    const next = this.project();
+    next.phase = target;
+    return next;
   }
 }

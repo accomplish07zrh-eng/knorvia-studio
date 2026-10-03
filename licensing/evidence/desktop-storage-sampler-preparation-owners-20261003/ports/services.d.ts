@@ -1,0 +1,1 @@
+export declare function resolveDefaultKnorviaAgentCommand(options:{workspacePath:string;workspaceKey:string;presentationSurface:'desktop'}):{supportsStorageStartup?:boolean;storagePreparationEntry?:string;cwd?:string;env?:Record<string,string>}|undefined;

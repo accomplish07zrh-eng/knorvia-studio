@@ -1,6 +1,6 @@
 import {
-  type WorkflowDefinition,
   WorkflowDefinitionSchema,
+  type WorkflowDefinition,
   type WorkflowStrategy,
 } from "@knorvia/contracts";
 
@@ -125,5 +125,7 @@ export function createExpertWorkflowDefinition(): WorkflowDefinition {
 export function workflowDefinitionPhaseMap(
   definition: WorkflowDefinition,
 ): Map<string, WorkflowDefinition["phases"][number]> {
-  return new Map(definition.phases.map((phase) => [phase.phase, phase]));
+  const phases = new Map<string, WorkflowDefinition["phases"][number]>();
+  for (const phase of definition.phases) phases.set(phase.phase, phase);
+  return phases;
 }

@@ -1,0 +1,41 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "clause": "{ selectActiveConversationBranch, type TraceContext }",
+      "text": "import { selectActiveConversationBranch, type TraceContext } from \"../deps.js\";"
+    },
+    {
+      "module": "../../memory/extraction.js",
+      "clause": "{\n  buildMemoryExtractionPrompt,\n  createMemoryExtractionScheduler,\n  type MemoryExtractionScheduler,\n  type MemoryExtractionSnapshot,\n}",
+      "text": "import {\n  buildMemoryExtractionPrompt,\n  createMemoryExtractionScheduler,\n  type MemoryExtractionScheduler,\n  type MemoryExtractionSnapshot,\n} from \"../../memory/extraction.js\";"
+    },
+    {
+      "module": "../../memory/memory-agent-loop.js",
+      "clause": "{ runMemoryAgentLoop }",
+      "text": "import { runMemoryAgentLoop } from \"../../memory/memory-agent-loop.js\";"
+    },
+    {
+      "module": "../../memory/recall/index.js",
+      "clause": "{ scanMemoryManifest }",
+      "text": "import { scanMemoryManifest } from \"../../memory/recall/index.js\";"
+    },
+    {
+      "module": "../internal.js",
+      "clause": "type { AgentRuntimeInternal }",
+      "text": "import type { AgentRuntimeInternal } from \"../internal.js\";"
+    },
+    {
+      "module": "./project-memory-agent.js",
+      "clause": "{\n  buildProjectMemoryAgentProviderMessages,\n  captureProjectMemoryAgentContext,\n  createProjectMemoryAgentToolExecutor,\n  type ProjectMemoryAgentContext,\n}",
+      "text": "import {\n  buildProjectMemoryAgentProviderMessages,\n  captureProjectMemoryAgentContext,\n  createProjectMemoryAgentToolExecutor,\n  type ProjectMemoryAgentContext,\n} from \"./project-memory-agent.js\";"
+    },
+    {
+      "module": "./project-memory.js",
+      "clause": "{ resolveEnabledProjectMemoryRoot }",
+      "text": "import { resolveEnabledProjectMemoryRoot } from \"./project-memory.js\";"
+    }
+  ],
+  "reexports": []
+}

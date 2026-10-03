@@ -1,0 +1,222 @@
+{
+  "baseline": "735395542692589c572bd5c0941b27ce872f92de",
+  "directoryScope": [
+    "apps/cli/packages/core/src/system-reminder/",
+    "apps/cli/packages/core/src/mcp/",
+    "apps/cli/packages/core/src/embedded-search/"
+  ],
+  "records": [
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/capability.ts",
+      "bytes": 1555,
+      "lines": 54,
+      "sha256": "86a257fddcadf38fe340963b649d1f7d51e034f14f5bd1a2e783525a9b9d4ec4",
+      "receiptHits": [],
+      "originClassification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/embedded-search/capability.ts",
+        "blob": "606008c20cd233d0bfbe7c6f6ba5463cb177f2f1",
+        "normalizedSha256": "86a257fddcadf38fe340963b649d1f7d51e034f14f5bd1a2e783525a9b9d4ec4",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/embedded-search/capability.ts"
+        ]
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "retain small original public decision/naming/shell helper surface; no forced cosmetic authorship"
+    },
+    {
+      "path": "apps/cli/packages/core/src/embedded-search/shell.ts",
+      "bytes": 589,
+      "lines": 15,
+      "sha256": "43955ed6ee297bc25c37fa88b2dba36d1bd08d9853f2d2c95052d3f307623de8",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/embedded-search/shell.ts",
+        "blob": "9ccd6a12ac5e4723762ccc8f23c88e08c882acfd",
+        "normalizedSha256": "c57a5b1164d91041bb049bb056698f149aaf776cc78671e170c41e8591a39e21",
+        "contentMatchedPaths": []
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "retain small original public decision/naming/shell helper surface; no forced cosmetic authorship"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "bytes": 14567,
+      "lines": 412,
+      "sha256": "8e959fc63c11d0b02149a50ca20250088a5547e77cdef87e237033903ef71032",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/image-normalization.ts",
+        "blob": "6d40c395a2fbbffeffceba1d01eda60341485f3f",
+        "normalizedSha256": "00b765bcca31f6181eeb10dcb5f81709c8f3040bcad170bc3cc99684bdaaf54f",
+        "contentMatchedPaths": []
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25 style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "allocation needed: authority/frame and imageProcessor/abort/artifact/provider boundary; first85lines screened, rest unread this turn"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "bytes": 16207,
+      "lines": 410,
+      "sha256": "0b819ddfa17c664ac432c9fcdcff2dcb46bd35a2af63e03183e86193449b5f58",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/index.ts",
+        "blob": "01ce6820957bfbf50fd576ce544c380c9a454fe3",
+        "normalizedSha256": "dc1040c3151f0f4ec16a3c63318ba7607a86fa4ac6b0dcf23b453dbfe5936d17",
+        "contentMatchedPaths": []
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "805754face6bf038da0ddb308da1f9da508d11e0 2026-09-27 feat: release preview.3 with Windows computer use and branded distribution",
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25 style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "allocation needed: MCP bridge/connection/auth/runtime integration; metadata only, body unread this turn"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/name.ts",
+      "bytes": 1083,
+      "lines": 35,
+      "sha256": "087d6921527aed0e51325efa1c5a1e832e87c1cce2992ea1e7e54e86fff22c75",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/mcp/name.ts",
+        "blob": "6d68cf5411709fb37c0904e15a827bc7140c22f1",
+        "normalizedSha256": "fa3cc74cf88448f63c1a667c813b1b6b1d0ab2bacc8ca515fde199ba98a35c04",
+        "contentMatchedPaths": []
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "retain small original public decision/naming/shell helper surface; no forced cosmetic authorship"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/result-format.ts",
+      "bytes": 4602,
+      "lines": 120,
+      "sha256": "7badce4066976fc18270873fecb2164d2736fd0838d8827f12ce4c7579e4a627",
+      "receiptHits": [],
+      "originClassification": "unreviewed",
+      "upstream": null,
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "805754face6bf038da0ddb308da1f9da508d11e0 2026-09-27 feat: release preview.3 with Windows computer use and branded distribution"
+      ],
+      "decision": "retain existing post-snapshot result projection implementation; initial available creation history supports original-product work, does not grant licence/origin clearance"
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/windows-computer-use.ts",
+      "bytes": 3113,
+      "lines": 85,
+      "sha256": "1295971b4137fd961e97250980f991dc2014148855320882eab0a4b5ca8ed49c",
+      "receiptHits": [],
+      "originClassification": "unreviewed",
+      "upstream": null,
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "805754face6bf038da0ddb308da1f9da508d11e0 2026-09-27 feat: release preview.3 with Windows computer use and branded distribution"
+      ],
+      "decision": "retain existing post-snapshot implementation and explicit trust/subagent frame boundary; origin/rights unresolved, no A authority rewrite"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/incoming-message.ts",
+      "bytes": 2676,
+      "lines": 35,
+      "sha256": "263b8ea544c2be4b215f6ccc4984f3a46981c297392ab04e78f01256c229d607",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/system-reminder/incoming-message.ts",
+        "blob": "b286f4dc69ad863d0c529e90f680a58e64dbfd33",
+        "normalizedSha256": "d070d600e52a2a87f8f7ce6b89c10752f06272638017c501b2c9982c29d92bee",
+        "contentMatchedPaths": []
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "retain public protocol/type/descriptor data and fixed steering/presentation envelope; do not cosmetically reauthor"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "bytes": 5540,
+      "lines": 170,
+      "sha256": "6ccc10bd8d6cb96e17e0b27b021d79facdb0ccea7bc2aae62edfd442a71ad43a",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/system-reminder/prompt-attachment.ts",
+        "blob": "c617652e6fa7c53827af991d0d549cffcd2aa767",
+        "normalizedSha256": "d02ecba05443467b07d1fdca1f3fca34ded345761d974bb012cd47777f3c6032",
+        "contentMatchedPaths": []
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "selected substantive prompt attachment projection owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+      "bytes": 8319,
+      "lines": 237,
+      "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+      "receiptHits": [],
+      "originClassification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/system-reminder/source.ts",
+        "blob": "74de0d6386d84660f0419b92568b0befd9bcfcbe",
+        "normalizedSha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/system-reminder/source.ts"
+        ]
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "retain public protocol/type/descriptor data and fixed steering/presentation envelope; do not cosmetically reauthor"
+    }
+  ],
+  "reusedMetadata": {
+    "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/screened-core-metadata.json",
+    "sha256": "e4d778ab222960f4a711bbd9cbb27b8f01e50560246f4c64d6a7d7a84826e979",
+    "previousReceiptFilesScreened": 83
+  },
+  "bodyScreenedForThisReservation": true,
+  "exclusions": "A model/turn/runtime/permission/trust; completed context/memory/workflow/plugin-reference queues; B renderer/G model adapters/root desktop reservations. Tool/executor/adapters and runtime-task/subagent/browser-client/repl require allocation evidence rather than inferred E ownership.",
+  "curatorFailures": [
+    "Initial all-core filename and45-file metadata display truncated; no body display.",
+    "Adaptive metadata summary used wrong entries key instead of records; KeyError before writes, schema corrected. No source or author change."
+  ],
+  "sourceExposure": "Earlier source/tool/dependency exposure, prior system-reminder/source.ts declaration-extraction read and repaired scratch-write breach remain; source-exposed curator, instruction-only shared executor/no OS audit. Full system-reminder3, embedded2, MCPname/result-format/windows-computer-use bodies; first85MCPimage lines. Full read-text dependency body incidentally read to extract original public formatter port; no dependency business runtime executed.",
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21,
+  "selectedPaths": [
+    "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts"
+  ]
+}

@@ -1,0 +1,1273 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-02",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "branch": "parallel/material-closure-fast-20261002",
+  "publishedBaselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "inputHead": "c583205ff672ceb3471c0dba07a7c4e0009a0486",
+  "supplements": {
+    "commit": "c583205ff672ceb3471c0dba07a7c4e0009a0486",
+    "file": "licensing/evidence/material-closure-20261002.json",
+    "sha256": "c47ff03186e806f9f7d580da6d53a470a004376bc5c4b75a31eaa8f2058823f1"
+  },
+  "fullyClosedParentObligations": 0,
+  "newScopedNoticeTexts": 0,
+  "scope": "Repository historical declared deliverables, tracked installer/runtime manifests, lockfiles and the already verified exact publisher tarball; component-scoped proposed updates only.",
+  "verificationEnvironment": {
+    "location": "saved cloud workspace",
+    "nodeVersion": "v24.19.0",
+    "notShallow": true,
+    "localTags": [],
+    "credentialsAndPrivateMaterialAccessed": false
+  },
+  "history": {
+    "oldestRecordedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+    "oldestRecordedDate": "2026-09-24",
+    "commitCount": 205,
+    "boundary": "The September 22 upstream clone/removal history described by the specification is not represented by this repository history. No earlier artifact bytes were obtained.",
+    "enumerationMethod": "git rev-list --reverse INPUT_HEAD; git ls-tree -rz --full-tree for every reachable commit; select all package.json paths and scoped manifests; read every distinct selected Git blob with git cat-file blob; compute raw SHA-256. Scan package/lock/workspace texts for @arms/ and @arms__.",
+    "packageManifestPathCount": 35,
+    "distinctPackageManifestBlobCount": 65,
+    "lockfileBlobCount": 4,
+    "workspaceManifestBlobCount": 2,
+    "armsReferenceMatches": [],
+    "snapshots": [
+      {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "packageManifestCount": 33,
+        "packageManifestSetSha256": "c08cf9b771fc0a63991c44918f79a177635ebb4fe5140a59699509ced2163f64",
+        "bindings": {
+          "apps/cli/packages/cli/scripts/sea-targets.mjs": "e8a59da4650ebf85456a48002501f6ae3c584790",
+          "package.json": "a1aabaf8ed26bfa66e52c17c69fea9b8fdf83979",
+          "packages/desktop/package.json": "db3b572d30eda6c983743339e364055402dddcb0",
+          "patches/@arms__rum-electron@0.0.3.patch": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+          "pnpm-lock.yaml": "c6b05f23919e1c23d6d60a876acbdcb54bf10d45",
+          "pnpm-workspace.yaml": "a35c8e9175161aeff24ebf3882dcd7c1467d2726",
+          "scripts/native-search-tools-config.mjs": "e846667f9125fe60e97aa1a2bda2a58ee7c35f50",
+          "scripts/prepare-prebuilds.mjs": "45160c0367dfd4347805e811f868a8dd72afb290",
+          "scripts/remote-native-search-tools-config.mjs": "8b93b3eaeaf3cd2085c64b4baa1f8bb4f094ae29"
+        }
+      },
+      {
+        "commit": "6e1b4f27181d843b72f7e6c5a32a2f1b96562980",
+        "packageManifestCount": 33,
+        "packageManifestSetSha256": "4029af57a8f32d7d1d39fd3e87c524d6376686db6319a0df625f1a2dc8f14593",
+        "bindings": {
+          "apps/cli/packages/cli/scripts/sea-targets.mjs": "e8a59da4650ebf85456a48002501f6ae3c584790",
+          "package.json": "a3987870282a0a4025c8d9073dbcb54887971be4",
+          "packages/desktop/package.json": "5364d765dbcf4e130ced424199060c863df0cf8e",
+          "patches/@arms__rum-electron@0.0.3.patch": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+          "pnpm-lock.yaml": "c6b05f23919e1c23d6d60a876acbdcb54bf10d45",
+          "pnpm-workspace.yaml": "a4a240cae292b4474ff64c628e80499c934ed40d",
+          "scripts/native-search-tools-config.mjs": "83c120c2c811b79a5d11ed623f72c4fb3d29c08f",
+          "scripts/prepare-prebuilds.mjs": "45160c0367dfd4347805e811f868a8dd72afb290",
+          "scripts/remote-native-search-tools-config.mjs": "8b93b3eaeaf3cd2085c64b4baa1f8bb4f094ae29"
+        }
+      },
+      {
+        "commit": "f8d1b22ba5c911bb6980d2aa4ba4bfead49af57b",
+        "packageManifestCount": 33,
+        "packageManifestSetSha256": "3bd84076e1886ca1a8c0732c33eab8082f915188e0f441653f1534c3ef08e724",
+        "bindings": {
+          "apps/cli/packages/cli/scripts/sea-targets.mjs": "e8a59da4650ebf85456a48002501f6ae3c584790",
+          "package.json": "298b3188c2a4f1d1c4d0a1a3e51b72e91e906816",
+          "packages/desktop/package.json": "5364d765dbcf4e130ced424199060c863df0cf8e",
+          "patches/@arms__rum-electron@0.0.3.patch": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+          "pnpm-lock.yaml": "c6b05f23919e1c23d6d60a876acbdcb54bf10d45",
+          "pnpm-workspace.yaml": "a4a240cae292b4474ff64c628e80499c934ed40d",
+          "scripts/native-search-tools-config.mjs": "83c120c2c811b79a5d11ed623f72c4fb3d29c08f",
+          "scripts/prepare-prebuilds.mjs": "45160c0367dfd4347805e811f868a8dd72afb290",
+          "scripts/remote-native-search-tools-config.mjs": "8b93b3eaeaf3cd2085c64b4baa1f8bb4f094ae29"
+        }
+      },
+      {
+        "commit": "805754face6bf038da0ddb308da1f9da508d11e0",
+        "packageManifestCount": 34,
+        "packageManifestSetSha256": "c71bb8f07e685f4c629e48c8c3c0dacf8bcc131d39e6945433f3ce355557c0d5",
+        "bindings": {
+          "apps/cli/packages/cli/scripts/sea-targets.mjs": "e8a59da4650ebf85456a48002501f6ae3c584790",
+          "package.json": "89e4cb9e28d489bab33632562225e049959524f6",
+          "packages/desktop/package.json": "5364d765dbcf4e130ced424199060c863df0cf8e",
+          "patches/@arms__rum-electron@0.0.3.patch": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+          "pnpm-lock.yaml": "52912dacf516ddd9e0127f8ce8177d3ae71d02d6",
+          "pnpm-workspace.yaml": "a4a240cae292b4474ff64c628e80499c934ed40d",
+          "scripts/native-search-tools-config.mjs": "83c120c2c811b79a5d11ed623f72c4fb3d29c08f",
+          "scripts/prepare-prebuilds.mjs": "45160c0367dfd4347805e811f868a8dd72afb290",
+          "scripts/remote-native-search-tools-config.mjs": "8b93b3eaeaf3cd2085c64b4baa1f8bb4f094ae29"
+        }
+      },
+      {
+        "commit": "c583205ff672ceb3471c0dba07a7c4e0009a0486",
+        "packageManifestCount": 35,
+        "packageManifestSetSha256": "12eddbdc1c7c4e878d8d5fae66a533eb5d3eea82b2ef98f98f31c1db96f0a4f8",
+        "bindings": {
+          "apps/cli/packages/cli/scripts/sea-targets.mjs": "e8a59da4650ebf85456a48002501f6ae3c584790",
+          "package.json": "319bfb13788e7fd6c264e6f371212dad2bcb812b",
+          "packages/desktop/package.json": "5364d765dbcf4e130ced424199060c863df0cf8e",
+          "patches/@arms__rum-electron@0.0.3.patch": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+          "pnpm-lock.yaml": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78",
+          "pnpm-workspace.yaml": "a4a240cae292b4474ff64c628e80499c934ed40d",
+          "scripts/native-search-tools-config.mjs": "83c120c2c811b79a5d11ed623f72c4fb3d29c08f",
+          "scripts/prepare-prebuilds.mjs": "45160c0367dfd4347805e811f868a8dd72afb290",
+          "scripts/remote-native-search-tools-config.mjs": "8b93b3eaeaf3cd2085c64b4baa1f8bb4f094ae29"
+        }
+      }
+    ],
+    "historicalInputFiles": [
+      {
+        "path": "apps/cli/package.json",
+        "gitBlob": "82a2a6d31978c5e19de24ccb745aa4387115ff6f",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 2045,
+        "sha256": "b2e463eb06bd7cf4954700b9d8519e84f5d472373d0e92d132ef875fec525dfa"
+      },
+      {
+        "path": "apps/cli/packages/adapters/package.json",
+        "gitBlob": "d7965742b6d0f648df147fe1f063c5eb07473956",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 3429,
+        "sha256": "df75178216403b54e8f3d1067a1488880bb1e74d1b7e4f8e01723f8a453844f7"
+      },
+      {
+        "path": "apps/cli/packages/bootstrap/package.json",
+        "gitBlob": "5f447764752c8983681806e02d91632522409efe",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1213,
+        "sha256": "731d964319fa656413db585059a66f2547513cf5036d07c1cb1279b5f893a96c"
+      },
+      {
+        "path": "apps/cli/packages/browser-use-plugin/package.json",
+        "gitBlob": "4b6f2689f7e92f51d67bc43c3e6bef689a76a4c8",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1017,
+        "sha256": "3edcae9f0a577634dd648a95e58a47d4a19c36d2f58bfa044be38173d8cf72be"
+      },
+      {
+        "path": "apps/cli/packages/cli/package.json",
+        "gitBlob": "490a3140f8cfc8c5f5e4a39b04b1b195ea1343b9",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1317,
+        "sha256": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6"
+      },
+      {
+        "path": "apps/cli/packages/cli/scripts/sea-targets.mjs",
+        "gitBlob": "e8a59da4650ebf85456a48002501f6ae3c584790",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 6011,
+        "sha256": "6f4e60c7b1c8ce30c401547bc5c5761a2164277369e66be3ffff61769fefa561"
+      },
+      {
+        "path": "apps/cli/packages/contracts/package.json",
+        "gitBlob": "86a74ea4a516395ffab65afe88db371eb26dd355",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 2834,
+        "sha256": "23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6"
+      },
+      {
+        "path": "apps/cli/packages/core/package.json",
+        "gitBlob": "2abdb625e24940af12dd56807ade2a7b01e45587",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1372,
+        "sha256": "4c60d732fe52a738c9071e5f6d4e7af93ef9d2c3c74875f3c9fc0f0eecd1ee4c"
+      },
+      {
+        "path": "apps/cli/packages/debug/package.json",
+        "gitBlob": "1250b9626f3a48e9c0750e9d3077be94be52b264",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 926,
+        "sha256": "990f94973228f9e4b90699b0ad8e9821dd8f5fe3e098ad9fd5999c3e43854954"
+      },
+      {
+        "path": "apps/cli/packages/dynamic-workflow-runtime/package.json",
+        "gitBlob": "07bf22188efdf47bcdce3a8fa794a110a840fccf",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 663,
+        "sha256": "af2852f725f7b2071409b036338471017850d150c3da20ebbe268c3dce133e6a"
+      },
+      {
+        "path": "apps/cli/packages/dynamic-workflow/package.json",
+        "gitBlob": "39cd2baee42d1c5ce66f76bdd9bee067d4ab2ff4",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 838,
+        "sha256": "1e7fd9a0c5c6bf5d7e355dae6120a65d962886cee529cce889c93688862aff88"
+      },
+      {
+        "path": "apps/cli/packages/i18n/package.json",
+        "gitBlob": "582af5542d8efa2873dc30664ef5505d0e691c3a",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 538,
+        "sha256": "edcc69b48db7d98f4bf721b0f07e135c7ba355f5d7680b8072cf1369ae529cff"
+      },
+      {
+        "path": "apps/cli/packages/node-repl-host/package.json",
+        "gitBlob": "a36d0e863baeac92ea054e2f5bd788f2c4684d05",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1068,
+        "sha256": "f257c9ea6198f7b36e4c5cc4924f47b916a6046ca17cfdd9076959c4f7779f4e"
+      },
+      {
+        "path": "apps/cli/packages/shared-types/package.json",
+        "gitBlob": "acbcd2ad9f425cfac669a3b4499343defd1f24b2",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 446,
+        "sha256": "83400d8619bec20ae00604446c4711e7e594157423bf564da95044d2c2444f2f"
+      },
+      {
+        "path": "apps/cli/packages/swift-bridge/package.json",
+        "gitBlob": "7efe61879c84bbc99e098c6f7ec8cbb9e57bb061",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 511,
+        "sha256": "1fbbd04b512e20a5ce8a2d94597a7cc6089461c55bec8d0a1dbfed29d13a3f46"
+      },
+      {
+        "path": "apps/cli/packages/telemetry/package.json",
+        "gitBlob": "79c83c6b4064e5fb90f86814a93264f9de2923f2",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1014,
+        "sha256": "38288235e349d8c0e0b5e8b8c4926de5ea8f29afd8d1e394e175b01e5fe3b9cd"
+      },
+      {
+        "path": "apps/cli/packages/tui/package.json",
+        "gitBlob": "f27293a81ce15c985c17c4cb3379510123f15797",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 901,
+        "sha256": "b94fdecae64dde0433ffba3c58612a921fe70fcac833689e6edf5583f8759bd8"
+      },
+      {
+        "path": "apps/cli/tools/prompt-trajectory/package.json",
+        "gitBlob": "31f65cb01e149fac247fd8b62ecd0b01f9276b8b",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 471,
+        "sha256": "b94c825a9e0206dd850ea554e5aeb9600b45e9fadb92213f1da28f3a89a26622"
+      },
+      {
+        "path": "apps/cli/tools/typescript/package.json",
+        "gitBlob": "0c21602cc58ddbdb421b176211726edbf4f64b70",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 249,
+        "sha256": "f8f1bfc985c6c6aae279f1b20bc1281924ef92f216644334743a8562aed11147"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "a1aabaf8ed26bfa66e52c17c69fea9b8fdf83979",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 3872,
+        "sha256": "b8caf5927380ac8bbdbfe5cf0d07c79e47e9249d6495bfea06d59941789e73e9"
+      },
+      {
+        "path": "packages/client/package.json",
+        "gitBlob": "12e7a42ce30c3f9392e5d67d7e66da1512fef181",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 421,
+        "sha256": "7c9033202e18a27694962072497397cee2d4aaac77e12d47ed2c2456a58325b2"
+      },
+      {
+        "path": "packages/cua/package.json",
+        "gitBlob": "0216467419ad4c4a9103dbdef1bf1a6f34d187c7",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1673,
+        "sha256": "7fd24370c7796dde21a4dc7dbfcdb4b81ad0efbf459fd7032f2e6e9524bf26aa"
+      },
+      {
+        "path": "packages/desktop/package.json",
+        "gitBlob": "db3b572d30eda6c983743339e364055402dddcb0",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 4262,
+        "sha256": "9f32d9949723cc7727e7744508b11b7f407096a4f99763d1b5b7d0a312403875"
+      },
+      {
+        "path": "packages/formal-proof/package.json",
+        "gitBlob": "942a794c794e0db71cd13e81d6cca4fa760094e9",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 546,
+        "sha256": "00710ad9b4142467f4718f0efbb1b5b3b4be6e4c45b2a17e87023dec5a301731"
+      },
+      {
+        "path": "packages/model-option-map/package.json",
+        "gitBlob": "feefd6295ac079fed5a65523cd71a38706dcf875",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 276,
+        "sha256": "47d8876d4e60f5029002815dc43c3fcbea68f8a58d90b336e6123394b924f87a"
+      },
+      {
+        "path": "packages/provider-node/package.json",
+        "gitBlob": "2c0051971082e13779549400958bdab7447721e7",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 473,
+        "sha256": "d81a1b57fb3b8d0089728ecc3a8faf780492bc09aae2fc5295a9c99ed7dea760"
+      },
+      {
+        "path": "packages/provider/package.json",
+        "gitBlob": "b1112a47ede24b964e052321ce65a82a7527b7c1",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 398,
+        "sha256": "37166cc52e8863ec7987bc465422201aac7fcc6b7547c61371533e02111f97e6"
+      },
+      {
+        "path": "packages/rpc/package.json",
+        "gitBlob": "22f0f4700eb235e4dad6201af6521d4a28c4024a",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 773,
+        "sha256": "d45f6e1cbdb8218a91f18ecf276aa0d7fa3dcc6cb5a98ac1e60438f33297c95b"
+      },
+      {
+        "path": "packages/server-cli/package.json",
+        "gitBlob": "f20fc7ac35f41265d767432a4852fca455acb508",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 816,
+        "sha256": "725cc830cc3adf9610e3484ff91f4a25f078a15f020cee1dda1b375b3a007f5a"
+      },
+      {
+        "path": "packages/server/package.json",
+        "gitBlob": "e183d4a5316c16f74f2f0807f223ef56d9309c62",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1490,
+        "sha256": "e211318386128d284f6e8f12467eddcf685097a428cca05acc2e4116f4c1f103"
+      },
+      {
+        "path": "packages/services/package.json",
+        "gitBlob": "d90c910520113a698f0e2dbf56482b7671c9ad4b",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1051,
+        "sha256": "cfb0673750672b04fb79158e47f0e648e1f2045ec832b524115e928369db7f74"
+      },
+      {
+        "path": "packages/shared/package.json",
+        "gitBlob": "4a2ca7d3e18f9db522f40e8ca5684e2624961c10",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 1392,
+        "sha256": "9728c788de539eeaa26c9a9e00d11eda695e7d8bafd5a551da038555ad31a35f"
+      },
+      {
+        "path": "packages/shared/src/runtime-tool-runtime.ts",
+        "gitBlob": "633da085e202d8e4a326551d2889ec85f3b398b5",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 2416,
+        "sha256": "52a0275a2c4ccc4d2693dfda38dc2ddf5c0987c81c1b0875d12ba112dfd88666"
+      },
+      {
+        "path": "packages/ui/package.json",
+        "gitBlob": "7b9cdbb6778f52a4542052fa7b61ef9b29bf738f",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 2912,
+        "sha256": "8696b067c527ef68b037b40e2ad0ee0d16da6d1c8a2a4d70ec839d53a5418055"
+      },
+      {
+        "path": "packages/web/package.json",
+        "gitBlob": "cf56092fedb59e6842bd58d12bf92b415d88d923",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 640,
+        "sha256": "5b5d4b077434d897d29484bd99bd98b8ae1b22e94e7f0934a6c938cdf59497b1"
+      },
+      {
+        "path": "patches/@arms__rum-electron@0.0.3.patch",
+        "gitBlob": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 8539,
+        "sha256": "36855354851ea495bc47a03340b0484ff62836b739cad56904b8a69f18e2ae97"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "gitBlob": "c6b05f23919e1c23d6d60a876acbdcb54bf10d45",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 644682,
+        "sha256": "a3d0731f0f5fa968d04ff9b3e14d25a946d4c8b68580939cbe0e1ef335ba9485"
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "gitBlob": "a35c8e9175161aeff24ebf3882dcd7c1467d2726",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 697,
+        "sha256": "67fe8cc2c68ffe424b46cfdb71b8151f7aab7b82cb918ec0943d3d86b093c5a6"
+      },
+      {
+        "path": "scripts/native-search-tools-config.mjs",
+        "gitBlob": "e846667f9125fe60e97aa1a2bda2a58ee7c35f50",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 14626,
+        "sha256": "a694f6ab013c92e0a53a4722543cb42843c75d084c5504eae1c6083060ecfe86"
+      },
+      {
+        "path": "scripts/prepare-prebuilds.mjs",
+        "gitBlob": "45160c0367dfd4347805e811f868a8dd72afb290",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 37380,
+        "sha256": "2b4411a3b3768c5c064a48ccc5f622975787cfa7fd554f0f0b2a309e79874856",
+        "remotePlatformDeclarations": [
+          {
+            "line": 52,
+            "text": "const remotePlatforms = [\"linux-arm64\", \"linux-x64\", \"darwin-arm64\", \"darwin-x64\"];"
+          }
+        ]
+      },
+      {
+        "path": "scripts/remote-native-search-tools-config.mjs",
+        "gitBlob": "8b93b3eaeaf3cd2085c64b4baa1f8bb4f094ae29",
+        "firstObservedCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 2430,
+        "sha256": "472322a66f84c7452f96aa9e16e9c4e0600f7c2588a03dc6bc869229161b1cb2"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "f4b177006454c170556c668db87d80d0c8169c19",
+        "firstObservedCommit": "682dcc84438e92af4715b7759387202166505ec7",
+        "bytes": 3882,
+        "sha256": "9827a5e85bda33b47b332b8c645dcc20c30b0e34d0879bfd02a970f98ca69d61"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "9ad14099cd079e5366bc2e20fea0d13cfe640a4c",
+        "firstObservedCommit": "5edcf479c3f54e3d191812818804df399cbd739a",
+        "bytes": 3937,
+        "sha256": "14b5ac3d96e0db27db62667157fe8dded4e235d058756e497bf441e6fddde12e"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "d8f50b7b2486ed9e943d0b9382ea6545278d5d1a",
+        "firstObservedCommit": "bf1936810de26520fad78751f7e7936f4d13fd3d",
+        "bytes": 4012,
+        "sha256": "49188d57fc43b9da5acfe4c1057e76667ad84c991cd5dd8f9e89a46ce8e7c375"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "ba6a6f0aebb25e760f6f6d1d7606eebc8a680732",
+        "firstObservedCommit": "8886cd9656e7ef7a9ab0c54e84dd9fbcc98ab685",
+        "bytes": 4072,
+        "sha256": "e2ef3040f1336925d691a36789b433160d8304a82b61dd0714294d5a97ef8203"
+      },
+      {
+        "path": "apps/cli/package.json",
+        "gitBlob": "b84ecd7e674965cfce1b277488b5fb43dd43f6dc",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 2045,
+        "sha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2"
+      },
+      {
+        "path": "apps/cli/packages/adapters/package.json",
+        "gitBlob": "c744efd8e6d4b555b33a37efb68a4a8ca9afec23",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 3429,
+        "sha256": "4503a9c39646b5dd9a7db7ed7758e647f01d629d45d2840244bc7099822842b8"
+      },
+      {
+        "path": "apps/cli/packages/bootstrap/package.json",
+        "gitBlob": "988326356b83c30048750b01ec4b27cc722f9fa6",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 1213,
+        "sha256": "cdbe41531f4d4b2f0b227c5fae9ea39da906ab611ede4a8593d074fa269b61ab"
+      },
+      {
+        "path": "apps/cli/packages/browser-use-plugin/package.json",
+        "gitBlob": "a8cbcdef6314e69222e77aa906a7e63dcce33673",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 1017,
+        "sha256": "bf6c3e0458209355aa3800297752e34eed045e942eb03d6e29b68fbb2d1a22ab"
+      },
+      {
+        "path": "apps/cli/packages/core/package.json",
+        "gitBlob": "96679d43d334d9be234be3520acf8afa84bbb024",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 1372,
+        "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+      },
+      {
+        "path": "apps/cli/packages/debug/package.json",
+        "gitBlob": "4ed24bfddb6988c01ae13614f748841058f22662",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 926,
+        "sha256": "3b5b96be74cb6c7b7ee1cf1755eca81d5a11f047678b858a7c747549f1053fe6"
+      },
+      {
+        "path": "apps/cli/packages/i18n/package.json",
+        "gitBlob": "7e961c10c665ef55b4fd1c42dce00346caa77d00",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 535,
+        "sha256": "c3f2d695910bc61a5e3118cad905dd698965d78e7862bb913843bc9d7dcae544"
+      },
+      {
+        "path": "apps/cli/packages/node-repl-host/package.json",
+        "gitBlob": "c33bb2ef676daad04e8e90b2508b533dde8830a2",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 1068,
+        "sha256": "be069fb0810a5cf9d19a80a4edff9a72db949f6c1ac66dd64fc48f223ba33a6a"
+      },
+      {
+        "path": "apps/cli/packages/telemetry/package.json",
+        "gitBlob": "e01282f56137831e06a49f45bd25ddcd901deac7",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 1014,
+        "sha256": "c2f9ed20ba847da30368b845bc03c7e1bd72739b68cda5488cda13b6b23f307c"
+      },
+      {
+        "path": "apps/cli/packages/tui/package.json",
+        "gitBlob": "2aef8dbd4afdb799e4a2bde0cc348149479667f5",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 901,
+        "sha256": "e51b5dfc659b24c446adeaa5b380450e67d0e1c92aed16c585de9becf9598838"
+      },
+      {
+        "path": "packages/desktop/package.json",
+        "gitBlob": "5364d765dbcf4e130ced424199060c863df0cf8e",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 4262,
+        "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+      },
+      {
+        "path": "packages/provider-node/package.json",
+        "gitBlob": "8be6fa61ede04d8da7d83f3582666f00383c2b65",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 473,
+        "sha256": "33b60a6227b931f8cb6b85ac70a35b15743f24481c4ee381a29fcdb7b2159eab"
+      },
+      {
+        "path": "packages/server/package.json",
+        "gitBlob": "b4b163150797737ec6265d61be9b757a0e08e967",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 1490,
+        "sha256": "e56d2f2bc155038cc5e33bc2c2481c1a10ad2d186e3046c26364785162d84a40"
+      },
+      {
+        "path": "packages/services/package.json",
+        "gitBlob": "c2de9b7833383094eb1587a41f6d09727ab15031",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 1051,
+        "sha256": "377ce3f4bd08c61de4b81ea726185be37847d7a98612627bc014962dc3ba39b8"
+      },
+      {
+        "path": "packages/ui/package.json",
+        "gitBlob": "3735bb93040fca9796221ec720655e206708352f",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 2912,
+        "sha256": "d9569afc3ec1c6d3bb58a134593d722c8aae46637175416c4cfe13947bb97d01"
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "gitBlob": "a4a240cae292b4474ff64c628e80499c934ed40d",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 697,
+        "sha256": "e537f84078905ca7fb2c25b235b2a6951f47bbb9202f474b6850086f46b2c7be"
+      },
+      {
+        "path": "scripts/native-search-tools-config.mjs",
+        "gitBlob": "83c120c2c811b79a5d11ed623f72c4fb3d29c08f",
+        "firstObservedCommit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+        "bytes": 14619,
+        "sha256": "ece0770f3c961b72658e47b0b76924094abb7ab82a2eb2d3837e7f56dcc6a661"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "a3987870282a0a4025c8d9073dbcb54887971be4",
+        "firstObservedCommit": "8674094cb99d7be9f6ba5769528ac8a2787c39e0",
+        "bytes": 4072,
+        "sha256": "3d85829e8280b067b863047e3afbc88ddae5b9ddeb7519be93c0f77fe9273e5b"
+      },
+      {
+        "path": "packages/cua/package.json",
+        "gitBlob": "a8b0bc1c9faa96bd5f4a1f98affbcc0811aeedd6",
+        "firstObservedCommit": "dc51d26b504ac268d132d92634ec7a989e50d0a2",
+        "bytes": 1787,
+        "sha256": "ddca024278dc161dda4f2c87479bb76f60e4cea3313f96cc8a193b714183924b"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "298b3188c2a4f1d1c4d0a1a3e51b72e91e906816",
+        "firstObservedCommit": "94805dd84f421783816a252ae95967e311b71538",
+        "bytes": 4072,
+        "sha256": "17c31ac8777a540bba641b3cd813ff0c798e544e3ee3ce991317a421d08bbbeb"
+      },
+      {
+        "path": "apps/cli/packages/bootstrap/package.json",
+        "gitBlob": "687b4fdee8b831478c02cde19f1c47c4b6960e16",
+        "firstObservedCommit": "805754face6bf038da0ddb308da1f9da508d11e0",
+        "bytes": 1359,
+        "sha256": "6d4e1a8f575b1560759be458e91f69403b293b3dd5bfa610fc4ec9edd56e894f"
+      },
+      {
+        "path": "apps/cli/packages/cua-plugin/package.json",
+        "gitBlob": "f07eb4eb143c5d90fb49b5cfc865c1f1204b82b8",
+        "firstObservedCommit": "805754face6bf038da0ddb308da1f9da508d11e0",
+        "bytes": 296,
+        "sha256": "b77584f7f813db4db8d0e5ced5fb63dcb41ff430dac86d4c6e9f2e7e32670d2a"
+      },
+      {
+        "path": "apps/cli/packages/node-repl-host/package.json",
+        "gitBlob": "975f7f6efec70d98fbf88a02d959433a59c347d4",
+        "firstObservedCommit": "805754face6bf038da0ddb308da1f9da508d11e0",
+        "bytes": 1068,
+        "sha256": "a0badbddd5e47a78c7c495c1be63272589ae7b7238a051742d82cacbd22c136a"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "89e4cb9e28d489bab33632562225e049959524f6",
+        "firstObservedCommit": "805754face6bf038da0ddb308da1f9da508d11e0",
+        "bytes": 4210,
+        "sha256": "ed1c95bf4c81f3080ebf615a335dd2b235eb1c9f183a8510e1dc1b15cb236ad2"
+      },
+      {
+        "path": "packages/cua/package.json",
+        "gitBlob": "ae51bed92fb0c86419fb571a5fb54831e1244b7a",
+        "firstObservedCommit": "805754face6bf038da0ddb308da1f9da508d11e0",
+        "bytes": 1955,
+        "sha256": "c824367c4ede7aad38684b0e8e559ca9756b3476b166fd77f2be3ed837ee06b0"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "gitBlob": "52912dacf516ddd9e0127f8ce8177d3ae71d02d6",
+        "firstObservedCommit": "805754face6bf038da0ddb308da1f9da508d11e0",
+        "bytes": 644718,
+        "sha256": "74ca383268cdfb4807486ba28c4350377d17e094cf477eef55cc858b3c2e5573"
+      },
+      {
+        "path": "packages/cua/package.json",
+        "gitBlob": "dc3c19e69c5e1ee8ddabeaedc73f949fc4e8dd61",
+        "firstObservedCommit": "3d06835ad81beabbb90ff28059113ce0e20d7e2d",
+        "bytes": 2005,
+        "sha256": "e343310171a485d0c21535893cf118fba052890b499c0f8046f76ae6a3642ab9"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "gitBlob": "cc891dc03362bf176e2c615f8f90af72395ac7c1",
+        "firstObservedCommit": "3d06835ad81beabbb90ff28059113ce0e20d7e2d",
+        "bytes": 644798,
+        "sha256": "e9c0929cf94559911f9e519851fd674a1720a790e5a6edfe79c887c9d739716e"
+      },
+      {
+        "path": "package.json",
+        "gitBlob": "319bfb13788e7fd6c264e6f371212dad2bcb812b",
+        "firstObservedCommit": "d64e20f7476f44f17da1c68fb6b8a56b41517199",
+        "bytes": 4337,
+        "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+      },
+      {
+        "path": "packages/shared/package.json",
+        "gitBlob": "ed7266779ebea96b31c986e7aca88a3a86866ec0",
+        "firstObservedCommit": "c1619728665ac9aaf53b9a7d7b87e0ab65070896",
+        "bytes": 1520,
+        "sha256": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408"
+      },
+      {
+        "path": "apps/cli/packages/tui/package.json",
+        "gitBlob": "5e42798f373640b31aab397723b7e4a77f03b26f",
+        "firstObservedCommit": "24a3302b6ed7273d27ae92d6519f1ecd96d5150b",
+        "bytes": 937,
+        "sha256": "21b0fad40d639049e32ef085147a9088e984685defb8103bcdd108ffddf12d33"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "gitBlob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78",
+        "firstObservedCommit": "24a3302b6ed7273d27ae92d6519f1ecd96d5150b",
+        "bytes": 644882,
+        "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+      },
+      {
+        "path": "apps/cli/packages/adapters/test/auth-runtime-contract/package.json",
+        "gitBlob": "0475c7b48393c4cd1429cf14216b5635e503d61e",
+        "firstObservedCommit": "dac92ce60465f68c996e9e620b9d871369f971b6",
+        "bytes": 131,
+        "sha256": "78bb72724f1d9de95bf6ddd48deac7fd3514967a16fef12ca7117a2d78f2061f"
+      }
+    ],
+    "historicalSourceUrlTemplate": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/{firstObservedCommit}/{path}"
+  },
+  "currentScopeFiles": [
+    {
+      "path": ".github/workflows/release-windows.yml",
+      "gitBlob": "6501879d6de61f0c079f17fe91d941514b2aca5e",
+      "bytes": 10749,
+      "sha256": "fef0f9c7cddb6c02113b79b2e3a102b1e5bb409a1745303b659f6f719264f27c"
+    },
+    {
+      "path": "apps/cli/AGENTS.md",
+      "gitBlob": "fc3db69ae9a710edaa31e3c98734fff758c606b0",
+      "bytes": 12478,
+      "sha256": "7b5a78161262c14765dd24d438d5f0c929f8fa42badcfebdd98383741e96848d"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-runtime-tool-assets.mjs",
+      "gitBlob": "ccde0e48b35866611091dfde0e0ce0bca9c8a377",
+      "bytes": 3070,
+      "sha256": "b9fdcf6d09bf33d97f35396f83f051e057f37be70b455a0852ffad9bc25d44ba"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-runtime-tool-prepare.mjs",
+      "gitBlob": "fe903408267a7986773c2d1eb35eeeeef83dd588",
+      "bytes": 1217,
+      "sha256": "895d78ce0a32c902ae9fcd44e25270e0158a9ac0da68bfd33c3b271091858b10"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-targets.mjs",
+      "gitBlob": "e8a59da4650ebf85456a48002501f6ae3c584790",
+      "bytes": 6011,
+      "sha256": "6f4e60c7b1c8ce30c401547bc5c5761a2164277369e66be3ffff61769fefa561"
+    },
+    {
+      "path": "docs/knorvia-0.8.0-preview.1-release.md",
+      "gitBlob": "3ac885349ba8f8aaf2b57bfd1894a85bd9fda40c",
+      "bytes": 1710,
+      "sha256": "028d41bfb28be097913a7b2de1cb21a647dc15e1a187308f0bbaaf69a2c7c865"
+    },
+    {
+      "path": "docs/knorvia-0.8.0-preview.2-release.md",
+      "gitBlob": "b3ed4c6a66ec43455b7c15cc44513ac0e889882e",
+      "bytes": 7284,
+      "sha256": "d272fd3e8bdf41066d11db73a96913b2085cd13805b4ff84f4c85379ce9506d7"
+    },
+    {
+      "path": "docs/knorvia-0.8.0-preview.3-release.md",
+      "gitBlob": "bc9644608e44adb57dda54f33a88fd3ba9948d6d",
+      "bytes": 8502,
+      "sha256": "19de3946e457320a9f5a42b2d354bbeeedd99959efe2dc23e617e859afc1c399"
+    },
+    {
+      "path": "docs/knorvia-release-preview3-20260927.md",
+      "gitBlob": "dec2d290ee566b123ef808dafa1741beddd40ca9",
+      "bytes": 6944,
+      "sha256": "5af781ca9558c7336213c005ec90ac7444976ae79aac3e81844d8aabb6f10c2a"
+    },
+    {
+      "path": "package.json",
+      "gitBlob": "319bfb13788e7fd6c264e6f371212dad2bcb812b",
+      "bytes": 4337,
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+    },
+    {
+      "path": "packages/desktop/electron-builder.config.js",
+      "gitBlob": "bda8f304611dd8cef7df0ffccdefe7f1db809beb",
+      "bytes": 36536,
+      "sha256": "e8142f594120b8ee4d9ffca2dc8332833323ead2968b7eec4350bc4ad6066baa"
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "gitBlob": "5364d765dbcf4e130ced424199060c863df0cf8e",
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    {
+      "path": "packages/desktop/scripts/prepare-runtime-assets.mjs",
+      "gitBlob": "726b7b571b0b9817eca6d875ef482271b00e3e88",
+      "bytes": 3009,
+      "sha256": "919a3c6e19f309e946cb1ba0c9ceb38aafdaad67d0919fc729c75bdd7632ea5a"
+    },
+    {
+      "path": "packages/shared/src/runtime-tool-runtime.ts",
+      "gitBlob": "633da085e202d8e4a326551d2889ec85f3b398b5",
+      "bytes": 2416,
+      "sha256": "52a0275a2c4ccc4d2693dfda38dc2ddf5c0987c81c1b0875d12ba112dfd88666"
+    },
+    {
+      "path": "patches/@arms__rum-electron@0.0.3.patch",
+      "gitBlob": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+      "bytes": 8539,
+      "sha256": "36855354851ea495bc47a03340b0484ff62836b739cad56904b8a69f18e2ae97"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "gitBlob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "gitBlob": "a4a240cae292b4474ff64c628e80499c934ed40d",
+      "bytes": 697,
+      "sha256": "e537f84078905ca7fb2c25b235b2a6951f47bbb9202f474b6850086f46b2c7be"
+    },
+    {
+      "path": "scripts/native-search-tools-config.mjs",
+      "gitBlob": "83c120c2c811b79a5d11ed623f72c4fb3d29c08f",
+      "bytes": 14619,
+      "sha256": "ece0770f3c961b72658e47b0b76924094abb7ab82a2eb2d3837e7f56dcc6a661"
+    },
+    {
+      "path": "scripts/package-windows-release.ps1",
+      "gitBlob": "f794e6667166dcebee119aba1eea401e4fd9150b",
+      "bytes": 3260,
+      "sha256": "14a40ae70d5caa5fa4695258f4d6a3d1dfa210b3b46abbb1fe2b560cec64ba2b"
+    },
+    {
+      "path": "scripts/prepare-prebuilds.mjs",
+      "gitBlob": "45160c0367dfd4347805e811f868a8dd72afb290",
+      "bytes": 37380,
+      "sha256": "2b4411a3b3768c5c064a48ccc5f622975787cfa7fd554f0f0b2a309e79874856"
+    },
+    {
+      "path": "scripts/remote-native-search-tools-config.mjs",
+      "gitBlob": "8b93b3eaeaf3cd2085c64b4baa1f8bb4f094ae29",
+      "bytes": 2430,
+      "sha256": "472322a66f84c7452f96aa9e16e9c4e0600f7c2588a03dc6bc869229161b1cb2"
+    },
+    {
+      "path": "specs/knorvia-clean-base.md",
+      "gitBlob": "8fd29d16dab683fab5258dc4fc944de7c63f1e48",
+      "bytes": 4270,
+      "sha256": "581808df52abd1a80a55d0f1328a32bc56d846223fa322dd5c738126e67e2361"
+    },
+    {
+      "path": "specs/knorvia-independent-implementation.md",
+      "gitBlob": "0cea0f5a71212448d92ecd96eafbb6f25a3d9463",
+      "bytes": 11929,
+      "sha256": "fba9c94f55b87e74973be4d0df873fc6569ae627899d19135d4f5b6e620523b2"
+    },
+    {
+      "path": "specs/knorvia-release-gates.md",
+      "gitBlob": "9f32e76aca16b5b01c0c2f8a20c81377216c2a65",
+      "bytes": 10880,
+      "sha256": "ef77d5e7f88bbcb7130a5981d0f95f0d5aba7d00ca52c198ade2ea197f06dc89"
+    },
+    {
+      "path": "third-party/inventory.json",
+      "gitBlob": "9a1693a4edd16b0c2a0e30cc9e84ce47067d71d6",
+      "bytes": 1406855,
+      "sha256": "7d162a7b931113b76fccf17f0b0f130921d02235a2447bc14412c95dab1454e1"
+    },
+    {
+      "path": "third-party/npm-overrides.json",
+      "gitBlob": "58369829758bb087ab3bc422c495e6bac47638e6",
+      "bytes": 29909,
+      "sha256": "08e2b41ea681c0058e7430f8d285e0693433af2ead0b0bc96d80aecbe7ecad19"
+    }
+  ],
+  "declaredDeliverables": {
+    "evidenceKind": "tracked release declarations and packaging manifests; artifact bytes not inspected",
+    "previewBuildCommits": [
+      "6e1b4f27181d843b72f7e6c5a32a2f1b96562980",
+      "f8d1b22ba5c911bb6980d2aa4ba4bfead49af57b",
+      "805754face6bf038da0ddb308da1f9da508d11e0"
+    ],
+    "preview3ReleaseSourceCommit": "805754face6bf038da0ddb308da1f9da508d11e0",
+    "preview3ArtifactDeclarations": [
+      {
+        "name": "Knorvia-Studio-0.8.0-preview.3-win-x64-setup.exe",
+        "bytes": 162677893,
+        "declaredSha256": "f90f1355ae28b18929f23c3dd337bf64e2c43264f7c4786026b0e36c08437c9b"
+      },
+      {
+        "name": "Knorvia-Studio-0.8.0-preview.3-win-x64-portable.zip",
+        "bytes": 241101175,
+        "declaredSha256": "bd444763d716cf25049f21a6d2b7e4b84696c7376e643d32f2082f886bb3b6e2"
+      }
+    ],
+    "sourceFile": "docs/knorvia-release-preview3-20260927.md",
+    "sourceLines": [
+      23,
+      25,
+      26,
+      50
+    ],
+    "windowsStandaloneCliTargets": [
+      "win-arm64",
+      "win-x64"
+    ],
+    "qualification": "Historical declarations and current frozen dependency inputs do not prove compiled or archived artifact contents."
+  },
+  "arms": {
+    "packages": [
+      {
+        "package": "@arms/rum-browser@0.1.8",
+        "metadataUrl": "https://registry.npmjs.org/%40arms%2Frum-browser/0.1.8",
+        "metadataSha256": "c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d",
+        "archiveUrl": "https://registry.npmjs.org/@arms/rum-browser/-/rum-browser-0.1.8.tgz",
+        "archiveSha256": "c931065b3ca66a504fde9fb00cab1100cd771da95226cc67011247a48c0eb377",
+        "license": "ISC"
+      },
+      {
+        "package": "@arms/rum-core@0.1.4",
+        "metadataUrl": "https://registry.npmjs.org/%40arms%2Frum-core/0.1.4",
+        "metadataSha256": "02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a",
+        "archiveUrl": "https://registry.npmjs.org/@arms/rum-core/-/rum-core-0.1.4.tgz",
+        "archiveSha256": "9ea195bb1504209879359247a39c8ca2cb46b832e9e5f00932c0c0661d3a083f",
+        "license": "ISC"
+      },
+      {
+        "package": "@arms/rum-electron@0.0.3",
+        "metadataUrl": "https://registry.npmjs.org/%40arms%2Frum-electron/0.0.3",
+        "metadataSha256": "8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed",
+        "archiveUrl": "https://registry.npmjs.org/@arms/rum-electron/-/rum-electron-0.0.3.tgz",
+        "archiveSha256": "05aa61fd5b6bc4778e9f1f96053dfd5fc1f4e6994576bfe72273d6bd80ee8ff7",
+        "license": "MIT"
+      }
+    ],
+    "selectionStatus": "not selected by any audited available historical/current package, lockfile or workspace declaration",
+    "publisherNoticeStatus": "Original applicable notice remains unavailable, as recorded in the previous audit.",
+    "cleanBaseSpecification": {
+      "file": "specs/knorvia-clean-base.md",
+      "lines": [
+        12,
+        29
+      ],
+      "rule": "Remove connections to upstream product telemetry services; this does not eliminate every observability capability."
+    },
+    "retainedElectronPatch": {
+      "path": "patches/@arms__rum-electron@0.0.3.patch",
+      "gitBlob": "9687e2aff688a90a598c85fa515c23dc1745a9ef",
+      "sha256": "36855354851ea495bc47a03340b0484ff62836b739cad56904b8a69f18e2ae97",
+      "unchangedAcrossAvailableHistory": true,
+      "diffPreimageGitBlob": "d26925cd014c42b6c6d470f9d2d4d75196203339",
+      "exactPublisherTarballSha256": "05aa61fd5b6bc4778e9f1f96053dfd5fc1f4e6994576bfe72273d6bd80ee8ff7",
+      "publisherTarballMember": {
+        "member": "package/dist/index.mjs",
+        "bytes": 1783620,
+        "gitBlob": "d26925cd014c42b6c6d470f9d2d4d75196203339",
+        "sha256": "9dd3cc140912515886fa0b68d3d6e1b69c25f7f53f474135bc52621526666447"
+      },
+      "publisherPackageManifest": {
+        "member": "package/package.json",
+        "bytes": 2332,
+        "sha256": "c9d7fab524792a9cee7aa2f29047babefd965221550d78f33423fc1d13aa0afd",
+        "dependencies": {
+          "@arms/rum-browser": "0.1.8",
+          "@arms/rum-core": "0.1.4"
+        }
+      },
+      "matchesExistingPatchInventory": true,
+      "appliedByCurrentWorkspaceManifest": false,
+      "qualification": "The exact preimage binds this patch to Electron 0.0.3. The manifest dependencies bind the Browser/Core versions; they do not alone prove those dependencies occur in the retained patch."
+    },
+    "desktopPackaging": {
+      "file": "packages/desktop/electron-builder.config.js",
+      "filesLines": [
+        485,
+        494
+      ],
+      "extraResourcesLines": [
+        582,
+        667
+      ],
+      "finding": "Compiled out files, package dependencies and explicit resources selected; no explicit root ARMS patch copy. Compiled SDK material has not been ruled out by a bundle audit."
+    }
+  },
+  "legacyWindowsRipgrep": {
+    "entries": [
+      {
+        "release": "v13.0.0-10",
+        "platform": "win32-arm64",
+        "sha256": "6c12d2c95073a4b981e5706981f42327b6359fc4cd7449ebd11f6769768dea97",
+        "status": "unavailable; dormant historical/current checksum-table entry"
+      },
+      {
+        "release": "v13.0.0-10",
+        "platform": "win32-x64",
+        "sha256": "7b35b95cf3d7f92d8fe087006899617b1b5a6dac4bbed5d4f6ace6f0934799dc",
+        "status": "unavailable; dormant historical/current checksum-table entry"
+      }
+    ],
+    "remotePreparationPlatforms": [
+      "linux-arm64",
+      "linux-x64",
+      "darwin-arm64",
+      "darwin-x64"
+    ],
+    "remoteSelectorDistinctBlobCount": 1,
+    "remotePreparationDistinctBlobCount": 1,
+    "nativeSelectorDistinctBlobCount": 2,
+    "historicalWindowsRipgrepArchivePaths": [
+      "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+      "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip"
+    ],
+    "legacyWindowsMatchingTrackedPathCount": 0,
+    "plannerEvaluationMethod": "Copy each of the two audited native configuration Git blobs and the one unchanged remote configuration blob to scratch; import the stdlib-only configuration modules; call both prebuilt-plan selectors for darwin/linux/win32 times arm64/x64. No asset preparation, download or binary execution. Compare emitted release/name/digest fields.",
+    "qualification": "No matching legacy Windows archive path or delivery selector is present in the available history. This does not certify earlier unavailable history or actual archived release bytes.",
+    "selectionResults": {
+      "resultsAgreeForBothNativeVariants": true,
+      "evaluatedNativeSourceGitBlobs": [
+        "e846667f9125fe60e97aa1a2bda2a58ee7c35f50",
+        "83c120c2c811b79a5d11ed623f72c4fb3d29c08f"
+      ],
+      "targets": [
+        {
+          "target": "darwin-arm64",
+          "desktopAndSea": {
+            "runtimeToolIds": [
+              "bfs",
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-aarch64-apple-darwin.tar.gz",
+              "archiveSha256": "84ff9b227b9aad651be0ac4cf7802a190015bfba3dfa6b015cc7aa89dd8c5c2b",
+              "binaryName": "rg"
+            }
+          },
+          "remote": {
+            "status": "selected",
+            "runtimeToolIds": [
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "13.0.0",
+              "release": "v13.0.0-10",
+              "releaseFileName": "ripgrep-v13.0.0-10-aarch64-apple-darwin.tar.gz",
+              "archiveSha256": "de44338ca53677968bdd7403ddc1cf9c735e708f7b63e3b34367f9411010a7db",
+              "binaryName": "rg"
+            }
+          }
+        },
+        {
+          "target": "darwin-x64",
+          "desktopAndSea": {
+            "runtimeToolIds": [
+              "bfs",
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-x86_64-apple-darwin.tar.gz",
+              "archiveSha256": "cfedd7993342bc5f90310ce73a00cbf5d3b5237654c9bfc18b383f0e829f3b11",
+              "binaryName": "rg"
+            }
+          },
+          "remote": {
+            "status": "selected",
+            "runtimeToolIds": [
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "13.0.0",
+              "release": "v13.0.0-10",
+              "releaseFileName": "ripgrep-v13.0.0-10-x86_64-apple-darwin.tar.gz",
+              "archiveSha256": "3b501c05ff9b1d24ae8897dd1c6b5bf842fd12a6f7114264407ac42bc222b25b",
+              "binaryName": "rg"
+            }
+          }
+        },
+        {
+          "target": "linux-arm64",
+          "desktopAndSea": {
+            "runtimeToolIds": [
+              "bfs",
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-aarch64-unknown-linux-musl.tar.gz",
+              "archiveSha256": "98c0371366a9db920ed6c196083e8030511055e5f128b3bde2ca56bbddf85b9a",
+              "binaryName": "rg"
+            }
+          },
+          "remote": {
+            "status": "selected",
+            "runtimeToolIds": [
+              "bfs",
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-aarch64-unknown-linux-musl.tar.gz",
+              "archiveSha256": "98c0371366a9db920ed6c196083e8030511055e5f128b3bde2ca56bbddf85b9a",
+              "binaryName": "rg"
+            }
+          }
+        },
+        {
+          "target": "linux-x64",
+          "desktopAndSea": {
+            "runtimeToolIds": [
+              "bfs",
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-x86_64-unknown-linux-musl.tar.gz",
+              "archiveSha256": "1154dd91f7b144cee490b91f1ab27ce04f8f01d8876cde2d9c0eff845c8ab012",
+              "binaryName": "rg"
+            }
+          },
+          "remote": {
+            "status": "selected",
+            "runtimeToolIds": [
+              "bfs",
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-x86_64-unknown-linux-musl.tar.gz",
+              "archiveSha256": "1154dd91f7b144cee490b91f1ab27ce04f8f01d8876cde2d9c0eff845c8ab012",
+              "binaryName": "rg"
+            }
+          }
+        },
+        {
+          "target": "win32-arm64",
+          "desktopAndSea": {
+            "runtimeToolIds": [
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+              "archiveSha256": "88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+              "binaryName": "rg.exe"
+            }
+          },
+          "remote": {
+            "status": "unsupported",
+            "message": "unsupported remote native search target win32-arm64"
+          }
+        },
+        {
+          "target": "win32-x64",
+          "desktopAndSea": {
+            "runtimeToolIds": [
+              "ugrep",
+              "ripgrep"
+            ],
+            "ripgrep": {
+              "version": "14.1.1",
+              "release": "v14.1.1-1",
+              "releaseFileName": "ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
+              "archiveSha256": "ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+              "binaryName": "rg.exe"
+            }
+          },
+          "remote": {
+            "status": "unsupported",
+            "message": "unsupported remote native search target win32-x64"
+          }
+        }
+      ]
+    }
+  },
+  "currentWindowsRust": {
+    "status": "open-version-specific-notice",
+    "revision": "6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+    "binaryBindings": [
+      {
+        "archive": "ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+        "archiveSha256": "88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+        "matchesInventory": true,
+        "binaries": [
+          {
+            "member": "rg.exe",
+            "sha256": "6545d832a57164e54405f019cf6861c397920aa1d6cc4569bfd85441f79ea043",
+            "rustcSourceRevisions": [
+              "6a6eaca656978778f7c1c750ee0c3db87f8bffb2"
+            ],
+            "rustcVersionStrings": []
+          }
+        ]
+      },
+      {
+        "archive": "ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
+        "archiveSha256": "ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+        "matchesInventory": true,
+        "binaries": [
+          {
+            "member": "rg.exe",
+            "sha256": "57aec5102a212204920d089562d9dbcaa438e9f2222d9a370d439622441b64f0",
+            "rustcSourceRevisions": [
+              "6a6eaca656978778f7c1c750ee0c3db87f8bffb2"
+            ],
+            "rustcVersionStrings": []
+          }
+        ]
+      }
+    ],
+    "bindingEvidence": "licensing/evidence/material-closure-20261002.json#rust",
+    "currentDesktopAndSeaSelection": "ripgrep 14.1.1/v14.1.1-1 for both Windows targets",
+    "qualification": "Windows product and CLI scope remains active; retiring dormant Windows 13 retrieval requests would not close this obligation."
+  },
+  "proposedObligationUpdates": [
+    {
+      "proposedOnly": true,
+      "components": [
+        "@arms/rum-browser@0.1.8",
+        "@arms/rum-core@0.1.4",
+        "@arms/rum-electron@0.0.3"
+      ],
+      "newScopeDescription": "Not selected by the audited current/available historical manifest and lockfile graph; target artifact inclusion remains to be checked. Electron has exact retained source-patch material.",
+      "completeObligationClosed": false,
+      "conditions": "Keep Electron source scope open for the patch and any source delivery including its history. Retain Browser/Core notice obligations for any actual corresponding material. Do not infer entire-product removal from absent dependencies."
+    },
+    {
+      "proposedOnly": true,
+      "components": [
+        "legacy ripgrep v13.0.0-10 win32-arm64",
+        "legacy ripgrep v13.0.0-10 win32-x64"
+      ],
+      "newScopeDescription": "Dormant checksum metadata; not selected by any audited available historical or current delivery planner.",
+      "completeObligationClosed": false,
+      "conditions": "These retrieval requests need not block a target whose verified source/asset manifest excludes them. Preserve declarations and unavailable status. Archived release bytes and earlier unavailable history are not cleared; current Windows 14/Rust material remains open."
+    }
+  ],
+  "checks": [
+    {
+      "name": "published remote baseline and existing evidence branch",
+      "result": "pass",
+      "mainHead": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+      "branchHead": "c583205ff672ceb3471c0dba07a7c4e0009a0486"
+    },
+    {
+      "name": "all reachable historical package/lock/workspace manifest enumeration",
+      "result": "pass",
+      "reachableCommits": 205,
+      "distinctPackageBlobs": 65,
+      "lockfileBlobs": 4,
+      "workspaceBlobs": 2,
+      "armsMatches": 0
+    },
+    {
+      "name": "retained ARMS patch exact publisher preimage and existing inventory binding",
+      "result": "pass"
+    },
+    {
+      "name": "historical selector evaluation",
+      "result": "pass",
+      "nativeVariants": 2,
+      "targetCasesPerVariant": 6,
+      "selectorsPerCase": 2,
+      "outcome": "Both variants agree: desktop/SEA 14 for all six targets; remote Darwin 13, Linux 14, Windows unsupported."
+    },
+    {
+      "name": "current Windows archive/Rust binding",
+      "result": "retained previously verified evidence; bytes unchanged and not rechecked"
+    },
+    {
+      "name": "global provenance/verified-notice check",
+      "result": "unchanged earlier failures retained in previous evidence; not repeated"
+    },
+    {
+      "name": "product tests and builds",
+      "result": "not run; evidence-only task"
+    },
+    {
+      "name": "scope evidence Git/SHA-256 binding, snapshot aggregate and document verification",
+      "result": "pass",
+      "historicalAndCurrentBindingsVerified": 104,
+      "historicalSnapshotsVerified": 5,
+      "previousEvidenceDigestUnchanged": true,
+      "declaredArtifactDigestsMatchTrackedDocument": true,
+      "documentLinksExist": true
+    }
+  ],
+  "remainingBlockers": [
+    "Original ARMS notice text and final target artifact inclusion audit; retained Electron patch is exact source material.",
+    "Exact Rust 6a6eaca notice for the current Windows ripgrep 14 executables.",
+    "Historical artifacts and earlier unavailable history are outside this verification.",
+    "All other previous material obligations remain unchanged. Two prior FreeType notices still require parent integration while Skia remains open.",
+    "Parent must apply any approved scope decisions and refresh the global inventories; this lane does not edit them."
+  ],
+  "excludedActions": [
+    "No runtime implementation changes",
+    "No global licensing/reviews.json or current-files.json edits",
+    "No global third-party inventories or notice regeneration",
+    "No publisher contact or new agreements",
+    "No repeated unchanged failed publisher searches",
+    "No private Library/root material bypass",
+    "No deployments, releases, main merges or public git bundles"
+  ],
+  "currentScopeSourceUrlTemplate": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/{inputHead}/{path}"
+}

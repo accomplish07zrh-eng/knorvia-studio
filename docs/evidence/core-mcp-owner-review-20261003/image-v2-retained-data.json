@@ -1,0 +1,77 @@
+{
+  "scope": "image-v2",
+  "source": {
+    "path": "docs/evidence/core-mcp-owner-packet-20261003/image-v2/image-normalization.ts.txt",
+    "bytes": 11114,
+    "sha256": "fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1"
+  },
+  "required": [
+    "node_repl",
+    "mcp__node_repl__js",
+    "text",
+    "Browser screenshot saved to: ",
+    "",
+    "image",
+    "utf8",
+    "MCP image content omitted: ",
+    ", base64=",
+    " exceeds inline limit ",
+    ".",
+    "The original browser screenshot remains available at the adjacent absolute path.",
+    "\n",
+    "No artifact store is configured, so the original image could not be saved.",
+    "MCP image content saved instead of being inlined: ",
+    ", inlineLimit=",
+    "Artifact: ",
+    "Artifact URI: ",
+    "knorvia/browserScreenshotContentIndices",
+    "base64",
+    "session",
+    "image/",
+    "MCP image artifact store is not configured",
+    "mcp-image-artifact",
+    "application/json",
+    "data:",
+    ";base64,",
+    ",",
+    ";",
+    "image/png",
+    ".png",
+    "image/jpeg",
+    "image/jpg",
+    ".jpg",
+    "image/gif",
+    ".gif",
+    "image/webp",
+    ".webp",
+    ".bin",
+    "0 B",
+    "B",
+    "KiB",
+    "MiB",
+    "GiB",
+    " "
+  ],
+  "patterns": [],
+  "missing": [],
+  "missingPatterns": [],
+  "exportedExpressions": [
+    {
+      "name": "MCP_IMAGE_INLINE_BASE64_BYTES",
+      "expectedExpression": "200 * 1024",
+      "exact": true
+    },
+    {
+      "name": "MCP_IMAGE_INLINE_RAW_BYTES",
+      "expectedExpression": "Math.floor((MCP_IMAGE_INLINE_BASE64_BYTES * 3) / 4)",
+      "exact": true
+    },
+    {
+      "name": "HOST_NODE_REPL_IMAGE_MAX_DIMENSION",
+      "expectedExpression": "2048",
+      "exact": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Static protocol/template-fragment/pattern and exact exported initializer AST-token retention; source annotations allowed but expression/value topology preserved honestly. Native type guard/import strings excluded from output obligations, no predecessor/dependency runtime or semantic/project compile; no rights/material closure claim."
+}

@@ -1,0 +1,35 @@
+{
+  "baselineCommit": "57e5bfe4d833791f233a05fc5af139327860d86d",
+  "files": [
+    {
+      "path": "packages/server/src/remote/remoteAssetInstaller.ts",
+      "baselineSha256": "c46963b1bbcd09bf28db5f8f168d5ed301c2149434ee600ea08ca5199240e24f",
+      "baselineBlob": "34e54549d0251e925fe1dfc9b8d58c33c14ac12e",
+      "authorOutputSha256": "42314e5bb9925f648bd3198927742e22a0b6c8541a6f79fdf88853550686b14a",
+      "candidateSha256": "b1cf127fcba98f7e9ebd04446db4f6247d849e25cfc14b28a3d1079182cb36f2"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetPreflight.ts",
+      "baselineSha256": "9bbf33946ee5bc9b932a608364e3102c08f2bea643c3b062333954a5d2764dc4",
+      "baselineBlob": "988313c917fc6f0e6071439066cd4d2d5e7bbd19",
+      "authorOutputSha256": "a3b49155b4a0b281d610f5e0bb917d204a09f9e123e568249ce26aca89f795fd",
+      "candidateSha256": "e0d92d009d681554b80a3f737c6d5c03a527f19db12c038282b18e0daecc9d94"
+    },
+    {
+      "path": "packages/server/src/remote/serverBundleDeployCheck.ts",
+      "baselineSha256": "ae82add36836b64d59aa7fcd349d76fea5322a6c9430e781993531cbb7a3a799",
+      "baselineBlob": "69c59fa8dbad6b9ae442998769ca7a446ff5cb08",
+      "authorOutputSha256": "cb497b5788efb8ca1d9e75d49f13006ab420bdc34cef8b0ba3fd2d2640234a48",
+      "candidateSha256": "2d82793cf797f1e2f0731617751443e7b5360ebf5498b2a85bfb002db22f3504"
+    }
+  ],
+  "integrationParentCommit": "788b36582878625a77f7ffd8a91fb9efbb066263",
+  "observerEditsAfterAuthoring": "Repository formatting only; compatibility and file-local max-lines comment corrections made by fresh author.",
+  "freshAuthor": {
+    "task": "/root/install_materialization_author",
+    "forkTurns": "none",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "inputs": "Declared functional/API packet and exact root/architecture guidance; shared filesystem exclusion not OS-enforced."
+  }
+}

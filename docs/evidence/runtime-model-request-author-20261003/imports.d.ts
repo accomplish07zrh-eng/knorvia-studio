@@ -1,0 +1,12 @@
+import { beginLocalTurnPreparation } from "@knorvia/contracts";
+import { runWithModelInvocationContext, traceContextToLogContext } from "../deps.js";
+import type { ModelReasoningContentBlock, ModelToolCall, ModelUsage, ToolCallId } from "../deps.js";
+import { buildSuspiciousEmptyDiagnostics, finalizeSuspiciousEmptyModelResult, isContextExceededFinishReason, isSuspiciousEmptyModelResult, logModelRequestMediaSummary, logMediaBudgetProjection, logMediaCapabilityProjection, normalizeStreamError, normalizeModelToolCallsForRuntime, projectMessagesWithMediaAttachmentPaths, projectMessagesForInputFormat, projectMessagesForMediaBudget, readRawFinishReason, } from "../helpers/index.js";
+import type { RunModelTextRequestOptions, RuntimeModelTextResult } from "../types.js";
+import type { AgentRuntimeInternal } from "../internal.js";
+import { modelRequestTokenLimitLogContext } from "./model-token-limits.js";
+import { createModelStreamingEventQueue } from "./model-streaming-event-queue.js";
+import { getOrCreateReasoningBlock } from "./reasoning-stream.js";
+import { createRefreshRuntimeHeadersBeforeModelAttempt } from "./model-runtime-headers.js";
+import { resolveModelRequestSessionTypeFromTaskType } from "./model-request-session-type.js";
+import { isOutputTokenLimitFinishReason } from "./turn-output-token-continuation.js";

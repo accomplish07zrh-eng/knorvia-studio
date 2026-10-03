@@ -1,8 +1,8 @@
 import { ProviderConfigMap } from "./config/index.js";
 import type { AccountProviderStates } from "./account-provider-state.js";
 import {
-  createFailClosedAccountProviderConfigSnapshot,
   createAccountProviderConfigSnapshot,
+  createFailClosedAccountProviderConfigSnapshot,
   type AccountProviderConfigSnapshot,
   type ProviderConfigSnapshot,
   type ProviderSource,
@@ -16,9 +16,10 @@ export interface AccountProviderResolveInput {
   readonly reasons?: readonly string[];
 }
 
-export type AccountProviderResolver = (
-  input: AccountProviderResolveInput,
-) => Promise<{ readonly providers: ProviderConfigMap; readonly states: AccountProviderStates }>;
+export type AccountProviderResolver = (input: AccountProviderResolveInput) => Promise<{
+  readonly providers: ProviderConfigMap;
+  readonly states: AccountProviderStates;
+}>;
 
 export interface AccountProviderServiceDependencies {
   readonly configSource: ProviderSource<ProviderConfigSnapshot>;
@@ -36,25 +37,19 @@ interface RefreshWaiter {
   readonly reject: (error: unknown) => void;
 }
 
-/**
- * 维护当前账号状态投影出的第三层 Provider Config Overlay。
- *
- * 该服务只编排 Config Source、刷新与 last-known-good 发布；登录、权益和团队连接
- * 的具体查询由外围 Resolver 注入，因此本包不依赖文件、网络或 OAuth 实现。
- */
 export class AccountProviderService implements ProviderSource<AccountProviderConfigSnapshot> {
   readonly #configSource: ProviderSource<ProviderConfigSnapshot>;
   readonly #resolve: AccountProviderResolver;
+  readonly #pendingReasons = new Set<string>();
   readonly #changeListeners = new Set<(reason: string) => void>();
   readonly #errorListeners = new Set<(event: AccountProviderServiceRefreshErrorEvent) => void>();
-  readonly #pendingReasons = new Set<string>();
-  #configDispose: (() => void) | null = null;
-  #snapshot: AccountProviderConfigSnapshot | null = null;
-  #refreshInFlight: Promise<AccountProviderConfigSnapshot> | null = null;
-  #requestedGeneration = 0;
-  readonly #refreshWaiters: RefreshWaiter[] = [];
   #started = false;
   #disposed = false;
+  #sourceDisposer: (() => void) | null = null;
+  #generation = 0;
+  #waiters: RefreshWaiter[] = [];
+  #snapshot: AccountProviderConfigSnapshot | undefined;
+  #inFlight: Promise<AccountProviderConfigSnapshot> | undefined;
 
   constructor(dependencies: AccountProviderServiceDependencies) {
     this.#configSource = dependencies.configSource;
@@ -62,18 +57,21 @@ export class AccountProviderService implements ProviderSource<AccountProviderCon
   }
 
   async read(): Promise<AccountProviderConfigSnapshot> {
-    this.#assertNotDisposed();
+    this.#assertActive();
     this.#ensureStarted();
-    if (this.#snapshot) return this.#snapshot;
-    // 并发首次读取不是新的账号事实，不能排出第二轮并覆盖首次 fail-closed 启动结果。
-    if (this.#refreshInFlight) return this.#refreshInFlight;
-    return this.#requestRefresh("start");
+    if (this.#snapshot !== undefined) {
+      return this.#snapshot;
+    }
+    if (this.#inFlight !== undefined) {
+      return this.#inFlight;
+    }
+    return this.#request("start");
   }
 
   refresh(reason = "explicit"): Promise<AccountProviderConfigSnapshot> {
-    this.#assertNotDisposed();
+    this.#assertActive();
     this.#ensureStarted();
-    return this.#requestRefresh(reason);
+    return this.#request(reason);
   }
 
   onDidChange(listener: (reason: string) => void): () => void {
@@ -89,87 +87,91 @@ export class AccountProviderService implements ProviderSource<AccountProviderCon
   }
 
   dispose(): void {
-    if (this.#disposed) return;
+    if (this.#disposed) {
+      return;
+    }
     this.#disposed = true;
-    this.#configDispose?.();
-    this.#configDispose = null;
+    if (this.#sourceDisposer !== null) {
+      this.#sourceDisposer();
+    }
+    this.#sourceDisposer = null;
     const error = new Error("AccountProviderService 已 dispose");
-    for (const waiter of this.#refreshWaiters.splice(0)) waiter.reject(error);
+    for (const waiter of this.#waiters) {
+      waiter.reject(error);
+    }
+    this.#waiters = [];
     this.#changeListeners.clear();
     this.#errorListeners.clear();
   }
 
+  #assertActive(): void {
+    if (this.#disposed) {
+      throw new Error("AccountProviderService 已 dispose");
+    }
+  }
+
   #ensureStarted(): void {
-    if (this.#started) return;
+    if (this.#started) {
+      return;
+    }
     this.#started = true;
-    this.#configDispose = this.#configSource.onDidChange((reason) => {
-      void this.#requestRefresh(`config:${reason || "changed"}`).catch(() => {
-        // Source 驱动的后台失败通过 onDidRefreshError 报告；保留上一份成功快照。
-      });
+    this.#sourceDisposer = this.#configSource.onDidChange((reason) => {
+      this.#request(`config:${reason || "changed"}`).catch(() => {});
     });
   }
 
-  #requestRefresh(reason: string): Promise<AccountProviderConfigSnapshot> {
-    // 进行中的一轮开始于本次请求之前，它读取的设置与账号身份可能已被请求方
-    // 随后的写入改变（例如 Provisioning 先写 Setting 再换凭据）。直接复用该轮会把它的
-    // 过期失败当成本次请求的结果。refresh 的契约是返回覆盖本次请求之后状态的一轮。
-    const generation = this.#requestedGeneration + 1;
-    this.#requestedGeneration = generation;
+  #request(reason: string): Promise<AccountProviderConfigSnapshot> {
+    const generation = ++this.#generation;
     this.#pendingReasons.add(reason);
     const result = new Promise<AccountProviderConfigSnapshot>((resolve, reject) => {
-      this.#refreshWaiters.push({ generation, resolve, reject });
+      this.#waiters.push({ generation, resolve, reject });
     });
-    if (!this.#refreshInFlight) this.#startRefresh();
+    if (this.#inFlight === undefined) {
+      this.#startWorker();
+    }
     return result;
   }
 
-  #startRefresh(): Promise<AccountProviderConfigSnapshot> {
-    const refresh = this.#runRefreshLoop();
-    this.#refreshInFlight = refresh;
-    void refresh.then(
-      () => this.#finishRefresh(refresh),
-      () => this.#finishRefresh(refresh),
+  #startWorker(): Promise<AccountProviderConfigSnapshot> {
+    const worker = this.#runWorker();
+    this.#inFlight = worker;
+    worker.then(
+      () => this.#completeWorker(worker),
+      () => this.#completeWorker(worker),
     );
-    return refresh;
+    return worker;
   }
 
-  #finishRefresh(refresh: Promise<AccountProviderConfigSnapshot>): void {
-    if (this.#refreshInFlight !== refresh) return;
-    this.#refreshInFlight = null;
-    if (this.#disposed || this.#pendingReasons.size === 0) return;
-
-    // 当前轮失败会提前退出 refresh loop；失败期间加入的事件仍在 pending 中，
-    // 必须在 in-flight 释放后启动下一轮，否则账号状态会停留在旧快照直到再次收到外部事件。
-    void this.#startRefresh().catch(() => {
-      // 后续轮没有直接调用方；错误已经通过 onDidRefreshError 发布并保留 last-known-good。
-    });
+  #completeWorker(worker: Promise<AccountProviderConfigSnapshot>): void {
+    if (this.#inFlight !== worker) {
+      return;
+    }
+    this.#inFlight = undefined;
+    if (this.#disposed || this.#pendingReasons.size === 0) {
+      return;
+    }
+    this.#startWorker().catch(() => {});
   }
 
-  async #runRefreshLoop(): Promise<AccountProviderConfigSnapshot> {
+  async #runWorker(): Promise<AccountProviderConfigSnapshot> {
     let latest = this.#snapshot;
     while (this.#pendingReasons.size > 0) {
-      // 本轮开始前提出的所有请求都由本轮结果回应；本轮开始后到达的请求留给下一轮。
-      const generation = this.#requestedGeneration;
+      const generation = this.#generation;
       const reasons = [...this.#pendingReasons];
       this.#pendingReasons.clear();
       let config: ProviderConfigSnapshot | undefined;
       try {
         config = await this.#configSource.read();
-        const configuredProviders = config.knorviaBuiltinProviders;
         const { providers, states } = await this.#resolve({
           configRevision: config.knorviaBuiltinRevision,
-          configuredProviders,
+          configuredProviders: config.knorviaBuiltinProviders,
           previousProviders: latest?.providers ?? ProviderConfigMap.empty(),
           previousStates: latest?.states,
           reasons: Object.freeze(reasons),
         });
-        // Account Snapshot 已经表达 Overlay 的来源，目标与字段边界由注入的
-        // Resolver 和 Account Schema 负责。再按 Built-in access.type 做门禁，会错误拒绝
-        // 账号层为闲时 Provider 发布的 entitled-only Overlay，导致整个 Registry 无法启动。
-        this.#assertNotDisposed();
-        // 查询可跨越 Built-in/凭据更新；过期轮只能丢弃，不能短暂发布后再修正。
+        this.#assertActive();
         const currentConfig = await this.#configSource.read();
-        this.#assertNotDisposed();
+        this.#assertActive();
         if (
           this.#pendingReasons.size > 0 ||
           currentConfig.knorviaBuiltinRevision !== config.knorviaBuiltinRevision
@@ -177,64 +179,70 @@ export class AccountProviderService implements ProviderSource<AccountProviderCon
           this.#pendingReasons.add("superseded-resolution");
           continue;
         }
-        const basedOnKnorviaBuiltinRevision = config.knorviaBuiltinRevision;
         const next = createAccountProviderConfigSnapshot(
-          basedOnKnorviaBuiltinRevision,
+          config.knorviaBuiltinRevision,
           providers,
           states,
         );
-        const revision = next.revision;
-        if (latest?.revision === revision) {
-          this.#resolveRefreshWaiters(generation, latest);
+        if (latest?.revision === next.revision) {
+          this.#settle(generation, latest);
           continue;
         }
-        const hadSnapshot = latest !== null;
+        const hadSnapshot = latest !== undefined;
         latest = next;
-        this.#snapshot = latest;
-        this.#resolveRefreshWaiters(generation, latest);
+        this.#snapshot = next;
+        this.#settle(generation, next);
         if (hadSnapshot) {
-          const changeReason = reasons.join(",");
-          for (const listener of this.#changeListeners) listener(changeReason);
+          const reason = reasons.join(",");
+          for (const listener of this.#changeListeners) {
+            listener(reason);
+          }
         }
       } catch (error) {
-        const event = Object.freeze({ error, reasons: Object.freeze(reasons) });
-        for (const listener of this.#errorListeners) listener(event);
-        if (!latest && config) {
-          // 首次账号网络/凭据解析失败被当成整个 Registry 的 ready barrier，
-          // 连不依赖账号的 API/Personal Provider 也无法启动。账号未知只应显式 fail-closed。
+        const event: AccountProviderServiceRefreshErrorEvent = Object.freeze({
+          error,
+          reasons: Object.freeze(reasons),
+        });
+        for (const listener of this.#errorListeners) {
+          listener(event);
+        }
+        if (latest === undefined && config !== undefined) {
           latest = createFailClosedAccountProviderConfigSnapshot(config);
           this.#snapshot = latest;
-          this.#resolveRefreshWaiters(generation, latest);
+          this.#settle(generation, latest);
           continue;
         }
-        // 只回绝本轮开始前的请求；之后到达的请求仍在 pending 中，由 #finishRefresh 启动下一轮回应。
-        this.#rejectRefreshWaiters(generation, error);
+        this.#reject(generation, error);
         throw error;
       }
     }
-    if (!latest) throw new Error("Account Provider Service 尚未产生快照");
+    if (latest === undefined) {
+      throw new Error("Account Provider Service 尚未产生快照");
+    }
     return latest;
   }
 
-  #resolveRefreshWaiters(generation: number, snapshot: AccountProviderConfigSnapshot): void {
+  #settle(generation: number, snapshot: AccountProviderConfigSnapshot): void {
     const remaining: RefreshWaiter[] = [];
-    for (const waiter of this.#refreshWaiters) {
-      if (waiter.generation <= generation) waiter.resolve(snapshot);
-      else remaining.push(waiter);
+    for (const waiter of this.#waiters) {
+      if (waiter.generation <= generation) {
+        waiter.resolve(snapshot);
+      } else {
+        remaining.push(waiter);
+      }
     }
-    this.#refreshWaiters.splice(0, this.#refreshWaiters.length, ...remaining);
+    this.#waiters = remaining;
   }
 
-  #rejectRefreshWaiters(generation: number, error: unknown): void {
+  #reject(generation: number, error: unknown): void {
     const remaining: RefreshWaiter[] = [];
-    for (const waiter of this.#refreshWaiters) {
-      if (waiter.generation <= generation) waiter.reject(error);
-      else remaining.push(waiter);
+    for (const waiter of this.#waiters) {
+      if (waiter.generation <= generation) {
+        waiter.reject(error);
+      } else {
+        remaining.push(waiter);
+      }
     }
-    this.#refreshWaiters.splice(0, this.#refreshWaiters.length, ...remaining);
-  }
-
-  #assertNotDisposed(): void {
-    if (this.#disposed) throw new Error("AccountProviderService 已 dispose");
+    this.#waiters = remaining;
   }
 }

@@ -2,6 +2,7 @@
  * Derived from vercel/ai-elements (packages/elements/src/message.tsx).
  * Copyright 2023 Vercel, Inc. Licensed under Apache-2.0.
  * Modified by ZCode: local integration, formatting and adaptations.
+ * Modified by Knorvia Studio: retained local adaptations; this additional notice added 2026-09-30.
  * See THIRD-PARTY-NOTICES.md in the repository root for license and provenance.
  */
 "use client";

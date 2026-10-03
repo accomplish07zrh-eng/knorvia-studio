@@ -1,0 +1,6 @@
+{
+  "reason": "Public options contains Set<string>; recursively expanding installed library methods led to unboundedly expensive symbol shape expansion. Terminated only the two scoped static child processes with SIGTERM before output. Original receipts preserve status null; no runtime product processes existed.",
+  "change": "Represent installed builtin Set by type name and recursively checked type arguments, as Promise/Array already are represented. Same actual TypeScript library and strict compiler diagnostics retained. CompilerRaw label is serialized public contract with installed builtin Set representation, not expansion of every lib method.",
+  "correctedHelperSha256": "7eef1e04f6c0c5a4868b54f6b3fb0d47b8ecce6731f5875b364bb3e5bc909336",
+  "productionEdits": false
+}

@@ -1,0 +1,91 @@
+{
+  "selection": "Exact current source/compiler JS/declaration; immutable historical oracle separately pinned. Two retained adapters and actual SessionModePort caller explicitly included.",
+  "typescript": "6.0.2",
+  "files": {
+    "permission-full-access.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/permission-full-access.ts",
+        "bytes": 4511,
+        "sha256": "5cbb78fa208798603aa4473bcb992ef4e642d821e00343718fb5ca4c6ab9e1d8"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/permission-full-access.js",
+        "bytes": 4567,
+        "sha256": "bcf609cc709fc5853cc57ec034517508882245ccd7e774a907335fde42ed85f3"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/permission-full-access.d.ts",
+        "bytes": 252,
+        "sha256": "5a3d16832011c5e885904cf60e58699cd8f116adf5cd27eae66ab1d276bc9514"
+      }
+    },
+    "permission-grant-recovery.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/permission-grant-recovery.ts",
+        "bytes": 481,
+        "sha256": "b1c9aefdb0b2a537f3877df2fee104251532174d7b91b6f6617c1c21510a09f6"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/permission-grant-recovery.js",
+        "bytes": 287,
+        "sha256": "afcd01aea8e6c5141ada06548823bae1ee52a51082d943969c63c3f2d8a91059"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/permission-grant-recovery.d.ts",
+        "bytes": 364,
+        "sha256": "99fb2f74caea3036b4d259c0a9ef521788a3a4071e27a5f13f2b226f2e17bd2c"
+      }
+    },
+    "execution-state.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/execution-state.ts",
+        "bytes": 2915,
+        "sha256": "49e66a8dc595c0db77b324cd99db032bc9d2c051ec770e648b2069891b1a6c94"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/execution-state.js",
+        "bytes": 2467,
+        "sha256": "c3f6399864f716cfeed31431c5b183d6ed7cfa26aec2acf9a8eff8f485997911"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/execution-state.d.ts",
+        "bytes": 733,
+        "sha256": "d0188a958e52857b1911481e8555f1726fedbd25509454dd5651b31244f42836"
+      }
+    },
+    "helpers/permission-broker.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/permission-broker.ts",
+        "bytes": 847,
+        "sha256": "33799281b80409733d857e8a3c46eb0ed5e147ca2fbff7c8bdb65234671354fb"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/permission-broker.js",
+        "bytes": 235,
+        "sha256": "489452abff318bdbb5b511da544f90e9f784fdaafa53b6e8c6c1f3cfc4030c3b"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/permission-broker.d.ts",
+        "bytes": 699,
+        "sha256": "060f9a59ac9fd5ee7d9fb36291fd305af7a15b4964c69e381d0c1febdeb68095"
+      }
+    },
+    "session-mode-port.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+        "bytes": 1497,
+        "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/session-mode-port.js",
+        "bytes": 1352,
+        "sha256": "7f9679e04f8742ef46c90739df6447a679a1e01b51addf3ca4fbc83444eb890f"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/session-mode-port.d.ts",
+        "bytes": 258,
+        "sha256": "4acbb4b53a4239ed8f9d067dc80dfe6d228ebbfc6b1d352d89fdaebe06a15d46"
+      }
+    }
+  }
+}

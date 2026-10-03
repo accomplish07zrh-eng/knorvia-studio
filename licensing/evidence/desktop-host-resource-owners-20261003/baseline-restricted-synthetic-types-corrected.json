@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs",
+    "--baseline"
+  ],
+  "stdout": "",
+  "stderr": "file:///workspace/knorvia-studio/licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs:33\n  if (!files.includes(file) && !file.startsWith(library)) throw new Error(\"unscoped type-source read: \" + file);\n                                                                ^\n\nError: unscoped type-source read: /workspace/knorvia-studio/node_modules/typescript/package.json\n    at host.readFile (file:///workspace/knorvia-studio/licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs:33:65)\n    at readJsonOrUndefined (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:21165:67)\n    at readJson (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:21177:10)\n    at getPackageJsonInfo (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:45865:32)\n    at /workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:45797:14\n    at /workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:46466:20\n    at forEachAncestorDirectory (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:9156:20)\n    at forEachAncestorDirectoryStoppingAtGlobalCache (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:46465:10)\n    at getPackageScopeForPath (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:45794:10)\n    at lookupFromPackageJson (/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js:127381:30)\n\nNode.js v24.19.0\n",
+  "exitCode": 1
+}

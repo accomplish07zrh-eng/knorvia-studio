@@ -1,0 +1,16 @@
+{
+  "owner": "retry",
+  "version": "initial",
+  "file": "/tmp/knorvia-retry47-initial.ts",
+  "rawPath": "licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/retry-initial.ts",
+  "sha256": "664caed50b8f31424657bb5a9708e987f39c5bcf1c0c7a5850f357b9bd4a60ff",
+  "bytes": 1926,
+  "author": "/root/transient_retry_owner_author47",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Only common, assigned full contract/public declarations as input-freeze; one assigned output write, final stat/hash only; no reread/source/history/tests/evidence/siblings/native/browser/userdata/network/permissions",
+  "authorFastIndependentlyVerified": false
+}

@@ -1,0 +1,89 @@
+{
+  "authors": [
+    {
+      "author": "/root/shared_unknown_error_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-shared-error-config-packet.md",
+      "packetSha256": "b5e74b2df61ae1c0340987b815acf29f9c09f0b5d4734247494fb5fa22c81afb",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-error-config-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "writeMethod": "apply_patch whole file",
+      "hashRead": "sha256sum /tmp/knorvia-shared-error-config-authored/errors.ts",
+      "otherAccess": "None reported. No inherited conversation/source bodies/tests/dependencies/history/runtime/config/env/other outputs/repository writes/formatting. Shared filesystem is not OS-enforced isolation."
+    },
+    {
+      "author": "/root/shared_version_compare_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-shared-version-config-packet.md",
+      "packetSha256": "9e24489ac91f85eb42e18ba5b168b44b1a08b4f59d4b71dc01261d93702aa23c",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-version-config-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "writeMethod": "whole literal heredoc plus prehash tuple-index literal patch",
+      "hashRead": "sha256sum /tmp/knorvia-shared-version-config-authored/forceUpdate.ts",
+      "otherAccess": "None reported. No inherited conversation/source bodies/tests/dependencies/history/runtime/config/env/other outputs/repository writes/formatting. Shared filesystem is not OS-enforced isolation."
+    },
+    {
+      "author": "/root/shared_subagent_import_state_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-shared-state-config-packet.md",
+      "packetSha256": "2fe278caf6416bdad0cc01cf9a1b146ddc9f404f414901cf5316ba2d23121a53",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-state-config-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "writeMethod": "three whole literal heredoc revisions before first hash/report; final supersedes two unreported internal drafts",
+      "hashRead": "sha256sum /tmp/knorvia-shared-state-config-authored/subagent-state-migration.ts",
+      "otherAccess": "None reported. No inherited conversation/source bodies/tests/dependencies/history/runtime/config/env/other outputs/repository writes/formatting. Shared filesystem is not OS-enforced isolation."
+    },
+    {
+      "author": "/root/shared_mcp_dto_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-shared-mcp-config-packet.md",
+      "packetSha256": "f5ad01719e232fa519e5e7497cdd8914b0a8976e95e9d2972be67133b090dff8",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-mcp-config-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "writeMethod": "apply_patch whole file plus prehash literal lowercase placement patch",
+      "hashRead": "sha256sum /tmp/knorvia-shared-mcp-config-authored/mcp.ts",
+      "otherAccess": "None reported. No inherited conversation/source bodies/tests/dependencies/history/runtime/config/env/other outputs/repository writes/formatting. Shared filesystem is not OS-enforced isolation."
+    },
+    {
+      "author": "/root/shared_hook_digest_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-shared-digest-config-packet.md",
+      "packetSha256": "a29cff7c0ec4d93ae3c1a70c9cac4da8d6c6a605d10883d866a573912bcbccad",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-shared-digest-config-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "writeMethod": "whole literal heredoc; whole author-only corrected heredoc after initial freeze",
+      "hashRead": "sha256sum /tmp/knorvia-shared-digest-config-authored/workspace-hook-digest.ts",
+      "otherAccess": "None reported. No inherited conversation/source bodies/tests/dependencies/history/runtime/config/env/other outputs/repository writes/formatting. Shared filesystem is not OS-enforced isolation."
+    }
+  ],
+  "instructionHashes": {
+    "AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    ".agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "curatorAccess": "Source-exposed curator read selected whole bodies and required public config ports; eligibility screening also exposed database-startup and shortcutCommands. Curator authored whole API/behavior packets and tests; no root-reserved preview/merge or held reducer body read. Author access reports are bounded, not independent audit/OS controls."
+}

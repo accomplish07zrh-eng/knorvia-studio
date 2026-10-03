@@ -1,0 +1,110 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/native-20261003",
+  "spec": "specs/knorvia-next-platform-control-transport-20261003.md",
+  "files": [
+    {
+      "path": "packages/server-cli/src/ipc/framing.ts",
+      "baselineBlob": "6d7c2ec48c4143077ccb40f9983fe8cba1eec636",
+      "baselineSha256": "79ad7410dbe5ac2052cef98420d5a598a54f18618c0be5e6fce9dddfc2bda7ab",
+      "baselineBytes": 1484,
+      "recordedSource": {
+        "path": "packages/server-cli/src/ipc/framing.ts",
+        "kind": "file",
+        "sha256": "79ad7410dbe5ac2052cef98420d5a598a54f18618c0be5e6fce9dddfc2bda7ab",
+        "normalizedSha256": "79ad7410dbe5ac2052cef98420d5a598a54f18618c0be5e6fce9dddfc2bda7ab",
+        "encoding": "utf8-lf",
+        "bytes": 1484,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/zcode-server-cli/src/ipc/framing.ts",
+          "blob": "6d7c2ec48c4143077ccb40f9983fe8cba1eec636",
+          "normalizedSha256": "79ad7410dbe5ac2052cef98420d5a598a54f18618c0be5e6fce9dddfc2bda7ab",
+          "contentMatchedPaths": [
+            "packages/zcode-server-cli/src/ipc/framing.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "8bc3d05278170e25417da444629e91b8356b1334c77f5ee0e7d3a8021411b137",
+      "frozenCandidateBytes": 1676
+    },
+    {
+      "path": "packages/server-cli/src/ipc/controlClient.ts",
+      "baselineBlob": "0dfc7d410e014e7c63460dd0ceaef5b6e0a3d2a9",
+      "baselineSha256": "0cd8e6b21298427781f52b43ef056e6a8a2159562b78490d7334af4eda0f1347",
+      "baselineBytes": 2037,
+      "recordedSource": {
+        "path": "packages/server-cli/src/ipc/controlClient.ts",
+        "kind": "file",
+        "sha256": "0cd8e6b21298427781f52b43ef056e6a8a2159562b78490d7334af4eda0f1347",
+        "normalizedSha256": "0cd8e6b21298427781f52b43ef056e6a8a2159562b78490d7334af4eda0f1347",
+        "encoding": "utf8-lf",
+        "bytes": 2037,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/zcode-server-cli/src/ipc/controlClient.ts",
+          "blob": "0dfc7d410e014e7c63460dd0ceaef5b6e0a3d2a9",
+          "normalizedSha256": "0cd8e6b21298427781f52b43ef056e6a8a2159562b78490d7334af4eda0f1347",
+          "contentMatchedPaths": [
+            "packages/zcode-server-cli/src/ipc/controlClient.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "128fe936cd91c3831e86dec2ac0d13ba3c8e89bd1a7ded1e0433e38f89ba94ae",
+      "frozenCandidateBytes": 2385
+    },
+    {
+      "path": "packages/server-cli/src/ipc/controlServer.ts",
+      "baselineBlob": "3ec135ab8c332f2b18b2ebd25451b359f770140d",
+      "baselineSha256": "e2dffba7a64b05f9b6a80aa16ec7cb92fad4979efcaa7f62a7a086ffe38f076c",
+      "baselineBytes": 5014,
+      "recordedSource": {
+        "path": "packages/server-cli/src/ipc/controlServer.ts",
+        "kind": "file",
+        "sha256": "e2dffba7a64b05f9b6a80aa16ec7cb92fad4979efcaa7f62a7a086ffe38f076c",
+        "normalizedSha256": "e2dffba7a64b05f9b6a80aa16ec7cb92fad4979efcaa7f62a7a086ffe38f076c",
+        "encoding": "utf8-lf",
+        "bytes": 5014,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/zcode-server-cli/src/ipc/controlServer.ts",
+          "blob": "3ec135ab8c332f2b18b2ebd25451b359f770140d",
+          "normalizedSha256": "e2dffba7a64b05f9b6a80aa16ec7cb92fad4979efcaa7f62a7a086ffe38f076c",
+          "contentMatchedPaths": [
+            "packages/zcode-server-cli/src/ipc/controlServer.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "e44c4888fbf31205088aa77f91ce9e5787917040f9e53741f4669f44cba9d34a",
+      "frozenCandidateBytes": 4884
+    }
+  ],
+  "phase": "whole-draft-frozen-before-source-diff",
+  "originQualification": "Same author read baseline bodies to extract the behavior contract; no fresh-author or isolated clean-room claim. Retained schema/wire/constants/standard idioms do not receive originality credit. Independent expression and rights remain pending.",
+  "executedValidation": [],
+  "deferred": [
+    "tests including synthetic scenarios",
+    "lint",
+    "typecheck",
+    "build",
+    "format and architecture checks",
+    "full audit",
+    "platform/consumer/protocol acceptance"
+  ],
+  "globalLicenseDecisionChanged": false
+}

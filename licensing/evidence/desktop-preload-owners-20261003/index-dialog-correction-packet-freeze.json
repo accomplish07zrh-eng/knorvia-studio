@@ -1,0 +1,10 @@
+[
+  {
+    "packet": "licensing/evidence/desktop-preload-owners-20261003/index-correction-1-packet.md",
+    "sha256": "ab7c2b40f9f578052c39c466efe5ba6718da833e754bec92af70fefdc6f422af"
+  },
+  {
+    "packet": "licensing/evidence/desktop-preload-owners-20261003/dialog-correction-1-packet.md",
+    "sha256": "07aa10eeedaab8163e782e66d7b932f3b7212b7003827d29fa1e8e1db70f570d"
+  }
+]

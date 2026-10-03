@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs",
+    "--only=tab"
+  ],
+  "stdout": "✔ tab owner preserves page identity, active/dialog ownership and close failure ordering (13.277707ms)\n✔ tab registration regression preserves fresh ownership after removal of the same page (4.207713ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 21.100812\n",
+  "stderr": "",
+  "exitCode": 0
+}

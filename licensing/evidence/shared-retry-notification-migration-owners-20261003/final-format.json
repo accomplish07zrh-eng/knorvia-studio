@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/shared/src/api-retry-status.ts",
+    "packages/shared/src/background-task-notifications.ts",
+    "packages/shared/src/network-debug-status.ts",
+    "packages/shared/src/subagent-markdown-selection.ts",
+    "packages/shared/src/lineChangeStat.ts",
+    "packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs",
+    "licensing/evidence/shared-retry-notification-migration-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 29ms on 7 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

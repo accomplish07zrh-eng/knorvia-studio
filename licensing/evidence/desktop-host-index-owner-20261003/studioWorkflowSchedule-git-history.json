@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "log",
+    "--format=%H %s",
+    "--",
+    "packages/desktop/src/host/studioWorkflowSchedule.ts"
+  ],
+  "stdout": "6e86738bbb43c3df206fc25080214bca77cd6b81 feat(studio): schedule saved workflows through Automations\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/README.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/README.md",
+      "sha256": "12aed1f95bbe3f0cb5d78719daf2f2dc0f847353fe1530a8ee6e1af28f63b4ca"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 105ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

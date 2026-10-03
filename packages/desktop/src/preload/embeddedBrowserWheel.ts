@@ -3,121 +3,100 @@ import {
   type EmbeddedBrowserWheelBoundaryPayload,
 } from "@knorvia/shared";
 
-const DELTA_EPSILON = 0.01;
-const SCROLL_BOUNDARY_EPSILON = 1;
-const LINE_DELTA_PIXELS = 40;
-const MAX_FORWARDED_DELTA_PIXELS = 10_000;
-
 type SendToHost = (channel: string, payload: EmbeddedBrowserWheelBoundaryPayload) => void;
 
-function clampForwardedDelta(delta: number): number {
-  return Math.max(-MAX_FORWARDED_DELTA_PIXELS, Math.min(MAX_FORWARDED_DELTA_PIXELS, delta));
+type Axis = "x" | "y";
+
+function normalize(raw: number, mode: number, pageSize: number): number {
+  if (!Number.isFinite(raw) || Math.abs(raw) <= 0.01) {
+    return 0;
+  }
+  const scale = mode === 1 ? 40 : mode === 2 ? Math.max(1, pageSize) : 1;
+  return Math.max(-10000, Math.min(10000, raw * scale));
 }
 
-function normalizeAxisDelta(rawDelta: number, event: WheelEvent, pageSize: number): number {
-  if (!Number.isFinite(rawDelta) || Math.abs(rawDelta) <= DELTA_EPSILON) return 0;
-  const scale =
-    event.deltaMode === 1 ? LINE_DELTA_PIXELS : event.deltaMode === 2 ? Math.max(1, pageSize) : 1;
-  return clampForwardedDelta(rawDelta * scale);
-}
-
-/** 将触控板、滚轮和 Shift+滚轮统一成宿主画布使用的 CSS pixel 二维 delta。 */
-function normalizeEmbeddedBrowserWheelDelta(
-  event: WheelEvent,
-  targetWindow: Window,
-): EmbeddedBrowserWheelBoundaryPayload {
-  const rawDeltaX =
-    Math.abs(event.deltaX) > DELTA_EPSILON ? event.deltaX : event.shiftKey ? event.deltaY : 0;
-  const rawDeltaY = event.shiftKey ? 0 : event.deltaY;
-  return {
-    deltaX: normalizeAxisDelta(rawDeltaX, event, targetWindow.innerWidth),
-    deltaY: normalizeAxisDelta(rawDeltaY, event, targetWindow.innerHeight),
-  };
-}
-
-function isElement(value: EventTarget): value is Element {
-  return "nodeType" in value && value.nodeType === 1;
-}
-
-function canElementConsumeDelta(
-  element: Element,
-  axis: "x" | "y",
-  delta: number,
-  targetWindow: Window,
-): boolean {
-  const isHorizontal = axis === "x";
-  const scrollSize = isHorizontal ? element.scrollWidth : element.scrollHeight;
-  const clientSize = isHorizontal ? element.clientWidth : element.clientHeight;
-  const maxScroll = scrollSize - clientSize;
-  if (maxScroll <= SCROLL_BOUNDARY_EPSILON) return false;
-
-  const style = targetWindow.getComputedStyle(element);
-  const overflow = (isHorizontal ? style.overflowX : style.overflowY) || style.overflow;
-  const isDocumentScroller = element === targetWindow.document.scrollingElement;
-  if (overflow === "hidden" || overflow === "clip") return false;
-  if (!isDocumentScroller && !["auto", "scroll", "overlay"].includes(overflow)) return false;
-
-  if (!isHorizontal) {
-    return delta > 0
-      ? element.scrollTop < maxScroll - SCROLL_BOUNDARY_EPSILON
-      : element.scrollTop > SCROLL_BOUNDARY_EPSILON;
+function consumes(targetWindow: Window, event: WheelEvent, axis: Axis, delta: number): boolean {
+  if (delta === 0) {
+    return false;
   }
 
-  // Chromium 的 RTL scrollLeft 在最右侧为 0，向左移动后为负值。
-  if (style.direction === "rtl") {
-    return delta > 0
-      ? element.scrollLeft < -SCROLL_BOUNDARY_EPSILON
-      : element.scrollLeft > -maxScroll + SCROLL_BOUNDARY_EPSILON;
-  }
-  return delta > 0
-    ? element.scrollLeft < maxScroll - SCROLL_BOUNDARY_EPSILON
-    : element.scrollLeft > SCROLL_BOUNDARY_EPSILON;
-}
-
-function guestCanConsumeDelta(
-  event: WheelEvent,
-  axis: "x" | "y",
-  delta: number,
-  targetWindow: Window,
-): boolean {
-  if (delta === 0) return false;
-  const candidates = new Set<Element>();
+  const elements = new Set<Element>();
   for (const target of event.composedPath()) {
-    if (isElement(target)) candidates.add(target);
+    if ("nodeType" in target && target.nodeType === 1) {
+      elements.add(target as Element);
+    }
   }
   const documentScroller = targetWindow.document.scrollingElement;
-  if (documentScroller) candidates.add(documentScroller);
+  if (documentScroller) {
+    elements.add(documentScroller);
+  }
 
-  return [...candidates].some((element) =>
-    canElementConsumeDelta(element, axis, delta, targetWindow),
-  );
+  for (const element of elements) {
+    const max =
+      axis === "x"
+        ? element.scrollWidth - element.clientWidth
+        : element.scrollHeight - element.clientHeight;
+    if (!(max > 1)) {
+      continue;
+    }
+
+    const style = targetWindow.getComputedStyle(element);
+    const overflow = (axis === "x" ? style.overflowX : style.overflowY) || style.overflow;
+    if (overflow === "hidden" || overflow === "clip") {
+      continue;
+    }
+    if (
+      element !== documentScroller &&
+      overflow !== "auto" &&
+      overflow !== "scroll" &&
+      overflow !== "overlay"
+    ) {
+      continue;
+    }
+
+    if (axis === "y") {
+      if (delta > 0 ? element.scrollTop < max - 1 : element.scrollTop > 1) {
+        return true;
+      }
+    } else if (style.direction === "rtl") {
+      if (delta > 0 ? element.scrollLeft < -1 : element.scrollLeft > -max + 1) {
+        return true;
+      }
+    } else if (delta > 0 ? element.scrollLeft < max - 1 : element.scrollLeft > 1) {
+      return true;
+    }
+  }
+  return false;
 }
 
-/**
- * Electron 的 guest wheel 不会冒泡到 embedder DOM。这里只转交 guest 无法继续消费的轴，
- * 避免无条件转发破坏网页自己的列表、表格、轮播和嵌套滚动容器。
- */
 export function installEmbeddedBrowserWheelForwarding(
   targetWindow: Window,
   sendToHost: SendToHost,
 ): () => void {
-  const handleWheel = (event: WheelEvent): void => {
-    const normalized = normalizeEmbeddedBrowserWheelDelta(event, targetWindow);
-    const deltaX = guestCanConsumeDelta(event, "x", normalized.deltaX, targetWindow)
-      ? 0
-      : normalized.deltaX;
-    const deltaY = guestCanConsumeDelta(event, "y", normalized.deltaY, targetWindow)
-      ? 0
-      : normalized.deltaY;
-    if (deltaX === 0 && deltaY === 0) return;
+  const listener = (event: WheelEvent): void => {
+    const rawX = Math.abs(event.deltaX) > 0.01 ? event.deltaX : event.shiftKey ? event.deltaY : 0;
+    const rawY = event.shiftKey ? 0 : event.deltaY;
+    const normalizedX = normalize(rawX, event.deltaMode, targetWindow.innerWidth);
+    const normalizedY = normalize(rawY, event.deltaMode, targetWindow.innerHeight);
+    const deltaX = consumes(targetWindow, event, "x", normalizedX) ? 0 : normalizedX;
+    const deltaY = consumes(targetWindow, event, "y", normalizedY) ? 0 : normalizedY;
+    if (deltaX === 0 && deltaY === 0) {
+      return;
+    }
 
-    // 延迟到本轮事件派发结束，尊重网页后注册的 preventDefault 自定义手势处理器。
     targetWindow.queueMicrotask(() => {
-      if (event.defaultPrevented) return;
-      sendToHost(EmbeddedBrowserWebviewChannels.WheelBoundary, { deltaX, deltaY });
+      if (event.defaultPrevented) {
+        return;
+      }
+      sendToHost(EmbeddedBrowserWebviewChannels.WheelBoundary, {
+        deltaX,
+        deltaY,
+      });
     });
   };
 
-  targetWindow.addEventListener("wheel", handleWheel, { passive: true });
-  return () => targetWindow.removeEventListener("wheel", handleWheel);
+  targetWindow.addEventListener("wheel", listener, { passive: true });
+  return () => {
+    targetWindow.removeEventListener("wheel", listener);
+  };
 }

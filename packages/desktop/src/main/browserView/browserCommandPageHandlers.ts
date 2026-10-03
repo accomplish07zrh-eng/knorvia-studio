@@ -1,151 +1,125 @@
-import type { BrowserCommand, BrowserCommandResult } from "@knorvia/shared";
 import { browserSnapshotSchema } from "@knorvia/shared";
+import type { BrowserCommand, BrowserCommandResult } from "@knorvia/shared";
+import type { ControlledView } from "./browserCommandTypes.js";
+import { executionError } from "./browserCommandResult.js";
+import type { BrowserCommandDone } from "./browserCommandResult.js";
 import { EVALUATE_SCRIPT, SNAPSHOT_SCRIPT, VIEWPORT_SCRIPT } from "./browserCommandScripts.js";
 import {
-  DEFAULT_NAVIGATE_SETTLE_MS,
   BrowserNavigationTimeoutError,
+  DEFAULT_NAVIGATE_SETTLE_MS,
   isAllowedBrowserUrl,
   readState,
   settleNavigation,
 } from "./browserCommandState.js";
-import type { ControlledView } from "./browserCommandTypes.js";
-import type { BrowserCommandDone } from "./browserCommandResult.js";
-import { executionError } from "./browserCommandResult.js";
 import { captureScreenshotWithCssPixelCorrection } from "./browserScreenshotCapture.js";
 
-const ABORTED_NAVIGATION_CONFIRM_TIMEOUT_MS = 500;
-const ABORTED_NAVIGATION_POLL_INTERVAL_MS = 25;
+type NavigateCommand = Extract<BrowserCommand, { method: "navigate" }>;
+type ScreenshotCommand = Extract<BrowserCommand, { method: "screenshot" }>;
+type SnapshotCommand = Extract<BrowserCommand, { method: "snapshot" }>;
+type EvaluateCommand = Extract<BrowserCommand, { method: "evaluate" }>;
 
-interface ScreenshotViewportMetrics {
-  pageX?: number;
-  pageY?: number;
-  clientWidth?: number;
-  clientHeight?: number;
-}
+type ViewportValues = {
+  clientWidth?: unknown;
+  clientHeight?: unknown;
+  pageX?: unknown;
+  pageY?: unknown;
+};
 
-interface ScreenshotContentMetrics {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-}
+type ContentValues = {
+  x?: unknown;
+  y?: unknown;
+  width?: unknown;
+  height?: unknown;
+};
 
-interface ScreenshotLayoutMetrics {
-  layoutViewport?: ScreenshotViewportMetrics;
-  visualViewport?: ScreenshotViewportMetrics;
-  contentSize?: ScreenshotContentMetrics;
-  cssLayoutViewport?: ScreenshotViewportMetrics;
-  cssVisualViewport?: ScreenshotViewportMetrics;
-  cssContentSize?: ScreenshotContentMetrics;
-}
+type MetricValues = {
+  cssVisualViewport?: ViewportValues;
+  cssLayoutViewport?: ViewportValues;
+  cssContentSize?: ContentValues;
+  contentSize?: ContentValues;
+};
 
-interface ScreenshotCssViewport {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-async function readScreenshotLayoutMetrics(view: ControlledView): Promise<ScreenshotLayoutMetrics> {
-  return (await view.cdp.send("Page.getLayoutMetrics")) as ScreenshotLayoutMetrics;
-}
-
-function resolveScreenshotCssViewport(
-  metrics: ScreenshotLayoutMetrics,
-): ScreenshotCssViewport | null {
-  const cssViewport = metrics.cssVisualViewport ?? metrics.cssLayoutViewport;
-  const cssWidth = cssViewport?.clientWidth;
-  const cssHeight = cssViewport?.clientHeight;
+function cssViewportClip(metrics: MetricValues): Record<string, number> | undefined {
+  const viewport = metrics.cssVisualViewport ?? metrics.cssLayoutViewport;
+  const width = viewport?.clientWidth;
+  const height = viewport?.clientHeight;
   if (
-    typeof cssWidth !== "number" ||
-    !Number.isFinite(cssWidth) ||
-    cssWidth <= 0 ||
-    typeof cssHeight !== "number" ||
-    !Number.isFinite(cssHeight) ||
-    cssHeight <= 0
+    typeof width !== "number" ||
+    !Number.isFinite(width) ||
+    width <= 0 ||
+    typeof height !== "number" ||
+    !Number.isFinite(height) ||
+    height <= 0
   ) {
-    return null;
+    return undefined;
   }
   return {
-    x: typeof cssViewport?.pageX === "number" ? cssViewport.pageX : 0,
-    y: typeof cssViewport?.pageY === "number" ? cssViewport.pageY : 0,
-    width: cssWidth,
-    height: cssHeight,
+    x: typeof viewport?.pageX === "number" ? viewport.pageX : 0,
+    y: typeof viewport?.pageY === "number" ? viewport.pageY : 0,
+    width,
+    height,
+    scale: 1,
   };
 }
 
 export async function buildViewportScreenshotParams(
   view: ControlledView,
 ): Promise<Record<string, unknown>> {
-  const params: Record<string, unknown> = {
-    format: "png",
-    captureBeyondViewport: false,
-  };
+  const params: Record<string, unknown> = { format: "png", captureBeyondViewport: false };
   if (!view.normalizeScreenshotToCssPixels) return params;
-  const cssViewport = resolveScreenshotCssViewport(await readScreenshotLayoutMetrics(view));
-  if (!cssViewport) return params;
-  // legacy layout metrics 在 Retina guest 中可以是 CSS viewport 的 2 倍，
-  // 但 capture raster 已经是 CSS 1x。首帧预先套用 0.5 会产生 640×360，并可能让重挂载的
-  // guest compositor 停留在左上角。首帧固定使用 CSS 1x，实际 PNG 异常再由共用执行器校正。
-  params.clip = { ...cssViewport, scale: 1 };
+
+  const metrics = (await view.cdp.send("Page.getLayoutMetrics")) as MetricValues;
+  const clip = cssViewportClip(metrics);
+  if (clip) params.clip = clip;
   return params;
 }
 
-function isElectronNavigationAborted(error: unknown): boolean {
-  if (!error || typeof error !== "object") return false;
-  const candidate = error as {
-    code?: unknown;
-    errno?: unknown;
-    message?: unknown;
-  };
+function isAbortedNavigation(error: unknown): boolean {
+  if (error === null || typeof error !== "object") return false;
+  const value = error as { code?: unknown; errno?: unknown; message?: unknown };
   return (
-    candidate.code === "ERR_ABORTED" ||
-    candidate.errno === -3 ||
-    (typeof candidate.message === "string" && /\bERR_ABORTED\b|\(-3\)/u.test(candidate.message))
+    value.code === "ERR_ABORTED" ||
+    value.errno === -3 ||
+    (typeof value.message === "string" && /\bERR_ABORTED\b|\(-3\)/u.test(value.message))
   );
 }
 
-function normalizedHost(hostname: string): string {
-  return hostname.toLowerCase().replace(/^(?:m|www)\./u, "");
-}
-
-function normalizedPath(pathname: string): string {
-  return pathname.length > 1 ? pathname.replace(/\/+$/u, "") : pathname;
-}
-
-function isEquivalentNavigationUrl(requestedUrl: string, currentUrl: string): boolean {
+function navigationUrlsMatch(actual: string, requested: string): boolean {
   try {
-    const requested = new URL(requestedUrl);
-    const current = new URL(currentUrl);
-    if (requested.protocol === "about:" || current.protocol === "about:") {
-      return requested.href === current.href;
+    const current = new URL(actual);
+    const target = new URL(requested);
+    if (current.protocol === "about:" || target.protocol === "about:") {
+      return current.href === target.href;
     }
+    const hostname = (url: URL): string =>
+      url.hostname.toLowerCase().replace(/^(?:m\.|www\.)/u, "");
+    const pathname = (url: URL): string =>
+      url.pathname.length > 1 ? url.pathname.replace(/\/+$/u, "") : url.pathname;
     return (
-      requested.protocol === current.protocol &&
-      normalizedHost(requested.hostname) === normalizedHost(current.hostname) &&
-      requested.port === current.port &&
-      normalizedPath(requested.pathname) === normalizedPath(current.pathname) &&
-      requested.search === current.search
+      current.protocol === target.protocol &&
+      hostname(current) === hostname(target) &&
+      current.port === target.port &&
+      pathname(current) === pathname(target) &&
+      current.search === target.search
     );
   } catch {
     return false;
   }
 }
 
-async function confirmAbortedNavigationCommitted(
+async function confirmCommittedNavigation(
   view: ControlledView,
   requestedUrl: string,
   previousUrl: string,
   signal?: AbortSignal,
 ): Promise<boolean> {
-  const deadline = Date.now() + ABORTED_NAVIGATION_CONFIRM_TIMEOUT_MS;
+  const deadline = Date.now() + 500;
   while (Date.now() <= deadline) {
     if (signal?.aborted) throw new DOMException("aborted", "AbortError");
     try {
-      const documentState = (await view.webContents.executeJavaScript(`(() => ({
-        href: globalThis.location?.href ?? "",
-        readyState: document.readyState
-      }))()`)) as { href?: unknown; readyState?: unknown } | null;
+      const documentState = (await view.webContents.executeJavaScript(
+        "(() => ({ href: globalThis.location?.href ?? '', readyState: document.readyState }))()",
+      )) as { href?: unknown; readyState?: unknown } | null;
       const currentUrl = view.webContents.getURL();
       const href = typeof documentState?.href === "string" ? documentState.href : "";
       const readyState = documentState?.readyState;
@@ -153,21 +127,21 @@ async function confirmAbortedNavigationCommitted(
         currentUrl !== previousUrl &&
         href === currentUrl &&
         (readyState === "interactive" || readyState === "complete") &&
-        isEquivalentNavigationUrl(requestedUrl, currentUrl)
+        navigationUrlsMatch(currentUrl, requestedUrl)
       ) {
         return true;
       }
     } catch {
-      // guest 正在切换 document 时 executeJavaScript 可能短暂失败；在有界窗口内继续复核。
+      // A navigation can replace the document while this probe runs.
     }
-    await new Promise<void>((resolve) => setTimeout(resolve, ABORTED_NAVIGATION_POLL_INTERVAL_MS));
+    await new Promise<void>((resolve) => setTimeout(resolve, 25));
   }
   return false;
 }
 
 export async function handleNavigate(
   view: ControlledView,
-  command: Extract<BrowserCommand, { method: "navigate" }>,
+  command: NavigateCommand,
   done: BrowserCommandDone,
   opts?: { navigateSettleMs?: number; signal?: AbortSignal },
 ): Promise<BrowserCommandResult> {
@@ -177,6 +151,7 @@ export async function handleNavigate(
       error: { code: "navigation_blocked", message: `Blocked URL: ${command.url}` },
     });
   }
+
   const previousUrl = view.webContents.getURL();
   try {
     await settleNavigation(
@@ -186,12 +161,9 @@ export async function handleNavigate(
     );
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") throw error;
-    // 站点的 www→m 重定向或 SPA 路由接管会让 Electron loadURL 以
-    // ERR_ABORTED reject，但新 document 已经提交。只在 URL 等价且 document ready 时认定成功；
-    // 不能把已成功导航的页面回报成硬失败，诱导模型继续猜 URL/资源 ID。
     if (
-      isElectronNavigationAborted(error) &&
-      (await confirmAbortedNavigationCommitted(view, command.url, previousUrl, opts?.signal))
+      isAbortedNavigation(error) &&
+      (await confirmCommittedNavigation(view, command.url, previousUrl, opts?.signal))
     ) {
       return done({ ok: true, state: readState(view.webContents) });
     }
@@ -212,29 +184,26 @@ export async function handleGetState(
   done: BrowserCommandDone,
 ): Promise<BrowserCommandResult> {
   const state = readState(view.webContents);
-  // 补 scrollX/scrollY/viewportWidth/viewportHeight（读取失败不致命，返回基础 state）。
   try {
-    const raw = (await view.webContents.executeJavaScript(VIEWPORT_SCRIPT)) as {
-      scrollX?: unknown;
-      scrollY?: unknown;
-      innerWidth?: unknown;
-      innerHeight?: unknown;
-    } | null;
-    if (raw && typeof raw === "object") {
-      if (typeof raw.scrollX === "number") state.scrollX = raw.scrollX;
-      if (typeof raw.scrollY === "number") state.scrollY = raw.scrollY;
-      if (typeof raw.innerWidth === "number") state.viewportWidth = raw.innerWidth;
-      if (typeof raw.innerHeight === "number") state.viewportHeight = raw.innerHeight;
+    const viewport = (await view.webContents.executeJavaScript(VIEWPORT_SCRIPT)) as Record<
+      string,
+      unknown
+    > | null;
+    if (viewport && typeof viewport === "object") {
+      if (typeof viewport.scrollX === "number") state.scrollX = viewport.scrollX;
+      if (typeof viewport.scrollY === "number") state.scrollY = viewport.scrollY;
+      if (typeof viewport.innerWidth === "number") state.viewportWidth = viewport.innerWidth;
+      if (typeof viewport.innerHeight === "number") state.viewportHeight = viewport.innerHeight;
     }
   } catch {
-    /* 读取视口信息失败时保留基础 state。 */
+    // Preserve the state reference and any fields already updated by the viewport result.
   }
   return done({ ok: true, state });
 }
 
 export async function handleScreenshot(
   view: ControlledView,
-  command: Extract<BrowserCommand, { method: "screenshot" }>,
+  command: ScreenshotCommand,
   done: BrowserCommandDone,
 ): Promise<BrowserCommandResult> {
   if (command.clip === undefined && command.fullPage !== true && view.captureViewportScreenshot) {
@@ -252,20 +221,17 @@ export async function handleScreenshot(
     });
   }
 
-  // 走 CDP Page.captureScreenshot（规避 renderer webContents.capturePage 的 V8 FATAL，且拿全页）。
   const metrics =
     command.fullPage === true || view.normalizeScreenshotToCssPixels
-      ? await readScreenshotLayoutMetrics(view)
+      ? ((await view.cdp.send("Page.getLayoutMetrics")) as MetricValues)
       : null;
-  const cssViewport =
-    view.normalizeScreenshotToCssPixels && metrics ? resolveScreenshotCssViewport(metrics) : null;
+  const viewportClip =
+    view.normalizeScreenshotToCssPixels && metrics ? cssViewportClip(metrics) : undefined;
   const params: Record<string, unknown> = {
     format: "png",
-    // 普通 viewport 截图不应走 viewport 外的 compositor surface；clip/fullPage 才显式允许。
     captureBeyondViewport: command.clip !== undefined || command.fullPage === true,
   };
   if (command.clip) {
-    // 区域截图：clip 用视口 CSS px，scale:1 保证与坐标同系。
     params.clip = {
       x: command.clip.x,
       y: command.clip.y,
@@ -274,23 +240,22 @@ export async function handleScreenshot(
       scale: 1,
     };
   } else if (command.fullPage === true) {
-    // 全页截图：取 contentSize（优先 CSS 尺寸），用 clip 覆盖整页。
-    const cs = metrics?.cssContentSize ?? metrics?.contentSize;
-    if (cs && typeof cs.width === "number" && typeof cs.height === "number") {
+    const content = metrics?.cssContentSize ?? metrics?.contentSize;
+    if (content && typeof content.width === "number" && typeof content.height === "number") {
       params.clip = {
-        x: typeof cs.x === "number" ? cs.x : 0,
-        y: typeof cs.y === "number" ? cs.y : 0,
-        width: cs.width,
-        height: cs.height,
+        x: typeof content.x === "number" ? content.x : 0,
+        y: typeof content.y === "number" ? content.y : 0,
+        width: content.width,
+        height: content.height,
         scale: 1,
       };
     }
-  } else if (cssViewport) {
-    params.clip = { ...cssViewport, scale: 1 };
+  } else if (viewportClip) {
+    params.clip = { ...viewportClip, scale: 1 };
   }
 
-  const res = await captureScreenshotWithCssPixelCorrection(view, params);
-  if (!res?.data) {
+  const result = await captureScreenshotWithCssPixelCorrection(view, params);
+  if (!result?.data) {
     return done({
       ok: false,
       error: { code: "execution_error", message: "screenshot returned empty data" },
@@ -298,22 +263,19 @@ export async function handleScreenshot(
   }
   return done({
     ok: true,
-    image: { base64: res.data, mimeType: "image/png" },
+    image: { base64: result.data, mimeType: "image/png" },
     state: readState(view.webContents),
   });
 }
 
 export async function handleSnapshot(
   view: ControlledView,
-  command: Extract<BrowserCommand, { method: "snapshot" }>,
+  command: SnapshotCommand,
   done: BrowserCommandDone,
 ): Promise<BrowserCommandResult> {
-  // 注入脚本遍历可见 DOM，产出带 ref 的结构化快照（严格对齐 browserSnapshotSchema）。
   const raw = await view.webContents.executeJavaScript(
     SNAPSHOT_SCRIPT(command.maxElements, command.includeHidden),
   );
-  // 防御式校验：脚本受控但异形页面可能覆写 getter/返回残缺结构。safeParse 失败时
-  // 转成明确的 execution_error（而非把畸形对象透传到下游让 strict zod 报笼统失败）。
   const parsed = browserSnapshotSchema.safeParse(raw);
   if (!parsed.success) {
     return done({
@@ -329,30 +291,23 @@ export async function handleSnapshot(
 
 export async function handleEvaluate(
   view: ControlledView,
-  command: Extract<BrowserCommand, { method: "evaluate" }>,
+  command: EvaluateCommand,
   done: BrowserCommandDone,
 ): Promise<BrowserCommandResult> {
-  // 执行页面表达式并 JSON 安全序列化；异常 → execution_error。
-  const raw = (await view.webContents.executeJavaScript(EVALUATE_SCRIPT(command.expression))) as {
-    ok?: boolean;
-    kind?: string;
-    data?: string;
-    message?: string;
-  } | null;
+  const raw = await view.webContents.executeJavaScript(EVALUATE_SCRIPT(command.expression));
   if (!raw || typeof raw !== "object")
     return done(executionError("evaluate returned invalid result"));
-  if (raw.ok === false) return done(executionError(raw.message ?? "evaluate error"));
-
+  const result = raw as { ok?: unknown; message?: string; kind?: unknown; data?: unknown };
+  if (result.ok === false) return done(executionError(result.message ?? "evaluate error"));
   let value: unknown;
-  if (raw.kind === "json" && typeof raw.data === "string") {
+  if (result.kind === "json" && typeof result.data === "string") {
     try {
-      value = JSON.parse(raw.data);
+      value = JSON.parse(result.data);
     } catch {
-      // 理论不达（页面侧已 JSON.stringify 成功）；兜底透传原字符串。
-      value = raw.data;
+      value = result.data;
     }
   } else {
-    value = raw.data;
+    value = result.data;
   }
   return done({ ok: true, value });
 }

@@ -1,9 +1,3 @@
-/**
- * 资源管理器「存储」tab 的 main 侧接线：main 持有唯一的 StorageService 实例（Worker 线程遍历），
- * 通过 ipc invoke 暴露命令面，进度快照推给发起请求的资源管理器窗口；窗口关闭即取消扫描。
- * 之所以放在 main 而不是 Window Host：该窗口按设计不接 RPC（见 preload/resourceManager.ts），
- * 而扫盘只是 fs 遍历，跑在 worker_threads 里不会阻塞 main 事件循环。
- */
 import { BrowserWindow, ipcMain, shell, type IpcMainInvokeEvent, type WebContents } from "electron";
 import { homedir } from "node:os";
 import { isAbsolute, relative, resolve } from "node:path";
@@ -18,77 +12,96 @@ import type { IStorageService } from "@knorvia/services";
 import { logger } from "./logger.js";
 import { createStorageScanWorkerRunner } from "./storageScanWorkerClient.js";
 
-let service: IStorageService | null = null;
-let latestJobId: string | null = null;
-let subscriber: WebContents | null = null;
-const rootsResolver = createStorageRootsResolver({ getHomeDir: homedir, getDataBaseDir });
-
-function getService(): IStorageService {
-  if (service) return service;
-  service = createStorageService({
-    roots: rootsResolver,
-    scanRunner: createStorageScanWorkerRunner(),
-    cleaner: createFsStorageCleaner(),
-  });
-  service.onScanProgress((snapshot) => {
-    if (subscriber && !subscriber.isDestroyed()) {
-      subscriber.send(PlatformChannels.StorageScanProgress, snapshot);
-    }
-  });
-  return service;
-}
-
-/** 只有资源管理器窗口能发起存储命令；窗口关闭时取消进行中的扫描，避免后台空转。 */
-function bindSubscriber(event: IpcMainInvokeEvent): void {
-  if (subscriber === event.sender) return;
-  subscriber = event.sender;
-  const win = BrowserWindow.fromWebContents(event.sender);
-  win?.once("closed", () => {
-    if (subscriber !== event.sender) return;
-    subscriber = null;
-    if (latestJobId && service) {
-      void service.cancelScan(latestJobId);
-      latestJobId = null;
-    }
-  });
-}
-
-/** 纯函数：定位路径必须落在某个数据根内，防止 renderer 传任意路径让系统文件管理器打开。 */
-function isPathInsideStorageRoots(absolutePath: string, roots: StorageRootSpec[]): boolean {
-  const target = resolve(absolutePath);
+function belongsToStorageRoot(path: string, roots: StorageRootSpec[]): boolean {
+  const destination = resolve(path);
   return roots.some((root) => {
-    const back = relative(resolve(root.path), target);
-    return back === "" || (!back.startsWith("..") && !isAbsolute(back));
+    const difference = relative(resolve(root.path), destination);
+    return difference === "" || (!difference.startsWith("..") && !isAbsolute(difference));
   });
 }
 
-export function registerResourceManagerStorageIpc(): void {
-  ipcMain.handle(PlatformChannels.StorageStartScan, async (event) => {
-    bindSubscriber(event);
-    const result = await getService().startScan();
-    latestJobId = result.jobId;
+class StorageIpcOwner {
+  private service: IStorageService | null = null;
+  private latestJobId: string | null = null;
+  private subscriber: WebContents | null = null;
+
+  public constructor(private readonly roots: ReturnType<typeof createStorageRootsResolver>) {}
+
+  public register(): void {
+    ipcMain.handle(PlatformChannels.StorageStartScan, this.start.bind(this));
+    ipcMain.handle(PlatformChannels.StorageCancelScan, this.cancel.bind(this));
+    ipcMain.handle(PlatformChannels.StorageGetSnapshot, this.snapshot.bind(this));
+    ipcMain.handle(PlatformChannels.StorageClean, this.clean.bind(this));
+    ipcMain.handle(PlatformChannels.StorageRevealPath, this.reveal.bind(this));
+  }
+
+  private getService(): IStorageService {
+    if (this.service) return this.service;
+    this.service = createStorageService({
+      roots: this.roots,
+      scanRunner: createStorageScanWorkerRunner(),
+      cleaner: createFsStorageCleaner(),
+    });
+    this.service.onScanProgress((snapshot) => {
+      if (this.subscriber && !this.subscriber.isDestroyed()) {
+        this.subscriber.send(PlatformChannels.StorageScanProgress, snapshot);
+      }
+    });
+    return this.service;
+  }
+
+  private bind(event: IpcMainInvokeEvent): void {
+    if (this.subscriber === event.sender) return;
+    this.subscriber = event.sender;
+    BrowserWindow.fromWebContents(event.sender)?.once("closed", () => {
+      // 旧窗口关闭不能取消后来窗口的作业；读取原事件的 sender，沿用既有订阅身份。
+      if (this.subscriber !== event.sender) return;
+      this.subscriber = null;
+      if (this.latestJobId && this.service) {
+        void this.service.cancelScan(this.latestJobId);
+        this.latestJobId = null;
+      }
+    });
+  }
+
+  private async start(event: IpcMainInvokeEvent) {
+    this.bind(event);
+    const result = await this.getService().startScan();
+    this.latestJobId = result.jobId;
     return result;
-  });
-  ipcMain.handle(PlatformChannels.StorageCancelScan, async (_event, jobId: string) => {
-    if (!service) return;
-    await service.cancelScan(jobId);
-    if (latestJobId === jobId) latestJobId = null;
-  });
-  ipcMain.handle(PlatformChannels.StorageGetSnapshot, async () =>
-    service ? service.getSnapshot() : null,
-  );
-  ipcMain.handle(PlatformChannels.StorageClean, async (event, request: StorageCleanRequest) => {
-    bindSubscriber(event);
-    return getService().clean(request);
-  });
-  ipcMain.handle(PlatformChannels.StorageRevealPath, async (_event, absolutePath: string) => {
-    const roots = await rootsResolver.resolveRoots();
-    if (typeof absolutePath !== "string" || !isPathInsideStorageRoots(absolutePath, roots)) {
+  }
+
+  private async cancel(_event: IpcMainInvokeEvent, jobId: string): Promise<void> {
+    if (!this.service) return;
+    await this.service.cancelScan(jobId);
+    if (this.latestJobId === jobId) this.latestJobId = null;
+  }
+
+  private async snapshot() {
+    return this.service ? this.service.getSnapshot() : null;
+  }
+
+  private async clean(event: IpcMainInvokeEvent, request: StorageCleanRequest) {
+    this.bind(event);
+    return this.getService().clean(request);
+  }
+
+  private async reveal(_event: IpcMainInvokeEvent, absolutePath: string): Promise<void> {
+    const roots = await this.roots.resolveRoots();
+    if (typeof absolutePath !== "string" || !belongsToStorageRoot(absolutePath, roots)) {
       logger.warn("[resource-manager] refused to reveal path outside storage roots", {
         absolutePath,
       });
       return;
     }
     shell.showItemInFolder(absolutePath);
-  });
+  }
+}
+
+const storageIpc = new StorageIpcOwner(
+  createStorageRootsResolver({ getHomeDir: homedir, getDataBaseDir }),
+);
+
+export function registerResourceManagerStorageIpc(): void {
+  storageIpc.register();
 }

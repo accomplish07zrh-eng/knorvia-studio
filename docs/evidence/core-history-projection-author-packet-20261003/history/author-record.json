@@ -1,0 +1,101 @@
+{
+  "author_role": "fresh input-limited complete implementation author",
+  "freeze_utc": "2026-10-02T19:11:51.067362Z",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "model_configuration_basis": "Delegation specifies GPT-6.1 Sol/high; runtime model introspection was not available.",
+  "service_tier": {
+    "requested": "Fast",
+    "separate_tool_setting_available": false
+  },
+  "inherited_conversation": false,
+  "inherited_context": "Only delegation, tool/developer instructions, and environment metadata; no prior task conversation, source, reviews, or drafts.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/contract.md",
+      "bytes": 8054,
+      "sha256": "ea6ff223462a3e229f73a2c4785298cac4fddaafca91be677fb0b1bcaac3611c"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-api.d.ts",
+      "bytes": 5517,
+      "sha256": "bd0bc48e9d19ac77f9bb4a295e7b411d884d7322280cde86cf3f842f30a3130d"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/dependency-api.d.ts",
+      "bytes": 1038,
+      "sha256": "f61d45f83f1ca7288a5482ce84434c80c885dbe301986290f2ee1a5418f33922"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-shapes.d.ts",
+      "bytes": 2563,
+      "sha256": "478c65cd46aa7309f4616480920c6add0e143e32c306c2d209d0b396f0d79371"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/message-history.ts",
+      "bytes": 12178,
+      "sha256": "6510c3ccc241b19bb4d5c2fd754b5c39070758e52f1993992c1302665b68c3cf"
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/author-record.json",
+      "bytes": 4905,
+      "sha256": null,
+      "selfhash_omitted": true
+    }
+  ],
+  "source_lines": 323,
+  "private_companion": null,
+  "actual_files_read": [
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/contract.md",
+      "purpose": "Scoped author input; initial complete read and final byte/hash receipt."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-api.d.ts",
+      "purpose": "Scoped author input; initial complete read and final byte/hash receipt."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/dependency-api.d.ts",
+      "purpose": "Scoped author input; initial complete read and final byte/hash receipt."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/inputs/public-shapes.d.ts",
+      "purpose": "Scoped author input; initial complete read and final byte/hash receipt."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/message-history.ts",
+      "purpose": "Own scratch source correction, complete manual review, and final byte/hash receipt."
+    },
+    {
+      "path": "/tmp/knorvia-core-history-projection-20261003/history/output/author-record.json",
+      "purpose": "Own frozen receipt byte/hash reporting."
+    }
+  ],
+  "source_exposure": {
+    "allowed_input_declarations_and_contract_only": true,
+    "repository_files_read": false,
+    "repository_agents_read": false,
+    "target_or_dependency_implementation_read": false,
+    "tests_history_reviews_other_authors_or_prior_drafts_read": false,
+    "git_used": false,
+    "network_used": false,
+    "compilers_tests_builds_typechecks_lint_or_mocks_run": false
+  },
+  "retained_contract_expression": [
+    "All public declarations and runtime collaborators; actual SYSTEM_REMINDER_SOURCES imported without recreating its registry.",
+    "One history state owner, array borrowing versus replacement, cache field presence and mutation lifecycle, and map-before-append failure ordering.",
+    "Specified selective clone gates, object field order, fresh containers and retained nested identities, metadata source values, and queryScope handling.",
+    "Exact <system-reminder> prefix and historical private direct-model attachment diagnostic."
+  ],
+  "discretionary_design": [
+    "Single 323-line source file; no companion, barrel edit, persistence, provider projection, or second state owner.",
+    "Small private clone helpers, source predicate, entry-input adapter, direct-model adapter, append operation, and stats recomputation.",
+    "Conditional spreads express optional own-property gates; attachment return assertion accommodates the specified undefined metadata clone behavior."
+  ],
+  "verification": "Manual source/contract review only; tooling limited to writing, reading own outputs, line counting, UTC timestamp, byte counts, and SHA256.",
+  "unresolved_questions": [],
+  "breaches": [],
+  "freeze_policy": "Complete source and receipt frozen together; no post-freeze modification without a separately frozen functional clarification."
+}

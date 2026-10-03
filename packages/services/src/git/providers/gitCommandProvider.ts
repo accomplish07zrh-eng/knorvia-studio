@@ -36,36 +36,6 @@ export interface GitCommandProvider {
   run(options: GitCommandExecutionOptions): Promise<GitCommandExecutionResult>;
 }
 
-const DEFAULT_TIMEOUT_KILL_GRACE_MS = 2_000;
-const DEFAULT_TIMEOUT_FORCE_KILL_GRACE_MS = 2_000;
-const WINDOWS_TASKKILL_TIMEOUT_MS = 2_000;
-
-function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
-function forceKillChildProcess(child: ChildProcess, platform: NodeJS.Platform): void {
-  if (platform === "win32" && typeof child.pid === "number") {
-    const killer = spawn("taskkill", ["/PID", String(child.pid), "/T", "/F"], {
-      stdio: "ignore",
-      windowsHide: true,
-    });
-    const timer = setTimeout(() => {
-      killer.kill();
-    }, WINDOWS_TASKKILL_TIMEOUT_MS);
-    const cleanup = () => {
-      clearTimeout(timer);
-    };
-    killer.once("error", cleanup);
-    killer.once("close", cleanup);
-    return;
-  }
-
-  child.kill("SIGKILL");
-}
-
 export function createGitCommandProvider(options?: {
   environmentProvider?: GitEnvironmentProvider;
   platform?: NodeJS.Platform;
@@ -74,29 +44,43 @@ export function createGitCommandProvider(options?: {
 }): GitCommandProvider {
   const environmentProvider = options?.environmentProvider ?? createGitEnvironmentProvider();
   const platform = options?.platform ?? process.platform;
-  const timeoutKillGraceMs = options?.timeoutKillGraceMs ?? DEFAULT_TIMEOUT_KILL_GRACE_MS;
-  const timeoutForceKillGraceMs =
-    options?.timeoutForceKillGraceMs ?? DEFAULT_TIMEOUT_FORCE_KILL_GRACE_MS;
+  const timeoutKillGraceMs = options?.timeoutKillGraceMs ?? 2000;
+  const timeoutForceKillGraceMs = options?.timeoutForceKillGraceMs ?? 2000;
+
+  async function resolveGitBinary(): Promise<string | null> {
+    return await environmentProvider.resolveGitBinary();
+  }
+
+  function forceKill(child: ChildProcess): void {
+    if (platform === "win32" && typeof child.pid === "number") {
+      const killer = spawn("taskkill", ["/PID", String(child.pid), "/T", "/F"], {
+        stdio: "ignore",
+        windowsHide: true,
+      });
+      const killerTimeout = setTimeout(() => {
+        killer.kill();
+      }, 2000);
+      const clearKillerTimeout = () => clearTimeout(killerTimeout);
+      killer.once("error", clearKillerTimeout);
+      killer.once("close", clearKillerTimeout);
+      return;
+    }
+    child.kill("SIGKILL");
+  }
 
   return {
-    async resolveGitBinary(): Promise<string | null> {
-      return await environmentProvider.resolveGitBinary();
-    },
-
-    async run(command: GitCommandExecutionOptions): Promise<GitCommandExecutionResult> {
-      const gitBinary = await environmentProvider.resolveGitBinary();
-      if (!gitBinary) {
+    resolveGitBinary,
+    async run(command): Promise<GitCommandExecutionResult> {
+      const resolvedBinary = await environmentProvider.resolveGitBinary();
+      if (!resolvedBinary) {
         throw new Error("Git binary is not available");
       }
-      const binaryPath = gitBinary;
+      const binaryPath = resolvedBinary;
 
       const timeoutMs = command.timeoutMs ?? DEFAULT_GIT_COMMAND_TIMEOUT_MS;
       const maxOutputBytes = command.maxOutputBytes ?? DEFAULT_GIT_OUTPUT_BYTES;
-      const env = {
-        ...environmentProvider.createCommandEnv(),
-        ...command.env,
-      };
-      const startedAt = Date.now();
+      const env = { ...environmentProvider.createCommandEnv(), ...command.env };
+      const started = Date.now();
 
       return await new Promise<GitCommandExecutionResult>((resolve) => {
         let stdout = "";
@@ -121,7 +105,7 @@ export function createGitCommandProvider(options?: {
           exitCode: number | null,
           signal: NodeJS.Signals | null,
         ): GitCommandExecutionResult {
-          const durationMs = Date.now() - startedAt;
+          const durationMs = Date.now() - started;
           return {
             binaryPath,
             cwd: command.cwd,
@@ -145,18 +129,14 @@ export function createGitCommandProvider(options?: {
         }
 
         function settle(result: GitCommandExecutionResult): void {
-          if (settled) {
-            return;
-          }
+          if (settled) return;
           settled = true;
-          clearTimeout(timer);
-          child.stdout?.off("data", appendStdoutChunk);
-          child.stderr?.off("data", appendStderrChunk);
+          clearTimeout(timeout);
+          child.stdout?.off("data", onStdout);
+          child.stderr?.off("data", onStderr);
           child.removeAllListeners("error");
           child.removeAllListeners("close");
           if (result.orphaned) {
-            // Windows 上 Git helper/filter 可能拖住 stdout/stderr 句柄，
-            // 如果超时后仍未 close，先断开本进程对管道和子进程句柄的引用，避免 checkpoint 继续卡住主链路。
             child.stdout?.destroy();
             child.stderr?.destroy();
             child.unref();
@@ -164,73 +144,57 @@ export function createGitCommandProvider(options?: {
           resolve(result);
         }
 
-        async function handleTimeout(): Promise<void> {
-          if (settled) {
-            return;
-          }
-          timedOut = true;
-          timeoutElapsedMs = Date.now() - startedAt;
-          child.kill();
-
-          await wait(timeoutKillGraceMs);
-          if (settled) {
-            return;
-          }
-
-          forceKillAttempted = true;
-          forceKillChildProcess(child, platform);
-
-          await wait(timeoutForceKillGraceMs);
-          if (settled) {
-            return;
-          }
-
-          orphaned = true;
-          settle(buildResult(null, null));
-        }
-
-        const timer = setTimeout(() => {
-          void handleTimeout();
-        }, timeoutMs);
-
-        const appendChunk = (chunk: Buffer, target: "stdout" | "stderr") => {
-          if (outputTruncated) {
-            return;
-          }
-
-          const byteLength = chunk.byteLength;
-          const currentBytes = target === "stdout" ? stdoutBytes : stderrBytes;
-          if (currentBytes + byteLength > maxOutputBytes) {
+        function collect(chunk: Buffer, stream: "stdout" | "stderr"): void {
+          if (outputTruncated) return;
+          const bytes = stream === "stdout" ? stdoutBytes : stderrBytes;
+          if (bytes + chunk.byteLength > maxOutputBytes) {
             outputTruncated = true;
             child.kill();
             return;
           }
-
-          const text = chunk.toString("utf-8");
-          if (target === "stdout") {
-            stdout += text;
-            stdoutBytes += byteLength;
+          if (stream === "stdout") {
+            stdout += chunk.toString("utf-8");
+            stdoutBytes += chunk.byteLength;
           } else {
-            stderr += text;
-            stderrBytes += byteLength;
+            stderr += chunk.toString("utf-8");
+            stderrBytes += chunk.byteLength;
           }
-        };
+        }
 
-        const appendStdoutChunk = (chunk: Buffer) => appendChunk(chunk, "stdout");
-        const appendStderrChunk = (chunk: Buffer) => appendChunk(chunk, "stderr");
+        function onStdout(chunk: Buffer): void {
+          collect(chunk, "stdout");
+        }
 
-        child.once("error", (error) => {
-          // 当 cwd 被并发删除或运行环境瞬时缺失 git 时，spawn 会直接抛错进入 "error" 事件。
-          // 之前这里 reject 会在某些 fire-and-forget 调用链里变成 unhandled rejection，
-          // 进而让 Vitest 出现整批超时假红。这里统一降级为“命令失败结果”，
-          // 由上层按既有 ensureGitCommandSucceeded 语义处理，避免把异常泄漏成进程级未捕获拒绝。
+        function onStderr(chunk: Buffer): void {
+          collect(chunk, "stderr");
+        }
+
+        async function onTimeout(): Promise<void> {
+          if (settled) return;
+          timedOut = true;
+          timeoutElapsedMs = Date.now() - started;
+          child.kill();
+          await new Promise<void>((done) => setTimeout(done, timeoutKillGraceMs));
+          if (settled) return;
+          forceKillAttempted = true;
+          forceKill(child);
+          await new Promise<void>((done) => setTimeout(done, timeoutForceKillGraceMs));
+          if (settled) return;
+          orphaned = true;
+          settle(buildResult(null, null));
+        }
+
+        const timeout = setTimeout(() => {
+          void onTimeout();
+        }, timeoutMs);
+        child.once("error", (error: unknown) => {
           stderr = error instanceof Error ? error.message : String(error);
           settle(buildResult(-2, null));
         });
-        child.stdout?.on("data", appendStdoutChunk);
-        child.stderr?.on("data", appendStderrChunk);
-        child.once("close", (exitCode, signal) => {
-          settle(buildResult(exitCode, signal));
+        child.stdout?.on("data", onStdout);
+        child.stderr?.on("data", onStderr);
+        child.once("close", (code, signal) => {
+          settle(buildResult(code, signal));
         });
       });
     },

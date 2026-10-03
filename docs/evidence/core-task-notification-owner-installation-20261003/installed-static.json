@@ -1,0 +1,112 @@
+{
+  "baseline": "450531c1e5c6ed9d661c7f867196b534a55fa82a",
+  "installed": {
+    "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+    "bytes": 13292,
+    "lines": 252,
+    "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+  },
+  "frozen": {
+    "path": "docs/evidence/core-task-notification-owner-packet-20261003/notification/notification.ts.txt",
+    "bytes": 13292,
+    "lines": 252,
+    "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+  },
+  "exactInstalled": true,
+  "proofs": [
+    {
+      "path": "docs/evidence/core-task-notification-owner-review-20261003/notification-static-qualified.json",
+      "bytes": 4178,
+      "lines": 98,
+      "sha256": "8baff4245bb9594162c3eb73c393d6d56c09355eb5dff56356d2fdf83749f0b4",
+      "passed": true,
+      "sourceBound": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-review-20261003/notification-retained-data.json",
+      "bytes": 5570,
+      "lines": 118,
+      "sha256": "1bafe618a16d7f402cf8358b22464d8f3fdc66c5185b7d13db7440fa612c9d92",
+      "passed": true,
+      "sourceBound": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-review-20261003/minimum-original.json",
+      "bytes": 1047,
+      "lines": 23,
+      "sha256": "a94a0f72dacbf71f86b90e7f372654f3a93a15cb5b189a56b8ffe6b5578d08d7",
+      "passed": true,
+      "sourceBound": true,
+      "groups": 3
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/contract.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/public-api.d.ts",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/dependency-api.d.ts",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/imports.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/required-data.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/public-data.json",
+      "unchanged": true
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 616,
+    "unchanged": 616,
+    "failures": []
+  },
+  "fullArchives": [
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/notification/notification.ts.txt",
+      "bytes": 13292,
+      "lines": 252,
+      "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b",
+      "frozenBeforeReviewCommit": "0ba048d3",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-task-notification-owner-packet-20261003/notification/author-record.json",
+      "bytes": 13918,
+      "lines": 213,
+      "sha256": "7d2dc8bde82c3782a781b18f401743523ef3cdf2070fcf28c2382eb42fb1f202",
+      "frozenBeforeReviewCommit": "0ba048d3",
+      "unchanged": true
+    }
+  ],
+  "coreDiff": [
+    "apps/cli/packages/core/src/runtime-task/notification.ts"
+  ],
+  "registryResolution": {
+    "localSha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+    "rootAcceptedSha256": "12a18abdd47a1639a86726a92f7b9bf55227c8918109c3934b33925b066603e2",
+    "rootEvidence": "licensing/evidence/contract-authored-task-registry-expression-20261002.json",
+    "rootReportedReview": "independent-replacement",
+    "decision": "Local older registry retained until final integration. No reauthor/import; root accepted resolution recorded as parent report only.",
+    "local": {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 9112,
+      "lines": 287,
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e"
+    },
+    "unchangedOlderLocal": true
+  },
+  "distinctMinimumGroups": 3,
+  "passed": true,
+  "qualification": "Exact installed/archive/proof/input/outside bindings only, minimum3 groups reused without replay by exact source digest. Root accepted registry remains parent-reported/no source import; older local retained. Source-exposed curator/historical exposures/repaired scratch-write qualification, instruction-only executor/author self-report/no OS audit. No actual notifications/workflows/agents/business IO, semantic/project compile/suite/build/lint/source-emitted matrix, global license/material closure."
+}

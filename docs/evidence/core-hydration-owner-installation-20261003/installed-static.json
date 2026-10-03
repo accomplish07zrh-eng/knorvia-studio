@@ -1,0 +1,210 @@
+{
+  "baseline": "f9bd59f6bad64590e6d854ddff62fbebd20a841c",
+  "targets": [
+    {
+      "scope": "media-v2",
+      "installed": {
+        "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+        "bytes": 5130,
+        "lines": 178,
+        "sha256": "3dfe9551132e36ea60f33ee8b8dedc08757c8cd19e4882fee33cbf6ba988ea35"
+      },
+      "frozen": {
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media-v2/file-part-hydration.ts.txt",
+        "bytes": 5130,
+        "lines": 178,
+        "sha256": "3dfe9551132e36ea60f33ee8b8dedc08757c8cd19e4882fee33cbf6ba988ea35"
+      },
+      "exact": true,
+      "below400": true,
+      "proofs": [
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-static.json",
+          "bytes": 151110,
+          "lines": 4424,
+          "sha256": "5952f5b7bc1a61908091fbcbc2dfd30cf6e1637571d44c29283300c4d0a23992",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-v2-retained-data.json",
+          "bytes": 973,
+          "lines": 39,
+          "sha256": "cb277373d9e1e194b0cb6e990ea86106c87c5d6e6699d3433fa5dc0b1160a635",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/minimum-media-v2.json",
+          "bytes": 1011,
+          "lines": 21,
+          "sha256": "9104c470bf5b99f664520f6fd0a8b74801cfec3c37ff9735e9cc3428aa11bf9e",
+          "passed": true,
+          "sourceBound": true,
+          "groups": 2
+        }
+      ],
+      "inputs": [
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/contract.md",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/dependency-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/imports.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/output-data.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-layout-boundary-finding.md",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "scope": "history-v2",
+      "installed": {
+        "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+        "bytes": 13191,
+        "lines": 289,
+        "sha256": "458997f92dc55e1ecfed0fc6155fc6676128a0d710c725e13f77479976e9be7f"
+      },
+      "frozen": {
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history-v2/session-history-hydrator.ts.txt",
+        "bytes": 13191,
+        "lines": 289,
+        "sha256": "458997f92dc55e1ecfed0fc6155fc6676128a0d710c725e13f77479976e9be7f"
+      },
+      "exact": true,
+      "below400": true,
+      "proofs": [
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-static.json",
+          "bytes": 151153,
+          "lines": 4424,
+          "sha256": "67a900dbb63f55bdb0cae0bacd649a8b27fd310df0e3fbe950b6b941f9edc5d3",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-v2-retained-data.json",
+          "bytes": 1389,
+          "lines": 55,
+          "sha256": "43a5bd086e7bb3d154117c73c18145222ddddd54aed27b92bfaee22795ac3c04",
+          "passed": true,
+          "sourceBound": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/minimum-history-v2.json",
+          "bytes": 1302,
+          "lines": 29,
+          "sha256": "72c03aa0bfffc2af8b6c5a3aecd8250da6cda4d80acc6a7aef9c50684a05cbe0",
+          "passed": true,
+          "sourceBound": true,
+          "groups": 4
+        }
+      ],
+      "inputs": [
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/history/contract.md",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/history/dependency-api.d.ts",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/history/imports.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/history/output-data.json",
+          "unchanged": true
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/history-await-boundary-finding.md",
+          "unchanged": true
+        }
+      ]
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 618,
+    "unchanged": 618,
+    "failures": []
+  },
+  "coreDiff": [
+    "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+    "apps/cli/packages/core/src/agent/session-history-hydrator.ts"
+  ],
+  "originalArchives": [
+    {
+      "path": "docs/evidence/core-hydration-owner-packet-20261003/media/file-part-hydration.ts.txt",
+      "bytes": 4739,
+      "lines": 164,
+      "sha256": "01c5a7b27cda2e2e1b56a874654847ae90d8430983fea7cc21258516bcb1200a",
+      "frozenCommit": "73d6e803",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-hydration-owner-packet-20261003/media/author-record.json",
+      "bytes": 9467,
+      "lines": 157,
+      "sha256": "53a23ce31ebe2985f4e964a815c86c60b6365599715a733740ad3f0c0f312dee",
+      "frozenCommit": "73d6e803",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-hydration-owner-packet-20261003/history/session-history-hydrator.ts.txt",
+      "bytes": 13071,
+      "lines": 289,
+      "sha256": "ee762760a80950b8965b1c02b64aa4ddda70df85bced6be6482fdeab22ac2ab0",
+      "frozenCommit": "efeebc00",
+      "unchanged": true
+    },
+    {
+      "path": "docs/evidence/core-hydration-owner-packet-20261003/history/author-record.json",
+      "bytes": 11562,
+      "lines": 210,
+      "sha256": "1b35c78ebf08c53ae08f855124b298bf9dd675c113398c0ae8c4510fe2d6584e",
+      "frozenCommit": "efeebc00",
+      "unchanged": true
+    }
+  ],
+  "readStateHold": {
+    "local": {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "bytes": 6011,
+      "lines": 183,
+      "sha256": "1b4a8d1acc994ed2717f8d403f8dc4e23b0f8242fe8bbf91a14e6799a3fd2488"
+    },
+    "rootSha256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+    "rootEvidence": "licensing/evidence/read-state-hydration-20260930.json",
+    "preservedDivergence": true
+  },
+  "distinctMinimumGroups": 6,
+  "passed": true,
+  "qualification": "Exact installed/archive/proof/input/outside-source bindings only; reuse final two media plus four history synthetic groups by exact source digests without replay. No project/semantic compile, suite/build/lint/business I/O/cross-lane source import. Original full drafts/receipts/failures retained. Source-exposed curator, instruction-only shared executor/no OS access audit; no separation/rights/material closure claim."
+}

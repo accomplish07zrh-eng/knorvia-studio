@@ -1,0 +1,8 @@
+{
+  "stage": "new background fixture setup, before production edits",
+  "failure": "TypeError: finishChild is not a function at finishChild()",
+  "cause": "Public start readiness may settle before the synthetic child resumes after its own readiness await and installs the completion resolver.",
+  "fixtureCorrection": "Create the owned deferred completion before awaiting readiness; assertions and predecessor owner unchanged.",
+  "runtimeDefectClaim": false,
+  "result": "Seven frozen predecessor groups now pass; first five overlap prior baseline run, not twelve distinct groups."
+}

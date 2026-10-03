@@ -1,0 +1,57 @@
+{
+  "baselineSafety": {
+    "exit": 0,
+    "pass": 5,
+    "fail": 0
+  },
+  "candidateSafety": {
+    "exit": 0,
+    "pass": 5,
+    "fail": 0
+  },
+  "changedLint": {
+    "exit": 0,
+    "warnings": 0,
+    "errors": 0,
+    "files": 6
+  },
+  "sourceSyntax": {
+    "exit": 0,
+    "diagnostics": 0,
+    "semanticTypes": false
+  },
+  "architecture": {
+    "exit": 0,
+    "baseline": 0,
+    "new": 0
+  },
+  "whitespace": {
+    "exit": 0
+  },
+  "publicApiShapeInitial": {
+    "nodeExit": 1,
+    "cause": "comparison helper inference normalization mismatch; no source error",
+    "shellReadCommandExit": 0,
+    "raw": "public-api-shape-initial.json"
+  },
+  "publicApiShapeCorrected": {
+    "exit": 0,
+    "owners": 5,
+    "semanticTypes": false
+  },
+  "apiHelperLint": {
+    "exit": 0
+  },
+  "sourceSemanticsChangedAfterChecks": false,
+  "evidencePackagingInitial": {
+    "exit": 1,
+    "stdoutAndStderr": "Finished in 22ms on 1 files using 4 threads.\nFound 0 warnings and 0 errors.\nFinished in 23ms on 1 file with 94 rules using 4 threads.\nTraceback (most recent call last):\n  File \"<stdin>\", line 15, in <module>\nAttributeError: 'dict' object has no attribute 'startswith'\n",
+    "cause": "Evidence writer treated reviews.files as keyed dictionary rather than list of path records; original eligibility scan recursively read records and was unaffected",
+    "action": "Correct bounded selection writer to inspect record.path; no source/global record change or environment bypass"
+  },
+  "evidencePackagingCorrected": {
+    "exit": 0,
+    "inventoryCount": 16,
+    "rpcReviewEntries": 0
+  }
+}

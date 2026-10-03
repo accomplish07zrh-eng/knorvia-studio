@@ -1,0 +1,122 @@
+{
+  "scope": "bridge-v2",
+  "baseline": "ee44306130f36450d3450618badcd21d05f115b6",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [
+    {
+      "code": 9010,
+      "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+    }
+  ],
+  "publicTypeQualifications": [
+    {
+      "name": "McpToolOutputJsonSchema",
+      "raw": "JsonSchema with original TS9010 and omitted declaration import",
+      "qualified": "JsonSchema unchanged",
+      "basis": "Keep frozen declared JsonSchema public type; annotate source export explicitly to avoid isolated inference diagnostic. Exact original schema initializer topology retained. Public-shapes supplies original type owner, raw import omission remains qualified, no semantic/project closure claim."
+    }
+  ],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/contract.md",
+      "bytes": 11632,
+      "lines": 27,
+      "sha256": "3e3c37de42323e8a37ebc782e8269d0e9b0521833d12940566038a0711f0bf29",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-api.d.ts",
+      "bytes": 782,
+      "lines": 12,
+      "sha256": "6f539228a54cf6bc8a78973caf60333ec18037fa105724e52f31ca4d6b8b7290",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+      "bytes": 21001,
+      "lines": 540,
+      "sha256": "cb9d79e2d1062c16bc303610d35de3bf729b9a925f64f1518b07e1f3bcc8018e",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/dependency-api.d.ts",
+      "bytes": 3221,
+      "lines": 57,
+      "sha256": "7dcd97b039905dd875a611052ea7922147a51dac88a2a321c2051bf19de64a7b",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/imports.json",
+      "bytes": 1488,
+      "lines": 48,
+      "sha256": "b9110768e0f6ee0ba194a39ee32b926baa71f55880e59dff1af1634a34f223c2",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/output-data.json",
+      "bytes": 6524,
+      "lines": 388,
+      "sha256": "1e33587d2ead379bd44507b3e5de3bc38fafedb36b1c57ed7524e4fbd4ab55a1",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-data.json",
+      "bytes": 1562,
+      "lines": 19,
+      "sha256": "81b9f1d1cd936ab1e9f05e36fd407d704fab7c60e37ce162fc82f3aa15eed09c",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-mcp-owner-review-20261003/bridge-shared-title-finding.md",
+      "bytes": 1753,
+      "lines": 7,
+      "sha256": "d5f8248b29d976d36455565be0a0dc26426f92ddcc4508085e0d8d13524097ec",
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "index.ts.txt",
+      "target": "apps/cli/packages/core/src/mcp/index.ts",
+      "bytes": 10766,
+      "lines": 271,
+      "sha256": "20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967",
+      "scratch": "/tmp/knorvia-mcp-owners-20261003/bridge-v2/index.ts",
+      "frozenMode": "0o444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 28860,
+      "lines": 552,
+      "sha256": "5830eb271316d54eee8ce4fe8f0de11d57b609512c7e5361f2a358d37ab7413f",
+      "scratch": "/tmp/knorvia-mcp-owners-20261003/bridge-v2/author-record.json",
+      "frozenMode": "0o444",
+      "exact": true
+    }
+  ],
+  "outsideBoundaries": {
+    "checked": 622,
+    "unchanged": 622,
+    "failures": []
+  },
+  "passed": true,
+  "qualification": "Compare frozen qualified export/reexport surfaces and original source import identities, isolated declarations only; original raw diagnostics/opaque ports preserved, no semantic/project typechecking/standalone declaration closure. Explicit original numeric expressions/schema public type qualifications retained. Full whole archives before body review; author self-report/instruction-only shared executor, source-exposed curator/historical broader exposure/repaired scratch breach, no OS access audit/novelty/rights assertion. Ordinary checks deferred."
+}

@@ -1,0 +1,10 @@
+[96mpackages/services/src/feedback/feedbackLogArchive.ts[0m:[93m24[0m:[93m22[0m - [91merror[0m[90m TS2339: [0mProperty 'destroy' does not exist on type 'ReadableStream'.
+
+[7m24[0m     zip.outputStream.destroy();
+[7m  [0m [91m                     ~~~~~~~[0m
+[96mpackages/services/src/runtime-tools/appCaCert.ts[0m:[93m4[0m:[93m19[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'node-forge'. '/workspace/scratch/b3909646a66c/knorvia-direct/node_modules/node-forge/lib/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/node-forge` if it exists or add a new declaration (.d.ts) file containing `declare module 'node-forge';`
+
+[7m4[0m import forge from "node-forge";
+[7m [0m [91m                  ~~~~~~~~~~~~[0m
+

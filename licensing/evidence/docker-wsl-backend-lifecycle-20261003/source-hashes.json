@@ -1,0 +1,45 @@
+{
+  "baselineCommit": "b088fe3883d162e61700a769faec4a624242678c",
+  "files": [
+    {
+      "path": "packages/server/src/remote/docker-backend.ts",
+      "baselineSha256": "ae89a839fdd112b368982d32e033889aa2dfda9b703d57322b00b65f898598c0",
+      "baselineBlob": "2f2ff62f7bee9a8485ca024a31482d7164827cf0",
+      "authorOutputSha256": "9c00a7f9165bf63d2aaeac793e593850b6e4c49737d4290bbc778c125195abcd",
+      "candidateSha256": "86a425f3f644d58b82e010b9f75101f7fc923982ad668bb88f03d21ba0c8b73c"
+    },
+    {
+      "path": "packages/server/src/remote/wsl-backend.ts",
+      "baselineSha256": "6f5aedcb668810c88a5af24bd5392c9cc64db754ab6d1b903d4ee335287bde5d",
+      "baselineBlob": "3ac6d2313ce9097161a436861f2b2f97a0479f27",
+      "authorOutputSha256": "0fd31335cfeda7c6194258d93cd6438b1c31db94b4a0ad74683fae55bf7c2e1c",
+      "candidateSha256": "cd9b36191c7b3895a952242ce0cb8958293a63c79bcaee18aba40e35f001360e"
+    },
+    {
+      "path": "packages/server/src/remote/wslProxy.ts",
+      "baselineSha256": "bf82443e1870da626d6c8530b801faa4a877778708b2921c52d8ff3edf412a52",
+      "baselineBlob": "daa02a3921c1af52bbf32488cb2425993446b7d0",
+      "authorOutputSha256": "855aa974288c5eda20087e5738360bff09b5311781b61b89056caf2d78a8388e",
+      "candidateSha256": "b68d3e73777995da4396fef5ab3944bcf486e164ff9bab7659517e9eada4adaf"
+    }
+  ],
+  "integrationParentCommit": "720496479ae4d61de67104f0cfe1a68e81aba6b5",
+  "observerEditsAfterAuthoring": "Repository formatting only; private path/async boundaries and NUL literal normalization corrected by fresh author.",
+  "freshAuthor": {
+    "task": "/root/docker_wsl_backend_author",
+    "forkTurns": "none",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authorReadPacketSha256": "e90fbbbbceb702ce13d1f3718e1611994f7a5772fd187aa7ce45b975e5d69fdd",
+    "rootGuidanceSha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    "architectureGuidanceSha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+    "finalPacketSha256": "d22dec1fc27b1880ca43eb215f847b24fd46d8928d368377a6de20cc2a90f97c",
+    "boundary": "Declared exclusions; attempted /workspace/AGENTS.md absent, correct project root supplied. Shared filesystem not OS-enforced."
+  },
+  "retainedDeclarations": {
+    "path": "packages/server/src/remote/backend.ts",
+    "baselineSha256": "64fc593f0b977c4788bf5c68ed9439c8b7e94768c33827621b280bdccdca4779",
+    "candidateSha256": "64fc593f0b977c4788bf5c68ed9439c8b7e94768c33827621b280bdccdca4779",
+    "unchanged": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/config-syntax.cjs"
+  ],
+  "stdout": "apps/cli/packages/adapters/src/config/config-factory.ts: scoped syntax/transpile pass, no semantic dependency typecheck\napps/cli/packages/adapters/src/config/config-merger.ts: scoped syntax/transpile pass, no semantic dependency typecheck\napps/cli/packages/adapters/src/config/file-config.adapter.ts: scoped syntax/transpile pass, no semantic dependency typecheck\napps/cli/packages/adapters/src/config/project-config.adapter.ts: scoped syntax/transpile pass, no semantic dependency typecheck\n",
+  "stderr": "",
+  "exitCode": 0
+}

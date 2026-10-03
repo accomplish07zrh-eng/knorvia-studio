@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/agent-model-state.ts",
+    "packages/shared/src/model-provider-family.ts",
+    "packages/shared/src/pluginStoreOrdering.ts",
+    "packages/shared/src/remoteAppConfig.ts",
+    "packages/shared/src/plan-identity.ts",
+    "licensing/evidence/shared-settings-family-order-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Finished in 19ms on 6 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-title-author-20261003/api.d.ts",
+      "sha256": "7ebb29b7988e3cff52790e186fecef309fcabe014dfc48749ace68ac6829ceb1"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-title-author-20261003/contract.md",
+      "sha256": "1039b8e7531b4272028787ffb10b674ce8989fb9219aec6a420bbbc75f489e41"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-session-title-author-20261003/receiver-facts.md",
+      "sha256": "2b30351a4be086ad16982eb4637222f19b27f7bceeb24d3286543bd41010fb4e"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-runtime-lifecycle-five-20261003/session-title/session-title.ts",
+      "sha256": "256454d10e898122161f7af641798e1edda19d05765dd4453a2983dda5ce1046"
+    }
+  ],
+  "output_lines": 303,
+  "clarifications": [
+    "Parent authorized receiver-facts.md as the only additional body-free input.",
+    "Parent confirmed raw input passes to generation and fallback objective; normalization is admission-only.",
+    "Parent confirmed errorMessage uses Error.message, otherwise String(error)."
+  ],
+  "validation": "No tests, builds, source comparison, production edits, live ports, settings or external services used."
+}

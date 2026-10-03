@@ -1,0 +1,26 @@
+{
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-title-generation-sidecar-author-20261003/api.d.ts",
+      "sha256": "ca1a7de026f29f5085117dfc41056ad6a7ebf10f98f1e8983d9d636ce1eafe65"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-title-generation-sidecar-author-20261003/contract.md",
+      "sha256": "8615cfe3b3c1b913f410ea4978cab8060cb0e4b1d0527a181e4e80a61a34f98c"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-title-generation-sidecar-author-20261003/receiver-facts.md",
+      "sha256": "2deedd5789e4b99e55525d1bdb497b0b52f0f44c99d6731924400ebeef493011"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-runtime-lifecycle-five-20261003/title-generation-sidecar/title-generation-sidecar.ts",
+      "sha256": "5ae8869c6244ef15334d28f16bc65c9c65a3e9d8b660c4add6368d78fb911e6a",
+      "lines": 255
+    }
+  ],
+  "fixedPromptMatches": true,
+  "bodyFreeMessageClarification": "Curator confirmed role/content message fields, ModelInputMessage and SessionEvent exported by ../deps.js; request fields abortSignal/messages/tools.",
+  "validation": "Static prompt and line-limit check only; no tests or builds run."
+}

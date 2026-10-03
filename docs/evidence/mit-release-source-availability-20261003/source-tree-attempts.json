@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+  "scope": "Pinned source-tree availability only, after exact root LICENSE failures. No absence-of-license inference from failed API reads, no other-release substitution.",
+  "reads": [
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "url": "https://api.github.com/repos/honojs/middleware/git/trees/2c026b9d5bfff006dc9abdc1b33c53856d2d784f?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.570196+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 832,
+      "bytes": 202172,
+      "sha256": "64fb3675a59d764501b8764cb6e8bb1516d2c5cabe395d9cebc46b0a0620b787",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/64fb3675a59d764501b8764cb6e8bb1516d2c5cabe395d9cebc46b0a0620b787.json"
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "url": "https://api.github.com/repos/open-draft/deferred-promise/git/trees/b30f1b683311030e92fcdd08d2bd6574d652b77f?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.570786+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 31,
+      "bytes": 7524,
+      "sha256": "a21972f74736082f776342ceee3da145e897649d4238a82ce633a23d254b8457",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/a21972f74736082f776342ceee3da145e897649d4238a82ce633a23d254b8457.json"
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "url": "https://api.github.com/repos/nteract/ansi-to-react/git/trees/145140971e9d83ccac32265f24b1c55dea437896?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.571168+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 13,
+      "bytes": 3085,
+      "sha256": "574237f69c7e007a55a16b7858b220b438a5ee2598aee6ce96e2882f152e06b7",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/574237f69c7e007a55a16b7858b220b438a5ee2598aee6ce96e2882f152e06b7.json"
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "url": "https://api.github.com/repos/mswjs/is-node-process/git/trees/8a6152c795d8705be97166bd5167e70ac6efc67c?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.571535+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 24,
+      "bytes": 5600,
+      "sha256": "345e92687359c15628d5a74e15f7ac2aa0d6d5fecdb971ff588a141fb9cb971c",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/345e92687359c15628d5a74e15f7ac2aa0d6d5fecdb971ff588a141fb9cb971c.json"
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "url": "https://api.github.com/repos/develar/lazy-val/git/trees/b69ad4119f1b19bdab13c61ee2fcc88d46b89071?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.571862+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 14,
+      "bytes": 3230,
+      "sha256": "6940f5342f761866ee56cb21436dcbb48a617ec9ec596234c36fb3528ac3a654",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/6940f5342f761866ee56cb21436dcbb48a617ec9ec596234c36fb3528ac3a654.json"
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "url": "https://api.github.com/repos/abrkn/semaphore.js/git/trees/88a33875b168cc7b5943d7fe987c36d08321d252?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.572342+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 9,
+      "bytes": 2136,
+      "sha256": "fc0caee23ca60c82f432ae18ff111230e707a42306ae11d9af725a0c3e11ee9b",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/fc0caee23ca60c82f432ae18ff111230e707a42306ae11d9af725a0c3e11ee9b.json"
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "url": "https://api.github.com/repos/open-draft/strict-event-emitter/git/trees/56e004cf2793053ea9ece4330fd52cace96acbff?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.572915+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 31,
+      "bytes": 7603,
+      "sha256": "c1b9459f507ec6aeac020333afb92fef0fc8e29ab6e22a6fb0fdab0cd37c3f39",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/c1b9459f507ec6aeac020333afb92fef0fc8e29ab6e22a6fb0fdab0cd37c3f39.json"
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "url": "https://api.github.com/repos/justjake/node-unsafe-pointer/git/trees/f9771c0c21e863e4938a7aed0af89575f9673152?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.573512+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 25,
+      "bytes": 5960,
+      "sha256": "47b3e65186eecf4623a0662f05f62325a8fba0294dadb748542496e6d131eb2b",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/47b3e65186eecf4623a0662f05f62325a8fba0294dadb748542496e6d131eb2b.json"
+    },
+    {
+      "id": "React Best Practices skill",
+      "url": "https://api.github.com/repos/vercel-labs/agent-skills/git/trees/063bee94c3f4df8453406c830b0a7df0f2860278?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.907619+00:00",
+      "status": 200,
+      "truncated": false,
+      "noticePaths": [],
+      "treeMembers": 481,
+      "bytes": 131839,
+      "sha256": "e2177b3b1fe9f05d499cbab6915bdd93f00fde455faf43a941380ff5e1468e70",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/e2177b3b1fe9f05d499cbab6915bdd93f00fde455faf43a941380ff5e1468e70.json"
+    },
+    {
+      "id": "rust-standard-library@6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "url": "https://api.github.com/repos/rust-lang/rust/git/trees/6a6eaca656978778f7c1c750ee0c3db87f8bffb2?recursive=1",
+      "checkedAtUtc": "2026-10-03T08:59:50.909537+00:00",
+      "status": 422,
+      "error": "HTTP Error 422: Unprocessable Entity",
+      "bytes": 164,
+      "sha256": "9aa3b16b4ac72e8416868eea03fb74481e7c94aed7a4fd383044e5ab58c79d77",
+      "retainedBody": "docs/evidence/mit-release-source-availability-20261003/responses/9aa3b16b4ac72e8416868eea03fb74481e7c94aed7a4fd383044e5ab58c79d77.json"
+    }
+  ]
+}

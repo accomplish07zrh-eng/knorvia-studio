@@ -1,0 +1,26 @@
+{
+  "diagnostics": [
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+      "message": "Property 'createDefaultSubagentPort' does not exist on type 'AgentRuntime'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+      "message": "Argument of type 'this' is not assignable to parameter of type 'AgentRuntimeInternal'.\n  Type 'AgentRuntime' is missing the following properties from type 'AgentRuntimeInternal': setWorkingDirectory, beginActiveTurn, reserveTurnStart, releaseTurnStart, and 96 more."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+      "message": "Property 'initializeMessageHistoryFromContext' does not exist on type 'AgentRuntime'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+      "message": "Property 'startMcpStartup' does not exist on type 'AgentRuntime'."
+    }
+  ],
+  "apiEqual": false,
+  "initialDraftHash": "113830b866f526d93a0faf911fbb1377f98ab398a6cb3b24d87ef5710b7fa6f2"
+}

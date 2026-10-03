@@ -12,10 +12,7 @@ export function emptyTokenUsageInfo(): ReturnType<typeof toTokenUsageInfo> {
     input: 0,
     output: 0,
     reasoning: 0,
-    cache: {
-      read: 0,
-      write: 0,
-    },
+    cache: { read: 0, write: 0 },
   };
 }
 
@@ -31,7 +28,10 @@ export function toTokenUsageInfo(usage?: {
   input: number;
   output: number;
   reasoning: number;
-  cache: { read: number; write: number };
+  cache: {
+    read: number;
+    write: number;
+  };
 } {
   return {
     total: usage?.totalTokens,
@@ -54,34 +54,52 @@ export function toRecordInput(input: unknown): Record<string, unknown> {
 
 export function stringifyToolResultOutput(result: ToolExecutionResult): string {
   if (result.modelContent !== undefined) {
-    return typeof result.modelContent === "string"
-      ? result.modelContent
-      : modelMessageContentToText(result.modelContent);
+    if (typeof result.modelContent === "string") {
+      return result.modelContent;
+    }
+    return modelMessageContentToText(result.modelContent);
   }
-  if (!result.success && result.error?.message) return result.error.message;
-  if (typeof result.output === "string") return result.output;
-  if (result.output === undefined) return "";
+  if (!result.success && result.error?.message) {
+    return result.error.message;
+  }
+  if (typeof result.output === "string") {
+    return result.output;
+  }
+  if (result.output === undefined) {
+    return "";
+  }
   return JSON.stringify(result.output) ?? "";
 }
 
 export function modelContentForToolResult(result: ToolExecutionResult): ModelMessageContent {
-  if (result.modelContent !== undefined) return result.modelContent;
+  if (result.modelContent !== undefined) {
+    return result.modelContent;
+  }
   return stringifyToolResultOutput(result);
 }
 
 export function isErrorForToolResult(result: ToolExecutionResult): boolean {
-  if (!result.success) return true;
-  if (!isRecord(result.output)) return false;
-
-  const explicitIsError = result.output.isError ?? result.output.is_error;
-  if (typeof explicitIsError === "boolean") return explicitIsError;
-
+  if (!result.success) {
+    return true;
+  }
+  if (!isRecord(result.output)) {
+    return false;
+  }
+  const explicitFlag = result.output.isError ?? result.output.is_error;
+  if (typeof explicitFlag === "boolean") {
+    return explicitFlag;
+  }
   if (result.toolName === "Bash" && typeof result.output.interrupted === "boolean") {
-    if (isBashOutputProviderError(result.output)) return true;
+    if (isBashOutputProviderError(result.output)) {
+      return true;
+    }
     return result.output.interrupted;
   }
-
   return false;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 export function stringifyForEstimation(value: unknown): string {
@@ -93,13 +111,12 @@ export function stringifyForEstimation(value: unknown): string {
   }
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-export function parseMcpToolName(
-  name: string,
-): { serverName: string; toolName: string } | undefined {
+export function parseMcpToolName(name: string):
+  | {
+      serverName: string;
+      toolName: string;
+    }
+  | undefined {
   if (!name.startsWith("mcp__")) {
     return undefined;
   }
@@ -107,10 +124,7 @@ export function parseMcpToolName(
   if (!serverName || toolParts.length === 0) {
     return undefined;
   }
-  return {
-    serverName,
-    toolName: toolParts.join("__"),
-  };
+  return { serverName, toolName: toolParts.join("__") };
 }
 
 export function findParallelGroupIndex(schedule: ToolSchedule, toolCallId: ToolCallId): number {

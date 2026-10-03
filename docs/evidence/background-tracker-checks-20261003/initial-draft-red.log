@@ -1,0 +1,305 @@
+(node:238270) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "mode": "initial-draft",
+  "observations": [
+    {
+      "name": "no-snapshot waiter native admission",
+      "order": [
+        "tick1",
+        "tick2",
+        "tick3",
+        "tick4",
+        "wait",
+        "tick5",
+        "track.complete",
+        "tick6"
+      ]
+    },
+    {
+      "name": "payload error remains before event native boundary",
+      "order": [
+        "payload.read",
+        "tick1",
+        "track.reject",
+        "tick2",
+        "tick3",
+        "tick4",
+        "tick5",
+        "tick6"
+      ],
+      "events": 0
+    },
+    {
+      "name": "existing supersession admission has no new tool-name gate",
+      "notifications": 1,
+      "claimed": true
+    },
+    {
+      "name": "event/text/origin have separate output read phases",
+      "eventDescriptions": [
+        "Owned launch label",
+        "Owned result label"
+      ],
+      "originTitle": "Owned result label",
+      "textUsesResultLabel": true,
+      "eventKeys": [
+        "id",
+        "sessionId",
+        "turnId",
+        "type",
+        "timestamp",
+        "traceId",
+        "sequenceNumber",
+        "payload"
+      ],
+      "payloadKeys": [
+        "taskId",
+        "toolCallId",
+        "toolName",
+        "taskKind",
+        "childSessionId",
+        "cancellable",
+        "command",
+        "description",
+        "status",
+        "pid",
+        "startedAt",
+        "completedAt",
+        "outputPath",
+        "stderrPersistedOutputPath",
+        "stdoutPersistedOutputPath",
+        "outputBytes",
+        "outputTruncated",
+        "outputTail",
+        "stderrBytes",
+        "stderrTail",
+        "stdoutBytes",
+        "stdoutTail",
+        "terminalId"
+      ],
+      "explicitUndefined": true
+    }
+  ]
+}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    {
+      name: 'no-snapshot waiter native admission',
+      order: [
+        'tick1',
+        'tick2',
+        'tick3',
++       'tick4',
+        'wait',
++       'tick5',
+-       'tick4',
+        'track.complete',
+-       'tick5',
+        'tick6'
+      ]
+    },
+    {
+      events: 0,
+...
+        'payload.read',
++       'tick1',
+        'track.reject',
+-       'tick1',
+        'tick2',
+        'tick3',
+        'tick4',
+        'tick5',
+        'tick6'
+...
+      name: 'existing supersession admission has no new tool-name gate',
++     notifications: 1
+-     notifications: 0
+    },
+    {
+      eventDescriptions: [
+        'Owned launch label',
++       'Owned result label'
+-       'Owned launch label'
+      ],
+      eventKeys: [
+        'id',
+        'sessionId',
+        'turnId',
+...
+      name: 'event/text/origin have separate output read phases',
++     originTitle: 'Owned result label',
+-     originTitle: 'owned-task',
+      payloadKeys: [
+        'taskId',
+        'toolCallId',
+        'toolName',
+        'taskKind',
+
+    at file:///workspace/knorvia-studio/apps/cli/packages/core/test/background-tracker-correction-proof-20261003.mjs:71:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      name: 'no-snapshot waiter native admission',
+      order: [
+        'tick1',
+        'tick2',
+        'tick3',
+        'tick4',
+        'wait',
+        'tick5',
+        'track.complete',
+        'tick6'
+      ]
+    },
+    {
+      name: 'payload error remains before event native boundary',
+      order: [
+        'payload.read',
+        'tick1',
+        'track.reject',
+        'tick2',
+        'tick3',
+        'tick4',
+        'tick5',
+        'tick6'
+      ],
+      events: 0
+    },
+    {
+      name: 'existing supersession admission has no new tool-name gate',
+      notifications: 1,
+      claimed: true
+    },
+    {
+      name: 'event/text/origin have separate output read phases',
+      eventDescriptions: [ 'Owned launch label', 'Owned result label' ],
+      originTitle: 'Owned result label',
+      textUsesResultLabel: true,
+      eventKeys: [
+        'id',
+        'sessionId',
+        'turnId',
+        'type',
+        'timestamp',
+        'traceId',
+        'sequenceNumber',
+        'payload'
+      ],
+      payloadKeys: [
+        'taskId',
+        'toolCallId',
+        'toolName',
+        'taskKind',
+        'childSessionId',
+        'cancellable',
+        'command',
+        'description',
+        'status',
+        'pid',
+        'startedAt',
+        'completedAt',
+        'outputPath',
+        'stderrPersistedOutputPath',
+        'stdoutPersistedOutputPath',
+        'outputBytes',
+        'outputTruncated',
+        'outputTail',
+        'stderrBytes',
+        'stderrTail',
+        'stdoutBytes',
+        'stdoutTail',
+        'terminalId'
+      ],
+      explicitUndefined: true
+    }
+  ],
+  expected: [
+    {
+      name: 'no-snapshot waiter native admission',
+      order: [
+        'tick1',
+        'tick2',
+        'tick3',
+        'wait',
+        'tick4',
+        'track.complete',
+        'tick5',
+        'tick6'
+      ]
+    },
+    {
+      name: 'payload error remains before event native boundary',
+      order: [
+        'payload.read',
+        'track.reject',
+        'tick1',
+        'tick2',
+        'tick3',
+        'tick4',
+        'tick5',
+        'tick6'
+      ],
+      events: 0
+    },
+    {
+      name: 'existing supersession admission has no new tool-name gate',
+      notifications: 0,
+      claimed: true
+    },
+    {
+      name: 'event/text/origin have separate output read phases',
+      eventDescriptions: [ 'Owned launch label', 'Owned launch label' ],
+      originTitle: 'owned-task',
+      textUsesResultLabel: true,
+      eventKeys: [
+        'id',
+        'sessionId',
+        'turnId',
+        'type',
+        'timestamp',
+        'traceId',
+        'sequenceNumber',
+        'payload'
+      ],
+      payloadKeys: [
+        'taskId',
+        'toolCallId',
+        'toolName',
+        'taskKind',
+        'childSessionId',
+        'cancellable',
+        'command',
+        'description',
+        'status',
+        'pid',
+        'startedAt',
+        'completedAt',
+        'outputPath',
+        'stderrPersistedOutputPath',
+        'stdoutPersistedOutputPath',
+        'outputBytes',
+        'outputTruncated',
+        'outputTail',
+        'stderrBytes',
+        'stderrTail',
+        'stdoutBytes',
+        'stdoutTail',
+        'terminalId'
+      ],
+      explicitUndefined: true
+    }
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

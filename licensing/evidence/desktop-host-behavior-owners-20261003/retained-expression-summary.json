@@ -1,0 +1,27 @@
+{
+  "recordsForInstalledAndEveryRawDraft": 11,
+  "installed": [
+    {
+      "owner": "browser",
+      "matchingBodyPairs": 2,
+      "uniqueBodyHashes": 2,
+      "identicalExpressionCount": 153,
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "attachments",
+      "matchingBodyPairs": 2,
+      "uniqueBodyHashes": 2,
+      "identicalExpressionCount": 185,
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "collection",
+      "matchingBodyPairs": 0,
+      "uniqueBodyHashes": 0,
+      "identicalExpressionCount": 147,
+      "acceptedCredit": 0
+    }
+  ],
+  "limit": "All arrow/function/method/getter/setter bodies and expressions included; identifiers retained. Normalized matches/static data zero new credit; changed identifiers/control flow are not proof of independence. Pair counts not distinct owners."
+}

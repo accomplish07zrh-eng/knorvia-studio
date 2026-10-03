@@ -1,0 +1,24 @@
+const fs=require('fs'),assert=require('assert/strict'),ts=require(process.cwd()+'/node_modules/typescript');
+const root='/tmp/knorvia-root-ipc-remote-20261003';
+const parse=(name,text)=>ts.createSourceFile(name,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
+const packet=parse('packet.ts',fs.readFileSync(root+'/packet/desktopRemoteSessions-public-api.d.ts','utf8'));
+const types=parse('types.ts',fs.readFileSync('packages/desktop/src/main/desktopRemoteSessions/types.ts','utf8'));
+const main=parse('main.ts',fs.readFileSync('packages/desktop/src/main/desktopRemoteSessions.ts','utf8'));
+const printer=ts.createPrinter({removeComments:true});
+function canonical(node,sf){const text=printer.printNode(ts.EmitHint.Unspecified,node,sf);const scanner=ts.createScanner(ts.ScriptTarget.Latest,true,ts.LanguageVariant.Standard,text);const result=[];while(scanner.scan()!==ts.SyntaxKind.EndOfFileToken){if(scanner.getToken()!==ts.SyntaxKind.CommaToken)result.push(scanner.getTokenText())}return result.join(' ')}
+const original=packet.statements.find(x=>ts.isFunctionDeclaration(x));
+const aliases=new Map(types.statements.filter(ts.isTypeAliasDeclaration).map(x=>[x.name.text,x.type]));
+assert.equal(canonical(original.parameters[0].type,packet),canonical(aliases.get('ManagerOptions'),types));
+const expected=original.type.members,actual=aliases.get('ManagerResult').members;
+assert.equal(expected.length,11);assert.deepEqual(actual.map(x=>x.name.text),expected.map(x=>x.name.text));
+for(let i=0;i<expected.length;i++){
+ let before=canonical(expected[i],packet),after=canonical(actual[i],types);
+ if(expected[i].name.text==='disposeAllAndWaitForAppShutdown')before=before.replace('=> any','=> Promise < void >');
+ assert.equal(after,before,expected[i].name.text);
+}
+const beforeContext=packet.statements.find(x=>ts.isInterfaceDeclaration(x)&&x.name.text==='RemoteWorkspaceSessionContext');
+const afterContext=types.statements.find(x=>ts.isInterfaceDeclaration(x)&&x.name.text==='RemoteWorkspaceSessionContext');
+assert.deepEqual(beforeContext.members.map(x=>canonical(x,packet)),afterContext.members.map(x=>canonical(x,types)));
+const exported= main.statements.filter(x=>x.modifiers?.some(m=>m.kind===ts.SyntaxKind.ExportKeyword));
+assert.equal(exported.length,1);assert.equal(exported[0].name.text,original.name.text);
+console.log('AST structural API: sole factory export, options, context and all 11 method contracts match; disposeAll raw any qualified to actual async Promise<void>. This is not dependency semantic type acceptance.');

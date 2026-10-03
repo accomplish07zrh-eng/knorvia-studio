@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-02T19:59:08.562022+00:00",
+  "sources": {
+    "packages/desktop/src/main/releaseUpdateCheck.ts": {
+      "sha256": "5e5b9683c4a85a050d535f4d6dac6cfb0cadd3d1fe98ba7ede911adab9c82b7d",
+      "bytes": 4832
+    },
+    "packages/desktop/src/main/desktopNotifications.ts": {
+      "sha256": "1f412b21506ec84bda14bd4bb6f00147f26fd62681f2ae1288f7a023aab89781",
+      "bytes": 3047
+    },
+    "packages/desktop/src/main/desktopCronScheduler.ts": {
+      "sha256": "c5ed9a86659f69d1a1e480792f9810a84f23e47c0e332603647c9beea5007bd2",
+      "bytes": 5192
+    }
+  },
+  "review": "Same-root post-freeze source comparison. Complete release/notification/cron lifecycles preserve bounded read, timer ownership, notification admission/click routing and child dispatch/disposal. Required public types, schemas, constants, log/error text and conventional control-flow remain substantial. Not isolated authorship or legal clearance.",
+  "corrections": "Postfreeze release stable-current prerelease lookup restored behind preview shortcircuit; frozen extra observation reproduced. Cron transient result keyorder restored failureKind beforeerror and intentional no-op arity retained. Notification parse-data title/body captured before trim, matching source observation stage. Originaldrafts preserved.",
+  "checks": "Declaration-signature extraction matchespacket3targets; scopedlint3files94ruleszeroerrors/warnings; architecture0violations; whitespaceclean. 3 minimal paired fake-port groups: release bounds/privacy + previewguard observation; notification focused/dedupe/requestid/click; cron no-dispatch-after-dispose/cachedpromise/exitsettlement. Transpiled owners with explicit public mocks, not native or emittedconsumeracceptance.",
+  "unrun": "Semanticbody/projecttypes, fullsuites/builds and nativeElectron/runtimeacceptance unrun. No actual notifications/processes/network/userdata/settings/schedules operated.",
+  "qualification": "Separate reviewer unavailable nativeagentthreadlimit. Root broadercontext/priorgenerictoolingexposure remains. No globallicence/inventorychange or crosslaneintegration."
+}

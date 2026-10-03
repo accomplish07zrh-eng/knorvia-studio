@@ -1,25 +1,13 @@
-// ============================================================
-// Grep Tool Handler
-// ============================================================
-
-import { isAbsolute, relative, sep } from "node:path";
+// Public declaration and model wording mechanically retained, not independently rewritten.
+import type { ToolEntry } from "../types.js";
 import {
-  CoreErrorType,
   GrepInputJsonSchema,
   GrepInputSchema,
   GrepOutputJsonSchema,
   GrepOutputSchema,
-  createCoreError,
-  isFileSystemPortError,
-  type FileSystemSearchTextEntry,
-  type FileSystemSearchTextResult,
-  type GrepInput,
   type GrepOutput,
-  type TraceContext,
 } from "@knorvia/contracts";
-import { resolveToolWorkingDirectory, resolveWorkspacePath } from "../path-policy.js";
-import type { ToolEntry, ToolHandler } from "../types.js";
-
+import { executeGrep } from "./file-search-runtime.js";
 const MAX_GREP_MODEL_BYTES = 20_000;
 const DEFAULT_GREP_TIMEOUT_MS = 30_000;
 const GREP_TOOL_DESCRIPTION = `Content search built on ripgrep. Prefer this over \`grep\`/\`rg\` via Bash — results integrate with the permission UI and file links.
@@ -28,114 +16,6 @@ const GREP_TOOL_DESCRIPTION = `Content search built on ripgrep. Prefer this over
 - Filter with \`glob\` (e.g. "**/*.tsx") or \`type\` (e.g. "js", "py", "rust").
 - \`output_mode\`: "content" (matching lines), "files_with_matches" (paths only, default), or "count".
 - \`multiline: true\` for patterns that span lines.`;
-
-const grepHandler: ToolHandler = async (input, context) => {
-  const parsed = GrepInputSchema.parse(input) as GrepInput;
-  const fileSystemPort = context.fileSystemPort;
-
-  if (!fileSystemPort) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "FileSystemPort is not configured for Grep tool",
-      {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: "Grep",
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  const searchPath = parsed.path
-    ? resolveWorkspacePath({
-        inputPath: parsed.path,
-        operation: "read",
-        workingDirectory: context.workingDirectory,
-        workspaceRoot: context.workspaceRoot,
-      })
-    : resolveToolWorkingDirectory(undefined, {
-        operation: "read",
-        workingDirectory: context.workingDirectory,
-        workspaceRoot: context.workspaceRoot,
-      });
-
-  const contextLines = parsed.context ?? parsed["-C"];
-  let result: FileSystemSearchTextResult;
-  try {
-    result = await fileSystemPort.searchText(
-      {
-        path: searchPath,
-        pattern: parsed.pattern,
-        glob: parsed.glob,
-        outputMode: parsed.output_mode,
-        beforeContext: parsed["-B"] ?? contextLines,
-        afterContext: parsed["-A"] ?? contextLines,
-        context: contextLines,
-        showLineNumbers: parsed["-n"],
-        onlyMatching: parsed["-o"],
-        ignoreCase: parsed["-i"],
-        type: parsed.type,
-        headLimit: parsed.head_limit,
-        offset: parsed.offset,
-        multiline: parsed.multiline,
-        trace: {
-          traceId: context.traceId,
-          spanId: context.spanId,
-          parentSpanId: context.parentSpanId,
-          sessionId: context.sessionId,
-          turnId: context.turnId,
-        } as unknown as TraceContext,
-      },
-      { signal: context.abortSignal },
-    );
-  } catch (error) {
-    if (isFileSystemPortError(error) && error.code === "cancelled") {
-      throw createCoreError(CoreErrorType.ToolCancelled, "Grep was cancelled", {
-        cause: error,
-        context: {
-          path: searchPath,
-          toolCallId: context.toolCallId,
-          toolName: "Grep",
-        },
-        recoverable: true,
-      });
-    }
-    throw error;
-  }
-
-  const filenames = result.files.map((filePath) =>
-    toDisplayPath(filePath, context.workingDirectory),
-  );
-  const showLineNumbers = parsed["-n"] ?? true;
-
-  const output: GrepOutput = {
-    mode: result.mode,
-    durationMs: result.durationMs,
-    numFiles: filenames.length,
-    filenames: result.mode === "files_with_matches" ? filenames : [],
-    truncated: result.truncated,
-    appliedLimit: result.appliedLimit,
-    appliedOffset: result.appliedOffset,
-  };
-
-  if (result.mode === "content") {
-    output.content = result.entries
-      .map((entry) => formatContentEntry(entry, context.workingDirectory, showLineNumbers))
-      .join("\n");
-    output.numLines = result.entries.length;
-    output.numMatches = result.numMatches;
-  } else if (result.mode === "count") {
-    output.content = result.entries
-      .map((entry) => `${toDisplayPath(entry.path, context.workingDirectory)}:${entry.count ?? 0}`)
-      .join("\n");
-    output.numMatches = result.numMatches;
-  } else {
-    output.numMatches = result.numMatches;
-  }
-
-  return output;
-};
 
 export const grepToolEntry: ToolEntry = {
   capability: "Search file contents with ripgrep-compatible regular expressions",
@@ -151,7 +31,7 @@ export const grepToolEntry: ToolEntry = {
     riskLevel: "low",
     needsApproval: false,
   },
-  handler: grepHandler,
+  handler: executeGrep,
   inputSchema: GrepInputJsonSchema,
   outputSchema: GrepOutputJsonSchema,
   runtimeInputSchema: GrepInputSchema,
@@ -232,24 +112,4 @@ function formatLimitInfo(appliedLimit?: number, appliedOffset?: number): string 
 
 function plural(count: number, noun: string): string {
   return count === 1 ? noun : `${noun}s`;
-}
-
-function formatContentEntry(
-  entry: FileSystemSearchTextEntry,
-  workingDirectory: string,
-  showLineNumbers: boolean,
-): string {
-  const path = toDisplayPath(entry.path, workingDirectory);
-  if (showLineNumbers && entry.lineNumber !== undefined) {
-    return `${path}:${entry.lineNumber}:${entry.text ?? ""}`;
-  }
-  return `${path}:${entry.text ?? ""}`;
-}
-
-function toDisplayPath(filePath: string, workingDirectory: string): string {
-  const relativePath = relative(workingDirectory, filePath);
-  if (relativePath && !relativePath.startsWith("..") && !isAbsolute(relativePath)) {
-    return relativePath.split(sep).join("/");
-  }
-  return filePath;
 }

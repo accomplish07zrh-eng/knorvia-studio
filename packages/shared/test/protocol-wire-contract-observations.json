@@ -1,0 +1,1863 @@
+{
+  "baseline": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "origin": "Frozen exact old source before implementation; also verified against old emitted dist.",
+  "observations": {
+    "binary/length-0": {
+      "crc": "00000000",
+      "encodedLength": 0,
+      "encodedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decodedSha256": null
+    },
+    "binary/length-1": {
+      "crc": "f86dc419",
+      "encodedLength": 4,
+      "encodedSha256": "a71f16dae6b57569ff3ef245d7b3185a8d930151bb111ee84b9d3eac1a0ce472",
+      "decodedSha256": "04b8d34e20e604cadb04b9db8f6778c35f45a2d2a3335ea517dafe8c9cd9b06e"
+    },
+    "binary/length-2": {
+      "crc": "8dff0a41",
+      "encodedLength": 4,
+      "encodedSha256": "cb0fc2d332814238e388282807c995100d3d57f9d281510db32275af34bc9710",
+      "decodedSha256": "1d8cb684779840b48c63c9d57ad3cdb26ff7aad280b8b7fb192c316e530ee256"
+    },
+    "binary/length-3": {
+      "crc": "d5e2d49e",
+      "encodedLength": 4,
+      "encodedSha256": "dc01f1096a276139cf479c8871a29d7f50d31814d5975c3d5b33c66775f66f13",
+      "decodedSha256": "41e83dc5f8c11d8991dac4db093ba57985bf296c6d2ff407d0a8c35562bfcd08"
+    },
+    "binary/length-4": {
+      "crc": "68073b5c",
+      "encodedLength": 8,
+      "encodedSha256": "ea5ca59e4d60d1619cdfe0a903fe4d46e522d05da6523d58a86f25b85bf1df67",
+      "decodedSha256": "bc5de94886711da84b22025d28aef9fdf76531154b69b976fba402c116925e0a"
+    },
+    "binary/length-5": {
+      "crc": "cdb06bd8",
+      "encodedLength": 8,
+      "encodedSha256": "967d7b2f67a36b9facf24976b60776c3673df849d7d3676c56a9f3a77ff0a094",
+      "decodedSha256": "f8391cf5331dc24240e9df6c1426855ddc6b9dbd0c1949321a677b45732738c6"
+    },
+    "binary/length-127": {
+      "crc": "fd5d6d0f",
+      "encodedLength": 172,
+      "encodedSha256": "ed3818a8b8e62ca3945fff59c2e26e365c3e819b2bc2fe5d5e2ea318a0822199",
+      "decodedSha256": "778a77ef56cfa9ad39214559b1efc03c9f7e1758dad94af70c8a204004e03202"
+    },
+    "binary/length-128": {
+      "crc": "c0485bb0",
+      "encodedLength": 172,
+      "encodedSha256": "acc657d6ebb6ed5f0cde86112750380ed69b0521f72d973a65d88bac33430e70",
+      "decodedSha256": "64a817903375c75e1cd80252425ca767d36436dc8fb6be4a9e31f279e22bd377"
+    },
+    "binary/length-255": {
+      "crc": "a75a0863",
+      "encodedLength": 340,
+      "encodedSha256": "5a7b6fad439223bd40b86987ea16bc360c94dfe962d02514118a5491edb91e14",
+      "decodedSha256": "7820dbcfe5b356d42ba3fda1d8a769223a4648975ca8fd87485390ee72cc66f3"
+    },
+    "binary/length-256": {
+      "crc": "69aef286",
+      "encodedLength": 344,
+      "encodedSha256": "61b50427447c39c4c24c85d605c6c1b149dd21ebc5d2c48e62237960751b49a9",
+      "decodedSha256": "4471180fec10bb65ded8d8e7442cfa7477d623aff59fb9ac940c3c6018b80b98"
+    },
+    "binary/length-12287": {
+      "crc": "9cc61889",
+      "encodedLength": 16384,
+      "encodedSha256": "55d2d1b9e8764ef2cf65ac4b591202e0268ebf1060778b2bf0871ef94308d236",
+      "decodedSha256": "989b73186f47b803633d153b6165310a6fdcaa6e031248099d3b9cfaf9779f0d"
+    },
+    "binary/length-12288": {
+      "crc": "294a65f0",
+      "encodedLength": 16384,
+      "encodedSha256": "90a1f56a2b306d0c3596292dc1aec9f8ec18d40ae8d31d2e471d861420581075",
+      "decodedSha256": "02dacc925debe85b4b64e7072f633ea93347a996175b916545d77e6936fa0dd4"
+    },
+    "binary/length-12289": {
+      "crc": "45f97c60",
+      "encodedLength": 16388,
+      "encodedSha256": "e7c769537a3bb7e0959e84cddb19313057fa07fb7f42a4463717d28c01e1ad99",
+      "decodedSha256": "36a2a66e12f2719bdfa36aeaf1b77618854addc8be76e298ac2a2076c610027d"
+    },
+    "binary/length-16384": {
+      "crc": "429309ac",
+      "encodedLength": 21848,
+      "encodedSha256": "fc0bf40ab3ef3526f81503a41a0d2a4c45c961073f7c4b2a1dec8b04d204abc1",
+      "decodedSha256": "19e6d2fb05f4123aedef1042e38161f84ac5cce9e40c28a3d251dcaf9ff2cc24"
+    },
+    "binary/length-32769": {
+      "crc": "5075f1e7",
+      "encodedLength": 43692,
+      "encodedSha256": "c90a2fb516a76ee88181c1df5547cd2daf3f43d63f1068ebb07c6fd887bac734",
+      "decodedSha256": "a51fa3c92b60c1f6675712b04af9d27dcc772a605a6220577f8332bc3c91394a"
+    },
+    "binary/length-65537": {
+      "crc": "25d09faa",
+      "encodedLength": 87384,
+      "encodedSha256": "50b1c00129e1402eda6d6f60714f0daf0a954d82a40c925beec9ab4764bf2ad2",
+      "decodedSha256": "e4dca355d0a7298d58f59572969e2adba3b985d5d598596c56eb8265d11acf26"
+    },
+    "base64/\"\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"Zg==\"": {
+      "valid": true,
+      "decoded": [102]
+    },
+    "base64/\"Zm8=\"": {
+      "valid": true,
+      "decoded": [102, 111]
+    },
+    "base64/\"Zm9v\"": {
+      "valid": true,
+      "decoded": [102, 111, 111]
+    },
+    "base64/\"Zh==\"": {
+      "valid": true,
+      "decoded": [102]
+    },
+    "base64/\"Zm9=\"": {
+      "valid": true,
+      "decoded": [102, 111]
+    },
+    "base64/\"AA==\"": {
+      "valid": true,
+      "decoded": [0]
+    },
+    "base64/\"/w==\"": {
+      "valid": true,
+      "decoded": [255]
+    },
+    "base64/\"____\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"Zg\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"Zg=\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"=Zg=\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"Zg===\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"Zg==\\n\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\" Zg==\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"A===\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"AAAA====\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "base64/\"AAAAAA==\"": {
+      "valid": true,
+      "decoded": [0, 0, 0, 0]
+    },
+    "base64/\"éééé\"": {
+      "valid": false,
+      "decoded": null
+    },
+    "json/unicode": 92,
+    "json/loneSurrogate": 8,
+    "json/undef": 0,
+    "json/nan": 4,
+    "json/infinity": 4,
+    "json/omitted": 7,
+    "json/toJSON": 8,
+    "json/bigint": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Do not know how to serialize a BigInt"
+      }
+    },
+    "json/cyclic": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Converting circular structure to JSON\n    --> starting at object with constructor 'Object'\n    --- property 'self' closes the circle"
+      }
+    },
+    "envelope/size-0": {
+      "cliNdjsonBytes": 325,
+      "channelSocketBytes": 319,
+      "mobileRelayBytes": 1144,
+      "maxBytes": 1144
+    },
+    "envelope/size-1": {
+      "cliNdjsonBytes": 326,
+      "channelSocketBytes": 320,
+      "mobileRelayBytes": 1148,
+      "maxBytes": 1148
+    },
+    "envelope/size-20": {
+      "cliNdjsonBytes": 345,
+      "channelSocketBytes": 339,
+      "mobileRelayBytes": 1172,
+      "maxBytes": 1172
+    },
+    "envelope/size-127": {
+      "cliNdjsonBytes": 452,
+      "channelSocketBytes": 446,
+      "mobileRelayBytes": 1316,
+      "maxBytes": 1316
+    },
+    "envelope/size-128": {
+      "cliNdjsonBytes": 453,
+      "channelSocketBytes": 447,
+      "mobileRelayBytes": 1316,
+      "maxBytes": 1316
+    },
+    "envelope/size-16370": {
+      "cliNdjsonBytes": 16695,
+      "channelSocketBytes": 16690,
+      "mobileRelayBytes": 22972,
+      "maxBytes": 22972
+    },
+    "envelope/size-16384": {
+      "cliNdjsonBytes": 16709,
+      "channelSocketBytes": 16704,
+      "mobileRelayBytes": 22992,
+      "maxBytes": 22992
+    },
+    "encode/initial/0.5": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameEnvelopeTooLarge",
+        "reasonCode": "proto.frameEnvelopeTooLarge"
+      }
+    },
+    "encode/initial/1": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameEnvelopeTooLarge",
+        "reasonCode": "proto.frameEnvelopeTooLarge"
+      }
+    },
+    "encode/initial/380": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 0,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "eyJ0b3BpYyI6ImNvbnZlcnNhdGlvbi9maXh0dXJlIiwic3Vic2NyaXB0aW9u"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 1,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "SWQiOiJzdWJzY3JpcHRpb24tZml4dHVyZSIsInRleHQiOiLmlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 2,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+M"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 3,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaW"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 4,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "h/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 5,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3m"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 6,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "lofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofw"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 7,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "n4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 8,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 9,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+M"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 10,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaW"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 11,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "h/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 12,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yNIn0="
+        }
+      ],
+      "calls": [
+        "complete",
+        [571, 572, 256],
+        [571, 572, 128],
+        [571, 572, 64],
+        [571, 572, 32],
+        [571, 572, 48],
+        [571, 572, 56],
+        [571, 572, 60],
+        [571, 572, 60],
+        [571, 572, 64],
+        [0, 13, 60],
+        [1, 13, 60],
+        [2, 13, 60],
+        [3, 13, 60],
+        [4, 13, 60],
+        [5, 13, 60],
+        [6, 13, 60],
+        [7, 13, 60],
+        [8, 13, 60],
+        [9, 13, 60],
+        [10, 13, 60],
+        [11, 13, 60],
+        [12, 13, 44]
+      ]
+    },
+    "encode/initial/500": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 0,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "eyJ0b3BpYyI6ImNvbnZlcnNhdGlvbi9maXh0dXJlIiwic3Vic2NyaXB0aW9uSWQiOiJzdWJzY3JpcHRpb24tZml4dHVyZSIsInRleHQiOiLmlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+M"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 1,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3m"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 2,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "lofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 3,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 4,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yNIn0="
+        }
+      ],
+      "calls": [
+        "complete",
+        [571, 572, 336],
+        [571, 572, 168],
+        [571, 572, 252],
+        [571, 572, 208],
+        [571, 572, 188],
+        [571, 572, 176],
+        [571, 572, 184],
+        [571, 572, 180],
+        [571, 572, 180],
+        [0, 5, 180],
+        [1, 5, 180],
+        [2, 5, 180],
+        [3, 5, 180],
+        [4, 5, 44]
+      ]
+    },
+    "encode/initial/1200": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "frame": {
+            "topic": "conversation/fixture",
+            "subscriptionId": "subscription-fixture",
+            "text": "文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍"
+          }
+        }
+      ],
+      "calls": ["complete"]
+    },
+    "encode/initial/2097152": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "initial",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "frame": {
+            "topic": "conversation/fixture",
+            "subscriptionId": "subscription-fixture",
+            "text": "文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍"
+          }
+        }
+      ],
+      "calls": ["complete"]
+    },
+    "encode/online/0.5": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameEnvelopeTooLarge",
+        "reasonCode": "proto.frameEnvelopeTooLarge"
+      }
+    },
+    "encode/online/1": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameEnvelopeTooLarge",
+        "reasonCode": "proto.frameEnvelopeTooLarge"
+      }
+    },
+    "encode/online/380": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 0,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "eyJ0b3BpYyI6ImNvbnZlcnNhdGlvbi9maXh0dXJlIiwic3Vic2NyaXB0aW9uSWQi"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 1,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "OiJzdWJzY3JpcHRpb24tZml4dHVyZSIsInRleHQiOiLmlofwn4yN5paH8J+MjeaW"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 2,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "h/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3m"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 3,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "lofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 4,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+M"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 5,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 6,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofw"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 7,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "n4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 8,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaW"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 9,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "h/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3m"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 10,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "lofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 11,
+          "fragmentCount": 12,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yNIn0="
+        }
+      ],
+      "calls": [
+        "complete",
+        [571, 572, 256],
+        [571, 572, 128],
+        [571, 572, 64],
+        [571, 572, 96],
+        [571, 572, 80],
+        [571, 572, 72],
+        [571, 572, 68],
+        [571, 572, 64],
+        [571, 572, 68],
+        [0, 12, 64],
+        [1, 12, 64],
+        [2, 12, 64],
+        [3, 12, 64],
+        [4, 12, 64],
+        [5, 12, 64],
+        [6, 12, 64],
+        [7, 12, 64],
+        [8, 12, 64],
+        [9, 12, 64],
+        [10, 12, 64],
+        [11, 12, 60]
+      ]
+    },
+    "encode/online/500": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 0,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "eyJ0b3BpYyI6ImNvbnZlcnNhdGlvbi9maXh0dXJlIiwic3Vic2NyaXB0aW9uSWQiOiJzdWJzY3JpcHRpb24tZml4dHVyZSIsInRleHQiOiLmlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaW"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 1,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "h/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 2,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 3,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 4,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yNIn0="
+        }
+      ],
+      "calls": [
+        "complete",
+        [571, 572, 336],
+        [571, 572, 168],
+        [571, 572, 252],
+        [571, 572, 208],
+        [571, 572, 188],
+        [571, 572, 176],
+        [571, 572, 184],
+        [571, 572, 184],
+        [571, 572, 188],
+        [0, 5, 184],
+        [1, 5, 184],
+        [2, 5, 184],
+        [3, 5, 184],
+        [4, 5, 28]
+      ]
+    },
+    "encode/online/1200": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "frame": {
+            "topic": "conversation/fixture",
+            "subscriptionId": "subscription-fixture",
+            "text": "文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍"
+          }
+        }
+      ],
+      "calls": ["complete"]
+    },
+    "encode/online/2097152": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "online",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "frame": {
+            "topic": "conversation/fixture",
+            "subscriptionId": "subscription-fixture",
+            "text": "文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍"
+          }
+        }
+      ],
+      "calls": ["complete"]
+    },
+    "encode/recovery/0.5": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameEnvelopeTooLarge",
+        "reasonCode": "proto.frameEnvelopeTooLarge"
+      }
+    },
+    "encode/recovery/1": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameEnvelopeTooLarge",
+        "reasonCode": "proto.frameEnvelopeTooLarge"
+      }
+    },
+    "encode/recovery/380": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 0,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "eyJ0b3BpYyI6ImNvbnZlcnNhdGlvbi9maXh0dXJlIiwic3Vic2NyaXB0aW9u"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 1,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "SWQiOiJzdWJzY3JpcHRpb24tZml4dHVyZSIsInRleHQiOiLmlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 2,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+M"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 3,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaW"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 4,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "h/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 5,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3m"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 6,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "lofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofw"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 7,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "n4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 8,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 9,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+M"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 10,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaW"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 11,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "h/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 12,
+          "fragmentCount": 13,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yNIn0="
+        }
+      ],
+      "calls": [
+        "complete",
+        [571, 572, 256],
+        [571, 572, 128],
+        [571, 572, 64],
+        [571, 572, 32],
+        [571, 572, 48],
+        [571, 572, 56],
+        [571, 572, 60],
+        [571, 572, 60],
+        [571, 572, 64],
+        [0, 13, 60],
+        [1, 13, 60],
+        [2, 13, 60],
+        [3, 13, 60],
+        [4, 13, 60],
+        [5, 13, 60],
+        [6, 13, 60],
+        [7, 13, 60],
+        [8, 13, 60],
+        [9, 13, 60],
+        [10, 13, 60],
+        [11, 13, 60],
+        [12, 13, 44]
+      ]
+    },
+    "encode/recovery/500": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 0,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "eyJ0b3BpYyI6ImNvbnZlcnNhdGlvbi9maXh0dXJlIiwic3Vic2NyaXB0aW9uSWQiOiJzdWJzY3JpcHRpb24tZml4dHVyZSIsInRleHQiOiLmlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+M"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 1,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3m"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 2,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "lofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 3,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yN5paH8J+MjeaWh/Cf"
+        },
+        {
+          "wireVersion": 3,
+          "kind": "fragment",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "fragmentIndex": 4,
+          "fragmentCount": 5,
+          "logicalBytes": 572,
+          "checksum": {
+            "algorithm": "crc32",
+            "value": "e0463095"
+          },
+          "dataBase64": "jI3mlofwn4yN5paH8J+MjeaWh/CfjI3mlofwn4yNIn0="
+        }
+      ],
+      "calls": [
+        "complete",
+        [571, 572, 336],
+        [571, 572, 168],
+        [571, 572, 252],
+        [571, 572, 208],
+        [571, 572, 188],
+        [571, 572, 176],
+        [571, 572, 184],
+        [571, 572, 180],
+        [571, 572, 180],
+        [0, 5, 180],
+        [1, 5, 180],
+        [2, 5, 180],
+        [3, 5, 180],
+        [4, 5, 44]
+      ]
+    },
+    "encode/recovery/1200": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "frame": {
+            "topic": "conversation/fixture",
+            "subscriptionId": "subscription-fixture",
+            "text": "文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍"
+          }
+        }
+      ],
+      "calls": ["complete"]
+    },
+    "encode/recovery/2097152": {
+      "frames": [
+        {
+          "wireVersion": 3,
+          "kind": "complete",
+          "deliveryKind": "recovery",
+          "logicalFrameId": "logical-fixture",
+          "logicalFrameOrdinal": 7,
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "frame": {
+            "topic": "conversation/fixture",
+            "subscriptionId": "subscription-fixture",
+            "text": "文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍文🌍"
+          }
+        }
+      ],
+      "calls": ["complete"]
+    },
+    "limit/maxPhysicalFrameBytes/0": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxPhysicalFrameBytes",
+        "reasonCode": "proto.invalidLimit.maxPhysicalFrameBytes"
+      }
+    },
+    "limit/maxPhysicalFrameBytes/-1": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxPhysicalFrameBytes",
+        "reasonCode": "proto.invalidLimit.maxPhysicalFrameBytes"
+      }
+    },
+    "limit/maxPhysicalFrameBytes/NaN": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxPhysicalFrameBytes",
+        "reasonCode": "proto.invalidLimit.maxPhysicalFrameBytes"
+      }
+    },
+    "limit/maxPhysicalFrameBytes/Infinity": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxPhysicalFrameBytes",
+        "reasonCode": "proto.invalidLimit.maxPhysicalFrameBytes"
+      }
+    },
+    "limit/maxPhysicalFrameBytes/-Infinity": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxPhysicalFrameBytes",
+        "reasonCode": "proto.invalidLimit.maxPhysicalFrameBytes"
+      }
+    },
+    "limit/maxPhysicalFrameBytes/0.5": [
+      {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "logical-fixture",
+        "logicalFrameOrdinal": 7,
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "frame": {
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "text": "你好🌍"
+        }
+      }
+    ],
+    "limit/maxPhysicalFrameBytes/1.9": [
+      {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "logical-fixture",
+        "logicalFrameOrdinal": 7,
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "frame": {
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "text": "你好🌍"
+        }
+      }
+    ],
+    "limit/maxPhysicalFrameBytes/null": [
+      {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "logical-fixture",
+        "logicalFrameOrdinal": 7,
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "frame": {
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "text": "你好🌍"
+        }
+      }
+    ],
+    "limit/maxPhysicalFrameBytes/undefined": [
+      {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "logical-fixture",
+        "logicalFrameOrdinal": 7,
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "frame": {
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "text": "你好🌍"
+        }
+      }
+    ],
+    "limit/maxAssemblyBytes/0": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxAssemblyBytes",
+        "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+      }
+    },
+    "limit/maxAssemblyBytes/-1": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxAssemblyBytes",
+        "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+      }
+    },
+    "limit/maxAssemblyBytes/NaN": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxAssemblyBytes",
+        "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+      }
+    },
+    "limit/maxAssemblyBytes/Infinity": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxAssemblyBytes",
+        "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+      }
+    },
+    "limit/maxAssemblyBytes/-Infinity": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.invalidLimit.maxAssemblyBytes",
+        "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+      }
+    },
+    "limit/maxAssemblyBytes/0.5": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameAssemblyTooLarge",
+        "reasonCode": "proto.frameAssemblyTooLarge"
+      }
+    },
+    "limit/maxAssemblyBytes/1.9": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameAssemblyTooLarge",
+        "reasonCode": "proto.frameAssemblyTooLarge"
+      }
+    },
+    "limit/maxAssemblyBytes/null": [
+      {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "logical-fixture",
+        "logicalFrameOrdinal": 7,
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "frame": {
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "text": "你好🌍"
+        }
+      }
+    ],
+    "limit/maxAssemblyBytes/undefined": [
+      {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "logical-fixture",
+        "logicalFrameOrdinal": 7,
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "frame": {
+          "topic": "conversation/fixture",
+          "subscriptionId": "subscription-fixture",
+          "text": "你好🌍"
+        }
+      }
+    ],
+    "encode/assembly-before-measure": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameAssemblyTooLarge",
+        "reasonCode": "proto.frameAssemblyTooLarge"
+      }
+    },
+    "encode/measurement-native-error": {
+      "thrown": {
+        "name": "RangeError",
+        "message": "fixture measure error"
+      }
+    },
+    "encode/fragment-count": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameFragmentCountExceeded",
+        "reasonCode": "proto.frameFragmentCountExceeded"
+      }
+    },
+    "encode/remeasure-overflow": {
+      "thrown": {
+        "name": "TopicWireFrameEncodingError",
+        "message": "proto.frameEnvelopeTooLarge",
+        "reasonCode": "proto.frameEnvelopeTooLarge"
+      }
+    },
+    "encode/undefined-empty": [
+      {
+        "wireVersion": 3,
+        "kind": "complete",
+        "deliveryKind": "online",
+        "logicalFrameId": "logical-fixture",
+        "logicalFrameOrdinal": 7,
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture"
+      }
+    ],
+    "assemble/empty-precedes-limit": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyEmpty"
+    },
+    "assemble/complete": {
+      "kind": "complete",
+      "frame": {
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "text": "你好🌍"
+      },
+      "deliveryKind": "online"
+    },
+    "assemble/complete-duplicate": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/complete-route": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/complete-payload": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyInvalidPayload"
+    },
+    "assemble/complete-length": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyTooLarge"
+    },
+    "assemble/complete-null": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/limit-0": {
+      "kind": "rejected",
+      "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+    },
+    "assemble/limit--1": {
+      "kind": "rejected",
+      "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+    },
+    "assemble/limit-Infinity": {
+      "kind": "rejected",
+      "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+    },
+    "assemble/limit-NaN": {
+      "kind": "rejected",
+      "reasonCode": "proto.invalidLimit.maxAssemblyBytes"
+    },
+    "assemble/limit-0.5": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyTooLarge"
+    },
+    "assemble/limit-null": {
+      "kind": "complete",
+      "frame": {
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "text": "你好🌍"
+      },
+      "deliveryKind": "online"
+    },
+    "assemble/fragments": {
+      "kind": "complete",
+      "frame": {
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "text": "你好🌍"
+      },
+      "deliveryKind": "online"
+    },
+    "assemble/shuffled-duplicates": {
+      "kind": "complete",
+      "frame": {
+        "topic": "conversation/fixture",
+        "subscriptionId": "subscription-fixture",
+        "text": "你好🌍"
+      },
+      "deliveryKind": "online"
+    },
+    "assemble/missing": {
+      "kind": "incomplete",
+      "logicalFrameId": "logical-fixture",
+      "missingIndexes": [1, 2, 4, 5]
+    },
+    "assemble/over-count": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameFragmentCountExceeded"
+    },
+    "assemble/advertised-over-limit": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyTooLarge"
+    },
+    "assemble/metadata-logicalFrameId": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/metadata-logicalFrameOrdinal": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/metadata-deliveryKind": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/metadata-topic": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/metadata-subscriptionId": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/metadata-fragmentCount": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/metadata-logicalBytes": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/metadata-fragmentIndex": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/index-upper": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/count-over-bytes": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/checksum-metadata": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/mixed-kinds": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/invalid-base64": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyInvalidBase64"
+    },
+    "assemble/duplicate-conflict": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyFragmentConflict"
+    },
+    "assemble/cumulative-over-limit": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyTooLarge"
+    },
+    "assemble/cumulative-over-length": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyLengthMismatch"
+    },
+    "assemble/final-length": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyLengthMismatch"
+    },
+    "assemble/checksum": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyChecksumMismatch"
+    },
+    "assemble/utf8": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyInvalidUtf8"
+    },
+    "assemble/json": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyInvalidJson"
+    },
+    "assemble/inner-route": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/inner-null": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyMetadataMismatch"
+    },
+    "assemble/inner-schema": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyInvalidPayload"
+    },
+    "assemble/base64-precedes-later-metadata": {
+      "kind": "rejected",
+      "reasonCode": "proto.frameAssemblyInvalidBase64"
+    },
+    "assemble/missing-precedes-checksum": {
+      "kind": "incomplete",
+      "logicalFrameId": "logical-fixture",
+      "missingIndexes": [1, 2, 3, 4, 5]
+    },
+    "assemble/native-schema-error": {
+      "thrown": {
+        "name": "Error",
+        "message": "fixture schema error"
+      }
+    }
+  }
+}

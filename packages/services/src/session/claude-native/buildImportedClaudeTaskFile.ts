@@ -1,3 +1,5 @@
+// Modified by Knorvia Studio: see packages/services/specs/claude-leaf-contract-fast-2057.md.
+// Prior upstream source exposure; existing Apache-2.0/NOTICE obligations remain.
 import { createHash } from "node:crypto";
 import type { KnorviaTaskMeta } from "@knorvia/shared";
 import { generateTraceId } from "@knorvia/shared";
@@ -11,7 +13,10 @@ import {
 
 export function buildImportedClaudeTaskId(workspacePath: string, sessionId: string): string {
   const digest = createHash("sha256")
-    .update(`claude:${workspacePath}:${sessionId}`)
+    .update("claude:")
+    .update(`${workspacePath}`)
+    .update(":")
+    .update(`${sessionId}`)
     .digest("hex")
     .slice(0, 24);
   return `claude-import-${digest}`;

@@ -1,0 +1,101 @@
+
+  ! eslint(no-unused-vars): Identifier 'Menu' is imported but never used.
+   ,-[packages/desktop/src/main/desktopWindowChrome.ts:1:30]
+ 1 | import { app, BrowserWindow, Menu, nativeImage, nativeTheme, screen, shell } from "electron";
+   :                              ^^|^
+   :                                `-- 'Menu' is imported here
+ 2 | import { join } from "node:path";
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'shell' is imported but never used.
+   ,-[packages/desktop/src/main/desktopWindowChrome.ts:1:70]
+ 1 | import { app, BrowserWindow, Menu, nativeImage, nativeTheme, screen, shell } from "electron";
+   :                                                                      ^^|^^
+   :                                                                        `-- 'shell' is imported here
+ 2 | import { join } from "node:path";
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Type 'ContextMenuParams' is imported but never used.
+   ,-[packages/desktop/src/main/desktopWindowChrome.ts:4:3]
+ 3 | import type {
+ 4 |   ContextMenuParams,
+   :   ^^^^^^^^|^^^^^^^^
+   :           `-- 'ContextMenuParams' is imported here
+ 5 |   Input,
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Type 'Input' is imported but never used.
+   ,-[packages/desktop/src/main/desktopWindowChrome.ts:5:3]
+ 4 |   ContextMenuParams,
+ 5 |   Input,
+   :   ^^|^^
+   :     `-- 'Input' is imported here
+ 6 |   MenuItemConstructorOptions,
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Type 'MenuItemConstructorOptions' is imported but never used.
+   ,-[packages/desktop/src/main/desktopWindowChrome.ts:6:3]
+ 5 |   Input,
+ 6 |   MenuItemConstructorOptions,
+   :   ^^^^^^^^^^^^^|^^^^^^^^^^^^
+   :                `-- 'MenuItemConstructorOptions' is imported here
+ 7 |   WebContents,
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Type 'WebContents' is imported but never used.
+   ,-[packages/desktop/src/main/desktopWindowChrome.ts:7:3]
+ 6 |   MenuItemConstructorOptions,
+ 7 |   WebContents,
+   :   ^^^^^|^^^^^
+   :        `-- 'WebContents' is imported here
+ 8 |   WindowOpenHandlerResponse,
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Type 'WindowOpenHandlerResponse' is imported but never used.
+   ,-[packages/desktop/src/main/desktopWindowChrome.ts:8:3]
+ 7 |   WebContents,
+ 8 |   WindowOpenHandlerResponse,
+   :   ^^^^^^^^^^^^|^^^^^^^^^^^^
+   :               `-- 'WindowOpenHandlerResponse' is imported here
+ 9 | } from "electron";
+   `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'DEFAULT_LOCALE' is imported but never used.
+    ,-[packages/desktop/src/main/desktopWindowChrome.ts:12:3]
+ 11 | import {
+ 12 |   DEFAULT_LOCALE,
+    :   ^^^^^^^|^^^^^^
+    :          `-- 'DEFAULT_LOCALE' is imported here
+ 13 |   desktopMenuMessageIds,
+    `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'desktopMenuMessageIds' is imported but never used.
+    ,-[packages/desktop/src/main/desktopWindowChrome.ts:13:3]
+ 12 |   DEFAULT_LOCALE,
+ 13 |   desktopMenuMessageIds,
+    :   ^^^^^^^^^^|^^^^^^^^^^
+    :             `-- 'desktopMenuMessageIds' is imported here
+ 14 |   getDesktopMenuMessage,
+    `----
+  help: Consider removing this import.
+
+  ! eslint(no-unused-vars): Identifier 'getDesktopMenuMessage' is imported but never used.
+    ,-[packages/desktop/src/main/desktopWindowChrome.ts:14:3]
+ 13 |   desktopMenuMessageIds,
+ 14 |   getDesktopMenuMessage,
+    :   ^^^^^^^^^^|^^^^^^^^^^
+    :             `-- 'getDesktopMenuMessage' is imported here
+ 15 |   PlatformChannels,
+    `----
+  help: Consider removing this import.
+
+Found 10 warnings and 0 errors.
+Finished in 33ms on 2 files with 94 rules using 9 threads.

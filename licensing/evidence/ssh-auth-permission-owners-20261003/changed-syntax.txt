@@ -1,0 +1,2 @@
+packages/server/src/remote/sshAuth.ts: 0 syntax-only diagnostics
+packages/server/src/remote/agentOfficialPluginPermissionRepair.ts: 0 syntax-only diagnostics

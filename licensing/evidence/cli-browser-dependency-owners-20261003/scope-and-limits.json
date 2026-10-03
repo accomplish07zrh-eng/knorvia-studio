@@ -1,0 +1,35 @@
+{
+  "baselineCommit": "3df52de3e9441894a875963d63b480ede6156c15",
+  "branch": "recovery/server-lifecycle-20261002",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "target": "recovery/independent-logging-20260930-0456",
+  "selectedPaths": [
+    "apps/cli/packages/adapters/src/browser/executable.ts",
+    "apps/cli/packages/adapters/src/browser/playwright-command.ts",
+    "apps/cli/packages/adapters/src/browser/snapshot.ts"
+  ],
+  "newMITDecisions": 0,
+  "acceptedIndependentReplacementCredit": 0,
+  "curatorExposure": "Selected predecessor bodies and finite public browser DTOs/ports reviewed. Curator authored external requirements, synthetic tests and normalized-expression comparison.",
+  "authoring": "Three fresh Sol/high fork-none authors; no predecessor private helper names/state/decomposition/function bodies in packets. Own private collection shape chosen freely. Whole literal drafts/corrections froze before inspection, whole installed with formatting only.",
+  "accessLimit": "Author-reported allowed reads on shared filesystem, not OS-enforced clean room or provenance acceptance.",
+  "wholeDraftArtifacts": "Six full raw .ts.txt initial/corrected draft files under drafts/, retained verbatim; neither imported nor built. Whole-draft-bindings.json binds original author SHA/frozen artifact bytes.",
+  "syntheticScope": "Filesystem probes and pinned runtime import virtual; fixed linux/win32 process/environment, native pure path helpers on synthetic strings; CDP/page/DOM/element/marker/handle ports synthetic; serialized callbacks executed against synthetic DOM objects only. No arbitrary application expression executed: CDP Runtime.evaluate payload captured, not run.",
+  "notExecuted": [
+    "native browser/Chromium/real Playwright import or executable probes",
+    "provider/network/URLs/production/userdata/credentials/auth/SSH/deployment",
+    "semantic project types/declaration emit/builds/ordinary suites",
+    "fully composed native/direct-consumer integration",
+    "cross-lane combination/main merge",
+    "Library alternate access or cancelled-source-tree upload"
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "pinnedNode": "24.14.0",
+    "contractsDistPresent": false,
+    "tools": "existing local esbuild/TypeScript AST/oxfmt/oxlint, no dependency installation"
+  },
+  "architecture": "Existing unmanaged cli module; baseline/new violation counts 0/0; no policy/baseline changes or managed-layer enforcement claim.",
+  "lint": "Scoped copy of prior root rules removes CLI file ignore, preserves source max-lines; synthetic MJS test line exemption equivalent to existing TS test exemption. No product permission/security setting changed.",
+  "remainder": "43 files remain unresolved, not presumed eligible; may include prior unaccepted source-exposed candidates. Accepted/model and completed browser files retained; holds/protected scopes hash-only unchanged."
+}

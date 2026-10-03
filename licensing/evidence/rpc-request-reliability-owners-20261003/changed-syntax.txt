@@ -1,0 +1,3 @@
+packages/rpc/src/channelClient.ts: 0 syntax-only diagnostics
+packages/rpc/src/channelServer.ts: 0 syntax-only diagnostics
+packages/rpc/src/persistent-protocol.ts: 0 syntax-only diagnostics

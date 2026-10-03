@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/official-mcp-auth.ts",
+    "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/runtimeEnv.ts",
+    "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/validationAppSettings.ts",
+    "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/workspace-hook-config.ts",
+    "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/workspace-hook-mutation.ts"
+  ],
+  "stdout": "Finished in 27ms on 5 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

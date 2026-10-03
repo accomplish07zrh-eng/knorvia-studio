@@ -1,0 +1,32 @@
+{
+  "mode": "historical compiler JS vs transpiled original author draft (not accepted current selector)",
+  "classification": {
+    "baseline": {
+      "collections": [],
+      "edges": [],
+      "nodes": []
+    },
+    "draft": {
+      "collections": [],
+      "edges": [
+        {
+          "from": "a",
+          "to": "b"
+        }
+      ],
+      "nodes": []
+    },
+    "equal": false
+  },
+  "duplicateRoot": {
+    "baselinePeerDependsOn": [
+      "other",
+      "gate"
+    ],
+    "draftPeerDependsOn": [
+      "other"
+    ],
+    "baselinePeerCloned": true,
+    "draftPeerCloned": false
+  }
+}

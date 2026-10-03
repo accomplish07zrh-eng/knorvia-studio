@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T18:43:59.136016+00:00",
+  "sourceCommit": "78c9080c",
+  "qualification": "Root broader context retained; prior public declarations and callable ports seen; generic scanners/compiler may have processed bytes. No deliberate target-body/history/test reading before draft. E source-exposed curator. Not fresh-context or OS-isolated.",
+  "inputs": {
+    "contract.md": "1108133e8fd70b668c69d20e6bfa2947f08a5c8a9fe3500cb5e70f4363640337",
+    "remoteAssetCdn-public-api.d.ts": "4a41cb84e889277e319ef4c9075fd265be215a18fbfcfcf2d1d30937d25be490",
+    "remoteAssetNetwork-public-api.d.ts": "51efc4772a44b9d4df8ea311639d7d94fe042d351d3501d93715d98f6680b615",
+    "dependency-api.md": "09111dc9f41d807c08adcfb5b4286ceb59e4068c95b7b2462d986b8655a73cf0",
+    "error-text.json": "062f5af30ec7fb79c25571283d7a85fe2dcd29d02f777c919df868283ca0e3dd"
+  },
+  "checks": "Target SHA256 matches curator bindings; no runtime tests run."
+}

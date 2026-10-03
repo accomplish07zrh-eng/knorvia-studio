@@ -1,0 +1,233 @@
+{
+  "kind": "Static required output literal/template/regex/numeric data; immutable label embedding and template placeholder identifiers normalized, string fragment containment only, no evaluation/semantics/novelty/license proof",
+  "results": [
+    {
+      "scope": "env",
+      "source": {
+        "bytes": 2765,
+        "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192"
+      },
+      "requiredStrings": [
+        "../types.js",
+        "@knorvia/contracts",
+        "../utils.js",
+        "# Environment",
+        "Primary working directory",
+        "Is a git repository",
+        "Platform",
+        "Shell",
+        "OS Version",
+        "yes",
+        "no",
+        "gitStatus: This is the git status at the start of the conversation. Note that this status is a snapshot in time, and will not update during the conversation.",
+        "Current branch",
+        "Main branch (you will usually use this for PRs)",
+        "Git user",
+        "Status",
+        "Recent commits",
+        "(clean)",
+        "(dirty)",
+        "(unknown)",
+        "Environment Info",
+        "env_info",
+        "system",
+        "dynamic",
+        "System Context",
+        "system_context",
+        "You have been invoked in the following environment:",
+        "\n",
+        "",
+        "not_repo",
+        "dirty",
+        "clean"
+      ],
+      "requiredTemplates": [
+        "- Primary working directory: <value>",
+        "- Is a git repository: <value>",
+        "- Platform: <value>",
+        "- Shell: <value>",
+        "- OS Version: <value>",
+        "- You are powered by the model named <value>/<value>.",
+        "Current branch: <value>",
+        "Main branch (you will usually use this for PRs): <value>",
+        "Git user: <value>",
+        "Status:\n<value>",
+        "Recent commits:\n<value>"
+      ],
+      "retainedUnusedExpressionQualification": [
+        {
+          "name": "GIT_LABEL",
+          "text": "Git",
+          "reason": "Original immutable declaration is unused by executable target; full frozen output-data still retains exact value"
+        },
+        {
+          "name": "NOT_A_GIT_REPOSITORY",
+          "text": "not a git repository",
+          "reason": "Original immutable declaration is unused by executable target; full frozen output-data still retains exact value"
+        }
+      ],
+      "missingStrings": [],
+      "missingTemplates": [],
+      "missingRegex": [],
+      "missingNumbers": [],
+      "passed": true
+    },
+    {
+      "scope": "skills",
+      "source": {
+        "bytes": 2127,
+        "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0"
+      },
+      "requiredStrings": [
+        "@knorvia/contracts",
+        "../types.js",
+        "../utils.js",
+        "Skills",
+        "skills",
+        "meta_user",
+        "dynamic",
+        "The following skills are available for use with the Skill tool:",
+        "",
+        "\n"
+      ],
+      "requiredTemplates": [
+        "- <value><value> (file: <value>)",
+        "<value> - <value>",
+        "<value>...",
+        "- <value>: <value><value> (file: <value>)",
+        " (also loadable as <value>)"
+      ],
+      "retainedUnusedExpressionQualification": [],
+      "missingStrings": [],
+      "missingTemplates": [],
+      "missingRegex": [],
+      "missingNumbers": [],
+      "passed": true
+    },
+    {
+      "scope": "parts",
+      "source": {
+        "bytes": 3337,
+        "sha256": "b6806d258a6714243d93abdf5beff85ad081718f945b0a8f8b174c247bee4ac9"
+      },
+      "requiredStrings": [
+        "@knorvia/contracts",
+        "./utils.js",
+        "background_task",
+        "subagent_message",
+        "diagnostics",
+        "goal_state_change",
+        "hook_context",
+        "model_anomaly",
+        "queued_system_notification",
+        "runtime_mode",
+        "todo_reminder",
+        "text",
+        "file",
+        "agent",
+        "subtask",
+        "\n",
+        "tool",
+        "patch",
+        ", ",
+        "compaction",
+        "retry",
+        "step-finish",
+        "reasoning",
+        "snapshot",
+        "step-start",
+        "timeline",
+        "string",
+        "File attachment",
+        " ",
+        "resource",
+        "input",
+        "completed",
+        "error",
+        "pending"
+      ],
+      "requiredTemplates": [
+        "[Selected agent: <value>]",
+        "[Subtask: <value>]",
+        "command: <value>",
+        "prompt: <value>",
+        "Patch files: <value>",
+        "Retry <value>: <value>",
+        "Step finished: <value>",
+        "filename=<value>",
+        "mime=<value>",
+        "path=<value>",
+        "Tool <value> <value>",
+        "input: <value>",
+        "output: <value>",
+        "error: <value>",
+        "raw: <value>"
+      ],
+      "retainedUnusedExpressionQualification": [],
+      "missingStrings": [],
+      "missingTemplates": [],
+      "missingRegex": [],
+      "missingNumbers": [],
+      "passed": true
+    },
+    {
+      "scope": "session",
+      "source": {
+        "bytes": 11537,
+        "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca"
+      },
+      "requiredStrings": [
+        "@knorvia/contracts",
+        "../agent/session-history-hydrator.js",
+        "./parts.js",
+        "./utils.js",
+        "./references.js",
+        "user",
+        "assistant",
+        "strategy",
+        "Cleaned transcript",
+        "not_found",
+        "failed",
+        "\n",
+        "The returned context is truncated.",
+        "",
+        "none",
+        "model-only",
+        "\n\n",
+        "handoff",
+        "\n\n---\n\n",
+        "Recent session handoff context",
+        "Relevant session context"
+      ],
+      "requiredTemplates": [
+        "Session <value> was not found.",
+        "ReadSessionContext failed for <value>.",
+        "Error: <value>",
+        "ReadSessionContext returned <value> context for <value>.",
+        "Title: <value>",
+        "No persisted session was found for <value>.",
+        "[<value>] <value> <value>",
+        "created: <value>",
+        "<value>\n<value>",
+        "# <value>",
+        "Session: <value> (<value>)",
+        "Directory: <value>",
+        "Path: <value>",
+        "Strategy: <value>",
+        "Query: <value>",
+        "<value>No readable transcript content was found in the target session.",
+        "<value><value>"
+      ],
+      "retainedUnusedExpressionQualification": [],
+      "missingStrings": [
+        "assistant"
+      ],
+      "missingTemplates": [],
+      "missingRegex": [],
+      "missingNumbers": [],
+      "passed": false
+    }
+  ],
+  "passed": false,
+  "sourceIntegrationRun": false
+}

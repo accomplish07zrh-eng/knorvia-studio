@@ -1,0 +1,14 @@
+{
+  "author": "desktop input owner correction 1",
+  "readPaths": [
+    "licensing/evidence/desktop-command-owners-20261003/common-contract.md",
+    "licensing/evidence/desktop-command-owners-20261003/input-owner-contract.md",
+    "licensing/evidence/desktop-command-owners-20261003/public-view.d.ts"
+  ],
+  "writtenPaths": [
+    "licensing/evidence/desktop-command-owners-20261003/author-output/input/browserCommandInput-correction-1.ts",
+    "licensing/evidence/desktop-command-owners-20261003/author-output/input/access-correction-1.json"
+  ],
+  "accessExceptions": [],
+  "execution": "No tests, compilation, linting, source inspection, or git commands."
+}

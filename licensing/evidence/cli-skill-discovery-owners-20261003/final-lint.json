@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/cli-skill-discovery-owners-20261003/scoped-lint-config.json",
+    "apps/cli/packages/adapters/src/skills/index.ts",
+    "apps/cli/packages/adapters/src/skills/scan.ts",
+    "apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-skill-discovery-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-skill-discovery-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 22ms on 5 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

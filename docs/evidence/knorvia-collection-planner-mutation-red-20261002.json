@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "kind": "collection-planner-missing-mutation-contract-and-draft-red-proof",
+  "freezeParent": "a22cf34",
+  "case": "Runner mutates its active collection ID and run count; artifact path/count and label keep the original collection/immutable attempt number",
+  "productionCorrection": "Not applied at observation time",
+  "baselineProof": "Historical probe runs first and passes both fixed path/label assertions before candidate is invoked",
+  "sourceResult": "0pass/1fail; source shell command continued to print log, node exit not separately captured",
+  "emittedResult": {
+    "nodeExit": 1,
+    "groups": 1,
+    "passed": 0,
+    "failed": 1
+  },
+  "draftBindings": [
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/first-draft.ts",
+      "sha256": "67a5d801ab85b5197c4f19ab81806ba55104351c99b9077bd83b59a3e3b08220",
+      "bytes": 15552
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-20261002/first-draft.js",
+      "sha256": "bfa8e0bd07f9b5cbc919a20bc5426aab5a592ac53475a1fe6e94da6da3753d44",
+      "bytes": 14319
+    }
+  ],
+  "retainedRedExpression": {
+    "artifactCount": "attempt.collection.plannerRuns",
+    "artifactLabel": "attempt.collection.collectionId"
+  },
+  "sourceLog": "\u2716 source: runner-visible collection mutation leaves original artifact identity/count (7.089941ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 0\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2112.74888\n\n\u2716 failing tests:\n\ntest at apps/cli/packages/core/test/workflow-collection-planner.test.ts:1:9713\n\u2716 source: runner-visible collection mutation leaves original artifact identity/count (7.089941ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'artifacts/exec/planners/owned-collection-99.md'\n  - 'artifacts/exec/planners/owned-collection-1.md'\n  \n      at probe (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-collection-planner.test.ts:338:12)\n      at async TestContext.<anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-collection-planner.test.ts:346:20)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'artifacts/exec/planners/owned-collection-99.md',\n    expected: 'artifacts/exec/planners/owned-collection-1.md',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "emittedLog": "\u2716 emitted: runner-visible collection mutation leaves original artifact identity/count (6.887113ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 0\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2231.565891\n\n\u2716 failing tests:\n\ntest at apps/cli/packages/core/test/workflow-collection-planner.test.ts:1:9713\n\u2716 emitted: runner-visible collection mutation leaves original artifact identity/count (6.887113ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'artifacts/exec/planners/owned-collection-99.md'\n  - 'artifacts/exec/planners/owned-collection-1.md'\n  \n      at probe (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-collection-planner.test.ts:338:12)\n      at async TestContext.<anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-collection-planner.test.ts:346:20)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'artifacts/exec/planners/owned-collection-99.md',\n    expected: 'artifacts/exec/planners/owned-collection-1.md',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "oldAssertions": "Unchanged; one new group appended before the existing selector group",
+  "licenceGrant": null
+}

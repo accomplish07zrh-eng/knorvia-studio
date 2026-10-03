@@ -12,41 +12,62 @@ interface BackgroundTaskOutputMetadata {
   stdoutTail?: string;
 }
 
+function field(source: object | undefined, key: string): unknown {
+  if (!source || !(key in source)) return undefined;
+  return (source as Record<string, unknown>)[key];
+}
+
+function recordField(source: object | undefined, key: string): object | undefined {
+  const value = field(source, key);
+  return value !== null && typeof value === "object" ? value : undefined;
+}
+
+function stringField(source: object | undefined, key: string): string | undefined {
+  const value = field(source, key);
+  return typeof value === "string" ? value : undefined;
+}
+
+function numberField(source: object | undefined, key: string): number | undefined {
+  const value = field(source, key);
+  return typeof value === "number" ? value : undefined;
+}
+
 export function backgroundTaskOutputMetadata(
   snapshot: object | undefined,
   launchOutput?: Record<string, unknown>,
 ): BackgroundTaskOutputMetadata {
-  const result = recordProperty(snapshot, "result");
-  // 后台 Agent 的 child session 身份若只留在 Agent output / runtime
-  // snapshot，BackgroundTask* 事件就不会带出，V4 Running 行因此无法打开右侧详情。
+  const result = recordField(snapshot, "result");
   const childSessionId =
-    stringProperty(snapshot, "childSessionId") ?? stringProperty(launchOutput, "childSessionId");
-  const stdout = recordProperty(result, "stdout");
-  const stderr = recordProperty(result, "stderr");
+    stringField(snapshot, "childSessionId") ?? stringField(launchOutput, "childSessionId");
+  const stdout = recordField(result, "stdout");
+  const stderr = recordField(result, "stderr");
+
   const stdoutFile =
-    stringProperty(snapshot, "stdoutPersistedOutputPath") ??
-    stringProperty(stdout, "artifactPath") ??
-    stringProperty(launchOutput, "stdoutPersistedOutputPath");
+    stringField(snapshot, "stdoutPersistedOutputPath") ??
+    stringField(stdout, "artifactPath") ??
+    stringField(launchOutput, "stdoutPersistedOutputPath");
   const stderrFile =
-    stringProperty(snapshot, "stderrPersistedOutputPath") ??
-    stringProperty(stderr, "artifactPath") ??
-    stringProperty(launchOutput, "stderrPersistedOutputPath");
+    stringField(snapshot, "stderrPersistedOutputPath") ??
+    stringField(stderr, "artifactPath") ??
+    stringField(launchOutput, "stderrPersistedOutputPath");
   const outputFile =
-    stringProperty(snapshot, "outputPath") ??
-    stringProperty(snapshot, "outputFile") ??
-    stringProperty(snapshot, "persistedOutputPath") ??
-    stringProperty(snapshot, "rawOutputPath") ??
-    stringProperty(launchOutput, "persistedOutputPath") ??
-    stringProperty(launchOutput, "rawOutputPath") ??
-    stringProperty(launchOutput, "outputFile") ??
+    stringField(snapshot, "outputPath") ??
+    stringField(snapshot, "outputFile") ??
+    stringField(snapshot, "persistedOutputPath") ??
+    stringField(snapshot, "rawOutputPath") ??
+    stringField(launchOutput, "persistedOutputPath") ??
+    stringField(launchOutput, "rawOutputPath") ??
+    stringField(launchOutput, "outputFile") ??
     stdoutFile ??
     stderrFile;
-  const stdoutBytes = numberProperty(stdout, "bytes") ?? numberProperty(snapshot, "stdoutBytes");
-  const stderrBytes = numberProperty(stderr, "bytes") ?? numberProperty(snapshot, "stderrBytes");
-  const stdoutTail = stringProperty(stdout, "text") || stringProperty(snapshot, "stdoutTail");
-  const stderrTail = stringProperty(stderr, "text") || stringProperty(snapshot, "stderrTail");
-  const workflowOutput = recordProperty(snapshot, "output");
-  const workflowTail = stringProperty(workflowOutput, "response");
+
+  const stdoutBytes = numberField(stdout, "bytes") ?? numberField(snapshot, "stdoutBytes");
+  const stderrBytes = numberField(stderr, "bytes") ?? numberField(snapshot, "stderrBytes");
+  const stdoutTail = stringField(stdout, "text") || stringField(snapshot, "stdoutTail");
+  const stderrTail = stringField(stderr, "text") || stringField(snapshot, "stderrTail");
+
+  const output = recordField(snapshot, "output");
+  const workflowResponse = stringField(output, "response");
   const outputBytes =
     stdoutBytes === undefined && stderrBytes === undefined
       ? undefined
@@ -54,16 +75,16 @@ export function backgroundTaskOutputMetadata(
   const outputTruncated =
     result === undefined
       ? undefined
-      : booleanProperty(stdout, "truncated") === true ||
-        booleanProperty(stderr, "truncated") === true ||
-        booleanProperty(stdout, "artifactTruncated") === true ||
-        booleanProperty(stderr, "artifactTruncated") === true;
+      : field(stdout, "truncated") === true ||
+        field(stderr, "truncated") === true ||
+        field(stdout, "artifactTruncated") === true ||
+        field(stderr, "artifactTruncated") === true;
 
   return {
     childSessionId,
     outputBytes,
     outputFile,
-    outputTail: stdoutTail ?? stderrTail ?? workflowTail,
+    outputTail: stdoutTail ?? stderrTail ?? workflowResponse,
     outputTruncated,
     stderrBytes,
     stderrFile,
@@ -72,35 +93,4 @@ export function backgroundTaskOutputMetadata(
     stdoutFile,
     stdoutTail,
   };
-}
-
-function recordProperty(
-  record: object | undefined,
-  key: string,
-): Record<string, unknown> | undefined {
-  if (!record || !(key in record)) return undefined;
-  const value = (record as Record<string, unknown>)[key];
-  return isRecord(value) ? value : undefined;
-}
-
-function stringProperty(record: object | undefined, key: string): string | undefined {
-  if (!record || !(key in record)) return undefined;
-  const value = (record as Record<string, unknown>)[key];
-  return typeof value === "string" ? value : undefined;
-}
-
-function numberProperty(record: object | undefined, key: string): number | undefined {
-  if (!record || !(key in record)) return undefined;
-  const value = (record as Record<string, unknown>)[key];
-  return typeof value === "number" ? value : undefined;
-}
-
-function booleanProperty(record: object | undefined, key: string): boolean | undefined {
-  if (!record || !(key in record)) return undefined;
-  const value = (record as Record<string, unknown>)[key];
-  return typeof value === "boolean" ? value : undefined;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
 }

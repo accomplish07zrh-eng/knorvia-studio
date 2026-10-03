@@ -1,0 +1,183 @@
+{
+  "formatVersion": 1,
+  "kind": "bounded-workflow-node-terminal-publication",
+  "baseline": "9670185fbd9ae890840b4c43a0dc22b47cd64f0e",
+  "freezeCommit": "c3d4f9a0fe1b2aef3f9a4c7fbd6238a973b3e18c",
+  "implementationCommit": "127b9bfbda1568ddde8aaf49239b9da03071edc7",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts",
+      "sha256": "7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "sha256": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication-baseline.json",
+      "sha256": "50ca9dcc03b563db48049c7296c4aad25914beabbd2b0d9fb0a4036a11da1370"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication-current.json",
+      "sha256": "ca126a097ad5ce750ccb6f4a09c21ed20042c9ea222bccc9e8a9ad1df58aa5f2"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication-fixture.ts",
+      "sha256": "7abab625157546ee92082e0d1402de3b94315367c95ab745437dee812547441b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication-ports.ts",
+      "sha256": "6ff293ba74f59de2db63daef1082ca51ee9ff37b0f49f461182b90fd2489e65f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+      "sha256": "e2506651fccd6165edf0210db330ae1b5101b3a7377a24d7fae245351b1c9d5c"
+    },
+    {
+      "path": "docs/evidence/knorvia-workflow-node-publication-freeze-20261002.json",
+      "sha256": "f55ecbb367a0e3a560edf2ecef87a6a7ce1de5e6294f8afff7e6e2762db87ced"
+    },
+    {
+      "path": "specs/knorvia-workflow-node-publication-20261002.md",
+      "sha256": "3b665f5fc03692d18c5333b12b379fa21a8bbc9951c68b33eaebe34f18eb9035"
+    },
+    {
+      "path": "docs/knorvia-workflow-node-publication-handoff-20261002.md",
+      "sha256": "e36cef0eb7949bb898eca67fa8c60444d1a65b5341aebb576bed6b1f767cd1e9"
+    },
+    {
+      "path": "docs/evidence/check-knorvia-workflow-node-publication-20261002.mjs",
+      "sha256": "f0f2056c56c376b960d213d07250cb8256815855a413b36d3241ca4995c9eb79"
+    }
+  ],
+  "protectedFiles": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+      "sha256": "02025acdfc6612d57679eceb8d1fd1fefe3b2d6fe923d1de1b23af0cfac597b1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+      "sha256": "677f8d4bf5a0225efb6484b0b9a7248785c84bf1970c9f19cd88d8d873f7d3c7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observation-fixture.ts",
+      "sha256": "56608fed5fca01b52786f708811b2e64eda8813dc6d0ec07c0165ca68485a6b9"
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json",
+      "sha256": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31"
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/behavior.md",
+      "sha256": "918777ef3172833d9c43402a285a507243da6fe2c88dac27a8840cfe45ff7de2"
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts",
+      "sha256": "85ed2e4107308299028ab7e04fd78a1a608f55eba0657ba27d293be226688b2e"
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts",
+      "sha256": "a0ce162223ca6a22c3d91b0a1123c82f44f231ecd5656c6ed967f826f6b30035"
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/inputs.json",
+      "sha256": "894bec72002c7d1b1f19500690b76dac3826edb9163d5dd60fc14e5161519d5a"
+    }
+  ],
+  "currentSelector": "apps/cli/packages/core/test/workflow-node-publication-current.json",
+  "baselineArchive": "apps/cli/packages/core/test/workflow-node-publication-baseline.json",
+  "publicDeclarationChanged": false,
+  "historicalOracleChanged": false,
+  "frozenAssertionsChanged": false,
+  "productionScope": [
+    "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+    "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts"
+  ],
+  "sourceExposure": true,
+  "publisher": "Existing inventory: ZCode 872ad960de7ec172591f7e1952f7849229f94521, apps/zcode-cli/packages/core/src/workflow/scheduler/node-runner.ts, blob faa691fd3b78135e35200f133f2f25c72ce2e27a. No new exact-byte verification.",
+  "newUnit": "Single inline terminal persist/set/status/event owner with one permitted success-to-failure selection; synchronous record projectors add no awaited orchestration promise.",
+  "retainedExpression": [
+    "Activation and child-session linkage bodies",
+    "Runner request/default-prompt choice and artifact write invocation",
+    "Fixed messages and public declaration",
+    "Projection field order, optional model/session/turn spread clauses and nullish trace fallback",
+    "Attempts arithmetic and graph/activity/artifact transformation/read order"
+  ],
+  "wholeFileStatus": "Mixed retained/new expression; independent per-file expression/licence review remains root-owned",
+  "finalRuns": [
+    {
+      "mode": "source",
+      "sha256": "a046265fbf6d0f44362ab184c75c6c2f5995bf28bc6c2ea566ed0bcad4446d74",
+      "text": "\u2714 source: started gate, child linkage, latest snapshot and completion publication (5.250634ms)\n\u2714 source: failure attempts, linked metadata, primitive errors and default prompt (2.658344ms)\n\u2714 source: startup escapes, success-publication failure converts, failure-publication escapes (5.898313ms)\n\u2714 source: queued thenables and throwing runner getter preserve error/effect order (3.805024ms)\n\u2714 source: abort controls and queued accepted-completion settlement (2.612856ms)\n\u2714 source: actual scheduler consumer completion, error threshold and terminal abort (6.640269ms)\n\u2714 source: immutable oracle and strict current/private artifact selectors fail closed (145.973594ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2968.493992\n"
+    },
+    {
+      "mode": "emitted",
+      "sha256": "2e3dfad1689e5641841c470531263cbdfc90161094469af95844ebe29ea5cc65",
+      "text": "\u2714 emitted: started gate, child linkage, latest snapshot and completion publication (5.14678ms)\n\u2714 emitted: failure attempts, linked metadata, primitive errors and default prompt (2.259479ms)\n\u2714 emitted: startup escapes, success-publication failure converts, failure-publication escapes (2.503985ms)\n\u2714 emitted: queued thenables and throwing runner getter preserve error/effect order (1.78329ms)\n\u2714 emitted: abort controls and queued accepted-completion settlement (1.223665ms)\n\u2714 emitted: actual scheduler consumer completion, error threshold and terminal abort (6.003189ms)\n\u2714 emitted: immutable oracle and strict current/private artifact selectors fail closed (126.450494ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2950.926872\n"
+    }
+  ],
+  "validation": {
+    "finalGroupsPerMode": 7,
+    "passPerMode": 7,
+    "failPerMode": 0,
+    "skipPerMode": 0,
+    "actualCallerGroupIncluded": true,
+    "pairedScenariosPerMode": 14,
+    "countLimit": "14 representative baseline/current scenario pairs inside 6 behavior groups, plus one selector group. Same groups run source and emitted; historical freeze runs are not additional current coverage.",
+    "scopedCompile": {
+      "typescript": "6.0.2",
+      "roots": 5,
+      "diagnostics": 0,
+      "emittedOwners": 2,
+      "publicDeclarationExact": true
+    },
+    "ownedLint": {
+      "files": 5,
+      "rules": 94,
+      "errors": 0,
+      "warnings": 2,
+      "intentionalWarnings": "Queued then() and throwing then getter in synthetic fixtures; no suppression or rule change"
+    },
+    "format": "Eight final code/spec/oracle/selector files passed; new receipt/handoff/checker checked separately",
+    "architecture": "Changed-scope: 0 violations, 0 baseline, 0 new",
+    "wholeBuild": false,
+    "aggregateSuite": false,
+    "nativeAcceptance": false,
+    "authorProcessRetry": false
+  },
+  "gateLogs": [
+    {
+      "path": "/tmp/knorvia-workflow-node-final-compile.log",
+      "sha256": "adfbfe1c6aca047ae8d90170d124e97540a3bdc4d4a0707b5edd17614152c058"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-node-final-lint.log",
+      "sha256": "f816cb70f3269a79ba459557f37da5ecab5f2633cdbf600a623aec6f36857c40"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-node-final-format.log",
+      "sha256": "40f95ca525d7dd5d1b8ec38be95ae0b3e16677cb32221c79161eae6247f73cb7"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-node-final-architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "historicalFailureEvidence": "docs/evidence/knorvia-workflow-node-publication-freeze-20261002.json records initial 6/7 per mode and exact raw-log hashes; missing dependsOn corrected before production, assertions preserved.",
+  "limits": [
+    "Partial synthetic strategy cast; not complete snapshot schema admission",
+    "No multi-node concurrent differential, arbitrary accessor matrix or live/native/platform acceptance",
+    "Retained activation/child/request and projection combinations not whole-file-cleared",
+    "No new publisher-byte acquisition or rights determination"
+  ],
+  "grant": null,
+  "reproduce": {
+    "source": "node --import tsx --test apps/cli/packages/core/test/workflow-node-publication.test.ts",
+    "emitted": "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 with the same source command",
+    "digests": "node docs/evidence/check-knorvia-workflow-node-publication-20261002.mjs"
+  }
+}

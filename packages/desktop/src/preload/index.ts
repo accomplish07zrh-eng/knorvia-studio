@@ -1,9 +1,13 @@
+/* eslint-disable max-lines -- preload bridge 集中暴露桌面平台 IPC，拆散会让 contextBridge 权限边界更难审计。 */
 import {
   databaseStartupControlSchema,
   databaseStartupStateSchema,
   databaseStartupPortPayloadSchema,
+  InternalChannels,
+  PlatformChannels,
+  formatKnorviaRendererProcessName,
+  shouldEnableE2ETestBridge,
 } from "@knorvia/shared";
-/* eslint-disable max-lines -- preload bridge 集中暴露桌面平台 IPC，拆散会让 contextBridge 权限边界更难审计。 */
 import { contextBridge, ipcRenderer, webFrame, webUtils } from "electron";
 import type {
   AppSettings,
@@ -54,132 +58,94 @@ import type {
   ConfigureFinalArmsCustomEventE2ERequest,
   FinalArmsCustomEventE2EEntry,
 } from "@knorvia/shared";
-import {
-  InternalChannels,
-  PlatformChannels,
-  formatKnorviaRendererProcessName,
-  shouldEnableE2ETestBridge,
-} from "@knorvia/shared";
 
 if (shouldEnableE2ETestBridge(process.env)) {
   contextBridge.exposeInMainWorld("__knorviaFinalArmsCustomEventsE2E", {
-    read: (): Promise<FinalArmsCustomEventE2EEntry[]> =>
-      ipcRenderer.invoke(PlatformChannels.ReadFinalArmsCustomEventsE2E),
-    clear: (): Promise<void> => ipcRenderer.invoke(PlatformChannels.ClearFinalArmsCustomEventsE2E),
-    configure: (request: ConfigureFinalArmsCustomEventE2ERequest): Promise<void> =>
-      ipcRenderer.invoke(PlatformChannels.ConfigureFinalArmsCustomEventsE2E, request),
+    read(): Promise<FinalArmsCustomEventE2EEntry[]> {
+      return ipcRenderer.invoke(PlatformChannels.ReadFinalArmsCustomEventsE2E);
+    },
+    clear(): Promise<void> {
+      return ipcRenderer.invoke(PlatformChannels.ClearFinalArmsCustomEventsE2E);
+    },
+    configure(request: ConfigureFinalArmsCustomEventE2ERequest): Promise<void> {
+      return ipcRenderer.invoke(PlatformChannels.ConfigureFinalArmsCustomEventsE2E, request);
+    },
   });
 }
 
-const openWorkspacePathCallbacks = new Set<(path: string) => void>();
-const pendingOpenWorkspacePaths: string[] = [];
-const MACOS_WINDOW_CONTROLS_BASE_LEFT_PADDING_PX = 96;
-const WINDOWS_WINDOW_CONTROLS_BASE_RIGHT_PADDING_PX = 136;
-const WINDOWS_TITLE_BAR_HEIGHT_PX = 48;
-const DESKTOP_ZOOM_FACTOR_STEP = 1.1;
-const DESKTOP_ZOOM_MIN_LEVEL = -3;
-const DESKTOP_ZOOM_MAX_LEVEL = 5;
-let latestWindowControlsOverlayMetrics: WindowControlsOverlayMetrics | null = null;
-let latestDesktopZoomLevel = 0;
-
-function clampDesktopZoomLevel(level: number) {
-  return Math.min(DESKTOP_ZOOM_MAX_LEVEL, Math.max(DESKTOP_ZOOM_MIN_LEVEL, level));
+function boundZoom(level: number): number {
+  return Math.min(5, Math.max(-3, level));
 }
 
-function resolveDesktopZoomLevelFromFactor(zoomFactor: number) {
-  if (!Number.isFinite(zoomFactor) || zoomFactor <= 0) {
-    return 0;
+function zoomFromFactor(factor: number): number {
+  return Number.isFinite(factor) && factor > 0
+    ? boundZoom(Math.round(Math.log(factor) / Math.log(1.1)))
+    : 0;
+}
+
+function metricsForZoom(level: number): WindowControlsOverlayMetrics {
+  const factor = 1.1 ** level;
+  if (process.platform === "darwin") {
+    return { leftPaddingPx: Math.round(96 / factor) };
   }
-
-  return clampDesktopZoomLevel(
-    Math.round(Math.log(zoomFactor) / Math.log(DESKTOP_ZOOM_FACTOR_STEP)),
-  );
+  if (process.platform === "win32") {
+    return {
+      rightPaddingPx: Math.round(136 / factor),
+      titleBarHeightPx: Math.round(48 * factor),
+    };
+  }
+  return {};
 }
 
-function resolveDesktopZoomFactorForLevel(level: number) {
-  return Math.pow(DESKTOP_ZOOM_FACTOR_STEP, clampDesktopZoomLevel(level));
+function currentMetrics(): WindowControlsOverlayMetrics {
+  return metricsForZoom(zoomFromFactor(webFrame.getZoomFactor()));
 }
 
-function readCurrentWindowControlsOverlayReadyPayload(): WindowControlsOverlayReadyPayload {
-  const zoomLevel = resolveDesktopZoomLevelFromFactor(webFrame.getZoomFactor());
-  const zoomFactor = resolveDesktopZoomFactorForLevel(zoomLevel);
-  const metrics: WindowControlsOverlayMetrics =
-    process.platform === "darwin"
-      ? {
-          leftPaddingPx: Math.round(MACOS_WINDOW_CONTROLS_BASE_LEFT_PADDING_PX / zoomFactor),
-        }
-      : process.platform === "win32"
-        ? {
-            rightPaddingPx: Math.round(WINDOWS_WINDOW_CONTROLS_BASE_RIGHT_PADDING_PX / zoomFactor),
-            titleBarHeightPx: Math.round(WINDOWS_TITLE_BAR_HEIGHT_PX * zoomFactor),
-          }
-        : {};
-  return {
-    zoomLevel,
-    metrics,
-  };
+function subscribe<T>(channel: string, callback: (payload: T) => void): () => void {
+  const handler = (_event: unknown, payload: T) => callback(payload);
+  ipcRenderer.on(channel, handler);
+  return () => ipcRenderer.removeListener(channel, handler);
 }
 
-function readCurrentWindowControlsOverlayMetrics(): WindowControlsOverlayMetrics {
-  return readCurrentWindowControlsOverlayReadyPayload().metrics;
+function subscribeSignal(channel: string, callback: () => void): () => void {
+  const handler = () => callback();
+  ipcRenderer.on(channel, handler);
+  return () => ipcRenderer.removeListener(channel, handler);
 }
 
-const initialWindowControlsOverlayPayload = readCurrentWindowControlsOverlayReadyPayload();
-latestDesktopZoomLevel = initialWindowControlsOverlayPayload.zoomLevel;
-latestWindowControlsOverlayMetrics = initialWindowControlsOverlayPayload.metrics;
-// RootStartupLoading 渲染前 main 进程就需要拿到当前 zoom 对应的红绿灯位置。
-// preload 比 React 页面更早运行，这里主动通知 main，避免等进入 App 页面后才调整。
-ipcRenderer.send(PlatformChannels.WindowControlsOverlayReady, initialWindowControlsOverlayPayload);
+let zoomLevel = zoomFromFactor(webFrame.getZoomFactor());
+let overlayMetrics: WindowControlsOverlayMetrics | null | undefined = metricsForZoom(zoomLevel);
+const workspacePathSubscribers = new Set<(path: string) => void>();
+const pendingWorkspacePaths: string[] = [];
+const overlayReady: WindowControlsOverlayReadyPayload = { zoomLevel, metrics: overlayMetrics };
+ipcRenderer.send(PlatformChannels.WindowControlsOverlayReady, overlayReady);
 
-ipcRenderer.on(
-  PlatformChannels.WindowControlsOverlayChanged,
-  (_event: unknown, metrics: WindowControlsOverlayMetrics) => {
-    latestWindowControlsOverlayMetrics = metrics;
-  },
-);
-
-ipcRenderer.on(
-  PlatformChannels.DesktopZoomLevelChanged,
-  (_event: unknown, state: DesktopZoomState) => {
-    if (Number.isFinite(state.zoomLevel)) {
-      latestDesktopZoomLevel = clampDesktopZoomLevel(state.zoomLevel);
+ipcRenderer.on(PlatformChannels.WindowControlsOverlayChanged, (_event, metrics) => {
+  overlayMetrics = metrics;
+});
+ipcRenderer.on(PlatformChannels.DesktopZoomLevelChanged, (_event, state) => {
+  if (Number.isFinite(state.zoomLevel)) {
+    zoomLevel = boundZoom(state.zoomLevel);
+  }
+});
+ipcRenderer.on(PlatformChannels.OpenWorkspacePath, (_event, path) => {
+  if (workspacePathSubscribers.size === 0) {
+    pendingWorkspacePaths.push(path);
+  } else {
+    for (const callback of workspacePathSubscribers) {
+      callback(path);
     }
-  },
-);
-
-ipcRenderer.on(PlatformChannels.OpenWorkspacePath, (_event: unknown, path: string) => {
-  if (openWorkspacePathCallbacks.size === 0) {
-    // 冷启动 open-workspace 会在 renderer ready 后立刻从 main 进程投递，
-    // 但 React 的 platform effect 可能尚未注册 onOpenWorkspacePath。preload 先接住
-    // 这条 IPC，等 UI 订阅建立后再回放，避免只打开 App 而不打开目录。
-    pendingOpenWorkspacePaths.push(path);
-    return;
-  }
-
-  for (const callback of openWorkspacePathCallbacks) {
-    callback(path);
   }
 });
 
-function updateRendererProcessTitle(): void {
+function updateProcessTitle(): void {
   process.title = formatKnorviaRendererProcessName(document.title);
 }
+updateProcessTitle();
+window.addEventListener("DOMContentLoaded", updateProcessTitle, { once: true });
 
-// 进程检索体验优化：renderer 在系统里通常只会显示成通用 helper 名称，
-// 这里在 preload 阶段补上 knorvia-* title，便于按窗口角色筛选。
-updateRendererProcessTitle();
-window.addEventListener("DOMContentLoaded", updateRendererProcessTitle, {
-  once: true,
-});
-
-/**
- * Preload bridge —— 仅暴露需要 main 进程参与的平台操作
- *
- * 凭据管理已迁移到 host process 的 ICredentialService，
- * 通过 MessagePort RPC 访问，不再经过此 bridge。
- */
 contextBridge.exposeInMainWorld("knorvia", {
-  connectRemote: (
+  connectRemote(
     options: RemoteTarget,
     requestId?: string,
     context?: {
@@ -187,119 +153,109 @@ contextBridge.exposeInMainWorld("knorvia", {
       workspaceIdentity?: string;
       connectTrigger?: import("@knorvia/shared").RemoteWorkspaceConnectTrigger;
     },
-  ) =>
-    ipcRenderer.invoke(PlatformChannels.ConnectRemote, {
+  ) {
+    return ipcRenderer.invoke(PlatformChannels.ConnectRemote, {
       target: options,
       requestId,
       ...(context ? context : {}),
-    }),
-  cancelPendingRemoteConnection: (requestId?: string): Promise<void> =>
-    ipcRenderer.invoke(PlatformChannels.CancelPendingRemoteConnection, {
-      requestId,
-    }),
-  bindRemoteWorkspaceSessionContext: (context: {
+    });
+  },
+  cancelPendingRemoteConnection(requestId?: string): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.CancelPendingRemoteConnection, { requestId });
+  },
+  bindRemoteWorkspaceSessionContext(context: {
     remoteSessionId: string;
     workspacePath: string;
     workspaceIdentity?: string;
-  }): Promise<void> =>
-    ipcRenderer.invoke(PlatformChannels.BindRemoteWorkspaceSessionContext, context),
-  disposeRemoteSession: (sessionId: string): Promise<void> =>
-    ipcRenderer.invoke(PlatformChannels.DisposeRemoteSession, sessionId),
-  isDockerAvailable: (): Promise<boolean> => ipcRenderer.invoke(PlatformChannels.IsDockerAvailable),
-  listWSLDistros: () => ipcRenderer.invoke(PlatformChannels.ListWSLDistros),
-  listDockerContainers: () => ipcRenderer.invoke(PlatformChannels.ListDockerContainers),
-  listSSHConfigAliases: (): Promise<SSHConfigAliasOption[]> =>
-    ipcRenderer.invoke(PlatformChannels.ListSSHConfigAliases),
-  loadMcpFromUserDirectory: (payload?: LoadCliMcpFromUserDirectoryRequest) =>
-    ipcRenderer.invoke(PlatformChannels.LoadMcpFromUserDirectory, payload ?? {}),
-  saveMcpToUserDirectory: (payload: SaveCliMcpToUserDirectoryRequest) =>
-    ipcRenderer.invoke(PlatformChannels.SaveMcpToUserDirectory, payload),
-  migrateLegacyCommonMcp: (payload?: MigrateLegacyCommonMcpRequest) =>
-    ipcRenderer.invoke(PlatformChannels.MigrateLegacyCommonMcp, payload ?? {}),
-  /** renderer 日志通过 IPC 传到 main 进程统一存储 */
-  log: (level: "info" | "warn" | "error", args: unknown[]) =>
-    ipcRenderer.send(PlatformChannels.Log, { level, args }),
-  /** 打开系统目录选择框，返回选中路径或 null */
-  selectDirectory: (): Promise<string | null> =>
-    ipcRenderer.invoke(PlatformChannels.SelectDirectory),
-  /** 打开系统文件选择框，返回选中文件路径或 null */
-  selectFile: (): Promise<string | null> => ipcRenderer.invoke(PlatformChannels.SelectFile),
-  /** 打开系统多文件选择框，返回选中文件路径；取消时返回空数组 */
-  selectFiles: (): Promise<string[]> => ipcRenderer.invoke(PlatformChannels.SelectFiles),
-  /** 通过 main process 的原生另存为对话框明确落盘 */
-  saveFile: (payload: SaveFileRequest): Promise<SaveFileResult> =>
-    ipcRenderer.invoke(PlatformChannels.SaveFile, payload),
-  /** 将当前页面的 print 媒体版面导出为 PDF（Chromium 打印引擎，矢量文本） */
-  printPageToPdf: (): Promise<PrintPageToPdfResult> =>
-    ipcRenderer.invoke(PlatformChannels.PrintToPdf),
-  /** 从系统拖拽/文件输入得到的 Web File 解析真实本地路径 */
-  getPathForFile: (file: File): string | null => {
-    // Electron 32 起移除了非标准 File.path，renderer 不能再直接从拖拽 File 上取路径。
-    // webUtils 只能在 preload 安全使用；取不到路径时返回 null，让 Web/内联附件逻辑继续兜底。
+  }): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BindRemoteWorkspaceSessionContext, context);
+  },
+  disposeRemoteSession(sessionId: string): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.DisposeRemoteSession, sessionId);
+  },
+  isDockerAvailable(): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.IsDockerAvailable);
+  },
+  listWSLDistros() {
+    return ipcRenderer.invoke(PlatformChannels.ListWSLDistros);
+  },
+  listDockerContainers() {
+    return ipcRenderer.invoke(PlatformChannels.ListDockerContainers);
+  },
+  listSSHConfigAliases(): Promise<SSHConfigAliasOption[]> {
+    return ipcRenderer.invoke(PlatformChannels.ListSSHConfigAliases);
+  },
+  loadMcpFromUserDirectory(payload?: LoadCliMcpFromUserDirectoryRequest) {
+    return ipcRenderer.invoke(PlatformChannels.LoadMcpFromUserDirectory, payload ?? {});
+  },
+  saveMcpToUserDirectory(payload: SaveCliMcpToUserDirectoryRequest) {
+    return ipcRenderer.invoke(PlatformChannels.SaveMcpToUserDirectory, payload);
+  },
+  migrateLegacyCommonMcp(payload?: MigrateLegacyCommonMcpRequest) {
+    return ipcRenderer.invoke(PlatformChannels.MigrateLegacyCommonMcp, payload ?? {});
+  },
+  log(level: "info" | "warn" | "error", args: unknown[]) {
+    return ipcRenderer.send(PlatformChannels.Log, { level, args });
+  },
+  selectDirectory(): Promise<string | null> {
+    return ipcRenderer.invoke(PlatformChannels.SelectDirectory);
+  },
+  selectFile(): Promise<string | null> {
+    return ipcRenderer.invoke(PlatformChannels.SelectFile);
+  },
+  selectFiles(): Promise<string[]> {
+    return ipcRenderer.invoke(PlatformChannels.SelectFiles);
+  },
+  saveFile(payload: SaveFileRequest): Promise<SaveFileResult> {
+    return ipcRenderer.invoke(PlatformChannels.SaveFile, payload);
+  },
+  printPageToPdf(): Promise<PrintPageToPdfResult> {
+    return ipcRenderer.invoke(PlatformChannels.PrintToPdf);
+  },
+  getPathForFile(file: File): string | null {
     const path = webUtils.getPathForFile(file).trim();
     return path.length > 0 ? path : null;
   },
-  /** 长文本粘贴落盘为真正的本地附件，避免正文和 prompt payload 被撑大 */
-  createTempTextAttachment: (payload: CreateTempTextAttachmentRequest) =>
-    ipcRenderer.invoke(PlatformChannels.CreateTempTextAttachment, payload),
-  /** 订阅当前窗口内远程连接过程日志，返回 disposer */
-  onRemoteConnectionLog: (callback: (entry: RemoteConnectionRuntimeLog) => void) => {
-    const handler = (_event: unknown, payload: unknown) =>
-      callback(payload as RemoteConnectionRuntimeLog);
-    ipcRenderer.on(PlatformChannels.RemoteConnectionLog, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.RemoteConnectionLog, handler);
+  createTempTextAttachment(payload: CreateTempTextAttachmentRequest) {
+    return ipcRenderer.invoke(PlatformChannels.CreateTempTextAttachment, payload);
   },
-  /** 订阅当前窗口内远程 session 关闭事件，返回 disposer */
-  onRemoteSessionClosed: (callback: (event: RemoteSessionClosedEvent) => void) => {
-    const handler = (_event: unknown, payload: unknown) =>
-      callback(payload as RemoteSessionClosedEvent);
-    ipcRenderer.on(PlatformChannels.RemoteSessionClosed, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.RemoteSessionClosed, handler);
+  onRemoteConnectionLog(callback: (entry: RemoteConnectionRuntimeLog) => void) {
+    return subscribe(PlatformChannels.RemoteConnectionLog, callback);
   },
-  /** 检查目录是否已在其他窗口打开 */
-  activateOrSetWorkspace: (path: string): Promise<{ activated: boolean }> =>
-    ipcRenderer.invoke(PlatformChannels.ActivateOrSetWorkspace, path),
-  /** 同步当前窗口所有 tab 的 workspace 路径到 main 进程 */
-  syncWindowTabs: (paths: string[]) => ipcRenderer.send(PlatformChannels.SyncWindowTabs, paths),
-  /** 同步当前窗口里 Web 远程控制允许切换的 workspace */
-  /** 同步当前窗口里 Web 远程控制可展示的 task 快照 */
-  /** 同步当前窗口的未读 task 数到 main 进程 */
-  syncWindowUnreadCount: (count: number) =>
-    ipcRenderer.send(PlatformChannels.SyncWindowUnreadCount, count),
-  syncActiveTaskSession: (sessionId: string | null) =>
-    ipcRenderer.send(PlatformChannels.SyncActiveTaskSession, sessionId),
-  /** 同步需要 main 进程即时感知的应用设置 */
-  syncAppSettings: (patch: Partial<AppSettings>) =>
-    ipcRenderer.send(PlatformChannels.SyncAppSettings, patch),
-  /** 快捷键设置页录制态开关：main 暂时摘除可配置菜单 accelerator，防止录制按键触发原命令 */
-  setShortcutRecordingActive: (active: boolean) =>
-    ipcRenderer.send(PlatformChannels.SetShortcutRecordingActive, active),
-  /** 注册 main 进程要求聚焦指定 workspace tab 的回调，返回 disposer */
-  onFocusTab: (callback: (path: string) => void): (() => void) => {
-    const handler = (_event: unknown, path: string) => callback(path);
-    ipcRenderer.on(PlatformChannels.FocusTab, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.FocusTab, handler);
+  onRemoteSessionClosed(callback: (event: RemoteSessionClosedEvent) => void) {
+    return subscribe(PlatformChannels.RemoteSessionClosed, callback);
   },
-  /** 注册 main 进程触发新建 tab 的回调，返回 disposer */
-  onNewTab: (callback: () => void): (() => void) => {
-    const handler = () => callback();
-    ipcRenderer.on(PlatformChannels.NewTab, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.NewTab, handler);
+  activateOrSetWorkspace(path: string): Promise<{ activated: boolean }> {
+    return ipcRenderer.invoke(PlatformChannels.ActivateOrSetWorkspace, path);
   },
-  /** 注册 main 进程请求关闭当前上下文的回调，返回 disposer */
-  onCloseActiveContextRequest: (callback: () => void): (() => void) => {
-    const handler = () => callback();
-    ipcRenderer.on(PlatformChannels.CloseActiveContextRequest, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.CloseActiveContextRequest, handler);
+  syncWindowTabs(paths: string[]) {
+    return ipcRenderer.send(PlatformChannels.SyncWindowTabs, paths);
   },
-  /** 注册内置 webview 的受控新页面请求，返回 disposer */
-  onOpenBrowserUrl: (callback: (request: EmbeddedBrowserOpenUrlRequest) => void): (() => void) => {
-    const handler = (_event: unknown, request: EmbeddedBrowserOpenUrlRequest) => callback(request);
-    ipcRenderer.on(PlatformChannels.OpenBrowserUrl, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.OpenBrowserUrl, handler);
+  syncWindowUnreadCount(count: number) {
+    return ipcRenderer.send(PlatformChannels.SyncWindowUnreadCount, count);
   },
-  /** 注册 agent 首次 browser 命令建好受控 view 的回调（自动开 browser-use tab），返回 disposer */
-  onBrowserViewReady: (
+  syncActiveTaskSession(sessionId: string | null) {
+    return ipcRenderer.send(PlatformChannels.SyncActiveTaskSession, sessionId);
+  },
+  syncAppSettings(patch: Partial<AppSettings>) {
+    return ipcRenderer.send(PlatformChannels.SyncAppSettings, patch);
+  },
+  setShortcutRecordingActive(active: boolean) {
+    return ipcRenderer.send(PlatformChannels.SetShortcutRecordingActive, active);
+  },
+  onFocusTab(callback: (path: string) => void): () => void {
+    return subscribe(PlatformChannels.FocusTab, callback);
+  },
+  onNewTab(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.NewTab, callback);
+  },
+  onCloseActiveContextRequest(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.CloseActiveContextRequest, callback);
+  },
+  onOpenBrowserUrl(callback: (request: EmbeddedBrowserOpenUrlRequest) => void): () => void {
+    return subscribe(PlatformChannels.OpenBrowserUrl, callback);
+  },
+  onBrowserViewReady(
     callback: (payload: {
       workspaceKey: string;
       remoteSessionId?: string;
@@ -308,60 +264,31 @@ contextBridge.exposeInMainWorld("knorvia", {
       browserId: string;
       browserGeneration: number;
     }) => void,
-  ): (() => void) => {
-    const handler = (
-      _event: unknown,
-      payload: {
-        workspaceKey: string;
-        remoteSessionId?: string;
-        sessionId: string;
-        tabId: string;
-        browserId: string;
-        browserGeneration: number;
-      },
-    ) => callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewReady, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.BrowserViewReady, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.BrowserViewReady, callback);
   },
-  /** 注册 agent browser-use 命中真实 tab 的操作状态回调，返回 disposer。 */
-  onBrowserViewOperation: (
-    callback: (payload: BrowserViewOperationPayload) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, payload: BrowserViewOperationPayload) => callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewOperation, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.BrowserViewOperation, handler);
+  onBrowserViewOperation(callback: (payload: BrowserViewOperationPayload) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewOperation, callback);
   },
-  /** 注册当前受控 tab viewport 变化回调，Agent 设置时用于同步自由尺寸模式。 */
-  onBrowserViewViewportChanged: (
+  onBrowserViewViewportChanged(
     callback: (payload: BrowserViewViewportChangedPayload) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, payload: BrowserViewViewportChangedPayload) =>
-      callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewViewportChanged, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.BrowserViewViewportChanged, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.BrowserViewViewportChanged, callback);
   },
-  onBrowserViewScreenshotSurfacePrepare: (
+  onBrowserViewScreenshotSurfacePrepare(
     callback: (payload: BrowserViewScreenshotSurfacePreparePayload) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, payload: BrowserViewScreenshotSurfacePreparePayload) =>
-      callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewScreenshotSurfacePrepare, handler);
-    return () =>
-      ipcRenderer.removeListener(PlatformChannels.BrowserViewScreenshotSurfacePrepare, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.BrowserViewScreenshotSurfacePrepare, callback);
   },
-  onBrowserViewScreenshotSurfaceRelease: (
+  onBrowserViewScreenshotSurfaceRelease(
     callback: (payload: BrowserViewScreenshotSurfaceReleasePayload) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, payload: BrowserViewScreenshotSurfaceReleasePayload) =>
-      callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewScreenshotSurfaceRelease, handler);
-    return () =>
-      ipcRenderer.removeListener(PlatformChannels.BrowserViewScreenshotSurfaceRelease, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.BrowserViewScreenshotSurfaceRelease, callback);
   },
-  browserViewScreenshotSurfaceReady: (payload: BrowserViewScreenshotSurfaceReadyPayload): void => {
+  browserViewScreenshotSurfaceReady(payload: BrowserViewScreenshotSurfaceReadyPayload): void {
     ipcRenderer.send(PlatformChannels.BrowserViewScreenshotSurfaceReady, payload);
   },
-  onBrowserViewVisibility: (
+  onBrowserViewVisibility(
     callback: (payload: {
       visible: boolean;
       workspaceKey: string;
@@ -371,166 +298,111 @@ contextBridge.exposeInMainWorld("knorvia", {
       browserId: string;
       browserGeneration: number;
     }) => void,
-  ): (() => void) => {
-    const handler = (
-      _event: unknown,
-      payload: {
-        visible: boolean;
-        workspaceKey: string;
-        remoteSessionId: string | undefined;
-        sessionId: string;
-        tabId?: string;
-        browserId: string;
-        browserGeneration: number;
-      },
-    ) => callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewVisibility, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.BrowserViewVisibility, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.BrowserViewVisibility, callback);
   },
-  /** 注册 agent close 命令要求卸载受控 tab 的回调，返回 disposer */
-  onBrowserViewCloseTab: (
-    callback: (payload: BrowserViewCloseTabNotification) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, payload: BrowserViewCloseTabNotification) =>
-      callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewCloseTab, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.BrowserViewCloseTab, handler);
+  onBrowserViewCloseTab(callback: (payload: BrowserViewCloseTabNotification) => void): () => void {
+    return subscribe(PlatformChannels.BrowserViewCloseTab, callback);
   },
-  onBrowserViewSuspend: (
+  onBrowserViewSuspend(
     callback: (payload: BrowserViewResidencyTransitionPayload) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, payload: BrowserViewResidencyTransitionPayload) =>
-      callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewSuspend, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.BrowserViewSuspend, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.BrowserViewSuspend, callback);
   },
-  onBrowserViewRestore: (
+  onBrowserViewRestore(
     callback: (payload: BrowserViewResidencyTransitionPayload) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, payload: BrowserViewResidencyTransitionPayload) =>
-      callback(payload);
-    ipcRenderer.on(PlatformChannels.BrowserViewRestore, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.BrowserViewRestore, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.BrowserViewRestore, callback);
   },
-  /** 注册 main 进程触发新建任务的回调，返回 disposer */
-  onNewTask: (callback: () => void): (() => void) => {
-    const handler = () => callback();
-    ipcRenderer.on(PlatformChannels.NewTask, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.NewTask, handler);
+  onNewTask(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.NewTask, callback);
   },
-  /** 注册 main 进程触发打开工作区的回调，返回 disposer */
-  onOpenWorkspace: (callback: () => void): (() => void) => {
-    const handler = () => callback();
-    ipcRenderer.on(PlatformChannels.OpenWorkspace, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.OpenWorkspace, handler);
+  onOpenWorkspace(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.OpenWorkspace, callback);
   },
-  /** 注册 deep link 直接打开本地工作区目录回调，返回 disposer */
-  onOpenWorkspacePath: (callback: (path: string) => void): (() => void) => {
-    openWorkspacePathCallbacks.add(callback);
-    while (pendingOpenWorkspacePaths.length > 0) {
-      const path = pendingOpenWorkspacePaths.shift();
-      if (path) {
-        callback(path);
-      }
+  onOpenWorkspacePath(callback: (path: string) => void): () => void {
+    workspacePathSubscribers.add(callback);
+    while (pendingWorkspacePaths.length > 0) {
+      const path = pendingWorkspacePaths.shift();
+      if (path) callback(path);
     }
-    return () => openWorkspacePathCallbacks.delete(callback);
+    return () => workspacePathSubscribers.delete(callback);
   },
-  onOpenFeedbackDialog: (callback: () => void): (() => void) => {
-    const handler = () => callback();
-    ipcRenderer.on(PlatformChannels.OpenFeedbackDialog, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.OpenFeedbackDialog, handler);
+  onOpenFeedbackDialog(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.OpenFeedbackDialog, callback);
   },
-  onOpenTicketsPanel: (callback: () => void): (() => void) => {
-    const handler = () => callback();
-    ipcRenderer.on(PlatformChannels.OpenTicketsPanel, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.OpenTicketsPanel, handler);
+  onOpenTicketsPanel(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.OpenTicketsPanel, callback);
   },
-  /** 注册窗口全屏状态变化回调，返回 disposer */
-  onWindowFullscreenChanged: (callback: (isFullscreen: boolean) => void): (() => void) => {
-    const handler = (_event: unknown, isFullscreen: boolean) => callback(isFullscreen);
-    ipcRenderer.on(PlatformChannels.WindowFullscreenChanged, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.WindowFullscreenChanged, handler);
+  onWindowFullscreenChanged(callback: (isFullscreen: boolean) => void): () => void {
+    return subscribe(PlatformChannels.WindowFullscreenChanged, callback);
   },
-  /** 读取窗口最大化状态与系统原生圆角能力 */
-  getDesktopWindowChromeState: (): Promise<DesktopWindowChromeState> =>
-    ipcRenderer.invoke(PlatformChannels.GetDesktopWindowChromeState),
-  /** 注册窗口最大化状态与系统原生圆角能力变化回调 */
-  onDesktopWindowChromeStateChanged: (
+  getDesktopWindowChromeState(): Promise<DesktopWindowChromeState> {
+    return ipcRenderer.invoke(PlatformChannels.GetDesktopWindowChromeState);
+  },
+  onDesktopWindowChromeStateChanged(
     callback: (state: DesktopWindowChromeState) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, state: DesktopWindowChromeState) => callback(state);
-    ipcRenderer.on(PlatformChannels.DesktopWindowChromeStateChanged, handler);
-    return () =>
-      ipcRenderer.removeListener(PlatformChannels.DesktopWindowChromeStateChanged, handler);
+  ): () => void {
+    return subscribe(PlatformChannels.DesktopWindowChromeStateChanged, callback);
   },
-  /** 同步读取当前原生窗口控制区安全边距 */
-  getWindowControlsOverlayMetrics: (): WindowControlsOverlayMetrics =>
-    latestWindowControlsOverlayMetrics ?? readCurrentWindowControlsOverlayMetrics(),
-  /** 注册原生窗口控制区安全边距变化回调，返回 disposer */
-  onWindowControlsOverlayChanged: (
+  getWindowControlsOverlayMetrics(): WindowControlsOverlayMetrics {
+    return overlayMetrics ?? currentMetrics();
+  },
+  onWindowControlsOverlayChanged(
     callback: (metrics: WindowControlsOverlayMetrics) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, metrics: WindowControlsOverlayMetrics) => callback(metrics);
-    callback(latestWindowControlsOverlayMetrics ?? readCurrentWindowControlsOverlayMetrics());
-    ipcRenderer.on(PlatformChannels.WindowControlsOverlayChanged, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.WindowControlsOverlayChanged, handler);
+  ): () => void {
+    callback(overlayMetrics ?? currentMetrics());
+    return subscribe(PlatformChannels.WindowControlsOverlayChanged, callback);
   },
-  /** 同步读取当前桌面窗口页面缩放档位 */
-  getDesktopZoomLevel: async (): Promise<DesktopZoomState> => {
+  async getDesktopZoomLevel(): Promise<DesktopZoomState> {
     const state = await ipcRenderer.invoke(PlatformChannels.GetDesktopZoomLevel);
     if (Number.isFinite(state?.zoomLevel)) {
-      latestDesktopZoomLevel = clampDesktopZoomLevel(state.zoomLevel);
+      zoomLevel = boundZoom(state.zoomLevel);
     }
-    return { zoomLevel: latestDesktopZoomLevel };
+    return { zoomLevel };
   },
-  /** 注册当前桌面窗口页面缩放档位变化回调，返回 disposer */
-  onDesktopZoomLevelChanged: (callback: (state: DesktopZoomState) => void): (() => void) => {
+  onDesktopZoomLevelChanged(callback: (state: DesktopZoomState) => void): () => void {
+    callback({ zoomLevel });
     const handler = (_event: unknown, state: DesktopZoomState) => {
-      if (!Number.isFinite(state.zoomLevel)) {
-        return;
-      }
-      latestDesktopZoomLevel = clampDesktopZoomLevel(state.zoomLevel);
-      callback({ zoomLevel: latestDesktopZoomLevel });
+      if (!Number.isFinite(state.zoomLevel)) return;
+      zoomLevel = boundZoom(state.zoomLevel);
+      callback({ zoomLevel });
     };
-    callback({ zoomLevel: latestDesktopZoomLevel });
     ipcRenderer.on(PlatformChannels.DesktopZoomLevelChanged, handler);
     return () => ipcRenderer.removeListener(PlatformChannels.DesktopZoomLevelChanged, handler);
   },
-  /** 注册用户点击系统通知后跳转到对应任务的回调，返回 disposer */
-  onTaskNotificationClick: (callback: (taskId: string) => void): (() => void) => {
-    const handler = (_event: unknown, taskId: string) => callback(taskId);
-    ipcRenderer.on(PlatformChannels.TaskNotificationClick, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.TaskNotificationClick, handler);
+  onTaskNotificationClick(callback: (taskId: string) => void): () => void {
+    return subscribe(PlatformChannels.TaskNotificationClick, callback);
   },
-  /** 打开外部 URL（用于 OAuth 跳转浏览器） */
-  openExternal: (url: string) => ipcRenderer.send(PlatformChannels.OpenExternal, url),
-  /** 查询当前语言下是否存在可用的用户社群入口 */
-  canOpenCommunity: (locale: Locale): Promise<boolean> =>
-    ipcRenderer.invoke(PlatformChannels.CanOpenCommunity, locale),
-  /** 在系统文件管理器中打开指定路径 */
-  openInFileManager: (path: string) => ipcRenderer.invoke(PlatformChannels.OpenInFileManager, path),
-  /** 使用系统默认应用打开本地文件 */
-  openExternalFile: (path: string) => ipcRenderer.invoke(PlatformChannels.OpenExternalFile, path),
-  /** 打开 Knorvia Studio Computer Use 完整权限引导 */
-  openCuaPermissionOnboarding: (options?: OpenCuaPermissionOnboardingOptions) =>
-    ipcRenderer.invoke(PlatformChannels.OpenCuaPermissionOnboarding, options),
-  /** 只取消当前 renderer 以 operationId 发起的 onboarding participant。 */
-  cancelCuaPermissionOnboarding: (operationId: string) =>
-    ipcRenderer.send(PlatformChannels.CancelCuaPermissionOnboarding, {
-      operationId,
-    }),
-  /** 预热并缓存已验证的 Helper 路径，使 dragstart 能同步 startDrag（避免异步 I/O 错过手势） */
-  prepareCuaHelperPermissionDrag: () =>
-    ipcRenderer.invoke(PlatformChannels.PrepareCuaHelperPermissionDrag),
-  /** 从权限浮窗拖拽 Helper.app 到 macOS 权限列表。必须是 send —— invoke 的往返会错过手势。 */
-  startCuaHelperPermissionDrag: () =>
-    ipcRenderer.send(PlatformChannels.StartCuaHelperPermissionDrag),
-  /** 通知 main process renderer 已就绪 */
-  notifyRendererReady: () => ipcRenderer.send(PlatformChannels.RendererReady),
-  /** 同步 renderer telemetry 上下文到 main process */
-  syncTelemetryContext: (_context: TelemetryRendererContext) => undefined,
-  /** 通过 main process 统一上报业务 telemetry 事件 */
-  reportTelemetryEvent: (_payload: {
+  openExternal(url: string) {
+    return ipcRenderer.send(PlatformChannels.OpenExternal, url);
+  },
+  canOpenCommunity(locale: Locale): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.CanOpenCommunity, locale);
+  },
+  openInFileManager(path: string) {
+    return ipcRenderer.invoke(PlatformChannels.OpenInFileManager, path);
+  },
+  openExternalFile(path: string) {
+    return ipcRenderer.invoke(PlatformChannels.OpenExternalFile, path);
+  },
+  openCuaPermissionOnboarding(options?: OpenCuaPermissionOnboardingOptions) {
+    return ipcRenderer.invoke(PlatformChannels.OpenCuaPermissionOnboarding, options);
+  },
+  cancelCuaPermissionOnboarding(operationId: string) {
+    return ipcRenderer.send(PlatformChannels.CancelCuaPermissionOnboarding, { operationId });
+  },
+  prepareCuaHelperPermissionDrag() {
+    return ipcRenderer.invoke(PlatformChannels.PrepareCuaHelperPermissionDrag);
+  },
+  startCuaHelperPermissionDrag() {
+    return ipcRenderer.send(PlatformChannels.StartCuaHelperPermissionDrag);
+  },
+  notifyRendererReady() {
+    return ipcRenderer.send(PlatformChannels.RendererReady);
+  },
+  syncTelemetryContext(_context: TelemetryRendererContext) {},
+  reportTelemetryEvent(_payload: {
     context: TelemetryRendererContext;
     elementName: string;
     eventRegion: string;
@@ -540,60 +412,54 @@ contextBridge.exposeInMainWorld("knorvia", {
     userId?: string;
     talkId?: string;
     messageId?: string;
-  }) => Promise.resolve(),
-  /** 通过 main process 统一上报 ARMS 自定义事件 */
-  reportArmsCustomEvent: (_payload: {
+  }) {
+    return Promise.resolve(undefined);
+  },
+  reportArmsCustomEvent(_payload: {
     name: string;
     group: string;
     value?: number;
     properties?: Record<string, string | number | boolean | undefined>;
-  }) => Promise.resolve(),
-  /** 读取 Renderer 用户操作 Trace 灰度配置。 */
-  getRendererActionTraceConfig: (): Promise<RendererActionTraceConfigV1> =>
-    ipcRenderer.invoke(PlatformChannels.GetRendererActionTraceConfig),
-  /** 订阅 Main 推送的 Renderer 用户操作 Trace 配置变化。 */
-  onRendererActionTraceConfigChanged: (
-    callback: (config: RendererActionTraceConfigV1) => void,
-  ): (() => void) => {
-    const handler = (_event: unknown, config: RendererActionTraceConfigV1) => callback(config);
-    ipcRenderer.on(PlatformChannels.RendererActionTraceConfigChanged, handler);
-    return () =>
-      ipcRenderer.removeListener(PlatformChannels.RendererActionTraceConfigChanged, handler);
+  }) {
+    return Promise.resolve(undefined);
   },
-  /** 发送已结束 Span；使用 send 避免遥测往返阻塞业务。 */
+  getRendererActionTraceConfig(): Promise<RendererActionTraceConfigV1> {
+    return ipcRenderer.invoke(PlatformChannels.GetRendererActionTraceConfig);
+  },
+  onRendererActionTraceConfigChanged(
+    callback: (config: RendererActionTraceConfigV1) => void,
+  ): () => void {
+    return subscribe(PlatformChannels.RendererActionTraceConfigChanged, callback);
+  },
   reportLocalTtftBatch: (batch: import("@knorvia/shared").LocalTtftBatch): void =>
     ipcRenderer.send(PlatformChannels.ReportLocalTtftBatch, batch),
   reportRendererActionTraceBatch: (batch: RendererActionTraceBatchV1): void =>
     ipcRenderer.send(PlatformChannels.ReportRendererActionTraceBatch, batch),
-  /**
-   * 主窗口 renderer 的 60 秒 heap 读数。
-   * 只提供单向 send：main 不回执，renderer 也不能靠它反查 main 的进程事实。
-   */
   reportRendererHeapSample: (sample: RendererHeapSample): void =>
     ipcRenderer.send(PlatformChannels.ReportRendererHeapSample, sample),
-  /** 通过 main process 触发原生任务通知 */
-  showTaskNotification: (payload: TaskNotificationPayload) =>
-    ipcRenderer.send(PlatformChannels.ShowTaskNotification, payload),
-  /** 导出日志：打包 ~/.knorvia-studio/v2 及外部 agent 日志为 zip 并在 Finder 中显示 */
-  exportLogs: (): Promise<{
-    success: boolean;
-    path?: string;
-    error?: string;
-  }> => ipcRenderer.invoke(PlatformChannels.ExportLogs),
-  previewLocalDiagnostics: (
+  showTaskNotification(payload: TaskNotificationPayload) {
+    return ipcRenderer.send(PlatformChannels.ShowTaskNotification, payload);
+  },
+  exportLogs(): Promise<{ success: boolean; path?: string; error?: string }> {
+    return ipcRenderer.invoke(PlatformChannels.ExportLogs);
+  },
+  previewLocalDiagnostics(
     request: import("@knorvia/shared").LocalDiagnosticRequest,
-  ): Promise<import("@knorvia/shared").LocalDiagnosticPreview> =>
-    ipcRenderer.invoke(PlatformChannels.PreviewLocalDiagnostics, request),
-  exportLocalDiagnostics: (
+  ): Promise<import("@knorvia/shared").LocalDiagnosticPreview> {
+    return ipcRenderer.invoke(PlatformChannels.PreviewLocalDiagnostics, request);
+  },
+  exportLocalDiagnostics(
     id: string,
-  ): Promise<import("@knorvia/shared").LocalDiagnosticExportResult> =>
-    ipcRenderer.invoke(PlatformChannels.ExportLocalDiagnostics, id),
-  checkReleaseUpdate: (): Promise<import("@knorvia/shared").ReleaseUpdateCheckResult> =>
-    ipcRenderer.invoke(PlatformChannels.CheckReleaseUpdate),
-  /** 截取当前窗口，用于错误反馈携带现场画面 */
-  captureWindowScreenshot: () => ipcRenderer.invoke(PlatformChannels.CaptureWindowScreenshot),
-  // CDP-on-guest pivot：`<webview>` guest dom-ready 后上报 webContentsId 给 main attach。
-  browserViewAttachGuest: (payload: {
+  ): Promise<import("@knorvia/shared").LocalDiagnosticExportResult> {
+    return ipcRenderer.invoke(PlatformChannels.ExportLocalDiagnostics, id);
+  },
+  checkReleaseUpdate(): Promise<import("@knorvia/shared").ReleaseUpdateCheckResult> {
+    return ipcRenderer.invoke(PlatformChannels.CheckReleaseUpdate);
+  },
+  captureWindowScreenshot() {
+    return ipcRenderer.invoke(PlatformChannels.CaptureWindowScreenshot);
+  },
+  browserViewAttachGuest(payload: {
     key: string;
     webContentsId: number;
     active?: boolean;
@@ -601,170 +467,167 @@ contextBridge.exposeInMainWorld("knorvia", {
     remoteSessionId?: string;
     sessionId?: string;
     residencyGeneration?: number;
-  }): Promise<BrowserGuestAttachResult> =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewAttachGuest, payload),
-  /** React 卸载旧 `<webview>` 前同步等待 main 断开 native CDP session。 */
-  browserViewDetachGuest: (payload: { key: string; webContentsId: number }): Promise<boolean> =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewDetachGuest, payload),
-  browserViewCloseTab: (payload: BrowserViewCloseTabRequest): Promise<void> =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewCloseTabFromRenderer, payload),
-  browserViewReportResidency: (payload: BrowserViewResidencyReportPayload): Promise<void> =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewReportResidency, payload),
-  browserViewSuspendReady: (payload: { tabId: string; generation: number }): Promise<void> =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewSuspendReady, payload),
-  browserViewEnsureResident: (payload: BrowserViewCloseTabRequest): Promise<void> =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewEnsureResident, payload),
-  browserViewRestoreTabs: (
+  }): Promise<BrowserGuestAttachResult> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewAttachGuest, payload);
+  },
+  browserViewDetachGuest(payload: { key: string; webContentsId: number }): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewDetachGuest, payload);
+  },
+  browserViewCloseTab(payload: BrowserViewCloseTabRequest): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewCloseTabFromRenderer, payload);
+  },
+  browserViewReportResidency(payload: BrowserViewResidencyReportPayload): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewReportResidency, payload);
+  },
+  browserViewSuspendReady(payload: { tabId: string; generation: number }): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewSuspendReady, payload);
+  },
+  browserViewEnsureResident(payload: BrowserViewCloseTabRequest): Promise<void> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewEnsureResident, payload);
+  },
+  browserViewRestoreTabs(
     payload: BrowserViewRestoreTabsRequest,
-  ): Promise<BrowserViewRestoredTabShell[]> =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewRestoreTabs, payload),
-  /** 将 UI 自由尺寸同步为当前受控 tab 的真实 viewport。 */
-  browserViewUpdateViewport: (payload: { tabId: string; viewport: BrowserViewportSize | null }) =>
-    ipcRenderer.invoke(PlatformChannels.BrowserViewUpdateViewport, payload),
-  /** 从自动发现的 Chrome Profile 一次性导入内置浏览器数据。 */
-  importChromeBrowserData: (options?: import("@knorvia/shared").ChromeBrowserDataImportOptions) =>
-    ipcRenderer.invoke(PlatformChannels.ImportChromeBrowserData, options),
-  /** 清理内置浏览器缓存或全部站点数据。 */
-  clearEmbeddedBrowserData: (mode: "cache" | "all") =>
-    ipcRenderer.invoke(PlatformChannels.ClearEmbeddedBrowserData, mode),
-  /** 读取开发态 stdio tap proxy 开关状态 */
-  getKnorviaStdioTapDevState: (): Promise<KnorviaStdioTapDevState> =>
-    ipcRenderer.invoke(PlatformChannels.GetKnorviaStdioTapDevState),
-  /** 注册 main 进程修改 settings 后的通知，返回 disposer */
-  onSettingsChanged: (callback: () => void): (() => void) => {
-    const handler = () => callback();
-    ipcRenderer.on(PlatformChannels.SettingsChanged, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.SettingsChanged, handler);
+  ): Promise<BrowserViewRestoredTabShell[]> {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewRestoreTabs, payload);
   },
-  /** 注册应用语言变化，返回 disposer */
-  onApplicationLocaleChanged: (callback: (locale: Locale) => void): (() => void) => {
-    const handler = (_event: unknown, locale: Locale) => callback(locale);
-    ipcRenderer.on(PlatformChannels.ApplicationLocaleChanged, handler);
-    return () => ipcRenderer.removeListener(PlatformChannels.ApplicationLocaleChanged, handler);
+  browserViewUpdateViewport(payload: { tabId: string; viewport: BrowserViewportSize | null }) {
+    return ipcRenderer.invoke(PlatformChannels.BrowserViewUpdateViewport, payload);
   },
-  // 跨平台接口的禁用投影；桌面没有 updater、状态 IPC 或安装动作。
-  onUpdateCheckResult: (_callback: (payload: UpdateCheckResultPayload) => void) => () => {},
-  getUpdateState: (): Promise<UpdateStatePayload> =>
-    Promise.resolve({ kind: "idle", enabled: false }),
-  onUpdateStateChanged: (_callback: (payload: UpdateStatePayload) => void) => () => {},
-  onUpdateReady: (_callback: (version: string) => void) => () => {},
-  onPostUpdateReleaseNotes:
-    (_callback: (payload: PostUpdateReleaseNotesPayload) => void) => () => {},
-  getAutoUpdatePreferences: () => Promise.resolve({ autoDownloadAndInstallUpdates: false }),
-  setAutoDownloadAndInstallUpdates: (_enabled: boolean) => Promise.resolve(),
-  downloadUpdate: () => Promise.resolve(),
-  cancelUpdateDownload: () => Promise.resolve(),
-  openUpdateStatusWindow: () => Promise.resolve(),
-  acknowledgePostUpdateReleaseNotes: (_version: string) => Promise.resolve(),
-  skipUpdateVersion: (_version: string) => Promise.resolve(),
-  quitAndInstallUpdate: () => Promise.resolve(),
-  getDesktopSessionActivity: () => ipcRenderer.invoke(PlatformChannels.GetDesktopSessionActivity),
-  /** 获取已安装的编辑器/终端列表（含图标） */
-  getInstalledEditors: () => ipcRenderer.invoke(PlatformChannels.GetInstalledEditors),
-  getApplicationIcon: (request: string | ApplicationIconRequest) =>
-    ipcRenderer.invoke(PlatformChannels.GetApplicationIcon, request),
-  /** 用指定编辑器打开路径 */
-  openInEditor: (editorId: string, path: string, options?: OpenInEditorOptions) =>
-    ipcRenderer.invoke(PlatformChannels.OpenInEditor, {
-      editorId,
-      path,
-      options,
-    }),
-  /** 执行桌面窗口级命令 */
-  executeDesktopCommand: (command: DesktopCommandId) =>
-    ipcRenderer.invoke(PlatformChannels.ExecuteDesktopCommand, command),
-  /** 同步应用菜单语言 */
-  setApplicationLocale: (locale: Locale) =>
-    ipcRenderer.invoke(PlatformChannels.SetApplicationLocale, locale),
-  /** 读取宿主系统语言 */
-  getSystemLocale: (): Promise<Locale> => ipcRenderer.invoke(PlatformChannels.GetSystemLocale),
-  /** 同步标题栏亮暗色 */
-  setTitleBarTheme: (theme: DesktopTitleBarTheme) =>
-    ipcRenderer.invoke(PlatformChannels.SetTitleBarTheme, theme),
-  setWindowGlass: (enabled: boolean): Promise<boolean> =>
-    ipcRenderer.invoke(PlatformChannels.SetWindowGlass, enabled),
-  /** 获取桌面端设备标识符（deviceMid） */
-  getDeviceId: () => ipcRenderer.invoke(PlatformChannels.GetDeviceId),
+  importChromeBrowserData(options?: import("@knorvia/shared").ChromeBrowserDataImportOptions) {
+    return ipcRenderer.invoke(PlatformChannels.ImportChromeBrowserData, options);
+  },
+  clearEmbeddedBrowserData(mode: "cache" | "all") {
+    return ipcRenderer.invoke(PlatformChannels.ClearEmbeddedBrowserData, mode);
+  },
+  getKnorviaStdioTapDevState(): Promise<KnorviaStdioTapDevState> {
+    return ipcRenderer.invoke(PlatformChannels.GetKnorviaStdioTapDevState);
+  },
+  onSettingsChanged(callback: () => void): () => void {
+    return subscribeSignal(PlatformChannels.SettingsChanged, callback);
+  },
+  onApplicationLocaleChanged(callback: (locale: Locale) => void): () => void {
+    return subscribe(PlatformChannels.ApplicationLocaleChanged, callback);
+  },
+  onUpdateCheckResult(_callback: (payload: UpdateCheckResultPayload) => void) {
+    return () => {};
+  },
+  getUpdateState(): Promise<UpdateStatePayload> {
+    return Promise.resolve({ kind: "idle", enabled: false });
+  },
+  onUpdateStateChanged(_callback: (payload: UpdateStatePayload) => void) {
+    return () => {};
+  },
+  onUpdateReady(_callback: (version: string) => void) {
+    return () => {};
+  },
+  onPostUpdateReleaseNotes(_callback: (payload: PostUpdateReleaseNotesPayload) => void) {
+    return () => {};
+  },
+  getAutoUpdatePreferences() {
+    return Promise.resolve({ autoDownloadAndInstallUpdates: false });
+  },
+  setAutoDownloadAndInstallUpdates(_enabled: boolean) {
+    return Promise.resolve(undefined);
+  },
+  downloadUpdate() {
+    return Promise.resolve(undefined);
+  },
+  cancelUpdateDownload() {
+    return Promise.resolve(undefined);
+  },
+  openUpdateStatusWindow() {
+    return Promise.resolve(undefined);
+  },
+  acknowledgePostUpdateReleaseNotes(_version: string) {
+    return Promise.resolve(undefined);
+  },
+  skipUpdateVersion(_version: string) {
+    return Promise.resolve(undefined);
+  },
+  quitAndInstallUpdate() {
+    return Promise.resolve(undefined);
+  },
+  getDesktopSessionActivity() {
+    return ipcRenderer.invoke(PlatformChannels.GetDesktopSessionActivity);
+  },
+  getInstalledEditors() {
+    return ipcRenderer.invoke(PlatformChannels.GetInstalledEditors);
+  },
+  getApplicationIcon(request: string | ApplicationIconRequest) {
+    return ipcRenderer.invoke(PlatformChannels.GetApplicationIcon, request);
+  },
+  openInEditor(editorId: string, path: string, options?: OpenInEditorOptions) {
+    return ipcRenderer.invoke(PlatformChannels.OpenInEditor, { editorId, path, options });
+  },
+  executeDesktopCommand(command: DesktopCommandId) {
+    return ipcRenderer.invoke(PlatformChannels.ExecuteDesktopCommand, command);
+  },
+  setApplicationLocale(locale: Locale) {
+    return ipcRenderer.invoke(PlatformChannels.SetApplicationLocale, locale);
+  },
+  getSystemLocale(): Promise<Locale> {
+    return ipcRenderer.invoke(PlatformChannels.GetSystemLocale);
+  },
+  setTitleBarTheme(theme: DesktopTitleBarTheme) {
+    return ipcRenderer.invoke(PlatformChannels.SetTitleBarTheme, theme);
+  },
+  setWindowGlass(enabled: boolean): Promise<boolean> {
+    return ipcRenderer.invoke(PlatformChannels.SetWindowGlass, enabled);
+  },
+  getDeviceId() {
+    return ipcRenderer.invoke(PlatformChannels.GetDeviceId);
+  },
 });
 
-/**
- * MessagePort 不能通过 contextBridge 传递（contextBridge 会把它包成 Proxy，
- * 丢失 addEventListener 等原生方法）。改用 window.postMessage 的 transfer
- * 机制将 MessagePort 原样传递到 renderer 的 window context 中。
- */
-ipcRenderer.on(InternalChannels.ServicePort, (event, payload: unknown) => {
+ipcRenderer.on(InternalChannels.ServicePort, (event, payload) => {
   const [port] = event.ports;
   const parsed = databaseStartupPortPayloadSchema.safeParse(payload);
-  if (port && parsed.success)
+  if (port && parsed.success) {
     window.postMessage({ type: InternalChannels.ServicePort, ...parsed.data }, "*", [port]);
-  else port?.close();
+  } else {
+    port?.close();
+  }
 });
-
-ipcRenderer.on(
-  InternalChannels.ScopedServicePort,
-  (
-    event,
-    payload: {
-      attachmentId?: string;
-      sessionId?: string;
-      target?: RemoteTarget;
-    },
-  ) => {
-    const [port] = event.ports;
-    if (port) {
-      window.postMessage(
-        {
-          type: InternalChannels.ScopedServicePort,
-          attachmentId: payload.attachmentId,
-          sessionId: payload.sessionId,
-          target: payload.target,
-        },
-        "*",
-        [port],
-      );
-    }
-  },
-);
-
+ipcRenderer.on(InternalChannels.ScopedServicePort, (event, payload) => {
+  const [port] = event.ports;
+  if (port) {
+    window.postMessage(
+      {
+        type: InternalChannels.ScopedServicePort,
+        attachmentId: payload.attachmentId,
+        sessionId: payload.sessionId,
+        target: payload.target,
+      },
+      "*",
+      [port],
+    );
+  }
+});
 window.addEventListener("message", (event) => {
-  if (event.source !== window || typeof event.data !== "object" || event.data === null) {
-    return;
-  }
-  const payload = event.data as {
-    type?: unknown;
-    attachmentId?: unknown;
-    sessionId?: unknown;
-  };
-  if (
-    payload.type !== InternalChannels.ScopedServicePortReady ||
-    typeof payload.attachmentId !== "string" ||
-    !payload.attachmentId ||
-    typeof payload.sessionId !== "string" ||
-    !payload.sessionId
-  ) {
-    return;
-  }
-  // MessagePort 注册发生在隔离的 renderer world，Main 不能把“已投递”误当作“已可用”。
-  // preload 只把 renderer 的 ready ACK 薄转发给 Main，业务 attachment 状态仍由窗口 session manager 管理。
+  if (event.source !== window || typeof event.data !== "object" || event.data === null) return;
+  const payload = event.data;
+  if (payload.type !== InternalChannels.ScopedServicePortReady) return;
+  if (typeof payload.attachmentId !== "string" || !payload.attachmentId) return;
+  if (typeof payload.sessionId !== "string" || !payload.sessionId) return;
   ipcRenderer.send(InternalChannels.ScopedServicePortReady, {
     attachmentId: payload.attachmentId,
     sessionId: payload.sessionId,
   });
 });
-
 ipcRenderer.on(PlatformChannels.TaskNotificationSound, () => {
   window.postMessage(InternalChannels.TaskNotificationSound, "*");
 });
-
-// 启动控制面先于普通 RPC；reload 从 Main 的通知镜像补齐，不触发新迁移。
-ipcRenderer.on(InternalChannels.DatabaseStartupState, (_event, raw: unknown) => {
+ipcRenderer.on(InternalChannels.DatabaseStartupState, (_event, raw) => {
   const parsed = databaseStartupStateSchema.safeParse(raw);
-  if (parsed.success)
+  if (parsed.success) {
     window.postMessage({ type: InternalChannels.DatabaseStartupState, state: parsed.data }, "*");
+  }
 });
 window.addEventListener("message", (event) => {
   if (event.source !== window || event.data?.type !== InternalChannels.DatabaseStartupControl)
     return;
   const parsed = databaseStartupControlSchema.safeParse(event.data.control);
-  if (parsed.success) ipcRenderer.send(InternalChannels.DatabaseStartupControl, parsed.data);
+  if (parsed.success) {
+    ipcRenderer.send(InternalChannels.DatabaseStartupControl, parsed.data);
+  }
 });

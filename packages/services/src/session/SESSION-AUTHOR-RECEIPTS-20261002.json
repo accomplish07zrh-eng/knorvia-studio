@@ -1,0 +1,2783 @@
+{
+  "date": "2026-10-02",
+  "allocation": "parent/root exact-hash no later accepted replacement check authorized five complete owners; bounded evidence, not licence acceptance",
+  "authorModel": "GPT-6.1 Sol high, user requested Fast; no independent tier switch claimed",
+  "coordinator": "source-exposed behavior/API contract extraction and submitted review; no inherited bodies provided to authors",
+  "apiGenerator": {
+    "path": "/tmp/knorvia-session-api-extract-20261002.mjs",
+    "sha256": "14dd4910ec35fb694e19bee8d88f7d48b28a38dc4eb3d3a5bb4be922a446e2f7",
+    "validation": "all21 generated API packets AST zero function/method/arrow/constructor bodies; imports/type declarations retained"
+  },
+  "originalOwners": [
+    {
+      "path": "packages/services/src/session/automationService.ts",
+      "sha256": "c9e88cd1fe3c85ca6382df23c98c2bd9fb4998a2dc3f03f754d73353f338d963",
+      "blob": "dd2acb3c9e62098f74a78406318b76e0d5d24890",
+      "nonblankLines": 370
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+      "sha256": "1e758c09ab99d77cbbaaaca5bf6c5bbdace2ba72d164017f46cc98b98e066b47",
+      "blob": "7d9deaa227854e4a4d381b961f801456d6f00383",
+      "nonblankLines": 323
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+      "sha256": "bd270af9291e798be53c13508ccff9b7c443fda37a838019b6b03923a3501b4f",
+      "blob": "d54c0f4001b084bee97edb85b1fb98b269a3a7f6",
+      "nonblankLines": 265
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+      "sha256": "bf7fb79b66374214b353fcbb9ddaf73dba526ac593cd0b24959a02a9ec57333e",
+      "blob": "ac9583eb122e053a823afebaaa5cb1e92e441206",
+      "nonblankLines": 170
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+      "sha256": "95ce4e4d14a0cf2d52bd0d66da93d09b7be34b57bbcebd773a9a1111271716a2",
+      "blob": "2f561c9ab2f9086e81fc721b54dd3a2fef7b6d7c",
+      "nonblankLines": 205
+    }
+  ],
+  "authors": {
+    "automation": [
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/automation/own-review/review.json",
+        "sha256": "bc06174ddf90a344edd9ecf9cdaa0c9369b91831e17ab3430a6717279aff3362",
+        "contents": {
+          "owner": "automation_service_complete_author",
+          "phase": "own-review",
+          "reviewedAtUtc": "2026-10-02T21:11:15.838072+00:00",
+          "reviewStartedAfterRawFreeze": true,
+          "reviewedSource": {
+            "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+            "sha256": "1b978dccf4da0afa12b3926397e2b5f8c2f14c47467d6078c4db3c19e7009cb8"
+          },
+          "rawFirstReadyPreserved": true,
+          "revisions": [],
+          "recommendedSource": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+          "actualReadsAfterRawFreeze": [
+            {
+              "operation": "cat",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/validation-api.ts"
+              ],
+              "extent": "full"
+            },
+            {
+              "operation": "review receipt",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full bytes for SHA256 only"
+            }
+          ],
+          "manualContractReview": {
+            "publicApi": "All 12 public lifecycle and query methods, optional repository injection, retained default constructor, exactly two specified error reexports.",
+            "create": "Studio gates precede the clock; relative delay gates precede carrier validation; normalized creation delegates schedule arithmetic and persists only after admission; endAt supplies conditional completed status.",
+            "update": "Workspace key is captured before get await; params are first observed after get resolves; direct rule validates before destructure; carrier and maxRuns constraints follow contract order; clock follows cron validation.",
+            "rules": "Undefined, null clear, carrier and inferred rule paths remain distinct; equal rule definitions preserve the existing anchor; direct rule validation occurs twice as specified.",
+            "lifecycle": "End cutoff uses the prescribed nullish fallback; scheduled count excludes displayed manual totals; count null returns without update; recurring and maxRuns decisions retain their later precedence.",
+            "awaitBarriers": "No added await on forwarded results; get and scheduled-count awaits retain admitted values and workspace scope; restart and runNow read before clock or schedule decisions.",
+            "scope": "List and hasTaskBinding preserve the scope object; keyed methods delegate identity to resolveWorkspaceKey only for truthy workspacePath.",
+            "retainedPorts": "No cron arithmetic, validation errors, repository implementation, scheduler, dispatch, provider, permission, or database behavior added."
+          },
+          "findings": [],
+          "result": "No contract discrepancy found by manual own-source review. No executable validation performed.",
+          "access": {
+            "repositoryEdits": false,
+            "forbiddenSourceReads": false,
+            "network": false,
+            "runtimeProviderTaskDatabaseIO": false,
+            "testsCompilerBuild": false
+          },
+          "remainingValidation": "Parent integration checks are outside this isolated authoring scope; this result does not claim typecheck, lint, tests, architecture checker, or build success.",
+          "licensing": "No MIT or novelty grant asserted; retained port and error lineage remains unchanged."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/automation/own-review-r2/review.json",
+        "sha256": "2102904d81d9a6d1d2585ec8999036e2a14cff8938adccac3af42fe7f542db5d",
+        "contents": {
+          "owner": "automation_service_complete_author",
+          "phase": "own-review",
+          "reviewedAtUtc": "2026-10-02T21:11:26.258855+00:00",
+          "reviewStartedAfterRawFreeze": true,
+          "reviewedSource": {
+            "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+            "sha256": "1b978dccf4da0afa12b3926397e2b5f8c2f14c47467d6078c4db3c19e7009cb8"
+          },
+          "rawFirstReadyPreserved": true,
+          "revisions": [],
+          "recommendedSource": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+          "actualReadsAfterRawFreeze": [
+            {
+              "operation": "cat",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/validation-api.ts"
+              ],
+              "extent": "full"
+            },
+            {
+              "operation": "review receipt",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full bytes for SHA256 only"
+            },
+            {
+              "operation": "review receipt correction",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/own-review/review.json",
+              "extent": "full bytes for JSON correction and SHA256"
+            }
+          ],
+          "manualContractReview": {
+            "publicApi": "All 11 public lifecycle and query methods, optional repository injection, retained default constructor, exactly two specified error reexports.",
+            "create": "Studio gates precede the clock; relative delay gates precede carrier validation; normalized creation delegates schedule arithmetic and persists only after admission; endAt supplies conditional completed status.",
+            "update": "Workspace key is captured before get await; params are first observed after get resolves; direct rule validates before destructure; carrier and maxRuns constraints follow contract order; clock follows cron validation.",
+            "rules": "Undefined, null clear, carrier and inferred rule paths remain distinct; equal rule definitions preserve the existing anchor; direct rule validation occurs twice as specified.",
+            "lifecycle": "End cutoff uses the prescribed nullish fallback; scheduled count excludes displayed manual totals; count null returns without update; recurring and maxRuns decisions retain their later precedence.",
+            "awaitBarriers": "No added await on forwarded results; get and scheduled-count awaits retain admitted values and workspace scope; restart and runNow read before clock or schedule decisions.",
+            "scope": "List and hasTaskBinding preserve the scope object; keyed methods delegate identity to resolveWorkspaceKey only for truthy workspacePath.",
+            "retainedPorts": "No cron arithmetic, validation errors, repository implementation, scheduler, dispatch, provider, permission, or database behavior added."
+          },
+          "findings": [],
+          "result": "No contract discrepancy found by manual own-source review. No executable validation performed.",
+          "access": {
+            "repositoryEdits": false,
+            "forbiddenSourceReads": false,
+            "network": false,
+            "runtimeProviderTaskDatabaseIO": false,
+            "testsCompilerBuild": false
+          },
+          "remainingValidation": "Parent integration checks are outside this isolated authoring scope; this result does not claim typecheck, lint, tests, architecture checker, or build success.",
+          "licensing": "No MIT or novelty grant asserted; retained port and error lineage remains unchanged.",
+          "reviewReceiptRevision": {
+            "previousPath": "/tmp/knorvia-session-candidates-20261002/automation/own-review/review.json",
+            "previousSha256": "bc06174ddf90a344edd9ecf9cdaa0c9369b91831e17ab3430a6717279aff3362",
+            "reason": "Correct public method count in review receipt from 12 to 11; source unchanged."
+          }
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/candidate.json",
+        "sha256": "5eae226429b1683d4f9e52c8e47ff1debf72a88ec546169178e808df83358098",
+        "contents": {
+          "owner": "automation_service_complete_author",
+          "phase": "raw-first-ready",
+          "frozenAtUtc": "2026-10-02T21:10:38.237443+00:00",
+          "selfReviewBeforeFreeze": false,
+          "inputs": [
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/automation.md",
+              "sha256": "ba66411c54a07f53ff35238071e32748b9205a99794f79c563a0126644809d46"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/automation-api.ts",
+              "sha256": "7a7ed714172a1bcf7c0867b822f7d4a12f15c41fb661cabb33c2cac30954d68b"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+              "sha256": "715dfb9f020a62dab5576dde63f13827b5cadd9258a6f3c31a76527beb6d6653"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+              "sha256": "6b63563f9cca01a504e213655b1cee4a344b4749fe097c64699e3f362332d362"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+              "sha256": "86e999686d2c08decae20abc24af82a986b47f4a1c0c9f376b0fcc2da968b4a2"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/validation-api.ts",
+              "sha256": "401b195adc44688fd110a3a0adde56e6870e1877ee14465f9e92cf352862cc9f"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedAutomation-api.ts",
+              "sha256": "1e69f2dcc917433c8873e80ee7778d615d3377f35a461a35e918422a1cb35cbe"
+            }
+          ],
+          "actualReads": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/automation.md",
+                "/tmp/knorvia-session-contracts-20261002/automation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/validation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedAutomation-api.ts"
+              ],
+              "extent": "full; aggregate tool output truncated"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/automation.md",
+                "/tmp/knorvia-session-contracts-20261002/automation-api.ts"
+              ],
+              "extent": "full"
+            },
+            {
+              "operation": "sed",
+              "path": "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+              "extent": "lines 1-125"
+            },
+            {
+              "operation": "sed",
+              "path": "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+              "extent": "lines 120-190"
+            },
+            {
+              "operation": "freeze receipt",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/automation.md",
+                "/tmp/knorvia-session-contracts-20261002/automation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/validation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedAutomation-api.ts"
+              ],
+              "extent": "full bytes for SHA256 only"
+            },
+            {
+              "operation": "freeze receipt",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full bytes for SHA256 and nonblank line count only"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "sha256": "1b978dccf4da0afa12b3926397e2b5f8c2f14c47467d6078c4db3c19e7009cb8",
+              "nonblankLines": 319,
+              "mode": "0444"
+            }
+          ],
+          "access": {
+            "readOnlyInputs": [
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "/tmp/knorvia-session-contracts-20261002/automation.md",
+              "/tmp/knorvia-session-contracts-20261002/automation-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/validation-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedAutomation-api.ts"
+            ],
+            "writes": [
+              "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/candidate.json"
+            ],
+            "repositoryEdits": false,
+            "outsideDesignatedInputsRead": false,
+            "network": false,
+            "runtimeProviderTaskDatabaseIO": false
+          },
+          "limits": {
+            "sourceNonblankLineMaximum": 400,
+            "noTestsCompilerBuild": true,
+            "noInheritedBodiesHistory": true,
+            "noSourceSearchOrDependencyImplementationReads": true,
+            "noSuppressions": true,
+            "retainedPortsAndErrorIdentities": true,
+            "permissionOrLicenseGrant": false
+          },
+          "design": {
+            "mutablePersistenceOwner": "AutomationRepo",
+            "admissionAndLifecycleOwner": "AutomationService",
+            "scheduleArithmetic": "retained automationCron port",
+            "awaitBarriers": [
+              "update repo.get before params access",
+              "update repo.getScheduledRunCount before update",
+              "restart repo.get before decision",
+              "runNow repo.get before clock read"
+            ]
+          },
+          "checksRun": [],
+          "checksNotRun": [
+            "tests",
+            "compiler",
+            "build",
+            "lint",
+            "architecture checker",
+            "workspace freshness script"
+          ],
+          "checkRestriction": "Explicit delegated API-only isolated authoring instructions override repository execution guidance for this candidate."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/automation/revision-1/candidate.json",
+        "sha256": "723b8c07008a317d7c05584face8415c8c149b7f55429ae172cfe2ee91af7549",
+        "contents": {
+          "owner": "automation_service_complete_author",
+          "phase": "revision-1",
+          "frozenAtUtc": "2026-10-02T21:13:07.843352+00:00",
+          "selfReviewBeforeRevisionFreeze": false,
+          "rawPreserved": true,
+          "rawSource": {
+            "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+            "sha256": "1b978dccf4da0afa12b3926397e2b5f8c2f14c47467d6078c4db3c19e7009cb8"
+          },
+          "rawReceipt": {
+            "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/candidate.json",
+            "sha256": "5eae226429b1683d4f9e52c8e47ff1debf72a88ec546169178e808df83358098"
+          },
+          "originalInputs": [
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/automation.md",
+              "sha256": "ba66411c54a07f53ff35238071e32748b9205a99794f79c563a0126644809d46"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/automation-api.ts",
+              "sha256": "7a7ed714172a1bcf7c0867b822f7d4a12f15c41fb661cabb33c2cac30954d68b"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+              "sha256": "715dfb9f020a62dab5576dde63f13827b5cadd9258a6f3c31a76527beb6d6653"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+              "sha256": "6b63563f9cca01a504e213655b1cee4a344b4749fe097c64699e3f362332d362"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+              "sha256": "86e999686d2c08decae20abc24af82a986b47f4a1c0c9f376b0fcc2da968b4a2"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/validation-api.ts",
+              "sha256": "401b195adc44688fd110a3a0adde56e6870e1877ee14465f9e92cf352862cc9f"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedAutomation-api.ts",
+              "sha256": "1e69f2dcc917433c8873e80ee7778d615d3377f35a461a35e918422a1cb35cbe"
+            }
+          ],
+          "newInput": {
+            "path": "/tmp/knorvia-session-candidates-20261002/automation/revision-1/coordinator-clarification.txt",
+            "sha256": "989661f00a77efed5a2a2ca63baa9b5275bce77cee1a6df8f74a48a383ae4f75",
+            "origin": "Body-free coordinator clarification delivered as collaboration task"
+          },
+          "priorActualReads": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/automation.md",
+                "/tmp/knorvia-session-contracts-20261002/automation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/validation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedAutomation-api.ts"
+              ],
+              "extent": "full; aggregate tool output truncated"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/automation.md",
+                "/tmp/knorvia-session-contracts-20261002/automation-api.ts"
+              ],
+              "extent": "full"
+            },
+            {
+              "operation": "sed",
+              "path": "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+              "extent": "lines 1-125"
+            },
+            {
+              "operation": "sed",
+              "path": "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+              "extent": "lines 120-190"
+            },
+            {
+              "operation": "freeze receipt",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/automation.md",
+                "/tmp/knorvia-session-contracts-20261002/automation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/automationRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/cron-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/carrier-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/validation-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedAutomation-api.ts"
+              ],
+              "extent": "full bytes for SHA256 only"
+            },
+            {
+              "operation": "freeze receipt",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full bytes for SHA256 and nonblank line count only"
+            }
+          ],
+          "actualReadsForRevision": [
+            {
+              "operation": "cat",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full"
+            },
+            {
+              "operation": "source revision",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+              "extent": "full"
+            },
+            {
+              "operation": "revision receipt",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/candidate.json",
+              "extent": "full JSON and SHA256"
+            },
+            {
+              "operation": "revision receipt",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+                "/tmp/knorvia-session-candidates-20261002/automation/revision-1/coordinator-clarification.txt"
+              ],
+              "extent": "full bytes for SHA256"
+            },
+            {
+              "operation": "revision receipt",
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/revision-1/automationService.ts",
+              "extent": "full bytes for SHA256 and nonblank count only"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/automation/revision-1/automationService.ts",
+              "sha256": "d31a37e50c8a91882bc212ed587c397e6405d01b9654163bcc21cd7e448b20ea",
+              "nonblankLines": 323,
+              "mode": "0444"
+            }
+          ],
+          "changes": [
+            "Only undefined constructor argument uses default repository",
+            "Scope resolution passes a fresh object with exactly workspacePath and workspaceIdentity after truthy path gate",
+            "Scheduled-count recomputation occurs only inside terminal-status reactivation branch and only when nextRunAt is undefined"
+          ],
+          "access": {
+            "reads": "Own source/receipts and body-free clarification only",
+            "repositoryEdits": false,
+            "inheritedSourceReads": false,
+            "network": false,
+            "runtimeProviderTaskDatabaseIO": false
+          },
+          "limits": {
+            "sourceNonblankLineMaximum": 400,
+            "noTestsCompilerBuild": true,
+            "noInheritedBodiesHistory": true,
+            "noSourceSearchOrDependencyImplementationReads": true,
+            "noSuppressions": true,
+            "retainedPortsAndErrorIdentities": true,
+            "permissionOrLicenseGrant": false
+          },
+          "checksRun": [],
+          "checksNotRun": [
+            "tests",
+            "compiler",
+            "build",
+            "lint",
+            "architecture checker",
+            "workspace freshness script"
+          ],
+          "coordinatorReportedValidationBlocker": "Retained croner dependency missing, TS2307; no candidate type issue asserted. Not independently executed or verified by this author.",
+          "priorReviewFindingCorrection": "Earlier own review overlooked scheduled-count recomputation placement; coordinator identified it and this source revision corrects it."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/automation/revision-1-review/review.json",
+        "sha256": "89d5f3affd1aa14ce8d252079a3349f9a0be012895729011fef9ec7e45e19aae",
+        "contents": {
+          "owner": "automation_service_complete_author",
+          "phase": "revision-1-own-review",
+          "reviewedAtUtc": "2026-10-02T21:13:36.029370+00:00",
+          "reviewAfterFreeze": true,
+          "source": {
+            "path": "/tmp/knorvia-session-candidates-20261002/automation/revision-1/automationService.ts",
+            "sha256": "d31a37e50c8a91882bc212ed587c397e6405d01b9654163bcc21cd7e448b20ea"
+          },
+          "rawSource": {
+            "path": "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+            "sha256": "1b978dccf4da0afa12b3926397e2b5f8c2f14c47467d6078c4db3c19e7009cb8"
+          },
+          "recommendedSource": "/tmp/knorvia-session-candidates-20261002/automation/revision-1/automationService.ts",
+          "actualReadsAfterRevisionFreeze": [
+            {
+              "operation": "diff -u",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+                "/tmp/knorvia-session-candidates-20261002/automation/revision-1/automationService.ts"
+              ],
+              "extent": "full own-source files"
+            },
+            {
+              "operation": "review receipt",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/automation/raw-first-ready/automationService.ts",
+                "/tmp/knorvia-session-candidates-20261002/automation/revision-1/automationService.ts"
+              ],
+              "extent": "full bytes for SHA256 only"
+            }
+          ],
+          "review": {
+            "changesAreExactlyRequestedThree": true,
+            "constructor": "Default repository is instantiated only for undefined. Runtime null is preserved rather than replaced.",
+            "scope": "Falsy workspacePath still returns undefined; truthy path calls retained helper with a new object containing explicit workspacePath and workspaceIdentity fields.",
+            "lifecycle": "After scheduled count resolves, reachedMax sets completed without this recomputation; terminal completed or failed state below limit becomes active and computes nextRunAt only if options.nextRunAt is undefined. Active state below limit retains options without this recomputation.",
+            "preserved": "Raw source remains unchanged; all other source bytes, public methods, error reexports, ports, argument order, await barriers, validation and normalization remain unchanged."
+          },
+          "priorReviewCorrection": "Initial manual review missed the scheduled-count branch-placement discrepancy; coordinator found it and revision-1 repairs it.",
+          "findings": [],
+          "executedValidation": [],
+          "limitations": "Manual own-source review only; no compiler, tests, build, lint, runtime, provider, task, network, database IO, repository edits or inherited implementation reads.",
+          "remainingBlockerReportedByCoordinator": "Original aggregate scoped types are blocked by missing retained croner dependency TS2307. This author did not execute that check and asserts no executable validation success."
+        }
+      }
+    ],
+    "parser": [
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/parser/own-revision/candidate.json",
+        "sha256": "ea13e2d6d4496aecd06c391a1ac66693d6d172b68f683f71498dad3ace5bc21f",
+        "contents": {
+          "stage": "own-revision",
+          "author_task": "/root/native_import_parser_complete_author",
+          "review_status_at_freeze": "Manual source-to-contract review completed after raw freeze; formatting and comment revision only.",
+          "delegated_prompt": "Fresh no-history GPT6.1Sol high Fast user-authorized wholeowner. Read ONLY /tmp/knorvia-session-contracts-20261002/{importParser.md,importParser-api.ts,jsonLine-api.ts,jsonl-api.ts,title-api.ts,sourceTypes-api.ts,sharedCore-api.ts} + /workspace/knorvia-studio/AGENTS.md and .agents/skills/architecture-governance/SKILL.md. API imports are retainedports not permissiontoread dependencies. No inherited bodies/history/search/tests/actual usertask/HOME/.claude/provider/network/DB runtime IO. Complete independently authored all3export parser owner output /tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts, cohesive freshprivate files ifneeded <=400nonblank each no suppressions. Freeze rawfirstready read-only +candidate.json ALLactualread/input/outputSHA/access/limits BEFORE selfreview, reportprompt; then own source/contractreview and separateownrevision freeze. No tests/compiler/build/repoedits. Preserve visible-message/metadata/turn/model/timestamp projection allprecise contract, portcalls/awaitbarriers/erroridentity. RetainedAPI/literal/dependency lineage, no MIT/novelty claims.",
+          "delegated_prompt_sha256": "819eacb744cea5fc602682f0b64a5d2fd082adaf44405cb1b4a061225ddf6e67",
+          "inputs": [
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser.md",
+              "sha256": "8b91cc051a83ac9507190a8a035cdf511abfbda551f27fa879b859e9cfc0a946",
+              "bytes": 6376
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+              "sha256": "51cede5951c87bb223bf943bf06a0d0f341d6685913f3a0a5ca0ff6754a6e8a5",
+              "bytes": 209
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "sha256": "e6577b4c1c2f5249fa0088337cec57c8e3a49301c7d6bf7d3107540dfbe261ba",
+              "bytes": 409
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+              "sha256": "2dfb3bcf29bb1608075e592ac73c3918b3ae92edf15e068ef265937da216132c",
+              "bytes": 175
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts",
+              "sha256": "69f73ea82b05cd87684e2652e59a5fcae5bd398d581d57d60534aeaf515de60b",
+              "bytes": 9240
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/candidate.json",
+              "sha256": "da7f0034972e1888ace4affac9ff9d3f592112fb639a6e43377938688ca6701f",
+              "bytes": 8580
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/parser/own-revision/claude-native/claudeNativeSessionImportParser.ts",
+              "sha256": "ef34b7c48019cfc9b363d3e571fd51add0ffdac1f6f6167751d93fbcb3a8ef83",
+              "bytes": 9327,
+              "nonblank_lines": 249
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/parser/own-revision/review.md",
+              "sha256": "3a83e8eeeac6329b776f98b06114882ea9e51af777483273b1691b7a504c0315",
+              "bytes": 2702
+            }
+          ],
+          "manifest_hash_policy": "candidate.json SHA-256 is detached and reported in the freeze tool result; a self-containing SHA-256 cannot be embedded in this manifest.",
+          "actual_accesses": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts"
+              ],
+              "note": "Initial combined output truncated by tool; all files opened and read."
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importParser.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts"
+              ]
+            },
+            {
+              "operation": "rg",
+              "paths": ["/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts"],
+              "note": "Only named packet; bounded persisted message and status declarations."
+            },
+            {
+              "operation": "apply_patch",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts"
+              ],
+              "note": "Created own draft."
+            },
+            {
+              "operation": "freeze_hash_and_count",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts"
+              ],
+              "note": "No source review; computed SHA-256, bytes, and nonblank line count."
+            },
+            {
+              "operation": "cat_for_manual_review",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser.md"
+              ]
+            },
+            {
+              "operation": "own_revision_read",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts",
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/candidate.json"
+              ],
+              "note": "Formatting/comment edits and access receipt inheritance only."
+            },
+            {
+              "operation": "own_revision_write",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/parser/own-revision/claude-native/claudeNativeSessionImportParser.ts",
+                "/tmp/knorvia-session-candidates-20261002/parser/own-revision/review.md"
+              ]
+            },
+            {
+              "operation": "freeze_hash_and_count",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts",
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/candidate.json",
+                "/tmp/knorvia-session-candidates-20261002/parser/own-revision/claude-native/claudeNativeSessionImportParser.ts",
+                "/tmp/knorvia-session-candidates-20261002/parser/own-revision/review.md"
+              ],
+              "note": "SHA-256, bytes and own-source nonblank line count; no generated code execution."
+            }
+          ],
+          "access_limits": {
+            "allowed_read": [
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "/tmp/knorvia-session-contracts-20261002/importParser.md",
+              "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "Own candidate outputs",
+              "Own raw-first-ready source and manifest"
+            ],
+            "write_scope": "/tmp/knorvia-session-candidates-20261002/parser",
+            "repository_edits": false,
+            "dependency_body_reads": false,
+            "inherited_implementation_or_history_reads": false,
+            "repository_or_history_searches": false,
+            "tests": false,
+            "compiler": false,
+            "build": false,
+            "home_or_claude_or_userdata_reads": false,
+            "provider_network_database_runtime_io": false,
+            "suppressions": false,
+            "nonblank_per_source_file_max": 400
+          },
+          "retained_lineage": {
+            "api_names_and_types": "Designated API packets",
+            "compatibility_literals_and_behavior": "importParser.md",
+            "ports": [
+              "node:fs/promises stat",
+              "#src/session/claude-native/jsonLineRecord.js isObjectRecord/readTrimmedString/JsonLineRecord",
+              "#src/session/claude-native/sessionHistoryJsonl.js readJsonLinesFile",
+              "#src/session/sessionTitle.js deriveSessionTitle",
+              "#src/session/claude-native/claudeNativeImportedSessionTypes.js ClaudeNativeImportedSessionSource"
+            ],
+            "dependency_implementations": "Retained ports; bodies not inspected.",
+            "license_or_novelty_assertions": "None; existing external dependency attribution unchanged."
+          },
+          "design": {
+            "owner": "projectRecords local ordered fold owns messages, turn, model, workspace and pending assistant state.",
+            "io_boundary": "parseClaudeNativeSessionFile initiates retained JSONL read then stat and awaits Promise.all before projecting live parameters.",
+            "validation": "Manual source-to-contract review completed; no behavioral mismatch found. Own revision is formatting/comment-only. All excluded executable checks remain unperformed."
+          },
+          "raw_first_ready": {
+            "source": {
+              "path": "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts",
+              "sha256": "69f73ea82b05cd87684e2652e59a5fcae5bd398d581d57d60534aeaf515de60b",
+              "bytes": 9240
+            },
+            "manifest": {
+              "path": "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/candidate.json",
+              "sha256": "da7f0034972e1888ace4affac9ff9d3f592112fb639a6e43377938688ca6701f",
+              "bytes": 8580
+            },
+            "preserved_read_only": true
+          }
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/candidate.json",
+        "sha256": "da7f0034972e1888ace4affac9ff9d3f592112fb639a6e43377938688ca6701f",
+        "contents": {
+          "stage": "raw-first-ready",
+          "author_task": "/root/native_import_parser_complete_author",
+          "review_status_at_freeze": "No own-source self-review performed; only output hashing and line counting before freeze.",
+          "delegated_prompt": "Fresh no-history GPT6.1Sol high Fast user-authorized wholeowner. Read ONLY /tmp/knorvia-session-contracts-20261002/{importParser.md,importParser-api.ts,jsonLine-api.ts,jsonl-api.ts,title-api.ts,sourceTypes-api.ts,sharedCore-api.ts} + /workspace/knorvia-studio/AGENTS.md and .agents/skills/architecture-governance/SKILL.md. API imports are retainedports not permissiontoread dependencies. No inherited bodies/history/search/tests/actual usertask/HOME/.claude/provider/network/DB runtime IO. Complete independently authored all3export parser owner output /tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts, cohesive freshprivate files ifneeded <=400nonblank each no suppressions. Freeze rawfirstready read-only +candidate.json ALLactualread/input/outputSHA/access/limits BEFORE selfreview, reportprompt; then own source/contractreview and separateownrevision freeze. No tests/compiler/build/repoedits. Preserve visible-message/metadata/turn/model/timestamp projection allprecise contract, portcalls/awaitbarriers/erroridentity. RetainedAPI/literal/dependency lineage, no MIT/novelty claims.",
+          "delegated_prompt_sha256": "819eacb744cea5fc602682f0b64a5d2fd082adaf44405cb1b4a061225ddf6e67",
+          "inputs": [
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser.md",
+              "sha256": "8b91cc051a83ac9507190a8a035cdf511abfbda551f27fa879b859e9cfc0a946",
+              "bytes": 6376
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+              "sha256": "51cede5951c87bb223bf943bf06a0d0f341d6685913f3a0a5ca0ff6754a6e8a5",
+              "bytes": 209
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "sha256": "e6577b4c1c2f5249fa0088337cec57c8e3a49301c7d6bf7d3107540dfbe261ba",
+              "bytes": 409
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+              "sha256": "2dfb3bcf29bb1608075e592ac73c3918b3ae92edf15e068ef265937da216132c",
+              "bytes": 175
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts",
+              "sha256": "69f73ea82b05cd87684e2652e59a5fcae5bd398d581d57d60534aeaf515de60b",
+              "bytes": 9240,
+              "nonblank_lines": 240
+            }
+          ],
+          "manifest_hash_policy": "candidate.json SHA-256 is detached and reported in the freeze tool result; a self-containing SHA-256 cannot be embedded in this manifest.",
+          "actual_accesses": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts"
+              ],
+              "note": "Initial combined output truncated by tool; all files opened and read."
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importParser.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts"
+              ]
+            },
+            {
+              "operation": "rg",
+              "paths": ["/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts"],
+              "note": "Only named packet; bounded persisted message and status declarations."
+            },
+            {
+              "operation": "apply_patch",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts"
+              ],
+              "note": "Created own draft."
+            },
+            {
+              "operation": "freeze_hash_and_count",
+              "paths": [
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser.md",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/tmp/knorvia-session-candidates-20261002/parser/raw-first-ready/claude-native/claudeNativeSessionImportParser.ts"
+              ],
+              "note": "No source review; computed SHA-256, bytes, and nonblank line count."
+            }
+          ],
+          "access_limits": {
+            "allowed_read": [
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "/tmp/knorvia-session-contracts-20261002/importParser.md",
+              "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/jsonLine-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/title-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "Own candidate outputs"
+            ],
+            "write_scope": "/tmp/knorvia-session-candidates-20261002/parser",
+            "repository_edits": false,
+            "dependency_body_reads": false,
+            "inherited_implementation_or_history_reads": false,
+            "repository_or_history_searches": false,
+            "tests": false,
+            "compiler": false,
+            "build": false,
+            "home_or_claude_or_userdata_reads": false,
+            "provider_network_database_runtime_io": false,
+            "suppressions": false,
+            "nonblank_per_source_file_max": 400
+          },
+          "retained_lineage": {
+            "api_names_and_types": "Designated API packets",
+            "compatibility_literals_and_behavior": "importParser.md",
+            "ports": [
+              "node:fs/promises stat",
+              "#src/session/claude-native/jsonLineRecord.js isObjectRecord/readTrimmedString/JsonLineRecord",
+              "#src/session/claude-native/sessionHistoryJsonl.js readJsonLinesFile",
+              "#src/session/sessionTitle.js deriveSessionTitle",
+              "#src/session/claude-native/claudeNativeImportedSessionTypes.js ClaudeNativeImportedSessionSource"
+            ],
+            "dependency_implementations": "Retained ports; bodies not inspected.",
+            "license_or_novelty_assertions": "None; existing external dependency attribution unchanged."
+          },
+          "design": {
+            "owner": "projectRecords local ordered fold owns messages, turn, model, workspace and pending assistant state.",
+            "io_boundary": "parseClaudeNativeSessionFile initiates retained JSONL read then stat and awaits Promise.all before projecting live parameters.",
+            "validation": "Tests, compiler, build, repository checks and runtime I/O are excluded by the delegated task; manual source/contract review follows this frozen raw artifact."
+          }
+        }
+      }
+    ],
+    "repo": [
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/candidate.json",
+        "sha256": "34009f51019a992218dd18d91c330bf2fd1090cfe877fab483eebf63de3856d5",
+        "contents": {
+          "candidate": "complete singleton native session import repository",
+          "stage": "raw-first-ready",
+          "owner": "/root/native_import_repo_complete_author",
+          "actualReads": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo.md",
+              "sha256": "04c6bc539b4b4853573175b7ae6c405ddeb520f053d0fb650333f887a53a8af1",
+              "bytes": 5267,
+              "access": "read-only; contract/governance content read, then hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "access": "read-only; contract/governance content read, then hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/head-api.ts",
+              "sha256": "35adf80af4a22efcb0d0ec4c15c05e8c26dbbbc5f03a845282b8a26b6c8237fa",
+              "bytes": 497,
+              "access": "read-only; contract/governance content read, then hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "sha256": "e6577b4c1c2f5249fa0088337cec57c8e3a49301c7d6bf7d3107540dfbe261ba",
+              "bytes": 409,
+              "access": "read-only; contract/governance content read, then hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "access": "read-only; contract/governance content read, then hashed"
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "access": "read-only; contract/governance content read, then hashed"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "access": "read-only; contract/governance content read, then hashed"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/claudeNativeSessionImportRepo.ts",
+              "sha256": "7af8ec755d61a4c66fe75938a5d71c5c758daa5e920e8bee526abc03033a029e",
+              "bytes": 8207,
+              "nonblankLines": 216,
+              "mode": "0444"
+            }
+          ],
+          "access": {
+            "allowedReads": [
+              "/tmp/knorvia-session-contracts-20261002/importRepo.md",
+              "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/head-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+            ],
+            "writes": [
+              "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/claudeNativeSessionImportRepo.ts",
+              "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/candidate.json"
+            ],
+            "directoryMode": "0555",
+            "receiptMode": "0444",
+            "outputReadsBeforeFreeze": "None; output checksum computed from authored string in memory"
+          },
+          "limits": {
+            "maxNonblankLinesPerSource": 400,
+            "freshImplementation": true,
+            "inheritedImplementationRead": false,
+            "dependencyBodiesRead": false,
+            "repositorySearches": false,
+            "testsBuildCompiler": false,
+            "candidateExecution": false,
+            "runtimeProviderNetworkDatabaseIO": false,
+            "realHomeOrClaudeAccess": false,
+            "repositoryEdits": false,
+            "selfReviewBeforeFreeze": false
+          },
+          "lineage": "Existing API declarations, literal messages, path layout, and retained dependency ports are explicit in the supplied packet. No license or novelty claim is made.",
+          "review": "First-ready source and receipt frozen before self-review. Subsequent own-source/contract review is reported separately to parent; revisions, if needed, must be separate candidates.",
+          "receiptHash": "Receipt cannot contain its own hash; source output hashes are recorded above."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed/claude-native/candidate.json",
+        "sha256": "26ea0b0b1831d9c54d90c1184020309568ba825340262bf4250ee83c6b8e9457",
+        "contents": {
+          "candidate": "complete singleton native session import repository",
+          "stage": "separately frozen own-source revision",
+          "owner": "/root/native_import_repo_complete_author",
+          "actualReads": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo.md",
+              "sha256": "04c6bc539b4b4853573175b7ae6c405ddeb520f053d0fb650333f887a53a8af1",
+              "bytes": 5267,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/head-api.ts",
+              "sha256": "35adf80af4a22efcb0d0ec4c15c05e8c26dbbbc5f03a845282b8a26b6c8237fa",
+              "bytes": 497,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "sha256": "e6577b4c1c2f5249fa0088337cec57c8e3a49301c7d6bf7d3107540dfbe261ba",
+              "bytes": 409,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/claudeNativeSessionImportRepo.ts",
+              "sha256": "7af8ec755d61a4c66fe75938a5d71c5c758daa5e920e8bee526abc03033a029e",
+              "bytes": 8207,
+              "access": "read-only; raw source self-review after raw freeze, contract/governance reads and input hashing"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed/claude-native/claudeNativeSessionImportRepo.ts",
+              "sha256": "94b647c997f473a61238da4c9ad6daa312be37ad1b2fdabe113c5cccefb3770c",
+              "bytes": 8286,
+              "nonblankLines": 218,
+              "mode": "0444"
+            }
+          ],
+          "access": {
+            "allowedReads": [
+              "/tmp/knorvia-session-contracts-20261002/importRepo.md",
+              "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/head-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/claudeNativeSessionImportRepo.ts"
+            ],
+            "writes": [
+              "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed/claude-native/claudeNativeSessionImportRepo.ts",
+              "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed/claude-native/candidate.json"
+            ],
+            "directoryMode": "0555",
+            "receiptMode": "0444",
+            "revisionOutputReadsBeforeFreeze": "None; source checksum computed from authored string in memory"
+          },
+          "limits": {
+            "maxNonblankLinesPerSource": 400,
+            "freshImplementation": true,
+            "inheritedImplementationRead": false,
+            "dependencyBodiesRead": false,
+            "repositorySearches": false,
+            "testsBuildCompiler": false,
+            "candidateExecution": false,
+            "runtimeProviderNetworkDatabaseIO": false,
+            "realHomeOrClaudeAccess": false,
+            "repositoryEdits": false,
+            "rawSelfReviewBeforeFreeze": false
+          },
+          "lineage": "Existing API declarations, literal messages, path layout, and retained dependency ports are explicit in the supplied packet. This revision reads only the author own frozen raw source plus original authorized inputs. No license or novelty claim is made.",
+          "revision": {
+            "rawSource": "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/claudeNativeSessionImportRepo.ts",
+            "reason": "Preserve the contract awaited existence-wrapper boundary: await this.pathExists(outputPath), with async helper awaiting stat and catching all failures as false. Raw source is unmodified."
+          },
+          "review": "Revision frozen separately before reading revision output for self-review; no external tests or execution authorized.",
+          "receiptHash": "Receipt cannot contain its own hash; source output hashes are recorded above."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed-v2/claude-native/candidate.json",
+        "sha256": "6aa36732b6319dbbb8b053a64b388fb9da2ea117e701d05734b16693a788d852",
+        "contents": {
+          "candidate": "complete singleton native session import repository",
+          "stage": "separately frozen second own-source revision",
+          "owner": "/root/native_import_repo_complete_author",
+          "actualReads": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo.md",
+              "sha256": "04c6bc539b4b4853573175b7ae6c405ddeb520f053d0fb650333f887a53a8af1",
+              "bytes": 5267,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/head-api.ts",
+              "sha256": "35adf80af4a22efcb0d0ec4c15c05e8c26dbbbc5f03a845282b8a26b6c8237fa",
+              "bytes": 497,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "sha256": "e6577b4c1c2f5249fa0088337cec57c8e3a49301c7d6bf7d3107540dfbe261ba",
+              "bytes": 409,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/claudeNativeSessionImportRepo.ts",
+              "sha256": "7af8ec755d61a4c66fe75938a5d71c5c758daa5e920e8bee526abc03033a029e",
+              "bytes": 8207,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed/claude-native/claudeNativeSessionImportRepo.ts",
+              "sha256": "94b647c997f473a61238da4c9ad6daa312be37ad1b2fdabe113c5cccefb3770c",
+              "bytes": 8286,
+              "access": "read-only; own-source review only after each respective freeze; authorized original inputs hashed"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed-v2/claude-native/claudeNativeSessionImportRepo.ts",
+              "sha256": "c5cd7c61a71d7ccfe4b344ad855fd5f23be0b57d576c3115e4e2d648ceffcdc6",
+              "bytes": 8329,
+              "nonblankLines": 219,
+              "mode": "0444"
+            }
+          ],
+          "access": {
+            "allowedReads": [
+              "/tmp/knorvia-session-contracts-20261002/importRepo.md",
+              "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/head-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/jsonl-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "/tmp/knorvia-session-candidates-20261002/repo/raw-first-ready/claude-native/claudeNativeSessionImportRepo.ts",
+              "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed/claude-native/claudeNativeSessionImportRepo.ts"
+            ],
+            "writes": [
+              "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed-v2/claude-native/claudeNativeSessionImportRepo.ts",
+              "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed-v2/claude-native/candidate.json"
+            ],
+            "directoryMode": "0555",
+            "receiptMode": "0444",
+            "revisionOutputReadsBeforeFreeze": "None; source checksum computed from authored string in memory"
+          },
+          "limits": {
+            "maxNonblankLinesPerSource": 400,
+            "freshImplementation": true,
+            "inheritedImplementationRead": false,
+            "dependencyBodiesRead": false,
+            "repositorySearches": false,
+            "testsBuildCompiler": false,
+            "candidateExecution": false,
+            "runtimeProviderNetworkDatabaseIO": false,
+            "realHomeOrClaudeAccess": false,
+            "repositoryEdits": false,
+            "rawSelfReviewBeforeFreeze": false
+          },
+          "lineage": "Existing API declarations, literal messages, path layout, and retained dependency ports are explicit in the supplied packet. Revisions read only own frozen source plus original authorized inputs. No license or novelty claim is made.",
+          "revisions": [
+            {
+              "reason": "Restore outer await of async existence check wrapping awaited stat and catch-any false behavior."
+            },
+            {
+              "priorSource": "/tmp/knorvia-session-candidates-20261002/repo/self-reviewed/claude-native/claudeNativeSessionImportRepo.ts",
+              "reason": "Narrow scan catch to awaited stat failure; Math.trunc(mtimeMs) belongs after that catch, as specified by contract. Earlier candidates unmodified."
+            }
+          ],
+          "review": "Revision frozen separately before revision-output source review; no external tests or execution authorized.",
+          "receiptHash": "Receipt cannot contain its own hash; source output hashes are recorded above."
+        }
+      }
+    ],
+    "service": [
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+        "sha256": "804cef527de47ea9e94aeb9a6e65bc1317f6c24ac26df0c2bcc968b27b82ceb2",
+        "contents": {
+          "schemaVersion": 1,
+          "owner": "importClaudeNativeSessions",
+          "stage": "raw-first-ready-frozen-before-self-review",
+          "frozenAtUtc": "2026-10-02T21:08:52.190360+00:00",
+          "authoringBasis": "Complete owner independently authored from supplied body-free orchestration contract and retained API packets; no inherited implementation read.",
+          "inputs": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "sha256": "61b59c95f649650bcafd104599ea23c081d56fadb40311777a4b91114dfbc40e",
+              "bytes": 4889,
+              "lines": 18,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "sha256": "bf98b7686a75bcad98103e10bee0bb5cc93831339ab02df730efad59d3461a1c",
+              "bytes": 1352,
+              "lines": 34,
+              "nonblankLines": 23
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "lines": 38,
+              "nonblankLines": 30
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035,
+              "lines": 28,
+              "nonblankLines": 20
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506,
+              "lines": 17,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "sha256": "94f2d9fe3619722d40de9b34ac4b893ca360f62408e0aeb5e7b9d3e094af5118",
+              "bytes": 973,
+              "lines": 27,
+              "nonblankLines": 19
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "sha256": "cdfd1397b53e352578f1099482a51f1021185fa21952c4f9effe6bb6240fe6fc",
+              "bytes": 851,
+              "lines": 20,
+              "nonblankLines": 12
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "sha256": "33ff8640d0780c1eff69e00d2cab66309939e17a44de25f6bac26b97b6216b56",
+              "bytes": 9247,
+              "lines": 282,
+              "nonblankLines": 262
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "lines": 190,
+              "nonblankLines": 161
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334,
+              "lines": 1236,
+              "nonblankLines": 1117
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "lines": 103,
+              "nonblankLines": 82
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "lines": 50,
+              "nonblankLines": 36
+            }
+          ],
+          "actualReadPaths": [
+            "/tmp/knorvia-session-contracts-20261002/importService.md",
+            "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts"
+          ],
+          "readOperations": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+              ],
+              "scope": "full file contents",
+              "note": "Tool response truncated at 24000 tokens; files were physically read in full."
+            },
+            {
+              "operation": "python SHA-256 and size inventory",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+              ],
+              "scope": "full file bytes"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts"
+              ],
+              "scope": "full file contents"
+            },
+            {
+              "operation": "rg",
+              "paths": ["/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts"],
+              "scope": "search full file for import/task meta API declarations; displayed KnorviaTaskMeta context"
+            },
+            {
+              "operation": "freeze SHA-256 inventory",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts"
+              ],
+              "scope": "full bytes for evidence; no candidate self-review"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+              "sha256": "f5d9eacf9c983d088a4d8479906e4ee4fe1526d9379e0c3c574693b15c348721",
+              "bytes": 6675,
+              "lines": 183,
+              "nonblankLines": 170
+            }
+          ],
+          "manifestHashPolicy": "candidate.json SHA-256 is reported externally after freezing; self-hash is excluded to avoid circular hashing.",
+          "access": {
+            "readAllowlist": [
+              "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+            ],
+            "readOwnGeneratedOutputsForFreezeAndReview": true,
+            "writtenPaths": [
+              "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+              "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json"
+            ],
+            "repositoryWrites": false,
+            "dependencyImplementationReads": false,
+            "historyOrInheritedBodyReads": false,
+            "testsBuildCompilerExecuted": false,
+            "providerAgentNetworkDatabaseUserTaskHomeClaudeIo": false,
+            "gitCommandsOrRepoSearch": false,
+            "sourceRuntimeInvoked": false
+          },
+          "limits": {
+            "maxNonblankLinesPerSource": 400,
+            "sourceNonblankLines": 170,
+            "privateModuleCount": 0,
+            "noTestsBuildCompiler": true,
+            "noRepositoryEdits": true,
+            "contractOnlySelfReviewAfterFreeze": true
+          },
+          "retainedLineage": {
+            "apis": "Public function signature, result/shared types, module paths and dependency ports retained from supplied packets.",
+            "literals": "Provider, migration marker, skip reasons and lifecycle/failure log literals retained from orchestration contract.",
+            "dependencies": "Node fs/path APIs, shared types, logger, builder, repository, parser, persister and TaskIndexRepo retained; implementations not opened.",
+            "license": "No MIT assertion, license replacement, dependency authorship or novelty claim made."
+          },
+          "architecture": {
+            "singleOwner": "importClaudeNativeSessions owns ordered result buckets and each session createdOutputPaths/importedWorkspacePath.",
+            "scope": "Off-repository candidate, preserving session import application orchestration and existing public port boundaries.",
+            "eventOrder": "normalize IDs -> lookup -> workspace access -> live filter comparison -> copy -> parse original -> capture live target identity -> creator/snapshot/index or builder/persist -> synchronous callback -> imported append; caught failure -> created-only sequential cleanup -> warning -> failed append.",
+            "instructionResolution": "Task-specific read-only allowlist and no checks/spec/repository writes override general AGENTS/architecture workflow commands; supplied importService.md is the implementation behavior specification."
+          },
+          "selfReviewStatus": "not started at freeze"
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-01/candidate.json",
+        "sha256": "bd7bb3a9cf25b91883a459d5a0726db4c1c39e7223016fef66e5d6191a10bcfa",
+        "contents": {
+          "schemaVersion": 1,
+          "owner": "importClaudeNativeSessions",
+          "stage": "contract-self-review-01-frozen",
+          "frozenAtUtc": "2026-10-02T21:09:34.152656+00:00",
+          "inputs": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "sha256": "61b59c95f649650bcafd104599ea23c081d56fadb40311777a4b91114dfbc40e",
+              "bytes": 4889,
+              "lines": 18,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "sha256": "bf98b7686a75bcad98103e10bee0bb5cc93831339ab02df730efad59d3461a1c",
+              "bytes": 1352,
+              "lines": 34,
+              "nonblankLines": 23
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "lines": 38,
+              "nonblankLines": 30
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035,
+              "lines": 28,
+              "nonblankLines": 20
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506,
+              "lines": 17,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "sha256": "94f2d9fe3619722d40de9b34ac4b893ca360f62408e0aeb5e7b9d3e094af5118",
+              "bytes": 973,
+              "lines": 27,
+              "nonblankLines": 19
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "sha256": "cdfd1397b53e352578f1099482a51f1021185fa21952c4f9effe6bb6240fe6fc",
+              "bytes": 851,
+              "lines": 20,
+              "nonblankLines": 12
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "sha256": "33ff8640d0780c1eff69e00d2cab66309939e17a44de25f6bac26b97b6216b56",
+              "bytes": 9247,
+              "lines": 282,
+              "nonblankLines": 262
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "lines": 190,
+              "nonblankLines": 161
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334,
+              "lines": 1236,
+              "nonblankLines": 1117
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "lines": 103,
+              "nonblankLines": 82
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "lines": 50,
+              "nonblankLines": 36
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+              "sha256": "f5d9eacf9c983d088a4d8479906e4ee4fe1526d9379e0c3c574693b15c348721",
+              "bytes": 6675,
+              "lines": 183,
+              "nonblankLines": 170
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+              "sha256": "804cef527de47ea9e94aeb9a6e65bc1317f6c24ac26df0c2bcc968b27b82ceb2",
+              "bytes": 11239,
+              "lines": 240,
+              "nonblankLines": 240
+            }
+          ],
+          "actualReadPaths": [
+            "/tmp/knorvia-session-contracts-20261002/importService.md",
+            "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+            "/tmp/knorvia-session-candidates-20261002/service/self-review-01/claude-native/claudeNativeSessionImportService.ts",
+            "/tmp/knorvia-session-candidates-20261002/service/self-review-01/self-review.json"
+          ],
+          "readOperations": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+              ],
+              "scope": "full file contents",
+              "note": "Tool response truncated at 24000 tokens; files were physically read in full."
+            },
+            {
+              "operation": "python SHA-256 and size inventory",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+              ],
+              "scope": "full file bytes"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts"
+              ],
+              "scope": "full file contents"
+            },
+            {
+              "operation": "rg",
+              "paths": ["/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts"],
+              "scope": "search full file for import/task meta API declarations; displayed KnorviaTaskMeta context"
+            },
+            {
+              "operation": "freeze SHA-256 inventory",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts"
+              ],
+              "scope": "full bytes for evidence; no candidate self-review"
+            },
+            {
+              "operation": "cat after raw freeze",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts"
+              ],
+              "scope": "full contents for contract-only manual review"
+            },
+            {
+              "operation": "read raw candidate manifest, raw source and generated revision outputs for freezing",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+                "/tmp/knorvia-session-candidates-20261002/service/self-review-01/claude-native/claudeNativeSessionImportService.ts",
+                "/tmp/knorvia-session-candidates-20261002/service/self-review-01/self-review.json"
+              ],
+              "scope": "full bytes / JSON metadata"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-01/claude-native/claudeNativeSessionImportService.ts",
+              "sha256": "f5d9eacf9c983d088a4d8479906e4ee4fe1526d9379e0c3c574693b15c348721",
+              "bytes": 6675,
+              "lines": 183,
+              "nonblankLines": 170
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-01/self-review.json",
+              "sha256": "8f003dcdf3b3e1d773bfbbd052d9dbebf01f738fc644e4c09f7a59689ba300c8",
+              "bytes": 6056,
+              "lines": 103,
+              "nonblankLines": 103
+            }
+          ],
+          "access": {
+            "readAllowlist": [
+              "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+            ],
+            "readOwnGeneratedOutputsForFreezeAndReview": true,
+            "writtenPaths": [
+              "/tmp/knorvia-session-candidates-20261002/service/self-review-01/claude-native/claudeNativeSessionImportService.ts",
+              "/tmp/knorvia-session-candidates-20261002/service/self-review-01/self-review.json",
+              "/tmp/knorvia-session-candidates-20261002/service/self-review-01/candidate.json"
+            ],
+            "repositoryWrites": false,
+            "dependencyImplementationReads": false,
+            "historyOrInheritedBodyReads": false,
+            "testsBuildCompilerExecuted": false,
+            "providerAgentNetworkDatabaseUserTaskHomeClaudeIo": false,
+            "gitCommandsOrRepoSearch": false,
+            "sourceRuntimeInvoked": false,
+            "rawFirstReadyModified": false
+          },
+          "limits": {
+            "maxNonblankLinesPerSource": 400,
+            "sourceNonblankLines": 170,
+            "privateModuleCount": 0,
+            "noTestsBuildCompiler": true,
+            "noRepositoryEdits": true,
+            "contractOnlySelfReviewAfterFreeze": true
+          },
+          "retainedLineage": {
+            "apis": "Public function signature, result/shared types, module paths and dependency ports retained from supplied packets.",
+            "literals": "Provider, migration marker, skip reasons and lifecycle/failure log literals retained from orchestration contract.",
+            "dependencies": "Node fs/path APIs, shared types, logger, builder, repository, parser, persister and TaskIndexRepo retained; implementations not opened.",
+            "license": "No MIT assertion, license replacement, dependency authorship or novelty claim made."
+          },
+          "architecture": {
+            "singleOwner": "importClaudeNativeSessions owns ordered result buckets and each session createdOutputPaths/importedWorkspacePath.",
+            "scope": "Off-repository candidate, preserving session import application orchestration and existing public port boundaries.",
+            "eventOrder": "normalize IDs -> lookup -> workspace access -> live filter comparison -> copy -> parse original -> capture live target identity -> creator/snapshot/index or builder/persist -> synchronous callback -> imported append; caught failure -> created-only sequential cleanup -> warning -> failed append.",
+            "instructionResolution": "Task-specific read-only allowlist and no checks/spec/repository writes override general AGENTS/architecture workflow commands; supplied importService.md is the implementation behavior specification."
+          },
+          "selfReviewStatus": "completed; no corrections identified by manual inspection",
+          "manifestHashPolicy": "candidate.json SHA-256 is reported externally after freezing; self-hash is excluded to avoid circular hashing."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-01/self-review.json",
+        "sha256": "8f003dcdf3b3e1d773bfbbd052d9dbebf01f738fc644e4c09f7a59689ba300c8",
+        "contents": {
+          "schemaVersion": 1,
+          "reviewKind": "author contract-only self-review",
+          "reviewedAtUtc": "2026-10-02T21:09:34.152256+00:00",
+          "rawFrozenSource": {
+            "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+            "sha256": "f5d9eacf9c983d088a4d8479906e4ee4fe1526d9379e0c3c574693b15c348721",
+            "bytes": 6675,
+            "lines": 183,
+            "nonblankLines": 170
+          },
+          "rawFrozenManifest": {
+            "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+            "sha256": "804cef527de47ea9e94aeb9a6e65bc1317f6c24ac26df0c2bcc968b27b82ceb2",
+            "bytes": 11239,
+            "lines": 240,
+            "nonblankLines": 240
+          },
+          "result": "No contract deviations identified by manual inspection.",
+          "corrections": [],
+          "sourceRevision": "Byte-identical reviewed copy; raw first-ready remains unchanged.",
+          "checks": [
+            {
+              "name": "Public API and retained port imports",
+              "status": "manual inspection satisfied",
+              "evidence": "Signature matches importService-api.ts; every source import remains a supplied port. Logger created once at module scope."
+            },
+            {
+              "name": "Admission and ordered results",
+              "status": "manual inspection satisfied",
+              "evidence": "IDs trimmed, empties discarded, deduplicated by insertion-order Set before the first await. Sessions use one sequential loop and ordered result arrays."
+            },
+            {
+              "name": "Lookup and skip boundaries",
+              "status": "manual inspection satisfied",
+              "evidence": "Lookup reads the live workspacePath. Missing candidate uses current truthy filter path. Workspace access precedes comparison. All three skips continue before copy/parse/persistence."
+            },
+            {
+              "name": "Platform path comparison",
+              "status": "manual inspection satisfied",
+              "evidence": "normalize(resolve(path)); lowercase only when process.platform is win32. No identity-based path fallback or extra containment rule."
+            },
+            {
+              "name": "Workspace access failure",
+              "status": "manual inspection satisfied",
+              "evidence": "access uses constants.F_OK asynchronously. All thrown/rejected access outcomes return false and produce workspace_path_missing."
+            },
+            {
+              "name": "Copy await and cleanup admission",
+              "status": "manual inspection satisfied",
+              "evidence": "Copy receives live scoped identity; createdOutputPaths assigned only after copy resolves. Copy failures retain the initially empty array. Copied outputPath is never added to cleanup independently."
+            },
+            {
+              "name": "Original-source parsing",
+              "status": "manual inspection satisfied",
+              "evidence": "Parser receives candidate.sourcePath as filePath and sourcePath, selected workspace/session ID and both candidate fallback timestamps; copy output is not parsed."
+            },
+            {
+              "name": "Live parameters and identity capture",
+              "status": "manual inspection satisfied",
+              "evidence": "No parameter object destructuring or early repo/callback/creator/identity capture. Target identity read after parsing, scoped by then-live workspacePath, opaque and untrimmed."
+            },
+            {
+              "name": "Creator snapshot and index await barriers",
+              "status": "manual inspection satisfied",
+              "evidence": "Creator awaited with unchanged source; build uses returned taskId; snapshot awaited before current taskIndexRepo.syncTaskMeta. Snapshot overlays only truthy target identity. Index uses nullish identity fallback, migrationSource claudeCode, built messages, archived=false and deleted=false. Synced meta replaces created meta."
+            },
+            {
+              "name": "Ordinary persistence path",
+              "status": "manual inspection satisfied",
+              "evidence": "Build(source), then await persist with live taskIndexRepo and captured target identity. No creator branch fallback after a failure."
+            },
+            {
+              "name": "Callback and successful result admission",
+              "status": "manual inspection satisfied",
+              "evidence": "Current onTaskImported is called synchronously with final meta before imported.push; return value is not awaited. A thrown callback reaches created-only cleanup even after persistence."
+            },
+            {
+              "name": "Caught failures and cleanup isolation",
+              "status": "manual inspection satisfied",
+              "evidence": "Deduplicated created paths removed sequentially with force=true; every deletion failure is swallowed and the loop continues. No source/snapshot/index rollback inferred. Error reason computed after cleanup using Error.message or String(error). Warning is outside another catch and may propagate. Failed row includes only truthy captured workspace path."
+            },
+            {
+              "name": "Final lifecycle result",
+              "status": "manual inspection satisfied",
+              "evidence": "Completion info follows the loop and reports bucket counts with retained literal. Result returned without adding cancellation, queue, runtime or hidden I/O."
+            },
+            {
+              "name": "Source and authorship limits",
+              "status": "manual inspection satisfied",
+              "evidence": "170 nonblank source lines, one source file, no dependency/history bodies read, no repository edits, no tests/build/compiler/runtime invoked. Retained API/literal/dependency lineage recorded; no MIT or novelty claim."
+            }
+          ],
+          "reviewReadPaths": [
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+            "/tmp/knorvia-session-contracts-20261002/importService.md",
+            "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/build-api.ts"
+          ],
+          "verificationLimit": "No tests, typecheck, lint, architecture checks, compiler, build, dependency invocation or runtime execution performed under the explicit author restrictions. Integration/type compatibility remains for the parent to validate."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-02/candidate.json",
+        "sha256": "e3f203e00c80c7683e66dc6faa89e6b6d18ce18ceedd84f75f6e0d0f604c5fe5",
+        "contents": {
+          "schemaVersion": 1,
+          "owner": "importClaudeNativeSessions",
+          "stage": "captured-workspace-correction-frozen-before-revision-self-review",
+          "frozenAtUtc": "2026-10-02T21:12:57.671197+00:00",
+          "inputs": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "sha256": "61b59c95f649650bcafd104599ea23c081d56fadb40311777a4b91114dfbc40e",
+              "bytes": 4889,
+              "lines": 18,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "sha256": "bf98b7686a75bcad98103e10bee0bb5cc93831339ab02df730efad59d3461a1c",
+              "bytes": 1352,
+              "lines": 34,
+              "nonblankLines": 23
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "lines": 38,
+              "nonblankLines": 30
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035,
+              "lines": 28,
+              "nonblankLines": 20
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506,
+              "lines": 17,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "sha256": "94f2d9fe3619722d40de9b34ac4b893ca360f62408e0aeb5e7b9d3e094af5118",
+              "bytes": 973,
+              "lines": 27,
+              "nonblankLines": 19
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "sha256": "cdfd1397b53e352578f1099482a51f1021185fa21952c4f9effe6bb6240fe6fc",
+              "bytes": 851,
+              "lines": 20,
+              "nonblankLines": 12
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "sha256": "33ff8640d0780c1eff69e00d2cab66309939e17a44de25f6bac26b97b6216b56",
+              "bytes": 9247,
+              "lines": 282,
+              "nonblankLines": 262
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "lines": 190,
+              "nonblankLines": 161
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334,
+              "lines": 1236,
+              "nonblankLines": 1117
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "lines": 103,
+              "nonblankLines": 82
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "lines": 50,
+              "nonblankLines": 36
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+              "sha256": "f5d9eacf9c983d088a4d8479906e4ee4fe1526d9379e0c3c574693b15c348721",
+              "bytes": 6675,
+              "lines": 183,
+              "nonblankLines": 170
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+              "sha256": "804cef527de47ea9e94aeb9a6e65bc1317f6c24ac26df0c2bcc968b27b82ceb2",
+              "bytes": 11239,
+              "lines": 240,
+              "nonblankLines": 240
+            }
+          ],
+          "textInputs": [
+            {
+              "source": "Parent delegated authority clarification",
+              "text": "After await workspaceExists(importedWorkspacePath), filter comparison and mismatch result must use captured importedWorkspacePath, not reread candidate.workspacePath. Preserve captured permission scope after await. sourcePath/createdAt/updatedAt remain live candidate reads later.",
+              "sha256": "36cd385778647aafad7c4b499c5829a89ac6c32a0642c9303f73c70de7c14cf9"
+            }
+          ],
+          "actualReadPaths": [
+            "/tmp/knorvia-session-contracts-20261002/importService.md",
+            "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+            "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts"
+          ],
+          "readOperations": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+              ],
+              "scope": "full file contents",
+              "note": "Tool response truncated at 24000 tokens; files were physically read in full."
+            },
+            {
+              "operation": "python SHA-256 and size inventory",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+              ],
+              "scope": "full file bytes"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts"
+              ],
+              "scope": "full file contents"
+            },
+            {
+              "operation": "rg",
+              "paths": ["/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts"],
+              "scope": "search full file for import/task meta API declarations; displayed KnorviaTaskMeta context"
+            },
+            {
+              "operation": "freeze SHA-256 inventory",
+              "paths": [
+                "/tmp/knorvia-session-contracts-20261002/importService.md",
+                "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+                "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts"
+              ],
+              "scope": "full bytes for evidence; no candidate self-review"
+            },
+            {
+              "operation": "read raw source and raw candidate manifest for separately frozen correction",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+                "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json"
+              ],
+              "scope": "full source text and full manifest JSON"
+            },
+            {
+              "operation": "freeze SHA-256 corrected source",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts"
+              ],
+              "scope": "full bytes for evidence"
+            }
+          ],
+          "outputs": [
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts",
+              "sha256": "1b24ae1e190f7bae4ebce0cc02522d6d07453ae1befc45061bdac095f07fae1e",
+              "bytes": 6671,
+              "lines": 183,
+              "nonblankLines": 170
+            }
+          ],
+          "access": {
+            "readAllowlist": [
+              "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+            ],
+            "readOwnGeneratedOutputsForFreezeAndReview": true,
+            "writtenPaths": [
+              "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts",
+              "/tmp/knorvia-session-candidates-20261002/service/self-review-02/candidate.json"
+            ],
+            "repositoryWrites": false,
+            "dependencyImplementationReads": false,
+            "historyOrInheritedBodyReads": false,
+            "testsBuildCompilerExecuted": false,
+            "providerAgentNetworkDatabaseUserTaskHomeClaudeIo": false,
+            "gitCommandsOrRepoSearch": false,
+            "sourceRuntimeInvoked": false,
+            "rawFirstReadyModified": false
+          },
+          "limits": {
+            "maxNonblankLinesPerSource": 400,
+            "sourceNonblankLines": 170,
+            "privateModuleCount": 0,
+            "noTestsBuildCompiler": true,
+            "noRepositoryEdits": true,
+            "contractOnlySelfReviewAfterFreeze": true
+          },
+          "retainedLineage": {
+            "apis": "Public function signature, result/shared types, module paths and dependency ports retained from supplied packets.",
+            "literals": "Provider, migration marker, skip reasons and lifecycle/failure log literals retained from orchestration contract.",
+            "dependencies": "Node fs/path APIs, shared types, logger, builder, repository, parser, persister and TaskIndexRepo retained; implementations not opened.",
+            "license": "No MIT assertion, license replacement, dependency authorship or novelty claim made."
+          },
+          "architecture": {
+            "singleOwner": "importClaudeNativeSessions owns ordered result buckets and each session createdOutputPaths/importedWorkspacePath.",
+            "scope": "Off-repository candidate, preserving session import application orchestration and existing public port boundaries.",
+            "eventOrder": "normalize IDs -> lookup -> workspace access -> live filter comparison -> copy -> parse original -> capture live target identity -> creator/snapshot/index or builder/persist -> synchronous callback -> imported append; caught failure -> created-only sequential cleanup -> warning -> failed append.",
+            "instructionResolution": "Task-specific read-only allowlist and no checks/spec/repository writes override general AGENTS/architecture workflow commands; supplied importService.md is the implementation behavior specification."
+          },
+          "changes": [
+            "After the workspace access await, compare captured importedWorkspacePath against the live filter.",
+            "Use captured importedWorkspacePath in the mismatch result.",
+            "Retain live candidate sourcePath, createdAt and updatedAt reads for copy/parser inputs."
+          ],
+          "selfReviewStatus": "not started for this correction at freeze",
+          "supersedes": "self-review-01 manual no-deviation conclusion for post-await candidate.workspacePath reads",
+          "manifestHashPolicy": "candidate.json SHA-256 is reported externally after freezing; self-hash is excluded to avoid circular hashing."
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-02/self-review.json",
+        "sha256": "81d1c18498c190686fc71713b4f4d2b63ab00972dbb04b62c69d2045e5568e26",
+        "contents": {
+          "schemaVersion": 1,
+          "reviewKind": "author contract-only correction self-review",
+          "reviewedAtUtc": "2026-10-02T21:13:22.321243+00:00",
+          "stage": "reviewed after corrected source and candidate manifest were frozen",
+          "result": "Captured-workspace correction matches parent clarification; no further contract deviations identified by manual inspection.",
+          "supersedesPriorFinding": "The self-review-01 conclusion overlooked the requirement to retain the workspace path captured before the access await. The corrected source uses that captured value for both comparison and mismatch reporting.",
+          "inputs": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "sha256": "61b59c95f649650bcafd104599ea23c081d56fadb40311777a4b91114dfbc40e",
+              "bytes": 4889,
+              "lines": 18,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "sha256": "bf98b7686a75bcad98103e10bee0bb5cc93831339ab02df730efad59d3461a1c",
+              "bytes": 1352,
+              "lines": 34,
+              "nonblankLines": 23
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "lines": 38,
+              "nonblankLines": 30
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035,
+              "lines": 28,
+              "nonblankLines": 20
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506,
+              "lines": 17,
+              "nonblankLines": 15
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "sha256": "94f2d9fe3619722d40de9b34ac4b893ca360f62408e0aeb5e7b9d3e094af5118",
+              "bytes": 973,
+              "lines": 27,
+              "nonblankLines": 19
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "sha256": "cdfd1397b53e352578f1099482a51f1021185fa21952c4f9effe6bb6240fe6fc",
+              "bytes": 851,
+              "lines": 20,
+              "nonblankLines": 12
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "sha256": "33ff8640d0780c1eff69e00d2cab66309939e17a44de25f6bac26b97b6216b56",
+              "bytes": 9247,
+              "lines": 282,
+              "nonblankLines": 262
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "lines": 190,
+              "nonblankLines": 161
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334,
+              "lines": 1236,
+              "nonblankLines": 1117
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "lines": 103,
+              "nonblankLines": 82
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "lines": 50,
+              "nonblankLines": 36
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+              "sha256": "f5d9eacf9c983d088a4d8479906e4ee4fe1526d9379e0c3c574693b15c348721",
+              "bytes": 6675,
+              "lines": 183,
+              "nonblankLines": 170
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+              "sha256": "804cef527de47ea9e94aeb9a6e65bc1317f6c24ac26df0c2bcc968b27b82ceb2",
+              "bytes": 11239,
+              "lines": 240,
+              "nonblankLines": 240
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts",
+              "sha256": "1b24ae1e190f7bae4ebce0cc02522d6d07453ae1befc45061bdac095f07fae1e",
+              "bytes": 6671
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/service/self-review-02/candidate.json",
+              "sha256": "e3f203e00c80c7683e66dc6faa89e6b6d18ce18ceedd84f75f6e0d0f604c5fe5",
+              "bytes": 13454
+            }
+          ],
+          "textInputs": [
+            {
+              "source": "Parent delegated authority clarification",
+              "text": "After await workspaceExists(importedWorkspacePath), filter comparison and mismatch result must use captured importedWorkspacePath, not reread candidate.workspacePath. Preserve captured permission scope after await. sourcePath/createdAt/updatedAt remain live candidate reads later.",
+              "sha256": "36cd385778647aafad7c4b499c5829a89ac6c32a0642c9303f73c70de7c14cf9"
+            }
+          ],
+          "actualReadPaths": [
+            "/tmp/knorvia-session-contracts-20261002/importService.md",
+            "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+            "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/claude-native/claudeNativeSessionImportService.ts",
+            "/tmp/knorvia-session-candidates-20261002/service/raw-first-ready/candidate.json",
+            "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts",
+            "/tmp/knorvia-session-candidates-20261002/service/self-review-02/candidate.json"
+          ],
+          "reviewReadOperations": [
+            {
+              "operation": "cat after correction freeze",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts"
+              ],
+              "scope": "full source manual inspection"
+            },
+            {
+              "operation": "read corrected manifest and source bytes to record review evidence",
+              "paths": [
+                "/tmp/knorvia-session-candidates-20261002/service/self-review-02/candidate.json",
+                "/tmp/knorvia-session-candidates-20261002/service/self-review-02/claude-native/claudeNativeSessionImportService.ts"
+              ],
+              "scope": "full bytes and JSON metadata"
+            }
+          ],
+          "checks": [
+            {
+              "check": "captured workspace authority",
+              "finding": "The sole candidate.workspacePath read establishes importedWorkspacePath before access. After access awaits, both normalized comparison and mismatch result use importedWorkspacePath. Copy/parser/failure scopes use the same captured path."
+            },
+            {
+              "check": "live candidate source data",
+              "finding": "Copy sourcePath remains a live candidate read. After copying awaits, parser filePath/sourcePath/createdAt/updatedAt remain live candidate reads; no candidate object snapshot introduced."
+            },
+            {
+              "check": "live request parameters",
+              "finding": "Lookup/filter/copy identity remain live reads. Target identity remains captured after parser await. Creator/taskIndexRepo/callback remain live at their respective invocation points."
+            },
+            {
+              "check": "remaining owner behavior",
+              "finding": "ID admission, ordered skip/import/failure buckets, creator/snapshot/index and ordinary persistence await barriers, callback-before-append, created-only sequential cleanup and warning propagation retain the reviewed contract behavior."
+            },
+            {
+              "check": "frozen lineage and limits",
+              "finding": "Corrected source remains 170 nonblank lines. Raw source and raw manifest were preserved. APIs, literals and dependency lineage retained; no license or novelty claim."
+            }
+          ],
+          "access": {
+            "readAllowlist": [
+              "/tmp/knorvia-session-contracts-20261002/importService.md",
+              "/tmp/knorvia-session-contracts-20261002/importService-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/persist-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/taskIndex-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "/workspace/knorvia-studio/AGENTS.md",
+              "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+            ],
+            "readOwnGeneratedOutputsForFreezeAndReview": true,
+            "writtenPaths": [
+              "/tmp/knorvia-session-candidates-20261002/service/self-review-02/self-review.json"
+            ],
+            "repositoryWrites": false,
+            "dependencyImplementationReads": false,
+            "historyOrInheritedBodyReads": false,
+            "testsBuildCompilerExecuted": false,
+            "providerAgentNetworkDatabaseUserTaskHomeClaudeIo": false,
+            "gitCommandsOrRepoSearch": false,
+            "sourceRuntimeInvoked": false,
+            "rawFirstReadyModified": false
+          },
+          "verificationLimit": "Manual inspection only. No tests, compiler, build, typecheck, lint, architecture commands, runtime/dependency invocation, repository edits or prohibited data accesses performed.",
+          "furtherCorrections": [],
+          "reportHashPolicy": "Self-review report SHA-256 is reported externally; self-hash excluded."
+        }
+      }
+    ],
+    "repair": [
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/repair/own-source-review.json",
+        "sha256": "d2761561383cd2c71388aaca9e67be8ac0904b561e2870c53bccf633b1fdc79d",
+        "contents": {
+          "schemaVersion": 1,
+          "reviewedAt": "2026-10-02T21:09:50.680725+00:00",
+          "rawCandidate": "/tmp/knorvia-session-candidates-20261002/repair/raw-first-ready/claude-native/importedClaudeHistoryRepair.ts",
+          "rawReceipt": "/tmp/knorvia-session-candidates-20261002/repair/raw-first-ready/candidate.json",
+          "sourceSHA256": "95ef9d40716062481e0d81e053703975e90079ab64678fd96671374e02017be7",
+          "frozenSourceUnchanged": true,
+          "rawSourceMode": "0o444",
+          "rawReceiptMode": "0o444",
+          "allActualReadsThroughReview": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/historyRepair.md",
+              "sha256": "edeb0333a607e3ebfffa178086146504029d4925c1041aee52c11fc6276c9d6a",
+              "bytes": 4185,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/historyRepair-api.ts",
+              "sha256": "f58aae2911462221ede7de42c2c9245b1a2a2d40b026c24f29828fc5035589f7",
+              "bytes": 2067,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "sha256": "cdfd1397b53e352578f1099482a51f1021185fa21952c4f9effe6bb6240fe6fc",
+              "bytes": 851,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/legacy-api.ts",
+              "sha256": "667a73336ea3268f3ace5ad4c3703f61d46a0b587791111b18d28bfaf2c9caf6",
+              "bytes": 478,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "contentReadsBeforeFreeze": 1,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "contentReadsBeforeFreeze": 1,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repair/raw-first-ready/claude-native/importedClaudeHistoryRepair.ts",
+              "sha256": "95ef9d40716062481e0d81e053703975e90079ab64678fd96671374e02017be7",
+              "bytes": 6714,
+              "hashReadsAtFreeze": 1,
+              "access": "own newly authored source",
+              "sourceReviewReadsAfterFreeze": 1,
+              "hashReadsAfterReview": 1
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repair/raw-first-ready/candidate.json",
+              "sha256": "ee9233fa99f9e7b27bbce24d7f2781a182e052cc71432df26c886b8bc5a136da",
+              "bytes": 6215,
+              "readsAfterReview": 1,
+              "access": "own frozen receipt"
+            }
+          ],
+          "reviewScope": "Own frozen source and supplied contract knowledge only; no implementation comparison",
+          "findings": [],
+          "contractReview": [
+            "Two requested exports and generic Promise<T|null> repair API retained",
+            "Strict user/assistant filter followed by ordered map; timestamp key always present; extra message fields omitted",
+            "Running status and truthy activeTurnId reject before message inspection or IO",
+            "Claude import prefix or exact legacy fixed-ID regex required before anomaly checks",
+            "Both scoped legacy paths created before IO; active precedes deleted; only ENOENT advances; raw empty string still stops lookup",
+            "JSON parse outside read catch; invalid or non-Claude active snapshot does not try deleted snapshot",
+            "Legacy result includes traceId and explicit metadata keys; native result omits traceId",
+            "Native scan scoped to workspacePath; first buildImportedClaudeTaskId match uses live target.taskId; parser receives exact candidate fields",
+            "Legacy assistant content short-circuits native; otherwise native wins ties; native failures propagate",
+            "Synchronous live onRepair precedes createSession; creation shape reads live params after callback",
+            "Creation uses target.taskId, immediate persistence, identity and MCP server reference; importedHistory preserves selected messages reference and explicit optional keys",
+            "No input mutation, new identity lookup, duplicate state store or failure wrapping",
+            "createSession promise returned directly with no extra await or barrier"
+          ],
+          "validation": {
+            "kind": "Static source review",
+            "testsRun": false,
+            "buildRun": false,
+            "compilerRun": false,
+            "architectureCommandsRun": false,
+            "realCreateSessionInvoked": false,
+            "fakeCreateSessionInvoked": false,
+            "reason": "Task explicitly prohibits execution validation and repository changes",
+            "limits": "Dependency signatures/runtime behavior are retained from supplied opaque contracts; no compile or behavioral pass is claimed"
+          },
+          "remainingBlockers": [],
+          "revisions": [],
+          "lineage": {
+            "retained": "Public API/interface shapes, behavioral literals, shared types and declared dependency edges supplied by contracts",
+            "implementation": "Fresh authored complete owner from supplied contracts; no inherited body comparison",
+            "licenseClaim": "No MIT, originality certification, legal independence or novelty claim"
+          }
+        }
+      },
+      {
+        "path": "/tmp/knorvia-session-candidates-20261002/repair/raw-first-ready/candidate.json",
+        "sha256": "ee9233fa99f9e7b27bbce24d7f2781a182e052cc71432df26c886b8bc5a136da",
+        "contents": {
+          "schemaVersion": 1,
+          "candidate": "repair/raw-first-ready",
+          "phase": "raw-first-ready-frozen-before-self-review",
+          "frozenAt": "2026-10-02T21:09:16.814568+00:00",
+          "author": "/root/native_history_repair_complete_author",
+          "authorization": "Delegated fresh complete independent owner; contract-only source access",
+          "actualReadsAtFreeze": [
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/historyRepair.md",
+              "sha256": "edeb0333a607e3ebfffa178086146504029d4925c1041aee52c11fc6276c9d6a",
+              "bytes": 4185,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/historyRepair-api.ts",
+              "sha256": "f58aae2911462221ede7de42c2c9245b1a2a2d40b026c24f29828fc5035589f7",
+              "bytes": 2067,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sourceTypes-api.ts",
+              "sha256": "7d8b17d93d9ee47972438764edb92ada1a2db3a29b7e458345d958aab11a9f4b",
+              "bytes": 506,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importRepo-api.ts",
+              "sha256": "161b164b998d8c916165dbf2e799faa057e4cb6d5bf0c37a5d54947d4a6d6727",
+              "bytes": 1264,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/importParser-api.ts",
+              "sha256": "9ae2fce356a25da2aad65567dfd7235f88e474a1938fe36445d0f05b2947dc86",
+              "bytes": 1035,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/build-api.ts",
+              "sha256": "cdfd1397b53e352578f1099482a51f1021185fa21952c4f9effe6bb6240fe6fc",
+              "bytes": 851,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/legacy-api.ts",
+              "sha256": "667a73336ea3268f3ace5ad4c3703f61d46a0b587791111b18d28bfaf2c9caf6",
+              "bytes": 478,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedTask-api.ts",
+              "sha256": "8a1c10f2dbc86c20363bc4aaee0599b4b7f6e42f07bb6bdec89e0b8238998b5a",
+              "bytes": 5702,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-contracts-20261002/sharedCore-api.ts",
+              "sha256": "e87788e903375e244f4c52196bbf2b00ce64a16e153ab79227ba6d6216992722",
+              "bytes": 39334,
+              "contentReadsBeforeFreeze": 2,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "bytes": 10384,
+              "contentReadsBeforeFreeze": 1,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "bytes": 5026,
+              "contentReadsBeforeFreeze": 1,
+              "hashReadsAtFreeze": 1,
+              "access": "read-only"
+            },
+            {
+              "path": "/tmp/knorvia-session-candidates-20261002/repair/raw-first-ready/claude-native/importedClaudeHistoryRepair.ts",
+              "sha256": "95ef9d40716062481e0d81e053703975e90079ab64678fd96671374e02017be7",
+              "bytes": 6714,
+              "hashReadsAtFreeze": 1,
+              "access": "own newly authored source"
+            }
+          ],
+          "output": {
+            "path": "/tmp/knorvia-session-candidates-20261002/repair/raw-first-ready/claude-native/importedClaudeHistoryRepair.ts",
+            "sha256": "95ef9d40716062481e0d81e053703975e90079ab64678fd96671374e02017be7",
+            "bytes": 6714,
+            "nonblankLines": 174,
+            "exports": ["readLegacyImportedClaudeHistory", "repairImportedClaudeSessionSnapshot"],
+            "fileModeAfterFreeze": "0444"
+          },
+          "access": {
+            "explicitSourceReads": "Exactly the eleven supplied contract and governance files, plus own output for hashing",
+            "explicitForbiddenReads": [],
+            "repositoryWrites": [],
+            "networkActions": [],
+            "databaseActions": [],
+            "realCreateSessionInvocations": 0,
+            "dependencyImplementationReads": 0,
+            "inheritedImplementationReads": 0,
+            "testReadsOrRuns": 0,
+            "buildOrCompilerRuns": 0,
+            "note": "Shell and tool startup internals are outside this explicit source-read manifest; no HOME, .claude, provider or user-data read was requested by authored commands"
+          },
+          "limits": {
+            "nonblankLineMaximum": 400,
+            "nonblankLineLimitMet": true,
+            "selfReviewBeforeFreeze": false,
+            "validation": "Source review only after this freeze; no tests/build/compiler/repository commands",
+            "revisions": "Any own correction must be a separate frozen revision; this raw source remains unchanged"
+          },
+          "design": {
+            "owner": "importedClaudeHistoryRepair owns repair eligibility, history authority selection, callback ordering and immediate recreation admission",
+            "eventOrder": "snapshot authority gate -> active/deleted legacy lookup -> native lookup only if needed -> synchronous onRepair -> live create params -> immediate persistence port",
+            "state": "No second state store, no input mutation, no writes before createSession",
+            "identity": "Carry workspaceIdentity into legacy paths and creation; native lookup uses existing buildImportedClaudeTaskId authority",
+            "failures": "Preserve dependency and callback thrown values; only ENOENT advances legacy path"
+          },
+          "lineage": {
+            "retained": "Public API/interface shapes, behavioral literals, shared types and declared dependency edges supplied by contracts",
+            "implementation": "Fresh authored complete owner from supplied contracts; no inherited body comparison",
+            "licenseClaim": "No MIT, originality certification, legal independence or novelty claim"
+          }
+        }
+      }
+    ]
+  },
+  "submitted": [
+    {
+      "path": "packages/services/src/session/automationService.ts",
+      "sha256": "2c114c1bcab9556d7aa1eebb3807df1e9edb3d80fd1aa5ed78b8b4794c93f2b6",
+      "nonblankLines": 313,
+      "integrationChanges": "copy preferred frozen owner candidate then formatter only"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+      "sha256": "1ee2bcd6e7bf952b5b3de3922ce42757f35a8ee4c0b8ae83f7b4dc739e3c2c66",
+      "nonblankLines": 244,
+      "integrationChanges": "copy preferred frozen owner candidate then formatter only"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+      "sha256": "877bea41f1d8968ede4c97b87b7aa657515387b2464737719e247b6901a3fe86",
+      "nonblankLines": 215,
+      "integrationChanges": "copy preferred frozen owner candidate then formatter only"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+      "sha256": "1b24ae1e190f7bae4ebce0cc02522d6d07453ae1befc45061bdac095f07fae1e",
+      "nonblankLines": 170,
+      "integrationChanges": "copy preferred frozen owner candidate then formatter only"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+      "sha256": "95ef9d40716062481e0d81e053703975e90079ab64678fd96671374e02017be7",
+      "nonblankLines": 174,
+      "integrationChanges": "copy preferred frozen owner candidate then formatter only"
+    }
+  ],
+  "limits": [
+    "API/literals/type declarations/dependency implementations retain lineage",
+    "No whole-project or MIT classification",
+    "No runtime usertask/provider/agent/network/DB/HOME/.claude execution",
+    "Only synthetic authority tests, scoped types/lint/format/architecture; ordinary suites/builds deferred",
+    "Missing ignore previous blocker and missing croner/CUA scoped type blockers remain",
+    "159 unselected original sources preserved; global inventories/licenses/manifests/security unchanged"
+  ],
+  "retainedOriginalCount": 159
+}

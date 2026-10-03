@@ -1,0 +1,4 @@
+{"mode":"baseline","observation":{"value":"Owned second coercion","coercions":2,"caughtOriginal":false},"initialDraftHasSeparateTS2322Diagnostic":false}
+{"mode":"baseline","groups":1,"supportedUnknownInputComparisons":1,"liveIO":0}
+(node:250815) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

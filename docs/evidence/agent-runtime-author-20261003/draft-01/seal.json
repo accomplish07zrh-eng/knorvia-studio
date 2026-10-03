@@ -1,0 +1,11 @@
+{
+  "kind": "curator transport binding of immutable initial candidate and native access record",
+  "files": {
+    "candidate.sha256": "14a6dc00671456c07e5c6beeb027d9b5628de39ba68c9895fa2cd736ea04135a",
+    "author-record.md": "9d23d1d06c2565f3f568c24de6ff42bb4f8daf02ee0dbb839275bf704944115e",
+    "accessed-inputs.sha256": "222313b31a5d15d1e857956b30255670fe7bdaf6502e69da06fee270c622b347",
+    "candidate.ts": "113830b866f526d93a0faf911fbb1377f98ab398a6cb3b24d87ef5710b7fa6f2"
+  },
+  "closureUTC": "2026-10-03T02:20:51.863294+00:00",
+  "limits": "Six source-derived body-free inputs, instruction-only isolation, no clean-room/source-rights grant."
+}

@@ -7,7 +7,6 @@ import {
   type WorkflowArtifact,
   type WorkflowDefinition,
   type WorkflowEvent,
-  type WorkflowGraphNode,
   type WorkflowNodeStatus,
   type WorkflowPhaseDefinition,
   type WorkflowPhaseSnapshot,
@@ -52,6 +51,7 @@ export class ExpertWorkflowRuntimeContext {
     const runId = this.createRunId();
     const timestamp = this.timestamp();
     const phaseOrder = this.definition.phaseOrder;
+    // 草稿使用了不存在的定义字段；初始快照与日志必须保留已解析的定义标识。
     return {
       activities: [],
       artifacts: [],
@@ -62,10 +62,7 @@ export class ExpertWorkflowRuntimeContext {
       graph: createPhaseGraph(this.definition),
       kind: this.definition.kind,
       phaseOrder,
-      phases: phaseOrder.map((phase) => ({
-        phase,
-        status: "pending",
-      })),
+      phases: phaseOrder.map((phase) => ({ phase, status: "pending" })),
       recoveryActions: [],
       runId,
       schemaVersion: 1,
@@ -223,11 +220,7 @@ export class ExpertWorkflowRuntimeContext {
       >
     >,
   ): ExpertWorkflowRunSnapshot {
-    return {
-      ...snapshot,
-      ...patch,
-      updatedAt: this.timestamp(),
-    };
+    return { ...snapshot, ...patch, updatedAt: this.timestamp() };
   }
 
   updatePhase(
@@ -240,18 +233,11 @@ export class ExpertWorkflowRuntimeContext {
         ...snapshot,
         currentPhase: phase,
         graph: updateGraphNodeStatus(snapshot.graph, phase, patch.status),
-        phases: snapshot.phases.map((item) =>
-          item.phase === phase
-            ? {
-                ...item,
-                ...patch,
-              }
-            : item,
+        phases: snapshot.phases.map((entry) =>
+          entry.phase === phase ? { ...entry, ...patch } : entry,
         ),
       },
-      {
-        currentPhase: phase,
-      },
+      { currentPhase: phase },
     );
   }
 
@@ -260,14 +246,10 @@ export class ExpertWorkflowRuntimeContext {
     artifact: WorkflowArtifact,
   ): ExpertWorkflowRunSnapshot {
     const artifacts = [
-      ...snapshot.artifacts.filter((item) => item.path !== artifact.path),
+      ...snapshot.artifacts.filter((entry) => entry.path !== artifact.path),
       artifact,
     ];
-    return {
-      ...snapshot,
-      artifacts,
-      updatedAt: this.timestamp(),
-    };
+    return { ...snapshot, artifacts, updatedAt: this.timestamp() };
   }
 
   upsertActivity(
@@ -275,7 +257,7 @@ export class ExpertWorkflowRuntimeContext {
     activity: WorkflowActivitySnapshot,
   ): ExpertWorkflowRunSnapshot {
     const activities = [
-      ...snapshot.activities.filter((item) => item.activityId !== activity.activityId),
+      ...snapshot.activities.filter((entry) => entry.activityId !== activity.activityId),
       activity,
     ];
     return {
@@ -293,10 +275,7 @@ export class ExpertWorkflowRuntimeContext {
       return await this.store.readRun(options.runId, { signal: options.abortSignal });
     }
     return await this.store.readLatestRun(
-      {
-        cwd: options.cwd,
-        kind: this.definition.kind,
-      },
+      { cwd: options.cwd, kind: this.definition.kind },
       { signal: options.abortSignal },
     );
   }
@@ -318,21 +297,19 @@ export class ExpertWorkflowRuntimeContext {
     externalSignal: AbortSignal | undefined,
   ): { dispose: () => void; signal: AbortSignal } {
     const controller = new AbortController();
-    const forwardAbort = (): void => {
+    const forwardAbort = () => {
       controller.abort(
         externalSignal?.reason instanceof Error
           ? externalSignal.reason
           : new Error("Workflow aborted"),
       );
     };
-
     this.activeRunAbortControllers.set(runId, controller);
     if (externalSignal?.aborted) {
       forwardAbort();
     } else {
       externalSignal?.addEventListener("abort", forwardAbort, { once: true });
     }
-
     return {
       dispose: () => {
         externalSignal?.removeEventListener("abort", forwardAbort);
@@ -358,9 +335,7 @@ export function lifecyclePayload(
 export function compactWorkflowPayload(
   value: Record<string, unknown | undefined>,
 ): Record<string, unknown> {
-  return Object.fromEntries(
-    Object.entries(value).filter(([, entry]) => entry !== undefined),
-  ) as Record<string, unknown>;
+  return Object.fromEntries(Object.entries(value).filter(([, entry]) => entry !== undefined));
 }
 
 export function dedupeWorkflowNodeChanges(
@@ -370,5 +345,5 @@ export function dedupeWorkflowNodeChanges(
   for (const change of changes) {
     byNodeId.set(change.nodeId, change);
   }
-  return [...byNodeId.values()];
+  return Array.from(byNodeId.values());
 }

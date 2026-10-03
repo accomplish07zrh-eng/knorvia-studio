@@ -1,0 +1,20 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+  "imports": [
+    {
+      "module": "node:path",
+      "clause": "{ join }",
+      "text": "import { join } from \"node:path\";"
+    },
+    {
+      "module": "@knorvia/contracts",
+      "clause": "{\n  CoreErrorType,\n  PLAN_MODE_MAX_PLAN_CHARS,\n  createCoreError,\n  isFileSystemPortError,\n  type FileSystemPort,\n  type SessionId,\n  type TraceContext,\n}",
+      "text": "import {\n  CoreErrorType,\n  PLAN_MODE_MAX_PLAN_CHARS,\n  createCoreError,\n  isFileSystemPortError,\n  type FileSystemPort,\n  type SessionId,\n  type TraceContext,\n} from \"@knorvia/contracts\";"
+    },
+    {
+      "module": "../../agent/message-history.js",
+      "clause": "{\n  systemReminderAttachmentEntry,\n  type RuntimeMessageEntry,\n}",
+      "text": "import {\n  systemReminderAttachmentEntry,\n  type RuntimeMessageEntry,\n} from \"../../agent/message-history.js\";"
+    }
+  ]
+}

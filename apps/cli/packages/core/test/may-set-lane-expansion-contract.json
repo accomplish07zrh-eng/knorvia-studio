@@ -1,0 +1,35 @@
+{
+  "direct": {
+    "no-op-admission": "4f4cad5154cb343ff5644e30b180c078f53ba30ea3ea8c7b45b4b48525741085",
+    "ordered-products": "60ffb318166041a64ce87450d533bf66e1f51dfa3b1ba3f0af839650d9d21c7c",
+    "cap-four": "6a3afd682e7338888e308b2a5488098dfec294a436071bcb9706b3232016dbe5",
+    "duplicate-lanes": "149a5139ae529923cddf9476c3e2d4fc4952b5af3e84b54b23749d2a8b773338",
+    "last-eligible-duplicate": "a79b338f0a13996d935d13406408f6936b666214db88bf08abfc374bc995d480",
+    "ineligible-does-not-erase": "cad47c4eed1eb57b5865c06c9288d36bdc574ba96e064797e9d37b6bfec4b071"
+  },
+  "reads": {
+    "normal": {
+      "calls": ["steps", "steps", "edges", "steps", "sink", "lanes", "regions"],
+      "sameGraph": false
+    },
+    "no-op-unread": {
+      "calls": ["steps"],
+      "sameGraph": true
+    },
+    "edges-failure": {
+      "calls": ["steps", "steps", "edges"],
+      "error": "Owned graph read failure",
+      "sameError": true
+    },
+    "sink-failure": {
+      "calls": ["steps", "steps", "edges", "steps", "sink"],
+      "error": "Owned graph read failure",
+      "sameError": true
+    }
+  },
+  "consumers": [
+    "140098d5ad22053dc0945ad6a2fdbbc7af4aeed3b5d955438e7d79dc8d8e3e6f",
+    "0d8a4532f652564193e45cf3b803f05a0f7b5d23a7654e2e47a109b759d16350",
+    "b5088e14dd922c62ba0a021660bf36d76076e01dd1fbd65b04c5b34560ed1aed"
+  ]
+}

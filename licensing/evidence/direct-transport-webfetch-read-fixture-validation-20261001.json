@@ -1,0 +1,1002 @@
+{
+  "schemaVersion": 1,
+  "scope": "Reviewed WebFetch original five-commit transport plus owner-approved Read fixture-root expected PDF byte correction; no production changes after the original WebFetch head.",
+  "publicationBase": "c9c556636aeda1354d7a030ec61025a8f2dc9007",
+  "bundle": {
+    "repository": "accomplish07zrh-eng/knorvia-studio",
+    "blob": "4d436738502557377f080a5a25a44ba31c47f74b",
+    "bytes": 114771,
+    "sha256": "864769abe5e62571466dc4c576f4af025cf3bfcb1fecd29d335ae01ec2f2dbca",
+    "base": "c9c556636aeda1354d7a030ec61025a8f2dc9007",
+    "head": "8c01abb79712bcd152113c42e2221e94727abf15",
+    "tree": "f0c91aed7e38831ae54d155b868369f204f52d56",
+    "bundle": "knorvia-webfetch-8c01abb.bundle",
+    "prerequisites": ["c9c556636aeda1354d7a030ec61025a8f2dc9007"],
+    "verified": true
+  },
+  "originalCommits": [
+    "1b0bce5cf5948a32265085d0688d93bcb6bea611",
+    "7c5705ef26d0955311588adc316eb77a07ca13dd",
+    "bfa358f079104818a721f52d80db82d9657be081",
+    "81e0f225da70f4679de8922133addf2d8de8eeb8",
+    "8c01abb79712bcd152113c42e2221e94727abf15"
+  ],
+  "approvedCandidate": "09b795b7fe11748f84941377c3eb5c3724b6002a",
+  "approvedCandidateTree": "8b27fa0db4e87d5f2bf139066a051120e9ccc8f3",
+  "approval": "Root reviewed the complete three-file candidate and explicitly authorized bounded dependency restoration, validation/inventory completion and ordinary publication once the required gates pass. No further approval requested.",
+  "fixtureBehavior": "Deep-clone frozen observations; verify captured UTF-8 PDF byte fields and untruncated capture; change only expected originalBytes/returnedBytes by the fixture-root UTF-8 delta. The actual serializer, golden and production stay unchanged.",
+  "sourceBindings": [
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+      "bytes": 7384,
+      "sha256": "c838a54aa60e0a4873bbdf680b7e9419394abb7b56f869d6dac792781ac27987"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "bytes": 14421,
+      "sha256": "bb1b1abab408dc9fa0f5087b7b03ac7e51e20312f070df3e5d9bc4de1e9da90c"
+    },
+    {
+      "path": "specs/knorvia-read-orchestration.md",
+      "bytes": 12153,
+      "sha256": "5ae27c5461ff8f5f52d495a83741f87f3d31252c64dcf8fc7e5ea65ad3ce40c6"
+    }
+  ],
+  "golden": {
+    "path": "apps/cli/packages/core/test/read-orchestration-contract.json",
+    "sha256": "7604f019984b2a08c3684857428a50ca9f18a3f21431a6ddc33e8e95b9f25527",
+    "unchanged": true
+  },
+  "formatterOnlyAfterApproval": {
+    "formatterOnly": true,
+    "semanticAstEqual": true,
+    "transpiledJavaScriptByteIdentical": true,
+    "commentsUnchanged": true,
+    "proofDevelopmentFailures": "Strict tokens included formatter-added trailing commas; initial AST shape included entire SourceFile text. Both guards rejected before any source write. Correct semantic AST and emitted-JS checks then passed.",
+    "beforeSha256": "ef9912b0c40884fdc01c7173ee8306e11c28f02f08352cf3c2141c91dec73992",
+    "afterSha256": "bb1b1abab408dc9fa0f5087b7b03ac7e51e20312f070df3e5d9bc4de1e9da90c",
+    "diff": "knorvia-read-fixture-format-only.diff",
+    "lintConfig": "knorvia-read-fixture-owned-oxlint.json",
+    "lintRulesUnchanged": true,
+    "repositoryLintConfigUnmodified": true
+  },
+  "dependencyRestoration": {
+    "node": "v24.14.0",
+    "pnpm": "10.33.2",
+    "command": [
+      "pnpm",
+      "install",
+      "--frozen-lockfile",
+      "--ignore-scripts",
+      "--store-dir",
+      "/tmp/knorvia-fixture-pnpm-store"
+    ],
+    "workspaceProjects": 34,
+    "packages": 1837,
+    "exitCode": 0,
+    "initialScriptsIgnored": true,
+    "separateDependencyLifecycleActions": [],
+    "additionalRuntimeOrNativeAssetsAcquired": false,
+    "log": {
+      "name": "knorvia-read-fixture-install.log",
+      "bytes": 2268,
+      "sha256": "0d2f50b041f46fb040b79122cea847274e9362fc9acff6f1198f38b77e5dc5e9"
+    },
+    "protectedSettings": {
+      "protectedFilesMatched": 254,
+      "changed": [],
+      "originURL": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+      "rootLockSha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "cliLockSha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585"
+    }
+  },
+  "readSource": {
+    "command": [
+      "node",
+      "--experimental-test-module-mocks",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-concurrency=2",
+      "--test-timeout=120000",
+      "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "apps/cli/packages/core/test/read-orchestration-contract.test.ts",
+      "apps/cli/packages/core/test/read-orchestration-settlement.test.ts"
+    ],
+    "emitted": false,
+    "exitCode": 0,
+    "durationSeconds": 5.068,
+    "counts": {
+      "tests": 37,
+      "pass": 37,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "log": "knorvia-read-fixture-source-normal-permitted.log",
+    "bytes": 3964,
+    "sha256": "3e9c25e125751a3df126a6148c1a4a052d5182837ca71ec7ec962baa642cbdc4",
+    "permissionScope": "Per-command network capability; no persistent settings changed."
+  },
+  "readStrictEmitted": {
+    "command": [
+      "node",
+      "--experimental-test-module-mocks",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-concurrency=2",
+      "--test-timeout=120000",
+      "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "apps/cli/packages/core/test/read-orchestration-contract.test.ts",
+      "apps/cli/packages/core/test/read-orchestration-settlement.test.ts"
+    ],
+    "emitted": true,
+    "exitCode": 0,
+    "durationSeconds": 5.913,
+    "counts": {
+      "tests": 37,
+      "pass": 37,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "log": "knorvia-read-fixture-emitted-normal-permitted.log",
+    "bytes": 3962,
+    "sha256": "2ad093871683d91f18952c2d7af2c7d55b71ca473635b57f251cbabd05f7206e",
+    "permissionScope": "Per-command network capability; no persistent settings changed."
+  },
+  "extraPortabilityAndWebfetch": {
+    "results": [
+      {
+        "kind": "Read real executor portability",
+        "mode": "source",
+        "TMPDIR": "/tmp/synthetic-longer-owned-location",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 15,
+          "pass": 15,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "source-longer.log",
+        "bytes": 1695,
+        "sha256": "eb5ac071f25d517f94830bb1752d54f8e995790a7fcd36eb7f19b515d5d6d747",
+        "durationSeconds": 3.208
+      },
+      {
+        "kind": "Read real executor portability",
+        "mode": "source",
+        "TMPDIR": "/tmp/路径-é-🧪",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 15,
+          "pass": 15,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "source-unicode.log",
+        "bytes": 1696,
+        "sha256": "a72f9b72ac627b3ebf6af9f0b1b8ab559def050f362a60023741c9d7c2d49ae2",
+        "durationSeconds": 3.179
+      },
+      {
+        "kind": "WebFetch imported original contracts",
+        "mode": "source",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/webfetch-orchestration-consumers.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "source-webfetch-orchestration-consumers.test.ts.log",
+        "bytes": 890,
+        "sha256": "a32fdcacb5db775bc60ca895397d738e6b559f5b219ca198e4c9387a704cd9d9",
+        "durationSeconds": 1.985
+      },
+      {
+        "kind": "WebFetch imported original contracts",
+        "mode": "source",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/webfetch-orchestration-contract.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 16,
+          "pass": 16,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "source-webfetch-orchestration-contract.test.ts.log",
+        "bytes": 1591,
+        "sha256": "8fca54fe330a61cfafe5ff82ce9a80e516890c3e2e3270c9a9601a634cccb9f5",
+        "durationSeconds": 2.088
+      },
+      {
+        "kind": "WebFetch imported original contracts",
+        "mode": "source",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/webfetch-orchestration-settlement.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "source-webfetch-orchestration-settlement.test.ts.log",
+        "bytes": 928,
+        "sha256": "7548a72fc2d1aa883c5a985de781cce424d16b5714930df50746c63a3f1a1295",
+        "durationSeconds": 2.055
+      },
+      {
+        "kind": "Read real executor portability",
+        "mode": "emitted",
+        "TMPDIR": "/tmp/synthetic-longer-owned-location",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 15,
+          "pass": 15,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "emitted-longer.log",
+        "bytes": 1696,
+        "sha256": "6710a853be0e4b68a6a724d727e742adecc1147a263f10143bc5a8122b02c3b5",
+        "durationSeconds": 2.382
+      },
+      {
+        "kind": "Read real executor portability",
+        "mode": "emitted",
+        "TMPDIR": "/tmp/路径-é-🧪",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 15,
+          "pass": 15,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "emitted-unicode.log",
+        "bytes": 1695,
+        "sha256": "d2ff3c336d187a234ef458b0abd7919930d45bd98ec7ceff2ed155b66b1db0d3",
+        "durationSeconds": 2.387
+      },
+      {
+        "kind": "WebFetch imported original contracts",
+        "mode": "emitted",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/webfetch-orchestration-consumers.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "emitted-webfetch-orchestration-consumers.test.ts.log",
+        "bytes": 889,
+        "sha256": "b5a17806f7db662a39eb407023ee685056d08aae8f116b15f70a5dd0ab4a6e56",
+        "durationSeconds": 2.51
+      },
+      {
+        "kind": "WebFetch imported original contracts",
+        "mode": "emitted",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/webfetch-orchestration-contract.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 16,
+          "pass": 16,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "emitted-webfetch-orchestration-contract.test.ts.log",
+        "bytes": 1594,
+        "sha256": "6a71bb3ea0b216b872de4385281abc63652da41ba1d0fe7766733ec9fa5eb11c",
+        "durationSeconds": 2.554
+      },
+      {
+        "kind": "WebFetch imported original contracts",
+        "mode": "emitted",
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/webfetch-orchestration-settlement.test.ts"
+        ],
+        "exitCode": 0,
+        "counts": {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "emitted-webfetch-orchestration-settlement.test.ts.log",
+        "bytes": 929,
+        "sha256": "562b39478ed9020285ea6d0bad246ef7b4e143ac96b9034ff33870b8d790223a",
+        "durationSeconds": 2.621
+      }
+    ],
+    "webfetchSummary": {
+      "source": {
+        "tests": 29,
+        "pass": 29,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "emitted": {
+        "tests": 29,
+        "pass": 29,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "freshEmittedBindings": {
+    "emittedBindings": 26,
+    "mismatches": [],
+    "goldenSha256": "7604f019984b2a08c3684857428a50ca9f18a3f21431a6ddc33e8e95b9f25527",
+    "sourceChangesFromWebfetchHead": [
+      "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+      "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "licensing/current-files.json",
+      "specs/knorvia-read-orchestration.md"
+    ]
+  },
+  "qualityGates": [
+    {
+      "name": "root-types-restored",
+      "command": ["pnpm", "typecheck"],
+      "exitCode": 0,
+      "seconds": 82.37,
+      "log": "knorvia-read-fixture-root-types-restored.log",
+      "bytes": 523,
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+    },
+    {
+      "name": "root-lint-restored",
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "log": "knorvia-read-fixture-root-lint-restored.log",
+      "sha256": "ac8ebd32e7c4b6685947ea2f0f8b1fb7572edabfda6fb1d2a1d440b4bd75e263"
+    },
+    {
+      "name": "cli-lint-restored",
+      "command": ["pnpm", "--dir", "apps/cli", "lint"],
+      "exitCode": 0,
+      "log": "knorvia-read-fixture-cli-lint-restored.log",
+      "sha256": "cb6ba78cf37c2faa70a69a2363dce3069e481611563c3f931e27e1e0b2642e9c"
+    },
+    {
+      "name": "architecture-full-restored",
+      "command": ["pnpm", "architecture:check"],
+      "exitCode": 0,
+      "log": "knorvia-read-fixture-architecture-full-restored.log",
+      "sha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+    },
+    {
+      "name": "owned-lint-verified",
+      "exitCode": 0,
+      "command": [
+        "pnpm",
+        "exec",
+        "oxlint",
+        "-c",
+        "/tmp/knorvia-read-fixture-owned-oxlint.json",
+        "--no-ignore",
+        "--deny-warnings",
+        "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+        "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+      ],
+      "log": "knorvia-read-fixture-owned-lint-verified.log",
+      "sha256": "85234a0657e60f19c2a7f1d304a3168d2b05336234c9b2cb1e1913504b042367"
+    },
+    {
+      "name": "format-verified",
+      "exitCode": 0,
+      "command": ["pnpm", "fmt:check"],
+      "log": "knorvia-read-fixture-format-verified.log",
+      "sha256": "7348d41df1fb97dbeb5e9b201270258e0793deeeb654a190c0204106a110cb00"
+    },
+    {
+      "name": "cli-build-final",
+      "command": ["pnpm", "build:cli-packages"],
+      "exitCode": 0,
+      "seconds": 40.08,
+      "log": "knorvia-read-fixture-cli-build-final.log",
+      "bytes": 8788,
+      "sha256": "31550fd136803b6c5e51fb1a9fa39d7a981402f64347dc137a13299d72433378"
+    },
+    {
+      "command": [
+        "pnpm",
+        "-r",
+        "--workspace-concurrency=1",
+        "--filter",
+        "./packages/*",
+        "typecheck"
+      ],
+      "cwd": "/workspace/knorvia-studio/apps/cli",
+      "emitted": false,
+      "exitCode": 0,
+      "durationSeconds": 70.38,
+      "log": "knorvia-read-fixture-cli-types-verified.log",
+      "bytes": 2084,
+      "sha256": "393c3fd0a217b4b1045ab5dc7a70c916fc377a38e5da01d429b719aeef72425c"
+    }
+  ],
+  "ownedLintScope": "Temporary config retains the existing rules/settings/overrides and removes ignorePatterns only so the two reviewed files are actually checked. Repository lint configuration unchanged; zero errors/warnings with --deny-warnings.",
+  "cliTypesScope": "Actual 16-of-19 CLI workspace type scripts ran serially after the completed 17/17 CLI build. The earlier root-cwd filter that matched no projects is explicitly not a typecheck pass.",
+  "ordinaryOfflineSuite": {
+    "command": ["pnpm", "test:studio"],
+    "exitCode": 0,
+    "durationSeconds": 333.629,
+    "log": "knorvia-read-fixture-standard-studio-permitted.log",
+    "bytes": 638605,
+    "sha256": "c72401e17e4a321875047432632b77a1a8654f8336227ea8bc252a02e5eec2a9",
+    "counts": {
+      "tests": 7322,
+      "pass": 7314,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 8
+    },
+    "permissionScope": "Per-command network capability; no persistent settings changed. Standard runner flags, isolation, concurrency two, timeout 120000 and credential filtering unchanged."
+  },
+  "skips": [
+    "Windows bootstrap passes the explicit offline CUA archive environment to driver staging (0.254294ms) # SKIP",
+    "真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） (3.551152ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+    "真实交付脚本在 8.3 短名 Source 上也能正确交付 (2.316635ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+    "Source 末尾带分隔符时仍能正确交付 (2.037372ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+    "路径含空格与中文时仍能正确交付 (1.768595ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+    "程序文件确实被篡改时交付必须失败并给出可定位诊断 (1.987246ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+    "deterministic old/new Claude leaf observations and public declarations (0.611315ms) # SKIP",
+    "Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced (0.150448ms) # SKIP"
+  ],
+  "executionRecovery": {
+    "oldRestrictedRun": {
+      "command": ["pnpm", "test:studio"],
+      "exitCode": 1,
+      "durationSeconds": 308.599,
+      "log": "knorvia-read-fixture-standard-studio-final.log",
+      "bytes": 54219,
+      "sha256": "3364c42949c8acfd1e1c78e4b168b6b40a90c10deafd5ca47b5e658561aaab7f",
+      "reportedCounts": {
+        "tests": 562,
+        "pass": 525,
+        "fail": 37,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "reportingScope": "Inspect whether file-only reporting recurs; these totals must not be relabeled as full case counts."
+    },
+    "oldFileFailures": [
+      "apps/cli/packages/adapters/test/auth-runtime-contract.test.ts",
+      "apps/cli/packages/adapters/test/device-fs-runtime-contract.test.mjs",
+      "apps/cli/packages/adapters/test/http-transport-node.test.ts",
+      "apps/cli/packages/adapters/test/logging-runtime-contract.test.mjs",
+      "apps/cli/packages/adapters/test/mcp-interactive-overlap.test.ts",
+      "apps/cli/packages/adapters/test/mcp-timeout-lifecycle.test.ts",
+      "apps/cli/packages/adapters/test/model-subsystem-contract.test.ts",
+      "apps/cli/packages/adapters/test/plugin-storage-contract.test.ts",
+      "apps/cli/packages/adapters/test/process-probe-runtime-contract.test.mjs",
+      "apps/cli/packages/adapters/test/proxy-fetch-native.test.ts",
+      "apps/cli/packages/adapters/test/public-egress-callback.test.ts",
+      "apps/cli/packages/adapters/test/public-egress-cancellation.test.ts",
+      "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",
+      "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
+      "apps/cli/packages/core/test/browser-playwright-runtime.test.ts",
+      "apps/cli/packages/core/test/edit-transaction.test.ts",
+      "apps/cli/packages/node-repl-host/test/browser-bridge.test.ts",
+      "apps/cli/packages/node-repl-host/test/computer-bridge.test.ts",
+      "apps/cli/packages/node-repl-host/test/cua-broker.test.ts",
+      "apps/cli/packages/node-repl-host/test/ipc-call.test.ts",
+      "apps/cli/packages/node-repl-host/test/runtime.test.mjs",
+      "apps/cli/packages/node-repl-host/test/windows-computer-host.test.mjs",
+      "packages/desktop/test/office-plugin-assets.test.mjs",
+      "packages/services/test/creation-service.test.ts",
+      "packages/services/test/kernel-probe-stages.test.ts",
+      "packages/services/test/setting-data-location.test.ts",
+      "packages/services/test/studio-acp-discovery.test.ts",
+      "packages/services/test/studio-antigravity-protocol.test.ts",
+      "packages/services/test/studio-kernels-management.test.ts",
+      "packages/services/test/studio-kernels-model-defaults.test.ts",
+      "packages/services/test/studio-kernels-model-options.test.ts",
+      "packages/services/test/studio-kernels-probe-lifecycle.test.ts",
+      "packages/services/test/studio-kernels-protocol.test.ts",
+      "packages/services/test/studio-kernels-transport.test.ts",
+      "packages/services/test/studio-kernels-versions.test.ts",
+      "packages/services/test/studio-workflow-media-loopback.test.ts",
+      "scripts/studio-test-arguments.test.mjs"
+    ],
+    "oldTotalsAreFileEntriesNotCaseCounts": true,
+    "probes": {
+      "name": "knorvia-read-fixture-runner-per-command-permission-probe.json",
+      "bytes": 1687,
+      "sha256": "c3bc0a22443c184746e57bf1795b56e025dd1949345bab6573279584a5749e84"
+    },
+    "observation": "The owned positive/negative runner and Python spawnSync probes report correctly under per-command execution permissions. The unchanged standard suite then passes with actual case counts. The prior native assertion internal cause is not diagnosed and did not recur. No persistent access, network, security, credentials, CI or repository configuration changed.",
+    "directActualCasesAlsoPassed": {
+      "results": [
+        {
+          "mode": "source",
+          "command": [
+            "node",
+            "--experimental-test-module-mocks",
+            "--import",
+            "tsx",
+            "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+          ],
+          "exitCode": 0,
+          "durationSeconds": 2.16,
+          "counts": {
+            "tests": 15,
+            "pass": 15,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0
+          },
+          "log": "source-read-orchestration-consumers.test.ts.log",
+          "bytes": 1697,
+          "sha256": "aa527688d39ca7817ad5dba6ac9a4dedfe543881b4256862b9ebac50e108e82b"
+        },
+        {
+          "mode": "source",
+          "command": [
+            "node",
+            "--experimental-test-module-mocks",
+            "--import",
+            "tsx",
+            "apps/cli/packages/core/test/read-orchestration-contract.test.ts"
+          ],
+          "exitCode": 0,
+          "durationSeconds": 2.15,
+          "counts": {
+            "tests": 18,
+            "pass": 18,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0
+          },
+          "log": "source-read-orchestration-contract.test.ts.log",
+          "bytes": 1979,
+          "sha256": "abe1c784da427f93de391176ebaf0b4dac3422b4f835ef23daf4076373099b87"
+        },
+        {
+          "mode": "source",
+          "command": [
+            "node",
+            "--experimental-test-module-mocks",
+            "--import",
+            "tsx",
+            "apps/cli/packages/core/test/read-orchestration-settlement.test.ts"
+          ],
+          "exitCode": 0,
+          "durationSeconds": 2.084,
+          "counts": {
+            "tests": 4,
+            "pass": 4,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0
+          },
+          "log": "source-read-orchestration-settlement.test.ts.log",
+          "bytes": 513,
+          "sha256": "1636bbcd23cc547729c7f2ccfc9286235cbe9488694b9c4f3d2616ae610b1f3c"
+        },
+        {
+          "mode": "emitted",
+          "command": [
+            "node",
+            "--experimental-test-module-mocks",
+            "--import",
+            "tsx",
+            "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+          ],
+          "exitCode": 0,
+          "durationSeconds": 2.467,
+          "counts": {
+            "tests": 15,
+            "pass": 15,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0
+          },
+          "log": "emitted-read-orchestration-consumers.test.ts.log",
+          "bytes": 1696,
+          "sha256": "4867d4e09d4b57d4a6f1db8618e6d6dbd5a9f8d579691e872ef50e3ad216f825"
+        },
+        {
+          "mode": "emitted",
+          "command": [
+            "node",
+            "--experimental-test-module-mocks",
+            "--import",
+            "tsx",
+            "apps/cli/packages/core/test/read-orchestration-contract.test.ts"
+          ],
+          "exitCode": 0,
+          "durationSeconds": 2.652,
+          "counts": {
+            "tests": 18,
+            "pass": 18,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0
+          },
+          "log": "emitted-read-orchestration-contract.test.ts.log",
+          "bytes": 1982,
+          "sha256": "1ccbd83b346e6b6953262df9a7e7ce7a9f17ca8273a8b834286058b1fca8c7e7"
+        },
+        {
+          "mode": "emitted",
+          "command": [
+            "node",
+            "--experimental-test-module-mocks",
+            "--import",
+            "tsx",
+            "apps/cli/packages/core/test/read-orchestration-settlement.test.ts"
+          ],
+          "exitCode": 0,
+          "durationSeconds": 2.462,
+          "counts": {
+            "tests": 4,
+            "pass": 4,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0
+          },
+          "log": "emitted-read-orchestration-settlement.test.ts.log",
+          "bytes": 511,
+          "sha256": "c290ad3360f668faf19e3bedf20ffb5efb8517616d8cd1118b0f754fc82b1c3b"
+        }
+      ],
+      "summary": {
+        "source": {
+          "tests": 37,
+          "pass": 37,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "emitted": {
+          "tests": 37,
+          "pass": 37,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      "execution": "Each original test entry executes its actual node:test cases directly in its own pinned Node process. Repository files, assertions and CI runner settings unchanged."
+    }
+  },
+  "earlierValidationAttempts": {
+    "beforeBuildCliTypes": {
+      "name": "cli-types-restored",
+      "command": ["pnpm", "--dir", "apps/cli", "typecheck"],
+      "exitCode": 2,
+      "seconds": 9.87,
+      "log": "knorvia-read-fixture-cli-types-restored.log",
+      "bytes": 1064,
+      "sha256": "780fe62aa7b0e8e0af2d22f65f624026b58fea5643baf48d09be40f402bb2ed9"
+    },
+    "noMatchedProjectsNotAPass": {
+      "name": "cli-types-serial-final",
+      "command": [
+        "pnpm",
+        "--dir",
+        "apps/cli",
+        "-r",
+        "--workspace-concurrency=1",
+        "--filter",
+        "./packages/*",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "seconds": 0.26,
+      "log": "knorvia-read-fixture-cli-types-serial-final.log",
+      "bytes": 72,
+      "sha256": "4ff192834f87b4dc4f124d7d0ac4d1c2b01be8e49181fcce776b0f76dcc87f55"
+    },
+    "initialOwnedLintAndFormat": [
+      {
+        "name": "owned-lint-restored",
+        "command": [
+          "pnpm",
+          "exec",
+          "oxlint",
+          "--no-ignore",
+          "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+          "apps/cli/packages/core/test/read-orchestration-consumers.test.ts"
+        ],
+        "exitCode": 1,
+        "log": "knorvia-read-fixture-owned-lint-restored.log",
+        "sha256": "3c6ac13e2fc2252409adecf4f8dbd1dbc36e70d7e0f24d42ded96253aa1de9dd"
+      },
+      {
+        "name": "format-restored",
+        "command": ["pnpm", "fmt:check"],
+        "exitCode": 1,
+        "log": "knorvia-read-fixture-format-restored.log",
+        "sha256": "1de83c2fee01e6cb932b27d71c8fda4d564710eaee24df60c4d811557ba573d4"
+      }
+    ],
+    "representativeRestrictedRunDiagnostics": [
+      {
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "apps/cli/packages/core/test/edit-transaction.test.ts"
+        ],
+        "exitCode": 1,
+        "counts": {
+          "tests": 64,
+          "pass": 62,
+          "fail": 2,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "knorvia-read-fixture-diagnostic-edit-transaction.test.ts.log",
+        "bytes": 6517,
+        "sha256": "d7627f2c91a979fe0ffba176e20d4cf71341b0c49c9f2f64f2ef74fc244f7e51",
+        "durationSeconds": 3.078
+      },
+      {
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "packages/desktop/test/office-plugin-assets.test.mjs"
+        ],
+        "exitCode": 1,
+        "counts": {
+          "tests": 6,
+          "pass": 5,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "knorvia-read-fixture-diagnostic-office-plugin-assets.test.mjs.log",
+        "bytes": 2674,
+        "sha256": "2df20c09416015692b1076d9608e9001fffbaedc9fd5711736a9a4323a8c5034",
+        "durationSeconds": 0.158
+      },
+      {
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "packages/services/test/creation-service.test.ts"
+        ],
+        "exitCode": -6,
+        "counts": {},
+        "log": "knorvia-read-fixture-diagnostic-creation-service.test.ts.log",
+        "bytes": 971,
+        "sha256": "4018e690f4f257cd4bf4711fe2069dbfb156e9577ff0a52570854557aaa1655b",
+        "durationSeconds": 0.634
+      },
+      {
+        "command": [
+          "node",
+          "--experimental-test-module-mocks",
+          "--import",
+          "tsx",
+          "scripts/studio-test-arguments.test.mjs"
+        ],
+        "exitCode": 1,
+        "counts": {
+          "tests": 8,
+          "pass": 6,
+          "fail": 2,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "log": "knorvia-read-fixture-diagnostic-studio-test-arguments.test.mjs.log",
+        "bytes": 2618,
+        "sha256": "1fa559cafd1c875fb4c88377a5f87cb260b52e671de25ac5251d0195a9d1b434",
+        "durationSeconds": 1.762
+      }
+    ]
+  },
+  "initialInventoryRefresh": {
+    "changedPaths": [
+      "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+      "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "specs/knorvia-read-orchestration.md"
+    ],
+    "changedFieldsOnly": ["sha256", "normalizedSha256", "bytes"],
+    "totalBeforeNewReceipt": 8950,
+    "reviewProblems": 0,
+    "materialObligations": 26,
+    "checkLog": {
+      "name": "knorvia-read-fixture-provenance-initial-check.log",
+      "bytes": 460,
+      "sha256": "d3db72956005d424e68d5c5dd891d3d0f5cadf0793834ed27d9c5493e808f440"
+    }
+  },
+  "preservedReceipts": [
+    {
+      "name": "knorvia-ci226-receipt.json",
+      "bytes": 57146,
+      "sha256": "7343259c3936a064f266537cb94e4a56c421829127c182819f5c3607aeb02cca"
+    },
+    {
+      "name": "knorvia-ci226-c9c5566-attempt1-receipt.json",
+      "bytes": 15725,
+      "sha256": "c686836b445e72886cbaf6e943bd9d87653bef80ee7cd48d8ec327e626758529"
+    },
+    {
+      "name": "knorvia-ci226-c9c5566-attempt2-receipt.json",
+      "bytes": 9936,
+      "sha256": "eed3e64ae33f00522902848b721638e7473bfe3b572402babd823984b523b5e9"
+    },
+    {
+      "name": "knorvia-ci226-c9c5566-attempt1-run-logs.zip",
+      "bytes": 526868,
+      "sha256": "469ebde418e558d72882a62cde91cf4a35d09341ce4084008ea6e3cfa2012cf5"
+    },
+    {
+      "name": "knorvia-ci226-c9c5566-attempt2-run-logs.zip",
+      "bytes": 480227,
+      "sha256": "3ef576e6f76f7b639d4c849decfafbaf37b17615023d0d75c2a22c4e5ad3e45b"
+    },
+    {
+      "name": "knorvia-ci218-receipt.json",
+      "bytes": 16650,
+      "sha256": "f692484edb2fcc1bf0ad2be5539f8af0dd5841002eb65ea0934af1a31bbae9bf"
+    }
+  ],
+  "ci226": {
+    "runId": 36865934121,
+    "head": "c9c556636aeda1354d7a030ec61025a8f2dc9007",
+    "checkedMerge": "0cb189efe238d757fe0230fa58e6492acf7ffd2d",
+    "tree": "8eca820a75e2dfadb140abed4cba2b2e0dfaec30",
+    "attempt1": {
+      "linuxJob": 110381305584,
+      "linuxCounts": {
+        "tests": 7291,
+        "pass": 7283,
+        "fail": 0,
+        "skipped": 8
+      },
+      "windowsJob": 110381306086,
+      "windowsCause": "CUA artifact download HTTP504 at unchanged stage-windows-driver.mjs:46; CLI16/17; tests not started. Optional cpu-features warning did not fail installation."
+    },
+    "attempt2": {
+      "windowsJob": 110384988891,
+      "counts": {
+        "tests": 7291,
+        "pass": 7289,
+        "fail": 1,
+        "skipped": 1
+      },
+      "failure": "Read executor PDF fixture native byte counts162 versus130. Root alone requested the one rerun. No further rerun requested here."
+    }
+  },
+  "rootHistoricalRegression": {
+    "source": "licensing/evidence/direct-root-webfetch-review-20261001.json",
+    "counts": {
+      "tests": 7320,
+      "pass": 7254,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "scope": "Historical root result remains non-green with58 listen EPERM details plus their parent; not relabeled as the current transport run."
+  },
+  "materialObligations": 26,
+  "reviewProblems": 0,
+  "limits": [
+    "CI218 original auth cause remains unknown; later success is non-reproduction.",
+    "CI226 failed attempts and external HTTP504 cause remain preserved, not erased or claimed fixed by this fixture correction.",
+    "No original producer whole-worktree checker was run or bypassed on integrated root lineage.",
+    "No opt-in native probe, additional runtime/native acquisition, shipped-binary/installer/GUI/IME/Windows/macOS/live-provider acceptance, real user-data operation or licence grant.",
+    "PR7 remains draft; no merge, release, deployment, rewriting, force push, restricted UI or later services import."
+  ],
+  "finalPublicationGates": [
+    {
+      "command": ["pnpm", "fmt:check"],
+      "exitCode": 0,
+      "durationSeconds": 9.816,
+      "log": "knorvia-read-fixture-fmt-publication.log",
+      "bytes": 203,
+      "sha256": "aa4680662dcdfe3cf64479738eb42acb938cb65cb0d3621f3e63cde7d7629bdb"
+    },
+    {
+      "command": ["pnpm", "verify:pre-push"],
+      "exitCode": 0,
+      "durationSeconds": 4.038,
+      "log": "knorvia-read-fixture-prepush-publication.log",
+      "bytes": 492,
+      "sha256": "2decdfc127b40ea5e174826fe2349cf61dcaee201100d289af0c2eaa52338a15"
+    },
+    {
+      "command": ["node", "scripts/check-workspace-freshness.mjs"],
+      "exitCode": 0,
+      "log": "knorvia-read-fixture-freshness-publication.log",
+      "bytes": 246,
+      "sha256": "853d58dfb556c1a57dcddfb8d102e63b9cf2f9f699752b39baefff5b87e2b148",
+      "explicitRemoteBase": "c9c556636aeda1354d7a030ec61025a8f2dc9007"
+    }
+  ],
+  "finalInventory": {
+    "total": 8951,
+    "reviewProblems": 0,
+    "materialObligations": 26,
+    "changedExistingEntries": 3,
+    "newEvidenceEntries": 1,
+    "reviewDecisionsAndLicencesUnchanged": true
+  }
+}

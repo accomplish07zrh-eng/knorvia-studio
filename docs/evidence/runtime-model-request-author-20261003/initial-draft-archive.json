@@ -1,0 +1,16 @@
+{
+  "draft": "draft-01",
+  "allInitialFilesRetained": true,
+  "files": [
+    {
+      "path": "runtime/methods/model.ts",
+      "sha256": "9b89f826dd0407a132ba531647af25846214942a65ec18556af88037df7cf266",
+      "bytes": 15085
+    },
+    {
+      "path": "seal.json",
+      "sha256": "ac08ebafef88b66fde615024c4355e06acd804bcf3f4fda63db66ed0b23ca6c2",
+      "bytes": 4980
+    }
+  ]
+}

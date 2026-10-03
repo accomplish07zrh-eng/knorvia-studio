@@ -1,0 +1,12 @@
+
+  ! eslint(no-extra-boolean-cast): Redundant Boolean call
+    ,-[packages/desktop/src/main/primaryWindowCoordinator.ts:31:11]
+ 30 |       if (window.isDestroyed()) continue;
+ 31 |       if (Boolean(window.isRendererCrashed?.() || window.webContents?.isCrashed?.())) {
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 32 |         window.destroy?.();
+    `----
+  help: Remove the Boolean call as it will already be coerced to a boolean
+
+Found 1 warning and 0 errors.
+Finished in 14ms on 3 files with 94 rules using 9 threads.

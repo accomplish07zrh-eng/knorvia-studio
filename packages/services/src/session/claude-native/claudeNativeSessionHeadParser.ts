@@ -1,3 +1,5 @@
+// Complete-owner behavior/public-port candidate. Existing Apache/NOTICE obligations remain.
+import { types } from "node:util";
 import { deriveSessionTitle } from "#src/session/sessionTitle.js";
 import {
   isObjectRecord,
@@ -5,42 +7,126 @@ import {
   type JsonLineRecord,
 } from "#src/session/claude-native/jsonLineRecord.js";
 
-const IDE_OPENED_FILE_TAG_RE = /<ide_opened_file>[\s\S]*?<\/ide_opened_file>/gi;
-const COMMAND_TAG_BLOCK_RE =
+const nativeFlatMap = Array.prototype.flatMap;
+const nativeFilter = Array.prototype.filter;
+const nativeSpeciesGetter = Object.getOwnPropertyDescriptor(Array, Symbol.species)?.get;
+const ideBlock = /<ide_opened_file>[\s\S]*?<\/ide_opened_file>/gi;
+const commandBlock =
   /<(?:local-command|command)-[^>]+>[\s\S]*?<\/(?:local-command|command)-[^>]+>/gi;
 
-function toTimestampMs(value: unknown): number | undefined {
-  if (typeof value === "number" && Number.isFinite(value)) {
-    if (value > 1_000_000_000_000) {
-      return Math.trunc(value);
+type Role = "user" | "assistant";
+type HeadInfo = { workspacePath?: string; previewTitle?: string; createdAt?: number };
+
+function sanitize(value: string): string {
+  return value.replace(ideBlock, " ").replace(commandBlock, " ").replace(/\r\n/g, "\n").trim();
+}
+
+function fragment(value: unknown, role: Role): string {
+  if (typeof value === "string") return sanitize(value);
+  if (!isObjectRecord(value)) return "";
+  if (role === "user" ? value.type === "tool_result" : value.type !== "text") return "";
+  return sanitize(readTrimmedString(value.text) ?? readTrimmedString(value.content) ?? "");
+}
+
+function ordinaryArray(value: unknown[]): boolean {
+  // Proxy inputs go straight to the public native sequence without optimization traps.
+  if (types.isProxy(value)) return false;
+  const prototype = Array.prototype;
+  if (Object.getPrototypeOf(value) !== prototype) return false;
+  if (
+    Object.getOwnPropertyDescriptor(value, "flatMap") !== undefined ||
+    Object.getOwnPropertyDescriptor(value, "constructor") !== undefined
+  )
+    return false;
+  if (
+    Object.getOwnPropertyDescriptor(prototype, "flatMap")?.value !== nativeFlatMap ||
+    Object.getOwnPropertyDescriptor(prototype, "filter")?.value !== nativeFilter ||
+    Object.getOwnPropertyDescriptor(prototype, "constructor")?.value !== Array
+  )
+    return false;
+  return Object.getOwnPropertyDescriptor(Array, Symbol.species)?.get === nativeSpeciesGetter;
+}
+
+function contentText(content: unknown, role: Role): string | undefined {
+  if (typeof content === "string") return sanitize(content) || undefined;
+  if (!Array.isArray(content)) return undefined;
+  let parts: string[];
+  if (ordinaryArray(content)) {
+    parts = [];
+    const length = content.length;
+    for (let index = 0; index < length; index++) {
+      if (!(index in content)) continue;
+      const projected = fragment(content[index], role);
+      if (projected.length > 0) parts.push(projected);
     }
-    if (value > 1_000_000_000) {
-      return Math.trunc(value * 1000);
-    }
+  } else {
+    parts = content
+      .flatMap((value) => {
+        const projected = fragment(value, role);
+        return projected.length > 0 ? [projected] : [];
+      })
+      .filter((part) => part.length > 0);
+  }
+  if (role === "user") return parts.length > 0 ? parts.join("\n\n") : undefined;
+  const joined = parts.length > 0 ? parts.join("") : "";
+  return joined.length > 0 ? joined : undefined;
+}
+
+function objectField(entry: JsonLineRecord, key: string): JsonLineRecord | undefined {
+  return isObjectRecord(entry[key]) ? (entry[key] as JsonLineRecord) : undefined;
+}
+
+function userText(entry: JsonLineRecord): string | undefined {
+  if (entry.type !== "user") return undefined;
+  const message = objectField(entry, "message");
+  if (entry.isMeta === true || message?.isMeta === true) return undefined;
+  const content = message?.content;
+  return contentText(content ?? objectField(entry, "request")?.prompt, "user");
+}
+
+function assistantText(entry: JsonLineRecord): string | undefined {
+  if (entry.type !== "assistant") return undefined;
+  const contentMessage = objectField(entry, "message");
+  const errorMessage = objectField(entry, "message");
+  if (entry.isApiErrorMessage === true || errorMessage?.isApiErrorMessage === true)
     return undefined;
-  }
+  const modelMessage = objectField(entry, "message");
+  const model = readTrimmedString(entry.model) ?? readTrimmedString(modelMessage?.model);
+  if (model === "<synthetic>") return undefined;
+  return contentText(contentMessage?.content, "assistant");
+}
 
-  if (typeof value !== "string") {
-    return undefined;
-  }
+function workspace(entry: JsonLineRecord): string | undefined {
+  const message = objectField(entry, "message");
+  const request = objectField(entry, "request");
+  return (
+    readTrimmedString(entry.cwd) ??
+    readTrimmedString(message?.cwd) ??
+    readTrimmedString(request?.cwd)
+  );
+}
 
-  const normalized = value.trim();
-  if (!normalized) {
-    return undefined;
-  }
+function numericTimestamp(value: number): number | undefined {
+  if (!Number.isFinite(value)) return undefined;
+  if (value > 1e12) return Math.trunc(value);
+  if (value > 1e9) return Math.trunc(value * 1000);
+  return undefined;
+}
 
-  const numericValue = Number(normalized);
-  if (Number.isFinite(numericValue)) {
-    return toTimestampMs(numericValue);
-  }
-
-  const parsed = Date.parse(normalized);
+function timestampValue(value: unknown): number | undefined {
+  if (typeof value === "number") return numericTimestamp(value);
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  if (trimmed.length === 0) return undefined;
+  const numeric = Number(trimmed);
+  if (Number.isFinite(numeric)) return numericTimestamp(numeric);
+  const parsed = Date.parse(trimmed);
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
-function readEntryTimestamp(entry: JsonLineRecord): number | undefined {
-  const message = isObjectRecord(entry.message) ? entry.message : undefined;
-  const request = isObjectRecord(entry.request) ? entry.request : undefined;
+function createdAt(entry: JsonLineRecord): number | undefined {
+  const message = objectField(entry, "message");
+  const request = objectField(entry, "request");
   const candidates = [
     entry.timestamp,
     entry.createdAt,
@@ -53,172 +139,38 @@ function readEntryTimestamp(entry: JsonLineRecord): number | undefined {
     message?.updatedAt,
     request?.timestamp,
   ];
-
   for (const candidate of candidates) {
-    const timestamp = toTimestampMs(candidate);
-    if (timestamp !== undefined) {
-      return timestamp;
-    }
+    const parsed = timestampValue(candidate);
+    if (parsed !== undefined) return parsed;
   }
-
   return undefined;
 }
 
-function readEntryWorkspacePath(entry: JsonLineRecord): string | undefined {
-  const message = isObjectRecord(entry.message) ? entry.message : undefined;
-  const request = isObjectRecord(entry.request) ? entry.request : undefined;
-  return (
-    readTrimmedString(entry.cwd) ??
-    readTrimmedString(message?.cwd) ??
-    readTrimmedString(request?.cwd)
-  );
-}
-
-function readEntryModel(entry: JsonLineRecord): string | undefined {
-  const message = isObjectRecord(entry.message) ? entry.message : undefined;
-  return readTrimmedString(entry.model) ?? readTrimmedString(message?.model);
-}
-
-function isClaudeNativeSidechainEntry(entry: JsonLineRecord): boolean {
-  const message = isObjectRecord(entry.message) ? entry.message : undefined;
-  const request = isObjectRecord(entry.request) ? entry.request : undefined;
-  return (
-    entry.isSidechain === true || message?.isSidechain === true || request?.isSidechain === true
-  );
-}
-
 export function hasClaudeNativeSidechainMarker(entries: readonly JsonLineRecord[]): boolean {
-  return entries.some(isClaudeNativeSidechainEntry);
+  return entries.some((entry) => {
+    const message = objectField(entry, "message");
+    const request = objectField(entry, "request");
+    return (
+      entry.isSidechain === true || message?.isSidechain === true || request?.isSidechain === true
+    );
+  });
 }
 
-function sanitizeClaudeVisibleText(text: string): string {
-  return text
-    .replace(IDE_OPENED_FILE_TAG_RE, " ")
-    .replace(COMMAND_TAG_BLOCK_RE, " ")
-    .replace(/\r\n/g, "\n")
-    .trim();
-}
-
-function isClaudeNativeNonVisibleAssistantEntry(entry: JsonLineRecord): boolean {
-  const message = isObjectRecord(entry.message) ? entry.message : undefined;
-  return (
-    entry.isApiErrorMessage === true ||
-    message?.isApiErrorMessage === true ||
-    readEntryModel(entry) === "<synthetic>"
-  );
-}
-
-function extractTextField(value: unknown): string {
-  if (typeof value === "string") {
-    return value;
-  }
-
-  if (!isObjectRecord(value)) {
-    return "";
-  }
-
-  return readTrimmedString(value.text) ?? readTrimmedString(value.content) ?? "";
-}
-
-function extractClaudeUserText(entry: JsonLineRecord): string | null {
-  if (entry.type !== "user") {
-    return null;
-  }
-
-  const message = isObjectRecord(entry.message) ? entry.message : undefined;
-  if (entry.isMeta === true || message?.isMeta === true) {
-    return null;
-  }
-
-  const content =
-    message?.content ?? (isObjectRecord(entry.request) ? entry.request.prompt : undefined);
-  if (typeof content === "string") {
-    const normalized = sanitizeClaudeVisibleText(content);
-    return normalized.length > 0 ? normalized : null;
-  }
-
-  if (!Array.isArray(content)) {
-    return null;
-  }
-
-  const parts = content
-    .flatMap((item) => {
-      if (typeof item === "string") {
-        const normalized = sanitizeClaudeVisibleText(item);
-        return normalized.length > 0 ? [normalized] : [];
-      }
-      if (!isObjectRecord(item) || item.type === "tool_result") {
-        return [];
-      }
-      const normalized = sanitizeClaudeVisibleText(extractTextField(item));
-      return normalized.length > 0 ? [normalized] : [];
-    })
-    .filter((part) => part.length > 0);
-
-  return parts.length > 0 ? parts.join("\n\n") : null;
-}
-
-function extractClaudeAssistantText(entry: JsonLineRecord): string | null {
-  if (entry.type !== "assistant") {
-    return null;
-  }
-
-  const message = isObjectRecord(entry.message) ? entry.message : undefined;
-  if (isClaudeNativeNonVisibleAssistantEntry(entry)) {
-    return null;
-  }
-
-  const content = message?.content;
-  if (typeof content === "string") {
-    const normalized = sanitizeClaudeVisibleText(content);
-    return normalized.length > 0 ? normalized : null;
-  }
-
-  if (!Array.isArray(content)) {
-    return null;
-  }
-
-  const parts = content
-    .flatMap((item) => {
-      if (typeof item === "string") {
-        const normalized = sanitizeClaudeVisibleText(item);
-        return normalized.length > 0 ? [normalized] : [];
-      }
-      if (!isObjectRecord(item) || item.type !== "text") {
-        return [];
-      }
-      const normalized = sanitizeClaudeVisibleText(extractTextField(item));
-      return normalized.length > 0 ? [normalized] : [];
-    })
-    .filter((part) => part.length > 0);
-
-  const text = parts.length > 0 ? parts.join("") : "";
-  return text.length > 0 ? text : null;
-}
-
-export function extractClaudeNativeSessionHeadInfo(entries: readonly JsonLineRecord[]): {
-  workspacePath?: string;
-  previewTitle?: string;
-  createdAt?: number;
-} {
+export function extractClaudeNativeSessionHeadInfo(entries: readonly JsonLineRecord[]): HeadInfo {
   let workspacePath: string | undefined;
-
   for (const entry of entries) {
-    const userText = extractClaudeUserText(entry);
-    const assistantText = extractClaudeAssistantText(entry);
-    if (!workspacePath && (userText || assistantText)) {
-      workspacePath = readEntryWorkspacePath(entry);
+    const user = userText(entry);
+    const assistant = assistantText(entry);
+    if (!workspacePath && (user || assistant)) {
+      workspacePath = workspace(entry);
     }
-    if (!userText) {
-      continue;
+    if (user) {
+      return {
+        workspacePath,
+        previewTitle: deriveSessionTitle(user, []),
+        createdAt: createdAt(entry),
+      };
     }
-
-    return {
-      workspacePath,
-      previewTitle: deriveSessionTitle(userText, []),
-      createdAt: readEntryTimestamp(entry),
-    };
   }
-
   return { workspacePath };
 }

@@ -1,0 +1,94 @@
+{
+  "formatVersion": 1,
+  "inputScope": "Owned empty-graph expert snapshot with runId owned-run; owned a/execute/active status; no real workflow",
+  "constructorPorts": ["appendEvent", "appendGraphRecord", "now", "onWorkflowEvent"],
+  "observations": {
+    "captureAndShapes": {
+      "trace": [
+        "capture:appendEvent",
+        "capture:appendGraphRecord",
+        "capture:now",
+        "capture:onWorkflowEvent",
+        "clock:0",
+        "clock:1",
+        "appendGraphRecord",
+        "clock:2",
+        "appendEvent",
+        "callback"
+      ],
+      "recordKeys": ["nodeId", "phase", "recordType", "runId", "status", "timestamp", "type"],
+      "record": {
+        "nodeId": "a",
+        "phase": "execute",
+        "recordType": "op",
+        "runId": "owned-run",
+        "status": "active",
+        "timestamp": "1970-01-01T00:00:01.000Z",
+        "type": "update_status"
+      },
+      "eventKeys": ["kind", "message", "nodeId", "payload", "phase", "runId", "timestamp", "type"],
+      "eventDefinedFields": {
+        "kind": "expert",
+        "runId": "owned-run",
+        "timestamp": "1970-01-01T00:00:02.000Z",
+        "type": "frontier_changed"
+      },
+      "ownUndefinedEventFields": ["message", "nodeId", "payload", "phase"],
+      "signalKeys": ["signal"],
+      "receivers": "EventLog instance",
+      "preAbortedSignal": "forwarded, no owner guard"
+    },
+    "gatesAndErrors": {
+      "appendBeforeCallback": true,
+      "bothNativeGatesRequired": true,
+      "exactPayloadAndEventIdentity": true,
+      "errors": [
+        {
+          "stage": "append-throw",
+          "exactError": true,
+          "partialAppend": 1,
+          "callbacks": 0
+        },
+        {
+          "stage": "append-reject",
+          "exactError": true,
+          "partialAppend": 1,
+          "callbacks": 0
+        },
+        {
+          "stage": "callback-throw",
+          "exactError": true,
+          "partialAppend": 1,
+          "callbacks": 1
+        },
+        {
+          "stage": "callback-reject",
+          "exactError": true,
+          "partialAppend": 1,
+          "callbacks": 1
+        }
+      ],
+      "clockFailure": "sync timestamp throw; async method rejection; zero append/callback"
+    },
+    "nativeAndConcurrent": {
+      "missingCallback": ["append", "tick1", "tick2", "done", "tick3"],
+      "concurrency": ["append:a", "append:b", "callback:b", "done:b", "callback:a", "done:a"],
+      "sharedQueue": false,
+      "callbackEventIdentity": true
+    },
+    "selection": {
+      "files": 15,
+      "distinctHistoricalClass": true,
+      "actualCurrentClass": true,
+      "currentConsumerImported": true,
+      "rejectionControls": 10
+    }
+  },
+  "evidence": "Four new groups per source/emitted mode, three behavior groups and one selector. Native missing-callback and concurrent order traces are exact, not normalized.",
+  "sourceDerivedNotSeparateProbes": [
+    "Date.toISOString receiver",
+    "throwing constructor read stops later reads",
+    "no added thenable normalization",
+    "native appendGraphStatus fulfilled-port await boundary"
+  ]
+}

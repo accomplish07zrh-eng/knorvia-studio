@@ -1,0 +1,24 @@
+{
+  "scope": "reminders",
+  "recordedAtUtc": "2026-10-02T20:44:36.547760+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "fastRequested": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "osIsolationOrAccessAuditVerified": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 12022,
+      "sha256": "a17675fe1ed2cca2a6f1cd1e0b36e8568b249260049215ccb5b015cfbe941080"
+    },
+    {
+      "file": "runtime-reminders.ts.txt",
+      "bytes": 9506,
+      "sha256": "8a180914dabe4e90b5c47a514277a2b74af5ff2ccf824cf7458481a852c997ae",
+      "target": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "baseCommit": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "specFirstCommit": "146c13ab52958846e2e7209d65bfb7fe7269ecbc",
+  "batch": "complete task-index coordinator, topic ownership/recovery and repository projections",
+  "records": [
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "baselineGitBlob": "8672ae0027c23e543307b68024828305993589e1",
+      "baselineSha256": "529d114c34c331f54d4e744890526d34c83b54e7f48c00a916fab2583bdbec2c",
+      "candidateSha256": "7b66a425e96f49e4f3b9e3b5fead29a3717498e758e97e5ea81b83b2f58f63ff",
+      "bytes": 13851
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/topicTypes.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "ebe17096c529ba2787609dbd86ab1ee8fa1b2c56975e101c9fc8b07929cc3b79",
+      "bytes": 2444
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/topicRecovery.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "f3db145977431733a604e7fa6aa96415c77e7dc4be1d09e73701a470f87ee156",
+      "bytes": 3706
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "f6db072a9a598d93ba7ad0721803aa9c852680f5723511b580cdb035b8ff5ae6",
+      "bytes": 8467
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "9098e1abbab425c2add16ec9875e03f3436ccfeda23b44289b3d96451a239d26",
+      "bytes": 8783
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "5fcb30cfb735ce6d970b2c9f7d965ee3d0f880300a24a7ea949825bea0e2a605",
+      "bytes": 7175
+    },
+    {
+      "path": "packages/services/test/task-index-topic-contract-20261003.test.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "c1406158867f48001856db225e9ae5e0c94719e555846a4b13dfb7d47bcdbd63",
+      "bytes": 7420
+    },
+    {
+      "path": "packages/services/test/task-index-snapshot-contract-20261003.test.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "d8cae3881d8ce33a2c3acb23c581eaf1f4d07b5e5eeecd0b3ff70c5dda227ce4",
+      "bytes": 6784
+    },
+    {
+      "path": "packages/services/test/task-index-workspace-contract-20261003.test.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "5570037e2ce6b7837a680ac31cf74866f955d61025b5f8eb482107cab188fcbe",
+      "bytes": 9432
+    }
+  ],
+  "validation": "UNVERIFIED: no tests, lint, typecheck, formatter/architecture checker, build, audit or CI rerun executed; source and diff reading only",
+  "authoring": "Single source-exposed author reconstructed from the recorded behavior contract using new per-topic ownership and projections. No separate author, clean-room or pre-exposure freeze asserted. Public data shapes, policy values, diagnostics and imported collaborator expression retain existing lineage. Whole-expression and rights acceptance remain pending.",
+  "historicalOriginHold": "Preserved, not cleared by implementation allocation. Exact parent accepted-version and source/rights decisions remain integrator-owned.",
+  "licenseDecision": "NOASSERTION"
+}

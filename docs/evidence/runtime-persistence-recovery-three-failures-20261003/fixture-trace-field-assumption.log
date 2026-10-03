@@ -1,0 +1,48 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    'traceId',
++   'queryId',
+    'spanId',
++   'parentSpanId',
++   'sessionId',
++   'turnId',
+    'event',
+    'module',
+    'persistedShellName',
+    'persistedShellPath'
+  ]
+
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-persistence-recovery-three-safety-20261003.mjs:70:102) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'traceId',
+    'queryId',
+    'spanId',
+    'parentSpanId',
+    'sessionId',
+    'turnId',
+    'event',
+    'module',
+    'persistedShellName',
+    'persistedShellPath'
+  ],
+  expected: [
+    'traceId',
+    'spanId',
+    'event',
+    'module',
+    'persistedShellName',
+    'persistedShellPath'
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

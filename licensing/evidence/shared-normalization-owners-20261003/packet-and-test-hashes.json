@@ -1,0 +1,9 @@
+{
+  "codec-behavior-packet.md": "615de6bdf158def532d175d9961601e277ab840c275a2d117ad4862716087a88",
+  "telemetry-behavior-packet.md": "51f7897369ed35cf24b67d0ab3eaf35c31023e99c1471565b6e3ae8e9f1a08bc",
+  "endpoint-behavior-packet.md": "6e6cb0c56a12f6cdc53fc4f49e395a7e75c04f579e49d8d63d2f2dba7caab979",
+  "search-behavior-packet.md": "5e9ccb98175f36b48e885f839d7907f5a24ab20a2639535e3e2de48873bdbb45",
+  "feedback-behavior-packet.md": "48a2a1357c7201f3a279b1ed56e68f73e29e21b94daf82e55d95d651b533adae",
+  "finalTestSha256": "19590f4f57bdef985cb9ec8616af79a050c1f7e7b7333c440cff9ece1cbcbbdf",
+  "testOrder": "Five cases authored and baseline run before initial candidate run; punctuation regression added before baseline/draft comparison; final formatting only thereafter. Test hash taken after final formatting, not at initial run."
+}

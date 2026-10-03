@@ -1,0 +1,11 @@
+{
+  "label": "final-corrected-lint",
+  "cmd": "node_modules/.bin/oxlint packages/shared/src/protocol-v4/wire-assembler.ts packages/shared/src/conversation-message-projection-policy.ts",
+  "result": {
+    "chunk_id": "ff006a",
+    "wall_time_seconds": 0.000020411,
+    "exit_code": 0,
+    "original_token_count": 23,
+    "output": "Found 0 warnings and 0 errors.\nFinished in 34ms on 2 files with 94 rules using 4 threads.\n"
+  }
+}

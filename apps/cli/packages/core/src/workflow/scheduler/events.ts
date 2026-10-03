@@ -8,20 +8,20 @@ import { edgeId } from "./graph.js";
 import type { AppliedPlannerExpansion, WorkflowGraphSchedulerDeps } from "./types.js";
 
 export class WorkflowSchedulerEventLog {
-  private readonly appendEvent: WorkflowGraphSchedulerDeps["appendEvent"];
-  private readonly appendGraphRecord: WorkflowGraphSchedulerDeps["appendGraphRecord"];
-  private readonly now: () => Date;
-  private readonly onWorkflowEvent?: (event: WorkflowEvent) => void | Promise<void>;
+  readonly #eventPort: WorkflowGraphSchedulerDeps["appendEvent"];
+  readonly #graphPort: WorkflowGraphSchedulerDeps["appendGraphRecord"];
+  readonly #clock: WorkflowGraphSchedulerDeps["now"];
+  readonly #observer: WorkflowGraphSchedulerDeps["onWorkflowEvent"];
 
   constructor(deps: WorkflowGraphSchedulerDeps) {
-    this.appendEvent = deps.appendEvent;
-    this.appendGraphRecord = deps.appendGraphRecord;
-    this.now = deps.now;
-    this.onWorkflowEvent = deps.onWorkflowEvent;
+    this.#eventPort = deps.appendEvent;
+    this.#graphPort = deps.appendGraphRecord;
+    this.#clock = deps.now;
+    this.#observer = deps.onWorkflowEvent;
   }
 
   timestamp(): string {
-    return this.now().toISOString();
+    return this.#clock().toISOString();
   }
 
   async appendGraphStatus(
@@ -31,7 +31,7 @@ export class WorkflowSchedulerEventLog {
     status: WorkflowNodeStatus,
     signal?: AbortSignal,
   ): Promise<void> {
-    await this.appendGraphRecord(
+    await this.#graphPort(
       snapshot.runId,
       {
         nodeId,
@@ -51,7 +51,7 @@ export class WorkflowSchedulerEventLog {
     collection: WorkflowGraphCollection,
     signal?: AbortSignal,
   ): Promise<void> {
-    await this.appendGraphRecord(
+    await this.#graphPort(
       snapshot.runId,
       {
         collection,
@@ -70,7 +70,7 @@ export class WorkflowSchedulerEventLog {
     signal?: AbortSignal,
   ): Promise<void> {
     for (const node of expansion.addedNodes) {
-      await this.appendGraphRecord(
+      await this.#graphPort(
         snapshot.runId,
         {
           node,
@@ -81,8 +81,9 @@ export class WorkflowSchedulerEventLog {
         { signal },
       );
     }
+
     for (const edge of expansion.addedEdges) {
-      await this.appendGraphRecord(
+      await this.#graphPort(
         snapshot.runId,
         {
           edge,
@@ -93,12 +94,14 @@ export class WorkflowSchedulerEventLog {
         { signal },
       );
     }
+
     await this.appendCollectionRecord(snapshot, expansion.collection, signal);
-    await this.appendGraphRecord(
+
+    await this.#graphPort(
       snapshot.runId,
       {
         collectionId: expansion.collection.collectionId,
-        edgeIds: expansion.addedEdges.map(edgeId),
+        edgeIds: expansion.addedEdges.map((edge) => edgeId(edge)),
         nodeIds: expansion.addedNodes.map((node) => node.id),
         payload: {
           exhausted: expansion.collection.exhausted,
@@ -136,7 +139,8 @@ export class WorkflowSchedulerEventLog {
       timestamp: this.timestamp(),
       type,
     };
-    await this.appendEvent(event, { signal: options.signal });
-    await this.onWorkflowEvent?.(event);
+
+    await this.#eventPort(event, { signal: options.signal });
+    await this.#observer?.(event);
   }
 }

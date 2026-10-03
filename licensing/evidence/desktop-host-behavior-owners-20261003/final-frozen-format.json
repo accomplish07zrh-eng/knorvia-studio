@@ -1,0 +1,40 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/host/browserControlMainBridge.ts",
+    "/tmp/knorvia-host-format-proof/browserControlMainBridge.ts",
+    "/tmp/knorvia-host-format-proof/remotePromptAttachments.ts",
+    "/tmp/knorvia-host-format-proof/remoteWorkspaceServiceCollection.ts"
+  ],
+  "verification": "Independent selected raw-draft copies formatted; exact bytes equal installed sources. Raw .ts.txt freezes not formatted/imported/executed/built.",
+  "bindings": [
+    {
+      "owner": "browser",
+      "path": "packages/desktop/src/host/browserControlMainBridge.ts",
+      "sourceSha256": "dbb922f5cccfd0f69ae2f2d7306703b1461aaa99c4c61a69d24185a72557b0a7",
+      "selectedWholeDraft": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/browser-correction-2.ts.txt",
+      "rawSha256": "1b4e2f0db6328c5769ef9176f5db90e42f3530da7e4a6aa86c679bd32777fbe7",
+      "formattedFrozenSha256": "dbb922f5cccfd0f69ae2f2d7306703b1461aaa99c4c61a69d24185a72557b0a7",
+      "wholeDraftPlusFormattingOnly": true
+    },
+    {
+      "owner": "attachments",
+      "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+      "sourceSha256": "f9165da562d254ef28ab8cd8d91b43509da565f1a8b9665d9a0261ee55af67f2",
+      "selectedWholeDraft": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/attachments-correction-2.ts.txt",
+      "rawSha256": "b1ff903ae55508e58c012c2ac6bfc9f4b70b9f6c3f78c2b5a9c691c4489b6a1d",
+      "formattedFrozenSha256": "f9165da562d254ef28ab8cd8d91b43509da565f1a8b9665d9a0261ee55af67f2",
+      "wholeDraftPlusFormattingOnly": true
+    },
+    {
+      "owner": "collection",
+      "path": "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
+      "sourceSha256": "4c245da1baa6184988d77add70ab0dc0c2c538f1aa8ada293e5d9cbedb595249",
+      "selectedWholeDraft": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/collection-correction-1.ts.txt",
+      "rawSha256": "41e21fa27c568cb2c6e915172e940f215ae612e6152bdeb8fd351d2eb9b2648d",
+      "formattedFrozenSha256": "4c245da1baa6184988d77add70ab0dc0c2c538f1aa8ada293e5d9cbedb595249",
+      "wholeDraftPlusFormattingOnly": true
+    }
+  ],
+  "exitCode": 0
+}

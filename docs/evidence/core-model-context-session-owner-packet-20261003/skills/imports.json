@@ -1,0 +1,14 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { SkillLoadOutcome, SkillMetadata }"
+  },
+  {
+    "module": "../types.js",
+    "clause": "type { ContextSection }"
+  },
+  {
+    "module": "../utils.js",
+    "clause": "{ estimateTokens }"
+  }
+]

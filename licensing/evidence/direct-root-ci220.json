@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "run": 36838369991,
+  "runNumber": 220,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36838369991",
+  "head": "dc2909d8a80234b3ab32d57fdccb0d2480e1a1fe",
+  "checkedMerge": "2eb895d1126af4af7d63c7d159dc5a040a50c361",
+  "headAndCheckedTree": "210591c8d5c1520f351ff9b17e7e9b18fb7ac6e4",
+  "status": "success",
+  "jobs": {
+    "linux": {
+      "id": 110291200872,
+      "tests": 6743,
+      "pass": 6735,
+      "fail": 0,
+      "skip": 8
+    },
+    "windows": {
+      "id": 110291201278,
+      "tests": 6743,
+      "pass": 6742,
+      "fail": 0,
+      "skip": 1
+    }
+  },
+  "verification": "Root independently checked terminal workflow, both logs, checked merge tree and remote recovery head. No auth diagnostic failure line appeared. CI218 cause remains unknown; non-reproduction only. All24 original commits including existing local integration merge preserved; PR7 remains draft."
+}

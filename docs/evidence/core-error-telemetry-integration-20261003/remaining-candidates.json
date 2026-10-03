@@ -1,0 +1,43 @@
+{
+  "kind": "Bounded metadata-only remainder of allocated core helper pass, not exhaustive source/rights audit",
+  "recordedAtUtc": "2026-10-02T20:14:58.172882+00:00",
+  "referenceHead": "0d194c91",
+  "candidates": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "bytes": 8781,
+      "lines": 267,
+      "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+      "status": "Reserved for A/runtime; do not author",
+      "bodyReviewedInThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "bytes": 4164,
+      "lines": 136,
+      "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+      "status": "Reserved for A/runtime; do not author",
+      "bodyReviewedInThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "bytes": 840,
+      "lines": 24,
+      "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be",
+      "status": "Previously identified thin facade or cohesive retained helper; no cosmetic queue",
+      "bodyReviewedInThisInventory": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "bytes": 3388,
+      "lines": 118,
+      "sha256": "484a49f6080ad9fb5927a0f30ac308a9c5b4bfe87edc22f9d6582ad1e34fcb21",
+      "status": "Previously identified thin facade or cohesive retained helper; no cosmetic queue",
+      "bodyReviewedInThisInventory": false
+    }
+  ],
+  "nextEQueueAuthorized": false,
+  "excluded": "Previously accepted owners, A/runtime reserved files, client/RPC/services/UI, security/permissions and root-exclusive desktop/shared implementation",
+  "rootPacket": "desktop-data-preview-root-packet-20261003 at 0d194c91; implementation reserved for root",
+  "materialBlockers": "All21 parent-reported material obligations unchanged; no repeated failed publisher/Library/private-file lookup"
+}

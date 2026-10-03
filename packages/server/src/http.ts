@@ -1,4 +1,7 @@
-/* eslint-disable max-lines -- HTTP、WebSocket 与静态资源路由集中注册，保持同一鉴权顺序。 */
+import { randomUUID } from "node:crypto";
+import { readFile, stat } from "node:fs/promises";
+import { hostname } from "node:os";
+import { basename, extname, relative, resolve, sep } from "node:path";
 import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
 import {
@@ -13,107 +16,24 @@ import {
   createKnorviaAgentConnectionScope,
   IFileService,
   IGitService,
+  IKnorviaAgentService,
   ISystemService,
   ITerminalService,
-  IKnorviaAgentService,
   ServiceCollection,
 } from "@knorvia/services";
 import {
   formatLogPrefix,
   formatZodError,
-  remoteTargetSchema,
-  SERVER_REMOTE_PROTOCOL_VERSION,
   KNORVIA_RPC_HOST_CAPABILITY_HEADER,
   KNORVIA_VERSION,
-  type ServerRemoteInfo,
+  remoteTargetSchema,
+  SERVER_REMOTE_PROTOCOL_VERSION,
   type ServerRemoteWorkspaceInfo,
 } from "@knorvia/shared";
-import { Hono, type Context } from "hono";
-import { randomUUID } from "node:crypto";
-import { readFile, stat } from "node:fs/promises";
-import { hostname } from "node:os";
-import { basename, extname, relative, resolve, sep } from "node:path";
-import type { WebSocket } from "ws";
+import { Hono } from "hono";
+import type WebSocket from "ws";
 import { createHostCapabilityStore } from "./hostCapability.js";
 import { connectRemote, createRemoteBackend, type RemoteConnection } from "./remote/index.js";
-
-function wrapWebSocket(ws: WebSocket): ISocket {
-  const onData = new Emitter<VSBuffer>();
-  const onClose = new Emitter<void>();
-  const onEnd = new Emitter<void>();
-
-  ws.on("message", (raw: Buffer | ArrayBuffer | Buffer[]) => {
-    const buf = Buffer.isBuffer(raw) ? raw : Buffer.from(raw as ArrayBuffer);
-    onData.fire(VSBuffer.wrap(new Uint8Array(buf)));
-  });
-  ws.on("close", () => {
-    onClose.fire();
-    onEnd.fire();
-  });
-  ws.on("error", () => {
-    onClose.fire();
-    onEnd.fire();
-  });
-
-  return {
-    onData: onData.event,
-    onClose: onClose.event,
-    onEnd: onEnd.event,
-    write(buffer: VSBuffer) {
-      if (ws.readyState === ws.OPEN) {
-        ws.send(buffer.buffer);
-      }
-    },
-    end() {
-      ws.close();
-    },
-    drain() {
-      return Promise.resolve();
-    },
-    dispose() {
-      ws.close();
-    },
-  };
-}
-
-const log = (...args: unknown[]) =>
-  console.log(formatLogPrefix("knorvia-server:http", process.pid), ...args);
-
-function setupChannelServer(
-  ws: WebSocket,
-  services: ServiceCollection,
-  clientMode: "desktop-continuous" | "web-remote-replayable",
-) {
-  const socket = wrapWebSocket(ws);
-  const protocol = new SocketProtocol(socket);
-  const rawServer = new ChannelServer(protocol, "server");
-  // 用日志中间件包装，统一记录所有 RPC 调用
-  const server = new LoggingChannelServer(rawServer, log);
-  const agentService = services.getOptional(IKnorviaAgentService);
-  const connectionScope = agentService
-    ? createKnorviaAgentConnectionScope(agentService, {
-        connectionId: `server-ws-${randomUUID()}`,
-        clientMode,
-        role: clientMode === "desktop-continuous" ? "trusted-host-relay" : "terminal-client",
-      })
-    : undefined;
-  const overrides = new Map<string, unknown>();
-  if (connectionScope) {
-    overrides.set(IKnorviaAgentService.channelName, connectionScope.service);
-  }
-  services.exposeOnChannelServer(server, overrides);
-  socket.onClose(() => {
-    void connectionScope?.dispose();
-    rawServer.dispose();
-  });
-}
-
-/** 存储 web 模式下的远程连接，key 为随机 ID */
-const remoteConnections = new Map<string, RemoteConnection>();
-
-function generateId(): string {
-  return Math.random().toString(36).slice(2) + Date.now().toString(36);
-}
 
 interface HttpServerOptions {
   serverId?: string;
@@ -126,160 +46,131 @@ interface HttpServerOptions {
   workspaces?: ServerRemoteWorkspaceInfo[];
 }
 
-function readTrimmedEnv(name: string): string | undefined {
-  const value = process.env[name]?.trim();
-  return value ? value : undefined;
+type ConnectionMode = "desktop-continuous" | "web-remote-replayable";
+
+const remoteConnections = new Map<string, RemoteConnection>();
+
+function log(...args: unknown[]): void {
+  console.log(formatLogPrefix("knorvia-server:http", process.pid), ...args);
 }
 
-function resolveServerId(options: HttpServerOptions): string {
-  return (
-    options.serverId?.trim() ||
-    readTrimmedEnv("KNORVIA_SERVER_ID") ||
-    hostname() ||
-    "knorvia-server"
-  );
+function isProtectedPath(path: string): boolean {
+  return path === "/ws" || path.startsWith("/ws/") || path.startsWith("/api/");
 }
 
-function resolveServerWorkspaces(options: HttpServerOptions): ServerRemoteWorkspaceInfo[] {
-  if (options.workspaces) {
-    return options.workspaces;
+function tokenFromCookies(header: string | undefined): string | undefined {
+  const values = new Map<string, string>();
+  for (const part of (header ?? "").split(";")) {
+    const equals = part.indexOf("=");
+    if (equals < 0) continue;
+    const key = part.slice(0, equals).trim();
+    if (key) values.set(key, part.slice(equals + 1).trim());
   }
-  const workspacePath = readTrimmedEnv("KNORVIA_SERVER_WORKSPACE") || process.cwd();
-  return [
-    {
-      path: workspacePath,
-      label: basename(workspacePath) || workspacePath,
-    },
-  ];
+  return values.get("knorvia_lite_token");
 }
 
-function createServerInfo(options: HttpServerOptions): ServerRemoteInfo {
+function socketForWebSocket(ws: WebSocket): ISocket {
+  const data = new Emitter<VSBuffer>();
+  const close = new Emitter<void>();
+  const end = new Emitter<void>();
+  ws.on("message", (raw) => {
+    const bytes = Buffer.isBuffer(raw) ? raw : Buffer.from(raw as ArrayBuffer);
+    data.fire(VSBuffer.wrap(new Uint8Array(bytes)));
+  });
+  const finish = () => {
+    close.fire();
+    end.fire();
+  };
+  ws.on("close", finish);
+  ws.on("error", finish);
   return {
-    serverId: resolveServerId(options),
-    ...(options.name?.trim() || readTrimmedEnv("KNORVIA_SERVER_NAME")
-      ? { name: options.name?.trim() || readTrimmedEnv("KNORVIA_SERVER_NAME") }
-      : {}),
-    version: KNORVIA_VERSION,
-    protocolVersion: SERVER_REMOTE_PROTOCOL_VERSION,
-    authRequired: options.authRequired ?? Boolean(readTrimmedEnv("KNORVIA_SERVER_TOKEN")),
-    workspaces: resolveServerWorkspaces(options),
-    capabilities: {
-      desktopContinuous: true,
-      websocketRpc: true,
-      processResourceTelemetry: true,
+    onData: data.event,
+    onClose: close.event,
+    onEnd: end.event,
+    write(buffer) {
+      if (ws.readyState === ws.OPEN) ws.send(buffer.buffer);
+    },
+    end() {
+      ws.close();
+    },
+    dispose() {
+      ws.close();
+    },
+    drain() {
+      return Promise.resolve();
     },
   };
 }
 
-const knorviaLiteTokenCookieName = "knorvia_lite_token";
+function connectChannels(ws: WebSocket, services: ServiceCollection, mode: ConnectionMode): void {
+  const socket = socketForWebSocket(ws);
+  const rawServer = new ChannelServer(new SocketProtocol(socket), "server");
+  const channelServer = new LoggingChannelServer(rawServer, log);
+  const agent = services.getOptional(IKnorviaAgentService);
+  const scope = agent
+    ? createKnorviaAgentConnectionScope(agent, {
+        connectionId: `server-ws-${randomUUID()}`,
+        clientMode: mode,
+        role: mode === "desktop-continuous" ? "trusted-host-relay" : "terminal-client",
+      })
+    : undefined;
+  const overrides = new Map<string, unknown>();
+  if (scope) overrides.set(IKnorviaAgentService.channelName, scope.service);
+  services.exposeOnChannelServer(channelServer, overrides);
+  socket.onClose(() => {
+    void scope?.dispose();
+    rawServer.dispose();
+  });
+}
 
-const staticMimeTypes: Record<string, string> = {
+const mimeTypes: Record<string, string> = {
   ".css": "text/css; charset=utf-8",
-  ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
-  ".ico": "image/x-icon",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".map": "application/json; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
+  ".gif": "image/gif",
+  ".ico": "image/x-icon",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
   ".png": "image/png",
   ".svg": "image/svg+xml",
-  ".txt": "text/plain; charset=utf-8",
   ".wasm": "application/wasm",
   ".webp": "image/webp",
   ".woff": "font/woff",
   ".woff2": "font/woff2",
 };
 
-function parseCookieHeader(header: string | undefined): Map<string, string> {
-  const cookies = new Map<string, string>();
-  if (!header) {
-    return cookies;
-  }
-  for (const part of header.split(";")) {
-    const separator = part.indexOf("=");
-    if (separator <= 0) {
-      continue;
-    }
-    const name = part.slice(0, separator).trim();
-    const value = part.slice(separator + 1).trim();
-    if (name) {
-      cookies.set(name, value);
-    }
-  }
-  return cookies;
-}
-
-function hasValidLiteToken(c: Context, token: string): boolean {
-  const url = new URL(c.req.url);
-  if (url.searchParams.get("token") === token) {
-    c.header(
-      "Set-Cookie",
-      `${knorviaLiteTokenCookieName}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax`,
-    );
-    return true;
-  }
-  return parseCookieHeader(c.req.header("cookie")).get(knorviaLiteTokenCookieName) === token;
-}
-
-function isTokenProtectedPath(pathname: string): boolean {
-  return pathname === "/ws" || pathname.startsWith("/ws/") || pathname.startsWith("/api/");
-}
-
-function isStaticFallbackAllowed(pathname: string): boolean {
-  return !isTokenProtectedPath(pathname);
-}
-
-function isInsideDirectory(root: string, candidate: string): boolean {
-  const diff = relative(root, candidate);
-  return diff === "" || (!diff.startsWith("..") && !diff.includes(`..${sep}`));
-}
-
-async function resolveStaticFile(
+async function locateStaticFile(
   staticRoot: string,
-  pathname: string,
+  path: string,
   spaFallback: boolean,
 ): Promise<string | null> {
   const root = resolve(staticRoot);
-  const normalizedPathname = pathname === "/" ? "/index.html" : pathname;
-  const relativePath = decodeURIComponent(normalizedPathname).replace(/^\/+/, "");
-  let candidate = resolve(root, relativePath);
-  if (!isInsideDirectory(root, candidate)) {
-    return null;
-  }
+  const requested = path === "/" ? "/index.html" : path;
+  const candidate = resolve(root, decodeURIComponent(requested).replace(/^\/+/, ""));
+  const difference = relative(root, candidate);
+  if (difference && (difference.startsWith("..") || difference.includes(`..${sep}`))) return null;
 
   try {
-    const candidateStat = await stat(candidate);
-    if (candidateStat.isDirectory()) {
-      candidate = resolve(candidate, "index.html");
-      if (!isInsideDirectory(root, candidate)) {
-        return null;
-      }
-      const indexStat = await stat(candidate);
-      return indexStat.isFile() ? candidate : null;
-    }
-    if (candidateStat.isFile()) {
-      return candidate;
+    const info = await stat(candidate);
+    if (info.isFile()) return candidate;
+    if (info.isDirectory()) {
+      const index = resolve(candidate, "index.html");
+      return (await stat(index)).isFile() ? index : null;
     }
   } catch {
-    // 静态资源未命中时再进入 SPA fallback，保留真实文件错误的 404 语义。
+    // A missing requested file may still be served by the configured SPA entry.
   }
 
-  if (!spaFallback || !isStaticFallbackAllowed(pathname)) {
-    return null;
-  }
-  const indexFile = resolve(root, "index.html");
+  if (!spaFallback || isProtectedPath(path)) return null;
+  const entry = resolve(root, "index.html");
   try {
-    const indexStat = await stat(indexFile);
-    return indexStat.isFile() ? indexFile : null;
+    return (await stat(entry)).isFile() ? entry : null;
   } catch {
     return null;
   }
-}
-
-function staticContentType(filePath: string): string {
-  return staticMimeTypes[extname(filePath).toLowerCase()] ?? "application/octet-stream";
 }
 
 export function createHttpServer(
@@ -288,73 +179,89 @@ export function createHttpServer(
   options: HttpServerOptions = {},
 ) {
   const app = new Hono();
-  const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({ app });
-  const hostCapabilities = createHostCapabilityStore();
+  const { upgradeWebSocket, injectWebSocket } = createNodeWebSocket({ app });
+  const capabilities = createHostCapabilityStore();
+  const configuredToken = options.authToken?.trim();
 
-  const authToken = options.authToken?.trim();
-  if (authToken) {
+  if (configuredToken) {
     app.use("*", async (c, next) => {
-      const pathname = new URL(c.req.url).pathname;
-      const validToken = hasValidLiteToken(c, authToken);
-      if (!isTokenProtectedPath(pathname) || validToken) {
-        await next();
-        return;
+      const url = new URL(c.req.url);
+      const queryMatches = url.searchParams.get("token") === configuredToken;
+      if (queryMatches) {
+        c.header(
+          "Set-Cookie",
+          `knorvia_lite_token=${encodeURIComponent(configuredToken)}; Path=/; HttpOnly; SameSite=Lax`,
+        );
       }
-      return c.json({ error: "Unauthorized" }, 401);
+      const authorized =
+        queryMatches || tokenFromCookies(c.req.header("Cookie")) === configuredToken;
+      if (isProtectedPath(url.pathname) && !authorized)
+        return c.json({ error: "Unauthorized" }, 401);
+      await next();
     });
   }
 
-  app.get("/api/server-info", (c) => c.json(createServerInfo(options)));
-  app.post("/api/rpc-host-capability", (c) => c.json(hostCapabilities.issue()));
+  app.get("/api/server-info", (c) => {
+    const serverId =
+      options.serverId?.trim() ||
+      process.env.KNORVIA_SERVER_ID?.trim() ||
+      hostname() ||
+      "knorvia-server";
+    const name = options.name?.trim() || process.env.KNORVIA_SERVER_NAME?.trim();
+    const workspaces =
+      options.workspaces ??
+      (() => {
+        const path = process.env.KNORVIA_SERVER_WORKSPACE?.trim() || process.cwd();
+        return [{ path, label: basename(path) || path }];
+      })();
+    return c.json({
+      serverId,
+      ...(name ? { name } : {}),
+      version: KNORVIA_VERSION,
+      protocolVersion: SERVER_REMOTE_PROTOCOL_VERSION,
+      authRequired: options.authRequired ?? Boolean(process.env.KNORVIA_SERVER_TOKEN?.trim()),
+      workspaces,
+      capabilities: {
+        desktopContinuous: true,
+        websocketRpc: true,
+        processResourceTelemetry: true,
+      },
+    });
+  });
 
-  // 普通 `/ws` 永远是 terminal-client；浏览器/任意客户端设置旧 mode header
-  // 都不能再把自己提升为 trusted host。
-  app.get(
-    "/ws",
+  app.post("/api/rpc-host-capability", (c) => c.json(capabilities.issue()));
+
+  const upgradeLocal = (mode: ConnectionMode) =>
     upgradeWebSocket(() => ({
       onOpen(_event, ws) {
-        setupChannelServer(ws.raw as WebSocket, services, "web-remote-replayable");
+        connectChannels(ws.raw as WebSocket, services, mode);
       },
-    })),
-  );
-
-  const upgradeTrustedHostWebSocket = upgradeWebSocket(() => ({
-    onOpen(_event, ws) {
-      setupChannelServer(ws.raw as WebSocket, services, "desktop-continuous");
-    },
-  }));
+    }));
+  app.get("/ws", upgradeLocal("web-remote-replayable"));
   app.use("/ws/host", async (c, next) => {
-    const capability = c.req.header(KNORVIA_RPC_HOST_CAPABILITY_HEADER);
-    if (!hostCapabilities.consume(capability)) {
+    if (!capabilities.consume(c.req.header(KNORVIA_RPC_HOST_CAPABILITY_HEADER))) {
       return c.json({ error: "Invalid or expired host capability" }, 401);
     }
     await next();
   });
-  app.get("/ws/host", upgradeTrustedHostWebSocket);
+  app.get("/ws/host", upgradeLocal("desktop-continuous"));
 
-  // Web 模式下发起远程连接
   app.post("/api/connect-remote", async (c) => {
-    const rawBody = await c.req.json();
-    const parsedBody = remoteTargetSchema.safeParse(rawBody);
-    if (!parsedBody.success) {
-      return c.json({ error: `Invalid request body: ${formatZodError(parsedBody.error)}` }, 400);
+    const parsed = remoteTargetSchema.safeParse(await c.req.json());
+    if (!parsed.success) {
+      return c.json({ error: `Invalid request body: ${formatZodError(parsed.error)}` }, 400);
     }
-    const body = parsedBody.data;
-
     try {
-      const backend = await createRemoteBackend(body);
+      const backend = await createRemoteBackend(parsed.data);
       const connection = await connectRemote(backend);
-      const id = generateId();
+      const id = Math.random().toString(36).slice(2) + Date.now().toString(36);
       remoteConnections.set(id, connection);
-
       return c.json({ id });
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      return c.json({ error: message }, 500);
+    } catch (error) {
+      return c.json({ error: error instanceof Error ? error.message : String(error) }, 500);
     }
   });
 
-  // 远程连接的 WebSocket 端点，将远程 services 桥接给浏览器
   app.get(
     "/ws/remote/:id",
     upgradeWebSocket((c) => {
@@ -370,47 +277,45 @@ export function createHttpServer(
             ws.close(4004, "Remote connection not found");
             return;
           }
-          // 一个连接只给一个 WS 客户端使用，取出后从 Map 移除
           remoteConnections.delete(id);
-
-          // 将远程 services 包装为 ServiceCollection，复用 exposeOnChannelServer 统一注册
           const remoteServices = new ServiceCollection()
             .register(IFileService, connection.services.fileService)
             .register(IGitService, connection.services.gitService)
             .register(ISystemService, connection.services.systemService)
             .register(ITerminalService, connection.services.terminalService);
-
-          setupChannelServer(ws.raw as WebSocket, remoteServices, "web-remote-replayable");
+          connectChannels(ws.raw as WebSocket, remoteServices, "web-remote-replayable");
         },
       };
     }),
   );
 
-  if (options.staticRoot?.trim()) {
-    const staticRoot = options.staticRoot.trim();
+  const staticRoot = options.staticRoot?.trim();
+  if (staticRoot) {
     app.get("*", async (c) => {
-      const pathname = new URL(c.req.url).pathname;
-      const filePath = await resolveStaticFile(staticRoot, pathname, options.spaFallback ?? true);
-      if (!filePath) {
-        return c.notFound();
-      }
-      return c.body(await readFile(filePath), 200, {
-        "Cache-Control": filePath.endsWith("index.html")
-          ? "no-cache"
-          : "public, max-age=31536000, immutable",
-        "Content-Type": staticContentType(filePath),
-      });
+      const file = await locateStaticFile(
+        staticRoot,
+        new URL(c.req.url).pathname,
+        options.spaFallback ?? true,
+      );
+      if (!file) return c.notFound();
+      const body = await readFile(file);
+      c.header(
+        "Content-Type",
+        mimeTypes[extname(file).toLowerCase()] ?? "application/octet-stream",
+      );
+      c.header(
+        "Cache-Control",
+        file.endsWith("index.html") ? "no-cache" : "public, max-age=31536000, immutable",
+      );
+      return c.body(body, 200);
     });
   }
 
   const server = serve({ fetch: app.fetch, hostname: options.host, port }, () => {
     const address = server.address();
-    const listenPort = typeof address === "object" && address ? address.port : port;
-    const listenHost = options.host?.trim() || "localhost";
-    log(`http://${listenHost}:${listenPort}`);
+    const boundPort = address && typeof address === "object" ? address.port : port;
+    log(`http://${options.host?.trim() || "localhost"}:${boundPort}`);
   });
-
   injectWebSocket(server);
-
   return server;
 }

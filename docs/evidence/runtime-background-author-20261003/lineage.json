@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+  "kind": "file",
+  "sha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8",
+  "normalizedSha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8",
+  "encoding": "utf8-lf",
+  "bytes": 14920,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/background.ts",
+    "blob": "87d49abe817db2629b47bdb3e8abb39b960d566e",
+    "normalizedSha256": "91ccd10f169a3122a139209386f5fc29c3c204efd623c9349311c62f492400d2",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

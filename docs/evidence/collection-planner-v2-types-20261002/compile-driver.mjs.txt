@@ -1,0 +1,42 @@
+import ts from './packages/typescript@6.0.2/package/lib/typescript.js';
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+const root='/tmp/knorvia-exact-type-review-20261002';
+const source=root+'/source';
+const target=source+'/apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts';
+const draft=fs.readFileSync('/workspace/knorvia-studio/docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt','utf8');
+const sha=s=>crypto.createHash('sha256').update(s).digest('hex');
+if(sha(draft)!=='32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af')throw Error('wrong draft');
+const configPath=source+'/apps/cli/packages/core/tsconfig.json';
+const raw=ts.readConfigFile(configPath,ts.sys.readFile);
+const parsed=ts.parseJsonConfigFileContent(raw.config,ts.sys,path.dirname(configPath));
+const paths={
+ '@knorvia/contracts':[source+'/apps/cli/packages/contracts/src/index.ts'],
+ '@knorvia/contracts/*':[source+'/apps/cli/packages/contracts/src/*'],
+ '@knorvia/shared':[source+'/packages/shared/src/index.ts'],
+ '@knorvia/shared/*':[source+'/packages/shared/src/*'],
+ '@knorvia/model-option-map':[source+'/packages/model-option-map/src/index.ts'],
+ '@knorvia/provider':[source+'/packages/provider/src/index.ts'],
+ '@knorvia/rpc':[source+'/packages/rpc/src/index.ts'],
+ '@knorvia/client':[source+'/packages/client/src/index.ts'],
+};
+for (const [subpath, target] of Object.entries(JSON.parse(fs.readFileSync(source+'/packages/shared/package.json','utf8')).exports)) {
+ if (typeof target === 'string') paths['@knorvia/shared'+(subpath === '.' ? '' : subpath.slice(1))] = [source+'/packages/shared/'+target];
+}
+for(const [mode,overlay] of [['corrected',undefined],['v2',draft]]) {
+ const options={...parsed.options,rootDir:source,outDir:root+'/emitted-'+mode,paths,
+  typeRoots:[source+'/node_modules/@types'],noEmitOnError:true,incremental:false};
+ const host=ts.createCompilerHost(options);const original=host.readFile.bind(host);
+ host.readFile=file=>path.resolve(file)===target && overlay!==undefined?overlay:original(file);
+ const program=ts.createProgram([target],options,host);
+ const diagnostics=ts.getPreEmitDiagnostics(program);
+ const emit=diagnostics.length?undefined:program.emit();
+ const all=[...diagnostics,...(emit?.diagnostics??[])];
+ const text=ts.formatDiagnosticsWithColorAndContext(all,{getCurrentDirectory:()=>source,getCanonicalFileName:x=>x,getNewLine:()=> '\n'});
+ fs.writeFileSync(root+'/'+mode+'-compile.log',text||'Zero diagnostics\n');
+ const files=program.getSourceFiles().filter(f=>!f.fileName.includes('/node_modules/')&&!f.fileName.includes('/packages/typescript@'));
+ fs.writeFileSync(root+'/'+mode+'-compile.json',JSON.stringify({mode,node:process.version,typescript:ts.version,root:target,draftSha:overlay?sha(overlay):undefined,options,diagnostics:all.map(d=>({code:d.code,file:d.file?.fileName,start:d.start,message:ts.flattenDiagnosticMessageText(d.messageText,'\n')})),sourceBindings:files.map(f=>({path:f.fileName,sha256:sha(f.text)})),emitted:!!emit&&!emit.emitSkipped},null,2)+'\n');
+ console.log(JSON.stringify({mode,diagnostics:all.length,sourceFiles:files.length,emitted:!!emit&&!emit.emitSkipped}));
+ if(all.length)console.log(text.slice(0,12000));
+}

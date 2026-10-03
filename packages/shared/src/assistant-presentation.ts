@@ -46,33 +46,6 @@ export interface BuildKnorviaAssistantPresentationOptions {
   settling?: boolean;
 }
 
-function buildFallbackAssistantParts({
-  content,
-  thought,
-  toolCalls,
-}: Pick<BuildKnorviaAssistantPresentationOptions, "content" | "thought" | "toolCalls">) {
-  const rootToolCalls = (toolCalls ?? []).filter((toolCall) => {
-    const parentToolUseId = toolCall.parentToolUseId ?? null;
-    return (
-      !parentToolUseId ||
-      parentToolUseId === toolCall.toolId ||
-      !(toolCalls ?? []).some((candidate) => candidate.toolId === parentToolUseId)
-    );
-  });
-
-  return [
-    ...(thought ? [{ type: "thought", content: thought } as const] : []),
-    ...rootToolCalls.map(
-      (toolCall) =>
-        ({
-          type: "tool-call",
-          toolId: toolCall.toolId,
-        }) as const,
-    ),
-    ...(content ? [{ type: "content", content } as const] : []),
-  ];
-}
-
 export function buildKnorviaAssistantPresentation({
   content,
   thought,
@@ -82,70 +55,77 @@ export function buildKnorviaAssistantPresentation({
   interrupted = false,
   settling = false,
 }: BuildKnorviaAssistantPresentationOptions): KnorviaAssistantPresentation {
-  const messageParts =
-    parts && parts.length > 0
-      ? [...parts]
-      : buildFallbackAssistantParts({ content, thought, toolCalls });
-  const toolCallById = new Map(toolCalls.map((toolCall) => [toolCall.toolId, toolCall]));
-  const renderedToolCallIds = new Set<string>();
-  const blocks: KnorviaAssistantPresentationBlock[] = [];
-
-  for (const part of messageParts) {
-    if (part.type === "content") {
-      blocks.push({ type: "content", content: part.content });
-      continue;
-    }
-    if (part.type === "thought") {
-      blocks.push({ type: "thought", content: part.content });
-      continue;
-    }
-
-    const toolCall = toolCallById.get(part.toolId);
-    if (!toolCall || renderedToolCallIds.has(part.toolId)) {
-      continue;
-    }
-    const parentToolUseId = toolCall.parentToolUseId ?? null;
-    if (
-      parentToolUseId &&
-      parentToolUseId !== toolCall.toolId &&
-      toolCallById.has(parentToolUseId)
-    ) {
-      continue;
-    }
-    renderedToolCallIds.add(part.toolId);
-    blocks.push({ type: "tool-call", toolCall });
+  const toolsById = new Map<string, KnorviaAssistantPresentationToolCall>();
+  for (const tool of toolCalls) {
+    toolsById.set(tool.toolId, tool);
   }
 
-  const latestContentPart =
-    streaming || interrupted || settling
-      ? null
-      : getLatestAssistantContentPart(
-          blocks
-            .filter(
-              (block): block is Extract<KnorviaAssistantPresentationBlock, { type: "content" }> =>
-                block.type === "content",
-            )
-            .map((block) => ({ type: "content", content: block.content })),
-        );
-  let latestPart: Extract<KnorviaAssistantPresentationBlock, { type: "content" }> | null = null;
-  let latestBlockIndex = -1;
-  if (latestContentPart) {
-    latestBlockIndex = blocks.findLastIndex(
-      (block) => block.type === "content" && block.content === latestContentPart.content,
-    );
-    latestPart =
-      latestBlockIndex >= 0
-        ? (blocks[latestBlockIndex] as Extract<
-            KnorviaAssistantPresentationBlock,
-            { type: "content" }
-          >)
-        : null;
-  }
-
-  return {
-    messageParts,
-    blocks,
-    latestPart,
-    historyBlocks: blocks.filter((_, index) => index !== latestBlockIndex),
+  const isRoot = (tool: KnorviaAssistantPresentationToolCall): boolean => {
+    const parentId = tool.parentToolUseId;
+    return !parentId || parentId === tool.toolId || !toolsById.has(parentId);
   };
+
+  const messageParts: KnorviaAssistantMessagePart[] = [];
+  if (parts && parts.length > 0) {
+    for (const part of parts) {
+      messageParts.push(part);
+    }
+  } else {
+    if (thought) {
+      messageParts.push({ type: "thought", content: thought });
+    }
+    for (const tool of toolCalls) {
+      if (isRoot(tool)) {
+        messageParts.push({ type: "tool-call", toolId: tool.toolId });
+      }
+    }
+    if (content) {
+      messageParts.push({ type: "content", content });
+    }
+  }
+
+  const blocks: KnorviaAssistantPresentationBlock[] = [];
+  const renderedToolIds = new Set<string>();
+  for (const part of messageParts) {
+    switch (part.type) {
+      case "content":
+        blocks.push({ type: "content", content: part.content });
+        break;
+      case "thought":
+        blocks.push({ type: "thought", content: part.content });
+        break;
+      case "tool-call": {
+        const tool = toolsById.get(part.toolId);
+        if (tool && !renderedToolIds.has(part.toolId) && isRoot(tool)) {
+          blocks.push({ type: "tool-call", toolCall: tool });
+          renderedToolIds.add(part.toolId);
+        }
+        break;
+      }
+    }
+  }
+
+  let latestPart: KnorviaAssistantPresentation["latestPart"] = null;
+  let selectedIndex = -1;
+  if (!streaming && !interrupted && !settling) {
+    const contentParts: KnorviaAssistantMessagePart[] = [];
+    for (const block of blocks) {
+      if (block.type === "content") {
+        contentParts.push({ type: "content", content: block.content });
+      }
+    }
+    const latestContent = getLatestAssistantContentPart(contentParts);
+    if (latestContent !== null) {
+      // blocks 由本函数按序 push 构成；entries 保留索引与身份并让类型检查确认元素存在。
+      for (const [index, block] of blocks.entries()) {
+        if (block.type === "content" && block.content === latestContent.content) {
+          latestPart = block;
+          selectedIndex = index;
+        }
+      }
+    }
+  }
+
+  const historyBlocks = blocks.filter((_, index) => index !== selectedIndex);
+  return { messageParts, blocks, latestPart, historyBlocks };
 }

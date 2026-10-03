@@ -1,0 +1,42 @@
+{
+  "baselineCommit": "a1d8e7157e97762c78a5ab0835a63a29c6e38967",
+  "direct": {
+    "completed": "f47dfe225cc79898af33218e6d925d55088e71f9473b710ef3374ae020dd0f98",
+    "empty": "79c274447a940c90e7eeaeb8bc5fe079596d37c4ea3eafa63802966ab28d73af",
+    "failed": "ec30909e33b15a471397cfdb597582a9f055cfaa1ccfb950ee8622030ff420fd",
+    "diagnostics": "42739a84455fd3bb523b46917e3141274aba5349f6e4ec7a5ada1c224ab91d0e",
+    "path-location": "5b164fd426decc140483ae3b25c30e196bec9fa83cd5976ccc8a981f6b9a1a51",
+    "explicit-timeout": "f1923c17f25097732fb447718c7636ef2c6726a6291ea8c831717c594043c6c3",
+    "duration-clamp": "e89d2fb6c785a58d0da64ee5aedef00cd87ce442645afc03be8bb71f16d76a4f",
+    "unavailable": "d400807c2335feb442a46657a15e733262a9b82810ed517f93191cda052ca8f2",
+    "schema": "b79876cff947d58ba4d53c7e5d60da17bc7de24ba687a396ffcfcc812470758b",
+    "unresolved": "d055578e963650699c9a5a348e0583a3316fe92fc321b8d5a084dcdea120e41a",
+    "unknown-kind": "f47dfe225cc79898af33218e6d925d55088e71f9473b710ef3374ae020dd0f98",
+    "null": "bb3a52969a68c4983f34c8d5b05be71b1adfdcaa817171e3dad469596ced84df",
+    "nonfunction": "d88df2ffa204b19e042968a807f32efcd79d5dafefa1a2ef90ad43cc063af8b3",
+    "throw": "7f5a74066b28e79c66755d14d8785a85c3b26677eef693b76b87d9854ff75a1c",
+    "reject": "7f5a74066b28e79c66755d14d8785a85c3b26677eef693b76b87d9854ff75a1c",
+    "queued": "d8fee66e01627303606681a26ff317eb7ca9463fe24ac17ebcfa1646d17f2b65",
+    "hostile": "d8fee66e01627303606681a26ff317eb7ca9463fe24ac17ebcfa1646d17f2b65",
+    "diagnostics-second-read": "ee8ebf08a0f36b0816af99f9e2f4c35ddb5ba6db1ca0a69ebd4a638d6f511a68",
+    "failure-logs-before-error": "6747ef3689cf3e7371c77cf1109908ed17659bfe9a8a8ff5e9d560ed7dbc2b43",
+    "artifact-before-logs": "a575de677307dd1ec9e1a0d7cae2f6647c4c8f0b969de5dfdb56b6a512ae699e"
+  },
+  "consumer": {
+    "normal": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35",
+    "pure-ask": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35",
+    "deny": "928579a87ff42f6621437177791af200361cef2cdbf6a9802d2e6ecf619f8842",
+    "ask-refuse": "e017da0a5bfc00e3c7856b953a6b86af39648e9251ead8f6395846295ee11c18",
+    "throw": "5beb07b1cad99cd48e860cbdc0d9d6de6a5a081bbbabb6ddcf91f12080212f7a",
+    "reject": "5beb07b1cad99cd48e860cbdc0d9d6de6a5a081bbbabb6ddcf91f12080212f7a",
+    "queued": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35",
+    "hostile": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35",
+    "early": "3b225b8419a67ebb5f1f7a9b92fec439333b2d53c69a409094317e15fe4a266e",
+    "settlement": "07ee09139c72605804b88574eaec99fa85ad4f99bef7b161333f1ad75054014d",
+    "model-begin": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35",
+    "model-end": "81f21c74c32169d8ba40b87387455b737f7797145daee54baa71754580c22b35"
+  },
+  "modelContractSha256": "e7e35d3b84fdffd44904d03ab62e36def8db29c4cf3411141170fab8639b23cb",
+  "sourceError": "Provide exactly one snippet source: `code` for the snippet inline, or `path` for a file holding it. Passing both, or neither, is ambiguous.",
+  "disclosure": "Hashes bind historical observations; output strings and the archived owner retain source-exposed expression. Synthetic fixture structure is new; no whole-file rights grant."
+}

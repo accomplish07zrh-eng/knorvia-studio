@@ -51,21 +51,21 @@ interface RefreshWaiter {
 }
 
 export class ProviderRegistryService {
+  readonly #registry = new ProviderRegistry();
   readonly #configSource: ProviderSource<ProviderConfigSnapshot>;
   readonly #accountSource: ProviderSource<AccountProviderConfigSnapshot>;
   readonly #resolver: ProviderConfigResolver;
-  readonly #registry = new ProviderRegistry();
-  readonly #changeListeners = new Set<(event: ProviderRegistryServiceChangedEvent) => void>();
-  readonly #errorListeners = new Set<(event: ProviderRegistryServiceRefreshErrorEvent) => void>();
-  readonly #sourceDisposers: Array<() => void> = [];
-  readonly #pendingReasons = new Set<string>();
-  readonly #refreshWaiters: RefreshWaiter[] = [];
   #snapshot: ProviderRegistryServiceSnapshot | null = null;
   #requestedGeneration = 0;
   #completedGeneration = 0;
-  #refreshInFlight: Promise<void> | null = null;
+  #activeRefresh: Promise<void> | null = null;
   #started = false;
   #disposed = false;
+  readonly #pendingReasons = new Set<string>();
+  #pendingWaiters: RefreshWaiter[] = [];
+  readonly #sourceDisposers: Array<() => void> = [];
+  readonly #changeListeners = new Set<(event: ProviderRegistryServiceChangedEvent) => void>();
+  readonly #errorListeners = new Set<(event: ProviderRegistryServiceRefreshErrorEvent) => void>();
 
   constructor(dependencies: ProviderRegistryServiceDependencies) {
     this.#configSource = dependencies.configSource;
@@ -77,20 +77,24 @@ export class ProviderRegistryService {
     this.#assertNotDisposed();
     if (!this.#started) {
       this.#started = true;
-      this.#sourceDisposers.push(
-        this.#configSource.onDidChange((reason) => this.#refreshFromSource("config", reason)),
-        this.#accountSource.onDidChange((reason) => this.#refreshFromSource("account", reason)),
-      );
+      const configDisposer = this.#configSource.onDidChange((reason) => {
+        this.#sourceChanged("config", reason);
+      });
+      const accountDisposer = this.#accountSource.onDidChange((reason) => {
+        this.#sourceChanged("account", reason);
+      });
+      this.#sourceDisposers.push(configDisposer, accountDisposer);
       await this.#requestRefresh("start");
-      return;
+    } else if (!this.#snapshot) {
+      await this.#requestRefresh("start");
     }
-    // 启动只负责就绪；业务读取必须使用 getSnapshot，不能长期保留首次启动快照。
-    if (!this.#snapshot) await this.#requestRefresh("start");
   }
 
   refresh(reason = "explicit"): Promise<ProviderRegistryServiceSnapshot> {
     this.#assertNotDisposed();
-    if (!this.#started) throw new Error("ProviderRegistryService 必须先 start() 再 refresh()");
+    if (!this.#started) {
+      throw new Error("ProviderRegistryService 必须先 start() 再 refresh()");
+    }
     return this.#requestRefresh(reason);
   }
 
@@ -131,57 +135,79 @@ export class ProviderRegistryService {
   }
 
   dispose(): void {
-    if (this.#disposed) return;
+    if (this.#disposed) {
+      return;
+    }
     this.#disposed = true;
-    for (const dispose of this.#sourceDisposers.splice(0)) dispose();
+    const disposers = this.#sourceDisposers.splice(0);
+    for (const disposer of disposers) {
+      disposer();
+    }
     const error = new Error("ProviderRegistryService 已 dispose");
-    for (const waiter of this.#refreshWaiters.splice(0)) waiter.reject(error);
+    const waiters = this.#pendingWaiters.splice(0);
+    for (const waiter of waiters) {
+      waiter.reject(error);
+    }
     this.#changeListeners.clear();
     this.#errorListeners.clear();
   }
 
-  #refreshFromSource(source: "config" | "account", reason: string): void {
-    if (this.#disposed) return;
-    void this.#requestRefresh(`${source}:${reason || "changed"}`).catch(() => {
-      // Source 驱动的后台刷新通过 onDidRefreshError 报告；调用栈没有 Promise 消费者。
-    });
+  #assertNotDisposed(): void {
+    if (this.#disposed) {
+      throw new Error("ProviderRegistryService 已 dispose");
+    }
+  }
+
+  #sourceChanged(source: "config" | "account", reason: string): void {
+    if (this.#disposed) {
+      return;
+    }
+    void this.#requestRefresh(`${source}:${reason || "changed"}`).catch(() => {});
   }
 
   #requestRefresh(reason: string): Promise<ProviderRegistryServiceSnapshot> {
-    const generation = this.#requestedGeneration + 1;
-    this.#requestedGeneration = generation;
+    this.#requestedGeneration += 1;
     this.#pendingReasons.add(reason);
-    const result = new Promise<ProviderRegistryServiceSnapshot>((resolve, reject) => {
-      this.#refreshWaiters.push({ generation, resolve, reject });
+    const generation = this.#requestedGeneration;
+    const promise = new Promise<ProviderRegistryServiceSnapshot>((resolve, reject) => {
+      this.#pendingWaiters.push({ generation, resolve, reject });
     });
     this.#ensureRefreshLoop();
-    return result;
+    return promise;
   }
 
   #ensureRefreshLoop(): void {
-    if (this.#refreshInFlight || this.#disposed) return;
+    if (this.#activeRefresh || this.#disposed) {
+      return;
+    }
     const refresh = this.#runRefreshLoop();
-    this.#refreshInFlight = refresh;
+    this.#activeRefresh = refresh;
     void refresh.then(
-      () => this.#finishRefresh(refresh),
+      () => this.#finishRefreshLoop(refresh),
       (error: unknown) => {
-        this.#rejectRefreshWaiters(this.#requestedGeneration, error);
-        this.#finishRefresh(refresh);
+        this.#rejectWaiters(this.#requestedGeneration, error);
+        this.#finishRefreshLoop(refresh);
       },
     );
   }
 
-  #finishRefresh(refresh: Promise<void>): void {
-    if (this.#refreshInFlight !== refresh) return;
-    this.#refreshInFlight = null;
-    if (this.#completedGeneration < this.#requestedGeneration) this.#ensureRefreshLoop();
+  #finishRefreshLoop(refresh: Promise<void>): void {
+    if (this.#activeRefresh !== refresh) {
+      return;
+    }
+    this.#activeRefresh = null;
+    if (this.#completedGeneration < this.#requestedGeneration) {
+      this.#ensureRefreshLoop();
+    }
   }
 
   async #runRefreshLoop(): Promise<void> {
     const reasons = new Set<string>();
     while (this.#completedGeneration < this.#requestedGeneration) {
       const generation = this.#requestedGeneration;
-      for (const reason of this.#pendingReasons) reasons.add(reason);
+      for (const reason of this.#pendingReasons) {
+        reasons.add(reason);
+      }
       this.#pendingReasons.clear();
 
       let config: ProviderConfigSnapshot;
@@ -192,28 +218,36 @@ export class ProviderRegistryService {
           this.#accountSource.read(),
         ]);
       } catch (error) {
-        if (generation < this.#requestedGeneration) continue;
+        if (generation !== this.#requestedGeneration) {
+          continue;
+        }
         this.#completedGeneration = generation;
         this.#emitRefreshError(error, reasons);
-        this.#rejectRefreshWaiters(generation, error);
+        this.#rejectWaiters(generation, error);
         return;
       }
 
-      if (generation < this.#requestedGeneration) continue;
+      if (generation !== this.#requestedGeneration) {
+        continue;
+      }
       this.#assertNotDisposed();
 
       if (account.basedOnKnorviaBuiltinRevision !== config.knorviaBuiltinRevision) {
-        // Built-in 已变化但 Account 仍基于旧事实时，继续服务上一份完整 Registry。
-        // 当前 generation 结束；等待 Account Source 的后续 change 再一次性发布最终组合。
         this.#completedGeneration = generation;
-        if (this.#snapshot) this.#resolveRefreshWaiters(generation, this.#snapshot);
+        if (this.#snapshot) {
+          this.#resolveWaiters(generation, this.#snapshot);
+        }
         reasons.clear();
         continue;
       }
 
-      if (this.#hasSameSourceRevisions(config, account)) {
+      if (
+        this.#snapshot &&
+        this.#snapshot.sourceRevisions.config === config.revision &&
+        this.#snapshot.sourceRevisions.account === account.revision
+      ) {
         this.#completedGeneration = generation;
-        this.#resolveRefreshWaiters(generation, this.#snapshot!);
+        this.#resolveWaiters(generation, this.#snapshot);
         reasons.clear();
         continue;
       }
@@ -230,86 +264,72 @@ export class ProviderRegistryService {
           personalProviderOrder: config.personalProviderOrder,
         });
         this.#registry.replace(resolution.registryProviders, [...reasons].join(","));
-        const snapshot = Object.freeze({
+        const snapshot: ProviderRegistryServiceSnapshot = Object.freeze({
           sourceRevisions: Object.freeze({
             config: config.revision,
             account: account.revision,
           }),
           config: Object.freeze({ ...config }),
-          account: freezeAccountSnapshot(account),
+          account: Object.freeze({
+            revision: account.revision,
+            basedOnKnorviaBuiltinRevision: account.basedOnKnorviaBuiltinRevision,
+            providers: account.providers,
+            ...(account.states ? { states: account.states } : {}),
+          }),
           resolution,
           registry: this.#registry.getView(),
         });
         this.#snapshot = snapshot;
         this.#completedGeneration = generation;
-        this.#resolveRefreshWaiters(generation, snapshot);
-        this.#emitChanged(snapshot, reasons);
+        this.#resolveWaiters(generation, snapshot);
+        const event: ProviderRegistryServiceChangedEvent = Object.freeze({
+          snapshot,
+          reasons: Object.freeze([...reasons]),
+        });
+        for (const listener of this.#changeListeners) {
+          listener(event);
+        }
         reasons.clear();
       } catch (error) {
         this.#completedGeneration = generation;
         this.#emitRefreshError(error, reasons);
-        this.#rejectRefreshWaiters(generation, error);
+        this.#rejectWaiters(generation, error);
         return;
       }
     }
   }
 
-  #resolveRefreshWaiters(generation: number, snapshot: ProviderRegistryServiceSnapshot): void {
-    const remaining: RefreshWaiter[] = [];
-    for (const waiter of this.#refreshWaiters) {
-      if (waiter.generation <= generation) waiter.resolve(snapshot);
-      else remaining.push(waiter);
+  #resolveWaiters(generation: number, snapshot: ProviderRegistryServiceSnapshot): void {
+    const waiters = this.#pendingWaiters;
+    this.#pendingWaiters = [];
+    for (const waiter of waiters) {
+      if (waiter.generation <= generation) {
+        waiter.resolve(snapshot);
+      } else {
+        this.#pendingWaiters.push(waiter);
+      }
     }
-    this.#refreshWaiters.splice(0, this.#refreshWaiters.length, ...remaining);
   }
 
-  #rejectRefreshWaiters(generation: number, error: unknown): void {
-    const remaining: RefreshWaiter[] = [];
-    for (const waiter of this.#refreshWaiters) {
-      if (waiter.generation <= generation) waiter.reject(error);
-      else remaining.push(waiter);
+  #rejectWaiters(generation: number, error: unknown): void {
+    const waiters = this.#pendingWaiters;
+    this.#pendingWaiters = [];
+    for (const waiter of waiters) {
+      if (waiter.generation <= generation) {
+        waiter.reject(error);
+      } else {
+        this.#pendingWaiters.push(waiter);
+      }
     }
-    this.#refreshWaiters.splice(0, this.#refreshWaiters.length, ...remaining);
-  }
-
-  #hasSameSourceRevisions(
-    config: ProviderConfigSnapshot,
-    account: AccountProviderConfigSnapshot,
-  ): boolean {
-    return (
-      this.#snapshot?.sourceRevisions.config === config.revision &&
-      this.#snapshot.sourceRevisions.account === account.revision
-    );
-  }
-
-  #emitChanged(snapshot: ProviderRegistryServiceSnapshot, reasons: ReadonlySet<string>): void {
-    const event = Object.freeze({
-      snapshot,
-      reasons: Object.freeze([...reasons]),
-    });
-    for (const listener of this.#changeListeners) listener(event);
   }
 
   #emitRefreshError(error: unknown, reasons: ReadonlySet<string>): void {
-    const event = Object.freeze({
+    const event: ProviderRegistryServiceRefreshErrorEvent = Object.freeze({
       error,
       reasons: Object.freeze([...reasons]),
     });
-    for (const listener of this.#errorListeners) listener(event);
+    for (const listener of this.#errorListeners) {
+      listener(event);
+    }
   }
-
-  #assertNotDisposed(): void {
-    if (this.#disposed) throw new Error("ProviderRegistryService 已 dispose");
-  }
-}
-
-function freezeAccountSnapshot(
-  snapshot: AccountProviderConfigSnapshot,
-): AccountProviderConfigSnapshot {
-  return Object.freeze({
-    revision: snapshot.revision,
-    basedOnKnorviaBuiltinRevision: snapshot.basedOnKnorviaBuiltinRevision,
-    providers: snapshot.providers,
-    ...(snapshot.states ? { states: snapshot.states } : {}),
-  });
 }

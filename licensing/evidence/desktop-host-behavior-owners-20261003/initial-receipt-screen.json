@@ -1,0 +1,12 @@
+{
+  "scope": "Exact three path/basename matches, before new packet creation, licensing/specs/host excluding large index and raw draft archives",
+  "found": [
+    "licensing/upstream-baseline.json",
+    "licensing/current-files.json",
+    "licensing/evidence/repository-migration-scope-20260930.json",
+    "licensing/evidence/desktop-preload-owners-20261003/initial-retained-desktop-bindings.json",
+    "licensing/evidence/desktop-preload-owners-20261003/final-retained-desktop-bindings.json",
+    "packages/desktop/src/host/promptAttachmentTransferService.ts import of attachment public functions"
+  ],
+  "classification": "Preload entries are hash-only unselected-file records, not replacement receipts. No previous whole replacement located; absent reviews alone not eligibility. Existing relevant tests/specs exact target-name search returned exit1/no matches. Curator inspected only these three implementation bodies."
+}

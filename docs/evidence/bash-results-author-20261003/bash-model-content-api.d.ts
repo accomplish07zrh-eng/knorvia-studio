@@ -1,0 +1,9 @@
+import { type ModelMessageContent } from "@knorvia/contracts";
+export declare function formatBashModelContent(output: unknown): ModelMessageContent;
+export declare function formatPersistedBashModelContent(input: {
+    content: string;
+    output: unknown;
+    persistedPath: string;
+    originalBytes: number;
+}): ModelMessageContent | undefined;
+export declare function isBashOutputProviderError(output: unknown): boolean;

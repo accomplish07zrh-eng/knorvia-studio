@@ -1,0 +1,11 @@
+# Complete E node runner owner
+
+E owns the complete existing workflow/scheduler/node-runner.ts implementation. The [functional/public packet](../docs/evidence/node-runner-author-packet-20261003/) captures published corrected behavior from PR11 cf1cfe00 without importing its source or helper into E. A retains expert orchestration. Existing graph, prompt, event-log, tracing and scheduler type collaborators keep their owner boundaries.
+
+The node runner orchestrates activation, child linkage, runner/artifact effects and terminal projection/publication. snapshotAccess remains the sole accepted snapshot owner. Persist precedes set; event publication follows accepted ownership. Activation failures reject the main promise and leave started pending. Runner/artifact/completion errors can select failure once, subject to current signal; failure projection/publication errors escape. Failure attempts/status/message primitives are captured before mutation-capable ports. The current snapshot and live phase reads follow the frozen observation points.
+
+Use a new input-limited author and freeze the complete draft/read receipt before curator comparison. The author chooses private structure; protocol projection/order and standard async wrappers do not require novelty. Any correction is separately frozen/bound; original mistakes and input omissions remain evidence. Branded tracing identifiers are qualified in a separate public declaration note rather than rewriting initial inputs.
+
+Install only the E-authored complete owner and any genuine E-authored private implementation support required by it. Do not merge A/root commits or import their outcome helper. Public runtime interface/function remain stable. Scope stays in the legacy cli module; no new state owner or runtime dependency policy is introduced.
+
+Under the current speed cadence, acceptance in E is static signature/import/provenance review. Do not run ordinary tests, broad typechecks/lint/builds or repeated source/emitted matrices. Use at most a minimal data/publication-safety check if a concrete new issue is found. Final runtime/consumer/platform acceptance is deferred to root's later acceptance branch. No global licence/inventory or MIT-release determination is part of this source integration.

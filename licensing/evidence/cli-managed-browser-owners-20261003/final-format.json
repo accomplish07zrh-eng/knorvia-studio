@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/src/browser/index.ts",
+    "apps/cli/packages/adapters/src/browser/session.ts",
+    "apps/cli/packages/adapters/src/browser/page-command.ts",
+    "apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-managed-browser-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-managed-browser-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 44ms on 6 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

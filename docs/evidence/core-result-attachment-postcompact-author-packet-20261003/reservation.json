@@ -1,0 +1,42 @@
+{
+  "baseline": "250636854ad491f9d43ba5815680e983415bd979",
+  "reservedAtUtc": "2026-10-02T20:54:51.627138+00:00",
+  "scopes": {
+    "result": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "lines": 118,
+      "bytes": 3388,
+      "sha256": "484a49f6080ad9fb5927a0f30ac308a9c5b4bfe87edc22f9d6582ad1e34fcb21"
+    },
+    "changes": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "lines": 95,
+      "bytes": 2774,
+      "sha256": "6447e37d3650892b8ec0157bfe2d3b28cabfb4648a6637532846f812ff21734c"
+    },
+    "image": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "lines": 66,
+      "bytes": 2135,
+      "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4"
+    },
+    "reference": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "lines": 106,
+      "bytes": 3919,
+      "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba"
+    },
+    "postcompact": {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "lines": 122,
+      "bytes": 4654,
+      "sha256": "ecb638b819b7a2f8f86ded47360b80764ae4629514cc4b99f47945cbb290b53f"
+    }
+  },
+  "acceptedSearch": "Exact filenames in earlier integration owner manifests/bindings/docs/specs and review records found no complete accepted record, prior dependency/boundary references retained; bounded not global rights/history audit",
+  "sourceExposure": "Prior broad/dependency/tool context qualified; six candidate modules mechanically parsed for export name metadata before reservation, no bodies printed for that metadata; earlier image/reference public declarations already observed",
+  "excluded": "A runtime/methods, conversation, streaming ledger/coordinator/recovery; protected permission/security; other-lane implementations",
+  "ordinaryChecksDeferred": true,
+  "requestedFastUnchanged": true,
+  "fastVerified": false
+}

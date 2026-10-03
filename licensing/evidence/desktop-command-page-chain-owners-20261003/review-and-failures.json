@@ -1,0 +1,58 @@
+{
+  "failures": [
+    {
+      "receipt": "baseline-synthetic.json",
+      "kind": "fixture error",
+      "reason": "Selection at prior insertion end preserves existing X; expected aXcapturedd; corrected affected paste fixture only"
+    },
+    {
+      "receipt": "baseline-scoped-static.json",
+      "kind": "inspection helper TypeError",
+      "reason": "Synthetic compiler symbol lacks declaration; fallback location required"
+    },
+    {
+      "receipt": "initial-scoped-static.json",
+      "kind": "inspection helper false API difference",
+      "reason": "Internal hasInstance symbol numeric IDs differ; stable canonicalization only these compiler IDs"
+    },
+    {
+      "receipt": "initial-synthetic.json",
+      "kind": "candidate failures",
+      "reason": "Unbound style lookup/attrs schema and extra method.call/live data bugs; complete author corrections"
+    },
+    {
+      "receipt": null,
+      "kind": "investigative command error",
+      "command": "rg -n noImplicitOverride ... tsconfig.json ...",
+      "exitCode": 2,
+      "reason": "Root tsconfig.json absent; existing base/desktop config verified; exact PTY output not separately captured as a file"
+    },
+    {
+      "receipt": "candidate-format.json",
+      "kind": "formatter check failure",
+      "reason": "Scoped static inspection helper required a second formatter pass; candidate-format-corrected.json passes. No production source or helper semantics changed."
+    }
+  ],
+  "corrections": {
+    "scripts1": [
+      "attributes schema",
+      "bound window.getComputedStyle",
+      "reuse lowercase role tag"
+    ],
+    "scripts2": [
+      "live element.options access",
+      "action/point rectangle and viewport before tag"
+    ],
+    "scripts3": [
+      "semantic rect/tag/depth/viewport order",
+      "selector/xpath lowercase tag before siblings"
+    ],
+    "paste1": [
+      "ordinary direct bound calls, retaining prototype setter.call",
+      "live clipboardItems reads",
+      "live ownerDocument execCommand"
+    ]
+  },
+  "curatorSourceExposed": true,
+  "noCuratorSemanticEdits": true
+}

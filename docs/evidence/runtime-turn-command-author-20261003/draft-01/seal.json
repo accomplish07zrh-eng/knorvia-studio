@@ -1,0 +1,171 @@
+{
+  "closureUtc": "2026-10-02T22:51:41.743377+00:00",
+  "scope": "executeTurnCommand only; executeTurn retained by curator outside reconstruction credit",
+  "candidateSources": [
+    {
+      "path": "turn-command-data.ts",
+      "bytes": 8977,
+      "sha256": "8d6a2010ec014445a856431b15a487e74fb6a2244db68b4a43d6a7ac9b3f9144",
+      "physicalLines": 266
+    },
+    {
+      "path": "turn-command-operation.ts",
+      "bytes": 14454,
+      "sha256": "f87ee0bf07db67810921139207a50d6af7b4dac16048ccfe08c8b3714a642b0c",
+      "physicalLines": 381
+    },
+    {
+      "path": "turn-command-state.ts",
+      "bytes": 4376,
+      "sha256": "40f86126d05a15fa9c5dd60895f0a48573715f0cb617fe577b1e6cede3149338",
+      "physicalLines": 129
+    },
+    {
+      "path": "turn.ts",
+      "bytes": 4010,
+      "sha256": "9cf7bf296862b8a7ec9eccd299c057c0c018aca077c3c29a8ce0a811303abf5b",
+      "physicalLines": 124
+    }
+  ],
+  "initialAndIntermediateRepresentations": [
+    {
+      "path": "representations/formatted-complete-01/manifest.json",
+      "bytes": 789,
+      "sha256": "c6307b505b866836770fb329dae250fdb00f71641f63c473881be8492f0b4aab",
+      "physicalLines": 26
+    },
+    {
+      "path": "representations/formatted-complete-01/turn-command-data.ts",
+      "bytes": 9009,
+      "sha256": "c821205c25e47d3b8db330fedbf008b1a86185a2c3cc3670c1b928990296b9a5",
+      "physicalLines": 266
+    },
+    {
+      "path": "representations/formatted-complete-01/turn-command-operation.ts",
+      "bytes": 14417,
+      "sha256": "df49a12258b3559aafdc5ababe3d535fd7e703e0b68821e0208dc3a04189ac9d",
+      "physicalLines": 380
+    },
+    {
+      "path": "representations/formatted-complete-01/turn-command-state.ts",
+      "bytes": 4376,
+      "sha256": "40f86126d05a15fa9c5dd60895f0a48573715f0cb617fe577b1e6cede3149338",
+      "physicalLines": 129
+    },
+    {
+      "path": "representations/formatted-complete-01/turn.ts",
+      "bytes": 4010,
+      "sha256": "9cf7bf296862b8a7ec9eccd299c057c0c018aca077c3c29a8ce0a811303abf5b",
+      "physicalLines": 124
+    },
+    {
+      "path": "representations/initial-complete-01/manifest.json",
+      "bytes": 754,
+      "sha256": "e1cd4eb18be1a680407d2ce10fe71d58e6489421ef0ea303df7599e8699a132d",
+      "physicalLines": 26
+    },
+    {
+      "path": "representations/initial-complete-01/turn-command-data.ts",
+      "bytes": 8343,
+      "sha256": "dd3bf78a7170d2ab9a00c26ad0fbf4a834475d386d41cebe0a38a7fc89e1c0dd",
+      "physicalLines": 133
+    },
+    {
+      "path": "representations/initial-complete-01/turn-command-operation.ts",
+      "bytes": 12977,
+      "sha256": "f7e0050ab4a24b383a2d8b914fa593b1b297c4b0eb845cef70dfe70e68c8a415",
+      "physicalLines": 185
+    },
+    {
+      "path": "representations/initial-complete-01/turn-command-state.ts",
+      "bytes": 4168,
+      "sha256": "458de895b2521bf45820224752e9abd4ea708064c80d305741d8d2b9b993a076",
+      "physicalLines": 91
+    },
+    {
+      "path": "representations/initial-complete-01/turn.ts",
+      "bytes": 3700,
+      "sha256": "b3d689ae131075e99edd4681994598d2adb25669eaea1fe08065f4658f6890e5",
+      "physicalLines": 65
+    },
+    {
+      "path": "representations/initial-partial-01/manifest.json",
+      "bytes": 620,
+      "sha256": "4da47f2e12fc081983395574c17dcc333e96db9cfc47d0ed399877d7a8d0054a",
+      "physicalLines": 21
+    },
+    {
+      "path": "representations/initial-partial-01/turn-command-data.ts",
+      "bytes": 8343,
+      "sha256": "dd3bf78a7170d2ab9a00c26ad0fbf4a834475d386d41cebe0a38a7fc89e1c0dd",
+      "physicalLines": 133
+    },
+    {
+      "path": "representations/initial-partial-01/turn-command-state.ts",
+      "bytes": 4168,
+      "sha256": "458de895b2521bf45820224752e9abd4ea708064c80d305741d8d2b9b993a076",
+      "physicalLines": 91
+    },
+    {
+      "path": "representations/initial-partial-01/turn.ts",
+      "bytes": 3700,
+      "sha256": "b3d689ae131075e99edd4681994598d2adb25669eaea1fe08065f4658f6890e5",
+      "physicalLines": 65
+    },
+    {
+      "path": "representations/pre-scope-final-01/manifest.json",
+      "bytes": 769,
+      "sha256": "84a612e46ae08e8182864b52137e133afe990a3adda3785c59bea9035a3bfb6b",
+      "physicalLines": 26
+    },
+    {
+      "path": "representations/pre-scope-final-01/turn-command-data.ts",
+      "bytes": 8980,
+      "sha256": "984c5057e72765bb484c6b36c819acdd27d3543649d5b65cd6df6599c45c7c6f",
+      "physicalLines": 266
+    },
+    {
+      "path": "representations/pre-scope-final-01/turn-command-operation.ts",
+      "bytes": 14454,
+      "sha256": "f87ee0bf07db67810921139207a50d6af7b4dac16048ccfe08c8b3714a642b0c",
+      "physicalLines": 381
+    },
+    {
+      "path": "representations/pre-scope-final-01/turn-command-state.ts",
+      "bytes": 4376,
+      "sha256": "40f86126d05a15fa9c5dd60895f0a48573715f0cb617fe577b1e6cede3149338",
+      "physicalLines": 129
+    },
+    {
+      "path": "representations/pre-scope-final-01/turn.ts",
+      "bytes": 4010,
+      "sha256": "9cf7bf296862b8a7ec9eccd299c057c0c018aca077c3c29a8ce0a811303abf5b",
+      "physicalLines": 124
+    }
+  ],
+  "supportingEvidence": [
+    {
+      "path": "input-access-journal.json",
+      "bytes": 8956,
+      "sha256": "270daa05514a7cd2139a4ec20465e8eb93493a888fe0226048aed3f0a450947d",
+      "physicalLines": 198
+    },
+    {
+      "path": "representation-plan.json",
+      "bytes": 1167,
+      "sha256": "98327b1a94fe055f40deaf79c65b8eaf3e7320351f20753e4ddd6b1a4059cda2",
+      "physicalLines": 21
+    },
+    {
+      "path": "author-review.json",
+      "bytes": 781,
+      "sha256": "4f70dec8d0cb69e929a1fc742b3d296047154e6cdbf0483321750eec43750cfc",
+      "physicalLines": 16
+    }
+  ],
+  "completeCandidate": true,
+  "compileOrComparisonBeforeClosure": false,
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "predecessorBodyReadByAuthor": false
+}

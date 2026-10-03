@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-02T18:50:21.032089+00:00",
+  "files": {
+    "packages/server/src/remote/remoteAssetCdn.ts": {
+      "sha256": "4f8da01e2838e43b372109b5b23178b3dc099a36e770a7a8ee7874c3d98a7727",
+      "bytes": 4854
+    },
+    "packages/server/src/remote/remoteAssetNetwork.ts": {
+      "sha256": "4c393f352bfeb885cc67926630030d44158d26215548b3509af8a9c3a4420a8f",
+      "bytes": 260
+    }
+  },
+  "review": "Read-only source-exposed reviewer found only sparse-array traversal difference. Original packet omitted holes. Candidate corrected three for-of loops to forEach to preserve original flatMap hole skipping. Other traversal quirks deliberately unchanged. No unexplained discretionary expression copying identified; ordinary idioms and required strings not novelty claims. No legal originality determination.",
+  "sourceBinding": "GitHub connector retrieved packet at78c9080c; local source hashes independently match curator bindings. Reviewer could not independently resolve remote packet commit in its local object store.",
+  "static": "Two-target strict compiler zero diagnostics; public declaration AST matches frozen packet; scopedlint2files94rules zero warnings/errors; architecture zero violations; whitespace clean.",
+  "runtime": "No tests, network requests, builds or full suites run for pure construction batch. Sparse correction statically verified; runtime acceptance deferred.",
+  "network": "One-expression selector is ordinary contract-bound adapter, no independent originality increment claimed.",
+  "licence": "No global MIT grant, inventory update or cross-lane merge."
+}

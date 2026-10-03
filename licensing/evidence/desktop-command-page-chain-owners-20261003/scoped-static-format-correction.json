@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+      "sha256": "df83856fc4ec5e250b26ae0d0d304c1b48f2dcbdee7ca2b463886c351f143eeb"
+    }
+  ],
+  "stdout": "Finished in 28ms on 1 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

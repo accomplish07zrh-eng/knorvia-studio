@@ -1,0 +1,283 @@
+import { mkdtemp, readdir, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import {
+  PdfDocumentPortError,
+  READ_PDF_AVAILABILITY_TIMEOUT_MS,
+  READ_PDF_INFO_TIMEOUT_MS,
+  READ_PDF_MAX_PAGES_PER_REQUEST,
+  READ_PDF_RENDER_TIMEOUT_MS,
+} from '@knorvia/contracts';
+import type {
+  ExecutionPort,
+  ExecutionResult,
+  PdfDocumentPageCountRequest,
+  PdfDocumentPort,
+  PdfDocumentRenderedPage,
+  PdfDocumentRenderPagesRequest,
+} from '@knorvia/contracts';
+
+export interface PopplerPdfDocumentAdapterOptions {
+  executionPort: ExecutionPort;
+  tempRoot?: string;
+}
+
+const extractionCancelled = 'PDF page extraction was cancelled.';
+const unavailableMessage =
+  'pdftoppm is not installed. Install poppler-utils (e.g. `brew install poppler` or `apt-get install poppler-utils`) to enable PDF page rendering.';
+const temporaryDirectoryPrefix = 'knorvia-read-pdf-';
+const imagePrefix = 'page';
+const imageMediaType = 'image/jpeg' as const;
+
+function filesystemFailure(
+  message: string,
+  signal: AbortSignal | undefined,
+  cause: unknown,
+): PdfDocumentPortError {
+  return signal?.aborted
+    ? new PdfDocumentPortError('cancelled', extractionCancelled, { cause })
+    : new PdfDocumentPortError('io_error', message, { cause });
+}
+
+function inspectRenderOutcome(
+  result: ExecutionResult,
+  request: PdfDocumentRenderPagesRequest,
+): void {
+  if (result.cancelled) {
+    throw new PdfDocumentPortError('cancelled', extractionCancelled);
+  }
+  if (result.timedOut || result.status === 'timed_out') {
+    throw new PdfDocumentPortError(
+      'timeout',
+      `PDF page extraction timed out after ${READ_PDF_RENDER_TIMEOUT_MS}ms.`,
+    );
+  }
+  if (result.status === 'completed' && result.exitCode === 0) {
+    return;
+  }
+
+  const stderr = result.stderr.text;
+  const detail = [stderr, result.stdout.text, result.error?.message]
+    .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+    .join('\n')
+    .trim();
+
+  if (/password/iu.test(stderr)) {
+    throw new PdfDocumentPortError(
+      'password_protected',
+      'PDF is password-protected. Please provide an unprotected version.',
+    );
+  }
+
+  const rangeDiagnostic = /Wrong page range given[\s\S]*last page \((\d+)\)/iu.exec(stderr);
+  if (rangeDiagnostic) {
+    const count = Number(rangeDiagnostic[1]);
+    if (count === 0) {
+      throw new PdfDocumentPortError(
+        'corrupted',
+        'PDF reports 0 pages (empty page tree). The PDF may be invalid.',
+      );
+    }
+    if (Number.isSafeInteger(count) && count >= 1) {
+      const requested =
+        request.firstPage === request.lastPage
+          ? `page ${request.firstPage}`
+          : `pages ${request.firstPage}-${request.lastPage}`;
+      throw new PdfDocumentPortError(
+        'page_out_of_range',
+        `Requested ${requested} is outside the document (PDF has ${count} page${count === 1 ? '' : 's'}). Use a range within 1-${count}, maximum ${READ_PDF_MAX_PAGES_PER_REQUEST} pages per request (e.g. pages: "1-${Math.min(count, READ_PDF_MAX_PAGES_PER_REQUEST)}").`,
+      );
+    }
+  }
+
+  const diagnosticLines = stderr.split('\n');
+  const firstLine = diagnosticLines[0] ?? '';
+  const commandDiagnostic = diagnosticLines.some((line) =>
+    /^(?:Command Line Error|Internal Error)(?: \(\d+\))?: /u.test(line),
+  );
+  if (!commandDiagnostic) {
+    if (firstLine.startsWith('I/O Error: ') && firstLine.includes(`'${request.filePath}'`)) {
+      throw new PdfDocumentPortError('io_error', `Could not render PDF: ${firstLine}`);
+    }
+    if (firstLine.startsWith('Permission Error: ')) {
+      throw new PdfDocumentPortError('permission_denied', `Could not render PDF: ${firstLine}`);
+    }
+  }
+  if (
+    /damaged|corrupt|invalid/iu.test(stderr) ||
+    /Syntax Error(?: \(\d+\))?: Couldn't (?:find trailer dictionary|read xref table)/iu.test(stderr)
+  ) {
+    throw new PdfDocumentPortError('corrupted', 'PDF file is corrupted or invalid.');
+  }
+  throw new PdfDocumentPortError(
+    'process_failed',
+    detail.length > 0 ? `pdftoppm failed: ${detail}` : 'pdftoppm failed.',
+    { cause: result.error?.cause },
+  );
+}
+
+async function collectPages(
+  directory: string,
+  signal: AbortSignal | undefined,
+): Promise<PdfDocumentRenderedPage[]> {
+  let names: string[];
+  try {
+    names = await readdir(directory);
+  } catch (cause) {
+    throw filesystemFailure('Unable to list rendered PDF page images.', signal, cause);
+  }
+
+  const selected: { name: string; pageNumber: number }[] = [];
+  for (const name of names) {
+    const match = /-(\d+)\.jpg$/iu.exec(name);
+    if (match) {
+      const pageNumber = Number(match[1]);
+      if (Number.isSafeInteger(pageNumber) && pageNumber >= 1) {
+        selected.push({ name, pageNumber });
+      }
+    }
+  }
+  selected.sort((left, right) => left.pageNumber - right.pageNumber);
+  if (selected.length === 0) {
+    throw new PdfDocumentPortError(
+      'corrupted',
+      'pdftoppm produced no output pages. The PDF may be invalid.',
+    );
+  }
+
+  try {
+    const attempts = selected.map(async ({ name, pageNumber }): Promise<PdfDocumentRenderedPage> => {
+      const data = new Uint8Array(
+        await readFile(join(directory, name), signal === undefined ? undefined : { signal }),
+      );
+      return { data, mediaType: imageMediaType, pageNumber };
+    });
+    return await Promise.all(attempts);
+  } catch (cause) {
+    throw filesystemFailure('Unable to read rendered PDF page images.', signal, cause);
+  }
+}
+
+export function createPopplerPdfDocumentAdapter(
+  options: PopplerPdfDocumentAdapterOptions,
+): PdfDocumentPort {
+  let availabilitySucceeded = false;
+
+  async function checkAvailability(
+    request: PdfDocumentRenderPagesRequest,
+    signal: AbortSignal | undefined,
+  ): Promise<void> {
+    if (availabilitySucceeded) {
+      return;
+    }
+    const result = await options.executionPort.run(
+      {
+        command: { mode: 'argv', file: 'pdftoppm', args: ['-v'] },
+        timeoutMs: READ_PDF_AVAILABILITY_TIMEOUT_MS,
+        trace: request.trace,
+      },
+      signal ? { signal } : undefined,
+    );
+    if (result.cancelled || signal?.aborted) {
+      throw new PdfDocumentPortError('cancelled', extractionCancelled);
+    }
+    if (result.timedOut || result.status === 'timed_out') {
+      throw new PdfDocumentPortError(
+        'timeout',
+        `PDF page extraction availability check timed out after ${READ_PDF_AVAILABILITY_TIMEOUT_MS}ms.`,
+      );
+    }
+    const accepted =
+      (result.status === 'completed' || result.status === 'failed') &&
+      (result.exitCode === 0 ||
+        (result.exitCode !== undefined && result.exitCode !== 127 && result.stderr.text.length > 0));
+    if (!accepted) {
+      throw new PdfDocumentPortError('unavailable', unavailableMessage, {
+        cause: result.error?.cause,
+      });
+    }
+    availabilitySucceeded = true;
+  }
+
+  return {
+    async getPageCount(
+      request: PdfDocumentPageCountRequest,
+      callOptions?: { signal?: AbortSignal },
+    ): Promise<number | undefined> {
+      const result = await options.executionPort.run(
+        {
+          command: { mode: 'argv', file: 'pdfinfo', args: [request.filePath] },
+          timeoutMs: READ_PDF_INFO_TIMEOUT_MS,
+          trace: request.trace,
+        },
+        callOptions?.signal ? { signal: callOptions.signal } : undefined,
+      );
+      if (result.cancelled || callOptions?.signal?.aborted) {
+        throw new PdfDocumentPortError('cancelled', 'PDF inspection was cancelled.');
+      }
+      if (result.status !== 'completed' || result.exitCode !== 0) {
+        return undefined;
+      }
+      const match = /^Pages:\s+(\d+)\s*$/imu.exec(result.stdout.text);
+      const count = Number(match?.[1]);
+      return Number.isSafeInteger(count) && count >= 0 ? count : undefined;
+    },
+
+    async renderPages(
+      request: PdfDocumentRenderPagesRequest,
+      callOptions?: { signal?: AbortSignal },
+    ): Promise<PdfDocumentRenderedPage[]> {
+      const signal = callOptions?.signal;
+      await checkAvailability(request, signal);
+      let directory: string;
+      try {
+        directory = await mkdtemp(join(options.tempRoot ?? tmpdir(), temporaryDirectoryPrefix));
+      } catch (cause) {
+        throw filesystemFailure(
+          'Unable to create a temporary directory for PDF page extraction.',
+          signal,
+          cause,
+        );
+      }
+      const outputPrefix = join(directory, imagePrefix);
+      let primaryFailed = false;
+      try {
+        const result = await options.executionPort.run(
+          {
+            command: {
+              mode: 'argv',
+              file: 'pdftoppm',
+              args: [
+                '-jpeg',
+                '-r',
+                '100',
+                '-f',
+                String(request.firstPage),
+                '-l',
+                String(request.lastPage),
+                request.filePath,
+                outputPrefix,
+              ],
+            },
+            timeoutMs: READ_PDF_RENDER_TIMEOUT_MS,
+            trace: request.trace,
+          },
+          signal ? { signal } : undefined,
+        );
+        inspectRenderOutcome(result, request);
+        return await collectPages(directory, signal);
+      } catch (cause) {
+        primaryFailed = true;
+        throw cause;
+      } finally {
+        try {
+          await rm(directory, { recursive: true, force: true });
+        } catch (cause) {
+          if (!primaryFailed) {
+            throw filesystemFailure('Unable to remove temporary PDF page images.', signal, cause);
+          }
+        }
+      }
+    },
+  };
+}

@@ -1,0 +1,1114 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "resolver",
+  "baseline": "947293ff4ba966358642c7b6f549f609e03971e8",
+  "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+  "qualifiedCandidateReturns": true,
+  "reexportsEqual": true,
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "c911fec4230b09d6f272fc92f8c416dcc24373b4a4e2409a9c3298a7fdf3a826",
+    "candidate": "c911fec4230b09d6f272fc92f8c416dcc24373b4a4e2409a9c3298a7fdf3a826"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeMultiplicityQualification": "Private cohesive split may import same existing singleton binding more than once; exact multisets and internal edges recorded, distinct outside bindings must equal predecessor",
+  "runtimeImports": {
+    "predecessor": [
+      "@knorvia/contracts#VIDEO_INPUT_MAX_BYTES",
+      "apps/cli/packages/core/src/runtime/deps.js#basename",
+      "apps/cli/packages/core/src/runtime/deps.js#isFileSystemPortError",
+      "apps/cli/packages/core/src/runtime/deps.js#resolvePath",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.js#persistAttachmentDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-image.js#inferImageMimeFromPath",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-image.js#prepareImageDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.js#resolvedPathReferenceAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.js#PDF_INPUT_MAX_BYTES",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.js#isPdfBytes",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.js#parseInlinePdfDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.js#resolvedPlaceholderAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-video.js#inferVideoMimeFromPath",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-video.js#parseInlineVideoDataUrl",
+      "apps/cli/packages/core/src/runtime/types.js#INLINE_MEDIA_ATTACHMENT_MAX_BYTES"
+    ],
+    "candidate": [
+      "@knorvia/contracts#VIDEO_INPUT_MAX_BYTES",
+      "@knorvia/contracts#VIDEO_INPUT_MAX_BYTES",
+      "apps/cli/packages/core/src/runtime/deps.js#basename",
+      "apps/cli/packages/core/src/runtime/deps.js#isFileSystemPortError",
+      "apps/cli/packages/core/src/runtime/deps.js#isFileSystemPortError",
+      "apps/cli/packages/core/src/runtime/deps.js#resolvePath",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.js#persistAttachmentDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.js#persistAttachmentDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.js#persistAttachmentDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.js#persistAttachmentDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-image.js#inferImageMimeFromPath",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-image.js#prepareImageDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-image.js#prepareImageDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.js#resolvedPathReferenceAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.js#resolvedPathReferenceAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.js#resolvedPathReferenceAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.js#resolvedPathReferenceAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.js#PDF_INPUT_MAX_BYTES",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.js#PDF_INPUT_MAX_BYTES",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.js#isPdfBytes",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.js#parseInlinePdfDataUrl",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.js#resolvedPlaceholderAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.js#resolvedPlaceholderAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.js#resolvedPlaceholderAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.js#resolvedPlaceholderAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.js#resolvedPlaceholderAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.js#resolvedPlaceholderAttachment",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-video.js#inferVideoMimeFromPath",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-video.js#parseInlineVideoDataUrl",
+      "apps/cli/packages/core/src/runtime/types.js#INLINE_MEDIA_ATTACHMENT_MAX_BYTES"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+        "diagnostics": []
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+        "diagnostics": []
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+        "diagnostics": []
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+        "diagnostics": []
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+        "diagnostics": []
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+        "diagnostics": []
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+        "diagnostics": []
+      },
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/contract.md",
+      "bytes": 9318,
+      "sha256": "c02e27999fce6a3fcd072d2cc70da65a8aeec9477694fb3e91b81ab935b9f3da",
+      "actual": {
+        "bytes": 9318,
+        "sha256": "c02e27999fce6a3fcd072d2cc70da65a8aeec9477694fb3e91b81ab935b9f3da"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/public-api.d.ts",
+      "bytes": 1037,
+      "sha256": "8f8f4e462ad2f41ca0f5b095b69f59037d871b173349cfefbd73f702313f688b",
+      "actual": {
+        "bytes": 1037,
+        "sha256": "8f8f4e462ad2f41ca0f5b095b69f59037d871b173349cfefbd73f702313f688b"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/dependency-api.d.ts",
+      "bytes": 3035,
+      "sha256": "b1b5aa9f2c9c4d7031b9073638e482f4e0df7d0f321ab110492cd0f4bec420c5",
+      "actual": {
+        "bytes": 3035,
+        "sha256": "b1b5aa9f2c9c4d7031b9073638e482f4e0df7d0f321ab110492cd0f4bec420c5"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/public-shapes.d.ts",
+      "bytes": 7046,
+      "sha256": "a542e666ee8893dd6298640cbd158203bb1482de2e80f4d3e5e0e708a317a353",
+      "actual": {
+        "bytes": 7046,
+        "sha256": "a542e666ee8893dd6298640cbd158203bb1482de2e80f4d3e5e0e708a317a353"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/imports.json",
+      "bytes": 2640,
+      "sha256": "f37d191e15beadcd7785c64bc3e5905d547c7d96cfbf6a883a29f8751feef969",
+      "actual": {
+        "bytes": 2640,
+        "sha256": "f37d191e15beadcd7785c64bc3e5905d547c7d96cfbf6a883a29f8751feef969"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/output-data.json",
+      "bytes": 1936,
+      "sha256": "834ba7c7366dafe5196b572e764b0917ff1e67029fe2e6124a755648f90f0e8c",
+      "actual": {
+        "bytes": 1936,
+        "sha256": "834ba7c7366dafe5196b572e764b0917ff1e67029fe2e6124a755648f90f0e8c"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "attachment-media-resolver/context.ts.txt",
+      "bytes": 614,
+      "sha256": "ad4527bd21a5faa47eb2cb9b137f93e460be42a94a15eff673e6976eab1715c5",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "actual": {
+        "bytes": 614,
+        "sha256": "ad4527bd21a5faa47eb2cb9b137f93e460be42a94a15eff673e6976eab1715c5"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 614,
+        "sha256": "ad4527bd21a5faa47eb2cb9b137f93e460be42a94a15eff673e6976eab1715c5"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 19
+    },
+    {
+      "file": "attachment-media-resolver/inline.ts.txt",
+      "bytes": 6510,
+      "sha256": "159728269b5686d933ad09ff8e3f3250d7edfbe76edbc44d3b20cfc4e76a4a30",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "actual": {
+        "bytes": 6510,
+        "sha256": "159728269b5686d933ad09ff8e3f3250d7edfbe76edbc44d3b20cfc4e76a4a30"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 6510,
+        "sha256": "159728269b5686d933ad09ff8e3f3250d7edfbe76edbc44d3b20cfc4e76a4a30"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 166
+    },
+    {
+      "file": "attachment-media-resolver/local-image.ts.txt",
+      "bytes": 3108,
+      "sha256": "e0eb6edd40ab19e7af1dc13d1a0689f414af9aef9406e4e4931832cd6caf1ab1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "actual": {
+        "bytes": 3108,
+        "sha256": "e0eb6edd40ab19e7af1dc13d1a0689f414af9aef9406e4e4931832cd6caf1ab1"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 3108,
+        "sha256": "e0eb6edd40ab19e7af1dc13d1a0689f414af9aef9406e4e4931832cd6caf1ab1"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 86
+    },
+    {
+      "file": "attachment-media-resolver/local-pdf.ts.txt",
+      "bytes": 3043,
+      "sha256": "8b73272b463c4d0a234af93960baf70a6300f3571b86cae8e6dc75f07aaf9b5d",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "actual": {
+        "bytes": 3043,
+        "sha256": "8b73272b463c4d0a234af93960baf70a6300f3571b86cae8e6dc75f07aaf9b5d"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 3043,
+        "sha256": "8b73272b463c4d0a234af93960baf70a6300f3571b86cae8e6dc75f07aaf9b5d"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 84
+    },
+    {
+      "file": "attachment-media-resolver/local-video.ts.txt",
+      "bytes": 2894,
+      "sha256": "1f037d8d89d47c1a52cfa376f1d0cec31b1546a099b0d8cde53dc2b6c4cc2a71",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "actual": {
+        "bytes": 2894,
+        "sha256": "1f037d8d89d47c1a52cfa376f1d0cec31b1546a099b0d8cde53dc2b6c4cc2a71"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 2894,
+        "sha256": "1f037d8d89d47c1a52cfa376f1d0cec31b1546a099b0d8cde53dc2b6c4cc2a71"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 82
+    },
+    {
+      "file": "attachment-media-resolver/local.ts.txt",
+      "bytes": 2140,
+      "sha256": "d5d78a8ddae643eda84af10c261268643700d0e77f759da7f95c966a23ce84ae",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "actual": {
+        "bytes": 2140,
+        "sha256": "d5d78a8ddae643eda84af10c261268643700d0e77f759da7f95c966a23ce84ae"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 2140,
+        "sha256": "d5d78a8ddae643eda84af10c261268643700d0e77f759da7f95c966a23ce84ae"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 58
+    },
+    {
+      "file": "attachment-media-resolver/read-failure.ts.txt",
+      "bytes": 504,
+      "sha256": "0df4450b8825e85750226d8207bd8321e9729e750ee8bd56cdce93e480dc864e",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "actual": {
+        "bytes": 504,
+        "sha256": "0df4450b8825e85750226d8207bd8321e9729e750ee8bd56cdce93e480dc864e"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 504,
+        "sha256": "0df4450b8825e85750226d8207bd8321e9729e750ee8bd56cdce93e480dc864e"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 16
+    },
+    {
+      "file": "attachment-media-resolver.ts.txt",
+      "bytes": 1317,
+      "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "actual": {
+        "bytes": 1317,
+        "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 1317,
+        "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 44
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 23952,
+      "sha256": "52984ea0c8935f6e11927173b3664b35824fb5b00e63bd8e3f8d775803f69c5d",
+      "actual": {
+        "bytes": 23952,
+        "sha256": "52984ea0c8935f6e11927173b3664b35824fb5b00e63bd8e3f8d775803f69c5d"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "attachment-media-resolver/context.ts.txt",
+      "bytes": 614,
+      "sha256": "ad4527bd21a5faa47eb2cb9b137f93e460be42a94a15eff673e6976eab1715c5",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "unchanged": true
+    },
+    {
+      "file": "attachment-media-resolver/inline.ts.txt",
+      "bytes": 6510,
+      "sha256": "159728269b5686d933ad09ff8e3f3250d7edfbe76edbc44d3b20cfc4e76a4a30",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "unchanged": true
+    },
+    {
+      "file": "attachment-media-resolver/local-image.ts.txt",
+      "bytes": 3108,
+      "sha256": "e0eb6edd40ab19e7af1dc13d1a0689f414af9aef9406e4e4931832cd6caf1ab1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "unchanged": true
+    },
+    {
+      "file": "attachment-media-resolver/local-pdf.ts.txt",
+      "bytes": 3043,
+      "sha256": "8b73272b463c4d0a234af93960baf70a6300f3571b86cae8e6dc75f07aaf9b5d",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "unchanged": true
+    },
+    {
+      "file": "attachment-media-resolver/local-video.ts.txt",
+      "bytes": 2894,
+      "sha256": "1f037d8d89d47c1a52cfa376f1d0cec31b1546a099b0d8cde53dc2b6c4cc2a71",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "unchanged": true
+    },
+    {
+      "file": "attachment-media-resolver/local.ts.txt",
+      "bytes": 2140,
+      "sha256": "d5d78a8ddae643eda84af10c261268643700d0e77f759da7f95c966a23ce84ae",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "unchanged": true
+    },
+    {
+      "file": "attachment-media-resolver/read-failure.ts.txt",
+      "bytes": 504,
+      "sha256": "0df4450b8825e85750226d8207bd8321e9729e750ee8bd56cdce93e480dc864e",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "unchanged": true
+    },
+    {
+      "file": "attachment-media-resolver.ts.txt",
+      "bytes": 1317,
+      "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 23952,
+      "sha256": "52984ea0c8935f6e11927173b3664b35824fb5b00e63bd8e3f8d775803f69c5d",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "bytes": 2712,
+      "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+      "actual": {
+        "bytes": 2712,
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "actual": {
+        "bytes": 7056,
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "actual": {
+        "bytes": 33076,
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "actual": {
+        "bytes": 2904,
+        "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "bytes": 1732,
+      "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4",
+      "actual": {
+        "bytes": 1732,
+        "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "bytes": 3919,
+      "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba",
+      "actual": {
+        "bytes": 3919,
+        "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "bytes": 2135,
+      "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4",
+      "actual": {
+        "bytes": 2135,
+        "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "actual": {
+        "bytes": 1733,
+        "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "bytes": 1237,
+      "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71",
+      "actual": {
+        "bytes": 1237,
+        "sha256": "69b5854dcfc6c87e6d297c686df8a4dfe374ccaf7e8e14141898d9bd2f40be71"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "bytes": 4087,
+      "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "actual": {
+        "bytes": 4087,
+        "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/error-payload.ts",
+      "bytes": 874,
+      "sha256": "33ea9d41169e5c5bcff51d5750cd006300d5c29a6fadf768e9e1421e3ef43450",
+      "actual": {
+        "bytes": 874,
+        "sha256": "33ea9d41169e5c5bcff51d5750cd006300d5c29a6fadf768e9e1421e3ef43450"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "actual": {
+        "bytes": 9586,
+        "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/extraction.ts",
+      "bytes": 10405,
+      "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b",
+      "actual": {
+        "bytes": 10405,
+        "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "bytes": 9755,
+      "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9",
+      "actual": {
+        "bytes": 9755,
+        "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "bytes": 4516,
+      "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53",
+      "actual": {
+        "bytes": 4516,
+        "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/types.ts",
+      "bytes": 312,
+      "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40",
+      "actual": {
+        "bytes": 312,
+        "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/rewind/index.ts",
+      "bytes": 11458,
+      "sha256": "f224ad8bed838fcb747eb246da9b6d505610d7a27111f700563f4b79b1b2d606",
+      "actual": {
+        "bytes": 11458,
+        "sha256": "f224ad8bed838fcb747eb246da9b6d505610d7a27111f700563f4b79b1b2d606"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+      "bytes": 871,
+      "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490",
+      "actual": {
+        "bytes": 871,
+        "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "bytes": 840,
+      "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be",
+      "actual": {
+        "bytes": 840,
+        "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/types.ts",
+      "bytes": 8692,
+      "sha256": "8c11c83d53fafc8e384d29f4d57262b8634c4c41a4366c37e49beec0460a1533",
+      "actual": {
+        "bytes": 8692,
+        "sha256": "8c11c83d53fafc8e384d29f4d57262b8634c4c41a4366c37e49beec0460a1533"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "actual": {
+        "bytes": 17225,
+        "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/telemetry/agent-execution.ts",
+      "bytes": 8689,
+      "sha256": "4506eae0a05822c7053d8984d1be358cad6f7dd4f9f9878c058584963ec1a8d5",
+      "actual": {
+        "bytes": 8689,
+        "sha256": "4506eae0a05822c7053d8984d1be358cad6f7dd4f9f9878c058584963ec1a8d5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-state.ts",
+      "bytes": 7032,
+      "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2",
+      "actual": {
+        "bytes": 7032,
+        "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "actual": {
+        "bytes": 36215,
+        "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "actual": {
+        "bytes": 9283,
+        "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/index.ts",
+      "bytes": 147,
+      "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25",
+      "actual": {
+        "bytes": 147,
+        "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/internal.ts",
+      "bytes": 5204,
+      "sha256": "c315cfd7b00594891a8a6406693d1686720585492c1c245c8ced638ed3ba684c",
+      "actual": {
+        "bytes": 5204,
+        "sha256": "c315cfd7b00594891a8a6406693d1686720585492c1c245c8ced638ed3ba684c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+      "bytes": 7343,
+      "sha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949",
+      "actual": {
+        "bytes": 7343,
+        "sha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-runtime-headers.ts",
+      "bytes": 2625,
+      "sha256": "b25d3fffc072ac5f592a7ce689060bac441e84d85af43ed7cee446b16da642ea",
+      "actual": {
+        "bytes": 2625,
+        "sha256": "b25d3fffc072ac5f592a7ce689060bac441e84d85af43ed7cee446b16da642ea"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/runtime-model.ts",
+      "bytes": 3071,
+      "sha256": "91412883b5b40b7b096c3e3c118410c915668cdb1e5207c404b2347c1670c459",
+      "actual": {
+        "bytes": 3071,
+        "sha256": "91412883b5b40b7b096c3e3c118410c915668cdb1e5207c404b2347c1670c459"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/explore.ts",
+      "bytes": 3526,
+      "sha256": "25f554fd08a19471c455daa42d799873af338eda3c9efeb34a12ea477786811a",
+      "actual": {
+        "bytes": 3526,
+        "sha256": "25f554fd08a19471c455daa42d799873af338eda3c9efeb34a12ea477786811a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/media-policy.ts",
+      "bytes": 453,
+      "sha256": "4bffde9443de70e68fd8582dbc8d1a1d02b557735baf8eb2f1596bc061095805",
+      "actual": {
+        "bytes": 453,
+        "sha256": "4bffde9443de70e68fd8582dbc8d1a1d02b557735baf8eb2f1596bc061095805"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/ask-user-question.ts",
+      "bytes": 8729,
+      "sha256": "43051c1a3ed7c8e5cfa2b369c2d201542a508e251d6fc4f4959b21f3ba7ddd96",
+      "actual": {
+        "bytes": 8729,
+        "sha256": "43051c1a3ed7c8e5cfa2b369c2d201542a508e251d6fc4f4959b21f3ba7ddd96"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/plan-mode.ts",
+      "bytes": 4404,
+      "sha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6",
+      "actual": {
+        "bytes": 4404,
+        "sha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "module": "../attachment-media-resolver.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts",
+      "module": "../attachment-media-resolver.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../attachment-artifacts.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../attachment-image.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../attachment-path-reference.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../attachment-pdf.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../attachment-pdf.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../attachment-placeholder.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "../attachment-video.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "module": "./context.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "../attachment-artifacts.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "../attachment-image.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "../attachment-path-reference.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "../attachment-placeholder.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "./context.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "module": "./read-failure.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "../attachment-artifacts.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "../attachment-path-reference.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "../attachment-pdf.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "../attachment-pdf.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "../attachment-placeholder.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "./context.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "module": "./read-failure.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "module": "../attachment-artifacts.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "module": "../attachment-path-reference.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "module": "../attachment-placeholder.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "module": "./context.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "module": "./read-failure.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../attachment-image.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../attachment-placeholder.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "../attachment-video.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "./context.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "./context.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "./local-image.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "./local-pdf.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "./local-video.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "module": "./read-failure.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "module": "../../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "module": "../../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "module": "../attachment-placeholder.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "../types.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "./attachment-media-resolver/inline.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "module": "./attachment-media-resolver/local.js",
+      "exists": true
+    }
+  ],
+  "predecessorDiagnosticsMatchFrozen": true,
+  "extractionDiagnosticsQualified": true,
+  "inheritedInferenceQualification": "Original TS9007/9011 preserved; frozen exact constructor-return/defaultparameter qualifications applied only to raw-any function return surfaces, not semantic/project typing",
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

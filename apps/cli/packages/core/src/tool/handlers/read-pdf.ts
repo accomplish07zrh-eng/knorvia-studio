@@ -6,7 +6,6 @@ import {
   READ_IMAGE_TARGET_BYTES,
   READ_IMAGE_TOKEN_TO_BASE64_CHAR_RATIO,
   READ_MAX_OUTPUT_TOKENS,
-  READ_PDF_EXTRACT_MAX_INPUT_BYTES,
   READ_PDF_MAX_PAGES_PER_REQUEST,
   READ_PDF_NATIVE_MAX_INPUT_BYTES,
   READ_PDF_NATIVE_MAX_PAGES,
@@ -16,7 +15,6 @@ import {
   ReadPdfInputJsonSchema,
   PdfDocumentPortError,
   createCoreError,
-  parseReadPdfPageRange,
   type JsonSchema,
   type ModelMessageContent,
   type PdfDocumentErrorCode,
@@ -32,6 +30,14 @@ import type {
   ToolExecutionModelContext,
   ToolHandlerFailure,
 } from "../types.js";
+
+import {
+  planPdfRead,
+  pdfFailure as failure,
+  pdfSizeLabel as formatFileSize,
+  type PdfReadPlan,
+} from "./read-pdf-plan.js";
+export { pdfSizeLabel as formatFileSize } from "./read-pdf-plan.js";
 
 const READ_PROVIDER_PDF_DESCRIPTION_LINE =
   '- Reads PDFs via the `pages` parameter (e.g. "1-5", max 20 pages/request; required for PDFs over 10 pages).';
@@ -119,24 +125,18 @@ export async function readPdfFile(
     return failure(ReadErrorCode.PDF_INVALID, `PDF file is empty: ${input.filePath}`);
   }
 
-  return input.pages === undefined
-    ? await readNativePdf(input.filePath, stat.sizeBytes, trace, context)
-    : await readPdfPages(input.filePath, input.pages, stat.sizeBytes, trace, context);
+  const plan = planPdfRead(stat.sizeBytes, input.pages);
+  if (plan.kind === "rejected") return plan.failure;
+  return plan.kind === "native"
+    ? await readNativePdf(input.filePath, trace, context)
+    : await readPdfPages(input.filePath, plan, stat.sizeBytes, trace, context);
 }
 
 async function readNativePdf(
   filePath: string,
-  sizeBytes: number,
   trace: TraceContext,
   context: ToolExecutionContext,
 ): Promise<ReadPdfOutput | ToolHandlerFailure> {
-  if (sizeBytes > READ_PDF_NATIVE_MAX_INPUT_BYTES) {
-    return failure(
-      ReadErrorCode.PDF_TOO_LARGE,
-      `PDF file exceeds maximum allowed size of ${formatFileSize(READ_PDF_NATIVE_MAX_INPUT_BYTES)}.`,
-    );
-  }
-
   if (context.pdfDocumentPort) {
     try {
       const pageCount = await context.pdfDocumentPort.getPageCount(
@@ -177,33 +177,11 @@ async function readNativePdf(
 
 async function readPdfPages(
   filePath: string,
-  pagesInput: string,
+  plan: Extract<PdfReadPlan, { kind: "pages" }>,
   sizeBytes: number,
   trace: TraceContext,
   context: ToolExecutionContext,
 ): Promise<ReadPartsOutput | ToolHandlerFailure> {
-  if (sizeBytes > READ_PDF_EXTRACT_MAX_INPUT_BYTES) {
-    return failure(
-      ReadErrorCode.PDF_TOO_LARGE,
-      `PDF file exceeds maximum allowed size for text extraction (${formatFileSize(READ_PDF_EXTRACT_MAX_INPUT_BYTES)}).`,
-    );
-  }
-  const range = parseReadPdfPageRange(pagesInput);
-  if (!range) {
-    return failure(
-      ReadErrorCode.PDF_INVALID,
-      `Invalid pages parameter: "${pagesInput}". Use formats like "1-5", "3", or "10-20". Pages are 1-indexed.`,
-    );
-  }
-  if (
-    range.lastPage === Number.POSITIVE_INFINITY ||
-    range.lastPage - range.firstPage + 1 > READ_PDF_MAX_PAGES_PER_REQUEST
-  ) {
-    return failure(
-      ReadErrorCode.PDF_INVALID,
-      `Page range "${pagesInput}" exceeds maximum of ${READ_PDF_MAX_PAGES_PER_REQUEST} pages per request. Please use a smaller range.`,
-    );
-  }
   if (!context.pdfDocumentPort) {
     return failure(
       ReadErrorCode.PDF_CONFIGURATION_ERROR,
@@ -221,8 +199,8 @@ async function readPdfPages(
     const renderedPages = await context.pdfDocumentPort.renderPages(
       {
         filePath,
-        firstPage: range.firstPage,
-        lastPage: range.lastPage,
+        firstPage: plan.firstPage,
+        lastPage: plan.lastPage,
         trace,
       },
       { signal: context.abortSignal },
@@ -340,17 +318,6 @@ export function formatReadPdfPagesOutput(output: ReadPartsOutput): ModelMessageC
   ];
 }
 
-export function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} bytes`;
-  if (bytes < 1024 * 1024) return `${oneDecimal(bytes / 1024)}KB`;
-  if (bytes < 1024 * 1024 * 1024) return `${oneDecimal(bytes / (1024 * 1024))}MB`;
-  return `${oneDecimal(bytes / (1024 * 1024 * 1024))}GB`;
-}
-
-function oneDecimal(value: number): string {
-  return value.toFixed(1).replace(/\.0$/u, "");
-}
-
 function hasPdfMagic(data: Uint8Array): boolean {
   return data.byteLength >= 5 && Buffer.from(data.subarray(0, 5)).toString("ascii") === "%PDF-";
 }
@@ -362,10 +329,6 @@ function isReadImageMime(value: string): value is ReadImageOutput["mimeType"] {
     value === "image/gif" ||
     value === "image/webp"
   );
-}
-
-function failure(errorCode: ReadErrorCode, message: string): ToolHandlerFailure {
-  return { result: false, errorCode, message };
 }
 
 function createToolTrace(context: ToolExecutionContext): TraceContext {

@@ -1,0 +1,7 @@
+# Body-free author clarifications
+
+Before authoring, apply author asked which discriminator properties to use. Curator clarified ConversationDelta.op and ConversationRow.kind; coalesce author received the same clarification. Original packets remain unchanged and hash-bound; this is a public API clarification, not an implementation-body excerpt.
+
+After initial apply freeze and source-exposed review, curator identified an oversimplification in its mutable-removal packet: skip rows where row.rowId >= fromRowId; retain every row for which that comparison is false. This differs from retaining only row.rowId < fromRowId on NaN. Baseline pure API preserves rows for synthetic NaN threshold; initial candidate emptied them. Stricter wire schemas reject NaN and remain unchanged. Curator requested only restoration of the exact comparison behavior; no schema, validation, hardening or permission policy change. Author correction must independently freeze before opening.
+
+Streaming author reported a preliminary whole-file hash 019c17f7cb7febcbd6577d699b55b717343ee6a16c1dd331fb783382edaf77fa, then self-corrected its elapsed >= 750 predicate before submitting the final initial freeze b27ffa70149d2844524542747234bff4d07a5e70ddac4db3965778e36dd5b498. Curator did not view the preliminary output. It was overwritten before curator freeze, so its bytes are unavailable; no compatibility review or pass claim applies to that preliminary hash.

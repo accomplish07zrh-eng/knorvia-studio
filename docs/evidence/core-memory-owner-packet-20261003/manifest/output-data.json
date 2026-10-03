@@ -1,0 +1,51 @@
+{
+  "strings": [
+    {
+      "kind": "template",
+      "head": "[",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": "] "
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "- ",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": ""
+        },
+        {
+          "placeholder": "VALUE_3",
+          "text": " ("
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": ": "
+        },
+        {
+          "placeholder": "VALUE_6",
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "regex": [
+    "/^\\uFEFF/u",
+    "/\\r\\n/gu"
+  ],
+  "qualification": "Exact externally visible prose/template/regex/static segment data retained; generic template placeholders disclose no predecessor private identifier or decomposition. Internal labels/names omitted. No novelty/grant claim."
+}

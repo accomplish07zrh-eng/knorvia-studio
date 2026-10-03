@@ -1,0 +1,5 @@
+{
+  "exitCode": 1,
+  "exception": "AttributeError: str object has no attribute get",
+  "reason": "Some existing curator manifests use a files mapping rather than list. No source-body review/runtime or extra author work; qualify list/mapping metadata only before root delivery."
+}

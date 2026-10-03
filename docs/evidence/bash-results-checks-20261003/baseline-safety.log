@@ -1,0 +1,3 @@
+(node:249433) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"mode":"baseline","groups":2,"realConsumersWithinGroups":["Bash ToolEntry formatModelContent/formatPersistedModelContent","runtime isErrorForToolResult"],"liveIO":0,"broadSuite":false}

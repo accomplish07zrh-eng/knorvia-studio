@@ -1,0 +1,48 @@
+{
+  "DesktopCommandIds": {
+    "NewTask": "newTask",
+    "OpenWorkspace": "openWorkspace",
+    "CloseActiveContext": "closeActiveContext",
+    "CloseWindow": "closeWindow",
+    "MinimizeWindow": "minimizeWindow",
+    "ToggleMaximizeWindow": "toggleMaximizeWindow",
+    "ToggleFullScreen": "toggleFullScreen",
+    "ResetWindowSize": "resetWindowSize",
+    "ResetZoom": "resetZoom",
+    "ZoomIn": "zoomIn",
+    "ZoomOut": "zoomOut",
+    "ShowAbout": "showAbout",
+    "OpenChangelog": "openChangelog",
+    "CheckForUpdates": "checkForUpdates",
+    "RelaunchApp": "relaunchApp",
+    "OpenFeedback": "openFeedback",
+    "OpenCommunity": "openCommunity",
+    "ExportLogs": "exportLogs",
+    "ToggleDevTools": "toggleDevTools",
+    "OpenResourceManager": "openResourceManager",
+    "ToggleKnorviaStdioTapDevProxy": "toggleKnorviaStdioTapDevProxy",
+    "SetKnorviaEndpointProduction": "setKnorviaEndpointProduction",
+    "SetKnorviaEndpointTest": "setKnorviaEndpointTest",
+    "SetKnorviaEndpointCustom": "setKnorviaEndpointCustom",
+    "ResetKnorviaEndpoint": "resetKnorviaEndpoint",
+    "ClearAllData": "clearAllData",
+    "ClearCodingPlanWebviewStorage": "clearCodingPlanWebviewStorage",
+    "GetCuaOsSupport": "getCuaOsSupport"
+  },
+  "desktopMenuMessageIds": {
+    "fileNewTask": "titleBar.menu.file.newTask",
+    "fileOpenWorkspace": "titleBar.menu.file.openWorkspace",
+    "helpAbout": "titleBar.menu.help.about",
+    "helpClearAllData": "titleBar.menu.help.clearAllData",
+    "trayTooltip": "tray.tooltip",
+    "trayOpenKnorvia": "tray.menu.openKnorvia",
+    "trayQuit": "tray.menu.quit"
+  },
+  "PlatformChannels": {
+    "CloseActiveContextRequest": "knorvia:close-active-context-request",
+    "NewTask": "knorvia:new-task",
+    "OpenWorkspace": "knorvia:open-workspace",
+    "DesktopZoomLevelChanged": "knorvia:desktop-zoom-level-changed"
+  },
+  "retainedExpression": "Original command/channel/menu schema and configuration strings, no novelty or licence claim"
+}

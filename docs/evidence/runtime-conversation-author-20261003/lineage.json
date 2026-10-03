@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+  "kind": "file",
+  "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+  "normalizedSha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+  "encoding": "utf8-lf",
+  "bytes": 8781,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/helpers/conversation.ts",
+    "blob": "4d0804daec0cf8f43a3b581e94514c6b0f94aca4",
+    "normalizedSha256": "6b2c605b312539c50f2639f5b3cb4acd434a879851b8bca0481f36a917f4f0c4",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

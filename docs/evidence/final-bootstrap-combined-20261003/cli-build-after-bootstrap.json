@@ -1,0 +1,14 @@
+{
+  "name": "cli-build-after-bootstrap",
+  "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+  "command": [
+    "pnpm",
+    "build:cli-packages"
+  ],
+  "workingDirectory": "/workspace/knorvia-studio",
+  "actualChildExitCode": 0,
+  "seconds": 11.514,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "log": "/tmp/knorvia-final-unified-cli-build-after-bootstrap.log"
+}

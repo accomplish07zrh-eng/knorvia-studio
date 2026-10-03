@@ -32,26 +32,29 @@ interface CronRunLifecycleIdentity {
 
 type LogWarn = (message: string, error: unknown) => void;
 
-const MANUAL_CLAIM_HEARTBEAT_MS = 60_000;
-
 export function startManualClaimHeartbeat(
   params: Pick<CronRunLifecycleIdentity, "automationId" | "runId" | "workspaceKey"> & {
     repo: Pick<CronRunLifecycleRepo, "touchManualClaim">;
     logWarn: LogWarn;
     intervalMs?: number;
   },
-): { dispose(): void } {
-  const timer = setInterval(() => {
-    void params.repo
-      .touchManualClaim(params.automationId, params.workspaceKey)
-      .catch((error) =>
-        params.logWarn(
-          `续租 manual automation claim 失败 automation=${params.automationId} runId=${params.runId}`,
-          error,
-        ),
+): {
+  dispose(): void;
+} {
+  const interval = setInterval(() => {
+    void params.repo.touchManualClaim(params.automationId, params.workspaceKey).catch((error) => {
+      return params.logWarn(
+        `续租 manual automation claim 失败 automation=${params.automationId} runId=${params.runId}`,
+        error,
       );
-  }, params.intervalMs ?? MANUAL_CLAIM_HEARTBEAT_MS);
-  return { dispose: () => clearInterval(timer) };
+    });
+  }, params.intervalMs ?? 60000);
+
+  return {
+    dispose(): void {
+      return clearInterval(interval);
+    },
+  };
 }
 
 export async function recordCronRunOutcomeBestEffort(
@@ -101,6 +104,7 @@ export async function settleManualDispatchFailureBestEffort(
     params.dispatchError instanceof Error
       ? params.dispatchError.message
       : String(params.dispatchError);
+
   try {
     await params.repo.markRunDispatch({
       runId: params.runId,
@@ -113,6 +117,7 @@ export async function settleManualDispatchFailureBestEffort(
       error,
     );
   }
+
   await releaseManualClaimBestEffort(params);
 }
 
@@ -126,6 +131,8 @@ export async function settleCronRunTerminalOutcome(
   },
 ): Promise<void> {
   await recordCronRunOutcomeBestEffort(params);
-  if (params.trigger !== "manual") return;
+  if (params.trigger !== "manual") {
+    return;
+  }
   await releaseManualClaimBestEffort(params);
 }

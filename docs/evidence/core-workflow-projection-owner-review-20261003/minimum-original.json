@@ -1,0 +1,69 @@
+{
+  "bindings": {
+    "format": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/get-workflow-run-format.ts.txt",
+      "bytes": 9541,
+      "sha256": "a26629d5cfde6bd2c8711d2cb913a3daccd2acb2c50f5ebc83daa04f1f3b6c93"
+    },
+    "projection": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/get-workflow-run-roster-output.ts.txt",
+      "bytes": 4491,
+      "sha256": "ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d"
+    },
+    "frontmatter": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/frontmatter.ts.txt",
+      "bytes": 2909,
+      "sha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9"
+    },
+    "notes": {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/workflow-script-notes.ts.txt",
+      "bytes": 2133,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118"
+    }
+  },
+  "groups": [
+    {
+      "scope": "format",
+      "name": "schema identity, exact block order/escaping/raw outcomes and original port dispatch",
+      "passed": true
+    },
+    {
+      "scope": "format",
+      "name": "uncertainty/empty optional phases and provider body-before-attribute preservation",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: provider error body must precede attribute port\n    at /workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-review-20261003/minimum-synthetic.cjs:21:648\n    at group (/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-review-20261003/minimum-synthetic.cjs:4:139)\n    at Object.<anonymous> (/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-review-20261003/minimum-synthetic.cjs:20:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "scope": "format",
+      "name": "resumption/amend routing precedence and exact status/path prose",
+      "passed": true
+    },
+    {
+      "scope": "projection",
+      "name": "phase/subagent caps, ordered fresh nested identities and exact omission",
+      "passed": true
+    },
+    {
+      "scope": "projection",
+      "name": "health own-key order/unknown-versus-zero and copied concurrency identity",
+      "passed": true
+    },
+    {
+      "scope": "frontmatter",
+      "name": "sentinels/ordered serializer identity and raw CRLF script/offset roundtrip projection",
+      "passed": true
+    },
+    {
+      "scope": "frontmatter",
+      "name": "four exact errors/native parser-versus-schema exception boundaries",
+      "passed": true
+    },
+    {
+      "scope": "notes",
+      "name": "fresh diagnostics/order/offset and exact raw path/template note projections",
+      "passed": true
+    }
+  ],
+  "passed": false,
+  "qualification": "Eight distinct minimum synthetic groups (format3/projection2/frontmatter2/notes1), fake original schema/YAML/time/roster/provider/artifact ports and fictional data only; candidate isolated transpilation only, no predecessor/helper/policy execution, real workflows/agents/files/network/user data, project/semantic compile/suite/build/lint/source-emitted matrix or grant/license closure. Required public data retained honestly, not originality evidence."
+}

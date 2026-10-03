@@ -1,0 +1,18 @@
+2026-10-03T08:53:19.2735255Z test at packages\services\test\file-service-fake-write-safety-20261002.test.ts:1:3480
+2026-10-03T08:53:19.2736113Z ✖ fake file service writes only selected workspace targets and refuses invalid names/oversize reads (4.3753ms)
+2026-10-03T08:53:19.2736761Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-10-03T08:53:19.2737131Z   + actual - expected
+2026-10-03T08:53:19.2737320Z   
+2026-10-03T08:53:19.2737604Z   + '\\synthetic\\data\\workspace\\projects\\synthetic-project'
+2026-10-03T08:53:19.2738025Z   - '/synthetic/data/workspace/projects/synthetic-project'
+2026-10-03T08:53:19.2738324Z   
+2026-10-03T08:53:19.2738931Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\file-service-fake-write-safety-20261002.test.ts:94:10)
+2026-10-03T08:53:19.2739659Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2740160Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2740584Z     generatedMessage: true,
+2026-10-03T08:53:19.2740814Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2741162Z     actual: '\\synthetic\\data\\workspace\\projects\\synthetic-project',
+2026-10-03T08:53:19.2741651Z     expected: '/synthetic/data/workspace/projects/synthetic-project',
+2026-10-03T08:53:19.2742011Z     operator: 'strictEqual',
+2026-10-03T08:53:19.2742239Z     diff: 'simple'
+2026-10-03T08:53:19.2742430Z   }

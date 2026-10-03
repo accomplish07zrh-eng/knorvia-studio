@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+  "kind": "file",
+  "sha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949",
+  "normalizedSha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949",
+  "encoding": "utf8-lf",
+  "bytes": 7343,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+    "blob": "968cc420701359415229f6c3d275c8031eefa674",
+    "normalizedSha256": "504ba53ee58543c97df39809292701191d3cbd97b4e487c1ffb4ea78f356e949",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/session-shell-environment.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs",
+    "--baseline",
+    "--only=page state"
+  ],
+  "stdout": "✔ page state response regression reads URL before title and retains fallback data (13.234356ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 16.952582\n",
+  "stderr": "",
+  "exitCode": 0
+}

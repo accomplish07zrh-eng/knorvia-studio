@@ -1,0 +1,79 @@
+{
+  "device/cli-device-mid": {
+    "ensureCliDeviceMid": {
+      "type": "(options?: EnsureCliDeviceMidOptions) => Promise<string>",
+      "calls": ["(options?: EnsureCliDeviceMidOptions): Promise<string>"]
+    }
+  },
+  "fs/index": {
+    "createNodeFileSystemAdapter": {
+      "type": "(options?: NodeFileSystemAdapterOptions) => NodeFileSystemAdapter",
+      "calls": ["(options?: NodeFileSystemAdapterOptions): NodeFileSystemAdapter"]
+    },
+    "NodeFileSystemAdapter": {
+      "type": "typeof NodeFileSystemAdapter",
+      "calls": [],
+      "constructs": ["(adapterOptions?: NodeFileSystemAdapterOptions): NodeFileSystemAdapter"],
+      "members": {
+        "createDirectory": {
+          "optional": false,
+          "type": "(request: FileSystemCreateDirectoryRequest) => Promise<FileSystemCreateDirectoryResult>"
+        },
+        "listDirectory": {
+          "optional": false,
+          "type": "(request: FileSystemListDirectoryRequest, options?: { signal?: AbortSignal; }) => Promise<FileSystemListDirectoryResult>"
+        },
+        "readBinaryFile": {
+          "optional": false,
+          "type": "(request: FileSystemReadBytesRequest) => Promise<FileSystemReadBytesResult>"
+        },
+        "readTextFile": {
+          "optional": false,
+          "type": "(request: FileSystemReadTextRequest) => Promise<FileSystemReadTextResult>"
+        },
+        "readTextFileRange": {
+          "optional": false,
+          "type": "(request: FileSystemReadTextRangeRequest, options?: { signal?: AbortSignal; }) => Promise<FileSystemReadTextRangeResult>"
+        },
+        "removeFile": {
+          "optional": false,
+          "type": "(request: FileSystemRemoveFileRequest, options?: { signal?: AbortSignal; }) => Promise<FileSystemRemoveFileResult>"
+        },
+        "searchFiles": {
+          "optional": false,
+          "type": "(request: FileSystemSearchFilesRequest, options?: { signal?: AbortSignal; }) => Promise<FileSystemSearchFilesResult>"
+        },
+        "searchText": {
+          "optional": false,
+          "type": "(request: FileSystemSearchTextRequest, options?: { signal?: AbortSignal; }) => Promise<FileSystemSearchTextResult>"
+        },
+        "stat": {
+          "optional": false,
+          "type": "(request: FileSystemStatRequest) => Promise<FileSystemStatResult>"
+        },
+        "writeTextFile": {
+          "optional": false,
+          "type": "(request: FileSystemWriteTextRequest) => Promise<FileSystemWriteTextResult>"
+        }
+      }
+    },
+    "NodeFileSystemAdapterOptions": {
+      "type": "NodeFileSystemAdapterOptions",
+      "calls": [],
+      "members": {
+        "textSearchEngine": {
+          "optional": true,
+          "type": "\"ripgrep\" | \"javascript\" | undefined"
+        }
+      }
+    },
+    "setRipgrepTimeoutMsForTests": {
+      "type": "(timeoutMs: number | undefined) => () => void",
+      "calls": ["(timeoutMs: number | undefined): () => void"]
+    },
+    "setRipgrepWorkerFactoryForTests": {
+      "type": "(factory: RipgrepWorkerFactory | undefined) => () => void",
+      "calls": ["(factory: RipgrepWorkerFactory | undefined): () => void"]
+    }
+  }
+}

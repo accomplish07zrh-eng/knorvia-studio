@@ -1,0 +1,24 @@
+{
+  "scope": "introspection",
+  "files": [
+    {
+      "file": "workflow-run-introspection.ts.txt",
+      "target": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "bytes": 3385,
+      "lines": 95,
+      "sha256": "42c8ddc7147e30d491610237c006674d7915a2def09ca86f1589282f19d0fbe9",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/workflow-run-introspection.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 16089,
+      "lines": 316,
+      "sha256": "811e97a2223ff67b75254ce2db83b565070d20c522c322c84db5b2c79c1fabdd",
+      "scratch": "/tmp/knorvia-workflow-introspection-args-owners-20261003/introspection/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole complete original source/full receipt frozen and committed before any body review; detached receipt selfdigest, original retained prose/expression/data/native formatting, source-exposed curator/history/self-report/instruction-only/no OS audit/no grant qualifications retained."
+}

@@ -1,0 +1,11 @@
+{
+  "label": "final-public-api",
+  "cmd": "node /tmp/knorvia-shared-public-api-shape.mjs",
+  "result": {
+    "chunk_id": "d7aabc",
+    "wall_time_seconds": 0.235989069,
+    "exit_code": 0,
+    "original_token_count": 180,
+    "output": "endpoint.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nfeedbackPrivacy.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\ntelemetryRedaction.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nworkspaceFileEntriesCodec.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nworkspaceFileSearch.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n"
+  }
+}

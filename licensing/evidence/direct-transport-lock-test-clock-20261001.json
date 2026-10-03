@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "base": "5dea353bf87392387a9efeb8df1b99e2f630b54d",
+  "scope": "Owner-approved test-only deterministic lock clock; spec updated before test. Exactly five inserted test lines, with every assertion retained.",
+  "diagnosis": "Injected owner startTime is exact; OS parsing is outside this case. Controlled75ms probe delay reproduced stale-lock deletion followed by exhaustion of the independent50ms budget before reopening. Exact CI per-step delay remains unobserved.",
+  "clockContract": {
+    "begins": "After the owned child is ready, from actual Date.now()",
+    "advanceMsPerInjectedProbe": 10,
+    "acquisitionBudgetMsUnchanged": 50,
+    "identityBoundariesMsUnchanged": [2000, 2001],
+    "filesystemProcessAssertionsAndContentionWaitUnchanged": true
+  },
+  "testSha256": "f02146be6e340541440253ba0a2a12a15f01a503f2aedde7068647f2b1b5ede7",
+  "production": {
+    "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-lock.ts",
+    "sha256": "a656da833084c3f81cdc8dde57096b5f8d61f5701327443679ae566cd1151630",
+    "unchanged": true
+  },
+  "checks": [
+    {
+      "command": [
+        "node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=120000",
+        "apps/cli/packages/adapters/test/workspace-hook-trust-lock-compatibility.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 5.537,
+      "log": "knorvia-lock-clock-compatibility.log",
+      "bytes": 814,
+      "sha256": "4bc480f3c8c8b42e4761ff185a7e490568a3f6461e3191f55c18c67c92af19df",
+      "counts": {
+        "tests": 8,
+        "pass": 8,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "command": [
+        "pnpm",
+        "exec",
+        "oxlint",
+        "-c",
+        "/tmp/knorvia-read-fixture-owned-oxlint.json",
+        "--no-ignore",
+        "--deny-warnings",
+        "apps/cli/packages/adapters/test/workspace-hook-trust-lock-compatibility.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 0.395,
+      "log": "knorvia-lock-clock-owned-lint.log",
+      "bytes": 89,
+      "sha256": "fc88a3f1af009dbb7ebee167518b73917bedc3025b894be02cee9fa819a1f460",
+      "counts": {}
+    },
+    {
+      "command": [
+        "pnpm",
+        "exec",
+        "oxfmt",
+        "--check",
+        "apps/cli/packages/adapters/test/workspace-hook-trust-lock-compatibility.test.ts",
+        "specs/knorvia-workspace-hook-trust-storage.md"
+      ],
+      "exitCode": 0,
+      "seconds": 0.725,
+      "log": "knorvia-lock-clock-format.log",
+      "bytes": 112,
+      "sha256": "aecc0d0e8b47f3cf6b06206c511e7e0b81471d2d624ed66791265ac9ef39ac07",
+      "counts": {}
+    },
+    {
+      "command": ["pnpm", "architecture:check", "--changed"],
+      "exitCode": 0,
+      "seconds": 1.301,
+      "log": "knorvia-lock-clock-architecture-after.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
+      "counts": {}
+    }
+  ],
+  "toolchain": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "existingDependenciesUnchanged": true
+  },
+  "reviewRevalidations": [
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-lock-compatibility.test.ts",
+      "priorNormalizedSha256": "77366b994b5793b24498b45b38006f0444680096a82ea48c5e17e1b93eebe7d4",
+      "normalizedSha256": "f02146be6e340541440253ba0a2a12a15f01a503f2aedde7068647f2b1b5ede7",
+      "decision": "original",
+      "license": "MIT",
+      "oldEvidencePreserved": true,
+      "basisUnchanged": true
+    },
+    {
+      "path": "specs/knorvia-workspace-hook-trust-storage.md",
+      "priorNormalizedSha256": "6463933f116e9ca5626fc56870527fbeadae7d2c6944935bb057a00556a60efd",
+      "normalizedSha256": "257478902e7669af505f865bef99cc0328896d494f3b682f80db4430ea3812d4",
+      "decision": "original",
+      "license": "MIT",
+      "oldEvidencePreserved": true,
+      "basisUnchanged": true
+    }
+  ],
+  "licensingScope": "Only the existing original/MIT test and spec reviews revalidated at their new bytes. All decisions, licences, basis and historical evidence retained; pointer added for this local contribution. Transport read existing test/spec/logs; no new clean-room or production MIT grant.",
+  "rootReportedChecksNotRepeated": {
+    "adjacentSourceCases": 17,
+    "emittedBoundaryCases": 1,
+    "ownedDelayedRedProofMs": 75,
+    "wrongComparatorMutantsRejected": 2
+  },
+  "preservedCI227": {
+    "run": 36882373200,
+    "head": "5dea353bf87392387a9efeb8df1b99e2f630b54d",
+    "checkedMerge": "cde265579791f6494e1a77eaf6aaa7546341934e",
+    "tree": "7ea7c4d1fede9a9645e91f24ddcc5c1d2cac0ae9",
+    "linux": {
+      "job": 110437091599,
+      "pass": 7313,
+      "fail": 1,
+      "skip": 8
+    },
+    "windows": {
+      "job": 110437091752,
+      "pass": 7321,
+      "fail": 0,
+      "skip": 1
+    },
+    "receiptSha256": "bed09a5a0bf842a1d2cc554999dfac2a8d3150a6fecb6c699c14bedd69a79f9d"
+  },
+  "materialObligations": 26,
+  "localFullSuiteAndUnchangedBuildsRepeated": false,
+  "aggregateValidation": "Next exact-head Linux/Windows CI. No old CI rerun requested.",
+  "boundaries": "PR7 remains draft; no production, dependency, security, timeout/tolerance, test assertion or budget change; no restricted UI or later root batch, force push, merge, release or deployment."
+}

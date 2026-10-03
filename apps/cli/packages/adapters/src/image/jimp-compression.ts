@@ -1,4 +1,4 @@
-import { Jimp, JimpMime, ResizeStrategy } from "jimp";
+import { Jimp, JimpMime, ResizeStrategy, type defaultFormats, type JPEGOptions } from "jimp";
 import {
   createImageProcessorError,
   type ImageCompressionStrategy,
@@ -11,28 +11,184 @@ import {
   normalizeMediaType,
   throwIfAborted,
 } from "./jimp-media.js";
-import {
-  createImageBudget,
-  fitsImageBudget,
-  validatePrepareRequest,
-  type ImageBudget,
-} from "./image-budget.js";
+import { createImageBudget, fitsImageBudget, validatePrepareRequest } from "./image-budget.js";
 import { prepareWebpPassthrough } from "./webp-passthrough.js";
 
-type JimpImage = Awaited<ReturnType<typeof Jimp.read>>;
-
-type ImageCandidate = {
+type DecodedImage = Awaited<ReturnType<typeof Jimp.read>>;
+type OutputMediaType = ReturnType<typeof jimpOutputMediaType>;
+type ModelBudget = ReturnType<typeof createImageBudget>;
+type PngCodec = Extract<ReturnType<(typeof defaultFormats)[number]>, { mime: typeof JimpMime.png }>;
+type PngSettings = NonNullable<Parameters<PngCodec["encode"]>[1]>;
+type EncodingRequest =
+  | { readonly mediaType: OutputMediaType; readonly settings?: undefined }
+  | { readonly mediaType: typeof JimpMime.png; readonly settings: PngSettings }
+  | { readonly mediaType: typeof JimpMime.jpeg; readonly settings: JPEGOptions };
+type EncodedChoice = {
   data: Buffer;
-  height?: number;
-  mediaType: string;
+  mediaType: OutputMediaType;
+  height: number;
+  width: number;
   strategy: ImageCompressionStrategy;
-  width?: number;
 };
 
-const JPEG_QUALITY_STEPS = [80, 60, 40, 20] as const;
-const PROGRESSIVE_SCALE_FACTORS = [0.75, 0.5, 0.25] as const;
-const AGGRESSIVE_JPEG_MAX_EDGES = [1000, 800, 600, 400, 300, 200] as const;
-const MIN_IMAGE_EDGE = 1;
+const QUALITY_LEVELS = [80, 60, 40, 20] as const;
+const SHRINK_FACTORS = [0.75, 0.5, 0.25] as const;
+const FALLBACK_EDGES = [1000, 800, 600, 400, 300, 200] as const;
+const MINIMUM_EDGE = 1;
+const FALLBACK_QUALITY = 20;
+const PNG_DEFLATE_LEVEL = 9;
+const PNG_DEFLATE_STRATEGY = 3;
+
+function copyWithinEdge(image: DecodedImage, edge: number): DecodedImage {
+  const copy = image.clone();
+  if (Math.max(copy.bitmap.width, copy.bitmap.height) > edge) {
+    copy.scaleToFit({ h: edge, mode: ResizeStrategy.BICUBIC, w: edge });
+  }
+  return copy;
+}
+
+async function encodeChoice(
+  image: DecodedImage,
+  encoding: EncodingRequest,
+  strategy: ImageCompressionStrategy,
+  signal: AbortSignal | undefined,
+): Promise<EncodedChoice> {
+  throwIfAborted(signal);
+  // Jimp 按单一 MIME 推导 codec 参数；保留无参数调用，并在携带参数时先收窄 MIME。
+  let data: Buffer;
+  if (encoding.settings === undefined) {
+    data = await image.getBuffer(encoding.mediaType);
+  } else if (encoding.mediaType === JimpMime.png) {
+    data = await image.getBuffer(encoding.mediaType, encoding.settings);
+  } else {
+    data = await image.getBuffer(encoding.mediaType, encoding.settings);
+  }
+  throwIfAborted(signal);
+  return {
+    data,
+    mediaType: encoding.mediaType,
+    height: image.bitmap.height,
+    width: image.bitmap.width,
+    strategy,
+  };
+}
+
+async function tryJpegLevels(
+  image: DecodedImage,
+  budget: ModelBudget,
+  signal: AbortSignal | undefined,
+): Promise<EncodedChoice | undefined> {
+  for (const quality of QUALITY_LEVELS) {
+    const choice = await encodeChoice(
+      image,
+      { mediaType: JimpMime.jpeg, settings: { quality } },
+      "jpeg-quality",
+      signal,
+    );
+    if (fitsImageBudget(choice.data, budget)) return choice;
+  }
+  return undefined;
+}
+
+async function trySourceFormat(
+  image: DecodedImage,
+  sourceMediaType: string,
+  budget: ModelBudget,
+  signal: AbortSignal | undefined,
+): Promise<EncodedChoice | undefined> {
+  throwIfAborted(signal);
+  if (sourceMediaType === JimpMime.png) {
+    const choice = await encodeChoice(
+      image,
+      {
+        mediaType: JimpMime.png,
+        settings: {
+          deflateLevel: PNG_DEFLATE_LEVEL,
+          deflateStrategy: PNG_DEFLATE_STRATEGY,
+        },
+      },
+      "png-optimized",
+      signal,
+    );
+    return fitsImageBudget(choice.data, budget) ? choice : undefined;
+  }
+  if (sourceMediaType === JimpMime.jpeg) {
+    return tryJpegLevels(image, budget, signal);
+  }
+  if (sourceMediaType === JimpMime.gif) {
+    const choice = await encodeChoice(
+      image,
+      { mediaType: jimpOutputMediaType(JimpMime.gif, image.mime) },
+      "preserve-format",
+      signal,
+    );
+    return fitsImageBudget(choice.data, budget) ? choice : undefined;
+  }
+  return undefined;
+}
+
+async function selectEncoding(
+  image: DecodedImage,
+  sourceMediaType: string,
+  maxDimension: number,
+  originalWidth: number,
+  originalHeight: number,
+  budget: ModelBudget,
+  signal: AbortSignal | undefined,
+): Promise<EncodedChoice | undefined> {
+  const withinDimension = originalWidth <= maxDimension && originalHeight <= maxDimension;
+  if (withinDimension) {
+    const choice = await trySourceFormat(image, sourceMediaType, budget, signal);
+    if (choice) return choice;
+  }
+
+  const bounded = copyWithinEdge(image, maxDimension);
+  const isPng = sourceMediaType === JimpMime.png;
+  if (
+    !isPng &&
+    (bounded.bitmap.width !== originalWidth || bounded.bitmap.height !== originalHeight)
+  ) {
+    const choice = await encodeChoice(
+      bounded,
+      { mediaType: jimpOutputMediaType(sourceMediaType, bounded.mime) },
+      "resized",
+      signal,
+    );
+    if (fitsImageBudget(choice.data, budget)) return choice;
+  }
+
+  if (!withinDimension && !isPng) {
+    const choice = await trySourceFormat(bounded, sourceMediaType, budget, signal);
+    if (choice) return choice;
+  }
+
+  const boundedJpeg = await tryJpegLevels(bounded, budget, signal);
+  if (boundedJpeg) return boundedJpeg;
+
+  const longestBoundedEdge = Math.max(bounded.bitmap.width, bounded.bitmap.height);
+  for (const factor of SHRINK_FACTORS) {
+    const edge = Math.max(MINIMUM_EDGE, Math.round(longestBoundedEdge * factor));
+    const scaled = copyWithinEdge(bounded, edge);
+    if (!isPng) {
+      const choice = await trySourceFormat(scaled, sourceMediaType, budget, signal);
+      if (choice) return choice;
+    }
+    const choice = await tryJpegLevels(scaled, budget, signal);
+    if (choice) return choice;
+  }
+
+  for (const edge of FALLBACK_EDGES) {
+    const scaled = copyWithinEdge(image, Math.min(edge, maxDimension));
+    const choice = await encodeChoice(
+      scaled,
+      { mediaType: JimpMime.jpeg, settings: { quality: FALLBACK_QUALITY } },
+      "jpeg-fallback",
+      signal,
+    );
+    if (fitsImageBudget(choice.data, budget)) return choice;
+  }
+  return undefined;
+}
 
 export async function prepareJimpImageForModel(
   request: ImagePrepareForModelRequest,
@@ -40,7 +196,6 @@ export async function prepareJimpImageForModel(
 ): Promise<ImagePrepareForModelResult> {
   throwIfAborted(options.signal);
   validatePrepareRequest(request);
-
   const input = Buffer.from(request.data);
   if (input.byteLength === 0) {
     throw createImageProcessorError({
@@ -48,13 +203,12 @@ export async function prepareJimpImageForModel(
       message: "Image file is empty (0 bytes)",
     });
   }
-
-  const detectedMediaType = detectImageMediaType(input) ?? normalizeMediaType(request.mediaType);
-  if (detectedMediaType === "image/webp") {
+  const detectedType = detectImageMediaType(input) ?? normalizeMediaType(request.mediaType);
+  if (detectedType === "image/webp") {
     return prepareWebpPassthrough(input, request);
   }
 
-  let image: JimpImage;
+  let image: DecodedImage;
   try {
     image = await Jimp.read(input);
   } catch (cause) {
@@ -65,12 +219,10 @@ export async function prepareJimpImageForModel(
     });
   }
   throwIfAborted(options.signal);
-
   const originalWidth = image.bitmap.width;
   const originalHeight = image.bitmap.height;
   const budget = createImageBudget(request);
-  const sourceMediaType = normalizeMediaType(detectedMediaType);
-
+  const sourceMediaType = normalizeMediaType(detectedType);
   if (
     originalWidth <= request.maxDimension &&
     originalHeight <= request.maxDimension &&
@@ -91,254 +243,36 @@ export async function prepareJimpImageForModel(
     };
   }
 
-  const candidate = await findFirstFittingCandidate({
-    budget,
+  const choice = await selectEncoding(
     image,
-    maxDimension: request.maxDimension,
-    signal: options.signal,
     sourceMediaType,
-  });
-
-  if (candidate) {
-    return candidateToResult(candidate, {
-      input,
-      originalHeight,
-      originalWidth,
-      sourceMediaType,
+    request.maxDimension,
+    originalWidth,
+    originalHeight,
+    budget,
+    options.signal,
+  );
+  if (!choice) {
+    throw createImageProcessorError({
+      code: "too_large",
+      message: `Unable to compress image (${input.byteLength} bytes) within the requested model image budget`,
     });
   }
-
-  throw createImageProcessorError({
-    code: "too_large",
-    message: `Unable to compress image (${input.byteLength} bytes) within the requested model image budget`,
-  });
-}
-
-async function findFirstFittingCandidate(input: {
-  budget: ImageBudget;
-  image: JimpImage;
-  maxDimension: number;
-  signal?: AbortSignal;
-  sourceMediaType: string;
-}): Promise<ImageCandidate | undefined> {
-  const originalWithinDimensions =
-    input.image.bitmap.width <= input.maxDimension &&
-    input.image.bitmap.height <= input.maxDimension;
-  // PNG 原尺寸优化失败后，旧策略会在每个缩放档重新尝试 PNG，导致较大尺寸 JPEG
-  // 尚可满足预算时先命中低分辨率 PNG。PNG 只保留一次原尺寸无损优化机会；失败后单向转 JPEG。
-  const preserveSourceFormatAfterInitialAttempt = input.sourceMediaType !== JimpMime.png;
-
-  if (originalWithinDimensions) {
-    const candidate = await findFormatPreservingCandidate(
-      input.image,
-      input.sourceMediaType,
-      input.budget,
-      input.signal,
-    );
-    if (candidate) return candidate;
-  }
-
-  const boundedImage = resizeToMaxEdge(input.image, input.maxDimension);
-  if (preserveSourceFormatAfterInitialAttempt && !sameDimensions(input.image, boundedImage)) {
-    const candidate = await fitCandidate(
-      encodeCandidate(boundedImage, input.sourceMediaType, "resized", input.signal),
-      input.budget,
-    );
-    if (candidate) return candidate;
-  }
-
-  if (!originalWithinDimensions && preserveSourceFormatAfterInitialAttempt) {
-    const boundedFormatCandidate = await findFormatPreservingCandidate(
-      boundedImage,
-      input.sourceMediaType,
-      input.budget,
-      input.signal,
-    );
-    if (boundedFormatCandidate) return boundedFormatCandidate;
-  }
-
-  const boundedJpegCandidate = await findJpegQualityCandidate(
-    boundedImage,
-    input.budget,
-    input.signal,
-  );
-  if (boundedJpegCandidate) return boundedJpegCandidate;
-
-  for (const scale of PROGRESSIVE_SCALE_FACTORS) {
-    const scaled = resizeToMaxEdge(
-      boundedImage,
-      Math.max(MIN_IMAGE_EDGE, Math.round(longestEdge(boundedImage) * scale)),
-    );
-    if (preserveSourceFormatAfterInitialAttempt) {
-      const formatCandidate = await findFormatPreservingCandidate(
-        scaled,
-        input.sourceMediaType,
-        input.budget,
-        input.signal,
-      );
-      if (formatCandidate) return formatCandidate;
-    }
-
-    const jpegCandidate = await findJpegQualityCandidate(scaled, input.budget, input.signal);
-    if (jpegCandidate) return jpegCandidate;
-  }
-
-  for (const maxEdge of AGGRESSIVE_JPEG_MAX_EDGES) {
-    const scaled = resizeToMaxEdge(input.image, Math.min(maxEdge, input.maxDimension));
-    const candidate = await fitCandidate(
-      encodeJpegCandidate(scaled, 20, "jpeg-fallback", input.signal),
-      input.budget,
-    );
-    if (candidate) return candidate;
-  }
-
-  return undefined;
-}
-
-async function findFormatPreservingCandidate(
-  image: JimpImage,
-  mediaType: string,
-  budget: ImageBudget,
-  signal?: AbortSignal,
-): Promise<ImageCandidate | undefined> {
-  throwIfAborted(signal);
-  if (mediaType === "image/png") {
-    return fitCandidate(encodePngCandidate(image, "png-optimized", signal), budget);
-  }
-  if (mediaType === "image/jpeg") {
-    return findJpegQualityCandidate(image, budget, signal);
-  }
-  if (mediaType === "image/gif") {
-    return fitCandidate(encodeCandidate(image, "image/gif", "preserve-format", signal), budget);
-  }
-  return undefined;
-}
-
-async function findJpegQualityCandidate(
-  image: JimpImage,
-  budget: ImageBudget,
-  signal?: AbortSignal,
-): Promise<ImageCandidate | undefined> {
-  for (const quality of JPEG_QUALITY_STEPS) {
-    const candidate = await fitCandidate(
-      encodeJpegCandidate(image, quality, "jpeg-quality", signal),
-      budget,
-    );
-    if (candidate) return candidate;
-  }
-  return undefined;
-}
-
-async function fitCandidate(
-  candidatePromise: Promise<ImageCandidate>,
-  budget: ImageBudget,
-): Promise<ImageCandidate | undefined> {
-  const candidate = await candidatePromise;
-  return fitsImageBudget(candidate.data, budget) ? candidate : undefined;
-}
-
-async function encodeCandidate(
-  image: JimpImage,
-  mediaType: string,
-  strategy: ImageCompressionStrategy,
-  signal?: AbortSignal,
-): Promise<ImageCandidate> {
-  throwIfAborted(signal);
-  const outputMediaType = jimpOutputMediaType(mediaType, image.mime);
-  const data = await image.getBuffer(outputMediaType);
-  throwIfAborted(signal);
+  const encodedMediaType = normalizeMediaType(choice.mediaType);
   return {
-    data,
-    mediaType: outputMediaType,
-    strategy,
-    width: image.bitmap.width,
-    height: image.bitmap.height,
+    data: choice.data,
+    mediaType: encodedMediaType,
+    originalHeight,
+    originalSizeBytes: input.byteLength,
+    originalWidth,
+    height: choice.height,
+    width: choice.width,
+    resized:
+      choice.width !== undefined &&
+      choice.height !== undefined &&
+      (choice.width !== originalWidth || choice.height !== originalHeight),
+    compressed: choice.data.byteLength < input.byteLength || encodedMediaType !== sourceMediaType,
+    strategy: choice.strategy,
+    transformedSizeBytes: choice.data.byteLength,
   };
-}
-
-async function encodePngCandidate(
-  image: JimpImage,
-  strategy: ImageCompressionStrategy,
-  signal?: AbortSignal,
-): Promise<ImageCandidate> {
-  throwIfAborted(signal);
-  const data = await image.getBuffer(JimpMime.png, {
-    deflateLevel: 9,
-    deflateStrategy: 3,
-  });
-  throwIfAborted(signal);
-  return {
-    data,
-    mediaType: JimpMime.png,
-    strategy,
-    width: image.bitmap.width,
-    height: image.bitmap.height,
-  };
-}
-
-async function encodeJpegCandidate(
-  image: JimpImage,
-  quality: number,
-  strategy: ImageCompressionStrategy,
-  signal?: AbortSignal,
-): Promise<ImageCandidate> {
-  throwIfAborted(signal);
-  const data = await image.getBuffer(JimpMime.jpeg, { quality });
-  throwIfAborted(signal);
-  return {
-    data,
-    mediaType: JimpMime.jpeg,
-    strategy,
-    width: image.bitmap.width,
-    height: image.bitmap.height,
-  };
-}
-
-function candidateToResult(
-  candidate: ImageCandidate,
-  input: {
-    input: Buffer;
-    originalHeight: number;
-    originalWidth: number;
-    sourceMediaType: string;
-  },
-): ImagePrepareForModelResult {
-  const resized =
-    candidate.width !== undefined &&
-    candidate.height !== undefined &&
-    (candidate.width !== input.originalWidth || candidate.height !== input.originalHeight);
-  return {
-    data: candidate.data,
-    mediaType: normalizeMediaType(candidate.mediaType),
-    originalHeight: input.originalHeight,
-    originalSizeBytes: input.input.byteLength,
-    originalWidth: input.originalWidth,
-    height: candidate.height,
-    width: candidate.width,
-    resized,
-    compressed:
-      candidate.data.byteLength < input.input.byteLength ||
-      normalizeMediaType(candidate.mediaType) !== input.sourceMediaType,
-    strategy: candidate.strategy,
-    transformedSizeBytes: candidate.data.byteLength,
-  };
-}
-
-function resizeToMaxEdge(image: JimpImage, maxEdge: number): JimpImage {
-  const clone = image.clone();
-  if (longestEdge(clone) <= maxEdge) return clone;
-  clone.scaleToFit({
-    h: maxEdge,
-    mode: ResizeStrategy.BICUBIC,
-    w: maxEdge,
-  });
-  return clone;
-}
-
-function sameDimensions(left: JimpImage, right: JimpImage): boolean {
-  return left.bitmap.width === right.bitmap.width && left.bitmap.height === right.bitmap.height;
-}
-
-function longestEdge(image: JimpImage): number {
-  return Math.max(image.bitmap.width, image.bitmap.height);
 }

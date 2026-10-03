@@ -1,0 +1,8 @@
+/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:18
+  for (const k of ["source", "compiled", "declaration"]) assert.equal(hash(f[k]), f[k + "Sha256"]);
+                                                                            ^
+
+TypeError: Cannot read properties of undefined (reading 'source')
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:18:77)
+
+Node.js v24.19.0

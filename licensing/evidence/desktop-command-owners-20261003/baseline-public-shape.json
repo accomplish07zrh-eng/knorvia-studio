@@ -1,0 +1,488 @@
+[
+  {
+    "name": "dispatchClickAt",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "BrowserPoint",
+        "optional": false
+      },
+      {
+        "type": "\"left\" | \"right\" | \"middle\"",
+        "optional": false
+      },
+      {
+        "type": "boolean",
+        "optional": false
+      },
+      {
+        "type": "number",
+        "optional": true
+      }
+    ],
+    "result": "Promise<void>"
+  },
+  {
+    "name": "dispatchDrag",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "BrowserPoint",
+        "optional": false
+      },
+      {
+        "type": "BrowserPoint",
+        "optional": false
+      },
+      {
+        "type": "number",
+        "optional": true
+      }
+    ],
+    "result": "Promise<void>"
+  },
+  {
+    "name": "dispatchDragPath",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "readonly { x: number; y: number; }[]",
+        "optional": false
+      },
+      {
+        "type": "number",
+        "optional": true
+      }
+    ],
+    "result": "Promise<void>"
+  },
+  {
+    "name": "dispatchKey",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "string",
+        "optional": false
+      },
+      {
+        "type": "number",
+        "optional": true
+      },
+      {
+        "type": "string | undefined",
+        "optional": true
+      }
+    ],
+    "result": "Promise<void>"
+  },
+  {
+    "name": "dispatchKeyPress",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "readonly string[]",
+        "optional": false
+      }
+    ],
+    "result": "Promise<void>"
+  },
+  {
+    "name": "dispatchScrollGesture",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "BrowserPoint",
+        "optional": false
+      },
+      {
+        "type": "number",
+        "optional": false
+      },
+      {
+        "type": "number",
+        "optional": false
+      },
+      {
+        "type": "number",
+        "optional": true
+      }
+    ],
+    "result": "Promise<void>"
+  },
+  {
+    "name": "modifiersBitmask",
+    "parameters": [
+      {
+        "type": "readonly BrowserKeyModifier[] | undefined",
+        "optional": true
+      }
+    ],
+    "result": "number"
+  },
+  {
+    "name": "resolveRefCenter",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "string",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserPoint | null>"
+  },
+  {
+    "name": "handleCheck",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"check\"; ref: string; checked?: boolean | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleClick",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"click\"; ref?: string | undefined; x?: number | undefined; y?: number | undefined; button?: BrowserMouseButton | undefined; doubleClick?: boolean | undefined; modifiers?: BrowserKeyModifier[] | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleCuaDrag",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"cuaDrag\"; path: { x: number; y: number; }[]; modifiers?: BrowserKeyModifier[] | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleCuaKeypress",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"cuaKeypress\"; keys: string[]; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleCuaScroll",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"cuaScroll\"; x: number; y: number; scrollX: number; scrollY: number; modifiers?: BrowserKeyModifier[] | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleDomCuaScroll",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"domCuaScroll\"; nodeId?: string | undefined; scrollX: number; scrollY: number; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleDrag",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"drag\"; fromRef?: string | undefined; toRef?: string | undefined; from?: { x: number; y: number; } | undefined; to?: { x: number; y: number; } | undefined; modifiers?: BrowserKeyModifier[] | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleElementInfo",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"elementInfo\"; x: number; y: number; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleHover",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"hover\"; ref?: string | undefined; x?: number | undefined; y?: number | undefined; modifiers?: BrowserKeyModifier[] | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handlePress",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"press\"; ref?: string | undefined; key: string; modifiers?: BrowserKeyModifier[] | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleScroll",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"scroll\"; ref?: string | undefined; x?: number | undefined; y?: number | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleSelect",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"select\"; ref: string; values: string[]; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleType",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"type\"; ref?: string | undefined; text: string; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "buildViewportScreenshotParams",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      }
+    ],
+    "result": "Promise<Record<string, unknown>>"
+  },
+  {
+    "name": "handleEvaluate",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"evaluate\"; expression: string; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleGetState",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleNavigate",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"navigate\"; url: string; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      },
+      {
+        "type": "{ navigateSettleMs?: number | undefined; signal?: AbortSignal | undefined; } | undefined",
+        "optional": true
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleScreenshot",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"screenshot\"; ref?: string | undefined; fullPage?: boolean | undefined; clip?: { x: number; y: number; width: number; height: number; } | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  },
+  {
+    "name": "handleSnapshot",
+    "parameters": [
+      {
+        "type": "ControlledView",
+        "optional": false
+      },
+      {
+        "type": "{ method: \"snapshot\"; maxElements?: number | undefined; includeHidden?: boolean | undefined; } & { tabId?: string | undefined; }",
+        "optional": false
+      },
+      {
+        "type": "(partial: Omit<BrowserCommandResult, \"elapsedMs\">) => BrowserCommandResult",
+        "optional": false
+      }
+    ],
+    "result": "Promise<BrowserCommandResult>"
+  }
+]

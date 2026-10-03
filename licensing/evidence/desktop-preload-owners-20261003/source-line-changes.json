@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+      "added": 74,
+      "removed": 52,
+      "net": 22
+    },
+    {
+      "path": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+      "added": 74,
+      "removed": 95,
+      "net": -21
+    },
+    {
+      "path": "packages/desktop/src/preload/index.ts",
+      "added": 443,
+      "removed": 580,
+      "net": -137
+    }
+  ],
+  "net": -136,
+  "provenanceCredit": 0
+}

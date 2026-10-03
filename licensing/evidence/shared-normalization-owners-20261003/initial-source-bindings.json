@@ -1,0 +1,37 @@
+[
+  {
+    "path": "packages/shared/src/endpoint.ts",
+    "baselineCommit": "9895447bac2206e500eee559626c4c188fabb0ba",
+    "baselineBlob": "790eaea08e47a810f97aa2a3563904aece41f9bd",
+    "baselineSha256": "826672be9e7e0d4cd296f85bfcaa5c780ec2c4fddc264e60c35d54a05691e1c0",
+    "initialFrozenSha256": "be83c1dd9d216eece1edae551455a5584752fcb5417a6c17f989f3586b20fdf5"
+  },
+  {
+    "path": "packages/shared/src/feedbackPrivacy.ts",
+    "baselineCommit": "9895447bac2206e500eee559626c4c188fabb0ba",
+    "baselineBlob": "461a6a0bb4ae0c0338eb7ceca9f0f21f68ee0c36",
+    "baselineSha256": "f663f9d34bbed0de62ced1a4712dd2d52dad69e7b1a9c55aa78ed106b43547b6",
+    "initialFrozenSha256": "1257277711e563f81d9603b979c516a19b4859336989686de9bdf736243948b8"
+  },
+  {
+    "path": "packages/shared/src/telemetryRedaction.ts",
+    "baselineCommit": "9895447bac2206e500eee559626c4c188fabb0ba",
+    "baselineBlob": "126df262b53e4381c9f11dd4f645d5279bb87f75",
+    "baselineSha256": "ebf3d0ae160958b091cb078abd0c532903923f333bea69cfaab82bb290b31ead",
+    "initialFrozenSha256": "07b5960f1a8ad72da1a3bd5b8b22f292e62d838ab56a6641072457c3c3990f8d"
+  },
+  {
+    "path": "packages/shared/src/workspaceFileEntriesCodec.ts",
+    "baselineCommit": "9895447bac2206e500eee559626c4c188fabb0ba",
+    "baselineBlob": "c01bf593a9afeb0ba41eea285dc850aba2f23aae",
+    "baselineSha256": "d3fa40ba630d9c1ac6dba0460b64e3542f8a26b7db5587a62a1a1e785874acd6",
+    "initialFrozenSha256": "c73211380e94cc126f4b1f2d75f0fd69c43329a9b6c370266a54237a690b224e"
+  },
+  {
+    "path": "packages/shared/src/workspaceFileSearch.ts",
+    "baselineCommit": "9895447bac2206e500eee559626c4c188fabb0ba",
+    "baselineBlob": "e152c0a9b73562263c63f1a03f1599d43bfef9c3",
+    "baselineSha256": "d622e45a8f9a3feaac72f9f53ad907ce6496e38cecc574a11655f8aef2419f18",
+    "initialFrozenSha256": "d4aaf1d1588d5f89595f4f8d9f05143bd7f9cda9d31b2750a4371eaa2a476631"
+  }
+]

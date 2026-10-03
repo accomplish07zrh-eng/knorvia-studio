@@ -1,0 +1,328 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "./utils.js"
+    },
+    {
+      "kind": "text",
+      "text": "background_task"
+    },
+    {
+      "kind": "text",
+      "text": "subagent_message"
+    },
+    {
+      "kind": "text",
+      "text": "diagnostics"
+    },
+    {
+      "kind": "text",
+      "text": "goal_state_change"
+    },
+    {
+      "kind": "text",
+      "text": "hook_context"
+    },
+    {
+      "kind": "text",
+      "text": "model_anomaly"
+    },
+    {
+      "kind": "text",
+      "text": "queued_system_notification"
+    },
+    {
+      "kind": "text",
+      "text": "runtime_mode"
+    },
+    {
+      "kind": "text",
+      "text": "todo_reminder"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "agent"
+    },
+    {
+      "kind": "template",
+      "head": "[Selected agent: ",
+      "spans": [
+        {
+          "placeholder": "part.name",
+          "text": "]"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "subtask"
+    },
+    {
+      "kind": "template",
+      "head": "[Subtask: ",
+      "spans": [
+        {
+          "placeholder": "part.description",
+          "text": "]"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "command: ",
+      "spans": [
+        {
+          "placeholder": "part.command",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "prompt: ",
+      "spans": [
+        {
+          "placeholder": "truncateText(part.prompt, TEXT_PART_PREVIEW_CHARS)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "tool"
+    },
+    {
+      "kind": "text",
+      "text": "patch"
+    },
+    {
+      "kind": "template",
+      "head": "Patch files: ",
+      "spans": [
+        {
+          "placeholder": "part.files.join(\", \")",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": ", "
+    },
+    {
+      "kind": "text",
+      "text": "compaction"
+    },
+    {
+      "kind": "text",
+      "text": "retry"
+    },
+    {
+      "kind": "template",
+      "head": "Retry ",
+      "spans": [
+        {
+          "placeholder": "part.attempt",
+          "text": ": "
+        },
+        {
+          "placeholder": "part.error.name",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "step-finish"
+    },
+    {
+      "kind": "template",
+      "head": "Step finished: ",
+      "spans": [
+        {
+          "placeholder": "part.reason",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "reasoning"
+    },
+    {
+      "kind": "text",
+      "text": "snapshot"
+    },
+    {
+      "kind": "text",
+      "text": "step-start"
+    },
+    {
+      "kind": "text",
+      "text": "timeline"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "File attachment"
+    },
+    {
+      "kind": "template",
+      "head": "filename=",
+      "spans": [
+        {
+          "placeholder": "part.filename",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "mime=",
+      "spans": [
+        {
+          "placeholder": "part.mime",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "path=",
+      "spans": [
+        {
+          "placeholder": "path",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": " "
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "resource"
+    },
+    {
+      "kind": "text",
+      "text": "tool"
+    },
+    {
+      "kind": "template",
+      "head": "Tool ",
+      "spans": [
+        {
+          "placeholder": "part.tool",
+          "text": " "
+        },
+        {
+          "placeholder": "part.state.status",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "input"
+    },
+    {
+      "kind": "template",
+      "head": "input: ",
+      "spans": [
+        {
+          "placeholder": "truncateText(safeJson(part.state.input), TOOL_INPUT_PREVIEW_CHARS)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "completed"
+    },
+    {
+      "kind": "template",
+      "head": "output: ",
+      "spans": [
+        {
+          "placeholder": "truncateText(part.state.output, TOOL_OUTPUT_PREVIEW_CHARS)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "error"
+    },
+    {
+      "kind": "template",
+      "head": "error: ",
+      "spans": [
+        {
+          "placeholder": "truncateText(part.state.error, TOOL_OUTPUT_PREVIEW_CHARS)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "pending"
+    },
+    {
+      "kind": "template",
+      "head": "raw: ",
+      "spans": [
+        {
+          "placeholder": "truncateText(part.state.raw, TOOL_INPUT_PREVIEW_CHARS)",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    }
+  ],
+  "regex": [
+    "/<\\/?system-reminder\\b/i"
+  ],
+  "numericLiterals": [
+    "900",
+    "1600",
+    "3000",
+    "1600"
+  ],
+  "qualification": "Retained exact protocol/format/prose/template/regex/constant data and ordinary idioms, no novelty/license grant claim"
+}

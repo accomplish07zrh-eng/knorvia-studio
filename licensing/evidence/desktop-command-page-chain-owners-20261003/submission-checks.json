@@ -1,0 +1,26 @@
+{
+  "checks": {
+    "baseline-paste-fixture-corrected": 0,
+    "baseline-command-order-fixture": 0,
+    "baseline-static-stable-symbols": 0,
+    "candidate-synthetic": 0,
+    "candidate-scoped-static": 0,
+    "candidate-lint": 0,
+    "candidate-architecture": 0,
+    "retained-typescript-shapes": 0,
+    "retained-embedded-shapes": 0,
+    "candidate-byte-proof": 0,
+    "candidate-format-corrected": 0
+  },
+  "syntheticGroups": 4,
+  "finalSyntheticPassed": 4,
+  "exportedConsumerContracts": 17,
+  "rawCompilerApiMatches": false,
+  "rawTypeDifferenceOnly": "VIRTUAL_PASTE_PAGE_FUNCTION generated source-string literal",
+  "lintWarnings": 0,
+  "lintErrors": 0,
+  "noFullOrNativeRuntimePassed": true,
+  "MITClaim": false,
+  "parentVerifiedPrimaryFastValue": 1,
+  "executorIndependentUIVerification": false
+}

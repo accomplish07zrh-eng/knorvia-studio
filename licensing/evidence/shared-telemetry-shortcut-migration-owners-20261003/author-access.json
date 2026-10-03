@@ -1,0 +1,89 @@
+{
+  "authors": [
+    {
+      "author": "/root/shared_telemetry_privacy_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-telemetry-telemetry-packet.md",
+      "packetSha256": "0df4b95bbed83fd7dea44b9fb7a15ca9b2c57561108234905397b7b1d5971073",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-telemetry-telemetry-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One complete literal heredoc to /tmp/knorvia-telemetry-telemetry-authored.ts; no patches",
+      "hashRead": "sha256sum /tmp/knorvia-telemetry-telemetry-authored.ts",
+      "otherAccess": "None reported. No other source/tests/deps/history/config/env/outputs/runtime/format/architecture/network/native/repository reads/writes. Shared filesystem not OS isolation. Author wording frozen refers to output hash, curator separately copied/froze whole output before opening."
+    },
+    {
+      "author": "/root/shared_resource_privacy_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-telemetry-processResourceTelemetry-packet.md",
+      "packetSha256": "8f85c6da8b8007587c7a9e18375918a56d98a6e980bc9c4e47e5737aeaa49850",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-telemetry-processResourceTelemetry-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One complete literal heredoc to /tmp/knorvia-telemetry-processResourceTelemetry-authored.ts; no patches",
+      "hashRead": "sha256sum /tmp/knorvia-telemetry-processResourceTelemetry-authored.ts",
+      "otherAccess": "None reported. No other source/tests/deps/history/config/env/outputs/runtime/format/architecture/network/native/repository reads/writes. Shared filesystem not OS isolation. Author wording frozen refers to output hash, curator separately copied/froze whole output before opening."
+    },
+    {
+      "author": "/root/shared_remote_telemetry_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-telemetry-remoteUsageTelemetry-packet.md",
+      "packetSha256": "6e7f0b58ea066f22019e17827f1c047c02fba7ce67ba10f0af3755e629b2d8c5",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-telemetry-remoteUsageTelemetry-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One complete literal heredoc to /tmp/knorvia-telemetry-remoteUsageTelemetry-authored.ts; no patches",
+      "hashRead": "sha256sum /tmp/knorvia-telemetry-remoteUsageTelemetry-authored.ts",
+      "otherAccess": "None reported. No other source/tests/deps/history/config/env/outputs/runtime/format/architecture/network/native/repository reads/writes. Shared filesystem not OS isolation. Author wording frozen refers to output hash, curator separately copied/froze whole output before opening."
+    },
+    {
+      "author": "/root/shared_shortcut_grammar_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-telemetry-shortcutCommands-packet.md",
+      "packetSha256": "e2a2ddf6e426b46e812fd524bef0eafe92853f2e0cada98dd29d24a13d702591",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-telemetry-shortcutCommands-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One complete literal heredoc to /tmp/knorvia-telemetry-shortcutCommands-authored.ts; no patches",
+      "hashRead": "sha256sum /tmp/knorvia-telemetry-shortcutCommands-authored.ts",
+      "otherAccess": "None reported. No other source/tests/deps/history/config/env/outputs/runtime/format/architecture/network/native/repository reads/writes. Shared filesystem not OS isolation. Author wording frozen refers to output hash, curator separately copied/froze whole output before opening."
+    },
+    {
+      "author": "/root/shared_subagent_file_migration_author",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "fork": "none",
+      "packet": "/tmp/knorvia-telemetry-node_subagentMarkdownMigration-packet.md",
+      "packetSha256": "88d3420e48690204c0ac9574e5b423809e1be3f8786f1078ad6b6ca5ddb3b971",
+      "exactReadCommands": [
+        "cat /tmp/knorvia-telemetry-node_subagentMarkdownMigration-packet.md",
+        "cat /workspace/knorvia-studio/AGENTS.md",
+        "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "initialWrite": "One complete literal heredoc to /tmp/knorvia-telemetry-node_subagentMarkdownMigration-authored.ts; no patches",
+      "hashRead": "sha256sum /tmp/knorvia-telemetry-node_subagentMarkdownMigration-authored.ts",
+      "otherAccess": "None reported. No other source/tests/deps/history/config/env/outputs/runtime/format/architecture/network/native/repository reads/writes. Shared filesystem not OS isolation. Author wording frozen refers to output hash, curator separately copied/froze whole output before opening."
+    }
+  ],
+  "instructionHashes": {
+    "AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    ".agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "curatorAccess": "Source-exposed to selected bodies plus eligibility-screened database-startup,localTtft,tool-identity,model-config,storage,task-types. Private-file/identity/migration dependency implementations not newly read or imported from other lanes; fake ports authored for tests. Source/header/schema body exposure in eligibility screening belongs to curator, not fresh authors. No root-reserved preview/merge/held reducer body read."
+}

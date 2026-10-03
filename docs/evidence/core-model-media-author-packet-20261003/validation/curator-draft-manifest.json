@@ -1,0 +1,28 @@
+{
+  "archivedAtUtc": "2026-10-02T19:46:52.320629+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no separate tool setting",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/validation/imports.json",
+      "bytes": 1517,
+      "sha256": "fb925289c342d0f47caa87a4ccb7479783b7905e03f16d565c80c75358910ad7"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-model-tool-call-validation.ts.txt",
+      "bytes": 2821,
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6487,
+      "sha256": "70772c589b1bcb665d544f77ebde31b98b6dfb111bb1a6bf0fc01d710d2c3736"
+    }
+  ]
+}

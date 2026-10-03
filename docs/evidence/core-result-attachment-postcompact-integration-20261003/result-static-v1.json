@@ -1,0 +1,340 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "result",
+  "baseline": "6ef553405a64328590961dc548950f05fb28ce48",
+  "target": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+  "qualifiedCandidateReturns": true,
+  "reexportsEqual": true,
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "5f6c2362e93d5c6b16e3153bbdcbb40d585b661947a1b054a106fedf5c608845",
+    "candidate": "5f6c2362e93d5c6b16e3153bbdcbb40d585b661947a1b054a106fedf5c608845"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeMultiplicityQualification": "Exact runtime import multiset unchanged",
+  "runtimeImports": {
+    "predecessor": [
+      "apps/cli/packages/core/src/runtime/deps.js#modelMessageContentToText",
+      "apps/cli/packages/core/src/tool/handlers/bash-model-content.js#isBashOutputProviderError"
+    ],
+    "candidate": [
+      "apps/cli/packages/core/src/runtime/deps.js#modelMessageContentToText",
+      "apps/cli/packages/core/src/tool/handlers/bash-model-content.js#isBashOutputProviderError"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/contract.md",
+      "bytes": 5363,
+      "sha256": "a5ac67447ebb89d59f182e7ee201fc99828445fe6e17b4e4a5d117bc19db2985",
+      "actual": {
+        "bytes": 5363,
+        "sha256": "a5ac67447ebb89d59f182e7ee201fc99828445fe6e17b4e4a5d117bc19db2985"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/public-api.d.ts",
+      "bytes": 1211,
+      "sha256": "debf50728585c226c41d39f0852086969ccd2ac3f5cf8259561cf6c738cd4f81",
+      "actual": {
+        "bytes": 1211,
+        "sha256": "debf50728585c226c41d39f0852086969ccd2ac3f5cf8259561cf6c738cd4f81"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/dependency-api.d.ts",
+      "bytes": 361,
+      "sha256": "3956e5decb37b71232fb3c38acc90048f6462ef4c38ca6f06619ff9a216495d5",
+      "actual": {
+        "bytes": 361,
+        "sha256": "3956e5decb37b71232fb3c38acc90048f6462ef4c38ca6f06619ff9a216495d5"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/public-shapes.d.ts",
+      "bytes": 2218,
+      "sha256": "bf74a2ba123c739419b72583f53009c47ef8d75a6b7160f1cd138109f3537b97",
+      "actual": {
+        "bytes": 2218,
+        "sha256": "bf74a2ba123c739419b72583f53009c47ef8d75a6b7160f1cd138109f3537b97"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/imports.json",
+      "bytes": 343,
+      "sha256": "a3bf2258e6fdf0982aac84a109dce9dfd2edaa6ed4736ef9975944292edc23a1",
+      "actual": {
+        "bytes": 343,
+        "sha256": "a3bf2258e6fdf0982aac84a109dce9dfd2edaa6ed4736ef9975944292edc23a1"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/output-data.json",
+      "bytes": 1417,
+      "sha256": "90653d5358c8c50dcda9c115ac2ff9b5d3e76cc28a7e077cc23604a271f6f374",
+      "actual": {
+        "bytes": 1417,
+        "sha256": "90653d5358c8c50dcda9c115ac2ff9b5d3e76cc28a7e077cc23604a271f6f374"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 13355,
+      "sha256": "ccf0f634911a8644ffd42f7958d912549c0b32ce256a1201c8911975a4da24e3",
+      "actual": {
+        "bytes": 13355,
+        "sha256": "ccf0f634911a8644ffd42f7958d912549c0b32ce256a1201c8911975a4da24e3"
+      },
+      "matchesArchive": true
+    },
+    {
+      "file": "tool-result.ts.txt",
+      "bytes": 3458,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "target": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "actual": {
+        "bytes": 3458,
+        "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 3458,
+        "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 130
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "author-record.json",
+      "bytes": 13355,
+      "sha256": "ccf0f634911a8644ffd42f7958d912549c0b32ce256a1201c8911975a4da24e3",
+      "unchanged": true
+    },
+    {
+      "file": "tool-result.ts.txt",
+      "bytes": 3458,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "target": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+      "bytes": 7184,
+      "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728",
+      "actual": {
+        "bytes": 7184,
+        "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "actual": {
+        "bytes": 17225,
+        "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler.ts",
+      "bytes": 2000,
+      "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e",
+      "actual": {
+        "bytes": 2000,
+        "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/write.ts",
+      "bytes": 4118,
+      "sha256": "a7cf94cc0ec1dc2acdf540a5796e30d6491c3752539cd05ba9ea1520c0285c53",
+      "actual": {
+        "bytes": 4118,
+        "sha256": "a7cf94cc0ec1dc2acdf540a5796e30d6491c3752539cd05ba9ea1520c0285c53"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/events/session.events.ts",
+      "bytes": 42930,
+      "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c",
+      "actual": {
+        "bytes": 42930,
+        "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/image-processor.port.ts",
+      "bytes": 2122,
+      "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93",
+      "actual": {
+        "bytes": 2122,
+        "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "actual": {
+        "bytes": 2904,
+        "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "actual": {
+        "bytes": 1733,
+        "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "actual": {
+        "bytes": 10410,
+        "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/usage-stats.ts",
+      "bytes": 15523,
+      "sha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081",
+      "actual": {
+        "bytes": 15523,
+        "sha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "actual": {
+        "bytes": 1372,
+        "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "actual": {
+        "bytes": 644882,
+        "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "module": "../../tool/handlers/bash-model-content.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "module": "../deps.js",
+      "exists": true
+    }
+  ],
+  "predecessorDiagnosticsMatchFrozen": true,
+  "extractionDiagnosticsQualified": true,
+  "inheritedInferenceQualification": "All five predecessor/candidate isolated extractions must be zero; original-owner opaque fragments are not semantic/project typing",
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

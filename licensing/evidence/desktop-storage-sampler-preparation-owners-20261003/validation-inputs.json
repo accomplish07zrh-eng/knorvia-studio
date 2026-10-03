@@ -1,0 +1,42 @@
+[
+  {
+    "path": "packages/desktop/src/host/startupDiskSampler.ts",
+    "sha256": "db9b750549a9dd41433bc35410a83b767b72c6f1630ed48a5ee99703390ecf6c"
+  },
+  {
+    "path": "packages/desktop/src/host/storagePreparationProcesses.ts",
+    "sha256": "dfeb17ef3dc26fe35f4d3d47e114b1314bc9e6f5e2a308aa9e70a0a24062519d"
+  },
+  {
+    "path": "packages/desktop/src/host/startupDiskOwner.test.mjs",
+    "sha256": "fb77de4b9733a20ca6f1957f11bb495fdc8a317a0bbd1dd498d9d891be94dd3b"
+  },
+  {
+    "path": "packages/desktop/src/host/storagePreparationOwner.test.mjs",
+    "sha256": "1489506ec16a635b774fcbb395c6c90982741f65e2d3d504a94a7460cd05f2d3"
+  },
+  {
+    "path": "packages/desktop/src/host/storageOwnerTestPorts.mjs",
+    "sha256": "fceec8c0e9d03b9e69ec427a5cab79e5b582495a8d70b3a5f83e30a87a0e7a22"
+  },
+  {
+    "path": "packages/desktop/src/host/hostDatabaseStartup.ts",
+    "sha256": "5622e1d91de0a29433fe4cdeabcae571e557034338354e628e0fee3581f7468d"
+  },
+  {
+    "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/record-run.mjs",
+    "sha256": "6f40cd5f3ec063d32fb8af242cd66a2d67c6347d63373c5e4cb1537c46726f78"
+  },
+  {
+    "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+    "sha256": "9564404b0f2af209e0a1c4b4cdec52067da79a53cfb3b31339cc3f04d039928a"
+  },
+  {
+    "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/retained-shapes.mjs",
+    "sha256": "3712bceeba6aa1fbe3a75fb839f48aa831cb75f70b51965a5d0b0aed068af8ad"
+  },
+  {
+    "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/final-bindings.mjs",
+    "sha256": "03595ae9d6564bb6bba0f7b543438f633e4f084ab5463905bcde247092b06168"
+  }
+]

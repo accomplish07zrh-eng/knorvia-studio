@@ -1,0 +1,57 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: completed publication must adopt returned machine instead of leaving stale request identity
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-model-step-machine-red-20261003.mjs:240:8) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: TurnMachineImpl {
+    state: {
+      id: 'owned-turn',
+      sessionId: 'owned-session',
+      turnNumber: 1,
+      phase: 'awaiting_model_response',
+      traceId: 'owned-trace',
+      input: 'Owned input',
+      attachments: undefined,
+      streamingContent: '',
+      toolCalls: [],
+      toolResults: [],
+      scheduledTools: { items: [], parallelGroups: [], executionOrder: [] },
+      pendingInputs: [],
+      acceptsPendingInput: true,
+      pendingPermissions: [],
+      resolvedPermissions: [],
+      resultType: 'success',
+      startedAt: 2026-10-02T22:35:27.277Z,
+      modelRequest: { model: 'owned-provider/owned-model', messages: [] }
+    }
+  },
+  expected: TurnMachineImpl {
+    state: {
+      id: 'owned-turn',
+      sessionId: 'owned-session',
+      turnNumber: 1,
+      phase: 'awaiting_model_response',
+      traceId: 'owned-trace',
+      input: 'Owned input',
+      attachments: undefined,
+      streamingContent: '',
+      toolCalls: [],
+      toolResults: [],
+      scheduledTools: { items: [], parallelGroups: [], executionOrder: [] },
+      pendingInputs: [],
+      acceptsPendingInput: true,
+      pendingPermissions: [],
+      resolvedPermissions: [],
+      resultType: 'success',
+      startedAt: 2026-10-02T22:35:27.277Z,
+      modelRequest: { model: 'owned-provider/owned-model', messages: [] }
+    }
+  },
+  operator: 'notStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

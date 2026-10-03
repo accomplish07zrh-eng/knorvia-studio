@@ -1,0 +1,109 @@
+{
+  "baseline": "cf1fcca3fa8d4ea3fa1a7f6dc3d9a2ad9607d1c5",
+  "installed": [
+    {
+      "scope": "format-v2",
+      "target": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "archive": "docs/evidence/core-workflow-projection-owner-packet-20261003/format-v2/get-workflow-run-format.ts.txt",
+      "receipt": "docs/evidence/core-workflow-projection-owner-packet-20261003/format-v2/author-record.json",
+      "sourceSha256": "4789202a577547ba4630cfae3301cd40945f845727a327bde8e987467c038d2b",
+      "sourceBytes": 9541,
+      "sourceLines": 209,
+      "receiptSha256": "4a51e707b0c09649669ab3669975049116825dc774bc4f2dfbd00eaa420d6663",
+      "freezeCommit": "ae332bac",
+      "proofs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/format-v2-static.json",
+          "sha256": "36befed6fec4734179a935f6efba073a82fbb8664282e33b0e1af06de9470280"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/format-v2-retained-data.json",
+          "sha256": "cfc54fcc363667a92db9c35ca179b9a36c669654f2188027616c465e9b65cc3c"
+        }
+      ],
+      "exactInstalled": true
+    },
+    {
+      "scope": "projection",
+      "target": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "archive": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/get-workflow-run-roster-output.ts.txt",
+      "receipt": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/author-record.json",
+      "sourceSha256": "ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d",
+      "sourceBytes": 4491,
+      "sourceLines": 130,
+      "receiptSha256": "1653c695c45b49e7388c408fd2b374b9894b6c70dcde0495b6594d6d548691b0",
+      "freezeCommit": "31059765",
+      "proofs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/projection-static.json",
+          "sha256": "f396b2482b808b90dabaff0eb7ee9d1bdc1d1eb1099a124e8ec85703cd1017a6"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/projection-retained-data.json",
+          "sha256": "366f8ca1ee94ae6e6ab59f58a733391631500639a52188f90dc8265d6fda29fd"
+        }
+      ],
+      "exactInstalled": true
+    },
+    {
+      "scope": "frontmatter-v2",
+      "target": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "archive": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter-v2/frontmatter.ts.txt",
+      "receipt": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter-v2/author-record.json",
+      "sourceSha256": "07e40701dc696516abcdd669fef3559ecc6a2d0c628fc6970dc0e26e5f6723ae",
+      "sourceBytes": 2912,
+      "sourceLines": 101,
+      "receiptSha256": "0b619f7957d4002397fa28eb08a428bca330add22fa98d5d30a6880a884658a1",
+      "freezeCommit": "6ff650d6",
+      "proofs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/frontmatter-v2-static.json",
+          "sha256": "e095269cf4fe870c4109da0cab91f187f2902591922401f915e18ee8e469c83a"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/frontmatter-v2-retained-data.json",
+          "sha256": "7cc76a994e06481515188827bc1530cdf25efd75a94716558a0b4fa3d4d73c30"
+        }
+      ],
+      "exactInstalled": true
+    },
+    {
+      "scope": "notes",
+      "target": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "archive": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/workflow-script-notes.ts.txt",
+      "receipt": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/author-record.json",
+      "sourceSha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "sourceBytes": 2133,
+      "sourceLines": 50,
+      "receiptSha256": "25c5241d88d6a4ad5684e18786a4d46821199be4aa163061f91ba29714b0ca28",
+      "freezeCommit": "31059765",
+      "proofs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/notes-static.json",
+          "sha256": "a1fce00e266ad7328ae8c4f12bf3d6120aa3a8bfed1fe367b8aecf2fcc69116e"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/notes-retained-data.json",
+          "sha256": "989eae54319f9d71d0aedd15fffea4b92032d46601e9490c52ebb3e02db9089c"
+        }
+      ],
+      "exactInstalled": true
+    }
+  ],
+  "originalLines": 610,
+  "newLines": 490,
+  "outsideBoundaries": {
+    "checked": 618,
+    "unchanged": 618,
+    "failures": []
+  },
+  "changedCorePaths": [
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+    "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+    "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts"
+  ],
+  "distinctMinimumGroups": 8,
+  "passed": true,
+  "qualification": "Complete author sources installed byte-exact; no curator source patch. All complete archives/full receipts committed before body review. Format same-author provider-order correction; frontmatter same-author explicit indexed-presence correction with exact JavaScript reuse. Static/public-data/proof and 618 outside bindings only; no semantic/project checks, native activity, full functionality proof, license/rights closure or OS audit. Curator/source-derived data/historical exposure/repaired scratch breach qualifications retained. HOLD root/local summary/roster/read-state/registry remain untouched; all21 material obligations OPEN."
+}

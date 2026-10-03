@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T22:51:41.384477+00:00",
+  "status": "whole candidate before exact modelSelectionScope conditional clarification",
+  "files": [
+    {
+      "path": "turn-command-data.ts",
+      "bytes": 8980,
+      "sha256": "984c5057e72765bb484c6b36c819acdd27d3543649d5b65cd6df6599c45c7c6f"
+    },
+    {
+      "path": "turn-command-operation.ts",
+      "bytes": 14454,
+      "sha256": "f87ee0bf07db67810921139207a50d6af7b4dac16048ccfe08c8b3714a642b0c"
+    },
+    {
+      "path": "turn-command-state.ts",
+      "bytes": 4376,
+      "sha256": "40f86126d05a15fa9c5dd60895f0a48573715f0cb617fe577b1e6cede3149338"
+    },
+    {
+      "path": "turn.ts",
+      "bytes": 4010,
+      "sha256": "9cf7bf296862b8a7ec9eccd299c057c0c018aca077c3c29a8ce0a811303abf5b"
+    }
+  ]
+}

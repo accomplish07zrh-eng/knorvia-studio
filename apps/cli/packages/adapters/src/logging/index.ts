@@ -1,29 +1,20 @@
-import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
-// ============================================================
-// Node logging adapter - JSONL file and optional stderr sink
-// ============================================================
+// SPDX-License-Identifier: Apache-2.0
+// Modified by Knorvia Studio contributors, 2026-09-30.
+// Contract-based reimplementation; prior source exposure is recorded in licensing/evidence.
 
-import { appendFileSync, existsSync, mkdirSync } from "node:fs";
-import { homedir } from "node:os";
 import { join } from "node:path";
-import type { LogContext, LogEntry, Logger, LoggerFactory, LogRedactor } from "@knorvia/contracts";
-import { LogLevel, LogLevelName } from "@knorvia/contracts";
+import type { LogContext, LogLevel, Logger, LoggerFactory, LogRedactor } from "@knorvia/contracts";
+import { LogLevel as Level } from "@knorvia/contracts";
 import { KNORVIA_RUNTIME_ENV_KEY, normalizeKnorviaRuntimeEnv } from "@knorvia/shared";
+import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
+import { projectLogEntry } from "./entry.js";
+import { appendLogRecord } from "./file-sink.js";
+import { DefaultLogRedactor, formatConsoleLine, toSerializableEntry } from "./serialize.js";
 import {
-  formatLocalLogDate,
-  scheduleLogRetentionCleanup as scheduleRetentionCleanup,
+  scheduleLogRetentionCleanup,
   type LogRetentionScheduleOptions,
   type LogRetentionTimer,
 } from "./retention.js";
-import {
-  DefaultLogRedactor,
-  formatConsoleLine,
-  isLogStatus,
-  serializeLogError,
-  stripReservedContext,
-  toSerializableEntry,
-} from "./serialize.js";
-import { maybeThrowStorageFsFault } from "../storage/fs-fault-injection.js";
 
 export {
   LOG_CLEANUP_STARTUP_DELAY_MS,
@@ -62,189 +53,128 @@ export interface NodeLoggerFactory extends LoggerFactory {
   ): LogRetentionTimer | undefined;
 }
 
-export class NodeFileLogger implements Logger {
-  private readonly category: string;
-  private readonly defaultContext: LogContext;
-  private readonly getMinLevel: () => LogLevel;
-  private readonly logDir: string;
-  private readonly consoleStream?: NodeJS.WritableStream;
-  private readonly includeErrorStack: boolean;
-  private readonly redactor: LogRedactor;
+type FileLoggerOptions = {
+  category: string;
+  defaultContext?: LogContext;
+  getMinLevel: () => LogLevel;
+  logDir: string;
+  consoleStream?: NodeJS.WritableStream;
+  includeErrorStack?: boolean;
+  redactor: LogRedactor;
+};
 
-  constructor(options: {
-    category: string;
-    defaultContext?: LogContext;
-    getMinLevel: () => LogLevel;
-    logDir: string;
-    consoleStream?: NodeJS.WritableStream;
-    includeErrorStack?: boolean;
-    redactor: LogRedactor;
-  }) {
-    this.category = options.category;
-    this.defaultContext = options.defaultContext ?? {};
-    this.getMinLevel = options.getMinLevel;
-    this.logDir = options.logDir;
-    this.consoleStream = options.consoleStream;
-    this.includeErrorStack = options.includeErrorStack ?? false;
-    this.redactor = options.redactor;
+export class NodeFileLogger implements Logger {
+  private readonly settings: FileLoggerOptions & {
+    defaultContext: LogContext;
+    includeErrorStack: boolean;
+  };
+
+  constructor(options: FileLoggerOptions) {
+    this.settings = {
+      category: options.category,
+      defaultContext: options.defaultContext ?? {},
+      getMinLevel: options.getMinLevel,
+      logDir: options.logDir,
+      consoleStream: options.consoleStream,
+      includeErrorStack: options.includeErrorStack ?? false,
+      redactor: options.redactor,
+    };
   }
 
   debug(message: string, context?: LogContext): void {
-    this.log(LogLevel.Debug, message, undefined, context);
+    this.write(Level.Debug, message, context);
   }
-
   info(message: string, context?: LogContext): void {
-    this.log(LogLevel.Info, message, undefined, context);
+    this.write(Level.Info, message, context);
   }
-
   warn(message: string, context?: LogContext): void {
-    this.log(LogLevel.Warn, message, undefined, context);
+    this.write(Level.Warn, message, context);
   }
-
   error(message: string, error?: Error, context?: LogContext): void {
-    this.log(LogLevel.Error, message, error, context);
+    this.write(Level.Error, message, context, error);
   }
 
   child(context: LogContext): Logger {
     return new NodeFileLogger({
-      category: this.category,
-      defaultContext: { ...this.defaultContext, ...context },
-      getMinLevel: this.getMinLevel,
-      logDir: this.logDir,
-      consoleStream: this.consoleStream,
-      includeErrorStack: this.includeErrorStack,
-      redactor: this.redactor,
+      ...this.settings,
+      defaultContext: { ...this.settings.defaultContext, ...context },
     });
   }
 
-  private log(level: LogLevel, message: string, error?: Error, context?: LogContext): void {
-    if (level < this.getMinLevel()) {
-      return;
-    }
-
-    const mergedContext = { ...this.defaultContext, ...context };
-    const entry = this.createEntry(level, message, mergedContext, error);
-    const serialized = toSerializableEntry(entry, this.redactor);
-    const line = JSON.stringify(serialized);
-
-    try {
-      ensureLogDir(this.logDir);
-      const logPath = join(this.logDir, getLogFileName());
-      maybeThrowStorageFsFault({ operation: "appendFile", path: logPath });
-      appendFileSync(logPath, `${line}\n`, "utf8");
-    } catch {
-      // Logging must never break the agent execution path.
-    }
-
-    if (this.consoleStream) {
-      this.consoleStream.write(`${formatConsoleLine(entry)}\n`);
-    }
-  }
-
-  private createEntry(
-    level: LogLevel,
-    message: string,
-    context: LogContext,
-    error?: Error,
-  ): LogEntry {
-    return {
-      timestamp: new Date(),
+  private write(level: LogLevel, message: string, context?: LogContext, error?: Error): void {
+    const settings = this.settings;
+    if (level < settings.getMinLevel.call(this)) return;
+    const merged = { ...settings.defaultContext, ...context };
+    const entry = projectLogEntry(
+      settings.category,
       level,
-      levelName: LogLevelName[level],
-      event: typeof context.event === "string" ? context.event : undefined,
-      module: typeof context.module === "string" ? context.module : this.category,
       message,
-      traceId: context.traceId,
-      sessionId: typeof context.sessionId === "string" ? context.sessionId : undefined,
-      turnId: typeof context.turnId === "string" ? context.turnId : undefined,
-      spanId: typeof context.spanId === "string" ? context.spanId : undefined,
-      parentSpanId: typeof context.parentSpanId === "string" ? context.parentSpanId : undefined,
-      toolCallId: typeof context.toolCallId === "string" ? context.toolCallId : undefined,
-      durationMs: typeof context.durationMs === "number" ? context.durationMs : undefined,
-      status: isLogStatus(context.status) ? context.status : undefined,
-      context: stripReservedContext(context),
-      error: error ? serializeLogError(error, this.includeErrorStack) : undefined,
-    };
+      merged,
+      error,
+      settings.includeErrorStack,
+    );
+    const json = JSON.stringify(toSerializableEntry(entry, settings.redactor));
+    appendLogRecord(settings.logDir, json);
+    settings.consoleStream?.write(formatConsoleLine(entry) + "\n");
   }
-}
-
-export function createNodeLoggerFactory(options: NodeLoggerFactoryOptions = {}): NodeLoggerFactory {
-  let currentLevel = options.minLevel ?? getDefaultMinLevel(options.env);
-  let retentionCleanupScheduled = false;
-  const logDir = options.logDir ?? options.env?.KNORVIA_LOG_DIR ?? getDefaultLogDir();
-  const consoleStream =
-    typeof options.console === "object"
-      ? options.console.stream
-      : options.console === true || options.env?.KNORVIA_LOG_CONSOLE === "1"
-        ? process.stderr
-        : undefined;
-  const redactor = options.redactor ?? new DefaultLogRedactor();
-
-  const create = (category: string, defaultContext: LogContext = {}) =>
-    new NodeFileLogger({
-      category,
-      defaultContext,
-      getMinLevel: () => currentLevel,
-      logDir,
-      consoleStream,
-      includeErrorStack: options.includeErrorStack,
-      redactor,
-    });
-
-  return {
-    createLogger(category: string): Logger {
-      return create(category);
-    },
-    withContext(context: LogContext): Logger {
-      return create("root", context);
-    },
-    setLevel(level: LogLevel): void {
-      currentLevel = level;
-    },
-    getLogDir(): string {
-      return logDir;
-    },
-    scheduleLogRetentionCleanup(scheduleOptions = {}): LogRetentionTimer | undefined {
-      if (retentionCleanupScheduled) return undefined;
-      retentionCleanupScheduled = true;
-      return scheduleRetentionCleanup({
-        ...scheduleOptions,
-        logDir,
-        logger:
-          scheduleOptions.logger ??
-          create("knorvia", {
-            module: "adapters.logging",
-          }),
-      });
-    },
-  };
 }
 
 export function getDefaultLogDir(): string {
   return join(resolveKnorviaDataRoot(), "cli", "log");
 }
 
-function getDefaultMinLevel(env: NodeJS.ProcessEnv | undefined): LogLevel {
-  return isDevelopmentMode(env ?? process.env) ? LogLevel.Debug : LogLevel.Info;
-}
-
-function isDevelopmentMode(env: NodeJS.ProcessEnv): boolean {
-  const runtimeEnv = normalizeKnorviaRuntimeEnv(env[KNORVIA_RUNTIME_ENV_KEY]);
-  if (runtimeEnv === "development") return true;
-  if (runtimeEnv === "production" || runtimeEnv === "test") return false;
-
-  // The local dev script runs `tsx src/main.ts`; packaged CLI entrypoints run from dist.
-  const entrypoint = process.argv[1] ?? "";
-  return entrypoint.endsWith(".ts") && entrypoint.includes(`${join("packages", "cli", "src")}`);
-}
-
-function ensureLogDir(logDir: string): void {
-  if (!existsSync(logDir)) {
-    maybeThrowStorageFsFault({ operation: "mkdir", path: logDir });
-    mkdirSync(logDir, { recursive: true });
+function initialLevel(env: NodeJS.ProcessEnv): LogLevel {
+  switch (normalizeKnorviaRuntimeEnv(env[KNORVIA_RUNTIME_ENV_KEY])) {
+    case "development":
+      return Level.Debug;
+    case "production":
+    case "test":
+      return Level.Info;
+    default: {
+      const entry = process.argv[1] ?? "";
+      return entry.endsWith(".ts") && entry.includes(join("packages", "cli", "src"))
+        ? Level.Debug
+        : Level.Info;
+    }
   }
 }
 
-function getLogFileName(): string {
-  return `knorvia-${formatLocalLogDate(new Date())}.jsonl`;
+export function createNodeLoggerFactory(options: NodeLoggerFactoryOptions = {}): NodeLoggerFactory {
+  const state = {
+    minimum: options.minLevel ?? initialLevel(options.env ?? process.env),
+    cleanupAdmitted: false,
+  };
+  const directory = options.logDir ?? options.env?.KNORVIA_LOG_DIR ?? getDefaultLogDir();
+  let output: NodeJS.WritableStream | undefined;
+  if (typeof options.console === "object") output = options.console.stream;
+  else if (options.console === true || options.env?.KNORVIA_LOG_CONSOLE === "1")
+    output = process.stderr;
+  const redactor = options.redactor ?? new DefaultLogRedactor();
+  const create = (category: string, defaultContext?: LogContext): Logger =>
+    new NodeFileLogger({
+      category,
+      defaultContext,
+      getMinLevel: () => state.minimum,
+      logDir: directory,
+      consoleStream: output,
+      includeErrorStack: options.includeErrorStack,
+      redactor,
+    });
+  return {
+    createLogger: (category) => create(category),
+    withContext: (context) => create("root", context),
+    setLevel: (level) => {
+      state.minimum = level;
+    },
+    getLogDir: () => directory,
+    scheduleLogRetentionCleanup: (request = {}) => {
+      if (state.cleanupAdmitted) return undefined;
+      state.cleanupAdmitted = true;
+      return scheduleLogRetentionCleanup({
+        ...request,
+        logDir: directory,
+        logger: request.logger ?? create("knorvia", { module: "adapters.logging" }),
+      });
+    },
+  };
 }

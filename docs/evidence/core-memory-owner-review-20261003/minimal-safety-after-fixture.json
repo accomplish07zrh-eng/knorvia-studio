@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "groups": [
+    {
+      "name": "path: contained write port, sensitive segments, original errors",
+      "passed": true
+    },
+    {
+      "name": "index: bounded exact warning and top-level-only comment privacy",
+      "passed": true
+    },
+    {
+      "name": "manifest: depth-first supplied-port reads, bounded metadata and stable order",
+      "passed": true
+    },
+    {
+      "name": "manifest: post-read cap, per-entry failure, no write surface",
+      "passed": true
+    },
+    {
+      "name": "scheduler: latest-pending coalescing, snapshot identity and truthful cursor",
+      "passed": true
+    },
+    {
+      "name": "scheduler: direct-write/prose boundaries and errors never grant execution",
+      "passed": true
+    },
+    {
+      "name": "scheduler: shutdown ends unresolved acquisition and stops pending writes",
+      "passed": true
+    },
+    {
+      "name": "prompt: exact retained instruction data, manifest identity and empty omission",
+      "passed": true
+    },
+    {
+      "name": "loop: reject unsafe authority before synthetic execution; ordered tool closure",
+      "passed": true
+    },
+    {
+      "name": "loop: abort before tools and original provider errors propagate",
+      "passed": true
+    }
+  ],
+  "qualification": "Archived candidates only, synthetic in-memory fake public ports; actual dependencies/predecessors/business filesystem/providers/network/credentials/user data never executed. POSIX native path environment only; no Windows execution or ordinary/project suites/build/typecheck/lint/source-emitted matrix. Minimum gates do not establish final functional/licence acceptance."
+}

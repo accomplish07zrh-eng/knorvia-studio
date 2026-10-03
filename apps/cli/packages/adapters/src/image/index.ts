@@ -1,80 +1,80 @@
-import { Jimp, ResizeStrategy } from "jimp";
-import {
-  type ImagePrepareForModelRequest,
-  type ImagePrepareForModelResult,
-  type ImageProcessorPort,
-  type ImageResizeRequest,
-  type ImageResizeResult,
+import type {
+  ImagePrepareForModelRequest,
+  ImagePrepareForModelResult,
+  ImageProcessorPort,
+  ImageResizeRequest,
+  ImageResizeResult,
 } from "@knorvia/contracts";
+import { Jimp, ResizeStrategy } from "jimp";
 import { prepareJimpImageForModel } from "./jimp-compression.js";
 import { jimpOutputMediaType, throwIfAborted } from "./jimp-media.js";
 
+const WEBP_MEDIA_TYPE = "image/webp";
+const MINIMUM_DIMENSION = 0;
+const INVALID_DIMENSION_MESSAGE = "Image resize maxDimension must be a positive finite number";
+
 export function createJimpImageProcessorAdapter(): ImageProcessorPort {
-  return new JimpImageProcessorAdapter();
-}
+  return {
+    async resizeToFit(
+      request: ImageResizeRequest,
+      options: { signal?: AbortSignal } = {},
+    ): Promise<ImageResizeResult> {
+      throwIfAborted(options.signal);
+      const limit = request.maxDimension;
+      if (!Number.isFinite(limit) || limit <= MINIMUM_DIMENSION) {
+        throw new Error(INVALID_DIMENSION_MESSAGE);
+      }
 
-class JimpImageProcessorAdapter implements ImageProcessorPort {
-  async resizeToFit(
-    request: ImageResizeRequest,
-    options: { signal?: AbortSignal } = {},
-  ): Promise<ImageResizeResult> {
-    throwIfAborted(options.signal);
-    if (!Number.isFinite(request.maxDimension) || request.maxDimension <= 0) {
-      throw new Error("Image resize maxDimension must be a positive finite number");
-    }
+      const copiedInput = Buffer.from(request.data);
+      if (request.mediaType === WEBP_MEDIA_TYPE) {
+        return {
+          data: copiedInput,
+          mediaType: request.mediaType,
+          resized: false,
+        };
+      }
 
-    const input = Buffer.from(request.data);
-    if (request.mediaType === "image/webp") {
+      const decoded = await Jimp.read(copiedInput);
+      throwIfAborted(options.signal);
+      const originalWidth = decoded.bitmap.width;
+      const originalHeight = decoded.bitmap.height;
+      if (originalWidth <= limit && originalHeight <= limit) {
+        return {
+          data: copiedInput,
+          mediaType: request.mediaType,
+          originalWidth,
+          originalHeight,
+          width: originalWidth,
+          height: originalHeight,
+          resized: false,
+        };
+      }
+
+      decoded.scaleToFit({
+        h: limit,
+        mode: ResizeStrategy.BICUBIC,
+        w: limit,
+      });
+      throwIfAborted(options.signal);
+      const encodedType = jimpOutputMediaType(request.mediaType, decoded.mime);
+      const encodedData = await decoded.getBuffer(encodedType);
+      throwIfAborted(options.signal);
       return {
-        data: input,
-        mediaType: request.mediaType,
-        resized: false,
-      };
-    }
-
-    const image = await Jimp.read(input);
-    throwIfAborted(options.signal);
-
-    const originalWidth = image.bitmap.width;
-    const originalHeight = image.bitmap.height;
-    if (originalWidth <= request.maxDimension && originalHeight <= request.maxDimension) {
-      return {
-        data: input,
-        mediaType: request.mediaType,
+        data: encodedData,
+        mediaType: encodedType,
         originalWidth,
         originalHeight,
-        width: originalWidth,
-        height: originalHeight,
-        resized: false,
+        width: decoded.bitmap.width,
+        height: decoded.bitmap.height,
+        resized: true,
       };
-    }
+    },
 
-    image.scaleToFit({
-      h: request.maxDimension,
-      mode: ResizeStrategy.BICUBIC,
-      w: request.maxDimension,
-    });
-    throwIfAborted(options.signal);
-
-    const outputMediaType = jimpOutputMediaType(request.mediaType, image.mime);
-    const data = await image.getBuffer(outputMediaType);
-    throwIfAborted(options.signal);
-
-    return {
-      data,
-      mediaType: outputMediaType,
-      originalWidth,
-      originalHeight,
-      width: image.bitmap.width,
-      height: image.bitmap.height,
-      resized: true,
-    };
-  }
-
-  prepareForModel(
-    request: ImagePrepareForModelRequest,
-    options: { signal?: AbortSignal } = {},
-  ): Promise<ImagePrepareForModelResult> {
-    return prepareJimpImageForModel(request, options);
-  }
+    prepareForModel(
+      request: ImagePrepareForModelRequest,
+      options: { signal?: AbortSignal } = {},
+    ): Promise<ImagePrepareForModelResult> {
+      return prepareJimpImageForModel(request, options);
+    },
+  };
 }

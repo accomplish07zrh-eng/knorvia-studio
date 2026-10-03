@@ -1,0 +1,121 @@
+{
+  "formatVersion": 1,
+  "kind": "scheduler-state-projection-checkpoint",
+  "implementationCommit": "73d1283608f16035ea30d90f6cef38cf1388a20c",
+  "freezeCommit": "0dcdc63a3ac1f0272fb07c0962f73aead50fe3b3",
+  "draftCommit": "1d331c4dd5a13351ec1116eb03d8809746e712c5",
+  "scope": "Only deriveWorkflowSchedulerState in contracts/src/workflow/index.ts; exact saved fresh-author function AST, formatting only. All other contracts source bytes and core graph/ready-order/planner sources unchanged.",
+  "design": "Last-record ID table and stable adjacency sets feed one occurrence projection/count pass; each collection uses an ordered membership union and status partition. Original node/collection references, explicit membership repeats, shared membership/blocker arrays, duplicate occurrence readiness, default fields and output key order retained.",
+  "authorship": {
+    "author": "/root/scheduler_state_author",
+    "context": "One fork_turns none gpt-6-astra/high author in same executor; exact contract.md/api.d.ts inputs only according to author access report. Draft saved/hash reported, then curator verified before reading. Shared filesystem instruction boundary, not access isolation. Curator source-exposed; packet source-derived. No correction to draft beyond formatting.",
+    "draftSha256": "039f5714d3fec3c009099599bb82ecb9efdbe40dd90b556a4f63f1cc26a94056",
+    "creditBoundary": "A complete selected-function authored candidate, pending independent expression review; not whole-file independence or licence acceptance."
+  },
+  "retainedExpression": "Surrounding schemas/types/sibling bodies and terminal-status Set unchanged and inherited. Fixed public field keys/defaults/status vocabulary, collection explicit-then-inferred membership structure and conventional Map/Set/loop/filter/object idioms overlap as constrained compatibility expression. No inherited explanatory comment was copied into the selected new function; no runtime prose changed. Existing attribution/notice obligations remain; no MIT/header/registry grant.",
+  "origin": {
+    "publisherPath": "apps/zcode-cli/packages/contracts/src/workflow/index.ts",
+    "recordedBlob": "19014a9700639cd4ad75ecbc62be2dd294fca781",
+    "predecessorSha256": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62",
+    "verification": "Lane inventory/local predecessor facts only; no independent publisher fetch performed for this checkpoint."
+  },
+  "verification": {
+    "source": {
+      "pass": 6,
+      "fail": 0
+    },
+    "actualEmitted": {
+      "pass": 6,
+      "fail": 0
+    },
+    "countMeaning": "Per mode: five new projection/consumer/strict-selector groups plus one existing ready-order launch/cap smoke group. Freeze five groups per mode is historical, not additional final coverage. Existing smoke uses current contracts in its historical arm; it is not a second old-projection differential.",
+    "consumerRouting": "Direct current source function or exact compiler-emitted JS. Real core source consumers resolve contracts via actual emitted public package barrel. Historical consumer swaps only projection through unchanged graph/scheduler import overlay. All 52 actual source/emitted/declaration/private-dependency bindings checked exactly. Wrong/missing oracle and five current artifact classes fail closed (12 controls per mode).",
+    "compiler": {
+      "node": "v24.19.0",
+      "typescript": "6.0.2",
+      "roots": [
+        "test/workflow-scheduler-state.test.ts",
+        "test/workflow-scheduler-state-fixture.ts",
+        "test/workflow-ready-order.test.ts",
+        "test/workflow-ready-order-fixture.ts"
+      ],
+      "diagnostics": 0,
+      "scopedPublicDeclarationBytesEqual": true,
+      "installedDeclarationApiShapeEqual": true,
+      "nonPropertyTypeLiterals": 0,
+      "options": "Existing strict core options; noEmit; rootDir extended only for owned fixture dependencies"
+    },
+    "integrity": {
+      "draftSha256": "039f5714d3fec3c009099599bb82ecb9efdbe40dd90b556a4f63f1cc26a94056",
+      "draftBytes": 4827,
+      "integratedFunctionAstEqual": true,
+      "allOtherContractsSourceBytesEqual": true,
+      "unchangedRemainderSha256": "b2e067ad7d04df839e802392b53a5c7b7c982dc56dfa1d2d891f2e078f3b66d4",
+      "strictArtifactBindings": 52,
+      "frozenTestOracleSpecPacketUnchanged": true
+    },
+    "configuredLint": {
+      "pass": false,
+      "rules": 94,
+      "errors": 1,
+      "warnings": 0,
+      "reason": "Existing max-lines failure: baseline 768, final 820, limit 400. No rule/configuration change or unrelated schema split."
+    },
+    "ownedDefaultLint": {
+      "pass": true,
+      "rules": 93,
+      "errors": 0,
+      "warnings": 0,
+      "meaning": "Default owned rules only; does not clear configured max-lines failure."
+    },
+    "format": "Pass: 10 owned files at runtime checkpoint. Receipt formatted and checked separately.",
+    "architecture": "check --changed: zero violations; CLI remains outside managed architecture modules.",
+    "runtime": "Node v24.19.0 / TypeScript 6.0.2; no aggregate build or full suite."
+  },
+  "failurePreservation": {
+    "historical": "Preproduction installed-vs-scoped declaration byte mismatch and archive-not-produced failure remain bound in knorvia-scheduler-state-freeze-20261002.json. Same-source canonical API equality established before freeze; current declaration exactly equals isolated predecessor declaration. No old assertion/oracle replaced.",
+    "new": "Curator selector replacement command used an incorrect old digest string and asserted before write. Subsequent test commands rejected stale current manifest pin. No projection groups ran in that failed attempt. Only current literal was updated; frozen tests/oracle unchanged. Raw failed output is retained below; original local logs remain.",
+    "sourceLog": "\u2714 source: ready order actual scheduler launch list and concurrent cap (16.554073ms)\n\u2716 apps/cli/packages/core/test/workflow-scheduler-state.test.ts (0.151352ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2116.143289\n\n\u2716 failing tests:\n\ntest at apps/cli/packages/core/test/workflow-scheduler-state.test.ts:1:1\n\u2716 apps/cli/packages/core/test/workflow-scheduler-state.test.ts (0.151352ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'de7cb0e04f956493176c5d7af0e0a8bf12250ddacf2d750a41674ccbbe6ecb4a'\n  - '544a8b1b069b1f77e77fdfbf85412c77e0d375cbb0fa9007cebab12bbd9604e8'\n  \n      at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts:21:8) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'de7cb0e04f956493176c5d7af0e0a8bf12250ddacf2d750a41674ccbbe6ecb4a',\n    expected: '544a8b1b069b1f77e77fdfbf85412c77e0d375cbb0fa9007cebab12bbd9604e8',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+    "emittedLog": "\u2714 emitted: ready order actual scheduler launch list and concurrent cap (16.441307ms)\n\u2716 apps/cli/packages/core/test/workflow-scheduler-state.test.ts (0.151192ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2369.287357\n\n\u2716 failing tests:\n\ntest at apps/cli/packages/core/test/workflow-scheduler-state.test.ts:1:1\n\u2716 apps/cli/packages/core/test/workflow-scheduler-state.test.ts (0.151192ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'de7cb0e04f956493176c5d7af0e0a8bf12250ddacf2d750a41674ccbbe6ecb4a'\n  - '544a8b1b069b1f77e77fdfbf85412c77e0d375cbb0fa9007cebab12bbd9604e8'\n  \n      at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts:21:8) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'de7cb0e04f956493176c5d7af0e0a8bf12250ddacf2d750a41674ccbbe6ecb4a',\n    expected: '544a8b1b069b1f77e77fdfbf85412c77e0d375cbb0fa9007cebab12bbd9604e8',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n"
+  },
+  "limits": [
+    "Ordinary schema-shaped plain synthetic records; not arbitrary accessor/proxy or malformed runtime-object equivalence. No broad exotic matrix.",
+    "Only lane-local unchanged scheduler/planner consumers; root integrated scheduler/planner-v2 review and broader consumers remain parent work.",
+    "Pinned Node 24.14.0 and native Windows/macOS not exercised. No full product suite/build.",
+    "Configured max-lines remains failed. Remote freshness fetch encountered proxy resolution failure before work; local reads/tests succeeded.",
+    "Whole contracts file remains mixed/unreviewed outside selected candidate. Whole-file licence acceptance is root-owned."
+  ],
+  "fileSha256": {
+    "apps/cli/packages/contracts/src/workflow/index.ts": "90e1363cdf9bae41b0fe3b99773146bdeeaed5922236c2fbc067b06b8d91f24c",
+    "apps/cli/packages/contracts/dist/workflow/index.js": "75d758df831789ce48c0ae4fbf04c3771240bdc156d92ac06439c61ae85a7045",
+    "apps/cli/packages/contracts/dist/workflow/index.d.ts": "34f9df91d2e74c9a33437d87256c8b14a1a8af930feb36292d3e37bc597ea090",
+    "apps/cli/packages/core/test/workflow-scheduler-state.test.ts": "d9aa14ece76651e96fa5b452bb223aa03a1425aaa48db138d9e7553419aa779b",
+    "apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts": "54c32aa372fe75ae6db2659df3056c488bda43e72678f2d7969211777235144c",
+    "apps/cli/packages/core/test/workflow-scheduler-state-baseline.json": "7e50244bfb7ea66e8915394e7017d78b3829ad6ebfcba2d416e6e6477e228839",
+    "apps/cli/packages/core/test/workflow-scheduler-state-current.json": "de7cb0e04f956493176c5d7af0e0a8bf12250ddacf2d750a41674ccbbe6ecb4a",
+    "specs/knorvia-scheduler-state-projection-20261002.md": "d79117e7a52766e1df8eb99d87d73ed5fab26138d2ee42b85c1e9a76097fd272",
+    "docs/evidence/scheduler-state-author-20261002/contract.md": "e6fcff7b853a7a55cd7f69bc30b26b59fcac87d0b08f54f8715ecd80ed78b270",
+    "docs/evidence/scheduler-state-author-20261002/api.d.ts": "363733d2b8ad2c7dc509288a7bef4a781c64d601f76a624e0db889b42fbfbe62",
+    "docs/evidence/scheduler-state-author-20261002/draft.json": "b864c14ad49a2d5f60995ef95fdedd730f590e2cb91d8fc066389f1a36f75e51"
+  },
+  "localEvidenceSha256": {
+    "/tmp/knorvia-scheduler-state-20261002/final-compile.log": "104651eab959ddc5b4b4e6091bcf9e1a9a299c1c4c5ecdb859be52f8eff7b159",
+    "/tmp/knorvia-scheduler-state-20261002/final-source.log": "5ce803949cf96e53e9bfd0a37e4ad901ed209653fa8a0d0c8a344f3c3b1bdcb5",
+    "/tmp/knorvia-scheduler-state-20261002/final-emitted.log": "f0cd3e5bee069d112cb434665593637fc2f36aa7b3f9ed02b11ff97a633da146",
+    "/tmp/knorvia-scheduler-state-20261002/final-types.log": "53384f4d965e7a69e52bef85fa151d40b89fcde74b89f11503eb486406e3f623",
+    "/tmp/knorvia-scheduler-state-20261002/final-configured-lint.log": "b53a8f559679170ca243d5263303a4c18a9c9c3d75bbff78f6f684b290cc8690",
+    "/tmp/knorvia-scheduler-state-20261002/final-owned-lint.log": "282f214c8ab7d907097049ad584428e84d1c5d2964ef991acc062d5ec5387a49",
+    "/tmp/knorvia-scheduler-state-20261002/final-format.log": "c37ec795bd4c3979f5a976fc9fab8aea48ff7809375b724f88558a5f2a87da28",
+    "/tmp/knorvia-scheduler-state-20261002/final-architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "/tmp/knorvia-scheduler-state-20261002/selector-update-failed-source.log": "8201bb745f5ca79e75004434da2fc499519fdc0fc98577dea0679e75c45ff964",
+    "/tmp/knorvia-scheduler-state-20261002/selector-update-failed-emitted.log": "527856edecdb2b8cad8943eceb34e1028e5da3c76de03313fd008016742d4de3",
+    "/tmp/knorvia-scheduler-state-20261002/integrity.json": "d7a581663b24882e3e6a21fc3c6c9c1f30414ae890d1318ddf78fdae51215d3c",
+    "/tmp/knorvia-scheduler-state-20261002/types.json": "e0cc5e7a4ae0f50fe85898aad381d27c8444da695ff99a97029a9ab324029ac6",
+    "/tmp/knorvia-scheduler-state-20261002/prepare.mjs": "5c9ee90c8bf79f2cfbcd75755c877de06744ab100d3a6ee2b515cb5f56b21316",
+    "/tmp/knorvia-scheduler-state-20261002/check-types.mjs": "8270d6287c4ee64993c60caa2209ad7c57f5f95eb7b2481fbcff506888a0f6e7",
+    "/tmp/knorvia-scheduler-state-20261002/check-integrity.mjs": "e4eb0d9d929754efebd87a8dc5ca832438801adc9b9fbdae74937c97a529c071",
+    "/tmp/knorvia-scheduler-state-20261002/api-shape.mjs": "74fbf0a6c9059a664d791be24e25059c6fbf93e403781a57bc6c57a824de2c05",
+    "/tmp/knorvia-scheduler-state-20261002/freshness.log": "84c6072a813e1e6419c1627eb2e606645d4423e24c4c634a415f8ddd25de154a"
+  },
+  "reproduce": "Use TypeScript 6.0.2 with contracts tsconfig and sole program root contracts/src/workflow/index.ts to emit actual workflow/index.js and .d.ts (no aggregate build); exact expected hashes above. Execute test files workflow-scheduler-state.test.ts and workflow-ready-order.test.ts with --import tsx --test --test-isolation=none --test-timeout=120000 --test-name-pattern=\"scheduler projection|ready order actual scheduler launch\" and KNORVIA_COLLECTION_PLANNER_TEST_EMITTED=0 then 1; KNORVIA_ENV=test and owned temporary data/storage directories. Artifact mismatch must fail; never repin merely to accept an unrelated dependency surface."
+}

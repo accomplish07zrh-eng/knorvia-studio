@@ -1,0 +1,42 @@
+{
+  "task": "workspace-checkpoints history/copy/checkpoint-target fork owner",
+  "revision": "draft-01",
+  "permitted_input_reads": [
+    "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/contract.md",
+    "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/api.d.ts",
+    "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/dependency-api.md"
+  ],
+  "additional_body_free_signature_clarifications": [
+    "createForkedSession returns Promise<SessionId>.",
+    "selectCheckpointForRewind returns CheckpointCreatedPayload | undefined; return checkpoint shares payload reference."
+  ],
+  "authored_output_reads": [
+    "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/draft-01/workspace-checkpoints.ts"
+  ],
+  "other_tool_access": [
+    "clock__curr_time UTC time query; no filesystem content"
+  ],
+  "excluded_access": [
+    "predecessor",
+    "history",
+    "tests",
+    "oracles",
+    "repository bodies",
+    "other packets",
+    "production files",
+    "live adapters",
+    "live data"
+  ],
+  "writes": [
+    "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/draft-01/workspace-checkpoints.ts",
+    "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/draft-01/access-report.json",
+    "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/draft-01/sha256-manifest.json"
+  ],
+  "tests_builds_or_live_io": false,
+  "curator_source_comparison_before_freeze": false,
+  "preserved_dependencies": [
+    "session-fork.js",
+    "workspace-fork.js",
+    "helpers/index.js"
+  ]
+}

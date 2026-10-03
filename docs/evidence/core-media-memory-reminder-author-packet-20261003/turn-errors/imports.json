@@ -1,0 +1,33 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "clause": "{\n  CoreErrorType,\n  SessionEventType,\n  createCoreError,\n  createModelUsageSummaryFromEvents,\n  isCoreError,\n  traceContextToLogContext,\n}",
+      "text": "import {\n  CoreErrorType,\n  SessionEventType,\n  createCoreError,\n  createModelUsageSummaryFromEvents,\n  isCoreError,\n  traceContextToLogContext,\n} from \"../deps.js\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "type { SessionEvent, TraceContext }",
+      "text": "import type { SessionEvent, TraceContext } from \"../deps.js\";"
+    },
+    {
+      "module": "../internal.js",
+      "clause": "type { AgentRuntimeInternal }",
+      "text": "import type { AgentRuntimeInternal } from \"../internal.js\";"
+    },
+    {
+      "module": "../../errors/error-payload.js",
+      "clause": "{\n  ErrorPayloadRole,\n  projectExecutionErrorPayload,\n  withErrorPayloadRole,\n}",
+      "text": "import {\n  ErrorPayloadRole,\n  projectExecutionErrorPayload,\n  withErrorPayloadRole,\n} from \"../../errors/error-payload.js\";"
+    },
+    {
+      "module": "./model-errors.js",
+      "clause": "{ isModelContextExceededError }",
+      "text": "import { isModelContextExceededError } from \"./model-errors.js\";"
+    }
+  ],
+  "reexports": [
+    "export { projectExecutionErrorPayload } from \"../../errors/error-payload.js\";"
+  ]
+}

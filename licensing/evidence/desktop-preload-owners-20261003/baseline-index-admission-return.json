@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/preload/owners.test.mjs",
+    "--baseline",
+    "--owner=index"
+  ],
+  "stdout": "sourceMode=frozen-baseline; owner=index\n✔ index: public facade, promise/cancellation identity and buffered callback lifetime (139.872289ms)\n✔ index: exact sender/channel/schema admission and first-port closure/transfer (33.648919ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 183.566219\n",
+  "stderr": "",
+  "exitCode": 0
+}

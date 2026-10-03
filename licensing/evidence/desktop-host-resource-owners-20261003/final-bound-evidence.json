@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "/tmp/host-resource-final-evidence.py"
+  ],
+  "stdout": "{\n  \"rawDrafts\": 4,\n  \"retainedRecords\": 7,\n  \"installedMatches\": [\n    {\n      \"owner\": \"recording\",\n      \"matchingBodyPairs\": 1,\n      \"uniqueBodyHashes\": 1,\n      \"identicalExpressionCount\": 78,\n      \"acceptedCredit\": 0\n    },\n    {\n      \"owner\": \"proxy\",\n      \"matchingBodyPairs\": 0,\n      \"uniqueBodyHashes\": 0,\n      \"identicalExpressionCount\": 31,\n      \"acceptedCredit\": 0\n    },\n    {\n      \"owner\": \"registry\",\n      \"matchingBodyPairs\": 53,\n      \"uniqueBodyHashes\": 5,\n      \"identicalExpressionCount\": 241,\n      \"acceptedCredit\": 0\n    }\n  ],\n  \"sourceNet\": -69,\n  \"protectedDesktop\": 1497,\n  \"protectedCli\": 295\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

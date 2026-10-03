@@ -1,0 +1,271 @@
+[
+  {
+    "name": "metadata priority and actual event payload",
+    "value": {
+      "childSessionId": "",
+      "outputBytes": 2,
+      "outputFile": "owned://launch",
+      "outputTail": "",
+      "outputTruncated": true,
+      "stderrBytes": 2,
+      "stderrTail": "Owned stderr",
+      "stdoutBytes": 0,
+      "stdoutFile": "owned://stream",
+      "stdoutTail": ""
+    },
+    "keys": [
+      "childSessionId",
+      "outputBytes",
+      "outputFile",
+      "outputTail",
+      "outputTruncated",
+      "stderrBytes",
+      "stderrFile",
+      "stderrTail",
+      "stdoutBytes",
+      "stdoutFile",
+      "stdoutTail"
+    ],
+    "emptyKeys": [
+      "childSessionId",
+      "outputBytes",
+      "outputFile",
+      "outputTail",
+      "outputTruncated",
+      "stderrBytes",
+      "stderrFile",
+      "stderrTail",
+      "stdoutBytes",
+      "stdoutFile",
+      "stdoutTail"
+    ],
+    "array": [
+      {
+        "outputTail": "Owned array stream",
+        "outputTruncated": false,
+        "stdoutTail": "Owned array stream"
+      }
+    ],
+    "inherited": {
+      "childSessionId": "owned-inherited",
+      "outputFile": "owned://inherited"
+    },
+    "payload": {
+      "taskId": "owned-task",
+      "toolCallId": "owned-call",
+      "toolName": "Bash",
+      "taskKind": "bash",
+      "childSessionId": "",
+      "cancellable": false,
+      "command": "owned-never-run",
+      "status": "completed",
+      "outputPath": "owned://launch",
+      "stdoutPersistedOutputPath": "owned://stream",
+      "outputBytes": 2,
+      "outputTruncated": true,
+      "outputTail": "",
+      "stderrBytes": 2,
+      "stderrTail": "Owned stderr",
+      "stdoutBytes": 0,
+      "stdoutTail": "",
+      "terminalId": "owned-task"
+    },
+    "payloadKeys": [
+      "taskId",
+      "toolCallId",
+      "toolName",
+      "taskKind",
+      "childSessionId",
+      "cancellable",
+      "command",
+      "description",
+      "status",
+      "pid",
+      "startedAt",
+      "completedAt",
+      "outputPath",
+      "stderrPersistedOutputPath",
+      "stdoutPersistedOutputPath",
+      "outputBytes",
+      "outputTruncated",
+      "outputTail",
+      "stderrBytes",
+      "stderrTail",
+      "stdoutBytes",
+      "stdoutTail",
+      "terminalId"
+    ]
+  },
+  {
+    "name": "report caps, errors and actual enqueue data",
+    "text": {
+      "keys": ["count", "shown", "preview"],
+      "count": 9,
+      "shown": 3,
+      "preview": {
+        "length": 6014,
+        "sha256": "e04c01285fde2babcd1c6366f6c4224c48fd29dbd6f12dbc0922de5a4e680444",
+        "prefix": "[1] 测测测测测测测测",
+        "suffix": "测测测测…"
+      }
+    },
+    "manifest": {
+      "keys": ["count", "shown", "preview"],
+      "count": 9,
+      "shown": 8,
+      "preview": [
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        },
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        },
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        },
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        },
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        },
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        },
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        },
+        {
+          "length": 500,
+          "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+          "prefix": "测测测测测测测测测测测测",
+          "suffix": "测测测测…"
+        }
+      ]
+    },
+    "sparse": {
+      "keys": ["count", "shown", "preview"],
+      "count": 2,
+      "shown": 2,
+      "preview": {
+        "length": 9,
+        "sha256": "32b3aa307b71f57d305f493225dce3904689740d40ea2c3ce54f928f1047fa99",
+        "prefix": "[1] \n[2] ",
+        "suffix": "\n[2] "
+      }
+    },
+    "notification": {
+      "taskId": "owned-workflow-task",
+      "toolName": "CreateWorkflow",
+      "originKeys": ["backgroundSource", "title", "workId", "workflowNotification"],
+      "manifestKeys": ["kind", "status", "summary", "result", "resultForm", "reports"],
+      "textReports": {
+        "keys": ["count", "shown", "preview"],
+        "count": 9,
+        "shown": 3,
+        "preview": {
+          "length": 6014,
+          "sha256": "e04c01285fde2babcd1c6366f6c4224c48fd29dbd6f12dbc0922de5a4e680444",
+          "prefix": "[1] 测测测测测测测测",
+          "suffix": "测测测测…"
+        }
+      },
+      "manifestReports": {
+        "keys": ["count", "shown", "preview"],
+        "count": 9,
+        "shown": 8,
+        "preview": [
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          },
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          },
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          },
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          },
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          },
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          },
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          },
+          {
+            "length": 500,
+            "sha256": "b2b396df44c035cd867171f793785110bbd0deb3745ec18337b7e900f2c9ac49",
+            "prefix": "测测测测测测测测测测测测",
+            "suffix": "测测测测…"
+          }
+        ]
+      },
+      "trace": [
+        [
+          "format",
+          [
+            "description",
+            "deliveryGuidance",
+            "error",
+            "reports",
+            "result",
+            "status",
+            "runStatus",
+            "summary",
+            "taskId",
+            "taskType",
+            "toolUseId"
+          ]
+        ],
+        "claim",
+        "enqueue"
+      ]
+    }
+  }
+]

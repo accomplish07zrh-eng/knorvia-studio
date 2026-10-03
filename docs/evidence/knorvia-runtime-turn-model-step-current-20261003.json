@@ -1,0 +1,91 @@
+{
+  "typescript": "6.0.2",
+  "selection": "current actual owned source/compiler JS/declaration only; immutable historical oracle remains separately selected",
+  "files": {
+    "turn-model-step-fields": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts",
+        "sha256": "cf87777d13db93b5d539e0cf3a54c7761f382832d5180a568118b8c54cf0f3be",
+        "bytes": 11762
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-fields.js",
+        "sha256": "dd95a65fb0519d4ace33a33049795e23f4569b97bb101e11862b6922caf8b701",
+        "bytes": 8541
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-fields.d.ts",
+        "sha256": "2a0147204afe6a3598810ef09a55aa1ebc0d7e907c85dc48d94a9a5d4a3d7ec5",
+        "bytes": 7683
+      }
+    },
+    "turn-model-step-operation": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-operation.ts",
+        "sha256": "0c5c35c7754be0d71fce2c5f1d5eb0da04e22c5c53e9e9b8838d824c4ccd0414",
+        "bytes": 14568
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-operation.js",
+        "sha256": "64e2346dc62acee0a08b1fb0ad031e3977dfb264b1036f9b97a1a9375215155d",
+        "bytes": 14124
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-operation.d.ts",
+        "sha256": "032b099c8e77dee686aa538dadf65cfd7435cc72a80ab1098cbb44624b1ab98b",
+        "bytes": 561
+      }
+    },
+    "turn-model-step-records": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-records.ts",
+        "sha256": "a053d8d930c2fe7714f7237fb19bfe773b4023c1d617b84a024b3cf01856f23b",
+        "bytes": 4071
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-records.js",
+        "sha256": "0ceba561d81764f505bffa291d73766f2ae11c7afc6523374a8acfb3b1a651b6",
+        "bytes": 3327
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-records.d.ts",
+        "sha256": "2153f7a1ba81d932ca50591e2491cb899a40531bc0e2130baad6130b82355168",
+        "bytes": 1953
+      }
+    },
+    "turn-model-step-recovery": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step-recovery.ts",
+        "sha256": "0c716d6425209df36dbab51c6a223a75e67cd7c545bfbfb56f79cacd08735e75",
+        "bytes": 2407
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-recovery.js",
+        "sha256": "99f587c2fe9d01060c90f16773c30ff5c4747301c5796227ddd484eae4090f60",
+        "bytes": 2173
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step-recovery.d.ts",
+        "sha256": "b606d429d0630a168f615ef2fe5222da16bfa113849d515d844b73e2cb8e9281",
+        "bytes": 477
+      }
+    },
+    "turn-model-step": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+        "sha256": "9445ca321cc158e19e5be93368730688b1f27c50c6f929b87718393f54454216",
+        "bytes": 1898
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step.js",
+        "sha256": "6a92b61e420184adc9fcf5fe7d66f961b92ebf444965b1342aaa97d6a97fdd4c",
+        "bytes": 1124
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model-step.d.ts",
+        "sha256": "12f713fecddb87ac8ee31c876cd1d759717bc87eba6a4552e5f087d784ee975b",
+        "bytes": 990
+      }
+    }
+  }
+}

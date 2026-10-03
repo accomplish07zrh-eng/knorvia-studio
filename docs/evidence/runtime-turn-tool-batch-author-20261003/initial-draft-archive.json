@@ -1,0 +1,26 @@
+{
+  "draft": "draft-01",
+  "allInitialFilesRetained": true,
+  "files": [
+    {
+      "path": "runtime/methods/turn-tool-batch-follow-up.ts",
+      "sha256": "f82e5456501dfc4183de970611aaa3bf4766cdcf3c04bb396095d13f21afb000",
+      "bytes": 1638
+    },
+    {
+      "path": "runtime/methods/turn-tool-batch-publication.ts",
+      "sha256": "7e2c2e9568983fbf3bed8b1a003b131e6f470f7d5f84cff04fa7053e7451f33a",
+      "bytes": 6268
+    },
+    {
+      "path": "runtime/methods/turn-tools.ts",
+      "sha256": "7bef2a039a58bdf352b658c39b4464db49f8b7ea68995b3b159ef8d50d55c22d",
+      "bytes": 10842
+    },
+    {
+      "path": "seal.json",
+      "sha256": "d75fa4266f4e2d5bd344f341ca2c39902f89d37b79768207de16b029b17bd1ae",
+      "bytes": 24879
+    }
+  ]
+}

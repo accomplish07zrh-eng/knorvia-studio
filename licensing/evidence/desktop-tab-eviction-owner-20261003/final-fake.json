@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/tabEvictionOwner.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabEvictionOwner.test.mjs",
+      "sha256": "0c913096e5fd059a29afc35bf62c656bd1914e853655285cf8b6df2f542c6ee8"
+    }
+  ],
+  "stdout": "✔ complete tab eviction owner preserves protected state, stable ranking and original identity (7.702295ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 391.156542\n",
+  "stderr": "",
+  "exitCode": 0
+}

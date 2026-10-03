@@ -1,0 +1,34 @@
+{
+  "base": "04c6c761f222107054c2b5f3508846cd21f0756a",
+  "freezeCommit": "215a4fe",
+  "draftArchiveCommit": "9d228ab",
+  "redProofCommit": "ec1dc0a",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/plugin-reference.ts",
+  "draftSha256": "d1173ce19ea6e069a97b881ee7aab58d5ce9f5b1899be7415462ec963fa84661",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/plugin-reference.ts",
+      "sha256": "b0955a1b518b92618cdf509cd7bb0d13900555037c140040cda7b7abf3fe32d9"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/plugin-reference.js",
+      "sha256": "92893cabdb306eeb57703e08382d9ba33c49d3680218446f32dba133059c8344"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/plugin-reference.d.ts",
+      "sha256": "00217ad1058df91795a7a1e414ad7fcbe3e35243aff285c05e2c6a508a6e4ebf"
+    }
+  },
+  "physicalLines": 127,
+  "design": "Complete plugin-reference reminder admission, native capability collection, history insertion and recoverable store publication; plugin/MCP/runtime subsystems retain ownership.",
+  "retained": "Parser/clock outside catch, no-reference return, no-MCP native async collector gate, ordered capability/startup projection and history-before-write/catch combination strongly correspond. Fixed notice/log vocabulary, counters/record shapes/helper calls retained. Reorganized projections and local names do not alone establish whole-body independence.",
+  "correction": "Formatting only. Synthetic parser/builder seam avoids actual discovery/services; history survives the owned append rejection as before.",
+  "sourceExposure": "Curator read predecessor. Source-derived body-free functional/API/import/supporting packet; fresh internal author fork_turns=none,GPT6.1Sol/high, archived input journal and hash seal before curator comparison. Ordinary environment/task metadata available. No absolute clean-room claim.",
+  "api": {
+    "exactCallSignaturesEqual": true,
+    "fixedDeclarationFactsEqual": true
+  },
+  "checksReference": "docs/evidence/runtime-preparation-five-checks-20261003",
+  "limits": "Only three minimum synthetic actual-emitted write/publication groups plus one overlapping verifier captured-ID proof. Ordinary suites, turn-loop/shell behavioral execution, builds, native acceptance and full runtime callers deferred. Import locations rebound; unchanged transitive dependencies through tsx source except declared fake seams. Strong correspondence qualified for independent expression/rights review; no header/registry/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-plugin-reference-author-20261003/lineage.json"
+}

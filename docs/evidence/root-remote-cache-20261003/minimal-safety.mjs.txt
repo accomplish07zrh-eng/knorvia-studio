@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile,mkdir,mkdtemp,readdir,stat,rm} from 'node:fs/promises';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+const root=process.cwd(),work='/tmp/knorvia-root-cache-author-20261003';
+const code=(await readFile(work+'/emit/remoteAssetCache.js','utf8')).replace(/from "(@knorvia\/server\/remote\/([^\"]+))"/g,(_m,_p,file)=>'from '+JSON.stringify(pathToFileURL(root+'/packages/server/dist/remote/'+file).href));
+await writeFile(work+'/runtime.mjs',code);const api=await import(pathToFileURL(work+'/runtime.mjs').href);
+const fixture=await mkdtemp('/tmp/knorvia-cache-minimal-');const logs=[];const logger={log(v){logs.push(v)},logWarn(v){logs.push(v)}};
+const component={id:'server-bundle',version:'2.0.0',sha256:'a'.repeat(64),artifactPath:'server.tar.gz',mount:'server'};
+const manifest={schemaVersion:1,appVersion:'1.0.0',platformArch:'linux-x64',components:[component]};
+const ref={manifest,releaseBaseCandidatesForComponents:['https://assets.invalid/release/1.0.0','https://backup.invalid/release/1.0.0']};
+const observations=[];
+try{
+ const parsed=await api.parseRemoteAssetManifestFromResponse(new Response(JSON.stringify({...manifest,components:[{id:'future',version:17}, {...component,sha256:component.sha256.toUpperCase()}]})),'owned:manifest','1.0.0','linux-x64');
+ assert.deepEqual(parsed,manifest);assert.equal(api.selectRemoteAssetManifestComponents(parsed),parsed.components);assert.equal(api.selectRemoteAssetManifestComponents(parsed,[' server-bundle '])[0],parsed.components[0]);
+ await assert.rejects(api.parseRemoteAssetManifestFromResponse(new Response(JSON.stringify({...manifest,components:[{id:'future'},{id:'future'}]})),'owned:duplicate','1.0.0','linux-x64'),/duplicate component id/);
+ observations.push({group:'manifest identity and validation',passed:true});
+ const cache=path.join(fixture,'reuse'),stored=path.join(cache,'components','server-bundle',component.sha256);await mkdir(stored,{recursive:true});await writeFile(path.join(stored,'.ready'),'original-marker\n');await writeFile(path.join(stored,'app.cjs'),'owned payload');
+ let calls=0;const options={remoteCdnBaseUrl:'https://assets.invalid',remoteCacheDir:cache,version:'1.0.0',platformArch:'linux-x64',componentIds:['server-bundle'],manifestRef:ref,requiredReleasePaths:['server/app.cjs'],remoteAssetNetwork:{fetch:async()=>{calls++;throw Error('unexpected network')}}};
+ const before=JSON.stringify(ref),release=await api.ensureRemoteReleaseDirFromCdn(options,logger);
+ assert.equal(calls,0);assert.equal(JSON.stringify(ref),before);assert.equal(await readFile(path.join(release,'server','app.cjs'),'utf8'),'owned payload');assert.equal((await stat(path.join(release,'server','app.cjs'))).ino,(await stat(path.join(stored,'app.cjs'))).ino);assert.deepEqual(await readdir(path.join(release,'server')),['app.cjs']);assert.equal(await readFile(path.join(release,'manifest-linux-x64.json'),'utf8'),JSON.stringify(manifest)+'\n');
+ observations.push({group:'pinned cached partial publication',passed:true});
+ let downloadCalls=0;const force={...options,forceRefresh:true,remoteAssetNetwork:{fetch:async()=>{downloadCalls++;return new Response('bad owned archive',{status:200})}}};
+ await assert.rejects(api.ensureRemoteReleaseDirFromCdn(force,logger),/sha256 mismatch/);assert.equal(downloadCalls,1);assert.equal(await readFile(path.join(stored,'app.cjs'),'utf8'),'owned payload');assert.equal(await readFile(path.join(stored,'.ready'),'utf8'),'original-marker\n');assert.deepEqual(await readdir(path.join(cache,'staging')),[]);
+ observations.push({group:'failed forced download retains existing cache',passed:true});
+ console.log(JSON.stringify({observations,realNetwork:false,realUserData:false,fullSuite:false},null,2));
+}finally{await rm(fixture,{recursive:true,force:true})}

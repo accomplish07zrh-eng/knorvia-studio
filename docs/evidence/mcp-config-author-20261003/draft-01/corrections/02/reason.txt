@@ -1,0 +1,1 @@
+Self review: capture the exact tracking return locally before assignment and scheduled logging, and return that reference. This preserves required tracked identity even if synchronous logging mutates the public runtime field. All earlier complete candidate sets preserved.

@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-02T23:01:25.628539+00:00",
+  "file": "desktopMainIpcPlatform.ts",
+  "bytes": 13880,
+  "sha256": "6ac5f56060d5f63cb086125da6360c40440dccdf36bbf5065fa4cdb082ca2ef9",
+  "platformBodyReadBeforeFreeze": false,
+  "hostBodyReadOrAuthored": false,
+  "qualification": "Complete packet-authored platform draft; required public port/schema/registration expressions retained; source-exposed curator and broad root context disclosed."
+}

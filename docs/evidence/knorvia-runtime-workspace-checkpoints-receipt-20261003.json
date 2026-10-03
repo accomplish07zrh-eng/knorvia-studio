@@ -1,0 +1,43 @@
+{
+  "owner": "workspace-checkpoints",
+  "modules": [
+    "workspace-checkpoints"
+  ],
+  "baselineContainerSha256": "955bf4c5064e06b6cb23f9b54760ea947025e301e64d8e537426d674697306d2",
+  "sourceBaseline": "811877b3d5df766276e0d21dfd06a9f11529384b",
+  "draft": {
+    "workspace-checkpoints.ts": "4d75814b2d42ea533f800440f2c18ba9c955f65e7359967cad25e3b20c9497b6",
+    "sha256-manifest.json": "ea9fee3b4ac5035dcd2d7e6fc196f82f1cb0c11dc950c2ef51ce70a190a44bf1",
+    "access-report.json": "f3b66e10490bdfcbe7d201208a3709f4af628ada3175e57fd1583c074b60db29"
+  },
+  "currentArtifacts": {
+    "src/runtime/methods/workspace-checkpoints.ts": "57bab6b3bed5c0ec444eaab0728aa55b825832d1f54c8332ef592951aad4cd00",
+    "dist/runtime/methods/workspace-checkpoints.js": "3bc00746efc076da8bb979fef3b2b5aff6d3919165d07c566900f8a272c43db0",
+    "dist/runtime/methods/workspace-checkpoints.d.ts": "6270ea7980067820cbf2e20bf193abffcfac82a6734c74eb7a8ffed43d87ac08"
+  },
+  "workflow": "Three fresh no-inherited-context internal authors read only body-free functional/API packets and recorded API clarifications. Exact drafts saved/hashed before curator comparison; curator source-exposed.",
+  "corrections": [
+    "Saved TS2345 draft failure: artifact port returns ToolArtifactReadResult, parser uses snapshot.content.",
+    "Static compatibility restores live target reads after await, parse-all-before-projection phase, parameter default/error boundaries."
+  ],
+  "retained": "Fixed API/schema/protocol vocabulary, model/log/error prose and conventional field/map/loop/await projection are deliberately retained or contract-constrained. Restore wrapper and ordinary compatibility glue receive no originality credit. Detailed source-derived packets constrain combinations; no automatic whole-body/file independence or MIT claim. Root independently reviews actual expression.",
+  "checks": {
+    "compiler": "zero final diagnostics; immutable historical vs current emitted declaration resolved signatures equal",
+    "ownerPublicSignatures": 5,
+    "lint": "0 warnings/errors on six changed files, unchanged94rules",
+    "format": "six owners/helpers and safety fixture",
+    "architecture": "changed check0 violations, unmanaged CLI",
+    "minimalSyntheticSafety": "Shared final strict-emitted pass:3 paired persistence groups plus2 appended concrete regression observations. No additional per-owner suite or double-counted totals.",
+    "selector": "current source/JS/declaration exact18 pins across six modules; wrong/missing private artifact controls reject"
+  },
+  "deferred": [
+    "Ordinary suites/full builds/native acceptance",
+    "Remaining branches, cancellation/concurrency and logger reentrancy dynamically unrun; static comparison only",
+    "Transitive workspace dependencies via tsx, not all-emitted",
+    "Root independent contribution/runtime/licence acceptance"
+  ],
+  "limitations": [
+    "Freshness fetch blocked by configured proxy8080; no bypass/settings change",
+    "Node24.19.0 vs pinned24.14 retained environment"
+  ]
+}

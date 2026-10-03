@@ -1,0 +1,47 @@
+[
+  {
+    "kind": "installed",
+    "source": "packages/desktop/src/host/index.ts",
+    "sha256": "020aaef083b63631e008d0d002f692e53657a3ba6ec2d7923061177b76fdbcab",
+    "identicalBodyMatchPairs": 53,
+    "uniqueIdenticalBodyDigests": 16,
+    "identicalExpressionCount": 1046,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-1.ts.txt",
+    "sha256": "e05a5dbaebaeecb76aa20004e993d8e4b6291d1dc375fdcdb3435144ad399555",
+    "identicalBodyMatchPairs": 43,
+    "uniqueIdenticalBodyDigests": 14,
+    "identicalExpressionCount": 1017,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-2.ts.txt",
+    "sha256": "554fd6fab968821edbabc127ada86c9b72a65f8030fb4f383ee81c8c10af6bf9",
+    "identicalBodyMatchPairs": 43,
+    "uniqueIdenticalBodyDigests": 14,
+    "identicalExpressionCount": 1017,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-correction-3.ts.txt",
+    "sha256": "dd82b10f8b1e0584874fa0da6691df8775b10809111ac8680616a429de724517",
+    "identicalBodyMatchPairs": 52,
+    "uniqueIdenticalBodyDigests": 15,
+    "identicalExpressionCount": 1021,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "kind": "frozen-whole-draft",
+    "source": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-initial.ts.txt",
+    "sha256": "4b62d7d871906f31124376eb00b6dd5a7c80166987d2a3dbbdfb940c4ff7e63b",
+    "identicalBodyMatchPairs": 45,
+    "uniqueIdenticalBodyDigests": 16,
+    "identicalExpressionCount": 1089,
+    "acceptedIndependentReplacementCredit": 0
+  }
+]

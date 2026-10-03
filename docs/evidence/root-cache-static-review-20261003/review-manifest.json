@@ -1,0 +1,65 @@
+{
+  "reviewedAtUtc": "2026-10-02T17:35:43.625351+00:00",
+  "reviewKind": "Read-only static behavior and source-expression review; no root source imported into E owner tree",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/12",
+  "reviewedHead": "ffed10195f13f11c0726ae9df5976dd790b9b666",
+  "source": {
+    "path": "packages/server/src/remote/remoteAssetCache.ts",
+    "gitBlob": "021fe2672d42ecb9b5108cca7f54d22cedb6e687",
+    "bytes": 37410,
+    "sha256": "cf8784854ee0dd912f1e6969b428c13fbf192548cf20530ed592051cb1499d76"
+  },
+  "originalDraft": {
+    "freezeUtc": "2026-10-02T17:07:53.556976+00:00",
+    "bytes": 35741,
+    "sha256": "a2bd47cd7ec589dad9acefe9cd0d19f4e8d1f8f6415871dbd789a7593d5cd869",
+    "bytesVerifiedAgainstPublishedFreeze": true
+  },
+  "packetInputs": [
+    {
+      "name": "messages.md",
+      "bytes": 6180,
+      "sha256": "58c09d25918cd6f8fc4c6fac3c6c4eff9fa751dbb383cde64ce1e2ae996a0c42"
+    },
+    {
+      "name": "dependency-signatures.d.ts",
+      "bytes": 1346,
+      "sha256": "f3d68a951adbcb7224cf9c5eb81880f1771437e93209fbf784db276ff373783d"
+    },
+    {
+      "name": "public-api.d.ts",
+      "bytes": 2494,
+      "sha256": "794a92db2912410a8747f377512312e75a2cf1e65f6ded1863f9342edc860fda"
+    },
+    {
+      "name": "contract.md",
+      "bytes": 23131,
+      "sha256": "75a5c9e20f1d1367b5020ee6d7bd865c20b235891f1bf14bf4709833643abb6f"
+    }
+  ],
+  "packetInputBytesVerifiedAgainstEFreeze": true,
+  "curatorBaseline": {
+    "commit": "674370592f06ac69996dbac08b3c0f4210983f61",
+    "ownerSha256": "28d4d2f5d323c49a866832f3233df4dbdfff5cf4c9ec145586077c44a06ced98"
+  },
+  "context": "Root personally authored from body-free functional/public inputs; broad project history and possible generic earlier scanner processing disclosed. Source-exposed E curator. No fresh-context/OS-isolation guarantee.",
+  "reportedLocalCorrection": {
+    "commit": "d326f53",
+    "scope": "symlink-entry migration admission",
+    "status": "Root-reported local change, not present in reviewed published head; not fetched or verified by E"
+  },
+  "checksByE": {
+    "runtimeTests": false,
+    "projectTypecheck": false,
+    "builds": false,
+    "mergeOrOwnerCopy": false
+  },
+  "rootReportedChecks": "Three synthetic actual-emitted data-safety groups passed before formatting; syntax tree unchanged after formatting. No real network or user data.",
+  "rootReportedGate": "One known max-lines error997/400; zero warnings and no other errors; not declared passed",
+  "findings": [
+    "first-fetch refresh single-flight registration gap",
+    "published migration sibling symlink admission gap",
+    "pre-network staging gate not specified clearly in original packet and absent in candidate"
+  ],
+  "integrationOrLicenceDecision": null
+}

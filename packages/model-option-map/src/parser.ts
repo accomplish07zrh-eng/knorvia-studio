@@ -43,109 +43,88 @@ export type RestrictedCelExpression =
       readonly offset: number;
     };
 
+const precedence = new Map<string, number>([
+  ["||", 1],
+  ["&&", 2],
+  ["==", 3],
+  ["!=", 3],
+  ["<", 4],
+  ["<=", 4],
+  [">", 4],
+  [">=", 4],
+  ["+", 5],
+  ["-", 5],
+  ["*", 6],
+  ["/", 6],
+  ["%", 6],
+]);
+
+type ObjectEntry = Extract<RestrictedCelExpression, { type: "object" }>["entries"][number];
+
 export function parseRestrictedCel(
   tokens: readonly RestrictedCelToken[],
   variableName: ModelOptionName,
 ): RestrictedCelExpression {
-  return new Parser(tokens, variableName).parse();
-}
+  let position = 0;
+  const current = (): RestrictedCelToken => tokens[position] ?? tokens[tokens.length - 1]!;
+  const take = (): RestrictedCelToken => {
+    const token = current();
+    if (token.kind !== "eof") position += 1;
+    return token;
+  };
+  const accept = (value: string): boolean => {
+    if (current().value !== value) return false;
+    position += 1;
+    return true;
+  };
+  const expect = (value: string): void => {
+    if (!accept(value))
+      throw new RestrictedCelError(`expected ${JSON.stringify(value)}`, current().offset);
+  };
+  const unexpected = (token: RestrictedCelToken): never => {
+    throw new RestrictedCelError(`unexpected token ${JSON.stringify(token.value)}`, token.offset);
+  };
 
-class Parser {
-  #index = 0;
-
-  constructor(
-    private readonly tokens: readonly RestrictedCelToken[],
-    private readonly variableName: ModelOptionName,
-  ) {}
-
-  parse(): RestrictedCelExpression {
-    const expression = this.parseConditional();
-    const trailing = this.current();
-    if (trailing.kind !== "eof") {
-      if (trailing.value === ".") {
-        throw new RestrictedCelError("member access is not supported", trailing.offset);
-      }
-      if (trailing.value === "(") {
-        throw new RestrictedCelError("function calls are not supported", trailing.offset);
-      }
-      throw new RestrictedCelError(
-        `unexpected token ${JSON.stringify(trailing.value)}`,
-        trailing.offset,
-      );
-    }
-    return expression;
-  }
-
-  private parseConditional(): RestrictedCelExpression {
-    const condition = this.parseLogicalOr();
-    if (!this.consume("?")) return condition;
-    const whenTrue = this.parseConditional();
-    this.expect(":");
-    const whenFalse = this.parseConditional();
+  function expression(): RestrictedCelExpression {
+    const condition = binary(1);
+    if (!accept("?")) return condition;
+    const whenTrue = expression();
+    expect(":");
+    const whenFalse = expression();
     return { type: "conditional", condition, whenTrue, whenFalse, offset: condition.offset };
   }
 
-  private parseLogicalOr(): RestrictedCelExpression {
-    return this.parseBinary(() => this.parseLogicalAnd(), new Set(["||"]));
-  }
-
-  private parseLogicalAnd(): RestrictedCelExpression {
-    return this.parseBinary(() => this.parseEquality(), new Set(["&&"]));
-  }
-
-  private parseEquality(): RestrictedCelExpression {
-    return this.parseBinary(() => this.parseRelational(), new Set(["==", "!="]));
-  }
-
-  private parseRelational(): RestrictedCelExpression {
-    return this.parseBinary(() => this.parseAdditive(), new Set(["<", "<=", ">", ">="]));
-  }
-
-  private parseAdditive(): RestrictedCelExpression {
-    return this.parseBinary(() => this.parseMultiplicative(), new Set(["+", "-"]));
-  }
-
-  private parseMultiplicative(): RestrictedCelExpression {
-    return this.parseBinary(() => this.parseUnary(), new Set(["*", "/", "%"]));
-  }
-
-  private parseBinary(
-    parseOperand: () => RestrictedCelExpression,
-    operators: ReadonlySet<string>,
-  ): RestrictedCelExpression {
-    let expression = parseOperand();
-    while (this.current().kind === "operator" && operators.has(this.current().value)) {
-      const operator = this.advance();
-      expression = {
+  function binary(minimum: number): RestrictedCelExpression {
+    let left = unary();
+    while (current().kind === "operator") {
+      const priority = precedence.get(current().value);
+      if (priority === undefined || priority < minimum) break;
+      const operator = take();
+      left = {
         type: "binary",
         operator: operator.value,
-        left: expression,
-        right: parseOperand(),
+        left,
+        right: binary(priority + 1),
         offset: operator.offset,
       };
     }
-    return expression;
+    return left;
   }
 
-  private parseUnary(): RestrictedCelExpression {
-    const token = this.current();
-    if (
-      token.kind === "operator" &&
-      (token.value === "!" || token.value === "-" || token.value === "+")
-    ) {
-      this.advance();
-      return {
-        type: "unary",
-        operator: token.value,
-        operand: this.parseUnary(),
-        offset: token.offset,
-      };
-    }
-    return this.parsePrimary();
+  function unary(): RestrictedCelExpression {
+    const token = current();
+    if (token.kind !== "operator" || !["!", "-", "+"].includes(token.value)) return atom();
+    take();
+    return {
+      type: "unary",
+      operator: token.value as "!" | "-" | "+",
+      operand: unary(),
+      offset: token.offset,
+    };
   }
 
-  private parsePrimary(): RestrictedCelExpression {
-    const token = this.advance();
+  function atom(): RestrictedCelExpression {
+    const token = take();
     if (token.kind === "number") {
       const value = Number(token.value);
       if (!Number.isFinite(value) || (Number.isInteger(value) && !Number.isSafeInteger(value))) {
@@ -156,85 +135,65 @@ class Parser {
     if (token.kind === "string")
       return { type: "literal", value: token.value, offset: token.offset };
     if (token.kind === "identifier") {
-      if (this.current().value === "(") {
-        throw new RestrictedCelError("function calls are not supported", this.current().offset);
+      if (current().value === "(") {
+        throw new RestrictedCelError("function calls are not supported", current().offset);
       }
-      if (token.value === this.variableName) return { type: "input", offset: token.offset };
+      if (token.value === variableName) return { type: "input", offset: token.offset };
+      if (token.value === "null") return { type: "literal", value: null, offset: token.offset };
       if (token.value === "true" || token.value === "false") {
         return { type: "literal", value: token.value === "true", offset: token.offset };
       }
-      if (token.value === "null") return { type: "literal", value: null, offset: token.offset };
       throw new RestrictedCelError(
         `unknown identifier ${JSON.stringify(token.value)}`,
         token.offset,
       );
     }
     if (token.value === "(") {
-      const expression = this.parseConditional();
-      this.expect(")");
-      return expression;
+      const value = expression();
+      expect(")");
+      return value;
     }
-    if (token.value === "[") return this.parseArray(token.offset);
-    if (token.value === "{") return this.parseObject(token.offset);
-    throw new RestrictedCelError(`unexpected token ${JSON.stringify(token.value)}`, token.offset);
-  }
-
-  private parseArray(offset: number): RestrictedCelExpression {
-    const elements: RestrictedCelExpression[] = [];
-    if (!this.consume("]")) {
-      do elements.push(this.parseConditional());
-      while (this.consume(","));
-      this.expect("]");
+    if (token.value === "[") {
+      const elements: RestrictedCelExpression[] = [];
+      if (!accept("]")) {
+        do {
+          elements.push(expression());
+        } while (accept(","));
+        expect("]");
+      }
+      return { type: "array", elements: Object.freeze(elements), offset: token.offset };
     }
-    return { type: "array", elements: Object.freeze(elements), offset };
-  }
-
-  private parseObject(offset: number): RestrictedCelExpression {
-    const entries: { key: string; value: RestrictedCelExpression; offset: number }[] = [];
-    const keys = new Set<string>();
-    if (!this.consume("}")) {
-      do {
-        const key = this.advance();
-        if (key.kind !== "string") {
-          throw new RestrictedCelError("object keys must be string literals", key.offset);
-        }
-        if (keys.has(key.value)) {
-          throw new RestrictedCelError(
-            `duplicate object key ${JSON.stringify(key.value)}`,
-            key.offset,
-          );
-        }
-        keys.add(key.value);
-        this.expect(":");
-        entries.push({ key: key.value, value: this.parseConditional(), offset: key.offset });
-      } while (this.consume(","));
-      this.expect("}");
+    if (token.value === "{") {
+      const entries: ObjectEntry[] = [];
+      const keys = new Set<string>();
+      if (!accept("}")) {
+        do {
+          const key = take();
+          if (key.kind !== "string")
+            throw new RestrictedCelError("object keys must be string literals", key.offset);
+          if (keys.has(key.value)) {
+            throw new RestrictedCelError(
+              `duplicate object key ${JSON.stringify(key.value)}`,
+              key.offset,
+            );
+          }
+          keys.add(key.value);
+          expect(":");
+          entries.push({ key: key.value, value: expression(), offset: key.offset });
+        } while (accept(","));
+        expect("}");
+      }
+      return { type: "object", entries: Object.freeze(entries), offset: token.offset };
     }
-    return { type: "object", entries: Object.freeze(entries), offset };
+    return unexpected(token);
   }
 
-  private consume(value: string): boolean {
-    if (this.current().value !== value) return false;
-    this.#index += 1;
-    return true;
-  }
-
-  private expect(value: string): RestrictedCelToken {
-    const token = this.current();
-    if (token.value !== value) {
-      throw new RestrictedCelError(`expected ${JSON.stringify(value)}`, token.offset);
-    }
-    this.#index += 1;
-    return token;
-  }
-
-  private advance(): RestrictedCelToken {
-    const token = this.current();
-    if (token.kind !== "eof") this.#index += 1;
-    return token;
-  }
-
-  private current(): RestrictedCelToken {
-    return this.tokens[this.#index] ?? this.tokens[this.tokens.length - 1]!;
-  }
+  const result = expression();
+  const trailing = current();
+  if (trailing.kind === "eof") return result;
+  if (trailing.value === ".")
+    throw new RestrictedCelError("member access is not supported", trailing.offset);
+  if (trailing.value === "(")
+    throw new RestrictedCelError("function calls are not supported", trailing.offset);
+  return unexpected(trailing);
 }

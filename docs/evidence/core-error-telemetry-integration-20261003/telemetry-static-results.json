@@ -1,0 +1,361 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "telemetry",
+  "baseline": "06e67e0e73a101cb9d68b072a1fcd7a9976de269",
+  "target": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "07c86b8ac654fbbd4efe1d139717ef91e8b57e17910d15b6fc89ed9d16c7bcc5",
+    "candidate": "07c86b8ac654fbbd4efe1d139717ef91e8b57e17910d15b6fc89ed9d16c7bcc5"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeImports": {
+    "predecessor": [
+      "@knorvia/shared#isArtifactUri",
+      "apps/cli/packages/core/src/runtime/deps.js#traceContextToLogContext"
+    ],
+    "candidate": [
+      "@knorvia/shared#isArtifactUri",
+      "apps/cli/packages/core/src/runtime/deps.js#traceContextToLogContext"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/contract.md",
+      "bytes": 5414,
+      "sha256": "734ca9283fc461e2e2afca109ffa6dfb9c5add7380eb952e1015ea893ff733e8",
+      "actual": {
+        "bytes": 5414,
+        "sha256": "734ca9283fc461e2e2afca109ffa6dfb9c5add7380eb952e1015ea893ff733e8"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/public-api.d.ts",
+      "bytes": 635,
+      "sha256": "a511d959fb08ee21f5613e9f82c3b2e12b2c39448dc0806c1fbecaf39e3d2535",
+      "actual": {
+        "bytes": 635,
+        "sha256": "a511d959fb08ee21f5613e9f82c3b2e12b2c39448dc0806c1fbecaf39e3d2535"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/dependency-api.d.ts",
+      "bytes": 601,
+      "sha256": "7e076b0c641055241d589b66ce0cc370a4e17b912242d7acc3ba466d062f1c8b",
+      "actual": {
+        "bytes": 601,
+        "sha256": "7e076b0c641055241d589b66ce0cc370a4e17b912242d7acc3ba466d062f1c8b"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/public-shapes.d.ts",
+      "bytes": 5094,
+      "sha256": "dedf305ce5a0130527f750968804703d9e97fa5c0f484a0e98965084177000ed",
+      "actual": {
+        "bytes": 5094,
+        "sha256": "dedf305ce5a0130527f750968804703d9e97fa5c0f484a0e98965084177000ed"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/imports.json",
+      "bytes": 1512,
+      "sha256": "c18829bba817f71fe44b97f83f0b6d6f8cc11d00eb2570f19d5406f281955268",
+      "actual": {
+        "bytes": 1512,
+        "sha256": "c18829bba817f71fe44b97f83f0b6d6f8cc11d00eb2570f19d5406f281955268"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/output-data.json",
+      "bytes": 1690,
+      "sha256": "01149dd5cd0a25888f5cddffcbb88a4eef939ab92087810423e766f0efaf63bb",
+      "actual": {
+        "bytes": 1690,
+        "sha256": "01149dd5cd0a25888f5cddffcbb88a4eef939ab92087810423e766f0efaf63bb"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/telemetry/counts-admission-qualification.md",
+      "bytes": 889,
+      "sha256": "e11ef47f3212368f86fedd50420ed524956ce5954cfa550f708301695c1983b5",
+      "actual": {
+        "bytes": 889,
+        "sha256": "e11ef47f3212368f86fedd50420ed524956ce5954cfa550f708301695c1983b5"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-observability.ts.txt",
+      "bytes": 6353,
+      "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "actual": {
+        "bytes": 6353,
+        "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 6353,
+        "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 205
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 8346,
+      "sha256": "0b76cf4af4cd99c6daba284b8136a1dd07d887076978f75c93dfcc9ead21ac0f",
+      "actual": {
+        "bytes": 8346,
+        "sha256": "0b76cf4af4cd99c6daba284b8136a1dd07d887076978f75c93dfcc9ead21ac0f"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "draft-media-observability.ts.txt",
+      "bytes": 6353,
+      "sha256": "5454a04a98cac452a2bc705099a73c9842f261b8a0666a5cf3850f599282a241",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 8346,
+      "sha256": "0b76cf4af4cd99c6daba284b8136a1dd07d887076978f75c93dfcc9ead21ac0f",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "bytes": 961,
+      "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111",
+      "actual": {
+        "bytes": 961,
+        "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "bytes": 8781,
+      "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+      "actual": {
+        "bytes": 8781,
+        "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "bytes": 4164,
+      "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+      "actual": {
+        "bytes": 4164,
+        "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "actual": {
+        "bytes": 9586,
+        "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "actual": {
+        "bytes": 9134,
+        "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "bytes": 5664,
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7",
+      "actual": {
+        "bytes": 5664,
+        "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "bytes": 4087,
+      "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "actual": {
+        "bytes": 4087,
+        "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "actual": {
+        "bytes": 33076,
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/config/index.ts",
+      "bytes": 12544,
+      "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab",
+      "actual": {
+        "bytes": 12544,
+        "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/logging/logger.ts",
+      "bytes": 2592,
+      "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a",
+      "actual": {
+        "bytes": 2592,
+        "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "actual": {
+        "bytes": 7056,
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "bytes": 2712,
+      "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+      "actual": {
+        "bytes": 2712,
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "actual": {
+        "bytes": 36215,
+        "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/artifact-uri.ts",
+      "bytes": 1005,
+      "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b",
+      "actual": {
+        "bytes": 1005,
+        "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "module": "./media-budget.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-observability.ts",
+      "module": "../types.js",
+      "exists": true
+    }
+  ],
+  "extractionDiagnosticsQualified": true,
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

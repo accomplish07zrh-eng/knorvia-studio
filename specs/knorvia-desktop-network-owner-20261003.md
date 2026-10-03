@@ -1,0 +1,7 @@
+# Desktop network policy owner
+
+One exported owner captures the default and embedded sessions, then applies their existing policies concurrently. Default session remains direct by default with normal certificate verification; embedded session remains system-proxy by default and its existing explicit insecure flag is preserved. No policy is relaxed or actual OS/network settings changed during implementation.
+
+Each target: settings reads -> setProxy -> closeAllConnections -> certificate verification -> log. Each failure is isolated and warned with the original error, with the original async boundary. Public inputs and error semantics remain unchanged. Custom CA parsing is all-or-nothing, exact PEM matching and sixteen-node chain/cycle limits remain. No retries, new persistence, data migration or new public API.
+
+Original body-free packet and frozen draft precede deliberate source review. This source-exposed reconstruction restores the draft and reviewed corrections after root workspace loss; it does not establish a fresh clean-room history. Exact original draft was recovered from its authoring tool text and its recorded hash. Frozen getter-error counterexample and corrections must be kept. Minimal mock-session/CA-port checks only, no real CA files, TLS connections, Electron sessions, user data or privileges. Full project, native and final source-expression/rights acceptance remain pending.

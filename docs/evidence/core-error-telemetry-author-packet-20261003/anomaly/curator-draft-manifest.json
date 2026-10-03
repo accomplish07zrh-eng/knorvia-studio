@@ -1,0 +1,21 @@
+{
+  "archivedAtUtc": "2026-10-02T20:08:42.707061+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct exposedcontrol",
+  "files": [
+    {
+      "file": "draft-model-anomaly.ts.txt",
+      "bytes": 4291,
+      "sha256": "0dde7406915370e7a1aba57add3cfcbab7dafd0e9ff6dd38668addb3b6cd84c1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-anomaly.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 7247,
+      "sha256": "4269233596e841adcc735fa64912588c44c91fdd408510efa5cd7ba4c52b8ec8"
+    }
+  ]
+}

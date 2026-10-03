@@ -1,7 +1,9 @@
-import type { MessageId, MessagePart, MessageWithParts, ToolPart } from "@knorvia/contracts";
+// Historical snapshot projection: specs/knorvia-read-state-snapshots.md.
+// Existing repository licence remains applicable pending source review.
+import type { MessageId, MessagePart, MessageWithParts } from "@knorvia/contracts";
 import {
   parseReadFileStateMetadata,
-  type PersistedReadFileStateTool,
+  type PersistedReadFileStateMetadata,
 } from "../tool/read-file-state-metadata.js";
 import { createReadFileStateKey, normalizeReadFileStateMtimeMs } from "../tool/read-file-state.js";
 import type { ReadFileStateMap } from "../tool/types.js";
@@ -13,12 +15,28 @@ export interface ReadFileStateHydrationResult {
   skippedUnreadableEditCount: number;
 }
 
-type CompletedToolPart = ToolPart & {
-  state: ToolPart["state"] & {
-    output: unknown;
-    status: "completed";
-  };
-};
+const SNAPSHOT_TOOLS = new Set(["Read", "Write", "Edit"]);
+const RANGE_READ = "range-read";
+type Admission = PersistedReadFileStateMetadata | typeof RANGE_READ | undefined;
+
+function fullWindow(window: { offset?: number; limit?: number }): boolean {
+  return (window.offset ?? 1) <= 1 && window.limit === undefined;
+}
+
+function admit(part: MessagePart): Admission {
+  if (part.type !== "tool" || part.state.status !== "completed" || !("output" in part.state)) {
+    return undefined;
+  }
+  if (!SNAPSHOT_TOOLS.has(part.tool)) return undefined;
+  if (part.tool === "Read") {
+    const window = part.state.input;
+    if (!window || typeof window !== "object" || Array.isArray(window)) return undefined;
+    // 范围 Read 的跳过计数发生在 metadata 校验前，保持旧日志统计与恢复边界。
+    if (!fullWindow(window)) return RANGE_READ;
+  }
+  const snapshot = parseReadFileStateMetadata(part.state.metadata);
+  return snapshot?.tool === part.tool && fullWindow(snapshot) ? snapshot : undefined;
+}
 
 export async function hydrateReadFileStateFromSession(input: {
   branchCutAfterMessageId?: MessageId;
@@ -30,154 +48,45 @@ export async function hydrateReadFileStateFromSession(input: {
   workingDirectory: string;
   workspaceRoot: string;
 }): Promise<ReadFileStateHydrationResult> {
-  input.readFileState.clear();
-  const activeMessages = activeSessionMessages(input.messages, {
-    branchCutAfterMessageId: input.branchCutAfterMessageId,
+  const states = input.readFileState;
+  states.clear();
+  const selected = activeSessionMessages(input.messages, {
     includeCompactPreservedSegment: false,
+    branchCutAfterMessageId: input.branchCutAfterMessageId,
     rewindCreatedMessageId: input.rewindCreatedMessageId,
     rewindKeptMessageIds: input.rewindKeptMessageIds,
     rewindTargetMessageId: input.rewindTargetMessageId,
   });
-
   const result: ReadFileStateHydrationResult = {
     restoredCount: 0,
     skippedRangeReadCount: 0,
     skippedUnreadableEditCount: 0,
   };
-
-  for (const message of activeMessages) {
+  for (const message of selected) {
     if (message.info.role !== "assistant") continue;
-
-    for (const part of dedupeParts(message.parts)) {
-      if (!isCompletedToolPart(part)) continue;
-
-      if (part.tool === "Read") {
-        const restored = restoreReadToolState(input, part, result);
-        if (restored) result.restoredCount++;
-        continue;
-      }
-
-      if (part.tool === "Write") {
-        const restored = restoreMetadataToolState(input.readFileState, part, "Write");
-        if (restored) result.restoredCount++;
-        continue;
-      }
-
-      if (part.tool === "Edit") {
-        const restored = restoreMetadataToolState(input.readFileState, part, "Edit");
-        if (restored) result.restoredCount++;
+    const uniqueParts = new Map(message.parts.map((part) => [part.id, part]));
+    for (const part of uniqueParts.values()) {
+      const snapshot = admit(part);
+      if (snapshot === RANGE_READ) {
+        result.skippedRangeReadCount++;
+      } else if (snapshot) {
+        // 只从持久化事实投影：不重新读取磁盘，也不把显示输出认证为已读内容。
+        // 同一路径按活跃历史的处理顺序覆盖，不能按持久化时钟重新排序。
+        states.set(createReadFileStateKey(snapshot.path, 1, undefined), {
+          path: snapshot.path,
+          content: snapshot.content,
+          offset: undefined,
+          limit: undefined,
+          isPartialView: snapshot.isPartialView,
+          readAt: new Date(snapshot.readAtMs),
+          sourceTool: snapshot.tool,
+          revisionId: snapshot.revisionId,
+          mtimeMs: normalizeReadFileStateMtimeMs(snapshot.mtimeMs),
+          sizeBytes: snapshot.sizeBytes,
+        });
+        result.restoredCount++;
       }
     }
   }
-
   return result;
-}
-
-function restoreReadToolState(
-  input: {
-    readFileState: ReadFileStateMap;
-  },
-  part: CompletedToolPart,
-  result: ReadFileStateHydrationResult,
-): boolean {
-  const toolInput = asRecord(part.state.input);
-  if (!toolInput) return false;
-  if (!isHistoricalFullReadWindow(toolInput as HistoricalReadWindow)) {
-    // 真正的 range Read 只在同一 runtime 内作为最新水位，跨 resume 不恢复。
-    result.skippedRangeReadCount++;
-    return false;
-  }
-
-  const metadata = parseReadFileStateMetadata(part.state.metadata);
-  if (!metadata) return false;
-  if (metadata.tool !== "Read") return false;
-  if (!isHistoricalFullReadWindow(metadata)) {
-    return false;
-  }
-  setFullReadState(input.readFileState, metadata.path, metadata.content, {
-    // resume 不再从 provider-visible cat-n 文本恢复 Read 状态；只有带
-    // mtimeMs/revisionId/sizeBytes 的结构化 metadata 才能支撑后续 stale guard。
-    isPartialView: metadata.isPartialView,
-    mtimeMs: normalizeReadFileStateMtimeMs(metadata.mtimeMs),
-    readAt: new Date(metadata.readAtMs),
-    revisionId: metadata.revisionId,
-    sizeBytes: metadata.sizeBytes,
-    sourceTool: metadata.tool,
-  });
-  return true;
-}
-
-function restoreMetadataToolState(
-  readFileState: ReadFileStateMap,
-  part: CompletedToolPart,
-  expectedTool: PersistedReadFileStateTool,
-): boolean {
-  const metadata = parseReadFileStateMetadata(part.state.metadata);
-  if (!metadata || metadata.tool !== expectedTool) return false;
-  if (!isHistoricalFullReadWindow(metadata)) return false;
-
-  // Write/Edit 的历史 tool part 不能在 resume 时读取当前磁盘来“补全”状态；
-  // 外部手动保存会被误认证为 agent 已读。这里只恢复成功时持久化的完整快照。
-  setFullReadState(readFileState, metadata.path, metadata.content, {
-    isPartialView: metadata.isPartialView,
-    mtimeMs: normalizeReadFileStateMtimeMs(metadata.mtimeMs),
-    readAt: new Date(metadata.readAtMs),
-    revisionId: metadata.revisionId,
-    sizeBytes: metadata.sizeBytes,
-    sourceTool: metadata.tool,
-  });
-  return true;
-}
-
-function setFullReadState(
-  readFileState: ReadFileStateMap,
-  filePath: string,
-  content: string,
-  metadata: {
-    isPartialView?: boolean;
-    mtimeMs?: number;
-    readAt: Date;
-    revisionId?: string;
-    sizeBytes?: number;
-    sourceTool?: PersistedReadFileStateTool;
-  },
-): void {
-  readFileState.set(createReadFileStateKey(filePath, 1, undefined), {
-    path: filePath,
-    content,
-    offset: undefined,
-    limit: undefined,
-    isPartialView: metadata.isPartialView ?? false,
-    readAt: metadata.readAt,
-    sourceTool: metadata.sourceTool,
-    revisionId: metadata.revisionId,
-    mtimeMs: metadata.mtimeMs,
-    sizeBytes: metadata.sizeBytes ?? Buffer.byteLength(content, "utf8"),
-  });
-}
-
-interface HistoricalReadWindow {
-  limit?: number;
-  offset?: number;
-}
-
-function isHistoricalFullReadWindow({ offset, limit }: HistoricalReadWindow): boolean {
-  return (offset ?? 1) <= 1 && limit === undefined;
-}
-
-function dedupeParts(parts: MessagePart[]): MessagePart[] {
-  const byId = new Map<string, MessagePart>();
-  for (const part of parts) {
-    byId.set(part.id, part);
-  }
-  return [...byId.values()];
-}
-
-function isCompletedToolPart(part: MessagePart): part is CompletedToolPart {
-  return part.type === "tool" && part.state.status === "completed" && "output" in part.state;
-}
-
-function asRecord(value: unknown): Record<string, unknown> | undefined {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return undefined;
-  return value as Record<string, unknown>;
 }

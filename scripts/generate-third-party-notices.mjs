@@ -1,17 +1,57 @@
-import { readFile, readdir, stat, writeFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
+import { join, relative, resolve } from "node:path";
 import { collectNpmNotices, hashBytes } from "./third-party-npm.mjs";
+import {
+  assertAuditConsistent,
+  auditThirdPartyInventory,
+  deriveMaterialReviews,
+} from "./provenance/third-party-audit.mjs";
+import { BASELINE_COMMIT, currentPath, fingerprint } from "./provenance/model.mjs";
+import { git } from "./provenance/git.mjs";
+import { readLockedPatches, retainPatchUnion } from "./provenance/patch-inventory.mjs";
+import { retainedNoticeBlocks, retainNpmNoticeUnion } from "./provenance/retained-npm-notices.mjs";
 import {
   noticesFileName,
   readNativeSearchNotices,
   repositoryRoot,
+  readVerifiedNotices,
 } from "./third-party-notices.mjs";
 
-export async function generateThirdPartyNotices(root = repositoryRoot) {
-  const inputs = {};
+export async function generateThirdPartyNotices(
+  root = repositoryRoot,
+  { outputDirectory = root } = {},
+) {
+  // 修复：先验证已有合集；当前图外的历史/开发声明不得在重建时被删掉或冒充当前实装。
+  const previousBytes = await readVerifiedNotices(root);
+  const previousInventory = JSON.parse(
+    await readFile(join(root, "third-party/inventory.json"), "utf8"),
+  );
+  const blocks = retainedNoticeBlocks(previousBytes);
+  // 工作区可以同时伪造清单与外层摘要；历史来源只取一次解析出的受信 Git 快照。
+  const historyRevision = (await git(root, ["rev-parse", "HEAD^{commit}"])).toString().trim();
+  const [historyManifestBytes, historyNoticeBytes] = await Promise.all([
+    git(root, ["show", `${historyRevision}:third-party/inventory.json`]),
+    git(root, ["show", `${historyRevision}:${noticesFileName}`]),
+  ]);
+  const historyManifest = JSON.parse(historyManifestBytes.toString("utf8"));
+  if (
+    historyManifest.schemaVersion !== 1 ||
+    hashBytes(historyNoticeBytes) !== historyManifest.noticesSha256
+  )
+    throw new Error("Unverified committed historical notices");
+  const historyBlocks = retainedNoticeBlocks(historyNoticeBytes);
+  for (const [digest, record] of historyBlocks) {
+    const previous = blocks.get(digest);
+    if (
+      !previous ||
+      record.references.some((reference) => !previous.references.includes(reference))
+    )
+      throw new Error(`Changed trusted historical notice/reference: ${digest}`);
+  }
+  const inputs = { ...previousInventory.inputs };
   const readInput = async (file) => {
     const bytes = await readFile(join(root, file));
-    inputs[file] = hashBytes(bytes.toString("utf8").replaceAll("\r\n", "\n"));
+    inputs[file] = fingerprint(bytes).normalizedSha256;
     return bytes;
   };
   const readJson = async (file) => JSON.parse(await readInput(file));
@@ -19,34 +59,76 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
   const copied = await readJson("third-party/copied-components.json");
   const embedded = await readJson("third-party/embedded-components.json");
   const runtimes = await readJson("third-party/runtime/sources.json");
+  const material = await readJson("licensing/evidence/material-icon-theme.json");
   for (const runtime of runtimes.node) {
     if (hashBytes(await readInput(runtime.file)) !== runtime.sha256)
       throw new Error(`Changed Node ${runtime.version} license`);
   }
-  const pkg = await readJson("package.json");
+  await readJson("package.json");
   await readInput("pnpm-lock.yaml");
   await readInput("pnpm-workspace.yaml");
   await readInput("third-party/native-search/sources.json");
-  const { packages, notInstalled, workspaceManifests } = await collectNpmNotices(root, overrides);
+  const collected = await collectNpmNotices(root, overrides);
+  const { notInstalled, workspaceManifests } = collected;
+  const currentPackages = new Set(
+    [...collected.packages, ...notInstalled].map((item) => `${item.name}@${item.version}`),
+  );
+  const historyPackages = new Map(
+    (historyManifest.packages ?? []).map((item) => [`${item.name}@${item.version}`, item]),
+  );
+  const historicalSource = (item) =>
+    JSON.stringify({
+      name: item.name,
+      version: item.version,
+      license: item.license,
+      repository: item.repository,
+      acceptedMissingNotice: item.acceptedMissingNotice,
+      notices: item.notices?.map((notice) => [notice.member, notice.sha256]).sort(),
+    });
+  for (const item of previousInventory.packages ?? []) {
+    const key = `${item.name}@${item.version}`;
+    if (currentPackages.has(key)) continue;
+    const trusted = historyPackages.get(key);
+    if (!trusted || historicalSource(item) !== historicalSource(trusted))
+      throw new Error(`Untrusted historical package source: ${key}`);
+  }
+  const packages = retainNpmNoticeUnion(
+    collected.packages,
+    historyManifest.packages ?? [],
+    historyBlocks,
+  );
   // 修复：递归扫描会把 bundled-agents/mock-cdn 的可删除缓存当作源码输入，重建立即失效。
   // workspace 边界由 pnpm 解析，同一份项目集合用于依赖图和 manifest 新鲜度检查。
   for (const file of workspaceManifests) await readInput(file);
-  const currentPackages = new Set(
-    [...packages, ...notInstalled].map((item) => `${item.name}@${item.version}`),
-  );
+  const retainedPackages = new Map(packages.map((item) => [`${item.name}@${item.version}`, item]));
   for (const item of overrides) {
-    if (!currentPackages.has(item.package))
-      throw new Error(`Stale npm notice override: ${item.package}`);
+    if (currentPackages.has(item.package)) continue;
+    const retained = retainedPackages.get(item.package);
+    if (!retained)
+      throw new Error(`Npm override has no current or retained source record: ${item.package}`);
+    // 历史补充文件须复用原 notice 的来源与摘要，不能借真实包名换入新来源声明。
+    if (
+      (item.file || item.source || item.sha256) &&
+      !retained.notices.some(
+        (notice) => notice.member === item.source && hashBytes(notice.bytes) === item.sha256,
+      )
+    )
+      throw new Error(`Historical npm override source/notice mismatch: ${item.package}`);
   }
-  const textRecords = new Map();
+  const textRecords = new Map(blocks);
   function addText(bytes, owner, origin) {
     const sha256 = hashBytes(bytes);
     const record = textRecords.get(sha256) ?? { bytes, references: [] };
-    record.references.push({ owner, origin });
+    const reference = `- ${owner}: ${origin}`;
+    if (!record.references.includes(reference)) record.references.push(reference);
     textRecords.set(sha256, record);
     return sha256;
   }
-  for (const record of overrides) if (record.file) await readInput(record.file);
+  for (const record of overrides)
+    if (record.file) {
+      if (hashBytes(await readInput(record.file)) !== record.sha256)
+        throw new Error(`Changed retained upstream notice: ${record.package}`);
+    }
   const packageInventory = packages.map(({ notices, ...item }) => ({
     ...item,
     notices: notices.map(({ member, bytes }) => ({
@@ -64,6 +146,7 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
     }
   }
   const copiedInventory = [];
+  let copiedBaseline;
   for (const record of copied) {
     if (record.file) {
       const bytes = await readInput(record.file);
@@ -79,8 +162,19 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
       // 修复：集中 NOTICE 不能替代 Apache 4(b) 的文件内修改声明，重新生成时也不能抹掉这一义务。
       if (!files.some((entry) => entry.file === file))
         throw new Error(`Modified source outside copied roots: ${file}`);
-      if (!(await readFile(join(root, file), "utf8")).includes("Modified by Knorvia Studio:"))
-        throw new Error(`Missing file-local modification notice: ${file}`);
+      const source = await readFile(join(root, file));
+      if (!source.toString("utf8").includes("Modified by Knorvia Studio:")) {
+        copiedBaseline ??= await readJson("licensing/upstream-baseline.json");
+        const baseline = copiedBaseline.files.find((item) => currentPath(item.path) === file);
+        // 修复：精确继承的 ZCode 修改说明不能改署 Knorvia；新增改动仍必须单独说明。
+        if (
+          copiedBaseline.schemaVersion !== 1 ||
+          copiedBaseline.commit !== BASELINE_COMMIT ||
+          baseline?.normalizedSha256 !== fingerprint(source).normalizedSha256 ||
+          !source.toString("utf8").includes("Modified by ZCode:")
+        )
+          throw new Error(`Missing file-local modification notice: ${file}`);
+      }
     }
     copiedInventory.push({ ...record, files });
   }
@@ -109,8 +203,15 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
     "Apache License, Version 2.0",
   );
   const patches = [];
-  for (const [name, file] of Object.entries(pkg.pnpm?.patchedDependencies ?? {})) {
-    patches.push({ package: name, file, sha256: hashBytes(await readInput(file)) });
+  const patchUnion = retainPatchUnion(
+    await readLockedPatches(root),
+    previousInventory.patches ?? [],
+  );
+  // 修复：锁定的当前补丁与保留的历史补丁共存，不能重建时静默删掉原修改声明。
+  for (const item of patchUnion) {
+    if (hashBytes(await readInput(item.file)) !== item.sha256)
+      throw new Error(`Changed patched-source content: ${item.package}`);
+    patches.push(item);
   }
   const native = await readNativeSearchNotices(root, { verify: true });
   for (const file of Object.keys(native.inventory.inputs)) await readInput(file);
@@ -154,7 +255,7 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
   for (const [sha256, record] of textRecords) {
     sections.push(
       `### Notice ${sha256}`,
-      ...record.references.map(({ owner, origin }) => `- ${owner}: ${origin}`),
+      ...record.references,
       "",
       "````text\n" + record.bytes.toString("utf8") + "\n````",
     );
@@ -170,38 +271,38 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
     noticesSha256: hashBytes(bytes),
     inputs: Object.fromEntries(Object.entries(inputs).sort(([a], [b]) => a.localeCompare(b, "en"))),
     packages: packageInventory,
+    currentProduction: [...collected.packages, ...notInstalled]
+      .map((item) => `${item.name}@${item.version}`)
+      .sort(),
     notInstalled,
     copied: copiedInventory,
     patches,
     exceptions: overrides.filter((item) => item.acceptedMissingNotice || item.evidenceKind),
     embedded,
     runtimes,
-    reviewRequired: [
-      // 修复：复制源码的缺口此前只写在 README，重生成清单后严格门禁也无法阻断。
-      ...copied
-        .filter((item) => item.reviewRequired)
-        .map((item) => ({ id: item.id, reason: item.reviewRequired })),
-      ...overrides
-        .filter((item) => item.acceptedMissingNotice || item.evidenceKind)
-        .map((item) => ({
-          id: item.package,
-          reason:
-            "Original version-specific publisher copyright/license material remains incomplete.",
-        })),
-      ...embedded
-        .filter((item) => item.reviewRequired)
-        .map((item) => ({ id: item.id, reason: item.reviewRequired })),
-      ...native.inventory.components
-        .filter((item) => !item.notices.length)
-        .map((item) => ({
-          id: `${item.id}@${item.version}`,
-          reason: "No original notice snapshot for this recorded native component.",
-        })),
-    ],
+    reviewRequired: deriveMaterialReviews({
+      copied,
+      overrides,
+      embedded,
+      native: native.inventory,
+      material,
+    }),
   };
-  await writeFile(join(root, noticesFileName), bytes);
+  // 修复：写入前对账资产覆盖和来源投影，防止生成器再次产出会漏报的派生清单。
+  assertAuditConsistent(
+    await auditThirdPartyInventory(root, inventory, {
+      copied,
+      overrides,
+      embedded,
+      native: native.inventory,
+      material,
+    }),
+  );
+  const destination = resolve(outputDirectory);
+  await mkdir(join(destination, "third-party"), { recursive: true });
+  await writeFile(join(destination, noticesFileName), bytes);
   await writeFile(
-    join(root, "third-party/inventory.json"),
+    join(destination, "third-party/inventory.json"),
     `${JSON.stringify(inventory, null, 2)}\n`,
   );
   console.log(

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-telemetry-shortcut-migration-boundaries.test.mjs",
+    "/tmp/knorvia-shared-telemetry-shortcut-migration-baseline"
+  ],
+  "stdout": "\u2714 telemetry privacy preserves sanitized copy and injected context precedence (10.255989ms)\n\u2714 resource admission excludes undefined while preserving privacy and count boundary (3.647881ms)\n\u2714 remote telemetry retains ordered error classes and emits enums without raw scope data (3.778818ms)\n\u2714 shortcut grammar preserves canonical modifier order and known default reference (3.910026ms)\n\u2714 migration fake ports preserve concurrent edit denial cleanup and depth-first atomic ownership (10.776052ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 37.156435\n",
+  "stderr": "",
+  "exitCode": 0
+}

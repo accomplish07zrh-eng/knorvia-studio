@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "scope": "Memory-origin and Glob/Grep batches native CI receipt; excludes subsequent TaskStop changes",
+  "head": "a0c79ae8017ed07daa0226ed4d887aaa2b349caf",
+  "checkedMergeSha": "fcae7df12affb3390da6653e3474bfa1aa115dfd",
+  "checkedTree": "0b9520cfc96c0c952ae757fd8b42f004b8f59302",
+  "headTreeExactMatch": true,
+  "run": 36796595672,
+  "runNumber": 206,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36796595672",
+  "linux": {
+    "job": 110161337773,
+    "result": "success",
+    "tests": 5840,
+    "pass": 5832,
+    "fail": 0,
+    "skip": 8
+  },
+  "windows": {
+    "job": 110161337567,
+    "result": "success",
+    "tests": 5840,
+    "pass": 5839,
+    "fail": 0,
+    "skip": 1
+  },
+  "limits": [
+    "No native UI, installer, live provider or upgrade acceptance claim",
+    "27 material obligations remain; no new MIT decision",
+    "Earlier intermittent creation timeout cause is not established by this green run"
+  ]
+}

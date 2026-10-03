@@ -1,0 +1,10 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "chunk_id": "717481",
+    "wall_time_seconds": 0.020283844,
+    "exit_code": 0,
+    "original_token_count": 28,
+    "output": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 22ms on 6 files using 4 threads.\n"
+  }
+}

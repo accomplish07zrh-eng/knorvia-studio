@@ -1,0 +1,5 @@
+# Shared preview and persisted assistant projection
+
+Root exclusively reconstructs conversation preview extraction/candidate construction and pure persisted assistant coalescence. Preview strings are parsed and normalized without filesystem access; retained schema/media/regex/format data remain existing owners. Preserve ordered protected-range passes, stable latest-reference deduplication, active/reverted markdown gates, descriptor identities and candidate limit. Coalescence preserves synthetic/iteration boundaries, tool offsets, field order/nullish precedence, nested identities and turn-index reassignment without writing storage.
+
+Complete drafts freeze before source comparison from E functional/API/grammar packet and stable-tie qualification. Broader root context and earlier generic compiler input exposure explicitly retained; no fresh-context/isolation/legal guarantee. Ordinary suites/builds deferred, minimum synthetic data/containment checks only for actual safety findings. Final aggregate acceptance and licence disposition remain separate; no cross-lane merge.

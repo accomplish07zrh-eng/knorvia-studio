@@ -1,0 +1,34 @@
+{
+  "archivedAtUtc": "2026-10-02T19:49:42.323679+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no separate tool setting",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/request/imports.json",
+      "bytes": 3741,
+      "sha256": "313c323c5188bae6a67b7c8dc88e7b6ee46b8ffd323a9f07470807a58e09d531"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-provider-request-messages.ts.txt",
+      "bytes": 8705,
+      "sha256": "a1d217e2f3c579f460826a16ceead7bc5e42cee7a2b2f0f4ecc8cf3465d99bf7",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6865,
+      "sha256": "899416e14916f9f72a979bb46430525a23db7f4de65088bbf6fd5e7fd80332de"
+    },
+    {
+      "file": "original-author-record.json",
+      "bytes": 6454,
+      "sha256": "602c51d29cc371d692d5fe6339abafba4b36462d53e46f2e8ccb6250738e564c"
+    }
+  ],
+  "receiptRefreezeQualification": "Original receipt exact bytes recovered by reversing logged metadata-only exposure correction; digest matched before additional original file written. Source unchanged. Both original and final receipts preserved before body review."
+}

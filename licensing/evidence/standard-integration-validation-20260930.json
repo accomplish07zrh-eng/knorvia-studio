@@ -1,0 +1,1820 @@
+{
+  "schemaVersion": 1,
+  "state": "Stopped recoverable WIP at user request for parent cloud takeover; final checkpoint format/pre-push, exact final-SHA builds and CI are not accepted",
+  "inputSha": "43f0abada1946266108df2bf6b93a1c525a0c6ef",
+  "branch": "recovery/independent-logging-20260930-0456",
+  "draftPr": 7,
+  "sourceHeadBeforeEvidence": "4478776749ce52dc7f16ef0a5f522155fc5a83dd",
+  "historicalEvidence": "licensing/evidence/pending-slice-integration-20260930.json",
+  "execution": {
+    "mode": "Standard continuation requested by parent; no new workers or task-tier toggle attempted",
+    "node": "24.14.0",
+    "nodeArchiveSha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+    "pnpm": "10.33.2",
+    "python": "3.12.14 local; CI independently selects 3.13",
+    "installation": "Frozen dependencies with --ignore-scripts, matching the Linux offline workflow. No security or sandbox modification.",
+    "currentOwnership": "All peer tracks stopped. User now requests parent Xiao Tian cloud takeover; this sole Codex integrator stops after saving/pushing the checkpoint. No new worker or implementation batch."
+  },
+  "integration": {
+    "priorFourteenCommits": "Already present at input SHA; none replayed",
+    "citationFix": {
+      "original": "cd77215db82f40ba014fb1a5e36abe7b72dbd32e",
+      "integrated": "2d08baa8f747084e0cfdffa90dec8e0574fbe9ee",
+      "supersededWip": "86a1f170f46806ec6948ebcb7e8ea6bf425c7ffd",
+      "paths": [
+        "packages/ui/src/lib/fileCitationRemarkPlugin.ts",
+        "packages/ui/test/ui-citation-render-scale-regressions-20260930.test.ts"
+      ],
+      "review": "Bounded batches preserve the existing children array, ordered nodes, sibling identity and metadata. The 65,000-citation regression exercises remark-parse; safety cases retain the existing real rehype pipeline."
+    },
+    "lineageTestRegistered": "scripts/provenance/ui-alias-lineage.test.mjs",
+    "b3": [
+      {
+        "original": "3f10794b33ca4f3f2fa9e3634cd12b2b8a654062",
+        "integrated": "92d30a5e6577c6f8762ac2eb0860cde007959614"
+      },
+      {
+        "original": "c3528ebae8342a3b1f75f73257a4a80f39c709f7",
+        "integrated": "8f651c17ad8d716dab8436d4fa86a8ace6494492"
+      },
+      {
+        "original": "fe45075fad15c43de1df69b6fc41f72eeadf54a7",
+        "integrated": "56c730631717c1b841a87f54366dfd84de717189"
+      }
+    ],
+    "monthlyWeekdayCorrection": {
+      "original": "a6e23efc4da29c3ccd0726d24b9632dfebd4b8b4",
+      "integrated": "3f5a65153355c8b539911e5cac3e3bdb7ed76f53",
+      "branch": "fix/services-automation-year-normalization-20260930",
+      "paths": [
+        "packages/services/src/session/automationCron.ts",
+        "packages/services/test/automation-monthly-year-normalization-20260930.test.ts"
+      ],
+      "review": "Restores exactly one intermediate Date normalization in the monthly weekday branch; accepted validator inputs and daily lower-bound logic retained.",
+      "independentRedFirst": {
+        "inheritedSource": {
+          "tests": 23,
+          "passed": 23,
+          "failed": 0
+        },
+        "priorCandidateSource": {
+          "tests": 23,
+          "passed": 16,
+          "failed": 7
+        },
+        "correctedSourceAndEmitted": "All 23 fixed regression cases included in the final combined checks; existing daily construction-budget case also passes."
+      },
+      "reverification": {
+        "sourceHead": "3f5a65153355c8b539911e5cac3e3bdb7ed76f53",
+        "timezone": "UTC",
+        "rule": {
+          "unit": "monthly",
+          "interval": 1,
+          "hour": 0,
+          "minute": 0,
+          "monthlyMode": "weekday",
+          "weekdays": [
+            1
+          ],
+          "anchorAt": -62168688000000
+        },
+        "from": -62168688000000,
+        "results": {
+          "old": {
+            "validatorAccepted": true,
+            "nextRunAt": -2208988800000,
+            "iso": "1900-01-01T00:00:00.000Z",
+            "sha256": "933d616c5335c02a58cd88e1069e846032f98e62ad5d3fcf6f3ad8907d502e80"
+          },
+          "source": {
+            "validatorAccepted": true,
+            "nextRunAt": -2208988800000,
+            "iso": "1900-01-01T00:00:00.000Z",
+            "sha256": "989013a364f2739055d7ee7f82541de27ad79b1e8ba185ad63059393ae8ae037"
+          },
+          "emitted": {
+            "validatorAccepted": true,
+            "nextRunAt": -2208988800000,
+            "iso": "1900-01-01T00:00:00.000Z",
+            "sha256": "f85c58e4b4b542997a7dd8a529111f4aab55f541b03a1ec1b675cd8231f44bbf"
+          }
+        },
+        "scope": "Independent reproduction of the narrow year-normalization case after correction; not whole-product equivalence"
+      },
+      "publicDeclaration": {
+        "publicDeclarationAstEqual": true,
+        "paths": [
+          {
+            "path": "/tmp/knorvia-standard-emitted/old-services/dist/session/automationCron.d.ts",
+            "sha256": "2609a697f80cdb0332cd371dfc720f471a14ff44dcb5d35ac2bcc92b32abc63e"
+          },
+          {
+            "path": "packages/services/dist/session/automationCron.d.ts",
+            "sha256": "2609a697f80cdb0332cd371dfc720f471a14ff44dcb5d35ac2bcc92b32abc63e"
+          }
+        ],
+        "scope": "Actual old emitted public declaration AST and rebuilt current declaration; comments/maps excluded from semantic comparison"
+      }
+    },
+    "b4": [
+      {
+        "original": "f61d27165033b6d10dc6167fc8e8578264a3cfc4",
+        "integrated": "dcb2e9ad968284caba9f578cbade631fd560b4d9"
+      },
+      {
+        "original": "7714040a07a137e58570de2be19eada1ffa5e5e4",
+        "integrated": "4cb569faa4f3aa516fe029ffccf3ff453bab739a"
+      },
+      {
+        "original": "e1be0d5767d27475fc64491767f778cb8518ef19",
+        "integrated": "4ca3f3a092b50ce4ad65ff89008848ce74658276"
+      }
+    ],
+    "sourceDocuments": [
+      {
+        "original": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "integrated": "0279504e43529d6a0b4ecf77aae752eab3013a4f",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "8bea087a99b38ceeb747ef56d3f8828590ffedb8",
+        "integrated": "5d3bbb6f7c8909b84e5760b11860a86f89bed8af",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+        "integrated": "44c8598f6ed67bb2bf51ccea812c0b6433e1e3d9",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "0708803725867528624927899fc75d1f4ab529ba",
+        "integrated": "b5c45e3c17b86fc57ba658636992c0e03dc397b2",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "1fa73c1a36f96b94f76404de184bdf7a1a048f99",
+        "integrated": "45b93605d1f1ad302643b895ece1e3b712675344",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "a5f6e83e31270fba598e0417c347f45c99ac5d5e",
+        "integrated": "4478776749ce52dc7f16ef0a5f522155fc5a83dd",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      }
+    ]
+  },
+  "reviewBindings": [
+    {
+      "path": "scripts/provenance/model.mjs",
+      "previous": "5fe4ab6da8d8c337882f64041a0e2b3d6b35a7fbfcc6fcbef81d70cfe3a9e05e",
+      "current": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933",
+      "decisionUnchanged": "original",
+      "licenseUnchanged": "MIT"
+    },
+    {
+      "path": "scripts/third-party-platform.mjs",
+      "previous": "4a3b3c7f41ab0cb81c88d22e1d4cc1ab2560fb06445852bc5c665e4f35edb4f5",
+      "current": "8c848b677110186535b5ed4f0d3243350259bbc8e7be5780da915c112a60510b",
+      "decisionUnchanged": "original",
+      "licenseUnchanged": "MIT"
+    },
+    {
+      "path": "scripts/provenance/retained-npm-notices.mjs",
+      "previous": "a473bce0423215e1be41b6aaf491f524a7d335c95677cdac16ee7174ec74c2f3",
+      "current": "babace8fb2c61c2d296de536657d3f7801f04d3e07333f45520ab34e9d9d5ef5",
+      "decisionUnchanged": "original",
+      "licenseUnchanged": "MIT"
+    },
+    {
+      "path": "scripts/provenance/retained-npm-notices.test.mjs",
+      "previous": "97d15a0a1065d570d4752e1fd90fa4c4b677af0ab450deb9562eb45119e256a8",
+      "current": "6cb1b267a5ae4ab2774f40d547e21bdd13eed32831bc165b1bc7bc3e8f3095a4",
+      "decisionUnchanged": "original",
+      "licenseUnchanged": "MIT"
+    }
+  ],
+  "newReviewDecisions": 0,
+  "newProductionMitReviews": 0,
+  "uiAliasReceipts": [
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeUiError.ts",
+      "currentPath": "packages/ui/src/lib/uiError.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/lib/zcodeUiError.ts",
+      "blob": "64b0df306a58e9b8b5aeade2ad372de2216437f2",
+      "sha256": "ae0a42c0f7cd7da45268c4e7ac83e56f90e44629929571b779f7342ab7c67097",
+      "bytes": 8217,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeTaskMetaMerge.ts",
+      "currentPath": "packages/ui/src/lib/taskMetaMerge.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/lib/zcodeTaskMetaMerge.ts",
+      "blob": "6ac09f8a56a8baa38e1ab15a067c2849e1f855df",
+      "sha256": "5e542cbbf810564fc1e3a7217e38c62d6cefba308488aa0c635ff914601cefee",
+      "bytes": 3036,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeDraftSkillInvalidation.ts",
+      "currentPath": "packages/ui/src/lib/draftSkillInvalidation.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/lib/zcodeDraftSkillInvalidation.ts",
+      "blob": "2579d15e586848b45a0f0496b5b42835634afd96",
+      "sha256": "676a2003ccb61b032da3e29354d47388a1de2ef0a1c36362bcdc5f9d05cb96eb",
+      "bytes": 2171,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeCustomModelValue.ts",
+      "currentPath": "packages/ui/src/lib/customModelValue.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/lib/zcodeCustomModelValue.ts",
+      "blob": "f8187bd5ade3e8bf23a4ad1fcf02cffba7e35127",
+      "sha256": "4be24644a68de3c0884eee71eb6e8c08fd25c92030bd881bc4b3e83cae0f9d26",
+      "bytes": 523,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeFileCitation.ts",
+      "currentPath": "packages/ui/src/lib/fileCitation.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/lib/zcodeFileCitation.ts",
+      "blob": "acde2228a1470392da08f967c7f4e740e79797dc",
+      "sha256": "ce89a253a42c3377cfeca927b443ad0b943118cb0186558b1aaeebef0432f771",
+      "bytes": 4651,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeFileCitationRemarkPlugin.ts",
+      "currentPath": "packages/ui/src/lib/fileCitationRemarkPlugin.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/lib/zcodeFileCitationRemarkPlugin.ts",
+      "blob": "8f725697541205376620dd20c0e9050f6293d83e",
+      "sha256": "127a63cbbdb70a4f50787ee98d57d82fbef3efd1e4ef61d09eeb3b925f9c5f70",
+      "bytes": 2431,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeSessionProjection.ts",
+      "currentPath": "packages/ui/src/lib/sessionProjection.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/lib/zcodeSessionProjection.ts",
+      "blob": "2b0a3985024e46ec3c281c7beab538f6f43ceb2e",
+      "sha256": "422ccdef060ac72bb445bb8bb7a349a79aea513fd4c79417f29987885e5fc5f7",
+      "bytes": 9879,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/store/zcodeSessionStoreSelectors.ts",
+      "currentPath": "packages/ui/src/store/sessionStoreSelectors.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/store/zcodeSessionStoreSelectors.ts",
+      "blob": "15174d626448933a48457738812f002bf1fc5e61",
+      "sha256": "5ef6ad3155cd13a9bdc92f398cdba91369f9199325c6abc2fa4ea4ca5d0b892c",
+      "bytes": 10648,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/store/zcodeSessionStoreNavigation.ts",
+      "currentPath": "packages/ui/src/store/sessionStoreNavigation.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/store/zcodeSessionStoreNavigation.ts",
+      "blob": "55ef37081c653bd6dd4b5390507546076ec2dbb7",
+      "sha256": "7640c7012383834653f08a64a075732c586c29c8970fb4211d4973926606b33a",
+      "bytes": 2514,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/store/zcodeSessionStoreTypes.ts",
+      "currentPath": "packages/ui/src/store/sessionStoreTypes.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/store/zcodeSessionStoreTypes.ts",
+      "blob": "e17bab9f4bacc7d91573119068a962b9591ca900",
+      "sha256": "e1621614895c4e91fd337c3928e5a2bed96c6c39dab9ab6ce9afcf495c1269f1",
+      "bytes": 19373,
+      "baselineAndReceiptMatch": true
+    }
+  ],
+  "validation": {
+    "auditLineage": {
+      "passed": 49,
+      "failed": 0,
+      "command": "node --experimental-test-module-mocks --test scripts/provenance/ui-alias-lineage.test.mjs scripts/provenance/dependency-history-qa-regressions.test.mjs scripts/provenance/dependency-platform-qa-regressions.test.mjs scripts/provenance/retained-npm-notices.test.mjs scripts/third-party-platform.test.mjs",
+      "tests": 49,
+      "skipped": 0,
+      "cancelled": 0,
+      "durationMs": 797.040582
+    },
+    "combinedSource": {
+      "tests": 1143,
+      "passed": 1143,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "durationMs": 10077.080144
+    },
+    "combinedEmitted": {
+      "tests": 1143,
+      "passed": 1143,
+      "failed": 0,
+      "skipped": 0,
+      "groups": {
+        "sharedUiB1B2Services": {
+          "tests": 1031,
+          "passed": 1031,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "durationMs": 6389.674802
+        },
+        "b3": {
+          "tests": 58,
+          "passed": 58,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "durationMs": 1935.082182
+        },
+        "b4": {
+          "tests": 54,
+          "passed": 54,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "durationMs": 1006.925842
+        }
+      }
+    },
+    "contractCommand": "node --experimental-test-module-mocks --import tsx --test --test-concurrency=2 <contractFiles>",
+    "contractFiles": [
+      "packages/shared/test/remote-identity-contract.test.ts",
+      "packages/shared/test/remote-identity-consumers.test.ts",
+      "packages/shared/test/workflow-projection-contract.test.ts",
+      "packages/shared/test/workflow-projection-consumers.test.ts",
+      "packages/shared/test/protocol-wire-contract.test.ts",
+      "packages/shared/test/protocol-wire-consumers.test.ts",
+      "packages/ui/test/ui-b1-error-contracts-20260930.test.ts",
+      "packages/ui/test/ui-b1-meta-model-contracts-20260930.test.ts",
+      "packages/ui/test/ui-b1-draft-contracts-20260930.test.ts",
+      "packages/ui/test/ui-b2-citation-contracts-20260930.test.ts",
+      "packages/ui/test/ui-b2-markdown-contracts-20260930.test.ts",
+      "packages/ui/test/ui-citation-render-scale-regressions-20260930.test.ts",
+      "packages/services/test/automation-leaf-contract-fast-1240.test.ts",
+      "packages/services/test/automation-calendar-cost-fast-1240.test.ts",
+      "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+      "packages/services/test/claude-leaf-cost-fast-2057.test.ts",
+      "packages/services/test/claude-leaf-differential-fast-2057.test.ts",
+      "packages/ui/test/ui-b3-session-projection-contracts-20260930.test.ts",
+      "packages/ui/test/ui-b3-projection-consumers-20260930.test.ts",
+      "packages/ui/test/ui-b3-projection-hook-20260930.test.ts",
+      "packages/services/test/automation-monthly-year-normalization-20260930.test.ts",
+      "packages/ui/test/ui-b4-store-selectors-20260930.test.ts",
+      "packages/ui/test/ui-b4-store-navigation-20260930.test.ts",
+      "packages/ui/test/ui-b4-store-consumers-20260930.test.ts"
+    ],
+    "sourceHarness": {
+      "TSX_TSCONFIG_PATH": "packages/ui/tsconfig.json",
+      "KNORVIA_CLAUDE_OLD_ROOT": "Disposable services package extracted from 34fb23e; five Claude leaves and their transitive dependencies compiled with the pinned tsc; #src/* points to its dist. The optional comparison ran."
+    },
+    "emittedHarness": {
+      "shared": "KNORVIA_REMOTE_TEST_TARGET=dist; KNORVIA_WIRE_TEST_TARGET=dist; KNORVIA_WORKFLOW_TEST_TARGET=dist",
+      "ui": "B1/B2/citation-scale target directories select packages/ui/dist/lib with extension js. A temporary tsconfig maps only @/lib/fileCitation.js to its actual emitted JS; remaining aliases retain unchanged existing source adapters and draft mocks.",
+      "services": "KNORVIA_AUTOMATION_CONTRACT_ROOT and KNORVIA_CLAUDE_LEAF_ROOT select an exact byte copy of the rebuilt services/dist in a disposable ESM package with #src/* mapped to ./dist/*. This prevents emitted callers silently loading source helpers. The disposable dist was replaced after the corrected root build; the new year-regression target also selects this exact emitted package.",
+      "comparison": "575 observations per source/emitted target, including five canonical declaration ASTs; retained dependencies are shared and do not establish whole-product equivalence.",
+      "b3": "Four test/fixture copies redirect their UI imports and hook-service mock to actual UI dist. Alias points to UI dist; a resolver rejects any packages/ui/src load. Shared public dependencies retain their existing source exports.",
+      "b4": "Four test/fixture copies target actual UI dist/store and dist/lib, including the real Zustand store; alias points to dist and a resolver rejects any UI/src import. Shared dependencies retain existing public exports. Initial temporary package lacked its workspace @knorvia/shared link; linked to UI package node_modules without a product change, then 54/54 passed."
+    },
+    "aggregate": {
+      "command": "pnpm test:studio",
+      "tests": 5078,
+      "passed": 5071,
+      "failed": 0,
+      "skipped": 7,
+      "cancelled": 0,
+      "durationMs": 250867.668366,
+      "scope": "Exact final production sources and runner registration, synthetic offline data. Optional Claude comparison enabled using the recorded baseline package.",
+      "skipScope": "Seven platform-specific cases on Linux; no optional comparison skip in this local aggregate"
+    },
+    "rootTypecheck": "pass after B4 source integration; 5422 matching i18n keys, including actual store and desktop host/main types",
+    "cliTypecheck": "pass after calendar-correction integration",
+    "rootLint": "pass after B4 and provenance alias extension; zero warnings/errors",
+    "cliLint": "pass after calendar-correction integration; zero warnings/errors",
+    "architecture": "full pass after B4 and provenance alias extension; zero violations",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 0,
+      "scope": "Local 17/17 build was before later UI/calendar fixes; final-commit CLI rebuild and exact-head CI are reported externally. Source/artifact fingerprints are explicitly recorded, not inferred from an old green SHA.",
+      "warnings": [
+        "Existing dynamic import and no-output task warnings"
+      ]
+    },
+    "webBuild": "pass after B4 at exact source HEAD 4478776749ce52dc7f16ef0a5f522155fc5a83dd; final clean closure-commit rebuild reported externally. Ten UI source contents are exact byte matches; whole-map hashes have transformed-asset placeholder variability, separately recorded.",
+    "formatAndPrePush": "Passed at earlier 8cd25ae milestone; not rerun after B4/documents/alias extension. Pending for the final stop-checkpoint SHA.",
+    "provenance": "Refreshed for safe WIP handoff; final freshness check reported externally. Zero production/license decisions added.",
+    "licenseIdentifiers": "pass for 1692 installed packages; seven build dependency identifier reviews",
+    "strictMaterialGate": {
+      "result": "expected rejection",
+      "exitCode": 1,
+      "unresolved": 27
+    },
+    "exactShaCi": "Not checked/accepted for final stop checkpoint. Automatic workflow may start after push. Old #193 and #194 are historical only.",
+    "previousInputShaCi": {
+      "run": 194,
+      "id": 36723882237,
+      "result": "failure",
+      "failedStage": "provenance inventory stale on both platforms",
+      "laterRequiredChecks": "skipped; no product regression result",
+      "scope": "43f0aba WIP only; distinct from the earlier local omitted module-mock flag failure"
+    }
+  },
+  "currentScope": {
+    "definition": "packages/<name>/src or apps/cli/(packages|apps)/<name>/src; .[cm]?[jt]sx?, .rs, .py, .css, .scss; exclude test/tests/__tests__/fixtures path or dot test/spec",
+    "total": 4006,
+    "acceptedFileDecisions": 439,
+    "pendingFileDecisions": 3567,
+    "classificationCounts": {
+      "independent-replacement": 438,
+      "upstream-modified": 2068,
+      "upstream-unchanged": 968,
+      "unreviewed": 531,
+      "original": 1
+    },
+    "acceptedPercent": 10.9586,
+    "metric": "File decision coverage only; not weighted implementation progress"
+  },
+  "sourceAndArtifactBindings": {
+    "sourceHead": "4478776749ce52dc7f16ef0a5f522155fc5a83dd",
+    "sources": [
+      {
+        "path": "packages/services/src/session/automationAdmissionConstraints.ts",
+        "sha256": "700513a71ac658f27e18dffdd401cda07595e72f63172df47e320ca5730a53fe",
+        "bytes": 951,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/automationAdmissionConstraints.js",
+            "sha256": "0c4d67b35a95f2496850658617d284ce2f1c7d16ac2b0a191570a1c76c9ece91",
+            "bytes": 676
+          },
+          {
+            "path": "packages/services/dist/session/automationAdmissionConstraints.js.map",
+            "sha256": "403e466ece2ef81a991ed54ecab6cf55c2fc56eeb4a3749190a6b9fb27212b18",
+            "bytes": 576
+          },
+          {
+            "path": "packages/services/dist/session/automationAdmissionConstraints.d.ts",
+            "sha256": "30b75f176852966d02d8f6c24b4964000256c09508b4c847374e62abeb844515",
+            "bytes": 591
+          },
+          {
+            "path": "packages/services/dist/session/automationAdmissionConstraints.d.ts.map",
+            "sha256": "10ae2c1bbab778fb222847083f61816a53cfe6d1c7e5262d1d3038f543712347",
+            "bytes": 524
+          }
+        ]
+      },
+      {
+        "path": "packages/services/src/session/automationCron.ts",
+        "sha256": "989013a364f2739055d7ee7f82541de27ad79b1e8ba185ad63059393ae8ae037",
+        "bytes": 18111,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/automationCron.js",
+            "sha256": "f85c58e4b4b542997a7dd8a529111f4aab55f541b03a1ec1b675cd8231f44bbf",
+            "bytes": 17791
+          },
+          {
+            "path": "packages/services/dist/session/automationCron.js.map",
+            "sha256": "4e7df4887797dd74e24a007d4e26d48746e91c79399151d86a0d7902749d24ae",
+            "bytes": 13532
+          },
+          {
+            "path": "packages/services/dist/session/automationCron.d.ts",
+            "sha256": "2609a697f80cdb0332cd371dfc720f471a14ff44dcb5d35ac2bcc92b32abc63e",
+            "bytes": 3865
+          },
+          {
+            "path": "packages/services/dist/session/automationCron.d.ts.map",
+            "sha256": "5284919d7cd4fd0fc88dbc91ea8f1ae0ef2bfc6528b4f6b9c9baef1aff1737fb",
+            "bytes": 1280
+          }
+        ]
+      },
+      {
+        "path": "packages/services/src/session/automationIntervalCarrier.ts",
+        "sha256": "72fa6ee1f7debd2fa841ba239c308abe9dc762153c73617c786eea8f6f0dccf5",
+        "bytes": 3677,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/automationIntervalCarrier.js",
+            "sha256": "bdf7c6d2235cc034fa76b16d1c499e682c9e89e24895e4e7daec7ece2d3c3e0e",
+            "bytes": 2495
+          },
+          {
+            "path": "packages/services/dist/session/automationIntervalCarrier.js.map",
+            "sha256": "ea8778ea0d37a9403d736a17010a047f153f8acd0fccc6099fabf9a25def7d96",
+            "bytes": 1587
+          },
+          {
+            "path": "packages/services/dist/session/automationIntervalCarrier.d.ts",
+            "sha256": "8e127eb95977fb5eda603009228c00de35407c7c1daa0a06caa48799f4094027",
+            "bytes": 907
+          },
+          {
+            "path": "packages/services/dist/session/automationIntervalCarrier.d.ts.map",
+            "sha256": "faa3e49091f9bdc1862d458c9f957d4a60ec6e8692cab9139e74c59b01c90996",
+            "bytes": 642
+          }
+        ]
+      },
+      {
+        "path": "packages/services/src/session/automationValidation.ts",
+        "sha256": "b4df09d74e6d4d7b6ef67a335ef066ddd9b62d27299cbbde47c14b7528e7b284",
+        "bytes": 4314,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/automationValidation.js",
+            "sha256": "0432fa543bb3614ad66689c229f2c898ace70c2c0d02d1fd4d16e53415c9b3a0",
+            "bytes": 4156
+          },
+          {
+            "path": "packages/services/dist/session/automationValidation.js.map",
+            "sha256": "40f12988e5df47d39f91c9220624a0141ad59ee043690fddfaf3729d4515d4a0",
+            "bytes": 3087
+          },
+          {
+            "path": "packages/services/dist/session/automationValidation.d.ts",
+            "sha256": "534fdfcbd942e5bbdd56d0afe708a2bf620152f539fefb9f359f24de51f87d66",
+            "bytes": 1034
+          },
+          {
+            "path": "packages/services/dist/session/automationValidation.d.ts.map",
+            "sha256": "fe68a4095522c89d586f2f1bfc6d7569ce5b6875b4dd6fbbb43a5e92a6475b84",
+            "bytes": 524
+          }
+        ]
+      },
+      {
+        "path": "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts",
+        "sha256": "9b530e1833e40ab286bc1064e9b7733407c4ba6aeb7e9c7f0474f43f9191dd9a",
+        "bytes": 3048,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/claude-native/buildImportedClaudeTaskFile.js",
+            "sha256": "400bc10714bf444a3e360e7901437e695063b16a4d687b7f371c4e41c0922167",
+            "bytes": 2698
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/buildImportedClaudeTaskFile.js.map",
+            "sha256": "2a3167b91ae18ac1a4c2e90e3517d3f870c124d6d4939615e04e4a22d399d4cf",
+            "bytes": 2264
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/buildImportedClaudeTaskFile.d.ts",
+            "sha256": "c0bc2175677937ac5b24e6234671883a1b0570a8d73c7356f5bd1ac08b5db646",
+            "bytes": 540
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/buildImportedClaudeTaskFile.d.ts.map",
+            "sha256": "882d39afa526ad20b502d934a96e39bca5681d50ce921fe6cb5d9067a29f73f5",
+            "bytes": 471
+          }
+        ]
+      },
+      {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+        "sha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc",
+        "bytes": 7655,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/claude-native/claudeNativeSessionHeadParser.js",
+            "sha256": "e7c1c2e2b49d426014a609e19b39008f575ec5bc13db3c6e1f304cf570a8a649",
+            "bytes": 7606
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/claudeNativeSessionHeadParser.js.map",
+            "sha256": "8ce6dc48e0da9bf336cf2e21c761a6c70bfa2712118c362faac78f1082b7754c",
+            "bytes": 7401
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/claudeNativeSessionHeadParser.d.ts",
+            "sha256": "30b3881a2eacf13bfed922864649b2a8acbbcc6b040cb51f5d54e9c947ebedef",
+            "bytes": 424
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/claudeNativeSessionHeadParser.d.ts.map",
+            "sha256": "5255dc7d09fec9b6bce7ef2c31132b7bac46f75e55b9dfce16b544f43ffd93fe",
+            "bytes": 454
+          }
+        ]
+      },
+      {
+        "path": "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+        "sha256": "a4ec7572317dff8cf6d724eb10b56db15ee0580ff98defe11950718037c4f4bc",
+        "bytes": 1306,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/claude-native/importedClaudeTaskFileFilter.js",
+            "sha256": "3f4f07d937c92871024687510f4b6201bdccb83a37c1437988229978220e3423",
+            "bytes": 1362
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/importedClaudeTaskFileFilter.js.map",
+            "sha256": "e1468877b889a34a9c5aa8affba6f276bf19749dd0625898cbc7e7c810872d18",
+            "bytes": 1340
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/importedClaudeTaskFileFilter.d.ts",
+            "sha256": "2dbeff40576a3691c0782e3f5c9468f66d9982aafd1bac9eb171a0bac566eadd",
+            "bytes": 304
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/importedClaudeTaskFileFilter.d.ts.map",
+            "sha256": "fbc525054e26609f28e29dd2a30dde2144e556412142b2a7c3f459865ed738b8",
+            "bytes": 307
+          }
+        ]
+      },
+      {
+        "path": "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+        "sha256": "de6a732fe4ada99d0e86358d863d839db4e8f474035787b12ccc7268e4cbdca5",
+        "bytes": 2185,
+        "outputs": [
+          {
+            "path": "packages/services/dist/session/claude-native/sessionHistoryJsonl.js",
+            "sha256": "f69ffdceebebe197097cc5434a70d2c6094169277762289ddee1b4a3036ae4cd",
+            "bytes": 2162
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/sessionHistoryJsonl.js.map",
+            "sha256": "7bca9e4a4b3e88ea227be11493fe1b6936820960ff368ec875d5262466d758fd",
+            "bytes": 2319
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/sessionHistoryJsonl.d.ts",
+            "sha256": "4fee6aa879c4686e43dbb62c66427be446c547bd81bffdcc1f34abbfe8b59e0a",
+            "bytes": 331
+          },
+          {
+            "path": "packages/services/dist/session/claude-native/sessionHistoryJsonl.d.ts.map",
+            "sha256": "df2a7e375fab1e5afeb136544fc87fabe3047d50df7a79628056b166d3525617",
+            "bytes": 381
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+        "sha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604",
+        "bytes": 5675,
+        "outputs": [
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-concurrency.js",
+            "sha256": "9a36b34f0def6478425bed6427f89ba4615cc0f4e1e19f9b79d4da5a91f87adb",
+            "bytes": 5444
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-concurrency.js.map",
+            "sha256": "6159f1af60ada8a321daed68c88ffcbc65182d442aedeeec42035fbe81a77cd2",
+            "bytes": 3030
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-concurrency.d.ts",
+            "sha256": "5d48dc35f0a53cad123ae850045fc938b1371de1b13ad750019264dcd7620000",
+            "bytes": 2370
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-concurrency.d.ts.map",
+            "sha256": "3884a405f2eba3cabd099c9962cfe9f72276e28088e48ee53bc8b83461233ea0",
+            "bytes": 534
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+        "sha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+        "bytes": 6890,
+        "outputs": [
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-node-progress.js",
+            "sha256": "5c5dd9325d16a170813bb85c93129ae74499558f5a12e87cc5d25a4bfc93dfd8",
+            "bytes": 6419
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-node-progress.js.map",
+            "sha256": "495849a22df597550219a1679df8961912973bbb912efc00d463902b6923caab",
+            "bytes": 3208
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-node-progress.d.ts",
+            "sha256": "c1f8893b9e7b847450af562e2093d999ca7ad924e0dc0e4cbe50ad9a993d2c3b",
+            "bytes": 2187
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-node-progress.d.ts.map",
+            "sha256": "892061206912562a44300e5f9b63b7b6c67093d7b57f5d3c5570a3ac4d35e867",
+            "bytes": 702
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+        "sha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+        "bytes": 4940,
+        "outputs": [
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-phases.js",
+            "sha256": "3dd97bd7b9d14f5cdb2d413024f45ad2bfe38445554aa933f3f1978e2d86aeba",
+            "bytes": 5035
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-phases.js.map",
+            "sha256": "10b05e677882922c8f440a7a1dafa571fcb12a3fb1a836f76532587e4a5b794d",
+            "bytes": 3333
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-phases.d.ts",
+            "sha256": "12f2279cfa4033f0bfd8f09d344d7f109144af3fa95700e775da209ff59e2dfe",
+            "bytes": 1683
+          },
+          {
+            "path": "packages/shared/dist/protocol-v4/workflow-runs-phases.d.ts.map",
+            "sha256": "37cf9eb0e6e3d13ebe7fa75c9644f2cb5faaa90bb826c951e521085b34598696",
+            "bytes": 449
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/remote-workspace-identity.ts",
+        "sha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+        "bytes": 2830,
+        "outputs": [
+          {
+            "path": "packages/shared/dist/remote-workspace-identity.js",
+            "sha256": "3fc6788cac0b056a9659238d61293e32af5fecd802fec693f5245d87cbd99af8",
+            "bytes": 2271
+          },
+          {
+            "path": "packages/shared/dist/remote-workspace-identity.js.map",
+            "sha256": "4c1c39d07425d00e8445fd8af6228c48712065fe0afdf85a4791fa91b8135784",
+            "bytes": 1599
+          },
+          {
+            "path": "packages/shared/dist/remote-workspace-identity.d.ts",
+            "sha256": "baffbc5acd8241af8e45be17e7330a87fac0421d38cc2cf5b95bdece8eea43cd",
+            "bytes": 1235
+          },
+          {
+            "path": "packages/shared/dist/remote-workspace-identity.d.ts.map",
+            "sha256": "2c234c45b9e4f42ba68eca6465bbe86055bfbd9b3578a1d2b42560592ef330ef",
+            "bytes": 581
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/remoteSshHostKey.ts",
+        "sha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+        "bytes": 3184,
+        "outputs": [
+          {
+            "path": "packages/shared/dist/remoteSshHostKey.js",
+            "sha256": "6bc08eda6a1cfb46120177347ff6ca82b2aacc21888677ae1f59204b2512c0a2",
+            "bytes": 2787
+          },
+          {
+            "path": "packages/shared/dist/remoteSshHostKey.js.map",
+            "sha256": "27f94c054f2a24e6a04d0992ddc07524251eab97279555b110474571f8a45195",
+            "bytes": 3200
+          },
+          {
+            "path": "packages/shared/dist/remoteSshHostKey.d.ts",
+            "sha256": "910fef6410326c4027523abe543dc42dd6457c35498c7b2afacb84b75b76d6c1",
+            "bytes": 504
+          },
+          {
+            "path": "packages/shared/dist/remoteSshHostKey.d.ts.map",
+            "sha256": "f6003cc3bedee732fd4b1e1f797aa97e53d41db78937b163f97c67a2bb54b3b6",
+            "bytes": 390
+          }
+        ]
+      },
+      {
+        "path": "packages/shared/src/wslUserValidation.ts",
+        "sha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+        "bytes": 834,
+        "outputs": [
+          {
+            "path": "packages/shared/dist/wslUserValidation.js",
+            "sha256": "2d696b5973bc9a0c0184e4f974d6e6eff9a29a65c98869003130fc5c37c89691",
+            "bytes": 868
+          },
+          {
+            "path": "packages/shared/dist/wslUserValidation.js.map",
+            "sha256": "30d27ba222fdaddc199b94fbde4787ba1a808b79366276d2fccc8d8a47754f09",
+            "bytes": 724
+          },
+          {
+            "path": "packages/shared/dist/wslUserValidation.d.ts",
+            "sha256": "ea2088afebee4372fafb3f9091c670b5e69aa88ebe9e1ddb4dc0e8a45e2112fd",
+            "bytes": 232
+          },
+          {
+            "path": "packages/shared/dist/wslUserValidation.d.ts.map",
+            "sha256": "3d8485ff413284993365b1e0262441a18c03d0a51651ed4d83bcc2276266a444",
+            "bytes": 285
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/lib/draftSkillInvalidation.ts",
+        "sha256": "b5e41d9ec101c7b8438645347b5df1432f1c5b5d7f3046961583fe9f48585f0f",
+        "bytes": 3189,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/lib/draftSkillInvalidation.js",
+            "sha256": "315c4abbbbe57d3e4468a20c76db0ed78fbe8498e3ca5185a705259c59e3502c",
+            "bytes": 2423
+          },
+          {
+            "path": "packages/ui/dist/lib/draftSkillInvalidation.js.map",
+            "sha256": "06ae5a755b162d1f34bfab7c4591ca60f3d0846109bd3b3975e0642ffa6f0943",
+            "bytes": 2099
+          },
+          {
+            "path": "packages/ui/dist/lib/draftSkillInvalidation.d.ts",
+            "sha256": "8ba8afe7482b7ab14f6823d5e6d42a1851d09b97d9d82c4d2b45d02260921e37",
+            "bytes": 631
+          },
+          {
+            "path": "packages/ui/dist/lib/draftSkillInvalidation.d.ts.map",
+            "sha256": "6adfe7d5642d65a0c1c5f374627d9e579cf7a0e90321381316ea8a49f747a031",
+            "bytes": 577
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/lib/fileCitation.ts",
+        "sha256": "449e6cd6c25b528a83606b855dce545b96a0a120a7d10e9099c06458d54a1812",
+        "bytes": 5055,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/lib/fileCitation.js",
+            "sha256": "5b81f31349df8dc0ac47abb6f8d96e52c7b34557561e9ebc8cc6531e7eefd0e9",
+            "bytes": 4151
+          },
+          {
+            "path": "packages/ui/dist/lib/fileCitation.js.map",
+            "sha256": "30e3c03cf70b19638a3f359a277bef9f64ec1324962d276451015647d6e9b43f",
+            "bytes": 4185
+          },
+          {
+            "path": "packages/ui/dist/lib/fileCitation.d.ts",
+            "sha256": "65298fe64288f39ced55fa2f783fec6f963b7b35ce163d510654b7b90af029cf",
+            "bytes": 1146
+          },
+          {
+            "path": "packages/ui/dist/lib/fileCitation.d.ts.map",
+            "sha256": "0413b7f441b85d3bc09edcf0ae5535fc7349bff6710392e140dee9585953653a",
+            "bytes": 1021
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/lib/fileCitationRemarkPlugin.ts",
+        "sha256": "be37cd5c69977aa0e72d5b4fc9b7b4a2cc4db9e867aff478c119237967ca3b97",
+        "bytes": 3436,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/lib/fileCitationRemarkPlugin.js",
+            "sha256": "a1de03b7bc7b782131c6faaa30560ef67266fd8db5616bea2b110dde4fee5871",
+            "bytes": 2873
+          },
+          {
+            "path": "packages/ui/dist/lib/fileCitationRemarkPlugin.js.map",
+            "sha256": "193b1097b4cbd5491d959d1cf70af2d6ff38e2f3ff40f4f94d40cf8f45c39cdf",
+            "bytes": 2862
+          },
+          {
+            "path": "packages/ui/dist/lib/fileCitationRemarkPlugin.d.ts",
+            "sha256": "edb54cb5bca501cf4a723d329f9b09b2386f3531877720ba96d37b317e0a6e13",
+            "bytes": 206
+          },
+          {
+            "path": "packages/ui/dist/lib/fileCitationRemarkPlugin.d.ts.map",
+            "sha256": "3f70d28cb939fa1251217953592e8ddcf020138aa116c681a48f3cb9d1ca432b",
+            "bytes": 277
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/lib/sessionProjection.ts",
+        "sha256": "e771fba9b54e9ba84214cb179c325deaad973cfd4dcee1dc648cf11fa4106367",
+        "bytes": 8392,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/lib/sessionProjection.js",
+            "sha256": "81189fecb3ae72afb1ada2bb7f109afa25374c3523484440b6a228e59fee06f2",
+            "bytes": 7467
+          },
+          {
+            "path": "packages/ui/dist/lib/sessionProjection.js.map",
+            "sha256": "eb877c5419427fbc3654616ab245f8ad13849d22aed37507396b009349759fe4",
+            "bytes": 6570
+          },
+          {
+            "path": "packages/ui/dist/lib/sessionProjection.d.ts",
+            "sha256": "03e4ff00b1275a6202926b2ff764c44347a75315161161b19fe7a7208437c109",
+            "bytes": 753
+          },
+          {
+            "path": "packages/ui/dist/lib/sessionProjection.d.ts.map",
+            "sha256": "722efcfdcce66210a9834e4b226c5aaab0b8add81b6b83f14d59f999dc7f0042",
+            "bytes": 585
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/lib/taskMetaMerge.ts",
+        "sha256": "86a188baf769403f5e2497fb5a1a6865292bc75966105e92fe8784f119dd96b9",
+        "bytes": 3592,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/lib/taskMetaMerge.js",
+            "sha256": "aa66614be983a97ae879ca61faabee4fce0fe853a45daee3fdbb7e7630826c10",
+            "bytes": 2652
+          },
+          {
+            "path": "packages/ui/dist/lib/taskMetaMerge.js.map",
+            "sha256": "0ad17d8825da392c2914679db5a514113658c5124bf52e014ee13a8f5450e40e",
+            "bytes": 2795
+          },
+          {
+            "path": "packages/ui/dist/lib/taskMetaMerge.d.ts",
+            "sha256": "287c3ccacf758a0973e4c7b63a0f497c94f189793671b8be5b3e5d9395b2ef9a",
+            "bytes": 361
+          },
+          {
+            "path": "packages/ui/dist/lib/taskMetaMerge.d.ts.map",
+            "sha256": "9fee2cf2a8c7b1b2906f65c66e34bcdd5dd99889c02fc0be27d1e490be301639",
+            "bytes": 360
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/lib/uiError.ts",
+        "sha256": "7c312b878462928f4a16f82bab254c6eba0ce4a4e6a199eb35eb743c57600c15",
+        "bytes": 6456,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/lib/uiError.js",
+            "sha256": "d3d8b7a65da78d49740a1f5d13dd6b9a0747c2016c6c36740a1abd715cf9735a",
+            "bytes": 5695
+          },
+          {
+            "path": "packages/ui/dist/lib/uiError.js.map",
+            "sha256": "f18e1c3ca589aeedf6e73c23654971d10de4e876d624cc6a3f23de865ff34c6a",
+            "bytes": 6018
+          },
+          {
+            "path": "packages/ui/dist/lib/uiError.d.ts",
+            "sha256": "5fd639ffd1e0b420301f381a518ea7f7bcd2c26c4b3110a57f49418297c72e21",
+            "bytes": 635
+          },
+          {
+            "path": "packages/ui/dist/lib/uiError.d.ts.map",
+            "sha256": "aba364ec239af1a9e915666a7baa7929e922415b6e5b8aaa39e92d8bf3a798a7",
+            "bytes": 617
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/store/sessionStoreNavigation.ts",
+        "sha256": "8d5d3e6f31c4c3a43308f911c118541004fe9dec02c2f0cb41c9cfbb9140a141",
+        "bytes": 2284,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.js",
+            "sha256": "1fe4c93e2ebe64251772cd385e1522ac77200d0b2549558c0bfea6c584ecd36e",
+            "bytes": 1608
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.js.map",
+            "sha256": "b86897e1ec9184f3a2c0337f76a0ea40c07caf138151d668336f4ca6b98b37d7",
+            "bytes": 1429
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.d.ts",
+            "sha256": "92e156577bb071688ecc803336b5869a6d65ef3038d196441ab6858ce45f117a",
+            "bytes": 1105
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.d.ts.map",
+            "sha256": "09fdda1c5ecefa014a0f4589777ea9f12b9a519c6a14633177110e37f1de2a3d",
+            "bytes": 693
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/store/sessionStoreSelectors.ts",
+        "sha256": "83f2119627af620b497ddf8e1c3f2880ba74df2d9c7edd2efdc5c84d24574e70",
+        "bytes": 11015,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.js",
+            "sha256": "ada6f4c9c825744b096d7ba624dcaa49319d92a3ae87a36e79002d0f206b771c",
+            "bytes": 8838
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.js.map",
+            "sha256": "dafe971d0e3c1329975d030cffa54a933577af835933d2a5bffa84eea138c8c6",
+            "bytes": 7034
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.d.ts",
+            "sha256": "72ee1735625f423fd3e17452fa0f654dd77c36371d7b3744e979e588acf00c9b",
+            "bytes": 2357
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.d.ts.map",
+            "sha256": "1936f567fc9b1db286b22477c33794e4c8c03aa9ef538f503ae2605f5cff00d6",
+            "bytes": 1671
+          }
+        ]
+      }
+    ],
+    "cliMap": {
+      "path": "apps/cli/packages/cli/dist/knorvia.cjs.map",
+      "sha256": "4e96d2c79eac08076949ebf96a3d0bcde59466f07e291d8e0852c3be3c590cbd",
+      "bindings": [
+        {
+          "path": "apps/cli/packages/adapters/dist/device/cli-device-mid.js",
+          "currentSha256": "a362c9eafc31c664edb65394d07f93da11c518ab5c5da7bd91ebd489c8f92599",
+          "recordedSha256": "a362c9eafc31c664edb65394d07f93da11c518ab5c5da7bd91ebd489c8f92599",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/device/cli-device-mid.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/index.js",
+          "currentSha256": "84a5d717fa86c1b6cd2b38487b16d2b1b6974490ecbdda954dae6a97a5c5fb6a",
+          "recordedSha256": "84a5d717fa86c1b6cd2b38487b16d2b1b6974490ecbdda954dae6a97a5c5fb6a",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/index.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/file-search-paths.js",
+          "currentSha256": "58e9342034bb42f20377766355a946a51d44c3189ba60efc9776de7ee0619ec8",
+          "recordedSha256": "58e9342034bb42f20377766355a946a51d44c3189ba60efc9776de7ee0619ec8",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/file-search-paths.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/node-file-io.js",
+          "currentSha256": "b7d762ba889384cf32826a9d0aea14d383b1be229035401dfbaa6165bbbb09e8",
+          "recordedSha256": "b7d762ba889384cf32826a9d0aea14d383b1be229035401dfbaa6165bbbb09e8",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/node-file-io.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/node-file-policy.js",
+          "currentSha256": "7fb6edd2a7a4a04c2f59305424a3b5cc165548add42b38c8e3d85c7242ed8381",
+          "recordedSha256": "7fb6edd2a7a4a04c2f59305424a3b5cc165548add42b38c8e3d85c7242ed8381",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/node-file-policy.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/node-search.js",
+          "currentSha256": "49ea65d18ebe5b36feee7fc94dde259316ba6f4fe75bb5bd342c870ddf4c569b",
+          "recordedSha256": "49ea65d18ebe5b36feee7fc94dde259316ba6f4fe75bb5bd342c870ddf4c569b",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/node-search.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/ripgrep-plan.js",
+          "currentSha256": "5adeebbac03002ee8c63d7077739370c778f0bede89ecbdb58d84c08f4457709",
+          "recordedSha256": "5adeebbac03002ee8c63d7077739370c778f0bede89ecbdb58d84c08f4457709",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/ripgrep-plan.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/ripgrep-worker.js",
+          "currentSha256": "dd8bd893697a8465e82a39869cb8c6990710f31e3e3aaf2a8432bda36a22d409",
+          "recordedSha256": "dd8bd893697a8465e82a39869cb8c6990710f31e3e3aaf2a8432bda36a22d409",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/ripgrep-worker.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/text-search-lines.js",
+          "currentSha256": "049f67c5405dbd4828c5638e80b1c510a8789f0f6e3ff8aec80bd7a3f0f4350c",
+          "recordedSha256": "049f67c5405dbd4828c5638e80b1c510a8789f0f6e3ff8aec80bd7a3f0f4350c",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/text-search-lines.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/text-search-results.js",
+          "currentSha256": "60f9e1d4cc0b542593f298a62b1b39c2675c8c6e2baf93c8bf4a439ca71189f5",
+          "recordedSha256": "60f9e1d4cc0b542593f298a62b1b39c2675c8c6e2baf93c8bf4a439ca71189f5",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/text-search-results.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/text-metadata.js",
+          "currentSha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+          "recordedSha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/text-metadata.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/text-range-reader.js",
+          "currentSha256": "565463f7952a215bd2f4286f7ebc98ca4110fdbfd13b8cf46b4504ed7328e567",
+          "recordedSha256": "565463f7952a215bd2f4286f7ebc98ca4110fdbfd13b8cf46b4504ed7328e567",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/text-range-reader.js",
+          "exactSourceMapMatch": true
+        },
+        {
+          "path": "apps/cli/packages/adapters/dist/fs/text-line-window.js",
+          "currentSha256": "89ad80acb5101af7393eec69f4f3bbc32728f2626768439fa7096ddac7072f3a",
+          "recordedSha256": "89ad80acb5101af7393eec69f4f3bbc32728f2626768439fa7096ddac7072f3a",
+          "recordedDigestMatches": true,
+          "mapSource": "../../adapters/dist/fs/text-line-window.js",
+          "exactSourceMapMatch": true
+        }
+      ]
+    }
+  },
+  "webSourceBindings": {
+    "mapCount": 754,
+    "jsWithSourceMappingURL": 0,
+    "sourceExposure": "Hidden maps retain full sourcesContent; no source-exposure mitigation or new license conclusion is claimed",
+    "sources": [
+      {
+        "source": "packages/ui/src/lib/uiError.ts",
+        "sha256": "7c312b878462928f4a16f82bab254c6eba0ce4a4e6a199eb35eb743c57600c15",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/index-Eeh6NpF0.js.map",
+            "mapSha256": "cd61b81b7133a3aaf600fa6ff543f9a4248598ced6a80c5c513d4e508c4a94b2",
+            "sourceIndex": 60,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/lib/taskMetaMerge.ts",
+        "sha256": "86a188baf769403f5e2497fb5a1a6865292bc75966105e92fe8784f119dd96b9",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/useWorkspaceServices-DO5JqBxh.js.map",
+            "mapSha256": "92bb6dbd55bff2a17cff66f5659e2b77ee098bbd1c5d9fa172229d02b7bfb1be",
+            "sourceIndex": 96,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/lib/draftSkillInvalidation.ts",
+        "sha256": "b5e41d9ec101c7b8438645347b5df1432f1c5b5d7f3046961583fe9f48585f0f",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/index-Eeh6NpF0.js.map",
+            "mapSha256": "cd61b81b7133a3aaf600fa6ff543f9a4248598ced6a80c5c513d4e508c4a94b2",
+            "sourceIndex": 431,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/lib/customModelValue.ts",
+        "sha256": "a3d4c69e11010def52fe9fd712c9353f103d2a2fbbdc148973c612e607a25dd8",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/kernelProbeView-D30eSeOc.js.map",
+            "mapSha256": "e0fa366624010174177d53ba6b7c5d63b6c9d7b2c6461b5bee5000099a80583d",
+            "sourceIndex": 61,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/lib/fileCitation.ts",
+        "sha256": "449e6cd6c25b528a83606b855dce545b96a0a120a7d10e9099c06458d54a1812",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/useStudioRuntime-DEZVPP_U.js.map",
+            "mapSha256": "29a793e6ba1bd9ddb245bde6056577d9773447b608fbae5f1301462ac68cd6d1",
+            "sourceIndex": 450,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/lib/fileCitationRemarkPlugin.ts",
+        "sha256": "be37cd5c69977aa0e72d5b4fc9b7b4a2cc4db9e867aff478c119237967ca3b97",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/useStudioRuntime-DEZVPP_U.js.map",
+            "mapSha256": "29a793e6ba1bd9ddb245bde6056577d9773447b608fbae5f1301462ac68cd6d1",
+            "sourceIndex": 528,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/lib/sessionProjection.ts",
+        "sha256": "e771fba9b54e9ba84214cb179c325deaad973cfd4dcee1dc648cf11fa4106367",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/index-Eeh6NpF0.js.map",
+            "mapSha256": "cd61b81b7133a3aaf600fa6ff543f9a4248598ced6a80c5c513d4e508c4a94b2",
+            "sourceIndex": 39,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/store/sessionStoreSelectors.ts",
+        "sha256": "83f2119627af620b497ddf8e1c3f2880ba74df2d9c7edd2efdc5c84d24574e70",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/useWorkspaceServices-DO5JqBxh.js.map",
+            "mapSha256": "92bb6dbd55bff2a17cff66f5659e2b77ee098bbd1c5d9fa172229d02b7bfb1be",
+            "sourceIndex": 98,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/store/sessionStoreNavigation.ts",
+        "sha256": "8d5d3e6f31c4c3a43308f911c118541004fe9dec02c2f0cb41c9cfbb9140a141",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/kernelProbeView-D30eSeOc.js.map",
+            "mapSha256": "e0fa366624010174177d53ba6b7c5d63b6c9d7b2c6461b5bee5000099a80583d",
+            "sourceIndex": 57,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/store/sessionStoreTypes.ts",
+        "sha256": "fa22203b4ab41a5f97342a8eaf5136990b36f0236845c71a7cd2b0d88ec2454a",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/useWorkspaceServices-DO5JqBxh.js.map",
+            "mapSha256": "92bb6dbd55bff2a17cff66f5659e2b77ee098bbd1c5d9fa172229d02b7bfb1be",
+            "sourceIndex": 97,
+            "exactSourceMapMatch": true
+          }
+        ]
+      }
+    ]
+  },
+  "noticesAndStaticOutput": {
+    "retainedNoticeBlocks": 928,
+    "originalNoticeBlocks": 928,
+    "previewNoticeBlocks": 928,
+    "previewPackages": 1201,
+    "previewCurrentProduction": 1123,
+    "previewUnresolvedMaterials": 27,
+    "staticWebNoticesMatch": true,
+    "noticesSha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+    "artifacts": [
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/public/material-icons/folder.svg",
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/dist/material-icons/folder.svg",
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "scope": "Static Web output matches source; rights remain unresolved"
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/public/material-icons/docx.svg",
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/dist/material-icons/docx.svg",
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "scope": "Static Web output matches source; rights remain unresolved"
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/public/material-icons/pptx.svg",
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/dist/material-icons/pptx.svg",
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "scope": "Static Web output matches source; rights remain unresolved"
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/public/material-icons/xlsx.svg",
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "scope": "Unresolved original colored source retained"
+      },
+      {
+        "path": "packages/web/dist/material-icons/xlsx.svg",
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "scope": "Static Web output matches source; rights remain unresolved"
+      }
+    ]
+  },
+  "retainedDigests": {
+    "LICENSE": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+    "NOTICE.md": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+    "THIRD-PARTY-NOTICES.md": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+    "third-party/inventory.json": "2310c38abf36d27cf20ac070beb747ec7345d7887a30068b822a7e27f56df2ff"
+  },
+  "materialDuties": {
+    "npm": 15,
+    "coloredAssetCopies": 8,
+    "reactSkill": 1,
+    "skiaQuickjsRust": 3,
+    "total": 27
+  },
+  "peerPackets": {
+    "protocol": {
+      "sha": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+      "state": "Source packet and independent 71-fragment technical receipt integrated without byte changes. Twenty-four limited design aspects are supported; whole-file source/MIT closure remains pending contribution and retained-expression decisions.",
+      "receipt": "a5f6e83e31270fba598e0417c347f45c99ac5d5e"
+    },
+    "services": {
+      "sha": "0708803725867528624927899fc75d1f4ab529ba",
+      "state": "Source packet and independent 56-fragment technical receipt integrated without byte changes. Twelve current file digests match; calendar candidate/fragment bindings remain historical after the separate correction. Categories are technical proposals, with zero whole-file source or new MIT acceptance.",
+      "receipt": "1fa73c1a36f96b94f76404de184bdf7a1a048f99"
+    },
+    "uiB3": {
+      "finalSha": "fe45075fad15c43de1df69b6fc41f72eeadf54a7",
+      "state": "Reviewed and integrated the three explicit commits; behavior validation adds no MIT decision."
+    }
+  },
+  "preparationFailures": [
+    "Earlier optional Claude differential skipped without a baseline root; the final source/emitted and local aggregate run enable it.",
+    "Initial disposable emitted automation consumers lacked the hoisted dependency link and failed to resolve Croner; the parent node_modules link fixed the harness without a source change.",
+    "Broad disposable old-services compilation encountered an unrelated cross-package type issue; a bounded five-leaf build with actual transitive imports, proper Node types and dependency links passed.",
+    "Initial direct Node upstream fetch did not use the network proxy; curl independently reverified all six fixed blob/digest receipts.",
+    "The edited review JSON initially needed formatting; it was formatted before final inventory generation.",
+    "An aggregate started before the new citation handoff was interrupted and superseded by the complete final run; its partial counts are not acceptance evidence.",
+    "An initial copied regression test lacked an ESM package declaration and failed before execution. After adding the temporary declaration, independent inherited/current red-first runs produced the recorded 23/23 and 16/7 outcomes.",
+    "Intermediate Web build used an incorrect shortened commit environment; it does not establish final-SHA build acceptance. The exact full-SHA rebuild is required after this record is committed."
+  ],
+  "limitations": [
+    "Source-exposed implementation and retained inherited expressions remain under existing Apache/NOTICE; behavioral rewrite is not clean-room authorship.",
+    "No whole-file production independence or new MIT decision was granted.",
+    "All four unresolved colored originals in both Desktop/Web source roots remain present; four Web static copies match source. User-authored black/white icons do not clear these rights.",
+    "Hidden Web maps retain full sourcesContent. Offline/build/map evidence does not remove source exposure.",
+    "Native Electron UI/sandbox-helper ownership, Windows/macOS runtime precision, installers and final release payload remain unverified.",
+    "No main merge, force push, deployment, release, credentials/config changes or user-data migration performed."
+  ],
+  "supplementaryLocalLogs": {
+    "install": {
+      "sha256": "e3b9ddc53f539659511a701b221125803ddd9dca22767792f9b1e68b0f490de0",
+      "bytes": 2153,
+      "localPath": "/tmp/knorvia-standard-logs/install.log"
+    },
+    "audit-lineage": {
+      "sha256": "02a4362177ccc4e80e2ad5dbdf855a1c32a985178e63d6d98d7a0cb053fa7720",
+      "bytes": 4942,
+      "localPath": "/tmp/knorvia-standard-logs/audit-lineage.log"
+    },
+    "cli-build": {
+      "sha256": "cad7d2cf6eab4478198edb009876865139cf5ade381c49f3c86bca11c6dcc596",
+      "bytes": 8876,
+      "localPath": "/tmp/knorvia-standard-logs/cli-build.log"
+    },
+    "root-typecheck-final": {
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786",
+      "bytes": 523,
+      "localPath": "/tmp/knorvia-standard-logs/root-typecheck-final.log"
+    },
+    "cli-typecheck": {
+      "sha256": "797d1109bf336b014999d1d926d5b6826c04d1dd0d932dbabae80798e53a6237",
+      "bytes": 1834,
+      "localPath": "/tmp/knorvia-standard-logs/cli-typecheck.log"
+    },
+    "root-lint-final": {
+      "sha256": "b5fbc7777fda6dec4ad1b8a27546316fdec385e7122c4b092645f9313daae886",
+      "bytes": 155,
+      "localPath": "/tmp/knorvia-standard-logs/root-lint-final.log"
+    },
+    "cli-lint": {
+      "sha256": "056e57d989020a83c01348c6484f581c8210a73345f88e474c8f57143db80d24",
+      "bytes": 192,
+      "localPath": "/tmp/knorvia-standard-logs/cli-lint.log"
+    },
+    "architecture-full-final": {
+      "sha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba",
+      "bytes": 187,
+      "localPath": "/tmp/knorvia-standard-logs/architecture-full-final.log"
+    },
+    "combined-source-final": {
+      "sha256": "f8b6cfbb19c23c51842ae9841143afabeef129fe96f5b1488afe68445abf16d2",
+      "bytes": 76473,
+      "localPath": "/tmp/knorvia-standard-logs/combined-source-final.log"
+    },
+    "combined-emitted-final": {
+      "sha256": "88c936ae766d45a7bab459a69c0ecacd37a424c13cc1ebd0abd399cb868337a1",
+      "bytes": 66966,
+      "localPath": "/tmp/knorvia-standard-logs/combined-emitted-final.log"
+    },
+    "b3-emitted-final": {
+      "sha256": "cf795587f58869e9d191e0a3253e1dbeb7bc995d252746a42e10dc4b96d0d80c",
+      "bytes": 4682,
+      "localPath": "/tmp/knorvia-standard-logs/b3-emitted-final.log"
+    },
+    "b4-emitted-final": {
+      "sha256": "8b720950db1d40763891f456e5e770e5e865611ed932a52e02f2a423ba31ce8e",
+      "bytes": 4981,
+      "localPath": "/tmp/knorvia-standard-logs/b4-emitted-final.log"
+    },
+    "b4-lineage-before": {
+      "sha256": "e98cd637a653ec8cc6197a4766f0d74b80217666107c081b165ea43523e3a449",
+      "bytes": 4070,
+      "localPath": "/tmp/knorvia-standard-logs/b4-lineage-before.log"
+    },
+    "aggregate-final": {
+      "sha256": "e46a7bf65639913cfdec24814dc3feca4b03f28b5a99176ea7b881be41ad75c6",
+      "bytes": 465329,
+      "localPath": "/tmp/knorvia-standard-logs/aggregate-final.log"
+    },
+    "old-services-leaf-build": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "localPath": "/tmp/knorvia-standard-logs/old-services-leaf-build.log"
+    },
+    "web-build-final": {
+      "sha256": "0cfcad5ed6548ebae8243c6c9b05695a84c09200f154c3febd703c413c7bc50d",
+      "bytes": 106883,
+      "localPath": "/tmp/knorvia-standard-logs/web-build-final.log"
+    },
+    "licenses-base": {
+      "sha256": "21ac3426bea5f36baa164766048845290affd12df55c6ba4f2e566385614e6b2",
+      "bytes": 277,
+      "localPath": "/tmp/knorvia-standard-logs/licenses-base.log"
+    },
+    "licenses-strict": {
+      "sha256": "45f1aea3797979c3831299764950e6b2b5adaf86ea81cbb1a79a2f45fe03d6ab",
+      "bytes": 3386,
+      "localPath": "/tmp/knorvia-standard-logs/licenses-strict.log"
+    },
+    "notices-preview": {
+      "sha256": "2813e90d1134359e07160cc3df504831aa18812109e5f6dc56afd694b2d2139a",
+      "bytes": 102,
+      "localPath": "/tmp/knorvia-standard-logs/notices-preview.log"
+    },
+    "calendar-red-current": {
+      "sha256": "f005b4debe0035b5792831db28cff746e39b7c3b30783a8dca023842bc9ef914",
+      "bytes": 10474,
+      "localPath": "/tmp/knorvia-standard-logs/calendar-red-current.log"
+    },
+    "calendar-red-old": {
+      "sha256": "9a1742fbb0e650b1b6c6fd57ce2042cf668535d5082d599f03bb340935fbc5ef",
+      "bytes": 1925,
+      "localPath": "/tmp/knorvia-standard-logs/calendar-red-old.log"
+    },
+    "web-map-reproducibility": {
+      "sha256": "ba02931c0d11f76b87a8b08c2dbc1d6f5d301083b9ce0cc2d615bb946c0d7b7f",
+      "bytes": 106883,
+      "localPath": "/tmp/knorvia-standard-logs/web-map-reproducibility.log"
+    }
+  },
+  "peerPacketTechnicalBindings": [
+    {
+      "packet": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+      "files": [
+        {
+          "path": "packages/shared/src/protocol-v4/wire-binary.ts",
+          "sha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+          "currentMatchesPacket": true,
+          "currentSha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d"
+        },
+        {
+          "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+          "sha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+          "currentMatchesPacket": true,
+          "currentSha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429"
+        },
+        {
+          "path": "packages/shared/src/protocol-v4/wire-reassembly.ts",
+          "sha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+          "currentMatchesPacket": true,
+          "currentSha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28"
+        },
+        {
+          "path": "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+          "sha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604",
+          "currentMatchesPacket": true,
+          "currentSha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604"
+        },
+        {
+          "path": "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+          "sha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+          "currentMatchesPacket": true,
+          "currentSha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5"
+        },
+        {
+          "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+          "sha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+          "currentMatchesPacket": true,
+          "currentSha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48"
+        },
+        {
+          "path": "packages/shared/src/remote-workspace-identity.ts",
+          "sha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+          "currentMatchesPacket": true,
+          "currentSha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089"
+        },
+        {
+          "path": "packages/shared/src/remoteSshHostKey.ts",
+          "sha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+          "currentMatchesPacket": true,
+          "currentSha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7"
+        },
+        {
+          "path": "packages/shared/src/wslUserValidation.ts",
+          "sha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+          "currentMatchesPacket": true,
+          "currentSha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd"
+        }
+      ],
+      "validatedFileDigests": 9,
+      "validatedCandidateFragments": 71,
+      "scope": "Prior technical file/fragment validation remains historical; current file digests independently rechecked after the calendar correction. Semantic/contributor/rights cross-review remains pending. Packet docs not merged.",
+      "currentFileMatches": 9
+    },
+    {
+      "packet": "0708803725867528624927899fc75d1f4ab529ba",
+      "files": [
+        {
+          "path": "packages/services/src/session/sessionTitle.ts",
+          "sha256": "1e9b9641da8675c9430bb6bc912fc2e78a166ae4f531fabb7c9880587493da4b",
+          "currentMatchesPacket": true,
+          "currentSha256": "1e9b9641da8675c9430bb6bc912fc2e78a166ae4f531fabb7c9880587493da4b"
+        },
+        {
+          "path": "packages/services/src/session/taskChangeSummary.ts",
+          "sha256": "55ea43a8b3b3f3ef359291cbf39380e58f7260f1d6d587ed05932e9693a9cdfb",
+          "currentMatchesPacket": true,
+          "currentSha256": "55ea43a8b3b3f3ef359291cbf39380e58f7260f1d6d587ed05932e9693a9cdfb"
+        },
+        {
+          "path": "packages/services/src/session/mcpWorkspaceScope.ts",
+          "sha256": "5858f27ae656f010b6b6df5c9a8e8d5c3d6e3920eaa54b0cefd2599056c7f67a",
+          "currentMatchesPacket": true,
+          "currentSha256": "5858f27ae656f010b6b6df5c9a8e8d5c3d6e3920eaa54b0cefd2599056c7f67a"
+        },
+        {
+          "path": "packages/services/src/session/automationCron.ts",
+          "sha256": "ce189612fce54acec2725056910e454a38295bcb4513b3b42d676fe4351ed094",
+          "currentMatchesPacket": false,
+          "currentSha256": "989013a364f2739055d7ee7f82541de27ad79b1e8ba185ad63059393ae8ae037",
+          "state": "Historical candidate binding; changed only by independently demonstrated year-normalization correction",
+          "correctionOriginal": "a6e23efc4da29c3ccd0726d24b9632dfebd4b8b4",
+          "correctionIntegrated": "3f5a65153355c8b539911e5cac3e3bdb7ed76f53"
+        },
+        {
+          "path": "packages/services/src/session/automationCronValidation.ts",
+          "sha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3",
+          "currentMatchesPacket": true,
+          "currentSha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3"
+        },
+        {
+          "path": "packages/services/src/session/automationIntervalCarrier.ts",
+          "sha256": "72fa6ee1f7debd2fa841ba239c308abe9dc762153c73617c786eea8f6f0dccf5",
+          "currentMatchesPacket": true,
+          "currentSha256": "72fa6ee1f7debd2fa841ba239c308abe9dc762153c73617c786eea8f6f0dccf5"
+        },
+        {
+          "path": "packages/services/src/session/automationValidation.ts",
+          "sha256": "b4df09d74e6d4d7b6ef67a335ef066ddd9b62d27299cbbde47c14b7528e7b284",
+          "currentMatchesPacket": true,
+          "currentSha256": "b4df09d74e6d4d7b6ef67a335ef066ddd9b62d27299cbbde47c14b7528e7b284"
+        },
+        {
+          "path": "packages/services/src/session/automationAdmissionConstraints.ts",
+          "sha256": "700513a71ac658f27e18dffdd401cda07595e72f63172df47e320ca5730a53fe",
+          "currentMatchesPacket": true,
+          "currentSha256": "700513a71ac658f27e18dffdd401cda07595e72f63172df47e320ca5730a53fe"
+        },
+        {
+          "path": "packages/services/src/session/claude-native/jsonLineRecord.ts",
+          "sha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+          "currentMatchesPacket": true,
+          "currentSha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7"
+        },
+        {
+          "path": "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+          "sha256": "de6a732fe4ada99d0e86358d863d839db4e8f474035787b12ccc7268e4cbdca5",
+          "currentMatchesPacket": true,
+          "currentSha256": "de6a732fe4ada99d0e86358d863d839db4e8f474035787b12ccc7268e4cbdca5"
+        },
+        {
+          "path": "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+          "sha256": "a4ec7572317dff8cf6d724eb10b56db15ee0580ff98defe11950718037c4f4bc",
+          "currentMatchesPacket": true,
+          "currentSha256": "a4ec7572317dff8cf6d724eb10b56db15ee0580ff98defe11950718037c4f4bc"
+        },
+        {
+          "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+          "sha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc",
+          "currentMatchesPacket": true,
+          "currentSha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc"
+        },
+        {
+          "path": "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts",
+          "sha256": "9b530e1833e40ab286bc1064e9b7733407c4ba6aeb7e9c7f0474f43f9191dd9a",
+          "currentMatchesPacket": true,
+          "currentSha256": "9b530e1833e40ab286bc1064e9b7733407c4ba6aeb7e9c7f0474f43f9191dd9a"
+        }
+      ],
+      "validatedFileDigests": 13,
+      "validatedCandidateFragments": 56,
+      "scope": "Prior technical file/fragment validation remains historical; current file digests independently rechecked after the calendar correction. Semantic/contributor/rights cross-review remains pending. Packet docs not merged.",
+      "currentFileMatches": 12
+    }
+  ],
+  "monthlyWeekdayDefect": {
+    "scope": "Monthly weekday rules with years 0–99 and Date constructor normalization; modern dates are not inferred to fail",
+    "from": -62168688000000,
+    "rule": {
+      "unit": "monthly",
+      "interval": 1,
+      "hour": 0,
+      "minute": 0,
+      "monthlyMode": "weekday",
+      "weekdays": [
+        1
+      ],
+      "anchorAt": -62168688000000
+    },
+    "old": -2208988800000,
+    "source": -2208816000000,
+    "emitted": -2208816000000,
+    "oldIso": "1900-01-01T00:00:00.000Z",
+    "sourceIso": "1900-01-03T00:00:00.000Z",
+    "emittedIso": "1900-01-03T00:00:00.000Z",
+    "status": "Historical pre-correction source/emitted difference preserved. Corrected source and emitted output now independently match the inherited value."
+  },
+  "b4RetainedTypes": {
+    "path": "packages/ui/src/store/sessionStoreTypes.ts",
+    "sha256": "fa22203b4ab41a5f97342a8eaf5136990b36f0236845c71a7cd2b0d88ec2454a",
+    "byteIdenticalToInput": true,
+    "nature": "Contains runtime constants, factories and mutable singleton; not merely declarations. Existing Apache lineage retained, no new original/independent review."
+  },
+  "webMapReproducibility": {
+    "sourceHead": "8cd25ae713003a8e89e59e68a9d158b7d9a535ac",
+    "differingMapFields": [
+      "sourcesContent"
+    ],
+    "transformedAssetChanges": [
+      {
+        "index": 832,
+        "source": "../../../ui/src/assets/provider-icons/model-provider-zai-app.png",
+        "before": "export default \"__VITE_ASSET__hO4dd8ILk$iZF7aFIOUkdg__\"",
+        "after": "export default \"__VITE_ASSET__cn7IAAGY294pWGc7MpElVg__\""
+      },
+      {
+        "index": 835,
+        "source": "../../../ui/src/assets/provider-icons/model-provider-moonshot-kimi.png",
+        "before": "export default \"__VITE_ASSET__6MQCagmCrZzS5dHPKhXWKQ__\"",
+        "after": "export default \"__VITE_ASSET__P4DPfwIRieI8P6q8r4JZRw__\""
+      }
+    ],
+    "beforeMapSha256": "141d5462796e2443896209f15d8408ce07d8939eb0e88337c044f0ed6ae4bdc1",
+    "afterMapSha256": "f5f27134c71cf36d5e8962b6a35c08a5d293c7ef0bba20639ff736532fabf42c",
+    "scope": "Repeated same-HEAD Web build; application JS content hash filename and target source-content bindings unchanged. Intermediate asset source-map placeholders differ."
+  },
+  "integratedPeerDocuments": {
+    "bindings": [
+      {
+        "original": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+        "path": "docs/knorvia-protocol-nine-file-source-review-wip-20260930.md",
+        "sha256": "25cf8a2d95ffc5bbfff46d17285308fbaa22c4d97055c9d4883ae12c2ce1290d",
+        "bytes": 16971,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+        "path": "licensing/evidence/protocol-nine-file-source-review-wip-20260930.json",
+        "sha256": "7ec34d56fbbcb29478d04c73ea99b3ff91259b73d8ff1b671e57cb29753fa507",
+        "bytes": 141520,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "0708803725867528624927899fc75d1f4ab529ba",
+        "path": "packages/services/docs/services-source-closure-review-standard-5526.md",
+        "sha256": "db1cabea22feda287fb251e2fd6639bab0733469c8a53cd6e698a99f6cb797d1",
+        "bytes": 34556,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "0708803725867528624927899fc75d1f4ab529ba",
+        "path": "packages/services/docs/services-source-closure-evidence-standard-5526.json",
+        "sha256": "55516be315f1226d08c95faf60e085b30792fc94945affd3860c33985def655d",
+        "bytes": 202046,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "1fa73c1a36f96b94f76404de184bdf7a1a048f99",
+        "path": "packages/services/docs/services-source-cross-review-receipt-protocol-20260930.md",
+        "sha256": "3131c4fd74130765c49efcf1907887cfaa0657384084c3ebfcdda696135d2ef6",
+        "bytes": 32813,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "1fa73c1a36f96b94f76404de184bdf7a1a048f99",
+        "path": "packages/services/docs/services-source-cross-review-receipt-protocol-20260930.json",
+        "sha256": "b16d715667dade4c64572c91852b377a473bce001c51d83a0f45050c68831128",
+        "bytes": 337558,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "a5f6e83e31270fba598e0417c347f45c99ac5d5e",
+        "path": "docs/knorvia-protocol-nine-file-independent-technical-receipt-20260930-services-6834.md",
+        "sha256": "604ca262d50f7d89555a93077497c9cf38c5df3353c48015060aca9b60134798",
+        "bytes": 46957,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "a5f6e83e31270fba598e0417c347f45c99ac5d5e",
+        "path": "licensing/evidence/protocol-nine-file-independent-technical-receipt-20260930-services-6834.json",
+        "sha256": "e839c288155185eb3c0eb60aeb0bcd9fa4d6ed3b506f76177c7f4bbebc029a0b",
+        "bytes": 436648,
+        "currentMatchesOriginal": true
+      }
+    ],
+    "protocolScope": {
+      "productionFiles": 9,
+      "candidateLines": 950,
+      "fragments": 71,
+      "sevenWholeRetainedExpressionsVerified": 7,
+      "productionEdits": 0,
+      "sharedLedgerEdits": 0,
+      "newRuntimeTests": 0,
+      "newBuilds": 0,
+      "acceptedWholeFileIndependentSourceClosures": 0,
+      "newMitGrants": 0,
+      "supportedDesignAspects": 24,
+      "existingUnresolvedMaterialObligations": 27,
+      "obligationsClosed": 0
+    },
+    "servicesCounts": {
+      "ancestralPaths": 12,
+      "newHelperPaths": 1,
+      "reviewedFragments": 56,
+      "deliveredLines": 1236,
+      "bindingOccurrencesRevalidated": 200,
+      "uniqueCommitPathsRevalidated": 73,
+      "matchingBlockChecks": 90,
+      "exactUpstreamWholeFiles": 2,
+      "categories": {
+        "retain-third-party-under-existing-license": 14,
+        "inherited-product-implementation-further-replacement": 24,
+        "new-implementation-contribution-authority-pending": 17,
+        "insufficient-independent-expression-evidence": 1
+      },
+      "limitedNewMechanismProposals": 19,
+      "verifiedUserOriginalFragments": 0,
+      "acceptedIndependentProductionFiles": 0,
+      "newMITGrantsApplied": 0
+    },
+    "acceptance": "Accepts immutable documentation and anchored technical findings only; no ledger decisions, production independence or MIT grants. Services calendar input remains explicitly historical after the independently bound correction."
+  },
+  "stopCheckpoint": {
+    "reason": "User requests parent own cloud environment takeover",
+    "document": "docs/knorvia-cloud-takeover-checkpoint-20260930.md",
+    "implementationExpansionStopped": true,
+    "newWorkersCreated": 0,
+    "remainingGates": [
+      "Final stop-checkpoint full format and pre-push",
+      "Actual final-SHA CLI/Web builds and map/artifact rebindings",
+      "Exact-head Linux/Windows CI",
+      "Parent source/rights review and 27 material duties",
+      "Native UI/platform/installers/final payload"
+    ]
+  }
+}

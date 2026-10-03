@@ -1,0 +1,213 @@
+{
+  "draft": "02",
+  "authoringClosureUtc": "2026-10-02T22:34:01.059392+00:00",
+  "sourceFiles": [
+    {
+      "path": "turn-model-step-fields.ts",
+      "sha256": "200ce33aba6e19ed407607e5d9a121d034d789db40c783224f1a8e0ff5adaf2e",
+      "bytes": 11576,
+      "physicalLines": 348
+    },
+    {
+      "path": "turn-model-step-operation.ts",
+      "sha256": "b252824af7f32ccc7b111e2faada637dc624f8d433e14a77236f87e53e6b7ea2",
+      "bytes": 13968,
+      "physicalLines": 388
+    },
+    {
+      "path": "turn-model-step-records.ts",
+      "sha256": "2700f85b71639e4331acdbe80800838f779ee63a303a13e7608434bdf1889d1e",
+      "bytes": 3821,
+      "physicalLines": 113
+    },
+    {
+      "path": "turn-model-step-recovery.ts",
+      "sha256": "0c716d6425209df36dbab51c6a223a75e67cd7c545bfbfb56f79cacd08735e75",
+      "bytes": 2407,
+      "physicalLines": 68
+    },
+    {
+      "path": "turn-model-step.ts",
+      "sha256": "9445ca321cc158e19e5be93368730688b1f27c50c6f929b87718393f54454216",
+      "bytes": 1898,
+      "physicalLines": 48
+    }
+  ],
+  "archivedAuthoringCheckpoints": [
+    {
+      "path": "final-authored-before-seal/turn-model-step-fields.ts",
+      "sha256": "200ce33aba6e19ed407607e5d9a121d034d789db40c783224f1a8e0ff5adaf2e",
+      "bytes": 11576,
+      "physicalLines": 348
+    },
+    {
+      "path": "final-authored-before-seal/turn-model-step-operation.ts",
+      "sha256": "b252824af7f32ccc7b111e2faada637dc624f8d433e14a77236f87e53e6b7ea2",
+      "bytes": 13968,
+      "physicalLines": 388
+    },
+    {
+      "path": "final-authored-before-seal/turn-model-step-records.ts",
+      "sha256": "2700f85b71639e4331acdbe80800838f779ee63a303a13e7608434bdf1889d1e",
+      "bytes": 3821,
+      "physicalLines": 113
+    },
+    {
+      "path": "final-authored-before-seal/turn-model-step-recovery.ts",
+      "sha256": "0c716d6425209df36dbab51c6a223a75e67cd7c545bfbfb56f79cacd08735e75",
+      "bytes": 2407,
+      "physicalLines": 68
+    },
+    {
+      "path": "final-authored-before-seal/turn-model-step.ts",
+      "sha256": "9445ca321cc158e19e5be93368730688b1f27c50c6f929b87718393f54454216",
+      "bytes": 1898,
+      "physicalLines": 48
+    },
+    {
+      "path": "intermediate-before-final-split/turn-model-step-fields.ts",
+      "sha256": "200ce33aba6e19ed407607e5d9a121d034d789db40c783224f1a8e0ff5adaf2e",
+      "bytes": 11576,
+      "physicalLines": 348
+    },
+    {
+      "path": "intermediate-before-final-split/turn-model-step-operation.ts",
+      "sha256": "56cae4db2cc9d325a2a71ff00dfc1096e6eb1bd06418398df2832d0b761f6de7",
+      "bytes": 15188,
+      "physicalLines": 444
+    },
+    {
+      "path": "intermediate-before-final-split/turn-model-step-records.ts",
+      "sha256": "49ea6acde0683229bab3b3cba3ba197aa77dd1cf7f4372a20a37c3505934210b",
+      "bytes": 2870,
+      "physicalLines": 85
+    },
+    {
+      "path": "intermediate-before-final-split/turn-model-step-recovery.ts",
+      "sha256": "0c716d6425209df36dbab51c6a223a75e67cd7c545bfbfb56f79cacd08735e75",
+      "bytes": 2407,
+      "physicalLines": 68
+    },
+    {
+      "path": "intermediate-before-final-split/turn-model-step.ts",
+      "sha256": "9445ca321cc158e19e5be93368730688b1f27c50c6f929b87718393f54454216",
+      "bytes": 1898,
+      "physicalLines": 48
+    },
+    {
+      "path": "pre-format/turn-model-step-records.ts",
+      "sha256": "60d4c2ea394e359de337174ffd6c52dc1a0e74ae9825c15c2ac6539d9d867748",
+      "bytes": 2763,
+      "physicalLines": 68
+    },
+    {
+      "path": "pre-format/turn-model-step-recovery.ts",
+      "sha256": "f06c24302e046a4d34af2e352f373a1e66bedd4c31f37357ea9c50f9e601cf2f",
+      "bytes": 2347,
+      "physicalLines": 54
+    },
+    {
+      "path": "pre-format/turn-model-step.ts",
+      "sha256": "c2c8bc569fcd3bc44c067b5379be7b5456207b9cedcb321de13b50fa097a26d9",
+      "bytes": 19526,
+      "physicalLines": 392
+    }
+  ],
+  "supportingArtifacts": [
+    {
+      "path": "author-formatter-config.json",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "bytes": 3
+    },
+    {
+      "path": "input-access-journal.json",
+      "sha256": "3902eb5395ae5a02787830ea8d300cf525c551753bec180b0306cb1f6d25363e",
+      "bytes": 2292
+    },
+    {
+      "path": "refactor-author.py",
+      "sha256": "c82eaf3991ab2afc0bd4ab1ba98bda187b545d84daf44b06b4960de01d030f1b",
+      "bytes": 4617
+    }
+  ],
+  "inputAccessJournal": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/packet.json",
+      "sha256": "1db0ce1b8b50ecea353ee11bc264d39ede902a8d91b3fa529ed9c97dece8074a",
+      "bytes": 1338
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/contract.md",
+      "sha256": "4b1216c31b19ab6adfd75b1d6f894cfc451a81ee0912e2f500c6b7bf0ba10397",
+      "bytes": 11109
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/api.d.ts",
+      "sha256": "2c52215044d7f3f8afc36fca09e5e25338add92036fde6ddc3193acbfaaaf6dc",
+      "bytes": 945
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/imports.d.ts",
+      "sha256": "bebd6492646fe1c222e35b2872eac2b404c2b2ab1ad8f7649f8f7e9f512ea631",
+      "bytes": 2553
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+      "sha256": "08d3de770eb4b0ceb002071a090dd14ddbf3acd106942241cb99cd138393e806",
+      "bytes": 24765
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/runtime-ports.d.ts",
+      "sha256": "98d62bc1b71a194386d6385ea87aceb63dc6a0b225729af5bbe85eabef114c85",
+      "bytes": 1633
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/dependency-ports.json",
+      "sha256": "8bbf96bdaa2091cf57eb0e79e87ac11aa699ef4fd80f63cb3a12177c28fddb2a",
+      "bytes": 21731
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/literals.json",
+      "sha256": "b1a140118263ca7cc89400087c0dbd4f196649f52fd82f4161e8ee9555e6fce8",
+      "bytes": 1431
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/log-fields.json",
+      "sha256": "db6e811589932717a2a519ee594d63713865efb743857369d76b0c43a910c1b1",
+      "bytes": 1772
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/port-clarification.d.ts",
+      "sha256": "65f197e3dc682d36f302d757effa5233c9e77296add330d2270a706819c05eab",
+      "bytes": 9350,
+      "authorization": "curator-supplied supplemental body-free clarification before seal"
+    }
+  ],
+  "authorization": "Original body-free packet plus curator-authorized supplemental declaration and body-free port/read-order corrections; revision02 authorized by curator before seal.",
+  "curatorSourceExposedReviewFindings": [
+    "Draft01 properties.maxOutputTokens and top-level CoreError source failed curator virtual compilation; corrected with optionSpecs.maxOutputTokens.max and nested context.source.",
+    "Telemetry uses step, RapidRefillDecision.shouldBlock, compact outcome literal compacted, CompactTrigger.Reactive; corrected from supplemental public port facts.",
+    "Captured initial model-step index and actual requestEntries supplied to reactive helper; ModelRequest publishes String(captured model IDs), cache read usage is required, suspicious predicate uses usage fallback, snapshot precedes pending recovery read/clear.",
+    "Native async failure-helper settlement in draft01 removed in02; request/failure/success are one operation awaited once by telemetry callback.",
+    "Reactive machine adopts new TurnMachineImpl(TurnMachineImpl.create(...).start())."
+  ],
+  "nativeAwaitOwnership": "Only public telemetry callback awaits the complete operation. Failure and success awaits remain inline in that operation. Other extracted coordination is synchronous except the existing native reactive recovery helper; recoverContext is a non-async direct-return closure.",
+  "formatVerification": {
+    "tool": "/workspace/knorvia-studio/node_modules/.bin/oxfmt",
+    "config": "author-formatter-config.json",
+    "configMeaning": "default settings {}",
+    "cwd": "/tmp/knorvia-turn-model-step-author-20261003/draft-02",
+    "ignorePath": "/dev/null",
+    "targets": "Explicit active temporary TypeScript files only",
+    "activeSourceLimitSatisfied": true
+  },
+  "notPerformed": [
+    "Compilation by author",
+    "Repository source/history/tests/oracle access",
+    "Production writes",
+    "Git operations",
+    "Actual provider/model/network/user-data operations"
+  ],
+  "scopeStatement": "Authored this complete coordination candidate from the recorded body-free inputs and curator corrections. No independent-origin or licence conclusion asserted.",
+  "remainingReview": "Curator must compile and review public declarations, receiver/read/field order, exact native boundaries, and contract behavior. Archived pre-format/intermediate checkpoints are evidence, not active modules; they may exceed formatted line policy."
+}

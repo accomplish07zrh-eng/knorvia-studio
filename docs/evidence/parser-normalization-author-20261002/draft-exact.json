@@ -1,0 +1,30 @@
+{
+  "access": "API/functional packet only; originals saved before curator comparison",
+  "files": [
+    {
+      "path": "parsers/json.ts",
+      "bytes": 2668,
+      "sha256": "de681d013120aae66a6d506b7a8fa7114acbf1b21343147fe58af8b22f2c9a5c"
+    },
+    {
+      "path": "parsers/graph-seed.ts",
+      "bytes": 6008,
+      "sha256": "41c7c04a7635b8a109e759a1b5b78a52eb4a847e276b7f41bcd1e0f2fed12108"
+    },
+    {
+      "path": "parsers/node-prompts.ts",
+      "bytes": 2761,
+      "sha256": "812efeb8112c526068a53be9fe8be40b8186df1606aff547f832e7e2e1d2f73e"
+    },
+    {
+      "path": "parsers/planner-result.ts",
+      "bytes": 1388,
+      "sha256": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd"
+    },
+    {
+      "path": "parsers/critic.ts",
+      "bytes": 3838,
+      "sha256": "a013b344938f4c8102985a791f02c0bcb4a296832111547fe846340befe45130"
+    }
+  ]
+}

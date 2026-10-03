@@ -1,0 +1,33 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "freezeCommit": "9f4c740",
+  "draftAndRedProofCommit": "aa8c75e",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/target.ts",
+  "sourceExposure": "Curator read predecessor; source-derived functional/API packet. Fresh internal author fork_turns=none,Sol/high; actual input/tool journal and sealed draft archived before curator comparison. No absolute clean-room claim.",
+  "draftSha256": "bd0f127f608ea284574063de3c61d89e18b0498d99393897600da7bff1e1f01a",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/target.ts",
+      "sha256": "103f776222a7eb7e7bd9441260fd9f75ca3438ca40576512e2aa05b91d9ce6c4"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/target.js",
+      "sha256": "74e072d533cf5dfd88d719bdb13e35a4e3cfa4df11614bb18d4c72f2a605318c"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/target.d.ts",
+      "sha256": "f194f3ce4ab4c97e0d57b99641f91ea1268561588af0915b84a79293412b87e5"
+    }
+  },
+  "physicalLines": 397,
+  "design": "Native continuation eligibility/verification gates and complete active-run accounting exports, with state remaining on existing runtime/store/queue/registry owners; live port rechecks and partial publication returns remain.",
+  "retained": "Admission/background/verification/read-recheck and start/heartbeat/finish/pause combinations strongly correspond to predecessor. Native guards/catches/awaits, public APIs, store/event argument fields/order, exact log/error/prompt vocabulary and dependency calls retained. Body-free draft evidence is not whole-body expression clearance.",
+  "corrections": "Formatting only; native async eligibility/background phases and return-await settlement retained.",
+  "api": {
+    "exactSignatures": true,
+    "fixedDeclarationFacts": true
+  },
+  "sharedChecks": "docs/evidence/runtime-goal-stop-five-checks-20261003:0scoped TS6.0.2 diagnostics;23public signatures unchanged;5sources94lint rules0;7filesformatted;architecture0;one actual-emitted5synthetic persistence/lifecycle groups plus separate1control metadata red-proof closure(overlap).15current and15historical source/JS/dts,44packet/draft/journal files digest verified. Wrong/missing verifier inputs reject.",
+  "limits": "Ordinary suites/builds/native/source duplicate/full runtime consumers not run per user speed-first. Historical/current selected JS actual compiler; unchanged transitive deps through tsx source resolution. Live receivers/provider/credentials/userdata untouched. Independent expression/licence review remains root-owned; no header/inventory/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-target-author-20261003/lineage.json"
+}

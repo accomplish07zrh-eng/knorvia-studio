@@ -1,0 +1,9 @@
+
+> knorvia-studio@0.8.0-preview.3 fmt:check /workspace/knorvia-studio
+> node scripts/run-quality.mjs fmt:check
+
+Frozen evidence integrity passed: 5536 files / 62290850 bytes
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 20412ms on 7368 files using 4 threads.

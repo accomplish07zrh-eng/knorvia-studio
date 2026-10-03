@@ -1,0 +1,42 @@
+{
+  "targets": [
+    {
+      "path": "packages/provider-node/src/builtin-cache-paths.ts",
+      "bytes": 2508,
+      "sha256": "65f79630a49098f012ea6c247629c3e6d8cbb5664f47a9e485a2d6ccf97601f3",
+      "gitBlob": "e0da2c7918079056f16332eebb86191c60ea02d9"
+    },
+    {
+      "path": "packages/provider-node/src/builtin-provider-config-materializer.ts",
+      "bytes": 1582,
+      "sha256": "f8e1e90169107ed2f8519bb10dbc88be365f054d878d93474081eb2551978dd1",
+      "gitBlob": "49c5da9b629e0ab90a413d7fbe859d9591d7685b"
+    }
+  ],
+  "exactPathOrDigestReviewHits": 0,
+  "namedFilesScanned": 67,
+  "namedHits": [
+    {
+      "path": "docs/evidence/provider-node-builtin-origin-screen-20261003/source-review.json",
+      "sha256": "da11d7b0b9866953dd58e01d7f3fc03af651f3db15fa3c6c56f32e242a2f8b3a"
+    }
+  ],
+  "inputPublishedHead": "6590bcdb2c01408d6da0e437779aaecd0c2db1da",
+  "history": [
+    {
+      "path": "packages/provider-node/src/builtin-cache-paths.ts",
+      "commits": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/builtin-provider-config-materializer.ts",
+      "commits": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    }
+  ],
+  "privateHistory": "Not accessed/recovered; public absence does not disprove private/unpublished acceptance",
+  "newSourceRequests": 0
+}

@@ -1,13 +1,64 @@
-import { connect } from "node:net";
+import { connect, type Socket } from "node:net";
 import { randomUUID } from "node:crypto";
 import { controlResponseSchema, type ControlRequest } from "../contracts.js";
 import { encodeJsonLine, JsonLineDecoder } from "./framing.js";
 import { ControlRequestError } from "./controlError.js";
 
-// Omit 不对 union 分发：直接 Omit<ControlRequest, "id"> 会丢掉 confirmation/force 等
-// 变体字段，调用方无法以字面量构造合法请求。用分发式 Omit 保留每个命令的完整形状。
-type DistributedOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
-type ControlRequestInput = DistributedOmit<ControlRequest, "id">;
+// 每个命令变体分别去掉 id，保留 update 的 force 和 uninstall 的 confirmation。
+type ControlRequestInput<T = ControlRequest> = T extends unknown ? Omit<T, "id"> : never;
+
+class ControlExchange {
+  private readonly decoder = new JsonLineDecoder();
+
+  public constructor(
+    private readonly socket: Socket,
+    private readonly id: string,
+  ) {}
+
+  public wait(request: ControlRequestInput, timeoutMs: number): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      const deadline = setTimeout(() => {
+        this.socket.destroy();
+        reject(new Error("Supervisor control request timed out"));
+      }, timeoutMs);
+      const fail = (error: unknown, destroy: boolean): void => {
+        clearTimeout(deadline);
+        if (destroy) this.socket.destroy();
+        reject(error);
+      };
+
+      this.socket.setEncoding("utf8");
+      this.socket.on("error", (error) => fail(error, false));
+      this.socket.on("data", (chunk: string) => {
+        try {
+          const [frame] = this.decoder.push(chunk);
+          if (frame === undefined) return;
+          const response = controlResponseSchema.parse(frame);
+          if (response.id !== this.id) return;
+
+          clearTimeout(deadline);
+          this.socket.end();
+          if (response.ok) {
+            resolve(response.result);
+          } else {
+            reject(
+              new ControlRequestError(
+                response.error?.code ?? "request-failed",
+                response.error?.message ?? "Supervisor request failed",
+                response.error?.retryable,
+              ),
+            );
+          }
+        } catch (error) {
+          fail(error, true);
+        }
+      });
+      this.socket.on("connect", () =>
+        this.socket.write(encodeJsonLine({ ...request, id: this.id })),
+      );
+    });
+  }
+}
 
 export async function requestControl(
   endpoint: string,
@@ -15,41 +66,6 @@ export async function requestControl(
   timeoutMs = 10_000,
 ): Promise<unknown> {
   const id = randomUUID();
-  const socket = connect(endpoint);
-  const decoder = new JsonLineDecoder();
-  return await new Promise<unknown>((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      socket.destroy();
-      reject(new Error("Supervisor control request timed out"));
-    }, timeoutMs);
-    socket.setEncoding("utf8");
-    socket.on("error", (error) => {
-      clearTimeout(timeout);
-      reject(error);
-    });
-    socket.on("data", (chunk: string) => {
-      try {
-        const response = decoder.push(chunk)[0];
-        if (response === undefined) return;
-        const parsed = controlResponseSchema.parse(response);
-        if (parsed.id !== id) return;
-        clearTimeout(timeout);
-        socket.end();
-        if (parsed.ok) resolve(parsed.result);
-        else
-          reject(
-            new ControlRequestError(
-              parsed.error?.code ?? "request-failed",
-              parsed.error?.message ?? "Supervisor request failed",
-              parsed.error?.retryable,
-            ),
-          );
-      } catch (error) {
-        clearTimeout(timeout);
-        socket.destroy();
-        reject(error);
-      }
-    });
-    socket.on("connect", () => socket.write(encodeJsonLine({ ...request, id })));
-  });
+  const exchange = new ControlExchange(connect(endpoint), id);
+  return await exchange.wait(request, timeoutMs);
 }

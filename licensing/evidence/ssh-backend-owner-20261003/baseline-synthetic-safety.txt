@@ -1,0 +1,14 @@
+✔ authorized fake exec opens once; disposed backend denies reuse and absorbs late client errors (17.103407ms)
+✔ late ready after retirement cannot create a channel or revive connection options (8.041826ms)
+✔ pre-aborted upload denies all work; admitted SFTP keeps exactly the resolved owned target (7.454762ms)
+✔ only SFTP capability failures permit sticky exec fallback to the same quoted owned target (15.274525ms)
+✔ local read failure preserves Error identity and cannot authorize exec fallback (7.102993ms)
+✔ active SFTP abort tears down only owned streams and cannot authorize fallback (6.577261ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 117.87605

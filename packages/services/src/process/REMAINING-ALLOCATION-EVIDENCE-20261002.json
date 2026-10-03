@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "35d06d01049fe52955018011e67094170cc0a281",
+  "inventoryInput": {
+    "path": "packages/services/src/process/OBSERVATION-QUEUE-INVENTORY-20261002.json",
+    "sha256": "c62ae0d208a007103c4047c9922a70f9a10353c7e48debfdb6f8a964235f0c62",
+    "reuse": "existing388-source screen; no new discovery scan; submittedSha256 overrides four original hashes"
+  },
+  "decision": "No newly demonstrated allocated complete owner. Stop new author cycles pending root exact receipt and scope allocation; not services/provenance exhaustion.",
+  "selected": [],
+  "newAuthorsStarted": 0,
+  "productionSourceChanges": 0,
+  "sourceCount": 388,
+  "verifiedUnchangedCurrentSources": 388,
+  "counts": {
+    "retained-registration-contract-entrypoint;not-allocated": 3,
+    "prior-root-allocation-and-origin-holds;no-cross-lane-change": 133,
+    "retained-small-adapter-type-policy-or-prior-queue-boundary": 64,
+    "completed-lane-source;no-repeat;acceptance-limits-retained": 105,
+    "provisional-retention;origin-hold-no-rewrite": 10,
+    "retained-authority-security-boundary;not-allocated": 13,
+    "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated": 20,
+    "prior-completed-queue-or-retained-root-binding-hold;no-repeat": 31,
+    "retained-runtime-termination-sampling-type-adapter;not-allocated": 5,
+    "complete-owner-submitted;minimum-safety/scoped-types-quality-passed;parent-classification-pending": 4
+  },
+  "boundedRetainedOwnerBoundaryPaths": [
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherService.ts",
+      "sha256": "6a874c651b6d0421206ae34973c09d75eb5d537e51158f1afeccd5e1665ecaf7",
+      "nonblank": 114,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/paths.ts",
+      "sha256": "ca67067abcbbc11d8ed0ccc530363e8607ae39e0a352ca47702c80fabb99763a",
+      "nonblank": 222,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncArchive.ts",
+      "sha256": "2ababad98e46fd8c29443aaf53aa9a6e3d94972a2c32eb07ef3f4e1caa85471a",
+      "nonblank": 286,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/plugins/pluginManagement.ts",
+      "sha256": "912b44ed5d8de774d41759a74b82846180156810c97037d478c096d7b41c8340",
+      "nonblank": 97,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/processResourceSampler.ts",
+      "sha256": "868a2956ad4c8ad30b4597509d8b9dfceccaa48fac4c913e1975ebf2e18dd9c4",
+      "nonblank": 433,
+      "classification": "upstream-modified",
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/processTreeTerminator.ts",
+      "sha256": "26a03e474baba58effcd5a0a831e4b28dd7782b1d4ee1fc2655a38e799d11a97",
+      "nonblank": 446,
+      "classification": "upstream-unchanged",
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/processTreeTypes.ts",
+      "sha256": "4f4a9beb1453087503e1e155adbcc97fa78ee1e74ca63fb7d991fd1ee69bc942",
+      "nonblank": 62,
+      "classification": "upstream-modified",
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/runtimeProcessLifecycle.ts",
+      "sha256": "acabe25b0320b0aeb3df911107f0088be6fbe68329bd9307cdea33921c47c680",
+      "nonblank": 80,
+      "classification": "upstream-modified",
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/windowsTaskkillRunner.ts",
+      "sha256": "8c3d02ee4dc96ac66dabbc0c7f43ac6bcf8372e1f66fb7cb0f48f780c9b1ad45",
+      "nonblank": 15,
+      "classification": "upstream-unchanged",
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/automationCron.ts",
+      "sha256": "989013a364f2739055d7ee7f82541de27ad79b1e8ba185ad63059393ae8ae037",
+      "nonblank": 427,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/automationIntervalCarrier.ts",
+      "sha256": "72fa6ee1f7debd2fa841ba239c308abe9dc762153c73617c786eea8f6f0dccf5",
+      "nonblank": 86,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/automationRepo.ts",
+      "sha256": "f0d11e0165dabf5b2d841f303d8edfa766b21e14f59fb21f43dbd4dc27aa1d30",
+      "nonblank": 1421,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/automationValidation.ts",
+      "sha256": "b4df09d74e6d4d7b6ef67a335ef066ddd9b62d27299cbbde47c14b7528e7b284",
+      "nonblank": 105,
+      "classification": "unreviewed",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+      "sha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc",
+      "nonblank": 192,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/persistImportedClaudeTask.ts",
+      "sha256": "d7e6a1f097de4035620f56756c7b1e54ca719790e268d4e342215dd414376e9f",
+      "nonblank": 80,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/taskIndexRepo.ts",
+      "sha256": "d514a1643213f7559156ee687b55239843d662403d7cd92d1ceefc006078ca4d",
+      "nonblank": 2466,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/taskListTypes.ts",
+      "sha256": "acc6dd095832279143f930707a5a661a13bc2a3aaf4dcbda7d93038383944138",
+      "nonblank": 105,
+      "classification": "unreviewed",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/taskService.ts",
+      "sha256": "9591efd0cfe6d18c99edf93e6e6cd9724325b0fbce4d8859073fa5aa63dfa094",
+      "nonblank": 661,
+      "classification": "unreviewed",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/migrations.ts",
+      "sha256": "c57f2e84f0db5f479ed3c76c73b05352784307828ab5ff624ecba1b4e1d24ebf",
+      "nonblank": 264,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/provider-selection-v2.ts",
+      "sha256": "b5a496b8854cb3c5fae4238622b10ce5c0cfeaf41aadc98fdece611f0bc2dbf2",
+      "nonblank": 95,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/schema-v1.ts",
+      "sha256": "761eaba0a85b51eb529b865ab4f0f2edb21af46fdb9b8fdbdb49e53d22114f24",
+      "nonblank": 170,
+      "classification": "upstream-unchanged",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "sha256": "d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde",
+      "nonblank": 129,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/storage/domain/storageCatalog.ts",
+      "sha256": "e2c84069eb31304074e96cf32fa26eda504e2036e71a6f48e81863a8d3cb709d",
+      "nonblank": 204,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/system/sshConfigAlias.ts",
+      "sha256": "d79a9c9da8e48f5e3ad80d61e33ce84b83c74102685a232642de9cba741eecab",
+      "nonblank": 616,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/system/systemService.ts",
+      "sha256": "31900f947598d9d3006eb2a15ef24b9243c898d96fe4bd072b8506bc1d008a0e",
+      "nonblank": 344,
+      "classification": "upstream-modified",
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    }
+  ],
+  "rootQuestions": [
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+      "sha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc",
+      "state": "prior session hold not resolved by five-owner-only allocation; root exact binding/allocation needed; older baseline compilation receipt is not current acceptance"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/persistImportedClaudeTask.ts",
+      "sha256": "d7e6a1f097de4035620f56756c7b1e54ca719790e268d4e342215dd414376e9f",
+      "state": "prior session hold not resolved by five-owner-only allocation; root exact binding/allocation needed"
+    }
+  ],
+  "boundedReceiptRead": {
+    "path": "licensing/evidence/direct-root-webfetch-review-20261001.json",
+    "sha256": "50fb474bfab180ba6f6cf9848407f9f16557d8637c7064cefb38557ce63edfec",
+    "record": "baselineRestoration.source: src/session/claude-native/claudeNativeSessionHeadParser.ts",
+    "recordSha256": "fb8443645eacfd5b1dca46324942d5879f5a1ce5dcf7646c8870c2217e49f059",
+    "qualification": "Older compiled baseline source, not current exact-owner acceptance"
+  },
+  "firstSearchLimitation": {
+    "exitCode": 2,
+    "stderr": "rg: licensing/reviews: No such file or directory (os error 2)",
+    "interpretation": "Local directory unavailable; root review absence not inferred"
+  },
+  "freshness": {
+    "aheadOriginMain": 258,
+    "behindOriginMain": 0,
+    "remoteTrackingCheck": "skipped; no configured tracking branch"
+  },
+  "validation": {
+    "runtimeTests": "not run; evidence-only",
+    "types": "not run; evidence-only",
+    "broadSuiteBuild": "not run",
+    "sourceHashComparison": "all388 current hashes unchanged",
+    "formatDiffArchitecture": "document format/diff passed; changed architecture0violations/baseline0/new0; staged final checks before commit",
+    "firstArchitectureAttempt": {
+      "exitCode": 1,
+      "code": "ERR_MODULE_NOT_FOUND",
+      "message": "Cannot find package 'typescript' imported from /workspace/knorvia-studio/scripts/architecture/policy.mjs",
+      "node": "v24.19.0",
+      "cause": "repository temporary node_modules symlink removed at prior checkpoint; required actual TypeScript already installed in isolated toolchain",
+      "recovery": "restore exact prior temporary symlink for architecture check; no installation or substitute; remove before submission",
+      "output": "node:internal/modules/package_json_reader:301\n  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);\n        ^\n\nError [ERR_MODULE_NOT_FOUND]: Cannot find package 'typescript' imported from /workspace/knorvia-studio/scripts/architecture/policy.mjs\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:301:9)\n    at packageResolve (node:internal/modules/esm/resolve:768:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:992:11)\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:683:17)\n    at #resolve (node:internal/modules/esm/loader:759:56)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)\n    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33) {\n  code: 'ERR_MODULE_NOT_FOUND'\n}\n\nNode.js v24.19.0\n"
+    }
+  },
+  "preserved": [
+    "all previous frozen drafts, source-exposure/type/literal/dependency lineage and first failures",
+    "seven creation owners provisional retention/origin hold",
+    "commitMessageFileScope local predecessor/root accepted replacement integration HOLD",
+    "parent-only creationReference containment binding",
+    "missing ignore/croner/CUA/yazl dependency/consumer failures",
+    "parent-only feedbackLogArchive/node-forge closure diagnostics; not reproduced or declared same baseline",
+    "historical59listenEPERM failures unrerun/unreclassified",
+    "all unselected source and cross-lane/root allocations"
+  ],
+  "limits": [
+    "not legal or MIT clearance",
+    "not source/provenance exhaustion",
+    "not whole-process pristine cleanroom",
+    "no real application data/effects",
+    "no integration/main merge or cross-lane write",
+    "no dependency installation/upload/deployment/Library403 bypass"
+  ]
+}

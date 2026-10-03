@@ -1,0 +1,23 @@
+{
+  "initialDrafts": 3,
+  "wholeCorrections": {
+    "wheel": 1,
+    "dialog": 1,
+    "index": 2
+  },
+  "wheel": "Injected targetWindow microtask receiver restored",
+  "dialog": "Reply.value temporal observation and traversal/load error boundaries restored",
+  "index": "Sound input channel/reporting return identity restored; subsequent directive-only whole correction retained existing file-local lint audit boundary",
+  "helpers": "API parenthesized-type normalization and emitter snapshot-spread lint fixes only; no synthetic helper runtime rerun absent semantic change",
+  "failedChecksPreserved": [
+    "initial-candidate-wheel.json",
+    "initial-candidate-index.json",
+    "initial-dialog-error-boundary.json",
+    "initial-dialog-frame-error.json",
+    "initial-api.json",
+    "initial-lint.json",
+    "pending-author-file-probe.json"
+  ],
+  "curatorImplementationWrites": "whole candidate copies and formatting only, no source-exposed manual implementation patch/extraction",
+  "credit": 0
+}

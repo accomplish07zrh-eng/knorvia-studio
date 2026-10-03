@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python",
+    "/tmp/screen-command.py"
+  ],
+  "stdout": "Screened40: prior device/fs18 exact, selected1; remaining39 bounded\n",
+  "stderr": "",
+  "exitCode": 0
+}

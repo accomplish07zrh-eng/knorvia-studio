@@ -1,0 +1,10 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type { PluginReferenceCatalog, PluginReferenceCatalogEntry }"
+  },
+  {
+    "module": "./references.js",
+    "clause": "{ isValidPluginStableId }"
+  }
+]

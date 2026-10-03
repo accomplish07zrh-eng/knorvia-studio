@@ -1,0 +1,2569 @@
+{
+  "formatVersion": 1,
+  "kind": "WebFetch orchestration source-exposed implementation receipt",
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baselineCommit": "613c250629764cad1eca8e61a4d8df5f91d0e627",
+  "freezeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+  "productionCommit": "f67474ef6ccfc3ae9c5d7939edd99463dd630254",
+  "validationCommit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+  "appendedSettlement": {
+    "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+    "archivePath": "apps/cli/packages/core/test/webfetch-orchestration-settlement-baseline.json",
+    "baselineCommit": "613c250629764cad1eca8e61a4d8df5f91d0e627",
+    "baselineBlob": "e0cfc98c4d18d9eb8ed5d1d3638979cd9aaebd0f",
+    "sourceSha256": "b92f6bdc5aadcd332976eb301de728a32149aeab13c89a0b77bec7481d936866",
+    "compiledSha256": "c4154be03b3874d0c103343a6818985e09c5ce3718760ff7616cfc59111ad705",
+    "compilerVersion": "6.0.2",
+    "recipe": "TypeScript ESNext target/module, esModuleInterop true; output recipe byte-compared to actual current project WebFetch emission before archival. Import specifiers alone are remapped by test loader.",
+    "importRemapping": "Only import specifiers point to protected source or strict actual emitted dependencies; baseline expression unchanged.",
+    "casesPerDriver": 77,
+    "controlsPerDriver": 8,
+    "comparisonsPerMode": 170,
+    "namedTestsPerMode": 5,
+    "matrices": [
+      {
+        "driver": "deadline",
+        "comparisons": 77,
+        "completed": 36,
+        "cancelled": 41,
+        "sha256": "5920dcfab5ab69a61365500175bb7dd7d0b8d59f704cc693018ed19c3889f35c"
+      },
+      {
+        "driver": "executor",
+        "comparisons": 77,
+        "completed": 34,
+        "cancelled": 43,
+        "sha256": "ec379aba494b2569a6d66f31984c204c5e7ad517f77c3ca564110d504b628e18"
+      }
+    ],
+    "paths": ["fresh", "cached", "redirect", "http-error"],
+    "abortDepths": [0, 1, 2, 3, 4, 5, 6],
+    "ports": "Synchronous owned HTTP/model/event/status-text/cache-observation ports, external AbortControllers; full-call-runner wrapper returns exact original handler promise.",
+    "preservedObservations": [
+      "outputs",
+      "modelContent",
+      "display",
+      "serialization",
+      "result metadata and own metadata keys",
+      "terminal result/error events",
+      "Completed/Cancelled telemetry",
+      "network events",
+      "clock reads",
+      "trace propagation"
+    ],
+    "supportedDifferenceFound": false,
+    "productionCorrectionNeeded": false,
+    "initialFullCheckpointSeparate": true
+  },
+  "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+  "sourceExposure": {
+    "inheritedSourceRead": true,
+    "cleanRoom": false,
+    "wholeFileOriginalityDetermination": null,
+    "attributionRetained": true,
+    "sharedProvenanceEdited": false
+  },
+  "licenseDecision": null,
+  "unresolvedMaterialObligations": 27,
+  "obligationCountScope": "Older lane registers unchanged; parent material count26 separately reported, not imported or locally verified.",
+  "parentReportedUpdates": {
+    "locallyVerified": false,
+    "readSettlement": {
+      "proofCommit": "3cdb9b7",
+      "correctionCommit": "aa27c4a",
+      "sourceCases": 35,
+      "emittedCases": 35,
+      "comparisonsPerMode": 156,
+      "scope": "Parent-reported integration correction only; prior lane Read checkpoint remains byte-for-byte immutable and protected.",
+      "locallyVerified": false
+    },
+    "keyv": {
+      "reportedShortCommit": "d109b32",
+      "version": "4.5.4",
+      "remainingObligations": 26,
+      "scope": "Only publisher material acquisition closed; no whole-project MIT eligibility"
+    },
+    "windowsLauncher": {
+      "ci": "CI224",
+      "caseCount": 7101,
+      "files": 552,
+      "argvCharacters": 32807,
+      "error": "spawn ENAMETOOLONG before tests",
+      "owner": "root",
+      "locallyReproduced": false,
+      "runnerChangedInLane": false
+    }
+  },
+  "lineage": {
+    "path": "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+    "localHistory": ["7619e41b950bd52073ebf36754146cf25659d9fa"],
+    "baselineBlob": "e0cfc98c4d18d9eb8ed5d1d3638979cd9aaebd0f",
+    "baselineBytes": 8311,
+    "baselineSha256": "b92f6bdc5aadcd332976eb301de728a32149aeab13c89a0b77bec7481d936866",
+    "upstreamEvidenceKind": "existing-manifest-facts-only",
+    "publisherBytesLocallyVerified": false,
+    "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/webfetch.ts",
+    "upstreamBlob": "e0a52aa30d836164f34f6f117d581cdf196cdb2e",
+    "upstreamBytes": 8309,
+    "upstreamSha256": "fe1ec1299440e2b7b65f862ec5707e523b5c7817483c4632d0c2f87bfaa7bdf6"
+  },
+  "existingTechnicalCoverage": [
+    {
+      "path": "apps/cli/packages/adapters/src/http/response-body.ts",
+      "blob": "537cdab234bb2582cf34601c255d10fdb57d7317",
+      "bytes": 4401,
+      "sha256": "47636f28057f61e64f1d656dec226cbd0e4e355eb840dd61540bd7891cf25487",
+      "normalizedSha256": "47636f28057f61e64f1d656dec226cbd0e4e355eb840dd61540bd7891cf25487",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-http-response-body.md",
+        "docs/knorvia-http-response-body-acceptance.md",
+        "licensing/evidence/http-response-body.md"
+      ],
+      "licenseDecision": null
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/public-egress-policy.ts",
+      "blob": "0c06c66e32dc0c30cf1f2ec0f210ef0f833e367b",
+      "bytes": 4909,
+      "sha256": "a0fb608458bdffcbe219c4ece6d8f4ce92f3b4c8686f967808a08979e99b168d",
+      "normalizedSha256": "a0fb608458bdffcbe219c4ece6d8f4ce92f3b4c8686f967808a08979e99b168d",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ],
+      "licenseDecision": null
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/index.ts",
+      "blob": "b0270219d6b2666d7a465ed88b954c77401a4cee",
+      "bytes": 7786,
+      "sha256": "690c0208dd19c57abf3367e6d135c5f3539ee065064927189478170ba8855fb9",
+      "normalizedSha256": "690c0208dd19c57abf3367e6d135c5f3539ee065064927189478170ba8855fb9",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-http-request-adapter.md",
+        "docs/knorvia-http-request-adapter-acceptance.md",
+        "licensing/evidence/http-request-adapter.md"
+      ],
+      "licenseDecision": null
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/node-exchange.ts",
+      "blob": "9082e0bebb62c206dd2de7fe22fb2a1ef0114c77",
+      "bytes": 3390,
+      "sha256": "5c275634ccf733e320e4d1cd4d52af1809a61a2478109bceefcffd195e60029f",
+      "normalizedSha256": "5c275634ccf733e320e4d1cd4d52af1809a61a2478109bceefcffd195e60029f",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-http-request-adapter.md",
+        "docs/knorvia-http-request-adapter-acceptance.md",
+        "licensing/evidence/http-request-adapter.md"
+      ],
+      "licenseDecision": null
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/http-config.ts",
+      "blob": "990c769568f3873d00f7eb9d352887f06d8d339c",
+      "bytes": 6772,
+      "sha256": "c650cf940d2aec2fe1916acad709780b4cac10adc6625251be5c77cf44fe5be0",
+      "normalizedSha256": "c650cf940d2aec2fe1916acad709780b4cac10adc6625251be5c77cf44fe5be0",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ],
+      "licenseDecision": null
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch.ts",
+      "blob": "d00bf372d430be63ed4a41edce83b8b2751acc57",
+      "bytes": 2395,
+      "sha256": "8f749b6feedc7da6747ea9a538f77171d31dbedcd77cb337635d4d95b450e9c2",
+      "normalizedSha256": "8f749b6feedc7da6747ea9a538f77171d31dbedcd77cb337635d4d95b450e9c2",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ],
+      "licenseDecision": null
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch-exchange.ts",
+      "blob": "4294fd4ffebcc60e83a90bd055fccffbbb51e96b",
+      "bytes": 6552,
+      "sha256": "56b7ace6f6a1f0ddbaabaa34bca9070f95227af372031ff2d3c54ae693c9dd2f",
+      "normalizedSha256": "56b7ace6f6a1f0ddbaabaa34bca9070f95227af372031ff2d3c54ae693c9dd2f",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ],
+      "licenseDecision": null
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/subprocess-env.ts",
+      "blob": "3ff4c3d84d04a110d8599cdfed28232f3349da82",
+      "bytes": 3437,
+      "sha256": "6b84c86f122a079249466dd14abb38cabae6364203b6b815466e026c0f26758a",
+      "normalizedSha256": "6b84c86f122a079249466dd14abb38cabae6364203b6b815466e026c0f26758a",
+      "technicalCoverage": "Existing digest-bound adapter review; unchanged by this lane",
+      "registeredDecision": "independent-replacement",
+      "evidencePaths": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
+      ],
+      "licenseDecision": null
+    }
+  ],
+  "protectedLowerFiles": [
+    {
+      "path": "apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "blob": "cfefaee16c3f7387f5744fcfc5a8bb1f32f13f00",
+      "bytes": 549,
+      "sha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-cache.ts",
+      "blob": "0d17989b439b58922b0713b87d377b818711010a",
+      "bytes": 1466,
+      "sha256": "cddeeeb6404856f20149c7ef433d5209d2a734cbbe7b2de0794063857e646285"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-constants.ts",
+      "blob": "e74a8f12d390f5043c9919ef9361e5e67aedcd6c",
+      "bytes": 503,
+      "sha256": "f99eb76a41d8ef48eae57498d871f90775454cd1a52404b0755afdcd6cf4c2cd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-content.ts",
+      "blob": "7ae589c7acd3e425f1923bffa632a60e128b5559",
+      "bytes": 4053,
+      "sha256": "8cc931aab753f34fc6cc944e2816b2285d99d288b772d372bfb9b07ddb60a1fb"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-egress-guard.ts",
+      "blob": "f200b6ba88bf777359ca873ccae28e18b9caf2db",
+      "bytes": 4155,
+      "sha256": "c94b5d6d18a945168f6af5dc78bbf30d32af051fb46cca5521d96533f363868e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-errors.ts",
+      "blob": "929fed270002bf147e4c848f0bcc2597cf36c934",
+      "bytes": 1237,
+      "sha256": "dbc0d1f7d427f5e516d206f67d45c3081b91af04fa6f30a074117a4dc25e2d1c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-network.ts",
+      "blob": "3767565135c6a003f0d2bd95ade750001a2d6e5c",
+      "bytes": 11921,
+      "sha256": "8f99bb56129e12992877fc09a6514f67ac2fa213748ccb915bfc5342a9d48016"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-processing.ts",
+      "blob": "905753dca6e337b7abca0f5d0902a68d4aff85e8",
+      "bytes": 3977,
+      "sha256": "72ce62e474e875a641bf463ed31a0989e9ed115d9ac6c066612cc6f2202b2705"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-trace.ts",
+      "blob": "66f1b130694820a2dd05759234ff573a7a8cb4ae",
+      "bytes": 1013,
+      "sha256": "5803a334b89b31dcb30da334dad385ce7c4238b4b76a6a2f636d78514225004a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-types.ts",
+      "blob": "73dd4f387b145ee287c463ae2e9b9d5dadea70ec",
+      "bytes": 829,
+      "sha256": "97a3d64d583d08d374b0d101effd4e32e622bcd8f433f19a8381bfd1522dec3f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-url.ts",
+      "blob": "2774e767fef5658b1f38a5896611e956218524dd",
+      "bytes": 4182,
+      "sha256": "2a82164e44b6f56f9e126579918f22843f8f50f13b12e6d78bae8b9a4c8c94bb"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/webfetch-preapproved.ts",
+      "blob": "ab9debea2bedd19337bce0ceeaa55afda5b3e8c1",
+      "bytes": 2385,
+      "sha256": "bf54bc58546e632583919a382c636cd7a968ce4ca9dc6b0cbca4c105b40e2334"
+    }
+  ],
+  "existingReviewFacts": "Current lane reviews.json records eight digest-bound independent-replacement HTTP/egress/response/network-config/proxy/subprocess adapter reviews plus bounded permission matching/WebFetch consumer coverage. No new handler or WebFetch-specific lower whole-file determination inferred; all existing bytes/evidence protected.",
+  "frozen": {
+    "path": "apps/cli/packages/core/test/webfetch-orchestration-contract.json",
+    "bytes": 1388507,
+    "sha256": "9829d926caaf143241ce5adf1e80f9e57c39932265284227ce99e75b4c1e8357",
+    "direct": 61,
+    "getters": 63,
+    "executor": 19,
+    "registry": 4,
+    "permissions": 60,
+    "cacheMatrix": {
+      "comparisons": 36,
+      "sha256": "30629095d3c73c35ef8195b87d5fc629755deee4c936a4e18fe32795227e790a"
+    },
+    "microtasks": [
+      {
+        "hit": false,
+        "timeline": [
+          ["request", 2],
+          ["generateText", 8],
+          ["complete", 11]
+        ]
+      },
+      {
+        "hit": true,
+        "timeline": [
+          ["generateText", 0],
+          ["complete", 2]
+        ]
+      }
+    ],
+    "namedTestsPerMode": 24,
+    "publicDeclaration": "Exact public webfetch.d.ts captured before replacement",
+    "emittedLoader": "Read selected actual dist JS before import; missing file fails, no tsx source fallback",
+    "normalization": "Synthetic monotonic Date and UUIDs; executor span IDs normalized after presence/propagation checks. Incidental source/dist stacks omitted including serialized executor errors. JSON omits undefined while own-field/reference/getter/receiver/signal assertions are separate. No masking of errors/messages/prose/output. Native fetch/DNS functions replaced by fail-closed in-process fixtures; owned ports handle every test effect."
+  },
+  "retainedRegions": [
+    {
+      "name": "clear-cache ownership export",
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+      "start": "export function clearWebFetchCacheForTests",
+      "baselineEnd": "const WEBFETCH_DESCRIPTION",
+      "currentEnd": "const WEBFETCH_DESCRIPTION",
+      "sha256": "82b86e21544df6afa65e7dd08c8bc13d45d8798f542b497cd8c2b444c4b346e4",
+      "normalization": "Trim boundary whitespace only; no implementation reference substitutions."
+    },
+    {
+      "name": "description/prose",
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+      "start": "const WEBFETCH_DESCRIPTION",
+      "baselineEnd": "interface FreshWebFetchContent",
+      "currentEnd": "const webFetchHandler",
+      "sha256": "6bba5e8bf4a5e35df9e99178bb7f0732caafd306c3d38dfc737db767ca2b5f43",
+      "normalization": "Trim boundary whitespace only; no implementation reference substitutions."
+    },
+    {
+      "name": "terminal/status formatting",
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+      "start": "function formatTerminalOutput",
+      "baselineEnd": "function isTerminalFetchContent",
+      "currentEnd": "export const webFetchToolEntry",
+      "sha256": "affd0c43a2a1d243da0262681a6e8bbc6b5eaed0d8fda07c5379ca55030fbaf9",
+      "normalization": "Trim boundary whitespace only; no implementation reference substitutions."
+    },
+    {
+      "name": "public entry/permission/prose/model formatter",
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+      "start": "export const webFetchToolEntry",
+      "baselineEnd": null,
+      "currentEnd": null,
+      "sha256": "6755c7816a61443c0863d2319ec8081ae31408d9c5529dba7e38bef1b8603fdb",
+      "normalization": "Trim boundary whitespace only; no implementation reference substitutions."
+    }
+  ],
+  "checks": {
+    "source": {
+      "tests": 29,
+      "suites": 0,
+      "pass": 29,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3212.14763,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-source-final.log",
+      "bytes": 3185,
+      "sha256": "4da731481bc996249096be0005943cce757fe425bae7fc8293f8e75895fe5944"
+    },
+    "emitted": {
+      "tests": 29,
+      "suites": 0,
+      "pass": 29,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3747.424098,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-emitted-final.log",
+      "bytes": 3188,
+      "sha256": "bf830171c66b5a4f2fda9d283f7ebdef58a4c20312853db6ec7d36a87c5f3746"
+    },
+    "initialRewriteSource": {
+      "tests": 24,
+      "suites": 0,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 2820.488627,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-rewrite-source.log",
+      "bytes": 2372,
+      "sha256": "2e3e98f94afcd8411c178690642c2c2f362807dadbc6e72f746ad580b1e5d6fa"
+    },
+    "initialRewriteEmitted": {
+      "tests": 24,
+      "suites": 0,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3434.413293,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-rewrite-emitted.log",
+      "bytes": 2372,
+      "sha256": "a7878afc93dfe2d75b2e72e70e75db431339456cb789ad0fafb30b714353930e"
+    },
+    "settlementSource": {
+      "tests": 5,
+      "suites": 0,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 2744.37903,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-settlement-source.log",
+      "bytes": 928,
+      "sha256": "4e1e18d53e43186c62ef0da580dfc47fd28bf54371816fcd141794971b9ecf9d"
+    },
+    "settlementEmitted": {
+      "tests": 5,
+      "suites": 0,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3260.135461,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-settlement-emitted.log",
+      "bytes": 931,
+      "sha256": "de040a1aa22edac86703f11ec93f7964409362feb74e3db170819d479819f326"
+    },
+    "frozenSource": {
+      "tests": 24,
+      "suites": 0,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 2811.519099,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-freeze-tests.log",
+      "bytes": 2374,
+      "sha256": "d07383bb66568e1497422af1bfd138a18485391e2fe86fbadce2878947c3633f"
+    },
+    "frozenEmitted": {
+      "tests": 24,
+      "suites": 0,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3523.969044,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-freeze-emitted-tests.log",
+      "bytes": 2373,
+      "sha256": "9fb25cc92787f999549335be65ef5ecef227f436b1e319968ff99114ca96ceaa"
+    },
+    "existingWebFetchSource": {
+      "tests": 153,
+      "suites": 0,
+      "pass": 153,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 5282.822363,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-existing-regression.log",
+      "bytes": 12827,
+      "sha256": "66dd8815a9ec602c7d8706212b3a5711810196de8f37638c75f866d8ba26f1b8"
+    },
+    "fullRegression": {
+      "tests": 6255,
+      "suites": 6,
+      "pass": 6247,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 8,
+      "durationMs": 364177.317405,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-full-regression-appended.log",
+      "bytes": 554285,
+      "sha256": "11626cb514fe84d6728041444d2c58d94d94b5545c6ac3db381778cb14932cce",
+      "testFiles": 525,
+      "skipLines": [
+        "﹣ Windows bootstrap passes the explicit offline CUA archive environment to driver staging (0.119954ms) # SKIP",
+        "﹣ 真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） (4.360811ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 真实交付脚本在 8.3 短名 Source 上也能正确交付 (3.100698ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ Source 末尾带分隔符时仍能正确交付 (2.938736ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 路径含空格与中文时仍能正确交付 (2.781983ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 程序文件确实被篡改时交付必须失败并给出可定位诊断 (3.006072ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ deterministic old/new Claude leaf observations and public declarations (0.990669ms) # SKIP",
+        "﹣ Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced (0.228958ms) # SKIP"
+      ]
+    },
+    "originalFullRegression": {
+      "tests": 6250,
+      "suites": 6,
+      "pass": 6242,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 8,
+      "durationMs": 359343.420891,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-full-regression-final.log",
+      "bytes": 553479,
+      "sha256": "2af54ae7d9773dd25e68278e420489fc5c99799fa19449186b1a69716480fa43",
+      "testFiles": 524
+    },
+    "rootTypes": {
+      "pass": true,
+      "i18nKeys": 5422,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-root-types.log",
+      "bytes": 523,
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+    },
+    "cliTypes": {
+      "pass": true,
+      "scope": 16,
+      "workspaceProjects": 19,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-cli-types.log",
+      "bytes": 1834,
+      "sha256": "c55af7ba2dff23a1bdcbb0ff0ba133f6c98888f8dbd079a9b51365efae1efc2a"
+    },
+    "cliBuild": {
+      "pass": true,
+      "tasks": 17,
+      "cached": 10,
+      "warnings": [
+        "Existing global Turbo 2.9.14 fallback and missing browser-use-plugin lockfile workspace warning",
+        "Existing large debug chunk warning",
+        "Existing unsupported dynamic import options warning",
+        "Windows CUA staging skipped on Linux"
+      ],
+      "logPath": "/tmp/knorvia-webfetch-orchestration-cli-build.log",
+      "bytes": 8796,
+      "sha256": "a32fb9751244f2ce52dbdd87056f66f8512f90b60a1553351204d6140e8e32a7"
+    },
+    "rootLint": {
+      "pass": true,
+      "files": 2844,
+      "warnings": 0,
+      "errors": 0,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-root-lint.log",
+      "bytes": 154,
+      "sha256": "ea5005fa1af5faf0312709356d4641ec0b92507858ce18763c412a37ae41bdeb"
+    },
+    "cliLint": {
+      "pass": true,
+      "files": 97,
+      "warnings": 0,
+      "errors": 0,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-cli-lint.log",
+      "bytes": 193,
+      "sha256": "9c0331eb6bc5cd0257444deff21a7926e46553e955a21c68ae6c25bc9233f648"
+    },
+    "ownedLint": {
+      "pass": true,
+      "files": 10,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "configuration": "Existing root 94 rules/test override with only temporary ignorePatterns cleared; no repository configuration change",
+      "logPath": "/tmp/knorvia-webfetch-orchestration-owned-lint-final.log",
+      "bytes": 91,
+      "sha256": "310837c888ca2e19ce78e91987291c7f88d2e82d46e89891d31f7321021d42dc"
+    },
+    "coreLint": {
+      "pass": false,
+      "errors": 24,
+      "warnings": 11,
+      "unchangedFiles": [
+        {
+          "path": "apps/cli/packages/core/src/agent/message-history.ts",
+          "blob": "46a428961f5f7a1c42c0a184f4dbd7ae379b5ce5",
+          "bytes": 16116,
+          "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+          "blob": "e37abf41b46caf50bd50486e3cb46e9db5ddcf95",
+          "bytes": 20974,
+          "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+          "blob": "f3456b35f4eeac499838ef16c7bb5b9dbbd3ca9e",
+          "bytes": 4233,
+          "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+          "blob": "f5c2d9cdff9042b94a07e679d70fbc5eeb708062",
+          "bytes": 28340,
+          "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+          "blob": "cd0f580a9d0d3fec86f4b6ab765c3311be5b97f9",
+          "bytes": 17171,
+          "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/internal-turn-methods.ts",
+          "blob": "ba9e550b3044b357a671a8c1296ca42c2f17e382",
+          "bytes": 13911,
+          "sha256": "cdc5b01f2fd1782109390ea2156b1a1ba9f95f388adcedc071df21aa0df37527"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+          "blob": "d74b7349ed764f964024d361128fbd9a3f814a45",
+          "bytes": 14920,
+          "sha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+          "blob": "7b3c707d580919ef233c67a99c3fa6dbe75cea0a",
+          "bytes": 27775,
+          "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-persistence.ts",
+          "blob": "56c3061ae1bc44dc3c891e14cdc47055c8f8d250",
+          "bytes": 15762,
+          "sha256": "422a587999db16ceea860e2be3d4134228ce9f225b4eb4b893780665d85da648"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+          "blob": "4f7d2f09c44c47db31a482f0c9fe8c0fb481f88a",
+          "bytes": 16397,
+          "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+          "blob": "107c3dafa56e32a74d4b200ec0f47097a6a5946d",
+          "bytes": 24444,
+          "sha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+          "blob": "5c9c20ff7b0a3266e4e905715157700d7e57b62f",
+          "bytes": 21420,
+          "sha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+          "blob": "43f5913696e833dfab4cc4a9d7daa9310a3b1eb9",
+          "bytes": 19728,
+          "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+          "blob": "1e4ba11d34c75e5af579ad78587740bf8f34f775",
+          "bytes": 16828,
+          "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/runtime-command-queue.ts",
+          "blob": "620e96e60fcd5889c21da32b7782f6ff4aaacaa4",
+          "bytes": 17963,
+          "sha256": "a2096f3de850c1c37f2000fb9401733110fc72cb61cf300bc6e8b8ae7d6f07ac"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/session-fork.ts",
+          "blob": "5319d10d6d4407c0626b2679764d1b0bc989dbc3",
+          "bytes": 52452,
+          "sha256": "e1a496dec0581987f6f8ee28d7e68f5b7bbba097b4b2e8bf0983d19db9ae187d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+          "blob": "0b1234f40eaa3cb3b605dba0eb562d81d9657961",
+          "bytes": 48360,
+          "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+          "blob": "caf038f22877548f074ac9f24e935919832c1193",
+          "bytes": 29776,
+          "sha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+          "blob": "a73ed30aae051e525811d4749149f6473bd0888c",
+          "bytes": 20231,
+          "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+          "blob": "571fef1508493dcfab852f7b3046d311aaf4f416",
+          "bytes": 36616,
+          "sha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+          "blob": "4569631b25c9c1a20783bd9223c74ce65f7d1603",
+          "bytes": 14322,
+          "sha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/telemetry/runtime-telemetry.ts",
+          "blob": "b9e48964f928bbdd830e8d4e6899d94439bc9220",
+          "bytes": 6795,
+          "sha256": "af1e19734428033b26ee5dcc728bdc4cad30cda7c128ed646c032a59f1445b8e"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+          "blob": "9e9f007bf643861fee78d6ba2baa9b7cc3921bba",
+          "bytes": 48163,
+          "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+          "blob": "fee4a76098247a7c15ab23be2baecd0614740e51",
+          "bytes": 18686,
+          "sha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+          "blob": "882745561b666c9f3d368374d00004d562bbb861",
+          "bytes": 13916,
+          "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+          "blob": "a90f62133f7feabb7cb5870e1fce5041c46fe4a5",
+          "bytes": 10424,
+          "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+          "blob": "17d82c262e531879a9bc36f3c3baa6df8f3998c2",
+          "bytes": 17946,
+          "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f"
+        }
+      ],
+      "logPath": "/tmp/knorvia-webfetch-orchestration-core-lint.log",
+      "bytes": 5543,
+      "sha256": "f5b3dba92384b255e38559a834a23ed6d78a941cae247fa09877214e4fb86f0d"
+    },
+    "format": {
+      "pass": true,
+      "files": 5954,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-format.log",
+      "bytes": 203,
+      "sha256": "bbff7fadfa60146b85ea3782255132ad7e6be9f3ee6d89cdd706c5045cfa575e"
+    },
+    "architectureChanged": {
+      "pass": true,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-architecture-changed.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    "architecture": {
+      "pass": true,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "module": "CLI unmanaged/unassigned; explicit dependency direction and single effect/state owner manually reviewed",
+      "logPath": "/tmp/knorvia-webfetch-orchestration-architecture.log",
+      "bytes": 187,
+      "sha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+    },
+    "evidenceLint": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-evidence-lint.log",
+      "bytes": 89,
+      "sha256": "91ebbf4ceb7bc9872a2db69f0aa48b3dd071e9f429fe45e842320a082460009c",
+      "files": 1,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0
+    },
+    "evidenceFormatFinal": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-evidence-format-final.log",
+      "bytes": 203,
+      "sha256": "f2fd81b031d8839da469d749bef7d5de378226c818bbef0a4db0704382d96d34",
+      "files": 5960
+    },
+    "evidenceRootLintFinal": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-evidence-root-lint-final.log",
+      "bytes": 154,
+      "sha256": "40ed3221f87fef6c3e3377e21c6bd9d62a5aa5876a54f10de77ac22449d27c03",
+      "files": 2845,
+      "warnings": 0,
+      "errors": 0
+    },
+    "evidenceArchitectureChangedFinal": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-evidence-architecture-changed-final.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    "evidenceDigestFinal": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-evidence-digest-final.log",
+      "bytes": 156,
+      "sha256": "acaa6fdf0f56206ccb0591dee21bfc606b7d40371d87a2be4ade1af24ac1e0d7"
+    },
+    "evidenceArchitectureFinal": {
+      "pass": true,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "logPath": "/tmp/knorvia-webfetch-orchestration-evidence-architecture-final.log",
+      "bytes": 187,
+      "sha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+    }
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+      "blob": "d32cf8c238657b56152136d4439d464d6d9d3417",
+      "bytes": 5969,
+      "sha256": "d648170ca5499678f902fa0d71bb1569cee91a6fc5309a86f6e769fde35dcee7",
+      "normalizedSha256": "d648170ca5499678f902fa0d71bb1569cee91a6fc5309a86f6e769fde35dcee7",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "f67474ef6ccfc3ae9c5d7939edd99463dd630254",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Exact clear-cache export, description, terminal redirect/HTTP result and status text functions, public entry/permission/schema/budget/trace/deadline/cancellation declarations and model formatter. All lower owners unchanged."
+      ],
+      "newlyStructuredExpression": [
+        "Direct binding of one operation factory to its existing public handler slot; no asynchronous forwarding wrapper or second state owner."
+      ],
+      "candidateReviewStatus": "unresolved_retained_entry_and_prose"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-orchestration.ts",
+      "blob": "41c8dc64d98036a9cf0bdda708ad0c062a0c107a",
+      "bytes": 4195,
+      "sha256": "715e7db5ba27c077ed82c502c3a5e03ea7fc52d7c9c65a9a1d831cfd90526efa",
+      "normalizedSha256": "715e7db5ba27c077ed82c502c3a5e03ea7fc52d7c9c65a9a1d831cfd90526efa",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "f67474ef6ccfc3ae9c5d7939edd99463dd630254",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Schema parse, clock/URL/key/cache order, miss/hit comparison, property-presence terminal guard, preapproval contract, cache put before processing and Math.max duration constraints retained after exposure. Public field names/read/reference order are compatibility facts."
+      ],
+      "newlyStructuredExpression": [
+        "Single factory-bound async owner; ordered fresh-request field encoding, explicit fresh promise continuation and synchronous cached admission; lazy ordered normal-result readers. Earlier exposed lane field-codec patterns informed this structure."
+      ],
+      "candidateReviewStatus": "unresolved_mixed_orchestration_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-capture.mts",
+      "blob": "cf522f3d32833e94c830d3dd25c6850ff3a6bbd9",
+      "bytes": 1713,
+      "sha256": "b4c103e423c5bc490a0389f2e3ae5cb2250a0684fd43c7be9ad261b2ecbaa1ad",
+      "normalizedSha256": "b4c103e423c5bc490a0389f2e3ae5cb2250a0684fd43c7be9ad261b2ecbaa1ad",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-cases.ts",
+      "blob": "895030d922ae050e8e02fb23a68f65766ea5c713",
+      "bytes": 5576,
+      "sha256": "1226f233799e8c8b25308e2b9f50817791cff462864db47018e4243883674888",
+      "normalizedSha256": "1226f233799e8c8b25308e2b9f50817791cff462864db47018e4243883674888",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-consumer-fixture.ts",
+      "blob": "c3ef5588636df772ca237c265ce69d903c115aff",
+      "bytes": 5458,
+      "sha256": "1234f756f0ed4976e10c300f2a5e7e14f98321743c3105a9421a1b9be3fa0e4d",
+      "normalizedSha256": "1234f756f0ed4976e10c300f2a5e7e14f98321743c3105a9421a1b9be3fa0e4d",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-consumers.test.ts",
+      "blob": "f6c278cf17a584616cb39cd98671a85a8595bacb",
+      "bytes": 6448,
+      "sha256": "06f53a07525c496b84029a2d463b6c7c600fef29102aa3297fdd8c68fa22656c",
+      "normalizedSha256": "06f53a07525c496b84029a2d463b6c7c600fef29102aa3297fdd8c68fa22656c",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-contract.json",
+      "blob": "a1048f0e96d38b517d9456b643e9ae17babc7727",
+      "bytes": 1388507,
+      "sha256": "9829d926caaf143241ce5adf1e80f9e57c39932265284227ce99e75b4c1e8357",
+      "normalizedSha256": "9829d926caaf143241ce5adf1e80f9e57c39932265284227ce99e75b4c1e8357",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+      "role": "frozen-data",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited declarations, descriptions, terminal prose, prompts, errors, outputs and protocol observations captured after exposure. Not exclusively new test expression."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic observation envelope, owned getter/receiver/time/event/port evidence and cache/interleaving matrices."
+      ],
+      "candidateReviewStatus": "unresolved_retained_fixture_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-contract.test.ts",
+      "blob": "efdf11696581f2f7d8d30736fd298dcf0fb7e726",
+      "bytes": 10241,
+      "sha256": "4017c4c44f2c2dc6d3921ff4d418a225effd0ba3d056a6f6a02413c182f26906",
+      "normalizedSha256": "4017c4c44f2c2dc6d3921ff4d418a225effd0ba3d056a6f6a02413c182f26906",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-fixture.ts",
+      "blob": "391cda9155ce6096a837f3f6a53d3bc8f5dcfeba",
+      "bytes": 10615,
+      "sha256": "a020331f835f411b6f8e3796a5a34ce1ba284130cd3ddbc800ef2a8c1f9a4af9",
+      "normalizedSha256": "a020331f835f411b6f8e3796a5a34ce1ba284130cd3ddbc800ef2a8c1f9a4af9",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "25f8ec5fc01243f21b58f5ed010b62b0002a831e",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-settlement-baseline.json",
+      "blob": "27e04e687cb9c4d2cb5e930c5dd4c6c4bdf2bee1",
+      "bytes": 17469,
+      "sha256": "62eb7b01d5cc311cca78a7b25b3d997e303b286ee0271f99c7f1cb953e96af34",
+      "normalizedSha256": "62eb7b01d5cc311cca78a7b25b3d997e303b286ee0271f99c7f1cb953e96af34",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "role": "frozen-data",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Exact frozen baseline source and deterministic compiled implementation including inherited prose/declarations and expressions. Source-exposed reference material; not new original test expression."
+      ],
+      "newlyStructuredExpression": [
+        "Digest-bound archive envelope and deterministic compilation recipe with import-only remapping by the test loader."
+      ],
+      "candidateReviewStatus": "unresolved_retained_baseline_source"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-settlement-fixture.ts",
+      "blob": "0b2e53dd5934d1017b5ed472059d2bc3be68a8db",
+      "bytes": 9131,
+      "sha256": "15189e001523a27d823d3aa5ba39a81ecc3c0aa99ef2c57738e644a81363e22c",
+      "normalizedSha256": "15189e001523a27d823d3aa5ba39a81ecc3c0aa99ef2c57738e644a81363e22c",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-settlement.test.ts",
+      "blob": "8a09cae7d87feca0f8cb58ced78e627cd3b143af",
+      "bytes": 3049,
+      "sha256": "e43150101a5a872dc8146afc1eaf0a642368ff8ca86ee24d8ff52a3650e2e712",
+      "normalizedSha256": "e43150101a5a872dc8146afc1eaf0a642368ff8ca86ee24d8ff52a3650e2e712",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    },
+    {
+      "path": "specs/knorvia-webfetch-orchestration.md",
+      "blob": "f70cdac37c47c41c5841c57dd50ef735b51fb86f",
+      "bytes": 10316,
+      "sha256": "952412e546d6c06373501bdb14ce20839fc8f9f408fa49338d00a6bd6145e1dc",
+      "normalizedSha256": "952412e546d6c06373501bdb14ce20839fc8f9f408fa49338d00a6bd6145e1dc",
+      "commit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "lastChangeCommit": "c63eedf1bd21d2533b8eb2631a8f83c40fefc2e5",
+      "role": "spec",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Inherited interface/prose/error/output facts asserted after source exposure; earlier lane fixture/assertion/checker patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic HTTP/model/event/artifact/clock/approval design, malformed/getter/failure/continuation probes, actual registry/executor/permission coverage and interruption assertions."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_test_or_spec"
+    }
+  ],
+  "filesTupleSha256": "4fdf09d7425fbdbdea5085c571ff463c6b5fb427157b03ec9106459194b9db50",
+  "emittedFiles": [
+    {
+      "path": "apps/cli/packages/core/dist/model/auxiliary-model-options.js",
+      "bytes": 464,
+      "sha256": "e2cc48ecb32fa33240c05bf6112e4c41093120933a34011439bd446d027ca78b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/permission/service.js",
+      "bytes": 1346,
+      "sha256": "26e7ad4542431c4142decba41df0b208925e7bd0506132f85348ff30972f5b46"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/call-runner.js",
+      "bytes": 2238,
+      "sha256": "ac2449d40c239f1e7f41c72a1051dd7f8ff326f30d5d9611e44693ed54864708"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/budget-ledger.js",
+      "bytes": 1077,
+      "sha256": "b0cbd95b3fa7b5555f7afe49ab6638fa698756eceabef2434dde531c5d5288cd"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/handler-settlement.js",
+      "bytes": 2567,
+      "sha256": "8cc550d9a6107c77bf2c78f3aa360cda42725927bf3c285e2265bc1112bac9e8"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/pausable-deadline.js",
+      "bytes": 1298,
+      "sha256": "66a9e7cae78724b88ffacaefb70df7074498289fd4ae9c19441784e679f419d5"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/model-status-sink.js",
+      "bytes": 1884,
+      "sha256": "b590c1e8c51607253174327fc5981132e0dc9f09241b1ac35a0450dda9285793"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/permission-capability.js",
+      "bytes": 1376,
+      "sha256": "d140e7e80daf8491017bc92fe727cfc5bedc2a77fd9c01a9e361235683dad00c"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/timeout.js",
+      "bytes": 2186,
+      "sha256": "741cfeadd22289be386a0f38535b9c757bb05f7a8d4a1afd2b1f48738229cd7e"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/index.js",
+      "bytes": 11123,
+      "sha256": "1a551eb284c160370ceb142c65d8bf2406e24f74d1a03efe39f66a9602697a67"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-cache.js",
+      "bytes": 1347,
+      "sha256": "b7a92f8bd0a0b51bb54210718fc95ecc9cf9a07329c4927c4034b72d9b49653b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-constants.js",
+      "bytes": 502,
+      "sha256": "ff84dde47bee64ec78c66be6ca910ec425bcb93a9d445128698edf57b4f5e744"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-content.js",
+      "bytes": 3953,
+      "sha256": "f0a34de8215d87206edb61ae439902cf586b076f503b10688f8588cfe01d530d"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-egress-guard.js",
+      "bytes": 3775,
+      "sha256": "29022404614550a5ebae84ac25cf9955f575bfb1303246c1b99803ca65057014"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-errors.js",
+      "bytes": 1144,
+      "sha256": "25824402ab8d4cdfbe85fd7384ecb17aa3bc7067212e744178b753ef88d5cf09"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-network.js",
+      "bytes": 11544,
+      "sha256": "aaf81612bdf16467a2bbc73361f0e38cb2a67cef490b8be169b22843283b0525"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-orchestration.d.ts",
+      "bytes": 589,
+      "sha256": "99654327e63464c3364c44b5c8668a233230545ddacafe54c80bd7401cc35729"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-orchestration.js",
+      "bytes": 3224,
+      "sha256": "d630f1c9c349f43804c1afa8053f9cfa3db234842d1c800466c48f35a3bdacc1"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-processing.js",
+      "bytes": 3588,
+      "sha256": "1215af1aab8fe90ebc1a874420324fc81725ed3414dc8ce3480c33ab70622f39"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-trace.js",
+      "bytes": 857,
+      "sha256": "91c6deb80a7b58c0586938dccc1e108b7fcd683eef3bdedf9da292158941162f"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-types.js",
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-url.js",
+      "bytes": 4175,
+      "sha256": "3218a263b90306bd664d2a01dc5865a668c59ea8e6f649d0ebae5295bd49344a"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch.d.ts",
+      "bytes": 195,
+      "sha256": "db8a4da91b0c0c232724d5694c7d2d33f3711a17a317bef8a71d0b41f4ee3fb3"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch.js",
+      "bytes": 5820,
+      "sha256": "edc173bbe877a5ae4a6a7f66f18febace0b4d6dd1990e1e71781026e1e7ec91e"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/registry.js",
+      "bytes": 2618,
+      "sha256": "812fb78ab95dcf0943c6161dcccdea2bee63b900ce8e159ecc3b62d344a022f4"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/webfetch-preapproved.js",
+      "bytes": 2570,
+      "sha256": "e4fd555fcf2fd4ed2465cdce5fbbb667237a5c3863c70cb7064c1feefd0e786d"
+    }
+  ],
+  "protectedInputs": [
+    {
+      "path": "AGENTS.md",
+      "blob": "b8c1d3abefb14e05f1323e61f4cd67bb4ef58610",
+      "bytes": 10384,
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5"
+    },
+    {
+      "path": "LICENSE",
+      "blob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "blob": "23f3047cb5753322ce0742545e5e06791392f5ea",
+      "bytes": 6125,
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "blob": "55f2732f631d845b0d2d7bca7e5cd07cc8e4c878",
+      "bytes": 1975825,
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f"
+    },
+    {
+      "path": "apps/cli/AGENTS.md",
+      "blob": "fc3db69ae9a710edaa31e3c98734fff758c606b0",
+      "bytes": 12478,
+      "sha256": "7b5a78161262c14765dd24d438d5f0c929f8fa42badcfebdd98383741e96848d"
+    },
+    {
+      "path": "apps/cli/package.json",
+      "blob": "b84ecd7e674965cfce1b277488b5fb43dd43f6dc",
+      "bytes": 2045,
+      "sha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/index.ts",
+      "blob": "b0270219d6b2666d7a465ed88b954c77401a4cee",
+      "bytes": 7786,
+      "sha256": "690c0208dd19c57abf3367e6d135c5f3539ee065064927189478170ba8855fb9"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/node-exchange.ts",
+      "blob": "9082e0bebb62c206dd2de7fe22fb2a1ef0114c77",
+      "bytes": 3390,
+      "sha256": "5c275634ccf733e320e4d1cd4d52af1809a61a2478109bceefcffd195e60029f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/public-egress-policy.ts",
+      "blob": "0c06c66e32dc0c30cf1f2ec0f210ef0f833e367b",
+      "bytes": 4909,
+      "sha256": "a0fb608458bdffcbe219c4ece6d8f4ce92f3b4c8686f967808a08979e99b168d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/response-body.ts",
+      "blob": "537cdab234bb2582cf34601c255d10fdb57d7317",
+      "bytes": 4401,
+      "sha256": "47636f28057f61e64f1d656dec226cbd0e4e355eb840dd61540bd7891cf25487"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/http-config.ts",
+      "blob": "990c769568f3873d00f7eb9d352887f06d8d339c",
+      "bytes": 6772,
+      "sha256": "c650cf940d2aec2fe1916acad709780b4cac10adc6625251be5c77cf44fe5be0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch-exchange.ts",
+      "blob": "4294fd4ffebcc60e83a90bd055fccffbbb51e96b",
+      "bytes": 6552,
+      "sha256": "56b7ace6f6a1f0ddbaabaa34bca9070f95227af372031ff2d3c54ae693c9dd2f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch.ts",
+      "blob": "d00bf372d430be63ed4a41edce83b8b2751acc57",
+      "bytes": 2395,
+      "sha256": "8f749b6feedc7da6747ea9a538f77171d31dbedcd77cb337635d4d95b450e9c2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/subprocess-env.ts",
+      "blob": "3ff4c3d84d04a110d8599cdfed28232f3349da82",
+      "bytes": 3437,
+      "sha256": "6b84c86f122a079249466dd14abb38cabae6364203b6b815466e026c0f26758a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/http-transport-options.test.ts",
+      "blob": "90696480df99dfefe1866ccf6ed7e139770aed32",
+      "bytes": 8588,
+      "sha256": "2d7d50b7bfa93f5c037bb281e9afdeaa0fa81be41e44b654037a913452888133"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/http-transport-response.test.ts",
+      "blob": "b2922352db055b5306aa81022ee797e73e3214f1",
+      "bytes": 7287,
+      "sha256": "62024b7a4711df55098db8809cfc0179841cf12e303951ec86b94b4ec102ecd4"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/http-transport.fixture.ts",
+      "blob": "39ddf81d8c2c956841ea0895c51e51cfcc14ea7c",
+      "bytes": 7567,
+      "sha256": "5ae2202184256875ea7c1e584126f94574e2fef26cb6f6dba752a94b25355ab6"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config-bypass.test.ts",
+      "blob": "c5285bd2505a4ac20e5fc8658286e82d44f0f123",
+      "bytes": 6720,
+      "sha256": "825142116ddb666af0600ae14d2bb2a232876dcd35d2d9c56d65ba6ea1b1a9c8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config-selection.test.ts",
+      "blob": "825f750ead6ee631d7f272a6d516f1095369697f",
+      "bytes": 7776,
+      "sha256": "72d67e713a297219d6db34808bf7b501ea4278011daa7eda72abb7b590e12a12"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/coordinator-response.port.ts",
+      "blob": "1b58394e0f1e4cb228228f3a2f34ed255269db07",
+      "bytes": 703,
+      "sha256": "b3028378b8ba97a867e7d48629b95487f6aaa46dbbc096fb51c7575adead2705"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "blob": "c9b0750f95db6bcd77f4a863c5e4276b8c35d604",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/http-client.port.ts",
+      "blob": "d006c4eb49c469cf9641270afb0e400927c29572",
+      "bytes": 2358,
+      "sha256": "2e060eef3b4aa60e5e4b296d7f1b13ecb09a163f3e84bb6904dc40d33a73b960"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/image-processor.port.ts",
+      "blob": "a012442c71b34cf2ba827e6e46663f893b9170c7",
+      "bytes": 2122,
+      "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/pdf-document.port.ts",
+      "blob": "b080eff720003671eaa4f082bf9f55eceb16bafe",
+      "bytes": 1152,
+      "sha256": "ff7cf9ef8473813785258482f5a48d8d9230e5fe01f3c2e1537125172d4a351d"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/subagent.port.ts",
+      "blob": "9057e0d1a70ce198a2f5d94ff9ca30c64f6e2519",
+      "bytes": 3784,
+      "sha256": "3e563f8dea2e210e5a2e2cf25bef7408ed66bf4a512590c3c0d6de02e8fd44e3"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/workflow-submit.port.ts",
+      "blob": "9634944c31f14bf9cf2d2dda5616c78f9a88ee23",
+      "bytes": 2205,
+      "sha256": "96f22ba962d590158629c2984ac8fba9fcf6544d055d8c88ec126da185b759ad"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/agent.ts",
+      "blob": "a2bf8d094d7302540723b322c018501b4e3218c7",
+      "bytes": 3860,
+      "sha256": "11f570e70ad5413af90e7582f68a441ce06a1f4e838123e20c7c163752d80046"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-pdf.ts",
+      "blob": "4ddce51f5c8ec1c570bc78b628d56e7bacdbbbf5",
+      "bytes": 3140,
+      "sha256": "ac19ff30c71a758f04ca4f59bc811a451853703ad417dd6c64522e8c5c0638a9"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-state.ts",
+      "blob": "dd6c82a5d0d565c3700f49a000e5a971d5ed9ccf",
+      "bytes": 318,
+      "sha256": "b44cc54505a87e721513a1c82af45a53ccab90fb44b636c238a7531c82db1792"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "blob": "8f016a837a7a810d2be305555018dd9c04f92ea5",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/respond-to-coordinator.ts",
+      "blob": "b762b3daac08e106334733bb784a8b20a75745cc",
+      "bytes": 1047,
+      "sha256": "bd44622875c8cbe2efef99c478bb13266ee7865c5b57c73025a4485410931046"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/send-message.ts",
+      "blob": "5a58c468ed542fb011a17da84ed9c95651a169f6",
+      "bytes": 1384,
+      "sha256": "b67bdd566a0a53a5644c2a2b27553645041d09cd6508edba8cc1f208b8570bc2"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/submit-result.ts",
+      "blob": "c14c4ce2a2facfa3b0ab57e5c53fa42643cdbf97",
+      "bytes": 2362,
+      "sha256": "eedc214522cc53ff6774db01d1f7dd80376310963c2bbebe106bf83d854488dc"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/webfetch.ts",
+      "blob": "fa09cb970f6e32d3c482b18da4dcfd559211e323",
+      "bytes": 3209,
+      "sha256": "d99f4a40f7c6e4912f95a856ff540bd0ed5d7664c5670bd68968c0dbd2555418"
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "blob": "96679d43d334d9be234be3520acf8afa84bbb024",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+    },
+    {
+      "path": "apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "blob": "cfefaee16c3f7387f5744fcfc5a8bb1f32f13f00",
+      "bytes": 549,
+      "sha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/service.ts",
+      "blob": "22f206d5f4b4901de921b80e132d90b9c2958a5a",
+      "bytes": 2068,
+      "sha256": "9f059dfaf25bd93e1afd3b74fbbd38686b99fab8750fc588ce826f01f8dfd9dc"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "blob": "845d7ede93e5e6a825f78bf679aa39eea2d1a134",
+      "bytes": 1733,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+      "blob": "5d88232beab2a0f364a26e02baf5d8acedb1837f",
+      "bytes": 3860,
+      "sha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "blob": "0d56840afac71619e26211b36dad656739a1569f",
+      "bytes": 37526,
+      "sha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile.ts",
+      "blob": "93594ff21ba8aa936879175b689a0ac4ef542db2",
+      "bytes": 12527,
+      "sha256": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/runner.ts",
+      "blob": "ec45a7ab1855f692ce1712bb33759d6231ca4269",
+      "bytes": 68642,
+      "sha256": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-policy.ts",
+      "blob": "b38c5823d5ac4bb6bb82ff4c2543749e6a6e9361",
+      "bytes": 924,
+      "sha256": "bb6d381e9baef66bafa06328d819166f8a68c73913b3c68cb9f82dee1c988c53"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/compat.ts",
+      "blob": "ebfcbf027338b6b7113f49c0d3f6de16ba77d335",
+      "bytes": 828,
+      "sha256": "5fc8668450c0db0d16e0c1644454cc1e5c5ec0b90a419b5286bee4f41a76782d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+      "blob": "9e9f007bf643861fee78d6ba2baa9b7cc3921bba",
+      "bytes": 48163,
+      "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/batch-runner.ts",
+      "blob": "eeb7ddae1c29387f60b049c136e856e0d9f91816",
+      "bytes": 4253,
+      "sha256": "f2b04ef5a9ec0fe218463f37452676af8340afb451cc2ab913e785dc547491ca"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/call-runner.ts",
+      "blob": "e09af4b49ad7bd84c331055ca588971c86e41f9c",
+      "bytes": 2606,
+      "sha256": "2b6559af4d89cc2a2f13dcc45cf9cf31fa1965530f1a9244a0381d6caa847363"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/budget-ledger.ts",
+      "blob": "90bf52d932a1afa7efe513cfaeb964e632b49ec9",
+      "bytes": 1139,
+      "sha256": "43b29b02b7f9f95983dc22c3c3f6bf9152c573d487470c9dd8722f663c3eb75f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
+      "blob": "948d536740cdcf0c9e02ee5e871a084815fcb686",
+      "bytes": 2693,
+      "sha256": "053be704934671885897455239ca6c89d3cdb6154e2e7c9cda0bc9310f0757e1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/pausable-deadline.ts",
+      "blob": "174a74c3389d51e42dbf227a380e53ebd61f20cd",
+      "bytes": 1307,
+      "sha256": "e5a5e1aadabe64bc2012fe7b337e8cda8a3fb3aaa59eb0744dd18ca6a205e695"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/admission.ts",
+      "blob": "be695ef78aebd5254ef1f17cb2c98f12d904b164",
+      "bytes": 5366,
+      "sha256": "ae2c6b608fc888e5e90803eda418dc269b106e3705e09d2207530cc9a8f20a18"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/context.ts",
+      "blob": "0175f05219462fd7d8af4c3e733915101e350c0a",
+      "bytes": 3769,
+      "sha256": "24210fc1f42a4da047049a8fbbbca8a92e7a17d7da5c770dedc44a9b9ec8c97a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/model-status-sink.ts",
+      "blob": "e8feb76710051d80fc8dcd1df4d7d944fd2a6b63",
+      "bytes": 2136,
+      "sha256": "839ff24c1b50b57f8c8da0a1cf15583217fc92003d24a7213bca43ad34eeb821"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-capability.ts",
+      "blob": "3c38954fad39f685e0b7856c3aa749dc4beaadaf",
+      "bytes": 2090,
+      "sha256": "0b8e2a65e97d308fe35b759cc3befad55e16314025988a02dd3fa856865e81bf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result-display.ts",
+      "blob": "c5a6b42cfc1df55b50e17acbb3aa14bb704f757e",
+      "bytes": 2090,
+      "sha256": "b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/timeout.ts",
+      "blob": "6b5dea6636abd382defd53cafff5d3930627d2a0",
+      "bytes": 2398,
+      "sha256": "0bdc637d588b584946bf3c90dbe37459f587101d01b042c36c6fa382992a9e38"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/turn-control.ts",
+      "blob": "f1860c6d879128d3b6d069cd1b3549a8bc7230ba",
+      "bytes": 6055,
+      "sha256": "86932540de300b1e4004455a10d9a8db7e784534ca2da6ac96afc8e60465ba43"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-invocation.ts",
+      "blob": "9325d1db20ace8f9b86185bfdc2554c72e27eb12",
+      "bytes": 1417,
+      "sha256": "d931fff738ffe5b4fdda8c2b26ef1209c019ef4dcb5978193a5826b86be95c03"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-projection.ts",
+      "blob": "6ac1ffe6c2b5faa13c0c1c2ebaeb15e91c65d5f7",
+      "bytes": 2629,
+      "sha256": "717c6fd19c890632d3171691f7face579aa66bf1a35340dfbbc908f12e46ebd5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-request.ts",
+      "blob": "38ac40aa1ea14a89696d63e0fa2ff24a8a515f4e",
+      "bytes": 1950,
+      "sha256": "1f5737056b524379b05c4600c33bf36940f3fc7a424240b9b025fe9ec9424455"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent.ts",
+      "blob": "636e014f7039bacc15371691006150edbf934c46",
+      "bytes": 8728,
+      "sha256": "633a319a03d2a960ffbe8559cf8e32bc7461798e656577d7d7b744c55f74bc30"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-narration.ts",
+      "blob": "2afcdce979043cfc124adceccd90ceee73c9ebe5",
+      "bytes": 2210,
+      "sha256": "9537d2eeca7ba4e2266fe0ba3f377dd49fa8587d81142ce7dd203e5edb687d2b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts",
+      "blob": "eaf2b938ee676a1aa187e5a3dc289e9134e7f6bf",
+      "bytes": 1942,
+      "sha256": "ee633585e392e9429ee7a5fd87ee0ae648005eca1b55669a7da0385d8aeafa2c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "blob": "170152ac159d2631facee1d986fc1d1e4477e930",
+      "bytes": 4421,
+      "sha256": "b4c9f1988d183fa7161e7253af80ec87871266c7cbf6274e9570e5a537bdf48c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-invocation.ts",
+      "blob": "a10d5964504f1a5c37ae856d89b6285325d07d5d",
+      "bytes": 3174,
+      "sha256": "fd7a27954cc561106ce919a7b831a7a342e8a44af3ec42dafbc39d727fbbecde"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-request.ts",
+      "blob": "78d3eb319cd13d3ccef52cbd0b200d0787dfb1b3",
+      "bytes": 2665,
+      "sha256": "66e780e744c84cf97e89507dce867a9f084f710b1a28523945fef78e85602332"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-result.ts",
+      "blob": "acc1fe070aa75fb9ad239434f992a0d75dd9ade0",
+      "bytes": 3232,
+      "sha256": "f46de4e3fb0647598d423a4abda5fd8a54ff2b48135b723d892b6534a7d9225e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron-execution.ts",
+      "blob": "28bd3fe88ddb806d43ecd4d5a8a2024bbe8a6b19",
+      "bytes": 4717,
+      "sha256": "4cfdea8c41acc3dab3843f75a4fabbb4ec9d53660371704eb518b2b13ea9f49d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron.ts",
+      "blob": "7f1030e66f0a7e748a705fbabba8ff862abf81f6",
+      "bytes": 14457,
+      "sha256": "0ee5b80b04cf89f820bf48c50c35e569407836891137f43dae3e8239b82c2bb6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/index.ts",
+      "blob": "5cc35fde3c44694b3f12773df57284d984f332aa",
+      "bytes": 12770,
+      "sha256": "049286bcb374fe14a2922bf0311b50d0045ce73d447285bb67b3112a74e5ea53"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models-projection.ts",
+      "blob": "65cc7dc8f84d212901fae9f1332e1c0d2bead408",
+      "bytes": 3990,
+      "sha256": "92f2d8bdfd3a42dabfb33251e0eb451097fe3ee38f6ef6fd1c9e40cd92815bb9"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "blob": "cbad76072795c1ded08d245b88fbbc05f8f52813",
+      "bytes": 3451,
+      "sha256": "57b78a7fa81faaa7bdc137d262f979df20f0bd7fe28cbb73b4648940a825a787"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-diagnostics.ts",
+      "blob": "9759f965dc9d8598999f8f84729fe473f278fe9e",
+      "bytes": 2871,
+      "sha256": "4a26491042186f6de7d4d4547d0f1b6adcaa4edf0ac612a7a45510a38aacb1a4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-policy.ts",
+      "blob": "4d7972b0b1211c58b8b30399e7879da01f8c09b9",
+      "bytes": 4084,
+      "sha256": "066bc48046693179fdcafcae4e5980164e7abd4204fcd35b854d0c1bff5785f4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference.ts",
+      "blob": "4586912d855b6ac3997eb837408c261f37868f13",
+      "bytes": 2038,
+      "sha256": "20109a528b6170169f3451ce4c4a78b118202995680fa53ee1bef79b55c636ba"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-execution.ts",
+      "blob": "dfd0e7a4934da3bd195738bd4fbd6e502bcd7332",
+      "bytes": 3106,
+      "sha256": "0416949a03109a94be07df648096e3325169fd8ac7bdc1a7a2288c1c939d4018"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-result.ts",
+      "blob": "1ab34f1afab8830d24cdd8d006fc61be50c6531d",
+      "bytes": 2889,
+      "sha256": "b39819d67c3be60f45b2f2ab8d6c6dd57d639cd158e63b381b053336926782e8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak.ts",
+      "blob": "835c39c6dbb0a07eb80edf6187a401f1f4e823a8",
+      "bytes": 7833,
+      "sha256": "d3cb1918be8f37028c2f74f2cf154884689c8f7ace5759e167f11094eae9481c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-operation.ts",
+      "blob": "fd607706e24741ea2fe687bb40dade1fad27a6c2",
+      "bytes": 2941,
+      "sha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-persistence.ts",
+      "blob": "ad40889cc2149c32b625143897f72aacaaef8c22",
+      "bytes": 1654,
+      "sha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-projection.ts",
+      "blob": "76d927f6e83c7a85f5bffcf3ef416a9dbb256244",
+      "bytes": 2564,
+      "sha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-prompts.ts",
+      "blob": "c36613630a2b39f49e05f6935a84867fab2a1e90",
+      "bytes": 6525,
+      "sha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode.ts",
+      "blob": "272221bfe000c27eaf6c7613698ef7ff4f31061e",
+      "bytes": 4845,
+      "sha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-binary-input.ts",
+      "blob": "f8bb388a5a7f7bd09473be9a6cd4ce26e6f13991",
+      "bytes": 2085,
+      "sha256": "07cc86a444f724f86051f2d444c70c4b190c23e88c7edbfe317b1287ef69cd67"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-file-suggestion.ts",
+      "blob": "77a0defdd9c2044d2a93b49664f6c9ab91321879",
+      "bytes": 3375,
+      "sha256": "f856b08c44b6839911aee99d06f33ebc5d590aedc8923dc2ab0c42f29d4b8c40"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-image.ts",
+      "blob": "4a6fd4b73be36ca73558e7538043fe94ea46ab22",
+      "bytes": 3847,
+      "sha256": "f0782abd5b35cdfc146e28fd3fb16346dc2d011cbf875c9feb5abf115643d9d0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-model-content.ts",
+      "blob": "c2d4c5881d754b078cb1a0d4ab3b1a04324c0065",
+      "bytes": 2789,
+      "sha256": "83b056bbe3c25f8822eb400d11068cc439989f6733754b8346bfca2742b37806"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-pdf-plan.ts",
+      "blob": "7dcd192f78ba2d3b24c200d6c340167742449493",
+      "bytes": 2595,
+      "sha256": "db56f17de83db3de6806ab1e62667e63457fcd5edf6b8500306939e556bce46b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-pdf.ts",
+      "blob": "dbae0a5011476c0e265065cd54f198a322d452f2",
+      "bytes": 12118,
+      "sha256": "678578b625a905bda22dd3034b1b9e47422ee87dd6cd1af1aa02d7ceadc00b1c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "blob": "882745561b666c9f3d368374d00004d562bbb861",
+      "bytes": 13916,
+      "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text-budget.ts",
+      "blob": "84f53c032952343d531b003e89e065b79a5156de",
+      "bytes": 1216,
+      "sha256": "e47757b31ee01ef6524262ed30fd0259e412b668510485e006361dad6a9ffbc3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts",
+      "blob": "972fcde5ef5922a43808862b419aa0cf0d76e27b",
+      "bytes": 3243,
+      "sha256": "6a2bf5b2445c582177adf086dec9e449749cd1b38a8288cdc50272a01475eabb"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text.ts",
+      "blob": "949b1f14677325505763a87ba9ea1b0d52f9ca91",
+      "bytes": 4845,
+      "sha256": "a325a3fb34d7b51125b11e9033e9df79a0dde14bce1df79eaa7b3fd99ae8bd9e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-video.ts",
+      "blob": "16c901dd36b56b9784ed1674e051831944cc7275",
+      "bytes": 1462,
+      "sha256": "1314ff7a4b11c0d4215163d8c13a1cadd0d3edb5fe5fde7ab94e01b8acd25b89"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read.ts",
+      "blob": "633aa9b5656a420d14971f3ed847c461fbcb8f50",
+      "bytes": 12137,
+      "sha256": "794f1a306ad5da1ba3cb48e4eda2ca45adabcf088f6899b177620080f1fb89ea"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "blob": "13b5c38ab890d3bad038846c1837b62552fcfabe",
+      "bytes": 3163,
+      "sha256": "9cc51f474c196964a88a06fdbb2aa745b3a79bd726e773c5e127e16c4c706849"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+      "blob": "e550f7ef31e4b0173179e3b6699ad1baa7fdd858",
+      "bytes": 3477,
+      "sha256": "e3bdfce38045be97cecf5e666aa52f1d2447e53525fa706a875bd50a6d775eaf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-execution.ts",
+      "blob": "79e443cb4f1bb524845b1a073ae3ab391754f701",
+      "bytes": 2821,
+      "sha256": "001f4fc0189ac5357759d23f6454c72734e709fce7f3c410bda20dca852faaf3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-instructions.ts",
+      "blob": "7f10cacaca0fc12879face676254a6241ccc45f5",
+      "bytes": 3187,
+      "sha256": "4c5883ab5f269462db1eae086f2374523a1d35854bc105234223b49d8c711999"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill.ts",
+      "blob": "e0b17edbdf449fb872fa40295ba3bb5170d5f6ad",
+      "bytes": 3190,
+      "sha256": "b79515bbb85f914821ed0391a225f48d82bbd92f132f63ffa23200cc061193c1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "blob": "954f04f2818322adf109c0f350c6abb75516006e",
+      "bytes": 5422,
+      "sha256": "f9bbd6e2f186e5ab4e54281b35930ee8632c3e5af85266b9d0bc0df8f7f4db0d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "blob": "8f81db3a3ef6704195ab7a16307bbe62d60c3568",
+      "bytes": 5126,
+      "sha256": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "blob": "a55523e5c9f8b603419685187cfe2e569a20caf1",
+      "bytes": 5591,
+      "sha256": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-request.ts",
+      "blob": "ba022d94e0023fb412ce684f81d9c1d2a6d90555",
+      "bytes": 4205,
+      "sha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+      "blob": "f00240b072a2ac3fd2e47a8dad3bafb6c49c6d77",
+      "bytes": 4832,
+      "sha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop-request.ts",
+      "blob": "6b678c4d01cd0726c11b4fd7a94930cd37b82a47",
+      "bytes": 2940,
+      "sha256": "667b9002012f8f60022de22e5789a65433843b0ca121bc7938f2150ccfa9fdf1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop.ts",
+      "blob": "83f559169e509ca92bf595c42095e5e034b42c3f",
+      "bytes": 2536,
+      "sha256": "60495de05021bcc7c1199d94a8c926bafb3d271ae346a26745333ab175aca31e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+      "blob": "efb3539ae67e7a55a90e75697296412a105c9ecd",
+      "bytes": 5663,
+      "sha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-cache.ts",
+      "blob": "0d17989b439b58922b0713b87d377b818711010a",
+      "bytes": 1466,
+      "sha256": "cddeeeb6404856f20149c7ef433d5209d2a734cbbe7b2de0794063857e646285"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-constants.ts",
+      "blob": "e74a8f12d390f5043c9919ef9361e5e67aedcd6c",
+      "bytes": 503,
+      "sha256": "f99eb76a41d8ef48eae57498d871f90775454cd1a52404b0755afdcd6cf4c2cd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-content.ts",
+      "blob": "7ae589c7acd3e425f1923bffa632a60e128b5559",
+      "bytes": 4053,
+      "sha256": "8cc931aab753f34fc6cc944e2816b2285d99d288b772d372bfb9b07ddb60a1fb"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-egress-guard.ts",
+      "blob": "f200b6ba88bf777359ca873ccae28e18b9caf2db",
+      "bytes": 4155,
+      "sha256": "c94b5d6d18a945168f6af5dc78bbf30d32af051fb46cca5521d96533f363868e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-errors.ts",
+      "blob": "929fed270002bf147e4c848f0bcc2597cf36c934",
+      "bytes": 1237,
+      "sha256": "dbc0d1f7d427f5e516d206f67d45c3081b91af04fa6f30a074117a4dc25e2d1c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-network.ts",
+      "blob": "3767565135c6a003f0d2bd95ade750001a2d6e5c",
+      "bytes": 11921,
+      "sha256": "8f99bb56129e12992877fc09a6514f67ac2fa213748ccb915bfc5342a9d48016"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-processing.ts",
+      "blob": "905753dca6e337b7abca0f5d0902a68d4aff85e8",
+      "bytes": 3977,
+      "sha256": "72ce62e474e875a641bf463ed31a0989e9ed115d9ac6c066612cc6f2202b2705"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-trace.ts",
+      "blob": "66f1b130694820a2dd05759234ff573a7a8cb4ae",
+      "bytes": 1013,
+      "sha256": "5803a334b89b31dcb30da334dad385ce7c4238b4b76a6a2f636d78514225004a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-types.ts",
+      "blob": "73dd4f387b145ee287c463ae2e9b9d5dadea70ec",
+      "bytes": 829,
+      "sha256": "97a3d64d583d08d374b0d101effd4e32e622bcd8f433f19a8381bfd1522dec3f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-url.ts",
+      "blob": "2774e767fef5658b1f38a5896611e956218524dd",
+      "bytes": 4182,
+      "sha256": "2a82164e44b6f56f9e126579918f22843f8f50f13b12e6d78bae8b9a4c8c94bb"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-execution.ts",
+      "blob": "c2cdeaad98c4818c572f1bf29ce71cdf295c9aec",
+      "bytes": 6281,
+      "sha256": "6c8dba798d9763cd810d290c68a76185d0145cd776fc157123d27d60ab9ef833"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-response-tree.ts",
+      "blob": "1d34e755344125b63b8696e77d79082af53b1666",
+      "bytes": 1946,
+      "sha256": "05f9bb27f5898b998d727b96bc40e770abbffc5922efbf97b98d362851b5441f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-results.ts",
+      "blob": "2154b19d09822dcdc928998043fdfee433530fe5",
+      "bytes": 4048,
+      "sha256": "d62b0dec9f83bce86b53b10d0718c23bfecda2363cd5de1369123314de5095fd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-support.ts",
+      "blob": "4c222198dda2b1f4ec614e5feaaf2b37c21fb883",
+      "bytes": 575,
+      "sha256": "9c802aed73c36fdf672990a2e66eb187a32770f5e9ccce4563c8c837180d224e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch.ts",
+      "blob": "79fe757bfe46aa6c49256cbdee57fa35f4cfae1e",
+      "bytes": 2204,
+      "sha256": "5494581667f6db3ae6a2ed048938e1a296174801378b8e59e11bfd343d992e7b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/input-normalization.ts",
+      "blob": "c17c6096830d900b2749186053d700cda03d9660",
+      "bytes": 2420,
+      "sha256": "11421f00d31665aa0b58b2019997d6e9dc89b45e861d3696b06c067d0b0e3522"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/path-policy.ts",
+      "blob": "fd748c905e59f653452592020609ecd29622dce3",
+      "bytes": 2265,
+      "sha256": "e7e0568b2ee8e2d36400aceabcba708615e9f7226089eb11d10b035147c51dee"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state-metadata.ts",
+      "blob": "133df298edc66044507e24fee7d883904aa7f0be",
+      "bytes": 4310,
+      "sha256": "0d69f25fbbc39e12ae984d1c834bee0a5c7216a516a46ab7c82938501fc6afb4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state.ts",
+      "blob": "1655db844b690c4c840ea1ac4560d85a7b375b02",
+      "bytes": 1845,
+      "sha256": "8b7ab5aa77f9e12cde904d0cac886c2160b15faa5a7cf956942823e6d908f371"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry.ts",
+      "blob": "9e1dabb5a791a9c9d983d2b6c5c45620241a2d24",
+      "bytes": 3194,
+      "sha256": "3efe696228e4b498d9ec3a38447d3c1128eb037d9715e59f801dc28bfe88a9c6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry/model-contracts.ts",
+      "blob": "2af5fb3f0996a02e301fa15da844ce292335ac87",
+      "bytes": 1890,
+      "sha256": "786c52c48ef22eecef37022a44093a91d63d8ec7676656f4563dcf2a13b2adb3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler.ts",
+      "blob": "618fc1a27a4154f373b5598c52543ef070b1b272",
+      "bytes": 2000,
+      "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "blob": "a631258bf3c1d258830ce49d332698536572472b",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/webfetch-preapproved.ts",
+      "blob": "ab9debea2bedd19337bce0ceeaa55afda5b3e8c1",
+      "bytes": 2385,
+      "sha256": "bf54bc58546e632583919a382c636cd7a968ce4ca9dc6b0cbca4c105b40e2334"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-capture.mts",
+      "blob": "3a63fdc3a18c12568b615c681df5a4c923da9250",
+      "bytes": 1971,
+      "sha256": "56a7d90a5e4bc9f42f4f5b52f678187daee0b0fdc476e9c75c6a5ba1cbf60007"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-cases.ts",
+      "blob": "9bf723356ca4464409debbcb5a6da114a20c155c",
+      "bytes": 6939,
+      "sha256": "6458557d8748863bda75eced1ee7c0d10c9ea25f31d3086aee6d83f79625ff52"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-consumers.test.ts",
+      "blob": "ff8e7144f3550fb0f0a1aeb3a143513c4e9901d8",
+      "bytes": 9735,
+      "sha256": "4b49baf06b756bec5cdb8b1760d215731e26f1bf2e63788cd1c914ae83790752"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-contract.json",
+      "blob": "d2f2f4fd9f3a3f7a646074370ce77d2d23e41de7",
+      "bytes": 237540,
+      "sha256": "a7cc872e6442912c19c3c20d239a73eb8065aeacb97ee9fd6a0d93a9bfd0165e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-contract.test.ts",
+      "blob": "d2bf94624e356911a64ac89699b43503c32ac5ba",
+      "bytes": 7592,
+      "sha256": "92538d26e04289d81b35364489809a4cecdee5102482737b856ea0a37e002810"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-fixture.ts",
+      "blob": "728b4f57fa31e9918f48e818e2c4e46e201816ba",
+      "bytes": 11057,
+      "sha256": "51b40f800049d2f0a926d24f1948a33bbb91e6bb6271ea1c43ec69146c56c974"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-capture.mts",
+      "blob": "4ae16bb9995631850750a71149a9bd409d6a1a8c",
+      "bytes": 2325,
+      "sha256": "a4a937be4ecbb373cd541f0db9b6fc77af6d6afe9d73ad969563383b51b36fc1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-cases.ts",
+      "blob": "974db23e3218ecc088aab730f7327a21fc3de417",
+      "bytes": 9316,
+      "sha256": "400017c6d3bc240b4f0e4d0e19c591f9a6f93baea3852c2b5452a5ddb9dfa209"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-consumers.test.ts",
+      "blob": "209b7b0ed858bad15f68e2a20259ac9515a9d564",
+      "bytes": 13212,
+      "sha256": "93bb3799a780ba7c928602c8827ad2778fe117217e15d0bf99ed3e6deab8c884"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-contract.json",
+      "blob": "8077136d71feca7859d3eec2bdfe3404477b0444",
+      "bytes": 364842,
+      "sha256": "e44e70bdb0368fdf49de8cf0bc6858161d09767766ecc230315f9e49d3068d12"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-contract.test.ts",
+      "blob": "fce898310e05f339d537660ec243bcc1615f8055",
+      "bytes": 10910,
+      "sha256": "6a0e9f1f80bc87b31bd5e02f07aa84f5235d4f44f87de69a81b09b59baa5011c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-fixture.ts",
+      "blob": "514e9a6bfb15794774b70bdbad716c93f1f366ce",
+      "bytes": 13943,
+      "sha256": "af790aaf137d3144c29ef710124e2afa6c0f173312a009016416075dd6f4d87e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-verdict-probes.ts",
+      "blob": "767a976a7e83c504496940812252c3b0c26e6f0d",
+      "bytes": 2243,
+      "sha256": "11d82adec66bd89f2c4cf78697f347482d8ba0ad1dd3d4355748002fa9ede4b0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-capability.test.ts",
+      "blob": "f33db4a4f0f317eb7976a8dba2aad2323159d097",
+      "bytes": 5145,
+      "sha256": "f1e27441c2e895a8d4120c78e430f7cf288f32184a9c4948aef87d8ae06db32d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-exceptions.test.ts",
+      "blob": "4eac7425f1c8375abee7f6b6b9969a3b346ef1b7",
+      "bytes": 6025,
+      "sha256": "fd260da4171e3d3841d7c0ebefb4d59c698acd311ead5e2e61db3ba9382636bf"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-patterns.test.ts",
+      "blob": "3cf69e6fa8134ce45504f6b03b6aeac4f37b6934",
+      "bytes": 5131,
+      "sha256": "f0d5b3bc78b20a813738309139c1899c49cbb3ce5ab408e9e644a6ba084d3660"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-webfetch.test.ts",
+      "blob": "7e4a6d3e4f721d85070a9ae49040d6bba5f4f781",
+      "bytes": 4451,
+      "sha256": "ad806b9fbf438d6dc852b1cce9a9cab51a4cc6b463322caf5ccc7c891b65faeb"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-binary-consumer.test.ts",
+      "blob": "64ed54b59661ad071589bf2a2c9c433f1279e5d7",
+      "bytes": 2226,
+      "sha256": "8edc90a5ed9d03ce83b9dafeaac869194521afe5a39f73a2788ae4be7758e9c3"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-binary-media.test.ts",
+      "blob": "0cbb9e0bd02371c7dd576789ebf22c35e65109f0",
+      "bytes": 10703,
+      "sha256": "f274699d5e9c0f124178ce2f92ce44da99b0f9b0ba645ae03d2a63b5926d3eda"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-file-distance.test.ts",
+      "blob": "076cbafa8e2320c82dbcf452857771a66bb62e33",
+      "bytes": 1732,
+      "sha256": "6acf651ac57800a3c5c43fff1d225c509a60e76b575e686975ea15c792d8bba5"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-file-suggestion.test.ts",
+      "blob": "e40fd8b04c4d6ef3b724e19a648698ab837c8a83",
+      "bytes": 6006,
+      "sha256": "0de9bd0e0fd725140a13e6d94086c2ee47048a1f789eadf1d835c8c0e1bf39ba"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-capture.mts",
+      "blob": "b4c30f41b00520720070b47cb3a692319f5ad637",
+      "bytes": 1834,
+      "sha256": "d1bfac7d9345f6d782a7f0e46fb353a68cfed9412d864aaba7cd6ae33338cab2"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-cases.ts",
+      "blob": "1f5ac418a5bc60c477d56edb7b1cdf6196149e0c",
+      "bytes": 7405,
+      "sha256": "338296f5cce018fca00f2f917cfe96da5a9ffe84cceab192fba25ed16dde04c5"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+      "blob": "243eed8df4cfb557b37448b82d296be312eef25b",
+      "bytes": 6273,
+      "sha256": "9244c3efc5dbb0c5e63735ad072b3f9f9064d592fa202c8d1b6ae9c1e3821a0b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "blob": "93f4f026bf1bcbb5f1f7d5aa5f691e9c3afff263",
+      "bytes": 11375,
+      "sha256": "b9958538e2aabe00d09a0fad2ee1555255e79c046ee08eb7503152abc9cbc5da"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-contract.json",
+      "blob": "2acfe0e1f5a1461a05d119d23062785291003ae1",
+      "bytes": 1790403,
+      "sha256": "7604f019984b2a08c3684857428a50ca9f18a3f21431a6ddc33e8e95b9f25527"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-contract.test.ts",
+      "blob": "408717bbaaa289f5b1fece12554c1b293a2cf317",
+      "bytes": 12001,
+      "sha256": "2b7c28f67642b8aa06c59eaa79ad7f05f27d24729cdc937abfcbc40e2af57047"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-fixture.ts",
+      "blob": "d972f415aa4e80a13486ac1d74099c188ca865b0",
+      "bytes": 11725,
+      "sha256": "69b3b6aaa8f6502b8a6cc9369b27334722d3f2ef4eab32797802f40707cb2343"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-pdf-consumer.test.ts",
+      "blob": "3ac85a99234ff7a509f666a3f648103f98dceda4",
+      "bytes": 2576,
+      "sha256": "5504b34103f83a6ce903e5db3d91c64925db94f5de6ce193a33ea19ddb759398"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-pdf-projection.test.ts",
+      "blob": "ddac20a43d3b0cb2b0849d63554efecdea1a243d",
+      "bytes": 16792,
+      "sha256": "dcc82ddcbc7aa74f83cf5443e53c5c480fdbb2c7b6af7034cd778869d7380bf7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-state-hydration.test.ts",
+      "blob": "04854a0d517fd004add857b24dbb2ba12dc3ccc4",
+      "bytes": 8521,
+      "sha256": "21127273db64ba1799342469c857283001a3ee1ddcd2b108fb3960f7cc1cf090"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-state-snapshots.test.ts",
+      "blob": "40d24c330974670e6d87b3c60dd6873837886ac1",
+      "bytes": 8815,
+      "sha256": "b1dae4fa4d57a8b81f83bf1db33350825890e4840e330ddbedca119e40656674"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-text-budget.test.ts",
+      "blob": "1df37df103ca30b519c4c82627a3d1576044ae85",
+      "bytes": 9909,
+      "sha256": "3aced6917d74cf004bd89b5303cbfd58e8581441c1791f92cadb393c2bd56615"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-text-consumer.test.ts",
+      "blob": "bb6b8b9a595a64c52100b94a500010835079a3c8",
+      "bytes": 2798,
+      "sha256": "a0ac94e62c731d3a6a250a7ccc75bc6448044634e28df8787fb7674f06793ce1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-fixture.ts",
+      "blob": "1330e35edee86e01aacd49edd2aa1cb1ac3cb21e",
+      "bytes": 6687,
+      "sha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139"
+    },
+    {
+      "path": "apps/cli/pnpm-lock.yaml",
+      "blob": "daa2545f2c0e6b65e7e134f9e909abfc003347fd",
+      "bytes": 221240,
+      "sha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585"
+    },
+    {
+      "path": "docs/evidence/knorvia-agent-tool-fast-checks-20261001.json",
+      "blob": "7daa7f6e5912d60091ab7f964154e1d425251477",
+      "bytes": 42512,
+      "sha256": "1d314d2f4436c465fce850449f309b3cfe5443043d3ca01e61b86c097c87d968"
+    },
+    {
+      "path": "docs/evidence/knorvia-agent-tool-fast-receipt-check-20261001.mjs",
+      "blob": "7cc3a4d4457d644f0dc0c697c1dcc65f76afc829",
+      "bytes": 6379,
+      "sha256": "77af178b21078a1f89429de7b045a0ef5e47b288460c691882074b17afc9b05e"
+    },
+    {
+      "path": "docs/evidence/knorvia-collaboration-tools-fast-checks-20261001.json",
+      "blob": "b1c2a6691a32b981ab7902e9c5646030cc194b84",
+      "bytes": 68661,
+      "sha256": "db4ff694f9fd4bd1af443ed23aa9486cd1b5a2f12e64ff31ae33d1015ac7f9da"
+    },
+    {
+      "path": "docs/evidence/knorvia-collaboration-tools-fast-receipt-check-20261001.mjs",
+      "blob": "1376d0e1581d07ba239503299badf6b01e8db9bf",
+      "bytes": 8178,
+      "sha256": "7ffc8d1f101cb8e0c098b49fb04538e89119ea5dd5caa98d2febdbb632291d18"
+    },
+    {
+      "path": "docs/evidence/knorvia-read-orchestration-fast-checks-20261001.json",
+      "blob": "972eea064814f4ae4d8862e39e07fc77d9a7231c",
+      "bytes": 81877,
+      "sha256": "5e9796e393a42d1c719e2fd8d6f2cc1a7c3e29365fa9a49dc67702eda091b8f3"
+    },
+    {
+      "path": "docs/evidence/knorvia-read-orchestration-fast-receipt-check-20261001.mjs",
+      "blob": "812a9fcc5e928e064594fc1feb568762da6084cf",
+      "bytes": 9731,
+      "sha256": "2e552a41825ae0d517f739750281034b710d247c5375663477859429c2669e96"
+    },
+    {
+      "path": "docs/knorvia-agent-tool-fast-handoff-20261001.md",
+      "blob": "c4419a86a8021f10a8a515d87cc1dd891530a6c5",
+      "bytes": 8602,
+      "sha256": "73bcbba4257512de24f64a2ec23f86149a6cd169fb7b89577ad4f0045264a057"
+    },
+    {
+      "path": "docs/knorvia-collaboration-tools-fast-handoff-20261001.md",
+      "blob": "1f011571082f341c7bb1f7ac5cb9198db5f00cb4",
+      "bytes": 11270,
+      "sha256": "b9f538362bf8e9919e02e628161726f1b7712af7d8574d7d38de2bcd0a950fc8"
+    },
+    {
+      "path": "docs/knorvia-http-public-egress-acceptance.md",
+      "blob": "29d660de5e5740dd2fe28ead33e9642ac3da7c5c",
+      "bytes": 5831,
+      "sha256": "ff8862dc5f46f3ab330f784d4d4990127f129a7aa15c25a687fbe8e6f3904cfa"
+    },
+    {
+      "path": "docs/knorvia-http-request-adapter-acceptance.md",
+      "blob": "2e70e56979a8601f8af3deded43fc8c2e076e58a",
+      "bytes": 6660,
+      "sha256": "b54596d1caab9afa44c7cdccf71aa0e8ad8d31685858f7f5bc6704a1d63623b4"
+    },
+    {
+      "path": "docs/knorvia-http-response-body-acceptance.md",
+      "blob": "5c2c20f30cd27ef1ef206e9cfbc9d265c4934d73",
+      "bytes": 5496,
+      "sha256": "a68e1aacdb9b41de99c00fffca96c73c87436140dd8fb8014fbdb938dcaea95c"
+    },
+    {
+      "path": "docs/knorvia-network-config-acceptance.md",
+      "blob": "1bbee52357806e9b06a0d90c58dc56fc28b4c34b",
+      "bytes": 5766,
+      "sha256": "3e7540bfc4c8452061504c4a408d2aa169368282c9c1abae1cebe6bfec4dd2b9"
+    },
+    {
+      "path": "docs/knorvia-permission-rule-matching-acceptance.md",
+      "blob": "60d269fbe05b42cc15a4c7ed65bf4536572a784d",
+      "bytes": 6923,
+      "sha256": "f343d07221cb2a31632947fd4a2c5c757bd0254b5813eb31da5449cb4ec9700e"
+    },
+    {
+      "path": "docs/knorvia-proxy-fetch-acceptance.md",
+      "blob": "4649b5eb086f9f9fa3b3a3984e967b0f28b9b7f0",
+      "bytes": 5837,
+      "sha256": "316973d6dd22c6587b90d673bd8a702f7b9501b855201a5270f5e0f8d22799b5"
+    },
+    {
+      "path": "docs/knorvia-read-orchestration-fast-handoff-20261001.md",
+      "blob": "7d64f7700f9015b64e9cd7b3970ad1b490cbbf41",
+      "bytes": 13065,
+      "sha256": "f0023ab876fb05dc1a07d04dda643d1b591732a985118d7689b734f8c60f3817"
+    },
+    {
+      "path": "docs/knorvia-subprocess-env-acceptance.md",
+      "blob": "21d06a8f00bbfb0d1dc720d0f38cee3548fdf2b9",
+      "bytes": 3461,
+      "sha256": "f5f251ed1834a534d77dfeee21d80d8e4e28fb4cffbee4a6d85e81f95e951d71"
+    },
+    {
+      "path": "licensing/README.md",
+      "blob": "4cba8c2a69c9990aea8495d0387c8851a0f81518",
+      "bytes": 9307,
+      "sha256": "48613a040acc9f1867b294632aa93a34555821ebdf5de062d042da17c4df3bc7"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "blob": "ffa39f9a5c289958af94b69233a6d804d65b4f3e",
+      "bytes": 9350160,
+      "sha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590"
+    },
+    {
+      "path": "licensing/evidence/http-public-egress.md",
+      "blob": "f1bf2d76edbe3f59ffa1ef06fcfd9c00d35ab1a1",
+      "bytes": 5079,
+      "sha256": "5086fad6bb800eb8a0e41d8f701bc1d6ab354ba91adaaae15afcc769020b002e"
+    },
+    {
+      "path": "licensing/evidence/http-request-adapter.md",
+      "blob": "6802323b23e13d0b2ca2de9952476fdc1da8895c",
+      "bytes": 6145,
+      "sha256": "e55a3004edfa1c9a03cbdb8d9f8d73b89f1e2b9c55d0a8e337ee3faadfc04c19"
+    },
+    {
+      "path": "licensing/evidence/http-response-body.md",
+      "blob": "ea00944a7f1aab946c11ee4449918f199ade57ae",
+      "bytes": 4398,
+      "sha256": "f829171948cd8be5d836509d5a9ddde663bc4579ae7945810d639b4dfd055d15"
+    },
+    {
+      "path": "licensing/evidence/network-config.md",
+      "blob": "b2cde2f5083a0bea93ada8697e3d58004cbce16f",
+      "bytes": 4743,
+      "sha256": "6910ea5281add57d90cb7d997439c08744941a5cb7a3e145925c54c81da08eea"
+    },
+    {
+      "path": "licensing/evidence/proxy-fetch.md",
+      "blob": "a0bdbc721b39bad9cc366cf111a8870dae488695",
+      "bytes": 5258,
+      "sha256": "af400306cf5c928cb6f2c3ae682270581a891585f0dcb44ea07b4768fb2738d6"
+    },
+    {
+      "path": "licensing/evidence/read-binary-media-20260930.json",
+      "blob": "71a140c1fee3f16265dea4fa3b686a9e0b3d5109",
+      "bytes": 5988,
+      "sha256": "e778376c714c68fe9c9fc7e8dcafe4875b3c6acc37b4dffea00e7a24dc76a843"
+    },
+    {
+      "path": "licensing/evidence/read-file-suggestion-20260930.json",
+      "blob": "9981120deb561287e6b68dcf5dbe8a4bd26e195c",
+      "bytes": 5414,
+      "sha256": "c559df8525221e5a46dd17d66ff6850d8fc8a45e3d28a03937bc4d63c0875c3a"
+    },
+    {
+      "path": "licensing/evidence/read-pdf-plan-20260930.json",
+      "blob": "909e13837fbd39b8c915dd4d7511c04425682612",
+      "bytes": 4292,
+      "sha256": "48c40e67cbec31f2ade8498aa2bc546ddabcb19408eb326b66b32cf0f010f9e6"
+    },
+    {
+      "path": "licensing/evidence/read-state-snapshots-20260930.json",
+      "blob": "20e856060418167ac4ac7c15ac7f3390a0af81c0",
+      "bytes": 5085,
+      "sha256": "177652596fa79cd1580d871c8c091736ea7ea8177dcd88d33e2641beb6f0b558"
+    },
+    {
+      "path": "licensing/evidence/read-text-budget-20260930.json",
+      "blob": "f9aafa58b10efabd56828d6300d770939bb8823a",
+      "bytes": 9063,
+      "sha256": "4b7ce2f2d62d8a04326deb000fb6415c9a825829faa97e6cd6db6e29276b61f1"
+    },
+    {
+      "path": "licensing/evidence/subprocess-env.md",
+      "blob": "b1adaaf6adc357a1aa684bc42f2710129c1e8eda",
+      "bytes": 3619,
+      "sha256": "c104c5fbf2077ed0df1752d068b719ca0cd7e8459e5dc751424770e208efcf58"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "blob": "6aea464791eab7e35f4ac3949bf9fca939855614",
+      "bytes": 3445390,
+      "sha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "blob": "0d3311701cb322fa2b98b0c0a05d9dd8ae4a2493",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "package.json",
+      "blob": "319bfb13788e7fd6c264e6f371212dad2bcb812b",
+      "bytes": 4337,
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "scripts/provenance/model.mjs",
+      "blob": "02fe3f5b260f46f957120330bc662d3eef5fc5f7",
+      "bytes": 10384,
+      "sha256": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933"
+    },
+    {
+      "path": "scripts/test-studio.mjs",
+      "blob": "44433fbacd4d60b4e59c46ce00db8ad13f97e386",
+      "bytes": 4825,
+      "sha256": "ea3db14e667f8effd27a72bebe8a296813cf20e2c1977b011d96994126fe9dc1"
+    },
+    {
+      "path": "specs/knorvia-agent-tool-invocation.md",
+      "blob": "b17d486bf87a3e0e0bd601712523cea514fa70e7",
+      "bytes": 7408,
+      "sha256": "4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969"
+    },
+    {
+      "path": "specs/knorvia-collaboration-tool-invocation.md",
+      "blob": "780f607413f5fb351c66772feddd83a52a904ef5",
+      "bytes": 8718,
+      "sha256": "aefb87b86acd4617344d3a186e048568e2f04bf5b604c7e819ea58297ee95e50"
+    },
+    {
+      "path": "specs/knorvia-http-public-egress.md",
+      "blob": "5b86fd8e68bb0ee5aa7d4c0686396cfb727e032b",
+      "bytes": 8423,
+      "sha256": "37567921c4cbf27dbd44fa6d6cdd9b85ffdffe37f6b74993af3efb885af580ce"
+    },
+    {
+      "path": "specs/knorvia-http-request-adapter.md",
+      "blob": "331e94021834df7ac9bc056ff98ae988db43f077",
+      "bytes": 14258,
+      "sha256": "c6ab3a84507678fb6e0f60ab77f79af5e183d951ac98809fce9a45e74a39e6d9"
+    },
+    {
+      "path": "specs/knorvia-http-response-body.md",
+      "blob": "ba065322dafe96bacff37cc795cc68ec40019e80",
+      "bytes": 6812,
+      "sha256": "d8af235ea38e2ffd2bddbede7f778f03039fa728c478dc305ca5c43435d8a41b"
+    },
+    {
+      "path": "specs/knorvia-independent-implementation.md",
+      "blob": "0cea0f5a71212448d92ecd96eafbb6f25a3d9463",
+      "bytes": 11929,
+      "sha256": "fba9c94f55b87e74973be4d0df873fc6569ae627899d19135d4f5b6e620523b2"
+    },
+    {
+      "path": "specs/knorvia-network-config.md",
+      "blob": "3be1416e270412e9813718b7fa506235af5ef43e",
+      "bytes": 8868,
+      "sha256": "fb27a45dded66214d3c945c2b14957904b2044f21d6fc3c2ce811fd1733f17b3"
+    },
+    {
+      "path": "specs/knorvia-permission-rule-matching.md",
+      "blob": "57868267fb9acaafc82b6d83b4956e21c50d76ee",
+      "bytes": 7012,
+      "sha256": "7b8dea386cbc4435d520487f7201d3ca3345a846e0d86e164040e5c1df3e55d1"
+    },
+    {
+      "path": "specs/knorvia-proxy-fetch.md",
+      "blob": "d85fa784f346f16c8de4a6b20870091e3efb0fde",
+      "bytes": 13278,
+      "sha256": "80f88743d71325cadd3e9b9a1419d1a3e1f7283153b7aabdc84968de07d246e4"
+    },
+    {
+      "path": "specs/knorvia-read-binary-media.md",
+      "blob": "d89c5582227ab45c7e8eea66cd80e32ad5223792",
+      "bytes": 3405,
+      "sha256": "9774ee63f651af1545b41e001412428e4d9cdc3d1f3f95e3cc7c0803557b1dd4"
+    },
+    {
+      "path": "specs/knorvia-read-file-suggestion.md",
+      "blob": "f5da77dd4efc5ff4acc9a0a62fdb25e0f3b801fe",
+      "bytes": 2406,
+      "sha256": "fe982762d3917a1e83354953a8fa1818f08c24f94ad4bda6a45a4c539c714bd0"
+    },
+    {
+      "path": "specs/knorvia-read-orchestration.md",
+      "blob": "ef8efa3f5343a5908c20fea4fce0f3635a19ec69",
+      "bytes": 8490,
+      "sha256": "c9cacd9d3c57daee573511b1a8173f9c01282a1196d25f67e7463c563e25bd38"
+    },
+    {
+      "path": "specs/knorvia-read-pdf-projection.md",
+      "blob": "6a4890d916bf0c24660c7a6c671320d9ddc2287c",
+      "bytes": 2994,
+      "sha256": "d96d92935afbc8fae27fd1d9f60d572bc033fe1e92f0edb68bfafba84f11908a"
+    },
+    {
+      "path": "specs/knorvia-read-state-snapshots.md",
+      "blob": "1956836e160ca29b64c8c96abe214086977d119e",
+      "bytes": 5625,
+      "sha256": "38625089bc864a644552d83f3ac24bf49734047124a1da66a0075f77788f2f18"
+    },
+    {
+      "path": "specs/knorvia-read-text-budget.md",
+      "blob": "9b101b331d0d0fa34a097223a53ddad8d44f5030",
+      "bytes": 3507,
+      "sha256": "19955a853a3461d206755c3aad715a4713a05ab788ad5ec81e4cf01aed891678"
+    },
+    {
+      "path": "specs/knorvia-subprocess-env.md",
+      "blob": "98e876cbd9d85d24f997996a71fc31249decaa7a",
+      "bytes": 8037,
+      "sha256": "f8e9f5631184f9e0740002f9d63bf6f1758f201e0bbe8eb55e35fe0b60d49f98"
+    }
+  ],
+  "allowedPaths": [
+    "apps/cli/packages/core/src/tool/handlers/webfetch-orchestration.ts",
+    "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+    "apps/cli/packages/core/test/webfetch-orchestration-capture.mts",
+    "apps/cli/packages/core/test/webfetch-orchestration-cases.ts",
+    "apps/cli/packages/core/test/webfetch-orchestration-consumer-fixture.ts",
+    "apps/cli/packages/core/test/webfetch-orchestration-consumers.test.ts",
+    "apps/cli/packages/core/test/webfetch-orchestration-contract.json",
+    "apps/cli/packages/core/test/webfetch-orchestration-contract.test.ts",
+    "apps/cli/packages/core/test/webfetch-orchestration-fixture.ts",
+    "apps/cli/packages/core/test/webfetch-orchestration-settlement-baseline.json",
+    "apps/cli/packages/core/test/webfetch-orchestration-settlement-fixture.ts",
+    "apps/cli/packages/core/test/webfetch-orchestration-settlement.test.ts",
+    "docs/evidence/knorvia-webfetch-orchestration-fast-checks-20261001.json",
+    "docs/evidence/knorvia-webfetch-orchestration-fast-receipt-check-20261001.mjs",
+    "docs/knorvia-webfetch-orchestration-fast-handoff-20261001.md",
+    "specs/knorvia-webfetch-orchestration.md"
+  ],
+  "scopeAndGaps": [
+    "One bounded cache/fresh/result orchestration structure only; all lower security/network/URL/cache/processing/content owners and public prose remain unchanged. No security/policy repair, retries, approval bypass or additional cache.",
+    "Exact whole-file originality/licence review unresolved. Candidate statuses are advisory, not reviews.json decisions/licence grants; hashes, moves and passing tests do not establish authorship. Retain attribution.",
+    "Exact WebFetch publisher byte/notice and retained-expression/right-to-license review remain; root owns final licence/integration/native acceptance.",
+    "Native Windows/macOS, real HTTP/DNS/proxy/credentials/provider/account/model/artifact persistence and packaged UI/Electron/installer acceptance not performed by new synthetic fixtures.",
+    "Full count is older lane scope, separate from root combined CI224. Root owns runner repair; no timeout/concurrency/test-file changes here."
+  ],
+  "preFreezeHarnessCorrections": [
+    "Source/emitted capture initially differed only in serialized executor error stacks; incidental stacks omitted before committed freeze.",
+    "A blanket project-deny expectation failed on unchanged source: existing yolo allows before project rules; auto denies via mode.auto.unimplemented. Explicit original precedence now asserted, no product/security behavior repaired."
+  ]
+}

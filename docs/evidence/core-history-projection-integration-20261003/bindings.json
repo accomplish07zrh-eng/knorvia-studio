@@ -1,0 +1,46 @@
+{
+  "authors": [
+    {
+      "scope": "manual",
+      "path": "apps/cli/packages/core/src/compact/manual.ts",
+      "bytes": 4955,
+      "lines": 163,
+      "sha256": "a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9",
+      "archive": "docs/evidence/core-history-projection-author-packet-20261003/manual/v2",
+      "receipt": "docs/evidence/core-history-projection-author-packet-20261003/manual/v2/author-record.json",
+      "sourceBaseline": "750a8072bb6438c32d7bc3bbdd2a97713a1ac338"
+    },
+    {
+      "scope": "history",
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "lines": 320,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "archive": "docs/evidence/core-history-projection-author-packet-20261003/history/v2",
+      "receipt": "docs/evidence/core-history-projection-author-packet-20261003/history/v2/author-record.json",
+      "sourceBaseline": "750a8072bb6438c32d7bc3bbdd2a97713a1ac338"
+    },
+    {
+      "scope": "breakdown",
+      "path": "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+      "bytes": 3587,
+      "lines": 127,
+      "sha256": "cd34d73c15a052795cf3c2dab4ac13724e99d6137f8cc1185194a6bc938d1c41",
+      "archive": "docs/evidence/core-history-projection-author-packet-20261003/breakdown",
+      "receipt": "docs/evidence/core-history-projection-author-packet-20261003/breakdown/author-record.json",
+      "sourceBaseline": "750a8072bb6438c32d7bc3bbdd2a97713a1ac338"
+    },
+    {
+      "scope": "media",
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+      "bytes": 2975,
+      "lines": 92,
+      "sha256": "a0a0ffad3619dc18c38da7806880770a35a44414695d719cc70ca46e0bf80ce4",
+      "archive": "docs/evidence/core-history-projection-author-packet-20261003/media",
+      "receipt": "docs/evidence/core-history-projection-author-packet-20261003/media/author-record.json",
+      "sourceBaseline": "750a8072bb6438c32d7bc3bbdd2a97713a1ac338"
+    }
+  ],
+  "checks": "Static declarations/imports/bytes only; no aggregate runtime/compiler acceptance",
+  "noNewHelpers": true
+}

@@ -1,0 +1,34 @@
+{
+  "base": "04c6c761f222107054c2b5f3508846cd21f0756a",
+  "freezeCommit": "215a4fe",
+  "draftArchiveCommit": "9d228ab",
+  "redProofCommit": "ec1dc0a",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/target-completion-verification.ts",
+  "draftSha256": "262cdf8d62ac42ce9629f8fe2ad8ea33d1a0a085d88da71d242974c452d8dcb0",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/target-completion-verification.ts",
+      "sha256": "c89d2ad88443768bc978c038b24502df323c5982b94100fce8d9f58a101f1228"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/target-completion-verification.js",
+      "sha256": "3bd5be1faccb5340538081e82008862bf64a2c85334c5c84dfa955b9f6eca8e7"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/target-completion-verification.d.ts",
+      "sha256": "8509ae2bc1f41d844be811b6192fc7a1f6a39c538526ac3f9047033a7ed101ef"
+    }
+  },
+  "physicalLines": 373,
+  "design": "Complete eligibility-to-verification-to-target-completion lifecycle; private model request and retry phases with the original runtime/store/telemetry owners. No new policy, deadline or cache.",
+  "retained": "Captured selection, target read/complete/record sequence, iteration filter/reduce, anchored lifecycle records, media projection, request/completion/usage and fail-open/cancellation combinations remain closely corresponding. Fixed prompt/log/error strings, protocol fields/order and retry providers/delays retained. A different private parameter convention alone earns no reconstruction credit.",
+  "correction": "Sealed draft read target ID after the projection await; old iteration5 versus draft10 preserved in ec1dc0a. Final captures the ID argument before that await while publication fields remain live. Source-exposed static restoration reads providerId once after abort/delay guards. Lint alias cleanup accidentally changed source:\"runtime\"; compiler rejection and unaccepted intermediate output logs preserved, literal restored before successful final compile/pins.",
+  "sourceExposure": "Curator read predecessor. Source-derived body-free functional/API/import/supporting packet; fresh internal author fork_turns=none,GPT6.1Sol/high, archived input journal and hash seal before curator comparison. Ordinary environment/task metadata available. No absolute clean-room claim.",
+  "api": {
+    "exactCallSignaturesEqual": true,
+    "fixedDeclarationFactsEqual": true
+  },
+  "checksReference": "docs/evidence/runtime-preparation-five-checks-20261003",
+  "limits": "Only three minimum synthetic actual-emitted write/publication groups plus one overlapping verifier captured-ID proof. Ordinary suites, turn-loop/shell behavioral execution, builds, native acceptance and full runtime callers deferred. Import locations rebound; unchanged transitive dependencies through tsx source except declared fake seams. Strong correspondence qualified for independent expression/rights review; no header/registry/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-target-completion-verification-author-20261003/lineage.json"
+}

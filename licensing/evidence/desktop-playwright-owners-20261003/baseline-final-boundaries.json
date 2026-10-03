@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/playwrightOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_OWNER_BASELINE": "/tmp/knorvia-desktop-playwright-baseline"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+      "sha256": "a3a82ef0087091feb55182c852f0ef5956527632b21733446dd2294a438e0008"
+    }
+  ],
+  "stdout": "✔ snapshot: normalization, OOPIF session ownership and release survive cleanup rejection (89.478466ms)\n✔ locator: iframe fill token/paste and press authority precede trusted dispatch (95.412138ms)\n✔ locator: pending probe cancellation releases listeners and owned session; forced click preserves rejection (32.098349ms)\n✔ executor: same-reference routing, done identity and screenshot cleanup error precedence (13.667284ms)\n✔ executor: evaluate abort listener identity, preabort and URL commit/readiness semantics (10.364382ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 485.275667\n",
+  "stderr": "",
+  "exitCode": 0
+}

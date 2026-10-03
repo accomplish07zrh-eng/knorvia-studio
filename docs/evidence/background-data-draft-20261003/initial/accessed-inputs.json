@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/contract.md",
+    "sha256": "ae2cd939e3129abb3c322676dcce421d1267aea78a8a63652fca6c19b274fc90"
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/background-task-output-api.d.ts",
+    "sha256": "a1653378a1f39242ff39fd40ae4468dee1b6e8d459bfdad3b1a872122d4c07c9"
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/workflow-artifact-api.d.ts",
+    "sha256": "e547212f31feb12bcc13d7db6f573b4665f99c25c9ae68db5983e53a61481fef"
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/background-data-author-20261003/dependency-api.d.ts",
+    "sha256": "83703a63fdacfc700aea3b3c0b3ed0643a7644fa1aff49e9eaf0c5beb65f04b8"
+  }
+]

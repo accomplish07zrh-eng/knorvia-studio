@@ -1,0 +1,7 @@
+{
+  "node": "24.19.0",
+  "pinned": "24.14.0",
+  "pnpmWrapper": "prior ENOENT recorded in batch40; not retried, no store/install/permission workaround",
+  "publisher": "all3 fixed-path reads succeeded through existing connector; no native source rights/independence acceptance",
+  "nativeFullTestsBuild": "prohibited"
+}

@@ -5,19 +5,6 @@ export type ConversationMessageProjectionPolicy =
   | "timelineOnly"
   | "hiddenSynthetic";
 
-export interface ConversationProjectionMessage {
-  info: {
-    metadata?: unknown;
-    role?: string;
-    semantics?: ConversationProjectionMessageSemantics;
-    source?: string;
-    summary?: unknown;
-    synthetic?: boolean;
-    visibility?: string;
-  };
-  parts?: readonly ConversationProjectionPart[];
-}
-
 export interface ConversationProjectionMessageSemantics {
   kind?: string;
   origin?: string;
@@ -37,16 +24,20 @@ export interface ConversationProjectionPart {
   type?: string;
 }
 
-const MODEL_ONLY_VISIBILITY = "model-only";
-const FORK_SOURCE = "fork";
-const GOAL_CONTINUATION_REMINDER_PREFIX = '<system-reminder source="goal-continuation">';
-const GOAL_CONTINUATION_TEXT_MARKER = "Continue working toward the active session goal.";
-const GOAL_STATE_TEXT_MARKER = "Current session goal state";
-const TASK_NOTIFICATION_PREFIX = "<task-notification>";
-const SUBAGENT_NOTIFICATION_PREFIX = "<subagent-notification>";
-const REWIND_NOTICE_MARKERS = ["Conversation rewind applied.", "Workspace rewind applied."];
+export interface ConversationProjectionMessage {
+  info: {
+    metadata?: unknown;
+    role?: string;
+    semantics?: ConversationProjectionMessageSemantics;
+    source?: string;
+    summary?: unknown;
+    synthetic?: boolean;
+    visibility?: string;
+  };
+  parts?: readonly ConversationProjectionPart[];
+}
 
-const PROVIDER_CONTEXT_SYNTHETIC_SOURCES = new Set([
+const providerSyntheticSources = new Set<string>([
   "agent_control_message",
   "background_task",
   "goal-continuation",
@@ -66,7 +57,7 @@ const PROVIDER_CONTEXT_SYNTHETIC_SOURCES = new Set([
   "todo_reminder",
 ]);
 
-const MODEL_ONLY_TURN_TRIGGER_SOURCES = new Set([
+const modelOnlyTurnTriggerSources = new Set<string>([
   "background_task",
   "task_notification",
   "subagent",
@@ -74,6 +65,81 @@ const MODEL_ONLY_TURN_TRIGGER_SOURCES = new Set([
   "goal-continuation",
   "target_continuation",
 ]);
+
+function metadataRecord(value: unknown): Record<string, unknown> | undefined {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return undefined;
+}
+
+function stringValue(value: unknown): string | undefined {
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function messageSource(message: ConversationProjectionMessage): string | undefined {
+  return (
+    message.info.source ??
+    stringValue(metadataRecord(message.info.metadata)?.source) ??
+    message.info.semantics?.source ??
+    (message.parts ?? [])
+      .map((part) => stringValue(metadataRecord(part.metadata)?.source))
+      .find((source) => Boolean(source))
+  );
+}
+
+function hasModelOnlyPart(parts: readonly ConversationProjectionPart[]): boolean {
+  return parts.some((part) => {
+    const metadata = metadataRecord(part.metadata);
+    return (
+      metadata?.visibility === "model-only" || stringValue(metadata?.source) === "goal-continuation"
+    );
+  });
+}
+
+function hasTimelineProjection(message: ConversationProjectionMessage): boolean {
+  if (
+    message.info.semantics?.kind === "timeline_event" ||
+    message.info.source === "fork" ||
+    metadataRecord(message.info.metadata)?.source === "fork"
+  ) {
+    return true;
+  }
+
+  return (message.parts ?? []).some((part) => {
+    const metadata = metadataRecord(part.metadata);
+    return (
+      part.type === "timeline" ||
+      metadataRecord(metadata?.forkContext)?.kind === "session_fork" ||
+      (part.type === "compaction" &&
+        (typeof metadata?.timelineStatus === "string" || typeof part.summaryMessageId === "string"))
+    );
+  });
+}
+
+function messageText(message: ConversationProjectionMessage): string {
+  return (message.parts ?? [])
+    .filter((part) => part.type === "text" && part.ignored !== true)
+    .map((part) => part.text ?? "")
+    .join("");
+}
+
+function hasLegacyReminderContext(message: ConversationProjectionMessage): boolean {
+  const text = messageText(message).trimStart();
+  return (
+    text.startsWith('<system-reminder source="goal-continuation">') ||
+    (text.startsWith("<system-reminder>") &&
+      (text.includes("Continue working toward the active session goal.") ||
+        text.includes("Current session goal state"))) ||
+    text.includes("Conversation rewind applied.") ||
+    text.includes("Workspace rewind applied.")
+  );
+}
+
+function hasLegacyNotification(message: ConversationProjectionMessage): boolean {
+  const text = messageText(message).trimStart();
+  return text.startsWith("<task-notification>") || text.startsWith("<subagent-notification>");
+}
 
 export function getConversationMessageProjectionPolicy(
   message: ConversationProjectionMessage,
@@ -93,7 +159,7 @@ export function getConversationMessageProjectionPolicy(
     if (
       semantics.origin === "real_user" &&
       info.synthetic !== true &&
-      info.visibility !== MODEL_ONLY_VISIBILITY
+      info.visibility !== "model-only"
     ) {
       return "realUserInput";
     }
@@ -103,8 +169,6 @@ export function getConversationMessageProjectionPolicy(
       semantics.uiVisibility === "visible" &&
       semantics.transcriptVisibility === "visible"
     ) {
-      // 正常 assistant 同时会进入 provider context 和可见 transcript；
-      // providerVisibility 不能抢先把它归成 model-only，否则晚订阅的 cold hydration 会丢正文。
       return "visibleAssistant";
     }
     if (semantics.providerVisibility === "visible") {
@@ -122,34 +186,29 @@ export function getConversationMessageProjectionPolicy(
     }
   }
 
-  if (info.visibility === MODEL_ONLY_VISIBILITY || hasModelOnlyPart(parts)) {
+  if (info.visibility === "model-only" || hasModelOnlyPart(parts)) {
     return "providerContextOnly";
   }
-
-  if (isTimelineOnlyMessage(info, parts)) {
+  if (hasTimelineProjection(message)) {
     return "timelineOnly";
   }
 
-  const source = messageSource(info, parts);
-  if (source === FORK_SOURCE) {
+  const source = messageSource(message);
+  if (source === "fork") {
     return "timelineOnly";
   }
-  if (source && PROVIDER_CONTEXT_SYNTHETIC_SOURCES.has(source)) {
+  if (source !== undefined && providerSyntheticSources.has(source)) {
+    return "providerContextOnly";
+  }
+  if (hasLegacyReminderContext(message)) {
     return "providerContextOnly";
   }
 
-  if (hasLegacySystemReminderContextText(parts)) {
+  const synthetic = info.synthetic === true || parts.some((part) => part.synthetic === true);
+  if (synthetic && hasLegacyNotification(message)) {
     return "providerContextOnly";
   }
-
-  if (
-    (info.synthetic === true || parts.some((part) => part.synthetic === true)) &&
-    hasLegacyNotificationContextText(parts)
-  ) {
-    return "providerContextOnly";
-  }
-
-  if (info.synthetic === true || parts.some((part) => part.synthetic === true)) {
+  if (synthetic) {
     return "hiddenSynthetic";
   }
 
@@ -163,22 +222,21 @@ export function isConversationRealUserTurnStarter(message: ConversationProjectio
   );
 }
 
-/**
- * provider-context user carrier 中会真正启动独立 model-only turn 的统一 source policy。
- * live/cold 都必须消费这一个判据，否则冷恢复会跳过 carrier messageId 并生成临时 turn identity。
- */
 export function getConversationModelOnlyTurnTriggerSource(
   message: ConversationProjectionMessage,
 ): string | null {
-  if (message.info.role !== "user") return null;
-  if (getConversationMessageProjectionPolicy(message) !== "providerContextOnly") {
+  if (
+    message.info.role !== "user" ||
+    getConversationMessageProjectionPolicy(message) !== "providerContextOnly"
+  ) {
     return null;
   }
-  const source = messageSource(message.info, message.parts ?? []);
-  if (source && MODEL_ONLY_TURN_TRIGGER_SOURCES.has(source)) return source;
-  // legacy 数据无 source 标记：通知文本前缀仍按既有 background wake 语义恢复。
-  if (hasLegacyNotificationContextText(message.parts ?? [])) return "background_task";
-  return null;
+
+  const source = messageSource(message);
+  if (source !== undefined && modelOnlyTurnTriggerSources.has(source)) {
+    return source;
+  }
+  return hasLegacyNotification(message) ? "background_task" : null;
 }
 
 export function isConversationProviderContextOnlyMessage(
@@ -195,93 +253,4 @@ export function isConversationHiddenSyntheticMessage(
   message: ConversationProjectionMessage,
 ): boolean {
   return getConversationMessageProjectionPolicy(message) === "hiddenSynthetic";
-}
-
-function isTimelineOnlyMessage(
-  info: ConversationProjectionMessage["info"],
-  parts: readonly ConversationProjectionPart[],
-): boolean {
-  if (info.semantics?.kind === "timeline_event") {
-    return true;
-  }
-  const infoMetadata = metadataRecord(info.metadata);
-  if (info.source === FORK_SOURCE || stringValue(infoMetadata?.source) === FORK_SOURCE) {
-    return true;
-  }
-  return parts.some((part) => {
-    const metadata = metadataRecord(part.metadata);
-    return (
-      part.type === "timeline" ||
-      hasSessionForkContext(metadata) ||
-      (part.type === "compaction" &&
-        (typeof metadata?.timelineStatus === "string" || typeof part.summaryMessageId === "string"))
-    );
-  });
-}
-
-function hasModelOnlyPart(parts: readonly ConversationProjectionPart[]): boolean {
-  return parts.some((part) => {
-    const metadata = metadataRecord(part.metadata);
-    return (
-      metadata?.visibility === MODEL_ONLY_VISIBILITY ||
-      stringValue(metadata?.source) === "goal-continuation"
-    );
-  });
-}
-
-function messageSource(
-  info: ConversationProjectionMessage["info"],
-  parts: readonly ConversationProjectionPart[],
-): string | undefined {
-  const infoMetadata = metadataRecord(info.metadata);
-  return (
-    info.source ??
-    stringValue(infoMetadata?.source) ??
-    info.semantics?.source ??
-    parts
-      .map((part) => stringValue(metadataRecord(part.metadata)?.source))
-      .find((source): source is string => Boolean(source))
-  );
-}
-
-function hasLegacySystemReminderContextText(parts: readonly ConversationProjectionPart[]): boolean {
-  const text = textFromParts(parts).trimStart();
-  return (
-    text.startsWith(GOAL_CONTINUATION_REMINDER_PREFIX) ||
-    (text.startsWith("<system-reminder>") &&
-      (text.includes(GOAL_CONTINUATION_TEXT_MARKER) || text.includes(GOAL_STATE_TEXT_MARKER))) ||
-    REWIND_NOTICE_MARKERS.some((marker) => text.includes(marker))
-  );
-}
-
-function hasLegacyNotificationContextText(parts: readonly ConversationProjectionPart[]): boolean {
-  const text = textFromParts(parts).trimStart();
-  return text.startsWith(TASK_NOTIFICATION_PREFIX) || text.startsWith(SUBAGENT_NOTIFICATION_PREFIX);
-}
-
-function textFromParts(parts: readonly ConversationProjectionPart[]): string {
-  return parts
-    .filter((part) => part.type === "text" && part.ignored !== true)
-    .map((part) => part.text ?? "")
-    .join("");
-}
-
-function hasSessionForkContext(metadata: unknown): boolean {
-  const forkContext = metadataRecord(metadata)?.forkContext;
-  return (
-    typeof forkContext === "object" &&
-    forkContext !== null &&
-    !Array.isArray(forkContext) &&
-    (forkContext as Record<string, unknown>).kind === "session_fork"
-  );
-}
-
-function metadataRecord(value: unknown): Record<string, unknown> | undefined {
-  return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : undefined;
-}
-
-function stringValue(value: unknown): string | undefined {
-  return typeof value === "string" && value.length > 0 ? value : undefined;
 }

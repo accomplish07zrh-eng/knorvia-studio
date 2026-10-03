@@ -1,0 +1,2220 @@
+{
+  "compilerRaw": {
+    "cron": [
+      {
+        "export": "recordCronRunOutcomeBestEffort",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "error",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "string",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "outcome",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"failed\"",
+                          "\"interrupted\"",
+                          "\"running\"",
+                          "\"stopped\"",
+                          "\"succeeded\""
+                        ]
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "ensureRunClaimed",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "automationId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "scheduledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "trigger",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"manual\"",
+                                                "\"schedule\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "workspaceKey",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunDispatch",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "dispatchStatus",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "\"failed_to_dispatch\""
+                                            },
+                                            {
+                                              "name": "error",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunOutcome",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": [
+                                          "\"failed\"",
+                                          "\"interrupted\"",
+                                          "\"running\"",
+                                          "\"stopped\"",
+                                          "\"succeeded\""
+                                        ]
+                                      },
+                                      {
+                                        "optional": true,
+                                        "type": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "releaseManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "scheduledAt",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "null",
+                          "number"
+                        ]
+                      },
+                      {
+                        "name": "trigger",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"manual\"",
+                          "\"schedule\""
+                        ]
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "settleCronRunTerminalOutcome",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "error",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "string",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "outcome",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"failed\"",
+                          "\"interrupted\"",
+                          "\"stopped\"",
+                          "\"succeeded\""
+                        ]
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "ensureRunClaimed",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "automationId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "scheduledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "trigger",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"manual\"",
+                                                "\"schedule\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "workspaceKey",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunDispatch",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "dispatchStatus",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "\"failed_to_dispatch\""
+                                            },
+                                            {
+                                              "name": "error",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunOutcome",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": [
+                                          "\"failed\"",
+                                          "\"interrupted\"",
+                                          "\"running\"",
+                                          "\"stopped\"",
+                                          "\"succeeded\""
+                                        ]
+                                      },
+                                      {
+                                        "optional": true,
+                                        "type": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "releaseManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "scheduledAt",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "null",
+                          "number"
+                        ]
+                      },
+                      {
+                        "name": "trigger",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"manual\"",
+                          "\"schedule\""
+                        ]
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "settleManualDispatchFailureBestEffort",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "dispatchError",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "unknown"
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "ensureRunClaimed",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "automationId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "scheduledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "trigger",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"manual\"",
+                                                "\"schedule\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "workspaceKey",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunDispatch",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "dispatchStatus",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "\"failed_to_dispatch\""
+                                            },
+                                            {
+                                              "name": "error",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunOutcome",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": [
+                                          "\"failed\"",
+                                          "\"interrupted\"",
+                                          "\"running\"",
+                                          "\"stopped\"",
+                                          "\"succeeded\""
+                                        ]
+                                      },
+                                      {
+                                        "optional": true,
+                                        "type": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "releaseManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "scheduledAt",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "null",
+                          "number"
+                        ]
+                      },
+                      {
+                        "name": "trigger",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"manual\"",
+                          "\"schedule\""
+                        ]
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "startManualClaimHeartbeat",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "intervalMs",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "number",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "dispose",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ]
+  },
+  "consumerStringContract": {
+    "cron": [
+      {
+        "export": "recordCronRunOutcomeBestEffort",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "error",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "string",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "outcome",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"failed\"",
+                          "\"interrupted\"",
+                          "\"running\"",
+                          "\"stopped\"",
+                          "\"succeeded\""
+                        ]
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "ensureRunClaimed",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "automationId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "scheduledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "trigger",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"manual\"",
+                                                "\"schedule\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "workspaceKey",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunDispatch",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "dispatchStatus",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "\"failed_to_dispatch\""
+                                            },
+                                            {
+                                              "name": "error",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunOutcome",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": [
+                                          "\"failed\"",
+                                          "\"interrupted\"",
+                                          "\"running\"",
+                                          "\"stopped\"",
+                                          "\"succeeded\""
+                                        ]
+                                      },
+                                      {
+                                        "optional": true,
+                                        "type": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "releaseManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "scheduledAt",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "null",
+                          "number"
+                        ]
+                      },
+                      {
+                        "name": "trigger",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"manual\"",
+                          "\"schedule\""
+                        ]
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "settleCronRunTerminalOutcome",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "error",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "string",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "outcome",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"failed\"",
+                          "\"interrupted\"",
+                          "\"stopped\"",
+                          "\"succeeded\""
+                        ]
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "ensureRunClaimed",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "automationId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "scheduledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "trigger",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"manual\"",
+                                                "\"schedule\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "workspaceKey",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunDispatch",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "dispatchStatus",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "\"failed_to_dispatch\""
+                                            },
+                                            {
+                                              "name": "error",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunOutcome",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": [
+                                          "\"failed\"",
+                                          "\"interrupted\"",
+                                          "\"running\"",
+                                          "\"stopped\"",
+                                          "\"succeeded\""
+                                        ]
+                                      },
+                                      {
+                                        "optional": true,
+                                        "type": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "releaseManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "scheduledAt",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "null",
+                          "number"
+                        ]
+                      },
+                      {
+                        "name": "trigger",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"manual\"",
+                          "\"schedule\""
+                        ]
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "settleManualDispatchFailureBestEffort",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "dispatchError",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "unknown"
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "ensureRunClaimed",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "automationId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "scheduledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "trigger",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"manual\"",
+                                                "\"schedule\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "workspaceKey",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunDispatch",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "dispatchStatus",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "\"failed_to_dispatch\""
+                                            },
+                                            {
+                                              "name": "error",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            },
+                                            {
+                                              "name": "runId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "markRunOutcome",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": [
+                                          "\"failed\"",
+                                          "\"interrupted\"",
+                                          "\"running\"",
+                                          "\"stopped\"",
+                                          "\"succeeded\""
+                                        ]
+                                      },
+                                      {
+                                        "optional": true,
+                                        "type": [
+                                          "string",
+                                          "undefined"
+                                        ]
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "releaseManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            },
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "scheduledAt",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "null",
+                          "number"
+                        ]
+                      },
+                      {
+                        "name": "trigger",
+                        "optional": false,
+                        "readonly": false,
+                        "type": [
+                          "\"manual\"",
+                          "\"schedule\""
+                        ]
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "startManualClaimHeartbeat",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "automationId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "intervalMs",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "number",
+                          "undefined"
+                        ]
+                      },
+                      {
+                        "name": "logWarn",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                },
+                                {
+                                  "optional": false,
+                                  "type": "unknown"
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "repo",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [],
+                          "constructs": [],
+                          "properties": [
+                            {
+                              "name": "touchManualClaim",
+                              "optional": false,
+                              "readonly": false,
+                              "type": {
+                                "calls": [
+                                  {
+                                    "parameters": [
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      },
+                                      {
+                                        "optional": false,
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "returns": {
+                                      "promise": [
+                                        "void"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "constructs": [],
+                                "properties": []
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "runId",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "workspaceKey",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "dispose",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ]
+  }
+}

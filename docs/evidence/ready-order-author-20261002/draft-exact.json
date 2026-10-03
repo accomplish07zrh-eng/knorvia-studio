@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "kind": "ready-order-bounded-author-draft",
+  "authorTask": "/root/ready_order_author",
+  "forkTurns": "none",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "high",
+  "attempts": 1,
+  "result": "Saved and hash reported before curator comparison/integration.",
+  "authorReportedAccess": "Only /tmp/knorvia-ready-order-20261002/author/contract.md and ports.d.ts; hashing reads saved draft; no source/history/tests/oracles or production edits.",
+  "curatorExposure": "Curator read predecessor and wrote source-derived behavior/API packet. This inherited curator conversation was not forked to author. Tools share executor filesystem; no enforced filesystem isolation or absolute clean-room claim.",
+  "draft": {
+    "sha256": "78f6f77c4597457bd66068b11e5f1128dbaca58d6cbc490545dffc94a9b3b556",
+    "bytes": 1470,
+    "text": "export function orderedReadyExecutableNodes(\n  graph: WorkflowGraph,\n  executableNodeIds: Set<string>,\n): WorkflowGraphNode[] {\n  const readyNodes = readyExecutableNodes(graph, executableNodeIds);\n  const collections = graphCollections(graph);\n  const groups = new Map<string, WorkflowGraphNode[]>();\n  const exploratoryIds = new Set<string>();\n\n  for (const collection of collections) {\n    if (!collection.explorable || collection.exhausted) {\n      continue;\n    }\n\n    const memberIds = new Set(collectionNodeIdsForGraph(collection, graph));\n    const contribution = readyNodes.filter((node) => memberIds.has(node.id));\n    if (contribution.length === 0) {\n      continue;\n    }\n\n    let group = groups.get(collection.collectionId);\n    if (group === undefined) {\n      group = [];\n      groups.set(collection.collectionId, group);\n    }\n    for (const node of contribution) {\n      group.push(node);\n      exploratoryIds.add(node.id);\n    }\n  }\n\n  const result = readyNodes.filter((node) => !exploratoryIds.has(node.id));\n  const remainingGroups = Array.from(groups.values(), (nodes) => ({\n    nodes,\n    next: 0,\n  }));\n  let k = 0;\n\n  while (remainingGroups.length > 0) {\n    const rank = k % remainingGroups.length;\n    const group = remainingGroups[rank]!;\n    result.push(group.nodes[group.next]!);\n    group.next += 1;\n\n    if (group.next < group.nodes.length) {\n      k += 1;\n    } else {\n      remainingGroups.splice(rank, 1);\n    }\n  }\n\n  return result;\n}\n"
+  },
+  "inputArchive": "docs/evidence/ready-order-author-20261002/inputs-exact.json",
+  "inputArchiveSha256": "b3ae70cef34994f1289ec77dfd7c62bb2921116daa50ffd21069ec6cc8a1ce93",
+  "formattingNote": "Exact inputs preserved in archive and freeze commit; readable contract/ports copies subsequently formatted only. /tmp author inputs unchanged.",
+  "licenceGrant": null
+}

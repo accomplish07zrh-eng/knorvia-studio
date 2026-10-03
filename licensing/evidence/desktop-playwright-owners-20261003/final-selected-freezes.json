@@ -1,0 +1,14 @@
+{
+  "snapshot": [
+    "browserPlaywrightDomSnapshot",
+    "correction-2"
+  ],
+  "locator": [
+    "browserPlaywrightLocatorExecutor",
+    "correction-2"
+  ],
+  "executor": [
+    "browserPlaywrightExecutor",
+    "correction-4"
+  ]
+}

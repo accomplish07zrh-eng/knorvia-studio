@@ -54,126 +54,113 @@ export function boundCausalityGraph(
   flow?: ControlFlowGraph,
   handoff?: HandoffGraph,
 ): CreateWorkflowCausalityGraph {
+  const projected: {
+    steps: CreateWorkflowStep[];
+    lanes: CreateWorkflowLane[];
+    participants: CreateWorkflowParticipant[];
+    handoffs: CreateWorkflowHandoff[];
+  } = { steps: [], lanes: [], participants: [], handoffs: [] };
   let truncated = graph.steps.length > CREATE_WORKFLOW_GRAPH_MAX_STEPS;
-  const headSteps = graph.steps.slice(0, CREATE_WORKFLOW_GRAPH_MAX_STEPS);
+  const stepPrefix = graph.steps.slice(0, CREATE_WORKFLOW_GRAPH_MAX_STEPS);
 
-  // 1. Lanes: only the ones the surviving steps stand in, in the graph's lane order
-  //    (workspace first, actors in creation order).
-  const wantedLanes = new Set<string>();
-  for (const step of headSteps) {
-    wantedLanes.add(step.lane);
-    for (const lane of step.lanes ?? []) wantedLanes.add(lane);
+  // Establish raw reference membership before projecting or clipping identifiers.
+  const referencedLanes = new Set<string>();
+  for (const step of stepPrefix) {
+    referencedLanes.add(step.lane);
+    for (const lane of step.lanes ?? []) referencedLanes.add(lane);
   }
-  const laneList = graph.lanes.filter((lane) => wantedLanes.has(lane.id));
-  truncated = truncated || laneList.length > CREATE_WORKFLOW_GRAPH_MAX_LANES;
-  const keptLanes = laneList.slice(0, CREATE_WORKFLOW_GRAPH_MAX_LANES);
-  const laneIds = new Set(keptLanes.map((lane) => lane.id));
+  const admittedLanes = graph.lanes.filter((lane) => referencedLanes.has(lane.id));
+  truncated = truncated || admittedLanes.length > CREATE_WORKFLOW_GRAPH_MAX_LANES;
+  const retainedLanes = admittedLanes.slice(0, CREATE_WORKFLOW_GRAPH_MAX_LANES);
+  const laneIds = new Set(retainedLanes.map((lane) => lane.id));
+  const retainedSteps = stepPrefix.filter((step) => laneIds.has(step.lane));
+  truncated = truncated || retainedSteps.length < stepPrefix.length;
+  const stepIds = new Set(retainedSteps.map((step) => step.id));
 
-  // 2. A step whose own lane got dropped has nowhere to sit; a may-set narrows instead.
-  const steps = headSteps.filter((step) => laneIds.has(step.lane));
-  truncated = truncated || steps.length < headSteps.length;
-  const stepIds = new Set(steps.map((step) => step.id));
-
-  // 3. Participants and hand-offs (the analyzer's projection, already reduced and in
-  //    stack order). A card's steps narrow to the surviving ones and a card left with none
-  //    goes; the list then truncates in order (the opener survives, the tail does not),
-  //    and hand-offs touching a dropped card go with it. A dropped card's steps stay in
-  //    `steps` — run status still joins on them, they just have no card.
-  const laneOk = (lane: string): boolean => laneIds.has(lane);
-  const participantList: CreateWorkflowParticipant[] = [];
-  for (const participant of handoff?.participants ?? []) {
-    if (!laneOk(participant.lane)) continue;
-    const memberSteps = participant.steps.filter((id) => stepIds.has(id));
-    if (memberSteps.length === 0) continue;
-    participantList.push({
-      id: boundGraphText(participant.id, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
-      phase: boundGraphText(participant.phase, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
-      lane: boundGraphText(participant.lane, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
-      steps: memberSteps
+  // Count all admitted cards; retain a prefix only after each complete projection.
+  let admittedCards = 0;
+  for (const card of handoff?.participants ?? []) {
+    if (!laneIds.has(card.lane)) continue;
+    const members = card.steps.filter((id) => stepIds.has(id));
+    if (members.length === 0) continue;
+    const row: CreateWorkflowParticipant = {
+      id: boundGraphText(card.id, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
+      phase: boundGraphText(card.phase, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
+      lane: boundGraphText(card.lane, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
+      steps: members
         .slice(0, CREATE_WORKFLOW_GRAPH_MAX_STEPS)
         .map((id) => boundGraphText(id, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS)),
-      ...(participant.member === undefined ? {} : { member: { ...participant.member } }),
-      ...(participant.many === true ? { many: true as const } : {}),
-    });
+      ...(card.member === undefined ? {} : { member: { ...card.member } }),
+      ...(card.many === true ? { many: true as const } : {}),
+    };
+    admittedCards++;
+    if (admittedCards <= CREATE_WORKFLOW_GRAPH_MAX_PARTICIPANTS) projected.participants.push(row);
   }
-  truncated = truncated || participantList.length < (handoff?.participants.length ?? 0);
-  truncated = truncated || participantList.length > CREATE_WORKFLOW_GRAPH_MAX_PARTICIPANTS;
-  const participants = participantList.slice(0, CREATE_WORKFLOW_GRAPH_MAX_PARTICIPANTS);
-  const participantIds = new Set(participants.map((participant) => participant.id));
-  const handoffList: CreateWorkflowHandoff[] = (handoff?.handoffs ?? [])
-    .filter((edge) => participantIds.has(edge.from) && participantIds.has(edge.to))
-    .map((edge) => {
-      const types = (edge.types ?? [])
-        .slice(0, CREATE_WORKFLOW_GRAPH_MAX_HANDOFF_TYPES)
-        .map((type) => boundGraphText(type, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS))
-        .filter((type) => type.length > 0);
-      return {
-        from: boundGraphText(edge.from, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
-        to: boundGraphText(edge.to, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
-        ...(edge.back === true ? { back: true as const } : {}),
-        ...(types.length > 0 ? { types } : {}),
-      };
-    });
-  truncated = truncated || handoffList.length < (handoff?.handoffs.length ?? 0);
-  truncated = truncated || handoffList.length > CREATE_WORKFLOW_GRAPH_MAX_HANDOFFS;
-  const handoffs = handoffList.slice(0, CREATE_WORKFLOW_GRAPH_MAX_HANDOFFS);
+  truncated = truncated || admittedCards < (handoff?.participants.length ?? 0);
+  truncated = truncated || admittedCards > CREATE_WORKFLOW_GRAPH_MAX_PARTICIPANTS;
+  const cardIds = new Set(projected.participants.map((card) => card.id));
 
+  // Finish endpoint admission for the entire list before reading any edge payload.
+  const admittedHandoffs = (handoff?.handoffs ?? []).filter(
+    (edge) => cardIds.has(edge.from) && cardIds.has(edge.to),
+  );
+  for (const edge of admittedHandoffs) {
+    const types = (edge.types ?? [])
+      .slice(0, CREATE_WORKFLOW_GRAPH_MAX_HANDOFF_TYPES)
+      .map((type) => boundGraphText(type, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS))
+      .filter((type) => type.length > 0);
+    const row: CreateWorkflowHandoff = {
+      from: boundGraphText(edge.from, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
+      to: boundGraphText(edge.to, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
+      ...(edge.back === true ? { back: true as const } : {}),
+      ...(types.length > 0 ? { types } : {}),
+    };
+    if (projected.handoffs.length < CREATE_WORKFLOW_GRAPH_MAX_HANDOFFS)
+      projected.handoffs.push(row);
+  }
+  truncated = truncated || admittedHandoffs.length < (handoff?.handoffs.length ?? 0);
+  truncated = truncated || admittedHandoffs.length > CREATE_WORKFLOW_GRAPH_MAX_HANDOFFS;
   const sink = (graph.sink?.fedBy ?? [])
     .filter((id) => stepIds.has(id))
     .slice(0, CREATE_WORKFLOW_GRAPH_MAX_STEPS)
     .map((id) => boundGraphText(id, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS));
 
-  // 4. Phases: the vocabulary is all-or-nothing and comes from the
-  //    CONTROL-FLOW projection — every phase some occurrence carries, member steps or not
-  //    (a marker-only phase is a position control passes through, so it must show). Edges
-  //    touching `entry` / `abort` have no node to land on; edges into `sink` become
-  //    `exits`; self-loops say nothing at quotient granularity. Over either bound and the
-  //    whole vocabulary goes, `phase` stripped from every step with it: a step naming an
-  //    unlisted phase is a dangling reference, and referential integrity beats retention.
-  const declaredPhases = flow?.phases;
-  const phaseIds = new Set((declaredPhases ?? []).map((phase) => phase.id));
-  const rawPhaseEdges: RawEdge[] = [];
-  const exitSet = new Set<string>();
+  // Phase admission is decided after edge reduction, but every declared row is read.
+  const phaseTable = flow?.phases;
+  const phaseIds = new Set((phaseTable ?? []).map((phase) => phase.id));
+  const ordering: RawEdge[] = [];
+  const exitIds = new Set<string>();
   for (const edge of flow?.phaseEdges ?? []) {
     if (edge.from === FLOW_ENTRY || edge.from === FLOW_ABORT || edge.to === FLOW_ABORT) continue;
     if (!phaseIds.has(edge.from)) continue;
     if (edge.to === FLOW_SINK) {
-      exitSet.add(edge.from);
+      exitIds.add(edge.from);
       continue;
     }
     if (!phaseIds.has(edge.to)) continue;
-    rawPhaseEdges.push({ back: edge.kind === "loop", from: edge.from, to: edge.to });
+    ordering.push({ back: edge.kind === "loop", from: edge.from, to: edge.to });
   }
-  const phaseEdges: CreateWorkflowEdge[] = foldPhaseEdges(rawPhaseEdges).map((edge) => ({
+  const phaseEdges: CreateWorkflowEdge[] = foldPhaseEdges(ordering).map((edge) => ({
     from: boundGraphText(edge.from, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
     to: boundGraphText(edge.to, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
     ...(edge.back ? { back: true as const } : {}),
   }));
-  // 边的上界管的是发出去的东西，所以在归约**之后**判。
-  const phaseVocabularyDropped =
-    declaredPhases !== undefined &&
-    (declaredPhases.length > CREATE_WORKFLOW_GRAPH_MAX_PHASES ||
+  const omitPhases =
+    phaseTable !== undefined &&
+    (phaseTable.length > CREATE_WORKFLOW_GRAPH_MAX_PHASES ||
       phaseEdges.length > CREATE_WORKFLOW_GRAPH_MAX_PHASE_EDGES);
-  truncated = truncated || phaseVocabularyDropped;
-  const emitPhases = declaredPhases !== undefined && !phaseVocabularyDropped;
-
-  const boundPhases: CreateWorkflowPhase[] = (declaredPhases ?? []).map((phase) => {
-    // 合成阶段 `unphased` 无 name（UI 本地化）；空名同样按「无名」处理而不是让整个输出
-    // 解析失败，与车道 name 同一姿态。
+  truncated = truncated || omitPhases;
+  const emitPhases = phaseTable !== undefined && !omitPhases;
+  const phases: CreateWorkflowPhase[] = (phaseTable ?? []).map((phase) => {
     const name = phase.name
       ? boundGraphText(phase.name, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS)
       : undefined;
-    // `alongside`：进入这个阶段时还在跑的其他阶段（strand 未 join）。与边同一条引用完整性
-    // 规则——指向未列出阶段的引用丢掉，自引用丢掉（自己不与自己并行），去重保序，上界同
-    // 阶段表。它**不**经过 foldEdges / reduceOrdering：这是节点事实不是边，控制没有从那里
-    // 转移过来，归约会把它当成一条 runs after 去砍掉真正的边。随词汇表同进同退是自动的
-    // ——boundPhases 整张表只在 emitPhases 为真时进载荷。
     const alongside: string[] = [];
-    const alongsideSeen = new Set<string>();
+    const seen = new Set<string>();
     for (const id of phase.alongside ?? []) {
-      if (id === phase.id || !phaseIds.has(id) || alongsideSeen.has(id)) continue;
+      if (id === phase.id || !phaseIds.has(id) || seen.has(id)) continue;
       if (alongside.length >= CREATE_WORKFLOW_GRAPH_MAX_PHASES) break;
-      alongsideSeen.add(id);
+      seen.add(id);
       alongside.push(boundGraphText(id, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS));
     }
     return {
@@ -183,12 +170,12 @@ export function boundCausalityGraph(
       ...(alongside.length === 0 ? {} : { alongside }),
     };
   });
-  const exits = (declaredPhases ?? [])
-    .filter((phase) => exitSet.has(phase.id))
+  const exits = (phaseTable ?? [])
+    .filter((phase) => exitIds.has(phase.id))
     .map((phase) => boundGraphText(phase.id, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS));
 
-  const boundLanes: CreateWorkflowLane[] = keptLanes.map((lane) => {
-    // 空 name（如 agent("")）会违反契约的 min(1)，按“无名”处理而不是让整个输出解析失败。
+  // Project source rows late, then normalize card phases against the final vocabulary.
+  projected.lanes = retainedLanes.map((lane) => {
     const name = lane.name
       ? boundGraphText(lane.name, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS)
       : undefined;
@@ -200,10 +187,8 @@ export function boundCausalityGraph(
       ...(lane.loc === undefined ? {} : { line: lane.loc.line, column: lane.loc.column }),
     };
   });
-
-  const boundSteps: CreateWorkflowStep[] = steps.map((step) => {
+  projected.steps = retainedSteps.map((step) => {
     const lanes = (step.lanes ?? []).filter((lane) => laneIds.has(lane));
-    // ask 的 label 来自脚本字面量，可能为空；契约要求 min(1)，退回 step id。
     const label = step.label
       ? boundGraphText(step.label, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS)
       : step.id;
@@ -217,38 +202,21 @@ export function boundCausalityGraph(
       column: step.loc.column,
       lane: boundGraphText(step.lane, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS),
       ...(lanes.length > 1 ? { lanes } : {}),
-      // may-set 拷贝的关联键：这里指向的站点已被拷贝替换，所以它**不**参与上面的引用完整性
-      // 收敛（那条规则管的是边与 sink 指向的节点）。字段可选，漏掉不会被 schema 抓住，只会
-      // 让实时叠加悄悄关联不上实例。
       ...(step.source === undefined
         ? {}
         : { source: boundGraphText(step.source, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS) }),
-      // 词汇表整体降级时 `phase` 必须一起消失，指向未列出阶段的 `phase` 同样消失：带着一个
-      // 不在 `phases` 里的阶段 id 的卡片是悬空引用，UI 会去查一个不存在的阶段。分析器保证
-      // 「每个 issue 的阶段都是某个 node 的阶段」，所以正常输入下这一收紧零行为变化；裁剪层
-      // 的姿态照旧是自卫而非信任生产者。
       ...(emitPhases && step.phase !== undefined && phaseIds.has(step.phase)
         ? { phase: boundGraphText(step.phase, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS) }
         : {}),
       ...(step.repeat === undefined ? {} : { repeat: step.repeat }),
     };
   });
-
-  // 卡的阶段与 step 的 `phase` 同一条规则：词汇表降级、或指向未列出的阶段 → 归入 `unphased`
-  // （契约：`participant.phase` ∈ `phases[].id`，或 `phases` 缺席时全部为 `unphased`）。卡 id
-  // 不改——它是不透明键，交接边与运行状态都按它关联；UI 的隐式模块只看 `phase` 字段。
-  const boundParticipants: CreateWorkflowParticipant[] = participants.map((participant) =>
-    emitPhases && phaseIds.has(participant.phase)
-      ? participant
-      : { ...participant, phase: UNPHASED },
+  projected.participants = projected.participants.map((card) =>
+    emitPhases && phaseIds.has(card.phase) ? card : { ...card, phase: UNPHASED },
   );
-
   return {
-    steps: boundSteps,
-    lanes: boundLanes,
-    participants: boundParticipants,
-    handoffs,
-    ...(emitPhases ? { phases: boundPhases, phaseEdges, exits } : {}),
+    ...projected,
+    ...(emitPhases ? { phases, phaseEdges, exits } : {}),
     ...(sink.length > 0 ? { sink } : {}),
     ...(truncated ? { truncated: true } : {}),
   };

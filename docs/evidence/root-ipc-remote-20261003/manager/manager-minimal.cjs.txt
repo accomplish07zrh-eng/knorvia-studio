@@ -1,0 +1,83 @@
+const fs = require('fs'), cp = require('child_process'), vm = require('vm');
+const assert = require('assert/strict'), {EventEmitter} = require('events');
+const path = require('path'), ts = require(process.cwd()+'/node_modules/typescript');
+const root = '/tmp/knorvia-root-ipc-remote-20261003';
+const main = 'packages/desktop/src/main/desktopRemoteSessions.ts';
+const channels = {};
+for (const [key,value] of Object.entries(JSON.parse(fs.readFileSync(root+'/packet/channel-data.json')))) {
+  const [group,name] = key.split('.'); (channels[group]??={})[name] = value;
+}
+const H = channels.HostMessageTypes, R = channels.HostResponseTypes;
+const tick = async()=>{for(let i=0;i<5;i++) await Promise.resolve()};
+function fixture(mode, overrides={}) {
+  let sequence=0, channelCount=0, mutateChannel;
+  const windows=new Map(), timers=new Set(), gauge=[], disconnect=[], identity=[];
+  const win={id:1,isDestroyed:()=>false,webContents:{id:77,isDestroyed:()=>false,send(){},postMessage(...args){win.deliveries.push(args)}} ,deliveries:[]};
+  windows.set(1,win);
+  const child=new EventEmitter(); child.pid=88; child.posts=[];
+  child.postMessage=(message,ports)=>child.posts.push({message,ports});
+  const child2=new EventEmitter(); child2.pid=99; child2.posts=[];
+  child2.postMessage=(message,ports)=>child2.posts.push({message,ports});
+  const win2={id:2,isDestroyed:()=>false,webContents:{id:78,isDestroyed:()=>false,send(){},postMessage(){}}}; windows.set(2,win2);
+  const createChannel=()=>{channelCount++;mutateChannel?.();return{port1:{id:'p'+channelCount+'a',close(){}},port2:{id:'p'+channelCount+'b',close(){}}}};
+  const electron={BrowserWindow:{fromId:id=>windows.get(id),getAllWindows:()=>[...windows.values()]},MessageChannelMain:class{constructor(){return createChannel()}}};
+  const shared={...channels,hostResponseMessageSchema:{safeParse:data=>data.invalid?{success:false}:{success:true,data}},buildSshRemoteHostKey:t=>t.host,buildRemoteWorkspaceIdentity:(p,t)=>{identity.push([p,t]);return 'derived:'+p}};
+  const mocks={'electron':electron,'node:crypto':{randomUUID:()=> 'uuid'+(++sequence)},'@knorvia/shared':shared};
+  const cache=new Map();
+  function load(file) {
+    if(cache.has(file)) return cache.get(file).exports;
+    let source;
+    if(mode==='baseline') {assert.equal(file,main);source=cp.execFileSync('git',['show','HEAD:'+file],{encoding:'utf8'})}
+    else if(mode==='frozen') source=fs.readFileSync(root+'/manager-draft/'+path.basename(file),'utf8');
+    else source=fs.readFileSync(file,'utf8');
+    const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+    const module={exports:{}};cache.set(file,module);
+    const requireMock=name=>{
+      if(name in mocks) return mocks[name];
+      const next=path.normalize(path.join(path.dirname(file),name)).replace(/\.js$/,'.ts');
+      if(next.startsWith('packages/desktop/src/main/desktopRemoteSessions/') && /\/(attachments|connections|controls|common|lifecycle)\.ts$/.test(next))return load(next);
+      throw Error('Unmocked dependency '+name);
+    };
+    const setTimer=(fn,ms)=>{const timer={fn,ms,unref(){}};timers.add(timer);return timer};
+    vm.runInThisContext('(function(require,module,exports,setTimeout,clearTimeout){'+js+'\n})')(requireMock,module,module.exports,setTimer,t=>timers.delete(t));
+    return module.exports;
+  }
+  const options={logger:{info(){},warn(){},error(){}},windowHostProcessMap:new Map([[77,child],[78,child2]]),resolveRemoteAssetDirs:()=>({synthetic:true}),createMessageChannel:createChannel,monotonicNowMs:()=>100,reportRemoteConnectionStateChanged:x=>gauge.push(x),reportRemoteDisconnect:x=>disconnect.push(x),...overrides};
+  const api=load(main).createRemoteWorkspaceSessionManager(options);
+  const descriptor={remoteSessionId:'s',target:{kind:'ssh',host:'synthetic'},workspacePath:'/synthetic',workspaceIdentity:'id',generation:1};
+  const post=(type,from=child)=>from.posts.filter(x=>x.message.type===type);
+  const start=(requestId='r')=>{const promise=api.createRemoteWorkspaceSession(win,descriptor.target,requestId,undefined,{remoteUsageTelemetryEligible:true});promise.catch(()=>{});return promise};
+  const connected=(requestId='r',desc=descriptor)=>child.emit('message',{type:R.RemoteWorkspaceConnected,requestId,descriptor:desc});
+  const ready=()=>{const attachment=post(H.AttachServicePort).at(-1).message;api.confirmRendererAttachmentReady(77,{sessionId:'s',attachmentId:attachment.attachmentId});return attachment};
+  return{api,win,win2,child,child2,options,descriptor,start,connected,ready,post,gauge,disconnect,identity,timers,setMutation:fn=>mutateChannel=fn,channelCount:()=>channelCount};
+}
+async function checks(mode) {
+  // Matched renderer authority and old-generation ownership until promotion.
+  let f=fixture(mode), resolved=false;const pending=f.start().then(s=>{resolved=true;return s});
+  f.connected();await tick();assert.equal(resolved,false);const first=f.post(H.AttachServicePort)[0].message;
+  f.api.confirmRendererAttachmentReady(78,{sessionId:'s',attachmentId:first.attachmentId});
+  f.api.confirmRendererAttachmentReady(77,{sessionId:'s',attachmentId:'stale'});await tick();assert.equal(resolved,false);
+  f.ready();assert.equal(await pending,'s');assert.deepEqual(f.api.getRemoteConnectionStats(),{activeSessionCount:1,activeTargetCount:1});assert.equal(f.gauge.length,1);
+  f.api.reattachRemoteWorkspaceSessionsForWindow(f.win,'synthetic reload');assert.equal(f.post(H.DetachServicePort).length,0);
+  f.ready();await tick();assert.equal(f.post(H.DetachServicePort)[0].message.attachmentId,first.attachmentId);assert.equal(f.gauge.length,1);
+  // Replayable authority gates precede channel creation; bind checks identity owner.
+  const params={windowId:1,remoteSessionId:'s',workspacePath:'/synthetic',workspaceIdentity:'id',workspaceKey:'id',clientMode:'web-remote-replayable'};
+  const count=f.channelCount();assert.throws(()=>f.api.attachRemoteWorkspaceSessionHost({...params,windowId:2}),{code:'REMOTE_SESSION_WINDOW_MISMATCH'});
+  assert.throws(()=>f.api.attachRemoteWorkspaceSessionHost({...params,workspaceKey:'foreign'}),{code:'REMOTE_WORKSPACE_IDENTITY_MISMATCH'});assert.equal(f.channelCount(),count);
+  const replay=f.api.attachRemoteWorkspaceSessionHost(params);assert.equal(replay.process,f.child);assert.equal(f.post(H.AttachServicePort).at(-1).message.clientMode,'web-remote-replayable');
+  const before=f.child.posts.length;await assert.rejects(f.api.bindRemoteWorkspaceSessionContext('s',{workspacePath:'/new'},78));assert.equal(f.child.posts.length,before);assert.equal(f.identity.length,0);
+  const binding=f.api.bindRemoteWorkspaceSessionContext('s',{workspacePath:'/new'},77);binding.catch(()=>{});assert.equal(f.child.posts[before].message.type,H.BindRemoteWorkspaceContext);assert.equal(f.child.posts[before+1].message.type,H.AttachServicePort);f.ready();await binding;
+  // Close retains offline identity; an exit cleans both matching pending and routes.
+  f.child.emit('message',{type:R.RemoteWorkspaceClosed,remoteSessionId:'s',reason:'connection-closed'});assert.deepEqual(f.api.getRemoteConnectionStats(),{activeSessionCount:0,activeTargetCount:0});
+  assert.throws(()=>f.api.attachRemoteWorkspaceSessionHost(params),{code:'REMOTE_SESSION_OFFLINE'});assert.equal(f.disconnect.length,1);
+  const unfinished=f.start('other');f.child.emit('exit');await assert.rejects(unfinished,/Host 已退出/);assert.throws(()=>f.api.attachRemoteWorkspaceSessionHost(params),{code:'REMOTE_SESSION_MISSING'});
+  // Shutdown while resolving WSL cannot create a late connection; cancellation stays scoped.
+  let resolveWsl;f=fixture(mode,{resolveWslTarget:()=>new Promise(r=>resolveWsl=r)});
+  const late=f.api.createRemoteWorkspaceSession(f.win,{kind:'wsl',distro:'fake'},'wsl');late.catch(()=>{});await f.api.disposeAllAndWaitForAppShutdown('fake');resolveWsl({kind:'wsl',distro:'fake'});await assert.rejects(late,/应用正在退出/);assert.equal(f.post(H.ConnectRemoteWorkspace).length,0);
+  f=fixture(mode);const one=f.start('one'),two=f.start('two');f.api.cancelPendingRemoteWorkspaceSessionsForWindow(77,'fake','one');assert.deepEqual(f.post(H.CancelRemoteWorkspaceConnect).map(x=>x.message.requestId),['one']);
+  f.api.disposeRemoteWorkspaceSessionsForWindow(77);await assert.rejects(one);await assert.rejects(two);f.connected('one');assert.equal(f.post(H.DisposeRemoteWorkspaceSession).length,1);
+  // READY timeout recycles only the candidate; no real timers or ports are used.
+  f=fixture(mode);const timeout=f.start();f.connected();assert.equal(f.timers.size,1);[...f.timers][0].fn();await assert.rejects(timeout,/ready 超时/);assert.equal(f.post(H.DetachServicePort).length,1);assert.equal(f.post(H.DisposeRemoteWorkspaceSession).length,1);
+}
+async function livePayload(mode){const f=fixture(mode);const promise=f.start();f.connected();f.ready();await promise;const params={windowId:1,remoteSessionId:'s',workspacePath:'/synthetic',workspaceIdentity:'id',workspaceKey:'id',clientMode:'web-remote-replayable'};f.setMutation(()=>params.workspacePath='/live-after-channel');f.api.attachRemoteWorkspaceSessionHost(params);return f.post(H.AttachServicePort).at(-1).message.scope.workspacePath;}
+(async()=>{for(const mode of ['baseline','candidate']){await checks(mode);console.log(mode+': five minimum fake-port authority/lifecycle groups pass')}const baseline=await livePayload('baseline'),frozen=await livePayload('frozen'),candidate=await livePayload('candidate');assert.equal(baseline,'/live-after-channel');assert.equal(frozen,'/synthetic');assert.equal(candidate,baseline);console.log('Frozen replayable live-read counterexample reproduced; working correction matches baseline. No actual Electron, Host, provider, file writes, credentials or network.');})().catch(error=>{console.error(error);process.exitCode=1});

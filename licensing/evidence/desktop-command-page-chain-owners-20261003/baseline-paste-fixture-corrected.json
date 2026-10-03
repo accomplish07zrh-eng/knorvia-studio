@@ -1,0 +1,19 @@
+{
+  "command": [
+    "env",
+    "KNORVIA_CHAIN_BASELINE=/tmp/knorvia-command-chain47-baseline",
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+      "sha256": "47b0d02cf4b0299e047fe81756cfc535016b3522e9ca45f2547ec039886ea9fd"
+    }
+  ],
+  "stdout": "✔ virtual paste own-realm focus, live data, selection and event authority (34.378941ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 273.446213\n",
+  "stderr": "",
+  "exitCode": 0
+}

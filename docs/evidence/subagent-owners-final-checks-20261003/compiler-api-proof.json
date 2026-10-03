@@ -1,0 +1,31 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "apiEqual": true,
+  "publicApis": {
+    "profile": {
+      "equal": true,
+      "historicalApiSha256": "cfdef38486a1513d635e80517a990fe0dd8332f5b88fc7ab3c45a549cc86ce9f",
+      "currentApiSha256": "cfdef38486a1513d635e80517a990fe0dd8332f5b88fc7ab3c45a549cc86ce9f"
+    },
+    "runner": {
+      "equal": true,
+      "historicalApiSha256": "4607bd9a1934e9fa77650d48cf2631de32aa018cf39e7bf4bb4582768d8a47ea",
+      "currentApiSha256": "4607bd9a1934e9fa77650d48cf2631de32aa018cf39e7bf4bb4582768d8a47ea"
+    }
+  },
+  "modules": [
+    "apps/cli/packages/core/src/subagent/profile.ts",
+    "apps/cli/packages/core/src/subagent/runner-artifacts.ts",
+    "apps/cli/packages/core/src/subagent/runner-background.ts",
+    "apps/cli/packages/core/src/subagent/runner-cancellation.ts",
+    "apps/cli/packages/core/src/subagent/runner-child.ts",
+    "apps/cli/packages/core/src/subagent/runner-foreground.ts",
+    "apps/cli/packages/core/src/subagent/runner-message.ts",
+    "apps/cli/packages/core/src/subagent/runner-publication.ts",
+    "apps/cli/packages/core/src/subagent/runner-state.ts",
+    "apps/cli/packages/core/src/subagent/runner-stop.ts",
+    "apps/cli/packages/core/src/subagent/runner.ts"
+  ],
+  "dependencyEmissionsWritten": 0
+}

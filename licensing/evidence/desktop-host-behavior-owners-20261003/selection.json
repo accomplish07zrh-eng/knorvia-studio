@@ -1,0 +1,13 @@
+{
+  "baselineCommit": "00ab9ef65fa988ca5dc6e654f57937b0088a889b",
+  "selected": [
+    "packages/desktop/src/host/browserControlMainBridge.ts",
+    "packages/desktop/src/host/remotePromptAttachments.ts",
+    "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts"
+  ],
+  "reason": "Digest-matched modified same-path inherited origins plus bounded receipt/history inspection; no prior whole candidate located. Reviews absence is not the sole screen. All three contain substantive lifecycle/IO-decision behavior, registry/static descriptor portions are constrained retained contract data with zero novelty/credit.",
+  "scope": "Only three explicitly reserved host owners, synthetic tests/spec/evidence. Main/UI/large host index and accepted adjacent owners untouched.",
+  "architecture": "desktop unmanaged/unassigned; no policy changes",
+  "authoring": "Three user-authorized fresh Sol/high fork-none internal authors; source-exposed curator; whole raw drafts only, no predecessor private bodies supplied; instruction-limited shared filesystem",
+  "credit": 0
+}

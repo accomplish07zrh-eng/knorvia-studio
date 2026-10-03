@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Read-only original publisher license-material evidence for root review; no final legal, authorship, distribution, or license-grant conclusion",
+  "package": "keyv@4.5.4",
+  "collectedAtUtc": "2026-10-01T10:20:43.509414+00:00",
+  "officialNpm": {
+    "versionUrl": "https://registry.npmjs.org/keyv/4.5.4",
+    "packumentUrl": "https://registry.npmjs.org/keyv",
+    "publishedAt": "2023-10-07T16:53:54.487Z",
+    "metadataSha256": "1859a5b5c544a75228f46af65da4c530ef71439e5a2bb581763b484233ecdd6e",
+    "tarballUrl": "https://registry.npmjs.org/keyv/-/keyv-4.5.4.tgz",
+    "tarballBytes": 8620,
+    "tarballSha256": "eb26f1c561e57af4a4365e6b54f5f3e745e3963747a93845af1f000a747b6098",
+    "sha1MatchesDistShasum": true,
+    "sha512MatchesDistIntegrity": true,
+    "distShasum": "a879a99e29452f942439f2a405e3af8b31d4de93",
+    "distIntegrity": "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==",
+    "gitHead": null,
+    "regularFiles": [
+      "package/package.json",
+      "package/README.md",
+      "package/src/index.js",
+      "package/src/index.d.ts"
+    ],
+    "fullLicenseInNpmTarball": false
+  },
+  "publisherRepository": {
+    "url": "https://github.com/jaredwray/keyv",
+    "commit": "e4d608eccdfc094b80f6e9545c5307ee0810af72",
+    "commitUrl": "https://github.com/jaredwray/keyv/commit/e4d608eccdfc094b80f6e9545c5307ee0810af72",
+    "commitApi": "https://api.github.com/repos/jaredwray/keyv/commits/e4d608eccdfc094b80f6e9545c5307ee0810af72",
+    "gitCommitApi": "https://api.github.com/repos/jaredwray/keyv/git/commits/e4d608eccdfc094b80f6e9545c5307ee0810af72",
+    "commitMessage": "keyv - version bump to v4.5.4",
+    "committerDate": "2023-10-07T16:54:07Z",
+    "tree": "553d39347f96df02b2b7f7e25a358de4517d9356",
+    "recursiveTreeApi": "https://api.github.com/repos/jaredwray/keyv/git/trees/e4d608eccdfc094b80f6e9545c5307ee0810af72?recursive=1",
+    "recursiveTreeTruncated": false,
+    "rootTreeSha1ReconstructedFromEntriesMatchesCommitTree": true,
+    "allSubtreeHashesReconstructedAndMatched": 68,
+    "commitSigned": false,
+    "noCurrentExposedTagMatching454": true,
+    "fullOriginalNotice": {
+      "path": "LICENSE",
+      "bytes": 1108,
+      "sha256": "1f7dca26d2d328c3dbb9b6fe3b15ec3cda08ffe2288e47b73d617454b256f959",
+      "gitBlob": "a6bad1d22eee07f080af7cfd70e9958d556d9303",
+      "rawSource": "https://raw.githubusercontent.com/jaredwray/keyv/e4d608eccdfc094b80f6e9545c5307ee0810af72/LICENSE"
+    },
+    "noticePublisherCopyrightLines": [
+      "Copyright (c) 2017-2021 Luke Childs",
+      "Copyright (c) 2021-2022 Jared Wray"
+    ],
+    "licenseApiBlobDecodedMatchesRawSource": true
+  },
+  "sourceVersionBinding": {
+    "basis": "The publisher commit explicitly changes the package version to 4.5.4. All four regular files present in the integrity-verified npm tarball match packages/keyv source files at that immutable commit byte-for-byte, including package.json. The repository root full original LICENSE is in the same verified source tree; packages/keyv has no separate LICENSE override. This empirically binds package contents to source bytes; it does not claim an npm-provided gitHead, signed release attestation, or final legal conclusion.",
+    "allPublishedFileComparisons": [
+      {
+        "tarMember": "package/package.json",
+        "publisherSourcePath": "packages/keyv/package.json",
+        "exactBytesMatch": true,
+        "bytes": 1297,
+        "sha256": "e8afd30f2f2a40ef5023928b50fdaed3a3338aa7e1c4e86205413afb05e8a099",
+        "gitBlob": "a830461131e125429eff465235f2de04e33219aa"
+      },
+      {
+        "tarMember": "package/README.md",
+        "publisherSourcePath": "packages/keyv/README.md",
+        "exactBytesMatch": true,
+        "bytes": 15631,
+        "sha256": "c39e1b3f735bb9302eb3cbd84aeb48c4311db64381f9e0a1aa4a61ddf59ce890",
+        "gitBlob": "294a30efb22c3c35cfa87b5b3a8de7ab629a967e"
+      },
+      {
+        "tarMember": "package/src/index.js",
+        "publisherSourcePath": "packages/keyv/src/index.js",
+        "exactBytesMatch": true,
+        "bytes": 6603,
+        "sha256": "4987708b4b13159c654c09d239bd0c439533b0b792a6fd4e8769d8a509ad4da6",
+        "gitBlob": "ac539bd981fc3a008662d38e3b820db4b8f6a240"
+      },
+      {
+        "tarMember": "package/src/index.d.ts",
+        "publisherSourcePath": "packages/keyv/src/index.d.ts",
+        "exactBytesMatch": true,
+        "bytes": 4220,
+        "sha256": "42baf4ca38c38deaf411ea73f37bc39ff56c6e5c761a968b64ac1b25c92b5cd8",
+        "gitBlob": "77d81ca506f050baa1978ee2a784f46b6393f87f"
+      }
+    ]
+  },
+  "rootReview": {
+    "archiveIntegrityVerified": true,
+    "allFourPublishedSourceFilesVerified": true,
+    "gitTreesReconstructed": 69,
+    "noticeFetchedIndependentlyViaGitHubConnector": true,
+    "originalNoticeRetainedPath": "third-party/upstream/1f7dca26d2d328c3dbb9b6fe3b15ec3cda08ffe2288e47b73d617454b256f959.txt",
+    "status": "Original version-specific publisher material acquired; only keyv incomplete-material obligation closed. Whole-project licensing remains unresolved.",
+    "historicalNoticePreserved": true,
+    "dataTransaction": {
+      "baseCommit": "0dc764eb7f3e4fb5c71a84d29a05f69043630744",
+      "priorNoticeBlocksPreserved": 928,
+      "noticeBlocksAfter": 929,
+      "materialObligationsBefore": 27,
+      "materialObligationsAfter": 26,
+      "strictCompleteMaterialGateStillRejects": true,
+      "focusedAuditAndHistoryTests": 34,
+      "initialTestCommandMissingModuleMocksFlag": true,
+      "generatorPreview": {
+        "acquisitionCommit": "d109b321905186f79c82bf8a8f2c62a9027a2a70",
+        "auditPassed": true,
+        "all929NoticeBlocksAndReferencesPreserved": true,
+        "packages": 1201,
+        "keyvNotices": 3,
+        "keyvCoverage": "retained-prior-declaration",
+        "keyvCurrentProduction": false,
+        "remainingObligations": 26,
+        "previewNotInstalledIntoRoot": true
+      }
+    },
+    "independentTransactionReview": {
+      "priorNoticeBlocksPreserved": 928,
+      "totalBlocks": 929,
+      "packagesRetained": 1201,
+      "unrelatedOverridesUnchanged": 62,
+      "testsPassed": 41,
+      "receiptSha256": "74b91031b40e9248aa769e487bf0a149caef57ce0c00108af7200721513da304"
+    }
+  },
+  "preAcquisitionReviewContext": {
+    "currentProductionGraph": false,
+    "scope": "development and retained historical obligations",
+    "retainedSyntheticNotice": "third-party/upstream/6f7e6eae2a2afbaa67b266650f7342e7bf8e82cb57f6ab98148b3d6e0fb4450a.txt",
+    "existingRetainedSha256": "6f7e6eae2a2afbaa67b266650f7342e7bf8e82cb57f6ab98148b3d6e0fb4450a",
+    "syntheticNoticeDiffersFromOriginal": "Retained standard text states only Jared Wray without publisher year ranges; exact publisher source LICENSE contains both Luke Childs and Jared Wray and must not be silently reconstructed or substituted for historical bytes",
+    "reviewOpen": true,
+    "asOfCommit": "0dc764eb7f3e4fb5c71a84d29a05f69043630744"
+  }
+}

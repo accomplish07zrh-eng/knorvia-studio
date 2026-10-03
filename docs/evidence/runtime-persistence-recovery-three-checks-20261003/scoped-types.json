@@ -1,0 +1,84 @@
+{
+  "typescript": "6.0.2",
+  "mode": "scoped five source modules;immutable historical and actual emitted API",
+  "diagnostics": [],
+  "api": [
+    {
+      "owner": "bash-shell-snapshot",
+      "before": {
+        "BashShellSnapshotRestore": "any",
+        "persistBashShellSelectionSnapshot": [
+          "(options: { logger?: Logger | undefined; selection: ExecutionShellSelection | undefined; sessionId: SessionId; sessionStore: SessionStorePort | undefined; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "readPersistedBashShellSelectionSnapshot": [
+          "(options: { logger?: Logger | undefined; sessionId: SessionId; sessionStore: SessionStorePort | undefined; traceContext: TraceContext; }): Promise<BashShellSnapshotRestore>"
+        ],
+        "resolveBashShellSnapshotForResume": [
+          "(options: { currentSelection: ExecutionShellSelection | undefined; logger?: Logger | undefined; restore: BashShellSnapshotRestore; traceContext: TraceContext; }): BashShellSnapshotRestore"
+        ]
+      },
+      "after": {
+        "BashShellSnapshotRestore": "any",
+        "persistBashShellSelectionSnapshot": [
+          "(options: { logger?: Logger | undefined; selection: ExecutionShellSelection | undefined; sessionId: SessionId; sessionStore: SessionStorePort | undefined; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "readPersistedBashShellSelectionSnapshot": [
+          "(options: { logger?: Logger | undefined; sessionId: SessionId; sessionStore: SessionStorePort | undefined; traceContext: TraceContext; }): Promise<BashShellSnapshotRestore>"
+        ],
+        "resolveBashShellSnapshotForResume": [
+          "(options: { currentSelection: ExecutionShellSelection | undefined; logger?: Logger | undefined; restore: BashShellSnapshotRestore; traceContext: TraceContext; }): BashShellSnapshotRestore"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "persisted-remote-session-path-repair",
+      "before": {
+        "repairPersistedRemoteSessionPaths": [
+          "(sessionStore: RemoteSessionPathRepairStore, session: SessionInfo, options?: { onPersistenceFailure?: ((error: unknown) => void) | undefined; } | undefined): Promise<SessionInfo>"
+        ]
+      },
+      "after": {
+        "repairPersistedRemoteSessionPaths": [
+          "(sessionStore: RemoteSessionPathRepairStore, session: SessionInfo, options?: { onPersistenceFailure?: ((error: unknown) => void) | undefined; } | undefined): Promise<SessionInfo>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "file-rewind",
+      "before": {
+        "applyWorkspaceFileRewind": [
+          "(this: AgentRuntimeInternal, options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; commitAfterApply?: (() => Promise<void>) | undefined; } | undefined): Promise<WorkspaceFileRewindApplyResult>"
+        ],
+        "previewWorkspaceFileRewind": [
+          "(this: AgentRuntimeInternal, options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceFileRewindPreview>"
+        ]
+      },
+      "after": {
+        "applyWorkspaceFileRewind": [
+          "(this: AgentRuntimeInternal, options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; commitAfterApply?: (() => Promise<void>) | undefined; } | undefined): Promise<WorkspaceFileRewindApplyResult>"
+        ],
+        "previewWorkspaceFileRewind": [
+          "(this: AgentRuntimeInternal, options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceFileRewindPreview>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    }
+  ],
+  "emitted": [
+    "dist/runtime/methods/bash-shell-snapshot.js",
+    "dist/runtime/methods/bash-shell-snapshot.d.ts",
+    "dist/runtime/helpers/persisted-remote-session-path-repair.js",
+    "dist/runtime/helpers/persisted-remote-session-path-repair.d.ts",
+    "dist/runtime/methods/file-rewind-storage.js",
+    "dist/runtime/methods/file-rewind-storage.d.ts",
+    "dist/runtime/methods/file-rewind-planning.js",
+    "dist/runtime/methods/file-rewind-planning.d.ts",
+    "dist/runtime/methods/file-rewind.js",
+    "dist/runtime/methods/file-rewind.d.ts"
+  ]
+}

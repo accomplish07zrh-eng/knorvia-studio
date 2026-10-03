@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/media-owner-compatibility/owners.test.mjs",
+    "--only=PDF"
+  ],
+  "stdout": "✔ PDF ownership preserves failed-probe retry, successful cache, authority and sorted concurrent bytes (14.541311ms)\n✔ PDF cleanup preserves primary error identity and classifies cleanup and read cancellation (5.622705ms)\n✔ PDF temporal options preserve signal replacement across availability and temp admission (6.881609ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 30.809461\n",
+  "stderr": "",
+  "exitCode": 0
+}

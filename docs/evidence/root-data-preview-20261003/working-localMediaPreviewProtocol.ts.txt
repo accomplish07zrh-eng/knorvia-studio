@@ -1,0 +1,96 @@
+import { buildLocalMediaPreviewUrl } from "@knorvia/shared";
+interface LocalMediaPreviewSchemeRegistrar {
+    registerSchemesAsPrivileged(schemes: Array<{
+        scheme: string;
+        privileges: {
+            standard: boolean;
+            secure: boolean;
+            stream: boolean;
+        };
+    }>): void;
+}
+interface LocalMediaPreviewProtocolRequest {
+    url: string;
+}
+type LocalMediaPreviewProtocolResponse = string | {
+    error: number;
+};
+interface LocalMediaPreviewProtocol {
+    registerFileProtocol(scheme: string, handler: (request: LocalMediaPreviewProtocolRequest, callback: (response: LocalMediaPreviewProtocolResponse) => void) => void): boolean;
+}
+interface LocalMediaPreviewPathRegistry {
+    authorize(path: string): Promise<string>;
+    isAuthorized(path: string): boolean;
+    clear(): void;
+}
+
+import { realpath as fsRealpath } from 'node:fs/promises';
+import { realpathSync as fsRealpathSync, statSync as fsStatSync } from 'node:fs';
+import { isAbsolute } from 'node:path';
+import { LOCAL_MEDIA_PREVIEW_SCHEME } from '@knorvia/shared';
+export { buildLocalMediaPreviewUrl };
+
+const installed = new WeakSet<LocalMediaPreviewProtocol>();
+export function createLocalMediaPreviewPathRegistry(dependencies: {
+  isAbsolutePath?: (path: string) => boolean;
+  realpath?: (path: string) => Promise<string>;
+  realpathSync?: (path: string) => string;
+  isRegularFileSync?: (path: string) => boolean;
+  now?: () => number;
+  ttlMs?: number;
+  maxEntries?: number;
+} = {}): LocalMediaPreviewPathRegistry {
+  const absolute = dependencies.isAbsolutePath ?? isAbsolute;
+  const resolve = dependencies.realpath ?? fsRealpath;
+  const resolveSync = dependencies.realpathSync ?? fsRealpathSync;
+  const regular = dependencies.isRegularFileSync ?? ((path: string) => fsStatSync(path).isFile());
+  const now = dependencies.now ?? Date.now;
+  const ttlMs = dependencies.ttlMs ?? 1800000;
+  const capacity = dependencies.maxEntries ?? 256;
+  const entries = new Map<string, { canonicalPath: string; expiresAt: number; lastUsedAt: number }>();
+  const prune = (at: number) => { for (const [path, entry] of entries) if (entry.expiresAt <= at) entries.delete(path); };
+  const evict = () => {
+    while (entries.size > capacity) {
+      let selected: string | undefined; let oldest = Infinity;
+      for (const [path, entry] of entries) if (entry.lastUsedAt < oldest) { selected = path; oldest = entry.lastUsedAt; }
+      if (!selected) break;
+      entries.delete(selected);
+    }
+  };
+  return {
+    async authorize(path) {
+      if (!absolute(path)) throw new Error('Local media preview path must be absolute');
+      const canonicalPath = await resolve(path);
+      const at = now(); prune(at);
+      entries.set(canonicalPath, { canonicalPath, expiresAt: at + ttlMs, lastUsedAt: at });
+      evict(); return canonicalPath;
+    },
+    isAuthorized(path) {
+      const at = now(); prune(at);
+      const entry = entries.get(path);
+      if (!entry) return false;
+      try {
+        if (resolveSync(path) !== entry.canonicalPath || !regular(path)) { entries.delete(path); return false; }
+      } catch { entries.delete(path); return false; }
+      entry.lastUsedAt = at;
+      return true;
+    },
+    clear() { entries.clear(); },
+  };
+}
+export function registerLocalMediaPreviewScheme(protocol: LocalMediaPreviewSchemeRegistrar): void {
+  protocol.registerSchemesAsPrivileged([{ scheme: LOCAL_MEDIA_PREVIEW_SCHEME, privileges: { standard: true, secure: true, stream: true } }]);
+}
+export function installLocalMediaPreviewProtocol(protocol: LocalMediaPreviewProtocol, options: { isPathAuthorized: (path: string) => boolean }): void {
+  if (installed.has(protocol)) return;
+  const success = protocol.registerFileProtocol(LOCAL_MEDIA_PREVIEW_SCHEME, (request, callback) => {
+    try {
+      const url = new URL(request.url);
+      const path = url.searchParams.get('path') ?? '';
+      if (url.hostname !== 'local' || url.pathname !== '/preview' || !options.isPathAuthorized(path)) { callback({ error: -300 }); return; }
+      callback(path);
+    } catch { callback({ error: -300 }); }
+  });
+  if (!success) throw new Error('Failed to register local media preview protocol');
+  installed.add(protocol);
+}

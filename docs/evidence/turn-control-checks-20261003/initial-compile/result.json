@@ -1,0 +1,8 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": 0,
+  "publicApiEqual": true,
+  "sourceSHA256": "24ea43e40fc04737ea513410a8a3880114aa22189f481873a272d0188d6e4594",
+  "compiledSHA256": "e9953af06b1522096184dcf4f4e1142b9838af8dcba968e9859f514cb9f578b3",
+  "declarationSHA256": "0b19b7fe423e7d27a5c8b346b7dba8ee11a20e8330055696d5bdb22324610b03"
+}

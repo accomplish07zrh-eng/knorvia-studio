@@ -1,0 +1,6 @@
+{
+  "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/corrected-background-task-controls.ts",
+  "authorOutput": "/tmp/knorvia-shared-background-next-authored/background-task-controls.ts",
+  "sha256": "ec856486ef3e9691096d5ca4781053cf9627d6b2d6a2550fbccc1890040120de",
+  "access": "Whole heredoc overwrite then sha256sum only; no additional file reads/tests/format/repo edits"
+}

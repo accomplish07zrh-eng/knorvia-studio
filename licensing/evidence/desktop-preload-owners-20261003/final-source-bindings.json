@@ -1,0 +1,29 @@
+[
+  {
+    "owner": "index",
+    "path": "packages/desktop/src/preload/index.ts",
+    "sourceSha256": "3f05bcb37e21f198fa62779318bb99a03041d116be2b8724c402579e80fda002",
+    "selectedWholeDraft": "licensing/evidence/desktop-preload-owners-20261003/drafts/index-correction-2.ts.txt",
+    "rawSha256": "2d15fee4fe6e5a6fcb8ca6e2460f7434d90b761dc77a623ac186240aa00fa7ea",
+    "formattedFrozenSha256": "3f05bcb37e21f198fa62779318bb99a03041d116be2b8724c402579e80fda002",
+    "wholeDraftPlusFormattingOnly": true
+  },
+  {
+    "owner": "wheel",
+    "path": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+    "sourceSha256": "be0a054b2fbafb670f95510669edc6ae64c6d57ec8a222d167617dff934fc173",
+    "selectedWholeDraft": "licensing/evidence/desktop-preload-owners-20261003/drafts/wheel-correction-1.ts.txt",
+    "rawSha256": "91c6f8b58e9b41611a586848eadd3023b25ed803c01fe4ad21e4af1dc9a10725",
+    "formattedFrozenSha256": "be0a054b2fbafb670f95510669edc6ae64c6d57ec8a222d167617dff934fc173",
+    "wholeDraftPlusFormattingOnly": true
+  },
+  {
+    "owner": "dialog",
+    "path": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+    "sourceSha256": "c526a948cc0b9e6791ee1d0022c4467e7a7eedbe681162bd7cc52ab89aa84967",
+    "selectedWholeDraft": "licensing/evidence/desktop-preload-owners-20261003/drafts/dialog-correction-1.ts.txt",
+    "rawSha256": "6df32c26a2934acd922ed8671880b72793eb2f3a126624432383478079bccb1d",
+    "formattedFrozenSha256": "c526a948cc0b9e6791ee1d0022c4467e7a7eedbe681162bd7cc52ab89aa84967",
+    "wholeDraftPlusFormattingOnly": true
+  }
+]

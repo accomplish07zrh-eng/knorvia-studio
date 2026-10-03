@@ -1,0 +1,34 @@
+[
+  {
+    "owner": "factory",
+    "source": "apps/cli/packages/adapters/src/config/config-factory.ts",
+    "baselineSha256": "409aa5fbee387cdb0688972d4d6fba61029e5c88ce05a49bbf3789d924c285b6",
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/factory-author-packet.md",
+    "packetSha256": "7e6b6e507eb3c5524e219d6fdb76edca6caab97e14923cddfebe417666d9d9b6",
+    "output": "/tmp/knorvia-cli-config-factory-author.ts"
+  },
+  {
+    "owner": "merger",
+    "source": "apps/cli/packages/adapters/src/config/config-merger.ts",
+    "baselineSha256": "131b0f5102d3846730494db5f944b0cffc5a8ee50d08b10bd0bfd8f395486b7f",
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/merger-author-packet.md",
+    "packetSha256": "ac527a7dfc2a50d01666fe27a0319c7b310bf02df8b2e2b24d6a676a6a37fbcb",
+    "output": "/tmp/knorvia-cli-config-merger-author.ts"
+  },
+  {
+    "owner": "file",
+    "source": "apps/cli/packages/adapters/src/config/file-config.adapter.ts",
+    "baselineSha256": "797cbdd814cbb139bb7dfe6bb4cf98b468209e55c41d3b687be0fb5d0c828b6e",
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/file-author-packet.md",
+    "packetSha256": "9dc2f34aec05ac0505d92e58821ceb1ac68b225b8ae408da3ca8c8b8a3417109",
+    "output": "/tmp/knorvia-cli-config-file-author.ts"
+  },
+  {
+    "owner": "project",
+    "source": "apps/cli/packages/adapters/src/config/project-config.adapter.ts",
+    "baselineSha256": "147a337f000012cb6c092dddcd69edcddb8324e267559b8cd6b0b73134aac7d6",
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/project-author-packet.md",
+    "packetSha256": "4b848de30ed721f9ab09329e746e5cc9b0945ca66449e1215a135ac6d5ffe3c0",
+    "output": "/tmp/knorvia-cli-config-project-author.ts"
+  }
+]

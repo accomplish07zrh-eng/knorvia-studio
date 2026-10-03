@@ -1,0 +1,14 @@
+const fs=require('fs'),crypto=require('crypto'),assert=require('assert/strict'),ts=require('/workspace/knorvia-studio/node_modules/typescript');
+const printer=ts.createPrinter({removeComments:true});
+function fingerprint(file){
+ const sf=ts.createSourceFile(file,fs.readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true);
+ const printed=printer.printFile(sf),scanner=ts.createScanner(ts.ScriptTarget.Latest,true,ts.LanguageVariant.Standard,printed),tokens=[];
+ for(let kind=scanner.scan();kind!==ts.SyntaxKind.EndOfFileToken;kind=scanner.scan()){
+  const value=kind===ts.SyntaxKind.StringLiteral||kind===ts.SyntaxKind.NoSubstitutionTemplateLiteral?scanner.getTokenValue():kind===ts.SyntaxKind.NumericLiteral?String(Number(scanner.getTokenText().replaceAll('_',''))):scanner.getTokenText();
+  tokens.push([kind,value]);
+ }
+ return crypto.createHash('sha256').update(JSON.stringify(tokens)).digest('hex');
+}
+const before=fingerprint('/tmp/knorvia-preload-index-correction-1.ts'),after=fingerprint('/tmp/knorvia-preload-index-correction-2.ts');
+assert.equal(after,before,'Whole correction changed tokens beyond comments/format');
+console.log(JSON.stringify({before,after,identical:true,comparison:'Full TypeScript AST printer/token stream, comments/format/quote/numeric separator normalization; identifiers/types/order/control flow preserved; parse/hash only, no build/import/execution',runtimeRerunRequired:false}));

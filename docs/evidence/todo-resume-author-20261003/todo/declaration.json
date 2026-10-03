@@ -1,0 +1,262 @@
+{
+  "todoReadToolEntry": {
+    "capability": "Read the current session todo list without modifying external state",
+    "metadata": {
+      "name": "TodoRead",
+      "description": "Read the current session todo list",
+      "readOnly": true,
+      "destructive": false,
+      "concurrentSafe": true,
+      "timeoutMs": 30000,
+      "maxOutputBytes": 100000,
+      "sideEffectScope": "none",
+      "riskLevel": "low",
+      "needsApproval": false
+    },
+    "handler": "<native async handler>",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Brief description of the task"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pending", "in_progress", "completed"],
+                "description": "Current status of the task"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["high", "medium", "low"],
+                "description": "Priority level of the task"
+              }
+            },
+            "required": ["content", "status", "priority"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["todos"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "runtimeInputSchema": "TodoReadInputSchema",
+    "runtimeOutputSchema": "TodoReadOutputSchema",
+    "permission": {
+      "permission": "todo.read",
+      "reason": "TodoRead only reads session-local task state",
+      "riskLevel": "low",
+      "sideEffectScope": "none",
+      "needsApproval": false,
+      "patternSources": ["toolName"],
+      "alwaysAllowPatternSources": ["toolName"],
+      "denyPriority": "beforeAsk"
+    },
+    "resultBudget": {
+      "maxInlineBytes": 100000,
+      "maxModelBytes": 100000,
+      "strategy": "truncate",
+      "preview": {
+        "maxBytes": 100000,
+        "direction": "head"
+      }
+    },
+    "timeout": {
+      "defaultMs": 30000,
+      "maxMs": 30000,
+      "allowCallOverride": false
+    },
+    "cancellation": {
+      "supported": true,
+      "cleanup": "none",
+      "userVisibleMessage": "TodoRead was cancelled before todo state was returned"
+    },
+    "trace": {
+      "required": true,
+      "propagateToAdapters": false,
+      "recordInput": "summary",
+      "recordOutput": "summary"
+    }
+  },
+  "todoWriteToolEntry": {
+    "capability": "Replace the current session todo list to track multi-step task progress and resume state",
+    "metadata": {
+      "name": "TodoWrite",
+      "description": "Create and update a task list for the current session. The list is rendered to the user as your working plan.\n\n- Each todo has `content`, `status` (\"pending\" | \"in_progress\" | \"completed\"), and `priority` (\"high\" | \"medium\" | \"low\").\n- Send the full list each call; it replaces the previous one.\n- Keep one item `in_progress` at a time and mark it `completed` when done.",
+      "readOnly": true,
+      "destructive": false,
+      "concurrentSafe": false,
+      "timeoutMs": 30000,
+      "maxOutputBytes": 100000,
+      "sideEffectScope": "session",
+      "riskLevel": "low",
+      "needsApproval": false
+    },
+    "handler": "<native async handler>",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Brief description of the task"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pending", "in_progress", "completed"],
+                "description": "Current status of the task"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["high", "medium", "low"],
+                "description": "Priority level of the task"
+              }
+            },
+            "required": ["content", "status", "priority"],
+            "additionalProperties": false
+          },
+          "description": "The complete updated todo list. At most one item may be in_progress at a time."
+        }
+      },
+      "required": ["todos"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "oldTodos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Brief description of the task"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pending", "in_progress", "completed"],
+                "description": "Current status of the task"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["high", "medium", "low"],
+                "description": "Priority level of the task"
+              }
+            },
+            "required": ["content", "status", "priority"],
+            "additionalProperties": false
+          }
+        },
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Brief description of the task"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pending", "in_progress", "completed"],
+                "description": "Current status of the task"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["high", "medium", "low"],
+                "description": "Priority level of the task"
+              }
+            },
+            "required": ["content", "status", "priority"],
+            "additionalProperties": false
+          }
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pending": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "inProgress": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "completed": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": ["total", "pending", "inProgress", "completed"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["oldTodos", "todos", "summary"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "runtimeInputSchema": "TodoWriteInputSchema",
+    "runtimeOutputSchema": "TodoWriteOutputSchema",
+    "permission": {
+      "permission": "todo.write",
+      "reason": "TodoWrite only updates session-local task state for progress tracking",
+      "riskLevel": "low",
+      "sideEffectScope": "session",
+      "needsApproval": false,
+      "patternSources": ["toolName", "input"],
+      "alwaysAllowPatternSources": ["toolName"],
+      "denyPriority": "beforeAsk"
+    },
+    "resultBudget": {
+      "maxInlineBytes": 100000,
+      "maxModelBytes": 100000,
+      "strategy": "truncate",
+      "preview": {
+        "maxBytes": 100000,
+        "direction": "head"
+      }
+    },
+    "timeout": {
+      "defaultMs": 30000,
+      "maxMs": 30000,
+      "allowCallOverride": false
+    },
+    "cancellation": {
+      "supported": true,
+      "cleanup": "none",
+      "userVisibleMessage": "TodoWrite was cancelled before todo state was updated"
+    },
+    "trace": {
+      "required": true,
+      "propagateToAdapters": false,
+      "recordInput": "summary",
+      "recordOutput": "summary"
+    }
+  }
+}

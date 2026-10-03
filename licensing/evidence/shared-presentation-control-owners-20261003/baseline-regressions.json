@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^(background control|workflow activity)",
+    "packages/shared/test/shared-presentation-control-boundaries.test.mjs",
+    "/tmp/knorvia-shared-presentation-control-baseline"
+  ],
+  "stdout": "\u2714 background control validates aliases and keeps cancel task identity without executing (12.117762ms)\n\u2714 workflow activity bounds snapshot projection and validates summary fields through fake ports (13.166401ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 30.142656\n",
+  "stderr": "",
+  "exitCode": 0
+}

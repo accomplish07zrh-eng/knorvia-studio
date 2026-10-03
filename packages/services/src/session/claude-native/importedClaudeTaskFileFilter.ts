@@ -1,3 +1,7 @@
+// Modified by Knorvia Studio: see packages/services/specs/claude-leaf-contract-fast-2057.md.
+// Prior upstream source exposure; existing Apache-2.0/NOTICE obligations remain.
+import { isObjectRecord } from "#src/session/claude-native/jsonLineRecord.js";
+
 const ARRAY_WILDCARD_SUFFIX = "[]";
 
 export const DEFAULT_IMPORTED_CLAUDE_TASK_FILTER_PATHS = [
@@ -7,50 +11,31 @@ export const DEFAULT_IMPORTED_CLAUDE_TASK_FILTER_PATHS = [
   "messages[].model",
 ] as const;
 
-type MutableJsonObject = Record<string, unknown>;
-
-function isMutableJsonObject(value: unknown): value is MutableJsonObject {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function deletePath(value: unknown, segments: readonly string[]): void {
-  if (segments.length === 0) {
-    return;
-  }
-
-  const [segment, ...rest] = segments;
-  if (!segment) {
-    return;
-  }
+function removeSelectedField(value: unknown, segments: readonly string[], offset: number): void {
+  const segment = segments[offset];
+  if (!segment || !isObjectRecord(value)) return;
 
   if (segment.endsWith(ARRAY_WILDCARD_SUFFIX)) {
     const key = segment.slice(0, -ARRAY_WILDCARD_SUFFIX.length);
-    if (!isMutableJsonObject(value) || !Array.isArray(value[key])) {
-      return;
-    }
-
-    for (const item of value[key]) {
-      deletePath(item, rest);
+    if (Array.isArray(value[key])) {
+      for (const item of value[key]) {
+        removeSelectedField(item, segments, offset + 1);
+      }
     }
     return;
   }
 
-  if (!isMutableJsonObject(value)) {
-    return;
-  }
-
-  if (rest.length === 0) {
+  if (offset + 1 === segments.length) {
     delete value[segment];
-    return;
+  } else {
+    removeSelectedField(value[segment], segments, offset + 1);
   }
-
-  deletePath(value[segment], rest);
 }
 
 export function filterImportedClaudeTaskFilePaths<T>(input: T, filterPaths: readonly string[]): T {
   const cloned = structuredClone(input) as T;
   for (const path of filterPaths) {
-    deletePath(cloned, path.split("."));
+    removeSelectedField(cloned, path.split("."), 0);
   }
   return cloned;
 }

@@ -1,0 +1,43 @@
+{
+  "checkpoint": "b317bc1380f0cc6db57e12611924f043b12d92ff",
+  "selected": {
+    "path": "packages/services/src/agent/agentStderrCollector.ts",
+    "sha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+    "inventory": {
+      "path": "packages/services/src/agent/agentStderrCollector.ts",
+      "kind": "file",
+      "sha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+      "normalizedSha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+      "encoding": "utf8-lf",
+      "bytes": 1611,
+      "classification": "upstream-unchanged",
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/services/src/zcode-agent/agentStderrCollector.ts",
+        "blob": "2c164e8b7ab8f78b6e60efce49c9ab9e73e9bca0",
+        "normalizedSha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+        "contentMatchedPaths": ["packages/services/src/zcode-agent/agentStderrCollector.ts"]
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    "upstreamBlobCheck": {
+      "exit": 0,
+      "stderr": "",
+      "bytes": 1611,
+      "normalizedCompleteShaMatchesCurrent": true
+    },
+    "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n"
+  },
+  "boundedReceiptSearch": "Exact filename/current hash/class owner in licensing reviews/evidence and services docs/spec/scoped complete receipts. Previous stdio/event receipt retains this source as dependency and not allocated/reconstructed; no accepted complete stderr owner receipt or conflicting lane ownership found. Not inferring inheritance from missing receipt: current upstream-unchanged binding and full upstream normalized SHA evidence govern.",
+  "excludedSecondSlot": {
+    "rootHolds": "commitMessageFileScope, startup/task-storage preparation boundary, unchanged schema/static migration data; no authoring or accepted-parent substitution",
+    "otherLanesOrAuthority": "storage/device/desktop/server/transport internals; credential cipher/store, helper/windows hosts/permission installation, CA/proxy environment/runtime launch authority",
+    "alreadySubmitted": "All exact current authored sources/receipts remain excluded, notably hooks/commands/broadcast/onboarding/skills/sync/attachment/collection/CUA/process/Git/files/session owners",
+    "pureRetained": "Interface descriptors/accessor/sessionRealtimePort/sessionMailbox/runtimeProcessLifecycle/processTreeTypes and forwarding memoryDiagnostics/usage/plugins; fixed plugin path, runtime target maps/entry-resolution/env-projection/security policy helpers have no selected full mutable lifecycle",
+    "uncertain": "Unreviewed or current hash not matching inherited ledger is not treated inherited; protocol-client provisional origin remains held"
+  },
+  "qualification": "One substantive complete owner selected out of maximum two; current origin evidence does not close upstream copyright/rights or grant MIT/cleanroom/final acceptance. No broader candidate is forced."
+}

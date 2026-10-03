@@ -1,0 +1,224 @@
+{
+  "acceptedPredecessor": "d98db9a5178af6b6f0fb48c8814c27befa09cef7",
+  "selected": [
+    {
+      "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+      "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+      "bytes": 4628,
+      "lines": 133,
+      "records": [
+        {
+          "file": "packages/services/src/memory/AGENTS-AUTHOR-RECEIPTS-20261002.json",
+          "location": "$.originals[10]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+            "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+            "blob": "4aa1bbbe49c383a4e35661956bf657768bd07ec6"
+          }
+        },
+        {
+          "file": "packages/services/src/memory/AGENTS-AUTHOR-RECEIPTS-20261002.json",
+          "location": "$.retainedVerified[5]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+            "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+            "blob": "4aa1bbbe49c383a4e35661956bf657768bd07ec6"
+          }
+        },
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4880]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+            "kind": "file",
+            "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+            "normalizedSha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+            "encoding": "utf8-lf",
+            "bytes": 4628,
+            "classification": "unreviewed",
+            "upstream": null,
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        },
+        {
+          "file": "licensing/evidence/repository-migration-scope-20260930.json",
+          "location": "$.files[1971]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+            "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+            "classification": "unreviewed",
+            "nextDecision": "missing-origin-review-do-not-assume-rewrite",
+            "localDeclaredThirdParty": []
+          }
+        }
+      ],
+      "history": "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI\n7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "declaredPublisher": {
+        "baselineCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "record": {
+          "path": "packages/services/src/zcode-session/zcodeSessionApiRetry.ts",
+          "mode": "100644",
+          "blob": "7ade8623f733674d73575bb46a44b0a2bdc7ba5f",
+          "kind": "file",
+          "sha256": "a019f5c1fcf3c6c20df9d08729cbeaf11f2db6c498e464af7fdf6fefe4dab29d",
+          "normalizedSha256": "a019f5c1fcf3c6c20df9d08729cbeaf11f2db6c498e464af7fdf6fefe4dab29d",
+          "encoding": "utf8-lf",
+          "bytes": 4564
+        },
+        "existence": {
+          "command": ["git", "cat-file", "-e", "7ade8623f733674d73575bb46a44b0a2bdc7ba5f^{blob}"],
+          "exit": 128,
+          "log": "/tmp/knorvia-services-retry-trajectory-20261003/sessionApiRetry-publisher-object.log",
+          "sha256": "ab0b1b55a530d856ba8c97ab15eb95b73546c99d3b9009b9ddc05d99c76f76fe"
+        }
+      }
+    },
+    {
+      "path": "packages/services/src/agent/modelTrajectory.ts",
+      "sha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+      "bytes": 14928,
+      "lines": 457,
+      "records": [
+        {
+          "file": "packages/services/src/agent/STDERR-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[14]",
+          "record": {
+            "path": "packages/services/src/agent/modelTrajectory.ts",
+            "sha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+            "byteIdenticalToPredecessor": true
+          }
+        },
+        {
+          "file": "packages/services/src/agent/STREAM-EVENT-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.retainedSourceBindings[15]",
+          "record": {
+            "path": "packages/services/src/agent/modelTrajectory.ts",
+            "sha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+            "disposition": "not allocated; exact committed bytes retained"
+          }
+        },
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4898]",
+          "record": {
+            "path": "packages/services/src/agent/modelTrajectory.ts",
+            "kind": "file",
+            "sha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+            "normalizedSha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+            "encoding": "utf8-lf",
+            "bytes": 14928,
+            "classification": "unreviewed",
+            "upstream": null,
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        },
+        {
+          "file": "licensing/evidence/repository-migration-scope-20260930.json",
+          "location": "$.files[1989]",
+          "record": {
+            "path": "packages/services/src/agent/modelTrajectory.ts",
+            "sha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+            "classification": "unreviewed",
+            "nextDecision": "missing-origin-review-do-not-assume-rewrite",
+            "localDeclaredThirdParty": []
+          }
+        }
+      ],
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "declaredPublisher": {
+        "baselineCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "record": {
+          "path": "packages/services/src/zcode-agent/modelTrajectory.ts",
+          "mode": "100644",
+          "blob": "80be85e30529a13fe31cff3af79abf18d69cbca4",
+          "kind": "file",
+          "sha256": "649ba4f919b6ea8c39b070a20a5b57217d6546234caf02defea418e3fa3643e8",
+          "normalizedSha256": "649ba4f919b6ea8c39b070a20a5b57217d6546234caf02defea418e3fa3643e8",
+          "encoding": "utf8-lf",
+          "bytes": 14909
+        },
+        "existence": {
+          "command": ["git", "cat-file", "-e", "80be85e30529a13fe31cff3af79abf18d69cbca4^{blob}"],
+          "exit": 128,
+          "log": "/tmp/knorvia-services-retry-trajectory-20261003/modelTrajectory-publisher-object.log",
+          "sha256": "4427d8d7fadf5765a92724d4edb7ef7afe7f0dd66b1f69870aca8ae5e785cf28"
+        }
+      }
+    }
+  ],
+  "consideredDeferred": [
+    {
+      "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+      "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+      "bytes": 1198,
+      "lines": 38,
+      "records": [
+        {
+          "file": "packages/services/src/memory/AGENTS-AUTHOR-RECEIPTS-20261002.json",
+          "location": "$.originals[11]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+            "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+            "blob": "905a3a0bc871e146bf8c4ffe1626b4544756416d"
+          }
+        },
+        {
+          "file": "packages/services/src/memory/AGENTS-AUTHOR-RECEIPTS-20261002.json",
+          "location": "$.retainedVerified[6]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+            "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+            "blob": "905a3a0bc871e146bf8c4ffe1626b4544756416d"
+          }
+        },
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4881]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+            "kind": "file",
+            "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+            "normalizedSha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+            "encoding": "utf8-lf",
+            "bytes": 1198,
+            "classification": "unreviewed",
+            "upstream": null,
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        },
+        {
+          "file": "licensing/evidence/repository-migration-scope-20260930.json",
+          "location": "$.files[1972]",
+          "record": {
+            "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+            "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+            "classification": "unreviewed",
+            "nextDecision": "missing-origin-review-do-not-assume-rewrite",
+            "localDeclaredThirdParty": []
+          }
+        }
+      ],
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "disposition": "Not selected: small draft-map owner, defer in favor of cohesive retry admission/status owner and full trajectory replay/projection business rules."
+    }
+  ],
+  "exclusions": [
+    "Completed fileWatcher exact current source matches original completed receipt6a874c651b6d0421206ae34973c09d75eb5d537e51158f1afeccd5e1665ecaf7, no reauthor.",
+    "Completed existing services/provider/provider-node batches excluded; manual77a9b3f whole recursive owner complete, fixedprefix retained, originalc54c upstreammodified/unreviewed missingpublisher unresolved, no MIT/final classification.",
+    "Thin usage forwarding/accessor/interfaces/schema retained; actual stats owned by unallocated giant agentService.",
+    "Private root startup/storageStartupGate and commitMessageFileScope HASH HOLDS excluded; no source import/replace.",
+    "E endpoint source, root cache-paths/download/release, G cron host, B UI and other lanes excluded; no new sources imported.",
+    "Desktop175line private promptTransfer HOLD distinct from completed services44line owner; no redo/conflation.",
+    "Credential cryptography/auth authority and native CUA/host installers not selected; no security/policy changes."
+  ],
+  "qualification": "Exact bounded old structured screen no positive completed/conflicting whole-owner record found for selected current hashes; snapshot/format-only local allrefs is not unpublished-history absence or originality. Current inventory upstreamnull/unreviewed and declared publisher evidence kept separate, no MIT/rights/final origin acceptance. Existing original complete local files stored for source-exposed coordinator only; fresh author gets complete body-free external behavior/public declarations."
+}

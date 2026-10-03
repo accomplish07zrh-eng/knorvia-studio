@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "groups": [
+    {
+      "name": "catalog: exact identity, enabled conflicts and immutable declared names",
+      "passed": true
+    },
+    {
+      "name": "references: destination-only authority, strict invalid intents and retained-only dedup",
+      "passed": true
+    },
+    {
+      "name": "reminder: provenance, disabled/conflict priorities and identifiers-only privacy",
+      "passed": true
+    },
+    {
+      "name": "reminder: global capability budgets and null omission without live authority",
+      "passed": true
+    },
+    {
+      "name": "reminder: byte cap removes whole tail and does not expose paths or partial identifiers",
+      "passed": true
+    },
+    {
+      "name": "reminder: exact fixed disclaimer/rules and public port errors",
+      "passed": true
+    }
+  ],
+  "bindings": [
+    {
+      "scope": "catalog",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/catalog.ts.txt",
+      "bytes": 1692,
+      "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4"
+    },
+    {
+      "scope": "references",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/references.ts.txt",
+      "bytes": 1826,
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94"
+    },
+    {
+      "scope": "reminder",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "bytes": 7757,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860"
+    },
+    {
+      "scope": "reminder",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "bytes": 7757,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860"
+    },
+    {
+      "scope": "reminder",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "bytes": 7757,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860"
+    },
+    {
+      "scope": "reminder",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "bytes": 7757,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860"
+    },
+    {
+      "scope": "reminder",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "bytes": 7757,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860"
+    }
+  ],
+  "qualification": "Six distinct minimum synthetic public identity/privacy/authority/budget/error gates, archived complete candidates only with fake original validation port and native pure operations. No predecessor/dependency/business runtime, actualplugins/users/provider/network/credentials/FS/model/tool operations. No ordinary suites/build/project/semantic/lint or source-emitted behavior matrix; not final functional/origin/licence acceptance."
+}

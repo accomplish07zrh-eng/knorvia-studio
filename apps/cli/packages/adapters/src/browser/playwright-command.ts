@@ -5,23 +5,22 @@ import type {
 } from "@knorvia/contracts";
 import type { Locator, Page } from "playwright-core";
 
-const DEFAULT_TIMEOUT_MS = 3_000;
-type PartialResult = Omit<BrowserCommandResult, "elapsedMs">;
+const actionBudgetLimit = 3000;
+const highlightAttribute = "data-knorvia-element-screenshot";
+type LocatorRequest = Extract<BrowserPlaywrightAction, { name: "locator" }>;
+type ActionReply = Omit<BrowserCommandResult, "elapsedMs">;
 
-function timeoutMs(value?: number): number {
-  if (value === undefined) return DEFAULT_TIMEOUT_MS;
-  return Math.min(DEFAULT_TIMEOUT_MS, Math.max(1, Math.floor(value)));
+function actionBudget(requested: number | undefined): number {
+  return requested === undefined
+    ? actionBudgetLimit
+    : Math.min(actionBudgetLimit, Math.max(1, Math.floor(requested)));
 }
 
-function locatorFor(page: Page, selector: string): Locator {
-  return page.locator(selector);
-}
-
-function modifiers(
-  values?: BrowserPlaywrightModifier[],
-): Array<"Alt" | "Control" | "Meta" | "Shift"> {
-  return (values ?? []).map((value) =>
-    value === "ControlOrMeta" ? (process.platform === "darwin" ? "Meta" : "Control") : value,
+function clickModifiers(
+  requested: BrowserPlaywrightModifier[] | undefined,
+): Array<Exclude<BrowserPlaywrightModifier, "ControlOrMeta">> {
+  return (requested ?? []).map((modifier) =>
+    modifier === "ControlOrMeta" ? (process.platform === "darwin" ? "Meta" : "Control") : modifier,
   );
 }
 
@@ -32,163 +31,168 @@ export async function evaluatePage(
   arg: unknown,
   budgetMs: number,
 ): Promise<unknown> {
-  const client = await page.context().newCDPSession(page);
+  const connection = await page.context().newCDPSession(page);
   try {
     const source =
       expressionKind === "function" ? `(${expression})(${JSON.stringify(arg)})` : expression;
-    const raw = (await client.send("Runtime.evaluate", {
+    const response = (await connection.send("Runtime.evaluate", {
       expression: source,
       awaitPromise: true,
       returnByValue: true,
       timeout: budgetMs,
     })) as {
-      exceptionDetails?: { exception?: { description?: string }; text?: string };
+      exceptionDetails?: {
+        exception?: { description?: string };
+        text?: string;
+      };
       result?: { value?: unknown };
     };
-    if (raw.exceptionDetails) {
-      const message =
-        raw.exceptionDetails.exception?.description ??
-        raw.exceptionDetails.text ??
+    if (response.exceptionDetails) {
+      const detail =
+        response.exceptionDetails.exception?.description ??
+        response.exceptionDetails.text ??
         "Playwright evaluate failed";
-      throw new Error(`playwright.evaluate failed: ${message}`);
+      throw new Error(`playwright.evaluate failed: ${detail}`);
     }
-    return raw.result?.value;
+    return response.result?.value;
   } finally {
-    await client.detach().catch(() => undefined);
+    await connection.detach().catch(() => undefined);
   }
 }
 
-async function runLocatorAction(
-  page: Page,
-  action: Extract<BrowserPlaywrightAction, { name: "locator" }>,
+async function useLocator(
+  target: Locator,
+  request: LocatorRequest,
+  timeout: number,
 ): Promise<unknown> {
-  const locator = locatorFor(page, action.selector);
-  const timeout = timeoutMs(action.timeoutMs);
-  switch (action.operation) {
+  switch (request.operation) {
     case "allTextContents":
-      return await locator.allTextContents();
+      return target.allTextContents();
     case "count":
-      return await locator.count();
-    case "getAttribute":
-      return await locator.getAttribute(action.attribute ?? "", { timeout });
-    case "innerText":
-      return await locator.innerText({ timeout });
-    case "isEnabled":
-      return await locator.isEnabled({ timeout });
+      return target.count();
     case "isVisible":
-      return await locator.isVisible();
+      return target.isVisible();
+    case "getAttribute":
+      return target.getAttribute(request.attribute ?? "", { timeout });
+    case "innerText":
+      return target.innerText({ timeout });
+    case "isEnabled":
+      return target.isEnabled({ timeout });
     case "textContent":
-      return await locator.textContent({ timeout });
+      return target.textContent({ timeout });
     case "click":
-      await locator.click({
-        button: action.button,
-        force: action.force,
-        modifiers: modifiers(action.modifiers),
+      await target.click({
+        button: request.button,
+        force: request.force,
+        modifiers: clickModifiers(request.modifiers),
         timeout,
       });
       return undefined;
     case "dblclick":
-      await locator.dblclick({
-        button: action.button,
-        force: action.force,
-        modifiers: modifiers(action.modifiers),
+      await target.dblclick({
+        button: request.button,
+        force: request.force,
+        modifiers: clickModifiers(request.modifiers),
         timeout,
       });
       return undefined;
     case "fill":
-      if (action.replace === false)
-        await locator.pressSequentially(String(action.value ?? ""), { timeout });
-      else await locator.fill(String(action.value ?? ""), { timeout });
+      if (request.replace === false) {
+        await target.pressSequentially(String(request.value ?? ""), { timeout });
+      } else {
+        await target.fill(String(request.value ?? ""), { timeout });
+      }
       return undefined;
     case "press":
-      await locator.press(String(action.value ?? ""), { timeout });
+      await target.press(String(request.value ?? ""), { timeout });
       return undefined;
-    case "selectOption": {
-      const selections = (action.selections ?? []).map((selection) =>
-        selection.index !== undefined
-          ? { index: selection.index }
-          : selection.label !== undefined
-            ? { label: selection.label }
-            : { value: selection.value ?? "" },
+    case "selectOption":
+      await target.selectOption(
+        (request.selections ?? []).map((selection) =>
+          selection.index !== undefined
+            ? { index: selection.index }
+            : selection.label !== undefined
+              ? { label: selection.label }
+              : { value: selection.value ?? "" },
+        ),
+        { timeout },
       );
-      await locator.selectOption(selections, { timeout });
       return undefined;
-    }
     case "setChecked":
-      await locator.setChecked(action.checked ?? true, { force: action.force, timeout });
+      await target.setChecked(request.checked ?? true, {
+        force: request.force,
+        timeout,
+      });
       return undefined;
     case "waitFor":
-      await locator.waitFor({ state: action.state ?? "visible", timeout });
+      await target.waitFor({ state: request.state ?? "visible", timeout });
       return undefined;
     case "downloadMedia":
     case "evaluate":
-      throw new Error(`Playwright locator operation '${action.operation}' is unavailable`);
+      throw new Error(`Playwright locator operation '${request.operation}' is unavailable`);
   }
 }
 
 export async function executeManagedPlaywrightAction(
   page: Page,
   action: BrowserPlaywrightAction,
-): Promise<PartialResult> {
+): Promise<Omit<BrowserCommandResult, "elapsedMs">> {
   switch (action.name) {
     case "domSnapshot":
       return {
         ok: true,
-        value: await page.locator("html").ariaSnapshot({ timeout: DEFAULT_TIMEOUT_MS }),
+        value: await page.locator("html").ariaSnapshot({ timeout: actionBudgetLimit }),
       };
-    case "elementInfo":
-      return {
-        ok: true,
-        value: await page.evaluate(
-          ({ x, y, includeNonInteractable }) =>
-            document
-              .elementsFromPoint(x, y)
-              .filter(
-                (element) =>
-                  includeNonInteractable ||
-                  element.matches("a,button,input,select,textarea,[role],[tabindex]"),
-              )
-              .map((element) => {
-                const rect = element.getBoundingClientRect();
-                const text = (
-                  (element as HTMLElement).innerText ||
-                  element.textContent ||
-                  ""
-                ).trim();
-                return {
-                  tagName: element.tagName.toLowerCase(),
-                  role: element.getAttribute("role"),
-                  visibleText: text || null,
-                  ariaName: element.getAttribute("aria-label") || text || null,
-                  testId: element.getAttribute("data-testid"),
-                  boundingBox: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
-                  preview: element.outerHTML.slice(0, 300),
-                  selector: {
-                    primary: element.id ? `#${element.id}` : element.tagName.toLowerCase(),
-                    candidates: [],
-                  },
-                };
-              }),
-          action,
-        ),
-      };
+    case "elementInfo": {
+      const value = await page.evaluate((request) => {
+        return document
+          .elementsFromPoint(request.x, request.y)
+          .filter(
+            (element) =>
+              request.includeNonInteractable ||
+              element.matches("a,button,input,select,textarea,[role],[tabindex]"),
+          )
+          .map((element) => {
+            const rect = element.getBoundingClientRect();
+            const text = ((element as HTMLElement).innerText || element.textContent || "").trim();
+            return {
+              tagName: element.tagName.toLowerCase(),
+              role: element.getAttribute("role"),
+              visibleText: text || null,
+              ariaName: element.getAttribute("aria-label") || text || null,
+              testId: element.getAttribute("data-testid"),
+              boundingBox: {
+                x: rect.x,
+                y: rect.y,
+                width: rect.width,
+                height: rect.height,
+              },
+              preview: element.outerHTML.slice(0, 300),
+              selector: {
+                primary: element.id ? `#${element.id}` : element.tagName.toLowerCase(),
+                candidates: [],
+              },
+            };
+          });
+      }, action);
+      return { ok: true, value };
+    }
     case "elementScreenshot": {
-      const markerAttribute = "data-knorvia-element-screenshot";
       const count = await page.evaluate(
-        ({ x, y, includeNonInteractable, markerAttribute }) => {
+        (request) => {
+          let added = 0;
           const elements = document
-            .elementsFromPoint(x, y)
+            .elementsFromPoint(request.x, request.y)
             .filter(
               (element) =>
-                includeNonInteractable ||
+                request.includeNonInteractable ||
                 element.matches("a,button,input,select,textarea,[role],[tabindex]"),
             );
-          let marked = 0;
           for (const element of elements) {
             const rect = element.getBoundingClientRect();
             if (rect.width <= 0 || rect.height <= 0) continue;
             const marker = document.createElement("div");
-            marker.setAttribute(markerAttribute, "");
+            marker.setAttribute(request.markerAttribute, "");
             Object.assign(marker.style, {
               border: "2px solid #ff2d55",
               boxSizing: "border-box",
@@ -201,55 +205,62 @@ export async function executeManagedPlaywrightAction(
               zIndex: "2147483647",
             });
             document.documentElement.append(marker);
-            marked += 1;
+            added += 1;
           }
-          return marked;
+          return added;
         },
-        { ...action, markerAttribute },
+        { ...action, markerAttribute: highlightAttribute },
       );
-      if (count === 0) throw new Error("No matching element was found at the requested point");
+      if (count === 0) {
+        throw new Error("No matching element was found at the requested point");
+      }
       try {
-        const image = await page.screenshot({ type: "png" });
-        return { ok: true, image: { base64: image.toString("base64"), mimeType: "image/png" } };
+        const png = await page.screenshot({ type: "png" });
+        return {
+          ok: true,
+          image: { base64: png.toString("base64"), mimeType: "image/png" },
+        };
       } finally {
         await page
-          .evaluate(
-            (attribute) =>
-              document.querySelectorAll(`[${attribute}]`).forEach((element) => element.remove()),
-            markerAttribute,
-          )
+          .evaluate((attribute) => {
+            document.querySelectorAll(`[${attribute}]`).forEach((element) => element.remove());
+          }, highlightAttribute)
           .catch(() => undefined);
       }
     }
-    case "evaluate":
-      return {
-        ok: true,
-        value: await evaluatePage(
-          page,
-          action.expression,
-          action.expressionKind,
-          action.arg,
-          timeoutMs(action.timeoutMs),
-        ),
-      };
+    case "evaluate": {
+      const value = await evaluatePage(
+        page,
+        action.expression,
+        action.expressionKind,
+        action.arg,
+        actionBudget(action.timeoutMs),
+      );
+      return { ok: true, value };
+    }
     case "waitForLoadState":
-      if ((action.state ?? "load") === "networkidle") {
+      if (action.state === "networkidle") {
         throw new Error("playwright_wait_for_load_state does not support networkidle");
       }
-      await page.waitForLoadState(action.state ?? "load", { timeout: timeoutMs(action.timeoutMs) });
+      await page.waitForLoadState(action.state ?? "load", {
+        timeout: actionBudget(action.timeoutMs),
+      });
       return { ok: true };
     case "waitForURL":
       if (action.waitUntil === "networkidle") {
         throw new Error("playwright_wait_for_url does not support networkidle");
       }
       await page.waitForURL(action.url, {
-        timeout: timeoutMs(action.timeoutMs),
+        timeout: actionBudget(action.timeoutMs),
         waitUntil: action.waitUntil ?? "load",
       });
       return { ok: true };
     case "locator": {
-      const value = await runLocatorAction(page, action);
-      return value === undefined ? { ok: true } : { ok: true, value };
+      const target = page.locator(action.selector);
+      const timeout = actionBudget(action.timeoutMs);
+      const value = await useLocator(target, action, timeout);
+      const reply: ActionReply = value === undefined ? { ok: true } : { ok: true, value };
+      return reply;
     }
     case "waitForEvent":
     case "downloadPath":

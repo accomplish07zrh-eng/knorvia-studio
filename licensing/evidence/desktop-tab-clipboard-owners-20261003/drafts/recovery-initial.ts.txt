@@ -1,0 +1,272 @@
+import { randomUUID } from 'node:crypto';
+import { mkdir, readFile, rename, unlink, writeFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import type { BrowserViewportSize } from '@knorvia/shared';
+
+export interface BrowserTabShellRecord {
+  schemaVersion: 1;
+  tabId: string;
+  windowBindingId: null;
+  workspaceKey: string;
+  remoteSessionId?: string;
+  sessionId: string;
+  browserId?: string;
+  browserGeneration?: number;
+  origin: 'agent' | 'user';
+  lifecycle: 'active' | 'deliverable' | 'handoff';
+  restoreUrl: string | null;
+  title: string | null;
+  faviconUrl: string | null;
+  viewport: BrowserViewportSize | null;
+  openedAt: number;
+  lastSelectedAt: number | null;
+  updatedAt: number;
+}
+
+export interface BrowserTabNavigationEntry {
+  url: string;
+  title?: string;
+  pageState?: string;
+}
+
+export interface BrowserTabPageStateRecord {
+  schemaVersion: 1;
+  tabId: string;
+  entries: BrowserTabNavigationEntry[];
+  activeIndex: number;
+  updatedAt: number;
+}
+
+interface Snapshot {
+  schemaVersion: 1;
+  shells: BrowserTabShellRecord[];
+  pageStates: BrowserTabPageStateRecord[];
+}
+
+export class BrowserTabRecoveryStore {
+  private readonly filePath: string;
+  private readonly maxPageStates: number;
+  private readonly maxTotalBytes: number;
+  private readonly maxHistoryEntries: number;
+  private readonly onWarning: ((message: string) => void) | undefined;
+  private snapshot: Snapshot | null = null;
+  private mutationQueue: Promise<void> = Promise.resolve();
+
+  constructor(
+    filePath: string,
+    options: {
+      maxPageStates?: number;
+      maxTotalBytes?: number;
+      maxHistoryEntries?: number;
+      onWarning?: (message: string) => void;
+    } = {},
+  ) {
+    this.filePath = filePath;
+    this.maxPageStates = options.maxPageStates ?? 100;
+    this.maxTotalBytes = options.maxTotalBytes ?? 64 * 1024 * 1024;
+    this.maxHistoryEntries = options.maxHistoryEntries ?? 500;
+    this.onWarning = options.onWarning;
+  }
+
+  async readSnapshot(): Promise<Snapshot> {
+    await this.mutationQueue;
+    return this.cloneSnapshot(await this.ensureLoaded());
+  }
+
+  async getShell(tabId: string): Promise<BrowserTabShellRecord | null> {
+    const snapshot = await this.readSnapshot();
+    return snapshot.shells.find((record) => record.tabId === tabId) ?? null;
+  }
+
+  async getPageState(tabId: string): Promise<BrowserTabPageStateRecord | null> {
+    const snapshot = await this.readSnapshot();
+    return snapshot.pageStates.find((record) => record.tabId === tabId) ?? null;
+  }
+
+  async listShells(scope: {
+    workspaceKey: string;
+    remoteSessionId?: string;
+    sessionId?: string;
+  }): Promise<BrowserTabShellRecord[]> {
+    const snapshot = await this.readSnapshot();
+    return snapshot.shells
+      .filter(
+        (record) =>
+          record.workspaceKey === scope.workspaceKey &&
+          (record.remoteSessionId ?? '') === (scope.remoteSessionId ?? '') &&
+          (scope.sessionId === undefined || record.sessionId === scope.sessionId),
+      )
+      .sort((left, right) =>
+        left.openedAt - right.openedAt || left.tabId.localeCompare(right.tabId),
+      );
+  }
+
+  async upsert(record: BrowserTabShellRecord): Promise<void> {
+    await this.mutate((snapshot) => {
+      const replacement = { ...record, windowBindingId: null };
+      const index = snapshot.shells.findIndex((shell) => shell.tabId === record.tabId);
+      if (index === -1) {
+        snapshot.shells.push(replacement);
+      } else {
+        snapshot.shells[index] = replacement;
+      }
+    });
+  }
+
+  async upsertPageState(record: BrowserTabPageStateRecord): Promise<void> {
+    await this.mutate((snapshot) => {
+      const replacement = this.normalizePageState(record);
+      const index = snapshot.pageStates.findIndex((page) => page.tabId === record.tabId);
+      if (index === -1) {
+        snapshot.pageStates.push(replacement);
+      } else {
+        snapshot.pageStates[index] = replacement;
+      }
+      this.prunePageStates(snapshot);
+    });
+  }
+
+  async removePageState(tabId: string): Promise<void> {
+    await this.mutate((snapshot) => {
+      snapshot.pageStates = snapshot.pageStates.filter((record) => record.tabId !== tabId);
+    });
+  }
+
+  async remove(tabId: string): Promise<void> {
+    await this.mutate((snapshot) => {
+      snapshot.shells = snapshot.shells.filter((record) => record.tabId !== tabId);
+      snapshot.pageStates = snapshot.pageStates.filter((record) => record.tabId !== tabId);
+    });
+  }
+
+  async whenIdle(): Promise<void> {
+    await this.mutationQueue;
+  }
+
+  private async mutate(change: (snapshot: Snapshot) => void): Promise<void> {
+    const task = this.mutationQueue.then(async () => {
+      const snapshot = await this.ensureLoaded();
+      change(snapshot);
+      await this.writeSnapshot(snapshot);
+    });
+    this.mutationQueue = task.catch(() => undefined);
+    await task;
+  }
+
+  private cloneSnapshot(snapshot: Snapshot): Snapshot {
+    return {
+      schemaVersion: 1,
+      shells: snapshot.shells.map((record) => ({ ...record })),
+      pageStates: snapshot.pageStates.map((record) => ({
+        ...record,
+        entries: record.entries.map((entry) => ({ ...entry })),
+      })),
+    };
+  }
+
+  private parseSnapshot(value: unknown): Snapshot {
+    if (!value || typeof value !== 'object') {
+      throw new TypeError('invalid browser recovery snapshot');
+    }
+    const input = value as Snapshot;
+    if (
+      input.schemaVersion !== 1 ||
+      !Array.isArray(input.shells) ||
+      !Array.isArray(input.pageStates)
+    ) {
+      throw new TypeError('unsupported browser recovery snapshot');
+    }
+    return {
+      schemaVersion: 1,
+      shells: input.shells.map((record) => ({ ...record, windowBindingId: null })),
+      pageStates: input.pageStates.map((record) => ({
+        ...record,
+        entries: record.entries.map((entry) => ({ ...entry })),
+      })),
+    };
+  }
+
+  private async ensureLoaded(): Promise<Snapshot> {
+    if (this.snapshot) {
+      return this.snapshot;
+    }
+    try {
+      const contents = await readFile(this.filePath, 'utf8');
+      this.snapshot = this.parseSnapshot(JSON.parse(contents));
+      return this.snapshot;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        const corruptPath = this.filePath + '.corrupt-' + Date.now();
+        try {
+          await rename(this.filePath, corruptPath);
+          this.onWarning?.('browser tab recovery 文件损坏，已隔离到 ' + corruptPath);
+        } catch (renameError) {
+          if ((renameError as NodeJS.ErrnoException).code !== 'ENOENT') {
+            this.onWarning?.(
+              'browser tab recovery 损坏文件隔离失败: ' +
+                (renameError instanceof Error ? renameError.message : String(renameError)),
+            );
+          }
+        }
+      }
+      this.snapshot = { schemaVersion: 1, shells: [], pageStates: [] };
+      return this.snapshot;
+    }
+  }
+
+  private async writeSnapshot(snapshot: Snapshot): Promise<void> {
+    await mkdir(dirname(this.filePath), { recursive: true });
+    const temporaryPath = this.filePath + '.tmp-' + randomUUID();
+    try {
+      await writeFile(temporaryPath, JSON.stringify(snapshot), 'utf8');
+      await rename(temporaryPath, this.filePath);
+    } catch (error) {
+      await unlink(temporaryPath).catch(() => undefined);
+      throw error;
+    }
+  }
+
+  private normalizePageState(record: BrowserTabPageStateRecord): BrowserTabPageStateRecord {
+    const entries = record.entries.map((entry) => ({ ...entry }));
+    const activeIndex =
+      entries.length === 0
+        ? 0
+        : Math.max(0, Math.min(Math.trunc(record.activeIndex), entries.length - 1));
+    if (entries.length <= this.maxHistoryEntries) {
+      return { ...record, entries, activeIndex };
+    }
+    const maximumStart = entries.length - this.maxHistoryEntries;
+    const start = Math.max(0, Math.min(activeIndex, maximumStart));
+    return {
+      ...record,
+      entries: entries.slice(start, start + this.maxHistoryEntries),
+      activeIndex: activeIndex - start,
+    };
+  }
+
+  private prunePageStates(snapshot: Snapshot): void {
+    const candidates = [...snapshot.pageStates]
+      .sort(
+        (left, right) =>
+          right.updatedAt - left.updatedAt || left.tabId.localeCompare(right.tabId),
+      )
+      .map((record) => ({ record, serialized: JSON.stringify(record)! }))
+      .filter(
+        ({ serialized }) =>
+          Buffer.byteLength('[' + serialized + ']', 'utf8') <= this.maxTotalBytes,
+      )
+      .slice(0, Math.max(0, this.maxPageStates));
+
+    const retained: BrowserTabPageStateRecord[] = [];
+    let totalBytes = 2;
+    for (const [index, candidate] of candidates.entries()) {
+      const nextBytes = Buffer.byteLength(candidate.serialized, 'utf8') + (index === 0 ? 0 : 1);
+      if (totalBytes + nextBytes > this.maxTotalBytes) {
+        break;
+      }
+      retained.push(candidate.record);
+      totalBytes += nextBytes;
+    }
+    snapshot.pageStates = retained;
+  }
+}

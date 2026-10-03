@@ -1,0 +1,306 @@
+{
+  "kind": "Static declaration/import/frozen-byte compatibility; no project body typecheck/runtime acceptance",
+  "typescript": "6.0.2",
+  "scope": "microcompact",
+  "baseline": "ec9dc9603b659e504c67511c73cd4191525d7f02",
+  "target": "apps/cli/packages/core/src/compact/microcompact.ts",
+  "draftPath": "docs/evidence/core-compaction-author-packet-20261003/microcompact/v2/draft-microcompact.ts.txt",
+  "predecessor": {
+    "bytes": 9352,
+    "sha256": "27731cd99707cce37a5f2de803c371107024f7ed2b6e8982fe973ee14f4b97db"
+  },
+  "candidate": {
+    "bytes": 8400,
+    "sha256": "3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64"
+  },
+  "installed": {
+    "bytes": 8400,
+    "sha256": "3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64"
+  },
+  "lines": 251,
+  "exportedDeclarationStructureEqual": true,
+  "declarationComparison": "Sorted declared public surface plus referenced private declaration shapes; runtime aliases free",
+  "declarationStructureSha256": {
+    "predecessor": "5fa4b6f14cbcc988fc6ccd9b3a2f835be32175bbbeea7c78e7b4a2b4ec8330b5",
+    "candidate": "5fa4b6f14cbcc988fc6ccd9b3a2f835be32175bbbeea7c78e7b4a2b4ec8330b5"
+  },
+  "runtimeBindingsEqual": true,
+  "runtimeBindings": {
+    "predecessor": [
+      "@knorvia/contracts#MicrocompactStrategy",
+      "@knorvia/contracts#MicrocompactTrigger",
+      "@knorvia/contracts#modelMessageContentToText",
+      "apps/cli/packages/core/src/compact/manual.js#estimateMessageTokens"
+    ],
+    "candidate": [
+      "@knorvia/contracts#MicrocompactStrategy",
+      "@knorvia/contracts#MicrocompactTrigger",
+      "@knorvia/contracts#modelMessageContentToText",
+      "apps/cli/packages/core/src/compact/manual.js#estimateMessageTokens"
+    ]
+  },
+  "imports": [
+    {
+      "module": "./manual.js",
+      "name": "CompactModelMessage",
+      "local": "CompactModelMessage",
+      "typeOnly": true
+    },
+    {
+      "module": "./manual.js",
+      "name": "estimateMessageTokens",
+      "local": "estimateMessageTokens",
+      "typeOnly": false
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "MicrocompactBoundaryPayload",
+      "local": "MicrocompactBoundaryPayload",
+      "typeOnly": true
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "MicrocompactStrategy",
+      "local": "MicrocompactStrategy",
+      "typeOnly": false
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "MicrocompactTrigger",
+      "local": "MicrocompactTrigger",
+      "typeOnly": false
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "ModelMessageContent",
+      "local": "ModelMessageContent",
+      "typeOnly": true
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "modelMessageContentToText",
+      "local": "modelMessageContentToText",
+      "typeOnly": false
+    },
+    {
+      "module": "@knorvia/contracts",
+      "name": "ToolCallId",
+      "local": "ToolCallId",
+      "typeOnly": true
+    }
+  ],
+  "relativeDependenciesExist": true,
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidate": []
+  },
+  "installedByteIdenticalToDraft": true,
+  "matchesFrozenReceipt": true,
+  "inputBindings": [
+    {
+      "path": "inputs/contract.md",
+      "bytes": 7682,
+      "sha256": "a8681a82c64b17a903385f413dff7153eff35d35134dd3ac1003cbb1ea3c42e2",
+      "lines": 37,
+      "actual": {
+        "bytes": 7682,
+        "sha256": "a8681a82c64b17a903385f413dff7153eff35d35134dd3ac1003cbb1ea3c42e2"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/public-api.d.ts",
+      "bytes": 2229,
+      "sha256": "e1f4ac9218b485f1d7c5b452669b6c9ac25d125bd287a93e4a1acf37530565c0",
+      "lines": 47,
+      "actual": {
+        "bytes": 2229,
+        "sha256": "e1f4ac9218b485f1d7c5b452669b6c9ac25d125bd287a93e4a1acf37530565c0"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/dependency-api.d.ts",
+      "bytes": 927,
+      "sha256": "0ef504ad1d740c02c8f4529651a9cba39f79eee28b0b837ec3957393b831ec5a",
+      "lines": 11,
+      "actual": {
+        "bytes": 927,
+        "sha256": "0ef504ad1d740c02c8f4529651a9cba39f79eee28b0b837ec3957393b831ec5a"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/public-data-shapes.md",
+      "bytes": 4743,
+      "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164",
+      "lines": 52,
+      "actual": {
+        "bytes": 4743,
+        "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164"
+      },
+      "matchesReceipt": true
+    },
+    {
+      "path": "inputs/clock-capture-clarification.md",
+      "bytes": 1128,
+      "sha256": "3758d868482573f96ac67031fa760e49c4b5d20d045c795b595035524a018d9c",
+      "lines": 5,
+      "actual": {
+        "bytes": 1128,
+        "sha256": "3758d868482573f96ac67031fa760e49c4b5d20d045c795b595035524a018d9c"
+      },
+      "matchesReceipt": true
+    }
+  ],
+  "archiveBindings": [
+    {
+      "file": "draft-microcompact.ts.txt",
+      "bytes": 8400,
+      "sha256": "3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64",
+      "actual": {
+        "bytes": 8400,
+        "sha256": "3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64"
+      },
+      "matchesArchive": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6011,
+      "sha256": "0b6ce3baca040a89924e36b69dad223ed5540991a428977d0c10bf056b12a31a",
+      "actual": {
+        "bytes": 6011,
+        "sha256": "0b6ce3baca040a89924e36b69dad223ed5540991a428977d0c10bf056b12a31a"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalBindings": [
+    {
+      "file": "draft-microcompact.ts.txt",
+      "bytes": 8324,
+      "sha256": "d79852364561f15e5f87ed2f5ca83dbe1a456fd355d04fe30dd481c760991e5f",
+      "actual": {
+        "bytes": 8324,
+        "sha256": "d79852364561f15e5f87ed2f5ca83dbe1a456fd355d04fe30dd481c760991e5f"
+      },
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 3570,
+      "sha256": "ab6945e48a6f1192f0759aadff7e95a3e00f6d495190b664922df9810daf6a08",
+      "actual": {
+        "bytes": 3570,
+        "sha256": "ab6945e48a6f1192f0759aadff7e95a3e00f6d495190b664922df9810daf6a08"
+      },
+      "unchanged": true
+    }
+  ],
+  "untouchedBoundaries": [
+    {
+      "path": "apps/cli/packages/core/src/compact/manual.ts",
+      "bytes": 5976,
+      "sha256": "e544b902f3ab732ef734d2733d820e2d5d18aec45478697e6ca00b45197ae3da",
+      "actual": {
+        "bytes": 5976,
+        "sha256": "e544b902f3ab732ef734d2733d820e2d5d18aec45478697e6ca00b45197ae3da"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/rounds.ts",
+      "bytes": 874,
+      "sha256": "3728026601cd2ed977f0b3d2becc2728393ec32a026d4b95808ce43e998d4625",
+      "actual": {
+        "bytes": 874,
+        "sha256": "3728026601cd2ed977f0b3d2becc2728393ec32a026d4b95808ce43e998d4625"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 16116,
+      "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1",
+      "actual": {
+        "bytes": 16116,
+        "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "bytes": 11797,
+      "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d",
+      "actual": {
+        "bytes": 11797,
+        "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact.ts",
+      "bytes": 5562,
+      "sha256": "626c52b87f086b41e076176111b4bb6d5d1ae4a7c4ebb698bc4060f7f3afd991",
+      "actual": {
+        "bytes": 5562,
+        "sha256": "626c52b87f086b41e076176111b4bb6d5d1ae4a7c4ebb698bc4060f7f3afd991"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+      "bytes": 16397,
+      "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8",
+      "actual": {
+        "bytes": 16397,
+        "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+      "bytes": 27775,
+      "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0",
+      "actual": {
+        "bytes": 27775,
+        "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+      "bytes": 10662,
+      "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc",
+      "actual": {
+        "bytes": 10662,
+        "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/definition.ts",
+      "bytes": 4621,
+      "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52",
+      "actual": {
+        "bytes": 4621,
+        "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+      },
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "runtimeTestsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

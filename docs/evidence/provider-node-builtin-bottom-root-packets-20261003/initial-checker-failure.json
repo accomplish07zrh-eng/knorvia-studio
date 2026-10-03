@@ -1,0 +1,36 @@
+{
+  "status": "FAILED_INITIAL_CHECKER",
+  "command": "node docs/evidence/provider-node-builtin-bottom-root-packets-20261003/verify-packet.cjs",
+  "exitCode": 1,
+  "nodeVersion": "v24.19.0",
+  "checkerSha256BeforeFix": "515b387e558227e29e0fca48e92a2fa9ea21698315887165e9482e98d0f40d36",
+  "error": "Error: Missing fixed download token: builtin_provider_config_json",
+  "cause": "Checker collected string literals only, but source schema key is an identifier property name. Source/data were correct; this is not a source failure or proof of missing boundary.",
+  "originalCollector": "if (ts.isStringLiteral(n)) strings.add(n.text);",
+  "correction": "Include AST PropertyAssignment names as fixed schema keys; retain separate literal request-init and byte-boundary checks. No target, contract, API or fixed data changed.",
+  "runtimeQualification": "Only TypeScript AST parser/checker ran; no target owner imported or executed.",
+  "secondCheckerFailure": {
+    "status": "FAILED_CHECKER_FORMAT_MATCH",
+    "exitCode": 1,
+    "checkerSha256BeforeFix": "8192310f720fe714c8db95b69fe6bd259139169dfe7dab3e9c29274fcc63e802",
+    "error": "Error: Release envelope keys",
+    "originalMatcher": "n.expression.getText(f) === 'z.object'",
+    "cause": "Original source spells the property access across a newline (z then .object); raw getText equality rejected it.",
+    "correction": "Match PropertyAccessExpression receiver identifier z and name object structurally, retaining exact ordered property-key equality.",
+    "sourceAndAuthorInputsChanged": false
+  },
+  "thirdCheckerFailure": {
+    "status": "FAILED_CHECKER_SELF_OUTPUT_ORDER",
+    "exitCode": 1,
+    "checkerSha256BeforeFix": "155fe7d007a9e232154b71dd077e180c1cd116fee4c11ca95754abe328866034",
+    "error": "Error: Broken link: packet-static-results.json",
+    "cause": "The checker verified its linked result before producing that result on a first run. All other static checks had passed.",
+    "correction": "Defer only the checker-generated output existence check until after writing it; existing input/evidence links still checked immediately.",
+    "sourceAndAuthorInputsChanged": false
+  },
+  "documentationPatchFailure": {
+    "tool": "apply_patch",
+    "result": "Expected README text not found; no file change",
+    "qualification": "A no-op patch used an inaccurate expected sentence. Corrected with a matching paragraph when adding failure qualification; no source/API/contract/data affected."
+  }
+}

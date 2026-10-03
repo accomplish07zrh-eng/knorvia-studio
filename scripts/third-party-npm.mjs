@@ -4,14 +4,16 @@ import { readFile, readdir, realpath } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { promisify } from "node:util";
 import { resolveSpawnRuntimeOptions } from "./spawn-command.mjs";
+import {
+  auditHost,
+  optionalOmission,
+  readLockedPlatformMetadata,
+  readOptionalInstallSnapshot,
+  readLockedOptionalEdges,
+} from "./third-party-platform.mjs";
 
 const exec = promisify(execFile);
 export const hashBytes = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const unsupportedCanvas = new Set([
-  "@napi-rs/canvas-android-arm64",
-  "@napi-rs/canvas-linux-arm-gnueabihf",
-  "@napi-rs/canvas-linux-riscv64-gnu",
-]);
 const noticeName =
   /(?:^|[._-])(?:licen[sc]es?|copying|notice|copyright|unlicense|third.party|ofl)(?:[._-]|$)/iu;
 
@@ -45,32 +47,37 @@ export async function readPackageNotices(directory) {
   return files.sort((a, b) => a.member.localeCompare(b.member, "en"));
 }
 
-function productionPackages(projects) {
+function productionPackages(projects, lockedEdges) {
   const own = new Set(projects.map((project) => project.name));
   const required = new Map();
-  function dependencies(deps) {
+  function dependencies(deps, optional, parent) {
     for (const [alias, info] of Object.entries(deps ?? {})) {
       const name = info.name ?? alias;
+      const edgeOptional = optional || lockedEdges?.get(parent)?.get(alias) === true;
+      const key = `${name}@${info.version}`;
       if (!own.has(name) && !name.startsWith("@knorvia/") && !info.version.startsWith("link:")) {
-        required.set(`${name}@${info.version}`, { name, version: info.version });
+        required.set(key, {
+          name,
+          version: info.version,
+          optional: edgeOptional && (required.get(key)?.optional ?? true),
+        });
       }
-      dependencies(info.dependencies);
-      dependencies(info.optionalDependencies);
+      dependencies(info.dependencies, edgeOptional, key);
+      dependencies(info.optionalDependencies, true, key);
     }
   }
   for (const project of projects) {
-    dependencies(project.dependencies);
-    dependencies(project.optionalDependencies);
+    dependencies(project.dependencies, false);
+    dependencies(project.optionalDependencies, true);
   }
   return required;
 }
 
-export function assertProductionGraphs(lockedProjects, installedProjects) {
-  const locked = productionPackages(lockedProjects);
+export function assertProductionGraphs(lockedProjects, installedProjects, policy) {
+  const locked = productionPackages(lockedProjects, policy?.optionalEdges);
+  for (const [key, item] of locked) Object.assign(item, optionalOmission(item, key, policy));
   const installed = productionPackages(installedProjects);
-  const missing = [...locked].filter(
-    ([key, item]) => !installed.has(key) && !unsupportedCanvas.has(item.name),
-  );
+  const missing = [...locked].filter(([key, item]) => !installed.has(key) && !item.omissionReason);
   const stale = [...installed.keys()].filter((key) => !locked.has(key));
   if (missing.length || stale.length) {
     throw new Error(
@@ -105,8 +112,39 @@ export async function readWorkspaceProductionGraph(root) {
       return JSON.parse(stdout);
     }),
   );
-  const required = assertProductionGraphs(locked, actual);
-  return { required, projects: actual };
+  const config = async (key) => {
+    const { stdout } = await exec("pnpm", ["config", "get", key, "--json"], {
+      cwd: root,
+      ...resolveSpawnRuntimeOptions("pnpm"),
+    });
+    return stdout.trim() ? JSON.parse(stdout) : undefined;
+  };
+  const [supportedArchitectures, optional, ignoredOptionalDependencies, lock, modules] =
+    await Promise.all([
+      config("supportedArchitectures"),
+      config("optional"),
+      config("ignoredOptionalDependencies"),
+      readFile(join(root, "pnpm-lock.yaml"), "utf8"),
+      readFile(join(root, "node_modules/.modules.yaml"), "utf8"),
+    ]);
+  const includeOptional = optional ?? true;
+  if (typeof includeOptional !== "boolean")
+    throw new Error("Unknown optional install configuration");
+  const included = readOptionalInstallSnapshot(modules);
+  if (included !== includeOptional)
+    throw new Error(
+      "Optional install snapshot differs from effective pnpm configuration; run a frozen install",
+    );
+  const platformPolicy = {
+    metadata: readLockedPlatformMetadata(lock),
+    optionalEdges: readLockedOptionalEdges(lock),
+    supportedArchitectures,
+    includeOptional,
+    ignoredOptionalDependencies,
+    host: auditHost(),
+  };
+  const required = assertProductionGraphs(locked, actual, platformPolicy);
+  return { required, projects: actual, platformPolicy };
 }
 
 export async function scanInstalledPackages(root, projects) {
@@ -152,7 +190,7 @@ export async function scanInstalledPackages(root, projects) {
 export function missingProductionPackages(required, installed) {
   const missing = [...required].filter(([key]) => !installed.has(key)).map(([, item]) => item);
   for (const item of missing) {
-    if (!unsupportedCanvas.has(item.name))
+    if (!item.omissionReason)
       throw new Error(`Missing installed dependency: ${item.name}@${item.version}`);
   }
   return missing;

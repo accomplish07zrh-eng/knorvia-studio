@@ -1,0 +1,66 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/main/browserView/browserCommandExecutor.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotCapture.ts",
+    "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+    "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/README.md",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/corrections-and-access.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandExecutor.ts",
+      "sha256": "8e38357510ccb82ea43d57de7f5c105e31b815b926d7adad65946a5e2839fae1"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotCapture.ts",
+      "sha256": "468311e0eb4881fe131d828f03c5c98ab5dc6dfcee373ea50980dc0390e32104"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+      "sha256": "f3412035054742870f8e9c6f1fb5bcf8e0c3a1993db1f066e6b8767cfede1813"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts",
+      "sha256": "cb6dccfc403744cc7cbb40f8f0b121724aa0335142fe04b1555416dce0baed14"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/scoped-static.mjs",
+      "sha256": "ed7cd6cdae16c8c6658f27069907287256caf7f61ba0f49d38d54758ac47bd2d"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/record-run.mjs",
+      "sha256": "00015b662210a9a9e1979f49cda7f5c34537335a87a4ce3c816fde694beb5833"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-shapes.mjs",
+      "sha256": "7b0a55d877160bfa963e76234b9e72421a2d8bf0abeff6691751ee15e615124c"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/final-bindings.mjs",
+      "sha256": "1a4a521556b67ffc09fc2cbc3f9a2bea79f8c2597d9e1907c4e29c7f02bcc689"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/README.md",
+      "sha256": "e143afbb29ddcc3aabbc20f6032172e04800a62e786b0d54adc08b10ed91beba"
+    },
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/corrections-and-access.md",
+      "sha256": "663ba6ea9ea98753f272a3452195010d33581933a086aa5a8d2343b65304a645"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 114ms on 10 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

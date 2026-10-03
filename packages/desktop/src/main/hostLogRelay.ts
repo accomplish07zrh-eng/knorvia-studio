@@ -21,106 +21,87 @@ interface EmitStructuredLogEntry extends HostStructuredLog {
   timestamp: string;
 }
 
-/**
- * host 现在会同时通过 stdout/stderr 和 postMessage 上报日志。
- * 如果 main 两边都立刻写盘，同一条日志会重复出现两次。
- * 这里优先相信结构化的 postMessage；只有 host 在退出前都没发出结构化日志时，
- * 才把早期缓存的 stdout/stderr 当兜底日志回放出来。
- */
+class HostLogRelayOwner {
+  private phase: "raw" | "structured" = "raw";
+  private readonly pending: RawStreamLog[] = [];
+
+  public constructor(
+    private readonly label: string,
+    private readonly logger: HostLogger,
+    private readonly publish?: (entry: EmitStructuredLogEntry) => void,
+  ) {}
+
+  public accept(kind: RawStreamLog["kind"], message: string): void {
+    if (this.phase === "raw") this.pending.push({ kind, message });
+  }
+
+  public structured(entry: HostStructuredLog): void {
+    // 结构化来源一旦出现即获得日志权威；后续抛错也不重新回放原始流造成重复。
+    this.phase = "structured";
+    this.pending.length = 0;
+    const projected = {
+      ...entry,
+      timestamp: new Date().toLocaleTimeString(undefined, {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+    } satisfies EmitStructuredLogEntry;
+    const level =
+      projected.level === "error" ? "error" : projected.level === "warn" ? "warn" : "info";
+    const line = `[host-log] (${this.label}) [${projected.source}] ${projected.message}`;
+    this.logger[level](line);
+    const publish = this.publish;
+    publish?.(projected);
+  }
+
+  public flush(): void {
+    if (this.phase === "structured") {
+      this.pending.length = 0;
+      return;
+    }
+    // 用 live buffer 索引保留重入添加；失败时整批仍留存，沿用既有回放边界。
+    for (let index = 0; index < this.pending.length; index++) this.render(this.pending[index]!);
+    this.pending.length = 0;
+  }
+
+  private render(record: RawStreamLog): void {
+    if (record.kind === "stdout") {
+      this.logger.info(`[host-stdout] (${this.label}):`, record.message);
+      return;
+    }
+    const warning = /^\(node:\d+\)\s+(?:ExperimentalWarning|DeprecationWarning|Warning):/u.test(
+      record.message.trimStart(),
+    );
+    if (warning) {
+      const firstLine =
+        record.message.trimStart().split(/\r?\n/u)[0]?.trimEnd() ?? record.message.trim();
+      this.logger.warn(`[host-stderr] (${this.label}):`, firstLine);
+    } else {
+      this.logger.error(`[host-stderr] (${this.label}):`, record.message);
+    }
+  }
+}
+
 export function createHostLogRelay(
   label: string,
   logger: HostLogger,
   emitStructuredLogToRenderer?: (entry: EmitStructuredLogEntry) => void,
 ) {
-  let hasStructuredLog = false;
-  const rawLogs: RawStreamLog[] = [];
-
-  function emitRawLog(rawLog: RawStreamLog): void {
-    if (rawLog.kind === "stderr") {
-      if (isNodeWarning(rawLog.message)) {
-        logger.warn(`[host-stderr] (${label}):`, formatNodeWarning(rawLog.message));
-        return;
-      }
-
-      logger.error(`[host-stderr] (${label}):`, rawLog.message);
-      return;
-    }
-
-    logger.info(`[host-stdout] (${label}):`, rawLog.message);
-  }
-
-  function emitStructuredLog(entry: EmitStructuredLogEntry): void {
-    const line = `[host-log] (${label}) [${entry.source}] ${entry.message}`;
-    if (entry.level === "error") {
-      logger.error(line);
-      return;
-    }
-
-    if (entry.level === "warn") {
-      logger.warn(line);
-      return;
-    }
-
-    logger.info(line);
-  }
-
+  const relay = new HostLogRelayOwner(label, logger, emitStructuredLogToRenderer);
   return {
     onStdout(message: string): void {
-      if (hasStructuredLog) {
-        return;
-      }
-
-      rawLogs.push({ kind: "stdout", message });
+      relay.accept("stdout", message);
     },
-
     onStderr(message: string): void {
-      if (hasStructuredLog) {
-        return;
-      }
-
-      rawLogs.push({ kind: "stderr", message });
+      relay.accept("stderr", message);
     },
-
     onStructuredLog(entry: HostStructuredLog): void {
-      hasStructuredLog = true;
-      rawLogs.length = 0;
-      const structuredEntry = {
-        ...entry,
-        timestamp: new Date().toLocaleTimeString(undefined, {
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        }),
-      } satisfies EmitStructuredLogEntry;
-      emitStructuredLog(structuredEntry);
-      emitStructuredLogToRenderer?.(structuredEntry);
+      relay.structured(entry);
     },
-
     flushRawLogs(): void {
-      if (hasStructuredLog) {
-        rawLogs.length = 0;
-        return;
-      }
-
-      for (const rawLog of rawLogs) {
-        emitRawLog(rawLog);
-      }
-      rawLogs.length = 0;
+      relay.flush();
     },
   };
-}
-
-function isNodeWarning(message: string): boolean {
-  // Electron utility process 启动早期的 Node warning 只会出现在 stderr。
-  // 这类 warning 不是连接失败，兜底回放时应保持 warn 语义，避免远端连接日志被误染成 error。
-  return /^\(node:\d+\)\s+(?:ExperimentalWarning|DeprecationWarning|Warning):/u.test(
-    message.trimStart(),
-  );
-}
-
-function formatNodeWarning(message: string): string {
-  // Node warning 的第二行通常只是 --trace-warnings 提示，连接页展示它会显得像错误详情。
-  // 远端连接日志只保留首行核心 warning，完整排查可通过开发启动参数再开启 trace。
-  return message.trimStart().split(/\r?\n/u)[0]?.trimEnd() ?? message.trim();
 }

@@ -1,0 +1,11 @@
+{
+  "label": "final-architecture",
+  "cmd": "node scripts/architecture/architecture-check.mjs check --changed",
+  "result": {
+    "chunk_id": "caae6d",
+    "wall_time_seconds": 0.587246576,
+    "exit_code": 0,
+    "original_token_count": 13,
+    "output": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n"
+  }
+}

@@ -10,13 +10,36 @@ import {
   type PluginSubagentModelSelectionOverrides,
 } from "./subagents-types.js";
 
-function record(value: unknown): Record<string, unknown> {
-  return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : {};
+type StoredSelection = NonNullable<ReturnType<typeof parseSubagentMarkdownSelection>>;
+
+const builtInNames = ["Explore", "general-purpose"] as const;
+
+function asRecord(value: unknown): Record<string, unknown> {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return {};
 }
 
-/** 仅存储迁移入口使用；正式 reader 不得再解释旧双 map 或旧 Provider。 */
+// 旧身份只在存储导入时迁移；运行时不重新解释历史配置。
+function selectionForImport(selection: StoredSelection, legacy: boolean): StoredSelection {
+  const originalProvider = selection.providerId;
+  const providerId =
+    legacy && originalProvider.startsWith("builtin:")
+      ? migrateLegacyModelProviderId(originalProvider)
+      : originalProvider;
+  if (!providerId) {
+    return selection;
+  }
+  return {
+    ...selection,
+    providerId,
+    modelId: legacy
+      ? migrateLegacyOfficialGlmModelId(originalProvider, selection.modelId)
+      : selection.modelId,
+  };
+}
+
 export function importSubagentStateSelections(input: Record<string, unknown>): Record<
   string,
   unknown
@@ -24,65 +47,55 @@ export function importSubagentStateSelections(input: Record<string, unknown>): R
   builtInModelSelectionOverrides: BuiltInSubagentModelSelectionOverrides;
   pluginAgentModelSelectionOverrides: PluginSubagentModelSelectionOverrides;
 } {
-  const current = Object.hasOwn(input, "builtInModelSelectionOverrides");
-  const selections: BuiltInSubagentModelSelectionOverrides = {};
-  for (const name of ["Explore", "general-purpose"] as const) {
-    const selection = current
-      ? modelSelectionSchema.safeParse(record(input.builtInModelSelectionOverrides)[name]).data
+  const builtInModelSelectionOverrides: BuiltInSubagentModelSelectionOverrides = {};
+  // 自有的新字段即为权威值，包括空值或损坏值，不回退到旧字段。
+  const hasCurrentBuiltIns = Object.hasOwn(input, "builtInModelSelectionOverrides");
+  const currentBuiltIns: Record<string, unknown> = hasCurrentBuiltIns
+    ? asRecord(input.builtInModelSelectionOverrides)
+    : {};
+  const legacyBuiltInModels: Record<string, unknown> = hasCurrentBuiltIns
+    ? {}
+    : asRecord(input.builtInModelOverrides);
+  const legacyBuiltInThoughtLevels: Record<string, unknown> = hasCurrentBuiltIns
+    ? {}
+    : asRecord(input.builtInThoughtLevelOverrides);
+
+  for (const name of builtInNames) {
+    const selection = hasCurrentBuiltIns
+      ? modelSelectionSchema.safeParse(currentBuiltIns[name]).data
       : parseSubagentMarkdownSelection({
-          model: record(input.builtInModelOverrides)[name],
-          thoughtLevel: record(input.builtInThoughtLevelOverrides)[name],
+          model: legacyBuiltInModels[name],
+          thoughtLevel: legacyBuiltInThoughtLevels[name],
         });
-    if (!selection) continue;
-    // 新 map 已是正式选择；不能把里面的旧 ID 当作未发布中间态继续兼容。
-    const providerId =
-      !current && selection.providerId.startsWith("builtin:")
-        ? migrateLegacyModelProviderId(selection.providerId)
-        : selection.providerId;
-    selections[name] = providerId
-      ? {
-          ...selection,
-          providerId,
-          modelId: current
-            ? selection.modelId
-            : migrateLegacyOfficialGlmModelId(selection.providerId, selection.modelId),
-        }
-      : selection;
+    if (selection) {
+      builtInModelSelectionOverrides[name] = selectionForImport(selection, !hasCurrentBuiltIns);
+    }
   }
-  // 插件双 map 与内置覆盖一样只在存储导入时解释；
-  // 正式 map 存在即为权威，空值/损坏值也不能复活旧 model 或档位。
-  const pluginSelections = Object.hasOwn(input, "pluginAgentModelSelectionOverrides")
-    ? parsePluginSubagentModelSelectionOverrides(input.pluginAgentModelSelectionOverrides)
-    : Object.fromEntries(
-        Object.entries(record(input.pluginAgentModelOverrides)).flatMap(([id, model]) => {
-          const selection = parseSubagentMarkdownSelection({
-            model,
-            thoughtLevel: record(input.pluginAgentThoughtLevelOverrides)[id],
-          });
-          if (!id.startsWith("plugin:") || !selection) return [];
-          const providerId = selection.providerId.startsWith("builtin:")
-            ? migrateLegacyModelProviderId(selection.providerId)
-            : selection.providerId;
-          return [
-            [
-              id,
-              providerId
-                ? {
-                    ...selection,
-                    providerId,
-                    modelId: migrateLegacyOfficialGlmModelId(
-                      selection.providerId,
-                      selection.modelId,
-                    ),
-                  }
-                : selection,
-            ],
-          ];
-        }),
-      );
+
+  let pluginAgentModelSelectionOverrides: PluginSubagentModelSelectionOverrides;
+  // 插件的新字段同样以自有属性为准，保留解析端口返回的映射身份。
+  if (Object.hasOwn(input, "pluginAgentModelSelectionOverrides")) {
+    pluginAgentModelSelectionOverrides = parsePluginSubagentModelSelectionOverrides(
+      input.pluginAgentModelSelectionOverrides,
+    );
+  } else {
+    const thoughtLevels = asRecord(input.pluginAgentThoughtLevelOverrides);
+    const accepted: Array<[string, StoredSelection]> = [];
+    for (const [id, model] of Object.entries(asRecord(input.pluginAgentModelOverrides))) {
+      const selection = parseSubagentMarkdownSelection({
+        model,
+        thoughtLevel: thoughtLevels[id],
+      });
+      if (id.startsWith("plugin:") && selection) {
+        accepted.push([id, selectionForImport(selection, true)]);
+      }
+    }
+    pluginAgentModelSelectionOverrides = Object.fromEntries(accepted);
+  }
+
   return {
     ...input,
-    builtInModelSelectionOverrides: selections,
-    pluginAgentModelSelectionOverrides: pluginSelections,
+    builtInModelSelectionOverrides,
+    pluginAgentModelSelectionOverrides,
   };
 }

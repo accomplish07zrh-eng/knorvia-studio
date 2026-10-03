@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "scope": "Ninth root batch Edit matcher exact-head native CI receipt; excludes subsequent Edit transaction changes",
+  "head": "1782b3ecbdb20ab9c0a9616fe6fbfe337ce970d2",
+  "checkedMergeSha": "fa19062cbd9a8d2703f116274a623c67ebf5e7d0",
+  "checkedTree": "2a0769e234c7008e216997fc79827851edfb3112",
+  "headTreeExactMatch": true,
+  "run": 36771242926,
+  "runNumber": 203,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36771242926",
+  "linux": {
+    "job": 110077894863,
+    "result": "success",
+    "tests": 5482,
+    "pass": 5474,
+    "fail": 0,
+    "skip": 8
+  },
+  "windows": {
+    "job": 110077894653,
+    "result": "success",
+    "tests": 5482,
+    "pass": 5481,
+    "fail": 0,
+    "skip": 1
+  },
+  "limits": [
+    "Passing run does not resolve the earlier intermittent creation timeout root cause",
+    "Native UI, installer, real provider and data-upgrade acceptance remain separate",
+    "All 27 material obligations and transition licensing remain; no MIT clearance"
+  ]
+}

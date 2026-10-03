@@ -1,0 +1,38 @@
+import { type IChannelClient } from "@knorvia/rpc";
+import { IStudioRuntimeService, ICreationService, IFileService, IMediaPreviewService, IGitService, IGitCheckpointService, ISystemService, ITerminalService, ISettingService, IOnboardingRecordService, ICredentialService, IBroadcastService, IKnorviaTaskService, IKnorviaAgentService, IKnorviaSessionService, ICuaPermissionService, IFileWatcherService, IModelSelectionService, IProviderSettingsService, IUsageStatsService, ISkillsService, ISkillSyncService, IMcpSyncService, IPluginSyncService, IPluginsService, IPluginManagementService, ISubagentsService, ICommandsService, IHooksService, IMemoryService, ISettingsSyncService, IPromptAttachmentTransferService, IWindowControllerService, type IServiceAccessor } from "@knorvia/services";
+export declare class RemoteServiceAccess implements IServiceAccessor {
+    readonly studioRuntimeService: IStudioRuntimeService;
+    readonly creationService: ICreationService;
+    readonly fileService: IFileService;
+    readonly mediaPreviewService: IMediaPreviewService;
+    readonly gitService: IGitService;
+    readonly gitCheckpointService: IGitCheckpointService;
+    readonly systemService: ISystemService;
+    readonly terminalService: ITerminalService;
+    readonly settingService: ISettingService;
+    readonly onboardingRecordService: IOnboardingRecordService;
+    readonly credentialService: ICredentialService;
+    readonly broadcastService: IBroadcastService;
+    readonly taskService: IKnorviaTaskService;
+    readonly windowControllerService: IWindowControllerService;
+    readonly agentService: IKnorviaAgentService;
+    readonly sessionService: IKnorviaSessionService;
+    readonly cuaPermissionService: ICuaPermissionService;
+    readonly fileWatcherService: IFileWatcherService;
+    readonly providerSettingsService: IProviderSettingsService;
+    readonly modelSelectionService: IModelSelectionService;
+    readonly usageStatsService: IUsageStatsService;
+    readonly skillsService: ISkillsService;
+    readonly skillSyncService: ISkillSyncService;
+    readonly mcpSyncService: IMcpSyncService;
+    readonly pluginSyncService: IPluginSyncService;
+    readonly pluginsService: IPluginsService;
+    readonly pluginManagementService: IPluginManagementService;
+    readonly subagentsService: ISubagentsService;
+    readonly commandsService: ICommandsService;
+    readonly hooksService: IHooksService;
+    readonly memoryService: IMemoryService;
+    readonly settingsSyncService: ISettingsSyncService;
+    readonly promptAttachmentTransferService: IPromptAttachmentTransferService;
+    constructor(channelClient: IChannelClient);
+}

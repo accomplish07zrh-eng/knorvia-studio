@@ -1,0 +1,69 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+const directory='packages/desktop/src/main/browserView';
+const packet='licensing/evidence/desktop-tab-clipboard-owners-20261003';
+const names=['browserTabResidencyCoordinator','browserTabRecoveryStore','browserVirtualClipboard'];
+const base=process.env.KNORVIA_OWNER_BASELINE??directory;
+const virtual='/virtual-knorvia-tab-clipboard';
+const sources=new Map(names.map(name=>[virtual+'/'+name+'.ts',fs.readFileSync(path.join(base,name+'.ts'),'utf8')]));
+sources.set(virtual+'/browserCommandTypes.d.ts',fs.readFileSync(packet+'/public-view.d.ts','utf8'));
+sources.set(virtual+'/browserTabResidencyPolicy.d.ts',fs.readFileSync(packet+'/public-policy.d.ts','utf8'));
+sources.set(virtual+'/shared.d.ts','export type BrowserViewportSize={width:number;height:number};');
+sources.set(virtual+'/ports.d.ts',`
+export function randomUUID():string;
+export function mkdir(path:string,options:{recursive:boolean}):Promise<string|undefined>;
+export function readFile(path:string,encoding:'utf8'):Promise<string>;
+export function rename(from:string,to:string):Promise<void>;
+export function unlink(path:string):Promise<void>;
+export function writeFile(path:string,data:string,encoding:'utf8'):Promise<void>;
+export function dirname(path:string):string;
+export const IAB_INPUT_TARGET_TOKEN_PROPERTY:string;
+export const VIRTUAL_PASTE_PAGE_FUNCTION:string;
+`);
+sources.set(virtual+'/globals.d.ts','declare namespace NodeJS {interface ErrnoException extends Error {code?:string}} declare const Buffer:{byteLength(value:string,encoding:string):number};');
+const options={strict:true,target:ts.ScriptTarget.ESNext,module:ts.ModuleKind.ESNext,noEmit:true,types:[],skipLibCheck:false};
+const standard=ts.createCompilerHost(options),stdlib=path.dirname(ts.getDefaultLibFilePath(options))+path.sep;
+const permits=file=>sources.has(file)||path.resolve(file).startsWith(stdlib);
+const host={...standard,fileExists:file=>sources.has(file)||(permits(file)&&standard.fileExists(file)),readFile:file=>sources.get(file)??(permits(file)?standard.readFile(file):undefined),getSourceFile:(file,version)=>sources.has(file)?ts.createSourceFile(file,sources.get(file),version,true):permits(file)?standard.getSourceFile(file,version):undefined,resolveModuleNames:requests=>requests.map(request=>{
+ const file=request==='@knorvia/shared'?virtual+'/shared.d.ts':request==='./browserCommandTypes.js'?virtual+'/browserCommandTypes.d.ts':request==='./browserTabResidencyPolicy.js'?virtual+'/browserTabResidencyPolicy.d.ts':['node:crypto','node:fs/promises','node:path','./browserVirtualClipboardPageScript.js'].includes(request)?virtual+'/ports.d.ts':undefined;
+ return file?{resolvedFileName:file,extension:ts.Extension.Dts}:undefined;
+})};
+const program=ts.createProgram([...sources.keys()],options,host),diagnostics=ts.getPreEmitDiagnostics(program);
+console.log(ts.formatDiagnosticsWithColorAndContext(diagnostics,{getCurrentDirectory:()=>virtual,getCanonicalFileName:name=>name,getNewLine:()=> '\n'}));
+console.log('Restricted synthetic port semantic diagnostics: '+diagnostics.length+'. Actual product/dependency/native type closure NOT certified.');
+for(const name of [...names,'browserGuestManager','browserCommandInteractionHandlers','browserPlaywrightLocatorExecutor']){
+ const file=names.includes(name)?path.join(base,name+'.ts'):directory+'/'+name+'.ts';
+ const emitted=ts.transpileModule(fs.readFileSync(file,'utf8'),{fileName:file,reportDiagnostics:true,compilerOptions:options});
+ assert.equal(emitted.diagnostics.filter(d=>d.category===ts.DiagnosticCategory.Error).length,0,file);
+}
+const checker=program.getTypeChecker();
+const isPrivate=symbol=>symbol.declarations?.some(declaration=>declaration.modifiers?.some(modifier=>modifier.kind===ts.SyntaxKind.PrivateKeyword||modifier.kind===ts.SyntaxKind.ProtectedKeyword));
+function signatureShape(signature,depth){return {parameters:signature.parameters.map(symbol=>({optional:Boolean(symbol.valueDeclaration?.questionToken||symbol.valueDeclaration?.initializer),type:typeShape(checker.getTypeOfSymbolAtLocation(symbol,symbol.valueDeclaration),depth+1)})),returns:typeShape(checker.getReturnTypeOfSignature(signature),depth+1)};}
+function typeShape(type,depth=0){
+ assert.ok(depth<16,'Bounded public structural recursion');
+ if(type.isUnion())return {union:type.types.map(member=>typeShape(member,depth+1)).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b)))};
+ if(type.symbol?.name==='Promise')return {promise:typeShape(checker.getTypeArguments(type)[0],depth+1)};
+ if(checker.isArrayType(type)||checker.isTupleType(type))return {array:checker.getTypeArguments(type).map(member=>typeShape(member,depth+1))};
+ const calls=type.getCallSignatures();if(calls.length)return {calls:calls.map(signature=>signatureShape(signature,depth+1))};
+ if(type.flags&ts.TypeFlags.Object){return {properties:checker.getPropertiesOfType(type).filter(symbol=>!isPrivate(symbol)).map(symbol=>({name:symbol.name,optional:Boolean(symbol.flags&ts.SymbolFlags.Optional),readonly:Boolean(symbol.declarations?.some(declaration=>declaration.modifiers?.some(modifier=>modifier.kind===ts.SyntaxKind.ReadonlyKeyword))),type:typeShape(checker.getTypeOfSymbolAtLocation(symbol,symbol.valueDeclaration??symbol.declarations[0]),depth+1)})).sort((a,b)=>a.name.localeCompare(b.name))};}
+ return checker.typeToString(type,undefined,ts.TypeFormatFlags.NoTruncation);
+}
+const expected=[['BrowserTabResidencyCoordinator','BrowserTabResidencyRecord'],['BrowserTabNavigationEntry','BrowserTabPageStateRecord','BrowserTabRecoveryStore','BrowserTabShellRecord'],['IAB_INPUT_TARGET_TOKEN_PROPERTY','assertFocusedInputTarget','createInputTargetToken','pasteTextIntoFocusedTarget']];
+const shapes=[];
+for(const [i,name]of names.entries()){
+ const file=program.getSourceFile(virtual+'/'+name+'.ts'),symbols=checker.getExportsOfModule(checker.getSymbolAtLocation(file)).sort((a,b)=>a.name.localeCompare(b.name));
+ assert.deepEqual(symbols.map(symbol=>symbol.name),expected[i].sort());
+ for(const symbol of symbols){
+  const declaration=symbol.declarations[0];
+  if(ts.isInterfaceDeclaration(declaration))shapes.push({name:symbol.name,kind:'interface',type:typeShape(checker.getDeclaredTypeOfSymbol(symbol))});
+  else if(ts.isClassDeclaration(declaration)){
+   const staticType=checker.getTypeOfSymbolAtLocation(symbol,declaration);shapes.push({name:symbol.name,kind:'class',constructors:staticType.getConstructSignatures().map(signature=>({parameters:signatureShape(signature,0).parameters})),instance:typeShape(checker.getDeclaredTypeOfSymbol(symbol))});
+  }else shapes.push({name:symbol.name,kind:'value',type:typeShape(checker.getTypeOfSymbolAtLocation(symbol,file))});
+ }
+}
+console.log('Public exports compared: '+shapes.length+' including class constructors/public methods/record shapes; direct consumer syntax3.');
+if(process.env.KNORVIA_PUBLIC_SHAPE_OUT)fs.writeFileSync(process.env.KNORVIA_PUBLIC_SHAPE_OUT,JSON.stringify(shapes,null,2)+'\n',{flag:'wx'});
+if(process.env.KNORVIA_PUBLIC_SHAPE_COMPARE)assert.deepEqual(shapes,JSON.parse(fs.readFileSync(process.env.KNORVIA_PUBLIC_SHAPE_COMPARE,'utf8')));
+if(diagnostics.length)process.exitCode=1;

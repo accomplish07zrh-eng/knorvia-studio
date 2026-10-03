@@ -1,0 +1,94 @@
+{
+  "typescript": "6.0.2",
+  "frontmatter": {
+    "originalSourceSha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9",
+    "newSourceSha256": "07e40701dc696516abcdd669fef3559ecc6a2d0c628fc6970dc0e26e5f6723ae",
+    "originalJsBytes": 2859,
+    "newJsBytes": 2859,
+    "originalJsSha256": "13d578b9e360f158da8824b8ef1c39126a155b3906d020450557a7f43abc5fc1",
+    "newJsSha256": "13d578b9e360f158da8824b8ef1c39126a155b3906d020450557a7f43abc5fc1",
+    "runtimeBytesEqual": true,
+    "originalBound": true
+  },
+  "reusedBindings": [
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/get-workflow-run-roster-output.ts.txt",
+      "bytes": 4491,
+      "sha256": "ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d",
+      "scope": "projection",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/frontmatter/frontmatter.ts.txt",
+      "bytes": 2909,
+      "sha256": "7f481b1a5a9d050a731c10b43d2146fc2a1c8092ad0b0025004ff5448b75d7c9",
+      "scope": "frontmatter",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/workflow-script-notes.ts.txt",
+      "bytes": 2133,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "scope": "notes",
+      "exact": true
+    }
+  ],
+  "groups": [
+    {
+      "scope": "format",
+      "name": "schema identity, exact block order/escaping/raw outcomes and original port dispatch",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-format-v2.json"
+    },
+    {
+      "scope": "format",
+      "name": "uncertainty/empty optional phases and provider body-before-attribute preservation",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-format-v2.json"
+    },
+    {
+      "scope": "format",
+      "name": "resumption/amend routing precedence and exact status/path prose",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-format-v2.json"
+    },
+    {
+      "scope": "projection",
+      "name": "phase/subagent caps, ordered fresh nested identities and exact omission",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-original.json",
+      "reuse": "Same exact whole source bytes"
+    },
+    {
+      "scope": "projection",
+      "name": "health own-key order/unknown-versus-zero and copied concurrency identity",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-original.json",
+      "reuse": "Same exact whole source bytes"
+    },
+    {
+      "scope": "frontmatter",
+      "name": "sentinels/ordered serializer identity and raw CRLF script/offset roundtrip projection",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-original.json",
+      "reuse": "Same exact isolated-transpilation JavaScript bytes; complete type-only same-author replacement"
+    },
+    {
+      "scope": "frontmatter",
+      "name": "four exact errors/native parser-versus-schema exception boundaries",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-original.json",
+      "reuse": "Same exact isolated-transpilation JavaScript bytes; complete type-only same-author replacement"
+    },
+    {
+      "scope": "notes",
+      "name": "fresh diagnostics/order/offset and exact raw path/template note projections",
+      "passed": true,
+      "evidence": "docs/evidence/core-workflow-projection-owner-review-20261003/minimum-original.json",
+      "reuse": "Same exact whole source bytes"
+    }
+  ],
+  "distinctGroups": 8,
+  "passed": true,
+  "qualification": "Three changed-formatter groups rerun; projection2/notes1 exact-source reuse; frontmatter2 type-erasure byte-identical reuse. Eight distinct acceptance groups, no repetitive rerun credit. Original provider-order failure and guard qualification retained. No semantic/project check or native execution/rights closure."
+}

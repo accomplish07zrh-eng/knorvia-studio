@@ -1,0 +1,26 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+
+Caught error:
+
+TypeError: Cannot read properties of undefined (reading 'toString')
+    at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-preparation-five-safety-20261003.mjs:97:2) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: TypeError: Cannot read properties of undefined (reading 'toString')
+      at formatGoalCompletionVerificationPrompt (file:///workspace/knorvia-studio/apps/cli/packages/contracts/dist/tools/target.js:131:79)
+      at Object.verifyTargetCompletion (file:///tmp/knorvia-goal-stop-five-synthetic-w7CaRT/target-completion-verification.mjs:86:30)
+      at async execute (file:///tmp/knorvia-goal-stop-five-synthetic-w7CaRT/target-completion-verification.mjs:25:30)
+      at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/src/runtime/methods/target-completion-verification-telemetry.ts:24:22)
+      at async waitForActual (node:assert:646:5)
+      at async strict.rejects (node:assert:769:25)
+      at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-preparation-five-safety-20261003.mjs:97:2),
+  expected: [Function (anonymous)],
+  operator: 'rejects',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -33,7 +33,6 @@ export function captureProjectMemoryAgentContext(
   runtime: AgentRuntimeInternal,
   input: {
     memoryRoot: string;
-    /** Extraction 继承产生该工作的 Turn Model。 */
     model?: Model;
     operation: ModelApiOperation;
     traceContext: TraceContext;
@@ -45,8 +44,6 @@ export function captureProjectMemoryAgentContext(
       selection: runtime.getSessionModelSelection(),
     });
   const model = withModelInvocationContext(baseModel, (request) => ({
-    // Extraction 是 transcript 的消费者；不把它自己的请求写回同一 model-io 目录，
-    // 避免后台链路占用 rollout 槽位并在后续 Extraction 中自反馈。
     metadata: {
       ...traceContextToLogContext(input.traceContext),
       querySource: input.operation,
@@ -61,12 +58,10 @@ export function captureProjectMemoryAgentContext(
     }),
     traceContext: input.traceContext,
   }));
+
   return {
     causation: runtime.agentTelemetry.captureCausation(),
     memoryRoot: input.memoryRoot,
-    // Extraction 会跨异步边界消费这份成员浅快照；它依赖 RuntimeMessageEntry
-    // 进入 MessageHistory 后保持不可变。后续只能 append、整体 replace 或 copy-on-write，
-    // 禁止原地修改共享的 entry/message/content，否则会污染已调度的 Memory 上下文。
     providerEntries: [...runtime.messageHistory.borrowReadOnlyRuntimeEntries()],
     midConversationSystem: runtime.config.midConversationSystem,
     model,
@@ -89,9 +84,7 @@ export function buildProjectMemoryAgentProviderMessages(
     { message: { content: prompt, role: "user" } },
   ];
   return buildRuntimeProviderRequestMessages(
-    {
-      config: { midConversationSystem: context.midConversationSystem },
-    },
+    { config: { midConversationSystem: context.midConversationSystem } },
     { applyCacheControl: true, entries, model: context.model },
   ).messages;
 }
@@ -99,7 +92,7 @@ export function buildProjectMemoryAgentProviderMessages(
 export function createProjectMemoryAgentToolExecutor(
   runtime: AgentRuntimeInternal,
   context: ProjectMemoryAgentContext,
-) {
+): ReturnType<typeof createToolExecutor> {
   return createToolExecutor({
     artifactStore: runtime.artifactStore,
     emitEvent: async () => {},
@@ -116,8 +109,6 @@ export function createProjectMemoryAgentToolExecutor(
     model: context.model,
     permissionBroker: createDenyPermissionBroker(),
     permissionService: new PermissionService(defaultPermissionConfig),
-    // Memory agent 必须继承 Main 已完成的 Read；否则 provider context 说文件已读，
-    // Edit 执行边界却会拒绝同一文件，和基线的 cloned tool context 不一致。
     readFileState: new Map(context.readFileState),
     registry: runtime.registry,
     runtimeScope: "main",

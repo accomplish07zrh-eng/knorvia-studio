@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "scope": "Bounded UTF-16 missing-file suggestion predicate and mechanically retained Read presentation extraction",
+  "baseCommit": "e1a9272e191668731f5e4d2650dc609f42bed5af",
+  "behavior": [
+    "One parent-directory listing through the current filesystem port; existing error and cancellation behavior preserved",
+    "Filter file/symlink, exclude exact target, default UTF-16 sort, same-stem priority, then first distance<=3 candidate",
+    "Length rejection, saturated seven-cell bands and two fixed byte buffers; no full-distance computation",
+    "Keep the original Read error cause/context/message and original cache, permission and input boundaries"
+  ],
+  "retainedRelocation": {
+    "from": "apps/cli/packages/core/src/tool/handlers/read.ts",
+    "to": "apps/cli/packages/core/src/tool/handlers/read-model-content.ts",
+    "originalFileSha256": "db88d1c45ecc06ce8091a04aaeba6e9e6f1c2618c086427a5f27f2495fb01c9d",
+    "functionBodiesExactMatch": true,
+    "reason": "Explicit changed-file lint exposed the inherited handler still exceeding 400 logical lines. Move presentation only, do not disable the rule.",
+    "independentRewriteClaim": false,
+    "licence": "Existing upstream attribution and Apache transition obligations remain; no new MIT decision"
+  },
+  "validation": {
+    "oldRealReadContracts": {
+      "tests": 12,
+      "pass": 12,
+      "includesSeededCandidateSets": 400
+    },
+    "finalReadSource": {
+      "tests": 175,
+      "pass": 175
+    },
+    "finalActualReadEmitted": {
+      "tests": 175,
+      "pass": 175
+    },
+    "boundedDistanceReferencePairs": 14641,
+    "actualOldNewDifferential": {
+      "cases": 10000,
+      "mismatches": 0
+    },
+    "longInputCodeUnits": 250000,
+    "aggregate": {
+      "tests": 5260,
+      "pass": 5194,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureNamesExactMatch": true,
+    "rootAndSerialCliTypes": "pass",
+    "rootCliAndExplicitFiveFileLint": "pass",
+    "fullFormat": "pass",
+    "architecture": "pass",
+    "cliBuild": {
+      "success": 17,
+      "total": 17,
+      "cache": 10
+    }
+  },
+  "failureFirst": "Original explicit changed-file lint failed max-lines on retained Read and warned about reference-test array construction. The format functions were mechanically relocated under the spec; test reference initialization made explicit. Final five-file strict lint passes.",
+  "performanceObservation": {
+    "fixture": "one pair of 4097 UTF-16 units; observations only, not product benchmark",
+    "beforeMs": [
+      271.2741400000001,
+      288.060062,
+      306.28265599999986
+    ],
+    "afterMs": [
+      0.28052099999990787,
+      0.2735099999999875,
+      0.3082520000000386
+    ]
+  },
+  "fileDigests": {
+    "apps/cli/packages/core/src/tool/handlers/read.ts": "64513faf708de1851e29acdc5a000040cf82a887485347fe1faeca2b1375c656",
+    "apps/cli/packages/core/src/tool/handlers/read-file-suggestion.ts": "f856b08c44b6839911aee99d06f33ebc5d590aedc8923dc2ab0c42f29d4b8c40",
+    "apps/cli/packages/core/src/tool/handlers/read-model-content.ts": "83b056bbe3c25f8822eb400d11068cc439989f6733754b8346bfca2742b37806",
+    "apps/cli/packages/core/test/read-file-suggestion.test.ts": "0de9bd0e0fd725140a13e6d94086c2ee47048a1f789eadf1d835c8c0e1bf39ba",
+    "apps/cli/packages/core/test/read-file-distance.test.ts": "6acf651ac57800a3c5c43fff1d225c509a60e76b575e686975ea15c792d8bba5"
+  },
+  "logDigests": {
+    "read-suggestion-frozen.tap": "b90a0183b6010a6a28262eaf6830ca01504986561ab2cc92677d831c581aa4ad",
+    "read-suggestion-all-read.tap": "88f84b3c5ac6dee635400d35de6ed8a36cfe875d6c311a17994a466f491bc94c",
+    "read-suggestion-emitted.tap": "473ae9f255704e144648ab2b3dc87da7bf47329cc1e03e0854c806dca169aaeb",
+    "read-suggestion-differential.log": "143f23051cbbe1d9d35afc9e647e99db9ef45b52d3fa117e26d249cc0c486096",
+    "read-suggestion-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "read-suggestion-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "read-suggestion-build.log": "35d7c98590d43457c3f79e14f3cbe7966773e121a19bbbf0ab9b2b8e6d1a9a51",
+    "read-suggestion-lint.log": "0e187c7365c6abc53cb560fffc8510fb05c2301751c9136f1d43579eb3142e84",
+    "read-suggestion-cli-lint.log": "79dfbbb06b0dcb9b1fbedc2683c1a444d43b85142b5638014e5160af649d6b98",
+    "read-suggestion-strict-lint-first-failure.log": "b70d34c34485479cddfaf58d4893d60c80a0fb92ecea883ef9312d7475f6e3b6",
+    "read-suggestion-strict-lint.log": "49b7dd0ddd9745cd9aedae0bc62d1b669a8f7b20036c67bf30c23265059a2b99",
+    "read-suggestion-format.log": "9d7210e69e4538e23022c808a117dbfa0185ed15180bbaa7b5fd36f8a90a7a20",
+    "read-suggestion-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "read-suggestion-full.tap": "dcd146c84049998f3c8477abcbd8dda85df0639403e91a76e29e0cc0ee226a35"
+  },
+  "limits": [
+    "The long-string timing samples are synthetic observations, not application performance claims",
+    "Actual owned emitted modules are tested; retained dependency exports can still resolve to source",
+    "59 own-cloud baseline socket EPERM failures and seven platform skips remain",
+    "Native filesystem, installer, GUI, deployment and production-data acceptance not established",
+    "No whole-handler independent rewrite or new MIT claim; 27 material obligations remain"
+  ]
+}

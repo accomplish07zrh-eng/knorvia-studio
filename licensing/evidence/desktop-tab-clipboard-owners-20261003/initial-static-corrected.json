@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_PUBLIC_SHAPE_COMPARE": "licensing/evidence/desktop-tab-clipboard-owners-20261003/baseline-public-shape.json"
+  },
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-static.mjs",
+      "sha256": "e1a40ec0d5b00f3e5ea867381e05c5ed20ccc7563e35772e004bfa154ede9ce2"
+    }
+  ],
+  "stdout": "\nRestricted synthetic port semantic diagnostics: 0. Actual product/dependency/native type closure NOT certified.\nPublic exports compared: 10 including class constructors/public methods/record shapes; direct consumer syntax3.\n",
+  "stderr": "",
+  "exitCode": 0
+}

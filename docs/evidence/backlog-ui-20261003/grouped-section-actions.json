@@ -1,0 +1,65 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "parentCheckpoint": "98bfe6d99d10024bdde2f5b0208c4a787ec66576",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Narrowed UI lane: grouped section actions, transient snapshot, menu projection and permissions",
+  "spec": "specs/knorvia-next-ui-consumer-boundaries-20261003.md",
+  "sourceExposure": "Selected section action blocks and existing view, task service, draft/store/query-cache public contracts read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; pending command contracts do not constitute React/store/host/output or rights acceptance",
+  "retainedCompatibility": [
+    "Original JSX/menu contents/labels, focus/select, painted latch, draft persistence and collapse preference owner",
+    "Existing grouped view helpers, scoped service lookup and host payloads",
+    "Target store/cache mutation ordering and flags retained in section adapter; no independent-author credit for these compatibility bridges",
+    "Existing drag/session algorithms unchanged; original canPublish interface used by section bridge",
+    "Section DOM/layout/sticky/cursor resources still await the next source batch"
+  ],
+  "explicitCorrections": [
+    "Current edit/submission alone may close rename dialog; latest per-task/service permission gates local view",
+    "Old archive failure cannot release a newer task-key visibility lease; same-service replay resumes pending visibility and failed/replaced leases release",
+    "Latest menu/drag structure command revokes older rollback/refresh acceptance through the existing interface"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+      "baseBlob": "ff19511c96396400b64dc198a413d716531a307e",
+      "baseSha256": "52b3acfa3832ff498b19f97108ff1aed7a7c9445b7c14f20197cd350578b79b5",
+      "candidateSha256": "6b70f43fd0c1030fb3518b22d58f1808aab0dd8b4f19d3211ae0c438b72190a2",
+      "candidateBytes": 37330,
+      "candidateRole": "partially rewritten section: new action adapter plus retained DOM/presentation/compatibility bridges",
+      "priorSource": {
+        "status": "existing record retained, not reclassified"
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "512792451a650b6869d5eeddfcf5e1dfa6d6e4210fcde8e6d09c6f82fecb0016",
+      "candidateBytes": 11766,
+      "candidateRole": "source-exposed command/projection candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionMenuProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "4585014143cf5be13fb4a663719929de527c8deee440b5df2232277504f4f1ea",
+      "candidateBytes": 1364,
+      "candidateRole": "source-exposed command/projection candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "edeb29fbeeaf8946cd0245b33575d204193d84594a727379603bd0b54aa99f8d",
+      "candidateBytes": 11763,
+      "candidateRole": "source-exposed command/projection candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    }
+  ]
+}

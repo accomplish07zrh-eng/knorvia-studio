@@ -1,0 +1,61 @@
+{
+  "base": "4b2ba2338816b1daafd04f66b966fd8e33da4833",
+  "sourceOnlyAllocation": {
+    "apps/cli/packages/core/src/tool/handlers/todo.ts": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+    "apps/cli/packages/core/src/runtime/methods/resume.ts": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec"
+  },
+  "noAcceptedFullOwnerFound": {
+    "apps/cli/packages/core/src/tool/handlers/todo.ts": true,
+    "apps/cli/packages/core/src/runtime/methods/resume.ts": true
+  },
+  "inventory": {
+    "apps/cli/packages/core/src/tool/handlers/todo.ts": {
+      "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+      "kind": "file",
+      "sha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+      "normalizedSha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+      "encoding": "utf8-lf",
+      "bytes": 5663,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/todo.ts",
+        "blob": "01c8b0b1d6df448c286968fba249e2f77d784d5b",
+        "normalizedSha256": "6cd7d34b9e12d6c9bcddb1e5eedafdd001b9f73baf83f8414927be8de1047a04",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    "apps/cli/packages/core/src/runtime/methods/resume.ts": {
+      "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+      "kind": "file",
+      "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec",
+      "normalizedSha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec",
+      "encoding": "utf8-lf",
+      "bytes": 16828,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime/methods/resume.ts",
+        "blob": "515d26e0cb98561855301c6616bb5ad6881827f0",
+        "normalizedSha256": "707b1983f7461fa10d300ebcebe6843111d52320a4b67c3b22293aa7e760fb3e",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  },
+  "resumeDecision": "Proceed on complete resume coordinator and projections: only earlier mixed-dependency/protected records; no full accepted owner. E hydration/context and permission restoration/registry remain unchanged dependencies, not reconstructed here.",
+  "exclude": [
+    "tool-perf",
+    "held runtime-task/registry.ts",
+    "held agent/read-file-state-hydrator.ts",
+    "E hydration/history/context",
+    "completed service/state/permission protocols"
+  ]
+}

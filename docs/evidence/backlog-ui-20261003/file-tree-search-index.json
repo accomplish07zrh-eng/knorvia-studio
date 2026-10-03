@@ -1,0 +1,56 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Named file-tree search index lifecycle files only; byte record, not audit or verification",
+  "spec": "specs/knorvia-next-ui-file-tree-lifecycle-20261003.md",
+  "sourceExposure": "Existing hook, packed fetch, worker filter, file-tree consumer and service signature read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared request/state scenarios do not cover actual React effects, packed fetch or worker execution",
+  "explicitCorrections": [
+    "Disabled/unmounted requests cannot publish stale state",
+    "Enabled identity/remote-only scope reset also starts a new request"
+  ],
+  "retainedDependencies": [
+    "workspace-file-search/fetchWorkspaceFileEntries.ts",
+    "workspace-file-search/useWorkspaceFileSearchFilter.ts",
+    "@knorvia/shared/workspaceFileEntriesCodec"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+      "baseBlob": "b819c5db82a444213711d48aa37031a40486a98c",
+      "baseSha256": "164084857c00949ccf571399210f443da400c5bb6ee97a5047d46e33ec539223",
+      "candidateSha256": "a02c5dc73e66e7a34c88994c874f68a432cd085a598ba530c3c5389f35b3f7ed",
+      "candidateBytes": 2974,
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+          "blob": "2fc0ad4aad9e469761201b0262285353072d6860",
+          "normalizedSha256": "600dc5356c813259ab0f21758886fdea54548770b46a06e62788c33b20ddccaa",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "4472c95d132f1163e0fe49db50cd8dc1e8762edfb7859c9d099df859d9680e3e",
+      "candidateBytes": 2289,
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "7ab6016136c2882c1357ead83c0cf10d91f1e98f0bf13ed72c145eda453f72d3",
+      "candidateBytes": 4350,
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

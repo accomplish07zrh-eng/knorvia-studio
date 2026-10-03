@@ -1,0 +1,26 @@
+[
+  {
+    "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+    "baselineSha256": "a904c53b31cc9694e1ce06c1b03ea4ddba42ed415f37378fdc2e7422634b7b33",
+    "bytes": 3030,
+    "baselineCommit": "7d102a943141f5a970487b76132698c7c80d1114",
+    "publicPacket": "recording-author-packet.md",
+    "publicPacketSha256": "ae7fcabb0c0e192b40c3d982c64ddc116ecbdc4ecac8be761b96ed77d15176d7"
+  },
+  {
+    "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+    "baselineSha256": "28693ae370e7f73ff887d76c904a3717de30b431fd100061fcca09949aa9727f",
+    "bytes": 3411,
+    "baselineCommit": "7d102a943141f5a970487b76132698c7c80d1114",
+    "publicPacket": "proxy-author-packet.md",
+    "publicPacketSha256": "2b5120e6eb3665326b4253cfe6e0352e81e9787409357338d5c2d0b28fd706cd"
+  },
+  {
+    "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+    "baselineSha256": "f57927bc1d8059759e2e3a6493a7018993c4960e429532ccb7410d8e74df7219",
+    "bytes": 28530,
+    "baselineCommit": "7d102a943141f5a970487b76132698c7c80d1114",
+    "publicPacket": "registry-author-packet.md",
+    "publicPacketSha256": "1e5cbdecd67310f682e3fd34a50a132ffa664258ea6b0dd5f827a6fc103ee7da"
+  }
+]

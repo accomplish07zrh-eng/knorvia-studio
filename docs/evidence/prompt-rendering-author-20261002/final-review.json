@@ -1,0 +1,15 @@
+{
+  "batch": "prompt-rendering",
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "api": [
+    {
+      "module": "prompts",
+      "equal": true
+    },
+    {
+      "module": "formatters",
+      "equal": true
+    }
+  ]
+}

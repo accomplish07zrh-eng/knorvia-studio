@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/shared/src/official-mcp-auth.ts",
+    "packages/shared/src/runtimeEnv.ts",
+    "packages/shared/src/validationAppSettings.ts",
+    "packages/shared/src/workspace-hook-config.ts",
+    "packages/shared/src/workspace-hook-mutation.ts",
+    "packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs",
+    "licensing/evidence/shared-authority-settings-hook-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Finished in 25ms on 7 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

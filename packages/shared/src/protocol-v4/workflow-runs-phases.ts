@@ -1,8 +1,5 @@
-import {
-  WORKFLOW_RUNS_LIMITS,
-  type WorkflowRunPhase,
-  type WorkflowRunState,
-} from "./workflow-runs.js";
+// 本组按冻结事件合同重建集合与单槽更新；源码暴露，Apache-2.0/NOTICE 保留，来源资格待审。
+import { WORKFLOW_RUNS_LIMITS, type WorkflowRunState } from "./workflow-runs.js";
 
 /**
  * `phase-entered` 的归约：控制流经过了
@@ -51,24 +48,31 @@ export function reduceRunLaunched(
  */
 function readPhaseAlongside(raw: unknown, count: number): number[][] | undefined {
   if (!Array.isArray(raw)) return undefined;
-  const out: number[][] = [];
-  let any = false;
-  for (let index = 0; index < count; index += 1) {
-    const entry: unknown = raw[index];
-    const indexes: number[] = [];
-    if (Array.isArray(entry)) {
-      for (const value of entry) {
-        if (typeof value !== "number" || !Number.isInteger(value)) continue;
-        if (value < 0 || value >= count || value === index) continue;
-        if (indexes.includes(value)) continue;
-        indexes.push(value);
-        if (indexes.length >= WORKFLOW_RUNS_LIMITS.maxPhases) break;
-      }
+  const adjacency: number[][] = Array.from({ length: count }, () => []);
+  let edges = 0;
+  for (let source = 0; source < count; source++) {
+    const entry: unknown = raw[source];
+    if (!Array.isArray(entry)) continue;
+    const seen = new Set<number>();
+    const accepted = adjacency[source]!;
+    for (const destination of entry) {
+      if (
+        typeof destination !== "number" ||
+        !Number.isInteger(destination) ||
+        destination < 0 ||
+        destination >= count ||
+        destination === source ||
+        seen.has(destination)
+      )
+        continue;
+      seen.add(destination);
+      // Set 只判重，仍写原值：保留首次 -0 等原标量，不让 Set 改写其表示。
+      accepted.push(destination);
+      edges++;
+      if (accepted.length >= WORKFLOW_RUNS_LIMITS.maxPhases) break;
     }
-    if (indexes.length > 0) any = true;
-    out.push(indexes);
   }
-  return any ? out : undefined;
+  return edges ? adjacency : undefined;
 }
 
 export function reducePhaseEntered(
@@ -83,25 +87,19 @@ export function reducePhaseEntered(
       ? payload.ordinal
       : 1;
   const existing = run.phases ?? [];
-  const index = existing.findIndex((phase) => phase.name === name);
-  let phases: WorkflowRunPhase[];
-  let truncated = run.truncated === true;
-  if (index >= 0) {
-    const current = existing[index]!;
-    phases =
-      current.rounds >= ordinal
-        ? existing
-        : existing.map((phase, i) => (i === index ? { ...phase, rounds: ordinal } : phase));
-  } else if (existing.length >= WORKFLOW_RUNS_LIMITS.maxPhases) {
-    phases = existing;
-    truncated = true;
-  } else {
-    phases = [...existing, { name, rounds: ordinal }];
+  const slot = existing.findIndex((phase) => phase.name === name);
+  let phases = existing;
+  const overflow = slot < 0 && existing.length >= WORKFLOW_RUNS_LIMITS.maxPhases;
+  if (slot >= 0 && !(existing[slot]!.rounds >= ordinal)) {
+    phases = existing.slice();
+    phases[slot] = { ...existing[slot]!, rounds: ordinal };
+  } else if (slot < 0 && !overflow) {
+    phases = existing.concat({ name, rounds: ordinal });
   }
   return {
     ...run,
     phases,
     currentPhase: name,
-    ...(truncated ? { truncated: true } : {}),
+    ...(run.truncated === true || overflow ? { truncated: true } : {}),
   };
 }

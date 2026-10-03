@@ -1,0 +1,29 @@
+{
+  "bindings": {
+    "history": {
+      "path": "docs/evidence/core-hydration-owner-packet-20261003/history-v2/session-history-hydrator.ts.txt",
+      "bytes": 13191,
+      "sha256": "458997f92dc55e1ecfed0fc6155fc6676128a0d710c725e13f77479976e9be7f"
+    }
+  },
+  "groups": [
+    {
+      "name": "history branch versus compaction ordering and legacy kept-ID boundary",
+      "passed": true
+    },
+    {
+      "name": "shared-context privacy, user ordering and empty attachment anchor without writes",
+      "passed": true
+    },
+    {
+      "name": "raw synthetic attachment source and provider wrapping/metadata precedence",
+      "passed": true
+    },
+    {
+      "name": "assistant usage, selected tool/media ordering, partial failure and immutable session state",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "qualification": "At most six distinct minimum synthetic candidate-only groups; --media-only restricts the initial media boundary review to two. In-memory VM and explicit fake original ports only; isolated transpilation to execute synthetic cases, no semantic/project compilation or source-emitted matrix, real session/media/provider/network/user data, business writes or dependency body execution. Installed exact-byte static binding reuses these checks without repeating them."
+}

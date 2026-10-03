@@ -1,0 +1,75 @@
+{
+  "base": "04c6c761f222107054c2b5f3508846cd21f0756a",
+  "productionHead": "471d39c08d802b9898a0fcb2d4a2c3987bdd9663",
+  "productionCommits": {
+    "target-completion-verification": "6f9ce64c4b071cc43bd90d20a3604b1fff895aaf",
+    "turn-loop": "48a9e3fa5dd1a5958145697742586c0396612868",
+    "turn-model": "ae10199ccda826099e2c749262ce28c8dcc24038",
+    "plugin-reference": "3f47e1101de20da3f2ae9d58f63969eade5695e8",
+    "session-shell-environment": "471d39c08d802b9898a0fcb2d4a2c3987bdd9663"
+  },
+  "freezeAndDraftFailureCommits": [
+    "215a4fe2cd1fc45877b90333b4d787289fb8ea8a",
+    "9d228abca56add146dcdc301062346aa0af1fd1b",
+    "ec1dc0a7870e1bad1eeb3ceea7eb76324c90f7bc"
+  ],
+  "receipts": {
+    "target-completion-verification": "ed803bd3827c36730b6ce2e0acf08e0a3ce2d22494572efb37c16c57d3e0bb3d",
+    "turn-loop": "0411b9593fe000bfbf6eddfb8f027c7d2c57c348b273cd878c32ded90b7f1271",
+    "turn-model": "d4703f4e72ce90da0f0522f71d30d449a05a75c3e44b5e908cf69a456d562e64",
+    "plugin-reference": "b3ade757f310910338bcf21fec68c3b6eaaf4a0779d7726100c52615a4e1b77f",
+    "session-shell-environment": "69a3c6cd693625a6dc89910c7eccbc07e5a513af99eb9a2447c1d6a0fd64896f"
+  },
+  "currentSelectorSha256": "068ad60277e61ebf114ff7322b66008a237df5adcff49d78c295e2b6ac6c4d29",
+  "fixtureDigests": {
+    "runtime-preparation-five-safety-20261003.mjs": "39eead4493dd51291fe962b8a8afde5c2d60d761adf92297b86fe93572e09d45",
+    "runtime-verifier-iteration-proof-20261003.mjs": "fb7d0b55bc77216777f0ea0c1cead7d6fa33ecd27b9d96dd80f8c3835d9faff8"
+  },
+  "checkFiles": {
+    "architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "artifact-proof.json": "fb9a6703d8b0e3e8102b012a9d28a25078d7adba2044d4469fd555ee8494317f",
+    "final-safety.log": "2994a92747cfc3df1385d4314fea5ed02207b4efe71a3cae09762972706125ce",
+    "iteration-final.log": "be38ab3b916883821d1ce9f9ccf01ea06d59c7e74658d678a6d030c262ecf17a",
+    "owned-format.log": "b5abd1a7ba718b9f7eb7dbbb5630b9e33cc7de0ac147d53e1c7369ff5322c1fd",
+    "owned-lint.json": "6debee7d6c460f9679858035cb8ee9c4afc277e5dc46b3fc07fd884999baebf5",
+    "owned-lint.log": "735fa0183054b2e2e91b7f73ce008195adb723c592b47c06ad4fe8c5fa23bd37",
+    "scoped-compile.cjs": "b8c24e82d27885e6f9e7e28c7e90051d31fd794c1112aa22312b658c087b5606",
+    "scoped-types.json": "ee9635d4ad269a95e0b96e6137b54cf5654477700610c1c44b50660d0aa870d2",
+    "verify-artifacts.cjs": "f68415ea3a0435bc422a2e76c356ac9554040b6989760a7d1821c15905d556c6"
+  },
+  "checks": {
+    "scopedTypes": "TypeScript6.0.2 zero diagnostics;15 exact exported call signatures and fixed non-function declaration AST facts equal;only5owners actual JS/declarations emitted, not a product build.",
+    "syntheticSafety": "One final strict actual-emitted3-group run:submission selection write/publication,plugin history/write rejection,verifier target write/event rejection/telemetry. Separate1iteration capture proof passes;it overlaps the verifier owner and is not additional broad consumer coverage. No duplicate source suite.",
+    "artifacts": {
+      "currentArtifacts": 15,
+      "historicalArtifacts": 15,
+      "historicalOracles": 5,
+      "packetDraftJournalFiles": 42,
+      "wrongCompiledRejected": true,
+      "missingDeclarationRejected": true,
+      "scope": "exact selectors and synthetic read controls; no actual artifact mutation"
+    },
+    "lint": "5sources,94rules,0warnings/errors",
+    "format": "5sources+2fixtures pass",
+    "architecture": "0violations;5sources within400physical lines"
+  },
+  "failureEvidence": "Exact baseline iteration5 versus sealed-draft10 preserved before correction;final targetId captured before projection await while event targetId remains live. Fixture/setup failures retained separately. Curator alias cleanup protocol-literal compiler failure preserved;subsequent intermediate selector/safety logs explicitly unaccepted because shell continued with prior emission. Literal restored,successful scoped compile then final exact pins/checks. Historical oracles/assertions unchanged.",
+  "authorship": "5fresh internal authors fork_turns=none,GPT6.1Sol/high,source-derived body-free functional/API/import/supporting packets with recorded supplemental port facts. Drafts/access journals/hash seals archived before source-exposed curator comparison. No predecessor-body/history/oracle or team-status accesses reported by these authors;ordinary environment metadata still available. No absolute clean-room claim.",
+  "retainedExpression": "All5retain strong predecessor correspondence in contract-specified guard/call/record/await/catch combinations. Submission-model syntax especially close;regular-turn guide inlining and verifier parameterization are organization changes,not whole-body expression clearance. Fixed strings/APIs/standard idioms/helper calls retained;conventional vocabulary alone does not clear a copied combination. Each candidate remains qualified for independent expression/rights review;no header/global inventory/MIT grant.",
+  "protectedScope": "Production diff versus04c6c761 exactly5selected runtime method files. Existing accepted handlers/graph/expert/persistence/streaming,command-queue/runtime-command-submit/registry,permission/fullaccess,E workflow/context/provider/media/compaction/history/attachment/memory/reminder/error owners,Host,sharedlicensing/dependencies/CI and other lanes unchanged. No cross-lane integration.",
+  "remainingSelectedQueue": [],
+  "nextRealGaps": "Independent correctness/expression/rights review and aggregate/native acceptance. Full regular-turn and shell consumers are unexecuted. Resume/context coordination and oversized subagent/turn orchestration need separate allocation;nonsecurity runtime inventory is not claimed exhausted.",
+  "limits": [
+    "Ordinary suites/builds/native/root-wide checks deliberately deferred under speed-first cadence.",
+    "Real callers traced statically;minimal3groups do not prove all timing/abort/concurrency branches. Turn-loop/shell ordinary behavior unrun.",
+    "Selected old/current owner JS is actual scoped compiler output. Import locations rebound only;unchanged transitive dependencies via tsx source resolution. Explicit synthetic plugin parser/builder,provider projection and usage-fact seams avoid real discovery/providers/data.",
+    "Freshness fetch blocked existing configured proxy8080;no proxy/access/environment workaround. Local reads and execution available.",
+    "No actual provider,userdata,credential,process/OS/security setting action,mainmerge,release,deploy or licence closure."
+  ],
+  "reproduce": [
+    "node docs/evidence/runtime-preparation-five-checks-20261003/scoped-compile.cjs --emit",
+    "node docs/evidence/runtime-preparation-five-checks-20261003/verify-artifacts.cjs",
+    "node --import tsx apps/cli/packages/core/test/runtime-preparation-five-safety-20261003.mjs current",
+    "node --import tsx apps/cli/packages/core/test/runtime-verifier-iteration-proof-20261003.mjs current"
+  ]
+}

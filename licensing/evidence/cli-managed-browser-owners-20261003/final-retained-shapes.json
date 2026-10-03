@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/cli-managed-browser-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "[{\"owner\":\"index\",\"commandCases\":21,\"identicalBodies\":[],\"identicalExpressionCount\":300},{\"owner\":\"session\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"setViewport\",\"candidate\":\"setViewport\",\"bodyHash\":\"54b244fa476b70697f18c01887fecef4a2b95aeb69bbf5949c392f9cc8b56dd8\"}],\"identicalExpressionCount\":108},{\"owner\":\"page-command\",\"commandCases\":25,\"identicalBodies\":[{\"baseline\":\"isAllowedManagedBrowserUrl\",\"candidate\":\"isAllowedManagedBrowserUrl\",\"bodyHash\":\"e17bdf5e0ca2d7630608c90f6e62879d360d22279325cdd9eece80f2b9c55b70\"},{\"baseline\":\"elementForRef\",\"candidate\":\"requiredElement\",\"bodyHash\":\"3a0a5ffbebd81a67ad8b9987177418a74d88ca5d5f15b8c8757ee84dad651634\"}],\"identicalExpressionCount\":388}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

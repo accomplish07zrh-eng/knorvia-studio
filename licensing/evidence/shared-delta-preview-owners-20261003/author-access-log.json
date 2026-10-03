@@ -1,0 +1,80 @@
+{
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "authors": [
+    {
+      "agent": "/root/shared_apply_owner_author",
+      "packet": "apply-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-apply-authored/apply.ts",
+      "accesses": [
+        "cat designated packet",
+        "cats exact root AGENTS and architecture skill",
+        "mkdir own tmp output directory",
+        "whole output via literal heredoc",
+        "sha256sum own output"
+      ],
+      "followupAccesses": [
+        "one literal heredoc whole-output write",
+        "sha256sum own output"
+      ],
+      "followupNoOtherReads": true
+    },
+    {
+      "agent": "/root/shared_coalesce_owner_author",
+      "packet": "coalesce-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-coalesce-authored/coalesce.ts",
+      "accesses": [
+        "cat designated packet",
+        "cats exact root AGENTS and architecture skill",
+        "mkdir own tmp output directory",
+        "whole output via literal heredoc",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_streaming_preview_author",
+      "packet": "streaming-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-streaming-authored/streaming-tool-input-preview.ts",
+      "accesses": [
+        "cat designated packet",
+        "cats exact root AGENTS and architecture skill",
+        "mkdir own tmp output directory",
+        "whole output via literal heredoc",
+        "self-corrected whole output via second literal heredoc and sha256sum before submitting initial freeze",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_tool_summary_author",
+      "packet": "summary-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-summary-authored/tool-call-summary.ts",
+      "accesses": [
+        "cat designated packet",
+        "cats exact root AGENTS and architecture skill",
+        "mkdir own tmp output directory",
+        "whole output via literal heredoc",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_permission_preview_author",
+      "packet": "permission-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-permission-authored/permission-request-preview.ts",
+      "accesses": [
+        "cat designated packet",
+        "cats exact root AGENTS and architecture skill",
+        "mkdir own tmp output directory",
+        "whole output via apply_patch",
+        "sha256sum own output"
+      ]
+    }
+  ],
+  "prohibitedAccessesReportedAbsent": "Source/dependencies/tests/history/other packets/outputs/guidance/repository edits/runtime/network/environment/userdata/credentials",
+  "curatorSourceExposed": true,
+  "curatorReads": "Mechanical file-text metadata scans for inventory; complete five selected implementations and scoped public declarations in delta/core/rows/snapshot/task-types-core.",
+  "sharedFilesystemNotOsIsolation": true,
+  "installation": "Whole frozen drafts/correction plus formatting only",
+  "independentProvenanceAcceptance": false,
+  "mitClaim": false
+}

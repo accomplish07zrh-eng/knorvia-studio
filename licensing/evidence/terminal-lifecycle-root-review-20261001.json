@@ -1,0 +1,92 @@
+{
+  "baseline": "20d70402ab7773f78e06c63f07deb2c34f359610",
+  "laneCheckpoint": "dc05985d04ddb7c7962b68592c2d9bf7bbbdd3a1",
+  "rootProductionHead": "86e6941e9d8289a0748af0cab8de0498806da6c5",
+  "changedPaths": [
+    "docs/knorvia-terminal-lifecycle-admission-fast-handoff-20261001.md",
+    "docs/knorvia-terminal-lifecycle-corrective-fast-handoff-20261001.md",
+    "docs/knorvia-terminal-lifecycle-fast-handoff-20261001.md",
+    "packages/services/src/terminal/terminalService.ts",
+    "packages/services/src/terminal/terminalServiceInstanceOwner.ts",
+    "packages/services/test/terminal-lifecycle-admission-fast-20261001.test.ts",
+    "packages/services/test/terminal-lifecycle-contract-fast-20261001.test.ts",
+    "packages/services/test/terminal-lifecycle-corrective-fast-20261001.test.ts",
+    "packages/services/test/terminal-lifecycle-fixture-fast-20261001.ts",
+    "packages/services/test/terminal-lifecycle-rpc-fast-20261001.test.ts",
+    "specs/knorvia-terminal-lifecycle-admission-fast-20261001.md",
+    "specs/knorvia-terminal-lifecycle-corrective-fast-20261001.md",
+    "specs/knorvia-terminal-lifecycle-fast-20261001.md"
+  ],
+  "sourceServiceSha256": "965a6d2c2497f774949d2d8ba907b819de0b9d17cca1e5ff8f39c9725d93ec58",
+  "ownerSha256": "8041c744742150c5a1d2c34f580452ee0db7775a7f216f34ea257111ce109619",
+  "retainedNodes": {
+    "require": "e310387da120fb977763441b914c43619a4b2b4bf5f39ad8d4f31dc5a7d3e399",
+    "NodePtyModule": "3adf37d7ac61128e6256944ab71223dec1b551f0307e2d7b4fe7eede2c94aee9",
+    "PtySpawnOptions": "399ad6100f80ca28aa592afbc3975a2960fad6f68c7c314138e0e346bc626665",
+    "hasEnsuredNodePtyHelper": "07fb37949771165151644c984c23b632a8ef9ef711e1a4dfe8f43d1138c6b05b",
+    "nodePtyModulePromise": "2a18632af47d88a50d73166d9509622156376ef05e9383acf6d1d0ef6bbb4b9b",
+    "loadNodePtyModule": "0cc5b0e31cbdb5cbe16d7b7d4f583c18112c4a91014445f166fbb67ce3fb2aa7",
+    "getErrorMessage": "b2b43cda59b4e7e0a88bda6388a18ef54469027e95cbabe40cd117e304d28957",
+    "resolveNodePtySpawnHelperPath": "a8d5e459dbfaf3affad2221545883105ac6c3b3e947747e213bb91625bab0983",
+    "ensureNodePtySpawnHelperExecutable": "158b79d4226346342a756f416c3d0b9b88b2bb6ad4ba3dffec417adf0550c1f1",
+    "selectTerminalLaunchCandidate": "794cae8e64371282143f7dabffefe205316e8e36490b29966b4ae9d71d74164d",
+    "spawnTerminalProcess": "d1ef1de1eec27b9d7c4de2536d7576a9db5d378c846cbd0a04e559721f776c92"
+  },
+  "unchangedTerminalPaths": {
+    "packages/services/src/terminal/terminal.ts": "f840b36586ad17b93dd5fca7f411686d345127340c869e022cf558d05ea7f76c",
+    "packages/services/src/terminal/terminalProfile.ts": "477f44cd9d1e27cbaa10fb939e047f53c6256bd6b6a9092229c45ae1c79d41f1",
+    "packages/services/src/terminal/terminalProfileMacOs.ts": "703f953469e223bd409671d686776518b64fb6e70170918bc1884aeedd13fd52",
+    "packages/services/src/terminal/terminalProfileMacOsDecode.ts": "a54ac244a4264bb01ff12a1752139452adc2eda44db9f71a58de249ddd8d685d",
+    "packages/services/src/terminal/terminalProfileMacOsPlist.ts": "c16279d4cd983328c2dc8c7dcce91e07df4741593b01fde68c38b8924c5ed364",
+    "packages/services/src/terminal/terminalProfilePortableFormats.ts": "e507c2aaf2107fa7a84fd9859a3c68a168df64206c2db2e196c4a2dda98a7e71",
+    "packages/services/src/terminal/terminalProfilePortablePlan.ts": "8ca6cd2923494f543769f583aded227c46ee9988fb092a35ab7c7f65c43c02c4",
+    "packages/services/src/terminal/terminalProfilePortableRead.ts": "bdbcca134ffb604a2cb55a16a4f3cbddce0e6e2da576aa05fc7ab0f52a0a7570",
+    "packages/services/src/terminal/terminalProfileTypes.ts": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b",
+    "packages/services/src/terminal/terminalServiceLaunchPlan.ts": "5c86f0ea5295a519e808a53734eca2e88999dcc961caf2a8e2fff1811338ba4d"
+  },
+  "hostSha256": "3b144b1222280606598e9dd7e4aa688d4248e2716a1511f617cf93310cad7741",
+  "hostMarkers": [
+    "Failed to dispose all terminals",
+    "Terminal creation cancelled:",
+    "Terminal not found:"
+  ],
+  "staticHostInclusionOnly": true,
+  "rootCounterexample": {
+    "beforeWrites": 1,
+    "afterWrites": 0,
+    "retiredNativeHandles": 2,
+    "afterDiagnosticOpen": 0,
+    "beforeCheckpoint": "71647d576ab1b617f163f602ca8f7b20681d0c52"
+  },
+  "sourceExposure": true,
+  "wholeFileLicenseDecision": "unresolved",
+  "verification": {
+    "source": 346,
+    "strictEmitted": 346,
+    "focusedFiles": 11,
+    "rootTypecheck": "passed",
+    "cliBuildTasks": 17,
+    "desktopBuildWithoutRuntimeAssets": "passed",
+    "lint": "passed",
+    "format": "passed",
+    "fullArchitecture": "passed",
+    "full": {
+      "tests": 6687,
+      "pass": 6621,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "baselineFailureEventMultisetMatches": true
+  },
+  "earlierApprovedPermissionModeRerun": {
+    "head": "20d70402ab7773f78e06c63f07deb2c34f359610",
+    "tests": 6581,
+    "pass": 6515,
+    "fail": 59,
+    "skip": 7,
+    "cancelled": 0,
+    "socketAccessRestored": false,
+    "baselineFailureMultisetMatches": true
+  }
+}

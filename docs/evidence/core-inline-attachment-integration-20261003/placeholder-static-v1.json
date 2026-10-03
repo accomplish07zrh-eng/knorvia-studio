@@ -1,0 +1,235 @@
+{
+  "scope": "placeholder",
+  "baseline": "d9c67ebd0bb2abd9c3e035c2ef952479494c3500",
+  "target": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "candidateDiagnostics": [],
+  "dependenciesExist": true,
+  "inputs": [
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/contract.md",
+      "bytes": 3014,
+      "sha256": "f203a4517e5a6a4933b5230a17186dfa1fd2752fa912f5a069f0b6721df56365",
+      "actual": {
+        "bytes": 3014,
+        "sha256": "f203a4517e5a6a4933b5230a17186dfa1fd2752fa912f5a069f0b6721df56365"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/public-api.d.ts",
+      "bytes": 382,
+      "sha256": "d10eef7b29be84e70f10762e3ca025ae283c10b6e48808697eaf8820df1e2b45",
+      "actual": {
+        "bytes": 382,
+        "sha256": "d10eef7b29be84e70f10762e3ca025ae283c10b6e48808697eaf8820df1e2b45"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/dependency-api.d.ts",
+      "bytes": 408,
+      "sha256": "bcf503a05aab2e2d517c5dbd0291b15ed573950743dbc0197f05335d82aaab32",
+      "actual": {
+        "bytes": 408,
+        "sha256": "bcf503a05aab2e2d517c5dbd0291b15ed573950743dbc0197f05335d82aaab32"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/public-shapes.d.ts",
+      "bytes": 2213,
+      "sha256": "e9f0ad7bd65a044e1799280398531c9db31ab12f4ae175e578a5623b770b698c",
+      "actual": {
+        "bytes": 2213,
+        "sha256": "e9f0ad7bd65a044e1799280398531c9db31ab12f4ae175e578a5623b770b698c"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/imports.json",
+      "bytes": 356,
+      "sha256": "e4cc7006496b9f2bfbdb7d2415c8660e9201f80a07264133552b17ddda2e2ce4",
+      "actual": {
+        "bytes": 356,
+        "sha256": "e4cc7006496b9f2bfbdb7d2415c8660e9201f80a07264133552b17ddda2e2ce4"
+      },
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/output-data.json",
+      "bytes": 1583,
+      "sha256": "41dfddc42e6eee94ce752fbccf58c8f27bf8b812a371e620556997e29a05db1b",
+      "actual": {
+        "bytes": 1583,
+        "sha256": "41dfddc42e6eee94ce752fbccf58c8f27bf8b812a371e620556997e29a05db1b"
+      },
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "attachment-placeholder.ts.txt",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/placeholder/output/attachment-placeholder.ts",
+      "bytes": 1782,
+      "sha256": "05b629591d6d2ff1d7e94d99cc6a38674e2d5c537b13e822b0bdc6a463d7e712",
+      "lines": 58,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "actual": {
+        "bytes": 1782,
+        "sha256": "05b629591d6d2ff1d7e94d99cc6a38674e2d5c537b13e822b0bdc6a463d7e712"
+      },
+      "exact": true,
+      "receiptMatches": true,
+      "installedExact": true
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/placeholder/output/author-record.json",
+      "bytes": 8291,
+      "sha256": "ca4cf41f247598b4fda84ede08d52a65ce48d493e5a5d401bf6b8762e72fa2a7",
+      "lines": 80,
+      "freezeMode": "0444",
+      "actual": {
+        "bytes": 8291,
+        "sha256": "ca4cf41f247598b4fda84ede08d52a65ce48d493e5a5d401bf6b8762e72fa2a7"
+      },
+      "exact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/artifact-uri.ts",
+      "bytes": 1005,
+      "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-state.ts",
+      "bytes": 7032,
+      "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/child-client-ports.ts",
+      "bytes": 3790,
+      "sha256": "5c605b4c6f68dee23181d634bacceaceb378ef161de5cac5dd98741fa28fa4c9",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-preservation.ts",
+      "bytes": 2512,
+      "sha256": "546f80d45beed0200f6999d18f9a25e04b2a96895c9fa29ba5f9520d4ebf2703",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "bytes": 961,
+      "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/index.ts",
+      "bytes": 983,
+      "sha256": "9af2280dba789225996c11abfab763448dd0b4430bdbe1b049ab07011892e814",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/official-cua-media.ts",
+      "bytes": 1030,
+      "sha256": "be48de64eb0c8106ac83449c1b2a49fdf673b01c92aacd26832f30102f082b89",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory.ts",
+      "bytes": 871,
+      "sha256": "e47e73257db726aa13cc9eb767115c10101ad0eb353ab67d6c5b80f0450d1490",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project.ts",
+      "bytes": 650,
+      "sha256": "19fbc2a4d6e0d94355c88615c6126b1916128c187b220b4ffc5cfc389783a800",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-provider-request-messages.ts",
+      "bytes": 840,
+      "sha256": "a6d243322200fba63cccd9539a9995c13e8f3a2ab3a10bb9fbd1c60e1021a9be",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-interaction-broker.ts",
+      "bytes": 1877,
+      "sha256": "291e7f1e6243cde4d7532263937bf69aba76ebfb8d3358d601441ee6f7081e9f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/subagent-selection.ts",
+      "bytes": 2984,
+      "sha256": "630f7b7c137235a5b09b6af700f0334a0443b3f4e79f0b634994dd8754fc6b12",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "bytes": 6106,
+      "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70",
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Static isolated declaration extraction only; PDF inherited TS9010 cap explicitly numeric, no project/semantic compilation. Shared-executor restriction instruction-only, receipt self-report, no global access/rights proof. Ordinary checks deferred."
+}

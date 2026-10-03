@@ -1,0 +1,10 @@
+const fs=require('fs'),ts=require('/workspace/knorvia-studio/node_modules/typescript');
+const source=ts.createSourceFile('index.ts',fs.readFileSync('/tmp/knorvia-host-index-baseline/index.ts','utf8'),ts.ScriptTarget.Latest,true);
+const printer=ts.createPrinter({removeComments:true});
+const imports=source.statements.filter(ts.isImportDeclaration).map(n=>printer.printNode(ts.EmitHint.Unspecified,n,source)).join('\n');
+const strings=new Set(),templates=new Set();
+function walk(n){if(ts.isStringLiteral(n))strings.add(n.text);if(ts.isNoSubstitutionTemplateLiteral(n)||ts.isTemplateHead(n)||ts.isTemplateMiddle(n)||ts.isTemplateTail(n))templates.add(n.text);ts.forEachChild(n,walk)}walk(source);
+const root='/workspace/knorvia-studio/licensing/evidence/desktop-host-index-owner-20261003/';
+fs.writeFileSync(root+'public-imports.txt',imports+'\n',{flag:'wx'});
+fs.writeFileSync(root+'retained-static-vocabulary.json',JSON.stringify({credit:0,limit:'String literals and template literal pieces ONLY; no source expressions, helper/state layout or bodies. Constrained observable contract vocabulary, no novelty credit.',strings:[...strings],templateLiteralPieces:[...templates]},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({imports:source.statements.filter(ts.isImportDeclaration).length,stringLiterals:strings.size,templatePieces:templates.size,privateBodiesSupplied:false}));

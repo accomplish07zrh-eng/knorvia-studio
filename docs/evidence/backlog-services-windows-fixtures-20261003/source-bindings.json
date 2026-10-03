@@ -1,0 +1,172 @@
+{
+  "base": "fba71c5486ce80b783bb54b7927eda20fc2a151d",
+  "predecessorFixtureBindings": [
+    {
+      "path": "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+      "predecessorSha256": "70d3d25fea5cceb8dbf8f07bafe201eaeadf97e541b97401c6010d8fbc5aece8",
+      "historicalHeadSha256": "70d3d25fea5cceb8dbf8f07bafe201eaeadf97e541b97401c6010d8fbc5aece8",
+      "currentSha256": "c6bf31a917c05b6572204c02fca0742c80ad8e5b64f5abfbae7e78a91f5f2226",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+      "predecessorSha256": "c23b3784719de37bf3855ff20c19a91457234d5e5ee2eb1e11e069ca14174ea5",
+      "historicalHeadSha256": "c23b3784719de37bf3855ff20c19a91457234d5e5ee2eb1e11e069ca14174ea5",
+      "currentSha256": "ad5842c6d20409beb02fa869e65b0ae0521c0d1acf39e6998a5d4b495dc888e5",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+      "predecessorSha256": "c21be020c9f09d686a05d3f82a97cfe90b3f62a58952157fb2b57cd690b59458",
+      "historicalHeadSha256": "c21be020c9f09d686a05d3f82a97cfe90b3f62a58952157fb2b57cd690b59458",
+      "currentSha256": "9fdd3fdeb8d0e3c3c2385f3f4363c516cb3a3781d8861345237935617d163e07",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+      "predecessorSha256": "cfa7bc244569fc015db6492b45e102767da66904e13b129a55cf87ef48787142",
+      "historicalHeadSha256": "cfa7bc244569fc015db6492b45e102767da66904e13b129a55cf87ef48787142",
+      "currentSha256": "5b06d23d6a6b65f027ecc011e25dfff1e4779fb750e8e5adc5f2747b77a1478f",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+      "predecessorSha256": "812310f1042544ef8f693c8a3f28a22c03e7c0342043bff368d586f743ea3ac9",
+      "historicalHeadSha256": "812310f1042544ef8f693c8a3f28a22c03e7c0342043bff368d586f743ea3ac9",
+      "currentSha256": "a86726b314127a38350da82c30ec685ce02708a375945a4cf80b655583f06b15",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+      "predecessorSha256": "e4484e3bb09d813306e8621fc27584ec76abeb5c4e05599406d2d41dc1b09dc0",
+      "historicalHeadSha256": "e4484e3bb09d813306e8621fc27584ec76abeb5c4e05599406d2d41dc1b09dc0",
+      "currentSha256": "963fddea1e7b11afca8016136ad29fa165fe6d2d801317f772ff34f1fccccf04",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+      "predecessorSha256": "12a946ba9897428024128ccad32b4df501b3762516615ce45389b0a9375f17d9",
+      "historicalHeadSha256": "12a946ba9897428024128ccad32b4df501b3762516615ce45389b0a9375f17d9",
+      "currentSha256": "403c809032631f6b9849f87286137e1ac821f4906baf14ee94b06a2fb6f5b49c",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+      "predecessorSha256": "0caaa4e1b31cc03846be4ca8be98d5e16db7b0ef063464f13f8334bc6eac0af5",
+      "historicalHeadSha256": "0caaa4e1b31cc03846be4ca8be98d5e16db7b0ef063464f13f8334bc6eac0af5",
+      "currentSha256": "6ca31921cee166eece7604408045adb257779e3179d6a3bc06de6b65e68e48a0",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+      "predecessorSha256": "5446ac1a71725b46df0c314b2a3e51dca8aacb52b70409e1a68006df088afe49",
+      "historicalHeadSha256": "5446ac1a71725b46df0c314b2a3e51dca8aacb52b70409e1a68006df088afe49",
+      "currentSha256": "ab2a988f6e865024dc004ca5729bbfbf873cb0c32f83bfb6cff7149d5ad1ae82",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/skills-write-permission-safety-20261002.test.ts",
+      "predecessorSha256": "8713804146f08949e3f15ace8affc7f4639e42e6ff03294cab3eba922bb98440",
+      "historicalHeadSha256": "8713804146f08949e3f15ace8affc7f4639e42e6ff03294cab3eba922bb98440",
+      "currentSha256": "7c3c73ce79b436f24a56ddc3f2b5c0ea612c8b8683d079ee1c7086d57685f7b3",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+      "predecessorSha256": "4acd234b755eac96bcd360c99165d4de39a75e3b23954d2be2843be0747b08a5",
+      "historicalHeadSha256": "4acd234b755eac96bcd360c99165d4de39a75e3b23954d2be2843be0747b08a5",
+      "currentSha256": "26931d23ace868704c9a1300eef84d9ffa3ecf3eb1a2c74877c77942b882f16e",
+      "predecessorMatchesHistoricalHead": true
+    },
+    {
+      "path": "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts",
+      "predecessorSha256": "befdc4a7ec24145ea376d731e321f3bf7112b46ac40c2383b2963c6af2269f95",
+      "historicalHeadSha256": "befdc4a7ec24145ea376d731e321f3bf7112b46ac40c2383b2963c6af2269f95",
+      "currentSha256": "c6911770e7a372d4008b6cc6f409509003163bb79cac972d697ddd334751206a",
+      "predecessorMatchesHistoricalHead": true
+    }
+  ],
+  "priorDeliveredFilesRetained": [
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "c3377ef014ced0296796fadf1c1613db22b2a8d6aafea2fbcfd123a6a4cd60d9",
+      "unchanged": true
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+      "sha256": "877bea41f1d8968ede4c97b87b7aa657515387b2464737719e247b6901a3fe86",
+      "unchanged": true
+    },
+    {
+      "path": "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+      "sha256": "4baf7dabd47257e730ed64b2db0355c85315c799cacc6866367828c2359719d9",
+      "unchanged": true
+    },
+    {
+      "path": "packages/services/test/git-graph-query-contract-fast-20261001.test.ts",
+      "sha256": "37934463b36edf9aee829b5bcdadb76bf5b77913a59d2e523b2375af813f722c",
+      "unchanged": true
+    }
+  ],
+  "sourceCommit": "80b5308132b9802555114269920fa6bb5bf81bcb",
+  "sourceCommitFileBindings": [
+    {
+      "path": "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+      "sha256": "c6bf31a917c05b6572204c02fca0742c80ad8e5b64f5abfbae7e78a91f5f2226"
+    },
+    {
+      "path": "packages/services/test/fake-native-paths-20261003.ts",
+      "sha256": "1f37eaf44b98eb887c3b528bdf6fcd9a2d3d732958a9e58887f76ceba0a6ee70"
+    },
+    {
+      "path": "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+      "sha256": "ad5842c6d20409beb02fa869e65b0ae0521c0d1acf39e6998a5d4b495dc888e5"
+    },
+    {
+      "path": "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+      "sha256": "9fdd3fdeb8d0e3c3c2385f3f4363c516cb3a3781d8861345237935617d163e07"
+    },
+    {
+      "path": "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+      "sha256": "5b06d23d6a6b65f027ecc011e25dfff1e4779fb750e8e5adc5f2747b77a1478f"
+    },
+    {
+      "path": "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+      "sha256": "a86726b314127a38350da82c30ec685ce02708a375945a4cf80b655583f06b15"
+    },
+    {
+      "path": "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+      "sha256": "963fddea1e7b11afca8016136ad29fa165fe6d2d801317f772ff34f1fccccf04"
+    },
+    {
+      "path": "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+      "sha256": "403c809032631f6b9849f87286137e1ac821f4906baf14ee94b06a2fb6f5b49c"
+    },
+    {
+      "path": "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+      "sha256": "6ca31921cee166eece7604408045adb257779e3179d6a3bc06de6b65e68e48a0"
+    },
+    {
+      "path": "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+      "sha256": "ab2a988f6e865024dc004ca5729bbfbf873cb0c32f83bfb6cff7149d5ad1ae82"
+    },
+    {
+      "path": "packages/services/test/skills-write-permission-safety-20261002.test.ts",
+      "sha256": "7c3c73ce79b436f24a56ddc3f2b5c0ea612c8b8683d079ee1c7086d57685f7b3"
+    },
+    {
+      "path": "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+      "sha256": "26931d23ace868704c9a1300eef84d9ffa3ecf3eb1a2c74877c77942b882f16e"
+    },
+    {
+      "path": "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts",
+      "sha256": "c6911770e7a372d4008b6cc6f409509003163bb79cac972d697ddd334751206a"
+    },
+    {
+      "path": "specs/knorvia-next-services-windows-fixtures-20261003.md",
+      "sha256": "002a6361848a6576ef170587f0c4c120b6c23b195c61e32223830c5dc1bb035d"
+    }
+  ],
+  "currentFixtureDisposition": "source-exposed compatibility fixture repairs; new bindings, not historical accepted emissions",
+  "productionFilesChangedInBatch": []
+}

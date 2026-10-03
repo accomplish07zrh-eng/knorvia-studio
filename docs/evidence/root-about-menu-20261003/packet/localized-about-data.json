@@ -1,0 +1,33 @@
+{
+  "applicationName": "Knorvia Studio",
+  "windowSize": {
+    "width": 256,
+    "height": 312
+  },
+  "localeDefault": "zh-CN",
+  "locales": {
+    "zh-CN": {
+      "aboutTitle": "关于 Knorvia Studio",
+      "versionLabel": "版本",
+      "okButtonLabel": "确定",
+      "optimizedForAppleSilicon": "已针对 Apple Silicon 优化。",
+      "copyright": [
+        "版权所有 © ",
+        "YEAR",
+        " Knorvia Studio。"
+      ]
+    },
+    "en-US": {
+      "aboutTitle": "About Knorvia Studio",
+      "versionLabel": "version",
+      "okButtonLabel": "OK",
+      "optimizedForAppleSilicon": "Optimized for Apple Silicon.",
+      "copyright": [
+        "Copyright © ",
+        "YEAR",
+        " Knorvia Studio."
+      ]
+    }
+  },
+  "qualification": "Required literal product configuration retained; no target private labels or implementation functions supplied; not a licence grant."
+}

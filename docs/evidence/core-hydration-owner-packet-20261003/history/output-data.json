@@ -1,0 +1,348 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "./runtime-input-presentation.js"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "../system-reminder/source.js"
+    },
+    {
+      "kind": "text",
+      "text": "../system-reminder/prompt-attachment.js"
+    },
+    {
+      "kind": "text",
+      "text": "./message-history-usage.js"
+    },
+    {
+      "kind": "text",
+      "text": "./message-history.js"
+    },
+    {
+      "kind": "text",
+      "text": "./compact-session.js"
+    },
+    {
+      "kind": "text",
+      "text": "./file-part-hydration.js"
+    },
+    {
+      "kind": "text",
+      "text": "./tool-part-order.js"
+    },
+    {
+      "kind": "text",
+      "text": "[Tool execution was interrupted before resume]"
+    },
+    {
+      "kind": "text",
+      "text": "user"
+    },
+    {
+      "kind": "text",
+      "text": "shared_context"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "shared_context"
+    },
+    {
+      "kind": "text",
+      "text": "attached"
+    },
+    {
+      "kind": "text",
+      "text": "attachment"
+    },
+    {
+      "kind": "text",
+      "text": "completed"
+    },
+    {
+      "kind": "text",
+      "text": "error"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "prompt_attachment"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "video"
+    },
+    {
+      "kind": "text",
+      "text": "agent"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "template",
+      "head": "[Selected agent: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": "]"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "real_user"
+    },
+    {
+      "kind": "text",
+      "text": "user"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "\n\n"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "inline_text"
+    },
+    {
+      "kind": "text",
+      "text": "text/"
+    },
+    {
+      "kind": "text",
+      "text": "inline_text"
+    },
+    {
+      "kind": "text",
+      "text": "inline"
+    },
+    {
+      "kind": "text",
+      "text": "provider_ready"
+    },
+    {
+      "kind": "text",
+      "text": "preview_only"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "task_status"
+    },
+    {
+      "kind": "text",
+      "text": "background_task"
+    },
+    {
+      "kind": "text",
+      "text": "task_status"
+    },
+    {
+      "kind": "text",
+      "text": "queued_system_notification"
+    },
+    {
+      "kind": "text",
+      "text": "subagent"
+    },
+    {
+      "kind": "text",
+      "text": "queued_system_notification"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "provider_visible"
+    },
+    {
+      "kind": "text",
+      "text": "real_user"
+    },
+    {
+      "kind": "text",
+      "text": "tool_result"
+    },
+    {
+      "kind": "text",
+      "text": "<system-reminder"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "file"
+    },
+    {
+      "kind": "text",
+      "text": "agent"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "background_task"
+    },
+    {
+      "kind": "text",
+      "text": "subagent_message"
+    },
+    {
+      "kind": "text",
+      "text": "subagent"
+    },
+    {
+      "kind": "text",
+      "text": "queued_system_notification"
+    },
+    {
+      "kind": "text",
+      "text": "todo_reminder"
+    },
+    {
+      "kind": "text",
+      "text": "goal-continuation"
+    },
+    {
+      "kind": "text",
+      "text": "target_continuation"
+    },
+    {
+      "kind": "text",
+      "text": "rewind"
+    },
+    {
+      "kind": "text",
+      "text": "fork"
+    },
+    {
+      "kind": "text",
+      "text": "rewind_notice"
+    },
+    {
+      "kind": "text",
+      "text": "real_user"
+    },
+    {
+      "kind": "text",
+      "text": "legacy_synthetic"
+    },
+    {
+      "kind": "text",
+      "text": "todo_reminder"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "\n\n"
+    },
+    {
+      "kind": "text",
+      "text": "reasoning"
+    },
+    {
+      "kind": "text",
+      "text": "reasoning"
+    },
+    {
+      "kind": "text",
+      "text": "tool"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    }
+  ],
+  "patterns": [],
+  "qualification": "Exact source-derived required protocol/text/template/pattern material; generic template placeholders omit predecessor expressions/helper identities. Native language type-guard and import literals appear as retained data, not mandatory output literals. No predecessor bodies/decomposition supplied."
+}

@@ -1,0 +1,37 @@
+{
+  "installedAtUtc": "2026-10-02T17:19:32.329955+00:00",
+  "predecessorCommit": "0a85acce48de26d2c5b1c81004fcfaa8aafc532a",
+  "ownership": "Two complete E-authored owners; no root/A source import or merge",
+  "owners": [
+    {
+      "owner": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+      "frozenDraft": "docs/evidence/planner-expansion-author-packet-20261002/v2/draft-planner-expansion-v2.ts.txt",
+      "predecessor": {
+        "bytes": 5543,
+        "sha256": "7344f1884044f6ca8a6106bee0db8ee57169826a8c7588d4d28676a1e6272e8c"
+      },
+      "installed": {
+        "bytes": 5249,
+        "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73"
+      },
+      "exactFrozenDraftBytes": true,
+      "integrationCorrections": []
+    },
+    {
+      "owner": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "frozenDraft": "docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "predecessor": {
+        "bytes": 13369,
+        "sha256": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797"
+      },
+      "installed": {
+        "bytes": 11883,
+        "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af"
+      },
+      "exactFrozenDraftBytes": true,
+      "integrationCorrections": []
+    }
+  ],
+  "frozenDraftsAndReceiptsModified": false,
+  "globalLicenceDecision": null
+}

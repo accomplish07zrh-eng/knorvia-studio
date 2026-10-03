@@ -1,0 +1,157 @@
+{
+  "task": "Complete media projection owner authored from six frozen public packet files",
+  "source_target": "agent/file-part-hydration.ts",
+  "receipt_scope": "Cumulative operations of this fresh delegated owner, through completion of the planned final receipt read and both freeze operations. Ancestor historical counts were not supplied and are not silently treated as zero.",
+  "model": {
+    "requested": "GPT-6.1 Sol",
+    "requested_reasoning": "high",
+    "requested_fork": "none",
+    "actual_selection": "Not independently verified by this owner; request recorded without a runtime-model attestation.",
+    "saved_fast": "unchanged/unverified"
+  },
+  "inputs": [
+    {
+      "sha256": "a3afb63a9c49d4b8b8be4e92935ca79fc37c471fea21c96c6d8687f0b9cac9b2",
+      "bytes": 5784,
+      "lines": 17,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/media/contract.md",
+      "read_count": 1,
+      "write_count": 0,
+      "read_scope": "entire raw bytes, full UTF-8 text displayed in the input-read tool result"
+    },
+    {
+      "sha256": "a888b012456316a4e4ce6462247dc49b328b19d78b874a4ba0dce42dcc80e094",
+      "bytes": 410,
+      "lines": 3,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/media/public-api.d.ts",
+      "read_count": 1,
+      "write_count": 0,
+      "read_scope": "entire raw bytes, full UTF-8 text displayed in the input-read tool result"
+    },
+    {
+      "sha256": "c403248f1397b746909343a2d5b054531618946fcd4b3144cd9e9f5160f1e5b4",
+      "bytes": 7517,
+      "lines": 235,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+      "read_count": 1,
+      "write_count": 0,
+      "read_scope": "entire raw bytes, full UTF-8 text displayed in the input-read tool result"
+    },
+    {
+      "sha256": "5919c4294a7b86cda7590417800a28e68fe8bd8887eb66ade08403350cc5ef48",
+      "bytes": 249,
+      "lines": 3,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/media/dependency-api.d.ts",
+      "read_count": 1,
+      "write_count": 0,
+      "read_scope": "entire raw bytes, full UTF-8 text displayed in the input-read tool result"
+    },
+    {
+      "sha256": "152fc3c7b1132aacaecd18fad3b805615d31457b691b1b36b2d3f49f4d083f13",
+      "bytes": 236,
+      "lines": 10,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/media/imports.json",
+      "read_count": 1,
+      "write_count": 0,
+      "read_scope": "entire raw bytes, full UTF-8 text displayed in the input-read tool result"
+    },
+    {
+      "sha256": "e92749d68724bf01e550d416da2af5171e8ded78e49af2ae34bf52937cb6bd21",
+      "bytes": 3235,
+      "lines": 198,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-hydration-owner-packet-20261003/media/output-data.json",
+      "read_count": 1,
+      "write_count": 0,
+      "read_scope": "entire raw bytes, full UTF-8 text displayed in the input-read tool result"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-hydration-owner-20261003/media/file-part-hydration.ts",
+      "sha256": "01c5a7b27cda2e2e1b56a874654847ae90d8430983fea7cc21258516bcb1200a",
+      "bytes": 4739,
+      "lines": 164,
+      "read_count": 1,
+      "write_count": 1,
+      "full_source_read_count": 1,
+      "content_displayed": false,
+      "final_mode": "0444",
+      "chmod_count": 1,
+      "metadata_stat_count": 1
+    },
+    {
+      "path": "/tmp/knorvia-hydration-owner-20261003/media/author-record.json",
+      "sha256": null,
+      "sha256_location": "Exact final raw-file SHA-256 is printed in the final freeze tool result and completion response. An embedded raw-file self-digest cannot attest its own containing bytes; no self-digest is invented.",
+      "bytes": 9467,
+      "lines": 157,
+      "read_count": 1,
+      "write_count": 1,
+      "full_receipt_read_count": 1,
+      "content_displayed": false,
+      "final_mode": "0444",
+      "chmod_count": 1,
+      "metadata_stat_count": 1
+    }
+  ],
+  "cumulative_accounting": {
+    "named_input_files": 6,
+    "named_input_read_operations": 6,
+    "named_input_read_bytes": 17431,
+    "named_input_read_lines": 466,
+    "own_output_files": 2,
+    "own_output_read_operations": 2,
+    "own_output_read_bytes": 14206,
+    "own_output_read_lines": 321,
+    "total_content_read_operations": 8,
+    "total_content_read_bytes": 31637,
+    "total_content_read_lines": 787,
+    "content_write_operations": 2,
+    "content_write_bytes": 14206,
+    "content_write_lines": 321,
+    "extra_file_reads": 0,
+    "extra_file_writes": 0,
+    "repository_mutations": 0,
+    "explicit_execution_calls": 3,
+    "python_file_io_accounting_invocations": 3,
+    "directory_creation_calls": 1,
+    "directory_creation_scope": "Only assigned scratch directory and its required parent; mkdir(parents=True, exist_ok=True).",
+    "chmod_operations": 2,
+    "metadata_stat_operations": 2,
+    "packet_re_reads": 0,
+    "source_re_reads_after_initial_full_read": 0,
+    "receipt_re_reads_after_initial_full_read": 0,
+    "source_execution_compilation_tests_dependency_reads_business_io": 0
+  },
+  "manual_entire_draft_review": {
+    "performed": true,
+    "method": "Manually reviewed every line of the full 164-line draft as authored in the write payload, then manually revisited all branches against the six displayed packet files. A single complete raw-source read supplied hash, byte, and line accounting; the draft was not printed in conversational messages.",
+    "findings": [
+      "Both exported function identities, public signatures, and required imports are retained; complete implementation is 164 lines, below 400.",
+      "Fresh ordered attachment reference includes own undefined fields and is constructed before awaiting any artifact read; local media artifact identity binds to inline URI with undefined path even if direct data wins or reading is unavailable.",
+      "Usable lowercase data prefix and first-comma payload rule are preserved; direct URL wins; nullish artifact override includes empty string; only original isArtifactUri is used; one receiver-preserving text read with one { uri } argument is permitted.",
+      "Only the read attempt and result content access/validation are inside the recoverable catch; unrelated synchronous and post-read errors propagate.",
+      "Image wildcard uses the required exact regex and lowercase extraction with image/png fallback; explicit image and video MIME remain supplied; semicolon-segment PDF is normalized and owns name even when undefined; unsupported media falls back to text.",
+      "After asynchronous resolution MIME, preview, filename and fallback labels read the supplied part; preview empty string and label nullish empty-string precedence are preserved; fallback lacks source.",
+      "Persisted layout is all-or-nothing: rejects invalid objects, text, types, indices and missing/falsy attachments; permits negative zero, duplicates and all-text layouts; produces new text blocks and preserves exact attachment references.",
+      "Inputs are never assigned to; no binary reads, stat/write/prime/ensure store calls, path processing, providers, environment, filesystem/network, or history operations occur in the authored module."
+    ],
+    "limitations": "Manual reasoning only. No compiler, typechecker, automated tests, runtime execution, dependency implementation reads, repository configuration reads, or integration checks. Runtime behavior, type compatibility with undisclosed compiler options, and installed import resolution remain unverified."
+  },
+  "exposure_and_provenance": {
+    "fresh_owner_direct_material": "Only the six exact frozen packet files plus delegated instructions; no predecessor source body, private helper identity, private decomposition, history, other draft, dependency implementation, AGENTS, or repository discovery/read.",
+    "parent_curator": "Source-exposed parent/curator remains part of the provenance; this delegated owner does not erase that exposure.",
+    "historical_wider_exposure": "Earlier broader/tool/dependency exposure is retained as reported history; exact historical counts and contents are unavailable to this owner and have not been reconstructed.",
+    "historical_scratch_breach": "Earlier extra scratch-write breach was reported repaired; the fact remains retained. This fresh owner writes exactly its two assigned output files and no extra scratch/accounting file.",
+    "instruction_only_boundary": "Shared executor restrictions are instruction-only. No OS isolation, access audit, or independent exposure attestation is asserted.",
+    "rights_and_novelty": "Required declarations, text, protocol patterns, native string/array/object behavior and ordinary idioms are retained honestly. Source-derived contracts, new internal organization and manual review do not establish novelty, clean separation, grants, rights clearance or licence closure.",
+    "self_report": "Read/write counts and scope are this owner's cumulative self-report plus tool-observed raw-byte receipts, not an independent access audit. Metadata and planned completion counts are included explicitly; final tool result confirms both frozen modes and receipt raw-file digest."
+  },
+  "completion": {
+    "source_written": true,
+    "record_written": true,
+    "manual_review_complete": true,
+    "freeze_mode": "0444",
+    "remaining_blockers": []
+  }
+}

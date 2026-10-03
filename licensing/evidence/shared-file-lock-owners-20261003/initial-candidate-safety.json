@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-file-lock-boundaries.test.mjs",
+    "packages/shared/src/node"
+  ],
+  "stdout": "\u2714 atomic owner preserves unique release, dead-owner reclamation and deadline/permission identity (36.407247ms)\n\u2714 persistence FIFO progresses after release errors and keeps different paths independent (6.21114ms)\n\u2716 persistence preserves admitted rename retries, cleanup error precedence and deterministic backup bytes (5.656365ms)\n\u2139 tests 3\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 52.326182\n\n\u2716 failing tests:\n\ntest at packages/shared/test/shared-file-lock-boundaries.test.mjs:226:1\n\u2716 persistence preserves admitted rename retries, cleanup error precedence and deterministic backup bytes (5.656365ms)\n  Error: synthetic dynamic errno\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/shared/test/shared-file-lock-boundaries.test.mjs:290:23)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)\n",
+  "stderr": "",
+  "exitCode": 1
+}

@@ -1,7 +1,6 @@
 import type { PaneSplitSide } from "@/v4/paneLayoutTree.js";
 
 export const WORKBENCH_SESSION_DRAG_MIME = "application/x-knorvia-session";
-
 export interface WorkbenchSessionDragPayload {
   readonly kind: "knorvia/session";
   readonly workspacePath: string;
@@ -9,70 +8,56 @@ export interface WorkbenchSessionDragPayload {
   readonly remoteSessionId?: string;
   readonly sessionId: string;
 }
-
-let activeWorkbenchSessionDragPayload: WorkbenchSessionDragPayload | null = null;
-
 interface DataTransferLike {
   readonly types?: Iterable<string> | ArrayLike<string>;
   getData(type: string): string;
 }
-
 interface RectLike {
   readonly left: number;
   readonly top: number;
   readonly width: number;
   readonly height: number;
 }
+const pointerDrag: { current: WorkbenchSessionDragPayload | null } = { current: null };
 
 export function serializeWorkbenchSessionDragPayload(payload: WorkbenchSessionDragPayload): string {
   return JSON.stringify(payload);
 }
-
 export function setActiveWorkbenchSessionDragPayload(payload: WorkbenchSessionDragPayload): void {
-  activeWorkbenchSessionDragPayload = payload;
+  pointerDrag.current = payload;
 }
-
 export function clearActiveWorkbenchSessionDragPayload(): void {
-  activeWorkbenchSessionDragPayload = null;
+  pointerDrag.current = null;
 }
 
-function dataTransferHasType(dataTransfer: DataTransferLike): boolean {
-  return Array.from(dataTransfer.types ?? []).includes(WORKBENCH_SESSION_DRAG_MIME);
+function decodedPayload(value: unknown): WorkbenchSessionDragPayload | null {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
+  const record = value as Record<string, unknown>;
+  const required: ReadonlyArray<readonly [string, (item: unknown) => boolean]> = [
+    ["kind", (item) => item === "knorvia/session"],
+    ["workspacePath", (item) => typeof item === "string"],
+    ["sessionId", (item) => typeof item === "string"],
+  ];
+  for (const [field, accepts] of required) if (!accepts(record[field])) return null;
+  const payload: WorkbenchSessionDragPayload = {
+    kind: "knorvia/session",
+    workspacePath: record.workspacePath as string,
+    workspaceIdentity:
+      typeof record.workspaceIdentity === "string" ? record.workspaceIdentity : undefined,
+    remoteSessionId:
+      typeof record.remoteSessionId === "string" ? record.remoteSessionId : undefined,
+    sessionId: record.sessionId as string,
+  };
+  return payload;
 }
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 export function parseWorkbenchSessionDragPayload(
-  dataTransfer: DataTransferLike,
+  transfer: DataTransferLike,
 ): WorkbenchSessionDragPayload | null {
-  if (!dataTransferHasType(dataTransfer)) {
-    return null;
-  }
+  const offered = Array.from(transfer.types ?? []);
+  if (!offered.some((type) => type === WORKBENCH_SESSION_DRAG_MIME)) return null;
   try {
-    const raw = dataTransfer.getData(WORKBENCH_SESSION_DRAG_MIME);
-    if (!raw) {
-      return activeWorkbenchSessionDragPayload;
-    }
-    const parsed = JSON.parse(raw);
-    if (
-      !isRecord(parsed) ||
-      parsed.kind !== "knorvia/session" ||
-      typeof parsed.workspacePath !== "string" ||
-      typeof parsed.sessionId !== "string"
-    ) {
-      return null;
-    }
-    return {
-      kind: "knorvia/session",
-      workspacePath: parsed.workspacePath,
-      workspaceIdentity:
-        typeof parsed.workspaceIdentity === "string" ? parsed.workspaceIdentity : undefined,
-      remoteSessionId:
-        typeof parsed.remoteSessionId === "string" ? parsed.remoteSessionId : undefined,
-      sessionId: parsed.sessionId,
-    };
+    const encoded = transfer.getData(WORKBENCH_SESSION_DRAG_MIME);
+    return encoded ? decodedPayload(JSON.parse(encoded)) : pointerDrag.current;
   } catch {
     return null;
   }
@@ -83,25 +68,15 @@ export function resolveWorkbenchDropSide(
   clientX: number,
   clientY: number,
 ): PaneSplitSide | null {
-  if (rect.width <= 0 || rect.height <= 0) {
-    return null;
-  }
-
-  const x = (clientX - rect.left) / rect.width;
-  const y = (clientY - rect.top) / rect.height;
-  if (x < 0 || x > 1 || y < 0 || y > 1) {
-    return null;
-  }
-
-  const distances: Array<readonly [PaneSplitSide, number]> = [
-    ["left", x],
-    ["right", 1 - x],
-    ["up", y],
-    ["down", 1 - y],
-  ];
-  const [side, distance] = distances.reduce((best, candidate) =>
-    candidate[1] < best[1] ? candidate : best,
-  );
-
-  return distance <= 0.32 ? side : null;
+  if (rect.width <= 0 || rect.height <= 0) return null;
+  const horizontal = (clientX - rect.left) / rect.width;
+  const vertical = (clientY - rect.top) / rect.height;
+  if (horizontal < 0 || horizontal > 1 || vertical < 0 || vertical > 1) return null;
+  const x: readonly [PaneSplitSide, number] =
+    horizontal > 0.5 ? ["right", 1 - horizontal] : ["left", horizontal];
+  const y: readonly [PaneSplitSide, number] =
+    vertical > 0.5 ? ["down", 1 - vertical] : ["up", vertical];
+  // 严格小于才换轴，保持水平先于垂直的 tie 规则；NaN 不额外归一化。
+  const nearest = y[1] < x[1] ? y : x;
+  return nearest[1] <= 0.32 ? nearest[0] : null;
 }

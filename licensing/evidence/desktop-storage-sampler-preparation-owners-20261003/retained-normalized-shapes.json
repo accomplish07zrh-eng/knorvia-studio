@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/retained-shapes.mjs",
+      "sha256": "3712bceeba6aa1fbe3a75fb839f48aa831cb75f70b51965a5d0b0aed068af8ad"
+    }
+  ],
+  "stdout": "[{\"owner\":\"disk\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"sealBaseline\",\"candidate\":\"sealBaseline\",\"bodyHash\":\"cb5ece611554afc4f3e92cfd39f0eb6a701904c01481492e2e999d5e9676f931\"},{\"baseline\":\"stop\",\"candidate\":\"stop\",\"bodyHash\":\"27c22746f9c3d1ebde26c3829c446ddc58c5b93aa7e595c1458ad81498a14d5c\"}],\"identicalExpressionCount\":146},{\"owner\":\"preparation\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"7dc6584a01c6074f1ecf3fced1a7eb436b9306255fcadf22aea475f3a59080da\"},{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"33060995cb0559f383698cee2f395984468e413893132906f3c7243a364eedaf\"}],\"identicalExpressionCount\":297},{\"owner\":\"disk\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"sealBaseline\",\"candidate\":\"sealBaseline\",\"bodyHash\":\"cb5ece611554afc4f3e92cfd39f0eb6a701904c01481492e2e999d5e9676f931\"},{\"baseline\":\"stop\",\"candidate\":\"stop\",\"bodyHash\":\"27c22746f9c3d1ebde26c3829c446ddc58c5b93aa7e595c1458ad81498a14d5c\"}],\"identicalExpressionCount\":146},{\"owner\":\"preparation\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"7dc6584a01c6074f1ecf3fced1a7eb436b9306255fcadf22aea475f3a59080da\"},{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"33060995cb0559f383698cee2f395984468e413893132906f3c7243a364eedaf\"}],\"identicalExpressionCount\":297},{\"owner\":\"preparation\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"7dc6584a01c6074f1ecf3fced1a7eb436b9306255fcadf22aea475f3a59080da\"},{\"baseline\":\"<anonymous>\",\"candidate\":\"<anonymous>\",\"bodyHash\":\"33060995cb0559f383698cee2f395984468e413893132906f3c7243a364eedaf\"}],\"identicalExpressionCount\":297}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

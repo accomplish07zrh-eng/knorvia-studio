@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-03T02:03:51.475678+00:00",
+  "inputHead": "bd3efbd70114cb66f2f3f93cb96939feec8da2bc",
+  "authority": "Explicit root delegation after historical acceptance lookup; metadata reported by root, not independently revalidated from private source/receipt bytes",
+  "scope": "Active reservation addendum supersedes only broadcast speculative-history status; original body-free packet inputs and reservation remain frozen historical preparation evidence",
+  "broadcast": {
+    "path": "packages/desktop/src/main/broadcastHub.ts",
+    "status": "EXPLICIT ACCEPTED-SOURCE HASH CONFLICT HOLD / NO REAUTHOR / NO OVERWRITE",
+    "publicPacketBaselineSha256": "a1216b85285bd6830b6c5afffe8e94b7e2b623882c127ffceedfd0e3374cf11e",
+    "publicPacketBaselineGitBlob": "ab5d801e76d3e3f2008031d2a4494a62ffcf0e7e",
+    "rootReportedHistoricalAcceptance": {
+      "historicalRecordTime": "2026-10-02 03:06 (timezone not specified by root)",
+      "implementationCommitAbbrev": "82adde8",
+      "rootCheckpoint": "c6657eaa9897611f1cc8188afc6498d827a09777",
+      "acceptedSourceSha256": "952483102919545cdc33a4aa839f947614f909e8d139d9218596cbb4ffb53d05",
+      "receiptPath": "licensing/evidence/broadcast-claim-expression-20261002.json"
+    },
+    "acceptedSourceBytesAvailableLocally": false,
+    "acceptedReceiptBytesRead": false,
+    "hashConflict": "Published packet baseline digest differs from root-reported accepted digest. Acceptance is known historical metadata, not an empty receipt search. Accepted whole source/behavior/rights not revalidated here.",
+    "allowedUse": "Historical contract preparation record only; no new implementation/author allocation, cannot overwrite accepted owner or erase historical acceptance through this packet"
+  },
+  "networkAggregationProtectedOwner": {
+    "path": "packages/desktop/src/main/networkTelemetryAggregator.ts",
+    "status": "PROTECTED PREVIOUSLY BOUNDED-ACCEPTED OWNER",
+    "rootReportedAcceptedSha256": "f3baa2a776cbd7976ae1a6a0f4e128b8636500f2adbc6451421e506d1e708b6c",
+    "rootReportedReceiptPath": "licensing/evidence/network-aggregation-root-review-20261002.json",
+    "qualification": "Bounded prior acceptance; whole file mixed / no MIT. Metadata reported by root only, no source or receipt body read. Not assigned for reconstruction by this addendum."
+  },
+  "relay": "databaseStartupRelay preparation-only/private-history HOLD unchanged; no acceptance inference from the new broadcast history.",
+  "preservedOriginalReservationBinding": {
+    "path": "docs/evidence/desktop-broadcast-startup-root-packet-20261003/reservation.json",
+    "bytes": 3753,
+    "sha256": "b23c234eafd2b7035eefb359fd3dfe87a07f4f423a09531ef7886193a99fbc5f"
+  },
+  "verification": {
+    "broadcastBaselineMatchesFrozenReservation": true,
+    "acceptedAndPublicHashesDiffer": true,
+    "metadataOnly": true,
+    "privateBackupRecoveryOrAlternativeExtraction": false,
+    "sourceBodiesOpened": false,
+    "newAuthorsOrCandidates": false,
+    "sourceChanges": 0,
+    "runtimeTestsBuildsExecuted": false,
+    "globalLicenseInventoryChanges": false
+  },
+  "materialObligationsOpen": 21,
+  "mitRightsDecision": null,
+  "integrationRule": "Root must select/bind the genuine accepted final descendant from authorized available evidence. This lane keeps explicit HOLD; never recover blocked backup or reconstruct/overwrite protected owners using new packet. No automatic source/rights closure."
+}

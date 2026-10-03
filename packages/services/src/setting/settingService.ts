@@ -1,360 +1,230 @@
-import { normalizeSettingsPatch } from "#src/setting/normalizeSettingsPatch.js";
-import type { AppSettings } from "@knorvia/shared";
+import { access, mkdir, readFile, rename } from "node:fs/promises";
+import { homedir } from "node:os";
+import { dirname, join } from "node:path";
 import {
+  type AppSettings,
   appSettingsPatchSchema,
   appSettingsSchema,
   formatLogPrefix,
   formatZodError,
 } from "@knorvia/shared";
-import { access, mkdir, readFile, rename } from "node:fs/promises";
-import { homedir } from "node:os";
-import { join } from "node:path";
 import { atomicWriteText } from "../fs/atomicFileUtils.js";
 import { maybeThrowInjectedFsFault } from "../fs/fsFaultInjection.js";
 import { copyDataDirectory, getDataBaseDir, validateDataBaseDirTarget } from "../paths.js";
 import { isEffectiveDevelopmentNodeEnv } from "../runtime-tools/nodeEnv.js";
+import { getSettingDataLocation } from "./dataLocation.js";
+import { normalizeSettingsPatch } from "./normalizeSettingsPatch.js";
 import type { ISettingService } from "./setting.js";
 import { withSettingsWriteQueueTimeout } from "./settingsWriteQueue.js";
-import { getSettingDataLocation } from "./dataLocation.js";
-const MAX_RECENT_PROJECTS = 10;
-const DEFAULT_PROJECT_NAME = "KnorviaProject";
-const SETTINGS_PARSE_RETRY_DELAY_MS = 300;
-const SETTINGS_PARSE_RETRY_COUNT = 3;
 
-const log = (...args: unknown[]) =>
-  console.log(formatLogPrefix("settingService", process.pid), ...args);
-const debugLog = (...args: unknown[]) => {
-  // NODE_ENV 来自用户 shell 时会误导服务层 debug 开关；统一使用 KNORVIA_RUNTIME_ENV。
-  if (!isEffectiveDevelopmentNodeEnv()) {
-    return;
-  }
-  console.debug(formatLogPrefix("settingService", process.pid), ...args);
+type SettingsRead = { settings: AppSettings; needsMigration: boolean };
+type WritePermit = {
+  isCurrent: () => boolean;
+  assertCurrent: () => void;
+  enterCommit: () => void;
 };
 
-function resolveUserHomeDir() {
-  // 独立桌面 Dev 实例已设置自己的 home，设置服务却仍写真实 HOME，
-  // 导致启动迁移和外观操作污染其他实例。与 Electron 的显式 home 覆盖保持一致。
-  const envHome =
+function settingsFile(): string {
+  const base = process.env.KNORVIA_DATA_BASE_DIR?.trim();
+  if (base) return join(base, ".knorvia-studio", "v2", "setting.json");
+  const homeOverride = process.env.KNORVIA_HOME?.trim();
+  if (homeOverride) return join(homeOverride, "v2", "setting.json");
+  const home =
     process.env.KNORVIA_DESKTOP_HOME_DIR?.trim() ||
     process.env.HOME?.trim() ||
-    process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+    process.env.USERPROFILE?.trim() ||
+    homedir();
+  return join(home, ".knorvia-studio", "v2", "setting.json");
 }
 
-function getSettingsDir() {
-  const dataBaseDir = process.env.KNORVIA_DATA_BASE_DIR?.trim();
-  if (dataBaseDir) return join(dataBaseDir, ".knorvia-studio", "v2");
-  // KNORVIA_HOME 是已经选定的应用根，不能再次追加 .knorvia-studio。
-  const appRoot = process.env.KNORVIA_HOME?.trim();
-  return appRoot ? join(appRoot, "v2") : join(resolveUserHomeDir(), ".knorvia-studio", "v2");
+function defaults(): SettingsRead {
+  return { settings: appSettingsSchema.parse({}), needsMigration: false };
 }
 
-function getSettingsFile() {
-  return join(getSettingsDir(), "setting.json");
-}
-
-function defaultSettings(): AppSettings {
-  return appSettingsSchema.parse({});
-}
-
-function buildCorruptSettingsBackupPath(settingsFile: string): string {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  return `${settingsFile}.corrupt-${timestamp}`;
-}
-
-async function quarantineCorruptSettingsFile(settingsFile: string, error: unknown): Promise<void> {
-  const backupPath = buildCorruptSettingsBackupPath(settingsFile);
-  try {
-    // 用户手动编辑或远端磁盘异常可能把 setting.json 写成非 JSON（例如 ":wq"）。
-    // 如果只返回默认值不隔离坏文件，每次启动都会重复解析失败；这里保留备份后让后续 update 重建合法配置。
-    maybeThrowInjectedFsFault({ operation: "rename", path: settingsFile });
-    await rename(settingsFile, backupPath);
-    log("invalid settings json backed up:", backupPath, "error:", error);
-  } catch (renameError) {
-    if (
-      renameError &&
-      typeof renameError === "object" &&
-      "code" in renameError &&
-      (renameError as { code?: string }).code === "ENOENT"
-    ) {
-      // 启动时多个服务可能同时读取同一个坏 setting.json。
-      // 第一个读取已经完成隔离后，后续读取再 rename 会遇到 ENOENT；这是并发下的预期结果，不应当按备份失败刷错误日志。
-      log("invalid settings json already quarantined by another reader, returning defaults");
-      return;
-    }
-    log("invalid settings json backup failed, returning defaults. error:", renameError);
-  }
-}
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function shouldPersistSettingsMigrations(rawValue: unknown): boolean {
-  if (!rawValue || typeof rawValue !== "object" || Array.isArray(rawValue)) return false;
-  const raw = rawValue as Record<string, unknown>;
-  return (
-    raw.closeToTrayOnWindowsMigrationInitialized !== true ||
-    raw.messageStreamShowReasoningMigrationInitialized !== true ||
-    raw.studioFirstRunGuideStatus === undefined
-  );
-}
-
-interface ReadSettingsResult {
-  settings: AppSettings;
-  needsMigrationPersist: boolean;
-}
-
-async function readSettingsWithMeta(): Promise<ReadSettingsResult> {
-  const settingsFile = getSettingsFile();
-  try {
-    // settingService.get() 会被 UI 和远程会话高频调用。
-    // 之前每次读取都把完整配置写入生产日志，导致日志暴涨且暴露路径/配置细节；普通读取只保留开发态 debug。
-    debugLog("reading settings from:", settingsFile);
-    const raw = await readFile(settingsFile, "utf-8");
-    let rawValue: unknown;
-    try {
-      rawValue = JSON.parse(raw);
-    } catch (parseError) {
-      let lastParseError: unknown = parseError;
-      // setting.json 可能正被另一次 update 覆盖写入，读者会短暂读到半截 JSON。
-      // 先做短重试，只有连续失败才按坏文件隔离，避免把正常会话配置误清成默认值。
-      for (let retryAttempt = 1; retryAttempt <= SETTINGS_PARSE_RETRY_COUNT; retryAttempt += 1) {
-        await delay(SETTINGS_PARSE_RETRY_DELAY_MS);
-        try {
-          rawValue = JSON.parse(await readFile(settingsFile, "utf-8"));
-          break;
-        } catch (retryParseError) {
-          lastParseError = retryParseError;
-        }
-      }
-      if (rawValue === undefined) {
-        await quarantineCorruptSettingsFile(settingsFile, lastParseError);
-        return {
-          settings: defaultSettings(),
-          needsMigrationPersist: false,
-        };
-      }
-    }
-    // A pre-existing settings file without the new flag belongs to an existing
-    // installation. Only a genuinely missing file gets the fresh-profile default.
-    const parsedInput =
-      rawValue &&
-      typeof rawValue === "object" &&
-      !Array.isArray(rawValue) &&
-      !("studioFirstRunGuideStatus" in rawValue)
-        ? { ...rawValue, studioFirstRunGuideStatus: "legacy" }
-        : rawValue;
-    const result = appSettingsSchema.safeParse(parsedInput);
-    if (!result.success) {
-      log(
-        "read failed schema validation, returning defaults. error:",
-        formatZodError(result.error),
-      );
-      return {
-        settings: defaultSettings(),
-        needsMigrationPersist: false,
-      };
-    }
-    debugLog("read result:", JSON.stringify(result.data));
-    return {
-      settings: result.data,
-      needsMigrationPersist: shouldPersistSettingsMigrations(rawValue),
-    };
-  } catch (err) {
-    if (
-      err &&
-      typeof err === "object" &&
-      "code" in err &&
-      (err as { code?: string }).code === "ENOENT"
-    ) {
-      debugLog("settings file missing, using defaults");
-      return {
-        settings: defaultSettings(),
-        needsMigrationPersist: false,
-      };
-    }
-
-    // 文件解析失败等异常兜底返回默认值
-    log("read failed, returning defaults. error:", err);
-    return {
-      settings: defaultSettings(),
-      needsMigrationPersist: false,
-    };
-  }
-}
-
-async function readSettings(): Promise<AppSettings> {
-  return (await readSettingsWithMeta()).settings;
-}
-
-async function writeSettings(
-  settings: AppSettings,
-  shouldCommit: () => boolean = () => true,
-  runExclusiveCommit: (commit: () => Promise<void>) => Promise<void> = (commit) => commit(),
-  enterCommitPhase: () => void = () => undefined,
-): Promise<void> {
-  const settingsDir = getSettingsDir();
-  const settingsFile = getSettingsFile();
-  // Windows 下测试只改了 HOME，模块顶层常量如果在导入时就把 homedir() 固化，
-  // 后续读写仍会串到真实用户目录。这里改成每次按当前环境解析配置路径，保证本地和测试都稳定。
-  debugLog("writing settings to:", settingsFile);
-  maybeThrowInjectedFsFault({ operation: "mkdir", path: settingsDir });
-  await mkdir(settingsDir, { recursive: true });
-  if (!shouldCommit()) return;
-  maybeThrowInjectedFsFault({ operation: "writeFile", path: settingsFile });
-  await atomicWriteText(settingsFile, JSON.stringify(settings, null, 2), {
-    beforeRename: () => {
-      if (!shouldCommit()) {
-        // 提交前超时的旧写只能清理临时文件，不能晚到 rename 覆盖新语言偏好。
-        throw new Error("stale settings write skipped before atomic rename");
-      }
-      enterCommitPhase();
-    },
-    runRename: (renameFile) =>
-      runExclusiveCommit(async () => {
-        if (!shouldCommit()) throw new Error("stale settings write skipped before atomic rename");
-        await renameFile();
-      }),
-  });
-  log("write done");
+function objectSettings(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 export function createSettingService(): ISettingService {
-  return createSettingServiceWithMigrations().service;
-}
+  const prefix = formatLogPrefix("settingService", process.pid);
+  let admission: Promise<void> = Promise.resolve();
+  let commits: Promise<void> = Promise.resolve();
 
-/** 设置读写共用一条写队列，保留本地偏好迁移，不读取产品账户。 */
-export function createSettingServiceWithMigrations(): { service: ISettingService } {
-  let updateQueue = Promise.resolve();
-  let commitQueue = Promise.resolve();
-  let writeQueueGeneration = 0;
-
-  const runSettingsCommit = async (commit: () => Promise<void>) => {
-    const queued = commitQueue.then(commit, commit);
-    commitQueue = queued.catch(() => {});
-    await queued;
-  };
-
-  const enqueueSettingsWrite = async (
-    runUpdate: (shouldCommit: () => boolean, enterCommitPhase: () => void) => Promise<void>,
-  ) => {
-    const runCurrentUpdate = () => {
-      const currentGeneration = ++writeQueueGeneration;
-      const shouldCommit = () => currentGeneration === writeQueueGeneration;
+  function enqueue(operation: (permit: WritePermit) => Promise<void>): Promise<void> {
+    const result = admission.then(() => {
+      let current = true;
       return withSettingsWriteQueueTimeout(
-        (enterCommitPhase) => runUpdate(shouldCommit, enterCommitPhase),
+        (enterCommit) =>
+          operation({
+            enterCommit,
+            isCurrent: () => current,
+            assertCurrent() {
+              if (!current) throw new Error("stale settings write skipped before atomic rename");
+            },
+          }),
         () => {
-          if (writeQueueGeneration === currentGeneration) {
-            writeQueueGeneration += 1;
-          }
+          current = false;
         },
       );
-    };
-    const queued = updateQueue.then(
-      () => runCurrentUpdate(),
-      () => runCurrentUpdate(),
-    );
-    updateQueue = queued.catch(() => {});
-    await queued;
-  };
+    });
+    admission = result.catch(() => undefined);
+    return result;
+  }
 
-  const service: ISettingService = {
+  async function read(): Promise<SettingsRead> {
+    try {
+      return await readStored();
+    } catch (error) {
+      console.log(prefix, "Settings could not be read; using defaults.", error);
+      return defaults();
+    }
+  }
+
+  async function readStored(): Promise<SettingsRead> {
+    const file = settingsFile();
+    let source: string;
+    try {
+      source = await readFile(file, "utf8");
+    } catch (error) {
+      const missing =
+        typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT";
+      if (!missing) {
+        console.log(prefix, "Settings could not be read; using defaults.", error);
+      }
+      return defaults();
+    }
+
+    for (let attempt = 0; attempt <= 3; attempt += 1) {
+      let raw: unknown;
+      try {
+        if (attempt > 0) {
+          await new Promise<void>((resolve) => setTimeout(resolve, 300));
+          source = await readFile(file, "utf8");
+        }
+        raw = JSON.parse(source) as unknown;
+      } catch (error) {
+        if (attempt < 3) continue;
+        console.log(prefix, "Settings JSON could not be recovered; using defaults.", error);
+        const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+        try {
+          maybeThrowInjectedFsFault({ operation: "rename", path: file });
+          await rename(file, `${file}.corrupt-${timestamp}`);
+        } catch {
+          // Quarantine is best effort; a failed read must still provide defaults.
+        }
+        return defaults();
+      }
+
+      const record = objectSettings(raw) ? raw : undefined;
+      const needsMigration =
+        record !== undefined &&
+        (record.closeToTrayOnWindowsMigrationInitialized !== true ||
+          record.messageStreamShowReasoningMigrationInitialized !== true ||
+          record.studioFirstRunGuideStatus === undefined);
+      const input =
+        record !== undefined && !("studioFirstRunGuideStatus" in record)
+          ? { ...record, studioFirstRunGuideStatus: "legacy" }
+          : raw;
+      const parsed = appSettingsSchema.safeParse(input);
+      if (!parsed.success) {
+        console.log(
+          prefix,
+          "Settings validation failed; using defaults.",
+          formatZodError(parsed.error),
+        );
+        return defaults();
+      }
+      return { settings: parsed.data, needsMigration };
+    }
+    return defaults();
+  }
+
+  async function persist(settings: AppSettings, permit: WritePermit): Promise<void> {
+    const file = settingsFile();
+    const directory = dirname(file);
+    maybeThrowInjectedFsFault({ operation: "mkdir", path: directory });
+    await mkdir(directory, { recursive: true });
+    if (!permit.isCurrent()) return;
+    maybeThrowInjectedFsFault({ operation: "writeFile", path: file });
+    await atomicWriteText(file, JSON.stringify(settings, null, 2), {
+      beforeRename() {
+        permit.assertCurrent();
+        permit.enterCommit();
+      },
+      runRename(renameFile) {
+        const result = commits.then(async () => {
+          permit.assertCurrent();
+          await renameFile();
+        });
+        commits = result.catch(() => undefined);
+        return result;
+      },
+    });
+  }
+
+  return {
+    async get() {
+      await admission;
+      const snapshot = await read();
+      if (!snapshot.needsMigration) return snapshot.settings;
+      await enqueue(async (permit) => {
+        const latest = await read();
+        if (latest.needsMigration) await persist(latest.settings, permit);
+      });
+      return (await read()).settings;
+    },
     async getDataLocation() {
       return getSettingDataLocation();
     },
-    async get(): Promise<AppSettings> {
-      // 设置切换后可能立即创建或冷恢复 Session；读取若越过已入队写入，
-      // runtime 会固定旧开关值。先等待现有写队列，保证启动偏好读取到已提交的选择。
-      await updateQueue;
-      const result = await readSettingsWithMeta();
-      if (!result.needsMigrationPersist) {
-        return result.settings;
-      }
-
-      await enqueueSettingsWrite(async (shouldCommit, enterCommitPhase) => {
-        const latest = await readSettingsWithMeta();
-        if (!latest.needsMigrationPersist) {
-          return;
+    update(patch) {
+      return enqueue(async (permit) => {
+        const normalized = appSettingsPatchSchema.parse(normalizeSettingsPatch(patch));
+        const latest = await read();
+        const settings = appSettingsSchema.parse({ ...latest.settings, ...normalized });
+        settings.recentProjects = [...new Set(settings.recentProjects)].slice(0, 10);
+        await persist(settings, permit);
+        if (isEffectiveDevelopmentNodeEnv()) {
+          console.debug(prefix, "Settings updated.", Object.keys(patch));
         }
-
-        // 初始化原因：旧版设置可能已把无法区分来源的默认值落盘；升级后按 schema 统一迁移一次。
-        // 迁移写盘必须进入 updateQueue，并在队列内重读最新文件，避免覆盖并发保存的其他设置。
-        await writeSettings(latest.settings, shouldCommit, runSettingsCommit, enterCommitPhase);
       });
-
-      return readSettings();
     },
-
-    async update(patch: Partial<AppSettings>): Promise<void> {
-      const runUpdate = async (shouldCommit: () => boolean, enterCommitPhase: () => void) => {
-        const validatedPatch = appSettingsPatchSchema.parse(normalizeSettingsPatch(patch));
-        const current = await readSettings();
-        const merged = appSettingsSchema.parse({
-          ...current,
-          ...validatedPatch,
-        });
-
-        // 打开工作区后会几乎同时写 recentProjects 和 lastWorkspaceSession。
-        // 之前两个 update 都是基于各自读到的旧 settings 直接覆盖写回，
-        // 后写入的补丁会把前一个字段整块抹掉，导致下次启动恢复不到会话。
-        // 这里把写入串行化，让每个补丁都基于上一次真正落盘后的最新状态继续合并。
-        if (merged.recentProjects) {
-          merged.recentProjects = [...new Set(merged.recentProjects)].slice(0, MAX_RECENT_PROJECTS);
-        }
-
-        await writeSettings(merged, shouldCommit, runSettingsCommit, enterCommitPhase);
-      };
-
-      await enqueueSettingsWrite(runUpdate);
-    },
-
-    async updateDataBaseDir(newDir: string | undefined): Promise<void> {
+    async updateDataBaseDir(newDir) {
       const location = getSettingDataLocation();
       if (location.readOnlyReason === "portable") {
         throw new Error("便携版的数据目录固定在应用旁，不能迁移到外部目录。");
       }
-      // 启动环境已固定实际路径，写 settings 不会改变它；复制前拒绝，避免无效迁移。
-      if (location.readOnlyReason === "environment")
+      if (location.readOnlyReason === "environment") {
         throw new Error("当前运行配置已固定数据目录，不能通过设置迁移。");
-      const currentBaseDir = getDataBaseDir();
-      const targetBaseDir = newDir?.trim() || homedir();
-      const validation = validateDataBaseDirTarget(targetBaseDir);
+      }
+      const target = newDir?.trim() || homedir();
+      const validation = validateDataBaseDirTarget(target);
       if (!validation.ok) {
-        // Windows 安装目录由安装器/自动更新管理，把 .knorvia-studio/v2 放进去可能在升级时被覆盖。
-        // 迁移前在 service 层拦截，避免 UI 入口变化或 RPC 调用绕过前端判断。
-        const error = new Error(`${validation.code}: ${validation.forbiddenDir}`);
-        (error as Error & { code: string }).code = validation.code;
-        throw error;
+        throw Object.assign(new Error(`${validation.code}: ${validation.forbiddenDir}`), {
+          code: validation.code,
+        });
       }
-
-      if (currentBaseDir !== targetBaseDir) {
-        log("copying data directory from", currentBaseDir, "to", targetBaseDir);
-        await copyDataDirectory(currentBaseDir, targetBaseDir);
-        log("data directory copy done");
+      const source = getDataBaseDir();
+      if (source !== target) {
+        await copyDataDirectory(source, target);
+        console.log(prefix, "Settings data directory copied.");
       }
-
       await this.update({ dataBaseDir: newDir });
     },
-
-    async ensureDefaultProject(userHomeDir: string): Promise<{ path: string; created: boolean }> {
-      const path = join(userHomeDir, DEFAULT_PROJECT_NAME);
-      let existedBefore = true;
-
+    async ensureDefaultProject(home) {
+      const path = join(home, "KnorviaProject");
+      let created = false;
       try {
-        await access(path).catch(() => {
-          existedBefore = false;
-        });
-        maybeThrowInjectedFsFault({ operation: "mkdir", path });
-        await mkdir(path, { recursive: true });
-      } catch (error) {
-        log("ensureDefaultProject failed:", error);
-        throw error;
+        await access(path);
+      } catch {
+        created = true;
       }
-
-      return { path, created: !existedBefore };
+      maybeThrowInjectedFsFault({ operation: "mkdir", path });
+      await mkdir(path, { recursive: true });
+      return { path, created };
     },
   };
+}
 
-  return { service };
+export function createSettingServiceWithMigrations(): { service: ISettingService } {
+  return { service: createSettingService() };
 }

@@ -1,137 +1,108 @@
 import { basename, relative, sep } from "node:path";
 import type { FileSystemPort } from "@knorvia/contracts";
 import { parse as parseYaml } from "yaml";
-
 import { MEMORY_RECALL_TYPES, type MemoryManifestEntry, type MemoryRecallType } from "./types.js";
 
-const MANIFEST_FILE_LIMIT = 200;
-const MANIFEST_PREVIEW_LINE_LIMIT = 30;
-
-export async function scanMemoryManifest(input: {
-  fileSystem: FileSystemPort;
-  rootDir: string;
-  signal?: AbortSignal;
-}): Promise<MemoryManifestEntry[]> {
-  try {
-    const paths = await collectMemoryPaths(input.fileSystem, input.rootDir, input.signal);
-    const settled = await Promise.allSettled(
-      paths.map((filePath) =>
-        readManifestEntry(input.fileSystem, input.rootDir, filePath, input.signal),
-      ),
-    );
-    return settled
-      .filter(
-        (result): result is PromiseFulfilledResult<MemoryManifestEntry> =>
-          result.status === "fulfilled",
-      )
-      .map((result) => result.value)
-      .sort((left, right) => right.mtimeMs - left.mtimeMs)
-      .slice(0, MANIFEST_FILE_LIMIT);
-  } catch {
-    return [];
-  }
-}
-
-export function formatMemoryManifest(manifest: readonly MemoryManifestEntry[]): string {
-  return manifest
-    .map((entry) => {
-      const type = entry.type ? `[${entry.type}] ` : "";
-      const timestamp = new Date(entry.mtimeMs).toISOString();
-      const base = `- ${type}${entry.filename} (${timestamp})`;
-      return entry.description ? `${base}: ${entry.description}` : base;
-    })
-    .join("\n");
-}
-
-async function collectMemoryPaths(
-  fileSystem: FileSystemPort,
-  directory: string,
-  signal?: AbortSignal,
-): Promise<string[]> {
-  const listed = await fileSystem.listDirectory({ path: directory }, { signal });
-  const paths: string[] = [];
-
-  for (const entry of listed.entries) {
-    if (entry.kind === "directory") {
-      paths.push(...(await collectMemoryPaths(fileSystem, entry.path, signal)));
-      continue;
-    }
-    if (entry.kind === "file") {
-      if (isMemoryCandidate(entry.path)) paths.push(entry.path);
-      continue;
-    }
-    if (entry.kind !== "symlink" || !isMemoryCandidate(entry.path)) continue;
-
-    try {
-      const target = await fileSystem.stat({ path: entry.path }, { signal });
-      if (target.kind === "file") paths.push(entry.path);
-    } catch {
-      // 单个失效的文件 symlink 与单个无法读取的事实文件一样，不影响其他 manifest 项。
-    }
-  }
-
-  return paths;
-}
-
-function isMemoryCandidate(filePath: string): boolean {
-  return filePath.endsWith(".md") && basename(filePath) !== "MEMORY.md";
-}
-
-async function readManifestEntry(
-  fileSystem: FileSystemPort,
-  rootDir: string,
-  filePath: string,
-  signal?: AbortSignal,
-): Promise<MemoryManifestEntry> {
-  const [stat, preview] = await Promise.all([
-    fileSystem.stat({ path: filePath }, { signal }),
-    fileSystem.readTextFileRange(
-      { path: filePath, offsetLine: 0, limitLines: MANIFEST_PREVIEW_LINE_LIMIT },
-      { signal },
-    ),
-  ]);
-  const frontmatter = parseMemoryFrontmatter(preview.content);
-  return {
-    ...(frontmatter.description ? { description: frontmatter.description } : {}),
-    filePath,
-    filename: relative(rootDir, filePath).split(sep).join("/"),
-    mtimeMs: stat.mtimeMs ?? 0,
-    ...(frontmatter.type ? { type: frontmatter.type } : {}),
-  };
-}
-
-function parseMemoryFrontmatter(content: string): {
-  description?: string;
-  type?: MemoryRecallType;
-} {
-  const normalized = content.replace(/^\uFEFF/u, "").replace(/\r\n/gu, "\n");
-  const lines = normalized.split("\n");
+function previewAttributes(content: string): Pick<MemoryManifestEntry, "description" | "type"> {
+  const lines = content
+    .replace(/^\uFEFF/u, "")
+    .replace(/\r\n/gu, "\n")
+    .split("\n");
   if (lines[0] !== "---") return {};
-
   const end = lines.indexOf("---", 1);
-  if (end < 0) return {};
+  if (end === -1) return {};
+
   let parsed: unknown;
   try {
     parsed = parseYaml(lines.slice(1, end).join("\n"));
   } catch {
     return {};
   }
-  if (!isRecord(parsed)) return {};
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return {};
 
-  const description = typeof parsed.description === "string" ? parsed.description : undefined;
-  const metadata = isRecord(parsed.metadata) ? parsed.metadata : undefined;
-  const typeCandidate = metadata?.type ?? parsed.type;
-  const type = isMemoryRecallType(typeCandidate) ? typeCandidate : undefined;
-  return {
-    ...(description ? { description } : {}),
-    ...(type ? { type } : {}),
+  const header = parsed as Record<string, unknown>;
+  const attributes: Pick<MemoryManifestEntry, "description" | "type"> = {};
+  if (typeof header.description === "string" && header.description) {
+    attributes.description = header.description;
+  }
+  const metadata = header.metadata;
+  const candidate =
+    metadata !== null && typeof metadata === "object" && !Array.isArray(metadata)
+      ? ((metadata as Record<string, unknown>).type ?? header.type)
+      : header.type;
+  if (
+    typeof candidate === "string" &&
+    MEMORY_RECALL_TYPES.includes(candidate as MemoryRecallType)
+  ) {
+    attributes.type = candidate as MemoryRecallType;
+  }
+  return attributes;
+}
+
+export async function scanMemoryManifest(input: {
+  fileSystem: FileSystemPort;
+  rootDir: string;
+  signal?: AbortSignal;
+}): Promise<MemoryManifestEntry[]> {
+  const { fileSystem, rootDir, signal } = input;
+  const paths: string[] = [];
+
+  const visit = async (directory: string): Promise<void> => {
+    const listing = await fileSystem.listDirectory({ path: directory }, { signal });
+    for (const entry of listing.entries) {
+      if (entry.kind === "directory") {
+        await visit(entry.path);
+        continue;
+      }
+      if (!entry.path.endsWith(".md") || basename(entry.path) === "MEMORY.md") continue;
+      if (entry.kind === "file") {
+        paths.push(entry.path);
+      } else if (entry.kind === "symlink") {
+        try {
+          const target = await fileSystem.stat({ path: entry.path }, { signal });
+          if (target.kind === "file") paths.push(entry.path);
+        } catch {
+          // A candidate link that cannot be resolved contributes no path.
+        }
+      }
+    }
   };
+
+  try {
+    await visit(rootDir);
+  } catch {
+    return [];
+  }
+
+  const settled = await Promise.allSettled(
+    paths.map(async (filePath): Promise<MemoryManifestEntry> => {
+      const [status, preview] = await Promise.all([
+        fileSystem.stat({ path: filePath }, { signal }),
+        fileSystem.readTextFileRange({ path: filePath, offsetLine: 0, limitLines: 30 }, { signal }),
+      ]);
+      const attributes = previewAttributes(preview.content);
+      return {
+        ...(attributes.description ? { description: attributes.description } : {}),
+        filePath,
+        filename: relative(rootDir, filePath).split(sep).join("/"),
+        mtimeMs: status.mtimeMs ?? 0,
+        ...(attributes.type ? { type: attributes.type } : {}),
+      };
+    }),
+  );
+  const manifest: MemoryManifestEntry[] = [];
+  for (const result of settled) {
+    if (result.status === "fulfilled") manifest.push(result.value);
+  }
+  return manifest.sort((left, right) => right.mtimeMs - left.mtimeMs).slice(0, 200);
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function isMemoryRecallType(value: unknown): value is MemoryRecallType {
-  return typeof value === "string" && (MEMORY_RECALL_TYPES as readonly string[]).includes(value);
+export function formatMemoryManifest(manifest: readonly MemoryManifestEntry[]): string {
+  return manifest
+    .map((entry) => {
+      const type = entry.type ? `[${entry.type}] ` : "";
+      const row = `- ${type}${entry.filename} (${new Date(entry.mtimeMs).toISOString()})`;
+      return entry.description ? `${row}: ${entry.description}` : row;
+    })
+    .join("\n");
 }

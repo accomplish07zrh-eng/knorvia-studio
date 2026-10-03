@@ -1,0 +1,7 @@
+# Logical imports and scope
+
+The api/dependency/port/snapshot declaration packet contains signatures only, not dependency bodies. Module headers in dependency-api.d.ts identify existing logical import paths. Use `@knorvia/contracts` public imports for event values, tracing and public types; native crypto.randomUUID, Date, setInterval/clearInterval, setTimeout/clearTimeout remain clock/ID seams. Export only BackgroundTaskTracker from background-tasks.ts. Cohesive new private modules in the same executor folder may export internal helpers/types to each other, without adding public package exports.
+
+Keep existing compat, registry/output/workflow-artifact/workflow-published-artifacts/notification/workflow-script-path/utils and executor types modules unchanged. Agent and Task are the subagent dispatch aliases. Existing dynamic predicate covers CreateWorkflow, AmendWorkflow and ResumeWorkflowRun. Do not read those source/history/compiled files; only these supplied declarations and functional rules are inputs. No testing/compilation/runtime or real IO during drafting. Save complete initial source files and SHA-bound access record before curator comparison.
+
+This author task has prior AgentRuntime/TurnMachine context, explicitly disclosed; it is not an absolute packet-only or clean-room claim. Current-round Sol/high and Fast ON are parent-reported; no settings change is authorized here.

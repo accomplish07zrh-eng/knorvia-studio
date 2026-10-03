@@ -1,0 +1,70 @@
+{
+  "targets": {
+    "packages/desktop/src/main/desktopRuntimeEnv.ts": {
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "current": {
+        "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+        "bytes": 19865,
+        "lines": 496,
+        "sha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194"
+      }
+    },
+    "packages/desktop/src/main/desktopNetworkPolicy.ts": {
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "current": {
+        "path": "packages/desktop/src/main/desktopNetworkPolicy.ts",
+        "bytes": 9750,
+        "lines": 273,
+        "sha256": "9ec488814c6cb08564ae814cd44ba9466861359473ee6d47b5f87b70bfb873d8"
+      }
+    }
+  },
+  "currentFiles": [
+    {
+      "path": "packages/desktop/src/main/desktopNetworkPolicy.ts",
+      "kind": "file",
+      "sha256": "9ec488814c6cb08564ae814cd44ba9466861359473ee6d47b5f87b70bfb873d8",
+      "normalizedSha256": "9ec488814c6cb08564ae814cd44ba9466861359473ee6d47b5f87b70bfb873d8",
+      "encoding": "utf8-lf",
+      "bytes": 9750,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/desktopNetworkPolicy.ts",
+        "blob": "ee3c4ec814db3f6cf0b9c8b9f7df51b6f8edf1c1",
+        "normalizedSha256": "536cb7a73f65e3956f19d882e29782b7200c8e053b0f08aafd47db81019597db",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+      "kind": "file",
+      "sha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194",
+      "normalizedSha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194",
+      "encoding": "utf8-lf",
+      "bytes": 19865,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+        "blob": "e444d704c54306b9d9b048769d63a2a6d8eb5ab9",
+        "normalizedSha256": "601370023d5c0daacbe69d906710d9a6a7f709611d7b0831193677bcf63dbc72",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  ],
+  "reviews": [],
+  "qualification": "No accepted local whole-owner receipt located for either exact source; upstream-modified ledger is source evidence only, missing receipts/history do not prove ownership or rights."
+}

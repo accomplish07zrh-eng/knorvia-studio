@@ -1,0 +1,19 @@
+{
+  "exports": [
+    {
+      "name": "McpToolOutputJsonSchema",
+      "expression": "{\n  type: \"object\",\n  required: [\"content\"],\n  properties: {\n    content: {\n      type: \"array\",\n      items: {\n        type: \"object\",\n        additionalProperties: true,\n      },\n    },\n    structuredContent: {},\n    isError: {\n      type: \"boolean\",\n    },\n    _meta: {\n      type: \"object\",\n      additionalProperties: true,\n    },\n  },\n  additionalProperties: false,\n} satisfies JsonSchema"
+    }
+  ],
+  "declarationQualifications": [
+    {
+      "name": "McpToolOutputJsonSchema",
+      "raw": "JsonSchema with original TS9010 and omitted declaration import",
+      "qualified": "JsonSchema unchanged",
+      "basis": "Keep frozen declared JsonSchema public type; annotate source export explicitly to avoid isolated inference diagnostic. Exact original schema initializer topology retained. Public-shapes supplies original type owner, raw import omission remains qualified, no semantic/project closure claim."
+    }
+  ],
+  "sharedOfficialNamespace": "plugin:computer-use:computer-use",
+  "browserScreenshotMetaKey": "knorvia/browserScreenshotContentIndices",
+  "qualification": "Exact exported initializer expressions/schema topology preserved; exported public identities and imported constant values only, no private decomposition. Image inline numeric expressions retained instead of hardcoded folded values. Native node:path/Buffer/Date APIs may be used, business effects only supplied ports; no target/dependency runtime executed."
+}

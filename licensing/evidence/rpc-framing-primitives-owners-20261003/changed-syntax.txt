@@ -1,0 +1,5 @@
+packages/rpc/src/protocol.ts: 0 syntax-only diagnostics
+packages/rpc/src/proxy-channel.ts: 0 syntax-only diagnostics
+packages/rpc/src/buffer.ts: 0 syntax-only diagnostics
+packages/rpc/src/foundation.ts: 0 syntax-only diagnostics
+packages/rpc/src/serialization.ts: 0 syntax-only diagnostics

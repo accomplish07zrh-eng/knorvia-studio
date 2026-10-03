@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/custom-command-owner-compatibility/owners.test.mjs"
+  ],
+  "stdout": "✔ discovery preserves priority, parser diagnostics, disabled snapshot and first-name data (20.510165ms)\n✔ load preserves public dispatch, bounded bytes, handle closure and raw error precedence (6.431933ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 30.681216\n",
+  "stderr": "",
+  "exitCode": 0
+}

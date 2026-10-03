@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "scope": "Root terminal launch-planning and OffPeak review",
+  "baseline": "168d1baa2c45166bd7e98d73ac9a496685e9fe08",
+  "reviewedCodeHead": "e0960119f51cc5dfd67a958aeae8850457451818",
+  "laneCheckpoints": {
+    "terminalPlanning": "24aea53",
+    "offPeak": "bf0cc48"
+  },
+  "validation": {
+    "terminalSourceWithProfiles": 240,
+    "terminalStrictEmittedWithProfiles": 240,
+    "terminalEmittedSelectors": [
+      "KNORVIA_TERMINAL_PLAN_TARGET=dist",
+      "KNORVIA_TERMINAL_MACOS_TARGET=dist",
+      "KNORVIA_TERMINAL_PROFILE_TARGET=dist"
+    ],
+    "offPeakSource": 23,
+    "offPeakEmitted": 23,
+    "offPeakFiniteComparisonPerMode": {
+      "cases": 8192,
+      "sha256": "aed9b761d28843ed3991ed369440085c96268fcc7ffb957e4456fa6cbdb695f5"
+    },
+    "full": {
+      "tests": 6539,
+      "pass": 6473,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0,
+      "exactPriorFailureEventMultiset": true
+    },
+    "gates": [
+      "main root types",
+      "CLI build",
+      "serial CLI types",
+      "root lint",
+      "explicit eight CLI files lint",
+      "format",
+      "changed architecture",
+      "desktop build:no-runtime-assets"
+    ]
+  },
+  "logSha256": {
+    "terminal-plan-root-emitted.tap": "9436b15ebea05c5f8114b3fb17534c2b4f8be25684dfbeb4919c47f89eceabb4",
+    "terminal-plan-root-emitted-incomplete-flags.tap": "117b905d6998bde2882a985fd79afafa98d9533a423c08b2f2d696e4aa69f2f1",
+    "terminal-plan-root-source.tap": "49a91c82c972d0c7254f54b8e1722e40dd6f707e5f72cd7dc434db01bf918d20",
+    "terminal-plan-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "offpeak-root-explicit-lint.log": "63f3559031f291a22028dc279fe8234502f533d01d6ea67744d4af41a86894cd",
+    "offpeak-root-differential-emitted.log": "821a62dde763c26d41a97059679523ece23a6ce9c8d95907892e23849727891e",
+    "offpeak-root-differential-source.log": "821a62dde763c26d41a97059679523ece23a6ce9c8d95907892e23849727891e",
+    "offpeak-root-emitted.tap": "8cfa6464651a1579bb7ee4f19edfb9c925b1ea64ef49c8276d801b348b60782f",
+    "offpeak-root-source.tap": "c271c22cda384660d0e0eab9d449e99810c8b798f34614d8efef569c0d31290f",
+    "offpeak-root-source-missing-ui-config.tap": "a7ad524ae28efe392153db05ad77213512be1f22d5891c39b4b23c42c8971f4e",
+    "offpeak-root-cli-build.log": "dd1e5df22e32d9173a1eba3a623d26ae808f0f2ba9b0cd34998064001962456a",
+    "plan-offpeak-root-full.tap": "41e8fcfae5f6b89555dab77f6be10e94e18e5f15446c14e996d5b754b660c28b",
+    "plan-offpeak-root-desktop-build.log": "27073ada5e3ba0ce238db51e13bc7ec156ea2dd5fd27e017c4097e78af5fe86f",
+    "plan-offpeak-root-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "plan-offpeak-root-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "plan-offpeak-root-format.log": "601d480329c6bb4865fdf3bf3b2fa5047110d9b591623d59569066fb7f34c113",
+    "plan-offpeak-root-lint.log": "09f415d9e84a91bb56f859ee96bfabcd7b4ec399a17781e4c7d4b107deb1fed5",
+    "plan-offpeak-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988"
+  },
+  "initialFailures": [
+    "Focused OffPeak initially22/23 because UI alias tsconfig was omitted; rerun with existing packages/ui/tsconfig.json passed23/23 both modes without test changes",
+    "Initial root terminal emitted invocation used incomplete per-suite selectors; corrected240-case emitted run and exact earlier164-case runtime recheck are documented separately in emitted-mode-recheck-20261001.json"
+  ],
+  "retained": [
+    "Terminal instance lifecycle, lazy native module load and helper permissions remain inherited and20protectednodes were unchanged in this planning checkpoint",
+    "OffPeak declarations and exported guard body retained; no real scheduled tasks or account calls",
+    "All27materialobligations and applicable attribution remain"
+  ],
+  "limits": [
+    "No native PTY/macOS/WindowsGUI or liveaccount acceptance",
+    "Source-exposed; no whole-file clean-room/finalMIT claim",
+    "Exact new-head remoteCI pending"
+  ]
+}

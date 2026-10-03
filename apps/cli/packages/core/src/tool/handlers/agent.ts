@@ -2,21 +2,12 @@
 // Agent Tool Handler
 // ============================================================
 
-import {
-  AgentErrorCode,
-  AgentInputJsonSchema,
-  AgentInputSchema,
-  AgentOutputSchema,
-  AgentType,
-  CoreErrorType,
-  createCoreError,
-  type AgentInput,
-  type AgentOutput,
-  type TraceContext,
-} from "@knorvia/contracts";
+import { AgentInputJsonSchema, AgentInputSchema, AgentOutputSchema } from "@knorvia/contracts";
 import { TASK_TOOL_NAME } from "../compat.js";
-import type { ToolEntry, ToolHandler } from "../types.js";
+import type { ToolEntry } from "../types.js";
 import { formatAgentProfilesForPrompt, type AgentProfile } from "../../subagent/profile.js";
+import { invokeAgent } from "./agent-invocation.js";
+import { projectAgentModelContent } from "./agent-projection.js";
 
 const MAX_AGENT_MODEL_BYTES = 120_000;
 
@@ -127,100 +118,6 @@ function buildAgentProviderDescription(
 
 const AGENT_PROVIDER_DESCRIPTION = buildAgentProviderDescription();
 
-function formatAgentOutputForModel(output: unknown): string {
-  const parsed = AgentOutputSchema.safeParse(output);
-  if (!parsed.success) {
-    return typeof output === "string" ? output : (JSON.stringify(output) ?? String(output));
-  }
-
-  const data = parsed.data as AgentOutput;
-  if (data.status !== "async_launched") {
-    const childText = data.content.map((block) => block.text).join("\n");
-    const childContent =
-      childText.trim().length > 0 ? [childText] : ["(Subagent completed but returned no output.)"];
-    const usageLines = [
-      ...(data.totalTokens === undefined ? [] : [`subagent_tokens: ${data.totalTokens}`]),
-      `tool_uses: ${data.totalToolUseCount}`,
-      `duration_ms: ${data.totalDurationMs}`,
-    ];
-    return [
-      ...childContent,
-      `agentId: ${data.agentId} (use SendMessage with to: '${data.agentId}' to continue this agent)`,
-      `<usage>${usageLines.join("\n")}</usage>`,
-    ].join("\n");
-  }
-
-  const launchLines = [
-    "Async agent launched successfully.",
-    `agentId: ${data.agentId} (internal ID - do not mention to user. Use SendMessage with to: '${data.agentId}' to continue this agent.)`,
-    "The agent is working in the background. You will be notified automatically when it completes.",
-  ];
-
-  if (data.canReadOutputFile) {
-    return [
-      ...launchLines,
-      "Do not duplicate this agent's work - avoid working with the same files or topics it is using. Work on non-overlapping tasks, or briefly tell the user what you launched and end your response.",
-      `output_file: ${data.outputFile}`,
-      "Do NOT Read or tail this file via the shell tool. If the user asks for progress, say the agent is still running; you'll get a completion notification.",
-    ].join("\n");
-  }
-
-  return [
-    ...launchLines,
-    "Briefly tell the user what you launched and end your response. Do not generate any other text - agent results will arrive in a subsequent message.",
-  ].join("\n");
-}
-
-const agentHandler: ToolHandler = async (input, context) => {
-  const parsed = AgentInputSchema.parse(input) as AgentInput;
-  const agentType = parsed.subagent_type ?? AgentType.GeneralPurpose;
-
-  if (!context.subagentPort) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "SubagentPort is not configured for Agent tool",
-      {
-        context: {
-          code: AgentErrorCode.SUBAGENT_UNAVAILABLE,
-          toolCallId: context.toolCallId,
-          toolName: "Agent",
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  const request = {
-    sessionId: context.sessionId,
-    turnId: context.turnId,
-    parentToolCallId: context.toolCallId,
-    agentType,
-    description: parsed.description,
-    prompt: parsed.prompt,
-    callerCanReadOutputFile: canReadBackgroundOutputFile(context.providerVisibleToolNames),
-    workingDirectory: context.workingDirectory,
-    workspaceRoot: context.workspaceRoot,
-    trace: {
-      traceId: context.traceId,
-      spanId: context.spanId,
-      parentSpanId: context.parentSpanId,
-      sessionId: context.sessionId,
-      turnId: context.turnId,
-    } as TraceContext,
-  };
-  return context.subagentPort.launch(
-    {
-      ...request,
-      runInBackground: parsed.run_in_background === true,
-    },
-    {
-      signal: context.abortSignal,
-      ...(context.model ? { model: context.model } : {}),
-      ...(context.subagentModelOverride ? { modelOverride: context.subagentModelOverride } : {}),
-    },
-  );
-};
-
 export const agentToolEntry: ToolEntry = {
   capability: "Launch a profile-backed subagent; background execution is runtime-configured",
   metadata: {
@@ -234,8 +131,8 @@ export const agentToolEntry: ToolEntry = {
     riskLevel: "low",
     needsApproval: false,
   },
-  handler: agentHandler,
-  formatModelContent: formatAgentOutputForModel,
+  handler: invokeAgent,
+  formatModelContent: projectAgentModelContent,
   inputSchema: AgentInputJsonSchema,
   outputSchema: AGENT_TOOL_OUTPUT_SCHEMA,
   runtimeInputSchema: AgentInputSchema,
@@ -278,11 +175,6 @@ export const agentToolEntry: ToolEntry = {
     recordOutput: "summary",
   },
 };
-
-function canReadBackgroundOutputFile(toolNames: readonly string[] | undefined): boolean {
-  const names = new Set(toolNames ?? []);
-  return names.has("Read") || names.has("Bash");
-}
 
 export const taskToolEntry: ToolEntry = {
   ...agentToolEntry,

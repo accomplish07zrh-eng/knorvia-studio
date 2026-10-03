@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/browser-dependency-compatibility/owners.test.mjs",
+    "--only=Playwright"
+  ],
+  "stdout": "✔ Playwright authority preserves CDP bytes/error detach, unavailable gates and screenshot cleanup (15.55106ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 19.305682\n",
+  "stderr": "",
+  "exitCode": 0
+}

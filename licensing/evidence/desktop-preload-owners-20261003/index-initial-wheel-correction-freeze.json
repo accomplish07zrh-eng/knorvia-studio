@@ -1,0 +1,16 @@
+[
+  {
+    "owner": "index",
+    "kind": "initial",
+    "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/index-initial.ts.txt",
+    "sha256": "b1307f6fe8516687551639819325469725cadcfbfaa0a4db6de39f6cdbc5a6fd",
+    "bytes": 24332
+  },
+  {
+    "owner": "wheel",
+    "kind": "correction-1",
+    "raw": "licensing/evidence/desktop-preload-owners-20261003/drafts/wheel-correction-1.ts.txt",
+    "sha256": "91c6f8b58e9b41611a586848eadd3023b25ed803c01fe4ad21e4af1dc9a10725",
+    "bytes": 3275
+  }
+]

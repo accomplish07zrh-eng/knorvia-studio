@@ -14,18 +14,15 @@
 // 注册，走到这里就是接线故障，不是一种结局。
 
 import {
-  CoreErrorType,
   ESCALATE_TOOL_NAME,
   EscalateInputJsonSchema,
   EscalateInputSchema,
   EscalateOutputJsonSchema,
   EscalateOutputSchema,
-  createCoreError,
-  type EscalateInput,
-  type EscalateOutput,
   type TraceContext,
 } from "@knorvia/contracts";
 import type { ToolEntry, ToolHandler } from "../types.js";
+import { createEscalateOperation } from "./escalate-operation.js";
 
 /** 答案可能是一整段说明；与 submit_result 同档的模型面上限。 */
 const MAX_ESCALATE_MODEL_BYTES = 16_000;
@@ -50,47 +47,7 @@ const ESCALATE_DESCRIPTION = [
   "The cost: this call BLOCKS until the main agent answers, which may take a long time. You get at most 3 escalations per ask; the 4th tells you the budget is spent and to proceed on your own best judgement. Do not spend them on questions not worth waiting for.",
 ].join("\n");
 
-const escalateHandler: ToolHandler = async (input, context) => {
-  const parsed = EscalateInputSchema.parse(input) as EscalateInput;
-
-  // Gate 与 submit_result 同款：以端口存在为判据，与 runtimeScope / taskType 无关。
-  if (!context.workflowEscalatePort) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "Workflow escalate port is not configured for escalate",
-      {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: ESCALATE_TOOL_NAME,
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  const outcome = await context.workflowEscalatePort.escalate({
-    toolCallId: context.toolCallId,
-    question: parsed.question,
-    ...(parsed.context === undefined ? {} : { context: parsed.context }),
-    trace: resolveToolTraceContext(context),
-  });
-
-  if (outcome.kind === "answered") {
-    return {
-      status: "answered",
-      message: outcome.answer,
-      qid: outcome.qid,
-    } satisfies EscalateOutput;
-  }
-
-  // 拒绝的文案由端口写好（陈述现状与下一步），这里原样透传——判别键与文案分开维护，
-  // 两处迟早会说不同的话，而这里的读者是模型。
-  return {
-    status: "refused",
-    message: outcome.message,
-    reason: outcome.reason,
-  } satisfies EscalateOutput;
-};
+const escalateHandler: ToolHandler = createEscalateOperation(resolveToolTraceContext);
 
 export const escalateToolEntry: ToolEntry = {
   capability: "Escalate a blocking question from a workflow subagent to the main agent and wait",

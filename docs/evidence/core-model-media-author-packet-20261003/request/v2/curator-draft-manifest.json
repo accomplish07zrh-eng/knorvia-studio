@@ -1,0 +1,32 @@
+{
+  "archivedAtUtc": "2026-10-02T19:55:22.997968+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "25ee17f8",
+  "correctionInputsCommit": "bbab3a07",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/request/imports.json",
+      "bytes": 3741,
+      "sha256": "313c323c5188bae6a67b7c8dc88e7b6ee46b8ffd323a9f07470807a58e09d531"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/request/correction-qualification.md",
+      "bytes": 2071,
+      "sha256": "737a2f845b2fe9f8555b6bca1946e4b9d975aac61ff2d356a2e63d59e1ac7fba"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-provider-request-messages.ts.txt",
+      "bytes": 8844,
+      "sha256": "730f9bdaa14cd10ae01d9b10f121b8c0ef13c4f9226812c3eb34f0fc8372bde9",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 11118,
+      "sha256": "b891772b76864f1c9f2ef91f26477c5a495accf4f54b0183f6724bb5f9d4c1e2"
+    }
+  ]
+}

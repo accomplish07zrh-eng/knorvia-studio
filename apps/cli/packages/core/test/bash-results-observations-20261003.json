@@ -1,0 +1,260 @@
+[
+  {
+    "name": "artifact data versus observed bytes",
+    "output": {
+      "stdout": "Owned prepared image",
+      "stderr": "Owned stderrOwned suffix",
+      "interrupted": false,
+      "isImage": true,
+      "noOutputExpected": false,
+      "status": "completed",
+      "exitCode": 0,
+      "timedOut": false,
+      "cancelled": false,
+      "stdoutTruncated": true,
+      "stderrTruncated": false,
+      "stdoutBytes": 9000,
+      "stderrBytes": 2000,
+      "rawOutputPath": "owned://stdout",
+      "dangerouslyDisableSandbox": false,
+      "persistedOutputPath": "owned://stdout",
+      "stdoutPersistedOutputPath": "owned://stdout",
+      "stderrPersistedOutputPath": "owned://stderr",
+      "persistedOutputSize": 11000,
+      "stdoutPersistedOutputSize": 64,
+      "stderrPersistedOutputSize": 32,
+      "ghRateLimitHint": "Owned hint"
+    },
+    "keys": [
+      "stdout",
+      "stderr",
+      "interrupted",
+      "isImage",
+      "noOutputExpected",
+      "status",
+      "exitCode",
+      "signal",
+      "timedOut",
+      "cancelled",
+      "stdoutTruncated",
+      "stderrTruncated",
+      "stdoutBytes",
+      "stderrBytes",
+      "rawOutputPath",
+      "dangerouslyDisableSandbox",
+      "returnCodeInterpretation",
+      "persistedOutputPath",
+      "stdoutPersistedOutputPath",
+      "stderrPersistedOutputPath",
+      "persistedOutputSize",
+      "stdoutPersistedOutputSize",
+      "stderrPersistedOutputSize",
+      "ghRateLimitHint"
+    ],
+    "telemetry": {
+      "detail": {
+        "kind": "command",
+        "command": {
+          "runMs": 9,
+          "firstOutputMs": 0,
+          "noOutputMs": 0,
+          "exitCode": 0,
+          "timedOut": false,
+          "outputBytes": 11000,
+          "category": "owned",
+          "count": 1,
+          "name": "owned",
+          "status": "completed",
+          "hash": "owned-hash"
+        }
+      }
+    },
+    "trace": [
+      ["suffix", "Owned stderr", "Owned suffix"],
+      ["interpret", "owned-preview", "completed"],
+      ["provider-error", ["exitCode", "returnCodeInterpretation", "status"]],
+      [
+        "image",
+        {
+          "artifactPath": "owned://stdout",
+          "artifactSize": 64,
+          "inline": "  \nOwned output  "
+        }
+      ],
+      ["gh-hint", "owned-preview", "  \nOwned output  "],
+      ["silent", "owned-preview"],
+      ["round", 9.4],
+      ["classify", "owned-preview"],
+      ["identity", "owned-preview"],
+      ["hash", "owned-preview"],
+      "compact",
+      "attach"
+    ]
+  },
+  {
+    "name": "provider error skips image lifetime",
+    "output": {
+      "stdout": "  \nOwned output  ",
+      "stderr": "Owned stderr",
+      "interrupted": false,
+      "isImage": false,
+      "noOutputExpected": false,
+      "status": "failed",
+      "exitCode": 2,
+      "timedOut": false,
+      "cancelled": false,
+      "stdoutTruncated": true,
+      "stderrTruncated": false,
+      "stdoutBytes": 9000,
+      "stderrBytes": 2000,
+      "rawOutputPath": "owned://stdout",
+      "dangerouslyDisableSandbox": false,
+      "persistedOutputPath": "owned://stdout",
+      "stdoutPersistedOutputPath": "owned://stdout",
+      "stderrPersistedOutputPath": "owned://stderr",
+      "persistedOutputSize": 11000,
+      "stdoutPersistedOutputSize": 64,
+      "stderrPersistedOutputSize": 32
+    },
+    "keys": [
+      "stdout",
+      "stderr",
+      "interrupted",
+      "isImage",
+      "noOutputExpected",
+      "status",
+      "exitCode",
+      "signal",
+      "timedOut",
+      "cancelled",
+      "stdoutTruncated",
+      "stderrTruncated",
+      "stdoutBytes",
+      "stderrBytes",
+      "rawOutputPath",
+      "dangerouslyDisableSandbox",
+      "returnCodeInterpretation",
+      "persistedOutputPath",
+      "stdoutPersistedOutputPath",
+      "stderrPersistedOutputPath",
+      "persistedOutputSize",
+      "stdoutPersistedOutputSize",
+      "stderrPersistedOutputSize"
+    ],
+    "trace": [
+      ["suffix", "Owned stderr", null],
+      ["interpret", "owned-preview", "failed"],
+      ["provider-error", ["exitCode", "returnCodeInterpretation", "status"]],
+      ["silent", "owned-preview"],
+      ["round", 9.4],
+      ["round", 9.4],
+      ["classify", "owned-preview"],
+      ["identity", "owned-preview"],
+      ["hash", "owned-preview"],
+      "compact",
+      "attach"
+    ]
+  },
+  {
+    "name": "captured artifact and live post-image fields",
+    "output": {
+      "stdout": "  \nOwned output  ",
+      "stderr": "Owned stderr",
+      "interrupted": true,
+      "isImage": false,
+      "noOutputExpected": false,
+      "status": "completed",
+      "exitCode": 0,
+      "timedOut": false,
+      "cancelled": true,
+      "stdoutTruncated": true,
+      "stderrTruncated": false,
+      "stdoutBytes": 12000,
+      "stderrBytes": 2000,
+      "rawOutputPath": "owned://stdout",
+      "dangerouslyDisableSandbox": false,
+      "persistedOutputPath": "owned://stdout",
+      "stdoutPersistedOutputPath": "owned://stdout",
+      "stderrPersistedOutputPath": "owned://stderr",
+      "persistedOutputSize": 11000,
+      "stdoutPersistedOutputSize": 64,
+      "stderrPersistedOutputSize": 32,
+      "ghRateLimitHint": "Owned hint"
+    },
+    "trace": [
+      ["suffix", "Owned stderr", null],
+      ["interpret", "owned-preview", "completed"],
+      ["provider-error", ["exitCode", "returnCodeInterpretation", "status"]],
+      [
+        "image",
+        {
+          "artifactPath": "owned://stdout",
+          "artifactSize": 64,
+          "inline": "  \nOwned output  "
+        }
+      ],
+      ["gh-hint", "owned-preview", "Owned live text"],
+      ["silent", "owned-preview"],
+      ["round", 9.4],
+      ["round", 9.4],
+      ["classify", "owned-preview"],
+      ["identity", "owned-preview"],
+      ["hash", "owned-preview"],
+      "compact",
+      "attach"
+    ]
+  },
+  {
+    "name": "no-run telemetry",
+    "background": {
+      "detail": {
+        "kind": "command",
+        "command": {
+          "category": "owned",
+          "count": 1,
+          "name": "owned",
+          "status": "backgrounded",
+          "hash": "owned-hash"
+        }
+      }
+    },
+    "empty": {
+      "detail": {
+        "kind": "command",
+        "command": {
+          "category": "empty",
+          "count": 0,
+          "name": "empty",
+          "status": "completed",
+          "hash": "owned-hash"
+        }
+      }
+    },
+    "trace": [
+      ["classify", "owned-preview"],
+      ["identity", "owned-preview"],
+      ["hash", "owned-preview"],
+      "compact",
+      ["hash", "owned-preview"],
+      "compact"
+    ]
+  },
+  {
+    "name": "actual Bash metadata and runtime classification consumers",
+    "values": [
+      "Exit code 2\n<persisted-output>\nOutput too large (2.9KB). Full output saved to: owned://saved\n\nPreview (first 2KB):\nOwned stdout\n</persisted-output>\nOwned stderr\n<error>Command was aborted before completion</error>",
+      [
+        {
+          "type": "image",
+          "mediaType": "image/png",
+          "dataUrl": "data:image/png;base64,T3duZWQ="
+        }
+      ],
+      "Owned stdout\nOwned stderr\nCommand exceeded the assistant-mode blocking budget (15s) and was moved to the background with ID: owned-task. It is still running — you will be notified when it completes. Output is being written to: owned://running. In assistant mode, delegate long-running work to a subagent or use run_in_background to keep this conversation responsive.",
+      "Owned stdout\nOwned stderr\nCommand was manually backgrounded by user with ID: owned-task. Output is being written to: owned://running",
+      "Owned stdout\nOwned stderr\nCommand running in background with ID: owned-task. Output is being written to: owned://running. You will be notified when it completes. To check interim output, use Read on that file path."
+    ],
+    "persisted": "<persisted-output>\nOutput too large (2KB). Full output saved to: owned://full\n\nPreview (first 2KB):\nOwned full provider content\nOwned stderr only once\n</persisted-output>",
+    "runtimeErrors": [true, false, false, false, false]
+  }
+]

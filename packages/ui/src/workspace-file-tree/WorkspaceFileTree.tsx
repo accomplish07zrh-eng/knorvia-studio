@@ -2,11 +2,12 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
-  type KeyboardEvent,
 } from "react";
 import {
   ArrowLeft,
@@ -37,22 +38,20 @@ import {
   TID_WORKSPACE_FILE_TREE_REFRESH_BUTTON,
 } from "@knorvia/shared";
 import {
-  areWorkspaceFilePathsEqual,
-  createCodeViewerSourceForWorkspaceFile,
   getWorkspaceFileGitStatus,
-  getWorkspaceFileAncestorDirectories,
-  getWorkspaceFileDirectoryChildDepth,
   filterWorkspaceFileTreeRows,
-  isWorkspaceFileTreeDeletedFile,
-  isWorkspaceFilePathInside,
   type WorkspaceFileGitStatus,
-  type WorkspaceFileTreeRow,
 } from "@/workspace-file-tree/model.js";
 import { getPathLeaf } from "@/lib/path.js";
 import { logger } from "@/logger.js";
 import { WORKSPACE_FILE_TREE_VIRTUAL_ROW_HEIGHT_PX } from "@/workspace-file-tree/constants.js";
 import { getFileManagerLabel } from "@/workspace-file-tree/helpers.js";
 import { useInstalledFileTreeEditors } from "@/workspace-file-tree/useInstalledFileTreeEditors.js";
+import {
+  FileTreePanelInteractionOwner,
+  type FileTreePanelPorts,
+} from "./fileTreePanelInteractionOwner.js";
+import { observeFileTreeViewport } from "./fileTreeViewportLease.js";
 import { useWorkspaceOpenInEditorTarget } from "@/hooks/useWorkspaceOpenInEditorTarget.js";
 import {
   resolveWorkspaceEditorSelection,
@@ -69,21 +68,11 @@ import {
   WorkspaceFileTreeList,
 } from "@/workspace-file-tree/WorkspaceFileTreeList.js";
 import { WorkspaceFileTreeStickyFolders } from "@/workspace-file-tree/WorkspaceFileTreeStickyFolders.js";
-import {
-  createWorkspaceFileTreeRowsFromSearchEntries,
-  getWorkspaceFileSearchDirectoryRevealPaths,
-} from "@/workspace-file-tree/searchRows.js";
+import { createWorkspaceFileTreeRowsFromSearchEntries } from "@/workspace-file-tree/searchRows.js";
 import type {
   WorkspaceFileTreeProps,
   WorkspaceFileTreeStickyFolderItem,
 } from "@/workspace-file-tree/types.js";
-
-function getWorkspaceFileTreeDirectoryLoadDepth(
-  workspacePath: string,
-  directoryPath: string,
-): number {
-  return getWorkspaceFileDirectoryChildDepth(workspacePath, directoryPath);
-}
 
 export function WorkspaceFileTree({
   workspacePath,
@@ -102,11 +91,22 @@ export function WorkspaceFileTree({
   const platform = usePlatform();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
-  const pendingActivePreviewRevealPathRef = useRef<string | null>(null);
-  const pendingSearchDirectoryRevealPathRef = useRef<string | null>(null);
-  const [selectedPath, setSelectedPath] = useState<string | null>(null);
-  const [fileSearchQuery, setFileSearchQuery] = useState("");
-  const [showChangedOnly, setShowChangedOnly] = useState(false);
+  const panelPortsRef = useRef<FileTreePanelPorts | null>(null);
+  const [panel] = useState(
+    () =>
+      new FileTreePanelInteractionOwner(() => {
+        if (!panelPortsRef.current) throw new Error("File tree panel ports are inactive");
+        return panelPortsRef.current;
+      }),
+  );
+  const {
+    selected: selectedPath,
+    query: fileSearchQuery,
+    changedOnly: showChangedOnly,
+  } = useSyncExternalStore(panel.subscribe, panel.read, panel.read);
+  const setSelectedPath = panel.select,
+    setFileSearchQuery = panel.search,
+    setShowChangedOnly = panel.changed;
   const [showScrollBottomMask, setShowScrollBottomMask] = useState(false);
   const [hasScrollableFileTree, setHasScrollableFileTree] = useState(false);
   const handleListRef = useCallback((node: HTMLDivElement | null) => {
@@ -195,11 +195,38 @@ export function WorkspaceFileTree({
     overscan: 12,
   });
 
-  useEffect(() => {
-    setSelectedPath(null);
-    setFileSearchQuery("");
-    setShowChangedOnly(false);
-  }, [workspaceIdentity, workspacePath]);
+  useLayoutEffect(() => {
+    panelPortsRef.current = {
+      workspacePath,
+      loadDirectory: treeData.loadDirectory,
+      setExpanded: treeData.setExpandedPaths,
+      gitStatus: treeData.gitStatusByPath,
+      preview: onOpenPreview,
+      refreshDirectories: treeData.refreshLoadedDirectories,
+      refreshSearch: refreshSearchIndex,
+      fileManager: canOpenInFileManager
+        ? () =>
+            wslFileManagerEditor
+              ? platform.openInEditor(wslFileManagerEditor.id, workspacePath, {
+                  pathKind: "directory",
+                  remoteTarget,
+                  workspaceIdentity,
+                })
+              : platform.openInFileManager(workspacePath)
+        : null,
+      clipboardAvailable: () =>
+        typeof navigator !== "undefined" && Boolean(navigator.clipboard?.writeText),
+      copyPath: () => navigator.clipboard.writeText(workspacePath),
+      notify: (id, suffix) =>
+        toast(`${intl.formatMessage({ id })}${suffix === undefined ? "" : `: ${suffix}`}`),
+      log: (level, message, details) => logger[level](message, details),
+    };
+  });
+  useLayoutEffect(
+    () => panel.activate(),
+    [panel, platform, workspaceIdentity, workspacePath, workspaceRemoteSessionId],
+  );
+  useEffect(() => panel.resetFilters(), [panel, workspaceIdentity, workspacePath]);
 
   useEffect(() => {
     if (!treeData.gitStatusAvailable) {
@@ -215,20 +242,10 @@ export function WorkspaceFileTree({
     rootError,
   });
   const showInitialLoading = !rootLoaded && !blockingRootError;
-  const lastNonBlockingRootErrorRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (!rootLoaded || !rootError) {
-      lastNonBlockingRootErrorRef.current = null;
-      return;
-    }
-    const errorMessage = rootError.message;
-    if (lastNonBlockingRootErrorRef.current === errorMessage) {
-      return;
-    }
-    lastNonBlockingRootErrorRef.current = errorMessage;
-    // 根目录已有缓存时，刷新失败只能作为非阻塞提示；阻塞错误页会把保留的旧文件树隐藏掉。
-    toast(`${intl.formatMessage({ id: "workspaceFileTree.readFailed" })}: ${errorMessage}`);
-  }, [intl, rootError, rootLoaded]);
+  useEffect(
+    () => panel.noticeRootError(rootLoaded, rootError),
+    [intl, panel, rootError, rootLoaded],
+  );
   const gitStatusLabelByStatus = useMemo<Record<WorkspaceFileGitStatus, string>>(
     () => ({
       added: intl.formatMessage({ id: "git.kind.added" }),
@@ -282,300 +299,60 @@ export function WorkspaceFileTree({
     [scrollMaskStyle],
   );
 
-  useEffect(() => {
-    const previewPath = revealPath?.trim() || activePreviewPath?.trim();
-    if (!previewPath || !isWorkspaceFilePathInside(workspacePath, previewPath)) {
-      return;
-    }
-    let disposed = false;
-    const ancestorDirectories = getWorkspaceFileAncestorDirectories(workspacePath, previewPath);
-    const directoryPathsToExpand = revealPath?.trim()
-      ? [...ancestorDirectories, previewPath]
-      : ancestorDirectories;
-    pendingActivePreviewRevealPathRef.current = previewPath;
-    setSelectedPath(previewPath);
-    treeData.setExpandedPaths((current) => {
-      const next = new Set(current);
-      for (const directoryPath of directoryPathsToExpand) {
-        next.add(directoryPath);
-      }
-      return next;
-    });
-    void (async () => {
-      for (const [index, directoryPath] of directoryPathsToExpand.entries()) {
-        if (disposed) {
-          return;
-        }
-        await treeData.loadDirectory(directoryPath, index + 1);
-      }
-    })();
-    return () => {
-      disposed = true;
-    };
-  }, [
-    activePreviewPath,
-    revealPath,
-    treeData.loadDirectory,
-    treeData.setExpandedPaths,
-    workspacePath,
-  ]);
-
-  useEffect(() => {
-    const previewPath = revealPath?.trim() || activePreviewPath?.trim();
-    if (!previewPath || visibleRows.length === 0) {
-      return;
-    }
-    if (
-      !isWorkspaceFilePathInside(workspacePath, previewPath) ||
-      !pendingActivePreviewRevealPathRef.current ||
-      !areWorkspaceFilePathsEqual(pendingActivePreviewRevealPathRef.current, previewPath)
-    ) {
-      return;
-    }
-    const activeRowIndex = visibleRows.findIndex((row) =>
-      areWorkspaceFilePathsEqual(row.path, previewPath),
-    );
-    if (activeRowIndex >= 0) {
-      rowVirtualizer.scrollToIndex(activeRowIndex, { align: "auto" });
-      pendingActivePreviewRevealPathRef.current = null;
-    }
-  }, [activePreviewPath, revealPath, rowVirtualizer, visibleRows, workspacePath]);
-
-  useEffect(() => {
-    const revealDirectoryPath = pendingSearchDirectoryRevealPathRef.current;
-    if (!revealDirectoryPath || visibleRows.length === 0 || hasFileSearchQuery) {
-      return;
-    }
-    const revealRowIndex = visibleRows.findIndex((row) =>
-      areWorkspaceFilePathsEqual(row.path, revealDirectoryPath),
-    );
-    if (revealRowIndex >= 0) {
-      rowVirtualizer.scrollToIndex(revealRowIndex, { align: "center" });
-      pendingSearchDirectoryRevealPathRef.current = null;
-    }
-  }, [hasFileSearchQuery, rowVirtualizer, visibleRows]);
-
+  useEffect(
+    () => panel.revealPreview(activePreviewPath, revealPath),
+    [
+      activePreviewPath,
+      panel,
+      revealPath,
+      treeData.loadDirectory,
+      treeData.setExpandedPaths,
+      workspacePath,
+    ],
+  );
+  useEffect(
+    () =>
+      panel.revealVisiblePreview(visibleRows, activePreviewPath, revealPath, (index) =>
+        rowVirtualizer.scrollToIndex(index, { align: "auto" }),
+      ),
+    [activePreviewPath, panel, revealPath, rowVirtualizer, visibleRows, workspacePath],
+  );
+  useEffect(
+    () =>
+      panel.revealVisibleSearch(visibleRows, hasFileSearchQuery, (index) =>
+        rowVirtualizer.scrollToIndex(index, { align: "center" }),
+      ),
+    [hasFileSearchQuery, panel, rowVirtualizer, visibleRows],
+  );
   useEffect(() => {
     const scrollNode = scrollRef.current;
-    if (!scrollNode) {
-      return;
-    }
-    const contentNode = scrollNode.firstElementChild;
-    const updateScrollMask = () => {
-      // virtualizer 的 scrollOffset 需要经过 React 重渲染，拖拽滚动条时
-      // mask 会落后一帧。原生 scroll 回调直接更新 CSS 变量，与浏览器滚动同步绘制。
-      listRef.current?.style.setProperty(
-        WORKSPACE_FILE_TREE_MASK_OFFSET_PROPERTY,
-        `${scrollNode.scrollTop}px`,
-      );
-      const hasOverflow = scrollNode.scrollHeight > scrollNode.clientHeight + 1;
-      const isAtBottom =
-        scrollNode.scrollTop + scrollNode.clientHeight >= scrollNode.scrollHeight - 1;
-      setHasScrollableFileTree(hasOverflow);
-      setShowScrollBottomMask(hasOverflow && !isAtBottom);
-    };
-
-    // RAF-based debounce to coalesce resize events
-    let rafId: number | null = null;
-    let latestCallback = updateScrollMask;
-    const debouncedUpdate = () => {
-      if (rafId !== null) return;
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
-        latestCallback();
-      });
-    };
-
-    updateScrollMask();
-    const resizeObserver = new ResizeObserver(() => {
-      latestCallback = updateScrollMask;
-      debouncedUpdate();
+    if (!scrollNode) return;
+    return observeFileTreeViewport({
+      scroll: scrollNode,
+      content:
+        scrollNode.firstElementChild instanceof HTMLElement ? scrollNode.firstElementChild : null,
+      window,
+      // 原生 scroll 同帧更新 offset，不等待 virtualizer 的下一 React 帧。
+      offset: (value) =>
+        listRef.current?.style.setProperty(WORKSPACE_FILE_TREE_MASK_OFFSET_PROPERTY, value),
+      publish: ({ overflow, bottomMask }) => {
+        setHasScrollableFileTree(overflow);
+        setShowScrollBottomMask(bottomMask);
+      },
+      resizeObserver: (callback) => new ResizeObserver(callback),
+      frame: (callback) => requestAnimationFrame(callback),
+      cancelFrame: (id) => cancelAnimationFrame(id),
     });
-    resizeObserver.observe(scrollNode);
-    if (contentNode instanceof HTMLElement) {
-      resizeObserver.observe(contentNode);
-    }
-    scrollNode.addEventListener("scroll", updateScrollMask, { passive: true });
-    window.addEventListener("resize", debouncedUpdate);
-    return () => {
-      resizeObserver.disconnect();
-      scrollNode.removeEventListener("scroll", updateScrollMask);
-      window.removeEventListener("resize", debouncedUpdate);
-      if (rafId !== null) cancelAnimationFrame(rafId);
-    };
   }, [rootError, rootLoaded, rootLoading, visibleRows.length]);
-
-  const handleRefresh = useCallback(() => {
-    void treeData.refreshLoadedDirectories();
-    if (hasFileSearchQuery) {
-      refreshSearchIndex();
-    }
-  }, [hasFileSearchQuery, refreshSearchIndex, treeData]);
+  const handleRefresh = panel.refresh,
+    handleOpenInFileManager = panel.openFileManager,
+    handleCopyPath = panel.copyPath;
+  const handleToggleDirectory = panel.toggle,
+    handleDirectoryAction = panel.directory;
+  const handleOpenPreview = panel.preview,
+    handleRowKeyDown = panel.keyDown;
   const refreshInProgress =
     rootLoading || treeData.refreshingLoadedDirectories || searchIndexLoading;
-
-  const handleOpenInFileManager = useCallback(async () => {
-    if (!canOpenInFileManager) {
-      return;
-    }
-    const result = wslFileManagerEditor
-      ? await platform.openInEditor(wslFileManagerEditor.id, workspacePath, {
-          pathKind: "directory",
-          remoteTarget,
-          workspaceIdentity,
-        })
-      : await platform.openInFileManager(workspacePath);
-    if (!result.success) {
-      logger.warn("[WorkspaceFileTree] 打开 workspace 路径失败", {
-        path: workspacePath,
-        error: result.error ?? "unknown-error",
-      });
-      toast(intl.formatMessage({ id: "appHeader.openInFileManagerFailed" }));
-    }
-  }, [
-    canOpenInFileManager,
-    intl,
-    platform,
-    remoteTarget,
-    workspaceIdentity,
-    workspacePath,
-    wslFileManagerEditor,
-  ]);
-
-  const handleCopyPath = useCallback(async () => {
-    if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) {
-      logger.warn("[WorkspaceFileTree] 复制 workspace 路径失败", {
-        path: workspacePath,
-        error: "clipboard-unavailable",
-      });
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(workspacePath);
-      logger.info("[WorkspaceFileTree] workspace 路径已复制", {
-        path: workspacePath,
-      });
-    } catch (error) {
-      logger.warn("[WorkspaceFileTree] 复制 workspace 路径失败", {
-        path: workspacePath,
-        error: error instanceof Error ? error.message : String(error),
-      });
-    }
-  }, [workspacePath]);
-
-  const handleToggleDirectory = useCallback(
-    (row: WorkspaceFileTreeRow) => {
-      if (row.type !== "directory") {
-        return;
-      }
-      treeData.setExpandedPaths((current) => {
-        const next = new Set(current);
-        if (next.has(row.path)) {
-          for (const path of row.compactedPaths ?? [row.path]) {
-            next.delete(path);
-          }
-          return next;
-        }
-        next.add(row.path);
-        return next;
-      });
-      if (!row.expanded) {
-        // compact folders 的 row.depth 是压缩后的视觉深度，不能用于写入新加载节点。
-        // 使用物理路径深度后，flatten 阶段再扣除 compact offset，子内容才不会与父目录同级。
-        void treeData.loadDirectory(
-          row.path,
-          getWorkspaceFileTreeDirectoryLoadDepth(workspacePath, row.path),
-        );
-      }
-    },
-    [treeData, workspacePath],
-  );
-  const handleRevealSearchDirectory = useCallback(
-    (row: WorkspaceFileTreeRow) => {
-      if (row.type !== "directory") {
-        return;
-      }
-      const directoryPathsToExpand = getWorkspaceFileSearchDirectoryRevealPaths({
-        workspacePath,
-        directoryPath: row.path,
-      });
-      if (directoryPathsToExpand.length === 0) {
-        return;
-      }
-      pendingSearchDirectoryRevealPathRef.current = row.path;
-      setSelectedPath(row.path);
-      treeData.setExpandedPaths((current) => {
-        const next = new Set(current);
-        for (const directoryPath of directoryPathsToExpand) {
-          next.add(directoryPath);
-        }
-        return next;
-      });
-      // 搜索结果是 listWorkspaceFiles 的平铺索引，不受 expandedPaths 驱动。
-      // 目录点击必须先回到树态，再逐级加载祖先目录，目标目录才会在懒加载树中可见并保持展开。
-      setFileSearchQuery("");
-      void (async () => {
-        for (const directoryPath of directoryPathsToExpand) {
-          await treeData.loadDirectory(
-            directoryPath,
-            getWorkspaceFileTreeDirectoryLoadDepth(workspacePath, directoryPath),
-          );
-        }
-      })();
-    },
-    [treeData, workspacePath],
-  );
-  const handleDirectoryAction = useCallback(
-    (row: WorkspaceFileTreeRow) => {
-      if (hasFileSearchQuery) {
-        handleRevealSearchDirectory(row);
-        return;
-      }
-      handleToggleDirectory(row);
-    },
-    [handleRevealSearchDirectory, handleToggleDirectory, hasFileSearchQuery],
-  );
-  const handleOpenPreview = useCallback(
-    (row: WorkspaceFileTreeRow) => {
-      if (row.type === "directory") {
-        handleDirectoryAction(row);
-        return;
-      }
-      if (
-        isWorkspaceFileTreeDeletedFile(
-          row,
-          getWorkspaceFileGitStatus(treeData.gitStatusByPath, row.path),
-        )
-      ) {
-        // 修复：deleted 文件行来自 Git 状态补全，不对应现存文件。
-        // 即使未来有其它入口直接调用预览，也要在父级兜底阻止打开。
-        return;
-      }
-      onOpenPreview?.(createCodeViewerSourceForWorkspaceFile(row.path));
-    },
-    [handleDirectoryAction, onOpenPreview, treeData.gitStatusByPath],
-  );
-  const handleRowKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLDivElement>, row: WorkspaceFileTreeRow) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        handleOpenPreview(row);
-        return;
-      }
-      if (event.key === "ArrowRight" && row.type === "directory") {
-        event.preventDefault();
-        if (!row.expanded || hasFileSearchQuery) {
-          handleDirectoryAction(row);
-        }
-        return;
-      }
-      if (event.key === "ArrowLeft" && row.type === "directory" && row.expanded) {
-        event.preventDefault();
-        handleToggleDirectory(row);
-      }
-    },
-    [handleDirectoryAction, handleOpenPreview, handleToggleDirectory, hasFileSearchQuery],
-  );
 
   const hasActiveFileTreeFilter = fileSearchQuery.trim().length > 0 || showChangedOnly;
   const virtualItems = rowVirtualizer.getVirtualItems();

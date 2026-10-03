@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-02T14:58:09.486583+00:00",
+  "sourceCheckpoint": "39cc7b5fa60c7337a4b1139e8bab8cc0d6a079ec",
+  "draft": {
+    "bytes": 11883,
+    "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af"
+  },
+  "typescript": "6.0.2",
+  "node": "v24.19.0",
+  "programRoot": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+  "options": {
+    "module": 199,
+    "moduleResolution": 99,
+    "outDir": "/tmp/knorvia-exact-type-review-20261002/emitted-v2",
+    "rootDir": "/tmp/knorvia-exact-type-review-20261002/source",
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@knorvia/contracts": [
+        "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/index.ts"
+      ],
+      "@knorvia/contracts/*": [
+        "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/*"
+      ],
+      "@knorvia/shared": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/index.ts"
+      ],
+      "@knorvia/shared/*": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/src/*"
+      ],
+      "@knorvia/model-option-map": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/model-option-map/src/index.ts"
+      ],
+      "@knorvia/provider": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/provider/src/index.ts"
+      ],
+      "@knorvia/rpc": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/rpc/src/index.ts"
+      ],
+      "@knorvia/client": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/client/src/index.ts"
+      ],
+      "@knorvia/shared/runtime-env": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/runtimeEnv.ts"
+      ],
+      "@knorvia/shared/mcp": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/mcp.ts"
+      ],
+      "@knorvia/shared/browser-use": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/browser-use/index.ts"
+      ],
+      "@knorvia/shared/browser-use/viewport-limits": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/browser-use/viewport-limits.ts"
+      ],
+      "@knorvia/shared/runtime-tool-runtime": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/runtime-tool-runtime.ts"
+      ],
+      "@knorvia/shared/node-repl-browser-broker": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/browser-use/nodeReplBroker.ts"
+      ],
+      "@knorvia/shared/process-diagnostic": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/process-diagnostic.ts"
+      ],
+      "@knorvia/shared/model-selection": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/model-selection.ts"
+      ],
+      "@knorvia/shared/account-provider-state": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/account-provider-state.ts"
+      ],
+      "@knorvia/shared/model-config": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/model-config.ts"
+      ],
+      "@knorvia/shared/config-schema": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/config-schema.ts"
+      ],
+      "@knorvia/shared/node": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/node.ts"
+      ],
+      "@knorvia/shared/endpoint": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/endpoint.ts"
+      ],
+      "@knorvia/shared/workspaceFileSearch": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/workspaceFileSearch.ts"
+      ],
+      "@knorvia/shared/workspaceFileEntriesCodec": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/workspaceFileEntriesCodec.ts"
+      ],
+      "@knorvia/shared/protocol-v4": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/protocol-v4/index.ts"
+      ],
+      "@knorvia/shared/workspace-hook-discovery": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/workspace-hook-discovery.ts"
+      ],
+      "@knorvia/shared/workspace-hook-mutation": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/workspace-hook-mutation.ts"
+      ],
+      "@knorvia/shared/workspace-hook-review-monotonicity": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/workspace-hook-review-monotonicity.ts"
+      ],
+      "@knorvia/shared/workspace-hook-trust-store-file": [
+        "/tmp/knorvia-exact-type-review-20261002/source/packages/shared/./src/workspace-hook-trust-store-file.ts"
+      ]
+    },
+    "typeRoots": [
+      "/tmp/knorvia-exact-type-review-20261002/source/node_modules/@types"
+    ],
+    "noEmitOnError": true,
+    "incremental": false
+  },
+  "configSource": "apps/cli/packages/core/tsconfig.json at sourceCheckpoint",
+  "compilerScope": "Single owner root and its actual transitive source/type closure; separate baseline and exact-v2 compiler-host overlays. No production installation.",
+  "diagnostics": {
+    "corrected": 0,
+    "v2": 0
+  },
+  "declarations": {
+    "rawBytesEqual": false,
+    "baselineEqualsArchivedDeclaration": true,
+    "normalizedFullBytesEqual": true,
+    "normalization": "Only import { type WorkflowRunSnapshot } to import type { WorkflowRunSnapshot }; no public declaration normalization otherwise.",
+    "baselineSha256": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
+    "v2Sha256": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406",
+    "baselineBytes": 560,
+    "v2Bytes": 560
+  },
+  "dependencyProvenance": "Six official npm tarballs at root pnpm-lock.yaml pinned versions and SHA-512 integrity, extracted only in /tmp; no lifecycle scripts, stubs or API doubles. Shared package subpaths mapped from actual package exports.",
+  "gitSourceBindings": {
+    "pnpm-lock.yaml": {
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    "apps/cli/packages/core/tsconfig.json": {
+      "bytes": 419,
+      "sha256": "dba1d0224d966aa4206d16afd7cd2ee83842b4736de36f7e0529607bf02c9fb2"
+    },
+    "apps/cli/packages/contracts/package.json": {
+      "bytes": 2834,
+      "sha256": "23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6"
+    },
+    "packages/shared/package.json": {
+      "bytes": 1520,
+      "sha256": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408"
+    }
+  },
+  "files": {
+    "compile-driver.mjs.txt": {
+      "bytes": 3289,
+      "sha256": "ba1cd2a4ca6510971d059e830076ef2f89f7362dbb0f27f1639ae962a7b1cde4"
+    },
+    "preparation-failures.json": {
+      "bytes": 6461,
+      "sha256": "e0af9531776e8d182c21a2af3fef50c98735a8532057f71591e5758faa44ce40"
+    },
+    "corrected-compile.log": {
+      "bytes": 17,
+      "sha256": "c14a7737ad2b8fc974c457e5e81f2c5cba9d8f319b063e25bcd4eeaa36e2abae"
+    },
+    "v2-compile.log": {
+      "bytes": 17,
+      "sha256": "c14a7737ad2b8fc974c457e5e81f2c5cba9d8f319b063e25bcd4eeaa36e2abae"
+    },
+    "dependency-downloads.json": {
+      "bytes": 2695,
+      "sha256": "46098861491857ac44645fae16c7ebaf0e6472b0ff303c9c0ab090647b4d094a"
+    },
+    "declaration-comparison.json": {
+      "bytes": 472,
+      "sha256": "8281b479e4566527c912185b41822a07f631e00d6fde9ec0bfe81de82f137860"
+    },
+    "program-inputs.json": {
+      "bytes": 101142,
+      "sha256": "81669417ce9019281f9259c79d1d5b77b5ac5b97d7faf975dbc4554ac9c9e902"
+    },
+    "corrected-collection-planner.d.ts.txt": {
+      "bytes": 560,
+      "sha256": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08"
+    },
+    "v2-collection-planner.d.ts.txt": {
+      "bytes": 560,
+      "sha256": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406"
+    }
+  },
+  "limits": [
+    "Node 24.14.0 not installed or exercised.",
+    "skipLibCheck true inherited from real core config; strict source checks retained.",
+    "Real source public barrels used via explicit path mapping, not installed emitted package declarations.",
+    "No successful focused probes repeated; no runtime suite or real consumer executed.",
+    "Whole core build, root integrated dependency combination and licence decisions remain root-owned."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "virtualDraftModules": [
+    "methods/bash-shell-snapshot",
+    "helpers/persisted-remote-session-path-repair",
+    "methods/file-rewind",
+    "methods/file-rewind-planning",
+    "methods/file-rewind-storage"
+  ],
+  "productionChanged": false
+}

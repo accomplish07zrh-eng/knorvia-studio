@@ -1,0 +1,9 @@
+{
+  "abort": "<error>Command was aborted before completion</error>",
+  "providerError": "Exit code {exitCode}",
+  "outputPath": " Output is being written to: {outputPath}.",
+  "assistantBackground": "Command exceeded the assistant-mode blocking budget (15s) and was moved to the background with ID: {backgroundTaskId}. It is still running — you will be notified when it completes.{outputText} In assistant mode, delegate long-running work to a subagent or use run_in_background to keep this conversation responsive.",
+  "manualBackground": "Command was manually backgrounded by user with ID: {backgroundTaskId}.{outputTextWithoutFinalPeriod}",
+  "genericBackground": "Command running in background with ID: {backgroundTaskId}.{outputText} You will be notified when it completes.{readHint}",
+  "readHint": " To check interim output, use Read on that file path."
+}

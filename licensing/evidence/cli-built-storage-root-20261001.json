@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-01T09:22:11.002436+00:00",
+  "builtFromReviewedSource": "68feb5a1ee2ab26c7cb47b7067f239748dd8f5a2",
+  "artifact": "apps/cli/packages/cli/dist/knorvia.cjs",
+  "artifactSha256": "93e12f28cfb32a96d19d2eaf10f54e1489d121e694a18a0f10625c8a9c0298d1",
+  "version": {
+    "exitCode": 0,
+    "stdout": "0.16.9"
+  },
+  "help": {
+    "exitCode": 0,
+    "contains": "Knorvia Studio Agent 0.16.9"
+  },
+  "isolation": "env -i explicit PATH/HOME/SHELL/LANG/KNORVIA_ENV/test data root and storage root, all inside owned temporary directory",
+  "filesCreatedUnderOwnedRoots": [],
+  "logHashes": {
+    "cli-built-version.log": "5dd0ca386ae83caaa4d32488cec1f155c8a4caae321e1689b6ffba3c45bd9b61",
+    "cli-built-help.log": "c0e30c91384c1e222ba449b0d7c53212d5b99f8534574b95ec447a268d8cb88a"
+  },
+  "limits": [
+    "Help/version startup only; no interactive TUI or model/provider acceptance",
+    "Does not establish installed/SEA/packaged desktop acceptance",
+    "No user files/accounts/data or real model/network task used",
+    "Storage tests use five current-schema synthetic rows, not every legacy migration or real user database",
+    "Four opt-in subprocess flows, not extra ordinary CI test cases",
+    "Fixture seed uses emitted store API and native SQLite; acceptance runs actual built CLI stdio entry",
+    "Node experimental SQLite warning remains visible"
+  ],
+  "storageFlows": {
+    "fresh": {
+      "exit": 0,
+      "observedBeforeWrite": true,
+      "phases": [
+        "checking",
+        "checking",
+        "checking",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "migrating",
+        "committing",
+        "ready"
+      ]
+    },
+    "repeated": {
+      "exit": 0,
+      "preservedTables": [
+        "session",
+        "session_entry",
+        "todo",
+        "message",
+        "part"
+      ],
+      "rowCounts": {
+        "session": 1,
+        "session_entry": 1,
+        "todo": 1,
+        "message": 1,
+        "part": 1
+      },
+      "exclusiveAfterClose": true
+    },
+    "reuse": {
+      "exit": 0,
+      "databaseBytesUnchanged": true
+    },
+    "invalidAck": {
+      "exit": 1,
+      "noDatabase": true,
+      "noPrepared": true
+    },
+    "nativeSqlite": true,
+    "scope": "owned synthetic current-schema fixture through actual built CLI, not all legacy/user-data migration acceptance",
+    "ownedFixtureCleanupCompleted": true
+  },
+  "storageLogSha256": "82a441f4da82bc352d50709114c8305a05d810bc3847629c14ae9a534491672a",
+  "probe": "scripts/acceptance/cli-storage-bundle.mjs",
+  "probeSha256": "4f2abe0f7cce08478be0aa374ad04dc5e9bee6dd57a1555ca3f0647e20cffc34",
+  "probeHygiene": {
+    "completionEvent": "close after stdio drains",
+    "timeout": "SIGTERM at12s, SIGKILL/owned-pipe closure2s later if needed",
+    "stdoutLimitBytes": 2097152,
+    "stderrLimitCharacters": 65536,
+    "fixtureCleanup": "outer finally closes owned database handles and removes only self-created temporary root",
+    "controlledTimeoutProbe": {
+      "child": "owned synthetic Node process ignoring SIGTERM, not product CLI",
+      "expectedExit": 1,
+      "deadlineAssertionObserved": true,
+      "newFixtureRootsRemaining": 0,
+      "logSha256": "109d70def206ceafec74f17400badbc2e005aee9ee98e06de020e7eccd21bbee"
+    },
+    "independentReview": "Confirmed normal-flow claims/hash/path/ACK behavior; identified cleanup/timeout wording gaps before commit; those were corrected and actual four flows rerun."
+  }
+}

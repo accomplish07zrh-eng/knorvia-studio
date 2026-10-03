@@ -1,0 +1,13 @@
+{
+  "owner": "recovery",
+  "target": "browserTabRecoveryStore.ts",
+  "readPaths": [
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/common-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/recovery-owner-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-policy.d.ts",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-view.d.ts"
+  ],
+  "accessExceptions": [],
+  "boundary": "Instruction-only separation on a shared filesystem; no OS cleanroom claim.",
+  "verification": "Author-output byte count and SHA-256 only; no tests, compilation, lint, runtime, native, network, source, or history access."
+}

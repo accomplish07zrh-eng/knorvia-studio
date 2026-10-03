@@ -1,0 +1,134 @@
+import {
+  EmbeddedBrowserWebviewChannels,
+  type EmbeddedBrowserWheelBoundaryPayload,
+} from "@knorvia/shared";
+
+type SendToHost = (
+  channel: string,
+  payload: EmbeddedBrowserWheelBoundaryPayload,
+) => void;
+
+type WheelAxis = "x" | "y";
+
+function pixelDelta(raw: number, mode: number, pageSize: number): number {
+  if (!Number.isFinite(raw) || Math.abs(raw) <= 0.01) {
+    return 0;
+  }
+  const factor = mode === 1 ? 40 : mode === 2 ? Math.max(1, pageSize) : 1;
+  return Math.max(-10000, Math.min(10000, raw * factor));
+}
+
+function canUseWheel(
+  targetWindow: Window,
+  event: WheelEvent,
+  axis: WheelAxis,
+  delta: number,
+): boolean {
+  if (delta === 0) {
+    return false;
+  }
+
+  const candidates = new Set<Element>();
+  for (const target of event.composedPath()) {
+    if ("nodeType" in target && target.nodeType === 1) {
+      candidates.add(target as Element);
+    }
+  }
+  const documentScroller = targetWindow.document.scrollingElement;
+  if (documentScroller) {
+    candidates.add(documentScroller);
+  }
+
+  for (const element of candidates) {
+    const extent =
+      axis === "x"
+        ? element.scrollWidth - element.clientWidth
+        : element.scrollHeight - element.clientHeight;
+    if (!(extent > 1)) {
+      continue;
+    }
+
+    const style = targetWindow.getComputedStyle(element);
+    const overflow =
+      (axis === "x" ? style.overflowX : style.overflowY) || style.overflow;
+    if (overflow === "hidden" || overflow === "clip") {
+      continue;
+    }
+    if (
+      element !== documentScroller &&
+      overflow !== "auto" &&
+      overflow !== "scroll" &&
+      overflow !== "overlay"
+    ) {
+      continue;
+    }
+
+    if (axis === "y") {
+      if (delta > 0 ? element.scrollTop < extent - 1 : element.scrollTop > 1) {
+        return true;
+      }
+    } else if (style.direction === "rtl") {
+      if (
+        delta > 0
+          ? element.scrollLeft < -1
+          : element.scrollLeft > -extent + 1
+      ) {
+        return true;
+      }
+    } else if (
+      delta > 0 ? element.scrollLeft < extent - 1 : element.scrollLeft > 1
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function installEmbeddedBrowserWheelForwarding(
+  targetWindow: Window,
+  sendToHost: SendToHost,
+): () => void {
+  const listener = (event: WheelEvent): void => {
+    const rawX =
+      Math.abs(event.deltaX) > 0.01
+        ? event.deltaX
+        : event.shiftKey
+          ? event.deltaY
+          : 0;
+    const rawY = event.shiftKey ? 0 : event.deltaY;
+    const normalizedX = pixelDelta(
+      rawX,
+      event.deltaMode,
+      targetWindow.innerWidth,
+    );
+    const normalizedY = pixelDelta(
+      rawY,
+      event.deltaMode,
+      targetWindow.innerHeight,
+    );
+    const deltaX = canUseWheel(targetWindow, event, "x", normalizedX)
+      ? 0
+      : normalizedX;
+    const deltaY = canUseWheel(targetWindow, event, "y", normalizedY)
+      ? 0
+      : normalizedY;
+
+    if (deltaX === 0 && deltaY === 0) {
+      return;
+    }
+    queueMicrotask(() => {
+      if (event.defaultPrevented) {
+        return;
+      }
+      sendToHost(EmbeddedBrowserWebviewChannels.WheelBoundary, {
+        deltaX,
+        deltaY,
+      });
+    });
+  };
+
+  targetWindow.addEventListener("wheel", listener, { passive: true });
+  return () => {
+    targetWindow.removeEventListener("wheel", listener);
+  };
+}

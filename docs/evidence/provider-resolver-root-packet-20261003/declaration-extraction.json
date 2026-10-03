@@ -1,0 +1,119 @@
+{
+  "compiler": "6.0.2",
+  "mode": "AST parse/print only; no semantic compiler, source emit or module execution",
+  "outputs": [
+    {
+      "source": "packages/provider/src/resolver.ts",
+      "output": "public-api.d.ts",
+      "sourceBytes": 14919,
+      "sourceSha256": "89332f5db90101f88fe40176e75bd2c1991a940cbe827939f5e3284486fd505e",
+      "declarationBytes": 4282,
+      "options": {}
+    },
+    {
+      "source": "packages/provider/src/config/provider-config.ts",
+      "output": "dependencies/provider-config.d.ts",
+      "sourceBytes": 18187,
+      "sourceSha256": "23e80458547f1df3bbcda7f3c34c23ed9bb6b65428eac284e557daa5a3794ade",
+      "declarationBytes": 5448,
+      "options": {
+        "excludeImports": [
+          "./schema-validation.js"
+        ],
+        "functions": [],
+        "classes": {
+          "ApiKeyAccessConfig": [],
+          "ZhipuAccountAccessConfig": [],
+          "ProviderApiConfig": [],
+          "ProviderConfig": [
+            "overlay",
+            "withoutGroup",
+            "validateComplete"
+          ],
+          "ProviderTemplate": [],
+          "ProviderTemplateMap": [
+            "get"
+          ],
+          "ProviderConfigMap": [
+            "overlay",
+            "mapConfigs",
+            "get",
+            "getRule",
+            "has",
+            "keys",
+            "entries"
+          ]
+        }
+      }
+    },
+    {
+      "source": "packages/provider/src/config/model-config.ts",
+      "output": "dependencies/model-config.d.ts",
+      "sourceBytes": 21928,
+      "sourceSha256": "67685b36112953bad17328398df36234f2997f74c5d46d2f5485d1b11a13666e",
+      "declarationBytes": 6358,
+      "options": {
+        "excludeImports": [
+          "./schema-validation.js",
+          "./manual-model-config.js"
+        ],
+        "functions": [],
+        "classes": {
+          "EnumOptionSpecConfig": [],
+          "LimitOptionSpecConfig": [],
+          "ModelInputFormatConfig": [],
+          "ModelOutputFormatConfig": [],
+          "ModelPropertiesConfig": [],
+          "ModelOptionSpecsConfig": [],
+          "ModelConfig": [
+            "validateComplete"
+          ],
+          "ModelConfigRules": [
+            "composeEffective",
+            "resolve"
+          ]
+        }
+      }
+    },
+    {
+      "source": "packages/provider/src/config-overlay.ts",
+      "output": "dependencies/config-overlay.d.ts",
+      "sourceBytes": 1450,
+      "sourceSha256": "5c8f55cc78036e3ac8b67f0be19a7a61d51342cd90f97de427c24e1c5f7b5883",
+      "declarationBytes": 538,
+      "options": {
+        "functions": [],
+        "classes": {
+          "ConfigOverlay": [
+            "overlay",
+            "validateComplete"
+          ]
+        }
+      }
+    },
+    {
+      "source": "packages/provider/src/config/ids.ts",
+      "output": "dependencies/ids.d.ts",
+      "sourceBytes": 104,
+      "sourceSha256": "756cbd2c9ea5355b031ff0d14322faddf9caab56f76026bffebccc9633e4caec",
+      "declarationBytes": 106,
+      "options": {}
+    },
+    {
+      "source": "packages/provider/src/account-provider-state.ts",
+      "output": "dependencies/account-provider-state.d.ts",
+      "sourceBytes": 1557,
+      "sourceSha256": "279fe874f71a09fe224bfeb31e04f0b7b37087369b6716b3f2bce9c279183a3a",
+      "declarationBytes": 507,
+      "options": {}
+    },
+    {
+      "source": "packages/provider/src/owned-order.ts",
+      "output": "dependencies/owned-order.d.ts",
+      "sourceBytes": 1186,
+      "sourceSha256": "d124a0be9d4167e6f104e06f6f2020e8b72e8132f68d4663ab2f9ecb66fc4231",
+      "declarationBytes": 158,
+      "options": {}
+    }
+  ]
+}

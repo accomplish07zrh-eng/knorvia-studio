@@ -1,0 +1,1217 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "date": "2026-10-03",
+  "scope": "Targeted disposition of the existing 26 materials and known first-party acceptance boundaries. Not a complete current source-expression, contribution-rights or product SBOM audit. No license, NOTICE, original source register, review, golden or held evidence is changed.",
+  "previousClassification": {
+    "path": "docs/material-obligation-actions-20261003.json",
+    "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+    "sha256": "968da567d5ec0d250c7fd48168a9e6e3f953e3c362c39bbe18efb09fa2b76900",
+    "bytes": 68956
+  },
+  "inputBindings": [
+    {
+      "path": "third-party/inventory.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "66b92758d79eb779b1ead45c1e75130362c67dc3812c753434dda41ad7fc0812",
+      "bytes": 1413174
+    },
+    {
+      "path": "third-party/npm-overrides.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "2c7a9cbde4cec212821eefb7f80a27a4c46628ae4cb8b3999b65562166f01c90",
+      "bytes": 29898
+    },
+    {
+      "path": "third-party/copied-components.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "ff2e8e6c6f3373bf741254a5418d6fe1fc303e9ef5ae48122e13f031b342c177",
+      "bytes": 16809
+    },
+    {
+      "path": "third-party/embedded-components.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "9586ccca15897f56d4ca1d703dffe9e02880fedd766c1dff93f7ac1f52ea891a",
+      "bytes": 15702
+    },
+    {
+      "path": "third-party/native-search/sources.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "f8fa8858a4c88d92df6243398886f6167ba2d68823d260de76dab048f40bde88",
+      "bytes": 151072
+    },
+    {
+      "path": "licensing/evidence/material-icon-theme.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "8db87069a57056d229e67dc17368d64f9dad8fd785efb417f6f5711aff2358ea",
+      "bytes": 1275107
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "5532b3bedd9e401244349902f4ea3142e7f40085303a9996c7edd4a4c10efbb3",
+      "bytes": 12779348
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "bytes": 3446188
+    },
+    {
+      "path": "LICENSE",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "bytes": 11344
+    },
+    {
+      "path": "NOTICE.md",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "bytes": 6125
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "5bdd8ba7b54bbb098ee56b4876d9752d08ab36f2c8df8d9c3acd9b1e9a5595cc",
+      "bytes": 1977089
+    },
+    {
+      "path": "package.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d",
+      "bytes": 4490
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "bytes": 644882
+    },
+    {
+      "path": "apps/cli/pnpm-lock.yaml",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585",
+      "bytes": 221240
+    },
+    {
+      "path": "packages/desktop/electron-builder.config.js",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "e8142f594120b8ee4d9ffca2dc8332833323ead2968b7eec4350bc4ad6066baa",
+      "bytes": 36536
+    },
+    {
+      "path": "docs/lane-cli-20261003.md",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "1fa8243c58c8c563b5c527a839600543e65bda6b5a74a532e9049814537bbe85",
+      "bytes": 45565
+    },
+    {
+      "path": "docs/lane-services-20261003.md",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "c7083e81c8928ef3239c8fd32b050543774840ff08cd9239c1c2de75a4613897",
+      "bytes": 29076
+    },
+    {
+      "path": "docs/lane-ui-20261003.md",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "d4ba90e907ece5d7c3ab1bdac232ca610d137724c386d7feaf1095d86a83d004",
+      "bytes": 22797
+    },
+    {
+      "path": "docs/lane-native-20261003.md",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "79e3a497143b808cb77d85d22202a1bb27f85cc3fe8c305566485f7e0f802ee4",
+      "bytes": 35358
+    },
+    {
+      "path": "docs/lane-integration-20261003.md",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "e1659c9cef548c9d92924adc823d86b9ac0377124181adba1cbce6d966debb4f",
+      "bytes": 56354
+    }
+  ],
+  "evidence": [
+    "docs/evidence/mit-release-boundaries-20261003/dependency-reference-observations.json",
+    "docs/evidence/mit-release-boundaries-20261003/local-scope-observations.json",
+    "docs/evidence/mit-release-boundaries-20261003/native-search-observations.json",
+    "docs/evidence/mit-release-boundaries-20261003/npm-archive-observations.json",
+    "docs/evidence/mit-release-boundaries-20261003/upstream-reads.json"
+  ],
+  "summary": {
+    "heldOriginalMaterialItems": 26,
+    "closedItems": 0,
+    "knownCurrentGitContentHoldItemsWithin26": 10,
+    "knownCurrentGitContentHoldBreakdown": {
+      "unresolvedSvgPaths": 8,
+      "copiedReactSkill": 1,
+      "WindowsRustStdInTrackedRipgrepArchives": 1
+    },
+    "npmCurrentReferenceItems": 11,
+    "npmHistoricalItemsWithNoCurrentManifestOrLockReference": 3,
+    "embeddedBuildLinkItemsConditionalOnActualBundleInclusion": 2,
+    "confirmedFirstPartyImplementationRewriteItemsWithin26": 0,
+    "knownFirstPartyWholeOwnerAcceptanceTargetsOutside26": 6,
+    "allOwnSourceMitAccepted": false,
+    "completeCurrentGitTreePublicationAccepted": false,
+    "actualProductBinaryPublicationAccepted": false,
+    "generalBanOnAllPossibleOpenSourceSubsetsEstablished": false
+  },
+  "legalAndScopeRules": [
+    {
+      "rule": "Project-owned source can adopt MIT only for a substantiated owned/licensable scope. Separately licensed dependencies, assets and copied portions keep their own licenses and notices; their being non-MIT is not itself a blocker for first-party MIT.",
+      "sources": [
+        "https://opensource.org/license/mit",
+        "https://www.apache.org/licenses/LICENSE-2.0"
+      ]
+    },
+    {
+      "rule": "MIT permits publication/distribution with its copyright and permission notice retained. A package license identifier or unrelated release notice does not establish the missing original notice for a selected version.",
+      "sources": ["https://opensource.org/license/mit"]
+    },
+    {
+      "rule": "Apache-2.0 section 4 allows different terms on one's modifications or a derivative as a whole while the Apache conditions on upstream material continue: license copy, changed-file notices, applicable attribution and NOTICE. Section 5 contribution defaults/separate agreements must be considered for actual contributions. No upstream grant is erased or whole-file independent authorship inferred.",
+      "sources": ["https://www.apache.org/licenses/LICENSE-2.0"]
+    },
+    {
+      "rule": "Observed source exposure is not automatic disqualification from original expression. The current evidence still lacks acceptance for the named candidates, so neither clean-room claims nor global MIT grants follow. Technical passing checks prove a different fact."
+    },
+    {
+      "rule": "Any-license-choice HOLD means release readiness has not been established for an artifact containing the unresolved component, not a finding of infringement or a prohibition on all possible separately scoped source publications. Existing public Git history is not relabeled unpublished."
+    }
+  ],
+  "items": [
+    {
+      "id": "@arms/rum-browser@0.1.8",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "ISC",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/2c976d327b293bd74c257cd53e9b4ecef97a06b1651baa3b24327c97192cb3de.txt",
+      "retainedNoticeSha256": "2c976d327b293bd74c257cd53e9b4ecef97a06b1651baa3b24327c97192cb3de",
+      "manifestReferences": [],
+      "lockReferences": [],
+      "membership": "historical-material-only-in-bounded-current-reference-scan",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "No current manifest or lock reference found, and package not installed in this environment; do not count as an established blocker for a new product that does not include it.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d.txt",
+        "metadataSha256": "c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d",
+        "archiveUrl": "https://registry.npmjs.org/@arms/rum-browser/-/rum-browser-0.1.8.tgz",
+        "archiveSha256": "c931065b3ca66a504fde9fb00cab1100cd771da95226cc67011247a48c0eb377",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": null,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "b3bb39c51630c034572644f845f5e68b7da994d0",
+        "publisherRepository": null,
+        "metadataLicense": "ISC",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to @arms/rum-browser@0.1.8, identifying archive SHA-256 c931065b3ca66a504fde9fb00cab1100cd771da95226cc67011247a48c0eb377, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "@arms/rum-core@0.1.4",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "ISC",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/328eb7864c20ab77607b26ee1913b65a9b880f6300eea9e667b890da896a2f40.txt",
+      "retainedNoticeSha256": "328eb7864c20ab77607b26ee1913b65a9b880f6300eea9e667b890da896a2f40",
+      "manifestReferences": [],
+      "lockReferences": [],
+      "membership": "historical-material-only-in-bounded-current-reference-scan",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "No current manifest or lock reference found, and package not installed in this environment; do not count as an established blocker for a new product that does not include it.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a.txt",
+        "metadataSha256": "02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a",
+        "archiveUrl": "https://registry.npmjs.org/@arms/rum-core/-/rum-core-0.1.4.tgz",
+        "archiveSha256": "9ea195bb1504209879359247a39c8ca2cb46b832e9e5f00932c0c0661d3a083f",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": null,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "b63b290389cb1ece96a05324414318d12241563f",
+        "publisherRepository": null,
+        "metadataLicense": "ISC",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to @arms/rum-core@0.1.4, identifying archive SHA-256 9ea195bb1504209879359247a39c8ca2cb46b832e9e5f00932c0c0661d3a083f, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "@arms/rum-electron@0.0.3",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/38b6f63a0aa422b5c329e75f1aeecd2b02e83caab1747644c00810870d77bacb.txt",
+      "retainedNoticeSha256": "38b6f63a0aa422b5c329e75f1aeecd2b02e83caab1747644c00810870d77bacb",
+      "manifestReferences": [],
+      "lockReferences": [],
+      "membership": "historical-material-only-in-bounded-current-reference-scan",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "No current manifest or lock reference found, and package not installed in this environment; do not count as an established blocker for a new product that does not include it.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed.txt",
+        "metadataSha256": "8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed",
+        "archiveUrl": "https://registry.npmjs.org/@arms/rum-electron/-/rum-electron-0.0.3.tgz",
+        "archiveSha256": "05aa61fd5b6bc4778e9f1f96053dfd5fc1f4e6994576bfe72273d6bd80ee8ff7",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": null,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "d472fec87e50b4bceb552800da99a8e7510bf1e1",
+        "publisherRepository": null,
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to @arms/rum-electron@0.0.3, identifying archive SHA-256 05aa61fd5b6bc4778e9f1f96053dfd5fc1f4e6994576bfe72273d6bd80ee8ff7, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/c681d64256e752c1435814cf045f4467720a8473e425ea54103a0f5128bfc817.txt",
+      "retainedNoticeSha256": "c681d64256e752c1435814cf045f4467720a8473e425ea54103a0f5128bfc817",
+      "manifestReferences": [
+        {
+          "path": "packages/server-cli/package.json",
+          "scope": "dependencies",
+          "requestedVersion": "^1.3.0"
+        },
+        {
+          "path": "packages/server/package.json",
+          "scope": "dependencies",
+          "requestedVersion": "^1.3.0"
+        }
+      ],
+      "lockReferences": ["pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/d0bb5df5a75d08dc2cb27c04e7bb8497aab60679cd83364b826e868dbe7b63bc.txt",
+        "metadataSha256": "d0bb5df5a75d08dc2cb27c04e7bb8497aab60679cd83364b826e868dbe7b63bc",
+        "archiveUrl": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.3.0.tgz",
+        "archiveSha256": "48b94f87b85ca84428491d7275f0fad16450254bd49d9b2b4f621539fda8a2af",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "2c026b9d5bfff006dc9abdc1b33c53856d2d784f",
+        "publisherRepository": {
+          "url": "git+https://github.com/honojs/middleware.git",
+          "type": "git",
+          "directory": "packages/node-ws"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to @hono/node-ws@1.3.0, identifying archive SHA-256 48b94f87b85ca84428491d7275f0fad16450254bd49d9b2b4f621539fda8a2af, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/b1688598c3e32605b3973902a546225e0159349c05a0f74db67f76e08e116e65.txt",
+      "retainedNoticeSha256": "b1688598c3e32605b3973902a546225e0159349c05a0f74db67f76e08e116e65",
+      "manifestReferences": [],
+      "lockReferences": ["pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/11629b539d361afffd0f84f340a15da656eedf59fb846fba3c6c0e1298f750ab.txt",
+        "metadataSha256": "11629b539d361afffd0f84f340a15da656eedf59fb846fba3c6c0e1298f750ab",
+        "archiveUrl": "https://registry.npmjs.org/@open-draft/deferred-promise/-/deferred-promise-2.2.0.tgz",
+        "archiveSha256": "57f8d0cf303951c66dcdab2a10c2fe57194ad4cbb851880c604d4c3e521def2b",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "b30f1b683311030e92fcdd08d2bd6574d652b77f",
+        "publisherRepository": {
+          "url": "git+https://github.com/open-draft/deferred-promise.git",
+          "type": "git"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to @open-draft/deferred-promise@2.2.0, identifying archive SHA-256 57f8d0cf303951c66dcdab2a10c2fe57194ad4cbb851880c604d4c3e521def2b, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "BSD-3-Clause",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/2c88816684a40c718113a10062a8335b665cec00d3c7b32e2b3fe9c620a3e03e.txt",
+      "retainedNoticeSha256": "2c88816684a40c718113a10062a8335b665cec00d3c7b32e2b3fe9c620a3e03e",
+      "manifestReferences": [
+        {
+          "path": "packages/ui/package.json",
+          "scope": "dependencies",
+          "requestedVersion": "^6.2.6"
+        }
+      ],
+      "lockReferences": ["pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/97034123b60cd1bdbaa6f5430137b95abf3250547776e98bd37639fda3784893.txt",
+        "metadataSha256": "97034123b60cd1bdbaa6f5430137b95abf3250547776e98bd37639fda3784893",
+        "archiveUrl": "https://registry.npmjs.org/ansi-to-react/-/ansi-to-react-6.2.6.tgz",
+        "archiveSha256": "e06fc6be19323cf447f0058975cfcf41923d3422ea613cff2e67d8fd8ee1d655",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "145140971e9d83ccac32265f24b1c55dea437896",
+        "publisherRepository": {
+          "url": "git+https://github.com/nteract/ansi-to-react.git",
+          "type": "git"
+        },
+        "metadataLicense": "BSD-3-Clause",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to ansi-to-react@6.2.6, identifying archive SHA-256 e06fc6be19323cf447f0058975cfcf41923d3422ea613cff2e67d8fd8ee1d655, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "boolbase@1.0.0",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "ISC",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/2d2349188616c4b64ceeae33e1386bb546b0658864b4f7f8c9785757cb065b5d.txt",
+      "retainedNoticeSha256": "2d2349188616c4b64ceeae33e1386bb546b0658864b4f7f8c9785757cb065b5d",
+      "manifestReferences": [],
+      "lockReferences": ["apps/cli/pnpm-lock.yaml", "pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/cdbdd0892df76fdcb117aa6c87cef12aeb99225cb90b8e12f182f3f6f1efce3b.txt",
+        "metadataSha256": "cdbdd0892df76fdcb117aa6c87cef12aeb99225cb90b8e12f182f3f6f1efce3b",
+        "archiveUrl": "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz",
+        "archiveSha256": "69628ff8092c5ff940ea4a0f29da98d520615bae138755c9e059033606c6caa8",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": null,
+        "publisherRepository": {
+          "url": "https://github.com/fb55/boolbase",
+          "type": "git"
+        },
+        "metadataLicense": "ISC",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to boolbase@1.0.0, identifying archive SHA-256 69628ff8092c5ff940ea4a0f29da98d520615bae138755c9e059033606c6caa8, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/000ffa2d773c511f4459fb31d89f841806f93bf5caf2050468ab2097c081b443.txt",
+      "retainedNoticeSha256": "000ffa2d773c511f4459fb31d89f841806f93bf5caf2050468ab2097c081b443",
+      "manifestReferences": [],
+      "lockReferences": ["pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884.txt",
+        "metadataSha256": "e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884",
+        "archiveUrl": "https://registry.npmjs.org/is-node-process/-/is-node-process-1.2.0.tgz",
+        "archiveSha256": "810d5c86ac247ffbfab3dcdee3cef95fb830e1f5eea9674858e8dcd6de4accba",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": null,
+        "publisherRepository": {
+          "url": "git+https://github.com/mswjs/is-node-process.git",
+          "type": "git"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to is-node-process@1.2.0, identifying archive SHA-256 810d5c86ac247ffbfab3dcdee3cef95fb830e1f5eea9674858e8dcd6de4accba, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/f18c12b8e7daf98d572518b7db133b2dc66a713921dac4825410dd656e0c1a1a.txt",
+      "retainedNoticeSha256": "f18c12b8e7daf98d572518b7db133b2dc66a713921dac4825410dd656e0c1a1a",
+      "manifestReferences": [],
+      "lockReferences": ["pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f.txt",
+        "metadataSha256": "b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f",
+        "archiveUrl": "https://registry.npmjs.org/lazy-val/-/lazy-val-1.0.5.tgz",
+        "archiveSha256": "7d8602ad98db3d19fbd5b46fbf3831dd996197a013ef1ff7badc205e41435372",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "b69ad4119f1b19bdab13c61ee2fcc88d46b89071",
+        "publisherRepository": {
+          "url": "git+https://github.com/develar/lazy-val.git",
+          "type": "git"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to lazy-val@1.0.5, identifying archive SHA-256 7d8602ad98db3d19fbd5b46fbf3831dd996197a013ef1ff7badc205e41435372, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "packages/web/public/material-icons/docx.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "packages/web/public/material-icons/folder.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "packages/web/public/material-icons/pptx.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "packages/web/public/material-icons/xlsx.svg",
+      "materialKind": "unresolved-svg-asset",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "obtain-byte-specific-source-or-grant; otherwise independent-compatible-asset-replacement-candidate",
+      "currentSha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "tracked": true,
+      "selfSourceAndDependencyReferencesOnly": "Outside a genuinely selected self-source subset that does not copy this asset; this is not approval to remove existing UI from the product.",
+      "completeCurrentGitTree": "HOLD: exact unresolved SVG bytes are tracked and copied by a full source archive.",
+      "bundleContainingThisComponent": "HOLD for any license choice: a bundle containing these bytes needs their actual source/license or byte-specific grant. Changing the root LICENSE does not establish this.",
+      "supplierAction": "Supply original source bytes/revision, attribution and full applicable license, plus any documented modifications, or written grant naming the current SHA-256. If unavailable, a new author-owned asset preserving approved visual/interaction requirements must be authored and accepted through the original UI/native owners; existing bytes stay in this integration stage."
+    },
+    {
+      "id": "QuickJS-NG",
+      "materialKind": "embedded-third-party-runtime",
+      "recordedLicense": "MIT engine plus separately licensed WASI/libc/LLVM/crypto/URL extensions",
+      "sourceRegister": "third-party/embedded-components.json",
+      "requiredMaterial": "For each actually distributed binary/WASM/platform artifact: exact artifact hash, publisher source/build revision, compiler/link inputs, enabled feature/library list, and a complete notice map for those linked portions. A source directory or wrapper package license alone cannot identify the shipped link closure.",
+      "preferredAction": "Retain the runtime and all of its separate component notices; complete the platform link closure rather than rewriting Skia/QuickJS or applying MIT to all nested code.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-each-component-license; obtain-actual-platform-build-link-map",
+      "parentPackage": "quickjs-wasi@2.2.0",
+      "retainedNoticeCount": 16,
+      "retainedBuildReferenceCount": 2,
+      "componentRevision": "dec012362bd93876449f3ecff4f835b2eba89bab",
+      "selfSourceAndDependencyReferencesOnly": "No implementation/binary is copied by dependency references alone.",
+      "completeCurrentGitTree": "No tracked Skia native object or QuickJS WASM established: the selected tracked binary extension scan has only 18 native-search archives. Retained license/source/build-reference documents continue to apply to their own scope.",
+      "bundleContainingThisComponent": "HOLD for an actual bundle containing this parent runtime/native object/WASM until exact artifact, source/build and enabled-library/link notice mapping is complete. The wrapper license alone is insufficient; separate Apache/BSD/MIT/etc. terms may remain.",
+      "supplierAction": "For each distributed quickjs-wasi@2.2.0 platform artifact, provide its SHA-256, source/build revision, compiler and link inputs, enabled libraries and complete applicable notice map; keep the existing 16 notices and 2 build references. Do not rewrite this runtime solely because its nested licenses differ from first-party MIT."
+    },
+    {
+      "id": "quickjs-wasi@2.2.0",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
+      "retainedNoticeSha256": "f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452",
+      "manifestReferences": [],
+      "lockReferences": ["apps/cli/pnpm-lock.yaml", "pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7.txt",
+        "metadataSha256": "19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7",
+        "archiveUrl": "https://registry.npmjs.org/quickjs-wasi/-/quickjs-wasi-2.2.0.tgz",
+        "archiveSha256": "f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": null,
+        "publisherRepository": {
+          "url": "git://github.com/vercel-labs/quickjs-wasi.git",
+          "type": "git"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to quickjs-wasi@2.2.0, identifying archive SHA-256 f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "React Best Practices skill",
+      "materialKind": "vendored-third-party-skill",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/copied-components.json",
+      "requiredMaterial": "Complete original copyright/license notice or publisher authorization explicitly covering the pinned skill revision and its local adaptations. Keep current Shu Ding/Vercel attribution and the recorded missing original import revision.",
+      "preferredAction": "Retain the third-party skill under its own verified scope; if material is unobtainable, consider an independent skill replacement in a separately assigned task, without copying or removing attribution from the old record.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-separate-declared-MIT-skill-scope; obtain-original-notice",
+      "roots": [".agents/skills/react-best-practices"],
+      "trackedFiles": 76,
+      "referenceRevision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "importRevision": null,
+      "selfSourceAndDependencyReferencesOnly": "Outside a selected application-source subset that does not copy this skill; no app implementation rewrite is required by this item.",
+      "completeCurrentGitTree": "HOLD: 76 copied skill files are tracked; original complete copyright/permission text and import/reference relationship remain incomplete.",
+      "bundleContainingThisComponent": "HOLD only when the copied skill is included. Current product inclusion has not been established.",
+      "supplierAction": "Original importer or upstream supplier must bind the complete skill notice and copyright to these copied files and their applicable version. Root LICENSE retrieval at the recorded reference returned HTTP 404; no other-version notice is substituted."
+    },
+    {
+      "id": "react-remove-scroll-bar@2.3.8",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/f158b3bd10b867740fdbf81447216f1f8685473acf61e6a105ef91ba9fe8ebc3.txt",
+      "retainedNoticeSha256": "f158b3bd10b867740fdbf81447216f1f8685473acf61e6a105ef91ba9fe8ebc3",
+      "manifestReferences": [],
+      "lockReferences": ["pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/826c618ece09367334160c1ab3a272fd54f8f12e3b0a45f75b0f2660d285855a.txt",
+        "metadataSha256": "826c618ece09367334160c1ab3a272fd54f8f12e3b0a45f75b0f2660d285855a",
+        "archiveUrl": "https://registry.npmjs.org/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.8.tgz",
+        "archiveSha256": "ccc872d7a2dc007cbf9d755f30d56b8d80eabdbe22c44c95a709129bfdc46f01",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "b3b1287aad81def2e2ae707274b74531b61ddbaf",
+        "publisherRepository": {
+          "url": "git+https://github.com/theKashey/react-remove-scroll-bar.git",
+          "type": "git"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to react-remove-scroll-bar@2.3.8, identifying archive SHA-256 ccc872d7a2dc007cbf9d755f30d56b8d80eabdbe22c44c95a709129bfdc46f01, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "rust-standard-library@6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "materialKind": "native-third-party-toolchain-runtime",
+      "recordedLicense": "Rust standard library license scope pending exact recorded toolchain binding; other retained Rust notices cannot be substituted for this missing record.",
+      "sourceRegister": "third-party/native-search/sources.json",
+      "requiredMaterial": "Recover the original native artifact/target/compiler build manifest identifying the actual rustc/std source revision. Obtain its original LICENSE-MIT, LICENSE-APACHE, COPYRIGHT and any linked component notices; bind them to the original artifact hash.",
+      "preferredAction": "Preserve this incomplete record. Do not substitute the other two recorded Rust revisions or delete the unknown toolchain component to make the gate pass.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-native-tool/component-licenses; obtain-Windows-compiler-source-and-notice-binding",
+      "affectedTrackedArchives": [
+        {
+          "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+          "archiveSha256": "88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+          "platform": "win32-arm64",
+          "members": [
+            {
+              "name": "rg.exe",
+              "bytes": 4840960,
+              "sha256": "6545d832a57164e54405f019cf6861c397920aa1d6cc4569bfd85441f79ea043",
+              "rustCompilerSourceDigests": ["6a6eaca656978778f7c1c750ee0c3db87f8bffb2"],
+              "pathStringProbes": [
+                {
+                  "needle": "6a6eaca",
+                  "offset": 4281829,
+                  "context": " right_len,\n}/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\node.rs\u0000\u0000\u0000\u0000\u0000\u0000\u0000�gA@\u0001\u0000\u0000\u0000[\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0005\u0000\u0000\t\u0000\u0000\u0000assertion failed: new_left_len <= CAPACITY\u0000\u0000\u0000"
+                },
+                {
+                  "needle": "rustc",
+                  "offset": 4281823,
+                  "context": "idx <= right_len,\n}/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\node.rs\u0000\u0000\u0000\u0000\u0000\u0000\u0000�gA@\u0001\u0000\u0000\u0000[\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0005\u0000\u0000\t\u0000\u0000\u0000assertion failed: new_left_len <= CAPAC"
+                },
+                {
+                  "needle": "library\\std",
+                  "offset": 3070458,
+                  "context": "ib/rustlib/src/rust\\library\\std\\src\\io\\impls.rs\u0000\u0000\u0000��.@\u0001\u0000\u0000\u0000�\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0001\u0000\u0000\u000e\u0000\u0000\u0000\u001b[0m\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�������?\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
+          "archiveSha256": "ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+          "platform": "win32-x64",
+          "members": [
+            {
+              "name": "rg.exe",
+              "bytes": 5388800,
+              "sha256": "57aec5102a212204920d089562d9dbcaa438e9f2222d9a370d439622441b64f0",
+              "rustCompilerSourceDigests": ["6a6eaca656978778f7c1c750ee0c3db87f8bffb2"],
+              "pathStringProbes": [
+                {
+                  "needle": "6a6eaca",
+                  "offset": 4707205,
+                  "context": " right_len,\n}/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\node.rs\u0000\u0000\u0000\u0000\u0000\u0000\u0000~�G@\u0001\u0000\u0000\u0000[\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0005\u0000\u0000\t\u0000\u0000\u0000assertion failed: new_left_len <= CAPACITY\u0000\u0000\u0000"
+                },
+                {
+                  "needle": "rustc",
+                  "offset": 4707199,
+                  "context": "idx <= right_len,\n}/rustc/6a6eaca656978778f7c1c750ee0c3db87f8bffb2\\library\\alloc\\src\\collections\\btree\\node.rs\u0000\u0000\u0000\u0000\u0000\u0000\u0000~�G@\u0001\u0000\u0000\u0000[\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0005\u0000\u0000\t\u0000\u0000\u0000assertion failed: new_left_len <= CAPAC"
+                },
+                {
+                  "needle": "library\\std",
+                  "offset": 3469138,
+                  "context": "ib/rustlib/src/rust\\library\\std\\src\\io\\impls.rs\u0000\u0000\u0000�\u00005@\u0001\u0000\u0000\u0000�\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0001\u0000\u0000\u000e\u0000\u0000\u0000\u001b[0mS�������Z���v�������ԣ�������������0������\u0010����~���~���~���~��ُ�� �������\u0000���\u0000\u0000\u0000\u0000\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n  "
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "selfSourceAndDependencyReferencesOnly": "Outside a selected source-only subset excluding binary payloads; this does not certify any full source or installer package.",
+      "completeCurrentGitTree": "HOLD: both Windows ripgrep ZIPs are Git-tracked. The compiler source path string binds the missing recorded revision as a clue; it does not supply the standard-library notice or the build link closure.",
+      "bundleContainingThisComponent": "HOLD for Windows/native products that include either exact ZIP/rg.exe. Unix archives show different recorded Rust revisions with retained notices, so this single missing notice is not automatically assigned to every platform.",
+      "supplierAction": "The Windows ripgrep artifact/build supplier must provide the actual Rust toolchain source identity, complete corresponding standard-library notices and build/linked component list for both recorded ZIP/rg.exe hashes. The requested revision LICENSE-MIT read returned 404; notices for two other Rust revisions cannot be substituted. If the original materials cannot be supplied, evaluate a documented reproducible build of the same tool using an evidenced toolchain through the original native owner, preserving search/platform behavior before adoption."
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/1b8910ad1a22011c632f7ff544708be6cf08818ef80e8d4b45b6808ee8b05c17.txt",
+      "retainedNoticeSha256": "1b8910ad1a22011c632f7ff544708be6cf08818ef80e8d4b45b6808ee8b05c17",
+      "manifestReferences": [],
+      "lockReferences": ["apps/cli/pnpm-lock.yaml", "pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6.txt",
+        "metadataSha256": "0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6",
+        "archiveUrl": "https://registry.npmjs.org/semaphore/-/semaphore-1.1.0.tgz",
+        "archiveSha256": "72002cc502d607af8e2dbcbdafa3495bf4efe34394e1a037b92038d157f077a2",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": "88a33875b168cc7b5943d7fe987c36d08321d252",
+        "publisherRepository": {
+          "url": "git+ssh://git@github.com/abrkn/semaphore.js.git",
+          "type": "git"
+        },
+        "metadataLicense": null,
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to semaphore@1.1.0, identifying archive SHA-256 72002cc502d607af8e2dbcbdafa3495bf4efe34394e1a037b92038d157f077a2, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent.",
+      "metadataQualification": "The new exact-version registry metadata has no license field. The retained existing MIT declaration comes from its original README/register; this difference is preserved and not silently reclassified."
+    },
+    {
+      "id": "Skia",
+      "materialKind": "embedded-third-party-runtime",
+      "recordedLicense": "BSD-3-Clause core plus separately licensed linked libraries",
+      "sourceRegister": "third-party/embedded-components.json",
+      "requiredMaterial": "For each actually distributed binary/WASM/platform artifact: exact artifact hash, publisher source/build revision, compiler/link inputs, enabled feature/library list, and a complete notice map for those linked portions. A source directory or wrapper package license alone cannot identify the shipped link closure.",
+      "preferredAction": "Retain the runtime and all of its separate component notices; complete the platform link closure rather than rewriting Skia/QuickJS or applying MIT to all nested code.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-each-component-license; obtain-actual-platform-build-link-map",
+      "parentPackage": "@napi-rs/canvas@0.1.100",
+      "retainedNoticeCount": 18,
+      "retainedBuildReferenceCount": 2,
+      "componentRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+      "selfSourceAndDependencyReferencesOnly": "No implementation/binary is copied by dependency references alone.",
+      "completeCurrentGitTree": "No tracked Skia native object or QuickJS WASM established: the selected tracked binary extension scan has only 18 native-search archives. Retained license/source/build-reference documents continue to apply to their own scope.",
+      "bundleContainingThisComponent": "HOLD for an actual bundle containing this parent runtime/native object/WASM until exact artifact, source/build and enabled-library/link notice mapping is complete. The wrapper license alone is insufficient; separate Apache/BSD/MIT/etc. terms may remain.",
+      "supplierAction": "For each distributed @napi-rs/canvas@0.1.100 platform artifact, provide its SHA-256, source/build revision, compiler and link inputs, enabled libraries and complete applicable notice map; keep the existing 18 notices and 2 build references. Do not rewrite this runtime solely because its nested licenses differ from first-party MIT."
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/93f24a47f95aea2be1b0dad78de98dc6d3de01ce22c0b72dc73e453c7917b955.txt",
+      "retainedNoticeSha256": "93f24a47f95aea2be1b0dad78de98dc6d3de01ce22c0b72dc73e453c7917b955",
+      "manifestReferences": [],
+      "lockReferences": ["pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4.txt",
+        "metadataSha256": "42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4",
+        "archiveUrl": "https://registry.npmjs.org/strict-event-emitter/-/strict-event-emitter-0.5.1.tgz",
+        "archiveSha256": "43c456f72612074a13e8399c29ffd59c8c277274924b633f6e4fa07342f63cab",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": null,
+        "publisherRepository": {
+          "url": "git+ssh://git@github.com/open-draft/strict-event-emitter.git",
+          "type": "git"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to strict-event-emitter@0.5.1, identifying archive SHA-256 43c456f72612074a13e8399c29ffd59c8c277274924b633f6e4fa07342f63cab, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "materialKind": "npm-dependency",
+      "recordedLicense": "MIT",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation.",
+      "originalHoldRetained": true,
+      "obligationClosed": false,
+      "firstPartyImplementationReplacementRequiredByThisItem": false,
+      "firstPartyMitEffect": "A separate third-party material obligation; it supplies no evidence for or against originality of first-party source and does not require this component to be relicensed MIT.",
+      "disposition": "retain-own-license; obtain-original-version-notice",
+      "retainedNoticeFile": "third-party/upstream/0ab717053f3e24736cd404a0801407fb305db75d1b58f7e6487d14feee30d28a.txt",
+      "retainedNoticeSha256": "0ab717053f3e24736cd404a0801407fb305db75d1b58f7e6487d14feee30d28a",
+      "manifestReferences": [],
+      "lockReferences": ["apps/cli/pnpm-lock.yaml", "pnpm-lock.yaml"],
+      "membership": "current-package-reference",
+      "selfSourceAndDependencyReferencesOnly": "This package material is not included merely by a manifest/lock reference; retain applicable first-party and other component notices.",
+      "completeCurrentGitTree": "No Git-tracked node_modules implementation. Historical notices/registers remain; no package implementation inclusion established by these bounded inputs.",
+      "bundleContainingThisComponent": "HOLD until exact version copyright/permission material is bound and preserved in the bundle. Actual package inclusion must be established by a package manifest/SBOM, not this inventory alone.",
+      "currentNewProductMembershipQualification": "A current direct or transitive lock reference is present. Whether a particular product contains it still requires its actual package inventory.",
+      "newOriginalVersionObservation": {
+        "metadataResponse": "docs/evidence/mit-release-boundaries-20261003/responses/37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f.txt",
+        "metadataSha256": "37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f",
+        "archiveUrl": "https://registry.npmjs.org/unsafe-pointer/-/unsafe-pointer-0.2.0.tgz",
+        "archiveSha256": "9c9795688a9e224759468aeee2ff88d917fadc65f7b3480e62571f0853eaa446",
+        "publisherIntegrityMatches": true,
+        "publisherShasumMatches": true,
+        "sameAsHistoricalArchive": true,
+        "standaloneLicenseMemberCount": 0,
+        "publisherGitHead": null,
+        "publisherRepository": {
+          "url": "git+https://github.com/justjake/node-unsafe-pointer.git"
+        },
+        "metadataLicense": "MIT",
+        "noticeQualification": "No standalone LICENSE/COPYING/COPYRIGHT member found. Existing README declarations and standard text are not promoted to a complete exact-version notice; package code headers were not comprehensively audited."
+      },
+      "supplierAction": "Provide the full original copyright and permission text expressly applying to unsafe-pointer@0.2.0, identifying archive SHA-256 9c9795688a9e224759468aeee2ff88d917fadc65f7b3480e62571f0853eaa446, or the exact published source/license binding. Preserve the component's existing license; no external request has been sent."
+    }
+  ],
+  "firstPartyAcceptanceTargetsOutsideMaterial26": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "currentCandidate": {
+        "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+        "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+        "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+        "bytes": 6412,
+        "currentInventoryClassification": "upstream-modified",
+        "currentInventoryLicense": "NOASSERTION",
+        "currentReviewStatus": null,
+        "currentUpstreamRelation": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+          "blob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+          "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+          "contentMatchedPaths": []
+        },
+        "lastPathCommit": "105b1318464199e5492126984a0293599269f48d"
+      },
+      "historicalReportedCandidateSha256": "12a18abdd47a1639a86726a92f7b9bf55227c8918109c3934b33925b066603e2",
+      "historicalReportedReceipt": "licensing/evidence/contract-authored-task-registry-expression-20261002.json",
+      "receiptPresentAtCheckpoint": false,
+      "currentCandidateMatchesHistoricalReportedSha256": false,
+      "blocker": "Exact historical accepted source/receipt remains unavailable in the inspected canonical history. Current candidate is installed and technically exercised separately, but has no accepted whole-expression/rights decision in the current inventory. A new candidate is not the requested old source and does not erase that historical hold.",
+      "closureAction": "Preserve historical HOLD; bind current whole module plus retained compatibility/upstream portions and actual authoring/contribution rights to a new, evidence-backed review. Supply exact old source/receipt if available, or explicitly retire its installation dependency while keeping the historic record. Only demonstrated inherited copyrightable implementation remaining contrary to the independent goal requires another rewrite; missing receipt alone is not a rewrite instruction.",
+      "currentFirstPartyMitAcceptance": false,
+      "anyOpenSourcePublicationBannedByThisObservation": false
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "currentCandidate": {
+        "path": "packages/services/src/session/tasksDatabase/startup.ts",
+        "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+        "sha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+        "bytes": 5115,
+        "currentInventoryClassification": "upstream-modified",
+        "currentInventoryLicense": "NOASSERTION",
+        "currentReviewStatus": null,
+        "currentUpstreamRelation": {
+          "relation": "modified",
+          "path": "packages/services/src/session/tasksDatabase/startup.ts",
+          "blob": "08a4bd483339497c3f7695c48b6f08e0b74f9027",
+          "normalizedSha256": "248847f6c5fd82405fe8106b40b771906d8e072cf8b5051bd172a1c44afcf0ad",
+          "contentMatchedPaths": []
+        },
+        "lastPathCommit": "2b2e264022c7a3fa7bd8bdeda2ec8bded75c8ee2"
+      },
+      "historicalReportedCandidateSha256": "a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a",
+      "historicalReportedReceipt": "licensing/evidence/task-storage-preparation-expression-20261002.json",
+      "receiptPresentAtCheckpoint": false,
+      "currentCandidateMatchesHistoricalReportedSha256": false,
+      "blocker": "Exact historical accepted source/receipt remains unavailable in the inspected canonical history. Current candidate is installed and technically exercised separately, but has no accepted whole-expression/rights decision in the current inventory. A new candidate is not the requested old source and does not erase that historical hold.",
+      "closureAction": "Preserve historical HOLD; bind current whole module plus retained compatibility/upstream portions and actual authoring/contribution rights to a new, evidence-backed review. Supply exact old source/receipt if available, or explicitly retire its installation dependency while keeping the historic record. Only demonstrated inherited copyrightable implementation remaining contrary to the independent goal requires another rewrite; missing receipt alone is not a rewrite instruction.",
+      "currentFirstPartyMitAcceptance": false,
+      "anyOpenSourcePublicationBannedByThisObservation": false
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "currentCandidate": {
+        "path": "packages/services/src/git/commitMessageFileScope.ts",
+        "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+        "sha256": "501c9e956cf92938c3d962fd8e86aca5c9e60d4bf48da5630adf6a3eb62796dd",
+        "bytes": 2968,
+        "currentInventoryClassification": "upstream-modified",
+        "currentInventoryLicense": "NOASSERTION",
+        "currentReviewStatus": null,
+        "currentUpstreamRelation": {
+          "relation": "modified",
+          "path": "packages/services/src/git/commitMessageFileScope.ts",
+          "blob": "d26afda1f8efc46552b798c985aff050182ccbcd",
+          "normalizedSha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+          "contentMatchedPaths": []
+        },
+        "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+      },
+      "historicalReportedCandidateSha256": "ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761",
+      "historicalReportedReceipt": "licensing/evidence/commit-message-scope-independent-replacement-20261001.json",
+      "receiptPresentAtCheckpoint": false,
+      "currentCandidateMatchesHistoricalReportedSha256": false,
+      "blocker": "Exact historical accepted source/receipt remains unavailable in the inspected canonical history. Current candidate is installed and technically exercised separately, but has no accepted whole-expression/rights decision in the current inventory. A new candidate is not the requested old source and does not erase that historical hold.",
+      "closureAction": "Preserve historical HOLD; bind current whole module plus retained compatibility/upstream portions and actual authoring/contribution rights to a new, evidence-backed review. Supply exact old source/receipt if available, or explicitly retire its installation dependency while keeping the historic record. Only demonstrated inherited copyrightable implementation remaining contrary to the independent goal requires another rewrite; missing receipt alone is not a rewrite instruction.",
+      "currentFirstPartyMitAcceptance": false,
+      "anyOpenSourcePublicationBannedByThisObservation": false
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "currentCandidate": {
+        "path": "packages/services/src/creation/creationReference.ts",
+        "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+        "sha256": "2f44d3555dfbf73bde0d3c3b162c7c63ef4f5d4e581b5d550345ddca698c427f",
+        "bytes": 6439,
+        "currentInventoryClassification": "unreviewed",
+        "currentInventoryLicense": "NOASSERTION",
+        "currentReviewStatus": null,
+        "currentUpstreamRelation": null,
+        "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+      },
+      "historicalReportedCandidateSha256": "5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43",
+      "historicalReportedReceipt": "licensing/evidence/creation-reference-containment-20261001.json",
+      "receiptPresentAtCheckpoint": false,
+      "currentCandidateMatchesHistoricalReportedSha256": false,
+      "blocker": "Exact historical accepted source/receipt remains unavailable in the inspected canonical history. Current candidate is installed and technically exercised separately, but has no accepted whole-expression/rights decision in the current inventory. A new candidate is not the requested old source and does not erase that historical hold.",
+      "closureAction": "Preserve historical HOLD; bind current whole module plus retained compatibility/upstream portions and actual authoring/contribution rights to a new, evidence-backed review. Supply exact old source/receipt if available, or explicitly retire its installation dependency while keeping the historic record. Only demonstrated inherited copyrightable implementation remaining contrary to the independent goal requires another rewrite; missing receipt alone is not a rewrite instruction.",
+      "currentFirstPartyMitAcceptance": false,
+      "anyOpenSourcePublicationBannedByThisObservation": false
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "currentCandidate": {
+        "path": "packages/services/src/agent-session/sessionService.ts",
+        "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+        "sha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+        "bytes": 12810,
+        "currentInventoryClassification": "unreviewed",
+        "currentInventoryLicense": "NOASSERTION",
+        "currentReviewStatus": null,
+        "currentUpstreamRelation": null,
+        "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+      },
+      "historicalOriginalSha256": "dbbd02c0aa1d5ceee811e36d32beb40c1a50b31ef75f7db8c1a1f0dfd3d16199",
+      "blocker": "Original allocation/origin HOLD remains. Full replacement candidate now has an assigned services owner and is installed, but the source-exposed authoring record and NOASSERTION/current review null are not a whole-file independence or contributor-rights acceptance.",
+      "closureAction": "Original services owner/integrator must bind the entire current owner, its predecessor/origin and retained collaborator/protocol material, then accept a substantiated expression and contribution-rights review. Do not reallocate or rewrite merely because the old origin is unknown.",
+      "currentFirstPartyMitAcceptance": false,
+      "anyOpenSourcePublicationBannedByThisObservation": false
+    },
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "currentCandidate": {
+        "path": "packages/services/src/agent/taskIndexSyncer.ts",
+        "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+        "sha256": "e2ddf71626306fccf802bc26e381dc94c434c75a5a6bf312827dad355bf44c15",
+        "bytes": 14193,
+        "currentInventoryClassification": "unreviewed",
+        "currentInventoryLicense": "NOASSERTION",
+        "currentReviewStatus": null,
+        "currentUpstreamRelation": null,
+        "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+      },
+      "historicalOriginalSha256": "529d114c34c331f54d4e744890526d34c83b54e7f48c00a916fab2583bdbec2c",
+      "blocker": "Original allocation/origin HOLD remains. Full replacement candidate now has an assigned services owner and is installed, but the source-exposed authoring record and NOASSERTION/current review null are not a whole-file independence or contributor-rights acceptance.",
+      "closureAction": "Original services owner/integrator must bind the entire current owner, its predecessor/origin and retained collaborator/protocol material, then accept a substantiated expression and contribution-rights review. Do not reallocate or rewrite merely because the old origin is unknown.",
+      "currentFirstPartyMitAcceptance": false,
+      "anyOpenSourcePublicationBannedByThisObservation": false
+    }
+  ],
+  "additionalFirstPartyBoundaries": {
+    "finiteTargetListIsNotCompleteRightsAudit": true,
+    "fourLaneCandidates": "All four lane records disclose source-exposed authoring and retained compatibility material; their complete modules still need evidence-backed expression/contribution acceptance. Their technical validation is separate and original historical skipped checks remain historical.",
+    "integratorCandidates": "contracts session-event/tracing, shared workflow reducer, model-option-map, formal-proof and Web continuation retain the same qualified scope documented in docs/lane-integration-20261003.md. Whole source-tree MIT acceptance is pending; short/type/fixed-data surfaces are not automatically rewrite targets.",
+    "rootGuard": "scripts/check-evidence-integrity.mjs declares MIT in its authored header but current inventory is unreviewed/NOASSERTION. Header text alone is not an accepted provenance review.",
+    "acceptedScopedExample": "scripts/provenance/model.mjs has an accepted tooling-only original/MIT review at this checkpoint. It does not authorize application implementations or retained copied components.",
+    "independentGoalDisposition": "If later substantiated expression review finds inherited copyrightable implementation in purportedly first-party independent candidates, replace that actual implementation through its existing owner or retain a clearly separate upstream-license scope. Do not decide another rewrite from a filename, label, missing old receipt, standard API, pure functional requirement or license difference."
+  },
+  "executionAndPreservation": {
+    "runtimeTestsRunForThisMaterialTask": [],
+    "fullValidationRerun": false,
+    "nativePayloadsExecuted": false,
+    "npmInstallationOrScriptsExecuted": false,
+    "externalMessagesSent": false,
+    "originalLicenseNoticeReviewRequiredUnchanged": true,
+    "originalRawEvidenceRowsPreserved": 5574,
+    "oldGoldensAndHistoricalReceiptsUnchanged": true,
+    "mainMerged": false,
+    "pendingRepairHeadsAtDraftTime": {
+      "native": "7096de3d170eea2267b82db47fb2e9140fdf7b08",
+      "ui": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/cli-config-behavior-owners-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "apps/cli/packages/adapters/src/config/config-factory.ts",
+    "apps/cli/packages/adapters/src/config/config-merger.ts",
+    "apps/cli/packages/adapters/src/config/file-config.adapter.ts",
+    "apps/cli/packages/adapters/src/config/project-config.adapter.ts",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 19ms on 5 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

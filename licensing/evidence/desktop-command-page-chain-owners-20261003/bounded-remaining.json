@@ -1,0 +1,98 @@
+{
+  "scope": "Previously bounded screened browserView remainder only; not global completion/inventory proof",
+  "selectedCandidates": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+      "lines": 91,
+      "status": "complete scoped author candidate validated; parent provenance/MIT classification pending, zero accepted new credit",
+      "previousSha256": "84a53a67847f57a7674512ec7c281f58f9288ee733a5ce86677a7164cf4a638c",
+      "sha256": "631a24e3c605a9bf1008bf78174d42713e0a2e0e523b27497336771de246e2eb"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+      "lines": 65,
+      "status": "complete scoped author candidate validated; parent provenance/MIT classification pending, zero accepted new credit",
+      "previousSha256": "4bb933a7c7e21abb3a4c0e127d108daa2d14918942b49a765060b58d9c5b9901",
+      "sha256": "b403405e26744ba44f01bc97ca847f878837eab309fa6a34a4a08a94f65199bf"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+      "lines": 319,
+      "status": "complete scoped author candidate validated; parent provenance/MIT classification pending, zero accepted new credit",
+      "previousSha256": "6a22b7c65c50bdb7527ebf3bdc8a8798bb1d50dda109a561880badef7944ab8a",
+      "sha256": "93adde82eb002473b1afd2d53dac591dfe978873d456acc45b27fadc2c05ea17"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+      "lines": 123,
+      "status": "complete scoped author candidate validated; parent provenance/MIT classification pending, zero accepted new credit",
+      "previousSha256": "01919854d4de5f139e85683345af0d8dae99d188d3183d2b736ce7ebdf43cb58",
+      "sha256": "090b3dc9283e91e0518531cd30a823059f470eb0865a69e13e93404fb9b12a07"
+    }
+  ],
+  "remaining": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserGuestManager.ts",
+      "sha256": "5f36a48cbaa3d29500209d7c845e276717fc49486acc92679374dc00a42df515",
+      "lines": 4645,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceCoordinatorWiring.ts",
+      "sha256": "f0e97b187e62f8d10690d5a72976acc7883dee90fdf5f6fc04ff18a1f6f6efe9",
+      "lines": 84,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotSurfaceContracts.ts",
+      "sha256": "3fca51aa36dac032b424633fe41195c67b9efde7b7fe821b288534942f21e764",
+      "lines": 125,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserRestoreBootstrapProtocol.ts",
+      "sha256": "06a183b63873f42d8e86bae044f3365df6f3ddcb0e58ea31445a16ea3703ebda",
+      "lines": 28,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserPlaywrightTimeout.ts",
+      "sha256": "9c4c6dc00fd99488795f73648a475ef69bcaec7c36dc5cfcabee6761f95a9b36",
+      "lines": 13,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserOperationIndicator.ts",
+      "sha256": "7659d8da3b0f78251a5799b6b2065b9bec55ae8f5bbb5e1ac0755aa0661242cd",
+      "lines": 38,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCloseTabNotification.ts",
+      "sha256": "a5655b73e41c1af2d9ea0834a5fc323b6fd31132e1f6df288ce8c7fedc7d1670",
+      "lines": 36,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/playwrightInjectedScriptSource.ts",
+      "sha256": "1f80508de134caa00a0c6b4cd583e894f329109bd1c0879ad46611e77a28c835",
+      "lines": 66,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandTypes.ts",
+      "sha256": "0b8f5fee0fdce1a96dc7ad74993f50d579c1476580ef68dbb7198738cbdd2450",
+      "lines": 52,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandResult.ts",
+      "sha256": "08a2c904f3dc7af817c3e37eec45fbf10e4ee1902e4f70277c161fef67609a22",
+      "lines": 21,
+      "status": "HOLD/retain; unchanged, not authored or active completion in this batch"
+    }
+  ],
+  "acceptedIndependentCredit": 0,
+  "priorCompletedOwnersAndDormantRecoveryExcluded": true,
+  "publisherReadBound": "Two new fixed sources plus two reverified fixed prior responses; explicit four-owner parent authorization"
+}

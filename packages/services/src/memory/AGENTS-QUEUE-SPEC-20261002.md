@@ -1,0 +1,20 @@
+# Memory and subagent complete-owner queue
+
+2026-10-02 base19cc12f7a450649963b5795a541e2e5616fd10ee, same draftPR10/recovery integration branch. Reserved services memory/,subagents/,agent-session/ only, no core/CLI/UI/shared/client/RPC/source integration. Exact selected complete owners: memory/memoryService.ts; memory/projectMemoryStableRead.ts; subagents/subagentsService.ts; subagents/subagentMarkdown.ts; subagents/subagentStorage.ts. Cohesive fresh owner-private source allowed only inside selectedmemory/subagents directories, every source<=400nonblank/no suppressions. Root AGENTS/architecture SKILL applied, serviceslegacyunmanaged, architecture0/0/0;freshnesspassed withtracking-refcheckskipped. Sameisolatedtoolslinkrestored, no install/manifests/securitychanges.
+
+Eligibility checked licensing/reviews.json,current-files.json,upstream-baseline.json,repository-migration-scope-20260930.json and bounded memory-origin/session-material receipts. No acceptedcurrent-pathreview inmemory/subagents/agent-session orpredecessorzcode-session inreviews. Five selected haveexactdigest-bound inheritedclassification incheckedinventory (stablehandleupstreamunchanged,other4upstreammodified), no completedreplacementfound. Memory-origin receipt is a different apps/cli/core origin-session scope; session-material receipt is differentCLIread-session scope, never transferred tothisqueue. subagentStorage is substantive dynamic CLIconfig/data-location resolver owner, not staticconfiguration; preservepolicy/layout entirely. It owns configread fallbacks/portable/home/cwd compatibility, no newuserdatamigration.
+
+All13sourcebytes/blobs frozen beforeimplementation at /tmp/knorvia-memory-agents-originals-20261002/hashes.json. Eightretainedsources unchanged:memory.ts/subagents.ts publicdescriptors,subagentModelSelection.ts smallschemaadapter, andallfiveagent-session sources. Agent-sessionrecords unreviewed/missing-origin-review-do-not-assume-rewrite; retainpendingorigin/aliasreconciliation, no acceptedneworiginaloruncoveredclassification inferred. ExistingcommitMessageFileScope historicalhold unchanged; requestedreceiptabsent incheckout. Missingignore priorfileconsumer dependencyblocker remains explicit.
+
+Five fresh GPT-6.1 Solhigh authors forknone receive onlymanualbehavior/API packets verifiedzeroASTimplementationbodies, designatedrootguidance andownnewdrafts. Freeze rawfirstready andeveryowncorrectedrevision before coordinatorreview/copy/format. Coordinator source-exposed forbehavior extraction; retainedAPI/compatibilityliterals/YAML/schema/sharednodeports keeplineagebounds, no novelty/globalwholefileMITgrant.
+
+Oneownerpaths: memorycatalog owns readonlylocalprofilepath/exactname/containment gates, stablehandle owns fileidentity/budget/close; subagentMarkdown owns entireparse/serialize representation; subagentStorage owns live data-location/configreadresolution; subagentsService factory owns existing statewrite tail, discovery/precedence and validated profilewrites. No actualagent/provider invocation/network/credentials; no privacy expansion/newpermissionpolicy. Existing nonqueued update/delete paths andpartialfailureeffects preserved rather than hardened silently.
+
+```text
+memoryrequest -> catalog authority gates -> validated readonly handle -> bounded snapshot read -> close
+profileupdate -> serializer/parse gate -> existing FS write -> state-id migration -> oldfile deletion
+statecommand -> sole factory queue -> existing migration/read -> normalized prettyJSON -> atomicwrite
+discovery -> original capability/scope gates -> ordered local fakeports -> existing profiles/diagnostics
+```
+
+Acceptance onlynewminimumoriginal/replacement syntheticwrite/authoritychecks andscopedtypes/lint/format/architecture. No ordinarysuites/builds/nativeplatform/fullfeature/provenanceacceptance/userdata/realDB/process/remotes. Preservehistoricalfrozen59listenEPERMfullsuitefailures andallnewfailureevidence honestly. No mainmerge/globallicense/inventory/dependencymanifest changes orcancelledsourceupload retry/UI403alternatedata access.

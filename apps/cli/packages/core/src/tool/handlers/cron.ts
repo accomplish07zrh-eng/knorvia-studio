@@ -21,17 +21,10 @@ import {
   CronUpdateOutputJsonSchema,
   CronUpdateOutputSchema,
   createCoreError,
-  type CronAutomation,
-  type CronCreateInput,
-  type CronCreateOutput,
-  type CronDeleteInput,
-  type CronDeleteOutput,
-  type CronListOutput,
-  type CronUpdateInput,
-  type CronUpdateOutput,
   type ToolPermissionSpec,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolExecutionContext, ToolHandler } from "../types.js";
+import { createCronHandler } from "./cron-execution.js";
+import type { ToolEntry, ToolExecutionContext } from "../types.js";
 
 const CRON_TOOL_TIMEOUT_MS = 30_000;
 const CRON_MODEL_BYTES = 32_000;
@@ -77,78 +70,14 @@ function assertAutomationPort(
   );
 }
 
-function toModelAutomation(automation: CronAutomation): CronAutomation {
-  return {
-    automationId: automation.automationId,
-    title: automation.title,
-    cronExpr: automation.cronExpr,
-    prompt: automation.prompt,
-    enabled: automation.enabled,
-    lifecycleStatus: automation.lifecycleStatus,
-    nextRunAt: automation.nextRunAt,
-    lastRunAt: automation.lastRunAt,
-    runCount: automation.runCount,
-    recurring: automation.recurring,
-    maxRuns: automation.maxRuns,
-    // 工具输出曾在此处重新投影 automation 时遗漏 scheduleRule，导致 CronCreate /
-    // CronUpdate / CronList 虽收到真实间隔仍只展示兼容 cron，错误显示成每小时或每天。
-    scheduleRule: automation.scheduleRule,
-  };
-}
-
-const cronCreateHandler: ToolHandler = async (input, context) => {
-  assertNotAutomationTurn(context, "CronCreate");
-  const parsed = CronCreateInputSchema.parse(input) as CronCreateInput;
-  assertAutomationPort(context, "CronCreate");
-
-  const automation = await context.automationPort.create(parsed, {
-    // 会话内创建定时任务时模型来自当前 runtime，而不是模型可控的工具入参。
-    ...(context.model ? { model: `${context.model.providerId}/${context.model.modelId}` } : {}),
-    // 会话内创建的 cron 固定复用当前 session，后续触发不再新建 session。
-    sessionId: context.sessionId,
-  });
-  return {
-    automation: toModelAutomation(automation),
-    message: `Created automation ${automation.automationId}.`,
-  } satisfies CronCreateOutput;
+const cronAdmission = {
+  rejectAutomationTurn: assertNotAutomationTurn,
+  requirePort: assertAutomationPort,
 };
-
-const cronListHandler: ToolHandler = async (input, context) => {
-  CronListInputSchema.parse(input);
-  assertAutomationPort(context, "CronList");
-
-  const automations = await context.automationPort.list();
-  return {
-    automations: automations.map(toModelAutomation),
-  } satisfies CronListOutput;
-};
-
-const cronUpdateHandler: ToolHandler = async (input, context) => {
-  assertNotAutomationTurn(context, "CronUpdate");
-  const parsed = CronUpdateInputSchema.parse(input) as CronUpdateInput;
-  assertAutomationPort(context, "CronUpdate");
-
-  const automation = await context.automationPort.update(parsed);
-  return {
-    automation: toModelAutomation(automation),
-    message: `Updated automation ${automation.automationId}.`,
-  } satisfies CronUpdateOutput;
-};
-
-const cronDeleteHandler: ToolHandler = async (input, context) => {
-  assertNotAutomationTurn(context, "CronDelete");
-  const parsed = CronDeleteInputSchema.parse(input) as CronDeleteInput;
-  assertAutomationPort(context, "CronDelete");
-
-  const deleted = await context.automationPort.delete(parsed);
-  return {
-    deleted,
-    id: parsed.id,
-    message: deleted
-      ? `Deleted automation ${parsed.id}.`
-      : `Automation ${parsed.id} was not found in the current workspace.`,
-  } satisfies CronDeleteOutput;
-};
+const cronCreateHandler = createCronHandler("create", cronAdmission);
+const cronListHandler = createCronHandler("list", cronAdmission);
+const cronUpdateHandler = createCronHandler("update", cronAdmission);
+const cronDeleteHandler = createCronHandler("delete", cronAdmission);
 
 function cronPermission(
   permission: string,

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "scope": "Shared bounded TaskOutput file-window IO and cancellation boundary",
+  "baselineCommit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+  "oldSources": {
+    "projection": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989",
+    "bash": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed"
+  },
+  "exposure": "Prior source inspected and old behavioral contracts frozen before replacement; no isolated-author or clean-room claim",
+  "implementation": [
+    "Single per-read window cursor and single open/stat/read/close lifecycle",
+    "Separate head/tail byte-window selection and outcome projection",
+    "Shared cancellation/error arbitration without new retries, permissions, output paths or state"
+  ],
+  "retained": "Consumer projection bodies and path selection byte-identical; existing upstream provenance and applicable licences remain",
+  "validation": {
+    "oldBaselineContracts": {
+      "source": 44,
+      "emitted": 44,
+      "pass": 88,
+      "fail": 0
+    },
+    "newDualContractsAndConsumers": {
+      "fileWindow": 88,
+      "retrieval": 80,
+      "pass": 168,
+      "fail": 0
+    },
+    "differential": {
+      "cases": 2000,
+      "mismatches": 0,
+      "seed": 88121,
+      "outcomes": {
+        "tail:AbortError": 319,
+        "head:AbortError": 319,
+        "tail:output": 681,
+        "head:output": 681
+      }
+    },
+    "aggregate": {
+      "tests": 6090,
+      "pass": 6024,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass concurrency=1 heap=2048MiB",
+    "rootCliExplicitLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "fullRunNote": "First full process disappeared without summary or available session; cause unknown, log retained. Reran alone with2048MiB heap to the recorded terminal outcome; no test budget changed."
+  },
+  "limits": [
+    "Local full suite retains59 sandbox listen EPERM failures, not a complete local pass",
+    "Native CI for this source pending",
+    "No native UI, installer, live provider, data upgrade or final MIT acceptance",
+    "27 material obligations remain; no licence decisions changed"
+  ]
+}

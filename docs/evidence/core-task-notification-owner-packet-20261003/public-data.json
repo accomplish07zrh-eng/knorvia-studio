@@ -1,0 +1,17 @@
+{
+  "notificationMaxUtf16CodeUnits": 120000,
+  "truncationSuffix": "\n[truncated]",
+  "generalXmlEntities": {
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;",
+    "'": "&apos;",
+    "\"": "&quot;"
+  },
+  "bashAndProviderErrorXmlEntities": {
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;"
+  },
+  "qualification": "Required exact public observable character/entity/size values. No private constant expression or decomposition delivered."
+}

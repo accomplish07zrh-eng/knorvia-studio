@@ -1,0 +1,66 @@
+{
+  "scope": "resolver",
+  "recordedAtUtc": "2026-10-02T20:44:36.546079+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "fastRequested": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "osIsolationOrAccessAuditVerified": false,
+  "files": [
+    {
+      "file": "attachment-media-resolver/context.ts.txt",
+      "bytes": 614,
+      "sha256": "ad4527bd21a5faa47eb2cb9b137f93e460be42a94a15eff673e6976eab1715c5",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/context.ts"
+    },
+    {
+      "file": "attachment-media-resolver/inline.ts.txt",
+      "bytes": 6510,
+      "sha256": "159728269b5686d933ad09ff8e3f3250d7edfbe76edbc44d3b20cfc4e76a4a30",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts"
+    },
+    {
+      "file": "attachment-media-resolver/local-image.ts.txt",
+      "bytes": 3108,
+      "sha256": "e0eb6edd40ab19e7af1dc13d1a0689f414af9aef9406e4e4931832cd6caf1ab1",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts"
+    },
+    {
+      "file": "attachment-media-resolver/local-pdf.ts.txt",
+      "bytes": 3043,
+      "sha256": "8b73272b463c4d0a234af93960baf70a6300f3571b86cae8e6dc75f07aaf9b5d",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts"
+    },
+    {
+      "file": "attachment-media-resolver/local-video.ts.txt",
+      "bytes": 2894,
+      "sha256": "1f037d8d89d47c1a52cfa376f1d0cec31b1546a099b0d8cde53dc2b6c4cc2a71",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts"
+    },
+    {
+      "file": "attachment-media-resolver/local.ts.txt",
+      "bytes": 2140,
+      "sha256": "d5d78a8ddae643eda84af10c261268643700d0e77f759da7f95c966a23ce84ae",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts"
+    },
+    {
+      "file": "attachment-media-resolver/read-failure.ts.txt",
+      "bytes": 504,
+      "sha256": "0df4450b8825e85750226d8207bd8321e9729e750ee8bd56cdce93e480dc864e",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts"
+    },
+    {
+      "file": "attachment-media-resolver.ts.txt",
+      "bytes": 1317,
+      "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 23952,
+      "sha256": "52984ea0c8935f6e11927173b3664b35824fb5b00e63bd8e3f8d775803f69c5d"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "owner": "desktop Playwright locator executor",
+  "readPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/common-author-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/locator-owner-contract.md",
+    "licensing/evidence/desktop-playwright-owners-20261003/public-view.d.ts"
+  ],
+  "accessExceptions": [],
+  "writtenPaths": [
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/locator/browserPlaywrightLocatorExecutor.ts",
+    "licensing/evidence/desktop-playwright-owners-20261003/author-output/locator/access.json"
+  ],
+  "limitations": [
+    "The draft was authored only from the three allowed contracts.",
+    "The candidate was not installed, compiled, linted, tested, or run in a browser.",
+    "No inherited implementation, helper, test body, history, sibling output, global instructions, or skills were read.",
+    "No claim is made that the draft is MIT, clean room, or verified Fast."
+  ]
+}

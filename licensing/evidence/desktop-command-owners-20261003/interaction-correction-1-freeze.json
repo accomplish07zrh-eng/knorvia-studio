@@ -1,0 +1,9 @@
+{
+  "owner": "interaction",
+  "version": "correction-1",
+  "completeReportedBeforeFreeze": true,
+  "authorReportedSha256": "df35b31d0076f03e255c936531d06f25731b4e075c319d0a7c6f6ace6d7680a5",
+  "actualSha256": "df35b31d0076f03e255c936531d06f25731b4e075c319d0a7c6f6ace6d7680a5",
+  "bytes": 9711,
+  "reviewOccurredBeforeFreeze": false
+}

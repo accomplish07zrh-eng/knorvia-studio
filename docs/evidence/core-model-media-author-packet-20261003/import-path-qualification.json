@@ -1,0 +1,52 @@
+{
+  "recordedAtUtc": "2026-10-02T19:45:27.909Z",
+  "originalPacketCommit": "49ca0267",
+  "finding": "Three authors asked for actual collaborator runtime import paths before implementation. Original bounded dependency signatures were split fragments without complete module labels. Original five frozen inputs and manifest remain unchanged. Separate sixth imports.json supplied to all five scopes before complete draft freeze. No implementation/dependency/test/history body supplied.",
+  "scopes": {
+    "request": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/request/imports.json",
+          "bytes": 3741,
+          "sha256": "313c323c5188bae6a67b7c8dc88e7b6ee46b8ffd323a9f07470807a58e09d531"
+        }
+      ]
+    },
+    "budget": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/budget/imports.json",
+          "bytes": 3118,
+          "sha256": "c7bc53ea494974a30c8f8221c26d6112e6906154c82eaab4d68e7191906e7703"
+        }
+      ]
+    },
+    "validation": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/validation/imports.json",
+          "bytes": 1517,
+          "sha256": "fb925289c342d0f47caa87a4ccb7479783b7905e03f16d565c80c75358910ad7"
+        }
+      ]
+    },
+    "capability": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/capability/imports.json",
+          "bytes": 2608,
+          "sha256": "e23dde99120eba962c98fd65a5d9e2b9c23a15e5d69702abf5a7e4c2d603faff"
+        }
+      ]
+    },
+    "errors": {
+      "extraInputs": [
+        {
+          "path": "docs/evidence/core-model-media-author-packet-20261003/errors/imports.json",
+          "bytes": 1916,
+          "sha256": "d7930dded9c6ffd248b9c278e187d0304a417bede64aef92bc203c499b74ab16"
+        }
+      ]
+    }
+  }
+}

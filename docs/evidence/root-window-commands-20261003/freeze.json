@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-02T20:37:37.418390+00:00",
+  "drafts": {
+    "draft-desktopCommandHandlers.ts": {
+      "bytes": 7003,
+      "sha256": "44c82ef3cec2a13385f52363b8179bdb3ea6adbe1f0d11423f434cafbb82a790"
+    },
+    "draft-desktopTray.ts": {
+      "bytes": 2572,
+      "sha256": "fc50341cd95f78a5c3cf8b0d5a96415f39705e70719b95fe54f43dd1cbb19a4b"
+    },
+    "draft-primaryWindowCoordinator.ts": {
+      "bytes": 2303,
+      "sha256": "515b9a443ec635a9b8011df019c8b23623cda75706b7807d23f3d3d2f1b766c4"
+    }
+  },
+  "bodyReadBeforeFreeze": false
+}

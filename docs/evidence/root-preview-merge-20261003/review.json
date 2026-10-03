@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-02T19:39:07.402453+00:00",
+  "sources": {
+    "packages/shared/src/conversation-preview-artifacts.ts": {
+      "sha256": "bc431aa1d7a115fbc6a6c2b229ccf79e577f0b4f3b5b4b4530f92e9947f3328f",
+      "bytes": 11457
+    },
+    "packages/shared/src/persistedMessageMerge.ts": {
+      "sha256": "e25e9798f8ce434c1bc67ec2294e6dada9829ee9503b5d0013ac12b42a08a6fe",
+      "bytes": 3115
+    }
+  },
+  "review": "Same-root post-freeze source review preserves supported primitive/ordinary-record ordering, path normalization/protected extraction/candidate gates and pure merge fields/references. Retained exact grammar, format records, schemas, public contracts, field-order projections and ordinary idioms remain substantial. No global legal independence determination.",
+  "corrections": "Originalpreview draft admitted unsupported mutable descriptor kind through citation because it only excluded markdown/html; corrected to six-kind allowlist, reproduced frozen failure versus corrected candidate. Empty resolved file URL now uses source truthiness gate; regex subgroup fallback added after strict-type errors. Stable exactties additivepacketclarification preserves firstaccumulated survivor. No merge runtime correction.",
+  "checks": "Scopedactualdependencysemantictypes0diag; public declarations matchpacket; lint2files94rules0errors/warnings;architecture0violations;whitespaceclean. 3minimal synthetic groups eachbaseline/candidate forworkspace/reverted containment,citationkindmutation,persistedmerge tooloffset/identity/sourceimmutability. Modules transpiled with explicitly mocked media/schema dependency ports, not full emittedconsumeracceptance.",
+  "limits": "Originaldraft/compilerfailurespreserved. No full suites/builds/native/UI/userdata/filesystem/network writes. Native separate reviewer unavailable threadlimit; source-aware selfreview only. Custom monkeypatched String/Array iterators or effectful mutable descriptor getters not claimed observation-equivalent; ordinary mutable values supported. No inventorylicencegrant/crosslaneintegration."
+}

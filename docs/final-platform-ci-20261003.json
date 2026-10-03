@@ -1,0 +1,621 @@
+{
+  "schemaVersion": 1,
+  "branch": "integration/backlog-20261003",
+  "publishedHead": "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a",
+  "mainUnchanged": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "runId": 37113155595,
+  "runUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37113155595",
+  "linuxJobId": 111174812501,
+  "windowsJobId": 111174812401,
+  "actualCheckedSyntheticSha": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+  "linuxSummary": {
+    "tests": 8048,
+    "pass": 8027,
+    "fail": 13,
+    "skipped": 8,
+    "cancelled": 0,
+    "suites": 6,
+    "durationMs": 434967.09691
+  },
+  "windowsSummaryFooter": [
+    "2026-10-03T09:38:36.7145913Z ℹ duration_ms 9.2743\r",
+    "2026-10-03T09:40:32.5496272Z ℹ tests 8048\r",
+    "2026-10-03T09:40:32.5496489Z ℹ suites 6\r",
+    "2026-10-03T09:40:32.5496667Z ℹ pass 8034\r",
+    "2026-10-03T09:40:32.5496834Z ℹ fail 13\r",
+    "2026-10-03T09:40:32.5497006Z ℹ cancelled 0\r",
+    "2026-10-03T09:40:32.5497135Z ℹ skipped 1\r",
+    "2026-10-03T09:40:32.5497383Z ℹ duration_ms 506133.4616\r"
+  ],
+  "jobs": [
+    {
+      "id": 111174812401,
+      "name": "windows / quality",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37113155595,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Resolve checked SHA",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Check file provenance inventory",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Install frozen dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Typecheck including desktop main",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Format check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Architecture check (full repository)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Build CLI packages used by offline tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Offline Studio regression",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 14
+        },
+        {
+          "name": "Record check results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 27
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 28
+        },
+        {
+          "name": "Post Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 111174812501,
+      "name": "linux / quality",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37113155595,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Resolve checked SHA",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Check file provenance inventory",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Install frozen dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Typecheck including desktop main",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Format check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Architecture check (full repository)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Build CLI packages used by offline tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Offline Studio regression",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 14
+        },
+        {
+          "name": "Record check results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 27
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 28
+        },
+        {
+          "name": "Post Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    }
+  ],
+  "sourceArtifactDiagnosis": "Six emitted SHA mismatches already present in the retained CLI source-to-output diagnostic; CI reported its exact fresh generated digests for three first encountered paths. Original bytes and records preserved. Do not automatically grant source-expression/rights acceptance.",
+  "localFullChecksRepeated": false,
+  "wholeTreeMitReady": false,
+  "materialHoldsRetained": 26,
+  "materialItemsClosed": 0,
+  "windowsSummary": {
+    "tests": 8048,
+    "pass": 8034,
+    "fail": 13,
+    "skipped": 1,
+    "cancelled": 0,
+    "suites": 6,
+    "durationMs": 506133.4616
+  },
+  "failureFilesBothPlatforms": [
+    "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+    "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+    "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+    "apps/cli/packages/core/test/workflow-graph-boundary.test.ts",
+    "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+    "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+    "apps/cli/packages/core/test/workflow-ready-order.test.ts",
+    "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+    "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+    "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+    "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+    "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+    "apps/cli/packages/core/test/workflow-scheduler-state.test.ts"
+  ],
+  "bothPlatformsSameFailureFiles": true,
+  "actualSourceToEmittedByteIdentityPassing": false,
+  "rawRecordBindings": [
+    {
+      "path": "docs/evidence/final-platform-ci-20261003/api-and-result.json",
+      "sha256": "ad532ca98711f20676ec3f969565ac744bcf890655dc3a372f015272295fc8fc",
+      "bytes": 9458,
+      "sourceCommit": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+      "observation": "Generated actual completed CI API/count observation and timestamp-preserving decoded-log excerpt tied to c4f9bbb branch input. Logs are a UTF-8 LF subset (Windows CRLF converted to LF), not whole-job-log original bytes. Both jobs failed offline; this is not passing evidence."
+    },
+    {
+      "path": "docs/evidence/final-platform-ci-20261003/linux-excerpt.log",
+      "sha256": "1fb7ab63ad683ae36c28e9de8726ee9319115499dca0890503fd61246ad8dfae",
+      "bytes": 8722,
+      "sourceCommit": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+      "observation": "Generated actual completed CI API/count observation and timestamp-preserving decoded-log excerpt tied to c4f9bbb branch input. Logs are a UTF-8 LF subset (Windows CRLF converted to LF), not whole-job-log original bytes. Both jobs failed offline; this is not passing evidence."
+    },
+    {
+      "path": "docs/evidence/final-platform-ci-20261003/windows-excerpt.log",
+      "sha256": "d9494c52ac12ff377a1f41d2d35820e10dbd96e66281496f3620918982b796f7",
+      "bytes": 8561,
+      "sourceCommit": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+      "observation": "Generated actual completed CI API/count observation and timestamp-preserving decoded-log excerpt tied to c4f9bbb branch input. Logs are a UTF-8 LF subset (Windows CRLF converted to LF), not whole-job-log original bytes. Both jobs failed offline; this is not passing evidence."
+    }
+  ],
+  "oldFrozenRowsPreserved": 5670,
+  "newCompletedCiRows": 3,
+  "frozenRecordsAfterCiObservation": 5673,
+  "frozenBytesAfterCiObservation": 64431024,
+  "sixRetainedEmittedMismatches": [
+    {
+      "sourcePath": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+      "emittedPath": "apps/cli/packages/core/dist/workflow/lifecycle.js",
+      "sourceSha256": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a",
+      "emittedSha256": "7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b",
+      "generatedSha256": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5",
+      "sameEmittedBytes": false,
+      "sameRuntimeSyntax": true,
+      "runtimeSyntaxSha256": "54dc0ab06174f916a78a4ea8bca0bcc9764b317ce4a659150818e06133e4cc3e"
+    },
+    {
+      "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+      "sourceSha256": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab",
+      "emittedSha256": "1d2fbd8a585ffcf0aaa9efe0f91846b640bee57242cdc02e98f3aab45728f322",
+      "generatedSha256": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be",
+      "sameEmittedBytes": false,
+      "sameRuntimeSyntax": true,
+      "runtimeSyntaxSha256": "a9cf674f6017751cbfe20a69dfd2f97612ad23494c09b5688e974e5f11d63761"
+    },
+    {
+      "sourcePath": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "emittedPath": "apps/cli/packages/core/dist/workflow/scheduler/node-runner.js",
+      "sourceSha256": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34",
+      "emittedSha256": "f8c62d8254f79d170eb77db610dd907e89b581bb8efc02de1b6ca3e9ceb7dc6e",
+      "generatedSha256": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49",
+      "sameEmittedBytes": false,
+      "sameRuntimeSyntax": true,
+      "runtimeSyntaxSha256": "37d0010a5ce71332223fdb4d11295eb4b031d188157e9b0b5c74fa16634d96f9"
+    },
+    {
+      "sourcePath": "apps/cli/packages/core/src/workflow/lifecycle-seed.ts",
+      "emittedPath": "apps/cli/packages/core/dist/workflow/lifecycle-seed.js",
+      "sourceSha256": "53712b28c4c7acb99b0a582bcbc055eb24f90191091dcc595c18d2cf9c2b38af",
+      "emittedSha256": "6a5757c48ed16a995b8a9a6b4a993c9c08084f8f698b044b4674990aa05938f6",
+      "generatedSha256": "5a9e3728ce70b19333c8a791ccee5bc86f60e7cb1b48a9e5bb78f69226e0736e",
+      "sameEmittedBytes": false,
+      "sameRuntimeSyntax": true,
+      "runtimeSyntaxSha256": "a1ef45cc7d24881b6f5f290ac838908108efb332783335caf2598cf5feefa5c8"
+    },
+    {
+      "sourcePath": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "emittedPath": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js",
+      "sourceSha256": "c1043ddaa583e819a79b394093ae8e113dfff8f56faad65529739fd10b291c25",
+      "emittedSha256": "335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2",
+      "generatedSha256": "861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8",
+      "sameEmittedBytes": false,
+      "sameRuntimeSyntax": true,
+      "runtimeSyntaxSha256": "9fdb70140d0718a200fe099cfe598ada9c1597ea12e8e94c67ec99d9a4bff4a4"
+    },
+    {
+      "sourcePath": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "emittedPath": "apps/cli/packages/core/dist/runtime-task/notification.js",
+      "sourceSha256": "e97ff8dcd6edcfae62c37d96125eeff0d87346f88d6966ef7786110bfc2f3c92",
+      "emittedSha256": "b3a7e116064cfe29d75b1a6ec25a805c48e29c20cf5eb9e204171950abef2e9a",
+      "generatedSha256": "0af4db091bb6bc2a865e2d963393387532a1dd2ad2f5aa249ed9af9bf1f35563",
+      "sameEmittedBytes": false,
+      "sameRuntimeSyntax": true,
+      "runtimeSyntaxSha256": "d8d80aa7317b44995e0b526929210545564161adb2e35dc54e202e46d439c4e6"
+    }
+  ],
+  "boundedCurrentFirstPartyIdentityComparison": {
+    "sourceHead": "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a",
+    "scope": "Bounded identity comparison of six known acceptance targets; not a full expression/rights audit. Historical original HOLD remains. New helper/fold bindings are separate in the intake.",
+    "targets": [
+      {
+        "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+        "currentSha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+        "sameAsMaterialCheckpoint": true,
+        "currentInventoryLicense": "NOASSERTION",
+        "review": null,
+        "historicalReceipt": "licensing/evidence/contract-authored-task-registry-expression-20261002.json",
+        "historicalReceiptPresent": false,
+        "originalBoundaryKeys": [
+          "path",
+          "currentCandidate",
+          "historicalReportedCandidateSha256",
+          "historicalReportedReceipt",
+          "receiptPresentAtCheckpoint",
+          "currentCandidateMatchesHistoricalReportedSha256",
+          "blocker",
+          "closureAction",
+          "currentFirstPartyMitAcceptance",
+          "anyOpenSourcePublicationBannedByThisObservation"
+        ]
+      },
+      {
+        "path": "packages/services/src/session/tasksDatabase/startup.ts",
+        "currentSha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+        "sameAsMaterialCheckpoint": true,
+        "currentInventoryLicense": "NOASSERTION",
+        "review": null,
+        "historicalReceipt": "licensing/evidence/task-storage-preparation-expression-20261002.json",
+        "historicalReceiptPresent": false,
+        "originalBoundaryKeys": [
+          "path",
+          "currentCandidate",
+          "historicalReportedCandidateSha256",
+          "historicalReportedReceipt",
+          "receiptPresentAtCheckpoint",
+          "currentCandidateMatchesHistoricalReportedSha256",
+          "blocker",
+          "closureAction",
+          "currentFirstPartyMitAcceptance",
+          "anyOpenSourcePublicationBannedByThisObservation"
+        ]
+      },
+      {
+        "path": "packages/services/src/git/commitMessageFileScope.ts",
+        "currentSha256": "501c9e956cf92938c3d962fd8e86aca5c9e60d4bf48da5630adf6a3eb62796dd",
+        "sameAsMaterialCheckpoint": true,
+        "currentInventoryLicense": "NOASSERTION",
+        "review": null,
+        "historicalReceipt": "licensing/evidence/commit-message-scope-independent-replacement-20261001.json",
+        "historicalReceiptPresent": false,
+        "originalBoundaryKeys": [
+          "path",
+          "currentCandidate",
+          "historicalReportedCandidateSha256",
+          "historicalReportedReceipt",
+          "receiptPresentAtCheckpoint",
+          "currentCandidateMatchesHistoricalReportedSha256",
+          "blocker",
+          "closureAction",
+          "currentFirstPartyMitAcceptance",
+          "anyOpenSourcePublicationBannedByThisObservation"
+        ]
+      },
+      {
+        "path": "packages/services/src/creation/creationReference.ts",
+        "currentSha256": "2f44d3555dfbf73bde0d3c3b162c7c63ef4f5d4e581b5d550345ddca698c427f",
+        "sameAsMaterialCheckpoint": true,
+        "currentInventoryLicense": "NOASSERTION",
+        "review": null,
+        "historicalReceipt": "licensing/evidence/creation-reference-containment-20261001.json",
+        "historicalReceiptPresent": false,
+        "originalBoundaryKeys": [
+          "path",
+          "currentCandidate",
+          "historicalReportedCandidateSha256",
+          "historicalReportedReceipt",
+          "receiptPresentAtCheckpoint",
+          "currentCandidateMatchesHistoricalReportedSha256",
+          "blocker",
+          "closureAction",
+          "currentFirstPartyMitAcceptance",
+          "anyOpenSourcePublicationBannedByThisObservation"
+        ]
+      },
+      {
+        "path": "packages/services/src/agent-session/sessionService.ts",
+        "currentSha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+        "sameAsMaterialCheckpoint": true,
+        "currentInventoryLicense": "NOASSERTION",
+        "review": null,
+        "historicalReceipt": null,
+        "historicalReceiptPresent": null,
+        "originalBoundaryKeys": [
+          "path",
+          "currentCandidate",
+          "historicalOriginalSha256",
+          "blocker",
+          "closureAction",
+          "currentFirstPartyMitAcceptance",
+          "anyOpenSourcePublicationBannedByThisObservation"
+        ]
+      },
+      {
+        "path": "packages/services/src/agent/taskIndexSyncer.ts",
+        "currentSha256": "e2ddf71626306fccf802bc26e381dc94c434c75a5a6bf312827dad355bf44c15",
+        "sameAsMaterialCheckpoint": true,
+        "currentInventoryLicense": "NOASSERTION",
+        "review": null,
+        "historicalReceipt": null,
+        "historicalReceiptPresent": null,
+        "originalBoundaryKeys": [
+          "path",
+          "currentCandidate",
+          "historicalOriginalSha256",
+          "blocker",
+          "closureAction",
+          "currentFirstPartyMitAcceptance",
+          "anyOpenSourcePublicationBannedByThisObservation"
+        ]
+      }
+    ]
+  },
+  "cliRepairOwner": "Parent reassigned original fixed CLI lane; integrator does not concurrently change receipt/code. Await exact frozen new head.",
+  "boundedCurrentAssetIdentityComparison": {
+    "sourceHead": "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a",
+    "scope": "Eight already known unresolved asset paths only. Identity grouping is not source/permission proof, visual acceptance, or authorization to replace/remove assets. Existing UI bytes preserved.",
+    "paths": [
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+        "bytes": 1533,
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+        "bytes": 2003,
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+        "bytes": 1089,
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+        "bytes": 1276,
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/docx.svg",
+        "bytes": 1533,
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/folder.svg",
+        "bytes": 2003,
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/pptx.svg",
+        "bytes": 1089,
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/xlsx.svg",
+        "bytes": 1276,
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      }
+    ],
+    "distinctByteGroups": {
+      "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73": [
+        "packages/desktop/src/renderer/public/material-icons/docx.svg",
+        "packages/web/public/material-icons/docx.svg"
+      ],
+      "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e": [
+        "packages/desktop/src/renderer/public/material-icons/folder.svg",
+        "packages/web/public/material-icons/folder.svg"
+      ],
+      "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24": [
+        "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+        "packages/web/public/material-icons/pptx.svg"
+      ],
+      "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef": [
+        "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+        "packages/web/public/material-icons/xlsx.svg"
+      ]
+    },
+    "uniqueBytesCount": 4,
+    "itemsClosed": 0
+  }
+}

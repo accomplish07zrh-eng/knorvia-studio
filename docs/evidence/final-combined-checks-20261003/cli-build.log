@@ -1,0 +1,207 @@
+
+> knorvia-studio@0.8.0-preview.3 build:cli-packages /workspace/knorvia-studio
+> turbo run build --cwd apps/cli
+
+• turbo 2.9.14
+ WARNING  No locally installed `turbo` found in your repository. Using globally installed version (2.9.14), which can cause unexpected behavior.
+
+Installing the version in your repository (^2.4.0) before calling `turbo` will result in more predictable behavior across environments.
+ WARNING  Unable to calculate transitive closures: Workspace 'packages/dynamic-workflow-runtime' not found in lockfile.
+
+   • Packages in scope: @knorvia/adapters, @knorvia/bootstrap, @knorvia/browser-use-plugin, @knorvia/cli, @knorvia/contracts, @knorvia/core, @knorvia/cua-plugin, @knorvia/dynamic-workflow, @knorvia/dynamic-workflow-runtime, @knorvia/i18n, @knorvia/node-repl-host, @knorvia/prompt-trajectory, @knorvia/shared-types, @knorvia/swift-bridge, @knorvia/telemetry, @knorvia/tui, @knorvia/typescript, debug
+   • Running build in 18 packages
+   • Remote caching disabled
+
+@knorvia/contracts:build: cache miss, executing 8097c252b93250cf
+@knorvia/dynamic-workflow:build: cache miss, executing 1d5d297a7f7cfc8a
+debug:build: cache hit, replaying logs e230d3248e3236ae
+debug:build: 
+debug:build: > debug@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/debug
+debug:build: > tsc -p tsconfig.server.json && vite build
+debug:build: 
+debug:build: vite v7.3.3 building client environment for production...
+debug:build: transforming...
+debug:build: ✓ 1756 modules transformed.
+debug:build: rendering chunks...
+debug:build: computing gzip size...
+debug:build: dist/index.html                   0.40 kB │ gzip:   0.28 kB
+debug:build: dist/assets/index-CK53JNWs.css   35.63 kB │ gzip:   7.04 kB
+debug:build: dist/assets/index-DduWyurr.js   786.35 kB │ gzip: 234.30 kB
+debug:build: 
+debug:build: (!) Some chunks are larger than 500 kB after minification. Consider:
+debug:build: - Using dynamic import() to code-split the application
+debug:build: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+debug:build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+debug:build: ✓ built in 2.60s
+@knorvia/shared-types:build: cache hit, replaying logs fd3a6ef99f3d8370
+@knorvia/shared-types:build: 
+@knorvia/shared-types:build: > @knorvia/shared-types@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/shared-types
+@knorvia/shared-types:build: > tsc
+@knorvia/shared-types:build: 
+@knorvia/typescript:build: cache hit, replaying logs 893efd119901fce9
+@knorvia/typescript:build: 
+@knorvia/typescript:build: > @knorvia/typescript@0.1.0 build /workspace/knorvia-studio/apps/cli/tools/typescript
+@knorvia/typescript:build: > echo 'Shared TypeScript config - no compilation needed'
+@knorvia/typescript:build: 
+@knorvia/typescript:build: Shared TypeScript config - no compilation needed
+@knorvia/cua-plugin:build: cache bypass, force executing 2f8183a787376fe8
+@knorvia/swift-bridge:build: cache hit, replaying logs e28aea2f7eda7c2b
+@knorvia/swift-bridge:build: 
+@knorvia/swift-bridge:build: > @knorvia/swift-bridge@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/swift-bridge
+@knorvia/swift-bridge:build: > tsc
+@knorvia/swift-bridge:build: 
+@knorvia/dynamic-workflow:build: 
+@knorvia/dynamic-workflow:build: > @knorvia/dynamic-workflow@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow
+@knorvia/dynamic-workflow:build: > node scripts/generate-libs.mjs && tsc
+@knorvia/dynamic-workflow:build: 
+@knorvia/cua-plugin:build: 
+@knorvia/cua-plugin:build: > @knorvia/cua-plugin@0.7.0 build /workspace/knorvia-studio/apps/cli/packages/cua-plugin
+@knorvia/cua-plugin:build: > node ../../../../packages/cua/scripts/stage-windows-driver.mjs
+@knorvia/cua-plugin:build: 
+@knorvia/contracts:build: 
+@knorvia/contracts:build: > @knorvia/contracts@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/contracts
+@knorvia/contracts:build: > tsc
+@knorvia/contracts:build: 
+@knorvia/cua-plugin:build: Windows Cua driver skipped on this build host.
+@knorvia/dynamic-workflow-runtime:build: cache miss, executing bf374ffe79cca643
+@knorvia/dynamic-workflow-runtime:build: 
+@knorvia/dynamic-workflow-runtime:build: > @knorvia/dynamic-workflow-runtime@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow-runtime
+@knorvia/dynamic-workflow-runtime:build: > tsc
+@knorvia/dynamic-workflow-runtime:build: 
+@knorvia/adapters:build: cache miss, executing 665bc42f3a36568e
+@knorvia/i18n:build: cache miss, executing 498c662efe31960d
+@knorvia/core:build: cache miss, executing af50f841c7661456
+@knorvia/telemetry:build: cache miss, executing 386cc6ea26446559
+@knorvia/i18n:build: 
+@knorvia/i18n:build: > @knorvia/i18n@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/i18n
+@knorvia/i18n:build: > tsc
+@knorvia/i18n:build: 
+@knorvia/adapters:build: 
+@knorvia/adapters:build: > @knorvia/adapters@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/adapters
+@knorvia/adapters:build: > tsc
+@knorvia/adapters:build: 
+@knorvia/telemetry:build: 
+@knorvia/telemetry:build: > @knorvia/telemetry@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/telemetry
+@knorvia/telemetry:build: > tsc
+@knorvia/telemetry:build: 
+@knorvia/core:build: 
+@knorvia/core:build: > @knorvia/core@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/core
+@knorvia/core:build: > tsc
+@knorvia/core:build: 
+@knorvia/tui:build: cache miss, executing 0171d9e219c4564b
+@knorvia/bootstrap:build: cache miss, executing ceee407ca7ab1f53
+@knorvia/node-repl-host:build: cache miss, executing 022c60c5aae81f86
+@knorvia/bootstrap:build: 
+@knorvia/bootstrap:build: > @knorvia/bootstrap@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/bootstrap
+@knorvia/bootstrap:build: > tsc
+@knorvia/bootstrap:build: 
+@knorvia/tui:build: 
+@knorvia/tui:build: > @knorvia/tui@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/tui
+@knorvia/tui:build: > tsc && node scripts/build.mjs
+@knorvia/tui:build: 
+@knorvia/node-repl-host:build: 
+@knorvia/node-repl-host:build: > @knorvia/node-repl-host@0.8.0 build /workspace/knorvia-studio/apps/cli/packages/node-repl-host
+@knorvia/node-repl-host:build: > tsc && node scripts/build.mjs
+@knorvia/node-repl-host:build: 
+@knorvia/node-repl-host:build: ▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+@knorvia/node-repl-host:build: 
+@knorvia/node-repl-host:build:     ../core/dist/repl/runtime-values.js:85:37:
+@knorvia/node-repl-host:build:       85 │             return import(specifier, options);
+@knorvia/node-repl-host:build:          ╵                                      ^
+@knorvia/node-repl-host:build: 
+@knorvia/tui:build: ▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+@knorvia/tui:build: 
+@knorvia/tui:build:     ../core/dist/repl/runtime-values.js:85:37:
+@knorvia/tui:build:       85 │             return import(specifier, options);
+@knorvia/tui:build:          ╵                                      ^
+@knorvia/tui:build: 
+@knorvia/tui:build: 1 warning
+@knorvia/tui:build: 
+@knorvia/tui:build:   dist/index.js      17.2mb ⚠️
+@knorvia/tui:build:   dist/index.js.map  29.9mb
+@knorvia/tui:build: 
+@knorvia/tui:build: ⚡ Done in 1335ms
+@knorvia/bootstrap:build: src/protocol/message-info-projection.ts(19,3): error TS2322: Type '["role", () => string]' is not assignable to type 'readonly ["metadata", (source: UserMessageInfo) => Record<string, unknown> | undefined] | readonly ["sessionId", (source: UserMessageInfo) => string] | ... 10 more ... | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["role", () => string]' is not assignable to type 'readonly ["role", (source: UserMessageInfo) => "user"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"user"'.
+@knorvia/bootstrap:build: src/protocol/message-info-projection.ts(50,3): error TS2322: Type '["role", () => string]' is not assignable to type 'readonly ["error", (source: AssistantMessageInfo) => Record<string, unknown> | undefined] | readonly ["path", (source: AssistantMessageInfo) => { ...; }] | ... 11 more ... | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["role", () => string]' is not assignable to type 'readonly ["role", (source: AssistantMessageInfo) => "assistant"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"assistant"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(36,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TextPart) => "text"] | readonly ["metadata", (source: TextPart) => Record<string, unknown> | undefined] | readonly ["text", (source: TextPart) => string] | readonly [...] | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TextPart) => "text"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"text"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(44,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ReasoningPart) => "reasoning"] | readonly ["metadata", (source: ReasoningPart) => Record<string, unknown> | undefined] | readonly ["text", (source: ReasoningPart) => string]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ReasoningPart) => "reasoning"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"reasoning"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(53,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: FilePart) => "file"] | readonly ["metadata", (source: FilePart) => Record<string, unknown> | undefined] | readonly ["url", (source: FilePart) => string] | readonly [...] | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: FilePart) => "file"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"file"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(64,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ToolPart) => "tool"] | readonly ["metadata", (source: ToolPart) => Record<string, unknown> | undefined] | readonly ["state", (source: ToolPart) => { ...; } | ... 2 more ... | { ...; }] | readonly [...] | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: ToolPart) => "tool"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"tool"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(71,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepStartPart) => "step-start"] | readonly ["snapshot", (source: StepStartPart) => string | undefined]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepStartPart) => "step-start"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"step-start"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(81,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepFinishPart) => "step-finish"] | readonly ["snapshot", (source: StepFinishPart) => string | undefined] | readonly ["tokens", (source: StepFinishPart) => { ...; }] | readonly [...] | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StepFinishPart) => "step-finish"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"step-finish"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(88,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SnapshotPart) => "snapshot"] | readonly ["snapshot", (source: SnapshotPart) => string]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SnapshotPart) => "snapshot"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"snapshot"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(96,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: PatchPart) => "patch"] | readonly ["files", (source: PatchPart) => string[]] | readonly ["hash", (source: PatchPart) => string]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: PatchPart) => "patch"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"patch"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(106,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: CompactionPart) => "compaction"] | readonly ["metadata", (source: CompactionPart) => Record<string, unknown> | undefined] | readonly [...] | readonly [...] | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: CompactionPart) => "compaction"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"compaction"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(118,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SubtaskPart) => "subagent"] | readonly ["description", (source: SubtaskPart) => string] | readonly ["agent", (source: SubtaskPart) => string] | readonly [...] | readonly [...] | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: SubtaskPart) => "subagent"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"subagent"'.
+@knorvia/bootstrap:build: src/protocol/message-part-projection.ts(125,7): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["name", (source: AgentPart) => string] | readonly ["type", (source: AgentPart) => "agent"]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: AgentPart) => "agent"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"agent"'.
+@knorvia/bootstrap:build: src/protocol/message-timeline-projection.ts(105,3): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StoredTimeline) => "timeline"] | readonly ["trigger", (source: StoredTimeline) => "auto" | "partial" | "manual" | "reactive" | "session_memory" | undefined] | ... 26 more ... | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: StoredTimeline) => "timeline"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"timeline"'.
+@knorvia/bootstrap:build: src/protocol/session-event-projection.ts(191,3): error TS2322: Type '["type", (input: Envelope) => "session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | ... 17 more ... | "streamRecovery.updated"]' is not assignable to type 'readonly ["type", (source: Envelope) => "session.created"] | readonly ["type", (source: Envelope) => "session.resumed"] | readonly ["type", (source: Envelope) => "session.updated"] | ... 221 more ... | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", (input: Envelope) => "session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | ... 17 more ... | "streamRecovery.updated"]' is not assignable to type 'readonly ["type", (source: Envelope) => "session.created"] | readonly ["type", (source: Envelope) => "session.resumed"] | readonly ["type", (source: Envelope) => "session.updated"] | ... 21 more ... | readonly [...]'.
+@knorvia/bootstrap:build:     Type '["type", (input: Envelope) => "session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | ... 17 more ... | "streamRecovery.updated"]' is not assignable to type 'readonly ["type", (source: Envelope) => "streamRecovery.updated"]'.
+@knorvia/bootstrap:build:       Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:         Type '"session.created" | "session.resumed" | "session.updated" | "session.titleUpdated" | "session.closed" | "turn.started" | "turn.steerQueued" | "turn.steerDrained" | "turn.completed" | ... 15 more ... | "streamRecovery.updated"' is not assignable to type '"streamRecovery.updated"'.
+@knorvia/bootstrap:build:           Type '"session.created"' is not assignable to type '"streamRecovery.updated"'.
+@knorvia/bootstrap:build: src/protocol/session-state-projection.ts(118,3): error TS2322: Type '["kind", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"] | readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"] | ... 4 more ... | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["kind", () => string]' is not assignable to type 'readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"synthetic"'.
+@knorvia/bootstrap:build: src/protocol/session-state-projection.ts(119,3): error TS2322: Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"] | readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"] | ... 4 more ... | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["type", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"goal_verification"'.
+@knorvia/bootstrap:build: src/protocol/session-state-projection.ts(120,3): error TS2322: Type '["display", () => string]' is not assignable to type 'readonly ["type", (source: TargetCompletionVerificationProjectionInfo) => "goal_verification"] | readonly ["kind", (source: TargetCompletionVerificationProjectionInfo) => "synthetic"] | ... 4 more ... | readonly [...]'.
+@knorvia/bootstrap:build:   Type '["display", () => string]' is not assignable to type 'readonly ["display", (source: TargetCompletionVerificationProjectionInfo) => "separator"]'.
+@knorvia/bootstrap:build:     Type at position 1 in source is not compatible with type at position 1 in target.
+@knorvia/bootstrap:build:       Type 'string' is not assignable to type '"separator"'.
+@knorvia/bootstrap:build:  ELIFECYCLE  Command failed with exit code 2.
+ ERROR  @knorvia/bootstrap#build: command (/workspace/knorvia-studio/apps/cli/packages/bootstrap) /tmp/knorvia-validation-tools/bin/pnpm run build exited (2)
+
+ Tasks:    14 successful, 15 total
+Cached:    4 cached, 15 total
+  Time:    42.037s 
+Failed:    @knorvia/bootstrap#build
+
+ ERROR  run failed: command  exited (2)
+ ELIFECYCLE  Command failed with exit code 2.

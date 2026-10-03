@@ -1,0 +1,431 @@
+{
+  "acceptedPredecessor": "77a9b3f337935e6d2cce8207952cb936633d5c25",
+  "records": [
+    {
+      "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+      "currentSha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+      "bytes": 8769,
+      "inventory": {
+        "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+        "kind": "file",
+        "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+        "normalizedSha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+        "encoding": "utf8-lf",
+        "bytes": 8769,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "exactOldReceiptRecords": [
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4700]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "kind": "file",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "normalizedSha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "encoding": "utf8-lf",
+            "bytes": 8769,
+            "classification": "unreviewed",
+            "upstream": null,
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        },
+        {
+          "file": "licensing/evidence/repository-migration-scope-20260930.json",
+          "location": "$.files[1826]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "classification": "unreviewed",
+            "nextDecision": "missing-origin-review-do-not-assume-rewrite",
+            "localDeclaredThirdParty": []
+          }
+        },
+        {
+          "file": "packages/provider/docs/MANUAL-FIELDS-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[3]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/ACCOUNT-PROJECTION-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[3]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBindings.retained[3]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "byteIdenticalToPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[3]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/PROVIDER-MAP-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[3]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/REGISTRY-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[3]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[3]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+            "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        }
+      ],
+      "history": "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI\n7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "EProofAt": "57f53ec44bb19e550f76dac41e771fe5bb3aafbe",
+      "ESelectedRow": {
+        "upstreamBinding": {
+          "requestIndex": 2,
+          "path": "packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+          "bytes": 8675,
+          "sha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+          "normalizedSha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+          "gitBlob": "016b3351edf2fae219bf33c36a6cd6f09c019495",
+          "connectorSha": "016b3351edf2fae219bf33c36a6cd6f09c019495",
+          "fixedMetadataMatch": true,
+          "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+          "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/zcode-builtin-provider-config-source.ts"
+        },
+        "currentBinding": {
+          "path": "packages/provider-node/src/builtin-provider-config-source.ts",
+          "bytes": 8769,
+          "sha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+          "gitBlob": "16e9a3317139517e548db4039b52e8ea29151666"
+        },
+        "comparison": {
+          "upstreamPath": "packages/provider-node/src/zcode-builtin-provider-config-source.ts",
+          "currentPath": "packages/provider-node/src/builtin-provider-config-source.ts",
+          "appliedSubstitutions": [
+            {
+              "from": "ZCode",
+              "to": "Knorvia",
+              "count": 33
+            },
+            {
+              "from": "@zcode/",
+              "to": "@knorvia/",
+              "count": 2
+            },
+            {
+              "from": "zcode-builtin",
+              "to": "builtin",
+              "count": 2
+            },
+            {
+              "from": "Knorvia Built-in",
+              "to": "Knorvia Studio Built-in",
+              "count": 3
+            }
+          ],
+          "upstreamSha256": "3689e5de263d34375507d8dc79ad32cfb5be634649bb591e7e01c847e673a410",
+          "mappedSha256": "88fc4821acff3a282785009eeead395546e8672dbb1f0f2dbdcae79407e98b68",
+          "initialSha256": "88fc4821acff3a282785009eeead395546e8672dbb1f0f2dbdcae79407e98b68",
+          "currentSha256": "5fc4068a83d7e8f9cec29ffd3e519b79533b5d6a13599f056cf9f06e6f70cab3",
+          "mappedByteEqualsInitial": true,
+          "mappedByteEqualsCurrent": false,
+          "mappedAstSha256": "1dccdc6f9cac8f1db05e16014403f7c253b5306f88ab41d9e4020510634d0fc6",
+          "initialAstSha256": "1dccdc6f9cac8f1db05e16014403f7c253b5306f88ab41d9e4020510634d0fc6",
+          "currentAstSha256": "1dccdc6f9cac8f1db05e16014403f7c253b5306f88ab41d9e4020510634d0fc6",
+          "mappedAstEqualsInitial": true,
+          "mappedAstEqualsCurrent": true,
+          "currentAstEqualsInitial": true,
+          "currentAndInitialByteEqual": false
+        },
+        "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+        "remainingSourceRelationUnknown": false,
+        "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+        "DTechnicalSelectionOnly": {
+          "publicSurfaceNames": [
+            "NodeKnorviaBuiltinProviderConfigSource.read",
+            "applyRemoteRelease",
+            "onDidChange",
+            "dispose",
+            "createNodeKnorviaBuiltinProviderConfigSource"
+          ],
+          "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+        },
+        "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+      },
+      "localRootSha256": "88fc4821acff3a282785009eeead395546e8672dbb1f0f2dbdcae79407e98b68",
+      "localRootMatchesPinnedEInitial": true,
+      "qualification": "Pinned public E proof metadata only, no raw publisher body/payload or source imported. Exact blob/SHA/fixed-ref success by E, local current/root binding recomputed; source/current AST after explicit identity mapping is upstream-derived, not new independent/MIT/rights proof. Old inventory upstreamnull/unreviewed stays historical; exact-source-relation HOLD only selected paths closed."
+    },
+    {
+      "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+      "currentSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+      "bytes": 7804,
+      "inventory": {
+        "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+        "kind": "file",
+        "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "normalizedSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+        "encoding": "utf8-lf",
+        "bytes": 7804,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "exactOldReceiptRecords": [
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4702]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "kind": "file",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "normalizedSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "encoding": "utf8-lf",
+            "bytes": 7804,
+            "classification": "unreviewed",
+            "upstream": null,
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        },
+        {
+          "file": "licensing/evidence/repository-migration-scope-20260930.json",
+          "location": "$.files[1828]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "classification": "unreviewed",
+            "nextDecision": "missing-origin-review-do-not-assume-rewrite",
+            "localDeclaredThirdParty": []
+          }
+        },
+        {
+          "file": "packages/provider/docs/MANUAL-FIELDS-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[5]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/ACCOUNT-PROJECTION-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[5]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBindings.retained[5]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "byteIdenticalToPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[5]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/PROVIDER-MAP-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[5]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-ORIGIN-20261003.json",
+          "location": "$.excludedCandidates[0]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "reason": "Inventory unreviewed/upstreamnull; retained in accepted receipts, lineage remains unknown. Missing receipt is not upstream inference; not forced as secondowner."
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/REGISTRY-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[5]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.origin.excludedCandidates[0]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "reason": "Inventory unreviewed/upstreamnull; retained in accepted receipts, lineage remains unknown. Missing receipt is not upstream inference; not forced as secondowner."
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[5]",
+          "record": {
+            "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+            "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        }
+      ],
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "EProofAt": "57f53ec44bb19e550f76dac41e771fe5bb3aafbe",
+      "ESelectedRow": {
+        "upstreamBinding": {
+          "requestIndex": 4,
+          "path": "packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+          "bytes": 7773,
+          "sha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+          "normalizedSha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+          "gitBlob": "ad6842fccb0b82a36c5fe596dba8c0714169f568",
+          "connectorSha": "ad6842fccb0b82a36c5fe596dba8c0714169f568",
+          "fixedMetadataMatch": true,
+          "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+          "localScratch": "/tmp/knorvia-provider-builtin-fixed-20261003/zcode-builtin-remote-synchronizer.ts"
+        },
+        "currentBinding": {
+          "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+          "bytes": 7804,
+          "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+          "gitBlob": "c7cdadcc95aa3262943ea56023518007db322fce"
+        },
+        "comparison": {
+          "upstreamPath": "packages/provider-node/src/zcode-builtin-remote-synchronizer.ts",
+          "currentPath": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+          "appliedSubstitutions": [
+            {
+              "from": "ZCode",
+              "to": "Knorvia",
+              "count": 17
+            },
+            {
+              "from": "@zcode/",
+              "to": "@knorvia/",
+              "count": 1
+            },
+            {
+              "from": "zcode-builtin",
+              "to": "builtin",
+              "count": 2
+            },
+            {
+              "from": "Knorvia Built-in",
+              "to": "Knorvia Studio Built-in",
+              "count": 1
+            }
+          ],
+          "upstreamSha256": "b6f5e94c15630ff1262899be3cfa3350bccc858756b1acd16628099c95658a96",
+          "mappedSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+          "initialSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+          "currentSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+          "mappedByteEqualsInitial": true,
+          "mappedByteEqualsCurrent": true,
+          "mappedAstSha256": "26459843cb66f890496cd2665fac2c48a7b3c01eae78c9bc7ef61469e9bc1a79",
+          "initialAstSha256": "26459843cb66f890496cd2665fac2c48a7b3c01eae78c9bc7ef61469e9bc1a79",
+          "currentAstSha256": "26459843cb66f890496cd2665fac2c48a7b3c01eae78c9bc7ef61469e9bc1a79",
+          "mappedAstEqualsInitial": true,
+          "mappedAstEqualsCurrent": true,
+          "currentAstEqualsInitial": true,
+          "currentAndInitialByteEqual": true
+        },
+        "classification": "KNOWN_UPSTREAM_DERIVED_IDENTITY_MODIFICATIONS_AND_FORMATTING",
+        "remainingSourceRelationUnknown": false,
+        "retentionAction": "Retain applicable existing upstream/source lineage and attribution; current file is not a newly independent implementation. No global license record is edited.",
+        "DTechnicalSelectionOnly": {
+          "publicSurfaceNames": ["KnorviaBuiltinRemoteSynchronizer.refresh", "dispose"],
+          "candidateRule": "These exact source/API names may identify a bounded whole-owner reconstruction target if root allocates it separately. Need complete body-free contract and independently frozen candidate then comparison; fetched original code is curator-only, not author input. No candidate or assignment created by this source review."
+        },
+        "qualification": "AST after explicitly listed product/package/path/endpoint/schema-constant/diagnostic substitutions has no remaining structural difference. Runtime behavior not executed; no code originality/MIT or legal compatibility inference."
+      },
+      "localRootSha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+      "localRootMatchesPinnedEInitial": true,
+      "qualification": "Pinned public E proof metadata only, no raw publisher body/payload or source imported. Exact blob/SHA/fixed-ref success by E, local current/root binding recomputed; source/current AST after explicit identity mapping is upstream-derived, not new independent/MIT/rights proof. Old inventory upstreamnull/unreviewed stays historical; exact-source-relation HOLD only selected paths closed."
+    }
+  ],
+  "setup": [
+    {
+      "command": ["node", "scripts/check-workspace-freshness.mjs", "--no-fetch"],
+      "exit": 0,
+      "log": "/tmp/knorvia-builtin-lifecycles-20261003/setup-0.log",
+      "sha256": "0fd9f1f5666d9555cada84a660c467b2b43c08a2fe1f7275f9136b78760eb720"
+    },
+    {
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "check", "--changed"],
+      "exit": 0,
+      "log": "/tmp/knorvia-builtin-lifecycles-20261003/setup-1.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/architecture/architecture-check.mjs",
+        "context",
+        "provider-node"
+      ],
+      "exit": 0,
+      "log": "/tmp/knorvia-builtin-lifecycles-20261003/setup-2.log",
+      "sha256": "41c786dd797ff773cf7a4cae05b5bbc3f682e090595bdf80f7d5d0cbfe3433c6"
+    }
+  ],
+  "scope": "Complete two separate builtin cache-source and remote lease/refresh module owners. No root download/release/codec/personal/resolver or other E sources/globals changed.",
+  "selection": {
+    "owners": "Two separate complete lifecycle chapters: cache-source class/factory/all candidate/materialization/watch helpers; remote coalescing/lease-generation/control read/write/validation/backoff/abort/report owner class/all helpers.",
+    "retained": "Exact import/options/type/interface prefixes including HOUR_MS and persistent RefreshControl schema. Mechanical public projections/type/data/default/source-linkage not originality counted; root download/release/codec/personal/resolver and other E source/globals unchanged.",
+    "screen": "9/11 exact local old records inventory/retention and all-ref history; no positive accepted complete implementation/conflicting current version in available evidence. Pinned E source-relation proof current/root recomputed confirms known upstream derivation and supersedes only selected exact-relation UNKNOWN, not historical unavailable local objects/rights or global inventory edits.",
+    "exposure": "Source-exposed coordinator read both current bodies and pinned E public metadata only. No raw upstream source/connector payload/E source import, no author access beyond frozen full behavior/API."
+  }
+}

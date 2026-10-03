@@ -1,0 +1,357 @@
+{
+  "formatVersion": 1,
+  "baseline": "a1d8e7157e97762c78a5ab0835a63a29c6e38967",
+  "freeze": "b4c401ce97e2ffb3a68f752077dcf6b1abce8935",
+  "implementation": "608a8f2793af86489fd488ed023e0cbeb2b0eb38",
+  "sourceExposure": true,
+  "wholeFileRightsDecision": null,
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet.ts",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-baseline.json",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-contract.json",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-current.json",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-fixture.ts",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution.test.ts",
+    "apps/cli/packages/core/test/eval-workflow-snippet-business-contract.json",
+    "apps/cli/packages/core/test/eval-workflow-snippet-business.test.ts",
+    "specs/knorvia-eval-workflow-snippet-execution.md",
+    "docs/knorvia-cli-snippet-execution-handoff-20261002.md",
+    "docs/evidence/knorvia-cli-snippet-execution-check-20261002.mjs",
+    "docs/evidence/knorvia-cli-snippet-execution-20261002.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/eval-workflow-snippet.ts",
+      "bytes": 12875,
+      "sha256": "b3edb9f7f60ef319b47b6e6c3d70fcb9a0be6cb7e0a441dbf84062483b376364"
+    },
+    {
+      "path": "apps/cli/packages/core/test/eval-workflow-snippet-execution-baseline.json",
+      "bytes": 6378,
+      "sha256": "6cdac05b60077edb212e27e84f49307956a68a8972acbe01965f5439df30e9cd"
+    },
+    {
+      "path": "apps/cli/packages/core/test/eval-workflow-snippet-execution-contract.json",
+      "bytes": 3289,
+      "sha256": "b85de657454cd9caa9ae961634d40121a6f70c2962a39b7ee4789fcd85e9ee65"
+    },
+    {
+      "path": "apps/cli/packages/core/test/eval-workflow-snippet-execution-current.json",
+      "bytes": 267,
+      "sha256": "479f9458853b0b1eef2499830259bb1aad3e2cb0b9c13e091270d882ab2b2992"
+    },
+    {
+      "path": "apps/cli/packages/core/test/eval-workflow-snippet-execution-fixture.ts",
+      "bytes": 10869,
+      "sha256": "5944146d40d5271c2e290ea59c3c04d2c42fa3d191fe2b95f1805af7195e707e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/eval-workflow-snippet-execution.test.ts",
+      "bytes": 7008,
+      "sha256": "9df51a1cf855a4948be6156ad60657b87863579c4012f70b94f20530db34242b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/eval-workflow-snippet-business-contract.json",
+      "bytes": 511,
+      "sha256": "9ef61b06ec43f76a349f37d8eefafaefaf140e8a3f2e1f1f997aa8dffb1571f8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/eval-workflow-snippet-business.test.ts",
+      "bytes": 1749,
+      "sha256": "7e174494435927dca6df0744c419b32e788b5886f0662192815a9924d96bc8e1"
+    },
+    {
+      "path": "specs/knorvia-eval-workflow-snippet-execution.md",
+      "bytes": 3217,
+      "sha256": "050e336b7ce56aa4b94baa1128d5c6c4a2764a0f5d499219f7dd192c5a0fe7a2"
+    },
+    {
+      "path": "docs/knorvia-cli-snippet-execution-handoff-20261002.md",
+      "bytes": 5338,
+      "sha256": "8ee7c99850042d35dcbae719be0d5adb8a1c45e9fbc0ed5099689131bdc6a2c7"
+    },
+    {
+      "path": "docs/evidence/knorvia-cli-snippet-execution-check-20261002.mjs",
+      "bytes": 4877,
+      "sha256": "c0ed7cbd510838a6b4463c69001cc8bac184559f2621781dc4a9543dbe8098b4"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/eval-workflow-snippet.js",
+      "bytes": 12613,
+      "sha256": "2dde72486d194b1f39ef28e7656f208cc9ddd1f849be3d60735d601b48ac5535"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/eval-workflow-snippet.d.ts",
+      "bytes": 159,
+      "sha256": "dc79d8aae42cd429e2d32bbe65cd8966f2d40eb427073508c1b10e375bb54889"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/eval-workflow-snippet.d.ts.map",
+      "bytes": 242,
+      "sha256": "a5df6955fbc40b03e358845bd15b6b3ba6b028f16f7e5389e0efb51a3fae4628"
+    }
+  ],
+  "testRoots": [
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-fixture.ts",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution.test.ts",
+    "apps/cli/packages/core/test/eval-workflow-snippet-business.test.ts"
+  ],
+  "immutableFreeze": [
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-baseline.json",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-contract.json",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution-fixture.ts",
+    "apps/cli/packages/core/test/eval-workflow-snippet-execution.test.ts",
+    "specs/knorvia-eval-workflow-snippet-execution.md"
+  ],
+  "protected": {
+    "sourceHeaderSha256": "d00e819ab0a842d54647a2e94f7738f233610d61edf1e49097c60b1e2f3f9b89",
+    "sourceTailSha256": "d2a8bff487b825fd743c6437121ee528101ef13158866cf8a38aa720d52a78df",
+    "invocationThroughEndClock": "byte-identical to baseline; original single await and both Date.now calls",
+    "lowerLogsTraceApprovalSha256": "b3c0f0e4174eec924739e6b961e38ddaab6effb153766e9f9f97badbf5c130de",
+    "publicDeclarationSha256": "dc79d8aae42cd429e2d32bbe65cd8966f2d40eb427073508c1b10e375bb54889",
+    "outsideScope": "git diff from exact baseline must contain only scope paths; this protects graph source/pins, old receipts and shared owners"
+  },
+  "design": "One synchronous terminal frame with own fields replaces three independent payload constructions. Diagnostic and execution branches assign their original array references and response text in frozen read phases. Handler retains schema/location/admission, receiver-bound request, single await and clocks; executor owns deadline, events and telemetry.",
+  "lineage": {
+    "localHistory": ["7619e41 initial snapshot", "88001f0 formatting"],
+    "inventoryStatus": "upstream-modified/unreviewed historical register",
+    "baselineSourceSha256": "45ad645856a4dfc652e2e415ec918e3174927c943f992f5d40c4dda565a6ab40",
+    "publisherPath": "apps/zcode-cli/packages/core/src/tool/handlers/eval-workflow-snippet.ts",
+    "publisherBlob": "e49f1cbdb91459ff9a59865f027b7410a56a5227",
+    "publisherNormalizedSha256": "8f31358b9a98dd514809206a14f5e02bbf2b075d9cc111c079b615825944ae6c",
+    "publisherAcquisition": "Not independently acquired or verified in this checkpoint; recorded inventory facts only."
+  },
+  "expression": {
+    "newStructure": "Common complete own-property terminal frame, branch assignments and synchronous result owner. Bounded contribution, no whole-file originality conclusion.",
+    "retained": [
+      "Invocation/admission/request construction and source validation/resolution",
+      "Compiler approval calls, diagnostic/command guards and inherited explanatory prose",
+      "Trace fallback and logs helper",
+      "Fixed schemas/declarations/descriptions/metadata/permissions and runtime text",
+      "Kind guards, diagnostic/log reads, formatting arrays/spreads/joins, serializer call and template expressions",
+      "Historical archive code/comments and observed outputs; existing test-infrastructure fixture patterns"
+    ],
+    "commentChange": "Removed only the old non-runtime completed-result explanatory comment from the replaced projection. No runtime prose or public declaration change.",
+    "candidateStatus": "mixed; root expression/rights review unresolved; attribution and existing obligations retained",
+    "acceptanceCriteria": "docs/knorvia-mit-review-acceptance-criteria-20260930.md; source exposure is disclosure, not permanent disqualification"
+  },
+  "checks": {
+    "freeze": {
+      "source": {
+        "groups": 6,
+        "pass": 6
+      },
+      "emitted": {
+        "groups": 6,
+        "pass": 6
+      },
+      "thenableAppend": {
+        "sourceGroups": 1,
+        "emittedGroups": 1,
+        "overlap": "same call-runner group, adding two cases; not two extra unique groups"
+      }
+    },
+    "final": {
+      "sourceExecution": {
+        "groups": 6,
+        "pass": 6,
+        "fail": 0
+      },
+      "sourceExistingDisplay": {
+        "groups": 5,
+        "pass": 5,
+        "fail": 0
+      },
+      "emittedExecution": {
+        "groups": 6,
+        "pass": 6,
+        "fail": 0
+      },
+      "businessAppendSource": {
+        "groups": 1,
+        "pass": 1,
+        "fail": 0
+      },
+      "businessAppendEmitted": {
+        "groups": 1,
+        "pass": 1,
+        "fail": 0
+      },
+      "uniqueOwnedGroups": 7,
+      "overlap": "All seven owned groups are run in both modes; five existing display groups run in source. Appended business tests did not repeat the completed execution/display runs.",
+      "casesWithinGroups": {
+        "directObservations": 20,
+        "approvalInputs": 6,
+        "callRunnerModes": 12,
+        "concurrentCalls": 2,
+        "staleCompletion": 1,
+        "appendedBusinessOutcomes": 3
+      }
+    },
+    "types": {
+      "typescript": "6.0.2",
+      "ownerAndExecutionRoots": 3,
+      "appendedRootSet": 4,
+      "correctedBusinessRoot": 1,
+      "diagnostics": 0,
+      "config": "apps/cli/packages/core/tsconfig.json; noEmit, rootDir undefined"
+    },
+    "emission": {
+      "typescript": "6.0.2",
+      "roots": 1,
+      "diagnostics": 0,
+      "written": 3,
+      "config": "unchanged actual core tsconfig; allowlisted handler JS/declaration/map only"
+    },
+    "lint": {
+      "ownedFiles": 4,
+      "rules": 94,
+      "errors": 0,
+      "warnings": 2,
+      "warningReason": "intentional owned queued/hostile thenables; no rule suppression",
+      "config": "/tmp/knorvia-websearch-owned-oxlint.json",
+      "ownedEvidenceFiles": 1
+    },
+    "architecture": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    "format": {
+      "files": 12,
+      "pass": true
+    },
+    "diff": "git diff --check passed",
+    "toolchain": {
+      "node": "24.14.0",
+      "typescript": "6.0.2",
+      "pnpm": "10.33.2",
+      "oxlint": "1.60.0",
+      "oxfmt": "0.41.0"
+    }
+  },
+  "fixtureCorrections": [
+    {
+      "stage": "initial freeze source/emitted",
+      "countsEach": {
+        "pass": 5,
+        "fail": 1
+      },
+      "assertion": "handlers.evalWorkflowSnippetToolEntry === current",
+      "actual": "undefined; actual API is builtInTools/registerBuiltInTools",
+      "correction": "Actual built-in entry membership, enabled/disabled registration and registry identity; before freeze commit",
+      "logs": [
+        {
+          "path": "/tmp/knorvia-snippet-freeze-source.log",
+          "sha256": "b4b724125806da91fa66867a77c11a547e3026ad1cef98dbf80dfe454d0302a8"
+        },
+        {
+          "path": "/tmp/knorvia-snippet-freeze-emitted.log",
+          "sha256": "51fc19b5510c627d59748aa1bd7a8916d94a857a3da618099a9e723e4ba0144f"
+        }
+      ]
+    },
+    {
+      "stage": "initial fixture type check",
+      "error": "TS2322 string not assignable to TraceId",
+      "correction": "Synthetic trace explicitly typed as the existing TraceContext",
+      "log": {
+        "path": "/tmp/knorvia-snippet-freeze-types.log",
+        "sha256": "3184c31c267136bf8dbfd2f52857f01cd005b82163b57e2d209b4915b040b860"
+      }
+    },
+    {
+      "stage": "appended business fixture source/emitted",
+      "countsEach": {
+        "pass": 0,
+        "fail": 1
+      },
+      "assertion": "event.type === \"tool.call.result\"",
+      "correction": "Exact public SessionEventType.ToolCallResult/ToolCallError constants; original output hashes unchanged",
+      "logs": [
+        {
+          "path": "/tmp/knorvia-snippet-business-final-source.log",
+          "sha256": "35d1d54f2b228b61d01fcf31765adf684de574ddb5e6a7a82f20707313f409fa"
+        },
+        {
+          "path": "/tmp/knorvia-snippet-business-final-emitted.log",
+          "sha256": "b20e892fc4ec3b71aca33287bb17871569007dc1a347e613f63577c0c9d9d148"
+        }
+      ]
+    },
+    {
+      "stage": "receipt digest manifest",
+      "error": "Incorrect execution-test.ts path failed closed at git show of the freeze commit",
+      "correction": "Exact execution.test.ts path; no hash, scope or assertion bypass",
+      "log": {
+        "path": "/tmp/knorvia-snippet-final-digest.log",
+        "sha256": "9a38eefcd06e536ed5e0b278500b9d3aba8f8ed0b44b1c4b72c4937728d6682d"
+      }
+    }
+  ],
+  "finalLogs": [
+    {
+      "path": "/tmp/knorvia-snippet-final-source.log",
+      "sha256": "f54898b5960a2eef3324d0b393a29a376b0aa3a606caaeb661308d8a1014b697"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-final-emitted.log",
+      "sha256": "c5be027018e23b89d328b060f05ac52b445cc08b5e076e36df0762abd8f6f203"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-business-final-source-corrected.log",
+      "sha256": "22b330376a95cb4add699b7cf7c760bdde08c67aa5c9d1ce0babe1b9268382ee"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-business-final-emitted-corrected.log",
+      "sha256": "b86e98d5dc305bb0970500fc2f0a6aaf7e93b014bafe7a91f5632326225583bc"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-final-types.log",
+      "sha256": "fb2a6a4b3be130beef5a71a646547114c38fd7877c297c1567264b84532ef680"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-final-types-appended.log",
+      "sha256": "21cb817cee591f0c5bdf20c2c72546e3d60e45ee8c3a42f3ad7fbdea7fa899af"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-business-types-corrected.log",
+      "sha256": "b8210dad0c10f9b3ae38bb533ba373359c81732df845a5edf3e6cef5dd491b21"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-final-emit.log",
+      "sha256": "6732e88f8a05c93c989657267617d4af42bb399259f2eb04c566cc843761dd1e"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-final-lint.log",
+      "sha256": "37a640b42871de540c3649fd446990c615835a459668b03744dddfeb92d25fa6"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-business-final-lint-corrected.log",
+      "sha256": "41a2c3498b647fef7b947872c82565d77e897c74d8d98c2a72493c2417f77a15"
+    },
+    {
+      "path": "/tmp/knorvia-snippet-final-architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "commands": [
+    "node --import tsx --test apps/cli/packages/core/test/eval-workflow-snippet-execution.test.ts apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/eval-workflow-snippet-execution.test.ts",
+    "node --import tsx --test apps/cli/packages/core/test/eval-workflow-snippet-business.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/eval-workflow-snippet-business.test.ts",
+    "node docs/evidence/knorvia-cli-snippet-execution-check-20261002.mjs",
+    "node docs/evidence/knorvia-cli-snippet-execution-check-20261002.mjs --types (reproducible scoped type gate)",
+    "node docs/evidence/knorvia-cli-snippet-execution-check-20261002.mjs --emit (reproducible allowlisted actual emission)",
+    "node scripts/architecture/architecture-check.mjs check --changed"
+  ],
+  "limits": [
+    "No native harness/process/sandbox or Windows/desktop acceptance",
+    "No aggregate build/full suite per user cadence; root owns aggregate/native gates",
+    "Compiler analyses synthetic code in virtual host; all snippet/clock/approval ports fake, no source-file reads or real effects",
+    "No independent publisher authorship/rights verification or whole-file licence grant",
+    "Old source exposure/attribution/obligations and historical lane licensing registers remain untouched"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "sourceExposed": true,
+  "initialDraftUnchanged": true,
+  "typeOnlyCopy": "Two unknown-to-object assertions solely allow strict compilation of the wrong accepted/reason expressions; emitted runtime equality is separately checked. Not a production candidate.",
+  "runtimeCorrections": [
+    "Use TurnSteerResult.kind===rejected; existing contract explicitly specified it.",
+    "Notification log trace is input.traceContext, not ambient/root.",
+    "Remove initial config cache and reread runtime.config at original phases, including after reentrant registration replacement."
+  ],
+  "policyChange": false,
+  "authorAccessLogQualification": "Author log claims contract omitted result discriminator and positional callback; the packet explicitly supplies both. The inaccurate assumption is retained as author-reported, not accepted curator fact. Only two body-free files were authorized; no predecessor content was supplied.",
+  "inputHashesAtSeal": {
+    "contract.md": "e518367043d16ffbeb2a1d476335004d5ff27f65c5a50f75a444ce448b08e24f",
+    "imports.txt": "e8a8ff8d8b4c3f9cecf12b6a25ecbd6bc6f3768d81d3f26b866f2cf8687d37af"
+  },
+  "packetFormattingLimit": "Contract formatting occurred while author was active; initial-read hash was not observed. Both before-format and sealed-final packet bytes are preserved. Differences are whitespace/Markdown formatting; no predecessor bodies were supplied."
+}

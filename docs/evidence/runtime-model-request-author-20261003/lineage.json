@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+  "kind": "file",
+  "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80",
+  "normalizedSha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80",
+  "encoding": "utf8-lf",
+  "bytes": 19728,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/model.ts",
+    "blob": "fc8721ea1b135731d56ade75bb10f51bbb35be67",
+    "normalizedSha256": "aa63a3fab505f558ee95e503c02c600d6b60c84543b03c027b57716ab34dbc4f",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

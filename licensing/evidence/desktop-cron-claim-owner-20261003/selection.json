@@ -1,0 +1,39 @@
+{
+  "baseHead": "89382dab9a909e7317bbcc2d8e923a37e075c839",
+  "selected": {
+    "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+    "sha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+    "bytes": 4023,
+    "lines": 131,
+    "inventory": {
+      "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+      "kind": "file",
+      "sha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+      "normalizedSha256": "4abdf9ac019702363132961be4a4f664928f9b056cc6426fea9fe13cfbc2b539",
+      "encoding": "utf8-lf",
+      "bytes": 4023,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+        "blob": "c003ecce1d750543ac8a1e0e09cbf7ac5ecce16d",
+        "normalizedSha256": "f838d4f5fab11de37cc13ad8b2166da557785cea83ba2281b1bd6778876ec54e",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    "reviews": [],
+    "priorScreen": "licensing/evidence/server-next-owner-screen-20261003/desktop-next-candidates.json",
+    "history": [
+      "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+      "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+    ]
+  },
+  "acceptedExactCronReceiptLocated": false,
+  "boundedAbsenceNotPrivateAbsence": true,
+  "parentExplicitAllocation": "Only cronRunLifecycle complete owner; preserve A core scheduler and all original auth/lease/terminal/error semantics",
+  "sourceExposure": "Curator read current full owner and bounded direct consumer/type surfaces; author gets no inherited body"
+}

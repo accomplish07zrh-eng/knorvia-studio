@@ -1,0 +1,255 @@
+{
+  "recordedAtUtc": "2026-10-02T20:40:25.512713+00:00",
+  "baseline": "947293ff4ba966358642c7b6f549f609e03971e8",
+  "scopeCommit": "947293ff",
+  "sourceExposedCurator": true,
+  "instructionOnlyRestrictions": true,
+  "noAccessAuditOrOsIsolationClaim": true,
+  "sourceExposure": {
+    "targetBodies": [
+      "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts"
+    ],
+    "selectedDependencyDeclarationInputs": "public-extraction-record.json exactmetadata; no functionbodies emitted",
+    "incidentalBodies": "Memory/extraction first52lines (promptbuilder prefix), runtime/internal interface first35lines. Initial combined targetread tool result truncated between extraction/agent; exact omitted two targetfiles were read in a targeted followup. Prior broad/tool/dependency exposures remain qualified.",
+    "protectedAAndPermissionApis": "Opaque typeofpublicAPI andbytebindings only, no deliberate implementationread/parsing or authorscope overlap"
+  },
+  "scopes": {
+    "resolver": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/contract.md",
+          "bytes": 9318,
+          "sha256": "c02e27999fce6a3fcd072d2cc70da65a8aeec9477694fb3e91b81ab935b9f3da"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/public-api.d.ts",
+          "bytes": 1037,
+          "sha256": "8f8f4e462ad2f41ca0f5b095b69f59037d871b173349cfefbd73f702313f688b"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/dependency-api.d.ts",
+          "bytes": 3035,
+          "sha256": "b1b5aa9f2c9c4d7031b9073638e482f4e0df7d0f321ab110492cd0f4bec420c5"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/public-shapes.d.ts",
+          "bytes": 7046,
+          "sha256": "a542e666ee8893dd6298640cbd158203bb1482de2e80f4d3e5e0e708a317a353"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/imports.json",
+          "bytes": 2640,
+          "sha256": "f37d191e15beadcd7785c64bc3e5905d547c7d96cfbf6a883a29f8751feef969"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/resolver/output-data.json",
+          "bytes": 1936,
+          "sha256": "834ba7c7366dafe5196b572e764b0917ff1e67029fe2e6124a755648f90f0e8c"
+        }
+      ],
+      "extraPrivateSourcesAllowed": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/*.ts"
+    },
+    "extraction": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/contract.md",
+          "bytes": 6031,
+          "sha256": "c99c582581cdc24081e1cdfdd42814ddfc8bbfb7a99876f7a7e24242fe1d8dd3"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/public-api.d.ts",
+          "bytes": 904,
+          "sha256": "bb12978c68cbbc0dd03dd998919a5053465b261b47b06316bc718334bdb8ed29"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/dependency-api.d.ts",
+          "bytes": 4010,
+          "sha256": "e8be68ebf79829eddd1304af3b214452cd7caafc377c1284387d08bee81f7225"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/public-shapes.d.ts",
+          "bytes": 5612,
+          "sha256": "0da27b7a5a311bed9b6a554555651ad1e5f3accc0ed115e340d8ecf7fe8e7f1d"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/imports.json",
+          "bytes": 1980,
+          "sha256": "3c54540a86300b01473ad0940d868a05272d54d289038159b8630c7110425d43"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/extraction/output-data.json",
+          "bytes": 931,
+          "sha256": "18e1b78fa1a3c2ec2fa015427146653dbcc13b20566c7f449445db8695468115"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    },
+    "memory-agent": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/contract.md",
+          "bytes": 5369,
+          "sha256": "dc774c1810aa004141c369d73e68ca65980487f299e1003999d2d4e02b9ac93b"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/public-api.d.ts",
+          "bytes": 1383,
+          "sha256": "44a24122a5a8138ea1b91d41d28795a5723698b4bd631036187f2fbfc70b1ea7"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/dependency-api.d.ts",
+          "bytes": 5366,
+          "sha256": "bdb755763b6ce2ef61d654500fda23f57b3be45732bef3315986345ec912dada"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/public-shapes.d.ts",
+          "bytes": 5612,
+          "sha256": "0da27b7a5a311bed9b6a554555651ad1e5f3accc0ed115e340d8ecf7fe8e7f1d"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/imports.json",
+          "bytes": 2507,
+          "sha256": "3b3d9f2da50ffdc0817e6d6e0c82a2738400f40ec2a99c0d6f08716dc21700b8"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/output-data.json",
+          "bytes": 1361,
+          "sha256": "38092b45b7ae6be703949e10ddcc23c7806f8f925b80094e28c6df94914ddbad"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/memory-agent/qualified-return-contracts.d.ts",
+          "bytes": 324,
+          "sha256": "a4aaeee3d09dbe810c09056339d8fdaf9d80961a711fbc61538609e3d7cb29a9"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    },
+    "reminders": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/contract.md",
+          "bytes": 5216,
+          "sha256": "d2ec347fa334f98b535e8c4aa53fb0756ff2f5c953abd90b1544e2ac3c178f18"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/public-api.d.ts",
+          "bytes": 986,
+          "sha256": "208b573e8a4b2f73507b9b358b43b00f279c281277882f760c2ae71888ed5479"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/dependency-api.d.ts",
+          "bytes": 1462,
+          "sha256": "9d8edf1602021b9c42d02c4766a4251a6480baae770c40eb5f50e3444be37d7e"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/public-shapes.d.ts",
+          "bytes": 1570,
+          "sha256": "65ad4b76937a7c87b576685ac08f4770ceba5f88b937ee631cd53ae308b102b0"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/imports.json",
+          "bytes": 1392,
+          "sha256": "5fa84449000195d7207fc8cfdd2923e196c9af6b84ef664c7f0dcaf71ff434c8"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/output-data.json",
+          "bytes": 1363,
+          "sha256": "054d717a2c1b88498129908e585b30709307a245744e81f2cb61f954af9fedd8"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/retained-prose-data.json",
+          "bytes": 5963,
+          "sha256": "239d3c294e75358ba12dc27f952483d8ad7ace7162541ceff7455b710787f274"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/reminders/qualified-parameter-contracts.d.ts",
+          "bytes": 195,
+          "sha256": "660774052ec07fbbd4275c16bad8bfb12b6a2f014059364c90326379ff82658b"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    },
+    "turn-errors": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/contract.md",
+          "bytes": 6876,
+          "sha256": "09dd6dea92c41e5d0093973506cde054e039140c2a2fbba0214918900fa775ed"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/public-api.d.ts",
+          "bytes": 1369,
+          "sha256": "454bdaf51b17f300834fc9f68420d7599729af985c0ca6c3d7da8593e56f3add"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/dependency-api.d.ts",
+          "bytes": 1684,
+          "sha256": "bfe0c7f1ace8dd9a0cfffe069a0444fbae5f6e7fdc37381c70e975dbb8d8798f"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/public-shapes.d.ts",
+          "bytes": 6075,
+          "sha256": "b66c6d2ebef97ed8d85695db9b3bac64bfd292126c26c482d3e39700cee386e1"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/imports.json",
+          "bytes": 1451,
+          "sha256": "ae61332dd74590a6e33133819901e45021d3eb751092cc4bb624d4d6a9a06671"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/output-data.json",
+          "bytes": 1233,
+          "sha256": "cffd0016578f825b6eb97a735944c892e4bb333716f80920bdc324f70aaa173f"
+        },
+        {
+          "path": "docs/evidence/core-media-memory-reminder-author-packet-20261003/turn-errors/qualified-return-contracts.d.ts",
+          "bytes": 529,
+          "sha256": "b9b2e217883a945327df4c5a725819fc65b2f4209ed05be536c5c5ef92702edb"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    }
+  },
+  "publicExtractionDiagnostics": {
+    "resolver": [],
+    "extraction": [],
+    "memory-agent": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      }
+    ],
+    "reminders": [
+      {
+        "code": 9011,
+        "message": "Parameter must have an explicit type annotation with --isolatedDeclarations."
+      }
+    ],
+    "turn-errors": [
+      {
+        "code": 9011,
+        "message": "Parameter must have an explicit type annotation with --isolatedDeclarations."
+      },
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      },
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      }
+    ]
+  },
+  "inferenceQualifications": "Raw TS9007/TS9011 records preserved; separate actualconstructor-return/defaultparam qualifications supplied beforefreeze, not semanticbody/projectcompile",
+  "ordinaryChecksDeferred": true,
+  "thirdPartyMaterialClosed": 0
+}

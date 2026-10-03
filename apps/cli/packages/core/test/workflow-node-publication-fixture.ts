@@ -1,0 +1,76 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
+
+export const sha = (value: string) => createHash("sha256").update(value).digest("hex");
+const read = (url: URL) => readFile(url, "utf8");
+const root = new URL("../", import.meta.url);
+export const surface =
+  process.env.KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED === "1" ? "emitted" : "source";
+const folder = surface === "emitted" ? "dist" : "src";
+const extension = surface === "emitted" ? "js" : "ts";
+export async function loadBaseline(readArchive = read) {
+  const bytes = await readArchive(
+    new URL("./workflow-node-publication-baseline.json", import.meta.url),
+  );
+  assert.equal(sha(bytes), "50ca9dcc03b563db48049c7296c4aad25914beabbd2b0d9fb0a4036a11da1370");
+  const archive = JSON.parse(bytes);
+  assert.equal(sha(archive.compiled), archive.emittedSha256);
+  assert.equal(sha(archive.declaration), archive.declarationSha256);
+  return archive;
+}
+export const archive = await loadBaseline();
+const selector = await read(new URL("./workflow-node-publication-current.json", import.meta.url));
+assert.equal(sha(selector), "ca126a097ad5ce750ccb6f4a09c21ed20042c9ea222bccc9e8a9ad1df58aa5f2");
+export const pins: { files: Record<string, string> } = JSON.parse(selector);
+export async function loadCurrent(readArtifact = read) {
+  await verifyCurrentArtifacts(
+    "workflow-node-publication-current.json",
+    selector,
+    pins.files,
+    root,
+    readArtifact,
+  );
+  assert.equal(
+    await readArtifact(new URL("dist/workflow/scheduler/node-runner.d.ts", root)),
+    archive.declaration,
+  );
+  return import(
+    new URL(`${folder}/workflow/scheduler/node-runner.${extension}`, root).href
+  ) as Promise<typeof import("../src/workflow/scheduler/node-runner.js")>;
+}
+export const current = await loadCurrent();
+const selectedURL = new URL(`${folder}/workflow/scheduler/node-runner.${extension}`, root);
+export const actual = await import(selectedURL.href);
+function historical(code: string, location: string, overrides: Record<string, string> = {}) {
+  const mapped = code.replace(/from "([^"]+)"/gu, (_match, path: string) => {
+    const target =
+      overrides[path] ??
+      (path.startsWith(".")
+        ? new URL(
+            path.replace(/\.js$/u, `.${extension}`),
+            new URL(`${folder}/${location}.${extension}`, root),
+          ).href
+        : import.meta.resolve(path));
+    return `from ${JSON.stringify(target)}`;
+  });
+  return `data:text/javascript;base64,${Buffer.from(mapped).toString("base64")}`;
+}
+const oldNodeURL = historical(archive.compiled, "workflow/scheduler/node-runner");
+export const baseline = (await import(oldNodeURL)) as typeof current;
+// 当前 scheduler 继续正常加载；历史调用者来自已经保存且摘要吻合的真实 archive。
+const schedulerArchive = JSON.parse(
+  await read(new URL("./workflow-scheduler-observation-baseline.json", import.meta.url)),
+);
+const callerJS: string = schedulerArchive.compiled;
+assert.equal(sha(callerJS), schedulerArchive.emittedSha256);
+assert.equal(sha(callerJS), archive.callerEmittedSha256);
+export const oldScheduler = (await import(
+  historical(callerJS, "workflow/scheduler", {
+    "./scheduler/node-runner.js": oldNodeURL,
+  })
+)) as typeof import("../src/workflow/scheduler.js");
+export const scheduler = (await import(
+  new URL(`${folder}/workflow/scheduler.${extension}`, root).href
+)) as typeof oldScheduler;

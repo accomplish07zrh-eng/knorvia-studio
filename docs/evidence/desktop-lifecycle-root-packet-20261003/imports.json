@@ -1,0 +1,195 @@
+{
+  "releaseUpdateCheck": [
+    {
+      "module": "semver",
+      "typeOnly": false,
+      "namespace": "semver"
+    },
+    {
+      "module": "@knorvia/shared",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "validReleaseInfoUrl",
+          "local": "validReleaseInfoUrl",
+          "typeOnly": false
+        },
+        {
+          "exported": "AppSettings",
+          "local": "AppSettings",
+          "typeOnly": true
+        },
+        {
+          "exported": "ReleaseUpdateCheckResult",
+          "local": "ReleaseUpdateCheckResult",
+          "typeOnly": true
+        }
+      ]
+    }
+  ],
+  "desktopNotifications": [
+    {
+      "module": "electron",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "app",
+          "local": "app",
+          "typeOnly": false
+        },
+        {
+          "exported": "BrowserWindow",
+          "local": "BrowserWindow",
+          "typeOnly": false
+        },
+        {
+          "exported": "Notification",
+          "local": "Notification",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "electron",
+      "typeOnly": true,
+      "names": [
+        {
+          "exported": "IpcMainEvent",
+          "local": "IpcMainEvent",
+          "typeOnly": true
+        },
+        {
+          "exported": "IpcMainInvokeEvent",
+          "local": "IpcMainInvokeEvent",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "@knorvia/shared",
+      "typeOnly": true,
+      "names": [
+        {
+          "exported": "TaskNotificationPayload",
+          "local": "TaskNotificationPayload",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "@knorvia/shared",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "formatZodError",
+          "local": "formatZodError",
+          "typeOnly": false
+        },
+        {
+          "exported": "PlatformChannels",
+          "local": "PlatformChannels",
+          "typeOnly": false
+        },
+        {
+          "exported": "taskNotificationPayloadSchema",
+          "local": "taskNotificationPayloadSchema",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "desktopCronScheduler": [
+    {
+      "module": "electron",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "utilityProcess",
+          "local": "electronUtilityProcess",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "electron",
+      "typeOnly": true,
+      "names": [
+        {
+          "exported": "UtilityProcess",
+          "local": "ElectronUtilityProcess",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "@knorvia/shared",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "HostMessageTypes",
+          "local": "HostMessageTypes",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./desktopRuntimeEnv.js",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "buildHostProcessEnv",
+          "local": "buildHostProcessEnv",
+          "typeOnly": false
+        },
+        {
+          "exported": "schedulerModulePath",
+          "local": "schedulerModulePath",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./processResourceSelfHeapSource.js",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "ingestSchedulerSelfResourceSample",
+          "local": "ingestSchedulerSelfResourceSample",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./resourceManagerWindow.js",
+      "typeOnly": false,
+      "names": [
+        {
+          "exported": "registerSchedulerProcess",
+          "local": "registerSchedulerProcess",
+          "typeOnly": false
+        },
+        {
+          "exported": "unregisterSchedulerProcess",
+          "local": "unregisterSchedulerProcess",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../scheduler/schedulerProtocol.js",
+      "typeOnly": true,
+      "names": [
+        {
+          "exported": "MainToSchedulerMessage",
+          "local": "MainToSchedulerMessage",
+          "typeOnly": true
+        },
+        {
+          "exported": "SchedulerToMainMessage",
+          "local": "SchedulerToMainMessage",
+          "typeOnly": true
+        }
+      ]
+    }
+  ]
+}

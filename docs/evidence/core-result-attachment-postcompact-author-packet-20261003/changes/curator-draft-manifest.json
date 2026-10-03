@@ -1,0 +1,24 @@
+{
+  "scope": "changes",
+  "recordedAtUtc": "2026-10-02T21:01:20.197660+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "savedFastUnchanged": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "noOsIsolationOrAccessAuditProof": true,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 13970,
+      "sha256": "c631b52b194fa43f144031d16b6e160fac517f7bccc20e3cc04f7e875b253771"
+    },
+    {
+      "file": "turn-file-changes.ts.txt",
+      "bytes": 2969,
+      "sha256": "b8a960e8e5923ed4e3c9633e09709b5889d861ad39d2109d5cdc7e07d7498d06",
+      "target": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts"
+    }
+  ]
+}

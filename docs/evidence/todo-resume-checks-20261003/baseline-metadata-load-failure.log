@@ -1,0 +1,4 @@
+Before behavioral freeze: metadata-loader command without tsx failed before tests or production edits.
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module /workspace/knorvia-studio/packages/shared/src/protocol-v4/core.js imported from packages/shared/src/protocol-v4/index.ts
+Node.js v24.19.0
+Correction: select existing pure contract modules for fixture; actual emitted executor consumer uses existing tsx resolver for package source dependencies. No full build, dependency/source change or policy bypass.

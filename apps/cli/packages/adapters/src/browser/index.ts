@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import type { Browser } from "playwright-core";
 import type {
   BrowserBackendDescriptor,
   BrowserCommand,
@@ -6,20 +7,24 @@ import type {
   BrowserControlExecuteInput,
   BrowserControlListInput,
   BrowserControlPort,
-  BrowserErrorCode,
 } from "@knorvia/contracts";
-import type { Browser } from "playwright-core";
 import { createManagedCdpDescriptor } from "./descriptor.js";
 import {
   loadPlaywrightChromium,
   resolveInstalledBrowserExecutable,
   validateExplicitBrowserExecutable,
-  type BrowserExecutableResolutionOptions,
-  type PlaywrightChromiumModule,
 } from "./executable.js";
-import { executeManagedPageCommand } from "./page-command.js";
+import type { BrowserExecutableResolutionOptions, PlaywrightChromiumModule } from "./executable.js";
 import { abortError, classifyError, hasSideEffects, raceWithAbort } from "./request.js";
 import { ManagedCdpSession } from "./session.js";
+import { executeManagedPageCommand } from "./page-command.js";
+
+export {
+  resolveInstalledBrowserExecutable,
+  validateExplicitBrowserExecutable,
+} from "./executable.js";
+export type { BrowserExecutableResolutionOptions, PlaywrightChromiumModule } from "./executable.js";
+export { isAllowedManagedBrowserUrl } from "./page-command.js";
 
 export interface ManagedCdpBrowserRuntimeOptions extends BrowserExecutableResolutionOptions {
   closeTimeoutMs?: number;
@@ -31,266 +36,181 @@ export interface ManagedCdpBrowserRuntime {
   close(): Promise<void>;
 }
 
-interface PendingRequest {
-  controller: AbortController;
+type CommandReply = Omit<BrowserCommandResult, "elapsedMs">;
+type RequestEntry = {
   sessionId: string;
-  turnId?: string;
-}
+  turnId: string | undefined;
+  controller: AbortController;
+};
 
-const DEFAULT_BROWSER_CLOSE_TIMEOUT_MS = 1_500;
+const DEFAULT_CLOSE_TIMEOUT_MS = 1500;
+const DEFAULT_VIEWPORT_WIDTH = 1280;
+const DEFAULT_VIEWPORT_HEIGHT = 720;
+const NO_FIRST_RUN_ARGUMENT = "--no-first-run";
+const NO_DEFAULT_BROWSER_ARGUMENT = "--no-default-browser-check";
+const CLOSED_MESSAGE = "Managed CDP browser runtime is closed";
+const CONTEXT_UNAVAILABLE_MESSAGE =
+  "Managed CDP browser context became unavailable during creation";
+const LOAD_FAILURE_MESSAGE =
+  "Managed headless Chromium is unavailable: failed to load the pinned Playwright runtime.";
+const LAUNCH_FAILURE_MESSAGE =
+  "Managed headless Chromium is unavailable: launch failed. Verify the browser executable and OS sandbox/runtime dependencies.";
 
-class ManagedCdpBrowserControlPort implements BrowserControlPort {
-  readonly #browserId = `cdp:${randomUUID()}`;
-  readonly #loadPlaywright: () => Promise<PlaywrightChromiumModule>;
-  readonly #options: ManagedCdpBrowserRuntimeOptions;
-  readonly #closeTimeoutMs: number;
-  readonly #closingSessionIds = new Set<string>();
-  readonly #pending = new Map<string, PendingRequest>();
-  readonly #sessionPromises = new Map<string, Promise<ManagedCdpSession>>();
-  readonly #sessions = new Map<string, ManagedCdpSession>();
-  #browser: Browser | undefined;
-  #disposed = false;
-  #generation = 1;
-  #launchPromise: Promise<Browser> | undefined;
+export function createManagedCdpBrowserRuntime(
+  options: ManagedCdpBrowserRuntimeOptions = {},
+): ManagedCdpBrowserRuntime {
+  const settings = { ...options };
+  settings.executablePath = validateExplicitBrowserExecutable(
+    options.executablePath,
+    options.platform,
+  );
+  const load = settings.loadPlaywright ?? loadPlaywrightChromium;
+  const browserId = `cdp:${randomUUID()}`;
+  const closeLimit = Math.max(1, Math.trunc(settings.closeTimeoutMs ?? DEFAULT_CLOSE_TIMEOUT_MS));
+  let generation = 1;
+  let disposed = false;
+  let ownedBrowser: Browser | undefined;
+  let launching: Promise<Browser> | undefined;
+  const sessions = new Map<string, ManagedCdpSession>();
+  const admissions = new Map<string, Promise<ManagedCdpSession>>();
+  const closing = new Set<string>();
+  const requests = new Map<string, RequestEntry>();
 
-  constructor(options: ManagedCdpBrowserRuntimeOptions) {
-    this.#options = options;
-    this.#loadPlaywright = options.loadPlaywright ?? loadPlaywrightChromium;
-    this.#closeTimeoutMs = Math.max(
-      1,
-      Math.trunc(options.closeTimeoutMs ?? DEFAULT_BROWSER_CLOSE_TIMEOUT_MS),
-    );
-  }
-
-  async list(input: BrowserControlListInput): Promise<BrowserBackendDescriptor[]> {
-    await this.ensureBrowser(input.signal);
-    return [this.descriptor()];
-  }
-
-  async execute(input: BrowserControlExecuteInput): Promise<BrowserCommandResult> {
-    const startedAt = Date.now();
-    if (input.browserId !== this.#browserId || input.browserGeneration !== this.#generation) {
-      return this.errorResult(
-        "backend_unavailable",
-        `Browser backend '${input.browserId}' generation ${input.browserGeneration} is stale`,
-        startedAt,
+  function bounded(promise: Promise<unknown>): Promise<boolean> {
+    return new Promise((resolve) => {
+      let finished = false;
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const finish = (completed: boolean) => {
+        if (finished) return;
+        finished = true;
+        if (timer) clearTimeout(timer);
+        resolve(completed);
+      };
+      timer = setTimeout(() => finish(false), closeLimit);
+      promise.then(
+        () => finish(true),
+        () => finish(true),
       );
-    }
-
-    const requestId = randomUUID();
-    const controller = new AbortController();
-    const forwardAbort = () => controller.abort(input.signal?.reason ?? abortError());
-    input.signal?.addEventListener("abort", forwardAbort, { once: true });
-    if (input.signal?.aborted) forwardAbort();
-    this.#pending.set(requestId, {
-      controller,
-      sessionId: input.sessionId,
-      turnId: input.turnId,
     });
+  }
 
-    let dispatched = false;
+  async function closeInstance(browser: Browser): Promise<void> {
+    if (browser.isConnected()) await bounded(browser.close());
+  }
+
+  async function closeOwnedBrowser(): Promise<void> {
+    const browser = ownedBrowser;
+    ownedBrowser = undefined;
+    if (browser) await closeInstance(browser);
+  }
+
+  async function closeIfUnused(): Promise<void> {
+    if (sessions.size === 0) await closeOwnedBrowser();
+  }
+
+  async function launchBrowser(): Promise<Browser> {
+    let playwright: PlaywrightChromiumModule;
     try {
-      if (controller.signal.aborted) throw abortError();
-      await this.ensureBrowser(controller.signal);
-      const session = await this.ensureSession(input.sessionId);
-      if (controller.signal.aborted) throw abortError();
-      dispatched = true;
-      const partial = await raceWithAbort(
-        this.executeSessionCommand(session, input.command),
-        controller.signal,
-      );
-      return await this.withMeta(session, input.command, partial, startedAt);
-    } catch (error) {
-      const code = classifyError(error);
-      return this.errorResult(
-        code,
-        error instanceof Error ? error.message : String(error),
-        startedAt,
-        code === "cancelled" && dispatched && hasSideEffects(input.command)
-          ? "uncertain"
-          : undefined,
-      );
-    } finally {
-      input.signal?.removeEventListener("abort", forwardAbort);
-      this.#pending.delete(requestId);
+      playwright = await load();
+    } catch (cause) {
+      throw new Error(LOAD_FAILURE_MESSAGE, { cause });
     }
-  }
-
-  async turnEnded(input: BrowserControlListInput): Promise<void> {
-    for (const pending of this.#pending.values()) {
-      if (pending.sessionId === input.sessionId && pending.turnId === input.turnId) {
-        pending.controller.abort(abortError());
-      }
-    }
-  }
-
-  async closeSession(input: BrowserControlListInput): Promise<void> {
-    this.#closingSessionIds.add(input.sessionId);
-    for (const pending of this.#pending.values()) {
-      if (pending.sessionId === input.sessionId) pending.controller.abort(abortError());
-    }
-    const creating = this.#sessionPromises.get(input.sessionId);
-    if (creating) {
-      const settled = await waitForPromise(creating, this.#closeTimeoutMs);
-      if (!settled) {
-        // late launch/context 创建完成后仍需再次回收；closingSessionIds 防止它重新登记 session。
-        void creating.then(
-          async () => {
-            if (this.#sessions.size === 0) await this.closeBrowser();
-          },
-          async () => {
-            if (this.#sessions.size === 0) await this.closeBrowser();
-          },
-        );
-      }
-    }
-    const session = this.#sessions.get(input.sessionId);
-    this.#sessions.delete(input.sessionId);
-    if (session) await waitForPromise(session.close(), this.#closeTimeoutMs);
-    if (this.#sessions.size === 0) await this.closeBrowser();
-  }
-
-  async close(): Promise<void> {
-    if (this.#disposed) return;
-    this.#disposed = true;
-    const launchPromise = this.#launchPromise;
-    for (const pending of this.#pending.values()) pending.controller.abort(abortError());
-    this.#pending.clear();
-    this.#closingSessionIds.clear();
-    await Promise.all(
-      [...this.#sessionPromises.values()].map(async (promise) => {
-        await waitForPromise(promise, this.#closeTimeoutMs);
-      }),
-    );
-    await Promise.all(
-      [...this.#sessions.values()].map(async (session) => {
-        await waitForPromise(session.close(), this.#closeTimeoutMs);
-      }),
-    );
-    this.#sessions.clear();
-    await this.closeBrowser();
-    // Playwright launch 可能仍在异步创建子进程；只关闭当前 #browser 会漏掉迟到进程。
-    if (launchPromise) {
-      await waitForPromise(
-        launchPromise.then(async (browser) => this.closeBrowserInstance(browser)),
-        this.#closeTimeoutMs,
-      );
-    }
-  }
-
-  private descriptor(): BrowserBackendDescriptor {
-    return createManagedCdpDescriptor(this.#browserId, this.#generation);
-  }
-
-  private async ensureBrowser(signal?: AbortSignal): Promise<Browser> {
-    if (this.#disposed) throw new Error("Managed CDP browser runtime is closed");
-    if (signal?.aborted) throw abortError();
-    if (this.#browser?.isConnected()) return this.#browser;
-    this.#launchPromise ??= (async () => {
-      let playwright: PlaywrightChromiumModule;
-      try {
-        playwright = await this.#loadPlaywright();
-      } catch (error) {
-        throw new Error(
-          "Managed headless Chromium is unavailable: failed to load the pinned Playwright runtime.",
-          { cause: error },
-        );
-      }
-      const executablePath = resolveInstalledBrowserExecutable(playwright, this.#options);
-      let browser: Browser;
-      try {
-        browser = await playwright.chromium.launch({
-          executablePath,
-          headless: true,
-          args: ["--no-first-run", "--no-default-browser-check"],
-        });
-      } catch (error) {
-        // 底层 Playwright 错误可能包含临时 profile/CDP endpoint；对外只保留可操作分类，cause 供调试。
-        throw new Error(
-          "Managed headless Chromium is unavailable: launch failed. " +
-            "Verify the browser executable and OS sandbox/runtime dependencies.",
-          { cause: error },
-        );
-      }
-      if (this.#disposed) {
-        await this.closeBrowserInstance(browser);
-        throw new Error("Managed CDP browser runtime is closed");
-      }
-      browser.on("disconnected", () => {
-        if (this.#browser !== browser) return;
-        this.#browser = undefined;
-        this.#sessions.clear();
-        this.#generation += 1;
+    const executablePath = resolveInstalledBrowserExecutable(playwright, settings);
+    let browser: Browser;
+    try {
+      browser = await playwright.chromium.launch({
+        executablePath,
+        headless: true,
+        args: [NO_FIRST_RUN_ARGUMENT, NO_DEFAULT_BROWSER_ARGUMENT],
       });
-      this.#browser = browser;
-      return browser;
-    })().finally(() => {
-      this.#launchPromise = undefined;
-    });
-    const browser = signal
-      ? await raceWithAbort(this.#launchPromise, signal)
-      : await this.#launchPromise;
-    if (signal?.aborted) {
-      await this.closeBrowserInstance(browser);
-      throw abortError();
+    } catch (cause) {
+      throw new Error(LAUNCH_FAILURE_MESSAGE, { cause });
     }
+    if (disposed) {
+      await closeInstance(browser);
+      throw new Error(CLOSED_MESSAGE);
+    }
+    browser.on("disconnected", () => {
+      if (ownedBrowser !== browser) return;
+      ownedBrowser = undefined;
+      sessions.clear();
+      generation += 1;
+    });
+    ownedBrowser = browser;
     return browser;
   }
 
-  private async ensureSession(sessionId: string): Promise<ManagedCdpSession> {
-    if (this.#closingSessionIds.has(sessionId)) {
-      throw new Error(`Browser session '${sessionId}' is closing`);
-    }
-    const existing = this.#sessions.get(sessionId);
-    if (existing) return existing;
-    const creating = this.#sessionPromises.get(sessionId);
-    if (creating) return await creating;
-
-    const promise = (async () => {
-      const browser = await this.ensureBrowser();
-      const generation = this.#generation;
-      const context = await browser.newContext({
-        acceptDownloads: false,
-        viewport: { width: 1280, height: 720 },
+  async function acquireBrowser(signal?: AbortSignal): Promise<Browser> {
+    if (disposed) throw new Error(CLOSED_MESSAGE);
+    if (signal?.aborted) throw abortError();
+    if (ownedBrowser?.isConnected()) return ownedBrowser;
+    if (!launching) {
+      const attempt = launchBrowser();
+      launching = attempt.finally(() => {
+        launching = undefined;
       });
-      if (
-        this.#disposed ||
-        this.#closingSessionIds.has(sessionId) ||
-        this.#browser !== browser ||
-        this.#generation !== generation ||
-        !browser.isConnected()
-      ) {
-        await waitForPromise(context.close(), this.#closeTimeoutMs);
-        throw new Error("Managed CDP browser context became unavailable during creation");
-      }
-      const session = new ManagedCdpSession(context);
-      this.#sessions.set(sessionId, session);
-      return session;
-    })();
-    this.#sessionPromises.set(sessionId, promise);
-    try {
-      return await promise;
-    } finally {
-      if (this.#sessionPromises.get(sessionId) === promise) {
-        this.#sessionPromises.delete(sessionId);
-      }
     }
+    const acquired = await (signal ? raceWithAbort(launching, signal) : launching);
+    if (signal?.aborted) {
+      await closeInstance(acquired);
+      throw abortError();
+    }
+    return acquired;
   }
 
-  private async executeSessionCommand(
+  async function acquireSession(sessionId: string): Promise<ManagedCdpSession> {
+    if (closing.has(sessionId)) throw new Error(`Browser session '${sessionId}' is closing`);
+    const registered = sessions.get(sessionId);
+    if (registered) return registered;
+    const pending = admissions.get(sessionId);
+    if (pending) return pending;
+    // IIFE 创建期间尚无票据；首个 await 后才按已登记 Promise 身份清理，不增加结算轮次。
+    let admission: Promise<ManagedCdpSession> | undefined;
+    admission = (async () => {
+      try {
+        const creator = await acquireBrowser();
+        const creatorGeneration = generation;
+        const context = await creator.newContext({
+          acceptDownloads: false,
+          viewport: { width: DEFAULT_VIEWPORT_WIDTH, height: DEFAULT_VIEWPORT_HEIGHT },
+        });
+        if (
+          disposed ||
+          closing.has(sessionId) ||
+          ownedBrowser !== creator ||
+          generation !== creatorGeneration ||
+          !creator.isConnected()
+        ) {
+          await bounded(context.close());
+          throw new Error(CONTEXT_UNAVAILABLE_MESSAGE);
+        }
+        const session = new ManagedCdpSession(context);
+        sessions.set(sessionId, session);
+        return session;
+      } finally {
+        if (admissions.get(sessionId) === admission) admissions.delete(sessionId);
+      }
+    })();
+    admissions.set(sessionId, admission);
+    return admission;
+  }
+
+  async function dispatch(
     session: ManagedCdpSession,
     command: BrowserCommand,
-  ): Promise<Omit<BrowserCommandResult, "elapsedMs">> {
+  ): Promise<CommandReply> {
     switch (command.method) {
       case "list":
         return { ok: true, tabs: await session.listTabs() };
       case "newTab": {
-        const tab = await session.createTab();
-        return { ok: true, tab: (await session.listTabs()).find((item) => item.tabId === tab.id) };
+        const created = await session.createTab();
+        const tab = (await session.listTabs()).find((item) => item.tabId === created.id);
+        return { ok: true, tab };
       }
       case "activateTab": {
-        const tab = await session.activateTab(command.tabId);
-        return { ok: true, tab: (await session.listTabs()).find((item) => item.tabId === tab.id) };
+        const activated = await session.activateTab(command.tabId);
+        const tab = (await session.listTabs()).find((item) => item.tabId === activated.id);
+        return { ok: true, tab };
       }
       case "close":
         await session.closeTab(command.tabId);
@@ -304,17 +224,23 @@ class ManagedCdpBrowserControlPort implements BrowserControlPort {
       case "getDialog": {
         const tab = await session.ensureTab(command.tabId);
         const dialog = session.dialogFor(tab.id);
-        const type = dialog?.type();
+        if (!dialog) return { ok: true, dialog: null };
+        const type = dialog.type();
+        if (
+          type !== "alert" &&
+          type !== "confirm" &&
+          type !== "prompt" &&
+          type !== "beforeunload"
+        ) {
+          return { ok: true, dialog: null };
+        }
         return {
           ok: true,
-          dialog:
-            dialog && type && ["alert", "confirm", "prompt", "beforeunload"].includes(type)
-              ? {
-                  type: type as "alert" | "confirm" | "prompt" | "beforeunload",
-                  message: dialog.message(),
-                  ...(dialog.defaultValue() ? { defaultPrompt: dialog.defaultValue() } : {}),
-                }
-              : null,
+          dialog: {
+            type,
+            message: dialog.message(),
+            ...(dialog.defaultValue() ? { defaultPrompt: dialog.defaultValue() } : {}),
+          },
         };
       }
       case "handleDialog": {
@@ -350,95 +276,122 @@ class ManagedCdpBrowserControlPort implements BrowserControlPort {
         };
       default: {
         const tab = await session.ensureTab("tabId" in command ? command.tabId : undefined);
-        return await executeManagedPageCommand(tab.page, command);
+        return executeManagedPageCommand(tab.page, command);
       }
     }
   }
 
-  private async withMeta(
+  async function enrich(
     session: ManagedCdpSession,
     command: BrowserCommand,
-    partial: Omit<BrowserCommandResult, "elapsedMs">,
-    startedAt: number,
+    reply: CommandReply,
+    started: number,
   ): Promise<BrowserCommandResult> {
     const tabId = "tabId" in command ? command.tabId : session.activeTabId;
     const active = tabId ? await session.ensureTab(tabId).catch(() => undefined) : undefined;
     return {
-      ...partial,
-      elapsedMs: Date.now() - startedAt,
+      ...reply,
+      elapsedMs: Date.now() - started,
       meta: {
         browserUse: true,
         backendType: "cdp",
-        browserId: this.#browserId,
-        browserGeneration: this.#generation,
+        browserId,
+        browserGeneration: generation,
         openTabIds: session.tabIds,
-        ...(active ? { tabId: active.id, currentUrl: active.page.url(), lifecycle: "active" } : {}),
+        ...(active
+          ? { tabId: active.id, currentUrl: active.page.url(), lifecycle: "active" as const }
+          : {}),
       },
     };
   }
 
-  private errorResult(
-    code: BrowserErrorCode,
-    message: string,
-    startedAt: number,
-    sideEffect?: "uncertain",
-  ): BrowserCommandResult {
-    return {
-      ok: false,
-      error: { code, message, ...(sideEffect ? { sideEffect } : {}) },
-      elapsedMs: Date.now() - startedAt,
-    };
+  async function execute(input: BrowserControlExecuteInput): Promise<BrowserCommandResult> {
+    const started = Date.now();
+    if (input.browserId !== browserId || input.browserGeneration !== generation) {
+      return {
+        ok: false,
+        error: {
+          code: "backend_unavailable",
+          message: `Browser backend '${input.browserId}' generation ${input.browserGeneration} is stale`,
+        },
+        elapsedMs: Date.now() - started,
+      };
+    }
+    const requestId = randomUUID();
+    const controller = new AbortController();
+    const forwardAbort = () => controller.abort(input.signal?.reason ?? abortError());
+    input.signal?.addEventListener("abort", forwardAbort, { once: true });
+    if (input.signal?.aborted) forwardAbort();
+    requests.set(requestId, { sessionId: input.sessionId, turnId: input.turnId, controller });
+    let dispatched = false;
+    try {
+      if (controller.signal.aborted) throw abortError();
+      await acquireBrowser(controller.signal);
+      const session = await acquireSession(input.sessionId);
+      if (controller.signal.aborted) throw abortError();
+      dispatched = true;
+      const reply = await raceWithAbort(dispatch(session, input.command), controller.signal);
+      return await enrich(session, input.command, reply, started);
+    } catch (error) {
+      const code = classifyError(error);
+      return {
+        ok: false,
+        error: {
+          code,
+          message: error instanceof Error ? error.message : String(error),
+          ...(code === "cancelled" && dispatched && hasSideEffects(input.command)
+            ? { sideEffect: "uncertain" as const }
+            : {}),
+        },
+        elapsedMs: Date.now() - started,
+      };
+    } finally {
+      input.signal?.removeEventListener("abort", forwardAbort);
+      requests.delete(requestId);
+    }
   }
 
-  private async closeBrowser(): Promise<void> {
-    const browser = this.#browser;
-    this.#browser = undefined;
-    if (browser) await this.closeBrowserInstance(browser);
+  async function list(input: BrowserControlListInput): Promise<BrowserBackendDescriptor[]> {
+    await acquireBrowser(input.signal);
+    return [createManagedCdpDescriptor(browserId, generation)];
   }
 
-  private async closeBrowserInstance(browser: Browser): Promise<void> {
-    if (!browser.isConnected()) return;
-    // WebSocket/SSE 页面可能让 Playwright 的 context/browser close 永不 settle。
-    // adapter 只能有限等待；外层 session cleanup 和 CLI watchdog 会继续回收其它资源。
-    await waitForPromise(browser.close(), this.#closeTimeoutMs);
+  async function turnEnded(input: BrowserControlListInput): Promise<void> {
+    for (const request of requests.values()) {
+      if (request.sessionId === input.sessionId && request.turnId === input.turnId) {
+        request.controller.abort(abortError());
+      }
+    }
   }
-}
 
-export function createManagedCdpBrowserRuntime(
-  options: ManagedCdpBrowserRuntimeOptions = {},
-): ManagedCdpBrowserRuntime {
-  const normalizedOptions = {
-    ...options,
-    executablePath: validateExplicitBrowserExecutable(options.executablePath, options.platform),
-  };
-  const port = new ManagedCdpBrowserControlPort(normalizedOptions);
-  return {
-    browserControlPort: port,
-    close: async () => port.close(),
-  };
-}
+  async function closeSession(input: BrowserControlListInput): Promise<void> {
+    closing.add(input.sessionId);
+    for (const request of requests.values()) {
+      if (request.sessionId === input.sessionId) request.controller.abort(abortError());
+    }
+    const admission = admissions.get(input.sessionId);
+    if (admission && !(await bounded(admission))) {
+      void admission.then(closeIfUnused, closeIfUnused);
+    }
+    const session = sessions.get(input.sessionId);
+    sessions.delete(input.sessionId);
+    if (session) await bounded(session.close());
+    await closeIfUnused();
+  }
 
-export {
-  resolveInstalledBrowserExecutable,
-  validateExplicitBrowserExecutable,
-} from "./executable.js";
-export type { BrowserExecutableResolutionOptions, PlaywrightChromiumModule } from "./executable.js";
-export { isAllowedManagedBrowserUrl } from "./page-command.js";
+  async function close(): Promise<void> {
+    if (disposed) return;
+    disposed = true;
+    const pendingLaunch = launching;
+    for (const request of requests.values()) request.controller.abort(abortError());
+    requests.clear();
+    closing.clear();
+    await Promise.all([...admissions.values()].map((admission) => bounded(admission)));
+    await Promise.all([...sessions.values()].map((session) => bounded(session.close())));
+    sessions.clear();
+    await closeOwnedBrowser();
+    if (pendingLaunch) await bounded(pendingLaunch.then(closeInstance));
+  }
 
-function waitForPromise(promise: Promise<unknown>, timeoutMs: number): Promise<boolean> {
-  return new Promise<boolean>((resolve) => {
-    let settled = false;
-    let timer: NodeJS.Timeout | undefined;
-    const finish = (completed: boolean) => {
-      if (settled) return;
-      settled = true;
-      if (timer) clearTimeout(timer);
-      resolve(completed);
-    };
-    timer = setTimeout(() => finish(false), timeoutMs);
-    void promise.then(
-      () => finish(true),
-      () => finish(true),
-    );
-  });
+  return { browserControlPort: { list, execute, turnEnded, closeSession }, close };
 }
