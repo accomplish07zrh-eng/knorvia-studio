@@ -141,3 +141,9 @@ CLI12个旧selector和原behavior tests/golden继续原字节不动；新增固�
 CLI的source/emitted各77、Windows相关11唯一入口及4合成路径，native的native/POSIX/Win32变体12/12都是原路Linux Node24.14结果，不相加成独立用例数或真实Windows通过。native只改4个测试夹具，使用真实绝对路径/public path APIs及唯一导入键，保留全路径/固定文件名断言，不做basename归一、输出归一或删断言，生产不变。
 
 人工接收新增10个raw记录（CLI4、native6），逐一核对交付head原字节并保留本地现有5617记录/旧receipts/HOLD。新current receipt与historical sidecar另在接收JSON绑定确切源码SHA，不自动刷新旧selector或将技术结果授予来源/许可。先不重复原路77/12检查或777全量；等services Windows12项冻结后再集中构建当前fold产物，并统一最终实际树的Linux/Windows CI。root全局来源报告更新是当前候选身份的新鲜度，不是完整权利审计。
+
+### 最后一组 services Windows 夹具与统一 CI
+
+父任务已交services完整head `f5ebc48f033382706a945cf5ec5156b8905627e3`，修复 `80b5308132b9802555114269920fa6bb5bf81bcb`，保留已接收 `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532`；UI最终仍为 `d6274d61fe6d15b976f3b7b5b24f8e62d470229e`。原Windows12文件只修真实root/路径/别名夹具及必要共用test helper，不改变生产、权限/计数/字节/时序断言。源head/新helper/当前receipt/historical sidecar逐项绑定，新增原raw记录显式冻结，整个历史集合原字节保持。
+
+四组现已齐，先接收、做必要当前来源/完整性与改动路径格式检查，提交推送PR13统一head，以标准CI的实际Linux和Windows结果为主要验收；本地不再重复原路77/12或整套types/lint/build/777回归，再与CI跑同一套。CI自己的CLI build负责生成并验证当前fold/source/emitted闭包，未知/旧产物绑定不得盲更。取得真正受检synthetic SHA/branch head及两job完整结果，保留失败/取消/跳过，不猜测通过；剩余实质错误继续定位修复或交回明确原owner，无降规则、删用例或补虚假版权。功能/UI/数据/全部适用许可仍保持，MIT材料与整文件权利边界继续单列，main暂缓。
