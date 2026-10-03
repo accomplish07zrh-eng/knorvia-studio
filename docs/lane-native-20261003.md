@@ -107,6 +107,23 @@ are **unrun**. The same source-exposure, native/platform and pending rights/MIT
 qualifications apply. CLI/Core, services, updater callers and all renderer paths
 remain unchanged in this continuation.
 
+## Desktop WSL identity cache batch
+
+`desktopWslTargetResolver.ts` now has one complete cache owner for provisional
+WSL identity keys and exact cached Promise identity. Deferred backend creation
+still receives the original live target; strict TTL expiry, backend disposal
+error priority and pointer-safe late-failure retirement remain compatible.
+The public RemoteTarget shape, WSLBackend implementation and workspace identities
+are retained. No actual WSL discovery, connection, command or user data was used.
+
+[Contract](../specs/knorvia-next-platform-wsl-identity-cache-20261003.md) and
+[bindings](evidence/backlog-platform-wsl-identity-cache-20261003/bindings.json)
+freeze the whole draft before source diff, recorded baseline and retained public
+backend/type dependencies. Three fake-backend/clock scenarios in
+`packages/desktop/test/native-wsl-cache-owner-contract.test.mjs` are **unrun**.
+Same source-exposed author; expression, rights and native acceptance remain
+pending. No MIT decision or global inventory update.
+
 ## Inherited work and remaining boundaries
 
 The old E ChannelClient packet binds upstream blob
