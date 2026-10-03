@@ -1,0 +1,21 @@
+--- a/scripts/test-studio.mjs
++++ b/scripts/test-studio.mjs
+@@ -54,6 +54,7 @@
+   "apps/cli/packages/cli/test/custom-command-expansion-contract.test.ts",
+   "apps/cli/packages/cli/test/custom-command-expansion-consumer.test.ts",
+   "apps/cli/packages/cli/test/sea-runtime-surface.test.mjs",
++  "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs",
+   "apps/cli/packages/dynamic-workflow/test/ask-scheduler-contract.test.ts",
+   "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
+   "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",
+--- a/scripts/distribution-smoke.mjs
++++ b/scripts/distribution-smoke.mjs
+@@ -20,6 +20,8 @@
+ const env = {
+   ...process.env,
+   KNORVIA_DATA_BASE_DIR: join(directory, "data"),
++  KNORVIA_SESSION_DB_PATH: join(directory, "data", ".knorvia-studio", "cli", "db", "db.sqlite"),
++  KNORVIA_STORAGE_DIR: join(directory, "data", ".knorvia-studio", "cli"),
+   NODE_PATH: "",
+   NODE_OPTIONS: "",
+   TERM: "xterm-256color",

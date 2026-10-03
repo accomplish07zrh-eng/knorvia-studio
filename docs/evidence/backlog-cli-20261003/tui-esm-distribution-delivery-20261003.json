@@ -1,0 +1,448 @@
+{
+  "formatVersion": 1,
+  "task": "Fixed CLI lane: actual TUI ESM/CommonJS distribution import and startup repair",
+  "base": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "sourceCheckpoint": "add7f37d2131587adf4a66e015edbad587110f11",
+  "latestIntegrationObserved": "80375ff62b3d9fc18c3d5b933d3d853802251d64",
+  "relevantChangesSinceBase": [],
+  "commits": {
+    "producerCompatibility": "4ac5cc97734c7b84859dcad365a8f15164323304",
+    "startupExitOwnership": "45791a532b344719f4df661c9085db735d531985",
+    "nativeSmokeHarness": "add7f37d2131587adf4a66e015edbad587110f11"
+  },
+  "nativeFailureInput": {
+    "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/25",
+    "head": "598e1f117ebd1793620c6df4b926affd1be8a458",
+    "path": "docs/evidence/native-packaged-retest-ad712690-20261003/result.json",
+    "sha256": "d3e0bad018231ecefb71aa52a46ccc1a1f0c2cfeafff29ca125d54343ef25107",
+    "qualification": "Original native failure is bound to intermediate ad712690 archive; this task never relabels it as the current unified archive."
+  },
+  "sourceInputs": [
+    {
+      "path": "apps/cli/packages/tui/scripts/build.mjs",
+      "sha256": "0c5c0a59bf1f3558e253c369c7ac37ea715e5bfdc4ce50b0a068ae6e669da14a"
+    },
+    {
+      "path": "apps/cli/packages/tui/src/tui.tsx",
+      "sha256": "9a9b5eefdfbdff70ae01e77af55a2ef546d847872e3e31251bdc758efffebf04"
+    },
+    {
+      "path": "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs",
+      "sha256": "ec26c2bb372d75079ec9852967bd626b17fb6f45f556775d9130d81b15a29964"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/tui-distribution-smoke.mjs",
+      "sha256": "39d3b774abffa6ede1c86b22f32f67d55ab1aa5e353248f0ffd340c88df7a03d"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/build.mjs",
+      "sha256": "50698cf03e324a11333decb9700eabc468b2b86e3669e3f9f180ff2290d9dfdb"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-tui-assets.mjs",
+      "sha256": "b02b018012f7265e078f8fe5f5e5bbccde6cda129fa63b93249144a555c1b8f8"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-workspace-package-assets.mjs",
+      "sha256": "8d3b9f3ca0ac417cb67af7aa4857519340c4b9e8aa5fc383bc963a2fe69f804c"
+    },
+    {
+      "path": "apps/cli/packages/cli/scripts/sea-runtime-package-resolution.mjs",
+      "sha256": "10a1c35f6786333f30a070b8dc3149a2e977da16c0cebaa9f84536cd803327b2"
+    },
+    {
+      "path": "apps/cli/packages/tui/package.json",
+      "sha256": "21b0fad40d639049e32ef085147a9088e984685defb8103bcdd108ffddf12d33"
+    },
+    {
+      "path": "apps/cli/packages/cli/package.json",
+      "sha256": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6"
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+    },
+    {
+      "path": "scripts/distribution/assets.mjs",
+      "sha256": "7a1ecf45a8297a90b3946d9b4595ddeda6f471b9550a6c78d46fecab768d63a3"
+    },
+    {
+      "path": "scripts/distribution/runner.mjs",
+      "sha256": "3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd"
+    },
+    {
+      "path": "scripts/distribution-smoke.mjs",
+      "sha256": "78d5aa3e98e12dd11913ef1766e269eadf83658f38b8a294bd3e99b60ea1257b"
+    },
+    {
+      "path": "scripts/test-studio.mjs",
+      "sha256": "bd236c5ee4be0316e8bb3fdc54b62df8a98f436b78b706d5e9b9cc252f4bb322"
+    },
+    {
+      "path": "package.json",
+      "sha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    }
+  ],
+  "runtimeJsPrerequisites": {
+    "node": "v24.14.0",
+    "typescript": "6.0.2",
+    "qualification": "Only JS/source-map prerequisites for the actual CLI/TUI producer and collector. Original project roots/settings; no semantic diagnostics, lint, typecheck, full build, declarations, or tracked source writes. Provider/provider-node source exports consumed by the real producer. No source contract edits.",
+    "lockfileSha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+    "packages": [
+      {
+        "name": "@knorvia/contracts",
+        "config": "apps/cli/packages/contracts/tsconfig.json",
+        "configSha256": "d446ecc4d7d7327485cad623d04dc1373a02cc5d1c8b3c6f869a87ae3ab0251c",
+        "roots": 123,
+        "outputs": 123,
+        "rootListSha256": "13c6a752a346b99ef61ff57fdea356ad27986ef075f15ea28aef18a591bf6f6b",
+        "outputListSha256": "62cc3304d3b09eedd46ab091651e2dd0ad6171af918b81d43ed6004c106ba592"
+      },
+      {
+        "name": "@knorvia/shared",
+        "config": "packages/shared/tsconfig.json",
+        "configSha256": "98305de7fdc5666f61542f8b35182b2e757f9d174216ee9cf82bc7108f67590c",
+        "roots": 231,
+        "outputs": 462,
+        "rootListSha256": "f27255e3b5091cb2dd4194accf188a8dc3331294b9d1065e28202e60ea709198",
+        "outputListSha256": "7808d114403be39a0a4dfa8aae1c88b9018526009ba5aee8a161f434af431b68"
+      },
+      {
+        "name": "@knorvia/model-option-map",
+        "config": "packages/model-option-map/tsconfig.json",
+        "configSha256": "624e0ee6f83557a6d35720c9f1e8ad5037417b6e9efa3d5abd5aefae72eb4e01",
+        "roots": 9,
+        "outputs": 18,
+        "rootListSha256": "aee5127dd3b0f417e84d5255be0c451efd275de9b3ba737777f21436fde3f19f",
+        "outputListSha256": "2f044058808d9693b216976cd883b2539ab230d10d82aaa9fcdd405c05382533"
+      },
+      {
+        "name": "@knorvia/core",
+        "config": "apps/cli/packages/core/tsconfig.json",
+        "configSha256": "dba1d0224d966aa4206d16afd7cd2ee83842b4736de36f7e0529607bf02c9fb2",
+        "roots": 715,
+        "outputs": 715,
+        "rootListSha256": "bede36d2300df8072d3624378fe35203fe999bee98dd0d74bad31aecd1b1ca0e",
+        "outputListSha256": "1944642d234e8d58d66caf269b12c5cb67b609c6b511d5c74b1e90c0269ed2b1"
+      },
+      {
+        "name": "@knorvia/dynamic-workflow",
+        "config": "apps/cli/packages/dynamic-workflow/tsconfig.json",
+        "configSha256": "13760b0ff5a038282ac1c1d30d9f41d42bf1a0cda8c0f54152437d61cfbd1bd8",
+        "roots": 96,
+        "outputs": 96,
+        "rootListSha256": "c1ffd7e3cd2d7939f1310e55f3e1547d3a4caf1679991e41d8cf8152b518326f",
+        "outputListSha256": "44127216888cb94ccf8796d40d3de785b2adce050e153b0d84d0d2433e6c1401"
+      },
+      {
+        "name": "@knorvia/shared-types",
+        "config": "apps/cli/packages/shared-types/tsconfig.json",
+        "configSha256": "f63344528742dc32a8182462c1ed8023b0740cc85d49d5b0e079894ce7ebe9d5",
+        "roots": 1,
+        "outputs": 1,
+        "rootListSha256": "a355bad0e1a5f6e03e6dfd37a1b03d69203e1d55901ec4e8b39148ca041dbfc2",
+        "outputListSha256": "3c40c06c8581018a604804a0b8b0acda468519cdf72c04cb4a2c7fd54a597b91"
+      },
+      {
+        "name": "@knorvia/i18n",
+        "config": "apps/cli/packages/i18n/tsconfig.json",
+        "configSha256": "d446ecc4d7d7327485cad623d04dc1373a02cc5d1c8b3c6f869a87ae3ab0251c",
+        "roots": 5,
+        "outputs": 5,
+        "rootListSha256": "8754c55f2119c4e2477d4a34c96a5f8666c804fdd4560e12d7a2754f5ea82980",
+        "outputListSha256": "e0879157b20d424e2ef3e9f26f1e1985cd8d38c3984f5c51d1c1f5e697a1b681"
+      },
+      {
+        "name": "@knorvia/adapters",
+        "config": "apps/cli/packages/adapters/tsconfig.json",
+        "configSha256": "f63344528742dc32a8182462c1ed8023b0740cc85d49d5b0e079894ce7ebe9d5",
+        "roots": 294,
+        "outputs": 294,
+        "rootListSha256": "09da976ec1c4f1301173b80bb0d89ed03d98c499bf4a1d0679db055e31631a55",
+        "outputListSha256": "df96d38ad47f94a1eca59b7414c992d247aaf542c8756eca18339935f9f8a243"
+      },
+      {
+        "name": "@knorvia/bootstrap",
+        "config": "apps/cli/packages/bootstrap/tsconfig.json",
+        "configSha256": "f63344528742dc32a8182462c1ed8023b0740cc85d49d5b0e079894ce7ebe9d5",
+        "roots": 239,
+        "outputs": 239,
+        "rootListSha256": "03d0c3bba42d8108f82c3d96bf096f3007648cb882f118034f586e8fd3570499",
+        "outputListSha256": "0e2cd283fe457c8576a6e25af2ab1dc1df4e9e15e1eeb65ead895e57c68c2834"
+      },
+      {
+        "name": "@knorvia/dynamic-workflow-runtime",
+        "config": "apps/cli/packages/dynamic-workflow-runtime/tsconfig.json",
+        "configSha256": "13760b0ff5a038282ac1c1d30d9f41d42bf1a0cda8c0f54152437d61cfbd1bd8",
+        "roots": 5,
+        "outputs": 5,
+        "rootListSha256": "e48266160181652c71b355e07e6661ef0ac45bee5429d6123aaa19da2bbe4f5d",
+        "outputListSha256": "420ae0de1579786550e369866d8d002daeb506eaa94d6119c5a3a4189f3a1bc9"
+      },
+      {
+        "name": "@knorvia/telemetry",
+        "config": "apps/cli/packages/telemetry/tsconfig.json",
+        "configSha256": "f63344528742dc32a8182462c1ed8023b0740cc85d49d5b0e079894ce7ebe9d5",
+        "roots": 10,
+        "outputs": 10,
+        "rootListSha256": "5cf764113bd20e71882119c124ae18e8c99356652256b74603d97c239762c348",
+        "outputListSha256": "e6a55a44c327acc680a7690e404a471a1b56b9d96a0313c73a2918f8fb7b703d"
+      }
+    ],
+    "scriptSha256": "857c3e292bc8edf266dbe330b2835f82737e04f9770bc79ba2fe45c71019480a"
+  },
+  "rawDirectedResults": {
+    "producer-before": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--test",
+        "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs"
+      ],
+      "exitCode": 1,
+      "stdout": "\n  .../knorvia-tui-esm-0JfKck/workspace with spaces 合成/dist/index.js  262b \n  ...rvia-tui-esm-0JfKck/workspace with spaces 合成/dist/index.js.map  325b \n\n⚡ Done in 6ms\n✔ real producer preserves ESM top-level await and the external package boundary (53.636776ms)\n\n  .../knorvia-tui-esm-iMNHXV/workspace with spaces 合成/dist/index.js  2.6kb\n  ...rvia-tui-esm-iMNHXV/workspace with spaces 合成/dist/index.js.map  1.1kb\n\n⚡ Done in 2ms\n✖ bundled CommonJS uses native builtins and module-relative require without global injection (38.28843ms)\nℹ tests 2\nℹ suites 0\nℹ pass 1\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 149.126375\n\n✖ failing tests:\n\ntest at apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs:51:1\n✖ bundled CommonJS uses native builtins and module-relative require without global injection (38.28843ms)\n  Error: Command failed: /tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node /tmp/knorvia-tui-esm-iMNHXV/different-cwd/check.mjs\n  file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:11\n    throw Error('Dynamic require of \"' + x + '\" is not supported');\n          ^\n  \n  Error: Dynamic require of \"process\" is not supported\n      at file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:11:9\n      at ../../tmp/knorvia-tui-esm-iMNHXV/workspace with spaces 合成/src/probe.cjs (file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:36:25)\n      at __require2 (file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:14:50)\n      at file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:55:28\n      at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n      at async file:///tmp/knorvia-tui-esm-iMNHXV/different-cwd/check.mjs:3:20\n  \n  Node.js v24.14.0\n  \n      at genericNodeError (node:internal/errors:985:15)\n      at wrappedFn (node:internal/errors:539:14)\n      at ChildProcess.exithandler (node:child_process:417:12)\n      at ChildProcess.emit (node:events:508:28)\n      at maybeClose (node:internal/child_process:1100:16)\n      at ChildProcess._handle.onexit (node:internal/child_process:305:5) {\n    code: 1,\n    killed: false,\n    signal: null,\n    cmd: '/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node /tmp/knorvia-tui-esm-iMNHXV/different-cwd/check.mjs',\n    stdout: '',\n    stderr: `file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:11\\n  throw Error('Dynamic require of \"' + x + '\" is not supported');\\n        ^\\n\\nError: Dynamic require of \"process\" is not supported\\n    at file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:11:9\\n    at ../../tmp/knorvia-tui-esm-iMNHXV/workspace with spaces 合成/src/probe.cjs (file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:36:25)\\n    at __require2 (file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:14:50)\\n    at file:///tmp/knorvia-tui-esm-iMNHXV/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:55:28\\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\\n    at async file:///tmp/knorvia-tui-esm-iMNHXV/different-cwd/check.mjs:3:20\\n\\nNode.js v24.14.0\\n`\n  }\n",
+      "stderr": "",
+      "qualification": "Only directory parameter added to exercise original build settings; no compatibility change yet."
+    },
+    "producer-after": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--test",
+        "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "\n  .../knorvia-tui-esm-IRCDyv/workspace with spaces 合成/dist/index.js  391b \n  ...rvia-tui-esm-IRCDyv/workspace with spaces 合成/dist/index.js.map  328b \n\n⚡ Done in 2ms\n✔ real producer preserves ESM top-level await and the external package boundary (40.674678ms)\n\n  .../knorvia-tui-esm-lYzS40/workspace with spaces 合成/dist/index.js  2.7kb\n  ...rvia-tui-esm-lYzS40/workspace with spaces 合成/dist/index.js.map  1.1kb\n\n⚡ Done in 1ms\n✔ bundled CommonJS uses native builtins and module-relative require without global injection (36.29921ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 134.129198\n",
+      "stderr": ""
+    },
+    "producer-require-only": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--test",
+        "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs"
+      ],
+      "exitCode": 1,
+      "stdout": "\n  .../knorvia-tui-esm-z9jEMo/workspace with spaces 合成/dist/index.js  1.9kb\n  ...rvia-tui-esm-z9jEMo/workspace with spaces 合成/dist/index.js.map  416b \n\n⚡ Done in 2ms\n✖ bundled CommonJS file context belongs to the emitted ESM module (39.925816ms)\n\n  .../knorvia-tui-esm-eaTUNV/workspace with spaces 合成/dist/index.js  391b \n  ...rvia-tui-esm-eaTUNV/workspace with spaces 合成/dist/index.js.map  328b \n\n⚡ Done in 1ms\n✔ real producer preserves ESM top-level await and the external package boundary (33.321992ms)\n\n  .../knorvia-tui-esm-pqaL44/workspace with spaces 合成/dist/index.js  2.7kb\n  ...rvia-tui-esm-pqaL44/workspace with spaces 合成/dist/index.js.map  1.1kb\n\n⚡ Done in 2ms\n✔ bundled CommonJS uses native builtins and module-relative require without global injection (38.228526ms)\nℹ tests 3\nℹ suites 0\nℹ pass 2\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 166.183294\n\n✖ failing tests:\n\ntest at apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs:54:1\n✖ bundled CommonJS file context belongs to the emitted ESM module (39.925816ms)\n  Error: Command failed: /tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node /tmp/knorvia-tui-esm-z9jEMo/different-cwd/check.mjs\n  file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:32\n      exports.context = { filename: __filename, dirname: __dirname };\n                                    ^\n  \n  ReferenceError: __filename is not defined in ES module scope\n  This file is being treated as an ES module because it has a '.js' file extension and '/tmp/knorvia-tui-esm-z9jEMo/workspace with spaces 合成/package.json' contains \"type\": \"module\". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.\n      at ../../tmp/knorvia-tui-esm-z9jEMo/workspace with spaces 合成/src/context.cjs (file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:32:35)\n      at __require (file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:10:50)\n      at file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:37:30\n      at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n      at async file:///tmp/knorvia-tui-esm-z9jEMo/different-cwd/check.mjs:5:20\n  \n  Node.js v24.14.0\n  \n      at genericNodeError (node:internal/errors:985:15)\n      at wrappedFn (node:internal/errors:539:14)\n      at ChildProcess.exithandler (node:child_process:417:12)\n      at ChildProcess.emit (node:events:508:28)\n      at maybeClose (node:internal/child_process:1100:16)\n      at ChildProcess._handle.onexit (node:internal/child_process:305:5) {\n    code: 1,\n    killed: false,\n    signal: null,\n    cmd: '/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node /tmp/knorvia-tui-esm-z9jEMo/different-cwd/check.mjs',\n    stdout: '',\n    stderr: `file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:32\\n    exports.context = { filename: __filename, dirname: __dirname };\\n                                  ^\\n\\nReferenceError: __filename is not defined in ES module scope\\nThis file is being treated as an ES module because it has a '.js' file extension and '/tmp/knorvia-tui-esm-z9jEMo/workspace with spaces 合成/package.json' contains \"type\": \"module\". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.\\n    at ../../tmp/knorvia-tui-esm-z9jEMo/workspace with spaces 合成/src/context.cjs (file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:32:35)\\n    at __require (file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:10:50)\\n    at file:///tmp/knorvia-tui-esm-z9jEMo/workspace%20with%20spaces%20%E5%90%88%E6%88%90/dist/index.js:37:30\\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\\n    at async file:///tmp/knorvia-tui-esm-z9jEMo/different-cwd/check.mjs:5:20\\n\\nNode.js v24.14.0\\n`\n  }\n",
+      "stderr": ""
+    },
+    "producer-final": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "--test",
+        "apps/cli/packages/tui/test/build-commonjs-esm-contract.test.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "\n  .../knorvia-tui-esm-gEOjKK/workspace with spaces 合成/dist/index.js  2.0kb\n  ...rvia-tui-esm-gEOjKK/workspace with spaces 合成/dist/index.js.map  418b \n\n⚡ Done in 3ms\n✔ bundled CommonJS file context belongs to the emitted ESM module (43.86893ms)\n\n  .../knorvia-tui-esm-aiIpk2/workspace with spaces 合成/dist/index.js  471b \n  ...rvia-tui-esm-aiIpk2/workspace with spaces 合成/dist/index.js.map  330b \n\n⚡ Done in 2ms\n✔ real producer preserves ESM top-level await and the external package boundary (35.995426ms)\n\n  .../knorvia-tui-esm-4REedX/workspace with spaces 合成/dist/index.js  2.8kb\n  ...rvia-tui-esm-4REedX/workspace with spaces 合成/dist/index.js.map  1.1kb\n\n⚡ Done in 2ms\n✔ bundled CommonJS uses native builtins and module-relative require without global injection (43.161441ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 178.044365\n",
+      "stderr": ""
+    },
+    "actual-before-build": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "temporary original TUI scripts/build.mjs at 902e35c6dbcfa4b829270352fecf03ebc07b219f"
+      ],
+      "producerSourceSha256": "c0965864cef78046d00a56a6ad9eb035c4e21e3008babdefd6df39efce615659",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "▲ [WARNING] This \"import()\" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]\n\n    apps/cli/packages/core/dist/repl/runtime-values.js:85:37:\n      85 │             return import(specifier, options);\n         ╵                                      ^\n\n1 warning\n\n  apps/cli/packages/tui/dist/index.js      17.2mb ⚠️\n  apps/cli/packages/tui/dist/index.js.map  29.9mb\n\n⚡ Done in 1042ms\n",
+      "artifactSha256": "29b9d4b51373a210619c63e268bfe8e64828acaf72e7353bf739f71c11d589f7",
+      "artifactBytes": 18057914
+    },
+    "actual-after-build": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "apps/cli/packages/tui/scripts/build.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "▲ [WARNING] This \"import()\" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]\n\n    apps/cli/packages/core/dist/repl/runtime-values.js:85:37:\n      85 │             return import(specifier, options);\n         ╵                                      ^\n\n1 warning\n\n  apps/cli/packages/tui/dist/index.js      17.2mb ⚠️\n  apps/cli/packages/tui/dist/index.js.map  29.9mb\n\n⚡ Done in 996ms\n",
+      "artifactSha256": "479c2fabf3044804494112a260e0c31553442b0c96756e63fa16419f4cf786fb",
+      "artifactBytes": 18058042
+    },
+    "actual-cli-build": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "apps/cli/packages/cli/scripts/build.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "▲ [WARNING] This \"import()\" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]\n\n    apps/cli/packages/core/dist/repl/runtime-values.js:85:37:\n      85 │             return import(specifier, options);\n         ╵                                      ^\n\n1 warning\n\n  apps/cli/packages/cli/dist/knorvia.cjs      29.3mb ⚠️\n  apps/cli/packages/cli/dist/knorvia.cjs.map  48.4mb\n\n⚡ Done in 1607ms\n",
+      "artifactSha256": "6a5f31fff96845ed0f39db5c819b214f1dcf750a7526509844ffdd836f6501f5",
+      "artifactBytes": 30692284
+    },
+    "actual-final-build": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "apps/cli/packages/tui/scripts/build.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "▲ [WARNING] This \"import()\" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]\n\n    apps/cli/packages/core/dist/repl/runtime-values.js:85:37:\n      85 │             return import(specifier, options);\n         ╵                                      ^\n\n1 warning\n\n  apps/cli/packages/tui/dist/index.js      17.2mb ⚠️\n  apps/cli/packages/tui/dist/index.js.map  29.9mb\n\n⚡ Done in 1078ms\n",
+      "artifactSha256": "eb442a64d79117d103e10c095053968b649b265ac20b6f0f5d41c47da16a4bd9",
+      "artifactBytes": 18058122,
+      "payloadIdenticalAfterRemovingBanner": true,
+      "bannerBytes": 208
+    },
+    "actual-handoff-final-build": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "apps/cli/packages/tui/scripts/build.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "▲ [WARNING] This \"import()\" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]\n\n    apps/cli/packages/core/dist/repl/runtime-values.js:85:37:\n      85 │             return import(specifier, options);\n         ╵                                      ^\n\n1 warning\n\n  apps/cli/packages/tui/dist/index.js      17.2mb ⚠️\n  apps/cli/packages/tui/dist/index.js.map  29.9mb\n\n⚡ Done in 1019ms\n",
+      "artifactSha256": "4acabf73c1a4e23d3ced2e217bf4342af30618ca1ded12d4184b55e3412f4b9c",
+      "artifactBytes": 18058215,
+      "sourceCheckpoint": "45791a532b344719f4df661c9085db735d531985"
+    },
+    "actual-staged-before-import": {
+      "args": [
+        "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+        "/tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/.baseline-tui-import-20261003.mjs"
+      ],
+      "cwd": "/tmp/knorvia-tui-distribution-X0dTB0/baseline-workspace",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:11\n  throw Error('Dynamic require of \"' + x2 + '\" is not supported');\n        ^\n\nError: Dynamic require of \"process\" is not supported\n    at file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:11:9\n    at node_modules/yaml/dist/compose/composer.js (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:5107:24)\n    at __require2 (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:14:50)\n    at node_modules/yaml/dist/index.js (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:7316:20)\n    at __require2 (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:14:50)\n    at file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:291915:27\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.0\n",
+      "beforeTuiArtifactSha256": "29b9d4b51373a210619c63e268bfe8e64828acaf72e7353bf739f71c11d589f7",
+      "restoredAfterTuiArtifactSha256": "479c2fabf3044804494112a260e0c31553442b0c96756e63fa16419f4cf786fb",
+      "qualification": "Actual original 902e35c TUI emitter output substituted into the same isolated real host-target collector closure for before/after diagnosis. No global require, loader hook, or test builtin injection. Restored exact current artifact before smoke."
+    }
+  },
+  "intermediateRealFailures": [
+    {
+      "label": "Require-only emitter reaches bundled TypeScript then __filename fails",
+      "exitCode": 1,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "a4307c91a3fe9fe49a9db70510d7236b132f0a4c561691cea2abbaa4eed2033f",
+      "excerpt": "node:internal/errors:985\n  const err = new Error(message);\n              ^\n\nError: Command failed: /tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node /tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/tui-import-smoke-8lIeod/check.mjs\nfile:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:19020\n            return !fileExists2(swapCase(__filename));\n                                         ^\n\nReferenceError: __filename is not defined in ES module scope\n    at isFileSystemCaseSensitive (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:19020:42)\n    at getNodeSystem (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:18813:46)\n    at file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:19206:18\n    at file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:19212:9\n    at apps/cli/packages/dynamic-workflow/node_modules/typescript/lib/typescript.js (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:220984:7)\n    at __require2 (file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:16:50)\n    at file:///tmp/knorvia-tui-distribution-X0dTB0/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:316244:33\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.0\n\n    at genericNodeError (node:internal/errors:985:15)\n    at wrappedFn (node:internal/errors:539:14)\n "
+    },
+    {
+      "label": "Correct ESM import succeeds; explicit ~/ default SQLite path is not redirected by DATA_BASE_DIR",
+      "exitCode": 1,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "8316daa3bf787ab35e63c4265b8359cbb26224a265d212f69fe1a4992ff75ebb",
+      "error": "Failed to open SQLite session database at the existing explicit ~/ default; sandbox home writes were not authorized; no escalation requested."
+    },
+    {
+      "label": "Native import/full input render succeed; original keyboard assertion fails at actual 130",
+      "exitCode": 1,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "8ff852f0e30db7e6ee56456c4bb60f011b9afe74689a115687d7fa413274816c",
+      "initializedPromptFound": true,
+      "assertion": "130 !== 0\n\n    at smokePackagedTui (file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/tui-distribution-smoke.mjs:125:12)\n    at async file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/tui-distribution-smoke.mjs:163:30 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 130,\n  expected: 0,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n"
+    },
+    {
+      "label": "Diagnostic 500ms wait still returns 130; delay removed from final smoke",
+      "exitCode": 1,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "353686e30e17d1dbce9805f762fca3f76439628cde236ec81bd9a19fb8e083cc",
+      "initializedPromptFound": true,
+      "assertion": "130 !== 0\n\n    at smokePackagedTui (file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/tui-distribution-smoke.mjs:129:12)\n    at async file:///workspace/knorvia-studio/apps/cli/packages/cli/scripts/tui-distribution-smoke.mjs:167:30 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 130,\n  expected: 0,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n"
+    }
+  ],
+  "diagnosticExitOwnership": {
+    "qualification": "Diagnostic run only; temporary onExit tracing added to the owned TUI entry, then original source, map, local and staged product artifacts restored in finally. No global/loader injection. Not acceptance evidence.",
+    "traceEvents": [
+      {
+        "code": 130,
+        "appMounted": true,
+        "stack": "Error\n    at onExit (file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:354252:103)\n    at file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:354187:39\n    at file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-react/index.js:31:12\n    at InternalKeyHandler.emitWithPriority (file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-core/index-ba782b4w.js:468:11)\n    at InternalKeyHandler.emit (file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-core/index-ba782b4w.js:459:17)\n    at InternalKeyHandler.processParsedKey (file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-core/index-ba782b4w.js:432:16)\n    at CliRenderer.handleStdinEvent (file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-core/index-ba782b4w.js:22398:26)\n    at file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-core/index-ba782b4w.js:22389:12\n    at StdinParser.drain (file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-core/index-ba782b4w.js:6019:7)\n    at CliRenderer.drainStdinParser (file:///tmp/knorvia-tui-distribution-QYfe63/knorvia/agent/node_modules/@mbears/opentui-core/index-ba782b4w.js:22388:22)"
+      }
+    ],
+    "rawStderrSha256": "654523a195b70d26a0ede12e395e31af1db07035c69ae55a7cc588e82f2af7ec",
+    "ptyMode": "Read-only task-owned PTY stty showed -isig; no terminal mode mutation, OS SIGINT inference, or loader injection",
+    "restoration": "Original tracked TUI source/map and local/staged production artifacts restored in finally, then actual handoff repair separately committed and rebuilt"
+  },
+  "discardedTestAuthoringRun": {
+    "classification": "Directed test authoring error; metadata test accidentally registered inside import helper and recursively created child tests. Task-owned test Node processes stopped with SIGTERM, registration moved to top level, and subsequent exact three-test runs independently recorded. This aborted run is not product acceptance evidence or included in pass counts.",
+    "rawLogSha256": "e137f52b5b5b2fc0e10a298e6e87c3d22caa7268eb36c35b2499f14775914568",
+    "rawLogBytes": 2470282,
+    "referencedTemporaryFixtureDirectories": 4,
+    "removedOwnedFixtureDirectories": 0
+  },
+  "staging": {
+    "sourceCheckpoint": "add7f37d2131587adf4a66e015edbad587110f11",
+    "node": "v24.14.0",
+    "target": "linux-x64",
+    "packageRoot": "/tmp/knorvia-tui-distribution-MrVK0Y/knorvia",
+    "productionCollector": "apps/cli/packages/cli/scripts/sea-tui-assets.mjs#collectSeaTuiAssets",
+    "runtimeStaging": "Unmodified scripts/distribution/assets.mjs#copyRuntimeNodeModules + patchNodePtyPrebuilds",
+    "runner": "Unmodified scripts/distribution/runner.mjs",
+    "collectorFiles": 8024,
+    "collectorManifestHash": "63dea2ad4424465f769ca7eefaae481a650f4df8b6b5dca45b862787461108fe",
+    "perFileVerification": "All collected files copied with their production mode and verified SHA-256",
+    "qualification": "Real host-target CLI/TUI layout; no full Web/server/desktop/SEA/archive build. Only the native host target collector closure was staged."
+  },
+  "manifestReceipt": {
+    "sha256": "6d6bc716c7e043ffb0b40910c8c534a7417346d19c82c5237e6ad2ca7f530f09",
+    "fileCount": 8024,
+    "hash": "63dea2ad4424465f769ca7eefaae481a650f4df8b6b5dca45b862787461108fe",
+    "afterSmoke": "All 8024 collected physical file SHA-256 values still match the production manifest after final native import/PTY scenarios"
+  },
+  "actualNativeSmoke": {
+    "args": [
+      "/tmp/knorvia-cli-final-tools/node-v24.14.0-linux-x64/bin/node",
+      "apps/cli/packages/cli/scripts/tui-distribution-smoke.mjs",
+      "/tmp/knorvia-tui-distribution-MrVK0Y/knorvia"
+    ],
+    "exitCode": 0,
+    "stdout": "{\n  \"node\": \"v24.14.0\",\n  \"platform\": \"linux\",\n  \"arch\": \"x64\",\n  \"version\": \"0.8.0-preview.3\",\n  \"isolated\": true,\n  \"environment\": \"allowlisted OS runtime keys; empty NODE_OPTIONS/NODE_PATH; synthetic workspace/data; no provider credentials or prompt\",\n  \"help\": \"passed\",\n  \"nativeImport\": \"passed; global require absent\",\n  \"initializedRender\": \"passed; unchanged root smoke markers\",\n  \"keyboardExit\": {\n    \"exitCode\": 0,\n    \"signal\": 0\n  },\n  \"pendingStartupCancellation\": {\n    \"exitCode\": 130,\n    \"signal\": 0\n  },\n  \"initializedScreenSha256\": \"1112fc6d6e92f2dcada9d0275d140569914ee76466b0585180decdb917c04968\",\n  \"artifacts\": [\n    {\n      \"path\": \"bin/knorvia.mjs\",\n      \"sha256\": \"3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd\"\n    },\n    {\n      \"path\": \"agent/knorvia.cjs\",\n      \"sha256\": \"6a5f31fff96845ed0f39db5c819b214f1dcf750a7526509844ffdd836f6501f5\"\n    },\n    {\n      \"path\": \"agent/node_modules/@knorvia/tui/dist/index.js\",\n      \"sha256\": \"4acabf73c1a4e23d3ced2e217bf4342af30618ca1ded12d4184b55e3412f4b9c\"\n    }\n  ],\n  \"qualification\": \"Host-target staged CLI/TUI runtime smoke. No Web/server/desktop build or complete distribution/archive/SEA acceptance.\"\n}\n",
+    "stderr": "",
+    "result": {
+      "node": "v24.14.0",
+      "platform": "linux",
+      "arch": "x64",
+      "version": "0.8.0-preview.3",
+      "isolated": true,
+      "environment": "allowlisted OS runtime keys; empty NODE_OPTIONS/NODE_PATH; synthetic workspace/data; no provider credentials or prompt",
+      "help": "passed",
+      "nativeImport": "passed; global require absent",
+      "initializedRender": "passed; unchanged root smoke markers",
+      "keyboardExit": {
+        "exitCode": 0,
+        "signal": 0
+      },
+      "pendingStartupCancellation": {
+        "exitCode": 130,
+        "signal": 0
+      },
+      "initializedScreenSha256": "1112fc6d6e92f2dcada9d0275d140569914ee76466b0585180decdb917c04968",
+      "artifacts": [
+        {
+          "path": "bin/knorvia.mjs",
+          "sha256": "3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd"
+        },
+        {
+          "path": "agent/knorvia.cjs",
+          "sha256": "6a5f31fff96845ed0f39db5c819b214f1dcf750a7526509844ffdd836f6501f5"
+        },
+        {
+          "path": "agent/node_modules/@knorvia/tui/dist/index.js",
+          "sha256": "4acabf73c1a4e23d3ced2e217bf4342af30618ca1ded12d4184b55e3412f4b9c"
+        }
+      ],
+      "qualification": "Host-target staged CLI/TUI runtime smoke. No Web/server/desktop build or complete distribution/archive/SEA acceptance."
+    }
+  },
+  "coordination": {
+    "patch": "docs/evidence/backlog-cli-20261003/integrator-tui-esm-smoke-20261003.patch",
+    "patchSha256": "3ebab76f0498467edf1224a19f95b666bf4b9d03452d853cba65b3a9b33d8a1d",
+    "patchCheck": "git apply --check succeeded; patch NOT applied. Root test registration and existing storage env isolation only.",
+    "globalRecords": "Integrator owns frozen-evidence and current source/output registrations; no public contract/interface change.",
+    "finalAcceptance": "Rebuild complete distribution/SEA/archive at new unified SHA; run original root distribution-smoke after integrator-owned storage isolation; full Linux/Windows/macOS/platform acceptance remains outside this directed task."
+  },
+  "notExecuted": [
+    "full repository or CLI regression",
+    "lint",
+    "typecheck or semantic compiler diagnostics",
+    "full root/product build",
+    "full source/license audit",
+    "Web/server/desktop package build",
+    "complete archive/SEA build",
+    "real Windows/macOS acceptance",
+    "real model/provider/external API calls"
+  ],
+  "licensing": "Apache-2.0 continues; prior upstream/third-party copyright and license/NOTICE records retained; no MIT or legal independence claim."
+}
