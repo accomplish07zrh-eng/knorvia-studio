@@ -35,7 +35,9 @@ export function compactProjectionChanges(
   const boundary = parseCompactBoundaryPayload(payload);
   return {
     contextUsed:
-      boundary.truePostCompactTokenCount ?? boundary.postCompactTokenCount ?? projection.contextUsed,
+      boundary.truePostCompactTokenCount ??
+      boundary.postCompactTokenCount ??
+      projection.contextUsed,
     lastCompact: {
       boundaryId: boundary.boundaryId,
       trigger: boundary.trigger,
@@ -116,7 +118,9 @@ function backgroundSnapshot(
     if (!completed && field === "completedAt") continue;
     entries.push([field, payload[field]]);
   }
-  return Object.fromEntries(entries) as BackgroundTaskInfo;
+  // 固定白名单含 payload 必需的 taskId/status；不为类型修复提前重读 getter 或增加默认值。
+  const snapshot: Partial<BackgroundTaskInfo> = Object.fromEntries(entries);
+  return snapshot as BackgroundTaskInfo;
 }
 
 function overlayDefinedTaskFields(
@@ -173,5 +177,7 @@ export function backgroundCompletedChanges(
     matched = true;
     return overlayDefinedTaskFields(row, next);
   });
-  return { backgroundTasks: matched ? rows : appendProjectionRow(projection.backgroundTasks, next) };
+  return {
+    backgroundTasks: matched ? rows : appendProjectionRow(projection.backgroundTasks, next),
+  };
 }

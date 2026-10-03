@@ -1,12 +1,14 @@
 // Minimal synthetic data boundaries; dependency behavior is injected, never integrated.
 import assert from "node:assert/strict";
+import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { runInNewContext } from "node:vm";
 import { test } from "node:test";
 import { createRequire } from "node:module";
 import { build } from "esbuild";
 
-const root = process.argv[2];
+// 根统一入口没有 positional root；显式历史输入仍优先，默认核对本包当前源码。
+const root = process.argv[2] ?? fileURLToPath(new URL("../src/", import.meta.url));
 assert.ok(root, "Supply baseline or candidate source root.");
 const { z } = createRequire(import.meta.url)("zod");
 const plain = (value) => JSON.parse(JSON.stringify(value));

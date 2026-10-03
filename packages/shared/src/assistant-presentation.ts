@@ -116,8 +116,8 @@ export function buildKnorviaAssistantPresentation({
     }
     const latestContent = getLatestAssistantContentPart(contentParts);
     if (latestContent !== null) {
-      for (let index = 0; index < blocks.length; index += 1) {
-        const block = blocks[index];
+      // blocks 由本函数按序 push 构成；entries 保留索引与身份并让类型检查确认元素存在。
+      for (const [index, block] of blocks.entries()) {
         if (block.type === "content" && block.content === latestContent.content) {
           latestPart = block;
           selectedIndex = index;

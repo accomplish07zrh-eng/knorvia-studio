@@ -1,10 +1,12 @@
 // In-memory ports only: no native files, locks, PIDs, clocks, timers, hashing or permissions.
 import assert from "node:assert/strict";
+import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { runInNewContext } from "node:vm";
 import { test } from "node:test";
 import { build } from "esbuild";
-const root = process.argv[2];
+// 根统一入口没有 positional root；显式历史输入仍优先，默认核对本包当前源码。
+const root = process.argv[2] ?? fileURLToPath(new URL("../src/node/", import.meta.url));
 assert.ok(root, "Supply source root.");
 const plain = (x) => JSON.parse(JSON.stringify(x));
 const err = (code) => Object.assign(new Error("synthetic " + code), { code });
