@@ -49,6 +49,7 @@ import { acceptsGroupedDragCollision } from "@/workspace-grouped-tasks/groupedDr
 import { GroupedDragSessionOwner, type GroupedDragPorts } from "@/workspace-grouped-tasks/groupedDragSessionOwner.js";
 import { GroupedSectionInteractionOwner, type GroupedSectionInteractionPorts } from "@/workspace-grouped-tasks/groupedSectionInteractionOwner.js";
 import { GroupedSectionMenuProjection } from "@/workspace-grouped-tasks/groupedSectionMenuProjection.js";
+import { GroupedSectionDomOwner, type GroupedSectionDomPorts } from "@/workspace-grouped-tasks/groupedSectionDomOwner.js";
 import {
   cancelWorkbenchPointerDrag,
   finishWorkbenchPointerDrag,
@@ -58,34 +59,11 @@ import {
   createWorkbenchPointerPositionTracker,
 } from "@/v4/workbenchPointerPositionTracker.js";
 
-function findNearestScrollableAncestor(element: HTMLElement): HTMLElement | null {
-  let current = element.parentElement;
-  while (current) {
-    const style = window.getComputedStyle(current);
-    const canScrollY =
-      /(auto|scroll)/.test(style.overflowY) && current.scrollHeight > current.clientHeight;
-    if (canScrollY) {
-      return current;
-    }
-    current = current.parentElement;
-  }
-  return null;
-}
-
 const groupedTaskCollisionDetection: CollisionDetection = (args) => closestCenter({
   ...args,
   droppableContainers: args.droppableContainers.filter((container) =>
     acceptsGroupedDragCollision(args.active.data.current, container.data.current)),
 });
-
-type GroupedTaskLayoutRects = Map<
-  string,
-  {
-    height: number;
-    left: number;
-    top: number;
-  }
->;
 
 const GROUPED_TASK_DROP_ANIMATION: DropAnimation = {
   duration: 150,
@@ -95,170 +73,6 @@ const GROUPED_TASK_AUTO_SCROLL_THRESHOLD = {
   x: 0.1,
   y: 0.1,
 } as const;
-
-function collectGroupedTaskLayoutRects(root: HTMLElement | null): GroupedTaskLayoutRects {
-  const rects: GroupedTaskLayoutRects = new Map();
-  if (!root) {
-    return rects;
-  }
-  root.querySelectorAll<HTMLElement>("[data-grouped-layout-key]").forEach((element) => {
-    const key = element.getAttribute("data-grouped-layout-key");
-    if (!key) {
-      return;
-    }
-    const rect = element.getBoundingClientRect();
-    rects.set(`layout:${key}`, {
-      height: rect.height,
-      left: rect.left,
-      top: rect.top,
-    });
-  });
-  root.querySelectorAll<HTMLElement>("[data-grouped-task-key]").forEach((element) => {
-    const key = element.getAttribute("data-grouped-task-key");
-    if (!key) {
-      return;
-    }
-    const rect = element.getBoundingClientRect();
-    rects.set(`task:${key}`, {
-      height: rect.height,
-      left: rect.left,
-      top: rect.top,
-    });
-  });
-  return rects;
-}
-
-function measureGroupedTaskPreviewWidth(
-  root: HTMLElement | null,
-  targetTaskKey: string,
-): number | null {
-  if (!root) {
-    return null;
-  }
-  const targetDomKey = encodeURIComponent(targetTaskKey);
-  for (const element of root.querySelectorAll<HTMLElement>("[data-grouped-task-key]")) {
-    if (element.getAttribute("data-grouped-task-key") === targetDomKey) {
-      return element.getBoundingClientRect().width;
-    }
-  }
-  return null;
-}
-
-function measureGroupedGroupPreviewWidth(
-  root: HTMLElement | null,
-  targetGroupId: string,
-): number | null {
-  if (!root) {
-    return null;
-  }
-  for (const element of root.querySelectorAll<HTMLElement>("[data-grouped-group-item-id]")) {
-    if (element.getAttribute("data-grouped-group-item-id") === targetGroupId) {
-      return element.getBoundingClientRect().width;
-    }
-  }
-  return null;
-}
-
-function resolveStickyGroupedTaskGroupId(root: HTMLElement | null): string | null {
-  if (!root) {
-    return null;
-  }
-  const scrollContainer = findNearestScrollableAncestor(root);
-  if (!scrollContainer) {
-    return null;
-  }
-  const containerTop = scrollContainer.getBoundingClientRect().top;
-  let stickyGroupId: string | null = null;
-  for (const element of root.querySelectorAll<HTMLElement>("[data-grouped-group-item-id]")) {
-    const groupId = element.getAttribute("data-grouped-group-item-id");
-    if (element.getAttribute("data-group-collapsed") === "true") {
-      continue;
-    }
-    const header = groupId
-      ? root.querySelector<HTMLElement>(`[data-grouped-group-header-id="${CSS.escape(groupId)}"]`)
-      : null;
-    if (!groupId || !header) {
-      continue;
-    }
-    const groupRect = element.getBoundingClientRect();
-    const headerRect = header.getBoundingClientRect();
-    const headerHeight = headerRect.height || 32;
-    const headerHasScrolledPastTop = headerRect.top < containerTop - 0.5;
-    const groupStillCoversTop = groupRect.bottom > containerTop + headerHeight + 0.5;
-    if (headerHasScrolledPastTop && groupStillCoversTop) {
-      stickyGroupId = groupId;
-    }
-  }
-  return stickyGroupId;
-}
-
-function animateGroupedTaskLayoutFrom(
-  root: HTMLElement | null,
-  previousRects: GroupedTaskLayoutRects,
-) {
-  if (!root || previousRects.size === 0) {
-    return;
-  }
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return;
-  }
-  const selector = "[data-grouped-layout-key], [data-grouped-task-key]";
-  root.querySelectorAll<HTMLElement>(selector).forEach((element) => {
-    const layoutKey = element.getAttribute("data-grouped-layout-key");
-    const taskKeyValue = element.getAttribute("data-grouped-task-key");
-    const previousRect = layoutKey
-      ? previousRects.get(`layout:${layoutKey}`)
-      : taskKeyValue
-        ? previousRects.get(`task:${taskKeyValue}`)
-        : null;
-    if (!previousRect) {
-      return;
-    }
-    const nextRect = element.getBoundingClientRect();
-    const deltaX = previousRect.left - nextRect.left;
-    const deltaY = previousRect.top - nextRect.top;
-    const deltaHeight = previousRect.height - nextRect.height;
-    const shouldAnimateHeight = Boolean(layoutKey) && Math.abs(deltaHeight) >= 0.5;
-    if (Math.abs(deltaX) < 0.5 && Math.abs(deltaY) < 0.5 && !shouldAnimateHeight) {
-      return;
-    }
-    element.getAnimations().forEach((animation) => animation.cancel());
-    const previousOverflow = element.style.overflow;
-    if (shouldAnimateHeight) {
-      element.style.overflow = "hidden";
-    }
-    const animation = element.animate(
-      [
-        {
-          height: shouldAnimateHeight ? `${previousRect.height}px` : undefined,
-          transform: `translate(${deltaX}px, ${deltaY}px)`,
-        },
-        {
-          height: shouldAnimateHeight ? `${nextRect.height}px` : undefined,
-          transform: "translate(0, 0)",
-        },
-      ],
-      {
-        duration: 150,
-        easing: "cubic-bezier(0.2, 0, 0, 1)",
-      },
-    );
-    animation.addEventListener(
-      "finish",
-      () => {
-        element.style.overflow = previousOverflow;
-      },
-      { once: true },
-    );
-    animation.addEventListener(
-      "cancel",
-      () => {
-        element.style.overflow = previousOverflow;
-      },
-      { once: true },
-    );
-  });
-}
 
 export function WorkspaceGroupedTasksSection({
   workspaceTabs,
@@ -367,13 +181,17 @@ export function WorkspaceGroupedTasksSection({
     section.reconcileArchives(authoritativeView);
   }, [archivingTaskKeys.size, authoritativeView, section]);
   const groupedSectionRootRef = useRef<HTMLDivElement | null>(null);
+  const domPortsRef = useRef<GroupedSectionDomPorts | null>(null);
+  const [dom] = useState(() => new GroupedSectionDomOwner(() => {
+    if (!domPortsRef.current) throw new Error("Grouped DOM ports are inactive");
+    return domPortsRef.current;
+  }));
   // 已经画出过 grouped 列表：之后任何 loading/未初始化帧都不再回到空白门禁。
   // 挂载时若模块级缓存已种出非空 view，本帧就会画出列表，闩锁直接种 true——把「渲染期置位」
   // 的窗口收窄到只剩真正的首屏。
   const hasPaintedGroupedListRef = useRef(view.nodes.length > 0);
   const renameInputRef = useRef<HTMLInputElement | null>(null);
   const [menuProjection] = useState(() => new GroupedSectionMenuProjection());
-  const layoutAnimationFrameRef = useRef<number | null>(null);
   const [stickyGroupId, setStickyGroupId] = useState<string | null>(null);
   const dragPortsRef = useRef<GroupedDragPorts | null>(null);
   const [dragSession] = useState(() => new GroupedDragSessionOwner(() => {
@@ -424,6 +242,18 @@ export function WorkspaceGroupedTasksSection({
     section.reconcileArchiveServices();
   });
   useLayoutEffect(() => section.activate(), [baseServices.taskService, scopeSignature, section]);
+  useLayoutEffect(() => {
+    domPortsRef.current = {
+      root: () => groupedSectionRootRef.current, window, setView,
+      escape: (value) => CSS.escape(value),
+      resizeObserver: (callback) => typeof ResizeObserver === "undefined" ? null : new ResizeObserver(callback),
+    };
+  });
+  useLayoutEffect(() => dom.activate(), [dom]);
+  useLayoutEffect(() => {
+    dom.clearLayout();
+    return dom.clearLayout;
+  }, [baseServices.taskService, dom, scopeSignature]);
   const handleGroupedPointerDownCapture = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
       // 必须在 dnd-kit 激活前监听，才能捕获越过 6px 阈值的首个
@@ -441,72 +271,19 @@ export function WorkspaceGroupedTasksSection({
     return () => onCreateDraftTaskActionChange?.(null);
   }, [handleCreateContextualDraftTask, onCreateDraftTaskActionChange]);
   useEffect(() => {
-    if (groupedDraftTask?.placement.type !== "top") {
-      return;
-    }
-    const rootElement = groupedSectionRootRef.current;
-    if (!rootElement) {
-      return;
-    }
-    const frameId = window.requestAnimationFrame(() => {
-      const scrollContainer = findNearestScrollableAncestor(rootElement);
-      // 全局 New task 的草稿创建在 grouped 列表顶部。
-      // 用户可能已经滚到下面的 group；这里按入口语义把列表滚动条归零，而不是只保证草稿可见。
-      scrollContainer?.scrollTo({ top: 0 });
-    });
-    return () => {
-      window.cancelAnimationFrame(frameId);
-    };
-  }, [groupedDraftFocusVersion, groupedDraftTask]);
+    if (groupedDraftTask?.placement.type === "top") return dom.scrollTopDraft();
+  }, [dom, groupedDraftFocusVersion, groupedDraftTask]);
   const { menus: groups, ids: groupIds } = useMemo(() => menuProjection.project(view), [menuProjection, view]);
   useEffect(() => {
     onGroupedTaskGroupIdsChange?.(groupIds);
   }, [groupIds, onGroupedTaskGroupIdsChange]);
   useEffect(() => {
-    const rootElement = groupedSectionRootRef.current;
-    if (!rootElement || activeDragTaskKey !== null || activeDragGroupId !== null) {
+    if (activeDragTaskKey !== null || activeDragGroupId !== null) {
       setStickyGroupId(null);
-      return undefined;
+      return;
     }
-    const scrollContainer = findNearestScrollableAncestor(rootElement);
-    if (!scrollContainer) {
-      setStickyGroupId(null);
-      return undefined;
-    }
-    let animationFrame: number | null = null;
-    const updateStickyGroup = () => {
-      animationFrame = null;
-      setStickyGroupId(resolveStickyGroupedTaskGroupId(rootElement));
-    };
-    const scheduleUpdate = () => {
-      if (animationFrame !== null) {
-        return;
-      }
-      animationFrame = window.requestAnimationFrame(updateStickyGroup);
-    };
-    updateStickyGroup();
-    scrollContainer.addEventListener("scroll", scheduleUpdate, {
-      passive: true,
-    });
-    window.addEventListener("resize", scheduleUpdate);
-    const resizeObserver =
-      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(scheduleUpdate);
-    resizeObserver?.observe(rootElement);
-    return () => {
-      if (animationFrame !== null) {
-        window.cancelAnimationFrame(animationFrame);
-      }
-      scrollContainer.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-      resizeObserver?.disconnect();
-    };
-  }, [
-    activeDragGroupId,
-    activeDragTaskKey,
-    collapsedGroupIds,
-    groupedDraftTask?.placement,
-    view.nodes,
-  ]);
+    return dom.watchSticky(setStickyGroupId);
+  }, [activeDragGroupId, activeDragTaskKey, collapsedGroupIds, dom, groupedDraftTask?.placement, view.nodes]);
   const workspaceTabByKey = useMemo(
     () =>
       new Map(
@@ -519,7 +296,7 @@ export function WorkspaceGroupedTasksSection({
   );
 
   const getTaskWorkspaceLabel = useCallback(
-    (task: KnorviaTaskMeta) => {
+    (task: Pick<KnorviaTaskMeta, "workspacePath" | "workspaceIdentity">) => {
       const tab = workspaceTabByKey.get(
         buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity),
       );
@@ -532,17 +309,8 @@ export function WorkspaceGroupedTasksSection({
     },
     [intl, workspaceTabByKey],
   );
-  const draftWorkspaceLabel = useMemo(() => {
-    const tab = workspaceTabByKey.get(
-      buildTaskWorkspaceKey(activeWorkspacePath, activeWorkspaceIdentity),
-    );
-    if (tab?.workspacePurpose === "conversation") {
-      return intl.formatMessage({
-        id: "workspaceSidebar.conversationsSection",
-      });
-    }
-    return tab?.label || getPathLeaf(activeWorkspacePath) || activeWorkspacePath;
-  }, [activeWorkspaceIdentity, activeWorkspacePath, intl, workspaceTabByKey]);
+  const draftWorkspaceLabel = useMemo(() => getTaskWorkspaceLabel({ workspacePath: activeWorkspacePath, workspaceIdentity: activeWorkspaceIdentity }),
+    [activeWorkspaceIdentity, activeWorkspacePath, getTaskWorkspaceLabel]);
 
   const getTaskRemoteSessionId = useCallback(
     (task: KnorviaTaskMeta) =>
@@ -580,28 +348,7 @@ export function WorkspaceGroupedTasksSection({
   const handleCloseTask = section.archive, handleRenameGroup = section.renameGroup;
   const handleUpdateGroupColor = section.colorGroup, handleUngroupGroup = section.ungroup;
 
-  useEffect(() => {
-    return () => {
-      if (layoutAnimationFrameRef.current !== null) {
-        window.cancelAnimationFrame(layoutAnimationFrameRef.current);
-      }
-    };
-  }, []);
-
-  const setViewWithGroupedTaskAnimation = useCallback(
-    (nextView: KnorviaGroupedTaskView) => {
-      const previousRects = collectGroupedTaskLayoutRects(groupedSectionRootRef.current);
-      setView(nextView);
-      if (layoutAnimationFrameRef.current !== null) {
-        window.cancelAnimationFrame(layoutAnimationFrameRef.current);
-      }
-      layoutAnimationFrameRef.current = window.requestAnimationFrame(() => {
-        layoutAnimationFrameRef.current = null;
-        animateGroupedTaskLayoutFrom(groupedSectionRootRef.current, previousRects);
-      });
-    },
-    [setView],
-  );
+  const setViewWithGroupedTaskAnimation = dom.applyView;
 
   useEffect(() => {
     if (!renamingTaskKey) {
@@ -632,9 +379,7 @@ export function WorkspaceGroupedTasksSection({
         } : null;
       },
       // 宽度只在 start 测一次，避免 preview 重排与 dnd-kit 测量形成同步更新循环。
-      measure: (kind, key) => kind === "group"
-        ? measureGroupedGroupPreviewWidth(groupedSectionRootRef.current, key)
-        : measureGroupedTaskPreviewWidth(groupedSectionRootRef.current, key),
+      measure: dom.measure,
       animate: setViewWithGroupedTaskAnimation,
       persist: (next, canPublish) => {
         const sectionAllows = section.permitOrder();
@@ -674,12 +419,8 @@ export function WorkspaceGroupedTasksSection({
     if (!dragging || typeof document === "undefined") {
       return undefined;
     }
-    const previousCursor = document.body.style.cursor;
-    document.body.style.cursor = "grabbing";
-    return () => {
-      document.body.style.cursor = previousCursor;
-    };
-  }, [activeDragTaskKey, activeDragGroupId]);
+    return dom.grabCursor(document.body);
+  }, [activeDragTaskKey, activeDragGroupId, dom]);
 
   const groupedTooltipsDisabled = activeDragTaskKey !== null || activeDragGroupId !== null;
   const stickyGroupNode = useMemo(

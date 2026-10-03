@@ -105,6 +105,39 @@ flowchart LR
   其迟到 metadata 的本地接受权。所有 JSX、菜单项、labels、focus/select 和首屏
   painted latch 保留；短桥接和既有 view helper 不计新独立作者证明。
 
+## WorkspaceGroupedTasksSection DOM 资源（本批先行）
+
+- UI 模块内一个 DOM owner 通过 ports 获得当前 root/window/view 命令；唯一 owned
+  resource 账本登记 frame、observer、listeners、cursor 和 animation。frame/element
+  索引只指向账本条目。scope/单项 cleanup 先撤权再释放，全部 cleanup 尽量执行，
+  首错可见；安装中抛错同样清已获得资源，不以 old callback 覆盖新布局或 overflow。
+  DOM scope 是组件的物理生命周期；grouped service/scope 变化只释放 layout
+  frame/animation。sticky/top-draft/cursor 按原 effect 依赖更新，不新增滚动动作。
+- previous rect 按 layout/task kind 分桶保存，两个原 selector 各扫描一次、同 key
+  最后 DOM 项覆盖。next element 同时有两个 key 时 layout 优先；key 为空不参加。
+  capture 在原 setView 前，cancel 旧布局 frame 后只排一个新 frame；渲染后使用当前
+  root，原 reduced-motion/no-root/empty previous gate 保留。
+  同步重入的新 layout 许可会停止旧批次后续动画；不创建第二份 accepted view。
+- 动画保持 delta previous-next、0.5px translation/height 阈值，只有 layout kind
+  改 height；同 frame 参数仍为 150ms/cubic-bezier(0.2,0,0,1)，transform/height
+  字符串与 undefined height 保留。开新动画前仍 cancel element 的全部 animations。
+  owned animation 被替代/完成/cancel/卸载时同步还原其先前 overflow，撤掉两个
+  once listener；旧 listener 不得晚到覆盖新 hidden。安装失败恢复 overflow 并清
+  已获得 animation，原首错继续抛出。其他成功 element 的同批资源也会释放。
+- task preview width 只测编码 task key 的首 DOM 命中，group width 首 raw id 命中，
+  仍只在原 drag start 调用；不持有第二份 drag 宽度或布局 view。
+- nearest scroller 仍从 parent 开始，overflowY 的 auto/scroll 与真实竖向 overflow
+  同时成立。sticky 用原 group item/header selector、CSS.escape、collapsed 字符串
+  和 headerHeight||32；headerTop<containerTop-0.5 且 groupBottom>
+  containerTop+headerHeight+0.5，最后有效 group 优先。drag 中/no root/no ancestor
+  仍发布 null。初测、passive scroll/window resize 和 optional root ResizeObserver
+  保留，resize/scroll 合成一个 frame；cleanup 后无发布。
+- top draft 按原 focusVersion/draft effect 排一帧、重新找当前祖先、scrollTo({top:0})，
+  清理只撤销该 frame；不清持久 draft。drag cursor 沿用 grabbing 与原 previous
+  cursor 还原。原 JSX、mask/style、drop animation、sensors、auto-scroll、sticky
+  header 内容、workspace label 与首屏 latch 作为 retained presentation/bridge。
+  数学短式、selector/DOM/React/API shape 不计独立作者权利结论。
+
 ## 未验证
 
 不运行 tests、lint、types、build、格式/架构检查或审计。新增合同仅供最终
