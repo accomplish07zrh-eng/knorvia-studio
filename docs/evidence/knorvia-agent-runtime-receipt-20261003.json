@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "candidateCommit": "ca6aa70d7e48e12d207534c6e3eec446ef64db28",
+  "freezeCommit": "c5dd7a2",
+  "sealedDraftCommit": "6f2eb13",
+  "branch": "parallel/cli-tools-fast-20261001",
+  "draftPR": 11,
+  "ownedProductionPaths": [
+    "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+    "apps/cli/packages/core/src/runtime/agent-runtime-api.ts"
+  ],
+  "initialPredecessorSHA256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+  "upstreamInventory": {
+    "path": "apps/zcode-cli/packages/core/src/runtime/agent-runtime.ts",
+    "blob": "520b0258d3d37ade291f0c5c54d477853791488e",
+    "normalizedSHA256": "a2192a84dfae5dfaa46275e253d2815da8178e27d0f5e9ccd5e3f57e61d18877",
+    "basis": "Recorded inventory, not a new exact publisher-byte acquisition in this turn."
+  },
+  "authorship": {
+    "nativeModel": "gpt-6.1-sol",
+    "reasoning": "high",
+    "context": "fork none; six body-free source-derived packet inputs; draft sealed before curator comparison",
+    "isolationLimit": "Shared executor access controlled by instructions, not technical isolation; curator previously source-exposed. Saved Fast configuration was not changed or independently queried."
+  },
+  "validation": {
+    "historicalBaselineGroups": 4,
+    "finalCurrentActualEmittedGroups": 4,
+    "groupCountsNotCombined": true,
+    "realRuntimePorts": 0,
+    "compilerDiagnostics": 0,
+    "publicMembers": 90,
+    "constructorAPIEqual": true,
+    "actualEmissions": 4,
+    "currentStrictPins": 6,
+    "wrongAndMissingArtifactsFailClosed": true,
+    "protectedSourceDigests": 80,
+    "ownedLintFiles": 6,
+    "lintWarnings": 0,
+    "lintErrors": 0,
+    "formatFiles": 8,
+    "architectureViolations": 0,
+    "fullRuntimeJSASTEqualsPredecessor": true
+  },
+  "retention": {
+    "privateFieldsDefaults": "Identical AST and order, inherited expression retained.",
+    "publicInterface": "All 90 member ASTs and 27 JSDoc blocks retained; relocated to one internal declaration module with zero originality credit.",
+    "constructorLifecycle": "Whole emitted runtime AST equals predecessor. Body-free candidate history is factual, but no substantive independent-expression completion is established.",
+    "status": "Mixed/unresolved for independent expression review; no file/header/registry/licence grant."
+  },
+  "failures": "Initial four type-binding diagnostics and two missing duplicate-signature shapes preserved; source-exposed type-only corrections documented.",
+  "deferred": [
+    "ordinary source test replay",
+    "real bootstrap/dependency graph execution",
+    "whole product suites",
+    "whole CLI/desktop builds",
+    "native acceptance",
+    "independent expression/licence decision"
+  ],
+  "policy": "No actual runtime services/provider/file/grant/process tasks or user data accessed; no permission/queue/settings policy change or cross-lane integration.",
+  "sha256": {
+    "apps/cli/packages/core/src/runtime/agent-runtime.ts": "936bdddf385548f38e7d104db1bf304b72b344e1f5a312c5dd23dc69b8f038ff",
+    "apps/cli/packages/core/src/runtime/agent-runtime-api.ts": "e834a166d78f5721cbc6305dc4d21f4276bf265986f8a9a62560cc10759fadd4",
+    "docs/evidence/knorvia-agent-runtime-current-20261003.json": "98c565b37e40e409b6ed3e0d67bef6192a5711d3c8cc12604006633d8bd5a9b2",
+    "apps/cli/packages/core/test/agent-runtime-baseline-20261003.json": "9f984bbe8006567a20894bfac07830c3cc04481bd6e872c9d6385518ef6e9a66",
+    "apps/cli/packages/core/test/agent-runtime-fixture-20261003.mjs": "0c70e1a7b31669ee79b38849fc0a95adce70224eee1a6e9776ea7cf19832982e",
+    "apps/cli/packages/core/test/agent-runtime-safety-20261003.mjs": "312b3f7f909f48011ffb31145ae8f63e18ba9c241f18841fc96d1423e4f9121e",
+    "apps/cli/packages/core/test/agent-runtime-current-compile-20261003.cjs": "4cde8e248f65a7de7305debec4a5f42b976ca7c1b8eb6d834b8efb6b410a36f1",
+    "apps/cli/packages/core/test/agent-runtime-artifact-proof-20261003.mjs": "05ea5ad97bea1e01e4db356dea1f09e1dd83a6de8efc528b133b858dd2ba69bf",
+    "docs/evidence/agent-runtime-author-20261003/draft-01/seal.json": "3f1f6605cef9eb6ec5a6de2a3723e7bcf287c2731ceecc66680d13f4a2cdb0d0",
+    "docs/evidence/agent-runtime-checks-20261003/freeze.json": "ab063d6398a1dc5c03d4aa1ef49381e9aff915eb41df62431ebd41f069f8245d",
+    "docs/evidence/agent-runtime-checks-20261003/corrections.json": "b1979fab8d8f924c5a0f38c483f17c29a8b9465afac9aa98c67a6f71933b483c",
+    "docs/evidence/agent-runtime-checks-20261003/initial-binding-compiler.json": "b06ead857e511cbab3a58935b9822ec46156aea1821d1b7f269af7b3260b0f7b",
+    "docs/evidence/agent-runtime-checks-20261003/baseline-safety.log": "600673d645ab4461e61d18a1f2e6d6f2eefcff77b534751c963594c99961a19c",
+    "docs/evidence/agent-runtime-checks-20261003/current-safety.log": "569ee96a7460bdca0fafe8ec3ce36bd1916880d564fd3650d028d1c50f721d3b",
+    "docs/evidence/agent-runtime-checks-20261003/current-compiler.log": "7428bc999ade9753405eba782bd4ca34e667eae32525fda87b991cc56a73f485",
+    "docs/evidence/agent-runtime-checks-20261003/artifact-proof.log": "d23065816f3f9a055c1bb3984456ea277e50797c55d73fb158e5e898cc8a0e06",
+    "docs/evidence/agent-runtime-checks-20261003/owned-lint.log": "6bad65b0b7be92ed52b10a7d5aed82d02833695160f34b3ff27f8870cd6257d5",
+    "docs/evidence/agent-runtime-checks-20261003/owned-format.log": "7f1e0974779f5524eb6a10d94fa4b57ec80d3f019707f36255e593fd07288d03",
+    "docs/evidence/agent-runtime-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+  }
+}
