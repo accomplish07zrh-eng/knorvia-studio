@@ -160,7 +160,7 @@ export async function load(mode, owned) {
     const bytes = fs.readFileSync(
       path.join(repo, "docs/evidence/knorvia-mcp-config-current-20261003.json"),
     );
-    assert.equal(hash(bytes), "CURRENT_PIN");
+    assert.equal(hash(bytes), "c04d9319795fbb444a25315e4e21f7ce7bfc482bca492cd972b8989f04a45a45");
     files = {};
     for (const [name, row] of Object.entries(JSON.parse(bytes).files)) {
       files[name] = {};
