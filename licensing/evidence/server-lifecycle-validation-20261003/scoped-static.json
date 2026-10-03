@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/server-lifecycle-validation-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/server-lifecycle-validation-20261003/scoped-static.mjs",
+      "sha256": "0af08f0487e71a2f195383b30e7672581bc613cb7e6cdc41ad90e06b607a4d25"
+    }
+  ],
+  "stdout": "{\n  \"syntaxFiles\": [\n    \"packages/server/src/stdio-lifecycle.ts\",\n    \"packages/server/src/stdio.ts\",\n    \"packages/server/src/stdioServices.ts\",\n    \"packages/server/src/entry-stdio.ts\",\n    \"packages/server/src/http.ts\",\n    \"packages/server/src/entry-http.ts\",\n    \"packages/server/src/hostCapability.ts\",\n    \"packages/server/src/index.ts\"\n  ],\n  \"syntax\": [],\n  \"restrictedSemanticOwners\": [\n    \"stdio-lifecycle.ts\",\n    \"hostCapability.ts\"\n  ],\n  \"injectedTypeContract\": \"export interface ServerRemoteHostCapability { capability: string; expiresAt: number; }\\n\",\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"semantic\": [],\n  \"fullProductSemanticCheck\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,22 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+    "packages/server/test/host-capability-policy.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/server/test/lifecycle-injected-compatibility.test.mjs",
+      "sha256": "9dd19a761041e04cdf49099b5ff61d6e92adf5b70aec6215a19025e5bcb5ff24"
+    },
+    {
+      "path": "packages/server/test/host-capability-policy.test.mjs",
+      "sha256": "5ab0abdd732ba12b79c2f661eef3ce5246d0857e45364bd84bc6858085ed46ed"
+    }
+  ],
+  "stdout": "✔ host capability remains single-use and expires at the exact boundary (1.234358ms)\n✔ stores are isolated and falsy credentials do not consult the clock (0.181884ms)\n✔ default token policy keeps 32 random bytes and a thirty-second TTL (0.434414ms)\n✔ EOF stops admission immediately; later signals raise severity without duplicate disposal (60.482087ms)\n✔ phase failures preserve error identity and still advance through cleanup (11.070212ms)\n✔ independent phase deadlines use explicit budgets and observe late rejections (9.04362ms)\n✔ stdio copies input bytes, honors drain and preserves repeated close/end ordering (18.330346ms)\n✔ stdio stop memoizes its promise, removes admission first and disposes socket after scope failure (11.867072ms)\n✔ HTTP WebSockets retain mode/role, copied bytes and scope-before-channel cleanup (46.658609ms)\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 447.821952\n",
+  "stderr": "",
+  "exitCode": 0
+}
