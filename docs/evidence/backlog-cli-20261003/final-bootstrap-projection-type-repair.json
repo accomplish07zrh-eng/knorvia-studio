@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "receivedCheckpoint": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "previousLaneRemoteHead": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df",
+  "branch": "lane/cli-rewrite-20261003",
+  "specificationCommit": "e36acf7def0bdc3ac389bf35e600413f30ef7d49",
+  "codeDeliveryCommit": "9e3bc5f81ad63d6112185cb7abc908ab9250ae2c",
+  "integrationPRRead": {
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/13",
+    "observedHead": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "reportedFrontier": "Complete CLI build/typecheck stop at the same 18 bootstrap TS2322 diagnostics; integrator owns the 777-file offline suite."
+  },
+  "scope": {
+    "productionPaths": [
+      "apps/cli/packages/bootstrap/src/protocol/message-record-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts"
+    ],
+    "unchangedEventProjection": "apps/cli/packages/bootstrap/src/protocol/session-event-projection.ts",
+    "sharedContractsRootConfigCIAndLicencesChanged": false,
+    "otherProductionFilesChanged": false,
+    "authorization": "Parent explicitly assigned the 18 bootstrap projection type errors at the exact unified baseline; only directed type/regression checks in this follow-up."
+  },
+  "repair": "RecordRecipe maps an explicit default Keys set so the result union is not distributed homomorphically, while each key keeps its own Result[Key]. Fixed role/type/kind/display callbacks declare their actual literal return values. No any, assertion or type-ignore directive added. Runtime projection order, field presence and values are unchanged.",
+  "environment": {
+    "node": "24.14.0",
+    "typescript": "5.9.3",
+    "dependencies": "Existing frozen-lockfile workspace dependencies and dependency declarations from the prior directed acceptance stage. No dependency install or package build in this follow-up."
+  },
+  "sourceBinding": [
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-record-projection.ts",
+      "beforeSha256": "6968dab3792f35f71de7eaec313c9dcb5da10dd7b1b2c9013ee42f073a8d4190",
+      "afterSha256": "2d7f14f8e6d90ae387bb67987704d943b49ded2e6778cc6510620d90938a579b",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "81d9bb3941b1b87ed696e9065735d73bee5fc3d04f30f6fa05951ebb227687b8"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+      "beforeSha256": "0d1328e0dcdcbb7686f26cc9710d06bcc4b6802e992fd16761473708d31b0340",
+      "afterSha256": "58bb27ca3176c7e912772f4062355f41d92736a4da64164fc9b0727f57652dc6",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "26cce08ace57b896738a309708a587ec7cf290b1e667bf69d733c11066212caf"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "beforeSha256": "ebabd3949cc8778072664d96fc433c771d305bd91b42af02e620c18d79afdf0d",
+      "afterSha256": "b296b8f1ac9b8b474b974faf22c0dddb6a02f39cc458364dedcf3fb6ee8aca15",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "f3af4cc45c49a66395a3922de4f0fcb8fd4d2e7d377cba4f172bf02ad8ac40fd"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+      "beforeSha256": "fbe47f26d7d499e6d840332f90fbd50ff064b07eb5afbe27454531ee34e407c5",
+      "afterSha256": "d66c43c38a9aee8a2d69777b597f9ec14e9036f497a604773d17503ade690a91",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "4b2797af20cf85de3f68696a55ef5db328e14e7d372260610628bd04852d84b0"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+      "beforeSha256": "6b041f4001061aaa1e0157a32755100013f424368bfd88f887d9643114911ec6",
+      "afterSha256": "e2d5bfae54fc1905132a0d4b260ed46a81db7ca7f7bc4894694aea8fbb9af015",
+      "sameEmittedJavaScript": true,
+      "emittedSha256": "b3c3d1eadc2ef3cedee384626d973ccce477baf1cc575a19508addc9961ff981"
+    }
+  ],
+  "regressionBindings": [
+    {
+      "path": "apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts",
+      "sha256": "a9cb85efe4814b95f2ed8bf28eb4f7fb174d2cce7b5815e36fbee09264ae1283"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/session-projection-contract.test.ts",
+      "sha256": "503ac6ba5213b5e6b92fd22638e422952175941c73823018f5ab9c6cac278e65"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/session-snapshot-contract.test.ts",
+      "sha256": "032fbb90ae0eb9e3d399e9c1400bd6618f873a8eae484475a1c772d2dc87a871"
+    }
+  ],
+  "recipeProbeBinding": {
+    "path": "docs/evidence/backlog-cli-20261003/final-bootstrap-recipe-type-contract.mjs",
+    "sha256": "e089c172d95f5a2a17be347c2709c448ec29a33c82532498eb142725af1dd87e",
+    "publicTypes": {
+      "path": "packages/shared/src/protocol/index.ts",
+      "sha256": "55974ca1690c48363f55d1c1d5726c5b0a42ed2a32ec4794d92236e1e98aa470",
+      "readOnly": true
+    }
+  },
+  "checks": [
+    {
+      "id": "bootstrap-typecheck-before",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit -p apps/cli/packages/bootstrap",
+      "observedExitCode": 2,
+      "scope": "Entire configured bootstrap source project at the received baseline; exactly 18 TS2322 diagnostics",
+      "outputSha256": "54fc4942750680f720515fedd07515bfe4d44f7374e69011e888e8d32ac93bb7",
+      "output": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts(19,3): error TS2322: Type '[\"role\", () => string]' is not assignable to type 'readonly [\"metadata\", (source: UserMessageInfo) => Record<string, unknown> | undefined] | readonly [\"sessionId\", (source: UserMessageInfo) => string] | ... 10 more ... | readonly [...]'.\n  Type '[\"role\", () => string]' is not assignable to type 'readonly [\"role\", (source: UserMessageInfo) => \"user\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"user\"'.\napps/cli/packages/bootstrap/src/protocol/message-info-projection.ts(50,3): error TS2322: Type '[\"role\", () => string]' is not assignable to type 'readonly [\"error\", (source: AssistantMessageInfo) => Record<string, unknown> | undefined] | readonly [\"path\", (source: AssistantMessageInfo) => { ...; }] | ... 11 more ... | readonly [...]'.\n  Type '[\"role\", () => string]' is not assignable to type 'readonly [\"role\", (source: AssistantMessageInfo) => \"assistant\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"assistant\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(36,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TextPart) => \"text\"] | readonly [\"metadata\", (source: TextPart) => Record<string, unknown> | undefined] | readonly [\"text\", (source: TextPart) => string] | readonly [...] | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TextPart) => \"text\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"text\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(44,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ReasoningPart) => \"reasoning\"] | readonly [\"metadata\", (source: ReasoningPart) => Record<string, unknown> | undefined] | readonly [\"text\", (source: ReasoningPart) => string]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ReasoningPart) => \"reasoning\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"reasoning\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(53,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: FilePart) => \"file\"] | readonly [\"metadata\", (source: FilePart) => Record<string, unknown> | undefined] | readonly [\"url\", (source: FilePart) => string] | readonly [...] | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: FilePart) => \"file\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"file\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(64,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ToolPart) => \"tool\"] | readonly [\"metadata\", (source: ToolPart) => Record<string, unknown> | undefined] | readonly [\"state\", (source: ToolPart) => { ...; } | ... 2 more ... | { ...; }] | readonly [...] | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ToolPart) => \"tool\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"tool\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(71,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepStartPart) => \"step-start\"] | readonly [\"snapshot\", (source: StepStartPart) => string | undefined]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepStartPart) => \"step-start\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"step-start\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(81,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepFinishPart) => \"step-finish\"] | readonly [\"snapshot\", (source: StepFinishPart) => string | undefined] | readonly [\"tokens\", (source: StepFinishPart) => { ...; }] | readonly [...] | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepFinishPart) => \"step-finish\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"step-finish\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(88,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SnapshotPart) => \"snapshot\"] | readonly [\"snapshot\", (source: SnapshotPart) => string]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SnapshotPart) => \"snapshot\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"snapshot\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(96,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: PatchPart) => \"patch\"] | readonly [\"files\", (source: PatchPart) => string[]] | readonly [\"hash\", (source: PatchPart) => string]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: PatchPart) => \"patch\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"patch\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(106,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: CompactionPart) => \"compaction\"] | readonly [\"metadata\", (source: CompactionPart) => Record<string, unknown> | undefined] | readonly [...] | readonly [...] | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: CompactionPart) => \"compaction\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"compaction\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(118,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SubtaskPart) => \"subagent\"] | readonly [\"description\", (source: SubtaskPart) => string] | readonly [\"agent\", (source: SubtaskPart) => string] | readonly [...] | readonly [...] | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SubtaskPart) => \"subagent\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"subagent\"'.\napps/cli/packages/bootstrap/src/protocol/message-part-projection.ts(125,7): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"name\", (source: AgentPart) => string] | readonly [\"type\", (source: AgentPart) => \"agent\"]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: AgentPart) => \"agent\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"agent\"'.\napps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts(105,3): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StoredTimeline) => \"timeline\"] | readonly [\"trigger\", (source: StoredTimeline) => \"auto\" | \"partial\" | \"manual\" | \"reactive\" | \"session_memory\" | undefined] | ... 26 more ... | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StoredTimeline) => \"timeline\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"timeline\"'.\napps/cli/packages/bootstrap/src/protocol/session-event-projection.ts(191,3): error TS2322: Type '[\"type\", (input: Envelope) => \"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | ... 17 more ... | \"streamRecovery.updated\"]' is not assignable to type 'readonly [\"type\", (source: Envelope) => \"session.created\"] | readonly [\"type\", (source: Envelope) => \"session.resumed\"] | readonly [\"type\", (source: Envelope) => \"session.updated\"] | ... 221 more ... | readonly [...]'.\n  Type '[\"type\", (input: Envelope) => \"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | ... 17 more ... | \"streamRecovery.updated\"]' is not assignable to type 'readonly [\"type\", (source: Envelope) => \"session.created\"] | readonly [\"type\", (source: Envelope) => \"session.resumed\"] | readonly [\"type\", (source: Envelope) => \"session.updated\"] | ... 21 more ... | readonly [...]'.\n    Type '[\"type\", (input: Envelope) => \"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | ... 17 more ... | \"streamRecovery.updated\"]' is not assignable to type 'readonly [\"type\", (source: Envelope) => \"streamRecovery.updated\"]'.\n      Type at position 1 in source is not compatible with type at position 1 in target.\n        Type '\"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | \"turn.steerDrained\" | \"turn.completed\" | ... 15 more ... | \"streamRecovery.updated\"' is not assignable to type '\"streamRecovery.updated\"'.\n          Type '\"session.created\"' is not assignable to type '\"streamRecovery.updated\"'.\napps/cli/packages/bootstrap/src/protocol/session-state-projection.ts(118,3): error TS2322: Type '[\"kind\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'.\n  Type '[\"kind\", () => string]' is not assignable to type 'readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"synthetic\"'.\napps/cli/packages/bootstrap/src/protocol/session-state-projection.ts(119,3): error TS2322: Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'.\n  Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"goal_verification\"'.\napps/cli/packages/bootstrap/src/protocol/session-state-projection.ts(120,3): error TS2322: Type '[\"display\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'.\n  Type '[\"display\", () => string]' is not assignable to type 'readonly [\"display\", (source: TargetCompletionVerificationProjectionInfo) => \"separator\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"separator\"'.\n"
+    },
+    {
+      "id": "bootstrap-typecheck-after",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit -p apps/cli/packages/bootstrap",
+      "observedExitCode": 0,
+      "scope": "Same configured bootstrap source project; uses existing dependency declarations and does not cover complete CLI/root build acceptance",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output": ""
+    },
+    {
+      "id": "bootstrap-projection-regressions",
+      "command": "node(24.14.0) --import tsx --experimental-test-module-mocks --test apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts apps/cli/packages/bootstrap/test/session-projection-contract.test.ts apps/cli/packages/bootstrap/test/session-snapshot-contract.test.ts",
+      "observedExitCode": 0,
+      "scope": "27 existing cases: message 9, session 16, snapshot 2; virtual inputs/ports, unchanged fixtures and assertions, no real-user storage or UI",
+      "outputSha256": "d9ec0a39e38e85887fc107aded4e4e1b4275599782c83c4dd2b98865c6710de7",
+      "output": "✔ malformed legacy tool status never dispatches inherited object properties (1.250402ms)\n✔ info projects every fixed key and preserves nested user references (0.650189ms)\n✔ assistant model/error projection retains truthy gates and ordered fields (0.329471ms)\n✔ all thirteen part tags retain identity prefix, order, data and undefined fields (0.692181ms)\n✔ compaction metadata preserves every key and ordered clock projection (0.185106ms)\n✔ timeline gates retain field presence, fork String semantics and nested identity (0.270002ms)\n✔ tool states remove only their own private recovery fields and keep required metadata (0.465583ms)\n✔ metadata with no own private key preserves identity and stripping preserves symbols (0.204465ms)\n✔ all visibility decisions precede any projection and hidden parts never read ids/state (0.461448ms)\n(node:11286) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n✔ session info uses persisted then caller fallback times and preserves explicit undefined fields (1.563459ms)\n✔ current-only settings retain original selection and the query order without catalog expansion (0.575417ms)\n✔ settings reject stale thought levels and fall back to filtered catalog only when current option is absent (0.219557ms)\n✔ runtime active turn comes only from the live port and pending ids use nullish fallback (0.488197ms)\n✔ event envelope retains zero seq override and payload-before-seq reads (0.315991ms)\n✔ event visibility retains tool argument lifecycle but excludes internal ledgers and empty text (0.291434ms)\n✔ model requests expose bounded counters and public fields rather than message context (0.262992ms)\n✔ started tool events normalize instants and denied/requested permissions retain legacy gates (0.607555ms)\n✔ cache usage keeps latest and total request vectors while usage restores the latest valid meter (0.332275ms)\n✔ compaction summary meter supersedes earlier assistant usage and cache (0.226738ms)\n✔ breakdown uses the latest admissible event and requires waterline/window alignment (1.803136ms)\n✔ goal verification replay sorts lifecycle events and stably deduplicates summaries (0.729697ms)\n✔ goal title fallback is restricted to the first matching user objective and time window (0.193638ms)\n✔ cross-iteration todo updates retain their first group while new empty groups remain visible (0.662898ms)\n✔ invalid/subagent todo batches fall back to current todos while an admitted empty batch blocks fallback (0.224665ms)\n✔ goal stats derive per-iteration totals without double-counting a live run base (0.307328ms)\n(node:11287) ExperimentalWarning: Module mocking is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n✔ snapshot awaits image hydration and settings before slash discovery and late goal stats (20.324231ms)\n✔ snapshot DB target null overrides stale runtime target and avoids stale active turn fallback (0.543469ms)\nℹ tests 27\nℹ suites 0\nℹ pass 27\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3952.237167\n"
+    },
+    {
+      "id": "bootstrap-recipe-type-contract",
+      "command": "node(24.14.0) docs/evidence/backlog-cli-20261003/final-bootstrap-recipe-type-contract.mjs",
+      "observedExitCode": 0,
+      "scope": "Two accepted and five rejected isolated virtual inputs against the real RecordRecipe and actual public event types. Checks exact diagnostic codes; no ignore/expect-error directives, no emitted files.",
+      "outputSha256": "d4c9f895b5f266f9751cf36dc91719c52143d3bd1be92674e536604dd4dee84f",
+      "output": "{\n  \"typescript\": \"5.9.3\",\n  \"scope\": \"Real RecordRecipe and public event types; seven isolated virtual inputs, no emitted files\",\n  \"passed\": 7,\n  \"cases\": [\n    {\n      \"name\": \"public-event-tag-union\",\n      \"expected\": \"accepted\",\n      \"diagnosticCodes\": [],\n      \"diagnostics\": []\n    },\n    {\n      \"name\": \"field-types-and-common-union-keys\",\n      \"expected\": \"accepted\",\n      \"diagnosticCodes\": [],\n      \"diagnostics\": []\n    },\n    {\n      \"name\": \"unknown-field-key\",\n      \"expected\": \"rejected\",\n      \"diagnosticCodes\": [\n        2322\n      ],\n      \"diagnostics\": [\n        {\n          \"code\": 2322,\n          \"message\": \"Type '\\\"missing\\\"' is not assignable to type '\\\"kind\\\" | \\\"enabled\\\" | \\\"size\\\"'.\"\n        }\n      ]\n    },\n    {\n      \"name\": \"field-value-correlation\",\n      \"expected\": \"rejected\",\n      \"diagnosticCodes\": [\n        2322\n      ],\n      \"diagnostics\": [\n        {\n          \"code\": 2322,\n          \"message\": \"Type '[\\\"size\\\", (source: Source) => boolean | undefined]' is not assignable to type 'readonly [\\\"kind\\\", (source: Source) => \\\"column\\\" | \\\"row\\\"] | readonly [\\\"enabled\\\", (source: Source) => boolean | undefined] | readonly [\\\"size\\\", (source: Source) => number]'.\\n  Type '[\\\"size\\\", (source: Source) => boolean | undefined]' is not assignable to type 'readonly [\\\"size\\\", (source: Source) => number]'.\\n    Type at position 1 in source is not compatible with type at position 1 in target.\\n      Type 'boolean | undefined' is not assignable to type 'number'.\\n        Type 'undefined' is not assignable to type 'number'.\"\n        }\n      ]\n    },\n    {\n      \"name\": \"optional-field-value\",\n      \"expected\": \"rejected\",\n      \"diagnosticCodes\": [\n        2322\n      ],\n      \"diagnostics\": [\n        {\n          \"code\": 2322,\n          \"message\": \"Type '[\\\"enabled\\\", () => number]' is not assignable to type 'readonly [\\\"kind\\\", (source: Source) => \\\"column\\\" | \\\"row\\\"] | readonly [\\\"enabled\\\", (source: Source) => boolean | undefined] | readonly [\\\"size\\\", (source: Source) => number]'.\\n  Type '[\\\"enabled\\\", () => number]' is not assignable to type 'readonly [\\\"enabled\\\", (source: Source) => boolean | undefined]'.\\n    Type at position 1 in source is not compatible with type at position 1 in target.\\n      Type 'number' is not assignable to type 'boolean | undefined'.\"\n        }\n      ]\n    },\n    {\n      \"name\": \"unknown-public-event-tag\",\n      \"expected\": \"rejected\",\n      \"diagnosticCodes\": [\n        2322\n      ],\n      \"diagnostics\": [\n        {\n          \"code\": 2322,\n          \"message\": \"Type '[\\\"type\\\", () => \\\"invalid.event\\\"]' is not assignable to type 'readonly [\\\"type\\\", (source: Source) => \\\"session.created\\\" | \\\"session.resumed\\\" | \\\"session.updated\\\" | \\\"session.titleUpdated\\\" | \\\"session.closed\\\" | \\\"turn.started\\\" | \\\"turn.steerQueued\\\" | ... 17 more ... | \\\"streamRecovery.updated\\\"] | ... 7 more ... | readonly [...]'.\\n  Type '[\\\"type\\\", () => \\\"invalid.event\\\"]' is not assignable to type 'readonly [\\\"type\\\", (source: Source) => \\\"session.created\\\" | \\\"session.resumed\\\" | \\\"session.updated\\\" | \\\"session.titleUpdated\\\" | \\\"session.closed\\\" | \\\"turn.started\\\" | \\\"turn.steerQueued\\\" | ... 17 more ... | \\\"streamRecovery.updated\\\"]'.\\n    Type at position 1 in source is not compatible with type at position 1 in target.\\n      Type '\\\"invalid.event\\\"' is not assignable to type '\\\"session.created\\\" | \\\"session.resumed\\\" | \\\"session.updated\\\" | \\\"session.titleUpdated\\\" | \\\"session.closed\\\" | \\\"turn.started\\\" | \\\"turn.steerQueued\\\" | \\\"turn.steerDrained\\\" | \\\"turn.completed\\\" | ... 15 more ... | \\\"streamRecovery.updated\\\"'.\"\n        }\n      ]\n    },\n    {\n      \"name\": \"unknown-source-property\",\n      \"expected\": \"rejected\",\n      \"diagnosticCodes\": [\n        2339\n      ],\n      \"diagnostics\": [\n        {\n          \"code\": 2339,\n          \"message\": \"Property 'missing' does not exist on type 'Source'.\"\n        }\n      ]\n    }\n  ]\n}\n"
+    }
+  ],
+  "recipeTypeContractResults": {
+    "typescript": "5.9.3",
+    "scope": "Real RecordRecipe and public event types; seven isolated virtual inputs, no emitted files",
+    "passed": 7,
+    "cases": [
+      {
+        "name": "public-event-tag-union",
+        "expected": "accepted",
+        "diagnosticCodes": [],
+        "diagnostics": []
+      },
+      {
+        "name": "field-types-and-common-union-keys",
+        "expected": "accepted",
+        "diagnosticCodes": [],
+        "diagnostics": []
+      },
+      {
+        "name": "unknown-field-key",
+        "expected": "rejected",
+        "diagnosticCodes": [
+          2322
+        ],
+        "diagnostics": [
+          {
+            "code": 2322,
+            "message": "Type '\"missing\"' is not assignable to type '\"kind\" | \"enabled\" | \"size\"'."
+          }
+        ]
+      },
+      {
+        "name": "field-value-correlation",
+        "expected": "rejected",
+        "diagnosticCodes": [
+          2322
+        ],
+        "diagnostics": [
+          {
+            "code": 2322,
+            "message": "Type '[\"size\", (source: Source) => boolean | undefined]' is not assignable to type 'readonly [\"kind\", (source: Source) => \"column\" | \"row\"] | readonly [\"enabled\", (source: Source) => boolean | undefined] | readonly [\"size\", (source: Source) => number]'.\n  Type '[\"size\", (source: Source) => boolean | undefined]' is not assignable to type 'readonly [\"size\", (source: Source) => number]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'boolean | undefined' is not assignable to type 'number'.\n        Type 'undefined' is not assignable to type 'number'."
+          }
+        ]
+      },
+      {
+        "name": "optional-field-value",
+        "expected": "rejected",
+        "diagnosticCodes": [
+          2322
+        ],
+        "diagnostics": [
+          {
+            "code": 2322,
+            "message": "Type '[\"enabled\", () => number]' is not assignable to type 'readonly [\"kind\", (source: Source) => \"column\" | \"row\"] | readonly [\"enabled\", (source: Source) => boolean | undefined] | readonly [\"size\", (source: Source) => number]'.\n  Type '[\"enabled\", () => number]' is not assignable to type 'readonly [\"enabled\", (source: Source) => boolean | undefined]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'number' is not assignable to type 'boolean | undefined'."
+          }
+        ]
+      },
+      {
+        "name": "unknown-public-event-tag",
+        "expected": "rejected",
+        "diagnosticCodes": [
+          2322
+        ],
+        "diagnostics": [
+          {
+            "code": 2322,
+            "message": "Type '[\"type\", () => \"invalid.event\"]' is not assignable to type 'readonly [\"type\", (source: Source) => \"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | ... 17 more ... | \"streamRecovery.updated\"] | ... 7 more ... | readonly [...]'.\n  Type '[\"type\", () => \"invalid.event\"]' is not assignable to type 'readonly [\"type\", (source: Source) => \"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | ... 17 more ... | \"streamRecovery.updated\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type '\"invalid.event\"' is not assignable to type '\"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | \"turn.steerDrained\" | \"turn.completed\" | ... 15 more ... | \"streamRecovery.updated\"'."
+          }
+        ]
+      },
+      {
+        "name": "unknown-source-property",
+        "expected": "rejected",
+        "diagnosticCodes": [
+          2339
+        ],
+        "diagnostics": [
+          {
+            "code": 2339,
+            "message": "Property 'missing' does not exist on type 'Source'."
+          }
+        ]
+      }
+    ]
+  },
+  "singleFileEmittedEquality": {
+    "base": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "typescript": "5.9.3",
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "ESNext",
+      "removeComments": true,
+      "sourceMap": false
+    },
+    "results": [
+      {
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-record-projection.ts",
+        "beforeSha256": "6968dab3792f35f71de7eaec313c9dcb5da10dd7b1b2c9013ee42f073a8d4190",
+        "afterSha256": "2d7f14f8e6d90ae387bb67987704d943b49ded2e6778cc6510620d90938a579b",
+        "sameEmittedJavaScript": true,
+        "emittedSha256": "81d9bb3941b1b87ed696e9065735d73bee5fc3d04f30f6fa05951ebb227687b8"
+      },
+      {
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+        "beforeSha256": "0d1328e0dcdcbb7686f26cc9710d06bcc4b6802e992fd16761473708d31b0340",
+        "afterSha256": "58bb27ca3176c7e912772f4062355f41d92736a4da64164fc9b0727f57652dc6",
+        "sameEmittedJavaScript": true,
+        "emittedSha256": "26cce08ace57b896738a309708a587ec7cf290b1e667bf69d733c11066212caf"
+      },
+      {
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "beforeSha256": "ebabd3949cc8778072664d96fc433c771d305bd91b42af02e620c18d79afdf0d",
+        "afterSha256": "b296b8f1ac9b8b474b974faf22c0dddb6a02f39cc458364dedcf3fb6ee8aca15",
+        "sameEmittedJavaScript": true,
+        "emittedSha256": "f3af4cc45c49a66395a3922de4f0fcb8fd4d2e7d377cba4f172bf02ad8ac40fd"
+      },
+      {
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+        "beforeSha256": "fbe47f26d7d499e6d840332f90fbd50ff064b07eb5afbe27454531ee34e407c5",
+        "afterSha256": "d66c43c38a9aee8a2d69777b597f9ec14e9036f497a604773d17503ade690a91",
+        "sameEmittedJavaScript": true,
+        "emittedSha256": "4b2797af20cf85de3f68696a55ef5db328e14e7d372260610628bd04852d84b0"
+      },
+      {
+        "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+        "beforeSha256": "6b041f4001061aaa1e0157a32755100013f424368bfd88f887d9643114911ec6",
+        "afterSha256": "e2d5bfae54fc1905132a0d4b260ed46a81db7ca7f7bc4894694aea8fbb9af015",
+        "sameEmittedJavaScript": true,
+        "emittedSha256": "b3c3d1eadc2ef3cedee384626d973ccce477baf1cc575a19508addc9961ff981"
+      }
+    ],
+    "note": "Five single-file transpile comparisons; no package build, emitted consumption or whole CLI validation."
+  },
+  "bootstrap18DiagnosticsResolved": true,
+  "notRun": "No complete CLI/root typecheck, build, lint, format, architecture/source audit, full 777-file suite or unrelated regression rerun. No new PR or main merge.",
+  "remaining": {
+    "integrator": "Receive this lane head; rerun complete CLI build/typecheck and retain actual whole-suite results. Refresh verified current-input/source-to-output and register the two new lane evidence records without rewriting archived evidence.",
+    "outsideThisBatch": "PR13 separately reports core historical baseline:16/NaN and old workflow/Registry current-artifact selectors. Preserve failures and old goldens; coordinate their owners rather than changing them in this exclusive bootstrap repair.",
+    "rights": "Existing copyright, notices, third-party obligations and Apache-2.0 transition are preserved. Directed checks do not establish independent expression, publisher/contribution rights or MIT acceptance."
+  }
+}
