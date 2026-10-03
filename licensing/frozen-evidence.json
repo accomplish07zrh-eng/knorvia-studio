@@ -7703,6 +7703,34 @@
       "bytes": 5585
     },
     {
+      "path": "docs/evidence/final-bootstrap-combined-20261003/cli-build-after-bootstrap.json",
+      "sha256": "be7c30a19d7af81713e9db916be993f314ce92b4c9c35380f2c2b959a132aae0",
+      "bytes": 372,
+      "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+      "observation": "Actual successful CLI command on received bootstrap repair combination"
+    },
+    {
+      "path": "docs/evidence/final-bootstrap-combined-20261003/cli-build-after-bootstrap.log",
+      "sha256": "9b2771a9767e25a3bd2aec71de294e0c6b452661e658c880f89c7147df68e7e2",
+      "bytes": 8726,
+      "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+      "observation": "Actual successful CLI command on received bootstrap repair combination"
+    },
+    {
+      "path": "docs/evidence/final-bootstrap-combined-20261003/cli-types-after-bootstrap.json",
+      "sha256": "acff292e74b6bfc0500278b3bc33bffe53332fd25bdc0f96aca0dac76c19cf10",
+      "bytes": 435,
+      "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+      "observation": "Actual successful CLI command on received bootstrap repair combination"
+    },
+    {
+      "path": "docs/evidence/final-bootstrap-combined-20261003/cli-types-after-bootstrap.log",
+      "sha256": "c9c55b49cfd4dc48fd56a286ae091482cb41d7689379a6bb957023ac2eabc8fa",
+      "bytes": 1710,
+      "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+      "observation": "Actual successful CLI command on received bootstrap repair combination"
+    },
+    {
       "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/agent-runtime-baseline-20261003.json",
       "sha256": "9f984bbe8006567a20894bfac07830c3cc04481bd6e872c9d6385518ef6e9a66",
       "bytes": 86398,

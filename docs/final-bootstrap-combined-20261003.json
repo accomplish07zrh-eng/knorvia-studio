@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "validatedSourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+  "receivedCliHead": "661e5f64bf819c93c13a7b077531239dec5199cf",
+  "productionCommit": "9e3bc5f81ad63d6112185cb7abc908ab9250ae2c",
+  "ordinaryMergeCommit": "b5815bb4966e17ec5a515a0c7764ea41c511e666",
+  "commands": [
+    {
+      "name": "cli-build-after-bootstrap",
+      "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+      "command": ["pnpm", "build:cli-packages"],
+      "workingDirectory": "/workspace/knorvia-studio",
+      "actualChildExitCode": 0,
+      "seconds": 11.514,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-cli-build-after-bootstrap.log"
+    },
+    {
+      "name": "cli-types-after-bootstrap",
+      "sourceCommit": "b3721addfffb59ac56f8be9c13e6e5578e95a37d",
+      "command": ["pnpm", "-r", "--no-bail", "--filter", "./packages/*", "typecheck"],
+      "workingDirectory": "/workspace/knorvia-studio/apps/cli",
+      "actualChildExitCode": 0,
+      "seconds": 35.841,
+      "node": "24.14.0",
+      "pnpm": "10.33.2",
+      "log": "/tmp/knorvia-final-unified-cli-types-after-bootstrap.log"
+    }
+  ],
+  "results": {
+    "fullCliBuild": {
+      "actualExitCode": 0,
+      "tasksSuccessful": 17,
+      "tasksTotal": 17,
+      "cacheHits": 13,
+      "scope": "Actual standard turbo CLI build, cache scope recorded; Linux Windows Cua driver staging skipped, existing dynamic import and lock-closure/tool warnings retained"
+    },
+    "fullCliTypecheck": {
+      "actualExitCode": 0,
+      "cwd": "apps/cli",
+      "packageTypecheckScriptsCompleted": 15,
+      "recursiveScope": "16 of 19 workspace projects; package filter, existing pretypecheck hook"
+    },
+    "changedEightPathFormatCheck": {
+      "actualExitCode": 0,
+      "paths": "Five delivered source paths, original CLI doc/spec and intake receipt; raw evidence guard required before checker"
+    },
+    "previousBootstrap18TypeFrontier": "Resolved in actual full CLI build/types; historical f5 failure records preserved"
+  },
+  "phaseFoldReadonlyDiagnosis": {
+    "caseIndex": 16,
+    "coreGraphSourceAndFixtureUnchangedSinceF5": true,
+    "oldObservation": {
+      "output": [],
+      "tape": [],
+      "keys": [],
+      "inputAliases": []
+    },
+    "currentObservation": {
+      "output": [],
+      "tape": [],
+      "keys": [],
+      "inputAliases": []
+    },
+    "pairedEqual": true,
+    "actualOldAndCurrentDigest": "30a15f317e809bfede0ec9375c1e4b5350db05cd375c6e61353265bb0e24c8e7",
+    "historicalGoldNullCase15AndNaNCase16": "5bb3d27e42b3f75b9c14a50f6ef72d549f6c085680990c141e591c0fe7ca9e2b",
+    "status": "Historical baseline binding still fails. Equal stored null/NaN digests are a fact; serialization or original-producer explanation is an inference, not verified. No old golden/source/rights record changed."
+  },
+  "servicesReadonlyDiagnosis": {
+    "test": "packages/services/test/claude-leaf-contract-fast-2057.test.ts:690",
+    "testInjection": "Instance getNativeProjectsRoots overwritten through unknown-cast",
+    "currentScan": "Module-local nativeProjectRoots() calls current supported home/data-root paths; removed instance private hook is not called",
+    "status": "Fixture binds a retired implementation detail, actual scan result is empty under that fixture. Correct meaningful root binding via original services task, preserve real sorting/filter/sidechain/tail assertions; not a public behavior acceptance yet"
+  },
+  "lastCompleteRegression": {
+    "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "actualExitCode": 1,
+    "tests": 8034,
+    "pass": 8004,
+    "fail": 22,
+    "skipped": 8,
+    "sourceReceipt": "docs/final-combined-checks-20261003.json",
+    "freshCompletePassClaimed": false
+  },
+  "frozenEvidence": {
+    "previousFiles": 5570,
+    "previousRecordsAndBytesUnchanged": true,
+    "newFiles": 4,
+    "totalFiles": 5574,
+    "totalBytes": 63445512
+  },
+  "parallelFollowupOwnership": {
+    "cliCore": "apps/cli/packages/core/test current/pins selector and loader closure files; workflow/Registry old-current-artifact mismatches and historical phase-fold baseline. Bootstrap source repair is complete, avoid repeating it.",
+    "native": "packages/desktop/src/main/exportLogs.ts and native export log owner fixture/test; explicit diagnostic roots and stage archive assertions.",
+    "services": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts plus supported-path scan fixture; packages/services/src/git/repo/gitCliHelpers.ts/getCommitGraph flow and getter-order fixture.",
+    "ui": "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts/groupedSectionMenuProjection.ts and ui-next-grouped-section-actions test; menu hidden-member placement/order-generation assertion."
+  },
+  "rights": {
+    "reviewProblemsDoesNotMeanRightsPassed": true,
+    "materialObligationsUnresolved": 26,
+    "materialObligationsClosed": 0,
+    "wholeTreeMITReady": false,
+    "rootLicenseNoticeAndHistoricalHoldsRetained": true
+  },
+  "readyForMain": false
+}

@@ -1,0 +1,35 @@
+Scope: 16 of 19 workspace projects
+packages/contracts typecheck$ tsc --noEmit
+packages/debug typecheck$ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit
+packages/dynamic-workflow typecheck$ node scripts/generate-libs.mjs && tsc --noEmit
+packages/shared-types typecheck$ tsc --noEmit
+packages/shared-types typecheck: Done
+packages/dynamic-workflow typecheck: Done
+packages/debug typecheck: Done
+packages/contracts typecheck: Done
+packages/adapters typecheck$ tsc --noEmit
+packages/core typecheck$ tsc --noEmit
+packages/dynamic-workflow-runtime pretypecheck$ pnpm --filter @knorvia/dynamic-workflow build
+packages/i18n typecheck$ tsc --noEmit
+packages/dynamic-workflow-runtime pretypecheck: > @knorvia/dynamic-workflow@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow
+packages/dynamic-workflow-runtime pretypecheck: > node scripts/generate-libs.mjs && tsc
+packages/dynamic-workflow-runtime pretypecheck: Done
+packages/dynamic-workflow-runtime typecheck$ tsc --noEmit
+packages/dynamic-workflow-runtime typecheck: Done
+packages/swift-bridge typecheck$ tsc --noEmit
+packages/swift-bridge typecheck: Done
+packages/telemetry typecheck$ tsc --noEmit
+packages/i18n typecheck: Done
+packages/adapters typecheck: Done
+packages/telemetry typecheck: Done
+packages/core typecheck: Done
+packages/bootstrap typecheck$ tsc --noEmit
+packages/node-repl-host typecheck$ tsc --noEmit
+packages/tui typecheck$ tsc --noEmit
+packages/node-repl-host typecheck: Done
+packages/tui typecheck: Done
+packages/bootstrap typecheck: Done
+packages/browser-use-plugin typecheck$ tsc --noEmit
+packages/cli typecheck$ tsc --noEmit
+packages/browser-use-plugin typecheck: Done
+packages/cli typecheck: Done

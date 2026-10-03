@@ -219,3 +219,9 @@ RPC 当前 input 对齐后，`pnpm provenance:report` 实际返回 0：当前清
 完整 `pnpm test:studio` 实际结束：777文件，8034 tests、8004 pass、22 fail、8 skipped、0cancelled，退出1，约437秒。17个CLI旧当前输入/产物pin加载失败、1个phase-fold历史NaN baseline、1个native导出、2个services、1个UI菜单。定向复现和嵌套子进程统计不累计进完整总数；不把阻止加载、跳过或原快照失败算通过。逐文件诊断、真实作用域及完整原日志见 [组合检查记录](./final-combined-checks-20261003.json) 与 `docs/evidence/final-combined-checks-20261003/`。
 
 旧PR7–12再次核对head无变化；PR14–17的closed/merged快照保留初次接收head，而源分支最新head已逐项核对并作为后续修复完整合入。PR13仍draft、main仍 `bd0bb014c0974334557fa51814709d0b78f35f1d`。26材料义务及历史source/accepted-hash/权利HOLD不清除，全量MIT与实机/真实数据发布验收仍未完成。
+
+## bootstrap类型阻塞后续解决
+
+原CLI head `661e5f64bf819c93c13a7b077531239dec5199cf`（生产 `9e3bc5f81ad63d6112185cb7abc908ab9250ae2c`）普通merge `b5815bb4966e17ec5a515a0c7764ea41c511e666` 后，接收/来源checkpoint `b3721addfffb59ac56f8be9c13e6e5578e95a37d` 上实际完整CLI build退出0（17/17、13缓存），实际CLI cwd全工作区no-bail types退出0（15包脚本完成）。此前18条类型失败已由新的真实检查解除，旧原日志不变；原完整回归22失败不因此变成通过。新增5源码及原CLI doc/spec、接收记录的8路径fmt检查退出0。原字节验收/来源登记与新的完整CLI日志见 [后续组合记录](./final-bootstrap-combined-20261003.json)。
+
+phase-fold case16的只读诊断中，old/current均为空结果且digest相同；原gold的null case15与NaN case16 digest相同却与live NaN不匹配。保留其历史binding失败，未改gold。services scan fixture仍覆盖不存在的实例private getNativeProjectsRoots，而新实现调用module nativeProjectRoots；这是需要重新绑定有意义临时根的测试问题，不恢复已退役私有实现来通过。其它native/services/UI真实断言与CLI当前输入/产物绑定继续按原所属路径推进。

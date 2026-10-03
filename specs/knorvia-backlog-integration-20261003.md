@@ -105,3 +105,5 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 父任务冻结并交付CLI `661e5f64bf819c93c13a7b077531239dec5199cf`，生产提交 `9e3bc5f81ad63d6112185cb7abc908ab9250ae2c`。源分支远端完全匹配，普通merge为 `b5815bb4966e17ec5a515a0c7764ea41c511e666`；5个实际修改源码为message-info/part/record/timeline/session-state projection，session-event的union错误由共享recipe类型处理，无需额外改动该文件。两个新增证据按交付head原字节加入冻结清单，保留原已有5568记录。
 
 接收记录、真实来源输入清单与发布checkpoint完成后，在新组合树重跑此前确实失败的完整CLI build及实际CLI工作区no-bail types。原f5deb085的18类型失败和8034测试/22失败记录不改写；core当前输入pin、历史NaN基线、native/services/UI失败仍按已发布路径分别处理，不以27个原路定向通过声称完整组合验收通过。
+
+`b3721addfffb59ac56f8be9c13e6e5578e95a37d` 上实际完整CLI build退出0（17/17任务、13缓存），在真实CLI cwd执行的完整no-bail types退出0（15个包的types脚本完成）。这是此前18条bootstrap类型阻塞的后续解决结果，不覆盖原失败快照，不计为core旧pin/历史golden或其他native/services/UI场景已经通过。新增5源码及原路doc/spec加接收记录的8路径fmt检查退出0。CLI构建warning、Linux未运行Windows Cua driver staging及完整根回归的8skipped保留真实范围。

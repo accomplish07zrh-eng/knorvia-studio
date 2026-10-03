@@ -1,0 +1,150 @@
+
+> knorvia-studio@0.8.0-preview.3 build:cli-packages /workspace/knorvia-studio
+> turbo run build --cwd apps/cli
+
+• turbo 2.9.14
+ WARNING  No locally installed `turbo` found in your repository. Using globally installed version (2.9.14), which can cause unexpected behavior.
+
+Installing the version in your repository (^2.4.0) before calling `turbo` will result in more predictable behavior across environments.
+ WARNING  Unable to calculate transitive closures: Workspace 'packages/dynamic-workflow' not found in lockfile.
+
+   • Packages in scope: @knorvia/adapters, @knorvia/bootstrap, @knorvia/browser-use-plugin, @knorvia/cli, @knorvia/contracts, @knorvia/core, @knorvia/cua-plugin, @knorvia/dynamic-workflow, @knorvia/dynamic-workflow-runtime, @knorvia/i18n, @knorvia/node-repl-host, @knorvia/prompt-trajectory, @knorvia/shared-types, @knorvia/swift-bridge, @knorvia/telemetry, @knorvia/tui, @knorvia/typescript, debug
+   • Running build in 18 packages
+   • Remote caching disabled
+
+@knorvia/shared-types:build: cache hit, replaying logs fd3a6ef99f3d8370
+@knorvia/shared-types:build: 
+@knorvia/shared-types:build: > @knorvia/shared-types@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/shared-types
+@knorvia/shared-types:build: > tsc
+@knorvia/shared-types:build: 
+debug:build: cache hit, replaying logs e230d3248e3236ae
+debug:build: 
+debug:build: > debug@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/debug
+@knorvia/typescript:build: cache hit, replaying logs 893efd119901fce9
+debug:build: > tsc -p tsconfig.server.json && vite build
+debug:build: 
+debug:build: vite v7.3.3 building client environment for production...
+debug:build: transforming...
+debug:build: ✓ 1756 modules transformed.
+@knorvia/typescript:build: 
+debug:build: rendering chunks...
+debug:build: computing gzip size...
+@knorvia/typescript:build: > @knorvia/typescript@0.1.0 build /workspace/knorvia-studio/apps/cli/tools/typescript
+debug:build: dist/index.html                   0.40 kB │ gzip:   0.28 kB
+@knorvia/typescript:build: > echo 'Shared TypeScript config - no compilation needed'
+debug:build: dist/assets/index-CK53JNWs.css   35.63 kB │ gzip:   7.04 kB
+@knorvia/typescript:build: 
+debug:build: dist/assets/index-DduWyurr.js   786.35 kB │ gzip: 234.30 kB
+@knorvia/typescript:build: Shared TypeScript config - no compilation needed
+debug:build: 
+debug:build: (!) Some chunks are larger than 500 kB after minification. Consider:
+debug:build: - Using dynamic import() to code-split the application
+debug:build: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+debug:build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+debug:build: ✓ built in 2.60s
+@knorvia/cua-plugin:build: cache bypass, force executing 2f8183a787376fe8
+@knorvia/swift-bridge:build: cache hit, replaying logs e28aea2f7eda7c2b
+@knorvia/swift-bridge:build: 
+@knorvia/swift-bridge:build: > @knorvia/swift-bridge@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/swift-bridge
+@knorvia/swift-bridge:build: > tsc
+@knorvia/swift-bridge:build: 
+@knorvia/contracts:build: cache hit, replaying logs 8097c252b93250cf
+@knorvia/contracts:build: 
+@knorvia/contracts:build: > @knorvia/contracts@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/contracts
+@knorvia/contracts:build: > tsc
+@knorvia/contracts:build: 
+@knorvia/telemetry:build: cache hit, replaying logs 386cc6ea26446559
+@knorvia/telemetry:build: 
+@knorvia/telemetry:build: > @knorvia/telemetry@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/telemetry
+@knorvia/telemetry:build: > tsc
+@knorvia/telemetry:build: 
+@knorvia/i18n:build: cache hit, replaying logs 498c662efe31960d
+@knorvia/i18n:build: 
+@knorvia/i18n:build: > @knorvia/i18n@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/i18n
+@knorvia/i18n:build: > tsc
+@knorvia/i18n:build: 
+@knorvia/dynamic-workflow:build: cache hit, replaying logs 1d5d297a7f7cfc8a
+@knorvia/dynamic-workflow:build: 
+@knorvia/dynamic-workflow:build: > @knorvia/dynamic-workflow@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow
+@knorvia/dynamic-workflow:build: > node scripts/generate-libs.mjs && tsc
+@knorvia/dynamic-workflow:build: 
+@knorvia/dynamic-workflow-runtime:build: cache hit, replaying logs bf374ffe79cca643
+@knorvia/dynamic-workflow-runtime:build: 
+@knorvia/dynamic-workflow-runtime:build: > @knorvia/dynamic-workflow-runtime@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow-runtime
+@knorvia/dynamic-workflow-runtime:build: > tsc
+@knorvia/dynamic-workflow-runtime:build: 
+@knorvia/core:build: cache hit, replaying logs af50f841c7661456
+@knorvia/core:build: 
+@knorvia/core:build: > @knorvia/core@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/core
+@knorvia/core:build: > tsc
+@knorvia/core:build: 
+@knorvia/node-repl-host:build: cache hit, replaying logs 022c60c5aae81f86
+@knorvia/node-repl-host:build: 
+@knorvia/node-repl-host:build: > @knorvia/node-repl-host@0.8.0 build /workspace/knorvia-studio/apps/cli/packages/node-repl-host
+@knorvia/node-repl-host:build: > tsc && node scripts/build.mjs
+@knorvia/node-repl-host:build: 
+@knorvia/node-repl-host:build: ▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+@knorvia/node-repl-host:build: 
+@knorvia/node-repl-host:build:     ../core/dist/repl/runtime-values.js:85:37:
+@knorvia/node-repl-host:build:       85 │             return import(specifier, options);
+@knorvia/node-repl-host:build:          ╵                                      ^
+@knorvia/node-repl-host:build: 
+@knorvia/tui:build: cache hit, replaying logs 0171d9e219c4564b
+@knorvia/tui:build: 
+@knorvia/tui:build: > @knorvia/tui@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/tui
+@knorvia/tui:build: > tsc && node scripts/build.mjs
+@knorvia/tui:build: 
+@knorvia/tui:build: ▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+@knorvia/tui:build: 
+@knorvia/tui:build:     ../core/dist/repl/runtime-values.js:85:37:
+@knorvia/tui:build:       85 │             return import(specifier, options);
+@knorvia/tui:build:          ╵                                      ^
+@knorvia/tui:build: 
+@knorvia/tui:build: 1 warning
+@knorvia/tui:build: 
+@knorvia/tui:build:   dist/index.js      17.2mb ⚠️
+@knorvia/tui:build:   dist/index.js.map  29.9mb
+@knorvia/tui:build: 
+@knorvia/tui:build: ⚡ Done in 1335ms
+@knorvia/adapters:build: cache hit, replaying logs 665bc42f3a36568e
+@knorvia/adapters:build: 
+@knorvia/adapters:build: > @knorvia/adapters@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/adapters
+@knorvia/adapters:build: > tsc
+@knorvia/adapters:build: 
+@knorvia/bootstrap:build: cache miss, executing 48cf3a0f18b852e1
+@knorvia/cua-plugin:build: 
+@knorvia/cua-plugin:build: > @knorvia/cua-plugin@0.7.0 build /workspace/knorvia-studio/apps/cli/packages/cua-plugin
+@knorvia/cua-plugin:build: > node ../../../../packages/cua/scripts/stage-windows-driver.mjs
+@knorvia/cua-plugin:build: 
+@knorvia/cua-plugin:build: Windows Cua driver skipped on this build host.
+@knorvia/bootstrap:build: 
+@knorvia/bootstrap:build: > @knorvia/bootstrap@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/bootstrap
+@knorvia/bootstrap:build: > tsc
+@knorvia/bootstrap:build: 
+@knorvia/cli:build: cache miss, executing 86692ab2ec1fa155
+@knorvia/browser-use-plugin:build: cache miss, executing 041b526c9764d696
+@knorvia/cli:build: 
+@knorvia/cli:build: > @knorvia/cli@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/cli
+@knorvia/cli:build: > node scripts/build.mjs
+@knorvia/cli:build: 
+@knorvia/browser-use-plugin:build: 
+@knorvia/browser-use-plugin:build: > @knorvia/browser-use-plugin@0.6.0 build /workspace/knorvia-studio/apps/cli/packages/browser-use-plugin
+@knorvia/browser-use-plugin:build: > tsc && node scripts/build.mjs
+@knorvia/browser-use-plugin:build: 
+@knorvia/cli:build: ▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+@knorvia/cli:build: 
+@knorvia/cli:build:     ../core/dist/repl/runtime-values.js:85:37:
+@knorvia/cli:build:       85 │             return import(specifier, options);
+@knorvia/cli:build:          ╵                                      ^
+@knorvia/cli:build: 
+@knorvia/cli:build: 1 warning
+@knorvia/cli:build: 
+@knorvia/cli:build:   dist/knorvia.cjs      29.3mb ⚠️
+@knorvia/cli:build:   dist/knorvia.cjs.map  48.4mb
+@knorvia/cli:build: 
+@knorvia/cli:build: ⚡ Done in 2141ms
+
+ Tasks:    17 successful, 17 total
+Cached:    13 cached, 17 total
+  Time:    10.94s 
+
