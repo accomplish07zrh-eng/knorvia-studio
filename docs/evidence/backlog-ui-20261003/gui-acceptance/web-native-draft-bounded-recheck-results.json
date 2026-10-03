@@ -1,0 +1,52 @@
+{
+  "name": "native-draft-workspace-switch-bounded-recheck",
+  "steps": [
+    {
+      "stage": "selected-alpha",
+      "workspace": "alpha",
+      "text": "Native beta unsent draft — 中文",
+      "storage": {
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Falpha": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"Native beta unsent draft — 中文\",\"editorStateJson\":\"{\\\"root\\\":{\\\"children\\\":[{\\\"children\\\":[{\\\"detail\\\":0,\\\"format\\\":0,\\\"mode\\\":\\\"normal\\\",\\\"style\\\":\\\"\\\",\\\"text\\\":\\\"Native beta unsent draft — 中文\\\",\\\"type\\\":\\\"text\\\",\\\"version\\\":1}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"paragraph\\\",\\\"version\\\":1,\\\"textFormat\\\":0,\\\"textStyle\\\":\\\"\\\"}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"root\\\",\\\"version\\\":1}}\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026890507}}}",
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Fbeta": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026424819}}}"
+      }
+    },
+    {
+      "stage": "saved-alpha",
+      "workspace": "alpha",
+      "text": "Bounded alpha draft — 中文",
+      "storage": {
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Falpha": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"Bounded alpha draft — 中文\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026893712}}}",
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Fbeta": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026424819}}}"
+      }
+    },
+    {
+      "stage": "selected-beta",
+      "workspace": "beta",
+      "text": "\n",
+      "storage": {
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Falpha": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"Bounded alpha draft — 中文\",\"editorStateJson\":\"{\\\"root\\\":{\\\"children\\\":[{\\\"children\\\":[{\\\"detail\\\":0,\\\"format\\\":0,\\\"mode\\\":\\\"normal\\\",\\\"style\\\":\\\"\\\",\\\"text\\\":\\\"Bounded alpha draft — 中文\\\",\\\"type\\\":\\\"text\\\",\\\"version\\\":1}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"paragraph\\\",\\\"version\\\":1,\\\"textFormat\\\":0,\\\"textStyle\\\":\\\"\\\"}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"root\\\",\\\"version\\\":1}}\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026894063}}}",
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Fbeta": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026895640}}}"
+      }
+    },
+    {
+      "stage": "saved-beta",
+      "workspace": "beta",
+      "text": "Bounded beta draft — 中文",
+      "storage": {
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Falpha": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"Bounded alpha draft — 中文\",\"editorStateJson\":\"{\\\"root\\\":{\\\"children\\\":[{\\\"children\\\":[{\\\"detail\\\":0,\\\"format\\\":0,\\\"mode\\\":\\\"normal\\\",\\\"style\\\":\\\"\\\",\\\"text\\\":\\\"Bounded alpha draft — 中文\\\",\\\"type\\\":\\\"text\\\",\\\"version\\\":1}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"paragraph\\\",\\\"version\\\":1,\\\"textFormat\\\":0,\\\"textStyle\\\":\\\"\\\"}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"root\\\",\\\"version\\\":1}}\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026894063}}}",
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Fbeta": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"Bounded beta draft — 中文\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026895667}}}"
+      }
+    },
+    {
+      "stage": "returned-alpha",
+      "workspace": "alpha",
+      "text": "Bounded alpha draft — 中文",
+      "storage": {
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Falpha": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"Bounded alpha draft — 中文\",\"editorStateJson\":\"{\\\"root\\\":{\\\"children\\\":[{\\\"children\\\":[{\\\"detail\\\":0,\\\"format\\\":0,\\\"mode\\\":\\\"normal\\\",\\\"style\\\":\\\"\\\",\\\"text\\\":\\\"Bounded alpha draft — 中文\\\",\\\"type\\\":\\\"text\\\",\\\"version\\\":1}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"paragraph\\\",\\\"version\\\":1,\\\"textFormat\\\":0,\\\"textStyle\\\":\\\"\\\"}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"root\\\",\\\"version\\\":1}}\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026897640}}}",
+        "knorvia-v4-composer-drafts:v1:%2Ftmp%2Fknorvia-ui-gui-20261003-bxvoxp5q%2Fworkspaces%2Fbeta": "{\"version\":1,\"scopes\":{\"__draft__\":{\"text\":\"Bounded beta draft — 中文\",\"mode\":\"build\",\"planEnabled\":false,\"updatedAt\":1791026896018,\"editorStateJson\":\"{\\\"root\\\":{\\\"children\\\":[{\\\"children\\\":[{\\\"detail\\\":0,\\\"format\\\":0,\\\"mode\\\":\\\"normal\\\",\\\"style\\\":\\\"\\\",\\\"text\\\":\\\"Bounded beta draft — 中文\\\",\\\"type\\\":\\\"text\\\",\\\"version\\\":1}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"paragraph\\\",\\\"version\\\":1,\\\"textFormat\\\":0,\\\"textStyle\\\":\\\"\\\"}],\\\"direction\\\":null,\\\"format\\\":\\\"\\\",\\\"indent\\\":0,\\\"type\\\":\\\"root\\\",\\\"version\\\":1}}\"}}}"
+      }
+    }
+  ],
+  "pageErrors": [],
+  "status": "passed"
+}

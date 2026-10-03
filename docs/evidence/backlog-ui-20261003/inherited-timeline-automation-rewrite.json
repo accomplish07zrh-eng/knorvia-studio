@@ -1,0 +1,110 @@
+{
+  "scope": "assigned timeline authority/prepend and automation cron builder/grammar/description units only",
+  "evidenceCheckpoint": "PR19 1128e11a98a47d16ad19e9b3e60e65fc8b470cd7",
+  "latestMainObserved": "345a5a8698efec4f216e4118275214f25fdbd96b",
+  "latestMainUiSourceChangesSinceExactBaseline": [],
+  "files": [
+    {
+      "path": "packages/ui/src/v4/timelineScrollAnchor.ts",
+      "priorSourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "fixedUpstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "fixedUpstreamUrl": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/v4/timelineScrollAnchor.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "priorGitBlob": "b23d7542d974cd6d8ba33b37af5f93f224c17998",
+      "priorSha256": "89a067d2693b27edb57d8ace7647c0dcb00d7ce503fc141f03565ca64ef53083",
+      "candidateSha256": "ad87df68305425bffabca11614aa232b43cc2772a2cf5cda672f586d76bd4677"
+    },
+    {
+      "path": "packages/ui/src/settings/automationFormat.ts",
+      "priorSourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "fixedUpstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "fixedUpstreamUrl": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/settings/automationFormat.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "priorGitBlob": "4681ab842f19946db0274ae37c3edc5584467e11",
+      "priorSha256": "f35b5d262920543074acb8802cd4af03f53f66edad7ca80c2fb7b282006160bd",
+      "candidateSha256": "77ab089ededa2779144aa53bcfcd790c30e1e9e1e98fe4a9ae11e1b5b65d151f"
+    }
+  ],
+  "implementation": {
+    "timeline": "scroll source and content intent normalize to preserve/release/position authority; one pure policy resolves following; prepend separates key/numeric admission from the retained absolute coordinate and growth formulas",
+    "automation": "timed five-field projections plus frequency/custom registries; ordered grammar decoder admission; one descriptor ID/argument projection with shared interval/clock parameters; preserved conservative card and exact editor roundtrip decisions"
+  },
+  "retained": {
+    "timeline": [
+      "following remains with existing ConversationTimeline owner; no new state/listeners",
+      "public input/output shapes",
+      "48px bottom, 2px displacement, 64px older threshold and 2 viewport prefetch",
+      "wheel/touch/keyboard and editable exclusions",
+      "standard distance/formula predicates and short content/measurement helpers",
+      "nullish bottom epsilon compatibility on content entry",
+      "original NaN/Infinity comparison semantics; no new data validation"
+    ],
+    "automation": [
+      "public types, defaults, rawExpr and scheduleRule ownership",
+      "hour/minute/day 59/24/31 compatibility capacity and all cron supported/fallback patterns",
+      "weekday labels/order, message IDs/value keys, normal Date/pad2/GMT/relative/duration helpers",
+      "30-day relative card boundary",
+      "fixed month/day ambiguity and minute interval raw-string precision"
+    ]
+  },
+  "validation": {
+    "node": "24.14.0",
+    "beforeContractSuites": {
+      "passed": 13,
+      "failed": 0
+    },
+    "afterContractSuites": {
+      "passed": 13,
+      "failed": 0,
+      "files": [
+        "packages/ui/test/ui-inherited-timeline-anchor-contract-20261003.test.ts",
+        "packages/ui/test/ui-inherited-automation-format-contract-20261003.test.ts"
+      ],
+      "lastNullishEpsilonPreservationCheck": "timeline 6/6 rerun passed"
+    },
+    "sourceExposedBoundedComparison": {
+      "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "runtime": "v24.14.0",
+      "groups": [
+        "timeline",
+        "cron"
+      ],
+      "comparisons": 1853,
+      "failed": 0,
+      "qualification": "Source-exposed bounded behavioral comparison; not an independence, rights or full audit proof"
+    },
+    "lint": {
+      "files": 4,
+      "warnings": 0,
+      "errors": 0,
+      "ruleExceptionsAdded": false,
+      "qualification": "initial max-lines failure resolved by sharing existing clock/interval projections; not by waiving rules or removing behaviors"
+    },
+    "format": {
+      "files": 4,
+      "passed": true
+    },
+    "isolatedSourceTypes": {
+      "files": 2,
+      "strict": true,
+      "noUncheckedIndexedAccess": true,
+      "noEmit": true,
+      "projectReferences": false,
+      "passed": true,
+      "qualification": "pure helper source graph only; whole UI reference typecheck remains blocked by missing upstream dist declarations"
+    },
+    "architectureChanged": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    "fullSuiteOrAuditRepeated": false
+  },
+  "rights": {
+    "sourceExposed": true,
+    "cleanRoom": false,
+    "license": "Apache-2.0 transition; original LICENSE/NOTICE/history retained",
+    "mitReady": false,
+    "classification": "independent implementation candidates; final authorship/rights review remains with integrator"
+  },
+  "remainingAssignedFourFileImplementation": [],
+  "integrationAndPlatformLimitations": "see gui-acceptance/README.md; helper contracts do not accept blocked real history, onboarding/Controller/cleanup or native packages"
+}

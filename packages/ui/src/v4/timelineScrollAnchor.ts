@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed independent authority projection, 2026-10-03; prior notices/history retained.
 // 虚拟滚动核心：v4 timeline 底部锚定状态机（纯函数，无 DOM/React 依赖）。
 //
 // 语义（scrollAnchor）：
@@ -33,32 +35,44 @@ export function isAtBottom(
   return distanceToBottom(metrics) <= epsilonPx;
 }
 
-/**
- * scroll 事件后的跟随态。规则：落点在底部 ⇔ 跟随。
- * 覆盖三种来源且无需区分：用户上滚（离底 → 解除）、用户滚回（贴底 → 恢复）、
- * 程序化贴底（落点即底部 → 保持）。
- */
-function nextFollowingAfterScroll(
-  metrics: TimelineScrollMetrics,
-  epsilonPx: number = BOTTOM_ANCHOR_EPSILON_PX,
-): boolean {
-  return isAtBottom(metrics, epsilonPx);
-}
-
 type TimelineScrollEventSource = "user" | "programmatic" | "layout";
 
-/**
- * scroll 事件后的滚动权裁决。布局/程序化 scroll 不得改变用户意图；只有用户输入
- * 才按最终落点决定是否跟随。
- */
+type FollowingAuthority =
+  | { kind: "preserve" | "release" }
+  | {
+      kind: "position";
+      metrics: TimelineScrollMetrics;
+      epsilonPx?: number;
+      lastObservedScrollTop?: number;
+      scrollEpsilonPx?: number;
+      otherwise: boolean;
+    };
+
+/** 两种入口共用一个滚动权裁决；几何账目本身不能取得用户意图的写入权。 */
+function applyFollowingAuthority(following: boolean, authority: FollowingAuthority): boolean {
+  if (authority.kind !== "position") return authority.kind === "preserve" && following;
+  if (isAtBottom(authority.metrics, authority.epsilonPx)) return true;
+  if (
+    authority.lastObservedScrollTop !== undefined &&
+    authority.metrics.scrollTop <
+      authority.lastObservedScrollTop - (authority.scrollEpsilonPx ?? UNOBSERVED_SCROLL_EPSILON_PX)
+  )
+    return false;
+  return authority.otherwise;
+}
+
+/** 真实用户 scroll 按落点裁决；程序化与 layout 只记几何，不改变 following。 */
 export function resolveFollowingAfterScroll(input: {
   following: boolean;
   metrics: TimelineScrollMetrics;
   source: TimelineScrollEventSource;
   epsilonPx?: number;
 }): boolean {
-  if (input.source !== "user") return input.following;
-  return nextFollowingAfterScroll(input.metrics, input.epsilonPx);
+  const authority: FollowingAuthority =
+    input.source === "user"
+      ? { kind: "position", metrics: input.metrics, epsilonPx: input.epsilonPx, otherwise: false }
+      : { kind: "preserve" };
+  return applyFollowingAuthority(input.following, authority);
 }
 
 /**
@@ -157,19 +171,21 @@ export function reconcileFollowingForContentAnchor(input: {
   bottomEpsilonPx?: number;
   scrollEpsilonPx?: number;
 }): boolean {
-  const userScrollIntent = input.userScrollIntent ?? "unknown";
-  if (userScrollIntent === "awayFromBottom") return false;
-  if (userScrollIntent === "none") return input.following;
-  if (isAtBottom(input.metrics, input.bottomEpsilonPx ?? BOTTOM_ANCHOR_EPSILON_PX)) {
-    return true;
-  }
-  const unobservedUpscroll =
-    input.metrics.scrollTop <
-    input.lastObservedScrollTop - (input.scrollEpsilonPx ?? UNOBSERVED_SCROLL_EPSILON_PX);
-  if (unobservedUpscroll) {
-    return false;
-  }
-  return input.following;
+  const intent = input.userScrollIntent ?? "unknown";
+  const authority: FollowingAuthority =
+    intent === "none"
+      ? { kind: "preserve" }
+      : intent === "awayFromBottom"
+        ? { kind: "release" }
+        : {
+            kind: "position",
+            metrics: input.metrics,
+            epsilonPx: input.bottomEpsilonPx ?? BOTTOM_ANCHOR_EPSILON_PX,
+            lastObservedScrollTop: input.lastObservedScrollTop,
+            scrollEpsilonPx: input.scrollEpsilonPx,
+            otherwise: input.following,
+          };
+  return applyFollowingAuthority(input.following, authority);
 }
 
 /** 「回到底部」按钮可见性：仅在解除跟随且确实存在内容时展示。 */
@@ -211,15 +227,14 @@ export function prependVirtualAnchorAdjustment(
   next: PrependVirtualAnchor,
   currentScrollTop: number,
 ): number | null {
-  if (previous.key !== next.key) return null;
-  if (
-    !Number.isFinite(previous.offsetTop) ||
-    !Number.isFinite(next.start) ||
-    !Number.isFinite(currentScrollTop)
-  ) {
-    return null;
-  }
-  return next.start - previous.offsetTop - currentScrollTop;
+  const sameReadingAnchor = previous.key === next.key;
+  const usableCoordinates = [previous.offsetTop, next.start, currentScrollTop].every(
+    Number.isFinite,
+  );
+  // 只验输入坐标；标准绝对目标公式保留，不把中间 scroll 位移重复叠加。
+  return sameReadingAnchor && usableCoordinates
+    ? next.start - previous.offsetTop - currentScrollTop
+    : null;
 }
 
 interface PrependAnchorInput {
@@ -238,12 +253,11 @@ interface PrependAnchorInput {
  * 追加/替换/清空/首帧一律 null（不动滚动位置，交给底部锚定逻辑）。
  */
 export function prependScrollAdjustment(input: PrependAnchorInput): number | null {
-  if (input.prevFirstRowId === null || input.nextFirstRowId === null) {
-    return null;
-  }
-  if (input.nextFirstRowId >= input.prevFirstRowId) return null;
-  const delta = input.nextTotalSize - input.prevTotalSize;
-  return delta > 0 ? delta : null;
+  const previousId = input.prevFirstRowId;
+  const nextId = input.nextFirstRowId;
+  const prepend = previousId !== null && nextId !== null && !(nextId >= previousId);
+  const growth = input.nextTotalSize - input.prevTotalSize;
+  return prepend && growth > 0 ? growth : null;
 }
 
 /** 顶部触发阈值：距顶小于该距离视为「到顶」，自动拉取更早一窗。 */

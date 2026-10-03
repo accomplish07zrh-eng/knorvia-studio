@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "facts": {
+    "coldStartup": true,
+    "workspaceSwitch": true,
+    "rendererReload": true,
+    "captures": [
+      {
+        "workspace": "alpha",
+        "draft": "Bounded alpha draft — 中文"
+      },
+      {
+        "workspace": "beta",
+        "draft": "Bounded beta draft — 中文"
+      },
+      {
+        "workspaceAfterReload": "alpha"
+      }
+    ],
+    "onboardingHookErrors": [],
+    "pageErrors": [],
+    "otherConsoleMessages": [
+      {
+        "type": "warning",
+        "text": "[2026-10-03 12:07:29.866] [ui] [windowControllerTaskListRegistry] Controller subscribe 失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+      },
+      {
+        "type": "error",
+        "text": "[2026-10-03 12:07:29.880] [ui] [useGlobalTaskList] Controller 加载 pinned 列表失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+      },
+      {
+        "type": "warning",
+        "text": "[2026-10-03 12:07:40.456] [ui] [windowControllerTaskListRegistry] Controller subscribe 失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+      },
+      {
+        "type": "error",
+        "text": "[2026-10-03 12:07:40.458] [ui] [useGlobalTaskList] Controller 加载 pinned 列表失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+      }
+    ]
+  }
+}

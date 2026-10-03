@@ -1,0 +1,130 @@
+{
+  "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "branch": "rewrite/ui-20261003",
+  "verdict": "bounded Web flows accepted; desktop/installer and complete product acceptance remain unverified",
+  "environment": {
+    "os": "Debian 13 Linux",
+    "browser": "Chromium 151.0.7922.173 headless",
+    "browserApi": "installed playwright-core",
+    "node": "24.14.0",
+    "nodeArchiveSha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+    "runtime": "actual WebRoot / Vite, createLocalServices and createHttpServer, real WebSocket/RPC/SQLite/filesystem watchers",
+    "syntheticRoot": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q",
+    "providerConfig": "explicit isolated public builtin fixture; external URLs disabled, no credentials/model sends",
+    "platformsNotAvailable": [
+      "runnable Electron binary",
+      "Windows/Wine",
+      "macOS",
+      "native installer/package"
+    ],
+    "uiSmokeEntry": "scripts/studio-activity-rail-smoke.mjs read but not run: real Electron and emitted desktop artifacts absent",
+    "packagedAcceptance": "scripts/test-studio-packaged.mjs and historical docs read; no current packaged result"
+  },
+  "accepted": [
+    "56px activity rail and loaded unfiltered Knorvia PNG",
+    "actual Codex unsent draft survives workflows/settings and browser/Host process reopen",
+    "deep file-tree search and preview; alpha/beta file contents isolated",
+    "new beta workspace through actual directory browser",
+    "group creation, definition and unsent draft survive navigation and process restart",
+    "task context-menu split opens secondary pane; real runtime history not available",
+    "legacy pane v1 to v2 renderer reload, 62% split and real divider pointer commit preserved",
+    "legacy group v1 imports through real Host acknowledgement; Unicode draft and shared summary preserved",
+    "synthetic unversioned SQLite fixture: 5 real migrations, consistent WAL snapshot, business fields and malformed JSON preserved, idempotent reopen, checksum/future rejection without row mutation",
+    "ordinary native workspace draft switching, after target header and editor frame commit: independent alpha/beta drafts preserved",
+    "file-tree active search observes create/preview/rename/delete with real watcher and no manual refresh"
+  ],
+  "repair": {
+    "before": "newly created file absent from active search; manual directory refresh also reused Host index cache",
+    "after": "accepted watch batch calls existing index owner once; owner requests existing searchWorkspaceFiles refresh:true, then obtains packed chunks only while scope ticket remains current",
+    "storageOrUiChanges": false
+  },
+  "targetedChecks": {
+    "red": "2 added contract cases failed before implementation",
+    "unitSuites": {
+      "passed": 15,
+      "failed": 0,
+      "files": [
+        "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+        "packages/ui/test/ui-next-file-tree-search-index-20261003.test.ts"
+      ]
+    },
+    "lint": {
+      "files": 8,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": {
+      "files": 9,
+      "passed": true
+    },
+    "architectureChanged": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    "uiTypecheck": {
+      "exitCode": 2,
+      "reason": "TS6305 referenced packages/shared/dist and packages/services/dist declarations absent, with cascading diagnostics; no declaration build performed; not accepted as a successful UI typecheck"
+    },
+    "fullSuiteOrAuditRepeated": false
+  },
+  "qualifications": [
+    {
+      "kind": "observed Web composition failure",
+      "owner": "parent Web/Controller assembly",
+      "message": "Unknown channel: Channel name 'window-controller' timed out after 1000ms; global pinned/grouped list not accepted"
+    },
+    {
+      "kind": "observed caught React subtree error",
+      "owner": "parent onboarding/service hook integration",
+      "message": "OnboardingDialog hook order changed at workspace/service resolution; ScopedErrorBoundary caught areHookInputsEqual TypeError on repeated fresh browser runs. Flows continued; no claim of clean console."
+    },
+    {
+      "kind": "observed shutdown failure",
+      "owner": "services/agent process cleanup",
+      "message": "Host 14567 exited 1, remaining esbuild PID 17570 was zombie PPid 1. New Host 19760 and new browser recovered data; graceful shutdown not accepted."
+    },
+    {
+      "kind": "missing runtime prerequisite",
+      "owner": "CLI/Agent packaging",
+      "message": "subscribeSessionsIndexV4 returned KNORVIA_AGENT_RUNTIME_UNAVAILABLE; no real historical conversations, model task execution/resume or native CLI execution acceptance."
+    },
+    {
+      "kind": "resource limitation",
+      "message": "Some github-light/dark lazy theme JS requests were ERR_ABORTED; preview text visibly rendered, but full theme/resource coverage not accepted."
+    },
+    {
+      "kind": "automation correction",
+      "message": "Original native draft switching case typed before target editor commit and failed; bounded recheck waited for workspace header and two animation frames, checked per-workspace localStorage, and passed. No product fix asserted."
+    }
+  ],
+  "implementationFiles": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+      "sha256": "9b3fd07742decc4b134cef27400c1110f638163160854754cca864cb6904f61b"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+      "sha256": "5c8b2f7f45fa996e9860ec9e801b03a213167bd208e9c174a8503437079de5a1"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/searchIndexState.ts",
+      "sha256": "8481584845ef23ed2a5abc17e236cf559f1a2c9bcb2494e8f7e3be66a4c1e882"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileSearchIndex.ts",
+      "sha256": "b2a99bfe0966886f9103857cc64e02d12a78ce2cb964e5e313dfe6387d7ceec7"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+      "sha256": "e8e2e6ee8e05631016f8a56f7014a5fcb5d5f56ad92ab0b963bcc23edcec8985"
+    }
+  ],
+  "rights": {
+    "sourceExposed": true,
+    "cleanRoom": false,
+    "transitionLicense": "Apache-2.0",
+    "mitReady": false,
+    "licenseNoticeAndGlobalInventoryUnchanged": true
+  }
+}

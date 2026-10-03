@@ -1,0 +1,75 @@
+{
+  "scope": "UI service accessor hook order only; existing resolver and task proxy unchanged",
+  "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "priorUiBatch": "cfe79b3c71dffd8c55ff6d8c1d51abb40da9e7d8",
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useAgentService.ts",
+      "priorSha256": "69e140226011881be64359e4b221e42e7a809ebab19fea03df8efa899bfca07a",
+      "candidateSha256": "d14b926951f6867425cc5d9b074ccd84e6928c297cc34fd499dfbb22907c92a9"
+    },
+    {
+      "path": "packages/ui/src/hooks/useSessionService.ts",
+      "priorSha256": "ad55444eabf08308519565399b81ecf06b006dbdc8c84927d00d440f587aefa1",
+      "candidateSha256": "5ecc69125bcc7edbe2e44837c1bb42c5824595566e74f82804e6fb2d10138175"
+    },
+    {
+      "path": "packages/ui/src/hooks/useTaskService.ts",
+      "priorSha256": "0b5ea7d714aa00ebd3ec79562bf3cbfedcaf9a48e3b673fb2cab7d4f55c8ca38",
+      "candidateSha256": "c32bf2b5e557eac20db79a677131035804bf8d7a043b34c531183b917c26ae0b"
+    },
+    {
+      "path": "packages/ui/src/hooks/useWorkspaceServices.tsx",
+      "priorSha256": "3f1462dedca251da9d2d47631992f353c04c0b41bd229d199e8a19f7554dedb5",
+      "candidateSha256": "ecbc78103e21f9d9549b0f8554bdb18c39bbab6536d30f091787ce51cf3e89a0"
+    }
+  ],
+  "cause": "workspace absence/restoration selected different nested React hook chains in Session/Task/Agent accessors",
+  "implementation": "one unconditional context/resolver hook entry, selecting the accessor after reading both; absent path retains current ServiceProvider",
+  "actualBrowser": {
+    "runtime": "same real isolated Host and source WebRoot; Chromium 151.0.7922.173 headless, Node 24.14.0",
+    "resultFile": "web-workspace-service-startup-results.json",
+    "resultSha256": "73970e06ae31ebb9f1f78060465c53332fa756991bc96cc195ccf8a43c5257bb",
+    "result": "passed cold startup, alpha/beta draft switching and renderer reload; hook errors and pageerror zero; Controller errors retained",
+    "screenshot": "web-workspace-service-startup.png",
+    "screenshotSha256": "2172e6d02cbe4c27e6d288ce6bf699e6fd806edc77c89e742f4727a25f5077eb",
+    "visualInspection": "actual screenshot viewed; alpha draft after reload visible",
+    "helper": "packages/ui/test/helpers/workspace-service-startup.browser.mjs",
+    "helperSha256": "073c23f81a8caaa317cf3df912a455e240983cb1e755a0ac635b576afe9b5038",
+    "automationCorrection": "first helper attempted project CollapsibleTrigger, which collapses an expanded row; corrected to the existing New task action. No product fix asserted for that timeout.",
+    "data": "existing synthetic profile/workspaces only; no model sends or user data"
+  },
+  "validation": {
+    "lint": {
+      "files": 5,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": {
+      "files": 6,
+      "passed": true
+    },
+    "architectureChanged": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    "wholeUiTypes": "previous actual project reference check exit 2 due missing shared/services dist declarations; not repeated or claimed passed",
+    "fullSuiteOrAuditRepeated": false,
+    "nativePlatformAcceptance": false
+  },
+  "retained": [
+    "all JSX/CSS and resource files",
+    "workspace identity/remote session resolution",
+    "current provider for missing path",
+    "task proxy WeakMap/cache owner",
+    "storage keys and all persisted data"
+  ],
+  "remaining": "Controller/server assembly and native/services cleanup assigned to parent; Agent runtime, complete theme, Electron/Windows/macOS packaging unverified",
+  "rights": {
+    "sourceExposed": true,
+    "cleanRoom": false,
+    "license": "Apache-2.0 transition, original LICENSE/NOTICE/history retained",
+    "mitReady": false
+  }
+}

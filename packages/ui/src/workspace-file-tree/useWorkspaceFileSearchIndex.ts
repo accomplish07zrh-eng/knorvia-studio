@@ -61,7 +61,18 @@ export function useWorkspaceFileSearchIndex({
       publish({ type: "paused" });
       return;
     }
-    return requests.start(() => fetchWorkspaceFileEntriesPacked(fileService, workspacePath));
+    return requests.start(async (isCurrent) => {
+      // Length/Range 会复用 Host 的旧缓存；先通过已有强刷命令更新唯一 Host 索引。
+      await fileService.searchWorkspaceFiles({
+        rootPath: workspacePath,
+        query: "",
+        limit: 1,
+        refresh: true,
+      });
+      // 强刷命令已交 Host，scope 失效只能撤权；此时不再发起后续分块读取。
+      if (!isCurrent()) return "";
+      return fetchWorkspaceFileEntriesPacked(fileService, workspacePath);
+    });
   }, [
     enabled,
     fileService,

@@ -1,11 +1,8 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed independent candidate, 2026-10-03; @pierre/diffs and prior notices remain.
 import { trimPatchContext } from "@pierre/diffs";
 
 const MAX_DIFF_LCS_CELLS = 60_000;
-
-interface LineMatch {
-  beforeIndex: number;
-  afterIndex: number;
-}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -40,377 +37,239 @@ export function extractBeforeAfter(value: unknown): { before: string; after: str
   return null;
 }
 
-function extractStructuredDiffBlock(
-  value: unknown,
-): { path?: string; oldText: string; newText: string } | null {
-  if (!isRecord(value) || value.type !== "diff" || typeof value.newText !== "string") {
-    return null;
-  }
-
-  return {
-    path: typeof value.path === "string" && value.path.trim() ? value.path : undefined,
-    oldText:
-      typeof value.oldText === "string"
-        ? value.oldText
-        : value.oldText == null
-          ? ""
-          : String(value.oldText),
-    newText: value.newText,
-  };
+function* structuredDiffInputs(value: unknown): Generator<unknown> {
+  yield value;
+  // 直接 diff 被接受后不会读取 content；仅其无效时继续按原数组顺序适配。
+  if (isRecord(value) && Array.isArray(value.content)) yield* value.content;
 }
 
 export function extractStructuredDiff(
   value: unknown,
 ): { path?: string; oldText: string; newText: string } | null {
-  const directDiff = extractStructuredDiffBlock(value);
-  if (directDiff) {
-    return directDiff;
+  for (const entry of structuredDiffInputs(value)) {
+    if (!isRecord(entry) || entry.type !== "diff" || typeof entry.newText !== "string") continue;
+    return {
+      path: typeof entry.path === "string" && entry.path.trim() ? entry.path : undefined,
+      oldText: entry.oldText == null ? "" : String(entry.oldText),
+      newText: entry.newText,
+    };
   }
-
-  if (!isRecord(value) || !Array.isArray(value.content)) {
-    return null;
-  }
-
-  for (const item of value.content) {
-    const diff = extractStructuredDiffBlock(item);
-    if (diff) {
-      return diff;
-    }
-  }
-
   return null;
 }
 
-function splitLines(text: string): string[] {
-  return text.length === 0 ? [] : text.split("\n");
+interface DiffSegment {
+  kind: "segment";
+  beforeStart: number;
+  beforeEnd: number;
+  afterStart: number;
+  afterEnd: number;
 }
 
-function formatDiffRange(lineCount: number): string {
-  return lineCount === 0 ? "0,0" : `1,${lineCount}`;
+interface LineMatch {
+  beforeIndex: number;
+  afterIndex: number;
 }
 
-function formatDiffRangeFromSliceStart(startIndex: number, lineCount: number): string {
-  if (lineCount === 0) {
-    return `${startIndex},0`;
-  }
+type DiffWork = DiffSegment | { kind: "equal"; line: string };
 
-  return `${startIndex + 1},${lineCount}`;
-}
-
-function countSharedPrefix(beforeLines: readonly string[], afterLines: readonly string[]): number {
-  const maxLength = Math.min(beforeLines.length, afterLines.length);
-  let index = 0;
-  while (index < maxLength && beforeLines[index] === afterLines[index]) {
-    index += 1;
-  }
-  return index;
-}
-
-function countSharedSuffix(
-  beforeLines: readonly string[],
-  afterLines: readonly string[],
-  sharedPrefixCount: number,
-): number {
-  const maxLength = Math.min(beforeLines.length, afterLines.length) - sharedPrefixCount;
-  let offset = 0;
-  while (
-    offset < maxLength &&
-    beforeLines[beforeLines.length - 1 - offset] === afterLines[afterLines.length - 1 - offset]
-  ) {
-    offset += 1;
-  }
-  return offset;
-}
-
-function appendLinesWithPrefix(
-  patchLines: string[],
-  prefix: " " | "+" | "-",
+function uniquePositions(
   lines: readonly string[],
-): void {
-  patchLines.push(...lines.map((line) => `${prefix}${line}`));
+  start: number,
+  end: number,
+): Map<string, number> {
+  const positions = new Map<string, number>();
+  for (let index = start; index < end; index += 1) {
+    const line = lines[index]!;
+    positions.set(line, positions.has(line) ? -1 : index);
+  }
+  return positions;
 }
 
-function collectUniqueLineMatches(
-  beforeLines: readonly string[],
-  afterLines: readonly string[],
+/** 双方仅出现一次的行是候选，严格递增的 after 坐标保证锚点不能交叉。 */
+function segmentAnchors(
+  before: readonly string[],
+  after: readonly string[],
+  segment: DiffSegment,
 ): LineMatch[] {
-  const beforeOccurrences = new Map<string, { count: number; firstIndex: number }>();
-  const afterOccurrences = new Map<string, { count: number; firstIndex: number }>();
-
-  for (let index = 0; index < beforeLines.length; index += 1) {
-    const line = beforeLines[index]!;
-    const existing = beforeOccurrences.get(line);
-    if (existing) {
-      existing.count += 1;
-      continue;
+  const left = uniquePositions(before, segment.beforeStart, segment.beforeEnd);
+  const right = uniquePositions(after, segment.afterStart, segment.afterEnd);
+  const candidates: LineMatch[] = [];
+  for (const [line, beforeIndex] of left) {
+    const afterIndex = right.get(line);
+    if (beforeIndex >= 0 && afterIndex !== undefined && afterIndex >= 0) {
+      candidates.push({ beforeIndex, afterIndex });
     }
-    beforeOccurrences.set(line, { count: 1, firstIndex: index });
   }
-
-  for (let index = 0; index < afterLines.length; index += 1) {
-    const line = afterLines[index]!;
-    const existing = afterOccurrences.get(line);
-    if (existing) {
-      existing.count += 1;
-      continue;
-    }
-    afterOccurrences.set(line, { count: 1, firstIndex: index });
-  }
-
-  const matches: LineMatch[] = [];
-  for (const [line, beforeOccurrence] of beforeOccurrences) {
-    const afterOccurrence = afterOccurrences.get(line);
-    if (beforeOccurrence.count !== 1 || afterOccurrence?.count !== 1) {
-      continue;
-    }
-    matches.push({
-      beforeIndex: beforeOccurrence.firstIndex,
-      afterIndex: afterOccurrence.firstIndex,
-    });
-  }
-
-  matches.sort((left, right) => left.beforeIndex - right.beforeIndex);
-  return matches;
-}
-
-function findIncreasingAnchorMatches(matches: readonly LineMatch[]): LineMatch[] {
-  if (matches.length === 0) {
-    return [];
-  }
-
-  const predecessors = Array<number>(matches.length).fill(-1);
-  const pileTops: number[] = [];
-
-  for (let index = 0; index < matches.length; index += 1) {
-    const match = matches[index]!;
+  const chain = new Int32Array(candidates.length).fill(-1);
+  const ends: number[] = [];
+  candidates.forEach((candidate, index) => {
     let low = 0;
-    let high = pileTops.length;
-
+    let high = ends.length;
     while (low < high) {
-      const middle = Math.floor((low + high) / 2);
-      const currentTop = pileTops[middle]!;
-      if (matches[currentTop]!.afterIndex < match.afterIndex) {
-        low = middle + 1;
-      } else {
-        high = middle;
-      }
+      const mid = (low + high) >>> 1;
+      if (candidates[ends[mid]!]!.afterIndex < candidate.afterIndex) low = mid + 1;
+      else high = mid;
     }
-
-    if (low > 0) {
-      predecessors[index] = pileTops[low - 1]!;
-    }
-    pileTops[low] = index;
+    chain[index] = low === 0 ? -1 : ends[low - 1]!;
+    ends[low] = index;
+  });
+  const result: LineMatch[] = [];
+  for (let index = ends.at(-1) ?? -1; index >= 0; index = chain[index]!) {
+    result.push(candidates[index]!);
   }
-
-  const anchors: LineMatch[] = [];
-  let currentIndex = pileTops[pileTops.length - 1]!;
-  while (currentIndex >= 0) {
-    anchors.push(matches[currentIndex]!);
-    currentIndex = predecessors[currentIndex] ?? -1;
-  }
-
-  return anchors.reverse();
+  return result.reverse();
 }
 
-function appendDiffBodyWithLargeSegmentFallback(
-  patchLines: string[],
-  beforeLines: readonly string[],
-  afterLines: readonly string[],
+function appendSegmentWithLcs(
+  output: string[],
+  before: readonly string[],
+  after: readonly string[],
+  segment: DiffSegment,
 ): void {
-  const anchors = findIncreasingAnchorMatches(collectUniqueLineMatches(beforeLines, afterLines));
-
-  if (anchors.length === 0) {
-    // 之前大区间直接整块退化成“全删再全加”，
-    // 像 cli.ts 这种前后各插几行、但跨度很远的场景，会把整段未改内容误渲染成红绿大块。
-    // 这里优先用唯一行锚点把大区间拆成多个小段，再递归回到正常 diff，尽量保留真实 hunk 边界。
-    appendLinesWithPrefix(patchLines, "-", beforeLines);
-    appendLinesWithPrefix(patchLines, "+", afterLines);
-    return;
-  }
-
-  let previousBeforeIndex = 0;
-  let previousAfterIndex = 0;
-
-  for (const anchor of anchors) {
-    appendDiffBody(
-      patchLines,
-      beforeLines.slice(previousBeforeIndex, anchor.beforeIndex),
-      afterLines.slice(previousAfterIndex, anchor.afterIndex),
-    );
-    patchLines.push(` ${beforeLines[anchor.beforeIndex]!}`);
-    previousBeforeIndex = anchor.beforeIndex + 1;
-    previousAfterIndex = anchor.afterIndex + 1;
-  }
-
-  appendDiffBody(
-    patchLines,
-    beforeLines.slice(previousBeforeIndex),
-    afterLines.slice(previousAfterIndex),
-  );
-}
-
-function appendDiffBodyWithLcs(
-  patchLines: string[],
-  beforeLines: readonly string[],
-  afterLines: readonly string[],
-): void {
-  if (beforeLines.length === 0) {
-    appendLinesWithPrefix(patchLines, "+", afterLines);
-    return;
-  }
-
-  if (afterLines.length === 0) {
-    appendLinesWithPrefix(patchLines, "-", beforeLines);
-    return;
-  }
-
-  if (beforeLines.length * afterLines.length > MAX_DIFF_LCS_CELLS) {
-    appendDiffBodyWithLargeSegmentFallback(patchLines, beforeLines, afterLines);
-    return;
-  }
-
-  const lcs = Array.from({ length: beforeLines.length + 1 }, () =>
-    Array<number>(afterLines.length + 1).fill(0),
-  );
-
-  for (let beforeIndex = beforeLines.length - 1; beforeIndex >= 0; beforeIndex -= 1) {
-    for (let afterIndex = afterLines.length - 1; afterIndex >= 0; afterIndex -= 1) {
-      lcs[beforeIndex]![afterIndex] =
-        beforeLines[beforeIndex] === afterLines[afterIndex]
-          ? (lcs[beforeIndex + 1]![afterIndex + 1] ?? 0) + 1
-          : Math.max(
-              lcs[beforeIndex + 1]![afterIndex] ?? 0,
-              lcs[beforeIndex]![afterIndex + 1] ?? 0,
-            );
+  const rows = segment.beforeEnd - segment.beforeStart;
+  const columns = segment.afterEnd - segment.afterStart;
+  const stride = columns + 1;
+  const suffixScores = new Uint32Array((rows + 1) * stride);
+  for (let row = rows - 1; row >= 0; row -= 1) {
+    const base = row * stride;
+    for (let column = columns - 1; column >= 0; column -= 1) {
+      suffixScores[base + column] =
+        before[segment.beforeStart + row] === after[segment.afterStart + column]
+          ? suffixScores[base + stride + column + 1]! + 1
+          : Math.max(suffixScores[base + stride + column]!, suffixScores[base + column + 1]!);
     }
   }
-
-  let beforeIndex = 0;
-  let afterIndex = 0;
-  while (beforeIndex < beforeLines.length || afterIndex < afterLines.length) {
-    const beforeLine = beforeLines[beforeIndex];
-    const afterLine = afterLines[afterIndex];
-
-    if (beforeLine !== undefined && afterLine !== undefined && beforeLine === afterLine) {
-      patchLines.push(` ${beforeLine}`);
-      beforeIndex += 1;
-      afterIndex += 1;
-      continue;
-    }
-
-    if (beforeLine === undefined && afterLine !== undefined) {
-      patchLines.push(`+${afterLine}`);
-      afterIndex += 1;
-      continue;
-    }
-
-    if (afterLine === undefined && beforeLine !== undefined) {
-      patchLines.push(`-${beforeLine}`);
-      beforeIndex += 1;
-      continue;
-    }
-
-    const skipAfterScore = lcs[beforeIndex]![afterIndex + 1] ?? -1;
-    const skipBeforeScore = lcs[beforeIndex + 1]![afterIndex] ?? -1;
-
-    if (afterLine !== undefined && skipAfterScore >= skipBeforeScore) {
-      patchLines.push(`+${afterLine}`);
-      afterIndex += 1;
-      continue;
-    }
-
-    if (beforeLine !== undefined) {
-      patchLines.push(`-${beforeLine}`);
-      beforeIndex += 1;
+  let row = 0;
+  let column = 0;
+  while (row < rows || column < columns) {
+    if (
+      row < rows &&
+      column < columns &&
+      before[segment.beforeStart + row] === after[segment.afterStart + column]
+    ) {
+      output.push(` ${before[segment.beforeStart + row]}`);
+      row += 1;
+      column += 1;
+    } else if (
+      column < columns &&
+      (row === rows ||
+        suffixScores[row * stride + column + 1]! >= suffixScores[(row + 1) * stride + column]!)
+    ) {
+      // 相同 LCS score 时先添加，保留已保存 patch 的行序与预览语义。
+      output.push(`+${after[segment.afterStart + column]}`);
+      column += 1;
+    } else {
+      output.push(`-${before[segment.beforeStart + row]}`);
+      row += 1;
     }
   }
 }
 
-function appendDiffBody(
-  patchLines: string[],
-  beforeLines: readonly string[],
-  afterLines: readonly string[],
+function appendDiffSegments(
+  output: string[],
+  before: readonly string[],
+  after: readonly string[],
+  initial: DiffSegment,
 ): void {
-  appendDiffBodyWithLcs(patchLines, beforeLines, afterLines);
+  const pending: DiffWork[] = [initial];
+  while (pending.length) {
+    const work = pending.pop()!;
+    if (work.kind === "equal") {
+      output.push(` ${work.line}`);
+      continue;
+    }
+    const leftCount = work.beforeEnd - work.beforeStart;
+    const rightCount = work.afterEnd - work.afterStart;
+    if (leftCount === 0 || rightCount === 0) {
+      for (let index = work.beforeStart; index < work.beforeEnd; index += 1)
+        output.push(`-${before[index]}`);
+      for (let index = work.afterStart; index < work.afterEnd; index += 1)
+        output.push(`+${after[index]}`);
+      continue;
+    }
+    if (leftCount * rightCount <= MAX_DIFF_LCS_CELLS) {
+      appendSegmentWithLcs(output, before, after, work);
+      continue;
+    }
+    const anchors = segmentAnchors(before, after, work);
+    if (!anchors.length) {
+      // 大区间没有稳定唯一行时才能退化；不能把远隔的两个小改动涂成整页红绿。
+      for (let index = work.beforeStart; index < work.beforeEnd; index += 1)
+        output.push(`-${before[index]}`);
+      for (let index = work.afterStart; index < work.afterEnd; index += 1)
+        output.push(`+${after[index]}`);
+      continue;
+    }
+    let beforeStart = work.beforeStart;
+    let afterStart = work.afterStart;
+    const ordered: DiffWork[] = [];
+    for (const anchor of anchors) {
+      ordered.push({
+        kind: "segment",
+        beforeStart,
+        afterStart,
+        beforeEnd: anchor.beforeIndex,
+        afterEnd: anchor.afterIndex,
+      });
+      ordered.push({ kind: "equal", line: before[anchor.beforeIndex]! });
+      beforeStart = anchor.beforeIndex + 1;
+      afterStart = anchor.afterIndex + 1;
+    }
+    ordered.push({ ...work, beforeStart, afterStart });
+    // 显式 work stack 保持左到右输出，不复制行数组或增加递归 owner。
+    for (let index = ordered.length - 1; index >= 0; index -= 1) pending.push(ordered[index]!);
+  }
+}
+
+function changedWindow(before: readonly string[], after: readonly string[]): DiffSegment {
+  let start = 0;
+  const sharedLength = Math.min(before.length, after.length);
+  while (start < sharedLength && before[start] === after[start]) start += 1;
+  let beforeEnd = before.length;
+  let afterEnd = after.length;
+  while (beforeEnd > start && afterEnd > start && before[beforeEnd - 1] === after[afterEnd - 1]) {
+    beforeEnd -= 1;
+    afterEnd -= 1;
+  }
+  return { kind: "segment", beforeStart: start, afterStart: start, beforeEnd, afterEnd };
+}
+
+function patchRange(start: number, count: number): string {
+  return `${count === 0 ? start : start + 1},${count}`;
 }
 
 export function buildUnifiedDiff(
   before: string,
   after: string,
   fileLabel: string,
-  options?: {
-    contextLines?: number;
-  },
+  options?: { contextLines?: number },
 ): string | null {
-  const contextLines = options?.contextLines;
-  const hasContextLimit =
-    typeof contextLines === "number" && Number.isFinite(contextLines) && contextLines >= 0;
-  const normalizedContextLines = hasContextLimit ? Math.max(0, Math.floor(contextLines)) : 0;
-  const beforeLines = splitLines(before);
-  const afterLines = splitLines(after);
-  const sharedPrefixCount = countSharedPrefix(beforeLines, afterLines);
-  const sharedSuffixCount = countSharedSuffix(beforeLines, afterLines, sharedPrefixCount);
-  const beforeMiddle = beforeLines.slice(sharedPrefixCount, beforeLines.length - sharedSuffixCount);
-  const afterMiddle = afterLines.slice(sharedPrefixCount, afterLines.length - sharedSuffixCount);
-  const isCreatedFile = beforeLines.length === 0 && afterLines.length > 0;
-  const isDeletedFile = beforeLines.length > 0 && afterLines.length === 0;
-
-  const limitedPrefixCount = hasContextLimit
-    ? Math.min(sharedPrefixCount, normalizedContextLines)
-    : sharedPrefixCount;
-  const limitedSuffixCount = hasContextLimit
-    ? Math.min(sharedSuffixCount, normalizedContextLines)
-    : sharedSuffixCount;
-
-  const beforeSliceStart = sharedPrefixCount - limitedPrefixCount;
-  const afterSliceStart = sharedPrefixCount - limitedPrefixCount;
-  const beforeRangeLineCount = limitedPrefixCount + beforeMiddle.length + limitedSuffixCount;
-  const afterRangeLineCount = limitedPrefixCount + afterMiddle.length + limitedSuffixCount;
-
-  const patchLines = [
-    // 仅有 `---/+++` 文件头时，删除一行 SQL 注释（`-- ...`）会生成 `--- ...` 正文。
-    // @pierre/diffs 按该前缀切分 unified diff，会把正文误判为第二个文件并让 FileDiff 崩溃。
-    // 补上 Git 文件边界后，解析器只按 `diff --git` 切分，正文不再参与文件数量判断。
+  const left = before === "" ? [] : before.split("\n");
+  const right = after === "" ? [] : after.split("\n");
+  const requestedContext = options?.contextLines;
+  const limited =
+    typeof requestedContext === "number" &&
+    Number.isFinite(requestedContext) &&
+    requestedContext >= 0;
+  const context = limited ? Math.floor(requestedContext) : Infinity;
+  const changed = changedWindow(left, right);
+  const prefix = Math.min(context, changed.beforeStart);
+  const suffix = Math.min(context, left.length - changed.beforeEnd);
+  const start = changed.beforeStart - prefix;
+  const oldCount = prefix + changed.beforeEnd - changed.beforeStart + suffix;
+  const newCount = prefix + changed.afterEnd - changed.afterStart + suffix;
+  const output = [
+    // Git 边界防止删除 SQL 的 -- 注释被 @pierre/diffs 当成第二个文件头。
     `diff --git a/${fileLabel} b/${fileLabel}`,
-    // 新建文件之前会被输出成 --- a/file + @@ -0,0，PatchDiff 会把它当成
-    // 普通 rename/change diff 处理；大文件新增时右侧面板可能在行映射和高亮里卡死。
-    // 标准 unified diff 应该用 /dev/null 表示不存在的一侧，让解析器走新增/删除语义。
-    isCreatedFile ? "--- /dev/null" : `--- a/${fileLabel}`,
-    isDeletedFile ? "+++ /dev/null" : `+++ b/${fileLabel}`,
-    hasContextLimit
-      ? `@@ -${formatDiffRangeFromSliceStart(beforeSliceStart, beforeRangeLineCount)} +${formatDiffRangeFromSliceStart(afterSliceStart, afterRangeLineCount)} @@`
-      : `@@ -${formatDiffRange(beforeLines.length)} +${formatDiffRange(afterLines.length)} @@`,
+    left.length === 0 && right.length > 0 ? "--- /dev/null" : `--- a/${fileLabel}`,
+    right.length === 0 && left.length > 0 ? "+++ /dev/null" : `+++ b/${fileLabel}`,
+    `@@ -${patchRange(start, oldCount)} +${patchRange(start, newCount)} @@`,
   ];
-
-  // 消息摘要/Git pane 在 context 模式下只需要“改动附近”窗口。
-  // 之前即使只看 3 行上下文，也会先把整份 shared prefix/suffix 塞进 patch 再 trim，
-  // 大文件（如 1500+ 行 Dockerfile）点展开时会在主线程做大量无效字符串拼接，导致界面卡死。
-  // 这里先按 context 截断前后公共区，再交给 trimPatchContext 做最终 hunk 规整。
-  patchLines.push(
-    ...beforeLines
-      .slice(sharedPrefixCount - limitedPrefixCount, sharedPrefixCount)
-      .map((line) => ` ${line}`),
-  );
-  appendDiffBody(patchLines, beforeMiddle, afterMiddle);
-  if (limitedSuffixCount > 0) {
-    patchLines.push(
-      ...beforeLines
-        .slice(
-          beforeLines.length - sharedSuffixCount,
-          beforeLines.length - sharedSuffixCount + limitedSuffixCount,
-        )
-        .map((line) => ` ${line}`),
-    );
-  }
-
-  const patch = patchLines.join("\n");
-  if (hasContextLimit) {
-    // 关键业务逻辑：上一轮更改使用整份 before/after 快照构造 patch。
-    // 如果直接把整份 patch 交给预览器，像“大文件只改 1~2 行”这种场景会整页铺满，
-    // 用户很难第一眼定位修改点。这里统一裁成“变更附近 + 固定上下文行数”的 diff，
-    // 让消息摘要和 Git 面板都优先服务定位问题，而不是回放整份文件。
-    return trimPatchContext(patch, normalizedContextLines);
-  }
-
-  return patch;
+  // 先选可见上下文窗口，再交现有第三方规整 hunk，避免拼接整份公共边缘。
+  for (let index = start; index < changed.beforeStart; index += 1) output.push(` ${left[index]}`);
+  appendDiffSegments(output, left, right, changed);
+  for (let index = changed.beforeEnd; index < changed.beforeEnd + suffix; index += 1)
+    output.push(` ${left[index]}`);
+  const patch = output.join("\n");
+  return limited ? trimPatchContext(patch, context) : patch;
 }

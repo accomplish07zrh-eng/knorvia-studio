@@ -39,6 +39,7 @@ type OwnerOptions = {
     message: string,
     details: { path?: string; workspacePath?: string; error: string },
   ) => void;
+  onWatchRefresh?: () => void;
 };
 
 /** One accepted snapshot. React and compatibility refs read this owner's facts directly. */
@@ -338,6 +339,10 @@ export class WorkspaceFileTreeDataOwner {
       () => this.requests.acceptsRefresh(ticket),
       (path) => this.refreshDirectory(path, ticket.generation, false),
     );
+    if (!this.requests.acceptsRefresh(ticket)) return;
+    // 目录已因 watch 更新，搜索仍持有旧索引；仅有效批次通过原刷新入口同步索引。
+    this.options.onWatchRefresh?.();
+    // 刷新命令可能同步切换 scope，旧批次不能继续调度新 scope 的 Git 读取。
     if (this.requests.acceptsRefresh(ticket))
       void this.loadGitStatus({ workspaceGeneration: ticket.generation });
   }

@@ -12,11 +12,13 @@ export function useWorkspaceFileTreeData({
   workspaceIdentity,
   workspaceRemoteSessionId,
   enableWorkspaceFeatures = true,
+  onWatchRefresh,
 }: {
   workspacePath: string;
   workspaceIdentity?: string;
   workspaceRemoteSessionId?: string;
   enableWorkspaceFeatures?: boolean;
+  onWatchRefresh?: () => void;
 }) {
   const { fileService, fileWatcherService, gitService } = useWorkspaceServices(
     workspacePath,
@@ -31,8 +33,9 @@ export function useWorkspaceFileTreeData({
         fileService,
         gitService,
         warn: (message, details) => logger.warn(message, details),
+        onWatchRefresh,
       }),
-    [enableWorkspaceFeatures, fileService, gitService, workspacePath],
+    [enableWorkspaceFeatures, fileService, gitService, onWatchRefresh, workspacePath],
   );
   const snapshot = useSyncExternalStore(owner.subscribe, owner.read, owner.read);
   const currentOwnerRef = useRef(owner);

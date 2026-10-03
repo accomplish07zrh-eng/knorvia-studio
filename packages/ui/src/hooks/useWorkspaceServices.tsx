@@ -227,3 +227,19 @@ export function useWorkspaceServices(
     remoteTarget,
   ).services;
 }
+
+/** 有 workspace 用原 resolver；无 workspace 保留当前 provider 的原 accessor。 */
+export function useWorkspaceOrContextServices(
+  workspacePath?: string,
+  preferredRemoteSessionId?: string | null,
+  workspaceIdentity?: string | null,
+): IServiceAccessor {
+  // 首启恢复 workspace 时路径会由空变为有效；不能按路径条件调用不同 hooks。
+  const contextServices = useServices();
+  const workspaceServices = useWorkspaceServices(
+    workspacePath,
+    preferredRemoteSessionId,
+    workspaceIdentity,
+  );
+  return workspacePath ? workspaceServices : contextServices;
+}

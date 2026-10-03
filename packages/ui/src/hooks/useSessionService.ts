@@ -1,14 +1,15 @@
 import type { IKnorviaSessionService } from "@knorvia/services";
-import { useServices } from "@/hooks/useServices.js";
-import { useWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
+import { useWorkspaceOrContextServices } from "@/hooks/useWorkspaceServices.js";
 
 export function useSessionService(
   workspacePath?: string,
   preferredRemoteSessionId?: string | null,
   workspaceIdentity?: string | null,
 ): IKnorviaSessionService {
-  const services = workspacePath
-    ? useWorkspaceServices(workspacePath, preferredRemoteSessionId, workspaceIdentity)
-    : useServices();
+  const services = useWorkspaceOrContextServices(
+    workspacePath,
+    preferredRemoteSessionId,
+    workspaceIdentity,
+  );
   return services.sessionService;
 }
