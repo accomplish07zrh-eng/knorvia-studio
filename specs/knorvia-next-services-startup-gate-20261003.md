@@ -33,7 +33,9 @@ If contradictory positive exact evidence appears, submit it to the integrator.
 ## Owner and behavior
 
 Reconstruct the complete gate with one observation record, one lazily created
-completion latch and one first-status deadline. Parsed process control facts are
+completion outcome and one first-status deadline. The outcome admits per-caller
+promise views and retains its first settlement, replacing the inherited shared
+promise/resolve/reject fields. Parsed process control facts are
 the only source of database identity/progress. Consumers wait or observe this
 owner; no runtime, command, migration or persistence owner is introduced.
 Preserve exported class, constructor, onDidChange, isWaiting, snapshot, accept,
@@ -53,7 +55,7 @@ stateDiagram-v2
     Failed --> Failed: later frames ignored
 ```
 
-- Required construction creates the shared pending promise before scheduling the
+- Required construction creates the pending completion outcome before scheduling the
   first-status deadline (default 30,000 ms), with unref when supported. Optional
   construction creates neither. A valid accepted frame cancels this deadline;
   progress does not start another watchdog.
@@ -63,18 +65,18 @@ stateDiagram-v2
   phase. Do not constrain databaseKind or other parsed fields beyond existing
   schema/identity rules. Ignore later ready/failed frames rather than renew a
   process lifetime.
-- Accept retains the parsed snapshot object reference. Ready resolves an existing
-  latch without creating one. Progress lazily creates one latch; failed records
-  the existing SQLite error and rejects that latch if present. Publish accepted
-  facts afterward using the same parsed object. Keep the shared completion promise
-  after settlement and attach a rejection observer so failure before business
-  waiting does not become an unhandled rejection.
+- Accept retains the parsed snapshot object reference. Ready settles an existing
+  outcome without creating one. Progress lazily creates one; failed records the
+  existing SQLite error and fails that outcome if present. Publish accepted facts
+  afterward using the same parsed object. Retain the first outcome settlement;
+  settle registered views in admission order. No unowned rejected promise is
+  created when failure precedes all business waiting.
 - isWaiting is true for terminal error, or an existing latch with a snapshot not
   ready. Failed therefore remains waiting for the process-manager reuse gate.
   snapshot exposes the retained current reference; do not clone on read.
 - wait first throws the caller's abort reason through throwIfAborted, then the
   stored startup Error. With no latch or ready snapshot, return immediately.
-  Otherwise await the shared completion. With an abort signal, race that promise
+  Otherwise await a promise view of the shared outcome. With an abort signal, race that view
   against only this caller's raw signal.reason and always remove its listener;
   cancellation never rejects the shared latch or another caller.
 - Synthetic failure changes a nonfailed current snapshot by spreading all

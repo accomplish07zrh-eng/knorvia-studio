@@ -120,10 +120,13 @@ disposeAndWait retains the transport's supported asynchronous disposal behavior.
 No cancellation wire request or alternate runtime owner is introduced.
 
 Historical protocol-client nonmatches do not establish original authorship.
-Whole-expression and source/rights review remain pending. The startup gate is
-consumed without modification and its exact retained binding is recorded in
+Whole-expression and source/rights review remain pending. At source commit
+`ab99bf38803664c9d77b7804e369d2cc65682389`, the startup gate was consumed without
+modification and its exact retained binding was recorded in
 [source-bindings.json](evidence/backlog-services-protocol-client-20261003/source-bindings.json).
-Its parent accepted-hash HOLD remains integrator-owned. **UNVERIFIED:** source
+The earlier attribution of an accepted-hash conflict specifically to this gate
+was overly broad; batch 4 below corrects the exact path distinction while leaving
+historical evidence intact. **UNVERIFIED:** source
 and differences were read; no additional test files or executable validation
 were added/run in this source-focused batch.
 
@@ -144,13 +147,63 @@ complete-owner result. Studio-runtime feature ownership and any next substantive
 source boundary still need reconciliation; this checkpoint is not whole-services
 or whole-project independence acceptance.
 
+## Batch 4 — startup gate and exact installation boundaries
+
+The [contract](../specs/knorvia-next-services-startup-gate-20261003.md) was committed
+first as `a13c909ebc76f75f6d44f81a8b71cb4c356fe7e1`. Reconstructed the full gate
+using one observed fact/error record and a completion-outcome owner with ordered
+per-caller promise views, replacing scattered shared-promise resolver fields.
+The first settlement remains fixed; caller cancellation does not settle the
+shared outcome. The existing schema, process identity/sequence checks, first
+status timeout/unref, synthetic failure shape/event order, raw abort reasons,
+snapshot references and public class/events stay on their original contracts.
+No migration, database, runtime or accepted-command owner is added.
+
+**UNVERIFIED:** no tests or static/runtime validation executed or added in this
+batch. Source/difference reading only. The source-exposed candidate is not an
+accepted whole-expression or rights result. Exact bindings and held-path metadata
+are in [source-bindings.json](evidence/backlog-services-startup-gate-20261003/source-bindings.json).
+Batch-3 retained-dependency hashes bind that earlier source checkpoint, not this
+new gate candidate. Its old inventory's allocation/origin marker is preserved;
+current user implementation allocation does not clear source/rights uncertainty.
+
+Fetched the integration ref to `91d5cd9dc70f7e801abe2cdecdb12e73d3491c56` without
+merging/rebasing this lane. Current lane and that integration tree retain the same
+three protected sources. Their separate parent-provided positive metadata is:
+
+| Path below packages/services/src | Current SHA-256 | Parent-reported candidate SHA-256 | Missing installation evidence |
+| --- | --- | --- | --- |
+| session/tasksDatabase/startup.ts | d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde | a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a | Exact candidate/descendant source and task-storage-preparation-expression-20261002 receipt |
+| git/commitMessageFileScope.ts | f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e | ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761 | Candidate blob 69e43f4ce19a30ea185ba99ffb284ac0d798c6f8 and commit-message-scope-independent-replacement-20261001 receipt |
+| creation/creationReference.ts | 05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654 | 5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43 | Exact root containment-fix source/descendant and creation-reference-containment-20261001 receipt |
+
+All three named receipts are absent in the examined local and fetched integration
+trees; the named commit-scope candidate blob is unavailable locally. These are
+known historical source/installation gaps, not permission to reauthor an accepted
+owner. Parent metadata is not substituted for unread source/rights evidence.
+Creation's reported containment fix is bounded maintenance, not whole-file
+independence acceptance. Preserve each original source unchanged pending canonical
+source/receipt selection by the integrator.
+
+The inspected exact accepted metadata binds task storage preparation, not
+agent/storageStartupGate.ts. No positive gate accepted-version conflict was found
+in these bounded inputs; this is not proof of absence in unavailable history.
+Creation's seven feature-owner origin recommendation and the studio-runtime
+retention scope in the combined 164-source queue remain retained; missing-origin
+classification alone does not justify another rewrite. Four complete candidate
+owners are this lane's implementation boundary at this checkpoint, not
+whole-services acceptance. Further source work requires an actual unresolved
+owner/install boundary; rights and final combined validation remain deferred
+rather than repeatedly rewriting intact code.
+
 ## Integrator dependencies and remaining acceptance
 
 - Confirm any parent accepted/historical sessionService/taskIndexSyncer binding
   against the exact original blobs above, and decide source-expression/rights
   status separately from implementation allocation.
-- Preserve the separate startup/commitMessageFileScope accepted-hash holds;
-  this lane does not substitute or reauthor them.
+- Supply/select exact accepted startup/commitMessageFileScope source descendants
+  and the recorded creationReference containment fix with their canonical receipts;
+  this lane does not substitute or reauthor those three held files.
 - Final combination must verify Agent/runtime → task-index/session → Host/Main
   and UI, including continuous Desktop and replayable mobile behavior, plus
   protocol timeout/abort/response/close races and process-manager health/idle

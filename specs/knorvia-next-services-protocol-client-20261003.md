@@ -19,12 +19,17 @@ gate ports. Shared/public message shapes, diagnostic strings and fixed timeout
 policy retain lineage. This source-exposed reconstruction is a candidate, not
 clean-room or accepted whole-expression/rights evidence.
 
-`storageStartupGate.ts` stays unchanged at Git blob
+At this protocol-client packet/source checkpoint, `storageStartupGate.ts` was
+retained unchanged at Git blob
 `bf0c1cc8f8c8dc758ab783e5e60dc8c539654ba5`, SHA-256
 `6a0c7171ba3ba92d7cadf1e0177509f8557ba7ea7ca9a799aa89036d03f2ad16`.
-Its parent accepted-hash HOLD is integrator-owned; consuming its current public
-API does not resolve or replace that hold. Do not edit process-manager consumers,
-transport, shared schemas, root configuration or licensing records.
+The later [startup-gate contract](knorvia-next-services-startup-gate-20261003.md)
+corrects the earlier broad attribution of an accepted-hash conflict to this gate:
+examined positive accepted metadata names tasksDatabase/startup.ts instead. The
+gate's origin restriction remains unresolved, and the genuine task-storage and
+commit-scope accepted-source HOLDS remain integrator-owned. This packet does not
+edit process-manager consumers, transport, shared schemas, root configuration or
+licensing records.
 
 ## Request, response and event contract
 
