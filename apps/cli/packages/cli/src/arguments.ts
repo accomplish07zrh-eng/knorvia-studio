@@ -1,4 +1,5 @@
 import { parseArgs } from "node:util";
+import { extractToolRuleArguments } from "./argument-tool-rules.js";
 
 export const parseGlobalArgs = (argv: string[]) =>
   parseArgs({
@@ -102,140 +103,40 @@ export const parseGlobalArgs = (argv: string[]) =>
     strict: true,
   });
 
-/** 入口与命令路由复用同一参数定义，不能把 prompt/cwd 的值误当成协议命令。 */
+const PROTOCOL_COMMANDS = new Set(["app-server", "agent-server"]);
+const STORAGE_PREPARATION_FLAG = "--prepare-storage";
+const STORAGE_PREPARATION_OPTIONS = new Set(["prepare-storage", "stdio", "cwd"]);
+
+/** 先完整解析再判首 positional，防止把 prompt/cwd 的参数值当作协议命令。 */
 export function isProtocolServerInvocation(argv: string[]): boolean {
   try {
-    const parsed = parseGlobalArgs(argv);
-    return (
-      parsed.values.prompt === undefined &&
-      parsed.values.target === undefined &&
-      !parsed.values.help &&
-      !parsed.values.version &&
-      (parsed.positionals[0] === "app-server" || parsed.positionals[0] === "agent-server")
-    );
+    const { values, positionals } = parseGlobalArgs(argv);
+    if (values.prompt !== undefined || values.target !== undefined || values.help || values.version) {
+      return false;
+    }
+    return PROTOCOL_COMMANDS.has(positionals[0] ?? "");
   } catch {
-    // 无效参数由 run 格式化；明确的协议命令仍保护 stdout。
-    return argv[0] === "app-server" || argv[0] === "agent-server";
+    // 无效参数仍由 run 报错；raw 首项确定协议入口时继续保护 stdout。
+    return PROTOCOL_COMMANDS.has(argv[0] ?? "");
   }
 }
 
 /** 仅内部标准存储调用走窄入口；其它选项仍由原命令路由负责校验与优先级。 */
 export function isStoragePreparationInvocation(argv: string[]): boolean {
-  if (!argv.includes("--prepare-storage")) return false;
+  if (!argv.includes(STORAGE_PREPARATION_FLAG)) return false;
   try {
-    const parsed = parseGlobalArgs(argv);
-    return (
-      parsed.values["prepare-storage"] === true &&
-      parsed.values.stdio === true &&
-      parsed.positionals.length === 1 &&
-      (parsed.positionals[0] === "app-server" || parsed.positionals[0] === "agent-server") &&
-      Object.keys(parsed.values).every((key) => ["prepare-storage", "stdio", "cwd"].includes(key))
-    );
+    const { values, positionals } = parseGlobalArgs(argv);
+    if (values["prepare-storage"] !== true || values.stdio !== true) return false;
+    if (positionals.length !== 1 || !PROTOCOL_COMMANDS.has(positionals[0] ?? "")) return false;
+    for (const name of Object.keys(values)) {
+      if (!STORAGE_PREPARATION_OPTIONS.has(name)) return false;
+    }
+    return true;
   } catch {
     return false;
   }
 }
 
-const DISALLOWED_TOOLS_FLAGS = new Set(["--disallowedTools", "--disallowed-tools"]);
-
 export const extractDisallowedToolsArgs = (
   argv: readonly string[],
-): { args: string[]; toolDisallowlist?: readonly string[] } => {
-  const args: string[] = [];
-  const values: string[] = [];
-
-  for (let index = 0; index < argv.length; index += 1) {
-    const arg = argv[index];
-    const equalsMatch = arg.match(/^(--disallowedTools|--disallowed-tools)=(.*)$/);
-    if (equalsMatch) {
-      values.push(equalsMatch[2] ?? "");
-      continue;
-    }
-
-    if (!DISALLOWED_TOOLS_FLAGS.has(arg)) {
-      args.push(arg);
-      continue;
-    }
-
-    let consumed = false;
-    while (index + 1 < argv.length && !isCliOptionToken(argv[index + 1])) {
-      values.push(argv[index + 1]);
-      index += 1;
-      consumed = true;
-    }
-    if (!consumed) {
-      throw new Error(`${arg} requires at least one tool.`);
-    }
-  }
-
-  return {
-    args,
-    toolDisallowlist: normalizeCliToolRuleList(values),
-  };
-};
-
-const isCliOptionToken = (value: string): boolean => value === "--" || /^-[^-]?|^--/.test(value);
-
-const normalizeCliToolRuleList = (values: readonly string[]): readonly string[] | undefined => {
-  const normalized: string[] = [];
-  const seen = new Set<string>();
-  for (const value of values) {
-    for (const part of splitCliToolRules(value)) {
-      const rule = normalizeCliToolRule(part);
-      if (!rule || seen.has(rule)) continue;
-      seen.add(rule);
-      normalized.push(rule);
-    }
-  }
-  return normalized.length > 0 ? normalized : undefined;
-};
-
-const splitCliToolRules = (value: string): readonly string[] => {
-  const rules: string[] = [];
-  let current = "";
-  let inToolArgs = false;
-  const flush = () => {
-    const rule = current.trim();
-    if (rule) rules.push(rule);
-    current = "";
-  };
-
-  for (const char of value) {
-    switch (char) {
-      case "(":
-        inToolArgs = true;
-        current += char;
-        break;
-      case ")":
-        inToolArgs = false;
-        current += char;
-        break;
-      case ",":
-        if (inToolArgs) {
-          current += char;
-        } else {
-          flush();
-        }
-        break;
-      case " ":
-        if (inToolArgs) {
-          current += char;
-        } else {
-          flush();
-        }
-        break;
-      default:
-        current += char;
-        break;
-    }
-  }
-  flush();
-  return rules;
-};
-
-const normalizeCliToolRule = (rule: string): string => {
-  if (!rule) return "";
-  if (rule === "web_search") return "WebSearch";
-  if (rule.startsWith("web_search(")) return `WebSearch${rule.slice("web_search".length)}`;
-  return rule;
-};
+): { args: string[]; toolDisallowlist?: readonly string[] } => extractToolRuleArguments(argv);
