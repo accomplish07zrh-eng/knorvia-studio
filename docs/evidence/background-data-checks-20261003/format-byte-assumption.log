@@ -1,0 +1,1 @@
+Initial-to-formatted emitted JS byte equality assertion rejected whitespace layout changes in both owners. No behavior/oracle assertion failed or was changed. Initial source remains immutable; parsed source/JS identity and declaration shape establish format-only installation. Current emitted artifacts remain exactly pinned.

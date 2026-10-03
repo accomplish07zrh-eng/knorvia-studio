@@ -24,7 +24,7 @@ if (mode === "current") {
   const b = await readFile(
     path.join(repo, "docs/evidence/knorvia-background-data-current-20261003.json"),
   );
-  assert.equal(sha(b), "CURRENT_PIN");
+  assert.equal(sha(b), "5abaeeb926d865401fc122a4ac86067850faea180afe46a7e7ad2ecb3e8663bc");
   for (const [logical, row] of Object.entries(JSON.parse(b).files)) {
     for (const e of Object.values(row))
       assert.equal(sha(await readFile(path.join(repo, e.path))), e.sha256);

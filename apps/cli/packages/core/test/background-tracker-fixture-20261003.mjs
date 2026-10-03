@@ -43,8 +43,32 @@ export async function fixture(mode) {
       }
     }
   }
+  // 两项下层 owner 已更新：历史模式只读固定 oracle，当前模式必须绑定新 artifact，避免旧码误当新码。
+  const dataOwners = new Set([
+    "tool/executor/background-task-output",
+    "tool/executor/workflow-artifact",
+  ]);
+  if (mode === "current") {
+    const b = await readFile(
+      path.join(repo, "docs/evidence/knorvia-background-data-current-20261003.json"),
+    );
+    assert.equal(hash(b), "5abaeeb926d865401fc122a4ac86067850faea180afe46a7e7ad2ecb3e8663bc");
+    const rows = JSON.parse(b).files;
+    assert.deepEqual(
+      Object.keys(rows).sort(),
+      [...dataOwners].map((n) => `apps/cli/packages/core/src/${n}.ts`).sort(),
+    );
+    for (const [logical, row] of Object.entries(rows)) {
+      assert.equal(row.source.path, logical);
+      for (const [kind, entry] of Object.entries(row)) {
+        const body = await readFile(path.join(repo, entry.path));
+        assert.equal(hash(body), entry.sha256, entry.path);
+        if (kind === "compiled") texts.set(logical.replace(/\.ts$/u, ".js"), body.toString());
+      }
+    }
+  }
   for (const [n, row] of Object.entries(oracle.files))
-    if (n !== "tool/executor/background-tasks")
+    if (n !== "tool/executor/background-tasks" && !dataOwners.has(n))
       assert.equal(
         hash(await readFile(path.join(repo, row.logicalPath))),
         row.sourceSha256,

@@ -1,0 +1,9 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": 0,
+  "capturedModules": 5,
+  "sourceSHA256": {
+    "tool/executor/background-task-output": "6957b8e3e74f72e462463891b5864cc8af39f2d65362a39502962a72a9b24254",
+    "tool/executor/workflow-artifact": "f3c85d49ea2b897ee11e072fed9e218be6d90aeb5f7cd01692a8c13b3dd732f5"
+  }
+}
