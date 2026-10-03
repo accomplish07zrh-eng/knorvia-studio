@@ -13,7 +13,7 @@ append → InMemorySessionEventStore 的 session 注册表
 read/replay/stats ← 同一 journal 的新数组/派生计数
 ```
 
-事件驻留改用单向链，避免淘汰时复制所有 retained entries；turn retention 改用唯一 sealed-entry 队列，移除对外没有行为作用的 open-turn 副本。序号不依赖驻留长度，不增加另一份业务事件或 accepted command queue。公开 schemas、协议字段和标准 Set/Map/Promise 表达不计新原创表达。
+事件驻留改用单向链，避免淘汰时复制所有 retained entries；turn retention 改用唯一 sealed-entry 链，查重索引只引用同一节点，移除对外没有行为作用的 open-turn 副本。重复 seal 仍为常数时间查找，过期扫描保留顺序且不假定注入时钟单调。序号不依赖驻留长度，不增加另一份业务事件或 accepted command queue。公开 schemas、协议字段和标准 Set/Map/Promise 表达不计新原创表达。
 
 ## 必须保留的行为
 
