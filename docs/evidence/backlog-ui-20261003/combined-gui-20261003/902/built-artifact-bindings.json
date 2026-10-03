@@ -1,0 +1,70 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "files": [
+    {
+      "path": "apps/cli/packages/cli/dist/knorvia.cjs",
+      "bytes": 16544502,
+      "sha256": "f567bbb9c52ce8008c138b5ba01382592fbc60e01baa32729416bed7cc2fde62",
+      "buildSource": "ad712690b3eb1501574c1d29361dc801c1414373"
+    },
+    {
+      "path": "packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs",
+      "bytes": 16544502,
+      "sha256": "f567bbb9c52ce8008c138b5ba01382592fbc60e01baa32729416bed7cc2fde62",
+      "buildSource": "ad712690b3eb1501574c1d29361dc801c1414373"
+    },
+    {
+      "path": "packages/server/dist/entry-http.js",
+      "bytes": 2485004,
+      "sha256": "5466fdfe66366c876d7b675f60433381ddbebf87e04ab1d758a39f2a5fd0e53c",
+      "buildSource": "902e35c6dbcfa4b829270352fecf03ebc07b219f"
+    },
+    {
+      "path": "packages/server/dist/gui-acceptance-902.mjs",
+      "bytes": 3994592,
+      "sha256": "5db5b1f057d7484adeef60d248f69e34efd3f5b8fa07d789c61c9fbf6391581d",
+      "buildSource": "902e35c6dbcfa4b829270352fecf03ebc07b219f"
+    },
+    {
+      "path": "packages/web/dist/assets/index-JGuDXC04.js",
+      "bytes": 3477470,
+      "sha256": "a0e83a9301e2e6130287ed4cf786612f15defa3950e5719bb9e7aa5db325ab56",
+      "buildSource": "902e35c6dbcfa4b829270352fecf03ebc07b219f"
+    },
+    {
+      "path": "packages/web/dist/assets/knorvia-logo-Birqj2NZ.png",
+      "bytes": 1146991,
+      "sha256": "f4a0f03e2ed3ee349e541a78fbfd605066085db43ab9ad54dea3cbcde2d1b783",
+      "buildSource": "902e35c6dbcfa4b829270352fecf03ebc07b219f"
+    },
+    {
+      "path": "packages/web/dist/index.html",
+      "bytes": 10175,
+      "sha256": "bc443f7482ece7d31bd57a764e1af0851fb4302414cc7459381c6bf778320552",
+      "buildSource": "902e35c6dbcfa4b829270352fecf03ebc07b219f"
+    }
+  ],
+  "cliArtifactReuse": {
+    "builtAt": "ad712690b3eb1501574c1d29361dc801c1414373",
+    "freshOfficialDesktopAgentCliBuildSucceeded": true,
+    "stagedCliByteEqual": true,
+    "cliBytesEqualToEarlierBinding": true,
+    "boundedUnchangedSourcePaths": [
+      "apps/cli",
+      "packages/shared",
+      "packages/cua",
+      "packages/ui",
+      "packages/web",
+      "packages/client",
+      "packages/rpc",
+      "packages/provider",
+      "packages/provider-node",
+      "packages/server",
+      "packages/services/src/session",
+      "packages/services/src/window-controller"
+    ],
+    "changedFiles": [],
+    "notRebuiltAtLatestCombination": true
+  },
+  "hostFixtureOverride": "Only public runtime env storage configuration and owned SIGTERM await-dispose wrapper; no substituted service/client/Controller"
+}

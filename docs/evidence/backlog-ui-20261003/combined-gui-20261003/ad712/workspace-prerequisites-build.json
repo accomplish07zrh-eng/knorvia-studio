@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node_modules/typescript/bin/tsc",
+    "-b",
+    "packages/rpc",
+    "packages/provider",
+    "packages/provider-node",
+    "packages/shared",
+    "packages/services",
+    "packages/client",
+    "packages/server"
+  ],
+  "exitCode": 0,
+  "elapsedSeconds": 31.24,
+  "node": "24.14.0",
+  "source": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "scope": "GUI runtime prerequisites only; not full repository typecheck"
+}

@@ -1,0 +1,27 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "hostPid": 31548,
+  "managedAgentRoots": [
+    31581
+  ],
+  "observedProcesses": [
+    {
+      "pid": 31548,
+      "ppid": 31547,
+      "pgid": 31543,
+      "stat": "Sl",
+      "args": "/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node packages/server/dist/gui-acceptance-902.mjs"
+    },
+    {
+      "pid": 31581,
+      "ppid": 31548,
+      "pgid": 31581,
+      "stat": "Ssl",
+      "args": "knorvia-agent"
+    }
+  ],
+  "activeAgentBeforeDispose": true,
+  "requestedSignal": "SIGTERM",
+  "requestEpochSeconds": 1791033024.9179988,
+  "scope": "actual public factory Host await dispose; no model run or fabricated child"
+}

@@ -1,0 +1,16 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "pid": 31548,
+  "argv": [
+    "/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node",
+    "packages/server/dist/gui-acceptance-902.mjs"
+  ],
+  "cwd": "/workspace/knorvia-studio",
+  "storageFixtureStage": "explicit isolated CLI session database",
+  "publicEnv": {
+    "KNORVIA_RUNTIME_ENV": "test",
+    "KNORVIA_DATA_BASE_DIR": "/tmp/knorvia-ui-combined-902-hjg72jtm/data",
+    "KNORVIA_STORAGE_DIR": "/tmp/knorvia-ui-combined-902-hjg72jtm/data/.knorvia-studio",
+    "KNORVIA_SESSION_DB_PATH": "/tmp/knorvia-ui-combined-902-hjg72jtm/data/.knorvia-studio/cli/db/db.sqlite"
+  }
+}

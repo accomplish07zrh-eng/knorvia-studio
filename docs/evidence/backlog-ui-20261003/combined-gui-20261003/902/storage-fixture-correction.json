@@ -1,0 +1,18 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "scope": "owned temporary Host configuration only; no repository production source edits",
+  "supportedEnvOverrides": {
+    "KNORVIA_STORAGE_DIR": "/tmp/knorvia-ui-combined-902-hjg72jtm/data/.knorvia-studio",
+    "KNORVIA_SESSION_DB_PATH": "/tmp/knorvia-ui-combined-902-hjg72jtm/data/.knorvia-studio/cli/db/db.sqlite"
+  },
+  "basis": [
+    "apps/cli/packages/adapters/src/config/env-config.adapter.ts",
+    "apps/cli/packages/contracts/src/config/index.ts:DefaultConfig.storage.sessionDbPath",
+    "real CLI startup log ENOENT at default OS-home path"
+  ],
+  "hostRecipeBeforeSha256": "e4a19ae36a783fb0f24ee6707fc1755ca438e9338ed968a859aa9ba6b9da8864",
+  "hostRecipeAfterSha256": "bfe2252e6fe3857955aec212b1e4160793a2efa18f526291016add6e8c1d7eeb",
+  "HOMEChanged": false,
+  "CODEX_HOMEChanged": false,
+  "modelExecutionAttempted": false
+}

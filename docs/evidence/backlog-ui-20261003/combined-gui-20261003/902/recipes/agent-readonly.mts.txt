@@ -1,0 +1,13 @@
+import {connectViaWebSocket} from "/workspace/knorvia-studio/packages/client/src/websocket.ts";
+import {readFile,writeFile} from "node:fs/promises";
+const p=JSON.parse(await readFile("/tmp/knorvia-ui-combined-latest-paths.json","utf8"));
+const receipt={source:p.source,scope:"account/model-free storage control, local initialize availability and process inspection only",modelExecutionAttempted:false,credentialsUsed:false};
+let socket;let timeout;
+try{const services=await connectViaWebSocket("ws://127.0.0.1:5173/ws",{onOpenSocket:value=>socket=value});
+await Promise.race([services.agentService.prepareStorage({workspacePath:p.workspaces[0]}),new Promise((_,reject)=>timeout=setTimeout(()=>reject(new Error("bounded local storage control exceeded 20s")),20000))]);
+clearTimeout(timeout);
+Object.assign(receipt,{storageControl:"passed",storageStartup:await services.agentService.getStorageStartupState({workspacePath:p.workspaces[0]}),managedProcesses:await services.agentService.collectLocalRuntimeChildProcesses()});
+const info=await services.agentService.initialize({workspacePath:p.workspaces[0]});
+Object.assign(receipt,{status:info.available?"passed":"storage-passed-interaction-blocked",initializeResult:info});
+}catch(error){Object.assign(receipt,{status:"blocked",error:error.message});}
+finally{clearTimeout(timeout);socket?.close();await writeFile(p.root+"/agent-readonly.json",JSON.stringify(receipt,null,2));console.log(JSON.stringify(receipt));process.exit(receipt.storageControl==="passed"?0:2);}

@@ -1,0 +1,12 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "command": [
+    "/workspace/knorvia-studio/node_modules/vite/bin/vite.js",
+    "build",
+    "--mode",
+    "production"
+  ],
+  "exitCode": 0,
+  "elapsedSeconds": 20.49,
+  "node": "24.14.0"
+}

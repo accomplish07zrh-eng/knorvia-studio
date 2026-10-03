@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/workspace/knorvia-studio/node_modules/tsup/dist/cli-default.js"
+  ],
+  "cwd": "packages/server",
+  "exitCode": 0,
+  "elapsedSeconds": 1.69,
+  "node": "24.14.0",
+  "source": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "scope": "real configured HTTP entry bundle with explicit isolated builtin fixture"
+}

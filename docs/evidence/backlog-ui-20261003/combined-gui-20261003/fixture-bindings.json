@@ -1,0 +1,49 @@
+{
+  "syntheticOnly": true,
+  "stages": {
+    "ad712": {
+      "root": "/tmp/knorvia-ui-combined-ad712-hk_1b5vv",
+      "node": "/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node",
+      "nodeArchiveSha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+      "repo": "/workspace/knorvia-studio",
+      "workspaces": [
+        "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha",
+        "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/beta"
+      ],
+      "source": "ad712690b3eb1501574c1d29361dc801c1414373",
+      "priorSyntheticRoot": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q",
+      "tools": "/tmp/knorvia-ui-combined-ad712-hk_1b5vv/tools"
+    },
+    "902": {
+      "root": "/tmp/knorvia-ui-combined-902-hjg72jtm",
+      "node": "/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node",
+      "nodeArchiveSha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+      "repo": "/workspace/knorvia-studio",
+      "workspaces": [
+        "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha",
+        "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/beta"
+      ],
+      "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+      "priorSyntheticRoot": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q",
+      "tools": "/tmp/knorvia-ui-combined-ad712-hk_1b5vv/tools",
+      "priorCombinedRoot": "/tmp/knorvia-ui-combined-ad712-hk_1b5vv",
+      "priorCliBuildSource": "ad712690b3eb1501574c1d29361dc801c1414373"
+    }
+  },
+  "versions": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "chromium": "Chromium 151.0.7922.173 built on Debian GNU/Linux 13 (trixie)",
+    "playwrightCore": "1.59.1"
+  },
+  "nodeOfficialArchiveSha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+  "fixtureBuiltin": {
+    "schemaVersion": 1,
+    "revision": 30,
+    "sha256": "473329c820c645d9a204ae1c123a9fc29a813fc2de5200f052eeb597b98c6227",
+    "endpointReplacement": "http://127.0.0.1:9/fixture",
+    "credentialsUsed": false
+  },
+  "sourceProfile": "previous synthetic-only local fixture copied into each isolated stage; not committed",
+  "accountOrModelRequestSent": false
+}

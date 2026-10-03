@@ -1,0 +1,59 @@
+{
+  "results": [
+    {
+      "name": "legacy-pane-v1-v2-renderer-reload",
+      "status": "passed",
+      "facts": {
+        "legacyShape": {
+          "splitPane": {
+            "workspaceKey": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/beta",
+            "sessionId": null
+          },
+          "splitRatio": 0.62,
+          "focusedPaneId": "split"
+        },
+        "secondaryWorkspace": "beta",
+        "legacyRatioAccepted": true,
+        "pointerCommitRatio": 0.6539805825242718,
+        "v2Reload": true,
+        "scope": "draft panes only; no synthetic agent snapshots"
+      }
+    },
+    {
+      "name": "legacy-group-v1-real-host-import",
+      "status": "passed",
+      "facts": {
+        "legacy": {
+          "id": "88888888-8888-4888-8888-888888888888",
+          "name": "Combined legacy group 中文",
+          "goal": "Legacy shared goal",
+          "members": [
+            "knorvia"
+          ],
+          "host": "knorvia",
+          "sharedSummary": "Legacy shared summary — 中文",
+          "mode": "manual",
+          "workspaceMode": "isolated",
+          "workspacePath": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha",
+          "draft": "Legacy unsent group draft — 中文",
+          "createdAt": 1700000000123,
+          "updatedAt": 1700000000223
+        },
+        "originalV1RemovedAfterHostAcknowledgement": true,
+        "v2DraftPreserved": true
+      }
+    }
+  ],
+  "errors": [],
+  "failed": [
+    {
+      "url": "http://127.0.0.1:5173/assets/github-light-Bs22Nz7R.js",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:5173/assets/github-dark-CsW7SXME.js",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "consoleErrors": []
+}

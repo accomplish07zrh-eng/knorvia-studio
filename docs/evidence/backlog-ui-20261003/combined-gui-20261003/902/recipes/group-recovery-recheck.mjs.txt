@@ -1,0 +1,25 @@
+import {chromium} from "/workspace/knorvia-studio/node_modules/playwright-core/index.mjs";
+import {runFileTreeLiveSearchBrowserAcceptance} from "/workspace/knorvia-studio/packages/ui/test/helpers/file-tree-live-search.browser.mjs";
+import {runWorkspaceServiceStartupBrowserAcceptance} from "/workspace/knorvia-studio/packages/ui/test/helpers/workspace-service-startup.browser.mjs";
+import {readFile,writeFile} from "node:fs/promises";
+import assert from "node:assert/strict";
+const p=JSON.parse(await readFile('/tmp/knorvia-ui-combined-latest-paths.json','utf8'));
+const receipt={source:p.source,runtime:'production-built Web and public real Host factories compiled with current production defines; owned await-dispose wrapper',results:[],consoleMessages:[],pageErrors:[],failedRequests:[]};
+const context=await chromium.launchPersistentContext(p.root+'/browser-profile',{executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox'],viewport:{width:1360,height:900},locale:'en-US'});
+const page=context.pages()[0];page.setDefaultTimeout(15000);
+page.on('console',m=>{if(['error','warning'].includes(m.type()))receipt.consoleMessages.push({type:m.type(),text:m.text()});});
+page.on('pageerror',e=>receipt.pageErrors.push(e.message));
+page.on('requestfailed',r=>receipt.failedRequests.push({url:r.url(),error:r.failure()?.errorText}));
+await page.route(/^https?:\/\//,r=>['127.0.0.1','localhost'].includes(new URL(r.request().url()).hostname)?r.continue():r.abort());
+const capture=async(name)=>{await page.screenshot({path:p.root+'/'+name+'.png',fullPage:true});await writeFile(p.root+'/'+name+'.json',JSON.stringify({body:await page.locator('body').innerText(),controls:await page.locator('button,input,[role=button],[role=menuitem],[contenteditable=true],[data-testid]').evaluateAll(es=>es.map(e=>({tag:e.tagName,text:e.textContent?.slice(0,160),aria:e.getAttribute('aria-label'),testid:e.getAttribute('data-testid')})))},null,2));};
+async function check(name,fn){try{receipt.results.push({name,status:'passed',facts:await fn()});}catch(error){receipt.results.push({name,status:'failed',error:error.message});await capture(name+'-failure');}console.log(JSON.stringify(receipt.results.at(-1)));}
+try{await page.goto('http://127.0.0.1:5173/',{timeout:60000});await page.getByTestId('studio-activity-rail').waitFor();
+await check('existing-group-draft-recovery',async()=>{
+ await page.getByTestId('studio-groups-open').click();await page.getByTestId('studio-groups-page').waitFor();
+ await page.getByTestId('sidebar').getByRole('button',{name:/^Combined GUI group 中文/}).click();
+ const composer=page.getByTestId('studio-group-composer');await composer.waitFor();assert.equal(await composer.inputValue(),'Combined GUI group unsent draft — 中文');
+ await page.getByTestId('studio-groups-page').getByRole('button',{name:'Group details',exact:true}).click();
+ await page.getByRole('heading',{name:'Preserve configured group and unsent draft',exact:true}).waitFor();
+ await capture('combined-group-recovered');return {priorCombinationGroup:true,draftPreserved:true,goalPreserved:true,scope:'definition and unsent draft only; no model sends'};
+ });
+ }finally{await writeFile(p.root+'/group-recovery-bounded-recheck.json',JSON.stringify(receipt,null,2));await context.close();}

@@ -1,0 +1,19 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "runtime": "production-built Web and public real Host factories compiled with current production defines; owned await-dispose wrapper",
+  "results": [
+    {
+      "name": "existing-group-draft-recovery",
+      "status": "passed",
+      "facts": {
+        "priorCombinationGroup": true,
+        "draftPreserved": true,
+        "goalPreserved": true,
+        "scope": "definition and unsent draft only; no model sends"
+      }
+    }
+  ],
+  "consoleMessages": [],
+  "pageErrors": [],
+  "failedRequests": []
+}

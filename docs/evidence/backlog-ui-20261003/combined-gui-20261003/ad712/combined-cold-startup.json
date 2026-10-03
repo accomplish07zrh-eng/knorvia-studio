@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "facts": {
+    "coldStartup": true,
+    "workspaceSwitch": true,
+    "rendererReload": true,
+    "captures": [
+      {
+        "workspace": "alpha",
+        "draft": "Bounded alpha draft — 中文"
+      },
+      {
+        "workspace": "beta",
+        "draft": "Bounded beta draft — 中文"
+      },
+      {
+        "workspaceAfterReload": "alpha"
+      }
+    ],
+    "onboardingHookErrors": [],
+    "pageErrors": [],
+    "otherConsoleMessages": []
+  }
+}

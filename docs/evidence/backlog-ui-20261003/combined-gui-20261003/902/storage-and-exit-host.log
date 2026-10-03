@@ -1,0 +1,33 @@
+[2026-10-03 13:10:03.167] [pid:31548] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 13:10:03.185] [pid:31548] [agent] Knorvia Studio agent spawn preflight {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  spawnPreflight: {
+    command: '/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node',
+    args: [
+      '/workspace/knorvia-studio/apps/cli/packages/cli/dist/knorvia.cjs',
+      'app-server',
+      '--stdio'
+    ],
+    requestedCwd: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+    cwd: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+    cwdSource: 'command',
+    commandPathKind: 'absolute',
+    commandExists: true,
+    cwdExists: true
+  }
+}
+[2026-10-03 13:10:24.980] [pid:31548] [agent] Knorvia Studio agent process exited {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 31581,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:1:31581',
+  code: 0,
+  signal: null,
+  terminationKind: 'expected',
+  terminationReason: 'manager-dispose'
+}
+[2026-10-03 13:10:24.991] [pid:31548] [agent] Knorvia Studio agent process cleanup completed {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 31581,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:1:31581',
+  reason: 'manager-dispose'
+}

@@ -1,0 +1,33 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "scope": "Linux real public factory Host await-dispose with actual ready storage Agent; no model or externally spawned descendant",
+  "status": "passed",
+  "shutdown": {
+    "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+    "hostPid": 31548,
+    "disposeServicesCompleted": true,
+    "httpServerClosed": true,
+    "exitCode": 0
+  },
+  "launcherExit": {
+    "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+    "pid": 31548,
+    "exitCode": 0,
+    "storageFixtureStage": "explicit isolated CLI session database"
+  },
+  "ownedPidAndAgentProcessGroupRemainder": [],
+  "checkedEpochSeconds": 1791033037.6579068,
+  "priorStartupFailureShutdown": {
+    "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+    "hostPid": 29864,
+    "disposeServicesCompleted": true,
+    "httpServerClosed": true,
+    "exitCode": 0
+  },
+  "limitations": [
+    "No separate running tool/MCP descendant existed; not proof of all descendant cleanup paths",
+    "No Electron/native installer or Windows/macOS GUI acceptance",
+    "No model/history execution; provider_not_ready was preserved"
+  ],
+  "productionSourcesChanged": false
+}

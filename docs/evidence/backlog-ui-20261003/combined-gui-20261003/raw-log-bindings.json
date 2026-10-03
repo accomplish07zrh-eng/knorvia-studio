@@ -1,0 +1,29 @@
+[
+  {
+    "stage": "ad712",
+    "fullRawLocalPath": "/tmp/knorvia-ui-combined-ad712-hk_1b5vv/built-host-combined.log",
+    "fullRawBytes": 685580,
+    "fullRawSha256": "24cf5263de0a426722dc33265e35109051270039a457016a15f101ea9e200bc9",
+    "retainedExcerpt": "ad712/real-http-controller.log",
+    "retainedCompleteBlocks": 326,
+    "selection": "Controller calls/registration, real Agent spawn/exit/cleanup and SQLite startup failure blocks"
+  },
+  {
+    "stage": "902",
+    "fullRawLocalPath": "/tmp/knorvia-ui-combined-902-hjg72jtm/host-before-storage-correction.log",
+    "fullRawBytes": 415525,
+    "fullRawSha256": "4d07884b97ca3e92020f0d766866f5004a706115356d07428d29aa08933d3c6e",
+    "retainedExcerpt": "902/gui-host-controller.log",
+    "retainedCompleteBlocks": 215,
+    "selection": "Controller calls/registration, real Agent spawn/exit/cleanup and SQLite startup failure blocks"
+  },
+  {
+    "stage": "902",
+    "fullRawLocalPath": "/tmp/knorvia-ui-combined-902-hjg72jtm/latest-host.log",
+    "fullRawBytes": 9381,
+    "fullRawSha256": "7ead4f8e7e5619723a40d04c6d471ce608581f77aae2167ecc81b7dd4da2987d",
+    "retainedExcerpt": "902/storage-and-exit-host.log",
+    "retainedCompleteBlocks": 4,
+    "selection": "Controller calls/registration, real Agent spawn/exit/cleanup and SQLite startup failure blocks"
+  }
+]
