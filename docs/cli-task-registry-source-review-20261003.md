@@ -89,3 +89,15 @@
 当前最小可辨认表达候选为 `registry.ts:147–152` 的 queueMessage 和 `154–160` 的 drainMessages 两个完整方法体：分别语法相同和仅改快照字段名。它们可组成独立消息缓冲变换批次，不把相同公开接口、source-exposed、固定词汇或单行 Map 操作本身当作残留证据。实际作者是否直接复制仍未证明；没有认定当前新等待订阅结构需要重写。
 
 已在[原 Registry spec](../specs/knorvia-next-cli-task-registry-20261003.md)准备 pure message transform / 单一快照写入者的最小候选方案，保留公开 update override、数组身份、迭代、enumerable/Symbol/原型安全、getter 次序及错误后部分效果。仅拟改两方法/import 和新增内部 helper；生产暂未改变，待整合者协调同文件写入及之后的摘要/验收绑定刷新。常用第三方库、Apache 及版权/NOTICE 均保留。
+
+## 后续独占落实结果
+
+得到整合者独占授权后，先提交精简契约 `163627ec`，在 `c82f05cbaff52f9fd44d6e196b3a7e5cbb3ee6b9` 实际安装无状态 `message-buffer-transform.ts` 与两方法适配。当前 Registry SHA-256 为 `808aa725cde61c6a1c01f2fa5c2bced6264ab2757d92f2d8fddd5a574ae273b1`，新 helper 为 `1df018f40b33d3fe83c80a09630567e0612c093dd461d69c924745682876aea5`；前面的 `c7f4fc…` 区段表仍是绑定旧树的历史事实，不伪改为当前原字节。
+
+手工反射复制草案未采用。新内部组织是共用 native copy → buffer producer 的纯投影路径，Registry 保留唯一 commit / notification 所有权。object/array spread、固定 API、公开 update、四次 drain getter 阶段是如实保留的常见或约束表达，不为语法差异增加无意义复杂度。文件添加了实际修改和确切上游来源说明，原注释、版权/许可、Git 历史及旧缺件记录保留；本次不宣称法律独立性或整文件全部原创。
+
+8 组新增消息观察在前驱 source/emitted 和当前 source/actual-emitted 四路线相同；既有 16 个当前源码 contract/read-order 场景通过，Registry observation + 同 surface TaskOutput 消费者 source 和 emitted 各 16 个场景通过（各含同一批 8 个新增观察，不是再增加 16 个新场景）。新 helper source/JS/declaration 的 wrong/missing controls 两路线均拒绝。
+
+新 format-3 receipt 绑定实现 checkpoint，登记 220 文件/144 编译输出。TypeScript 6.0.2 与 CLI 5.9.3 在原 core/contracts 配置和完整 roots 次序下重建的全部登记输出字节一致；旧登记仅 Registry source/JS 改变，公开 declaration 原字节未变，新 helper 增三项。旧两版本 JSON、historical selector 和全局许可来源记录原样保留。实际 emit 仅在本地更新这两个 core 组件的 JS/declaration/maps，不写共享 contracts。
+
+完整命令、比较结果、原/当前摘要、保留检查及未运行范围见 [交付证据](evidence/backlog-cli-20261003/registry-message-buffer-delivery-20261003.json)。这些是必要定向检查，不是整库/平台验收；全量回归、lint、完整类型检查、root/full CLI build、Windows/native/UI 与全局来源登记刷新仍由整合阶段负责。
