@@ -1,0 +1,341 @@
+{
+  "date": "2026-10-03",
+  "repository": "accomplish07zrh-eng/knorvia-studio",
+  "branch": "lane/services-20261003",
+  "predecessor": "33bbc7b2593d142725a91fb90efe107418706db1",
+  "specCommit": "b3420a87bee9415c3b0f26aa8cfe58e0edf78de4",
+  "frozenOracleCommit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+  "checkedSourceCommit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+  "fetchedMainCheckpoint": "0d77ee312520a7806085d448acee63f08728c214",
+  "productionCommits": [
+    {
+      "sha": "903d2018a479a344e231ea3cefb7a245c7a548b7",
+      "unit": "conditional draft close admission and completion"
+    },
+    {
+      "sha": "53a98585d86740c375fc70c32cbb6f76ae0f3d06",
+      "unit": "derived projection mutation, pure consequences, result consumer, readback and model completion"
+    },
+    {
+      "sha": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+      "unit": "one-attempt lock verdict and timer-driven acquisition"
+    }
+  ],
+  "sourceExposedAuthor": true,
+  "legalOriginalityAcceptance": "NOT ASSERTED",
+  "licenceDecision": "Apache-2.0 remains; applicable third-party declarations and historical HOLD/source evidence preserved. No MIT acceptance.",
+  "changedProductionFiles": [
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "predecessor": {
+        "commit": "33bbc7b2593d142725a91fb90efe107418706db1",
+        "gitBlob": "2e5ec4ef2d1e7d52d01a88cec76496303271a09e",
+        "sha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+        "bytes": 12810,
+        "lines": 314
+      },
+      "frozenBaseline": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "2e5ec4ef2d1e7d52d01a88cec76496303271a09e",
+        "sha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+        "bytes": 12810,
+        "lines": 314
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "81a7b4ef362d1eaf36917d8922f4a763e040d29b",
+        "sha256": "e6cd13e66954b5ea9e2cc69b63063acb6f9774ffdd1f91ac5566cc534e238329",
+        "bytes": 13351,
+        "lines": 326
+      },
+      "mainCheckpoint": {
+        "commit": "0d77ee312520a7806085d448acee63f08728c214",
+        "gitBlob": "2e5ec4ef2d1e7d52d01a88cec76496303271a09e",
+        "sha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+        "bytes": 12810,
+        "lines": 314
+      }
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+      "predecessor": {
+        "commit": "33bbc7b2593d142725a91fb90efe107418706db1",
+        "gitBlob": "0f4f04c86c88a2146cf27651a09e581b60360708",
+        "sha256": "fa8f9f2e0bc13cbc900330f16504ac576b87c15d958b3c88ccef97a7ec2c2a85",
+        "bytes": 9231,
+        "lines": 258
+      },
+      "frozenBaseline": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "0f4f04c86c88a2146cf27651a09e581b60360708",
+        "sha256": "fa8f9f2e0bc13cbc900330f16504ac576b87c15d958b3c88ccef97a7ec2c2a85",
+        "bytes": 9231,
+        "lines": 258
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "8e96d1addaafa49ad331f16aa196c95777907028",
+        "sha256": "b2eea7673a291a03efb1810a1179ced090b132c441c00afd9f867bea793517a4",
+        "bytes": 11499,
+        "lines": 321
+      },
+      "mainCheckpoint": {
+        "commit": "0d77ee312520a7806085d448acee63f08728c214",
+        "gitBlob": "0f4f04c86c88a2146cf27651a09e581b60360708",
+        "sha256": "fa8f9f2e0bc13cbc900330f16504ac576b87c15d958b3c88ccef97a7ec2c2a85",
+        "bytes": 9231,
+        "lines": 258
+      }
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+      "predecessor": {
+        "commit": "33bbc7b2593d142725a91fb90efe107418706db1",
+        "gitBlob": "b3e7bc9c7eabc072f08f99f2f473b353543068d3",
+        "sha256": "73e7f1cea0362bbfc680344251120027567be7827d2e2f08f1b2dbf374ca1b00",
+        "bytes": 7281,
+        "lines": 199
+      },
+      "frozenBaseline": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "b3e7bc9c7eabc072f08f99f2f473b353543068d3",
+        "sha256": "73e7f1cea0362bbfc680344251120027567be7827d2e2f08f1b2dbf374ca1b00",
+        "bytes": 7281,
+        "lines": 199
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "441ab24c5f62b53b97c3b6d47a1b69acfd8b0a1e",
+        "sha256": "e330262f06f42ab6434b03cbc67e6a60a580db78958063f4b40643c9ccdadfdb",
+        "bytes": 7622,
+        "lines": 207
+      },
+      "mainCheckpoint": {
+        "commit": "0d77ee312520a7806085d448acee63f08728c214",
+        "gitBlob": "b3e7bc9c7eabc072f08f99f2f473b353543068d3",
+        "sha256": "73e7f1cea0362bbfc680344251120027567be7827d2e2f08f1b2dbf374ca1b00",
+        "bytes": 7281,
+        "lines": 199
+      }
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "predecessor": {
+        "commit": "33bbc7b2593d142725a91fb90efe107418706db1",
+        "gitBlob": "8bbe4e246e7b647a0a4889a3296faec676770594",
+        "sha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+        "bytes": 5115,
+        "lines": 161
+      },
+      "frozenBaseline": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "8bbe4e246e7b647a0a4889a3296faec676770594",
+        "sha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+        "bytes": 5115,
+        "lines": 161
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "23ddb041c84881492c186ed28053624e8b240667",
+        "sha256": "4ccbfc056d97eafbb09fff1f017b8302e7d839c9a8993d9ab7c5542dd7d91220",
+        "bytes": 5763,
+        "lines": 181
+      },
+      "mainCheckpoint": {
+        "commit": "0d77ee312520a7806085d448acee63f08728c214",
+        "gitBlob": "8bbe4e246e7b647a0a4889a3296faec676770594",
+        "sha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+        "bytes": 5115,
+        "lines": 161
+      }
+    }
+  ],
+  "retainedShortExpression": [
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "unit": "function scopeSpelling",
+      "predecessorLines": [
+        17,
+        21
+      ],
+      "candidateLines": [
+        17,
+        21
+      ],
+      "expressionSha256": "8f0b7748e9264fa4478ef04dd0844a4b97bd4558bb5edbd76e37293e30875340",
+      "byteIdentical": true,
+      "decision": "Common trim/path-spelling contract; keep trie and aliases. No similarity-only complexification or independent-implementation credit."
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionPreparation.ts",
+      "unit": "export function sessionSnapshotDiagnostics",
+      "predecessorLines": [
+        65,
+        79
+      ],
+      "candidateLines": [
+        65,
+        79
+      ],
+      "expressionSha256": "15d3568a75c8c177a4a8f4230a923f1beb858f7055de5f68339ce5d92183e694",
+      "byteIdentical": true,
+      "decision": "Six-field partial-safe observation adapter; preserve array guards and getter order. Explicit retained expression, no replacement credit."
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+      "unit": "function unread",
+      "predecessorLines": [
+        43,
+        51
+      ],
+      "candidateLines": [
+        87,
+        95
+      ],
+      "expressionSha256": "87e88240d6dc98c17d0c9dd7167dba27843ae354bcad47ab3f9671941b94c196",
+      "byteIdentical": true,
+      "decision": "Small phase/goal contract predicate; the new consequence policy owns unread handoff around this retained expression."
+    }
+  ],
+  "protectedFiles": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "gitBlob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "gitBlob": "23f3047cb5753322ce0742545e5e06791392f5ea",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "5bdd8ba7b54bbb098ee56b4876d9752d08ab36f2c8df8d9c3acd9b1e9a5595cc",
+      "gitBlob": "fab81f4703aa847c79361fb72b3f688af6d09464",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "517f3b267f8958de884fd70269c808056c363e1e87c1fe76ffad3437738b761e",
+      "gitBlob": "0b5c478ba6cbdc566e9e4f1ae28ebeae21847a65",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "gitBlob": "c3986a06485cf8f31c392a209a1b3044ae1ea60d",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "licensing/frozen-evidence.json",
+      "sha256": "49710ef725b7ad0e536acdfadfe47c984a833484fbf3aed1a4578ea98c79fdda",
+      "gitBlob": "23a44d46bc4d2f189da890a9d7f31429f555702f",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/docs/NEXT-SERVICES-OWNER-HOLD-20261003.json",
+      "sha256": "cb514009ac711d772561d95d15c0e715af70100f53e6ec05cf5a58285f0517fd",
+      "gitBlob": "29fde53753864dfe91215c3784ad018357528690",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/docs/NEXT-SERVICES-OWNER-HOLD-20261003.md",
+      "sha256": "dbc1b08aea00efd8711a1322cdd015b320449781bba6d48f58269b90ad44af1d",
+      "gitBlob": "2fd4324b179fac30b2e7732f378a50086777ac2c",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "sha256": "e2ddf71626306fccf802bc26e381dc94c434c75a5a6bf312827dad355bf44c15",
+      "gitBlob": "6c3e8c2b281bdddeed98f3aeca14f23bc2661793",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/topicIngest.ts",
+      "sha256": "078eb61b5c3c30d2d61db9ed2457ffd9ddf8c46560b83867756b4e2d47c66128",
+      "gitBlob": "06774a3bc1c56f00d46dfc8c687c4e2ad2a631a7",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/topicRecovery.ts",
+      "sha256": "67960188eec68871fcb03dbf5d8f1c7eef1b61069fa30696fbfc4b6d9a00cdce",
+      "gitBlob": "ebb192dd9692738d6d03d240985c327438e4fc27",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/agent/task-index-ingestion/topicTypes.ts",
+      "sha256": "aaecf883c6c9b4f5e6a5018f6ee6ddd1bdcf1b294076087108284863ea62f758",
+      "gitBlob": "202ad9563d0a18eb82a7c60030b6dd96f1f5bd58",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+      "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+      "gitBlob": "905a3a0bc871e146bf8c4ffe1626b4544756416d",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+      "sha256": "b38bcf74c10c5746ecf101641a8c9cd0c09c1fc072bf2a1a4464d6bda144155f",
+      "gitBlob": "fd8eebccad40762907b0d114a8f70b845bd0b05b",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "sha256": "501c9e956cf92938c3d962fd8e86aca5c9e60d4bf48da5630adf6a3eb62796dd",
+      "gitBlob": "775e53a81235ce1551823a04dfb249a37d03814a",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionPreparation.ts",
+      "sha256": "19165590454f0994df1eddde643347e16506d6c3e7fd0c6e7d96365d57e0d074",
+      "gitBlob": "93f218f8b3be66b26a6f1f5f4c8284a4953eb040",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "sha256": "2f44d3555dfbf73bde0d3c3b162c7c63ef4f5d4e581b5d550345ddca698c427f",
+      "gitBlob": "c2fbca5c4e6a8e3489c01a2c2cd2049291d01e53",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/source-facts.json",
+      "sha256": "82fb4ce3906c738bf12e46d65283d01ad3eb9fefa99781f89010e8c05231811e",
+      "gitBlob": "67c3e96a48e338a89d3d07135bc809feece99c55",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/body-correspondence.json",
+      "sha256": "cca283aafd8a3358d11a7bffb3dc52390385bc38663f9daf79f28ec2a9306ddc",
+      "gitBlob": "698e2047fa1f90aac7f456c93a15d64144dacca2",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/residual-implementation-scope.md",
+      "sha256": "7334896db631aa1dfd9f50efa0fdfb2738c26e5428d1b14525d8322873bfa952",
+      "gitBlob": "99fa0db985a981271996c1ebb1b68cbb8b9c8afd",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "docs/evidence/backlog-services-historical-gap-20261003/source-bindings.json",
+      "sha256": "0325595960ede916984308b64a1e9f1d0cc13a17a0a2ff86deb88be7bc1879bb",
+      "gitBlob": "e1fe4daa79224fa63559a4cd37229691f6def02d",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "docs/evidence/backlog-services-session-lifecycle-20261003/source-bindings.json",
+      "sha256": "171eca2d07977e85f453bea461901e90e2048cfa1c69adc45782e250cf2ea497",
+      "gitBlob": "a0536ccad6f146ef5a48c07bd3bdcde40b037ed8",
+      "unchangedFromPredecessor": true
+    },
+    {
+      "path": "docs/evidence/backlog-services-task-index-ingestion-20261003/source-bindings.json",
+      "sha256": "d18d270c36fdace9bb2046c646c6942a248edc8c2be9895fdde6da69afdd0e03",
+      "gitBlob": "85a05a3e321c98eb6cf0afd54339bfab0b5d357d",
+      "unchangedFromPredecessor": true
+    }
+  ],
+  "sourceReadingBoundary": "Only allocated units, direct contracts, diff and exact Git/blob/hash bindings. No full provenance or architecture audit."
+}

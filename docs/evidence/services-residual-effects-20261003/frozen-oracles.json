@@ -1,0 +1,159 @@
+{
+  "frozenCommit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+  "checkedSourceCommit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+  "oracles": [
+    {
+      "path": "packages/services/test/services-draft-retirement-contract-20261003.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "2010c73f9aa8ee3db735d09a68f94ebc79e36cd6",
+        "sha256": "b4ddc1a9ea2acbba930c45ce9939fce768b8532b1431d9e84888728bf47cfbcc",
+        "bytes": 6996,
+        "lines": 198
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "2010c73f9aa8ee3db735d09a68f94ebc79e36cd6",
+        "sha256": "b4ddc1a9ea2acbba930c45ce9939fce768b8532b1431d9e84888728bf47cfbcc",
+        "bytes": 6996,
+        "lines": 198
+      },
+      "unchanged": true,
+      "newInThisBatch": true
+    },
+    {
+      "path": "packages/services/test/services-projection-effects-contract-20261003.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "36d9bd1844ff6eb62089964682a76c49fbaa12df",
+        "sha256": "3aab88c607b30435271676b2d3d6f444508cc02f3c0565b6ab27f05f26e47c68",
+        "bytes": 11644,
+        "lines": 303
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "36d9bd1844ff6eb62089964682a76c49fbaa12df",
+        "sha256": "3aab88c607b30435271676b2d3d6f444508cc02f3c0565b6ab27f05f26e47c68",
+        "bytes": 11644,
+        "lines": 303
+      },
+      "unchanged": true,
+      "newInThisBatch": true
+    },
+    {
+      "path": "packages/services/test/services-lock-admission-contract-20261003.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "d614c3f3bf113d6196464680cef67bb4a6e1c839",
+        "sha256": "c4376460df72e586cf021e4d69a79dfe39852aaa60abc16957bae8c6b8e516fb",
+        "bytes": 8853,
+        "lines": 260
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "d614c3f3bf113d6196464680cef67bb4a6e1c839",
+        "sha256": "c4376460df72e586cf021e4d69a79dfe39852aaa60abc16957bae8c6b8e516fb",
+        "bytes": 8853,
+        "lines": 260
+      },
+      "unchanged": true,
+      "newInThisBatch": true
+    },
+    {
+      "path": "packages/services/test/session-lifecycle-contract-20261003.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "78f55b5efc25990d0bcc62bc4514076f2f6e7c10",
+        "sha256": "35c87fc53c6d25b10cca6cd4e585adc67f4455d56a5f035a481a0fd361ad8789",
+        "bytes": 10040,
+        "lines": 261
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "78f55b5efc25990d0bcc62bc4514076f2f6e7c10",
+        "sha256": "35c87fc53c6d25b10cca6cd4e585adc67f4455d56a5f035a481a0fd361ad8789",
+        "bytes": 10040,
+        "lines": 261
+      },
+      "unchanged": true,
+      "newInThisBatch": false
+    },
+    {
+      "path": "packages/services/test/task-index-workspace-contract-20261003.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "cca10d50d5a2b9868bb4f42941fa745482fe8f31",
+        "sha256": "2502b5b76fc45ae94dd11c28ea1c4e24824828b5efc720ad5cfac7bb9bae6fe5",
+        "bytes": 10276,
+        "lines": 306
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "cca10d50d5a2b9868bb4f42941fa745482fe8f31",
+        "sha256": "2502b5b76fc45ae94dd11c28ea1c4e24824828b5efc720ad5cfac7bb9bae6fe5",
+        "bytes": 10276,
+        "lines": 306
+      },
+      "unchanged": true,
+      "newInThisBatch": false
+    },
+    {
+      "path": "packages/services/test/task-index-snapshot-contract-20261003.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "82a29f55d1c6afb80e46d8f0acdfeb12ea093022",
+        "sha256": "234642b9bf613b69530672087da150b712ed2ebdaa97e128f8c123905b7e180d",
+        "bytes": 7336,
+        "lines": 181
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "82a29f55d1c6afb80e46d8f0acdfeb12ea093022",
+        "sha256": "234642b9bf613b69530672087da150b712ed2ebdaa97e128f8c123905b7e180d",
+        "bytes": 7336,
+        "lines": 181
+      },
+      "unchanged": true,
+      "newInThisBatch": false
+    },
+    {
+      "path": "packages/services/test/task-index-topic-contract-20261003.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "38f26dce134d5084e3af013bcfa579daa0f74871",
+        "sha256": "c3ad15ca9f5348b01dfcee04838a1678c758cc1f499e04229b9837fd5b258957",
+        "bytes": 7937,
+        "lines": 230
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "38f26dce134d5084e3af013bcfa579daa0f74871",
+        "sha256": "c3ad15ca9f5348b01dfcee04838a1678c758cc1f499e04229b9837fd5b258957",
+        "bytes": 7937,
+        "lines": 230
+      },
+      "unchanged": true,
+      "newInThisBatch": false
+    },
+    {
+      "path": "packages/services/test/tasks-storage-startup.test.ts",
+      "frozen": {
+        "commit": "67e4ffa8fe0cc249d21c4e761e79af9455c557dd",
+        "gitBlob": "a4524f6fb6cffac582317c0d47666e1d17dff083",
+        "sha256": "6eec23fd51ad5fa99bee3c29e18a230e8763b0673fdc1ebd0f7f1aa8bf7f11f0",
+        "bytes": 2756,
+        "lines": 70
+      },
+      "candidate": {
+        "commit": "c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d",
+        "gitBlob": "a4524f6fb6cffac582317c0d47666e1d17dff083",
+        "sha256": "6eec23fd51ad5fa99bee3c29e18a230e8763b0673fdc1ebd0f7f1aa8bf7f11f0",
+        "bytes": 2756,
+        "lines": 70
+      },
+      "unchanged": true,
+      "newInThisBatch": false
+    }
+  ],
+  "allEightByteIdentical": true
+}

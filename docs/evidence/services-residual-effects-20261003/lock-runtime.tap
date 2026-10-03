@@ -1,0 +1,99 @@
+TAP version 13
+# (node:13931) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: storage lock admission retains one budget, immediate attempts and primary failures
+    # Subtest: attempts are immediate, retry after 100 ms and announce once per acquisition
+    ok 1 - attempts are immediate, retry after 100 ms and announce once per acquisition
+      ---
+      duration_ms: 6.722881
+      type: 'test'
+      ...
+    # Subtest: upgrade snapshot completes under the same lock window before WAL or BEGIN
+    ok 2 - upgrade snapshot completes under the same lock window before WAL or BEGIN
+      ---
+      duration_ms: 1.140385
+      type: 'test'
+      ...
+    # Subtest: a later acquisition uses the original deadline and keeps the last BUSY cause
+    ok 3 - a later acquisition uses the original deadline and keeps the last BUSY cause
+      ---
+      duration_ms: 1.189869
+      type: 'test'
+      ...
+    # Subtest: non-BUSY failure is neither replaced nor retried: undefined
+    ok 4 - non-BUSY failure is neither replaced nor retried: undefined
+      ---
+      duration_ms: 0.31916
+      type: 'test'
+      ...
+    # Subtest: non-BUSY failure is neither replaced nor retried: null
+    ok 5 - non-BUSY failure is neither replaced nor retried: null
+      ---
+      duration_ms: 0.128604
+      type: 'test'
+      ...
+    # Subtest: non-BUSY failure is neither replaced nor retried: false
+    ok 6 - non-BUSY failure is neither replaced nor retried: false
+      ---
+      duration_ms: 0.116655
+      type: 'test'
+      ...
+    # Subtest: non-BUSY failure is neither replaced nor retried: 0
+    ok 7 - non-BUSY failure is neither replaced nor retried: 0
+      ---
+      duration_ms: 0.110276
+      type: 'test'
+      ...
+    # Subtest: non-BUSY failure is neither replaced nor retried: [object Object]
+    ok 8 - non-BUSY failure is neither replaced nor retried: [object Object]
+      ---
+      duration_ms: 0.164598
+      type: 'test'
+      ...
+    # Subtest: hostile errcode getter preserves the original thrown object
+    ok 9 - hostile errcode getter preserves the original thrown object
+      ---
+      duration_ms: 0.281614
+      type: 'test'
+      ...
+    # Subtest: progress rejection schedules no retry and preserves its original failure
+    ok 10 - progress rejection schedules no retry and preserves its original failure
+      ---
+      duration_ms: 2.943647
+      type: 'test'
+      ...
+    1..10
+ok 1 - storage lock admission retains one budget, immediate attempts and primary failures
+  ---
+  duration_ms: 43.127634
+  type: 'test'
+  ...
+# (node:13950) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: storage startup preserves even a falsy primary error when close also fails
+ok 2 - storage startup preserves even a falsy primary error when close also fails
+  ---
+  duration_ms: 7.309573
+  type: 'test'
+  ...
+# Subtest: storage startup reports a close failure after successful migration
+ok 3 - storage startup reports a close failure after successful migration
+  ---
+  duration_ms: 9.073776
+  type: 'test'
+  ...
+# Subtest: preparation failure wins while both repositories are closed
+ok 4 - preparation failure wins while both repositories are closed
+  ---
+  duration_ms: 6.941158
+  type: 'test'
+  ...
+1..4
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 835.531024
