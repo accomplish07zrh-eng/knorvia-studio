@@ -51,6 +51,27 @@ sequenceDiagram
 
 ## 较晚 accepted-byte 记录与 HOLD
 
+以下记录是批次一恢复生产基线时的决定；新的接纳路线见末节，旧证据和 HOLD 不改写。
+
 之后读取 `specs/knorvia-core-task-notification-owner-20261003.md` 和 `docs/evidence/core-published-ownership-next-screen-20261003/README.md`，发现 root 已接受 registry SHA256 `12a18abdd47a1639a86726a92f7b9bf55227c8918109c3934b33925b066603e2` 的报告；它们明确要求保持 local `ac09ec1b...`，等最终整合。本固定基线中的 `licensing/reviews.json` 没有 registry 的精确条目，引用的 `licensing/evidence/contract-authored-task-registry-expression-20261002.json` 也不存在。因此这是一份需要整合者提供精确源提交与 receipt 的 reported accepted-byte HOLD，不能用本路重写解除。
 
 本批新实现保留在 `apps/cli/packages/core/test/candidates/task-registry-20261003/{registry.ts,registry-waits.ts}`；新增 contract test 只导入这个候选。生产 `runtime-task/registry.ts` 恢复到固定基线的精确版本，不安装 fallback、双 owner 或替代路由。此前新代码提交仍保留在本路 Git 历史，候选可审查；不计为生产 owner 完成。对账后由整合者决定接受原已接受稿或评审本候选，不能默认为 MIT 或验收通过。
+
+## 新授权下的完整候选接纳契约
+
+父任务随后明确授权：读取整合者 `f969c9a7869ba33257968bcf0d15c1ffb63094bb` 的真实来源结果；若当前 owner 仍需替换，可按完整行为契约接纳新的 Registry 候选，消除对丢失旧候选的运行时依赖。不得伪造取回或旧 receipt，不再尝试受限来源，归档候选须先复核具体缺陷。该授权允许新实现路线，不能证明历史 accepted 稿已取回或解除它的证据 HOLD。
+
+整合者找到 `e972ca88b458787d59b31b914a73f32d0297f567` 的 runtime-fragment 推荐评审：6097 bytes、SHA256 `3f0420e83be7796d7c767112cc5f10ac3aa66d92e8fd6b91d08847502257eac4`。它明确没有完整 integrated file/final digest。报告的 whole-file SHA256 `12a18abd…` 仍没有对应的原发布完整源码提交及原 whole-file receipt；本轮只读取已在仓库的评审记录，不恢复旧 `/tmp` 或取得受限外部素材，不执行历史 probes。
+
+接纳前限定读取四文件行为输入、当前原 owner、归档候选和直接消费者。`runtime-task/index.ts` 与 `subagent/runtime-task-registry.ts` 都重导出同一生产 owner；subagent foreground 的后台竞争、runner 的 terminal wait、child 的 drain/requeue 均保留同步/native Promise API。包的现有 `include: src/**/*` 覆盖新内部 helper，归档目录不成为生产依赖。根构建配置、公开声明形状和上述调用方不改。
+
+归档候选的限定源码复核未发现明确契约缺陷，具体对照包括：
+
+- shallow-copy 的 getter/字段顺序，register 的额外 generation 阅读，drain 的 presence→length→identity→copy 四次消息 getter 阅读；公开 queue receiver 和 all 的整数键/特殊 id。
+- immediate 先于 options 的重复 flag 阅读，pending 的同步 signal/aborted 边界，listener 安装前后重入、inline abort 的原 admission 结果。
+- 每个 channel 的 FIFO cohort 在 cleanup 前脱离；旧 cohort abort 保留 reject 优先权，不摘除新 cohort；cleanup 抛错后的 commit、未结算旧成员和不可重放边界。
+- terminal→background undefined→再读 flag 后的 background snapshot 发布，保留各阶段新建 cohort 的接纳位置，不引入 fencing、timeout 或任务执行。
+
+这只是静态对照结果，尚未通过测试、类型检查、emitted/消费者绑定或表达/权利评审。生产接纳复用本路已经独立写出的 snapshot + 双向 ticket/cohort 候选，不根据旧 Set waiter owner 改名重排，也不为“再重写一次”改动已满足契约的算法。API 声明、固定词汇、浅复制等不可避免的兼容表达仍明确保留。
+
+接入文件为生产 `runtime-task/registry.ts` 和新内部 `runtime-task/registry-waits.ts`，唯一入口保持不变，归档快照原样保留。本路新增的 11 个 contract 场景将改为导入当前生产入口，另编写 getter/发布/abort/FIFO 的针对性场景；历史 observation pins、旧 oracle/selector 和失败记录不变。最终当前产物验收须选择两个生产文件与真实消费者，不能借旧 fragment 评审或归档路径证明通过。全部新场景本阶段仍不执行；来源和 MIT 决定留待整合者。
