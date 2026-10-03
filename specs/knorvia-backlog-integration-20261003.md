@@ -131,3 +131,13 @@ native只修真实ZIP stage诊断白名单祖先目录的遍历，叶子排除�
 父任务发现旧CI `37110107123` 的实际受检树为 synthetic merge `d03df27e30768649c77d004092d7508fa8b9afbc`，合并7bfb867到固定main。只读原job日志确认旧Linux8034/8004/22/8、Windows8031/7990/40/1；不能当作本次三路修复后的失败或与本地f5统计相加。新增Windows18文件由父任务追加原CLI2/native4/services12，整合者不重复修改或新派。
 
 本地c576b3fa的原4case通过只证明Linux Node24.14定向结果。等原任务的Windows兼容修复及CLI绑定/NaN冻结SHA接收后，必须统一验收真正最终树的Linux与Windows CI。旧failed、cancelled、skipped与尚在执行的步骤均保留实际状态；CI synthetic树与branch source各用完整SHA/URL，不只报告PR名称。根CI已有cancel-in-progress并发策略，普通新推送可能取代中间run；不能以取消或未开始的job声称两平台通过。没有另行重跑旧CI、降低规则或删测试。
+
+### CLI 当前产物/NaN 与 native Windows 路径夹具接收
+
+父任务交付CLI完整head `b7dc31ff315121e4302539a5309619b8d8a85b81`，包含core `10f38c6e27fa0c9c1ca1df53e9ceb1ebdfc34a6b` 与Windows follow-up `bab2b85c5b789e3a537349134da4448e6e7184a2`；native完整head `a77f03e5925fbe458bfed06e6ebe8d3af0fc684c` 包含 `7096de3d170eea2267b82db47fb2e9140fdf7b08` 及路径夹具修复 `de0131baae27cab8c0c642ad2ef5d47741e9f280`。先核对确切远端/提交/来源绑定、相对共同祖先的真实增量，普通merge保留父提交，不用快照覆盖较新root文件。
+
+CLI12个旧selector和原behavior tests/golden继续原字节不动；新增固定current receipt验证原selector SHA/完整路径集合/readerRoot及当前声明的source/emitted闭包，未知/缺失/错误摘要继续失败。历史scheduler/format/fold调用者从摘要匹配的原archive或明确原source重建sidecar取字节，不能从live候选取作旧oracle。原fold fixture误用live reducer；摘要匹配的原reducer依赖恢复后24个旧golden匹配，实际NaN也匹配原case16。此前序列化猜测只是未证实历史假设，不能据此修改golden。current fold仅两处component比较补SameValueZero兼容，保留原严格相等优先、signed-zero和真实NaN，不把NaN规范化为null，不改公开声明/数据/UI。
+
+CLI的source/emitted各77、Windows相关11唯一入口及4合成路径，native的native/POSIX/Win32变体12/12都是原路Linux Node24.14结果，不相加成独立用例数或真实Windows通过。native只改4个测试夹具，使用真实绝对路径/public path APIs及唯一导入键，保留全路径/固定文件名断言，不做basename归一、输出归一或删断言，生产不变。
+
+人工接收新增10个raw记录（CLI4、native6），逐一核对交付head原字节并保留本地现有5617记录/旧receipts/HOLD。新current receipt与historical sidecar另在接收JSON绑定确切源码SHA，不自动刷新旧selector或将技术结果授予来源/许可。先不重复原路77/12检查或777全量；等services Windows12项冻结后再集中构建当前fold产物，并统一最终实际树的Linux/Windows CI。root全局来源报告更新是当前候选身份的新鲜度，不是完整权利审计。
