@@ -4,6 +4,9 @@ Persistent branch: `rewrite/native-20261003`, created after fetch from exact
 integration baseline `3b1ff0f715a43cbc51c576fd524479a08e58e203`. PR base is
 `integration/backlog-20261003`; integration PR #13 remains the sole main outlet.
 This lane does not merge main or create additional tasks/authors.
+Active [draft PR #17](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17)
+continues on this branch. First control-transport commit is
+`cdc80cb1e6d3c731c1ea41d2c9663d83b2fd532d`.
 
 ## New control transport batch
 
@@ -40,6 +43,29 @@ user data, credential or local-computer operation. This is an **unverified sourc
 checkpoint**, not native acceptance or a MIT grant. All licensing and third-party
 records are preserved; global inventories are intentionally not refreshed here.
 
+## New persistence and shutdown observation batch
+
+Reconstructed `src/runtime/statusSnapshot.ts` and `shutdownWait.ts` under the
+[pre-implementation contract](../specs/knorvia-next-platform-status-persistence-20261003.md).
+Reads distinguish IO missing/unreadable from JSON/schema invalid observations
+with one explicit phase boundary. A private writer sequence retains ordered,
+live-at-execution snapshot publication and the existing JSON/temporary-file/0600
+write-then-rename contract, including failure-callback recovery/poisoning. A pure
+shutdown evidence predicate preserves terminal status, strict freshness and
+released-lock admission; existing clock/deadline/polling/error behavior stays.
+
+[Exact bindings](evidence/backlog-platform-status-persistence-20261003/bindings.json)
+freeze the complete two drafts before source diff and bind the retained
+DataRootLock, recovery, service-installation, paths/schemas and CLI/Supervisor
+callers. Both selected owner baselines match the recorded renamed-upstream
+snapshots. Lock/recovery/service-installation have unreviewed origin records;
+they remain exact rather than being automatically classified or overwritten.
+Six additional fake-port scenarios are authored in
+`packages/server-cli/test/status-persistence-contract.test.mjs`, **all unrun**.
+No actual file, lock, process, status/data migration or application operation.
+This is another source checkpoint; the same source-exposure and pending
+expression/rights/native acceptance qualifications apply.
+
 ## Inherited work and remaining boundaries
 
 The old E ChannelClient packet binds upstream blob
@@ -54,17 +80,19 @@ These are baseline inheritance, **zero new reconstruction credit** for this lane
 RPC origin/rights and final consumer/platform acceptance remain open; old local
 passes/failures are historical and have not been rerun.
 
-Other native scopes retain the existing PR9/12 owners. The newly inspected
-server-cli status-snapshot and stopped-server admission owners still have only
-initial-snapshot history and require a bounded contract before a next batch.
-Supervisor/core, service management and release/install runtime require their own
-source/receipt review; this checkpoint does not declare those directories closed.
+Other native scopes retain the existing PR9/12 owners. The two known inherited
+status/shutdown owners above now have this lane's contract/candidate records.
+Supervisor/core, service management and release/install runtime still require
+their own source/receipt review. Unreviewed origin is a reconciliation need, not
+automatic permission to discard a possible earlier implementation or an MIT
+decision; this checkpoint does not declare those directories closed.
 
 ## Integration coordination
 
 - The existing root test runner does not scan `packages/server-cli/test`. Add the
-  new deferred test there during final integration; root scripts/CI are owned by
-  the integrator and were not edited here.
+  two new deferred files `control-transport-contract.test.mjs` and
+  `status-persistence-contract.test.mjs` there during final integration; root
+  scripts/CI are owned by the integrator and were not edited here.
 - No shared schema or protocol interface change is needed for this batch. Actual
   Supervisor/CLI consumers and Windows named pipes/POSIX endpoints still need
   final execution together with the RPC/Host/services/UI combination.
