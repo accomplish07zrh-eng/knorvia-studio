@@ -282,3 +282,35 @@ blocking the newly authorized runtime implementations. No new cross-module
 signature/schema change is requested. **UNVERIFIED:** no executable validation or
 test files were added/run; the existing final-stage suites and specified changed
 file/symlink/missing-hash cases still need unified acceptance.
+
+## Batch 6 — explicitly transferred Studio groups slice
+
+The parent subsequently transferred only five UI files to this fixed task:
+packages/ui/src/studio/groups/{useStudioGroups.ts,groupModel.ts,
+groupDefinitions.ts,groupSubmission.ts} and
+packages/ui/src/store/studioGroupStore.ts. The UI lane relinquished them; all
+other UI sources and its lane records stay exclusive to that lane. Continue
+the same branch/PR16 from `90e7d290c2deae3e0a75a73f34710d23a6daefa4`.
+
+Fetched UI PR15 frozen head `662b64276a7271324efcbc6de36497058250d521` and read its
+lane record and actual callers. All five files and the runtime-client callers
+match this lane's source; no whole UI merge/rebase or ownership expansion.
+The exact saved inventory rows are unreviewed/NOASSERTION with upstream=null;
+there is no exact-path match/review in the read saved upstream/reviews files.
+The definition-ownership spec/source commit
+`530a64700d61d80715e4a120682a3942075395bc` records real new Knorvia features.
+Neither missing origin evidence nor snapshot ancestry makes all five inherited
+or already rights-cleared.
+
+The [slice contract](../specs/knorvia-next-services-studio-groups-20261003.md)
+precedes source. Retain groupModel, groupDefinitions and groupSubmission as
+existing feature candidates: they express existing configuration/mentions,
+revision-authoritative projection and stop-aware submission rules. Two actual
+pending owners continue: hook reply/import acceptance across connection/unmount
+boundaries, and draft-ledger/write-before-remove migration including failed
+finalization retry. These are complete runtime candidates with preserved public
+interfaces/codecs; retained declarations/fixed rules are not claimed newly authored.
+
+**UNVERIFIED:** source-focused implementation only; no test/checker/build/audit/CI
+rerun and no extra UI/test files. Shared/runtime/JSX changes outside the five
+files, if needed, must be requested from the parent rather than made here.
