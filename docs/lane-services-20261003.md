@@ -45,6 +45,17 @@ implementation. Scope is the full fifteen-operation sessionService coordinator
 and stateless operation preparation/policy, retaining the existing public factory
 and data contracts. Implementation and synthetic cases are **UNVERIFIED**.
 
+Implemented the complete coordinator with one subscription/publication port and
+one retry/repair read pipeline, and invocation-only MCP/thought-level preparation.
+The existing deferred-draft and retry owners remain unchanged. Authored six
+synthetic subcases covering isolated drafts, persistent model publication,
+unsupported levels, replayable pre-send resume/model errors, conditional-close
+authority and local/remote MCP composition; none was executed. The candidate's
+syncer interface and all service methods stay on their existing entrypoints.
+Exact original/candidate bindings are in
+[source-bindings.json](evidence/backlog-services-session-lifecycle-20261003/source-bindings.json).
+No separate author or pre-source-exposure freeze is asserted.
+
 The author is source-exposed: predecessor source and adjacent public behavior
 were read to define the contract and review compatibility. No clean-room,
 whole-file accepted independence, novelty or MIT assertion. Public/type/grammar,
