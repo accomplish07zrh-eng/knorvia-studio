@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "preChangeFreezeCommit": "92470890804e87623c75d7f8bf79a1b845a9e94e",
+  "draftClosureUTC": "2026-10-03T03:14:49.722200060Z",
+  "sourceExposedCurator": true,
+  "newProbeReason": "Static comparison demonstrated extra no-source await, payload exception moved into an async boundary, tool-name restricted supersession, and output fallback conflation. One targeted group freezes these four failures before production edits.",
+  "probeBaseline": {
+    "groups": 1,
+    "targetedComparisons": 4,
+    "passed": true
+  },
+  "initialDraft": {
+    "groups": 1,
+    "targetedComparisons": 4,
+    "passed": false,
+    "productionInstalled": false
+  },
+  "bindings": {
+    "docs/evidence/background-tracker-author-20261003/clarifications.md": "c07069f8552aeef6118fd3798bd2c8ead4e5cd7c6f31d37a13c12ed0c891c2da",
+    "docs/evidence/background-tracker-draft-20261003/initial/SHA256SUMS": "70556cb2f37d4c69a77fef92941b0ac3a1813e55fc1794982657a1eb6c1bfb15",
+    "docs/evidence/background-tracker-draft-20261003/initial/accessed-inputs.sha256": "c95394abac6395ee95797f564ae18e9e7f179c32ba412196dc20ccd6658408cd",
+    "docs/evidence/background-tracker-draft-20261003/initial/author-record.md": "06f842609e701c3e8b368a0f797efa7043ffd5afc37fd598f710ad5be0c501f4",
+    "docs/evidence/background-tracker-draft-20261003/initial-artifacts.json": "e5f91b7e318a9dcce47b51c6985dfa4cf3d74b967bbdea14f33431e19a8b2a28",
+    "apps/cli/packages/core/test/background-tracker-correction-proof-20261003.mjs": "c3b038b5f6693c5710f6ceea5918d2046dd1bc3e3cece1b9498737d09b93563b",
+    "apps/cli/packages/core/test/background-tracker-correction-observations-20261003.json": "1bae1db93bb1d52fb81be2e73260ca5e59cb477a09aac65e5b1491812a2af6c8",
+    "docs/evidence/background-tracker-checks-20261003/correction-baseline.log": "cdc80df61f05fa36699a8d5b333e67faa41c0cb3c87103509c307aaeda182f10",
+    "docs/evidence/background-tracker-checks-20261003/initial-draft-red.log": "a7c266fdd9ff5182365ab5463106833393b3e05837cbf187c6256d69b5f67689",
+    "docs/evidence/background-tracker-checks-20261003/initial-compiler.json": "5d6383e47bce8a0a5a4a5a131d2bf489a05278c4ab2251122548a157e217da30"
+  }
+}

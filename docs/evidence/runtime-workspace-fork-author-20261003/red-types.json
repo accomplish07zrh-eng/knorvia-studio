@@ -1,0 +1,12 @@
+{
+  "batch": "workspace-fork",
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2724,
+      "message": "'\"../helpers/index.js\"' has no exported member named 'parseWorkspaceCheckpointArtifact'. Did you mean 'stringifyWorkspaceCheckpointArtifact'?",
+      "file": "apps/cli/packages/core/src/runtime/methods/workspace-fork.ts"
+    }
+  ],
+  "api": []
+}

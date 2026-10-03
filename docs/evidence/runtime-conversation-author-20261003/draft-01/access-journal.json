@@ -1,0 +1,137 @@
+{
+  "task": "Independent conversation projection draft from authorized contract packet",
+  "authorized_file_reads": [
+    "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/imports.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/supporting-api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/prose.json",
+    "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/port-facts.md"
+  ],
+  "read_operations": [
+    {
+      "tool": "exec_command",
+      "operation": "cat",
+      "files": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/api.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/imports.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/supporting-api.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/contract.md",
+        "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/prose.json"
+      ]
+    },
+    {
+      "operation": "Own draft line count and SHA256",
+      "files": [
+        "/tmp/knorvia-runtime-stream-five-20261003/conversation/conversation.ts",
+        "/tmp/knorvia-runtime-stream-five-20261003/conversation/access-journal.json"
+      ]
+    },
+    {
+      "tool": "exec_command",
+      "operation": "cat",
+      "files": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-conversation-author-20261003/port-facts.md"
+      ]
+    },
+    {
+      "operation": "Own draft inspection, optional-source correction, final physical line count and SHA256 sealing",
+      "files": [
+        "/tmp/knorvia-runtime-stream-five-20261003/conversation/conversation.ts",
+        "/tmp/knorvia-runtime-stream-five-20261003/conversation/access-journal.json"
+      ]
+    }
+  ],
+  "message_reads": [
+    {
+      "source": "system",
+      "description": "API assistant instructions"
+    },
+    {
+      "source": "developer",
+      "description": "Tools, collaboration, skill catalog, execution permissions, and delegated-task instructions"
+    },
+    {
+      "source": "user",
+      "description": "Workspace execution environment context"
+    },
+    {
+      "source": "parent /root",
+      "description": "Delegated restricted-input conversation implementation task"
+    },
+    {
+      "source": "tool exec_command",
+      "description": "Authorized five-file packet contents"
+    },
+    {
+      "source": "tool exec_command",
+      "description": "Own draft directory creation result"
+    },
+    {
+      "source": "tool list_agents",
+      "description": "Accidental extra-packet agent list: agent names/statuses and unrelated model-status author final summary including design, hashes, and access/feedback description; no conversation source or implementation"
+    },
+    {
+      "source": "tool exec_command",
+      "description": "Own provisional conversation.ts write result"
+    },
+    {
+      "source": "tool exec_command",
+      "description": "Own access-journal write result"
+    },
+    {
+      "source": "tool exec_command",
+      "description": "Initial own-draft sealing hashes and line count"
+    },
+    {
+      "source": "tool collaboration.wait_agent",
+      "description": "Wait completion, with no status or implementation details"
+    },
+    {
+      "source": "parent /root",
+      "description": "Authorized port-facts.md declaration-only supplement and confirmed no draft comparison or draft-content read yet"
+    },
+    {
+      "source": "tool exec_command",
+      "description": "Authorized port-facts.md declaration-only supplement contents"
+    }
+  ],
+  "extra_packet_access": {
+    "operation": "collaboration.list_agents",
+    "accidental": true,
+    "reported_to_parent": true,
+    "data_exposed": "Agent names/statuses and an unrelated model-status completion summary. No conversation implementation or dependency body was exposed.",
+    "use_in_draft": "None"
+  },
+  "outbound_messages": [
+    "Requested declaration-only MessageWithParts/activeSessionMessages and relevant content/attachment type facts.",
+    "Requested declaration-only clarification of inline image source and metadata.preview.",
+    "Described independent ordered admission and projection design.",
+    "Requested declaration-only prompt helper signatures.",
+    "Reported accidental list_agents exposure without using it.",
+    "Reported provisional draft and unresolved declaration assumptions.",
+    "Reported journal completion and missing type-fact blockers.",
+    "Asked parent to defer any curator source comparison until final sealed hashes.",
+    "Requested systemReminderAttachmentEntry signature and noted zero-argument metadata assumption.",
+    "Sent initial independent draft hashes before comparison and requested declaration-only completion."
+  ],
+  "writes": [
+    "conversation.ts",
+    "access-journal.json",
+    "seal.sha256"
+  ],
+  "limitations": [
+    "No AGENTS, production source, history, lineage, tests, oracles, or dependency implementations read.",
+    "No network, builds, tests, production edits, subagents, or source comparison performed.",
+    "Initial draft used explicit declaration assumptions; the parent-authorized declaration-only port-facts.md supplement resolved them before final sealing.",
+    "The supplement required an optional source guard for inline image classification; all other initial call-signature and type-path assumptions were confirmed.",
+    "Restricted access was imperfect because of the explicitly recorded accidental agent-list read; its unrelated model-status summary was not used in this implementation.",
+    "No clean-room, rights, or license claim is made.",
+    "Verification is limited to contract/declaration reasoning, own draft inspection, physical line count, and SHA256 sealing; no executable verification was authorized."
+  ],
+  "seal_status": "Complete draft sealed before any curator comparison",
+  "initial_draft_sha256": "4e979e3b005ed3d43c52f68588279974ad79ab8c9bd3acbca3e1da2236fbe3f2",
+  "physical_lines": 251,
+  "remaining_blockers": [],
+  "design": "A single ordered attachment admission helper feeds separate synchronous model-content and runtime-entry projections. The model projection retains original block references and defers videos; the runtime projection keeps videos in ordinary order and shallow-copies final real-user blocks when represented as an array. Prompt inputs retain preview identity and property order. Browser prose is emitted as fixed LF-separated lines."
+}

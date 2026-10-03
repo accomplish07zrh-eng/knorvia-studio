@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "role": "restricted-input author for streaming-tool-ledger",
+  "scope": "Bounded account of observations and authoring in this delegated turn; no absolute isolation, clean-room, originality, licensing, or whole-file attribution claim.",
+  "allowedInputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-ledger-author-20261003/api.d.ts",
+      "sha256": "39c02aac54eaf37443adfef45018618b56814334aa714f63bbacae8ac4a53baa",
+      "observed": "Public function declarations, local option interfaces and imports."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-ledger-author-20261003/imports.d.ts",
+      "sha256": "9406140c0923939b0bddef4d3b5cf52d67f4741b4029cfab516b7aec3367e4c8",
+      "observed": "Original dependency import paths and selected symbol names."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-ledger-author-20261003/supporting-api.d.ts",
+      "sha256": "6774567f065b82a0e9fe1e9665df82c74b66b59c7612332d85aafae3f3a3e0c9",
+      "observed": "Comment only; did not establish runtime member signatures."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-ledger-author-20261003/contract.md",
+      "sha256": "a6063030a53c7d5613bdeb89efaa43ec57cdfb883676c3afbc85d8368e184662",
+      "observed": "ID suffixes; exact payload field order, undefined key presence and references; receiver-bound metadata lookup and publication; one native append await; success truthiness; synchronous creation then append then caller push."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-tool-ledger-author-20261003/port-facts.md",
+      "sha256": "df9498481f602c0249236e32f8dd34eede10d231bdade0ee77dd9029859a4174",
+      "authorization": "Added by parent after initial packet gap report; declaration-only, source-derived supplement.",
+      "observed": "ToolCall id/input/name; registry rather than toolRegistry; metadata and optional permission scope; scope literal none; createEvent(type,payload,trace) and appendEvent(event,trace) receiver-bound signatures and reference preservation. Supplement also contained model/config/logger, recovery event, transition/helper/MCP/abort API facts not used in this owner."
+    }
+  ],
+  "accessSequence": [
+    "Inspected available tool names/descriptions to find filesystem read/write/hash transport; no connector calls or filesystem inputs obtained from this inspection.",
+    "Asked parent for direct packet contents or narrow filesystem transport authorization because exec_command was the available reader.",
+    "Parent authorized narrow shell transport: reads only permitted packet files; writes and hashes only own temporary outputs; no candidate execution, tests/builds, or live IO.",
+    "Read the original four packet files once each via cat, in batched independent transport calls.",
+    "Reported missing runtime/ToolCall binding facts and proposed packet repair; tentative toolRegistry assumption was not implemented.",
+    "Hashed the original four packet files via sha256sum.",
+    "Called collaboration list_agents while waiting for clarification; this exposed unrelated completed sibling summaries. Deviation recorded below and disclosed to parent.",
+    "Parent authorized one supplementary packet, port-facts.md, and directed recording the status-list deviation.",
+    "Read port-facts.md once via cat, then hashed it via sha256sum.",
+    "Authored the 120-line owner from the declarations, contract and authorized supplement using apply_patch; original import paths retained.",
+    "Hashed saved source before writing this access journal. Own journal and seal hashing/writing completes sealing before any curator comparison."
+  ],
+  "observedMessageFacts": [
+    "Initial parent task restricted implementation inputs to four named files, designated /tmp output paths and required a cohesive complete owner under 400 physical lines, ordered fields/references/receivers/native awaits, no production edits/tests/builds/subagents, and seal before curator comparison.",
+    "Parent clarification expressly allowed narrow shell filesystem read/write/hash transport only; authored-code execution and live tool/provider IO remained prohibited.",
+    "Parent supplementary-input message said runtime uses registry.get, createEvent(type,payload,trace), appendEvent(event,trace), receiver-bound; supplied port-facts.md, described it as declaration-only and source-derived, and prohibited absolute isolation claims.",
+    "System/developer/environment messages and tool schemas were visible as session instructions, including shared workspace and restricted permissions; no local instructions files were read."
+  ],
+  "incidentalCoordinationExposure": {
+    "action": "collaboration.list_agents",
+    "reason": "Check parent availability while awaiting binding facts.",
+    "observed": "Agent names/statuses for root, conversation projection, model-status publication, streaming coordinator, streaming ledger, streaming recovery and streaming write queue. Completed model-status and event-queue summaries included their output paths/hashes, designs, line counts and verification/attribution limitations.",
+    "boundedFacts": "Model-status summary described fixed profiles with delayed projections and logging behavior; queue summary described serialization/pending counts/failure/drain/backpressure and native promise phases. These were unrelated sibling summaries, not ledger source files or ledger comparisons.",
+    "use": "Not used to select or implement ledger behavior. No sibling artifact, source, history, lineage, tests, oracle or dependency body was opened.",
+    "limitation": "The observed summaries mean this journal does not assert absolute isolation from all other task information."
+  },
+  "design": {
+    "owner": "Both public native async emitters own synchronous ordered payload projection, runtime event creation, a single append await, and same-reference caller publication after append settles.",
+    "ledger": "Exactly one registry.get call; entry metadata captured before optional permission sideEffectScope; permission scope nullishly overrides metadata; readOnly captured once and combined with scope without boolean coercion; fields explicitly inserted in contract order with undefined values retained.",
+    "anchor": "Anchor ID calculated first; success truthiness selects result/error kind; committed tool-call array preserves the identifier; fields explicitly inserted in contract order.",
+    "ordinaryContractExpressions": "ID template interpolation and prescribed suffixes; optional access/nullish fallback; readOnly conjunction; success ternary; object field listing; native await, Array.push and return are ordinary expressions constrained by the supplied declarations/contract, not novelty claims.",
+    "validation": "Manual reasoning against permitted contract only. No authored-code execution, compiler, test, build or curator comparison performed by this author."
+  },
+  "output": {
+    "path": "/tmp/knorvia-runtime-stream-five-20261003/streaming-tool-ledger/streaming-tool-ledger.ts",
+    "sha256": "cf113aab30050bb6801d48c7d67ca79e6eb01fbee0978b691e99fb91029ff296",
+    "physicalLines": 120
+  },
+  "remainingBlockers": [],
+  "rights": "No rights grant, license conclusion, absolute clean-room status, or whole-file lineage claim is made."
+}

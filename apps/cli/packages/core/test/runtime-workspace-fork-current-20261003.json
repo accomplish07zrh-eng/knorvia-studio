@@ -1,0 +1,10 @@
+{
+  "files": {
+    "src/runtime/methods/stable-fork-boundary.ts": "b435f3b226609d4d5be3d899576b75bad364ced4d1a31d5f0d694815ac64edd2",
+    "dist/runtime/methods/stable-fork-boundary.js": "bd143a9a00a58ee8961d676aacd8df26bb4f6b4e76aa3ae49c927e75bfa209c6",
+    "dist/runtime/methods/stable-fork-boundary.d.ts": "bc31b4f8e9ff205c3b30fdf764fa6dcfb5dabbd5bb61e07ca003dab1377aa914",
+    "src/runtime/methods/workspace-fork.ts": "84c548be04054596f66ea92dc0651a33be4fd359458d3cdb48a1976a26921a3d",
+    "dist/runtime/methods/workspace-fork.js": "e3052bfe53c45168a911c312d3c721b614c33192dc2cc32200f3f2c38e28fa0a",
+    "dist/runtime/methods/workspace-fork.d.ts": "3746880a62c9b3269f2e8f9462d0ce606815d2a1ac122c026c25966a2921221d"
+  }
+}

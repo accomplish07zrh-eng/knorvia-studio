@@ -15,7 +15,6 @@ import {
 } from "../deps.js";
 import type {
   EnvInfo,
-  MessageWithParts,
   SessionEvent,
   SessionGoal,
   SessionInfo,
@@ -56,6 +55,33 @@ export function toScheduleState(
   };
 }
 
+async function synchronizeResumeTitle(
+  this: AgentRuntimeInternal,
+  restoredEvents: SessionEvent[],
+  session: SessionInfo,
+  traceContext: TraceContext,
+): Promise<void> {
+  const title = session.title.trim();
+  if (!title) return;
+  const source: SessionTitleSource = session.titleSource ?? "generated";
+  if (
+    restoredEvents.some((event) => {
+      if (event.type !== SessionEventType.SessionTitleUpdated) return false;
+      const payload = event.payload as { source?: unknown; title?: unknown };
+      return payload.title === title && payload.source === source;
+    })
+  )
+    return;
+  await this.appendEvent(
+    this.createEvent(
+      SessionEventType.SessionTitleUpdated,
+      { previousTitle: "", source, title },
+      traceContext,
+    ),
+    traceContext,
+  );
+}
+
 export async function resumeFromStore(
   this: AgentRuntimeInternal,
   options?: ResumeSessionOptions,
@@ -67,7 +93,6 @@ export async function resumeFromStore(
       { recoverable: false },
     );
   }
-
   const traceContext = options?.traceContext ?? this.rootTraceContext;
   const persistedSession = await this.sessionStore.getSession(this.sessionId);
   if (!persistedSession || persistedSession.time.archived !== undefined) {
@@ -87,12 +112,8 @@ export async function resumeFromStore(
       });
     },
   });
-
   const messages =
-    options?.persistedMessages ??
-    (await this.sessionStore.messages({
-      sessionID: this.sessionId,
-    }));
+    options?.persistedMessages ?? (await this.sessionStore.messages({ sessionID: this.sessionId }));
   const rewindTargetMessageId = session.revert?.targetMessageID;
   const rewindCreatedMessageId = session.revert?.createdMessageID;
   const rewindKeptMessageIds = session.revert?.keptMessageIDs;
@@ -111,19 +132,22 @@ export async function resumeFromStore(
       sessionId: this.sessionId,
     });
   }
-  const persistedEnvInfo = extractPersistedEnvInfo(messages);
-  if (persistedEnvInfo) {
-    this.config.envInfo = persistedEnvInfo;
+  let persistedEnvInfo: EnvInfo | undefined;
+  for (const message of messages) {
+    if (message.info.role !== "user") continue;
+    const envInfo = message.info.contextSnapshot?.envInfo;
+    if (!envInfo) continue;
+    persistedEnvInfo = envInfo;
+    break;
   }
-  const shellRestore = await restoreSessionShellEnvironmentSelectionForResume(this, {
+  if (persistedEnvInfo) this.config.envInfo = persistedEnvInfo;
+  const shellResult = await restoreSessionShellEnvironmentSelectionForResume(this, {
     currentSelection: getSessionShellSelection(this),
     traceContext,
   });
-
   this.workingDirectory = session.directory;
   this.config.taskType = session.taskType;
   if (this.config.memory) {
-    // Memory root 必须使用会话落盘时的 workspace identity，不能沿用进程启动 workspace。
     this.config.memory.workspaceIdentity = session.workspaceID
       ? String(session.workspaceID)
       : undefined;
@@ -132,9 +156,7 @@ export async function resumeFromStore(
   this.contextBuilder = null;
   this.contextInitialized = false;
   this.lastEmittedLocalDate = undefined;
-  // cold resume 的历史 hydration 会先清空 runtime-local read-state；必须在
-  // Context 初始化前完成，确保随后单次加载的 MEMORY.md 状态与 provider 所见内容一致。
-  const readFileStateHydration = await hydrateReadFileStateFromSession({
+  const readFileHydration = await hydrateReadFileStateFromSession({
     branchCutAfterMessageId,
     messages,
     readFileState: this.readFileState,
@@ -145,10 +167,7 @@ export async function resumeFromStore(
     workspaceRoot: this.workspaceRoot,
   });
   await this.ensureContextInitialized(traceContext);
-  const recoveredCompactTimelineCount = await this.recoverInterruptedCompactTimelines(
-    messages,
-    traceContext,
-  );
+  const compactCount = await this.recoverInterruptedCompactTimelines(messages, traceContext);
   const hydration = await hydrateMessageHistoryFromSession({
     artifactStore: this.artifactStore,
     branchCutAfterMessageId,
@@ -160,7 +179,7 @@ export async function resumeFromStore(
   });
   announceSessionShellEnvironmentNoticeAfterResume(this, {
     persistedEnvInfo,
-    restore: shellRestore,
+    restore: shellResult,
   });
   const activeMessages = activeSessionMessages(messages, {
     branchCutAfterMessageId,
@@ -168,44 +187,35 @@ export async function resumeFromStore(
     rewindKeptMessageIds,
     rewindTargetMessageId,
   });
-  // compact preserved segment 会把 compact 前消息插回 provider 上下文，
-  // 但它不是 compact 后时间线的 latest anchor，不能用于后续 compact parentID。
-  const timelineActiveMessages = activeSessionMessages(messages, {
+  const conversationMessages = activeSessionMessages(messages, {
     branchCutAfterMessageId,
     includeCompactPreservedSegment: false,
     rewindCreatedMessageId,
     rewindKeptMessageIds,
     rewindTargetMessageId,
   });
-  const latestAssistant = [...timelineActiveMessages]
+  // 受限初稿先写 assistant anchor，早于 latest-id 端口；冻结观察要求相反顺序。
+  const latestAssistant = [...conversationMessages]
     .reverse()
     .find((message) => message.info.role === "assistant");
-  this.latestConversationMessageId = getLatestActiveSessionMessageId(timelineActiveMessages);
+  this.latestConversationMessageId = getLatestActiveSessionMessageId(conversationMessages);
   this.latestAssistantMessageId = latestAssistant?.info.id;
   this.latestAssistantTurnId = latestAssistant?.info.anchor?.turnId as TurnId | undefined;
   this.lastAssistantCompletedAtMs =
     latestAssistant && "completed" in latestAssistant.info.time
       ? latestAssistant.info.time.completed
       : undefined;
-
   await restoreWorkspaceCheckpointEntries(this, traceContext);
   await restoreWorkspaceFileRewindEntries(this, traceContext);
   const restoredEvents = await this.eventStore.getEvents(this.sessionId);
-  const restoredModeEvents = restoredEvents.filter(
+  const modeEvents = restoredEvents.filter(
     (event) =>
       event.type === SessionEventType.SessionCreated ||
       event.type === SessionEventType.SessionModeChanged,
   );
-  const restoredMode =
-    restoredModeEvents.length > 0 ? this.eventReducer.reduce(restoredModeEvents).mode : undefined;
-  const resolvedMode = options?.modeOverride ?? restoredMode ?? session.permission?.mode;
-  if (resolvedMode !== undefined) {
-    // cold resume 会先把 checkpoint/rewind 等局部事件恢复到新的内存 eventStore。
-    // 这些事件不携带 mode，若仅按“存在任意事件”reduce，会用默认 build 覆盖 headless yolo。
-    // 只有权威 mode 事件能恢复历史值；本次 invocation 的显式/default mode 仍保持最高优先级。
-    Object.assign(this.config, resolveExecutionState({ mode: resolvedMode }));
-  }
-  // 会话自己的新记录优先于项目偏好；旧记录仅兼容读取，不批量回填。
+  const restoredMode = modeEvents.length ? this.eventReducer.reduce(modeEvents).mode : undefined;
+  const mode = options?.modeOverride ?? restoredMode ?? session.permission?.mode;
+  if (mode !== undefined) Object.assign(this.config, resolveExecutionState({ mode }));
   const executionEntries = await this.sessionStore.sessionEntries?.({
     sessionID: this.sessionId,
     type: SESSION_ENTRY_EXECUTION_STATE,
@@ -214,9 +224,7 @@ export async function resumeFromStore(
   if (savedExecution.success && options?.modeOverride === undefined) {
     Object.assign(this.config, savedExecution.data);
   }
-
   await restorePermissionGrantMarker(this, traceContext);
-
   this.mainTurnCacheHitAggregate = mainTurnCacheHitAggregateFromMessages({
     activeMessages,
     persistedMessages: messages,
@@ -225,42 +233,33 @@ export async function resumeFromStore(
     (message) => message.info.role === "user" && !message.info.summary,
   ).length;
   this.sessionPersisted = true;
-  await syncPersistedSessionTitleForResume.call(this, {
-    restoredEvents,
-    session,
-    traceContext,
-  });
+  await synchronizeResumeTitle.call(this, restoredEvents, session, traceContext);
   await this.discardPersistedPendingSteerInputs(traceContext);
   const recoveredSteerInputCount = 0;
-  const resumedTodos = await this.readSessionTodosForContext(traceContext);
-  const resumedTarget = await this.readSessionTargetForContext(traceContext);
-  this.injectTargetStateIntoMessageHistory(resumedTarget);
-
-  const resumedEvent = this.createEvent(
+  const todos = await this.readSessionTodosForContext(traceContext);
+  const target = await this.readSessionTargetForContext(traceContext);
+  this.injectTargetStateIntoMessageHistory(target);
+  // 失败证明：端口可修改 runtime cwd，公开恢复结果必须仍取落盘 session.directory。
+  const event = this.createEvent(
     SessionEventType.SessionResumed,
     {
       directory: session.directory,
       interruptedToolCount: hydration.interruptedToolCount,
       messageCount: hydration.messageCount,
       partCount: hydration.partCount,
-      recoveredCompactTimelineCount,
+      recoveredCompactTimelineCount: compactCount,
       recoveredSteerInputCount,
-      resumedTodoCount: resumedTodos.length,
-      resumedTarget: resumedTarget?.status,
+      resumedTodoCount: todos.length,
+      resumedTarget: target?.status,
     },
     traceContext,
   );
-  await this.appendEvent(resumedEvent, traceContext);
-  const sessionStartHookResult = await this.runSessionStartHooks(
-    "resume",
-    traceContext,
-    options?.abortSignal,
-  );
+  await this.appendEvent(event, traceContext);
+  const hookResult = await this.runSessionStartHooks("resume", traceContext, options?.abortSignal);
   this.injectHookAdditionalContextIntoMessageHistory(
     HookEventName.SessionStart,
-    sessionStartHookResult.additionalContexts,
+    hookResult.additionalContexts,
   );
-
   if (messages.length > 0 && activeMessages.length === 0) {
     this.logger?.warn("Session resume produced zero active messages", {
       ...traceContextToLogContext(traceContext),
@@ -271,7 +270,7 @@ export async function resumeFromStore(
       hydrationMessageCount: hydration.messageCount,
       module: "core.runtime",
       persistedMessageCount: messages.length,
-      recoveredCompactTimelineCount,
+      recoveredCompactTimelineCount: compactCount,
       rewindCreatedMessageId,
       rewindKeptMessageCount: rewindKeptMessageIds?.length ?? 0,
       sessionId: this.sessionId,
@@ -287,14 +286,13 @@ export async function resumeFromStore(
       hydrationMessageCount: hydration.messageCount,
       module: "core.runtime",
       persistedMessageCount: messages.length,
-      recoveredCompactTimelineCount,
+      recoveredCompactTimelineCount: compactCount,
       rewindCreatedMessageId,
       rewindKeptMessageCount: rewindKeptMessageIds?.length ?? 0,
       rewindTargetMessageId,
       sessionId: this.sessionId,
     });
   }
-
   this.logger?.info("Session resumed", {
     ...traceContextToLogContext(traceContext),
     appliedMessageCount: hydration.appliedMessageCount,
@@ -304,98 +302,34 @@ export async function resumeFromStore(
     messageCount: hydration.messageCount,
     module: "core.runtime",
     partCount: hydration.partCount,
-    readFileStateRestoredCount: readFileStateHydration.restoredCount,
-    readFileStateSkippedRangeReadCount: readFileStateHydration.skippedRangeReadCount,
-    readFileStateSkippedUnreadableEditCount: readFileStateHydration.skippedUnreadableEditCount,
-    recoveredCompactTimelineCount,
-    resumedTodoCount: resumedTodos.length,
-    resumedTargetStatus: resumedTarget?.status,
+    readFileStateRestoredCount: readFileHydration.restoredCount,
+    readFileStateSkippedRangeReadCount: readFileHydration.skippedRangeReadCount,
+    readFileStateSkippedUnreadableEditCount: readFileHydration.skippedUnreadableEditCount,
+    recoveredCompactTimelineCount: compactCount,
+    resumedTodoCount: todos.length,
+    resumedTargetStatus: target?.status,
     sessionId: this.sessionId,
     status: "completed",
   });
-
   return {
     ...hydration,
     directory: session.directory,
-    // 中断 compact 恢复会写回 timeline part；bootstrap 不能继续把恢复前
-    // messages 交给 V4，否则首帧会短暂复活 started/retrying 状态。
-    persistedMessagesReloadRequired: recoveredCompactTimelineCount > 0,
-    readFileStateRestoredCount: readFileStateHydration.restoredCount,
-    readFileStateSkippedRangeReadCount: readFileStateHydration.skippedRangeReadCount,
-    readFileStateSkippedUnreadableEditCount: readFileStateHydration.skippedUnreadableEditCount,
+    persistedMessagesReloadRequired: compactCount > 0,
+    readFileStateRestoredCount: readFileHydration.restoredCount,
+    readFileStateSkippedRangeReadCount: readFileHydration.skippedRangeReadCount,
+    readFileStateSkippedUnreadableEditCount: readFileHydration.skippedUnreadableEditCount,
     traceId: traceContext.traceId,
   };
-}
-
-async function syncPersistedSessionTitleForResume(
-  this: AgentRuntimeInternal,
-  input: {
-    restoredEvents: SessionEvent[];
-    session: SessionInfo;
-    traceContext: TraceContext;
-  },
-): Promise<void> {
-  const title = input.session.title.trim();
-  if (!title) return;
-  const source = input.session.titleSource ?? "generated";
-  if (hasRestoredTitleEvent(input.restoredEvents, title, source)) return;
-
-  // fork child 创建时 title 已写进 sessionStore，但复制历史不会复制父会话的
-  // SessionTitleUpdated 事件。v4 live 投影只消费事件流，缺这条事件就会把列表标题降级成"新任务"。
-  await this.appendEvent(
-    this.createEvent(
-      SessionEventType.SessionTitleUpdated,
-      {
-        previousTitle: "",
-        source,
-        title,
-      },
-      input.traceContext,
-    ),
-    input.traceContext,
-  );
-}
-
-function hasRestoredTitleEvent(
-  events: readonly SessionEvent[],
-  title: string,
-  source: SessionTitleSource,
-): boolean {
-  return events.some((event) => {
-    if (event.type !== SessionEventType.SessionTitleUpdated) return false;
-    const payload = event.payload as { source?: unknown; title?: unknown };
-    return payload.title === title && payload.source === source;
-  });
-}
-
-function extractPersistedEnvInfo(messages: MessageWithParts[]): EnvInfo | undefined {
-  for (const message of messages) {
-    if (message.info.role !== "user") {
-      continue;
-    }
-
-    const envInfo = message.info.contextSnapshot?.envInfo;
-    if (envInfo) {
-      return envInfo;
-    }
-  }
-
-  return undefined;
 }
 
 export async function readSessionTodosForContext(
   this: AgentRuntimeInternal,
   traceContext: TraceContext,
 ): Promise<TodoItem[]> {
-  if (!this.sessionStore) {
-    return [];
-  }
-
+  if (!this.sessionStore) return [];
   try {
     return await this.sessionStore.readTodos({ sessionID: this.sessionId });
   } catch (error) {
-    // Todo state is continuity context. If the store cannot read it, resume/compact can still
-    // proceed from transcript history while surfacing the degradation in structured logs.
     this.logger?.warn("Failed to read session todos for context", {
       ...traceContextToLogContext(traceContext),
       errorMessage: error instanceof Error ? error.message : String(error),
@@ -411,15 +345,10 @@ export async function readSessionTargetForContext(
   this: AgentRuntimeInternal,
   traceContext: TraceContext,
 ): Promise<SessionGoal | null> {
-  if (!this.sessionStore) {
-    return null;
-  }
-
+  if (!this.sessionStore) return null;
   try {
     return await this.sessionStore.readTarget({ sessionID: this.sessionId });
   } catch (error) {
-    // Goal state is continuity context. Resume should still work from transcript history
-    // if goal storage is temporarily unavailable.
     this.logger?.warn("Failed to read session goal for context", {
       ...traceContextToLogContext(traceContext),
       errorMessage: error instanceof Error ? error.message : String(error),
@@ -435,16 +364,13 @@ export function injectTargetStateIntoMessageHistory(
   this: AgentRuntimeInternal,
   target: SessionGoal | null,
 ): void {
-  const targetState = formatGoalStateForModel(target);
-  if (!targetState) {
-    return;
-  }
-
+  const formattedTarget = formatGoalStateForModel(target);
+  if (!formattedTarget) return;
   this.messageHistory.addAttachment(
     "resume_goal_state",
     [
       "The current session goal state was restored from session storage.",
-      targetState,
+      formattedTarget,
       "Use it as the authoritative long-running objective unless a later GoalRead result or runtime goal event updates it.",
       "Do not mark the goal complete unless real evidence shows the objective has been achieved.",
       "A completed plan, todo list, checklist, or planning phase is not completion evidence unless the objective was only to produce that artifact.",

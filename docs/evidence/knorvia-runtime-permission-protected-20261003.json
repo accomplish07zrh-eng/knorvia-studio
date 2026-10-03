@@ -1,0 +1,68 @@
+{
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "sha256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "sha256": "a90fe7f601a845ef1c603ce8a71552ffb458d71033cc1379420293e453b42cdc"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+      "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+      "sha256": "040dfca80dca1da74d0ec16d837a4a898c2f1efd70728cace8f7f6c55069e387"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "sha256": "3bc27ba51890a2d1d4377b3b58459702fc9cc930235569cea270aa4ac5400024"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile.ts",
+      "sha256": "398fb44644a77947e87bc13d38b32fbaa5d2a026982f787bac73a9329201f5e7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/runner.ts",
+      "sha256": "1fb950aae0ff2c732df4f762ec33c7bbffde43102110a8085f3a0383b7709ca6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "sha256": "7ad1ea1a3bc71f8bdf8e8ad23ba915ab526379483e0c3f4a1f3d2dc3f4ed6353"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/prompt-admission.ts",
+      "sha256": "ebf3e22fb75a3151f820ee23ac318daeca93c7950c9bc64981b91ed2fd8b547d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/runtime-command-submit.ts",
+      "sha256": "4cce2d4d68a3e83bc007fc1196828146e0a92c8f1efcac70c12ca8764b4de969"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+      "sha256": "9445ca321cc158e19e5be93368730688b1f27c50c6f929b87718393f54454216"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "sha256": "c7cc44e35c908dd0e359f523d189d7091d14ba80c30322532a17657a57c4999e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+      "sha256": "c991e57787e7063b6a45a0cfc248568b90adda3d741cb45423a31814fb75b37a"
+    }
+  ]
+}

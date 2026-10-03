@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "kind": "collection-planner-predecessor-freeze",
+  "baseline": "129f47d6b2afe569538d0c76d9fe0840b061a7c7",
+  "owner": {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+    "sha256": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+    "bytes": 13369
+  },
+  "productionChanges": 0,
+  "sourceExposure": "Curator/implementer read local predecessor, direct scheduler and graph/expansion/event dependencies. Parent48f045d absent locally; its four groups are parent-reported, not local runs.",
+  "design": "Synchronous admission decisions and one async attempt frame; cursor advances only on child links, terminal projections remain derived. Original await levels and catch extent.",
+  "freezeFiles": [
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-baseline.json",
+      "sha256": "d280e53af9b42aef8af9d6f17bdb469be83718010afb8caa0a9f94cdcc3043ba",
+      "bytes": 14432
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+      "sha256": "dd9653d407e04d4e46cbd6e501d9fe66f544d5b4921c1fef75d8b93f1631f9b5",
+      "bytes": 4551
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
+      "sha256": "ac440b2af35ff70d83b4c120f1ae49c7014be88bf7e2e2459334045e15d150d9",
+      "bytes": 2737
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "sha256": "8d8481fe8277ea6eb7755288db2312fa056f084df84b797b460c1aeacbc20c0a",
+      "bytes": 13068
+    },
+    {
+      "path": "specs/knorvia-collection-planner-owner-20261002.md",
+      "sha256": "1569b6e2962d21d9277da1b28061ba5f5653ba5656470119db659802db0a8681",
+      "bytes": 5540
+    }
+  ],
+  "validation": {
+    "sourceGroups": 7,
+    "emittedGroups": 7,
+    "behaviorGroups": 5,
+    "reusedActualConsumerGroups": 1,
+    "selectorGroups": 1,
+    "artifactBindings": 39,
+    "wrongMissingControls": 8,
+    "initialOwnerCompilerDiagnostics": 0,
+    "node": "v24.19.0",
+    "typescript": "6.0.2"
+  },
+  "logs": {
+    "source": "\u2714 source: admission bypass and planner-limit priority (3.845184ms)\n\u2714 source: activation/child gates and successful publication identity (5.736065ms)\n\u2714 source: runner failure retains linked identity and threshold exhaustion (1.194847ms)\n\u2714 source: activation failure and execution abort propagate exact errors (1.279391ms)\n\u2714 source: terminal projection rollback and retained late-child cursor (1.70012ms)\n\u2714 source: preserved actual scheduler expansion consumer (2.920635ms)\n\u2714 source: exact historical and current owner selection fail closed (35.275615ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2235.395861\n",
+    "emitted": "\u2714 emitted: admission bypass and planner-limit priority (4.287832ms)\n\u2714 emitted: activation/child gates and successful publication identity (5.246581ms)\n\u2714 emitted: runner failure retains linked identity and threshold exhaustion (1.654041ms)\n\u2714 emitted: activation failure and execution abort propagate exact errors (1.434548ms)\n\u2714 emitted: terminal projection rollback and retained late-child cursor (1.773176ms)\n\u2714 emitted: preserved actual scheduler expansion consumer (4.268193ms)\n\u2714 emitted: exact historical and current owner selection fail closed (34.920847ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2494.664209\n",
+    "initialHarness": "\u2714 source: admission bypass and planner-limit priority (3.787012ms)\n"
+  },
+  "initialHarnessCorrection": "New unsupported strict collection-reference assertion stalled the owned runner-entry gate; interrupted with exit130. Corrected to observed normalized-value equality before freezing. Existing historical assertions unchanged.",
+  "historicalOracles": "Compiled and declaration bytes archived exactly; source pinned by prior commit/digest. Original scheduler/test pins untouched.",
+  "freshness": "Succeeded through supported executor permissions; default fetch was blocked by proxy. No environment/settings changes.",
+  "architecture": "changed cli0violations/0baseline/0new; cli context read. Initial guessed script/manifest paths absent, corrected from package.json.",
+  "limits": [
+    "No aggregate suite/build or native/pinned-node run",
+    "No real workflow/provider/user IO",
+    "No publisher acquisition or licence/header grant"
+  ],
+  "licenceGrant": null
+}

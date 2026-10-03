@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "status": "Two installed whole contract-authored candidates; strong predecessor correspondence and independent expression/rights acceptance unresolved",
+  "productionCommit": "5eae940bb2a62ae18f6ac55ce5c7e91a7b4d00fd",
+  "freezeCommit": "dc426b103ac07c4ed81939eab2432ad662fa8980",
+  "sealedDraftCommit": "05f12845ee30b779ab0df559e8e91603ac4d49ae",
+  "finalFiles": {
+    "apps/cli/packages/core/src/tool/executor/background-task-output.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/background-task-output.ts",
+        "sha256": "f5be07e43ae222852b14c2df2614ae5579fd85e51921f931f4fbae37708549ec"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-data-checks-20261003/current/background-task-output.js.txt",
+        "sha256": "8b696149aed0a26f481ea0187f37ef27705d45fc186ed89459972c83c04ba717"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-data-checks-20261003/current/background-task-output.d.ts.txt",
+        "sha256": "4b64c5c8298daf456c4005f9f5cb2def82bf519733d2e3fd1c3101c455215090"
+      }
+    },
+    "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts",
+        "sha256": "2261f9b56a2955c12d8557a1be801ff80f44c902a2da3cd29d3de0abaa4eb925"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-data-checks-20261003/current/workflow-artifact.js.txt",
+        "sha256": "aa8fc724bc44d307551eefdcbb09df1e4f6de3ab4a7493cf3257f3926d719ff1"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-data-checks-20261003/current/workflow-artifact.d.ts.txt",
+        "sha256": "d57ba3ac5695d400c17427bebc3deb68758ac47a697b5b4a958f417221791320"
+      }
+    }
+  },
+  "selection": "Exact origin/history and receipt pointer screening in selection.json; existing occurrences are protected dependency/earlier negative selection, not accepted candidate. Missing review alone not proof. Latest parent priority explicitly permits these two; root/E/HOLDs preserved. Recorded publisher inventory bytes are not a new independent publisher fetch or authorship proof.",
+  "design": {
+    "metadata": "One synchronous snapshot/launch-to-metadata transformation, ordered typed reads and value fallback phases. Private shared presence read with exact type admission; no duplicate task/session/output owner.",
+    "reports": "One text budget transform and one manifest item-cap transform using the existing serializer binding and native iterator admission. No serializer clone, cache, event/lifetime owner, framework or new await.",
+    "publicConsumerOwners": "taskPayload and enqueueTerminalNotification unchanged, synthetic effect ports only. Existing clocks/cancellation/claims/enqueue/publication policies unchanged."
+  },
+  "authoring": {
+    "route": "Reused same native author with prior AgentRuntime/TurnMachine/background/turn-control/Bash context; four current-task body-free behavior/API files",
+    "closureUTC": "2026-10-03T04:22:29.981072+00:00",
+    "initialSHA256": {
+      "tool/executor/background-task-output.ts": "6957b8e3e74f72e462463891b5864cc8af39f2d65362a39502962a72a9b24254",
+      "tool/executor/workflow-artifact.ts": "f3c85d49ea2b897ee11e072fed9e218be6d90aeb5f7cd01692a8c13b3dd732f5"
+    },
+    "accessLimit": "Self-reported/instruction-bound shared-filesystem access; curator read predecessor. No absolute isolation, clean-room or packet-only claim.",
+    "installation": "Sealed draft preserved before source comparison/compiler; production differs only by formatting, source AST equality2. No runtime/type correction required."
+  },
+  "retainedExpression": {
+    "metadata": "The result/child/stream/path/byte/tail/truncation phases, ordered nullish chains, strict-true tests and eleven-field return correspond strongly to predecessor. Shared field admission differs from four duplicated typed presence readers; that localized organization does not independently close the whole combination. Public declarations/key vocabulary and standard typeof/in/nullish operations are fixed compatibility glue.",
+    "reports": "Native entries loop, first-item exception, serialize-before-budget break, line/newline accounting and final count/shown/preview combination closely correspond. Manifest native values loop/cap/end fields also correspond. reportText owns serialization+clip, but helper integration/constants-to-literals is not whole-body originality proof. Serializer import/re-export identity is retained conventional glue with zero reconstruction credit.",
+    "prose": "Old discretionary metadata Chinese explanation and long report-budget/dependency narrative removed; no inherited nonruntime prose in authored production. Fixed runtime labels, newline, ordinal and ellipsis unchanged. Removing commentary does not independently clear retained bodies.",
+    "acceptance": "Installed functional candidates, independent whole-body/file contribution and licence classification remain unresolved for parent review. No header, notice, global registry or source-right grant; existing obligations/attribution remain."
+  },
+  "validation": {
+    "historicalFreezeGroups": 2,
+    "finalActualEmittedGroups": 2,
+    "withinGroupsConsumers": ["taskPayload", "enqueueTerminalNotification"],
+    "artifactProof": {
+      "groups": 1,
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "publicOwnerAPIsEqual": 2,
+      "strictCurrentPins": 6,
+      "finalCompilerCaptureReused": true,
+      "formatOnlySourceASTsEqual": 2,
+      "historicalBackgroundOraclePreserved": 13,
+      "oldFixtureBodiesUnchanged": true,
+      "historicalModules": 5,
+      "unchangedConsumerDependencyEmissions": 3,
+      "protectedSources": 699,
+      "wrongMissingArtifactsFailClosed": true,
+      "wholeBuild": false
+    },
+    "loaderSmokeGroups": 1,
+    "loaderSmoke": "Historical/current constructors only, no tracking/task launch, no behavior-suite replay; not additional differential coverage.",
+    "scopedCompiler": "Final selected five-module strict TS6.0.2 capture,0diagnostics, reused by artifact proof without second program compile; initial sealed draft separately0diagnostics.",
+    "ownedLint": "5 files,94rules,0warnings/errors,max400 unchanged",
+    "ownedFormat": "5files pass",
+    "architecture": "Changed check0violations; CLI remains unmanaged/unassigned in current policy",
+    "warnings": "Native VM ExperimentalWarning intentional",
+    "sourceMode": "Actual source passed scoped compiler/source-AST/API/protected-source checks; ordinary source execution replay skipped per speed-first cadence. One final actual-emitted fake-data pass only.",
+    "unrun": [
+      "ordinary suites/full regressions",
+      "whole CLI/desktop/aggregate builds",
+      "root-wide types/lint",
+      "native/live acceptance",
+      "actual output files/processes/tasks/providers/user data/grants/configuration/credentials"
+    ]
+  },
+  "preservedFailures": {
+    "formatByteAssumption": "An initial comparison assertion expecting initial/formatted emitted JS byte equality failed on whitespace layout changes. Logged; no behavior assertion failed or changed. Exact initial draft and oracle remain. Parsed source ASTs prove format-only installation; current JS/declaration bytes are strictly pinned.",
+    "concreteRuntimeRegression": "None found within the two representative synthetic consumer groups; not exhaustive correctness proof."
+  },
+  "loaderMigration": {
+    "historical": "Exact old13-module background oracle21ad66af... and all component source/JS/declaration hashes retained; old selector bytes archived. Baseline intentionally loads historical lower outputs without requiring old source at current owner paths.",
+    "current": "Old main3 manifest unchanged, overlays exact new2 source/JS/declaration paths and pins. Missing/wrong artifacts fail closed; no old fallback. Old fixture code after const trace remains byte-identical. Original safety assertion bodies unchanged; only current selector pin replaces placeholder.",
+    "oldReceiptLimit": "Prior background/GetWorkflowRun proofs remain historical and immutable; old blanket workspace dependency hashes do not describe current two owners. This is the necessary explicit current routing, not replay of old suites."
+  },
+  "boundedRemainingInventory": [
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-task-registry.ts",
+      "currentSHA256": "de427131cfc4612f036037a521e1fcd7f16943b271a3036a56b2a728d4cc7df6",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/background-task-registry.ts",
+        "blob": "c5c381b70db248f466ece37e279719c6202f1ed4",
+        "normalizedSha256": "5803ac2a4ef07d03eacd5684bc9b0a1ade67eae4cf6f55b67d51b1141044cf70",
+        "contentMatchedPaths": []
+      },
+      "decision": "Unreviewed inherited registration/update/projection bridge remains; interfaces lead into root held task registry. Distinct exact root reconciliation/allocation before changing that boundary."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+      "currentSHA256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+      "classification": "upstream-unchanged",
+      "recordedOrigin": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+        "blob": "825c684e5d02cbca80fcb09ccd8e35cea13ae5ea",
+        "normalizedSha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/tool/executor/workflow-published-artifacts.ts"
+        ]
+      },
+      "decision": "Retained artifact schema/text/list projection is a protected background/GetWorkflowRun dependency. No new workflow-body allocation in this batch; E/root workflow exclusions preserved."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/events.ts",
+      "currentSHA256": "7ba06ee281018cd79789536934facc1d7066f35a8f091ddaa03ea502b83db776",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/events.ts",
+        "blob": "7d19a6ab06ee40682b23340e5f766b95446acec7",
+        "normalizedSha256": "78c882f9dd3c2b4d3f2d7383a3efbed2e9a58306cdb56422564703989db3a248",
+        "contentMatchedPaths": []
+      },
+      "decision": "Earlier fixed event/protocol retained decision unchanged, no novelty or licence completion count."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/impl.ts",
+      "currentSHA256": "50a7f9346185ccef0e7b0b3df54264fc87ed6336757d8b6c8783a1634a6fb33a",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/impl.ts",
+        "blob": "e160a019ea6ebb254ace20ffad30c8f70a05a92f",
+        "normalizedSha256": "8d5a9f4f1a25d76fcc56ef65ce49c070080a0f434517a04419f328ff69738daf",
+        "contentMatchedPaths": []
+      },
+      "decision": "Executor facade/captured dependency wiring remains inherited; no whole-owner reconstruction credit from forwarding/constructor movement."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/memory-file-permission.ts",
+      "currentSHA256": "ab323220603cbe0602419a96c13a7c27879f9e3054ce61bc2f25140e729d6889",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/memory-file-permission.ts",
+        "blob": "304353875c8adf90ee43b0e86ee7818bcb8c9020",
+        "normalizedSha256": "97f5300d6c6045fe8ba21715f9d73f05ddf4468da7da315a415360f1e5a616dc",
+        "contentMatchedPaths": []
+      },
+      "decision": "Memory/trust policy seam excluded; E memory and permission policy ownership protected."
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-event-mirror.ts",
+      "currentSHA256": "0c0154cb0ff112bdb193de978e1616eea8e0e843f23060517d53be9819940f7f",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/subagent/tool-event-mirror.ts",
+        "blob": "3a940b7bfce6e84542223382b14d16d42c9a4bc2",
+        "normalizedSha256": "3ca365720c5d377eb3bec01607aabb6898c8edf057b274454ede42fca469c477",
+        "contentMatchedPaths": []
+      },
+      "decision": "Substantive child/parent event identity and scheduling projection remains an earlier protected runner dependency; no extra allocation or accepted-source adoption."
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/borrowed-mcp-port.ts",
+      "currentSHA256": "94e3e368aaae276a3d10a3bbef2e997d07ccf75dc5c5d0f98eac01ea57191c3d",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/subagent/borrowed-mcp-port.ts",
+        "blob": "716a59abf009d6e7009c4ca196e4f54d3f5ebcbb",
+        "normalizedSha256": "cd6e6077fd84b8834c4fcfcd40ea177b6a0483ab3fe0cdc06cb4d63f40bd2070",
+        "contentMatchedPaths": []
+      },
+      "decision": "Captured child MCP scope and parent lifecycle rejection helper remains protected; no access/grant policy allocation."
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile-frontmatter.ts",
+      "currentSHA256": "a8561a0a1bf24fa4dc230eb6bff88b12baeece87daed889bd3c37125398891f6",
+      "classification": "upstream-unchanged",
+      "recordedOrigin": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/subagent/profile-frontmatter.ts",
+        "blob": "280d7b4c885cd02d7a580e6e5837d52e70820ad2",
+        "normalizedSha256": "a8561a0a1bf24fa4dc230eb6bff88b12baeece87daed889bd3c37125398891f6",
+        "contentMatchedPaths": ["apps/zcode-cli/packages/core/src/subagent/profile-frontmatter.ts"]
+      },
+      "decision": "Explicitly protected profile parser helper; unchanged."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "currentSHA256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+        "blob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+        "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+        "contentMatchedPaths": []
+      },
+      "decision": "Explicit root HASH HOLD/receipt reconciliation; unchanged local bytes are not a reconstruction/acceptance claim."
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "currentSHA256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/read-file-state-hydrator.ts",
+        "blob": "67670d690769aefed10a7857d81574e5b691a526",
+        "normalizedSha256": "f534a2975df54fc3f704a83b8cfaaae8ac835d828f2fac095904d0760897fe4e",
+        "contentMatchedPaths": []
+      },
+      "decision": "Explicit root HASH HOLD: current technical source SHA remains5acb4c..., no historical restoration or cross-lane adoption."
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-machine.ts",
+      "currentSHA256": "15f5c9fd911a150d932d07554432c1e494f1fda0b2d9fe897c5bd1125fa24a31",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/turn-machine.ts",
+        "blob": "64011587ce4ee9c164628a021a204241b428b6a9",
+        "normalizedSha256": "c584424b5e969894e4637821befe8b115fe5ff226299d2ac0cadabac7a8e6ba3",
+        "contentMatchedPaths": []
+      },
+      "decision": "Rejected prior full draft/no-rewrite decision remains; do not polish or count it."
+    }
+  ],
+  "counting": "Two installed candidates, no audited independent-origin/licence closure. Historical/final2 repetitions not summed; real consumers within2groups, artifact proof and loader smoke separate. Prior13 boundaries now11 unchanged retained/protected/HOLD entries. Not whole-core completion.",
+  "bindings": {
+    "docs/evidence/background-data-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "docs/evidence/background-data-checks-20261003/baseline-result.json": "fee52cf4cba0a8192207852c9df3a6230e9b8224c810ac09d88c04b3faf92eab",
+    "docs/evidence/background-data-checks-20261003/baseline-safety.log": "be88e65842951316f36a654bed9dd8d65babdf7c1c55635f66ada614c859d041",
+    "docs/evidence/background-data-checks-20261003/compile-selected.cjs": "06cada2688a4cd22ac88e0ab56c67b35600186d8f56b33d4ea8780a24cd9bdcb",
+    "docs/evidence/background-data-checks-20261003/current/background-task-output.d.ts.txt": "4b64c5c8298daf456c4005f9f5cb2def82bf519733d2e3fd1c3101c455215090",
+    "docs/evidence/background-data-checks-20261003/current/background-task-output.js.txt": "8b696149aed0a26f481ea0187f37ef27705d45fc186ed89459972c83c04ba717",
+    "docs/evidence/background-data-checks-20261003/current/workflow-artifact.d.ts.txt": "d57ba3ac5695d400c17427bebc3deb68758ac47a697b5b4a958f417221791320",
+    "docs/evidence/background-data-checks-20261003/current/workflow-artifact.js.txt": "aa8fc724bc44d307551eefdcbb09df1e4f6de3ab4a7493cf3257f3926d719ff1",
+    "docs/evidence/background-data-checks-20261003/current-artifact-proof.log": "fc0c2aaa16b16806e069fddbc25d78672431c5350e86c86d189d306057f83a82",
+    "docs/evidence/background-data-checks-20261003/current-safety.log": "4ab13ab19daebe24a4e1df7b6b41046f0608f779fb78a0396e698d5cf468ef0c",
+    "docs/evidence/background-data-checks-20261003/final-compile.json": "5d03dcd56b44f191f25bffcf14950fec11a799af986781de67fd123d11053c60",
+    "docs/evidence/background-data-checks-20261003/format-byte-assumption.log": "09851f4622026c1fb1099ec0b1d5abe5a0772979bd915a17443a680d72cbb629",
+    "docs/evidence/background-data-checks-20261003/freeze.json": "964ba148550c0a3ae2b14145cc4b08c33dc2b38f133254a6c6a0e75ba0d7ca77",
+    "docs/evidence/background-data-checks-20261003/historical-background-tracker-fixture.mjs.txt": "3d0b1fb99fc1a7cad14c606b29b6053fde0f4e3b0f586ea8d60db62d7444fed1",
+    "docs/evidence/background-data-checks-20261003/initial-compile.json": "55dc9cfef97372e8a57ac9def8533fa12e4a1ae19dff552311c7d80b1e43776c",
+    "docs/evidence/background-data-checks-20261003/old-loader-smoke.log": "b2c0ed8d66620b84f08b5b7b769ce69d3dd7df304e1ed2440465cf088847dbca",
+    "docs/evidence/background-data-checks-20261003/owned-format.log": "8eb60453880970b420c2cc4de532f7aa211f43c982f39406c74822e558c0756c",
+    "docs/evidence/background-data-checks-20261003/owned-lint.log": "703ac52fb5cc8c070332157bfe7dcd8f5c9221346a057d32d1f3b0cb01aec7f1",
+    "docs/evidence/background-data-checks-20261003/selection.json": "8d18046d7c65335b21a5a4b260b53a7c4cc6c0d319b7cc9a1db02c1d6ff54877",
+    "docs/evidence/background-data-draft-20261003/initial/SHA256SUMS": "43a81aae7e70753b0874232400f6cdab11450e75c98313be350a89b838007ab9",
+    "docs/evidence/background-data-draft-20261003/initial/accessed-inputs.json": "c8c68a32aca1682db1e75edd4bed2458d144fa9cf3bfc68e54e53fd0dfb7024d",
+    "docs/evidence/background-data-draft-20261003/initial/author-record.json": "cdcf4734e8894a13c39d6e809ddd03fb4b72ecdb3e83e6523f61f2bf070dcf9e",
+    "docs/evidence/background-data-draft-20261003/initial/tool/executor/background-task-output.ts": "6957b8e3e74f72e462463891b5864cc8af39f2d65362a39502962a72a9b24254",
+    "docs/evidence/background-data-draft-20261003/initial/tool/executor/workflow-artifact.ts": "f3c85d49ea2b897ee11e072fed9e218be6d90aeb5f7cd01692a8c13b3dd732f5",
+    "docs/evidence/background-data-author-20261003/background-task-output-api.d.ts": "a1653378a1f39242ff39fd40ae4468dee1b6e8d459bfdad3b1a872122d4c07c9",
+    "docs/evidence/background-data-author-20261003/contract.md": "ae2cd939e3129abb3c322676dcce421d1267aea78a8a63652fca6c19b274fc90",
+    "docs/evidence/background-data-author-20261003/dependency-api.d.ts": "83703a63fdacfc700aea3b3c0b3ed0643a7644fa1aff49e9eaf0c5beb65f04b8",
+    "docs/evidence/background-data-author-20261003/workflow-artifact-api.d.ts": "e547212f31feb12bcc13d7db6f573b4665f99c25c9ae68db5983e53a61481fef",
+    "docs/evidence/knorvia-background-data-current-20261003.json": "5abaeeb926d865401fc122a4ac86067850faea180afe46a7e7ad2ecb3e8663bc",
+    "apps/cli/packages/core/test/background-data-baseline-20261003.json": "762a9cacea06751e0f34ccd997f57bab6c6040576519cd66e9996d4fb62d0229",
+    "apps/cli/packages/core/test/background-data-observations-20261003.json": "4a582715f6f2f4b3bee24796a80a84e7fc007301c162bf51b0b9c4b495fb7962",
+    "apps/cli/packages/core/test/background-data-safety-20261003.mjs": "776ecdb503a3ff916175c52cb2c45c15f59055f552bd47fdaa41c8745ffedae0",
+    "apps/cli/packages/core/test/background-data-artifact-proof-20261003.mjs": "7180f5e2fb52d6a7c07d0c61beb5fd2d715857013c99be86a7ae8d5d03b18d2c",
+    "apps/cli/packages/core/test/background-tracker-fixture-20261003.mjs": "951ae6245c48d26d280ce97fd0294f10f0a4dad3d72672b28226a7f3a41365ba",
+    "specs/knorvia-background-data-owners-20261003.md": "ac936fc6361843e427ac8b1d85822ee4c2ee865878b85ea47ee403138aa454d1"
+  },
+  "integration": "Original branch/draftPR11 only. No other lane source adoption/merge/main/recovery/deploy/publication or licence decision."
+}

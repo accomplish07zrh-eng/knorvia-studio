@@ -1,0 +1,1 @@
+{"mode":"baseline","groups":["captured model authority and no extra preabort admission","unchanged authority flags, aborted batch and sibling durable closure"],"count":2,"dependencies":"unchanged real source dependencies; selected owners are exact compiler-emitted JS","liveIO":false}

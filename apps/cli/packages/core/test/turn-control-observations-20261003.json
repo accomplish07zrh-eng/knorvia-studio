@@ -1,0 +1,338 @@
+[
+  {
+    "name": "public authority admission and identity",
+    "rows": [
+      {
+        "name": "automation success guard",
+        "same": true,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "Owned original content",
+        "turnControl": {
+          "owned": "previous control"
+        },
+        "followUpUserInput": {
+          "owned": "previous followup"
+        }
+      },
+      {
+        "name": "automation raw context error and retained fields",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "Automation creation was not performed because the global retained-task limit of 20 was reached. This limit cannot be recovered automatically in the current turn. Do not list, delete, overwrite, retry, or use another tool. Reply once in the user's language that they must manually delete an existing task on the Automations page and then retry.",
+        "turnControl": {
+          "reason": "automation_create_limit",
+          "stopTurnAfterResult": true
+        },
+        "followUpUserInput": {
+          "owned": "previous followup"
+        }
+      },
+      {
+        "name": "plan feedback retains previous turn control",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "The plan was not approved by the user.",
+        "turnControl": {
+          "owned": "previous control"
+        },
+        "followUpUserInput": {
+          "input": "Owned feedback",
+          "reasonSource": "plan_approval_feedback"
+        }
+      },
+      {
+        "name": "plan refusal does not trust generic reason",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "Owned original content",
+        "turnControl": {
+          "reason": "plan_exit_denied",
+          "stopTurnAfterResult": true
+        },
+        "followUpUserInput": {
+          "owned": "previous followup"
+        }
+      },
+      {
+        "name": "default refusal is not feedback",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "Owned original content",
+        "turnControl": {
+          "reason": "plan_exit_denied",
+          "stopTurnAfterResult": true
+        },
+        "followUpUserInput": {
+          "owned": "previous followup"
+        }
+      },
+      {
+        "name": "CreateWorkflow",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "The workflow run was not approved by the user.",
+        "turnControl": {
+          "owned": "previous control"
+        },
+        "followUpUserInput": {
+          "input": "Owned feedback",
+          "reasonSource": "workflow_refine_feedback"
+        }
+      },
+      {
+        "name": "AmendWorkflow",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "The workflow run was not approved by the user.",
+        "turnControl": {
+          "owned": "previous control"
+        },
+        "followUpUserInput": {
+          "input": "Owned feedback",
+          "reasonSource": "workflow_refine_feedback"
+        }
+      },
+      {
+        "name": "ResumeWorkflowRun",
+        "same": true,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "Owned original content",
+        "turnControl": {
+          "owned": "previous control"
+        },
+        "followUpUserInput": {
+          "owned": "previous followup"
+        }
+      },
+      {
+        "name": "terminal strict true",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "Owned original content",
+        "turnControl": {
+          "reason": "subagent_terminal",
+          "stopTurnAfterResult": true
+        },
+        "followUpUserInput": {
+          "owned": "previous followup"
+        }
+      }
+    ],
+    "predicateCalls": 1
+  },
+  {
+    "name": "actual Admission and failedExecution consumers with synthetic dependencies",
+    "denied": {
+      "kind": "denied",
+      "reason": "user_denied",
+      "result": {
+        "name": "plan consumer",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "The plan was not approved by the user.",
+        "turnControl": {
+          "owned": "previous control"
+        },
+        "followUpUserInput": {
+          "input": "Owned feedback",
+          "reasonSource": "plan_approval_feedback"
+        }
+      }
+    },
+    "refined": {
+      "kind": "denied",
+      "reason": "user_denied",
+      "result": {
+        "name": "workflow consumer",
+        "same": false,
+        "keys": [
+          "toolCallId",
+          "toolName",
+          "success",
+          "output",
+          "modelContent",
+          "turnControl",
+          "followUpUserInput",
+          "serialization",
+          "error",
+          "durationMs",
+          "startedAt",
+          "completedAt"
+        ],
+        "modelContent": "The workflow run was not approved by the user.\n\nOwned hook context",
+        "turnControl": {
+          "owned": "previous control"
+        },
+        "followUpUserInput": {
+          "input": "Owned feedback",
+          "reasonSource": "workflow_refine_feedback"
+        }
+      }
+    },
+    "outcome": {
+      "name": "limit consumer",
+      "same": false,
+      "keys": [
+        "toolCallId",
+        "toolName",
+        "success",
+        "output",
+        "modelContent",
+        "turnControl",
+        "followUpUserInput",
+        "serialization",
+        "error",
+        "durationMs",
+        "startedAt",
+        "completedAt"
+      ],
+      "modelContent": "Automation creation was not performed because the global retained-task limit of 20 was reached. This limit cannot be recovered automatically in the current turn. Do not list, delete, overwrite, retry, or use another tool. Reply once in the user's language that they must manually delete an existing task on the Automations page and then retry.",
+      "turnControl": {
+        "reason": "automation_create_limit",
+        "stopTurnAfterResult": true
+      },
+      "followUpUserInput": {
+        "owned": "previous followup"
+      }
+    },
+    "reads": [
+      "isPlanEnabled",
+      "isPlanEnabled"
+    ],
+    "hookCalls": [
+      [
+        "Owned hook context"
+      ]
+    ]
+  }
+]

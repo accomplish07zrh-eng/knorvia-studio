@@ -1,0 +1,15 @@
+{
+  "batch": "execution-delivery",
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "api": [
+    {
+      "module": "scheduled-phase",
+      "equal": true
+    },
+    {
+      "module": "failures",
+      "equal": true
+    }
+  ]
+}

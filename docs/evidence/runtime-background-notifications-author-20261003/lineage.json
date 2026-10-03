@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/background-notifications.ts",
+  "kind": "file",
+  "sha256": "03eaf714d6ba1e3b024ce930718a7ef13e94ff8b96d4849b915d0bbe278db152",
+  "normalizedSha256": "03eaf714d6ba1e3b024ce930718a7ef13e94ff8b96d4849b915d0bbe278db152",
+  "encoding": "utf8-lf",
+  "bytes": 10036,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/background-notifications.ts",
+    "blob": "702dd94626478ba378ac6ef2ee38c64ba42d4ff9",
+    "normalizedSha256": "4dedeb595af360f1c9e6b98def67fce045c277e5ed3d87255b8f02a9b66c9381",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

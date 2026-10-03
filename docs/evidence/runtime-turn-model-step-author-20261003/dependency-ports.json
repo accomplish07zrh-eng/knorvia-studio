@@ -1,0 +1,496 @@
+[
+  {
+    "name": "beginLocalTurnPreparation",
+    "module": "@knorvia/contracts",
+    "signatures": [
+      "(trace: { queryId?: string | undefined; sessionId?: string | undefined; turnId?: string | undefined; }, stage: PreparationStage): (outcome?: \"cancelled\" | \"failed\" | \"completed\" | undefined) => void"
+    ],
+    "type": "(trace: { queryId?: string | undefined; sessionId?: string | undefined; turnId?: string | undefined; }, stage: PreparationStage) => (outcome?: \"cancelled\" | \"failed\" | \"completed\" | undefined) => void"
+  },
+  {
+    "name": "CompactTrigger",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "CompactTrigger"
+  },
+  {
+    "name": "CoreErrorType",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "CoreErrorType"
+  },
+  {
+    "name": "SessionEventType",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "SessionEventType"
+  },
+  {
+    "name": "createChildTraceContext",
+    "module": "../deps.js",
+    "signatures": [
+      "(parent: TraceContext, options?: { queryId?: QueryId | undefined; sessionId?: SessionId | undefined; turnId?: TurnId | undefined; attributes?: Record<string, string | number | boolean> | undefined; }): TraceContext"
+    ],
+    "type": "(parent: TraceContext, options?: { queryId?: QueryId | undefined; sessionId?: SessionId | undefined; turnId?: TurnId | undefined; attributes?: Record<string, string | number | boolean> | undefined; }) => TraceContext"
+  },
+  {
+    "name": "createCoreError",
+    "module": "../deps.js",
+    "signatures": [
+      "(type: CoreErrorType, message: string, options?: Options | undefined): CoreError"
+    ],
+    "type": "(type: CoreErrorType, message: string, options?: Options | undefined) => CoreError"
+  },
+  {
+    "name": "createMessageId",
+    "module": "../deps.js",
+    "signatures": [
+      "(id?: string | undefined): MessageId"
+    ],
+    "type": "(id?: string | undefined) => MessageId"
+  },
+  {
+    "name": "createPartId",
+    "module": "../deps.js",
+    "signatures": [
+      "(id?: string | undefined): PartId"
+    ],
+    "type": "(id?: string | undefined) => PartId"
+  },
+  {
+    "name": "getModelUsageTotalTokens",
+    "module": "../deps.js",
+    "signatures": [
+      "(usage?: ModelUsage | undefined): number"
+    ],
+    "type": "(usage?: ModelUsage | undefined) => number"
+  },
+  {
+    "name": "traceContextToLogContext",
+    "module": "../deps.js",
+    "signatures": [
+      "(context: TraceContext): LogContext"
+    ],
+    "type": "(context: TraceContext) => LogContext"
+  },
+  {
+    "name": "TurnMachineImpl",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "typeof TurnMachineImpl"
+  },
+  {
+    "name": "MessageId",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "MessageId"
+  },
+  {
+    "name": "ModelNetworkStatusEvent",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "ModelNetworkStatusEvent"
+  },
+  {
+    "name": "ModelToolContract",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "ModelToolContract"
+  },
+  {
+    "name": "createRuntimeAssistantEntry",
+    "module": "../../agent/message-history.js",
+    "signatures": [
+      "(content: string, toolCalls?: readonly ToolCallInput[] | undefined, reasoning?: readonly ModelReasoningContentBlock[] | undefined, model?: Pick<Model, \"providerId\" | \"modelId\"> | undefined, tokens?: TokenUsageInfo | undefined): RuntimeMessageMessageEntry"
+    ],
+    "type": "(content: string, toolCalls?: readonly ToolCallInput[] | undefined, reasoning?: readonly ModelReasoningContentBlock[] | undefined, model?: Pick<Model, \"providerId\" | \"modelId\"> | undefined, tokens?: TokenUsageInfo | undefined) => RuntimeMessageMessageEntry"
+  },
+  {
+    "name": "RuntimeMessageEntry",
+    "module": "../../agent/message-history.js",
+    "signatures": [],
+    "type": "RuntimeMessageEntry"
+  },
+  {
+    "name": "createModelContextExceededFinishError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: { finishReason: string | undefined; rawFinishReason: string | undefined; }): CoreError"
+    ],
+    "type": "(input: { finishReason: string | undefined; rawFinishReason: string | undefined; }) => CoreError"
+  },
+  {
+    "name": "createCompactRapidRefillError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: { consecutiveRapidRefills: number; maxConsecutiveRapidRefills: number; toolTurnThreshold: number; toolTurnsSinceCompact: number; }): CoreError"
+    ],
+    "type": "(input: { consecutiveRapidRefills: number; maxConsecutiveRapidRefills: number; toolTurnThreshold: number; toolTurnsSinceCompact: number; }) => CoreError"
+  },
+  {
+    "name": "objectKeys",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(value: unknown): string[] | undefined"
+    ],
+    "type": "(value: unknown) => string[] | undefined"
+  },
+  {
+    "name": "projectExecutionErrorPayload",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(error: unknown, fallbackMessage?: string): { underlyingErrorDetail?: string | undefined; underlyingErrorMessage?: string | undefined; detail?: string | undefined; message: string; code?: string | undefined; attribution?: ErrorAttribution | undefined; }"
+    ],
+    "type": "(error: unknown, fallbackMessage?: string) => { underlyingErrorDetail?: string | undefined; underlyingErrorMessage?: string | undefined; detail?: string | undefined; message: string; code?: string | undefined; attribution?: ErrorAttribution | undefined; }"
+  },
+  {
+    "name": "finalizeSuspiciousEmptyModelResult",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: { finishReason: string | undefined; model: { modelId: string; providerId: string; }; providerMetadata: Record<string, unknown> | undefined; rawFinishReason: string | undefined; }): void"
+    ],
+    "type": "(input: { finishReason: string | undefined; model: { modelId: string; providerId: string; }; providerMetadata: Record<string, unknown> | undefined; rawFinishReason: string | undefined; }) => void"
+  },
+  {
+    "name": "isContextExceededFinishReason",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(finishReason: string | undefined, rawFinishReason: string | undefined): boolean"
+    ],
+    "type": "(finishReason: string | undefined, rawFinishReason: string | undefined) => boolean"
+  },
+  {
+    "name": "isSuspiciousEmptyModelResult",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(finishReason: string | undefined, responseLength: number, toolCallCount: number, usage?: ModelUsage | undefined): boolean"
+    ],
+    "type": "(finishReason: string | undefined, responseLength: number, toolCallCount: number, usage?: ModelUsage | undefined) => boolean"
+  },
+  {
+    "name": "readRawFinishReason",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(providerMetadata: Record<string, unknown> | undefined): string | undefined"
+    ],
+    "type": "(providerMetadata: Record<string, unknown> | undefined) => string | undefined"
+  },
+  {
+    "name": "throwIfTurnAborted",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(signal?: AbortSignal | undefined): void"
+    ],
+    "type": "(signal?: AbortSignal | undefined) => void"
+  },
+  {
+    "name": "isModelContextExceededError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(error: unknown): boolean"
+    ],
+    "type": "(error: unknown) => boolean"
+  },
+  {
+    "name": "isTurnCancellationError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(error: unknown, abortSignal?: AbortSignal | undefined): boolean"
+    ],
+    "type": "(error: unknown, abortSignal?: AbortSignal | undefined) => boolean"
+  },
+  {
+    "name": "buildTurnFileChangeSummary",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(changes: RuntimeTurnFileChangeMap): TurnFileChangeSummary | undefined"
+    ],
+    "type": "(changes: RuntimeTurnFileChangeMap) => TurnFileChangeSummary | undefined"
+  },
+  {
+    "name": "DrainedPendingInputDiagnostics",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "DrainedPendingInputDiagnostics"
+  },
+  {
+    "name": "RunModelTextRequestOptions",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "RunModelTextRequestOptions"
+  },
+  {
+    "name": "RuntimeModelStreamSnapshot",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "RuntimeModelStreamSnapshot"
+  },
+  {
+    "name": "RuntimeModelTextResult",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "RuntimeModelTextResult"
+  },
+  {
+    "name": "AgentRuntimeInternal",
+    "module": "../internal.js",
+    "signatures": [],
+    "type": "AgentRuntimeInternal"
+  },
+  {
+    "name": "executeToolCallsForModelStep",
+    "module": "./turn-tools.js",
+    "signatures": [
+      "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; streamedToolResults?: StreamedToolExecutionResult[] | undefined; toolCalls: ModelToolCall[]; }): Promise<\"continue\" | \"break\">"
+    ],
+    "type": "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; streamedToolResults?: StreamedToolExecutionResult[] | undefined; toolCalls: ModelToolCall[]; }) => Promise<\"continue\" | \"break\">"
+  },
+  {
+    "name": "captureAssistantPersistenceAnchor",
+    "module": "./turn-stop.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal): AssistantPersistenceAnchor"
+    ],
+    "type": "(runtime: AgentRuntimeInternal) => AssistantPersistenceAnchor"
+  },
+  {
+    "name": "finishModelStepWithoutToolCalls",
+    "module": "./turn-stop.js",
+    "signatures": [
+      "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }): Promise<\"continue\" | \"break\">"
+    ],
+    "type": "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }) => Promise<\"continue\" | \"break\">"
+  },
+  {
+    "name": "persistCompletedAssistantStep",
+    "module": "./turn-stop.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; includeEmptyAssistant: boolean; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }): Promise<boolean>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; includeEmptyAssistant: boolean; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }) => Promise<boolean>"
+  },
+  {
+    "name": "persistOutputTokenLimitErrorCarrier",
+    "module": "./turn-stop.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { error: { data: Record<string, unknown>; name: string; }; finishReason: string; model: Model; modelTraceContext: TraceContext; }): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { error: { data: Record<string, unknown>; name: string; }; finishReason: string; model: Model; modelTraceContext: TraceContext; }) => Promise<void>"
+  },
+  {
+    "name": "createStreamingToolCoordinator",
+    "module": "./streaming-tool-coordinator.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; model: Model; traceContext: TraceContext; }): StreamingToolCoordinator"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; model: Model; traceContext: TraceContext; }) => StreamingToolCoordinator"
+  },
+  {
+    "name": "persistCancelledStreamSnapshot",
+    "module": "./cancelled-stream-persistence.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, options: { assistantCreatedAt: number; assistantMessageId: MessageId; snapshot: RuntimeModelStreamSnapshot; traceContext: TraceContext; }): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, options: { assistantCreatedAt: number; assistantMessageId: MessageId; snapshot: RuntimeModelStreamSnapshot; traceContext: TraceContext; }) => Promise<void>"
+  },
+  {
+    "name": "beginStartPlanBusyAdmissionRetryAttempt",
+    "module": "./streaming-recovery.js",
+    "signatures": [
+      "(state: RegularTurnLoopState): StreamRecoveryAttempt"
+    ],
+    "type": "(state: RegularTurnLoopState) => StreamRecoveryAttempt"
+  },
+  {
+    "name": "createStartPlanBusyAutoRetryExhaustedError",
+    "module": "./streaming-recovery.js",
+    "signatures": [
+      "(error: unknown): Error"
+    ],
+    "type": "(error: unknown) => Error"
+  },
+  {
+    "name": "emitStreamRecoveryRetryEvents",
+    "module": "./streaming-recovery.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, recovery: StreamRecoveryAttempt & { discardedReasoningBytes: number; discardedTextBytes: number; reason: \"latest_committed_tool_result\" | \"no_tool_committed\"; toolCallIds: ToolCallId[]; }): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, recovery: StreamRecoveryAttempt & { discardedReasoningBytes: number; discardedTextBytes: number; reason: \"latest_committed_tool_result\" | \"no_tool_committed\"; toolCallIds: ToolCallId[]; }) => Promise<void>"
+  },
+  {
+    "name": "emitStreamRecoveryStarted",
+    "module": "./streaming-recovery.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, error: unknown, recoveryAttempt: StreamRecoveryAttempt): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantMessageId: MessageId; failedRequestId?: string | undefined; traceContext: TraceContext; }, error: unknown, recoveryAttempt: StreamRecoveryAttempt) => Promise<void>"
+  },
+  {
+    "name": "getStartPlanBusyAdmissionRetryDelayMs",
+    "module": "./streaming-recovery.js",
+    "signatures": [
+      "(input: { error: unknown; providerId: string; state: RegularTurnLoopState; turnNumber: number; }): number | undefined"
+    ],
+    "type": "(input: { error: unknown; providerId: string; state: RegularTurnLoopState; turnNumber: number; }) => number | undefined"
+  },
+  {
+    "name": "isStartPlanBusyStreamRecoveryFailure",
+    "module": "./streaming-recovery.js",
+    "signatures": [
+      "(error: unknown): boolean"
+    ],
+    "type": "(error: unknown) => boolean"
+  },
+  {
+    "name": "RegularTurnLoopState",
+    "module": "./turn-loop-state.js",
+    "signatures": [],
+    "type": "RegularTurnLoopState"
+  },
+  {
+    "name": "evaluateRapidRefill",
+    "module": "./turn-loop-state.js",
+    "signatures": [
+      "(tracking: CompactLoopTracking | undefined): RapidRefillDecision"
+    ],
+    "type": "(tracking: CompactLoopTracking | undefined) => RapidRefillDecision"
+  },
+  {
+    "name": "MAX_CONSECUTIVE_RAPID_REFILLS",
+    "module": "./turn-loop-state.js",
+    "signatures": [],
+    "type": "3"
+  },
+  {
+    "name": "RAPID_REFILL_TOOL_TURN_THRESHOLD",
+    "module": "./turn-loop-state.js",
+    "signatures": [],
+    "type": "3"
+  },
+  {
+    "name": "recordCompactHistoryRound",
+    "module": "./turn-loop-state.js",
+    "signatures": [
+      "(state: RegularTurnLoopState): void"
+    ],
+    "type": "(state: RegularTurnLoopState) => void"
+  },
+  {
+    "name": "recordCompactSuccess",
+    "module": "./turn-loop-state.js",
+    "signatures": [
+      "(state: RegularTurnLoopState, decision: RapidRefillDecision): void"
+    ],
+    "type": "(state: RegularTurnLoopState, decision: RapidRefillDecision) => void"
+  },
+  {
+    "name": "recordModelHistoryRound",
+    "module": "./turn-loop-state.js",
+    "signatures": [
+      "(state: RegularTurnLoopState): void"
+    ],
+    "type": "(state: RegularTurnLoopState) => void"
+  },
+  {
+    "name": "querySourceForTask",
+    "module": "./turn-model-step-usage.js",
+    "signatures": [
+      "(taskType: \"fork\" | \"selection_side_chat\" | \"interactive\" | \"workflow_parent\" | \"workflow_child\" | \"subagent_child\" | \"nested_workflow_child\" | undefined): string"
+    ],
+    "type": "(taskType: \"fork\" | \"selection_side_chat\" | \"interactive\" | \"workflow_parent\" | \"workflow_child\" | \"subagent_child\" | \"nested_workflow_child\" | undefined) => string"
+  },
+  {
+    "name": "recordMainTurnCacheHitUsage",
+    "module": "./turn-model-step-usage.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, usage: ModelUsage | undefined): { cacheReadTokens: number; cacheWriteTokens: number; hitRate: number | null; hitRateRequestCount: number; inputTokens: number; latestHitRate: number | null; totalCacheReadTokens: number; totalCacheWriteTokens: number; totalInputTokens: number; } | undefined"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, usage: ModelUsage | undefined) => { cacheReadTokens: number; cacheWriteTokens: number; hitRate: number | null; hitRateRequestCount: number; inputTokens: number; latestHitRate: number | null; totalCacheReadTokens: number; totalCacheWriteTokens: number; totalInputTokens: number; } | undefined"
+  },
+  {
+    "name": "recordMainTurnModelUsage",
+    "module": "./turn-model-step-usage.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, input: RecordMainTurnModelUsageInput): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, input: RecordMainTurnModelUsageInput) => Promise<void>"
+  },
+  {
+    "name": "estimateCurrentModelInputTokens",
+    "module": "./compact.js",
+    "signatures": [
+      "(messages: ModelInputMessage[], sourceEntries?: readonly (RuntimeMessageEntry | undefined)[]): number"
+    ],
+    "type": "(messages: ModelInputMessage[], sourceEntries?: readonly (RuntimeMessageEntry | undefined)[]) => number"
+  },
+  {
+    "name": "resolveModelStepMaxOutputTokens",
+    "module": "./model-token-limits.js",
+    "signatures": [
+      "(input: { baselineMaxOutputTokens: number; contextWindow: number | undefined; estimatedCurrentUsage: number; modelContextBudgetStrategy: \"legacy\" | \"preflight-v1\" | undefined; }): number"
+    ],
+    "type": "(input: { baselineMaxOutputTokens: number; contextWindow: number | undefined; estimatedCurrentUsage: number; modelContextBudgetStrategy: \"legacy\" | \"preflight-v1\" | undefined; }) => number"
+  },
+  {
+    "name": "resolveNormalRequestMaxOutputTokens",
+    "module": "./model-token-limits.js",
+    "signatures": [
+      "(input: { modelMaxOutputTokens: number | undefined; }): number"
+    ],
+    "type": "(input: { modelMaxOutputTokens: number | undefined; }) => number"
+  },
+  {
+    "name": "appendOutputTokenContinuation",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(state: TurnRequestState): void"
+    ],
+    "type": "(state: TurnRequestState) => void"
+  },
+  {
+    "name": "classifyOutputTokenContinuation",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(input: { finishReason: string | undefined; rawFinishReason: string | undefined; toolCallCount: number; continuationCount: number; }): OutputTokenContinuationDecision"
+    ],
+    "type": "(input: { finishReason: string | undefined; rawFinishReason: string | undefined; toolCallCount: number; continuationCount: number; }) => OutputTokenContinuationDecision"
+  },
+  {
+    "name": "commitAssistantToTurnRequest",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, result: RuntimeModelTextResult, toolCalls: readonly ToolCallInput[] | undefined): boolean"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, result: RuntimeModelTextResult, toolCalls: readonly ToolCallInput[] | undefined) => boolean"
+  },
+  {
+    "name": "commitTurnRequestEntries",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: TurnRequestState, entries: readonly RuntimeMessageEntry[]): void"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: TurnRequestState, entries: readonly RuntimeMessageEntry[]) => void"
+  },
+  {
+    "name": "completeOutputTokenRecovery",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(state: TurnRequestState): void"
+    ],
+    "type": "(state: TurnRequestState) => void"
+  },
+  {
+    "name": "hasAssistantReasoningContent",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(reasoning: ModelReasoningContentBlock): boolean"
+    ],
+    "type": "(reasoning: ModelReasoningContentBlock) => boolean"
+  },
+  {
+    "name": "OUTPUT_TOKEN_LIMIT_ERROR_MESSAGE",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [],
+    "type": "\"The model's response exceeded the output token maximum.\""
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "consumerArtifactMode": "exact existing call-runner emitted JS via explicit import; tsx resolves unchanged package source dependencies; candidate selected JS runs in VM with actual pure schemas/errors and fake stores. Not a full emitted dependency graph claim.",
+  "resumeConsumer": "actual exported runtime methods rebound as runtime instance methods; lower protected owners replaced by owned synthetic dependencies; not real AgentRuntime/session bootstrap integration.",
+  "files": {
+    "apps/cli/packages/core/src/runtime/agent-runtime.ts": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+    "apps/cli/packages/core/src/tool/executor/call-runner.ts": "2b6559af4d89cc2a2f13dcc45cf9cf31fa1965530f1a9244a0381d6caa847363",
+    "apps/cli/packages/core/dist/tool/executor/call-runner.js": "ac2449d40c239f1e7f41c72a1051dd7f8ff326f30d5d9611e44693ed54864708",
+    "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts": "053be704934671885897455239ca6c89d3cdb6154e2e7c9cda0bc9310f0757e1",
+    "apps/cli/packages/core/src/tool/executor/deadline/pausable-deadline.ts": "e5a5e1aadabe64bc2012fe7b337e8cda8a3fb3aaa59eb0744dd18ca6a205e695",
+    "apps/cli/packages/core/test/tool-invocation-fixture.ts": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139",
+    "apps/cli/packages/core/src/tool/handlers/index.ts": "049286bcb374fe14a2922bf0311b50d0045ce73d447285bb67b3112a74e5ea53",
+    "apps/cli/packages/core/src/runtime/methods/index.ts": "3a09b844cfa092175b3aa3ffe5c888b1632ea2b5db0276cec149c8526b3224f3"
+  }
+}

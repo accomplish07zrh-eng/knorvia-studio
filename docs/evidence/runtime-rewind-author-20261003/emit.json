@@ -1,0 +1,18 @@
+{
+  "batch": "rewind",
+  "diagnostics": 0,
+  "emitted": [
+    "apps/cli/packages/core/dist/runtime/methods/rewind.js",
+    "apps/cli/packages/core/dist/runtime/methods/rewind.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/rewind.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-conversation-state.js",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-conversation-state.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-conversation-state.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-workspace-cascade.js",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-workspace-cascade.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-workspace-cascade.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-message.js",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-message.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/rewind-message.d.ts"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "base": "eb65f77831eebae524afe4ea27c0296641b5b860",
+  "owners": {
+    "model-request": "methods/model",
+    "turn-tool-batch": "methods/turn-tools"
+  },
+  "modules": [
+    "methods/model",
+    "methods/turn-tools"
+  ],
+  "protectedDependencies": "Existing executor, permissions, memory/media/context, state machine, streaming queue and ledger remain unchanged; no cross-lane combination."
+}

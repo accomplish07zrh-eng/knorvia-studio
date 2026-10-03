@@ -1,0 +1,10 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/goal-summary-title.ts",
+      "message": "Argument of type 'AgentTelemetryCausation | undefined' is not assignable to parameter of type 'AgentTelemetryCausation'.\n  Type 'undefined' is not assignable to type 'AgentTelemetryCausation'."
+    }
+  ]
+}

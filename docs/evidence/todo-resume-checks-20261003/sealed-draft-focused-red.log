@@ -1,0 +1,148 @@
+{
+  "mode": "sealed",
+  "observations": [
+    {
+      "scenario": "empty",
+      "warningEvents": [
+        "session.resume.persisted_messages_zero",
+        "session.resume.active_messages_zero",
+        "session.resume.applied_messages_zero"
+      ],
+      "resumedDirectory": "/owned/session",
+      "returnedDirectory": "/owned/session",
+      "loggedDirectory": "/owned/session",
+      "anchor": []
+    },
+    {
+      "scenario": "directory",
+      "warningEvents": [],
+      "resumedDirectory": "/owned/port-changed",
+      "returnedDirectory": "/owned/port-changed",
+      "loggedDirectory": "/owned/port-changed",
+      "anchor": []
+    },
+    {
+      "scenario": "anchor",
+      "warningEvents": [],
+      "resumedDirectory": "/owned/session",
+      "returnedDirectory": "/owned/session",
+      "loggedDirectory": "/owned/session",
+      "anchor": [
+        [
+          "owned-assistant",
+          "owned-turn",
+          123
+        ]
+      ]
+    }
+  ]
+}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    {
+      anchor: [],
+      loggedDirectory: '/owned/session',
+      resumedDirectory: '/owned/session',
+...
+        'session.resume.persisted_messages_zero',
++       'session.resume.active_messages_zero',
++       'session.resume.applied_messages_zero'
+      ]
+    },
+    {
+      anchor: [],
++     loggedDirectory: '/owned/port-changed',
++     resumedDirectory: '/owned/port-changed',
++     returnedDirectory: '/owned/port-changed',
+-     loggedDirectory: '/owned/session',
+-     resumedDirectory: '/owned/session',
+-     returnedDirectory: '/owned/session',
+      scenario: 'directory',
+      warningEvents: []
+    },
+    {
+      anchor: [
+        [
++         'owned-assistant',
++         'owned-turn',
++         123
+-         null,
+-         null,
+-         null
+        ]
+      ],
+      loggedDirectory: '/owned/session',
+      resumedDirectory: '/owned/session',
+      returnedDirectory: '/owned/session',
+
+    at file:///workspace/knorvia-studio/apps/cli/packages/core/test/todo-resume-focused-proof-20261003.mjs:47:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      scenario: 'empty',
+      warningEvents: [
+        'session.resume.persisted_messages_zero',
+        'session.resume.active_messages_zero',
+        'session.resume.applied_messages_zero'
+      ],
+      resumedDirectory: '/owned/session',
+      returnedDirectory: '/owned/session',
+      loggedDirectory: '/owned/session',
+      anchor: []
+    },
+    {
+      scenario: 'directory',
+      warningEvents: [],
+      resumedDirectory: '/owned/port-changed',
+      returnedDirectory: '/owned/port-changed',
+      loggedDirectory: '/owned/port-changed',
+      anchor: []
+    },
+    {
+      scenario: 'anchor',
+      warningEvents: [],
+      resumedDirectory: '/owned/session',
+      returnedDirectory: '/owned/session',
+      loggedDirectory: '/owned/session',
+      anchor: [ [ 'owned-assistant', 'owned-turn', 123 ] ]
+    }
+  ],
+  expected: [
+    {
+      scenario: 'empty',
+      warningEvents: [ 'session.resume.persisted_messages_zero' ],
+      resumedDirectory: '/owned/session',
+      returnedDirectory: '/owned/session',
+      loggedDirectory: '/owned/session',
+      anchor: []
+    },
+    {
+      scenario: 'directory',
+      warningEvents: [],
+      resumedDirectory: '/owned/session',
+      returnedDirectory: '/owned/session',
+      loggedDirectory: '/owned/session',
+      anchor: []
+    },
+    {
+      scenario: 'anchor',
+      warningEvents: [],
+      resumedDirectory: '/owned/session',
+      returnedDirectory: '/owned/session',
+      loggedDirectory: '/owned/session',
+      anchor: [ [ null, null, null ] ]
+    }
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

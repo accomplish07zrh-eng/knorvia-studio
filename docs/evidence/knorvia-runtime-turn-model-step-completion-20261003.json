@@ -1,0 +1,163 @@
+{
+  "base": "c61c5b63fd1dd85626a156858780d5217bbe6034",
+  "implementationCommit": "735b09c98557f8a141a7f1a911ca6099b178888b",
+  "ownedPaths": [
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-operation.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-records.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-recovery.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts"
+  ],
+  "design": "One native step operation owns preparation/request failure/success completion/tool dispatch and their original await gates. Public wrapper owns the original telemetry await. Synchronous request, record and diagnostic builders add no settlement owner. Existing state/history/compaction/tool/usage/deadline/permission owners remain dependencies.",
+  "authorship": {
+    "workflow": "Fresh no-inherited-context GPT-6.1 Sol/high author read body-free source-derived packet plus authorized declarations and factual curator corrections. Whole initial/revised drafts,13 intermediate checkpoints and type-only runtime-proof copy preserved before adoption.",
+    "curatorSourceExposed": true,
+    "strictPacketOnly": false,
+    "sourceExposureLimits": [
+      "Curator read predecessor source and supplied API/read-order/settlement clarifications before revised seal.",
+      "Two initial public-shape guesses and two revised private declaration naming errors preserved.",
+      "Installed machine adoption/publication ordering corrections are post-seal/source-exposed; installed runtime is not unchanged restricted draft.",
+      "Strong predecessor correspondence in fixed admission/recovery/publication sequences remains qualified for independent review.",
+      "No pinned publisher byte acquisition performed in this checkpoint; historical metadata records upstream-modified blob37c53c25c47a8d04a07eba1406d386ecc20e5a76."
+    ],
+    "retained": [
+      "Public inline API, runtime/log/error/localized fallback prose, field order, fixed protocol vocabulary and native awaited gates.",
+      "Unchanged helper bodies in accepted model/tool/streaming/history/compaction/usage/continuation dependencies.",
+      "Conventional object, conditional, loop, array filter and state-machine construction expressions may match predecessor.",
+      "Curator compatibility corrections intentionally preserve original error/data expression where required."
+    ],
+    "noCredit": [
+      "Module splitting, local names, formatting, developer prose removal, differing hashes or passing checks do not establish whole-file originality."
+    ],
+    "licence": "No clean-room, whole-file independent-origin, header or MIT grant; independent acceptance remains root-owned."
+  },
+  "preservedFailures": [
+    "draft01:2339 max-output property guess and2353 CoreError options; rejected extra async failure-helper settlement.",
+    "draft02:two4058 private declaration naming diagnostics.",
+    "6c18559 completion-machine focused predecessor1pass versus zero-diagnostic type-only draft1fail; same runtime syntax as sealed02 established for allfive files."
+  ],
+  "postSealCorrections": [
+    "Type-only explicit return naming for two assistant-persistence record builders.",
+    "Adopt each returned TurnMachine state during successful completion, busy-retry receive/aggregate and output continuation.",
+    "Capture failure code/projection/cancellation facts before persistence port lookup/clock; materialize error name/message only during carrier construction.",
+    "Restore suspicious-empty completed status, nullish error name fallback, fixed output-error projection message, original undefined recovery options and fresh retry-publication options.",
+    "Restore length-based text/snapshot guards and context-before-recoverable option fields; private import/blank-line formatting only."
+  ],
+  "packet": {
+    "path": "docs/evidence/runtime-turn-model-step-author-20261003/packet.json",
+    "sha256": "1db0ce1b8b50ecea353ee11bc264d39ede902a8d91b3fa529ed9c97dece8074a",
+    "inputCount": 8,
+    "supplementSha256": "65f197e3dc682d36f302d757effa5233c9e77296add330d2270a706819c05eab",
+    "preFormatSupplementSha256": "b301957b73ad16b5bec24d84b6b4e140bdb80e02a72f34828d35ef60e7a46992"
+  },
+  "drafts": [
+    {
+      "version": "draft-01",
+      "sealPath": "docs/evidence/runtime-turn-model-step-author-20261003/draft-01/seal.json",
+      "sha256": "be157c01a17511fa7d057a7011b9a6c8f4b7ecd698686c088d6eb9ab81876583",
+      "sourceRepresentations": 6,
+      "authoringClosureUtc": "2026-10-02T22:28:35.790728+00:00"
+    },
+    {
+      "version": "draft-02",
+      "sealPath": "docs/evidence/runtime-turn-model-step-author-20261003/draft-02/seal.json",
+      "sha256": "c0194bccf1e1ba18fdfc9dcef85752c420d29c2359910e3ea51828a0ae647c9b",
+      "sourceRepresentations": 18,
+      "authoringClosureUtc": "2026-10-02T22:34:01.059392+00:00"
+    }
+  ],
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-turn-model-step-baseline-20261003.json",
+    "sha256": "889a560e94454d06330622bcd0b3c46872df40bf3e9a9c17e9c020ff4157b84c",
+    "source": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa",
+    "compiled": "957c6eeaf8d77547b430df66ba8f11ee00101d7782d374626a37e557daceb494",
+    "declaration": "6000a9f47bf2d1dcf024d612867713af11ddabef2da2682d2dafd0dabf0619af"
+  },
+  "currentManifest": {
+    "path": "docs/evidence/knorvia-runtime-turn-model-step-current-20261003.json",
+    "sha256": "c26360942ea6f1de1867fce6e473ca2c5b310a30ea3776d90b70ffc6b737da3b",
+    "exactSourceJsDeclarationMatches": 15
+  },
+  "checks": {
+    "final-safety": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-final-safety-20261003.json",
+      "sha256": "11bee542b26662fb6bd47748f69ee87245616f39aae166ca3f050e33b41e6aba",
+      "result": {
+        "mode": "current",
+        "count": 3,
+        "groups": [
+          "pre-request persistence failure remains outside request recovery",
+          "post-request abort persists owned snapshot/history and cancellation carrier",
+          "completion-edge abort retains completed publication without request error carrier"
+        ],
+        "selected": "exact compiler-emitted owner; unchanged dependencies through source loader",
+        "liveIO": false
+      }
+    },
+    "final-machine": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-final-machine-20261003.json",
+      "sha256": "e743b10bae0a5e0093637eae64cdf92507852f0f9335ba1c6a79838d871c11ef",
+      "result": {
+        "mode": "current",
+        "count": 1,
+        "group": "completion cancellation retains adopted model-response machine",
+        "overlap": "completion cohort from three-group minimum safety fixture",
+        "liveIO": false
+      }
+    },
+    "final-artifact": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-final-artifact-20261003.json",
+      "sha256": "3097798c98bc5f437c8f9f2ab00c368f64d7e89bfbe34e5c807b679b139f0b60",
+      "result": {
+        "exactManifest": "c26360942ea6f1de1867fce6e473ca2c5b310a30ea3776d90b70ffc6b737da3b",
+        "currentArtifactMatches": 15,
+        "wrongCompiledFailsClosed": true,
+        "missingDeclarationFailsClosed": true,
+        "liveIO": false
+      }
+    },
+    "final-types": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-final-types-20261003.json",
+      "sha256": "dd818304cd98da03d51adde1d0a67638c1e8dfcf34c4a312275dfb69263b27b7",
+      "result": {
+        "diagnostics": [],
+        "apiEqual": true,
+        "typescript": "6.0.2",
+        "ownedModules": 5
+      }
+    },
+    "final-lint": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-final-lint-20261003.txt",
+      "sha256": "58682bb2da80894e453224897d87570b80e9e22f73656104c48650f08d1ee20b"
+    },
+    "final-format": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-final-format-20261003.txt",
+      "sha256": "0574039e31b1cb01bba2fe00ae1077bf38e354d953879a3f4e616142d84bff6c"
+    },
+    "final-architecture": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-final-architecture-20261003.txt",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    "freshness": {
+      "path": "docs/evidence/knorvia-runtime-turn-model-step-freshness-20261003.txt",
+      "sha256": "80de193f0b0924bdcac9b1ca64dc629c74713b094124e3ae2768cb202cb6175c"
+    }
+  },
+  "counts": {
+    "minimumLifecycleDataGroups": 3,
+    "appendedMachineRegression": 1,
+    "overlap": "Machine check reuses completion cohort; individual executions,not four independent consumer suites.",
+    "wrongMissingArtifactControls": 2,
+    "publicRootAPIEqual": 1,
+    "protectedPriorModelToolArtifactMatches": 15,
+    "sourceModeBehaviorRuns": 0
+  },
+  "consumerLimits": "Actual turn-loop caller inspected and included through scoped compiler dependency graph. Exported step exercised with owned fake runtime/store/model/telemetry and unchanged real source dependency owners; selectedfive modules use strict actual compiler-emitted JS. Full turn-loop/call-runner/native/concurrency/retry timing consumers not executed.",
+  "deferred": [
+    "Ordinary suites,source-mode replay,broad/root types/lint/builds,full product suite,Windows/macOS/native acceptance and actual provider integration.",
+    "Immutable raw author/port evidence not reformatted by final owned format gate."
+  ],
+  "protected": "Prior accepted model/tool15 artifacts match; other production core sources,permission/trust,E/G owners,shared licensing,packages/lock/CI untouched; no cross-lane integration.",
+  "environment": "Local executor and normal authorized GitHub/freshness transport available; initial default sandbox freshness proxy8080 failure retained as environment fact; no settings/proxy/access bypass.",
+  "releaseStatus": "Own branch candidate only; PR11 draft. No merge,main write,deployment,publication or licence decision."
+}

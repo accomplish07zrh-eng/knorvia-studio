@@ -1,0 +1,19 @@
+node:internal/modules/esm/resolve:314
+  return new ERR_PACKAGE_PATH_NOT_EXPORTED(
+         ^
+
+Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in /workspace/knorvia-studio/apps/cli/packages/core/node_modules/@knorvia/contracts/package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:314:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:605:13)
+    at resolveExports (node:internal/modules/cjs/loader:707:36)
+    at Module._findPath (node:internal/modules/cjs/loader:774:31)
+    at node:internal/modules/cjs/loader:1502:27
+    at m._resolveFilename (file:///workspace/knorvia-studio/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+    at nextResolveSimple (/workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+    at /workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+    at /workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+    at resolveTsPaths (/workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {
+  code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+}
+
+Node.js v24.19.0

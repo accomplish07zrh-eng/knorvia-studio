@@ -1,0 +1,272 @@
+{
+  "formatVersion": 1,
+  "kind": "unchanged-predecessor-observation-freeze",
+  "baseline": "f17024263f787db1d017ac6d5060a10b9305bec1",
+  "freezeCommit": "9c0a785189010a52252f3575343433dd59f643ee",
+  "productionChanges": 0,
+  "authorPacketChanges": 0,
+  "candidateProducedInLane": false,
+  "sourceExposure": "Curator read predecessor/callers; all frozen facts are bounded/source-derived. Supplement excludes predecessor bodies and private-storage prescriptions.",
+  "nativeAuthor": "No retry, initialization, author read or candidate execution in this checkpoint. Root owns a separate packet-based authoring step.",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+      "sha256": "677f8d4bf5a0225efb6484b0b9a7248785c84bf1970c9f19cd88d8d873f7d3c7",
+      "bytes": 2402
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observation-fixture.ts",
+      "sha256": "56608fed5fca01b52786f708811b2e64eda8813dc6d0ec07c0165ca68485a6b9",
+      "bytes": 7015
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json",
+      "sha256": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31",
+      "bytes": 1674
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts",
+      "sha256": "02025acdfc6612d57679eceb8d1fd1fefe3b2d6fe923d1de1b23af0cfac597b1",
+      "bytes": 13136
+    },
+    {
+      "path": "docs/evidence/knorvia-task-registry-observations-20261002.logs.json",
+      "sha256": "013ac19e468800d32a7cb088b5724e364a168de9da2b1a8e79e257d7cd47ecc8",
+      "bytes": 7885
+    },
+    {
+      "path": "docs/knorvia-task-registry-observation-supplement-20261002.md",
+      "sha256": "91ea5d3251c217b44b3c5d2ea0bf28f7ddd8e595c69f3dcfe07fe526766db1d2",
+      "bytes": 4004
+    },
+    {
+      "path": "specs/knorvia-task-registry-observations-20261002.md",
+      "sha256": "721093bae9249c327d03681af58b47b1c6641e7cdb4c002c9a7e61c473ebcc9c",
+      "bytes": 1971
+    },
+    {
+      "path": "docs/evidence/check-knorvia-task-registry-observations-20261002.mjs",
+      "sha256": "6ac68af559b9df4b60811f4fe4cdf4488c24ebc8662a628c711a2e979dd71418",
+      "bytes": 1735
+    }
+  ],
+  "protectedFiles": [
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/behavior.md",
+      "sha256": "918777ef3172833d9c43402a285a507243da6fe2c88dac27a8840cfe45ff7de2",
+      "bytes": 11965
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts",
+      "sha256": "85ed2e4107308299028ab7e04fd78a1a608f55eba0657ba27d293be226688b2e",
+      "bytes": 3260
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts",
+      "sha256": "a0ce162223ca6a22c3d91b0a1123c82f44f231ecd5656c6ed967f826f6b30035",
+      "bytes": 2164
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/inputs.json",
+      "sha256": "894bec72002c7d1b1f19500690b76dac3826edb9163d5dd60fc14e5161519d5a",
+      "bytes": 1072
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "bytes": 9112
+    },
+    {
+      "path": "apps/cli/packages/core/test/task-output-retrieval.test.ts",
+      "sha256": "9daa4439a294a22dac2215f2304dd1f2192535570c5122829ff9e6e00723e9c0",
+      "bytes": 12081
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "bytes": 9112
+    },
+    {
+      "path": "apps/cli/packages/core/dist/runtime-task/registry.js",
+      "sha256": "72ba6d6b54a0e082f7ae889c4bac7e243393b2d2da079c31f3c95ce9df1e092f",
+      "bytes": 5093
+    },
+    {
+      "path": "apps/cli/packages/core/dist/runtime-task/registry.d.ts",
+      "sha256": "8318d6f0fc2ead388d7ac42c0cc4a9192db11255f88180b0c3a15e0adada48b0",
+      "bytes": 4281
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+      "sha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e",
+      "bytes": 4832
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/task-output.js",
+      "sha256": "8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573",
+      "bytes": 4957
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-request.ts",
+      "sha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d",
+      "bytes": 4205
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/task-output-request.js",
+      "sha256": "bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75",
+      "bytes": 3622
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "sha256": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989",
+      "bytes": 5591
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/task-output-projection.js",
+      "sha256": "bee530a8baffb93e2bdf53f25a65fb83896478b1113c8924703955df9407d5a5",
+      "bytes": 5340
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "sha256": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed",
+      "bytes": 5126
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/task-output-bash.js",
+      "sha256": "6fffd745f64f95d1ebf8b842ed7eb745c0d63ff3dbeca8618f1f1be264f1cec3",
+      "bytes": 4296
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/result-persistence-format.ts",
+      "sha256": "f4f309784e0e46ca9d39284446f010a5868138440d8dafa1723e563b92938688",
+      "bytes": 2030
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/result-persistence-format.js",
+      "sha256": "2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb",
+      "bytes": 1763
+    }
+  ],
+  "logArchive": "docs/evidence/knorvia-task-registry-observations-20261002.logs.json",
+  "observations": {
+    "detachedAbort": {
+      "trace": [
+        "first:add",
+        "later:add",
+        "first:remove",
+        "first:abort-later",
+        "later:remove",
+        "publication:return",
+        "later:rejected",
+        "first:fulfilled"
+      ],
+      "laterCleanup": true,
+      "laterSettlement": "Exact abort reason rejection wins; resolution attempt is not independently instrumented",
+      "firstValue": "Exact committed terminal object"
+    },
+    "nonemptyDrain": {
+      "trace": [
+        "messages:1",
+        "messages:2",
+        "messages:3",
+        "copy:before",
+        "messages:4",
+        "copy:after"
+      ],
+      "getterReads": 4,
+      "returnedArray": "Third getter result by identity",
+      "storedMessages": "Fresh empty array"
+    },
+    "inlineInstallAbort": {
+      "operations": ["publication", "removal"],
+      "trace": [
+        "inline:add",
+        "inline:abort",
+        "wait:return",
+        "inline:rejected",
+        "inline:remove",
+        "operation:return"
+      ],
+      "cleanupCountPerOperation": 1,
+      "repeatRemovalCleanup": 0,
+      "settlement": "Exact abort reason rejection retained",
+      "postInstallAbortCheckAdded": false
+    }
+  },
+  "validation": {
+    "source": {
+      "groups": 8,
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "emitted": {
+      "groups": 8,
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "overlap": "Same eight groups in two modes. TaskOutput is one included group per mode. Initial source-only three probes overlap final groups 1/3/4 and are not additional distinct coverage.",
+    "behavioralFinalRunsPerMode": 1,
+    "artifactRejection": "Wrong and missing bytes for all 13 selected files; 26 controls inside one group, not 26 tests.",
+    "scopedCompile": {
+      "typescript": "6.0.2",
+      "roots": 4,
+      "diagnostics": 0,
+      "inMemoryEmitExact": ["registry.js", "registry.d.ts"],
+      "filesWritten": 0
+    },
+    "compileFailurePreserved": "Initial 8 fixture annotation diagnostics retained verbatim; explicit listener/getter annotations corrected. Assertions unchanged.",
+    "ownedLint": {
+      "files": 3,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0
+    },
+    "configuredLint": "Explicit root-config call found 0 files: apps/cli remains excluded by root ignorePatterns. Not counted as successful file lint. Owned config preserves the configured rules/settings and clears only ignorePatterns.",
+    "format": "Seven freeze files checked, all correct; receipt/checker checked separately before final checkpoint.",
+    "architecture": "Staged changed-scope check: 0 violations, 0 baseline, 0 new",
+    "freshness": "Synced before freeze; supported executor successfully completed read-only fetch/check.",
+    "aggregateSuite": false,
+    "wholeBuild": false,
+    "nativeAcceptance": false
+  },
+  "scopedGateLogs": [
+    {
+      "path": "/tmp/knorvia-task-registry-observation-lint.log",
+      "sha256": "2f5ff0abe7390402a503cd62bf258a2dc51bff0a1753c1b66d58619f38957f35"
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-observation-configured-lint.log",
+      "sha256": "6d7a481753e724d38d7c5bdf061b2eceb7bce5adca4cb78a798de678f004e917"
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-observation-format.log",
+      "sha256": "b86dc8f5106f27e33207c3bb24cbd6e202dc79f7e4caa63d47a4726de586e7b7"
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-observation-architecture-staged.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "retainedMaterial": "Public declarations unchanged; fixed abort error and TaskOutput payload vocabulary appear as asserted compatibility data. Existing synthetic consumer scenario reused with disclosed source exposure. No production authorship reconstruction or licence conclusion.",
+  "historicalProofChanges": 0,
+  "priorSelectorsChanged": false,
+  "settingsChanged": false,
+  "grant": null,
+  "limits": [
+    "Representative lifecycle observations; no arbitrary endpoint/getter matrix",
+    "No full call-runner or aggregate/native/platform acceptance",
+    "No independently verified publisher bytes added",
+    "No candidate produced or evaluated in this lane; root owns authorship/licensing review"
+  ],
+  "reproduce": {
+    "source": "node --import tsx --test apps/cli/packages/core/test/runtime-task-registry-observations.test.ts apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts",
+    "emitted": "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 plus the same source command",
+    "digests": "node docs/evidence/check-knorvia-task-registry-observations-20261002.mjs"
+  }
+}

@@ -32,7 +32,7 @@ export async function runScheduledPhase(
     now: ctx.now,
     onWorkflowEvent: ctx.onWorkflowEvent,
     plannerRunner: {
-      run: async (input) => {
+      async run(input) {
         const result = await ctx.agentRunner.run({
           abortSignal: input.abortSignal,
           activityId: input.activityId,
@@ -75,11 +75,12 @@ export async function runScheduledPhase(
           workflowKind: ctx.definition.kind,
         }),
     },
-    writeArtifact: (runId, relativePath, content, writeOptions) =>
-      ctx.store.writeArtifact(runId, relativePath, content, writeOptions),
-    writeSnapshot: (nextSnapshot, writeOptions) =>
-      ctx.store.writeSnapshot(nextSnapshot, writeOptions),
+    writeArtifact: (runId, artifactPath, content, artifactOptions) =>
+      ctx.store.writeArtifact(runId, artifactPath, content, artifactOptions),
+    writeSnapshot: (nextSnapshot, snapshotOptions) =>
+      ctx.store.writeSnapshot(nextSnapshot, snapshotOptions),
   });
+
   const result = await scheduler.run({
     abortSignal: options.abortSignal,
     artifactDirectory: `artifacts/${safeArtifactName(definition.phase)}`,
@@ -93,7 +94,6 @@ export async function runScheduledPhase(
     snapshot: active,
     traceContext: options.traceContext,
   });
-
   if (result.status !== "completed") {
     throw new Error(`Workflow ${definition.phase} scheduler paused: ${result.reason}`);
   }
@@ -105,17 +105,17 @@ export async function runScheduledPhase(
     summary,
     { signal: options.abortSignal },
   );
-  const phaseActivity = result.snapshot.activities
-    .filter((activity) => activity.phase === definition.phase && activity.status === "completed")
+  const activity = result.snapshot.activities
+    .filter((entry) => entry.phase === definition.phase && entry.status === "completed")
     .at(-1);
   const completed = ctx.updatePhase(result.snapshot, definition.phase, {
-    activityId: phaseActivity?.activityId,
+    activityId: activity?.activityId,
     artifactPath: artifact.relativePath,
     completedAt: ctx.timestamp(),
-    sessionId: phaseActivity?.sessionId,
+    sessionId: activity?.sessionId,
     status: "completed",
-    traceId: phaseActivity?.traceId,
-    turnId: phaseActivity?.turnId,
+    traceId: activity?.traceId,
+    turnId: activity?.turnId,
   });
   const withArtifact = ctx.addArtifact(completed, {
     contentType: "text/markdown",

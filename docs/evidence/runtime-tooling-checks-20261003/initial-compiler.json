@@ -1,0 +1,18 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "message": "Property 'accepted' does not exist on type 'TurnSteerResult'.\n  Property 'accepted' does not exist on type '{ kind: \"queued\"; pendingInputId: string; queueLength: number; turnId: TurnId; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "message": "Property 'reason' does not exist on type 'TurnSteerResult'.\n  Property 'reason' does not exist on type '{ kind: \"queued\"; pendingInputId: string; queueLength: number; turnId: TurnId; }'."
+    }
+  ],
+  "apiEqual": true,
+  "proof": {},
+  "files": {}
+}

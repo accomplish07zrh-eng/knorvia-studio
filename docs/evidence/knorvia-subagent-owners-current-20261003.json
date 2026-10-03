@@ -1,0 +1,193 @@
+{
+  "selection": "exact current source/compiler JS/declaration; historical oracle separately pinned, no fallback",
+  "typescript": "6.0.2",
+  "files": {
+    "profile": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/profile.ts",
+        "bytes": 10909,
+        "sha256": "398fb44644a77947e87bc13d38b32fbaa5d2a026982f787bac73a9329201f5e7"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/profile.js",
+        "bytes": 9475,
+        "sha256": "5ac45aba9fba659119681bb5368b1650a0f6372c95a9f8b6a74ef8c59b11183f"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/profile.d.ts",
+        "bytes": 2340,
+        "sha256": "d465f6985c174590358b7cc02ef7df6a53497630b049814eb5e7d4e7b3b7a855"
+      }
+    },
+    "runner-artifacts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-artifacts.ts",
+        "bytes": 2931,
+        "sha256": "bd4d05e2926e4f290a9d6b577a34eee10be33723714ec2d3ac4af329548c749f"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-artifacts.js",
+        "bytes": 2479,
+        "sha256": "bdb73337aef427540bbb7ecf678dc2d44b8f42a3bc822f86259f3242547c3e1c"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-artifacts.d.ts",
+        "bytes": 730,
+        "sha256": "ae7cd5b6e979e2fd085655d7e74449285ab008c77eaa98a404850de78e11637c"
+      }
+    },
+    "runner-background": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-background.ts",
+        "bytes": 3611,
+        "sha256": "767f1ad31167528de9f5fb1ecdba1df16f12d90fa5c7fce4529ba7e66e516c35"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-background.js",
+        "bytes": 3593,
+        "sha256": "4267d0aa52683a427d1afc8555273f68dd03881a3b4f5fe3a3f4fc7af5779131"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-background.d.ts",
+        "bytes": 543,
+        "sha256": "275bcb07ca64dfa57750fedce76a6300720ee71c95ed1a1dde517547dbd642af"
+      }
+    },
+    "runner-cancellation": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-cancellation.ts",
+        "bytes": 5406,
+        "sha256": "7c7b0e716cc966b57754d347e71b342af179565d7990aed6bffbbdff8b279fd0"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-cancellation.js",
+        "bytes": 5361,
+        "sha256": "99d21fedd5974878963b16784b7a284e83344d256602f3ee0bccb040dad42b24"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-cancellation.d.ts",
+        "bytes": 966,
+        "sha256": "76f8ad24050cf2affe8e2e5e2dcc198da611f4fde9f4a736970696d011a60cef"
+      }
+    },
+    "runner-child": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-child.ts",
+        "bytes": 5826,
+        "sha256": "9b50141f4be6da14ccf53a43f0a57a82eb0411108749766a6072278c04cd1a5a"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-child.js",
+        "bytes": 5417,
+        "sha256": "946a2d315c964327e4eb0ae35852d50783d8fcfb62757be49df7ece8b89a68d4"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-child.d.ts",
+        "bytes": 532,
+        "sha256": "6ca574de9b10f4a5fe281980be070cdaf4304b008a8a2d7e16e2a7ea208fc634"
+      }
+    },
+    "runner-foreground": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-foreground.ts",
+        "bytes": 7143,
+        "sha256": "0e22f1e703ec180d94741b32e54c159aa895f89715480987b4996dec8f800109"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-foreground.js",
+        "bytes": 7780,
+        "sha256": "9e2d711d684a928cd0f308202f9f06d7817c4d73252dcbbff3e76563f3152e66"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-foreground.d.ts",
+        "bytes": 233,
+        "sha256": "539f04025d2a9dfd1f09bee64b1efee66c4e65c5f10af52504e197747a9bb99d"
+      }
+    },
+    "runner-message": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-message.ts",
+        "bytes": 5539,
+        "sha256": "2f772fd26c2408ef80a835b2f9dab15c126f858063e05138e3f549baf52b5b73"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-message.js",
+        "bytes": 5001,
+        "sha256": "acdd71ff33e61b67f9205bdfadc4459cab5a4f0e80f4b1c3621188d1b2e00c7a"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-message.d.ts",
+        "bytes": 255,
+        "sha256": "2439f38977d8692c6f8147a1b73d5676bc6641af0e58299095ed35c2e858b75b"
+      }
+    },
+    "runner-publication": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-publication.ts",
+        "bytes": 7663,
+        "sha256": "3bbdf907ee07573dba977f48d60e7f0570cfabcdc59617daf8e67990cefadda8"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-publication.js",
+        "bytes": 7787,
+        "sha256": "396600851fc56370656cd76fe25b8a47c9e2dc88e609efa8df6a814ccf1f9c5c"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-publication.d.ts",
+        "bytes": 1063,
+        "sha256": "cdc7ad23943be424d15c49a5a3a8c5f0076ccdf83ba5bfd44ff5ed4f832d1efb"
+      }
+    },
+    "runner-state": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-state.ts",
+        "bytes": 7030,
+        "sha256": "30c0ac515ec9e518dcf482ef1e77c9c516ba7fc0c3b71a13e12c6845f9f85a45"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-state.js",
+        "bytes": 6353,
+        "sha256": "2aa4da4f82eed3b15c46ea60abeda8749a452321565b8e4aecfaab81c4e16f48"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-state.d.ts",
+        "bytes": 1854,
+        "sha256": "3f507315b58bb2ec15684dffedcd663d7042f7e165f71b339cf8aa968fe5ce62"
+      }
+    },
+    "runner-stop": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner-stop.ts",
+        "bytes": 4734,
+        "sha256": "962fc7961dbca12f3a8b435f08379b29c7843d8f298fdb44faad276bdd46f11f"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-stop.js",
+        "bytes": 4518,
+        "sha256": "e00f77d8784e665a64b1c7a3217faec1030aa9cf2e3c396d8d183692bff3360f"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner-stop.d.ts",
+        "bytes": 246,
+        "sha256": "015746908b6b6f82e490b83fae8c5dbf342c99450ae16a652aae0d8429af14b4"
+      }
+    },
+    "runner": {
+      "source": {
+        "path": "apps/cli/packages/core/src/subagent/runner.ts",
+        "bytes": 4279,
+        "sha256": "1fb950aae0ff2c732df4f762ec33c7bbffde43102110a8085f3a0383b7709ca6"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/subagent/runner.js",
+        "bytes": 2279,
+        "sha256": "c842942cf2bfdc3cd3ac9f4928adf1ab2ff6d78c0a3c67550b392cf6f5b471a4"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/subagent/runner.d.ts",
+        "bytes": 2305,
+        "sha256": "42b2d71aee1f75c083b1287a18adcc6c49dcbd6d72de1985cd02aa41aa433f02"
+      }
+    }
+  }
+}

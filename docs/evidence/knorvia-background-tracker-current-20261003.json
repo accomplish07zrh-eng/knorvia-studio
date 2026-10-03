@@ -1,0 +1,47 @@
+{
+  "typescript": "6.0.2",
+  "files": {
+    "apps/cli/packages/core/src/tool/executor/background-tasks.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+        "sha256": "c67312f13e0864c6ea96b1bfc19db8ea468bf1901a94c70ed19c6e5bba2c0d83"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-tracker-checks-20261003/current/background-tasks.js",
+        "sha256": "aeb6d8e32162d0720314b052b7b1ada9c2a633caff577858e6942f14137c710a"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-tracker-checks-20261003/current/background-tasks.d.ts",
+        "sha256": "a38f3dfb1e7ab3407314dfb035fcecfc733c880ae59371e9c860504404bab666"
+      }
+    },
+    "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts",
+        "sha256": "70adb4131b236266947fc77b7546b907ee846ed0eb5c3a0b88a9d24ba10c5c44"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-notification.js",
+        "sha256": "a9dcf634a09b1034d0d03766225f76f3e0079f0f3c01916b2609c8363948353a"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-notification.d.ts",
+        "sha256": "b4a272027e41aa9c5fc3019db4ce6c660d6ddb5738e7a976e159b3d11e1d86c0"
+      }
+    },
+    "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts",
+        "sha256": "468835c4dfac2951ef196a0d24cd976a41775ac64d3cd3ff0e5a8ec078c52422"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-projection.js",
+        "sha256": "adbf82f3a6e83d11708b17ec6fbc3526757c1b3858ab0e4d5e6299694f95b0bb"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-projection.d.ts",
+        "sha256": "0b9966d9a64f1e885c613b9c7a4b9828ff05148778d4e8d0bbdcb8f0a2bceb4e"
+      }
+    }
+  }
+}

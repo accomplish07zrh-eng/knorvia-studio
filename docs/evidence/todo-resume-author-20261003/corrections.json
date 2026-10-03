@@ -1,0 +1,19 @@
+{
+  "curatorSourceExposed": true,
+  "initialDraftCommit": "7e861e0",
+  "redProofCommit": "c28613e",
+  "corrections": [
+    "Restore empty-history guards from frozen contract; do not emit active/applied warnings for missing source/active history.",
+    "Keep persisted session.directory in event/log/result even if owned callbacks mutate runtime workingDirectory.",
+    "Publish latestConversationMessageId via unchanged helper before assistant fields, retain snapshot reverse/find and repeated info reads; conventional compatibility expression closely corresponds to predecessor.",
+    "Read first user envInfo once; set runtime config after selection.",
+    "Use native executionEntries.at(-1) and one captured title payload for original method/property read semantics; title payload cast also resolves two initial strict TS errors."
+  ],
+  "runtimePolicyChanges": false,
+  "retainedExpression": "Todo fixed declaration and parse/admission/read/update/three-pass aggregation combination strongly corresponds. Resume phase/native-await/port/field/log combinations strongly correspond. Source-derived packet is instruction-restricted, not forced read isolation or proof of independent whole-file expression. No MIT/header/registry grant.",
+  "nonRuntimeCorrections": [
+    "Remove unused MessageWithParts type import; oxfmt production formatting.",
+    "Format focused probe only; preserve original raw bytes and AST equality proof. Assertions unchanged.",
+    "Artifact proof sentinel was accidentally replaced with manifest digest; failed proof preserved, restore literal reconstruction. No production or historical oracle change."
+  ]
+}

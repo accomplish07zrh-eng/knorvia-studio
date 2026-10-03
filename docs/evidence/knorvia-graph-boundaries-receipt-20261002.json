@@ -1,0 +1,214 @@
+{
+  "formatVersion": 1,
+  "kind": "workflow-graph-module-boundary-cleanup",
+  "base": "fcd4f1250183b11ca0c247f9e72580a85543b0d5",
+  "freezeCommit": "b040b3919c982f722adec8f33c194944a7fee874",
+  "implementationCommit": "2797971a975d747596f77a80b0cc6b2fc6680a51",
+  "problem": "The 820/400 configured failure belonged to contracts/src/workflow/index.ts, not core scheduler/graph.ts. Formerly 885 and253 physical lines respectively.",
+  "boundaries": {
+    "contracts": "definition: vocabulary/phase/strategy validation; graph-schema: graph/planner/seed/prompt/critic shapes; run-schema: activity/session/failure/snapshot/event/journal shapes; scheduler-state: scheduler schemas plus unchanged authored state and retained run overlay; session-links: retained attempt/status projection. Index keeps store ports and public reexports. Internal modules do not import the barrel.",
+    "core": "graph remains public barrel. ready-order holds unchanged authored ordering. graph-helpers retains all remaining helpers and completion vocabulary. Ordering imports helpers; helpers do not import ordering/barrel. Planner production consumers unchanged."
+  },
+  "provenance": "Relocation only: zero originality/reconstruction credit for this checkpoint. All 94contracts and18graph declaration statements retain their exact parsed syntax, including copied schema/refinement/helper expressions and prose. Authored ordering/state drafts and packet evidence remain unchanged. New module paths inherit the same unresolved/retained-material obligations; no header, registry or licence grant.",
+  "proof": {
+    "node": "v24.19.0",
+    "typescript": "6.0.2",
+    "modules": {
+      "contracts": {
+        "sourceDeclarations": 94,
+        "publicDeclarations": 92,
+        "exports": 123,
+        "diagnostics": 0,
+        "emittedArtifacts": 18
+      },
+      "core": {
+        "sourceDeclarations": 18,
+        "publicDeclarations": 16,
+        "exports": 16,
+        "diagnostics": 0,
+        "emittedArtifacts": 9
+      }
+    }
+  },
+  "publicApi": "All123contracts public export names and16core graph export names unchanged. Flattened92contracts and16graph declaration statements compare equal after existing union/property order canonicalization; overload/call-signature order is never normalized. Declaration physical layout/import routing necessarily changed, not public type shape. Runtime tests verify barrel function/schema object identity, expert aliases and composed schema references.",
+  "verification": {
+    "source": {
+      "pass": 14,
+      "fail": 0
+    },
+    "actualEmitted": {
+      "pass": 14,
+      "fail": 0
+    },
+    "groupsPerMode": "5ready-order +5state projection +2new boundary/strict-private-artifact groups +1existing planner child-publication +1existing expansion reference projection. These overlap earlier frozen behavior; not14new differential contracts. Actual scheduler launch and deadlock consumers included.",
+    "types": {
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "roots": [
+        "workflow-graph-boundary.test.ts",
+        "workflow-ready-order.test.ts",
+        "workflow-scheduler-state.test.ts",
+        "workflow-collection-planner.test.ts",
+        "workflow-planner-expansion.test.ts"
+      ],
+      "noEmit": true
+    },
+    "configuredLint": "15owned code/check files;94configured rules;0errors,0warnings. Same400line rule; no weakening.",
+    "format": "21owned files passed before receipt; receipt checked separately.",
+    "architecture": "check --changed:0violations. CLI is not a managed architecture module.",
+    "compilerNote": "First proof resolved nested TypeScript5.9.3 and passed. Script now explicitly resolves root TypeScript6.0.2, matching the freeze; final proof/compiler/tests use that output. Both logs preserved, no environment/dependency setting changed.",
+    "aggregate": "No full suite or aggregate build. Only9owned modules emitted,27JS/declaration/map artifacts."
+  },
+  "lineCounts": {
+    "apps/cli/packages/contracts/src/workflow/index.ts": {
+      "physical": 67,
+      "nonblank": 63
+    },
+    "apps/cli/packages/contracts/src/workflow/definition.ts": {
+      "physical": 163,
+      "nonblank": 137
+    },
+    "apps/cli/packages/contracts/src/workflow/graph-schema.ts": {
+      "physical": 148,
+      "nonblank": 122
+    },
+    "apps/cli/packages/contracts/src/workflow/run-schema.ts": {
+      "physical": 271,
+      "nonblank": 243
+    },
+    "apps/cli/packages/contracts/src/workflow/scheduler-state.ts": {
+      "physical": 277,
+      "nonblank": 255
+    },
+    "apps/cli/packages/contracts/src/workflow/session-links.ts": {
+      "physical": 56,
+      "nonblank": 54
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/graph.ts": {
+      "physical": 2,
+      "nonblank": 2
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/graph-helpers.ts": {
+      "physical": 199,
+      "nonblank": 182
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/ready-order.ts": {
+      "physical": 60,
+      "nonblank": 52
+    }
+  },
+  "selectorMigration": {
+    "current": {
+      "workflow-ready-order": {
+        "old": "8a22e1e9db93222f0d23d553de22c09560aeba9d4fcaf4ae89294ce4ee0c5a0a",
+        "current": "e5a1716504bb240bddd2dd8a311482dfb3a702f7d7cddc052d5b62c90c5996df",
+        "bindings": 74
+      },
+      "workflow-scheduler-state": {
+        "old": "de7cb0e04f956493176c5d7af0e0a8bf12250ddacf2d750a41674ccbbe6ecb4a",
+        "current": "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66",
+        "bindings": 74
+      },
+      "workflow-planner-expansion": {
+        "old": "28c4274de796a8e426ca0cf7497caf04218cccd10b54c5bb6756dbb05dc7ced7",
+        "current": "dbd3a5981a8d996c82f9756f778ef023ba2a530f66a5abe75ed7cb8be3e57e91",
+        "bindings": 74
+      },
+      "workflow-collection-planner": {
+        "old": "21e1c5dbd2a8fe8537650262dcd7f7df39591755d9fdd2524ecdae99012601a9",
+        "current": "7e94786484de6bf9f0d8b50cb0325e41ee004cf5a1391ac6ade937deec51261f",
+        "bindings": 73
+      }
+    },
+    "historical": "All old baseline JSONs and behavioral tests remain byte-identical. Added exact pre-relocation core graph compiled body SHA21dbfba2a542d99a099b17f9512f87c87731dc09efc5d18352d3b391cccb8c4a in new boundary baseline; state historical consumer loads this exact body and still validates the old digest. Current routes use new actual modules, with74bindings (73collection planner). New private dependency tamper/missing controls fail closed.",
+    "plannerScope": "Only current dependency manifests and their single loader hash literals changed for planner fixtures; production planner, admission, expansion and all their tests/oracles unchanged. Root expansionv2 is not on this lane and remains untouched."
+  },
+  "nextOwner": {
+    "path": "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts",
+    "sourceSha256": "3c5e20261bbdade712a2886ea9ff585f3ca064e53996a0e061982ae22ef4a670",
+    "recordedPublisherBlob": "abd7b0b830836043f324d1e78517ca84bdffb5cc",
+    "inventory": "upstream-modified; review:null. Local history only7619e41. Publisher not fetched here.",
+    "actualCaller": "expert/run-loop.ts continueRun agent-phase path calls seedGraphFromPhaseArtifact then updateNodePromptsFromPhaseArtifact. Each combines artifact admission, existing parser/lifecycle application, snapshot persistence, sequential graph records and terminal event publication.",
+    "whySubstantial": "Complete172-line artifact-to-graph publication owner with native async no-op/partial-publication/error boundaries; meaningful next contract/authoring candidate, unlike relocating tiny helpers. Leave lifecycle/parser/expansion owners as dependencies.",
+    "nextDecision": "Freeze compact owned-port admission/no-op, snapshot->record->event order, partial failure, abort and caller snapshot visibility before authoring. No runtime rewrite or new tests for this candidate in this checkpoint; curator source exposure disclosed."
+  },
+  "limits": [
+    "Node24.19.0/Linux only; pinned24.14.0 and Windows/macOS not run.",
+    "Only branch-local consumers; root integrated expansionv2/acceptance is separate.",
+    "No claim of arbitrary instrumented-Zod module-initialization ordering equivalence; schema instances, API/body syntax and supported callers preserved.",
+    "Freshness fetch failed at configured proxy connection; no settings/access change.",
+    "Inherited helper/schema licence and source acceptance limitations remain; root independent review required."
+  ],
+  "protectedSha256": {
+    "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+    "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+    "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+    "docs/evidence/ready-order-author-20261002/draft-exact.json": "904d21c556b524c9a347016b2f63bee2a33273fc1531f2c60701d30df733c2fd",
+    "docs/evidence/ready-order-author-20261002/inputs-exact.json": "b3ae70cef34994f1289ec77dfd7c62bb2921116daa50ffd21069ec6cc8a1ce93",
+    "docs/evidence/scheduler-state-author-20261002/draft.json": "b864c14ad49a2d5f60995ef95fdedd730f590e2cb91d8fc066389f1a36f75e51",
+    "apps/cli/packages/core/test/workflow-ready-order-baseline.json": "2b531cb55669db3a233b5031e160443651a1324e8b014bbe487743f34813e723",
+    "apps/cli/packages/core/test/workflow-ready-order.test.ts": "9af6cbac83bd9061c6a14fe0d089b9b5a0bc69b873e207aaaa1c1aa65e8fd3cf",
+    "apps/cli/packages/core/test/workflow-scheduler-state-baseline.json": "7e50244bfb7ea66e8915394e7017d78b3829ad6ebfcba2d416e6e6477e228839",
+    "apps/cli/packages/core/test/workflow-scheduler-state.test.ts": "d9aa14ece76651e96fa5b452bb223aa03a1425aaa48db138d9e7553419aa779b",
+    "apps/cli/packages/core/test/workflow-collection-planner-baseline.json": "d280e53af9b42aef8af9d6f17bdb469be83718010afb8caa0a9f94cdcc3043ba",
+    "apps/cli/packages/core/test/workflow-collection-planner.test.ts": "4e6eed52309d62b22d6a2a87b9ccabfaec49b34bbfb70714c2aebf269634a557",
+    "apps/cli/packages/core/test/workflow-planner-expansion-baseline.json": "6b3a7d1ef9a4dd1ceeec287f68c45a035065b7b8907e27125ed207732f6fba49",
+    "apps/cli/packages/core/test/workflow-planner-expansion.test.ts": "7261463f8bb22e4189c96f0c3f622bb10437aee7df2ccabc2312af193fdfc814"
+  },
+  "fileSha256": {
+    "apps/cli/packages/contracts/dist/workflow/definition.d.ts": "08b8b54988631ab96cd57ec68e11b74f9a4b708cd68de0e6bc0f23ad5f60c3ee",
+    "apps/cli/packages/contracts/dist/workflow/definition.js": "8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57",
+    "apps/cli/packages/contracts/dist/workflow/graph-schema.d.ts": "ade8f9d86b1cc58f6fa98bad9dc7e443528a1afbb4da9dce6a4d36fb1415bdd6",
+    "apps/cli/packages/contracts/dist/workflow/graph-schema.js": "52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5",
+    "apps/cli/packages/contracts/dist/workflow/index.d.ts": "e1de39bdb8f144388687bfbc3f42b89995edb864821cbf063a2ce37d075b3d6f",
+    "apps/cli/packages/contracts/dist/workflow/index.js": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
+    "apps/cli/packages/contracts/dist/workflow/run-schema.d.ts": "ec8e25ab549ff0db090bb7e30f0374830fc6dc70ce9a3b2b48ac0e1631c9a69f",
+    "apps/cli/packages/contracts/dist/workflow/run-schema.js": "bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1",
+    "apps/cli/packages/contracts/dist/workflow/scheduler-state.d.ts": "9f12bdcbe795bb43da1770240fb5fed2437e2fbbab1ac8a115e84e2170885f48",
+    "apps/cli/packages/contracts/dist/workflow/scheduler-state.js": "e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16",
+    "apps/cli/packages/contracts/dist/workflow/session-links.d.ts": "2d0afc7bdb9b4faaf41595f834404b9be261e23a623e04b70333709445674083",
+    "apps/cli/packages/contracts/dist/workflow/session-links.js": "db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5",
+    "apps/cli/packages/contracts/src/workflow/definition.ts": "0e451f6aa2a279f9800a5a5cb59d85ebf4d2888083e8580d3e110317738673f3",
+    "apps/cli/packages/contracts/src/workflow/graph-schema.ts": "26cb1bb521068bc587a6f134dcad55608c1586efc94cac2e0eac912c9b24a2a2",
+    "apps/cli/packages/contracts/src/workflow/index.ts": "d2e5ceb97f06cbe0bcdeb45dc8306863d722f1a6f3dbb831c86d60b72b4d22a1",
+    "apps/cli/packages/contracts/src/workflow/run-schema.ts": "4beeefcee8749448719da64931ba76d09f7abce3dc2e2842a718a2f2fb37bc78",
+    "apps/cli/packages/contracts/src/workflow/scheduler-state.ts": "5885b7ae0b77bd541d05c8973c0b4a8f50b11d73a0762759356846f812ad0e3c",
+    "apps/cli/packages/contracts/src/workflow/session-links.ts": "e01c5641fb5ee432ee0e50c5ae3fa72c0bf15a1bb5fdb20245382b08ee8d87dc",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.d.ts": "a10d919809d5819492620ff14596764a60c8fcf8521efd83c28da2932ab4a6ce",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.js": "75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph.d.ts": "032f23777c276c3705362abec0ab8b52f516d923ac9a04e0b9b43eae2d3210fc",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph.js": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+    "apps/cli/packages/core/dist/workflow/scheduler/ready-order.d.ts": "b10c1647caf974f094bcfd5378ca2fedcc07069e14e1a9cf75d59010728b58ab",
+    "apps/cli/packages/core/dist/workflow/scheduler/ready-order.js": "3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba",
+    "apps/cli/packages/core/src/workflow/scheduler/graph-helpers.ts": "803e4e94cb682f6e6cfb7e761fa303ea700022292d79cf7a56f6b10b95960feb",
+    "apps/cli/packages/core/src/workflow/scheduler/graph.ts": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+    "apps/cli/packages/core/src/workflow/scheduler/ready-order.ts": "b53a5452e39ecf77827b58fc534d597a5f1b55fdc931a122a583bac17a047032",
+    "apps/cli/packages/core/test/workflow-collection-planner-current.json": "7e94786484de6bf9f0d8b50cb0325e41ee004cf5a1391ac6ade937deec51261f",
+    "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts": "08b9953727ba8b3acfa178b7e22e62f0120e84672e40bb1adb866924504a1c96",
+    "apps/cli/packages/core/test/workflow-graph-boundary-baseline.json": "6366a05a77ff4c24b61cf1338ed731c27b46fa01bcf6c318f7c651cfe2f4bfe3",
+    "apps/cli/packages/core/test/workflow-graph-boundary-proof.mjs": "f26bbf465a918b34eeb6093a3cc6ba962b85e67e2d2ddca4d961d449c03ffbb7",
+    "apps/cli/packages/core/test/workflow-graph-boundary.test.ts": "f7cfea8e0c5e260eae1538312eb41470fae6c55b4904743ac2f0b68a3129bb1e",
+    "apps/cli/packages/core/test/workflow-planner-expansion-current.json": "dbd3a5981a8d996c82f9756f778ef023ba2a530f66a5abe75ed7cb8be3e57e91",
+    "apps/cli/packages/core/test/workflow-planner-expansion-fixture.ts": "4884ca61d233c8efacdcf5d9b7b720710bea1684c581324020b5aa0f1089fc41",
+    "apps/cli/packages/core/test/workflow-ready-order-current.json": "e5a1716504bb240bddd2dd8a311482dfb3a702f7d7cddc052d5b62c90c5996df",
+    "apps/cli/packages/core/test/workflow-ready-order-fixture.ts": "525f7d9d555fd2ee314b0b9ba447a5d7eed68ed6df4635a5cbd3b33630db44de",
+    "apps/cli/packages/core/test/workflow-scheduler-state-current.json": "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66",
+    "apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts": "6d6e083e5ee1d553905bb17b67487585511299e91b8ae43247b4ada373f4f363",
+    "specs/knorvia-graph-boundaries-20261002.md": "8b3d99681580d5819707b53c946a05e693e43f0efcbe0a304d35b770015a2077"
+  },
+  "localLogSha256": {
+    "/tmp/knorvia-graph-boundaries-20261002/freeze.log": "5592aae3a220984a493101f89362eed53abc2db6179ed18e509f6736d5c1822f",
+    "/tmp/knorvia-graph-boundaries-20261002/compile-proof-package-ts593.log": "c87eb46474eb2b67dd79c0f08b61307aa0adefcf04ec94081a9579de736c5b59",
+    "/tmp/knorvia-graph-boundaries-20261002/compile-proof.log": "ee8d44518dee09fdef7428e958784c253a5f17658094089daa4d4f50bc0da5b2",
+    "/tmp/knorvia-graph-boundaries-20261002/types.log": "4b9b09e708cb7d2267272fa10c874e68d520022cdb23d24e6fa4c8ddda4078a3",
+    "/tmp/knorvia-graph-boundaries-20261002/source.log": "3dd882096860ec0aca720e5370e7ae794dc0bf01be9c572f6fa09ab8b9bc6f43",
+    "/tmp/knorvia-graph-boundaries-20261002/emitted.log": "329db84c9738291452fa4ed7ffefcb92f5bd9f15623806bdfd0de5bad96b7280",
+    "/tmp/knorvia-graph-boundaries-20261002/lint.log": "83c11af73aa907a5a4f776b337f2f6886d8a41b4ed7073fb10206561ccea6139",
+    "/tmp/knorvia-graph-boundaries-20261002/format.log": "c4594cc8990c9ca9a64a932d2d5454ad786ad5cafb511f007c13298edbedf323",
+    "/tmp/knorvia-graph-boundaries-20261002/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "/tmp/knorvia-graph-boundaries-20261002/selectors.json": "3dac9d409032962e210821905be5d901cbd73f99ba72719ae6466a8f56d77d2c",
+    "/tmp/knorvia-graph-boundaries-20261002/protected.json": "e7aba88ef2fbc817bef6abadc9ec8403c8bacc40192fff5cedfb7f3a0d8485f1"
+  },
+  "reproduce": "node apps/cli/packages/core/test/workflow-graph-boundary-proof.mjs --emit strictly checks frozen bodies/API and emits only owned modules; omit --emit to compare actual artifacts. Focused Node test pattern: ready order|scheduler projection|graph boundaries|activation/child gates|expansion projection, ordering over boundary,ready-order,state,collection-planner,planner-expansion .test.ts files; --import tsx --test --test-isolation=none --test-timeout=120000, mode env KNORVIA_COLLECTION_PLANNER_TEST_EMITTED=0/1 and owned temporary KNORVIA_ENV=test data/storage. Current manifest mismatches must fail.",
+  "receiptGenerationCorrection": "Temporary selectors.py shadowed the Python standard-library selectors import during receipt generation. Its repeated idempotent current-pin writes then stopped at an already-migrated historical-loader assertion. git status confirmed no tracked changes. Renamed only that temporary script to migrate-artifact-pins.py, then generated receipt successfully. No production/test/oracle change or behavior rerun."
+}

@@ -1,0 +1,43 @@
+{
+  "owner": "message-persistence",
+  "modules": [
+    "message-persistence"
+  ],
+  "baselineContainerSha256": "db585469e706edef96bd27be70973b893463735c14f60a5b7137bb649aae48a7",
+  "sourceBaseline": "811877b3d5df766276e0d21dfd06a9f11529384b",
+  "draft": {
+    "access-report.md": "535d1d18d7af5985efa51bd243cb36fdc23d613df7cf22fbb48f9566db444841",
+    "message-persistence.ts": "421fb7f6983c66e09443aebe72cd2f59359d0076f873ff888b820f5b73c42f32",
+    "SHA256SUMS": "bf6595ea8d5af17ef436a14d39d8af254c7c4d3cb29e8d69db3774e78a304d60"
+  },
+  "currentArtifacts": {
+    "src/runtime/methods/message-persistence.ts": "41c8b488448632f2cbdc67e8a809132b354c74c52a600f91ee4774e45f7d8141",
+    "dist/runtime/methods/message-persistence.js": "ddf0ecb8568878ff47d89cea19599abbb1b96b144437636787afa68f30fb10d5",
+    "dist/runtime/methods/message-persistence.d.ts": "78a758207097833c87c0385f6f661f2a6cb9b0d2641d695fe6ef0639385f698e"
+  },
+  "workflow": "Three fresh no-inherited-context internal authors read only body-free functional/API packets and recorded API clarifications. Exact drafts saved/hashed before curator comparison; curator source-exposed.",
+  "corrections": [
+    "Saved 40abbff red: inputClientId cached before model-selection callback, restored live read at metadata projection.",
+    "Static compatibility restores single envInfo capture, promotion append/create getter order and source-command read phase."
+  ],
+  "retained": "Fixed API/schema/protocol vocabulary, model/log/error prose and conventional field/map/loop/await projection are deliberately retained or contract-constrained. Restore wrapper and ordinary compatibility glue receive no originality credit. Detailed source-derived packets constrain combinations; no automatic whole-body/file independence or MIT claim. Root independently reviews actual expression.",
+  "checks": {
+    "compiler": "zero final diagnostics; immutable historical vs current emitted declaration resolved signatures equal",
+    "ownerPublicSignatures": 7,
+    "lint": "0 warnings/errors on six changed files, unchanged94rules",
+    "format": "six owners/helpers and safety fixture",
+    "architecture": "changed check0 violations, unmanaged CLI",
+    "minimalSyntheticSafety": "Shared final strict-emitted pass:3 paired persistence groups plus2 appended concrete regression observations. No additional per-owner suite or double-counted totals.",
+    "selector": "current source/JS/declaration exact18 pins across six modules; wrong/missing private artifact controls reject"
+  },
+  "deferred": [
+    "Ordinary suites/full builds/native acceptance",
+    "Remaining branches, cancellation/concurrency and logger reentrancy dynamically unrun; static comparison only",
+    "Transitive workspace dependencies via tsx, not all-emitted",
+    "Root independent contribution/runtime/licence acceptance"
+  ],
+  "limitations": [
+    "Freshness fetch blocked by configured proxy8080; no bypass/settings change",
+    "Node24.19.0 vs pinned24.14 retained environment"
+  ]
+}

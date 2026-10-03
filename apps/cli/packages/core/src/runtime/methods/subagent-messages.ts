@@ -6,12 +6,7 @@ import type { EnqueueSubagentMessageInput } from "../types.js";
 import { runtimeInputMetadata } from "../../agent/runtime-input-presentation.js";
 import { escapeXml } from "../../runtime-task/notification.js";
 
-function formatSubagentMessage(input: {
-  agentId: string;
-  agentType: string;
-  summary: string;
-  message: string;
-}): string {
+function noticeText(input: EnqueueSubagentMessageInput): string {
   return [
     "<subagent-message>",
     `<agent-id>${escapeXml(input.agentId)}</agent-id>`,
@@ -28,6 +23,7 @@ export function enqueueSubagentMessage(
 ): undefined {
   const branchGeneration =
     this.runtimeTaskRegistry.get(input.agentId)?.branchGeneration ?? this.branchGeneration;
+
   if (branchGeneration !== this.branchGeneration) {
     this.logger?.debug("Dropped stale-branch subagent response", {
       ...traceContextToLogContext(input.traceContext),
@@ -40,7 +36,8 @@ export function enqueueSubagentMessage(
     });
     return undefined;
   }
-  const command = {
+
+  const command: SubagentMessageRuntimeCommand = {
     branchGeneration,
     responseId: input.responseId,
     agentId: input.agentId,
@@ -53,21 +50,21 @@ export function enqueueSubagentMessage(
     traceContext: input.traceContext,
     createdAt: new Date(),
     id: createRuntimeCommandId(),
-    mode: "subagent-message" as const,
-    priority: "next" as const,
-    source: "subagent_message" as const,
-    text: formatSubagentMessage(input),
-  } satisfies SubagentMessageRuntimeCommand;
+    mode: "subagent-message",
+    priority: "next",
+    source: "subagent_message",
+    text: noticeText(input),
+  };
 
   this.logger?.debug("Subagent response enqueued into runtime command queue", {
-    ...traceContextToLogContext(command.traceContext),
-    agentId: command.agentId,
+    ...traceContextToLogContext(input.traceContext),
+    agentId: input.agentId,
     commandId: command.id,
     event: "subagent.response.runtime_enqueued",
     messageLength: command.messageLength,
     module: "core.runtime",
     queueSize: this.runtimeCommandQueue.size() + 1,
-    responseId: command.responseId,
+    responseId: input.responseId,
     summary: command.summary.slice(0, 200),
   });
   this.enqueueRuntimeCommand(command);
@@ -83,6 +80,8 @@ export async function persistSubagentMessageCommand(
   const messageID = createMessageId();
   const inputPresentation = midTurn ? "subagent_reply_steer" : "subagent_reply";
   this.messageHistory.addUser(command.text, runtimeInputMetadata(inputPresentation));
+
+  // The history entry precedes persistence and remains if persistence rejects.
   await this.persistSyntheticUserNoticeForSession({
     messageID,
     sessionId: this.sessionId,

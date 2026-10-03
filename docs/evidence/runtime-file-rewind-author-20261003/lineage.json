@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+  "kind": "file",
+  "sha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a",
+  "normalizedSha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a",
+  "encoding": "utf8-lf",
+  "bytes": 21420,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/file-rewind.ts",
+    "blob": "db664fb0e9ffd2b3821635bd23f0e639ef534311",
+    "normalizedSha256": "dd70f1d0c63af63ace7f83af94263ff807d1ddf127df78a813ad5981877cf8f6",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

@@ -1,0 +1,237 @@
+{
+  "formatVersion": 1,
+  "baseline": "93c42fc0930fcc64acdea9c3cd3b289eafb52985",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+    "apps/cli/packages/core/test/may-set-lane-expansion-current.json",
+    "apps/cli/packages/core/test/may-set-lane-expansion-fixture.ts",
+    "apps/cli/packages/core/test/causality-lane-documentation-baseline.json",
+    "apps/cli/packages/core/test/causality-lane-documentation-proof.ts",
+    "apps/cli/packages/core/test/causality-lane-documentation.test.ts",
+    "docs/knorvia-causality-lane-documentation-20261001.md",
+    "docs/evidence/knorvia-causality-lane-documentation-check-20261001.mjs",
+    "docs/evidence/knorvia-causality-lane-documentation-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+      "bytes": 4856,
+      "sha256": "98892ea6b13e93227677f1fe9c103e30e2fbf8dccd9dd95982d000140a12b1d7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-current.json",
+      "bytes": 267,
+      "sha256": "580fd1934cfd61d2fdfbeb408f6267e75dafb312a642be92d25f345c32ba0ea7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-fixture.ts",
+      "bytes": 9093,
+      "sha256": "7e5d5235758f035fae870f145b30883066164ebf980af67c8b8dc2bab0dd7897"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-lane-documentation-baseline.json",
+      "bytes": 704,
+      "sha256": "a5981e705af1cf27d4c1f6ed65ba9b6a7033a18706d0dcbf63b6cdbb2cefbb30"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-lane-documentation-proof.ts",
+      "bytes": 1902,
+      "sha256": "3e1d9c74c3317d732c98659e75d051de5dcac1b00c2826ec0eb4e080394e3399"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-lane-documentation.test.ts",
+      "bytes": 3686,
+      "sha256": "90150161193495fa36e11e22a833f4664074c912490d22542bad5efe58f39c5d"
+    },
+    {
+      "path": "docs/knorvia-causality-lane-documentation-20261001.md",
+      "bytes": 3679,
+      "sha256": "3886ee36ea73923bbd0915430c84d628a5679b23b422b16a153099c731e47665"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-lane-documentation-check-20261001.mjs",
+      "bytes": 6335,
+      "sha256": "bd83dcacb51f09b58a875dcbc0f5abb095939b7f2afab1509a00e3592762f608"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.js",
+      "bytes": 4938,
+      "sha256": "35f6ef1114cc8ca76eb1dbdd75f5bd469f51faa7a7cf6962179962c63f40b691"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.d.ts",
+      "bytes": 881,
+      "sha256": "dde82e79069d3d5c7f3fedc1d8fc2199dd327852259d755771b5870dd2a252b4"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.d.ts.map",
+      "bytes": 453,
+      "sha256": "f3db1e24ccb349dc9ecda4b0a361d5de59c58241454cb8048671aa23df4eaf37"
+    }
+  ],
+  "unchanged": [
+    "apps/cli/packages/core/test/may-set-lane-expansion-baseline.json",
+    "apps/cli/packages/core/test/may-set-lane-expansion-contract.json",
+    "apps/cli/packages/core/test/may-set-lane-expansion.test.ts",
+    "apps/cli/packages/core/test/causality-lane-facts-fixture.ts",
+    "apps/cli/packages/core/test/causality-lane-facts.test.ts",
+    "apps/cli/packages/core/test/causality-lane-facts-contract.json",
+    "specs/knorvia-causality-lane-facts.md",
+    "docs/knorvia-causality-lane-facts-20261001.md",
+    "docs/evidence/knorvia-causality-lane-facts-20261001.json",
+    "docs/evidence/knorvia-causality-lane-facts-check-20261001.mjs",
+    "docs/knorvia-may-set-lane-expansion-20261001.md",
+    "docs/evidence/knorvia-may-set-lane-expansion-20261001.json",
+    "docs/evidence/knorvia-may-set-lane-expansion-check-20261001.mjs"
+  ],
+  "protectedReceipt": {
+    "path": "docs/evidence/knorvia-causality-lane-facts-20261001.json",
+    "bytes": 13858,
+    "sha256": "e890353db1fb4f205b48273d169b0cfbd6ad78b47160ab32ff2107183b814ae2"
+  },
+  "protection": "Reuse exact earlier protected records; exception is only the explicitly verified current documentary assumption migration in may-set fixture",
+  "comments": {
+    "source": [
+      "// Pure finished-graph expansion and fact joins, without compiler or I/O dependencies.",
+      "// Larger candidate sets remain unexpanded.",
+      "// Separator in projected lane-copy ids.",
+      "/**\n * Expand candidate lane sets after reduction and before phase projection.\n * Return the input unchanged when no step expands. Copies retain their source site\n * and have maybe certainty; FIFO wiring connects equal lanes only.\n */",
+      "// Only admitted replacements populate the plan before the identity decision.",
+      "// Original lookup and replacements share one entry; a later original cannot erase copies.",
+      "/**\n * Join ordered-pair facts in first-key order without mutating input records or phase sets.\n * Higher rank and true exactness win; maybe, absent provenance and non-jump witnesses dominate.\n */",
+      "/** Return maybe if present, otherwise always, including for an empty input. */"
+    ],
+    "emitted": [
+      "// Pure finished-graph expansion and fact joins, without compiler or I/O dependencies.",
+      "// Larger candidate sets remain unexpanded.",
+      "// Separator in projected lane-copy ids.",
+      "/**\n * Expand candidate lane sets after reduction and before phase projection.\n * Return the input unchanged when no step expands. Copies retain their source site\n * and have maybe certainty; FIFO wiring connects equal lanes only.\n */",
+      "// Only admitted replacements populate the plan before the identity decision.",
+      "// Original lookup and replacements share one entry; a later original cannot erase copies.",
+      "/**\n * Join ordered-pair facts in first-key order without mutating input records or phase sets.\n * Higher rank and true exactness win; maybe, absent provenance and non-jump witnesses dominate.\n */",
+      "/** Return maybe if present, otherwise always, including for an empty input. */"
+    ],
+    "declaration": [
+      "/**\n * Expand candidate lane sets after reduction and before phase projection.\n * Return the input unchanged when no step expands. Copies retain their source site\n * and have maybe certainty; FIFO wiring connects equal lanes only.\n */",
+      "/**\n * Join ordered-pair facts in first-key order without mutating input records or phase sets.\n * Higher rank and true exactness win; maybe, absent provenance and non-jump witnesses dominate.\n */",
+      "/** Return maybe if present, otherwise always, including for an empty input. */",
+      "//# sourceMappingURL=causality-graph-lanes.d.ts.map"
+    ]
+  },
+  "upstream": {
+    "blob": "3ea22f6ef15e14fbf1dffdc98e7b3c989bcf183d",
+    "normalizedSha256": "34999bfbe0c10983adf3d62cd9989cf6a288456d03d6530e3e82668f754d7846",
+    "verification": "Local actual recorded publisher bytes, association from existing inventory"
+  },
+  "checks": {
+    "sourceGroups": 3,
+    "sourcePass": 3,
+    "emittedGroups": 3,
+    "emittedPass": 3,
+    "fail": 0,
+    "overlap": "Same documentary/loader groups per mode; no behavioral reruns",
+    "syntaxTrees": 3,
+    "exactHistoricalDeclarationSha256": "0e29131a14c0104b949792c25696ee4caded78b5c95eaf4caa088f8c982d8889",
+    "commentChange": "Three-line header consolidated; four other old comments replaced; one original weakest API comment added; two earlier original plan comments unchanged",
+    "parsedSourceComments": 8,
+    "parsedEmittedComments": 8,
+    "parsedDeclarationComments": 4,
+    "types": {
+      "typescript": "6.0.2",
+      "ownerRoots": 1,
+      "documentaryFixtureRoots": 3,
+      "diagnostics": 0
+    },
+    "emission": {
+      "written": 3,
+      "scope": "Owner JS/declaration/map only"
+    },
+    "lint": "Configured owner and four owned files plus checker: 0 errors/warnings",
+    "format": "Owned source/fixtures/evidence pass",
+    "architecture": "No violations"
+  },
+  "expressionDecision": {
+    "recommendation": "Pending independent root review with disclosed constrained glue; no further rewrite solely for novel bytes recommended",
+    "new": "Earlier plan/direct-node reference owner and new ordered-key fact-record join; current comments are original factual documentation",
+    "retained": "Exact weakest function/FIFO guard; emitted edge/step/first-fact clone expressions; fixed APIs/vocabulary/ids/optional-field semantics and conventional Map/Set/product glue",
+    "discretionaryPublisherProse": "Removed from current production comments, preserved in exact historical archive/evidence",
+    "sourceExposure": true,
+    "separateUnexposedAuthor": false,
+    "rights": "No whole-file independent/MIT/header/registry grant; existing attribution/obligations retained"
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-lane-doc-source.log",
+      "bytes": 404,
+      "sha256": "10f754004f838bccb01cca3e613fc68e1f40844a456a70871f166aba80bd39df"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-emitted.log",
+      "bytes": 403,
+      "sha256": "c3d00acea8513fbe7b9e475a0bfd0613dbc8cab83f3411ea85e95a007eeba14a"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-emit.log",
+      "bytes": 414,
+      "sha256": "ba7aa16f5ea7c3be700d49c64020dda15982a637897459af10e7bbadd5e0a65f"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-types.log",
+      "bytes": 275,
+      "sha256": "9363dfa1b50084d7011859e5e805a2a0ddd3af708ef7b809db8fde089ada61a2"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-configured-lint.log",
+      "bytes": 89,
+      "sha256": "8959993e89577b26322def7e7756ba92e2ac152c2bb5305467c8e2d277696677"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-owned-lint.log",
+      "bytes": 90,
+      "sha256": "d0bd57060ae981da807b29f4154e7132268b6f64d78d55763241deac88233dbe"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-format.log",
+      "bytes": 112,
+      "sha256": "f9fc37c65d9a46675b5e399aa1e1e326a4179f41ab2a4e11084072bdca5226d4"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-architecture.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-evidence-lint.log",
+      "bytes": 89,
+      "sha256": "ab3e8e25790158c3a199b7beea61b3789d2f0fd2a9e1eaf1991e873852554d23"
+    },
+    {
+      "path": "/tmp/knorvia-lane-doc-final-evidence-lint.log",
+      "bytes": 89,
+      "sha256": "8959993e89577b26322def7e7756ba92e2ac152c2bb5305467c8e2d277696677"
+    }
+  ],
+  "limits": [
+    "No full suite/build/benchmark/native/Windows/browser interaction acceptance",
+    "Behavioral final runs belong to prior runtime checkpoint; documentary syntax/API equality binds this final source",
+    "Only synthetic inputs and fake ports; no live workflow/provider/user data",
+    "Root owns independent rights and aggregate acceptance"
+  ],
+  "nextGap": {
+    "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+    "localHistory": "Only 7619e41 snapshot on this branch",
+    "ledger": "upstream-unchanged/unreviewed in historical inventory",
+    "blob": "c6fa31b8dc5f148de80f1d3dc6caad21b342e7bf",
+    "normalizedSha256": "0d43b6c54db63e8607a4b461462c02059b7e1d8feb5b99ed6682ac862049f703",
+    "responsibility": "Temporal witness admission/claimAt/settlesAt used by walk/call/loop analyzers",
+    "status": "Untouched; separate ownership check/spec/freeze required"
+  },
+  "commands": [
+    "node --import tsx --test --test-name-pattern='lane documentation|lane documentary|may-set current artifacts' apps/cli/packages/core/test/causality-lane-documentation.test.ts apps/cli/packages/core/test/may-set-lane-expansion.test.ts",
+    "Same in KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 mode",
+    "node --import tsx docs/evidence/knorvia-causality-lane-documentation-check-20261001.mjs [--local-logs]"
+  ]
+}

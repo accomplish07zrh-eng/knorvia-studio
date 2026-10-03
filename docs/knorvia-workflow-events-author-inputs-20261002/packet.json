@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "owner": "WorkflowSchedulerEventLog captured-port journal/event primitive lifecycle",
+  "authorMembers": ["constructor", "timestamp", "appendGraphStatus", "emitEvent"],
+  "retainedDependencyMembers": ["appendCollectionRecord", "appendExpansionRecords"],
+  "newAuthorInputs": [
+    {
+      "path": "docs/knorvia-workflow-events-author-inputs-20261002/behavior.md",
+      "sha256": "db98df52f2a4e47757cfe0dda399d89a2af6ecb9c30b86849d20c53e2d63aa1e",
+      "bytes": 4911
+    },
+    {
+      "path": "docs/knorvia-workflow-events-author-inputs-20261002/inputs.json",
+      "sha256": "80bdb28f2d5f1778434870e4eec8436cbb719048bc1a7d473c7211e2d9e7bbc6",
+      "bytes": 3087
+    }
+  ],
+  "exactBorrowedDeclarations": [
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/api.d.ts",
+      "sha256": "62e80e5ad71227b526f6249b1acce51db76b78abfe7ef8e05f0b3bf839489909",
+      "bytes": 4855
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/dependencies.d.ts",
+      "sha256": "e4c7d07742cfc9444650c8ba96b14634e66612fa08325cf33539ae0ec26b3664",
+      "bytes": 3984
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/supporting-types.d.ts",
+      "sha256": "3b630e1e552ef6a9bec3c0ffb6cfd7b618395ea2272cbaf5323d30431fd1b01d",
+      "bytes": 5674
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/workflow-types.d.ts",
+      "sha256": "91c9a6680cc92d9972954c7f24a53a40c0b2ee18445af43e606d007fd52385a3",
+      "bytes": 11328
+    }
+  ],
+  "integrationSeam": {
+    "portProperty": "appendGraphRecord",
+    "portType": "WorkflowGraphSchedulerDeps[\"appendGraphRecord\"]",
+    "timestamp": "existing public signature",
+    "receiver": "EventLog instance"
+  },
+  "readBoundary": "Only this manifest, the two new inputs and four exact referenced declaration files. No source/history/test/oracle/curator handoff. No author-process retry or candidate in this checkpoint.",
+  "productionTypeBindings": {
+    "WorkflowEvent,WorkflowGraphCollection,WorkflowNodeStatus,WorkflowRunSnapshot": "@knorvia/contracts",
+    "AppliedPlannerExpansion,WorkflowGraphSchedulerDeps": "./types.js"
+  },
+  "rights": "Source-derived packet; retained API/type/protocol expression and fixed vocabulary. No absolute clean-room/header/registry/licence grant."
+}

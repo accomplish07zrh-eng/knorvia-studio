@@ -1,0 +1,25 @@
+{
+  "description": "Fixed import, protocol and runtime string vocabulary only; no predecessor bodies or commentary",
+  "values": [
+    "../deps.js",
+    "../command-queue.js",
+    "../internal.js",
+    "../types.js",
+    "../../agent/runtime-input-presentation.js",
+    "../../runtime-task/notification.js",
+    "<subagent-message>",
+    "</subagent-message>",
+    "\n",
+    "Dropped stale-branch subagent response",
+    "subagent.response.stale_branch_dropped",
+    "core.runtime",
+    "subagent-message",
+    "next",
+    "subagent_message",
+    "Subagent response enqueued into runtime command queue",
+    "subagent.response.runtime_enqueued",
+    "subagent_reply_steer",
+    "subagent_reply",
+    "model-only"
+  ]
+}

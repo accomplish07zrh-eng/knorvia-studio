@@ -1,0 +1,9 @@
+{
+  "initialFormatCheck": "failed",
+  "files": [
+    "apps/cli/packages/core/test/steering-subagent-artifact-proof-20261003.mjs",
+    "apps/cli/packages/core/test/steering-subagent-current-compile-20261003.cjs"
+  ],
+  "correction": "oxfmt on those two new proof/compiler scripts only",
+  "finalFormatCheck": "passed; no production or frozen assertions changed"
+}

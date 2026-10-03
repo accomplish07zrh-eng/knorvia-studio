@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/turn-stop.ts",
+  "kind": "file",
+  "sha256": "f0a220c4f8fbab6e2c0aa998ff5ad3ee9aacde0cdc82e8763b123f27c67b06aa",
+  "normalizedSha256": "f0a220c4f8fbab6e2c0aa998ff5ad3ee9aacde0cdc82e8763b123f27c67b06aa",
+  "encoding": "utf8-lf",
+  "bytes": 8478,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/turn-stop.ts",
+    "blob": "e57066fb5471019d4384c677d28e3725d8a8b3c6",
+    "normalizedSha256": "f0a220c4f8fbab6e2c0aa998ff5ad3ee9aacde0cdc82e8763b123f27c67b06aa",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/turn-stop.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

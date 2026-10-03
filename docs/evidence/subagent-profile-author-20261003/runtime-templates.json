@@ -1,0 +1,55 @@
+[
+  {
+    "pieces": [
+      " (Tools: ",
+      ")"
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "- ",
+      ": ",
+      "",
+      ""
+    ],
+    "slotCount": 3
+  },
+  {
+    "pieces": [
+      "Agent Markdown must include frontmatter: ",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Agent frontmatter memory must be user, project, or local: ",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Agent frontmatter mcpServers must be a list of parent server names: ",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Agent frontmatter must include ",
+      ": ",
+      ""
+    ],
+    "slotCount": 2
+  },
+  {
+    "pieces": [
+      "",
+      " (",
+      ")"
+    ],
+    "slotCount": 2
+  }
+]

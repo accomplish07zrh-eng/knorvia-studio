@@ -1,12 +1,17 @@
-import { createMessageId, traceContextToLogContext } from "../deps.js";
-import type { MessageId, TraceContext } from "../deps.js";
+import {
+  createMessageId,
+  traceContextToLogContext,
+  type MessageId,
+  type TraceContext,
+} from "../deps.js";
 import type { BackgroundResultOriginMeta } from "@knorvia/contracts";
 import { createRuntimeCommandId, type TaskNotificationRuntimeCommand } from "../command-queue.js";
-import { runtimeInputMetadata } from "../../agent/runtime-input-presentation.js";
 import type { AgentRuntimeInternal } from "../internal.js";
 import type { SealBackgroundTaskNotificationsInput } from "../types.js";
+import { runtimeInputMetadata } from "../../agent/runtime-input-presentation.js";
 import { shouldSuppressSealedSubagentBashNotification } from "../../runtime-task/notification-policy.js";
 
+/** Admit a current-branch result and start its ledger write. */
 export function enqueueBackgroundTaskNotification(
   this: AgentRuntimeInternal,
   notification: {
@@ -18,7 +23,6 @@ export function enqueueBackgroundTaskNotification(
   },
 ): void {
   if (this.shuttingDown) {
-    // 防御直接调用路径：session teardown 期间只允许任务状态收口，不能再启动模型轮次。
     this.logger?.info?.("Dropped background task notification during runtime shutdown", {
       ...traceContextToLogContext(notification.traceContext),
       event: "runtime.background_task_notification.shutdown_dropped",
@@ -28,6 +32,7 @@ export function enqueueBackgroundTaskNotification(
     });
     return;
   }
+
   const task = notification.taskId ? this.runtimeTaskRegistry.get(notification.taskId) : undefined;
   const branchGeneration = task?.branchGeneration ?? this.branchGeneration;
   if (branchGeneration !== this.branchGeneration) {
@@ -41,6 +46,7 @@ export function enqueueBackgroundTaskNotification(
     });
     return;
   }
+
   const commandId = createRuntimeCommandId();
   this.enqueueRuntimeCommand({
     branchGeneration,
@@ -55,9 +61,7 @@ export function enqueueBackgroundTaskNotification(
     toolName: notification.toolName,
     traceContext: notification.traceContext,
   });
-  // wake 入账本（admitted）。runtime 命令队列是纯内存的，账本是唯一
-  // durable 痕迹——崩溃重启后后台子进程已死、通知不可恢复，resume 会把残留
-  // admitted 收口为 discarded(session_resumed)（留痕不静默，同一语义）。
+
   const admission = this.sessionStore?.saveSessionInput?.({
     id: String(commandId),
     sessionID: this.sessionId,
@@ -70,7 +74,7 @@ export function enqueueBackgroundTaskNotification(
     },
   });
   if (admission) {
-    void this.trackResidencyBlockingWork(admission).catch((error) => {
+    void this.trackResidencyBlockingWork(admission).catch((error: unknown) => {
       this.logger?.warn("Failed to admit background notification to ledger", {
         ...traceContextToLogContext(notification.traceContext),
         errorMessage: error instanceof Error ? error.message : String(error),
@@ -82,11 +86,13 @@ export function enqueueBackgroundTaskNotification(
   }
 }
 
+/** Seal notifications only on a child runtime. */
 export function sealBackgroundTaskNotifications(
   this: AgentRuntimeInternal,
   input: SealBackgroundTaskNotificationsInput,
 ): void {
   if (this.config.taskType !== "subagent_child") return;
+
   this.backgroundTaskNotificationsSealed = true;
   this.backgroundTaskNotificationSealReason = input.reason;
   this.logger?.info?.("Subagent runtime background task notifications sealed", {
@@ -97,16 +103,7 @@ export function sealBackgroundTaskNotifications(
   });
 }
 
-export async function persistBackgroundTaskNotificationCommand(
-  this: AgentRuntimeInternal,
-  command: TaskNotificationRuntimeCommand,
-): Promise<MessageId> {
-  const persisted = await persistBackgroundTaskNotificationBatch.call(this, [command], true);
-  return persisted.messageId;
-}
-
 interface PersistedBackgroundTaskNotificationBatch {
-  /** 仅整批来源一致时存在；混合/缺失来源不能从代表任务推断。 */
   backgroundSource?: BackgroundResultOriginMeta["backgroundSource"];
   messageId: MessageId;
   originMeta?: BackgroundResultOriginMeta;
@@ -115,69 +112,51 @@ interface PersistedBackgroundTaskNotificationBatch {
 
 const MAX_BACKGROUND_RESULT_TITLES = 3;
 
-function resolveBackgroundTaskNotificationSource(
-  commands: readonly [TaskNotificationRuntimeCommand, ...TaskNotificationRuntimeCommand[]],
-): BackgroundResultOriginMeta["backgroundSource"] | undefined {
-  const source = commands[0].originMeta?.backgroundSource;
-  if (!source || commands.some((command) => command.originMeta?.backgroundSource !== source)) {
-    // 展示 metadata 只保留代表任务，不能把首项来源当作整批因果来源；
-    // 混合或缺失来源留空，避免 notification 到达顺序改变 message_source。
-    return undefined;
-  }
-  return source;
-}
-
-function resolveBackgroundTaskNotificationOriginMeta(
+function batchOrigin(
   commands: readonly [TaskNotificationRuntimeCommand, ...TaskNotificationRuntimeCommand[]],
 ): BackgroundResultOriginMeta | undefined {
-  // 单条：originMeta 整体透传，workflowNotification 载荷免费搭车（manifest 渲染的唯一数据源）。
   if (commands.length === 1) return commands[0].originMeta;
 
-  const originMetas: BackgroundResultOriginMeta[] = [];
+  const origins: BackgroundResultOriginMeta[] = [];
   for (const command of commands) {
-    const originMeta = command.originMeta;
-    if (!originMeta?.workId.trim() || !originMeta.title.trim()) return undefined;
-    originMetas.push(originMeta);
+    const origin = command.originMeta;
+    if (!origin?.workId.trim() || !origin.title.trim()) return undefined;
+    origins.push(origin);
   }
 
-  const representative = originMetas[0];
-  if (!representative) return undefined;
-  const visibleTitles = originMetas
+  const titles = origins
     .slice(0, MAX_BACKGROUND_RESULT_TITLES)
-    .map((originMeta) => originMeta.title.trim());
-  const remainingCount = originMetas.length - visibleTitles.length;
-  const title = [...visibleTitles, ...(remainingCount > 0 ? [`+${remainingCount}`] : [])].join(
-    " · ",
-  );
-
-  // 多 notification 共用一个 turn 后若直接丢弃 originMeta，后台结果会退化为
-  // 普通 assistant 渲染。这里复用首个任务的展示锚点并只合成 title，不引入 batch schema。
-  //
-  // workflowNotification 载荷**刻意不合成**：manifest 是「一轮 ↔ 一张」的对应，批量下这条关系不成立——谎报第一条的
-  // 载荷比整轮退化成裸标题行更坏。只保留 {backgroundSource, title, workId} 三个基字段，
-  // 整轮据此退回现状标题行。
+    .map((origin) => origin.title.trim());
+  if (origins.length > MAX_BACKGROUND_RESULT_TITLES)
+    titles.push(`+${origins.length - MAX_BACKGROUND_RESULT_TITLES}`);
   return {
-    backgroundSource: representative.backgroundSource,
-    title,
-    workId: representative.workId,
+    backgroundSource: origins[0].backgroundSource,
+    title: titles.join(" · "),
+    workId: origins[0].workId,
   };
 }
 
+/** Publish one notice, then promote its queued inputs in command order. */
 export async function persistBackgroundTaskNotificationBatch(
   this: AgentRuntimeInternal,
   commands: readonly [TaskNotificationRuntimeCommand, ...TaskNotificationRuntimeCommand[]],
-  midTurn = false,
+  midTurn?: boolean,
 ): Promise<PersistedBackgroundTaskNotificationBatch> {
-  const firstCommand = commands[0];
-  const backgroundSource = resolveBackgroundTaskNotificationSource(commands);
-  const originMeta = resolveBackgroundTaskNotificationOriginMeta(commands);
+  const first = commands[0];
+  const source = first.originMeta?.backgroundSource;
+  const backgroundSource =
+    source && commands.every((command) => command.originMeta?.backgroundSource === source)
+      ? source
+      : undefined;
+  const originMeta = batchOrigin(commands);
   const text = commands.map((command) => command.text).join("\n\n");
-  await this.ensureContextInitialized(firstCommand.traceContext);
-  const messageID = createMessageId();
+
+  await this.ensureContextInitialized(first.traceContext);
+  const messageId = createMessageId();
   const inputPresentation = midTurn ? "task_notification_steer" : "task_notification";
   this.messageHistory.addUser(text, runtimeInputMetadata(inputPresentation));
   await this.persistSyntheticUserNoticeForSession({
-    messageID,
+    messageID: messageId,
     metadata: {
       inputPresentation,
       ...(originMeta ? { originMeta } : {}),
@@ -186,19 +165,18 @@ export async function persistBackgroundTaskNotificationBatch(
     sessionId: this.sessionId,
     source: "background_task",
     text,
-    traceContext: firstCommand.traceContext,
+    traceContext: first.traceContext,
     visibility: "model-only",
   });
-  // outer drain 过去逐条持久化并逐条启动模型轮，pending 数量会线性放大
-  // request 数。整批只写一条 synthetic message，同时仍逐项结算 ledger 身份。
+
   for (const command of commands) {
     await this.sessionStore
       ?.markSessionInputPromoted?.({
         id: String(command.id),
         sessionID: this.sessionId,
-        promotedMessageID: messageID,
+        promotedMessageID: messageId,
       })
-      .catch((error) => {
+      .catch((error: unknown) => {
         this.logger?.warn("Failed to mark background notification promoted", {
           ...traceContextToLogContext(command.traceContext),
           commandId: command.id,
@@ -209,12 +187,21 @@ export async function persistBackgroundTaskNotificationBatch(
         });
       });
   }
+
   return {
     ...(backgroundSource ? { backgroundSource } : {}),
-    messageId: messageID,
+    messageId,
     ...(originMeta ? { originMeta } : {}),
     text,
   };
+}
+
+export async function persistBackgroundTaskNotificationCommand(
+  this: AgentRuntimeInternal,
+  command: TaskNotificationRuntimeCommand,
+): Promise<MessageId> {
+  const batch = await persistBackgroundTaskNotificationBatch.call(this, [command], true);
+  return batch.messageId;
 }
 
 export function shouldSuppressTaskNotificationRuntimeCommand(
@@ -229,9 +216,8 @@ export function shouldSuppressTaskNotificationRuntimeCommand(
       registryTask,
       toolName: command.toolName,
     })
-  ) {
+  )
     return false;
-  }
 
   this.logger?.info?.("Suppressed sealed subagent background Bash notification", {
     ...traceContextToLogContext(command.traceContext),

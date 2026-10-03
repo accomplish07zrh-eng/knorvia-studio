@@ -1,0 +1,41 @@
+{
+  "version": "draft-02",
+  "typescript": "6.0.2",
+  "scope": [
+    {
+      "owner": "model-request",
+      "draft": "/tmp/knorvia-model-request-author-20261003/draft-02/runtime/methods/model-request-stream-state.ts",
+      "rel": "runtime/methods/model-request-stream-state.ts"
+    },
+    {
+      "owner": "model-request",
+      "draft": "/tmp/knorvia-model-request-author-20261003/draft-02/runtime/methods/model.ts",
+      "rel": "runtime/methods/model.ts"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "draft": "/tmp/knorvia-turn-tool-batch-author-20261003/draft-02/runtime/methods/turn-tool-batch-follow-up.ts",
+      "rel": "runtime/methods/turn-tool-batch-follow-up.ts"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "draft": "/tmp/knorvia-turn-tool-batch-author-20261003/draft-02/runtime/methods/turn-tool-batch-parts.ts",
+      "rel": "runtime/methods/turn-tool-batch-parts.ts"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "draft": "/tmp/knorvia-turn-tool-batch-author-20261003/draft-02/runtime/methods/turn-tools.ts",
+      "rel": "runtime/methods/turn-tools.ts"
+    }
+  ],
+  "productionEdited": false,
+  "diagnostics": [
+    {
+      "code": 4058,
+      "file": "apps/cli/packages/core/src/runtime/methods/model-request-stream-state.ts",
+      "line": 15,
+      "message": "Return type of exported function has or is using name 'ModelStreamingEventQueue' from external module \"/workspace/knorvia-studio/apps/cli/packages/core/src/runtime/methods/model-streaming-event-queue\" but cannot be named."
+    }
+  ],
+  "emitted": {}
+}

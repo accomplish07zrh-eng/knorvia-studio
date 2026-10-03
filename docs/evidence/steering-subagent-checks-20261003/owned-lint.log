@@ -1,0 +1,22 @@
+
+  ! eslint(no-unused-vars): Parameter 'input' is declared but never used. Unused parameters should start with a '_'.
+     ,-[apps/cli/packages/core/test/steering-subagent-ports-20261003.mjs:99:31]
+  98 |       },
+  99 |       async listSessionInputs(input) {
+     :                               ^^|^^
+     :                                 `-- 'input' is declared here
+ 100 |         assert.equal(this, runtime.sessionStore);
+     `----
+  help: Consider removing this parameter.
+
+  ! typescript-eslint(no-this-alias): Unexpected aliasing of 'this' to local variable.
+    ,-[apps/cli/packages/core/src/runtime/methods/subagent.ts:41:9]
+ 40 |   if (this.config.subagents?.enabled === false) return undefined;
+ 41 |   const parent = this;
+    :         ^^^^^^
+ 42 |   return createExploreSubagentPort({
+    `----
+  help: Assigning a variable to this instead of properly using arrow lambdas may be a symptom of pre-ES2015 practices or not managing scope well.
+
+Found 2 warnings and 0 errors.
+Finished in 14ms on 18 files with 94 rules using 4 threads.

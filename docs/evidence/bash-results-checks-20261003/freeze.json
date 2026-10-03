@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "base": "5a89d668847390fe9e16518c59964570f6487aa9",
+  "owners": {
+    "apps/cli/packages/core/src/tool/handlers/bash-output.ts": {
+      "sha256": "a8be37b54102dc22a70283f461135aa689bc4f56a60ff18e1f1c7d86139edfa7",
+      "recordedInventory": {
+        "path": "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+        "kind": "file",
+        "sha256": "a8be37b54102dc22a70283f461135aa689bc4f56a60ff18e1f1c7d86139edfa7",
+        "normalizedSha256": "a8be37b54102dc22a70283f461135aa689bc4f56a60ff18e1f1c7d86139edfa7",
+        "encoding": "utf8-lf",
+        "bytes": 5561,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/bash-output.ts",
+          "blob": "b90f91a728f0da414307fe568fe1b6fc9885e725",
+          "normalizedSha256": "feb9ef66a7f631077588be16cae87bda04ae95d2bcd0d44d4e241848a07787fc",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "historicalReview": null,
+      "sourceHistory": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "priorReceiptReferences": [
+        {
+          "path": "docs/evidence/turn-machine-checks-20261003/freeze.json",
+          "sha256": "8be208f54408cfb4b992fdc8a95c993f69183ecd385a8d108596fc9618189433",
+          "pointer": "protected/apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+          "classification": "protected input, not a whole candidate"
+        }
+      ]
+    },
+    "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts": {
+      "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728",
+      "recordedInventory": {
+        "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+        "kind": "file",
+        "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728",
+        "normalizedSha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728",
+        "encoding": "utf8-lf",
+        "bytes": 7184,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/bash-model-content.ts",
+          "blob": "b86b00681f70563b48ba7002dc357f693feb0c10",
+          "normalizedSha256": "a850a68eb154ee68c0966ebf5d0ca763723698f98c94725be512f0ab5028b088",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "historicalReview": null,
+      "sourceHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "priorReceiptReferences": [
+        {
+          "path": "docs/evidence/turn-machine-checks-20261003/freeze.json",
+          "sha256": "8be208f54408cfb4b992fdc8a95c993f69183ecd385a8d108596fc9618189433",
+          "pointer": "protected/apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+          "classification": "protected input, not a whole candidate"
+        }
+      ]
+    }
+  },
+  "packetFiles": [
+    "docs/evidence/bash-results-author-20261003/bash-model-content-api.d.ts",
+    "docs/evidence/bash-results-author-20261003/bash-output-api.d.ts",
+    "docs/evidence/bash-results-author-20261003/contract.md",
+    "docs/evidence/bash-results-author-20261003/dependency-api.d.ts",
+    "docs/evidence/bash-results-author-20261003/model-strings.json"
+  ],
+  "bindings": {
+    "docs/evidence/bash-results-author-20261003/bash-model-content-api.d.ts": "9fa8a4b6475bfafab750ebb77cf233fc04f60e12ee697f1feee3c4b11b31e5d0",
+    "docs/evidence/bash-results-author-20261003/bash-output-api.d.ts": "6a7a622553cf9abf55499b6f8638e07033d885d81cbc219658c78e196c1bddac",
+    "docs/evidence/bash-results-author-20261003/contract.md": "d0b459f0ac4462a98c2aa06677aa91abcd7169aa4869f1b69ef554c1557d5579",
+    "docs/evidence/bash-results-author-20261003/dependency-api.d.ts": "332d12c0a9e9d652963eff63865ba64b6c9441651d3e8491b3f12c4ad2e9087f",
+    "docs/evidence/bash-results-author-20261003/model-strings.json": "2972831bdb10e3803dd296c300e2ea40b90826823d48820326b8197611625edd",
+    "specs/knorvia-bash-results-owners-20261003.md": "81bd459d9335c294f069846617131b2f871c26d32b173e10fdec2f8589eeb1f7",
+    "apps/cli/packages/core/test/bash-results-safety-20261003.mjs": "3738ea92bf48cd97c6f4a3b9660b3efcd76ae6a5c34c13476697e27fb7026292",
+    "apps/cli/packages/core/test/bash-results-baseline-20261003.json": "b4180fb37af8689f36bc9ffc9730d286dd1ac21d7b24efc585c94a6a44c24c97",
+    "apps/cli/packages/core/test/bash-results-observations-20261003.json": "5f57b1ccc612af7ec364b521585a2cb9f3539036512bddcd2b6063a55cbe8fde"
+  },
+  "protectedReferences": {
+    "docs/evidence/turn-machine-checks-20261003/freeze.json": "8be208f54408cfb4b992fdc8a95c993f69183ecd385a8d108596fc9618189433",
+    "docs/evidence/knorvia-background-tracker-current-20261003.json": "e3a8f212f9a30970acdffbefb1f7198c859fb698da87a689ed3fd57f222b1453",
+    "docs/evidence/knorvia-turn-control-current-20261003.json": "eeaae751dfebb6cd71fef38889589be3a5c9c48cd640ab0740ccf1c0ef2fcefd",
+    "docs/evidence/knorvia-turn-control-owner-20261003.json": "60167909c227aad770680d66e968aec59ae306197e0072f288f0bc425252a149"
+  },
+  "protectedCount": 699,
+  "protectionRule": "Original turn-machine protected map plus original selected source; override exact current background three and current turn-control source; exclude only two allocated Bash result owners.",
+  "minimumGroups": 2,
+  "actualConsumersWithinGroups": [
+    "Bash ToolEntry formatModelContent/formatPersistedModelContent",
+    "runtime isErrorForToolResult"
+  ],
+  "limits": "Bash execution, semantics/permission, image processor, tool-perf, generic persisted formatter and E/root/HOLDs unchanged; only own result data/type/publication boundary. Synthetic schema/image ports; no full actual schema-validation or command-policy proof. Native settled image boundary plus one delayed owned result covers relevant data lifetime, not a broad cancellation matrix.",
+  "configuration": "Saved Sol/high/FastON parent-confirmed; no independent tier introspection/change.",
+  "remainingCandidates": {
+    "events.ts": "retained fixed protocol, no originality credit",
+    "workflow-artifact.ts": "serializer re-export plus constrained report-budget projection; retain without manufacturing a novel reducer",
+    "background-task-registry.ts": "protected lower identity/publication bridge to held runtime task registry; not reopened",
+    "workflow-published-artifacts.ts": "prior protected lower fixed model/schema projection retained",
+    "subagent/tool-event-mirror.ts": "runner protected event/interaction helper; no separate allocation, unchanged",
+    "subagent/borrowed-mcp-port.ts": "captured MCP scope/lifecycle authority helper remains protected",
+    "handlers/TaskOutput/TaskStop": "root-owned untouched",
+    "workflow handlers": "E/previous mixed-reviewed boundary, no overlap",
+    "handlers/bash-readonly-policy-*": "security/permission owners outside this result-data allocation; unchanged"
+  }
+}

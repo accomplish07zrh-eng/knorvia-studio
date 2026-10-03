@@ -1,0 +1,52 @@
+{"mode":"immutable actual-emitted predecessor vs sealed-draft transpile with unchanged dependencies","predecessor":{"browserTwoTabs":true,"readOnlyReads":2,"attempts":["owned-0:end-of-stream","owned-1:end-of-stream","owned-2:end-of-stream","owned-3:end-of-stream"]},"draft":{"browserTwoTabs":false,"readOnlyReads":1,"attempts":["owned-0:end-of-stream","owned-0:end-of-stream","owned-0:end-of-stream","owned-0:end-of-stream"]}}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
+    attempts: [
+      'owned-0:end-of-stream',
++     'owned-0:end-of-stream',
++     'owned-0:end-of-stream',
++     'owned-0:end-of-stream'
+-     'owned-1:end-of-stream',
+-     'owned-2:end-of-stream',
+-     'owned-3:end-of-stream'
+    ],
++   browserTwoTabs: false,
++   readOnlyReads: 1
+-   browserTwoTabs: true,
+-   readOnlyReads: 2
+  }
+
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/.stream-five-red.mjs:11:228) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: {
+    browserTwoTabs: false,
+    readOnlyReads: 1,
+    attempts: [
+      'owned-0:end-of-stream',
+      'owned-0:end-of-stream',
+      'owned-0:end-of-stream',
+      'owned-0:end-of-stream'
+    ]
+  },
+  expected: {
+    browserTwoTabs: true,
+    readOnlyReads: 2,
+    attempts: [
+      'owned-0:end-of-stream',
+      'owned-1:end-of-stream',
+      'owned-2:end-of-stream',
+      'owned-3:end-of-stream'
+    ]
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

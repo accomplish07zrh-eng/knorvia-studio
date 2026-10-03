@@ -1,0 +1,58 @@
+{
+  "owner": "turn.ts executeTurnCommand only",
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "predecessorBodyAllowed": false,
+  "inputs": [
+    {
+      "path": "contract.md",
+      "bytes": 15148,
+      "sha256": "ea631225168185f3cd5dfb955054ced13a9fd48d0e7de6d602f1e22402a0940c"
+    },
+    {
+      "path": "api.d.ts",
+      "bytes": 631,
+      "sha256": "39ee2f8e101188de7254b8f0cd8487ceb2af83707ec9360cc5ec862f72479eb6"
+    },
+    {
+      "path": "imports.d.ts",
+      "bytes": 2536,
+      "sha256": "96fe25f1c8829b5038dc5a209b40d915d85861d095762723a08aa87430c6b52d"
+    },
+    {
+      "path": "supporting.d.ts",
+      "bytes": 30057,
+      "sha256": "faa4f17892f61a48bca2a908e9f7ccc2ee2df59bf6270347f780f9ff3fdd5916"
+    },
+    {
+      "path": "runtime-ports.d.ts",
+      "bytes": 5406,
+      "sha256": "e40cef9fec8f4a5b0ba1d06d6b508f072994591ea41cd1d192c3b50bedd58654"
+    },
+    {
+      "path": "dependency-ports.json",
+      "bytes": 17842,
+      "sha256": "c2485e295a8df3982b27ce4b71aef3279c5d02931307cb3e692fe98df9aadb03"
+    },
+    {
+      "path": "literals.json",
+      "bytes": 1477,
+      "sha256": "b5454e7d8b71ea02be54e73f0010eff01f331b58d3856604ac2206cbca68a22f"
+    },
+    {
+      "path": "log-fields.json",
+      "bytes": 1138,
+      "sha256": "d7e83a3cac79206fd4a24ba997cb86780b45aa1b3d06c3cd867fc48347e8a6f9"
+    },
+    {
+      "path": "port-clarification.d.ts",
+      "bytes": 11702,
+      "sha256": "9d9eb48c88bb8a7f3c18570381bb3736f40f78c8ffb1589740fb5b1cbd7bc0e3"
+    },
+    {
+      "path": "event-fields.json",
+      "bytes": 1433,
+      "sha256": "6044b99cc5543937111b07ad44428b90b8e1485ffe125959a04284364225b51c"
+    }
+  ]
+}

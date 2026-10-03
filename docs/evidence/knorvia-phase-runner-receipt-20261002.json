@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "candidateCommit": "11cec625d62cf502a8c551bc1370e354736549d1",
+  "baselineCommit": "2054ab0e49a2a51ee4e7c59ebdf81a466fc94c49",
+  "scope": "Only expert/phase-runner.ts production; one invocation owns a child-link cursor. Existing context owns snapshot projections, clocks, storage and event publication; callers own retries and workflow lifecycle.",
+  "authoring": {
+    "draftSha256": "7008a8573e5a051afae9fb29f80b9a4994d09d1311b4ee05060217d3f3d1f7e7",
+    "draftBytes": 7824,
+    "boundary": "Fresh fork_turns none author; instructed to read only two copied packet files. Author reports compliance. Shared filesystem, not an access-isolated clean room. Curator saw predecessor and prepared source-derived behavior packet. Draft saved/hash-bound at f3609a9 before curator comparison.",
+    "integration": "Formatting and type-import placement only. Recursive TS node-kind/leaf comparison proves all non-import statements equal saved draft; public emitted declaration equals historical bytes."
+  },
+  "validation": {
+    "compiler": "TypeScript 6.0.2 owner-root program: zero diagnostics; emitted only phase-runner JS/dts/map. No CLI/package build.",
+    "safety": "One group: four paired old/current phase scenarios (child-link success plus late callback, startup write rejection, terminal publication rejection/repair, abort passthrough); one paired real emitted run-loop success consumer. Two strict selector negatives (wrong and missing JS). Owned synthetic store/runner/clock only. Passed.",
+    "routing": "Current owner imported directly from strict hash-bound dist JS; historical owner from exact archived compiler output rebound to same dependencies. Real emitted RuntimeContext and run-loop; unused scheduled/critic paths guarded. tsx needed only for transitive workspace source dependencies. This is not an all-dependencies-emitted/native acceptance claim.",
+    "runs": "Initial plain Node and CJS export-resolution attempts failed before assertions. Final --import tsx --test run passed; file-only reporter prompted a temporary instrumented diagnostic and direct invocation, each also passed. Same single group, not three distinct coverage groups. No duplicate source matrix.",
+    "lint": "Configured root lint excludes apps/cli and selected zero files, including with --no-ignore. Owned temporary config removes only that ignore, retains all 94 rules: two files, zero errors/warnings.",
+    "format": "Owned source/test check passed.",
+    "architecture": "Changed architecture check passed, zero violations; CLI unmanaged. First command used nonexistent scripts/architecture/check.mjs; corrected to repository configured architecture-check.mjs.",
+    "draftProofFailure": "Initial TS-printer text comparison failed because printer preserves selected source line breaks around optional chaining and conditional spread. Not a runtime/API failure; replaced proof with recursive AST node/leaf comparison, which passed. Compiler diagnostics and exact declaration assertion had already passed.",
+    "skipped": [
+      "source behavior suite",
+      "full suite",
+      "whole CLI/desktop build",
+      "root-wide types/lint",
+      "critic-loop invocation/retry acceptance",
+      "exhaustive concurrency/timing/accessor cases",
+      "native Windows and pinned Node 24.14 acceptance"
+    ]
+  },
+  "expressionReview": {
+    "status": "Candidate for separate review; not whole-file reconstruction acceptance or MIT grant.",
+    "retained": "Fixed API/import seams, public prose, statuses, object field names/order and conditional metadata projection mirror the predecessor contract. The saved authored body also substantially resembles predecessor sequencing, activity construction and error repair combinations. Main differences are local names, explicit intermediate linked-phase binding and layout. Fresh restricted-input drafting is factual process evidence, not proof these combinations are independently protectable expression. No cosmetic rename/relocation originality credit. No prior rights or notices changed.",
+    "origin": "Historical inventory classifies local predecessor upstream-modified/unreviewed, publisher path apps/zcode-cli/packages/core/src/workflow/expert/phase-runner.ts blob ef36a9926ee355e48c59051cd053e33c0d3a44c3 normalized SHA256 38ead3c321411b3194863c153cac7bc08aea6725ca13161cae3fad9dee884d8f. Metadata read only; no new publisher-byte acquisition claimed.",
+    "nextGap": "Independent expression review of this complete phase candidate. Root/other-lane scopes and planner/graph files unchanged; no cross-lane integration. A subsequent active lifecycle candidate is expert/run-loop.ts, not authored or accepted here."
+  },
+  "failures": {
+    "plain-node-failure.log": "node:internal/modules/esm/resolve:271\n    throw new ERR_MODULE_NOT_FOUND(\n          ^\n\nError [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/knorvia-studio/packages/shared/src/protocol-v4/core.js' imported from /workspace/knorvia-studio/packages/shared/src/protocol-v4/index.ts\n    at finalizeResolution (node:internal/modules/esm/resolve:271:11)\n    at moduleResolve (node:internal/modules/esm/resolve:865:10)\n    at defaultResolve (node:internal/modules/esm/resolve:992:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)\n    at #resolve (node:internal/modules/esm/loader:683:17)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)\n    at ModuleJob.syncLink (node:internal/modules/esm/module_job:163:33)\n    at ModuleJob.link (node:internal/modules/esm/module_job:253:17) {\n  code: 'ERR_MODULE_NOT_FOUND',\n  url: 'file:///workspace/knorvia-studio/packages/shared/src/protocol-v4/core.js'\n}\n\nNode.js v24.19.0\n\u2716 apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs (94.832048ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 0\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 102.045973\n\n\u2716 failing tests:\n\ntest at apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs:1:1\n\u2716 apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs (94.832048ms)\n  'test failed'\n",
+    "cjs-resolution-failure.log": "node:internal/modules/esm/resolve:314\n  return new ERR_PACKAGE_PATH_NOT_EXPORTED(\n         ^\n\nError [ERR_PACKAGE_PATH_NOT_EXPORTED]: No \"exports\" main defined in /workspace/knorvia-studio/apps/cli/packages/core/node_modules/@knorvia/contracts/package.json\n    at exportsNotFound (node:internal/modules/esm/resolve:314:10)\n    at packageExportsResolve (node:internal/modules/esm/resolve:605:13)\n    at resolveExports (node:internal/modules/cjs/loader:707:36)\n    at Module._findPath (node:internal/modules/cjs/loader:774:31)\n    at node:internal/modules/cjs/loader:1502:27\n    at m._resolveFilename (file:///workspace/knorvia-studio/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)\n    at nextResolveSimple (/workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)\n    at /workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630\n    at /workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542\n    at resolveTsPaths (/workspace/knorvia-studio/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760) {\n  code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'\n}\n\nNode.js v24.19.0\n\u2716 apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs (750.777121ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 0\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 757.721641\n\n\u2716 failing tests:\n\ntest at apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs:1:1\n\u2716 apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs (750.777121ms)\n  'test failed'\n"
+  },
+  "files": {
+    "specs/knorvia-phase-runner-20261002.md": "33ccecfe16cd31f2cdf7c66e807933e454d79c9b3dba014619719eb6d1bf0e85",
+    "docs/evidence/phase-runner-author-20261002/contract.md": "3687991513bfadf33273008a8ec492a3d44298229fdf29fec8b04c2484771871",
+    "docs/evidence/phase-runner-author-20261002/api.d.ts": "a71fdcfef0d7b99e46dda37f41674f89da676cfb73f6d5bfff518812e117bce2",
+    "docs/evidence/phase-runner-author-20261002/draft-exact.json": "032ee0ad47abc4bb19f71741902d10274ffc68a8e2e4d3b91f79446e0562df4b",
+    "apps/cli/packages/core/test/workflow-phase-runner-baseline.json": "cbb19f1c309989e66ea2fda06130e61a420c3467ab736d264dbe8f75fda8e4ed",
+    "apps/cli/packages/core/test/workflow-phase-runner-current.json": "71f309c2e9fdf191b2098808259b5382f39626f92a91ee7680301249e8e60ae5",
+    "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs": "1510c83bc1f5ea42ffe41521cc3705ad831b836d5b339e0580ab987574962463",
+    "apps/cli/packages/core/src/workflow/expert/phase-runner.ts": "4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0",
+    "apps/cli/packages/core/dist/workflow/expert/phase-runner.js": "c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26",
+    "apps/cli/packages/core/dist/workflow/expert/phase-runner.d.ts": "c4d2ce122a2bde644d5ca4bbb7842fdb99e18d06373da611036027a236217d1e"
+  }
+}

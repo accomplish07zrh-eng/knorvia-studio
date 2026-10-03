@@ -1,0 +1,15 @@
+{
+  "errors": [
+    "Full access is unsupported",
+    "Queue mutation is busy; retry approval",
+    "Permission receipt scope mismatch",
+    "Permission update is busy; retry mode change",
+    "Plan and Goal cannot be active at the same time."
+  ],
+  "fullAccessMode": "yolo",
+  "eventType": "SessionEventType.SessionModeChanged",
+  "executionEntryId": "${sessionId}:runtime-execution-state",
+  "receiptId": "${sessionId}:permission-full-access:${interactionId}",
+  "receiptFields": ["id", "sessionID", "type", "touchSession", "time", "data"],
+  "commitFields": ["sessionID", "queueItemIds", "signal", "execution", "receipt"]
+}

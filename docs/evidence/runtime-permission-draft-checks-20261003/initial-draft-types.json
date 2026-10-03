@@ -1,0 +1,13 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2322,
+      "file": "apps/cli/packages/core/src/runtime/permission-full-access.ts",
+      "message": "Type '{ type: \"session_mode_changed\"; id: string; sessionId: string; traceId: string; payload: { mode: \"yolo\"; source: \"command\"; planEnabled: boolean; permissionGrant: { interactionId: string; queueItemIds: string[]; }; previousMode: \"auto\" | ... 3 more ... | \"yolo\"; previousPlanEnabled: boolean; }; timestamp: Date; sequ...' is not assignable to type 'SessionEvent & { payload: SessionModeChangedPayload; }'.\n  Type '{ type: \"session_mode_changed\"; id: string; sessionId: string; traceId: string; payload: { mode: \"yolo\"; source: \"command\"; planEnabled: boolean; permissionGrant: { interactionId: string; queueItemIds: string[]; }; previousMode: \"auto\" | ... 3 more ... | \"yolo\"; previousPlanEnabled: boolean; }; timestamp: Date; sequ...' is not assignable to type 'SessionEvent'.\n    Types of property 'id' are incompatible.\n      Type 'string' is not assignable to type 'EventId'.\n        Type 'string' is not assignable to type '{ readonly __brand: \"EventId\"; }'."
+    }
+  ],
+  "apiEqual": false,
+  "apiProof": {},
+  "emissions": []
+}

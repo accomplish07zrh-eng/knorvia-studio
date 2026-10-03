@@ -44,6 +44,7 @@ export async function persistCompletedAssistantStep(
   if (!model) {
     throw new Error("Model-backed assistant persistence requires the loop Model");
   }
+
   let committed = commitAssistantToTurnRequest(runtime, state, options.result, undefined);
   if (!committed && options.includeEmptyAssistant) {
     commitTurnRequestEntries(runtime, state.turnRequestState, [
@@ -57,6 +58,7 @@ export async function persistCompletedAssistantStep(
     ]);
     committed = true;
   }
+
   if (!committed) {
     if (runtime.sessionStore) {
       await runtime.sessionStore.removeMessage({
@@ -64,6 +66,7 @@ export async function persistCompletedAssistantStep(
         messageID: options.assistantMessageId,
       });
     }
+    // Restore only pointers still owned by this discarded message.
     if (runtime.latestConversationMessageId === options.assistantMessageId) {
       runtime.latestConversationMessageId =
         options.assistantPersistenceAnchor.latestConversationMessageId;
@@ -75,7 +78,8 @@ export async function persistCompletedAssistantStep(
     }
     return false;
   }
-  const persistedTokens = toTokenUsageInfo(options.result.usage);
+
+  const tokens = toTokenUsageInfo(options.result.usage);
   await runtime.persistPart(
     {
       id: createPartId(),
@@ -84,7 +88,7 @@ export async function persistCompletedAssistantStep(
       type: "step-finish",
       reason: options.result.finishReason,
       cost: 0,
-      tokens: persistedTokens,
+      tokens,
     },
     options.modelTraceContext,
   );
@@ -92,11 +96,7 @@ export async function persistCompletedAssistantStep(
     options.assistantMessageId,
     state.currentUserMessageId,
     options.assistantCreatedAt,
-    {
-      completed: Date.now(),
-      finish: options.result.finishReason,
-      tokens: persistedTokens,
-    },
+    { completed: Date.now(), finish: options.result.finishReason, tokens },
     options.modelTraceContext,
     model,
   );
@@ -107,7 +107,10 @@ export async function persistOutputTokenLimitErrorCarrier(
   runtime: AgentRuntimeInternal,
   state: RegularTurnLoopState,
   options: {
-    error: { data: Record<string, unknown>; name: string };
+    error: {
+      data: Record<string, unknown>;
+      name: string;
+    };
     finishReason: string;
     model: Model;
     modelTraceContext: TraceContext;
@@ -117,8 +120,7 @@ export async function persistOutputTokenLimitErrorCarrier(
   const createdAt = Date.now();
   const tokens = emptyTokenUsageInfo();
 
-  // partial 与终态 error 共用 durable assistant 时，Compact 无法同时重放
-  // provider partial 并排除 transcript-only error。两者拆成独立消息后沿用既有过滤边界即可。
+  // The carrier has its own message identity and staged persistence.
   await runtime.persistAssistantMessage(
     messageId,
     state.currentUserMessageId,
@@ -168,14 +170,15 @@ export async function finishModelStepWithoutToolCalls(
   if (!state.model) {
     throw new Error("Model-backed turn stop requires the loop Model");
   }
-  const assistantCommitted = await persistCompletedAssistantStep(this, state, {
+  const committed = await persistCompletedAssistantStep(this, state, {
     ...options,
     includeEmptyAssistant: true,
   });
-  if (assistantCommitted) recordModelHistoryRound(state);
+  if (committed) {
+    recordModelHistoryRound(state);
+  }
+
   if (state.automationCreateLimitReached) {
-    // 上限命中后只允许这一轮纯文本说明。跳过 guide 和 Stop hook，避免它们再次
-    // 触发模型请求，把已经关闭工具的 turn 延长成新的恢复循环。
     if (state.activeTurn) {
       await this.fallbackPendingGuidesToQueue({
         activeTurn: state.activeTurn,
@@ -192,32 +195,31 @@ export async function finishModelStepWithoutToolCalls(
     );
     return "break";
   }
+
   if (await drainInlineGuideForNextRequest(this, state)) {
-    // 正常 text-only 是可续跑边界：assistant 已持久化，guide 以 user role 进入历史，
-    // 保持同一 active turn 继续下一次 provider request，不改投 future queue。
     state.turnMachine = new TurnMachineImpl(state.turnMachine.aggregateResults());
     return "continue";
   }
-  const stopHookResult = await this.runStopHooks(
+
+  const hookResult = await this.runStopHooks(
     state.modelResponse,
     state.toolCallCount,
     state.turnTraceContext,
     state.turnAbortSignal,
     state.stopHookContinuationCount > 0,
   );
-  if (this.shouldContinueAfterStopHooks(stopHookResult, state.stopHookContinuationCount)) {
-    state.stopHookContinuationCount += 1;
+  if (this.shouldContinueAfterStopHooks(hookResult, state.stopHookContinuationCount)) {
+    state.stopHookContinuationCount++;
     const hookEntry = this.injectHookAdditionalContextIntoMessageHistory(
       HookEventName.Stop,
-      stopHookResult.additionalContexts,
+      hookResult.additionalContexts,
     );
     appendTurnRequestEntries(state.turnRequestState, hookEntry ? [hookEntry] : []);
     state.turnMachine = new TurnMachineImpl(state.turnMachine.aggregateResults());
     return "continue";
   }
+
   if (state.activeTurn) {
-    // FIFO barrier / reservation 阻止本轮安全 inline 时，仍保留既有权威 queue 兜底；
-    // 正常可消费的 text-only guide 已在上方作为 user-role continuation drain。
     await this.fallbackPendingGuidesToQueue({
       activeTurn: state.activeTurn,
       events: state.events,
@@ -225,9 +227,9 @@ export async function finishModelStepWithoutToolCalls(
       traceContext: state.turnTraceContext,
     });
   }
-  if (state.activeTurn) state.activeTurn.steerable = false;
-  // assistant completed 只代表 model step 收口；Stop hook 仍可能继续同一 product turn。
-  // 只有最终 break 才把它交给 turn.ts 在 goal accounting 后持久化最终 boundary。
+  if (state.activeTurn) {
+    state.activeTurn.steerable = false;
+  }
   state.stableProductStartMessageId = state.currentUserMessageId;
   state.stableBoundaryAssistantMessageId = options.assistantMessageId;
   state.turnMachine = new TurnMachineImpl(

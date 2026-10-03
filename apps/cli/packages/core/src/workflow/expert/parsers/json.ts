@@ -3,10 +3,12 @@ export function parsePlannerJson(response: string): unknown {
   if (trimmed.startsWith("{")) {
     return JSON.parse(trimmed);
   }
-  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-  if (fenced?.[1]) {
-    return JSON.parse(fenced[1]);
+
+  const fence = /```(?:json)?\s*([\s\S]*?)\s*```/.exec(trimmed);
+  if (fence?.[1]) {
+    return JSON.parse(fence[1]);
   }
+
   const start = trimmed.indexOf("{");
   const end = trimmed.lastIndexOf("}");
   if (start >= 0 && end > start) {
@@ -19,7 +21,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function normalizeLooseFieldKey(key: string): string {
+function normalizeKey(key: string): string {
   return key
     .trim()
     .toLowerCase()
@@ -28,14 +30,17 @@ function normalizeLooseFieldKey(key: string): string {
 
 export function readLooseValue(record: Record<string, unknown>, keys: readonly string[]): unknown {
   for (const key of keys) {
-    if (key in record) return record[key];
+    if (key in record) {
+      return record[key];
+    }
   }
 
-  const normalizedKeys = new Set(keys.map(normalizeLooseFieldKey).filter(Boolean));
-  if (normalizedKeys.size === 0) return undefined;
-
+  const normalizedKeys = new Set(keys.map(normalizeKey).filter(Boolean));
+  if (normalizedKeys.size === 0) {
+    return undefined;
+  }
   for (const [key, value] of Object.entries(record)) {
-    if (normalizedKeys.has(normalizeLooseFieldKey(key))) {
+    if (normalizedKeys.has(normalizeKey(key))) {
       return value;
     }
   }
@@ -61,9 +66,9 @@ export function readLooseStringArray(
   record: Record<string, unknown>,
   keys: readonly string[],
 ): string[] | undefined {
-  const value = readLooseValue(record, keys);
-  if (!Array.isArray(value)) return undefined;
-  return value.map(stringValue).filter((item): item is string => item !== undefined);
+  return readLooseArray(record, keys)
+    ?.map(stringValue)
+    .filter((value): value is string => value !== undefined);
 }
 
 export function readLooseBoolean(
@@ -83,7 +88,9 @@ export function readLoosePositiveInteger(
 }
 
 export function stringValue(value: unknown): string | undefined {
-  if (typeof value !== "string") return undefined;
+  if (typeof value !== "string") {
+    return undefined;
+  }
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : undefined;
 }

@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T22:51:15.887218+00:00",
+  "status": "whole formatted candidate before explicit hook-result annotation and parameter-name correction",
+  "files": [
+    {
+      "path": "turn-command-data.ts",
+      "bytes": 9009,
+      "sha256": "c821205c25e47d3b8db330fedbf008b1a86185a2c3cc3670c1b928990296b9a5"
+    },
+    {
+      "path": "turn-command-operation.ts",
+      "bytes": 14417,
+      "sha256": "df49a12258b3559aafdc5ababe3d535fd7e703e0b68821e0208dc3a04189ac9d"
+    },
+    {
+      "path": "turn-command-state.ts",
+      "bytes": 4376,
+      "sha256": "40f86126d05a15fa9c5dd60895f0a48573715f0cb617fe577b1e6cede3149338"
+    },
+    {
+      "path": "turn.ts",
+      "bytes": 4010,
+      "sha256": "9cf7bf296862b8a7ec9eccd299c057c0c018aca077c3c29a8ce0a811303abf5b"
+    }
+  ]
+}

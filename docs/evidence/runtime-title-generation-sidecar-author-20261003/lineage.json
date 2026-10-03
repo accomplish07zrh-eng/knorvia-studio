@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/title-generation-sidecar.ts",
+  "kind": "file",
+  "sha256": "3ba1b45cc9b67d02f502b620cbb27d10bf73c8e9a1345e8ed8f8cc6897c86983",
+  "normalizedSha256": "3ba1b45cc9b67d02f502b620cbb27d10bf73c8e9a1345e8ed8f8cc6897c86983",
+  "encoding": "utf8-lf",
+  "bytes": 10826,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/title-generation-sidecar.ts",
+    "blob": "3ebf9cf5e41cb1b22bdc7dde0129be943dee905c",
+    "normalizedSha256": "f3b4d26f6ef5a37ed815d98cb2429fa3b5cf2358edb4d3e6f086284886c12299",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

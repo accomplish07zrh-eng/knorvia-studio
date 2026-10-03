@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "file": "timeline-persistence.ts",
+      "bytes": 4811,
+      "sha256": "dd324dce7c34f5621013eb584741aa31ee30dd3b21e9d852ba09cdffc3a0acd9"
+    },
+    {
+      "file": "tool-part-persistence.ts",
+      "bytes": 1942,
+      "sha256": "6db278beba54322d2654b9dfc3d8f34e8dcd16eb85c2f18937ff83d2a3aabfbc"
+    },
+    {
+      "file": "input-intent-persistence.ts",
+      "bytes": 1612,
+      "sha256": "587ea2493a93380c221fcc72fbc69cb9b020293a28ee10a457593592c77d0468"
+    },
+    {
+      "file": "cancelled-stream-persistence.ts",
+      "bytes": 1442,
+      "sha256": "93c897883df54df93974ff0bed50e24ea9fff59af0dacd5979d502590428130b"
+    },
+    {
+      "file": "workspace-checkpoint-persistence.ts",
+      "bytes": 8519,
+      "sha256": "e49f10f5ce55c8274fcd649a4711af3746704b5a38a530ab071947cbd5a86002"
+    }
+  ],
+  "workflow": "fresh no-inherited-context internal author; source-derived functional/API packet; saved before curator comparison",
+  "access": "Only authorized packet files and own outputs for hashing; no repository/history/oracles"
+}

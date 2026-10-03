@@ -1,0 +1,40 @@
+{
+  "mode": "baseline",
+  "observations": [
+    {
+      "scenario": "empty",
+      "warningEvents": [
+        "session.resume.persisted_messages_zero"
+      ],
+      "resumedDirectory": "/owned/session",
+      "returnedDirectory": "/owned/session",
+      "loggedDirectory": "/owned/session",
+      "anchor": []
+    },
+    {
+      "scenario": "directory",
+      "warningEvents": [],
+      "resumedDirectory": "/owned/session",
+      "returnedDirectory": "/owned/session",
+      "loggedDirectory": "/owned/session",
+      "anchor": []
+    },
+    {
+      "scenario": "anchor",
+      "warningEvents": [],
+      "resumedDirectory": "/owned/session",
+      "returnedDirectory": "/owned/session",
+      "loggedDirectory": "/owned/session",
+      "anchor": [
+        [
+          null,
+          null,
+          null
+        ]
+      ]
+    }
+  ]
+}
+ok one focused group: three concrete post-seal contract observations
+(node:224943) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

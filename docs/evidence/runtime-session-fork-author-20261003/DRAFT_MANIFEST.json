@@ -1,0 +1,51 @@
+{
+  "snapshot": "draft-01",
+  "compared": false,
+  "files": [
+    {
+      "file": "session-fork.ts",
+      "sha256": "bf761cd25a6508eaf0c07563cef75bf70776b24bca8a02c667ec4a3aa534d183",
+      "lines": 127
+    },
+    {
+      "file": "session-fork-atomic.ts",
+      "sha256": "34d4b652ab5113ab00e21c45204412be3b77da76ee089a48be528503b124b410",
+      "lines": 126
+    },
+    {
+      "file": "session-fork-identities.ts",
+      "sha256": "e09c7630e9af0068a82d1a2a9436eb2b60a3c38bdf3df752467877992f98aecb",
+      "lines": 102
+    },
+    {
+      "file": "session-fork-legacy-goal.ts",
+      "sha256": "ae73a3c0955e807d77427e01f73cd9ec43841668d9d90cd6dc4790b266ac9f96",
+      "lines": 36
+    },
+    {
+      "file": "session-fork-notices.ts",
+      "sha256": "61938f2706459a9e3c867d40af6cef471b0d2d89094298ddb6bbff5687517db4",
+      "lines": 75
+    },
+    {
+      "file": "session-fork-session.ts",
+      "sha256": "2dd1d499f1e56fa350e03bb55cd966a7d4d04474e0fcd53fe30090c8a2d1e2ad",
+      "lines": 70
+    },
+    {
+      "file": "session-fork-transcript.ts",
+      "sha256": "e3af7e5d8ac56393940f0be8eb80e3f1f52bd20676da0934ed059575a7f96e2c",
+      "lines": 75
+    },
+    {
+      "file": "session-fork-verifiers.ts",
+      "sha256": "4f4eca006b8fc11eb397ca0d7fe4c3062ea5c155739573ad0b785850e76e3468",
+      "lines": 85
+    },
+    {
+      "file": "AUTHOR_REPORT.md",
+      "sha256": "703e6473cb7496e2b4480911023efa5719e81d4098b00de143a9875c862acd12",
+      "lines": 9
+    }
+  ]
+}

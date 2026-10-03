@@ -1,0 +1,113 @@
+{
+  "n": 100,
+  "node": "v24.14.0",
+  "platform": "linux",
+  "arch": "x64",
+  "warmupsPerImplementationRecipe": 1,
+  "measuredCallsPerImplementationRecipe": 5,
+  "clock": "performance.now; graph construction and identity/value assertions outside timing",
+  "baselineCommit": "886523c223ac23a6ccb2bdd22dbdd4c90e5bdc5f",
+  "beforeSourceSha256": "ea28054d36b42d1f3f008ba655c8a73b3530a376f8dcbbcc0b2e7c8399af799d",
+  "beforeEmittedSha256": "c94096b9112f4827842aaaf9eb4f541892a8347b384faf251ff47dde399ad97c",
+  "mode": "actual-emitted",
+  "identityOrderValueChecks": "all 72 outputs; fresh ordinary edge objects for every call",
+  "interpretation": "Environment-dependent diagnostic with no pass/fail timing threshold; display caps are after reduction",
+  "results": [
+    {
+      "recipe": "chain",
+      "inputEdges": 99,
+      "outputEdges": 99,
+      "mediansMs": {
+        "original": 0.09656100000006518,
+        "before": 0.12378199999989192,
+        "after": 0.1583860000000641
+      },
+      "samplesMs": {
+        "original": [
+          0.07980900000006841, 0.09656100000006518, 0.06723499999998239, 0.09762200000000121,
+          0.1172790000000532
+        ],
+        "before": [
+          0.1437389999998686, 0.13570300000014868, 0.11553600000002007, 0.0904889999999341,
+          0.12378199999989192
+        ],
+        "after": [
+          0.1583860000000641, 0.3235150000000431, 0.10147900000015397, 0.15920799999980773,
+          0.09230299999990166
+        ]
+      }
+    },
+    {
+      "recipe": "chain+skip",
+      "inputEdges": 197,
+      "outputEdges": 99,
+      "mediansMs": {
+        "original": 1.1295489999999972,
+        "before": 1.194150000000036,
+        "after": 0.7727229999998144
+      },
+      "samplesMs": {
+        "original": [
+          1.8490620000000035, 1.1483040000000528, 1.1295489999999972, 0.6621159999999691,
+          0.670551999999816
+        ],
+        "before": [
+          1.9678539999999884, 1.12553099999991, 1.1581019999998716, 1.299306000000115,
+          1.194150000000036
+        ],
+        "after": [
+          1.7652250000001004, 1.2192359999999098, 0.7388189999999213, 0.7727229999998144,
+          0.6769039999999222
+        ]
+      }
+    },
+    {
+      "recipe": "dense-DAG",
+      "inputEdges": 4950,
+      "outputEdges": 99,
+      "mediansMs": {
+        "original": 104.95678700000008,
+        "before": 225.29614200000015,
+        "after": 24.197292999999945
+      },
+      "samplesMs": {
+        "original": [
+          110.67279800000006, 105.1562200000003, 104.38447900000028, 103.46669599999996,
+          104.95678700000008
+        ],
+        "before": [
+          218.45206499999995, 228.36360700000023, 225.01865300000009, 225.29614200000015,
+          229.0397399999997
+        ],
+        "after": [
+          24.197292999999945, 24.39975000000004, 24.209204999999656, 24.09762600000022,
+          24.042273000000023
+        ]
+      }
+    },
+    {
+      "recipe": "chain+return-carries",
+      "inputEdges": 199,
+      "outputEdges": 100,
+      "mediansMs": {
+        "original": 0.23111100000005536,
+        "before": 1.32354099999975,
+        "after": 0.7067789999996421
+      },
+      "samplesMs": {
+        "original": [
+          0.26251900000033856, 0.40689000000020314, 0.23111100000005536, 0.13816799999995055,
+          0.12689600000021528
+        ],
+        "before": [
+          2.042152999999871, 1.4256220000002031, 1.32354099999975, 1.3050970000003872,
+          1.2181139999997868
+        ],
+        "after": [
+          1.6117890000000443, 0.781268999999611, 0.6294450000000325, 0.7067789999996421,
+          0.6371399999998175
+        ]
+      }
+    }
+  ]
+}

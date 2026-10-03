@@ -1,0 +1,27 @@
+[
+  {
+    "owner": "background-notifications",
+    "fixedInterfaceAndConstantDeclarations": 1,
+    "lines": 232
+  },
+  {
+    "owner": "hooks",
+    "fixedInterfaceAndConstantDeclarations": 0,
+    "lines": 150
+  },
+  {
+    "owner": "session-title",
+    "fixedInterfaceAndConstantDeclarations": 0,
+    "lines": 326
+  },
+  {
+    "owner": "title-generation-sidecar",
+    "fixedInterfaceAndConstantDeclarations": 2,
+    "lines": 286
+  },
+  {
+    "owner": "workspace-generate-text",
+    "fixedInterfaceAndConstantDeclarations": 3,
+    "lines": 266
+  }
+]

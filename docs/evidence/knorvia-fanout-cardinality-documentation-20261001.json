@@ -1,0 +1,225 @@
+{
+  "formatVersion": 1,
+  "baseline": "658985c149fd1960482f15001384b11e52fae134",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+    "apps/cli/packages/core/test/fanout-cardinality-current.json",
+    "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+    "apps/cli/packages/core/test/fanout-cardinality-declaration-baseline.json",
+    "apps/cli/packages/core/test/fanout-cardinality-documentation-proof.ts",
+    "apps/cli/packages/core/test/fanout-cardinality-documentation.test.ts",
+    "specs/knorvia-fanout-cardinality-documentation.md",
+    "docs/knorvia-fanout-cardinality-documentation-20261001.md",
+    "docs/evidence/knorvia-fanout-cardinality-documentation-check-20261001.mjs",
+    "docs/evidence/knorvia-fanout-cardinality-documentation-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+      "bytes": 4715,
+      "sha256": "f2a8a8c51399042c2b89338ab7b8eb60f8981a8865378c46eb7e5b0684c4f4a8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-current.json",
+      "bytes": 267,
+      "sha256": "07f725a1466f9d2f8e0581fa7d2283f6f3eabd3490b4e25670a5b442caf1def8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+      "bytes": 7424,
+      "sha256": "36d4c4d2434f74462078d8652528e75d2305f8cca5f884a236a0c5ac060b7177"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-declaration-baseline.json",
+      "bytes": 1321,
+      "sha256": "dc7491fd26226bb90ea3841be0ca7313f61764d6d431c177d0d762ccab9864e6"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-documentation-proof.ts",
+      "bytes": 1355,
+      "sha256": "777e4b00f66f942a628cce92fd780a945bfaa365fbaf8179d4029edddd95d200"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-documentation.test.ts",
+      "bytes": 3208,
+      "sha256": "236e4027a4918a3dd6274b39924d198fab3cfe388eb2144afd7e2f9459a7ba47"
+    },
+    {
+      "path": "specs/knorvia-fanout-cardinality-documentation.md",
+      "bytes": 1362,
+      "sha256": "758c70d1d7ae9aa66088c4383d176ccc5d125fe5e327c28f619dd5d433643c47"
+    },
+    {
+      "path": "docs/knorvia-fanout-cardinality-documentation-20261001.md",
+      "bytes": 2520,
+      "sha256": "0760a28d663f790b5fbfee02002c5bf8fc3db8a2a76a5fe50d143a5b759a3d7b"
+    },
+    {
+      "path": "docs/evidence/knorvia-fanout-cardinality-documentation-check-20261001.mjs",
+      "bytes": 3938,
+      "sha256": "f3d31e157360f797d0f374c1a29821efb081d227529e2bb9e67de4e2ae72c0d4"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/fanout-cardinality.js",
+      "bytes": 4777,
+      "sha256": "a44fbfcfbc021150dcfd87c8d9d0994c820245d588a4497479573df9d8a8ee20"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/fanout-cardinality.d.ts",
+      "bytes": 554,
+      "sha256": "a3ad50cc5ca2dd440ee3a93f1e7dc5413d920177f3de81811ced7e427f024ef1"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/fanout-cardinality.d.ts.map",
+      "bytes": 295,
+      "sha256": "925e6c91e7509f89c8a45e76fa9fbdfb444aef5a6fc872553bb0b008410ce182"
+    }
+  ],
+  "unchanged": [
+    "apps/cli/packages/core/test/fanout-cardinality-baseline.json",
+    "apps/cli/packages/core/test/fanout-cardinality-contract.json",
+    "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+    "specs/knorvia-fanout-cardinality-owner.md",
+    "docs/knorvia-fanout-cardinality-handoff-20261001.md",
+    "docs/evidence/knorvia-fanout-cardinality-20261001.json",
+    "docs/evidence/knorvia-fanout-cardinality-check-20261001.mjs",
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts"
+  ],
+  "comments": {
+    "source": [
+      "/**\n * Returns a positive dense array-literal length, directly or through a const initializer.\n * AST and checker evidence are inspected during analysis; uncertain cases return undefined.\n * Writes to the binding or its recognized array operations invalidate the count.\n * Alias escapes and wrapped mutation receivers are not tracked by this syntactic check.\n */",
+      "// The query returns its decision through the AST walk, without shared traversal state.",
+      "// Destructuring admission uses its syntactic role and the enclosing assignment's span."
+    ],
+    "emitted": [
+      "/**\n * Returns a positive dense array-literal length, directly or through a const initializer.\n * AST and checker evidence are inspected during analysis; uncertain cases return undefined.\n * Writes to the binding or its recognized array operations invalidate the count.\n * Alias escapes and wrapped mutation receivers are not tracked by this syntactic check.\n */",
+      "// The query returns its decision through the AST walk, without shared traversal state.",
+      "// Destructuring admission uses its syntactic role and the enclosing assignment's span."
+    ],
+    "declaration": [
+      "/**\n * Returns a positive dense array-literal length, directly or through a const initializer.\n * AST and checker evidence are inspected during analysis; uncertain cases return undefined.\n * Writes to the binding or its recognized array operations invalidate the count.\n * Alias escapes and wrapped mutation receivers are not tracked by this syntactic check.\n */",
+      "//# sourceMappingURL=fanout-cardinality.d.ts.map"
+    ]
+  },
+  "checks": {
+    "sourceGroups": 3,
+    "sourcePass": 3,
+    "emittedGroups": 3,
+    "emittedPass": 3,
+    "fail": 0,
+    "overlap": "same documentary/strict-loader groups in each mode; no behavioral reruns",
+    "syntaxTrees": 3,
+    "sourceCommentReplacements": 1,
+    "ownerDiagnostics": 0,
+    "testRoots": 4,
+    "testDiagnostics": 0,
+    "lint": "configured source and owned files: 0 errors/warnings",
+    "format": "scoped files pass",
+    "architecture": "no violations"
+  },
+  "preservedFailures": [
+    {
+      "logs": [
+        "/tmp/knorvia-cardinality-doc-source.log",
+        "/tmp/knorvia-cardinality-doc-emitted.log"
+      ],
+      "cause": "Node type stripping without tsx cannot resolve local .js imports; no assertions ran",
+      "correction": "Use existing repository tsx resolver"
+    },
+    {
+      "logs": [
+        "/tmp/knorvia-cardinality-doc-final-source.log",
+        "/tmp/knorvia-cardinality-doc-final-emitted.log"
+      ],
+      "cause": "New negative control replaced return undefined in documentation, not executable code",
+      "correction": "Target exact executable if statement; no old oracle/assertion changes"
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/knorvia-cardinality-doc-source.log",
+      "bytes": 3034,
+      "sha256": "701acbbd4b6ce22fb3208379a3b24be199ed468bb57153731679285ee3d0d74f"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-emitted.log",
+      "bytes": 3036,
+      "sha256": "c11bf2df6ebb779963f4484467b7e76d31de636e5538c3f1dabfb17da91cb0ec"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-final-source.log",
+      "bytes": 1297,
+      "sha256": "56455f919306003b5afd5c012bedbba8661f6e52f06913bf4d3f0d02a8dfac8a"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-final-emitted.log",
+      "bytes": 1295,
+      "sha256": "eacf2fd148d49bf39184a90d56b65bf3f8c02c10db83a35d662140284b5d57d2"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-corrected-source.log",
+      "bytes": 390,
+      "sha256": "333e94dd77e6a5ba7b63dcb1cd2a4e0f529e9189bd33b8f134af588f38354f7f"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-corrected-emitted.log",
+      "bytes": 392,
+      "sha256": "172528ebce679cdfc71fbf18cb81968c2195bd9fd6100f786da6a5d1e244d461"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-emit.log",
+      "bytes": 402,
+      "sha256": "043088658919f240625e2d533b033533b2ebcb42b6c473daeef67fd0144c0054"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-types.log",
+      "bytes": 336,
+      "sha256": "6132e63d1473e2bd050858d20e5ec2bbb0eff43191a2fa4e2b7f8d4d4e0690da"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-corrected-types.log",
+      "bytes": 336,
+      "sha256": "6132e63d1473e2bd050858d20e5ec2bbb0eff43191a2fa4e2b7f8d4d4e0690da"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-configured-lint.log",
+      "bytes": 89,
+      "sha256": "ed0f6a7ad1418710c88feea2fedd9a1075f6d561188b88ff9f6f4817b4791d9b"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-owned-lint.log",
+      "bytes": 90,
+      "sha256": "2b19e5ad909c613b561f0ed5f526c535262ef901ce830873d014734bd3aa941d"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-corrected-lint.log",
+      "bytes": 90,
+      "sha256": "dc8cac9b64764b388aad03bd5602d2af1a4767f4432475d0d0ecf8761be5f5fe"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-format.log",
+      "bytes": 112,
+      "sha256": "3bfc7b332fb7749c3027c48867f04162d9a20a1bc76db92958b163c7cecf752a"
+    },
+    {
+      "path": "/tmp/knorvia-cardinality-doc-architecture.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "limits": [
+    "No behavioral suite reruns for comments",
+    "No full suite/build/native/Windows/browser acceptance",
+    "Root owns independent provenance/rights and aggregate review"
+  ],
+  "retained": "Public API/import and compatibility expression as prior receipt; former publisher public narrative removed only from current production, exact historical declaration retained as attributed evidence",
+  "commands": [
+    "node --import tsx --test --test-name-pattern='cardinality documentation|cardinality historical|strict current artifacts' apps/cli/packages/core/test/fanout-cardinality-documentation.test.ts apps/cli/packages/core/test/fanout-cardinality.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 with same arguments",
+    "node --import tsx docs/evidence/knorvia-fanout-cardinality-documentation-check-20261001.mjs"
+  ]
+}

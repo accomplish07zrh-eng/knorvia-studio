@@ -1,9 +1,9 @@
-import {
-  type BashInput,
-  type BashOutput,
-  type ToolCommandStatus,
-  type ExecutionResult,
-  type ToolExecutionTelemetry,
+import type {
+  BashInput,
+  BashOutput,
+  ExecutionResult,
+  ToolCommandStatus,
+  ToolExecutionTelemetry,
 } from "@knorvia/contracts";
 import type { ToolExecutionContext } from "../types.js";
 import { appendBashCwdStderrSuffix } from "./bash-cwd-policy.js";
@@ -27,81 +27,16 @@ export interface BashProgressTiming {
   firstOutputMs?: number;
 }
 
-export async function toBashOutput(
-  result: ExecutionResult,
-  input: BashInput,
-  context: ToolExecutionContext,
-  options: { progressTiming?: BashProgressTiming; stderrSuffix?: string } = {},
-): Promise<BashOutput> {
-  const stdoutPersistedOutputPath = result.stdout.artifactPath;
-  const stderrPersistedOutputPath = result.stderr.artifactPath;
-  const persistedOutputPath = stdoutPersistedOutputPath ?? stderrPersistedOutputPath;
-  const stdoutPersistedOutputSize = result.stdout.artifactBytes;
-  const stderrPersistedOutputSize = result.stderr.artifactBytes;
-  // artifactBytes 是 64MiB cap 后的实际文件大小，不是模型可见文案中的
-  // 原始观测大小。Bash persisted-output 必须使用截断前的 stream bytes。
-  const persistedOutputSize = persistedOutputPath
-    ? (stdoutPersistedOutputPath ? result.stdout.bytes : 0) +
-      (stderrPersistedOutputPath ? result.stderr.bytes : 0)
-    : undefined;
-  const stderr = appendBashCwdStderrSuffix(
-    result.stderr.text || result.error?.message || "",
-    options.stderrSuffix,
-  );
-  const returnCodeInterpretation = interpretBashReturnCode(input.command, result);
-  const providerError = isBashProviderErrorStatus({
-    exitCode: result.exitCode,
-    returnCodeInterpretation,
-    status: result.status,
-  });
-  const providerStdout = result.stdout.text;
-  const imageOutput = providerError
-    ? undefined
-    : await prepareBashImageOutput(
-        {
-          artifactPath: stdoutPersistedOutputPath,
-          artifactSize: stdoutPersistedOutputSize,
-          inline: providerStdout,
-        },
-        context,
-      );
-  const stdout = imageOutput?.stdout ?? providerStdout;
-
-  const ghRateLimitHint = providerError
-    ? undefined
-    : getGhRateLimitHint(input.command, result.stdout.text);
-  return attachToolExecutionTelemetry(
-    {
-      stdout,
-      stderr,
-      interrupted: result.timedOut || result.cancelled,
-      isImage: imageOutput !== undefined,
-      noOutputExpected: isSilentBashCommand(input.command),
-      status: result.status,
-      exitCode: result.exitCode,
-      signal: result.signal,
-      timedOut: result.timedOut,
-      cancelled: result.cancelled,
-      stdoutTruncated: result.stdout.truncated,
-      stderrTruncated: result.stderr.truncated,
-      stdoutBytes: result.stdout.bytes,
-      stderrBytes: result.stderr.bytes,
-      rawOutputPath: persistedOutputPath,
-      dangerouslyDisableSandbox: input.dangerouslyDisableSandbox,
-      returnCodeInterpretation,
-      persistedOutputPath,
-      stdoutPersistedOutputPath,
-      stderrPersistedOutputPath,
-      persistedOutputSize,
-      stdoutPersistedOutputSize,
-      stderrPersistedOutputSize,
-      ...(ghRateLimitHint ? { ghRateLimitHint } : {}),
-    },
-    createBashPerformanceTelemetry(input, result, options.progressTiming),
-  );
+function performanceStatus(result: ExecutionResult): ToolCommandStatus {
+  if (result.timedOut) return "timed_out";
+  if (result.cancelled) return "cancelled";
+  if (result.status === "completed" && result.exitCode !== undefined && result.exitCode !== 0) {
+    return "failed";
+  }
+  return result.status;
 }
 
-function createBashPerformanceTelemetry(
+function executionTelemetry(
   input: BashInput,
   result: ExecutionResult,
   progressTiming: BashProgressTiming | undefined,
@@ -120,11 +55,82 @@ function createBashPerformanceTelemetry(
         outputBytes,
         category: classifyCommand(input.command),
         ...classifySafeCommandIdentity(input.command),
-        status: resolveBashCommandStatus(result),
+        status: performanceStatus(result),
         hash: commandHash(input.command),
       },
     },
   });
+}
+
+export async function toBashOutput(
+  result: ExecutionResult,
+  input: BashInput,
+  context: ToolExecutionContext,
+  options: { progressTiming?: BashProgressTiming; stderrSuffix?: string } = {},
+): Promise<BashOutput> {
+  const stdoutPath = result.stdout.artifactPath;
+  const stderrPath = result.stderr.artifactPath;
+  const persistedPath = stdoutPath ?? stderrPath;
+  const stdoutArtifactBytes = result.stdout.artifactBytes;
+  const stderrArtifactBytes = result.stderr.artifactBytes;
+  const persistedOutputSize = persistedPath
+    ? (stdoutPath ? result.stdout.bytes : 0) + (stderrPath ? result.stderr.bytes : 0)
+    : undefined;
+  const stderr = appendBashCwdStderrSuffix(
+    result.stderr.text || result.error?.message || "",
+    options.stderrSuffix,
+  );
+  const returnCodeInterpretation = interpretBashReturnCode(input.command, result);
+  const providerError = isBashProviderErrorStatus({
+    exitCode: result.exitCode,
+    returnCodeInterpretation,
+    status: result.status,
+  });
+  const capturedStdout = result.stdout.text;
+  const image = providerError
+    ? undefined
+    : await prepareBashImageOutput(
+        {
+          artifactPath: stdoutPath,
+          artifactSize: stdoutArtifactBytes,
+          inline: capturedStdout,
+        },
+        context,
+      );
+  const stdout = image?.stdout ?? capturedStdout;
+  const isImage = image !== undefined;
+  const ghRateLimitHint = providerError
+    ? undefined
+    : getGhRateLimitHint(input.command, result.stdout.text);
+  const output = {
+    stdout,
+    stderr,
+    interrupted: result.timedOut || result.cancelled,
+    isImage,
+    noOutputExpected: isSilentBashCommand(input.command),
+    status: result.status,
+    exitCode: result.exitCode,
+    signal: result.signal,
+    timedOut: result.timedOut,
+    cancelled: result.cancelled,
+    stdoutTruncated: result.stdout.truncated,
+    stderrTruncated: result.stderr.truncated,
+    stdoutBytes: result.stdout.bytes,
+    stderrBytes: result.stderr.bytes,
+    rawOutputPath: persistedPath,
+    dangerouslyDisableSandbox: input.dangerouslyDisableSandbox,
+    returnCodeInterpretation,
+    persistedOutputPath: persistedPath,
+    stdoutPersistedOutputPath: stdoutPath,
+    stderrPersistedOutputPath: stderrPath,
+    persistedOutputSize,
+    stdoutPersistedOutputSize: stdoutArtifactBytes,
+    stderrPersistedOutputSize: stderrArtifactBytes,
+    ...(ghRateLimitHint ? { ghRateLimitHint } : {}),
+  };
+  const progressTiming = options.progressTiming;
+  const telemetry = executionTelemetry(input, result, progressTiming);
+  return attachToolExecutionTelemetry(output, telemetry);
 }
 
 export function createBashBackgroundPerformanceTelemetry(
@@ -158,13 +164,4 @@ export function createEmptyBashPerformanceTelemetry(
       },
     },
   });
-}
-
-function resolveBashCommandStatus(result: ExecutionResult): ToolCommandStatus {
-  if (result.timedOut) return "timed_out";
-  if (result.cancelled) return "cancelled";
-  if (result.status === "completed" && result.exitCode !== undefined && result.exitCode !== 0) {
-    return "failed";
-  }
-  return result.status;
 }

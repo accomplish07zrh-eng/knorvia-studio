@@ -1,0 +1,41 @@
+{
+  "baselineCommit": "51a7112e2ea77cbed03133a2e5788c78e7e44e9a",
+  "freezeCommit": "d3f910f",
+  "draftCommit": "0e94759",
+  "redProofCommit": "3674157",
+  "owner": "apps/cli/packages/core/src/runtime/methods/background-notifications.ts",
+  "lineageReference": "docs/evidence/runtime-background-notifications-author-20261003/lineage.json",
+  "packetPins": {
+    "api.d.ts": "3c6c3c57b9999c4a292700f3aa87dadf36880ceb9b3316e27f9c881280ece746",
+    "receiver-facts.md": "cbbb1100180f041db18d2c95f20643dc69187ea4345df952fd6649c448c553d2",
+    "contract.md": "e7b54daf48374851561a8583cf232aab61081767f67e6b74f44cd007a8785821",
+    "lineage.json": "b0705215bb4d57693a115baff26dc7464fbda0694798286e71a36198a46bd1c8"
+  },
+  "draftPins": {
+    "background-notifications.ts": "856c467b010c75277f119b5858d07b515881dc17dcd61e6425edb331da6485e2",
+    "background-notifications-inputs.json": "0e77f0136bba6850e78ad5b2581497f22c3c081991fff98fb6527feb26267ec5"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-background-notifications-baseline-20261003.json",
+    "sha256": "5b25e8078582481e7b9dc5062666761175b3d7016935508bd67f6aac16302378"
+  },
+  "finalPins": {
+    "src/runtime/methods/background-notifications.ts": "17a33fe5a7d85ce1bc8521c967a52ad4a0bdfdb0eab173ea031bc13e48e70b32",
+    "dist/runtime/methods/background-notifications.js": "ecd1422a0dda2b6ff6ebcdd27f43d5e55fcfef51cf23ea774fe9a68257146b2e",
+    "dist/runtime/methods/background-notifications.d.ts": "d008df8bb3ec60423278542127db108096b1b7b220eccff98ff0f7ff1d668a81"
+  },
+  "design": "Complete notification lifecycle: admission with shutdown/branch rejection, fire-and-forget ledger tracking, child seal, batch projection and sequential input promotion, unchanged suppression policy. Fresh draft direct owner, not extracted predecessor body. Public command/notice shapes and fixed port sequence strongly constrain expression; ordered batch loops, standard object spreads and admission expressions may still match predecessor.",
+  "postDraftCorrections": [
+    "Named three-title cap restored as repository convention; no semantic change."
+  ],
+  "authorship": "Fresh internal author fork_turns=none, GPT-6.1 Sol high. Only own api.d.ts, contract.md, receiver-facts.md and recorded body-free clarifications supplied; sealed draft before curator source comparison. Curator exposed to predecessor. Packets source-derived, no absolute isolation/clean-room claim; author-reported input journal preserved.",
+  "retention": "Existing attribution/license/notice obligations unchanged. Fixed runtime prose/prompts, schema/declarations, dependency seams, regex compatibility vocabulary and conventional async/object/loop glue remain. Shared required combinations may match; root independently assesses expression/rights. No automatic file eligibility from hashes/tests or drafting process.",
+  "checks": "Shared final scoped compiler report:0 diagnostics;18 call signatures + interface/constant shapes equal. One final strict actual-emitted pass:5 shared safety groups +2 appended concrete regressions (overlap, not per-owner multiplicative counts).5 owner lint94rules0,6 format files0,architecture0.",
+  "limits": [
+    "Ordinary suites, broad builds, source/emitted duplication, native/live-provider acceptance deliberately unrun per user speed cadence.",
+    "Synthetic port observations do not establish all request success/error/cancellation branches. Direct runtime consumers statically traced, not launched.",
+    "Transitive workspace dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no proxy bypass/configuration change.",
+    "Root independent correctness/expression/licence review remains; no header/global inventory grant, no publication claim."
+  ]
+}

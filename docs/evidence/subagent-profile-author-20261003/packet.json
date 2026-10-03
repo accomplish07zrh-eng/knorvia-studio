@@ -1,0 +1,50 @@
+{
+  "scope": "profile",
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "predecessorBodiesAllowed": false,
+  "inputs": [
+    {
+      "path": "api.d.ts",
+      "bytes": 2303,
+      "sha256": "ab67b6249f1e9cb65bf7f0da4972d4db457f0499a14914289aaa7758505341e9"
+    },
+    {
+      "path": "contract.md",
+      "bytes": 5689,
+      "sha256": "88059fdb0db8ad0e9e4a113b214665755345d7f87b002b7824d1dd0de9d3a7b6"
+    },
+    {
+      "path": "dependency-declarations.json",
+      "bytes": 2499,
+      "sha256": "5ea280fb597e0d8268792ae61cc7f093853d9c28fbea754b1d5d9ec847cfbdcf"
+    },
+    {
+      "path": "dependency-ports.json",
+      "bytes": 2471,
+      "sha256": "bda7bf5e5f4e9a1c4faf80fe154ad70948c8c75196e8ce396096b30a6cb71426"
+    },
+    {
+      "path": "log-fields.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "runtime-templates.json",
+      "bytes": 750,
+      "sha256": "dfb49007bca1b2ecd107affb2080b74ff2d05d5d008214383c56808fd2826883"
+    },
+    {
+      "path": "runtime-text.json",
+      "bytes": 1382,
+      "sha256": "34d3adb9422cf05de91b2899b5ee9fabf19486db5bed35be0c45d8d5dac882f2"
+    },
+    {
+      "path": "supporting.d.ts",
+      "bytes": 67,
+      "sha256": "a78a84b6d58cba68478c04f34861efd6f5e1dbb93a9ed74d996884a459b26e58"
+    }
+  ],
+  "privateRepresentation": "author choice; no predecessor private helper bodies or decomposition exposed",
+  "limits": "Public declarations/runtime prose are source-derived compatibility material; no clean-room or licence claim."
+}

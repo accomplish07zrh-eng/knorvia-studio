@@ -33,10 +33,6 @@ export function createTurnModel(
   }));
 }
 
-/**
- * 在 Submission 真正开始执行或 Guide 被下一次 model step 消费时应用其执行配置。
- * 选择只决定新创建的 Model；已经被其他 Loop 持有的 Model 不会被修改。
- */
 export async function applySubmissionExecutionState(
   runtime: AgentRuntimeInternal,
   intent: TurnInputIntentMetadata | undefined,
@@ -71,9 +67,11 @@ export async function applySubmissionExecutionState(
   }
 
   if (intent?.mode !== undefined || intent?.planEnabled !== undefined) {
-    await applyRuntimeExecutionState(runtime, intent, { source: "command", traceContext });
+    await applyRuntimeExecutionState(runtime, intent, {
+      source: "command",
+      traceContext,
+    });
   }
-
   return model;
 }
 

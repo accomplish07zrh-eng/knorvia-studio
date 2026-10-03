@@ -1,0 +1,52 @@
+{
+  "sealed_at_utc": "2026-10-03T00:25:29.960774+00:00",
+  "packet_sha256": {
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/contract.md": "365e1cee2174beaedd4d8c1390c50edb92082c28c517f79e0841c643e614c86c",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/api.d.ts": "47256696730666ec7df7b6ecf66ef085f3dbf3231f108bff99dde5b5d8c4207e",
+    "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/steering/imports.txt": "e1ed0d8805d5ba4d2b47580879b55894f68047ebad7be0daa7b9c625416093ed"
+  },
+  "initial_draft_sha256": {
+    "initial/steering-active.ts": "984739261b5a334fd9f59a29e998a23bf4c098f2a9f0c804dfc861ab2918aaa3",
+    "initial/steering-admission.ts": "758e89e5aadb1f1b7b404a9ceb925f9afe0c6caf999b1e64253d1797fdc5f2c7",
+    "initial/steering-configuration.ts": "0f47bc087bec9720693fad8c829592cb0f20861cdf63608415d4d65b12976218",
+    "initial/steering-draining.ts": "c0621ae9f9300d7964c2f4981feb2dec56a957719da022992a64122622bbca53",
+    "initial/steering-editing.ts": "606e6005fd1105f7c71de96ae1817217a88efe11a356df067daaf7ac3cf121c0",
+    "initial/steering-guides.ts": "9c8ddceface9c1b8fcd7f22ef9702162d4885535f30e6ac768251c78dca14529",
+    "initial/steering-persistence.ts": "23d65b7e6a7a9494b2d98b201c36b19cd6227f97f88a608259a96ce4b58b5173",
+    "initial/steering.ts": "d84b5a4ef82aade16bfdb3805c17b0aa0b2480e5ae6e447e8ffa1c9abb65e2f2"
+  },
+  "final_draft_sha256": {
+    "steering-active.ts": "24c3d5bfc3817d66c96070fb2ff0495619a2cb99362584274764086b223ef821",
+    "steering-admission.ts": "46f3f2cf89c2eea7eccfe365f672495eef3d72fdf4fe0fea4d48ea0ba3c9ab48",
+    "steering-configuration.ts": "e070492e5532c6660ca8c3f790d20c5915458bdd05d21b795ea10d1f9fe79227",
+    "steering-draining.ts": "09316dc7218d20fa7255eafef366451694d80a2aeaf2545a07d2985332278876",
+    "steering-editing.ts": "b027c3df5ee8f95a02052e9ebe6cefdab1d3354131f6cef3dcf8478a226b201b",
+    "steering-guides.ts": "69635348df0c9d94fdfd145c3923837598f5357ea65e120a7f22f00851153462",
+    "steering-persistence.ts": "53d8e438deacc4070e7f8f375cd36617481e2940d34f013d46fe32ca5290a5fe",
+    "steering.ts": "be59286696246b42f8b96aee308f52e6b98f2447a259746d3505474608dfe8ba"
+  },
+  "access_log_sha256": "a1b9e932320bd69c74f08b3d511e774f5f69d23f181430b1b0e575af3eb43cca",
+  "formatted_total_lines": {
+    "steering-active.ts": 70,
+    "steering-admission.ts": 227,
+    "steering-configuration.ts": 100,
+    "steering-draining.ts": 244,
+    "steering-editing.ts": 132,
+    "steering-guides.ts": 89,
+    "steering-persistence.ts": 256,
+    "steering.ts": 34
+  },
+  "all_modules_at_most_400_lines": true,
+  "public_api_owner": "steering.ts direct re-exports preserve each method this receiver and native async implementation.",
+  "verification": "Source-only author inventory and hashes. No compilation, tests, runtime execution, network or runtime file ports.",
+  "assumptions_and_ambiguities": [
+    "The contract describes root trace and reservation/counter state without exact private property names. Draft uses rootTraceContext, turnStartReservation, pendingInputReservations and pendingInputDrains on AgentRuntimeInternal.",
+    "Attachment dependencies are assumed to be direct artifactStore, fileSystemPort, imageProcessorPort and workingDirectory fields on AgentRuntimeInternal.",
+    "The contract requests an inputId-to-QueryId cast but also forbids all casts. Draft keeps request.queryId ?? request.inputId ?? createQueryId() with no cast. Integration must verify whether QueryId is assignable from the inputId type.",
+    "The deferred target literal is authored exactly as deferred; integration must verify TurnId permits that contract-specified literal without a cast.",
+    "createRuntimeUserEntry is called with content and metadata, and parseRuntimeInputPresentation receives the pending inputPresentation, following the body-free functional description; imported signatures were not inspected.",
+    "The pending ID delimiter is authored literally as the contract spelling pending*<turnId>*<sequence>. No predecessor source was consulted.",
+    "discardHeldPendingInputById defaults its omitted reason to user_removed to fulfill durable removal semantics; this default is not explicitly stated in api.d.ts."
+  ],
+  "provenance": "Authored from curator-provided body-free external contracts. No clean-room or licensing claim."
+}

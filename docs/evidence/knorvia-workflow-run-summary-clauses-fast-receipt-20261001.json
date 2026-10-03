@@ -1,0 +1,226 @@
+{
+  "formatVersion": 1,
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baseline": "d25fedcb1cdff9345528dc6b68689e34409699f4",
+  "freeze": "d510dacc71d2ffc76b62933d1c7e126dc32dbaf1",
+  "production": "27852c6b377ee9c1a505c71a59ee3d921d001dcd",
+  "previousReceipt": {
+    "path": "docs/evidence/knorvia-workflow-run-summary-fast-checks-20261001.json",
+    "sha256": "b328e48a882533dcec1a7b3db0630b03040a4780feefbcbc6c551e46dec8edf9",
+    "reuse": "Lineage, frozen contracts/limits, prior failure/correction proof and protected inputs/allowed paths; target summary excluded from unchanged comparison."
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "bytes": 6829,
+      "sha256": "b762b8c9cc7e62916b8c49f60edc3df0a53d0abcdd554212d694e747f733fb77",
+      "blob": "80736f32bcff96b60cedba7a6a8eae25cba27add",
+      "lastChange": "27852c6b377ee9c1a505c71a59ee3d921d001dcd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary-clauses.ts",
+      "bytes": 7776,
+      "sha256": "e603af70fe57a7bc3b18e31d519f878b367a7103d253037e0bb127081532ac42",
+      "blob": "2a36d6501dc9da42d4e5941372a27db4352b804a",
+      "lastChange": "27852c6b377ee9c1a505c71a59ee3d921d001dcd"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-summary-clauses.test.ts",
+      "bytes": 5265,
+      "sha256": "8ed27edece24faa449f862dd9963a437707bbcb6708f6ec026302ce13707babf",
+      "blob": "a035054c03f20b3fd01272b7c53a7995bb0a0d52",
+      "lastChange": "d510dacc71d2ffc76b62933d1c7e126dc32dbaf1"
+    },
+    {
+      "path": "specs/knorvia-workflow-run-summary-clauses.md",
+      "bytes": 3557,
+      "sha256": "4fb1d5a5eee4b9023a28205d976df80ba9645f9a3495a41584f3d2436852a3cf",
+      "blob": "58f1ab027c5b9d602ea20189e79197dc4563dba0",
+      "lastChange": "d510dacc71d2ffc76b62933d1c7e126dc32dbaf1"
+    }
+  ],
+  "filesTupleSha256": "e93ee21761cc2fab3c96c7c35ceace1ccb35132db57039fe7b3fe4a19ffa468a",
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-summary.js",
+      "bytes": 6032,
+      "sha256": "42f4ac6039646fb8bbe92dc144199f52058b516511ebcce129ff4d8c167e59f3"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-summary.d.ts",
+      "bytes": 404,
+      "sha256": "b97a77607377f7d556e6d0d9094727326a9745ad563e9b7d7df53f789e599a05"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-summary-clauses.js",
+      "bytes": 7121,
+      "sha256": "eb6e7efa469a3d8692eb649c494232ec402d99130f866ea1ecd500679757c56c"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-summary-clauses.d.ts",
+      "bytes": 857,
+      "sha256": "2f58b3c79792e0d49c7747d07cbddf59db891eebe94a6df1f03b2046a7bf2aa6"
+    }
+  ],
+  "unchangedAssembly": {
+    "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+    "start": "const SUMMARY_SEPARATOR",
+    "end": "/** 状态 +",
+    "sha256": "b11e0d7d38c4728f50579c75cbf895cf84f9ef7016b2870e4456c5df696ee882"
+  },
+  "checks": {
+    "freeze-source": {
+      "pass": 2,
+      "bytes": 302,
+      "sha256": "906f4ce0e60a60b96f56280256f35e2bc5399629f4b650fa662cfd7af7eca58f",
+      "tests": 2,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "freeze-emitted": {
+      "pass": 2,
+      "bytes": 303,
+      "sha256": "a86be758fb5b10ece4b072961ebbdd6f4f7aea2ae5cd8e7c4333027fdd9ec1d3",
+      "tests": 2,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "source": {
+      "pass": 10,
+      "bytes": 1133,
+      "sha256": "2041ccc7f7aaa8649b4d83748396f6d0d45ea86c24175d2f71b725506dd32d6f",
+      "tests": 10,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "emitted": {
+      "pass": 10,
+      "bytes": 1132,
+      "sha256": "e0c42f505b49244aa072de263a2dff418bfcd6003b2feee35ee7cd9445854541",
+      "tests": 10,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "consumers": {
+      "pass": 10,
+      "bytes": 1095,
+      "sha256": "282e91da4a02e86511da08e3645f697c375ea7504062709a9078a0fab7c10966",
+      "tests": 10,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "native-source": {
+      "pass": true,
+      "bytes": 229,
+      "sha256": "c2a2faeaecca45f4589b60d7d8f0e7dda3f4145bb8322a452554e13a8ad3a73e"
+    },
+    "native-emitted": {
+      "pass": true,
+      "bytes": 228,
+      "sha256": "5711eed1f174c2c607bed8532f8f5ddc682eaddfc92b612a94b4a796b78c3f9e"
+    },
+    "core-emission": {
+      "pass": true,
+      "bytes": 85,
+      "sha256": "428a072937a03375181bc25d2b67579dc343c596d8a13b6ed12220161d4ceea2"
+    },
+    "root-types": {
+      "pass": true,
+      "bytes": 523,
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+    },
+    "cli-types": {
+      "pass": true,
+      "bytes": 1834,
+      "sha256": "d1f37e7481f1ae83a3e84d40bba9464f47648c4d5d3e3102e4c640fdcd4fa938"
+    },
+    "root-lint": {
+      "pass": true,
+      "bytes": 155,
+      "sha256": "1c057bbee8364a0790465a306005de6d26036f21abb75057f2fcbb34ed528416"
+    },
+    "cli-lint": {
+      "pass": true,
+      "bytes": 193,
+      "sha256": "84e68ac1efd08918da92a5490241d6bae3137a3dc20ee3713764f0d73552899a"
+    },
+    "owned-lint": {
+      "pass": true,
+      "bytes": 90,
+      "sha256": "fdb3d9e63c7d12003df3adf9391296c2dcaaea28917abc54d3f278d8b0776328"
+    },
+    "format": {
+      "pass": true,
+      "bytes": 112,
+      "sha256": "2d23e10d0fb89a53e4f6c49419b17540e24bb7b07800c5430ea4a6d7100acfdc"
+    },
+    "architecture": {
+      "pass": true,
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    "refs": {
+      "pass": false,
+      "bytes": 443,
+      "sha256": "5d89b481e019e94deda6ce4de8447961d817e32b2abf24c0d97b14aa036c965b"
+    },
+    "refs-scoped": {
+      "pass": true,
+      "bytes": 364,
+      "sha256": "b09c8ef6649a8d285d86cf0ac7def3e850139b955d363498eeb4ef04e1c639f0"
+    },
+    "refs-consumers": {
+      "pass": true,
+      "bytes": 1753,
+      "sha256": "a5ea8bf847349f9ab5d6d28090d097058512a1a0aef25611987852317e7a3f5b"
+    },
+    "evidence-lint": {
+      "pass": true,
+      "bytes": 89,
+      "sha256": "8959993e89577b26322def7e7756ba92e2ac152c2bb5305467c8e2d277696677"
+    },
+    "final-format": {
+      "pass": true,
+      "bytes": 112,
+      "sha256": "6c423238ad185559a479769a0070817008af68246b0a75bae74f4193ab66eb10"
+    },
+    "evidence-root-lint": {
+      "pass": true,
+      "bytes": 155,
+      "sha256": "fb5ed48eb5f8c5916215b4194c61f945705a1ddca4e8d8209a7229d858b61390"
+    }
+  },
+  "logPrefix": "/tmp/knorvia-summary-clauses-",
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary-clauses.ts",
+    "apps/cli/packages/core/test/workflow-run-summary-clauses.test.ts",
+    "specs/knorvia-workflow-run-summary-clauses.md",
+    "docs/evidence/knorvia-workflow-run-summary-clauses-fast-receipt-20261001.json",
+    "docs/evidence/knorvia-workflow-run-summary-clauses-fast-check-20261001.mjs"
+  ],
+  "newExpression": [
+    "One synchronous seeded decision/fragment evaluator replaces all inherited clause branch bodies; deferred programs own phase/suffix/questions/progress/artifact admission.",
+    "Ordered repeated state matching plus indexed counts replaces the inherited occupancy object/filter/map reduction. No async or external state owner.",
+    "New12 synthetic boundary observations and3 coercion short-circuit assertions; immutable existing8 tests reused without assertion changes."
+  ],
+  "retainedExpression": [
+    "Entry preamble/block comments, public type/signature, assembly/native-limit correction and8 clause name bindings remain. Two obsolete body comments were removed with old bodies.",
+    "Fixed model-facing prose/punctuation/format vocabulary, template coercion semantics, strict/undefined/nullish guards, repeated reads, elapsed/settled arithmetic, native findIndex/find/iterator glue and lower accepted time/count formatters remain.",
+    "Source exposure disclosed; unchanged source/metadata/archives/proof and applicable attribution retained. Candidate expression review under docs/knorvia-mit-review-acceptance-criteria-20260930.md; no whole-file rights conclusion."
+  ],
+  "licenseDecision": null,
+  "publisherVerification": "Reuse prior manifest facts only; root independently compares pinned publisher. No local publisher acquisition claimed.",
+  "limitsAndGaps": [
+    "10 source/10 strict emitted (existing8+new2);10 immediate source consumers.12 new boundary comparisons, no added differential matrix. Native changed-case probe once per final mode.",
+    "Core emission only; no full suite or whole CLI/desktop build. Native Windows/macOS/packaged and aggregate acceptance remain root-owned.",
+    "Root/CLI configured lint passes but ignores target CLI source; forced owned3-file/94-rule lint passes0errors/0warnings. Prior core-wide24errors/11warnings are historical, not rerun here; their source inputs remain digest protected.",
+    "Default reference scope omits CLI and failed; explicit CLI source scope passes, showing one private export referenced only by the summary entry.",
+    "No runtime/Host/security/licensing/dependency/other-lane edits or live workflow/provider/network/user-data fixtures."
+  ]
+}

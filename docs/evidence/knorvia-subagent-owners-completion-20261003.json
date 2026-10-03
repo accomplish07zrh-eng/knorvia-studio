@@ -1,0 +1,165 @@
+{
+  "scope": "Complete allocated subagent profile and runner owners, plus nine new runner-private modules; source-only implementation. No trust/grant/access/runtime-policy change.",
+  "branch": "parallel/cli-tools-fast-20261001",
+  "draftPr": 11,
+  "base": "recovery/independent-logging-20260930-0456",
+  "implementationCommit": "68ea14bbf97f7fe56df28fa938bcc6412f6aface",
+  "receiptRecordedAtUTC": "2026-10-02T23:38:20.074205+00:00",
+  "rootSourceDigests": {
+    "profile": "398fb44644a77947e87bc13d38b32fbaa5d2a026982f787bac73a9329201f5e7",
+    "runner": "1fb950aae0ff2c732df4f762ec33c7bbffde43102110a8085f3a0383b7709ca6"
+  },
+  "currentArtifacts": {
+    "path": "docs/evidence/knorvia-subagent-owners-current-20261003.json",
+    "sha256": "42ef2a67a991b11b624a0126caa5d5c047b50dcc898c1a0277186ef90170341a",
+    "files": 11,
+    "sourceJsDeclarationMatches": 33,
+    "wrongCompiledRejected": true,
+    "missingDeclarationRejected": true
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/subagent-owners-baseline-20261003.json",
+    "sha256": "bc847c5c92336930de86749ce0d0e8c72f5a1ea8373b88deb5429ce9bc9db8a9",
+    "sourceCompiledDeclarationPreserved": true,
+    "rootSourceDigests": {
+      "profile": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c",
+      "runner": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e"
+    }
+  },
+  "packets": {
+    "profile": {
+      "path": "docs/evidence/subagent-profile-author-20261003/packet.json",
+      "sha256": "7f33c2882a39958007a8f0cfe6953c74731cf4ba338f52fdc874664c35eeb03a",
+      "inputCount": 8
+    },
+    "runner": {
+      "path": "docs/evidence/subagent-runner-author-20261003/packet.json",
+      "sha256": "bec20e118f2e56dd83f17dd8230b879ac44c7fde53b5c7ab9518dfb1583c0de9",
+      "inputCount": 8
+    }
+  },
+  "wholeAuthorDrafts": {
+    "profile": {
+      "path": "docs/evidence/subagent-profile-author-20261003/draft-01/source-seal.json",
+      "sha256": "137c664802e331e6428726abf03ef226c55365d68660f8dd89b362743b135569",
+      "closedAtUTC": "2026-10-02T23:18:52.231596+00:00",
+      "fileCount": 4
+    },
+    "runner": {
+      "path": "docs/evidence/subagent-runner-author-20261003/draft-01/SEAL.json",
+      "sha256": "9572dfa72f6a2e03b5c9ab5a711ae6b2e830749a56a705cb10a8bd0e5ac66a3e",
+      "closedAtUTC": "2026-10-02T23:25:54.188806+00:00",
+      "fileCount": 105,
+      "closureSha256": "f3a5c56c080107f2f149c7e1e631b325aa44e9acdb80c32f54d2ed1b2c73028f",
+      "representationLimit": "One unformatted intermediate reconstructed deterministically after formatting; disclosed in preserved journal. Initial complete draft and every recorded source representation remain available."
+    }
+  },
+  "authorship": {
+    "freshAuthorsNoInheritedConversation": true,
+    "curatorSourceExposed": true,
+    "packetsSourceDerived": true,
+    "authorsRestrictedToBodyFreeInputsAndFunctionalClarificationsBeforeSeal": true,
+    "sourceExposedCorrectionsAfterSeal": "docs/evidence/subagent-owners-final-checks-20261003/post-seal-corrections.json",
+    "absoluteCleanRoomClaim": false,
+    "wholeFileIndependentOrMitClaim": false,
+    "retainedExpression": "Fixed public declarations and runtime/model/error/log prose, field/status vocabulary, template text, policy/helper contracts and conventional identity/Map/Set/spread/native-promise glue. Some combinations strongly correspond to predecessor; retain qualification for parent independent expression review."
+  },
+  "design": "One per-port state holds profiles/controllers/borrowed IDs; registry remains accepted task/message/notified owner. Child invocation and foreground/background/message/stop settlement separated from artifact and event publication. No second registry, retry, permission or notification state owner.",
+  "verification": {
+    "finalEmittedSafetyGroups": 8,
+    "sourceSuiteRun": false,
+    "historicalBaselineGroups": [5, 7, 8],
+    "historicalOverlap": "Counts are nested, not additive; final count is 8 only. Sealed-draft failure probes are red evidence, not extra passing coverage.",
+    "typescript": "6.0.2",
+    "scopedDiagnostics": 0,
+    "parsedPublicApiShapesUnchanged": 2,
+    "ownedSourceFiles": 11,
+    "compilerEmissionsWritten": 22,
+    "dependencyEmissionsWritten": 0,
+    "ownedLintErrors": 0,
+    "ownedLintWarnings": 0,
+    "ownedLintRules": 94,
+    "ownedFormat": "pass",
+    "architectureNewViolations": 0,
+    "protectedSourceMatches": 25,
+    "priorCurrentArtifactMatches": 42,
+    "syntheticPorts": "Owned in-memory mkdir/write, task registry, child, notification and event ports; actual contract helpers/dependency owners, no real child/provider/process/user files.",
+    "artifactLoading": "Exact emitted allocated roots/private modules; unchanged supporting owners through source loader. No fallback to historical runtime for current checks."
+  },
+  "failuresPreserved": [
+    "Initial runner TS2322; ten-file type-only runtime equality proof, cast copy never installed.",
+    "Null pre-abort forwarded as replacement Error, baseline8 passed and sealed draft failed.",
+    "Stop notification added error element; separate sealed-draft red proof.",
+    "Earlier background fixture setup race was corrected in fixture before final run; original log remains."
+  ],
+  "limits": [
+    "No ordinary suites, full CLI/desktop builds, aggregate/root gates, native acceptance or live providers/processes/filesystem operations.",
+    "No exhaustive cancellation/microtask/getter equivalence or simultaneous live lifecycle acceptance; native/read boundaries reviewed statically and bounded safety groups exercised.",
+    "Fresh draft restrictions and source-derived packet/correction limits disclosed; independent expression/runtime/licensing acceptance remains root-owned.",
+    "Frontmatter/tool/model-policy helpers, held runtime-task registry, E hydration/context and accepted prior owners unchanged.",
+    "No header/inventory/licence grant, cross-lane merge/integration, main/recovery write, release/deploy or publication claim."
+  ],
+  "evidence": [
+    {
+      "path": "apps/cli/packages/core/test/subagent-owners-artifact-proof-20261003.mjs",
+      "sha256": "c67f0f388e64743b18605f9f061264c654b8ddcaa0d4fd5150df89179d7c1ac2"
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-owners-compile-20261003.cjs",
+      "sha256": "71092cc0eb36de5464e4fd433903eb2e185d8043740ebbe1b59d3871124a530f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/subagent-owners-safety-20261003.mjs",
+      "sha256": "a444840a5363fce8b479d71c24a749fc058ac3a488f7c8d4c3982e013351b6cf"
+    },
+    {
+      "path": "docs/evidence/knorvia-subagent-owners-protected-20261003.json",
+      "sha256": "06e703a0fbceda8b933cefeae64faa9674ea20983514be2f39107484b83d7c2f"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/compiler-api-proof.json",
+      "sha256": "c927c363c6f25253aa61291dd5642e6647e264db9c8688b7defd8a0833ce038d"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/final-architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/final-artifact-proof.log",
+      "sha256": "600820e49a8daab62de8478dbfb7645a4b2e42bf598b41b07184a7a69c9faf5c"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/final-format.log",
+      "sha256": "40717821f56d8f4fcb7ad7f541fdab236690d6b672c8031576b62da8f9a5b74b"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/final-lint.log",
+      "sha256": "2f372e3be5590beb100c09c069df0fc0d246d446a9681b11ae3c84a7304fdf26"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/final-safety.log",
+      "sha256": "86ebf5d76540a0d1208437b4a9e5a719cda09de2efb4ce91bdb7b5ae4032525c"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/post-seal-corrections.json",
+      "sha256": "d8f83b808b3049426a8a9a813f50eadc7abe646f8e871e8d9344921935c129c6"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/reproducible-fixture-lint.log",
+      "sha256": "fe027030cd3e82704d8a67caf66739d922a3200c3e9ba134038c7350c4a15f55"
+    },
+    {
+      "path": "docs/evidence/subagent-owners-final-checks-20261003/reproducible-types.log",
+      "sha256": "dcc90fadf5272e6ca97aeb6440ccd43f37b4d3abb92cda7634ac3bf1b2d8e7d3"
+    },
+    {
+      "path": "docs/knorvia-subagent-owners-handoff-20261003.md",
+      "sha256": "84ec9675534b7e25be740a68f56dc60b1807b081ccc5be108e600f7fb7c2afe7"
+    }
+  ],
+  "reproduction": [
+    "node apps/cli/packages/core/test/subagent-owners-compile-20261003.cjs",
+    "node apps/cli/packages/core/test/subagent-owners-artifact-proof-20261003.mjs",
+    "node --import tsx apps/cli/packages/core/test/subagent-owners-safety-20261003.mjs current --correction-probe"
+  ]
+}

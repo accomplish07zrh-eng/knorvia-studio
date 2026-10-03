@@ -1,0 +1,17 @@
+node:internal/fs/promises:697
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/workspace/docs/evidence/runtime-conversation-author-20261003/draft-01/conversation.ts'
+    at async open (node:internal/fs/promises:697:25)
+    at async Object.readFile (node:internal/fs/promises:1348:14)
+    at async load (/workspace/knorvia-studio/apps/cli/packages/core/test/.stream-five-red.mjs:5:177)
+    at async observation (/workspace/knorvia-studio/apps/cli/packages/core/test/.stream-five-red.mjs:7:11)
+    at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/.stream-five-red.mjs:11:50) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/docs/evidence/runtime-conversation-author-20261003/draft-01/conversation.ts'
+}
+
+Node.js v24.19.0

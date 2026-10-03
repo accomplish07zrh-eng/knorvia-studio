@@ -1,0 +1,16 @@
+{
+  "kind": "Whole post-seal curator/source-exposed correction set",
+  "initialCompile": "TS2322 structuredContent unknown[]; preserved strict diagnostic. Diagnostic emission for red proof is not a successful compiler gate.",
+  "runtimeRed": "Supported unknown-input first fallback coercion: historical returns second String result, initial throws first; one compact comparison preserved.",
+  "changes": [
+    "ModelMessageContent type assertion for unchanged structured array identity",
+    "Original JSON/String catch boundary restored with frozen red proof",
+    "Single parsed stdout capture restores original read count; static compatibility correction, no getter matrix or new defect claim",
+    "Original default options={} and direct option reads restored; malformed null retains predecessor behavior, no new policy or broad input tests"
+  ],
+  "unformattedSHA256": {
+    "bash-output.ts": "8d9306c17a85ce2515c7672e795fd0f5cd8fc96592fa837f5c7fa7916eabf2b6",
+    "bash-model-content.ts": "724fe243a2cd5a810c07eadb24286e4131c42f5b1592c5498b2b06b290d8c98e"
+  },
+  "noAuthorshipRelabeling": "No author re-draft or independence/licence credit for source-exposed corrections."
+}

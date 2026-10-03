@@ -1,0 +1,148 @@
+[
+  {
+    "message": "Explore subagent spawned",
+    "level": "info",
+    "fields": [
+      "...trace",
+      "agentId",
+      "agentType",
+      "event",
+      "module",
+      "parentToolCallId",
+      "status"
+    ]
+  },
+  {
+    "message": "Explore subagent completed",
+    "level": "info",
+    "fields": [
+      "...trace",
+      "agentId",
+      "durationMs",
+      "event",
+      "module",
+      "status",
+      "totalToolUseCount",
+      "totalTokens"
+    ]
+  },
+  {
+    "message": "Explore subagent background task started",
+    "level": "info",
+    "fields": [
+      "...trace",
+      "agentId",
+      "agentType",
+      "event",
+      "module",
+      "parentToolCallId",
+      "status"
+    ]
+  },
+  {
+    "message": "Explore subagent activity watchdog fired",
+    "level": "warn",
+    "fields": [
+      "...trace",
+      "agentId",
+      "agentType",
+      "event",
+      "idleMs",
+      "module",
+      "parentToolCallId",
+      "status",
+      "timeoutMs"
+    ]
+  },
+  {
+    "message": "Failed to flush pending subagent message",
+    "level": "warn",
+    "fields": [
+      "...trace",
+      "agentId",
+      "errorMessage",
+      "event",
+      "module",
+      "status"
+    ]
+  },
+  {
+    "message": "Subagent background task completed",
+    "level": "info",
+    "fields": [
+      "...trace",
+      "agentId",
+      "durationMs",
+      "event",
+      "module",
+      "status",
+      "totalToolUseCount",
+      "totalTokens"
+    ]
+  },
+  {
+    "message": "Subagent background task failed",
+    "level": "warn",
+    "fields": [
+      "...trace",
+      "agentId",
+      "errorMessage",
+      "event",
+      "module",
+      "status"
+    ]
+  },
+  {
+    "message": "Subagent background task stopped",
+    "level": "info",
+    "fields": [
+      "...trace",
+      "agentId",
+      "event",
+      "module",
+      "status"
+    ]
+  },
+  {
+    "message": "Skipped subagent background notification without parent queue",
+    "level": "warn",
+    "fields": [
+      "...trace",
+      "event",
+      "module",
+      "taskId"
+    ]
+  },
+  {
+    "message": "Skipped duplicate subagent background notification",
+    "level": "debug",
+    "fields": [
+      "...trace",
+      "event",
+      "module",
+      "reason",
+      "taskId"
+    ]
+  },
+  {
+    "message": "Failed to enqueue subagent background notification",
+    "level": "warn",
+    "fields": [
+      "...trace",
+      "errorMessage",
+      "event",
+      "module",
+      "taskId"
+    ]
+  },
+  {
+    "message": "Subagent background notification enqueued",
+    "level": "info",
+    "fields": [
+      "...trace",
+      "event",
+      "module",
+      "taskId"
+    ]
+  }
+]

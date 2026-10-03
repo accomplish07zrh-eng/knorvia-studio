@@ -1,0 +1,211 @@
+{
+  "direct": {
+    "empty": {
+      "fields": [],
+      "extras": [],
+      "phaseAliases": []
+    },
+    "rank-exact-certainty": {
+      "fields": [
+        [
+          ["from", "a"],
+          ["to", "b"],
+          ["kind", "control"],
+          ["certainty", "maybe"],
+          ["exact", true],
+          ["carryOf", "fifo"],
+          [
+            "extra",
+            {
+              "owned": 1
+            }
+          ]
+        ],
+        [
+          ["from", "c"],
+          ["to", "d"],
+          ["kind", "fifo"],
+          ["certainty", "always"]
+        ]
+      ],
+      "extras": [0, -1],
+      "phaseAliases": [-1, -1]
+    },
+    "present-phase-union": {
+      "fields": [
+        [
+          ["from", "a"],
+          ["to", "b"],
+          ["kind", "seq"],
+          ["certainty", "always"],
+          ["toPhases", ["p", "q", "r"]],
+          ["viaJump", true]
+        ]
+      ],
+      "extras": [-1],
+      "phaseAliases": [-1]
+    },
+    "absence-dominates": {
+      "fields": [
+        [
+          ["from", "a"],
+          ["to", "b"],
+          ["kind", "seq"],
+          ["certainty", "always"]
+        ],
+        [
+          ["from", "c"],
+          ["to", "d"],
+          ["kind", "seq"],
+          ["certainty", "always"]
+        ]
+      ],
+      "extras": [-1, -1],
+      "phaseAliases": [-1, -1]
+    },
+    "optional-field-presence": {
+      "fields": [
+        [
+          ["from", "a"],
+          ["to", "b"],
+          ["kind", "seq"],
+          ["certainty", "always"],
+          [
+            "exact",
+            {
+              "ownedUndefined": true
+            }
+          ],
+          [
+            "toPhases",
+            {
+              "ownedUndefined": true
+            }
+          ],
+          [
+            "viaJump",
+            {
+              "ownedUndefined": true
+            }
+          ]
+        ],
+        [
+          ["from", "c"],
+          ["to", "d"],
+          ["kind", "seq"],
+          ["certainty", "always"],
+          ["exact", false]
+        ],
+        [
+          ["from", "e"],
+          ["to", "f"],
+          ["kind", "seq"],
+          ["certainty", "always"]
+        ]
+      ],
+      "extras": [-1, -1, -1],
+      "phaseAliases": [-1, -1, -1]
+    },
+    "aliases-and-independent-phase-owners": {
+      "fields": [
+        [
+          ["from", "a"],
+          ["to", "b"],
+          ["kind", "seq"],
+          ["certainty", "always"],
+          ["toPhases", ["p", "q"]]
+        ],
+        [
+          ["from", "c"],
+          ["to", "d"],
+          ["kind", "seq"],
+          ["certainty", "always"],
+          ["toPhases", ["p"]]
+        ]
+      ],
+      "extras": [-1, -1],
+      "phaseAliases": [-1, -1]
+    },
+    "legacy-key-collision": {
+      "fields": [
+        [
+          ["from", "a|b"],
+          ["to", "c"],
+          ["kind", "control"],
+          ["certainty", "always"]
+        ]
+      ],
+      "extras": [-1],
+      "phaseAliases": [-1]
+    }
+  },
+  "reads": {
+    "normal": {
+      "calls": [
+        "from",
+        "to",
+        "kind",
+        "kind",
+        "exact",
+        "exact",
+        "certainty",
+        "viaJump",
+        "toPhases",
+        "toPhases",
+        "iterator"
+      ],
+      "fields": [
+        [
+          ["from", "a"],
+          ["to", "b"],
+          ["kind", "data"],
+          ["certainty", "maybe"],
+          ["exact", true],
+          ["toPhases", ["p", "q", "r"]]
+        ]
+      ]
+    },
+    "kind": {
+      "calls": ["from", "to", "kind"],
+      "error": "Owned fact failure",
+      "sameError": true
+    },
+    "toPhases": {
+      "calls": ["from", "to", "kind", "kind", "exact", "exact", "certainty", "viaJump", "toPhases"],
+      "error": "Owned fact failure",
+      "sameError": true
+    },
+    "iterator": {
+      "calls": [
+        "from",
+        "to",
+        "kind",
+        "kind",
+        "exact",
+        "exact",
+        "certainty",
+        "viaJump",
+        "toPhases",
+        "toPhases",
+        "iterator"
+      ],
+      "error": "Owned fact failure",
+      "sameError": true
+    }
+  },
+  "weakest": {
+    "false": {
+      "value": "maybe",
+      "calls": ["get includes", "call includes"]
+    },
+    "true": {
+      "error": "Owned certainty failure",
+      "sameError": true,
+      "calls": ["get includes", "call includes"]
+    }
+  },
+  "consumers": [
+    "691598e760bc9bb8cc33d18b8962d07e131dca03cdb1d9b9ce1aa2d8e5f5e9b0",
+    "95b31833a501f3d1885a5a6a7fee79fd941be4a2ec6e13493d48bcdeab4d926b"
+  ]
+}

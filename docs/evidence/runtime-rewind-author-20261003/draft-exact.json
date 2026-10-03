@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "path": "rewind.ts",
+      "sha256": "0305ec47f4293f06f29cddbfeab9317e183e27398f9d6dd817bd9bcea65924fd",
+      "bytes": 11520
+    },
+    {
+      "path": "rewind-message.ts",
+      "sha256": "8d99134a8a45642b3e73995b87f2e1739d899a107384648ab4d7abd45cb6d950",
+      "bytes": 4374
+    },
+    {
+      "path": "rewind-conversation-state.ts",
+      "sha256": "a51a3d5609813a229f6e1e06d56e87aa8cb0a624a175bb14fc82dc45e4a9a453",
+      "bytes": 9332
+    },
+    {
+      "path": "rewind-workspace-cascade.ts",
+      "sha256": "16918e898ee2bd4c317e1ca9b729e1478e1a7aeccaf0bc0dcf89af34ee1ddfe0",
+      "bytes": 7509
+    },
+    {
+      "path": "accesses.md",
+      "sha256": "fc2e19aaced97f889cded256f7dab23887d20c198b233754b2501d41cfc02a1b",
+      "bytes": 1742
+    },
+    {
+      "path": "representation.md",
+      "sha256": "3cf557ad9a377987b98b39b47399a67548d13e40df28549c0a5be608e2135747",
+      "bytes": 869
+    }
+  ],
+  "inputs": "contract.md, api.json and API-only messages. No predecessor/history/oracle accesses; before curator comparison."
+}

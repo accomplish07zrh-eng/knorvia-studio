@@ -1,0 +1,6 @@
+ok native state and actual turn consumer phase chain
+ok permission projections preserve authority-neutral identity and all duplicate targets
+ok queue reference ownership and admission or helper failure leaves state intact
+{"mode":"baseline","groups":3,"realIO":0,"synchronousOnly":true}
+(node:230755) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

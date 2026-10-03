@@ -1,0 +1,2965 @@
+{
+  "formatVersion": 1,
+  "kind": "GetWorkflowRun snapshot fields source-exposed receipt",
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baselineCommit": "e0da79ea15cf72dc2b7783aef83f97ef9290c48e",
+  "freezeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+  "productionCommit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+  "licenseDecision": null,
+  "sourceExposure": {
+    "cleanRoom": false,
+    "attributionRetained": true,
+    "sharedProvenanceEdited": false
+  },
+  "unresolvedMaterialObligations": 27,
+  "parentReportedRemainingObligations": 26,
+  "obligationCountScope": "Historical lane registers unchanged; root26 is separately parent-reported.",
+  "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+  "lineage": {
+    "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+    "baselineBlob": "9b385b5759c7879684d376810f712a01e36b938f",
+    "baselineSha256": "133b85b2de20a749079ae333362d3c73201a9d864f5b1808f6bf3b45e2c54bbf",
+    "localHistory": [
+      "88001f027b04324f816176ff5f08b5d1a236f27f",
+      "7619e41b950bd52073ebf36754146cf25659d9fa"
+    ],
+    "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+    "upstreamBlob": "58a1470a394f8c10479e96d65e18801589a92b2f",
+    "upstreamSha256": "0030e244d9ea58279f550bd5e792b3048cd02dd1827f5afeef59470ad631d5fd",
+    "upstreamBytes": 13474,
+    "publisherBytesLocallyVerified": false,
+    "upstreamEvidenceKind": "existing manifest facts only",
+    "ledgerClassification": "upstream-modified",
+    "ledgerReview": null
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "bytes": 11285,
+      "sha256": "559b61ff533a22a2758a0692369655e0fc69adfeb85c7caebe1fba69f543f398",
+      "normalizedSha256": "559b61ff533a22a2758a0692369655e0fc69adfeb85c7caebe1fba69f543f398",
+      "blob": "2438b981d6e025ecf2b68a38914b3199ac25fe07",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Inherited preamble, public declaration/prose/metadata/permissions/timeout/cancellation/trace, admission and single await, serializer/clock/roster/phases order, remaining health/result/error/question/artifact/summary control."
+      ],
+      "newlyStructuredExpression": [
+        "Synchronous snapshot-field projection binding in existing assembly; lazy cwd getter preserves its original read point."
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-snapshot-fields.ts",
+      "bytes": 2955,
+      "sha256": "3a64871b4e1516c3c5ae7f2ffec03a1c567e98714a2c5228834143af6a02ca79",
+      "normalizedSha256": "3a64871b4e1516c3c5ae7f2ffec03a1c567e98714a2c5228834143af6a02ca79",
+      "blob": "47fe2313484c18be3f22e67f945b49938abe3c31",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Source-exposed field names/read order/undefined checks/truthy flags and map boundaries; path-description compatibility expression and repeated usage access retained."
+      ],
+      "newlyStructuredExpression": [
+        "Ordered field decision schemas and one synchronous projection interpreter; usage vector and separate actor/log schemas replace inherited conditional object construction."
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/get-workflow-run-snapshot-baseline.json",
+      "bytes": 28642,
+      "sha256": "00aba0f638331d67672fc697398e946eec4fc0cc58dd682701f371e21decd5be",
+      "normalizedSha256": "00aba0f638331d67672fc697398e946eec4fc0cc58dd682701f371e21decd5be",
+      "blob": "274ead58a211b4b1545ecd9ce9bfcb93d279569b",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Exact baseline source and byte-identical actual project emission, including inherited prose, comments and expressions."
+      ],
+      "newlyStructuredExpression": ["Digest/compiler/archive envelope only."]
+    },
+    {
+      "path": "apps/cli/packages/core/test/get-workflow-run-snapshot-capture.mts",
+      "bytes": 1506,
+      "sha256": "aba3a7c64399c1f7866b181cefa6d2106c70f3f5c89ddb3dde870840a5d139a9",
+      "normalizedSha256": "aba3a7c64399c1f7866b181cefa6d2106c70f3f5c89ddb3dde870840a5d139a9",
+      "blob": "754329443eb9dc4512824993553634a6ef0f32c3",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Source-exposed output/error/interface facts and earlier lane fixture patterns."
+      ],
+      "newlyStructuredExpression": [
+        "Owned fake journal/getter/thenable/clock and actual registry/executor/deadline comparisons; repeated/changing nested snapshots and stale completion fixtures."
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/get-workflow-run-snapshot-contract.json",
+      "bytes": 35316,
+      "sha256": "b124f8826c468c86c3d6e8c6b73541e0e4db3015e2ee911646bc1a1018ab7b23",
+      "normalizedSha256": "b124f8826c468c86c3d6e8c6b73541e0e4db3015e2ee911646bc1a1018ab7b23",
+      "blob": "37d1145210ceeb34870c8093708fd56f57644be9",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Frozen inherited metadata/declaration/model/output prose and interface facts; observation digests do not establish authorship."
+      ],
+      "newlyStructuredExpression": [
+        "Concise digest-bound synthetic request/getter/event/settlement observation envelope."
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/get-workflow-run-snapshot-fixture.ts",
+      "bytes": 11601,
+      "sha256": "e1d7d59ae259b1f7a6537b504a254a4e6e891186bc3d13b8c3accc30c3b3994d",
+      "normalizedSha256": "e1d7d59ae259b1f7a6537b504a254a4e6e891186bc3d13b8c3accc30c3b3994d",
+      "blob": "471913bf4d69b605b1c719e1e9a22dd43defde23",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Source-exposed output/error/interface facts and earlier lane fixture patterns."
+      ],
+      "newlyStructuredExpression": [
+        "Owned fake journal/getter/thenable/clock and actual registry/executor/deadline comparisons; repeated/changing nested snapshots and stale completion fixtures."
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/get-workflow-run-snapshot-settlement-fixture.ts",
+      "bytes": 3128,
+      "sha256": "8825689a6ccad1ce88b45128dbb02c722a43bd23f75a543625902d6621f08467",
+      "normalizedSha256": "8825689a6ccad1ce88b45128dbb02c722a43bd23f75a543625902d6621f08467",
+      "blob": "2dec843d7e22365ad863ee5852cc29c512e0e3bb",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Source-exposed output/error/interface facts and earlier lane fixture patterns."
+      ],
+      "newlyStructuredExpression": [
+        "Owned fake journal/getter/thenable/clock and actual registry/executor/deadline comparisons; repeated/changing nested snapshots and stale completion fixtures."
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/get-workflow-run-snapshot.test.ts",
+      "bytes": 6175,
+      "sha256": "b5d8d1bbf2a9f7944ac75ced025b623227da985b9cc54ee9ae75e89e78b3e081",
+      "normalizedSha256": "b5d8d1bbf2a9f7944ac75ced025b623227da985b9cc54ee9ae75e89e78b3e081",
+      "blob": "5be86dc8a3b3a3b78f8c0f3da8e2d84bd08f3e22",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Source-exposed output/error/interface facts and earlier lane fixture patterns."
+      ],
+      "newlyStructuredExpression": [
+        "Owned fake journal/getter/thenable/clock and actual registry/executor/deadline comparisons; repeated/changing nested snapshots and stale completion fixtures."
+      ]
+    },
+    {
+      "path": "specs/knorvia-get-workflow-run-snapshot-fields.md",
+      "bytes": 2876,
+      "sha256": "58bc0ddc4f049e935de5ee792d874a0435e874f1f0a2feeceee57aab438ced72",
+      "normalizedSha256": "58bc0ddc4f049e935de5ee792d874a0435e874f1f0a2feeceee57aab438ced72",
+      "blob": "2d5afa973597d4c25b2877669ad46740924d3e82",
+      "commit": "1e54823d60c4fe8d10e245436a97c467bd459c0b",
+      "lastChangeCommit": "3c39501af4849f3971fecd845ea8bc68e4e7f15e",
+      "licenseDecision": null,
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "candidateReviewStatus": "unresolved_source_exposed_or_retained_expression",
+      "retainedMaterial": [
+        "Source-exposed output/error/interface facts and earlier lane fixture patterns."
+      ],
+      "newlyStructuredExpression": [
+        "Owned fake journal/getter/thenable/clock and actual registry/executor/deadline comparisons; repeated/changing nested snapshots and stale completion fixtures."
+      ]
+    }
+  ],
+  "filesTupleSha256": "8956129ec68a6fd5ca050db3ef0cfa390797d63ab0e11c600462bd2ccd7e47ff",
+  "protectedInputs": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 10384,
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+      "normalizedSha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+      "blob": "b8c1d3abefb14e05f1323e61f4cd67bb4ef58610"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "normalizedSha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "blob": "550d8df4cfc74878663a511caa97852f15fd9592"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 6125,
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "normalizedSha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "blob": "23f3047cb5753322ce0742545e5e06791392f5ea"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "bytes": 1975825,
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+      "normalizedSha256": "85a2dbd9a70c5af8ee49dc695bdfde90d937cb5d707cfc76d65d360c1f654b8d",
+      "blob": "55f2732f631d845b0d2d7bca7e5cd07cc8e4c878"
+    },
+    {
+      "path": "apps/cli/AGENTS.md",
+      "bytes": 12478,
+      "sha256": "7b5a78161262c14765dd24d438d5f0c929f8fa42badcfebdd98383741e96848d",
+      "normalizedSha256": "7b5a78161262c14765dd24d438d5f0c929f8fa42badcfebdd98383741e96848d",
+      "blob": "fc3db69ae9a710edaa31e3c98734fff758c606b0"
+    },
+    {
+      "path": "apps/cli/package.json",
+      "bytes": 2045,
+      "sha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2",
+      "normalizedSha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2",
+      "blob": "b84ecd7e674965cfce1b277488b5fb43dd43f6dc"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/index.ts",
+      "bytes": 7786,
+      "sha256": "690c0208dd19c57abf3367e6d135c5f3539ee065064927189478170ba8855fb9",
+      "normalizedSha256": "690c0208dd19c57abf3367e6d135c5f3539ee065064927189478170ba8855fb9",
+      "blob": "b0270219d6b2666d7a465ed88b954c77401a4cee"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/node-exchange.ts",
+      "bytes": 3390,
+      "sha256": "5c275634ccf733e320e4d1cd4d52af1809a61a2478109bceefcffd195e60029f",
+      "normalizedSha256": "5c275634ccf733e320e4d1cd4d52af1809a61a2478109bceefcffd195e60029f",
+      "blob": "9082e0bebb62c206dd2de7fe22fb2a1ef0114c77"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/public-egress-policy.ts",
+      "bytes": 4909,
+      "sha256": "a0fb608458bdffcbe219c4ece6d8f4ce92f3b4c8686f967808a08979e99b168d",
+      "normalizedSha256": "a0fb608458bdffcbe219c4ece6d8f4ce92f3b4c8686f967808a08979e99b168d",
+      "blob": "0c06c66e32dc0c30cf1f2ec0f210ef0f833e367b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/response-body.ts",
+      "bytes": 4401,
+      "sha256": "47636f28057f61e64f1d656dec226cbd0e4e355eb840dd61540bd7891cf25487",
+      "normalizedSha256": "47636f28057f61e64f1d656dec226cbd0e4e355eb840dd61540bd7891cf25487",
+      "blob": "537cdab234bb2582cf34601c255d10fdb57d7317"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/http-config.ts",
+      "bytes": 6772,
+      "sha256": "c650cf940d2aec2fe1916acad709780b4cac10adc6625251be5c77cf44fe5be0",
+      "normalizedSha256": "c650cf940d2aec2fe1916acad709780b4cac10adc6625251be5c77cf44fe5be0",
+      "blob": "990c769568f3873d00f7eb9d352887f06d8d339c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch-exchange.ts",
+      "bytes": 6552,
+      "sha256": "56b7ace6f6a1f0ddbaabaa34bca9070f95227af372031ff2d3c54ae693c9dd2f",
+      "normalizedSha256": "56b7ace6f6a1f0ddbaabaa34bca9070f95227af372031ff2d3c54ae693c9dd2f",
+      "blob": "4294fd4ffebcc60e83a90bd055fccffbbb51e96b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch.ts",
+      "bytes": 2395,
+      "sha256": "8f749b6feedc7da6747ea9a538f77171d31dbedcd77cb337635d4d95b450e9c2",
+      "normalizedSha256": "8f749b6feedc7da6747ea9a538f77171d31dbedcd77cb337635d4d95b450e9c2",
+      "blob": "d00bf372d430be63ed4a41edce83b8b2751acc57"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/subprocess-env.ts",
+      "bytes": 3437,
+      "sha256": "6b84c86f122a079249466dd14abb38cabae6364203b6b815466e026c0f26758a",
+      "normalizedSha256": "6b84c86f122a079249466dd14abb38cabae6364203b6b815466e026c0f26758a",
+      "blob": "3ff4c3d84d04a110d8599cdfed28232f3349da82"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/http-transport-options.test.ts",
+      "bytes": 8588,
+      "sha256": "2d7d50b7bfa93f5c037bb281e9afdeaa0fa81be41e44b654037a913452888133",
+      "normalizedSha256": "2d7d50b7bfa93f5c037bb281e9afdeaa0fa81be41e44b654037a913452888133",
+      "blob": "90696480df99dfefe1866ccf6ed7e139770aed32"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/http-transport-response.test.ts",
+      "bytes": 7287,
+      "sha256": "62024b7a4711df55098db8809cfc0179841cf12e303951ec86b94b4ec102ecd4",
+      "normalizedSha256": "62024b7a4711df55098db8809cfc0179841cf12e303951ec86b94b4ec102ecd4",
+      "blob": "b2922352db055b5306aa81022ee797e73e3214f1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/http-transport.fixture.ts",
+      "bytes": 7567,
+      "sha256": "5ae2202184256875ea7c1e584126f94574e2fef26cb6f6dba752a94b25355ab6",
+      "normalizedSha256": "5ae2202184256875ea7c1e584126f94574e2fef26cb6f6dba752a94b25355ab6",
+      "blob": "39ddf81d8c2c956841ea0895c51e51cfcc14ea7c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config-bypass.test.ts",
+      "bytes": 6720,
+      "sha256": "825142116ddb666af0600ae14d2bb2a232876dcd35d2d9c56d65ba6ea1b1a9c8",
+      "normalizedSha256": "825142116ddb666af0600ae14d2bb2a232876dcd35d2d9c56d65ba6ea1b1a9c8",
+      "blob": "c5285bd2505a4ac20e5fc8658286e82d44f0f123"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config-selection.test.ts",
+      "bytes": 7776,
+      "sha256": "72d67e713a297219d6db34808bf7b501ea4278011daa7eda72abb7b590e12a12",
+      "normalizedSha256": "72d67e713a297219d6db34808bf7b501ea4278011daa7eda72abb7b590e12a12",
+      "blob": "825f750ead6ee631d7f272a6d516f1095369697f"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/coordinator-response.port.ts",
+      "bytes": 703,
+      "sha256": "b3028378b8ba97a867e7d48629b95487f6aaa46dbbc096fb51c7575adead2705",
+      "normalizedSha256": "b3028378b8ba97a867e7d48629b95487f6aaa46dbbc096fb51c7575adead2705",
+      "blob": "1b58394e0f1e4cb228228f3a2f34ed255269db07"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/dynamic-workflow-run.port.ts",
+      "bytes": 55515,
+      "sha256": "9775c372a2496fd3ceacd681619c1d984c01f47042afdb3b06546238e16ab905",
+      "normalizedSha256": "9775c372a2496fd3ceacd681619c1d984c01f47042afdb3b06546238e16ab905",
+      "blob": "1e8fdef09b747830ce80c03ef76f6dcc099ecbc1"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "normalizedSha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "blob": "c9b0750f95db6bcd77f4a863c5e4276b8c35d604"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/http-client.port.ts",
+      "bytes": 2358,
+      "sha256": "2e060eef3b4aa60e5e4b296d7f1b13ecb09a163f3e84bb6904dc40d33a73b960",
+      "normalizedSha256": "2e060eef3b4aa60e5e4b296d7f1b13ecb09a163f3e84bb6904dc40d33a73b960",
+      "blob": "d006c4eb49c469cf9641270afb0e400927c29572"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/image-processor.port.ts",
+      "bytes": 2122,
+      "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93",
+      "normalizedSha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93",
+      "blob": "a012442c71b34cf2ba827e6e46663f893b9170c7"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/pdf-document.port.ts",
+      "bytes": 1152,
+      "sha256": "ff7cf9ef8473813785258482f5a48d8d9230e5fe01f3c2e1537125172d4a351d",
+      "normalizedSha256": "ff7cf9ef8473813785258482f5a48d8d9230e5fe01f3c2e1537125172d4a351d",
+      "blob": "b080eff720003671eaa4f082bf9f55eceb16bafe"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/subagent.port.ts",
+      "bytes": 3784,
+      "sha256": "3e563f8dea2e210e5a2e2cf25bef7408ed66bf4a512590c3c0d6de02e8fd44e3",
+      "normalizedSha256": "3e563f8dea2e210e5a2e2cf25bef7408ed66bf4a512590c3c0d6de02e8fd44e3",
+      "blob": "9057e0d1a70ce198a2f5d94ff9ca30c64f6e2519"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/workflow-escalate.port.ts",
+      "bytes": 2917,
+      "sha256": "d1eea374bac47132b77b94f47a9afec82d667b7ff9c81749be5bbe613133a6ce",
+      "normalizedSha256": "d1eea374bac47132b77b94f47a9afec82d667b7ff9c81749be5bbe613133a6ce",
+      "blob": "bb7b64c60b5039f611fa9d74617255325ad3762d"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/workflow-submit.port.ts",
+      "bytes": 2205,
+      "sha256": "96f22ba962d590158629c2984ac8fba9fcf6544d055d8c88ec126da185b759ad",
+      "normalizedSha256": "96f22ba962d590158629c2984ac8fba9fcf6544d055d8c88ec126da185b759ad",
+      "blob": "9634944c31f14bf9cf2d2dda5616c78f9a88ee23"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/agent.ts",
+      "bytes": 3860,
+      "sha256": "11f570e70ad5413af90e7582f68a441ce06a1f4e838123e20c7c163752d80046",
+      "normalizedSha256": "11f570e70ad5413af90e7582f68a441ce06a1f4e838123e20c7c163752d80046",
+      "blob": "a2bf8d094d7302540723b322c018501b4e3218c7"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/contract.ts",
+      "bytes": 7037,
+      "sha256": "62514185306799f7fc1f3c642c182d14abd210a0ffd332c764df7e2874bd1372",
+      "normalizedSha256": "62514185306799f7fc1f3c642c182d14abd210a0ffd332c764df7e2874bd1372",
+      "blob": "dac7429f1410e314dc64c360b93b966a146bdfbf"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/escalate.ts",
+      "bytes": 2274,
+      "sha256": "6dcd7f3e3aef939c60c6941c33a395963c8e76b549e1b830787cc6ac6bd9fa3d",
+      "normalizedSha256": "6dcd7f3e3aef939c60c6941c33a395963c8e76b549e1b830787cc6ac6bd9fa3d",
+      "blob": "d98c6f710397cea50a0cbf895e2c12e54c02a5f5"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/get-workflow-run.ts",
+      "bytes": 11246,
+      "sha256": "cee1bc3f238e8ea8a6d4b6a98e1b6bff38457bcf9bb109683e41124e0cb8dfbe",
+      "normalizedSha256": "cee1bc3f238e8ea8a6d4b6a98e1b6bff38457bcf9bb109683e41124e0cb8dfbe",
+      "blob": "31a96b907f004c67059358b4b9ab0cfc7655e3c0"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/list-workflow-runs.ts",
+      "bytes": 5604,
+      "sha256": "c018de1123a3aa5bb285818b044d3adf52e4da696d6a55d9815827c89a2ad095",
+      "normalizedSha256": "c018de1123a3aa5bb285818b044d3adf52e4da696d6a55d9815827c89a2ad095",
+      "blob": "ebe849e47e9be1fa9f7e4f0d4d9dae914c044ac8"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-pdf.ts",
+      "bytes": 3140,
+      "sha256": "ac19ff30c71a758f04ca4f59bc811a451853703ad417dd6c64522e8c5c0638a9",
+      "normalizedSha256": "ac19ff30c71a758f04ca4f59bc811a451853703ad417dd6c64522e8c5c0638a9",
+      "blob": "4ddce51f5c8ec1c570bc78b628d56e7bacdbbbf5"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read-state.ts",
+      "bytes": 318,
+      "sha256": "b44cc54505a87e721513a1c82af45a53ccab90fb44b636c238a7531c82db1792",
+      "normalizedSha256": "b44cc54505a87e721513a1c82af45a53ccab90fb44b636c238a7531c82db1792",
+      "blob": "dd6c82a5d0d565c3700f49a000e5a971d5ed9ccf"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "normalizedSha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "blob": "8f016a837a7a810d2be305555018dd9c04f92ea5"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/respond-to-coordinator.ts",
+      "bytes": 1047,
+      "sha256": "bd44622875c8cbe2efef99c478bb13266ee7865c5b57c73025a4485410931046",
+      "normalizedSha256": "bd44622875c8cbe2efef99c478bb13266ee7865c5b57c73025a4485410931046",
+      "blob": "b762b3daac08e106334733bb784a8b20a75745cc"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/send-message.ts",
+      "bytes": 1384,
+      "sha256": "b67bdd566a0a53a5644c2a2b27553645041d09cd6508edba8cc1f208b8570bc2",
+      "normalizedSha256": "b67bdd566a0a53a5644c2a2b27553645041d09cd6508edba8cc1f208b8570bc2",
+      "blob": "5a58c468ed542fb011a17da84ed9c95651a169f6"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/submit-result.ts",
+      "bytes": 2362,
+      "sha256": "eedc214522cc53ff6774db01d1f7dd80376310963c2bbebe106bf83d854488dc",
+      "normalizedSha256": "eedc214522cc53ff6774db01d1f7dd80376310963c2bbebe106bf83d854488dc",
+      "blob": "c14c4ce2a2facfa3b0ab57e5c53fa42643cdbf97"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/webfetch.ts",
+      "bytes": 3209,
+      "sha256": "d99f4a40f7c6e4912f95a856ff540bd0ed5d7664c5670bd68968c0dbd2555418",
+      "normalizedSha256": "d99f4a40f7c6e4912f95a856ff540bd0ed5d7664c5670bd68968c0dbd2555418",
+      "blob": "fa09cb970f6e32d3c482b18da4dcfd559211e323"
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "normalizedSha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "blob": "96679d43d334d9be234be3520acf8afa84bbb024"
+    },
+    {
+      "path": "apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "bytes": 549,
+      "sha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf",
+      "normalizedSha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf",
+      "blob": "cfefaee16c3f7387f5744fcfc5a8bb1f32f13f00"
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/service.ts",
+      "bytes": 2068,
+      "sha256": "9f059dfaf25bd93e1afd3b74fbbd38686b99fab8750fc588ce826f01f8dfd9dc",
+      "normalizedSha256": "9f059dfaf25bd93e1afd3b74fbbd38686b99fab8750fc588ce826f01f8dfd9dc",
+      "blob": "22f206d5f4b4901de921b80e132d90b9c2958a5a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "normalizedSha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "blob": "845d7ede93e5e6a825f78bf679aa39eea2d1a134"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+      "bytes": 12156,
+      "sha256": "3bc27ba51890a2d1d4377b3b58459702fc9cc930235569cea270aa4ac5400024",
+      "normalizedSha256": "3bc27ba51890a2d1d4377b3b58459702fc9cc930235569cea270aa4ac5400024",
+      "blob": "b7cf3160487af21b03804d3aafc9db68fabf4ee0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+      "bytes": 6106,
+      "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70",
+      "normalizedSha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70",
+      "blob": "ca57a160493313a43963d37b559a1906fbd9076b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/embedded-search-branch.ts",
+      "bytes": 2632,
+      "sha256": "33ff9ce11648359c5f846f0023879c7309e9fce4d220425bfdfb60bc1ce1c9cd",
+      "normalizedSha256": "33ff9ce11648359c5f846f0023879c7309e9fce4d220425bfdfb60bc1ce1c9cd",
+      "blob": "f451e9a369a68d2ec39e71604652847c68a5cbb9"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+      "bytes": 3860,
+      "sha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3",
+      "normalizedSha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3",
+      "blob": "5d88232beab2a0f364a26e02baf5d8acedb1837f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "bytes": 37526,
+      "sha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7",
+      "normalizedSha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7",
+      "blob": "0d56840afac71619e26211b36dad656739a1569f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile.ts",
+      "bytes": 12527,
+      "sha256": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c",
+      "normalizedSha256": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c",
+      "blob": "93594ff21ba8aa936879175b689a0ac4ef542db2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/runner.ts",
+      "bytes": 68642,
+      "sha256": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e",
+      "normalizedSha256": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e",
+      "blob": "ec45a7ab1855f692ce1712bb33759d6231ca4269"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-policy.ts",
+      "bytes": 924,
+      "sha256": "bb6d381e9baef66bafa06328d819166f8a68c73913b3c68cb9f82dee1c988c53",
+      "normalizedSha256": "bb6d381e9baef66bafa06328d819166f8a68c73913b3c68cb9f82dee1c988c53",
+      "blob": "b38c5823d5ac4bb6bb82ff4c2543749e6a6e9361"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/compat.ts",
+      "bytes": 828,
+      "sha256": "5fc8668450c0db0d16e0c1644454cc1e5c5ec0b90a419b5286bee4f41a76782d",
+      "normalizedSha256": "5fc8668450c0db0d16e0c1644454cc1e5c5ec0b90a419b5286bee4f41a76782d",
+      "blob": "ebfcbf027338b6b7113f49c0d3f6de16ba77d335"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+      "bytes": 48163,
+      "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1",
+      "normalizedSha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1",
+      "blob": "9e9f007bf643861fee78d6ba2baa9b7cc3921bba"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/batch-runner.ts",
+      "bytes": 4253,
+      "sha256": "f2b04ef5a9ec0fe218463f37452676af8340afb451cc2ab913e785dc547491ca",
+      "normalizedSha256": "f2b04ef5a9ec0fe218463f37452676af8340afb451cc2ab913e785dc547491ca",
+      "blob": "eeb7ddae1c29387f60b049c136e856e0d9f91816"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/call-runner.ts",
+      "bytes": 2606,
+      "sha256": "2b6559af4d89cc2a2f13dcc45cf9cf31fa1965530f1a9244a0381d6caa847363",
+      "normalizedSha256": "2b6559af4d89cc2a2f13dcc45cf9cf31fa1965530f1a9244a0381d6caa847363",
+      "blob": "e09af4b49ad7bd84c331055ca588971c86e41f9c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/budget-ledger.ts",
+      "bytes": 1139,
+      "sha256": "43b29b02b7f9f95983dc22c3c3f6bf9152c573d487470c9dd8722f663c3eb75f",
+      "normalizedSha256": "43b29b02b7f9f95983dc22c3c3f6bf9152c573d487470c9dd8722f663c3eb75f",
+      "blob": "90bf52d932a1afa7efe513cfaeb964e632b49ec9"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
+      "bytes": 2693,
+      "sha256": "053be704934671885897455239ca6c89d3cdb6154e2e7c9cda0bc9310f0757e1",
+      "normalizedSha256": "053be704934671885897455239ca6c89d3cdb6154e2e7c9cda0bc9310f0757e1",
+      "blob": "948d536740cdcf0c9e02ee5e871a084815fcb686"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/pausable-deadline.ts",
+      "bytes": 1307,
+      "sha256": "e5a5e1aadabe64bc2012fe7b337e8cda8a3fb3aaa59eb0744dd18ca6a205e695",
+      "normalizedSha256": "e5a5e1aadabe64bc2012fe7b337e8cda8a3fb3aaa59eb0744dd18ca6a205e695",
+      "blob": "174a74c3389d51e42dbf227a380e53ebd61f20cd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/admission.ts",
+      "bytes": 5366,
+      "sha256": "ae2c6b608fc888e5e90803eda418dc269b106e3705e09d2207530cc9a8f20a18",
+      "normalizedSha256": "ae2c6b608fc888e5e90803eda418dc269b106e3705e09d2207530cc9a8f20a18",
+      "blob": "be695ef78aebd5254ef1f17cb2c98f12d904b164"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/context.ts",
+      "bytes": 3769,
+      "sha256": "24210fc1f42a4da047049a8fbbbca8a92e7a17d7da5c770dedc44a9b9ec8c97a",
+      "normalizedSha256": "24210fc1f42a4da047049a8fbbbca8a92e7a17d7da5c770dedc44a9b9ec8c97a",
+      "blob": "0175f05219462fd7d8af4c3e733915101e350c0a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/model-status-sink.ts",
+      "bytes": 2136,
+      "sha256": "839ff24c1b50b57f8c8da0a1cf15583217fc92003d24a7213bca43ad34eeb821",
+      "normalizedSha256": "839ff24c1b50b57f8c8da0a1cf15583217fc92003d24a7213bca43ad34eeb821",
+      "blob": "e8feb76710051d80fc8dcd1df4d7d944fd2a6b63"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-capability.ts",
+      "bytes": 2090,
+      "sha256": "0b8e2a65e97d308fe35b759cc3befad55e16314025988a02dd3fa856865e81bf",
+      "normalizedSha256": "0b8e2a65e97d308fe35b759cc3befad55e16314025988a02dd3fa856865e81bf",
+      "blob": "3c38954fad39f685e0b7856c3aa749dc4beaadaf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result-display.ts",
+      "bytes": 2090,
+      "sha256": "b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af",
+      "normalizedSha256": "b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af",
+      "blob": "c5a6b42cfc1df55b50e17acbb3aa14bb704f757e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/timeout.ts",
+      "bytes": 2398,
+      "sha256": "0bdc637d588b584946bf3c90dbe37459f587101d01b042c36c6fa382992a9e38",
+      "normalizedSha256": "0bdc637d588b584946bf3c90dbe37459f587101d01b042c36c6fa382992a9e38",
+      "blob": "6b5dea6636abd382defd53cafff5d3930627d2a0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/turn-control.ts",
+      "bytes": 6055,
+      "sha256": "86932540de300b1e4004455a10d9a8db7e784534ca2da6ac96afc8e60465ba43",
+      "normalizedSha256": "86932540de300b1e4004455a10d9a8db7e784534ca2da6ac96afc8e60465ba43",
+      "blob": "f1860c6d879128d3b6d069cd1b3549a8bc7230ba"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts",
+      "bytes": 4690,
+      "sha256": "00ab8147d398d9cd16783543081615d22bdfa374b03edebb548b32b2eed2feb1",
+      "normalizedSha256": "00ab8147d398d9cd16783543081615d22bdfa374b03edebb548b32b2eed2feb1",
+      "blob": "5a3a7c79d9e9655fc0b81f60ff596b2b5e5ffca5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/catalog-cards.ts",
+      "bytes": 2867,
+      "sha256": "64e015d532a7ef13d14b8d73b035b3d8289c0b36672d5693ba4d5e7a750ffd19",
+      "normalizedSha256": "64e015d532a7ef13d14b8d73b035b3d8289c0b36672d5693ba4d5e7a750ffd19",
+      "blob": "1e90404647f79d18785ce0e5fa8dac5eae5c3886"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/run-card.ts",
+      "bytes": 3423,
+      "sha256": "61edeef403aaec21796d54e86d3fb67b9cf9fe2f439351ad7f014055dffff378",
+      "normalizedSha256": "61edeef403aaec21796d54e86d3fb67b9cf9fe2f439351ad7f014055dffff378",
+      "blob": "c0a6e4e894c18c82a25ee9d4a7b303e81e094503"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-observation-display.ts",
+      "bytes": 1624,
+      "sha256": "81654ab513e337bbffad1a95062ec004ba44d77e987dfcb8be19e01c08f24f25",
+      "normalizedSha256": "81654ab513e337bbffad1a95062ec004ba44d77e987dfcb8be19e01c08f24f25",
+      "blob": "406dd03a5847308a7a1361572678bfa184d7da48"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+      "bytes": 12155,
+      "sha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+      "normalizedSha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+      "blob": "825c684e5d02cbca80fcb09ccd8e35cea13ae5ea"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-invocation.ts",
+      "bytes": 1417,
+      "sha256": "d931fff738ffe5b4fdda8c2b26ef1209c019ef4dcb5978193a5826b86be95c03",
+      "normalizedSha256": "d931fff738ffe5b4fdda8c2b26ef1209c019ef4dcb5978193a5826b86be95c03",
+      "blob": "9325d1db20ace8f9b86185bfdc2554c72e27eb12"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-projection.ts",
+      "bytes": 2629,
+      "sha256": "717c6fd19c890632d3171691f7face579aa66bf1a35340dfbbc908f12e46ebd5",
+      "normalizedSha256": "717c6fd19c890632d3171691f7face579aa66bf1a35340dfbbc908f12e46ebd5",
+      "blob": "6ac1ffe6c2b5faa13c0c1c2ebaeb15e91c65d5f7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-request.ts",
+      "bytes": 1950,
+      "sha256": "1f5737056b524379b05c4600c33bf36940f3fc7a424240b9b025fe9ec9424455",
+      "normalizedSha256": "1f5737056b524379b05c4600c33bf36940f3fc7a424240b9b025fe9ec9424455",
+      "blob": "38ac40aa1ea14a89696d63e0fa2ff24a8a515f4e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent.ts",
+      "bytes": 8728,
+      "sha256": "633a319a03d2a960ffbe8559cf8e32bc7461798e656577d7d7b744c55f74bc30",
+      "normalizedSha256": "633a319a03d2a960ffbe8559cf8e32bc7461798e656577d7d7b744c55f74bc30",
+      "blob": "636e014f7039bacc15371691006150edbf934c46"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-narration.ts",
+      "bytes": 2210,
+      "sha256": "9537d2eeca7ba4e2266fe0ba3f377dd49fa8587d81142ce7dd203e5edb687d2b",
+      "normalizedSha256": "9537d2eeca7ba4e2266fe0ba3f377dd49fa8587d81142ce7dd203e5edb687d2b",
+      "blob": "2afcdce979043cfc124adceccd90ceee73c9ebe5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts",
+      "bytes": 1942,
+      "sha256": "ee633585e392e9429ee7a5fd87ee0ae648005eca1b55669a7da0385d8aeafa2c",
+      "normalizedSha256": "ee633585e392e9429ee7a5fd87ee0ae648005eca1b55669a7da0385d8aeafa2c",
+      "blob": "eaf2b938ee676a1aa187e5a3dc289e9134e7f6bf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "bytes": 4421,
+      "sha256": "b4c9f1988d183fa7161e7253af80ec87871266c7cbf6274e9570e5a537bdf48c",
+      "normalizedSha256": "b4c9f1988d183fa7161e7253af80ec87871266c7cbf6274e9570e5a537bdf48c",
+      "blob": "170152ac159d2631facee1d986fc1d1e4477e930"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-invocation.ts",
+      "bytes": 3174,
+      "sha256": "fd7a27954cc561106ce919a7b831a7a342e8a44af3ec42dafbc39d727fbbecde",
+      "normalizedSha256": "fd7a27954cc561106ce919a7b831a7a342e8a44af3ec42dafbc39d727fbbecde",
+      "blob": "a10d5964504f1a5c37ae856d89b6285325d07d5d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-request.ts",
+      "bytes": 2665,
+      "sha256": "66e780e744c84cf97e89507dce867a9f084f710b1a28523945fef78e85602332",
+      "normalizedSha256": "66e780e744c84cf97e89507dce867a9f084f710b1a28523945fef78e85602332",
+      "blob": "78d3eb319cd13d3ccef52cbd0b200d0787dfb1b3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-result.ts",
+      "bytes": 3232,
+      "sha256": "f46de4e3fb0647598d423a4abda5fd8a54ff2b48135b723d892b6534a7d9225e",
+      "normalizedSha256": "f46de4e3fb0647598d423a4abda5fd8a54ff2b48135b723d892b6534a7d9225e",
+      "blob": "acc1fe070aa75fb9ad239434f992a0d75dd9ade0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron-execution.ts",
+      "bytes": 4717,
+      "sha256": "4cfdea8c41acc3dab3843f75a4fabbb4ec9d53660371704eb518b2b13ea9f49d",
+      "normalizedSha256": "4cfdea8c41acc3dab3843f75a4fabbb4ec9d53660371704eb518b2b13ea9f49d",
+      "blob": "28bd3fe88ddb806d43ecd4d5a8a2024bbe8a6b19"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron.ts",
+      "bytes": 14457,
+      "sha256": "0ee5b80b04cf89f820bf48c50c35e569407836891137f43dae3e8239b82c2bb6",
+      "normalizedSha256": "0ee5b80b04cf89f820bf48c50c35e569407836891137f43dae3e8239b82c2bb6",
+      "blob": "7f1030e66f0a7e748a705fbabba8ff862abf81f6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/edit-commit.ts",
+      "bytes": 4458,
+      "sha256": "f8cf1b1e331d7002dfc5f9d66327a543698f51ac5828d457e77325b288fd433d",
+      "normalizedSha256": "f8cf1b1e331d7002dfc5f9d66327a543698f51ac5828d457e77325b288fd433d",
+      "blob": "37fd57ddce79b1abfb9cb8b5f544d0ceb5fc0cb5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/edit-plan.ts",
+      "bytes": 5504,
+      "sha256": "7eb071db374e0b0979f6a5c078ef11c20427723baf2f611a6f6dbb4cf0658173",
+      "normalizedSha256": "7eb071db374e0b0979f6a5c078ef11c20427723baf2f611a6f6dbb4cf0658173",
+      "blob": "33dc2a7eeb248da1957a549ca262706af2ae1d2b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/edit-transaction.ts",
+      "bytes": 3226,
+      "sha256": "2da388e9a3dd66d64a5545a6f36d49032c7a16a204dc38198c5afb090262e1b9",
+      "normalizedSha256": "2da388e9a3dd66d64a5545a6f36d49032c7a16a204dc38198c5afb090262e1b9",
+      "blob": "9fb6ed5052eb5e02cb1dde2c07565b84213e4a15"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/edit.ts",
+      "bytes": 3344,
+      "sha256": "a26fe127c78659052ad2c3bb3e7cba055233438bd448669d213d4ff64ad16fbe",
+      "normalizedSha256": "a26fe127c78659052ad2c3bb3e7cba055233438bd448669d213d4ff64ad16fbe",
+      "blob": "50af8d7008964fa4e5dad12a71bf73348534b753"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/escalate-operation.ts",
+      "bytes": 3014,
+      "sha256": "7dfd889cb7455f863752282e87dc43ee905435bf6b7730a14ec7e00cc1d7c220",
+      "normalizedSha256": "7dfd889cb7455f863752282e87dc43ee905435bf6b7730a14ec7e00cc1d7c220",
+      "blob": "53bfe386ac3832b74896bb60f60f0ef7f5d38ae7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/escalate.ts",
+      "bytes": 5820,
+      "sha256": "e3d4b7a7d43cddff588b5fc5c3053a0c39a500a01448a027fb10b0d8fef4f996",
+      "normalizedSha256": "e3d4b7a7d43cddff588b5fc5c3053a0c39a500a01448a027fb10b0d8fef4f996",
+      "blob": "1e22e5c71216998490dd2dbed5ee80b6b73fb89d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/file-search-output.ts",
+      "bytes": 1747,
+      "sha256": "8a605ae9c2706ac009e9e45dea2fb602c3b48771369eeed1d21e3e5d4934c626",
+      "normalizedSha256": "8a605ae9c2706ac009e9e45dea2fb602c3b48771369eeed1d21e3e5d4934c626",
+      "blob": "71035a5494038f35e7869e942108a43ddb0ee5ed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/file-search-runtime.ts",
+      "bytes": 3373,
+      "sha256": "be254f08f0442c5b56dde0146a4d305bc40550a7bd6d765b4f8741902376c439",
+      "normalizedSha256": "be254f08f0442c5b56dde0146a4d305bc40550a7bd6d765b4f8741902376c439",
+      "blob": "e34e514dbec27b090cd405c37b6905ee44416af2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "bytes": 13438,
+      "sha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e",
+      "normalizedSha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e",
+      "blob": "20b0494089c93bbbc4aa96808ed6b0d8a0213eb1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "bytes": 14662,
+      "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+      "normalizedSha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+      "blob": "1adeee03207e5622d413f3981387be57ef4f06c7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "bytes": 5753,
+      "sha256": "f2510e9d6d2643400f58bde25823d4ae75d0d932b7ab8f618dd6849c94d2baab",
+      "normalizedSha256": "f2510e9d6d2643400f58bde25823d4ae75d0d932b7ab8f618dd6849c94d2baab",
+      "blob": "a4253875f3142bf527df95c56ec0a3b6cde51b44"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "bytes": 9044,
+      "sha256": "b201973924df1b9741fb3be169c37001ed4d06d161f6d70f830be93fc04957a0",
+      "normalizedSha256": "b201973924df1b9741fb3be169c37001ed4d06d161f6d70f830be93fc04957a0",
+      "blob": "bdcf1b91198cf70c4c1a611af96bc85bcf9924e0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/glob.ts",
+      "bytes": 2564,
+      "sha256": "be8bf9c654ff155ac3354a0a8d30a9480f7f8965b1b032643a7468a2688de645",
+      "normalizedSha256": "be8bf9c654ff155ac3354a0a8d30a9480f7f8965b1b032643a7468a2688de645",
+      "blob": "bca11e84cf01109d23bb92dafc22b0d72fc04d59"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/grep.ts",
+      "bytes": 4081,
+      "sha256": "6bd82160dfc4f95ec4a71329a537c58f768a702ffd0edde826fde7c6faa237db",
+      "normalizedSha256": "6bd82160dfc4f95ec4a71329a537c58f768a702ffd0edde826fde7c6faa237db",
+      "blob": "43d2ccaf6efc0aabbc88bfde1e43cf52caa29f62"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/index.ts",
+      "bytes": 12770,
+      "sha256": "049286bcb374fe14a2922bf0311b50d0045ce73d447285bb67b3112a74e5ea53",
+      "normalizedSha256": "049286bcb374fe14a2922bf0311b50d0045ce73d447285bb67b3112a74e5ea53",
+      "blob": "5cc35fde3c44694b3f12773df57284d984f332aa"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models-projection.ts",
+      "bytes": 3990,
+      "sha256": "92f2d8bdfd3a42dabfb33251e0eb451097fe3ee38f6ef6fd1c9e40cd92815bb9",
+      "normalizedSha256": "92f2d8bdfd3a42dabfb33251e0eb451097fe3ee38f6ef6fd1c9e40cd92815bb9",
+      "blob": "65cc7dc8f84d212901fae9f1332e1c0d2bead408"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "bytes": 3451,
+      "sha256": "57b78a7fa81faaa7bdc137d262f979df20f0bd7fe28cbb73b4648940a825a787",
+      "normalizedSha256": "57b78a7fa81faaa7bdc137d262f979df20f0bd7fe28cbb73b4648940a825a787",
+      "blob": "cbad76072795c1ded08d245b88fbbc05f8f52813"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-workflow-runs-operation.ts",
+      "bytes": 2241,
+      "sha256": "9f0bc961db37d3580bd8d58c0e6728f211597d56a5c1b6f5f7c43922b24fc362",
+      "normalizedSha256": "9f0bc961db37d3580bd8d58c0e6728f211597d56a5c1b6f5f7c43922b24fc362",
+      "blob": "cbd3f2dfdd41cdfd675a59df6ba554054bf22ce1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts",
+      "bytes": 7784,
+      "sha256": "ffd0a057161fc05ca133cb76ae3f2256a8d1a329690539db3e4f343d9374e81d",
+      "normalizedSha256": "ffd0a057161fc05ca133cb76ae3f2256a8d1a329690539db3e4f343d9374e81d",
+      "blob": "737337c5961b27936c1046ee5e66d06d39f169ef"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-diagnostics.ts",
+      "bytes": 2871,
+      "sha256": "4a26491042186f6de7d4d4547d0f1b6adcaa4edf0ac612a7a45510a38aacb1a4",
+      "normalizedSha256": "4a26491042186f6de7d4d4547d0f1b6adcaa4edf0ac612a7a45510a38aacb1a4",
+      "blob": "9759f965dc9d8598999f8f84729fe473f278fe9e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-policy.ts",
+      "bytes": 4084,
+      "sha256": "066bc48046693179fdcafcae4e5980164e7abd4204fcd35b854d0c1bff5785f4",
+      "normalizedSha256": "066bc48046693179fdcafcae4e5980164e7abd4204fcd35b854d0c1bff5785f4",
+      "blob": "4d7972b0b1211c58b8b30399e7879da01f8c09b9"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference.ts",
+      "bytes": 2038,
+      "sha256": "20109a528b6170169f3451ce4c4a78b118202995680fa53ee1bef79b55c636ba",
+      "normalizedSha256": "20109a528b6170169f3451ce4c4a78b118202995680fa53ee1bef79b55c636ba",
+      "blob": "4586912d855b6ac3997eb837408c261f37868f13"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-execution.ts",
+      "bytes": 3106,
+      "sha256": "0416949a03109a94be07df648096e3325169fd8ac7bdc1a7a2288c1c939d4018",
+      "normalizedSha256": "0416949a03109a94be07df648096e3325169fd8ac7bdc1a7a2288c1c939d4018",
+      "blob": "dfd0e7a4934da3bd195738bd4fbd6e502bcd7332"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-result.ts",
+      "bytes": 2889,
+      "sha256": "b39819d67c3be60f45b2f2ab8d6c6dd57d639cd158e63b381b053336926782e8",
+      "normalizedSha256": "b39819d67c3be60f45b2f2ab8d6c6dd57d639cd158e63b381b053336926782e8",
+      "blob": "1ab34f1afab8830d24cdd8d006fc61be50c6531d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak.ts",
+      "bytes": 7833,
+      "sha256": "d3cb1918be8f37028c2f74f2cf154884689c8f7ace5759e167f11094eae9481c",
+      "normalizedSha256": "d3cb1918be8f37028c2f74f2cf154884689c8f7ace5759e167f11094eae9481c",
+      "blob": "835c39c6dbb0a07eb80edf6187a401f1f4e823a8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-operation.ts",
+      "bytes": 2941,
+      "sha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8",
+      "normalizedSha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8",
+      "blob": "fd607706e24741ea2fe687bb40dade1fad27a6c2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-persistence.ts",
+      "bytes": 1654,
+      "sha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3",
+      "normalizedSha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3",
+      "blob": "ad40889cc2149c32b625143897f72aacaaef8c22"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-projection.ts",
+      "bytes": 2564,
+      "sha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454",
+      "normalizedSha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454",
+      "blob": "76d927f6e83c7a85f5bffcf3ef416a9dbb256244"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-prompts.ts",
+      "bytes": 6525,
+      "sha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03",
+      "normalizedSha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03",
+      "blob": "c36613630a2b39f49e05f6935a84867fab2a1e90"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode.ts",
+      "bytes": 4845,
+      "sha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3",
+      "normalizedSha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3",
+      "blob": "272221bfe000c27eaf6c7613698ef7ff4f31061e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-binary-input.ts",
+      "bytes": 2085,
+      "sha256": "07cc86a444f724f86051f2d444c70c4b190c23e88c7edbfe317b1287ef69cd67",
+      "normalizedSha256": "07cc86a444f724f86051f2d444c70c4b190c23e88c7edbfe317b1287ef69cd67",
+      "blob": "f8bb388a5a7f7bd09473be9a6cd4ce26e6f13991"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-file-suggestion.ts",
+      "bytes": 3375,
+      "sha256": "f856b08c44b6839911aee99d06f33ebc5d590aedc8923dc2ab0c42f29d4b8c40",
+      "normalizedSha256": "f856b08c44b6839911aee99d06f33ebc5d590aedc8923dc2ab0c42f29d4b8c40",
+      "blob": "77a0defdd9c2044d2a93b49664f6c9ab91321879"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-image.ts",
+      "bytes": 3847,
+      "sha256": "f0782abd5b35cdfc146e28fd3fb16346dc2d011cbf875c9feb5abf115643d9d0",
+      "normalizedSha256": "f0782abd5b35cdfc146e28fd3fb16346dc2d011cbf875c9feb5abf115643d9d0",
+      "blob": "4a6fd4b73be36ca73558e7538043fe94ea46ab22"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-model-content.ts",
+      "bytes": 2789,
+      "sha256": "83b056bbe3c25f8822eb400d11068cc439989f6733754b8346bfca2742b37806",
+      "normalizedSha256": "83b056bbe3c25f8822eb400d11068cc439989f6733754b8346bfca2742b37806",
+      "blob": "c2d4c5881d754b078cb1a0d4ab3b1a04324c0065"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-pdf-plan.ts",
+      "bytes": 2595,
+      "sha256": "db56f17de83db3de6806ab1e62667e63457fcd5edf6b8500306939e556bce46b",
+      "normalizedSha256": "db56f17de83db3de6806ab1e62667e63457fcd5edf6b8500306939e556bce46b",
+      "blob": "7dcd192f78ba2d3b24c200d6c340167742449493"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-pdf.ts",
+      "bytes": 12118,
+      "sha256": "678578b625a905bda22dd3034b1b9e47422ee87dd6cd1af1aa02d7ceadc00b1c",
+      "normalizedSha256": "678578b625a905bda22dd3034b1b9e47422ee87dd6cd1af1aa02d7ceadc00b1c",
+      "blob": "dbae0a5011476c0e265065cd54f198a322d452f2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "bytes": 13916,
+      "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56",
+      "normalizedSha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56",
+      "blob": "882745561b666c9f3d368374d00004d562bbb861"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text-budget.ts",
+      "bytes": 1216,
+      "sha256": "e47757b31ee01ef6524262ed30fd0259e412b668510485e006361dad6a9ffbc3",
+      "normalizedSha256": "e47757b31ee01ef6524262ed30fd0259e412b668510485e006361dad6a9ffbc3",
+      "blob": "84f53c032952343d531b003e89e065b79a5156de"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts",
+      "bytes": 3243,
+      "sha256": "6a2bf5b2445c582177adf086dec9e449749cd1b38a8288cdc50272a01475eabb",
+      "normalizedSha256": "6a2bf5b2445c582177adf086dec9e449749cd1b38a8288cdc50272a01475eabb",
+      "blob": "972fcde5ef5922a43808862b419aa0cf0d76e27b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text.ts",
+      "bytes": 4845,
+      "sha256": "a325a3fb34d7b51125b11e9033e9df79a0dde14bce1df79eaa7b3fd99ae8bd9e",
+      "normalizedSha256": "a325a3fb34d7b51125b11e9033e9df79a0dde14bce1df79eaa7b3fd99ae8bd9e",
+      "blob": "949b1f14677325505763a87ba9ea1b0d52f9ca91"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-video.ts",
+      "bytes": 1462,
+      "sha256": "1314ff7a4b11c0d4215163d8c13a1cadd0d3edb5fe5fde7ab94e01b8acd25b89",
+      "normalizedSha256": "1314ff7a4b11c0d4215163d8c13a1cadd0d3edb5fe5fde7ab94e01b8acd25b89",
+      "blob": "16c901dd36b56b9784ed1674e051831944cc7275"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read.ts",
+      "bytes": 12137,
+      "sha256": "794f1a306ad5da1ba3cb48e4eda2ca45adabcf088f6899b177620080f1fb89ea",
+      "normalizedSha256": "794f1a306ad5da1ba3cb48e4eda2ca45adabcf088f6899b177620080f1fb89ea",
+      "blob": "633aa9b5656a420d14971f3ed847c461fbcb8f50"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "bytes": 3163,
+      "sha256": "9cc51f474c196964a88a06fdbb2aa745b3a79bd726e773c5e127e16c4c706849",
+      "normalizedSha256": "9cc51f474c196964a88a06fdbb2aa745b3a79bd726e773c5e127e16c4c706849",
+      "blob": "13b5c38ab890d3bad038846c1837b62552fcfabe"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+      "bytes": 3477,
+      "sha256": "e3bdfce38045be97cecf5e666aa52f1d2447e53525fa706a875bd50a6d775eaf",
+      "normalizedSha256": "e3bdfce38045be97cecf5e666aa52f1d2447e53525fa706a875bd50a6d775eaf",
+      "blob": "e550f7ef31e4b0173179e3b6699ad1baa7fdd858"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-execution.ts",
+      "bytes": 2821,
+      "sha256": "001f4fc0189ac5357759d23f6454c72734e709fce7f3c410bda20dca852faaf3",
+      "normalizedSha256": "001f4fc0189ac5357759d23f6454c72734e709fce7f3c410bda20dca852faaf3",
+      "blob": "79e443cb4f1bb524845b1a073ae3ab391754f701"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-instructions.ts",
+      "bytes": 3187,
+      "sha256": "4c5883ab5f269462db1eae086f2374523a1d35854bc105234223b49d8c711999",
+      "normalizedSha256": "4c5883ab5f269462db1eae086f2374523a1d35854bc105234223b49d8c711999",
+      "blob": "7f10cacaca0fc12879face676254a6241ccc45f5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill.ts",
+      "bytes": 3190,
+      "sha256": "b79515bbb85f914821ed0391a225f48d82bbd92f132f63ffa23200cc061193c1",
+      "normalizedSha256": "b79515bbb85f914821ed0391a225f48d82bbd92f132f63ffa23200cc061193c1",
+      "blob": "e0b17edbdf449fb872fa40295ba3bb5170d5f6ad"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "bytes": 5422,
+      "sha256": "f9bbd6e2f186e5ab4e54281b35930ee8632c3e5af85266b9d0bc0df8f7f4db0d",
+      "normalizedSha256": "f9bbd6e2f186e5ab4e54281b35930ee8632c3e5af85266b9d0bc0df8f7f4db0d",
+      "blob": "954f04f2818322adf109c0f350c6abb75516006e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "bytes": 5126,
+      "sha256": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed",
+      "normalizedSha256": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed",
+      "blob": "8f81db3a3ef6704195ab7a16307bbe62d60c3568"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "bytes": 5591,
+      "sha256": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989",
+      "normalizedSha256": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989",
+      "blob": "a55523e5c9f8b603419685187cfe2e569a20caf1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-request.ts",
+      "bytes": 4205,
+      "sha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d",
+      "normalizedSha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d",
+      "blob": "ba022d94e0023fb412ce684f81d9c1d2a6d90555"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+      "bytes": 4832,
+      "sha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e",
+      "normalizedSha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e",
+      "blob": "f00240b072a2ac3fd2e47a8dad3bafb6c49c6d77"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop-request.ts",
+      "bytes": 2940,
+      "sha256": "667b9002012f8f60022de22e5789a65433843b0ca121bc7938f2150ccfa9fdf1",
+      "normalizedSha256": "667b9002012f8f60022de22e5789a65433843b0ca121bc7938f2150ccfa9fdf1",
+      "blob": "6b678c4d01cd0726c11b4fd7a94930cd37b82a47"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop.ts",
+      "bytes": 2536,
+      "sha256": "60495de05021bcc7c1199d94a8c926bafb3d271ae346a26745333ab175aca31e",
+      "normalizedSha256": "60495de05021bcc7c1199d94a8c926bafb3d271ae346a26745333ab175aca31e",
+      "blob": "83f559169e509ca92bf595c42095e5e034b42c3f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+      "bytes": 5663,
+      "sha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+      "normalizedSha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf",
+      "blob": "efb3539ae67e7a55a90e75697296412a105c9ecd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-cache.ts",
+      "bytes": 1466,
+      "sha256": "cddeeeb6404856f20149c7ef433d5209d2a734cbbe7b2de0794063857e646285",
+      "normalizedSha256": "cddeeeb6404856f20149c7ef433d5209d2a734cbbe7b2de0794063857e646285",
+      "blob": "0d17989b439b58922b0713b87d377b818711010a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-constants.ts",
+      "bytes": 503,
+      "sha256": "f99eb76a41d8ef48eae57498d871f90775454cd1a52404b0755afdcd6cf4c2cd",
+      "normalizedSha256": "f99eb76a41d8ef48eae57498d871f90775454cd1a52404b0755afdcd6cf4c2cd",
+      "blob": "e74a8f12d390f5043c9919ef9361e5e67aedcd6c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-content.ts",
+      "bytes": 4053,
+      "sha256": "8cc931aab753f34fc6cc944e2816b2285d99d288b772d372bfb9b07ddb60a1fb",
+      "normalizedSha256": "8cc931aab753f34fc6cc944e2816b2285d99d288b772d372bfb9b07ddb60a1fb",
+      "blob": "7ae589c7acd3e425f1923bffa632a60e128b5559"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-egress-guard.ts",
+      "bytes": 4155,
+      "sha256": "c94b5d6d18a945168f6af5dc78bbf30d32af051fb46cca5521d96533f363868e",
+      "normalizedSha256": "c94b5d6d18a945168f6af5dc78bbf30d32af051fb46cca5521d96533f363868e",
+      "blob": "f200b6ba88bf777359ca873ccae28e18b9caf2db"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-errors.ts",
+      "bytes": 1237,
+      "sha256": "dbc0d1f7d427f5e516d206f67d45c3081b91af04fa6f30a074117a4dc25e2d1c",
+      "normalizedSha256": "dbc0d1f7d427f5e516d206f67d45c3081b91af04fa6f30a074117a4dc25e2d1c",
+      "blob": "929fed270002bf147e4c848f0bcc2597cf36c934"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-network.ts",
+      "bytes": 11921,
+      "sha256": "8f99bb56129e12992877fc09a6514f67ac2fa213748ccb915bfc5342a9d48016",
+      "normalizedSha256": "8f99bb56129e12992877fc09a6514f67ac2fa213748ccb915bfc5342a9d48016",
+      "blob": "3767565135c6a003f0d2bd95ade750001a2d6e5c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-orchestration.ts",
+      "bytes": 4195,
+      "sha256": "715e7db5ba27c077ed82c502c3a5e03ea7fc52d7c9c65a9a1d831cfd90526efa",
+      "normalizedSha256": "715e7db5ba27c077ed82c502c3a5e03ea7fc52d7c9c65a9a1d831cfd90526efa",
+      "blob": "41c8dc64d98036a9cf0bdda708ad0c062a0c107a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-processing.ts",
+      "bytes": 3977,
+      "sha256": "72ce62e474e875a641bf463ed31a0989e9ed115d9ac6c066612cc6f2202b2705",
+      "normalizedSha256": "72ce62e474e875a641bf463ed31a0989e9ed115d9ac6c066612cc6f2202b2705",
+      "blob": "905753dca6e337b7abca0f5d0902a68d4aff85e8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-trace.ts",
+      "bytes": 1013,
+      "sha256": "5803a334b89b31dcb30da334dad385ce7c4238b4b76a6a2f636d78514225004a",
+      "normalizedSha256": "5803a334b89b31dcb30da334dad385ce7c4238b4b76a6a2f636d78514225004a",
+      "blob": "66f1b130694820a2dd05759234ff573a7a8cb4ae"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-types.ts",
+      "bytes": 829,
+      "sha256": "97a3d64d583d08d374b0d101effd4e32e622bcd8f433f19a8381bfd1522dec3f",
+      "normalizedSha256": "97a3d64d583d08d374b0d101effd4e32e622bcd8f433f19a8381bfd1522dec3f",
+      "blob": "73dd4f387b145ee287c463ae2e9b9d5dadea70ec"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch-url.ts",
+      "bytes": 4182,
+      "sha256": "2a82164e44b6f56f9e126579918f22843f8f50f13b12e6d78bae8b9a4c8c94bb",
+      "normalizedSha256": "2a82164e44b6f56f9e126579918f22843f8f50f13b12e6d78bae8b9a4c8c94bb",
+      "blob": "2774e767fef5658b1f38a5896611e956218524dd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/webfetch.ts",
+      "bytes": 5969,
+      "sha256": "d648170ca5499678f902fa0d71bb1569cee91a6fc5309a86f6e769fde35dcee7",
+      "normalizedSha256": "d648170ca5499678f902fa0d71bb1569cee91a6fc5309a86f6e769fde35dcee7",
+      "blob": "d32cf8c238657b56152136d4439d464d6d9d3417"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-execution.ts",
+      "bytes": 6281,
+      "sha256": "6c8dba798d9763cd810d290c68a76185d0145cd776fc157123d27d60ab9ef833",
+      "normalizedSha256": "6c8dba798d9763cd810d290c68a76185d0145cd776fc157123d27d60ab9ef833",
+      "blob": "c2cdeaad98c4818c572f1bf29ce71cdf295c9aec"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-response-tree.ts",
+      "bytes": 1946,
+      "sha256": "05f9bb27f5898b998d727b96bc40e770abbffc5922efbf97b98d362851b5441f",
+      "normalizedSha256": "05f9bb27f5898b998d727b96bc40e770abbffc5922efbf97b98d362851b5441f",
+      "blob": "1d34e755344125b63b8696e77d79082af53b1666"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-results.ts",
+      "bytes": 4048,
+      "sha256": "d62b0dec9f83bce86b53b10d0718c23bfecda2363cd5de1369123314de5095fd",
+      "normalizedSha256": "d62b0dec9f83bce86b53b10d0718c23bfecda2363cd5de1369123314de5095fd",
+      "blob": "2154b19d09822dcdc928998043fdfee433530fe5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-support.ts",
+      "bytes": 575,
+      "sha256": "9c802aed73c36fdf672990a2e66eb187a32770f5e9ccce4563c8c837180d224e",
+      "normalizedSha256": "9c802aed73c36fdf672990a2e66eb187a32770f5e9ccce4563c8c837180d224e",
+      "blob": "4c222198dda2b1f4ec614e5feaaf2b37c21fb883"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch.ts",
+      "bytes": 2204,
+      "sha256": "5494581667f6db3ae6a2ed048938e1a296174801378b8e59e11bfd343d992e7b",
+      "normalizedSha256": "5494581667f6db3ae6a2ed048938e1a296174801378b8e59e11bfd343d992e7b",
+      "blob": "79fe757bfe46aa6c49256cbdee57fa35f4cfae1e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "bytes": 7348,
+      "sha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67",
+      "normalizedSha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67",
+      "blob": "ffcff744bdcb9e25a4a86e20b25a529d69d9b29a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-path.ts",
+      "bytes": 1934,
+      "sha256": "6024b79b77c98cf673d1c44896dd266991d39de6210ad685a652015ad7cf1254",
+      "normalizedSha256": "6024b79b77c98cf673d1c44896dd266991d39de6210ad685a652015ad7cf1254",
+      "blob": "d501d7851bfeb382448ad9e9d6612ca213fda56f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/write-transaction.ts",
+      "bytes": 5902,
+      "sha256": "a81b86a747a155ef746365d287f8a1403dc58b7cdaeab4d0a0cd64e084822655",
+      "normalizedSha256": "a81b86a747a155ef746365d287f8a1403dc58b7cdaeab4d0a0cd64e084822655",
+      "blob": "14f30bcd3ee2360427857f0645d74f946e264525"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/write.ts",
+      "bytes": 3157,
+      "sha256": "990637ee4a9c2d16155bf0a2c98840c85b0b967e3f670ed4dc12ac55fbf5b3e1",
+      "normalizedSha256": "990637ee4a9c2d16155bf0a2c98840c85b0b967e3f670ed4dc12ac55fbf5b3e1",
+      "blob": "c1d125cb0900f3afa4d53e7aa98f033510e742d8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/input-normalization.ts",
+      "bytes": 2420,
+      "sha256": "11421f00d31665aa0b58b2019997d6e9dc89b45e861d3696b06c067d0b0e3522",
+      "normalizedSha256": "11421f00d31665aa0b58b2019997d6e9dc89b45e861d3696b06c067d0b0e3522",
+      "blob": "c17c6096830d900b2749186053d700cda03d9660"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/path-policy.ts",
+      "bytes": 2265,
+      "sha256": "e7e0568b2ee8e2d36400aceabcba708615e9f7226089eb11d10b035147c51dee",
+      "normalizedSha256": "e7e0568b2ee8e2d36400aceabcba708615e9f7226089eb11d10b035147c51dee",
+      "blob": "fd748c905e59f653452592020609ecd29622dce3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state-metadata.ts",
+      "bytes": 4310,
+      "sha256": "0d69f25fbbc39e12ae984d1c834bee0a5c7216a516a46ab7c82938501fc6afb4",
+      "normalizedSha256": "0d69f25fbbc39e12ae984d1c834bee0a5c7216a516a46ab7c82938501fc6afb4",
+      "blob": "133df298edc66044507e24fee7d883904aa7f0be"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/read-file-state.ts",
+      "bytes": 1845,
+      "sha256": "8b7ab5aa77f9e12cde904d0cac886c2160b15faa5a7cf956942823e6d908f371",
+      "normalizedSha256": "8b7ab5aa77f9e12cde904d0cac886c2160b15faa5a7cf956942823e6d908f371",
+      "blob": "1655db844b690c4c840ea1ac4560d85a7b375b02"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry.ts",
+      "bytes": 3194,
+      "sha256": "3efe696228e4b498d9ec3a38447d3c1128eb037d9715e59f801dc28bfe88a9c6",
+      "normalizedSha256": "3efe696228e4b498d9ec3a38447d3c1128eb037d9715e59f801dc28bfe88a9c6",
+      "blob": "9e1dabb5a791a9c9d983d2b6c5c45620241a2d24"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry/model-contracts.ts",
+      "bytes": 1890,
+      "sha256": "786c52c48ef22eecef37022a44093a91d63d8ec7676656f4563dcf2a13b2adb3",
+      "normalizedSha256": "786c52c48ef22eecef37022a44093a91d63d8ec7676656f4563dcf2a13b2adb3",
+      "blob": "2af5fb3f0996a02e301fa15da844ce292335ac87"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler.ts",
+      "bytes": 2000,
+      "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e",
+      "normalizedSha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e",
+      "blob": "618fc1a27a4154f373b5598c52543ef070b1b272"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "normalizedSha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "blob": "a631258bf3c1d258830ce49d332698536572472b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/webfetch-preapproved.ts",
+      "bytes": 2385,
+      "sha256": "bf54bc58546e632583919a382c636cd7a968ce4ca9dc6b0cbca4c105b40e2334",
+      "normalizedSha256": "bf54bc58546e632583919a382c636cd7a968ce4ca9dc6b0cbca4c105b40e2334",
+      "blob": "ab9debea2bedd19337bce0ceeaa55afda5b3e8c1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-capture.mts",
+      "bytes": 1971,
+      "sha256": "56a7d90a5e4bc9f42f4f5b52f678187daee0b0fdc476e9c75c6a5ba1cbf60007",
+      "normalizedSha256": "56a7d90a5e4bc9f42f4f5b52f678187daee0b0fdc476e9c75c6a5ba1cbf60007",
+      "blob": "3a63fdc3a18c12568b615c681df5a4c923da9250"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-cases.ts",
+      "bytes": 6939,
+      "sha256": "6458557d8748863bda75eced1ee7c0d10c9ea25f31d3086aee6d83f79625ff52",
+      "normalizedSha256": "6458557d8748863bda75eced1ee7c0d10c9ea25f31d3086aee6d83f79625ff52",
+      "blob": "9bf723356ca4464409debbcb5a6da114a20c155c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-consumers.test.ts",
+      "bytes": 9735,
+      "sha256": "4b49baf06b756bec5cdb8b1760d215731e26f1bf2e63788cd1c914ae83790752",
+      "normalizedSha256": "4b49baf06b756bec5cdb8b1760d215731e26f1bf2e63788cd1c914ae83790752",
+      "blob": "ff8e7144f3550fb0f0a1aeb3a143513c4e9901d8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-contract.json",
+      "bytes": 237540,
+      "sha256": "a7cc872e6442912c19c3c20d239a73eb8065aeacb97ee9fd6a0d93a9bfd0165e",
+      "normalizedSha256": "a7cc872e6442912c19c3c20d239a73eb8065aeacb97ee9fd6a0d93a9bfd0165e",
+      "blob": "d2f2f4fd9f3a3f7a646074370ce77d2d23e41de7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-contract.test.ts",
+      "bytes": 7592,
+      "sha256": "92538d26e04289d81b35364489809a4cecdee5102482737b856ea0a37e002810",
+      "normalizedSha256": "92538d26e04289d81b35364489809a4cecdee5102482737b856ea0a37e002810",
+      "blob": "d2bf94624e356911a64ac89699b43503c32ac5ba"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-fixture.ts",
+      "bytes": 11057,
+      "sha256": "51b40f800049d2f0a926d24f1948a33bbb91e6bb6271ea1c43ec69146c56c974",
+      "normalizedSha256": "51b40f800049d2f0a926d24f1948a33bbb91e6bb6271ea1c43ec69146c56c974",
+      "blob": "728b4f57fa31e9918f48e818e2c4e46e201816ba"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-capture.mts",
+      "bytes": 2325,
+      "sha256": "a4a937be4ecbb373cd541f0db9b6fc77af6d6afe9d73ad969563383b51b36fc1",
+      "normalizedSha256": "a4a937be4ecbb373cd541f0db9b6fc77af6d6afe9d73ad969563383b51b36fc1",
+      "blob": "4ae16bb9995631850750a71149a9bd409d6a1a8c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-cases.ts",
+      "bytes": 9316,
+      "sha256": "400017c6d3bc240b4f0e4d0e19c591f9a6f93baea3852c2b5452a5ddb9dfa209",
+      "normalizedSha256": "400017c6d3bc240b4f0e4d0e19c591f9a6f93baea3852c2b5452a5ddb9dfa209",
+      "blob": "974db23e3218ecc088aab730f7327a21fc3de417"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-consumers.test.ts",
+      "bytes": 13212,
+      "sha256": "93bb3799a780ba7c928602c8827ad2778fe117217e15d0bf99ed3e6deab8c884",
+      "normalizedSha256": "93bb3799a780ba7c928602c8827ad2778fe117217e15d0bf99ed3e6deab8c884",
+      "blob": "209b7b0ed858bad15f68e2a20259ac9515a9d564"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-contract.json",
+      "bytes": 364842,
+      "sha256": "e44e70bdb0368fdf49de8cf0bc6858161d09767766ecc230315f9e49d3068d12",
+      "normalizedSha256": "e44e70bdb0368fdf49de8cf0bc6858161d09767766ecc230315f9e49d3068d12",
+      "blob": "8077136d71feca7859d3eec2bdfe3404477b0444"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-contract.test.ts",
+      "bytes": 10910,
+      "sha256": "6a0e9f1f80bc87b31bd5e02f07aa84f5235d4f44f87de69a81b09b59baa5011c",
+      "normalizedSha256": "6a0e9f1f80bc87b31bd5e02f07aa84f5235d4f44f87de69a81b09b59baa5011c",
+      "blob": "fce898310e05f339d537660ec243bcc1615f8055"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-fixture.ts",
+      "bytes": 13943,
+      "sha256": "af790aaf137d3144c29ef710124e2afa6c0f173312a009016416075dd6f4d87e",
+      "normalizedSha256": "af790aaf137d3144c29ef710124e2afa6c0f173312a009016416075dd6f4d87e",
+      "blob": "514e9a6bfb15794774b70bdbad716c93f1f366ce"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-verdict-probes.ts",
+      "bytes": 2243,
+      "sha256": "11d82adec66bd89f2c4cf78697f347482d8ba0ad1dd3d4355748002fa9ede4b0",
+      "normalizedSha256": "11d82adec66bd89f2c4cf78697f347482d8ba0ad1dd3d4355748002fa9ede4b0",
+      "blob": "767a976a7e83c504496940812252c3b0c26e6f0d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/edit-transaction.test.ts",
+      "bytes": 13097,
+      "sha256": "a66efaae73bc5d0d9e662a8d2df869667503d8bd0677e5fd4b3ed43481bf1627",
+      "normalizedSha256": "a66efaae73bc5d0d9e662a8d2df869667503d8bd0677e5fd4b3ed43481bf1627",
+      "blob": "1a723da16995aaacedd151d690a00d767615a953"
+    },
+    {
+      "path": "apps/cli/packages/core/test/escalate-orchestration-baseline.json",
+      "bytes": 15163,
+      "sha256": "a8819b93a183be1e1e010a9507ed2e5e842d8f6a5f372bee99fc6cd4e7b83610",
+      "normalizedSha256": "a8819b93a183be1e1e010a9507ed2e5e842d8f6a5f372bee99fc6cd4e7b83610",
+      "blob": "0038dd5f230589f23f32ef05f597ec0d749817fa"
+    },
+    {
+      "path": "apps/cli/packages/core/test/escalate-orchestration-capture.mts",
+      "bytes": 2019,
+      "sha256": "ea62e48c9ea7d0b1759a55db84de31474a95887e8eaa68ff38b0207ad143214f",
+      "normalizedSha256": "ea62e48c9ea7d0b1759a55db84de31474a95887e8eaa68ff38b0207ad143214f",
+      "blob": "977be8ef795e801688f8e2ac478fa9dfc40501b4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/escalate-orchestration-cases.ts",
+      "bytes": 3363,
+      "sha256": "9c15feadbe4f8365a3cdd3f48e8d6d617e6c5e505f51a614d745969df37d8b60",
+      "normalizedSha256": "9c15feadbe4f8365a3cdd3f48e8d6d617e6c5e505f51a614d745969df37d8b60",
+      "blob": "0567adcb3137e8f3a359c99412b95ee8965ba376"
+    },
+    {
+      "path": "apps/cli/packages/core/test/escalate-orchestration-contract.json",
+      "bytes": 639072,
+      "sha256": "c7573190f9a4120a714aeba2d9c8b7701a30d058fa86b31f9897a46f85e53175",
+      "normalizedSha256": "c7573190f9a4120a714aeba2d9c8b7701a30d058fa86b31f9897a46f85e53175",
+      "blob": "dc86e7885ca762fb084d90766cef0305ed3a3e6a"
+    },
+    {
+      "path": "apps/cli/packages/core/test/escalate-orchestration-contract.test.ts",
+      "bytes": 7968,
+      "sha256": "4249f36431d991eb6b7bb79f9df2f04ccc6070b89db594637a25b7286cd1dc28",
+      "normalizedSha256": "4249f36431d991eb6b7bb79f9df2f04ccc6070b89db594637a25b7286cd1dc28",
+      "blob": "a4b82382b3cbb8f94bf59fec1e3012e6ed0e3671"
+    },
+    {
+      "path": "apps/cli/packages/core/test/escalate-orchestration-fixture.ts",
+      "bytes": 13352,
+      "sha256": "cb46d15d1b29c7fae7eafe78a2a4f2b814cc949ecaedcb91123895394c18ca77",
+      "normalizedSha256": "cb46d15d1b29c7fae7eafe78a2a4f2b814cc949ecaedcb91123895394c18ca77",
+      "blob": "498b2bacf465c47615ffbf3504cd7c257ed10819"
+    },
+    {
+      "path": "apps/cli/packages/core/test/escalate-orchestration-settlement-fixture.ts",
+      "bytes": 5972,
+      "sha256": "dc98c3673d4967b5798998f16041410d3a8214353bad6e6cdf5ed0642e9f1978",
+      "normalizedSha256": "dc98c3673d4967b5798998f16041410d3a8214353bad6e6cdf5ed0642e9f1978",
+      "blob": "50b2d414699757380cd32ecc0ee9b2fbc853bec0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/file-search-tools.test.ts",
+      "bytes": 11095,
+      "sha256": "34de90165424e1fb6a09ca0f55fca1a4caf20dda0456f73e0f890a00fc8b6123",
+      "normalizedSha256": "34de90165424e1fb6a09ca0f55fca1a4caf20dda0456f73e0f890a00fc8b6123",
+      "blob": "8dab987fe4f72cef2801b6446ba02e5c4e80a49a"
+    },
+    {
+      "path": "apps/cli/packages/core/test/list-workflow-runs-orchestration-baseline.json",
+      "bytes": 20469,
+      "sha256": "e86634a5814822bf9eefe0bb4be4def9b150e3958bf1123cdc988b796c937da3",
+      "normalizedSha256": "e86634a5814822bf9eefe0bb4be4def9b150e3958bf1123cdc988b796c937da3",
+      "blob": "5bbc1cc20955560b329aee2e866834440c44f241"
+    },
+    {
+      "path": "apps/cli/packages/core/test/list-workflow-runs-orchestration-capture.mts",
+      "bytes": 1462,
+      "sha256": "2c5e2ef6dbf0ad412d9146d5dcb30ab0cf000716d5184ffba3f54c7c8092037e",
+      "normalizedSha256": "2c5e2ef6dbf0ad412d9146d5dcb30ab0cf000716d5184ffba3f54c7c8092037e",
+      "blob": "99de91e22d5db158279588cec5ba493c3285f158"
+    },
+    {
+      "path": "apps/cli/packages/core/test/list-workflow-runs-orchestration-contract.json",
+      "bytes": 427628,
+      "sha256": "c07549972c0d5edf1728fd588ceb7188451bf4092b04d0f01d3920801e046cae",
+      "normalizedSha256": "c07549972c0d5edf1728fd588ceb7188451bf4092b04d0f01d3920801e046cae",
+      "blob": "4fe2710935480326d4e53532f9392da2b2bb8b7c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/list-workflow-runs-orchestration-contract.test.ts",
+      "bytes": 6882,
+      "sha256": "92d802f5f28b43abbfedfdc657d4b9f06ed254d24f2d036a95ecabec520e3dcd",
+      "normalizedSha256": "92d802f5f28b43abbfedfdc657d4b9f06ed254d24f2d036a95ecabec520e3dcd",
+      "blob": "97b397625089e55ed63c201d147273ff887f4bc0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/list-workflow-runs-orchestration-fixture.ts",
+      "bytes": 11696,
+      "sha256": "81117dc81431afef1f08515b41996bec333bda4d5a98f68f31f7440253b9f694",
+      "normalizedSha256": "81117dc81431afef1f08515b41996bec333bda4d5a98f68f31f7440253b9f694",
+      "blob": "ad2cdd655a9e13e03a9ab6a3b00924f430dbde92"
+    },
+    {
+      "path": "apps/cli/packages/core/test/list-workflow-runs-orchestration-settlement-fixture.ts",
+      "bytes": 3338,
+      "sha256": "555954220a5d8a655d6222c6857c01a5d3a42f4e1ccd7566f451d21e2aed84b9",
+      "normalizedSha256": "555954220a5d8a655d6222c6857c01a5d3a42f4e1ccd7566f451d21e2aed84b9",
+      "blob": "2958412daa8377683d958ba1a7f77e657334c7f4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-client-fixture.ts",
+      "bytes": 793,
+      "sha256": "4ec566b360feffcf5880b9ac9b653ea3247199a95c6e7a5da8d41c87f7f7d3d2",
+      "normalizedSha256": "4ec566b360feffcf5880b9ac9b653ea3247199a95c6e7a5da8d41c87f7f7d3d2",
+      "blob": "75ea8300b4574f99ba467a4c62dca4c01be9f5d7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-capability.test.ts",
+      "bytes": 5145,
+      "sha256": "f1e27441c2e895a8d4120c78e430f7cf288f32184a9c4948aef87d8ae06db32d",
+      "normalizedSha256": "f1e27441c2e895a8d4120c78e430f7cf288f32184a9c4948aef87d8ae06db32d",
+      "blob": "f33db4a4f0f317eb7976a8dba2aad2323159d097"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-exceptions.test.ts",
+      "bytes": 6025,
+      "sha256": "fd260da4171e3d3841d7c0ebefb4d59c698acd311ead5e2e61db3ba9382636bf",
+      "normalizedSha256": "fd260da4171e3d3841d7c0ebefb4d59c698acd311ead5e2e61db3ba9382636bf",
+      "blob": "4eac7425f1c8375abee7f6b6b9969a3b346ef1b7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-patterns.test.ts",
+      "bytes": 5131,
+      "sha256": "f0d5b3bc78b20a813738309139c1899c49cbb3ce5ab408e9e644a6ba084d3660",
+      "normalizedSha256": "f0d5b3bc78b20a813738309139c1899c49cbb3ce5ab408e9e644a6ba084d3660",
+      "blob": "3cf69e6fa8134ce45504f6b03b6aeac4f37b6934"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-webfetch.test.ts",
+      "bytes": 4451,
+      "sha256": "ad806b9fbf438d6dc852b1cce9a9cab51a4cc6b463322caf5ccc7c891b65faeb",
+      "normalizedSha256": "ad806b9fbf438d6dc852b1cce9a9cab51a4cc6b463322caf5ccc7c891b65faeb",
+      "blob": "7e4a6d3e4f721d85070a9ae49040d6bba5f4f781"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-binary-consumer.test.ts",
+      "bytes": 2226,
+      "sha256": "8edc90a5ed9d03ce83b9dafeaac869194521afe5a39f73a2788ae4be7758e9c3",
+      "normalizedSha256": "8edc90a5ed9d03ce83b9dafeaac869194521afe5a39f73a2788ae4be7758e9c3",
+      "blob": "64ed54b59661ad071589bf2a2c9c433f1279e5d7"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-binary-media.test.ts",
+      "bytes": 10703,
+      "sha256": "f274699d5e9c0f124178ce2f92ce44da99b0f9b0ba645ae03d2a63b5926d3eda",
+      "normalizedSha256": "f274699d5e9c0f124178ce2f92ce44da99b0f9b0ba645ae03d2a63b5926d3eda",
+      "blob": "0cbb9e0bd02371c7dd576789ebf22c35e65109f0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-file-distance.test.ts",
+      "bytes": 1732,
+      "sha256": "6acf651ac57800a3c5c43fff1d225c509a60e76b575e686975ea15c792d8bba5",
+      "normalizedSha256": "6acf651ac57800a3c5c43fff1d225c509a60e76b575e686975ea15c792d8bba5",
+      "blob": "076cbafa8e2320c82dbcf452857771a66bb62e33"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-file-suggestion.test.ts",
+      "bytes": 6006,
+      "sha256": "0de9bd0e0fd725140a13e6d94086c2ee47048a1f789eadf1d835c8c0e1bf39ba",
+      "normalizedSha256": "0de9bd0e0fd725140a13e6d94086c2ee47048a1f789eadf1d835c8c0e1bf39ba",
+      "blob": "e40fd8b04c4d6ef3b724e19a648698ab837c8a83"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-capture.mts",
+      "bytes": 1834,
+      "sha256": "d1bfac7d9345f6d782a7f0e46fb353a68cfed9412d864aaba7cd6ae33338cab2",
+      "normalizedSha256": "d1bfac7d9345f6d782a7f0e46fb353a68cfed9412d864aaba7cd6ae33338cab2",
+      "blob": "b4c30f41b00520720070b47cb3a692319f5ad637"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-cases.ts",
+      "bytes": 7405,
+      "sha256": "338296f5cce018fca00f2f917cfe96da5a9ffe84cceab192fba25ed16dde04c5",
+      "normalizedSha256": "338296f5cce018fca00f2f917cfe96da5a9ffe84cceab192fba25ed16dde04c5",
+      "blob": "1f5ac418a5bc60c477d56edb7b1cdf6196149e0c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+      "bytes": 6273,
+      "sha256": "9244c3efc5dbb0c5e63735ad072b3f9f9064d592fa202c8d1b6ae9c1e3821a0b",
+      "normalizedSha256": "9244c3efc5dbb0c5e63735ad072b3f9f9064d592fa202c8d1b6ae9c1e3821a0b",
+      "blob": "243eed8df4cfb557b37448b82d296be312eef25b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "bytes": 11375,
+      "sha256": "b9958538e2aabe00d09a0fad2ee1555255e79c046ee08eb7503152abc9cbc5da",
+      "normalizedSha256": "b9958538e2aabe00d09a0fad2ee1555255e79c046ee08eb7503152abc9cbc5da",
+      "blob": "93f4f026bf1bcbb5f1f7d5aa5f691e9c3afff263"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-contract.json",
+      "bytes": 1790403,
+      "sha256": "7604f019984b2a08c3684857428a50ca9f18a3f21431a6ddc33e8e95b9f25527",
+      "normalizedSha256": "7604f019984b2a08c3684857428a50ca9f18a3f21431a6ddc33e8e95b9f25527",
+      "blob": "2acfe0e1f5a1461a05d119d23062785291003ae1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-contract.test.ts",
+      "bytes": 12001,
+      "sha256": "2b7c28f67642b8aa06c59eaa79ad7f05f27d24729cdc937abfcbc40e2af57047",
+      "normalizedSha256": "2b7c28f67642b8aa06c59eaa79ad7f05f27d24729cdc937abfcbc40e2af57047",
+      "blob": "408717bbaaa289f5b1fece12554c1b293a2cf317"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-fixture.ts",
+      "bytes": 11725,
+      "sha256": "69b3b6aaa8f6502b8a6cc9369b27334722d3f2ef4eab32797802f40707cb2343",
+      "normalizedSha256": "69b3b6aaa8f6502b8a6cc9369b27334722d3f2ef4eab32797802f40707cb2343",
+      "blob": "d972f415aa4e80a13486ac1d74099c188ca865b0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-pdf-consumer.test.ts",
+      "bytes": 2576,
+      "sha256": "5504b34103f83a6ce903e5db3d91c64925db94f5de6ce193a33ea19ddb759398",
+      "normalizedSha256": "5504b34103f83a6ce903e5db3d91c64925db94f5de6ce193a33ea19ddb759398",
+      "blob": "3ac85a99234ff7a509f666a3f648103f98dceda4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-pdf-projection.test.ts",
+      "bytes": 16792,
+      "sha256": "dcc82ddcbc7aa74f83cf5443e53c5c480fdbb2c7b6af7034cd778869d7380bf7",
+      "normalizedSha256": "dcc82ddcbc7aa74f83cf5443e53c5c480fdbb2c7b6af7034cd778869d7380bf7",
+      "blob": "ddac20a43d3b0cb2b0849d63554efecdea1a243d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-state-hydration.test.ts",
+      "bytes": 8521,
+      "sha256": "21127273db64ba1799342469c857283001a3ee1ddcd2b108fb3960f7cc1cf090",
+      "normalizedSha256": "21127273db64ba1799342469c857283001a3ee1ddcd2b108fb3960f7cc1cf090",
+      "blob": "04854a0d517fd004add857b24dbb2ba12dc3ccc4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-state-snapshots.test.ts",
+      "bytes": 8815,
+      "sha256": "b1dae4fa4d57a8b81f83bf1db33350825890e4840e330ddbedca119e40656674",
+      "normalizedSha256": "b1dae4fa4d57a8b81f83bf1db33350825890e4840e330ddbedca119e40656674",
+      "blob": "40d24c330974670e6d87b3c60dd6873837886ac1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-text-budget.test.ts",
+      "bytes": 9909,
+      "sha256": "3aced6917d74cf004bd89b5303cbfd58e8581441c1791f92cadb393c2bd56615",
+      "normalizedSha256": "3aced6917d74cf004bd89b5303cbfd58e8581441c1791f92cadb393c2bd56615",
+      "blob": "1df37df103ca30b519c4c82627a3d1576044ae85"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-text-consumer.test.ts",
+      "bytes": 2798,
+      "sha256": "a0ac94e62c731d3a6a250a7ccc75bc6448044634e28df8787fb7674f06793ce1",
+      "normalizedSha256": "a0ac94e62c731d3a6a250a7ccc75bc6448044634e28df8787fb7674f06793ce1",
+      "blob": "bb6b8b9a595a64c52100b94a500010835079a3c8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-deadline-clock.test.ts",
+      "bytes": 6132,
+      "sha256": "9cef18af75813bca9b6dab514866728ba74eb79a18c87f7ab60bfc77df7ca953",
+      "normalizedSha256": "9cef18af75813bca9b6dab514866728ba74eb79a18c87f7ab60bfc77df7ca953",
+      "blob": "518d2939b39f4a0e3c4b29570a9b9cac1d8a2a94"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-deadline-fixture.ts",
+      "bytes": 1853,
+      "sha256": "bd2061e0737e77c3034645deb24451461a4f68ab0bd885882f4f25430de68e0f",
+      "normalizedSha256": "bd2061e0737e77c3034645deb24451461a4f68ab0bd885882f4f25430de68e0f",
+      "blob": "9143d7128a3ebd067fe9b45e60101cf16f644ed6"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-deadline-settlement.test.ts",
+      "bytes": 7836,
+      "sha256": "51e5980819b0952d24a58c3374e9300d1521803a762ebecc21b9cab2530a7e16",
+      "normalizedSha256": "51e5980819b0952d24a58c3374e9300d1521803a762ebecc21b9cab2530a7e16",
+      "blob": "abd568af09c0994e1cbbb88955fb923b016e0b6c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-admission.test.ts",
+      "bytes": 9901,
+      "sha256": "960bf4f10a4eb362300a3453d03c37b793bfe37ec320ce466caf358caa857a01",
+      "normalizedSha256": "960bf4f10a4eb362300a3453d03c37b793bfe37ec320ce466caf358caa857a01",
+      "blob": "ef7fcbe8e78c2bb0c564833493a925b729e35f3a"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-authority.test.ts",
+      "bytes": 5424,
+      "sha256": "776106794ffda2b909a6ad7e7a61c0c0f62060a8de07eb981807c1ea7df079a3",
+      "normalizedSha256": "776106794ffda2b909a6ad7e7a61c0c0f62060a8de07eb981807c1ea7df079a3",
+      "blob": "2d370c73351ba1ebb7fa8fb33552ca83cffe0be9"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-execution.test.ts",
+      "bytes": 14375,
+      "sha256": "b16a85ed14a8ceca9df02b0d53b28e18aa5e28f7d9e884fe1df6739f742f56c2",
+      "normalizedSha256": "b16a85ed14a8ceca9df02b0d53b28e18aa5e28f7d9e884fe1df6739f742f56c2",
+      "blob": "188f481860881e291050650806328dcf2b93b203"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-fixture.ts",
+      "bytes": 6687,
+      "sha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139",
+      "normalizedSha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139",
+      "blob": "1330e35edee86e01aacd49edd2aa1cb1ac3cb21e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-registry-contracts.test.ts",
+      "bytes": 5345,
+      "sha256": "ca0511a0d46a2e0d35970171c7ccc00c25824898aa1f728bccafcff639f30374",
+      "normalizedSha256": "ca0511a0d46a2e0d35970171c7ccc00c25824898aa1f728bccafcff639f30374",
+      "blob": "79209fd7ff86518d09774176a6f055045c2251db"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-registry-routing.test.ts",
+      "bytes": 6646,
+      "sha256": "c4f164e70e5dfd858f05dbc95ac54122973aa981a49a1860727ccbf40ec4f2f6",
+      "normalizedSha256": "c4f164e70e5dfd858f05dbc95ac54122973aa981a49a1860727ccbf40ec4f2f6",
+      "blob": "18687b043d97e5b1e501baaf368db3b1cd389622"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-capture.mts",
+      "bytes": 1713,
+      "sha256": "b4c103e423c5bc490a0389f2e3ae5cb2250a0684fd43c7be9ad261b2ecbaa1ad",
+      "normalizedSha256": "b4c103e423c5bc490a0389f2e3ae5cb2250a0684fd43c7be9ad261b2ecbaa1ad",
+      "blob": "cf522f3d32833e94c830d3dd25c6850ff3a6bbd9"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-cases.ts",
+      "bytes": 5576,
+      "sha256": "1226f233799e8c8b25308e2b9f50817791cff462864db47018e4243883674888",
+      "normalizedSha256": "1226f233799e8c8b25308e2b9f50817791cff462864db47018e4243883674888",
+      "blob": "895030d922ae050e8e02fb23a68f65766ea5c713"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-consumer-fixture.ts",
+      "bytes": 5458,
+      "sha256": "1234f756f0ed4976e10c300f2a5e7e14f98321743c3105a9421a1b9be3fa0e4d",
+      "normalizedSha256": "1234f756f0ed4976e10c300f2a5e7e14f98321743c3105a9421a1b9be3fa0e4d",
+      "blob": "c3ef5588636df772ca237c265ce69d903c115aff"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-consumers.test.ts",
+      "bytes": 6448,
+      "sha256": "06f53a07525c496b84029a2d463b6c7c600fef29102aa3297fdd8c68fa22656c",
+      "normalizedSha256": "06f53a07525c496b84029a2d463b6c7c600fef29102aa3297fdd8c68fa22656c",
+      "blob": "f6c278cf17a584616cb39cd98671a85a8595bacb"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-contract.json",
+      "bytes": 1388507,
+      "sha256": "9829d926caaf143241ce5adf1e80f9e57c39932265284227ce99e75b4c1e8357",
+      "normalizedSha256": "9829d926caaf143241ce5adf1e80f9e57c39932265284227ce99e75b4c1e8357",
+      "blob": "a1048f0e96d38b517d9456b643e9ae17babc7727"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-contract.test.ts",
+      "bytes": 10241,
+      "sha256": "4017c4c44f2c2dc6d3921ff4d418a225effd0ba3d056a6f6a02413c182f26906",
+      "normalizedSha256": "4017c4c44f2c2dc6d3921ff4d418a225effd0ba3d056a6f6a02413c182f26906",
+      "blob": "efdf11696581f2f7d8d30736fd298dcf0fb7e726"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-fixture.ts",
+      "bytes": 10615,
+      "sha256": "a020331f835f411b6f8e3796a5a34ce1ba284130cd3ddbc800ef2a8c1f9a4af9",
+      "normalizedSha256": "a020331f835f411b6f8e3796a5a34ce1ba284130cd3ddbc800ef2a8c1f9a4af9",
+      "blob": "391cda9155ce6096a837f3f6a53d3bc8f5dcfeba"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-settlement-baseline.json",
+      "bytes": 17469,
+      "sha256": "62eb7b01d5cc311cca78a7b25b3d997e303b286ee0271f99c7f1cb953e96af34",
+      "normalizedSha256": "62eb7b01d5cc311cca78a7b25b3d997e303b286ee0271f99c7f1cb953e96af34",
+      "blob": "27e04e687cb9c4d2cb5e930c5dd4c6c4bdf2bee1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-settlement-fixture.ts",
+      "bytes": 9131,
+      "sha256": "15189e001523a27d823d3aa5ba39a81ecc3c0aa99ef2c57738e644a81363e22c",
+      "normalizedSha256": "15189e001523a27d823d3aa5ba39a81ecc3c0aa99ef2c57738e644a81363e22c",
+      "blob": "0b2e53dd5934d1017b5ed472059d2bc3be68a8db"
+    },
+    {
+      "path": "apps/cli/packages/core/test/webfetch-orchestration-settlement.test.ts",
+      "bytes": 3049,
+      "sha256": "e43150101a5a872dc8146afc1eaf0a642368ff8ca86ee24d8ff52a3650e2e712",
+      "normalizedSha256": "e43150101a5a872dc8146afc1eaf0a642368ff8ca86ee24d8ff52a3650e2e712",
+      "blob": "8a09cae7d87feca0f8cb58ced78e627cd3b143af"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+      "bytes": 5295,
+      "sha256": "ceb431db71f2817bc0edc2582bcf6a1ae539726a38ec1e556b641f14a908e5fb",
+      "normalizedSha256": "ceb431db71f2817bc0edc2582bcf6a1ae539726a38ec1e556b641f14a908e5fb",
+      "blob": "92bd5c667990410ef7fa0e07916f080a3baf5e97"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-catalog-display.test.ts",
+      "bytes": 4227,
+      "sha256": "3f59c3ef0ee1575c138ce7443b19067d2eba4cf32270c09150bba2dfcbd5414a",
+      "normalizedSha256": "3f59c3ef0ee1575c138ce7443b19067d2eba4cf32270c09150bba2dfcbd5414a",
+      "blob": "81725e7c4b21a380b92a9ba0faf5f5ed3a9a1e06"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-display-fixture.ts",
+      "bytes": 1311,
+      "sha256": "ea691d94b0e6b374f2c11ab149a3596d5a4f22faf019e0dbf7de3cf9e3b01a15",
+      "normalizedSha256": "ea691d94b0e6b374f2c11ab149a3596d5a4f22faf019e0dbf7de3cf9e3b01a15",
+      "blob": "d6a86fa8096f655c5ba0cfebdc85633e4d48ec3e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-display.test.ts",
+      "bytes": 4618,
+      "sha256": "45015a21bcb72e7135bd398d107abf1ed7d33dbbde3e51c9337fec7e61b9af10",
+      "normalizedSha256": "45015a21bcb72e7135bd398d107abf1ed7d33dbbde3e51c9337fec7e61b9af10",
+      "blob": "12ffe5293ecec8f99e49a5e2cba94785c2022641"
+    },
+    {
+      "path": "apps/cli/packages/core/test/write-transaction.test.ts",
+      "bytes": 12179,
+      "sha256": "424e49475723433efc1ea3ccebe0e7bf973c1f9824de1687a9aac9ba94abaf39",
+      "normalizedSha256": "424e49475723433efc1ea3ccebe0e7bf973c1f9824de1687a9aac9ba94abaf39",
+      "blob": "c362d2b9cccf30d843ac36fc482d76b4d84a9d63"
+    },
+    {
+      "path": "apps/cli/pnpm-lock.yaml",
+      "bytes": 221240,
+      "sha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585",
+      "normalizedSha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585",
+      "blob": "daa2545f2c0e6b65e7e134f9e909abfc003347fd"
+    },
+    {
+      "path": "docs/evidence/knorvia-agent-tool-fast-checks-20261001.json",
+      "bytes": 42512,
+      "sha256": "1d314d2f4436c465fce850449f309b3cfe5443043d3ca01e61b86c097c87d968",
+      "normalizedSha256": "1d314d2f4436c465fce850449f309b3cfe5443043d3ca01e61b86c097c87d968",
+      "blob": "7daa7f6e5912d60091ab7f964154e1d425251477"
+    },
+    {
+      "path": "docs/evidence/knorvia-agent-tool-fast-receipt-check-20261001.mjs",
+      "bytes": 6379,
+      "sha256": "77af178b21078a1f89429de7b045a0ef5e47b288460c691882074b17afc9b05e",
+      "normalizedSha256": "77af178b21078a1f89429de7b045a0ef5e47b288460c691882074b17afc9b05e",
+      "blob": "7cc3a4d4457d644f0dc0c697c1dcc65f76afc829"
+    },
+    {
+      "path": "docs/evidence/knorvia-collaboration-tools-fast-checks-20261001.json",
+      "bytes": 68661,
+      "sha256": "db4ff694f9fd4bd1af443ed23aa9486cd1b5a2f12e64ff31ae33d1015ac7f9da",
+      "normalizedSha256": "db4ff694f9fd4bd1af443ed23aa9486cd1b5a2f12e64ff31ae33d1015ac7f9da",
+      "blob": "b1c2a6691a32b981ab7902e9c5646030cc194b84"
+    },
+    {
+      "path": "docs/evidence/knorvia-collaboration-tools-fast-receipt-check-20261001.mjs",
+      "bytes": 8178,
+      "sha256": "7ffc8d1f101cb8e0c098b49fb04538e89119ea5dd5caa98d2febdbb632291d18",
+      "normalizedSha256": "7ffc8d1f101cb8e0c098b49fb04538e89119ea5dd5caa98d2febdbb632291d18",
+      "blob": "1376d0e1581d07ba239503299badf6b01e8db9bf"
+    },
+    {
+      "path": "docs/evidence/knorvia-escalate-orchestration-fast-checks-20261001.json",
+      "bytes": 105091,
+      "sha256": "a7372731a3e5e6d3291ab915ec03c3f2cdd83d5c8097d1eb8f7f3eff96b7abc1",
+      "normalizedSha256": "a7372731a3e5e6d3291ab915ec03c3f2cdd83d5c8097d1eb8f7f3eff96b7abc1",
+      "blob": "73cc774ab86641e05da1bef6f1fc5a7afa88df4b"
+    },
+    {
+      "path": "docs/evidence/knorvia-escalate-orchestration-fast-receipt-check-20261001.mjs",
+      "bytes": 11749,
+      "sha256": "b5cd4db7f746bc73feb72ca733a64e5107d673c5cb9a38362d0df3bc4bd5cee3",
+      "normalizedSha256": "b5cd4db7f746bc73feb72ca733a64e5107d673c5cb9a38362d0df3bc4bd5cee3",
+      "blob": "f32bc2e3d82cb777a70550d49654de930e575219"
+    },
+    {
+      "path": "docs/evidence/knorvia-list-workflow-runs-orchestration-fast-checks-20261001.json",
+      "bytes": 137117,
+      "sha256": "6425330448970bb7ac9c3a5d9659d1af89610b9ef53e15f5420fb9571a825e73",
+      "normalizedSha256": "6425330448970bb7ac9c3a5d9659d1af89610b9ef53e15f5420fb9571a825e73",
+      "blob": "87b5f7cb918473b308204c89bc1f6b0302b82b9a"
+    },
+    {
+      "path": "docs/evidence/knorvia-list-workflow-runs-orchestration-fast-receipt-check-20261001.mjs",
+      "bytes": 9483,
+      "sha256": "65c8214909555e390e2ab82567dc34e481d4f727344568416eb61b983fa017fa",
+      "normalizedSha256": "65c8214909555e390e2ab82567dc34e481d4f727344568416eb61b983fa017fa",
+      "blob": "f74141f6e28b1ec947e169936a8f5ed11a3dcb98"
+    },
+    {
+      "path": "docs/evidence/knorvia-read-orchestration-fast-checks-20261001.json",
+      "bytes": 81877,
+      "sha256": "5e9796e393a42d1c719e2fd8d6f2cc1a7c3e29365fa9a49dc67702eda091b8f3",
+      "normalizedSha256": "5e9796e393a42d1c719e2fd8d6f2cc1a7c3e29365fa9a49dc67702eda091b8f3",
+      "blob": "972eea064814f4ae4d8862e39e07fc77d9a7231c"
+    },
+    {
+      "path": "docs/evidence/knorvia-read-orchestration-fast-receipt-check-20261001.mjs",
+      "bytes": 9731,
+      "sha256": "2e552a41825ae0d517f739750281034b710d247c5375663477859429c2669e96",
+      "normalizedSha256": "2e552a41825ae0d517f739750281034b710d247c5375663477859429c2669e96",
+      "blob": "812a9fcc5e928e064594fc1feb568762da6084cf"
+    },
+    {
+      "path": "docs/evidence/knorvia-webfetch-orchestration-fast-checks-20261001.json",
+      "bytes": 110567,
+      "sha256": "88bed406c5230d8bc7de80ccef790386acc067e1bebbff9b26abbbed8d8bb180",
+      "normalizedSha256": "88bed406c5230d8bc7de80ccef790386acc067e1bebbff9b26abbbed8d8bb180",
+      "blob": "02e33e3a120f8683e6e0f998aa8ac2ca69351ec4"
+    },
+    {
+      "path": "docs/evidence/knorvia-webfetch-orchestration-fast-receipt-check-20261001.mjs",
+      "bytes": 13409,
+      "sha256": "52a8368b44d124093f5b4cf470de7cbfb91f03e1ad5bf3802ead48109030ff99",
+      "normalizedSha256": "52a8368b44d124093f5b4cf470de7cbfb91f03e1ad5bf3802ead48109030ff99",
+      "blob": "2155a6b61a14bc2f974eabf8a489fe0162185887"
+    },
+    {
+      "path": "docs/knorvia-agent-tool-fast-handoff-20261001.md",
+      "bytes": 8602,
+      "sha256": "73bcbba4257512de24f64a2ec23f86149a6cd169fb7b89577ad4f0045264a057",
+      "normalizedSha256": "73bcbba4257512de24f64a2ec23f86149a6cd169fb7b89577ad4f0045264a057",
+      "blob": "c4419a86a8021f10a8a515d87cc1dd891530a6c5"
+    },
+    {
+      "path": "docs/knorvia-collaboration-tools-fast-handoff-20261001.md",
+      "bytes": 11270,
+      "sha256": "b9f538362bf8e9919e02e628161726f1b7712af7d8574d7d38de2bcd0a950fc8",
+      "normalizedSha256": "b9f538362bf8e9919e02e628161726f1b7712af7d8574d7d38de2bcd0a950fc8",
+      "blob": "1f011571082f341c7bb1f7ac5cb9198db5f00cb4"
+    },
+    {
+      "path": "docs/knorvia-escalate-orchestration-fast-handoff-20261001.md",
+      "bytes": 13689,
+      "sha256": "8e232d4ec470e7d2076486eac2ec841e3a9a321e2e4c4b6194b23e53a7286643",
+      "normalizedSha256": "8e232d4ec470e7d2076486eac2ec841e3a9a321e2e4c4b6194b23e53a7286643",
+      "blob": "dfd7edb0c42fcd6e4bcf7163123c82db5e5a73dc"
+    },
+    {
+      "path": "docs/knorvia-http-public-egress-acceptance.md",
+      "bytes": 5831,
+      "sha256": "ff8862dc5f46f3ab330f784d4d4990127f129a7aa15c25a687fbe8e6f3904cfa",
+      "normalizedSha256": "ff8862dc5f46f3ab330f784d4d4990127f129a7aa15c25a687fbe8e6f3904cfa",
+      "blob": "29d660de5e5740dd2fe28ead33e9642ac3da7c5c"
+    },
+    {
+      "path": "docs/knorvia-http-request-adapter-acceptance.md",
+      "bytes": 6660,
+      "sha256": "b54596d1caab9afa44c7cdccf71aa0e8ad8d31685858f7f5bc6704a1d63623b4",
+      "normalizedSha256": "b54596d1caab9afa44c7cdccf71aa0e8ad8d31685858f7f5bc6704a1d63623b4",
+      "blob": "2e70e56979a8601f8af3deded43fc8c2e076e58a"
+    },
+    {
+      "path": "docs/knorvia-http-response-body-acceptance.md",
+      "bytes": 5496,
+      "sha256": "a68e1aacdb9b41de99c00fffca96c73c87436140dd8fb8014fbdb938dcaea95c",
+      "normalizedSha256": "a68e1aacdb9b41de99c00fffca96c73c87436140dd8fb8014fbdb938dcaea95c",
+      "blob": "5c2c20f30cd27ef1ef206e9cfbc9d265c4934d73"
+    },
+    {
+      "path": "docs/knorvia-list-workflow-runs-orchestration-fast-handoff-20261001.md",
+      "bytes": 5372,
+      "sha256": "279375114a3cafeafc041c7822c21188bd0075f7b9af880ca547795170eeaa17",
+      "normalizedSha256": "279375114a3cafeafc041c7822c21188bd0075f7b9af880ca547795170eeaa17",
+      "blob": "166304ae66004df331ce431339023131d98eb741"
+    },
+    {
+      "path": "docs/knorvia-network-config-acceptance.md",
+      "bytes": 5766,
+      "sha256": "3e7540bfc4c8452061504c4a408d2aa169368282c9c1abae1cebe6bfec4dd2b9",
+      "normalizedSha256": "3e7540bfc4c8452061504c4a408d2aa169368282c9c1abae1cebe6bfec4dd2b9",
+      "blob": "1bbee52357806e9b06a0d90c58dc56fc28b4c34b"
+    },
+    {
+      "path": "docs/knorvia-permission-rule-matching-acceptance.md",
+      "bytes": 6923,
+      "sha256": "f343d07221cb2a31632947fd4a2c5c757bd0254b5813eb31da5449cb4ec9700e",
+      "normalizedSha256": "f343d07221cb2a31632947fd4a2c5c757bd0254b5813eb31da5449cb4ec9700e",
+      "blob": "60d269fbe05b42cc15a4c7ed65bf4536572a784d"
+    },
+    {
+      "path": "docs/knorvia-proxy-fetch-acceptance.md",
+      "bytes": 5837,
+      "sha256": "316973d6dd22c6587b90d673bd8a702f7b9501b855201a5270f5e0f8d22799b5",
+      "normalizedSha256": "316973d6dd22c6587b90d673bd8a702f7b9501b855201a5270f5e0f8d22799b5",
+      "blob": "4649b5eb086f9f9fa3b3a3984e967b0f28b9b7f0"
+    },
+    {
+      "path": "docs/knorvia-read-orchestration-fast-handoff-20261001.md",
+      "bytes": 13065,
+      "sha256": "f0023ab876fb05dc1a07d04dda643d1b591732a985118d7689b734f8c60f3817",
+      "normalizedSha256": "f0023ab876fb05dc1a07d04dda643d1b591732a985118d7689b734f8c60f3817",
+      "blob": "7d64f7700f9015b64e9cd7b3970ad1b490cbbf41"
+    },
+    {
+      "path": "docs/knorvia-subprocess-env-acceptance.md",
+      "bytes": 3461,
+      "sha256": "f5f251ed1834a534d77dfeee21d80d8e4e28fb4cffbee4a6d85e81f95e951d71",
+      "normalizedSha256": "f5f251ed1834a534d77dfeee21d80d8e4e28fb4cffbee4a6d85e81f95e951d71",
+      "blob": "21d06a8f00bbfb0d1dc720d0f38cee3548fdf2b9"
+    },
+    {
+      "path": "docs/knorvia-webfetch-orchestration-fast-handoff-20261001.md",
+      "bytes": 13461,
+      "sha256": "3345e3463654c51bfd9cbb4ddd3d12d10dff34bf4fe0e1fa4ea6c70eb5572e0f",
+      "normalizedSha256": "3345e3463654c51bfd9cbb4ddd3d12d10dff34bf4fe0e1fa4ea6c70eb5572e0f",
+      "blob": "6657d9d50f93c00488dac9ee2984a4b10e56f570"
+    },
+    {
+      "path": "licensing/README.md",
+      "bytes": 9307,
+      "sha256": "48613a040acc9f1867b294632aa93a34555821ebdf5de062d042da17c4df3bc7",
+      "normalizedSha256": "48613a040acc9f1867b294632aa93a34555821ebdf5de062d042da17c4df3bc7",
+      "blob": "4cba8c2a69c9990aea8495d0387c8851a0f81518"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 9350160,
+      "sha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590",
+      "normalizedSha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590",
+      "blob": "ffa39f9a5c289958af94b69233a6d804d65b4f3e"
+    },
+    {
+      "path": "licensing/evidence/http-public-egress.md",
+      "bytes": 5079,
+      "sha256": "5086fad6bb800eb8a0e41d8f701bc1d6ab354ba91adaaae15afcc769020b002e",
+      "normalizedSha256": "5086fad6bb800eb8a0e41d8f701bc1d6ab354ba91adaaae15afcc769020b002e",
+      "blob": "f1bf2d76edbe3f59ffa1ef06fcfd9c00d35ab1a1"
+    },
+    {
+      "path": "licensing/evidence/http-request-adapter.md",
+      "bytes": 6145,
+      "sha256": "e55a3004edfa1c9a03cbdb8d9f8d73b89f1e2b9c55d0a8e337ee3faadfc04c19",
+      "normalizedSha256": "e55a3004edfa1c9a03cbdb8d9f8d73b89f1e2b9c55d0a8e337ee3faadfc04c19",
+      "blob": "6802323b23e13d0b2ca2de9952476fdc1da8895c"
+    },
+    {
+      "path": "licensing/evidence/http-response-body.md",
+      "bytes": 4398,
+      "sha256": "f829171948cd8be5d836509d5a9ddde663bc4579ae7945810d639b4dfd055d15",
+      "normalizedSha256": "f829171948cd8be5d836509d5a9ddde663bc4579ae7945810d639b4dfd055d15",
+      "blob": "ea00944a7f1aab946c11ee4449918f199ade57ae"
+    },
+    {
+      "path": "licensing/evidence/network-config.md",
+      "bytes": 4743,
+      "sha256": "6910ea5281add57d90cb7d997439c08744941a5cb7a3e145925c54c81da08eea",
+      "normalizedSha256": "6910ea5281add57d90cb7d997439c08744941a5cb7a3e145925c54c81da08eea",
+      "blob": "b2cde2f5083a0bea93ada8697e3d58004cbce16f"
+    },
+    {
+      "path": "licensing/evidence/proxy-fetch.md",
+      "bytes": 5258,
+      "sha256": "af400306cf5c928cb6f2c3ae682270581a891585f0dcb44ea07b4768fb2738d6",
+      "normalizedSha256": "af400306cf5c928cb6f2c3ae682270581a891585f0dcb44ea07b4768fb2738d6",
+      "blob": "a0bdbc721b39bad9cc366cf111a8870dae488695"
+    },
+    {
+      "path": "licensing/evidence/read-binary-media-20260930.json",
+      "bytes": 5988,
+      "sha256": "e778376c714c68fe9c9fc7e8dcafe4875b3c6acc37b4dffea00e7a24dc76a843",
+      "normalizedSha256": "e778376c714c68fe9c9fc7e8dcafe4875b3c6acc37b4dffea00e7a24dc76a843",
+      "blob": "71a140c1fee3f16265dea4fa3b686a9e0b3d5109"
+    },
+    {
+      "path": "licensing/evidence/read-file-suggestion-20260930.json",
+      "bytes": 5414,
+      "sha256": "c559df8525221e5a46dd17d66ff6850d8fc8a45e3d28a03937bc4d63c0875c3a",
+      "normalizedSha256": "c559df8525221e5a46dd17d66ff6850d8fc8a45e3d28a03937bc4d63c0875c3a",
+      "blob": "9981120deb561287e6b68dcf5dbe8a4bd26e195c"
+    },
+    {
+      "path": "licensing/evidence/read-pdf-plan-20260930.json",
+      "bytes": 4292,
+      "sha256": "48c40e67cbec31f2ade8498aa2bc546ddabcb19408eb326b66b32cf0f010f9e6",
+      "normalizedSha256": "48c40e67cbec31f2ade8498aa2bc546ddabcb19408eb326b66b32cf0f010f9e6",
+      "blob": "909e13837fbd39b8c915dd4d7511c04425682612"
+    },
+    {
+      "path": "licensing/evidence/read-state-snapshots-20260930.json",
+      "bytes": 5085,
+      "sha256": "177652596fa79cd1580d871c8c091736ea7ea8177dcd88d33e2641beb6f0b558",
+      "normalizedSha256": "177652596fa79cd1580d871c8c091736ea7ea8177dcd88d33e2641beb6f0b558",
+      "blob": "20e856060418167ac4ac7c15ac7f3390a0af81c0"
+    },
+    {
+      "path": "licensing/evidence/read-text-budget-20260930.json",
+      "bytes": 9063,
+      "sha256": "4b7ce2f2d62d8a04326deb000fb6415c9a825829faa97e6cd6db6e29276b61f1",
+      "normalizedSha256": "4b7ce2f2d62d8a04326deb000fb6415c9a825829faa97e6cd6db6e29276b61f1",
+      "blob": "f9aafa58b10efabd56828d6300d770939bb8823a"
+    },
+    {
+      "path": "licensing/evidence/subprocess-env.md",
+      "bytes": 3619,
+      "sha256": "c104c5fbf2077ed0df1752d068b719ca0cd7e8459e5dc751424770e208efcf58",
+      "normalizedSha256": "c104c5fbf2077ed0df1752d068b719ca0cd7e8459e5dc751424770e208efcf58",
+      "blob": "b1adaaf6adc357a1aa684bc42f2710129c1e8eda"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 3445390,
+      "sha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280",
+      "normalizedSha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280",
+      "blob": "6aea464791eab7e35f4ac3949bf9fca939855614"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "normalizedSha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "blob": "0d3311701cb322fa2b98b0c0a05d9dd8ae4a2493"
+    },
+    {
+      "path": "package.json",
+      "bytes": 4337,
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+      "normalizedSha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+      "blob": "319bfb13788e7fd6c264e6f371212dad2bcb812b"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "normalizedSha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "blob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78"
+    },
+    {
+      "path": "scripts/provenance/model.mjs",
+      "bytes": 10384,
+      "sha256": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933",
+      "normalizedSha256": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933",
+      "blob": "02fe3f5b260f46f957120330bc662d3eef5fc5f7"
+    },
+    {
+      "path": "scripts/test-studio.mjs",
+      "bytes": 4825,
+      "sha256": "ea3db14e667f8effd27a72bebe8a296813cf20e2c1977b011d96994126fe9dc1",
+      "normalizedSha256": "ea3db14e667f8effd27a72bebe8a296813cf20e2c1977b011d96994126fe9dc1",
+      "blob": "44433fbacd4d60b4e59c46ce00db8ad13f97e386"
+    },
+    {
+      "path": "specs/knorvia-agent-tool-invocation.md",
+      "bytes": 7408,
+      "sha256": "4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969",
+      "normalizedSha256": "4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969",
+      "blob": "b17d486bf87a3e0e0bd601712523cea514fa70e7"
+    },
+    {
+      "path": "specs/knorvia-collaboration-tool-invocation.md",
+      "bytes": 8718,
+      "sha256": "aefb87b86acd4617344d3a186e048568e2f04bf5b604c7e819ea58297ee95e50",
+      "normalizedSha256": "aefb87b86acd4617344d3a186e048568e2f04bf5b604c7e819ea58297ee95e50",
+      "blob": "780f607413f5fb351c66772feddd83a52a904ef5"
+    },
+    {
+      "path": "specs/knorvia-edit-transaction.md",
+      "bytes": 4632,
+      "sha256": "5b6800c05aea50368b661da8691a7688ec237c9e80f3d7d0ff0a4a9f7f64a730",
+      "normalizedSha256": "5b6800c05aea50368b661da8691a7688ec237c9e80f3d7d0ff0a4a9f7f64a730",
+      "blob": "6acf5a0a74d92736810584ba662f32ecd5a1a795"
+    },
+    {
+      "path": "specs/knorvia-escalate-orchestration.md",
+      "bytes": 7790,
+      "sha256": "726669a5bcd3ce46cf0dc95a99cb8b94915c5ad1c1a913fb7c3eb63f86f2e38f",
+      "normalizedSha256": "726669a5bcd3ce46cf0dc95a99cb8b94915c5ad1c1a913fb7c3eb63f86f2e38f",
+      "blob": "8a1abf01e63ec76b8cd487affaf476f060b9b650"
+    },
+    {
+      "path": "specs/knorvia-file-search-tools.md",
+      "bytes": 3103,
+      "sha256": "011cfc5f1216069464247ea244b97064c1b21b8400fb19531bfad93d7888756c",
+      "normalizedSha256": "011cfc5f1216069464247ea244b97064c1b21b8400fb19531bfad93d7888756c",
+      "blob": "1133f2a15474b370241ca943ae565fac66a84645"
+    },
+    {
+      "path": "specs/knorvia-http-public-egress.md",
+      "bytes": 8423,
+      "sha256": "37567921c4cbf27dbd44fa6d6cdd9b85ffdffe37f6b74993af3efb885af580ce",
+      "normalizedSha256": "37567921c4cbf27dbd44fa6d6cdd9b85ffdffe37f6b74993af3efb885af580ce",
+      "blob": "5b86fd8e68bb0ee5aa7d4c0686396cfb727e032b"
+    },
+    {
+      "path": "specs/knorvia-http-request-adapter.md",
+      "bytes": 14258,
+      "sha256": "c6ab3a84507678fb6e0f60ab77f79af5e183d951ac98809fce9a45e74a39e6d9",
+      "normalizedSha256": "c6ab3a84507678fb6e0f60ab77f79af5e183d951ac98809fce9a45e74a39e6d9",
+      "blob": "331e94021834df7ac9bc056ff98ae988db43f077"
+    },
+    {
+      "path": "specs/knorvia-http-response-body.md",
+      "bytes": 6812,
+      "sha256": "d8af235ea38e2ffd2bddbede7f778f03039fa728c478dc305ca5c43435d8a41b",
+      "normalizedSha256": "d8af235ea38e2ffd2bddbede7f778f03039fa728c478dc305ca5c43435d8a41b",
+      "blob": "ba065322dafe96bacff37cc795cc68ec40019e80"
+    },
+    {
+      "path": "specs/knorvia-independent-implementation.md",
+      "bytes": 11929,
+      "sha256": "fba9c94f55b87e74973be4d0df873fc6569ae627899d19135d4f5b6e620523b2",
+      "normalizedSha256": "fba9c94f55b87e74973be4d0df873fc6569ae627899d19135d4f5b6e620523b2",
+      "blob": "0cea0f5a71212448d92ecd96eafbb6f25a3d9463"
+    },
+    {
+      "path": "specs/knorvia-list-workflow-runs-orchestration.md",
+      "bytes": 4032,
+      "sha256": "884ff5dddc8df65069235e5b13a3220bf8ae7c51dafd17e0c455922d736ad6e2",
+      "normalizedSha256": "884ff5dddc8df65069235e5b13a3220bf8ae7c51dafd17e0c455922d736ad6e2",
+      "blob": "71773ac8b0f6549c4cfa5520c27f56ba413c5c7f"
+    },
+    {
+      "path": "specs/knorvia-network-config.md",
+      "bytes": 8868,
+      "sha256": "fb27a45dded66214d3c945c2b14957904b2044f21d6fc3c2ce811fd1733f17b3",
+      "normalizedSha256": "fb27a45dded66214d3c945c2b14957904b2044f21d6fc3c2ce811fd1733f17b3",
+      "blob": "3be1416e270412e9813718b7fa506235af5ef43e"
+    },
+    {
+      "path": "specs/knorvia-permission-rule-matching.md",
+      "bytes": 7012,
+      "sha256": "7b8dea386cbc4435d520487f7201d3ca3345a846e0d86e164040e5c1df3e55d1",
+      "normalizedSha256": "7b8dea386cbc4435d520487f7201d3ca3345a846e0d86e164040e5c1df3e55d1",
+      "blob": "57868267fb9acaafc82b6d83b4956e21c50d76ee"
+    },
+    {
+      "path": "specs/knorvia-proxy-fetch.md",
+      "bytes": 13278,
+      "sha256": "80f88743d71325cadd3e9b9a1419d1a3e1f7283153b7aabdc84968de07d246e4",
+      "normalizedSha256": "80f88743d71325cadd3e9b9a1419d1a3e1f7283153b7aabdc84968de07d246e4",
+      "blob": "d85fa784f346f16c8de4a6b20870091e3efb0fde"
+    },
+    {
+      "path": "specs/knorvia-read-binary-media.md",
+      "bytes": 3405,
+      "sha256": "9774ee63f651af1545b41e001412428e4d9cdc3d1f3f95e3cc7c0803557b1dd4",
+      "normalizedSha256": "9774ee63f651af1545b41e001412428e4d9cdc3d1f3f95e3cc7c0803557b1dd4",
+      "blob": "d89c5582227ab45c7e8eea66cd80e32ad5223792"
+    },
+    {
+      "path": "specs/knorvia-read-file-suggestion.md",
+      "bytes": 2406,
+      "sha256": "fe982762d3917a1e83354953a8fa1818f08c24f94ad4bda6a45a4c539c714bd0",
+      "normalizedSha256": "fe982762d3917a1e83354953a8fa1818f08c24f94ad4bda6a45a4c539c714bd0",
+      "blob": "f5da77dd4efc5ff4acc9a0a62fdb25e0f3b801fe"
+    },
+    {
+      "path": "specs/knorvia-read-orchestration.md",
+      "bytes": 8490,
+      "sha256": "c9cacd9d3c57daee573511b1a8173f9c01282a1196d25f67e7463c563e25bd38",
+      "normalizedSha256": "c9cacd9d3c57daee573511b1a8173f9c01282a1196d25f67e7463c563e25bd38",
+      "blob": "ef8efa3f5343a5908c20fea4fce0f3635a19ec69"
+    },
+    {
+      "path": "specs/knorvia-read-pdf-projection.md",
+      "bytes": 2994,
+      "sha256": "d96d92935afbc8fae27fd1d9f60d572bc033fe1e92f0edb68bfafba84f11908a",
+      "normalizedSha256": "d96d92935afbc8fae27fd1d9f60d572bc033fe1e92f0edb68bfafba84f11908a",
+      "blob": "6a4890d916bf0c24660c7a6c671320d9ddc2287c"
+    },
+    {
+      "path": "specs/knorvia-read-state-snapshots.md",
+      "bytes": 5625,
+      "sha256": "38625089bc864a644552d83f3ac24bf49734047124a1da66a0075f77788f2f18",
+      "normalizedSha256": "38625089bc864a644552d83f3ac24bf49734047124a1da66a0075f77788f2f18",
+      "blob": "1956836e160ca29b64c8c96abe214086977d119e"
+    },
+    {
+      "path": "specs/knorvia-read-text-budget.md",
+      "bytes": 3507,
+      "sha256": "19955a853a3461d206755c3aad715a4713a05ab788ad5ec81e4cf01aed891678",
+      "normalizedSha256": "19955a853a3461d206755c3aad715a4713a05ab788ad5ec81e4cf01aed891678",
+      "blob": "9b101b331d0d0fa34a097223a53ddad8d44f5030"
+    },
+    {
+      "path": "specs/knorvia-subprocess-env.md",
+      "bytes": 8037,
+      "sha256": "f8e9f5631184f9e0740002f9d63bf6f1758f201e0bbe8eb55e35fe0b60d49f98",
+      "normalizedSha256": "f8e9f5631184f9e0740002f9d63bf6f1758f201e0bbe8eb55e35fe0b60d49f98",
+      "blob": "98e876cbd9d85d24f997996a71fc31249decaa7a"
+    },
+    {
+      "path": "specs/knorvia-webfetch-orchestration.md",
+      "bytes": 10316,
+      "sha256": "952412e546d6c06373501bdb14ce20839fc8f9f408fa49338d00a6bd6145e1dc",
+      "normalizedSha256": "952412e546d6c06373501bdb14ce20839fc8f9f408fa49338d00a6bd6145e1dc",
+      "blob": "f70cdac37c47c41c5841c57dd50ef735b51fb86f"
+    },
+    {
+      "path": "specs/knorvia-write-transaction.md",
+      "bytes": 3541,
+      "sha256": "2681e94cc540034a12688d2ec0adf1600a253c94e6a3a8caabb49f349e52293c",
+      "normalizedSha256": "2681e94cc540034a12688d2ec0adf1600a253c94e6a3a8caabb49f349e52293c",
+      "blob": "7f2562c05ad26ae67308b442f9133398aa8a8585"
+    }
+  ],
+  "emittedFiles": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/call-runner.js",
+      "bytes": 2238,
+      "sha256": "ac2449d40c239f1e7f41c72a1051dd7f8ff326f30d5d9611e44693ed54864708",
+      "normalizedSha256": "ac2449d40c239f1e7f41c72a1051dd7f8ff326f30d5d9611e44693ed54864708",
+      "blob": "30131f21ab28206c19634658184a309b9d542ecb"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/handler-settlement.js",
+      "bytes": 2567,
+      "sha256": "8cc550d9a6107c77bf2c78f3aa360cda42725927bf3c285e2265bc1112bac9e8",
+      "normalizedSha256": "8cc550d9a6107c77bf2c78f3aa360cda42725927bf3c285e2265bc1112bac9e8",
+      "blob": "2bff0ca4839b4b534158b4e547f45793a34b96b5"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/pausable-deadline.js",
+      "bytes": 1298,
+      "sha256": "66a9e7cae78724b88ffacaefb70df7074498289fd4ae9c19441784e679f419d5",
+      "normalizedSha256": "66a9e7cae78724b88ffacaefb70df7074498289fd4ae9c19441784e679f419d5",
+      "blob": "1580a96bacee04a5e26e18ae06946ac7351c72e3"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/invocation/context.js",
+      "bytes": 3512,
+      "sha256": "c522ba20267d0a970ea8fbc4581d1055a858f6f407463d461e67cab493f1299d",
+      "normalizedSha256": "c522ba20267d0a970ea8fbc4581d1055a858f6f407463d461e67cab493f1299d",
+      "blob": "0ab280f8bec95e59b77b167cf8543aa8d3f75f1f"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/timeout.js",
+      "bytes": 2186,
+      "sha256": "741cfeadd22289be386a0f38535b9c757bb05f7a8d4a1afd2b1f48738229cd7e",
+      "normalizedSha256": "741cfeadd22289be386a0f38535b9c757bb05f7a8d4a1afd2b1f48738229cd7e",
+      "blob": "69b9cd5ef153ee14bd43a514de4367056495638b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/workflow-artifact.js",
+      "bytes": 4288,
+      "sha256": "7e418159bfe2fb8ebbf5b6796ce3e08b8297e5ccb8e0f81aa3b29aeb98d2b4a2",
+      "normalizedSha256": "7e418159bfe2fb8ebbf5b6796ce3e08b8297e5ccb8e0f81aa3b29aeb98d2b4a2",
+      "blob": "0f6daa084d5c140fd87d2981b3d125528e620fb3"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.js",
+      "bytes": 3187,
+      "sha256": "1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e",
+      "normalizedSha256": "1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e",
+      "blob": "efdbd27539567cdbae2c8406cbce4eb209f937a7"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.js",
+      "bytes": 1453,
+      "sha256": "aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c",
+      "normalizedSha256": "aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c",
+      "blob": "d7eafe0b8f7f910a4dd8d8964a19852eb33d84e9"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.js",
+      "bytes": 10407,
+      "sha256": "b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0",
+      "normalizedSha256": "b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0",
+      "blob": "ebd3591744858286e4cf13717b3e5e3aace5cffa"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+      "bytes": 13032,
+      "sha256": "0b433bb921b575757902386fb55322cf3c9848bbc358139418938f5d01b3376b",
+      "normalizedSha256": "0b433bb921b575757902386fb55322cf3c9848bbc358139418938f5d01b3376b",
+      "blob": "30d709ef868cba544b0b2aefe09cd5f60e464ae7"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js",
+      "bytes": 14650,
+      "sha256": "99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858",
+      "normalizedSha256": "99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858",
+      "blob": "cbd1bce9f4288503eeb73b7fad7a2029f73a6d90"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-roster-output.js",
+      "bytes": 5452,
+      "sha256": "06f0e3052abda55ca45519250630579d7c554a2bee43816a0f1c0490e7cab251",
+      "normalizedSha256": "06f0e3052abda55ca45519250630579d7c554a2bee43816a0f1c0490e7cab251",
+      "blob": "186d8a80ca55fdb386a605cf969b3ff6690e88d7"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-snapshot-fields.d.ts",
+      "bytes": 646,
+      "sha256": "3579c85cfca4a796f712d1d78cfd7edaeb3664ec987816c85c6e22406d825d46",
+      "normalizedSha256": "3579c85cfca4a796f712d1d78cfd7edaeb3664ec987816c85c6e22406d825d46",
+      "blob": "a3dd526477bcdc95c843e3f88ef346ae68cea1b2"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-snapshot-fields.js",
+      "bytes": 2240,
+      "sha256": "bc4c22dd238f752cb4f9a5a22700bba62701facd74f69fae0f09ea11af2a2121",
+      "normalizedSha256": "bc4c22dd238f752cb4f9a5a22700bba62701facd74f69fae0f09ea11af2a2121",
+      "blob": "dc885fbcc6590c20ba0cc3d2cd8d48b323a18b4a"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-summary.js",
+      "bytes": 8563,
+      "sha256": "3df4b959ca004d85b5e26e8c82e16356fc3f90841e57c1d33f4e49d5b28dad72",
+      "normalizedSha256": "3df4b959ca004d85b5e26e8c82e16356fc3f90841e57c1d33f4e49d5b28dad72",
+      "blob": "ff7cceee697fd2a35b1868e1d97c0201706951c1"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run.d.ts",
+      "bytes": 149,
+      "sha256": "98d5cc3f990b9cfd816ea49a07492ed77c49951f34c74b2b1d01b623248828be",
+      "normalizedSha256": "98d5cc3f990b9cfd816ea49a07492ed77c49951f34c74b2b1d01b623248828be",
+      "blob": "f0b8368ab7eb98c4969b385d56b1756fb82de115"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run.js",
+      "bytes": 11631,
+      "sha256": "5e997ca617abd5d70b641dcc2eb6666ca39d73e9e9ef1e4e147abc22c04ef02b",
+      "normalizedSha256": "5e997ca617abd5d70b641dcc2eb6666ca39d73e9e9ef1e4e147abc22c04ef02b",
+      "blob": "471f037e24bc22998a4b527c9c43d54734d8759c"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/index.js",
+      "bytes": 11123,
+      "sha256": "1a551eb284c160370ceb142c65d8bf2406e24f74d1a03efe39f66a9602697a67",
+      "normalizedSha256": "1a551eb284c160370ceb142c65d8bf2406e24f74d1a03efe39f66a9602697a67",
+      "blob": "16a02168acce704d8f9a56cc6f4c1eb38a63ec96"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.js",
+      "bytes": 7194,
+      "sha256": "b32bc9bb13917dcb539db19566472cda9a74ca4b406cf27abbeb2319fd4ebc3a",
+      "normalizedSha256": "b32bc9bb13917dcb539db19566472cda9a74ca4b406cf27abbeb2319fd4ebc3a",
+      "blob": "e40bbd480537ef52425565f507967a7b4af94b59"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/workflow-script-path.js",
+      "bytes": 1918,
+      "sha256": "5fd1d597e4385d6bdf6e88f83e7ca4c6f7ba45446108f2072ecfc0be9827c869",
+      "normalizedSha256": "5fd1d597e4385d6bdf6e88f83e7ca4c6f7ba45446108f2072ecfc0be9827c869",
+      "blob": "09fdf24733d74395f8106ba729926112772359c6"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/registry.js",
+      "bytes": 2618,
+      "sha256": "812fb78ab95dcf0943c6161dcccdea2bee63b900ce8e159ecc3b62d344a022f4",
+      "normalizedSha256": "812fb78ab95dcf0943c6161dcccdea2bee63b900ce8e159ecc3b62d344a022f4",
+      "blob": "293e636edd0be3b61a388b8f101ae0dee4b6ec48"
+    }
+  ],
+  "retainedRegions": [
+    {
+      "name": "preamble",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "start": "// ============================================================",
+      "end": "import {",
+      "sha256": "ba32364e66d137e5ddb51295d4d62476194f57b735d661a9b1021ac8ebd397b7"
+    },
+    {
+      "name": "description/admission/await/serialize/clock/roster",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "start": "const GET_WORKFLOW_RUN_TIMEOUT_MS",
+      "end": "  const base =",
+      "sha256": "e8cbcc90834994320ad2d6d59ef58309881b1df184ffaeaf6a4305b70588952c"
+    },
+    {
+      "name": "remaining detail assembly/public entry",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "start": "    // 情势截面",
+      "end": null,
+      "sha256": "432a0acf7e4e3e20c8205e258741440b7d0e84cb7c24f9d4640113da5c21e658"
+    }
+  ],
+  "checks": {
+    "source": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-source-final.log",
+      "bytes": 691,
+      "sha256": "7f8c2f609d48d0f6306b7831b3962a764e9e2889d1fecbed1184ddf62a7ff92a",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 2848.806887
+    },
+    "emitted": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-emitted-final.log",
+      "bytes": 692,
+      "sha256": "3cd348a3937acccc477c8fcb85c2cc115a43ee290d7d6fcfc36541ab2d2b9d91",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3134.447255
+    },
+    "frozenSource": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-freeze-source.log",
+      "bytes": 690,
+      "sha256": "c595463662cd7b992ce93200d486df5dbc072759045cae255d3f30c12de78c10",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 2759.487647
+    },
+    "frozenEmitted": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-freeze-emitted.log",
+      "bytes": 692,
+      "sha256": "27eccb4486357f3b41b84fcd40ebbb1ab36160c745d45b08cc233c58116483e7",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3208.241792
+    },
+    "relatedSource": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-related-source.log",
+      "bytes": 6562,
+      "sha256": "f090ea60cc07d81a79c58cf8fb73b44c039dfc69d3847b99c5e14bc964d353fa",
+      "tests": 64,
+      "pass": 64,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 17123.445843
+    },
+    "coreEmission": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-core-emission.log",
+      "bytes": 85,
+      "sha256": "428a072937a03375181bc25d2b67579dc343c596d8a13b6ed12220161d4ceea2",
+      "pass": true
+    },
+    "rootTypes": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-root-types.log",
+      "bytes": 523,
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786",
+      "pass": true
+    },
+    "coreTypes": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-core-types.log",
+      "bytes": 98,
+      "sha256": "e38fd881bccf189d39508b65bbfec15f2a266b603628d81a1e5944603a2ea7e5",
+      "pass": true
+    },
+    "rootLint": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-root-lint.log",
+      "bytes": 154,
+      "sha256": "c88369936e1f45b1d9d9b18d3ea800a153eb19a00517b6c950b9dc909b95d281",
+      "pass": true
+    },
+    "ownedLint": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-owned-lint.log",
+      "bytes": 1098,
+      "sha256": "6fae2f92941e0144dced15492179aada5ee3e43d1151412330e460bbd46c7e09",
+      "pass": true,
+      "errors": 0,
+      "warnings": 2,
+      "files": 6,
+      "rules": 94,
+      "warningReason": "Two intentional no-thenable warnings; no suppression, obfuscation or rule relaxation. Temporary prior root/test lint config clears ignores only."
+    },
+    "format": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-format.log",
+      "bytes": 204,
+      "sha256": "e79be668e43fb8bf4b3dadcf07603773f47cf0b9f87d1e5686c6016ba48a553f",
+      "pass": true
+    },
+    "architecture": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-architecture.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "pass": true
+    },
+    "architectureChanged": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-architecture-changed.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "pass": true
+    },
+    "coreLint": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-core-lint.log",
+      "bytes": 5543,
+      "sha256": "ecc8f6501e85c7d606934d365eda01b47a07e7c76228b567715bd99262a6989d",
+      "pass": false,
+      "errors": 24,
+      "warnings": 11,
+      "unchangedFiles": [
+        {
+          "path": "apps/cli/packages/core/src/agent/message-history.ts",
+          "bytes": 16116,
+          "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1",
+          "normalizedSha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1",
+          "blob": "46a428961f5f7a1c42c0a184f4dbd7ae379b5ce5"
+        },
+        {
+          "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+          "bytes": 20974,
+          "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+          "normalizedSha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+          "blob": "e37abf41b46caf50bd50486e3cb46e9db5ddcf95"
+        },
+        {
+          "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+          "bytes": 4233,
+          "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3",
+          "normalizedSha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3",
+          "blob": "f3456b35f4eeac499838ef16c7bb5b9dbbd3ca9e"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+          "bytes": 28340,
+          "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+          "normalizedSha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+          "blob": "f5c2d9cdff9042b94a07e679d70fbc5eeb708062"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+          "bytes": 17171,
+          "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5",
+          "normalizedSha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5",
+          "blob": "cd0f580a9d0d3fec86f4b6ab765c3311be5b97f9"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/internal-turn-methods.ts",
+          "bytes": 13911,
+          "sha256": "cdc5b01f2fd1782109390ea2156b1a1ba9f95f388adcedc071df21aa0df37527",
+          "normalizedSha256": "cdc5b01f2fd1782109390ea2156b1a1ba9f95f388adcedc071df21aa0df37527",
+          "blob": "ba9e550b3044b357a671a8c1296ca42c2f17e382"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+          "bytes": 14920,
+          "sha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8",
+          "normalizedSha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8",
+          "blob": "d74b7349ed764f964024d361128fbd9a3f814a45"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+          "bytes": 27775,
+          "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0",
+          "normalizedSha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0",
+          "blob": "7b3c707d580919ef233c67a99c3fa6dbe75cea0a"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-persistence.ts",
+          "bytes": 15762,
+          "sha256": "422a587999db16ceea860e2be3d4134228ce9f225b4eb4b893780665d85da648",
+          "normalizedSha256": "422a587999db16ceea860e2be3d4134228ce9f225b4eb4b893780665d85da648",
+          "blob": "56c3061ae1bc44dc3c891e14cdc47055c8f8d250"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+          "bytes": 16397,
+          "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8",
+          "normalizedSha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8",
+          "blob": "4f7d2f09c44c47db31a482f0c9fe8c0fb481f88a"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+          "bytes": 24444,
+          "sha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2",
+          "normalizedSha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2",
+          "blob": "107c3dafa56e32a74d4b200ec0f47097a6a5946d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+          "bytes": 21420,
+          "sha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a",
+          "normalizedSha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a",
+          "blob": "5c9c20ff7b0a3266e4e905715157700d7e57b62f"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+          "bytes": 19728,
+          "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80",
+          "normalizedSha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80",
+          "blob": "43f5913696e833dfab4cc4a9d7daa9310a3b1eb9"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+          "bytes": 16828,
+          "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec",
+          "normalizedSha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec",
+          "blob": "1e4ba11d34c75e5af579ad78587740bf8f34f775"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/runtime-command-queue.ts",
+          "bytes": 17963,
+          "sha256": "a2096f3de850c1c37f2000fb9401733110fc72cb61cf300bc6e8b8ae7d6f07ac",
+          "normalizedSha256": "a2096f3de850c1c37f2000fb9401733110fc72cb61cf300bc6e8b8ae7d6f07ac",
+          "blob": "620e96e60fcd5889c21da32b7782f6ff4aaacaa4"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/session-fork.ts",
+          "bytes": 52452,
+          "sha256": "e1a496dec0581987f6f8ee28d7e68f5b7bbba097b4b2e8bf0983d19db9ae187d",
+          "normalizedSha256": "e1a496dec0581987f6f8ee28d7e68f5b7bbba097b4b2e8bf0983d19db9ae187d",
+          "blob": "5319d10d6d4407c0626b2679764d1b0bc989dbc3"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+          "bytes": 48360,
+          "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab",
+          "normalizedSha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab",
+          "blob": "0b1234f40eaa3cb3b605dba0eb562d81d9657961"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+          "bytes": 29776,
+          "sha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa",
+          "normalizedSha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa",
+          "blob": "caf038f22877548f074ac9f24e935919832c1193"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+          "bytes": 20231,
+          "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d",
+          "normalizedSha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d",
+          "blob": "a73ed30aae051e525811d4749149f6473bd0888c"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+          "bytes": 36616,
+          "sha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c",
+          "normalizedSha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c",
+          "blob": "571fef1508493dcfab852f7b3046d311aaf4f416"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+          "bytes": 14322,
+          "sha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0",
+          "normalizedSha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0",
+          "blob": "4569631b25c9c1a20783bd9223c74ce65f7d1603"
+        },
+        {
+          "path": "apps/cli/packages/core/src/telemetry/runtime-telemetry.ts",
+          "bytes": 6795,
+          "sha256": "af1e19734428033b26ee5dcc728bdc4cad30cda7c128ed646c032a59f1445b8e",
+          "normalizedSha256": "af1e19734428033b26ee5dcc728bdc4cad30cda7c128ed646c032a59f1445b8e",
+          "blob": "b9e48964f928bbdd830e8d4e6899d94439bc9220"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+          "bytes": 48163,
+          "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1",
+          "normalizedSha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1",
+          "blob": "9e9f007bf643861fee78d6ba2baa9b7cc3921bba"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+          "bytes": 18686,
+          "sha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab",
+          "normalizedSha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab",
+          "blob": "fee4a76098247a7c15ab23be2baecd0614740e51"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+          "bytes": 13916,
+          "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56",
+          "normalizedSha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56",
+          "blob": "882745561b666c9f3d368374d00004d562bbb861"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+          "bytes": 10424,
+          "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7",
+          "normalizedSha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7",
+          "blob": "a90f62133f7feabb7cb5870e1fce5041c46fe4a5"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+          "bytes": 17946,
+          "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+          "normalizedSha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+          "blob": "17d82c262e531879a9bc36f3c3baa6df8f3998c2"
+        }
+      ]
+    },
+    "runnerDiscrepancyEvidence": {
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-test-runner-investigation.log",
+      "bytes": 316,
+      "sha256": "22cf9354a3085cd101c07b9ba7ee08a7e477ec617abe846174fcdee3adb1ba49",
+      "pass": false,
+      "description": "Default executor variant reported only a file-level test; it is not counted as focused validation. Prior handler control behaved alike. Supported executor invocation reports all six named tests. No product/test budgets/isolation/policy changed."
+    },
+    "evidence-root-lint": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-evidence-root-lint.log",
+      "bytes": 155,
+      "sha256": "7ecab8419d23e2cde98227d5786ed23727a6e0b7d3d4694b19845bda28efd130"
+    },
+    "evidence-lint": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-evidence-lint.log",
+      "bytes": 89,
+      "sha256": "8959993e89577b26322def7e7756ba92e2ac152c2bb5305467c8e2d277696677"
+    },
+    "evidence-format": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-evidence-format.log",
+      "bytes": 203,
+      "sha256": "f4c57e3026a646b01b5012a344a0e6cbb1d6f5c225badb770d31a956036bdd74"
+    },
+    "evidence-architecture": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-evidence-architecture.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    "evidence-architecture-changed": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-evidence-architecture-changed.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    "evidence-digest": {
+      "pass": true,
+      "logPath": "/tmp/knorvia-get-workflow-run-snapshot-evidence-digest.log",
+      "bytes": 199,
+      "sha256": "35698be60879192f9409313f5478d6a245b5e777050cd92d032e13ad1f125719"
+    }
+  },
+  "frozen": {
+    "path": "apps/cli/packages/core/test/get-workflow-run-snapshot-contract.json",
+    "bytes": 35316,
+    "sha256": "b124f8826c468c86c3d6e8c6b73541e0e4db3015e2ee911646bc1a1018ab7b23",
+    "normalizedSha256": "b124f8826c468c86c3d6e8c6b73541e0e4db3015e2ee911646bc1a1018ab7b23",
+    "blob": "37d1145210ceeb34870c8093708fd56f57644be9",
+    "direct": 44,
+    "executor": 10,
+    "completionEdges": 112,
+    "namedTestsPerMode": 6,
+    "archivePath": "apps/cli/packages/core/test/get-workflow-run-snapshot-baseline.json",
+    "archive": {
+      "commit": "e0da79ea15cf72dc2b7783aef83f97ef9290c48e",
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "sourceSha256": "133b85b2de20a749079ae333362d3c73201a9d864f5b1808f6bf3b45e2c54bbf",
+      "compiledSha256": "fae4baeee825ea384a392d13c5dfafcdf876d6cca5d7bbb0d51c1d2209ce02c1",
+      "compilerVersion": "6.0.2",
+      "recipe": "TypeScript ESNext target/module, esModuleInterop true; byte-identical to actual frozen baseline project emission. Import specifiers alone remapped by test loader."
+    },
+    "normalization": "Stacks omitted; generated executor spans/permission IDs replaced after presence/UUID checks. Exact outputs, paths, model prose, order, metadata/events and telemetry compared. Digests bind observations; tests compare full current versus baseline facts. Strict emitted files read before import, no source fallback."
+  },
+  "cadence": {
+    "fullSuiteRun": false,
+    "fullCliBuildRun": false,
+    "desktopBuildRun": false,
+    "corePackageEmissionRun": true,
+    "reason": "Explicit reduced user cadence; root owns aggregate publication gates.",
+    "historicalFullSuiteCommit": "e0da79ea15cf72dc2b7783aef83f97ef9290c48e",
+    "historicalFullSuiteTests": 6278,
+    "historicalCountsNotCurrent": true
+  },
+  "allowedPaths": [
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-snapshot-fields.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+    "apps/cli/packages/core/test/get-workflow-run-snapshot-baseline.json",
+    "apps/cli/packages/core/test/get-workflow-run-snapshot-capture.mts",
+    "apps/cli/packages/core/test/get-workflow-run-snapshot-contract.json",
+    "apps/cli/packages/core/test/get-workflow-run-snapshot-fixture.ts",
+    "apps/cli/packages/core/test/get-workflow-run-snapshot-settlement-fixture.ts",
+    "apps/cli/packages/core/test/get-workflow-run-snapshot.test.ts",
+    "docs/evidence/knorvia-get-workflow-run-snapshot-fast-checks-20261001.json",
+    "docs/evidence/knorvia-get-workflow-run-snapshot-fast-receipt-check-20261001.mjs",
+    "docs/knorvia-get-workflow-run-snapshot-fast-handoff-20261001.md",
+    "specs/knorvia-get-workflow-run-snapshot-fields.md"
+  ],
+  "scopeAndGaps": [
+    "Only header/usage/actor/log field projection replaced; remaining entrypoint orchestration and all lower owners retain inherited structure and attribution.",
+    "Owned synthetic journal/result/getter/clock/thenable inputs only; no actual workflows/providers/network/files/accounts/user data/settings.",
+    "Native Windows/macOS, packaged desktop/installer acceptance and aggregate publication gates are root-owned and unperformed here.",
+    "Core-wide lint24 errors/11 warnings in27 unchanged inputs; owned2 intentional thenable warnings.",
+    "Publisher metadata is manifest evidence only; no newly acquired or locally verified publisher bytes. Authorship and retained code/prose/archive licensing remain unresolved.",
+    "Prior accepted production/evidence and root runtime admission/queue remain byte-identical."
+  ],
+  "evidenceArtifacts": [
+    {
+      "path": "docs/evidence/knorvia-get-workflow-run-snapshot-fast-receipt-check-20261001.mjs",
+      "bytes": 9491,
+      "sha256": "8cd66bc8c6e716cfc27dcae4da4e2c4833a7ca4aa4abfe21c349e48fe8f93416",
+      "sourceExposed": true,
+      "licenseDecision": null
+    },
+    {
+      "path": "docs/knorvia-get-workflow-run-snapshot-fast-handoff-20261001.md",
+      "bytes": 4722,
+      "sha256": "4ad73958df24d3275b510d74d8ded2931dac93491e345ce264e7875e04f96a64",
+      "sourceExposed": true,
+      "licenseDecision": null
+    }
+  ]
+}

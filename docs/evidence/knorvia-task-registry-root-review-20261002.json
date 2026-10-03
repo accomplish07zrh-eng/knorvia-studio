@@ -1,0 +1,239 @@
+{
+  "formatVersion": 1,
+  "kind": "independent-supplied-runtime-fragment-review",
+  "baseline": "6888c2e40060dd0c6cad32cf97736c3e2e21b933",
+  "recommendation": "Accept supplied runtime fragment for integration review; no supported-contract correctness blocker found. No whole-file rights or licence decision.",
+  "ownedPaths": [
+    "docs/knorvia-task-registry-root-review-20261002.md",
+    "docs/evidence/knorvia-task-registry-root-review-20261002.json"
+  ],
+  "productionChanges": 0,
+  "testOrAssertionChanges": 0,
+  "nativeAuthorRetries": 0,
+  "sourceExposure": "Reviewer read exact local predecessor, packet and frozen assertions. Root is fragment author; restricted-input chronology is parent-reported.",
+  "reviewInput": {
+    "path": "/tmp/knorvia-task-registry-root-review-20261002/author-fragment.ts",
+    "sha256": "3f0420e83be7796d7c767112cc5f10ac3aa66d92e8fd6b91d08847502257eac4",
+    "bytes": 6097
+  },
+  "independentEvidence": {
+    "formatVersion": 1,
+    "node": "v24.14.0",
+    "typescript": "6.0.2",
+    "fragmentSha256": "3f0420e83be7796d7c767112cc5f10ac3aa66d92e8fd6b91d08847502257eac4",
+    "fragmentBytes": 6097,
+    "finalNewline": true,
+    "candidateJsSha256": "e99fa78d4818d886c4421165d9253cf1dd9584589e23798e41841360dbcbc34f",
+    "candidateDeclarationSha256": "de6babc51e3a1e02f3479d120be49dbbf4f6d158ee7e22e869b3b1f54a383807",
+    "publicApiShapeSha256": "df2871b8d4d5acf7fab023953bec9cdb142e49596a2713790c53fa1af9d143cb",
+    "publicMethods": 11,
+    "exportedFunctions": 2,
+    "compilerDiagnostics": 0,
+    "parsedCommentRanges": 0,
+    "artifactRejectionControls": ["wrong raw fragment digest", "missing raw fragment"],
+    "predecessorPins": {
+      "src/runtime-task/registry.ts": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "dist/runtime-task/registry.js": "72ba6d6b54a0e082f7ae889c4bac7e243393b2d2da079c31f3c95ce9df1e092f",
+      "dist/runtime-task/registry.d.ts": "8318d6f0fc2ead388d7ac42c0cc4a9192db11255f88180b0c3a15e0adada48b0"
+    },
+    "packetPins": {
+      "behavior.md": "918777ef3172833d9c43402a285a507243da6fe2c88dac27a8840cfe45ff7de2",
+      "api.d.ts": "85ed2e4107308299028ab7e04fd78a1a608f55eba0657ba27d293be226688b2e",
+      "supporting-types.d.ts": "a0ce162223ca6a22c3d91b0a1123c82f44f231ecd5656c6ed967f826f6b30035",
+      "inputs.json": "894bec72002c7d1b1f19500690b76dac3826edb9163d5dd60fc14e5161519d5a"
+    },
+    "probes": [
+      {
+        "name": "reentrantRelease",
+        "result": "pass",
+        "exactTrace": [
+          "first:add",
+          "later:add",
+          "old-background:add",
+          "first:remove",
+          "first:reenter",
+          "fresh-terminal:add",
+          "fresh-background:add",
+          "later:remove",
+          "fresh-background:remove",
+          "publication:return",
+          "later:rejected",
+          "old-background:rejected",
+          "first:fulfilled",
+          "fresh-background:fulfilled",
+          "fresh-terminal:remove",
+          "finish:return",
+          "fresh-terminal:fulfilled"
+        ]
+      },
+      {
+        "name": "throwingRelease",
+        "result": "pass",
+        "exactTrace": [
+          "first:add",
+          "later:add",
+          "old-background:add",
+          "first:remove",
+          "fresh-terminal:add",
+          "fresh-background:add",
+          "publication:threw",
+          "fresh-terminal:remove",
+          "old-background:remove",
+          "fresh-background:remove",
+          "remove:return",
+          "fresh-terminal:fulfilled",
+          "old-background:fulfilled",
+          "fresh-background:fulfilled",
+          "first:rejected",
+          "later:rejected"
+        ]
+      },
+      {
+        "name": "inlineAdmission",
+        "result": "pass",
+        "exactTrace": [
+          "background:add",
+          "inline:add",
+          "background:remove",
+          "inline:abort",
+          "wait:return",
+          "background:fulfilled",
+          "inline:rejected",
+          "inline:remove",
+          "remove:return"
+        ]
+      },
+      {
+        "name": "getterDrain",
+        "result": "pass",
+        "exactTrace": [
+          "messages:1",
+          "messages:2",
+          "messages:3",
+          "copy:before",
+          "messages:4",
+          "copy:after"
+        ]
+      }
+    ],
+    "scope": "Four paired focused /tmp reviews of exact predecessor JS and compiled supplied fragment; not rerun of eight-group source/actual-emitted suite or root integrated file"
+  },
+  "localEvidence": [
+    {
+      "path": "/tmp/knorvia-task-registry-root-review-20261002/review-proof-initial.mjs",
+      "sha256": "054c2a906143fdbc2ecd3d047e4a0840d15beccb4b5af1fdad9397676f7298b3",
+      "bytes": 14732
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-root-review-20261002/initial-api-proof-failure.json",
+      "sha256": "3b39e61388eb625626fa93aa3d65f86104fa7c3f493b9cdd86de71f2d4d67bb6",
+      "bytes": 452
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-root-review-20261002/review-proof.mjs",
+      "sha256": "2075fd99a2056acfe8c41f93f1cd2e076f3f0bf941f526de7f3f053264841855",
+      "bytes": 14871
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-root-review-20261002/review-proof.log",
+      "sha256": "219cfdc5347a9fd1e5dd55240c78d567495d9d667063ce280756859fd3ed1147",
+      "bytes": 3341
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-root-review-20261002/review-results.json",
+      "sha256": "219cfdc5347a9fd1e5dd55240c78d567495d9d667063ce280756859fd3ed1147",
+      "bytes": 3341
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-root-review-20261002/candidate.mjs",
+      "sha256": "e99fa78d4818d886c4421165d9253cf1dd9584589e23798e41841360dbcbc34f",
+      "bytes": 5272
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-root-review-20261002/candidate.d.ts",
+      "sha256": "de6babc51e3a1e02f3479d120be49dbbf4f6d158ee7e22e869b3b1f54a383807",
+      "bytes": 1381
+    }
+  ],
+  "report": {
+    "path": "docs/knorvia-task-registry-root-review-20261002.md",
+    "sha256": "2ae2e5e09dbcb8fb2ef8cdbb681af97e52f242e80041514fbc7c0823d0f506ba",
+    "bytes": 6811
+  },
+  "historicalReceipt": {
+    "path": "docs/evidence/knorvia-task-registry-observations-20261002.json",
+    "sha256": "120b899a3547e9c57c096c1038c6e57eab779b358f9c79652bbbbc4efaa05ab0",
+    "bytes": 10784
+  },
+  "protectedHistoricalInputs": {
+    "verifiedUniqueFiles": 26,
+    "exactFiles": {
+      "apps/cli/packages/core/test/runtime-task-registry-consumers.test.ts": "677f8d4bf5a0225efb6484b0b9a7248785c84bf1970c9f19cd88d8d873f7d3c7",
+      "apps/cli/packages/core/test/runtime-task-registry-observation-fixture.ts": "56608fed5fca01b52786f708811b2e64eda8813dc6d0ec07c0165ca68485a6b9",
+      "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31",
+      "apps/cli/packages/core/test/runtime-task-registry-observations.test.ts": "02025acdfc6612d57679eceb8d1fd1fefe3b2d6fe923d1de1b23af0cfac597b1",
+      "docs/evidence/knorvia-task-registry-observations-20261002.logs.json": "013ac19e468800d32a7cb088b5724e364a168de9da2b1a8e79e257d7cd47ecc8",
+      "docs/knorvia-task-registry-observation-supplement-20261002.md": "91ea5d3251c217b44b3c5d2ea0bf28f7ddd8e595c69f3dcfe07fe526766db1d2",
+      "specs/knorvia-task-registry-observations-20261002.md": "721093bae9249c327d03681af58b47b1c6641e7cdb4c002c9a7e61c473ebcc9c",
+      "docs/evidence/check-knorvia-task-registry-observations-20261002.mjs": "6ac68af559b9df4b60811f4fe4cdf4488c24ebc8662a628c711a2e979dd71418",
+      "docs/knorvia-task-registry-author-inputs-20261002/behavior.md": "918777ef3172833d9c43402a285a507243da6fe2c88dac27a8840cfe45ff7de2",
+      "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts": "85ed2e4107308299028ab7e04fd78a1a608f55eba0657ba27d293be226688b2e",
+      "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts": "a0ce162223ca6a22c3d91b0a1123c82f44f231ecd5656c6ed967f826f6b30035",
+      "docs/knorvia-task-registry-author-inputs-20261002/inputs.json": "894bec72002c7d1b1f19500690b76dac3826edb9163d5dd60fc14e5161519d5a",
+      "apps/cli/packages/core/src/runtime-task/registry.ts": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "apps/cli/packages/core/test/task-output-retrieval.test.ts": "9daa4439a294a22dac2215f2304dd1f2192535570c5122829ff9e6e00723e9c0",
+      "apps/cli/packages/core/dist/runtime-task/registry.js": "72ba6d6b54a0e082f7ae889c4bac7e243393b2d2da079c31f3c95ce9df1e092f",
+      "apps/cli/packages/core/dist/runtime-task/registry.d.ts": "8318d6f0fc2ead388d7ac42c0cc4a9192db11255f88180b0c3a15e0adada48b0",
+      "apps/cli/packages/core/src/tool/handlers/task-output.ts": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e",
+      "apps/cli/packages/core/dist/tool/handlers/task-output.js": "8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573",
+      "apps/cli/packages/core/src/tool/handlers/task-output-request.ts": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-request.js": "bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75",
+      "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-projection.js": "bee530a8baffb93e2bdf53f25a65fb83896478b1113c8924703955df9407d5a5",
+      "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-bash.js": "6fffd745f64f95d1ebf8b842ed7eb745c0d63ff3dbeca8618f1f1be264f1cec3",
+      "apps/cli/packages/core/src/tool/result-persistence-format.ts": "f4f309784e0e46ca9d39284446f010a5868138440d8dafa1723e563b92938688",
+      "apps/cli/packages/core/dist/tool/result-persistence-format.js": "2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb"
+    }
+  },
+  "initialProofFailure": {
+    "stage": "parsed public API proof before runtime probes",
+    "exitCode": 1,
+    "error": "AssertionError [ERR_ASSERTION]",
+    "difference": "Two optional AbortSignal type-literal members differed only by optional semicolon tokens.",
+    "location": "review-proof.mjs:85:8",
+    "compilerDiagnosticsBeforeFailure": 0,
+    "runtimeProbesBeforeFailure": 0,
+    "recordKind": "Concise diagnostic record of observed tool output; not a preserved full stderr log."
+  },
+  "parentReported": {
+    "authorInputs": "Four unchanged packet inputs and three textual observable clarifications before predecessor/tests.",
+    "integration": "Projected public declarations, comments omitted/imports rebound; packet type import removed and formatting applied; parsed runtime syntax equality passed.",
+    "sourceGroups": 8,
+    "actualEmittedGroups": 8,
+    "includedConsumer": "Same-surface TaskOutput within each eight-group run",
+    "otherChecks": "Scoped compiler and final desktop milestone passed",
+    "independentlyRerunHere": false
+  },
+  "retainedExpression": {
+    "newOwnership": "Per-id channel container/shared-entry retirement, captured rejection closure, switch classifier.",
+    "closeCompatibilityExpression": "Shallow copy/stamping, exact result storage, spread append/drain read order, native immediate waits, detach-cleanup-resolution sequence, Object.values(...).some(...) scan; conventional and behavior-constrained expression disclosed.",
+    "fixedMaterial": "API/declarations, field names, status vocabulary, abort error string; no source commentary in supplied fragment.",
+    "publisherComparison": "Local modified predecessor exact; publisher identity from existing inventory only, no new publisher-byte verification.",
+    "licenceDecision": "Unresolved/root-owned; no clean-room, whole-file MIT or header/registry grant."
+  },
+  "otherIndependentChecks": {
+    "freshness": "Branch synchronized with origin; ahead 196/behind 0 versus origin/main; checker exited 0.",
+    "architecture": "Changed check exited 0; zero violations, zero baseline/new violations.",
+    "evidenceFormatAndDigests": "Report/receipt only: owned formatting, receipt schema and exact local/protected digest checks passed; no repository runtime/test edits."
+  },
+  "limits": [
+    "Four paired probes overlap existing lifecycle/drain cases; no additive combined test total.",
+    "No rerun of historical or root integrated eight-group suite, full call-runner, live tasks, broad suite/build or native/platform acceptance.",
+    "Public API proof covers supplied class/functions versus exact packet; complete integrated source/current-artifact digest was not supplied.",
+    "Null/falsy nonobject patcher results and primitive signals are outside declared API; static differences are recorded, not universal malformed-input equivalence.",
+    "Local proof scripts/logs remain in /tmp; portable results and digests embedded here."
+  ],
+  "remainingBlocker": null,
+  "evidenceFormatCorrection": "After JSON serialization, owned format check flagged only the new receipt; formatter applied without semantic changes. Final owned format check follows."
+}

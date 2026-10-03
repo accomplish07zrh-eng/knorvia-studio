@@ -1,9 +1,15 @@
+import type {
+  SessionEvent,
+  TraceContext,
+  WorkflowEvent,
+  WorkflowRunListItem,
+} from "@knorvia/contracts";
 import { cancelWorkflowSnapshot, reconcileWorkflowSnapshotForResume } from "../lifecycle.js";
 import { formatExpertWorkflowStatus } from "./formatters.js";
 import { isTerminalStatus } from "./ids.js";
-import { ExpertWorkflowRuntimeContext, lifecyclePayload } from "./runtime-context.js";
 import { prepareSnapshotForRetry } from "./retry-state.js";
 import { continueRun } from "./run-loop.js";
+import { ExpertWorkflowRuntimeContext, lifecyclePayload } from "./runtime-context.js";
 import type {
   ExpertWorkflowCommandResult,
   ExpertWorkflowEventsOptions,
@@ -13,12 +19,6 @@ import type {
   ExpertWorkflowRunOptions,
   ExpertWorkflowRuntimeDeps,
 } from "./types.js";
-import type {
-  SessionEvent,
-  TraceContext,
-  WorkflowEvent,
-  WorkflowRunListItem,
-} from "@knorvia/contracts";
 
 export class ExpertWorkflowRuntime {
   private readonly ctx: ExpertWorkflowRuntimeContext;
@@ -35,15 +35,14 @@ export class ExpertWorkflowRuntime {
       message: `${this.ctx.definition.title} started.`,
       signal: options.abortSignal,
     });
-
-    const runAbort = this.ctx.registerRunAbortSignal(snapshot.runId, options.abortSignal);
+    const registration = this.ctx.registerRunAbortSignal(snapshot.runId, options.abortSignal);
     try {
       return await continueRun(this.ctx, snapshot, {
         ...options,
-        abortSignal: runAbort.signal,
+        abortSignal: registration.signal,
       });
     } finally {
-      runAbort.dispose();
+      registration.dispose();
     }
   }
 
@@ -55,28 +54,23 @@ export class ExpertWorkflowRuntime {
       message: `${this.ctx.definition.title} started.`,
       signal: options.abortSignal,
     });
-
     const running = this.ctx.updateSnapshot(snapshot, {
       startedAt: snapshot.startedAt ?? this.ctx.timestamp(),
       status: "running",
     });
     await this.ctx.store.writeSnapshot(running, { signal: options.abortSignal });
-
-    const runAbort = this.ctx.registerRunAbortSignal(snapshot.runId, options.abortSignal);
-    void continueRun(this.ctx, running, {
+    const registration = this.ctx.registerRunAbortSignal(snapshot.runId, options.abortSignal);
+    continueRun(this.ctx, running, {
       ...options,
-      abortSignal: runAbort.signal,
+      abortSignal: registration.signal,
     })
       .catch(async (error) => {
-        if (runAbort.signal.aborted) return;
+        if (registration.signal.aborted) return;
         await this.ctx.appendEvent(snapshot.runId, "run_failed", {
           message: error instanceof Error ? error.message : String(error),
         });
       })
-      .finally(() => {
-        runAbort.dispose();
-      });
-
+      .finally(() => registration.dispose());
     return {
       response: formatExpertWorkflowStatus(running),
       runId: running.runId,
@@ -93,11 +87,7 @@ export class ExpertWorkflowRuntime {
     },
   ): Promise<ExpertWorkflowCommandResult> {
     const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) {
-      return {
-        response: "No expert workflow found.",
-      };
-    }
+    if (!snapshot) return { response: "No expert workflow found." };
     if (isTerminalStatus(snapshot.status)) {
       return {
         response: formatExpertWorkflowStatus(snapshot),
@@ -107,33 +97,27 @@ export class ExpertWorkflowRuntime {
         traceId: snapshot.traceId,
       };
     }
-
-    const resumeRepair = reconcileWorkflowSnapshotForResume(snapshot, {
+    const repair = reconcileWorkflowSnapshotForResume(snapshot, {
       timestamp: this.ctx.timestamp(),
     });
     const resumed = {
-      ...resumeRepair.snapshot,
+      ...repair.snapshot,
       status: "running" as const,
       updatedAt: this.ctx.timestamp(),
     };
     await this.ctx.store.writeSnapshot(resumed, { signal: options.abortSignal });
-    await this.ctx.appendLifecycleGraphChanges(
-      resumed,
-      resumeRepair.nodeChanges,
-      options.abortSignal,
-    );
-    if (resumeRepair.changed) {
+    await this.ctx.appendLifecycleGraphChanges(resumed, repair.nodeChanges, options.abortSignal);
+    if (repair.changed) {
       await this.ctx.appendEvent(resumed.runId, "graph_updated", {
         message: "Workflow resume repaired stale active work.",
-        payload: lifecyclePayload(resumeRepair),
+        payload: lifecyclePayload(repair),
         signal: options.abortSignal,
       });
     }
-
-    const runAbort = this.ctx.registerRunAbortSignal(resumed.runId, options.abortSignal);
+    const registration = this.ctx.registerRunAbortSignal(resumed.runId, options.abortSignal);
     try {
       return await continueRun(this.ctx, resumed, {
-        abortSignal: runAbort.signal,
+        abortSignal: registration.signal,
         cwd: resumed.cwd,
         onEvent: options.onEvent,
         sessionId: resumed.sessionId,
@@ -141,17 +125,13 @@ export class ExpertWorkflowRuntime {
         traceContext: options.traceContext,
       });
     } finally {
-      runAbort.dispose();
+      registration.dispose();
     }
   }
 
   async status(options: ExpertWorkflowLookupOptions): Promise<ExpertWorkflowCommandResult> {
     const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) {
-      return {
-        response: "No expert workflow found.",
-      };
-    }
+    if (!snapshot) return { response: "No expert workflow found." };
     return {
       reportPath: snapshot.reportPath,
       response: formatExpertWorkflowStatus(snapshot),
@@ -164,11 +144,7 @@ export class ExpertWorkflowRuntime {
 
   async retry(options: ExpertWorkflowRetryOptions): Promise<ExpertWorkflowCommandResult> {
     const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) {
-      return {
-        response: "No expert workflow found.",
-      };
-    }
+    if (!snapshot) return { response: "No expert workflow found." };
     if (snapshot.status === "completed" || snapshot.status === "cancelled") {
       return {
         response: formatExpertWorkflowStatus(snapshot),
@@ -178,7 +154,6 @@ export class ExpertWorkflowRuntime {
         traceId: snapshot.traceId,
       };
     }
-
     const prepared = prepareSnapshotForRetry(this.ctx, snapshot, options);
     await this.ctx.store.writeSnapshot(prepared.snapshot, { signal: options.abortSignal });
     await this.ctx.appendLifecycleGraphChanges(
@@ -197,11 +172,13 @@ export class ExpertWorkflowRuntime {
       phase: options.phase ?? prepared.snapshot.currentPhase,
       signal: options.abortSignal,
     });
-
-    const runAbort = this.ctx.registerRunAbortSignal(prepared.snapshot.runId, options.abortSignal);
+    const registration = this.ctx.registerRunAbortSignal(
+      prepared.snapshot.runId,
+      options.abortSignal,
+    );
     try {
       return await continueRun(this.ctx, prepared.snapshot, {
-        abortSignal: runAbort.signal,
+        abortSignal: registration.signal,
         cwd: prepared.snapshot.cwd,
         onEvent: options.onEvent,
         sessionId: prepared.snapshot.sessionId,
@@ -209,17 +186,13 @@ export class ExpertWorkflowRuntime {
         traceContext: options.traceContext,
       });
     } finally {
-      runAbort.dispose();
+      registration.dispose();
     }
   }
 
   async cancel(options: ExpertWorkflowLookupOptions): Promise<ExpertWorkflowCommandResult> {
     const snapshot = await this.ctx.resolveSnapshot(options);
-    if (!snapshot) {
-      return {
-        response: "No expert workflow found.",
-      };
-    }
+    if (!snapshot) return { response: "No expert workflow found." };
     if (isTerminalStatus(snapshot.status)) {
       return {
         response: formatExpertWorkflowStatus(snapshot),
@@ -229,19 +202,13 @@ export class ExpertWorkflowRuntime {
         traceId: snapshot.traceId,
       };
     }
-    const cancelRepair = cancelWorkflowSnapshot(snapshot, {
-      timestamp: this.ctx.timestamp(),
-    });
-    const cancelled = cancelRepair.snapshot;
+    const repair = cancelWorkflowSnapshot(snapshot, { timestamp: this.ctx.timestamp() });
+    const cancelled = repair.snapshot;
     await this.ctx.store.writeSnapshot(cancelled, { signal: options.abortSignal });
-    await this.ctx.appendLifecycleGraphChanges(
-      cancelled,
-      cancelRepair.nodeChanges,
-      options.abortSignal,
-    );
+    await this.ctx.appendLifecycleGraphChanges(cancelled, repair.nodeChanges, options.abortSignal);
     await this.ctx.appendEvent(cancelled.runId, "run_cancelled", {
       message: `${this.ctx.definition.title} cancelled.`,
-      payload: lifecyclePayload(cancelRepair),
+      payload: lifecyclePayload(repair),
       signal: options.abortSignal,
     });
     this.ctx.activeRunAbortControllers.get(snapshot.runId)?.abort(new Error("Workflow cancelled"));
@@ -256,19 +223,13 @@ export class ExpertWorkflowRuntime {
 
   async list(options: ExpertWorkflowListOptions): Promise<WorkflowRunListItem[]> {
     return await this.ctx.store.listRuns(
-      {
-        cwd: options.cwd,
-        kind: this.ctx.definition.kind,
-        limit: options.limit,
-      },
+      { cwd: options.cwd, kind: this.ctx.definition.kind, limit: options.limit },
       { signal: options.abortSignal },
     );
   }
 
   async events(options: ExpertWorkflowEventsOptions): Promise<WorkflowEvent[]> {
-    const events = await this.ctx.store.readEvents(options.runId, {
-      signal: options.abortSignal,
-    });
+    const events = await this.ctx.store.readEvents(options.runId, { signal: options.abortSignal });
     return options.limit === undefined ? events : events.slice(-Math.max(0, options.limit));
   }
 }

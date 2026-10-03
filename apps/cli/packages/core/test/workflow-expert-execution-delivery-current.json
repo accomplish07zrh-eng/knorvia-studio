@@ -1,0 +1,33 @@
+{
+  "files": {
+    "scheduled-phase": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts",
+        "sha256": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js",
+        "sha256": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.d.ts",
+        "sha256": "6dbfb198b9572488416662ac2ecfe6eb4bcfcd0ae761efe5ddebedfe7765d45d"
+      }
+    },
+    "failures": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/failures.ts",
+        "sha256": "d93b9e128fc82618830d4e98d62506ea1b8465c8b449b0da6d8d6a6fa8748613"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/failures.js",
+        "sha256": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/failures.d.ts",
+        "sha256": "ffd63e059a37f9f334e6897323165ddeea0f80d97dbf0b357c2846010211e240"
+      }
+    }
+  },
+  "routing": "exact current compiler artifacts; unchanged scheduler dependencies not all emitted by this check"
+}

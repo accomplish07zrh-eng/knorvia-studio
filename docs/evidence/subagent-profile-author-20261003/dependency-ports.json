@@ -1,0 +1,76 @@
+[
+  {
+    "name": "basename",
+    "module": "node:path",
+    "type": "(path: string, suffix?: string | undefined) => string",
+    "signatures": [
+      "(path: string, suffix?: string | undefined): string"
+    ]
+  },
+  {
+    "name": "GENERAL_PURPOSE_AGENT_TYPE",
+    "module": "./general-purpose.js",
+    "type": "\"general-purpose\"",
+    "signatures": []
+  },
+  {
+    "name": "buildGeneralPurposeSystemPrompt",
+    "module": "./general-purpose.js",
+    "type": "() => string",
+    "signatures": [
+      "(): string"
+    ]
+  },
+  {
+    "name": "EXPLORE_AGENT_TYPE",
+    "module": "./explore.js",
+    "type": "\"Explore\"",
+    "signatures": []
+  },
+  {
+    "name": "formatExploreAllowedToolsForAgentDescription",
+    "module": "./explore-tools.js",
+    "type": "(options?: { embeddedSearchEnabled?: boolean | undefined; }) => string",
+    "signatures": [
+      "(options?: { embeddedSearchEnabled?: boolean | undefined; }): string"
+    ]
+  },
+  {
+    "name": "parseAgentFrontmatter",
+    "module": "./profile-frontmatter.js",
+    "type": "(frontmatter: string) => ParsedAgentFrontmatter",
+    "signatures": [
+      "(frontmatter: string): ParsedAgentFrontmatter"
+    ]
+  },
+  {
+    "name": "splitMarkdownFrontmatter",
+    "module": "./profile-frontmatter.js",
+    "type": "(content: string) => { body: string; frontmatter?: string | undefined; }",
+    "signatures": [
+      "(content: string): { body: string; frontmatter?: string | undefined; }"
+    ]
+  },
+  {
+    "name": "filterSubagentChildToolNames",
+    "module": "./tool-policy.js",
+    "type": "(toolNames: readonly string[], disallowedTools: readonly string[] | undefined) => readonly string[]",
+    "signatures": [
+      "(toolNames: readonly string[], disallowedTools: readonly string[] | undefined): readonly string[]"
+    ]
+  },
+  {
+    "name": "ModelSelection",
+    "module": "@knorvia/shared",
+    "type": "{ providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }",
+    "signatures": []
+  },
+  {
+    "name": "resolveProfileModelSelection",
+    "module": "./profile-model-selection.js",
+    "type": "(frontmatter: Record<string, unknown>) => { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined",
+    "signatures": [
+      "(frontmatter: Record<string, unknown>): { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined"
+    ]
+  }
+]

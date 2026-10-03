@@ -1,0 +1,30 @@
+{"baseline":{"modelId":"usage_model_owned-query_owned-before_0","logicalRequestId":"owned-after"},"candidate":{"modelId":"usage_model_owned-query_owned-after_0","logicalRequestId":"owned-after"}}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
+    logicalRequestId: 'owned-after',
++   modelId: 'usage_model_owned-query_owned-after_0'
+-   modelId: 'usage_model_owned-query_owned-before_0'
+  }
+
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/.attribution-three-id-red.mjs:33:307) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: {
+    modelId: 'usage_model_owned-query_owned-after_0',
+    logicalRequestId: 'owned-after'
+  },
+  expected: {
+    modelId: 'usage_model_owned-query_owned-before_0',
+    logicalRequestId: 'owned-after'
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

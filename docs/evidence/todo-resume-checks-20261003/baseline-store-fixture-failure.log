@@ -1,0 +1,55 @@
+(node:224293) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Todo schemas, complete public declaration, admission and returned reference (2.830625ms)
+✔ Todo post-write summary, parsed array identity, status reads and original failures (0.748712ms)
+✔ Todo native delayed write, captured session phase and direct aborted context (0.266743ms)
+✖ Actual full call-runner TodoWrite publication and early-cancel authority (6.869428ms)
+✔ Resume store/session admission and schedule reference projection (4.527191ms)
+✔ Resume exact restore/publication order, captured identity and final output (3.049117ms)
+✔ Resume explicit mode, duplicate title and grant failure partial effects (4.508444ms)
+✔ Resume hook cancellation retains writes; continuity failures retain fallbacks (2.248178ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32.473633
+
+✖ failing tests:
+
+test at apps/cli/packages/core/test/todo-resume-safety-20261003.mjs:80:1
+✖ Actual full call-runner TodoWrite publication and early-cancel authority (6.869428ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + {
+  +   code: 'STORAGE_ERROR',
+  +   detail: 'deps.sessionStore?.getSession is not a function',
+  +   message: 'Failed to load project permission rules',
+  +   stack: 'Error: Failed to load project permission rules\n' +
+  +     '    at createCoreError (file:///workspace/knorvia-studio/apps/cli/packages/contracts/dist/errors/index.js:34:19)\n' +
+  +     '    at storageRefusal (/workspace/knorvia-studio/apps/cli/packages/core/src/tool/executor/permission-flow/refusals.ts:22:7)\n' +
+  +     '    at permissionPlan (/workspace/knorvia-studio/apps/cli/packages/core/src/tool/executor/permission-flow/plan.ts:37:12)\n' +
+  +     '    at permissionPlan.throw (<anonymous>)\n' +
+  +     '    at drivePermissionPlan (/workspace/knorvia-studio/apps/cli/packages/core/src/tool/executor/permission-flow/plan-driver.ts:41:21)\n' +
+  +     '    at async Invocation.run (/workspace/knorvia-studio/apps/cli/packages/core/src/tool/executor/invocation/invocation.ts:88:24)\n' +
+  +     '    at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/src/tool/executor/telemetry.ts:18:14)\n' +
+  +     '    at async TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/core/test/todo-resume-safety-20261003.mjs:87:18)\n' +
+  +     '    at async Test.run (node:internal/test_runner/test:1389:7)\n' +
+  +     '    at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)',
+  +   type: 'storage_error'
+  + }
+  - undefined
+  
+      at TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/core/test/todo-resume-safety-20261003.mjs:88:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Object],
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

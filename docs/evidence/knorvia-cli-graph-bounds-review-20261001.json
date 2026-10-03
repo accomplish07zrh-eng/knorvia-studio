@@ -1,0 +1,304 @@
+{
+  "formatVersion": 1,
+  "sourceExposure": true,
+  "implementationChange": false,
+  "wholeFileRightsDecision": null,
+  "baseline": "162aa66226f81ce85314b565d11697d212fde275",
+  "freeze": "c46b6d72cd4aea9f8bde6b4cc4235a5bc25c3fe9",
+  "initial": "7619e41b950bd52073ebf36754146cf25659d9fa",
+  "scope": [
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-review-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-review-contract.json",
+    "specs/knorvia-create-workflow-graph-bounds-review.md",
+    "docs/knorvia-cli-graph-bounds-review-20261001.md",
+    "docs/evidence/knorvia-cli-graph-bounds-review-check-20261001.mjs",
+    "docs/evidence/knorvia-cli-graph-bounds-review-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-bounds-review-fixture.ts",
+      "bytes": 5673,
+      "sha256": "5bf6625c0d25b53298bdaa193c408c1b73f2d15fbd6a4563dc55e666009ef9a4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts",
+      "bytes": 3037,
+      "sha256": "14f5994723a4a0f6bc3a9a7a2177d20dbd2184e04aad24ae75a93ab7fe8f3271"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-bounds-review-contract.json",
+      "bytes": 623,
+      "sha256": "9d0eb73a92f6a9ccaad73eb63a683442b707296a15e22b369a7da2dc581b0e22"
+    },
+    {
+      "path": "specs/knorvia-create-workflow-graph-bounds-review.md",
+      "bytes": 2785,
+      "sha256": "dce5f9b61d8913b3f1dd64a1e12095aaf468a168d6a2715a0f77e5f6f4347c18"
+    },
+    {
+      "path": "docs/knorvia-cli-graph-bounds-review-20261001.md",
+      "bytes": 6841,
+      "sha256": "00c1fb69339ba5feed6edcd290abd6c61a4e356fe8489d9508eb92c1cea25644"
+    }
+  ],
+  "reviewed": {
+    "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+    "bytes": 15473,
+    "sha256": "7c5da335dd06647654013e8950c1b1644ccfc1039d8221cbdb6107c4b411a8df",
+    "commit": "162aa66226f81ce85314b565d11697d212fde275",
+    "blob": "7f4a9af0a9c787cbaffca56fb2b30a4a12429993"
+  },
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js",
+      "bytes": 15499,
+      "sha256": "85a2b63f5c84d92c5f4ed6220440c4530b40c3f85c67893e1bde60b0bc59df2b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.d.ts",
+      "bytes": 396,
+      "sha256": "97e1a676b5152025a72c6a1cd7f9cdd97dab373a06d9c67455b1ee5d7d3c11ff"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.d.ts.map",
+      "bytes": 417,
+      "sha256": "2ced59b62cc3cc2ba732ab2e9eeeb90c7aee14ce27a64f55a3b0065c8ee35b1a"
+    }
+  ],
+  "protected": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "bytes": 6735,
+      "sha256": "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js",
+      "bytes": 6689,
+      "sha256": "f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts",
+      "bytes": 2281,
+      "sha256": "91c1b71be0108aacded780ce8bf98755b24833ac35fe392626ec2e7630f9a362"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.js",
+      "bytes": 1984,
+      "sha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow.ts",
+      "bytes": 20328,
+      "sha256": "f5090a98bb81bfc0a5b529ad0c8fec79a01bae53c40bf3677b9117415d6779a8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/amend-workflow.ts",
+      "bytes": 15008,
+      "sha256": "9b3ebeaa80f8b4f749a1c1be548c36dc0d3e2612816f59596946cb276321c10b"
+    }
+  ],
+  "previousReceipts": [
+    {
+      "path": "docs/evidence/knorvia-create-workflow-graph-components-receipt-20261001.json",
+      "bytes": 14411,
+      "sha256": "5ebfbac966663493ccbf2d88fab937f859e5b04d231e234438f0cb4da5c4b76c"
+    },
+    {
+      "path": "docs/evidence/knorvia-create-workflow-graph-quotient-receipt-20261001.json",
+      "bytes": 10809,
+      "sha256": "226cf98bd51f1582e58bea00d9382d5156372b2fc6338021fef59ef2f42486a2"
+    }
+  ],
+  "checker": {
+    "path": "docs/evidence/knorvia-cli-graph-bounds-review-check-20261001.mjs",
+    "bytes": 4636,
+    "sha256": "db5ee166bc612c8813aff700ddff3de0a557df38f204be81fc8830a5367d86bc"
+  },
+  "regions": [
+    {
+      "name": "header/imports/declaration lead-in",
+      "firstLine": 1,
+      "lastLine": 51,
+      "bytes": 2768,
+      "sha256": "8806c33579acb55f6319fb05fd8a996a02de1917f17860e97fe30963cea257eb",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    },
+    {
+      "name": "step/lane retention",
+      "firstLine": 52,
+      "lastLine": 76,
+      "bytes": 1172,
+      "sha256": "6d1b47cd066aebf3b1cc4bce8d2a25472269e4e4ab965649c0dadd6d3e852cb8",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    },
+    {
+      "name": "participants/handoffs",
+      "firstLine": 77,
+      "lastLine": 120,
+      "bytes": 2668,
+      "sha256": "baec9c5687c7e12dbb7178d7f45901d143c289c8a617582926c156306dc482df",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    },
+    {
+      "name": "sink",
+      "firstLine": 121,
+      "lastLine": 125,
+      "bytes": 200,
+      "sha256": "bddcff1f0c1288a26f2f95b5eb6c199713d78d70e54518bb1896f8d4ef9e1f21",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    },
+    {
+      "name": "phases",
+      "firstLine": 126,
+      "lastLine": 189,
+      "bytes": 3705,
+      "sha256": "3e02661521d1942a173d74636781a7ed8ebff747e3137fb9487650f97a99094e",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    },
+    {
+      "name": "lanes/steps",
+      "firstLine": 190,
+      "lastLine": 236,
+      "bytes": 2583,
+      "sha256": "32718debc946eb37a96f6f3174b29c207d96a005725060cebf3c196c3d00d4c6",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    },
+    {
+      "name": "cards/output",
+      "firstLine": 237,
+      "lastLine": 256,
+      "bytes": 847,
+      "sha256": "4de44ccabb599084292e7db2d86bbeb9411764b00e7031232bdfbfbe9278ce94",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    },
+    {
+      "name": "text helpers",
+      "firstLine": 257,
+      "lastLine": 288,
+      "bytes": 1530,
+      "sha256": "239e45ae6feb317addda679aaff89676dc3d53dcc1a8d1418e70e8e6d71d3755",
+      "expression": "Retained local implementation/prose; fixed interface facts are identified separately in the report."
+    }
+  ],
+  "lexical": {
+    "typescript": "6.0.2",
+    "initial": {
+      "sourceSha256": "6c210dd4938894841ce009b19dc2efadc9983f2b950bf656dc6707dfd88d2f90",
+      "tokens": 1952,
+      "tokenSha256": "053e5cc4dbb16963b5b9241dd43fb7732a9b6343fa8b2938eb7465fe471171ee",
+      "comments": 59,
+      "commentSha256": "e425933ae47527a0e585d7cd68917acfa8c827534d135a3cdf7adaa960439af9"
+    },
+    "current": {
+      "sourceSha256": "7c5da335dd06647654013e8950c1b1644ccfc1039d8221cbdb6107c4b411a8df",
+      "tokens": 1952,
+      "tokenSha256": "053e5cc4dbb16963b5b9241dd43fb7732a9b6343fa8b2938eb7465fe471171ee",
+      "comments": 59,
+      "commentSha256": "e425933ae47527a0e585d7cd68917acfa8c827534d135a3cdf7adaa960439af9"
+    },
+    "tokensEqual": true,
+    "commentsEqual": true
+  },
+  "upstream": {
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "path": "apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+    "blob": "d5ec2b7e21e5769091e820cbce2e7487b0efe54f",
+    "lfSha256": "26928094a669c6f6383c4b49cb9672c9e123c41f1f281b9e2e47a0c2254020e3",
+    "inventoryStatus": "upstream-modified; review null; license NOASSERTION; default Apache-2.0 with explicit component exceptions",
+    "verification": "Manifest facts only. Local git cat-file -e of the recorded blob exited 128: not a valid object name. No external fetch, claimed parent verification, publisher authorship assertion or new copyright notice."
+  },
+  "recommendation": "Keep existing attribution and leave whole-file rights unresolved. The retained coordinated projection must receive actual publisher/independent expression and contributor-rights review, or a substantive owner replacement. Tokens matching the local initial snapshot identify retained expression; they do not decide copyright or licences. Source exposure is disclosed, not treated as a permanent bar.",
+  "nextDecision": "Review or replace the coordinated reference-retention/projection owner as one bounded unit. Preserve lane/step/card/handoff membership, phase vocabulary downgrade, card normalization, truncation and full projection-before-slicing error order. Extend the exact-baseline caller loader for a future bounds change while retaining historical assertions and actual emitted checks; no cosmetic pair-fold/helper churn or generic framework.",
+  "checks": [
+    {
+      "tests": 9,
+      "newCallerGroups": 4,
+      "unchangedDirectDisplay": 5,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-source.log",
+        "bytes": 1012,
+        "sha256": "f235c0e812ed0886bdd4126f3e52e7583071376e0d372b161414d4976f7e3e30"
+      }
+    },
+    {
+      "tests": 4,
+      "strictActualEmitted": true,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-emitted.log",
+        "bytes": 515,
+        "sha256": "c3b32502e1928fae723496296da9a25153e53bc53d8b718cebafb38d77a4f8bb"
+      }
+    },
+    {
+      "roots": 3,
+      "diagnostics": 0,
+      "noEmit": true,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-types.log",
+        "bytes": 327,
+        "sha256": "aeb00e46480288c01f9c38bc465d4d906c31ec812a4b62af5f2d02942f135174"
+      }
+    },
+    {
+      "files": 2,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-lint.log",
+        "bytes": 90,
+        "sha256": "7066529b05cbe0f703d0876e44daa74879310b1d480c6dd175f393def6943b69"
+      }
+    },
+    {
+      "files": 5,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-format.log",
+        "bytes": 112,
+        "sha256": "6bac0e8057c0d995f04dfdc7a752b2d3c6c8174e10b66f283382c420d44ff5d6"
+      }
+    },
+    {
+      "violations": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-architecture.log",
+        "bytes": 197,
+        "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+      }
+    },
+    {
+      "tokensEqual": true,
+      "commentsEqual": true,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-expression.log",
+        "bytes": 635,
+        "sha256": "fed7f3279a94ab6e6020341a97c04f79892892ec5dcf67c8aec830bce60aea8b"
+      }
+    },
+    {
+      "files": 1,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-bounds-review-evidence-lint.log",
+        "bytes": 89,
+        "sha256": "ab3e8e25790158c3a199b7beea61b3789d2f0fd2a9e1eaf1991e873852554d23"
+      }
+    }
+  ],
+  "contribution": "New synthetic caller cases, expected decision assertions and digest-bound review expression. Fixed API names/limits and old output facts remain compatibility material; loader/network/error-shape patterns reuse accepted fixtures. No production expression was newly authored or moved, no model-facing prose rewritten and no implementation archive duplicated.",
+  "limits": [
+    "Nine source/direct and four actual-emitted tests ran once. Five representative graphs plus two late field failures; no exhaustive enumeration or exotic getter matrix. All outputs pass graph/display schemas; input preservation and repeat results are checked.",
+    "Approval-display formatter and result-display route were exercised, not approval flow, script analysis, draft writes, workflow launch, runtime, providers, network, user data/files, credentials or settings. Clocks/deadlines/cancellation owners remain byte-identical; their historical tests were not rerun.",
+    "Existing graph-bounds source/compiled/declaration and accepted fold/caller/receipt hashes are unchanged. No production emission, full suite, aggregate build, broad root type/lint gate, native/platform/UI acceptance or shared licensing update.",
+    "Publisher expression/rights and independent whole-file review remain unresolved. No MIT grant, author attribution invention, material-obligation closure, merge/deployment or publication claim."
+  ],
+  "reproduce": [
+    "Use the existing lane toolchain: Node24.14.0, pnpm10.33.2, TS6.0.2. Scoped noEmit checks use the actual core tsconfig and the recorded three roots; no production emission was run.",
+    "node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts",
+    "node docs/evidence/knorvia-cli-graph-bounds-review-check-20261001.mjs --emitted --logs --scope; omit --logs outside this executor because logs are retained local files. The checker also reproduces lexical comparison against the local initial Git snapshot."
+  ]
+}

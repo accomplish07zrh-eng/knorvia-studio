@@ -1,0 +1,25 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2322,
+      "file": "apps/cli/packages/core/src/subagent/runner-stop.ts",
+      "message": "Type '\"stopped\"' is not assignable to type '\"cancelled\" | \"failed\" | \"completed\" | \"started\" | \"waiting\" | undefined'."
+    }
+  ],
+  "apiEqual": false,
+  "apiProof": {},
+  "modules": [
+    "apps/cli/packages/core/src/subagent/profile.ts",
+    "apps/cli/packages/core/src/subagent/runner-artifacts.ts",
+    "apps/cli/packages/core/src/subagent/runner-background.ts",
+    "apps/cli/packages/core/src/subagent/runner-cancellation.ts",
+    "apps/cli/packages/core/src/subagent/runner-child.ts",
+    "apps/cli/packages/core/src/subagent/runner-foreground.ts",
+    "apps/cli/packages/core/src/subagent/runner-message.ts",
+    "apps/cli/packages/core/src/subagent/runner-publication.ts",
+    "apps/cli/packages/core/src/subagent/runner-state.ts",
+    "apps/cli/packages/core/src/subagent/runner-stop.ts",
+    "apps/cli/packages/core/src/subagent/runner.ts"
+  ]
+}

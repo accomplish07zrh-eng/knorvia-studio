@@ -1,0 +1,21 @@
+{
+  "batch": "turn-persistence",
+  "diagnostics": 0,
+  "emitted": [
+    "apps/cli/packages/core/dist/runtime/methods/timeline-persistence.js",
+    "apps/cli/packages/core/dist/runtime/methods/timeline-persistence.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/timeline-persistence.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/tool-part-persistence.js",
+    "apps/cli/packages/core/dist/runtime/methods/tool-part-persistence.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/tool-part-persistence.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/input-intent-persistence.js",
+    "apps/cli/packages/core/dist/runtime/methods/input-intent-persistence.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/input-intent-persistence.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/cancelled-stream-persistence.js",
+    "apps/cli/packages/core/dist/runtime/methods/cancelled-stream-persistence.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/cancelled-stream-persistence.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/workspace-checkpoint-persistence.js",
+    "apps/cli/packages/core/dist/runtime/methods/workspace-checkpoint-persistence.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/workspace-checkpoint-persistence.d.ts"
+  ]
+}

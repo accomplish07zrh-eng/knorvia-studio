@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+  "kind": "file",
+  "sha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0",
+  "normalizedSha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0",
+  "encoding": "utf8-lf",
+  "bytes": 14322,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/usage-observability.ts",
+    "blob": "ccecd001c0c5d511cf1aab05a4f1ae946b8d1c6a",
+    "normalizedSha256": "0ce18b48af3fb09f9f7fafad5f50dd67bcb0cc2eb7675e58a753af5ed053f7d2",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

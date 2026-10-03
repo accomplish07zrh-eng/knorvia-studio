@@ -1,0 +1,10 @@
+{
+  "baseline": "658985c149fd1960482f15001384b11e52fae134",
+  "sourceSha256": "379aaccfbcd9528e5f35f4f3886f8751faf7427a887f7abe64cfac88098f007b",
+  "sourceSyntaxSha256": "5ee5c75dca5c7c3d2527d90bdffd455182ad17eec0adecc5fd63895c0e4504d7",
+  "emittedSha256": "a807ecc72b813e56c6a5adb85cd8e4b95045b2702d9b869b27f714b0d3d4a2fa",
+  "emittedSyntaxSha256": "8d650b7fdca2e938b3e2af876fd44527958e5c68d140df409e8c51234d556a5c",
+  "declarationSha256": "6df2e52e3d50890410d40737bb1eac728909b66b2c8c55dad05a5e9b0c1ead47",
+  "declarationSyntaxSha256": "4824e27c7af51b45903d75f325b4559b5872c865c97c4ee1b975a7243131c6c1",
+  "declaration": "import ts from \"typescript\";\n/**\n * fan-out 的**字面量基数**：\n * 被迭代的表达式是无展开元素的数组字面量，或一个只初始化一次、从未被写入的 `const`\n * 绑定到这样的字面量时，基数 = 字面量长度；其余一律 `undefined`。\n *\n * 这是**铸造期**（interpret.ts）的工作——它要看 AST 与 checker，而投影不许再看代码。\n * 原则是宁缺毋滥：任何不确定都给缺席，交接图随之画一张 `many` 卡，绝不猜一个数。\n */\nexport declare function literalCardinality(iterated: ts.Expression, checker: ts.TypeChecker): number | undefined;\n//# sourceMappingURL=fanout-cardinality.d.ts.map"
+}

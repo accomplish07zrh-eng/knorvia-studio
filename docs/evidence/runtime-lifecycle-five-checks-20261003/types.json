@@ -1,0 +1,177 @@
+{
+  "typescript": "6.0.2",
+  "apiMode": "resolved immutable historical and current emitted declarations",
+  "diagnostics": [],
+  "api": [
+    {
+      "owner": "background-notifications",
+      "before": {
+        "enqueueBackgroundTaskNotification": [
+          "(this: AgentRuntimeInternal, notification: { originMeta?: BackgroundResultOriginMeta | undefined; taskId?: string | undefined; text: string; toolName?: string | undefined; traceContext: TraceContext; }): void"
+        ],
+        "persistBackgroundTaskNotificationBatch": [
+          "(this: AgentRuntimeInternal, commands: readonly [TaskNotificationRuntimeCommand, ...TaskNotificationRuntimeCommand[]], midTurn?: boolean | undefined): Promise<PersistedBackgroundTaskNotificationBatch>"
+        ],
+        "persistBackgroundTaskNotificationCommand": [
+          "(this: AgentRuntimeInternal, command: TaskNotificationRuntimeCommand): Promise<MessageId>"
+        ],
+        "sealBackgroundTaskNotifications": [
+          "(this: AgentRuntimeInternal, input: SealBackgroundTaskNotificationsInput): void"
+        ],
+        "shouldSuppressTaskNotificationRuntimeCommand": [
+          "(this: AgentRuntimeInternal, command: TaskNotificationRuntimeCommand): boolean"
+        ]
+      },
+      "after": {
+        "enqueueBackgroundTaskNotification": [
+          "(this: AgentRuntimeInternal, notification: { originMeta?: BackgroundResultOriginMeta | undefined; taskId?: string | undefined; text: string; toolName?: string | undefined; traceContext: TraceContext; }): void"
+        ],
+        "persistBackgroundTaskNotificationBatch": [
+          "(this: AgentRuntimeInternal, commands: readonly [TaskNotificationRuntimeCommand, ...TaskNotificationRuntimeCommand[]], midTurn?: boolean | undefined): Promise<PersistedBackgroundTaskNotificationBatch>"
+        ],
+        "persistBackgroundTaskNotificationCommand": [
+          "(this: AgentRuntimeInternal, command: TaskNotificationRuntimeCommand): Promise<MessageId>"
+        ],
+        "sealBackgroundTaskNotifications": [
+          "(this: AgentRuntimeInternal, input: SealBackgroundTaskNotificationsInput): void"
+        ],
+        "shouldSuppressTaskNotificationRuntimeCommand": [
+          "(this: AgentRuntimeInternal, command: TaskNotificationRuntimeCommand): boolean"
+        ]
+      },
+      "equal": true
+    },
+    {
+      "owner": "hooks",
+      "before": {
+        "injectHookAdditionalContextIntoMessageHistory": [
+          "(this: AgentRuntimeInternal, eventName: HookEventName, additionalContexts: readonly string[]): RuntimeMessageEntry | undefined"
+        ],
+        "runSessionStartHooks": [
+          "(this: AgentRuntimeInternal, source: SessionStartSource, traceContext: TraceContext, signal?: AbortSignal | undefined, model?: Pick<Model, \"providerId\" | \"modelId\"> | undefined): Promise<HookRunResult>"
+        ],
+        "runStopHooks": [
+          "(this: AgentRuntimeInternal, response: string, toolCallCount: number, traceContext: TraceContext, signal?: AbortSignal | undefined, stopHookActive?: boolean | undefined): Promise<HookRunResult>"
+        ],
+        "runUserPromptSubmitHooks": [
+          "(this: AgentRuntimeInternal, prompt: string, attachments: TurnAttachment[] | undefined, traceContext: TraceContext, signal?: AbortSignal | undefined): Promise<HookRunResult>"
+        ],
+        "shouldContinueAfterStopHooks": [
+          "(result: HookRunResult, continuationCount: number): boolean"
+        ]
+      },
+      "after": {
+        "injectHookAdditionalContextIntoMessageHistory": [
+          "(this: AgentRuntimeInternal, eventName: HookEventName, additionalContexts: readonly string[]): RuntimeMessageEntry | undefined"
+        ],
+        "runSessionStartHooks": [
+          "(this: AgentRuntimeInternal, source: SessionStartSource, traceContext: TraceContext, signal?: AbortSignal | undefined, model?: Pick<Model, \"providerId\" | \"modelId\"> | undefined): Promise<HookRunResult>"
+        ],
+        "runStopHooks": [
+          "(this: AgentRuntimeInternal, response: string, toolCallCount: number, traceContext: TraceContext, signal?: AbortSignal | undefined, stopHookActive?: boolean | undefined): Promise<HookRunResult>"
+        ],
+        "runUserPromptSubmitHooks": [
+          "(this: AgentRuntimeInternal, prompt: string, attachments: TurnAttachment[] | undefined, traceContext: TraceContext, signal?: AbortSignal | undefined): Promise<HookRunResult>"
+        ],
+        "shouldContinueAfterStopHooks": [
+          "(result: HookRunResult, continuationCount: number): boolean"
+        ]
+      },
+      "equal": true
+    },
+    {
+      "owner": "session-title",
+      "before": {
+        "maybeStartDeferredSessionTitleGeneration": [
+          "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext): boolean"
+        ],
+        "maybeStartSessionTitleGeneration": [
+          "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext, options?: { deferIfProviderRuntimeHeadersRefresh?: boolean | undefined; goalSummaryTargetID?: string | undefined; } | undefined): boolean"
+        ],
+        "maybeStartSessionTitleGenerationFromExternalInput": [
+          "(this: AgentRuntimeInternal, input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; } | undefined): void"
+        ],
+        "setCustomSessionTitle": [
+          "(this: AgentRuntimeInternal, input: { title: string; traceContext: TraceContext; }): Promise<void>"
+        ]
+      },
+      "after": {
+        "maybeStartDeferredSessionTitleGeneration": [
+          "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext): boolean"
+        ],
+        "maybeStartSessionTitleGeneration": [
+          "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext, options?: { deferIfProviderRuntimeHeadersRefresh?: boolean | undefined; goalSummaryTargetID?: string | undefined; } | undefined): boolean"
+        ],
+        "maybeStartSessionTitleGenerationFromExternalInput": [
+          "(this: AgentRuntimeInternal, input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; } | undefined): void"
+        ],
+        "setCustomSessionTitle": [
+          "(this: AgentRuntimeInternal, input: { title: string; traceContext: TraceContext; }): Promise<void>"
+        ]
+      },
+      "equal": true
+    },
+    {
+      "owner": "workspace-generate-text",
+      "before": {
+        "generateWorkspaceText": [
+          "(this: AgentRuntimeInternal, input: WorkspaceGenerateTextInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceGenerateTextResult>"
+        ],
+        "ModelConnectivityTestInput": [],
+        "testModelConnectivity": [
+          "(this: AgentRuntimeInternal, input: ModelConnectivityTestInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<void>"
+        ],
+        "WorkspaceGenerateTextInput": [],
+        "WorkspaceGenerateTextResult": []
+      },
+      "after": {
+        "generateWorkspaceText": [
+          "(this: AgentRuntimeInternal, input: WorkspaceGenerateTextInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceGenerateTextResult>"
+        ],
+        "ModelConnectivityTestInput": [],
+        "testModelConnectivity": [
+          "(this: AgentRuntimeInternal, input: ModelConnectivityTestInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<void>"
+        ],
+        "WorkspaceGenerateTextInput": [],
+        "WorkspaceGenerateTextResult": []
+      },
+      "equal": true
+    },
+    {
+      "owner": "title-generation-sidecar",
+      "before": {
+        "generateTitleCandidate": [
+          "(this: AgentRuntimeInternal, input: string, options: { causation?: AgentTelemetryCausation | undefined; messageID?: MessageId | undefined; querySource: string; traceContext: TraceContext; }): Promise<{ modelSelection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }; title: string; traceContext: TraceContext; } | null>"
+        ],
+        "GOAL_SUMMARY_TITLE_QUERY_SOURCE": [],
+        "normalizeTitleInput": [
+          "(input: string): string"
+        ],
+        "SESSION_TITLE_QUERY_SOURCE": []
+      },
+      "after": {
+        "generateTitleCandidate": [
+          "(this: AgentRuntimeInternal, input: string, options: { causation?: AgentTelemetryCausation | undefined; messageID?: MessageId | undefined; querySource: string; traceContext: TraceContext; }): Promise<{ modelSelection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }; title: string; traceContext: TraceContext; } | null>"
+        ],
+        "GOAL_SUMMARY_TITLE_QUERY_SOURCE": [],
+        "normalizeTitleInput": [
+          "(input: string): string"
+        ],
+        "SESSION_TITLE_QUERY_SOURCE": []
+      },
+      "equal": true
+    }
+  ],
+  "emitted": [
+    "dist/runtime/methods/background-notifications.js",
+    "dist/runtime/methods/background-notifications.d.ts",
+    "dist/runtime/methods/hooks.js",
+    "dist/runtime/methods/hooks.d.ts",
+    "dist/runtime/methods/title-generation-sidecar.js",
+    "dist/runtime/methods/title-generation-sidecar.d.ts",
+    "dist/runtime/methods/session-title.js",
+    "dist/runtime/methods/session-title.d.ts",
+    "dist/runtime/methods/workspace-generate-text.js",
+    "dist/runtime/methods/workspace-generate-text.d.ts"
+  ]
+}

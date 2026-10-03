@@ -1,0 +1,76 @@
+{
+  "base": "890d289ed319610f58792f26327ca5f0068520f7",
+  "typescript": "6.0.2",
+  "files": {
+    "bash-shell-snapshot": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/bash-shell-snapshot.ts",
+        "sha256": "ab3cedc50c63ef5ae315cc0a40021682946b346fb4c7ec75b96f28df54ff317f"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/bash-shell-snapshot.js",
+        "sha256": "f25f8c35929769292366a6240c8a533ffe7049bebd3d074104dac465ddb832c6"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/bash-shell-snapshot.d.ts",
+        "sha256": "9b0662e91e348766d7814e431488ad5ed701ae9442171cd468ebd0aacc2d5a54"
+      }
+    },
+    "persisted-remote-session-path-repair": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/persisted-remote-session-path-repair.ts",
+        "sha256": "c815bc4eaedc7a237aee1fbc983ddf5745cef05c71dfca5d616ed755b0dc1561"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/persisted-remote-session-path-repair.js",
+        "sha256": "9c300c8ac1d98282b4738a793a5db897d26e4c4aad48edca50e4f6383ca1c65f"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/persisted-remote-session-path-repair.d.ts",
+        "sha256": "9b35ff338ea20f47ec6528ed676955c93c71fc6e0d90e815f743ca7c9bc02036"
+      }
+    },
+    "file-rewind": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+        "sha256": "e57413c4f267f5509f34cf0d0bab1ce5da8d05b8b89237802ede62080312adc5"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind.js",
+        "sha256": "423a845b9eae7cdcebda5cca18b7fd85551b967fed3a91c0cadf726ec8c7ae91"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind.d.ts",
+        "sha256": "fca5e0c340301026127e1672c7959c7281b70fd81cc702a9369fec0e506969ce"
+      }
+    },
+    "file-rewind-planning": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/file-rewind-planning.ts",
+        "sha256": "2ac12361f7bddf7ef1294ce53334887ce898e296024787176ce9899960c3cf4b"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-planning.js",
+        "sha256": "fd05c967a58f41f8f8faf0684a1fcc658baff790bfd73563aef1826981c95f40"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-planning.d.ts",
+        "sha256": "9787371cc53311e401470c76c6012b87bca0c9a67636bf4535ffaff91d35ec8f"
+      }
+    },
+    "file-rewind-storage": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/file-rewind-storage.ts",
+        "sha256": "09f7fe0f2cfdfb550b0b67e40143f317a8da5254707fdea645988d7a6c1123ce"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-storage.js",
+        "sha256": "859e8fc6defc3e37ed6131b39e4505eab6acc24c79256490eec07f1b7c8870e9"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/file-rewind-storage.d.ts",
+        "sha256": "d4cc86095ba921e3e1dbc33bfa3f2bc126aba0fb4194011b4db50c649077c685"
+      }
+    }
+  }
+}

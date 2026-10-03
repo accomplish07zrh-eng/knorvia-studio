@@ -1,0 +1,879 @@
+{
+  "directDigests": [
+    "f86da7fc25e3a98ed6190ea2f86a51395cb702a815fdcf5e34251470df05f334",
+    "ae59ea0e4ff4a939152b48e13a9bc48ebc893fe232a08d21e6760d5fc6b8465d",
+    "abbd10554248b7bf79afaf8521a5850ebd1615cb8757030434547e7a8b22ae92",
+    "f525763db5a4b207f61209123269607375c961012ea6c69dbd573f6a62760a68",
+    "df1119cf05795e20b418e5a45a23e58bb1104d471a21f2e259c357a27a1a21ef",
+    "f7e07b77c587adfe15677f63fa86c6890e36d6968ea8d1ec8ac05cec1ccba3e7",
+    "0f6163901172841a89d833afdfb10afcff722d22b739dd4aca49d13b33b3a790",
+    "f7e07b77c587adfe15677f63fa86c6890e36d6968ea8d1ec8ac05cec1ccba3e7",
+    "f7e07b77c587adfe15677f63fa86c6890e36d6968ea8d1ec8ac05cec1ccba3e7",
+    "f5e884b3a9af771d08ba566ef889d92fce1c91c6e78850717d6be37202864929",
+    "f5e884b3a9af771d08ba566ef889d92fce1c91c6e78850717d6be37202864929",
+    "f82920741d682e4e8fbf04289e90ba88654b33656c0dd1296b20464d0ac3ebd0",
+    "97b5b9b77adf7c372776dd33fd74a67988a50c4b34e7f2eb77a47c1d7bfcd258",
+    "8a85c28de69d7e5d9b7fc21f0fc8a5f7995c8b2698b3f5647cc219dd589e0501",
+    "8a85c28de69d7e5d9b7fc21f0fc8a5f7995c8b2698b3f5647cc219dd589e0501",
+    "4442016bdbd44fde75b1372c3d4e80c2c34b82e9499cabb138e13c5208bc82c1",
+    "8d339b9a305aa53a2bd51e80fa974f63c8c67e7760615584f7dc889771714ab2",
+    "481f4456637411b1d2189834ecbd09e1a35a3c27f25874060dbcd63cae650a0a",
+    "fd1766206d18b01ef28802eae5c3afbd24b6169e9ae915c40b99b30aba4e49af",
+    "630d00d906928458684784739649d3dd7357a613df4cca1f7bd9a6951b164219",
+    "efd8b2a1212bf4754a763cea58b2691efff4ae7391bf5a6abadefddd739359e0",
+    "38c6f3334bc0c57e4e116483e131459f6df6bffd7c25ec57795a6d62c2b7e839",
+    "7fc03fe082215d581a4f2e6f76af6501e0e13ce4b1e8456d2cbd658d9ab23a46",
+    "8d228d070178f8cc4adaebf78805d0f79157a87ee391ee33f32f345b51653039",
+    "7ce73a0e8da010e9044ac107bc50b57c80bdf46389dd86d4395b7298d10dc4a9",
+    "f86da7fc25e3a98ed6190ea2f86a51395cb702a815fdcf5e34251470df05f334",
+    "4fbc35997efdbc1fa69e87c6798e28874e5c02b794611c529c80855cfc6bfe24",
+    "27ca85f92153e7d2df165c2b5819a0de85b76727d72bc4c495e5a9bb77d6874e",
+    "4b778d067a7c6b1784517c431963ae5174dd0fbe6058621785377eb40e5273aa",
+    "f86da7fc25e3a98ed6190ea2f86a51395cb702a815fdcf5e34251470df05f334",
+    "8e7607f69558be57b555339e427cac7a8af7f2954ca39c80deece4a54052707f",
+    "f86da7fc25e3a98ed6190ea2f86a51395cb702a815fdcf5e34251470df05f334",
+    "d1d75a36a8886a7b879c2c3084df78e0fcf2dde3df4a2f1c838638b3935cad27",
+    "7d7286285e69f610bc839f7d616ef838a412c7aa380f8575e6a0e6f94b846725",
+    "454e89f9c1f64d46a63c5cc8452ea44c74d9b6bc3f1653e4d71a06ea1cd88f4a",
+    "f86da7fc25e3a98ed6190ea2f86a51395cb702a815fdcf5e34251470df05f334",
+    "0dc2dc69ad53d2f63139903739e2ef23615807bf517f39a0e52e4d84c7ce2857",
+    "8058789cee7d007ccbd85d18ac34a9ae5e1fa3d45b4470c1a7d3a6cf63a4735d",
+    "cba595cf574ad0d3404636c6af8c3c02383e26feb085117e4f763e45c624521e",
+    "f86da7fc25e3a98ed6190ea2f86a51395cb702a815fdcf5e34251470df05f334",
+    "121a76931f8f90e393f96b787287e49976a6c379a21aa8acaaf40c29d6294ebc",
+    "dd4b4e5b4f18e5d3dc68f899f96f80fec091b5f82dac104bd46ff1f86250b8f5",
+    "c31b70f99c8d773249d57b8dda1421970101a66885966e5dc086348fdd33e96f",
+    "ae9ac739f54a035acb26d2d172db13d3ee52dd2a5774edd919f9e9f555874c1b"
+  ],
+  "executorDigests": [
+    "f7811be389d3c3296fb79b66257c94a919aed690ddadc493a289b8dc3250de3e",
+    "f4767681174b44f1ba50de9d90bf801cb5126c343a00c35cda32be58fd155e96",
+    "ad950eabc871805efea689b0e8cc3feb4e21be016c9f7124685cea729a79ea97",
+    "2b05720e2240ef8255750d29d7161f7be1ac4d509f0db71cb34bcd106f519322",
+    "2b05720e2240ef8255750d29d7161f7be1ac4d509f0db71cb34bcd106f519322",
+    "f7811be389d3c3296fb79b66257c94a919aed690ddadc493a289b8dc3250de3e",
+    "f7811be389d3c3296fb79b66257c94a919aed690ddadc493a289b8dc3250de3e",
+    "3bbfc8f7ffd0e6069c9cf6a97678b8fc2745fc6431f8de12d4ada66523558a46",
+    "59926dfe366714b4b864d44dcec9d906be4c525242d51136deb7db338d38d003",
+    "b3f36ad17307d2628309eae1c0fed8941714e8c998b510680c4d1ab9a2d103bb"
+  ],
+  "edgeDigests": [
+    "7e66b6ec009faf3172dc99524ac17140ef1973ec7ae22ba4c61bd24166b8d53e",
+    "2248576892ed592456c62075c335005a0dd10828cb00d61ceac90b9832a5df68",
+    "65f6f8e862a7b30297f480af09a739ea3c8bca63f0e9827d1960c23a7aea1058",
+    "93e101e519890bfe7c6dc81ae745e5ee1f67dc52f40d453c66e3438508e2f48d",
+    "b57111908f8d9d0fa29bba5059dd3b3c192457c9426d5699911fc211a2e38c61",
+    "cc7b834f5fd7b608ebd425ba88d16a1b237df78728d20b37956e77383929daf6",
+    "10b9ba1509688971653e2aa2ba8f86c5cc78ebef879109312d10e19c0126ba92",
+    "1a2d1b3cffca9e66ccd01d57e7bc7d6a0a80173095baf40cbc71542ba092979d",
+    "f959e1338eca6c2d8c4eff1b30a7ea6a4c831593a4b515ad2d862ff6cae6fdef",
+    "6c702b282cc20f0bbdef563d947cec0c24b02a5cd16b2182beb164e2c5b7ca86",
+    "17702a0f7f42e8ab08fe3c89f78ead2479dd355a8dd11b8b9fce7a16d1a5a928",
+    "8f885d78f938290b0d565d7a47bfc29bc6a72579eff321960874b2826a6b887a",
+    "f6586be501eee3a6840d4778607a4a9dcb2c55ad9ec3dba23b52856fcc288a30",
+    "bed159bc6994b74471dd4260669018e48c62a02b1c5279aeceb61829ce073190",
+    "3e4bbf9c4e0436322b6c7e6960daef3197ed4d5e16aa124641d68d19da3eeb2b",
+    "b3c9e62c4a2a74ab2480ad1816adea987da3b6e28f971bcb98e2b5171a628a36",
+    "a68fbcaaa499f1af0943bcb98abd5eff6787ed3f0b9431abc194be0092642a44",
+    "44acd9de49ec42c9b54763fff2f0e51690e498fb8507e0ad690700d539f383ba",
+    "0b61e57b6e973891fe82607a288b6fb0ac0072223021ed495cce1f84c535d7ee",
+    "1db8ac64a7fc0c717d1b8073cc443dafb98971554f5dc29ae37aa871f3c3249d",
+    "5ba1556a80a316029e89482bfc66cc1f93994593ebd867e720be2a53f2b27cc0",
+    "97214cf638878d7a5a7f50d80397845cbf005a67a570d6b6cc38011fe09075c0",
+    "c74866363c2e6b8b740bdf0deb9757141483f105877463c74b22f8eaa52af6a1",
+    "de97f63cc07f97fedf88006b4d6f32bc7c1bed2696cbced6a9edb49cf0f9861c",
+    "77658cedb0193d3b7847cb394606dea485b04adb7b85d91ee489a79dba0b3bf9",
+    "e9a7f056dc0de2d319ca003d03f5f5630d59cb7229c891d8f8284beae84d50bc",
+    "151b50a531620900ce96d47148b7b6b1180510dfe0f9e50e16053ba041a0843b",
+    "f6f750e3b8756e4b1aa9d598c82c7b22e3b35ccd93926bd5ebf90c1b80b9d610",
+    "545e0de9b911cf87bf4407c6667697652ef2856290ce0a6b1e64985db68493f6",
+    "ff331f217291ed113cfb23836c82502b9d401bded37e5355a352fb9275b3e949",
+    "2d66ff76744e859285e9033c44b2ac84f5ed5e8f923fecd40027d5b18bb63b4d",
+    "31de72a49f04666052fc2ad19f73ea785b74024ab0a0a18d7116eefd03d914ab",
+    "0f1d93186fcb42fbd82ce5e8ae01b7510f1990081f0771f7d37af7bc4cfd18bf",
+    "e579c2651101fc944ffafedb3f647041445c08d7452828574d43ed2fe2045c9a",
+    "427f17bed303ac03d58119cb21fa7c4b3174e0d076846f31b431a5ff88a46a48",
+    "9818fc715e6b8105b35fe23099a960593a553cd894bd815819a5ab15001fd47a",
+    "bec5bcdc2e5abdde5e1b188ca6ab431b2130f25cb975cb439a0e6e940dc129f9",
+    "736fa829fd4ae415770c575c4e57cce91a2e7cef556ae85f4470ed782d856bd5",
+    "5a968276d251048b734f9d1b41bd6dfb5d40cb26cc4c1757621482fb006d84c3",
+    "e008b69480219f32ee4995c2d26038b7f5e35d6e2f228be2c0c612a073f8a094",
+    "376329cf194208da218b76baa096e011b4a1282e618c8c05bf5ad7125a6f0f98",
+    "a7984f7b62903c188f1dc45b808ce95f5cab40598eaa58fcb135a3bf8294c74f",
+    "f3cc98d312279125ba6a6e014bef0e3a7d80343ffc342834931201bcf1897eb1",
+    "38af4f565c3da75a4adc0c29496dd25674ef5965f0e7e5488cfc9f0a1b067f93",
+    "77cf6224731c7dd8767afc71ed3b2fe4bac34b5c70f9c2fc3d807e8067e90ade",
+    "ce4e131d90b756f0f7b9fcb8dd276635bed2bb55d9ed64fe9634d7c557a86e7b",
+    "d83729e776f5b5566fad1067b8575b78a8fcce6e89eba156b0f820c247468309",
+    "31c4238405807864527cb934a4d2fd79955182649e588b91b1074a3b7c0b9b87",
+    "fb1ddacfea2529c8fca3444f6ac9473a865315997de34a5b06ae9e220acc7ad6",
+    "2d1409aee37981ffa50ecf0adf9fec77187d731998fad487e08b5d0a671ed100",
+    "cb8c81f35f71dc858005861c21661081064da70f8c8469d89ede8423f037fd3b",
+    "148bbc9e8879f347c38794f6395ea876ec8b92ba795f63b7eeb69c6ca800598e",
+    "90fcd30c583c29819f1862b4d25a96a3254ac8bbe926c7e1d432ef2306b9025c",
+    "f34387f8bfd6e8b431b0af9c253d27712f81963240f1e48558963a89b07237f1",
+    "f67d2b57ab919652c904b7c8b2dc5e8e792d421126b3fde2df42d9bf5ce2157a",
+    "ec00a375c508ef50a1a0916147fad64b4795925904f49fd787b9d78c9a04b4f8",
+    "734ce37e31b81b2174062f5f075da99c2aefcd6731049ef8aa24799184c016e8",
+    "6195e63e52d535d06b33cd090741c99fbcd9691469e45222274456b914720ab0",
+    "5508f6e009bf72300ec1a1125fe66cfe3b71e62c9f99a2a0ae11ea78eb80fc7d",
+    "c31eae92ee89dfee5093bd97abc6d06407ddca160ffb257a7990d187aae89fdc",
+    "26ff66889c0c9998c66b35bf64894afd36fbedd88d9db1ce4a5d6e7988b45101",
+    "6937d3a553e0ffcfb5c4716b4b4e64437f86bc266952b127e047526ac3b280d5",
+    "a26ecaa98b4a9583445811da16f2166a765315bfb7597c888d6ca4ec7b9bcfbf",
+    "051d1549cf8f5b047418100857a47e79d6ef34db1a084cc9b0a3c12727e6d3b6",
+    "84420d1a20f7afa734e1da2415e3d22ad8bbea1ce349d33b387585c970c653e2",
+    "d47bf6b551372f6d9d75190f5fded01058f175136eaedd91d867088b028530e4",
+    "a662f0cc7e57c34ead60633606e9aeea1707b94c33931b27b6172ee3c28dd502",
+    "57ba8614a2241d1b45ce14bead5f0d33133bfd66baa10b4321314219585f6228",
+    "0a16c5c5e0349f4fbe519243ba4f86deb5e0be4453fc17304f9472db7c54c897",
+    "80b21a932d076a84f05e398add8e500938b69db316f700bd1f1c9ec8c2f7755b",
+    "fc577c728635f77d849f95d45710e29c7b7c29f5e9c726a52912b1e21e6777c6",
+    "ce015d7b63d3a8cb4617e0b7b98cd43808474b53b50dedd8754dc6a6bb71ec83",
+    "5dd0009bf3cf4d3c57f05e3dae9aa37af802a8b0a0c347236e7b42d5d0f4912f",
+    "750928cbe45b36150ecb47f320e723b32dd3c08612c877593fa385aa1acc73ae",
+    "1b76ac87c3b936431181122b105dc4445ce41be535797ec58d4eb95a6683fb2a",
+    "310827925494736c2978c3767acc6e64e6428857b275a4a48a018ff03a9d7311",
+    "c0bbc4676db215b1de330004045335658ad85b6133a47de01a875e758affdfa5",
+    "4036832ce01a1f9ba37f68a5fb60b97b2198e57b622ac8a5bf8e66efb59de116",
+    "b5adfd3c77860a711b4d8454eef5bd0b8db04e1b7a7290297226c019c9d11352",
+    "5c855d239b3eb402eb4cb1a44a2e60a2ffb1b81848fa769948b1f2a705903538",
+    "91b61449b1f122b32a9981c1913807cc15b293065496cbbdded57e7bd921ea37",
+    "51e957e84470d2d9423b1ac5a483d073d9c0ec1d349d6ed1efaa59d0f858fec9",
+    "f9651848afe48c708d91fc95016ce53f159abdc8eff52666a151750d7d2c65b6",
+    "51fe2f21911fbf0c3f42e79b78639dc55a4ee12cd39ec06f5f7fd772ba656b3d",
+    "e33c61275865e8111887a1448a3ac9ac5a51df7c627381898aa656f4f1ec6d96",
+    "ea310e059d85f4d4eae91b52685a4b0b0ca82c071ce98dc4043eeaa56126229e",
+    "23ca4478723dcdc07473b77b4c9bfca09fa772fb2b8a026b7ebb9f59eca5de2b",
+    "74f85d852e924efa28c940b65d829fc178a8301a898815c1811a9e995f7f97b9",
+    "acdad406d903f5d0da3688f30594632f4c730c7d8eb8495b9a17571db313010b",
+    "b499a27fa702ecc314d1d81680f2a70560f10af180b61d68a6e1e6a980a7733d",
+    "dc2f99048c1a95f7d6be963b76dfff778077058cb7d4663845afd447b603831e",
+    "37e440f08de1ff852ad1a88a9b7ca7857f70426843d1ffacf8fb7941446b87b8",
+    "0518a2daf2a9df5d5d8d3c8f1c726e31e7a8020aeff7879036b8445a8c17754b",
+    "0d5140ad2e2c7e7af4649ce724ba7dce5ca883fcf5021e9a372e37b3347f1bb8",
+    "9a33e1f31b55caa017e8782a995103a1cc32b71a2088108f99fa7e50d46dc855",
+    "b35c3f6dddd7f96aa9e173c86901dc140efca1fdc70c4ac9ee871a6ac46b9aed",
+    "2657ab93447f69caebc388d0baaaf0d91a3e1f6f625f8e9245e0639daaa79082",
+    "5cce6539a3fd9c82948576a13190c0485e17f72d70bbbf955d0ebe51445631e0",
+    "55360f237ca48df2509c68e4f8787a40fb5394c929341f91a7cc7bbaef6781f7",
+    "d1b2807c98b971744a7609b477d6d7b3e3e9f365cc1130edba53741688cd4da4",
+    "80e953e96b831ff0bddcfc3a506518989e6acfa0858121aa853b2afa3dcd0d1d",
+    "cb5b06104d3d925e95606b104fbddce56bf05fddce9f67e91c00d0f4c65353da",
+    "d49038bf061a09ee7cca22d8ecc1effa02d26bfcc07c12bda0b641f41554af99",
+    "168d0e89091598ab5e15bc9622669aa0009a8a53ad0e6bb8c83dcca29b3cf89d",
+    "14c8365c137d170d76ebfcf039f00cbf1cf26c43cb0aab4d4059b3985525d7ba",
+    "b10f04512d2eb4cd2e340f291a4c79fc29a9040477ecb929421f1c6d33755727",
+    "c29ca9fddcc26382d09c0bddf7676a4b210d8bd0d7eccf5e15b174a07445b314",
+    "cf32befd919add1110639688884f8db60435df7f10438b9972b5891d702bee00",
+    "3bf5afe6c19c12c5cca2ea0c0de4cbb786a3ea215c0993026e727a7c7273b56b",
+    "6dd0bf351a18d86f5a58791513d4157c524a9523248762fcd76ea931fc0026b4",
+    "d4406ea8e8d0e8cd15e1c4c63dc5e68e5e7666289a5c18c4bfee3e90afe6fc1c",
+    "745fedf92a5cbf1331124cc406fd838bba4bc05f37b8739934068421d3559b72"
+  ],
+  "declaration": "import type { ToolEntry } from \"../types.js\";\nexport declare const getWorkflowRunToolEntry: ToolEntry;\n//# sourceMappingURL=get-workflow-run.d.ts.map",
+  "metadata": {
+    "capability": "Read one dynamic-workflow run's progress, final result, or failure",
+    "maxModelChars": 100000,
+    "metadata": {
+      "name": "GetWorkflowRun",
+      "description": "Returns the current state of one dynamic-workflow run: progress, token usage and the tail of its log() narration while it runs; the final result once it completed; the structured failure if it errored or was stopped.\n\nRuns this session starts settle on their own: you receive a completion notification carrying the final output. Do NOT poll this tool while waiting for one — continue with other work.\nReach for it when: (a) the user asks how a workflow is going, (b) you want to review this project's earlier runs, including ones other sessions started, (c) a completion notification was truncated and you need the run's full record by ID.\n\n- Takes run_id — from CreateWorkflow's or AmendWorkflow's result, from a completion notification, or from ListWorkflowRuns.\n- This is an instant snapshot and never waits. To block until a run THIS session started finishes, use TaskOutput instead: that is the waiting tool. GetWorkflowRun is the right tool when you must not wait, or when the run belongs to another session (TaskOutput cannot see those).\n- The `artifacts` section lists what the run published for the user — files, documents and live dashboards that are ALREADY shown to them as cards. Refer to one by its title; do not paste its contents back. The one marked `primary` is the deliverable: point the user to it first.\n- Three terminal states: `completed`; `errored` (the script itself failed — not resumable, amend it); `stopped` with a stop reason — `user` (cancelled on purpose: resume only when the user asks), `model` (your own TaskStop), `provider` (a provider-side error such as an expired sign-in, a model missing from the plan or a quota cap — the `<error>` block names the cause and the fix; resolve it with the user, then resume), `interrupted` (the process that owned the run exited — continuing it is usually what the user wants), `superseded` (an AmendWorkflow replaced it; `<superseded_by>` names the successor — read that run instead, never resume this one).\n- A stopped run (other than a superseded one) can be continued with ResumeWorkflowRun — no rebuild needed, same run ID, same script.\n- ANY run — completed, stopped, errored, or still running — can instead be revised with AmendWorkflow: pass its run ID and the corrected script, and the finished work is imported as cache. When the script itself errored, that is the move — fix the script and keep the work that already succeeded, rather than rewriting from scratch.",
+      "readOnly": true,
+      "destructive": false,
+      "concurrentSafe": true,
+      "timeoutMs": 10000,
+      "maxOutputBytes": 400000,
+      "sideEffectScope": "none",
+      "riskLevel": "low",
+      "needsApproval": false
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The workflow run ID to inspect (as returned by CreateWorkflow or ListWorkflowRuns)"
+        }
+      },
+      "required": ["run_id"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "labelSource": {
+          "type": "string",
+          "enum": ["name", "script"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["completed", "errored", "pending", "running", "stopped"]
+        },
+        "stopReason": {
+          "type": "string",
+          "enum": ["user", "model", "provider", "interrupted", "superseded"]
+        },
+        "resumedFrom": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supersededBy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ownedByThisSession": {
+          "type": "boolean"
+        },
+        "possiblyInterrupted": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "number"
+        },
+        "updatedAt": {
+          "type": "number"
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "generatedAt": {
+          "type": "number"
+        },
+        "usage": {
+          "type": "object",
+          "properties": {
+            "spentTokens": {
+              "type": "number"
+            },
+            "nodesObserved": {
+              "type": "number"
+            },
+            "nodesRunning": {
+              "type": "number"
+            },
+            "nodesCompleted": {
+              "type": "number"
+            },
+            "nodesFailed": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "spentTokens",
+            "nodesObserved",
+            "nodesRunning",
+            "nodesCompleted",
+            "nodesFailed"
+          ],
+          "additionalProperties": false
+        },
+        "maxConcurrency": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "subagentModel": {
+          "type": "string"
+        },
+        "scriptPath": {
+          "type": "string"
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "siteId": {
+                "type": "string"
+              },
+              "ordinal": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": ["siteId", "ordinal"],
+            "additionalProperties": false
+          }
+        },
+        "logTail": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sequence": {
+                "type": "number"
+              },
+              "message": {
+                "type": "string"
+              },
+              "at": {
+                "type": "number"
+              }
+            },
+            "required": ["sequence", "message"],
+            "additionalProperties": false
+          }
+        },
+        "phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "state": {
+                "type": "string",
+                "enum": ["done", "current", "ahead", "unfinished"]
+              },
+              "rounds": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "nodesSettled": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "nodesRunning": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "enteredAt": {
+                "type": "number"
+              },
+              "exitedAt": {
+                "type": "number"
+              }
+            },
+            "required": ["name", "state", "rounds", "nodesSettled", "nodesRunning"],
+            "additionalProperties": false
+          },
+          "maxItems": 32
+        },
+        "subagents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "siteId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ordinal": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 128
+              },
+              "state": {
+                "type": "string",
+                "enum": ["idle", "executing", "waiting", "parked", "done", "failed", "unfinished"]
+              },
+              "phaseName": {
+                "type": "string",
+                "maxLength": 128
+              },
+              "currentAsk": {
+                "type": "object",
+                "properties": {
+                  "siteId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "ordinal": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "actorSeq": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "instructionsHead": {
+                    "type": "string",
+                    "maxLength": 240
+                  },
+                  "startedAt": {
+                    "type": "number"
+                  },
+                  "turn": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "toolCalls": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "lastTool": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64
+                      },
+                      "target": {
+                        "type": "string",
+                        "maxLength": 120
+                      },
+                      "at": {
+                        "type": "number"
+                      }
+                    },
+                    "required": ["name"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["siteId", "ordinal"],
+                "additionalProperties": false
+              },
+              "wait": {
+                "type": "object",
+                "properties": {
+                  "cause": {
+                    "type": "string",
+                    "enum": ["slot", "backoff"]
+                  },
+                  "reason": {
+                    "type": "string",
+                    "maxLength": 240
+                  },
+                  "retryAfterMs": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "since": {
+                    "type": "number"
+                  }
+                },
+                "required": ["cause"],
+                "additionalProperties": false
+              },
+              "parkedOn": {
+                "type": "string"
+              },
+              "stepsSettled": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "stepsFailed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "tokens": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "lastProgressAt": {
+                "type": "number"
+              }
+            },
+            "required": ["siteId", "ordinal", "state", "stepsSettled", "stepsFailed", "tokens"],
+            "additionalProperties": false
+          },
+          "maxItems": 64
+        },
+        "subagentsTruncated": {
+          "type": "boolean",
+          "const": true
+        },
+        "health": {
+          "type": "object",
+          "properties": {
+            "lastProgressAt": {
+              "type": "number"
+            },
+            "stalledSince": {
+              "type": "number"
+            },
+            "concurrency": {
+              "type": "object",
+              "properties": {
+                "effective": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "cap": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "reason": {
+                  "type": "string",
+                  "maxLength": 240
+                },
+                "since": {
+                  "type": "number"
+                }
+              },
+              "required": ["effective", "cap"],
+              "additionalProperties": false
+            },
+            "consecutiveFailures": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cachedSteps": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "leftoverRunning": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "pendingQuestionsKnown": {
+              "type": "boolean"
+            }
+          },
+          "required": ["consecutiveFailures", "cachedSteps", "pendingQuestionsKnown"],
+          "additionalProperties": false
+        },
+        "result": {
+          "type": "string"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "providerStop": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "auth",
+                    "not_configured",
+                    "model_unavailable",
+                    "invalid_request",
+                    "quota",
+                    "other"
+                  ]
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "providerId": {
+                  "type": "string"
+                },
+                "providerLabel": {
+                  "type": "string"
+                },
+                "modelId": {
+                  "type": "string"
+                },
+                "providerCode": {
+                  "type": "string"
+                },
+                "subagent": {
+                  "type": "string"
+                },
+                "subagentName": {
+                  "type": "string"
+                },
+                "phase": {
+                  "type": "string"
+                },
+                "rawMessage": {
+                  "type": "string"
+                },
+                "resetAt": {
+                  "type": "number"
+                }
+              },
+              "required": ["kind", "reason"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["code", "message"],
+          "additionalProperties": false
+        },
+        "pendingQuestions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "qid": {
+                "type": "string"
+              },
+              "actor": {
+                "type": "string"
+              },
+              "actorName": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "context": {
+                "type": "string"
+              },
+              "askedAt": {
+                "type": "number"
+              }
+            },
+            "required": ["qid", "actor", "question", "askedAt"],
+            "additionalProperties": false
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": ["file", "markdown", "chart", "table", "metrics", "board"]
+              },
+              "title": {
+                "type": "string"
+              },
+              "version": {
+                "type": "number"
+              },
+              "contentType": {
+                "type": "string"
+              },
+              "bytes": {
+                "type": "number"
+              },
+              "sourcePath": {
+                "type": "string"
+              },
+              "itemCount": {
+                "type": "number"
+              },
+              "primary": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "required": ["id", "kind", "version", "itemCount"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "runId",
+        "label",
+        "labelSource",
+        "status",
+        "ownedByThisSession",
+        "createdAt",
+        "updatedAt",
+        "summary",
+        "generatedAt",
+        "usage",
+        "actors",
+        "logTail",
+        "subagents",
+        "health"
+      ],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "permission": {
+      "permission": "getWorkflowRun",
+      "reason": "GetWorkflowRun reads one run's record from the project's run journal",
+      "riskLevel": "low",
+      "sideEffectScope": "none",
+      "needsApproval": false,
+      "patternSources": ["toolName", "input"],
+      "alwaysAllowPatternSources": ["toolName"],
+      "denyPriority": "beforeAsk"
+    },
+    "resultBudget": {
+      "maxInlineBytes": 400000,
+      "maxModelBytes": 400000,
+      "strategy": "artifact",
+      "preview": {
+        "maxBytes": 400000,
+        "direction": "head"
+      },
+      "artifact": {
+        "enabled": true,
+        "retention": "session"
+      }
+    },
+    "resultArtifactContentType": "text/plain",
+    "timeout": {
+      "kind": "timed",
+      "defaultMs": 10000,
+      "maxMs": 10000,
+      "allowCallOverride": false
+    },
+    "cancellation": {
+      "supported": false,
+      "cleanup": "none",
+      "userVisibleMessage": "GetWorkflowRun reads the run journal synchronously and cannot be cancelled"
+    },
+    "trace": {
+      "required": true,
+      "propagateToAdapters": false,
+      "recordInput": "summary",
+      "recordOutput": "summary"
+    }
+  },
+  "ordinary": {
+    "fact": {
+      "success": true,
+      "output": {
+        "runId": "synthetic-run",
+        "label": "Synthetic <&> run",
+        "labelSource": "name",
+        "status": "running",
+        "stopReason": "provider",
+        "resumedFrom": "synthetic-old",
+        "maxConcurrency": 2,
+        "subagentModel": "fake/model",
+        "scriptPath": "synthetic.dwf.ts",
+        "supersededBy": "synthetic-next",
+        "ownedByThisSession": false,
+        "possiblyInterrupted": true,
+        "createdAt": 0,
+        "updatedAt": 1,
+        "generatedAt": 1768478400000,
+        "usage": {
+          "spentTokens": 7,
+          "nodesObserved": 3,
+          "nodesRunning": 1,
+          "nodesCompleted": 1,
+          "nodesFailed": 1
+        },
+        "actors": [
+          {
+            "siteId": "synthetic-actor",
+            "ordinal": 0,
+            "name": ""
+          }
+        ],
+        "logTail": [
+          {
+            "sequence": 0,
+            "message": "synthetic log <&>",
+            "at": 0
+          }
+        ],
+        "subagents": [],
+        "health": {
+          "consecutiveFailures": 0,
+          "cachedSteps": 0,
+          "pendingQuestionsKnown": true
+        },
+        "result": "{\n  \"synthetic\": true\n}",
+        "summary": "Running for 20468d 12h. 2 of 3 dispatched steps settled, 1 running. Owned by another session."
+      },
+      "keys": [
+        "runId",
+        "label",
+        "labelSource",
+        "status",
+        "stopReason",
+        "resumedFrom",
+        "maxConcurrency",
+        "subagentModel",
+        "scriptPath",
+        "supersededBy",
+        "ownedByThisSession",
+        "possiblyInterrupted",
+        "createdAt",
+        "updatedAt",
+        "generatedAt",
+        "usage",
+        "actors",
+        "logTail",
+        "subagents",
+        "health",
+        "result",
+        "summary"
+      ],
+      "actorKeys": [["siteId", "ordinal", "name"]],
+      "logKeys": [["sequence", "message", "at"]],
+      "model": "<summary>Running for 20468d 12h. 2 of 3 dispatched steps settled, 1 running. Owned by another session.</summary>\n\n<run_id>synthetic-run</run_id>\n\n<label source=\"name\">Synthetic &lt;&amp;&gt; run</label>\n\n<status>running</status>\n\n<stop_reason>provider</stop_reason>\n\n<resumed_from>synthetic-old</resumed_from>\n\n<max_concurrency>2</max_concurrency>\n\n<subagent_model>fake/model</subagent_model>\n\n<superseded_by>synthetic-next</superseded_by>\n\n<owned_by_this_session>false</owned_by_this_session>\n\n<possibly_interrupted>true — this session cannot confirm the run is still alive</possibly_interrupted>\n\n<created_at>1970-01-01T00:00:00.000Z (20468d 12h ago)</created_at>\n\n<updated_at>1970-01-01T00:00:00.001Z (20468d 11h ago)</updated_at>\n\n<health>stalled=no  consecutive_failures=0  cached_steps=0</health>\n\n<subagents>No subagents created yet.</subagents>\n\n<log_tail>\n[0]  20468d 12h ago  synthetic log &lt;&amp;&gt;\n</log_tail>\n\n<usage>spent_tokens=7 nodes_observed=3 nodes_running=1 nodes_completed=1 nodes_failed=1</usage>\n\n<result>\n{\n  \"synthetic\": true\n}\n</result>\n\n<amendable>AmendWorkflow with run_id \"synthetic-run\" supersedes this run with a revised script and imports its finished work as cache. Its script is at synthetic.dwf.ts: edit that file in place and pass `path: \"synthetic.dwf.ts\"` to AmendWorkflow instead of a script.</amendable>",
+      "tape": [
+        "context.port",
+        "port.method",
+        "port.method",
+        "invoke",
+        "detail.then",
+        "detail.result",
+        "detail.subagents",
+        "detail.phases",
+        "detail.runId",
+        "detail.label",
+        "detail.labelSource",
+        "detail.status",
+        "detail.stopReason",
+        "detail.stopReason",
+        "detail.resumedFrom",
+        "detail.resumedFrom",
+        "detail.maxConcurrency",
+        "detail.maxConcurrency",
+        "detail.subagentModel",
+        "detail.subagentModel",
+        "detail.scriptPath",
+        "detail.scriptPath",
+        "context.cwd",
+        "detail.supersededBy",
+        "detail.supersededBy",
+        "detail.ownedByThisSession",
+        "detail.possiblyInterrupted",
+        "detail.createdAt",
+        "detail.updatedAt",
+        "detail.usage",
+        "usage.spentTokens",
+        "detail.usage",
+        "usage.nodesObserved",
+        "detail.usage",
+        "usage.nodesRunning",
+        "detail.usage",
+        "usage.nodesCompleted",
+        "detail.usage",
+        "usage.nodesFailed",
+        "detail.actors",
+        "actor.siteId",
+        "actor.ordinal",
+        "actor.name",
+        "actor.name",
+        "detail.logTail",
+        "log.sequence",
+        "log.message",
+        "log.at",
+        "log.at",
+        "detail.health",
+        "detail.error",
+        "detail.pendingQuestions",
+        "detail.pendingQuestions",
+        "detail.artifacts",
+        "detail.artifacts"
+      ]
+    },
+    "calls": [
+      {
+        "receiver": true,
+        "argc": 1,
+        "args": ["synthetic-run"]
+      }
+    ]
+  }
+}

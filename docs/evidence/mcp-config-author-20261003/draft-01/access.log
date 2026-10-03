@@ -1,0 +1,13 @@
+Author access log — ordered operations
+1. Read only initial eight permitted packet files via two cat commands, grouped by mcp/config.
+2. Sent packet-wiring ambiguity report to curator; no source/body access requested or performed.
+3. SHA256-read initial eight permitted packet files.
+4. Created draft directories; copied the eight permitted inputs into packet-initial/.
+5. Wrote initial complete mcp.ts and config.ts; copied complete initial set into final/; SHA256-read own initial candidates.
+6. Curator authorized two additional body-free ports.txt inputs and supplied body-free field/discriminant clarifications. Those clarifications resolve registry/executor/eventStore names, activeTurn.pendingInputs, context snapshot method, optional trusted-name configuration paths, and stdio/env shape. Original eight input hashes preserved.
+7. Read and SHA256-read only the two newly authorized ports.txt inputs.
+8. Read own initial candidates, wrote complete correction 01, updated final set; copied both authorized ports inputs into packet-initial/; SHA256-read own final candidates.
+9. Read own final candidates and wrote complete correction 02; updated final set to return the tracked promise captured locally.
+10. Curator supplied body-free logger clarification: logger optional, debug/info/warn required when logger present. Calls retain logger?.method(...); missing required methods throw; absent logger skips argument computations. No further repository reads.
+11. Wrote this log, packet-access hash list, manifest, and seal; SHA256-read only saved packet copies and own deliverables; counted only own candidate lines.
+Boundary: this author ran in the existing shared executor. The input boundary was instruction-only, not an OS-isolated or credential-isolated execution boundary. The author used only the initial eight packet files, the two explicitly authorized ports.txt additions, curator body-free messages, and the author's own generated files. No other repository files, source/history/tests/compiled oracles, credentials, user data, predecessor comparison, or tools/ports execution were read or invoked. No compiler, lint, tests, candidate runtime, network, services, ports, or production writes. Ordinary shell/Python processing was limited to authorized packet reads and own artifact writes, copies, hashes, and line counts. No licence or clean-room assertion.

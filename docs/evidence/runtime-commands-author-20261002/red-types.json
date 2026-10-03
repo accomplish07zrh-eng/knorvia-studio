@@ -1,0 +1,13 @@
+{
+  "batch": "runtime-commands",
+  "typescript": "6.0.2",
+  "noEmit": true,
+  "diagnostics": [
+    {
+      "code": 2305,
+      "message": "Module '\"../lifecycle.js\"' has no exported member 'dedupeWorkflowNodeChanges'.",
+      "file": "apps/cli/packages/core/src/workflow/expert/retry-state.ts",
+      "line": 6
+    }
+  ]
+}

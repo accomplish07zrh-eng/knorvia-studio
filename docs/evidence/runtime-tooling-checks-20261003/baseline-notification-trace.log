@@ -1,0 +1,3 @@
+{"mode":"baseline","appendedConcreteNotificationTraceGroup":1,"sourceOfTrace":"input","realOperations":0}
+(node:201147) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

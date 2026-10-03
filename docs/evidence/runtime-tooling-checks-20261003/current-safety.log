@@ -1,0 +1,8 @@
+ok authority gates and retained allowlist; actual refresh consumer
+ok mailbox and hook native publication/error paths
+ok executor captured receiver and live callback identity
+ok shutdown/sealed admission stays default policy and port errors stop assembly
+ok receipt resume clears first, exact latest validation and store rejection
+{"mode":"current","actualCompilerEmittedGroups":5,"realRefreshConsumerIncludedInFirstGroup":true,"realOperations":0}
+(node:201354) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

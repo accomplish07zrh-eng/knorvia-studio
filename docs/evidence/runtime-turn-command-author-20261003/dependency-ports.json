@@ -1,0 +1,452 @@
+[
+  {
+    "name": "beginLocalTurnPreparation",
+    "module": "@knorvia/contracts",
+    "signatures": [
+      "(trace: { queryId?: string | undefined; sessionId?: string | undefined; turnId?: string | undefined; }, stage: PreparationStage): (outcome?: \"cancelled\" | \"failed\" | \"completed\" | undefined) => void"
+    ],
+    "type": "(trace: { queryId?: string | undefined; sessionId?: string | undefined; turnId?: string | undefined; }, stage: PreparationStage) => (outcome?: \"cancelled\" | \"failed\" | \"completed\" | undefined) => void"
+  },
+  {
+    "name": "LocalTtftDetail",
+    "module": "@knorvia/contracts",
+    "signatures": [],
+    "type": "{ id: string; stage: \"context\" | \"mcp\" | \"tools\" | \"attempt\" | \"compaction\" | \"hooks\" | \"persistence\" | \"request_assembly\" | \"retry_wait\" | \"user_confirmation\"; start: number; source: \"renderer\" | \"cli\"; end?: number | undefined; outcome?: \"cancelled\" | \"failed\" | \"completed\" | \"first_output\" | undefined; requestId?: string | undefined; logicalCallId?: string | undefined; role?: \"response\" | \"preparation\" | undefined; }"
+  },
+  {
+    "name": "runtimeInputMetadata",
+    "module": "../../agent/runtime-input-presentation.js",
+    "signatures": [
+      "(value: unknown): RuntimeMessageMetadata | undefined"
+    ],
+    "type": "(value: unknown) => RuntimeMessageMetadata | undefined"
+  },
+  {
+    "name": "CoreErrorType",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "CoreErrorType"
+  },
+  {
+    "name": "HookEventName",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "HookEventName"
+  },
+  {
+    "name": "SessionEventType",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "SessionEventType"
+  },
+  {
+    "name": "createChildTraceContext",
+    "module": "../deps.js",
+    "signatures": [
+      "(parent: TraceContext, options?: { queryId?: QueryId | undefined; sessionId?: SessionId | undefined; turnId?: TurnId | undefined; attributes?: Record<string, string | number | boolean> | undefined; }): TraceContext"
+    ],
+    "type": "(parent: TraceContext, options?: { queryId?: QueryId | undefined; sessionId?: SessionId | undefined; turnId?: TurnId | undefined; attributes?: Record<string, string | number | boolean> | undefined; }) => TraceContext"
+  },
+  {
+    "name": "createQueryId",
+    "module": "../deps.js",
+    "signatures": [
+      "(): QueryId"
+    ],
+    "type": "() => QueryId"
+  },
+  {
+    "name": "createModelUsageSummaryFromEvents",
+    "module": "../deps.js",
+    "signatures": [
+      "(events: readonly SessionEvent[]): ModelUsageSummary | undefined"
+    ],
+    "type": "(events: readonly SessionEvent[]) => ModelUsageSummary | undefined"
+  },
+  {
+    "name": "createMessageId",
+    "module": "../deps.js",
+    "signatures": [
+      "(id?: string | undefined): MessageId"
+    ],
+    "type": "(id?: string | undefined) => MessageId"
+  },
+  {
+    "name": "createTurnId",
+    "module": "../deps.js",
+    "signatures": [
+      "(id?: string | undefined): TurnId"
+    ],
+    "type": "(id?: string | undefined) => TurnId"
+  },
+  {
+    "name": "runWithContextAsync",
+    "module": "../deps.js",
+    "signatures": [
+      "<T>(context: TraceContext, fn: () => Promise<T>): Promise<T>"
+    ],
+    "type": "<T>(context: TraceContext, fn: () => Promise<T>) => Promise<T>"
+  },
+  {
+    "name": "traceContextToLogContext",
+    "module": "../deps.js",
+    "signatures": [
+      "(context: TraceContext): LogContext"
+    ],
+    "type": "(context: TraceContext) => LogContext"
+  },
+  {
+    "name": "TurnMachineImpl",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "typeof TurnMachineImpl"
+  },
+  {
+    "name": "formatLocalIsoDate",
+    "module": "../deps.js",
+    "signatures": [
+      "(date: Date): string"
+    ],
+    "type": "(date: Date) => string"
+  },
+  {
+    "name": "HookRunResult",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "HookRunResult"
+  },
+  {
+    "name": "MessageId",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "MessageId"
+  },
+  {
+    "name": "MessagePart",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "MessagePart"
+  },
+  {
+    "name": "QueryId",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "QueryId"
+  },
+  {
+    "name": "SessionEvent",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "SessionEvent"
+  },
+  {
+    "name": "SessionGoal",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "SessionGoal"
+  },
+  {
+    "name": "TurnState",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "TurnState"
+  },
+  {
+    "name": "parseCompactCommand",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: string): string | null | undefined"
+    ],
+    "type": "(input: string) => string | null | undefined"
+  },
+  {
+    "name": "parseRewindCommand",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: string): ParsedRewindCommand | null"
+    ],
+    "type": "(input: string) => ParsedRewindCommand | null"
+  },
+  {
+    "name": "createTurnAbortScope",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(parentSignal?: AbortSignal | undefined): TurnAbortScope"
+    ],
+    "type": "(parentSignal?: AbortSignal | undefined) => TurnAbortScope"
+  },
+  {
+    "name": "throwIfTurnAborted",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(signal?: AbortSignal | undefined): void"
+    ],
+    "type": "(signal?: AbortSignal | undefined) => void"
+  },
+  {
+    "name": "createTurnFailureError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(error: unknown, abortSignal: AbortSignal | undefined, fallbackMessage: string): CoreError"
+    ],
+    "type": "(error: unknown, abortSignal: AbortSignal | undefined, fallbackMessage: string) => CoreError"
+  },
+  {
+    "name": "isTurnCancellationError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(error: unknown, abortSignal?: AbortSignal | undefined): boolean"
+    ],
+    "type": "(error: unknown, abortSignal?: AbortSignal | undefined) => boolean"
+  },
+  {
+    "name": "appendTurnOutcomeEvent",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, params: { coreError: CoreError; events: SessionEvent[]; durationMs: number; turnPhase: string; inputId?: string | undefined; traceContext: TraceContext; fallbackMessage: string; logEvent: string; logLabel: string; preserveQueueAutoDrainOnCancel?: boolean | undefined; backgroundSubagentResultConsumed?: boolean | undefined; workflowResultConsumed?: boolean | undefined; historyRoundCount?: number | undefined; }): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, params: { coreError: CoreError; events: SessionEvent[]; durationMs: number; turnPhase: string; inputId?: string | undefined; traceContext: TraceContext; fallbackMessage: string; logEvent: string; logLabel: string; preserveQueueAutoDrainOnCancel?: boolean | undefined; backgroundSubagentResultConsumed?: boolean | undefined; workflowResultConsumed?: boolean | undefined; historyRoundCount?: number | undefined; }) => Promise<void>"
+  },
+  {
+    "name": "buildDateChangeReminderBody",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(_previousDate: string, currentDate: string): string"
+    ],
+    "type": "(_previousDate: string, currentDate: string) => string"
+  },
+  {
+    "name": "buildRuntimeUserEntriesFromTurn",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: string, attachments: ResolvedTurnAttachment[], options?: { browserAmbientContext?: { tabCount: number; currentUrl?: string | undefined; } | undefined; }): RuntimeMessageEntry[]"
+    ],
+    "type": "(input: string, attachments: ResolvedTurnAttachment[], options?: { browserAmbientContext?: { tabCount: number; currentUrl?: string | undefined; } | undefined; }) => RuntimeMessageEntry[]"
+  },
+  {
+    "name": "buildUserContentFromTurn",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: string, attachments: ResolvedTurnAttachment[]): ModelMessageContent"
+    ],
+    "type": "(input: string, attachments: ResolvedTurnAttachment[]) => ModelMessageContent"
+  },
+  {
+    "name": "logResolvedTurnAttachments",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(logger: Logger | undefined, traceContext: TraceContext, attachments: readonly ResolvedTurnAttachment[]): void"
+    ],
+    "type": "(logger: Logger | undefined, traceContext: TraceContext, attachments: readonly ResolvedTurnAttachment[]) => void"
+  },
+  {
+    "name": "resolveTurnAttachments",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(attachments: TurnAttachment[] | undefined, options: ResolveAttachmentOptions): Promise<ResolvedTurnAttachment[]>"
+    ],
+    "type": "(attachments: TurnAttachment[] | undefined, options: ResolveAttachmentOptions) => Promise<ResolvedTurnAttachment[]>"
+  },
+  {
+    "name": "summarizeTurnAttachmentsForEvent",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(attachments: TurnAttachment[] | undefined): TurnAttachmentMeta[] | undefined"
+    ],
+    "type": "(attachments: TurnAttachment[] | undefined) => TurnAttachmentMeta[] | undefined"
+  },
+  {
+    "name": "runtimeMetadataForSyntheticUserMessageSource",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(source: \"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\"): RuntimeMessageMetadata"
+    ],
+    "type": "(source: \"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\") => RuntimeMessageMetadata"
+  },
+  {
+    "name": "ActiveTurnSteeringState",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "ActiveTurnSteeringState"
+  },
+  {
+    "name": "ExecuteTurnOptions",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "ExecuteTurnOptions"
+  },
+  {
+    "name": "TurnResult",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "TurnResult"
+  },
+  {
+    "name": "ActiveTurnStartReservation",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "ActiveTurnStartReservation"
+  },
+  {
+    "name": "AgentRuntimeInternal",
+    "module": "../internal.js",
+    "signatures": [],
+    "type": "AgentRuntimeInternal"
+  },
+  {
+    "name": "createRuntimeCommandId",
+    "module": "../command-queue.js",
+    "signatures": [
+      "(): RuntimeCommandId"
+    ],
+    "type": "() => RuntimeCommandId"
+  },
+  {
+    "name": "PromptRuntimeCommand",
+    "module": "../command-queue.js",
+    "signatures": [],
+    "type": "PromptRuntimeCommand"
+  },
+  {
+    "name": "enqueueCancellableRuntimeCommand",
+    "module": "./runtime-command-submit.js",
+    "signatures": [
+      "<Result, Command extends ResolvableRuntimeCommand<Result>>(runtime: AgentRuntimeInternal, input: { abortSignal?: AbortSignal | undefined; createCommand: (handlers: { reject: (error: unknown) => void; resolve: (result: Result) => void; }) => Command; onCommandCancelled?: (() => void) | undefined; }): Promise<Result>"
+    ],
+    "type": "<Result, Command extends ResolvableRuntimeCommand<Result>>(runtime: AgentRuntimeInternal, input: { abortSignal?: AbortSignal | undefined; createCommand: (handlers: { reject: (error: unknown) => void; resolve: (result: Result) => void; }) => Command; onCommandCancelled?: (() => void) | undefined; }) => Promise<Result>"
+  },
+  {
+    "name": "buildReferencedSessionContextReminderBody",
+    "module": "../../session-context/read-session-context.js",
+    "signatures": [
+      "(input: string): string | null"
+    ],
+    "type": "(input: string) => string | null"
+  },
+  {
+    "name": "runRegularTurnLoop",
+    "module": "./turn-loop.js",
+    "signatures": [
+      "(this: AgentRuntimeInternal, state: RegularTurnLoopState): Promise<void>"
+    ],
+    "type": "(this: AgentRuntimeInternal, state: RegularTurnLoopState) => Promise<void>"
+  },
+  {
+    "name": "maybeStartDeferredSessionTitleGeneration",
+    "module": "./session-title.js",
+    "signatures": [
+      "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext): boolean"
+    ],
+    "type": "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext) => boolean"
+  },
+  {
+    "name": "maybeStartSessionTitleGeneration",
+    "module": "./session-title.js",
+    "signatures": [
+      "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext, options?: { deferIfProviderRuntimeHeadersRefresh?: boolean | undefined; goalSummaryTargetID?: string | undefined; } | undefined): boolean"
+    ],
+    "type": "(this: AgentRuntimeInternal, input: string, messageID: MessageId, traceContext: TraceContext, options?: { deferIfProviderRuntimeHeadersRefresh?: boolean | undefined; goalSummaryTargetID?: string | undefined; } | undefined) => boolean"
+  },
+  {
+    "name": "RegularTurnLoopState",
+    "module": "./turn-loop-state.js",
+    "signatures": [],
+    "type": "RegularTurnLoopState"
+  },
+  {
+    "name": "finishOutputTokenRecovery",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(state: TurnRequestState): void"
+    ],
+    "type": "(state: TurnRequestState) => void"
+  },
+  {
+    "name": "recordTurnUsageFact",
+    "module": "./usage-observability.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, input: RecordTurnUsageInput): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, input: RecordTurnUsageInput) => Promise<void>"
+  },
+  {
+    "name": "persistStableForkCompletionBoundary",
+    "module": "./stable-fork-boundary.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, input: { boundaryMessageId: MessageId; startMessageId: MessageId; historyRoundCount: number; traceContext: TraceContext; }): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, input: { boundaryMessageId: MessageId; startMessageId: MessageId; historyRoundCount: number; traceContext: TraceContext; }) => Promise<void>"
+  },
+  {
+    "name": "closeGoalStateChangeReminderDeferral",
+    "module": "./goal-state-reminder.js",
+    "signatures": [
+      "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState | undefined, traceContext: TraceContext): Promise<void>"
+    ],
+    "type": "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState | undefined, traceContext: TraceContext) => Promise<void>"
+  },
+  {
+    "name": "openGoalStateChangeReminderDeferral",
+    "module": "./goal-state-reminder.js",
+    "signatures": [
+      "(activeTurn: ActiveTurnSteeringState | undefined): void"
+    ],
+    "type": "(activeTurn: ActiveTurnSteeringState | undefined) => void"
+  },
+  {
+    "name": "scheduleProjectMemoryExtraction",
+    "module": "../helpers/project-memory-extraction.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, input: { model: Model; traceContext: TraceContext; }): void"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, input: { model: Model; traceContext: TraceContext; }) => void"
+  },
+  {
+    "name": "appendBrowserTurnScreenshot",
+    "module": "./browser-turn-screenshot.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, assistantMessageId: MessageId): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, assistantMessageId: MessageId) => Promise<void>"
+  },
+  {
+    "name": "clearBrowserTurnState",
+    "module": "../../repl/browser-turn-state.js",
+    "signatures": [
+      "(sessionId: SessionId, turnId: TurnId): void"
+    ],
+    "type": "(sessionId: SessionId, turnId: TurnId) => void"
+  },
+  {
+    "name": "endWindowsComputerTurn",
+    "module": "./windows-computer-turn-end.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, trace: TraceContext): Promise<void>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, trace: TraceContext) => Promise<void>"
+  },
+  {
+    "name": "applySubmissionExecutionState",
+    "module": "./turn-model.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, intent: TurnInputIntentMetadata | undefined, traceContext: TraceContext, modelExecution?: ModelExecutionContext | undefined, preparedModel?: Model | undefined): Promise<Model | undefined>"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, intent: TurnInputIntentMetadata | undefined, traceContext: TraceContext, modelExecution?: ModelExecutionContext | undefined, preparedModel?: Model | undefined) => Promise<Model | undefined>"
+  },
+  {
+    "name": "createTurnModel",
+    "module": "./turn-model.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, options?: { selection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; requestDependencies?: ModelRequestDependencies | undefined; }): Model"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, options?: { selection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; requestDependencies?: ModelRequestDependencies | undefined; }) => Model"
+  },
+  {
+    "name": "rebuildContextPrefix",
+    "module": "./context-refresh.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, options?: { model?: Model | undefined; turnRequestEntries?: readonly RuntimeMessageEntry[] | undefined; }): readonly RuntimeMessageEntry[]"
+    ],
+    "type": "(runtime: AgentRuntimeInternal, options?: { model?: Model | undefined; turnRequestEntries?: readonly RuntimeMessageEntry[] | undefined; }) => readonly RuntimeMessageEntry[]"
+  }
+]

@@ -1,0 +1,31 @@
+{"mode":"initial","observation":{"coercions":1,"caughtOriginal":true},"initialDraftHasSeparateTS2322Diagnostic":true}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
++   caughtOriginal: true,
++   coercions: 1,
++   value: undefined
+-   caughtOriginal: false,
+-   coercions: 2,
+-   value: 'Owned second coercion'
+  }
+
+    at file:///workspace/knorvia-studio/apps/cli/packages/core/test/bash-results-coercion-20261003.mjs:87:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: { value: undefined, coercions: 1, caughtOriginal: true },
+  expected: {
+    value: 'Owned second coercion',
+    coercions: 2,
+    caughtOriginal: false
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,7 @@
+{
+  "typescript": "6.0.2",
+  "originalTypeErasedDraftVsStrictReviewEmissionASTEqual": true,
+  "originalStrictDiagnostics": 2,
+  "typeAssertionOnlyReviewCorrection": true,
+  "productionInstalledInitialDraft": false
+}

@@ -1,0 +1,78 @@
+{
+  "base": "890d289ed319610f58792f26327ca5f0068520f7",
+  "productionHead": "ed76c44ffea86464f6c5bf825c460e9387d04666",
+  "productionCommits": {
+    "bash-shell-snapshot": "3b61a718f867788e442134bc043efe5a895e0e8d",
+    "persisted-remote-session-path-repair": "364ef57655a5fddab62d53c7748ba1d1086022fc",
+    "file-rewind": "ed76c44ffea86464f6c5bf825c460e9387d04666"
+  },
+  "freezeAndDraftFailureCommits": [
+    "f06acb9",
+    "cf1bb69",
+    "04f77a0"
+  ],
+  "receipts": {
+    "bash-shell-snapshot": "613b7fc51569836981e6d19092287650fee1e4c765f9659d8c6be64ca5b8139e",
+    "persisted-remote-session-path-repair": "5b746d477019a4fe6ddd3b14a7ab74b46f539414ce940cc40f16b8a8f4fe1e9e",
+    "file-rewind": "3e2fc3cd9ddef80f98b444c13a19800bfb0b61b864303c974c1be21bf78f06cd"
+  },
+  "currentSelectorSha256": "276e9a735db4b7845894fa699cdfebcb5ddd04e87f7589e5239b0d28f162774f",
+  "draftManifestSha256": "468acaf511a327af47d910b13d031b5a34071baaabacd91a0fc6632abf6b9139",
+  "fixtureDigests": {
+    "runtime-persistence-recovery-three-safety-20261003.mjs": "5dd9d7e27ec20caad07d9487011dcdfba6d14f8a309b00c874a375b46340bc21",
+    "runtime-file-rewind-boundary-proof-20261003.mjs": "eea749d82b0b6371e2acf17437fbb933e9f7951237b3071c03673d39db142f1e"
+  },
+  "checkFiles": {
+    "architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "artifact-proof.json": "3c7c3ae16246336d03ea034131abc4496f2386548d37fbf7b38dc893c540d3d3",
+    "boundary-final.log": "51dee5c161718abf6705396417c62180a0c6e3ccd95d965aa7d5ab7552a78b61",
+    "final-safety.log": "10b8072cb69f0687ee4570905888671d16f8f813ee3b47f329bfc8790ac8dca7",
+    "owned-format.log": "f6c9be4f0938ed66df6f1f447a9f78f4263e8e1c31e1f54bd08e63105abd1d3c",
+    "owned-lint.json": "6debee7d6c460f9679858035cb8ee9c4afc277e5dc46b3fc07fd884999baebf5",
+    "owned-lint.log": "d698d2b973b61ca4f6f6ee1ed5f5bf49c40e881edf047dddb4a560704a51f4e5",
+    "scoped-compile.cjs": "35ce4319643b104aea2f55d282745844f08f73540a25148718264dab4f3d94df",
+    "scoped-types.json": "950dd78e84ddb242b2c4516fc31c102fda1d30a4706f0faadbd6265b78948ce1",
+    "verify-artifacts.cjs": "70621f0abc9290bc355eb30cd853879625af5644c8d545d79cdf795062e4ea4b"
+  },
+  "checks": {
+    "scopedTypes": "TypeScript6.0.2 zero diagnostics;6exported public call signatures and fixed declaration AST facts equal.5modules/10JS-declaration files emitted,not product build.",
+    "syntheticSafety": "Final strict actual-emitted3compact persistence groups pass;separate2file-rewind red-proof closures pass. They overlap the rewind owner,not5independent consumer groups. Intermediate checks not aggregated. Exact predecessor3groups and2boundary passes;original sealed draft boundary0pass/2fail preserved.",
+    "artifacts": {
+      "currentArtifacts": 15,
+      "historicalArtifacts": 9,
+      "historicalOracles": 3,
+      "packetDraftJournalFiles": 30,
+      "wrongCompiledRejected": true,
+      "missingDeclarationRejected": true,
+      "scope": "exact selectors and synthetic read controls; no actual artifact mutation"
+    },
+    "lint": "5sources94rules0warnings/errors",
+    "format": "5sources+2fixtures pass",
+    "architecture": "0violations;coherent module dependency graph,all5<=400physical lines"
+  },
+  "sourceExposure": "3fresh internal body-free authors fork_turns=none,GPT6.1Sol/high;curator source-exposed. Actual authorized API/import/supporting/functional/literal/clarification input journals and sealed drafts retained before comparison. Ordinary environment metadata available;no absolute clean-room claim.",
+  "failureAndCorrection": "04f77a0 freezes exact emitted artifact-cohort and unsafe-tool-name draft regressions;source-exposed correction restores cohort frontier and admitted-only tools. Static restoration also preserves live shell options/ports,error context/CAS read phases,required-directory validation,raw patch paths and terminal field evaluation. Fixture setup failures kept separately,not correctness counts. Historical oracle bytes/assertions unchanged.",
+  "authorshipLimit": "Shell initial pre-clarification draft/journal/seal bytes overwritten by author before preservation message;reported initial hashes recorded but bytes unavailable. Final supplemented draft/journal/seal immutable in cf1bb69. First file-rewind clarification read bytes reconstructed from final text without later append and exact first-read journal SHA matched;standalone archive not claimed as another author read.",
+  "retainedExpression": "Guard/catch/record/await/reverse-simulation/CAS/compensation/publication combinations retain strong predecessor correspondence. Fixed strings/protocols/standard map-loop-spread/hash-patch/path idioms retained. Coherent file relocation and removed discretionary comments earn no automatic originality credit. All3candidates remain qualified for independent correctness/expression/rights review;no whole-file or global licence grant.",
+  "protectedScope": "Production diff versus890d289 exactly3main owners+2private file-rewind helpers. Accepted preparation/streaming/goal/expert/graph/persistence/queue/registry,permission/fullaccess,E reservations,Host,sharedlicensing/dependencies/CI and other lanes unchanged. No cross-lane integration.",
+  "remainingSelectedQueue": [],
+  "nonsecurityScopeExhausted": false,
+  "screenReference": {
+    "path": "docs/evidence/knorvia-runtime-next-owner-screen-20261003.json",
+    "sha256": "52a38707465d1d6b413f56939fddb972417ad65528cbfe33d6a1c76521e5bff2"
+  },
+  "nextRealGap": "Complete model.ts/turn-model-step.ts/turn-tools.ts/turn.ts lifecycle owners remain substantive candidates,subject to current E coordination and bounded allocation. Separate permission/trust/mixed owners enumerated in screen;small adapters/fixed data left unchanged. Independent review and aggregate/native acceptance still outstanding.",
+  "limits": [
+    "Ordinary suites/builds/source duplicates/native acceptance deferred under speed-first cadence.",
+    "3persistence groups+2focused regressions do not prove complete cancellation/thenable/empty/malformed-port/runtime consumer space.",
+    "Owner JS is actual scoped compiler output;unchanged dependencies through tsx source;owned memory store/filesystem and fake fs.accessSync seam only. No actual user files,provider requests,credentials,processes,notifications or settings actions.",
+    "Freshness failed existing configured proxy8080;local shell/read available. No proxy/network/access/environment workaround.",
+    "No global header/licensing-registry grant,merge,release,deploy or publication claim."
+  ],
+  "reproduce": [
+    "node docs/evidence/runtime-persistence-recovery-three-checks-20261003/scoped-compile.cjs --emit",
+    "node docs/evidence/runtime-persistence-recovery-three-checks-20261003/verify-artifacts.cjs",
+    "node --import tsx apps/cli/packages/core/test/runtime-persistence-recovery-three-safety-20261003.mjs current",
+    "node --import tsx apps/cli/packages/core/test/runtime-file-rewind-boundary-proof-20261003.mjs current"
+  ]
+}

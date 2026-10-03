@@ -1,8 +1,4 @@
-import {
-  WorkflowGraphSeedSchema,
-  type WorkflowGraphEdge,
-  type WorkflowGraphSeed,
-} from "@knorvia/contracts";
+import { WorkflowGraphSeedSchema, type WorkflowGraphSeed } from "@knorvia/contracts";
 import { edgeId } from "../ids.js";
 import {
   isRecord,
@@ -20,45 +16,44 @@ export function parseWorkflowGraphSeed(
   response: string,
   defaultPhase: string,
 ): WorkflowGraphSeed | null {
-  let raw: unknown;
+  let candidate: unknown;
   try {
-    raw = parsePlannerJson(response);
+    candidate = parsePlannerJson(response);
   } catch {
     return null;
   }
-  return normalizeWorkflowGraphSeedCandidate(raw, defaultPhase);
+  return normalizeWorkflowGraphSeedCandidate(candidate, defaultPhase);
 }
 
 export function gateRootSeedNodes(seed: WorkflowGraphSeed, gateNodeId: string): WorkflowGraphSeed {
-  const incomingNodeIds = new Set(seed.edges.map((edge) => edge.to));
-  const rootNodeIds = new Set(
-    seed.nodes
-      .filter((node) => (node.dependsOn ?? []).length === 0 && !incomingNodeIds.has(node.id))
-      .map((node) => node.id),
+  const incomingIds = new Set(seed.edges.map((edge) => edge.to));
+  const roots = seed.nodes.filter(
+    (node) => (node.dependsOn ?? []).length === 0 && !incomingIds.has(node.id),
   );
-  if (rootNodeIds.size === 0) return seed;
-
-  const edgeIds = new Set(seed.edges.map(edgeId));
-  const edges = [...seed.edges];
-  for (const nodeId of rootNodeIds) {
-    const edge = { from: gateNodeId, to: nodeId };
-    if (edgeIds.has(edgeId(edge))) continue;
-    edgeIds.add(edgeId(edge));
-    edges.push(edge);
+  if (roots.length === 0) {
+    return seed;
   }
 
-  return {
-    ...seed,
-    edges,
-    nodes: seed.nodes.map((node) =>
-      rootNodeIds.has(node.id)
-        ? {
-            ...node,
-            dependsOn: [...new Set([...(node.dependsOn ?? []), gateNodeId])],
-          }
-        : node,
-    ),
-  };
+  const edges = [...seed.edges];
+  const edgeKeys = new Set(edges.map((edge) => edgeId(edge)));
+  for (const root of roots) {
+    const key = edgeId({ from: gateNodeId, to: root.id });
+    if (!edgeKeys.has(key)) {
+      edges.push({ from: gateNodeId, to: root.id });
+      edgeKeys.add(key);
+    }
+  }
+
+  const rootNodes = new Set(roots.map((node) => node.id));
+  const newNodesMap = seed.nodes.map((node) =>
+    rootNodes.has(node.id)
+      ? {
+          ...node,
+          dependsOn: [...new Set([...(node.dependsOn ?? []), gateNodeId])],
+        }
+      : node,
+  );
+  return { ...seed, edges, nodes: newNodesMap };
 }
 
 export function normalizeWorkflowGraphSeedCandidate(
@@ -66,50 +61,49 @@ export function normalizeWorkflowGraphSeedCandidate(
   defaultPhase: string,
 ): WorkflowGraphSeed | null {
   if (Array.isArray(value)) {
-    if (value.every(isCollectionLikeSeedRecord)) {
+    if (value.every(isCollectionLike)) {
       return normalizeWorkflowGraphSeedCandidate({ collections: value }, defaultPhase);
     }
-    if (value.every(isNodeLikeSeedRecord)) {
+    if (value.every(isNodeLike)) {
       return normalizeWorkflowGraphSeedCandidate({ nodes: value }, defaultPhase);
     }
-    if (value.every(isEdgeLikeSeedRecord)) {
+    if (value.every(isEdgeLike)) {
       return normalizeWorkflowGraphSeedCandidate({ edges: value }, defaultPhase);
     }
   }
+  if (!isRecord(value)) {
+    return null;
+  }
 
-  if (!isRecord(value)) return null;
   const nodeCandidates = readLooseArray(value, ["nodes", "newNodes", "new_nodes"]);
   const edgeCandidates = readLooseArray(value, ["edges", "newEdges", "new_edges"]);
   const collectionCandidates =
-    readLooseArray(value, ["collections"]) ??
-    (isCollectionLikeSeedRecord(value) ? [value] : undefined);
+    readLooseArray(value, ["collections"]) ?? (isCollectionLike(value) ? [value] : undefined);
   const nodes = (nodeCandidates ?? [])
-    .map((node) => normalizeWorkflowGraphSeedNode(node, defaultPhase))
-    .filter((node): node is WorkflowGraphSeed["nodes"][number] => node !== null);
-  const edges = (edgeCandidates ?? [])
-    .map(normalizeWorkflowGraphSeedEdge)
-    .filter((edge): edge is WorkflowGraphEdge => edge !== null);
+    .map((node) => normalizeNode(node, defaultPhase))
+    .filter((node) => node !== null);
+  const edges = (edgeCandidates ?? []).map(normalizeEdge).filter((edge) => edge !== null);
   const collections = (collectionCandidates ?? [])
-    .map((collection) => normalizeWorkflowGraphSeedCollection(collection, defaultPhase))
-    .filter(
-      (collection): collection is WorkflowGraphSeed["collections"][number] => collection !== null,
-    );
-  const parsed = WorkflowGraphSeedSchema.safeParse({
+    .map((collection) => normalizeCollection(collection, defaultPhase))
+    .filter((collection) => collection !== null);
+
+  const result = WorkflowGraphSeedSchema.safeParse({
     collections,
     edges,
     nodes,
     reasoning: stringValue(value.reasoning),
   });
-  return parsed.success ? parsed.data : null;
+  return result.success ? result.data : null;
 }
 
-function normalizeWorkflowGraphSeedNode(
-  value: unknown,
-  defaultPhase: string,
-): WorkflowGraphSeed["nodes"][number] | null {
-  if (!isRecord(value)) return null;
+function normalizeNode(value: unknown, defaultPhase: string) {
+  if (!isRecord(value)) {
+    return null;
+  }
   const id = readLooseString(value, ["id", "name", "nodeName", "node_name"]);
-  if (!id) return null;
+  if (id === undefined) {
+    return null;
+  }
   const title = readLooseString(value, ["title", "summary"]) ?? id;
   const dependsOn =
     readLooseStringArray(value, ["dependsOn", "depends_on", "references", "inputs"]) ?? [];
@@ -125,19 +119,19 @@ function normalizeWorkflowGraphSeedNode(
   };
 }
 
-function normalizeWorkflowGraphSeedEdge(value: unknown): WorkflowGraphEdge | null {
-  if (!isRecord(value)) return null;
+function normalizeEdge(value: unknown) {
+  if (!isRecord(value)) {
+    return null;
+  }
   const from = readLooseString(value, ["from", "source"]);
   const to = readLooseString(value, ["to", "target"]);
-  if (!from || !to) return null;
-  return { from, to };
+  return from !== undefined && to !== undefined ? { from, to } : null;
 }
 
-function normalizeWorkflowGraphSeedCollection(
-  value: unknown,
-  defaultPhase: string,
-): WorkflowGraphSeed["collections"][number] | null {
-  if (!isRecord(value)) return null;
+function normalizeCollection(value: unknown, defaultPhase: string) {
+  if (!isRecord(value)) {
+    return null;
+  }
   const collectionId = readLooseString(value, [
     "collectionId",
     "collection_id",
@@ -145,7 +139,9 @@ function normalizeWorkflowGraphSeedCollection(
     "id",
     "collectionsname",
   ]);
-  if (!collectionId) return null;
+  if (collectionId === undefined) {
+    return null;
+  }
   return {
     collectionId,
     explorable: readLooseBoolean(value, ["explorable"]),
@@ -158,32 +154,32 @@ function normalizeWorkflowGraphSeedCollection(
   };
 }
 
-function isNodeLikeSeedRecord(value: unknown): boolean {
+function isCollectionLike(value: unknown): boolean {
+  return (
+    isRecord(value) &&
+    (typeof readLooseValue(value, ["collectionId", "collection_id", "name", "id"]) === "string" ||
+      readLooseArray(value, ["nodeIds", "node_ids", "nodeNames", "node_names"]) !== undefined ||
+      typeof readLooseValue(value, ["goal"]) === "string" ||
+      typeof readLooseValue(value, ["metric"]) === "string" ||
+      typeof readLooseValue(value, ["explorable"]) === "boolean")
+  );
+}
+
+function isNodeLike(value: unknown): boolean {
   return (
     isRecord(value) &&
     (value.kind === "task" ||
       value.kind === "phase" ||
       typeof readLooseValue(value, ["id", "name", "nodeName", "node_name"]) === "string" ||
       typeof readLooseValue(value, ["description", "goal"]) === "string" ||
-      Array.isArray(readLooseValue(value, ["dependsOn", "depends_on", "references", "inputs"])))
+      readLooseArray(value, ["dependsOn", "depends_on", "references", "inputs"]) !== undefined)
   );
 }
 
-function isEdgeLikeSeedRecord(value: unknown): boolean {
+function isEdgeLike(value: unknown): boolean {
   return (
     isRecord(value) &&
     (typeof readLooseValue(value, ["from", "source"]) === "string" ||
       typeof readLooseValue(value, ["to", "target"]) === "string")
-  );
-}
-
-function isCollectionLikeSeedRecord(value: unknown): boolean {
-  return (
-    isRecord(value) &&
-    (typeof readLooseValue(value, ["collectionId", "collection_id", "name", "id"]) === "string" ||
-      Array.isArray(readLooseValue(value, ["nodeIds", "node_ids", "nodeNames", "node_names"])) ||
-      typeof readLooseValue(value, ["goal"]) === "string" ||
-      typeof readLooseValue(value, ["metric"]) === "string" ||
-      typeof readLooseValue(value, ["explorable"]) === "boolean")
   );
 }

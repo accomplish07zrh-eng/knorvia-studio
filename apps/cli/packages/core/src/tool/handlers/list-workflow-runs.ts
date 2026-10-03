@@ -13,17 +13,17 @@ import {
   ListWorkflowRunsInputSchema,
   ListWorkflowRunsOutputJsonSchema,
   ListWorkflowRunsOutputSchema,
-  type ListWorkflowRunsInput,
-  type ListWorkflowRunsOutput,
   type ModelMessageContent,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolHandler } from "../types.js";
+import type { ToolEntry } from "../types.js";
 import {
   WORKFLOW_RUN_INTROSPECTION_STEERING,
   formatWorkflowRunTimestamp,
   workflowIntrospectionUnavailableFailure,
   workflowRunAttribute,
 } from "./workflow-run-introspection.js";
+
+import { createListWorkflowRunsOperation } from "./list-workflow-runs-operation.js";
 
 const LIST_WORKFLOW_RUNS_TIMEOUT_MS = 10_000;
 /** 照 CreateWorkflow：列表刻意轻（单行 SQL 可答），24k 足够 50 行还留着余量。 */
@@ -42,44 +42,9 @@ const LIST_WORKFLOW_RUNS_DESCRIPTION = [
   "- ANY run here — completed, stopped, errored, or still running — can instead be revised with AmendWorkflow: pass its run ID and the corrected script; the new run imports the old one's finished work as a warm cache (and stops it first if it is still running). A run whose script errored is the case to reach for it — fix the script instead of rewriting the workflow from scratch. `resumed_from` on a row names the run it was amended from.",
 ].join("\n");
 
-const listWorkflowRunsHandler: ToolHandler = async (input, context) => {
-  const parsed = ListWorkflowRunsInputSchema.parse(input) as ListWorkflowRunsInput;
-
-  const port = context.dynamicWorkflowRunPort;
-  // 「端口缺席」与「端口在场但方法缺席」给同一个业务失败：对模型这是同一件事。可选成员按
-  // typeof 探测（端口契约里 `cancel` 立下的先例）。
-  if (port === undefined || typeof port.listRuns !== "function") {
-    return workflowIntrospectionUnavailableFailure();
-  }
-
-  const result = await port.listRuns({
-    // cwd 恒取本会话的工作目录：模型无权跨项目扫库，这同时是 `sideEffectScope: "none"` 的前提。
-    // 字面等值匹配、不做路径规范化——写入侧（submit）原样落，读侧原样查，规范化只会造出单侧不匹配。
-    cwd: context.workingDirectory,
-    // 界已由输入 schema 钳到 [1, 50]（preprocess），端口因此从不看到一次无界枚举。
-    limit: parsed.limit,
-    ...(parsed.statuses === undefined ? {} : { statuses: parsed.statuses }),
-  });
-
-  return {
-    runs: result.runs.map((item) => ({
-      runId: item.runId,
-      label: item.label,
-      labelSource: item.labelSource,
-      status: item.status,
-      ...(item.stopReason === undefined ? {} : { stopReason: item.stopReason }),
-      ...(item.resumedFrom === undefined ? {} : { resumedFrom: item.resumedFrom }),
-      ...(item.supersededBy === undefined ? {} : { supersededBy: item.supersededBy }),
-      ownedByThisSession: item.ownedByThisSession,
-      // 为真时才在场：`false` 会给每一行挂一个噪音字段。
-      ...(item.possiblyInterrupted ? { possiblyInterrupted: true } : {}),
-      createdAt: item.createdAt,
-      updatedAt: item.updatedAt,
-      spentTokens: item.spentTokens,
-    })),
-    ...(result.truncated ? { truncated: true } : {}),
-  } satisfies ListWorkflowRunsOutput;
-};
+const listWorkflowRunsHandler = createListWorkflowRunsOperation(
+  workflowIntrospectionUnavailableFailure,
+);
 
 /**
  * 模型面：一个 XML-ish 容器 + **一 run 一行**。

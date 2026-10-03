@@ -1,0 +1,11 @@
+ok steering admission and captured active identity
+ok reservation authority recheck, concurrency and rollback
+ok durable queue writes precede mutations and retain object ownership
+ok guide drain and fallback partial effects preserve gates
+ok subagent captured parent ports and child publication lifetime
+ok child startup failure and execution cancellation boundaries
+ok MCP and computer-use admission remains deny before child construction
+ok filtered skill identity and official/ambiguous default denial
+{"mode":"baseline","actualCompilerEmittedSafetyGroups":8,"publicThisAndChildFactoryConsumersIncluded":true,"realOperations":0}
+(node:206504) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

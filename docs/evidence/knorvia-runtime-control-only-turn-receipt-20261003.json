@@ -1,0 +1,33 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "freezeCommit": "9f4c740",
+  "draftAndRedProofCommit": "aa8c75e",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/control-only-turn.ts",
+  "sourceExposure": "Curator read predecessor; source-derived functional/API packet. Fresh internal author fork_turns=none,Sol/high; actual input/tool journal and sealed draft archived before curator comparison. No absolute clean-room claim.",
+  "draftSha256": "e0fdf51e5c764e2361d47d555f7d622baf640ef1fe5b2980a2bdcd9d03af92fc",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/control-only-turn.ts",
+      "sha256": "9ba50ef86a9fda3f0c234fbb242f4d6dc0bfa603cdde5ec4a3d9b0ec26937383"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/control-only-turn.js",
+      "sha256": "3eeca785d2798ce841994a0ad49213815fcc16f0ddfb7ec6c43a8e367470dc64"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/control-only-turn.d.ts",
+      "sha256": "a8d59c2fab26d3f1075df6922263c3372e8bad851233ea458b9e2761a9636705"
+    }
+  },
+  "physicalLines": 220,
+  "design": "Complete visible-user control-only publication and both caller adapters plus workflow-message persistence; no model/queue/state owner added.",
+  "retained": "History-message-Started-Complete-callback progression and ordered workflow record/part projection remain closely corresponding. Exact public type shapes, payload/semantics strings and fixed helper calls retained. Public commentary replaced with authored short facts; function reorder/aliases do not establish substantive expression independence.",
+  "corrections": "Source-exposed restoration of absent workflowLaunch/intent fields after sealed-draft red proof. Public option type aliases restored to exact inline API shapes; omitted optional alias conversion caught by compiler, preserved and corrected.",
+  "api": {
+    "exactSignatures": true,
+    "fixedDeclarationFacts": true
+  },
+  "sharedChecks": "docs/evidence/runtime-goal-stop-five-checks-20261003:0scoped TS6.0.2 diagnostics;23public signatures unchanged;5sources94lint rules0;7filesformatted;architecture0;one actual-emitted5synthetic persistence/lifecycle groups plus separate1control metadata red-proof closure(overlap).15current and15historical source/JS/dts,44packet/draft/journal files digest verified. Wrong/missing verifier inputs reject.",
+  "limits": "Ordinary suites/builds/native/source duplicate/full runtime consumers not run per user speed-first. Historical/current selected JS actual compiler; unchanged transitive deps through tsx source resolution. Live receivers/provider/credentials/userdata untouched. Independent expression/licence review remains root-owned; no header/inventory/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-control-only-turn-author-20261003/lineage.json"
+}

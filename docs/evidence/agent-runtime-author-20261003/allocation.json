@@ -1,0 +1,36 @@
+{
+  "base": "2ba2299e67e2452409891f12a405386eeeea2d68",
+  "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+  "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+  "history": [
+    "88001f0 style: format the repository with oxfmt and enforce fmt:check in CI",
+    "7619e41 chore: publish Knorvia Studio latest preview snapshot"
+  ],
+  "acceptedOwnerFound": false,
+  "oldReceipts": "protected inputs/unaccepted composition screen only; supplied prior fields/API/methods preserved",
+  "inventory": {
+    "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+    "kind": "file",
+    "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+    "normalizedSha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+    "encoding": "utf8-lf",
+    "bytes": 28340,
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime/agent-runtime.ts",
+      "blob": "520b0258d3d37ade291f0c5c54d477853791488e",
+      "normalizedSha256": "a2192a84dfae5dfaa46275e253d2815da8178e27d0f5e9ccd5e3f57e61d18877",
+      "contentMatchedPaths": []
+    },
+    "license": "NOASSERTION",
+    "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+    "thirdParty": [],
+    "review": null
+  },
+  "sourceExposedCurator": true,
+  "scope": "complete constructor + beginShutdown + closeBrowserSession, retaining state fields/defaults and public declarations",
+  "maxLinesBefore": 573,
+  "maxLinesLimit": 400,
+  "interfaceRelocation": "coherent pure declaration module, exact member/prose retention, zero originality credit"
+}

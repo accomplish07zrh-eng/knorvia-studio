@@ -1,0 +1,70 @@
+{
+  "formatVersion": 1,
+  "candidateCommit": "b6454a74ab8a9bef49310bf16242a6dd5d2a084d",
+  "baselineCommit": "6a83a7ae817ae4ac253b20ba30bbef2ee8152563",
+  "scope": "Complete expert/run-loop.ts only; runtime start/background/resume/retry own admission, abort registration and retry preparation. No retry-state rewrite needed. Existing phase/critic/scheduled/graph/lifecycle helpers remain dependencies.",
+  "authorship": {
+    "draftCommit": "dad4a2f",
+    "draftBytes": 6054,
+    "draftSha256": "5b6e4ca0cb6d029cfd3071d7511863f60efb01c865ba530e952226e6e72d1899",
+    "inputs": "Exactly two source-derived functional/API files; fresh fork_turns none Astra/high author reported only those reads. Curator verified draft hash and committed it before reading/comparison. Shared filesystem was instruction-restricted, not technically isolated. Curator already source-exposed.",
+    "postReviewChanges": "Preserved original import/type routing. Corrected destructured report path to live written.relativePath reads after preserved red proof; restored nested addArtifact/updateSnapshot evaluation order and signal capture before entering async completion. These corrections are curator/source-exposed, not unchanged restricted authorship. Chinese comment explains the live-read correction. No old developer prose supplied to author."
+  },
+  "design": "One accepted snapshot reference per invocation. Each phase awaits dependency before accepting its result. Completion retains a separate native async suboperation; it is accepted only after report/snapshot/graph/event publication. Failures reload storage before cancellation or paused repair. Draft consolidates cancelled-result return and directly projects paused failure; no new queue, retry, state cache or effect owner.",
+  "checks": {
+    "compile": "Selected owner program TypeScript 6.0.2: raw draft and final corrected owner each zero diagnostics; only owner JS/dts/map emitted. Final declaration is exact historical bytes. No aggregate build.",
+    "minimalFinal": "One actual-emitted group passed: five paired owner scenarios (completed-phase admission, stored completion then publication failure, nullish reload fallback, abort arriving during reload, mutable report result) plus one real emitted runtime.start success consumer. Two wrong/missing-current-JS selector negatives. Synthetic ports only; real context/phase/lifecycle/artifact dependencies.",
+    "failureHistory": "One raw-draft emitted report-path counterexample failed, then retained. First final pass reached a fixture assertion expecting pending tail during cancellation; targeted exact historical probe failed identically. Corrected expectation to cancelled only for abort, without changing production. Final group then passed. These attempts are not additional independent coverage groups.",
+    "environment": "Node 24.19.0. tsx enables transitive workspace source dependency resolution; selected owners/runtime/context use exact compiler-emitted JS. Not a claim that every transitive dependency was emitted. Freshness fetch blocked by existing proxy connection; no settings changed.",
+    "lint": "Owned temporary config retains root 94 rules, removes only apps/cli ignore: 3 files, zero errors/warnings.",
+    "format": "Three changed source/fixture files passed.",
+    "architecture": "Changed check OK, zero violations; CLI unmanaged.",
+    "selectors": "11 new current pins match; 9 phase pins and 48 artifact pins match (overlap, not 68 distinct files). Historical source/JS/declaration archives and old receipts unchanged. Artifact fixture now explicitly loads its old caller from immutable archive and current caller from strict current artifact; no current-to-old routing. Prior suite behavior assertions unchanged.",
+    "skipped": [
+      "ordinary source test matrix",
+      "prior artifact and phase behavior suites after caller migration",
+      "full suite",
+      "whole CLI/desktop builds",
+      "root-wide type/lint checks",
+      "runtime resume/retry/background invocations",
+      "native Windows/macOS and pinned Node acceptance",
+      "broad timing/accessor/concurrency matrices"
+    ]
+  },
+  "expression": {
+    "status": "Source-exposed mixed candidate pending independent expression review; no whole-file reconstruction/licence grant.",
+    "required": "Public schema fields/order, protocol/status strings, output prose, dependency APIs, exact awaits, report-write order and cancellation signal omission are compatibility constraints. Standard loops/switches/optional fields/imports are conventional idioms.",
+    "discretionary": "Switch dispatch, ordered object literals, native completion helper and recovery combination remain substantially similar to predecessor despite independent packet drafting. Function position, local-name changes and eliminated private pause wrapper earn no originality credit. Consolidated cancellation output/direct pause projection do not themselves establish whole-body independence. Final live-path/nested-call corrections reuse predecessor-compatible expression explicitly.",
+    "origin": "Inventory says upstream-modified/unreviewed: publisher apps/zcode-cli/packages/core/src/workflow/expert/run-loop.ts, blob 8e54ba78b62ac2a2c3dda29ab0f15efadaa00726, normalized SHA256 05f679af7aa27feee460952722d80a57b0b59c18c5c1d49ebe06bbcf9d12ebca. Metadata only; no new exact publisher acquisition claimed. Existing notices/obligations preserved."
+  },
+  "protectedFiles": {
+    "apps/cli/packages/core/src/workflow/expert/retry-state.ts": "2d9335dbeb4bacc032eddf51188f84785f7a8e23f434fe570cbd61bde04f76c0",
+    "apps/cli/packages/core/src/workflow/expert/runtime.ts": "bece27fb3ccfad3de3fc8fc7789cc3b1f188ad0db4755ad5b73420dc991e8f92",
+    "apps/cli/packages/core/src/workflow/expert/runtime-context.ts": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7",
+    "apps/cli/packages/core/src/workflow/expert/phase-runner.ts": "4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0",
+    "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f"
+  },
+  "files": {
+    "specs/knorvia-run-loop-20261002.md": "69b7b9381c32581a4fe8a5b8b9cf40af01dac443d815795b8514b64d2227b6f0",
+    "docs/evidence/run-loop-author-20261002/contract.md": "b78a4c9a9f913e879e07fb08540627ccb7ae05170cff3bfc39c32cad362177c8",
+    "docs/evidence/run-loop-author-20261002/api.d.ts": "0ca2600a98c43791a83d00f3735b88288dba0e4f58154a731dd89978bb092a82",
+    "docs/evidence/run-loop-author-20261002/draft-exact.json": "ccbf0f80c63dd4e133d25ed5ec895b3de0151d9e5949981c5609321afc54a7d0",
+    "docs/evidence/run-loop-author-20261002/draft-red.json": "bb7e027a8ba0b869a3314710d86e991475c9fd6feee0c22d935c6452f33d61a3",
+    "docs/evidence/run-loop-author-20261002/fixture-correction.json": "cacd3f8f38d7d89b0bf4684b0f0027a91e28a232fd2fa402ce54f5a79aa1e7ad",
+    "apps/cli/packages/core/src/workflow/expert/run-loop.ts": "39182c7c05b39c72fda6df19ae4670cdf77773327f374100c1871ad511c06633",
+    "apps/cli/packages/core/dist/workflow/expert/run-loop.js": "4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977",
+    "apps/cli/packages/core/dist/workflow/expert/run-loop.d.ts": "5f269481a34bf7fb4f59d6513de60e94045f1812e3dec655378cac93eb9008fb",
+    "apps/cli/packages/core/test/workflow-run-loop-baseline.json": "c4622738963a61064b42a5f62bde27c86862ac3f0d71e78a457a1d57a08d5af0",
+    "apps/cli/packages/core/test/workflow-run-loop-current.json": "e969ae00e5eb2d4781c44866c134ea691e7721cab48a8b6dc7b9309957eb9bc2",
+    "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs": "299983eeeb7aa95ca0886e2b0e1f14c205ff3acabf0f610b80fb7f78fed5a9b9",
+    "apps/cli/packages/core/test/workflow-graph-artifacts-current.json": "22816e4d40feedc60de5fcb4961699f24e2a5f5c1e3ca916de61b9c3607d44ba",
+    "apps/cli/packages/core/test/workflow-graph-artifacts-fixture.ts": "50774a4465161a2c3a7a30350c7a33ae8d8a2c914eed541c61b115ea7c3448e6",
+    "apps/cli/packages/core/test/workflow-phase-runner-current.json": "0cea1d8fd55a5cb242bbdad86a1ac44c583c49d53df0c6c86ec29b6af75b00df",
+    "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs": "e6026eb8ec3bb9a89907d3be99be64e8deb409a137df15a7516fe5a9d660d6e1"
+  },
+  "logs": {
+    "compile-draft.log": "{\"typescript\":\"6.0.2\",\"diagnostics\":0,\"emitted\":[\"dist/workflow/expert/run-loop.js\",\"dist/workflow/expert/run-loop.d.ts.map\",\"dist/workflow/expert/run-loop.d.ts\"],\"draftBody\":\"parsed equality\"}\n",
+    "compile-final.log": "{\"typescript\":\"6.0.2\",\"diagnostics\":0,\"emitted\":[\"dist/workflow/expert/run-loop.js\",\"dist/workflow/expert/run-loop.d.ts.map\",\"dist/workflow/expert/run-loop.d.ts\"],\"declaration\":\"exact historical bytes\",\"candidate\":\"post-review source-exposed correction\"}\n",
+    "final-safety.log": "\u2714 emitted continuation terminal-write recovery and runtime.start consumer (31.658436ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 35.626524\n"
+  }
+}

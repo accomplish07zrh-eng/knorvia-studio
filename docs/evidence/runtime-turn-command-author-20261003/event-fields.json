@@ -1,0 +1,82 @@
+[
+  {
+    "event": "SessionEventType.TurnStarted",
+    "orderedFields": [
+      "executionStartedAt",
+      "turnNumber",
+      "input",
+      "messageId",
+      "inputId",
+      {
+        "conditional": [
+          "automationId",
+          "offPeakTaskId",
+          "offPeakRunType"
+        ]
+      },
+      "foregroundExecutionId",
+      "queryId",
+      "inputSource",
+      "inputVisibility",
+      "originMeta",
+      {
+        "conditional": [
+          "epilogueStart"
+        ]
+      },
+      {
+        "conditional": [
+          "backgroundSource"
+        ]
+      },
+      "targetId",
+      {
+        "conditional": [
+          "intent"
+        ]
+      },
+      {
+        "conditional": [
+          "attachments"
+        ]
+      }
+    ]
+  },
+  {
+    "event": "SessionEventType.TurnComplete",
+    "orderedFields": [
+      "response",
+      "tokenCount",
+      "usage",
+      "toolCallCount",
+      "duration",
+      "resultType",
+      "cacheStats",
+      "inputId"
+    ]
+  },
+  {
+    "event": "SessionEventType.TurnComplete",
+    "orderedFields": [
+      "response",
+      "tokenCount",
+      "usage",
+      "toolCallCount",
+      "historyRoundCount",
+      "duration",
+      "resultType",
+      {
+        "conditional": [
+          "backgroundSubagentResultConsumed"
+        ]
+      },
+      {
+        "conditional": [
+          "workflowResultConsumed"
+        ]
+      },
+      "cacheStats",
+      "inputId"
+    ]
+  }
+]

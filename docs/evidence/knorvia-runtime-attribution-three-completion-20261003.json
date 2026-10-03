@@ -1,0 +1,63 @@
+{
+  "base": "e188428fa9f62df70650230190e3127e4ff118d9",
+  "productionHead": "feba4d294ccc8b13169968b172ba82975655d3d9",
+  "productionCommits": {
+    "background": "d0332e841de419d25e31743f2f0e16dc65eb0bdb",
+    "model-status": "0cacc5884668b2f42d934d718873a12e15c08643",
+    "usage-observability": "feba4d294ccc8b13169968b172ba82975655d3d9"
+  },
+  "freezeAndDraftCommits": [
+    "afed3f4",
+    "1f5d140",
+    "838ea02",
+    "9036751"
+  ],
+  "receipts": {
+    "background": "c8ce40c684f469d183ecbd0857f14eee84b1623d076afbd677914a4d44d13328",
+    "model-status": "eac84ec1dedf72f37b63a94da84a5dc669b17034610b32bbc51d60beeea10cf9",
+    "usage-observability": "b575056b36fcd1d503e70653588579841325d4ecb45ea840e9e32b26e1e29d39"
+  },
+  "currentSelectorSha256": "9c52d65292f6553eb1114882302d55bbf4255e7a4a4b3a5c9c5253582de5902a",
+  "finalFixtureSha256": "7c09c79663797a20e8b458ba40412fe3d5d71fdbd40bc0847effba6583b67edc",
+  "checkFiles": {
+    "architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "artifact-proof.json": "38d396e781fab30bb4e0cebbc1a4b66bb09e018a3efaa8feefaf1205ed9d9d56",
+    "final-affected-model-status.log": "b7758e7724c71f9aa29159b395fb5a235edf7d58aabae935baacb32eb9b8a3c1",
+    "final-unit-safety-before-lint.log": "bed1acdef5b4c0eb5478f5b448f208ab9d18b158b4a063e96f80d3f1cb2d7169",
+    "original-lint-warning.log": "b577693d17e3e4625a9cf84196383825c8ab9a0b5679a1138ee7f9c890025ad1",
+    "owned-format.log": "388ac04ceccade484965d983e71bae73957f250c93485005c0556434488faaa2",
+    "owned-lint.log": "5a454e7d794ef4df5e60f06eee3fccae01a6f0d77de3e80ef8fd4a63cd72d1fc",
+    "pre-lint-current-pins.json": "6a69fd48b860e4011a182c5b34540faecb27c09e86e7c7ed5e32efc523ade633",
+    "scoped-compile.cjs": "ab63468c8f952a1fe02275c196ac65ef3deec4b89db19d6bcce8bdc202ba9dad",
+    "scoped-types.json": "f6eb901e4331e1ad963a473109870203348879dc1821df4a93f53fff1fef5611",
+    "verify-artifacts.cjs": "8cb76fc1bfab85df15378de8a5501cc0fe94fb9517466984bb4893b7418e5f3a"
+  },
+  "checks": {
+    "scopedTypes": "TypeScript6.0.2:0 diagnostics;10 historical/current call signatures equal. Fixed non-function declaration AST statements1/2/4 equal (includes empty exports, not7 public types). Only5modules JS/dts emitted; no whole build.",
+    "syntheticSafety": "One coherent final candidate actual-emitted run:3groups,3usage rows within one group,1appended ID regression and1appended cancelled-status log observation. Then lint-only lexical this alias correction; final affected model-status pass1overlapping group+1overlapping log observation. No extra distinct coverage credit; unchanged background/usage not rerun.",
+    "strictArtifacts": "15 current source/JS/dts exact;3 immutable source/compilerJS/declaration oracles;24 packet/draft/journal/seal files. Wrong helper JS/missing helper declaration rejected by fixture.",
+    "lint": "5sources94rules0 warnings/errors; original1no-this-alias warning preserved then corrected.",
+    "format": "5sources+1fixture pass",
+    "architecture": "0 violations;CLI unmanaged;private pure module boundaries keep source <=400physical lines."
+  },
+  "originalFailures": [
+    "838ea02: sealed usage draft ID changed when owned querySource getter mutated assistantMessageId; final restores captured logical identity.",
+    "Original final lint warning is archived; lexical arrow this alias removal has no added async boundary."
+  ],
+  "authorship": "3fresh internal authors fork_turns=none,Sol/high. Own source-derived body-free functional/API packets plus recorded clarifications; drafts sealed before curator comparison. Model-status draft01 rejected as reshuffling and draft02 sealed after curator source-derived design feedback. Curator exposed to predecessor; corrections and module relocations source-exposed. Journals are observed/reported access evidence, not absolute isolation proof.",
+  "retention": "Fixed APIs/protocol/record fields, runtime prose/errors/log labels, receiver/await/effect combinations and conventional object/map/loop glue remain. Internal relocation receives no extra originality credit. No clean-room, whole-file independence, licence/header/global inventory grant or publication claim.",
+  "protectedScope": "Production diff vs base exactly3requested owners+2private pure helpers. Existing background workflow adapter/type declarations, accepted originals, E context/provider/workflow scopes and permission/full-access unchanged. No cross-lane integration.",
+  "remainingSelectedQueue": [],
+  "remainingReview": "Root independent correctness/expression/licence and aggregate/native acceptance; next production owner not selected or swept here.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted duplication deliberately unrun per user speed cadence.",
+    "Minimal synthetic checks cover real publication/write safety boundaries, not all runtime branches. Actual consumer callsites traced, not full executors launched.",
+    "Transitive workspace dependencies via tsx,not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no bypass/access/settings change."
+  ],
+  "reproduce": [
+    "node docs/evidence/runtime-attribution-three-checks-20261003/verify-artifacts.cjs",
+    "node docs/evidence/runtime-attribution-three-checks-20261003/scoped-compile.cjs --emit",
+    "node --import tsx apps/cli/packages/core/test/runtime-attribution-three-safety-20261003.test.mjs --model-status-only"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "owner": "model-request",
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "predecessorBodyAllowed": false,
+  "inputs": [
+    {
+      "path": "contract.md",
+      "sha256": "9c5eee579c6327be516c7b9f98a35268b49d66cf35e88d9cc6017a23c779ad66",
+      "bytes": 6657
+    },
+    {
+      "path": "api.d.ts",
+      "sha256": "4eeef16e4f047fe4a94fb7e320369637e60389d5e425d6362c5bb120c6671e3f",
+      "bytes": 290
+    },
+    {
+      "path": "imports.d.ts",
+      "sha256": "ad623a3b53c486671936d5ffac8d166879fd1aa209734f423ec2d423fe36c6ab",
+      "bytes": 1331
+    },
+    {
+      "path": "supporting.d.ts",
+      "sha256": "039fe8399107686873615788144f57a7f32a111ac75b59f92b549f44ba5c4da5",
+      "bytes": 3994
+    },
+    {
+      "path": "runtime-ports.d.ts",
+      "sha256": "5309dc3243702ffb3a416b1e33c39bfbaf7e19bdf23dcaa7a42b2947df14b766",
+      "bytes": 865
+    },
+    {
+      "path": "dependency-ports.json",
+      "sha256": "38c0326b498c58cb06d894382e056c034a913ca02bbf6db3d75a8b3adb70fc04",
+      "bytes": 7514
+    },
+    {
+      "path": "literals.json",
+      "sha256": "54a9144e67cbdf2602f098b5c6330b9f48bf0a1319ac7f700799483426316cfe",
+      "bytes": 1109
+    },
+    {
+      "path": "log-fields.json",
+      "sha256": "4e3f2ddc2d974bd5c32619d10d6387681612598ed1e0ac5a80b8f590c0135766",
+      "bytes": 1619
+    }
+  ]
+}

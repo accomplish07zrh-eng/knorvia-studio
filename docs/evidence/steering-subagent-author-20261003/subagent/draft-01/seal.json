@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "status": "sealed-before-curator-review",
+  "createdAt": "2026-10-03T00:25:36.626032+00:00",
+  "algorithm": "SHA-256",
+  "packetInputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/subagent/contract.md",
+      "sha256": "c8c86c970b6cc401148276da3baa525c35fbbbd5f4f8aa6d5a961359ec8ffe78"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/subagent/api.d.ts",
+      "sha256": "10ce58fd0237cf5acee8178cb47ffff34c847f6f30a681d2189709c38f3efa9e"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/steering-subagent-author-20261003/subagent/imports.txt",
+      "sha256": "1fac5bf1c7510adb5ccb8bd889b842f38cf922203acb97806eb0e8a3bd13ab0b"
+    }
+  ],
+  "draftAndAuditFiles": [
+    {
+      "path": "access-log.json",
+      "sha256": "2ea6f0e8fc75e40853577d6b350c11c667200434552f6b7df1a4b46d88ce2e18",
+      "bytes": 2832
+    },
+    {
+      "path": "author-notes.json",
+      "sha256": "c92f8f345e34a8d716c4057df6b678b807ee9d0649d105069be01e53fd605c4a",
+      "bytes": 1203
+    },
+    {
+      "path": "initial/subagent-authority.ts",
+      "sha256": "ebb72849bed4616c5050e7868d95e35407e8a9e4b255de754bfff707865b7c56",
+      "bytes": 6219,
+      "physicalLines": 143,
+      "nonemptyLines": 135
+    },
+    {
+      "path": "initial/subagent-skills.ts",
+      "sha256": "7c01912b3d69bf5cb6f26928698514d4426ca2ff56fe09a2a0ecca4bc95c7e4a",
+      "bytes": 5477,
+      "physicalLines": 146,
+      "nonemptyLines": 141
+    },
+    {
+      "path": "initial/subagent.ts",
+      "sha256": "dc33c1d1bf81b610e2e3c4361d28cceafa6fe15f8a9c0e701fde1d41d39e28d7",
+      "bytes": 15193,
+      "physicalLines": 310,
+      "nonemptyLines": 309
+    },
+    {
+      "path": "prompt-clarifications.json",
+      "sha256": "e3e8f9fd2fffaac08d4d3463aa1b806759d824834afcadcaa124f5c5fbda7fd0",
+      "bytes": 1449
+    },
+    {
+      "path": "subagent-authority.ts",
+      "sha256": "88ad033165e6642d913a79996ed7816dfb8f19f5f8eac263d0fc227114c9afb7",
+      "bytes": 6314,
+      "physicalLines": 159,
+      "nonemptyLines": 151
+    },
+    {
+      "path": "subagent-skills.ts",
+      "sha256": "092bdb9ba46d0cbf5019ae8313275e6a0b5f7df1f7bb31632885201dbd561046",
+      "bytes": 5773,
+      "physicalLines": 165,
+      "nonemptyLines": 160
+    },
+    {
+      "path": "subagent.ts",
+      "sha256": "f25f301688e5c63addd40bf144be7184a996f914c85091af9de7c89332eebe63",
+      "bytes": 15994,
+      "physicalLines": 365,
+      "nonemptyLines": 364
+    }
+  ],
+  "initialDraftSet": [
+    "initial/subagent.ts",
+    "initial/subagent-authority.ts",
+    "initial/subagent-skills.ts"
+  ],
+  "finalDraftSet": [
+    "subagent.ts",
+    "subagent-authority.ts",
+    "subagent-skills.ts"
+  ],
+  "clarificationInputs": "prompt-clarifications.json",
+  "validation": "Authorized formatting and own-file line counts only; no compilation, tests, runtime, provider, network or port execution."
+}

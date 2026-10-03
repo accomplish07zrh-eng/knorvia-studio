@@ -1,0 +1,15 @@
+node:internal/fs/promises:697
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-stream-five-current-20261003.json'
+    at async open (node:internal/fs/promises:697:25)
+    at async Object.readFile (node:internal/fs/promises:1348:14)
+    at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-stream-five-safety-20261003.test.mjs:333:13) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-stream-five-current-20261003.json'
+}
+
+Node.js v24.19.0

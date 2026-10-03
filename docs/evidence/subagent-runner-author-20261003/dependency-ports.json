@@ -1,0 +1,376 @@
+[
+  {
+    "name": "AgentErrorCode",
+    "module": "@knorvia/contracts",
+    "type": "AgentErrorCode",
+    "signatures": []
+  },
+  {
+    "name": "CoreErrorType",
+    "module": "@knorvia/contracts",
+    "type": "CoreErrorType",
+    "signatures": []
+  },
+  {
+    "name": "DEFAULT_MODEL_STREAM_IDLE_TIMEOUT_MS",
+    "module": "@knorvia/contracts",
+    "type": "600000",
+    "signatures": []
+  },
+  {
+    "name": "SessionEventType",
+    "module": "@knorvia/contracts",
+    "type": "SessionEventType",
+    "signatures": []
+  },
+  {
+    "name": "createChildTraceContext",
+    "module": "@knorvia/contracts",
+    "type": "(parent: TraceContext, options?: { queryId?: QueryId | undefined; sessionId?: SessionId | undefined; turnId?: TurnId | undefined; attributes?: Record<string, string | number | boolean> | undefined; } | undefined) => TraceContext",
+    "signatures": [
+      "(parent: TraceContext, options?: { queryId?: QueryId | undefined; sessionId?: SessionId | undefined; turnId?: TurnId | undefined; attributes?: Record<string, string | number | boolean> | undefined; } | undefined): TraceContext"
+    ]
+  },
+  {
+    "name": "createCoreError",
+    "module": "@knorvia/contracts",
+    "type": "(type: CoreErrorType, message: string, options?: Options | undefined) => CoreError",
+    "signatures": [
+      "(type: CoreErrorType, message: string, options?: Options | undefined): CoreError"
+    ]
+  },
+  {
+    "name": "createSessionEvent",
+    "module": "@knorvia/contracts",
+    "type": "<T>(type: SessionEventType, sessionId: SessionId, payload: T, options?: { turnId?: TurnId | undefined; traceId?: TraceId | undefined; sequenceNumber?: number | undefined; } | undefined) => SessionEvent",
+    "signatures": [
+      "<T>(type: SessionEventType, sessionId: SessionId, payload: T, options?: { turnId?: TurnId | undefined; traceId?: TraceId | undefined; sequenceNumber?: number | undefined; } | undefined): SessionEvent"
+    ]
+  },
+  {
+    "name": "createSessionId",
+    "module": "@knorvia/contracts",
+    "type": "(id?: string | undefined) => SessionId",
+    "signatures": [
+      "(id?: string | undefined): SessionId"
+    ]
+  },
+  {
+    "name": "createTraceId",
+    "module": "@knorvia/contracts",
+    "type": "() => TraceId",
+    "signatures": [
+      "(): TraceId"
+    ]
+  },
+  {
+    "name": "getModelUsageTotalTokens",
+    "module": "@knorvia/contracts",
+    "type": "(usage?: ModelUsage | undefined) => number",
+    "signatures": [
+      "(usage?: ModelUsage | undefined): number"
+    ]
+  },
+  {
+    "name": "hasModelUsage",
+    "module": "@knorvia/contracts",
+    "type": "(usage?: ModelUsage | undefined) => boolean",
+    "signatures": [
+      "(usage?: ModelUsage | undefined): boolean"
+    ]
+  },
+  {
+    "name": "isCoreError",
+    "module": "@knorvia/contracts",
+    "type": "(error: unknown) => error is CoreError",
+    "signatures": [
+      "(error: unknown): error is CoreError"
+    ]
+  },
+  {
+    "name": "traceContextToLogContext",
+    "module": "@knorvia/contracts",
+    "type": "(context: TraceContext) => LogContext",
+    "signatures": [
+      "(context: TraceContext): LogContext"
+    ]
+  },
+  {
+    "name": "AgentBackgroundedOutput",
+    "module": "@knorvia/contracts",
+    "type": "AgentBackgroundedOutput",
+    "signatures": []
+  },
+  {
+    "name": "BackgroundResultOriginMeta",
+    "module": "@knorvia/contracts",
+    "type": "BackgroundResultOriginMeta",
+    "signatures": []
+  },
+  {
+    "name": "AgentCompletedOutput",
+    "module": "@knorvia/contracts",
+    "type": "AgentCompletedOutput",
+    "signatures": []
+  },
+  {
+    "name": "AgentOutput",
+    "module": "@knorvia/contracts",
+    "type": "AgentOutput",
+    "signatures": []
+  },
+  {
+    "name": "Logger",
+    "module": "@knorvia/contracts",
+    "type": "Logger",
+    "signatures": []
+  },
+  {
+    "name": "ModelUsage",
+    "module": "@knorvia/contracts",
+    "type": "ModelUsage",
+    "signatures": []
+  },
+  {
+    "name": "SessionEvent",
+    "module": "@knorvia/contracts",
+    "type": "SessionEvent",
+    "signatures": []
+  },
+  {
+    "name": "SessionId",
+    "module": "@knorvia/contracts",
+    "type": "SessionId",
+    "signatures": []
+  },
+  {
+    "name": "SubagentLaunchOptions",
+    "module": "@knorvia/contracts",
+    "type": "SubagentRunOptions",
+    "signatures": []
+  },
+  {
+    "name": "SubagentLaunchRequest",
+    "module": "@knorvia/contracts",
+    "type": "SubagentLaunchRequest",
+    "signatures": []
+  },
+  {
+    "name": "SubagentPort",
+    "module": "@knorvia/contracts",
+    "type": "SubagentPort",
+    "signatures": []
+  },
+  {
+    "name": "SubagentRunOptions",
+    "module": "@knorvia/contracts",
+    "type": "SubagentRunOptions",
+    "signatures": []
+  },
+  {
+    "name": "SubagentRunRequest",
+    "module": "@knorvia/contracts",
+    "type": "SubagentRunRequest",
+    "signatures": []
+  },
+  {
+    "name": "SubagentSendMessageOptions",
+    "module": "@knorvia/contracts",
+    "type": "SubagentSendMessageOptions",
+    "signatures": []
+  },
+  {
+    "name": "SubagentSendMessageRequest",
+    "module": "@knorvia/contracts",
+    "type": "SubagentSendMessageRequest",
+    "signatures": []
+  },
+  {
+    "name": "SubagentSendMessageResult",
+    "module": "@knorvia/contracts",
+    "type": "SubagentSendMessageResult",
+    "signatures": []
+  },
+  {
+    "name": "SubagentStartOptions",
+    "module": "@knorvia/contracts",
+    "type": "SubagentStartOptions",
+    "signatures": []
+  },
+  {
+    "name": "SubagentStartRequest",
+    "module": "@knorvia/contracts",
+    "type": "SubagentRunRequest",
+    "signatures": []
+  },
+  {
+    "name": "SubagentStopOptions",
+    "module": "@knorvia/contracts",
+    "type": "SubagentStopOptions",
+    "signatures": []
+  },
+  {
+    "name": "SubagentTaskSnapshot",
+    "module": "@knorvia/contracts",
+    "type": "SubagentTaskSnapshot",
+    "signatures": []
+  },
+  {
+    "name": "SubagentWaitOptions",
+    "module": "@knorvia/contracts",
+    "type": "SubagentWaitOptions",
+    "signatures": []
+  },
+  {
+    "name": "TraceContext",
+    "module": "@knorvia/contracts",
+    "type": "TraceContext",
+    "signatures": []
+  },
+  {
+    "name": "mkdir",
+    "module": "node:fs/promises",
+    "type": "{ (path: PathLike, options: MakeDirectoryOptions & { recursive: true; }): Promise<string | undefined>; (path: PathLike, options?: Mode | (MakeDirectoryOptions & { recursive?: false | undefined; }) | null | undefined): Promise<void>; (path: PathLike, options?: MakeDirectoryOptions | Mode | null | undefined): Promise<string | undefined>; }",
+    "signatures": [
+      "(path: PathLike, options: MakeDirectoryOptions & { recursive: true; }): Promise<string | undefined>",
+      "(path: PathLike, options?: Mode | (MakeDirectoryOptions & { recursive?: false | undefined; }) | null | undefined): Promise<void>",
+      "(path: PathLike, options?: MakeDirectoryOptions | Mode | null | undefined): Promise<string | undefined>"
+    ]
+  },
+  {
+    "name": "writeFile",
+    "module": "node:fs/promises",
+    "type": "(file: PathLike | FileHandle, data: string | ArrayBufferView<ArrayBufferLike> | Iterable<string | ArrayBufferView<ArrayBufferLike>> | AsyncIterable<string | ArrayBufferView<ArrayBufferLike>> | Stream, options?: (ObjectEncodingOptions & { mode?: Mode | undefined; flag?: OpenMode | undefined; flush?: boolean | undefined; } & Abortable) | BufferEncoding | null | undefined) => Promise<void>",
+    "signatures": [
+      "(file: PathLike | FileHandle, data: string | ArrayBufferView<ArrayBufferLike> | Iterable<string | ArrayBufferView<ArrayBufferLike>> | AsyncIterable<string | ArrayBufferView<ArrayBufferLike>> | Stream, options?: (ObjectEncodingOptions & { mode?: Mode | undefined; flag?: OpenMode | undefined; flush?: boolean | undefined; } & Abortable) | BufferEncoding | null | undefined): Promise<void>"
+    ]
+  },
+  {
+    "name": "tmpdir",
+    "module": "node:os",
+    "type": "() => string",
+    "signatures": [
+      "(): string"
+    ]
+  },
+  {
+    "name": "dirname",
+    "module": "node:path",
+    "type": "(path: string) => string",
+    "signatures": [
+      "(path: string): string"
+    ]
+  },
+  {
+    "name": "join",
+    "module": "node:path",
+    "type": "(...paths: string[]) => string",
+    "signatures": [
+      "(...paths: string[]): string"
+    ]
+  },
+  {
+    "name": "isBuiltInExploreAgentProfile",
+    "module": "./profile.js",
+    "type": "(profile: Pick<AgentProfile, \"name\" | \"source\">) => boolean",
+    "signatures": [
+      "(profile: Pick<AgentProfile, \"name\" | \"source\">): boolean"
+    ]
+  },
+  {
+    "name": "normalizeAgentProfiles",
+    "module": "./profile.js",
+    "type": "(profiles: readonly AgentProfile[], options?: { builtInModelSelectionOverrides?: Partial<Record<\"general-purpose\" | \"Explore\", { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }>> | undefined; }) => AgentProfile[]",
+    "signatures": [
+      "(profiles: readonly AgentProfile[], options?: { builtInModelSelectionOverrides?: Partial<Record<\"general-purpose\" | \"Explore\", { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }>> | undefined; }): AgentProfile[]"
+    ]
+  },
+  {
+    "name": "AgentProfile",
+    "module": "./profile.js",
+    "type": "AgentProfile",
+    "signatures": []
+  },
+  {
+    "name": "EXPLORE_AGENT_ALLOWED_TOOLS",
+    "module": "./explore-tools.js",
+    "type": "readonly [\"Bash\", \"Glob\", \"Grep\", \"Read\", \"WebFetch\", \"WebSearch\", \"TodoWrite\"]",
+    "signatures": []
+  },
+  {
+    "name": "formatLocalAgentTaskNotification",
+    "module": "./completion-notification.js",
+    "type": "(input: LocalAgentTaskNotificationInput) => string",
+    "signatures": [
+      "(input: LocalAgentTaskNotificationInput): string"
+    ]
+  },
+  {
+    "name": "filterSubagentChildToolNames",
+    "module": "./tool-policy.js",
+    "type": "(toolNames: readonly string[], disallowedTools: readonly string[] | undefined) => readonly string[]",
+    "signatures": [
+      "(toolNames: readonly string[], disallowedTools: readonly string[] | undefined): readonly string[]"
+    ]
+  },
+  {
+    "name": "ErrorPayloadRole",
+    "module": "../errors/error-payload.js",
+    "type": "ErrorPayloadRole",
+    "signatures": []
+  },
+  {
+    "name": "selectExecutionErrorMessage",
+    "module": "../errors/error-payload.js",
+    "type": "(error: unknown, fallbackMessage?: string) => string",
+    "signatures": [
+      "(error: unknown, fallbackMessage?: string): string"
+    ]
+  },
+  {
+    "name": "withErrorPayloadRole",
+    "module": "../errors/error-payload.js",
+    "type": "(context: Record<string, unknown> | undefined, role: ErrorPayloadRole) => Record<string, unknown>",
+    "signatures": [
+      "(context: Record<string, unknown> | undefined, role: ErrorPayloadRole): Record<string, unknown>"
+    ]
+  },
+  {
+    "name": "InMemoryRuntimeTaskRegistry",
+    "module": "../runtime-task/registry.js",
+    "type": "typeof InMemoryRuntimeTaskRegistry",
+    "signatures": []
+  },
+  {
+    "name": "isTerminalRuntimeTask",
+    "module": "../runtime-task/registry.js",
+    "type": "(task: Pick<RuntimeTaskSnapshot, \"status\">) => boolean",
+    "signatures": [
+      "(task: Pick<RuntimeTaskSnapshot, \"status\">): boolean"
+    ]
+  },
+  {
+    "name": "RuntimeTaskMessageSink",
+    "module": "../runtime-task/registry.js",
+    "type": "RuntimeTaskMessageSink",
+    "signatures": []
+  },
+  {
+    "name": "RuntimeTaskPendingMessage",
+    "module": "../runtime-task/registry.js",
+    "type": "RuntimeTaskPendingMessage",
+    "signatures": []
+  },
+  {
+    "name": "RuntimeTaskRegistry",
+    "module": "../runtime-task/registry.js",
+    "type": "RuntimeTaskRegistry",
+    "signatures": []
+  },
+  {
+    "name": "RuntimeTaskSnapshot",
+    "module": "../runtime-task/registry.js",
+    "type": "RuntimeTaskSnapshot",
+    "signatures": []
+  }
+]

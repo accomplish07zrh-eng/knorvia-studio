@@ -1,0 +1,28 @@
+{
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-hooks-author-20261003/api.d.ts",
+      "sha256": "65b72d9d359820ba5d70993dfa6ee851a80b613223d289bd15a59c8e711d0acf"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-hooks-author-20261003/contract.md",
+      "sha256": "c30dea78272a5fac89e7c1753c0616e5c0a15a3d494ada8094560d65aa595ebd"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-hooks-author-20261003/receiver-facts.md",
+      "sha256": "cee364fc083a481f49d949496d1403b6d9c2b7f489688479501b186569a6fda7"
+    }
+  ],
+  "clarifications": [
+    "Curator confirmed model event value is selection ? `${selection.providerId}/${selection.modelId}` : undefined."
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-runtime-lifecycle-five-20261003/hooks/hooks.ts",
+      "sha256": "6693a6d5092f4ea12e2f15fbed235d7f537192e9585b0d24bef98418eea2872e",
+      "lines": 147
+    }
+  ],
+  "verification": "File line count and SHA256 only; no tests, builds, live ports, settings changes, production edits, or dependency-body reads.",
+  "remaining_ambiguities": []
+}

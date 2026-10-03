@@ -1,0 +1,13 @@
+{
+  "status": "sealed before curator comparison",
+  "algorithm": "SHA256",
+  "files": {
+    "draft.ts": "d1173ce19ea6e069a97b881ee7aab58d5ce9f5b1899be7415462ec963fa84661",
+    "access.json": "241652509fc3f86d5474f50b9f669618db591ca7bd660c4ae036aeed3a60f129"
+  },
+  "draft_physical_lines": 133,
+  "maximum_physical_lines": 400,
+  "comparison_performed": false,
+  "validation": "Exact-file SHA256 and physical-line count only; no execution, compilation, tests, or checkout edits",
+  "design": "Native async owner with one native async MCP collector; ordered live collections, diagnostics, history attachment, awaited persistence, and bounded catch"
+}

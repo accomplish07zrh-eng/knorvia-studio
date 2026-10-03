@@ -1,0 +1,11 @@
+import type { HookRunResult, Model, TraceContext, TurnState } from "../deps.js";
+import type { HookEventName as HookEventNameType } from "@knorvia/contracts";
+import type { AgentRuntimeInternal } from "../internal.js";
+import { type RuntimeMessageEntry } from "../../agent/message-history.js";
+type SessionStartSource = "startup" | "resume" | "clear" | "compact";
+export declare function runSessionStartHooks(this: AgentRuntimeInternal, source: SessionStartSource, traceContext: TraceContext, signal?: AbortSignal, model?: Pick<Model, "providerId" | "modelId">): Promise<HookRunResult>;
+export declare function runUserPromptSubmitHooks(this: AgentRuntimeInternal, prompt: string, attachments: TurnState["attachments"] | undefined, traceContext: TraceContext, signal?: AbortSignal): Promise<HookRunResult>;
+export declare function runStopHooks(this: AgentRuntimeInternal, response: string, toolCallCount: number, traceContext: TraceContext, signal?: AbortSignal, stopHookActive?: boolean): Promise<HookRunResult>;
+export declare function injectHookAdditionalContextIntoMessageHistory(this: AgentRuntimeInternal, eventName: HookEventNameType, additionalContexts: readonly string[]): RuntimeMessageEntry | undefined;
+export declare function shouldContinueAfterStopHooks(result: HookRunResult, continuationCount: number): boolean;
+export {};

@@ -1,0 +1,18 @@
+{
+  "beforeProductionCorrection": true,
+  "groupCount": 1,
+  "observations": 3,
+  "initialDraftHasTwoTypeDiagnostics": true,
+  "strictReviewEmission": "Only type-erased payload assertions added for strict compilation; initial runtime expression unchanged. Original initial bytes remain sealed.",
+  "gaps": [
+    "warning guards",
+    "persisted directory versus mutable runtime cwd",
+    "latest conversation/assistant anchor publication order"
+  ],
+  "files": {
+    "apps/cli/packages/core/test/todo-resume-focused-proof-20261003.mjs": "77d1d81961683db56baa6cfaeb68f68e887ae6f94a309d3edbe59045c8d71765",
+    "docs/evidence/todo-resume-checks-20261003/sealed-draft-review-emission.json": "c2db7fd831c1fd42efa19d225e21381e34af9f30ac470b723e1273d293fae1e6",
+    "docs/evidence/todo-resume-checks-20261003/baseline-focused.log": "3b712fd17735330309ff81ce804db5b94a99391d171fe53cf1d2115bb00133a4",
+    "docs/evidence/todo-resume-checks-20261003/sealed-draft-focused-red.log": "8c88a65bd1c2972407386dcb3057e7063c6c807e50657a1f210990008761e58f"
+  }
+}

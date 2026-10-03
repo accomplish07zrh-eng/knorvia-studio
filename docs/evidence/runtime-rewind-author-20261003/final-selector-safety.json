@@ -1,0 +1,33 @@
+{
+  "mode": "final-actual-emitted",
+  "expected": {
+    "trace": [
+      {
+        "sameTrace": true
+      }
+    ],
+    "timing": [
+      "tick0",
+      "tick1",
+      "tick2",
+      "done",
+      "tick3",
+      "tick4"
+    ]
+  },
+  "actual": {
+    "trace": [
+      {
+        "sameTrace": true
+      }
+    ],
+    "timing": [
+      "tick0",
+      "tick1",
+      "tick2",
+      "done",
+      "tick3",
+      "tick4"
+    ]
+  }
+}

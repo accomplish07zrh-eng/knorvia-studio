@@ -1,0 +1,44 @@
+{
+  "task": "model-status publication/logging restricted-input author",
+  "sealStage": "before curator comparison or report",
+  "inputAccesses": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-status-author-20261003/api.d.ts",
+      "actions": ["read complete content", "sha256"],
+      "sha256": "526d163f748098c9da2b26b7876a0983beb0c299de23cf4f9f24e69aa4b8bc7c"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-status-author-20261003/contract.md",
+      "actions": ["read complete content", "sha256"],
+      "sha256": "44aff76e0359634ad0396552e2454c08da2edbd890d59d4a33c0746128c58990"
+    }
+  ],
+  "bodyFreeClarifications": [
+    {
+      "source": "parent agent /root message",
+      "fact": "this.logger?.debug/info/warn(label:string,metadata:object): label first; optional logger object only; methods are required when object exists. All fixed branch fields are contract as stated."
+    }
+  ],
+  "outputAccesses": [
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/model-status/model-status.ts",
+      "actions": ["created via apply_patch", "sha256", "line count"],
+      "sha256": "09ec02297c290a3e83106ffc4a4712fe7bc602b550c17f224fac421ee163b300",
+      "lines": 139,
+      "sealed": true
+    },
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/model-status/access-journal.json",
+      "actions": ["created via apply_patch", "sha256 after creation"],
+      "hashLocation": "/tmp/knorvia-runtime-attribution-three-20261003/model-status/seal.sha256"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/model-status/seal.sha256",
+      "actions": ["created by sha256sum for draft and journal", "read via cat"]
+    }
+  ],
+  "design": "Fresh sink with lexical runtime capture and native async arrow; original trace, events and options references; truthy recovery ternary reads recovery twice; callback then log then create then await append then push exact event; eager ordered base metadata then seven fixed logging branches with optional logger object calls.",
+  "remainingAmbiguities": [],
+  "checks": "Only draft hash and line-count checks performed. No tests or builds run.",
+  "restrictions": "No predecessor, lineage, history, tests, oracle, other packet or dependency-body reads. No production edits, live providers, user data, runtime settings or new agents. No clean-room, MIT or whole-file rights claim."
+}

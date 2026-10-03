@@ -1,0 +1,5 @@
+{
+  "planDenied": "The plan was not approved by the user.",
+  "workflowDenied": "The workflow run was not approved by the user.",
+  "automationLimit": "Automation creation was not performed because the global retained-task limit of 20 was reached. This limit cannot be recovered automatically in the current turn. Do not list, delete, overwrite, retry, or use another tool. Reply once in the user's language that they must manually delete an existing task on the Automations page and then retry."
+}

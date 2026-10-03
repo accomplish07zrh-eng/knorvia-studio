@@ -1,0 +1,60 @@
+{
+  "baseline": "5bf6129f0a5526af503d6215a5a3adae132bb692",
+  "lattice": {
+    "data/data": [1, 2],
+    "data/control": [1, 2],
+    "data/fifo": [0, 1, 2],
+    "data/seq": [0, 1, 2],
+    "control/data": [1, 2],
+    "control/control": [1, 2],
+    "control/fifo": [0, 1, 2],
+    "control/seq": [0, 1, 2],
+    "fifo/data": [1, 2],
+    "fifo/control": [1, 2],
+    "fifo/fifo": [1, 2],
+    "fifo/seq": [0, 1, 2],
+    "seq/data": [1, 2],
+    "seq/control": [1, 2],
+    "seq/fifo": [1, 2],
+    "seq/seq": [1, 2]
+  },
+  "graphs": {
+    "empty": [],
+    "mixed-hard": [1, 2],
+    "weak-last-hop": [0, 1, 2],
+    "self-forward": [0, 1, 2],
+    "cycle-greedy": [1, 2, 3],
+    "cycle-reordered": [1, 2, 3],
+    "parallel-forward": [0, 1],
+    "alias-forward": [0, 0],
+    "alias-deletion": [1, 2],
+    "certainty-ignored": [1, 2],
+    "carry-prefix": [0, 1],
+    "carry-suffix": [0, 1],
+    "carry-default-hard": [0, 1, 2],
+    "carry-default-witness": [0, 1],
+    "zero-carry": [0, 1, 2],
+    "two-carries": [0, 1, 2],
+    "weak-carry": [0, 1, 2],
+    "weak-carry-suffix": [0, 1, 2],
+    "parallel-carry": [1],
+    "alias-carry": [0, 0],
+    "alias-carry-deletion": [2],
+    "self-carry": [0],
+    "cyclic-carry": [0, 1, 3]
+  },
+  "phase": [
+    "bd20260760db852148a72294bfcac89a5c0ac8d71da629ab20973436ab4f8749",
+    "fba8927f921adb94c2396012ddbf0e51cf19d3088dca9de79182cdb4ae69a276",
+    "1cb9fc87f8ee45688a9ce52434a93a6d5d5df52afba67fb1a0281062b54e67d1"
+  ],
+  "analysis": [
+    "6f03bc1cf4d29df29f0c51010304a96e1abd4a64078f3b3a485994b822c3ec41",
+    "437b22c1fec8dfa7edd163e0afd4cd80cbf96eee47406f92246c74b5a040560e"
+  ],
+  "fold": [
+    "f0d5f99d1238291ac1a29c34415ffa90b2f616994e5f083c53c29e32461ec3f1",
+    "39479311432abf78dcf7fe396bd3610c6306b607e6ed022c1c1b56475514e42c",
+    "5d531b64d7aabf15e712a90ee662dc488507ea0dfa0c4418ef250d6e004a4f1e"
+  ]
+}

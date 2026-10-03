@@ -1,0 +1,124 @@
+{
+  "inputAccess": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/packet.json",
+      "action": "initial cat read",
+      "utc": null,
+      "note": "First tool call; exact access time was not captured. Packet hash/size verified in the subsequent recorded read."
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/packet.json",
+      "bytes": 1579,
+      "sha256": "7f33c2882a39958007a8f0cfe6953c74731cf4ba338f52fdc874664c35eeb03a",
+      "utc": "2026-10-02T23:17:28.454826+00:00",
+      "action": "read"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/api.d.ts",
+      "bytes": 2303,
+      "sha256": "ab67b6249f1e9cb65bf7f0da4972d4db457f0499a14914289aaa7758505341e9",
+      "utc": "2026-10-02T23:17:28.454867+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/contract.md",
+      "bytes": 5689,
+      "sha256": "88059fdb0db8ad0e9e4a113b214665755345d7f87b002b7824d1dd0de9d3a7b6",
+      "utc": "2026-10-02T23:17:28.454921+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/dependency-declarations.json",
+      "bytes": 2499,
+      "sha256": "5ea280fb597e0d8268792ae61cc7f093853d9c28fbea754b1d5d9ec847cfbdcf",
+      "utc": "2026-10-02T23:17:28.455015+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/dependency-ports.json",
+      "bytes": 2471,
+      "sha256": "bda7bf5e5f4e9a1c4faf80fe154ad70948c8c75196e8ce396096b30a6cb71426",
+      "utc": "2026-10-02T23:17:28.455048+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/log-fields.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "utc": "2026-10-02T23:17:28.455074+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/runtime-templates.json",
+      "bytes": 750,
+      "sha256": "dfb49007bca1b2ecd107affb2080b74ff2d05d5d008214383c56808fd2826883",
+      "utc": "2026-10-02T23:17:28.455095+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/runtime-text.json",
+      "bytes": 1382,
+      "sha256": "34d3adb9422cf05de91b2899b5ee9fabf19486db5bed35be0c45d8d5dac882f2",
+      "utc": "2026-10-02T23:17:28.455114+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/supporting.d.ts",
+      "bytes": 67,
+      "sha256": "a78a84b6d58cba68478c04f34861efd6f5e1dbb93a9ed74d996884a459b26e58",
+      "utc": "2026-10-02T23:17:28.455133+00:00",
+      "action": "read; exact packet hash and size verified"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/subagent-profile-author-20261003/runtime-text.json",
+      "bytes": 1382,
+      "sha256": "34d3adb9422cf05de91b2899b5ee9fabf19486db5bed35be0c45d8d5dac882f2",
+      "utc": "2026-10-02T23:18:30.301831+00:00",
+      "action": "reread exact runtime descriptions for source emission"
+    }
+  ],
+  "limitations": {
+    "sourceDerived": true,
+    "curatorSourceExposed": true,
+    "predecessorBodiesAllowed": false,
+    "claims": "No licence, clean-room, or whole-file independence claim. Public declarations and runtime prose are source-derived compatibility inputs."
+  },
+  "facts": [
+    "All eight named inputs passed exact packet hash and byte-size verification before source authoring.",
+    "Public API types and runtime prose are source-derived compatibility material.",
+    "Dependency bodies, predecessor source/history/tests/compiled oracles and other repository implementations were not read.",
+    "No compiler, tests, provider, user data, network or production actions were performed.",
+    "Private decomposition is author choice; ordinary constrained idioms are used without an originality claim."
+  ],
+  "sourceRepresentations": [
+    {
+      "file": "representations/profile.001-authored.ts",
+      "stage": "Complete first authored draft, before formatter or clarification/correction",
+      "utc": "2026-10-02T23:18:30.302071+00:00"
+    },
+    {
+      "file": "representations/profile.002-formatted.ts",
+      "stage": "Allowed oxfmt applied to complete first draft",
+      "utc": "2026-10-02T23:18:38.757540+00:00"
+    }
+  ],
+  "actions": [
+    {
+      "action": "oxfmt",
+      "executable": "/workspace/knorvia-studio/node_modules/.bin/oxfmt",
+      "target": "profile.ts",
+      "result": "success; no config found, defaults used"
+    }
+  ],
+  "authorReview": {
+    "utc": "2026-10-02T23:18:52.231596+00:00",
+    "activity": "Read own formatted draft and checked its representation against supplied functional contract; no comparison to predecessor or tests.",
+    "formattedPhysicalLines": 290,
+    "files": [
+      "profile.ts"
+    ],
+    "clarificationsOrCorrections": "None; complete authored and formatted representations retained."
+  },
+  "closureUTC": "2026-10-02T23:18:52.231596+00:00",
+  "remainingValidation": "Root curator validation after whole source draft seal; author performed no compiler or test execution."
+}

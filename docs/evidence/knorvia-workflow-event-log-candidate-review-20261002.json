@@ -1,0 +1,286 @@
+{
+  "formatVersion": 1,
+  "kind": "supplied-selected-event-log-candidate-review",
+  "baseline": "0ab0e753f8f4618e25dbe334f74f44286fe686c7",
+  "recommendation": "Hold correctness acceptance: clock/read-order counterexample changes append recipient. Visible private-port grouping/literal staging alone merits narrow representation credit, not substantive owner reconstruction or a whole-file rights decision.",
+  "ownedPaths": [
+    "docs/knorvia-workflow-event-log-candidate-review-20261002.md",
+    "docs/evidence/knorvia-workflow-event-log-candidate-review-20261002.json"
+  ],
+  "productionChanges": 0,
+  "testOrSelectorOrOracleChanges": 0,
+  "nativeAuthorRetries": 0,
+  "parentReported": {
+    "authoringClosed": "2026-10-02T11:00:52Z",
+    "beforeReads": "Selected authoring before predecessor body/tests/history",
+    "deviation": "Curator handoff and broader scheduler context were also read; strict packet-only boundary not observed. No absolute clean-room claim.",
+    "draftBytes": 2003,
+    "draftHash": "Not supplied; no invented byte match",
+    "integration": "Root integrating separately; not fetched/adopted here"
+  },
+  "independentStatic": {
+    "node": "v24.19.0",
+    "typescript": "6.0.2",
+    "compilerDiagnostics": 0,
+    "transportBytes": 1662,
+    "transportSha256": "3df381f2a6f4f0eefe608380479be635b1b02c41a09e6313aa2cf9503dd20fce",
+    "selectedMemberSyntaxSha256": "4d83b3df6ccc6a5ca93f088793928c223a0846893b91f560fbf8d0516acf6e28",
+    "selectedMemberSyntaxEqualAfterAssembly": true,
+    "retainedMethodHashes": {
+      "appendCollectionRecord": "8ecd68099d6f6056f5d83a527cca367bfdf40c9a0b173478dae0241aa1c0b4ef",
+      "appendExpansionRecords": "56d0eb6cd3a007e717c5a3edd9669d6ceb1146431b8fe7e1d8bceac691d83cee"
+    },
+    "retainedMethodBytesEqual": true,
+    "combinedSha256": "297ae3528f9f57a60ede10fc988d67b9418fae14e72af950bff225aee3c656f7",
+    "emittedSha256": "e20df4b2dfec8e938775835b0e37ddc679c0ee1ae143e42402e0314b27622b29",
+    "declarationSha256": "202409b225a1400fadad35fd33869432ff374f2865657145b7b3a7ee7898f179",
+    "publicAPIShapeEqual": true,
+    "runtimeHashes": {
+      "source": "fbb85b00d8d150dc7cb238867dee9c001e50fffba458cbba903724057a24e188",
+      "emitted": "638a34b6d22762a4fb6d1b577449148e52079b88d607e5866c2fa91076c1e012"
+    }
+  },
+  "existingFrozenGroups": {
+    "source": {
+      "groups": 4,
+      "passed": 4
+    },
+    "emitted": {
+      "groups": 4,
+      "passed": 4
+    },
+    "scope": "Original assertions copied unchanged; imports only routed to exact temporary candidate and original owned ports. Selector protects candidate review source/declaration/runtime plus15 original bindings. Original consumer import is neighboring binding smoke, not candidate consumer execution."
+  },
+  "focusedCounterexample": {
+    "casesPerMode": 1,
+    "sourceCompatibility": "FAIL",
+    "emittedCompatibility": "FAIL",
+    "case": "Captured synthetic clock mutates one plain owned snapshot.runId before returning Date(0); no getters/grid/live effects",
+    "observations": [
+      {
+        "surface": "source",
+        "scenario": "One ordinary owned snapshot; captured clock changes its runId synchronously",
+        "baseline": {
+          "observed": {
+            "appendRunId": "owned-run",
+            "recordRunId": "owned-run",
+            "keys": ["nodeId", "phase", "recordType", "runId", "status", "timestamp", "type"],
+            "timestamp": "1970-01-01T00:00:00.000Z"
+          },
+          "trace": ["clock:owned-run", "append:owned-run"]
+        },
+        "candidate": {
+          "observed": {
+            "appendRunId": "owned-clock-run",
+            "recordRunId": "owned-run",
+            "keys": ["nodeId", "phase", "recordType", "runId", "status", "timestamp", "type"],
+            "timestamp": "1970-01-01T00:00:00.000Z"
+          },
+          "trace": ["clock:owned-run", "append:owned-clock-run"]
+        },
+        "compatibility": "FAIL (retained supported counterexample)",
+        "failure": {
+          "code": "ERR_ASSERTION",
+          "message": "Append recipient and record identity/read phase must preserve predecessor\n+ actual - expected\n... Skipped lines\n\n  {\n    observed: {\n+     appendRunId: 'owned-clock-run',\n-     appendRunId: 'owned-run',\n      keys: [\n        'nodeId',\n        'phase',\n        'recordType',\n        'runId',\n...\n      'clock:owned-run',\n+     'append:owned-clock-run'\n-     'append:owned-run'\n    ]\n  }\n"
+        }
+      },
+      {
+        "surface": "emitted",
+        "scenario": "One ordinary owned snapshot; captured clock changes its runId synchronously",
+        "baseline": {
+          "observed": {
+            "appendRunId": "owned-run",
+            "recordRunId": "owned-run",
+            "keys": ["nodeId", "phase", "recordType", "runId", "status", "timestamp", "type"],
+            "timestamp": "1970-01-01T00:00:00.000Z"
+          },
+          "trace": ["clock:owned-run", "append:owned-run"]
+        },
+        "candidate": {
+          "observed": {
+            "appendRunId": "owned-clock-run",
+            "recordRunId": "owned-run",
+            "keys": ["nodeId", "phase", "recordType", "runId", "status", "timestamp", "type"],
+            "timestamp": "1970-01-01T00:00:00.000Z"
+          },
+          "trace": ["clock:owned-run", "append:owned-clock-run"]
+        },
+        "compatibility": "FAIL (retained supported counterexample)",
+        "failure": {
+          "code": "ERR_ASSERTION",
+          "message": "Append recipient and record identity/read phase must preserve predecessor\n+ actual - expected\n... Skipped lines\n\n  {\n    observed: {\n+     appendRunId: 'owned-clock-run',\n-     appendRunId: 'owned-run',\n      keys: [\n        'nodeId',\n        'phase',\n        'recordType',\n        'runId',\n...\n      'clock:owned-run',\n+     'append:owned-clock-run'\n-     'append:owned-run'\n    ]\n  }\n"
+        }
+      }
+    ]
+  },
+  "localEvidence": [
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/clock-recipient-emitted.json",
+      "sha256": "b3ac2105e034e931288ff76f9c4f02bf242fd1ce60c13c9e0a9a12f411ed838b",
+      "bytes": 1436
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/clock-recipient-emitted.log",
+      "sha256": "b3ac2105e034e931288ff76f9c4f02bf242fd1ce60c13c9e0a9a12f411ed838b",
+      "bytes": 1436
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/clock-recipient-proof.mts",
+      "sha256": "fdf2a21a624de31f9a1a233d781d7cd445a70d6fad44b2740d681f82e9dfc778",
+      "bytes": 2231
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/clock-recipient-source.json",
+      "sha256": "79379f7f37caf33e65d8ad018e271fd5cea345471b9a7276f2f2a4ef9101b59a",
+      "bytes": 1435
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/clock-recipient-source.log",
+      "sha256": "79379f7f37caf33e65d8ad018e271fd5cea345471b9a7276f2f2a4ef9101b59a",
+      "bytes": 1435
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/frozen-emitted.log",
+      "sha256": "9d712f44d76bf8163699e2951411871e13c2b0d446bbdc82d60a4bd14db3ab74",
+      "bytes": 2177
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/frozen-source.log",
+      "sha256": "0862cd6163e64c4808b7cdceb038e794c560d07d8dc8611c3b6ad98114ccb300",
+      "bytes": 2172
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/initial-api-proof-failure.log",
+      "sha256": "42211e2efc17d12c3a9d9c61a2675502b21ad00e420412cc385ea08ad21ee7de",
+      "bytes": 5259
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/initial-esm-loader-failure.log",
+      "sha256": "dd535517235c55ea758f09cc3cff69161073022e8a5797b9222297801be063e7",
+      "bytes": 1736
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/prepare-review-initial.mjs",
+      "sha256": "e3a89788c79e85e55220ac6633dbe3ceb03553fa8cea638199655b6e62caece2",
+      "bytes": 4784
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/prepare-review-second.mjs",
+      "sha256": "8e8a32f97fb60064858cc48aba6402dff6cca9b7e788993b5feb0aa553f61dfe",
+      "bytes": 4960
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/prepare-review.mjs",
+      "sha256": "5ea796b3e337386adad16168a1d01255bd7949a7ccbf812cf783a342162cde1b",
+      "bytes": 5064
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-combined.ts",
+      "sha256": "297ae3528f9f57a60ede10fc988d67b9418fae14e72af950bff225aee3c656f7",
+      "bytes": 3710
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-emitted.js",
+      "sha256": "e20df4b2dfec8e938775835b0e37ddc679c0ee1ae143e42402e0314b27622b29",
+      "bytes": 2864
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-emitted.mjs",
+      "sha256": "638a34b6d22762a4fb6d1b577449148e52079b88d607e5866c2fa91076c1e012",
+      "bytes": 2942
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-fixture.mts",
+      "sha256": "df41ca0d1bb7bd12809d0c1fbdf2e683fc74c177a80b4c312d637ea463be164b",
+      "bytes": 3115
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-fixture.ts",
+      "sha256": "df41ca0d1bb7bd12809d0c1fbdf2e683fc74c177a80b4c312d637ea463be164b",
+      "bytes": 3115
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-observations.test.mts",
+      "sha256": "11cf6bd4299d4147dfbb63a386b256f471cd8d278f941d5c8017da738ecd75e5",
+      "bytes": 10517
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-observations.test.ts",
+      "sha256": "86a875d9490cb1ce92a4b4719d8e681f689f8ea1701ff087832c3b0080fb6ccf",
+      "bytes": 10516
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review-source.mjs",
+      "sha256": "fbb85b00d8d150dc7cb238867dee9c001e50fffba458cbba903724057a24e188",
+      "bytes": 2941
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/review.d.ts",
+      "sha256": "202409b225a1400fadad35fd33869432ff374f2865657145b7b3a7ee7898f179",
+      "bytes": 1134
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/second-api-proof-failure.log",
+      "sha256": "875e3aa26138bcf88fdac249df70681b8c73156264a998fe63023d411b86086e",
+      "bytes": 5104
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/static-proof.log",
+      "sha256": "91c48e7ca03e031b790424218529372003bc26d600ba27fa97f5a83488c8dcff",
+      "bytes": 1094
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/static-results.json",
+      "sha256": "91c48e7ca03e031b790424218529372003bc26d600ba27fa97f5a83488c8dcff",
+      "bytes": 1094
+    },
+    {
+      "path": "/tmp/knorvia-workflow-event-log-candidate-review-20261002/transport-selected.ts",
+      "sha256": "3df381f2a6f4f0eefe608380479be635b1b02c41a09e6313aa2cf9503dd20fce",
+      "bytes": 1662
+    }
+  ],
+  "historicalBindings": [
+    {
+      "path": "docs/evidence/knorvia-workflow-event-log-freeze-20261002.json",
+      "sha256": "f24704c7368ba46a66b54f69445be79e86fc4292e5c28402942fafb1f1b28a14",
+      "bytes": 6743
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-baseline.json",
+      "sha256": "42587916188ac52126294bbf248edb456461e9f6b95092756b9ec1bb13f84876",
+      "bytes": 4636
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-pins.json",
+      "sha256": "340e14254fbbe5fce2a123065448b2baedcaed7f8f2b36b6e52d44b5d8a13a05",
+      "bytes": 1767
+    }
+  ],
+  "retainedExpression": "Constructor capture sequence, constrained API/field vocabulary, ordinary record/event literals and native-await sequence; unchanged collection bodies. Private publication grouping and explicit receiver calls are localized representation choices. Do not infer copying from conventional matching glue or reconstruction from field regrouping.",
+  "sourceExposure": "Reviewer read exact local predecessor, packet, tests and source-verification criteria. Parent authoring chronology and extra handoff/context reads explicit.",
+  "preservedInfrastructureFailures": [
+    "Initial API comparator treated quote style as unequal type syntax",
+    "Second comparator treated optional-object trailing semicolon as different API",
+    "Temporary .ts loader under /tmp inferred CJS; .mts selected ESM without settings change"
+  ],
+  "verificationLimits": [
+    "Only transported selected excerpt reviewed; saved2003-byte root draft/hash unavailable",
+    "Root integrated source/current consumer and emitted/declaration bindings not adopted or tested",
+    "Node24.19.0 rather than pinned24.14.0; no native/platform/full-suite/build",
+    "No broad function.call override/accessor/thenable equivalence claim",
+    "No header/global inventory/rights/licence grant"
+  ],
+  "remainingBlocker": "Restore status append target read phase before the clock, then recheck preserved selected comparison.",
+  "licenceGrant": null,
+  "reportFile": {
+    "path": "docs/knorvia-workflow-event-log-candidate-review-20261002.md",
+    "sha256": "bcf4870e06f98d5c08d51281dc758825eca76791a2b6524e4216696de01730cb",
+    "bytes": 6054
+  },
+  "executorFinalization": {
+    "initialAttempt": "Process creation failed: 409 Conflict, environment_offline; command did not start",
+    "availabilityRead": "One harmless git status read succeeded, exit0; exactly two pending review files present",
+    "recoveryAction": "Continued evidence finalization only; no health-driven tests or environment/access/settings changes"
+  }
+}

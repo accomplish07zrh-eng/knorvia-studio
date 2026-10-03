@@ -1,0 +1,35 @@
+sessionStore: SessionStorePort | undefined
+sessionId: SessionId
+rootTraceContext: TraceContext
+config: AgentRuntimeConfig
+logger: Logger | undefined
+branchGeneration: number
+runtimeTaskRegistry: RuntimeTaskRegistry
+workingDirectory: string
+workspaceRoot: string
+messageHistory: MessageHistory
+contextBuilder: ContextBuilder | null
+contextInitialized: boolean
+lastEmittedLocalDate: string | undefined
+readFileState: ReadFileStateMap
+artifactStore: ToolArtifactStorePort | undefined
+eventStore: SessionEventStorePort
+eventReducer: EventReducer
+ensureContextInitialized: (traceContext: TraceContext, model?: Model | undefined) => Promise<void>
+recoverInterruptedCompactTimelines: (messages: MessageWithParts[], traceContext: TraceContext) => Promise<number>
+latestConversationMessageId: MessageId | undefined
+latestAssistantMessageId: MessageId | undefined
+latestAssistantTurnId: TurnId | undefined
+lastAssistantCompletedAtMs: number | undefined
+mainTurnCacheHitAggregate: MainTurnCacheHitAggregate
+turnNumber: number
+sessionPersisted: boolean
+discardPersistedPendingSteerInputs: (traceContext: TraceContext) => Promise<number>
+readSessionTodosForContext: (traceContext: TraceContext) => Promise<{ status: "pending" | "completed" | "in_progress"; content: string; priority: "high" | "medium" | "low"; }[]>
+readSessionTargetForContext: (traceContext: TraceContext) => Promise<SessionGoal | null>
+injectTargetStateIntoMessageHistory: (target: SessionGoal | null) => void
+createEvent: (type: SessionEventType, payload: unknown, traceContext: TraceContext) => SessionEvent
+appendEvent: (event: SessionEvent, traceContext: TraceContext) => Promise<void>
+runSessionStartHooks: (source: "resume" | "startup" | "clear" | "compact", traceContext: TraceContext, signal?: AbortSignal | undefined, model?: Pick<Model, "providerId" | "modelId"> | undefined) => Promise<HookRunResult>
+injectHookAdditionalContextIntoMessageHistory: (eventName: HookEventName, additionalContexts: readonly string[]) => RuntimeMessageEntry | undefined
+All runtime method calls use this runtime as receiver. sessionStore/eventStore/eventReducer/runtimeTaskRegistry methods keep their own port receiver. logger optional, methods required; absent logger skips argument computations.

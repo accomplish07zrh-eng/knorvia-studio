@@ -1,0 +1,8 @@
+{
+  "stage": "first synthetic publication fixture",
+  "failure": "Zod invalid_enum_value at phases[0].behavior: received scheduled; accepted agent/scheduled_graph/critic/complete",
+  "classification": "test fixture error before predecessor/candidate execution",
+  "correction": "synthetic phase behavior changed to scheduled_graph; no production or historical assertion changes",
+  "secondSetupFailure": "Setting only the phase node completed was undone by real updatePhase(active), so the deliberately refusing synthetic runner led to scheduler error_threshold. Corrected fixture adds an already completed task, which is the scheduler executable target; does not bypass runtime gates.",
+  "thirdSetupFailure": "New fixture incorrectly guessed executor_frontier_changed; actual branch scheduler publishes frontier_changed. Fixed only newly authored fixture expectation; historical assertions/oracles untouched."
+}

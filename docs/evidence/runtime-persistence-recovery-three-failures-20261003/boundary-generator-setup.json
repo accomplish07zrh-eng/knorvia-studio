@@ -1,0 +1,6 @@
+{
+  "failure": "TypeError:s.index is not a function",
+  "stage": "own probe generator before fixture creation",
+  "partialEffects": "compiled draft artifacts/manifest copied;no production modification",
+  "correction": "String.indexOf used;no assertions or oracle change"
+}

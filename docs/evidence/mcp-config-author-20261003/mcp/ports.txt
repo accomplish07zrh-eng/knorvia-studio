@@ -1,0 +1,12 @@
+config: AgentRuntimeConfig
+mcpPort: McpPort | undefined
+mcpInitialized: boolean
+mcpToolsRegistered: boolean
+mcpStartupPromise: Promise<McpConnectionSnapshot> | undefined
+registry: ToolRegistry
+logger: Logger | undefined
+trackResidencyBlockingWork: <T>(work: Promise<T>) => Promise<T>
+startMcpStartup: (traceContext: TraceContext) => Promise<McpConnectionSnapshot> | undefined
+invalidateToolCache: () => void
+workingDirectory: string
+Configuration paths: config.mcp.trustedWindowsComputerUseServerNames; config.mcp.trustedOfficialCuaServerNames; config.runtimeFeatures.computerUse.

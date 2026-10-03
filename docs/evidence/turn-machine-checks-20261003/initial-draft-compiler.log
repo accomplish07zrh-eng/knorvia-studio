@@ -1,0 +1,26 @@
+{"typescript":"6.0.2","diagnostics":[{"code":2322,"file":"apps/cli/packages/core/src/agent/turn-machine.ts","message":"Type '{ id: string; name: string; input: unknown; status: \"scheduled\"; scheduledAt: Date; }[]' is not assignable to type 'ToolCallState[]'.\n  Type '{ id: string; name: string; input: unknown; status: \"scheduled\"; scheduledAt: Date; }' is not assignable to type 'ToolCallState'.\n    Types of property 'id' are incompatible.\n      Type 'string' is not assignable to type 'ToolCallId'.\n        Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."}],"publicAPIEqual":true,"selectedEmissions":2}
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1 !== 0
+
+    at Object.<anonymous> (/tmp/knorvia-turn-machine-20261003/compiler.cjs:13:8)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

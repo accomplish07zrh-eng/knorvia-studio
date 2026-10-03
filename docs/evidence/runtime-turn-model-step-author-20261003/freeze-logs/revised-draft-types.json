@@ -1,0 +1,24 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 4058,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts",
+      "message": "Return type of exported function has or is using name 'AssistantPersistenceAnchor' from external module \"/workspace/knorvia-studio/apps/cli/packages/core/src/runtime/methods/turn-stop\" but cannot be named."
+    },
+    {
+      "code": 4058,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts",
+      "message": "Return type of exported function has or is using name 'AssistantPersistenceAnchor' from external module \"/workspace/knorvia-studio/apps/cli/packages/core/src/runtime/methods/turn-stop\" but cannot be named."
+    }
+  ],
+  "apiEqual": false,
+  "modules": [
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-fields.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-operation.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-records.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-recovery.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts"
+  ],
+  "emissions": []
+}

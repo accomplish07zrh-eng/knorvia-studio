@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "owner": "turn-tool-batch",
+  "draft": "draft-01",
+  "sealedAtUtc": "2026-10-02T21:59:49.048497+00:00",
+  "logicalProductionRoot": "runtime/methods/turn-tools.ts",
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "predecessorBodyAllowed": false,
+  "rightsConclusion": null,
+  "status": "initial-draft-sealed-before-clarification-or-review",
+  "readInputJournal": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/packet.json",
+      "sha256": "55071d0312c057ca2e14586cbb8d5fcf9f1a9a99d3eba306ea73078ad4e060ea",
+      "bytes": 1334,
+      "role": "input-manifest",
+      "readOrder": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/contract.md",
+      "sha256": "2d17f06381acb5505c6ab7127b96ded3300ad962c93e7d9085ea045cdd7f6775",
+      "bytes": 7056,
+      "role": "permitted-body-free-input",
+      "readOrder": 1,
+      "manifestSha256": "2d17f06381acb5505c6ab7127b96ded3300ad962c93e7d9085ea045cdd7f6775",
+      "manifestBytes": 7056,
+      "matchesManifest": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/api.d.ts",
+      "sha256": "761618e91ce20c043c1df4c708bd0c894a8716e693769264215b2e1228e42c67",
+      "bytes": 673,
+      "role": "permitted-body-free-input",
+      "readOrder": 2,
+      "manifestSha256": "761618e91ce20c043c1df4c708bd0c894a8716e693769264215b2e1228e42c67",
+      "manifestBytes": 673,
+      "matchesManifest": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/imports.d.ts",
+      "sha256": "71811cf159918cfeabaaf6be5040b209c4f081849df50ad9f05b16133d009a22",
+      "bytes": 1766,
+      "role": "permitted-body-free-input",
+      "readOrder": 3,
+      "manifestSha256": "71811cf159918cfeabaaf6be5040b209c4f081849df50ad9f05b16133d009a22",
+      "manifestBytes": 1766,
+      "matchesManifest": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/supporting.d.ts",
+      "sha256": "260f77b797fc59ae6288dd4c97daa05c51e4077706aac793755e0aaf0f59e638",
+      "bytes": 6743,
+      "role": "permitted-body-free-input",
+      "readOrder": 4,
+      "manifestSha256": "260f77b797fc59ae6288dd4c97daa05c51e4077706aac793755e0aaf0f59e638",
+      "manifestBytes": 6743,
+      "matchesManifest": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/runtime-ports.d.ts",
+      "sha256": "fabb24e75af0f8b0e47a6a0c8a901f7a1fd0f79e1b961da3e251fa9bc50382c5",
+      "bytes": 1451,
+      "role": "permitted-body-free-input",
+      "readOrder": 5,
+      "manifestSha256": "fabb24e75af0f8b0e47a6a0c8a901f7a1fd0f79e1b961da3e251fa9bc50382c5",
+      "manifestBytes": 1451,
+      "matchesManifest": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/dependency-ports.json",
+      "sha256": "d9277716231155bbe4de0dd70f080d5250a7fe2f1a1f04fbd01928a4c16a3bd7",
+      "bytes": 7731,
+      "role": "permitted-body-free-input",
+      "readOrder": 6,
+      "manifestSha256": "d9277716231155bbe4de0dd70f080d5250a7fe2f1a1f04fbd01928a4c16a3bd7",
+      "manifestBytes": 7731,
+      "matchesManifest": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/literals.json",
+      "sha256": "ad6136d4c3b7b2b806b72578ec51f885c9c5fc34fb6d3d9a9aa5e70be1438226",
+      "bytes": 906,
+      "role": "permitted-body-free-input",
+      "readOrder": 7,
+      "manifestSha256": "ad6136d4c3b7b2b806b72578ec51f885c9c5fc34fb6d3d9a9aa5e70be1438226",
+      "manifestBytes": 906,
+      "matchesManifest": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-tool-batch-author-20261003/log-fields.json",
+      "sha256": "9830316f438dfb03191356cc2076f5464a8f0bc55b00276d8bc7698265eb6a6d",
+      "bytes": 1837,
+      "role": "permitted-body-free-input",
+      "readOrder": 8,
+      "manifestSha256": "9830316f438dfb03191356cc2076f5464a8f0bc55b00276d8bc7698265eb6a6d",
+      "manifestBytes": 1837,
+      "matchesManifest": true
+    }
+  ],
+  "files": [
+    {
+      "path": "runtime/methods/turn-tool-batch-follow-up.ts",
+      "sha256": "f82e5456501dfc4183de970611aaa3bf4766cdcf3c04bb396095d13f21afb000",
+      "bytes": 1638,
+      "physicalLines": 48,
+      "wholeFile": "import { traceContextToLogContext } from \"../deps.js\";\nimport type { ToolExecutionResult, TraceContext } from \"../deps.js\";\nimport type { AgentRuntimeInternal } from \"../internal.js\";\nimport type { RegularTurnLoopState } from \"./turn-loop-state.js\";\n\nexport async function steerToolBatchFollowUp(\n  runtime: AgentRuntimeInternal,\n  state: RegularTurnLoopState,\n  result: ToolExecutionResult,\n  traceContext: TraceContext,\n): Promise<void> {\n  const followUp = result.followUpUserInput;\n  if (!followUp?.input) return;\n  const input = followUp.input.trim();\n  if (!input) return;\n  const reasonSource = followUp.reasonSource;\n  const steering = await runtime.steerTurn({\n    delivery: \"guide\",\n    expectedTurnId: state.activeTurn?.turnId,\n    input,\n    source: reasonSource,\n    traceContext,\n  });\n  if (steering.status === \"queued\") {\n    runtime.logger?.debug(\"Queued follow-up user input from tool result\", {\n      ...traceContextToLogContext(traceContext),\n      event: \"tool.follow_up_user_input.queued\",\n      module: \"core.runtime\",\n      pendingInputId: steering.pendingInputId,\n      reasonSource,\n      status: \"queued\",\n      toolCallId: result.toolCallId,\n      toolName: result.toolName,\n    });\n  } else {\n    runtime.logger?.warn(\"Failed to queue follow-up user input from tool result\", {\n      ...traceContextToLogContext(traceContext),\n      activeTurnId: steering.activeTurnId,\n      event: \"tool.follow_up_user_input.rejected\",\n      module: \"core.runtime\",\n      reason: steering.reason,\n      reasonSource,\n      status: \"failed\",\n      toolCallId: result.toolCallId,\n      toolName: result.toolName,\n    });\n  }\n}\n"
+    },
+    {
+      "path": "runtime/methods/turn-tool-batch-publication.ts",
+      "sha256": "7e2c2e9568983fbf3bed8b1a003b131e6f470f7d5f84cff04fa7053e7451f33a",
+      "bytes": 6268,
+      "physicalLines": 149,
+      "wholeFile": "import type { MessageId, Model, ToolCall, ToolCallId, ToolExecutionResult, TraceContext } from \"../deps.js\";\nimport {\n  createStreamRecoveryAnchorId, emitStreamRecoveryAnchor, emitStreamingToolLedgerUpdate,\n  isErrorForToolResult, isTurnCancellationError, modelContentForToolResult,\n  stringifyToolResultOutput,\n} from \"../helpers/index.js\";\nimport { persistToolResultMediaAttachments } from \"../helpers/tool-result-media-persistence.js\";\nimport type { AgentRuntimeInternal } from \"../internal.js\";\nimport type { StreamedToolExecutionResult } from \"../types.js\";\nimport { projectToolNameForNonEmptyBoundary } from \"./tool-part-persistence.js\";\nimport { completedToolPartMetadata, mcpToolPartMetadata } from \"./tool-part-metadata.js\";\nimport { recordToolUsageFromResult } from \"./turn-tool-usage.js\";\nimport type { RegularTurnLoopState } from \"./turn-loop-state.js\";\nimport { createRuntimeToolResultEntry } from \"../../agent/message-history.js\";\nimport { commitTurnRequestEntries } from \"./turn-output-token-continuation.js\";\nimport type { ToolBatchPartFacts } from \"./turn-tools.js\";\nimport { steerToolBatchFollowUp } from \"./turn-tool-batch-follow-up.js\";\n\nexport async function publishToolBatchResults(\n  runtime: AgentRuntimeInternal,\n  state: RegularTurnLoopState,\n  options: {\n    assistantMessageId: MessageId;\n    modelTraceContext: TraceContext;\n    results: ToolExecutionResult[];\n    parts: Map<ToolCallId, ToolBatchPartFacts>;\n    declared: Map<ToolCallId, ToolCall>;\n    streamed: Map<ToolCallId, StreamedToolExecutionResult>;\n    providerId: Model[\"providerId\"];\n    modelId: Model[\"modelId\"];\n  },\n): Promise<void> {\n  let checkpointCancellation: unknown;\n  for (const result of options.results) {\n    await recordToolUsageFromResult(runtime, result, options.modelTraceContext);\n    const output = stringifyToolResultOutput(result);\n    const isError = isErrorForToolResult(result);\n    const boundary = projectToolNameForNonEmptyBoundary(result.toolName);\n    const part = options.parts.get(result.toolCallId);\n    const modelContent = modelContentForToolResult(result);\n    if (part) {\n      const common = {\n        id: part.partID,\n        sessionID: runtime.sessionId,\n        messageID: options.assistantMessageId,\n        type: \"tool\" as const,\n        callID: result.toolCallId,\n        declarationIndex: part.declarationIndex,\n        tool: boundary.toolName,\n        metadata: boundary.metadata,\n      };\n      if (!isError) {\n        const media = await persistToolResultMediaAttachments({\n          artifactStore: runtime.artifactStore,\n          assistantMessageId: options.assistantMessageId,\n          content: modelContent,\n          sessionId: runtime.sessionId,\n          sessionStore: runtime.sessionStore,\n          signal: state.turnAbortSignal,\n          toolCallId: result.toolCallId,\n          toolName: result.toolName,\n          traceContext: options.modelTraceContext,\n          turnId: state.turnId,\n        });\n        await runtime.persistPart({\n          ...common,\n          state: {\n            status: \"completed\",\n            input: part.input,\n            output,\n            title: result.toolName,\n            metadata: {\n              ...completedToolPartMetadata(result),\n              ...(media ? { modelContentLayout: media.modelContentLayout } : {}),\n            },\n            time: { start: result.startedAt.getTime(), end: result.completedAt.getTime() },\n            ...(media ? { attachments: media.attachments } : {}),\n          },\n        }, options.modelTraceContext);\n      } else {\n        await runtime.persistPart({\n          ...common,\n          state: {\n            status: \"error\",\n            input: part.input,\n            error: result.error?.message ?? output,\n            metadata: {\n              ...mcpToolPartMetadata(runtime.registry.getMetadata(result.toolName)?.mcpPresentation),\n              ...(typeof modelContent === \"string\" ? { modelContent } : {}),\n            },\n            time: { start: result.startedAt.getTime(), end: result.completedAt.getTime() },\n          },\n        }, options.modelTraceContext);\n      }\n    }\n    runtime.logger?.debug(\"addToolResult\", {\n      toolCallId: result.toolCallId,\n      toolName: result.toolName,\n      success: result.success,\n      contentLength: output.length,\n    });\n    commitTurnRequestEntries(runtime, state.turnRequestState, [\n      createRuntimeToolResultEntry(result.toolCallId, result.toolName, modelContent, isError),\n    ]);\n    try {\n      await runtime.emitFileMutationCheckpoint({\n        abortSignal: state.turnAbortSignal,\n        events: state.events,\n        messageId: state.userMessageId,\n        result,\n        toolMessageId: options.assistantMessageId,\n        traceContext: options.modelTraceContext,\n      });\n    } catch (error) {\n      if (!isTurnCancellationError(error, state.turnAbortSignal)) throw error;\n      checkpointCancellation ??= error;\n      continue;\n    }\n    const call = options.declared.get(result.toolCallId);\n    if (call) {\n      const recoveryAnchorId = createStreamRecoveryAnchorId(options.assistantMessageId, result.toolCallId);\n      const committedAt = result.completedAt;\n      await emitStreamRecoveryAnchor(runtime, state.events, options.modelTraceContext, {\n        id: recoveryAnchorId,\n        assistantMessageId: options.assistantMessageId,\n        toolCallId: result.toolCallId,\n        toolName: boundary.toolName,\n        success: result.success,\n        resultPartId: part?.partID,\n        committedAt,\n      });\n      await emitStreamingToolLedgerUpdate(runtime, state.events, options.modelTraceContext, {\n        assistantMessageId: options.assistantMessageId,\n        event: \"tool_result_committed\",\n        toolCall: call,\n        input: part?.input ?? call.input,\n        startedAt: new Date(part?.startedAt ?? result.startedAt.getTime()),\n        committedAt,\n        resultPartId: part?.partID,\n        recoveryAnchorId,\n        executionTiming: options.streamed.has(result.toolCallId) ? \"during_stream\" : \"end_of_stream\",\n        providerId: options.providerId,\n        modelId: options.modelId,\n      });\n    }\n    await steerToolBatchFollowUp(runtime, state, result, options.modelTraceContext);\n  }\n  if (checkpointCancellation) throw checkpointCancellation;\n}\n"
+    },
+    {
+      "path": "runtime/methods/turn-tools.ts",
+      "sha256": "7bef2a039a58bdf352b658c39b4464db49f8b7ea68995b3b159ef8d50d55c22d",
+      "bytes": 10842,
+      "physicalLines": 267,
+      "wholeFile": "import { createPartId, traceContextToLogContext } from \"../deps.js\";\nimport type { MessageId, ModelToolCall, ToolCall, ToolCallId, TraceContext } from \"../deps.js\";\nimport {\n  emitStreamingToolLedgerUpdate, modelContentForToolResult, toRecordInput,\n} from \"../helpers/index.js\";\nimport type { RuntimeModelTextResult, StreamedToolExecutionResult } from \"../types.js\";\nimport type { AgentRuntimeInternal } from \"../internal.js\";\nimport { emitSyntheticStreamedToolError } from \"./streaming-tool-synthetic-result.js\";\nimport { persistPendingToolPart, projectToolNameForNonEmptyBoundary } from \"./tool-part-persistence.js\";\nimport { mcpToolPartMetadata } from \"./tool-part-metadata.js\";\nimport { persistToolModelStepFinish } from \"./turn-step-finish.js\";\nimport { drainInlineGuideForNextRequest } from \"./turn-guide-drain.js\";\nimport { handleToolCallAnomalyWarnings } from \"./turn-tool-warnings.js\";\nimport { emitNestedModelUsageEvents } from \"./turn-nested-model-usage.js\";\nimport type { RegularTurnLoopState } from \"./turn-loop-state.js\";\nimport {\n  isAutomationMutationRestrictedTurn, isOffPeakCreateRestrictedTurn, recordCompletedToolBatch,\n} from \"./turn-loop-state.js\";\nimport { recordBrowserTurnToolResult } from \"../../repl/browser-turn-state.js\";\nimport { publishToolBatchResults } from \"./turn-tool-batch-publication.js\";\n\nexport interface ToolBatchPartFacts {\n  declarationIndex: number;\n  partID: ReturnType<typeof createPartId>;\n  input: Record<string, unknown>;\n  startedAt: number;\n}\n\nexport async function executeToolCallsForModelStep(\n  this: AgentRuntimeInternal,\n  state: RegularTurnLoopState,\n  options: {\n    assistantCreatedAt: number;\n    assistantMessageId: MessageId;\n    modelTraceContext: TraceContext;\n    result: RuntimeModelTextResult;\n    streamedToolResults?: StreamedToolExecutionResult[];\n    toolCalls: ModelToolCall[];\n  },\n): Promise<\"continue\" | \"break\"> {\n  const model = state.model;\n  if (!model) throw new Error(\"Model-backed tool execution requires the loop Model\");\n  const providerId = model.providerId;\n  const modelId = model.modelId;\n  const toolCalls: ToolCall[] = options.toolCalls.map((call) => ({\n    id: call.id,\n    name: call.name,\n    input: call.input,\n  }));\n  const streamed = new Map<ToolCallId, StreamedToolExecutionResult>();\n  for (const entry of options.streamedToolResults ?? []) streamed.set(entry.toolCallId, entry);\n  const declared = new Map<ToolCallId, ToolCall>();\n  for (const call of toolCalls) declared.set(call.id, call);\n  const parts = new Map<ToolCallId, ToolBatchPartFacts>();\n  for (let declarationIndex = 0; declarationIndex < toolCalls.length; declarationIndex++) {\n    const toolCall = toolCalls[declarationIndex];\n    const entry = streamed.get(toolCall.id);\n    const part = {\n      declarationIndex,\n      partID: entry ? entry.partID : createPartId(),\n      input: entry ? entry.input : toRecordInput(toolCall.input),\n      startedAt: entry ? entry.result.startedAt.getTime() : Date.now(),\n    };\n    parts.set(toolCall.id, part);\n    if (entry && entry.ledgerRecorded !== false) continue;\n    await persistPendingToolPart(this, {\n      assistantMessageId: options.assistantMessageId,\n      declarationIndex,\n      input: part.input,\n      partID: part.partID,\n      toolCall,\n      traceContext: options.modelTraceContext,\n      model,\n      metadata: mcpToolPartMetadata(this.registry.getMetadata(toolCall.name)?.mcpPresentation),\n    });\n    await emitStreamingToolLedgerUpdate(this, state.events, options.modelTraceContext, {\n      assistantMessageId: options.assistantMessageId,\n      event: \"tool_call_closed\",\n      toolCall,\n      input: part.input,\n      startedAt: new Date(part.startedAt),\n      resultPartId: part.partID,\n      executionTiming: entry ? \"during_stream\" : \"end_of_stream\",\n      providerId,\n      modelId,\n    });\n    if (entry) {\n      await emitSyntheticStreamedToolError(this, state.events, options.modelTraceContext, entry.result);\n    }\n  }\n  const schedule = await this.scheduleTools(toolCalls);\n  state.turnMachine.schedule(this.toScheduleState(schedule));\n  const pending = toolCalls.filter((call) => !streamed.has(call.id));\n  state.turnMachine.startToolExecution();\n  let pendingResults: StreamedToolExecutionResult[\"result\"][] = [];\n  if (pending.length > 0) {\n    const pendingSchedule = pending.length === toolCalls.length\n      ? schedule : await this.scheduleTools(pending);\n    const scheduledEvents = await this.emitToolScheduledEvents(\n      pending, pendingSchedule, options.assistantMessageId, options.modelTraceContext,\n    );\n    state.events.push(...scheduledEvents);\n    for (const toolCall of pending) {\n      const part = parts.get(toolCall.id)!;\n      await emitStreamingToolLedgerUpdate(this, state.events, options.modelTraceContext, {\n        assistantMessageId: options.assistantMessageId,\n        event: \"tool_queued\",\n        toolCall,\n        input: part.input,\n        startedAt: new Date(part.startedAt),\n        resultPartId: part.partID,\n        executionTiming: \"end_of_stream\",\n        providerId,\n        modelId,\n      });\n    }\n    this.logger?.debug(\"Executing tools\", {\n      streamedToolCallCount: streamed.size,\n      toolCallCount: pending.length,\n      tools: pending.map((call) => call.name),\n    });\n    const execution = await this.executeTools(pending, pendingSchedule, {\n      automationTurn: isAutomationMutationRestrictedTurn(state),\n      offPeakTurn: isOffPeakCreateRestrictedTurn(state),\n      signal: state.turnAbortSignal,\n      traceContext: options.modelTraceContext,\n      subagentModelOverride: state.subagentModelOverride,\n      model,\n      onBatchStart: async (ids: ToolCallId[]) => {\n        if (state.turnAbortSignal.aborted) return;\n        for (const id of ids) {\n          const call = declared.get(id);\n          const part = parts.get(id);\n          if (!call || !part) continue;\n          part.startedAt = Date.now();\n          const boundary = projectToolNameForNonEmptyBoundary(call.name);\n          await this.persistPart({\n            id: part.partID,\n            sessionID: this.sessionId,\n            messageID: options.assistantMessageId,\n            type: \"tool\",\n            callID: id,\n            declarationIndex: part.declarationIndex,\n            tool: boundary.toolName,\n            metadata: boundary.metadata,\n            state: {\n              status: \"running\",\n              input: part.input,\n              title: call.name,\n              metadata: mcpToolPartMetadata(this.registry.getMetadata(call.name)?.mcpPresentation) ?? {},\n              time: { start: part.startedAt },\n            },\n          }, options.modelTraceContext);\n          await emitStreamingToolLedgerUpdate(this, state.events, options.modelTraceContext, {\n            assistantMessageId: options.assistantMessageId,\n            event: \"tool_started\",\n            toolCall: call,\n            input: part.input,\n            startedAt: new Date(part.startedAt),\n            resultPartId: part.partID,\n            executionTiming: \"end_of_stream\",\n            providerId,\n            modelId,\n          });\n        }\n      },\n    });\n    pendingResults = execution.results;\n    state.events.push(...execution.events);\n  }\n  const resultIndex = new Map<ToolCallId, StreamedToolExecutionResult[\"result\"]>();\n  for (const [id, entry] of streamed) resultIndex.set(id, entry.result);\n  for (const result of pendingResults) resultIndex.set(result.toolCallId, result);\n  const results: StreamedToolExecutionResult[\"result\"][] = [];\n  for (const call of toolCalls) {\n    const result = resultIndex.get(call.id);\n    if (result) results.push(result);\n  }\n  for (const result of results) {\n    recordBrowserTurnToolResult({\n      output: result.output,\n      sessionId: this.sessionId,\n      toolName: result.toolName,\n      turnId: state.turnId,\n    });\n  }\n  await emitNestedModelUsageEvents(this, {\n    events: state.events,\n    results,\n    traceContext: options.modelTraceContext,\n  });\n  for (const result of results) {\n    state.turnMachine.completeTool(result.toolCallId, result.success\n      ? modelContentForToolResult(result)\n      : result.error?.message ?? String(result.output));\n  }\n  state.turnMachine.aggregateToolResults();\n  this.logger?.debug(\"Tools executed\", {\n    resultCount: results.length,\n    results: results.map((result) => ({\n      toolCallId: result.toolCallId,\n      toolName: result.toolName,\n      success: result.success,\n      output: typeof result.output === \"string\" ? result.output.slice(0, 50) : \"[object]\",\n    })),\n  });\n  this.logger?.debug(\"Injecting tool results\", { resultCount: results.length });\n  await publishToolBatchResults(this, state, {\n    assistantMessageId: options.assistantMessageId,\n    modelTraceContext: options.modelTraceContext,\n    results,\n    parts,\n    declared,\n    streamed,\n    providerId,\n    modelId,\n  });\n  const stopping = results.find((result) => result.turnControl?.stopTurnAfterResult === true);\n  if (stopping) {\n    await persistToolModelStepFinish(this, state, options);\n    if (stopping.turnControl?.reason === \"automation_create_limit\") {\n      state.automationCreateLimitReached = true;\n      recordCompletedToolBatch(state);\n      this.logger?.info(\"Automation create limit switched turn to text-only response\", {\n        event: \"automation.create_limit.text_only_continuation\",\n        module: \"core.runtime\",\n        reason: stopping.turnControl.reason,\n        status: \"completed\",\n        toolCallId: stopping.toolCallId,\n        toolName: stopping.toolName,\n      });\n      return \"continue\";\n    }\n    if (state.activeTurn) {\n      await this.fallbackPendingGuidesToQueue({\n        activeTurn: state.activeTurn,\n        events: state.events,\n        reasonCode: \"guide.noToolBoundary\",\n        traceContext: state.turnTraceContext,\n      });\n    }\n    this.logger?.info(\"Tool result requested turn stop\", {\n      event: \"tool.turn_control.stop\",\n      module: \"core.runtime\",\n      reason: stopping.turnControl?.reason,\n      status: \"completed\",\n      toolCallId: stopping.toolCallId,\n      toolName: stopping.toolName,\n    });\n    if (state.activeTurn) state.activeTurn.steerable = false;\n    state.turnMachine.complete(state.modelResponse, \"success\");\n    return \"break\";\n  }\n  await handleToolCallAnomalyWarnings(this, state, {\n    modelTraceContext: options.modelTraceContext,\n    toolCalls: options.toolCalls,\n  });\n  await persistToolModelStepFinish(this, state, options);\n  await drainInlineGuideForNextRequest(this, state);\n  recordCompletedToolBatch(state);\n  this.logger?.debug(\"After inject, message count\", {\n    compactToolTurnsSinceLastCompact: state.compactTracking?.toolTurnsSinceCompact,\n    count: this.messageHistory.getMessages().length,\n    reactiveCompactAttemptedInCurrentModelStep: state.reactiveCompactAttemptedInCurrentModelStep,\n  });\n  return \"continue\";\n}\n"
+    }
+  ],
+  "limitations": [
+    "Only packet.json and its eight body-free listed inputs read; no production, predecessor, history, tests, oracle, lineage, or other author files read.",
+    "No tests, builds, live IO, tasks, or child agents.",
+    "No initial draft file may be overwritten.",
+    "Public shapes absent for machine operations, logger invocation, ledger and anchor options, result fields, tool-name projection, message history, and steering diagnostics; these are authored provisional mappings pending body-free curator clarification."
+  ]
+}

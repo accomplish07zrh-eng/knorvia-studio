@@ -1,0 +1,202 @@
+{
+  "typescript": "6.0.2",
+  "mode": "scoped five source modules;immutable historical and actual emitted API",
+  "diagnostics": [],
+  "api": [
+    {
+      "owner": "target",
+      "before": {
+        "accountTargetTurnCompletion": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; startedAtMs: number; startedTarget: SessionGoal | null; traceContext: TraceContext; usage?: ModelUsageSummary | undefined; }): Promise<void>"
+        ],
+        "activatePausedTargetAfterResume": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<SessionGoal | null>"
+        ],
+        "continueActiveTargetIfIdle": [
+          "(this: AgentRuntimeInternal, options?: { traceContext?: TraceContext | undefined; abortSignal?: AbortSignal | undefined; inputId?: string | undefined; intent?: TurnInputIntentMetadata | undefined; verifyBeforeContinue?: boolean | undefined; } | undefined): Promise<TurnResult | null>"
+        ],
+        "executeTargetContinuationCommand": [
+          "(this: AgentRuntimeInternal, options: TargetContinuationRuntimeCommandOptions): Promise<TurnResult | null>"
+        ],
+        "finishTargetTurnAccounting": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; endedAtMs: number; startedTarget: SessionGoal | null; status?: \"paused\" | undefined; traceContext: TraceContext; }): Promise<SessionGoal | null>"
+        ],
+        "heartbeatTargetTurnAccounting": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; seenAtMs: number; startedTarget: SessionGoal | null; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "pauseActiveTargetForCancellation": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<void>"
+        ],
+        "recordTargetChanged": [
+          "(this: AgentRuntimeInternal, input: TargetChangedPayload & { traceContext: TraceContext; }): Promise<void>"
+        ],
+        "startTargetTurnAccounting": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; startedAtMs: number; startedTarget: SessionGoal | null; traceContext: TraceContext; }): Promise<SessionGoal | null>"
+        ],
+        "targetContinuationCandidate": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<SessionGoal | null>"
+        ]
+      },
+      "after": {
+        "accountTargetTurnCompletion": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; startedAtMs: number; startedTarget: SessionGoal | null; traceContext: TraceContext; usage?: ModelUsageSummary | undefined; }): Promise<void>"
+        ],
+        "activatePausedTargetAfterResume": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<SessionGoal | null>"
+        ],
+        "continueActiveTargetIfIdle": [
+          "(this: AgentRuntimeInternal, options?: { traceContext?: TraceContext | undefined; abortSignal?: AbortSignal | undefined; inputId?: string | undefined; intent?: TurnInputIntentMetadata | undefined; verifyBeforeContinue?: boolean | undefined; } | undefined): Promise<TurnResult | null>"
+        ],
+        "executeTargetContinuationCommand": [
+          "(this: AgentRuntimeInternal, options: TargetContinuationRuntimeCommandOptions): Promise<TurnResult | null>"
+        ],
+        "finishTargetTurnAccounting": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; endedAtMs: number; startedTarget: SessionGoal | null; status?: \"paused\" | undefined; traceContext: TraceContext; }): Promise<SessionGoal | null>"
+        ],
+        "heartbeatTargetTurnAccounting": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; seenAtMs: number; startedTarget: SessionGoal | null; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "pauseActiveTargetForCancellation": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<void>"
+        ],
+        "recordTargetChanged": [
+          "(this: AgentRuntimeInternal, input: TargetChangedPayload & { traceContext: TraceContext; }): Promise<void>"
+        ],
+        "startTargetTurnAccounting": [
+          "(this: AgentRuntimeInternal, input: { inputID: string; startedAtMs: number; startedTarget: SessionGoal | null; traceContext: TraceContext; }): Promise<SessionGoal | null>"
+        ],
+        "targetContinuationCandidate": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<SessionGoal | null>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "goal-summary-title",
+      "before": {
+        "maybeStartGoalSummaryTitleGeneration": [
+          "(this: AgentRuntimeInternal, input: string, targetID: string, options?: { traceContext?: TraceContext | undefined; } | undefined): boolean"
+        ],
+        "persistFallbackGoalSummaryTitle": [
+          "(this: AgentRuntimeInternal, input: { objective: string; reason: string; targetID: string; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "persistGeneratedGoalSummaryTitle": [
+          "(this: AgentRuntimeInternal, input: { targetID: string; title: string; traceContext: TraceContext; }): Promise<void>"
+        ]
+      },
+      "after": {
+        "maybeStartGoalSummaryTitleGeneration": [
+          "(this: AgentRuntimeInternal, input: string, targetID: string, options?: { traceContext?: TraceContext | undefined; } | undefined): boolean"
+        ],
+        "persistFallbackGoalSummaryTitle": [
+          "(this: AgentRuntimeInternal, input: { objective: string; reason: string; targetID: string; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "persistGeneratedGoalSummaryTitle": [
+          "(this: AgentRuntimeInternal, input: { targetID: string; title: string; traceContext: TraceContext; }): Promise<void>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "turn-stop",
+      "before": {
+        "captureAssistantPersistenceAnchor": [
+          "(runtime: AgentRuntimeInternal): AssistantPersistenceAnchor"
+        ],
+        "finishModelStepWithoutToolCalls": [
+          "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }): Promise<\"continue\" | \"break\">"
+        ],
+        "persistCompletedAssistantStep": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; includeEmptyAssistant: boolean; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }): Promise<boolean>"
+        ],
+        "persistOutputTokenLimitErrorCarrier": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { error: { data: Record<string, unknown>; name: string; }; finishReason: string; model: Model; modelTraceContext: TraceContext; }): Promise<void>"
+        ]
+      },
+      "after": {
+        "captureAssistantPersistenceAnchor": [
+          "(runtime: AgentRuntimeInternal): AssistantPersistenceAnchor"
+        ],
+        "finishModelStepWithoutToolCalls": [
+          "(this: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }): Promise<\"continue\" | \"break\">"
+        ],
+        "persistCompletedAssistantStep": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantPersistenceAnchor: AssistantPersistenceAnchor; assistantCreatedAt: number; assistantMessageId: MessageId; includeEmptyAssistant: boolean; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }): Promise<boolean>"
+        ],
+        "persistOutputTokenLimitErrorCarrier": [
+          "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { error: { data: Record<string, unknown>; name: string; }; finishReason: string; model: Model; modelTraceContext: TraceContext; }): Promise<void>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "subagent-messages",
+      "before": {
+        "enqueueSubagentMessage": [
+          "(this: AgentRuntimeInternal, input: EnqueueSubagentMessageInput): undefined"
+        ],
+        "persistSubagentMessageCommand": [
+          "(this: AgentRuntimeInternal, command: SubagentMessageRuntimeCommand, midTurn?: boolean | undefined): Promise<MessageId>"
+        ]
+      },
+      "after": {
+        "enqueueSubagentMessage": [
+          "(this: AgentRuntimeInternal, input: EnqueueSubagentMessageInput): undefined"
+        ],
+        "persistSubagentMessageCommand": [
+          "(this: AgentRuntimeInternal, command: SubagentMessageRuntimeCommand, midTurn?: boolean | undefined): Promise<MessageId>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "control-only-turn",
+      "before": {
+        "emitControlOnlyUserTurn": [
+          "(this: AgentRuntimeInternal, options: { messageId: MessageId; titleInput: string; historyText: string; turnInput: string; traceContext: TraceContext; inputId?: string | undefined; inputSource?: \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\" | undefined; workflowLaunch?: WorkflowLaunchMeta | undefined; intent?: TurnInputIntentMetadata | undefined; persistMessage: () => Promise<void>; afterTurnBoundary?: (() => void) | undefined; }): Promise<void>"
+        ],
+        "persistWorkflowLaunchUserMessage": [
+          "(this: AgentRuntimeInternal, options: { messageID: MessageId; text: string; meta: WorkflowLaunchMeta; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "recordExternalUserPrompt": [
+          "(this: AgentRuntimeInternal, input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; intent?: TurnInputIntentMetadata | undefined; } | undefined): Promise<MessageId>"
+        ],
+        "runControlOnlyTurnCommand": [
+          "(this: AgentRuntimeInternal, command: ControlOnlyTurnRuntimeCommand): Promise<void>"
+        ]
+      },
+      "after": {
+        "emitControlOnlyUserTurn": [
+          "(this: AgentRuntimeInternal, options: { messageId: MessageId; titleInput: string; historyText: string; turnInput: string; traceContext: TraceContext; inputId?: string | undefined; inputSource?: \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\" | undefined; workflowLaunch?: WorkflowLaunchMeta | undefined; intent?: TurnInputIntentMetadata | undefined; persistMessage: () => Promise<void>; afterTurnBoundary?: (() => void) | undefined; }): Promise<void>"
+        ],
+        "persistWorkflowLaunchUserMessage": [
+          "(this: AgentRuntimeInternal, options: { messageID: MessageId; text: string; meta: WorkflowLaunchMeta; traceContext: TraceContext; }): Promise<void>"
+        ],
+        "recordExternalUserPrompt": [
+          "(this: AgentRuntimeInternal, input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; intent?: TurnInputIntentMetadata | undefined; } | undefined): Promise<MessageId>"
+        ],
+        "runControlOnlyTurnCommand": [
+          "(this: AgentRuntimeInternal, command: ControlOnlyTurnRuntimeCommand): Promise<void>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    }
+  ],
+  "emitted": [
+    "dist/runtime/methods/target.js",
+    "dist/runtime/methods/target.d.ts",
+    "dist/runtime/methods/goal-summary-title.js",
+    "dist/runtime/methods/goal-summary-title.d.ts",
+    "dist/runtime/methods/turn-stop.js",
+    "dist/runtime/methods/turn-stop.d.ts",
+    "dist/runtime/methods/subagent-messages.js",
+    "dist/runtime/methods/subagent-messages.d.ts",
+    "dist/runtime/methods/control-only-turn.js",
+    "dist/runtime/methods/control-only-turn.d.ts"
+  ]
+}

@@ -1,0 +1,1 @@
+{"mode":"current","results":[{"name":"status-sink replacement preserves subsequent live trace reads","passed":true},{"name":"scheduler replacement preserves executor live loop model","passed":true}],"passed":2,"total":2,"dependencies":"real unchanged source ports; selected owners are strict actual compiler JS","liveIO":false}

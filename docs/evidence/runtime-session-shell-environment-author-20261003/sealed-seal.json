@@ -1,0 +1,9 @@
+{
+  "draft": "/tmp/knorvia-session-shell-packet-author/draft.ts",
+  "algorithm": "SHA-256",
+  "sha256": "ce2000b70b114e77c5fe7608815f34bb7a0da47fbffb863d81c3fa4b89e05e66",
+  "bytes": 6050,
+  "physical_lines": 193,
+  "sealed_before_curator_review": true,
+  "validation": "No compilation, tests, or candidate execution performed."
+}

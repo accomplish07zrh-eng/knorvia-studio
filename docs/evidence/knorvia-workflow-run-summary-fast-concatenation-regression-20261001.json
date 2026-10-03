@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "kind": "Preserved workflow summary native concatenation regression",
+  "failedProductionCommit": "36ff58ccbc427f93de3f870a3883d09a92c9a961",
+  "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+  "failedSourceSha256": "4c1fb804aa635700cde4739ae8d7797c7f2647666e6cd654f1cbc4ef23f2fe2e",
+  "failedSourceBlob": "7f46dc6fdb253933e22475accfc3ccc966772e27",
+  "failedEmittedArtifact": {
+    "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-summary.js",
+    "bytes": 9447,
+    "sha256": "7d760511cc14299ed0edee08dd55c69b0187b909f051d5f65ef32e2e9862731d",
+    "normalizedSha256": "7d760511cc14299ed0edee08dd55c69b0187b909f051d5f65ef32e2e9862731d",
+    "blob": "b4df0c4bfe3c05871aa9554963af1198103c7bbf"
+  },
+  "baselineCommit": "bb69370f7320315c9ca2aa75b8be8ce77696baea",
+  "baselineArchivePath": "apps/cli/packages/core/test/workflow-run-summary-baseline.json",
+  "probePath": "apps/cli/packages/core/test/workflow-run-summary-concatenation-probe.mts",
+  "syntheticOnly": true,
+  "policyChanged": false,
+  "licenseDecision": null,
+  "red": {
+    "source": {
+      "observation": {
+        "emitted": false,
+        "maxStringLength": 536870888,
+        "partLength": 268435444,
+        "old": {
+          "success": false,
+          "name": "RangeError",
+          "message": "Invalid string length"
+        },
+        "current": {
+          "success": true,
+          "length": 400
+        }
+      },
+      "rawLogPath": "/tmp/knorvia-workflow-run-summary-concatenation-red-source.log",
+      "rawLogSha256": "f13498575b4224c5548ef778c3c65fac2e65b11e68de7eae0c9906784722a66d",
+      "rawLogBytes": 868,
+      "exitCode": 1
+    },
+    "emitted": {
+      "observation": {
+        "emitted": true,
+        "maxStringLength": 536870888,
+        "partLength": 268435444,
+        "old": {
+          "success": false,
+          "name": "RangeError",
+          "message": "Invalid string length"
+        },
+        "current": {
+          "success": true,
+          "length": 400
+        }
+      },
+      "rawLogPath": "/tmp/knorvia-workflow-run-summary-concatenation-red-emitted.log",
+      "rawLogSha256": "c3b5eb9546094f47f28a322262d76538f36ef9556ebabe7812e175c87974ae99",
+      "rawLogBytes": 867,
+      "exitCode": 1
+    }
+  },
+  "cause": "Length fitting skipped the original full concatenation, hiding its native RangeError.",
+  "correction": "One full join before prefix length accounting retains the original native failure; no security/permission/cancellation/timeout policy changes.",
+  "scope": "Standalone summary native string-limit probe; appended separately after original eight-case-per-mode suite. Raw red observations retained, no user content."
+}

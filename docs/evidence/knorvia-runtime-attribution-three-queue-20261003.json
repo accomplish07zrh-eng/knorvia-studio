@@ -1,0 +1,39 @@
+{
+  "base": "e188428fa9f62df70650230190e3127e4ff118d9",
+  "owners": [
+    "background",
+    "model-status",
+    "usage-observability"
+  ],
+  "modules": [
+    "background",
+    "background-payload",
+    "model-status",
+    "usage-observability",
+    "usage-observability-projection"
+  ],
+  "sourceExposure": "Curator source-exposed; three fresh body-free authors receive only curated source-derived functional/API declarations, drafts sealed before comparison. No clean-room/rights claim.",
+  "protected": "E context/provider/workflow/compaction/history; accepted registry/admission/persistence and permission/full-access; existing background workflow adapter/dependencies unchanged.",
+  "validation": "Ordinary suites/builds skipped; scoped gates and minimal synthetic write/lifecycle safety only",
+  "consumers": {
+    "background": [
+      "methods/index.ts",
+      "agent-runtime.ts",
+      "tool/handlers/task-stop.ts",
+      "runtime-tools.ts"
+    ],
+    "model-status": [
+      "methods/index.ts",
+      "methods/title-generation-sidecar.ts",
+      "methods/workspace-generate-text.ts",
+      "methods/turn-model-step.ts"
+    ],
+    "usage-observability": [
+      "methods/events.ts",
+      "methods/turn.ts",
+      "methods/turn-model-step-usage.ts",
+      "methods/title-generation-sidecar.ts",
+      "methods/workspace-generate-text.ts"
+    ]
+  }
+}

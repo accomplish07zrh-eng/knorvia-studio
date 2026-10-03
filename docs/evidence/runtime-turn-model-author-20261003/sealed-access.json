@@ -1,0 +1,52 @@
+{
+  "authorDirectory": "/tmp/knorvia-submission-model-packet-author",
+  "actualInputs": [
+    "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-author-20261003/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-author-20261003/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-author-20261003/imports.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-author-20261003/literals.json",
+    "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-author-20261003/supporting.d.ts"
+  ],
+  "actualContext": [
+    "System instructions specifying assistant and tools",
+    "Developer instructions specifying Codex behavior, sandbox, skills catalog, and delegated-agent limits",
+    "User-provided execution environment context",
+    "Parent NEW_TASK bounded-author delegation",
+    "Own generated commentary, reasoning, tool calls, and tool results"
+  ],
+  "actualTools": [
+    {
+      "tool": "functions.exec / tools.exec_command",
+      "operation": "One exact cat read of the five permitted packet files"
+    },
+    {
+      "tool": "functions.exec / tools.exec_command",
+      "operation": "Create own permitted temporary directory and write draft.ts and access.json via shell heredocs"
+    },
+    {
+      "tool": "functions.exec / tools.exec_command",
+      "operation": "sha256sum own draft.ts and access.json"
+    },
+    {
+      "tool": "functions.exec / tools.exec_command",
+      "operation": "Write own seal.json via shell heredoc"
+    }
+  ],
+  "design": {
+    "organization": "Four directly implemented exported functions, no private helper or added async wrapper",
+    "correspondence": "Retains conventional TypeScript idioms and strong contract-expression correspondence; not a claim of absolute clean-room independence",
+    "declarations": "Exact supplied API parameter shapes and inline import types, without new aliases",
+    "stateOwner": "Supplied runtime and imported dependencies remain the owners of state and execution policy",
+    "semantics": "Native async functions, await locations, callee receivers, ordered field evaluation, lazy request callback, optional logger argument evaluation, and supplied reference identities follow the body-free contract"
+  },
+  "limits": [
+    "No production, history, tests, oracle, lineage, dependency bodies, other packets, or team status were read",
+    "No candidate execution, compile, test, provider/model/MCP/network invocation, or task tool was used",
+    "No userdata, credential, OS/settings, permission, execution-state, policy, cache, retry, listener, or deadline effects were introduced",
+    "No checkout edits; only named own temporary outputs written",
+    "Source is below the supplied 400-physical-line limit by construction",
+    "No runtime or type-check validation performed under the author boundary",
+    "No contribution percentage or licence/header claim"
+  ],
+  "sealOrdering": "SHA256 hashes taken after draft and access writes and before parent/curator comparison; seal.json records those exact hashes"
+}

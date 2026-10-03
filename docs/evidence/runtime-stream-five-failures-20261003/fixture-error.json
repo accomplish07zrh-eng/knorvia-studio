@@ -1,0 +1,6 @@
+{
+  "kind": "fixture setup failure before production edit",
+  "rawTmpLogSha256": "aa4543836a3aadfc984c85c4c1e0c60f4ecd1ee0bafc93f7b4fd9b012ffa86d8",
+  "cause": "Fixture rejected every registry read when streaming execution off, but predecessor abandon legitimately reads registry metadata for ledger projection. Admission avoids registry; publication does not.",
+  "correction": "Allow undefined registry entry, assert0 reads after accept then2 ledger metadata reads on abandon; retain all event/identity/order assertions."
+}

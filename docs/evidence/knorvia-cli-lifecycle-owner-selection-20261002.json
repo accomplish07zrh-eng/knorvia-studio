@@ -1,0 +1,89 @@
+{
+  "formatVersion": 1,
+  "baseline": "ee8710e7b0a9b039eb12729d22823dbe3749b8ae",
+  "kind": "bounded-negative-selection",
+  "decision": "No simpler substantive runtime owner demonstrated in this bounded pass",
+  "sourceExposure": true,
+  "productionChanges": 0,
+  "newTests": 0,
+  "behavioralRuns": 0,
+  "fixtureChanges": 0,
+  "historicalOraclesChanged": false,
+  "currentSelectorsChanged": false,
+  "grant": null,
+  "unresolvedStatuses": {
+    "strands": "inherited/unresolved",
+    "maySet": "mixed/unresolved",
+    "settlement": "mixed/unresolved"
+  },
+  "scope": [
+    "docs/knorvia-cli-lifecycle-owner-selection-20261002.md",
+    "docs/evidence/knorvia-cli-lifecycle-owner-selection-20261002.json"
+  ],
+  "files": [
+    {
+      "path": "docs/knorvia-cli-lifecycle-owner-selection-20261002.md",
+      "sha256": "1d58f7663aa3a3bf17bd0ff1cf44d8a654b9622517d67a27fc7de7205d61c23a"
+    }
+  ],
+  "candidates": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "bytes": 9112,
+      "ledgerClassification": "upstream-modified",
+      "ledgerReview": null,
+      "publisherPath": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+      "publisherBlob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+      "publisherLocallyAvailable": false,
+      "publisherComparison": "No local publisher verification"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "sha256": "d3a303875d60a9f4629e3a3af815fc5aff407b2048a70480543ffd841233f40f",
+      "bytes": 9624,
+      "ledgerClassification": "upstream-modified",
+      "ledgerReview": null,
+      "publisherPath": "apps/zcode-cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "publisherBlob": "faa691fd3b78135e35200f133f2f25c72ce2e27a",
+      "publisherLocallyAvailable": false,
+      "publisherComparison": "No local publisher verification"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/engine/scheduler.ts",
+      "sha256": "6ba50db8a3bb2cb841a031e14090e974ee514d9462c84b22c19961e03d993729",
+      "bytes": 20141,
+      "ledgerClassification": "upstream-modified",
+      "ledgerReview": null,
+      "publisherPath": "apps/zcode-cli/packages/dynamic-workflow/src/engine/scheduler.ts",
+      "publisherBlob": "939f9437cfc9922f37e6789fa230cbb102703780",
+      "publisherLocallyAvailable": true,
+      "publisherNormalizedSha256": "ad2309b3533d2b7cabb2b384c213bb3693174f77c81a1f28c98f669743169b76",
+      "publisherNormalizedBytes": 21281,
+      "publisherComparison": "Byte availability/hash only; no whole-file expression review"
+    }
+  ],
+  "designDecisions": {
+    "taskRegistry": "Single-entry snapshot/subscription candidate rejected: preserving reentrant admission and independent ordering needs additional compatibility machinery",
+    "nodeRunner": "Shared invocation/publication candidate rejected: moves retained combinations or adds settlement boundaries",
+    "askScheduler": "Larger follow-on screen only: no fixture-backed simpler reconstruction identified"
+  },
+  "validation": {
+    "currentSourcesEqualBaseline": true,
+    "ownedEvidenceFormatting": true,
+    "freshness": "Supported read-only executor call passed; branch synced",
+    "architecture": "Pre-selection check/context passed",
+    "typeRuns": 0,
+    "lintRuns": 0,
+    "builds": 0,
+    "aggregateSuites": 0,
+    "nativeAcceptance": false
+  },
+  "limits": [
+    "Not an exhaustive ledger audit",
+    "No defect proof or runtime replacement",
+    "Publisher commit/path association from historical project inventory",
+    "No licence/authorship conclusion from conventional glue or source exposure",
+    "Missing local blobs are evidence limits, not permanent rights barriers"
+  ]
+}

@@ -1,0 +1,33 @@
+
+  ! eslint(no-unused-vars): Parameter 'input' is declared but never used. Unused parameters should start with a '_'.
+     ,-[apps/cli/packages/core/test/resume-ports-20261003.mjs:238:69]
+ 237 |       getSessionShellSelection: (owner) => owner.ownedShell,
+ 238 |       async restoreSessionShellEnvironmentSelectionForResume(owner, input) {
+     :                                                                     ^^|^^
+     :                                                                       `-- 'input' is declared here
+ 239 |         assert.equal(owner, runtime);
+     `----
+  help: Consider removing this parameter.
+
+  ! eslint(no-unused-vars): Parameter 'input' is declared but never used. Unused parameters should start with a '_'.
+     ,-[apps/cli/packages/core/test/resume-ports-20261003.mjs:245:63]
+ 244 |       },
+ 245 |       announceSessionShellEnvironmentNoticeAfterResume(owner, input) {
+     :                                                               ^^|^^
+     :                                                                 `-- 'input' is declared here
+ 246 |         assert.equal(owner, runtime);
+     `----
+  help: Consider removing this parameter.
+
+  ! eslint(no-unused-vars): Parameter 'options' is declared but never used. Unused parameters should start with a '_'.
+     ,-[apps/cli/packages/core/test/resume-ports-20261003.mjs:251:61]
+ 250 |     "runtime/helpers/persisted-remote-session-path-repair.js": {
+ 251 |       async repairPersistedRemoteSessionPaths(store, value, options) {
+     :                                                             ^^^|^^^
+     :                                                                `-- 'options' is declared here
+ 252 |         assert.equal(store, runtime.sessionStore);
+     `----
+  help: Consider removing this parameter.
+
+Found 3 warnings and 0 errors.
+Finished in 16ms on 3 files with 94 rules using 4 threads.

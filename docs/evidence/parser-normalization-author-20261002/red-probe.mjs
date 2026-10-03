@@ -1,0 +1,12 @@
+import fs from 'node:fs';import ts from '/workspace/knorvia-studio/node_modules/typescript/lib/typescript.js';import {pathToFileURL} from 'node:url';import {createHash} from 'node:crypto';
+const root='/workspace/knorvia-studio',temp='/tmp/knorvia-expert-queue-20261002/parser-normalization';
+const baseline=JSON.parse(fs.readFileSync(root+'/apps/cli/packages/core/test/workflow-expert-parser-normalization-baseline.json','utf8')).files['parsers/graph-seed'];
+const hash=x=>createHash('sha256').update(x).digest('hex');if(hash(baseline.compiled)!==baseline.compiledSha256)throw Error('Historical graph seed digest mismatch');
+const rewrite=s=>s.replaceAll('"@knorvia/contracts"',JSON.stringify(pathToFileURL(root+'/apps/cli/packages/contracts/dist/index.js').href)).replaceAll('"../ids.js"',JSON.stringify(pathToFileURL(root+'/apps/cli/packages/core/dist/workflow/expert/ids.js').href)).replaceAll('"./json.js"',JSON.stringify(pathToFileURL(root+'/apps/cli/packages/core/dist/workflow/expert/parsers/json.js').href));
+fs.writeFileSync(temp+'/baseline-probe.mjs',rewrite(baseline.compiled));
+const draft=fs.readFileSync(root+'/docs/evidence/parser-normalization-author-20261002/parsers/graph-seed.ts','utf8');fs.writeFileSync(temp+'/draft-probe.mjs',rewrite(ts.transpileModule(draft,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText));
+const old=await import(pathToFileURL(temp+'/baseline-probe.mjs'));const candidate=await import(pathToFileURL(temp+'/draft-probe.mjs'));
+const input=[{id:' ',from:'a',to:'b'}];const a=old.normalizeWorkflowGraphSeedCandidate(input,'p'),b=candidate.normalizeWorkflowGraphSeedCandidate(input,'p');
+const rootNode={id:'x',dependsOn:[]},peer={id:'x',dependsOn:['other']};const seed={nodes:[rootNode,peer],edges:[],collections:[]};const x=old.gateRootSeedNodes(seed,'gate'),y=candidate.gateRootSeedNodes(seed,'gate');
+const result={mode:'historical compiler JS vs transpiled original author draft (not accepted current selector)',classification:{baseline:a,draft:b,equal:JSON.stringify(a)===JSON.stringify(b)},duplicateRoot:{baselinePeerDependsOn:x.nodes[1].dependsOn,draftPeerDependsOn:y.nodes[1].dependsOn,baselinePeerCloned:x.nodes[1]!==peer,draftPeerCloned:y.nodes[1]!==peer}};
+console.log(JSON.stringify(result,null,2));if(result.classification.equal||JSON.stringify(x.nodes[1].dependsOn)===JSON.stringify(y.nodes[1].dependsOn))throw Error('Expected red difference missing');

@@ -1,22 +1,37 @@
 import {
-  SESSION_ENTRY_WORKSPACE_CHECKPOINT,
-  SESSION_ENTRY_WORKSPACE_FILE_REWIND,
-  RewindScope,
-  SessionEventType,
   createSessionEvent,
   parseCheckpointCreatedPayload,
   parseRewindTriggeredPayload,
+  RewindScope,
+  SESSION_ENTRY_WORKSPACE_CHECKPOINT,
+  SESSION_ENTRY_WORKSPACE_FILE_REWIND,
+  SessionEventType,
   traceContextToLogContext,
 } from "../deps.js";
-import type { SessionEntryInfo, SessionEvent, TraceContext, TraceId, TurnId } from "../deps.js";
+import type { SessionEvent, TraceContext, TraceId, TurnId } from "../deps.js";
 import type { AgentRuntimeInternal } from "../internal.js";
 
-interface PersistedWorkspaceEvent {
+interface PersistedWorkspaceEventData {
   eventId: string;
   payload: unknown;
   sequenceNumber: number;
   traceId: string;
   turnId?: string;
+}
+
+function validatePersistedWorkspaceEventData(data: unknown): PersistedWorkspaceEventData | null {
+  if (!data || typeof data !== "object" || Array.isArray(data)) return null;
+  const record = data as Record<string, unknown>;
+  if (
+    typeof record.eventId !== "string" ||
+    typeof record.sequenceNumber !== "number" ||
+    typeof record.traceId !== "string" ||
+    !("payload" in record) ||
+    (record.turnId !== undefined && typeof record.turnId !== "string")
+  ) {
+    return null;
+  }
+  return data as PersistedWorkspaceEventData;
 }
 
 export async function persistWorkspaceCheckpointEntry(
@@ -25,7 +40,6 @@ export async function persistWorkspaceCheckpointEntry(
   traceContext: TraceContext,
 ): Promise<void> {
   if (!runtime.sessionStore?.saveSessionEntry) return;
-
   try {
     const timestamp = event.timestamp.getTime();
     await runtime.sessionStore.saveSessionEntry({
@@ -33,15 +47,13 @@ export async function persistWorkspaceCheckpointEntry(
       sessionID: event.sessionId,
       type: SESSION_ENTRY_WORKSPACE_CHECKPOINT,
       time: { created: timestamp, updated: timestamp },
-      // checkpoint artifact 已落盘，但内存 eventStore 会随 child runtime 释放；
-      // 只保留 artifact 而不持久化关联 payload，冷恢复后的 preview/apply 无法定位该 artifact。
       data: {
         eventId: String(event.id),
         payload: parseCheckpointCreatedPayload(event.payload),
         sequenceNumber: event.sequenceNumber,
         traceId: String(event.traceId),
         ...(event.turnId ? { turnId: String(event.turnId) } : {}),
-      } satisfies PersistedWorkspaceEvent,
+      },
     });
   } catch (error) {
     runtime.logger?.warn("Failed to persist workspace checkpoint", {
@@ -60,10 +72,8 @@ export async function persistWorkspaceFileRewindEntry(
   traceContext: TraceContext,
 ): Promise<void> {
   if (!runtime.sessionStore?.saveSessionEntry) return;
-
   const payload = parseRewindTriggeredPayload(event.payload);
   if (payload.scope !== RewindScope.Workspace || payload.reason !== "file_summary_rewind") return;
-
   try {
     const timestamp = event.timestamp.getTime();
     await runtime.sessionStore.saveSessionEntry({
@@ -71,15 +81,13 @@ export async function persistWorkspaceFileRewindEntry(
       sessionID: event.sessionId,
       type: SESSION_ENTRY_WORKSPACE_FILE_REWIND,
       time: { created: timestamp, updated: timestamp },
-      // 文件已撤销是 child turn 的持久状态。只广播内存事件会在关闭详情或
-      // 重启后重新显示“撤销”，并让已经恢复的文件再次进入预览。
       data: {
         eventId: String(event.id),
         payload,
         sequenceNumber: event.sequenceNumber,
         traceId: String(event.traceId),
         ...(event.turnId ? { turnId: String(event.turnId) } : {}),
-      } satisfies PersistedWorkspaceEvent,
+      },
     });
   } catch (error) {
     runtime.logger?.warn("Failed to persist workspace file rewind", {
@@ -97,8 +105,7 @@ export async function restoreWorkspaceCheckpointEntries(
   traceContext: TraceContext,
 ): Promise<void> {
   if (!runtime.sessionStore?.sessionEntries) return;
-
-  let entries: SessionEntryInfo[];
+  let entries;
   try {
     entries = await runtime.sessionStore.sessionEntries({
       sessionID: runtime.sessionId,
@@ -114,29 +121,28 @@ export async function restoreWorkspaceCheckpointEntries(
     });
     return;
   }
-
-  const existingCheckpointIds = new Set(
-    (await runtime.eventStore.getEvents(runtime.sessionId)).flatMap((event) => {
-      if (event.type !== SessionEventType.CheckpointCreated) return [];
-      try {
-        return [parseCheckpointCreatedPayload(event.payload).checkpointId];
-      } catch {
-        return [];
-      }
-    }),
-  );
-  const orderedEntries = [...entries].sort((left, right) => {
-    const leftSequence = readPersistedWorkspaceCheckpoint(left.data)?.sequenceNumber ?? 0;
-    const rightSequence = readPersistedWorkspaceCheckpoint(right.data)?.sequenceNumber ?? 0;
-    return leftSequence - rightSequence || left.time.created - right.time.created;
+  const events = await runtime.eventStore.getEvents(runtime.sessionId);
+  const checkpointIds = new Set<string>();
+  for (const event of events) {
+    if (event.type !== SessionEventType.CheckpointCreated) continue;
+    try {
+      checkpointIds.add(parseCheckpointCreatedPayload(event.payload).checkpointId);
+    } catch {
+      // An invalid existing payload contributes no identifier.
+    }
+  }
+  const sortedEntries = [...entries].sort((left, right) => {
+    const sequenceDifference =
+      (validatePersistedWorkspaceEventData(left.data)?.sequenceNumber ?? 0) -
+      (validatePersistedWorkspaceEventData(right.data)?.sequenceNumber ?? 0);
+    return sequenceDifference || left.time.created - right.time.created;
   });
-
-  for (const entry of orderedEntries) {
-    const data = readPersistedWorkspaceCheckpoint(entry.data);
+  for (const entry of sortedEntries) {
+    const data = validatePersistedWorkspaceEventData(entry.data);
     if (!data) continue;
     try {
       const payload = parseCheckpointCreatedPayload(data.payload);
-      if (existingCheckpointIds.has(payload.checkpointId)) continue;
+      if (checkpointIds.has(payload.checkpointId)) continue;
       const event = createSessionEvent(
         SessionEventType.CheckpointCreated,
         runtime.sessionId,
@@ -149,7 +155,7 @@ export async function restoreWorkspaceCheckpointEntries(
       event.timestamp = new Date(entry.time.created);
       event.sequenceNumber = data.sequenceNumber;
       await runtime.eventStore.append(event);
-      existingCheckpointIds.add(payload.checkpointId);
+      checkpointIds.add(payload.checkpointId);
     } catch (error) {
       runtime.logger?.warn("Skipped invalid persisted workspace checkpoint", {
         ...traceContextToLogContext(traceContext),
@@ -168,8 +174,7 @@ export async function restoreWorkspaceFileRewindEntries(
   traceContext: TraceContext,
 ): Promise<void> {
   if (!runtime.sessionStore?.sessionEntries) return;
-
-  let entries: SessionEntryInfo[];
+  let entries;
   try {
     entries = await runtime.sessionStore.sessionEntries({
       sessionID: runtime.sessionId,
@@ -185,35 +190,30 @@ export async function restoreWorkspaceFileRewindEntries(
     });
     return;
   }
-
-  const existingRewindIds = new Set(
-    (await runtime.eventStore.getEvents(runtime.sessionId)).flatMap((event) => {
-      if (event.type !== SessionEventType.RewindTriggered) return [];
-      try {
-        return [parseRewindTriggeredPayload(event.payload).rewindId];
-      } catch {
-        return [];
-      }
-    }),
-  );
-  const orderedEntries = [...entries].sort((left, right) => {
-    const leftSequence = readPersistedWorkspaceEvent(left.data)?.sequenceNumber ?? 0;
-    const rightSequence = readPersistedWorkspaceEvent(right.data)?.sequenceNumber ?? 0;
-    return leftSequence - rightSequence || left.time.created - right.time.created;
+  const events = await runtime.eventStore.getEvents(runtime.sessionId);
+  const rewindIds = new Set<string>();
+  for (const event of events) {
+    if (event.type !== SessionEventType.RewindTriggered) continue;
+    try {
+      rewindIds.add(parseRewindTriggeredPayload(event.payload).rewindId);
+    } catch {
+      // An invalid existing payload contributes no identifier.
+    }
+  }
+  const sortedEntries = [...entries].sort((left, right) => {
+    const sequenceDifference =
+      (validatePersistedWorkspaceEventData(left.data)?.sequenceNumber ?? 0) -
+      (validatePersistedWorkspaceEventData(right.data)?.sequenceNumber ?? 0);
+    return sequenceDifference || left.time.created - right.time.created;
   });
-
-  for (const entry of orderedEntries) {
-    const data = readPersistedWorkspaceEvent(entry.data);
+  for (const entry of sortedEntries) {
+    const data = validatePersistedWorkspaceEventData(entry.data);
     if (!data) continue;
     try {
       const payload = parseRewindTriggeredPayload(data.payload);
-      if (
-        payload.scope !== RewindScope.Workspace ||
-        payload.reason !== "file_summary_rewind" ||
-        existingRewindIds.has(payload.rewindId)
-      ) {
+      if (payload.scope !== RewindScope.Workspace || payload.reason !== "file_summary_rewind")
         continue;
-      }
+      if (rewindIds.has(payload.rewindId)) continue;
       const event = createSessionEvent(
         SessionEventType.RewindTriggered,
         runtime.sessionId,
@@ -226,7 +226,7 @@ export async function restoreWorkspaceFileRewindEntries(
       event.timestamp = new Date(entry.time.created);
       event.sequenceNumber = data.sequenceNumber;
       await runtime.eventStore.append(event);
-      existingRewindIds.add(payload.rewindId);
+      rewindIds.add(payload.rewindId);
     } catch (error) {
       runtime.logger?.warn("Skipped invalid persisted workspace file rewind", {
         ...traceContextToLogContext(traceContext),
@@ -238,23 +238,4 @@ export async function restoreWorkspaceFileRewindEntries(
       });
     }
   }
-}
-
-function readPersistedWorkspaceCheckpoint(value: unknown): PersistedWorkspaceEvent | null {
-  return readPersistedWorkspaceEvent(value);
-}
-
-function readPersistedWorkspaceEvent(value: unknown): PersistedWorkspaceEvent | null {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
-  const data = value as Record<string, unknown>;
-  if (
-    typeof data.eventId !== "string" ||
-    typeof data.sequenceNumber !== "number" ||
-    typeof data.traceId !== "string" ||
-    !("payload" in data) ||
-    (data.turnId !== undefined && typeof data.turnId !== "string")
-  ) {
-    return null;
-  }
-  return data as unknown as PersistedWorkspaceEvent;
 }

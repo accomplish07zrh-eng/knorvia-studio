@@ -1,0 +1,11 @@
+import { parseRuntimeInputPresentation } from "@knorvia/contracts";
+import { unpublishedPermissionGrants, recoverPendingPermissionGrant, } from "../permission-grant-recovery.js";
+import { runtimeInputMetadata } from "../../agent/runtime-input-presentation.js";
+import { CoreErrorType, SessionEventType, createCoreError, createMessageId, createQueryId, createSessionEvent, traceContextToLogContext, } from "../deps.js";
+import type { CollaborationMode, MessageId, ModelSelection, ModelSelectionOrigin, PendingSteerInputInfo, PendingTurnInput, QueryId, SessionEvent, TraceContext, TurnSteerInput, TurnSteerRejectReason, TurnSteerResult, TurnSteerSource, TurnId, } from "../deps.js";
+import { cloneModelSelection } from "../model-selection.js";
+import { createRuntimeModel } from "./runtime-model.js";
+import { buildUserContentFromTurn, measureUtf8Bytes, MAX_TURN_STEER_INPUT_BYTES, previewInput, resolveTurnAttachments, } from "../helpers/index.js";
+import type { ActiveTurnKind, ActiveTurnSteeringState, DrainedPendingInputDiagnostics, } from "../types.js";
+import { createRuntimeUserEntry, realUserRuntimeMetadata, type RuntimeMessageEntry, } from "../../agent/message-history.js";
+import type { AgentRuntimeInternal } from "../internal.js";

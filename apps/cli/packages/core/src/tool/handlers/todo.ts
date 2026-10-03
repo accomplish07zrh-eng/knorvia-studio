@@ -1,7 +1,3 @@
-// ============================================================
-// Todo Tool Handlers
-// ============================================================
-
 import {
   CoreErrorType,
   TodoReadInputJsonSchema,
@@ -13,62 +9,51 @@ import {
   TodoWriteOutputJsonSchema,
   TodoWriteOutputSchema,
   createCoreError,
-  type TodoItem,
   type TodoReadOutput,
-  type TodoWriteInput,
   type TodoWriteOutput,
 } from "@knorvia/contracts";
 import type { ToolEntry, ToolHandler } from "../types.js";
 
-const MAX_TODO_MODEL_BYTES = 100_000;
-
-const todoReadHandler: ToolHandler = async (input, context) => {
+const readTodos: ToolHandler = async (input, context): Promise<TodoReadOutput> => {
   TodoReadInputSchema.parse(input);
-
   if (!context.sessionStore) {
     throw createCoreError(
       CoreErrorType.ConfigurationError,
       "SessionStorePort is not configured for TodoRead",
       {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: "TodoRead",
-        },
+        context: { toolCallId: context.toolCallId, toolName: "TodoRead" },
         recoverable: false,
       },
     );
   }
-
-  return {
-    todos: await context.sessionStore.readTodos({ sessionID: context.sessionId }),
-  } satisfies TodoReadOutput;
+  const todos = await context.sessionStore.readTodos({ sessionID: context.sessionId });
+  return { todos };
 };
 
-const todoWriteHandler: ToolHandler = async (input, context) => {
-  const { todos } = TodoWriteInputSchema.parse(input) as TodoWriteInput;
-
+const writeTodos: ToolHandler = async (input, context): Promise<TodoWriteOutput> => {
+  const { todos } = TodoWriteInputSchema.parse(input);
   if (!context.sessionStore) {
     throw createCoreError(
       CoreErrorType.ConfigurationError,
       "SessionStorePort is not configured for TodoWrite",
       {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: "TodoWrite",
-        },
+        context: { toolCallId: context.toolCallId, toolName: "TodoWrite" },
         recoverable: false,
       },
     );
   }
-
   const oldTodos = await context.sessionStore.readTodos({ sessionID: context.sessionId });
   await context.sessionStore.updateTodos({ sessionID: context.sessionId, todos });
-
   return {
     oldTodos,
     todos,
-    summary: summarizeTodos(todos),
-  } satisfies TodoWriteOutput;
+    summary: {
+      total: todos.length,
+      pending: todos.filter((todo) => todo.status === "pending").length,
+      inProgress: todos.filter((todo) => todo.status === "in_progress").length,
+      completed: todos.filter((todo) => todo.status === "completed").length,
+    },
+  };
 };
 
 export const todoReadToolEntry: ToolEntry = {
@@ -80,12 +65,12 @@ export const todoReadToolEntry: ToolEntry = {
     destructive: false,
     concurrentSafe: true,
     timeoutMs: 30000,
-    maxOutputBytes: MAX_TODO_MODEL_BYTES,
+    maxOutputBytes: 100000,
     sideEffectScope: "none",
     riskLevel: "low",
     needsApproval: false,
   },
-  handler: todoReadHandler,
+  handler: readTodos,
   inputSchema: TodoReadInputJsonSchema,
   outputSchema: TodoReadOutputJsonSchema,
   runtimeInputSchema: TodoReadInputSchema,
@@ -101,19 +86,12 @@ export const todoReadToolEntry: ToolEntry = {
     denyPriority: "beforeAsk",
   },
   resultBudget: {
-    maxInlineBytes: MAX_TODO_MODEL_BYTES,
-    maxModelBytes: MAX_TODO_MODEL_BYTES,
+    maxInlineBytes: 100000,
+    maxModelBytes: 100000,
     strategy: "truncate",
-    preview: {
-      maxBytes: MAX_TODO_MODEL_BYTES,
-      direction: "head",
-    },
+    preview: { maxBytes: 100000, direction: "head" },
   },
-  timeout: {
-    defaultMs: 30000,
-    maxMs: 30000,
-    allowCallOverride: false,
-  },
+  timeout: { defaultMs: 30000, maxMs: 30000, allowCallOverride: false },
   cancellation: {
     supported: true,
     cleanup: "none",
@@ -132,21 +110,18 @@ export const todoWriteToolEntry: ToolEntry = {
     "Replace the current session todo list to track multi-step task progress and resume state",
   metadata: {
     name: "TodoWrite",
-    description: `Create and update a task list for the current session. The list is rendered to the user as your working plan.
-
-- Each todo has \`content\`, \`status\` ("pending" | "in_progress" | "completed"), and \`priority\` ("high" | "medium" | "low").
-- Send the full list each call; it replaces the previous one.
-- Keep one item \`in_progress\` at a time and mark it \`completed\` when done.`,
+    description:
+      'Create and update a task list for the current session. The list is rendered to the user as your working plan.\n\n- Each todo has `content`, `status` ("pending" | "in_progress" | "completed"), and `priority` ("high" | "medium" | "low").\n- Send the full list each call; it replaces the previous one.\n- Keep one item `in_progress` at a time and mark it `completed` when done.',
     readOnly: true,
     destructive: false,
     concurrentSafe: false,
     timeoutMs: 30000,
-    maxOutputBytes: MAX_TODO_MODEL_BYTES,
+    maxOutputBytes: 100000,
     sideEffectScope: "session",
     riskLevel: "low",
     needsApproval: false,
   },
-  handler: todoWriteHandler,
+  handler: writeTodos,
   inputSchema: TodoWriteInputJsonSchema,
   outputSchema: TodoWriteOutputJsonSchema,
   runtimeInputSchema: TodoWriteInputSchema,
@@ -162,19 +137,12 @@ export const todoWriteToolEntry: ToolEntry = {
     denyPriority: "beforeAsk",
   },
   resultBudget: {
-    maxInlineBytes: MAX_TODO_MODEL_BYTES,
-    maxModelBytes: MAX_TODO_MODEL_BYTES,
+    maxInlineBytes: 100000,
+    maxModelBytes: 100000,
     strategy: "truncate",
-    preview: {
-      maxBytes: MAX_TODO_MODEL_BYTES,
-      direction: "head",
-    },
+    preview: { maxBytes: 100000, direction: "head" },
   },
-  timeout: {
-    defaultMs: 30000,
-    maxMs: 30000,
-    allowCallOverride: false,
-  },
+  timeout: { defaultMs: 30000, maxMs: 30000, allowCallOverride: false },
   cancellation: {
     supported: true,
     cleanup: "none",
@@ -187,12 +155,3 @@ export const todoWriteToolEntry: ToolEntry = {
     recordOutput: "summary",
   },
 };
-
-function summarizeTodos(todos: TodoItem[]) {
-  return {
-    total: todos.length,
-    pending: todos.filter((todo) => todo.status === "pending").length,
-    inProgress: todos.filter((todo) => todo.status === "in_progress").length,
-    completed: todos.filter((todo) => todo.status === "completed").length,
-  };
-}

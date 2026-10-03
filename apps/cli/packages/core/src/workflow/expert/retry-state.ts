@@ -19,7 +19,7 @@ export function prepareSnapshotForRetry(
   const phase =
     options.phase ?? activity?.phase ?? snapshot.failure?.phase ?? snapshot.currentPhase;
   const nodeId = options.nodeId ?? activity?.nodeId ?? snapshot.failure?.nodeId;
-  const nodeScope = nodeId
+  const scope = nodeId
     ? new Set([nodeId])
     : new Set(
         snapshot.graph.nodes
@@ -27,57 +27,44 @@ export function prepareSnapshotForRetry(
           .filter((node) => node.status === "failed" || node.status === "active")
           .map((node) => node.id),
       );
-  const resumeRepair = reconcileWorkflowSnapshotForResume(snapshot, {
-    nodeIds: nodeScope.size > 0 ? nodeScope : undefined,
+  const repair = reconcileWorkflowSnapshotForResume(snapshot, {
+    nodeIds: scope.size > 0 ? scope : undefined,
     timestamp,
   });
-  const nodeChanges = [...resumeRepair.nodeChanges];
-  const resetNodes = resumeRepair.snapshot.graph.nodes.map((node) => {
-    if (!nodeScope.has(node.id) || (node.status !== "failed" && node.status !== "active")) {
+  const nodeChanges = [...repair.nodeChanges];
+  const resetNodes = repair.snapshot.graph.nodes.map((node) => {
+    if (!scope.has(node.id) || (node.status !== "failed" && node.status !== "active")) {
       return node;
     }
-    nodeChanges.push({
-      nodeId: node.id,
-      phase: node.phase,
-      status: "pending",
-    });
-    return {
-      ...node,
-      error: undefined,
-      status: "pending" as const,
-    };
+    nodeChanges.push({ nodeId: node.id, phase: node.phase, status: "pending" });
+    return { ...node, error: undefined, status: "pending" as const };
   });
-  const resetPhases = resumeRepair.snapshot.phases.map((entry) => {
+  const resetPhases = repair.snapshot.phases.map((entry) => {
     if (
       phase &&
       entry.phase === phase &&
       (entry.status === "failed" || entry.status === "active")
     ) {
-      return {
-        ...entry,
-        completedAt: undefined,
-        error: undefined,
-        status: "pending" as const,
-      };
+      return { ...entry, completedAt: undefined, error: undefined, status: "pending" as const };
     }
     return entry;
   });
   return {
     nodeChanges: dedupeWorkflowNodeChanges(nodeChanges),
     snapshot: {
-      ...resumeRepair.snapshot,
+      ...repair.snapshot,
       failure: undefined,
       graph: {
-        collections: resumeRepair.snapshot.graph.collections,
-        edges: resumeRepair.snapshot.graph.edges,
+        collections: repair.snapshot.graph.collections,
+        edges: repair.snapshot.graph.edges,
         nodes: resetNodes,
       },
       pauseReason: undefined,
       phases: resetPhases,
       recoveryActions: [],
       sessionLinks: deriveWorkflowSessionLinks({
-        activities: resumeRepair.snapshot.activities,
-        runId: resumeRepair.snapshot.runId,
+        activities: repair.snapshot.activities,
+        runId: repair.snapshot.runId,
       }),
       status: "running",
       updatedAt: timestamp,

@@ -1,0 +1,10 @@
+{
+  "sourceDerived": true,
+  "authorRequestedFacts": [
+    "Constants/schema public import module @knorvia/contracts; shared resolver/type @knorvia/shared; runtime type ./internal.js and unchanged recovery ./permission-grant-recovery.js.",
+    "Selected truthy input.intent is cloned with mode:yolo only; all other properties and key position retained.",
+    "Saved explicit scope checks compare parsed event.sessionId and parsed receipt.interactionId; receipt schema separately validates permissionGrant interaction."
+  ],
+  "packetUnchanged": true,
+  "predecessorSourceBodiesProvided": false
+}

@@ -1,0 +1,28 @@
+{
+  "claims": {
+    "empty": "101b0017f2312a16ec7f091825ab7cf735e342176ee0edfb161179115046c4ba",
+    "phantom-filtered-before-singleton": "bb785dc8fd4c57cc614eef70182173dd8fa99c7febe507c594b54f2fa4c5fcf7",
+    "duplicate-exactness-and-order": "7b7c207a3aac2bed5945b7b48cbbe8efce7dd716740fa46421deb79058f070e2",
+    "single-duplicate-exactness": "6f967918b2d94d983ed5fac340f5e12737b4b3cba14ce35b96661807ff1b10f0",
+    "repetition-0": "cf522f8c3fddf29f0ffd7ba70ef3f40cbe40ca101f0ebcb86a53157fbf6e602a",
+    "repetition-1": "989a2181903411fd8c9076c449fbbf17184e4e914fca0f60adaa9ad88c74c856",
+    "repetition-2": "ab908354afa6569de35482b0b027b711c246f2a651477600f6a991ec824647ef"
+  },
+  "barriers": {
+    "widen-issued-order": "810c261e52374bafcbc81d635f98525984540505c3d27eb1035783538437c33a",
+    "certainty-precedence-and-parent-visibility": "2c98e350aaff4bbdf34160ec27daca8f7f9d112f5334c5d2c19144e36c1670c7",
+    "resolved-already-settled-does-not-widen": "cd6aa65f49acc017242807cd5c927068d92739e2d72c0e737af06137446a843e",
+    "joined-summary-order-and-unique-first-event": "57f83a5d4615e7f94151c291ad59baa373e72ef8c74f208f81a0d7c0071eac93",
+    "join-only": "73a6512b12a68f4000e3828008816df77e94e8aeefdb7990c64ccfb8fb30d573",
+    "empty-summary-join-widens": "4a4e7d4ad1355d888e20380f0798bfd25de070ea1e9021003716ba33ff90ccfd"
+  },
+  "failures": "ff816c076d3e9ebedf17792534a19d98a3bbc63834c8f2138aa53a9b6c55b450",
+  "consumers": [
+    "905eaab721b8a909bcb832304c3e5cf14f6b82861f34a11ef745f6eb60c1df73",
+    "f1d74113938463caeed5ad4de9ccb9f959a2e06040f59a8b3931d0147718330a",
+    "a9a3d2b22b8a45a08061cdde3cb113b993d0c25e8ce4055878dd43257b06f123",
+    "532327312205b7b9aa520c7dabc49ab2baefc5542f3e42eb470d0f5c209f7354",
+    "c0817f1eb6b844754a59e34c975184253c0a967aa7b26a158fee1cfd7191c830"
+  ],
+  "guards": "507c2d373a8375628202a649acb87f7091eb815db68bbb22b5220c0d7d2c5223"
+}

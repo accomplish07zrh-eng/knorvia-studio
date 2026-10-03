@@ -1,0 +1,18 @@
+{
+  "separateFromImmutablePacket": true,
+  "curatorSourceExposed": true,
+  "authorMessages": [
+    "Unknown context order code,agentType,availableAgentTypes,parentToolCallId; ambiguous code,agentType,matches,parentToolCallId. Ambiguous prose joins three specified pieces with em dash.",
+    "Resume quoted agent slot is old agentId and old task status; sent slot message.id. Missing background task is terminal lost sentinel/no child native async return.",
+    "Usage totals are computed per event then summed; no extra total derivation after aggregation. UUID uses existing global crypto.randomUUID; spawned/start log status started.",
+    "Background waiter truthy task is enough to classify backgrounded; live child getter separately checks isBackgrounded===true.",
+    "Abort guard context code CHILD_RUNTIME_FAILED; stop notification parentToolCallId uses String(task.parentToolCallId ?? task.taskId).",
+    "Correction to packet: a throwing requestBackground timer callback escapes that callback. An awaited background waiter rejection enters foreground catch; no new promise rejection wrapper around timer.",
+    "Allowed-tools callback invoked independently at child request and foreground/start spawned publication; no cached tool selection. Resume spawn omits tools/model fields.",
+    "Stop background event toolCallId also uses nullish taskId fallback; controller lookup/delete/abort message use original stopTask argument.",
+    "Background terminal patches have no resultText. Ordinary logger calls optional receiver only; notification-enqueued alone optional info method.",
+    "Terminal message creates pending message before missing-profile/child-session checks; failure result gets separate UUID.",
+    "Missing background update skips BackgroundTaskCompleted helper await entirely. Truthy nonterminal task awaits its native async no-op; stop missing-parent helpers remain always-awaited native no-ops."
+  ],
+  "limits": "Functional/public-port facts only; original packet, drafts and every pre-feedback representation remain intact. Installed implementation is subject to source-exposed curator review, not strict packet-only authorship or licence grant."
+}

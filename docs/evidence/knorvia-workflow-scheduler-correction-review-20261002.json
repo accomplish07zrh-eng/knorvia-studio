@@ -1,0 +1,324 @@
+{
+  "formatVersion": 1,
+  "kind": "independent-corrected-workflow-scheduler-fragment-review",
+  "baseline": "943f8e734bb261affabf2a30b3e087d5e99b5a86",
+  "recommendation": "Accept corrected fragment for bounded correctness/integration review: selected source/emitted regression now matches exact predecessor. No remaining supported-contract blocker identified; no whole-file rights/licence acceptance.",
+  "ownedPaths": [
+    "docs/knorvia-workflow-scheduler-correction-review-20261002.md",
+    "docs/evidence/knorvia-workflow-scheduler-correction-review-20261002.json"
+  ],
+  "productionChanges": 0,
+  "testOrSelectorOrOracleChanges": 0,
+  "nativeAuthorRetries": 0,
+  "inputDerivation": {
+    "originalSha256": "1852279ec92d8b45193bbd297d34901013624eebfed6fdb9e659ec0f1771c5dc",
+    "originalBytes": 6874,
+    "correctedSha256": "32c8a08375f30549ca05558654a3b077dbd90959737433325ca76a1f9bea6b1c",
+    "correctedBytes": 6777,
+    "finalLF": true,
+    "rule": "Exactly the user-supplied Python text transform: awaited async frontier helper, positive lifetime guard for drain, remove seven supporting-only type reexports. Verified expected digest before interpreting output.",
+    "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/corrected-fragment.ts"
+  },
+  "independentCompiler": {
+    "node": "v24.14.0",
+    "typescript": "6.0.2",
+    "compilerDiagnostics": 0,
+    "parsedComments": 0,
+    "publicClassShapeSha256": "f5b828d473261d0e04e52d0a94e83c49280683adb1f5c145a6c75fd798a28f1e",
+    "rawJsSha256": "30b9afba5e7c209098c761f55a8fff28ebafd8c934825e675c55a6096df680f4",
+    "rawDeclarationSha256": "dbc2aaa44d59f3bcab1263992c16deba6184c9c517502b79a8d70ec511918b80",
+    "currentArtifactBindings": 36,
+    "wrongAndMissingFragmentControls": "pass",
+    "predecessorPins": {
+      "dist/workflow/scheduler.d.ts": "7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e",
+      "dist/workflow/scheduler.js": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+      "src/workflow/scheduler.ts": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330"
+    }
+  },
+  "independentStaticCorrection": {
+    "completeSourceDeclarationExportsEqual": true,
+    "completeRuntimeExportNamesEqual": true,
+    "publicExports": [
+      {
+        "name": "deriveWorkflowRunSchedulerState",
+        "typeOnly": false
+      },
+      {
+        "name": "deriveWorkflowSchedulerState",
+        "typeOnly": false
+      },
+      {
+        "name": "WorkflowGraphScheduler",
+        "typeOnly": false
+      },
+      {
+        "name": "WorkflowGraphSchedulerActivityInput",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerActivityResult",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerChildSessionStartedEvent",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerDeps",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerPlannerInput",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerPlannerRunner",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerPlannerRunResult",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerRunner",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerRunOptions",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerRunResult",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowSchedulerDerivedNode",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowSchedulerState",
+        "typeOnly": true
+      }
+    ],
+    "asyncFrontierHelper": true,
+    "unconditionalAwaitAtEverySchedulingOpportunity": true,
+    "suppressedFrontierRetainsNativeYield": true,
+    "emptyDrainAwaitSkipped": true,
+    "discretionaryCommentRemoval": "No new comments in deterministic correction; zero parsed comments verified by compiler proof",
+    "assessment": "Original position-three compatibility defect corrected. No additional concrete supported issue identified; no new grid/behavior suite."
+  },
+  "selectedCounterexample": {
+    "scenariosPerMode": 1,
+    "source": "PASS",
+    "emitted": "PASS",
+    "queuePosition": 3,
+    "scope": "Exact same owned position-three callback/native-promise fixture as old red proof; no seven/eight-group suite or timing grid repeated. Current/historical exact predecessors agree separately.",
+    "observations": [
+      {
+        "surface": "source",
+        "compatibility": "PASS: exact ordered observation equality",
+        "firstActiveWrite": {
+          "aborted": true,
+          "status": "active",
+          "receiverIsRuntime": true,
+          "signalIdentity": true
+        },
+        "exactAbortReason": true,
+        "traceAtRejection": [
+          "clock:0",
+          "clock:1",
+          "event:frontier_changed:",
+          "callback:frontier_changed:",
+          "queued:abort",
+          "activity:1",
+          "clock:2",
+          "clock:3",
+          "write:owned-run:a=active",
+          "clock:4",
+          "record:owned-run:op:active",
+          "clock:5",
+          "event:node_started:a",
+          "callback:node_started:a",
+          "runner:owned-run:a"
+        ],
+        "eventsAfterPortRelease": [
+          "frontier_changed",
+          "node_started",
+          "artifact_written",
+          "node_completed"
+        ],
+        "metadataStatus": "completed",
+        "referenceAndOrderedObservationEquality": true
+      },
+      {
+        "surface": "emitted",
+        "compatibility": "PASS: exact ordered observation equality",
+        "firstActiveWrite": {
+          "aborted": true,
+          "status": "active",
+          "receiverIsRuntime": true,
+          "signalIdentity": true
+        },
+        "exactAbortReason": true,
+        "traceAtRejection": [
+          "clock:0",
+          "clock:1",
+          "event:frontier_changed:",
+          "callback:frontier_changed:",
+          "queued:abort",
+          "activity:1",
+          "clock:2",
+          "clock:3",
+          "write:owned-run:a=active",
+          "clock:4",
+          "record:owned-run:op:active",
+          "clock:5",
+          "event:node_started:a",
+          "callback:node_started:a",
+          "runner:owned-run:a"
+        ],
+        "eventsAfterPortRelease": [
+          "frontier_changed",
+          "node_started",
+          "artifact_written",
+          "node_completed"
+        ],
+        "metadataStatus": "completed",
+        "referenceAndOrderedObservationEquality": true
+      }
+    ]
+  },
+  "parentReported": {
+    "failedFreeze": "984ddd0",
+    "localCorrection": "ce613971fe6ed778bc146ee1924e3f70c4868a5a",
+    "gates": "8/8 source, 8/8 strict-emitted; neighboring consumer/selector2/2 each; scoped compiler/new test/lint pass",
+    "classAST": "Complete class AST equality after production import rebinding and formatting",
+    "moduleAPI": "Original export-name/type-value equality proved",
+    "publisher": {
+      "blob": "0fb8dac4ff4a8ed4f4b8d03a26531906f8a55aa7",
+      "bytes": 7806,
+      "sha256": "b37db5b55a94dae9946c022cafcca07f3e77a12f1448acfa99a79d43026a814a",
+      "comparison": "Parsed equality to local predecessor after import branding normalization"
+    },
+    "workflow": "Correction is post-review/source-exposed, not unchanged restricted author output."
+  },
+  "priorEvidence": [
+    {
+      "path": "docs/evidence/knorvia-workflow-scheduler-observations-20261002.json",
+      "sha256": "f31148ec9520c628573408fd7af1cd7235c1da094d2957420f26a7bec4f6c64f",
+      "bytes": 14170
+    },
+    {
+      "path": "docs/evidence/knorvia-workflow-scheduler-root-review-20261002.json",
+      "sha256": "1b344a98c199d8d018abd1fedfbd1d5bb3fbd1aab2d97a4c71fe8fe9e6f9d370",
+      "bytes": 18077
+    }
+  ],
+  "localEvidence": [
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/candidate-emitted.mjs",
+      "sha256": "8fb0b941b7f2bd82bfd9fd66cd474f738276b9919f8ebc07b64418c5301e7f6c",
+      "bytes": 6150
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/candidate-source.mjs",
+      "sha256": "00320b303fac29670d7d8414d0a0cfbbc97d0f4c274dcee9f96251be984ca3b3",
+      "bytes": 6148
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/candidate.d.ts",
+      "sha256": "dbc2aaa44d59f3bcab1263992c16deba6184c9c517502b79a8d70ec511918b80",
+      "bytes": 1200
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/candidate.mjs",
+      "sha256": "30b9afba5e7c209098c761f55a8fff28ebafd8c934825e675c55a6096df680f4",
+      "bytes": 6146
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/corrected-fragment.ts",
+      "sha256": "32c8a08375f30549ca05558654a3b077dbd90959737433325ca76a1f9bea6b1c",
+      "bytes": 6777
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/dependencies-emitted.mjs",
+      "sha256": "9d88debc4a9430566c0daf67b6736e1017d7553587c97c08cc948ea10c02fb00",
+      "bytes": 1458
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/dependencies-source.mjs",
+      "sha256": "1b15e4cd1fd3f13765032cacb16987f801a16ee292ccdae0c9154052a7e670ba",
+      "bytes": 1450
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/frontier-regression-emitted.json",
+      "sha256": "d5919bc1cda62adc3fc126508e3fd5eab2fa70158064881a9aadcd3d781e3b45",
+      "bytes": 3343
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/frontier-regression-emitted.log",
+      "sha256": "d5919bc1cda62adc3fc126508e3fd5eab2fa70158064881a9aadcd3d781e3b45",
+      "bytes": 3343
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/frontier-regression-proof.mts",
+      "sha256": "fe65b1c099ca2d2926a167b91730c6d793640d955b74d2ddd7da7fc9fcc42213",
+      "bytes": 3197
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/frontier-regression-source.json",
+      "sha256": "0c5e9fe6610a81f5dbb15d0bea7d6a6e0733edf6f6ebb4e9f008a0adcd08eeb3",
+      "bytes": 3342
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/frontier-regression-source.log",
+      "sha256": "0c5e9fe6610a81f5dbb15d0bea7d6a6e0733edf6f6ebb4e9f008a0adcd08eeb3",
+      "bytes": 3342
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/prepare-review.mjs",
+      "sha256": "54595c9e09951f0e1ce945141bcd534980e86df58866a5d92911e2c397320341",
+      "bytes": 6181
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/static-correction-check.mjs",
+      "sha256": "93221e8bc2d363ef60fe0e3a93a13ff882e212b569b76c0c970588d2e3e997b1",
+      "bytes": 3180
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/static-correction-results.json",
+      "sha256": "08bf07b5ce743e65e15236295458c4737a533731f2edfd22df8cd369756aee81",
+      "bytes": 1859
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/static-correction.log",
+      "sha256": "08bf07b5ce743e65e15236295458c4737a533731f2edfd22df8cd369756aee81",
+      "bytes": 1859
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/static-proof.log",
+      "sha256": "bdb2329babe83d16b39be70e31a9bb57d0a1848f5639bf5065c0d9975640c123",
+      "bytes": 2675
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-correction-review-20261002/static-results.json",
+      "sha256": "bdb2329babe83d16b39be70e31a9bb57d0a1848f5639bf5065c0d9975640c123",
+      "bytes": 2675
+    }
+  ],
+  "retainedExpression": "Constructor capture order, fixed API/type/protocol vocabulary, runtime event/abort prose, port projections and conventional Set/Map/Math.max/native Promise/loop idioms. Zero parsed discretionary comments. Equivalent contract ordering does not alone establish copying or authorship.",
+  "sourceExposure": "Reviewer has read exact local predecessor and real dependencies/packet/frozen observations. Original authoring chronology and publisher verification are parent reports; the supplied correction explicitly follows source-exposed review.",
+  "limits": [
+    "No fetch/adoption of integrated correction or independent publisher-byte acquisition",
+    "No grid, old suite replay, broad build/full suite, native/platform/live/provider/user-data acceptance",
+    "Known startup-pending and arbitrary-hostile-getter limits unchanged",
+    "No header/global inventory/registry/licence grant; root owns final expression/rights/integration review"
+  ],
+  "remainingSupportedBlocker": null,
+  "licenceGrant": null,
+  "reportFile": {
+    "path": "docs/knorvia-workflow-scheduler-correction-review-20261002.md",
+    "sha256": "5bad77823e1755840b603c51dbd60703c1687abfd74d0e39d9116e25fedb7865",
+    "bytes": 4983
+  }
+}

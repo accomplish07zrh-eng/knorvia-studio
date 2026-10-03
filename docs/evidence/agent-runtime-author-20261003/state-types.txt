@@ -1,0 +1,82 @@
+sessionId: SessionId
+turnNumber: number
+config: AgentRuntimeConfig
+appVersion: string
+permissionService: PermissionService
+permissionBroker: PermissionBrokerPort
+toolScheduler: ToolScheduler
+eventReducer: EventReducer
+eventStore: SessionEventStorePort
+rootTraceContext: TraceContext
+logger: Logger
+eventSinks: Set<SessionEventSink>
+now: () => Date
+isRemoteWorkspace: () => boolean
+registry: ToolRegistry
+executor: ToolExecutor
+hookRunner: HookRunner
+workspaceHookAdmission: WorkspaceHookRuntimeAdmissionPort
+modelFactory: AgentRuntimeDeps["modelFactory"]
+modelIoDir: string
+providerRuntimeHeadersPort: AgentRuntimeDeps["providerRuntimeHeadersPort"]
+browserControlPort: AgentRuntimeDeps["browserControlPort"]
+modelRequestAdmission: AgentRuntimeDeps["modelRequestAdmission"]
+sessionModelSelection: ModelSelection | undefined
+messageHistory: MessageHistory
+readFileState: ReadFileStateMap
+cachedTools: ModelToolContract[] | null
+contextBuilder: ContextBuilder | null
+contextInitialized: boolean
+contextSourceSnapshot: ContextSourceSnapshot
+latestContextBuildResult: ContextBuildResult
+memoryRoot: string
+memoryIndexContent: string
+memoryExtractionScheduler: ProjectMemoryExtractionScheduler
+contextSourcePort: ContextSourcePort
+skillPort: SkillPort
+mcpPort: McpPort
+mcpStartupPromise: Promise<McpConnectionSnapshot>
+residencyBlockingWorkCount: number
+mcpInitialized: boolean
+mcpToolsRegistered: boolean
+subagentPort: SubagentPort
+dynamicWorkflowRunPort: DynamicWorkflowRunPort
+modelCatalogPort: ModelCatalogPort
+runtimeTaskRegistry: RuntimeTaskRegistry
+branchGeneration: number
+artifactStore: ToolArtifactStorePort
+executionPort: ExecutionPort
+fileSystemPort: FileSystemPort
+imageProcessorPort: ImageProcessorPort
+pdfDocumentPort: PdfDocumentPort
+skillLoadOutcome: SkillLoadOutcome
+workingDirectory: string
+workspaceRoot: string
+sessionStore: SessionStorePort
+sessionPersisted: boolean
+needsPlanModeExitReminder: boolean
+latestConversationMessageId: MessageId
+latestAssistantMessageId: MessageId
+latestAssistantTurnId: TurnId
+mainTurnCacheHitAggregate: MainTurnCacheHitAggregate
+currentTurnFileChanges: RuntimeTurnFileChangeMap
+lastAssistantCompletedAtMs: number
+lastEmittedLocalDate: string
+autoCompactConsecutiveFailures: number
+runtimeCommandQueue: RuntimeCommandQueue
+runtimeCommandDrainActive: boolean
+activeForegroundExecution: ActiveForegroundExecutionState
+foregroundPromotionLease: ForegroundPromotionLeaseState
+activeTurn: ActiveTurnSteeringState
+activeTurnStartReservation: ActiveTurnStartReservation
+pendingInputSequence: number
+pendingInputReservations: Map<string, string>
+queueAutoDrain: boolean
+queueExternalDrainActive: boolean
+shuttingDown: boolean
+backgroundTaskNotificationsSealed: boolean
+backgroundTaskNotificationSealReason: "subagent_terminal" | "subagent_cancelled"
+pendingModelChangeTimeline: PendingModelChangeTimeline
+sessionStartHookRan: boolean
+sessionTitleGenerationAttempted: boolean
+agentTelemetry: RuntimeTelemetryFacade

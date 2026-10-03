@@ -1,0 +1,69 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "apiEqual": true,
+  "apiProof": {
+    "permission-full-access.ts": {
+      "equal": true,
+      "historicalApiSha256": "65fb93369b7d818b80ca6c6ad315d7b3aae40b6d6ed41cd23339c738e287d008",
+      "currentApiSha256": "65fb93369b7d818b80ca6c6ad315d7b3aae40b6d6ed41cd23339c738e287d008"
+    },
+    "permission-grant-recovery.ts": {
+      "equal": true,
+      "historicalApiSha256": "d478baf322837967328635faf2b63800824ae7609da633a3c62a4ca1f0557c91",
+      "currentApiSha256": "d478baf322837967328635faf2b63800824ae7609da633a3c62a4ca1f0557c91"
+    },
+    "execution-state.ts": {
+      "equal": true,
+      "historicalApiSha256": "ed1f3faca6be5fa9e8c00803b54eeb6a9b475347d86ca20f71e42129e3e8f5ca",
+      "currentApiSha256": "ed1f3faca6be5fa9e8c00803b54eeb6a9b475347d86ca20f71e42129e3e8f5ca"
+    },
+    "helpers/permission-broker.ts": {
+      "equal": true,
+      "historicalApiSha256": "4235b5832ab5ad2cdc3e36f21c1f325d23943982ebea8a95ee13b2552c0b95bd",
+      "currentApiSha256": "4235b5832ab5ad2cdc3e36f21c1f325d23943982ebea8a95ee13b2552c0b95bd"
+    }
+  },
+  "emissions": [
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/permission-grant-recovery.js",
+      "// 不保存第二份权限/队列，只记录事务已提交但事件尚未发布的恢复动作。\nexport const unpublishedPermissionGrants = new WeakMap();\nexport async function recoverPendingPermissionGrant(runtime) {\n    await unpublishedPermissionGrants.get(runtime)?.recover();\n}\n"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/permission-grant-recovery.d.ts",
+      "import type { AgentRuntimeInternal } from \"./internal.js\";\nexport declare const unpublishedPermissionGrants: WeakMap<AgentRuntimeInternal, {\n    interactionId: string;\n    recover: () => Promise<string>;\n}>;\nexport declare function recoverPendingPermissionGrant(runtime: AgentRuntimeInternal): Promise<void>;\n//# sourceMappingURL=permission-grant-recovery.d.ts.map"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/execution-state.js",
+      "import { SESSION_ENTRY_EXECUTION_STATE, SessionEventType, } from \"@knorvia/contracts\";\nimport { resolveExecutionState } from \"@knorvia/shared\";\nimport { recoverPendingPermissionGrant, unpublishedPermissionGrants, } from \"./permission-grant-recovery.js\";\nexport function readRuntimeExecutionState(runtime) {\n    return resolveExecutionState(runtime.config);\n}\nexport function buildExecutionStateEntry(sessionId, state) {\n    const timestamp = Date.now();\n    return {\n        id: `${sessionId}:runtime-execution-state`,\n        sessionID: sessionId,\n        type: SESSION_ENTRY_EXECUTION_STATE,\n        touchSession: false,\n        time: { created: timestamp, updated: timestamp },\n        data: state,\n    };\n}\nasync function persistExecutionState(runtime, state) {\n    if (runtime.sessionPersisted && runtime.sessionStore?.saveSessionEntry) {\n        await runtime.sessionStore.saveSessionEntry(buildExecutionStateEntry(runtime.sessionId, state));\n    }\n}\nexport async function applyRuntimeExecutionState(runtime, input, cause) {\n    if (runtime.permissionFullAccessPending) {\n        throw new Error(\"Permission update is busy; retry mode change\");\n    }\n    if (unpublishedPermissionGrants.has(runtime)) {\n        await recoverPendingPermissionGrant(runtime);\n    }\n    const previous = resolveExecutionState(runtime.config);\n    const next = resolveExecutionState(input, previous);\n    if (next.mode === previous.mode && next.planEnabled === previous.planEnabled) {\n        return next;\n    }\n    if (!previous.planEnabled && next.planEnabled) {\n        const target = await runtime.readSessionTargetForContext?.(cause.traceContext ?? runtime.rootTraceContext);\n        if (target?.status === \"active\") {\n            throw new Error(\"Plan and Goal cannot be active at the same time.\");\n        }\n    }\n    await persistExecutionState(runtime, next);\n    runtime.config.mode = next.mode;\n    runtime.config.planEnabled = next.planEnabled;\n    if (previous.planEnabled !== next.planEnabled) {\n        runtime.needsPlanModeExitReminder = !next.planEnabled;\n    }\n    const trace = cause.traceContext ?? runtime.rootTraceContext;\n    await runtime.appendEvent(runtime.createEvent(SessionEventType.SessionModeChanged, {\n        ...next,\n        previousMode: previous.mode,\n        previousPlanEnabled: previous.planEnabled,\n        source: cause.source,\n        ...(cause.toolCallId ? { toolCallId: cause.toolCallId } : {}),\n    }, trace), trace);\n    return next;\n}\n"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/execution-state.d.ts",
+      "import { type SessionEntryInfo, type SessionId, type TraceContext } from \"@knorvia/contracts\";\nimport { type ExecutionState } from \"@knorvia/shared\";\nimport type { AgentRuntimeInternal } from \"./internal.js\";\nexport declare function readRuntimeExecutionState(runtime: AgentRuntimeInternal): ExecutionState;\nexport declare function buildExecutionStateEntry(sessionId: SessionId, state: ExecutionState): SessionEntryInfo;\nexport declare function applyRuntimeExecutionState(runtime: AgentRuntimeInternal, input: {\n    mode?: string;\n    planEnabled?: boolean;\n}, cause: {\n    source: \"command\" | \"tool\";\n    toolCallId?: string;\n    traceContext?: TraceContext;\n}): Promise<ExecutionState>;\n//# sourceMappingURL=execution-state.d.ts.map"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/permission-full-access.js",
+      "import { PERMISSION_FULL_ACCESS_ENTRY, SessionEventType, permissionFullAccessReceiptSchema, } from \"@knorvia/contracts\";\nimport { resolveExecutionState } from \"@knorvia/shared\";\nimport { buildExecutionStateEntry } from \"./execution-state.js\";\nimport { recoverPendingPermissionGrant, unpublishedPermissionGrants, } from \"./permission-grant-recovery.js\";\nconst appliedPermissionGrants = new WeakMap();\nexport async function grantPermissionFullAccess(interactionId, signal) {\n    if (!this.sessionStore?.commitPermissionFullAccess) {\n        throw new Error(\"Full access is unsupported\");\n    }\n    if (this.permissionFullAccessPending ||\n        this.pendingInputReservations.size > 0 ||\n        this.pendingInputDrains) {\n        throw new Error(\"Queue mutation is busy; retry approval\");\n    }\n    const unpublished = unpublishedPermissionGrants.get(this);\n    if (unpublished && unpublished.interactionId !== interactionId) {\n        await recoverPendingPermissionGrant(this);\n    }\n    this.permissionFullAccessPending = true;\n    try {\n        signal?.throwIfAborted();\n        const entries = await this.sessionStore?.sessionEntries?.({\n            sessionID: this.sessionId,\n            type: PERMISSION_FULL_ACCESS_ENTRY,\n        });\n        const receiptId = `${this.sessionId}:permission-full-access:${interactionId}`;\n        const receiptEntry = entries?.find((entry) => entry.id === receiptId);\n        let event;\n        if (receiptEntry) {\n            const receipt = permissionFullAccessReceiptSchema.parse(receiptEntry.data);\n            if (receipt.event.sessionId !== this.sessionId || receipt.interactionId !== interactionId) {\n                throw new Error(\"Permission receipt scope mismatch\");\n            }\n            event = receipt.event;\n        }\n        else {\n            const projection = await this.rebuildProjection();\n            const queueItemIds = projection.pendingSteerInputs.map((input) => input.pendingInputId);\n            const previous = resolveExecutionState(this.config);\n            const next = { ...previous, mode: \"yolo\" };\n            event = this.createEvent(SessionEventType.SessionModeChanged, {\n                ...next,\n                previousMode: previous.mode,\n                previousPlanEnabled: previous.planEnabled,\n                source: \"command\",\n                permissionGrant: { interactionId, queueItemIds },\n            }, this.rootTraceContext);\n            signal?.throwIfAborted();\n            await this.sessionStore.commitPermissionFullAccess({\n                sessionID: this.sessionId,\n                queueItemIds,\n                signal,\n                execution: buildExecutionStateEntry(this.sessionId, next),\n                receipt: {\n                    id: receiptId,\n                    sessionID: this.sessionId,\n                    type: PERMISSION_FULL_ACCESS_ENTRY,\n                    touchSession: false,\n                    time: { created: Date.now(), updated: Date.now() },\n                    data: { interactionId, event },\n                },\n            });\n        }\n        const payload = event.payload;\n        const publish = async () => {\n            const events = await this.eventStore.getEvents(this.sessionId);\n            const existing = events.find((candidate) => candidate.id === event.id);\n            if (existing) {\n                await this.notifyEventSinks(existing, this.rootTraceContext);\n            }\n            else {\n                await this.appendEvent(event, this.rootTraceContext);\n            }\n            unpublishedPermissionGrants.delete(this);\n            return String(event.id);\n        };\n        unpublishedPermissionGrants.set(this, { interactionId, recover: publish });\n        const applied = appliedPermissionGrants.get(this);\n        if (!applied?.has(interactionId)) {\n            this.lastPermissionGrantId = interactionId;\n            this.config.mode = payload.mode;\n            this.config.planEnabled = payload.planEnabled;\n            const grantedIds = new Set(payload.permissionGrant.queueItemIds);\n            if (this.activeTurn) {\n                this.activeTurn.pendingInputs = this.activeTurn.pendingInputs.map((input) => grantedIds.has(input.id) && input.intent\n                    ? { ...input, intent: { ...input.intent, mode: \"yolo\" } }\n                    : input);\n            }\n            if (applied) {\n                applied.add(interactionId);\n            }\n            else {\n                appliedPermissionGrants.set(this, new Set([interactionId]));\n            }\n        }\n        return await publish();\n    }\n    finally {\n        this.permissionFullAccessPending = false;\n    }\n}\n"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/permission-full-access.d.ts",
+      "import type { AgentRuntimeInternal } from \"./internal.js\";\nexport declare function grantPermissionFullAccess(this: AgentRuntimeInternal, interactionId: string, signal?: AbortSignal): Promise<string>;\n//# sourceMappingURL=permission-full-access.d.ts.map"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/helpers/permission-broker.js",
+      "export function isResolvablePermissionBroker(broker) {\n    return typeof broker.resolvePermission === \"function\";\n}\nexport function isInspectablePermissionBroker(broker) {\n    return typeof broker.listPendingRequests === \"function\";\n}\n"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/helpers/permission-broker.d.ts",
+      "import type { PermissionBrokerPort, PermissionBrokerRequest, PermissionBrokerResult } from \"../deps.js\";\ninterface ResolvablePermissionBroker extends PermissionBrokerPort {\n    resolvePermission(requestIdOrToolCallId: string, result: PermissionBrokerResult): boolean;\n}\ninterface InspectablePermissionBroker extends PermissionBrokerPort {\n    listPendingRequests(): PermissionBrokerRequest[];\n}\nexport declare function isResolvablePermissionBroker(broker: PermissionBrokerPort): broker is ResolvablePermissionBroker;\nexport declare function isInspectablePermissionBroker(broker: PermissionBrokerPort): broker is InspectablePermissionBroker;\nexport {};\n//# sourceMappingURL=permission-broker.d.ts.map"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/session-mode-port.js",
+      "import { applyRuntimeExecutionState, readRuntimeExecutionState } from \"./execution-state.js\";\nexport function createRuntimeSessionModePort(runtime) {\n    return {\n        supportsPermissionFullAccess: () => Boolean(runtime.sessionStore?.commitPermissionFullAccess),\n        getMode: () => runtime.config.mode ?? \"build\",\n        getPrePlanMode: () => undefined,\n        isPlanEnabled: () => readRuntimeExecutionState(runtime).planEnabled,\n        async enterPlanMode(input) {\n            const previous = readRuntimeExecutionState(runtime);\n            const next = await applyRuntimeExecutionState(runtime, { planEnabled: true }, { ...input, source: \"tool\" });\n            return { ...next, previousMode: previous.mode, previousPlanEnabled: previous.planEnabled };\n        },\n        async exitPlanMode(input) {\n            const previous = readRuntimeExecutionState(runtime);\n            if (!previous.planEnabled) {\n                throw new Error(\"You are not in plan mode. This tool is only for exiting plan mode after writing a plan. If your plan was already approved, continue with implementation.\");\n            }\n            const next = await applyRuntimeExecutionState(runtime, { planEnabled: false }, { ...input, source: \"tool\" });\n            return { ...next, previousMode: previous.mode, previousPlanEnabled: true };\n        },\n    };\n}\n"
+    ],
+    [
+      "/workspace/knorvia-studio/apps/cli/packages/core/dist/runtime/session-mode-port.d.ts",
+      "import type { SessionModePort } from \"./deps.js\";\nimport type { AgentRuntimeInternal } from \"./internal.js\";\nexport declare function createRuntimeSessionModePort(runtime: AgentRuntimeInternal): SessionModePort;\n//# sourceMappingURL=session-mode-port.d.ts.map"
+    ]
+  ]
+}

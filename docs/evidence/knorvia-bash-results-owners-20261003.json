@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "kind": "Two whole body-free contract-authored result candidates; independent expression/rights review unresolved",
+  "productionCommit": "5c7ae627ee286ada825166f5f8fc8daf66bfd06f",
+  "freezeCommit": "cfb9bad4b43b07a8e5fac3a9b67145f081d22de6",
+  "initialDraftFailureCommit": "53c19f4f95fc014ed3abe6abad18eca4320b4396",
+  "ownedProductionPaths": [
+    "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+    "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts"
+  ],
+  "finalFiles": {
+    "apps/cli/packages/core/src/tool/handlers/bash-output.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+        "sha256": "0e3ff824dd43457d8aa827187b2ac1626dc070f161f67796aa6fc6c3c1b8bbf5"
+      },
+      "compiled": {
+        "path": "docs/evidence/bash-results-checks-20261003/current/bash-output.js.txt",
+        "sha256": "6a5b704d251a53af1074e32b6b84e6afc094f759fdf679dddd6e35632ee3d0a5"
+      },
+      "declaration": {
+        "path": "docs/evidence/bash-results-checks-20261003/current/bash-output.d.ts.txt",
+        "sha256": "120406b102da1ec291ed7818f2e9cbca1dff854fb47608c7c571150cd86b34ea"
+      }
+    },
+    "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+        "sha256": "874a9633905083c119d8be4df3266d7605cdf90b0837d19f992c9a1bf2803885"
+      },
+      "compiled": {
+        "path": "docs/evidence/bash-results-checks-20261003/current/bash-model-content.js.txt",
+        "sha256": "2f601de6d2352fb25fcc7512073e547789fca525d2f69631773e9e2b05e4c333"
+      },
+      "declaration": {
+        "path": "docs/evidence/bash-results-checks-20261003/current/bash-model-content.d.ts.txt",
+        "sha256": "bfaf8848c48a399a294de8785dbfa2eeea25a40182fbf71ab0232f3375ad8eee"
+      }
+    }
+  },
+  "selectionEvidence": {
+    "sourceHistoryAndPriorExactReceipts": "Freeze contains exact two predecessor hashes, origin objects, import/format-only histories, no accepted reviews; one old protected map, not whole-candidate receipt. Missing review alone does not prove acceptance/rights. Current broad core result/resource allocation permits this bounded selection.",
+    "screenScope": "Core tool/executor and result helpers; adjacent REPL/subagent/resource metadata screened to eliminate accepted/protected owners. Not an exhaustive repository ownership/rights inventory.",
+    "retainedSnapshots": "Root private HOLDs are protected rather than filled by old public snapshots."
+  },
+  "design": {
+    "bash-output": "One native async execution-record projection captures artifact identities/actual versus observed byte facts, retains its single image await, then projects live result and existing telemetry into unchanged Bash caller. Existing execution/image/semantics/performance owners remain single owners.",
+    "bash-model-content": "One synchronous schema-priority/structured-error-image-text transformation plus separate existing persisted-content API, with private ordered text and byte-unit formatting. Does not publish notifications, write files or regenerate persisted full content.",
+    "framework": "No new classes, caches, queues, permissions, timers, ownership/retry/async layer or generic interpreter."
+  },
+  "authoring": {
+    "route": "Reused existing native author, same executor; prior AgentRuntime/TurnMachine/background/turn-control context persists",
+    "closureUTC": "2026-10-03T04:04:57.786366236Z",
+    "initialHashes": {
+      "bash-output.ts": "02959cedd9a4f3d269e029eb1e43d5907328fdf80ac4d6b4beae60182d75de34",
+      "bash-model-content.ts": "d73bca95842e581012c29500c4a8c6916861f780aa5ff7a2aefa9766c473b6ba"
+    },
+    "inputs": {
+      "originalCount": 5,
+      "factualSupplementCount": 1,
+      "supplement": "docs/evidence/bash-results-author-20261003/clarification-01.md",
+      "facts": "Public telemetry nesting/signature, original raw byte fallback fields, parser-return image fields"
+    },
+    "limitations": "Instruction-only shared filesystem boundary and self-reported reads; curator source-exposed and correction reads predecessor. No absolute packet-only/clean-room/whole-file licence claim."
+  },
+  "originalFailures": {
+    "compiler": "One TS2322 structuredContent unknown[] diagnostic preserved. Root strict compiler evaluated original sealed files; diagnostic emission kept solely to expose original runtime regression, not counted as a passing type gate.",
+    "supportedRed": "One invalid-schema unknown object returns undefined from toJSON, first String coercion throws, second returns text. Old runtime succeeds with2 coercions; sealed candidate throws original error after1. Exact paired proof and errors remain frozen.",
+    "noBehaviorOracleChange": "Old source/compiled/declaration bytes and every original assertion unchanged; only current manifest pin changed in safety fixture."
+  },
+  "corrections": {
+    "kind": "Whole post-seal curator/source-exposed correction set",
+    "initialCompile": "TS2322 structuredContent unknown[]; preserved strict diagnostic. Diagnostic emission for red proof is not a successful compiler gate.",
+    "runtimeRed": "Supported unknown-input first fallback coercion: historical returns second String result, initial throws first; one compact comparison preserved.",
+    "changes": [
+      "ModelMessageContent type assertion for unchanged structured array identity",
+      "Original JSON/String catch boundary restored with frozen red proof",
+      "Single parsed stdout capture restores original read count; static compatibility correction, no getter matrix or new defect claim",
+      "Original default options={} and direct option reads restored; malformed null retains predecessor behavior, no new policy or broad input tests"
+    ],
+    "unformattedSHA256": {
+      "bash-output.ts": "8d9306c17a85ce2515c7672e795fd0f5cd8fc96592fa837f5c7fa7916eabf2b6",
+      "bash-model-content.ts": "724fe243a2cd5a810c07eadb24286e4131c42f5b1592c5498b2b06b290d8c98e"
+    },
+    "noAuthorshipRelabeling": "No author re-draft or independence/licence credit for source-exposed corrections."
+  },
+  "validation": {
+    "historicalMinimumGroups": 2,
+    "historicalAppendedCoercionGroups": 1,
+    "finalMinimumActualEmittedGroups": 2,
+    "finalAppendedCoercionGroups": 1,
+    "finalAppendedComparisons": 1,
+    "counting": "Actual Bash ToolEntry formatter and runtime result-classification consumers are within2 groups, not extra tests. Historical/final repetitions not added into totals. One appended concrete fallback regression overlaps invalid-data selection; proof/compiler group is separate from behavior coverage.",
+    "currentArtifactProof": {
+      "groups": 1,
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "publicOwnerAPIsEqual": 2,
+      "strictCurrentPins": 6,
+      "historicalModules": 5,
+      "unchangedConsumerDependencyEmissions": 3,
+      "protectedSources": 699,
+      "wrongMissingArtifactsFailClosed": true,
+      "wholeBuild": false
+    },
+    "ownedLint": "Five files,94 rules,0 warnings/errors with unchanged max400 policy; no lint weakening",
+    "configuredRootLint": "Existing root config ignores apps/cli; no root-wide lint run or exclusion claimed as pass",
+    "ownedFormat": "Five files pass",
+    "architecture": "Changed check0 violations; CLI module remains unmanaged/unassigned in current architecture policy",
+    "fixturePorts": "Synthetic schema/parser/image/performance/semantics ports; real unchanged Bash metadata and runtime helper bodies plus generic persisted formatter execute in VM. No actual schema-library or command-policy validation claim.",
+    "warnings": "Native VM ExperimentalWarning is expected",
+    "unrun": [
+      "ordinary source-mode replay",
+      "ordinary tests/full suites",
+      "whole CLI/desktop/aggregate builds",
+      "native/live acceptance",
+      "actual files/commands/tasks/providers/users/credentials/configuration/grants"
+    ]
+  },
+  "retainedExpression": {
+    "fixed": "Existing declarations/import symbols, public fields/key order, error and background model-facing strings, regex normalization and required priority/effect rules retained as compatibility facts.",
+    "bash-output": "Foreground/background/empty telemetry objects and status-selection combination strongly correspond to predecessor; prescribed output field construction, capture/native-await/helper order uses standard glue. Whole-body/whole-file independent expression is unresolved, not credited by relocation, names, hashes or pass counts.",
+    "bash-model-content": "Structured/provider/image priority, numeric byte-fallback combinations, ordered text parts, field/prose templates and standard JSON/String correction strongly correspond. Unit selection and private whole transformation organization were authored from requirements; no automatic independent-origin acceptance inferred.",
+    "comments": "Old discretionary explanatory prose not copied into installed source; one concise original source-exposed regression comment added. Removing narrative is not implementation originality credit. Existing applicable attribution/licenses remain; no header/registry grant.",
+    "completion": "Two installed complete implementation candidates, zero audited independent-origin/licence closures."
+  },
+  "originVerification": {
+    "scope": "local object availability/metadata only; not publisher remote verification or authorship acceptance",
+    "files": [
+      {
+        "path": "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+        "recordedPublisherPath": "apps/zcode-cli/packages/core/src/tool/handlers/bash-output.ts",
+        "blob": "b90f91a728f0da414307fe568fe1b6fc9885e725",
+        "recordedLFSHA256": "feb9ef66a7f631077588be16cae87bda04ae95d2bcd0d44d4e241848a07787fc",
+        "localObjectAvailable": false,
+        "remotePublisherAcquisitionThisTurn": false
+      },
+      {
+        "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+        "recordedPublisherPath": "apps/zcode-cli/packages/core/src/tool/handlers/bash-model-content.ts",
+        "blob": "b86b00681f70563b48ba7002dc357f693feb0c10",
+        "recordedLFSHA256": "a850a68eb154ee68c0966ebf5d0ca763723698f98c94725be512f0ab5028b088",
+        "localObjectAvailable": false,
+        "remotePublisherAcquisitionThisTurn": false
+      }
+    ]
+  },
+  "boundedRemainingInventory": [
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-task-output.ts",
+      "currentSHA256": "d212da0fbab1c883d2b3d3a82b70d9de8eb4d5e993b80f1aadba548fc7b8e79d",
+      "classification": "upstream-unchanged",
+      "recordedOrigin": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/background-task-output.ts",
+        "blob": "6347c530a157192dc680a71c367700318df0bfa1",
+        "normalizedSha256": "d212da0fbab1c883d2b3d3a82b70d9de8eb4d5e993b80f1aadba548fc7b8e79d",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/tool/executor/background-task-output.ts"
+        ]
+      },
+      "decision": "Unreviewed inherited metadata precedence/observed-byte projection remains; protected lower dependency of new background owner, not reopened in this two-owner batch."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-task-registry.ts",
+      "currentSHA256": "de427131cfc4612f036037a521e1fcd7f16943b271a3036a56b2a728d4cc7df6",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/background-task-registry.ts",
+        "blob": "c5c381b70db248f466ece37e279719c6202f1ed4",
+        "normalizedSha256": "5803ac2a4ef07d03eacd5684bc9b0a1ade67eae4cf6f55b67d51b1141044cf70",
+        "contentMatchedPaths": []
+      },
+      "decision": "Unreviewed inherited registration/update/projection bridge remains; interfaces lead into root held task registry. Distinct exact root reconciliation/allocation before changing that boundary."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-artifact.ts",
+      "currentSHA256": "00ab8147d398d9cd16783543081615d22bdfa374b03edebb548b32b2eed2feb1",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/workflow-artifact.ts",
+        "blob": "64ec568e171b970bd3bdddd9b4821059c4bf0888",
+        "normalizedSha256": "f52a454060d8bfa576a10d8633bf3b050149ff525ca646fb3e40d2187045a075",
+        "contentMatchedPaths": []
+      },
+      "decision": "Serializer export is constrained compatibility glue; report preview budget/manifest projection and long prose remain inherited. Not forced into novelty/independent-file credit; concrete next scope is expression/ownership review of report budget only."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+      "currentSHA256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+      "classification": "upstream-unchanged",
+      "recordedOrigin": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+        "blob": "825c684e5d02cbca80fcb09ccd8e35cea13ae5ea",
+        "normalizedSha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/tool/executor/workflow-published-artifacts.ts"
+        ]
+      },
+      "decision": "Retained artifact schema/text/list projection is a protected background/GetWorkflowRun dependency. No new workflow-body allocation in this batch; E/root workflow exclusions preserved."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/events.ts",
+      "currentSHA256": "7ba06ee281018cd79789536934facc1d7066f35a8f091ddaa03ea502b83db776",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/events.ts",
+        "blob": "7d19a6ab06ee40682b23340e5f766b95446acec7",
+        "normalizedSha256": "78c882f9dd3c2b4d3f2d7383a3efbed2e9a58306cdb56422564703989db3a248",
+        "contentMatchedPaths": []
+      },
+      "decision": "Earlier fixed event/protocol retained decision unchanged, no novelty or licence completion count."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/impl.ts",
+      "currentSHA256": "50a7f9346185ccef0e7b0b3df54264fc87ed6336757d8b6c8783a1634a6fb33a",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/impl.ts",
+        "blob": "e160a019ea6ebb254ace20ffad30c8f70a05a92f",
+        "normalizedSha256": "8d5a9f4f1a25d76fcc56ef65ce49c070080a0f434517a04419f328ff69738daf",
+        "contentMatchedPaths": []
+      },
+      "decision": "Executor facade/captured dependency wiring remains inherited; no whole-owner reconstruction credit from forwarding/constructor movement."
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/memory-file-permission.ts",
+      "currentSHA256": "ab323220603cbe0602419a96c13a7c27879f9e3054ce61bc2f25140e729d6889",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/executor/memory-file-permission.ts",
+        "blob": "304353875c8adf90ee43b0e86ee7818bcb8c9020",
+        "normalizedSha256": "97f5300d6c6045fe8ba21715f9d73f05ddf4468da7da315a415360f1e5a616dc",
+        "contentMatchedPaths": []
+      },
+      "decision": "Memory/trust policy seam excluded; E memory and permission policy ownership protected."
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-event-mirror.ts",
+      "currentSHA256": "0c0154cb0ff112bdb193de978e1616eea8e0e843f23060517d53be9819940f7f",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/subagent/tool-event-mirror.ts",
+        "blob": "3a940b7bfce6e84542223382b14d16d42c9a4bc2",
+        "normalizedSha256": "3ca365720c5d377eb3bec01607aabb6898c8edf057b274454ede42fca469c477",
+        "contentMatchedPaths": []
+      },
+      "decision": "Substantive child/parent event identity and scheduling projection remains an earlier protected runner dependency; no extra allocation or accepted-source adoption."
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/borrowed-mcp-port.ts",
+      "currentSHA256": "94e3e368aaae276a3d10a3bbef2e997d07ccf75dc5c5d0f98eac01ea57191c3d",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/subagent/borrowed-mcp-port.ts",
+        "blob": "716a59abf009d6e7009c4ca196e4f54d3f5ebcbb",
+        "normalizedSha256": "cd6e6077fd84b8834c4fcfcd40ea177b6a0483ab3fe0cdc06cb4d63f40bd2070",
+        "contentMatchedPaths": []
+      },
+      "decision": "Captured child MCP scope and parent lifecycle rejection helper remains protected; no access/grant policy allocation."
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile-frontmatter.ts",
+      "currentSHA256": "a8561a0a1bf24fa4dc230eb6bff88b12baeece87daed889bd3c37125398891f6",
+      "classification": "upstream-unchanged",
+      "recordedOrigin": {
+        "relation": "unchanged",
+        "path": "apps/zcode-cli/packages/core/src/subagent/profile-frontmatter.ts",
+        "blob": "280d7b4c885cd02d7a580e6e5837d52e70820ad2",
+        "normalizedSha256": "a8561a0a1bf24fa4dc230eb6bff88b12baeece87daed889bd3c37125398891f6",
+        "contentMatchedPaths": [
+          "apps/zcode-cli/packages/core/src/subagent/profile-frontmatter.ts"
+        ]
+      },
+      "decision": "Explicitly protected profile parser helper; unchanged."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "currentSHA256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+        "blob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+        "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+        "contentMatchedPaths": []
+      },
+      "decision": "Explicit root HASH HOLD/receipt reconciliation; unchanged local bytes are not a reconstruction/acceptance claim."
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "currentSHA256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/read-file-state-hydrator.ts",
+        "blob": "67670d690769aefed10a7857d81574e5b691a526",
+        "normalizedSha256": "f534a2975df54fc3f704a83b8cfaaae8ac835d828f2fac095904d0760897fe4e",
+        "contentMatchedPaths": []
+      },
+      "decision": "Explicit root HASH HOLD: current technical source SHA remains5acb4c..., no historical restoration or cross-lane adoption."
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-machine.ts",
+      "currentSHA256": "15f5c9fd911a150d932d07554432c1e494f1fda0b2d9fe897c5bd1125fa24a31",
+      "classification": "upstream-modified",
+      "recordedOrigin": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/agent/turn-machine.ts",
+        "blob": "64011587ce4ee9c164628a021a204241b428b6a9",
+        "normalizedSha256": "c584424b5e969894e4637821befe8b115fe5ff226299d2ac0cadabac7a8e6ba3",
+        "contentMatchedPaths": []
+      },
+      "decision": "Rejected prior full draft/no-rewrite decision remains; do not polish or count it."
+    }
+  ],
+  "protectedBoundary": "699 other core source hashes exact, including accepted background/turn-control/runtime-methods and local root/E/HOLD bytes. Prior receipts remain immutable/historical; no claim private root tree equals this older branch.",
+  "configuration": "Saved Sol/high/FastON remains parent-confirmed; no model/tier/environment/access/security settings change or retroactive UI verification.",
+  "commands": [
+    "node --experimental-vm-modules apps/cli/packages/core/test/bash-results-safety-20261003.mjs current",
+    "node --experimental-vm-modules apps/cli/packages/core/test/bash-results-coercion-20261003.mjs current",
+    "node apps/cli/packages/core/test/bash-results-artifact-proof-20261003.mjs"
+  ],
+  "bindings": {
+    "apps/cli/packages/core/test/bash-results-artifact-proof-20261003.mjs": "186e0c7f8fa369aa504224599990218e96033ce199e89f42be75bfdcce200458",
+    "apps/cli/packages/core/test/bash-results-baseline-20261003.json": "b4180fb37af8689f36bc9ffc9730d286dd1ac21d7b24efc585c94a6a44c24c97",
+    "apps/cli/packages/core/test/bash-results-coercion-20261003.mjs": "dcbc40bfa14adf136432ebe291ec9101554bcdc99f6b5ee362ab1add01cadfd7",
+    "apps/cli/packages/core/test/bash-results-observations-20261003.json": "5f57b1ccc612af7ec364b521585a2cb9f3539036512bddcd2b6063a55cbe8fde",
+    "apps/cli/packages/core/test/bash-results-safety-20261003.mjs": "dee664eff9d8013aa2513f2f267680d0ddf72943aa490aa8740d17facad5fd0e",
+    "docs/evidence/bash-results-author-20261003/bash-model-content-api.d.ts": "9fa8a4b6475bfafab750ebb77cf233fc04f60e12ee697f1feee3c4b11b31e5d0",
+    "docs/evidence/bash-results-author-20261003/bash-output-api.d.ts": "6a7a622553cf9abf55499b6f8638e07033d885d81cbc219658c78e196c1bddac",
+    "docs/evidence/bash-results-author-20261003/clarification-01.md": "7f428f529c20dec2bf990170e181d407a83e76a99de5fd367e2b8b8fbcc27a59",
+    "docs/evidence/bash-results-author-20261003/contract.md": "d0b459f0ac4462a98c2aa06677aa91abcd7169aa4869f1b69ef554c1557d5579",
+    "docs/evidence/bash-results-author-20261003/dependency-api.d.ts": "332d12c0a9e9d652963eff63865ba64b6c9441651d3e8491b3f12c4ad2e9087f",
+    "docs/evidence/bash-results-author-20261003/model-strings.json": "2972831bdb10e3803dd296c300e2ea40b90826823d48820326b8197611625edd",
+    "docs/evidence/bash-results-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "docs/evidence/bash-results-checks-20261003/baseline-result.json": "d6b24595be3229b72c6ccffa24d93577abeb36a17c8c95bead541184b0a5e845",
+    "docs/evidence/bash-results-checks-20261003/baseline-safety.log": "11fcb0bf7b38f1b0a2c4dc48a92791b7d3c1dcf1111ae3552b889cb784e2e0a2",
+    "docs/evidence/bash-results-checks-20261003/coercion-baseline.log": "22c51dc9cb8dd1474fcededa3e5725a23af3f32394bd65448bbb9a986e9c318f",
+    "docs/evidence/bash-results-checks-20261003/coercion-initial-red.log": "7933cf9e7b79b46cda8280d39868687494bb1c8ad6fa6552d57462652957221d",
+    "docs/evidence/bash-results-checks-20261003/current-artifact-proof.log": "d7799b07a67dca4adc03639c5e7612062088d8e99b5e551741c273799d127994",
+    "docs/evidence/bash-results-checks-20261003/current-coercion.log": "ad8d55e0f69387e8a82d04a6dd2dcce530a45b5401c38396b807cc6945afb3e6",
+    "docs/evidence/bash-results-checks-20261003/current-safety.log": "7967bfc31fbfb5efeaecb4a5c8a3d75154eb1148c10ac032c98666cbb79cd97e",
+    "docs/evidence/bash-results-checks-20261003/current/bash-model-content.d.ts.txt": "bfaf8848c48a399a294de8785dbfa2eeea25a40182fbf71ab0232f3375ad8eee",
+    "docs/evidence/bash-results-checks-20261003/current/bash-model-content.js.txt": "2f601de6d2352fb25fcc7512073e547789fca525d2f69631773e9e2b05e4c333",
+    "docs/evidence/bash-results-checks-20261003/current/bash-output.d.ts.txt": "120406b102da1ec291ed7818f2e9cbca1dff854fb47608c7c571150cd86b34ea",
+    "docs/evidence/bash-results-checks-20261003/current/bash-output.js.txt": "6a5b704d251a53af1074e32b6b84e6afc094f759fdf679dddd6e35632ee3d0a5",
+    "docs/evidence/bash-results-checks-20261003/current/result.json": "af071ab44605c743beda0f12eb43a35d34d0ab33f8bde0755f2c1270cf1b18ae",
+    "docs/evidence/bash-results-checks-20261003/diagnostic-draft/compiled-modules.json": "b7053054833b145320c23d07ca34085155ec080d13d822fd459d2bb91fd7893e",
+    "docs/evidence/bash-results-checks-20261003/diagnostic-draft/diagnostics.log": "31a50bd099369c0f218e0219165ab7586d519c19ca7a223bced2d0d4d37b49a0",
+    "docs/evidence/bash-results-checks-20261003/diagnostic-draft/result.json": "62eca25bc470e9ff4f8c27fd5dc8be564513758328480f11969b7a21c4147b5e",
+    "docs/evidence/bash-results-checks-20261003/freeze.json": "5812686997e98c4a9c9068877feba86e35d4dee7756d2e338c06ab6ed2d29840",
+    "docs/evidence/bash-results-checks-20261003/local-origin.json": "3b243b6ca53cbe284030d12a2591058b9e8a7dacf332578c62e3e6e0438823dc",
+    "docs/evidence/bash-results-checks-20261003/owned-format.log": "9b7092109620c60df58156f37ec9f98ce698886619dc1d84c4cd76c212adc752",
+    "docs/evidence/bash-results-checks-20261003/owned-lint.log": "5a454e7d794ef4df5e60f06eee3fccae01a6f0d77de3e80ef8fd4a63cd72d1fc",
+    "docs/evidence/bash-results-draft-20261003/corrected/correction.json": "ec95a747c8d3c8a78a8b9380edd25b65b2482e17e8830ba8e0b6996edd251f42",
+    "docs/evidence/bash-results-draft-20261003/corrected/tool/handlers/bash-model-content.ts": "724fe243a2cd5a810c07eadb24286e4131c42f5b1592c5498b2b06b290d8c98e",
+    "docs/evidence/bash-results-draft-20261003/corrected/tool/handlers/bash-output.ts": "8d9306c17a85ce2515c7672e795fd0f5cd8fc96592fa837f5c7fa7916eabf2b6",
+    "docs/evidence/bash-results-draft-20261003/initial/SHA256SUMS": "23129bfe08c538a1773e76b256b6f096fde7d7ac394a61c4287996208e5720a0",
+    "docs/evidence/bash-results-draft-20261003/initial/accessed-inputs.sha256": "c37b2793a84442c4755f08044829a85189d0f42f8f3489675bce26dbb30b8d46",
+    "docs/evidence/bash-results-draft-20261003/initial/author-record.md": "60a09f46a30d42b50749efd9d9f053ea0a720a2619aa51591d24d7b0d23afa19",
+    "docs/evidence/bash-results-draft-20261003/initial/tool/handlers/bash-model-content.ts": "d73bca95842e581012c29500c4a8c6916861f780aa5ff7a2aefa9766c473b6ba",
+    "docs/evidence/bash-results-draft-20261003/initial/tool/handlers/bash-output.ts": "02959cedd9a4f3d269e029eb1e43d5907328fdf80ac4d6b4beae60182d75de34",
+    "docs/evidence/knorvia-bash-results-current-20261003.json": "f40288007778ae406e7e1929f311966aa41bf4e9ff6c794dcc8df2cb552c79c0",
+    "specs/knorvia-bash-results-owners-20261003.md": "81bd459d9335c294f069846617131b2f871c26d32b173e10fdec2f8589eeb1f7"
+  },
+  "integration": "Original parallel branch/draftPR11 only; no other lane source/merge/main/recovery/deploy or licence decision."
+}

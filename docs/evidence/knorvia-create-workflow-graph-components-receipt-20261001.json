@@ -1,0 +1,303 @@
+{
+  "formatVersion": 1,
+  "sourceExposure": true,
+  "wholeFileRightsDecision": null,
+  "baseline": "a19f66fc6159b3ae83ca77f7628cbac00954d5d0",
+  "freeze": "262eb6fe5db882c011626aa181e841e091bfd1f1",
+  "initialProduction": "9140752a8f11fb9d0e26703d5f660eeaebcfedc4",
+  "appendedFreeze": "fcb890d91c168d6491f83d12443e0deaeca24be9",
+  "production": "4540796a01526ec682b87848a163e344a6da5f80",
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-fold-baseline.json",
+    "apps/cli/packages/core/test/create-workflow-graph-fold-contract.json",
+    "specs/knorvia-create-workflow-graph-components.md",
+    "docs/evidence/knorvia-create-workflow-graph-components-check-20261001.mjs",
+    "docs/evidence/knorvia-create-workflow-graph-components-receipt-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "bytes": 6717,
+      "sha256": "de5675ea46430208ea3c6773985a9f9e837f1ecc4c83052cde4edb65de7989f2",
+      "blob": "2a0d80bfc9293c468476d76b2ca4f67248883677"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+      "bytes": 10272,
+      "sha256": "98c8e24b1b54e83af249ebb85b46b2ef8f5782d1912ff4e270e1ac070053c13f",
+      "commit": "fcb890d91c168d6491f83d12443e0deaeca24be9"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+      "bytes": 3751,
+      "sha256": "0f9399fbd8a6fba4cd61e04749c691b369013fce8ae3a682310e9b9d244945a5",
+      "commit": "fcb890d91c168d6491f83d12443e0deaeca24be9"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold-baseline.json",
+      "bytes": 8270,
+      "sha256": "810334e84eb29841d5530557d9b7acce7a422ce61cb191f386d176f0416b6075",
+      "commit": "262eb6fe5db882c011626aa181e841e091bfd1f1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold-contract.json",
+      "bytes": 2766,
+      "sha256": "5a561f5e70c3b88fb43556da587e129f17f175482f5fde4adfcf788fc44cb956",
+      "commit": "262eb6fe5db882c011626aa181e841e091bfd1f1"
+    },
+    {
+      "path": "specs/knorvia-create-workflow-graph-components.md",
+      "bytes": 4256,
+      "sha256": "630d379edce8f646f512b269fd6b05d344db958817918c2e7ec51c20aeccda7d",
+      "commit": "fcb890d91c168d6491f83d12443e0deaeca24be9"
+    }
+  ],
+  "checker": {
+    "path": "docs/evidence/knorvia-create-workflow-graph-components-check-20261001.mjs",
+    "bytes": 3834,
+    "sha256": "6dd22dc8df45b8c67a2f4a71e0220791db83b01231527749fa520abf7b43c07a"
+  },
+  "previousReview": {
+    "path": "docs/evidence/knorvia-cli-workflow-introspection-review-20261001.json",
+    "bytes": 16205,
+    "sha256": "d2f5a2a55dbb63628cb2fa11a94e3a85e812cdf2557c78456c06a5a36ba3c3b2"
+  },
+  "baselineSourceSha256": "ed9f00051bdea60751f2f86191c4c83076f02c7d52d96c6ae8485ca2b9726487",
+  "retainedPrefixBytes": 4183,
+  "archive": "apps/cli/packages/core/test/create-workflow-graph-fold-baseline.json",
+  "contract": "apps/cli/packages/core/test/create-workflow-graph-fold-contract.json",
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js",
+      "bytes": 6672,
+      "sha256": "3f01bdfee4cae424772d50d900fa2847f9fe77e0c923ce9423cc611358a00071"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts",
+      "bytes": 1590,
+      "sha256": "b1a39977f57a82f6580769538f2fba6d70e8a58b546bf30d0fb3f62f892da108"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts.map",
+      "bytes": 374,
+      "sha256": "8b55f631bedc2faffbe4bddd66fc4b5805f7ae6c334b13c12668b2d5de344144"
+    }
+  ],
+  "upstreamRecordedFacts": {
+    "path": "apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "b365beb32e497fee8f61741fd6fabff08e992715",
+    "lfSha256": "6c646e75884f6bc364c48220c936d5121d00b91276252d11d2547f966d97b84c",
+    "bytes": 5918,
+    "verification": "Existing upstream-baseline metadata only. This checkpoint did not fetch publisher bytes or establish authorship."
+  },
+  "expressionReview": {
+    "newStructure": "The private SCC owner uses endpoint indices, forward/reverse adjacency, explicit DFS cursor frames, reversed finishing order and minimum endpoint-rank representatives, replacing per-node reachability and mutual-reachability scans.",
+    "retained": "The first 4183 source bytes are identical: public declarations and explanatory prose, public projection import, ordered pair folding, key expressions, condensation, kind deduplication, reduceOrdering and output expansion. Fixed RawEdge fields, Maps/Sets and standard graph/API glue remain. Existing attribution remains; the whole file is mixed pending root review.",
+    "testExpression": "Owned synthetic graph observations and SCC failure assertion were written for this slice. Actual baseline JS/declaration archive retains inherited implementation/comments/prose. Golden hashes bind old outputs; they are not new runtime prose. Loader, fail-closed network, clock and executor patterns reuse the accepted workflow-run-summary fixture.",
+    "notDetermined": "Changed hashes, passing contracts and a new SCC algorithm do not establish whole-file authorship or licence eligibility. Source exposure is disclosed and is not treated as a permanent disqualification. Root owns independent expression and rights review."
+  },
+  "regression": {
+    "initialSourceSha256": "c2b9acf13f5d83d8aa813268161a1faa85fa635e41f48090d3e6e2094cb591bf",
+    "initialEmittedSha256": "dbc9a05af3051ef1c1a39e7f7142be31b97f11c02581f25469ad4e2842a019ec",
+    "proof": "An owned synchronous fixture temporarily sets writable Array.prototype[1] to true and restores its descriptor in finally. For a->b, b->a, root->a, root->b, baseline retains four edges; the initial sparse visitation/representative arrays misread inherited flags and omit root->a. Appended unchanged assertions fail once in source and once in actual emitted mode.",
+    "correction": "Use call-local Sets for visited/assigned and a Map for representative decisions. Original 24 direct, seven projection, four call-runner and concurrent golden observations are unchanged. Appended failing test/spec and initial implementation commit remain immutable."
+  },
+  "checks": [
+    {
+      "stage": "pre-change",
+      "diagnostics": 0,
+      "emittedArtifacts": 3,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-baseline-emission.log",
+        "bytes": 398,
+        "sha256": "02daa746369c3717b4114ae014fe739ae98126cff2f93f8c48950a7f436a42fb"
+      }
+    },
+    {
+      "stage": "pre-change",
+      "directObservations": 24,
+      "graphDisplayObservations": 7,
+      "callRunnerObservations": 4,
+      "concurrentCalls": 2,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-freeze.log",
+        "bytes": 55,
+        "sha256": "1353dabf3117eed58276c50c18fa337734f237706b09571ea06cd99ccd52d9ef"
+      }
+    },
+    {
+      "stage": "pre-change",
+      "tests": 6,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-freeze-source.log",
+        "bytes": 745,
+        "sha256": "18051092bc9e1480e9c307a600a8900316f6696fccd798ae9f8327c302c8f80f"
+      }
+    },
+    {
+      "stage": "pre-change",
+      "tests": 6,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-freeze-emitted.log",
+        "bytes": 747,
+        "sha256": "46d77b90a5b76e6340b6defb855d0a7d1647ba2a6f2c0fbf9241a35f27716ebf"
+      }
+    },
+    {
+      "stage": "initial implementation, historical",
+      "tests": 6,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-source.log",
+        "bytes": 747,
+        "sha256": "4b5fbab16ab1d62e7cfb4cf16befd4bc2461838030151c4974a0766d86fa0c07"
+      }
+    },
+    {
+      "stage": "initial implementation, historical",
+      "tests": 6,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-emitted.log",
+        "bytes": 747,
+        "sha256": "744fc2e1764fd7ca98a769f7acf6a14e84bfc9680cc0a0ac84e58dcfb326924f"
+      }
+    },
+    {
+      "stage": "initial implementation, historical",
+      "tests": 5,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-consumers.log",
+        "bytes": 610,
+        "sha256": "9632966e2f3c2788640fda03a433a6bad513f40ea49f9ceeb0a57ea059fe76be"
+      }
+    },
+    {
+      "stage": "appended regression against initial implementation",
+      "tests": 1,
+      "fail": 1,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-native-red-source.log",
+        "bytes": 1517,
+        "sha256": "d7782c6d07dff77b4ccee4f97451e1c57032389b1faf27277da40e7784a0dd1c"
+      },
+      "pass": 0
+    },
+    {
+      "stage": "appended regression against initial implementation",
+      "tests": 1,
+      "fail": 1,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-native-red-emitted.log",
+        "bytes": 1515,
+        "sha256": "c901e5352cf05a681ce9fda0622ca605d12967d7c8d77a77958391830e5d7cb4"
+      },
+      "pass": 0
+    },
+    {
+      "stage": "final corrected implementation",
+      "diagnostics": 0,
+      "productionRoots": 1,
+      "emittedArtifacts": 3,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-corrected-emission.log",
+        "bytes": 398,
+        "sha256": "02daa746369c3717b4114ae014fe739ae98126cff2f93f8c48950a7f436a42fb"
+      }
+    },
+    {
+      "stage": "final corrected implementation",
+      "diagnostics": 0,
+      "productionAndTestRoots": 3,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-corrected-types.log",
+        "bytes": 307,
+        "sha256": "c79744ff50b0e194ab8ddb4f3e0a1396db5147605205f16ab84c932fa4733a41"
+      }
+    },
+    {
+      "stage": "final corrected implementation",
+      "tests": 12,
+      "focused": 7,
+      "unchangedDirectConsumers": 5,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-corrected-source.log",
+        "bytes": 1331,
+        "sha256": "be8eadc716c71ad510e7a2bcdb160bcf9200057eab6f203e3a4fbc7c77f90597"
+      }
+    },
+    {
+      "stage": "final corrected implementation",
+      "tests": 7,
+      "strictActualEmitted": true,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-corrected-emitted.log",
+        "bytes": 832,
+        "sha256": "fbf1c763df9826fcdebfad530c72328ef0d869b7d6d67f7d3a280d0a19575fcc"
+      }
+    },
+    {
+      "stage": "final corrected implementation",
+      "files": 3,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-corrected-lint.log",
+        "bytes": 90,
+        "sha256": "03647b4e1c53eaa8684cded4c4eb91c8fbe70fb134ba4809addac05aca31742b"
+      }
+    },
+    {
+      "stage": "final corrected implementation",
+      "files": 6,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-corrected-format.log",
+        "bytes": 112,
+        "sha256": "69b7d99336c7741ae3719e20b5479d8e70dcb44c4e14c552209d9828c71a24cf"
+      }
+    },
+    {
+      "stage": "final corrected implementation",
+      "violations": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-corrected-architecture.log",
+        "bytes": 197,
+        "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+      }
+    },
+    {
+      "stage": "receipt checker",
+      "files": 1,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-fold-receipt-lint.log",
+        "bytes": 89,
+        "sha256": "8959993e89577b26322def7e7756ba92e2ac152c2bb5305467c8e2d277696677"
+      }
+    }
+  ],
+  "consumerBoundary": {
+    "actualConsumers": "Source and actual-emitted graph fold, unchanged graph bounds and workflow-analysis display, CreateWorkflow/AmendWorkflow display projections, registered CreateWorkflow identity/metadata/schema and complete call-runner with owned graph producer and synthetic approval.",
+    "cancellation": "Four frozen full-call-runner observations cover normal completion, abort queued at model begin, abort queued at model end and early abort. Two delayed concurrent producers have separate results and one shared outer fake clock. SCC remains synchronous and adds no await or operation owner.",
+    "excluded": "Fixtures override graph production and input resolution. They do not resolve real workflow inputs, analyze scripts, write drafts, launch workflows, contact providers/network or use user data. No claim of arbitrary native collection replacement equivalence."
+  },
+  "limits": [
+    "No full suite, root-wide type/lint gates, aggregate CLI/desktop build or native/platform/UI acceptance; user reduced cadence and root owns aggregate gates.",
+    "Scoped emission uses existing TS6.0.2 and the actual core tsconfig; strict emitted loader has no source fallback. Logs are retained local files with reproducible hashes, not committed log archives.",
+    "Root runtime/Host, graph-bounds/security/permissions/state owners, shared provenance/dependencies/CI and all earlier checkpoints are untouched. Historical lane licensing inputs remain unchanged.",
+    "No MIT grant, whole-file independent claim, material-obligation closure, merge/deployment or publication claim."
+  ],
+  "reproduce": [
+    "export PATH=/tmp/knorvia-lane-toolchain/node_modules/.bin:$PATH",
+    "node /tmp/knorvia-graph-fold-types.mjs; node /tmp/knorvia-graph-fold-types.mjs --tests (local scoped tooling, see recorded roots/artifacts)",
+    "node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-fold.test.ts apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+    "Red proof: use initial production 9140752a8f11fb9d0e26703d5f660eeaebcfedc4 with appended fixture/test/spec from fcb890d91c168d6491f83d12443e0deaeca24be9; run only --test-name-pattern=\"inherited numeric\" in each mode after actual scoped emission. Do not relax assertions.",
+    "node docs/evidence/knorvia-create-workflow-graph-components-check-20261001.mjs --emitted --logs --scope (--logs requires retained local log files; source/declaration/committed freeze and scope checks are reproducible without them)."
+  ]
+}

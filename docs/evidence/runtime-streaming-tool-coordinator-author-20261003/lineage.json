@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/streaming-tool-coordinator.ts",
+  "kind": "file",
+  "sha256": "e5413841690c98c6f12a98da32dce40b37a5e0ec62682a4def1df8130e1550db",
+  "normalizedSha256": "e5413841690c98c6f12a98da32dce40b37a5e0ec62682a4def1df8130e1550db",
+  "encoding": "utf8-lf",
+  "bytes": 14007,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/streaming-tool-coordinator.ts",
+    "blob": "b46dde9e1a5218d50c0a65bca53d0b3e69059c0a",
+    "normalizedSha256": "e5413841690c98c6f12a98da32dce40b37a5e0ec62682a4def1df8130e1550db",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/streaming-tool-coordinator.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

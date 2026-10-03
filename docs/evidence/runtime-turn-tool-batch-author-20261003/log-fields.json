@@ -1,0 +1,98 @@
+[
+  {
+    "message": "Executing tools",
+    "level": "debug",
+    "orderedFields": [
+      "streamedToolCallCount",
+      "toolCallCount",
+      "tools"
+    ]
+  },
+  {
+    "message": "Tools executed",
+    "level": "debug",
+    "orderedFields": [
+      "resultCount",
+      "results"
+    ]
+  },
+  {
+    "message": "Injecting tool results",
+    "level": "debug",
+    "orderedFields": [
+      "resultCount"
+    ]
+  },
+  {
+    "message": "addToolResult",
+    "level": "debug",
+    "orderedFields": [
+      "toolCallId",
+      "toolName",
+      "success",
+      "contentLength"
+    ]
+  },
+  {
+    "message": "Automation create limit switched turn to text-only response",
+    "level": "info",
+    "orderedFields": [
+      "event",
+      "module",
+      "reason",
+      "status",
+      "toolCallId",
+      "toolName"
+    ]
+  },
+  {
+    "message": "Tool result requested turn stop",
+    "level": "info",
+    "orderedFields": [
+      "event",
+      "module",
+      "reason",
+      "status",
+      "toolCallId",
+      "toolName"
+    ]
+  },
+  {
+    "message": "After inject, message count",
+    "level": "debug",
+    "orderedFields": [
+      "compactToolTurnsSinceLastCompact",
+      "count",
+      "reactiveCompactAttemptedInCurrentModelStep"
+    ]
+  },
+  {
+    "message": "Queued follow-up user input from tool result",
+    "level": "debug",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "event",
+      "module",
+      "pendingInputId",
+      "reasonSource",
+      "status",
+      "toolCallId",
+      "toolName"
+    ]
+  },
+  {
+    "message": "Failed to queue follow-up user input from tool result",
+    "level": "warn",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "activeTurnId",
+      "event",
+      "module",
+      "reason",
+      "reasonSource",
+      "status",
+      "toolCallId",
+      "toolName"
+    ]
+  }
+]

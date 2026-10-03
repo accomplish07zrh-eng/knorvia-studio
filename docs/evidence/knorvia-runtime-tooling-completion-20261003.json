@@ -1,0 +1,196 @@
+{
+  "kind": "source-only candidate completion; independent expression/rights unresolved",
+  "base": "425843392b33506446cdc2612e31d943a922c090",
+  "commits": {
+    "freeze": "8296aec",
+    "sealedDraftAndRedProof": "fe0fb7a",
+    "installedRuntime": "01b67de"
+  },
+  "scope": {
+    "changed": ["apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts"],
+    "retainedUnchanged": [
+      "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+      "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts"
+    ],
+    "protectedOtherScopes": true
+  },
+  "artifacts": {
+    "runtime/helpers/runtime-tools.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/runtime-tools.ts",
+        "sha256": "42120e1f7bfe3345dccedd4bf2a39eaae9d450efa69b5a30fc284496e6ba9fac"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/runtime-tools.js",
+        "sha256": "43b2681473fc3800230edaa7feacf8b50531d85d93ce9467a2a4de44c9cfeffb"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/runtime-tools.d.ts",
+        "sha256": "2b53f74ae16bc9d6cd0e1080bcb9714758f6b57e3256c0496055e31e5c7b23d2"
+      }
+    },
+    "runtime/helpers/tool-allowlist.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/tool-allowlist.ts",
+        "sha256": "abf30c50e51e1f0eaf4c7700bc5b05f8a60d603bbd988609f68dcd47c6304e70"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/tool-allowlist.js",
+        "sha256": "b41e7b04ded9489095201b6ca3962aac847fa5e910795c9174ef4c88082c9165"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/tool-allowlist.d.ts",
+        "sha256": "efd4870ee4f38cce1f734319e03b6e0dc2be2c53fc144b54882aacf3392c6bfd"
+      }
+    },
+    "runtime/helpers/permission-grant-resume.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/permission-grant-resume.ts",
+        "sha256": "040dfca80dca1da74d0ec16d837a4a898c2f1efd70728cace8f7f6c55069e387"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/permission-grant-resume.js",
+        "sha256": "0b95a3d385e02a414d6c7c261dff36f0e823b578dcedcb1093b820f20a8cfc30"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/helpers/permission-grant-resume.d.ts",
+        "sha256": "a543a88b150a6043492f5f3923192ea1d35709194915e8e423d76ac88bacdad7"
+      }
+    }
+  },
+  "currentManifest": {
+    "path": "docs/evidence/knorvia-runtime-tooling-current-20261003.json",
+    "sha256": "5716956ef8dbac4f8d6929e3b477a924d36912e80f10ab4b41c6e93c9c242086"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-tooling-baseline-20261003.json",
+    "sha256": "89c566f4070749a03f9cfcc450f080b27fcc589b634dedc0e421f442abf2d709",
+    "sourceJsDeclarationImmutable": true
+  },
+  "authorship": {
+    "author": "runtime_tooling_contract_author",
+    "freshFork": "none",
+    "authorizedRepositoryInputs": ["contract.md", "imports.txt"],
+    "draftSeal": {
+      "path": "docs/evidence/runtime-tooling-author-20261003/draft-01/seal.json",
+      "sha256": "95e654342c02796eac8f45f79df7b269856ea06c9e1259e76808cf92b8ff2140"
+    },
+    "initialDraft": "4c7a5a42952dd5f1426d1faed7abf5e33b1ccb0e8656007335b16908779aa2c0",
+    "formattedDraft": "61fc6dbe3eda8609e28d977a2eb1c189c8b2660211c3868f701f003ccf77fc63",
+    "curatorSourceExposed": true,
+    "runtimeCorrectionsSourceExposed": true,
+    "authorAssumptionLogNotEndorsed": "Contract actually specifies positional input/trace and rejected kind; author log retained despite contrary assumption.",
+    "packetLimit": "Contract was formatted while author active. Initial read hash unobserved; before-format and sealed-final bytes retained. Authorized content was two body-free files, no predecessor code.",
+    "absoluteCleanRoomClaim": false
+  },
+  "design": "Synchronous registration then chosen hooks/mailbox then nullish supplied/constructed executor; callbacks are closed over the caller runtime, bound methods retain callable/receiver, live getters retain phase reads. No duplicate task/grant owner, new cache/retry or policy.",
+  "retainedExpression": {
+    "runtimeTools": "Full packet-authored candidate, but registration/executor option tables, gates, direct async port awaits and mailbox/notification combinations strongly correspond to predecessor. Group consolidation, names, comments removal and tests do not establish independent expression. Root must assess actual whole-file contribution; unresolved.",
+    "toolAllowlist": "Entire inherited body and discretionary prose remain exact; fixed names, ordered set union, alias/intersection and child-control policy retained. No originality credit.",
+    "permissionGrantResume": "Entire inherited body/JSDoc remain exact; schema adapter, clear-before-await and warning marker recovery retained. No originality credit.",
+    "runtimeStrings": "All fixed model/runtime log messages, events, options and APIs preserved.",
+    "notices": "Existing attribution/notice/contributor obligations unchanged. No header, registry or MIT grant.",
+    "publisherVerification": "This turn checks root-provided local baseline hashes and local frozen oracles; does not independently fetch publisher blobs."
+  },
+  "validation": {
+    "predecessor": {
+      "actualCompilerEmittedGroups": 5,
+      "appendedNotificationTraceGroups": 1,
+      "realRefreshConsumerIncludedInFirstGroup": true
+    },
+    "finalCurrent": {
+      "actualCompilerEmittedGroups": 5,
+      "appendedNotificationTraceGroups": 1,
+      "realRefreshConsumerIncludedInFirstGroup": true,
+      "counting": "Consumer is included in first group, not an additional differential group. Baseline/current counts are separate."
+    },
+    "compiler": {
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "sourceRoots": 8,
+      "selectedJsDeclarationOutputs": 16,
+      "publicApiShapes": 3,
+      "unselectedWrites": 0
+    },
+    "pins": {
+      "currentSourceJsDeclaration": 24,
+      "wrongEmissionFailClosed": true,
+      "missingDeclarationFailClosed": true,
+      "protectedSources": 29,
+      "priorPermissionArtifacts": 15
+    },
+    "ownedLint": {
+      "files": 7,
+      "rules": 94,
+      "errors": 0,
+      "warnings": 0
+    },
+    "format": {
+      "files": 9,
+      "pass": true,
+      "lastOnlyChange": "Selector string-length formatting; parsed fixture equality proven, no behavior rerun."
+    },
+    "architecture": {
+      "violations": 0,
+      "cliManaged": false
+    },
+    "realOperations": 0,
+    "deferred": [
+      "ordinary source suite",
+      "broad/root suites",
+      "full CLI/desktop builds",
+      "native acceptance",
+      "live authority/provider/process/data acceptance",
+      "root independent expression/licence decision"
+    ]
+  },
+  "failuresPreserved": [
+    "baseline broad contracts import ERR_MODULE_NOT_FOUND; fixture narrowed to actual receipt schema and fixed contract constants",
+    "initial strict compiler two TS2339 diagnostics",
+    "accepted mailbox logs rejection",
+    "notification uses ambient trace",
+    "registration replacement config ignored",
+    "selector-pin formatter failure, corrected with parsed AST equality"
+  ],
+  "fixtureBoundaries": {
+    "actualSelected": [
+      "allocated helpers",
+      "embedded-search refresh consumer",
+      "tool visibility",
+      "explore constants",
+      "notification policy",
+      "embedded search capability"
+    ],
+    "synthetic": [
+      "registration/hook/executor factories",
+      "current trace",
+      "stale event predicate",
+      "session-mode factory seam",
+      "shell selection",
+      "project-memory resolver",
+      "runtime state/session store/log/publication/steering/task snapshots"
+    ],
+    "receiptSchema": "Unchanged direct contracts/interfaces/permission-full-access compiled module; avoiding broad index unavailable JS import.",
+    "cancellation": "Owned steer AbortError and publication rejection propagate exact identity. No new signal, timeout, abort recheck or cancellation policy."
+  },
+  "transport": "Normal own-branch push and existing draft PR update only; not publication/integration.",
+  "logs": {
+    "docs/evidence/runtime-tooling-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "docs/evidence/runtime-tooling-checks-20261003/artifact-proof.log": "87f329dc3af49769625cd7cd1e05a79b58fe0634ae22f9249b862b181a9f73b1",
+    "docs/evidence/runtime-tooling-checks-20261003/baseline-import-failure.log": "5c39f843f8df61ce52779cd1d9105046b6501e71a2e1e04a63307c0bcb3c476b",
+    "docs/evidence/runtime-tooling-checks-20261003/baseline-notification-trace.log": "a6f76b8bfd2490b48a2e9e742cc60589d506f87e793324caa226b32c8f98fc6b",
+    "docs/evidence/runtime-tooling-checks-20261003/baseline-safety.log": "53d9ab13c57302642db228848527d69c754a7267dc3daa537563a1e6ac2717d8",
+    "docs/evidence/runtime-tooling-checks-20261003/current-notification-trace.log": "a59a0e9ce206413555f2e8e1dc11eeb066d110a064ee5a595df0b328acffbae0",
+    "docs/evidence/runtime-tooling-checks-20261003/current-safety.log": "44fbcfcd84c719591459b4046b6f7e8f80619d2dbb9135eb2b7ea7b2b8b74f74",
+    "docs/evidence/runtime-tooling-checks-20261003/final-compiler.json": "4aec96491f545d26fb4637565466b4c847dc64d48c05ab8e077f597aaa2be62a",
+    "docs/evidence/runtime-tooling-checks-20261003/fixture-format-equivalence.log": "19df8b970c50710afba13a7567429937b8b5014ec1f8c9d6c2021303cad65bb7",
+    "docs/evidence/runtime-tooling-checks-20261003/focused-draft-red.log": "3724713c4fab6504243eb6bc568783823b1ba86485696ae1a2736ff92a59c44f",
+    "docs/evidence/runtime-tooling-checks-20261003/format-selector-pin-failure.log": "ac8117c6a9ab9e3766bba996ff154255b1c99c43f2f470a8921c35b29eb41142",
+    "docs/evidence/runtime-tooling-checks-20261003/format.log": "c438c2792c9e1014cb5fb29e3195a4507eb78b455823a1272c82f0cc0d08d285",
+    "docs/evidence/runtime-tooling-checks-20261003/initial-compiler.json": "f7680f0556a2f5a16fc0b053b3f919ab0fb8084dac0c58f8b622fac1ddd9796d",
+    "docs/evidence/runtime-tooling-checks-20261003/initial-runtime-red.log": "087c4928e7246a6e61b7e916a8ad4c4eb273bfadb6e5b6525216cc0aa701b582",
+    "docs/evidence/runtime-tooling-checks-20261003/owned-lint.log": "53c38cf97c5ad76b06c0924edfd529795d124d71219797dffc76cd3af9d66c9f",
+    "docs/evidence/runtime-tooling-checks-20261003/type-only-compiler.json": "370db9b62a232c581cf06129a918a5865eb4289533ab86e18469bafbf8bfede1",
+    "docs/evidence/runtime-tooling-checks-20261003/type-only-runtime-equality.log": "d30a37af5ac4af0dcdb94b76a187af9c0041e0d680c2c355e6b90bb1151034cd"
+  }
+}

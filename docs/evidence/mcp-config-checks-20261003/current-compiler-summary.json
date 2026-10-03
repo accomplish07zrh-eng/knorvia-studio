@@ -1,0 +1,11 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": 0,
+  "apiEqual": true,
+  "publicExports": 27,
+  "sources": 2,
+  "actualEmissions": 4,
+  "unselectedWrites": 0,
+  "executed": "Temporary strict current compiler; equivalent committed reproducer not separately rerun",
+  "manifestSha256": "c04d9319795fbb444a25315e4e21f7ce7bfc482bca492cd972b8989f04a45a45"
+}

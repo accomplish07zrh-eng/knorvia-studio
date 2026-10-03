@@ -9,85 +9,51 @@ import { createStreamRecoveryAnchorId, createStreamingToolAttemptId } from "../h
 import type { AgentRuntimeInternal } from "../internal.js";
 import { recordModelHistoryRound, type RegularTurnLoopState } from "./turn-loop-state.js";
 
-// 越过 adapter 重试边界后，SSE stall 只能靠 core recovery 从安全锚点重开流；
-// 只恢复 1 次会让连续短暂抖动直接失败，和模型默认 10 次 retry 的用户预期差距过大。
-const STREAM_RECOVERY_MAX_RETRIES = 10;
-const PREVIOUS_MESSAGE_ANCHOR_SUFFIX = "previous-message-anchor";
-const START_PLAN_BUSY_PROVIDER_CODES = new Set(["3008", "3009", "3010"]);
-const START_PLAN_BUSY_RETRY_PROVIDER_IDS = new Set([
-  "account:bigmodel-start-plan",
-  "account:zai-start-plan",
-]);
-const START_PLAN_BUSY_MAIN_TURN_ADMISSION_RETRY_DELAYS_MS = [1_000, 2_000] as const;
 export const START_PLAN_BUSY_AUTO_RETRY_EXHAUSTED_MESSAGE =
   "Start Plan is busy and automatic model stream recovery reached the maximum retry count.";
-const TRANSIENT_ERROR_CODES = new Set([
-  "model_request_timeout",
-  "model_rate_limited",
-  "model_server_error",
-  "model_network_error",
-  "MODEL_REQUEST_TIMEOUT",
-  "MODEL_RATE_LIMITED",
-  "MODEL_SERVER_ERROR",
-  "MODEL_NETWORK_ERROR",
-]);
-const TRANSIENT_ERROR_REASONS = new Set([
-  "stream_idle_timeout",
-  "rate_limited",
-  "server_error",
-  "network_error",
-  "timeout",
-]);
+
+const STREAM_RECOVERY_MAX_RETRIES = 10;
+const START_PLAN_BUSY_MAIN_TURN_ADMISSION_RETRY_DELAYS_MS = [1_000, 2_000] as const;
+const MAX_ERROR_CAUSE_DEPTH = 6;
 
 interface StreamRecoveryAttempt {
   maxRetries: number;
   retryNumber: number;
 }
 
+type ErrorFields = Record<string, unknown>;
+
+function errorFields(value: unknown): ErrorFields | undefined {
+  return typeof value === "object" && value !== null ? (value as ErrorFields) : undefined;
+}
+
+function presentString(value: unknown): string | undefined {
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function* errorRecords(error: unknown): IterableIterator<ErrorFields> {
+  const seen = new Set<ErrorFields>();
+  let current = error;
+  for (let depth = 0; depth <= MAX_ERROR_CAUSE_DEPTH; depth += 1) {
+    const record = errorFields(current);
+    if (!record || seen.has(record)) return;
+    seen.add(record);
+    yield record;
+    current = record.cause;
+  }
+}
+
+function busyCode(code: string | undefined): boolean {
+  return code === "3008" || code === "3009" || code === "3010";
+}
+
 export function hasStreamRecoveryBudget(state: RegularTurnLoopState): boolean {
   return state.streamRecoveryRetryCount < STREAM_RECOVERY_MAX_RETRIES;
 }
 
-export function isStartPlanBusyStreamRecoveryFailure(error: unknown): boolean {
-  for (const record of walkErrorRecords(error)) {
-    const context = asRecord(record.context);
-    const providerCode =
-      stringValue(record.providerCode) ??
-      stringValue(context?.providerCode) ??
-      stringValue(record.code) ??
-      stringValue(context?.code);
-    if (providerCode && START_PLAN_BUSY_PROVIDER_CODES.has(providerCode)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-export function createStartPlanBusyAutoRetryExhaustedError(error: unknown): Error {
-  const providerCode = findStartPlanBusyProviderCode(error) ?? "3010";
-  const exhaustedError = new Error(START_PLAN_BUSY_AUTO_RETRY_EXHAUSTED_MESSAGE, {
-    cause: error instanceof Error ? error : undefined,
-  }) as Error & {
-    code?: string;
-    context?: Record<string, unknown>;
-  };
-  exhaustedError.name = "StartPlanBusyAutoRetryExhaustedError";
-  exhaustedError.code = "model_rate_limited";
-  exhaustedError.context = {
-    providerCode,
-    reason: "rate_limited",
-    retryable: false,
-    startPlanBusyAutoRetryExhausted: true,
-  };
-  return exhaustedError;
-}
-
 export function beginStreamRecoveryAttempt(state: RegularTurnLoopState): StreamRecoveryAttempt {
   state.streamRecoveryRetryCount += 1;
-  return {
-    retryNumber: state.streamRecoveryRetryCount,
-    maxRetries: STREAM_RECOVERY_MAX_RETRIES,
-  };
+  return { retryNumber: state.streamRecoveryRetryCount, maxRetries: STREAM_RECOVERY_MAX_RETRIES };
 }
 
 export function beginStartPlanBusyAdmissionRetryAttempt(
@@ -100,6 +66,49 @@ export function beginStartPlanBusyAdmissionRetryAttempt(
   };
 }
 
+export function isStartPlanBusyStreamRecoveryFailure(error: unknown): boolean {
+  for (const record of errorRecords(error)) {
+    const context = errorFields(record.context);
+    const code =
+      presentString(record.providerCode) ??
+      presentString(context?.providerCode) ??
+      presentString(record.code) ??
+      presentString(context?.code);
+    if (busyCode(code)) return true;
+  }
+  return false;
+}
+
+export function createStartPlanBusyAutoRetryExhaustedError(error: unknown): Error {
+  let providerCode = "3010";
+  for (const record of errorRecords(error)) {
+    const context = errorFields(record.context);
+    const candidates = [
+      presentString(record.providerCode),
+      presentString(context?.providerCode),
+      presentString(record.code),
+      presentString(context?.code),
+    ];
+    const selected = candidates.find(busyCode);
+    if (selected !== undefined) {
+      providerCode = selected;
+      break;
+    }
+  }
+  const exhausted = new Error(START_PLAN_BUSY_AUTO_RETRY_EXHAUSTED_MESSAGE, {
+    cause: error instanceof Error ? error : undefined,
+  }) as Error & { code: string; context: ErrorFields };
+  exhausted.name = "StartPlanBusyAutoRetryExhaustedError";
+  exhausted.code = "model_rate_limited";
+  exhausted.context = {
+    providerCode,
+    reason: "rate_limited",
+    retryable: false,
+    startPlanBusyAutoRetryExhausted: true,
+  };
+  return exhausted;
+}
+
 export function getStartPlanBusyAdmissionRetryDelayMs(input: {
   error: unknown;
   providerId: string;
@@ -107,9 +116,79 @@ export function getStartPlanBusyAdmissionRetryDelayMs(input: {
   turnNumber: number;
 }): number | undefined {
   if (input.turnNumber <= 0) return undefined;
-  if (!START_PLAN_BUSY_RETRY_PROVIDER_IDS.has(input.providerId)) return undefined;
+  if (
+    input.providerId !== "account:bigmodel-start-plan" &&
+    input.providerId !== "account:zai-start-plan"
+  )
+    return undefined;
   if (!isStartPlanBusyStreamRecoveryFailure(input.error)) return undefined;
   return START_PLAN_BUSY_MAIN_TURN_ADMISSION_RETRY_DELAYS_MS[input.state.streamRecoveryRetryCount];
+}
+
+const transientCodes = new Set([
+  "model_request_timeout",
+  "model_rate_limited",
+  "model_server_error",
+  "model_network_error",
+  "MODEL_REQUEST_TIMEOUT",
+  "MODEL_RATE_LIMITED",
+  "MODEL_SERVER_ERROR",
+  "MODEL_NETWORK_ERROR",
+]);
+const transientReasons = new Set([
+  "stream_idle_timeout",
+  "rate_limited",
+  "server_error",
+  "network_error",
+  "timeout",
+]);
+
+function retryableFailure(error: unknown): boolean {
+  for (const record of errorRecords(error)) {
+    if (record.retryable === true) return true;
+    const context = errorFields(record.context);
+    if (context?.retryable === true) return true;
+    const code = presentString(record.code) ?? presentString(context?.code);
+    if (code !== undefined && transientCodes.has(code)) return true;
+    const reason = presentString(record.reason) ?? presentString(context?.reason);
+    if (reason !== undefined && transientReasons.has(reason)) return true;
+    if (record.name === "ModelStreamIdleTimeoutError") return true;
+    const message = presentString(record.message);
+    if (
+      message !== undefined &&
+      /\b(stream idle|stream stalled|timeout|timed out|ECONNRESET|EPIPE|ETIMEDOUT)\b/i.test(message)
+    )
+      return true;
+  }
+  return false;
+}
+
+function failureKind(
+  error: unknown,
+): "provider_timeout" | "provider_network_error" | "provider_stream_error" | "unknown" {
+  for (const record of errorRecords(error)) {
+    const context = errorFields(record.context);
+    const reason = presentString(record.reason) ?? presentString(context?.reason);
+    const code = presentString(record.code) ?? presentString(context?.code);
+    const name = presentString(record.name);
+    const message = presentString(record.message);
+    if (
+      reason === "stream_idle_timeout" ||
+      code === "model_request_timeout" ||
+      code === "MODEL_REQUEST_TIMEOUT" ||
+      name === "ModelStreamIdleTimeoutError" ||
+      (message !== undefined && /\btimeout|timed out|stalled\b/i.test(message))
+    )
+      return "provider_timeout";
+    if (
+      reason === "network_error" ||
+      code === "model_network_error" ||
+      code === "MODEL_NETWORK_ERROR" ||
+      (message !== undefined && /\bECONNRESET|EPIPE|ETIMEDOUT\b/i.test(message))
+    )
+      return "provider_network_error";
+  }
+  return error instanceof Error ? "provider_stream_error" : "unknown";
 }
 
 export async function emitStreamRecoveryStarted(
@@ -122,7 +201,7 @@ export async function emitStreamRecoveryStarted(
   const payload = {
     attemptId: createStreamingToolAttemptId(options.assistantMessageId),
     assistantMessageId: options.assistantMessageId,
-    failureKind: classifyStreamRecoveryFailure(error),
+    failureKind: failureKind(error),
     message: error instanceof Error ? error.message : String(error),
     retryNumber: recoveryAttempt.retryNumber,
     maxRetries: recoveryAttempt.maxRetries,
@@ -148,53 +227,51 @@ export async function emitStreamRecoveryRetryEvents(
     toolCallIds: ToolCallId[];
   },
 ): Promise<void> {
-  const latestToolCallId = recovery.toolCallIds.at(-1);
-  const anchorId = latestToolCallId
-    ? createStreamRecoveryAnchorId(options.assistantMessageId, latestToolCallId)
-    : createPreviousMessageRecoveryAnchorId(options.assistantMessageId);
-  const recoveryEvents = [
-    runtime.createEvent(
-      SessionEventType.StreamRecoveryAnchorSelected,
-      {
-        attemptId: createStreamingToolAttemptId(options.assistantMessageId),
-        anchorId,
-        reason: recovery.reason,
-        committedToolCallIds: recovery.toolCallIds,
-      },
-      options.traceContext,
-    ),
-    runtime.createEvent(
-      SessionEventType.StreamRecoveryTailDiscarded,
-      {
-        attemptId: createStreamingToolAttemptId(options.assistantMessageId),
-        anchorId,
-        assistantMessageId: options.assistantMessageId,
-        discardedReasoningBytes: recovery.discardedReasoningBytes,
-        discardedTextBytes: recovery.discardedTextBytes,
-        discardedToolCallIds: [],
-      },
-      options.traceContext,
-    ),
-    runtime.createEvent(
-      SessionEventType.StreamRecoveryRetryStarted,
-      {
-        attemptId: createStreamingToolAttemptId(options.assistantMessageId),
-        anchorId,
-        retryNumber: recovery.retryNumber,
-        maxRetries: recovery.maxRetries,
-        streamMode: "sse",
-        ...(options.failedRequestId ? { failedRequestId: options.failedRequestId } : {}),
-      },
-      options.traceContext,
-    ),
-  ];
-  for (const event of recoveryEvents) {
-    await runtime.appendEvent(event, options.traceContext);
-    state.events.push(event);
-  }
-  // SSE 已经吐出部分事件后，下一次请求是 core recovery 重新发起的
-  // 新模型请求，不会表现为 adapter attempt=2；必须把来源 requestId 显式挂到
-  // 下一次 model_request_started 上，用户才能确认旧请求 A 超时后确实发出了恢复请求 B。
+  const lastToolCallId = recovery.toolCallIds.at(-1);
+  const anchorId = lastToolCallId
+    ? createStreamRecoveryAnchorId(options.assistantMessageId, lastToolCallId)
+    : `${options.assistantMessageId}:previous-message-anchor`;
+  // 事件和 pending identity 分别读取 live options；725d8d8 保留缓存 identity 的失败。
+  const selected = runtime.createEvent(
+    SessionEventType.StreamRecoveryAnchorSelected,
+    {
+      attemptId: createStreamingToolAttemptId(options.assistantMessageId),
+      anchorId,
+      reason: recovery.reason,
+      committedToolCallIds: recovery.toolCallIds,
+    },
+    options.traceContext,
+  );
+  const discarded = runtime.createEvent(
+    SessionEventType.StreamRecoveryTailDiscarded,
+    {
+      attemptId: createStreamingToolAttemptId(options.assistantMessageId),
+      anchorId,
+      assistantMessageId: options.assistantMessageId,
+      discardedReasoningBytes: recovery.discardedReasoningBytes,
+      discardedTextBytes: recovery.discardedTextBytes,
+      discardedToolCallIds: [],
+    },
+    options.traceContext,
+  );
+  const retry = runtime.createEvent(
+    SessionEventType.StreamRecoveryRetryStarted,
+    {
+      attemptId: createStreamingToolAttemptId(options.assistantMessageId),
+      anchorId,
+      retryNumber: recovery.retryNumber,
+      maxRetries: recovery.maxRetries,
+      streamMode: "sse",
+      ...(options.failedRequestId ? { failedRequestId: options.failedRequestId } : {}),
+    },
+    options.traceContext,
+  );
+  await runtime.appendEvent(selected, options.traceContext);
+  state.events.push(selected);
+  await runtime.appendEvent(discarded, options.traceContext);
+  state.events.push(discarded);
+  await runtime.appendEvent(retry, options.traceContext);
+  state.events.push(retry);
   state.pendingStreamRecoveryRequest = {
     attemptId: createStreamingToolAttemptId(options.assistantMessageId),
     anchorId,
@@ -222,23 +299,12 @@ export async function recoverPartialAssistantOutputFailure(input: {
 }): Promise<boolean> {
   if (
     input.discardedReasoningBytes + input.discardedTextBytes <= 0 ||
-    !isRetryableStreamRecoveryFailure(input.error)
-  ) {
+    !retryableFailure(input.error)
+  )
     return false;
-  }
-
-  // reasoning_delta 为了实时展示会越过 adapter 重试边界，但旧 Core 只统计正文，
-  // 导致正文前的 thinking 断流直接失败。无工具时正文和思考都属于未提交 assistant tail，
-  // 必须统一从前一个 provider-safe anchor 重开，不能把新输出接到失败消息上。
   input.abortController.abort();
-  const recoveryAttempt = beginStreamRecoveryAttempt(input.state);
-  await emitStreamRecoveryStarted(
-    input.runtime,
-    input.state,
-    input.options,
-    input.error,
-    recoveryAttempt,
-  );
+  const attempt = beginStreamRecoveryAttempt(input.state);
+  await emitStreamRecoveryStarted(input.runtime, input.state, input.options, input.error, attempt);
   await input.runtime.persistAssistantMessage(
     input.options.assistantMessageId,
     input.state.currentUserMessageId,
@@ -249,7 +315,7 @@ export async function recoverPartialAssistantOutputFailure(input: {
         name: STREAM_RECOVERY_DISCARDED_ERROR_NAME,
         data: {
           message: "Partial assistant output was discarded before a streaming retry.",
-          retryNumber: recoveryAttempt.retryNumber,
+          retryNumber: attempt.retryNumber,
         },
       },
       finish: STREAM_RECOVERY_DISCARDED_FINISH,
@@ -263,7 +329,7 @@ export async function recoverPartialAssistantOutputFailure(input: {
   input.state.turnMachine = new TurnMachineImpl(input.state.turnMachine.receiveModelResponse(""));
   input.state.turnMachine = new TurnMachineImpl(input.state.turnMachine.aggregateResults());
   await emitStreamRecoveryRetryEvents(input.runtime, input.state, input.options, {
-    ...recoveryAttempt,
+    ...attempt,
     discardedReasoningBytes: input.discardedReasoningBytes,
     discardedTextBytes: input.discardedTextBytes,
     reason: "no_tool_committed",
@@ -271,100 +337,4 @@ export async function recoverPartialAssistantOutputFailure(input: {
   });
   input.state.turnAbortSignal.removeEventListener("abort", input.turnAbortListener);
   return true;
-}
-
-function createPreviousMessageRecoveryAnchorId(assistantMessageId: MessageId): string {
-  return `${assistantMessageId}:${PREVIOUS_MESSAGE_ANCHOR_SUFFIX}`;
-}
-
-function findStartPlanBusyProviderCode(error: unknown): string | undefined {
-  for (const record of walkErrorRecords(error)) {
-    const context = asRecord(record.context);
-    const candidates = [
-      stringValue(record.providerCode),
-      stringValue(context?.providerCode),
-      stringValue(record.code),
-      stringValue(context?.code),
-    ].filter((code): code is string => code !== undefined);
-    const providerCode = candidates.find((code) => START_PLAN_BUSY_PROVIDER_CODES.has(code));
-    if (providerCode) {
-      return providerCode;
-    }
-  }
-  return undefined;
-}
-
-function isRetryableStreamRecoveryFailure(error: unknown): boolean {
-  for (const record of walkErrorRecords(error)) {
-    if (record.retryable === true) return true;
-    const context = asRecord(record.context);
-    if (context?.retryable === true) return true;
-    const code = stringValue(record.code) ?? stringValue(context?.code);
-    if (code && TRANSIENT_ERROR_CODES.has(code)) return true;
-    const reason = stringValue(record.reason) ?? stringValue(context?.reason);
-    if (reason && TRANSIENT_ERROR_REASONS.has(reason)) return true;
-    const name = stringValue(record.name);
-    if (name === "ModelStreamIdleTimeoutError") return true;
-    const message = stringValue(record.message);
-    if (message && isTransientMessage(message)) return true;
-  }
-  return false;
-}
-
-function classifyStreamRecoveryFailure(
-  error: unknown,
-): "provider_timeout" | "provider_network_error" | "provider_stream_error" | "unknown" {
-  for (const record of walkErrorRecords(error)) {
-    const context = asRecord(record.context);
-    const reason = stringValue(record.reason) ?? stringValue(context?.reason);
-    const code = stringValue(record.code) ?? stringValue(context?.code);
-    const name = stringValue(record.name);
-    const message = stringValue(record.message);
-    if (
-      reason === "stream_idle_timeout" ||
-      code === "model_request_timeout" ||
-      code === "MODEL_REQUEST_TIMEOUT" ||
-      name === "ModelStreamIdleTimeoutError" ||
-      (message !== undefined && /\btimeout|timed out|stalled\b/i.test(message))
-    ) {
-      return "provider_timeout";
-    }
-    if (
-      reason === "network_error" ||
-      code === "model_network_error" ||
-      code === "MODEL_NETWORK_ERROR" ||
-      (message !== undefined && /\bECONNRESET|EPIPE|ETIMEDOUT\b/i.test(message))
-    ) {
-      return "provider_network_error";
-    }
-  }
-  return error instanceof Error ? "provider_stream_error" : "unknown";
-}
-
-function isTransientMessage(message: string): boolean {
-  return /\b(stream idle|stream stalled|timeout|timed out|ECONNRESET|EPIPE|ETIMEDOUT)\b/i.test(
-    message,
-  );
-}
-
-function* walkErrorRecords(error: unknown): Generator<Record<string, unknown>> {
-  let current = error;
-  const seen = new WeakSet<object>();
-  for (let depth = 0; depth <= 6; depth += 1) {
-    const record = asRecord(current);
-    if (!record) return;
-    if (seen.has(record)) return;
-    seen.add(record);
-    yield record;
-    current = record.cause;
-  }
-}
-
-function asRecord(value: unknown): Record<string, unknown> | undefined {
-  if (value === null || typeof value !== "object") return undefined;
-  return value as Record<string, unknown>;
-}
-
-function stringValue(value: unknown): string | undefined {
-  return typeof value === "string" && value.length > 0 ? value : undefined;
 }

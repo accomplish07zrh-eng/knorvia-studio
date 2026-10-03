@@ -1,0 +1,278 @@
+{
+  "base": "eb65f77831eebae524afe4ea27c0296641b5b860",
+  "implementationCommits": {
+    "modelRequest": "cb3e0708a60b5be390b49e1a066d8ba785f470ab",
+    "toolBatch": "0c9addbd1d7f0081c163c3afff9cceb6bbc5899d"
+  },
+  "scope": [
+    "apps/cli/packages/core/src/runtime/methods/model-request-stream-state.ts",
+    "apps/cli/packages/core/src/runtime/methods/model.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-parts.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-tools.ts"
+  ],
+  "design": {
+    "request": "One exported native request owner assembles projections/invocation and consumes events; one per-call stream-state factory supplies buffers/queue closures; synchronous classification adds no async settlement owner.",
+    "tools": "One exported native batch owner owns scheduling, executor callback and all result-publication awaits; synchronous record projections and the existing native followup boundary are private. Existing permission/executor/state/history/media owners remain unchanged."
+  },
+  "authorship": {
+    "workflow": "Two fresh no-inherited-conversation GPT-6.1 Sol/high native authors, body-free source-derived inputs; initial and revised whole drafts sealed before curator comparison. All four versions retained.",
+    "limits": [
+      "Curator read predecessor source and provided source-exposed compatibility corrections.",
+      "Model draft01 also received an unsolicited metadata clarification before sealing, explicitly recorded; no strict packet-only/clean-room claim.",
+      "Initial type-only dependency entries were incomplete any placeholders; supplemental exact public declaration shapes corrected that limitation.",
+      "Strong predecessor correspondence in admission/publication combinations, fixed field/protocol vocabulary, runtime literals and conventional queue/map/loop/spread glue remains unresolved for independent expression review.",
+      "Whole-owner candidate installation is not independently adjudicated origin, header eligibility or a licence grant. No exact publisher byte verification performed for these files in this batch."
+    ],
+    "retained": [
+      "Public schemas/signatures/type imports, output/error/log prose and event/persisted field order.",
+      "Existing projection/recovery/ledger/executor/permission/media/context/history/state-machine helper dependencies unchanged.",
+      "Fixed streaming flush thresholds and native wait/drain gates; standard constrained expressions may match predecessor."
+    ],
+    "noOriginalityCredit": [
+      "Private file boundaries, renamed locals, relocation, formatting, removed developer comments, passed tests or changed digests."
+    ]
+  },
+  "preservedFailureEvidence": [
+    "Initial draft scoped compiler48diagnostics; revised draft1declaration-emission diagnostic4058.",
+    "Fixture setup invalid TurnMachine phase preserved, corrected only fixture setup before baseline.",
+    "ea6fa91 authority paired predecessor2pass/draft0pass2fail; draft runtime proof had one type-only return annotation to name a private queue interface, no runtime syntax change.",
+    "facc708 terminal write paired predecessor pass/draft fail."
+  ],
+  "sourceExposedCorrections": [
+    "Explicit private queue return annotation; no executable type change.",
+    "Live projected trace reads after status-sink port; incoming trace reads in final classification.",
+    "Live state.model passed to executor after schedule await; attribution getter reads preserved.",
+    "Terminal success re-read during persisted record construction after persistence-port lookup.",
+    "Fixed event-kind literals avoid an additional provider event type read; optional aborted-signal access preserved."
+  ],
+  "packets": [
+    {
+      "owner": "model-request",
+      "manifestSha256": "9947c4c727601ebffa176591a8dc5fde4959d1af356809509f5e2c602f66c845",
+      "supplementSha256": "d8ad266ab95c9fa49d2ece87fec5369d6200dbfd31aeb9dc8dfac780b629afb1",
+      "clarificationSha256": "610218353a4100a88d092899ba6a8dea0b1a8cc8822038b96fee04023facd43f"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "manifestSha256": "55071d0312c057ca2e14586cbb8d5fcf9f1a9a99d3eba306ea73078ad4e060ea",
+      "supplementSha256": "9464ba7d22a8eeea479d98cf47a975b9ecf3d3c463a436f7142444ca05605c9f",
+      "clarificationSha256": "18e5fc3d0e9bda63f5d792887a9edcd29c7e0b61950032f7640bb3c16b77e832"
+    }
+  ],
+  "drafts": [
+    {
+      "owner": "model-request",
+      "version": "draft-01",
+      "sealPath": "docs/evidence/runtime-model-request-author-20261003/draft-01/seal.json",
+      "sealSha256": "ac08ebafef88b66fde615024c4355e06acd804bcf3f4fda63db66ed0b23ca6c2",
+      "wholeFiles": [
+        {
+          "path": "runtime/methods/model.ts",
+          "sha256": "9b89f826dd0407a132ba531647af25846214942a65ec18556af88037df7cf266",
+          "bytes": 15085
+        }
+      ]
+    },
+    {
+      "owner": "model-request",
+      "version": "draft-02",
+      "sealPath": "docs/evidence/runtime-model-request-author-20261003/draft-02/seal.json",
+      "sealSha256": "bcc31edad4236e3197003466145e9801acfe01f3ebf87fe220e069bec8ede851",
+      "wholeFiles": [
+        {
+          "path": "runtime/methods/model-request-stream-state.ts",
+          "sha256": "e679c72bc3218ecf44000842fcdf9814d31ac437af07cde9739bad896f7ffebf",
+          "bytes": 4927
+        },
+        {
+          "path": "runtime/methods/model.ts",
+          "sha256": "e337ce3abe1ee53688e76cfa90c50935d27e69dc9004e691f6f6314836b31748",
+          "bytes": 12259
+        }
+      ]
+    },
+    {
+      "owner": "turn-tool-batch",
+      "version": "draft-01",
+      "sealPath": "docs/evidence/runtime-turn-tool-batch-author-20261003/draft-01/seal.json",
+      "sealSha256": "d75fa4266f4e2d5bd344f341ca2c39902f89d37b79768207de16b029b17bd1ae",
+      "wholeFiles": [
+        {
+          "path": "runtime/methods/turn-tool-batch-follow-up.ts",
+          "sha256": "f82e5456501dfc4183de970611aaa3bf4766cdcf3c04bb396095d13f21afb000",
+          "bytes": 1638
+        },
+        {
+          "path": "runtime/methods/turn-tool-batch-publication.ts",
+          "sha256": "7e2c2e9568983fbf3bed8b1a003b131e6f470f7d5f84cff04fa7053e7451f33a",
+          "bytes": 6268
+        },
+        {
+          "path": "runtime/methods/turn-tools.ts",
+          "sha256": "7bef2a039a58bdf352b658c39b4464db49f8b7ea68995b3b159ef8d50d55c22d",
+          "bytes": 10842
+        }
+      ]
+    },
+    {
+      "owner": "turn-tool-batch",
+      "version": "draft-02",
+      "sealPath": "docs/evidence/runtime-turn-tool-batch-author-20261003/draft-02/seal.json",
+      "sealSha256": "d9283dc5b0d5cd4587359597119acbb6003d48612112a53f42e42bd23b776839",
+      "wholeFiles": [
+        {
+          "path": "runtime/methods/turn-tool-batch-follow-up.ts",
+          "sha256": "f0e4bb1cb0840c9d4f9a0f10f2926a424ce3cae4bf668225e373ad10644f3496",
+          "bytes": 1639
+        },
+        {
+          "path": "runtime/methods/turn-tool-batch-parts.ts",
+          "sha256": "ef9e0717928a316d290425176e87e3af2b88bf97244dde39c5c16c22e7928201",
+          "bytes": 2599
+        },
+        {
+          "path": "runtime/methods/turn-tools.ts",
+          "sha256": "5965bcda4383f2dcfb8247223f1032ec0156d9dc0d2ea3db11c7b66d54aefb4c",
+          "bytes": 14752
+        }
+      ]
+    }
+  ],
+  "historicalOracles": [
+    {
+      "owner": "model-request",
+      "oraclePath": "apps/cli/packages/core/test/runtime-model-request-baseline-20261003.json",
+      "oracleSha256": "3a4852a727e775de2c333d3544efc05e369834be377c83f2748dab1a450deae9",
+      "sourceSha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80",
+      "compiledSha256": "32b92ef6ac4ba6689b3ed3e8b23d9944afd5c789b845e8d27eb95baa9563b8f0",
+      "declarationSha256": "2926f3df239ef08fe49ab4066661a42ab3cb96bb0f62355a50caf568e389de5f"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "oraclePath": "apps/cli/packages/core/test/runtime-turn-tool-batch-baseline-20261003.json",
+      "oracleSha256": "329fca789759a6464f934185f2dc87bae1d467c1443a6fc947451edeab1731fb",
+      "sourceSha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d",
+      "compiledSha256": "64d0ce73534ed2ed6f135b4cb6b1aa94a4dfac89cf47cc6e609698d69f0c2f45",
+      "declarationSha256": "2b9029b31145895ae8c8cc1996ea7d2b070a57f87ca590db40ad483b2a91e680"
+    }
+  ],
+  "currentManifest": {
+    "path": "docs/evidence/knorvia-runtime-model-tools-current-20261003.json",
+    "sha256": "2a1e933bbe0972e1191365df848f5de1502b1a4903b9c6b7c930874b69fc50ae",
+    "artifactCount": 15
+  },
+  "checks": {
+    "final-safety": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-safety-20261003.json",
+      "sha256": "c0fcc66543960fee61f3fc7e611dd3be73f58dd2362ac031280654eda8acb415",
+      "result": {
+        "mode": "current",
+        "groups": [
+          "captured model authority and no extra preabort admission",
+          "unchanged authority flags, aborted batch and sibling durable closure"
+        ],
+        "count": 2,
+        "dependencies": "unchanged real source dependencies; selected owners are exact compiler-emitted JS",
+        "liveIO": false
+      }
+    },
+    "final-authority": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-authority-20261003.json",
+      "sha256": "22b0fdf19a2b0ebb29149f7781d1e974b6314e5f0c41da3cae87fef101f6ebe5",
+      "result": {
+        "mode": "current",
+        "results": [
+          {
+            "name": "status-sink replacement preserves subsequent live trace reads",
+            "passed": true
+          },
+          {
+            "name": "scheduler replacement preserves executor live loop model",
+            "passed": true
+          }
+        ],
+        "passed": 2,
+        "total": 2,
+        "dependencies": "real unchanged source ports; selected owners are strict actual compiler JS",
+        "liveIO": false
+      }
+    },
+    "final-terminal": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-terminal-20261003.json",
+      "sha256": "e2436b29b64bf4b38c569e50dbb848e43c8c90a2f6fe8774a64193c42deb1487",
+      "result": {
+        "mode": "current",
+        "passed": true,
+        "observation": "terminal write re-reads success after public persistence-port lookup",
+        "liveIO": false
+      }
+    },
+    "final-artifact-proof": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-artifact-proof-20261003.json",
+      "sha256": "295ad99ae4fdf080e5765b2c0c8d36574b030103121c5ddd6e364641267dd388",
+      "result": {
+        "currentArtifactMatches": 15,
+        "wrongCompiledFailsClosed": true,
+        "missingDeclarationFailsClosed": true,
+        "realFilesModified": false
+      }
+    },
+    "final-types": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-types-20261003.json",
+      "sha256": "4267ed44dcee1a1a0a0204aa3713df1b2f40ab85e5d217d97824e7e97ca0d078",
+      "result": {
+        "diagnostics": 0,
+        "publicAPIsEqual": 2,
+        "ownedModuleEmissions": 10
+      }
+    },
+    "final-lint": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-lint-20261003.txt",
+      "sha256": "1610a2dfde1a8b8b81809163e0207e72815b1611c575a57ae5d555953540b711"
+    },
+    "final-format": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-format-20261003.txt",
+      "sha256": "24feeea63a99c9bad6d9f85a11264af9bae45b43fa16a5dd2869661b3caa77d8"
+    },
+    "final-architecture": {
+      "path": "docs/evidence/knorvia-runtime-model-tools-final-architecture-20261003.txt",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  },
+  "counts": {
+    "minimumSafetyGroups": 2,
+    "focusedAuthorityClosures": 2,
+    "focusedTerminalClosure": 1,
+    "overlap": "Authority probes reuse the two safety fixture cohorts; terminal probe reuses tool cohort. Counts are individual executions, not five independent consumer suites.",
+    "currentArtifactMatches": 15,
+    "sourceModeBehaviorTests": 0
+  },
+  "actualConsumers": {
+    "inspected": [
+      "methods/index.ts runtime prototype binding",
+      "turn-model-step.ts request and tool-call paths",
+      "streaming-tool-coordinator.ts recovered tool-result path"
+    ],
+    "executed": "Selected exported APIs through owned fake ports, with real unchanged source helpers and strict actual compiler-emitted selected owners. Full runtime/call-runner/permission executor consumers not launched."
+  },
+  "deferred": [
+    "Ordinary behavioral/neighboring suites, source-mode replay, full CLI/desktop builds, root type/lint/fmt gates, Windows/macOS/native acceptance and provider integration."
+  ],
+  "environment": {
+    "localExecution": "available",
+    "freshness": "Previously attempted configured fetch blocked by proxy8080; no proxy/access/settings workaround.",
+    "liveDataOrProviderIO": false
+  },
+  "protected": {
+    "rootSharedLicensingHeadersDependenciesCI": "unchanged",
+    "allOtherCoreSources": "unchanged from base",
+    "permissionTrustAndExistingHolds": "not edited",
+    "crossLaneIntegration": "none"
+  },
+  "nextScope": [
+    "methods/turn-model-step.ts remains a substantial unreviewed coordinator candidate; no edit in this batch.",
+    "methods/turn.ts remains unreviewed and crosses reserved memory/adapter dependencies; coordinate before any allocation."
+  ],
+  "releaseStatus": "Branch candidates only. PR11 remains draft; no merge, deployment, publication or licence decision."
+}

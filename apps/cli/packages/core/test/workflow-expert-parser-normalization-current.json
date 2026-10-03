@@ -1,0 +1,75 @@
+{
+  "files": {
+    "parsers/json": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+        "sha256": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/json.js",
+        "sha256": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/json.d.ts",
+        "sha256": "9a7e1ef10410d9f8a9c33d599cf827dc439ee817387c4f694f0779a38dbc6a20"
+      }
+    },
+    "parsers/graph-seed": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+        "sha256": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+        "sha256": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.d.ts",
+        "sha256": "1fac306d3a4abaed17b50410794dc436ffaa94de8c975ae560df8038016d2b20"
+      }
+    },
+    "parsers/node-prompts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+        "sha256": "812efeb8112c526068a53be9fe8be40b8186df1606aff547f832e7e2e1d2f73e"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.js",
+        "sha256": "56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.d.ts",
+        "sha256": "1b2864bf4771bafd4ac1966d47bc795cc14ec19e37f6f8533376717287807222"
+      }
+    },
+    "parsers/planner-result": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts",
+        "sha256": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.js",
+        "sha256": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.d.ts",
+        "sha256": "98706a06fbc410a010f7037e177dfce2915eacae3ce901111d7b95fa2fb4816e"
+      }
+    },
+    "parsers/critic": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/parsers/critic.ts",
+        "sha256": "a013b344938f4c8102985a791f02c0bcb4a296832111547fe846340befe45130"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/critic.js",
+        "sha256": "218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/parsers/critic.d.ts",
+        "sha256": "41b493ddb728cc8d31126f326154c98a04de3356b5fff51e0999f5404d51dac9"
+      }
+    }
+  },
+  "routing": "exact current owner compiler artifacts; historical oracle separately embedded"
+}

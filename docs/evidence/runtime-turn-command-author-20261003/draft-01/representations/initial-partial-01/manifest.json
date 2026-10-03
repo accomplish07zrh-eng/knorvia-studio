@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-02T22:50:04.719832+00:00",
+  "status": "partial initial source representation before clock/foreground clarification correction",
+  "files": [
+    {
+      "path": "turn-command-data.ts",
+      "bytes": 8343,
+      "sha256": "dd3bf78a7170d2ab9a00c26ad0fbf4a834475d386d41cebe0a38a7fc89e1c0dd"
+    },
+    {
+      "path": "turn-command-state.ts",
+      "bytes": 4168,
+      "sha256": "458de895b2521bf45820224752e9abd4ea708064c80d305741d8d2b9b993a076"
+    },
+    {
+      "path": "turn.ts",
+      "bytes": 3700,
+      "sha256": "b3d689ae131075e99edd4681994598d2adb25669eaea1fe08065f4658f6890e5"
+    }
+  ]
+}

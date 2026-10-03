@@ -10,17 +10,14 @@
 //   2. 列宽由本次这些行算出来（有上界），不是写死的魔法数：一份只有两个子代理的花名册
 //      不该为了一个不存在的长名字空出二十列。
 
-import type {
-  GetWorkflowRunOutput,
-  GetWorkflowRunPhase,
-  GetWorkflowRunSubagent,
-} from "@knorvia/contracts";
+import type { GetWorkflowRunOutput, GetWorkflowRunPhase } from "@knorvia/contracts";
 import {
   escapeWorkflowRunText,
   formatRelativeAge,
   formatWorkflowRunCount,
   formatWorkflowRunDuration,
 } from "./workflow-run-introspection.js";
+import { renderWorkflowRunActivity } from "./get-workflow-run-activity-program.js";
 
 /** 列之间的间隔：两个空格。一个空格会让「名字 地址」读成一个词。 */
 const COLUMN_GAP = "  ";
@@ -111,43 +108,45 @@ export function formatWorkflowRunPhasesBlock(
   if (phases === undefined || phases.length === 0) return undefined;
 
   const names = phases.map((phase) => escapeWorkflowRunText(phase.name));
-  const nameWidth = columnWidth(names);
-  const stateWidth = columnWidth(phases.map((phase) => phase.state));
+  const nameWidth = phaseColumnWidth(names);
+  const stateWidth = phaseColumnWidth(phases.map((phase) => phase.state));
 
-  const lines = phases.map((phase, index) =>
-    joinCells([
+  const lines = phases.map((phase: GetWorkflowRunPhase, index) => {
+    const cells = [
       `${index + 1}. ${padColumn(names[index]!, nameWidth)}`,
       padColumn(phase.state, stateWidth),
-      phaseRoundsCell(phase),
-      phaseCountsCell(phase, terminal),
-      phaseDurationCell(phase, run.generatedAt, terminal),
-    ]),
-  );
+    ];
+
+    if (phase.rounds === 0) cells.push("");
+    else cells.push(`${phase.rounds} round${phase.rounds === 1 ? "" : "s"}`);
+
+    if (phase.nodesRunning > 0)
+      cells.push(
+        `${phase.nodesSettled} settled, ${phase.nodesRunning} ${terminal ? "unfinished" : "running"}`,
+      );
+    else if (phase.nodesSettled === 0) cells.push("");
+    else cells.push(`${phase.nodesSettled} step${phase.nodesSettled === 1 ? "" : "s"} settled`);
+
+    const now = run.generatedAt;
+    if (phase.enteredAt === undefined) cells.push("");
+    else if (phase.exitedAt !== undefined)
+      cells.push(formatWorkflowRunDuration(phase.exitedAt - phase.enteredAt));
+    else cells.push(terminal ? "" : `${formatWorkflowRunDuration(now - phase.enteredAt)} so far`);
+
+    return joinCells(cells);
+  });
   return `<phases>\n${lines.join("\n")}\n</phases>`;
 }
 
-function phaseRoundsCell(phase: GetWorkflowRunPhase): string {
-  // rounds 为 0 只可能是 `ahead`：一个还没被进入过的阶段说不出「进过几次」。
-  if (phase.rounds === 0) return "";
-  return `${phase.rounds} round${phase.rounds === 1 ? "" : "s"}`;
-}
-
-function phaseCountsCell(phase: GetWorkflowRunPhase, terminal: boolean): string {
-  if (phase.nodesRunning > 0) {
-    // 终态 run 里的「还在跑」是没结算，不是在动。
-    return `${phase.nodesSettled} settled, ${phase.nodesRunning} ${terminal ? "unfinished" : "running"}`;
-  }
-  if (phase.nodesSettled === 0) return "";
-  return `${phase.nodesSettled} step${phase.nodesSettled === 1 ? "" : "s"} settled`;
-}
-
-function phaseDurationCell(phase: GetWorkflowRunPhase, now: number, terminal: boolean): string {
-  if (phase.enteredAt === undefined) return "";
-  if (phase.exitedAt !== undefined)
-    return formatWorkflowRunDuration(phase.exitedAt - phase.enteredAt);
-  // 没有离开时刻：活着的 run 说「到现在为止」，终态 run 什么也不说——它的离开时刻无人记录，
-  // 拿读时的 now 去减等于把「进程死后的这几个小时」算进那个阶段。
-  return terminal ? "" : `${formatWorkflowRunDuration(now - phase.enteredAt)} so far`;
+function phaseColumnWidth(values: readonly string[]): number {
+  // Math.min getter 必须先于 reduce 读取：冻结反例证明其抛错前不应调用 Math.max。
+  return Math.min(
+    MAX_COLUMN_WIDTH,
+    values.reduce((current, value) => {
+      const candidate = Math.max(current, value.length);
+      return candidate > MAX_COLUMN_WIDTH ? MAX_COLUMN_WIDTH : candidate;
+    }, 0),
+  );
 }
 
 // ————————————————————————————————————————————————
@@ -189,7 +188,7 @@ export function formatWorkflowRunSubagentsBlock(run: GetWorkflowRunOutput): stri
         subagent.phaseName === undefined
           ? ""
           : `phase ${escapeWorkflowRunText(subagent.phaseName)}`,
-        subagentActivityCell(subagent, run.generatedAt, askedAtByQid),
+        renderWorkflowRunActivity(subagent, run.generatedAt, askedAtByQid),
         subagent.tokens > 0 ? `${formatWorkflowRunCount(subagent.tokens)} tokens` : "",
       ]),
     );
@@ -203,70 +202,6 @@ export function formatWorkflowRunSubagentsBlock(run: GetWorkflowRunOutput): stri
       ? `\nOnly the first ${run.subagents.length} subagents are listed; this run has more.`
       : "";
   return `<subagents>\n${lines.join("\n")}${truncated}\n</subagents>`;
-}
-
-function subagentActivityCell(
-  subagent: GetWorkflowRunSubagent,
-  now: number,
-  askedAtByQid: ReadonlyMap<string, number>,
-): string {
-  if (subagent.state === "parked" && subagent.parkedOn !== undefined) {
-    const waited = formatRelativeAge(now, askedAtByQid.get(subagent.parkedOn));
-    const forHow = waited === undefined ? "" : ` for ${waited.replace(/ ago$/u, "")}`;
-    return `on question ${escapeWorkflowRunText(subagent.parkedOn)}${forHow}`;
-  }
-  if (subagent.state === "waiting") return waitCell(subagent, now);
-  if (subagent.state === "unfinished" && subagent.currentAsk !== undefined) {
-    return `${askAddress(subagent.currentAsk)} was in flight at the stop`;
-  }
-  if (subagent.currentAsk !== undefined) return executingCell(subagent, now);
-  return settledCell(subagent);
-}
-
-function askAddress(ask: NonNullable<GetWorkflowRunSubagent["currentAsk"]>): string {
-  // actorSeq 是 journal 的 0 基列；模型面按人读的 1 基说「第几步」。
-  const step = ask.actorSeq === undefined ? "" : ` (step ${ask.actorSeq + 1})`;
-  return `${escapeWorkflowRunText(ask.siteId)}@${ask.ordinal}${step}`;
-}
-
-function executingCell(subagent: GetWorkflowRunSubagent, now: number): string {
-  const ask = subagent.currentAsk!;
-  const parts = [askAddress(ask)];
-  const onStep = formatRelativeAge(now, ask.startedAt);
-  if (onStep !== undefined) parts.push(`${onStep.replace(/ ago$/u, "")} on this step`);
-  if (ask.turn !== undefined) parts.push(`turn ${ask.turn}`);
-  if (ask.toolCalls !== undefined)
-    parts.push(`${ask.toolCalls} tool call${ask.toolCalls === 1 ? "" : "s"}`);
-  if (ask.lastTool !== undefined) {
-    const target =
-      ask.lastTool.target === undefined ? "" : ` ${escapeWorkflowRunText(ask.lastTool.target)}`;
-    const age = formatRelativeAge(now, ask.lastTool.at);
-    parts.push(
-      `last ${escapeWorkflowRunText(ask.lastTool.name)}${target}${age === undefined ? "" : ` ${age}`}`,
-    );
-  }
-  return parts.join(", ");
-}
-
-function waitCell(subagent: GetWorkflowRunSubagent, now: number): string {
-  const wait = subagent.wait;
-  if (wait === undefined) return "";
-  const waited = formatRelativeAge(now, wait.since);
-  const forHow = waited === undefined ? "" : ` for ${waited.replace(/ ago$/u, "")}`;
-  if (wait.cause === "slot") return `waiting for a slot${forHow}`;
-  const after = wait.reason === undefined ? "" : ` after ${escapeWorkflowRunText(wait.reason)}`;
-  const retry =
-    wait.retryAfterMs === undefined
-      ? ""
-      : `, retry in ${formatWorkflowRunDuration(wait.retryAfterMs)}`;
-  // 「等了多久」贴着原因，「还要等多久」收尾：两个时长挨在一起时读者分不清哪个是哪个。
-  return `backoff${after}${forHow}${retry}`;
-}
-
-function settledCell(subagent: GetWorkflowRunSubagent): string {
-  if (subagent.stepsSettled === 0 && subagent.stepsFailed === 0) return "";
-  const failed = subagent.stepsFailed > 0 ? `, ${subagent.stepsFailed} failed` : "";
-  return `${subagent.stepsSettled} step${subagent.stepsSettled === 1 ? "" : "s"}${failed}`;
 }
 
 // ————————————————————————————————————————————————

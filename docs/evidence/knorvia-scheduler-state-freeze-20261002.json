@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "kind": "scheduler-state-predecessor-freeze",
+  "head": "f72c514c4daad48620b293a29fe5907cd81ea101",
+  "sourceSha256": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62",
+  "scope": "Only deriveWorkflowSchedulerState body; whole contracts source unreviewed/upstream-unchanged in lane inventory. Curator source-exposed.",
+  "resultsPerMode": {
+    "groups": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  "artifactSelection": "52exact contracts/core artifacts. Direct source or actual compiler JS function; historical exact selected compiled closure. Actual core source consumers resolve contracts package to emitted public barrel; historical consumer overrides only projection through graph import overlay.",
+  "declarationContext": {
+    "installedSha256": "1d4798e8c1c6cee273b83cd0ccd388aaebd9287e3b028e9b0d2b6c497891c612",
+    "scopedSha256": "34f9df91d2e74c9a33437d87256c8b14a1a8af930feb36292d3e37bc597ea090",
+    "byteEqual": false,
+    "canonicalApiEqual": true,
+    "normalization": "TypeScript AST union-member and type-literal-member order only; statements, parameters, optionality, literals and types preserved"
+  },
+  "initialFailures": "Preproduction assumption that installed declaration equals isolated emit bytes failed. JS byte equality passed. Same unchanged source emits union/type-member ordering differences; parsed API equality established before freeze. Initial test attempt failed closed because archive was not produced. Logs retained; no runtime assertion weakened.",
+  "configuredLintBaseline": "Pre-existing max-lines violation:768nonblank/noncomment lines,400limit. No rule change.",
+  "fileSha256": {
+    "specs/knorvia-scheduler-state-projection-20261002.md": "d79117e7a52766e1df8eb99d87d73ed5fab26138d2ee42b85c1e9a76097fd272",
+    "apps/cli/packages/core/test/workflow-scheduler-state.test.ts": "d9aa14ece76651e96fa5b452bb223aa03a1425aaa48db138d9e7553419aa779b",
+    "apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts": "5491a204bd2635e4360ab062ae49f72d30b05246976edf8053f0e5a7db8c2581",
+    "apps/cli/packages/core/test/workflow-scheduler-state-current.json": "544a8b1b069b1f77e77fdfbf85412c77e0d375cbb0fa9007cebab12bbd9604e8",
+    "apps/cli/packages/core/test/workflow-scheduler-state-baseline.json": "7e50244bfb7ea66e8915394e7017d78b3829ad6ebfcba2d416e6e6477e228839",
+    "docs/evidence/scheduler-state-author-20261002/contract.md": "e6fcff7b853a7a55cd7f69bc30b26b59fcac87d0b08f54f8715ecd80ed78b270",
+    "docs/evidence/scheduler-state-author-20261002/api.d.ts": "363733d2b8ad2c7dc509288a7bef4a781c64d601f76a624e0db889b42fbfbe62"
+  },
+  "localEvidenceSha256": {
+    "/tmp/knorvia-scheduler-state-20261002/freeze-compile.log": "1acce9c09781bed36bf7e8a27b4eaf202a42dfbd91cd39f537fcedbb4ad0f5cb",
+    "/tmp/knorvia-scheduler-state-20261002/freeze-source.log": "dfaf8f920177e2542a309e008719bcb0398977480fab0c6ec1f2c11c724720e2",
+    "/tmp/knorvia-scheduler-state-20261002/freeze-scoped-compile.log": "15ea5a67f61f8b1deeb7fc9103300bd48b5982adb1f4152486f9613d163f7760",
+    "/tmp/knorvia-scheduler-state-20261002/freeze-scoped-source.log": "c0ce208574d49e0040850765e10c58b1bc41009b92c23f02a2dd50bcb2433f03",
+    "/tmp/knorvia-scheduler-state-20261002/freeze-scoped-emitted.log": "f51fa5f25d2e798984c935f60909ca97d69b4d761a9f7a38347431965f30caf7",
+    "/tmp/knorvia-scheduler-state-20261002/declaration-context.json": "597f6839d9aa9dd5bcd40a049f8db9d615c44a18f1ab2064ff4e812005c0a00b",
+    "/tmp/knorvia-scheduler-state-20261002/installed-index.d.ts": "1d4798e8c1c6cee273b83cd0ccd388aaebd9287e3b028e9b0d2b6c497891c612",
+    "/tmp/knorvia-scheduler-state-20261002/baseline-lint.log": "eecc900e59ebb0e991b71551d4225dba786bcc487bd61d8bbf756d1872316eaf",
+    "/tmp/knorvia-scheduler-state-20261002/prepare-initial.mjs": "71f55308d5a1f451ef0e3fc188e52d282d2a05ca941c800b421a859e9019b0ac",
+    "/tmp/knorvia-scheduler-state-20261002/api-shape.mjs": "74fbf0a6c9059a664d791be24e25059c6fbf93e403781a57bc6c57a824de2c05"
+  },
+  "packet": "Minimal structural declarations and functional facts only. Original implementation/test/history/oracle excluded from fresh author input.",
+  "licenceGrant": null
+}

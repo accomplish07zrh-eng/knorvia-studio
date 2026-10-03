@@ -1,0 +1,260 @@
+[
+  {
+    "name": "createPartId",
+    "module": "../deps.js",
+    "signatures": [
+      "(id?: string | undefined): PartId"
+    ]
+  },
+  {
+    "name": "traceContextToLogContext",
+    "module": "../deps.js",
+    "signatures": [
+      "(context: TraceContext): LogContext"
+    ]
+  },
+  {
+    "name": "TurnMachineImpl",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "typeof TurnMachineImpl"
+  },
+  {
+    "name": "MessageId",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "ModelToolCall",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "ToolCallId",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "TraceContext",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "ToolCall",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "ToolExecutionResult",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "createStreamRecoveryAnchorId",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(assistantMessageId: MessageId, toolCallId: ToolCallId): string"
+    ]
+  },
+  {
+    "name": "emitStreamRecoveryAnchor",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, events: SessionEvent[], traceContext: TraceContext, options: EmitRecoveryAnchorOptions): Promise<SessionEvent>"
+    ]
+  },
+  {
+    "name": "emitStreamingToolLedgerUpdate",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, events: SessionEvent[], traceContext: TraceContext, options: EmitLedgerUpdateOptions): Promise<SessionEvent>"
+    ]
+  },
+  {
+    "name": "isErrorForToolResult",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(result: ToolExecutionResult): boolean"
+    ]
+  },
+  {
+    "name": "isTurnCancellationError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(error: unknown, abortSignal?: AbortSignal | undefined): boolean"
+    ]
+  },
+  {
+    "name": "modelContentForToolResult",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(result: ToolExecutionResult): ModelMessageContent"
+    ]
+  },
+  {
+    "name": "stringifyToolResultOutput",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(result: ToolExecutionResult): string"
+    ]
+  },
+  {
+    "name": "toRecordInput",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: unknown): Record<string, unknown>"
+    ]
+  },
+  {
+    "name": "persistToolResultMediaAttachments",
+    "module": "../helpers/tool-result-media-persistence.js",
+    "signatures": [
+      "(input: { artifactStore?: ToolArtifactStorePort | undefined; assistantMessageId: MessageId; content: ModelMessageContent; sessionId: SessionId; sessionStore?: SessionStorePort | undefined; signal?: AbortSignal | undefined; toolCallId: string; toolName: string; traceContext: TraceContext; turnId: TurnId; }): Promise<{ attachments: FilePart[]; modelContentLayout: PersistedToolMediaLayoutEntry[]; } | undefined>"
+    ]
+  },
+  {
+    "name": "RuntimeModelTextResult",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "StreamedToolExecutionResult",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "AgentRuntimeInternal",
+    "module": "../internal.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "emitSyntheticStreamedToolError",
+    "module": "./streaming-tool-synthetic-result.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, events: SessionEvent[], traceContext: TraceContext, result: ToolExecutionResult): Promise<void>"
+    ]
+  },
+  {
+    "name": "persistPendingToolPart",
+    "module": "./tool-part-persistence.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, options: {assistantMessageId: MessageId; declarationIndex?: number; input: Record<string, unknown>; partID: PartId; toolCall: ToolCall; traceContext: TraceContext; model?: Model; metadata?: Record<string, unknown>}) => Promise<void>"
+    ],
+    "curation": "Public call shape; recursive JSON-schema type expansion omitted, dependency remains unchanged."
+  },
+  {
+    "name": "projectToolNameForNonEmptyBoundary",
+    "module": "./tool-part-persistence.js",
+    "signatures": [
+      "(toolName: string): NonEmptyToolNameProjection"
+    ]
+  },
+  {
+    "name": "persistToolModelStepFinish",
+    "module": "./turn-step-finish.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { assistantCreatedAt: number; assistantMessageId: MessageId; modelTraceContext: TraceContext; result: RuntimeModelTextResult; }): Promise<void>"
+    ]
+  },
+  {
+    "name": "completedToolPartMetadata",
+    "module": "./tool-part-metadata.js",
+    "signatures": [
+      "(result: ToolExecutionResult) => Record<string, unknown>"
+    ],
+    "curation": "Public call shape; recursive JSON-schema type expansion omitted, dependency remains unchanged."
+  },
+  {
+    "name": "mcpToolPartMetadata",
+    "module": "./tool-part-metadata.js",
+    "signatures": [
+      "(presentation: ToolMetadata[\"mcpPresentation\"]) => Record<string, unknown> | undefined"
+    ],
+    "curation": "Public call shape; recursive JSON-schema type expansion omitted, dependency remains unchanged."
+  },
+  {
+    "name": "drainInlineGuideForNextRequest",
+    "module": "./turn-guide-drain.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState): Promise<boolean>"
+    ]
+  },
+  {
+    "name": "handleToolCallAnomalyWarnings",
+    "module": "./turn-tool-warnings.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: RegularTurnLoopState, options: { modelTraceContext: TraceContext; toolCalls: ModelToolCall[]; }): Promise<void>"
+    ]
+  },
+  {
+    "name": "emitNestedModelUsageEvents",
+    "module": "./turn-nested-model-usage.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, input: { events: SessionEvent[]; results: ToolExecutionResult[]; traceContext: TraceContext; }): Promise<void>"
+    ]
+  },
+  {
+    "name": "RegularTurnLoopState",
+    "module": "./turn-loop-state.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "isAutomationMutationRestrictedTurn",
+    "module": "./turn-loop-state.js",
+    "signatures": [
+      "(state: RegularTurnLoopState): boolean"
+    ]
+  },
+  {
+    "name": "isOffPeakCreateRestrictedTurn",
+    "module": "./turn-loop-state.js",
+    "signatures": [
+      "(state: RegularTurnLoopState): boolean"
+    ]
+  },
+  {
+    "name": "recordCompletedToolBatch",
+    "module": "./turn-loop-state.js",
+    "signatures": [
+      "(state: RegularTurnLoopState): void"
+    ]
+  },
+  {
+    "name": "recordToolUsageFromResult",
+    "module": "./turn-tool-usage.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, result: ToolExecutionResult, traceContext: TraceContext): Promise<void>"
+    ]
+  },
+  {
+    "name": "recordBrowserTurnToolResult",
+    "module": "../../repl/browser-turn-state.js",
+    "signatures": [
+      "(input: { output: unknown; sessionId: SessionId; toolName: string; turnId: TurnId; }): void"
+    ]
+  },
+  {
+    "name": "createRuntimeToolResultEntry",
+    "module": "../../agent/message-history.js",
+    "signatures": [
+      "(toolCallId: string, toolName: string, content: ModelMessageContent, isError: boolean): RuntimeMessageMessageEntry"
+    ]
+  },
+  {
+    "name": "commitTurnRequestEntries",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, state: TurnRequestState, entries: readonly RuntimeMessageEntry[]): void"
+    ]
+  }
+]

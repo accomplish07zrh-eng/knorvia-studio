@@ -1,0 +1,19 @@
+{
+  "description": "Fixed import/runtime/protocol string vocabulary; template interpolations specified by functional contract; no bodies/comments",
+  "values": [
+    "../../mcp/index.js",
+    "../../plugin-reference/index.js",
+    "../deps.js",
+    "../internal.js",
+    "connected",
+    "plugin",
+    "Plugin reference parse rejected invalid destinations",
+    "plugin_reference.parse.invalid",
+    "core.runtime",
+    "Plugin reference reminder resolved",
+    "plugin_reference.reminder.resolved",
+    "plugin_reference",
+    "Plugin reference reminder generation failed",
+    "plugin_reference.reminder.failed"
+  ]
+}

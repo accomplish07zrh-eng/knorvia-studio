@@ -1,0 +1,83 @@
+{
+  "baseline": "1a4801c690dfb2ac3228a1c8d9353443a5dfa90d",
+  "productionHead": "9c74d16f47c998f92a602fe1ca4540c2d1c65e0d",
+  "owners": {
+    "turn-persistence": [
+      "timeline-persistence",
+      "tool-part-persistence",
+      "input-intent-persistence",
+      "cancelled-stream-persistence",
+      "workspace-checkpoint-persistence"
+    ],
+    "workspace-fork": [
+      "stable-fork-boundary",
+      "workspace-fork"
+    ],
+    "rewind": [
+      "rewind",
+      "rewind-message"
+    ],
+    "session-fork": [
+      "session-fork"
+    ]
+  },
+  "helpers": {
+    "rewind": [
+      "rewind-conversation-state",
+      "rewind-workspace-cascade"
+    ],
+    "session-fork": [
+      "session-fork-atomic",
+      "session-fork-identities",
+      "session-fork-legacy-goal",
+      "session-fork-notices",
+      "session-fork-session",
+      "session-fork-transcript",
+      "session-fork-verifiers"
+    ]
+  },
+  "remainingQueue": [],
+  "crossLaneProductionChanges": 0,
+  "batches": {
+    "turn-persistence": {
+      "commit": "f825c3408b4b19b13078e65e8b35ca72df5c08eb",
+      "receiptSha256": "830f6d17ad17d6c895c85cc5b819b0da9ea115d98eb564a88ab44089211f4b9c",
+      "baselineContainerSha256": "86d8388577c088944fa1f0658fc9c418bf3cc35f35d7fe858d92d786f726a8c6",
+      "currentSelectorSha256": "b0909c35ca30410afbc0d27712ce6736f1bb1480ef7dd32cdfabd0fed7370efb",
+      "artifactPinsVerified": 15,
+      "actualEmittedSafetyGroups": 1
+    },
+    "workspace-fork": {
+      "commit": "ac4248b7ae257574d6f07567ec3b59eb19b5ddac",
+      "receiptSha256": "aa546add2d762738d9612d96c5f42f003898dbe21f5f3e936d55e6b3afae1cc6",
+      "baselineContainerSha256": "f8ff7a397664f6e1a28b47bf02523cf4d6be4c2c005be7c18fb6ea8fe5cef933",
+      "currentSelectorSha256": "40eec30a3fc822cb36e8cf40a8981b696e08863807b7cc1313d911afc16c649c",
+      "artifactPinsVerified": 6,
+      "actualEmittedSafetyGroups": 1
+    },
+    "rewind": {
+      "commit": "dcd5ce5e98e4aef6cc0aef4ea80b51a7c25fc3ad",
+      "receiptSha256": "7fed081f69bd20342426cc47695268b4a6504f57f79328d6b288fa1f00badc44",
+      "baselineContainerSha256": "8d54ecf8a80a2189538143ea4e1c1814010937154f08321848f519a6f6b14c2e",
+      "currentSelectorSha256": "642f35a8ec22888b7a4b550e9bba57898866297782295ab2083d86abf36f978a",
+      "artifactPinsVerified": 12,
+      "actualEmittedSafetyGroups": 1
+    },
+    "session-fork": {
+      "commit": "9c74d16f47c998f92a602fe1ca4540c2d1c65e0d",
+      "receiptSha256": "763424a52be8d3a044671dc5f162b532376c89b922ba9a78362ee9eb7a471070",
+      "baselineContainerSha256": "e376ca25b02ffe7b4fb5d2f407194fed2839fdf87d62798ad1009a527bde6cd2",
+      "currentSelectorSha256": "bf3c3085ba6eba0f6688436670065544b8c3c63121fc8be28dfa4e14598683b9",
+      "artifactPinsVerified": 24,
+      "actualEmittedSafetyGroups": 1
+    }
+  },
+  "checks": "Four small actual-emitted paired persistence groups in total; scoped types/API/lint/format; architecture 0. No ordinary behavioral suite/build/native.",
+  "limits": [
+    "Session public API proved through nine resolved compiler call signatures; reexport/declaration statement bytes differ, syntactic-layout negative retained.",
+    "Some precise packet read/write sequences are source-derived; all four isolated authors read only functional/API inputs, curator source-exposed. No whole-file originality/licensing acceptance.",
+    "Tests use owned synthetic ports/data/clock; actual entrypoint JS/compiler declarations bound, transitive workspace deps via tsx.",
+    "Current history appended; original drafts/red proofs/oracles immutable. Root independent runtime/expression and aggregate/native acceptance deferred.",
+    "Configured freshness proxy port8080 fetch failed; existing local checkout preserved. Node24.19.0 differs from pinned24.14; no environment changes."
+  ]
+}

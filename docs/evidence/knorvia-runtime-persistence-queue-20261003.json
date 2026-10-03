@@ -1,0 +1,40 @@
+{
+  "base": "1a4801c690dfb2ac3228a1c8d9353443a5dfa90d",
+  "batches": {
+    "turn-persistence": [
+      "timeline-persistence",
+      "tool-part-persistence",
+      "input-intent-persistence",
+      "cancelled-stream-persistence",
+      "workspace-checkpoint-persistence"
+    ],
+    "workspace-fork": [
+      "stable-fork-boundary",
+      "workspace-fork"
+    ],
+    "rewind": [
+      "rewind",
+      "rewind-message"
+    ],
+    "session-fork": [
+      "session-fork"
+    ]
+  },
+  "excluded": "command-queue/runtime-command-submit/task-registry, permission/full-access and E workflow ownership; no shared inventory edits",
+  "freshness": "Configured proxy refuses fetch; local executor available. Node24.19 vs pinned24.14. No setting changes.",
+  "helpers": {
+    "rewind": [
+      "rewind-conversation-state",
+      "rewind-workspace-cascade"
+    ],
+    "session-fork": [
+      "session-fork-atomic",
+      "session-fork-identities",
+      "session-fork-legacy-goal",
+      "session-fork-notices",
+      "session-fork-session",
+      "session-fork-transcript",
+      "session-fork-verifiers"
+    ]
+  }
+}

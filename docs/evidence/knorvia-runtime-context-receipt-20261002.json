@@ -1,0 +1,73 @@
+{
+  "formatVersion": 1,
+  "candidateCommit": "3973614d401d2d80859db56bf102b5167fa21b0b",
+  "baselineCommit": "cf1cfe00ec135de840b17926f66014712e4d3fc5",
+  "scope": "Complete expert/runtime-context.ts only. runtime.ts and manual retry-state are separable API consumers, not rewritten. No E scheduler/node/publication overlap or other-lane integration.",
+  "ownership": "One per-instance captured dependency/definition owner, immutable snapshot/session projections and native journal/callback delivery; activeRunAbortControllers remains the only run-abort registration map. No second cache, queue, policy or resource owner.",
+  "authoring": {
+    "author": "/root/expert_context_author",
+    "model": "Fresh fork_turns none GPT-6.1 Sol/high; user existing Fast retained",
+    "draftCommit": "2fca078",
+    "draftSha256": "823bfcd3d9334d0339978ff8650954c1b5b5c42c6bbc4b91cb4e7940402191fa",
+    "draftBytes": 10185,
+    "inputs": "Three exact functional/API/dependency packet files only according to author report. Draft saved/hash-verified before curator read/comparison. Shared-filesystem restriction was instructional, not technical isolation; curator is source-exposed and packet source-derived.",
+    "correction": "Curator found definition.id/version instead of actual definitionId/definitionVersion. Preserved two TS2339 diagnostics before correcting source. Packet had not explicitly supplied RHS field names; corrected mapping and restored the pre-return phaseOrder capture promised by contract. These are source-exposed post-review changes, not unchanged fresh authorship. Chinese source comment documents the metadata correction."
+  },
+  "validation": {
+    "minimalSafety": "One final actual-emitted paired check passed: initial snapshot definition metadata, captured dependency/phaseOrder/strategy identity, ordered graph-journal record serialization and record reference sharing; two strict wrong/missing-current-JS negatives. All data/clock/store/runner ports owned synthetic; no runner call/live IO.",
+    "compiler": "Draft selected-owner noEmit check failed on two nonexistent schema fields (preserved). Final TypeScript 6.0.2 selected-owner program: zero diagnostics, only runtime-context JS/dts/map written. Required solely to obtain exact emitted artifact for concrete initialization data defect. No aggregate build.",
+    "API": "Final public declaration bytes exactly equal immutable predecessor declaration.",
+    "selectors": "6 current context, 9 phase and 11 run-loop artifact pins match; these sets overlap and are not 26 distinct checks. Prior current manifests/embedded digest selectors advanced to the new context artifact; historical archives/assertions/receipts unchanged. Prior behavior suites were not replayed.",
+    "lint": "Two owned source/safety files, same 94 root rules with apps/cli ignore removed only: zero errors/warnings.",
+    "format": "Two source/safety files passed.",
+    "architecture": "Changed check OK, zero violations; CLI unmanaged.",
+    "limitations": "Node 24.19.0; tsx loads transitive workspace source dependencies. Selected owner is actual compiler-emitted JS, not a claim that every dependency was emitted.",
+    "skipped": [
+      "ordinary source behavior suites",
+      "broad/whole suites and CLI/desktop builds",
+      "root-wide types/lint",
+      "callback timing and rejection execution",
+      "abort registration/reentrant/stale disposal execution",
+      "runtime command consumer invocations",
+      "native Windows/macOS and pinned Node acceptance"
+    ]
+  },
+  "expressionEvidence": {
+    "standardContractFacts": "Public schema/API keys and literal protocol/status/error text, readonly dependency identity, normalization/default delegation, ordered journal fields, method receivers, native awaits and map disposal identity conditions are retained compatibility constraints. Conventional class/loop/spread/filter/map/helper expressions may match.",
+    "discretionarySimilarity": "Constructor capture, graph publication loops, snapshot filter-and-append projections, abort forwarding/disposal combination and exported protocol helpers substantially resemble predecessor expression. Many bodies remain byte-close. Local item-to-entry naming, Array.from versus spread, compact formatting and removed type cast earn no originality credit. Complete restricted-input drafting is process evidence; no whole-file reconstruction/independence or licence classification is made.",
+    "originFacts": "Historical inventory identifies publisher apps/zcode-cli/packages/core/src/workflow/expert/runtime-context.ts blob 08f8dc49792e4327acf0b8d6a10407532e04dfe3 normalized SHA256 1f599d273cadbb79c825c4002671054bdb87b44e96f1821630ef1af9020e49c2. Metadata only; no new publisher-byte verification asserted. Source exposure/attribution retained; no header, registry or licence grant."
+  },
+  "nextBoundary": "expert/runtime.ts command orchestration remains untouched for a later bounded batch; aggregate runtime/resource acceptance and independent expression review are deferred.",
+  "files": {
+    "specs/knorvia-runtime-context-20261002.md": "a4d06e7de65a63f578a472c26f849f1fbe8594226d34394e1c23732ae83e9bb0",
+    "docs/evidence/runtime-context-author-20261002/contract.md": "1ba0a84f1de9faffaaaaf34ed63b66737db285895e30e6b2b083321447e2a557",
+    "docs/evidence/runtime-context-author-20261002/api.d.ts": "389af36d27d4a3af4ef9ac7754de16b13d386d2f2f16a0e16c5b277a650503b0",
+    "docs/evidence/runtime-context-author-20261002/dependencies.d.ts": "f8dd5a2f23b868b05fe4ad8704f645708f4124e029f3080e1dcc26fdc2b43549",
+    "docs/evidence/runtime-context-author-20261002/draft-exact.json": "7ef66bf2152243006760cc7c1760f769bf7e2cd671a2ccc976924545aa92565b",
+    "docs/evidence/runtime-context-author-20261002/draft-type-red.json": "7811e842a91886b54e075b63d99ab3d0a06de7432edaca09ae9957fb31513e59",
+    "apps/cli/packages/core/src/workflow/expert/runtime-context.ts": "61ca48e1f3c429d25701abeabdcd8b7c2ac6bf2d2b1a315cda77e4710171362e",
+    "apps/cli/packages/core/dist/workflow/expert/runtime-context.js": "53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef",
+    "apps/cli/packages/core/dist/workflow/expert/runtime-context.d.ts": "588b1f1f9f2b5ea75321681e9b9c7ab36a0394bb4e004fe968a955cd7ab0fedf",
+    "apps/cli/packages/core/test/workflow-runtime-context-baseline.json": "8fa862a70b17684ba6bf95f60035e7b5c8683233e85f70f810dbaabc1f97e0d9",
+    "apps/cli/packages/core/test/workflow-runtime-context-current.json": "4829e023bd3862f49afac026ca9e26c024f83f36452a882ffc6cf61e05abad88",
+    "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs": "1829074474ee307f9dab05286712dbbe30f43574508faf698815045b0d883e61",
+    "apps/cli/packages/core/test/workflow-run-loop-current.json": "6348e165702fcbf337af0dfa405c348afe96f7aa7d45956f2238487519e9a6d3",
+    "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs": "739b4a0ec3458b44237aacb9b42ff6cae13c39be2006a74a6050615fc7dc93e7",
+    "apps/cli/packages/core/test/workflow-phase-runner-current.json": "1ad6917f650d5c5ff5af80e9cdfff69f91d2e47edfb4e5663f97f2ebd0013d7d",
+    "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs": "e4138b4264d03e6e65632174d54187fecde9f5d23e00fb1eefd7cbb326f29741"
+  },
+  "protectedFiles": {
+    "apps/cli/packages/core/src/workflow/expert/runtime.ts": "bece27fb3ccfad3de3fc8fc7789cc3b1f188ad0db4755ad5b73420dc991e8f92",
+    "apps/cli/packages/core/src/workflow/expert/retry-state.ts": "2d9335dbeb4bacc032eddf51188f84785f7a8e23f434fe570cbd61bde04f76c0",
+    "apps/cli/packages/core/src/workflow/expert/run-loop.ts": "39182c7c05b39c72fda6df19ae4670cdf77773327f374100c1871ad511c06633",
+    "apps/cli/packages/core/src/workflow/expert/critic-loop.ts": "9bad65d06d2e7de38a7588a83523803c7ae2c572feda5ed44fdfae7424cb4df5",
+    "apps/cli/packages/core/src/workflow/expert/phase-runner.ts": "4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0",
+    "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f",
+    "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7"
+  },
+  "logs": {
+    "draft-type-red.log": "{\"typescript\":\"6.0.2\",\"diagnostics\":[{\"code\":2339,\"message\":\"Property 'id' does not exist on type '{ title: string; definitionId: string; definitionVersion: string; kind: string; phaseOrder: string[]; phases: { behavior: \\\"complete\\\" | \\\"agent\\\" | \\\"scheduled_graph\\\" | \\\"critic\\\"; description: string; ... 4 more ...; seedGraphFromArtifact?: { ...; } | undefined; }[]; strategy: { ...; }; description?: string | undefined; }'.\",\"file\":\"apps/cli/packages/core/src/workflow/expert/runtime-context.ts\",\"line\":58},{\"code\":2339,\"message\":\"Property 'version' does not exist on type '{ title: string; definitionId: string; definitionVersion: string; kind: string; phaseOrder: string[]; phases: { behavior: \\\"complete\\\" | \\\"agent\\\" | \\\"scheduled_graph\\\" | \\\"critic\\\"; description: string; ... 4 more ...; seedGraphFromArtifact?: { ...; } | undefined; }[]; strategy: { ...; }; description?: string | undefined; }'.\",\"file\":\"apps/cli/packages/core/src/workflow/expert/runtime-context.ts\",\"line\":59}],\"noEmit\":true}\n",
+    "compile-final.log": "{\"typescript\":\"6.0.2\",\"diagnostics\":[],\"noEmit\":false}\n{\"emitted\":[\"dist/workflow/expert/runtime-context.js\",\"dist/workflow/expert/runtime-context.d.ts.map\",\"dist/workflow/expert/runtime-context.d.ts\"]}\n",
+    "final-safety.log": "\u2714 emitted context initialization preserves definition metadata in journal (16.645575ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 29.619367\n"
+  }
+}

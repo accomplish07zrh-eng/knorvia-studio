@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/hooks.ts",
+  "kind": "file",
+  "sha256": "ab4d7c4341a60a02dddc1f8e0c794981b7780903b147458b4c83bcc934f2050f",
+  "normalizedSha256": "ab4d7c4341a60a02dddc1f8e0c794981b7780903b147458b4c83bcc934f2050f",
+  "encoding": "utf8-lf",
+  "bytes": 4956,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/hooks.ts",
+    "blob": "eae5526fb1cc53f57936619cc3e3b3483c141e17",
+    "normalizedSha256": "065d42feb6858a3a60bcd329c737ac9dedf521f3a3522f0ccc63975df1c22340",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

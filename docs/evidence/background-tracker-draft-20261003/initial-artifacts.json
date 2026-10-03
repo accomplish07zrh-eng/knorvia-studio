@@ -1,0 +1,47 @@
+{
+  "typescript": "6.0.2",
+  "files": {
+    "apps/cli/packages/core/src/tool/executor/background-tasks.ts": {
+      "source": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial/core/src/tool/executor/background-tasks.ts",
+        "sha256": "d010faa09826cfa2568732ac0212d9e17af1a555d59415147624d37ef18f03cd"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial-emitted/background-tasks.js",
+        "sha256": "fae0663b9a34a3166743abec88142f00203f2ffc3d4e026f8b4595666e578c20"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial-emitted/background-tasks.d.ts",
+        "sha256": "a38f3dfb1e7ab3407314dfb035fcecfc733c880ae59371e9c860504404bab666"
+      }
+    },
+    "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts": {
+      "source": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial/core/src/tool/executor/background-tracker-notification.ts",
+        "sha256": "0b4f0affbebce0a97f8e8ccaae37fef2473ae7a7fba6a2d9ea4907095bafcde6"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial-emitted/background-tracker-notification.js",
+        "sha256": "461aad1b195522d7564bdd5630c6b1f1c5f7ade815cb59c4a348da2ae0018632"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial-emitted/background-tracker-notification.d.ts",
+        "sha256": "b4a272027e41aa9c5fc3019db4ce6c660d6ddb5738e7a976e159b3d11e1d86c0"
+      }
+    },
+    "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts": {
+      "source": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial/core/src/tool/executor/background-tracker-projection.ts",
+        "sha256": "39bfe0339199ee59e902448ab45a3d81af2f2ab81651c4acdff2dc89631c58ef"
+      },
+      "compiled": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial-emitted/background-tracker-projection.js",
+        "sha256": "cf05633fcd42b21ba1f7784ee36c82c2bdd73ed960519eefd0334c344b2cf6a3"
+      },
+      "declaration": {
+        "path": "docs/evidence/background-tracker-draft-20261003/initial-emitted/background-tracker-projection.d.ts",
+        "sha256": "60f0764f3bddbd37f82c6c59dd055d97cbcad24c976bae840ee43ff6ea381a88"
+      }
+    }
+  }
+}

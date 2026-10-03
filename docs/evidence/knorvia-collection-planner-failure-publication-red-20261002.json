@@ -1,0 +1,131 @@
+{
+  "formatVersion": 1,
+  "kind": "collection-planner-failure-publication-precorrection-proof",
+  "candidateCommit": "02e1751a6e0741110d53485b3a17644edfd02b6a",
+  "sourceExposure": "Parent found regression; lane independently reproduced against exact historical oracle and current source/actual-emitted selectors. Post-review source-exposed correction follows.",
+  "scenario": "Empty owned collection; maxConsecutiveErrors1; runner throws Owned planner failure; real EventLog appendGraphRecord wrapper mutates exhausted record.collection to errorCount99/exhaustedfalse and calls original port with preserved receiver/signal.",
+  "results": {
+    "source": {
+      "mode": "source",
+      "exit": 1,
+      "groups": 1,
+      "passed": 0,
+      "failed": 1,
+      "expectedPayload": {
+        "collectionId": "owned-collection",
+        "errorCount": 1,
+        "exhausted": true
+      },
+      "observedPayload": {
+        "collectionId": "owned-collection",
+        "errorCount": 99,
+        "exhausted": false
+      },
+      "expectedEvents": ["planner_started", "planner_failed", "collection_exhausted"],
+      "observedEvents": ["planner_started", "planner_failed"]
+    },
+    "emitted": {
+      "mode": "emitted",
+      "exit": 1,
+      "groups": 1,
+      "passed": 0,
+      "failed": 1,
+      "expectedPayload": {
+        "collectionId": "owned-collection",
+        "errorCount": 1,
+        "exhausted": true
+      },
+      "observedPayload": {
+        "collectionId": "owned-collection",
+        "errorCount": 99,
+        "exhausted": false
+      },
+      "expectedEvents": ["planner_started", "planner_failed", "collection_exhausted"],
+      "observedEvents": ["planner_started", "planner_failed"]
+    }
+  },
+  "runtimeState": "Both arms return; two collection append calls. Passed plain collection mutation remains visible, terminal snapshot remains errorCount1/exhaustedtrue. Full views differ at failure payload/terminal event and resulting event-clock trace.",
+  "productionChangesAtProbe": 0,
+  "files": [
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+      "sha256": "4e6eed52309d62b22d6a2a87b9ccabfaec49b34bbfb70714c2aebf269634a557",
+      "bytes": 16726
+    },
+    {
+      "path": "specs/knorvia-collection-planner-failure-publication-20261002.md",
+      "sha256": "ce1a744e002549d2d7143f209510339f35d42b6e72de7ffbfa743672e4fe7bd8",
+      "bytes": 1475
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "sha256": "c0038cbf4d18bd92030fe73b1c1c57a690283c7fafc9355397bf0a6c8f0032fc",
+      "bytes": 12819
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts",
+      "sha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+      "bytes": 3196
+    },
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+      "sha256": "93cf2ad3b9dc842d4447cf5170313cff4207f8e0112cb7ac14f1ab1a92c078d1",
+      "bytes": 11934
+    },
+    {
+      "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.js",
+      "sha256": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+      "bytes": 2563
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-baseline.json",
+      "sha256": "d280e53af9b42aef8af9d6f17bdb469be83718010afb8caa0a9f94cdcc3043ba",
+      "bytes": 14432
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+      "sha256": "7cb12227f55f0d19e0c58e79c7166dc891671d0fd91686000e3ae4ff38a9054b",
+      "bytes": 4945
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
+      "sha256": "6fcf00289e9867624ccb8dff51820456c54ccf7edd222ef4b5b055ff0bf519a3",
+      "bytes": 2737
+    }
+  ],
+  "rawEvidence": [
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/red-source.log",
+      "sha256": "c1f64e86db7279869b3ec627be3738d8a7b240f32ba736c11c1aaa81e3a53759",
+      "bytes": 19484
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/red-emitted.log",
+      "sha256": "d969e11d400e44b7b0ae0a100522861771df311399e956ebb84f6e5e8dd859de",
+      "bytes": 19487
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/red-source-observations.json",
+      "sha256": "961573245e62440b2fde1a85e704a17d0a20d2081d5c5a85117718d246756c4d",
+      "bytes": 25541
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/red-emitted-observations.json",
+      "sha256": "70200b1351a7dd2bc676d32cb11b9891c0b518783d228cbd35b4c71c8155ec2d",
+      "bytes": 25542
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/red-source-status.json",
+      "sha256": "4386eb03016d539a3bebb62221f3f0589ed1c2c9e1c8e21918518df1581b8f37",
+      "bytes": 475
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-failure-publication-20261002/red-emitted-status.json",
+      "sha256": "0e40863d7abdf21019b2d3fa92f1c5d0aa084b28647be6f57f2c0d793034ae37",
+      "bytes": 476
+    }
+  ],
+  "preservation": "Entire prior test file remains exact prefix; original80assertions, historical archive, initial mutation red proof and prior receipts unchanged.",
+  "nextCorrection": "Return captured primitive terminal facts separately; publish/gate from those values. Preserve mutable record and native awaits.",
+  "licenceGrant": null
+}

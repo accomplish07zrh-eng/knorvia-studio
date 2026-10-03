@@ -1,0 +1,9 @@
+{
+  "algorithm": "sha256",
+  "draft": "draft.ts",
+  "sha256": "bd0f127f608ea284574063de3c61d89e18b0498d99393897600da7bff1e1f01a",
+  "byteLength": 13277,
+  "physicalLines": 330,
+  "otherSourceFiles": [],
+  "status": "sealed"
+}

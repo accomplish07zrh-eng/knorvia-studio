@@ -1,0 +1,63 @@
+{
+  "timeline-persistence": {
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/timeline-persistence.ts",
+      "blob": "fdeb257759312f5a150cd21492bb7118c4a3ad22",
+      "normalizedSha256": "4e31afa75e3d09d96fa42c3603281bc0ec87f3eca26814647a4b17abb32207e4",
+      "contentMatchedPaths": []
+    },
+    "review": null
+  },
+  "tool-part-persistence": {
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/tool-part-persistence.ts",
+      "blob": "bea6c9a9002dba9c21335a6be34982532602274b",
+      "normalizedSha256": "1af095ce07b5bd75cc5a07f39aa99c3cca6531865fcfcb38f0c3896720e77ce2",
+      "contentMatchedPaths": [
+        "apps/zcode-cli/packages/core/src/runtime/methods/tool-part-persistence.ts"
+      ]
+    },
+    "review": null
+  },
+  "input-intent-persistence": {
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/input-intent-persistence.ts",
+      "blob": "42cfb1ec797190ea6c90fab827426c845d24d955",
+      "normalizedSha256": "551f10dd21fe23d5febd5784899bdd78b7d599092b7dc989c7886da5578bf46e",
+      "contentMatchedPaths": [
+        "apps/zcode-cli/packages/core/src/runtime/methods/input-intent-persistence.ts"
+      ]
+    },
+    "review": null
+  },
+  "cancelled-stream-persistence": {
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/cancelled-stream-persistence.ts",
+      "blob": "cd38f08cfcbef2df18e908be5a1accb0e806d564",
+      "normalizedSha256": "31e9f7c1460562bb53ed6d9ca2ff2b4028b8660b2a009b39cbcd24275bb45849",
+      "contentMatchedPaths": [
+        "apps/zcode-cli/packages/core/src/runtime/methods/cancelled-stream-persistence.ts"
+      ]
+    },
+    "review": null
+  },
+  "workspace-checkpoint-persistence": {
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/workspace-checkpoint-persistence.ts",
+      "blob": "c442245beece4bdc009561855d3b85c2059c5cc4",
+      "normalizedSha256": "20077d7cc22568c043cecd6132477b40b88c67e056cba705ccac661d588e91a3",
+      "contentMatchedPaths": []
+    },
+    "review": null
+  }
+}

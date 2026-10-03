@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "candidateCommit": "fbbec66b5a63be68e33737fcda24f7b393af7084",
+  "freezeCommit": "51ade7da49cf0e15bf7ac7bd3714a9f3ff8b89a0",
+  "sealedDraftCommit": "9a2d56b6577dea742ecd9aec740e7be97bb4afda",
+  "lifetimeRedProofCommit": "cf02d815501e9777581105cb3706fdaa472e4256",
+  "scope": [
+    "apps/cli/packages/core/src/runtime/methods/mcp.ts",
+    "apps/cli/packages/core/src/runtime/methods/config.ts"
+  ],
+  "configuration": {
+    "requested": "GPT-6.1 Sol/high/Fast unchanged",
+    "nativeAuthor": "GPT-6.1 Sol, high, no inherited conversation",
+    "executorUiConfigurationIndependentlyReadable": false,
+    "environmentModelTierAccessSettingsChanges": false
+  },
+  "currentArtifacts": {
+    "path": "docs/evidence/knorvia-mcp-config-current-20261003.json",
+    "sha256": "c04d9319795fbb444a25315e4e21f7ce7bfc482bca492cd972b8989f04a45a45",
+    "files": {
+      "mcp.ts": {
+        "source": {
+          "path": "apps/cli/packages/core/src/runtime/methods/mcp.ts",
+          "sha256": "58922bd1ce1366d551d98e30e6a8ea01fed6a7411e2823ef78f6d9f8f0048664"
+        },
+        "compiled": {
+          "path": "apps/cli/packages/core/dist/runtime/methods/mcp.js",
+          "sha256": "638e3ab9afaf252cffc8b45d400a920065e1a741934e7853895801302b8b359e"
+        },
+        "declaration": {
+          "path": "apps/cli/packages/core/dist/runtime/methods/mcp.d.ts",
+          "sha256": "f87d79128333bd8286d28e4404af60c6cf585ed9f68cf94818d81da5d59f6a39"
+        }
+      },
+      "config.ts": {
+        "source": {
+          "path": "apps/cli/packages/core/src/runtime/methods/config.ts",
+          "sha256": "70c7252ee3a1c81d7c7ad2f20dafd2af50c63102c94048076144d957a70613f7"
+        },
+        "compiled": {
+          "path": "apps/cli/packages/core/dist/runtime/methods/config.js",
+          "sha256": "42cad92cf45b28f559e4d1dfb18b0f9cdb8d93a6e6c9f85144e5cb69fbfea10e"
+        },
+        "declaration": {
+          "path": "apps/cli/packages/core/dist/runtime/methods/config.d.ts",
+          "sha256": "b76ccaf44103495b7bae1d66123e3b95463e6803d8046aab696a3731eefcb05f"
+        }
+      }
+    }
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/mcp-config-baseline-20261003.json",
+    "sha256": "c62abf9d549977fcba1ec7b46174e74a8b6e727ef245cd8714b82cc708cffe0b",
+    "sourceCompiledDeclarationAndFrozenAssertionsUnchanged": true
+  },
+  "authorship": {
+    "curatorSourceExposed": true,
+    "nativeAuthorAccess": "Ten body-free source-derived functional/API/import/signature/port files plus recorded curator clarifications. Complete initial/two self-correction/final sets sealed before source comparison. Shared executor access was instruction-only, not enforced filesystem isolation.",
+    "seal": {
+      "path": "docs/evidence/mcp-config-author-20261003/draft-01/SEAL.json",
+      "sha256": "b0245575456fac51d9b1ca7b638cad0123d01a1f332242f7f9d6c7f37ac9c59f"
+    },
+    "sourceExposedCorrections": {
+      "path": "docs/evidence/mcp-config-author-20261003/corrections.json",
+      "sha256": "43de763d0401d33381476419138bcba71bfad5b77691eec68ad6324ba820b877"
+    },
+    "postSealContractGap": "Configured debug callback can replace startup lifetime; current field return corrected from local tracked return. Predecessor pass and exact sealed-draft failing probe retained.",
+    "rightsDecision": "Unresolved. Restricted-input workflow alone does not clear strongly corresponding control/protocol combinations or fixed/type/delegation expression. No header, registry, whole-file MIT or clean-room grant."
+  },
+  "retainedExpression": [
+    "Fixed log/error fields, callback and projection order, native Promise.all/then/catch admission and registration combinations remain closely corresponding to predecessor requirements.",
+    "Config direct public delegates/getters/setters, clone and ordered object/spread idioms retain substantial conventional/contract-required correspondence. Moving or shortening them is not originality credit.",
+    "Discretionary predecessor explanatory comments were not carried into authored source; useful semantics remain in functional contract and original correction comment. Historical source/declaration prose remains preserved in oracle."
+  ],
+  "thinFacade": {
+    "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+    "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+    "status": "Retained unchanged; existing execution-state policy/previous-state port facade. No cosmetic rewrite or source-rights closure."
+  },
+  "validation": {
+    "minimalSyntheticActualEmitted": {
+      "predecessorGroups": 6,
+      "correctedGroups": 6,
+      "focusedLifetimeProbe": {
+        "predecessor": 1,
+        "sealedDraftExpectedFailure": 1,
+        "corrected": 1
+      },
+      "consumerCallsAreIncludedNotExtraCounts": true,
+      "sourceBehaviorReplay": false,
+      "realOperations": 0
+    },
+    "strictCompiler": {
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "publicExportsEqual": 27,
+      "actualSelectedEmissions": 4,
+      "unselectedWrites": 0,
+      "sealedAuthorDiagnostics": 0,
+      "committedReproducerSeparatelyRun": false
+    },
+    "artifactProof": {
+      "currentPins": 6,
+      "wrongEmissionFailsClosed": true,
+      "missingDeclarationFailsClosed": true,
+      "unchangedHistoricalOracle": true,
+      "protectedSources": 66,
+      "priorCounts": {
+        "steering-subagent": 33,
+        "runtime-tooling": 24,
+        "runtime-permission": 15,
+        "subagent-owners": 33
+      },
+      "priorUniquePaths": 105,
+      "authorSealEntries": 23,
+      "sessionModeFacadeUnchanged": true
+    },
+    "ownedLint": {
+      "files": 7,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": {
+      "files": 9,
+      "passed": true
+    },
+    "architecture": {
+      "violations": 0,
+      "cliManaged": false
+    },
+    "diffCheck": true,
+    "initialFixtureFailurePreserved": true
+  },
+  "checks": {
+    "docs/evidence/mcp-config-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "docs/evidence/mcp-config-checks-20261003/artifact-proof.log": "1699dbe40f93b9bdc56e35c30bcfcfadc05880607e47dbb87b7051c57b010d81",
+    "docs/evidence/mcp-config-checks-20261003/author-seal-check.json": "5848c73170318846568fadf32d3a35a901e33c04d1ebdd76a9f8f59134ed17f2",
+    "docs/evidence/mcp-config-checks-20261003/baseline-fixture-failure.log": "400f2c4aeb23d677c3ca9081162af9f5678e9ace142082afc81bd0ba91ba9756",
+    "docs/evidence/mcp-config-checks-20261003/baseline-lifetime.log": "bad587b84e8fa5170c272e6d4b84c691c53aaa978b32faa65a3db9a2404c9b19",
+    "docs/evidence/mcp-config-checks-20261003/baseline-safety.log": "825a2c18529526abfe4f3919561f0fbaaea6f99b329cfffc6b0852effc378fe4",
+    "docs/evidence/mcp-config-checks-20261003/current-compiler-summary.json": "4ecd040648773a7512d8f84ad8862eb1ce865f21c88d445419f51cd80f3ae4be",
+    "docs/evidence/mcp-config-checks-20261003/current-lifetime.log": "a4b1320fb9261994e96309435e3e549e4fda9b2d4e65b24644bb24809f97aaec",
+    "docs/evidence/mcp-config-checks-20261003/current-safety.log": "90ed6a4a24a26540ddae2d6683a22c952a912c876ece98ddfab8d368dcdb3e8d",
+    "docs/evidence/mcp-config-checks-20261003/freeze.json": "9283262e7d16b8ef02bc5ab818e9c6586dfc3bc820913d3b70fcf6b313e890f4",
+    "docs/evidence/mcp-config-checks-20261003/owned-format.log": "cd2f381062fe94c05c25211976d31635d4fcd198c938cc612ecab6362c9f746a",
+    "docs/evidence/mcp-config-checks-20261003/owned-lint.log": "c35b49df5541bcfd3f1ce914025297ce0fb7c1e1c1f4df9300603bc2dee5af0f",
+    "docs/evidence/mcp-config-checks-20261003/sealed-draft-emission.json": "584100c8a38a37b048b3ee3af41c344f46d6f79be3d52c652739f47eb9316c9d",
+    "docs/evidence/mcp-config-checks-20261003/sealed-draft-lifetime-red.log": "250a88865929a8860959e490a7e7db5cc6377b31cd0721164acf144065a76a2f",
+    "docs/evidence/mcp-config-checks-20261003/upstream-object-availability.json": "4a759b7faa168cc3df9d74793f34d8438a485c6d4c47504ba967af22377ca510"
+  },
+  "upstreamAndParentLimits": {
+    "path": "docs/evidence/mcp-config-checks-20261003/upstream-object-availability.json",
+    "fact": "Pinned publisher blobs recorded in inherited inventory are not present locally; no publisher byte comparison or network acquisition performed. This is a review evidence limit, not permanent disqualification.",
+    "privateHolds": "Held registry/read-file-state-hydrator and other lanes untouched; no PR12/cross-lane source adoption or unavailable-private-backup restoration. Parent recovery statement remains parent-reported."
+  },
+  "deferred": [
+    "Ordinary source/full suites, full builds, root-wide type/lint and native acceptance per speed-first instruction.",
+    "Actual MCP services, captured credentials, grants, config/user data, process/provider and real Runtime construction were never operated.",
+    "Root independently reviews runtime compatibility and retained expression; this candidate is not integration/publication/legal completion."
+  ]
+}

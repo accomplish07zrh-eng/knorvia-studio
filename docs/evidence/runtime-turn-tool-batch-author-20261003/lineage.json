@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+  "kind": "file",
+  "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d",
+  "normalizedSha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d",
+  "encoding": "utf8-lf",
+  "bytes": 20231,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/turn-tools.ts",
+    "blob": "a73ed30aae051e525811d4749149f6473bd0888c",
+    "normalizedSha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/turn-tools.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

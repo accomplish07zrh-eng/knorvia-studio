@@ -1,0 +1,1 @@
+{"mode":"strict current actual compiler emitted","pairedPersistenceGroups":3,"appendedRegressionObservations":2,"limits":"Synthetic writes only; current owners/private helpers exact pinned. Transitive workspace dependencies via tsx. Other branches statically reviewed, ordinary suites/build/native unrun."}

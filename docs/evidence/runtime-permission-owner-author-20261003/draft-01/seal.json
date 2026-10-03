@@ -1,0 +1,68 @@
+{
+  "sealedUtc": "2026-10-02T23:47:22.694783+00:00",
+  "root": "/tmp/knorvia-runtime-permission-author-20261003/draft-01",
+  "stage": "Initial complete candidate closure before curator source comparison",
+  "sourceDerived": true,
+  "curatorSourceExposed": true,
+  "exclusions": [
+    "seal.json",
+    "seal.sha256"
+  ],
+  "files": [
+    {
+      "path": "access-journal.after-authoring.json",
+      "bytes": 3624,
+      "sha256": "53c04ab8cc8b152f59972ba641e5f428e3dc1a06f71e18a6dd6333a025c293ff"
+    },
+    {
+      "path": "access-journal.before-format-completion.json",
+      "bytes": 4158,
+      "sha256": "d06ec36021b85518f44fa2111b34ac3f30e40fb85d58ed12d691950f9fc9f671"
+    },
+    {
+      "path": "access-journal.initial.json",
+      "bytes": 2056,
+      "sha256": "93b42393feda10fbebbd86d081750c937159fcc75d29403c37a4b1b6d72730f7"
+    },
+    {
+      "path": "access-journal.json",
+      "bytes": 5471,
+      "sha256": "38e07ed79617e4095defa166544a2eb33c63a64556680286fac79d41c6c79ecc"
+    },
+    {
+      "path": "author-outcome.txt",
+      "bytes": 913,
+      "sha256": "2fb1d391dfef14cad67f5b9568d86a2c356d46f8ce9615f2f39639b3e32566e3"
+    },
+    {
+      "path": "execution-state.ts",
+      "bytes": 2915,
+      "sha256": "49e66a8dc595c0db77b324cd99db032bc9d2c051ec770e648b2069891b1a6c94"
+    },
+    {
+      "path": "formatter-config.json",
+      "bytes": 3,
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    },
+    {
+      "path": "formatter-output.txt",
+      "bytes": 45,
+      "sha256": "1346bcb17904259c24abc70086fb76ed1a7d2b14aefd07763e514abd34f6c65d"
+    },
+    {
+      "path": "initial/execution-state.ts",
+      "bytes": 2928,
+      "sha256": "65cba3050c9a09e20bcb2c5e9f6d5d3a3e7f5e04a1ed90b8148b08f2c19938c6"
+    },
+    {
+      "path": "initial/permission-full-access.ts",
+      "bytes": 4611,
+      "sha256": "1b4cfc760921453e6df9c24f866aafe27092341bb0bff5203c5e03d33ae5e48c"
+    },
+    {
+      "path": "permission-full-access.ts",
+      "bytes": 4570,
+      "sha256": "13079fc809a9c929f717b3b9ebe99546a29eeeaa706a2ee3823895fabc7e2048"
+    }
+  ]
+}

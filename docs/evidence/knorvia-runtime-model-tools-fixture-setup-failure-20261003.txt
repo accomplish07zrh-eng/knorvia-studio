@@ -1,0 +1,19 @@
+file:///workspace/knorvia-studio/apps/cli/packages/contracts/dist/errors/index.js:34
+    const error = new Error(message);
+                  ^
+
+Error: Cannot transition from processing_input to streaming
+    at createCoreError (file:///workspace/knorvia-studio/apps/cli/packages/contracts/dist/errors/index.js:34:19)
+    at TurnMachineImpl.transition (/workspace/knorvia-studio/apps/cli/packages/core/src/agent/turn-machine.ts:94:13)
+    at TurnMachineImpl.receiveModelResponse (/workspace/knorvia-studio/apps/cli/packages/core/src/agent/turn-machine.ts:136:24)
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-model-tools-safety-20261003.mjs:64:179) {
+  type: 'invalid_turn_phase',
+  code: 'INVALID_TURN_PHASE',
+  cause: undefined,
+  context: { current: 'processing_input', target: 'streaming' },
+  recoverable: true,
+  retryable: false,
+  timestamp: 2026-10-02T21:58:53.203Z
+}
+
+Node.js v24.19.0

@@ -1,0 +1,353 @@
+{
+  "formatVersion": 1,
+  "baseline": "28722857f448dcf21cf66a247030cb136b846f26",
+  "freeze": "8b0736db966a9c278a6739420158eacec8345a28",
+  "implementation": "de0c1f556fc32646b20d72c8eb677113d809e07d",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+    "apps/cli/packages/core/test/may-set-lane-expansion-current.json",
+    "apps/cli/packages/core/test/causality-lane-facts-fixture.ts",
+    "apps/cli/packages/core/test/causality-lane-facts.test.ts",
+    "apps/cli/packages/core/test/causality-lane-facts-contract.json",
+    "specs/knorvia-causality-lane-facts.md",
+    "docs/knorvia-causality-lane-facts-20261001.md",
+    "docs/evidence/knorvia-causality-lane-facts-check-20261001.mjs",
+    "docs/evidence/knorvia-causality-lane-facts-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+      "bytes": 5730,
+      "sha256": "c9318215253c12d45bd26394f50caa66601a6895ef4b38b444f963c1f82d9753"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-current.json",
+      "bytes": 267,
+      "sha256": "1e022b7aa2e5306fc6c4f075790227a425b5e18addf1b058adb8ba626f2d4c7e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-lane-facts-fixture.ts",
+      "bytes": 5978,
+      "sha256": "609e7a703335467e806a492c1758f069cdc06bdfd79cb7bfc220f11c0079b10a"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-lane-facts.test.ts",
+      "bytes": 2511,
+      "sha256": "97765b6c6cdc961c48031b3a7b260c4155ac227e209f0cd274c84af0fce570f1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-lane-facts-contract.json",
+      "bytes": 4449,
+      "sha256": "5e31960653fe8555c7856641fb78ad3acfcd55eb717bfb482d8c95afa452e3e0"
+    },
+    {
+      "path": "specs/knorvia-causality-lane-facts.md",
+      "bytes": 3849,
+      "sha256": "3a6484285230d3263f0b514e0d9f43441a338da9d161c861dcbce1c11d7295e3"
+    },
+    {
+      "path": "docs/knorvia-causality-lane-facts-20261001.md",
+      "bytes": 3548,
+      "sha256": "577330a8a472288ead1a1a02f43cb0dab92120e80d1b8ca322f96c1463340616"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-lane-facts-check-20261001.mjs",
+      "bytes": 3656,
+      "sha256": "e0b1431a02dcf6a77de3d340c86b81749a89923b4f7d58790834b7f9c30ef2c4"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.js",
+      "bytes": 5812,
+      "sha256": "a5e676b7c0114ed366253ea3970102758f2cd08c63cc626777bac8a767dd126a"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.d.ts",
+      "bytes": 1179,
+      "sha256": "0e29131a14c0104b949792c25696ee4caded78b5c95eaf4caa088f8c982d8889"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-graph-lanes.d.ts.map",
+      "bytes": 450,
+      "sha256": "1030d65528a81afa0f09df90208af66a19b38094470c5a431193768aa695bcbc"
+    }
+  ],
+  "protected": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+      "bytes": 4383,
+      "sha256": "dfb0e9d9f47155f7db57dfafb4db43bfa2a199dac5b1705a9d40aab51ed5e645"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-graph.ts",
+      "bytes": 27692,
+      "sha256": "ed02abf8778aa1db78609e5d145a8a4a15144ded88a4b0950998fe248cf79c46"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/phase-graph.ts",
+      "bytes": 17996,
+      "sha256": "4f46bf58979e67e58d3d510ed7b646966efb5cfce762c87ccbbf22739e727b91"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/analyze.ts",
+      "bytes": 6595,
+      "sha256": "a70965143a76ddb95dc2ff2e3a08c790e55fcf8db09b0b93d3731014012ee643"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+      "bytes": 4715,
+      "sha256": "f2a8a8c51399042c2b89338ab7b8eb60f8981a8865378c46eb7e5b0684c4f4a8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "bytes": 12385,
+      "sha256": "880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "bytes": 6735,
+      "sha256": "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "bytes": 10187,
+      "sha256": "54df35fb63e294a1b3eb7578071aade84fe78ea765bdc74a49b7bfc650acb83a"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-current.json",
+      "bytes": 267,
+      "sha256": "34377c11cc94304ad0f195a66c37ea6ee14a8c1e2d817af017b591d65b27893f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-baseline.json",
+      "bytes": 6369,
+      "sha256": "9e9d325801c1a6ca2f7d83123a53fc50a40342427abd6ea3a4955bc27d71090d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-contract.json",
+      "bytes": 4065,
+      "sha256": "ef20cf43e15e20504d4e7d1925f485b027af6183caf35e6e140ebbc1a11cd936"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-current.json",
+      "bytes": 267,
+      "sha256": "07f725a1466f9d2f8e0581fa7d2283f6f3eabd3490b4e25670a5b442caf1def8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+      "bytes": 2170,
+      "sha256": "257c22d4857d06d3e72e3c93f640ef1c12efb72c51a2e64ff82914c97dda6359"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-declaration-baseline.json",
+      "bytes": 1321,
+      "sha256": "dc7491fd26226bb90ea3841be0ca7313f61764d6d431c177d0d762ccab9864e6"
+    },
+    {
+      "path": "docs/evidence/knorvia-fanout-cardinality-check-20261001.mjs",
+      "bytes": 4147,
+      "sha256": "6f99d41bbe2ec364a310f8c18fefd26fe194c188bc538e4ccca76833012c4210"
+    },
+    {
+      "path": "docs/evidence/knorvia-fanout-cardinality-20261001.json",
+      "bytes": 10992,
+      "sha256": "ea7a15e22fe7a4fd70faf091d81871030451ce0b7b3a3b66197474d42aba35b5"
+    },
+    {
+      "path": "docs/evidence/knorvia-fanout-cardinality-documentation-20261001.json",
+      "bytes": 10148,
+      "sha256": "f3a8838a066d67852c9432aec209967600acf03c15d5c94cc9b4139bee9ef1da"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-baseline.json",
+      "bytes": 9689,
+      "sha256": "211a58a6d6737900ca4f6331992e8e8ce2e27e8739880a076d8e360c5d6a704b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-contract.json",
+      "bytes": 1339,
+      "sha256": "a6e2be32ed257022852a9ce8078d5577607c7903c0822762cd703ab2e380b2e3"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion.test.ts",
+      "bytes": 3984,
+      "sha256": "352c52d80d3bae90253a8ed7c315c859cdec76349d92d583b434bc4d2782620c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/may-set-lane-expansion-fixture.ts",
+      "bytes": 8919,
+      "sha256": "39b9a26b77e0c8715d3cbd835e65be76703ceb9e52cf85c56b1f5ecf7d1f5335"
+    }
+  ],
+  "immutableFreeze": [
+    "specs/knorvia-causality-lane-facts.md",
+    "apps/cli/packages/core/test/causality-lane-facts-fixture.ts",
+    "apps/cli/packages/core/test/causality-lane-facts.test.ts",
+    "apps/cli/packages/core/test/causality-lane-facts-contract.json"
+  ],
+  "declarationSha256": "0e29131a14c0104b949792c25696ee4caded78b5c95eaf4caa088f8c982d8889",
+  "upstream": {
+    "blob": "3ea22f6ef15e14fbf1dffdc98e7b3c989bcf183d",
+    "path": "apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-graph-lanes.ts",
+    "normalizedSha256": "34999bfbe0c10983adf3d62cd9989cf6a288456d03d6530e3e82668f754d7846",
+    "verification": "Local recorded publisher bytes; association from inventory, no new remote/authorship verification"
+  },
+  "design": {
+    "new": "Ordered-key initial snapshot or value join; a new fact record projects joined values while one internally owned phase set accumulates union",
+    "retained": "Map key/group order, first shallow clone, rank/exact/certainty vocabulary and dominance rules, delete-field behavior and conventional Set union; unchanged expansion/weakest",
+    "sourceExposure": true,
+    "wholeFileRights": "Unresolved; retained compatibility expression and prefix prose require independent review, no grant"
+  },
+  "checks": {
+    "freeze": {
+      "factsSource": 5,
+      "factsEmitted": 5
+    },
+    "final": {
+      "factsSource": 5,
+      "factsEmitted": 5,
+      "maySetSource": 5,
+      "maySetEmitted": 5,
+      "sourceRunTotal": 10,
+      "emittedRunTotal": 10,
+      "fail": 0
+    },
+    "selectedExistingConsumer": {
+      "source": 1,
+      "emitted": 1,
+      "fail": 0
+    },
+    "overlap": "Same groups per mode; graph consumer coverage overlaps, subcases are not additional totals",
+    "subcases": {
+      "factSets": 7,
+      "getterIteratorControls": 4,
+      "weakestReceiverControls": 2,
+      "actualPhaseJumpScripts": 2
+    },
+    "types": {
+      "typescript": "6.0.2",
+      "ownerRoots": 1,
+      "newTestRoots": 2,
+      "diagnostics": 0
+    },
+    "emission": {
+      "written": 3,
+      "scope": "Owner JS/declaration/map"
+    },
+    "lint": "Configured owner/owned source+tests+checker: 0 errors/warnings",
+    "format": "Owned final source/fixtures/evidence pass",
+    "architecture": "No violations"
+  },
+  "preservedFailure": {
+    "log": {
+      "path": "/tmp/knorvia-lane-facts-freeze-types.log",
+      "bytes": 410,
+      "sha256": "42d1b72c5745e0109c9a7ad14cc056101ce0f610ce3cfed8d02037d292a225e0"
+    },
+    "cause": "Synthetic case table inferred rows without toPhases",
+    "correction": "Explicit synthetic case table shape; observations/assertions unchanged"
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-lane-facts-freeze-generation.log",
+      "bytes": 70,
+      "sha256": "e8590ea1bd56bed03fef66ff7360d945def0d43a7f353c6827d62387b1db957b"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-freeze-source.log",
+      "bytes": 578,
+      "sha256": "7f8a4e8e873430842d5d974bfc4b2563d09a42066fdc8f699811729d222be3e9"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-freeze-emitted.log",
+      "bytes": 579,
+      "sha256": "3d9141c1cbadbd7dcb6e732dd34dbd981a001d8c0b802fd0ce7cc67eff68805a"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-freeze-types.log",
+      "bytes": 410,
+      "sha256": "42d1b72c5745e0109c9a7ad14cc056101ce0f610ce3cfed8d02037d292a225e0"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-freeze-corrected-types.log",
+      "bytes": 197,
+      "sha256": "107ba840832ccb49f234206ee6cdb2915435ac2975c766347a74cb65f8cba9b9"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-freeze-lint.log",
+      "bytes": 90,
+      "sha256": "fe027030cd3e82704d8a67caf66739d922a3200c3e9ba134038c7350c4a15f55"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-emit.log",
+      "bytes": 414,
+      "sha256": "ba7aa16f5ea7c3be700d49c64020dda15982a637897459af10e7bbadd5e0a65f"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-source.log",
+      "bytes": 1077,
+      "sha256": "fe45e309782aa1677c45fc8d6670464db56616e889941e6d1e090b7b3649a088"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-emitted.log",
+      "bytes": 1077,
+      "sha256": "05fbfbce30ec73311b9c7ef9c02b757af37f88570edfbea5dbf0d68b7a113e66"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-related-source.log",
+      "bytes": 209,
+      "sha256": "df063ae0a75cfbe4c413e7985862dd602847499dcb476aeee5f222d03f3caf56"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-related-emitted.log",
+      "bytes": 209,
+      "sha256": "552dd4308235cdd5a7341fb04626acedb7ab9b757b775bef7466adf225aebc51"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-types.log",
+      "bytes": 197,
+      "sha256": "107ba840832ccb49f234206ee6cdb2915435ac2975c766347a74cb65f8cba9b9"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-configured-lint.log",
+      "bytes": 89,
+      "sha256": "24c9149d7b7f12b092632827c76b44cd06d10d46ba33a1dbba74117d082a7fe5"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-owned-lint.log",
+      "bytes": 90,
+      "sha256": "44b1afe67ab5777ee102b58ab4acf33a2a11f098ddfe516d4b7efdc07c59f079"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-format.log",
+      "bytes": 112,
+      "sha256": "818a183ce8c8d328b5d41a5734ddea5000c3a28f739c3f40c32f8984b4e207ea"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-final-architecture.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "path": "/tmp/knorvia-lane-facts-evidence-lint.log",
+      "bytes": 89,
+      "sha256": "ab3e8e25790158c3a199b7beea61b3789d2f0fd2a9e1eaf1991e873852554d23"
+    }
+  ],
+  "limits": [
+    "No full suite/build/native/Windows/browser interaction acceptance",
+    "No arbitrary builtins/large exotic matrix or timing benchmark",
+    "No workflow/provider/user data execution",
+    "Root owns final expression/licence and aggregate acceptance"
+  ],
+  "next": "Discretionary file prose documentary checkpoint; do not alter short constrained glue for novelty",
+  "commands": [
+    "node --import tsx --test apps/cli/packages/core/test/causality-lane-facts.test.ts apps/cli/packages/core/test/may-set-lane-expansion.test.ts",
+    "Same in KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 mode",
+    "node --import tsx --test --test-name-pattern='actual phase, causality and CLI quotient consumers' apps/cli/packages/core/test/causality-reduction.test.ts",
+    "Same selected group in emitted mode",
+    "node --import tsx docs/evidence/knorvia-causality-lane-facts-check-20261001.mjs [--local-logs]"
+  ]
+}

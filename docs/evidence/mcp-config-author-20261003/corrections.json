@@ -1,0 +1,12 @@
+{
+  "curatorSourceExposed": true,
+  "postDebugLifetimeRedPreserved": true,
+  "corrections": [
+    "Return current MCP startup field after publication rather than earlier tracked local.",
+    "Keep captured authority read before fresh Set construction.",
+    "Retain falsy model-selection getter read count, raw WebSearch capability truthiness and current context-builder return field."
+  ],
+  "packetGap": "Post-debug lifetime field replacement was absent from author contract; supplement is post-seal.",
+  "policyChange": false,
+  "retainedExpression": "Fixed strings/types/field shapes, standard delegates, short-circuit guards and native async publication/permission combinations remain constrained or closely corresponding; no automatic independent-expression/MIT claim."
+}

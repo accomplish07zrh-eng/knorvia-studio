@@ -1,0 +1,14 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "file-rewind.ts": "f357278a5d9e00ebbd7184cb4dccecdcaba3c34fdbd4d07a0f2b14989442b6fb",
+    "file-rewind-planning.ts": "876ff667f1fbe97fb0af3bc4c23ffcacf71014393a97e86f5591de25011d80b2",
+    "file-rewind-storage.ts": "6270d78ea6eb56e9ac2e8432a55312ddb69c1726b4aa289dfa783d7ed2ff5163",
+    "access.json": "d5cacd2a48ce3519379484012fe98c3b411858b6504383b2ba31e96c8d7d473e"
+  },
+  "journalReadBeforeSeal": true,
+  "comparisonPerformed": false,
+  "sourceAuthorization": "Five initial body-free inputs plus parent-authorized clarification.md",
+  "verification": "Digest and physical line counts only; no tests or compilation",
+  "remainingAmbiguities": []
+}

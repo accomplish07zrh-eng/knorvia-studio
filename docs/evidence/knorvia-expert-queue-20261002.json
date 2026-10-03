@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "baseCommit": "c5a983668e9d0e93c3ea56785f8c0218cf93abf4",
+  "batches": {
+    "runtime-commands": [
+      "runtime",
+      "retry-state"
+    ],
+    "parser-normalization": [
+      "parsers/json",
+      "parsers/graph-seed",
+      "parsers/node-prompts",
+      "parsers/planner-result",
+      "parsers/critic"
+    ],
+    "execution-delivery": [
+      "scheduled-phase",
+      "failures"
+    ],
+    "prompt-rendering": [
+      "prompts",
+      "formatters"
+    ]
+  },
+  "preserved": [
+    "critic-loop",
+    "graph-artifacts",
+    "phase-runner",
+    "run-loop",
+    "runtime-context"
+  ],
+  "excluded": {
+    "types.ts": "Pure public type declarations and aliases; no executable owner to reconstruct.",
+    "ids.ts": "29-line fixed naming, bounded sanitization, terminal-status and task-ID projection glue. Conventional constrained helpers; leave unchanged rather than rename. Exact source hash recorded, no clearance claim."
+  },
+  "excludedHashes": {
+    "types.ts": "80bd5a6caacdd6958dd252622241d4438e3ed420ef16cd28eae68f90829cf305",
+    "ids.ts": "c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b"
+  },
+  "restriction": "E owns workflow/scheduler except existing A graph modules. This queue changes workflow/expert only. No cross-lane merge or source adoption."
+}

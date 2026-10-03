@@ -1,0 +1,23 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "apiEqual": true,
+  "apiProof": {
+    "historical": {
+      "executeTurnCommand": [
+        "(this: AgentRuntimeInternal, input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined, startReservation?: ActiveTurnStartReservation | undefined): Promise<TurnResult>"
+      ]
+    },
+    "current": {
+      "executeTurnCommand": [
+        "(this: AgentRuntimeInternal, input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined, startReservation?: ActiveTurnStartReservation | undefined): Promise<TurnResult>"
+      ]
+    }
+  },
+  "modules": [
+    "apps/cli/packages/core/src/runtime/methods/turn-command-data.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-command-state.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn.ts"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "batch": "prompt-rendering",
+  "files": {
+    "prompts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/prompts.ts",
+        "sha256": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/prompts.js",
+        "sha256": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/prompts.d.ts",
+        "sha256": "e8e399069f918a330fc4d92ec4207153b5609fb0265f82be11406186e63f99b1"
+      }
+    },
+    "formatters": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/formatters.ts",
+        "sha256": "66e8432c5e9895bc237fcdd6874200f7ebf462685a4f12a10d62130a90a3c089"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/formatters.js",
+        "sha256": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/formatters.d.ts",
+        "sha256": "279b9f7c0f9cee87dbf89de82f9ea58b67e746686c75450f8ed4cf47429dd5e2"
+      }
+    }
+  },
+  "draft": "b7b53ef exact draft before source comparison; author read only functional/API packet. Fixed prose deliberately in packet.",
+  "correction": "Source-exposed curator restores list spreading for report sections after 1f13a83 red proof: empty sections added three LF bytes in original draft. Original 163-byte historical case unchanged.",
+  "retained": "All public/model-facing prose, JSON example, graph shape, lookup/identity rules and standard render joins/maps intentionally retained contract material. Substantial body expression similarities remain; no whole-file independence/rights conclusion.",
+  "checks": {
+    "scopeTypes": "0 diagnostics",
+    "publicAPI": "2/2 equal",
+    "lint": "0 warnings/errors",
+    "format": "2 files",
+    "architecture": "0 violations",
+    "concreteSafety": "one actual compiler-emitted artifact check, one empty-section observation; wrong/missing artifacts reject"
+  },
+  "limits": [
+    "ordinary behavioral groups/builds/full suites/native acceptance skipped",
+    "no current runtime-commands JS build: prior dist remains historical, never represented as current implementation",
+    "dependencies via tsx, not all emitted",
+    "prior accepted consumer pins/oracles retained; root aggregate selectors/acceptance deferred"
+  ]
+}

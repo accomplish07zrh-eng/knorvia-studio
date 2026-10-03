@@ -1,0 +1,268 @@
+{
+  "formatVersion": 1,
+  "baseline": "886523c223ac23a6ccb2bdd22dbdd4c90e5bdc5f",
+  "freeze": "bd7baa4cee805dc42f2a2241a186883d60ddb96b",
+  "implementation": "64f4b7716b25f60818c76b43351605cd25204653",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+    "apps/cli/packages/core/test/causality-reduction-current.json",
+    "apps/cli/packages/core/test/causality-reduction.test.ts",
+    "apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
+    "apps/cli/packages/core/test/causality-reduction-target-fixture.ts",
+    "apps/cli/packages/core/test/causality-reduction-target-baseline.json",
+    "specs/knorvia-causality-reduction-target.md",
+    "docs/evidence/knorvia-causality-reduction-target-cost-20261001.mjs",
+    "docs/evidence/knorvia-causality-reduction-target-cost-20261001.json",
+    "docs/evidence/knorvia-causality-reduction-target-check-20261001.mjs",
+    "docs/knorvia-causality-reduction-target-handoff-20261001.md",
+    "docs/evidence/knorvia-causality-reduction-target-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+      "bytes": 4383,
+      "sha256": "dfb0e9d9f47155f7db57dfafb4db43bfa2a199dac5b1705a9d40aab51ed5e645"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-current.json",
+      "bytes": 267,
+      "sha256": "34377c11cc94304ad0f195a66c37ea6ee14a8c1e2d817af017b591d65b27893f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction.test.ts",
+      "bytes": 5842,
+      "sha256": "6f1e8a8e717582cd5b81075adddd6a908d49896c4e67c2b91fdd8a0850955c72"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
+      "bytes": 5539,
+      "sha256": "237bd088a937095944cf7313ea3d488fee2ec2555b55a5b582b1f945d445fcad"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-target-fixture.ts",
+      "bytes": 1592,
+      "sha256": "05758fef8a0dbe2ecc5d02ad2d9b4009d2ea39f966a477cd671064edd58aa7c6"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-target-baseline.json",
+      "bytes": 8665,
+      "sha256": "2dfc375c32fd063e78a810f585422a9e4c0f09be3dab6b94c9923dec73aee813"
+    },
+    {
+      "path": "specs/knorvia-causality-reduction-target.md",
+      "bytes": 2327,
+      "sha256": "49ef71484ec0c2cf89afb0c7e2c965053e07a2247d0a81f8ad3d13eceb3f9a2c"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-reduction-target-cost-20261001.mjs",
+      "bytes": 3905,
+      "sha256": "97dbfa1efda52988037e8c119025c227bc7c734b62bc4fd1dfcfe5ba086338d8"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-reduction-target-cost-20261001.json",
+      "bytes": 3640,
+      "sha256": "e78eee1e3b9bdcc2d817ef1872b741d7cafbd3890054641a5cd0bc0d0e72f37d"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-reduction-target-check-20261001.mjs",
+      "bytes": 3190,
+      "sha256": "048ae7a5a0da24c107fe3e6ed961a231013c6383053d22358980213452a878d0"
+    },
+    {
+      "path": "docs/knorvia-causality-reduction-target-handoff-20261001.md",
+      "bytes": 3945,
+      "sha256": "c5b6369115d85962a5103758e18b143857238ce4126637708a96cf0fba9e4516"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.js",
+      "bytes": 4137,
+      "sha256": "a48faa3525505074c8607ae0fdff90e6171311062864e0411346c752c27d5f4f"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.d.ts",
+      "bytes": 1040,
+      "sha256": "ea2b93a79cd12bdb0aa120b57009a5cec3930b310409e9b13e7907a75c7a738b"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.d.ts.map",
+      "bytes": 573,
+      "sha256": "ad0c81c1dbf277666d83c45bf7eb74d76988c120ce3d1e2dee708440b23fb6b8"
+    }
+  ],
+  "immutableFreeze": [
+    "apps/cli/packages/core/test/causality-reduction.test.ts",
+    "apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
+    "apps/cli/packages/core/test/causality-reduction-target-fixture.ts",
+    "apps/cli/packages/core/test/causality-reduction-target-baseline.json",
+    "specs/knorvia-causality-reduction-target.md",
+    "docs/evidence/knorvia-causality-reduction-target-cost-20261001.mjs"
+  ],
+  "unchanged": [
+    "apps/cli/packages/core/test/causality-reduction-baseline.json",
+    "apps/cli/packages/core/test/causality-reduction-contract.json",
+    "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+    "apps/cli/packages/core/test/causality-reduction-declaration-baseline.json",
+    "apps/cli/packages/core/test/causality-reduction-documentation-proof.ts",
+    "specs/knorvia-causality-reduction-owner.md",
+    "specs/knorvia-causality-reduction-documentation.md",
+    "docs/knorvia-causality-reduction-handoff-20261001.md",
+    "docs/knorvia-causality-reduction-documentation-handoff-20261001.md",
+    "docs/evidence/knorvia-causality-reduction-20261001.json",
+    "docs/evidence/knorvia-causality-reduction-documentation-20261001.json",
+    "docs/evidence/knorvia-causality-reduction-check-20261001.mjs",
+    "docs/evidence/knorvia-causality-reduction-documentation-check-20261001.mjs"
+  ],
+  "design": {
+    "change": "Optional target in existing queue closure, tested with target !== undefined. Check seeds first; stop after a live/allowed/nonexcluded new target is admitted.",
+    "queries": "Forward witnesses and carry suffixes pass target; carry prefixes omit it and remain complete.",
+    "preserved": "Single identity/liveness/adjacency owner, forward self guard, greedy order, references/aliases, full prefixes, empty seeds, default kinds and public documentation/API.",
+    "documentaryMigration": "Exact pinned finished 886523c source/JS now owns historical syntax-identity comparison. All original assertions remain; current runtime imports/pins/API/comments remain independent live checks."
+  },
+  "checks": {
+    "beforeCornerProof": {
+      "corners": 4,
+      "implementations": 2,
+      "comparisons": 8,
+      "pass": 8
+    },
+    "final": {
+      "source": {
+        "groups": 12,
+        "pass": 12,
+        "fail": 0
+      },
+      "actualEmitted": {
+        "groups": 12,
+        "pass": 12,
+        "fail": 0
+      },
+      "components": "Nine reducer/quotient groups plus three documentary groups in each mode; modes overlap. Four new corners appended inside existing groups, not extra totals.",
+      "runs": "One final source and one final actual-emitted run; no aggregate suite/build"
+    },
+    "types": {
+      "typescript": "6.0.2",
+      "ownerRoots": 1,
+      "coreTestRoots": 5,
+      "diagnostics": 0
+    },
+    "emission": {
+      "written": 3,
+      "diagnostics": 0,
+      "config": "Original dynamic-workflow config; reducer JS/declaration/map only"
+    },
+    "lint": {
+      "configuredSourceFiles": 1,
+      "ownedFiles": 5,
+      "rules": 94,
+      "errors": 0,
+      "warnings": 0
+    },
+    "format": "12 owned files checked before receipt commit",
+    "architecture": "Owned changed check before commit; no new violations",
+    "failures": "No new failing run; prior harness failure logs remain preserved"
+  },
+  "cost": {
+    "artifact": "docs/evidence/knorvia-causality-reduction-target-cost-20261001.json",
+    "n": 100,
+    "mode": "actual-emitted",
+    "warmupsPerImplementationRecipe": 1,
+    "measuredCallsPerImplementationRecipe": 5,
+    "totalValidatedOutputs": 72,
+    "assertions": "Fresh ordinary records every call. Deep ordered values, each original reference and strictly ordered input indices checked outside timing.",
+    "mediansMs": [
+      {
+        "recipe": "chain",
+        "original": 0.09656100000006518,
+        "before": 0.12378199999989192,
+        "after": 0.1583860000000641
+      },
+      {
+        "recipe": "chain+skip",
+        "original": 1.1295489999999972,
+        "before": 1.194150000000036,
+        "after": 0.7727229999998144
+      },
+      {
+        "recipe": "dense-DAG",
+        "original": 104.95678700000008,
+        "before": 225.29614200000015,
+        "after": 24.197292999999945
+      },
+      {
+        "recipe": "chain+return-carries",
+        "original": 0.23111100000005536,
+        "before": 1.32354099999975,
+        "after": 0.7067789999996421
+      }
+    ],
+    "limits": "Environment-dependent diagnostic, no timing threshold/product benchmark claim. Chain sample slower. Full-prefix work remains. Display caps are not workload limits."
+  },
+  "preservedFailures": [
+    {
+      "path": "/tmp/knorvia-reduction-freeze-types.log",
+      "sha256": "e0049be81dba12fc67bdd080b78f7e4618a095aa0cebff6298ac3a8a4609f53b"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-documentation-digest-failure.log",
+      "sha256": "c5fc15adf8ed005ea4eddcf2b24e489c0e09bca3e2ddaa4a04e89baf18c691c8"
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/knorvia-reduction-target-corners-before.log",
+      "bytes": 103,
+      "sha256": "3eb76524e65b0f9321a33446a46ed6ece758a0380e27e6f49564f18ac4fe42d9"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-target-emit.log",
+      "bytes": 394,
+      "sha256": "aff1923367a9c6462ec0cb828e6bdccb5615de64d41e28069f18fc001e1ceddf"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-target-source.log",
+      "bytes": 1322,
+      "sha256": "40f2b53b36e9dbc8cb51e6001f30865d637d1cf0fad5ca88818ccad53809f7cb"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-target-emitted.log",
+      "bytes": 1322,
+      "sha256": "bde1396f93faf423e6b3a79092f283c5d86b52ebf1cdc3b16d5283c6f9cd0fda"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-target-types.log",
+      "bytes": 408,
+      "sha256": "250372c1e9a7a0241cf8e4d70e254072eaecfe2c6c2df5245bcc44c86b92435f"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-target-lint.log",
+      "bytes": 179,
+      "sha256": "86607508296e28e623db534cd25d9d96f5867ddc69c6859fd716089c84998ca7"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-target-cost.log",
+      "bytes": 542,
+      "sha256": "d2ac2f84dca6e358a74d8992ee34472dcf09d79c2c630f1c0e962dcc0ac8e35a"
+    }
+  ],
+  "commands": [
+    "node --import tsx --test apps/cli/packages/core/test/causality-reduction.test.ts apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/causality-reduction.test.ts apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx docs/evidence/knorvia-causality-reduction-target-cost-20261001.mjs",
+    "node --import tsx docs/evidence/knorvia-causality-reduction-target-check-20261001.mjs"
+  ],
+  "retained": {
+    "sourceExposure": true,
+    "currentCommentsAndDeclaration": "Byte-identical to finished documentary checkpoint; no old prose restoration.",
+    "expression": "Accepted identity/liveness/adjacency owner retained; small target-stop control added. Fixed APIs/kind rank/eligibility/default labels and conventional Map/Set/queue glue remain disclosed.",
+    "rights": "Existing notices/contributor obligations remain. No header/registry grant, whole-file MIT decision or publication."
+  },
+  "limits": [
+    "Ordinary finite supported records and four targeted corner additions, no broad exotic-input matrix",
+    "No aggregate suite/build or native/Windows/browser acceptance; root owns integration gates",
+    "No graph bounds/fold/pins, other-lane/shared/runtime/Host/licensing/dependency/CI/security/settings edits",
+    "No real providers/network/workflows/user data/files or credentials"
+  ]
+}

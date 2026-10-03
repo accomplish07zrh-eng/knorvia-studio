@@ -1,0 +1,156 @@
+{
+  "formatVersion": 1,
+  "kind": "restricted-event-log-primitive-packet-and-predecessor-freeze",
+  "baseline": "c235d0a670d143527018e6f46b8fac00aac2b9d7",
+  "freezeCommit": "f3302dffd2b597703da465fb4510ca7132624cdd",
+  "productionChanges": 0,
+  "candidateCode": false,
+  "nativeAuthorRetries": 0,
+  "scope": {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+    "authorMembers": ["constructor", "timestamp", "appendGraphStatus", "emitEvent"],
+    "retainedDependencyMembers": ["appendCollectionRecord", "appendExpansionRecords"],
+    "reason": "Capture/clock/status-record/event publication is a coherent primitive owner; two collection methods remain byte-preserved in place through the named private port/public timestamp seam. No whole-file reconstruction claim."
+  },
+  "packetFiles": [
+    {
+      "path": "docs/knorvia-workflow-events-author-inputs-20261002/behavior.md",
+      "sha256": "db98df52f2a4e47757cfe0dda399d89a2af6ecb9c30b86849d20c53e2d63aa1e",
+      "bytes": 4911
+    },
+    {
+      "path": "docs/knorvia-workflow-events-author-inputs-20261002/inputs.json",
+      "sha256": "80bdb28f2d5f1778434870e4eec8436cbb719048bc1a7d473c7211e2d9e7bbc6",
+      "bytes": 3087
+    },
+    {
+      "path": "docs/knorvia-workflow-events-author-inputs-20261002/packet.json",
+      "sha256": "b0961b52953c9fceeab168d2e04c29b1b8988eb682c9ab85d1484e939e255b64",
+      "bytes": 2360
+    }
+  ],
+  "borrowedDeclarations": [
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/api.d.ts",
+      "sha256": "62e80e5ad71227b526f6249b1acce51db76b78abfe7ef8e05f0b3bf839489909",
+      "bytes": 4855
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/dependencies.d.ts",
+      "sha256": "e4c7d07742cfc9444650c8ba96b14634e66612fa08325cf33539ae0ec26b3664",
+      "bytes": 3984
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/supporting-types.d.ts",
+      "sha256": "3b630e1e552ef6a9bec3c0ffb6cfd7b618395ea2272cbaf5323d30431fd1b01d",
+      "bytes": 5674
+    },
+    {
+      "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/workflow-types.d.ts",
+      "sha256": "91c9a6680cc92d9972954c7f24a53a40c0b2ee18445af43e606d007fd52385a3",
+      "bytes": 11328
+    }
+  ],
+  "freezeFiles": [
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-baseline.json",
+      "sha256": "42587916188ac52126294bbf248edb456461e9f6b95092756b9ec1bb13f84876",
+      "bytes": 4636
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-fixture.ts",
+      "sha256": "039f44e03ef5bf4a56744cfe18581562847d13d3bcd096d2bd37cc4586218e9c",
+      "bytes": 2282
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+      "sha256": "d27bebe409ca3b8515fbf26300d96650621dbf7b52d4fdf17915cf841d3756cf",
+      "bytes": 10476
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-pins.json",
+      "sha256": "340e14254fbbe5fce2a123065448b2baedcaed7f8f2b36b6e52d44b5d8a13a05",
+      "bytes": 1767
+    },
+    {
+      "path": "docs/knorvia-workflow-events-author-handoff-20261002.md",
+      "sha256": "a60ded448500069a96b1101e0ea74b002cc5365980d0dcbc425fa4f145db627f",
+      "bytes": 3819
+    },
+    {
+      "path": "specs/knorvia-workflow-events-author-packet-20261002.md",
+      "sha256": "7cc03d62e1058edbd26cc1738e2fecc80f975a50f92ac3c2652a3ff084d8e1ca",
+      "bytes": 1984
+    }
+  ],
+  "priorEvidence": [
+    {
+      "path": "docs/evidence/knorvia-workflow-node-publication-20261002.json",
+      "sha256": "df89ddc1bc49ba8f877a58203583882fffade7ee698439ada06511538c28c8c3",
+      "bytes": 9960
+    },
+    {
+      "path": "docs/evidence/knorvia-workflow-scheduler-observations-20261002.json",
+      "sha256": "f31148ec9520c628573408fd7af1cd7235c1da094d2957420f26a7bec4f6c64f",
+      "bytes": 14170
+    },
+    {
+      "path": "docs/evidence/knorvia-workflow-scheduler-correction-review-20261002.json",
+      "sha256": "a7c98a930a3a62caf7bb9c58bb44740624c5942028fb373eaa360b60a82bf142",
+      "bytes": 13005
+    }
+  ],
+  "portableLogs": {
+    "path": "docs/evidence/knorvia-workflow-event-log-freeze-20261002.logs.json",
+    "sha256": "7869917d08361dd45fc9bbd5fcd1c93909ad1b12dccda1c7c1cc55e8043060ae",
+    "bytes": 22778
+  },
+  "sourceFacts": {
+    "classification": "upstream-modified",
+    "review": null,
+    "sourceSha256": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+    "publisherPath": "apps/zcode-cli/packages/core/src/workflow/scheduler/events.ts",
+    "publisherBlob": "e56e3e38a3033430f4869b00d37904a136bd6199",
+    "publisherNormalizedSha256": "a59ce595ca00d57ea421809f872dbe82eb274d36028eeb8b15f81bb7dabb0b4e",
+    "verification": "Existing lane inventory metadata; no new publisher-byte acquisition"
+  },
+  "validation": {
+    "sourceGroups": 4,
+    "emittedGroups": 4,
+    "distinctBehaviorGroups": 3,
+    "selectorGroupsPerMode": 1,
+    "strictArtifactBindings": 15,
+    "wrongMissingControlsPerMode": 10,
+    "sourceEmittedObservationEquality": true,
+    "scopedCompiler": {
+      "node": "v24.19.0",
+      "typescript": "6.0.2",
+      "roots": 7,
+      "diagnostics": 0,
+      "publicMembers": 6,
+      "borrowedDeclarationBodies": 0,
+      "borrowedDeclarationInitializers": 0,
+      "borrowedParsedComments": 0,
+      "publicAPIShapeEqual": true
+    },
+    "ownedLint": {
+      "files": 2,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": "9 freeze files passed",
+    "architecture": "changed cli scope0violations/0baseline/0new",
+    "historicalReuse": "Existing scheduler/node-publication observations reused only; no replay/additive differential coverage"
+  },
+  "sourceExposure": "Curator read exact predecessor/callers/fixtures. Author receives only three new packet inputs and four existing digest-bound declarations; no implementation/compiled/test/history bodies. Source-derived handoff, no absolute clean-room claim.",
+  "retainedMaterial": "Existing API/type/protocol vocabulary, fixed record fields and untouched collection members. No header/registry or whole-file MIT grant.",
+  "limits": [
+    "Current executor read succeeds, but Node24.19.0 differs from mise pinned24.14.0; no pinned-node install/settings change attempted",
+    "Earlier /tmp scoped proof script unavailable after reconnect; committed historical artifacts/receipts unchanged, not recreated",
+    "No product build/full suite/native/platform/live/provider/data or security/settings actions",
+    "Arbitrary hostile getter/thenable matrix not established; constructor-read-stop/Date receiver/native status-await rules are source-derived, not separately probed"
+  ],
+  "remainingBlocker": null,
+  "licenceGrant": null
+}

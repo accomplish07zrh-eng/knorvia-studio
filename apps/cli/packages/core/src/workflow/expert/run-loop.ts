@@ -18,136 +18,25 @@ import { runScheduledPhase } from "./scheduled-phase.js";
 import type { ExpertWorkflowCommandResult, ExpertWorkflowRunOptions } from "./types.js";
 import type { ExpertWorkflowRunSnapshot, WorkflowPhaseDefinition } from "@knorvia/contracts";
 
-export async function continueRun(
-  ctx: ExpertWorkflowRuntimeContext,
-  initialSnapshot: ExpertWorkflowRunSnapshot,
-  options: ExpertWorkflowRunOptions,
-): Promise<ExpertWorkflowCommandResult> {
-  let snapshot = ctx.updateSnapshot(initialSnapshot, {
-    startedAt: initialSnapshot.startedAt ?? ctx.timestamp(),
-    status: "running",
-  });
-
-  try {
-    for (const phaseId of ctx.definition.phaseOrder) {
-      const phaseDefinition = ctx.getPhaseDefinition(phaseId);
-      if (phaseDefinition.behavior === "complete") {
-        snapshot = await completeRun(ctx, snapshot, phaseDefinition, options.abortSignal);
-        break;
-      }
-
-      const phase = snapshot.phases.find((item) => item.phase === phaseDefinition.phase);
-      if (phase?.status === "completed") continue;
-      switch (phaseDefinition.behavior) {
-        case "scheduled_graph":
-          snapshot = await runScheduledPhase(ctx, snapshot, phaseDefinition, options);
-          break;
-        case "critic":
-          snapshot = await runFinalCriticLoop(ctx, snapshot, phaseDefinition, options);
-          break;
-        case "agent": {
-          const phaseRun = await runPhase(ctx, snapshot, phaseDefinition, options);
-          snapshot = phaseRun.snapshot;
-          snapshot = await seedGraphFromPhaseArtifact(
-            ctx,
-            snapshot,
-            phaseDefinition,
-            phaseRun.response,
-            options.abortSignal,
-          );
-          snapshot = await updateNodePromptsFromPhaseArtifact(
-            ctx,
-            snapshot,
-            phaseDefinition,
-            phaseRun.response,
-            options.abortSignal,
-          );
-          break;
-        }
-      }
-    }
-    return {
-      reportPath: snapshot.reportPath,
-      response: formatExpertWorkflowCompletion(snapshot),
-      runId: snapshot.runId,
-      snapshot,
-      status: snapshot.status,
-      traceId: snapshot.traceId,
-    };
-  } catch (error) {
-    const latest =
-      (await ctx.store.readRun(
-        snapshot.runId,
-        options.abortSignal?.aborted ? undefined : { signal: options.abortSignal },
-      )) ?? snapshot;
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    if (options.abortSignal?.aborted) {
-      if (latest.status === "cancelled") {
-        return {
-          response: formatExpertWorkflowStatus(latest),
-          runId: latest.runId,
-          snapshot: latest,
-          status: latest.status,
-          traceId: latest.traceId,
-        };
-      }
-      const cancelRepair = cancelWorkflowSnapshot(latest, {
-        reason: errorMessage,
-        timestamp: ctx.timestamp(),
-      });
-      const cancelled = cancelRepair.snapshot;
-      await ctx.store.writeSnapshot(cancelled);
-      await ctx.appendLifecycleGraphChanges(cancelled, cancelRepair.nodeChanges);
-      await ctx.appendEvent(cancelled.runId, "run_cancelled", {
-        message: errorMessage,
-        payload: lifecyclePayload(cancelRepair),
-      });
-      return {
-        response: formatExpertWorkflowStatus(cancelled),
-        runId: cancelled.runId,
-        snapshot: cancelled,
-        status: cancelled.status,
-        traceId: cancelled.traceId,
-      };
-    }
-
-    const paused = pauseRunForFailure(ctx, latest, error, errorMessage);
-    await ctx.store.writeSnapshot(paused, { signal: options.abortSignal });
-    await ctx.appendEvent(paused.runId, "workflow_paused", {
-      message: errorMessage,
-      payload: compactWorkflowPayload({
-        failureKind: paused.failure?.kind,
-        retryable: paused.failure?.retryable,
-      }),
-      phase: paused.currentPhase,
-      signal: options.abortSignal,
-    });
-    return {
-      response: `${formatExpertWorkflowStatus(paused)}\n\nPaused: ${errorMessage}`,
-      runId: paused.runId,
-      snapshot: paused,
-      status: paused.status,
-      traceId: paused.traceId,
-    };
-  }
-}
-
 async function completeRun(
   ctx: ExpertWorkflowRuntimeContext,
-  snapshot: ExpertWorkflowRunSnapshot,
+  current: ExpertWorkflowRunSnapshot,
   definition: WorkflowPhaseDefinition,
   signal?: AbortSignal,
 ): Promise<ExpertWorkflowRunSnapshot> {
-  const report = buildReport(snapshot);
-  const written = await ctx.store.writeReport(snapshot.runId, report, { signal });
-  const completedPhase = ctx.updatePhase(snapshot, definition.phase, {
+  const report = buildReport(current);
+  const written = await ctx.store.writeReport(current.runId, report, {
+    signal,
+  });
+  const phaseProjection = ctx.updatePhase(current, definition.phase, {
     artifactPath: written.relativePath,
     completedAt: ctx.timestamp(),
     startedAt: ctx.timestamp(),
     status: "completed",
   });
-  const completed = ctx.addArtifact(
-    ctx.updateSnapshot(completedPhase, {
+  // 写入端返回的路径在投影时仍可变化；保留逐次读取和方法求值顺序。
+  const result = ctx.addArtifact(
+    ctx.updateSnapshot(phaseProjection, {
       completedAt: ctx.timestamp(),
       reportPath: written.relativePath,
       status: "completed",
@@ -160,27 +49,131 @@ async function completeRun(
       phase: definition.phase,
     },
   );
-  await ctx.store.writeSnapshot(completed, { signal });
-  await ctx.appendGraphStatus(completed, definition.phase, "completed", signal);
-  await ctx.appendEvent(completed.runId, "run_completed", {
+  await ctx.store.writeSnapshot(result, { signal });
+  await ctx.appendGraphStatus(result, definition.phase, "completed", signal);
+  await ctx.appendEvent(result.runId, "run_completed", {
     message: `${ctx.definition.title} completed.`,
     signal,
   });
-  return completed;
+  return result;
 }
 
-function pauseRunForFailure(
+export async function continueRun(
   ctx: ExpertWorkflowRuntimeContext,
-  snapshot: ExpertWorkflowRunSnapshot,
-  error: unknown,
-  message: string,
-): ExpertWorkflowRunSnapshot {
-  const activity = latestWorkflowActivity(snapshot);
-  const failure = workflowFailureFromError(error, message, activity);
-  return ctx.updateSnapshot(snapshot, {
-    failure,
-    pauseReason: failure.message,
-    recoveryActions: workflowRecoveryActions(failure),
-    status: "paused",
+  initialSnapshot: ExpertWorkflowRunSnapshot,
+  options: ExpertWorkflowRunOptions,
+): Promise<ExpertWorkflowCommandResult> {
+  let current = ctx.updateSnapshot(initialSnapshot, {
+    startedAt: initialSnapshot.startedAt ?? ctx.timestamp(),
+    status: "running",
   });
+
+  try {
+    for (const phaseId of ctx.definition.phaseOrder) {
+      const definition = ctx.getPhaseDefinition(phaseId);
+      if (definition.behavior === "complete") {
+        current = await completeRun(ctx, current, definition, options.abortSignal);
+        break;
+      }
+
+      const phase = current.phases.find((candidate) => candidate.phase === definition.phase);
+      if (phase?.status === "completed") {
+        continue;
+      }
+
+      switch (definition.behavior) {
+        case "scheduled_graph":
+          current = await runScheduledPhase(ctx, current, definition, options);
+          break;
+        case "critic":
+          current = await runFinalCriticLoop(ctx, current, definition, options);
+          break;
+        case "agent": {
+          const result = await runPhase(ctx, current, definition, options);
+          current = result.snapshot;
+          current = await seedGraphFromPhaseArtifact(
+            ctx,
+            current,
+            definition,
+            result.response,
+            options.abortSignal,
+          );
+          current = await updateNodePromptsFromPhaseArtifact(
+            ctx,
+            current,
+            definition,
+            result.response,
+            options.abortSignal,
+          );
+          break;
+        }
+      }
+    }
+
+    return {
+      reportPath: current.reportPath,
+      response: formatExpertWorkflowCompletion(current),
+      runId: current.runId,
+      snapshot: current,
+      status: current.status,
+      traceId: current.traceId,
+    };
+  } catch (error) {
+    const loaded =
+      (await ctx.store.readRun(
+        current.runId,
+        options.abortSignal?.aborted ? undefined : { signal: options.abortSignal },
+      )) ?? current;
+    const message = error instanceof Error ? error.message : String(error);
+
+    if (options.abortSignal?.aborted) {
+      let chosenSnapshot = loaded;
+      if (loaded.status !== "cancelled") {
+        const repair = cancelWorkflowSnapshot(loaded, {
+          reason: message,
+          timestamp: ctx.timestamp(),
+        });
+        await ctx.store.writeSnapshot(repair.snapshot);
+        await ctx.appendLifecycleGraphChanges(repair.snapshot, repair.nodeChanges);
+        await ctx.appendEvent(repair.snapshot.runId, "run_cancelled", {
+          message,
+          payload: lifecyclePayload(repair),
+        });
+        chosenSnapshot = repair.snapshot;
+      }
+      return {
+        response: formatExpertWorkflowStatus(chosenSnapshot),
+        runId: chosenSnapshot.runId,
+        snapshot: chosenSnapshot,
+        status: chosenSnapshot.status,
+        traceId: chosenSnapshot.traceId,
+      };
+    }
+
+    const activity = latestWorkflowActivity(loaded);
+    const failure = workflowFailureFromError(error, message, activity);
+    const paused = ctx.updateSnapshot(loaded, {
+      failure,
+      pauseReason: failure.message,
+      recoveryActions: workflowRecoveryActions(failure),
+      status: "paused",
+    });
+    await ctx.store.writeSnapshot(paused, { signal: options.abortSignal });
+    await ctx.appendEvent(paused.runId, "workflow_paused", {
+      message,
+      payload: compactWorkflowPayload({
+        failureKind: paused.failure?.kind,
+        retryable: paused.failure?.retryable,
+      }),
+      phase: paused.currentPhase,
+      signal: options.abortSignal,
+    });
+    return {
+      response: `${formatExpertWorkflowStatus(paused)}\n\nPaused: ${message}`,
+      runId: paused.runId,
+      snapshot: paused,
+      status: paused.status,
+      traceId: paused.traceId,
+    };
+  }
 }

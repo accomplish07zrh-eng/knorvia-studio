@@ -1,0 +1,9 @@
+(node:237011) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ok launch admission, shared dedupe and started failure ownership
+ok poll/wait resource race, live receivers, late running and subagent Bash limit
+ok direct wait no-source success/rejection and missing-source partial publication
+ok Agent/Task alias terminal is owned by subagent and legacy cancellation remains false
+ok dynamic terminal data caps, notification policy and claim release
+ok actual external-tracking executor shares duplicate tracker without real tool invocation
+{"mode":"baseline","groups":6,"liveTasksProcessesFilesProvidersGrants":0,"currentComparedToImmutableObservations":false}

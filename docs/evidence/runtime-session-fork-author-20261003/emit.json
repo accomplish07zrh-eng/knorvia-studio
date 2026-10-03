@@ -1,0 +1,30 @@
+{
+  "batch": "session-fork",
+  "diagnostics": 0,
+  "emitted": [
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-transcript.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-transcript.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-transcript.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-identities.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-identities.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-identities.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-notices.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-notices.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-notices.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-session.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-session.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-session.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-verifiers.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-verifiers.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-verifiers.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-atomic.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-atomic.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-atomic.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-legacy-goal.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-legacy-goal.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork-legacy-goal.d.ts",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork.js",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork.d.ts.map",
+    "apps/cli/packages/core/dist/runtime/methods/session-fork.d.ts"
+  ]
+}

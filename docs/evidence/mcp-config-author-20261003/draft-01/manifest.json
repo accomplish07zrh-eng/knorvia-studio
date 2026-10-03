@@ -1,0 +1,72 @@
+{
+  "draft": "draft-01",
+  "completeExports": {
+    "mcp.ts": 3,
+    "config.ts": 24
+  },
+  "initialSet": [
+    "initial/mcp.ts",
+    "initial/config.ts"
+  ],
+  "correctionSets": [
+    "corrections/01",
+    "corrections/02"
+  ],
+  "finalSet": [
+    "final/mcp.ts",
+    "final/config.ts"
+  ],
+  "packetInputs": [
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/mcp/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/mcp/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/mcp/imports.txt",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/mcp/dependencies.txt",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/config/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/config/api.d.ts",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/config/imports.txt",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/config/dependencies.txt",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/mcp/ports.txt",
+    "/workspace/knorvia-studio/docs/evidence/mcp-config-author-20261003/config/ports.txt"
+  ],
+  "instructionOnlySharedExecutorBoundary": true,
+  "productionEdits": false,
+  "compilerTestsRuntimeNetworkExecuted": false,
+  "lineCounts": {
+    "initial/mcp.ts": {
+      "totalLines": 148,
+      "nonblankNoncommentLines": 145
+    },
+    "initial/config.ts": {
+      "totalLines": 187,
+      "nonblankNoncommentLines": 163
+    },
+    "corrections/01/mcp.ts": {
+      "totalLines": 148,
+      "nonblankNoncommentLines": 145
+    },
+    "corrections/01/config.ts": {
+      "totalLines": 187,
+      "nonblankNoncommentLines": 163
+    },
+    "corrections/02/mcp.ts": {
+      "totalLines": 150,
+      "nonblankNoncommentLines": 147
+    },
+    "corrections/02/config.ts": {
+      "totalLines": 187,
+      "nonblankNoncommentLines": 163
+    },
+    "final/mcp.ts": {
+      "totalLines": 150,
+      "nonblankNoncommentLines": 147
+    },
+    "final/config.ts": {
+      "totalLines": 187,
+      "nonblankNoncommentLines": 163
+    }
+  },
+  "remainingAmbiguities": [
+    "The registration-info message text is unspecified by the packet (only its fields are fixed). The author chose \"MCP tools registered\". All other literal log messages supplied by the packet are preserved."
+  ],
+  "validationLimit": "Candidates were authored and inspected against permitted body-free packet facts only; compilation, lint, tests, runtime, and comparison against predecessor implementation are deliberately unperformed."
+}

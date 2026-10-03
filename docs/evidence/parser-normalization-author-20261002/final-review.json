@@ -1,0 +1,27 @@
+{
+  "batch": "parser-normalization",
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "api": [
+    {
+      "module": "parsers/json",
+      "equal": true
+    },
+    {
+      "module": "parsers/graph-seed",
+      "equal": true
+    },
+    {
+      "module": "parsers/node-prompts",
+      "equal": true
+    },
+    {
+      "module": "parsers/planner-result",
+      "equal": true
+    },
+    {
+      "module": "parsers/critic",
+      "equal": true
+    }
+  ]
+}

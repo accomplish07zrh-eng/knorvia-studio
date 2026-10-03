@@ -1,0 +1,230 @@
+{
+  "formatVersion": 1,
+  "baseline": "5bf6129f0a5526af503d6215a5a3adae132bb692",
+  "freeze": "c0a6164834c91046293cac4ae13b550471ac5c57",
+  "implementation": "100304d3a5393c82407d2e6ee2f2462638f44181",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+    "apps/cli/packages/core/test/causality-reduction-baseline.json",
+    "apps/cli/packages/core/test/causality-reduction-contract.json",
+    "apps/cli/packages/core/test/causality-reduction-current.json",
+    "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+    "apps/cli/packages/core/test/causality-reduction.test.ts",
+    "specs/knorvia-causality-reduction-owner.md",
+    "docs/knorvia-causality-reduction-handoff-20261001.md",
+    "docs/evidence/knorvia-causality-reduction-check-20261001.mjs",
+    "docs/evidence/knorvia-causality-reduction-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+      "bytes": 7072,
+      "sha256": "c88b7b6590d2bf826d32ba9f128df923f9ed1fa6acfa84055859d94731443084"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-baseline.json",
+      "bytes": 11242,
+      "sha256": "815f57ebb52a8e1c56544f254ccc0e26564832aad6a5f1b05433712612684aea"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-contract.json",
+      "bytes": 1848,
+      "sha256": "759d54bb9b0ff7addcc18b1dd32fb5db4c19ca6baa16ca0b84ecae93a10a2e00"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-current.json",
+      "bytes": 267,
+      "sha256": "4ed7b7aca493e7e448e9b1c92e94a016c286de9c703e6073d904fd93a26d244d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+      "bytes": 8848,
+      "sha256": "729775baf17be5c4a68f9b0236733e033fe66bb9f5bd53b1685dde835ce6dc23"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction.test.ts",
+      "bytes": 5388,
+      "sha256": "f215d4a9d2da86c8019379828dbd670dd56dd01d01c71b6346d80a1c59a7e7e1"
+    },
+    {
+      "path": "specs/knorvia-causality-reduction-owner.md",
+      "bytes": 3688,
+      "sha256": "c436858944b37afb37f3376ad34f88cb124a9edd0ed57e5578e71acad4d9f7a0"
+    },
+    {
+      "path": "docs/knorvia-causality-reduction-handoff-20261001.md",
+      "bytes": 4561,
+      "sha256": "a46bcfcf2aab6866b4ff073913b37d5a02ecd9ca0a8b83764881920d4771a571"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-reduction-check-20261001.mjs",
+      "bytes": 4209,
+      "sha256": "f4c3d27522081edf9f3763148663ffdf842db2a3feb68e414401147795fee037"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.js",
+      "bytes": 6632,
+      "sha256": "8c0ba8183361c8265be930deccd0d1c88b7169094239997a1f9f5b3f27e85714"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.d.ts",
+      "bytes": 3926,
+      "sha256": "347f2cacda781da42d0b1d9b7a6857d316f63d65f001837986784676357f74e5"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.d.ts.map",
+      "bytes": 604,
+      "sha256": "16f0358e56bb9193449de472087253c2937a92e6d9bc815b99d7cb7ea3f70c63"
+    }
+  ],
+  "testRoots": [
+    "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+    "apps/cli/packages/core/test/causality-reduction.test.ts"
+  ],
+  "immutableFreeze": [
+    "apps/cli/packages/core/test/causality-reduction-baseline.json",
+    "apps/cli/packages/core/test/causality-reduction-contract.json",
+    "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+    "apps/cli/packages/core/test/causality-reduction.test.ts",
+    "specs/knorvia-causality-reduction-owner.md"
+  ],
+  "design": {
+    "owner": "Call-local identity/liveness records, occurrence order and one forward/carry adjacency index",
+    "forward": "Queue closure excludes every direct candidate pair hop; greedy live decisions in input order",
+    "carry": "Forward prefix closure -> eligible surviving carry bridges excluding candidate identity -> multi-source forward suffix closure. Exactly one carry, no encoded state walk.",
+    "result": "Materialize surviving original edge objects by occurrence order; aliases share liveness. No mutation, recovery pass, I/O or async owner."
+  },
+  "checks": {
+    "freeze": {
+      "sourceGroups": 6,
+      "sourcePass": 6,
+      "emittedGroups": 6,
+      "emittedPass": 6
+    },
+    "final": {
+      "sourceGroups": 9,
+      "sourcePass": 9,
+      "emittedGroups": 9,
+      "emittedPass": 9,
+      "fail": 0,
+      "ownedGroupsPerMode": 6,
+      "unchangedQuotientGroupsPerMode": 3,
+      "overlap": "same nine groups run in both modes; subcases/repeats are not extra test totals"
+    },
+    "casesWithinGroups": {
+      "strengthPairs": 16,
+      "representativeGraphs": 23,
+      "phaseProjections": 3,
+      "syntheticAnalysisScripts": 2,
+      "cliFolds": 3
+    },
+    "types": {
+      "typescript": "6.0.2",
+      "dynamicWorkflowRoots": 1,
+      "coreTestRoots": 2,
+      "diagnostics": 0,
+      "noEmitConfigs": "unchanged per-owner configs with rootDir set to repository for cross-package test location"
+    },
+    "emission": {
+      "roots": 1,
+      "written": 3,
+      "diagnostics": 0,
+      "config": "unchanged dynamic-workflow tsconfig; reducer JS/declaration/map only"
+    },
+    "lint": {
+      "configuredSourceFiles": 1,
+      "ownedTypeScriptFiles": 3,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0
+    },
+    "architecture": {
+      "violations": 0,
+      "new": 0
+    },
+    "format": "owned scoped check before receipt commit",
+    "diff": "git diff --check passes"
+  },
+  "provenance": {
+    "sourceExposure": true,
+    "candidateWholeFileRightsDecision": null,
+    "classification": "Retained public prose/API/policy glue plus newly structured complete algorithm body; root expression/rights review pending",
+    "baselineSourceSha256": "dc04aa06052c32a41bab2864b29ffd6bfc75edaf1ebd92d9b6aff0737af9c586",
+    "recordedPublisherPath": "apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+    "recordedPublisherBlob": "2154cea5f1ece59c622383fbb9472d980c0cecb6",
+    "recordedPublisherNormalizedSha256": "e8c99c4beb9eaadea4f9fcd31c82ccf66489a51d021da3a61ebcfa10584b2d2f",
+    "publisherVerification": "Inventory facts only; no independent acquisition/authorship claim",
+    "retained": [
+      "Public introductory/API/interface prose and exact declaration bytes",
+      "KIND_RANK object and fixed allowed-kind Sets",
+      "Kind/field labels, carryOf default and generic signature; ordinary Map/Set/queue idioms"
+    ],
+    "replaced": "Private traversal commentary, dropped-object Set and split adjacency/DFS/encoded carry-state implementation replaced by shared live bindings and composed queue closures",
+    "testMaterial": "Historical JS/comment archive retains inherited expression. Frozen outputs and original test-infrastructure conventions are disclosed, not claimed newly authored.",
+    "criteria": "docs/knorvia-mit-review-acceptance-criteria-20260930.md; source exposure does not itself permanently disqualify new expression; attribution/obligations retained"
+  },
+  "protected": "Checker requires unchanged public prefix/function prose/declaration and frozen oracle/assertions/spec, and rejects every changed tracked path outside scope. This preserves graph bounds/fold/pins, prior checkpoints and shared/runtime/Host ownership.",
+  "preservedFailure": {
+    "stage": "initial scoped type harness before freeze",
+    "cause": "Dynamic-workflow package config incorrectly used for core utilities/tests; rootDir/library diagnostics, not reducer behavior",
+    "correction": "Isolated fixture and separate per-owner type programs; no repository config or test assertion weakening",
+    "log": {
+      "path": "/tmp/knorvia-reduction-freeze-types.log",
+      "sha256": "e0049be81dba12fc67bdd080b78f7e4618a095aa0cebff6298ac3a8a4609f53b"
+    }
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-reduction-freeze-source-isolated.log",
+      "sha256": "38159134031d40b744cfe77dde654daeea37096d805fd4f1f8ae74c297d5e2b6"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-freeze-emitted-isolated.log",
+      "sha256": "6a6ef2bf506d67b5e6cffb12a16a11d32057304345d5a150b29caf3404eb3b6e"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-final-source.log",
+      "sha256": "a5f4e2cd85b72cab448ed0bd113beff5e9893f19e88a93284edc46f1d7690e3b"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-final-emitted.log",
+      "sha256": "91ee6b044830c63348d3e424fab59da26358ae393c766b188522ef1defd0d5d9"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-final-types.log",
+      "sha256": "f8610b3d34f641034f2ede90be2eea77e4a45d7fdfbde362f306409e3ee571e3"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-final-emit.log",
+      "sha256": "aff1923367a9c6462ec0cb828e6bdccb5615de64d41e28069f18fc001e1ceddf"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-final-configured-lint.log",
+      "sha256": "ef945f0a398cd62215c096d4162e50ceffc58212c2be4db68f12ee7c9d3d9753"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-final-owned-lint.log",
+      "sha256": "14249d8c05bc24ad4512f61d7edf597f9fcfb552bf3c62b958a8b658d444652c"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-final-architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "commands": [
+    "node --import tsx --test apps/cli/packages/core/test/causality-reduction.test.ts apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/causality-reduction.test.ts apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts",
+    "node docs/evidence/knorvia-causality-reduction-check-20261001.mjs",
+    "node docs/evidence/knorvia-causality-reduction-check-20261001.mjs --types (reproduces scoped type programs)",
+    "node docs/evidence/knorvia-causality-reduction-check-20261001.mjs --emit (reproduces allowlisted actual emission)"
+  ],
+  "limits": [
+    "Ordinary finite projection records; no added exotic getter/prototype/invalid-kind matrix or exhaustive graph enumeration",
+    "Source CLI fold uses its unchanged public package import and emitted reducer; source reducer/phase/causality exercise source independently",
+    "No standalone reduction test/corpus found; reused unchanged quotient cases and pinned actual graph consumers",
+    "No live workflow/script execution, providers/network, user data/files, runtime/Host/security/settings or licence registry changes",
+    "No aggregate suite/build or native/Windows/browser acceptance; root owns those gates and independent rights review"
+  ]
+}

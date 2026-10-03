@@ -1,0 +1,10 @@
+{
+  "algorithm": "SHA256",
+  "sealedBeforeCuratorComparison": true,
+  "files": {
+    "draft.ts": "98e280b5834097370b3d89d1d6ebc591ebdffc4d2dfa9da61fd1b0d964f7ef62",
+    "access.json": "a1e268d42169a6908b7c4a0a005e001439a048079800eafea4863a022a0655fd"
+  },
+  "owner": "Complete model binding/submission selection publication and persistence owner",
+  "validation": "Not executed, compiled, or tested under bounded-author rules"
+}

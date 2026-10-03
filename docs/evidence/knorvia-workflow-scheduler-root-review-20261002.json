@@ -1,0 +1,460 @@
+{
+  "formatVersion": 1,
+  "kind": "independent-supplied-workflow-scheduler-fragment-review",
+  "baseline": "af8f2b214eb84d871465108ecb2b5281221b5e2a",
+  "recommendation": "Hold runtime acceptance: supported queued-abort/active-write ordering differs in source and actual-emitted modes. Root owns correction and any rights decision.",
+  "ownedPaths": [
+    "docs/knorvia-workflow-scheduler-root-review-20261002.md",
+    "docs/evidence/knorvia-workflow-scheduler-root-review-20261002.json"
+  ],
+  "productionChanges": 0,
+  "testOrAssertionChanges": 0,
+  "nativeAuthorRetries": 0,
+  "parentReported": {
+    "integratedLocalCommit": "dcdfb21",
+    "restrictedAuthorInputs": "Six packet files plus curator handoff and prior consumer observations; no predecessor implementation/tests/history bodies read until authoring closed. Broader context/exposure explicit.",
+    "importReexportRebinding": "Complete class semantic syntax equality; zero runtime corrections reported",
+    "validation": "7/7 source + 7/7 emitted, actual scheduled-phase caller, scoped compiler/lint/changed architecture; not rerun or independently adopted"
+  },
+  "reviewInput": {
+    "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/author-fragment.ts",
+    "sha256": "1852279ec92d8b45193bbd297d34901013624eebfed6fdb9e659ec0f1771c5dc",
+    "bytes": 6874,
+    "finalNewline": true
+  },
+  "independentStaticEvidence": {
+    "fragmentBytes": 6874,
+    "fragmentSha256": "1852279ec92d8b45193bbd297d34901013624eebfed6fdb9e659ec0f1771c5dc",
+    "finalNewline": true,
+    "typescript": "6.0.2",
+    "node": "v24.14.0",
+    "compilerDiagnostics": 0,
+    "parsedComments": 0,
+    "publicClassShape": [
+      {
+        "name": "constructor",
+        "parameters": [
+          {
+            "name": "deps",
+            "type": "WorkflowGraphSchedulerDeps",
+            "optional": false
+          }
+        ],
+        "result": null
+      },
+      {
+        "name": "run",
+        "parameters": [
+          {
+            "name": "options",
+            "type": "WorkflowGraphSchedulerRunOptions",
+            "optional": false
+          }
+        ],
+        "result": "Promise<WorkflowGraphSchedulerRunResult>"
+      }
+    ],
+    "publicClassShapeSha256": "f5b828d473261d0e04e52d0a94e83c49280683adb1f5c145a6c75fd798a28f1e",
+    "rawJsSha256": "49c5cf44bf615b20ae9f7a22d0d2d9a47dab94e4658abab6da8b3da7ad14deaf",
+    "rawDeclarationSha256": "84c43572809b6f9a7ed4c7449646b5ba416fd6a37555f2b3f320ef47c39a8ab9",
+    "currentArtifactBindings": 36,
+    "wrongAndMissingFragmentControls": "pass",
+    "packetFiles": [
+      {
+        "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/api.d.ts",
+        "sha256": "62e80e5ad71227b526f6249b1acce51db76b78abfe7ef8e05f0b3bf839489909",
+        "bytes": 4855
+      },
+      {
+        "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/behavior.md",
+        "sha256": "8301decc47ee0b097c6c1282c094a77385082d3c9fc0fdbda32a4d14d4be9086",
+        "bytes": 9698
+      },
+      {
+        "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/dependencies.d.ts",
+        "sha256": "e4c7d07742cfc9444650c8ba96b14634e66612fa08325cf33539ae0ec26b3664",
+        "bytes": 3984
+      },
+      {
+        "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/inputs.json",
+        "sha256": "c11f7ff09c66e8c8cca7e91115cc3a58e36e57a8db11a6d5b6486378e5828fcf",
+        "bytes": 9209
+      },
+      {
+        "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/supporting-types.d.ts",
+        "sha256": "3b630e1e552ef6a9bec3c0ffb6cfd7b618395ea2272cbaf5323d30431fd1b01d",
+        "bytes": 5674
+      },
+      {
+        "path": "docs/knorvia-workflow-scheduler-author-inputs-20261002/workflow-types.d.ts",
+        "sha256": "91c9a6680cc92d9972954c7f24a53a40c0b2ee18445af43e606d007fd52385a3",
+        "bytes": 11328
+      }
+    ],
+    "predecessorPins": {
+      "dist/workflow/scheduler.d.ts": "7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e",
+      "dist/workflow/scheduler.js": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+      "src/workflow/scheduler.ts": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330"
+    }
+  },
+  "targetedRuntimeEvidence": {
+    "nodeCompletionAbort": {
+      "surface": "emitted",
+      "queuePositions": 8,
+      "identicalPairs": 8,
+      "scope": "One one-node scenario at eight nearby queue positions, not a broad matrix or suite replay"
+    },
+    "frontierAbortDiagnostic": {
+      "surface": "emitted",
+      "queuePositions": 4,
+      "differentPositions": [3, 4]
+    },
+    "selectedRegression": {
+      "queuePosition": 3,
+      "sourceCompatibility": "FAIL",
+      "emittedCompatibility": "FAIL",
+      "emittedOverlap": "Position three repeats the diagnostic counterexample; no additive coverage count.",
+      "observations": [
+        {
+          "surface": "source",
+          "compatibilityAssertion": "FAIL (preserved expected counterexample)",
+          "failureCode": "ERR_ASSERTION",
+          "baseline": {
+            "traceAtRejection": [
+              "clock:0",
+              "clock:1",
+              "event:frontier_changed:",
+              "callback:frontier_changed:",
+              "queued:abort",
+              "activity:1",
+              "clock:2",
+              "clock:3",
+              "write:owned-run:a=active",
+              "clock:4",
+              "record:owned-run:op:active",
+              "clock:5",
+              "event:node_started:a",
+              "callback:node_started:a",
+              "runner:owned-run:a"
+            ],
+            "writesAtRejection": [
+              {
+                "aborted": true,
+                "status": "active",
+                "receiverIsRuntime": true,
+                "signalIdentity": true
+              }
+            ],
+            "exactAbortReason": true,
+            "metadataStatus": "completed",
+            "events": ["frontier_changed", "node_started", "artifact_written", "node_completed"]
+          },
+          "fragment": {
+            "traceAtRejection": [
+              "clock:0",
+              "clock:1",
+              "event:frontier_changed:",
+              "callback:frontier_changed:",
+              "activity:1",
+              "clock:2",
+              "clock:3",
+              "write:owned-run:a=active",
+              "queued:abort",
+              "clock:4",
+              "record:owned-run:op:active",
+              "clock:5",
+              "event:node_started:a",
+              "callback:node_started:a",
+              "runner:owned-run:a"
+            ],
+            "writesAtRejection": [
+              {
+                "aborted": false,
+                "status": "active",
+                "receiverIsRuntime": true,
+                "signalIdentity": true
+              }
+            ],
+            "exactAbortReason": true,
+            "metadataStatus": "completed",
+            "events": ["frontier_changed", "node_started", "artifact_written", "node_completed"]
+          }
+        },
+        {
+          "surface": "emitted",
+          "compatibilityAssertion": "FAIL (preserved expected counterexample)",
+          "failureCode": "ERR_ASSERTION",
+          "baseline": {
+            "traceAtRejection": [
+              "clock:0",
+              "clock:1",
+              "event:frontier_changed:",
+              "callback:frontier_changed:",
+              "queued:abort",
+              "activity:1",
+              "clock:2",
+              "clock:3",
+              "write:owned-run:a=active",
+              "clock:4",
+              "record:owned-run:op:active",
+              "clock:5",
+              "event:node_started:a",
+              "callback:node_started:a",
+              "runner:owned-run:a"
+            ],
+            "writesAtRejection": [
+              {
+                "aborted": true,
+                "status": "active",
+                "receiverIsRuntime": true,
+                "signalIdentity": true
+              }
+            ],
+            "exactAbortReason": true,
+            "metadataStatus": "completed",
+            "events": ["frontier_changed", "node_started", "artifact_written", "node_completed"]
+          },
+          "fragment": {
+            "traceAtRejection": [
+              "clock:0",
+              "clock:1",
+              "event:frontier_changed:",
+              "callback:frontier_changed:",
+              "activity:1",
+              "clock:2",
+              "clock:3",
+              "write:owned-run:a=active",
+              "queued:abort",
+              "clock:4",
+              "record:owned-run:op:active",
+              "clock:5",
+              "event:node_started:a",
+              "callback:node_started:a",
+              "runner:owned-run:a"
+            ],
+            "writesAtRejection": [
+              {
+                "aborted": false,
+                "status": "active",
+                "receiverIsRuntime": true,
+                "signalIdentity": true
+              }
+            ],
+            "exactAbortReason": true,
+            "metadataStatus": "completed",
+            "events": ["frontier_changed", "node_started", "artifact_written", "node_completed"]
+          }
+        }
+      ]
+    },
+    "currentSelection": "Existing frozen loader verifies 36 exact source/JS/declaration bindings; actual current predecessor equals separately archived historical predecessor in each probe. Fragment compile/import is a /tmp review copy selected by exact raw SHA, never routed to old code.",
+    "probeEffects": "Owned synthetic ports/native promises/dates/signals only. All held runner promises resolved after owner rejection; no actual tasks, storage, model, provider, notification or user data."
+  },
+  "expression": {
+    "rawFragmentAdditionalTypeReexports": [
+      {
+        "name": "AppliedPlannerExpansion",
+        "typeOnly": true
+      },
+      {
+        "name": "NodeRunOutcome",
+        "typeOnly": true
+      },
+      {
+        "name": "NodeRunStarted",
+        "typeOnly": true
+      },
+      {
+        "name": "SchedulerCollection",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphRecordEdge",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowGraphSchedulerSnapshotAccess",
+        "typeOnly": true
+      },
+      {
+        "name": "WorkflowSchedulerNodePromise",
+        "typeOnly": true
+      }
+    ],
+    "predecessorMissingInRawFragment": [],
+    "exactCommonStringVocabulary": [
+      "",
+      " consecutive node error(s).",
+      " scheduler completed.",
+      " scheduler paused after ",
+      " scheduler paused because pending nodes are blocked.",
+      "Workflow scheduler aborted",
+      "Workflow scheduler frontier changed.",
+      "active",
+      "completed",
+      "deadlock",
+      "error_threshold",
+      "executor_completed",
+      "executor_paused",
+      "frontier_changed",
+      "paused",
+      "plannerRunner",
+      "runner",
+      "writeArtifact",
+      "writeSnapshot"
+    ],
+    "scope": "Literal overlap includes module/protocol identifiers and template chunks; not originality count. Complete root integrated import/export rebinding is parent-reported."
+  },
+  "retainedMaterial": "Public API/type vocabulary, runtime event/status values/messages, abort prose, capture/port-projection ordering and conventional collection/promise idioms. Zero parsed discretionary comments. No absolute clean-room or whole-file authorship/licence conclusion.",
+  "sourceExposure": "Reviewer read exact local predecessor, packet, frozen fixtures and actual dependency callers. Root authoring chronology is parent-reported.",
+  "preservedReviewLoaderFailures": [
+    {
+      "code": "MODULE_NOT_FOUND",
+      "message": "Cannot find module '@knorvia/contracts'; workspace-root CJS resolver"
+    },
+    {
+      "code": "ERR_PACKAGE_PATH_NOT_EXPORTED",
+      "message": "No exports main for ESM-only contracts through CJS require.resolve at core package"
+    }
+  ],
+  "localEvidence": [
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/author-fragment.ts",
+      "sha256": "1852279ec92d8b45193bbd297d34901013624eebfed6fdb9e659ec0f1771c5dc",
+      "bytes": 6874
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/candidate-emitted.mjs",
+      "sha256": "a1c948206a80eaf53700f15a05d4287fc7f065438602a5bf283761f9aed7c0bb",
+      "bytes": 6012
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/candidate-source.mjs",
+      "sha256": "febe8338245bca06567b5fc596425e099639ac9a8868979f5d77b9597ecf62a3",
+      "bytes": 6010
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/candidate.d.ts",
+      "sha256": "84c43572809b6f9a7ed4c7449646b5ba416fd6a37555f2b3f320ef47c39a8ab9",
+      "bytes": 1371
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/candidate.mjs",
+      "sha256": "49c5cf44bf615b20ae9f7a22d0d2d9a47dab94e4658abab6da8b3da7ad14deaf",
+      "bytes": 6008
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/completion-probe-emitted.json",
+      "sha256": "f49cc6677533cf2fafb49f46697236474224a4da73194a243826e78da94a3785",
+      "bytes": 23730
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/completion-probe-emitted.log",
+      "sha256": "a1cacd885c3a66228c72561f63c0df44070d5952f47413151ecec4454c780554",
+      "bytes": 3944
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/completion-probe.mts",
+      "sha256": "c4f33e7b20143fd7cf1ccd6cc3e867d69d2c7ae4effc21362444e0d09cfbf640",
+      "bytes": 2438
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/dependencies-emitted.mjs",
+      "sha256": "9d88debc4a9430566c0daf67b6736e1017d7553587c97c08cc948ea10c02fb00",
+      "bytes": 1458
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/dependencies-source.mjs",
+      "sha256": "1b15e4cd1fd3f13765032cacb16987f801a16ee292ccdae0c9154052a7e670ba",
+      "bytes": 1450
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/expression-results.json",
+      "sha256": "e966c572f9e544cd8fcc3d9086ff50f063db81b5ec1ca787f457f07a2eb7f44e",
+      "bytes": 1320
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/expression-review.mjs",
+      "sha256": "743a484769ee68c638985a2aa4857643d8fdd72fc34bcfeaede21549082b2560",
+      "bytes": 1892
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-probe-emitted.json",
+      "sha256": "e05d43d2798600e7e6bfa644c7b93231f9eca0791d24da1e6393fc6a40dc93ec",
+      "bytes": 14759
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-probe-emitted.log",
+      "sha256": "65bb3131f803f9decec131c6b6fdd624998b16d4dbdd8b6985f0e9460f7f73cb",
+      "bytes": 4161
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-probe.mts",
+      "sha256": "08a252419d8bc150ba56043ba39b9dbd6a7b153cf533082daeecff9e9494464d",
+      "bytes": 2491
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-regression-emitted.json",
+      "sha256": "f49d6bc01c960df6ce5d411bdad887a8813635141766ee0428d07c2e35c69b47",
+      "bytes": 4463
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-regression-emitted.log",
+      "sha256": "f49d6bc01c960df6ce5d411bdad887a8813635141766ee0428d07c2e35c69b47",
+      "bytes": 4463
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-regression-proof.mts",
+      "sha256": "64cfb12c6b25dc62057b7df94bc50bca83bb17b5b97b62c6eb83fc853b6f4142",
+      "bytes": 3428
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-regression-source.json",
+      "sha256": "25b1d2867912f278e361f331a07f05282fabfdd18788d8ab37db6d4a88c4894c",
+      "bytes": 4462
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/frontier-regression-source.log",
+      "sha256": "25b1d2867912f278e361f331a07f05282fabfdd18788d8ab37db6d4a88c4894c",
+      "bytes": 4462
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/prepare-review-initial.mjs",
+      "sha256": "30281f5acffcfefb3b6ff7395076456d65e574b1eb53460fbb8eaf2f70724481",
+      "bytes": 6149
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/prepare-review-second.mjs",
+      "sha256": "b540529a1933233b1517d9c3204b0530ecf46ff54232260f979dcfb0e65b44a1",
+      "bytes": 6202
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/prepare-review.mjs",
+      "sha256": "719da1b21186f300894b7bd189408a11a3457955163aca74bceab0ae5270001c",
+      "bytes": 6163
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/static-proof.log",
+      "sha256": "e83338958d0dd0363c68b5dfefef1f22443ed95de4cc939f199dcb778d676cc5",
+      "bytes": 2675
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-root-review-20261002/static-results.json",
+      "sha256": "e83338958d0dd0363c68b5dfefef1f22443ed95de4cc939f199dcb778d676cc5",
+      "bytes": 2675
+    }
+  ],
+  "verificationLimits": [
+    "Root integrated source, JS/declaration and complete export rebinding not independently fetched or inspected",
+    "No seven-group/full-suite replay, build or native/platform/live acceptance",
+    "Suppressed-frontier yield and empty threshold-drain timing differences inspected statically; only changed-frontier position-three supported regression established",
+    "No actual publisher-byte acquisition or global licence/header/registry grant"
+  ],
+  "remainingBlocker": "Restore original frontier settlement ownership and rerun preserved targeted counterexample before runtime acceptance.",
+  "licenceGrant": null,
+  "reportFile": {
+    "path": "docs/knorvia-workflow-scheduler-root-review-20261002.md",
+    "sha256": "8fe6353e393a35c3bffa7aa8f6b7997ac31d85ad9737dc8c01b3a02fcd87531b",
+    "bytes": 7737
+  }
+}

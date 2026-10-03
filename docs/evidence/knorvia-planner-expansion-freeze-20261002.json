@@ -1,0 +1,86 @@
+{
+  "formatVersion": 1,
+  "kind": "planner-expansion-before-source-freeze",
+  "head": "39cc7b5fa60c7337a4b1139e8bab8cc0d6a079ec",
+  "scope": "Complete synchronous graph expansion owner; schema and graph helpers unchanged. Source-exposed.",
+  "inventory": {
+    "classification": "upstream-modified",
+    "review": null,
+    "publisherBlob": "7c1ccbcdc7e56b505307de3b21a2eac807568db3",
+    "publisherLocallyAvailable": false
+  },
+  "groups": {
+    "source": 5,
+    "emitted": 5
+  },
+  "failed": 0,
+  "runner": "node --import tsx --test --test-isolation=none --test-timeout=120000; emitted uses existing KNORVIA_COLLECTION_PLANNER_TEST_EMITTED=1",
+  "runnerLimit": "Default isolated runner returned only1file-level pass, so it is NOT counted as contract execution; in-process mode explicitly reports all5groups. Initial logs preserved locally.",
+  "existingConsumer": "Reuse unchanged workflow-collection-planner.test.ts success/publication and scheduler expansion groups at final verification; prior frozen observations already available.",
+  "files": [
+    {
+      "path": "specs/knorvia-planner-expansion-20261002.md",
+      "sha256": "853168906b6380715b14fb1f37b778c9963b30d708b9a2b90797c0b353c4c02d",
+      "bytes": 3796
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion-fixture.ts",
+      "sha256": "7e7e9ccc789a614ad2a32103e8da10b0da131a4b76a9443b11089815121dba84",
+      "bytes": 2349
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion-baseline.json",
+      "sha256": "6b3a7d1ef9a4dd1ceeec287f68c45a035065b7b8907e27125ed207732f6fba49",
+      "bytes": 16718
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+      "sha256": "f5ed4931ed1e04b7cefaea868c542d03b72c43572a383c26e043fb6e267cf46d",
+      "bytes": 4928
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+      "sha256": "7261463f8bb22e4189c96f0c3f622bb10437aee7df2ccabc2312af193fdfc814",
+      "bytes": 10096
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/knorvia-planner-expansion-20261002/freeze-compile.log",
+      "sha256": "9cb1512d553ace185dd3958492c5a7184282f73ac74dc617049f83b5fe20d5cb",
+      "bytes": 379
+    },
+    {
+      "path": "/tmp/knorvia-planner-expansion-20261002/freeze-source.log",
+      "sha256": "9fd2ab91e05d8d19dea325a0847e40080c298ae58064581e0d0985dc1cda7730",
+      "bytes": 198
+    },
+    {
+      "path": "/tmp/knorvia-planner-expansion-20261002/freeze-emitted.log",
+      "sha256": "89f0e986479134f3f1d0a67ab9a4939a62f4caedbc1a433e2717d42c2b916ed2",
+      "bytes": 199
+    },
+    {
+      "path": "/tmp/knorvia-planner-expansion-20261002/freeze-verified-source.log",
+      "sha256": "6a5123e2c35306158ef79deff71ffa9ee254056b425c6bfa388c3d2a126145cc",
+      "bytes": 199
+    },
+    {
+      "path": "/tmp/knorvia-planner-expansion-20261002/freeze-verified-emitted.log",
+      "sha256": "37129c61a2c230038ee22fe9eee94a649516c14bc9158ca6c072bcfdfbdd5d63",
+      "bytes": 199
+    },
+    {
+      "path": "/tmp/knorvia-planner-expansion-20261002/freeze-isolation-diagnostic.log",
+      "sha256": "f03173daeaee4b76d49b07048b1779d3a264f4c011b2606d72f00c27961845e7",
+      "bytes": 533
+    },
+    {
+      "path": "/tmp/knorvia-planner-expansion-20261002/freeze-emitted-groups.log",
+      "sha256": "25b06863da0342b23e11dc08f37ea16bb8c5fc2080c81274159f319819906d04",
+      "bytes": 535
+    }
+  ],
+  "freshness": "Fetch portion blocked by local proxy connection; no remote refresh claimed. Local clean parent39cc7b5 and0architecture violations confirmed.",
+  "licenceGrant": null
+}

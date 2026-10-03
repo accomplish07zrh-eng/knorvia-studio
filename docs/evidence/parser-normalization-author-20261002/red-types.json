@@ -1,0 +1,19 @@
+{
+  "batch": "parser-normalization",
+  "typescript": "6.0.2",
+  "noEmit": true,
+  "diagnostics": [
+    {
+      "code": 2554,
+      "message": "Expected 1 arguments, but got 2.",
+      "file": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+      "line": 43
+    },
+    {
+      "code": 2554,
+      "message": "Expected 1 arguments, but got 2.",
+      "file": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+      "line": 45
+    }
+  ]
+}

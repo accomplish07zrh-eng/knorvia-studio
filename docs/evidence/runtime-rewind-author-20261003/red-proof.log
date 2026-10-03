@@ -1,0 +1,74 @@
+{
+  "mode": "sealed-draft-transpile-with-six-type-errors",
+  "expected": {
+    "trace": [
+      {
+        "sameTrace": true
+      }
+    ],
+    "timing": [
+      "tick0",
+      "tick1",
+      "tick2",
+      "done",
+      "tick3",
+      "tick4"
+    ]
+  },
+  "actual": {
+    "trace": [
+      {
+        "sameTrace": false
+      }
+    ],
+    "timing": [
+      "tick0",
+      "done",
+      "tick1",
+      "tick2",
+      "tick3",
+      "tick4"
+    ]
+  }
+}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
+    timing: [
+      'tick0',
++     'done',
+      'tick1',
+      'tick2',
+-     'done',
+      'tick3',
+      'tick4'
+    ],
+    trace: [
+      {
++       sameTrace: false
+-       sameTrace: true
+      }
+    ]
+  }
+
+    at <anonymous> (/tmp/knorvia-runtime-persistence-20261003/rewind/probe.mjs:14:160) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: {
+    trace: [ { sameTrace: false } ],
+    timing: [ 'tick0', 'done', 'tick1', 'tick2', 'tick3', 'tick4' ]
+  },
+  expected: {
+    trace: [ { sameTrace: true } ],
+    timing: [ 'tick0', 'tick1', 'tick2', 'done', 'tick3', 'tick4' ]
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

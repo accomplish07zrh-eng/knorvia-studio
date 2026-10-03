@@ -1,0 +1,21 @@
+{
+  "scope": "local object availability/metadata only; not publisher remote verification or authorship acceptance",
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-output.ts",
+      "recordedPublisherPath": "apps/zcode-cli/packages/core/src/tool/handlers/bash-output.ts",
+      "blob": "b90f91a728f0da414307fe568fe1b6fc9885e725",
+      "recordedLFSHA256": "feb9ef66a7f631077588be16cae87bda04ae95d2bcd0d44d4e241848a07787fc",
+      "localObjectAvailable": false,
+      "remotePublisherAcquisitionThisTurn": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+      "recordedPublisherPath": "apps/zcode-cli/packages/core/src/tool/handlers/bash-model-content.ts",
+      "blob": "b86b00681f70563b48ba7002dc357f693feb0c10",
+      "recordedLFSHA256": "a850a68eb154ee68c0966ebf5d0ca763723698f98c94725be512f0ab5028b088",
+      "localObjectAvailable": false,
+      "remotePublisherAcquisitionThisTurn": false
+    }
+  ]
+}
