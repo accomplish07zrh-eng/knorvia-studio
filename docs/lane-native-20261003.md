@@ -86,6 +86,27 @@ Six new scenarios in `packages/desktop/test/native-storage-owner-contract.test.m
 are **unrun**. Their fake Worker/Electron/scan ports do not prove real native scan,
 actual services or platform compatibility. No runtime/IO/user data was accessed.
 
+## Windows installation locks and Host logs batch
+
+`windowsInstallResourceLocks.ts` now uses a complete cleanup result ledger and
+ordered terminate/grace/rescan phase loop, with the same resource-reference/PID
+admission, live callback receivers, error ordering and unfiltered rescan results.
+Synchronous packaged-resource snapshot/probe APIs and sentinel-only cleanup remain
+compatible; no real process termination or filesystem probe was performed.
+`hostLogRelay.ts` now has one explicit raw/structured phase owner with live raw
+buffer replay, original severities/warning trimming and structured-before-renderer
+publication. No Host/session or renderer state was added.
+
+[Contract](../specs/knorvia-next-platform-install-lock-log-20261003.md) and
+[bindings](evidence/backlog-platform-install-lock-log-20261003/bindings.json)
+pin the whole drafts and original source relationships. The exact PowerShell
+program is retained compatibility material, separately bound with only its local
+interpolation variable normalized; it receives no independent-expression credit.
+Five new scenarios in `packages/desktop/test/native-install-log-owner-contract.test.mjs`
+are **unrun**. The same source-exposure, native/platform and pending rights/MIT
+qualifications apply. CLI/Core, services, updater callers and all renderer paths
+remain unchanged in this continuation.
+
 ## Inherited work and remaining boundaries
 
 The old E ChannelClient packet binds upstream blob
