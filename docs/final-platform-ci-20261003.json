@@ -535,5 +535,87 @@
       }
     ]
   },
-  "cliRepairOwner": "Parent reassigned original fixed CLI lane; integrator does not concurrently change receipt/code. Await exact frozen new head."
+  "cliRepairOwner": "Parent reassigned original fixed CLI lane; integrator does not concurrently change receipt/code. Await exact frozen new head.",
+  "boundedCurrentAssetIdentityComparison": {
+    "sourceHead": "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a",
+    "scope": "Eight already known unresolved asset paths only. Identity grouping is not source/permission proof, visual acceptance, or authorization to replace/remove assets. Existing UI bytes preserved.",
+    "paths": [
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+        "bytes": 1533,
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+        "bytes": 2003,
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+        "bytes": 1089,
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+        "bytes": 1276,
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/docx.svg",
+        "bytes": 1533,
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/folder.svg",
+        "bytes": 2003,
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/pptx.svg",
+        "bytes": 1089,
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      },
+      {
+        "path": "packages/web/public/material-icons/xlsx.svg",
+        "bytes": 1276,
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "sameAsMaterialCheckpoint": true,
+        "holdRetained": true
+      }
+    ],
+    "distinctByteGroups": {
+      "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73": [
+        "packages/desktop/src/renderer/public/material-icons/docx.svg",
+        "packages/web/public/material-icons/docx.svg"
+      ],
+      "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e": [
+        "packages/desktop/src/renderer/public/material-icons/folder.svg",
+        "packages/web/public/material-icons/folder.svg"
+      ],
+      "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24": [
+        "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+        "packages/web/public/material-icons/pptx.svg"
+      ],
+      "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef": [
+        "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+        "packages/web/public/material-icons/xlsx.svg"
+      ]
+    },
+    "uniqueBytesCount": 4,
+    "itemsClosed": 0
+  }
 }
