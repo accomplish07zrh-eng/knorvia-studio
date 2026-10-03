@@ -237,3 +237,11 @@ phase-fold case16的只读诊断中，old/current均为空结果且digest相同�
 26项内已确认因许可而需替换的自有源码为0，8素材只有拿不到原来源/授权时才进入独立素材路线，不删改现有UI。其外已精确列6个完整owner当前SHA/旧绑定，现行无whole-expression/权利接受，其他四路与整合者候选也继续保留source-exposed/适用许可边界。原作者看过源码本身不等于不可原创，但当前证据不能证明全量自有MIT接受。Apache许可允许满足原条件时分发并为自己的修改附不同条款，仍须保留适用上游许可、修改声明、归属/NOTICE与贡献条款；未改根LICENSE或自行接受缺证风险。
 
 没有运行新的全量测试、lint、types、build或独立性审计，也未执行原生/npm载荷、安装脚本或发送外部消息。后续三路冻结heads先登记待接收：native `7096de3d170eea2267b82db47fb2e9140fdf7b08`、UI `d6274d61fe6d15b976f3b7b5b24f8e62d470229e`、services `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532`，原路指定1/1、1/1、2/2结果是交付记录，须在统一Node24.14组合确认。CLI当前输入与历史NaN仍交原任务；main暂不合并。
+
+## 三路定向失败修复的实际接收
+
+在材料checkpoint `73e0687a78cc7354dfad0589a9e2ebedac159013` 后，先行规格提交 `080c28749c5df8f3647e8027d6a205c4991d8432`，再普通merge三个已冻结head。native `7096de3d170eea2267b82db47fb2e9140fdf7b08` 合并为 `99af83370ba5f80404d88941432d9147196f0e62`；UI `d6274d61fe6d15b976f3b7b5b24f8e62d470229e` 为 `688e8b525071a456c9a765e63a4367c15000790e`；services `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532` 为 `7e01e67d23c7629dcc5f4df38bdf798201e7edf2`。三路都实际继承7bfb867，路径无交集，merge无冲突；没有重写、压缩、强推或覆盖原lane历史。
+
+native生产修复ZIP stage遍历在叶子白名单前排除了诊断祖先目录；UI仅更正组内首项置顶no-op的局部场景，保留并加强原断言；services通过真实端口修正原目录夹具，Git helper恢复原timeout getters顺序。原native test/fixture、UI controller/golden、Claude排序/过滤/dirty-tail及Git次序断言保持。接收后的真实源码/7个原路新raw记录逐项与完整交付head一致，显式冻结；旧5594记录/字节保留，现5601文件。
+
+完整输入、路径原字节及普通merge见 [接收JSON](final-three-failure-intake-20261003.json)。此接收记录尚未运行统一4个失败case；原native1/1、UI1/1、services2/2是交付结果，UI原Node24.19差异保留。组合checkpoint发布后使用本环境Node24.14，仅确认原4项，不重复777文件全量。CLI17个加载pin及NaN历史基线仍由原路处理，旧8034/22/8统计不变，不宣称新的完整通过。来源清单只刷新实际exporter/Git helper/夹具等候选身份，26材料及整文件权利HOLD不解除，main未合并。

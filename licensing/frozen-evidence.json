@@ -586,6 +586,27 @@
       "bytes": 6242
     },
     {
+      "path": "docs/evidence/backlog-platform-export-stage-repair-20261003/after.log",
+      "sha256": "be3043b452291b0054c3ae3f6401eee081dc9fa25a54b0a1ad5e31ff9c99a1f4",
+      "bytes": 247,
+      "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08",
+      "observation": "Original frozen lane failure-repair receipt; exact bytes verified against the delivered head. Lane scoped results are not fresh combined acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-platform-export-stage-repair-20261003/before.log",
+      "sha256": "c04de031a2119ee839e3247500b4ac120d3a411305c50cd4558e0847ef803192",
+      "bytes": 1470,
+      "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08",
+      "observation": "Original frozen lane failure-repair receipt; exact bytes verified against the delivered head. Lane scoped results are not fresh combined acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-platform-export-stage-repair-20261003/result.json",
+      "sha256": "7c59979a37af2f0bc81b50fac01fe4a2c45a123374f8dce8c8c730628edcd440",
+      "bytes": 6834,
+      "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08",
+      "observation": "Original frozen lane failure-repair receipt; exact bytes verified against the delivered head. Lane scoped results are not fresh combined acceptance."
+    },
+    {
       "path": "docs/evidence/backlog-platform-final-types-20261003/cleanup-fixture-tests.log",
       "sha256": "107d02d7bf9cb45388bcd2fb896fe511a477d8b527f3140d9149f37f22fd9d63",
       "bytes": 427,
@@ -776,6 +797,27 @@
       "bytes": 2645
     },
     {
+      "path": "docs/evidence/backlog-services-final-failures-20261003/after.log.txt",
+      "sha256": "840d82f1070d120c8590318bececfc5dc2f3e49724f9ce23deea8695e1549006",
+      "bytes": 6646,
+      "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532",
+      "observation": "Original frozen lane failure-repair receipt; exact bytes verified against the delivered head. Lane scoped results are not fresh combined acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-final-failures-20261003/before.log.txt",
+      "sha256": "7fb29d5cb978fcbb38dcf78e3f741481a507c49d796397932b337f2155931314",
+      "bytes": 2927,
+      "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532",
+      "observation": "Original frozen lane failure-repair receipt; exact bytes verified against the delivered head. Lane scoped results are not fresh combined acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-final-failures-20261003/validation.json",
+      "sha256": "97b71e1dfa7ade4e99e874e0bb3b0ccad9b20d736dedd3bc2a6bf9390538c02a",
+      "bytes": 9469,
+      "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532",
+      "observation": "Original frozen lane failure-repair receipt; exact bytes verified against the delivered head. Lane scoped results are not fresh combined acceptance."
+    },
+    {
       "path": "docs/evidence/backlog-services-final-type-repair-20261003/architecture-changed.log.txt",
       "sha256": "107c29ac9b43987f5f07b8757ac82f8c050ee72271dd2b5cfac88d42051f477c",
       "bytes": 270,
@@ -881,6 +923,13 @@
       "sha256": "6867d3e57197a0dffdbc3a9d639bbfa7c211556927cde356d3047a6d40517941",
       "bytes": 6134,
       "sourceCommit": "73696902cbefbd084b54f6e4ac02b10d709adb40"
+    },
+    {
+      "path": "docs/evidence/backlog-ui-20261003/final-grouped-menu-fixture-repair.json",
+      "sha256": "0e44c76db6649ae0e78cf1613d2bb21be7b1a158de8c650421bfedd4c1de0442",
+      "bytes": 9426,
+      "sourceCommit": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e",
+      "observation": "Original frozen lane failure-repair receipt; exact bytes verified against the delivered head. Lane scoped results are not fresh combined acceptance."
     },
     {
       "path": "docs/evidence/backlog-ui-20261003/group-progress.json",

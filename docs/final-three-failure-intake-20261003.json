@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "priorMaterialScopeCheckpoint": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+  "preIntakeSpecCommit": "080c28749c5df8f3647e8027d6a205c4991d8432",
+  "sourceCombinationBeforeMetadata": "7e01e67d23c7629dcc5f4df38bdf798201e7edf2",
+  "laneInputs": [
+    {
+      "lane": "native",
+      "head": "7096de3d170eea2267b82db47fb2e9140fdf7b08",
+      "mergeCommit": "99af83370ba5f80404d88941432d9147196f0e62",
+      "mergeBase": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "conflicts": [],
+      "pathsAndExactBindings": [
+        {
+          "path": "docs/evidence/backlog-platform-export-stage-repair-20261003/after.log",
+          "sha256": "be3043b452291b0054c3ae3f6401eee081dc9fa25a54b0a1ad5e31ff9c99a1f4",
+          "bytes": 247,
+          "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08"
+        },
+        {
+          "path": "docs/evidence/backlog-platform-export-stage-repair-20261003/before.log",
+          "sha256": "c04de031a2119ee839e3247500b4ac120d3a411305c50cd4558e0847ef803192",
+          "bytes": 1470,
+          "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08"
+        },
+        {
+          "path": "docs/evidence/backlog-platform-export-stage-repair-20261003/result.json",
+          "sha256": "7c59979a37af2f0bc81b50fac01fe4a2c45a123374f8dce8c8c730628edcd440",
+          "bytes": 6834,
+          "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08"
+        },
+        {
+          "path": "docs/lane-native-20261003.md",
+          "sha256": "80ccce365cf1def711a1fd04faa552477508fdac501e8956d9b9a6b2165824e1",
+          "bytes": 37435,
+          "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08"
+        },
+        {
+          "path": "packages/desktop/src/main/exportLogs.ts",
+          "sha256": "549dfee06807f7073789b9917cbfe45520bfc60f4717b410ec674e083ea17308",
+          "bytes": 32518,
+          "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08"
+        },
+        {
+          "path": "specs/knorvia-next-platform-export-logs-20261003.md",
+          "sha256": "6f8c03e19cbca34f291b2365370c8cd0c59e91f52951e32212bb4005e6f52f09",
+          "bytes": 13494,
+          "sourceCommit": "7096de3d170eea2267b82db47fb2e9140fdf7b08"
+        }
+      ]
+    },
+    {
+      "lane": "ui",
+      "head": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e",
+      "mergeCommit": "688e8b525071a456c9a765e63a4367c15000790e",
+      "mergeBase": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "conflicts": [],
+      "pathsAndExactBindings": [
+        {
+          "path": "docs/evidence/backlog-ui-20261003/final-grouped-menu-fixture-repair.json",
+          "sha256": "0e44c76db6649ae0e78cf1613d2bb21be7b1a158de8c650421bfedd4c1de0442",
+          "bytes": 9426,
+          "sourceCommit": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e"
+        },
+        {
+          "path": "docs/lane-ui-20261003.md",
+          "sha256": "f397b27f681c3a603fcc06b98b644052bdc7d60efa2138c62dd3fc1242fe0ae7",
+          "bytes": 24508,
+          "sourceCommit": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e"
+        },
+        {
+          "path": "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+          "sha256": "871c131333301420e37b2ea4be6977b65860aa7f4e493a9e8797f73d75c0ff62",
+          "bytes": 12846,
+          "sourceCommit": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e"
+        },
+        {
+          "path": "specs/knorvia-next-ui-consumer-boundaries-20261003.md",
+          "sha256": "056a3ef8979ff0349318d1dba72246cd01616a329368985e5e761388fade70e4",
+          "bytes": 13122,
+          "sourceCommit": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e"
+        }
+      ]
+    },
+    {
+      "lane": "services",
+      "head": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532",
+      "mergeCommit": "7e01e67d23c7629dcc5f4df38bdf798201e7edf2",
+      "mergeBase": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "conflicts": [],
+      "pathsAndExactBindings": [
+        {
+          "path": "docs/evidence/backlog-services-final-failures-20261003/after.log.txt",
+          "sha256": "840d82f1070d120c8590318bececfc5dc2f3e49724f9ce23deea8695e1549006",
+          "bytes": 6646,
+          "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532"
+        },
+        {
+          "path": "docs/evidence/backlog-services-final-failures-20261003/before.log.txt",
+          "sha256": "7fb29d5cb978fcbb38dcf78e3f741481a507c49d796397932b337f2155931314",
+          "bytes": 2927,
+          "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532"
+        },
+        {
+          "path": "docs/evidence/backlog-services-final-failures-20261003/validation.json",
+          "sha256": "97b71e1dfa7ade4e99e874e0bb3b0ccad9b20d736dedd3bc2a6bf9390538c02a",
+          "bytes": 9469,
+          "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532"
+        },
+        {
+          "path": "docs/lane-services-20261003.md",
+          "sha256": "c5a47ae170a977a6b8afd1ebcbcb1daeaa404461160a480ebf3b23176516d637",
+          "bytes": 32347,
+          "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532"
+        },
+        {
+          "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+          "sha256": "c3377ef014ced0296796fadf1c1613db22b2a8d6aafea2fbcfd123a6a4cd60d9",
+          "bytes": 11448,
+          "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532"
+        },
+        {
+          "path": "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+          "sha256": "4baf7dabd47257e730ed64b2db0355c85315c799cacc6866367828c2359719d9",
+          "bytes": 26469,
+          "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532"
+        },
+        {
+          "path": "specs/knorvia-next-services-final-failure-repair-20261003.md",
+          "sha256": "40247ce301f499810691484fa8fb56e902e37c55532a01adfc8e5681b5724311",
+          "bytes": 1913,
+          "sourceCommit": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532"
+        }
+      ]
+    }
+  ],
+  "oldFrozenEvidenceRowsPreserved": 5594,
+  "newFrozenLaneRecords": 7,
+  "frozenEvidenceFilesAfterIntake": 5601,
+  "historicalFailuresAndGoldenChanged": false,
+  "wholeTreeMitReady": false,
+  "obligationsClosed": 0,
+  "mainMerged": false,
+  "pendingCliInputAtIntake": "661e5f64bf819c93c13a7b077531239dec5199cf",
+  "pendingCliFailures": "17 current input/dist selectors and one historical NaN phase-fold baseline; original lane owns these",
+  "unifiedRuntimeChecksAtThisIntake": "not run yet; after publishing checkpoint, run only four originally failing cases on pinned Node24.14.0 with original assertions/golden preserved",
+  "uiLaneRuntimeQualification": "Original lane used Node24.19.0; do not label it a uniform24.14 run",
+  "scope": "Ordinary three-head merge, exact delivered-source/evidence bindings and candidate inventory freshness. No license, review, historical evidence or independent-expression/rights acceptance changed."
+}
