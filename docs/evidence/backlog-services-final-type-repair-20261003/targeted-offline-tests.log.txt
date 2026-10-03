@@ -1,0 +1,31 @@
+Command: /tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node --experimental-test-module-mocks --import tsx --test --test-concurrency=2 --test-timeout=120000 packages/services/test/services-parsing-boundaries-final-20261003.test.ts packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts packages/services/test/git-cli-repo-fake-safety-20261002.test.ts packages/services/test/commands-fake-write-safety-20261002.test.ts packages/services/test/skill-sync-write-integrity-20261002.test.ts packages/services/test/providerConfigMigration.test.ts
+Source commit: c448bfcb18dbe3107b97ace675701eba704c4a86
+Observed exit: 0
+
+(node:6953) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake command filesystem preserves config, rename disable override, collision ordering and failure identity (5.038922ms)
+(node:6954) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ synthetic CLI parsing, repository paths and permission-limited file reads (60.961153ms)
+(node:6991) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ synthetic CLI writes preserve argv, private-index scope and permission failures (110.246545ms)
+✔ fresh startup does not import the previous product provider file (50.378753ms)
+✔ the existing personal provider configuration remains authoritative (13.547972ms)
+✔ invalid retired provider files cannot interrupt or mutate fresh configuration (12.63436ms)
+✔ personal API providers can be created and selected without an account or network (86.728672ms)
+✔ command metadata keeps continuation boundaries and original prompt bytes (1.175864ms)
+✔ porcelain consumes rename continuation once and retains XY/conflict and incomplete-tail rules (1.132109ms)
+✔ numstat keeps binary counts, negative zero, tab paths and truncated rename tails (0.307642ms)
+✔ legacy endpoints keep empty, shared-origin and non-URL migration data (0.529465ms)
+✔ proxy bypass and YAML fallback retain absent and empty-field boundaries (5.271451ms)
+✔ synthetic skill archive writes preserve collisions, limits and path boundaries (446.002887ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2598.413523

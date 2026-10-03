@@ -28,6 +28,7 @@ function bypassProxy(url: URL, noProxy: string | undefined): boolean {
     if (!rule) return false;
     if (rule === "*") return true;
     const [hostPart, rulePort] = rule.replace(/^[a-z][a-z\d+.-]*:\/\//, "").split(":");
+    if (hostPart === undefined) return false;
     const host = hostPart.replace(/^\*\.?/, "").replace(/^\./, "");
     return (
       Boolean(host) &&

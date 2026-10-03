@@ -12,6 +12,8 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
     ["/owned root/quote ' text", Buffer.from("first\nlast")],
     ["/owned root/zero", Buffer.from([65, 0, 10])],
     ["/owned root/close denied", Buffer.from("ok\n")],
+    ["/owned root/last newline", Buffer.from("first\n")],
+    ["/owned root/empty", Buffer.alloc(0)],
   ]);
   mock.module("node:fs/promises", {
     namedExports: {
@@ -107,12 +109,14 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
   });
   const stats = await h.buildUntrackedStats(
     "/owned root",
-    ["quote ' text", "zero", "no permission", "close denied"].map(entry),
+    ["quote ' text", "zero", "no permission", "close denied", "last newline", "empty"].map(entry),
   );
   assert.deepEqual(stats.get("quote ' text"), { added: 2, removed: 0 });
-  for (const p of ["zero", "no permission", "close denied"])
+  assert.deepEqual(stats.get("last newline"), { added: 1, removed: 0 });
+  for (const p of ["zero", "no permission", "close denied", "empty"])
     assert.deepEqual(stats.get(p), { added: 0, removed: 0 });
-  assert.equal(closes.length, 3);
+  assert.equal(closes.length, 5);
+  assert.equal(new Set(closes).size, 5);
   const preview = await h.buildUntrackedTextDiffResult(
     "/owned root/quote ' text",
     "quote ' text",

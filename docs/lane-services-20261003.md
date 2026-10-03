@@ -347,3 +347,63 @@ unchanged page/composer/runtime consumers on desktop/Web. This lane's current
 allocation does not permit those extra UI test/runtime/JSX files. Source/author/
 whole-expression/rights decisions for new and retained feature candidates still
 belong to the integrator. **UNVERIFIED:** no executable validation ran.
+
+## Batch 7 — final-stage services type and compatibility repair
+
+The parent now explicitly authorizes necessary targeted type/lint/offline tests.
+Fetched both original lane and integration refs, then fast-forwarded this same
+branch from `dac1483b661064ba64003a1137713646d2ebbc8c` to the combined checkpoint
+`19f6ccf74ba1064ca81d93194b4f25a36030e361`. The original PR16 is already merged/
+closed; this batch delivers another pushed SHA without creating a new PR/task.
+Earlier batches' unverified status describes their original source checkpoints.
+
+The [bounded repair contract](../specs/knorvia-next-services-final-type-repair-20261003.md)
+was written before source edits. The integrator's first-pass receipt assigned 43
+distinct diagnostics across seven service files: commandFileParser (5),
+gitCliHelpers (7), gitCliParsing (27), gitRepoPush (1), legacyProviderEndpoints (1),
+nodeApiNetwork (1), and skillSyncDiscovery (1). They concern absent indexed values,
+not a newly requested public API or data migration.
+
+Source commit: `c448bfcb18dbe3107b97ace675701eba704c4a86`. Required metadata and
+regex captures are admitted explicitly; ordered Git record iterators own rename
+continuations; the untracked-file iterator admits each worker job before awaits;
+byte iteration covers only the actual read slice. Existing push precedence,
+endpoint URL/query data, proxy rules and skill YAML fallbacks are preserved.
+No `any`, ignore directive, non-null assertion or compiler-setting relaxation was
+added. These seven existing sources received compatibility repairs, not new
+whole-owner authorship or rights clearance.
+
+**Targeted verification passed:** final execution used the repository's Node
+24.14.0 with TypeScript 6.0.2, oxlint 1.60.0 and tsx 4.21.0 from the frozen lockfile.
+Services `tsc --noEmit --project packages/services/tsconfig.json --pretty false`
+exited 0 with no diagnostics; the assigned 43 are resolved. Scoped oxlint exited 0
+with 0 errors/0 warnings across the seven sources and three changed test files.
+Six selected offline test files passed all 13 tests, including five new parsing
+contracts, more queued files than Git workers, sole/missing/ambiguous remotes,
+command write safety, provider-config compatibility and skill archive integrity.
+Changed-file architecture inspection reported 0 violations/0 baseline/0 new;
+services remains a legacy unmanaged module. Source diff inspection also passed.
+
+The fresh environment lacked dependencies. Installed them with pinned pnpm
+10.33.2, frozen lockfile and disabled lifecycle scripts. An initial targeted
+declaration-only compiler pass prepared shared/RPC reference declarations and
+checked services successfully on the environment's Node 24.19.0. The final
+services noEmit/lint/tests above were then repeated on verified official Node
+24.14.0 in /tmp; neither global runtime nor repository configuration changed.
+Initial pnpm architecture commands stopped before their checkers at dependency
+setup; the equivalent direct scoped checker/context commands subsequently ran.
+
+Exact predecessor/new source bindings, commands, observed exits, environment,
+test scope and retained logs are in
+[validation.json](evidence/backlog-services-final-type-repair-20261003/validation.json).
+Test files used synthetic ports or isolated temporary directories; no real Git
+business command, model request, user configuration/storage or local user computer
+was operated. No additional UI, shared-contract, root-config, CI, global-provenance
+or license file was edited. Existing source records, notices and HOLDs remain.
+
+No new cross-module interface dependency or local repair blocker remains for the
+43 assigned errors. **UNVERIFIED:** full combined root checks, desktop/Web/mobile,
+Windows and other earlier implementation acceptance have not been rerun by this
+batch. The integrator must merge the pushed descendant, complete unified checks
+and retain separate historical/source-expression/rights decisions before an MIT
+release. Main readiness and rights acceptance are not asserted here.

@@ -37,10 +37,11 @@ export async function readSkillFileOrNull(path: string): Promise<string | null> 
 export function parseSkillMetadata(definition: string, fallbackName: string) {
   const fallback = { name: fallbackName, description: "" };
   const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/u.exec(definition);
-  if (!match) return fallback;
+  const metadata = match?.[1];
+  if (metadata === undefined) return fallback;
   let parsed: unknown;
   try {
-    parsed = parse(match[1]);
+    parsed = parse(metadata);
   } catch {
     return fallback;
   }

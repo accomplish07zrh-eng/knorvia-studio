@@ -25,9 +25,8 @@ export function parseStatusPorcelain(stdout: string): {
     behind: 0,
     entries: [],
   };
-  const records = stdout.split("\0").filter((record) => record.length > 0);
-  for (let index = 0; index < records.length; index += 1) {
-    const record = records[index];
+  const records = stdout.split("\0").filter((record) => record.length > 0).values();
+  for (const record of records) {
     if (record.startsWith("# branch.head ")) {
       const head = record.slice("# branch.head ".length);
       parsed.branchName = head === "(detached)" ? null : head;
@@ -58,18 +57,17 @@ export function parseStatusPorcelain(stdout: string): {
       continue;
     }
     let match: RegExpExecArray | null = null;
-    let kind: GitChangeKind;
+    let kind: GitChangeKind | undefined;
     let originalPath: string | null = null;
     let isConflicted = false;
     if (record.startsWith("1 ")) {
       match = /^1 ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/.exec(record);
       if (!match) continue;
-      kind = kindForStatus(match[1][0] !== "." ? match[1][0] : match[1][1]);
     } else if (record.startsWith("2 ")) {
       match = /^2 ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/.exec(record);
       if (!match) continue;
-      const original = records[++index];
-      originalPath = original ? normalizeGitPath(original) : null;
+      const original = records.next();
+      originalPath = !original.done && original.value ? normalizeGitPath(original.value) : null;
       kind = "renamed";
     } else if (record.startsWith("u ")) {
       match = /^u ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/.exec(record);
@@ -79,12 +77,16 @@ export function parseStatusPorcelain(stdout: string): {
     } else {
       continue;
     }
+    const [, status, path] = match;
+    if (status === undefined || status.length !== 2 || path === undefined) continue;
+    const x = status.charAt(0);
+    const y = status.charAt(1);
     parsed.entries.push({
-      path: normalizeGitPath(match[2]),
+      path: normalizeGitPath(path),
       originalPath,
-      kind,
-      x: match[1][0],
-      y: match[1][1],
+      kind: kind ?? kindForStatus(x !== "." ? x : y),
+      x,
+      y,
       isUntracked: false,
       isConflicted,
     });
@@ -101,27 +103,27 @@ export function inferKindFromNumstat(stat: GitLineStat): GitChangeKind {
 
 export function parseNumstat(stdout: string): Map<string, GitLineStat> {
   const stats = new Map<string, GitLineStat>();
-  const records = stdout.split("\0");
-  for (let index = 0; index < records.length; index += 1) {
-    if (!records[index]) continue;
-    const fields = records[index].split("\t");
-    if (fields.length < 3) continue;
-    const parsedAdded = parseInt(fields[0], 10);
-    const parsedRemoved = parseInt(fields[1], 10);
+  const records = stdout.split("\0").values();
+  for (const record of records) {
+    if (!record) continue;
+    const [addedText, removedText, ...pathParts] = record.split("\t");
+    if (addedText === undefined || removedText === undefined || pathParts.length === 0) continue;
+    const parsedAdded = parseInt(addedText, 10);
+    const parsedRemoved = parseInt(removedText, 10);
     const added = Number.isNaN(parsedAdded) ? 0 : parsedAdded;
     const removed = Number.isNaN(parsedRemoved) ? 0 : parsedRemoved;
-    const path = fields.slice(2).join("\t");
+    const path = pathParts.join("\t");
     if (path) {
       stats.set(normalizeGitPath(path), { added, removed });
     } else {
-      const original = records[++index];
-      const renamed = records[++index];
-      if (renamed)
-        stats.set(normalizeGitPath(renamed), {
+      const original = records.next();
+      const renamed = records.next();
+      if (!renamed.done && renamed.value)
+        stats.set(normalizeGitPath(renamed.value), {
           added,
           removed,
           kind: "renamed",
-          originalPath: normalizeGitPath(original ?? ""),
+          originalPath: normalizeGitPath(original.done ? "" : original.value),
         });
     }
   }

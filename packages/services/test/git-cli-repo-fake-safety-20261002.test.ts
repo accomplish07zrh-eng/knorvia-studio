@@ -76,6 +76,7 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
   const commands: GitCommandExecutionOptions[] = [];
   let failCommand: string | null = null;
   let rejectCommand: Error | null = null;
+  let remoteListing = "";
   const provider = {
     async resolveGitBinary() {
       return "owned fake git";
@@ -89,6 +90,7 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
       if (command.args[0] === "ls-files") stdout = "100644 abc 0\tsub/quote ' file\0";
       if (command.args[0] === "rev-parse")
         stdout = command.args.includes("--verify") ? "parent\n" : "new-hash\n";
+      if (command.args[0] === "remote") stdout = remoteListing;
       return {
         binaryPath: "owned fake git",
         cwd: command.cwd,
@@ -267,4 +269,17 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
   assert.equal(commands[0].timeoutMs, 600000);
   assert.equal(commands[0].maxOutputBytes, 8388608);
   assert.equal(statusReads, 2);
+
+  failCommand = null;
+  status.summary.trackingBranchName = null;
+  remoteListing = "  sole-owned-remote\r\n";
+  commands.length = 0;
+  const pushed = await repo.push(resolution.workspacePath);
+  assert.equal(pushed.remoteName, "sole-owned-remote");
+  assert.equal(pushed.setUpstream, true);
+  assert.deepEqual(commands.at(-1)?.args, ["push", "--set-upstream", "sole-owned-remote", "owned"]);
+  remoteListing = "";
+  await assert.rejects(repo.push(resolution.workspacePath), /No Git remote is configured/);
+  remoteListing = "first\nsecond\n";
+  await assert.rejects(repo.push(resolution.workspacePath), /Multiple Git remotes are configured/);
 });

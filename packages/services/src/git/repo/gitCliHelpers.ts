@@ -63,8 +63,7 @@ function pathsAfterHeader(lines: string[], header: RegExp): string[] {
   const start = lines.findIndex((line) => header.test(line.toLowerCase()));
   if (start < 0) return [];
   const paths: string[] = [];
-  for (let index = start + 1; index < lines.length; index += 1) {
-    const line = lines[index];
+  for (const line of lines.slice(start + 1)) {
     if (!line.trim()) continue;
     if (!/^\s/.test(line)) break;
     paths.push(normalizeGitPath(line.trim()));
@@ -150,8 +149,7 @@ async function countUntrackedLines(absolutePath: string, buffer: Buffer): Promis
       if (bytesRead === 0) return lineFeeds + (lastByte === 10 ? 0 : 1);
       totalBytes += bytesRead;
       if (totalBytes > GIT_UNTRACKED_STAT_MAX_BYTES) return 0;
-      for (let index = 0; index < bytesRead; index += 1) {
-        const byte = buffer[index];
+      for (const byte of buffer.subarray(0, bytesRead)) {
         if (byte === 0) return 0;
         if (byte === 10) lineFeeds += 1;
         lastByte = byte;
@@ -169,13 +167,15 @@ export async function buildUntrackedStats(
 ): Promise<Map<string, GitLineStat>> {
   const pending = entries.filter((entry) => entry.isUntracked);
   const stats = new Map<string, GitLineStat>();
-  let cursor = 0;
+  const work = pending.values();
   const workers = Array.from(
     { length: Math.min(GIT_UNTRACKED_STAT_CONCURRENCY, pending.length) },
     async () => {
       const buffer = Buffer.allocUnsafe(GIT_UNTRACKED_STAT_CHUNK_BYTES);
-      while (cursor < pending.length) {
-        const entry = pending[cursor++];
+      while (true) {
+        const next = work.next();
+        if (next.done) break;
+        const entry = next.value;
         const absolutePath = resolve(repoRoot, ...entry.path.split("/"));
         try {
           stats.set(entry.path, {

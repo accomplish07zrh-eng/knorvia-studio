@@ -46,7 +46,8 @@ async function pushRemote(
     .map((line) => line.trim())
     .filter(Boolean);
   if (remotes.includes("origin")) return "origin";
-  if (remotes.length === 1) return remotes[0];
+  const [soleRemote] = remotes;
+  if (remotes.length === 1 && soleRemote !== undefined) return soleRemote;
   if (!remotes.length) throw new Error("No Git remote is configured for the current repository.");
   throw new Error(
     "Multiple Git remotes are configured. Configure branch.<name>.remote or remote.pushDefault first.",
