@@ -140,3 +140,32 @@ CLI ESM runtime/build owner 需修复此已证实问题，再用统一新 head �
 旧 source902e35c6 的 Linux CI37123988720 已完成：来源/types/lint/fmt/架构/CLI
 构建通过；离线回归 **8260 tests / 8251 pass / 1 fail / 8 skip**，唯一失败为已接收
 HTTP 端口夹具缺口。该旧失败保留，完整新修复树的两平台结论按新受检 SHA 报告。
+
+## 实际 Web 组合与 owned Host 退出接收
+
+UI 仅证据交付 `b7f3c26d9e42b32f326adee1b8cf4cc1d4d4a98b` 已普通 merge 接收，
+没有新增生产源码。原材料见
+`docs/evidence/backlog-ui-20261003/combined-gui-20261003/README.md`。
+受测最新 source 为 `902e35c6dbcfa4b829270352fecf03ebc07b219f`；31 个具名 source
+的实际字节与绑定、59 项交付 checksum 核对。旧 ad712690 的相关 UI/数据库/CLI 源
+保持相同，三个 process-tree 文件不同；旧组合验收不重新标为新 source 执行。
+
+实际生产 Chromium Web 的六个不同场景接受：冷启动/workspace/reload 独立草稿，
+live file create/preview/rename/delete 的持续搜索，真实 Controller pin/reload/unpin，
+群定义/目标/草稿恢复及菜单双 pane 等。hook/caught-boundary/pageerror 均零；
+第一轮实际五过一 locator strict-mode 失败，私有定位器单项修正复核后才接受第六项，
+原失败 JSON 保留。large chunk/Office 动态拆包警告与 lazy GitHub chunk ERR_ABORTED
+保留，只接受已测资源基础，不推广完整主题/Office 表现。
+
+实际托管 Agent 完成 22 个 CLI 存储初始化迁移；存活 Agent 随公开工厂 Host 的
+await-dispose 关闭，Host/Agent exit0、所观察 PID/Agent 进程组无残留。最初夹具
+数据库路径 ENOENT 保留；随后只用受支持的隔离 session DB/storage 环境修正夹具，
+未改 HOME 或生产实现。initialize 返回 provider_not_ready；未发模型任务，未接受
+真实历史、执行/续接或活动 tool/MCP 后代关闭。Desktop/Electron、真实 Windows/
+macOS 安装升级、移动布局缺口继续保留。
+
+六十份材料保留源提交和实际字节。全局登记当前为 **5912 文件 / 67466748 字节**，
+相对稳定 main 新增 **196** 份，旧 5852 行与原始字节不变。本批只刷新来源投影，
+不增加权利或独立性判定。source80375ff6 的 Linux CI 实际通过，离线结果为
+**8261 tests / 8253 pass / 0 fail / 8 skip**；Windows 尚待实际结果。
+两平台 CI 按各自受检 SHA 报告，追加证据不改记已执行次数。
