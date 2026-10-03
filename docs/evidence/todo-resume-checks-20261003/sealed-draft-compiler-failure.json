@@ -1,0 +1,20 @@
+{
+  "diagnostics": [
+    {
+      "code": 18046,
+      "file": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+      "message": "'event.payload' is of type 'unknown'."
+    },
+    {
+      "code": 18046,
+      "file": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+      "message": "'event.payload' is of type 'unknown'."
+    }
+  ],
+  "apiEqual": true,
+  "draftSourceHashes": {
+    "todo.ts": "4d2db9d1a6d43e59bc3438647db0dfa36e128e9d686aeed180f7e71e1a9aa10a",
+    "resume.ts": "e17b8ae38b6d459b76ad5b7495ed8cfd8ccc43ccdc507543b26cc0a803d12387"
+  },
+  "reviewOnlyFix": "Erased type assertions on unknown event payload, no runtime policy/source adoption."
+}
