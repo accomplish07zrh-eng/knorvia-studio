@@ -1,6 +1,6 @@
 import {
-  ProviderRegistryService,
   MutableAccountProviderConfigSource,
+  ProviderRegistryService,
   createFailClosedAccountProviderConfigSnapshot,
   type AccountProviderConfigSnapshot,
   type ProviderSource,
@@ -19,11 +19,12 @@ export interface NodeProviderRegistryRuntimeOptions extends NodeProviderConfigRu
 
 /** 一个 Node.js 进程内共享的 Config + Registry 生命周期。 */
 export class NodeProviderRegistryRuntime {
-  readonly configService: NodeProviderConfigRuntime["configService"];
-  readonly registryService: ProviderRegistryService;
   readonly #configRuntime: NodeProviderConfigRuntime;
   readonly #accountSource: ProviderSource<AccountProviderConfigSnapshot>;
   #disposed = false;
+
+  readonly configService: NodeProviderConfigRuntime["configService"];
+  readonly registryService: ProviderRegistryService;
 
   constructor(options: NodeProviderRegistryRuntimeOptions) {
     this.#configRuntime = new NodeProviderConfigRuntime(options);
@@ -39,8 +40,12 @@ export class NodeProviderRegistryRuntime {
   }
 
   async start(): Promise<void> {
-    this.#assertNotDisposed();
+    if (this.#disposed) {
+      throw new Error("NodeProviderRegistryRuntime 已 dispose");
+    }
+
     await this.#configRuntime.start();
+
     if (this.#accountSource instanceof MutableAccountProviderConfigSource) {
       const account = await this.#accountSource.read();
       if (account.basedOnKnorviaBuiltinRevision === "uninitialized") {
@@ -50,6 +55,7 @@ export class NodeProviderRegistryRuntime {
         );
       }
     }
+
     return this.registryService.start();
   }
 
@@ -62,14 +68,13 @@ export class NodeProviderRegistryRuntime {
   }
 
   dispose(): void {
-    if (this.#disposed) return;
+    if (this.#disposed) {
+      return;
+    }
+
     this.#disposed = true;
     this.registryService.dispose();
     this.#configRuntime.dispose();
-  }
-
-  #assertNotDisposed(): void {
-    if (this.#disposed) throw new Error("NodeProviderRegistryRuntime 已 dispose");
   }
 }
 
