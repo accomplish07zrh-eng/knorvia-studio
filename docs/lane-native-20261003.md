@@ -124,6 +124,51 @@ backend/type dependencies. Three fake-backend/clock scenarios in
 Same source-exposed author; expression, rights and native acceptance remain
 pending. No MIT decision or global inventory update.
 
+## Desktop daily-log retention batch
+
+`logRetention.ts` now separates the complete local-calendar expiry policy from
+ordered filesystem deletion/result ownership. Startup remains synchronous,
+regular daily logs alone are admitted, cutoff equality is retained, each file
+observes the live caller-held Date, unlink failures continue, and outer traversal
+failures preserve the existing empty-result observation. No timer or recursive
+cleanup was added; no real file was read or removed.
+
+[Contract](../specs/knorvia-next-platform-log-retention-20261003.md) and
+[bindings](evidence/backlog-platform-log-retention-20261003/bindings.json) bind the
+unchanged-upstream baseline, whole frozen candidate and retained logger caller.
+Four fake-filesystem scenarios in
+`packages/desktop/test/native-log-retention-owner-contract.test.mjs` are **unrun**.
+The date pattern, calendar formula and ordinary native idioms remain qualified;
+this is not an independent-expression/rights/MIT acceptance.
+
+## Exact next native decisions
+
+The bounded data-size queue is already installed and retained: scanner/client
+from `9d92be5f35e89539e0077e79005f786f00778202` match
+[root-data-preview review](evidence/root-data-preview-20261003/review.json).
+`dataSizeWorker.ts` is explicitly retained tiny entry glue there, with no new
+originality credit. None was overwritten or counted by this lane.
+
+`packages/desktop/src/main/exportLogs.ts` still matches its upstream-modified
+recorded SHA256 `709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77`.
+The services feedback-archive handoff covers its existing wrapper consumer, not
+a whole desktop export owner. This is a specific next native implementation
+candidate: retain the installed `packages/services/src/feedback/feedbackLogArchive.ts`
+API/owner and all export data/progress/cancellation formats; do not rewrite the
+services archive implementation. The wrapper/export source has not yet been
+reconstructed by this lane. No change to the services interface is proposed.
+
+Separately authorized `packages/server-cli/src/runtime/lock.ts` retains
+SHA256 `d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0`,
+and `startupRecovery.ts` retains
+`17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80`.
+Their selected inventory entries remain unreviewed, with no upstream mapping or
+matching installed replacement receipt surfaced. Integration must reconcile
+actual authorship/classification rather than treating them as inherited upstream
+or MIT automatically. This is a precise origin decision, not a claim that all
+native code is complete; the lock algorithm is available for a later authorized
+behavior-contract candidate and the recovery file is a thin retained facade.
+
 ## Inherited work and remaining boundaries
 
 The old E ChannelClient packet binds upstream blob
