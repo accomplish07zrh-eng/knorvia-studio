@@ -201,7 +201,12 @@ export function createHttpServer(
   const app = new Hono();
   const { upgradeWebSocket, injectWebSocket } = createNodeWebSocket({ app });
   const capabilities = createHostCapabilityStore();
-  const controller = createHttpWindowController(services);
+  const controller = createHttpWindowController(services, (_scope, operation, error) => {
+    log("window-controller source failed", {
+      operation,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  });
   const configuredToken = options.authToken?.trim();
 
   if (configuredToken) {

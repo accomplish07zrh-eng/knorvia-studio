@@ -34,6 +34,7 @@ HTTP server close → 释放 controller runtime 的 source observer 与投影
   Web replayable agent connection scope 不变，不修改授权、能力 token 或 relay 路由。
 - 保留 pin/archive/unread/delete 的业务委托、完整 source 身份校验、离线投影、
   single-flight 刷新和 per-source generation 规则。socket close 清理保持幂等。
+  source refresh/search 的失败进入现有 HTTP 日志，保留原可信投影，不静默宣称成功。
 
 ## 验收场景与当前状态
 

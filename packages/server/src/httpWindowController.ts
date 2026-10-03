@@ -7,7 +7,10 @@ import {
 } from "@knorvia/services";
 import { createWindowHostControllerRuntime } from "@knorvia/services/window-controller";
 
-export function createHttpWindowController(services: ServiceCollection) {
+export function createHttpWindowController(
+  services: ServiceCollection,
+  onSourceError?: Parameters<typeof createWindowHostControllerRuntime>[0]["onSourceError"],
+): ReturnType<typeof createWindowHostControllerRuntime> | undefined {
   if (
     services.getOptional(IWindowControllerService) ||
     !services.getOptional(IKnorviaTaskService)
@@ -19,6 +22,7 @@ export function createHttpWindowController(services: ServiceCollection) {
   // 而不是在 UI 另建列表 fallback。task/agent services 继续拥有业务数据和运行事实。
   return createWindowHostControllerRuntime({
     createId: randomUUID,
+    onSourceError,
     resolveSource(scope) {
       const taskService = services.getOptional(IKnorviaTaskService);
       if (!taskService || !scope.workspacePath) return null;
