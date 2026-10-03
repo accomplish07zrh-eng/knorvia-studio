@@ -8,7 +8,7 @@
 
 读取 package.json 后，workspace 根 runtime entry 由 exports 的 `.` / condition object、main 或 module 给出；exports 是 string/array 时本身为根入口。沿用既有 src → dist 编译入口投影，types 条件不当作可执行 JS。若 manifest 没有 runtime entry，维持旧 `./dist/index.js` fallback。明确的 root import JS 应检查真实文件，不能以没有 dist 判为没有产物；缺失应指出确切入口并让构建失败，不绕过未编译 workspace。包查找/物理版本 placement 与 Node 的消费者优先级不变。
 
-已有 workspace 编译输出仍包含 package.json + 全部 dist/**（不含 maps），source TS 与 dev/test/scripts 不带入。若 manifest 明确声明根 runtime JS，则另外保留该根目录的 .js/.mjs/.cjs、.d.ts/.d.mts/.d.cts、JSON 产物及声明在其他首层目录的 runtime outputs；root JS 的私有同目录模块必须一起带入，不能只拷贝 export 文件而损坏内部相对 import。根 TS 不作为可执行产物，不引入任意全目录打包。当前 CUA 的所有根 runtime/private JS 与 declarations 保持原字节、文件名及 exports 映射，其他资源/driver 仍走原 official-plugin/native asset owner。
+已有 workspace 编译输出仍包含 package.json + 全部 dist/\*\*（不含 maps），source TS 与 dev/test/scripts 不带入。若 manifest 明确声明根 runtime JS，则另外保留该根目录的 .js/.mjs/.cjs、.d.ts/.d.mts/.d.cts、JSON 产物及声明在其他首层目录的 runtime outputs；root JS 的私有同目录模块必须一起带入，不能只拷贝 export 文件而损坏内部相对 import。根 TS 不作为可执行产物，不引入任意全目录打包。当前 CUA 的所有根 runtime/private JS 与 declarations 保持原字节、文件名及 exports 映射，其他资源/driver 仍走原 official-plugin/native asset owner。
 
 投影 exports/main/module/types/imports 仍只修改 staged package.json，不修改源 manifest；root CUA exports 不被变成虚构 dist 路径。应由同一个 manifest surface helper 供 preflight 和 inclusion 决策使用，避免两份不同布局判断。
 
