@@ -4,6 +4,10 @@
 
 ## 最终两平台修复接收（09:30 UTC）
 
+最后一次CLI emitted绑定修复已冻结为 `213f8fe3112efa902f55003977a3df84b1e43923`，impl `4bf32a332611b8ed7f0de0b65d9f6ffcd8105ea3`，从已发布组合c4f9bbb普通接回，整合merge `b02640283906eed935fb159aa17173e20bc234c0`，无冲突，只接收6个CLI路径、无生产改动。原receipt `9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714` 保持；新增v2固定构建receipt `02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553`，14个selector/217路径顺序不变，75源码SHA与当前实际文件匹配。仅六个emit pin变为固定完整项目file-root顺序、实际compiler输出；142 outputs两compiler版本相同、68声明原字节不变是lane已运行结果，60 source/60 emitted为60唯一用例，不相加成120，也不当真实Windows验收。重建工具在内存捕获明确注册输出，不从任意local dist自动接纳新pin。见 [新接收绑定](final-cli-emitted-repair-intake-20261003.json)。
+
+旧c4f9bbb的实际两平台结果已单列 [CI与材料结论](final-platform-ci-20261003.md)：synthetic d11e1efa、同13个CLI emitted-byte失败，旧AST proof六项sameEmittedBytes=false保留，不能改写成exact-byte过。新增一份冻结交付raw，原5673记录保持，共5674/64,554,688字节。当前新receipt/tool/reader继续来源身份登记，不授予历史accepted-source/整文件独立性、贡献权利或MIT。先必要改动路径格式和当前inventory/完整性后统一推送，实际新Linux/Windows CI为最终技术结果，本地不重复整套。main仍待父任务集中决定；代码整合的技术检查与完整Git树/产品发布的26材料和第一方权利结论分开说明。
+
 四组完整最终输入：CLI `b7dc31ff315121e4302539a5309619b8d8a85b81`、native `a77f03e5925fbe458bfed06e6ebe8d3af0fc684c`、services `f5ebc48f033382706a945cf5ec5156b8905627e3`、UI `d6274d61fe6d15b976f3b7b5b24f8e62d470229e`。前三组通过普通merge进入 `4e9badd56b919bb72c2ec79d5627b8a8f1049c37`，UI已在先前c576接收，路径无重叠/冲突。lane分支接回73材料检查点的祖先同样保留，不将旧source分支缺少的新文档当成删除。详见 [完整接收与字节绑定](final-platform-repair-intake-20261003.json)。
 
 CLI当前source receipt实际含14个原selector、217个source/emitted条目，其中75个src条目与当前源码SHA相符；不是将12个原失败族等同14个selector数。旧selector/golden保持原字节，旧活动helper/caller/reducer绑定独立historical sidecar，未恢复的accepted-source/整文件权利HOLD不改。NaN原oracle恢复原reducer后24个旧golden匹配，live fold只增加SameValueZero组件相等，finite-endpoint reducer不放宽。native4个与services12个Windows失败文件仅修测试root/完整本机路径/别名/导入键，权限/计数/字节/顺序等断言保留。

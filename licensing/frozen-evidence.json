@@ -543,6 +543,13 @@
       "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
     },
     {
+      "path": "docs/evidence/backlog-cli-20261003/final-current-build-binding-repair.json",
+      "sha256": "5722625893d88d5ff50818d2c93bcffd1b9e055d1132ca2d0405a4b939b845fd",
+      "bytes": 123664,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923",
+      "observation": "Manually received exact delivered CLI current compiler/receipt repair bytes. Earlier receipts and failures preserved. Does not confer historical accepted-source, independent-expression or rights acceptance."
+    },
+    {
       "path": "docs/evidence/backlog-cli-20261003/final-pane-binding-contract.mjs",
       "sha256": "65ce0d1ba1a1a99fc3abb3f971f179694496f11f4fd44268e64ba962a896656c",
       "bytes": 3875,

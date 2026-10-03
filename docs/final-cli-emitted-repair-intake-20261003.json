@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "priorPublishedBranchHead": "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a",
+  "priorCompletedCiRecord": "docs/final-platform-ci-20261003.json",
+  "priorLocalEvidenceHead": "b51f70c1d3fa99b3d2eb95a7d6b13f5622e9ffc5",
+  "deliveredCliHead": "213f8fe3112efa902f55003977a3df84b1e43923",
+  "mergeCommit": "b02640283906eed935fb159aa17173e20bc234c0",
+  "conflicts": [],
+  "receivedPathsExactBytes": [
+    {
+      "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
+      "sha256": "de6cd1c834d1e2b8fc5498c0697547025203358cd1e2590e903ccb0476cf5761",
+      "bytes": 2606,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923"
+    },
+    {
+      "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
+      "sha256": "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553",
+      "bytes": 72599,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923"
+    },
+    {
+      "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.mjs",
+      "sha256": "059e29547c27d18d5f1cd9c6f0ba8b152c0ee4b6ac05a1dc21948ec06b3febf0",
+      "bytes": 4965,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-current-build-binding-repair.json",
+      "sha256": "5722625893d88d5ff50818d2c93bcffd1b9e055d1132ca2d0405a4b939b845fd",
+      "bytes": 123664,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923",
+      "observation": "Manually received exact delivered CLI current compiler/receipt repair bytes. Earlier receipts and failures preserved. Does not confer historical accepted-source, independent-expression or rights acceptance."
+    },
+    {
+      "path": "docs/lane-cli-20261003.md",
+      "sha256": "ff2d02d20189d0c7ae238910a4d6903503df4b32367d5299fabcdd34f56b73ef",
+      "bytes": 56917,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923"
+    },
+    {
+      "path": "specs/knorvia-next-cli-final-type-contract-repair-20261003.md",
+      "sha256": "87751e69ecc3a29ae34fa5a7fa7420851b9750b86ff3e94ef68ec48e8660a696",
+      "bytes": 14914,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923"
+    }
+  ],
+  "oldFrozenRowsPreserved": 5673,
+  "newFrozenRows": 1,
+  "frozenRowsAfterIntake": 5674,
+  "frozenBytesAfterIntake": 64554688,
+  "mainMerged": false,
+  "wholeTreeMitReady": false,
+  "originalObligationsRetained": 26,
+  "materialItemsClosed": 0,
+  "oldReceiptsAndGoldenIdentity": "Must explicitly inspect changed receipt/reader and preserve original source/selector/golden records before publication. Exact per-file bindings here do not infer the old receipt files unchanged.",
+  "runtimeVerification": "New combined source pending actual standard Linux and Windows CI. No local full repeat.",
+  "currentReceiptRelationship": {
+    "oldPath": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+    "oldSha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+    "oldReceiptExactBytesRetained": true,
+    "newPath": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.json",
+    "newSha256": "02a3149427eaff8d6c2b3e1d68771abece7e869d7f150a2a47f9e2e4b1e95553",
+    "sourceCheckpoint": "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a",
+    "formatVersion": 2,
+    "selectorMappingsUnchanged": 14,
+    "registeredPathOrderUnchanged": 217,
+    "registeredSourceBindingsMatchCurrent": 75,
+    "onlyChangedEmittedShaBindings": [
+      {
+        "path": "apps/cli/packages/core/dist/workflow/lifecycle.js",
+        "originalReceiptSha256": "7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b",
+        "newCurrentSha256": "0565ea3e02b524ac5d0d2fd879dea943d718935adec1c7ed3bcfb99a19bf6cd5"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js",
+        "originalReceiptSha256": "1d2fbd8a585ffcf0aaa9efe0f91846b640bee57242cdc02e98f3aab45728f322",
+        "newCurrentSha256": "8fb191bd996362f91b3b799eb7cee6540f56badac448f550866ca61725f424be"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/workflow/scheduler/node-runner.js",
+        "originalReceiptSha256": "f8c62d8254f79d170eb77db610dd907e89b581bb8efc02de1b6ca3e9ceb7dc6e",
+        "newCurrentSha256": "b45bd5312bd09c0b178e017da4a9943e7dee10c2571dba4d6ff0ee84a0ceec49"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/workflow/lifecycle-seed.js",
+        "originalReceiptSha256": "6a5757c48ed16a995b8a9a6b4a993c9c08084f8f698b044b4674990aa05938f6",
+        "newCurrentSha256": "5a9e3728ce70b19333c8a791ccee5bc86f60e7cb1b48a9e5bb78f69226e0736e"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js",
+        "originalReceiptSha256": "335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2",
+        "newCurrentSha256": "861e736e705c62e8cdecff17d3d52ac8cd2a2d46e7f77c674c8814c803b7e1a8"
+      },
+      {
+        "path": "apps/cli/packages/core/dist/runtime-task/notification.js",
+        "originalReceiptSha256": "b3a7e116064cfe29d75b1a6ec25a805c48e29c20cf5eb9e204171950abef2e9a",
+        "newCurrentSha256": "0af4db091bb6bc2a865e2d963393387532a1dd2ad2f5aa249ed9af9bf1f35563"
+      }
+    ],
+    "fixedBuildMetadata": {
+      "node": "24.14.0",
+      "packageManager": "pnpm@10.33.2",
+      "typescript": "6.0.2",
+      "rootPackageSha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d",
+      "frozenLockfileSha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "emit": "Original tsconfig and full project file-root order; registered outputs captured in memory",
+      "registeredCompilerOutputs": 142,
+      "configurations": [
+        {
+          "packageRoot": "apps/cli/packages/core",
+          "tsconfigSha256": "dba1d0224d966aa4206d16afd7cd2ee83842b4736de36f7e0529607bf02c9fb2",
+          "packageJsonSha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+          "sourceRoots": 714,
+          "inputSha256": "571d0c005abeec90c900de03e98526109f7198be394a7f0eeb41748a034362e0"
+        },
+        {
+          "packageRoot": "apps/cli/packages/contracts",
+          "tsconfigSha256": "d446ecc4d7d7327485cad623d04dc1373a02cc5d1c8b3c6f869a87ae3ab0251c",
+          "packageJsonSha256": "23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6",
+          "sourceRoots": 123,
+          "inputSha256": "66ff8ff42532a24cde6f1bc093939a00a47682f9979aad234c79adee52dd539a"
+        }
+      ]
+    },
+    "declaredByLane": {
+      "registeredOutputs": 142,
+      "unchangedDeclarations": 68,
+      "same142Root6AndCli5Compiler": true,
+      "sourceModeCases": 60,
+      "emittedModeCases": 60,
+      "uniqueCases": 60,
+      "skip": 0,
+      "notIntegratorRerun": true,
+      "notActualWindowsCi": true
+    }
+  },
+  "newToolAndReaderBindings": [
+    {
+      "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
+      "sha256": "de6cd1c834d1e2b8fc5498c0697547025203358cd1e2590e903ccb0476cf5761",
+      "bytes": 2606,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923"
+    },
+    {
+      "path": "apps/cli/packages/core/test/current-build-artifact-receipt-20261003.mjs",
+      "sha256": "059e29547c27d18d5f1cd9c6f0ba8b152c0ee4b6ac05a1dc21948ec06b3febf0",
+      "bytes": 4965,
+      "sourceCommit": "213f8fe3112efa902f55003977a3df84b1e43923"
+    }
+  ],
+  "wholeCandidateProductionSourceChangedByThisRepair": false,
+  "rightsDisposition": "Current test receipt/rebuilder/reader source identity is registered only. No original/MIT/ownership or historical accepted-source recovery decision is granted."
+}
