@@ -1,18 +1,10 @@
-import type {
-  ContextSection,
-  ContextBuildResult,
-  ContextBuilderConfig,
-  EnvInfo,
-} from "./types.js";
+import type { ContextSection, ContextBuildResult, ContextBuilderConfig, EnvInfo } from "./types.js";
 import type { ToolRegistry } from "../tool/registry.js";
 import { estimateTokens } from "./utils.js";
 import { buildCliPrefixSection } from "./sections/cli-prefix.js";
 import { buildIdentitySection } from "./sections/identity.js";
 import { buildWorkflowActorIdentitySection } from "./sections/workflow-actor.js";
-import {
-  buildEnvInfoSection,
-  buildGitSystemContextSection,
-} from "./sections/env-info.js";
+import { buildEnvInfoSection, buildGitSystemContextSection } from "./sections/env-info.js";
 import { buildSkillsSection } from "./sections/skills.js";
 import { buildRequestUserContextSection } from "./sections/request-user-context.js";
 import { buildCurrentDateSection } from "./sections/current-date.js";
@@ -26,8 +18,7 @@ import {
 } from "./dynamic-sections.js";
 
 const CACHE_CONTROL: { type: "ephemeral" } = { type: "ephemeral" };
-const CONTEXT_HEADER =
-  "As you answer the user's questions, you can use the following context:";
+const CONTEXT_HEADER = "As you answer the user's questions, you can use the following context:";
 const CONTEXT_RELEVANCE =
   "      IMPORTANT: this context may or may not be relevant to your tasks. You should not respond to this context unless it is highly relevant to your task.";
 
@@ -49,10 +40,8 @@ export class ContextBuilder {
   }
 
   addSection(
-    section: Omit<
-      ContextSection,
-      "chars" | "tokens" | "injectionTarget" | "cacheHint"
-    > & Partial<Pick<ContextSection, "injectionTarget" | "cacheHint">>,
+    section: Omit<ContextSection, "chars" | "tokens" | "injectionTarget" | "cacheHint"> &
+      Partial<Pick<ContextSection, "injectionTarget" | "cacheHint">>,
   ): this {
     this.customSections.push({
       ...section,
@@ -103,10 +92,7 @@ export class ContextBuilder {
     }
 
     if (!hasCustomSystemPrompt) {
-      if (
-        !isWorkflowActor &&
-        this.config.presentationSurface === "knorvia_desktop"
-      ) {
+      if (!isWorkflowActor && this.config.presentationSurface === "knorvia_desktop") {
         sections.push(buildDesktopContextSection());
       }
       if (!isWorkflowActor) {
@@ -152,32 +138,20 @@ export class ContextBuilder {
 
     const orderedSections = [
       ...sections.filter(
-        (section) =>
-          section.injectionTarget === "system" && section.cacheHint === "stable",
+        (section) => section.injectionTarget === "system" && section.cacheHint === "stable",
       ),
       ...sections.filter(
-        (section) =>
-          section.injectionTarget === "system" && section.cacheHint === "dynamic",
+        (section) => section.injectionTarget === "system" && section.cacheHint === "dynamic",
       ),
       ...sections.filter(
-        (section) =>
-          section.injectionTarget === "meta_user" &&
-          section.cacheHint === "stable",
+        (section) => section.injectionTarget === "meta_user" && section.cacheHint === "stable",
       ),
       ...sections.filter(
-        (section) =>
-          section.injectionTarget === "meta_user" &&
-          section.cacheHint === "dynamic",
+        (section) => section.injectionTarget === "meta_user" && section.cacheHint === "dynamic",
       ),
     ];
-    const totalChars = orderedSections.reduce(
-      (total, section) => total + section.chars,
-      0,
-    );
-    const totalTokens = orderedSections.reduce(
-      (total, section) => total + section.tokens,
-      0,
-    );
+    const totalChars = orderedSections.reduce((total, section) => total + section.chars, 0);
+    const totalTokens = orderedSections.reduce((total, section) => total + section.tokens, 0);
     const systemMessages = buildSystemMessages(orderedSections);
     const metaUserAttachments = buildMetaUserAttachments(orderedSections);
     return {
@@ -190,15 +164,10 @@ export class ContextBuilder {
   }
 }
 
-function buildSystemMessages(
-  sections: ContextSection[],
-): ContextBuildResult["systemMessages"] {
+function buildSystemMessages(sections: ContextSection[]): ContextBuildResult["systemMessages"] {
   const messages: ContextBuildResult["systemMessages"] = [];
   const cliPrefix = sections
-    .filter(
-      (section) =>
-        section.injectionTarget === "system" && section.source === "cli_prefix",
-    )
+    .filter((section) => section.injectionTarget === "system" && section.source === "cli_prefix")
     .map((section) => section.content)
     .join("\n\n");
   if (cliPrefix) {
@@ -217,10 +186,7 @@ function buildSystemMessages(
     messages.push({ role: "system", content: stable, cacheControl: CACHE_CONTROL });
   }
   const dynamic = sections
-    .filter(
-      (section) =>
-        section.injectionTarget === "system" && section.cacheHint === "dynamic",
-    )
+    .filter((section) => section.injectionTarget === "system" && section.cacheHint === "dynamic")
     .map((section) => section.content)
     .join("\n\n");
   if (dynamic) {
@@ -239,38 +205,30 @@ function buildMetaUserAttachments(
   const attachments: ContextBuildResult["metaUserAttachments"] = [];
   const skills = buildSkillsMetaUserBody(
     sections.filter(
-      (section) =>
-        section.injectionTarget === "meta_user" && section.source === "skills",
+      (section) => section.injectionTarget === "meta_user" && section.source === "skills",
     ),
   );
   if (skills) attachments.push({ source: "skills_listing", content: skills });
   const context = buildContextMetaUserBody(
     sections.filter(
-      (section) =>
-        section.injectionTarget === "meta_user" && section.source !== "skills",
+      (section) => section.injectionTarget === "meta_user" && section.source !== "skills",
     ),
   );
   if (context) attachments.push({ source: "context_prefix", content: context });
   return attachments;
 }
 
-export function buildContextMetaUserBody(
-  sections: ContextSection[],
-): string | null {
+export function buildContextMetaUserBody(sections: ContextSection[]): string | null {
   if (sections.length === 0) return null;
   const content = sections.map((section) => section.content).join("\n\n");
   return `${CONTEXT_HEADER}\n${content}\n\n${CONTEXT_RELEVANCE}`;
 }
 
-export function buildSkillsMetaUserBody(
-  sections: ContextSection[],
-): string | null {
+export function buildSkillsMetaUserBody(sections: ContextSection[]): string | null {
   const content = sections.map((section) => section.content).join("\n\n");
   return content || null;
 }
 
-export function createContextBuilder(
-  config: ContextBuilderConfig,
-): ContextBuilder {
+export function createContextBuilder(config: ContextBuilderConfig): ContextBuilder {
   return new ContextBuilder(config);
 }

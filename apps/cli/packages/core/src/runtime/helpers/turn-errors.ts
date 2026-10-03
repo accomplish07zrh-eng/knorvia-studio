@@ -47,10 +47,7 @@ function findExternalFault(error: unknown): ExternalTurnFault | null {
   return null;
 }
 
-export function createExternalTurnFaultError(
-  code: string,
-  message: string = code,
-): Error {
+export function createExternalTurnFaultError(code: string, message: string = code): Error {
   return Object.assign(new Error(message), {
     code,
     knorviaTurnFault: externalFaultMarker,
@@ -86,8 +83,7 @@ export function createTurnFailureError(
   abortSignal: AbortSignal | undefined,
   fallbackMessage: string,
 ): ReturnType<typeof createCoreError> {
-  const externalFault =
-    findExternalFault(abortSignal?.reason) ?? findExternalFault(error);
+  const externalFault = findExternalFault(abortSignal?.reason) ?? findExternalFault(error);
   if (externalFault) {
     return createCoreError(CoreErrorType.UnknownError, externalFault.message, {
       cause: externalFault,
@@ -100,8 +96,7 @@ export function createTurnFailureError(
   if (
     isCoreError(error) &&
     (error.type === CoreErrorType.ModelContextExceeded ||
-      (fallbackMessage === "Turn execution failed" &&
-        error.type === CoreErrorType.ModelError))
+      (fallbackMessage === "Turn execution failed" && error.type === CoreErrorType.ModelError))
   ) {
     return error;
   }
@@ -122,9 +117,7 @@ export function createTurnFailureError(
   });
 }
 
-export function createTurnCancelledError(
-  error: unknown,
-): ReturnType<typeof createCoreError> {
+export function createTurnCancelledError(error: unknown): ReturnType<typeof createCoreError> {
   if (isCoreError(error) && error.type === CoreErrorType.TurnCancelled) {
     return error;
   }
@@ -170,9 +163,7 @@ export async function appendTurnOutcomeEvent(
           ...(params.backgroundSubagentResultConsumed
             ? { backgroundSubagentResultConsumed: true }
             : {}),
-          ...(params.workflowResultConsumed
-            ? { workflowResultConsumed: true }
-            : {}),
+          ...(params.workflowResultConsumed ? { workflowResultConsumed: true } : {}),
           ...(params.preserveQueueAutoDrainOnCancel
             ? { preserveQueueAutoDrainOnCancel: true }
             : {}),
@@ -192,9 +183,7 @@ export async function appendTurnOutcomeEvent(
           ...(params.backgroundSubagentResultConsumed
             ? { backgroundSubagentResultConsumed: true }
             : {}),
-          ...(params.workflowResultConsumed
-            ? { workflowResultConsumed: true }
-            : {}),
+          ...(params.workflowResultConsumed ? { workflowResultConsumed: true } : {}),
         },
         traceContext,
       );
@@ -209,10 +198,7 @@ export async function appendTurnOutcomeEvent(
   });
 }
 
-export function isTurnCancellationError(
-  error: unknown,
-  abortSignal?: AbortSignal,
-): boolean {
+export function isTurnCancellationError(error: unknown, abortSignal?: AbortSignal): boolean {
   if (findExternalFault(abortSignal?.reason) || findExternalFault(error)) {
     return false;
   }

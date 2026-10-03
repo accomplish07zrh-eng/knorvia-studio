@@ -325,14 +325,7 @@
         "owned": "previous followup"
       }
     },
-    "reads": [
-      "isPlanEnabled",
-      "isPlanEnabled"
-    ],
-    "hookCalls": [
-      [
-        "Owned hook context"
-      ]
-    ]
+    "reads": ["isPlanEnabled", "isPlanEnabled"],
+    "hookCalls": [["Owned hook context"]]
   }
 ]

@@ -39,14 +39,8 @@ export function buildRequestUserContextSection(input: {
 
         const filePath = source.filePath;
         const scopePhrase =
-          source.scope === "user"
-            ? "user default instructions"
-            : "workspace instructions";
-        return [
-          `Contents of ${filePath} (${scopePhrase}):`,
-          "",
-          trimmedBody,
-        ].join("\n");
+          source.scope === "user" ? "user default instructions" : "workspace instructions";
+        return [`Contents of ${filePath} (${scopePhrase}):`, "", trimmedBody].join("\n");
       })
       .filter((section) => section !== null)
       .join("\n\n");

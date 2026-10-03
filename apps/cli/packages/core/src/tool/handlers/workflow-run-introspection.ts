@@ -58,10 +58,7 @@ export function formatWorkflowRunDuration(ms: number): string {
   return `${days}d ${hours}h`;
 }
 
-export function formatRelativeAge(
-  now: number,
-  at: number | undefined,
-): string | undefined {
+export function formatRelativeAge(now: number, at: number | undefined): string | undefined {
   if (at === undefined || !Number.isFinite(at) || !Number.isFinite(now)) {
     return undefined;
   }
@@ -83,12 +80,8 @@ export function formatWorkflowRunCount(value: number): string {
   return sign + digits.replace(/\B(?=(\d{3})+(?!\d))/gu, ",");
 }
 
-export function workflowRunAttribute(
-  name: string,
-  value: string | number | boolean,
-): string {
-  const text =
-    typeof value === "string" ? value.replace(/\s+/gu, " ").trim() : String(value);
+export function workflowRunAttribute(name: string, value: string | number | boolean): string {
+  const text = typeof value === "string" ? value.replace(/\s+/gu, " ").trim() : String(value);
   return `${name}="${escapeXml(text)}"`;
 }
 

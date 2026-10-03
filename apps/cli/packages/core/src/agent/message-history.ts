@@ -7,10 +7,7 @@ import {
   type ModelReasoningContentBlock,
   type TokenUsageInfo,
 } from "@knorvia/contracts";
-import {
-  SYSTEM_REMINDER_SOURCES,
-  type SystemReminderSource,
-} from "../system-reminder/source.js";
+import { SYSTEM_REMINDER_SOURCES, type SystemReminderSource } from "../system-reminder/source.js";
 
 export interface ToolCallInput {
   id: string;
@@ -29,7 +26,11 @@ export interface ModelInputMessage {
   providerId?: Model["providerId"];
   modelId?: Model["modelId"];
 }
-export type RuntimeMessageSource = SystemReminderSource | "shared_context" | "real_user" | "legacy_synthetic";
+export type RuntimeMessageSource =
+  | SystemReminderSource
+  | "shared_context"
+  | "real_user"
+  | "legacy_synthetic";
 export interface RuntimeMessageMetadata {
   source: RuntimeMessageSource;
   inputPresentation?: RuntimeInputPresentation;
@@ -59,8 +60,20 @@ export interface MessageHistory {
   addUser(content: ModelMessageContent, metadata?: RuntimeMessageMetadata): void;
   addAttachment(source: SystemReminderSource, content: string): void;
   addEntries(entries: readonly RuntimeMessageEntry[]): void;
-  addAssistant(content: string, toolCalls?: ToolCallInput[], reasoning?: ReasoningContentInput[], model?: Pick<Model, "providerId" | "modelId">, tokens?: TokenUsageInfo): void;
-  addToolResult(toolCallId: string, toolName: string, content: ModelMessageContent, success: boolean, isError?: boolean): void;
+  addAssistant(
+    content: string,
+    toolCalls?: ToolCallInput[],
+    reasoning?: ReasoningContentInput[],
+    model?: Pick<Model, "providerId" | "modelId">,
+    tokens?: TokenUsageInfo,
+  ): void;
+  addToolResult(
+    toolCallId: string,
+    toolName: string,
+    content: ModelMessageContent,
+    success: boolean,
+    isError?: boolean,
+  ): void;
   borrowReadOnlyRuntimeEntries(): readonly RuntimeMessageEntry[];
   toRuntimeEntries(): RuntimeMessageEntry[];
   replaceMessages(messages: readonly (ModelInputMessage | RuntimeMessageEntry)[]): void;
@@ -71,7 +84,9 @@ export interface MessageHistory {
   reset(): void;
 }
 
-export function systemReminderRuntimeMetadata(source: SystemReminderSource): RuntimeMessageMetadata {
+export function systemReminderRuntimeMetadata(
+  source: SystemReminderSource,
+): RuntimeMessageMetadata {
   return { source };
 }
 
@@ -88,18 +103,28 @@ export function todoReminderRuntimeMetadata(): RuntimeMessageMetadata {
 }
 
 export function isKnownSystemReminderSource(value: unknown): value is SystemReminderSource {
-  return typeof value === "string" && SYSTEM_REMINDER_SOURCES.includes(value as SystemReminderSource);
+  return (
+    typeof value === "string" && SYSTEM_REMINDER_SOURCES.includes(value as SystemReminderSource)
+  );
 }
 
-export function isRuntimeAttachmentEntry(input: ModelInputMessage | RuntimeMessageEntry): input is RuntimeAttachmentEntry {
+export function isRuntimeAttachmentEntry(
+  input: ModelInputMessage | RuntimeMessageEntry,
+): input is RuntimeAttachmentEntry {
   return "kind" in input && input.kind === "attachment";
 }
 
-export function systemReminderAttachmentEntry(source: SystemReminderSource, content: string): RuntimeAttachmentEntry {
+export function systemReminderAttachmentEntry(
+  source: SystemReminderSource,
+  content: string,
+): RuntimeAttachmentEntry {
   return { kind: "attachment", content, metadata: systemReminderRuntimeMetadata(source) };
 }
 
-export function createRuntimeUserEntry(content: ModelMessageContent, metadata?: RuntimeMessageMetadata): RuntimeMessageMessageEntry {
+export function createRuntimeUserEntry(
+  content: ModelMessageContent,
+  metadata?: RuntimeMessageMetadata,
+): RuntimeMessageMessageEntry {
   return {
     message: { role: "user", content },
     metadata: metadata ? { ...metadata } : undefined,
@@ -107,7 +132,10 @@ export function createRuntimeUserEntry(content: ModelMessageContent, metadata?: 
 }
 
 function cloneReasoningBlock(block: ReasoningContentInput): ReasoningContentInput {
-  return { ...block, providerOptions: block.providerOptions ? { ...block.providerOptions } : undefined };
+  return {
+    ...block,
+    providerOptions: block.providerOptions ? { ...block.providerOptions } : undefined,
+  };
 }
 
 function cloneTokenUsage(tokens: TokenUsageInfo): TokenUsageInfo {
@@ -124,9 +152,10 @@ export function createRuntimeAssistantEntry(
   const blocks = reasoning?.map(cloneReasoningBlock) ?? [];
   const message: ModelInputMessage = {
     role: "assistant",
-    content: blocks.length > 0
-      ? [...blocks, ...(content.length > 0 ? [{ type: "text" as const, text: content }] : [])]
-      : content,
+    content:
+      blocks.length > 0
+        ? [...blocks, ...(content.length > 0 ? [{ type: "text" as const, text: content }] : [])]
+        : content,
     toolCalls: toolCalls?.map(({ id, name, input }) => ({ id, name, input })),
     ...(model ? { providerId: model.providerId, modelId: model.modelId } : {}),
   };
@@ -198,7 +227,9 @@ function modelMessageFromInput(input: ModelInputMessage | RuntimeMessageEntry): 
   return "message" in input ? input.message : input;
 }
 
-export function countContextPrefixMessages(messagesOrEntries: readonly (ModelInputMessage | RuntimeMessageEntry)[]): number {
+export function countContextPrefixMessages(
+  messagesOrEntries: readonly (ModelInputMessage | RuntimeMessageEntry)[],
+): number {
   let count = 0;
   for (const input of messagesOrEntries) {
     if (isRuntimeAttachmentEntry(input)) {
@@ -210,7 +241,9 @@ export function countContextPrefixMessages(messagesOrEntries: readonly (ModelInp
         if (message.role !== "user") break;
         if (metadata) {
           if (!hasContextPrefixSource(metadata)) break;
-        } else if (!modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>")) {
+        } else if (
+          !modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>")
+        ) {
           break;
         }
       }
@@ -255,13 +288,32 @@ export class MessageHistoryImpl implements MessageHistory {
     this.cacheStats.totalMessages = this.entries.length;
   }
 
-  addAssistant(content: string, toolCalls?: ToolCallInput[], reasoning?: ReasoningContentInput[], model?: Pick<Model, "providerId" | "modelId">, tokens?: TokenUsageInfo): void {
+  addAssistant(
+    content: string,
+    toolCalls?: ToolCallInput[],
+    reasoning?: ReasoningContentInput[],
+    model?: Pick<Model, "providerId" | "modelId">,
+    tokens?: TokenUsageInfo,
+  ): void {
     this.entries.push(createRuntimeAssistantEntry(content, toolCalls, reasoning, model, tokens));
     this.cacheStats.totalMessages = this.entries.length;
   }
 
-  addToolResult(toolCallId: string, toolName: string, content: ModelMessageContent, success: boolean, isError?: boolean): void {
-    this.entries.push(createRuntimeToolResultEntry(toolCallId, toolName, content, isError === undefined ? !success : isError));
+  addToolResult(
+    toolCallId: string,
+    toolName: string,
+    content: ModelMessageContent,
+    success: boolean,
+    isError?: boolean,
+  ): void {
+    this.entries.push(
+      createRuntimeToolResultEntry(
+        toolCallId,
+        toolName,
+        content,
+        isError === undefined ? !success : isError,
+      ),
+    );
     this.cacheStats.totalMessages = this.entries.length;
   }
 
@@ -303,7 +355,11 @@ export class MessageHistoryImpl implements MessageHistory {
     const count = countContextPrefixMessages(this.entries);
     const entries = this.entries.slice(0, count).map(cloneRuntimeMessageEntry);
     this.entries = entries;
-    this.cacheStats = { totalMessages: entries.length, cachedMessages: entries.length, lastCacheHit: false };
+    this.cacheStats = {
+      totalMessages: entries.length,
+      cachedMessages: entries.length,
+      lastCacheHit: false,
+    };
   }
 
   private recomputeCacheStats(): void {

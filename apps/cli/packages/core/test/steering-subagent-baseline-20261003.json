@@ -12,22 +12,10 @@
       ],
       [
         "clearAllPendingInputs",
-        [
-          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<number>"
-        ]
+        ["(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<number>"]
       ],
-      [
-        "completeExternalQueueDrain",
-        [
-          "(this: AgentRuntimeInternal): void"
-        ]
-      ],
-      [
-        "createPendingInputId",
-        [
-          "(this: AgentRuntimeInternal, turnId: TurnId): string"
-        ]
-      ],
+      ["completeExternalQueueDrain", ["(this: AgentRuntimeInternal): void"]],
+      ["createPendingInputId", ["(this: AgentRuntimeInternal, turnId: TurnId): string"]],
       [
         "discardHeldPendingInputById",
         [
@@ -42,9 +30,7 @@
       ],
       [
         "discardPersistedPendingSteerInputs",
-        [
-          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<number>"
-        ]
+        ["(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<number>"]
       ],
       [
         "drainPendingInput",
@@ -72,9 +58,7 @@
       ],
       [
         "enqueueDeferredInput",
-        [
-          "(this: AgentRuntimeInternal, input: string | TurnSteerInput): Promise<TurnSteerResult>"
-        ]
+        ["(this: AgentRuntimeInternal, input: string | TurnSteerInput): Promise<TurnSteerResult>"]
       ],
       [
         "fallbackPendingGuidesToQueue",
@@ -84,21 +68,15 @@
       ],
       [
         "finishActiveTurn",
-        [
-          "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState | undefined): void"
-        ]
+        ["(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState | undefined): void"]
       ],
       [
         "hasInlineGuidePendingInput",
-        [
-          "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState): boolean"
-        ]
+        ["(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState): boolean"]
       ],
       [
         "hasPendingInput",
-        [
-          "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState): boolean"
-        ]
+        ["(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState): boolean"]
       ],
       [
         "markPendingInputPromoting",
@@ -118,12 +96,7 @@
           "(this: AgentRuntimeInternal, options: { pendingInputId: string; reservationId: string; traceContext: TraceContext; }): Promise<boolean>"
         ]
       ],
-      [
-        "releaseTurnStart",
-        [
-          "(this: AgentRuntimeInternal, turnId: TurnId): void"
-        ]
-      ],
+      ["releaseTurnStart", ["(this: AgentRuntimeInternal, turnId: TurnId): void"]],
       [
         "removePendingInputById",
         [
@@ -162,17 +135,13 @@
       ],
       [
         "steerTurn",
-        [
-          "(this: AgentRuntimeInternal, input: string | TurnSteerInput): Promise<TurnSteerResult>"
-        ]
+        ["(this: AgentRuntimeInternal, input: string | TurnSteerInput): Promise<TurnSteerResult>"]
       ]
     ],
     "subagent.ts": [
       [
         "createDefaultSubagentPort",
-        [
-          "(this: AgentRuntimeInternal, deps: AgentRuntimeDeps): SubagentPort | undefined"
-        ]
+        ["(this: AgentRuntimeInternal, deps: AgentRuntimeDeps): SubagentPort | undefined"]
       ]
     ]
   },

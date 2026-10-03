@@ -1,0 +1,653 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "apiEqual": true,
+  "api": {
+    "construct": [
+      "(sessionId: SessionId, config: AgentRuntimeConfig, deps: AgentRuntimeDeps): AgentRuntime"
+    ],
+    "members": [
+      [
+        "acquireForegroundPromotionLease",
+        "(options: { leaseId: string; mode: ForegroundPromotionLeaseMode; promotedInputId: string; }) => AcquireForegroundPromotionLeaseResult",
+        [
+          "(options: { leaseId: string; mode: ForegroundPromotionLeaseMode; promotedInputId: string; }): AcquireForegroundPromotionLeaseResult"
+        ]
+      ],
+      [
+        "activatePausedTargetAfterResume",
+        "(traceContext: TraceContext) => Promise<SessionGoal | null>",
+        [
+          "(traceContext: TraceContext): Promise<SessionGoal | null>"
+        ]
+      ],
+      [
+        "admitPrompt",
+        "(input: string, attachments?: TurnAttachment[] | undefined, options?: PromptAdmissionOptions | undefined) => Promise<PromptAdmissionReceipt>",
+        [
+          "(input: string, attachments?: TurnAttachment[] | undefined, options?: PromptAdmissionOptions | undefined): Promise<PromptAdmissionReceipt>"
+        ]
+      ],
+      [
+        "amendWorkflowRunSettings",
+        "(input: AmendWorkflowRunSettingsInput) => Promise<AmendWorkflowRunSettingsResult>",
+        [
+          "(input: AmendWorkflowRunSettingsInput): Promise<AmendWorkflowRunSettingsResult>"
+        ]
+      ],
+      [
+        "appendEvent",
+        "(event: SessionEvent, traceContext: TraceContext) => Promise<void>",
+        [
+          "(event: SessionEvent, traceContext: TraceContext): Promise<void>"
+        ]
+      ],
+      [
+        "applyWorkspaceFileRewind",
+        "(options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; commitAfterApply?: (() => Promise<void>) | undefined; } | undefined) => Promise<WorkspaceFileRewindApplyResult>",
+        [
+          "(options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; commitAfterApply?: (() => Promise<void>) | undefined; } | undefined): Promise<WorkspaceFileRewindApplyResult>"
+        ]
+      ],
+      [
+        "beginShutdown",
+        "{ (): void; (): void; }",
+        [
+          "(): void",
+          "(): void"
+        ]
+      ],
+      [
+        "cancelBackgroundTask",
+        "(taskId: string, options?: { traceContext?: TraceContext | undefined; } | undefined) => Promise<BackgroundTaskCancelResult>",
+        [
+          "(taskId: string, options?: { traceContext?: TraceContext | undefined; } | undefined): Promise<BackgroundTaskCancelResult>"
+        ]
+      ],
+      [
+        "cancelRunningRuntimeBackgroundTasks",
+        "(input: { reason: \"subagent_cancelled\"; traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(input: { reason: \"subagent_cancelled\"; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "clearAllPendingInputs",
+        "(traceContext: TraceContext) => Promise<number>",
+        [
+          "(traceContext: TraceContext): Promise<number>"
+        ]
+      ],
+      [
+        "closeBrowserSession",
+        "{ (): Promise<void>; (): Promise<void>; }",
+        [
+          "(): Promise<void>",
+          "(): Promise<void>"
+        ]
+      ],
+      [
+        "completeExternalQueueDrain",
+        "() => void",
+        [
+          "(): void"
+        ]
+      ],
+      [
+        "continueActiveTargetIfIdle",
+        "(options?: { abortSignal?: AbortSignal | undefined; inputId?: string | undefined; intent?: TurnInputIntentMetadata | undefined; traceContext?: TraceContext | undefined; verifyBeforeContinue?: boolean | undefined; } | undefined) => Promise<TurnResult | null>",
+        [
+          "(options?: { abortSignal?: AbortSignal | undefined; inputId?: string | undefined; intent?: TurnInputIntentMetadata | undefined; traceContext?: TraceContext | undefined; verifyBeforeContinue?: boolean | undefined; } | undefined): Promise<TurnResult | null>"
+        ]
+      ],
+      [
+        "continueActiveTargetLoop",
+        "(options: ContinueActiveTargetLoopOptions) => Promise<TurnResult | null>",
+        [
+          "(options: ContinueActiveTargetLoopOptions): Promise<TurnResult | null>"
+        ]
+      ],
+      [
+        "createChildClientPorts",
+        "(context: ChildClientPortsContext) => ClientFacingPorts",
+        [
+          "(context: ChildClientPortsContext): ClientFacingPorts"
+        ]
+      ],
+      [
+        "createSelectionSideConversation",
+        "(options: SelectionSideChatCreateOptions) => Promise<WorkspaceForkResult>",
+        [
+          "(options: SelectionSideChatCreateOptions): Promise<WorkspaceForkResult>"
+        ]
+      ],
+      [
+        "drainMemoryExtractions",
+        "(timeoutMs?: number | null | undefined) => Promise<void>",
+        [
+          "(timeoutMs?: number | null | undefined): Promise<void>"
+        ]
+      ],
+      [
+        "editPendingInputById",
+        "(options: { pendingInputId: string; newText: string; traceContext?: TraceContext | undefined; }) => Promise<boolean>",
+        [
+          "(options: { pendingInputId: string; newText: string; traceContext?: TraceContext | undefined; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "emitModeChanged",
+        "(options: { mode: CollaborationMode; previousMode: CollaborationMode; traceContext: TraceContext; }) => Promise<void>",
+        [
+          "(options: { mode: CollaborationMode; previousMode: CollaborationMode; traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "emitModelSelected",
+        "(options: { modelSelection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }; model?: Model | undefined; effectiveReasoningLevel?: string | undefined; previousModelSelection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | null | undefined; origin?: \"registryFallback\" | undefined; supportedThoughtLevels?: readonly string[] | undefined; traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(options: { modelSelection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }; model?: Model | undefined; effectiveReasoningLevel?: string | undefined; previousModelSelection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | null | undefined; origin?: \"registryFallback\" | undefined; supportedThoughtLevels?: readonly string[] | undefined; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "emitPermissionRequest",
+        "(toolCallId: ToolCallId, toolName: string, riskLevel: string) => Promise<void>",
+        [
+          "(toolCallId: ToolCallId, toolName: string, riskLevel: string): Promise<void>"
+        ]
+      ],
+      [
+        "enqueueDeferredInput",
+        "(input: string | TurnSteerInput) => Promise<TurnSteerResult>",
+        [
+          "(input: string | TurnSteerInput): Promise<TurnSteerResult>"
+        ]
+      ],
+      [
+        "ensureSessionPersistedForExternalActivity",
+        "(input: string, options?: { traceContext?: TraceContext | undefined; } | undefined) => Promise<void>",
+        [
+          "(input: string, options?: { traceContext?: TraceContext | undefined; } | undefined): Promise<void>"
+        ]
+      ],
+      [
+        "executeTools",
+        "(toolCalls: ModelToolCall[], schedule: ToolSchedule, options?: ExecuteToolsOptions | undefined) => Promise<ExecuteToolsResult>",
+        [
+          "(toolCalls: ModelToolCall[], schedule: ToolSchedule, options?: ExecuteToolsOptions | undefined): Promise<ExecuteToolsResult>"
+        ]
+      ],
+      [
+        "executeTurn",
+        "(input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined) => Promise<TurnResult>",
+        [
+          "(input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined): Promise<TurnResult>"
+        ]
+      ],
+      [
+        "forkConversationBeforeMessage",
+        "(options: ConversationBeforeInputForkOptions) => Promise<WorkspaceForkResult>",
+        [
+          "(options: ConversationBeforeInputForkOptions): Promise<WorkspaceForkResult>"
+        ]
+      ],
+      [
+        "forkStableConversationAtMessage",
+        "(options: StableConversationForkOptions) => Promise<WorkspaceForkResult>",
+        [
+          "(options: StableConversationForkOptions): Promise<WorkspaceForkResult>"
+        ]
+      ],
+      [
+        "forkWorkspaceFromCheckpoint",
+        "(options?: { abortSignal?: AbortSignal | undefined; forkedSessionId?: SessionId | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; traceContext?: TraceContext | undefined; } | undefined) => Promise<WorkspaceForkResult>",
+        [
+          "(options?: { abortSignal?: AbortSignal | undefined; forkedSessionId?: SessionId | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceForkResult>"
+        ]
+      ],
+      [
+        "generateWorkspaceText",
+        "(input: WorkspaceGenerateTextInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined) => Promise<WorkspaceGenerateTextResult>",
+        [
+          "(input: WorkspaceGenerateTextInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceGenerateTextResult>"
+        ]
+      ],
+      [
+        "getActiveForegroundExecutionId",
+        "() => string | undefined",
+        [
+          "(): string | undefined"
+        ]
+      ],
+      [
+        "getActiveTurnInfo",
+        "() => ActiveTurnInfo | undefined",
+        [
+          "(): ActiveTurnInfo | undefined"
+        ]
+      ],
+      [
+        "getContextBuilder",
+        "() => ContextBuilder",
+        [
+          "(): ContextBuilder"
+        ]
+      ],
+      [
+        "getMode",
+        "() => CollaborationMode",
+        [
+          "(): CollaborationMode"
+        ]
+      ],
+      [
+        "getPendingPermissionRequests",
+        "() => PermissionBrokerRequest[]",
+        [
+          "(): PermissionBrokerRequest[]"
+        ]
+      ],
+      [
+        "getPlanEnabled",
+        "() => boolean",
+        [
+          "(): boolean"
+        ]
+      ],
+      [
+        "getProjectId",
+        "() => ProjectId",
+        [
+          "(): ProjectId"
+        ]
+      ],
+      [
+        "getProjection",
+        "() => Promise<SessionProjection>",
+        [
+          "(): Promise<SessionProjection>"
+        ]
+      ],
+      [
+        "getSessionEventStore",
+        "() => SessionEventStorePort",
+        [
+          "(): SessionEventStorePort"
+        ]
+      ],
+      [
+        "getSessionId",
+        "() => SessionId",
+        [
+          "(): SessionId"
+        ]
+      ],
+      [
+        "getSessionModelSelection",
+        "() => { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined",
+        [
+          "(): { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined"
+        ]
+      ],
+      [
+        "getSessionShellSelection",
+        "() => ExecutionShellSelection | undefined",
+        [
+          "(): ExecutionShellSelection | undefined"
+        ]
+      ],
+      [
+        "getSkillCatalog",
+        "(traceContext: TraceContext) => Promise<SkillLoadOutcome>",
+        [
+          "(traceContext: TraceContext): Promise<SkillLoadOutcome>"
+        ]
+      ],
+      [
+        "getToolExecutor",
+        "() => ToolExecutor",
+        [
+          "(): ToolExecutor"
+        ]
+      ],
+      [
+        "getToolRegistry",
+        "() => ToolRegistry",
+        [
+          "(): ToolRegistry"
+        ]
+      ],
+      [
+        "grantPermissionFullAccess",
+        "(interactionId: string, signal?: AbortSignal | undefined) => Promise<string>",
+        [
+          "(interactionId: string, signal?: AbortSignal | undefined): Promise<string>"
+        ]
+      ],
+      [
+        "hasActiveOrQueuedTurnWork",
+        "() => boolean",
+        [
+          "(): boolean"
+        ]
+      ],
+      [
+        "hasResidencyBlockingWork",
+        "() => boolean",
+        [
+          "(): boolean"
+        ]
+      ],
+      [
+        "hasRunningBackgroundTasks",
+        "() => boolean",
+        [
+          "(): boolean"
+        ]
+      ],
+      [
+        "initializeSessionShellEnvironmentIfNeeded",
+        "(selection: ExecutionShellSelection | (() => ExecutionShellSelection)) => boolean",
+        [
+          "(selection: ExecutionShellSelection | (() => ExecutionShellSelection)): boolean"
+        ]
+      ],
+      [
+        "invalidateToolCache",
+        "() => void",
+        [
+          "(): void"
+        ]
+      ],
+      [
+        "isProjectMemoryEnabled",
+        "() => boolean",
+        [
+          "(): boolean"
+        ]
+      ],
+      [
+        "isSessionPersisted",
+        "() => boolean",
+        [
+          "(): boolean"
+        ]
+      ],
+      [
+        "lastPermissionGrantId",
+        "string | undefined",
+        []
+      ],
+      [
+        "listWorkspaceCheckpoints",
+        "(options?: { limit?: number | undefined; } | undefined) => Promise<WorkspaceCheckpointSummary[]>",
+        [
+          "(options?: { limit?: number | undefined; } | undefined): Promise<WorkspaceCheckpointSummary[]>"
+        ]
+      ],
+      [
+        "markPendingInputPromoting",
+        "(options: { pendingInputId: string; reservationId: string; traceContext?: TraceContext | undefined; }) => Promise<boolean>",
+        [
+          "(options: { pendingInputId: string; reservationId: string; traceContext?: TraceContext | undefined; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "maybeStartGoalSummaryTitleGeneration",
+        "(input: string, targetID: string, options?: { traceContext?: TraceContext | undefined; } | undefined) => boolean",
+        [
+          "(input: string, targetID: string, options?: { traceContext?: TraceContext | undefined; } | undefined): boolean"
+        ]
+      ],
+      [
+        "maybeStartSessionTitleGenerationFromExternalInput",
+        "(input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; } | undefined) => void",
+        [
+          "(input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; } | undefined): void"
+        ]
+      ],
+      [
+        "notifyExternalChildSessionEvent",
+        "(input: { childSessionId: SessionId; event: SessionEvent; traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(input: { childSessionId: SessionId; event: SessionEvent; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "previewWorkspaceFileRewind",
+        "(options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; } | undefined) => Promise<WorkspaceFileRewindPreview>",
+        [
+          "(options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceFileRewindPreview>"
+        ]
+      ],
+      [
+        "readBackgroundBashOutput",
+        "(workId: string, sessionId?: string | undefined) => Promise<{ kind: \"output\"; workId: string; status: \"cancelled\" | \"failed\" | \"completed\" | \"running\" | \"spawn_error\" | \"timed_out\"; output: string; truncated: boolean; outputPath: string; } | { kind: \"unavailable\" | \"unsupported\" | \"read_failed\"; workId: string; code?: string | undefined; }>",
+        [
+          "(workId: string, sessionId?: string | undefined): Promise<{ kind: \"output\"; workId: string; status: \"cancelled\" | \"failed\" | \"completed\" | \"running\" | \"spawn_error\" | \"timed_out\"; output: string; truncated: boolean; outputPath: string; } | { kind: \"unavailable\" | \"unsupported\" | \"read_failed\"; workId: string; code?: string | undefined; }>"
+        ]
+      ],
+      [
+        "recordDynamicWorkflowRunProgress",
+        "(input: DynamicWorkflowRunProgressPayload & { traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(input: DynamicWorkflowRunProgressPayload & { traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "recordExternalUserPrompt",
+        "(input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; intent?: TurnInputIntentMetadata | undefined; } | undefined) => Promise<MessageId>",
+        [
+          "(input: string, options?: { goalSummaryTargetID?: string | undefined; traceContext?: TraceContext | undefined; intent?: TurnInputIntentMetadata | undefined; } | undefined): Promise<MessageId>"
+        ]
+      ],
+      [
+        "recordGoalStateChangeReminder",
+        "(input: { text: string; traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(input: { text: string; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "recordPendingModelChange",
+        "(input: { fromModel?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; fromModelLabel?: string | undefined; toModel: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }; toModelLabel: string; }) => void",
+        [
+          "(input: { fromModel?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; fromModelLabel?: string | undefined; toModel: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }; toModelLabel: string; }): void"
+        ]
+      ],
+      [
+        "recordTargetChanged",
+        "(input: TargetChangedPayload & { traceContext: TraceContext; }) => Promise<void>",
+        [
+          "(input: TargetChangedPayload & { traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "recordUserInputAutoResolutionUpdate",
+        "(input: UserInputAutoResolutionUpdatedPayload & { traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(input: UserInputAutoResolutionUpdatedPayload & { traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "releaseForegroundPromotionLease",
+        "(leaseId: string) => boolean",
+        [
+          "(leaseId: string): boolean"
+        ]
+      ],
+      [
+        "releasePendingInputReservation",
+        "(options: { pendingInputId: string; reservationId: string; traceContext?: TraceContext | undefined; }) => Promise<boolean>",
+        [
+          "(options: { pendingInputId: string; reservationId: string; traceContext?: TraceContext | undefined; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "removePendingInputById",
+        "(options: { pendingInputId: string; reason: \"user_removed\" | \"promoted\"; reservationId?: string | undefined; traceContext?: TraceContext | undefined; }) => Promise<boolean>",
+        [
+          "(options: { pendingInputId: string; reason: \"user_removed\" | \"promoted\"; reservationId?: string | undefined; traceContext?: TraceContext | undefined; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "reorderPendingInput",
+        "(options: { pendingInputId: string; beforePendingInputId: string | null; traceContext?: TraceContext | undefined; }) => Promise<boolean>",
+        [
+          "(options: { pendingInputId: string; beforePendingInputId: string | null; traceContext?: TraceContext | undefined; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "reservePendingInputById",
+        "(options: { pendingInputId: string; reservationId: string; traceContext?: TraceContext | undefined; }) => Promise<boolean>",
+        [
+          "(options: { pendingInputId: string; reservationId: string; traceContext?: TraceContext | undefined; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "resolvePermission",
+        "(toolCallId: ToolCallId, decision: PermissionDecisionResult) => Promise<void>",
+        [
+          "(toolCallId: ToolCallId, decision: PermissionDecisionResult): Promise<void>"
+        ]
+      ],
+      [
+        "resumeFromStore",
+        "(options?: ResumeSessionOptions | undefined) => Promise<ResumeSessionResult>",
+        [
+          "(options?: ResumeSessionOptions | undefined): Promise<ResumeSessionResult>"
+        ]
+      ],
+      [
+        "rewindConversationToMessage",
+        "(options: { abortSignal?: AbortSignal | undefined; events: SessionEvent[]; targetMessageId: MessageId; traceContext: TraceContext; }) => Promise<ConversationRewindResult>",
+        [
+          "(options: { abortSignal?: AbortSignal | undefined; events: SessionEvent[]; targetMessageId: MessageId; traceContext: TraceContext; }): Promise<ConversationRewindResult>"
+        ]
+      ],
+      [
+        "scheduleTools",
+        "(toolCalls: ModelToolCall[]) => Promise<ToolSchedule>",
+        [
+          "(toolCalls: ModelToolCall[]): Promise<ToolSchedule>"
+        ]
+      ],
+      [
+        "sealBackgroundTaskNotifications",
+        "(input: { reason: \"subagent_terminal\" | \"subagent_cancelled\"; traceContext?: TraceContext | undefined; }) => void",
+        [
+          "(input: { reason: \"subagent_terminal\" | \"subagent_cancelled\"; traceContext?: TraceContext | undefined; }): void"
+        ]
+      ],
+      [
+        "setCustomSessionTitle",
+        "(input: { title: string; traceContext: TraceContext; }) => Promise<void>",
+        [
+          "(input: { title: string; traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "setExecutionState",
+        "(input: { mode?: string | undefined; planEnabled?: boolean | undefined; }, traceContext?: TraceContext | undefined) => Promise<void>",
+        [
+          "(input: { mode?: string | undefined; planEnabled?: boolean | undefined; }, traceContext?: TraceContext | undefined): Promise<void>"
+        ]
+      ],
+      [
+        "setFollowupMode",
+        "(options: { mode: \"queue\" | \"guide\"; traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(options: { mode: \"queue\" | \"guide\"; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "setQueueAutoDrain",
+        "(options: { autoDrain: boolean; traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(options: { autoDrain: boolean; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "setSessionModelSelection",
+        "(selection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined) => void",
+        [
+          "(selection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined): void"
+        ]
+      ],
+      [
+        "startSavedWorkflowRun",
+        "(input: { name: string; scope?: \"project\" | \"global\" | undefined; args?: Record<string, unknown> | undefined; traceContext?: TraceContext | undefined; }) => Promise<StartSavedWorkflowRunResult>",
+        [
+          "(input: { name: string; scope?: \"project\" | \"global\" | undefined; args?: Record<string, unknown> | undefined; traceContext?: TraceContext | undefined; }): Promise<StartSavedWorkflowRunResult>"
+        ]
+      ],
+      [
+        "steerTurn",
+        "(input: string | TurnSteerInput) => Promise<TurnSteerResult>",
+        [
+          "(input: string | TurnSteerInput): Promise<TurnSteerResult>"
+        ]
+      ],
+      [
+        "stopActiveForegroundExecution",
+        "(options?: StopActiveForegroundExecutionOptions | undefined) => StopActiveForegroundExecutionResult",
+        [
+          "(options?: StopActiveForegroundExecutionOptions | undefined): StopActiveForegroundExecutionResult"
+        ]
+      ],
+      [
+        "stopBackgroundTask",
+        "(taskId: string, options: RuntimeBackgroundStopOptions) => Promise<RuntimeBackgroundStopResult>",
+        [
+          "(taskId: string, options: RuntimeBackgroundStopOptions): Promise<RuntimeBackgroundStopResult>"
+        ]
+      ],
+      [
+        "subscribeEvents",
+        "(sink: SessionEventSink) => () => void",
+        [
+          "(sink: SessionEventSink): () => void"
+        ]
+      ],
+      [
+        "testModelConnectivity",
+        "(input: ModelConnectivityTestInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined) => Promise<void>",
+        [
+          "(input: ModelConnectivityTestInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<void>"
+        ]
+      ],
+      [
+        "trackResidencyBlockingWork",
+        "<T>(work: Promise<T>) => Promise<T>",
+        [
+          "<T>(work: Promise<T>): Promise<T>"
+        ]
+      ],
+      [
+        "trackResumedDynamicWorkflowRun",
+        "(input: { runId: string; toolCallId?: string | undefined; name?: string | undefined; traceContext?: TraceContext | undefined; }) => Promise<void>",
+        [
+          "(input: { runId: string; toolCallId?: string | undefined; name?: string | undefined; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ]
+      ],
+      [
+        "updateConfig",
+        "(patch: Pick<AgentRuntimeConfig, \"mode\" | \"planEnabled\" | \"language\" | \"outputStyle\">) => void",
+        [
+          "(patch: Pick<AgentRuntimeConfig, \"mode\" | \"planEnabled\" | \"language\" | \"outputStyle\">): void"
+        ]
+      ]
+    ]
+  },
+  "files": {
+    "agent-runtime.ts": {
+      "location": "runtime/agent-runtime.ts",
+      "source": "import {\n  DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY,\n  resolveExecutionState,\n} from \"@knorvia/shared\";\nimport type { BackgroundBashOutputResult } from \"@knorvia/shared\";\nimport {\n  createDenyPermissionBroker,\n  createRootTraceContext,\n  createToolRegistry,\n  defaultPermissionConfig,\n  EventReducer,\n  MessageHistoryImpl,\n  PermissionService,\n  ToolScheduler,\n  traceContextToLogContext,\n} from \"./deps.js\";\nimport type {\n  CollaborationMode,\n  Logger,\n  BackgroundTaskCancelResult,\n  SessionEvent,\n  MessageId,\n  Model,\n  ModelSelection,\n  ModelSelectionOrigin,\n  ModelToolContract,\n  PermissionBrokerPort,\n  PermissionBrokerRequest,\n  ProjectId,\n  SessionEventSink,\n  SessionEventStorePort,\n  SessionId,\n  SessionProjection,\n  SessionStorePort,\n  SessionGoal,\n  SavedWorkflowScope,\n  TargetChangedPayload,\n  DynamicWorkflowRunProgressPayload,\n  UserInputAutoResolutionUpdatedPayload,\n  ContextSourcePort,\n  ExecutionPort,\n  FileSystemPort,\n  ImageProcessorPort,\n  PdfDocumentPort,\n  McpConnectionSnapshot,\n  SkillLoadOutcome,\n  SkillPort,\n  McpPort,\n  DynamicWorkflowRunPort,\n  ModelCatalogPort,\n  SubagentPort,\n  ToolArtifactStorePort,\n  ToolCallId,\n  TraceContext,\n  TurnSteerInput,\n  TurnInputIntentMetadata,\n  TurnSteerResult,\n  ToolCall,\n  TurnState,\n  MessageHistory,\n  ReadFileStateMap,\n  ToolSchedule,\n  ToolExecutor,\n  ToolRegistry,\n  ContextBuilder,\n  ContextBuildResult,\n  ContextSourceSnapshot,\n  ExecutionShellSelection,\n  HookRunner,\n  TurnId,\n} from \"./deps.js\";\nimport { installAgentRuntimeMethods } from \"./methods/index.js\";\nimport type { StartSavedWorkflowRunResult } from \"./methods/dynamic-workflow-run-start.js\";\nimport type {\n  AmendWorkflowRunSettingsInput,\n  AmendWorkflowRunSettingsResult,\n} from \"./methods/dynamic-workflow-run-settings.js\";\nimport { createRuntimeCommandQueue } from \"./command-queue.js\";\nimport type { RuntimeCommandQueue } from \"./command-queue.js\";\nimport type {\n  ModelConnectivityTestInput,\n  WorkspaceGenerateTextInput,\n  WorkspaceGenerateTextResult,\n} from \"./methods/workspace-generate-text.js\";\nimport type {\n  RuntimeBackgroundStopOptions,\n  RuntimeBackgroundStopResult,\n} from \"./methods/background.js\";\nimport { initializeRuntimeTooling } from \"./helpers/runtime-tools.js\";\nimport type {\n  ActiveTurnInfo,\n  ActiveForegroundExecutionState,\n  AcquireForegroundPromotionLeaseResult,\n  ActiveTurnStartReservation,\n  ActiveTurnSteeringState,\n  AgentRuntimeConfig,\n  AgentRuntimeDeps,\n  ContinueActiveTargetLoopOptions,\n  ConversationBeforeInputForkOptions,\n  ConversationRewindResult,\n  ExecuteToolsOptions,\n  ExecuteToolsResult,\n  ExecuteTurnOptions,\n  PromptAdmissionOptions,\n  PromptAdmissionReceipt,\n  ForegroundPromotionLeaseMode,\n  ForegroundPromotionLeaseState,\n  PendingModelChangeTimeline,\n  PermissionDecisionResult,\n  MainTurnCacheHitAggregate,\n  RuntimeTurnFileChangeMap,\n  ResumeSessionOptions,\n  ResumeSessionResult,\n  SelectionSideChatCreateOptions,\n  StableConversationForkOptions,\n  StopActiveForegroundExecutionOptions,\n  StopActiveForegroundExecutionResult,\n  TurnResult,\n  WorkspaceCheckpointSummary,\n  WorkspaceFileRewindApplyResult,\n  WorkspaceFileRewindPreview,\n  WorkspaceForkResult,\n} from \"./types.js\";\nimport type { AgentRuntimeInternal } from \"./internal.js\";\nimport { InMemoryRuntimeTaskRegistry, type RuntimeTaskRegistry } from \"../runtime-task/registry.js\";\nimport type { ChildClientPortsContext, ClientFacingPorts } from \"./helpers/child-client-ports.js\";\nimport type { ProjectMemoryExtractionScheduler } from \"./helpers/project-memory-extraction.js\";\nimport { projectPersistentAgentMemoryTools } from \"../subagent/persistent-memory.js\";\nimport { RuntimeTelemetryFacade } from \"../telemetry/runtime-telemetry.js\";\nimport type { WorkspaceHookRuntimeAdmissionPort } from \"../hooks/workspace-hook-runtime-admission.js\";\nimport { disposeNodeReplSession } from \"../tool/handlers/node-repl.js\";\nimport { cloneModelSelection } from \"./model-selection.js\";\n\n// oxlint-disable typescript-eslint/no-unsafe-declaration-merging\nexport class AgentRuntime {\n  private sessionId: SessionId;\n  private turnNumber: number;\n  private config: AgentRuntimeConfig;\n  private appVersion: string;\n  private permissionService: PermissionService;\n  private permissionBroker: PermissionBrokerPort;\n  private toolScheduler: ToolScheduler;\n  private eventReducer: EventReducer;\n  private eventStore: SessionEventStorePort;\n  private rootTraceContext: TraceContext;\n  private logger?: Logger;\n  private eventSinks = new Set<SessionEventSink>();\n  private now: () => Date;\n  private isRemoteWorkspace: () => boolean;\n  private registry: ToolRegistry;\n  private executor: ToolExecutor;\n  private hookRunner?: HookRunner;\n  private workspaceHookAdmission?: WorkspaceHookRuntimeAdmissionPort;\n  private modelFactory: AgentRuntimeDeps[\"modelFactory\"];\n  private modelIoDir?: string;\n  private providerRuntimeHeadersPort?: AgentRuntimeDeps[\"providerRuntimeHeadersPort\"];\n  private browserControlPort?: AgentRuntimeDeps[\"browserControlPort\"];\n  /** 模型请求准入端口；随每次模型请求进调用上下文。 */\n  private modelRequestAdmission?: AgentRuntimeDeps[\"modelRequestAdmission\"];\n  private sessionModelSelection: ModelSelection | undefined;\n  private messageHistory: MessageHistory;\n  private readFileState: ReadFileStateMap;\n  private cachedTools: ModelToolContract[] | null = null;\n  private contextBuilder: ContextBuilder | null = null;\n  private contextInitialized = false;\n  private contextSourceSnapshot?: ContextSourceSnapshot;\n  private latestContextBuildResult?: ContextBuildResult;\n  private memoryRoot?: string;\n  private memoryIndexContent?: string;\n  private memoryExtractionScheduler?: ProjectMemoryExtractionScheduler;\n  private contextSourcePort?: ContextSourcePort;\n  private skillPort?: SkillPort;\n  private mcpPort?: McpPort;\n  private mcpStartupPromise?: Promise<McpConnectionSnapshot>;\n  private residencyBlockingWorkCount = 0;\n  private mcpInitialized = false;\n  private mcpToolsRegistered = false;\n  private subagentPort?: SubagentPort;\n  private dynamicWorkflowRunPort?: DynamicWorkflowRunPort;\n  private modelCatalogPort?: ModelCatalogPort;\n  private runtimeTaskRegistry: RuntimeTaskRegistry;\n  private branchGeneration = 0;\n  private artifactStore?: ToolArtifactStorePort;\n  private executionPort?: ExecutionPort;\n  private fileSystemPort?: FileSystemPort;\n  private imageProcessorPort?: ImageProcessorPort;\n  private pdfDocumentPort?: PdfDocumentPort;\n  private skillLoadOutcome?: SkillLoadOutcome;\n  private workingDirectory: string;\n  private workspaceRoot: string;\n  private sessionStore?: SessionStorePort;\n  private sessionPersisted = false;\n  private needsPlanModeExitReminder = false;\n  private latestConversationMessageId?: MessageId;\n  private latestAssistantMessageId?: MessageId;\n  private latestAssistantTurnId?: TurnId;\n  private mainTurnCacheHitAggregate: MainTurnCacheHitAggregate = {\n    requestCount: 0,\n    totalInputTokens: 0,\n    totalCacheReadTokens: 0,\n    totalCacheWriteTokens: 0,\n  };\n  private currentTurnFileChanges: RuntimeTurnFileChangeMap = new Map();\n  private lastAssistantCompletedAtMs?: number;\n  private lastEmittedLocalDate?: string;\n  private autoCompactConsecutiveFailures = 0;\n  private runtimeCommandQueue: RuntimeCommandQueue;\n  private runtimeCommandDrainActive = false;\n  private activeForegroundExecution?: ActiveForegroundExecutionState;\n  /** sendQueuedNow 的 Core 调度权；只活在当前进程，匹配 runtime command 出队即消费。 */\n  private foregroundPromotionLease?: ForegroundPromotionLeaseState;\n  private activeTurn?: ActiveTurnSteeringState;\n  private activeTurnStartReservation?: ActiveTurnStartReservation;\n  private pendingInputSequence = 0;\n  /** sendQueuedNow reservation；只活在当前 CLI 进程，防 drain/多端重复提升。 */\n  private pendingInputReservations = new Map<string, string>();\n  // v4 setAutoDrain：false 时排队输入不自动消费\n  // （turn-stop 不续跑、roundtrip 间不 drain），保留成 held 供显式消费。\n  private queueAutoDrain = true;\n  // 暂停队列恢复后由 CLI 按投影 FIFO 逐项提升。这个窗口内禁止 core 只看当前\n  // activeTurn.pendingInputs 做行内 drain，否则新入队消息会越过仍留在投影中的旧暂停项。\n  private queueExternalDrainActive = false;\n  private shuttingDown = false;\n  private backgroundTaskNotificationsSealed = false;\n  private backgroundTaskNotificationSealReason?: \"subagent_terminal\" | \"subagent_cancelled\";\n  private pendingModelChangeTimeline?: PendingModelChangeTimeline;\n  private sessionStartHookRan = false;\n  private sessionTitleGenerationAttempted = false;\n  private agentTelemetry: RuntimeTelemetryFacade;\n\n  constructor(sessionId: SessionId, config: AgentRuntimeConfig, deps: AgentRuntimeDeps) {\n    const runtime = this as unknown as AgentRuntimeInternal;\n    this.sessionId = sessionId;\n    this.turnNumber = 0;\n    // 3.12.2：兼容旧 Host/内部调用传入 legacy，但本版本 Runtime、日志和子 Agent 只使用 preflight。\n    this.config = projectPersistentAgentMemoryTools({\n      ...config,\n      modelContextBudgetStrategy: DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY,\n    });\n    Object.assign(this.config, resolveExecutionState(config));\n    this.agentTelemetry = new RuntimeTelemetryFacade({\n      agentName: config.agentName,\n      causation: deps.agentTelemetryCausation,\n      causationMode: deps.agentTelemetryCausationMode,\n      parentSessionId: config.parentSessionId,\n      port: deps.agentTelemetry,\n      sessionId,\n      taskType: config.taskType,\n    });\n    this.permissionService =\n      deps.permissionService ?? new PermissionService(defaultPermissionConfig);\n    this.permissionBroker = deps.permissionBroker ?? createDenyPermissionBroker();\n    this.toolScheduler =\n      deps.toolScheduler ??\n      new ToolScheduler({\n        maxConcurrency: this.config.toolConcurrency?.maxConcurrency,\n      });\n    this.eventReducer = new EventReducer();\n    this.eventStore = deps.eventStore;\n    this.sessionStore = deps.sessionStore;\n    this.rootTraceContext = deps.traceContext ?? createRootTraceContext({ sessionId });\n    this.appVersion = deps.appVersion ?? \"0.0.0\";\n    this.logger = deps.logger?.child({\n      ...traceContextToLogContext(this.rootTraceContext),\n      module: \"core.runtime\",\n    });\n    if (deps.eventSink) {\n      this.eventSinks.add(deps.eventSink);\n    }\n    this.now = deps.now ?? (() => new Date());\n    this.isRemoteWorkspace = deps.isRemoteWorkspace ?? (() => false);\n    this.modelFactory = deps.modelFactory;\n    this.modelIoDir = deps.modelIoDir;\n    this.providerRuntimeHeadersPort = deps.providerRuntimeHeadersPort;\n    this.browserControlPort = deps.browserControlPort;\n    this.modelRequestAdmission = deps.modelRequestAdmission;\n    // 旧会话的选择缺失不能阻断历史恢复；不在这里制造默认模型。\n    this.sessionModelSelection =\n      config.modelSelection && cloneModelSelection(config.modelSelection);\n    this.messageHistory = new MessageHistoryImpl();\n    this.readFileState = new Map();\n    this.runtimeCommandQueue = createRuntimeCommandQueue();\n    this.workingDirectory = config.workingDirectory ?? \".\";\n    this.contextSourcePort = deps.contextSourcePort;\n    this.skillPort = deps.skillPort;\n    this.mcpPort = deps.mcpPort;\n    this.runtimeTaskRegistry = deps.runtimeTaskRegistry ?? new InMemoryRuntimeTaskRegistry();\n    this.runtimeTaskRegistry.setActiveBranchGeneration?.(this.branchGeneration);\n    this.artifactStore = deps.artifactStore;\n    this.executionPort = deps.executionPort;\n    this.fileSystemPort = deps.fileSystemPort;\n    this.imageProcessorPort = deps.imageProcessorPort;\n    this.pdfDocumentPort = deps.pdfDocumentPort;\n    this.subagentPort = deps.subagentPort ?? runtime.createDefaultSubagentPort(deps);\n    this.dynamicWorkflowRunPort = deps.dynamicWorkflowRunPort;\n    // GUI「配置」解析子代理模型用的目录（与工具上下文拿的是同一个端口）。\n    this.modelCatalogPort = deps.modelCatalogPort;\n    this.registry = deps.toolRegistry ?? createToolRegistry();\n    this.workspaceRoot = this.workingDirectory;\n    const tooling = initializeRuntimeTooling(runtime, deps, sessionId);\n    this.hookRunner = tooling.hookRunner;\n    this.workspaceHookAdmission = deps.workspaceHookAdmission;\n    this.executor = tooling.executor;\n\n    this.contextBuilder = deps.contextBuilder ?? null;\n    if (this.contextBuilder) {\n      runtime.initializeMessageHistoryFromContext(this.contextBuilder, this.rootTraceContext);\n      this.contextInitialized = true;\n    }\n    runtime.startMcpStartup(this.rootTraceContext);\n  }\n\n  async closeBrowserSession(): Promise<void> {\n    this.beginShutdown();\n    disposeNodeReplSession(this.sessionId);\n    try {\n      await this.browserControlPort?.closeSession?.({\n        sessionId: this.sessionId,\n        traceContext: this.rootTraceContext,\n      });\n    } catch (error) {\n      // browser backend 清理失败不能阻断 execution/MCP/session store 的主关闭链路。\n      this.logger?.warn(\"Browser session cleanup failed\", {\n        error: error instanceof Error ? error.message : String(error),\n        event: \"browser.session_cleanup.failed\",\n      });\n    }\n  }\n\n  beginShutdown(): void {\n    // ExecutionPort.close() 会把后台 Bash 收口为 cancelled；若允许\n    // teardown terminal event 再唤醒模型，并与随后关闭的 session store 竞态。\n    this.shuttingDown = true;\n    // 关闭单个 session 后进程仍存活，\n    // 因此必须先终止该 runtime 的 Extraction，不能只在超时后放弃等待。\n    this.memoryExtractionScheduler?.shutdown();\n  }\n}\n\nexport interface AgentRuntime {\n  lastPermissionGrantId?: string;\n  beginShutdown(): void;\n  closeBrowserSession(): Promise<void>;\n  updateConfig(\n    patch: Pick<AgentRuntimeConfig, \"mode\" | \"planEnabled\" | \"language\" | \"outputStyle\">,\n  ): void;\n  initializeSessionShellEnvironmentIfNeeded(\n    selection: ExecutionShellSelection | (() => ExecutionShellSelection),\n  ): boolean;\n  getSessionShellSelection(): ExecutionShellSelection | undefined;\n  getMode(): CollaborationMode;\n  getPlanEnabled(): boolean;\n  grantPermissionFullAccess(interactionId: string, signal?: AbortSignal): Promise<string>;\n  setExecutionState(\n    input: { mode?: string; planEnabled?: boolean },\n    traceContext?: TraceContext,\n  ): Promise<void>;\n  getSessionModelSelection(): ModelSelection | undefined;\n  setSessionModelSelection(selection: ModelSelection | undefined): void;\n  getProjectId(): ProjectId;\n  ensureSessionPersistedForExternalActivity(\n    input: string,\n    options?: { traceContext?: TraceContext },\n  ): Promise<void>;\n  maybeStartSessionTitleGenerationFromExternalInput(\n    input: string,\n    options?: { goalSummaryTargetID?: string; traceContext?: TraceContext },\n  ): void;\n  /** renameSession：用户显式重命名（titleSource=custom，发 SessionTitleUpdated）。 */\n  setCustomSessionTitle(input: { title: string; traceContext: TraceContext }): Promise<void>;\n  maybeStartGoalSummaryTitleGeneration(\n    input: string,\n    targetID: string,\n    options?: { traceContext?: TraceContext },\n  ): boolean;\n  recordExternalUserPrompt(\n    input: string,\n    options?: {\n      goalSummaryTargetID?: string;\n      traceContext?: TraceContext;\n      intent?: TurnInputIntentMetadata;\n    },\n  ): Promise<MessageId>;\n  recordPendingModelChange(input: {\n    fromModel?: ModelSelection;\n    fromModelLabel?: string;\n    toModel: ModelSelection;\n    toModelLabel: string;\n  }): void;\n  getActiveTurnInfo(): ActiveTurnInfo | undefined;\n  admitPrompt(\n    input: string,\n    attachments?: TurnState[\"attachments\"],\n    options?: PromptAdmissionOptions,\n  ): Promise<PromptAdmissionReceipt>;\n  /** Session 常驻池使用的 runtime busy 权威事实，包含 queue/drain/reservation。 */\n  hasActiveOrQueuedTurnWork(): boolean;\n  /** Session 常驻池使用的后台 Bash/Agent/Workflow running 权威事实。 */\n  hasRunningBackgroundTasks(): boolean;\n  /**\n   * Session 常驻池唯一消费的 runtime owned-work 聚合事实。\n   * 包含前台/队列、registry background task、detached sidecar 和 memory work。\n   */\n  hasResidencyBlockingWork(): boolean;\n  /**\n   * 登记一段会越过当前同步调用栈的 runtime-owned work，计数在**本同步片**增加、在 promise 的\n   * finally 释放（实现见 runtime/methods/residency.ts）。\n   *\n   * 公开在这一面上，是因为 runtime 之外的 sidecar 也要经同一个口登记：dwf 引擎跑在会话 App 里、\n   * 不进 runtime task registry，因此出现「引擎在飞时会话被按 idle 关掉」。\n   * 新增 sidecar 一律登记到这里，而不是在 bootstrap 侧另加一条猜测。\n   */\n  trackResidencyBlockingWork<T>(work: Promise<T>): Promise<T>;\n  /**\n   * 会话是否已落进持久化 store。协议层 record 的 draft（deferred）判定以此为事实源：任何经 runtime\n   * 首次持久化的路径（首条输入、外部活动、中枢直接启动的启动轮）都会让会话离开 draft。\n   */\n  isSessionPersisted(): boolean;\n  getActiveForegroundExecutionId(): string | undefined;\n  acquireForegroundPromotionLease(options: {\n    leaseId: string;\n    mode: ForegroundPromotionLeaseMode;\n    promotedInputId: string;\n  }): AcquireForegroundPromotionLeaseResult;\n  releaseForegroundPromotionLease(leaseId: string): boolean;\n  enqueueDeferredInput(input: string | TurnSteerInput): Promise<TurnSteerResult>;\n  steerTurn(input: string | TurnSteerInput): Promise<TurnSteerResult>;\n  /** v4 queue 单项删除：按 pendingInputId 移除当前 active turn 的一条排队输入。 */\n  removePendingInputById(options: {\n    pendingInputId: string;\n    reason: \"user_removed\" | \"promoted\";\n    reservationId?: string;\n    traceContext?: TraceContext;\n  }): Promise<boolean>;\n  reservePendingInputById(options: {\n    pendingInputId: string;\n    reservationId: string;\n    traceContext?: TraceContext;\n  }): Promise<boolean>;\n  markPendingInputPromoting(options: {\n    pendingInputId: string;\n    reservationId: string;\n    traceContext?: TraceContext;\n  }): Promise<boolean>;\n  releasePendingInputReservation(options: {\n    pendingInputId: string;\n    reservationId: string;\n    traceContext?: TraceContext;\n  }): Promise<boolean>;\n  /** v4 queue 单项编辑：按 pendingInputId 替换排队输入文本（保位）。 */\n  editPendingInputById(options: {\n    pendingInputId: string;\n    newText: string;\n    traceContext?: TraceContext;\n  }): Promise<boolean>;\n  /** v4 queue 重排：移动 pendingInputId 到 beforePendingInputId 之前（null=队尾）。 */\n  reorderPendingInput(options: {\n    pendingInputId: string;\n    beforePendingInputId: string | null;\n    traceContext?: TraceContext;\n  }): Promise<boolean>;\n  /**\n   * v4 heldQueueDisposition=clearQueueAndSend 执行件：\n   * 清空全部排队输入（active turn 内存项 + held 投影残留），返回丢弃条数。\n   */\n  clearAllPendingInputs(traceContext: TraceContext): Promise<number>;\n  /** v4 setAutoDrain：翻转 queue autoDrain 授权位（会话级）。 */\n  setQueueAutoDrain(options: { autoDrain: boolean; traceContext?: TraceContext }): Promise<void>;\n  /** 暂停队列外层 FIFO 已消费到空，恢复后续 running queue 的行内 drain。 */\n  completeExternalQueueDrain(): void;\n  /** v4 setFollowupMode：翻转 followup 路由模式（queue/guide，会话级）。 */\n  setFollowupMode(options: { mode: \"queue\" | \"guide\"; traceContext?: TraceContext }): Promise<void>;\n  /** v4 switchModelConfig：模型选型变化后补发 ModelSelected（config/marker 投影）。 */\n  emitModelSelected(options: {\n    modelSelection: ModelSelection;\n    model?: Model;\n    effectiveReasoningLevel?: string;\n    previousModelSelection?: ModelSelection | null;\n    origin?: ModelSelectionOrigin;\n    supportedThoughtLevels?: readonly string[];\n    traceContext?: TraceContext;\n  }): Promise<void>;\n  /** v4 switchCollaborationMode：协作模式切换后补发 SessionModeChanged（config.mode 投影）。 */\n  emitModeChanged(options: {\n    mode: CollaborationMode;\n    previousMode: CollaborationMode;\n    traceContext: TraceContext;\n  }): Promise<void>;\n  getToolRegistry(): ToolRegistry;\n  /**\n   * 注册表被外部改写后让 getTools 重算。公开它的唯一使用者是 dwf driver 的 submit profile 运行时\n   * 守卫：静态 profile 与实际 ask 不符时把\n   * typed 的 submit_result 换回通用声明——改的是同一个注册表，缓存不失效就会继续把旧声明发给模型。\n   */\n  invalidateToolCache(): void;\n  getToolExecutor(): ToolExecutor;\n  subscribeEvents(sink: SessionEventSink): () => void;\n  /** Bootstrap-owned lifecycle producers append only validated session events through this durable path. */\n  appendEvent(event: SessionEvent, traceContext: TraceContext): Promise<void>;\n  /**\n   * 外部子 runtime 的接缝（一）：交出本 runtime 的会话事件 store，供 class 外构造的子\n   * runtime 共享（照 `subagent.ts` 的 `eventStore: this.eventStore`）。理由见\n   * `methods/config.ts` 的实现注释。\n   */\n  getSessionEventStore(): SessionEventStorePort;\n  /**\n   * 外部子 runtime 的接缝（二）：把子会话的原始事件扇出给本 runtime 的外部 sink 集\n   * （保留子 sessionId、只通知不 append）。**必须在子 runtime 构造期装成它的\n   * `deps.eventSink`**——理由见 `methods/config.ts` 的实现注释。\n   */\n  notifyExternalChildSessionEvent(input: {\n    childSessionId: SessionId;\n    event: SessionEvent;\n    traceContext?: TraceContext;\n  }): Promise<void>;\n  /**\n   * 外部子 runtime 的接缝（三）：铸造子 runtime 的对外交互端口（permission broker +\n   * provider runtime headers），已绑定本 runtime 的客户端路由身份。class 外构造的子 runtime\n   * **必须**经这里取这两个端口，不能自行从 appOptions 取——理由见 `methods/config.ts` 的实现注释。\n   */\n  createChildClientPorts(context: ChildClientPortsContext): ClientFacingPorts;\n  getContextBuilder(): ContextBuilder;\n  /** Composer 使用的 Session Skill 快照；同一 runtime 冻结，runtime 重建后重新发现。 */\n  getSkillCatalog(traceContext: TraceContext): Promise<SkillLoadOutcome>;\n  resumeFromStore(options?: ResumeSessionOptions): Promise<ResumeSessionResult>;\n  recordTargetChanged(input: TargetChangedPayload & { traceContext: TraceContext }): Promise<void>;\n  recordUserInputAutoResolutionUpdate(\n    input: UserInputAutoResolutionUpdatedPayload & { traceContext?: TraceContext },\n  ): Promise<void>;\n  /** workflow run 进度的出回合追加（事件源在 bootstrap 的 run service）。 */\n  recordDynamicWorkflowRunProgress(\n    input: DynamicWorkflowRunProgressPayload & { traceContext?: TraceContext },\n  ): Promise<void>;\n  /** 恢复的 workflow run 的追踪重臂（registry 登记 + started 事件 + waiter + 结算通知）。 */\n  trackResumedDynamicWorkflowRun(input: {\n    runId: string;\n    toolCallId?: string;\n    name?: string;\n    traceContext?: TraceContext;\n  }): Promise<void>;\n  /**\n   * 中枢直接启动一个已保存的工作流：解析 + 校验 + 编译，\n   * 干净则 submit 启动 run、落 controlOnly 启动轮、登记后台追踪。`app.startSavedWorkflow` 能力的\n   * 落地实现（端口在场时注册）。\n   */\n  startSavedWorkflowRun(input: {\n    name: string;\n    scope?: SavedWorkflowScope;\n    args?: Record<string, unknown>;\n    traceContext?: TraceContext;\n  }): Promise<StartSavedWorkflowRunResult>;\n  /**\n   * GUI「配置」改一个 run 的子代理模型与并发上界：以同一份脚本修订出新 run、登记后台追踪、把设置轮排进队列。\n   * `app.amendWorkflowRunSettings` 能力的落地实现。\n   */\n  amendWorkflowRunSettings(\n    input: AmendWorkflowRunSettingsInput,\n  ): Promise<AmendWorkflowRunSettingsResult>;\n  recordGoalStateChangeReminder(input: {\n    text: string;\n    traceContext?: TraceContext;\n  }): Promise<void>;\n  continueActiveTargetIfIdle(options?: {\n    abortSignal?: AbortSignal;\n    inputId?: string;\n    intent?: TurnInputIntentMetadata;\n    traceContext?: TraceContext;\n    verifyBeforeContinue?: boolean;\n  }): Promise<TurnResult | null>;\n  continueActiveTargetLoop(options: ContinueActiveTargetLoopOptions): Promise<TurnResult | null>;\n  stopActiveForegroundExecution(\n    options?: StopActiveForegroundExecutionOptions,\n  ): StopActiveForegroundExecutionResult;\n  activatePausedTargetAfterResume(traceContext: TraceContext): Promise<SessionGoal | null>;\n  executeTurn(\n    input: string,\n    attachments?: TurnState[\"attachments\"],\n    options?: ExecuteTurnOptions,\n  ): Promise<TurnResult>;\n  scheduleTools(toolCalls: ToolCall[]): Promise<ToolSchedule>;\n  executeTools(\n    toolCalls: ToolCall[],\n    schedule: ToolSchedule,\n    options?: ExecuteToolsOptions,\n  ): Promise<ExecuteToolsResult>;\n  emitPermissionRequest(toolCallId: ToolCallId, toolName: string, riskLevel: string): Promise<void>;\n  resolvePermission(toolCallId: ToolCallId, decision: PermissionDecisionResult): Promise<void>;\n  getPendingPermissionRequests(): PermissionBrokerRequest[];\n  getProjection(): Promise<SessionProjection>;\n  readBackgroundBashOutput(workId: string, sessionId?: string): Promise<BackgroundBashOutputResult>;\n  cancelBackgroundTask(\n    taskId: string,\n    options?: { traceContext?: TraceContext },\n  ): Promise<BackgroundTaskCancelResult>;\n  stopBackgroundTask(\n    taskId: string,\n    options: RuntimeBackgroundStopOptions,\n  ): Promise<RuntimeBackgroundStopResult>;\n  cancelRunningRuntimeBackgroundTasks(input: {\n    reason: \"subagent_cancelled\";\n    traceContext?: TraceContext;\n  }): Promise<void>;\n  sealBackgroundTaskNotifications(input: {\n    reason: \"subagent_terminal\" | \"subagent_cancelled\";\n    traceContext?: TraceContext;\n  }): void;\n  getSessionId(): SessionId;\n  listWorkspaceCheckpoints(options?: { limit?: number }): Promise<WorkspaceCheckpointSummary[]>;\n  forkWorkspaceFromCheckpoint(options?: {\n    abortSignal?: AbortSignal;\n    forkedSessionId?: SessionId;\n    targetCheckpointId?: string;\n    targetMessageId?: MessageId;\n    traceContext?: TraceContext;\n  }): Promise<WorkspaceForkResult>;\n  forkStableConversationAtMessage(\n    options: StableConversationForkOptions,\n  ): Promise<WorkspaceForkResult>;\n  createSelectionSideConversation(\n    options: SelectionSideChatCreateOptions,\n  ): Promise<WorkspaceForkResult>;\n  forkConversationBeforeMessage(\n    options: ConversationBeforeInputForkOptions,\n  ): Promise<WorkspaceForkResult>;\n  /**\n   * conversation edit/retry 的 same-session branch cut primitive。\n   *\n   * 该入口故意不经过 executeTurn command queue：组合文件 rewind 会在文件事务的\n   * commit gate 内调用它；若再排队 `/rewind`，当前 edit command 会等待自己释放队列。\n   */\n  rewindConversationToMessage(options: {\n    abortSignal?: AbortSignal;\n    events: SessionEvent[];\n    targetMessageId: MessageId;\n    traceContext: TraceContext;\n  }): Promise<ConversationRewindResult>;\n  previewWorkspaceFileRewind(options?: {\n    abortSignal?: AbortSignal;\n    targetCheckpointId?: string;\n    targetMessageId?: MessageId;\n    targetMessageIds?: MessageId[];\n    targetTurnId?: TurnId;\n    traceContext?: TraceContext;\n  }): Promise<WorkspaceFileRewindPreview>;\n  applyWorkspaceFileRewind(options?: {\n    abortSignal?: AbortSignal;\n    targetCheckpointId?: string;\n    targetMessageId?: MessageId;\n    targetMessageIds?: MessageId[];\n    targetTurnId?: TurnId;\n    traceContext?: TraceContext;\n    commitAfterApply?: () => Promise<void>;\n  }): Promise<WorkspaceFileRewindApplyResult>;\n  generateWorkspaceText(\n    input: WorkspaceGenerateTextInput,\n    options?: { abortSignal?: AbortSignal; traceContext?: TraceContext },\n  ): Promise<WorkspaceGenerateTextResult>;\n  testModelConnectivity(\n    input: ModelConnectivityTestInput,\n    options?: { abortSignal?: AbortSignal; traceContext?: TraceContext },\n  ): Promise<void>;\n  isProjectMemoryEnabled(): boolean;\n  /** 缺省等待最多 60 秒；null 等待全部已调度提取结束，不设置 drain deadline。 */\n  drainMemoryExtractions(timeoutMs?: number | null): Promise<void>;\n}\n\ninstallAgentRuntimeMethods(AgentRuntime);\n",
+      "compiled": "import { DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY, resolveExecutionState, } from \"@knorvia/shared\";\nimport { createDenyPermissionBroker, createRootTraceContext, createToolRegistry, defaultPermissionConfig, EventReducer, MessageHistoryImpl, PermissionService, ToolScheduler, traceContextToLogContext, } from \"./deps.js\";\nimport { installAgentRuntimeMethods } from \"./methods/index.js\";\nimport { createRuntimeCommandQueue } from \"./command-queue.js\";\nimport { initializeRuntimeTooling } from \"./helpers/runtime-tools.js\";\nimport { InMemoryRuntimeTaskRegistry } from \"../runtime-task/registry.js\";\nimport { projectPersistentAgentMemoryTools } from \"../subagent/persistent-memory.js\";\nimport { RuntimeTelemetryFacade } from \"../telemetry/runtime-telemetry.js\";\nimport { disposeNodeReplSession } from \"../tool/handlers/node-repl.js\";\nimport { cloneModelSelection } from \"./model-selection.js\";\n// oxlint-disable typescript-eslint/no-unsafe-declaration-merging\nexport class AgentRuntime {\n    sessionId;\n    turnNumber;\n    config;\n    appVersion;\n    permissionService;\n    permissionBroker;\n    toolScheduler;\n    eventReducer;\n    eventStore;\n    rootTraceContext;\n    logger;\n    eventSinks = new Set();\n    now;\n    isRemoteWorkspace;\n    registry;\n    executor;\n    hookRunner;\n    workspaceHookAdmission;\n    modelFactory;\n    modelIoDir;\n    providerRuntimeHeadersPort;\n    browserControlPort;\n    /** 模型请求准入端口；随每次模型请求进调用上下文。 */\n    modelRequestAdmission;\n    sessionModelSelection;\n    messageHistory;\n    readFileState;\n    cachedTools = null;\n    contextBuilder = null;\n    contextInitialized = false;\n    contextSourceSnapshot;\n    latestContextBuildResult;\n    memoryRoot;\n    memoryIndexContent;\n    memoryExtractionScheduler;\n    contextSourcePort;\n    skillPort;\n    mcpPort;\n    mcpStartupPromise;\n    residencyBlockingWorkCount = 0;\n    mcpInitialized = false;\n    mcpToolsRegistered = false;\n    subagentPort;\n    dynamicWorkflowRunPort;\n    modelCatalogPort;\n    runtimeTaskRegistry;\n    branchGeneration = 0;\n    artifactStore;\n    executionPort;\n    fileSystemPort;\n    imageProcessorPort;\n    pdfDocumentPort;\n    skillLoadOutcome;\n    workingDirectory;\n    workspaceRoot;\n    sessionStore;\n    sessionPersisted = false;\n    needsPlanModeExitReminder = false;\n    latestConversationMessageId;\n    latestAssistantMessageId;\n    latestAssistantTurnId;\n    mainTurnCacheHitAggregate = {\n        requestCount: 0,\n        totalInputTokens: 0,\n        totalCacheReadTokens: 0,\n        totalCacheWriteTokens: 0,\n    };\n    currentTurnFileChanges = new Map();\n    lastAssistantCompletedAtMs;\n    lastEmittedLocalDate;\n    autoCompactConsecutiveFailures = 0;\n    runtimeCommandQueue;\n    runtimeCommandDrainActive = false;\n    activeForegroundExecution;\n    /** sendQueuedNow 的 Core 调度权；只活在当前进程，匹配 runtime command 出队即消费。 */\n    foregroundPromotionLease;\n    activeTurn;\n    activeTurnStartReservation;\n    pendingInputSequence = 0;\n    /** sendQueuedNow reservation；只活在当前 CLI 进程，防 drain/多端重复提升。 */\n    pendingInputReservations = new Map();\n    // v4 setAutoDrain：false 时排队输入不自动消费\n    // （turn-stop 不续跑、roundtrip 间不 drain），保留成 held 供显式消费。\n    queueAutoDrain = true;\n    // 暂停队列恢复后由 CLI 按投影 FIFO 逐项提升。这个窗口内禁止 core 只看当前\n    // activeTurn.pendingInputs 做行内 drain，否则新入队消息会越过仍留在投影中的旧暂停项。\n    queueExternalDrainActive = false;\n    shuttingDown = false;\n    backgroundTaskNotificationsSealed = false;\n    backgroundTaskNotificationSealReason;\n    pendingModelChangeTimeline;\n    sessionStartHookRan = false;\n    sessionTitleGenerationAttempted = false;\n    agentTelemetry;\n    constructor(sessionId, config, deps) {\n        const runtime = this;\n        this.sessionId = sessionId;\n        this.turnNumber = 0;\n        // 3.12.2：兼容旧 Host/内部调用传入 legacy，但本版本 Runtime、日志和子 Agent 只使用 preflight。\n        this.config = projectPersistentAgentMemoryTools({\n            ...config,\n            modelContextBudgetStrategy: DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY,\n        });\n        Object.assign(this.config, resolveExecutionState(config));\n        this.agentTelemetry = new RuntimeTelemetryFacade({\n            agentName: config.agentName,\n            causation: deps.agentTelemetryCausation,\n            causationMode: deps.agentTelemetryCausationMode,\n            parentSessionId: config.parentSessionId,\n            port: deps.agentTelemetry,\n            sessionId,\n            taskType: config.taskType,\n        });\n        this.permissionService =\n            deps.permissionService ?? new PermissionService(defaultPermissionConfig);\n        this.permissionBroker = deps.permissionBroker ?? createDenyPermissionBroker();\n        this.toolScheduler =\n            deps.toolScheduler ??\n                new ToolScheduler({\n                    maxConcurrency: this.config.toolConcurrency?.maxConcurrency,\n                });\n        this.eventReducer = new EventReducer();\n        this.eventStore = deps.eventStore;\n        this.sessionStore = deps.sessionStore;\n        this.rootTraceContext = deps.traceContext ?? createRootTraceContext({ sessionId });\n        this.appVersion = deps.appVersion ?? \"0.0.0\";\n        this.logger = deps.logger?.child({\n            ...traceContextToLogContext(this.rootTraceContext),\n            module: \"core.runtime\",\n        });\n        if (deps.eventSink) {\n            this.eventSinks.add(deps.eventSink);\n        }\n        this.now = deps.now ?? (() => new Date());\n        this.isRemoteWorkspace = deps.isRemoteWorkspace ?? (() => false);\n        this.modelFactory = deps.modelFactory;\n        this.modelIoDir = deps.modelIoDir;\n        this.providerRuntimeHeadersPort = deps.providerRuntimeHeadersPort;\n        this.browserControlPort = deps.browserControlPort;\n        this.modelRequestAdmission = deps.modelRequestAdmission;\n        // 旧会话的选择缺失不能阻断历史恢复；不在这里制造默认模型。\n        this.sessionModelSelection =\n            config.modelSelection && cloneModelSelection(config.modelSelection);\n        this.messageHistory = new MessageHistoryImpl();\n        this.readFileState = new Map();\n        this.runtimeCommandQueue = createRuntimeCommandQueue();\n        this.workingDirectory = config.workingDirectory ?? \".\";\n        this.contextSourcePort = deps.contextSourcePort;\n        this.skillPort = deps.skillPort;\n        this.mcpPort = deps.mcpPort;\n        this.runtimeTaskRegistry = deps.runtimeTaskRegistry ?? new InMemoryRuntimeTaskRegistry();\n        this.runtimeTaskRegistry.setActiveBranchGeneration?.(this.branchGeneration);\n        this.artifactStore = deps.artifactStore;\n        this.executionPort = deps.executionPort;\n        this.fileSystemPort = deps.fileSystemPort;\n        this.imageProcessorPort = deps.imageProcessorPort;\n        this.pdfDocumentPort = deps.pdfDocumentPort;\n        this.subagentPort = deps.subagentPort ?? runtime.createDefaultSubagentPort(deps);\n        this.dynamicWorkflowRunPort = deps.dynamicWorkflowRunPort;\n        // GUI「配置」解析子代理模型用的目录（与工具上下文拿的是同一个端口）。\n        this.modelCatalogPort = deps.modelCatalogPort;\n        this.registry = deps.toolRegistry ?? createToolRegistry();\n        this.workspaceRoot = this.workingDirectory;\n        const tooling = initializeRuntimeTooling(runtime, deps, sessionId);\n        this.hookRunner = tooling.hookRunner;\n        this.workspaceHookAdmission = deps.workspaceHookAdmission;\n        this.executor = tooling.executor;\n        this.contextBuilder = deps.contextBuilder ?? null;\n        if (this.contextBuilder) {\n            runtime.initializeMessageHistoryFromContext(this.contextBuilder, this.rootTraceContext);\n            this.contextInitialized = true;\n        }\n        runtime.startMcpStartup(this.rootTraceContext);\n    }\n    async closeBrowserSession() {\n        this.beginShutdown();\n        disposeNodeReplSession(this.sessionId);\n        try {\n            await this.browserControlPort?.closeSession?.({\n                sessionId: this.sessionId,\n                traceContext: this.rootTraceContext,\n            });\n        }\n        catch (error) {\n            // browser backend 清理失败不能阻断 execution/MCP/session store 的主关闭链路。\n            this.logger?.warn(\"Browser session cleanup failed\", {\n                error: error instanceof Error ? error.message : String(error),\n                event: \"browser.session_cleanup.failed\",\n            });\n        }\n    }\n    beginShutdown() {\n        // ExecutionPort.close() 会把后台 Bash 收口为 cancelled；若允许\n        // teardown terminal event 再唤醒模型，并与随后关闭的 session store 竞态。\n        this.shuttingDown = true;\n        // 关闭单个 session 后进程仍存活，\n        // 因此必须先终止该 runtime 的 Extraction，不能只在超时后放弃等待。\n        this.memoryExtractionScheduler?.shutdown();\n    }\n}\ninstallAgentRuntimeMethods(AgentRuntime);\n",
+      "declaration": "import type { BackgroundBashOutputResult } from \"@knorvia/shared\";\nimport type { CollaborationMode, BackgroundTaskCancelResult, SessionEvent, MessageId, Model, ModelSelection, ModelSelectionOrigin, PermissionBrokerRequest, ProjectId, SessionEventSink, SessionEventStorePort, SessionId, SessionProjection, SessionGoal, SavedWorkflowScope, TargetChangedPayload, DynamicWorkflowRunProgressPayload, UserInputAutoResolutionUpdatedPayload, SkillLoadOutcome, ToolCallId, TraceContext, TurnSteerInput, TurnInputIntentMetadata, TurnSteerResult, ToolCall, TurnState, ToolSchedule, ToolExecutor, ToolRegistry, ContextBuilder, ExecutionShellSelection, TurnId } from \"./deps.js\";\nimport type { StartSavedWorkflowRunResult } from \"./methods/dynamic-workflow-run-start.js\";\nimport type { AmendWorkflowRunSettingsInput, AmendWorkflowRunSettingsResult } from \"./methods/dynamic-workflow-run-settings.js\";\nimport type { ModelConnectivityTestInput, WorkspaceGenerateTextInput, WorkspaceGenerateTextResult } from \"./methods/workspace-generate-text.js\";\nimport type { RuntimeBackgroundStopOptions, RuntimeBackgroundStopResult } from \"./methods/background.js\";\nimport type { ActiveTurnInfo, AcquireForegroundPromotionLeaseResult, AgentRuntimeConfig, AgentRuntimeDeps, ContinueActiveTargetLoopOptions, ConversationBeforeInputForkOptions, ConversationRewindResult, ExecuteToolsOptions, ExecuteToolsResult, ExecuteTurnOptions, PromptAdmissionOptions, PromptAdmissionReceipt, ForegroundPromotionLeaseMode, PermissionDecisionResult, ResumeSessionOptions, ResumeSessionResult, SelectionSideChatCreateOptions, StableConversationForkOptions, StopActiveForegroundExecutionOptions, StopActiveForegroundExecutionResult, TurnResult, WorkspaceCheckpointSummary, WorkspaceFileRewindApplyResult, WorkspaceFileRewindPreview, WorkspaceForkResult } from \"./types.js\";\nimport type { ChildClientPortsContext, ClientFacingPorts } from \"./helpers/child-client-ports.js\";\nexport declare class AgentRuntime {\n    private sessionId;\n    private turnNumber;\n    private config;\n    private appVersion;\n    private permissionService;\n    private permissionBroker;\n    private toolScheduler;\n    private eventReducer;\n    private eventStore;\n    private rootTraceContext;\n    private logger?;\n    private eventSinks;\n    private now;\n    private isRemoteWorkspace;\n    private registry;\n    private executor;\n    private hookRunner?;\n    private workspaceHookAdmission?;\n    private modelFactory;\n    private modelIoDir?;\n    private providerRuntimeHeadersPort?;\n    private browserControlPort?;\n    /** 模型请求准入端口；随每次模型请求进调用上下文。 */\n    private modelRequestAdmission?;\n    private sessionModelSelection;\n    private messageHistory;\n    private readFileState;\n    private cachedTools;\n    private contextBuilder;\n    private contextInitialized;\n    private contextSourceSnapshot?;\n    private latestContextBuildResult?;\n    private memoryRoot?;\n    private memoryIndexContent?;\n    private memoryExtractionScheduler?;\n    private contextSourcePort?;\n    private skillPort?;\n    private mcpPort?;\n    private mcpStartupPromise?;\n    private residencyBlockingWorkCount;\n    private mcpInitialized;\n    private mcpToolsRegistered;\n    private subagentPort?;\n    private dynamicWorkflowRunPort?;\n    private modelCatalogPort?;\n    private runtimeTaskRegistry;\n    private branchGeneration;\n    private artifactStore?;\n    private executionPort?;\n    private fileSystemPort?;\n    private imageProcessorPort?;\n    private pdfDocumentPort?;\n    private skillLoadOutcome?;\n    private workingDirectory;\n    private workspaceRoot;\n    private sessionStore?;\n    private sessionPersisted;\n    private needsPlanModeExitReminder;\n    private latestConversationMessageId?;\n    private latestAssistantMessageId?;\n    private latestAssistantTurnId?;\n    private mainTurnCacheHitAggregate;\n    private currentTurnFileChanges;\n    private lastAssistantCompletedAtMs?;\n    private lastEmittedLocalDate?;\n    private autoCompactConsecutiveFailures;\n    private runtimeCommandQueue;\n    private runtimeCommandDrainActive;\n    private activeForegroundExecution?;\n    /** sendQueuedNow 的 Core 调度权；只活在当前进程，匹配 runtime command 出队即消费。 */\n    private foregroundPromotionLease?;\n    private activeTurn?;\n    private activeTurnStartReservation?;\n    private pendingInputSequence;\n    /** sendQueuedNow reservation；只活在当前 CLI 进程，防 drain/多端重复提升。 */\n    private pendingInputReservations;\n    private queueAutoDrain;\n    private queueExternalDrainActive;\n    private shuttingDown;\n    private backgroundTaskNotificationsSealed;\n    private backgroundTaskNotificationSealReason?;\n    private pendingModelChangeTimeline?;\n    private sessionStartHookRan;\n    private sessionTitleGenerationAttempted;\n    private agentTelemetry;\n    constructor(sessionId: SessionId, config: AgentRuntimeConfig, deps: AgentRuntimeDeps);\n}\nexport interface AgentRuntime {\n    lastPermissionGrantId?: string;\n    beginShutdown(): void;\n    closeBrowserSession(): Promise<void>;\n    updateConfig(patch: Pick<AgentRuntimeConfig, \"mode\" | \"planEnabled\" | \"language\" | \"outputStyle\">): void;\n    initializeSessionShellEnvironmentIfNeeded(selection: ExecutionShellSelection | (() => ExecutionShellSelection)): boolean;\n    getSessionShellSelection(): ExecutionShellSelection | undefined;\n    getMode(): CollaborationMode;\n    getPlanEnabled(): boolean;\n    grantPermissionFullAccess(interactionId: string, signal?: AbortSignal): Promise<string>;\n    setExecutionState(input: {\n        mode?: string;\n        planEnabled?: boolean;\n    }, traceContext?: TraceContext): Promise<void>;\n    getSessionModelSelection(): ModelSelection | undefined;\n    setSessionModelSelection(selection: ModelSelection | undefined): void;\n    getProjectId(): ProjectId;\n    ensureSessionPersistedForExternalActivity(input: string, options?: {\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    maybeStartSessionTitleGenerationFromExternalInput(input: string, options?: {\n        goalSummaryTargetID?: string;\n        traceContext?: TraceContext;\n    }): void;\n    /** renameSession：用户显式重命名（titleSource=custom，发 SessionTitleUpdated）。 */\n    setCustomSessionTitle(input: {\n        title: string;\n        traceContext: TraceContext;\n    }): Promise<void>;\n    maybeStartGoalSummaryTitleGeneration(input: string, targetID: string, options?: {\n        traceContext?: TraceContext;\n    }): boolean;\n    recordExternalUserPrompt(input: string, options?: {\n        goalSummaryTargetID?: string;\n        traceContext?: TraceContext;\n        intent?: TurnInputIntentMetadata;\n    }): Promise<MessageId>;\n    recordPendingModelChange(input: {\n        fromModel?: ModelSelection;\n        fromModelLabel?: string;\n        toModel: ModelSelection;\n        toModelLabel: string;\n    }): void;\n    getActiveTurnInfo(): ActiveTurnInfo | undefined;\n    admitPrompt(input: string, attachments?: TurnState[\"attachments\"], options?: PromptAdmissionOptions): Promise<PromptAdmissionReceipt>;\n    /** Session 常驻池使用的 runtime busy 权威事实，包含 queue/drain/reservation。 */\n    hasActiveOrQueuedTurnWork(): boolean;\n    /** Session 常驻池使用的后台 Bash/Agent/Workflow running 权威事实。 */\n    hasRunningBackgroundTasks(): boolean;\n    /**\n     * Session 常驻池唯一消费的 runtime owned-work 聚合事实。\n     * 包含前台/队列、registry background task、detached sidecar 和 memory work。\n     */\n    hasResidencyBlockingWork(): boolean;\n    /**\n     * 登记一段会越过当前同步调用栈的 runtime-owned work，计数在**本同步片**增加、在 promise 的\n     * finally 释放（实现见 runtime/methods/residency.ts）。\n     *\n     * 公开在这一面上，是因为 runtime 之外的 sidecar 也要经同一个口登记：dwf 引擎跑在会话 App 里、\n     * 不进 runtime task registry，因此出现「引擎在飞时会话被按 idle 关掉」。\n     * 新增 sidecar 一律登记到这里，而不是在 bootstrap 侧另加一条猜测。\n     */\n    trackResidencyBlockingWork<T>(work: Promise<T>): Promise<T>;\n    /**\n     * 会话是否已落进持久化 store。协议层 record 的 draft（deferred）判定以此为事实源：任何经 runtime\n     * 首次持久化的路径（首条输入、外部活动、中枢直接启动的启动轮）都会让会话离开 draft。\n     */\n    isSessionPersisted(): boolean;\n    getActiveForegroundExecutionId(): string | undefined;\n    acquireForegroundPromotionLease(options: {\n        leaseId: string;\n        mode: ForegroundPromotionLeaseMode;\n        promotedInputId: string;\n    }): AcquireForegroundPromotionLeaseResult;\n    releaseForegroundPromotionLease(leaseId: string): boolean;\n    enqueueDeferredInput(input: string | TurnSteerInput): Promise<TurnSteerResult>;\n    steerTurn(input: string | TurnSteerInput): Promise<TurnSteerResult>;\n    /** v4 queue 单项删除：按 pendingInputId 移除当前 active turn 的一条排队输入。 */\n    removePendingInputById(options: {\n        pendingInputId: string;\n        reason: \"user_removed\" | \"promoted\";\n        reservationId?: string;\n        traceContext?: TraceContext;\n    }): Promise<boolean>;\n    reservePendingInputById(options: {\n        pendingInputId: string;\n        reservationId: string;\n        traceContext?: TraceContext;\n    }): Promise<boolean>;\n    markPendingInputPromoting(options: {\n        pendingInputId: string;\n        reservationId: string;\n        traceContext?: TraceContext;\n    }): Promise<boolean>;\n    releasePendingInputReservation(options: {\n        pendingInputId: string;\n        reservationId: string;\n        traceContext?: TraceContext;\n    }): Promise<boolean>;\n    /** v4 queue 单项编辑：按 pendingInputId 替换排队输入文本（保位）。 */\n    editPendingInputById(options: {\n        pendingInputId: string;\n        newText: string;\n        traceContext?: TraceContext;\n    }): Promise<boolean>;\n    /** v4 queue 重排：移动 pendingInputId 到 beforePendingInputId 之前（null=队尾）。 */\n    reorderPendingInput(options: {\n        pendingInputId: string;\n        beforePendingInputId: string | null;\n        traceContext?: TraceContext;\n    }): Promise<boolean>;\n    /**\n     * v4 heldQueueDisposition=clearQueueAndSend 执行件：\n     * 清空全部排队输入（active turn 内存项 + held 投影残留），返回丢弃条数。\n     */\n    clearAllPendingInputs(traceContext: TraceContext): Promise<number>;\n    /** v4 setAutoDrain：翻转 queue autoDrain 授权位（会话级）。 */\n    setQueueAutoDrain(options: {\n        autoDrain: boolean;\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    /** 暂停队列外层 FIFO 已消费到空，恢复后续 running queue 的行内 drain。 */\n    completeExternalQueueDrain(): void;\n    /** v4 setFollowupMode：翻转 followup 路由模式（queue/guide，会话级）。 */\n    setFollowupMode(options: {\n        mode: \"queue\" | \"guide\";\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    /** v4 switchModelConfig：模型选型变化后补发 ModelSelected（config/marker 投影）。 */\n    emitModelSelected(options: {\n        modelSelection: ModelSelection;\n        model?: Model;\n        effectiveReasoningLevel?: string;\n        previousModelSelection?: ModelSelection | null;\n        origin?: ModelSelectionOrigin;\n        supportedThoughtLevels?: readonly string[];\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    /** v4 switchCollaborationMode：协作模式切换后补发 SessionModeChanged（config.mode 投影）。 */\n    emitModeChanged(options: {\n        mode: CollaborationMode;\n        previousMode: CollaborationMode;\n        traceContext: TraceContext;\n    }): Promise<void>;\n    getToolRegistry(): ToolRegistry;\n    /**\n     * 注册表被外部改写后让 getTools 重算。公开它的唯一使用者是 dwf driver 的 submit profile 运行时\n     * 守卫：静态 profile 与实际 ask 不符时把\n     * typed 的 submit_result 换回通用声明——改的是同一个注册表，缓存不失效就会继续把旧声明发给模型。\n     */\n    invalidateToolCache(): void;\n    getToolExecutor(): ToolExecutor;\n    subscribeEvents(sink: SessionEventSink): () => void;\n    /** Bootstrap-owned lifecycle producers append only validated session events through this durable path. */\n    appendEvent(event: SessionEvent, traceContext: TraceContext): Promise<void>;\n    /**\n     * 外部子 runtime 的接缝（一）：交出本 runtime 的会话事件 store，供 class 外构造的子\n     * runtime 共享（照 `subagent.ts` 的 `eventStore: this.eventStore`）。理由见\n     * `methods/config.ts` 的实现注释。\n     */\n    getSessionEventStore(): SessionEventStorePort;\n    /**\n     * 外部子 runtime 的接缝（二）：把子会话的原始事件扇出给本 runtime 的外部 sink 集\n     * （保留子 sessionId、只通知不 append）。**必须在子 runtime 构造期装成它的\n     * `deps.eventSink`**——理由见 `methods/config.ts` 的实现注释。\n     */\n    notifyExternalChildSessionEvent(input: {\n        childSessionId: SessionId;\n        event: SessionEvent;\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    /**\n     * 外部子 runtime 的接缝（三）：铸造子 runtime 的对外交互端口（permission broker +\n     * provider runtime headers），已绑定本 runtime 的客户端路由身份。class 外构造的子 runtime\n     * **必须**经这里取这两个端口，不能自行从 appOptions 取——理由见 `methods/config.ts` 的实现注释。\n     */\n    createChildClientPorts(context: ChildClientPortsContext): ClientFacingPorts;\n    getContextBuilder(): ContextBuilder;\n    /** Composer 使用的 Session Skill 快照；同一 runtime 冻结，runtime 重建后重新发现。 */\n    getSkillCatalog(traceContext: TraceContext): Promise<SkillLoadOutcome>;\n    resumeFromStore(options?: ResumeSessionOptions): Promise<ResumeSessionResult>;\n    recordTargetChanged(input: TargetChangedPayload & {\n        traceContext: TraceContext;\n    }): Promise<void>;\n    recordUserInputAutoResolutionUpdate(input: UserInputAutoResolutionUpdatedPayload & {\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    /** workflow run 进度的出回合追加（事件源在 bootstrap 的 run service）。 */\n    recordDynamicWorkflowRunProgress(input: DynamicWorkflowRunProgressPayload & {\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    /** 恢复的 workflow run 的追踪重臂（registry 登记 + started 事件 + waiter + 结算通知）。 */\n    trackResumedDynamicWorkflowRun(input: {\n        runId: string;\n        toolCallId?: string;\n        name?: string;\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    /**\n     * 中枢直接启动一个已保存的工作流：解析 + 校验 + 编译，\n     * 干净则 submit 启动 run、落 controlOnly 启动轮、登记后台追踪。`app.startSavedWorkflow` 能力的\n     * 落地实现（端口在场时注册）。\n     */\n    startSavedWorkflowRun(input: {\n        name: string;\n        scope?: SavedWorkflowScope;\n        args?: Record<string, unknown>;\n        traceContext?: TraceContext;\n    }): Promise<StartSavedWorkflowRunResult>;\n    /**\n     * GUI「配置」改一个 run 的子代理模型与并发上界：以同一份脚本修订出新 run、登记后台追踪、把设置轮排进队列。\n     * `app.amendWorkflowRunSettings` 能力的落地实现。\n     */\n    amendWorkflowRunSettings(input: AmendWorkflowRunSettingsInput): Promise<AmendWorkflowRunSettingsResult>;\n    recordGoalStateChangeReminder(input: {\n        text: string;\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    continueActiveTargetIfIdle(options?: {\n        abortSignal?: AbortSignal;\n        inputId?: string;\n        intent?: TurnInputIntentMetadata;\n        traceContext?: TraceContext;\n        verifyBeforeContinue?: boolean;\n    }): Promise<TurnResult | null>;\n    continueActiveTargetLoop(options: ContinueActiveTargetLoopOptions): Promise<TurnResult | null>;\n    stopActiveForegroundExecution(options?: StopActiveForegroundExecutionOptions): StopActiveForegroundExecutionResult;\n    activatePausedTargetAfterResume(traceContext: TraceContext): Promise<SessionGoal | null>;\n    executeTurn(input: string, attachments?: TurnState[\"attachments\"], options?: ExecuteTurnOptions): Promise<TurnResult>;\n    scheduleTools(toolCalls: ToolCall[]): Promise<ToolSchedule>;\n    executeTools(toolCalls: ToolCall[], schedule: ToolSchedule, options?: ExecuteToolsOptions): Promise<ExecuteToolsResult>;\n    emitPermissionRequest(toolCallId: ToolCallId, toolName: string, riskLevel: string): Promise<void>;\n    resolvePermission(toolCallId: ToolCallId, decision: PermissionDecisionResult): Promise<void>;\n    getPendingPermissionRequests(): PermissionBrokerRequest[];\n    getProjection(): Promise<SessionProjection>;\n    readBackgroundBashOutput(workId: string, sessionId?: string): Promise<BackgroundBashOutputResult>;\n    cancelBackgroundTask(taskId: string, options?: {\n        traceContext?: TraceContext;\n    }): Promise<BackgroundTaskCancelResult>;\n    stopBackgroundTask(taskId: string, options: RuntimeBackgroundStopOptions): Promise<RuntimeBackgroundStopResult>;\n    cancelRunningRuntimeBackgroundTasks(input: {\n        reason: \"subagent_cancelled\";\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    sealBackgroundTaskNotifications(input: {\n        reason: \"subagent_terminal\" | \"subagent_cancelled\";\n        traceContext?: TraceContext;\n    }): void;\n    getSessionId(): SessionId;\n    listWorkspaceCheckpoints(options?: {\n        limit?: number;\n    }): Promise<WorkspaceCheckpointSummary[]>;\n    forkWorkspaceFromCheckpoint(options?: {\n        abortSignal?: AbortSignal;\n        forkedSessionId?: SessionId;\n        targetCheckpointId?: string;\n        targetMessageId?: MessageId;\n        traceContext?: TraceContext;\n    }): Promise<WorkspaceForkResult>;\n    forkStableConversationAtMessage(options: StableConversationForkOptions): Promise<WorkspaceForkResult>;\n    createSelectionSideConversation(options: SelectionSideChatCreateOptions): Promise<WorkspaceForkResult>;\n    forkConversationBeforeMessage(options: ConversationBeforeInputForkOptions): Promise<WorkspaceForkResult>;\n    /**\n     * conversation edit/retry 的 same-session branch cut primitive。\n     *\n     * 该入口故意不经过 executeTurn command queue：组合文件 rewind 会在文件事务的\n     * commit gate 内调用它；若再排队 `/rewind`，当前 edit command 会等待自己释放队列。\n     */\n    rewindConversationToMessage(options: {\n        abortSignal?: AbortSignal;\n        events: SessionEvent[];\n        targetMessageId: MessageId;\n        traceContext: TraceContext;\n    }): Promise<ConversationRewindResult>;\n    previewWorkspaceFileRewind(options?: {\n        abortSignal?: AbortSignal;\n        targetCheckpointId?: string;\n        targetMessageId?: MessageId;\n        targetMessageIds?: MessageId[];\n        targetTurnId?: TurnId;\n        traceContext?: TraceContext;\n    }): Promise<WorkspaceFileRewindPreview>;\n    applyWorkspaceFileRewind(options?: {\n        abortSignal?: AbortSignal;\n        targetCheckpointId?: string;\n        targetMessageId?: MessageId;\n        targetMessageIds?: MessageId[];\n        targetTurnId?: TurnId;\n        traceContext?: TraceContext;\n        commitAfterApply?: () => Promise<void>;\n    }): Promise<WorkspaceFileRewindApplyResult>;\n    generateWorkspaceText(input: WorkspaceGenerateTextInput, options?: {\n        abortSignal?: AbortSignal;\n        traceContext?: TraceContext;\n    }): Promise<WorkspaceGenerateTextResult>;\n    testModelConnectivity(input: ModelConnectivityTestInput, options?: {\n        abortSignal?: AbortSignal;\n        traceContext?: TraceContext;\n    }): Promise<void>;\n    isProjectMemoryEnabled(): boolean;\n    /** 缺省等待最多 60 秒；null 等待全部已调度提取结束，不设置 drain deadline。 */\n    drainMemoryExtractions(timeoutMs?: number | null): Promise<void>;\n}\n//# sourceMappingURL=agent-runtime.d.ts.map",
+      "sourceSha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1",
+      "compiledSha256": "79a2e9918393b2040e596769778e805966d9b078db0920ef2cb2184dd8ca5344",
+      "declarationSha256": "74168f32812b6e0c5bc42087fd4158046f3707503bc051b1a04c93476a8afd48"
+    }
+  }
+}

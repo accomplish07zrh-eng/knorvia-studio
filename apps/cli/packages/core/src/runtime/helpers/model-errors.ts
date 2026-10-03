@@ -1,9 +1,4 @@
-import {
-  CoreErrorType,
-  ModelErrorCode,
-  createCoreError,
-  isCoreError,
-} from "../deps.js";
+import { CoreErrorType, ModelErrorCode, createCoreError, isCoreError } from "../deps.js";
 import type { ModelUsage } from "../deps.js";
 import { isPlainRecord, stringProperty } from "./data.js";
 import {
@@ -52,9 +47,7 @@ function isMediaMessage(value: string | undefined): boolean {
   const message = value.trim().toLowerCase();
   if (!message) return false;
   return (
-    (message.includes("media") ||
-      message.includes("image") ||
-      message.includes("document")) &&
+    (message.includes("media") || message.includes("image") || message.includes("document")) &&
     (message.includes("too large") || message.includes("exceed"))
   );
 }
@@ -159,8 +152,7 @@ export function buildSuspiciousEmptyDiagnostics(input: {
       : [],
     providerBusinessCodeFromMetadata: failure?.providerCode ?? null,
     providerBusinessMessageFromMetadata: failure?.message ?? null,
-    responseBodySummaryFromMetadata:
-      failure?.responseBodySummary ?? null,
+    responseBodySummaryFromMetadata: failure?.responseBodySummary ?? null,
   };
 }
 
@@ -218,9 +210,7 @@ export function normalizeStreamError(error: unknown): Error {
   if (businessError) return businessError;
   if (error instanceof Error) return error;
   return new Error(
-    typeof error === "string"
-      ? error
-      : (JSON.stringify(error) ?? "Model stream failed"),
+    typeof error === "string" ? error : (JSON.stringify(error) ?? "Model stream failed"),
   );
 }
 

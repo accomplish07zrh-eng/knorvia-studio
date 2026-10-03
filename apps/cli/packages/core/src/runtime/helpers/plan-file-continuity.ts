@@ -13,10 +13,7 @@ import {
   type RuntimeMessageEntry,
 } from "../../agent/message-history.js";
 
-function planFilePath(input: {
-  sessionId: SessionId | string;
-  workspaceRoot: string;
-}): string {
+function planFilePath(input: { sessionId: SessionId | string; workspaceRoot: string }): string {
   const workspaceRoot = input.workspaceRoot;
   const sanitizedSession = String(input.sessionId)
     .trim()
@@ -31,12 +28,7 @@ function planFilePath(input: {
     );
   }
 
-  return join(
-    workspaceRoot,
-    ".knorvia-studio",
-    "plans",
-    `plan-${sanitizedSession}.md`,
-  );
+  return join(workspaceRoot, ".knorvia-studio", "plans", `plan-${sanitizedSession}.md`);
 }
 
 export async function writeApprovedPlanFile(input: {
@@ -48,11 +40,9 @@ export async function writeApprovedPlanFile(input: {
   workspaceRoot: string;
 }): Promise<{ path: string }> {
   if (!input.plan.trim()) {
-    throw createCoreError(
-      CoreErrorType.InvalidInput,
-      "ExitPlanMode plan cannot be empty",
-      { recoverable: true },
-    );
+    throw createCoreError(CoreErrorType.InvalidInput, "ExitPlanMode plan cannot be empty", {
+      recoverable: true,
+    });
   }
 
   const path = planFilePath(input);

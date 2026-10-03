@@ -82,10 +82,13 @@ export class KnorviaStorageStartupGate {
     const next = parsed.data;
     const current = this.observation.report;
     if (current?.phase === "ready" || current?.phase === "failed") return false;
-    if (current && (
-      current.attemptId !== next.attemptId || current.databaseId !== next.databaseId ||
-      next.sequence <= current.sequence
-    )) return false;
+    if (
+      current &&
+      (current.attemptId !== next.attemptId ||
+        current.databaseId !== next.databaseId ||
+        next.sequence <= current.sequence)
+    )
+      return false;
 
     clearTimeout(this.firstStatusDeadline);
     this.observation.report = next;
@@ -127,7 +130,11 @@ export class KnorviaStorageStartupGate {
 
   dispose(): void {
     clearTimeout(this.firstStatusDeadline);
-    if (this.observation.completion && this.observation.report?.phase !== "ready" && !this.observation.rejection) {
+    if (
+      this.observation.completion &&
+      this.observation.report?.phase !== "ready" &&
+      !this.observation.rejection
+    ) {
       this.rejectStartup("transport_closed");
     }
     this.events.dispose();

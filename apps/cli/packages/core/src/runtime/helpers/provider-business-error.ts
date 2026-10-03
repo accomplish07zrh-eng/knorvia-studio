@@ -76,16 +76,9 @@ function summarizeProviderResponse(
     if (value === undefined) {
       continue;
     }
-    if (
-      typeof value === "string" ||
-      typeof value === "number" ||
-      typeof value === "boolean"
-    ) {
+    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
       summary[key] = value;
-    } else if (
-      Array.isArray(value) &&
-      value.every((item) => typeof item === "string")
-    ) {
+    } else if (Array.isArray(value) && value.every((item) => typeof item === "string")) {
       summary[key] = value;
     }
   }
@@ -149,15 +142,10 @@ export function createCoreErrorFromProviderBusinessLike(
   }
   const record = error as Record<string, unknown>;
   let failure: ProviderBusinessMetadataFailure | undefined;
-  if (
-    record.isProviderBusinessError === true ||
-    record.name === "ProviderBusinessError"
-  ) {
+  if (record.isProviderBusinessError === true || record.name === "ProviderBusinessError") {
     failure = classifyProviderBusinessRecord(record);
   } else {
-    const contextRecord = isPlainRecord(record.context)
-      ? record.context
-      : undefined;
+    const contextRecord = isPlainRecord(record.context) ? record.context : undefined;
     if (contextRecord) {
       failure = classifyProviderBusinessRecord({
         ...contextRecord,
@@ -176,9 +164,7 @@ export function createCoreErrorFromProviderBusinessLike(
   return createCoreError(CoreErrorType.ModelError, failure.message, {
     context: {
       ...(failure.providerCode ? { providerCode: failure.providerCode } : {}),
-      ...(failure.responseBodySummary
-        ? { responseBodySummary: failure.responseBodySummary }
-        : {}),
+      ...(failure.responseBodySummary ? { responseBodySummary: failure.responseBodySummary } : {}),
     },
     recoverable: true,
     retryable: false,

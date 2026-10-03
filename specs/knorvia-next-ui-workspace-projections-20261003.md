@@ -106,11 +106,12 @@ tasks 数组重建，未命中 root 节点保留引用。归档过滤在没有�
 
 虚拟滚动仍由消费者的同一 DOM scrollElement 所有。overflowY 接受包含
 auto/scroll/overlay 的原字符串规则。无 scrollElement 不滚动；滚动目标为 offset
-+ adjustments，按 horizontal 写 left/top，behavior 原样传递。仅在 vertical、
-offset=0、adjustments=0、behavior undefined、DOM scrollTop>0 且 cached
-scrollOffset=0 的初始失配时忽略旧 0，同消费者原 initialOffset 一起防止列表重挂载
-回顶。显式 behavior/非零调整/正常缓存的滚动不被拦截。不得新增计时或复制 DOM
-滚动状态。保留阈值 80、overscan 12、动态行高测量、UI JSX/CSS 与无障碍。
+
+- adjustments，按 horizontal 写 left/top，behavior 原样传递。仅在 vertical、
+  offset=0、adjustments=0、behavior undefined、DOM scrollTop>0 且 cached
+  scrollOffset=0 的初始失配时忽略旧 0，同消费者原 initialOffset 一起防止列表重挂载
+  回顶。显式 behavior/非零调整/正常缓存的滚动不被拦截。不得新增计时或复制 DOM
+  滚动状态。保留阈值 80、overscan 12、动态行高测量、UI JSX/CSS 与无障碍。
 
 待执行场景：跨 root/group 的前后移动；同组向后；拖 group 到成员；无效目标/自身
 no-op 引用；重复 task key 的查询/删除差异；原 task/不受影响节点引用；菜单离组

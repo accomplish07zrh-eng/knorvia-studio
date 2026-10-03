@@ -55,9 +55,7 @@
       "laneCurrentSha256": "3c3909ef7d0bf7e5f11089e86a6e6ba3b88ca24ce269f3a7c1bfbd11e06b15c4",
       "firstLocalAppearance": {
         "commit": "4fd3e373748a08e798beeacc42f91d87bc451378",
-        "parents": [
-          "7387a2b7c9c04a1ebc8504f6df7f1e7db7c397a1"
-        ],
+        "parents": ["7387a2b7c9c04a1ebc8504f6df7f1e7db7c397a1"],
         "date": "2026-09-25T04:44:30Z",
         "authorLabel": "Claude",
         "subject": "refactor: split the eight files held back from formatting and format them",
@@ -140,9 +138,7 @@
       "laneCurrentSha256": "562c992ce58fe43e49a551d8574542f7bba41b88a041d3e4a24775adff528f1d",
       "firstLocalAppearance": {
         "commit": "d1c058b6f86cb0b476807de4c8c4fda76f7e1712",
-        "parents": [
-          "2971232e7e508b491476ba67ea9d6db45808fcb0"
-        ],
+        "parents": ["2971232e7e508b491476ba67ea9d6db45808fcb0"],
         "date": "2026-09-25T06:47:13+08:00",
         "authorLabel": "Knorvia",
         "subject": "feat(creation): filter history, retry known failures and support video frames",

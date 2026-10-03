@@ -24,7 +24,9 @@ function delivery(value: unknown): Delivery | undefined {
 }
 
 function codeOf(error: unknown): unknown {
-  return typeof error === "object" && error !== null ? (error as { code?: unknown }).code : undefined;
+  return typeof error === "object" && error !== null
+    ? (error as { code?: unknown }).code
+    : undefined;
 }
 
 /** One instance is the sole subscription/cursor owner for one workspace topic. */
@@ -41,7 +43,9 @@ export function createTopicIngest<F extends LogicalTopicFrame>(ports: TopicPorts
   let retryTimer: ReturnType<typeof setTimeout> | null = null;
   let attempts = 0;
   let warnedAt: number | null = null;
-  const recovery = createTopicRecovery(owner, ports, (reason) => { void subscribe(reason, true); });
+  const recovery = createTopicRecovery(owner, ports, (reason) => {
+    void subscribe(reason, true);
+  });
 
   function empty(pending: AdmissionBuffer | null): void {
     if (!pending) return;
@@ -77,7 +81,8 @@ export function createTopicIngest<F extends LogicalTopicFrame>(ports: TopicPorts
     if (!pending || pending.overflow) return;
     const bytes = new TextEncoder().encode(JSON.stringify(wire)).byteLength;
     if (
-      bytes > 32 * 1024 * 1024 || pending.wires.length >= 1_024 ||
+      bytes > 32 * 1024 * 1024 ||
+      pending.wires.length >= 1_024 ||
       pending.bytes + bytes > 32 * 1024 * 1024
     ) {
       empty(pending);
@@ -161,12 +166,17 @@ export function createTopicIngest<F extends LogicalTopicFrame>(ports: TopicPorts
     attempts++;
     retryTimer = setTimeout(() => {
       retryTimer = null;
-      if (ports.live()) void subscribe(providerPending ? "provider-not-ready-wait" : "retry", false);
+      if (ports.live())
+        void subscribe(providerPending ? "provider-not-ready-wait" : "retry", false);
     }, delay);
     retryTimer.unref?.();
   }
 
-  function reportFailure(reason: SubscriptionReason, error: unknown, providerPending: boolean): void {
+  function reportFailure(
+    reason: SubscriptionReason,
+    error: unknown,
+    providerPending: boolean,
+  ): void {
     const message = `task index ${ports.kind} 订阅失败 reason=${reason} workspace=${ports.target.workspacePath}`;
     if (providerPending) {
       ports.logger.debug(undefined, message, error);
@@ -206,7 +216,8 @@ export function createTopicIngest<F extends LogicalTopicFrame>(ports: TopicPorts
       if (pending.overflow) {
         empty(pending);
         await unsubscribe(id);
-        if (ports.live() && generation === owner.generation) void subscribe("pre-ack-overflow", false);
+        if (ports.live() && generation === owner.generation)
+          void subscribe("pre-ack-overflow", false);
         return;
       }
       owner.subscription = id;

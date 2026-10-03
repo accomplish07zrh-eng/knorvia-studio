@@ -71,18 +71,14 @@ function normalizeNonnegativeInteger(value: number | undefined): number | undefi
   return Math.floor(value);
 }
 
-export function getEffectiveContextWindowSize(
-  config: AutoCompactPolicyConfig = {},
-): number {
+export function getEffectiveContextWindowSize(config: AutoCompactPolicyConfig = {}): number {
   const contextWindow =
     normalizeNonnegativeInteger(config.contextWindow) ?? DEFAULT_COMPACT_CONTEXT_WINDOW;
   const reserve = Math.min(getAutoCompactOutputReserveTokens(config), contextWindow);
   return Math.max(0, contextWindow - reserve);
 }
 
-export function getAutoCompactOutputReserveTokens(
-  config: AutoCompactPolicyConfig = {},
-): number {
+export function getAutoCompactOutputReserveTokens(config: AutoCompactPolicyConfig = {}): number {
   const maxOutputTokens =
     normalizeNonnegativeInteger(config.maxOutputTokens) ??
     DEFAULT_AUTOCOMPACT_OUTPUT_RESERVE_TOKENS;
@@ -106,10 +102,7 @@ export function shouldAutoCompact(input: {
   const contextWindow =
     normalizeNonnegativeInteger(config.contextWindow) ?? DEFAULT_COMPACT_CONTEXT_WINDOW;
   const effectiveContextWindow = getEffectiveContextWindowSize(config);
-  const outputReserveTokens = Math.min(
-    getAutoCompactOutputReserveTokens(config),
-    contextWindow,
-  );
+  const outputReserveTokens = Math.min(getAutoCompactOutputReserveTokens(config), contextWindow);
   const threshold = getAutoCompactThreshold(config);
   const thresholdPercent = DEFAULT_AUTOCOMPACT_THRESHOLD_PERCENT;
   const estimatedTokenCount = estimateMessageTokens(input.messages);

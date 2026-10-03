@@ -67,7 +67,8 @@ const EXIT_PLAN_REMINDER = [
   "",
   "You have exited plan mode. You can now make edits, run tools, and take actions.",
 ];
-const TODO_LEAD = "The TodoWrite tool hasn't been used recently. If you're working on tasks that would benefit from tracking progress, consider using the TodoWrite tool to track progress. Also consider cleaning up the todo list if has become stale and no longer matches what you are working on. Only use it if it's relevant to the current work. This is just a gentle reminder - ignore if not applicable.";
+const TODO_LEAD =
+  "The TodoWrite tool hasn't been used recently. If you're working on tasks that would benefit from tracking progress, consider using the TodoWrite tool to track progress. Also consider cleaning up the todo list if has become stale and no longer matches what you are working on. Only use it if it's relevant to the current work. This is just a gentle reminder - ignore if not applicable.";
 
 function countTodoDistances(entries: readonly RuntimeMessageEntry[]): {
   sinceWrite: number;
@@ -172,10 +173,11 @@ export function buildRuntimeModeReminderBody(
   if (!planEnabled) return null;
   const previous = findModeReminder(entries);
   if (previous.found && previous.humanTurns < 5) return null;
-  const nextReminder = entries.reduce(
-    (count, entry) => count + (entry.metadata?.source === "runtime_mode" ? 1 : 0),
-    0,
-  ) + 1;
+  const nextReminder =
+    entries.reduce(
+      (count, entry) => count + (entry.metadata?.source === "runtime_mode" ? 1 : 0),
+      0,
+    ) + 1;
   return (nextReminder % 5 === 1 ? FULL_PLAN_REMINDER : SPARSE_PLAN_REMINDER).join("\n");
 }
 

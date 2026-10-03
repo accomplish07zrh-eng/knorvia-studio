@@ -22,30 +22,28 @@ export function projectCompactMediaForRetry(
     }
 
     const replacedMediaIndexes = new Set<number>();
-    const projectedContent = content.map(
-      (block, index): ModelMessageContentBlock => {
-        if (block.type === "image") {
-          replacedMediaIndexes.add(index);
-          return { type: "text", text: "[image]" };
-        }
-        if (block.type === "video") {
-          replacedMediaIndexes.add(index);
-          return { type: "text", text: "[video]" };
-        }
-        if (
-          block.type === "file" &&
-          !(block.text !== undefined && block.text.length > 0) &&
-          Boolean(block.dataUrl || block.uri)
-        ) {
-          replacedMediaIndexes.add(index);
-          return { type: "text", text: "[document]" };
-        }
-        if ("source" in block && block.source) {
-          return { ...block, source: { ...block.source } };
-        }
-        return { ...block };
-      },
-    );
+    const projectedContent = content.map((block, index): ModelMessageContentBlock => {
+      if (block.type === "image") {
+        replacedMediaIndexes.add(index);
+        return { type: "text", text: "[image]" };
+      }
+      if (block.type === "video") {
+        replacedMediaIndexes.add(index);
+        return { type: "text", text: "[video]" };
+      }
+      if (
+        block.type === "file" &&
+        !(block.text !== undefined && block.text.length > 0) &&
+        Boolean(block.dataUrl || block.uri)
+      ) {
+        replacedMediaIndexes.add(index);
+        return { type: "text", text: "[document]" };
+      }
+      if ("source" in block && block.source) {
+        return { ...block, source: { ...block.source } };
+      }
+      return { ...block };
+    });
 
     const imageRefIndexes = officialCuaImageRefIndexesForUnavailableMedia(
       content,
@@ -63,9 +61,7 @@ export function projectCompactMediaForRetry(
     replacedMediaCount += messageReplacedMediaCount;
     return {
       ...message,
-      cacheControl: message.cacheControl
-        ? { ...message.cacheControl }
-        : undefined,
+      cacheControl: message.cacheControl ? { ...message.cacheControl } : undefined,
       content: projectedContent,
       toolCalls: message.toolCalls?.map((call) => ({ ...call })),
     };

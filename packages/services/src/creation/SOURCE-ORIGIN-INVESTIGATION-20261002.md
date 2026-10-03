@@ -4,15 +4,15 @@ Bounded retention recommendation: retain the seven current lane sources unchange
 
 Checkpoint: `3661d9265f879bfc397419862dbbe241804bdf72`, same draft PR10. Exact local/current/first-appearance hashes, blobs, full path-history metadata, prior-record hashes and comparison inputs are in `SOURCE-ORIGIN-EVIDENCE-20261002.json`. Production source remains unchanged.
 
-| Owner | First local appearance | Evidence and qualification |
-| --- | --- | --- |
-| contract.ts | `7619e41b950bd52073ebf36754146cf25659d9fa` | Types/admission/output rules in Knorvia latest-preview snapshot; snapshot has no parent, so actual initial authorship cannot be recovered. |
-| creationService.ts | `7619e41b950bd52073ebf36754146cf25659d9fa` | Creation owner included in the same snapshot with the feature spec; later T09 and run-clock changes are documented. |
-| creationReference.ts | `7619e41b950bd52073ebf36754146cf25659d9fa` | Reference admission included in the snapshot; later bounded fixes do not certify whole-file origin. |
-| modelValidation.ts | `7619e41b950bd52073ebf36754146cf25659d9fa` | Snapshot content SHA256 equals current lane SHA256. New-path presence alone is not authorship proof. |
-| providers.ts | `7619e41b950bd52073ebf36754146cf25659d9fa` | Provider execution included in the creation snapshot, expanded by retry and T09 features. No provider executed in this investigation. |
-| creationStorage.ts | `d1c058b6f86cb0b476807de4c8c4fda76f7e1712` | Added during history/retry/frame feature work. Ten exact eight-meaningful-line windows overlap its immediate parent creationService: internal reuse, not independent authorship. |
-| creationJobs.ts | `4fd3e373748a08e798beeacc42f91d87bc451378` | Commit explicitly describes a cohesive move-only chunk from creationService. Two exact eight-meaningful-line windows also match that parent. The local predecessor's origin uncertainty remains. |
+| Owner                | First local appearance                     | Evidence and qualification                                                                                                                                                                       |
+| -------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| contract.ts          | `7619e41b950bd52073ebf36754146cf25659d9fa` | Types/admission/output rules in Knorvia latest-preview snapshot; snapshot has no parent, so actual initial authorship cannot be recovered.                                                       |
+| creationService.ts   | `7619e41b950bd52073ebf36754146cf25659d9fa` | Creation owner included in the same snapshot with the feature spec; later T09 and run-clock changes are documented.                                                                              |
+| creationReference.ts | `7619e41b950bd52073ebf36754146cf25659d9fa` | Reference admission included in the snapshot; later bounded fixes do not certify whole-file origin.                                                                                              |
+| modelValidation.ts   | `7619e41b950bd52073ebf36754146cf25659d9fa` | Snapshot content SHA256 equals current lane SHA256. New-path presence alone is not authorship proof.                                                                                             |
+| providers.ts         | `7619e41b950bd52073ebf36754146cf25659d9fa` | Provider execution included in the creation snapshot, expanded by retry and T09 features. No provider executed in this investigation.                                                            |
+| creationStorage.ts   | `d1c058b6f86cb0b476807de4c8c4fda76f7e1712` | Added during history/retry/frame feature work. Ten exact eight-meaningful-line windows overlap its immediate parent creationService: internal reuse, not independent authorship.                 |
+| creationJobs.ts      | `4fd3e373748a08e798beeacc42f91d87bc451378` | Commit explicitly describes a cohesive move-only chunk from creationService. Two exact eight-meaningful-line windows also match that parent. The local predecessor's origin uncertainty remains. |
 
 ## Upstream presence and content
 

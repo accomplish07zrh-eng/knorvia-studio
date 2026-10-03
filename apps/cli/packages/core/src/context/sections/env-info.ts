@@ -25,16 +25,11 @@ function createSection(
 export function isEnvInfoGitRepository(info: EnvInfo): boolean {
   return (
     info.isGitRepository ??
-    (info.gitStatus !== undefined
-      ? info.gitStatus !== "not_repo"
-      : Boolean(info.gitBranch))
+    (info.gitStatus !== undefined ? info.gitStatus !== "not_repo" : Boolean(info.gitBranch))
   );
 }
 
-export function buildEnvInfoSection(
-  envInfo: EnvInfo,
-  model?: Model,
-): ContextSection {
+export function buildEnvInfoSection(envInfo: EnvInfo, model?: Model): ContextSection {
   const hasGitRepository = isEnvInfoGitRepository(envInfo);
   const lines = [
     "# Environment",
@@ -46,9 +41,7 @@ export function buildEnvInfoSection(
     `- OS Version: ${envInfo.osVersion}`,
   ];
   if (model) {
-    lines.push(
-      `- You are powered by the model named ${model.providerId}/${model.modelId}.`,
-    );
+    lines.push(`- You are powered by the model named ${model.providerId}/${model.modelId}.`);
   }
   return createSection("Environment Info", "env_info", lines.join("\n"));
 }
@@ -69,9 +62,7 @@ function formatCommits(info: EnvInfo): string {
   return "";
 }
 
-export function buildGitSystemContextSection(
-  envInfo: EnvInfo,
-): ContextSection | null {
+export function buildGitSystemContextSection(envInfo: EnvInfo): ContextSection | null {
   if (!isEnvInfoGitRepository(envInfo)) return null;
 
   const lines = [GIT_SYSTEM_CONTEXT_PREFIX];
@@ -79,10 +70,7 @@ export function buildGitSystemContextSection(
     lines.push("", `Current branch: ${envInfo.gitBranch}`);
   }
   if (envInfo.gitMainBranch) {
-    lines.push(
-      "",
-      `Main branch (you will usually use this for PRs): ${envInfo.gitMainBranch}`,
-    );
+    lines.push("", `Main branch (you will usually use this for PRs): ${envInfo.gitMainBranch}`);
   }
   if (envInfo.gitUser) {
     lines.push("", `Git user: ${envInfo.gitUser}`);

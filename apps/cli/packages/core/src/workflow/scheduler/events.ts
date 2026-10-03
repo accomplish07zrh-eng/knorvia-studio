@@ -5,10 +5,7 @@ import type {
   WorkflowRunSnapshot,
 } from "@knorvia/contracts";
 import { edgeId } from "./graph.js";
-import type {
-  AppliedPlannerExpansion,
-  WorkflowGraphSchedulerDeps,
-} from "./types.js";
+import type { AppliedPlannerExpansion, WorkflowGraphSchedulerDeps } from "./types.js";
 
 export class WorkflowSchedulerEventLog {
   readonly #eventPort: WorkflowGraphSchedulerDeps["appendEvent"];

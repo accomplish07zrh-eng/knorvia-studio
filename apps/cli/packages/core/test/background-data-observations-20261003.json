@@ -99,11 +99,7 @@
   {
     "name": "report caps, errors and actual enqueue data",
     "text": {
-      "keys": [
-        "count",
-        "shown",
-        "preview"
-      ],
+      "keys": ["count", "shown", "preview"],
       "count": 9,
       "shown": 3,
       "preview": {
@@ -114,11 +110,7 @@
       }
     },
     "manifest": {
-      "keys": [
-        "count",
-        "shown",
-        "preview"
-      ],
+      "keys": ["count", "shown", "preview"],
       "count": 9,
       "shown": 8,
       "preview": [
@@ -173,11 +165,7 @@
       ]
     },
     "sparse": {
-      "keys": [
-        "count",
-        "shown",
-        "preview"
-      ],
+      "keys": ["count", "shown", "preview"],
       "count": 2,
       "shown": 2,
       "preview": {
@@ -190,26 +178,10 @@
     "notification": {
       "taskId": "owned-workflow-task",
       "toolName": "CreateWorkflow",
-      "originKeys": [
-        "backgroundSource",
-        "title",
-        "workId",
-        "workflowNotification"
-      ],
-      "manifestKeys": [
-        "kind",
-        "status",
-        "summary",
-        "result",
-        "resultForm",
-        "reports"
-      ],
+      "originKeys": ["backgroundSource", "title", "workId", "workflowNotification"],
+      "manifestKeys": ["kind", "status", "summary", "result", "resultForm", "reports"],
       "textReports": {
-        "keys": [
-          "count",
-          "shown",
-          "preview"
-        ],
+        "keys": ["count", "shown", "preview"],
         "count": 9,
         "shown": 3,
         "preview": {
@@ -220,11 +192,7 @@
         }
       },
       "manifestReports": {
-        "keys": [
-          "count",
-          "shown",
-          "preview"
-        ],
+        "keys": ["count", "shown", "preview"],
         "count": 9,
         "shown": 8,
         "preview": [

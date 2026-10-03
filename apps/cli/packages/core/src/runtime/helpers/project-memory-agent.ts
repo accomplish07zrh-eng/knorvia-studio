@@ -38,9 +38,11 @@ export function captureProjectMemoryAgentContext(
     traceContext: TraceContext;
   },
 ): ProjectMemoryAgentContext {
-  const baseModel = input.model ?? createRuntimeModel(runtime, {
-    selection: runtime.getSessionModelSelection(),
-  });
+  const baseModel =
+    input.model ??
+    createRuntimeModel(runtime, {
+      selection: runtime.getSessionModelSelection(),
+    });
   const model = withModelInvocationContext(baseModel, (request) => ({
     metadata: {
       ...traceContextToLogContext(input.traceContext),

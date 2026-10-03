@@ -14,7 +14,9 @@ import type { ToolExecutionContext } from "../tool/types.js";
 import { preserveOfficialCuaFrameResult } from "@knorvia/cua/frame-contract";
 
 export const MCP_IMAGE_INLINE_BASE64_BYTES: number = 200 * 1024;
-export const MCP_IMAGE_INLINE_RAW_BYTES: number = Math.floor((MCP_IMAGE_INLINE_BASE64_BYTES * 3) / 4);
+export const MCP_IMAGE_INLINE_RAW_BYTES: number = Math.floor(
+  (MCP_IMAGE_INLINE_BASE64_BYTES * 3) / 4,
+);
 export const HOST_NODE_REPL_IMAGE_MAX_DIMENSION = 2048;
 
 export async function normalizeMcpToolResultForModel(input: {
@@ -25,10 +27,12 @@ export async function normalizeMcpToolResultForModel(input: {
   result: McpToolCallResult;
   toolName: string;
 }): Promise<McpToolCallResult> {
-  const sharedNodeContext = input.descriptor.serverName === "node_repl"
-    || input.toolName === "mcp__node_repl__js";
-  if (input.preserveOfficialCuaFrames
-    || (sharedNodeContext && hasOfficialCuaFrameAuthority(input.result))) {
+  const sharedNodeContext =
+    input.descriptor.serverName === "node_repl" || input.toolName === "mcp__node_repl__js";
+  if (
+    input.preserveOfficialCuaFrames ||
+    (sharedNodeContext && hasOfficialCuaFrameAuthority(input.result))
+  ) {
     return await preserveOfficialCuaFrameResult(input.result, {
       imageProcessorPort: input.context.imageProcessorPort,
       signal: input.context.abortSignal,
@@ -53,8 +57,11 @@ export async function normalizeMcpToolResultForModel(input: {
       toolName: input.toolName,
     };
     const normalized = await projectEntry(entryInput, entry, screenshotPath);
-    if (normalized.type === "text" && typeof normalized.text === "string"
-      && isOfficialCuaImageRefText(normalized.text)) {
+    if (
+      normalized.type === "text" &&
+      typeof normalized.text === "string" &&
+      isOfficialCuaImageRefText(normalized.text)
+    ) {
       changed = true;
       continue;
     }
@@ -96,13 +103,19 @@ type NormalizationInput = Parameters<typeof normalizeMcpToolResultForModel>[0];
 type ImageSummary = { base64Bytes: number; inlineLimitBytes: number; mimeType: string };
 
 function markedScreenshotIndices(result: McpToolCallResult): Set<number> {
-  const marked = result._meta?.[KNORVIA_MCP_BROWSER_SCREENSHOT_CONTENT_INDICES_META_KEY]
-    ?? result._meta?.["knorvia/browserScreenshotContentIndices"];
+  const marked =
+    result._meta?.[KNORVIA_MCP_BROWSER_SCREENSHOT_CONTENT_INDICES_META_KEY] ??
+    result._meta?.["knorvia/browserScreenshotContentIndices"];
   const indices = new Set<number>();
   if (Array.isArray(marked)) {
     for (const index of marked) {
-      if (typeof index === "number" && Number.isInteger(index)
-        && index >= 0 && index < result.content.length) indices.add(index);
+      if (
+        typeof index === "number" &&
+        Number.isInteger(index) &&
+        index >= 0 &&
+        index < result.content.length
+      )
+        indices.add(index);
     }
   }
   return indices;
@@ -115,8 +128,8 @@ async function backUpScreenshot(
   if (entry.type !== "image") return undefined;
   const data = entry.data;
   const mimeType = entry.mimeType;
-  if (typeof data !== "string" || !data
-    || typeof mimeType !== "string" || !mimeType) return undefined;
+  if (typeof data !== "string" || !data || typeof mimeType !== "string" || !mimeType)
+    return undefined;
   const store = input.context.artifactStore;
   const write = store?.writeToolResultBinaryArtifact;
   if (!store || !write) return undefined;
@@ -124,17 +137,21 @@ async function backUpScreenshot(
   if (bytes.byteLength === 0) return undefined;
   const toolName = input.toolName;
   try {
-    const artifact = await write.call(store, {
-      sessionId: input.context.sessionId,
-      turnId: input.context.turnId,
-      toolCallId: input.context.toolCallId,
-      toolName,
-      content: bytes,
-      contentType: mimeType,
-      extension: extensionForMime(mimeType),
-      retention: "session",
-      trace: artifactTrace(input.context),
-    }, { signal: input.context.abortSignal });
+    const artifact = await write.call(
+      store,
+      {
+        sessionId: input.context.sessionId,
+        turnId: input.context.turnId,
+        toolCallId: input.context.toolCallId,
+        toolName,
+        content: bytes,
+        contentType: mimeType,
+        extension: extensionForMime(mimeType),
+        retention: "session",
+        trace: artifactTrace(input.context),
+      },
+      { signal: input.context.abortSignal },
+    );
     if (!artifact.path) return undefined;
     return isAbsolute(artifact.path) ? artifact.path : resolve(artifact.path);
   } catch (error) {
@@ -151,8 +168,7 @@ async function projectEntry(
   if (entry.type !== "image") return entry;
   const data = entry.data;
   const mimeType = entry.mimeType;
-  if (typeof data !== "string" || !data
-    || typeof mimeType !== "string" || !mimeType) return entry;
+  if (typeof data !== "string" || !data || typeof mimeType !== "string" || !mimeType) return entry;
   const payload = base64PayloadFromMcpImageData(data);
   const base64Bytes = Buffer.byteLength(payload, "utf8");
   if (base64Bytes <= MCP_IMAGE_INLINE_BASE64_BYTES) return entry;
@@ -205,18 +221,24 @@ async function compressForInline(
   const bytes = Buffer.from(payload, "base64");
   if (bytes.byteLength === 0) return undefined;
   try {
-    const prepared = await processor.prepareForModel({
-      data: bytes,
-      maxBase64Bytes: MCP_IMAGE_INLINE_BASE64_BYTES,
-      maxDimension: 2000,
-      maxRawBytes: MCP_IMAGE_INLINE_RAW_BYTES,
-      mediaType: mimeType,
-      trace: artifactTrace(input.context),
-    }, { signal: input.context.abortSignal });
+    const prepared = await processor.prepareForModel(
+      {
+        data: bytes,
+        maxBase64Bytes: MCP_IMAGE_INLINE_BASE64_BYTES,
+        maxDimension: 2000,
+        maxRawBytes: MCP_IMAGE_INLINE_RAW_BYTES,
+        mediaType: mimeType,
+        trace: artifactTrace(input.context),
+      },
+      { signal: input.context.abortSignal },
+    );
     const data = Buffer.from(prepared.data).toString("base64");
     const size = Buffer.byteLength(data, "utf8");
-    if (size > 0 && size <= MCP_IMAGE_INLINE_BASE64_BYTES
-      && prepared.mediaType.startsWith("image/")) {
+    if (
+      size > 0 &&
+      size <= MCP_IMAGE_INLINE_BASE64_BYTES &&
+      prepared.mediaType.startsWith("image/")
+    ) {
       return { type: "image", data, mimeType: prepared.mediaType };
     }
     return undefined;
@@ -237,36 +259,47 @@ async function saveOversizedImage(
   if (!store) throw new Error("MCP image artifact store is not configured");
   const write = store.writeToolResultBinaryArtifact;
   if (write) {
-    return await write.call(store, {
+    return await write.call(
+      store,
+      {
+        sessionId: input.context.sessionId,
+        turnId: input.context.turnId,
+        toolCallId: input.context.toolCallId,
+        toolName: input.toolName,
+        content: Buffer.from(payload, "base64"),
+        contentType: summary.mimeType,
+        extension: extensionForMime(summary.mimeType),
+        retention: "session",
+        trace: artifactTrace(input.context),
+      },
+      { signal: input.context.abortSignal },
+    );
+  }
+  return await store.writeToolResultArtifact(
+    {
       sessionId: input.context.sessionId,
       turnId: input.context.turnId,
       toolCallId: input.context.toolCallId,
       toolName: input.toolName,
-      content: Buffer.from(payload, "base64"),
-      contentType: summary.mimeType,
-      extension: extensionForMime(summary.mimeType),
+      content: JSON.stringify(
+        {
+          type: "mcp-image-artifact",
+          createdAt: new Date().toISOString(),
+          dataUrl,
+          registeredToolName: input.toolName,
+          serverName: input.descriptor.serverName,
+          toolName: input.descriptor.toolName,
+          ...summary,
+        },
+        null,
+        2,
+      ),
+      contentType: "application/json",
       retention: "session",
       trace: artifactTrace(input.context),
-    }, { signal: input.context.abortSignal });
-  }
-  return await store.writeToolResultArtifact({
-    sessionId: input.context.sessionId,
-    turnId: input.context.turnId,
-    toolCallId: input.context.toolCallId,
-    toolName: input.toolName,
-    content: JSON.stringify({
-      type: "mcp-image-artifact",
-      createdAt: new Date().toISOString(),
-      dataUrl,
-      registeredToolName: input.toolName,
-      serverName: input.descriptor.serverName,
-      toolName: input.descriptor.toolName,
-      ...summary,
-    }, null, 2),
-    contentType: "application/json",
-    retention: "session",
-    trace: artifactTrace(input.context),
-  }, { signal: input.context.abortSignal });
+    },
+    { signal: input.context.abortSignal },
+  );
 }
 
 function artifactTrace(context: ToolExecutionContext): TraceContext {
@@ -281,12 +314,17 @@ function artifactTrace(context: ToolExecutionContext): TraceContext {
 
 function extensionForMime(mimeType: string): string {
   switch ((mimeType.split(";")[0] ?? "").trim().toLowerCase()) {
-    case "image/png": return ".png";
+    case "image/png":
+      return ".png";
     case "image/jpeg":
-    case "image/jpg": return ".jpg";
-    case "image/gif": return ".gif";
-    case "image/webp": return ".webp";
-    default: return ".bin";
+    case "image/jpg":
+      return ".jpg";
+    case "image/gif":
+      return ".gif";
+    case "image/webp":
+      return ".webp";
+    default:
+      return ".bin";
   }
 }
 
@@ -303,8 +341,6 @@ function sizeLabel(bytes: number): string {
     value /= 1024;
     unit += 1;
   }
-  const label = unit === 0 || value >= 10
-    ? Math.round(value).toString()
-    : value.toFixed(1);
+  const label = unit === 0 || value >= 10 ? Math.round(value).toString() : value.toFixed(1);
   return `${label} ${units[unit]}`;
 }

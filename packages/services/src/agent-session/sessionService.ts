@@ -100,18 +100,14 @@ export function createKnorviaSessionService({
     const choices = sessionThoughtLevelChoices(initial);
     if (choices !== null && !choices.has(requested)) {
       // 模型能力由恢复快照决定；不能把旧模型的 task-local 等级写到不支持它的新模型。
-      logger.warn(
-        undefined,
-        "[agent-session-service] resumeSession 跳过不支持的 task 思考强度",
-        {
-          availableThoughtLevels: Array.from(sessionThoughtLevelChoices(initial) ?? []),
-          requestedThoughtLevel: requested,
-          sessionId: target.sessionId,
-          snapshotThoughtLevel: initial.settings.thoughtLevel.current ?? null,
-          workspaceIdentity: target.workspaceIdentity ?? null,
-          workspacePath: target.workspacePath,
-        },
-      );
+      logger.warn(undefined, "[agent-session-service] resumeSession 跳过不支持的 task 思考强度", {
+        availableThoughtLevels: Array.from(sessionThoughtLevelChoices(initial) ?? []),
+        requestedThoughtLevel: requested,
+        sessionId: target.sessionId,
+        snapshotThoughtLevel: initial.settings.thoughtLevel.current ?? null,
+        workspaceIdentity: target.workspaceIdentity ?? null,
+        workspacePath: target.workspacePath,
+      });
       return undefined;
     }
     return requested;

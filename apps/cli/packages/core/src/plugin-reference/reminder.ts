@@ -64,15 +64,13 @@ interface CapabilityGroup {
 }
 
 function hasRootPrefix(candidate: string, root: string): boolean {
-  return candidate === root
-    || candidate.startsWith(root + "/")
-    || candidate.startsWith(root + "\\");
+  return (
+    candidate === root || candidate.startsWith(root + "/") || candidate.startsWith(root + "\\")
+  );
 }
 
 function capabilityIdentifier(candidate: string): boolean {
-  return candidate.length >= 1
-    && candidate.length <= 128
-    && /^[A-Za-z0-9._:@/-]+$/.test(candidate);
+  return candidate.length >= 1 && candidate.length <= 128 && /^[A-Za-z0-9._:@/-]+$/.test(candidate);
 }
 
 function collectCapabilities(
@@ -130,7 +128,7 @@ function hasCapabilities(group: CapabilityGroup): boolean {
 }
 
 function quotedIdentifiers(identifiers: string[]): string {
-  return identifiers.map(identifier => JSON.stringify(identifier)).join(", ");
+  return identifiers.map((identifier) => JSON.stringify(identifier)).join(", ");
 }
 
 function renderReminder(groups: CapabilityGroup[]): string {
@@ -176,7 +174,7 @@ export function buildPluginReferenceReminderBody(
       skipped.push({ pluginId, reason: "invalid_identifier" });
       continue;
     }
-    const entry = input.catalog?.plugins.find(plugin => plugin.pluginId === pluginId);
+    const entry = input.catalog?.plugins.find((plugin) => plugin.pluginId === pluginId);
     if (!entry) {
       skipped.push({ pluginId, reason: "unknown" });
       continue;
@@ -205,9 +203,11 @@ export function buildPluginReferenceReminderBody(
       servers: collected.group.servers.slice(0, Math.max(0, serversRemaining)),
       agents: collected.group.agents.slice(0, Math.max(0, agentsRemaining)),
     };
-    if (group.skills.length < collected.group.skills.length
-      || group.servers.length < collected.group.servers.length
-      || group.agents.length < collected.group.agents.length) {
+    if (
+      group.skills.length < collected.group.skills.length ||
+      group.servers.length < collected.group.servers.length ||
+      group.agents.length < collected.group.agents.length
+    ) {
       truncated = true;
     }
     if (!hasCapabilities(group)) {
@@ -236,7 +236,7 @@ export function buildPluginReferenceReminderBody(
   return {
     body,
     diagnostics: {
-      resolvedPluginIds: groups.map(group => group.pluginId),
+      resolvedPluginIds: groups.map((group) => group.pluginId),
       skipped,
       skillCount: groups.reduce((count, group) => count + group.skills.length, 0),
       mcpServerCount: groups.reduce((count, group) => count + group.servers.length, 0),

@@ -32,9 +32,7 @@ const MAX_EXTRACTION_TURNS = 5;
 const DRAIN_TIMEOUT_MS = 60_000;
 
 export function isProjectMemoryEnabled(this: AgentRuntimeInternal): boolean {
-  return (
-    resolveEnabledProjectMemoryRoot(this.config, this.workspaceRoot) !== undefined
-  );
+  return resolveEnabledProjectMemoryRoot(this.config, this.workspaceRoot) !== undefined;
 }
 
 export function scheduleProjectMemoryExtraction(
@@ -47,10 +45,7 @@ export function scheduleProjectMemoryExtraction(
   if (runtime.shuttingDown) return;
   if (runtime.config.memory?.extractionEnabled === false) return;
 
-  const memoryRoot = resolveEnabledProjectMemoryRoot(
-    runtime.config,
-    runtime.workspaceRoot,
-  );
+  const memoryRoot = resolveEnabledProjectMemoryRoot(runtime.config, runtime.workspaceRoot);
   if (!memoryRoot) return;
   if (runtime.isRemoteWorkspace()) return;
   if (!runtime.sessionStore || !runtime.fileSystemPort) return;
@@ -71,19 +66,14 @@ export function scheduleProjectMemoryExtraction(
   const snapshotPromise = Promise.all([durableMessages, session]).then(
     ([messages, scheduledSession]): ProjectMemoryExtractionSnapshot => {
       const active = selectActiveConversationBranch(messages, {
-        branchCutAfterMessageId:
-          scheduledSession?.revert?.branchCutAfterMessageID,
+        branchCutAfterMessageId: scheduledSession?.revert?.branchCutAfterMessageID,
         rewindCreatedMessageId: scheduledSession?.revert?.createdMessageID,
         rewindKeptMessageIds: scheduledSession?.revert?.keptMessageIDs,
         rewindTargetMessageId: scheduledSession?.revert?.targetMessageID,
       });
-      const boundaryIndex = active.findIndex(
-        (message) => message.info.id === boundaryMessageId,
-      );
+      const boundaryIndex = active.findIndex((message) => message.info.id === boundaryMessageId);
       if (boundaryIndex < 0) {
-        throw new Error(
-          "Extraction boundary is missing from the scheduled active branch",
-        );
+        throw new Error("Extraction boundary is missing from the scheduled active branch");
       }
       return {
         ...snapshotBase,
@@ -94,8 +84,8 @@ export function scheduleProjectMemoryExtraction(
   );
 
   runtime.memoryExtractionScheduler ??=
-    createMemoryExtractionScheduler<ProjectMemoryExtractionSnapshot>(
-      (extraction) => execute(runtime, extraction),
+    createMemoryExtractionScheduler<ProjectMemoryExtractionSnapshot>((extraction) =>
+      execute(runtime, extraction),
     );
   runtime.memoryExtractionScheduler.schedule(snapshotPromise);
 }
@@ -159,10 +149,7 @@ function execute(
         input.snapshot,
         prompt,
       );
-      const executor = createProjectMemoryAgentToolExecutor(
-        runtime,
-        input.snapshot,
-      );
+      const executor = createProjectMemoryAgentToolExecutor(runtime, input.snapshot);
       await runMemoryAgentLoop({
         abortSignal: input.abortSignal,
         executeTool: (toolCall, options) =>

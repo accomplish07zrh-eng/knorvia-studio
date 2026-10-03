@@ -175,7 +175,8 @@ class GroupDraftLedger {
 export function createStudioGroupStore(storage: GroupStorage | undefined = browserStorage()) {
   const initial = loadGroups(storage);
   const ledger = new GroupDraftLedger(initial);
-  const writesBlocked = initial.storageIssue === "corrupt" || initial.storageIssue === "unavailable";
+  const writesBlocked =
+    initial.storageIssue === "corrupt" || initial.storageIssue === "unavailable";
   return createStore<StudioGroupState>((set, get) => {
     const receiptRevision = (id: string): number => {
       const revisions = get().backendRevisions;

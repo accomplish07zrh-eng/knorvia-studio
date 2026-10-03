@@ -24,7 +24,11 @@ interface KnorviaProtocolClientOptions {
 }
 
 class KnorviaProtocolClientError extends Error {
-  constructor(message: string, readonly code?: number, readonly data?: unknown) {
+  constructor(
+    message: string,
+    readonly code?: number,
+    readonly data?: unknown,
+  ) {
     super(message);
     this.name = "KnorviaProtocolClientError";
   }
@@ -77,18 +81,28 @@ export class KnorviaProtocolClient implements IDisposable {
       transport.onMessage((message) => this.route(message)),
       transport.onClose((event) => {
         this.storageStartup.dispose();
-        this.requests.failAll(new Error(
-          `Knorvia Studio agent transport closed${event.reason ? `: ${event.reason}` : ""}`,
-        ));
+        this.requests.failAll(
+          new Error(
+            `Knorvia Studio agent transport closed${event.reason ? `: ${event.reason}` : ""}`,
+          ),
+        );
         this.closed.fire();
       }),
     ];
   }
 
-  get isDisposed(): boolean { return this.disposed; }
-  get transportKind() { return this.transport.kind; }
-  get pendingRequestCount(): number { return this.requests.count; }
-  get pendingOperationRequestCount(): number { return this.requests.operationCount; }
+  get isDisposed(): boolean {
+    return this.disposed;
+  }
+  get transportKind() {
+    return this.transport.kind;
+  }
+  get pendingRequestCount(): number {
+    return this.requests.count;
+  }
+  get pendingOperationRequestCount(): number {
+    return this.requests.operationCount;
+  }
 
   async request<T = unknown>(
     method: KnorviaProtocolClientMethod,
@@ -159,13 +173,19 @@ export class KnorviaProtocolClient implements IDisposable {
       if ("result" in value) this.requests.accept(id, value.result);
       else if ("error" in value) {
         const error = value.error as { code: number; message: string; data?: unknown };
-        this.requests.reject(id, new KnorviaProtocolClientError(error.message, error.code, error.data));
+        this.requests.reject(
+          id,
+          new KnorviaProtocolClientError(error.message, error.code, error.data),
+        );
       } else if ("method" in value) this.serverRequests.fire(value as KnorviaProtocolRequest);
       return;
     }
     if (!("method" in value)) return;
     const notification = value as KnorviaProtocolNotification;
-    if (notification.method === "startup/storageState" && this.storageStartup.accept(notification.params)) {
+    if (
+      notification.method === "startup/storageState" &&
+      this.storageStartup.accept(notification.params)
+    ) {
       const state = this.storageStartup.snapshot;
       this.requests.setWatchdogsReady(state?.phase === "ready");
       if (state?.phase === "failed") {
@@ -182,7 +202,13 @@ export class KnorviaProtocolClient implements IDisposable {
     for (const listener of this.listeners) listener.dispose();
     this.listeners.length = 0;
     this.storageStartup.dispose();
-    for (const emitter of [this.notifications, this.serverRequests, this.timeouts, this.drained, this.closed]) {
+    for (const emitter of [
+      this.notifications,
+      this.serverRequests,
+      this.timeouts,
+      this.drained,
+      this.closed,
+    ]) {
       emitter.dispose();
     }
     return true;

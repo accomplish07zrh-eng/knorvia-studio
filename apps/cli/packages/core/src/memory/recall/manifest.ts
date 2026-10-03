@@ -4,7 +4,10 @@ import { parse as parseYaml } from "yaml";
 import { MEMORY_RECALL_TYPES, type MemoryManifestEntry, type MemoryRecallType } from "./types.js";
 
 function previewAttributes(content: string): Pick<MemoryManifestEntry, "description" | "type"> {
-  const lines = content.replace(/^\uFEFF/u, "").replace(/\r\n/gu, "\n").split("\n");
+  const lines = content
+    .replace(/^\uFEFF/u, "")
+    .replace(/\r\n/gu, "\n")
+    .split("\n");
   if (lines[0] !== "---") return {};
   const end = lines.indexOf("---", 1);
   if (end === -1) return {};
@@ -23,10 +26,14 @@ function previewAttributes(content: string): Pick<MemoryManifestEntry, "descript
     attributes.description = header.description;
   }
   const metadata = header.metadata;
-  const candidate = metadata !== null && typeof metadata === "object" && !Array.isArray(metadata)
-    ? (metadata as Record<string, unknown>).type ?? header.type
-    : header.type;
-  if (typeof candidate === "string" && MEMORY_RECALL_TYPES.includes(candidate as MemoryRecallType)) {
+  const candidate =
+    metadata !== null && typeof metadata === "object" && !Array.isArray(metadata)
+      ? ((metadata as Record<string, unknown>).type ?? header.type)
+      : header.type;
+  if (
+    typeof candidate === "string" &&
+    MEMORY_RECALL_TYPES.includes(candidate as MemoryRecallType)
+  ) {
     attributes.type = candidate as MemoryRecallType;
   }
   return attributes;
@@ -67,20 +74,22 @@ export async function scanMemoryManifest(input: {
     return [];
   }
 
-  const settled = await Promise.allSettled(paths.map(async (filePath): Promise<MemoryManifestEntry> => {
-    const [status, preview] = await Promise.all([
-      fileSystem.stat({ path: filePath }, { signal }),
-      fileSystem.readTextFileRange({ path: filePath, offsetLine: 0, limitLines: 30 }, { signal }),
-    ]);
-    const attributes = previewAttributes(preview.content);
-    return {
-      ...(attributes.description ? { description: attributes.description } : {}),
-      filePath,
-      filename: relative(rootDir, filePath).split(sep).join("/"),
-      mtimeMs: status.mtimeMs ?? 0,
-      ...(attributes.type ? { type: attributes.type } : {}),
-    };
-  }));
+  const settled = await Promise.allSettled(
+    paths.map(async (filePath): Promise<MemoryManifestEntry> => {
+      const [status, preview] = await Promise.all([
+        fileSystem.stat({ path: filePath }, { signal }),
+        fileSystem.readTextFileRange({ path: filePath, offsetLine: 0, limitLines: 30 }, { signal }),
+      ]);
+      const attributes = previewAttributes(preview.content);
+      return {
+        ...(attributes.description ? { description: attributes.description } : {}),
+        filePath,
+        filename: relative(rootDir, filePath).split(sep).join("/"),
+        mtimeMs: status.mtimeMs ?? 0,
+        ...(attributes.type ? { type: attributes.type } : {}),
+      };
+    }),
+  );
   const manifest: MemoryManifestEntry[] = [];
   for (const result of settled) {
     if (result.status === "fulfilled") manifest.push(result.value);
@@ -89,9 +98,11 @@ export async function scanMemoryManifest(input: {
 }
 
 export function formatMemoryManifest(manifest: readonly MemoryManifestEntry[]): string {
-  return manifest.map((entry) => {
-    const type = entry.type ? `[${entry.type}] ` : "";
-    const row = `- ${type}${entry.filename} (${new Date(entry.mtimeMs).toISOString()})`;
-    return entry.description ? `${row}: ${entry.description}` : row;
-  }).join("\n");
+  return manifest
+    .map((entry) => {
+      const type = entry.type ? `[${entry.type}] ` : "";
+      const row = `- ${type}${entry.filename} (${new Date(entry.mtimeMs).toISOString()})`;
+      return entry.description ? `${row}: ${entry.description}` : row;
+    })
+    .join("\n");
 }

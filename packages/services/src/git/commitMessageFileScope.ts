@@ -23,18 +23,16 @@ function scopeSpelling(path: string): string {
 function admittedRelative(path: string): boolean {
   const spelling = normalizeGitPath(path);
   return (
-    spelling.length > 0 &&
-    !isAbsolute(spelling) &&
-    spelling !== ".." &&
-    !spelling.startsWith("../")
+    spelling.length > 0 && !isAbsolute(spelling) && spelling !== ".." && !spelling.startsWith("../")
   );
 }
 
 function* sessionAliases(input: SessionScopeInput): Generator<string> {
-  const paths = input.currentSessionFilePaths?.flatMap((source) => {
-    const path = source.trim();
-    return path ? [path] : [];
-  }) ?? [];
+  const paths =
+    input.currentSessionFilePaths?.flatMap((source) => {
+      const path = source.trim();
+      return path ? [path] : [];
+    }) ?? [];
   if (paths.length === 0) return;
   const workspacePrefix = normalizeWorkspaceInRepoPath(input.workspaceInRepoPath);
   for (const path of paths) {

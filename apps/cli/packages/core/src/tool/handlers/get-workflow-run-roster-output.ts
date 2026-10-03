@@ -34,9 +34,7 @@ function projectAsk(ask: DynamicWorkflowRunSubagentAsk): GetWorkflowRunSubagentA
     siteId: ask.siteId,
     ordinal: ask.ordinal,
     ...(ask.actorSeq !== undefined ? { actorSeq: ask.actorSeq } : {}),
-    ...(ask.instructionsHead !== undefined
-      ? { instructionsHead: ask.instructionsHead }
-      : {}),
+    ...(ask.instructionsHead !== undefined ? { instructionsHead: ask.instructionsHead } : {}),
     ...(ask.startedAt !== undefined ? { startedAt: ask.startedAt } : {}),
     ...(ask.turn !== undefined ? { turn: ask.turn } : {}),
     ...(ask.toolCalls !== undefined ? { toolCalls: ask.toolCalls } : {}),
@@ -44,9 +42,7 @@ function projectAsk(ask: DynamicWorkflowRunSubagentAsk): GetWorkflowRunSubagentA
       ? {
           lastTool: {
             name: ask.lastTool.name,
-            ...(ask.lastTool.target !== undefined
-              ? { target: ask.lastTool.target }
-              : {}),
+            ...(ask.lastTool.target !== undefined ? { target: ask.lastTool.target } : {}),
             ...(ask.lastTool.at !== undefined ? { at: ask.lastTool.at } : {}),
           },
         }
@@ -65,9 +61,7 @@ function projectWait(
   };
 }
 
-export function toGetWorkflowRunSubagents(
-  subagents: readonly DynamicWorkflowRunSubagentView[],
-): {
+export function toGetWorkflowRunSubagents(subagents: readonly DynamicWorkflowRunSubagentView[]): {
   subagents: GetWorkflowRunSubagent[];
   truncated: boolean;
 } {
@@ -79,17 +73,13 @@ export function toGetWorkflowRunSubagents(
       ...(subagent.name !== undefined ? { name: subagent.name } : {}),
       state: subagent.state,
       ...(subagent.phaseName !== undefined ? { phaseName: subagent.phaseName } : {}),
-      ...(subagent.currentAsk !== undefined
-        ? { currentAsk: projectAsk(subagent.currentAsk) }
-        : {}),
+      ...(subagent.currentAsk !== undefined ? { currentAsk: projectAsk(subagent.currentAsk) } : {}),
       ...(subagent.wait !== undefined ? { wait: projectWait(subagent.wait) } : {}),
       ...(subagent.parkedOn !== undefined ? { parkedOn: subagent.parkedOn } : {}),
       stepsSettled: subagent.stepsSettled,
       stepsFailed: subagent.stepsFailed,
       tokens: subagent.tokens,
-      ...(subagent.lastProgressAt !== undefined
-        ? { lastProgressAt: subagent.lastProgressAt }
-        : {}),
+      ...(subagent.lastProgressAt !== undefined ? { lastProgressAt: subagent.lastProgressAt } : {}),
     }));
 
   return {
@@ -98,13 +88,9 @@ export function toGetWorkflowRunSubagents(
   };
 }
 
-export function toGetWorkflowRunHealth(
-  health: DynamicWorkflowRunHealth,
-): GetWorkflowRunHealth {
+export function toGetWorkflowRunHealth(health: DynamicWorkflowRunHealth): GetWorkflowRunHealth {
   return {
-    ...(health.lastProgressAt !== undefined
-      ? { lastProgressAt: health.lastProgressAt }
-      : {}),
+    ...(health.lastProgressAt !== undefined ? { lastProgressAt: health.lastProgressAt } : {}),
     ...(health.stalledSince !== undefined ? { stalledSince: health.stalledSince } : {}),
     ...(health.concurrency !== undefined
       ? {
@@ -114,9 +100,7 @@ export function toGetWorkflowRunHealth(
             ...(health.concurrency.reason !== undefined
               ? { reason: health.concurrency.reason }
               : {}),
-            ...(health.concurrency.since !== undefined
-              ? { since: health.concurrency.since }
-              : {}),
+            ...(health.concurrency.since !== undefined ? { since: health.concurrency.since } : {}),
           },
         }
       : {}),

@@ -7,7 +7,9 @@ import { resolvedPlaceholderAttachment } from "../attachment-placeholder.js";
 import type { LocalMediaContext } from "./context.js";
 import { localReadFailed } from "./read-failure.js";
 
-export async function resolveLocalImage(context: LocalMediaContext): Promise<ResolvedTurnAttachment> {
+export async function resolveLocalImage(
+  context: LocalMediaContext,
+): Promise<ResolvedTurnAttachment> {
   const { absolutePath, attachment, filename, index, mime, options, source, stat } = context;
   if (stat.sizeBytes > INLINE_MEDIA_ATTACHMENT_MAX_BYTES) {
     return resolvedPathReferenceAttachment(attachment, attachment.path!, {
@@ -32,12 +34,17 @@ export async function resolveLocalImage(context: LocalMediaContext): Promise<Res
   try {
     prepared = await prepareImageDataUrl(dataUrl, mime, options);
   } catch {
-    return resolvedPlaceholderAttachment(attachment, attachment.path!, "attachment_image_resize_failed", {
-      filename,
-      mime,
-      sizeBytes: stat.sizeBytes,
-      source,
-    });
+    return resolvedPlaceholderAttachment(
+      attachment,
+      attachment.path!,
+      "attachment_image_resize_failed",
+      {
+        filename,
+        mime,
+        sizeBytes: stat.sizeBytes,
+        source,
+      },
+    );
   }
   if (!prepared) {
     return resolvedPlaceholderAttachment(attachment, attachment.path!, "attachment_image_invalid", {

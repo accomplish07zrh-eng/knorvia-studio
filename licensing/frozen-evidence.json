@@ -7691,6 +7691,102 @@
       "bytes": 5585
     },
     {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/agent-runtime-baseline-20261003.json",
+      "sha256": "9f984bbe8006567a20894bfac07830c3cc04481bd6e872c9d6385518ef6e9a66",
+      "bytes": 86398,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/agent-runtime-baseline-20261003.json",
+      "sourceBlob": "d16a75d190907589e6bf374415aabf199601cf15"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/background-data-observations-20261003.json",
+      "sha256": "4a582715f6f2f4b3bee24796a80a84e7fc007301c162bf51b0b9c4b495fb7962",
+      "bytes": 8314,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/background-data-observations-20261003.json",
+      "sourceBlob": "c1c23503510bf84633b1c2f7d9e276a5e63ab0cf"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/background-tracker-correction-observations-20261003.json",
+      "sha256": "1bae1db93bb1d52fb81be2e73260ca5e59cb477a09aac65e5b1491812a2af6c8",
+      "bytes": 1515,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/background-tracker-correction-observations-20261003.json",
+      "sourceBlob": "1947c6eafe48b0dda589a4e68d6e395dd9dde229"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/background-tracker-observations-20261003.json",
+      "sha256": "1a3d7d6cbda0002a84b583a9643b7217afbef12781faae2404b2f18ffb63a13a",
+      "bytes": 69860,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/background-tracker-observations-20261003.json",
+      "sourceBlob": "9647abccc93434b8334f6b1e941bfed6eaff93fd"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/bash-results-observations-20261003.json",
+      "sha256": "5f57b1ccc612af7ec364b521585a2cb9f3539036512bddcd2b6063a55cbe8fde",
+      "bytes": 9011,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/bash-results-observations-20261003.json",
+      "sourceBlob": "ea1aa99ac406f36a25b247d9ab22674b777343b8"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/mcp-config-baseline-20261003.json",
+      "sha256": "c62abf9d549977fcba1ec7b46174e74a8b6e727ef245cd8714b82cc708cffe0b",
+      "bytes": 44548,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/mcp-config-baseline-20261003.json",
+      "sourceBlob": "73795f2c645e5a499d955cef1410bbf3ccee8703"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/steering-subagent-baseline-20261003.json",
+      "sha256": "ca03acb0d6b1510c32235ddc78921e27ef74bff19dba54e0bd3eab246b131151",
+      "bytes": 189133,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/steering-subagent-baseline-20261003.json",
+      "sourceBlob": "b77d78e700f429085742dae2572ca80625151d32"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/todo-resume-baseline-20261003.json",
+      "sha256": "4055a0d0225fee5c8aa3fe46f5c1367b9c5eb8a19a597606ae42294db8353e0d",
+      "bytes": 50352,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/todo-resume-baseline-20261003.json",
+      "sourceBlob": "cbfa1ce4319aaacf6c5f0477df1ccbfd417f53b5"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/apps/cli/packages/core/test/turn-control-observations-20261003.json",
+      "sha256": "573faae5e61e2aa4ed82127e3b8f8f6c678939da6073141261492ec77ac0f604",
+      "bytes": 8957,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "apps/cli/packages/core/test/turn-control-observations-20261003.json",
+      "sourceBlob": "1756730f6b48e1c2c65a6014dd90237d4ce7502f"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/packages/services/docs/RETRY-TRAJECTORY-ORIGIN-20261003.json",
+      "sha256": "2340e62737c06fe7b8b359bf252777981f50df81c26294c1d992b70aeb7d20ba",
+      "bytes": 11302,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "packages/services/docs/RETRY-TRAJECTORY-ORIGIN-20261003.json",
+      "sourceBlob": "ab28a680ac49ad986d53bcb54e68ea8f5f3015b4"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/packages/services/docs/agent-stream-event-origin-20261003.json",
+      "sha256": "e6c220fa2dadd2eb0269d50acf9c2dbdaf3d1db7227154ad75ae726cd53dea9b",
+      "bytes": 69143,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "packages/services/docs/agent-stream-event-origin-20261003.json",
+      "sourceBlob": "60f1bf61c29c3ce3b7fe368e255ab9e3c7f33856"
+    },
+    {
+      "path": "docs/evidence/final-central-format-20261003/originals/packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json",
+      "sha256": "2b8f1980d46c5c1903723a19c4e22a8e50224eb7b812b1c5c4e4bbf1c5b5188e",
+      "bytes": 165092,
+      "sourceCommit": "d826add56755be673efd924b92cf24756af43d6d",
+      "sourcePath": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json",
+      "sourceBlob": "0089f08448f451d25670c1d4d8427c78ee014938"
+    },
+    {
       "path": "docs/evidence/final-integration-risk-order-20261003/README.md",
       "sha256": "2b097fb22e4bcf12a9ac9b3fc2cf8171cd1264ac5f96eae57a22e508d4909bd1",
       "bytes": 12770

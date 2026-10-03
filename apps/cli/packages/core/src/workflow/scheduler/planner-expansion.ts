@@ -18,10 +18,7 @@ import type {
   WorkflowGraphSchedulerPlannerRunResult,
 } from "./types.js";
 
-function addRoute(
-  routes: Map<string, Set<string>>,
-  edge: WorkflowGraphRecordEdge,
-): void {
+function addRoute(routes: Map<string, Set<string>>, edge: WorkflowGraphRecordEdge): void {
   let targets = routes.get(edge.from);
   if (targets === undefined) {
     targets = new Set<string>();
@@ -105,36 +102,27 @@ export function applyPlannerExpansion(
   }
   for (const edge of addedEdges) {
     if (edge.from === edge.to) {
-      throw new Error(
-        `Planner returned a self-loop edge: ${edge.from} -> ${edge.to}`,
-      );
+      throw new Error(`Planner returned a self-loop edge: ${edge.from} -> ${edge.to}`);
     }
     if (!nodeIds.has(edge.from)) {
-      throw new Error(
-        `Planner returned an edge with unknown source node: ${edge.from}`,
-      );
+      throw new Error(`Planner returned an edge with unknown source node: ${edge.from}`);
     }
     if (!nodeIds.has(edge.to)) {
-      throw new Error(
-        `Planner returned an edge with unknown target node: ${edge.to}`,
-      );
+      throw new Error(`Planner returned an edge with unknown target node: ${edge.to}`);
     }
     const key = edgeId(edge);
     if (acceptedKeys.has(key)) {
       throw new Error(`Planner returned duplicate workflow edge: ${key}`);
     }
     if (hasRoute(routes, edge.to, edge.from)) {
-      throw new Error(
-        `Planner returned an edge that would create a cycle: ${key}`,
-      );
+      throw new Error(`Planner returned an edge that would create a cycle: ${key}`);
     }
     acceptedKeys.add(key);
     addRoute(routes, edge);
   }
 
   const membership = new Set(collectionNodeIdsForGraph(collection, graph));
-  const requestedMembers =
-    result.collectionNodeIds ?? addedNodes.map((node) => node.id);
+  const requestedMembers = result.collectionNodeIds ?? addedNodes.map((node) => node.id);
   for (const id of requestedMembers) membership.add(id);
 
   const analyzed = new Set(collection.analyzedNodeIds);

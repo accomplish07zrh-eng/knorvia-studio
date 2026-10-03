@@ -85,3 +85,9 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 根 runner 增加实际存在的 `packages/server/test`，接纳新增 remote-header-proxy contract 并补齐同目录已有11套离线安全边界。另接纳三个已有 desktop native source test 目录（host、main/browserView、preload）的16套 Node fake-port tests，保留各自分拆的场景/fixture import；不把 fixtures/cases 文件当独立 tests。相同唯一扫描、glob完整集合对账、data隔离/凭据过滤、并发2/120s与原退出语义继续适用，不创建另一套根入口。
 
 提交发布组合 checkpoint，再按仓库标准工程引用集中执行根 typecheck/lint/fmt、CLI构建与合理完整根回归，并对CLI依赖图及实际产品入口补必要检查。UI的RPC22条来自关闭project references、启用UI索引严格项的单独源码driver；根RPC工程自身配置未启用该索引项。保留其原诊断，依据标准统一检查是否仍有故障，不能算UI未修或降低配置。如果新统一失败，保存精确路径/错误和真实scope，交原任务定向修复，不重复计旧快照或为通过抹来源。
+
+## 最终组合树的集中格式修复
+
+`d826add56755be673efd924b92cf24756af43d6d` 的标准根 types、lint、architecture、provenance 检查退出0；fmt剩余116个路径。四路已冻结，父任务授权整合者集中处理这些纯格式改动，避免各路重复安装/同步；不改变业务、接口、状态、UI取值、测试断言或许可事实。对源码比较格式前后语法结构，对JSON比较完整解析值，逐项绑定原提交、原blob与前后原字节SHA；这种静态等价核对不替代完整回归。
+
+其中12份历史JSON原记录先按原字节复制至 `docs/evidence/final-central-format-20261003/originals/` 并显式加入冻结清单，保留原路径及完整原提交指针。已有5524份冻结载荷不改写；格式工具继续先检查原字节完整性。原路径的JSON只允许空白、排版和等价转义变化，不能更新历史快照中的断言、hash、结果或来源判定。来源/版权 HOLD、原通知和26项材料义务保持原有边界，不能以格式或门禁通过推断MIT可发布。

@@ -30,11 +30,8 @@ export async function filePartToContentBlock(
   const durableUri = part.metadata?.artifactUri ?? part.url;
   const localOrigin = origin?.type === "file" || origin?.type === "symbol";
   const mediaOrigin =
-    isImageMime(part.mime) ||
-    part.mime.startsWith("video/") ||
-    isPdfMime(part.mime);
-  const useArtifactIdentity =
-    localOrigin && mediaOrigin && isArtifactUri(durableUri);
+    isImageMime(part.mime) || part.mime.startsWith("video/") || isPdfMime(part.mime);
+  const useArtifactIdentity = localOrigin && mediaOrigin && isArtifactUri(durableUri);
 
   const reference: AttachmentRef = {
     id: part.id,
@@ -45,11 +42,7 @@ export async function filePartToContentBlock(
         : origin
           ? "local_file"
           : "inline",
-    uri: useArtifactIdentity
-      ? durableUri
-      : origin?.type === "resource"
-        ? origin.uri
-        : part.url,
+    uri: useArtifactIdentity ? durableUri : origin?.type === "resource" ? origin.uri : part.url,
     path: useArtifactIdentity
       ? undefined
       : origin?.type === "file" || origin?.type === "symbol"
@@ -77,9 +70,10 @@ export async function filePartToContentBlock(
   }
 
   if (payload !== undefined && isImageMime(part.mime)) {
-    const mediaType = part.mime === "image/*"
-      ? payload.match(/^data:([^;,]+)(?:;base64)?,/i)?.[1]?.toLowerCase() ?? "image/png"
-      : part.mime;
+    const mediaType =
+      part.mime === "image/*"
+        ? (payload.match(/^data:([^;,]+)(?:;base64)?,/i)?.[1]?.toLowerCase() ?? "image/png")
+        : part.mime;
     return {
       type: "image",
       mediaType,
@@ -117,9 +111,10 @@ export async function filePartToContentBlock(
   let label: string;
   if (part.metadata?.storageKind === "local_ref") {
     const currentOrigin = part.source;
-    const localPath = currentOrigin?.type === "file" || currentOrigin?.type === "symbol"
-      ? currentOrigin.path
-      : undefined;
+    const localPath =
+      currentOrigin?.type === "file" || currentOrigin?.type === "symbol"
+        ? currentOrigin.path
+        : undefined;
     label = currentOrigin?.text.value ?? localPath ?? part.metadata.originalUrl ?? part.url;
   } else {
     label = part.filename ?? part.url;
@@ -136,8 +131,7 @@ export function projectPersistedToolMediaContent(
   }
 
   const accepted: Array<
-    { type: "text"; text: string } |
-    { type: "attachment"; attachmentIndex: number }
+    { type: "text"; text: string } | { type: "attachment"; attachmentIndex: number }
   > = [];
   for (const entry of value) {
     if (entry === null || typeof entry !== "object" || Array.isArray(entry)) {

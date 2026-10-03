@@ -36,7 +36,9 @@ function formatFile(part: Extract<MessagePart, { type: "file" }>): string {
     part.filename ? `filename=${part.filename}` : undefined,
     `mime=${part.mime}`,
     path ? `path=${path}` : undefined,
-  ].filter(Boolean).join(" ");
+  ]
+    .filter(Boolean)
+    .join(" ");
   if (!preview) return header;
   return `${header}\n${truncateText(preview, FILE_PART_PREVIEW_CHARS)}`;
 }
@@ -72,7 +74,9 @@ export function formatPartForContext(part: MessagePart): string | null {
         `[Subtask: ${part.description}]`,
         part.command ? `command: ${part.command}` : undefined,
         `prompt: ${truncateText(part.prompt, TEXT_PART_PREVIEW_CHARS)}`,
-      ].filter(Boolean).join("\n");
+      ]
+        .filter(Boolean)
+        .join("\n");
     case "tool":
       return formatTool(part);
     case "patch":

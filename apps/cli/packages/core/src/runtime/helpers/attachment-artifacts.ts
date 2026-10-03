@@ -108,12 +108,8 @@ export async function readInlineAttachmentContent(
   }
 }
 
-export function safeAttachmentOriginalRef(
-  attachment: TurnAttachment,
-): string | undefined {
+export function safeAttachmentOriginalRef(attachment: TurnAttachment): string | undefined {
   if (attachment.path) return attachment.path;
   if (!attachment.content) return undefined;
-  return attachment.content.startsWith("data:")
-    ? "inline:data-url"
-    : attachment.content;
+  return attachment.content.startsWith("data:") ? "inline:data-url" : attachment.content;
 }

@@ -1,0 +1,3346 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-02",
+  "checkpoint": "3661d9265f879bfc397419862dbbe241804bdf72",
+  "scope": [
+    "contract.ts",
+    "creationJobs.ts",
+    "creationService.ts",
+    "creationStorage.ts",
+    "creationReference.ts",
+    "modelValidation.ts",
+    "providers.ts"
+  ],
+  "method": "Local Git path-history/objects, exact upstream inventory presence/hash comparisons, available upstream services blobs bounded 8 meaningful trimmed-line windows; no application code execution, external retrieval or data access",
+  "files": [
+    {
+      "path": "packages/services/src/creation/contract.ts",
+      "laneCurrentSha256": "a2242230f0c9d7dc11fb2ac104119c3fb208b1ad44eba07ab1a978290ef1b12d",
+      "firstLocalAppearance": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "parents": [],
+        "date": "2026-09-24T22:50:46+08:00",
+        "authorLabel": "Knorvia",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "message": "chore: publish Knorvia Studio latest preview snapshot\n\nReplace eight bundled plugins with the new Knorvia assets and runtime adapters.\nUnify the home sidebar and fix external-chat glass surfaces. Include the current\nruntime, CLI, sharing, SSH, creation and monochrome interface work.\n\nValidation: root and CLI typecheck/lint pass; architecture has zero violations;\n480 offline tests pass; 12 packaged UI scenarios pass. Windows production bundle\npasses runtime/resource checks (143.2 MiB). Portable delivery preserved all 360\ndata-file SHA-256 hashes. Candidate secret scan: zero unresolved findings.\n\nThis is a standalone latest-preview snapshot. Credential audit and external\nmodel/server integration remain outside this delivery.\n",
+        "blob": "c3665682137b5369588081da049a45a246202e89",
+        "sha256": "c97db6457471142bbba35e50cf18ce8f5de89c35a83d751663b248b6df22b2c0",
+        "bytes": 2251,
+        "qualification": "Root snapshot has no parent and cannot establish pre-snapshot initial authorship"
+      },
+      "reachablePathHistory": [
+        "3dc3a624002b9487d44e7755832df0345363cd1d 2026-09-25T17:54:56+08:00 feat: \u521b\u4f5c\u53c2\u6570\u5feb\u7167\u3001\u6765\u6e90\u5173\u7cfb\u4e0e\u53ea\u8bfb\u8fdc\u7aef\u6838\u9a8c\uff08T09 \u670d\u52a1\u5c42\uff09",
+        "e7471f825c9da53dedf090b11898c06cca794fef 2026-09-25T12:24:38+08:00 Merge pull request #5 from accomplish07zrh-eng/claude/github-repo-review-n9wr6z",
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25T03:49:32Z style: format the repository with oxfmt and enforce fmt:check in CI",
+        "d1c058b6f86cb0b476807de4c8c4fda76f7e1712 2026-09-25T06:47:13+08:00 feat(creation): filter history, retry known failures and support video frames",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24T22:50:46+08:00 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "fullFileUpstreamInventoryComparisons": [
+        {
+          "stage": "first-local-appearance",
+          "normalizedSha256": "c97db6457471142bbba35e50cf18ce8f5de89c35a83d751663b248b6df22b2c0",
+          "upstreamMatches": []
+        },
+        {
+          "stage": "lane-current",
+          "normalizedSha256": "a2242230f0c9d7dc11fb2ac104119c3fb208b1ad44eba07ab1a978290ef1b12d",
+          "upstreamMatches": []
+        }
+      ],
+      "availableUpstreamEightMeaningfulLineMatches": [],
+      "route": "retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct"
+    },
+    {
+      "path": "packages/services/src/creation/creationJobs.ts",
+      "laneCurrentSha256": "3c3909ef7d0bf7e5f11089e86a6e6ba3b88ca24ce269f3a7c1bfbd11e06b15c4",
+      "firstLocalAppearance": {
+        "commit": "4fd3e373748a08e798beeacc42f91d87bc451378",
+        "parents": [
+          "7387a2b7c9c04a1ebc8504f6df7f1e7db7c397a1"
+        ],
+        "date": "2026-09-25T04:44:30Z",
+        "authorLabel": "Claude",
+        "subject": "refactor: split the eight files held back from formatting and format them",
+        "message": "refactor: split the eight files held back from formatting and format them\n\nThese files would exceed the 400-line limit once formatted, so the\nformat PR left them out. Each gives up a cohesive, move-only chunk; the\n\"to split\" block in .oxfmtrc.json is now empty.\n\n- creation/creationService.ts -> creationJobs.ts (job record, duplicate\n  check, provider references, failure classification).\n- session/automationService.ts -> automationValidation.ts (error types,\n  schedule rule validation; InvalidCronExprError still re-exported).\n- ui WorkflowEditor.tsx -> workflowShortcuts.ts, WorkflowHistoryPane.tsx.\n- ui StudioCreationPage.tsx -> creationInput.ts, CreationFiles.tsx; the\n  three reference/frame states become one files record.\n- dynamic-workflow: placeholder-resolution.ts (from analysis/state.ts),\n  operators.ts (from analysis/taint.ts), scheduler-helpers.ts and\n  workflow-error.ts (re-exported from scheduler.ts / types.ts, so import\n  paths are unchanged).\n\ndynamic-workflow has no tests, so the analyzer was checked by running\nscratch/run.mjs on three sample scripts (loops, &&/??/comma, compound\nassignment, element access, rest-parameter relays) against builds from\nbefore and after: the site and actor graphs are identical.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01Hf1Zf9gP99fuq3Yyffchxi\n",
+        "blob": "bcf4a57b5b1bd4dd8707bebfcf060548f0302751",
+        "sha256": "62c55e653db6e1efa820a7c58fafebb686cc9d808e0ba63fa92ddcb7dbdebd35",
+        "bytes": 3971,
+        "qualification": "First local path addition, not independent-origin certification"
+      },
+      "reachablePathHistory": [
+        "3dc3a624002b9487d44e7755832df0345363cd1d 2026-09-25T17:54:56+08:00 feat: \u521b\u4f5c\u53c2\u6570\u5feb\u7167\u3001\u6765\u6e90\u5173\u7cfb\u4e0e\u53ea\u8bfb\u8fdc\u7aef\u6838\u9a8c\uff08T09 \u670d\u52a1\u5c42\uff09",
+        "bcc63b6ff684e8ee9b8070f326d70ac007ece19b 2026-09-25T12:58:30+08:00 Merge pull request #6 from accomplish07zrh-eng/claude/github-repo-review-n9wr6z",
+        "4fd3e373748a08e798beeacc42f91d87bc451378 2026-09-25T04:44:30Z refactor: split the eight files held back from formatting and format them"
+      ],
+      "fullFileUpstreamInventoryComparisons": [
+        {
+          "stage": "first-local-appearance",
+          "normalizedSha256": "62c55e653db6e1efa820a7c58fafebb686cc9d808e0ba63fa92ddcb7dbdebd35",
+          "upstreamMatches": []
+        },
+        {
+          "stage": "lane-current",
+          "normalizedSha256": "3c3909ef7d0bf7e5f11089e86a6e6ba3b88ca24ce269f3a7c1bfbd11e06b15c4",
+          "upstreamMatches": []
+        }
+      ],
+      "availableUpstreamEightMeaningfulLineMatches": [],
+      "route": "retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct",
+      "localPredecessorContentEvidence": {
+        "parent": "7387a2b7c9c04a1ebc8504f6df7f1e7db7c397a1",
+        "path": "packages/services/src/creation/creationService.ts",
+        "blob": "67418e9c84ce0fd32326780a4751951a2d73c3ec",
+        "sha256": "bcdcd8f0324d17798259149f6584dfd0f54464157e3dcb9075e87a15b374b6ed",
+        "exactEightMeaningfulLineWindowOverlap": 2,
+        "qualification": "Internal split/reuse evidence, inherits earlier local owner uncertainty; not independent authorship or upstream inheritance proof"
+      }
+    },
+    {
+      "path": "packages/services/src/creation/creationService.ts",
+      "laneCurrentSha256": "7e68b8a345a3d88d38b060a0be0b57642b72a0d79a221dc7d1d6c6cdafdd8ffd",
+      "firstLocalAppearance": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "parents": [],
+        "date": "2026-09-24T22:50:46+08:00",
+        "authorLabel": "Knorvia",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "message": "chore: publish Knorvia Studio latest preview snapshot\n\nReplace eight bundled plugins with the new Knorvia assets and runtime adapters.\nUnify the home sidebar and fix external-chat glass surfaces. Include the current\nruntime, CLI, sharing, SSH, creation and monochrome interface work.\n\nValidation: root and CLI typecheck/lint pass; architecture has zero violations;\n480 offline tests pass; 12 packaged UI scenarios pass. Windows production bundle\npasses runtime/resource checks (143.2 MiB). Portable delivery preserved all 360\ndata-file SHA-256 hashes. Candidate secret scan: zero unresolved findings.\n\nThis is a standalone latest-preview snapshot. Credential audit and external\nmodel/server integration remain outside this delivery.\n",
+        "blob": "738507289f783d90aad059c0d068b4c9e496e2a6",
+        "sha256": "0154a0a7ada9ec24dcfbb97806e8090f73784498dcf11282b8269d331e174a97",
+        "bytes": 15122,
+        "qualification": "Root snapshot has no parent and cannot establish pre-snapshot initial authorship"
+      },
+      "reachablePathHistory": [
+        "5e8d80a513549934b0c86d217c23b582c4b512a6 2026-09-29T14:30:38+08:00 fix(creation): separate run deadline tests from IO retry clocks",
+        "4e8998710fff7962b34b02c1eb83b0699c595e37 2026-09-27T23:03:30+08:00 fix: finalize creation jobs when deadlines cross persistence",
+        "3dc3a624002b9487d44e7755832df0345363cd1d 2026-09-25T17:54:56+08:00 feat: \u521b\u4f5c\u53c2\u6570\u5feb\u7167\u3001\u6765\u6e90\u5173\u7cfb\u4e0e\u53ea\u8bfb\u8fdc\u7aef\u6838\u9a8c\uff08T09 \u670d\u52a1\u5c42\uff09",
+        "bcc63b6ff684e8ee9b8070f326d70ac007ece19b 2026-09-25T12:58:30+08:00 Merge pull request #6 from accomplish07zrh-eng/claude/github-repo-review-n9wr6z",
+        "4fd3e373748a08e798beeacc42f91d87bc451378 2026-09-25T04:44:30Z refactor: split the eight files held back from formatting and format them",
+        "d1c058b6f86cb0b476807de4c8c4fda76f7e1712 2026-09-25T06:47:13+08:00 feat(creation): filter history, retry known failures and support video frames",
+        "dfbf2b66db3b2dd3e16fb09417b260ef6e33114c 2026-09-25T02:31:53+08:00 chore: refresh Knorvia Studio preview snapshot",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24T22:50:46+08:00 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "fullFileUpstreamInventoryComparisons": [
+        {
+          "stage": "first-local-appearance",
+          "normalizedSha256": "0154a0a7ada9ec24dcfbb97806e8090f73784498dcf11282b8269d331e174a97",
+          "upstreamMatches": []
+        },
+        {
+          "stage": "lane-current",
+          "normalizedSha256": "7e68b8a345a3d88d38b060a0be0b57642b72a0d79a221dc7d1d6c6cdafdd8ffd",
+          "upstreamMatches": []
+        }
+      ],
+      "availableUpstreamEightMeaningfulLineMatches": [],
+      "route": "retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct"
+    },
+    {
+      "path": "packages/services/src/creation/creationStorage.ts",
+      "laneCurrentSha256": "562c992ce58fe43e49a551d8574542f7bba41b88a041d3e4a24775adff528f1d",
+      "firstLocalAppearance": {
+        "commit": "d1c058b6f86cb0b476807de4c8c4fda76f7e1712",
+        "parents": [
+          "2971232e7e508b491476ba67ea9d6db45808fcb0"
+        ],
+        "date": "2026-09-25T06:47:13+08:00",
+        "authorLabel": "Knorvia",
+        "subject": "feat(creation): filter history, retry known failures and support video frames",
+        "message": "feat(creation): filter history, retry known failures and support video frames\n\nKeep creation history filters local, restore private inputs for deterministic one-click retries, and expose first/last frame uploads only when a model template declares them. Treat post-submit 5xx, transport loss and timeout as unknown outcomes; validate stored reference paths and hashes before retry.\n\nValidation: pnpm typecheck; pnpm lint (0 warnings); pnpm architecture:check --changed (0 violations); pnpm test:studio (546/546, 114 files); targeted creation tests (15/15). No live provider or visual review.\n",
+        "blob": "94dca2e4a66fe15ac5546de0b1e067f260716e14",
+        "sha256": "e60ca93e5796edbd2cbed59da4818b8bf1ce265d44c914533e689664c453f88f",
+        "bytes": 5173,
+        "qualification": "First local path addition, not independent-origin certification"
+      },
+      "reachablePathHistory": [
+        "4e8998710fff7962b34b02c1eb83b0699c595e37 2026-09-27T23:03:30+08:00 fix: finalize creation jobs when deadlines cross persistence",
+        "3dc3a624002b9487d44e7755832df0345363cd1d 2026-09-25T17:54:56+08:00 feat: \u521b\u4f5c\u53c2\u6570\u5feb\u7167\u3001\u6765\u6e90\u5173\u7cfb\u4e0e\u53ea\u8bfb\u8fdc\u7aef\u6838\u9a8c\uff08T09 \u670d\u52a1\u5c42\uff09",
+        "e7471f825c9da53dedf090b11898c06cca794fef 2026-09-25T12:24:38+08:00 Merge pull request #5 from accomplish07zrh-eng/claude/github-repo-review-n9wr6z",
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25T03:49:32Z style: format the repository with oxfmt and enforce fmt:check in CI",
+        "d1c058b6f86cb0b476807de4c8c4fda76f7e1712 2026-09-25T06:47:13+08:00 feat(creation): filter history, retry known failures and support video frames"
+      ],
+      "fullFileUpstreamInventoryComparisons": [
+        {
+          "stage": "first-local-appearance",
+          "normalizedSha256": "e60ca93e5796edbd2cbed59da4818b8bf1ce265d44c914533e689664c453f88f",
+          "upstreamMatches": []
+        },
+        {
+          "stage": "lane-current",
+          "normalizedSha256": "562c992ce58fe43e49a551d8574542f7bba41b88a041d3e4a24775adff528f1d",
+          "upstreamMatches": []
+        }
+      ],
+      "availableUpstreamEightMeaningfulLineMatches": [],
+      "route": "retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct",
+      "localPredecessorContentEvidence": {
+        "parent": "2971232e7e508b491476ba67ea9d6db45808fcb0",
+        "path": "packages/services/src/creation/creationService.ts",
+        "blob": "e50857f6afbf2fda21c8b573cefbca588f249c80",
+        "sha256": "952b045538a5a7b2dcb119fc4a770e656c57c0d5c4e4a96c63b9983cc01384aa",
+        "exactEightMeaningfulLineWindowOverlap": 10,
+        "qualification": "Internal split/reuse evidence, inherits earlier local owner uncertainty; not independent authorship or upstream inheritance proof"
+      }
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "laneCurrentSha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
+      "firstLocalAppearance": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "parents": [],
+        "date": "2026-09-24T22:50:46+08:00",
+        "authorLabel": "Knorvia",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "message": "chore: publish Knorvia Studio latest preview snapshot\n\nReplace eight bundled plugins with the new Knorvia assets and runtime adapters.\nUnify the home sidebar and fix external-chat glass surfaces. Include the current\nruntime, CLI, sharing, SSH, creation and monochrome interface work.\n\nValidation: root and CLI typecheck/lint pass; architecture has zero violations;\n480 offline tests pass; 12 packaged UI scenarios pass. Windows production bundle\npasses runtime/resource checks (143.2 MiB). Portable delivery preserved all 360\ndata-file SHA-256 hashes. Candidate secret scan: zero unresolved findings.\n\nThis is a standalone latest-preview snapshot. Credential audit and external\nmodel/server integration remain outside this delivery.\n",
+        "blob": "152f6acdc2457b0afe047274e2564be39fa67d0e",
+        "sha256": "4349a3881b2456b743c328638880e4ff97e923b5a4469b9e3145abda9c7baa3a",
+        "bytes": 2039,
+        "qualification": "Root snapshot has no parent and cannot establish pre-snapshot initial authorship"
+      },
+      "reachablePathHistory": [
+        "63b4f9479ef91d79249feac1a2ae74e15a047901 2026-09-26T15:19:50+08:00 fix: \u8f93\u51fa\u5951\u7ea6\u9001\u8fdb\u771f\u5b9e\u8bf7\u6c42\u3001\u521b\u4f5c\u8282\u70b9\u6d88\u8d39\u4e0a\u6e38\u5f15\u7528\u3001\u6587\u6863\u8def\u5f84\u771f\u6b63\u91cd\u5f00\u6838\u9a8c\uff08\u590d\u6838\u6536\u5c3e 1-3\uff09",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24T22:50:46+08:00 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "fullFileUpstreamInventoryComparisons": [
+        {
+          "stage": "first-local-appearance",
+          "normalizedSha256": "4349a3881b2456b743c328638880e4ff97e923b5a4469b9e3145abda9c7baa3a",
+          "upstreamMatches": []
+        },
+        {
+          "stage": "lane-current",
+          "normalizedSha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
+          "upstreamMatches": []
+        }
+      ],
+      "availableUpstreamEightMeaningfulLineMatches": [],
+      "route": "retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct"
+    },
+    {
+      "path": "packages/services/src/creation/modelValidation.ts",
+      "laneCurrentSha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
+      "firstLocalAppearance": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "parents": [],
+        "date": "2026-09-24T22:50:46+08:00",
+        "authorLabel": "Knorvia",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "message": "chore: publish Knorvia Studio latest preview snapshot\n\nReplace eight bundled plugins with the new Knorvia assets and runtime adapters.\nUnify the home sidebar and fix external-chat glass surfaces. Include the current\nruntime, CLI, sharing, SSH, creation and monochrome interface work.\n\nValidation: root and CLI typecheck/lint pass; architecture has zero violations;\n480 offline tests pass; 12 packaged UI scenarios pass. Windows production bundle\npasses runtime/resource checks (143.2 MiB). Portable delivery preserved all 360\ndata-file SHA-256 hashes. Candidate secret scan: zero unresolved findings.\n\nThis is a standalone latest-preview snapshot. Credential audit and external\nmodel/server integration remain outside this delivery.\n",
+        "blob": "e6c633bbac848e67731c4ce98aa15f69406bed3e",
+        "sha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
+        "bytes": 2967,
+        "qualification": "Root snapshot has no parent and cannot establish pre-snapshot initial authorship"
+      },
+      "reachablePathHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24T22:50:46+08:00 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "fullFileUpstreamInventoryComparisons": [
+        {
+          "stage": "first-local-appearance",
+          "normalizedSha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
+          "upstreamMatches": []
+        },
+        {
+          "stage": "lane-current",
+          "normalizedSha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
+          "upstreamMatches": []
+        }
+      ],
+      "availableUpstreamEightMeaningfulLineMatches": [],
+      "route": "retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct"
+    },
+    {
+      "path": "packages/services/src/creation/providers.ts",
+      "laneCurrentSha256": "6ba1dd1fe283c5c150f6568f20dd3a3cef970f964a2143efc3f8a47dac8cdbb0",
+      "firstLocalAppearance": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "parents": [],
+        "date": "2026-09-24T22:50:46+08:00",
+        "authorLabel": "Knorvia",
+        "subject": "chore: publish Knorvia Studio latest preview snapshot",
+        "message": "chore: publish Knorvia Studio latest preview snapshot\n\nReplace eight bundled plugins with the new Knorvia assets and runtime adapters.\nUnify the home sidebar and fix external-chat glass surfaces. Include the current\nruntime, CLI, sharing, SSH, creation and monochrome interface work.\n\nValidation: root and CLI typecheck/lint pass; architecture has zero violations;\n480 offline tests pass; 12 packaged UI scenarios pass. Windows production bundle\npasses runtime/resource checks (143.2 MiB). Portable delivery preserved all 360\ndata-file SHA-256 hashes. Candidate secret scan: zero unresolved findings.\n\nThis is a standalone latest-preview snapshot. Credential audit and external\nmodel/server integration remain outside this delivery.\n",
+        "blob": "216e0bba22f62b83f02053e51a8b95c3295b39a0",
+        "sha256": "cc3cfb6e1445cd978a6fc203e42d487810e43e38516ef0d211a14d7007be2ca5",
+        "bytes": 13623,
+        "qualification": "Root snapshot has no parent and cannot establish pre-snapshot initial authorship"
+      },
+      "reachablePathHistory": [
+        "3dc3a624002b9487d44e7755832df0345363cd1d 2026-09-25T17:54:56+08:00 feat: \u521b\u4f5c\u53c2\u6570\u5feb\u7167\u3001\u6765\u6e90\u5173\u7cfb\u4e0e\u53ea\u8bfb\u8fdc\u7aef\u6838\u9a8c\uff08T09 \u670d\u52a1\u5c42\uff09",
+        "e7471f825c9da53dedf090b11898c06cca794fef 2026-09-25T12:24:38+08:00 Merge pull request #5 from accomplish07zrh-eng/claude/github-repo-review-n9wr6z",
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25T03:49:32Z style: format the repository with oxfmt and enforce fmt:check in CI",
+        "d1c058b6f86cb0b476807de4c8c4fda76f7e1712 2026-09-25T06:47:13+08:00 feat(creation): filter history, retry known failures and support video frames",
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24T22:50:46+08:00 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "fullFileUpstreamInventoryComparisons": [
+        {
+          "stage": "first-local-appearance",
+          "normalizedSha256": "cc3cfb6e1445cd978a6fc203e42d487810e43e38516ef0d211a14d7007be2ca5",
+          "upstreamMatches": []
+        },
+        {
+          "stage": "lane-current",
+          "normalizedSha256": "6ba1dd1fe283c5c150f6568f20dd3a3cef970f964a2143efc3f8a47dac8cdbb0",
+          "upstreamMatches": []
+        }
+      ],
+      "availableUpstreamEightMeaningfulLineMatches": [],
+      "route": "retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct"
+    }
+  ],
+  "upstream": {
+    "manifest": "licensing/upstream-baseline.json",
+    "manifestSha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "commitObjectCheck": {
+      "exit": 128,
+      "stderr": "fatal: git cat-file: could not get object info\n"
+    },
+    "repositoryShallow": "false",
+    "creationPaths": [],
+    "servicesTypeScriptCount": 298,
+    "availableBlobs": [
+      {
+        "path": "packages/services/src/descriptors.ts",
+        "mode": "100644",
+        "blob": "4ccf0b51c507b99dd96618bff354f2fbd6a7b26e",
+        "kind": "file",
+        "sha256": "5b2defea851b2ebd6d1b65d751bc6fda8a0e1252b41dabd38a4b61724e712a3c",
+        "normalizedSha256": "5b2defea851b2ebd6d1b65d751bc6fda8a0e1252b41dabd38a4b61724e712a3c",
+        "encoding": "utf8-lf",
+        "bytes": 560
+      },
+      {
+        "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+        "mode": "100644",
+        "blob": "2bf30809dc4f0f87f551094865269db6a47b5aa5",
+        "kind": "file",
+        "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f",
+        "normalizedSha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f",
+        "encoding": "utf8-lf",
+        "bytes": 7664
+      },
+      {
+        "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+        "mode": "100644",
+        "blob": "526619f932d13acb0e0173e2e961c7ad04cbe9e1",
+        "kind": "file",
+        "sha256": "3a177765be436c02fa623ca833afb2785c7b4c244e3e675c51c8c1ccc3ef512c",
+        "normalizedSha256": "3a177765be436c02fa623ca833afb2785c7b4c244e3e675c51c8c1ccc3ef512c",
+        "encoding": "utf8-lf",
+        "bytes": 1786
+      },
+      {
+        "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+        "mode": "100644",
+        "blob": "c9ef6fa4d2efc957ab3e7eeeddefc3f4b7ae5030",
+        "kind": "file",
+        "sha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+        "normalizedSha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+        "encoding": "utf8-lf",
+        "bytes": 3570
+      },
+      {
+        "path": "packages/services/src/plugin-sync/pluginSyncPath.ts",
+        "mode": "100644",
+        "blob": "4a456237a367d056b3d7f738e885d6c15a6eac17",
+        "kind": "file",
+        "sha256": "7a15368e05537d694aab13192ca079cbf41f3a3621d6ced110c998ca93207c17",
+        "normalizedSha256": "7a15368e05537d694aab13192ca079cbf41f3a3621d6ced110c998ca93207c17",
+        "encoding": "utf8-lf",
+        "bytes": 1334
+      },
+      {
+        "path": "packages/services/src/plugins/installedPluginRoots.ts",
+        "mode": "100644",
+        "blob": "131aab9bd150c47fdd6d5416ff83281a8e849b07",
+        "kind": "file",
+        "sha256": "101a9c5473a595cf7fd0656fb26e68d00e1b9c25f79f482f957dfff64e850794",
+        "normalizedSha256": "101a9c5473a595cf7fd0656fb26e68d00e1b9c25f79f482f957dfff64e850794",
+        "encoding": "utf8-lf",
+        "bytes": 1815
+      },
+      {
+        "path": "packages/services/src/process/processTreeOwnership.ts",
+        "mode": "100644",
+        "blob": "2f124d208d7b1fd5deaf628ba664e93aa665cd11",
+        "kind": "file",
+        "sha256": "b8f458055a3fef589541d60fcf09c98e49a0b279e5425d76de24d4b933942852",
+        "normalizedSha256": "b8f458055a3fef589541d60fcf09c98e49a0b279e5425d76de24d4b933942852",
+        "encoding": "utf8-lf",
+        "bytes": 6022
+      },
+      {
+        "path": "packages/services/src/process/processTreeSnapshot.ts",
+        "mode": "100644",
+        "blob": "5d5e2b112a5bb5b1fc59ca457a3c42f49a6ed80c",
+        "kind": "file",
+        "sha256": "8ad4ac632339502b737b0b108c72d804aaa1c7cdae069ed9354999ba216350b6",
+        "normalizedSha256": "8ad4ac632339502b737b0b108c72d804aaa1c7cdae069ed9354999ba216350b6",
+        "encoding": "utf8-lf",
+        "bytes": 12554
+      },
+      {
+        "path": "packages/services/src/process/processTreeSnapshotAsync.ts",
+        "mode": "100644",
+        "blob": "768b6b88d6763f79482766c46dfec7a0d008b169",
+        "kind": "file",
+        "sha256": "97cd446734ae061564e30b6ec4762bde2f1f43458a1a24452b6b37a8d8d09847",
+        "normalizedSha256": "97cd446734ae061564e30b6ec4762bde2f1f43458a1a24452b6b37a8d8d09847",
+        "encoding": "utf8-lf",
+        "bytes": 5623
+      },
+      {
+        "path": "packages/services/src/process/processTreeTerminator.ts",
+        "mode": "100644",
+        "blob": "abbb3f3527225517dbf08c800f9800ce4e792d40",
+        "kind": "file",
+        "sha256": "26a03e474baba58effcd5a0a831e4b28dd7782b1d4ee1fc2655a38e799d11a97",
+        "normalizedSha256": "26a03e474baba58effcd5a0a831e4b28dd7782b1d4ee1fc2655a38e799d11a97",
+        "encoding": "utf8-lf",
+        "bytes": 17776
+      },
+      {
+        "path": "packages/services/src/process/processTreeWaiter.ts",
+        "mode": "100644",
+        "blob": "aec26950e3150ef026869dfe3548660309be87ad",
+        "kind": "file",
+        "sha256": "b0235f55cf9a7cf299005952210f293d54ea73b63031552309e0be38c23cb34f",
+        "normalizedSha256": "b0235f55cf9a7cf299005952210f293d54ea73b63031552309e0be38c23cb34f",
+        "encoding": "utf8-lf",
+        "bytes": 10344
+      },
+      {
+        "path": "packages/services/src/process/windowsProcessListAsync.ts",
+        "mode": "100644",
+        "blob": "afd02ee2e825f1da5af6756d8251577626e87df4",
+        "kind": "file",
+        "sha256": "cc9c2fd08d95e948b5fffcd81210e23918606e6fdbefe879576a3bfd8ce8c4eb",
+        "normalizedSha256": "cc9c2fd08d95e948b5fffcd81210e23918606e6fdbefe879576a3bfd8ce8c4eb",
+        "encoding": "utf8-lf",
+        "bytes": 7817
+      },
+      {
+        "path": "packages/services/src/process/windowsTaskkillRunner.ts",
+        "mode": "100644",
+        "blob": "d6334fe3b2b77ad2ec442ebb0df47a9a7f04b1d5",
+        "kind": "file",
+        "sha256": "8c3d02ee4dc96ac66dabbc0c7f43ac6bcf8372e1f66fb7cb0f48f780c9b1ad45",
+        "normalizedSha256": "8c3d02ee4dc96ac66dabbc0c7f43ac6bcf8372e1f66fb7cb0f48f780c9b1ad45",
+        "encoding": "utf8-lf",
+        "bytes": 751
+      },
+      {
+        "path": "packages/services/src/providers/api/apiKeyHeaders.ts",
+        "mode": "100644",
+        "blob": "f07da4526f76bd2fcd37e47bdcdfa33cb7b87442",
+        "kind": "file",
+        "sha256": "a91b5d78c6e535e817720f2695af96e54127e0ddc3eb7cf5224e5741ae5bca7a",
+        "normalizedSha256": "a91b5d78c6e535e817720f2695af96e54127e0ddc3eb7cf5224e5741ae5bca7a",
+        "encoding": "utf8-lf",
+        "bytes": 807
+      },
+      {
+        "path": "packages/services/src/providers/api/networkErrorClassifier.ts",
+        "mode": "100644",
+        "blob": "b82f68c8a656ca561855bf9b5a734d2d75b352ed",
+        "kind": "file",
+        "sha256": "28f38f5e98a27ab80d008ffbdb6557d752fb7fc5dfc63c8e4c160bfc66687208",
+        "normalizedSha256": "28f38f5e98a27ab80d008ffbdb6557d752fb7fc5dfc63c8e4c160bfc66687208",
+        "encoding": "utf8-lf",
+        "bytes": 2727
+      },
+      {
+        "path": "packages/services/src/providers/api/nodeApiNetwork.ts",
+        "mode": "100644",
+        "blob": "6b8a9c63e3121dc4c4f6fa63bf1feabb663fbd9f",
+        "kind": "file",
+        "sha256": "1492c5cbcb1eb44ba01c676a33626490dc05839b4a9c7cf5ce23fc7fd1ff6813",
+        "normalizedSha256": "1492c5cbcb1eb44ba01c676a33626490dc05839b4a9c7cf5ce23fc7fd1ff6813",
+        "encoding": "utf8-lf",
+        "bytes": 9455
+      },
+      {
+        "path": "packages/services/src/runtime-tools/node-forge.d.ts",
+        "mode": "100644",
+        "blob": "94b0d2294f5dab715ee6e280d7ec154a2b5290a0",
+        "kind": "file",
+        "sha256": "e738d41d69d8967248b43b4f6576298ea251c0ddf7d2a62f67bbb604fbfec2b2",
+        "normalizedSha256": "e738d41d69d8967248b43b4f6576298ea251c0ddf7d2a62f67bbb604fbfec2b2",
+        "encoding": "utf8-lf",
+        "bytes": 1475
+      },
+      {
+        "path": "packages/services/src/session/automationCronValidation.ts",
+        "mode": "100644",
+        "blob": "f72def81bbd2cdccf0edb5810a77df50c54aa4c7",
+        "kind": "file",
+        "sha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3",
+        "normalizedSha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3",
+        "encoding": "utf8-lf",
+        "bytes": 311
+      },
+      {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+        "mode": "100644",
+        "blob": "785d38ff8baf06d8aa40518354f82ec6ae87538b",
+        "kind": "file",
+        "sha256": "fb8443645eacfd5b1dca46324942d5879f5a1ce5dcf7646c8870c2217e49f059",
+        "normalizedSha256": "fb8443645eacfd5b1dca46324942d5879f5a1ce5dcf7646c8870c2217e49f059",
+        "encoding": "utf8-lf",
+        "bytes": 6494
+      },
+      {
+        "path": "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+        "mode": "100644",
+        "blob": "fd7b2c7ad31162494a008785948bebc89b9ae8c9",
+        "kind": "file",
+        "sha256": "dadea4b81c750e670e64a7708ccf5fd66eb096ace78dd3a839c2af331ecc88c2",
+        "normalizedSha256": "dadea4b81c750e670e64a7708ccf5fd66eb096ace78dd3a839c2af331ecc88c2",
+        "encoding": "utf8-lf",
+        "bytes": 1288
+      },
+      {
+        "path": "packages/services/src/session/claude-native/jsonLineRecord.ts",
+        "mode": "100644",
+        "blob": "f9915035c7d945e99ffb715375ed6a10b5299bd5",
+        "kind": "file",
+        "sha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+        "normalizedSha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+        "encoding": "utf8-lf",
+        "bytes": 448
+      },
+      {
+        "path": "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+        "mode": "100644",
+        "blob": "75605428be26d22efaadc0b7311b16a85c2a848c",
+        "kind": "file",
+        "sha256": "3eb56a3fec7d893272520d4ecc7e45d5a29c303f3b3717d934467cdee863142f",
+        "normalizedSha256": "3eb56a3fec7d893272520d4ecc7e45d5a29c303f3b3717d934467cdee863142f",
+        "encoding": "utf8-lf",
+        "bytes": 1587
+      },
+      {
+        "path": "packages/services/src/session/sessionMailbox.ts",
+        "mode": "100644",
+        "blob": "561059c45b8312cf63da70d3cf05c5cd49192f73",
+        "kind": "file",
+        "sha256": "17141b83e2e76d3f2d040a81277af015ebc5d73a4ebc52f5d017b5d7828e2fe5",
+        "normalizedSha256": "17141b83e2e76d3f2d040a81277af015ebc5d73a4ebc52f5d017b5d7828e2fe5",
+        "encoding": "utf8-lf",
+        "bytes": 343
+      },
+      {
+        "path": "packages/services/src/session/tasksDatabase/official-glm-selection-v3.ts",
+        "mode": "100644",
+        "blob": "585bd2e454e01a3d0c099bf9e2c62b6f308efb1e",
+        "kind": "file",
+        "sha256": "75af27386da487df526f5e329537e5abd4213a1255fa03efa92cd0d1a6571e66",
+        "normalizedSha256": "75af27386da487df526f5e329537e5abd4213a1255fa03efa92cd0d1a6571e66",
+        "encoding": "utf8-lf",
+        "bytes": 2181
+      },
+      {
+        "path": "packages/services/src/session/tasksDatabase/prepared.ts",
+        "mode": "100644",
+        "blob": "b78f22bcf34119e7a20e0e80d80a14448f08c6cf",
+        "kind": "file",
+        "sha256": "f6660d5c977764afd0e9806e4285430e390f98b88c43d9331c868b0d278ce40d",
+        "normalizedSha256": "f6660d5c977764afd0e9806e4285430e390f98b88c43d9331c868b0d278ce40d",
+        "encoding": "utf8-lf",
+        "bytes": 833
+      },
+      {
+        "path": "packages/services/src/session/tasksDatabase/schema-v1.ts",
+        "mode": "100644",
+        "blob": "97a06e7cb0cd637dd930ef9e34585fb00966fa2a",
+        "kind": "file",
+        "sha256": "761eaba0a85b51eb529b865ab4f0f2edb21af46fdb9b8fdbdb49e53d22114f24",
+        "normalizedSha256": "761eaba0a85b51eb529b865ab4f0f2edb21af46fdb9b8fdbdb49e53d22114f24",
+        "encoding": "utf8-lf",
+        "bytes": 6587
+      },
+      {
+        "path": "packages/services/src/skill-sync/skillSyncPath.ts",
+        "mode": "100644",
+        "blob": "88077ca701b1a1d82057df09b46635f65acf550c",
+        "kind": "file",
+        "sha256": "a781f6d05c9fc7a733f1b90799d80ef690e47544bb79c66fb4d25b41397e28f9",
+        "normalizedSha256": "a781f6d05c9fc7a733f1b90799d80ef690e47544bb79c66fb4d25b41397e28f9",
+        "encoding": "utf8-lf",
+        "bytes": 1326
+      },
+      {
+        "path": "packages/services/src/storage/adapters/fsCleaner.ts",
+        "mode": "100644",
+        "blob": "eeeaedf31f74b0aee74eaafa09d89778426096df",
+        "kind": "file",
+        "sha256": "74a3f4ddda8076406a40d122a7e12177e340f86b5ecc0e39e8244a5163c9481e",
+        "normalizedSha256": "74a3f4ddda8076406a40d122a7e12177e340f86b5ecc0e39e8244a5163c9481e",
+        "encoding": "utf8-lf",
+        "bytes": 4575
+      },
+      {
+        "path": "packages/services/src/storage/module.ts",
+        "mode": "100644",
+        "blob": "e62d384316f5bed4367e8255d14f29617b980bc2",
+        "kind": "file",
+        "sha256": "810ede38ffdd67e7a2c39f3d6b80d36864b7ac37a06edfebb0d441946ddc8943",
+        "normalizedSha256": "810ede38ffdd67e7a2c39f3d6b80d36864b7ac37a06edfebb0d441946ddc8943",
+        "encoding": "utf8-lf",
+        "bytes": 359
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+        "mode": "100644",
+        "blob": "153a19560f824d032421f60a7a5fe0150471bf6e",
+        "kind": "file",
+        "sha256": "e25ea5af453dcf05352f19f0e77452e3c02ddde44822a3059badaced50bf5c77",
+        "normalizedSha256": "e25ea5af453dcf05352f19f0e77452e3c02ddde44822a3059badaced50bf5c77",
+        "encoding": "utf8-lf",
+        "bytes": 11261
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfileTypes.ts",
+        "mode": "100644",
+        "blob": "c4218bf29ff3415c5e32d8863f1e6bf629fba607",
+        "kind": "file",
+        "sha256": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b",
+        "normalizedSha256": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b",
+        "encoding": "utf8-lf",
+        "bytes": 734
+      },
+      {
+        "path": "packages/services/src/types/yazl.d.ts",
+        "mode": "100644",
+        "blob": "0e787ee42517fe1a8189ecbcb69866e34a1022b9",
+        "kind": "file",
+        "sha256": "3173f85a4494f285ea6e0fd504358b74e210cf7a3fddc4f764eb87fbd2e50be7",
+        "normalizedSha256": "3173f85a4494f285ea6e0fd504358b74e210cf7a3fddc4f764eb87fbd2e50be7",
+        "encoding": "utf8-lf",
+        "bytes": 563
+      },
+      {
+        "path": "packages/services/src/zcode-agent/agentStderrCollector.ts",
+        "mode": "100644",
+        "blob": "2c164e8b7ab8f78b6e60efce49c9ab9e73e9bca0",
+        "kind": "file",
+        "sha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+        "normalizedSha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+        "encoding": "utf8-lf",
+        "bytes": 1611
+      },
+      {
+        "path": "packages/services/src/zcode-agent/automationToolPolicy.ts",
+        "mode": "100644",
+        "blob": "41fecf4315d43e95d5bc6ab1e2e3aed2671deb8a",
+        "kind": "file",
+        "sha256": "1586e08c94bc7ff4d8e23bd1703ef21bdd9f5c7da786991e15f1226a550e66c0",
+        "normalizedSha256": "1586e08c94bc7ff4d8e23bd1703ef21bdd9f5c7da786991e15f1226a550e66c0",
+        "encoding": "utf8-lf",
+        "bytes": 994
+      }
+    ],
+    "missingBlobs": [
+      {
+        "path": "packages/services/src/accessor.ts",
+        "mode": "100644",
+        "blob": "b38a521f14a24420c15d4d0af8fe80535db2f120",
+        "kind": "file",
+        "sha256": "9a04a181e7d7cc854882ee7ddce52101649b0504c05df43cb90fcbc51f5c9fab",
+        "normalizedSha256": "9a04a181e7d7cc854882ee7ddce52101649b0504c05df43cb90fcbc51f5c9fab",
+        "encoding": "utf8-lf",
+        "bytes": 5309
+      },
+      {
+        "path": "packages/services/src/bigmodel/codingPlanEntitlement.ts",
+        "mode": "100644",
+        "blob": "03538afa6e9dbf1f3a9d76f98934e674dc2b483c",
+        "kind": "file",
+        "sha256": "ab71b57769bf56eeae033fda11617024db3b202e775ea185a483cef744a2384f",
+        "normalizedSha256": "ab71b57769bf56eeae033fda11617024db3b202e775ea185a483cef744a2384f",
+        "encoding": "utf8-lf",
+        "bytes": 5190
+      },
+      {
+        "path": "packages/services/src/bigmodel/teamPlanApiKey.ts",
+        "mode": "100644",
+        "blob": "ae81bce353bc42bebc09b738a207ecd085bab835",
+        "kind": "file",
+        "sha256": "5cd211a0acd97940e79c3d040a59983006e5bafa72bac6797406d80fd6d066da",
+        "normalizedSha256": "5cd211a0acd97940e79c3d040a59983006e5bafa72bac6797406d80fd6d066da",
+        "encoding": "utf8-lf",
+        "bytes": 6801
+      },
+      {
+        "path": "packages/services/src/broadcast/broadcast.ts",
+        "mode": "100644",
+        "blob": "857497bd6e8fb029dda95815af7718a29293fd3a",
+        "kind": "file",
+        "sha256": "fa9440565c3b4dea1a2b757a459ff290f4cd09331c1e793752f6f9aef64bde8e",
+        "normalizedSha256": "fa9440565c3b4dea1a2b757a459ff290f4cd09331c1e793752f6f9aef64bde8e",
+        "encoding": "utf8-lf",
+        "bytes": 2030
+      },
+      {
+        "path": "packages/services/src/broadcast/broadcastService.ts",
+        "mode": "100644",
+        "blob": "8906f9348c079cd9b12e6226c7cac5133c34f519",
+        "kind": "file",
+        "sha256": "7612fdffa95f92a9bc266fd7b7633a5d5f70271dcbd1eb50c219d2903ec4f97d",
+        "normalizedSha256": "7612fdffa95f92a9bc266fd7b7633a5d5f70271dcbd1eb50c219d2903ec4f97d",
+        "encoding": "utf8-lf",
+        "bytes": 8545
+      },
+      {
+        "path": "packages/services/src/client-config/clientConfig.ts",
+        "mode": "100644",
+        "blob": "d8a56192f001224851ad828b7a3df572ddc52bc7",
+        "kind": "file",
+        "sha256": "352a228a3924ebee4d9b852fb25a8011ce3b162250e6909e37f00cbd9f068d1e",
+        "normalizedSha256": "352a228a3924ebee4d9b852fb25a8011ce3b162250e6909e37f00cbd9f068d1e",
+        "encoding": "utf8-lf",
+        "bytes": 527
+      },
+      {
+        "path": "packages/services/src/client-config/clientConfigService.ts",
+        "mode": "100644",
+        "blob": "581a7d847e1632447ff261e91e0a08ed13e87511",
+        "kind": "file",
+        "sha256": "763630171893c54da842183a4068958f21a9eb4203f15d10ef2876f418d5418b",
+        "normalizedSha256": "763630171893c54da842183a4068958f21a9eb4203f15d10ef2876f418d5418b",
+        "encoding": "utf8-lf",
+        "bytes": 3203
+      },
+      {
+        "path": "packages/services/src/client-scenes/clientScenes.ts",
+        "mode": "100644",
+        "blob": "de58b7f228c4b6dafcf0fddfc25886605f9cf514",
+        "kind": "file",
+        "sha256": "190d4110b78ae063f1bc2ec07847db8fa058dae754d3bb0097261a0a5947acbe",
+        "normalizedSha256": "190d4110b78ae063f1bc2ec07847db8fa058dae754d3bb0097261a0a5947acbe",
+        "encoding": "utf8-lf",
+        "bytes": 1782
+      },
+      {
+        "path": "packages/services/src/client-scenes/clientScenesService.ts",
+        "mode": "100644",
+        "blob": "53268df47b1ff061745c75f2adf4a4a80f4788e9",
+        "kind": "file",
+        "sha256": "ba165d522fee609b9f9a8c979e5c89285bb0936b5ce5faa1e554b23601c91b1f",
+        "normalizedSha256": "ba165d522fee609b9f9a8c979e5c89285bb0936b5ce5faa1e554b23601c91b1f",
+        "encoding": "utf8-lf",
+        "bytes": 536
+      },
+      {
+        "path": "packages/services/src/coding-plan-subscription/bigmodelCodingPlanSubscriptionProvider.ts",
+        "mode": "100644",
+        "blob": "d3a75a5d29643410538db688d9898da6b2bea247",
+        "kind": "file",
+        "sha256": "ebcd770ddab732b71cd0e2c2e1ffcc1d4765fc7711cfa3941880fbdfe3a7ba01",
+        "normalizedSha256": "ebcd770ddab732b71cd0e2c2e1ffcc1d4765fc7711cfa3941880fbdfe3a7ba01",
+        "encoding": "utf8-lf",
+        "bytes": 50341
+      },
+      {
+        "path": "packages/services/src/coding-plan-subscription/codingPlanSubscription.ts",
+        "mode": "100644",
+        "blob": "ff60472f8a85a8c303b63e039f4fe002db698ee8",
+        "kind": "file",
+        "sha256": "bd6aecc31f203e575e8555a0cd95ede9fd2906b2365ba969cc47fbdf2fa4a103",
+        "normalizedSha256": "bd6aecc31f203e575e8555a0cd95ede9fd2906b2365ba969cc47fbdf2fa4a103",
+        "encoding": "utf8-lf",
+        "bytes": 5529
+      },
+      {
+        "path": "packages/services/src/coding-plan-subscription/codingPlanSubscriptionService.ts",
+        "mode": "100644",
+        "blob": "c2504c8e651817b2e6563c24acecdf2ffca2a628",
+        "kind": "file",
+        "sha256": "d9d5f8f3e21839f030a0b0e4b299ddcaa7809d3468257856d4ecad71733440aa",
+        "normalizedSha256": "d9d5f8f3e21839f030a0b0e4b299ddcaa7809d3468257856d4ecad71733440aa",
+        "encoding": "utf8-lf",
+        "bytes": 4764
+      },
+      {
+        "path": "packages/services/src/coding-plan-subscription/zaiCodingPlanSubscriptionProvider.ts",
+        "mode": "100644",
+        "blob": "800a39aab18ff40763299835a0d607e1614fa88c",
+        "kind": "file",
+        "sha256": "e1fce624acc2e9b7f79b706c13d0b6cb2ae1817e2fe91868686dcdd435b89eef",
+        "normalizedSha256": "e1fce624acc2e9b7f79b706c13d0b6cb2ae1817e2fe91868686dcdd435b89eef",
+        "encoding": "utf8-lf",
+        "bytes": 2977
+      },
+      {
+        "path": "packages/services/src/collection.ts",
+        "mode": "100644",
+        "blob": "522fd8b47c9db9af87813657719c6a7fe7052800",
+        "kind": "file",
+        "sha256": "c7ecd059c7a898fd40e9799d328c06c20e67f140433bee8bd5fc8436d26b41b1",
+        "normalizedSha256": "c7ecd059c7a898fd40e9799d328c06c20e67f140433bee8bd5fc8436d26b41b1",
+        "encoding": "utf8-lf",
+        "bytes": 1334
+      },
+      {
+        "path": "packages/services/src/commands/commandFileParser.ts",
+        "mode": "100644",
+        "blob": "3fc600735deaee8ca311ec2c2bdbc8debef603c9",
+        "kind": "file",
+        "sha256": "022d460a6818db3435280a017dac736a39ccd958dd1ca797cbb6517e6330dab1",
+        "normalizedSha256": "022d460a6818db3435280a017dac736a39ccd958dd1ca797cbb6517e6330dab1",
+        "encoding": "utf8-lf",
+        "bytes": 4279
+      },
+      {
+        "path": "packages/services/src/commands/commands.ts",
+        "mode": "100644",
+        "blob": "0457050695528867b0442e6f4da3e77b2d588633",
+        "kind": "file",
+        "sha256": "c54293fe72ff37e67fe07b33e6c859e09086298c26e4419da1f6cab11dcbfdf7",
+        "normalizedSha256": "c54293fe72ff37e67fe07b33e6c859e09086298c26e4419da1f6cab11dcbfdf7",
+        "encoding": "utf8-lf",
+        "bytes": 1013
+      },
+      {
+        "path": "packages/services/src/commands/commandsService.ts",
+        "mode": "100644",
+        "blob": "ee193ae926e9f7c2f295cc37ed9917f619344c94",
+        "kind": "file",
+        "sha256": "9b7e869d5a728f245e3ce70910a673701125ae6a0794f9fdd6ecfdbebfc1a685",
+        "normalizedSha256": "9b7e869d5a728f245e3ce70910a673701125ae6a0794f9fdd6ecfdbebfc1a685",
+        "encoding": "utf8-lf",
+        "bytes": 32256
+      },
+      {
+        "path": "packages/services/src/conversation-share/conversationShare.ts",
+        "mode": "100644",
+        "blob": "1f4c967a49b44387be92aad6edfd834ee777f8ed",
+        "kind": "file",
+        "sha256": "d9873f903a559dad1d19eb782870a4f8feb271137dee4c475280f1745c01a995",
+        "normalizedSha256": "d9873f903a559dad1d19eb782870a4f8feb271137dee4c475280f1745c01a995",
+        "encoding": "utf8-lf",
+        "bytes": 18840
+      },
+      {
+        "path": "packages/services/src/conversation-share/conversationShareArtifactDiscovery.ts",
+        "mode": "100644",
+        "blob": "32e002011e79482172e08114f1fcd98da413badc",
+        "kind": "file",
+        "sha256": "faa82c87b54cc156907be98ce7b8df16f30ca9a7b322b2044c6ef318600cd4f7",
+        "normalizedSha256": "faa82c87b54cc156907be98ce7b8df16f30ca9a7b322b2044c6ef318600cd4f7",
+        "encoding": "utf8-lf",
+        "bytes": 29020
+      },
+      {
+        "path": "packages/services/src/conversation-share/conversationShareArtifactSource.ts",
+        "mode": "100644",
+        "blob": "9909f2af9f8641b789927485810c5cc33580f12b",
+        "kind": "file",
+        "sha256": "6cad7427ea240551dbe28e3ddae1d0710d088330eb06e35fcb78dfa945b4ca67",
+        "normalizedSha256": "6cad7427ea240551dbe28e3ddae1d0710d088330eb06e35fcb78dfa945b4ca67",
+        "encoding": "utf8-lf",
+        "bytes": 13173
+      },
+      {
+        "path": "packages/services/src/conversation-share/conversationShareHttpClient.ts",
+        "mode": "100644",
+        "blob": "07bf549dd96e92b788ee30cf78b265d612e8e189",
+        "kind": "file",
+        "sha256": "523193ce763c1838ff729014c6346266339504b561ea1a26c89aab78df93843b",
+        "normalizedSha256": "523193ce763c1838ff729014c6346266339504b561ea1a26c89aab78df93843b",
+        "encoding": "utf8-lf",
+        "bytes": 21574
+      },
+      {
+        "path": "packages/services/src/conversation-share/conversationShareIntegrity.ts",
+        "mode": "100644",
+        "blob": "b2e3be7059214dd5e9ea79cd41cf49133e9e4570",
+        "kind": "file",
+        "sha256": "e449bb6f75fcd323dad0b744f4e990d0009f436cec26a1a0736edfbfff9b7349",
+        "normalizedSha256": "e449bb6f75fcd323dad0b744f4e990d0009f436cec26a1a0736edfbfff9b7349",
+        "encoding": "utf8-lf",
+        "bytes": 5814
+      },
+      {
+        "path": "packages/services/src/conversation-share/conversationSharePublicProjection.ts",
+        "mode": "100644",
+        "blob": "4c260105cdbe5f62058e1d048735a26ad4f147b7",
+        "kind": "file",
+        "sha256": "9cd8680f3df7b159909f8418faccef00e2763201bfa0f6bbb0f278c9c3ddb486",
+        "normalizedSha256": "9cd8680f3df7b159909f8418faccef00e2763201bfa0f6bbb0f278c9c3ddb486",
+        "encoding": "utf8-lf",
+        "bytes": 24550
+      },
+      {
+        "path": "packages/services/src/conversation-share/conversationShareService.ts",
+        "mode": "100644",
+        "blob": "d7e96c8389e7d8c24a707005bbaf5ee8dc03e308",
+        "kind": "file",
+        "sha256": "212422132c1b1088a94e4f104c52f991f197d6af1468e661185a8200ab633c37",
+        "normalizedSha256": "212422132c1b1088a94e4f104c52f991f197d6af1468e661185a8200ab633c37",
+        "encoding": "utf8-lf",
+        "bytes": 99724
+      },
+      {
+        "path": "packages/services/src/conversation-share/sharedContextFormatter.ts",
+        "mode": "100644",
+        "blob": "151f7fc28acc058915e71e45b8e8e7d6024ba4a4",
+        "kind": "file",
+        "sha256": "a8203f7131794722b12261e76b1facc9a1bf37dad4b99df6ea0bf986d9ef02f7",
+        "normalizedSha256": "a8203f7131794722b12261e76b1facc9a1bf37dad4b99df6ea0bf986d9ef02f7",
+        "encoding": "utf8-lf",
+        "bytes": 4095
+      },
+      {
+        "path": "packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+        "mode": "100644",
+        "blob": "3666d0ca981848d4e2fb3cd94b796f0d7425e1d3",
+        "kind": "file",
+        "sha256": "449dadcc3ecda4efaf0ece910bbe8e0aca906468c0ee855406fa9f2d5a217ae7",
+        "normalizedSha256": "449dadcc3ecda4efaf0ece910bbe8e0aca906468c0ee855406fa9f2d5a217ae7",
+        "encoding": "utf8-lf",
+        "bytes": 1121
+      },
+      {
+        "path": "packages/services/src/credential/credential.ts",
+        "mode": "100644",
+        "blob": "9e0ff39b912e4ff516797867d397d0c7a6d44bef",
+        "kind": "file",
+        "sha256": "2abef01259648464690ad11001877974c53543ef6707fe9e10441e6cfcfa0f8d",
+        "normalizedSha256": "2abef01259648464690ad11001877974c53543ef6707fe9e10441e6cfcfa0f8d",
+        "encoding": "utf8-lf",
+        "bytes": 608
+      },
+      {
+        "path": "packages/services/src/credential/credentialService.ts",
+        "mode": "100644",
+        "blob": "d1287e9e51e9690f28de0a2df02cb06331a52327",
+        "kind": "file",
+        "sha256": "b3fbca16aeed1ebae204ef7bab64b1e6df3cbc545e1b8f11a28fd27594b650a3",
+        "normalizedSha256": "b3fbca16aeed1ebae204ef7bab64b1e6df3cbc545e1b8f11a28fd27594b650a3",
+        "encoding": "utf8-lf",
+        "bytes": 5040
+      },
+      {
+        "path": "packages/services/src/credential/providers/credentialCipherProvider.ts",
+        "mode": "100644",
+        "blob": "a2d143b8ff630344445af8ae1e1c46310bd16057",
+        "kind": "file",
+        "sha256": "10d99612a660bb71628a464de4fadce1fea6ff46cf025cac3412a0f14576402a",
+        "normalizedSha256": "10d99612a660bb71628a464de4fadce1fea6ff46cf025cac3412a0f14576402a",
+        "encoding": "utf8-lf",
+        "bytes": 3631
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+        "mode": "100644",
+        "blob": "eccf8fac4a4811c3292e8eec740fb17cf09cbb1d",
+        "kind": "file",
+        "sha256": "7fe892155cc2cac572e1b47b7b18f057e1321161ee4d68ee10281258de1b001d",
+        "normalizedSha256": "7fe892155cc2cac572e1b47b7b18f057e1321161ee4d68ee10281258de1b001d",
+        "encoding": "utf8-lf",
+        "bytes": 2737
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/cuaHelperInstaller.ts",
+        "mode": "100644",
+        "blob": "82a97c4846c1babac0a0b4bbf3e514fb62540524",
+        "kind": "file",
+        "sha256": "f2400949eb2fb1e7655701c7014791b224842478834d358f222ace4149648fe7",
+        "normalizedSha256": "f2400949eb2fb1e7655701c7014791b224842478834d358f222ace4149648fe7",
+        "encoding": "utf8-lf",
+        "bytes": 1690
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+        "mode": "100644",
+        "blob": "c2d662d2fc36b00a586ce786735f9865044f80d6",
+        "kind": "file",
+        "sha256": "aa8dc5a66031147d558f8894e42692466fa3d2e32eca392a73a56cf0a9a5d73d",
+        "normalizedSha256": "aa8dc5a66031147d558f8894e42692466fa3d2e32eca392a73a56cf0a9a5d73d",
+        "encoding": "utf8-lf",
+        "bytes": 2346
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/cuaPipSession.ts",
+        "mode": "100644",
+        "blob": "df415b00e79c1d83ef2f4c9ea99adbda2c13fbf3",
+        "kind": "file",
+        "sha256": "e21cd407e284532ba7eaf2dd05f02f2351256b0e1f2a33df2bd794d0c70026a2",
+        "normalizedSha256": "e21cd407e284532ba7eaf2dd05f02f2351256b0e1f2a33df2bd794d0c70026a2",
+        "encoding": "utf8-lf",
+        "bytes": 603
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+        "mode": "100644",
+        "blob": "b090549c623edf00d12a9f41e1840aa1aedc9458",
+        "kind": "file",
+        "sha256": "3b72d0883e7e297f073c18ea03e20a017768f905059a0702845f4d15f940c0ac",
+        "normalizedSha256": "3b72d0883e7e297f073c18ea03e20a017768f905059a0702845f4d15f940c0ac",
+        "encoding": "utf8-lf",
+        "bytes": 12253
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/index.ts",
+        "mode": "100644",
+        "blob": "3448e49014cdbf3197b74c5aa3fe8dd460454e98",
+        "kind": "file",
+        "sha256": "843d5c3088e62525aded2cf27aa3b9f555cb9e664bfeb4a3da8301a8a9bdae3a",
+        "normalizedSha256": "843d5c3088e62525aded2cf27aa3b9f555cb9e664bfeb4a3da8301a8a9bdae3a",
+        "encoding": "utf8-lf",
+        "bytes": 4182
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts",
+        "mode": "100644",
+        "blob": "2309cd2f01185016cb68d68ee9798850d2e2efc2",
+        "kind": "file",
+        "sha256": "93d37ecd48828898c0efac88c5df296fd2ca5f3339757c8cb3d69f52807b720f",
+        "normalizedSha256": "93d37ecd48828898c0efac88c5df296fd2ca5f3339757c8cb3d69f52807b720f",
+        "encoding": "utf8-lf",
+        "bytes": 21044
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts",
+        "mode": "100644",
+        "blob": "754858e400c6dd32fa02bb95bed7b4803a66af95",
+        "kind": "file",
+        "sha256": "0fe9b529d5a5c20cbe5d7166d93fbbdf842a8b9bbe3f98af374260f324471fde",
+        "normalizedSha256": "0fe9b529d5a5c20cbe5d7166d93fbbdf842a8b9bbe3f98af374260f324471fde",
+        "encoding": "utf8-lf",
+        "bytes": 19392
+      },
+      {
+        "path": "packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts",
+        "mode": "100644",
+        "blob": "5b3626eb15eca7b8f066c48d0307e35fcb1e165e",
+        "kind": "file",
+        "sha256": "f96163468c32f3182afdfa2c06f3ed423104229428906bbb1632001b8a5f7d17",
+        "normalizedSha256": "f96163468c32f3182afdfa2c06f3ed423104229428906bbb1632001b8a5f7d17",
+        "encoding": "utf8-lf",
+        "bytes": 8417
+      },
+      {
+        "path": "packages/services/src/device/deviceMid.ts",
+        "mode": "100644",
+        "blob": "69faaf7e414ff823e6b784dae7fc0b29305c6949",
+        "kind": "file",
+        "sha256": "f57e0f2e80cad0b1a3569da7e9d5f286a83489e5cd01feb7849dc3ed74832372",
+        "normalizedSha256": "f57e0f2e80cad0b1a3569da7e9d5f286a83489e5cd01feb7849dc3ed74832372",
+        "encoding": "utf8-lf",
+        "bytes": 6579
+      },
+      {
+        "path": "packages/services/src/feedback/compactLogArchive.ts",
+        "mode": "100644",
+        "blob": "1c6ec3fb35233efcd8b53d3a098aa82f1d09a8f0",
+        "kind": "file",
+        "sha256": "3867f069fc1dbe01950b57cc369573440712de8d441a37976b38c880fb3e0eca",
+        "normalizedSha256": "3867f069fc1dbe01950b57cc369573440712de8d441a37976b38c880fb3e0eca",
+        "encoding": "utf8-lf",
+        "bytes": 1262
+      },
+      {
+        "path": "packages/services/src/feedback/feedback.ts",
+        "mode": "100644",
+        "blob": "0a1ce179059eb48ae36ea1bb20228ac2656d11ab",
+        "kind": "file",
+        "sha256": "7b63e8b969c0ab2909267482c208f222c260250b48ad6cff2904b728c7452634",
+        "normalizedSha256": "7b63e8b969c0ab2909267482c208f222c260250b48ad6cff2904b728c7452634",
+        "encoding": "utf8-lf",
+        "bytes": 2261
+      },
+      {
+        "path": "packages/services/src/feedback/feedbackHttpClient.ts",
+        "mode": "100644",
+        "blob": "ab3fc1ac176395c66d37e2d38fcff5fab520dc3c",
+        "kind": "file",
+        "sha256": "bd899d5667df89586d66bb882aa0c8b3df9ef24636fda37aed1af26639426c6b",
+        "normalizedSha256": "bd899d5667df89586d66bb882aa0c8b3df9ef24636fda37aed1af26639426c6b",
+        "encoding": "utf8-lf",
+        "bytes": 36182
+      },
+      {
+        "path": "packages/services/src/feedback/feedbackLocalTicketStore.ts",
+        "mode": "100644",
+        "blob": "0ddcf030f827d369d1eb9578a62168ff51875c32",
+        "kind": "file",
+        "sha256": "d303dbb70cabd989f15d603cfbca931e3c7fa614b0fab02a16ebcb446a0f733a",
+        "normalizedSha256": "d303dbb70cabd989f15d603cfbca931e3c7fa614b0fab02a16ebcb446a0f733a",
+        "encoding": "utf8-lf",
+        "bytes": 4005
+      },
+      {
+        "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+        "mode": "100644",
+        "blob": "1d90a00ab73550b493d041453ae6235e84bb9bf4",
+        "kind": "file",
+        "sha256": "311a862238c4ab8b3824ac51e31fb859f1581d77e5fde57d931f99261a566f1d",
+        "normalizedSha256": "311a862238c4ab8b3824ac51e31fb859f1581d77e5fde57d931f99261a566f1d",
+        "encoding": "utf8-lf",
+        "bytes": 7824
+      },
+      {
+        "path": "packages/services/src/feedback/feedbackService.ts",
+        "mode": "100644",
+        "blob": "dffb37899e3f929c7db786fd15c41fe6961506b4",
+        "kind": "file",
+        "sha256": "a2b54dca0f77e647d41cde35eb44d8e37636b6b026515c9cd4c728f2135d3d24",
+        "normalizedSha256": "a2b54dca0f77e647d41cde35eb44d8e37636b6b026515c9cd4c728f2135d3d24",
+        "encoding": "utf8-lf",
+        "bytes": 10004
+      },
+      {
+        "path": "packages/services/src/file/file.ts",
+        "mode": "100644",
+        "blob": "ea5f6c67753c63a30249d4ed9fcca244ae7e9f6b",
+        "kind": "file",
+        "sha256": "9cd8de18048a2834cbba5da953a568012f58cc47191b9bad85e7b292ac07a0a9",
+        "normalizedSha256": "9cd8de18048a2834cbba5da953a568012f58cc47191b9bad85e7b292ac07a0a9",
+        "encoding": "utf8-lf",
+        "bytes": 3940
+      },
+      {
+        "path": "packages/services/src/file/fileService.ts",
+        "mode": "100644",
+        "blob": "167a9d0fda56d4928c5ccc40cc22ea31ff748213",
+        "kind": "file",
+        "sha256": "b63653fec2885fb6aace18fb5b528ef1a6171d239a44720695bd50fa0628ac94",
+        "normalizedSha256": "b63653fec2885fb6aace18fb5b528ef1a6171d239a44720695bd50fa0628ac94",
+        "encoding": "utf8-lf",
+        "bytes": 25567
+      },
+      {
+        "path": "packages/services/src/file/workspaceFileIgnore.ts",
+        "mode": "100644",
+        "blob": "fa0df39d079419cc2733e5bbf2b2feb74702577e",
+        "kind": "file",
+        "sha256": "141f3a2791d80e48ad31c536f04cce653f408ee4092d1f36b1b83c93a4caab80",
+        "normalizedSha256": "141f3a2791d80e48ad31c536f04cce653f408ee4092d1f36b1b83c93a4caab80",
+        "encoding": "utf8-lf",
+        "bytes": 16359
+      },
+      {
+        "path": "packages/services/src/file/workspaceFileMentionFilter.ts",
+        "mode": "100644",
+        "blob": "fd1b6fc5ceced8b2aa0929c1c9f1f117400653b1",
+        "kind": "file",
+        "sha256": "325425aa07cc13078b94f8f4d9ca6d556456b9051198d70968a8395ae81ffbf7",
+        "normalizedSha256": "325425aa07cc13078b94f8f4d9ca6d556456b9051198d70968a8395ae81ffbf7",
+        "encoding": "utf8-lf",
+        "bytes": 3909
+      },
+      {
+        "path": "packages/services/src/file/workspaceFileSearch.ts",
+        "mode": "100644",
+        "blob": "c5eb7c2f2c477e346dedfce756593cbaca357a1b",
+        "kind": "file",
+        "sha256": "5917c39a75e8f5746d548a600dc48082fd4447570c1afe156cb272d9df0ae59c",
+        "normalizedSha256": "5917c39a75e8f5746d548a600dc48082fd4447570c1afe156cb272d9df0ae59c",
+        "encoding": "utf8-lf",
+        "bytes": 1721
+      },
+      {
+        "path": "packages/services/src/fileWatcher/fileWatcher.ts",
+        "mode": "100644",
+        "blob": "4f4808dfbac73bfa11e5e4d35c8a2b6e420888f0",
+        "kind": "file",
+        "sha256": "699f833353690e920243728ce177cf6fa6920963cca3beb15ad30cefbe297652",
+        "normalizedSha256": "699f833353690e920243728ce177cf6fa6920963cca3beb15ad30cefbe297652",
+        "encoding": "utf8-lf",
+        "bytes": 1121
+      },
+      {
+        "path": "packages/services/src/fileWatcher/fileWatcherService.ts",
+        "mode": "100644",
+        "blob": "3a625f1a645a0a93fda2125fef7a9a4a7e046c73",
+        "kind": "file",
+        "sha256": "aadb148e93f726a7d5a6bc3462b6733e034c108ad6d3df782dfceedc5d1ce733",
+        "normalizedSha256": "aadb148e93f726a7d5a6bc3462b6733e034c108ad6d3df782dfceedc5d1ce733",
+        "encoding": "utf8-lf",
+        "bytes": 5371
+      },
+      {
+        "path": "packages/services/src/fs/atomicFileUtils.ts",
+        "mode": "100644",
+        "blob": "38320677559bfecefd8640f68892ac83040289e8",
+        "kind": "file",
+        "sha256": "e9e83d0b72f490fd71c3a6aa41c443286cbeaf0fc38ff0854d6213dd56d87286",
+        "normalizedSha256": "e9e83d0b72f490fd71c3a6aa41c443286cbeaf0fc38ff0854d6213dd56d87286",
+        "encoding": "utf8-lf",
+        "bytes": 5689
+      },
+      {
+        "path": "packages/services/src/fs/fsFaultInjection.ts",
+        "mode": "100644",
+        "blob": "6ec16ad50ffa8e59443e0aafb83003d039fa92c7",
+        "kind": "file",
+        "sha256": "0fa186821ce924f81953036655dd0cb0073f412a79c3f27ecee6baf499fe31d9",
+        "normalizedSha256": "0fa186821ce924f81953036655dd0cb0073f412a79c3f27ecee6baf499fe31d9",
+        "encoding": "utf8-lf",
+        "bytes": 9632
+      },
+      {
+        "path": "packages/services/src/git/commitMessageFileScope.ts",
+        "mode": "100644",
+        "blob": "d26afda1f8efc46552b798c985aff050182ccbcd",
+        "kind": "file",
+        "sha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+        "normalizedSha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+        "encoding": "utf8-lf",
+        "bytes": 3101
+      },
+      {
+        "path": "packages/services/src/git/config.ts",
+        "mode": "100644",
+        "blob": "ddca5ac663c6799a0f29786100930e1b80f34083",
+        "kind": "file",
+        "sha256": "a0fda55debc6e758d69e33ae520cec079e75b782bcbc8c95dd6b6b42e15a0e2a",
+        "normalizedSha256": "a0fda55debc6e758d69e33ae520cec079e75b782bcbc8c95dd6b6b42e15a0e2a",
+        "encoding": "utf8-lf",
+        "bytes": 4319
+      },
+      {
+        "path": "packages/services/src/git/git.ts",
+        "mode": "100644",
+        "blob": "417f21fdc4df4e4b59573cb11e722b00f9b90af4",
+        "kind": "file",
+        "sha256": "f83230aacf4632510faff44294f1ebac016ec4f060b34ffaf6859880de6e7436",
+        "normalizedSha256": "f83230aacf4632510faff44294f1ebac016ec4f060b34ffaf6859880de6e7436",
+        "encoding": "utf8-lf",
+        "bytes": 2224
+      },
+      {
+        "path": "packages/services/src/git/gitCheckpoint.ts",
+        "mode": "100644",
+        "blob": "a2514f506ad5a684c6b38a5993f2b65cc3940354",
+        "kind": "file",
+        "sha256": "16269057aa97b588e78263deb1e92291f1e6eb1f8544995552221420997fabe8",
+        "normalizedSha256": "16269057aa97b588e78263deb1e92291f1e6eb1f8544995552221420997fabe8",
+        "encoding": "utf8-lf",
+        "bytes": 812
+      },
+      {
+        "path": "packages/services/src/git/gitCheckpointService.ts",
+        "mode": "100644",
+        "blob": "7278eed9540bbe88dc3888f98fab160d6b67863f",
+        "kind": "file",
+        "sha256": "a5fd0991687bd9669f2dc76b7be76e51b15c1101075f931dae3551b76a86747c",
+        "normalizedSha256": "a5fd0991687bd9669f2dc76b7be76e51b15c1101075f931dae3551b76a86747c",
+        "encoding": "utf8-lf",
+        "bytes": 3576
+      },
+      {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "mode": "100644",
+        "blob": "3cb83eb47f3b0ae7d9589195bfdc70af662d79f3",
+        "kind": "file",
+        "sha256": "41c715e5b7d9a9e52fa88124abfaca1aaf52ba28a819a579aaf8f593f11402c7",
+        "normalizedSha256": "41c715e5b7d9a9e52fa88124abfaca1aaf52ba28a819a579aaf8f593f11402c7",
+        "encoding": "utf8-lf",
+        "bytes": 12293
+      },
+      {
+        "path": "packages/services/src/git/gitService.ts",
+        "mode": "100644",
+        "blob": "df3426c8a398f797730c90dcfbd85cce3c7a0259",
+        "kind": "file",
+        "sha256": "08f0e94e23cd3ea75ff9983f82ab140fc3a2d6280b11fe4eb0a0aba724b3e617",
+        "normalizedSha256": "08f0e94e23cd3ea75ff9983f82ab140fc3a2d6280b11fe4eb0a0aba724b3e617",
+        "encoding": "utf8-lf",
+        "bytes": 11865
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCheckpointHelpers.ts",
+        "mode": "100644",
+        "blob": "bc3eafa5187fd4cb27d77b27e9c416af2a0a62ca",
+        "kind": "file",
+        "sha256": "ce8ea69f78a77bfa25bf3ae3ed4854957a63ea7591042617afc4bef335b016cf",
+        "normalizedSha256": "ce8ea69f78a77bfa25bf3ae3ed4854957a63ea7591042617afc4bef335b016cf",
+        "encoding": "utf8-lf",
+        "bytes": 6262
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCheckpointRepo.ts",
+        "mode": "100644",
+        "blob": "4e3a267d0ab031e3bd252a96197ff38bd921c082",
+        "kind": "file",
+        "sha256": "f698ee512e6f9406547fd8747465541522898efc38dc0275ffef2c347621250a",
+        "normalizedSha256": "f698ee512e6f9406547fd8747465541522898efc38dc0275ffef2c347621250a",
+        "encoding": "utf8-lf",
+        "bytes": 19966
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCheckpointStore.ts",
+        "mode": "100644",
+        "blob": "2a98f1cca8a2d206ee8a94eb3e36cff5d3bf70bf",
+        "kind": "file",
+        "sha256": "a56acc3a3e471051c170c69fb7e4bcffa177bd4a974ed561b742bc4d29b8cb93",
+        "normalizedSha256": "a56acc3a3e471051c170c69fb7e4bcffa177bd4a974ed561b742bc4d29b8cb93",
+        "encoding": "utf8-lf",
+        "bytes": 3507
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "mode": "100644",
+        "blob": "470d91185ac5fc84904ad06185ff1858e753115e",
+        "kind": "file",
+        "sha256": "92a319350711c297c162cbc5d516823ba6db6b935d7136a12e1622c8e380b6ad",
+        "normalizedSha256": "92a319350711c297c162cbc5d516823ba6db6b935d7136a12e1622c8e380b6ad",
+        "encoding": "utf8-lf",
+        "bytes": 20013
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "mode": "100644",
+        "blob": "ffe734dd7fcccc15c1128f7be818ea8b41c4fd90",
+        "kind": "file",
+        "sha256": "474a377eaf9b4420e671b67ed0d9d509b66fef22151b2085b9f5d8847bec92ba",
+        "normalizedSha256": "474a377eaf9b4420e671b67ed0d9d509b66fef22151b2085b9f5d8847bec92ba",
+        "encoding": "utf8-lf",
+        "bytes": 58787
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliTypes.ts",
+        "mode": "100644",
+        "blob": "7ce3c8883312a122df830b09f797580fdef7de3b",
+        "kind": "file",
+        "sha256": "e4a2e4ba07f4630d39b99c13dfb59292640264df7a8b7b3f645e3b89fd631f6a",
+        "normalizedSha256": "e4a2e4ba07f4630d39b99c13dfb59292640264df7a8b7b3f645e3b89fd631f6a",
+        "encoding": "utf8-lf",
+        "bytes": 3573
+      },
+      {
+        "path": "packages/services/src/hooks/hooks.ts",
+        "mode": "100644",
+        "blob": "00bb1a703b1b670a54a2be419de63f0ff60a374d",
+        "kind": "file",
+        "sha256": "8db767ddb329d491812867e167fcc2bd94fe607d1b9621a792eed3d050fa1372",
+        "normalizedSha256": "8db767ddb329d491812867e167fcc2bd94fe607d1b9621a792eed3d050fa1372",
+        "encoding": "utf8-lf",
+        "bytes": 1357
+      },
+      {
+        "path": "packages/services/src/hooks/hooksService.ts",
+        "mode": "100644",
+        "blob": "9f60a0067c41e3ff2ed604585b45b878084939f0",
+        "kind": "file",
+        "sha256": "fc90512d17cb2a886ba7c9ec2b71921e3aed65acaf93f8d0c51c94159fd2d794",
+        "normalizedSha256": "fc90512d17cb2a886ba7c9ec2b71921e3aed65acaf93f8d0c51c94159fd2d794",
+        "encoding": "utf8-lf",
+        "bytes": 11882
+      },
+      {
+        "path": "packages/services/src/hooks/workspaceHookConfigMutation.ts",
+        "mode": "100644",
+        "blob": "16d7c6a4dbff7fd7f4bb41b2236f279c48365687",
+        "kind": "file",
+        "sha256": "9b1c0744e886645485472a9ab437fc2102d7b01d6ed5ffb4236b470d3acedb87",
+        "normalizedSha256": "9b1c0744e886645485472a9ab437fc2102d7b01d6ed5ffb4236b470d3acedb87",
+        "encoding": "utf8-lf",
+        "bytes": 205
+      },
+      {
+        "path": "packages/services/src/hooks/workspaceHookSettingsModel.ts",
+        "mode": "100644",
+        "blob": "3ed9a11262c37303fda403f4d9e4fdee4d464529",
+        "kind": "file",
+        "sha256": "d293a75f9f2518926f0a3a8d3a15bab6d53e76355ae000d81bfb704e2af34d55",
+        "normalizedSha256": "d293a75f9f2518926f0a3a8d3a15bab6d53e76355ae000d81bfb704e2af34d55",
+        "encoding": "utf8-lf",
+        "bytes": 8750
+      },
+      {
+        "path": "packages/services/src/index.ts",
+        "mode": "100644",
+        "blob": "12577b873b8406cf134c3828404a1f009ba0d8cd",
+        "kind": "file",
+        "sha256": "9f0703d26edab228c1c47fa9a53612614495ac94db984015970d6ff095202c50",
+        "normalizedSha256": "9f0703d26edab228c1c47fa9a53612614495ac94db984015970d6ff095202c50",
+        "encoding": "utf8-lf",
+        "bytes": 11884
+      },
+      {
+        "path": "packages/services/src/logger/serviceLogger.ts",
+        "mode": "100644",
+        "blob": "3dfd936129e2a1a6aba6c6575b384e6bb6fa8011",
+        "kind": "file",
+        "sha256": "e1f2a548130155ce9a6becd49e8ee0c0803608b67596312e52e2bd0c52ef1170",
+        "normalizedSha256": "e1f2a548130155ce9a6becd49e8ee0c0803608b67596312e52e2bd0c52ef1170",
+        "encoding": "utf8-lf",
+        "bytes": 2401
+      },
+      {
+        "path": "packages/services/src/mcp-sync/mcpSync.ts",
+        "mode": "100644",
+        "blob": "39921cafb10de47dadfed74d9c59bda52b226df9",
+        "kind": "file",
+        "sha256": "5d889611389bf900262a94be0e4a9daaa7b19950eeb7ed3f02ee9f344d2291ee",
+        "normalizedSha256": "5d889611389bf900262a94be0e4a9daaa7b19950eeb7ed3f02ee9f344d2291ee",
+        "encoding": "utf8-lf",
+        "bytes": 1885
+      },
+      {
+        "path": "packages/services/src/mcp-sync/mcpSyncService.ts",
+        "mode": "100644",
+        "blob": "0a7a96e6a36d18389b35d12c717bce0ebcb3c3a9",
+        "kind": "file",
+        "sha256": "259a8bfca3d57048c7bb0cf744991a65b7c957d6e4e61f86346436528ebde898",
+        "normalizedSha256": "259a8bfca3d57048c7bb0cf744991a65b7c957d6e4e61f86346436528ebde898",
+        "encoding": "utf8-lf",
+        "bytes": 27218
+      },
+      {
+        "path": "packages/services/src/media-preview/mediaPreview.ts",
+        "mode": "100644",
+        "blob": "276fd595871deaf60e8768850a7315044aed3630",
+        "kind": "file",
+        "sha256": "231c2f9b9892afdf4c5d83c4ebcbe5fa47c19a08901d0d1f65457b8ae8461b50",
+        "normalizedSha256": "231c2f9b9892afdf4c5d83c4ebcbe5fa47c19a08901d0d1f65457b8ae8461b50",
+        "encoding": "utf8-lf",
+        "bytes": 2750
+      },
+      {
+        "path": "packages/services/src/memory/memory.ts",
+        "mode": "100644",
+        "blob": "30c40942eab3b61406bf857c374bcbfabc8b761f",
+        "kind": "file",
+        "sha256": "1b6736f234cb0f4d99eebbcbe6ee6b2a039b7bfd7947ccd7cb946b27993ef55c",
+        "normalizedSha256": "1b6736f234cb0f4d99eebbcbe6ee6b2a039b7bfd7947ccd7cb946b27993ef55c",
+        "encoding": "utf8-lf",
+        "bytes": 1156
+      },
+      {
+        "path": "packages/services/src/memory/memoryService.ts",
+        "mode": "100644",
+        "blob": "aae7dc90b6052f69ac5cb2ef3c3675d34b68c129",
+        "kind": "file",
+        "sha256": "7dcda54bcbd983331d84db6b634ec39e4c6980f29517f7872ca554aa319ecf7a",
+        "normalizedSha256": "7dcda54bcbd983331d84db6b634ec39e4c6980f29517f7872ca554aa319ecf7a",
+        "encoding": "utf8-lf",
+        "bytes": 7972
+      },
+      {
+        "path": "packages/services/src/memoryDiagnostics.ts",
+        "mode": "100644",
+        "blob": "624bc02378e93d0f8a234ad1e15e149f5b577d41",
+        "kind": "file",
+        "sha256": "a6770b00da8179bba8b65054cd8c31be337aabac831e13b984559f1fb76e1f9c",
+        "normalizedSha256": "a6770b00da8179bba8b65054cd8c31be337aabac831e13b984559f1fb76e1f9c",
+        "encoding": "utf8-lf",
+        "bytes": 881
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderApiClient.ts",
+        "mode": "100644",
+        "blob": "8ab6daf142c313c3950d6380e6637c812baed737",
+        "kind": "file",
+        "sha256": "b4ac7c36634f10c321d5bb0b7dadcad3630ffc44b4d8c7c5fc6d67202b8f9024",
+        "normalizedSha256": "b4ac7c36634f10c321d5bb0b7dadcad3630ffc44b4d8c7c5fc6d67202b8f9024",
+        "encoding": "utf8-lf",
+        "bytes": 926
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderApiKeyResolver.ts",
+        "mode": "100644",
+        "blob": "998fd2183c8c97a731fa5834237aeeac08343825",
+        "kind": "file",
+        "sha256": "d237a37f3e6f1ce0c5e305e184a9760133ebf2c4082c49cc47ecb3a24a5b77b2",
+        "normalizedSha256": "d237a37f3e6f1ce0c5e305e184a9760133ebf2c4082c49cc47ecb3a24a5b77b2",
+        "encoding": "utf8-lf",
+        "bytes": 4613
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderApiTypes.ts",
+        "mode": "100644",
+        "blob": "f4995f6828ab4ae88aaf129fd3400f399c0ec74d",
+        "kind": "file",
+        "sha256": "35237971a083307c86ecd343da5b37141a8d921267b6bd46593e3d3ac84f30a5",
+        "normalizedSha256": "35237971a083307c86ecd343da5b37141a8d921267b6bd46593e3d3ac84f30a5",
+        "encoding": "utf8-lf",
+        "bytes": 896
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderConnectionResolver.ts",
+        "mode": "100644",
+        "blob": "2925509c5b42ca677af2b8ab41b9f883a40b0322",
+        "kind": "file",
+        "sha256": "63b4175dd8c5227b6dbf9500c7fde712281d0016b1f03deaca99f038bbe7f330",
+        "normalizedSha256": "63b4175dd8c5227b6dbf9500c7fde712281d0016b1f03deaca99f038bbe7f330",
+        "encoding": "utf8-lf",
+        "bytes": 14080
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderCredentialKey.ts",
+        "mode": "100644",
+        "blob": "2cca715dc4425829dc0659600cbd2084dec14e5c",
+        "kind": "file",
+        "sha256": "a4cd7021c9424fa4248e23ca52b7a2418504d2053db76c960282b70ddc049bd3",
+        "normalizedSha256": "a4cd7021c9424fa4248e23ca52b7a2418504d2053db76c960282b70ddc049bd3",
+        "encoding": "utf8-lf",
+        "bytes": 1557
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderCredentialService.ts",
+        "mode": "100644",
+        "blob": "0fde2a611e0bb5349a04ad0f77fbf9a17601fe25",
+        "kind": "file",
+        "sha256": "cf9dde4dba38af6bb71b0a795aa6ca036161415f7d3b35520edcb4a90021b986",
+        "normalizedSha256": "cf9dde4dba38af6bb71b0a795aa6ca036161415f7d3b35520edcb4a90021b986",
+        "encoding": "utf8-lf",
+        "bytes": 3192
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderCredentialStore.ts",
+        "mode": "100644",
+        "blob": "e3767e786345c1bc9ea8625d95f5b027267a21b8",
+        "kind": "file",
+        "sha256": "54aed9161c8cd41b5feee53c1225741f92267ce963dcf51165cfb82fcdea319b",
+        "normalizedSha256": "54aed9161c8cd41b5feee53c1225741f92267ce963dcf51165cfb82fcdea319b",
+        "encoding": "utf8-lf",
+        "bytes": 1723
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderInvalidation.ts",
+        "mode": "100644",
+        "blob": "7c3461891078de69c53a20279f9811f63f2e1915",
+        "kind": "file",
+        "sha256": "378a9708b166c54b88dc3c67ea76134e0fc03d9aa0499536d38523b8e6dee848",
+        "normalizedSha256": "378a9708b166c54b88dc3c67ea76134e0fc03d9aa0499536d38523b8e6dee848",
+        "encoding": "utf8-lf",
+        "bytes": 1324
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderRequestAuthService.ts",
+        "mode": "100644",
+        "blob": "6646abe11fb233c0586398c333bdacbbe03bbef9",
+        "kind": "file",
+        "sha256": "2ce262268013d220e64b6529383fa7ef6a4eaef7554f97fdafe85899f03b87cd",
+        "normalizedSha256": "2ce262268013d220e64b6529383fa7ef6a4eaef7554f97fdafe85899f03b87cd",
+        "encoding": "utf8-lf",
+        "bytes": 4096
+      },
+      {
+        "path": "packages/services/src/model-provider/accountProviderTeamPlanRequestKey.ts",
+        "mode": "100644",
+        "blob": "ca824806bb95c729846742844213552ea72f7711",
+        "kind": "file",
+        "sha256": "9d36c9ced95f4322eef016f2bb82242dec55449ab48de06c66b364b01ad939fa",
+        "normalizedSha256": "9d36c9ced95f4322eef016f2bb82242dec55449ab48de06c66b364b01ad939fa",
+        "encoding": "utf8-lf",
+        "bytes": 6025
+      },
+      {
+        "path": "packages/services/src/model-provider/accountRequestAuthService.ts",
+        "mode": "100644",
+        "blob": "7e0437e92af2fbfdcc0cfc71edff0e513fc98eee",
+        "kind": "file",
+        "sha256": "999620ec1f8118d405a485c62396e321ab68149cada15c084b3687be1a91488b",
+        "normalizedSha256": "999620ec1f8118d405a485c62396e321ab68149cada15c084b3687be1a91488b",
+        "encoding": "utf8-lf",
+        "bytes": 1353
+      },
+      {
+        "path": "packages/services/src/model-provider/bigmodelStartPlanZcodeJwt.ts",
+        "mode": "100644",
+        "blob": "3adaebe5178fa9cfdd13ee844b34621b20eb552e",
+        "kind": "file",
+        "sha256": "a03c1ac8681638c530b31ec02b9bcaf1b2bcbabd3cade3d5a7bce0085c12c404",
+        "normalizedSha256": "a03c1ac8681638c530b31ec02b9bcaf1b2bcbabd3cade3d5a7bce0085c12c404",
+        "encoding": "utf8-lf",
+        "bytes": 1185
+      },
+      {
+        "path": "packages/services/src/model-provider/codingPlanProviderAvailability.ts",
+        "mode": "100644",
+        "blob": "c5b4fbbf86ae4260d41875e4da87662a6ecd7074",
+        "kind": "file",
+        "sha256": "048f7db01b65743d0fbcce4973c6f1ee5ae5cc1b4af3f4363a22781718c55b13",
+        "normalizedSha256": "048f7db01b65743d0fbcce4973c6f1ee5ae5cc1b4af3f4363a22781718c55b13",
+        "encoding": "utf8-lf",
+        "bytes": 20325
+      },
+      {
+        "path": "packages/services/src/model-provider/legacyModelProviderSerialized.ts",
+        "mode": "100644",
+        "blob": "1b35f327faf996fa1bcf43ae882374e9849544bd",
+        "kind": "file",
+        "sha256": "abe99902f5ef19547d2fc4ab584d125a447d53be3e6acb706d0463e8d273529b",
+        "normalizedSha256": "abe99902f5ef19547d2fc4ab584d125a447d53be3e6acb706d0463e8d273529b",
+        "encoding": "utf8-lf",
+        "bytes": 27748
+      },
+      {
+        "path": "packages/services/src/model-provider/legacyPersonalProviderConfigImporter.ts",
+        "mode": "100644",
+        "blob": "3b59a1bf5f024d5d084acd433c3b451ad206ba3c",
+        "kind": "file",
+        "sha256": "d22e373e04ff1cc5ebe8092a8b3d3fdd7ebd7bca1dea93cdba9e39c97f748daf",
+        "normalizedSha256": "d22e373e04ff1cc5ebe8092a8b3d3fdd7ebd7bca1dea93cdba9e39c97f748daf",
+        "encoding": "utf8-lf",
+        "bytes": 5234
+      },
+      {
+        "path": "packages/services/src/model-provider/legacyTeamOrganizationResolver.ts",
+        "mode": "100644",
+        "blob": "e7f5202c5cdc14c25bcdf3d02c1183340d5f57d3",
+        "kind": "file",
+        "sha256": "2e699b8b75a409bff2941fbd4a8b565616e65ef68d57f674e2c59861a5c9d80f",
+        "normalizedSha256": "2e699b8b75a409bff2941fbd4a8b565616e65ef68d57f674e2c59861a5c9d80f",
+        "encoding": "utf8-lf",
+        "bytes": 2311
+      },
+      {
+        "path": "packages/services/src/model-provider/legacyZCodeConfigProviderReader.ts",
+        "mode": "100644",
+        "blob": "c63ada473a48acbeb38c328c467bfd9feca23fce",
+        "kind": "file",
+        "sha256": "7a94ceb7cb02f5c161d8930a5ade1ee9d569e89ba4dfd445729a2f989b49962e",
+        "normalizedSha256": "7a94ceb7cb02f5c161d8930a5ade1ee9d569e89ba4dfd445729a2f989b49962e",
+        "encoding": "utf8-lf",
+        "bytes": 35648
+      },
+      {
+        "path": "packages/services/src/model-provider/offPeakModelSelectionView.ts",
+        "mode": "100644",
+        "blob": "57c487537bf8dc431e96e28d050d11f8b524cb6b",
+        "kind": "file",
+        "sha256": "591a4b81f44dbdd22a70b4962f89560db56b06a9ecc9914d09cd0a0d8c023ea4",
+        "normalizedSha256": "591a4b81f44dbdd22a70b4962f89560db56b06a9ecc9914d09cd0a0d8c023ea4",
+        "encoding": "utf8-lf",
+        "bytes": 766
+      },
+      {
+        "path": "packages/services/src/model-provider/providerConfigRuntime.ts",
+        "mode": "100644",
+        "blob": "2ba46c1de5dc22bda5317f4297137a336b90e753",
+        "kind": "file",
+        "sha256": "60b6cf2d1cc4e58c8086a5e7121e28d3a6dd3e707d422871daca0c01ff70ff0a",
+        "normalizedSha256": "60b6cf2d1cc4e58c8086a5e7121e28d3a6dd3e707d422871daca0c01ff70ff0a",
+        "encoding": "utf8-lf",
+        "bytes": 3544
+      },
+      {
+        "path": "packages/services/src/model-provider/providerFacadeServices.ts",
+        "mode": "100644",
+        "blob": "83c0d0c93731a9847a0e34c237854135f48a3b20",
+        "kind": "file",
+        "sha256": "2a09b9ecf20998c94681f2a2ea6da756d8bcddd773b7ade49d3a70fb8fbbaa98",
+        "normalizedSha256": "2a09b9ecf20998c94681f2a2ea6da756d8bcddd773b7ade49d3a70fb8fbbaa98",
+        "encoding": "utf8-lf",
+        "bytes": 9966
+      },
+      {
+        "path": "packages/services/src/model-provider/providerProvisioning.ts",
+        "mode": "100644",
+        "blob": "ae7494c6eb372999f40a9cd8add2979056376f40",
+        "kind": "file",
+        "sha256": "8e66e216919534b463714ecd903329a7322e2b964ee59b1c6908d67584a01950",
+        "normalizedSha256": "8e66e216919534b463714ecd903329a7322e2b964ee59b1c6908d67584a01950",
+        "encoding": "utf8-lf",
+        "bytes": 608
+      },
+      {
+        "path": "packages/services/src/model-provider/providerProvisioningSource.ts",
+        "mode": "100644",
+        "blob": "cf18bd6cf1ce0eda50a040a0270abaf43de4c429",
+        "kind": "file",
+        "sha256": "9310f27a9cbec7af54c467ca05cca315b34fb0a569925d67ecfe727de12344a6",
+        "normalizedSha256": "9310f27a9cbec7af54c467ca05cca315b34fb0a569925d67ecfe727de12344a6",
+        "encoding": "utf8-lf",
+        "bytes": 6969
+      },
+      {
+        "path": "packages/services/src/model-provider/providerProvisioningTarget.ts",
+        "mode": "100644",
+        "blob": "3a8bd55afce20f43e5d7c46ad9d86f6b279b0d0b",
+        "kind": "file",
+        "sha256": "1f114bfff4489f033e1928baf26051ffe0e81464af9b359e3566a585a89df2dc",
+        "normalizedSha256": "1f114bfff4489f033e1928baf26051ffe0e81464af9b359e3566a585a89df2dc",
+        "encoding": "utf8-lf",
+        "bytes": 14530
+      },
+      {
+        "path": "packages/services/src/model-provider/providerRuntime.ts",
+        "mode": "100644",
+        "blob": "bdc627788b22408144a7fd37f19e8a5a87fe9f49",
+        "kind": "file",
+        "sha256": "8663f5a905b4361d38b1dcf8210fbd8b6aacf6306f3b212174cd200d9f59f9f6",
+        "normalizedSha256": "8663f5a905b4361d38b1dcf8210fbd8b6aacf6306f3b212174cd200d9f59f9f6",
+        "encoding": "utf8-lf",
+        "bytes": 8814
+      },
+      {
+        "path": "packages/services/src/model-provider/providerSettingsConnectivity.ts",
+        "mode": "100644",
+        "blob": "6001debfa3835fac4afb814deac31033b4f9ff8b",
+        "kind": "file",
+        "sha256": "f7761ecf2ea11f5d840cd19e2c1c0b69c87ff76668567323aacc710098ebe6a6",
+        "normalizedSha256": "f7761ecf2ea11f5d840cd19e2c1c0b69c87ff76668567323aacc710098ebe6a6",
+        "encoding": "utf8-lf",
+        "bytes": 1453
+      },
+      {
+        "path": "packages/services/src/model-provider/zaiStartPlanBilling.ts",
+        "mode": "100644",
+        "blob": "94c9938f423b1c030a6109f4da69916717912724",
+        "kind": "file",
+        "sha256": "5506ee83909b66de70db7a63dbb912ad0a719b9cd1265740037bad0967c1aded",
+        "normalizedSha256": "5506ee83909b66de70db7a63dbb912ad0a719b9cd1265740037bad0967c1aded",
+        "encoding": "utf8-lf",
+        "bytes": 6279
+      },
+      {
+        "path": "packages/services/src/model-provider/zcodeBuiltinRemoteConfig.ts",
+        "mode": "100644",
+        "blob": "ba41d5cee5c95c4447d8ae6b46ae5313d3e00f93",
+        "kind": "file",
+        "sha256": "9f00355ba71f77c9b9ccf6813fe39538a72aa3c6fc886c531d40e0e51acc0854",
+        "normalizedSha256": "9f00355ba71f77c9b9ccf6813fe39538a72aa3c6fc886c531d40e0e51acc0854",
+        "encoding": "utf8-lf",
+        "bytes": 865
+      },
+      {
+        "path": "packages/services/src/node.ts",
+        "mode": "100644",
+        "blob": "8489c4cbf4b68b958d516cc79132030a728d5f9a",
+        "kind": "file",
+        "sha256": "0b18123910a7c7af42a4da751b01db5dea8df0dc140dec7d3091820d876da8df",
+        "normalizedSha256": "0b18123910a7c7af42a4da751b01db5dea8df0dc140dec7d3091820d876da8df",
+        "encoding": "utf8-lf",
+        "bytes": 134445
+      },
+      {
+        "path": "packages/services/src/oauth/callbackAttribution.ts",
+        "mode": "100644",
+        "blob": "77d2fa9922e0ee7069bc3afc31ff666edd68b550",
+        "kind": "file",
+        "sha256": "80abdf0faaf227526264943c9f24e9354c5ef5c2b75826e49fb7349b4d76e89e",
+        "normalizedSha256": "80abdf0faaf227526264943c9f24e9354c5ef5c2b75826e49fb7349b4d76e89e",
+        "encoding": "utf8-lf",
+        "bytes": 706
+      },
+      {
+        "path": "packages/services/src/oauth/oauth.ts",
+        "mode": "100644",
+        "blob": "3fe9ebd23d7072156a00232fe4f28530cb8bd969",
+        "kind": "file",
+        "sha256": "8bc1f1e0bbc37dc208f8fd2ce74147cbbb0c6f3b318ceb642341879ce9903751",
+        "normalizedSha256": "8bc1f1e0bbc37dc208f8fd2ce74147cbbb0c6f3b318ceb642341879ce9903751",
+        "encoding": "utf8-lf",
+        "bytes": 2723
+      },
+      {
+        "path": "packages/services/src/oauth/oauthProfileSchema.ts",
+        "mode": "100644",
+        "blob": "65b657b4a0dfd22d905b624099ca728c6fb5e211",
+        "kind": "file",
+        "sha256": "69cb924d3bbff715b5ed715990f63fe63f300758d36150847e198ec8223dfdba",
+        "normalizedSha256": "69cb924d3bbff715b5ed715990f63fe63f300758d36150847e198ec8223dfdba",
+        "encoding": "utf8-lf",
+        "bytes": 5193
+      },
+      {
+        "path": "packages/services/src/oauth/oauthProviderLogout.ts",
+        "mode": "100644",
+        "blob": "62283ee0dc1554daebbf5c9624349f04f0c0a715",
+        "kind": "file",
+        "sha256": "ae29839c94db249ecf0de2777c3f1ae172808c365ae9fe3f54795513b20cc621",
+        "normalizedSha256": "ae29839c94db249ecf0de2777c3f1ae172808c365ae9fe3f54795513b20cc621",
+        "encoding": "utf8-lf",
+        "bytes": 1637
+      },
+      {
+        "path": "packages/services/src/oauth/oauthService.ts",
+        "mode": "100644",
+        "blob": "b6de617e8c96ed6d99bc9b84417e8f20ed669d12",
+        "kind": "file",
+        "sha256": "89b4b181cdc9657ef45eb96196d0b72f76254f62e708c3910fd323d9acf68fb7",
+        "normalizedSha256": "89b4b181cdc9657ef45eb96196d0b72f76254f62e708c3910fd323d9acf68fb7",
+        "encoding": "utf8-lf",
+        "bytes": 44796
+      },
+      {
+        "path": "packages/services/src/oauth/oauthUnauthorizedRequest.ts",
+        "mode": "100644",
+        "blob": "717e7bce3386a61e5eacc81d0b1df14924e5f931",
+        "kind": "file",
+        "sha256": "e3a16dc30e938892b925be0029016674b8eca7dce843e85a519f68493fabd00f",
+        "normalizedSha256": "e3a16dc30e938892b925be0029016674b8eca7dce843e85a519f68493fabd00f",
+        "encoding": "utf8-lf",
+        "bytes": 2943
+      },
+      {
+        "path": "packages/services/src/oauth/providers/bigmodelProviderAdapter.ts",
+        "mode": "100644",
+        "blob": "27266f406aa011d7f1eaa41c3302f61cede1857e",
+        "kind": "file",
+        "sha256": "9535a53fe42e2039fd067ecb4312dc76098e9fb68b3abffe057db9e4d3b414b9",
+        "normalizedSha256": "9535a53fe42e2039fd067ecb4312dc76098e9fb68b3abffe057db9e4d3b414b9",
+        "encoding": "utf8-lf",
+        "bytes": 10645
+      },
+      {
+        "path": "packages/services/src/oauth/providers/bigmodelProviderConfig.ts",
+        "mode": "100644",
+        "blob": "2e55c369d4a134cc3fafc7b2717ef0a2ae47ebfb",
+        "kind": "file",
+        "sha256": "7e293a54119d45d6a84e3a1a41a75b47618d72385419497058b28b581cc4afa2",
+        "normalizedSha256": "7e293a54119d45d6a84e3a1a41a75b47618d72385419497058b28b581cc4afa2",
+        "encoding": "utf8-lf",
+        "bytes": 2034
+      },
+      {
+        "path": "packages/services/src/oauth/providers/configUtils.ts",
+        "mode": "100644",
+        "blob": "b4c0f8d7b834618769607d4c62c8a2b8ef9a61c5",
+        "kind": "file",
+        "sha256": "dd716c56d0ad106b777736324f28613731e7c02ef93fe4fb56085fe63d27b6ec",
+        "normalizedSha256": "dd716c56d0ad106b777736324f28613731e7c02ef93fe4fb56085fe63d27b6ec",
+        "encoding": "utf8-lf",
+        "bytes": 1401
+      },
+      {
+        "path": "packages/services/src/oauth/providers/index.ts",
+        "mode": "100644",
+        "blob": "a9b4adff1bdcfe38f5d99f96603179f55eb415b5",
+        "kind": "file",
+        "sha256": "3cf83fe265827e563eca3b41d85b934f6dc8f6bc98b262350fe434930232c57a",
+        "normalizedSha256": "3cf83fe265827e563eca3b41d85b934f6dc8f6bc98b262350fe434930232c57a",
+        "encoding": "utf8-lf",
+        "bytes": 1365
+      },
+      {
+        "path": "packages/services/src/oauth/providers/providerAdapter.ts",
+        "mode": "100644",
+        "blob": "1d42b988dfcd202741103864050f7a17de2ad31c",
+        "kind": "file",
+        "sha256": "968e981c4e204be9f6b7d4fd72a6d41105ca93829f30c7e3e9d7a08591ec4398",
+        "normalizedSha256": "968e981c4e204be9f6b7d4fd72a6d41105ca93829f30c7e3e9d7a08591ec4398",
+        "encoding": "utf8-lf",
+        "bytes": 1370
+      },
+      {
+        "path": "packages/services/src/oauth/providers/zaiProviderAdapter.ts",
+        "mode": "100644",
+        "blob": "5cf2d9f1bccc63b0734c9e53664f2595bb6c6676",
+        "kind": "file",
+        "sha256": "e8b994c6f3e39b4fcb41af06505e948b8e7a41dff6e9a5fc007c2af3ecd22629",
+        "normalizedSha256": "e8b994c6f3e39b4fcb41af06505e948b8e7a41dff6e9a5fc007c2af3ecd22629",
+        "encoding": "utf8-lf",
+        "bytes": 13497
+      },
+      {
+        "path": "packages/services/src/oauth/providers/zaiProviderConfig.ts",
+        "mode": "100644",
+        "blob": "b671bf79eaa938e485a30f3d717c77a513fd5d34",
+        "kind": "file",
+        "sha256": "d6e5ef7b8cfa91a33766bbc43c938fc6b01d3dafe3954d3faeaf990febe76cb1",
+        "normalizedSha256": "d6e5ef7b8cfa91a33766bbc43c938fc6b01d3dafe3954d3faeaf990febe76cb1",
+        "encoding": "utf8-lf",
+        "bytes": 2082
+      },
+      {
+        "path": "packages/services/src/oauth/repo/oauthCredentialRepo.ts",
+        "mode": "100644",
+        "blob": "495843ac5f2de9d869f7ad5d8f43b09273493fb9",
+        "kind": "file",
+        "sha256": "0b107c637a77acb1443614e2cf58a19b88b61d6c2dd145c0d9cccb4a928afe4b",
+        "normalizedSha256": "0b107c637a77acb1443614e2cf58a19b88b61d6c2dd145c0d9cccb4a928afe4b",
+        "encoding": "utf8-lf",
+        "bytes": 14512
+      },
+      {
+        "path": "packages/services/src/oauth/runtimeConfig.ts",
+        "mode": "100644",
+        "blob": "4bd97195d5b9cd852f5c3b8b0b66c65cb541ba38",
+        "kind": "file",
+        "sha256": "f3f62ad0d14826e067356c1403f3ce7c3b89b0929c84257921482da5a1877084",
+        "normalizedSha256": "f3f62ad0d14826e067356c1403f3ce7c3b89b0929c84257921482da5a1877084",
+        "encoding": "utf8-lf",
+        "bytes": 1070
+      },
+      {
+        "path": "packages/services/src/official-mcp/officialMcpCredentials.ts",
+        "mode": "100644",
+        "blob": "d70bc0c803c9a1fcbdbb048ca7c54a2e72a5bb71",
+        "kind": "file",
+        "sha256": "091db75d0ac412581650e3c19fdadbbded94ca537692fcdf2889bfe0e5274ea3",
+        "normalizedSha256": "091db75d0ac412581650e3c19fdadbbded94ca537692fcdf2889bfe0e5274ea3",
+        "encoding": "utf8-lf",
+        "bytes": 19091
+      },
+      {
+        "path": "packages/services/src/official-mcp/officialMcpIssuanceAudit.ts",
+        "mode": "100644",
+        "blob": "1858b94aac11f1895e5b550f04ed4589ef85d8a4",
+        "kind": "file",
+        "sha256": "30480ff9d1ebdac0a8a48ae4fd12aca4714fad5e99f425de3f9cd1ae1d6dd4a0",
+        "normalizedSha256": "30480ff9d1ebdac0a8a48ae4fd12aca4714fad5e99f425de3f9cd1ae1d6dd4a0",
+        "encoding": "utf8-lf",
+        "bytes": 781
+      },
+      {
+        "path": "packages/services/src/onboarding/onboardingRecord.ts",
+        "mode": "100644",
+        "blob": "2f2e58bda8811decaf1d95061f0c63a1db247345",
+        "kind": "file",
+        "sha256": "35014c7925edfc17fa0c8040120e54e39b9c0cf5ed3c136170a3cfacde67fc09",
+        "normalizedSha256": "35014c7925edfc17fa0c8040120e54e39b9c0cf5ed3c136170a3cfacde67fc09",
+        "encoding": "utf8-lf",
+        "bytes": 3330
+      },
+      {
+        "path": "packages/services/src/onboarding/onboardingRecordService.ts",
+        "mode": "100644",
+        "blob": "e5f04b8b29fbaa50920147f36921bf3b8e4459ec",
+        "kind": "file",
+        "sha256": "8e83439b11db25c211519d4d46d2d1d8fe23d43dba0c2c5978003b83c0dbd1d5",
+        "normalizedSha256": "8e83439b11db25c211519d4d46d2d1d8fe23d43dba0c2c5978003b83c0dbd1d5",
+        "encoding": "utf8-lf",
+        "bytes": 7877
+      },
+      {
+        "path": "packages/services/src/paths.ts",
+        "mode": "100644",
+        "blob": "e4328572e2b2dc84bc9fc3e92ad784eb187c7ec8",
+        "kind": "file",
+        "sha256": "e20fbeb4e88e9021bd099a50ce8b2bbc90ff823eefb57253d1f1ea11b6f7d1df",
+        "normalizedSha256": "e20fbeb4e88e9021bd099a50ce8b2bbc90ff823eefb57253d1f1ea11b6f7d1df",
+        "encoding": "utf8-lf",
+        "bytes": 8613
+      },
+      {
+        "path": "packages/services/src/plugin-sync/pluginSync.ts",
+        "mode": "100644",
+        "blob": "4b2d0b41a7d0969bb8b5da966e576167b0448346",
+        "kind": "file",
+        "sha256": "bae91acf96398722895a8b735f2ebe5962cc34ecbb5dcd0980e9ab7bb3e0579f",
+        "normalizedSha256": "bae91acf96398722895a8b735f2ebe5962cc34ecbb5dcd0980e9ab7bb3e0579f",
+        "encoding": "utf8-lf",
+        "bytes": 1435
+      },
+      {
+        "path": "packages/services/src/plugin-sync/pluginSyncArchive.ts",
+        "mode": "100644",
+        "blob": "d882484fdb61bf040edeeea4205998386ff9c9e6",
+        "kind": "file",
+        "sha256": "7b3017740837d305daf873f8c4fe431dbe7a8aeca18d0241fc0c27f0d906aa78",
+        "normalizedSha256": "7b3017740837d305daf873f8c4fe431dbe7a8aeca18d0241fc0c27f0d906aa78",
+        "encoding": "utf8-lf",
+        "bytes": 9717
+      },
+      {
+        "path": "packages/services/src/plugin-sync/pluginSyncService.ts",
+        "mode": "100644",
+        "blob": "f14505736d428ea52fb860466b5c4bcb80f0bff3",
+        "kind": "file",
+        "sha256": "f89eb15152e9aed241c51a8d0fcb2f9a52d9967b8763501f3559c7c7c1cfe10f",
+        "normalizedSha256": "f89eb15152e9aed241c51a8d0fcb2f9a52d9967b8763501f3559c7c7c1cfe10f",
+        "encoding": "utf8-lf",
+        "bytes": 39244
+      },
+      {
+        "path": "packages/services/src/plugins/pluginManagement.ts",
+        "mode": "100644",
+        "blob": "6d8c22f8cc2ee6510f0888bd0012c66eededb73a",
+        "kind": "file",
+        "sha256": "c145b0a64fbc30398b91085e3e9db78a92e26c0ecdefce7621d770f98700a9e4",
+        "normalizedSha256": "c145b0a64fbc30398b91085e3e9db78a92e26c0ecdefce7621d770f98700a9e4",
+        "encoding": "utf8-lf",
+        "bytes": 4501
+      },
+      {
+        "path": "packages/services/src/plugins/pluginManagementService.ts",
+        "mode": "100644",
+        "blob": "60c354e7177bc99be9158be1606831d94c98ff8f",
+        "kind": "file",
+        "sha256": "55a809f7a7d168938bf1c0ee02b54e5b06b1a190c79f04751c5e08775a4198ab",
+        "normalizedSha256": "55a809f7a7d168938bf1c0ee02b54e5b06b1a190c79f04751c5e08775a4198ab",
+        "encoding": "utf8-lf",
+        "bytes": 2647
+      },
+      {
+        "path": "packages/services/src/plugins/plugins.ts",
+        "mode": "100644",
+        "blob": "32803372724fea05ad8695060e6731dd6a3275f5",
+        "kind": "file",
+        "sha256": "3e28f4e6565ad4edec572f4f8fcb050acb3d355fe90d43a1b7f893f37a6a2abd",
+        "normalizedSha256": "3e28f4e6565ad4edec572f4f8fcb050acb3d355fe90d43a1b7f893f37a6a2abd",
+        "encoding": "utf8-lf",
+        "bytes": 1540
+      },
+      {
+        "path": "packages/services/src/plugins/pluginsService.ts",
+        "mode": "100644",
+        "blob": "07a0ae7fb35596f5ce20277491a72f6050af6863",
+        "kind": "file",
+        "sha256": "c034d1d3cbbdca9fc494bd6c61688707a35b0772d919e7e7a6b8f7296ecd01b1",
+        "normalizedSha256": "c034d1d3cbbdca9fc494bd6c61688707a35b0772d919e7e7a6b8f7296ecd01b1",
+        "encoding": "utf8-lf",
+        "bytes": 2222
+      },
+      {
+        "path": "packages/services/src/process/processResourceSampler.ts",
+        "mode": "100644",
+        "blob": "91077c945d40a490fbc519ec811ad1bbe2c4a7c8",
+        "kind": "file",
+        "sha256": "e6c06ba146ee7d89e6e7e3ebb5b5ddb97495b9e866a0da301429126891c08cd4",
+        "normalizedSha256": "e6c06ba146ee7d89e6e7e3ebb5b5ddb97495b9e866a0da301429126891c08cd4",
+        "encoding": "utf8-lf",
+        "bytes": 16391
+      },
+      {
+        "path": "packages/services/src/process/processTreeTypes.ts",
+        "mode": "100644",
+        "blob": "f2ea5a6e60314a95b0dc5f01b7e4373d1ae3b26a",
+        "kind": "file",
+        "sha256": "55f44eeff6c72a45bc5ea8d6a9195752f12004d07bc35573a562f39c07fcc4fe",
+        "normalizedSha256": "55f44eeff6c72a45bc5ea8d6a9195752f12004d07bc35573a562f39c07fcc4fe",
+        "encoding": "utf8-lf",
+        "bytes": 2501
+      },
+      {
+        "path": "packages/services/src/process/runtimeProcessLifecycle.ts",
+        "mode": "100644",
+        "blob": "a4cee3d74674fb3757499bb5abc8449226e44989",
+        "kind": "file",
+        "sha256": "24089a9621b5db218962ea515c419e3f30edb8bad05e02c2779ac51042dc6751",
+        "normalizedSha256": "24089a9621b5db218962ea515c419e3f30edb8bad05e02c2779ac51042dc6751",
+        "encoding": "utf8-lf",
+        "bytes": 2580
+      },
+      {
+        "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransfer.ts",
+        "mode": "100644",
+        "blob": "7d79e8323874abcd9daa27d9538cdcc7567c8f64",
+        "kind": "file",
+        "sha256": "59d1b23091cfff7ef75d2096106fa27214dc5a98b3268d0905603459a130bd58",
+        "normalizedSha256": "59d1b23091cfff7ef75d2096106fa27214dc5a98b3268d0905603459a130bd58",
+        "encoding": "utf8-lf",
+        "bytes": 1495
+      },
+      {
+        "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransferService.ts",
+        "mode": "100644",
+        "blob": "8979e0d93b2dfe31225b8f13018872e892bf08fa",
+        "kind": "file",
+        "sha256": "c124ca2e9419518f59cd246b5ee2e93e764004de37be93ec8abb5d8a0e1fdeda",
+        "normalizedSha256": "c124ca2e9419518f59cd246b5ee2e93e764004de37be93ec8abb5d8a0e1fdeda",
+        "encoding": "utf8-lf",
+        "bytes": 1406
+      },
+      {
+        "path": "packages/services/src/providers/api/apiEndpoints.ts",
+        "mode": "100644",
+        "blob": "b40b523c585bce485d76966699145b3ee29b4c2e",
+        "kind": "file",
+        "sha256": "f6fbb4f6d05bc8e5a6cd7969808415fb8f0f7afe2c1471771998ac0fad7f7586",
+        "normalizedSha256": "f6fbb4f6d05bc8e5a6cd7969808415fb8f0f7afe2c1471771998ac0fad7f7586",
+        "encoding": "utf8-lf",
+        "bytes": 263
+      },
+      {
+        "path": "packages/services/src/providers/api/apiJson.ts",
+        "mode": "100644",
+        "blob": "ff7e870ffa09969d8db3936b4d2427790cc35531",
+        "kind": "file",
+        "sha256": "24f36e7616c85a8c7673545e2901b61e5813a2f81501f50cdc74ca05afa8e760",
+        "normalizedSha256": "24f36e7616c85a8c7673545e2901b61e5813a2f81501f50cdc74ca05afa8e760",
+        "encoding": "utf8-lf",
+        "bytes": 2537
+      },
+      {
+        "path": "packages/services/src/providers/api/index.ts",
+        "mode": "100644",
+        "blob": "fdd1ead6ffcc70de668f5f263d1d45dfbb4c8464",
+        "kind": "file",
+        "sha256": "9bc0f42646fa0e7b49ced19d39c874a23be869bffc5f52b9e10ffae325c1cc65",
+        "normalizedSha256": "9bc0f42646fa0e7b49ced19d39c874a23be869bffc5f52b9e10ffae325c1cc65",
+        "encoding": "utf8-lf",
+        "bytes": 375
+      },
+      {
+        "path": "packages/services/src/providers/api/nodeApiClient.ts",
+        "mode": "100644",
+        "blob": "7a375987fd757d420f1c90f54bfaf7a3d3b15613",
+        "kind": "file",
+        "sha256": "4792b3c9692c6e6483b8cc91814b6587f38feb1a070103de85295633dd1c49bb",
+        "normalizedSha256": "4792b3c9692c6e6483b8cc91814b6587f38feb1a070103de85295633dd1c49bb",
+        "encoding": "utf8-lf",
+        "bytes": 5863
+      },
+      {
+        "path": "packages/services/src/providers/api/requestIdHeaders.ts",
+        "mode": "100644",
+        "blob": "1a85e5ccf3d1ec34e4acf5f35769a9a425b09806",
+        "kind": "file",
+        "sha256": "31dd0d6c3e8c2c4c6f767a43c0a7daf0d42c57ba0098cdb771cfe72bc15fbda2",
+        "normalizedSha256": "31dd0d6c3e8c2c4c6f767a43c0a7daf0d42c57ba0098cdb771cfe72bc15fbda2",
+        "encoding": "utf8-lf",
+        "bytes": 1011
+      },
+      {
+        "path": "packages/services/src/providers/sourceHeaders.ts",
+        "mode": "100644",
+        "blob": "da56f195c7dc299102ccf81ee63e1bc954d5998e",
+        "kind": "file",
+        "sha256": "a34951d60a69f6a07dc794180c6b0589f8f790e094e8b3b521e2df83cefddd86",
+        "normalizedSha256": "a34951d60a69f6a07dc794180c6b0589f8f790e094e8b3b521e2df83cefddd86",
+        "encoding": "utf8-lf",
+        "bytes": 2821
+      },
+      {
+        "path": "packages/services/src/providers/zaiBusinessTokenResolver.ts",
+        "mode": "100644",
+        "blob": "4a6b0c79c9a15ee371439eff377f492ae9631fca",
+        "kind": "file",
+        "sha256": "9f36c615d7a321bf234bc36a980af393690a09758adada72cd0ed716c1c1b946",
+        "normalizedSha256": "9f36c615d7a321bf234bc36a980af393690a09758adada72cd0ed716c1c1b946",
+        "encoding": "utf8-lf",
+        "bytes": 3246
+      },
+      {
+        "path": "packages/services/src/remote-sync/remoteSyncWriteAccess.ts",
+        "mode": "100644",
+        "blob": "82e746b8037894369293e5a4d28061b96079025f",
+        "kind": "file",
+        "sha256": "410bbe478b9386cfa57485043368eb046941055e1c40d6cf5e6028f4ba704ed6",
+        "normalizedSha256": "410bbe478b9386cfa57485043368eb046941055e1c40d6cf5e6028f4ba704ed6",
+        "encoding": "utf8-lf",
+        "bytes": 1250
+      },
+      {
+        "path": "packages/services/src/runtime-tools/agentProxyEnv.ts",
+        "mode": "100644",
+        "blob": "7a33ff6fd5d1cb1545049c83c213f868a8de7aee",
+        "kind": "file",
+        "sha256": "42521f61e70b94762acfa5853485fff0c04d9514f196f1cf19782e1df61d18b8",
+        "normalizedSha256": "42521f61e70b94762acfa5853485fff0c04d9514f196f1cf19782e1df61d18b8",
+        "encoding": "utf8-lf",
+        "bytes": 5991
+      },
+      {
+        "path": "packages/services/src/runtime-tools/appCaCert.ts",
+        "mode": "100644",
+        "blob": "be03553cbadd842011939122ec5f4efbb86b186a",
+        "kind": "file",
+        "sha256": "abb0b3664aa0439a72372e540daba471785be653c9e22bedc2bbe35d30a24cb8",
+        "normalizedSha256": "abb0b3664aa0439a72372e540daba471785be653c9e22bedc2bbe35d30a24cb8",
+        "encoding": "utf8-lf",
+        "bytes": 2895
+      },
+      {
+        "path": "packages/services/src/runtime-tools/clientPlatform.ts",
+        "mode": "100644",
+        "blob": "be62ca0d929fcc05df50a4f4db4fe4031620a48a",
+        "kind": "file",
+        "sha256": "405e7e0e5dda2495c2c2c22353ce4c696c5d16bc4b3b630d020bdd903e412f59",
+        "normalizedSha256": "405e7e0e5dda2495c2c2c22353ce4c696c5d16bc4b3b630d020bdd903e412f59",
+        "encoding": "utf8-lf",
+        "bytes": 1040
+      },
+      {
+        "path": "packages/services/src/runtime-tools/nodeEnv.ts",
+        "mode": "100644",
+        "blob": "9d35595a6c42bb3c3f4c64e17e9a74ba8f8381d8",
+        "kind": "file",
+        "sha256": "2a1192ab27e6c57d9fba9684e230af153b3b400678e7122423ed35c772b03863",
+        "normalizedSha256": "2a1192ab27e6c57d9fba9684e230af153b3b400678e7122423ed35c772b03863",
+        "encoding": "utf8-lf",
+        "bytes": 850
+      },
+      {
+        "path": "packages/services/src/runtime-tools/providerRuntimeResolver.ts",
+        "mode": "100644",
+        "blob": "ad581d621c6602eb8356a895284fd16b423af6df",
+        "kind": "file",
+        "sha256": "8eb030535e03e9505dc5f1302b7bea50940aaedf1aa6e2d5725d316ae0495d8c",
+        "normalizedSha256": "8eb030535e03e9505dc5f1302b7bea50940aaedf1aa6e2d5725d316ae0495d8c",
+        "encoding": "utf8-lf",
+        "bytes": 4799
+      },
+      {
+        "path": "packages/services/src/runtime-tools/runtimeCommandEnv.ts",
+        "mode": "100644",
+        "blob": "e546bf80110bc6744f892b4e9f9f99f2d787a586",
+        "kind": "file",
+        "sha256": "f95cb7e04f0077ffaa30c954119239a29749a71aea6f80fdf27688ce410f7fa7",
+        "normalizedSha256": "f95cb7e04f0077ffaa30c954119239a29749a71aea6f80fdf27688ce410f7fa7",
+        "encoding": "utf8-lf",
+        "bytes": 8903
+      },
+      {
+        "path": "packages/services/src/runtime-tools/runtimeLoginShellEnvCapture.ts",
+        "mode": "100644",
+        "blob": "38f7d1b24baf11a03dfbd1a68a7cdb149ddb79f0",
+        "kind": "file",
+        "sha256": "ebbbc3af3aa9cc3e0d735d0ccd3b85c53c2279001e2844938ee99395ebe3aba8",
+        "normalizedSha256": "ebbbc3af3aa9cc3e0d735d0ccd3b85c53c2279001e2844938ee99395ebe3aba8",
+        "encoding": "utf8-lf",
+        "bytes": 8681
+      },
+      {
+        "path": "packages/services/src/runtime-tools/runtimeToolResolver.ts",
+        "mode": "100644",
+        "blob": "20cdf328708ca89018759e279a42a0348b3fc116",
+        "kind": "file",
+        "sha256": "87358390b92ec4dfdbfb57f9d21a6b087fc98e24d9089543783901f7ac41b1bb",
+        "normalizedSha256": "87358390b92ec4dfdbfb57f9d21a6b087fc98e24d9089543783901f7ac41b1bb",
+        "encoding": "utf8-lf",
+        "bytes": 4925
+      },
+      {
+        "path": "packages/services/src/session/automationCron.ts",
+        "mode": "100644",
+        "blob": "56e3d225aa8f095123ee114fe832b3fcce698bde",
+        "kind": "file",
+        "sha256": "b874b325ecec36092ec5c4574df1ac30262673f425fa1a2723776f5d0cf3a6e5",
+        "normalizedSha256": "b874b325ecec36092ec5c4574df1ac30262673f425fa1a2723776f5d0cf3a6e5",
+        "encoding": "utf8-lf",
+        "bytes": 15231
+      },
+      {
+        "path": "packages/services/src/session/automationIntervalCarrier.ts",
+        "mode": "100644",
+        "blob": "517c32d3b19b016ceb859e226721dd0e285169dc",
+        "kind": "file",
+        "sha256": "4a9663f1b24abfedda6e6772999370af4f332fbb457edfe7eed960dde4bc17d0",
+        "normalizedSha256": "4a9663f1b24abfedda6e6772999370af4f332fbb457edfe7eed960dde4bc17d0",
+        "encoding": "utf8-lf",
+        "bytes": 3113
+      },
+      {
+        "path": "packages/services/src/session/automationRepo.ts",
+        "mode": "100644",
+        "blob": "faf964e0b82b6e9bda1f4160018b29ea5674552b",
+        "kind": "file",
+        "sha256": "8f0289a96843b9ba3945c50d94db9e6898efa33b924477213eb4555e27e0d694",
+        "normalizedSha256": "8f0289a96843b9ba3945c50d94db9e6898efa33b924477213eb4555e27e0d694",
+        "encoding": "utf8-lf",
+        "bytes": 55883
+      },
+      {
+        "path": "packages/services/src/session/automationService.ts",
+        "mode": "100644",
+        "blob": "4b4d28e94b04d201586f80c5e88576a41e5157e8",
+        "kind": "file",
+        "sha256": "021d265cc951242e70c71d53ba2250547fb4a36b79fb4bc5a2404c45d7f0bc7c",
+        "normalizedSha256": "021d265cc951242e70c71d53ba2250547fb4a36b79fb4bc5a2404c45d7f0bc7c",
+        "encoding": "utf8-lf",
+        "bytes": 20905
+      },
+      {
+        "path": "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts",
+        "mode": "100644",
+        "blob": "4952cafef8daaf86ef1149b50f46fb8fc6cabcf9",
+        "kind": "file",
+        "sha256": "a4ffb5a0111c3d88f57b5ecaa7f3507dfb02450fa1d030a5e6200e45b969a713",
+        "normalizedSha256": "a4ffb5a0111c3d88f57b5ecaa7f3507dfb02450fa1d030a5e6200e45b969a713",
+        "encoding": "utf8-lf",
+        "bytes": 2814
+      },
+      {
+        "path": "packages/services/src/session/claude-native/claudeNativeImportedSessionTypes.ts",
+        "mode": "100644",
+        "blob": "c9e6d449b11554ed5aebc9cb3be762abe2b4cee9",
+        "kind": "file",
+        "sha256": "4c12a7aebdb4cad08eeca4e890dfe877b6832aa2ad70df349557a6a1e1245b37",
+        "normalizedSha256": "4c12a7aebdb4cad08eeca4e890dfe877b6832aa2ad70df349557a6a1e1245b37",
+        "encoding": "utf8-lf",
+        "bytes": 606
+      },
+      {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+        "mode": "100644",
+        "blob": "34eab7960c6560290ebc4bf58fd61739f9354b60",
+        "kind": "file",
+        "sha256": "eb6a3eca933e24a91da25294ce1c907ad0f5b7ca1ebaaae30c50642936954d1d",
+        "normalizedSha256": "eb6a3eca933e24a91da25294ce1c907ad0f5b7ca1ebaaae30c50642936954d1d",
+        "encoding": "utf8-lf",
+        "bytes": 13042
+      },
+      {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+        "mode": "100644",
+        "blob": "2adeb4284d11aacc4ef03c4e78fc990e66c93e75",
+        "kind": "file",
+        "sha256": "5ac59b845044677a73a3b86f282ec6cea6175b75cc51c4231848bcf8628ccae2",
+        "normalizedSha256": "5ac59b845044677a73a3b86f282ec6cea6175b75cc51c4231848bcf8628ccae2",
+        "encoding": "utf8-lf",
+        "bytes": 9905
+      },
+      {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+        "mode": "100644",
+        "blob": "c7d81b084e43c44495334602abed33fb3fbda19b",
+        "kind": "file",
+        "sha256": "8cc1f44e351ab1b18d5271c0827cb69758abfff920a7c2058e9d3e77bbd2bc78",
+        "normalizedSha256": "8cc1f44e351ab1b18d5271c0827cb69758abfff920a7c2058e9d3e77bbd2bc78",
+        "encoding": "utf8-lf",
+        "bytes": 6688
+      },
+      {
+        "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+        "mode": "100644",
+        "blob": "9753d912d6b479abd11b00a4751338eb1c5dec98",
+        "kind": "file",
+        "sha256": "ee146c996ee9644fce7fdb42c9ea817bd9dd3dc37721960ee67e6f1ef4559dfa",
+        "normalizedSha256": "ee146c996ee9644fce7fdb42c9ea817bd9dd3dc37721960ee67e6f1ef4559dfa",
+        "encoding": "utf8-lf",
+        "bytes": 8003
+      },
+      {
+        "path": "packages/services/src/session/claude-native/persistImportedClaudeTask.ts",
+        "mode": "100644",
+        "blob": "9b1dcd36a912d42f9993db0848be09b6b6a9462e",
+        "kind": "file",
+        "sha256": "4df78aa0e70dfa4b0fd38156ae810e81f84418248ad6f80cd6fa946180fa3253",
+        "normalizedSha256": "4df78aa0e70dfa4b0fd38156ae810e81f84418248ad6f80cd6fa946180fa3253",
+        "encoding": "utf8-lf",
+        "bytes": 3373
+      },
+      {
+        "path": "packages/services/src/session/legacyTaskSessionFile.ts",
+        "mode": "100644",
+        "blob": "4e4f06989a82c7c5b2ab944f583ef444d4d1839a",
+        "kind": "file",
+        "sha256": "90530ef8abd07f2ca1da265eb037396d5183f3b8dc699b5a8c47f63ea80d060b",
+        "normalizedSha256": "90530ef8abd07f2ca1da265eb037396d5183f3b8dc699b5a8c47f63ea80d060b",
+        "encoding": "utf8-lf",
+        "bytes": 915
+      },
+      {
+        "path": "packages/services/src/session/mcpWorkspaceScope.ts",
+        "mode": "100644",
+        "blob": "991ba2d3cda59771bd1d28e6bf2f58ca96519049",
+        "kind": "file",
+        "sha256": "127b3d9f6292323acf0480d96a311fae71030239315a9438a38556fc88391078",
+        "normalizedSha256": "127b3d9f6292323acf0480d96a311fae71030239315a9438a38556fc88391078",
+        "encoding": "utf8-lf",
+        "bytes": 1901
+      },
+      {
+        "path": "packages/services/src/session/offPeakMockGateway.ts",
+        "mode": "100644",
+        "blob": "332e92af5fd8cad4baf2e9fc33ed46e31f18df51",
+        "kind": "file",
+        "sha256": "49b3d260a4fe178c79d4592681398ff4e096a07c705c53c0903c300f42e141ec",
+        "normalizedSha256": "49b3d260a4fe178c79d4592681398ff4e096a07c705c53c0903c300f42e141ec",
+        "encoding": "utf8-lf",
+        "bytes": 29066
+      },
+      {
+        "path": "packages/services/src/session/offPeakRuntimeModel.ts",
+        "mode": "100644",
+        "blob": "19bdc32f5793d78735fce9a909074e71a422405b",
+        "kind": "file",
+        "sha256": "0976cbe7fdbd1d21a78e5b26f01270aed15086e039e00b913ea9b689ee54bbb6",
+        "normalizedSha256": "0976cbe7fdbd1d21a78e5b26f01270aed15086e039e00b913ea9b689ee54bbb6",
+        "encoding": "utf8-lf",
+        "bytes": 13739
+      },
+      {
+        "path": "packages/services/src/session/offPeakServerClient.ts",
+        "mode": "100644",
+        "blob": "264f8499655ee5de2e583a3a87d988504b2c336a",
+        "kind": "file",
+        "sha256": "17fb39034bd5d8f18c225f1aa95b0c61681769f8e4f411db884c7493aa5a44e7",
+        "normalizedSha256": "17fb39034bd5d8f18c225f1aa95b0c61681769f8e4f411db884c7493aa5a44e7",
+        "encoding": "utf8-lf",
+        "bytes": 10783
+      },
+      {
+        "path": "packages/services/src/session/offPeakTask.ts",
+        "mode": "100644",
+        "blob": "3df9bedd9c80dc4246168fefd090990b922cb19d",
+        "kind": "file",
+        "sha256": "47c5d36c5d5bc723e4007aea044c7710b7c8b922af40b07eaae5fbe62c598446",
+        "normalizedSha256": "47c5d36c5d5bc723e4007aea044c7710b7c8b922af40b07eaae5fbe62c598446",
+        "encoding": "utf8-lf",
+        "bytes": 2100
+      },
+      {
+        "path": "packages/services/src/session/offPeakTaskRepo.ts",
+        "mode": "100644",
+        "blob": "bd98782a6c889a02c5c335ab7d5783adeaf0d626",
+        "kind": "file",
+        "sha256": "6a73e33cea4eba794cef4e64f0cc358b1a24b5fa3638f9ff2de8bd16c8608d5e",
+        "normalizedSha256": "6a73e33cea4eba794cef4e64f0cc358b1a24b5fa3638f9ff2de8bd16c8608d5e",
+        "encoding": "utf8-lf",
+        "bytes": 31185
+      },
+      {
+        "path": "packages/services/src/session/offPeakTaskService.ts",
+        "mode": "100644",
+        "blob": "9faccb3303df29fb9b667bf2c8256b8189b4f186",
+        "kind": "file",
+        "sha256": "1e19c221e46828c4987b9b2ca7946ff48e862ce77c3247a1bd0ec2f3045c4794",
+        "normalizedSha256": "1e19c221e46828c4987b9b2ca7946ff48e862ce77c3247a1bd0ec2f3045c4794",
+        "encoding": "utf8-lf",
+        "bytes": 25855
+      },
+      {
+        "path": "packages/services/src/session/sessionRealtimePort.ts",
+        "mode": "100644",
+        "blob": "77e84c60fa42eff16f82e3d4ccb57758fdade692",
+        "kind": "file",
+        "sha256": "1a753dbeb43631c6f01a4c28c14fdd7309f41222dcb271e265e357fac5e7bc25",
+        "normalizedSha256": "1a753dbeb43631c6f01a4c28c14fdd7309f41222dcb271e265e357fac5e7bc25",
+        "encoding": "utf8-lf",
+        "bytes": 1879
+      },
+      {
+        "path": "packages/services/src/session/sessionTitle.ts",
+        "mode": "100644",
+        "blob": "6b6b778e65afd77ee8d405a9c88fef64f1db8bb3",
+        "kind": "file",
+        "sha256": "db7cc9176dda5fa106f3928366afc763e970f53dd96537526ede5b47d0c4286f",
+        "normalizedSha256": "db7cc9176dda5fa106f3928366afc763e970f53dd96537526ede5b47d0c4286f",
+        "encoding": "utf8-lf",
+        "bytes": 514
+      },
+      {
+        "path": "packages/services/src/session/taskChangeSummary.ts",
+        "mode": "100644",
+        "blob": "67ddef90ec4126d8de716d77066bf78c4b835878",
+        "kind": "file",
+        "sha256": "f88750aebd067057861158b444a537e48065074a9387b9c44359015a482e7106",
+        "normalizedSha256": "f88750aebd067057861158b444a537e48065074a9387b9c44359015a482e7106",
+        "encoding": "utf8-lf",
+        "bytes": 3965
+      },
+      {
+        "path": "packages/services/src/session/taskIndexRepo.ts",
+        "mode": "100644",
+        "blob": "4bfc84e2a3fb5b743ef141c9aa8feec7d46f25e9",
+        "kind": "file",
+        "sha256": "d629b280dc359937629ae16e30ccd13e84b0b190a35406df6f852f934ffe310c",
+        "normalizedSha256": "d629b280dc359937629ae16e30ccd13e84b0b190a35406df6f852f934ffe310c",
+        "encoding": "utf8-lf",
+        "bytes": 91041
+      },
+      {
+        "path": "packages/services/src/session/tasksDatabase/migrations.ts",
+        "mode": "100644",
+        "blob": "0def79c5a49727ab06ae73c506c37f2d047d64bc",
+        "kind": "file",
+        "sha256": "44788cf184546b856a46336a09c0366bcb7148ffdecc7211f2462ef20e5be299",
+        "normalizedSha256": "44788cf184546b856a46336a09c0366bcb7148ffdecc7211f2462ef20e5be299",
+        "encoding": "utf8-lf",
+        "bytes": 8703
+      },
+      {
+        "path": "packages/services/src/session/tasksDatabase/provider-selection-v2.ts",
+        "mode": "100644",
+        "blob": "52f1de163e3c24259ffe6c4950f45e697665c0c8",
+        "kind": "file",
+        "sha256": "810534c9603dcd77db70bd2984ca41c4153aef3d13e63397749e394e979c5c5a",
+        "normalizedSha256": "810534c9603dcd77db70bd2984ca41c4153aef3d13e63397749e394e979c5c5a",
+        "encoding": "utf8-lf",
+        "bytes": 4088
+      },
+      {
+        "path": "packages/services/src/session/tasksDatabase/startup.ts",
+        "mode": "100644",
+        "blob": "08a4bd483339497c3f7695c48b6f08e0b74f9027",
+        "kind": "file",
+        "sha256": "248847f6c5fd82405fe8106b40b771906d8e072cf8b5051bd172a1c44afcf0ad",
+        "normalizedSha256": "248847f6c5fd82405fe8106b40b771906d8e072cf8b5051bd172a1c44afcf0ad",
+        "encoding": "utf8-lf",
+        "bytes": 4559
+      },
+      {
+        "path": "packages/services/src/session/zcodeTaskListTypes.ts",
+        "mode": "100644",
+        "blob": "646124b9df30f4816d00b53a8def43771965fb28",
+        "kind": "file",
+        "sha256": "d1a637fef7a84002c0445777d2d426782c78337998c22580f9f8d4ec66dfbfa6",
+        "normalizedSha256": "d1a637fef7a84002c0445777d2d426782c78337998c22580f9f8d4ec66dfbfa6",
+        "encoding": "utf8-lf",
+        "bytes": 3584
+      },
+      {
+        "path": "packages/services/src/session/zcodeTaskService.ts",
+        "mode": "100644",
+        "blob": "d6e4adfbd73e3bd076d9c77e9244d0230a9ae418",
+        "kind": "file",
+        "sha256": "2433a390ac3e10193f093b69c7238af71cf7ab7ab7682e07a812a96a4c1b16e8",
+        "normalizedSha256": "2433a390ac3e10193f093b69c7238af71cf7ab7ab7682e07a812a96a4c1b16e8",
+        "encoding": "utf8-lf",
+        "bytes": 25424
+      },
+      {
+        "path": "packages/services/src/setting/legacyAccountConnectionSettings.ts",
+        "mode": "100644",
+        "blob": "6a167ea76741088f05d90053d18cac8e1176e6f8",
+        "kind": "file",
+        "sha256": "54046acca24f9b8bcc3fcca020a40e8057e7834669031a7e992bea08a2121326",
+        "normalizedSha256": "54046acca24f9b8bcc3fcca020a40e8057e7834669031a7e992bea08a2121326",
+        "encoding": "utf8-lf",
+        "bytes": 4390
+      },
+      {
+        "path": "packages/services/src/setting/normalizeSettingsPatch.ts",
+        "mode": "100644",
+        "blob": "43a8c656ee50cb602f9238094d2ad1420dcdfca4",
+        "kind": "file",
+        "sha256": "0aae2586ecceec23ae3c3c5f20ba1025d4b73da4e96ebdd7642adcd84b91e208",
+        "normalizedSha256": "0aae2586ecceec23ae3c3c5f20ba1025d4b73da4e96ebdd7642adcd84b91e208",
+        "encoding": "utf8-lf",
+        "bytes": 4201
+      },
+      {
+        "path": "packages/services/src/setting/observableSettingService.ts",
+        "mode": "100644",
+        "blob": "0c48b09171a1050a90b8340dd73db3f29146e5b4",
+        "kind": "file",
+        "sha256": "6e052c314942dd19c41322754f2fb2aa5f5589a24be13e4ce12814b9bf1c0bf6",
+        "normalizedSha256": "6e052c314942dd19c41322754f2fb2aa5f5589a24be13e4ce12814b9bf1c0bf6",
+        "encoding": "utf8-lf",
+        "bytes": 1227
+      },
+      {
+        "path": "packages/services/src/setting/setting.ts",
+        "mode": "100644",
+        "blob": "53720ae9d1c18205c52af5f2884208d329a5b400",
+        "kind": "file",
+        "sha256": "11c0217c8021a9d7f3c2f142b6e72070df9f4487760a8e0080d7d82a0bbcd965",
+        "normalizedSha256": "11c0217c8021a9d7f3c2f142b6e72070df9f4487760a8e0080d7d82a0bbcd965",
+        "encoding": "utf8-lf",
+        "bytes": 775
+      },
+      {
+        "path": "packages/services/src/setting/settingService.ts",
+        "mode": "100644",
+        "blob": "afa9f5dd00e6d2dfcc555e27d22530ca2d3eb1e8",
+        "kind": "file",
+        "sha256": "9911970900ec25ce2d2e1fc3cc1f2ddb0dbef69f672bcc0c5c9260a16ec6c91f",
+        "normalizedSha256": "9911970900ec25ce2d2e1fc3cc1f2ddb0dbef69f672bcc0c5c9260a16ec6c91f",
+        "encoding": "utf8-lf",
+        "bytes": 18310
+      },
+      {
+        "path": "packages/services/src/setting/settingsWriteQueue.ts",
+        "mode": "100644",
+        "blob": "66ad283b319582857ce9857f4629cbd4375c26d7",
+        "kind": "file",
+        "sha256": "19202c415f9fccb7cc490da00d895f7aa2e0dc88ebcd6a8977bcd24437ede0eb",
+        "normalizedSha256": "19202c415f9fccb7cc490da00d895f7aa2e0dc88ebcd6a8977bcd24437ede0eb",
+        "encoding": "utf8-lf",
+        "bytes": 1689
+      },
+      {
+        "path": "packages/services/src/settings-sync/settingsSync.ts",
+        "mode": "100644",
+        "blob": "821e1d785b8cb11fcc82b3c879512b1942db20d9",
+        "kind": "file",
+        "sha256": "8df6e37298b8982f4ccc9e2e10c52c3e546634a5964adf9a8706b7d5d0e9effb",
+        "normalizedSha256": "8df6e37298b8982f4ccc9e2e10c52c3e546634a5964adf9a8706b7d5d0e9effb",
+        "encoding": "utf8-lf",
+        "bytes": 1474
+      },
+      {
+        "path": "packages/services/src/settings-sync/settingsSyncService.ts",
+        "mode": "100644",
+        "blob": "492984b2a493c128115fb1f2f1f2c409f5bf610c",
+        "kind": "file",
+        "sha256": "14da9d5fee686d8f0ffe976aebe6a3cbbdd8128da133a2a847e57d3cda38c7f6",
+        "normalizedSha256": "14da9d5fee686d8f0ffe976aebe6a3cbbdd8128da133a2a847e57d3cda38c7f6",
+        "encoding": "utf8-lf",
+        "bytes": 75303
+      },
+      {
+        "path": "packages/services/src/skill-sync/skillSync.ts",
+        "mode": "100644",
+        "blob": "109e1913a86090f5ce2f118df4c0c197d932a69f",
+        "kind": "file",
+        "sha256": "586b4ad26da214ed2e1635c976eec7c8a0181a7afb89de42a15d8f002d95388d",
+        "normalizedSha256": "586b4ad26da214ed2e1635c976eec7c8a0181a7afb89de42a15d8f002d95388d",
+        "encoding": "utf8-lf",
+        "bytes": 1001
+      },
+      {
+        "path": "packages/services/src/skill-sync/skillSyncArchive.ts",
+        "mode": "100644",
+        "blob": "8f59d8a498c1494fdff6b5a14644a74a77a0cc1a",
+        "kind": "file",
+        "sha256": "9cb1eb238bb29b01d9cbd452766edafb9c1fd42d2408b721e5f95dc9190590a5",
+        "normalizedSha256": "9cb1eb238bb29b01d9cbd452766edafb9c1fd42d2408b721e5f95dc9190590a5",
+        "encoding": "utf8-lf",
+        "bytes": 10394
+      },
+      {
+        "path": "packages/services/src/skill-sync/skillSyncErrors.ts",
+        "mode": "100644",
+        "blob": "bda7c87a675218c573e0c4a0ef777bd2b63bb1e0",
+        "kind": "file",
+        "sha256": "2681e0da2a9a92702077ad7a4429b87d04e84a96fddb9890db281b4cbf996f6f",
+        "normalizedSha256": "2681e0da2a9a92702077ad7a4429b87d04e84a96fddb9890db281b4cbf996f6f",
+        "encoding": "utf8-lf",
+        "bytes": 858
+      },
+      {
+        "path": "packages/services/src/skill-sync/skillSyncService.ts",
+        "mode": "100644",
+        "blob": "bfe97eadadba4e307582a93d8f63bef9b4d38507",
+        "kind": "file",
+        "sha256": "9beee837b9250404cdd29f10c6cc0827f5b7bac854bccbb544a34450e030433d",
+        "normalizedSha256": "9beee837b9250404cdd29f10c6cc0827f5b7bac854bccbb544a34450e030433d",
+        "encoding": "utf8-lf",
+        "bytes": 17914
+      },
+      {
+        "path": "packages/services/src/skills/skillDiscoveryWalk.ts",
+        "mode": "100644",
+        "blob": "a30adc8fc4ad372afbffc982e0b790c35c4e1f86",
+        "kind": "file",
+        "sha256": "da3bf0bd4e8c65a84a83ef36e3b73960c51a828d2a2d1d36e9b8e6990fdf6dc1",
+        "normalizedSha256": "da3bf0bd4e8c65a84a83ef36e3b73960c51a828d2a2d1d36e9b8e6990fdf6dc1",
+        "encoding": "utf8-lf",
+        "bytes": 3447
+      },
+      {
+        "path": "packages/services/src/skills/skills.ts",
+        "mode": "100644",
+        "blob": "c1326b1448b522aa8c330136661673cb4b9c96f1",
+        "kind": "file",
+        "sha256": "f3e9da868cde52bc7cd9ff16dc4e0c79df9dc54df1218993a87f8f4967a5c74c",
+        "normalizedSha256": "f3e9da868cde52bc7cd9ff16dc4e0c79df9dc54df1218993a87f8f4967a5c74c",
+        "encoding": "utf8-lf",
+        "bytes": 1674
+      },
+      {
+        "path": "packages/services/src/skills/skillsService.ts",
+        "mode": "100644",
+        "blob": "11299b85c8b344a262378f98e2632abb16538eaf",
+        "kind": "file",
+        "sha256": "85e5f5d3ca1eaf296bbaed5d1b1941cf503a8e10f2da1062db4bdcbbde01b590",
+        "normalizedSha256": "85e5f5d3ca1eaf296bbaed5d1b1941cf503a8e10f2da1062db4bdcbbde01b590",
+        "encoding": "utf8-lf",
+        "bytes": 42831
+      },
+      {
+        "path": "packages/services/src/storage-startup.ts",
+        "mode": "100644",
+        "blob": "e418e95a8e0c3a3f19015ebb446c74a1b684ec06",
+        "kind": "file",
+        "sha256": "f4e09ac3c773f25309ebacf087403c27b1c94dfd2989cf81067ed152cfda5226",
+        "normalizedSha256": "f4e09ac3c773f25309ebacf087403c27b1c94dfd2989cf81067ed152cfda5226",
+        "encoding": "utf8-lf",
+        "bytes": 404
+      },
+      {
+        "path": "packages/services/src/storage/adapters/fsWalker.ts",
+        "mode": "100644",
+        "blob": "f183419ab7e2f840fd8d717322bde20a8f15abfd",
+        "kind": "file",
+        "sha256": "50b32f4ca89f41395241e29b1a786df3d78fcd010a24b71f9b6a0ec6afbe86d4",
+        "normalizedSha256": "50b32f4ca89f41395241e29b1a786df3d78fcd010a24b71f9b6a0ec6afbe86d4",
+        "encoding": "utf8-lf",
+        "bytes": 4540
+      },
+      {
+        "path": "packages/services/src/storage/adapters/inProcessScanRunner.ts",
+        "mode": "100644",
+        "blob": "1f5087440118fb49d75e82f30db18e7a5224fde4",
+        "kind": "file",
+        "sha256": "6534cd318669f79558850576c172c64857c492791e76ec0965d1a0c381672d5d",
+        "normalizedSha256": "6534cd318669f79558850576c172c64857c492791e76ec0965d1a0c381672d5d",
+        "encoding": "utf8-lf",
+        "bytes": 2119
+      },
+      {
+        "path": "packages/services/src/storage/adapters/rootsResolver.ts",
+        "mode": "100644",
+        "blob": "e896ce84e5f2c0e3d7a166ac06c5808876eead31",
+        "kind": "file",
+        "sha256": "664067ee9613df1cfa89e6daca23ba23129e795a0eff6fa1037f1f7f176fb10d",
+        "normalizedSha256": "664067ee9613df1cfa89e6daca23ba23129e795a0eff6fa1037f1f7f176fb10d",
+        "encoding": "utf8-lf",
+        "bytes": 1312
+      },
+      {
+        "path": "packages/services/src/storage/adapters/volumeProbe.ts",
+        "mode": "100644",
+        "blob": "043c3ced654992a5ff970110cfa275dc20d61f13",
+        "kind": "file",
+        "sha256": "fd14f9c8dc44d2c69514b20bf9227a273129206191298bfbaad99e3a46fefa79",
+        "normalizedSha256": "fd14f9c8dc44d2c69514b20bf9227a273129206191298bfbaad99e3a46fefa79",
+        "encoding": "utf8-lf",
+        "bytes": 1358
+      },
+      {
+        "path": "packages/services/src/storage/app/ports.ts",
+        "mode": "100644",
+        "blob": "fad5378a6d43f6ffdb252c2f30d0c137c8a2568c",
+        "kind": "file",
+        "sha256": "783b9ed5ddd24c2dbcc6babf5b84c370e99b3af81b03aa20f01891a296bf9a2b",
+        "normalizedSha256": "783b9ed5ddd24c2dbcc6babf5b84c370e99b3af81b03aa20f01891a296bf9a2b",
+        "encoding": "utf8-lf",
+        "bytes": 1464
+      },
+      {
+        "path": "packages/services/src/storage/app/scanJob.ts",
+        "mode": "100644",
+        "blob": "132085f8175dd85f5c39e7813a837cf86aff3848",
+        "kind": "file",
+        "sha256": "7d68e816dd55b8a8dd0c9a1a46de315c3e48fb88837843b017f0c27a08cab829",
+        "normalizedSha256": "7d68e816dd55b8a8dd0c9a1a46de315c3e48fb88837843b017f0c27a08cab829",
+        "encoding": "utf8-lf",
+        "bytes": 3269
+      },
+      {
+        "path": "packages/services/src/storage/app/storageService.ts",
+        "mode": "100644",
+        "blob": "926a4f1f692ebe8d74b82c3e4f2b9abe3abe8b2e",
+        "kind": "file",
+        "sha256": "af64c454e55ed531eacec8425a1a6e592ac0a3e00f9bed577f93bd1de1a25bf2",
+        "normalizedSha256": "af64c454e55ed531eacec8425a1a6e592ac0a3e00f9bed577f93bd1de1a25bf2",
+        "encoding": "utf8-lf",
+        "bytes": 3939
+      },
+      {
+        "path": "packages/services/src/storage/contract.ts",
+        "mode": "100644",
+        "blob": "4f8209ef70a98cdcfeed3175b1f58be5c04bdd2f",
+        "kind": "file",
+        "sha256": "5111ebf2b6b15f67c0caa72c77e22243ff401e0c83b4b4b4a425b809b57a9e30",
+        "normalizedSha256": "5111ebf2b6b15f67c0caa72c77e22243ff401e0c83b4b4b4a425b809b57a9e30",
+        "encoding": "utf8-lf",
+        "bytes": 1213
+      },
+      {
+        "path": "packages/services/src/storage/domain/cleanPlan.ts",
+        "mode": "100644",
+        "blob": "7c904fdee4dd4b9635c200d5bfa54dbebd042124",
+        "kind": "file",
+        "sha256": "5743cd314a24bb29558cbc2a20ef0a3882d89e0ec566cf032733a16e1d62618a",
+        "normalizedSha256": "5743cd314a24bb29558cbc2a20ef0a3882d89e0ec566cf032733a16e1d62618a",
+        "encoding": "utf8-lf",
+        "bytes": 3010
+      },
+      {
+        "path": "packages/services/src/storage/domain/storageCatalog.ts",
+        "mode": "100644",
+        "blob": "015cbacded7bd03a8deb8e840e67dc8fea5dfede",
+        "kind": "file",
+        "sha256": "31621f6189a5dd01fc3441f69e260e18e613c09d7ac3230e2371d453fd688243",
+        "normalizedSha256": "31621f6189a5dd01fc3441f69e260e18e613c09d7ac3230e2371d453fd688243",
+        "encoding": "utf8-lf",
+        "bytes": 8255
+      },
+      {
+        "path": "packages/services/src/storage/domain/usageAggregate.ts",
+        "mode": "100644",
+        "blob": "92c17ba21f8889661b52ca854d37da1f9cae91ea",
+        "kind": "file",
+        "sha256": "a8da622b21b2a616c83a488b8d6c210d5a7cddfab497c921074f1c2b23ba663a",
+        "normalizedSha256": "a8da622b21b2a616c83a488b8d6c210d5a7cddfab497c921074f1c2b23ba663a",
+        "encoding": "utf8-lf",
+        "bytes": 3361
+      },
+      {
+        "path": "packages/services/src/subagents/subagentMarkdown.ts",
+        "mode": "100644",
+        "blob": "2a94517067babfd856c7ff01fae38b43c69221ab",
+        "kind": "file",
+        "sha256": "53f5b5683eb3a90439f603b5f901d6c2bc396acabf330608c71d1b77f52b3813",
+        "normalizedSha256": "53f5b5683eb3a90439f603b5f901d6c2bc396acabf330608c71d1b77f52b3813",
+        "encoding": "utf8-lf",
+        "bytes": 14342
+      },
+      {
+        "path": "packages/services/src/subagents/subagentModelSelection.ts",
+        "mode": "100644",
+        "blob": "2d4768a2d3a8b218a0caa21f0c3cb6f4351f7031",
+        "kind": "file",
+        "sha256": "442e7fb00aa03c84ab3480bea459d8eda2170bb89efdf2778d6f927356645f55",
+        "normalizedSha256": "442e7fb00aa03c84ab3480bea459d8eda2170bb89efdf2778d6f927356645f55",
+        "encoding": "utf8-lf",
+        "bytes": 484
+      },
+      {
+        "path": "packages/services/src/subagents/subagentStorage.ts",
+        "mode": "100644",
+        "blob": "b735b16e1a0f7afb2ff0004a8a236099159ee27e",
+        "kind": "file",
+        "sha256": "87951e9d41dc92453e05eb6b950ce3779fda323e77b147472a70780904e2842a",
+        "normalizedSha256": "87951e9d41dc92453e05eb6b950ce3779fda323e77b147472a70780904e2842a",
+        "encoding": "utf8-lf",
+        "bytes": 2258
+      },
+      {
+        "path": "packages/services/src/subagents/subagents.ts",
+        "mode": "100644",
+        "blob": "55c8cecd52a77f4a0048ed98b2ca57af6eb55472",
+        "kind": "file",
+        "sha256": "ee32b9737d5f651581e98ec35366d27deca8bf30ac71121f7e31080fc92028a4",
+        "normalizedSha256": "ee32b9737d5f651581e98ec35366d27deca8bf30ac71121f7e31080fc92028a4",
+        "encoding": "utf8-lf",
+        "bytes": 1542
+      },
+      {
+        "path": "packages/services/src/subagents/subagentsService.ts",
+        "mode": "100644",
+        "blob": "78684169d514507d55fb26ef00a6348445718137",
+        "kind": "file",
+        "sha256": "61d85c28d0961fb660c3fa0343badc84ac4c192566cf11e8cf37979291ee103f",
+        "normalizedSha256": "61d85c28d0961fb660c3fa0343badc84ac4c192566cf11e8cf37979291ee103f",
+        "encoding": "utf8-lf",
+        "bytes": 30498
+      },
+      {
+        "path": "packages/services/src/system/integratedTerminalShells.ts",
+        "mode": "100644",
+        "blob": "cd6ce07a42c2dbaab1b8d1e89b21df3121fdc2b6",
+        "kind": "file",
+        "sha256": "fd6bec6ce553539ef599b0ddada97e1ec805cc0b414a94c2058ef6653ebd116b",
+        "normalizedSha256": "fd6bec6ce553539ef599b0ddada97e1ec805cc0b414a94c2058ef6653ebd116b",
+        "encoding": "utf8-lf",
+        "bytes": 3702
+      },
+      {
+        "path": "packages/services/src/system/sshConfigAlias.ts",
+        "mode": "100644",
+        "blob": "6e59d0ed971b9d10c9d424304ee59c512be0c5f5",
+        "kind": "file",
+        "sha256": "4ccedcd049fa2a608adfd3efb0b317c24dd8d03b1305d7f62b3cd520806912ed",
+        "normalizedSha256": "4ccedcd049fa2a608adfd3efb0b317c24dd8d03b1305d7f62b3cd520806912ed",
+        "encoding": "utf8-lf",
+        "bytes": 17769
+      },
+      {
+        "path": "packages/services/src/system/system.ts",
+        "mode": "100644",
+        "blob": "544d6e6379af979b16820125312b0830de34eeb5",
+        "kind": "file",
+        "sha256": "5f71d7097e2e85961c1875a5eed84dea4231e7c470d3c02085164d11851b328a",
+        "normalizedSha256": "5f71d7097e2e85961c1875a5eed84dea4231e7c470d3c02085164d11851b328a",
+        "encoding": "utf8-lf",
+        "bytes": 560
+      },
+      {
+        "path": "packages/services/src/system/systemService.ts",
+        "mode": "100644",
+        "blob": "1cdac14ee85c37f965c35950c0811cef4980b037",
+        "kind": "file",
+        "sha256": "48aae3d87901973218384ff4029a15cf7f69fbbddded5e4656197d6449401132",
+        "normalizedSha256": "48aae3d87901973218384ff4029a15cf7f69fbbddded5e4656197d6449401132",
+        "encoding": "utf8-lf",
+        "bytes": 10861
+      },
+      {
+        "path": "packages/services/src/telemetry/telemetryCore.ts",
+        "mode": "100644",
+        "blob": "7ce0f29c1235b20473a1a84503ffe7391d2aff72",
+        "kind": "file",
+        "sha256": "f3839b539fd9a56bacb3fb18297bfd751179b3965bdb62ff1a0055f9abfa04cc",
+        "normalizedSha256": "f3839b539fd9a56bacb3fb18297bfd751179b3965bdb62ff1a0055f9abfa04cc",
+        "encoding": "utf8-lf",
+        "bytes": 21613
+      },
+      {
+        "path": "packages/services/src/terminal/terminal.ts",
+        "mode": "100644",
+        "blob": "e4a534c1a56bcfd9f7477f803a828da0972e57f5",
+        "kind": "file",
+        "sha256": "58827eb16d9db1b73095510e20c00e70b8c3aaf995f765b751fb9837158b0a9f",
+        "normalizedSha256": "58827eb16d9db1b73095510e20c00e70b8c3aaf995f765b751fb9837158b0a9f",
+        "encoding": "utf8-lf",
+        "bytes": 1047
+      },
+      {
+        "path": "packages/services/src/terminal/terminalProfile.ts",
+        "mode": "100644",
+        "blob": "156cfdc19749563b5d8380933e5687853c4afc64",
+        "kind": "file",
+        "sha256": "ac556a809665b088d2d2bb666b7981f56cedc5a0f5d2540e6e4707d418a54d4f",
+        "normalizedSha256": "ac556a809665b088d2d2bb666b7981f56cedc5a0f5d2540e6e4707d418a54d4f",
+        "encoding": "utf8-lf",
+        "bytes": 12123
+      },
+      {
+        "path": "packages/services/src/terminal/terminalService.ts",
+        "mode": "100644",
+        "blob": "882d78ac39d4033b29c8a6b48a05368ba93bec95",
+        "kind": "file",
+        "sha256": "7fba33e1a151e7e883c1e88510803468113cda9ec35a1993031624c6ce39f91f",
+        "normalizedSha256": "7fba33e1a151e7e883c1e88510803468113cda9ec35a1993031624c6ce39f91f",
+        "encoding": "utf8-lf",
+        "bytes": 15182
+      },
+      {
+        "path": "packages/services/src/usage-stats/providers/bigmodelSubscriptionProvider.ts",
+        "mode": "100644",
+        "blob": "d29c4fce9a0c80a651b72aa470e72bc8c1be1e9b",
+        "kind": "file",
+        "sha256": "65fd009dbecc7c97c5e082e457e3adf858b6859a81f2d3facd2a7a51d2982b86",
+        "normalizedSha256": "65fd009dbecc7c97c5e082e457e3adf858b6859a81f2d3facd2a7a51d2982b86",
+        "encoding": "utf8-lf",
+        "bytes": 2127
+      },
+      {
+        "path": "packages/services/src/usage-stats/providers/bigmodelUsageMonitorMapper.ts",
+        "mode": "100644",
+        "blob": "4fa2a6e26477945a6f2ab80f6301a0c6916aa1b7",
+        "kind": "file",
+        "sha256": "5990bd088f798d6969a6f10ce1dcd1d9fcb226e8a20cb2dd7e837453f8a1e160",
+        "normalizedSha256": "5990bd088f798d6969a6f10ce1dcd1d9fcb226e8a20cb2dd7e837453f8a1e160",
+        "encoding": "utf8-lf",
+        "bytes": 30881
+      },
+      {
+        "path": "packages/services/src/usage-stats/providers/bigmodelUsageMonitorRange.ts",
+        "mode": "100644",
+        "blob": "a56f4b89c123d3d4a9cbf82a60f037febc01bdfc",
+        "kind": "file",
+        "sha256": "411542af5f96949a6bd70fef706f1917475b1b4a106a75ff96d971ecbd5a8934",
+        "normalizedSha256": "411542af5f96949a6bd70fef706f1917475b1b4a106a75ff96d971ecbd5a8934",
+        "encoding": "utf8-lf",
+        "bytes": 5082
+      },
+      {
+        "path": "packages/services/src/usage-stats/providers/bigmodelUsageQuotaMapper.ts",
+        "mode": "100644",
+        "blob": "fbd26d02b449264f0b4b4b0162fdbf5ced19747a",
+        "kind": "file",
+        "sha256": "9ac16cf2db6a61b6b64d81ad9d03a73c639299610e88056ad005826bd30d8b67",
+        "normalizedSha256": "9ac16cf2db6a61b6b64d81ad9d03a73c639299610e88056ad005826bd30d8b67",
+        "encoding": "utf8-lf",
+        "bytes": 5181
+      },
+      {
+        "path": "packages/services/src/usage-stats/providers/bigmodelUsageQuotaProvider.ts",
+        "mode": "100644",
+        "blob": "a9f86a9bbb9bd04e4b0e69fa0477e274f5a094ef",
+        "kind": "file",
+        "sha256": "fbc9ff0c5598c44cfea358d3527913008471a4684ca4dee8e8eebc9705110e18",
+        "normalizedSha256": "fbc9ff0c5598c44cfea358d3527913008471a4684ca4dee8e8eebc9705110e18",
+        "encoding": "utf8-lf",
+        "bytes": 59397
+      },
+      {
+        "path": "packages/services/src/usage-stats/providers/zcodeMcpQuotaProvider.ts",
+        "mode": "100644",
+        "blob": "3c743c1f12084b48c2fc15ee064f1278f1600bde",
+        "kind": "file",
+        "sha256": "ac3ba4e0d782c159238d395963e798a9aa2d7643ff9bf005b96b517924b575b7",
+        "normalizedSha256": "ac3ba4e0d782c159238d395963e798a9aa2d7643ff9bf005b96b517924b575b7",
+        "encoding": "utf8-lf",
+        "bytes": 11801
+      },
+      {
+        "path": "packages/services/src/usage-stats/usageStats.ts",
+        "mode": "100644",
+        "blob": "704b1fc27ecd46d8bc0bc3428abaaaf0a0595e12",
+        "kind": "file",
+        "sha256": "afb9d25ab876a1effdf0c3adb494beffb727c3a25556eccf70cbc9bdd6c98a7d",
+        "normalizedSha256": "afb9d25ab876a1effdf0c3adb494beffb727c3a25556eccf70cbc9bdd6c98a7d",
+        "encoding": "utf8-lf",
+        "bytes": 1455
+      },
+      {
+        "path": "packages/services/src/usage-stats/usageStatsService.ts",
+        "mode": "100644",
+        "blob": "7e77fe74047063902c77b5bc65c9ac154ed60be8",
+        "kind": "file",
+        "sha256": "436abae7e33bf2cc3f29732d52e16a1bf6d30de130cdbde1c0853ef166c62392",
+        "normalizedSha256": "436abae7e33bf2cc3f29732d52e16a1bf6d30de130cdbde1c0853ef166c62392",
+        "encoding": "utf8-lf",
+        "bytes": 5286
+      },
+      {
+        "path": "packages/services/src/window-controller/windowController.ts",
+        "mode": "100644",
+        "blob": "6347856f168953ab21e756b421989289ef88ed0a",
+        "kind": "file",
+        "sha256": "198f5e456f633c2bc549badb32f61b3b2cc1ee106e8d14aa0f18a96d94279972",
+        "normalizedSha256": "198f5e456f633c2bc549badb32f61b3b2cc1ee106e8d14aa0f18a96d94279972",
+        "encoding": "utf8-lf",
+        "bytes": 2685
+      },
+      {
+        "path": "packages/services/src/zcode-agent/agentTelemetryEnv.ts",
+        "mode": "100644",
+        "blob": "27b63687ee0d59bf5d415b2319a0ff9e1e08d1f8",
+        "kind": "file",
+        "sha256": "f51ca790455e04579d550f7890e77c832ce5ac77784197125057e608773c8f15",
+        "normalizedSha256": "f51ca790455e04579d550f7890e77c832ce5ac77784197125057e608773c8f15",
+        "encoding": "utf8-lf",
+        "bytes": 1240
+      },
+      {
+        "path": "packages/services/src/zcode-agent/cuaOperationTurnTracker.ts",
+        "mode": "100644",
+        "blob": "681076b781f924d811aa745e719e05437b948ab3",
+        "kind": "file",
+        "sha256": "2cec3014cdf33e882d9723d960236733a08a245facec9e280d4a98fdd1687d6c",
+        "normalizedSha256": "2cec3014cdf33e882d9723d960236733a08a245facec9e280d4a98fdd1687d6c",
+        "encoding": "utf8-lf",
+        "bytes": 12834
+      },
+      {
+        "path": "packages/services/src/zcode-agent/independentPlanSupport.ts",
+        "mode": "100644",
+        "blob": "12e28930f7711643d71fe085ee137596f3179173",
+        "kind": "file",
+        "sha256": "7bcf0179a043311888f68f393741e9b072bd7bca0c370ef3c0125eda88aa747f",
+        "normalizedSha256": "7bcf0179a043311888f68f393741e9b072bd7bca0c370ef3c0125eda88aa747f",
+        "encoding": "utf8-lf",
+        "bytes": 941
+      },
+      {
+        "path": "packages/services/src/zcode-agent/modelTrajectory.ts",
+        "mode": "100644",
+        "blob": "80be85e30529a13fe31cff3af79abf18d69cbca4",
+        "kind": "file",
+        "sha256": "649ba4f919b6ea8c39b070a20a5b57217d6546234caf02defea418e3fa3643e8",
+        "normalizedSha256": "649ba4f919b6ea8c39b070a20a5b57217d6546234caf02defea418e3fa3643e8",
+        "encoding": "utf8-lf",
+        "bytes": 14909
+      },
+      {
+        "path": "packages/services/src/zcode-agent/modelTrajectoryFileTail.ts",
+        "mode": "100644",
+        "blob": "c83094dc7b95ed89d9c690247ad21185ffe5ca18",
+        "kind": "file",
+        "sha256": "6f7bbb42229ed1ccba376f4ffdb57ef5515166f0975a57aa19f0835ae9bf3231",
+        "normalizedSha256": "6f7bbb42229ed1ccba376f4ffdb57ef5515166f0975a57aa19f0835ae9bf3231",
+        "encoding": "utf8-lf",
+        "bytes": 1956
+      },
+      {
+        "path": "packages/services/src/zcode-agent/pluginReferenceCatalogRequest.ts",
+        "mode": "100644",
+        "blob": "76d99dbc0a77520cfced90fc9279c7ef2604da4c",
+        "kind": "file",
+        "sha256": "1eb0173a29e0b2b5770beff37d494e36a23b93ea23cec83fd9e244cdc6aa4183",
+        "normalizedSha256": "1eb0173a29e0b2b5770beff37d494e36a23b93ea23cec83fd9e244cdc6aa4183",
+        "encoding": "utf8-lf",
+        "bytes": 963
+      },
+      {
+        "path": "packages/services/src/zcode-agent/repairSubagentTaskIndex.ts",
+        "mode": "100644",
+        "blob": "c504349678568c3fadedc77bc0807f690d82b32e",
+        "kind": "file",
+        "sha256": "645f88d4894647d5c648c2df40cd8faef52f4cd5360871e3d3b87be98f71ba08",
+        "normalizedSha256": "645f88d4894647d5c648c2df40cd8faef52f4cd5360871e3d3b87be98f71ba08",
+        "encoding": "utf8-lf",
+        "bytes": 2000
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgent.ts",
+        "mode": "100644",
+        "blob": "ca5e171b687900eb87c4b820ab28146e1463050b",
+        "kind": "file",
+        "sha256": "636398abe7450e91c72711116a4459f6c2474b11fc16063c833db54a2a516d05",
+        "normalizedSha256": "636398abe7450e91c72711116a4459f6c2474b11fc16063c833db54a2a516d05",
+        "encoding": "utf8-lf",
+        "bytes": 36699
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentBrowserAmbientContext.ts",
+        "mode": "100644",
+        "blob": "e5aabd76239774a1df784c8a363a9f42c927a043",
+        "kind": "file",
+        "sha256": "39e904910229ff7299fa709fe4b4fd4e59a8cc077f25b22eeef019c643303795",
+        "normalizedSha256": "39e904910229ff7299fa709fe4b4fd4e59a8cc077f25b22eeef019c643303795",
+        "encoding": "utf8-lf",
+        "bytes": 4396
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentConnectionScope.ts",
+        "mode": "100644",
+        "blob": "785bef48b2e04c327c218b0e37b0b693d3325827",
+        "kind": "file",
+        "sha256": "458a9808c5fec8d822a4183782822b04c668cf1cbbb882842586ad0c09022910",
+        "normalizedSha256": "458a9808c5fec8d822a4183782822b04c668cf1cbbb882842586ad0c09022910",
+        "encoding": "utf8-lf",
+        "bytes": 40476
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentErrors.ts",
+        "mode": "100644",
+        "blob": "8af51a906358a45e6da9cca42c4936671a1dbd3f",
+        "kind": "file",
+        "sha256": "9eb47c4e50d7247083007ac4e3af3702aad4c7efd22d092145135fe056b93835",
+        "normalizedSha256": "9eb47c4e50d7247083007ac4e3af3702aad4c7efd22d092145135fe056b93835",
+        "encoding": "utf8-lf",
+        "bytes": 885
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentPluginParams.ts",
+        "mode": "100644",
+        "blob": "899a6471c367e4059c0194f98b40cf893eb05522",
+        "kind": "file",
+        "sha256": "b867c71c240d894cb282c5119982ea73f50ec3752ef59278d954b7ed6f5d6efb",
+        "normalizedSha256": "b867c71c240d894cb282c5119982ea73f50ec3752ef59278d954b7ed6f5d6efb",
+        "encoding": "utf8-lf",
+        "bytes": 4651
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentPresentationSurface.ts",
+        "mode": "100644",
+        "blob": "d8cc8c90e44d9b899f768335acc289201ba58c5f",
+        "kind": "file",
+        "sha256": "2fedd8950fe0d70da1ea6651337dfd5a3dcb2e2fcd5adeac4017bcfec21344fb",
+        "normalizedSha256": "2fedd8950fe0d70da1ea6651337dfd5a3dcb2e2fcd5adeac4017bcfec21344fb",
+        "encoding": "utf8-lf",
+        "bytes": 1073
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentProcessManager.ts",
+        "mode": "100644",
+        "blob": "7a8837f66bacbe62a84ca7cfa0c1285cecaa58c1",
+        "kind": "file",
+        "sha256": "993ed2c0132644771dd919bdda1626fa280d498ae513a1c10b3ad34cd21d314c",
+        "normalizedSha256": "993ed2c0132644771dd919bdda1626fa280d498ae513a1c10b3ad34cd21d314c",
+        "encoding": "utf8-lf",
+        "bytes": 58041
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentService.ts",
+        "mode": "100644",
+        "blob": "dd81501bd595beec6c96f59f8b3c417c5105ae38",
+        "kind": "file",
+        "sha256": "a2bb57f50a492439c3299ef71b52fce9b17df4aa18786a8e3af052ff46217e74",
+        "normalizedSha256": "a2bb57f50a492439c3299ef71b52fce9b17df4aa18786a8e3af052ff46217e74",
+        "encoding": "utf8-lf",
+        "bytes": 235487
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentSpawnCwd.ts",
+        "mode": "100644",
+        "blob": "b0f08ccbc1ea730149757e651afccc1231a24b85",
+        "kind": "file",
+        "sha256": "0f44b5fd648aa0373121022ecaaea69550e630c6add350aa7c7a52a3cde63486",
+        "normalizedSha256": "0f44b5fd648aa0373121022ecaaea69550e630c6add350aa7c7a52a3cde63486",
+        "encoding": "utf8-lf",
+        "bytes": 1084
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeAgentWorkflowParams.ts",
+        "mode": "100644",
+        "blob": "87b21e5ff0ab74aa5510b8362ea40f5eb65233ae",
+        "kind": "file",
+        "sha256": "11ed956e83e7ee5f31682c1d5a8f3d5e2453e4af24d20dbcfef59b4db2ad7a80",
+        "normalizedSha256": "11ed956e83e7ee5f31682c1d5a8f3d5e2453e4af24d20dbcfef59b4db2ad7a80",
+        "encoding": "utf8-lf",
+        "bytes": 2138
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeConfigOptions.ts",
+        "mode": "100644",
+        "blob": "b5b6ec84a6d5ae31cf4a34d8c80aded0061a5d33",
+        "kind": "file",
+        "sha256": "9503501498a33e92902d4d2e64cf39f6e3912404f4a816e2f64bb1be49931aeb",
+        "normalizedSha256": "9503501498a33e92902d4d2e64cf39f6e3912404f4a816e2f64bb1be49931aeb",
+        "encoding": "utf8-lf",
+        "bytes": 2434
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeProtocolClient.ts",
+        "mode": "100644",
+        "blob": "79ff42a84ebc31ff615dea8f115015ffdbd10eb3",
+        "kind": "file",
+        "sha256": "aa1f6735985bb0cb4b0c7c7f3affed450a80a8ee4856c9d89cb7f12c7dfc4a73",
+        "normalizedSha256": "aa1f6735985bb0cb4b0c7c7f3affed450a80a8ee4856c9d89cb7f12c7dfc4a73",
+        "encoding": "utf8-lf",
+        "bytes": 13157
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeProtocolTransport.ts",
+        "mode": "100644",
+        "blob": "08f80f2b605b8ed435cc03e127bec8d9a6fa9748",
+        "kind": "file",
+        "sha256": "e5d67a31f9b41b72f4fa7ac45e60d2139920a30520a133f257b2a14ec716b3c5",
+        "normalizedSha256": "e5d67a31f9b41b72f4fa7ac45e60d2139920a30520a133f257b2a14ec716b3c5",
+        "encoding": "utf8-lf",
+        "bytes": 635
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeSessionEventCoalescer.ts",
+        "mode": "100644",
+        "blob": "63f31aab53627265d17c92275203bb45c2f844aa",
+        "kind": "file",
+        "sha256": "de3002e35cc9764e94d87a5ac860a505e2e4046567994466b812410ba1aa7a60",
+        "normalizedSha256": "de3002e35cc9764e94d87a5ac860a505e2e4046567994466b812410ba1aa7a60",
+        "encoding": "utf8-lf",
+        "bytes": 5900
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeStdioTapDevConfig.ts",
+        "mode": "100644",
+        "blob": "203d4f44bdbb6d02c3f7f6338500f6945fb82d7d",
+        "kind": "file",
+        "sha256": "342d233a5fd33d87dc2abcd10510df9d0aa52994e60fb95daec9ec38716475e0",
+        "normalizedSha256": "342d233a5fd33d87dc2abcd10510df9d0aa52994e60fb95daec9ec38716475e0",
+        "encoding": "utf8-lf",
+        "bytes": 2048
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeStdioTransport.ts",
+        "mode": "100644",
+        "blob": "3904b298f3e5ba37b7f8e10d60a99b2b9bc807fe",
+        "kind": "file",
+        "sha256": "c6e0790cb7adacf7b4a9e40c2b2d902fecd81e4d13c5851e54ffeea5c6886ae4",
+        "normalizedSha256": "c6e0790cb7adacf7b4a9e40c2b2d902fecd81e4d13c5851e54ffeea5c6886ae4",
+        "encoding": "utf8-lf",
+        "bytes": 16229
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeStorageStartupGate.ts",
+        "mode": "100644",
+        "blob": "c1cfc54165f177889d95633cad4ad970b0f61313",
+        "kind": "file",
+        "sha256": "20c1f9e8449bf0674589d4eda67146170bd087e69fed43a44b77e9f53e8ef2ea",
+        "normalizedSha256": "20c1f9e8449bf0674589d4eda67146170bd087e69fed43a44b77e9f53e8ef2ea",
+        "encoding": "utf8-lf",
+        "bytes": 3919
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+        "mode": "100644",
+        "blob": "29fdca800b4d046dcb8f0f924b60ea2653150b58",
+        "kind": "file",
+        "sha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "normalizedSha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "encoding": "utf8-lf",
+        "bytes": 79009
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeTaskServiceAdapter.ts",
+        "mode": "100644",
+        "blob": "5991fdc19ac4cc458f7efe5b2b47e29044cafc12",
+        "kind": "file",
+        "sha256": "522c1de90bd7205093b8365e92bbdcadbe9d1b841c918f4b37c3fafab755a6ac",
+        "normalizedSha256": "522c1de90bd7205093b8365e92bbdcadbe9d1b841c918f4b37c3fafab755a6ac",
+        "encoding": "utf8-lf",
+        "bytes": 213335
+      },
+      {
+        "path": "packages/services/src/zcode-agent/zcodeV4HostCommand.ts",
+        "mode": "100644",
+        "blob": "660968b2ea028b4a9121a21c8ad7feb357799840",
+        "kind": "file",
+        "sha256": "22df932f77e2898a7a451ed7ac148ce9724c2d021af41d2e6584aa3fa9c20162",
+        "normalizedSha256": "22df932f77e2898a7a451ed7ac148ce9724c2d021af41d2e6584aa3fa9c20162",
+        "encoding": "utf8-lf",
+        "bytes": 6370
+      },
+      {
+        "path": "packages/services/src/zcode-session/importedClaudeSessionRepair.ts",
+        "mode": "100644",
+        "blob": "4f8cf20bf12a76facede9f7725d1edf962ef6e8b",
+        "kind": "file",
+        "sha256": "32ebec9e86f436703b76a05b240fb36b7a9b1d966897befeac31ab9c289036e8",
+        "normalizedSha256": "32ebec9e86f436703b76a05b240fb36b7a9b1d966897befeac31ab9c289036e8",
+        "encoding": "utf8-lf",
+        "bytes": 1477
+      },
+      {
+        "path": "packages/services/src/zcode-session/zcodeSession.ts",
+        "mode": "100644",
+        "blob": "6ad03bba23d527f6e813a4449f0ea44448a3da4a",
+        "kind": "file",
+        "sha256": "f212335c1ee42d6e718162027d626e3fafb1a67fe86f7316b6cf6835aa1401ff",
+        "normalizedSha256": "f212335c1ee42d6e718162027d626e3fafb1a67fe86f7316b6cf6835aa1401ff",
+        "encoding": "utf8-lf",
+        "bytes": 5412
+      },
+      {
+        "path": "packages/services/src/zcode-session/zcodeSessionApiRetry.ts",
+        "mode": "100644",
+        "blob": "7ade8623f733674d73575bb46a44b0a2bdc7ba5f",
+        "kind": "file",
+        "sha256": "a019f5c1fcf3c6c20df9d08729cbeaf11f2db6c498e464af7fdf6fefe4dab29d",
+        "normalizedSha256": "a019f5c1fcf3c6c20df9d08729cbeaf11f2db6c498e464af7fdf6fefe4dab29d",
+        "encoding": "utf8-lf",
+        "bytes": 4564
+      },
+      {
+        "path": "packages/services/src/zcode-session/zcodeSessionDraftRegistry.ts",
+        "mode": "100644",
+        "blob": "f3e8348091025e13755a619484d976e4df63d267",
+        "kind": "file",
+        "sha256": "8b83fb14984ea9b37b5817c3be8c9799b2a67e6a2281baf4e9e2e8307575e594",
+        "normalizedSha256": "8b83fb14984ea9b37b5817c3be8c9799b2a67e6a2281baf4e9e2e8307575e594",
+        "encoding": "utf8-lf",
+        "bytes": 1181
+      },
+      {
+        "path": "packages/services/src/zcode-session/zcodeSessionService.ts",
+        "mode": "100644",
+        "blob": "2753096f316e77627e6c8b9dd819d3f518a61702",
+        "kind": "file",
+        "sha256": "fe522860c8d8d7974385a0a8a42fad3c470509f4fbb1fd2734a319b78661618a",
+        "normalizedSha256": "fe522860c8d8d7974385a0a8a42fad3c470509f4fbb1fd2734a319b78661618a",
+        "encoding": "utf8-lf",
+        "bytes": 21859
+      }
+    ],
+    "matchMethod": "Trim nonblank lines >=12 characters; exclude import/comment-prefix lines; compare exact runs of8 meaningful lines >=160bytes. No identifier normalization or semantic clone detection. Zero findings does not prove absence of inheritance."
+  },
+  "priorRecords": [
+    {
+      "path": "specs/knorvia-creation.md",
+      "sha256": "1a410bab9e21df4cdce6a79142541c365a8701e3c0fecbcf53e3c18040df8325",
+      "firstLocalAppearance": "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24T22:50:46+08:00 chore: publish Knorvia Studio latest preview snapshot"
+    },
+    {
+      "path": "specs/knorvia-creation-polish.md",
+      "sha256": "ea7227c0931a2f5f80629c4c69845e5541a4b9817c7476b2e57545a98999fd58",
+      "firstLocalAppearance": "d1c058b6f86cb0b476807de4c8c4fda76f7e1712 2026-09-25T06:47:13+08:00 feat(creation): filter history, retry known failures and support video frames"
+    },
+    {
+      "path": "docs/knorvia-creation-provenance-report.md",
+      "sha256": "5773b7cd677f8b7494e003d035a39ac59c566f1e6f44da904e91f7d3eaf23cb1",
+      "firstLocalAppearance": "3dc3a624002b9487d44e7755832df0345363cd1d 2026-09-25T17:54:56+08:00 feat: \u521b\u4f5c\u53c2\u6570\u5feb\u7167\u3001\u6765\u6e90\u5173\u7cfb\u4e0e\u53ea\u8bfb\u8fdc\u7aef\u6838\u9a8c\uff08T09 \u670d\u52a1\u5c42\uff09"
+    },
+    {
+      "path": "docs/knorvia-creation-run-clock-acceptance.md",
+      "sha256": "ba90871ea0583700a710f17cce43ca052f0c22bf2af6dd3b7e370107f1944a18",
+      "firstLocalAppearance": "5e8d80a513549934b0c86d217c23b582c4b512a6 2026-09-29T14:30:38+08:00 fix(creation): separate run deadline tests from IO retry clocks"
+    },
+    {
+      "path": "licensing/evidence/repository-migration-scope-20260930.json",
+      "sha256": "8fe0751039d5e69e600984f506d04f9ad5a3949ae6f2def02b7a8c3db0d7b644",
+      "firstLocalAppearance": "fd2fed2b75b7a183da8facfae56be58c3fe1ad7d 2026-09-30T12:46:55Z Reimplement device identity and complete filesystem ports"
+    }
+  ],
+  "parentProvidedBindings": {
+    "source": "Parent source_thread01a0f025-c78c-7401-9ad2-a524f08d50e5 delegation2026-10-02",
+    "sevenAcceptedReviews": "Parent confirms no exact accepted review exists",
+    "creationReferenceRootSha256": "5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43",
+    "creationReferenceParentReceipt": "licensing/evidence/creation-reference-containment-20261001.json",
+    "receiptAvailableInLane": false,
+    "qualification": "Parent-provided bounded containment fix does not establish whole-file provenance; lane older reference source untouched. No fetch/copy/integration of root fix."
+  },
+  "recommendation": "Bounded retention recommendation for all seven current lane owners while exact-origin review remains open. Local Knorvia feature specs/development/extraction lineage supports not rewriting merely because reviews are absent. No substantive inherited owner body is demonstrated by accessible comparisons; no reconstruction scope proposed. This is not accepted-original classification, full upstream absence proof or licence clearance.",
+  "remainingEvidence": [
+    "True pre-root-snapshot authorship inputs/raw drafts/author access records unavailable",
+    "Upstream commit and264of298services blobs unavailable; no fetch/alternate retrieval attempted",
+    "Exact root creationReference containment receipt unavailable in lane; parent-only binding preserved",
+    "T09 report is feature provenance and run-clock receipt retains source rights; neither certifies whole-file independent origin"
+  ],
+  "existingBlockers": [
+    "missing ignore",
+    "missing croner",
+    "missing CUA entrypoints/export",
+    "missing yazl",
+    "historical59listenEPERM",
+    "commitMessageFileScope predecessor HOLD"
+  ],
+  "sourceUnchanged": true,
+  "limits": "No original/replacement acceptance or MIT claim. No source/license/global inventory/receipt/dependency/authority changes, actual provider or user-file/data operations, tests/builds, main merge or cross-lane integration.",
+  "investigationScript": {
+    "path": "/tmp/knorvia-creation-origin-investigation-20261002.py",
+    "sha256": "30510cf90d313d48f0e7ee2bc4c968153c68e61a2a039fed3ea0fe6c18a63416",
+    "contents": "from pathlib import Path\nimport json,hashlib,subprocess,collections\nroot=Path('/workspace/knorvia-studio')\ndef git(*args):\n p=subprocess.run(['git',*args],cwd=root,capture_output=True)\n return p.returncode,p.stdout,p.stderr\nnames=['contract.ts','creationJobs.ts','creationService.ts','creationStorage.ts','creationReference.ts','modelValidation.ts','providers.ts']\nbase=json.loads((root/'licensing/upstream-baseline.json').read_text());rows=base['files'];up=[r for r in rows if r['path'].startswith('packages/services/src/') and r['path'].endswith('.ts')]\n_,check,_=git('cat-file','--batch-check') if False else (None,None,None)\np=subprocess.run(['git','cat-file','--batch-check'],cwd=root,input=('\\n'.join(r['blob'] for r in up)+'\\n').encode(),capture_output=True)\navailable=[];missing=[]\nfor r,line in zip(up,p.stdout.decode().splitlines(),strict=True):\n (missing if line.endswith(' missing') else available).append(r)\ndef hashbytes(data):return hashlib.sha256(data).hexdigest()\ndef windows(data):\n lines=[s.strip() for s in data.decode('utf8').splitlines() if len(s.strip())>=12 and not s.strip().startswith(('import ','//','/*','*'))]\n result=[]\n for i in range(len(lines)-7):\n  chunk='\\n'.join(lines[i:i+8])\n  if len(chunk)>=160:result.append((hashbytes(chunk.encode()),i+1))\n return result\nindex=collections.defaultdict(list)\nfor r in available:\n code,data,err=git('cat-file','blob',r['blob']);assert code==0\n assert hashbytes(data)==r['sha256']\n for h,line in windows(data):index[h].append({'path':r['path'],'blob':r['blob'],'meaningfulLineIndex':line})\nrecords=[]\nfor name in names:\n path='packages/services/src/creation/'+name;current=(root/path).read_bytes()\n _,log,_=git('log','--follow','--diff-filter=A','--format=%H','--',path);commit=log.decode().strip();assert '\\n' not in commit\n _,data,_=git('show',commit+':'+path)\n _,blob,_=git('rev-parse',commit+':'+path)\n _,meta,_=git('show','-s','--format=%H%n%P%n%aI%n%an%n%s%n%B',commit)\n m=meta.decode().splitlines();fullMatches=[];runs=[]\n for stage,source in [('first-local-appearance',data),('lane-current',current)]:\n  h=hashbytes(source.replace(b'\\r\\n',b'\\n'))\n  fullMatches.append({'stage':stage,'normalizedSha256':h,'upstreamMatches':[r['path'] for r in rows if r.get('normalizedSha256')==h]})\n  for h,line in windows(source):\n   if h in index:runs.append({'stage':stage,'meaningfulLineIndex':line,'upstream':index[h]})\n _,history,_=git('log','--all','--full-history','--format=%H %aI %s','--',path)\n record={'path':path,'laneCurrentSha256':hashbytes(current),'firstLocalAppearance':{'commit':commit,'parents':m[1].split(),'date':m[2],'authorLabel':m[3],'subject':m[4],'message': '\\n'.join(m[5:]),'blob':blob.decode().strip(),'sha256':hashbytes(data),'bytes':len(data),'qualification':'Root snapshot has no parent and cannot establish pre-snapshot initial authorship' if not m[1] else 'First local path addition, not independent-origin certification'},'reachablePathHistory':history.decode().splitlines(),'fullFileUpstreamInventoryComparisons':fullMatches,'availableUpstreamEightMeaningfulLineMatches':runs,'route':'retain-source-unchanged; Knorvia feature/development lineage supported, whole-file origin pending; no demonstrated substantive inherited scope to reconstruct'}\n records.append(record)\nprint(json.dumps({'files':[{k:r[k] for k in ['path','laneCurrentSha256','firstLocalAppearance','availableUpstreamEightMeaningfulLineMatches']} for r in records],'upstreamPresent':len(available),'upstreamMissing':len(missing)},indent=2))\ncommitcheck=git('cat-file','-t',base['commit']);_,shallow,_=git('rev-parse','--is-shallow-repository')\nreceipts=[]\nfor name in ['specs/knorvia-creation.md','specs/knorvia-creation-polish.md','docs/knorvia-creation-provenance-report.md','docs/knorvia-creation-run-clock-acceptance.md','licensing/evidence/repository-migration-scope-20260930.json']:\n data=(root/name).read_bytes();_,log,_=git('log','--follow','--diff-filter=A','--format=%H %aI %s','--',name)\n receipts.append({'path':name,'sha256':hashbytes(data),'firstLocalAppearance':log.decode().strip()})\nresult={'schemaVersion':1,'date':'2026-10-02','checkpoint':'3661d9265f879bfc397419862dbbe241804bdf72','scope':names,'method':'Local Git path-history/objects, exact upstream inventory presence/hash comparisons, available upstream services blobs bounded 8 meaningful trimmed-line windows; no application code execution, external retrieval or data access','files':records,'upstream':{'manifest':'licensing/upstream-baseline.json','manifestSha256':hashbytes((root/'licensing/upstream-baseline.json').read_bytes()),'source':base['source'],'commit':base['commit'],'commitObjectCheck':{'exit':commitcheck[0],'stderr':commitcheck[2].decode()},'repositoryShallow':shallow.decode().strip(),'creationPaths': [r['path'] for r in rows if '/creation/' in r['path']],'servicesTypeScriptCount':len(up),'availableBlobs':available,'missingBlobs':missing,'matchMethod':'Trim nonblank lines >=12 characters; exclude import/comment-prefix lines; compare exact runs of8 meaningful lines >=160bytes. No identifier normalization or semantic clone detection. Zero findings does not prove absence of inheritance.'},'priorRecords':receipts,'parentProvidedBindings':{'source':'Parent source_thread01a0f025-c78c-7401-9ad2-a524f08d50e5 delegation2026-10-02','sevenAcceptedReviews':'Parent confirms no exact accepted review exists','creationReferenceRootSha256':'5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43','creationReferenceParentReceipt':'licensing/evidence/creation-reference-containment-20261001.json','receiptAvailableInLane':False,'qualification':'Parent-provided bounded containment fix does not establish whole-file provenance; lane older reference source untouched. No fetch/copy/integration of root fix.'},'recommendation':'Bounded retention recommendation for all seven current lane owners while exact-origin review remains open. Local Knorvia feature specs/development/extraction lineage supports not rewriting merely because reviews are absent. No substantive inherited owner body is demonstrated by accessible comparisons; no reconstruction scope proposed. This is not accepted-original classification, full upstream absence proof or licence clearance.','remainingEvidence':['True pre-root-snapshot authorship inputs/raw drafts/author access records unavailable','Upstream commit and264of298services blobs unavailable; no fetch/alternate retrieval attempted','Exact root creationReference containment receipt unavailable in lane; parent-only binding preserved','T09 report is feature provenance and run-clock receipt retains source rights; neither certifies whole-file independent origin'],'existingBlockers':['missing ignore','missing croner','missing CUA entrypoints/export','missing yazl','historical59listenEPERM','commitMessageFileScope predecessor HOLD'],'sourceUnchanged':True,'limits':'No original/replacement acceptance or MIT claim. No source/license/global inventory/receipt/dependency/authority changes, actual provider or user-file/data operations, tests/builds, main merge or cross-lane integration.'}\nPath('/tmp/knorvia-creation-origin-investigation-20261002.json').write_text(json.dumps(result,indent=2)+'\\n')\n"
+  },
+  "followupMethod": "Internal predecessor exact8meaningful-line-window comparison in parent creationService for Jobs/Storage only; Git metadata and no source execution."
+}

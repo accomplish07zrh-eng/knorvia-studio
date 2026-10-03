@@ -5,31 +5,19 @@
   "apiEqual": true,
   "api": {
     "todo.ts": [
-      [
-        "todoReadToolEntry",
-        "ToolEntry",
-        []
-      ],
-      [
-        "todoWriteToolEntry",
-        "ToolEntry",
-        []
-      ]
+      ["todoReadToolEntry", "ToolEntry", []],
+      ["todoWriteToolEntry", "ToolEntry", []]
     ],
     "resume.ts": [
       [
         "injectTargetStateIntoMessageHistory",
         "(this: AgentRuntimeInternal, target: SessionGoal | null) => void",
-        [
-          "(this: AgentRuntimeInternal, target: SessionGoal | null): void"
-        ]
+        ["(this: AgentRuntimeInternal, target: SessionGoal | null): void"]
       ],
       [
         "readSessionTargetForContext",
         "(this: AgentRuntimeInternal, traceContext: TraceContext) => Promise<SessionGoal | null>",
-        [
-          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<SessionGoal | null>"
-        ]
+        ["(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<SessionGoal | null>"]
       ],
       [
         "readSessionTodosForContext",
@@ -48,9 +36,7 @@
       [
         "toScheduleState",
         "(this: AgentRuntimeInternal, schedule: ToolSchedule) => ToolScheduleState",
-        [
-          "(this: AgentRuntimeInternal, schedule: ToolSchedule): ToolScheduleState"
-        ]
+        ["(this: AgentRuntimeInternal, schedule: ToolSchedule): ToolScheduleState"]
       ]
     ]
   },

@@ -25,9 +25,10 @@ function detailedEntry(skill: SkillMetadata): string {
   const description = skill.whenToUse
     ? `${skill.description} - ${skill.whenToUse}`
     : skill.description;
-  const trimmed = description.length > DESCRIPTION_LIMIT
-    ? `${description.slice(0, DESCRIPTION_LIMIT - 1)}...`
-    : description;
+  const trimmed =
+    description.length > DESCRIPTION_LIMIT
+      ? `${description.slice(0, DESCRIPTION_LIMIT - 1)}...`
+      : description;
   return `- ${displayName(skill)}: ${trimmed}${aliasSuffix(skill)} (file: ${skill.path})`;
 }
 
@@ -37,7 +38,7 @@ function nameEntry(skill: SkillMetadata): string {
 
 function renderMetadata(skills: SkillMetadata[], budget: number): string {
   const ordered = [...skills].sort((left, right) =>
-    displayName(left).localeCompare(displayName(right))
+    displayName(left).localeCompare(displayName(right)),
   );
   const full = [SKILLS_INTRO, "", ...ordered.map(detailedEntry)].join("\n");
   if (full.length <= budget) {
@@ -53,7 +54,7 @@ export function buildSkillsSection(options: SkillsSectionOptions): ContextSectio
 
   const content = renderMetadata(
     options.outcome.skills,
-    options.metadataBudget ?? DEFAULT_METADATA_BUDGET
+    options.metadataBudget ?? DEFAULT_METADATA_BUDGET,
   );
   return {
     name: "Skills",

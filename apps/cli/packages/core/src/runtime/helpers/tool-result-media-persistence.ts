@@ -16,19 +16,14 @@ type PersistedToolMediaLayoutEntry =
   | { type: "attachment"; attachmentIndex: number }
   | { type: "text"; text: string };
 
-type MediaBlock = Extract<
-  ModelMessageContentBlock,
-  { type: "image" | "file" | "video" }
->;
+type MediaBlock = Extract<ModelMessageContentBlock, { type: "image" | "file" | "video" }>;
 
 type MediaProjection = {
   mediaBlocks: MediaBlock[];
   modelContentLayout: PersistedToolMediaLayoutEntry[];
 };
 
-function projectMediaContent(
-  content: ModelMessageContent,
-): MediaProjection | undefined {
+function projectMediaContent(content: ModelMessageContent): MediaProjection | undefined {
   if (!Array.isArray(content) || content.length === 0) {
     return undefined;
   }
@@ -42,10 +37,7 @@ function projectMediaContent(
       continue;
     }
 
-    if (
-      (block.type === "image" || block.type === "video") &&
-      block.dataUrl.startsWith("data:")
-    ) {
+    if ((block.type === "image" || block.type === "video") && block.dataUrl.startsWith("data:")) {
       modelContentLayout.push({
         type: "attachment",
         attachmentIndex: mediaBlocks.length,
@@ -106,9 +98,7 @@ export async function persistToolResultMediaAttachments(input: {
 
   const attachments: FilePart[] = [];
   for (const [index, block] of projection.mediaBlocks.entries()) {
-    const existingArtifactUri = isArtifactUri(block.source?.uri)
-      ? block.source.uri
-      : undefined;
+    const existingArtifactUri = isArtifactUri(block.source?.uri) ? block.source.uri : undefined;
     const artifactUri =
       existingArtifactUri ??
       (
@@ -143,9 +133,7 @@ export async function persistToolResultMediaAttachments(input: {
         artifactUri,
         recoverability: "provider_ready",
         storageKind: "artifact",
-        ...(block.source?.sizeBytes !== undefined
-          ? { sizeBytes: block.source.sizeBytes }
-          : {}),
+        ...(block.source?.sizeBytes !== undefined ? { sizeBytes: block.source.sizeBytes } : {}),
         ...(block.source?.sha256 ? { sha256: block.source.sha256 } : {}),
       },
     });

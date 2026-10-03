@@ -60,9 +60,7 @@ export function summarizeTurnAttachmentsForEvent(
   return attachments.map((attachment, index) => {
     const path = attachment.path;
     const fileName =
-      attachment.filename ??
-      (path ? basename(path) : undefined) ??
-      `attachment-${index + 1}`;
+      attachment.filename ?? (path ? basename(path) : undefined) ?? `attachment-${index + 1}`;
     const dataUrlMime =
       attachment.content !== undefined
         ? parseDataUrlHeader(attachment.content)?.mediaType
@@ -79,14 +77,12 @@ export function summarizeTurnAttachmentsForEvent(
           : "application/octet-stream");
     const bytes =
       attachment.sizeBytes ??
-      (attachment.content !== undefined
-        ? Buffer.byteLength(attachment.content, "utf8")
-        : 0);
+      (attachment.content !== undefined ? Buffer.byteLength(attachment.content, "utf8") : 0);
     const ref =
       path && !isDataOrArtifactUrl(path)
         ? path
         : attachment.type === "url"
-          ? attachment.content ?? path
+          ? (attachment.content ?? path)
           : undefined;
     return { fileName, mime, bytes, ...(ref ? { ref } : {}) };
   });
@@ -124,10 +120,7 @@ async function resolveAttachment(
   }
 
   if (attachment.content) {
-    if (
-      attachment.type === "pdf" &&
-      !isDataOrArtifactUrl(attachment.content)
-    ) {
+    if (attachment.type === "pdf" && !isDataOrArtifactUrl(attachment.content)) {
       return resolvedPlaceholderAttachment(
         attachment,
         attachment.path ?? `attachment-${index + 1}`,
@@ -139,10 +132,7 @@ async function resolveAttachment(
         },
       );
     }
-    if (
-      attachment.type !== "image" &&
-      !isDataOrArtifactUrl(attachment.content)
-    ) {
+    if (attachment.type !== "image" && !isDataOrArtifactUrl(attachment.content)) {
       return resolvedInlineTextAttachment(attachment, index);
     }
     const inline = await readInlineAttachmentContent(attachment, options);
@@ -153,20 +143,15 @@ async function resolveAttachment(
         "attachment_read_failed",
       );
     }
-    return await resolveInlineAttachment(
-      { ...attachment, content: inline.dataUrl },
-      index,
-      { ...options, existingArtifactUri: inline.artifactUri },
-    );
+    return await resolveInlineAttachment({ ...attachment, content: inline.dataUrl }, index, {
+      ...options,
+      existingArtifactUri: inline.artifactUri,
+    });
   }
 
   const fileSystemPort = options.fileSystemPort;
   if (attachment.path && fileSystemPort) {
-    if (
-      attachment.type === "image" ||
-      attachment.type === "video" ||
-      attachment.type === "pdf"
-    ) {
+    if (attachment.type === "image" || attachment.type === "video" || attachment.type === "pdf") {
       return await resolveLocalMediaAttachment(attachment, index, {
         ...options,
         fileSystemPort,
@@ -192,12 +177,7 @@ async function resolveInlineAttachment(
   const parsed = attachment.content?.startsWith("data:")
     ? parseDataUrlHeader(attachment.content)
     : undefined;
-  const media = await resolveInlineMediaAttachment(
-    attachment,
-    index,
-    parsed?.mediaType,
-    options,
-  );
+  const media = await resolveInlineMediaAttachment(attachment, index, parsed?.mediaType, options);
   if (media) return media;
 
   const content = attachment.content ?? "";
@@ -242,12 +222,12 @@ async function resolveLocalTextAttachment(
       { signal: options.abortSignal },
     );
     if (stat.kind !== "file") {
-      return resolvedPlaceholderAttachment(
-        attachment,
-        attachment.path!,
-        "attachment_not_file",
-        { filename, mime, sizeBytes: stat.sizeBytes, source },
-      );
+      return resolvedPlaceholderAttachment(attachment, attachment.path!, "attachment_not_file", {
+        filename,
+        mime,
+        sizeBytes: stat.sizeBytes,
+        source,
+      });
     }
     if (!isTextLikePath(absolutePath)) {
       return resolvedPathReferenceAttachment(attachment, attachment.path!, {
@@ -304,11 +284,10 @@ async function resolveLocalTextAttachment(
       url: attachment.path!,
     };
   } catch {
-    return resolvedPlaceholderAttachment(
-      attachment,
-      attachment.path!,
-      "attachment_read_failed",
-      { filename, mime, source },
-    );
+    return resolvedPlaceholderAttachment(attachment, attachment.path!, "attachment_read_failed", {
+      filename,
+      mime,
+      source,
+    });
   }
 }

@@ -1,7 +1,4 @@
-import type {
-  SavedWorkflowArgDeclaration,
-  SavedWorkflowArgsDeclaration,
-} from "@knorvia/contracts";
+import type { SavedWorkflowArgDeclaration, SavedWorkflowArgsDeclaration } from "@knorvia/contracts";
 
 export type WorkflowArgsValidation =
   | {

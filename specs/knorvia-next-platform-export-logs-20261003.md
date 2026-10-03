@@ -77,7 +77,7 @@ canonical-path/containment check or authority. Preserve every current exclusion.
 
 Retention snapshots lookbackDays default3; <=0 returns the original array without
 clock/stat. Otherwise snapshot supplied now/default Date factory and invoke unbound
-once for cutoff now().getTime()-days*86400000. Only case-sensitive normalized logs/
+once for cutoff now().getTime()-days\*86400000. Only case-sensitive normalized logs/
 and .knorvia-studio/cli/log/ entries require stat catch-null, isFile and mtime>=cutoff.
 Others pass without stat. No calendar-day rounding, finite-number validation or
 helper age filtering; preserve NaN/fraction/invalid-Date native behavior.
@@ -93,7 +93,7 @@ Then choose ASCII-pair runs, null parity, decoded score in that order; no select
 falls back to fatal UTF8 success or binary rejection. No unknown-binary copying.
 
 ASCII-pair evidence ignores odd trailing byte; ASCII is tab/LF/CR or20..7e; only
-contiguous same-endian runs>=3 count, score>=6 and >=other*1.5 qualifies, LE before
+contiguous same-endian runs>=3 count, score>=6 and >=other\*1.5 qualifies, LE before
 BE. Null ratios count all sample bytes by parity, length<4 absent. Decoded scoring
 uses even prefix>=4, LE then BE TextDecoder. Invalid codepoints: replacement/NUL/
 DEL/surrogates/C0 except tab/LF/CR. Preferred: tab/LF/CR/space, ASCII20..7e,
@@ -107,7 +107,7 @@ Keep original redaction order: connection credentials, sensitive JSON keys,
 assignment keys, header keys, Bearer, query keys, sk/rk/pk forms, GitHub forms.
 Preserve exact sensitive-family/allowlist and regex matching/capture behavior,
 quote/leading/trailing whitespace, header Bearer normalization and placeholder
-***REDACTED***. Do not replace it with shared redaction or strengthen/relax rules.
+**_REDACTED_**. Do not replace it with shared redaction or strengthen/relax rules.
 
 Each Transform has streaming TextDecoder and live pending text. Merge decoded
 chunk, split after last LF preferentially; if no LF split after last CR only when

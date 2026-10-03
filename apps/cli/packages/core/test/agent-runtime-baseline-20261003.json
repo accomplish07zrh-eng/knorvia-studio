@@ -17,9 +17,7 @@
       [
         "activatePausedTargetAfterResume",
         "(traceContext: TraceContext) => Promise<SessionGoal | null>",
-        [
-          "(traceContext: TraceContext): Promise<SessionGoal | null>"
-        ]
+        ["(traceContext: TraceContext): Promise<SessionGoal | null>"]
       ],
       [
         "admitPrompt",
@@ -31,16 +29,12 @@
       [
         "amendWorkflowRunSettings",
         "(input: AmendWorkflowRunSettingsInput) => Promise<AmendWorkflowRunSettingsResult>",
-        [
-          "(input: AmendWorkflowRunSettingsInput): Promise<AmendWorkflowRunSettingsResult>"
-        ]
+        ["(input: AmendWorkflowRunSettingsInput): Promise<AmendWorkflowRunSettingsResult>"]
       ],
       [
         "appendEvent",
         "(event: SessionEvent, traceContext: TraceContext) => Promise<void>",
-        [
-          "(event: SessionEvent, traceContext: TraceContext): Promise<void>"
-        ]
+        ["(event: SessionEvent, traceContext: TraceContext): Promise<void>"]
       ],
       [
         "applyWorkspaceFileRewind",
@@ -49,14 +43,7 @@
           "(options?: { abortSignal?: AbortSignal | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; targetMessageIds?: MessageId[] | undefined; targetTurnId?: TurnId | undefined; traceContext?: TraceContext | undefined; commitAfterApply?: (() => Promise<void>) | undefined; } | undefined): Promise<WorkspaceFileRewindApplyResult>"
         ]
       ],
-      [
-        "beginShutdown",
-        "{ (): void; (): void; }",
-        [
-          "(): void",
-          "(): void"
-        ]
-      ],
+      ["beginShutdown", "{ (): void; (): void; }", ["(): void", "(): void"]],
       [
         "cancelBackgroundTask",
         "(taskId: string, options?: { traceContext?: TraceContext | undefined; } | undefined) => Promise<BackgroundTaskCancelResult>",
@@ -74,25 +61,14 @@
       [
         "clearAllPendingInputs",
         "(traceContext: TraceContext) => Promise<number>",
-        [
-          "(traceContext: TraceContext): Promise<number>"
-        ]
+        ["(traceContext: TraceContext): Promise<number>"]
       ],
       [
         "closeBrowserSession",
         "{ (): Promise<void>; (): Promise<void>; }",
-        [
-          "(): Promise<void>",
-          "(): Promise<void>"
-        ]
+        ["(): Promise<void>", "(): Promise<void>"]
       ],
-      [
-        "completeExternalQueueDrain",
-        "() => void",
-        [
-          "(): void"
-        ]
-      ],
+      ["completeExternalQueueDrain", "() => void", ["(): void"]],
       [
         "continueActiveTargetIfIdle",
         "(options?: { abortSignal?: AbortSignal | undefined; inputId?: string | undefined; intent?: TurnInputIntentMetadata | undefined; traceContext?: TraceContext | undefined; verifyBeforeContinue?: boolean | undefined; } | undefined) => Promise<TurnResult | null>",
@@ -103,30 +79,22 @@
       [
         "continueActiveTargetLoop",
         "(options: ContinueActiveTargetLoopOptions) => Promise<TurnResult | null>",
-        [
-          "(options: ContinueActiveTargetLoopOptions): Promise<TurnResult | null>"
-        ]
+        ["(options: ContinueActiveTargetLoopOptions): Promise<TurnResult | null>"]
       ],
       [
         "createChildClientPorts",
         "(context: ChildClientPortsContext) => ClientFacingPorts",
-        [
-          "(context: ChildClientPortsContext): ClientFacingPorts"
-        ]
+        ["(context: ChildClientPortsContext): ClientFacingPorts"]
       ],
       [
         "createSelectionSideConversation",
         "(options: SelectionSideChatCreateOptions) => Promise<WorkspaceForkResult>",
-        [
-          "(options: SelectionSideChatCreateOptions): Promise<WorkspaceForkResult>"
-        ]
+        ["(options: SelectionSideChatCreateOptions): Promise<WorkspaceForkResult>"]
       ],
       [
         "drainMemoryExtractions",
         "(timeoutMs?: number | null | undefined) => Promise<void>",
-        [
-          "(timeoutMs?: number | null | undefined): Promise<void>"
-        ]
+        ["(timeoutMs?: number | null | undefined): Promise<void>"]
       ],
       [
         "editPendingInputById",
@@ -152,16 +120,12 @@
       [
         "emitPermissionRequest",
         "(toolCallId: ToolCallId, toolName: string, riskLevel: string) => Promise<void>",
-        [
-          "(toolCallId: ToolCallId, toolName: string, riskLevel: string): Promise<void>"
-        ]
+        ["(toolCallId: ToolCallId, toolName: string, riskLevel: string): Promise<void>"]
       ],
       [
         "enqueueDeferredInput",
         "(input: string | TurnSteerInput) => Promise<TurnSteerResult>",
-        [
-          "(input: string | TurnSteerInput): Promise<TurnSteerResult>"
-        ]
+        ["(input: string | TurnSteerInput): Promise<TurnSteerResult>"]
       ],
       [
         "ensureSessionPersistedForExternalActivity",
@@ -187,16 +151,12 @@
       [
         "forkConversationBeforeMessage",
         "(options: ConversationBeforeInputForkOptions) => Promise<WorkspaceForkResult>",
-        [
-          "(options: ConversationBeforeInputForkOptions): Promise<WorkspaceForkResult>"
-        ]
+        ["(options: ConversationBeforeInputForkOptions): Promise<WorkspaceForkResult>"]
       ],
       [
         "forkStableConversationAtMessage",
         "(options: StableConversationForkOptions) => Promise<WorkspaceForkResult>",
-        [
-          "(options: StableConversationForkOptions): Promise<WorkspaceForkResult>"
-        ]
+        ["(options: StableConversationForkOptions): Promise<WorkspaceForkResult>"]
       ],
       [
         "forkWorkspaceFromCheckpoint",
@@ -212,76 +172,20 @@
           "(input: WorkspaceGenerateTextInput, options?: { abortSignal?: AbortSignal | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceGenerateTextResult>"
         ]
       ],
-      [
-        "getActiveForegroundExecutionId",
-        "() => string | undefined",
-        [
-          "(): string | undefined"
-        ]
-      ],
-      [
-        "getActiveTurnInfo",
-        "() => ActiveTurnInfo | undefined",
-        [
-          "(): ActiveTurnInfo | undefined"
-        ]
-      ],
-      [
-        "getContextBuilder",
-        "() => ContextBuilder",
-        [
-          "(): ContextBuilder"
-        ]
-      ],
-      [
-        "getMode",
-        "() => CollaborationMode",
-        [
-          "(): CollaborationMode"
-        ]
-      ],
+      ["getActiveForegroundExecutionId", "() => string | undefined", ["(): string | undefined"]],
+      ["getActiveTurnInfo", "() => ActiveTurnInfo | undefined", ["(): ActiveTurnInfo | undefined"]],
+      ["getContextBuilder", "() => ContextBuilder", ["(): ContextBuilder"]],
+      ["getMode", "() => CollaborationMode", ["(): CollaborationMode"]],
       [
         "getPendingPermissionRequests",
         "() => PermissionBrokerRequest[]",
-        [
-          "(): PermissionBrokerRequest[]"
-        ]
+        ["(): PermissionBrokerRequest[]"]
       ],
-      [
-        "getPlanEnabled",
-        "() => boolean",
-        [
-          "(): boolean"
-        ]
-      ],
-      [
-        "getProjectId",
-        "() => ProjectId",
-        [
-          "(): ProjectId"
-        ]
-      ],
-      [
-        "getProjection",
-        "() => Promise<SessionProjection>",
-        [
-          "(): Promise<SessionProjection>"
-        ]
-      ],
-      [
-        "getSessionEventStore",
-        "() => SessionEventStorePort",
-        [
-          "(): SessionEventStorePort"
-        ]
-      ],
-      [
-        "getSessionId",
-        "() => SessionId",
-        [
-          "(): SessionId"
-        ]
-      ],
+      ["getPlanEnabled", "() => boolean", ["(): boolean"]],
+      ["getProjectId", "() => ProjectId", ["(): ProjectId"]],
+      ["getProjection", "() => Promise<SessionProjection>", ["(): Promise<SessionProjection>"]],
+      ["getSessionEventStore", "() => SessionEventStorePort", ["(): SessionEventStorePort"]],
+      ["getSessionId", "() => SessionId", ["(): SessionId"]],
       [
         "getSessionModelSelection",
         "() => { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined",
@@ -292,92 +196,32 @@
       [
         "getSessionShellSelection",
         "() => ExecutionShellSelection | undefined",
-        [
-          "(): ExecutionShellSelection | undefined"
-        ]
+        ["(): ExecutionShellSelection | undefined"]
       ],
       [
         "getSkillCatalog",
         "(traceContext: TraceContext) => Promise<SkillLoadOutcome>",
-        [
-          "(traceContext: TraceContext): Promise<SkillLoadOutcome>"
-        ]
+        ["(traceContext: TraceContext): Promise<SkillLoadOutcome>"]
       ],
-      [
-        "getToolExecutor",
-        "() => ToolExecutor",
-        [
-          "(): ToolExecutor"
-        ]
-      ],
-      [
-        "getToolRegistry",
-        "() => ToolRegistry",
-        [
-          "(): ToolRegistry"
-        ]
-      ],
+      ["getToolExecutor", "() => ToolExecutor", ["(): ToolExecutor"]],
+      ["getToolRegistry", "() => ToolRegistry", ["(): ToolRegistry"]],
       [
         "grantPermissionFullAccess",
         "(interactionId: string, signal?: AbortSignal | undefined) => Promise<string>",
-        [
-          "(interactionId: string, signal?: AbortSignal | undefined): Promise<string>"
-        ]
+        ["(interactionId: string, signal?: AbortSignal | undefined): Promise<string>"]
       ],
-      [
-        "hasActiveOrQueuedTurnWork",
-        "() => boolean",
-        [
-          "(): boolean"
-        ]
-      ],
-      [
-        "hasResidencyBlockingWork",
-        "() => boolean",
-        [
-          "(): boolean"
-        ]
-      ],
-      [
-        "hasRunningBackgroundTasks",
-        "() => boolean",
-        [
-          "(): boolean"
-        ]
-      ],
+      ["hasActiveOrQueuedTurnWork", "() => boolean", ["(): boolean"]],
+      ["hasResidencyBlockingWork", "() => boolean", ["(): boolean"]],
+      ["hasRunningBackgroundTasks", "() => boolean", ["(): boolean"]],
       [
         "initializeSessionShellEnvironmentIfNeeded",
         "(selection: ExecutionShellSelection | (() => ExecutionShellSelection)) => boolean",
-        [
-          "(selection: ExecutionShellSelection | (() => ExecutionShellSelection)): boolean"
-        ]
+        ["(selection: ExecutionShellSelection | (() => ExecutionShellSelection)): boolean"]
       ],
-      [
-        "invalidateToolCache",
-        "() => void",
-        [
-          "(): void"
-        ]
-      ],
-      [
-        "isProjectMemoryEnabled",
-        "() => boolean",
-        [
-          "(): boolean"
-        ]
-      ],
-      [
-        "isSessionPersisted",
-        "() => boolean",
-        [
-          "(): boolean"
-        ]
-      ],
-      [
-        "lastPermissionGrantId",
-        "string | undefined",
-        []
-      ],
+      ["invalidateToolCache", "() => void", ["(): void"]],
+      ["isProjectMemoryEnabled", "() => boolean", ["(): boolean"]],
+      ["isSessionPersisted", "() => boolean", ["(): boolean"]],
+      ["lastPermissionGrantId", "string | undefined", []],
       [
         "listWorkspaceCheckpoints",
         "(options?: { limit?: number | undefined; } | undefined) => Promise<WorkspaceCheckpointSummary[]>",
@@ -444,9 +288,7 @@
       [
         "recordGoalStateChangeReminder",
         "(input: { text: string; traceContext?: TraceContext | undefined; }) => Promise<void>",
-        [
-          "(input: { text: string; traceContext?: TraceContext | undefined; }): Promise<void>"
-        ]
+        ["(input: { text: string; traceContext?: TraceContext | undefined; }): Promise<void>"]
       ],
       [
         "recordPendingModelChange",
@@ -458,9 +300,7 @@
       [
         "recordTargetChanged",
         "(input: TargetChangedPayload & { traceContext: TraceContext; }) => Promise<void>",
-        [
-          "(input: TargetChangedPayload & { traceContext: TraceContext; }): Promise<void>"
-        ]
+        ["(input: TargetChangedPayload & { traceContext: TraceContext; }): Promise<void>"]
       ],
       [
         "recordUserInputAutoResolutionUpdate",
@@ -472,9 +312,7 @@
       [
         "releaseForegroundPromotionLease",
         "(leaseId: string) => boolean",
-        [
-          "(leaseId: string): boolean"
-        ]
+        ["(leaseId: string): boolean"]
       ],
       [
         "releasePendingInputReservation",
@@ -507,16 +345,12 @@
       [
         "resolvePermission",
         "(toolCallId: ToolCallId, decision: PermissionDecisionResult) => Promise<void>",
-        [
-          "(toolCallId: ToolCallId, decision: PermissionDecisionResult): Promise<void>"
-        ]
+        ["(toolCallId: ToolCallId, decision: PermissionDecisionResult): Promise<void>"]
       ],
       [
         "resumeFromStore",
         "(options?: ResumeSessionOptions | undefined) => Promise<ResumeSessionResult>",
-        [
-          "(options?: ResumeSessionOptions | undefined): Promise<ResumeSessionResult>"
-        ]
+        ["(options?: ResumeSessionOptions | undefined): Promise<ResumeSessionResult>"]
       ],
       [
         "rewindConversationToMessage",
@@ -528,9 +362,7 @@
       [
         "scheduleTools",
         "(toolCalls: ModelToolCall[]) => Promise<ToolSchedule>",
-        [
-          "(toolCalls: ModelToolCall[]): Promise<ToolSchedule>"
-        ]
+        ["(toolCalls: ModelToolCall[]): Promise<ToolSchedule>"]
       ],
       [
         "sealBackgroundTaskNotifications",
@@ -542,9 +374,7 @@
       [
         "setCustomSessionTitle",
         "(input: { title: string; traceContext: TraceContext; }) => Promise<void>",
-        [
-          "(input: { title: string; traceContext: TraceContext; }): Promise<void>"
-        ]
+        ["(input: { title: string; traceContext: TraceContext; }): Promise<void>"]
       ],
       [
         "setExecutionState",
@@ -584,9 +414,7 @@
       [
         "steerTurn",
         "(input: string | TurnSteerInput) => Promise<TurnSteerResult>",
-        [
-          "(input: string | TurnSteerInput): Promise<TurnSteerResult>"
-        ]
+        ["(input: string | TurnSteerInput): Promise<TurnSteerResult>"]
       ],
       [
         "stopActiveForegroundExecution",
@@ -605,9 +433,7 @@
       [
         "subscribeEvents",
         "(sink: SessionEventSink) => () => void",
-        [
-          "(sink: SessionEventSink): () => void"
-        ]
+        ["(sink: SessionEventSink): () => void"]
       ],
       [
         "testModelConnectivity",
@@ -619,9 +445,7 @@
       [
         "trackResidencyBlockingWork",
         "<T>(work: Promise<T>) => Promise<T>",
-        [
-          "<T>(work: Promise<T>): Promise<T>"
-        ]
+        ["<T>(work: Promise<T>): Promise<T>"]
       ],
       [
         "trackResumedDynamicWorkflowRun",

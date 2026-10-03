@@ -15,7 +15,15 @@ export const DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS = 256;
 export const DEFAULT_MICROCOMPACT_THRESHOLD_RATIO = 0.9;
 export const DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS = 2000;
 export const DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS = [
-  "Read", "Bash", "Grep", "Glob", "WebFetch", "WebSearch", "Edit", "Write", "ApplyPatch",
+  "Read",
+  "Bash",
+  "Grep",
+  "Glob",
+  "WebFetch",
+  "WebSearch",
+  "Edit",
+  "Write",
+  "ApplyPatch",
 ] as const;
 
 export interface LocalMicrocompactPolicyConfig {
@@ -132,8 +140,8 @@ function collectGroups(
     }
     if (
       Array.isArray(message.content) &&
-      message.content.some((block) =>
-        block.type === "image" || block.type === "video" || block.type === "file",
+      message.content.some(
+        (block) => block.type === "image" || block.type === "video" || block.type === "file",
       )
     ) {
       continue;
@@ -177,14 +185,15 @@ export function maybeLocalMicrocompactMessages<T extends LocalMicrocompactMessag
   const nowMs = input.nowMs;
   const idleMinutes = normalizeCount(config.idleThresholdMinutes) ?? 60;
   let trigger: MicrocompactTrigger | undefined;
-  if (
-    lastAssistantCompletedAtMs !== undefined &&
-    Number.isFinite(lastAssistantCompletedAtMs)
-  ) {
+  if (lastAssistantCompletedAtMs !== undefined && Number.isFinite(lastAssistantCompletedAtMs)) {
     const elapsed = (nowMs ?? Date.now()) - lastAssistantCompletedAtMs;
     if (elapsed > idleMinutes * 60_000) trigger = MicrocompactTrigger.TimeBased;
   }
-  if (trigger === undefined && thresholdTokens !== undefined && estimatedTokenCount >= thresholdTokens) {
+  if (
+    trigger === undefined &&
+    thresholdTokens !== undefined &&
+    estimatedTokenCount >= thresholdTokens
+  ) {
     trigger = MicrocompactTrigger.TokenPressure;
   }
   if (trigger === undefined) {
@@ -194,7 +203,9 @@ export function maybeLocalMicrocompactMessages<T extends LocalMicrocompactMessag
     };
   }
 
-  const allowedNames = new Set(config.compactableToolNames ?? DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS);
+  const allowedNames = new Set(
+    config.compactableToolNames ?? DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS,
+  );
   const clearErrorResults = config.clearErrorResults === true;
   const groups = collectGroups(messages, allowedNames, clearErrorResults);
   if (groups.length === 0) {
@@ -204,7 +215,10 @@ export function maybeLocalMicrocompactMessages<T extends LocalMicrocompactMessag
     };
   }
 
-  const keepCount = Math.max(1, normalizeCount(config.keepRecentToolResults) ?? DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS);
+  const keepCount = Math.max(
+    1,
+    normalizeCount(config.keepRecentToolResults) ?? DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS,
+  );
   const clearGroupCount = Math.max(0, groups.length - keepCount);
   if (clearGroupCount === 0) {
     return {

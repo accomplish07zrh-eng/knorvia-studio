@@ -111,10 +111,12 @@ export function stringifyForEstimation(value: unknown): string {
   }
 }
 
-export function parseMcpToolName(name: string): {
-  serverName: string;
-  toolName: string;
-} | undefined {
+export function parseMcpToolName(name: string):
+  | {
+      serverName: string;
+      toolName: string;
+    }
+  | undefined {
   if (!name.startsWith("mcp__")) {
     return undefined;
   }

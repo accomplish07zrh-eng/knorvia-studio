@@ -36,8 +36,8 @@ Full suites/builds, UI/cross-platform acceptance, adversarial archive validation
 
 Original base: f25b931164ee6287167e965e9da7a7586131b264.
 
-
 Terminal/process/runtime-tools/commands/system bounded queue is complete:
+
 - Inventory/spec 9c1a0bb: all twelve terminal source hashes match prior receipt, retained with original source-exposed/null-decision/exclusion limits. No new terminal acceptance or license claim; all 32 unselected sources in these directories remain byte-identical.
 - Process ownership 47ead09: complete sync/Windows async identity verification, PID reuse/discovery permission and known/current snapshot lifecycle; retained snapshot/filter ports.
 - Integrated shell catalog 0f82659: complete Windows CMD/Git Bash executable selection, case-insensitive env lookup, candidate precedence and existing permission failure identity.
@@ -49,8 +49,8 @@ Fresh GPT-6.1 Sol high authors used no inherited conversation, bodies, tests, hi
 
 Minimum source-only synthetic safety checks passed 1/1 for each of five original owners and 1/1 for each replacement. Scoped types pass for changed source/tests and directly affected runtimeCommandEnv, processTreeTerminator, systemService and settingsSyncSources; changed source/test lint, formatting, architecture 0/0/0 and whitespace pass. Login harness initially lacked a retained resolver mock export and failed before the safety test; exact failure preserved in evidence, harness corrected, original/replacement passed. Initial fresh draft contract omissions/corrections are frozen and disclosed. Module-mocking experimental/deprecated-option warnings and Node24.19.0 vs CLI24.14.0 discrepancy disclosed. Ordinary suites/builds skipped per user direction; aggregate platform/UI/stress and provenance acceptance pending. All runtime ports synthetic; no actual commands/process launch/signals/userdata/credentials/SSH/network/device operations. No main merge, cross-lane integration, manifests or root LICENSE changes.
 
-
 File/fs/storage/media-preview bounded queue is complete:
+
 - Inventory/spec 527d336: frozen exact blobs/SHA-256 of21 original sources; no exact-path accepted reviews or completed owner receipts for the five selections. Prior CLI storage-fault acceptance remains specific to its CLI path; not transferred to services. All15 unselected original sources remain byte-identical.
 - Atomic text/JSON persistence b9dd08d: complete target/temp/lock/retry/cleanup owner, existing atomic rename and release/error precedence retained.
 - Storage lifecycle 90f0d44: complete service/scan-job owner pair preserving authorization before cancellation/IO, snapshot/notification/timer/cancel/error behavior and existing async-root quirks. Domain permission/catalog/plan policy retained unchanged.
@@ -64,8 +64,8 @@ Minimum synthetic positive/negative safety passed1/1 for each five original owne
 
 Changed source/tests/fixture lint zero warnings/errors, formatting/whitespace and architecture0/0/0 passed. Ordinary suites/builds, actual matcher/platform/UI/stress and full provenance acceptance deferred. Synthetic runtime ports only; no real user files/settings/database/network/process/credentials/device operations. No root-exclusive conversation artifacts/message merge, shared/UI/CLI/client/RPC, manifests/global inventory/LICENSE, main merge or cross-lane integration changes. Remaining substantive inventory: services fs/fsFaultInjection.ts, file/workspaceFileMentionFilter.ts, storage/adapters/fsWalker.ts, storage/domain/usageAggregate.ts; retained domain policy/adapters/media facade not silently granted acceptance.
 
-
 Remaining file/fs/storage owners allocated next are collected on this samePR:
+
 - Scope/spec9467d5f freezes23 current source files, retains exact-path review distinctions and the prior8 fresh sources. No accepted services-path review for four selections; accepted CLI fault-injection review remains at its CLI path.
 - Fault injection cc2df78: complete validation/matching/rule quotas/hits and env cache/test-override lifecycle. Disabled production/blank gates, native sparse operation semantics, first matching failure tagging/path/order and reset/cache boundaries preserved.
 - Mention filter c2f366c: complete include/traverse policy owner; active ignore replaces directory blacklist while hidden traversal and sensitive/binary file refusal remain. Five inherited compatibility arrays retain their literal lineage, no whole-file originality claim.
@@ -78,8 +78,8 @@ Minimum synthetic safety original4/4 and final replacement4/4 passed; walker rev
 
 Changed-source/test lint0warnings/errors, formatting/whitespace and architecture0/0/0 passed. All19 unselected current source hashes retained, comprising8 prior fresh sources and11 original policy/adapters/facades/declarations. Four allocated remaining substantive owners covered; the eleven retained paths are explicitly listed for later classification, with no origin acceptance inferred from adjacent work. Ordinary suites/builds, real ignore matching/platform/concurrency stress and full provenance acceptance deferred. No shared/root-exclusive conversation artifacts/message merge, UI/CLI/client/RPC, global LICENSE/inventory/manifests, main merge or cross-lane integration.
 
-
 Git checkpoint/command five-owner queue collected in this same draft PR:
+
 - Inventory/spec0f6e277 freezes20Git original sources and verifies8 prior read-projection/generator/graph source hashes exactly match prior receipts. Those receipts remain source-exposed, partial/NOASSERTION/no whole-file license grant; no prior graph extraction upgraded to complete independent CLIrepo ownership. File/storage11 retained classification limits unchanged.
 - Checkpoint service1d358cb: complete UUID/create-ref/save, ordered metadata comparison/identity guards, diff/restore forwarding and ref-before-manifest delete workflow.
 - Checkpoint manifest store1d6fdde: complete selected config-root/workspace-hash/id JSON persistence and per-target FIFO/recovery/load lifecycle. Pretty JSON/newline, target selection versus mutable input timing, async wait barriers and old rename-failure target/temp effects retained.
@@ -93,7 +93,6 @@ Minimum synthetic original5/5 and replacement5/5 safety passed, revised reposito
 
 All15 unselected Git sources unchanged, including8 exact prior receipt scopes and7 retained originals. Remaining substantive inventory: full gitCliRepo remainder beyond partial graph work, gitCliHelpers, gitEnvironmentProvider, commitMessageFileScope. Config environment/path policy and service/type declarations remain retained/unclassified, including gitCliTypes createEmptySummary behavior; no whole Git-folder independent-origin/completion grant. Previous file/storage retained19hashes reverified unchanged. No other lanes/shared/UI/CLI/client/RPC/root-exclusive artifacts/message merge/global LICENSE/inventory/manifests/main/cross-lane integration.
 
-
 ### Complete CLI owner queue interim (2026-10-02)
 
 Spec10643ed, complete discovery owner a7f25f6 and complete helper/parsing owner4585c82 pushed. Fresh Solhigh/forknone authors; rawfirstready/allownrevisions/accesslogs and exacthashes in services/src/git/CLI-AUTHOR-RECEIPTS-20261002.json. Original3minimumfakeportchecks/types passed. Replacementdiscovery1/1 and helpers+directoriginalCLIrepo2/2 minimumchecks; scopedtypes/source-testlint/architecture0/0/0 passed. Complete repository freshcandidate under review, no partialdoneclaim. No ordinarysuites/builds/nativeGit/realuserrepos/credentials/remotes/history actions, no blanketlicensing grant. Missingignore earlierfileconsumer blocker unchanged.
@@ -101,7 +100,6 @@ Spec10643ed, complete discovery owner a7f25f6 and complete helper/parsing owner4
 HOLD commitMessageFileScope.ts: requested historical licensing/evidence/commit-message-scope-independent-replacement-20261001.json absent in this checkout; no binding comparison possible. Current source SHA256 f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e/blob ec59eed8eb288dc3ed5ac0a870c08702d2400a3d held byte-exact. Do not infer uncovered/accepted from earlier provisional queue list. No root/source/history integration performed.
 
 Existing executor verified recovered with one harmlesslocalpwd after disconnectionnotice; preserved drafts/workspace, no reset/replacementexecutor/networkworkaround or healthtests.
-
 
 ### Complete Git CLI queue collected (2026-10-02)
 
@@ -139,7 +137,6 @@ Types: four importowners+tests pass original/replacement. Five-owner scoped type
 
 159unselected agent/session/studio-runtime source hashes and global receipt/inventory inputs unchanged. Local held commitMessageFileScope predecessor f813e660… unchanged; parent root accepted ca5bf8cc…/blob69e43f4…/receipt commit-message-scope-independent-replacement-20261001.json recorded without copying/fetching/reauthoring. Later parent integration owns reconciliation. No crosslane/mainmerge/rootLICENSE/globalinventory/manifests/security changes/uploadretry/UI403alternate access. Detailed exact outputs: session/SESSION-QUEUE-EVIDENCE-20261002.md. Same draftPR10 targeting recoveryintegration.
 
-
 ### Privacy/media bounded queue — 2026-10-02, head3661d9265f879bfc397419862dbbe241804bdf72
 
 Spec-first79e7b90; complete owner production f9f3d93; evidence correction3661d92. Fresh fork-none GPT-6.1 Sol high authors (user requested Fast; no independent tier switch claim) replaced three substantive complete owners: `media-preview/mediaPreview.ts`, `feedback/feedbackArchiveCandidates.ts`, `feedback/feedbackArchiveSnapshot.ts`. Paired preview authorization, budget/data/error identity; global bounded ordered no-link traversal; opened-file identity/read/redaction/close precedence preserved. Original3/3 new synthetic safety checks + absent-root clarification1/1; submitted3/3; scoped six-file strict/noUnchecked types pass, lint0/0, format pass, architecture0/0/0. All14 unselected inventoried originals unchanged. No existing suite/build/full type/integration run or application data/telemetry/provider/network/credentials/database operations.
@@ -147,7 +144,6 @@ Spec-first79e7b90; complete owner production f9f3d93; evidence correction3661d92
 Raw first-ready/input freezes retained before review; media/traversal own revisions from bounded prose clarifications separately frozen; snapshot raw copied+formatted. Scoped inventory/author receipts/evidence under `packages/services/src/feedback/PRIVACY-MEDIA-*20261002*` include exact original/submitted hashes, raw/revision/input bytes and exact log outcomes. Initial architecture check failed before existing isolated TypeScript tool link restoration; no pass inferred. Final exact-token audit fails snapshot formatter trailing commas; premature evidence claim in local f9f3d93 corrected before push in3661d92, failure retained. Parsed kind/identifier/literal/child structure identity passes all3, no source changes in correction.
 
 Retained small telemetry/logger wrappers, policy and tiny deadline/module/re-export adapters. `feedbackLogArchive.ts` writer unchanged because required yazl unavailable; direct consumer type diagnostic TS2307(8,25) explicitly blocked, no substitute/stub/install/escalation. Seven substantive creation sources held for parent exact original/replacement origin bindings: creationJobs, creationService, creationStorage, creationReference, modelValidation, providers, mixed contract. Local migration says missing-origin-review/do-not-assume-rewrite; parent accepted/uncovered state is not inferred. Requests delivered while proceeding eligible3; no forced5. Existing missing ignore/croner/CUA, historical59listenEPERM, commitMessageFileScope predecessor HOLD and earlier lineage limits remain. No blanket MIT/legal/whole-process pristine cleanroom acceptance; all retained dependencies/declarations/limits/literals keep rights. Root LICENSE/global provenance/inventory/manifests unchanged; no main merge/forcepush/UI Library403 access/cancelled upload retry/deployment.
-
 
 ### Creation source-origin investigation — head0b098111c827656a648a1e3067762897e903a180
 
@@ -161,7 +157,6 @@ Parent confirms no exact accepted review for seven owners. Parent root creationR
 
 Recommendation: provisional retention for Knorvia feature/development lineage while whole-file origin review remains open. No substantive inherited owner demonstrated, hence no reconstruction scope proposed; missing records do not trigger rewrite. Not accepted-original/independent/MIT/legal clearance. JSON parsing, unchanged7hashes and diff-check pass; no tests/types/builds/app/provider/user-file/credential/network/DB operations. Earlier missing ignore/croner/CUA/yazl,59listenEPERM,commitMessageFileScope HOLD and other lineage limits remain. No source/license/dependency/security/G-shared-target/main changes.
 
-
 ### Remaining services process observation queue — head35d06d01049fe52955018011e67094170cc0a281
 
 Spec/inventory firstc1a9c62, complete four owners35d06d0. Screen enumerates388services TypeScript sources against local receipts/completed queues/historical holds. Selected processTreeSnapshot.ts, processTreeSnapshotAsync.ts, processTreeWaiter.ts, windowsProcessListAsync.ts: exact originals upstream-unchanged/migration-bound and explicitly left unselected by prior terminal/process queue, no exact accepted local review found. No forced5 or repeat of completed code. All384unselected source hashes verified unchanged, including creation7 provisional retention/origin holds, process runtime lifecycle/termination/sampling/type adapters and other-lane boundaries.
@@ -174,7 +169,6 @@ New strict synthetic authority checks original4/4, strengthened original2/2, rep
 
 Earlier missing ignore/croner/CUA/yazl and59listenEPERM, commitMessageFileScope predecessor/root integration HOLD, creation7 origins and prior lineage/acceptance limits remain explicit. Parent-only current root manager consumer closure is BLOCKED by feedbackLogArchive.ts:24 TS2339ReadableStream.destroy and runtime-tools/appCaCert.ts:4 TS7016node-forge declarations; parent has not integrated branch. Recorded as parent-provided external baseline, not proof this lane reproduces it; no full-run/declaration install/reconciliation triggered, deferred until owners naturally require it. Locally prior writer diagnostic remains missingyazlTS2307. Worktree clean; aggregate classification/integration deferred.
 
-
 ## Remaining allocation checkpoint (51420989d2b60339e6d3876dfc775f74a3b9f47c)
 
 Evidence-only follow-up to the existing388-source screen. No new owner selected or fresh author started; all388 current source hashes (using the four submitted process hashes) verified unchanged. Scoped REMAINING-ALLOCATION-20261002.md and REMAINING-ALLOCATION-EVIDENCE-20261002.json record counts,25 specifically retained owner/boundary paths and root allocation questions. Existing completed owners, seven provisional creation owners, exact/historical holds, security/data-location and cross-lane allocations remain. Stop author cycles pending root exact receipt/scope allocation; this is not services or provenance exhaustion.
@@ -182,7 +176,6 @@ Evidence-only follow-up to the existing388-source screen. No new owner selected 
 Two bounded root questions: session/claude-native/claudeNativeSessionHeadParser.ts SHA2563d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc and persistImportedClaudeTask.ts SHA256d7e6a1f097de4035620f56756c7b1e54ca719790e268d4e342215dd414376e9f. Earlier root allocation resolved only the five already-completed session owners. Local head-parser reference is an older baseline compilation record, not current acceptance; local licensing/reviews directory unavailable, absence not used as eligibility. No parent-only bindings copied or reauthored.
 
 JSON/count/hash checks,2-file format/diff and changed architecture0/0/0 pass. First architecture ERR_MODULE_NOT_FOUND(TypeScript) retained; successful retry uses the same already-installed isolated toolchain through the prior temporary link, removed afterward. No installs/substitutes, runtime tests/types/full suites/builds or application effects for this evidence-only change. Prior focused process4/4 safety/types/lint remain unrerun, as do missing ignore/croner/CUA/yazl, parent-only feedbackLogArchive/node-forge diagnostics and frozen59listenEPERM. Source-exposed coordinator and prior raw/revision/dependency/type/literal/acceptance limits remain. No MIT/legal-clearance/cleanroom/native-platform/final-integration claim.
-
 
 ## Allocated complete native head and import persistence owners (aaabe6e46ac9122320c6c33c0f669574ba361e0e)
 
@@ -230,7 +223,6 @@ MIGRATIONS-AUTHOR-RECEIPTS-20261002.json embeds5 packet files,12 frozen raw/revi
 
 Other SQL/snapshot/prepared/repositories/authorities unchanged. Frozen59listenEPERM, prior21 RPC diagnostics, all earlier missing ignore/croner/CUA/yazl/parent feedbackLogArchive/node-forge/creation/accepted/historical holds remain. No ordinary suites/build/full-project types/install/stubs/real DB acceptance, global LICENSE/provenance/inventory/manifests/security edits, main merge/force-push/cross-lane integration/deploy/bundle/cancelled upload retry/Library403 alternative. Worktree clean, temporary tool symlink removed; parent audit/classification/integration pending.
 
-
 ### Complete automation persistence repository — 2026-10-02
 
 Commit `798db27de7045f000b31ef084b66d49e324c47a0` follows spec-first `b877936`. Root allocated exact inherited automationRepo.ts hash f0d11e0165dabf5b2d841f303d8edfa766b21e14f59fb21f43dbd4dc27aa1d30; fresh fork-none Sol high author implemented all32 async APIs +close/constructor/constants/retry/error across8 cohesive source modules. Saved Fast actualtier switch unverified. Four public/data packets,21 frozen complete raw/review/access/instruction artifacts and13 exact logs embedded in `session/AUTOMATION-REPO-AUTHOR-RECEIPTS-20261002.json`. Raw frozen before review; coordinator source-exposed, byte-copy/format only.
@@ -238,7 +230,6 @@ Commit `798db27de7045f000b31ef084b66d49e324c47a0` follows spec-first `b877936`. 
 One minimum synthetic fake SQLite/fs/path/preparation/migration case passes original/candidate, strict owner/test types pass,94-rule lint0 warnings/errors, format/architecture pass0 total/baseline/new. All8 formatted sources match preferred normalized parsed structures and <=400 nonblank (max318); all70 static SQL/template data records retained exactly; declaration packet zero bodies. Direct automationService consumer remains BLOCKED by2 missing croner declarations, original/candidate diagnostic logs byte-identical. No real/native DB, SQL engine, migrations/files/userdata, ordinary suite/build or broad type check.386 nonselected screened TS sources match prior screen/committed lane bindings.
 
 SQL/signature/type/literal DATA lineage retained; bounded complete-owner technical evidence, no MIT/legal/whole-process cleanroom/full-project acceptance claim. Older startup remains FINAL-INTEGRATION HOLD against parentaccepted a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a; schema/chronology/scheduler/helper policy authorities retained. Earlier21RPC/frozen59listenEPERM/dependency and parentfeedback/appCaCert holds remain unrerun/unreclassified. Same draft PR/recovery target only, no main integration. TaskIndexRepo allocated owner still in progress.
-
 
 ### Complete task-index persistence repository — 2026-10-02
 
@@ -248,7 +239,6 @@ One minimum synthetic fake-port case passes original/final, checking readiness p
 
 First original fake top-order failure, unsuccessful fixture correction, first submitted2 TS2554 missing readiness arguments and strengthened preparation-port assertion failure preserved. Body-free public-port clarification supplied; separately frozen author revision02 corrected readiness, revision03 restored specified strict changes===0 comparisons. Original then final strengthened case passes; no assertions weakened/coordinator product-body edits. No native DB/SQL engine/files/userdata/migrations, ordinary suites/fullbuild or broad types. Earlier21RPC and2croner consumer blocks/frozen59listenEPERM remain; older local startup remains FINAL-INTEGRATION HOLD against parentaccepted a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a. Passing local startup types do not clear that hold. Schema/scheduler/chronology/helper policy and all global/legal/manifests unchanged; no MIT/legal/whole-process cleanroom/full-project acceptance claim. Same draft/recovery target; no main integration.
 
-
 ### Data-location, SSH and system complete lifecycle owners — 2026-10-03
 
 Source commit `3864165639098238254f4a0f4c4c068ce8cac24d`, spec-first8499577. Three fresh fork-none Sol high authors reconstructed the complete substantive data-location/copy, SSH discovery/parser/query/cache, and system facade/retry/socket/HTTP owners. Saved Fast switch unverified. `system/SOURCE-OWNER-AUTHOR-RECEIPTS-20261002.json` embeds8 body-free public/behavior packets,124 frozen raw/review/revision/access/instruction artifacts,43 exact logs, source hashes and verification/install scripts. Raw frozen before review; fresh10 sources copied/formatted only. Root paths.ts/systemService.ts deliberately remain mixed:27 pure/fixed function bodies byte-retained with source-exposed policy/delegate adapters, NO whole-file independent expression claim.
@@ -256,7 +246,6 @@ Source commit `3864165639098238254f4a0f4c4c068ce8cac24d`, spec-first8499577. Thr
 3/3 minimum synthetic authority cases pass originals/final; strict6 owner/test type roots pass,94-rule15-file lint0 warnings/errors, format/architecture0 total/baseline/new, all10 candidate parsed structures match, all12 changed/new sources <=400nonblank (max174).385 nonselected screened TS sources/prior automation+task-index private bindings unchanged. Fake environment/HOME/file/glob/copy/SSH-spawn/Socket/fetch/timers/shell ports only; no real config/keys/userfiles/commands/network/SSH/path migration/native acceptance/full suites/build.
 
 Four direct consumer roots remain BLOCKED by5 commands/commandFileParser.ts noUnchecked diagnostics, original/candidate logs byte-identical (separate from earlier21RPC/2croner). All first fixture/type/lint/formatter and dollar-HOME failures preserved. Author revisions fixed omitted ESM/type contracts, warnings and required native replacement-string semantics; strengthened HOME gate passes original/final. Readonly-copy formatter134 corrected workspace modes only; frozen sources unchanged. Startup/commitMessageFileScope and prior dependency/frozen59listenEPERM holds remain. Fixed/type/grammar/literal/dependency rights retained, coordinator source-exposed, no MIT/legal/whole-process/fullproject acceptance. No global/legal/security/dependency/terminal policy edits, cross-lane combination or main integration.
-
 
 ### Complete agent stdio/event owners — 4769bce (2026-10-03)
 

@@ -5,10 +5,7 @@ import type {
   ToolArtifactStorePort,
 } from "../deps.js";
 
-type MediaBlock = Extract<
-  ModelMessageContentBlock,
-  { type: "image" | "video" | "file" }
->;
+type MediaBlock = Extract<ModelMessageContentBlock, { type: "image" | "video" | "file" }>;
 
 function isPdf(block: ModelMessageContentBlock): boolean {
   return (
@@ -43,10 +40,9 @@ async function resolveMediaPath(
   }
   const uri = source.uri;
   if (!isArtifactUri(uri) || !artifactStore?.ensureMediaAttachmentPath) {
-    throw new Error(
-      materializationMessage(mediaKind, source.placeholder ?? uri ?? source.id),
-      { cause: undefined },
-    );
+    throw new Error(materializationMessage(mediaKind, source.placeholder ?? uri ?? source.id), {
+      cause: undefined,
+    });
   }
   try {
     const result = await artifactStore.ensureMediaAttachmentPath({

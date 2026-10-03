@@ -64,9 +64,11 @@ export function projectSnapshotMeta(
       ? {
           code: snapshot.projection.lastError.code ?? snapshot.projection.lastError.type,
           ...(snapshot.projection.lastError.detail
-            ? { detail: snapshot.projection.lastError.detail } : {}),
+            ? { detail: snapshot.projection.lastError.detail }
+            : {}),
           ...(snapshot.projection.lastError.attribution
-            ? { attribution: snapshot.projection.lastError.attribution } : {}),
+            ? { attribution: snapshot.projection.lastError.attribution }
+            : {}),
           message: snapshot.projection.lastError.message,
         }
       : undefined,
@@ -94,9 +96,11 @@ function visible(snapshot: KnorviaSessionStateSnapshot): boolean {
   const title = snapshot.session.title?.trim() ?? "";
   if (title && !isKnorviaGoalContinuationReminderText(title)) return true;
   if (snapshot.projection.target?.objective.trim()) return true;
-  return snapshot.messages.some((message) =>
-    message.info.role === "user" && !isKnorviaModelOnlySyntheticUserMessage(message) &&
-    message.parts.some((part) => part.type === "text" && part.text.trim().length > 0),
+  return snapshot.messages.some(
+    (message) =>
+      message.info.role === "user" &&
+      !isKnorviaModelOnlySyntheticUserMessage(message) &&
+      message.parts.some((part) => part.type === "text" && part.text.trim().length > 0),
   );
 }
 
@@ -118,7 +122,9 @@ function* messageSearchParts(message: KnorviaMessageWithParts): Generator<string
 export function projectSnapshotSearchText(snapshot: KnorviaSessionStateSnapshot): string {
   let text = "";
   let remaining = 200_000;
-  const messages = getKnorviaUserVisibleMessages(snapshot.messages, { target: snapshot.projection.target });
+  const messages = getKnorviaUserVisibleMessages(snapshot.messages, {
+    target: snapshot.projection.target,
+  });
   for (const message of messages) {
     for (const raw of messageSearchParts(message)) {
       const fragment = raw.trim();
@@ -138,7 +144,10 @@ export function createSnapshotProjection(
   logger: IngestLogger,
 ) {
   return {
-    async sync(snapshot: KnorviaSessionStateSnapshot, options: SnapshotSyncOptions): Promise<KnorviaTaskMeta> {
+    async sync(
+      snapshot: KnorviaSessionStateSnapshot,
+      options: SnapshotSyncOptions,
+    ): Promise<KnorviaTaskMeta> {
       const meta = projectSnapshotMeta(snapshot, options);
       if (snapshot.session.sessionKind === "subagent_child") return meta;
       const searchableText = projectSnapshotSearchText(snapshot);
@@ -178,7 +187,11 @@ export function createSnapshotProjection(
           patch: { model: normalized },
         });
       } catch (error) {
-        logger.warn(undefined, `同步 task 模型到 task index 失败 taskId=${target.sessionId}`, error);
+        logger.warn(
+          undefined,
+          `同步 task 模型到 task index 失败 taskId=${target.sessionId}`,
+          error,
+        );
         return null;
       }
     },

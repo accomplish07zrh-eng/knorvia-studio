@@ -101,10 +101,13 @@ export function createKnorviaTaskIndexSyncer({
   }
 
   function getWorkspaceEmitter(workspace: WorkspaceEventInput): Emitter<KnorviaWorkspaceEvent> {
-    const key = typeof workspace === "string" ? workspace : resolveWorkspaceKey({
-      workspacePath: workspace.workspacePath,
-      workspaceIdentity: workspace.workspaceIdentity,
-    });
+    const key =
+      typeof workspace === "string"
+        ? workspace
+        : resolveWorkspaceKey({
+            workspacePath: workspace.workspacePath,
+            workspaceIdentity: workspace.workspaceIdentity,
+          });
     const previous = emitters.get(key);
     if (previous) return previous;
     const emitter = new Emitter<KnorviaWorkspaceEvent>();
@@ -149,13 +152,16 @@ export function createKnorviaTaskIndexSyncer({
       (value): value is number => value !== null,
     );
     if (deadlines.length === 0) return;
-    workspace.assemblyTimer = setTimeout(() => {
-      workspace.assemblyTimer = null;
-      const now = Date.now();
-      workspace.index.expire(now);
-      workspace.config.expire(now);
-      scheduleAssembly(workspace);
-    }, Math.max(0, Math.min(...deadlines) - Date.now()));
+    workspace.assemblyTimer = setTimeout(
+      () => {
+        workspace.assemblyTimer = null;
+        const now = Date.now();
+        workspace.index.expire(now);
+        workspace.config.expire(now);
+        scheduleAssembly(workspace);
+      },
+      Math.max(0, Math.min(...deadlines) - Date.now()),
+    );
     workspace.assemblyTimer.unref?.();
   }
 
@@ -193,25 +199,30 @@ export function createKnorviaTaskIndexSyncer({
         live: () => live(workspace),
         topic: () => sessionsIndexTopic(resolveWorkspaceKey(target)),
         assembler: new TopicWireFrameAssembler(sessionsIndexTopicFrameSchema),
-        subscribe: () => agentService.subscribeSessionsIndexV4({
-          ...target,
-          visibility: "background",
-          subscriberScope: "task-index",
-          runtimePolicy: "existing-only",
-        }),
-        unsubscribe: (subscriptionId) => agentService.unsubscribeSessionsIndexV4({
-          ...target,
-          subscriptionId,
-          runtimePolicy: "existing-only",
-        }),
-        resync: (input) => agentService.resyncSessionsIndexV4({
-          ...target,
-          subscriptionId: input.subscriptionId,
-          base: input.base,
-          runtimePolicy: "existing-only",
-          ...(input.forceSnapshot ? { forceSnapshot: true } : {}),
-        }),
-        becameUnavailable: () => { workspace.runtimeGeneration = null; },
+        subscribe: () =>
+          agentService.subscribeSessionsIndexV4({
+            ...target,
+            visibility: "background",
+            subscriberScope: "task-index",
+            runtimePolicy: "existing-only",
+          }),
+        unsubscribe: (subscriptionId) =>
+          agentService.unsubscribeSessionsIndexV4({
+            ...target,
+            subscriptionId,
+            runtimePolicy: "existing-only",
+          }),
+        resync: (input) =>
+          agentService.resyncSessionsIndexV4({
+            ...target,
+            subscriptionId: input.subscriptionId,
+            base: input.base,
+            runtimePolicy: "existing-only",
+            ...(input.forceSnapshot ? { forceSnapshot: true } : {}),
+          }),
+        becameUnavailable: () => {
+          workspace.runtimeGeneration = null;
+        },
         apply: summary.apply,
         commitDeltaBeforeProjection: false,
         expiryChanged: () => scheduleAssembly(workspace),
@@ -223,29 +234,35 @@ export function createKnorviaTaskIndexSyncer({
         live: () => live(workspace),
         topic: () => workspaceConfigTopic(resolveWorkspaceKey(target)),
         assembler: new TopicWireFrameAssembler(workspaceConfigTopicFrameSchema),
-        subscribe: () => agentService.subscribeWorkspaceConfigV4({
-          ...target,
-          visibility: "background",
-          subscriberScope: "task-index",
-          runtimePolicy: "existing-only",
-        }),
-        unsubscribe: (subscriptionId) => agentService.unsubscribeWorkspaceConfigV4({
-          ...target,
-          subscriptionId,
-          runtimePolicy: "existing-only",
-        }),
-        resync: (input) => agentService.resyncWorkspaceConfigV4({
-          ...target,
-          subscriptionId: input.subscriptionId,
-          base: input.base,
-          runtimePolicy: "existing-only",
-          ...(input.forceSnapshot ? { forceSnapshot: true } : {}),
-        }),
-        becameUnavailable: () => { workspace.runtimeGeneration = null; },
+        subscribe: () =>
+          agentService.subscribeWorkspaceConfigV4({
+            ...target,
+            visibility: "background",
+            subscriberScope: "task-index",
+            runtimePolicy: "existing-only",
+          }),
+        unsubscribe: (subscriptionId) =>
+          agentService.unsubscribeWorkspaceConfigV4({
+            ...target,
+            subscriptionId,
+            runtimePolicy: "existing-only",
+          }),
+        resync: (input) =>
+          agentService.resyncWorkspaceConfigV4({
+            ...target,
+            subscriptionId: input.subscriptionId,
+            base: input.base,
+            runtimePolicy: "existing-only",
+            ...(input.forceSnapshot ? { forceSnapshot: true } : {}),
+          }),
+        becameUnavailable: () => {
+          workspace.runtimeGeneration = null;
+        },
         apply(frame) {
-          const config = frame.payload.kind === "snapshot"
-            ? frame.payload.snapshot.config
-            : frame.payload.deltas.at(-1)?.config;
+          const config =
+            frame.payload.kind === "snapshot"
+              ? frame.payload.snapshot.config
+              : frame.payload.deltas.at(-1)?.config;
           // 空种子目录不能清除 UI 当前使用的模型选项。
           if (!config || config.configOptions.length === 0) return;
           getWorkspaceEmitter({
@@ -269,8 +286,12 @@ export function createKnorviaTaskIndexSyncer({
     if (!live(workspace)) return;
     if (!workspace.listening) {
       workspace.listeners.push(
-        agentService.onDynamicSessionsIndexFrame(workspace.target)((frame) => workspace.index.receive(frame)),
-        agentService.onDynamicWorkspaceConfigFrame(workspace.target)((frame) => workspace.config.receive(frame)),
+        agentService.onDynamicSessionsIndexFrame(workspace.target)((frame) =>
+          workspace.index.receive(frame),
+        ),
+        agentService.onDynamicWorkspaceConfigFrame(workspace.target)((frame) =>
+          workspace.config.receive(frame),
+        ),
       );
       workspace.listening = true;
     }
@@ -283,10 +304,13 @@ export function createKnorviaTaskIndexSyncer({
     if (disposed || !target.workspacePath) return;
     const key = resolveWorkspaceKey(target);
     if (workspaces.has(key)) return;
-    const workspace = createWorkspace({
-      workspacePath: target.workspacePath,
-      workspaceIdentity: target.workspaceIdentity,
-    }, available.get(key) ?? null);
+    const workspace = createWorkspace(
+      {
+        workspacePath: target.workspacePath,
+        workspaceIdentity: target.workspaceIdentity,
+      },
+      available.get(key) ?? null,
+    );
     workspaces.set(key, workspace);
     if (!lifecycleAware || workspace.runtimeGeneration !== null) start(workspace, "initial");
   }
@@ -315,18 +339,21 @@ export function createKnorviaTaskIndexSyncer({
       start(workspace, "runtime-restart");
     }
   });
-  const restarted = lifecycleAware ? undefined : agentService.onAgentRuntimeRestarted?.((event) => {
-    const workspace = workspaces.get(event.workspaceKey);
-    if (workspace) start(workspace, "runtime-restart");
-  });
+  const restarted = lifecycleAware
+    ? undefined
+    : agentService.onAgentRuntimeRestarted?.((event) => {
+        const workspace = workspaces.get(event.workspaceKey);
+        if (workspace) start(workspace, "runtime-restart");
+      });
 
   return {
     ensureWorkspaceSubscription,
     ensureSessionSubscription(target) {
-      if (target.sessionId && target.workspacePath) ensureWorkspaceSubscription({
-        workspacePath: target.workspacePath,
-        workspaceIdentity: target.workspaceIdentity,
-      });
+      if (target.sessionId && target.workspacePath)
+        ensureWorkspaceSubscription({
+          workspacePath: target.workspacePath,
+          workspaceIdentity: target.workspaceIdentity,
+        });
     },
     syncSnapshotAndBroadcast: snapshots.sync,
     syncTaskModel: snapshots.model,

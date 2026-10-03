@@ -33,9 +33,10 @@ export function buildMemoryExtractionPrompt(input: {
   manifest: readonly MemoryManifestEntry[];
   messageCount: number;
 }): string {
-  const existingFiles = input.manifest.length > 0
-    ? `\n\n## Existing memory files\n\n${formatMemoryManifest(input.manifest)}\n\nCheck this list before writing — update an existing file rather than creating a duplicate.`
-    : "";
+  const existingFiles =
+    input.manifest.length > 0
+      ? `\n\n## Existing memory files\n\n${formatMemoryManifest(input.manifest)}\n\nCheck this list before writing — update an existing file rather than creating a duplicate.`
+      : "";
   return [
     `You are now acting as the memory extraction subagent. Analyze the most recent ~${input.messageCount} messages above and use them to update your persistent memory systems.`,
     "",
@@ -105,9 +106,7 @@ export function createMemoryExtractionScheduler<
     const snapshot = acquired.snapshot;
     const messages = snapshot.durableMessages;
     const previous = cursor;
-    const located = previous
-      ? messages.findIndex((message) => message.info.id === previous)
-      : -1;
+    const located = previous ? messages.findIndex((message) => message.info.id === previous) : -1;
     const proseStart = previous && located >= 0 ? located + 1 : 0;
     const messageCount = messages.length - proseStart;
     const writeStart = previous && located < 0 ? messages.length : proseStart;
@@ -122,12 +121,14 @@ export function createMemoryExtractionScheduler<
         if (tool.tool !== "Write" && tool.tool !== "Edit") continue;
         const filePath = tool.state.input.file_path;
         if (typeof filePath !== "string" || filePath.length === 0) continue;
-        if (resolveContainedMemoryFilePath({
-          filePath,
-          rootDir: snapshot.memoryRoot,
-          workingDirectory: snapshot.workingDirectory,
-          workspaceRoot: snapshot.workspaceRoot,
-        })) {
+        if (
+          resolveContainedMemoryFilePath({
+            filePath,
+            rootDir: snapshot.memoryRoot,
+            workingDirectory: snapshot.workingDirectory,
+            workspaceRoot: snapshot.workspaceRoot,
+          })
+        ) {
           directWrite = true;
           break;
         }
@@ -138,9 +139,12 @@ export function createMemoryExtractionScheduler<
     if (!directWrite) {
       for (let i = proseStart; i < messages.length && !eligible; i += 1) {
         const message = messages[i];
-        if (message.info.role !== "user"
-          || message.info.synthetic === true
-          || message.info.visibility === "model-only") continue;
+        if (
+          message.info.role !== "user" ||
+          message.info.synthetic === true ||
+          message.info.visibility === "model-only"
+        )
+          continue;
         for (const part of message.parts) {
           if (part.type !== "text" || part.ignored === true || part.synthetic === true) continue;
           if (part.text.split(/\s+/u).filter((word) => word.length > 0).length >= 3) {
@@ -206,7 +210,9 @@ export function createMemoryExtractionScheduler<
       }
       busy = true;
       let release!: () => void;
-      completion = new Promise<void>((resolve) => { release = resolve; });
+      completion = new Promise<void>((resolve) => {
+        release = resolve;
+      });
       const first = acquire(snapshot);
       void run(first, release);
     },

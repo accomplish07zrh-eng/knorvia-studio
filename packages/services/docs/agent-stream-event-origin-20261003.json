@@ -52,34 +52,13 @@
         "uniqueCandidatesCompared": 512,
         "matches": [],
         "candidateRules": [
-          [
-            "#src/agent/",
-            "#src/zcode-agent/"
-          ],
-          [
-            "/storageStartupGate.js",
-            "/zcodeStorageStartupGate.js"
-          ],
-          [
-            "./protocolTransport.js",
-            "./zcodeProtocolTransport.js"
-          ],
-          [
-            "/agent.js",
-            "/zcodeAgent.js"
-          ],
-          [
-            "agent-process-tree",
-            "zcode-agent-process-tree"
-          ],
-          [
-            "./agentStderrCollector.js",
-            "./zcodeAgentStderrCollector.js"
-          ],
-          [
-            "@zcode/shared/protocol-v4",
-            "@zcode/shared/zcode-protocol-v4"
-          ]
+          ["#src/agent/", "#src/zcode-agent/"],
+          ["/storageStartupGate.js", "/zcodeStorageStartupGate.js"],
+          ["./protocolTransport.js", "./zcodeProtocolTransport.js"],
+          ["/agent.js", "/zcodeAgent.js"],
+          ["agent-process-tree", "zcode-agent-process-tree"],
+          ["./agentStderrCollector.js", "./zcodeAgentStderrCollector.js"],
+          ["@zcode/shared/protocol-v4", "@zcode/shared/zcode-protocol-v4"]
         ],
         "policy": "No semantic edits, executable reordering, comment deletion, generic identifier normalization, application execution or external retrieval"
       },
@@ -135,9 +114,7 @@
           {
             "sha256": "c6e0790cb7adacf7b4a9e40c2b2d902fecd81e4d13c5851e54ffeea5c6886ae4",
             "bytes": 16229,
-            "studioOccurrencesReverse": [
-              "ZCode"
-            ],
+            "studioOccurrencesReverse": ["ZCode"],
             "globalTokenReverse": [
               {
                 "from": "Knorvia",
@@ -166,34 +143,13 @@
           }
         ],
         "candidateRules": [
-          [
-            "#src/agent/",
-            "#src/zcode-agent/"
-          ],
-          [
-            "/storageStartupGate.js",
-            "/zcodeStorageStartupGate.js"
-          ],
-          [
-            "./protocolTransport.js",
-            "./zcodeProtocolTransport.js"
-          ],
-          [
-            "/agent.js",
-            "/zcodeAgent.js"
-          ],
-          [
-            "agent-process-tree",
-            "zcode-agent-process-tree"
-          ],
-          [
-            "./agentStderrCollector.js",
-            "./zcodeAgentStderrCollector.js"
-          ],
-          [
-            "@zcode/shared/protocol-v4",
-            "@zcode/shared/zcode-protocol-v4"
-          ]
+          ["#src/agent/", "#src/zcode-agent/"],
+          ["/storageStartupGate.js", "/zcodeStorageStartupGate.js"],
+          ["./protocolTransport.js", "./zcodeProtocolTransport.js"],
+          ["/agent.js", "/zcodeAgent.js"],
+          ["agent-process-tree", "zcode-agent-process-tree"],
+          ["./agentStderrCollector.js", "./zcodeAgentStderrCollector.js"],
+          ["@zcode/shared/protocol-v4", "@zcode/shared/zcode-protocol-v4"]
         ],
         "policy": "No semantic edits, executable reordering, comment deletion, generic identifier normalization, application execution or external retrieval"
       },
@@ -278,34 +234,13 @@
           }
         ],
         "candidateRules": [
-          [
-            "#src/agent/",
-            "#src/zcode-agent/"
-          ],
-          [
-            "/storageStartupGate.js",
-            "/zcodeStorageStartupGate.js"
-          ],
-          [
-            "./protocolTransport.js",
-            "./zcodeProtocolTransport.js"
-          ],
-          [
-            "/agent.js",
-            "/zcodeAgent.js"
-          ],
-          [
-            "agent-process-tree",
-            "zcode-agent-process-tree"
-          ],
-          [
-            "./agentStderrCollector.js",
-            "./zcodeAgentStderrCollector.js"
-          ],
-          [
-            "@zcode/shared/protocol-v4",
-            "@zcode/shared/zcode-protocol-v4"
-          ]
+          ["#src/agent/", "#src/zcode-agent/"],
+          ["/storageStartupGate.js", "/zcodeStorageStartupGate.js"],
+          ["./protocolTransport.js", "./zcodeProtocolTransport.js"],
+          ["/agent.js", "/zcodeAgent.js"],
+          ["agent-process-tree", "zcode-agent-process-tree"],
+          ["./agentStderrCollector.js", "./zcodeAgentStderrCollector.js"],
+          ["@zcode/shared/protocol-v4", "@zcode/shared/zcode-protocol-v4"]
         ],
         "policy": "No semantic edits, executable reordering, comment deletion, generic identifier normalization, application execution or external retrieval"
       },
@@ -656,11 +591,7 @@
   "limits": "Repository-only static metadata/hash screening; no source/global inventory/license/dependency/authority changes, author cycles, actual subprocess/stdio/provider/network/user-data operations, tests/builds/native acceptance, MIT claim, main merge or cross-lane integration.",
   "commands": [
     {
-      "argv": [
-        "git",
-        "cat-file",
-        "--batch-check"
-      ],
+      "argv": ["git", "cat-file", "--batch-check"],
       "exit": 0,
       "stdout": "b38a521f14a24420c15d4d0af8fe80535db2f120 missing\n03538afa6e9dbf1f3a9d76f98934e674dc2b483c missing\nae81bce353bc42bebc09b738a207ecd085bab835 missing\n857497bd6e8fb029dda95815af7718a29293fd3a missing\n8906f9348c079cd9b12e6226c7cac5133c34f519 missing\nd8a56192f001224851ad828b7a3df572ddc52bc7 missing\n581a7d847e1632447ff261e91e0a08ed13e87511 missing\nde58b7f228c4b6dafcf0fddfc25886605f9cf514 missing\n53268df47b1ff061745c75f2adf4a4a80f4788e9 missing\nd3a75a5d29643410538db688d9898da6b2bea247 missing\nff60472f8a85a8c303b63e039f4fe002db698ee8 missing\nc2504c8e651817b2e6563c24acecdf2ffca2a628 missing\n800a39aab18ff40763299835a0d607e1614fa88c missing\n522fd8b47c9db9af87813657719c6a7fe7052800 missing\n3fc600735deaee8ca311ec2c2bdbc8debef603c9 missing\n0457050695528867b0442e6f4da3e77b2d588633 missing\nee193ae926e9f7c2f295cc37ed9917f619344c94 missing\n1f4c967a49b44387be92aad6edfd834ee777f8ed missing\n32e002011e79482172e08114f1fcd98da413badc missing\n9909f2af9f8641b789927485810c5cc33580f12b missing\n07bf549dd96e92b788ee30cf78b265d612e8e189 missing\nb2e3be7059214dd5e9ea79cd41cf49133e9e4570 missing\n4c260105cdbe5f62058e1d048735a26ad4f147b7 missing\nd7e96c8389e7d8c24a707005bbaf5ee8dc03e308 missing\n151f7fc28acc058915e71e45b8e8e7d6024ba4a4 missing\n3666d0ca981848d4e2fb3cd94b796f0d7425e1d3 missing\n9e0ff39b912e4ff516797867d397d0c7a6d44bef missing\nd1287e9e51e9690f28de0a2df02cb06331a52327 missing\na2d143b8ff630344445af8ae1e1c46310bd16057 missing\neccf8fac4a4811c3292e8eec740fb17cf09cbb1d missing\n82a97c4846c1babac0a0b4bbf3e514fb62540524 missing\nc2d662d2fc36b00a586ce786735f9865044f80d6 missing\ndf415b00e79c1d83ef2f4c9ea99adbda2c13fbf3 missing\nb090549c623edf00d12a9f41e1840aa1aedc9458 missing\n3448e49014cdbf3197b74c5aa3fe8dd460454e98 missing\n2309cd2f01185016cb68d68ee9798850d2e2efc2 missing\n754858e400c6dd32fa02bb95bed7b4803a66af95 missing\n5b3626eb15eca7b8f066c48d0307e35fcb1e165e missing\n4ccf0b51c507b99dd96618bff354f2fbd6a7b26e blob 560\n69faaf7e414ff823e6b784dae7fc0b29305c6949 missing\n1c6ec3fb35233efcd8b53d3a098aa82f1d09a8f0 missing\n0a1ce179059eb48ae36ea1bb20228ac2656d11ab missing\nab3fc1ac176395c66d37e2d38fcff5fab520dc3c missing\n0ddcf030f827d369d1eb9578a62168ff51875c32 missing\n1d90a00ab73550b493d041453ae6235e84bb9bf4 missing\ndffb37899e3f929c7db786fd15c41fe6961506b4 missing\nea5f6c67753c63a30249d4ed9fcca244ae7e9f6b missing\n167a9d0fda56d4928c5ccc40cc22ea31ff748213 missing\nfa0df39d079419cc2733e5bbf2b2feb74702577e missing\nfd1b6fc5ceced8b2aa0929c1c9f1f117400653b1 missing\nc5eb7c2f2c477e346dedfce756593cbaca357a1b missing\n4f4808dfbac73bfa11e5e4d35c8a2b6e420888f0 missing\n3a625f1a645a0a93fda2125fef7a9a4a7e046c73 missing\n38320677559bfecefd8640f68892ac83040289e8 missing\n6ec16ad50ffa8e59443e0aafb83003d039fa92c7 missing\nd26afda1f8efc46552b798c985aff050182ccbcd missing\nddca5ac663c6799a0f29786100930e1b80f34083 missing\n417f21fdc4df4e4b59573cb11e722b00f9b90af4 missing\na2514f506ad5a684c6b38a5993f2b65cc3940354 missing\n7278eed9540bbe88dc3888f98fab160d6b67863f missing\n3cb83eb47f3b0ae7d9589195bfdc70af662d79f3 missing\ndf3426c8a398f797730c90dcfbd85cce3c7a0259 missing\n2bf30809dc4f0f87f551094865269db6a47b5aa5 blob 7664\n526619f932d13acb0e0173e2e961c7ad04cbe9e1 blob 1786\nbc3eafa5187fd4cb27d77b27e9c416af2a0a62ca missing\n4e3a267d0ab031e3bd252a96197ff38bd921c082 missing\n2a98f1cca8a2d206ee8a94eb3e36cff5d3bf70bf missing\n470d91185ac5fc84904ad06185ff1858e753115e missing\nffe734dd7fcccc15c1128f7be818ea8b41c4fd90 missing\n7ce3c8883312a122df830b09f797580fdef7de3b missing\n00bb1a703b1b670a54a2be419de63f0ff60a374d missing\n9f60a0067c41e3ff2ed604585b45b878084939f0 missing\n16d7c6a4dbff7fd7f4bb41b2236f279c48365687 missing\n3ed9a11262c37303fda403f4d9e4fdee4d464529 missing\n12577b873b8406cf134c3828404a1f009ba0d8cd missing\n3dfd936129e2a1a6aba6c6575b384e6bb6fa8011 missing\n39921cafb10de47dadfed74d9c59bda52b226df9 missing\n0a7a96e6a36d18389b35d12c717bce0ebcb3c3a9 missing\n276fd595871deaf60e8768850a7315044aed3630 missing\n30c40942eab3b61406bf857c374bcbfabc8b761f missing\naae7dc90b6052f69ac5cb2ef3c3675d34b68c129 missing\nc9ef6fa4d2efc957ab3e7eeeddefc3f4b7ae5030 blob 3570\n624bc02378e93d0f8a234ad1e15e149f5b577d41 missing\n8ab6daf142c313c3950d6380e6637c812baed737 missing\n998fd2183c8c97a731fa5834237aeeac08343825 missing\nf4995f6828ab4ae88aaf129fd3400f399c0ec74d missing\n2925509c5b42ca677af2b8ab41b9f883a40b0322 missing\n2cca715dc4425829dc0659600cbd2084dec14e5c missing\n0fde2a611e0bb5349a04ad0f77fbf9a17601fe25 missing\ne3767e786345c1bc9ea8625d95f5b027267a21b8 missing\n7c3461891078de69c53a20279f9811f63f2e1915 missing\n6646abe11fb233c0586398c333bdacbbe03bbef9 missing\nca824806bb95c729846742844213552ea72f7711 missing\n7e0437e92af2fbfdcc0cfc71edff0e513fc98eee missing\n3adaebe5178fa9cfdd13ee844b34621b20eb552e missing\nc5b4fbbf86ae4260d41875e4da87662a6ecd7074 missing\n1b35f327faf996fa1bcf43ae882374e9849544bd missing\n3b59a1bf5f024d5d084acd433c3b451ad206ba3c missing\ne7f5202c5cdc14c25bcdf3d02c1183340d5f57d3 missing\nc63ada473a48acbeb38c328c467bfd9feca23fce missing\n57c487537bf8dc431e96e28d050d11f8b524cb6b missing\n2ba46c1de5dc22bda5317f4297137a336b90e753 missing\n83c0d0c93731a9847a0e34c237854135f48a3b20 missing\nae7494c6eb372999f40a9cd8add2979056376f40 missing\ncf18bd6cf1ce0eda50a040a0270abaf43de4c429 missing\n3a8bd55afce20f43e5d7c46ad9d86f6b279b0d0b missing\nbdc627788b22408144a7fd37f19e8a5a87fe9f49 missing\n6001debfa3835fac4afb814deac31033b4f9ff8b missing\n94c9938f423b1c030a6109f4da69916717912724 missing\nba41d5cee5c95c4447d8ae6b46ae5313d3e00f93 missing\n8489c4cbf4b68b958d516cc79132030a728d5f9a missing\n77d2fa9922e0ee7069bc3afc31ff666edd68b550 missing\n3fe9ebd23d7072156a00232fe4f28530cb8bd969 missing\n65b657b4a0dfd22d905b624099ca728c6fb5e211 missing\n62283ee0dc1554daebbf5c9624349f04f0c0a715 missing\nb6de617e8c96ed6d99bc9b84417e8f20ed669d12 missing\n717e7bce3386a61e5eacc81d0b1df14924e5f931 missing\n27266f406aa011d7f1eaa41c3302f61cede1857e missing\n2e55c369d4a134cc3fafc7b2717ef0a2ae47ebfb missing\nb4c0f8d7b834618769607d4c62c8a2b8ef9a61c5 missing\na9b4adff1bdcfe38f5d99f96603179f55eb415b5 missing\n1d42b988dfcd202741103864050f7a17de2ad31c missing\n5cf2d9f1bccc63b0734c9e53664f2595bb6c6676 missing\nb671bf79eaa938e485a30f3d717c77a513fd5d34 missing\n495843ac5f2de9d869f7ad5d8f43b09273493fb9 missing\n4bd97195d5b9cd852f5c3b8b0b66c65cb541ba38 missing\nd70bc0c803c9a1fcbdbb048ca7c54a2e72a5bb71 missing\n1858b94aac11f1895e5b550f04ed4589ef85d8a4 missing\n2f2e58bda8811decaf1d95061f0c63a1db247345 missing\ne5f04b8b29fbaa50920147f36921bf3b8e4459ec missing\ne4328572e2b2dc84bc9fc3e92ad784eb187c7ec8 missing\n4b2d0b41a7d0969bb8b5da966e576167b0448346 missing\nd882484fdb61bf040edeeea4205998386ff9c9e6 missing\n4a456237a367d056b3d7f738e885d6c15a6eac17 blob 1334\nf14505736d428ea52fb860466b5c4bcb80f0bff3 missing\n131aab9bd150c47fdd6d5416ff83281a8e849b07 blob 1815\n6d8c22f8cc2ee6510f0888bd0012c66eededb73a missing\n60c354e7177bc99be9158be1606831d94c98ff8f missing\n32803372724fea05ad8695060e6731dd6a3275f5 missing\n07a0ae7fb35596f5ce20277491a72f6050af6863 missing\n91077c945d40a490fbc519ec811ad1bbe2c4a7c8 missing\n2f124d208d7b1fd5deaf628ba664e93aa665cd11 blob 6022\n5d5e2b112a5bb5b1fc59ca457a3c42f49a6ed80c blob 12554\n768b6b88d6763f79482766c46dfec7a0d008b169 blob 5623\nabbb3f3527225517dbf08c800f9800ce4e792d40 blob 17776\nf2ea5a6e60314a95b0dc5f01b7e4373d1ae3b26a missing\naec26950e3150ef026869dfe3548660309be87ad blob 10344\na4cee3d74674fb3757499bb5abc8449226e44989 missing\nafd02ee2e825f1da5af6756d8251577626e87df4 blob 7817\nd6334fe3b2b77ad2ec442ebb0df47a9a7f04b1d5 blob 751\n7d79e8323874abcd9daa27d9538cdcc7567c8f64 missing\n8979e0d93b2dfe31225b8f13018872e892bf08fa missing\nb40b523c585bce485d76966699145b3ee29b4c2e missing\nff7e870ffa09969d8db3936b4d2427790cc35531 missing\nf07da4526f76bd2fcd37e47bdcdfa33cb7b87442 blob 807\nfdd1ead6ffcc70de668f5f263d1d45dfbb4c8464 missing\nb82f68c8a656ca561855bf9b5a734d2d75b352ed blob 2727\n7a375987fd757d420f1c90f54bfaf7a3d3b15613 missing\n6b8a9c63e3121dc4c4f6fa63bf1feabb663fbd9f blob 9455\n1a85e5ccf3d1ec34e4acf5f35769a9a425b09806 missing\nda56f195c7dc299102ccf81ee63e1bc954d5998e missing\n4a6b0c79c9a15ee371439eff377f492ae9631fca missing\n82e746b8037894369293e5a4d28061b96079025f missing\n7a33ff6fd5d1cb1545049c83c213f868a8de7aee missing\nbe03553cbadd842011939122ec5f4efbb86b186a missing\nbe62ca0d929fcc05df50a4f4db4fe4031620a48a missing\n94b0d2294f5dab715ee6e280d7ec154a2b5290a0 blob 1475\n9d35595a6c42bb3c3f4c64e17e9a74ba8f8381d8 missing\nad581d621c6602eb8356a895284fd16b423af6df missing\ne546bf80110bc6744f892b4e9f9f99f2d787a586 missing\n38f7d1b24baf11a03dfbd1a68a7cdb149ddb79f0 missing\n20cdf328708ca89018759e279a42a0348b3fc116 missing\n56e3d225aa8f095123ee114fe832b3fcce698bde missing\nf72def81bbd2cdccf0edb5810a77df50c54aa4c7 blob 311\n517c32d3b19b016ceb859e226721dd0e285169dc missing\nfaf964e0b82b6e9bda1f4160018b29ea5674552b missing\n4b4d28e94b04d201586f80c5e88576a41e5157e8 missing\n4952cafef8daaf86ef1149b50f46fb8fc6cabcf9 missing\nc9e6d449b11554ed5aebc9cb3be762abe2b4cee9 missing\n785d38ff8baf06d8aa40518354f82ec6ae87538b blob 6494\n34eab7960c6560290ebc4bf58fd61739f9354b60 missing\n2adeb4284d11aacc4ef03c4e78fc990e66c93e75 missing\nc7d81b084e43c44495334602abed33fb3fbda19b missing\n9753d912d6b479abd11b00a4751338eb1c5dec98 missing\nfd7b2c7ad31162494a008785948bebc89b9ae8c9 blob 1288\nf9915035c7d945e99ffb715375ed6a10b5299bd5 blob 448\n9b1dcd36a912d42f9993db0848be09b6b6a9462e missing\n75605428be26d22efaadc0b7311b16a85c2a848c blob 1587\n4e4f06989a82c7c5b2ab944f583ef444d4d1839a missing\n991ba2d3cda59771bd1d28e6bf2f58ca96519049 missing\n332e92af5fd8cad4baf2e9fc33ed46e31f18df51 missing\n19bdc32f5793d78735fce9a909074e71a422405b missing\n264f8499655ee5de2e583a3a87d988504b2c336a missing\n3df9bedd9c80dc4246168fefd090990b922cb19d missing\nbd98782a6c889a02c5c335ab7d5783adeaf0d626 missing\n9faccb3303df29fb9b667bf2c8256b8189b4f186 missing\n561059c45b8312cf63da70d3cf05c5cd49192f73 blob 343\n77e84c60fa42eff16f82e3d4ccb57758fdade692 missing\n6b6b778e65afd77ee8d405a9c88fef64f1db8bb3 missing\n67ddef90ec4126d8de716d77066bf78c4b835878 missing\n4bfc84e2a3fb5b743ef141c9aa8feec7d46f25e9 missing\n0def79c5a49727ab06ae73c506c37f2d047d64bc missing\n585bd2e454e01a3d0c099bf9e2c62b6f308efb1e blob 2181\nb78f22bcf34119e7a20e0e80d80a14448f08c6cf blob 833\n52f1de163e3c24259ffe6c4950f45e697665c0c8 missing\n97a06e7cb0cd637dd930ef9e34585fb00966fa2a blob 6587\n08a4bd483339497c3f7695c48b6f08e0b74f9027 missing\n646124b9df30f4816d00b53a8def43771965fb28 missing\nd6e4adfbd73e3bd076d9c77e9244d0230a9ae418 missing\n6a167ea76741088f05d90053d18cac8e1176e6f8 missing\n43a8c656ee50cb602f9238094d2ad1420dcdfca4 missing\n0c48b09171a1050a90b8340dd73db3f29146e5b4 missing\n53720ae9d1c18205c52af5f2884208d329a5b400 missing\nafa9f5dd00e6d2dfcc555e27d22530ca2d3eb1e8 missing\n66ad283b319582857ce9857f4629cbd4375c26d7 missing\n821e1d785b8cb11fcc82b3c879512b1942db20d9 missing\n492984b2a493c128115fb1f2f1f2c409f5bf610c missing\n109e1913a86090f5ce2f118df4c0c197d932a69f missing\n8f59d8a498c1494fdff6b5a14644a74a77a0cc1a missing\nbda7c87a675218c573e0c4a0ef777bd2b63bb1e0 missing\n88077ca701b1a1d82057df09b46635f65acf550c blob 1326\nbfe97eadadba4e307582a93d8f63bef9b4d38507 missing\na30adc8fc4ad372afbffc982e0b790c35c4e1f86 missing\nc1326b1448b522aa8c330136661673cb4b9c96f1 missing\n11299b85c8b344a262378f98e2632abb16538eaf missing\ne418e95a8e0c3a3f19015ebb446c74a1b684ec06 missing\neeeaedf31f74b0aee74eaafa09d89778426096df blob 4575\nf183419ab7e2f840fd8d717322bde20a8f15abfd missing\n1f5087440118fb49d75e82f30db18e7a5224fde4 missing\ne896ce84e5f2c0e3d7a166ac06c5808876eead31 missing\n043c3ced654992a5ff970110cfa275dc20d61f13 missing\nfad5378a6d43f6ffdb252c2f30d0c137c8a2568c missing\n132085f8175dd85f5c39e7813a837cf86aff3848 missing\n926a4f1f692ebe8d74b82c3e4f2b9abe3abe8b2e missing\n4f8209ef70a98cdcfeed3175b1f58be5c04bdd2f missing\n7c904fdee4dd4b9635c200d5bfa54dbebd042124 missing\n015cbacded7bd03a8deb8e840e67dc8fea5dfede missing\n92c17ba21f8889661b52ca854d37da1f9cae91ea missing\ne62d384316f5bed4367e8255d14f29617b980bc2 blob 359\n2a94517067babfd856c7ff01fae38b43c69221ab missing\n2d4768a2d3a8b218a0caa21f0c3cb6f4351f7031 missing\nb735b16e1a0f7afb2ff0004a8a236099159ee27e missing\n55c8cecd52a77f4a0048ed98b2ca57af6eb55472 missing\n78684169d514507d55fb26ef00a6348445718137 missing\ncd6ce07a42c2dbaab1b8d1e89b21df3121fdc2b6 missing\n6e59d0ed971b9d10c9d424304ee59c512be0c5f5 missing\n544d6e6379af979b16820125312b0830de34eeb5 missing\n1cdac14ee85c37f965c35950c0811cef4980b037 missing\n7ce0f29c1235b20473a1a84503ffe7391d2aff72 missing\ne4a534c1a56bcfd9f7477f803a828da0972e57f5 missing\n156cfdc19749563b5d8380933e5687853c4afc64 missing\n153a19560f824d032421f60a7a5fe0150471bf6e blob 11261\nc4218bf29ff3415c5e32d8863f1e6bf629fba607 blob 734\n882d78ac39d4033b29c8a6b48a05368ba93bec95 missing\n0e787ee42517fe1a8189ecbcb69866e34a1022b9 blob 563\nd29c4fce9a0c80a651b72aa470e72bc8c1be1e9b missing\n4fa2a6e26477945a6f2ab80f6301a0c6916aa1b7 missing\na56f4b89c123d3d4a9cbf82a60f037febc01bdfc missing\nfbd26d02b449264f0b4b4b0162fdbf5ced19747a missing\na9f86a9bbb9bd04e4b0e69fa0477e274f5a094ef missing\n3c743c1f12084b48c2fc15ee064f1278f1600bde missing\n704b1fc27ecd46d8bc0bc3428abaaaf0a0595e12 missing\n7e77fe74047063902c77b5bc65c9ac154ed60be8 missing\n6347856f168953ab21e756b421989289ef88ed0a missing\n2c164e8b7ab8f78b6e60efce49c9ab9e73e9bca0 blob 1611\n27b63687ee0d59bf5d415b2319a0ff9e1e08d1f8 missing\n41fecf4315d43e95d5bc6ab1e2e3aed2671deb8a blob 994\n681076b781f924d811aa745e719e05437b948ab3 missing\n12e28930f7711643d71fe085ee137596f3179173 missing\n80be85e30529a13fe31cff3af79abf18d69cbca4 missing\nc83094dc7b95ed89d9c690247ad21185ffe5ca18 missing\n76d99dbc0a77520cfced90fc9279c7ef2604da4c missing\nc504349678568c3fadedc77bc0807f690d82b32e missing\nca5e171b687900eb87c4b820ab28146e1463050b missing\ne5aabd76239774a1df784c8a363a9f42c927a043 missing\n785bef48b2e04c327c218b0e37b0b693d3325827 missing\n8af51a906358a45e6da9cca42c4936671a1dbd3f missing\n899a6471c367e4059c0194f98b40cf893eb05522 missing\nd8cc8c90e44d9b899f768335acc289201ba58c5f missing\n7a8837f66bacbe62a84ca7cfa0c1285cecaa58c1 missing\ndd81501bd595beec6c96f59f8b3c417c5105ae38 missing\nb0f08ccbc1ea730149757e651afccc1231a24b85 missing\n87b21e5ff0ab74aa5510b8362ea40f5eb65233ae missing\nb5b6ec84a6d5ae31cf4a34d8c80aded0061a5d33 missing\n79ff42a84ebc31ff615dea8f115015ffdbd10eb3 missing\n08f80f2b605b8ed435cc03e127bec8d9a6fa9748 missing\n63f31aab53627265d17c92275203bb45c2f844aa missing\n203d4f44bdbb6d02c3f7f6338500f6945fb82d7d missing\n3904b298f3e5ba37b7f8e10d60a99b2b9bc807fe missing\nc1cfc54165f177889d95633cad4ad970b0f61313 missing\n29fdca800b4d046dcb8f0f924b60ea2653150b58 missing\n5991fdc19ac4cc458f7efe5b2b47e29044cafc12 missing\n660968b2ea028b4a9121a21c8ad7feb357799840 missing\n4f8cf20bf12a76facede9f7725d1edf962ef6e8b missing\n6ad03bba23d527f6e813a4449f0ea44448a3da4a missing\n7ade8623f733674d73575bb46a44b0a2bdc7ba5f missing\nf3e8348091025e13755a619484d976e4df63d267 missing\n2753096f316e77627e6c8b9dd819d3f518a61702 missing\n",
       "stderr": ""
@@ -872,52 +803,31 @@
       "stderr": ""
     },
     {
-      "argv": [
-        "git",
-        "rev-parse",
-        "HEAD"
-      ],
+      "argv": ["git", "rev-parse", "HEAD"],
       "exit": 0,
       "stdout": "3864165639098238254f4a0f4c4c068ce8cac24d\n",
       "stderr": ""
     },
     {
-      "argv": [
-        "git",
-        "status",
-        "--porcelain"
-      ],
+      "argv": ["git", "status", "--porcelain"],
       "exit": 0,
       "stdout": "",
       "stderr": ""
     },
     {
-      "argv": [
-        "git",
-        "cat-file",
-        "-t",
-        "872ad960de7ec172591f7e1952f7849229f94521"
-      ],
+      "argv": ["git", "cat-file", "-t", "872ad960de7ec172591f7e1952f7849229f94521"],
       "exit": 128,
       "stdout": "",
       "stderr": "fatal: git cat-file: could not get object info\n"
     },
     {
-      "argv": [
-        "git",
-        "rev-parse",
-        "--is-shallow-repository"
-      ],
+      "argv": ["git", "rev-parse", "--is-shallow-repository"],
       "exit": 0,
       "stdout": "false\n",
       "stderr": ""
     },
     {
-      "argv": [
-        "git",
-        "branch",
-        "--show-current"
-      ],
+      "argv": ["git", "branch", "--show-current"],
       "exit": 0,
       "stdout": "independent/settings-lifecycle-20261002\n",
       "stderr": ""

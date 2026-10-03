@@ -18,11 +18,12 @@ export async function resolveLocalMedia(
   const path = attachment.path!;
   const absolutePath = resolvePath(options.workingDirectory, path);
   const filename = basename(absolutePath);
-  const mime = attachment.type === "image"
-    ? inferImageMimeFromPath(absolutePath)
-    : attachment.type === "pdf"
-      ? "application/pdf"
-      : inferVideoMimeFromPath(absolutePath) ?? attachment.mimeType ?? "video/mp4";
+  const mime =
+    attachment.type === "image"
+      ? inferImageMimeFromPath(absolutePath)
+      : attachment.type === "pdf"
+        ? "application/pdf"
+        : (inferVideoMimeFromPath(absolutePath) ?? attachment.mimeType ?? "video/mp4");
   const source: FilePartSource = {
     type: "file",
     path: absolutePath,
@@ -46,7 +47,14 @@ export async function resolveLocalMedia(
     });
   }
   const context: LocalMediaContext = {
-    absolutePath, attachment, filename, index, mime, options, source, stat,
+    absolutePath,
+    attachment,
+    filename,
+    index,
+    mime,
+    options,
+    source,
+    stat,
   };
   if (attachment.type === "image") {
     return resolveLocalImage(context);

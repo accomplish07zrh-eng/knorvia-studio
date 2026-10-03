@@ -35,9 +35,7 @@ export function resolveContainedMemoryFilePath(input: {
     workingDirectory: input.workingDirectory,
     workspaceRoot: input.workspaceRoot,
   });
-  return memoryFileRelativePath(input.rootDir, resolved) === undefined
-    ? undefined
-    : resolved;
+  return memoryFileRelativePath(input.rootDir, resolved) === undefined ? undefined : resolved;
 }
 
 export function resolveSafeMemoryFilePath(input: {
@@ -53,20 +51,18 @@ export function resolveSafeMemoryFilePath(input: {
   if (localPath === undefined) return undefined;
 
   for (const segment of localPath.split(/[\\/]+/u)) {
-    const beforeColon = segment
-      .toLowerCase()
-      .replace(/[\u200c-\u200f\u202a-\u202e\u206a-\u206f\ufeff]/gu, "")
-      .split(":", 1)[0] ?? "";
+    const beforeColon =
+      segment
+        .toLowerCase()
+        .replace(/[\u200c-\u200f\u202a-\u202e\u206a-\u206f\ufeff]/gu, "")
+        .split(":", 1)[0] ?? "";
     const comparison = beforeColon.replace(/[. ]+$/u, "");
     if (protectedSegments.has(comparison)) return undefined;
   }
   return resolved;
 }
 
-export function memoryFileRelativePath(
-  rootDir: string,
-  filePath: string,
-): string | undefined {
+export function memoryFileRelativePath(rootDir: string, filePath: string): string | undefined {
   const localPath = relative(rootDir, filePath);
   if (
     localPath === "" ||

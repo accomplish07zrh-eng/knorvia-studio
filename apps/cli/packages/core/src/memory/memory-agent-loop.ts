@@ -91,10 +91,13 @@ function permitsMarkdownChange(value: unknown, context: LoopInput): boolean {
 function permitsShell(value: unknown, context: LoopInput): boolean {
   const command = stringProperty(value, "command");
   if (!command) return false;
-  if (isRuntimeReadOnlyBashCommand(command, {
-    workingDirectory: context.workingDirectory,
-    workspaceRoot: context.workspaceRoot,
-  })) return true;
+  if (
+    isRuntimeReadOnlyBashCommand(command, {
+      workingDirectory: context.workingDirectory,
+      workspaceRoot: context.workspaceRoot,
+    })
+  )
+    return true;
 
   const analysis = analyzeBashCommand(command);
   if (!isBashCommandPermissionSafe(analysis) || analysis.commands.length !== 1) {
@@ -105,7 +108,8 @@ function permitsShell(value: unknown, context: LoopInput): boolean {
     invocation.argv[0] !== "rm" ||
     invocation.redirects.length !== 0 ||
     invocation.envAssignments.length !== 0
-  ) return false;
+  )
+    return false;
 
   let operands = 0;
   let optionsEnded = false;
@@ -145,7 +149,8 @@ function rejectionFor(call: ModelToolCall, context: LoopInput): string | undefin
     call.name === "Agent" ||
     call.name.startsWith("mcp__") ||
     contract.sideEffectScope === "network"
-  ) return generic;
+  )
+    return generic;
 
   switch (call.name) {
     case "Write":
@@ -191,29 +196,31 @@ export async function runMemoryAgentLoop(input: LoopInput): Promise<MemoryAgentL
       turns += 1;
       break;
     }
-    const toolMessages = await Promise.all(calls.map(async (call): Promise<ModelInputMessage> => {
-      const reason = rejectionFor(call, input);
-      if (reason !== undefined) {
+    const toolMessages = await Promise.all(
+      calls.map(async (call): Promise<ModelInputMessage> => {
+        const reason = rejectionFor(call, input);
+        if (reason !== undefined) {
+          return {
+            content: reason,
+            isError: true,
+            role: "tool",
+            toolCallId: call.id,
+            toolName: call.name,
+          };
+        }
+        const result = await input.executeTool(
+          { id: call.id, input: call.input, name: call.name },
+          { abortSignal: input.abortSignal },
+        );
         return {
-          content: reason,
-          isError: true,
+          content: modelContentForToolResult(result),
+          isError: isErrorForToolResult(result),
           role: "tool",
           toolCallId: call.id,
           toolName: call.name,
         };
-      }
-      const result = await input.executeTool(
-        { id: call.id, input: call.input, name: call.name },
-        { abortSignal: input.abortSignal },
-      );
-      return {
-        content: modelContentForToolResult(result),
-        isError: isErrorForToolResult(result),
-        role: "tool",
-        toolCallId: call.id,
-        toolName: call.name,
-      };
-    }));
+      }),
+    );
     messages.push(...toolMessages);
     turns += 1;
   }

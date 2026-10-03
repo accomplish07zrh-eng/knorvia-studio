@@ -69,12 +69,7 @@
           "bytes": 4564
         },
         "existence": {
-          "command": [
-            "git",
-            "cat-file",
-            "-e",
-            "7ade8623f733674d73575bb46a44b0a2bdc7ba5f^{blob}"
-          ],
+          "command": ["git", "cat-file", "-e", "7ade8623f733674d73575bb46a44b0a2bdc7ba5f^{blob}"],
           "exit": 128,
           "log": "/tmp/knorvia-services-retry-trajectory-20261003/sessionApiRetry-publisher-object.log",
           "sha256": "ab0b1b55a530d856ba8c97ab15eb95b73546c99d3b9009b9ddc05d99c76f76fe"
@@ -149,12 +144,7 @@
           "bytes": 14909
         },
         "existence": {
-          "command": [
-            "git",
-            "cat-file",
-            "-e",
-            "80be85e30529a13fe31cff3af79abf18d69cbca4^{blob}"
-          ],
+          "command": ["git", "cat-file", "-e", "80be85e30529a13fe31cff3af79abf18d69cbca4^{blob}"],
           "exit": 128,
           "log": "/tmp/knorvia-services-retry-trajectory-20261003/modelTrajectory-publisher-object.log",
           "sha256": "4427d8d7fadf5765a92724d4edb7ef7afe7f0dd66b1f69870aca8ae5e785cf28"

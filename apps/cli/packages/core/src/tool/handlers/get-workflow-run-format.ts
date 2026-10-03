@@ -89,9 +89,10 @@ export function formatGetWorkflowRunModelContent(output: unknown): ModelMessageC
     blocks.push(`<result>\n${run.result}\n</result>`);
   }
   if (run.error !== undefined) {
-    const body = run.error.providerStop === undefined
-      ? escapeWorkflowRunText(run.error.message)
-      : `\n${formatWorkflowProviderStopError(run.error, run.runId)}\n`;
+    const body =
+      run.error.providerStop === undefined
+        ? escapeWorkflowRunText(run.error.message)
+        : `\n${formatWorkflowProviderStopError(run.error, run.runId)}\n`;
     const attribute = workflowRunAttribute("code", run.error.code);
     blocks.push(`<error ${attribute}>${body}</error>`);
   }
@@ -121,9 +122,10 @@ function pendingQuestionBlock(run: GetWorkflowRunOutput): string | undefined {
   for (const question of questions) {
     const who = question.actorName ?? question.actor;
     const age = formatRelativeAge(run.generatedAt, question.askedAt);
-    const asked = age === undefined
-      ? `asked at ${formatWorkflowRunTimestamp(question.askedAt)}`
-      : `asked ${age}`;
+    const asked =
+      age === undefined
+        ? `asked at ${formatWorkflowRunTimestamp(question.askedAt)}`
+        : `asked ${age}`;
     const lines = [
       `[${escapeWorkflowRunText(question.qid)}] ${escapeWorkflowRunText(who)} ${asked}`,
       escapeWorkflowRunText(question.question),
@@ -141,9 +143,10 @@ function pendingQuestionBlock(run: GetWorkflowRunOutput): string | undefined {
 
 function routingBlocks(run: GetWorkflowRunOutput): string[] {
   if (run.stopReason === "superseded") {
-    const successor = run.supersededBy === undefined
-      ? "its successor"
-      : `run ${escapeWorkflowRunText(run.supersededBy)}`;
+    const successor =
+      run.supersededBy === undefined
+        ? "its successor"
+        : `run ${escapeWorkflowRunText(run.supersededBy)}`;
     return [
       `<superseded>This run was stopped by an AmendWorkflow and superseded by ${successor}, which owns its unfinished work. Do not resume it (ResumeWorkflowRun will refuse) and do not amend it again; read or amend ${successor} instead.</superseded>`,
     ];
@@ -157,10 +160,12 @@ function routingBlocks(run: GetWorkflowRunOutput): string[] {
         reason = " This run was stopped on purpose by the user: resume it only when the user asks.";
         break;
       case "model":
-        reason = " You stopped this run yourself with TaskStop: resume it unchanged only if that is what the user wants. If you stopped it to fix the script, do not wait — amend it now, see <amendable>.";
+        reason =
+          " You stopped this run yourself with TaskStop: resume it unchanged only if that is what the user wants. If you stopped it to fix the script, do not wait — amend it now, see <amendable>.";
         break;
       case "provider":
-        reason = " A provider-side error stopped it: resolve the cause named in <error> with the user before resuming, or it will stop again the same way.";
+        reason =
+          " A provider-side error stopped it: resolve the cause named in <error> with the user before resuming, or it will stop again the same way.";
         break;
     }
     blocks.push(
@@ -172,9 +177,10 @@ function routingBlocks(run: GetWorkflowRunOutput): string[] {
 }
 
 function amendableBlock(run: GetWorkflowRunOutput): string {
-  const script = run.scriptPath === undefined
-    ? ""
-    : ` Its script is at ${escapeWorkflowRunText(run.scriptPath)}: edit that file in place and pass \`path: "${escapeWorkflowRunText(run.scriptPath)}"\` to AmendWorkflow instead of a script.`;
+  const script =
+    run.scriptPath === undefined
+      ? ""
+      : ` Its script is at ${escapeWorkflowRunText(run.scriptPath)}: edit that file in place and pass \`path: "${escapeWorkflowRunText(run.scriptPath)}"\` to AmendWorkflow instead of a script.`;
 
   if (run.status === "running" && run.health.stalledSince === undefined) {
     return `<amendable>AmendWorkflow with run_id "${escapeWorkflowRunText(run.runId)}" supersedes this run with a revised script and imports its finished work as cache.${script}</amendable>`;

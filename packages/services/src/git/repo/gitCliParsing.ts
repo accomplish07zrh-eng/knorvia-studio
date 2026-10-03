@@ -25,7 +25,10 @@ export function parseStatusPorcelain(stdout: string): {
     behind: 0,
     entries: [],
   };
-  const records = stdout.split("\0").filter((record) => record.length > 0).values();
+  const records = stdout
+    .split("\0")
+    .filter((record) => record.length > 0)
+    .values();
   for (const record of records) {
     if (record.startsWith("# branch.head ")) {
       const head = record.slice("# branch.head ".length);

@@ -13,9 +13,16 @@ export type Delivery = "initial" | "online" | "recovery";
 export type TopicKind = "sessions-index" | "workspace-config";
 export type TopicWire = SessionsIndexTopicWireCandidate | WorkspaceConfigTopicWireCandidate;
 export type SubscriptionReason =
-  | "initial" | "runtime-restart" | "snapshot-recovery-gap" | "recovery-frame-timeout"
-  | "resync-ack-mismatch" | "resync-failed" | "force-recovery-gap" | "pre-ack-overflow"
-  | "provider-not-ready-wait" | "retry";
+  | "initial"
+  | "runtime-restart"
+  | "snapshot-recovery-gap"
+  | "recovery-frame-timeout"
+  | "resync-ack-mismatch"
+  | "resync-failed"
+  | "force-recovery-gap"
+  | "pre-ack-overflow"
+  | "provider-not-ready-wait"
+  | "retry";
 
 export interface LogicalTopicFrame {
   topic: string;

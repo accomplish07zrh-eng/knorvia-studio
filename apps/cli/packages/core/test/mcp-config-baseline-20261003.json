@@ -12,9 +12,7 @@
       ],
       [
         "initializeMcp",
-        [
-          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<void>"
-        ]
+        ["(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<void>"]
       ],
       [
         "startMcpStartup",
@@ -26,9 +24,7 @@
     "config.ts": [
       [
         "createChildClientPorts",
-        [
-          "(this: AgentRuntimeInternal, context: ChildClientPortsContext): ClientFacingPorts"
-        ]
+        ["(this: AgentRuntimeInternal, context: ChildClientPortsContext): ClientFacingPorts"]
       ],
       [
         "ensureSessionPersistedForExternalActivity",
@@ -36,60 +32,15 @@
           "(this: AgentRuntimeInternal, input: string, options?: { traceContext?: TraceContext | undefined; } | undefined): Promise<void>"
         ]
       ],
-      [
-        "getActiveTurnInfo",
-        [
-          "(this: AgentRuntimeInternal): ActiveTurnInfo | undefined"
-        ]
-      ],
-      [
-        "getContextBuilder",
-        [
-          "(this: AgentRuntimeInternal): ContextBuilder"
-        ]
-      ],
-      [
-        "getMode",
-        [
-          "(this: AgentRuntimeInternal): CollaborationMode"
-        ]
-      ],
-      [
-        "getPendingPermissionRequests",
-        [
-          "(this: AgentRuntimeInternal): PermissionBrokerRequest[]"
-        ]
-      ],
-      [
-        "getPlanEnabled",
-        [
-          "(this: AgentRuntimeInternal): boolean"
-        ]
-      ],
-      [
-        "getProjectId",
-        [
-          "(this: AgentRuntimeInternal): ProjectId"
-        ]
-      ],
-      [
-        "getProjection",
-        [
-          "(this: AgentRuntimeInternal): Promise<SessionProjection>"
-        ]
-      ],
-      [
-        "getSessionEventStore",
-        [
-          "(this: AgentRuntimeInternal): SessionEventStorePort"
-        ]
-      ],
-      [
-        "getSessionId",
-        [
-          "(this: AgentRuntimeInternal): SessionId"
-        ]
-      ],
+      ["getActiveTurnInfo", ["(this: AgentRuntimeInternal): ActiveTurnInfo | undefined"]],
+      ["getContextBuilder", ["(this: AgentRuntimeInternal): ContextBuilder"]],
+      ["getMode", ["(this: AgentRuntimeInternal): CollaborationMode"]],
+      ["getPendingPermissionRequests", ["(this: AgentRuntimeInternal): PermissionBrokerRequest[]"]],
+      ["getPlanEnabled", ["(this: AgentRuntimeInternal): boolean"]],
+      ["getProjectId", ["(this: AgentRuntimeInternal): ProjectId"]],
+      ["getProjection", ["(this: AgentRuntimeInternal): Promise<SessionProjection>"]],
+      ["getSessionEventStore", ["(this: AgentRuntimeInternal): SessionEventStorePort"]],
+      ["getSessionId", ["(this: AgentRuntimeInternal): SessionId"]],
       [
         "getSessionModelSelection",
         [
@@ -98,40 +49,19 @@
       ],
       [
         "getSessionShellSelection",
-        [
-          "(this: AgentRuntimeInternal): ExecutionShellSelection | undefined"
-        ]
+        ["(this: AgentRuntimeInternal): ExecutionShellSelection | undefined"]
       ],
-      [
-        "getToolExecutor",
-        [
-          "(this: AgentRuntimeInternal): ToolExecutor"
-        ]
-      ],
-      [
-        "getToolRegistry",
-        [
-          "(this: AgentRuntimeInternal): ToolRegistry"
-        ]
-      ],
+      ["getToolExecutor", ["(this: AgentRuntimeInternal): ToolExecutor"]],
+      ["getToolRegistry", ["(this: AgentRuntimeInternal): ToolRegistry"]],
       [
         "getTools",
-        [
-          "(this: AgentRuntimeInternal, model?: Model | undefined): ModelToolContract[]"
-        ]
+        ["(this: AgentRuntimeInternal, model?: Model | undefined): ModelToolContract[]"]
       ],
       [
         "initializeSessionShellEnvironmentIfNeeded",
-        [
-          "(this: AgentRuntimeInternal, selection: SessionShellEnvironmentCandidate): boolean"
-        ]
+        ["(this: AgentRuntimeInternal, selection: SessionShellEnvironmentCandidate): boolean"]
       ],
-      [
-        "invalidateToolCache",
-        [
-          "(this: AgentRuntimeInternal): void"
-        ]
-      ],
+      ["invalidateToolCache", ["(this: AgentRuntimeInternal): void"]],
       [
         "notifyExternalChildSessionEvent",
         [
@@ -150,18 +80,8 @@
           "(this: AgentRuntimeInternal, selection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined): void"
         ]
       ],
-      [
-        "setWorkingDirectory",
-        [
-          "(this: AgentRuntimeInternal, cwd: string): void"
-        ]
-      ],
-      [
-        "subscribeEvents",
-        [
-          "(this: AgentRuntimeInternal, sink: SessionEventSink): () => void"
-        ]
-      ],
+      ["setWorkingDirectory", ["(this: AgentRuntimeInternal, cwd: string): void"]],
+      ["subscribeEvents", ["(this: AgentRuntimeInternal, sink: SessionEventSink): () => void"]],
       [
         "updateConfig",
         [

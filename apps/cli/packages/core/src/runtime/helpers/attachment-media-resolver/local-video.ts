@@ -7,7 +7,9 @@ import { resolvedPlaceholderAttachment } from "../attachment-placeholder.js";
 import type { LocalMediaContext } from "./context.js";
 import { localReadFailed } from "./read-failure.js";
 
-export async function resolveLocalVideo(context: LocalMediaContext): Promise<ResolvedTurnAttachment> {
+export async function resolveLocalVideo(
+  context: LocalMediaContext,
+): Promise<ResolvedTurnAttachment> {
   const { absolutePath, attachment, filename, index, mime, options, source, stat } = context;
   if (stat.sizeBytes > VIDEO_INPUT_MAX_BYTES) {
     return resolvedPathReferenceAttachment(attachment, attachment.path!, {

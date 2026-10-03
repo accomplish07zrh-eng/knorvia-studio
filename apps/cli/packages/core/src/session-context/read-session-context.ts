@@ -83,9 +83,8 @@ export function buildSessionContextMaterial(input: {
   const selectedChunks = selectChunks(chunks, input.strategy);
   const selectedSnippets = selectSnippets(scoredSnippets, input.strategy, budget);
   const localContent = formatSessionTranscript(input.session, selectedSnippets, {
-    heading: input.strategy === "handoff"
-      ? "Recent session handoff context"
-      : "Relevant session context",
+    heading:
+      input.strategy === "handoff" ? "Recent session handoff context" : "Relevant session context",
     outputCharBudget: budget,
     query: input.query,
     strategy: input.strategy,
@@ -100,9 +99,10 @@ export function buildSessionContextMaterial(input: {
     references: selectedSnippets.flatMap((snippet) => snippet.references),
     selectedChunks,
     selectedMessageCount: selectedSnippets.length,
-    truncated: selectedSnippets.length < scoredSnippets.length
-      || allContent.length > localContent.length
-      || allContent.length > budget,
+    truncated:
+      selectedSnippets.length < scoredSnippets.length ||
+      allContent.length > localContent.length ||
+      allContent.length > budget,
   };
 }
 
@@ -115,7 +115,9 @@ export function formatReadSessionContextModelContent(output: ReadSessionContextO
       `ReadSessionContext failed for ${output.sessionId}.`,
       output.error ? `Error: ${output.error}` : undefined,
       output.content,
-    ].filter(Boolean).join("\n");
+    ]
+      .filter(Boolean)
+      .join("\n");
   }
   return [
     `ReadSessionContext returned ${output.source} context for ${output.sessionId}.`,
@@ -123,7 +125,9 @@ export function formatReadSessionContextModelContent(output: ReadSessionContextO
     output.truncated ? "The returned context is truncated." : undefined,
     "",
     output.content,
-  ].filter(Boolean).join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 export function formatLocalSessionNotFound(input: {
@@ -191,8 +195,9 @@ function scoreSnippets(snippets: MessageSnippet[], query: string): MessageSnippe
   const normalizedQuery = query.trim().toLowerCase();
   return snippets.map((snippet) => ({
     ...snippet,
-    score: scoreSearchText(snippet.searchText, normalizedQuery, terms)
-      + snippet.index / SCORE_INDEX_DENOMINATOR,
+    score:
+      scoreSearchText(snippet.searchText, normalizedQuery, terms) +
+      snippet.index / SCORE_INDEX_DENOMINATOR,
   }));
 }
 
@@ -234,7 +239,9 @@ function countOccurrences(text: string, term: string): number {
 }
 
 function selectSnippets(
-  snippets: MessageSnippet[], strategy: ReadSessionContextInput["strategy"], budget: number,
+  snippets: MessageSnippet[],
+  strategy: ReadSessionContextInput["strategy"],
+  budget: number,
 ): MessageSnippet[] {
   if (snippets.length === 0) return [];
   const selected: MessageSnippet[] = [];
@@ -289,7 +296,10 @@ function createChunk(snippets: MessageSnippet[], index: number): TranscriptChunk
   };
 }
 
-function selectChunks(chunks: TranscriptChunk[], strategy: ReadSessionContextInput["strategy"]): TranscriptChunk[] {
+function selectChunks(
+  chunks: TranscriptChunk[],
+  strategy: ReadSessionContextInput["strategy"],
+): TranscriptChunk[] {
   if (chunks.length <= MAX_LITE_CHUNKS) return chunks;
   if (strategy === "handoff") return chunks.slice(-MAX_LITE_CHUNKS);
   const ranked = [...chunks].sort((a, b) => b.score - a.score || b.index - a.index);
@@ -300,12 +310,16 @@ function selectChunks(chunks: TranscriptChunk[], strategy: ReadSessionContextInp
   return [...selected.values()].sort((a, b) => a.index - b.index);
 }
 
-function formatSessionTranscript(session: SessionInfo, snippets: MessageSnippet[], options: {
-  heading: string;
-  outputCharBudget: number;
-  query: string;
-  strategy: ReadSessionContextInput["strategy"];
-}): string {
+function formatSessionTranscript(
+  session: SessionInfo,
+  snippets: MessageSnippet[],
+  options: {
+    heading: string;
+    outputCharBudget: number;
+    query: string;
+    strategy: ReadSessionContextInput["strategy"];
+  },
+): string {
   const header = [
     `# ${options.heading}`,
     `Session: ${session.title} (${session.id})`,
@@ -314,7 +328,9 @@ function formatSessionTranscript(session: SessionInfo, snippets: MessageSnippet[
     `Strategy: ${options.strategy}`,
     `Query: ${options.query}`,
     "",
-  ].filter((line) => line !== undefined).join("\n");
+  ]
+    .filter((line) => line !== undefined)
+    .join("\n");
   if (snippets.length === 0) {
     return `${header}No readable transcript content was found in the target session.`;
   }

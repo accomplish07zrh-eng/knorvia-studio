@@ -55,27 +55,40 @@ function lastBoundary(messages: MessageWithParts[]): number {
   return -1;
 }
 
-export function activeSessionMessages(messages: MessageWithParts[], options: {
-  branchCutAfterMessageId?: MessageId;
-  includeCompactPreservedSegment?: boolean;
-  rewindCreatedMessageId?: MessageId;
-  rewindKeptMessageIds?: readonly MessageId[];
-  rewindTargetMessageId?: MessageId;
-} = {}): MessageWithParts[] {
+export function activeSessionMessages(
+  messages: MessageWithParts[],
+  options: {
+    branchCutAfterMessageId?: MessageId;
+    includeCompactPreservedSegment?: boolean;
+    rewindCreatedMessageId?: MessageId;
+    rewindKeptMessageIds?: readonly MessageId[];
+    rewindTargetMessageId?: MessageId;
+  } = {},
+): MessageWithParts[] {
   if (options.branchCutAfterMessageId) {
     const branch = selectActiveConversationBranch(messages, options);
     const boundary = lastBoundary(branch);
-    return boundary < 0 ? branch : compactActiveSessionMessages(
-      branch, boundary, options.includeCompactPreservedSegment !== false,
-    );
+    return boundary < 0
+      ? branch
+      : compactActiveSessionMessages(
+          branch,
+          boundary,
+          options.includeCompactPreservedSegment !== false,
+        );
   }
   const boundary = lastBoundary(messages);
-  const projected = boundary < 0 ? messages : compactActiveSessionMessages(
-    messages, boundary, options.includeCompactPreservedSegment !== false,
-  );
+  const projected =
+    boundary < 0
+      ? messages
+      : compactActiveSessionMessages(
+          messages,
+          boundary,
+          options.includeCompactPreservedSegment !== false,
+        );
   if (options.rewindKeptMessageIds && boundary >= 0) {
     const kept = options.rewindKeptMessageIds;
-    if (!messages.slice(boundary).some(message => kept.includes(message.info.id))) return projected;
+    if (!messages.slice(boundary).some((message) => kept.includes(message.info.id)))
+      return projected;
   }
   return selectActiveConversationBranch(projected, options);
 }
@@ -103,20 +116,30 @@ function syntheticMetadata(part: Text): RuntimeMessageMetadata {
   if (source === "subagent") return systemReminderRuntimeMetadata("queued_system_notification");
   if (source === "todo_reminder") return todoReminderRuntimeMetadata();
   if (source === "goal-continuation") return systemReminderRuntimeMetadata("target_continuation");
-  if (source === "rewind" || source === "fork") return systemReminderRuntimeMetadata("rewind_notice");
+  if (source === "rewind" || source === "fork")
+    return systemReminderRuntimeMetadata("rewind_notice");
   return isKnownSystemReminderSource(source)
-    ? systemReminderRuntimeMetadata(source) : legacySyntheticRuntimeMetadata();
+    ? systemReminderRuntimeMetadata(source)
+    : legacySyntheticRuntimeMetadata();
 }
 
 function rawReminderSource(part: MessagePart): SystemReminderSource | undefined {
-  if (part.type !== "text" || !part.synthetic || !part.text.trim()
-    || part.text.trimStart().startsWith("<system-reminder")) return undefined;
+  if (
+    part.type !== "text" ||
+    !part.synthetic ||
+    !part.text.trim() ||
+    part.text.trimStart().startsWith("<system-reminder")
+  )
+    return undefined;
   const source = syntheticMetadata(part).source;
   if (!isKnownSystemReminderSource(source)) return undefined;
   const descriptor = getSystemReminderDescriptor(source);
-  return descriptor.isMeta && descriptor.providerVisibility === "provider_visible"
-    && descriptor.channel !== "real_user" && descriptor.channel !== "tool_result"
-    ? source : undefined;
+  return descriptor.isMeta &&
+    descriptor.providerVisibility === "provider_visible" &&
+    descriptor.channel !== "real_user" &&
+    descriptor.channel !== "tool_result"
+    ? source
+    : undefined;
 }
 
 function providerText(part: Text): string {
@@ -131,16 +154,26 @@ function providerText(part: Text): string {
   return part.text;
 }
 
-function promptAttachment(part: FilePart, block: ModelMessageContentBlock):
-  PromptAttachmentReminderInput | undefined {
+function promptAttachment(
+  part: FilePart,
+  block: ModelMessageContentBlock,
+): PromptAttachmentReminderInput | undefined {
   if (block.type !== "text" || !part.mime.startsWith("text/")) return undefined;
   if (!part.source) {
-    return { content: block.text, kind: "inline_text", label: part.filename, preview: part.metadata?.preview };
+    return {
+      content: block.text,
+      kind: "inline_text",
+      label: part.filename,
+      preview: part.metadata?.preview,
+    };
   }
   const metadata = part.metadata;
-  if (metadata?.storageKind !== "inline"
-    || (metadata.recoverability !== "provider_ready" && metadata.recoverability !== "preview_only")
-    || metadata.preview?.text !== block.text) return undefined;
+  if (
+    metadata?.storageKind !== "inline" ||
+    (metadata.recoverability !== "provider_ready" && metadata.recoverability !== "preview_only") ||
+    metadata.preview?.text !== block.text
+  )
+    return undefined;
   return {
     content: block.text,
     kind: "file",
@@ -150,20 +183,37 @@ function promptAttachment(part: FilePart, block: ModelMessageContentBlock):
 }
 
 function userMetadata(parts: MessagePart[]): RuntimeMessageMetadata {
-  if (parts.some(part => part.type === "file" || part.type === "agent"
-    || (part.type === "text" && !part.ignored && !part.synthetic))) return realUserRuntimeMetadata();
-  const synthetic = parts.find((part): part is Text => part.type === "text" && !part.ignored && !!part.synthetic);
+  if (
+    parts.some(
+      (part) =>
+        part.type === "file" ||
+        part.type === "agent" ||
+        (part.type === "text" && !part.ignored && !part.synthetic),
+    )
+  )
+    return realUserRuntimeMetadata();
+  const synthetic = parts.find(
+    (part): part is Text => part.type === "text" && !part.ignored && !!part.synthetic,
+  );
   return synthetic ? syntheticMetadata(synthetic) : realUserRuntimeMetadata();
 }
 
-async function appendUser(input: HydrationInput, message: MessageWithParts, parts: MessagePart[]): Promise<boolean> {
+async function appendUser(
+  input: HydrationInput,
+  message: MessageWithParts,
+  parts: MessagePart[],
+): Promise<boolean> {
   const info = message.info;
-  if (info.role === "user" && info.source === "shared_context"
-    && info.metadata !== null && typeof info.metadata === "object") {
+  if (
+    info.role === "user" &&
+    info.source === "shared_context" &&
+    info.metadata !== null &&
+    typeof info.metadata === "object"
+  ) {
     const status = info.metadata.sharedContextStatus;
     if (status !== undefined && status !== "attached") return false;
   }
-  const visible = parts.filter(part => part.type !== "text" || !part.ignored);
+  const visible = parts.filter((part) => part.type !== "text" || !part.ignored);
   if (visible.length === 1) {
     const only = visible[0]!;
     const source = rawReminderSource(only);
@@ -187,9 +237,12 @@ async function appendUser(input: HydrationInput, message: MessageWithParts, part
       const block = await filePartToContentBlock(part, input.artifactStore);
       const reminder = promptAttachment(part, block);
       if (reminder) {
-        promptEntries.push(systemReminderAttachmentEntry(
-          "prompt_attachment", buildPromptAttachmentReminderBodies(reminder).join("\n"),
-        ));
+        promptEntries.push(
+          systemReminderAttachmentEntry(
+            "prompt_attachment",
+            buildPromptAttachmentReminderBodies(reminder).join("\n"),
+          ),
+        );
       } else if (block.type === "image" || block.type === "video") media.push(block);
       else attachments.push(block);
     } else if (part.type === "agent") {
@@ -197,20 +250,33 @@ async function appendUser(input: HydrationInput, message: MessageWithParts, part
     }
   }
   const ordered = [...attachments, ...prompts, ...media];
-  const content: ModelMessageContent = attachments.length || media.length
-    ? ordered.map(block => ({ ...block }))
-    : prompts.filter((block): block is Extract<ModelMessageContentBlock, { type: "text" }> => block.type === "text")
-      .map(block => block.text).filter(Boolean).join("\n\n");
+  const content: ModelMessageContent =
+    attachments.length || media.length
+      ? ordered.map((block) => ({ ...block }))
+      : prompts
+          .filter(
+            (block): block is Extract<ModelMessageContentBlock, { type: "text" }> =>
+              block.type === "text",
+          )
+          .map((block) => block.text)
+          .filter(Boolean)
+          .join("\n\n");
   const meaningful = !!modelMessageContentToText(content).trim();
   const metadata = userMetadata(parts);
-  const restoreEnvelope = meaningful || (metadata.source === "real_user" && promptEntries.length > 0);
+  const restoreEnvelope =
+    meaningful || (metadata.source === "real_user" && promptEntries.length > 0);
   const entries: RuntimeMessageEntry[] = restoreEnvelope
     ? [{ message: { role: "user", content }, metadata }, ...reminders, ...promptEntries]
     : [...reminders, ...promptEntries];
   if (!entries.length) return false;
   const presentation = runtimeInputMetadata(info.metadata?.inputPresentation);
-  input.history.addEntries(presentation ? entries.map(entry => entry.kind === "attachment"
-    ? entry : { ...entry, metadata: presentation }) : entries);
+  input.history.addEntries(
+    presentation
+      ? entries.map((entry) =>
+          entry.kind === "attachment" ? entry : { ...entry, metadata: presentation },
+        )
+      : entries,
+  );
   return true;
 }
 
@@ -245,38 +311,68 @@ export async function hydrateMessageHistoryFromSession(input: {
       if (await appendUser(input, message, parts)) counts.appliedMessageCount++;
       continue;
     }
-    const text = parts.filter((part): part is Text => part.type === "text" && !part.ignored)
-      .map(part => part.text).join("\n\n");
+    const text = parts
+      .filter((part): part is Text => part.type === "text" && !part.ignored)
+      .map((part) => part.text)
+      .join("\n\n");
     const reasoning: ModelReasoningContentBlock[] = parts
-      .filter(part => part.type === "reasoning")
-      .map(part => ({ type: "reasoning", text: part.text, providerOptions: part.metadata ? { ...part.metadata } : undefined }));
-    const tools = selectToolPartsForHistory(parts.filter((part): part is ToolPart => part.type === "tool"));
-    if (!text.trim() && !reasoning.length && !tools.length && !persistedTokenUsageBaseline(info.tokens)) continue;
-    const calls: ToolCallInput[] = tools.map(part => ({
+      .filter((part) => part.type === "reasoning")
+      .map((part) => ({
+        type: "reasoning",
+        text: part.text,
+        providerOptions: part.metadata ? { ...part.metadata } : undefined,
+      }));
+    const tools = selectToolPartsForHistory(
+      parts.filter((part): part is ToolPart => part.type === "tool"),
+    );
+    if (
+      !text.trim() &&
+      !reasoning.length &&
+      !tools.length &&
+      !persistedTokenUsageBaseline(info.tokens)
+    )
+      continue;
+    const calls: ToolCallInput[] = tools.map((part) => ({
       id: part.callID,
       input: part.state.input,
       name: providerToolName(part),
     }));
-    const model = info.modelId && info.providerId ? { modelId: info.modelId, providerId: info.providerId } : undefined;
+    const model =
+      info.modelId && info.providerId
+        ? { modelId: info.modelId, providerId: info.providerId }
+        : undefined;
     input.history.addAssistant(text, calls, reasoning, model, info.tokens);
     counts.appliedMessageCount++;
     for (const part of tools) {
       const name = providerToolName(part);
       if (part.state.status === "completed") {
         const blocks = part.state.attachments
-          ? await Promise.all(part.state.attachments.map(attachment => filePartToContentBlock(attachment, input.artifactStore)))
+          ? await Promise.all(
+              part.state.attachments.map((attachment) =>
+                filePartToContentBlock(attachment, input.artifactStore),
+              ),
+            )
           : [];
         const projection = blocks.length
-          ? projectPersistedToolMediaContent(part.state.metadata?.modelContentLayout, blocks) : undefined;
+          ? projectPersistedToolMediaContent(part.state.metadata?.modelContentLayout, blocks)
+          : undefined;
         input.history.addToolResult(part.callID, name, projection ?? part.state.output, true);
       } else if (part.state.status === "error") {
         const persisted = part.state.metadata?.modelContent;
-        input.history.addToolResult(part.callID, name,
-          typeof persisted === "string" ? persisted : part.state.error, false);
+        input.history.addToolResult(
+          part.callID,
+          name,
+          typeof persisted === "string" ? persisted : part.state.error,
+          false,
+        );
       } else {
         counts.interruptedToolCount++;
-        input.history.addToolResult(part.callID, name,
-          "[Tool execution was interrupted before resume]", false);
+        input.history.addToolResult(
+          part.callID,
+          name,
+          "[Tool execution was interrupted before resume]",
+          false,
+        );
       }
     }
   }

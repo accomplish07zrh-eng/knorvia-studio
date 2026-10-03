@@ -1,167 +1,169 @@
 import {
-    createUnsupportedModelInputMediaText,
-    getUnsupportedModelInputMediaKind,
-    isProviderVisibleModelInputMediaBlock,
-    isProviderVisiblePdfModelInputBlock,
-    isProviderVisibleVideoModelInputBlock,
-    traceContextToLogContext,
+  createUnsupportedModelInputMediaText,
+  getUnsupportedModelInputMediaKind,
+  isProviderVisibleModelInputMediaBlock,
+  isProviderVisiblePdfModelInputBlock,
+  isProviderVisibleVideoModelInputBlock,
+  traceContextToLogContext,
 } from "../deps.js";
 import type {
-    Logger,
-    ModelInputFormat,
-    ModelInputMessage,
-    ModelMessageContentBlock,
-    TraceContext,
+  Logger,
+  ModelInputFormat,
+  ModelInputMessage,
+  ModelMessageContentBlock,
+  TraceContext,
 } from "../deps.js";
 import {
-    officialCuaImageRefIndexesForUnavailableMedia,
-    officialCuaRasterUnavailableBlock,
+  officialCuaImageRefIndexesForUnavailableMedia,
+  officialCuaRasterUnavailableBlock,
 } from "./official-cua-media.js";
 
 export interface MediaCapabilityProjection {
-    messages: ModelInputMessage[];
-    omittedImageCount: number;
-    omittedMediaCount: number;
-    omittedPdfCount: number;
-    omittedVideoCount: number;
-    retainedMediaCount: number;
+  messages: ModelInputMessage[];
+  omittedImageCount: number;
+  omittedMediaCount: number;
+  omittedPdfCount: number;
+  omittedVideoCount: number;
+  retainedMediaCount: number;
 }
 
 function cloneUnchangedBlock(block: ModelMessageContentBlock): ModelMessageContentBlock {
-    switch (block.type) {
-        case "image":
-        case "video":
-        case "file":
-            return { ...block, source: block.source ? { ...block.source } : undefined };
-        case "text":
-        case "reasoning":
-        case "resource_link":
-            return { ...block };
-    }
+  switch (block.type) {
+    case "image":
+    case "video":
+    case "file":
+      return { ...block, source: block.source ? { ...block.source } : undefined };
+    case "text":
+    case "reasoning":
+    case "resource_link":
+      return { ...block };
+  }
 }
 
 export function projectMessagesForInputFormat(
-    messages: ModelInputMessage[],
-    inputFormat: ModelInputFormat,
+  messages: ModelInputMessage[],
+  inputFormat: ModelInputFormat,
 ): MediaCapabilityProjection {
-    if (inputFormat.supportsImage && inputFormat.supportsPdf && inputFormat.supportsVideo) {
-        return {
-            messages,
-            omittedImageCount: 0,
-            omittedMediaCount: 0,
-            omittedPdfCount: 0,
-            omittedVideoCount: 0,
-            retainedMediaCount: messages.reduce(
-                (count, message) => count + (Array.isArray(message.content)
-                    ? message.content.filter(isProviderVisibleModelInputMediaBlock).length
-                    : 0),
-                0,
-            ),
-        };
+  if (inputFormat.supportsImage && inputFormat.supportsPdf && inputFormat.supportsVideo) {
+    return {
+      messages,
+      omittedImageCount: 0,
+      omittedMediaCount: 0,
+      omittedPdfCount: 0,
+      omittedVideoCount: 0,
+      retainedMediaCount: messages.reduce(
+        (count, message) =>
+          count +
+          (Array.isArray(message.content)
+            ? message.content.filter(isProviderVisibleModelInputMediaBlock).length
+            : 0),
+        0,
+      ),
+    };
+  }
+
+  let changed = false;
+  let omittedImageCount = 0;
+  let omittedPdfCount = 0;
+  let omittedVideoCount = 0;
+  let omittedOtherCount = 0;
+  let retainedMediaCount = 0;
+
+  const projectedMessages = messages.map((message) => {
+    if (!Array.isArray(message.content)) {
+      return message;
     }
 
-    let changed = false;
-    let omittedImageCount = 0;
-    let omittedPdfCount = 0;
-    let omittedVideoCount = 0;
-    let omittedOtherCount = 0;
-    let retainedMediaCount = 0;
+    const unavailableMediaIndexes = new Set<number>();
+    message.content.forEach((block, index) => {
+      const kind = getUnsupportedModelInputMediaKind(block, inputFormat);
+      const replacement: ModelMessageContentBlock | undefined = kind
+        ? { type: "text", text: createUnsupportedModelInputMediaText(block, kind) }
+        : undefined;
+      if (replacement) {
+        unavailableMediaIndexes.add(index);
+      }
+    });
+    const pairedImageRefIndexes = officialCuaImageRefIndexesForUnavailableMedia(
+      message.content,
+      unavailableMediaIndexes,
+    );
 
-    const projectedMessages = messages.map((message) => {
-        if (!Array.isArray(message.content)) {
-            return message;
+    let messageChanged = false;
+    const content = message.content.map((block, index) => {
+      if (pairedImageRefIndexes.has(index)) {
+        messageChanged = true;
+        changed = true;
+        return { type: "text" as const, text: "" };
+      }
+
+      const kind = getUnsupportedModelInputMediaKind(block, inputFormat);
+      const replacement: ModelMessageContentBlock | undefined = kind
+        ? { type: "text", text: createUnsupportedModelInputMediaText(block, kind) }
+        : undefined;
+      if (!replacement) {
+        if (isProviderVisibleModelInputMediaBlock(block)) {
+          retainedMediaCount += 1;
         }
+        return cloneUnchangedBlock(block);
+      }
 
-        const unavailableMediaIndexes = new Set<number>();
-        message.content.forEach((block, index) => {
-            const kind = getUnsupportedModelInputMediaKind(block, inputFormat);
-            const replacement: ModelMessageContentBlock | undefined = kind
-                ? { type: "text", text: createUnsupportedModelInputMediaText(block, kind) }
-                : undefined;
-            if (replacement) {
-                unavailableMediaIndexes.add(index);
-            }
-        });
-        const pairedImageRefIndexes = officialCuaImageRefIndexesForUnavailableMedia(
-            message.content,
-            unavailableMediaIndexes,
-        );
-
-        let messageChanged = false;
-        const content = message.content.map((block, index) => {
-            if (pairedImageRefIndexes.has(index)) {
-                messageChanged = true;
-                changed = true;
-                return { type: "text" as const, text: "" };
-            }
-
-            const kind = getUnsupportedModelInputMediaKind(block, inputFormat);
-            const replacement: ModelMessageContentBlock | undefined = kind
-                ? { type: "text", text: createUnsupportedModelInputMediaText(block, kind) }
-                : undefined;
-            if (!replacement) {
-                if (isProviderVisibleModelInputMediaBlock(block)) {
-                    retainedMediaCount += 1;
-                }
-                return cloneUnchangedBlock(block);
-            }
-
-            messageChanged = true;
-            changed = true;
-            if (block.type === "image") {
-                omittedImageCount += 1;
-            } else if (isProviderVisiblePdfModelInputBlock(block)) {
-                omittedPdfCount += 1;
-            } else if (isProviderVisibleVideoModelInputBlock(block)) {
-                omittedVideoCount += 1;
-            } else {
-                omittedOtherCount += 1;
-            }
-            return pairedImageRefIndexes.has(index + 1)
-                ? officialCuaRasterUnavailableBlock()
-                : replacement;
-        });
-
-        if (!messageChanged) {
-            return message;
-        }
-        return {
-            ...message,
-            cacheControl: message.cacheControl ? { ...message.cacheControl } : undefined,
-            content,
-            toolCalls: message.toolCalls?.map((toolCall) => ({ ...toolCall })),
-        };
+      messageChanged = true;
+      changed = true;
+      if (block.type === "image") {
+        omittedImageCount += 1;
+      } else if (isProviderVisiblePdfModelInputBlock(block)) {
+        omittedPdfCount += 1;
+      } else if (isProviderVisibleVideoModelInputBlock(block)) {
+        omittedVideoCount += 1;
+      } else {
+        omittedOtherCount += 1;
+      }
+      return pairedImageRefIndexes.has(index + 1)
+        ? officialCuaRasterUnavailableBlock()
+        : replacement;
     });
 
+    if (!messageChanged) {
+      return message;
+    }
     return {
-        messages: changed ? projectedMessages : messages,
-        omittedImageCount,
-        omittedMediaCount: omittedImageCount + omittedPdfCount + omittedVideoCount + omittedOtherCount,
-        omittedPdfCount,
-        omittedVideoCount,
-        retainedMediaCount,
+      ...message,
+      cacheControl: message.cacheControl ? { ...message.cacheControl } : undefined,
+      content,
+      toolCalls: message.toolCalls?.map((toolCall) => ({ ...toolCall })),
     };
+  });
+
+  return {
+    messages: changed ? projectedMessages : messages,
+    omittedImageCount,
+    omittedMediaCount: omittedImageCount + omittedPdfCount + omittedVideoCount + omittedOtherCount,
+    omittedPdfCount,
+    omittedVideoCount,
+    retainedMediaCount,
+  };
 }
 
 export function logMediaCapabilityProjection(
-    logger: Logger | undefined,
-    traceContext: TraceContext,
-    projection: MediaCapabilityProjection,
-    options: { event: string; message: string; model: string },
+  logger: Logger | undefined,
+  traceContext: TraceContext,
+  projection: MediaCapabilityProjection,
+  options: { event: string; message: string; model: string },
 ): void {
-    if (projection.omittedMediaCount === 0) {
-        return;
-    }
-    logger?.debug(options.message, {
-        ...traceContextToLogContext(traceContext),
-        event: options.event,
-        model: options.model,
-        module: "core.runtime",
-        omittedImageCount: projection.omittedImageCount,
-        omittedMediaCount: projection.omittedMediaCount,
-        omittedPdfCount: projection.omittedPdfCount,
-        omittedVideoCount: projection.omittedVideoCount,
-        retainedMediaCount: projection.retainedMediaCount,
-        status: "completed",
-    });
+  if (projection.omittedMediaCount === 0) {
+    return;
+  }
+  logger?.debug(options.message, {
+    ...traceContextToLogContext(traceContext),
+    event: options.event,
+    model: options.model,
+    module: "core.runtime",
+    omittedImageCount: projection.omittedImageCount,
+    omittedMediaCount: projection.omittedMediaCount,
+    omittedPdfCount: projection.omittedPdfCount,
+    omittedVideoCount: projection.omittedVideoCount,
+    retainedMediaCount: projection.retainedMediaCount,
+    status: "completed",
+  });
 }

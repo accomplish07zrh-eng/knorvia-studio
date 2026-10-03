@@ -68,10 +68,7 @@ export function useStudioGroups(targetId?: string) {
   const ensureDraft = useStudioGroupStore((state) => state.ensureDraft);
   const markImported = useStudioGroupStore((state) => state.markImported);
   const deleteDraft = useStudioGroupStore((state) => state.deleteGroup);
-  const scope = useMemo(
-    () => new GroupViewScope(runtime.connectionKey),
-    [runtime.connectionKey],
-  );
+  const scope = useMemo(() => new GroupViewScope(runtime.connectionKey), [runtime.connectionKey]);
   const currentScope = useRef(scope);
   currentScope.current = scope;
   const [failure, setFailure] = useState<ImportFailure>();
@@ -79,8 +76,7 @@ export function useStudioGroups(targetId?: string) {
     (lease: object | undefined) => currentScope.current === scope && scope.owns(lease),
     [scope],
   );
-  const importError =
-    failure?.scope === scope && scope.owns(failure.lease) ? failure.message : "";
+  const importError = failure?.scope === scope && scope.owns(failure.lease) ? failure.message : "";
   const definitions = runtime.overview?.groups;
   const revision = runtime.overview?.revision;
 

@@ -5,11 +5,13 @@ const PDF_MEDIA_TYPE = "application/pdf";
 
 export const PDF_INPUT_MAX_BYTES: number = 20 * 1024 * 1024;
 
-export function parseInlinePdfDataUrl(dataUrl: string): {
-  mediaType: "application/pdf";
-  sizeBytes: number;
-  bytes: Buffer;
-} | undefined {
+export function parseInlinePdfDataUrl(dataUrl: string):
+  | {
+      mediaType: "application/pdf";
+      sizeBytes: number;
+      bytes: Buffer;
+    }
+  | undefined {
   const commaIndex = dataUrl.indexOf(",");
   if (dataUrl.slice(0, DATA_URL_PREFIX.length).toLowerCase() !== DATA_URL_PREFIX) {
     return undefined;

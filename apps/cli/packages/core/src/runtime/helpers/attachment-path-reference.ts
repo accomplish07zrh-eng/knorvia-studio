@@ -50,8 +50,8 @@ export function resolvedPathReferenceAttachment(
     source?: FilePartSource;
   },
 ): ResolvedTurnAttachment {
-  const mime = options.mime ??
-    (attachment.type === "image" ? "image/*" : "application/octet-stream");
+  const mime =
+    options.mime ?? (attachment.type === "image" ? "image/*" : "application/octet-stream");
   const content = [
     `Attached ${mime}: ${placeholder}`,
     `The file was sent by local path because ${formatPathReferenceReason(options.reason)}.`,
@@ -78,7 +78,9 @@ export function isDataOrArtifactUrl(content: string): boolean {
 }
 
 export function isTextLikePath(path: string): boolean {
-  return /\.(cjs|conf|cpp|cs|css|csv|go|h|hpp|html|ini|java|js|json|jsx|log|md|mjs|py|rs|sh|sql|toml|ts|tsx|txt|xml|yaml|yml)$/iu.test(path);
+  return /\.(cjs|conf|cpp|cs|css|csv|go|h|hpp|html|ini|java|js|json|jsx|log|md|mjs|py|rs|sh|sql|toml|ts|tsx|txt|xml|yaml|yml)$/iu.test(
+    path,
+  );
 }
 
 export function inferAttachmentMimeFromPath(path: string): string {

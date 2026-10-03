@@ -10,10 +10,7 @@ import {
   sanitizeSystemReminderBody,
   wrapSystemReminder,
 } from "../../system-reminder/source.js";
-import {
-  isPresentedInput,
-  type ProviderEntryOrigins,
-} from "./provider-entry-origins.js";
+import { isPresentedInput, type ProviderEntryOrigins } from "./provider-entry-origins.js";
 
 interface MidSystemProjection {
   fallbackBody: string;
@@ -23,9 +20,7 @@ interface ProjectedMidSystemMessageEntry extends RuntimeMessageMessageEntry {
   midSystemProjection: MidSystemProjection;
 }
 
-export type ProjectedRuntimeMessageEntry =
-  | RuntimeMessageEntry
-  | ProjectedMidSystemMessageEntry;
+export type ProjectedRuntimeMessageEntry = RuntimeMessageEntry | ProjectedMidSystemMessageEntry;
 
 interface MidSystemProjectionResult {
   entries: ProjectedRuntimeMessageEntry[];
@@ -45,18 +40,13 @@ export function projectMidConversationSystemEntries(
     const body = items.map((item) => item.text).join("\n\n");
     const previous = projected[projected.length - 1];
 
-    if (
-      previous &&
-      "midSystemProjection" in previous &&
-      previous.midSystemProjection
-    ) {
+    if (previous && "midSystemProjection" in previous && previous.midSystemProjection) {
       origins.set(previous, [previous, ...items.map((item) => item.entry)]);
       previous.message = {
         ...previous.message,
         content: `${previous.message.content}\n\n${body}`,
       };
-      previous.midSystemProjection.fallbackBody =
-        `${previous.midSystemProjection.fallbackBody}\n\n${body}`;
+      previous.midSystemProjection.fallbackBody = `${previous.midSystemProjection.fallbackBody}\n\n${body}`;
       return;
     }
 
@@ -67,7 +57,10 @@ export function projectMidConversationSystemEntries(
           message: { role: "system", content: body },
           midSystemProjection: { fallbackBody: body },
         };
-        origins.set(entry, items.map((item) => item.entry));
+        origins.set(
+          entry,
+          items.map((item) => item.entry),
+        );
         projected.push(entry);
         return;
       }
@@ -77,11 +70,8 @@ export function projectMidConversationSystemEntries(
   };
 
   for (const entry of entries) {
-    const pendingHasPresentedInput = pending.some((item) =>
-      isPresentedInput(item.entry),
-    );
-    const nextIsUser =
-      !isRuntimeAttachmentEntry(entry) && entry.message.role === "user";
+    const pendingHasPresentedInput = pending.some((item) => isPresentedInput(item.entry));
+    const nextIsUser = !isRuntimeAttachmentEntry(entry) && entry.message.role === "user";
 
     if (
       pending.length > 0 &&
@@ -93,10 +83,7 @@ export function projectMidConversationSystemEntries(
     let text: string | undefined;
     if (isRuntimeAttachmentEntry(entry)) {
       const source = entry.metadata.source;
-      if (
-        isKnownSystemReminderSource(source) &&
-        isMidConversationSystemSource(source)
-      ) {
+      if (isKnownSystemReminderSource(source) && isMidConversationSystemSource(source)) {
         text = entry.content;
       }
     }
@@ -120,11 +107,7 @@ export function projectMidConversationSystemEntries(
   const validated: ProjectedRuntimeMessageEntry[] = [];
   for (let index = 0; index < projected.length; index += 1) {
     const entry = projected[index];
-    if (
-      !entry ||
-      !("midSystemProjection" in entry) ||
-      !entry.midSystemProjection
-    ) {
+    if (!entry || !("midSystemProjection" in entry) || !entry.midSystemProjection) {
       validated.push(entry);
       continue;
     }
@@ -171,16 +154,14 @@ export function moveLegacySystemRemindersAfterToolResultRun(
   for (const entry of entries) {
     const legacyReminder =
       isRuntimeAttachmentEntry(entry) ||
-      (entry.message.role === "user" &&
-        entry.metadata?.source === "legacy_synthetic");
+      (entry.message.role === "user" && entry.metadata?.source === "legacy_synthetic");
     const previous = moved[moved.length - 1];
     if (
       legacyReminder &&
       (pending.length > 0 ||
         (previous &&
           !isRuntimeAttachmentEntry(previous) &&
-          (previous.message.role === "tool" ||
-            isToolResultUserMessage(previous.message))))
+          (previous.message.role === "tool" || isToolResultUserMessage(previous.message))))
     ) {
       pending.push(entry);
       continue;

@@ -1,8 +1,5 @@
 import { parseRuntimeInputPresentation } from "@knorvia/contracts";
-import {
-  isRuntimeAttachmentEntry,
-  type RuntimeMessageEntry,
-} from "../../agent/message-history.js";
+import { isRuntimeAttachmentEntry, type RuntimeMessageEntry } from "../../agent/message-history.js";
 import {
   formatIncomingMessage,
   isMidTurnInputPresentation,
@@ -21,17 +18,17 @@ function isRealUser(entry: RuntimeMessageEntry): boolean {
 }
 
 export class ProviderEntryOrigins {
-  private readonly origins = new WeakMap<
-    RuntimeMessageEntry,
-    readonly RuntimeMessageEntry[]
-  >();
+  private readonly origins = new WeakMap<RuntimeMessageEntry, readonly RuntimeMessageEntry[]>();
 
   get(entry: RuntimeMessageEntry): readonly RuntimeMessageEntry[] {
     return this.origins.get(entry) ?? [entry];
   }
 
   set(entry: RuntimeMessageEntry, inputs: readonly RuntimeMessageEntry[]): void {
-    this.origins.set(entry, inputs.flatMap((input) => this.get(input)));
+    this.origins.set(
+      entry,
+      inputs.flatMap((input) => this.get(input)),
+    );
   }
 
   hasRealUser(entry: RuntimeMessageEntry): boolean {
@@ -41,16 +38,13 @@ export class ProviderEntryOrigins {
   representative(entry: RuntimeMessageEntry): RuntimeMessageEntry | undefined {
     const inputs = this.get(entry);
     return (
-      inputs.findLast(isRealUser) ??
-      inputs.findLast((input) => !isRuntimeAttachmentEntry(input))
+      inputs.findLast(isRealUser) ?? inputs.findLast((input) => !isRuntimeAttachmentEntry(input))
     );
   }
 }
 
 export function isPresentedInput(entry: RuntimeMessageEntry): boolean {
-  return (
-    parseRuntimeInputPresentation(entry.metadata?.inputPresentation) !== undefined
-  );
+  return parseRuntimeInputPresentation(entry.metadata?.inputPresentation) !== undefined;
 }
 
 export function projectIncomingMessageEntries(
@@ -62,18 +56,13 @@ export function projectIncomingMessageEntries(
       return entry;
     }
 
-    const presentation = parseRuntimeInputPresentation(
-      entry.metadata?.inputPresentation,
-    );
+    const presentation = parseRuntimeInputPresentation(entry.metadata?.inputPresentation);
     if (!presentation) {
       return entry;
     }
 
     const content = entry.message.content;
-    if (
-      typeof content !== "string" &&
-      content.some((block) => block.type !== "text")
-    ) {
+    if (typeof content !== "string" && content.some((block) => block.type !== "text")) {
       return entry;
     }
 

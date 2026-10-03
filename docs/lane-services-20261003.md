@@ -18,10 +18,10 @@ not a result of this task.
 
 The two exact historical originals still exist at the fixed integration base:
 
-| Owner | Git blob | SHA-256 | Historical status |
-| --- | --- | --- | --- |
+| Owner                           | Git blob                                 | SHA-256                                                          | Historical status                                                    |
+| ------------------------------- | ---------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------- |
 | agent-session/sessionService.ts | 61db9dc9481ef85eb32bf05a70a0f9c3505367fc | dbbd02c0aa1d5ceee811e36d32beb40c1a50b31ef75f7db8c1a1f0dfd3d16199 | Unreviewed, upstream null, NOASSERTION; prior allocation/origin hold |
-| agent/taskIndexSyncer.ts | 8672ae0027c23e543307b68024828305993589e1 | 529d114c34c331f54d4e744890526d34c83b54e7f48c00a916fab2583bdbec2c | Unreviewed, upstream null, NOASSERTION; prior allocation/origin hold |
+| agent/taskIndexSyncer.ts        | 8672ae0027c23e543307b68024828305993589e1 | 529d114c34c331f54d4e744890526d34c83b54e7f48c00a916fab2583bdbec2c | Unreviewed, upstream null, NOASSERTION; prior allocation/origin hold |
 
 The latest user allocation permits this lane to implement replacements from
 behavior contracts. It does not resolve origin/rights evidence or declare an
@@ -171,11 +171,11 @@ Fetched the integration ref to `91d5cd9dc70f7e801abe2cdecdb12e73d3491c56` withou
 merging/rebasing this lane. Current lane and that integration tree retain the same
 three protected sources. Their separate parent-provided positive metadata is:
 
-| Path below packages/services/src | Current SHA-256 | Parent-reported candidate SHA-256 | Missing installation evidence |
-| --- | --- | --- | --- |
-| session/tasksDatabase/startup.ts | d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde | a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a | Exact candidate/descendant source and task-storage-preparation-expression-20261002 receipt |
-| git/commitMessageFileScope.ts | f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e | ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761 | Candidate blob 69e43f4ce19a30ea185ba99ffb284ac0d798c6f8 and commit-message-scope-independent-replacement-20261001 receipt |
-| creation/creationReference.ts | 05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654 | 5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43 | Exact root containment-fix source/descendant and creation-reference-containment-20261001 receipt |
+| Path below packages/services/src | Current SHA-256                                                  | Parent-reported candidate SHA-256                                | Missing installation evidence                                                                                             |
+| -------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| session/tasksDatabase/startup.ts | d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde | a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a | Exact candidate/descendant source and task-storage-preparation-expression-20261002 receipt                                |
+| git/commitMessageFileScope.ts    | f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e | ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761 | Candidate blob 69e43f4ce19a30ea185ba99ffb284ac0d798c6f8 and commit-message-scope-independent-replacement-20261001 receipt |
+| creation/creationReference.ts    | 05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654 | 5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43 | Exact root containment-fix source/descendant and creation-reference-containment-20261001 receipt                          |
 
 All three named receipts are absent in the examined local and fetched integration
 trees; the named commit-scope candidate blob is unavailable locally. These are
@@ -254,11 +254,11 @@ digests, Git blobs, byte sizes, historical bindings and retained collaborators a
 in [source-bindings.json](evidence/backlog-services-historical-gap-20261003/source-bindings.json).
 That new authoring record does not substitute any of the missing old receipts.
 
-| Complete owner delivered in batch 5 | Implementation and compatibility boundary |
-| --- | --- |
-| Task-storage preparation | One shared one-hour busy-only lock window; first-failure entries preserve falsy values through DB and both Repo closes. Existing SQL, migrations, snapshots, committed facts and marker ordering retained. |
-| Commit-message file selection | Pre-trimmed alias stream and exact terminal-node trie retain root/workspace/absolute aliases, three-path matching, order/duplicates/object references and empty effective alias unboundedness. |
-| Creation-reference admission/read | Both public reads enter one captured file-handle reader with bounded chunks, canonical containment and before/after route/object observations. Stored/reference/read-back hashes must agree for workflow handoff; ordinary legacy references remain available. |
+| Complete owner delivered in batch 5 | Implementation and compatibility boundary                                                                                                                                                                                                                      |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Task-storage preparation            | One shared one-hour busy-only lock window; first-failure entries preserve falsy values through DB and both Repo closes. Existing SQL, migrations, snapshots, committed facts and marker ordering retained.                                                     |
+| Commit-message file selection       | Pre-trimmed alias stream and exact terminal-node trie retain root/workspace/absolute aliases, three-path matching, order/duplicates/object references and empty effective alias unboundedness.                                                                 |
+| Creation-reference admission/read   | Both public reads enter one captured file-handle reader with bounded chunks, canonical containment and before/after route/object observations. Stored/reference/read-back hashes must agree for workflow handoff; ordinary legacy references remain available. |
 
 The complete-component '..' rule allows real project files beginning with '..'
 while rejecting actual escapes. Initial file/size admission remains before open,

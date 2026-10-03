@@ -1,8 +1,5 @@
 import type { KnorviaAgentMcpServer, KnorviaSessionStateSnapshot } from "@knorvia/shared";
-import type {
-  KnorviaSessionCreateParams,
-  KnorviaSessionResumeParams,
-} from "./session.js";
+import type { KnorviaSessionCreateParams, KnorviaSessionResumeParams } from "./session.js";
 import type { CuaProductMcpServerResolver } from "#src/cua-permission-broker/index.js";
 import { appendWorkspaceToFilesystemMcpServers } from "#src/session/mcpWorkspaceScope.js";
 

@@ -89,8 +89,7 @@ async function readAdmittedReference(admission: ReferenceAdmission): Promise<Ref
   if (!candidate.isFile() || candidate.size === 0 || candidate.size > REFERENCE_LIMIT) {
     throw new Error(SIZE_FAILURE);
   }
-  const flags =
-    constants.O_RDONLY | (process.platform === "win32" ? 0 : constants.O_NOFOLLOW);
+  const flags = constants.O_RDONLY | (process.platform === "win32" ? 0 : constants.O_NOFOLLOW);
   const file = await open(admission.canonicalPath, flags);
   let bytes: Buffer;
   try {

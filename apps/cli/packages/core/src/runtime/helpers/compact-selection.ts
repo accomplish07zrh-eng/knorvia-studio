@@ -33,24 +33,24 @@ function entryRole(entry: RuntimeMessageEntry): string {
 
 function isContextPrefix(entry: RuntimeMessageEntry): boolean {
   if (isRuntimeAttachmentEntry(entry)) {
-    return entry.metadata.source === "context_prefix" ||
-      entry.metadata.source === "skills_listing";
+    return entry.metadata.source === "context_prefix" || entry.metadata.source === "skills_listing";
   }
   if (entry.message.role === "system") return true;
   if (entry.message.role !== "user") return false;
   if (entry.metadata) {
-    return entry.metadata.source === "context_prefix" ||
-      entry.metadata.source === "skills_listing";
+    return entry.metadata.source === "context_prefix" || entry.metadata.source === "skills_listing";
   }
   return modelMessageContentToText(entry.message.content)
-    .trimStart().startsWith("<system-reminder>");
+    .trimStart()
+    .startsWith("<system-reminder>");
 }
 
 function isRetryMarker(entry: RuntimeMessageEntry): boolean {
-  return !isRuntimeAttachmentEntry(entry) &&
+  return (
+    !isRuntimeAttachmentEntry(entry) &&
     entry.message.role === "user" &&
-    modelMessageContentToText(entry.message.content) ===
-      COMPACT_PROMPT_TOO_LONG_RETRY_MARKER;
+    modelMessageContentToText(entry.message.content) === COMPACT_PROMPT_TOO_LONG_RETRY_MARKER
+  );
 }
 
 function groupEntries(entries: readonly RuntimeMessageEntry[]): RuntimeMessageEntry[][] {
@@ -61,7 +61,7 @@ function splitEntries(entries: readonly RuntimeMessageEntry[]): {
   prefix: RuntimeMessageEntry[];
   groups: RuntimeMessageEntry[][];
 } {
-  const cloned = entries.map(entry => cloneRuntimeMessageEntry(entry));
+  const cloned = entries.map((entry) => cloneRuntimeMessageEntry(entry));
   const prefixCount = countContextPrefixMessages(cloned);
   const prefix = cloned.slice(0, prefixCount);
   const groups = groupEntries(cloned.slice(prefixCount));
@@ -90,17 +90,15 @@ export function selectCompactEntries(input: {
   const requested = Math.max(base, normalizePreservedCount(input.minimumGroupsToPreserve) ?? 0);
   const maximum = Math.max(0, groups.length - 1);
   const groupsPreserved = preserve ? Math.min(requested, maximum) : 0;
-  const summaryGroups = groupsPreserved > 0
-    ? groups.slice(0, groups.length - groupsPreserved)
-    : groups;
-  const preservedGroups = groupsPreserved > 0
-    ? groups.slice(groups.length - groupsPreserved)
-    : [];
+  const summaryGroups =
+    groupsPreserved > 0 ? groups.slice(0, groups.length - groupsPreserved) : groups;
+  const preservedGroups = groupsPreserved > 0 ? groups.slice(groups.length - groupsPreserved) : [];
   return {
-    entriesForSummary: [...prefix, ...summaryGroups.flat()]
-      .map(entry => cloneRuntimeMessageEntry(entry)),
+    entriesForSummary: [...prefix, ...summaryGroups.flat()].map((entry) =>
+      cloneRuntimeMessageEntry(entry),
+    ),
     groupsPreserved,
-    preservedEntries: preservedGroups.flat().map(entry => cloneRuntimeMessageEntry(entry)),
+    preservedEntries: preservedGroups.flat().map((entry) => cloneRuntimeMessageEntry(entry)),
     totalGroups: groups.length,
   };
 }
@@ -108,16 +106,15 @@ export function selectCompactEntries(input: {
 export function getRuntimeEntriesToSummarize(
   entries: readonly RuntimeMessageEntry[],
 ): RuntimeMessageEntry[] {
-  return entries.filter(entry => !isContextPrefix(entry))
-    .map(entry => cloneRuntimeMessageEntry(entry));
+  return entries
+    .filter((entry) => !isContextPrefix(entry))
+    .map((entry) => cloneRuntimeMessageEntry(entry));
 }
 
-export function hasEnoughRuntimeEntriesToCompact(
-  entries: readonly RuntimeMessageEntry[],
-): boolean {
+export function hasEnoughRuntimeEntriesToCompact(entries: readonly RuntimeMessageEntry[]): boolean {
   const retained = getRuntimeEntriesToSummarize(entries);
   const groups = groupEntries(retained);
-  return groups.length >= 2 && retained.some(entry => entryRole(entry) === "assistant");
+  return groups.length >= 2 && retained.some((entry) => entryRole(entry) === "assistant");
 }
 
 export function estimateRuntimeEntryTokens(
@@ -163,7 +160,11 @@ function extractTokenGap(cause: unknown): number | undefined {
   return undefined;
 }
 
-function newestCoverageCount(estimates: readonly number[], groupCount: number, gap: number): number {
+function newestCoverageCount(
+  estimates: readonly number[],
+  groupCount: number,
+  gap: number,
+): number {
   if (gap <= 0 || groupCount <= 0) return 0;
   let covered = 0;
   let counted = 0;
@@ -172,9 +173,7 @@ function newestCoverageCount(estimates: readonly number[], groupCount: number, g
     counted += 1;
     if (covered >= gap) break;
   }
-  return counted >= groupCount - 1
-    ? Math.max(1, Math.floor(groupCount / 2))
-    : Math.max(1, counted);
+  return counted >= groupCount - 1 ? Math.max(1, Math.floor(groupCount / 2)) : Math.max(1, counted);
 }
 
 export function selectCompactEntriesAfterPromptTooLong(input: {
@@ -195,9 +194,11 @@ export function selectCompactEntriesAfterPromptTooLong(input: {
   const gap = extractTokenGap(input.promptTooLongCause);
   let moveCount = 1;
   if (gap !== undefined) {
-    const estimates = summaryGroups.map(group => estimateRuntimeEntryTokens(group, {
-      useMidConversationSystem,
-    }));
+    const estimates = summaryGroups.map((group) =>
+      estimateRuntimeEntryTokens(group, {
+        useMidConversationSystem,
+      }),
+    );
     moveCount = newestCoverageCount(estimates, summaryGroups.length, gap);
   }
   const nextCount = Math.min(maximum, input.currentGroupsPreserved + moveCount);
@@ -222,9 +223,11 @@ export function selectCompactEntriesForInitialPromptTooLong(input: {
   const gap = extractTokenGap(input.promptTooLongCause);
   if (gap === undefined) return null;
   const useMidConversationSystem = input.useMidConversationSystem;
-  const estimates = groups.map(group => estimateRuntimeEntryTokens(group, {
-    useMidConversationSystem,
-  }));
+  const estimates = groups.map((group) =>
+    estimateRuntimeEntryTokens(group, {
+      useMidConversationSystem,
+    }),
+  );
   const alreadyPreserved = estimates[estimates.length - 1] ?? 0;
   const remainingGap = gap - alreadyPreserved;
   if (remainingGap <= 0) return null;
@@ -268,7 +271,10 @@ function truncateSummaryEntries(
   }
   dropCount = Math.min(dropCount, groups.length - 1);
   if (dropCount < 1) return null;
-  const sliced = groups.slice(dropCount).flat().map(entry => cloneRuntimeMessageEntry(entry));
+  const sliced = groups
+    .slice(dropCount)
+    .flat()
+    .map((entry) => cloneRuntimeMessageEntry(entry));
   if (sliced.length === 0) return null;
   if (entryRole(sliced[0]) === "assistant") {
     sliced.unshift({

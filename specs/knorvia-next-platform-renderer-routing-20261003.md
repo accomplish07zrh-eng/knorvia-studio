@@ -7,14 +7,14 @@ All match the assigned UI handoff and existing upstream-modified records, with
 no accepted complete replacement. Keep UI, native/preload/shared/Host boundaries,
 every existing capability and fallback. No newly exposed capability is requested.
 
-~~~mermaid
+```mermaid
 flowchart LR
   UI[Existing IPlatformService consumers] --> Routes[Fixed capability and route data]
   Routes --> Calls[One preload invocation policy]
   Calls --> Native[Live window.knorvia receiver and method]
   OS[Native drag end / page mouseup] --> Gesture[One permission gesture phase]
   Gesture --> Panel[Existing dedicated permission preload]
-~~~
+```
 
 ## Adapter policy and retained data
 
@@ -99,17 +99,17 @@ renderer entries on the existing task/branch/draft PR; do not broaden the scope.
 
 ## Authorized client declaration follow-up
 
-The parent confirmed packages/client/** belongs to this same lane and authorized
+The parent confirmed packages/client/\*\* belongs to this same lane and authorized
 closing the declaration gap after checkpoint124ed9e32715e6e0fb2caf1b1aa5bd8eac2de83e.
 Change only packages/client/src/globals.d.ts by adding the three existing keys to
 its existing Required<Pick<IPlatformService,...>> native surface. Actual preload
 always exposes these methods; reuse the exact shared signatures:
 
-| Method | Existing runtime/shared signature |
-| --- | --- |
+| Method                  | Existing runtime/shared signature                                    |
+| ----------------------- | -------------------------------------------------------------------- |
 | previewLocalDiagnostics | (request: LocalDiagnosticRequest) -> Promise<LocalDiagnosticPreview> |
-| exportLocalDiagnostics | (id: string) -> Promise<LocalDiagnosticExportResult> |
-| checkReleaseUpdate | () -> Promise<ReleaseUpdateCheckResult> |
+| exportLocalDiagnostics  | (id: string) -> Promise<LocalDiagnosticExportResult>                 |
+| checkReleaseUpdate      | () -> Promise<ReleaseUpdateCheckResult>                              |
 
 All types come from the existing shared public entry. No new schema, wire channel,
 capability, runtime behavior, renderer/preload implementation or data operation.

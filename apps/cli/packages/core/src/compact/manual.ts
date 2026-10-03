@@ -68,26 +68,16 @@ export function getMessagesToSummarize(
         message.role !== "system" &&
         !(
           message.role === "user" &&
-          modelMessageContentToText(message.content)
-            .trimStart()
-            .startsWith("<system-reminder>")
+          modelMessageContentToText(message.content).trimStart().startsWith("<system-reminder>")
         ),
     )
     .map((message) => ({ ...message }));
 }
 
-export function hasEnoughMessagesToCompact(
-  messages: readonly CompactModelMessage[],
-): boolean {
+export function hasEnoughMessagesToCompact(messages: readonly CompactModelMessage[]): boolean {
   const summarizableMessages = getMessagesToSummarize(messages);
-  const rounds = groupByAssistantStartedRounds(
-    summarizableMessages,
-    (message) => message.role,
-  );
-  return (
-    rounds.length >= 2 &&
-    summarizableMessages.some((message) => message.role === "assistant")
-  );
+  const rounds = groupByAssistantStartedRounds(summarizableMessages, (message) => message.role);
+  return rounds.length >= 2 && summarizableMessages.some((message) => message.role === "assistant");
 }
 
 export function buildManualCompactBoundary(
@@ -115,9 +105,7 @@ export function buildManualCompactBoundary(
   };
 }
 
-export function estimateMessageTokens(
-  messages: readonly CompactModelMessage[],
-): number {
+export function estimateMessageTokens(messages: readonly CompactModelMessage[]): number {
   let total = 0;
   messages.forEach((message) => {
     const content = message.content;
@@ -126,9 +114,7 @@ export function estimateMessageTokens(
         ? content
         : content
             .map((block) =>
-              block.type === "reasoning"
-                ? block.text
-                : modelMessageContentBlockToText(block),
+              block.type === "reasoning" ? block.text : modelMessageContentBlockToText(block),
             )
             .filter(Boolean)
             .join("\n\n");
@@ -151,8 +137,7 @@ export function estimateMessageTokens(
 
 export function getUsageTotalTokens(usage?: TokenUsageLike): number {
   const inputTokens =
-    usage?.inputTokens ??
-    (usage?.cacheReadTokens ?? 0) + (usage?.cacheWriteTokens ?? 0);
+    usage?.inputTokens ?? (usage?.cacheReadTokens ?? 0) + (usage?.cacheWriteTokens ?? 0);
   return usage?.totalTokens ?? inputTokens + (usage?.outputTokens ?? 0);
 }
 

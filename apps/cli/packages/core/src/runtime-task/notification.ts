@@ -55,11 +55,16 @@ export interface TaskNotificationInput {
 export function escapeXml(value: string): string {
   return value.replace(/[<>&'"]/gu, (character) => {
     switch (character) {
-      case "<": return "&lt;";
-      case ">": return "&gt;";
-      case "&": return "&amp;";
-      case "'": return "&apos;";
-      default: return "&quot;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case "&":
+        return "&amp;";
+      case "'":
+        return "&apos;";
+      default:
+        return "&quot;";
     }
   });
 }
@@ -67,9 +72,12 @@ export function escapeXml(value: string): string {
 function escapeBasicXml(value: string): string {
   return value.replace(/[<>&]/gu, (character) => {
     switch (character) {
-      case "<": return "&lt;";
-      case ">": return "&gt;";
-      default: return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      default:
+        return "&amp;";
     }
   });
 }
@@ -91,7 +99,8 @@ function agentUsage(usage: TaskNotificationInput["usage"]): string | undefined {
   const metrics: string[] = [];
   const tokens = usage.totalTokens ?? usage.modelUsage?.totalTokens;
   if (tokens !== undefined) metrics.push(numericElement("subagent_tokens", tokens));
-  if (usage.toolUseCount !== undefined) metrics.push(numericElement("tool_uses", usage.toolUseCount));
+  if (usage.toolUseCount !== undefined)
+    metrics.push(numericElement("tool_uses", usage.toolUseCount));
   if (usage.durationMs !== undefined) metrics.push(numericElement("duration_ms", usage.durationMs));
   return metrics.length ? `<usage>${metrics.join("")}</usage>` : undefined;
 }
@@ -118,9 +127,11 @@ function workflowGuidance(input: TaskNotificationInput): string {
   const paragraphs: string[] = [];
   const addArtifacts = (completed = false): void => {
     if (input.artifacts !== undefined) {
-      paragraphs.push(completed
-        ? "Artifacts listed above are already in front of the user as cards; refer to them by title and do not paste their contents. The one marked primary is the deliverable: point the user to it first."
-        : "Artifacts listed above are already in front of the user.");
+      paragraphs.push(
+        completed
+          ? "Artifacts listed above are already in front of the user as cards; refer to them by title and do not paste their contents. The one marked primary is the deliverable: point the user to it first."
+          : "Artifacts listed above are already in front of the user.",
+      );
     }
   };
   if (status === "completed") {
@@ -137,9 +148,10 @@ function workflowGuidance(input: TaskNotificationInput): string {
     );
     addArtifacts();
   } else if (input.stopReason === "model") {
-    const scriptSuffix = input.scriptPath !== undefined
-      ? ` Its script is at ${input.scriptPath}: edit that file and pass \`path\`.`
-      : "";
+    const scriptSuffix =
+      input.scriptPath !== undefined
+        ? ` Its script is at ${input.scriptPath}: edit that file and pass \`path\`.`
+        : "";
     paragraphs.push(
       `You stopped this workflow with TaskStop. If you stopped it to fix the script, do that now: call AmendWorkflow with this run's ID and the corrected script — everything that settled before the stop is imported as cache, and the sooner the fix runs the less it re-pays. (Next time, amend the running run directly: AmendWorkflow stops it for you.)${scriptSuffix}`,
       "Otherwise present what it finished: the reported items above are finished findings — show them individually with their evidence. Resume it unchanged only if that is what the user wants.",
@@ -158,7 +170,9 @@ function workflowGuidance(input: TaskNotificationInput): string {
     );
     addArtifacts();
   } else if (input.stopReason === "superseded") {
-    paragraphs.push("This run was stopped because you amended it: a newer run supersedes it and is already running. Do not resume this run and do not amend it again; wait for the successor's notification.");
+    paragraphs.push(
+      "This run was stopped because you amended it: a newer run supersedes it and is already running. Do not resume this run and do not amend it again; wait for the successor's notification.",
+    );
     addArtifacts();
   } else if (status === "stopped") {
     paragraphs.push(
@@ -167,15 +181,23 @@ function workflowGuidance(input: TaskNotificationInput): string {
     );
     addArtifacts();
   } else if (status === "errored") {
-    paragraphs.push("The workflow script failed. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request.");
+    paragraphs.push(
+      "The workflow script failed. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request.",
+    );
     addArtifacts();
-    paragraphs.push(input.scriptPath === undefined
-      ? `Fix the script and submit it with AmendWorkflow (run_id="${input.taskId}") so finished work is reused. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way.`
-      : `The run's script is at ${input.scriptPath}. Edit that file in place, then call AmendWorkflow (run_id="${input.taskId}", path="${input.scriptPath}") so finished work is reused — do not paste the script inline. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way.`);
+    paragraphs.push(
+      input.scriptPath === undefined
+        ? `Fix the script and submit it with AmendWorkflow (run_id="${input.taskId}") so finished work is reused. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way.`
+        : `The run's script is at ${input.scriptPath}. Edit that file in place, then call AmendWorkflow (run_id="${input.taskId}", path="${input.scriptPath}") so finished work is reused — do not paste the script inline. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way.`,
+    );
   } else {
-    paragraphs.push("The workflow did not complete. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request.");
+    paragraphs.push(
+      "The workflow did not complete. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request.",
+    );
     addArtifacts();
-    paragraphs.push("If the script itself was wrong, a corrected script submitted with AmendWorkflow re-uses the finished work; if the process died (error code Interrupted), the run is resumable as-is.");
+    paragraphs.push(
+      "If the script itself was wrong, a corrected script submitted with AmendWorkflow re-uses the finished work; if the process died (error code Interrupted), the run is resumable as-is.",
+    );
   }
   return paragraphs.join("\n");
 }
@@ -189,9 +211,10 @@ function workflowNotification(input: TaskNotificationInput): string {
   if (input.description) lines.push(element("description", input.description));
   lines.push(element("summary", input.summary));
   if (input.result !== undefined) lines.push(element("result", input.result));
-  const providerError = input.failure?.providerStop !== undefined
-    ? formatWorkflowProviderStopError(input.failure, input.taskId)
-    : undefined;
+  const providerError =
+    input.failure?.providerStop !== undefined
+      ? formatWorkflowProviderStopError(input.failure, input.taskId)
+      : undefined;
   if (providerError !== undefined) {
     lines.push(`<error>\n${escapeBasicXml(providerError)}\n</error>`);
   } else if (input.error !== undefined) {
@@ -201,7 +224,11 @@ function workflowNotification(input: TaskNotificationInput): string {
     const section = input[name];
     if (section !== undefined) {
       const shown = section.shown < section.count ? ` shown="${section.shown}"` : "";
-      lines.push(`<${name} count="${section.count}"${shown}>`, escapeXml(section.preview), `</${name}>`);
+      lines.push(
+        `<${name} count="${section.count}"${shown}>`,
+        escapeXml(section.preview),
+        `</${name}>`,
+      );
     }
   }
   lines.push("</task-notification>");

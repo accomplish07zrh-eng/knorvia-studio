@@ -67,6 +67,6 @@ breakdown 逆扫 ModelComplete，只接纳缺 querySource 或 main_turn、共享
 
 ## 图片与验收
 
-先同步 map 全部 message，再按原并发 Message/part Promise.all 回填；只对原 MIME image/* 或 image/ 前缀且 URL 尚非可用 data:（逗号后非空）处理。string metadata.artifactUri 优先 url，包括空字符串的 nullish 规则；共享 isArtifactUri 接纳后才经 app.readToolResultArtifact。可用 artifact content data URL 原样用，否则 contentType 的规范具体 image MIME 优先 part fallback，生成 base64 URL；最终 UTF8 byteLength <= 20MiB 才替换 url。读/转换失败按现有兼容行为保留原 part，不能移除附件、读取用户目录或泄漏 artifact 本地路径。
+先同步 map 全部 message，再按原并发 Message/part Promise.all 回填；只对原 MIME image/\* 或 image/ 前缀且 URL 尚非可用 data:（逗号后非空）处理。string metadata.artifactUri 优先 url，包括空字符串的 nullish 规则；共享 isArtifactUri 接纳后才经 app.readToolResultArtifact。可用 artifact content data URL 原样用，否则 contentType 的规范具体 image MIME 优先 part fallback，生成 base64 URL；最终 UTF8 byteLength <= 20MiB 才替换 url。读/转换失败按现有兼容行为保留原 part，不能移除附件、读取用户目录或泄漏 artifact 本地路径。
 
 编写纯投影/内存 artifact/同步调用序列用例，覆盖公开 keys、settings、visibility/privacy、legacy permission、上下文压缩/cache/breakdown、持久 goal title/timeline、跨轮 TodoWrite owner、图片 URI/MIME/cap 与 snapshot await 次序。所有测试、lint/type/build/全量审计、消费者矩阵及来源核验均未运行；最终统一执行。根测试接纳由整合者维护，本路不改 root 或公共 schema。

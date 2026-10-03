@@ -29,9 +29,7 @@ export function buildPostCompactReadStateReminderEntries(input: {
 
   for (const entry of candidates) {
     if (selected.length >= maxFiles) break;
-    const approxTokens = Math.ceil(
-      entry.content.length / ESTIMATED_TOKEN_CHAR_DIVISOR,
-    );
+    const approxTokens = Math.ceil(entry.content.length / ESTIMATED_TOKEN_CHAR_DIVISOR);
     if (approxTokens > maxFileApproxTokens) {
       selected.push(makeReminder(referenceContent(entry)));
       continue;

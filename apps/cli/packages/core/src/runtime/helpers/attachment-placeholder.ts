@@ -8,16 +8,13 @@ const PDF_PLACEHOLDER_MIME = "application/pdf";
 const TEXT_PLACEHOLDER_MIME = "text/plain";
 const INLINE_PDF_REFERENCE = "inline:pdf";
 
-function placeholderUrl(
-  attachment: TurnAttachment,
-  originalUrl: string | undefined,
-): string {
+function placeholderUrl(attachment: TurnAttachment, originalUrl: string | undefined): string {
   if (attachment.type === "video" || attachment.type === "pdf") {
     if (isArtifactUri(attachment.content)) {
       return attachment.content;
     }
-    return attachment.path ?? (
-      attachment.type === "pdf" ? INLINE_PDF_REFERENCE : originalUrl ?? ""
+    return (
+      attachment.path ?? (attachment.type === "pdf" ? INLINE_PDF_REFERENCE : (originalUrl ?? ""))
     );
   }
   return attachment.path ?? attachment.content ?? "";
@@ -34,11 +31,13 @@ export function resolvedPlaceholderAttachment(
     source?: FilePartSource;
   } = {},
 ): ResolvedTurnAttachment {
-  const mime = options.mime ?? (
-    attachment.type === "image"
+  const mime =
+    options.mime ??
+    (attachment.type === "image"
       ? IMAGE_PLACEHOLDER_MIME
-      : attachment.type === "pdf" ? PDF_PLACEHOLDER_MIME : TEXT_PLACEHOLDER_MIME
-  );
+      : attachment.type === "pdf"
+        ? PDF_PLACEHOLDER_MIME
+        : TEXT_PLACEHOLDER_MIME);
   const originalUrl = safeAttachmentOriginalRef(attachment);
 
   return {

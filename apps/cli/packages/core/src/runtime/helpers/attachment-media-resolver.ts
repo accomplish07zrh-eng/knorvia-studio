@@ -21,7 +21,10 @@ interface InlineMediaResolverOptions {
   turnId?: TurnId;
 }
 
-interface LocalMediaResolverOptions extends Omit<InlineMediaResolverOptions, "existingArtifactUri"> {
+interface LocalMediaResolverOptions extends Omit<
+  InlineMediaResolverOptions,
+  "existingArtifactUri"
+> {
   fileSystemPort: FileSystemPort;
   workingDirectory: string;
 }

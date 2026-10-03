@@ -9,7 +9,7 @@ schemas and preload IPC stay retained; do not rewrite them or activate these
 currently unused renderer exports in main. Fixed resources/batch data are
 qualified compatibility expressions, not authorship/rights clearance.
 
-~~~mermaid
+```mermaid
 sequenceDiagram
   participant Caller
   participant Lifetime as Renderer lifetime
@@ -28,7 +28,7 @@ sequenceDiagram
   Lifetime->>Observer: interrupt TTFT; flush before detach
   Lifetime->>Preload: dispose config subscription
   Lifetime->>Observer: clear published collector
-~~~
+```
 
 ## Trace lifetime
 

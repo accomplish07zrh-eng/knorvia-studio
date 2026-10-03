@@ -6,8 +6,16 @@ import {
   type KnorviaSessionStateSnapshot,
   type KnorviaWorkspaceTaskListChanged,
 } from "@knorvia/shared";
-import type { SessionPhase, SessionSummary, SessionsIndexTopicFrame } from "@knorvia/shared/protocol-v4";
-import type { IKnorviaAgentService, KnorviaAgentSessionTarget, KnorviaAgentWorkspaceTarget } from "../agent.js";
+import type {
+  SessionPhase,
+  SessionSummary,
+  SessionsIndexTopicFrame,
+} from "@knorvia/shared/protocol-v4";
+import type {
+  IKnorviaAgentService,
+  KnorviaAgentSessionTarget,
+  KnorviaAgentWorkspaceTarget,
+} from "../agent.js";
 import { repairSubagentTaskIndex } from "../repairSubagentTaskIndex.js";
 import type { TaskIndexRepo } from "#src/session/taskIndexRepo.js";
 import type { BroadcastTask, SnapshotSyncOptions } from "./snapshotProjection.js";
@@ -21,7 +29,10 @@ interface SummaryPorts {
   emit: BroadcastTask;
   terminal(target: KnorviaAgentSessionTarget, summary: SessionSummary): void;
   captureGenerationGuard(): () => boolean;
-  sync(snapshot: KnorviaSessionStateSnapshot, options: SnapshotSyncOptions): Promise<KnorviaTaskMeta>;
+  sync(
+    snapshot: KnorviaSessionStateSnapshot,
+    options: SnapshotSyncOptions,
+  ): Promise<KnorviaTaskMeta>;
 }
 type ReadbackOptions = Pick<SnapshotSyncOptions, "moveGroupedTaskToTop" | "unreadSignal">;
 
@@ -31,8 +42,11 @@ function terminal(phase: SessionPhase): boolean {
 
 function unread(summary: SessionSummary): KnorviaWorkspaceTaskListChanged["unreadSignal"] {
   if (summary.phase === "error") return "background_terminal";
-  if ((summary.phase === "completedSuccess" || summary.phase === "completedInterrupted") &&
-      (summary.goalStatus === undefined || summary.goalStatus === "verified")) return "background_terminal";
+  if (
+    (summary.phase === "completedSuccess" || summary.phase === "completedInterrupted") &&
+    (summary.goalStatus === undefined || summary.goalStatus === "verified")
+  )
+    return "background_terminal";
   return undefined;
 }
 
@@ -67,7 +81,11 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
     taskId: target.sessionId,
   });
 
-  async function readback(target: KnorviaAgentSessionTarget, reason: string, options?: ReadbackOptions): Promise<void> {
+  async function readback(
+    target: KnorviaAgentSessionTarget,
+    reason: string,
+    options?: ReadbackOptions,
+  ): Promise<void> {
     try {
       const snapshot = await ports.agent.readSession({ ...target, runtimePolicy: "existing-only" });
       await ports.sync(snapshot, {
@@ -76,11 +94,19 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
         moveGroupedTaskToTop: options?.moveGroupedTaskToTop,
       });
     } catch (error) {
-      ports.logger.warn(undefined, `回源同步 task index 行失败 reason=${reason} taskId=${target.sessionId}`, error);
+      ports.logger.warn(
+        undefined,
+        `回源同步 task index 行失败 reason=${reason} taskId=${target.sessionId}`,
+        error,
+      );
     }
   }
 
-  function complete(target: KnorviaAgentSessionTarget, next: SessionSummary, moveToTop: boolean): void {
+  function complete(
+    target: KnorviaAgentSessionTarget,
+    next: SessionSummary,
+    moveToTop: boolean,
+  ): void {
     ports.terminal(target, next);
     const failed = next.phase === "error";
     const unreadSignal = unread(next);
@@ -91,36 +117,58 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
       unreadSignal: unreadSignal ?? null,
     });
     const updatedAt = Date.now();
-    void ports.repo.applyAgentPatch({
-      workspacePath: target.workspacePath,
-      workspaceIdentity: target.workspaceIdentity,
-      taskId: target.sessionId,
-      patch: failed ? { status: "error", updatedAt } : { status: "completed", lastError: undefined, updatedAt },
-    }).then((meta) => {
-      if (meta) ports.emit(broadcastTarget(target), meta, "task_status_changed", unreadSignal ? { unreadSignal } : undefined);
-      // patch 已发提醒时，完整快照只收敛正文与错误；缺行才由 readback 接过提醒。
-      void readback(target, failed ? "phase.error" : "phase.completed", {
-        moveGroupedTaskToTop: moveToTop,
-        ...(meta || !unreadSignal ? {} : { unreadSignal }),
+    void ports.repo
+      .applyAgentPatch({
+        workspacePath: target.workspacePath,
+        workspaceIdentity: target.workspaceIdentity,
+        taskId: target.sessionId,
+        patch: failed
+          ? { status: "error", updatedAt }
+          : { status: "completed", lastError: undefined, updatedAt },
+      })
+      .then((meta) => {
+        if (meta)
+          ports.emit(
+            broadcastTarget(target),
+            meta,
+            "task_status_changed",
+            unreadSignal ? { unreadSignal } : undefined,
+          );
+        // patch 已发提醒时，完整快照只收敛正文与错误；缺行才由 readback 接过提醒。
+        void readback(target, failed ? "phase.error" : "phase.completed", {
+          moveGroupedTaskToTop: moveToTop,
+          ...(meta || !unreadSignal ? {} : { unreadSignal }),
+        });
+      })
+      .catch((error) => {
+        ports.logger.warn(
+          undefined,
+          `同步 v4 phase 终态到 task index 失败 taskId=${target.sessionId}`,
+          error,
+        );
       });
-    }).catch((error) => {
-      ports.logger.warn(undefined, `同步 v4 phase 终态到 task index 失败 taskId=${target.sessionId}`, error);
-    });
   }
 
   function titleChanged(target: KnorviaAgentSessionTarget, title: string): void {
     const updatedAt = Date.now();
-    void ports.repo.applyAgentPatch({
-      workspacePath: target.workspacePath,
-      workspaceIdentity: target.workspaceIdentity,
-      taskId: target.sessionId,
-      patch: { title, updatedAt },
-    }).then((meta) => {
-      if (meta) ports.emit(broadcastTarget(target), meta, "task_title_changed");
-      else void readback(target, "meta.titleUpdated", { moveGroupedTaskToTop: true });
-    }).catch((error) => {
-      ports.logger.warn(undefined, `同步 v4 标题变更到 task index 失败 taskId=${target.sessionId}`, error);
-    });
+    void ports.repo
+      .applyAgentPatch({
+        workspacePath: target.workspacePath,
+        workspaceIdentity: target.workspaceIdentity,
+        taskId: target.sessionId,
+        patch: { title, updatedAt },
+      })
+      .then((meta) => {
+        if (meta) ports.emit(broadcastTarget(target), meta, "task_title_changed");
+        else void readback(target, "meta.titleUpdated", { moveGroupedTaskToTop: true });
+      })
+      .catch((error) => {
+        ports.logger.warn(
+          undefined,
+          `同步 v4 标题变更到 task index 失败 taskId=${target.sessionId}`,
+          error,
+        );
+      });
   }
 
   function observe(next: SessionSummary, previous: SessionSummary | undefined): void {
@@ -138,7 +186,8 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
       void readback(target, "session.became-visible", { moveGroupedTaskToTop: true });
     } else {
       const title = next.title.trim();
-      if (title && (previous === undefined || previous.title !== next.title)) titleChanged(target, title);
+      if (title && (previous === undefined || previous.title !== next.title))
+        titleChanged(target, title);
     }
   }
 
@@ -148,9 +197,11 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
     let failures = 0;
     let firstError: unknown;
     for (let start = 0; start < candidates.length; start += 64) {
-      const results = await Promise.allSettled(candidates.slice(start, start + 64).map((summary) =>
-        ports.repo.seedTaskMetaIfMissing(baseline(ports.target, summary)),
-      ));
+      const results = await Promise.allSettled(
+        candidates
+          .slice(start, start + 64)
+          .map((summary) => ports.repo.seedTaskMetaIfMissing(baseline(ports.target, summary))),
+      );
       for (const result of results) {
         if (result.status === "rejected") {
           failures++;
@@ -158,18 +209,20 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
         }
       }
     }
-    if (failures) ports.logger.warn(
-      undefined,
-      `首次 sessions-index 基线补齐 task index 失败 workspace=${resolveWorkspaceKey(ports.target)} failed=${failures} total=${candidates.length}`,
-      firstError,
-    );
+    if (failures)
+      ports.logger.warn(
+        undefined,
+        `首次 sessions-index 基线补齐 task index 失败 workspace=${resolveWorkspaceKey(ports.target)} failed=${failures} total=${candidates.length}`,
+        firstError,
+      );
   }
 
   return {
     apply(frame: SessionsIndexTopicFrame): void {
       if (frame.payload.kind === "deltas") {
         for (const delta of frame.payload.deltas) {
-          if (delta.op === "session.upserted") observe(delta.session, summaries.get(delta.session.sessionId));
+          if (delta.op === "session.upserted")
+            observe(delta.session, summaries.get(delta.session.sessionId));
           else summaries.delete(delta.sessionId);
         }
         return;
@@ -193,11 +246,13 @@ export function createSessionIndexProjection(ports: SummaryPorts) {
         taskIndexRepo: ports.repo,
         isCurrent,
         onRemoved: () => ports.emit(ports.target, undefined, "task_meta_changed"),
-      }).catch((error) => ports.logger.warn(
-        undefined,
-        `子代理历史列表索引修复失败 workspace=${resolveWorkspaceKey(ports.target)}`,
-        error,
-      ));
+      }).catch((error) =>
+        ports.logger.warn(
+          undefined,
+          `子代理历史列表索引修复失败 workspace=${resolveWorkspaceKey(ports.target)}`,
+          error,
+        ),
+      );
     },
   };
 }

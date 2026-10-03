@@ -67,30 +67,33 @@ export function createTopicRecovery<F extends LogicalTopicFrame>(
     };
     owner.flight = flight;
     const base = forced ? null : { logEpoch: owner.epoch!, seq: owner.sequence };
-    void ports.resync({
-      subscriptionId: subscription,
-      base,
-      ...(forced ? { forceSnapshot: true } : {}),
-    }).then((result) => {
-      if (!ports.live() || owner.flight !== flight) return;
-      if (owner.subscription !== subscription || result.ack.subscriptionId !== subscription) {
+    void ports
+      .resync({
+        subscriptionId: subscription,
+        base,
+        ...(forced ? { forceSnapshot: true } : {}),
+      })
+      .then((result) => {
+        if (!ports.live() || owner.flight !== flight) return;
+        if (owner.subscription !== subscription || result.ack.subscriptionId !== subscription) {
+          clear();
+          replace("resync-ack-mismatch");
+          return;
+        }
+        flight.acknowledged = true;
+        if (result.ack.mode === "snapshot") flight.forceSnapshot = true;
+        settle(flight);
+      })
+      .catch((error) => {
+        if (!ports.live() || owner.flight !== flight) return;
         clear();
-        replace("resync-ack-mismatch");
-        return;
-      }
-      flight.acknowledged = true;
-      if (result.ack.mode === "snapshot") flight.forceSnapshot = true;
-      settle(flight);
-    }).catch((error) => {
-      if (!ports.live() || owner.flight !== flight) return;
-      clear();
-      ports.logger.warn(
-        undefined,
-        `task index ${ports.kind} resync 失败，改用新鲜订阅 workspace=${ports.target.workspacePath}`,
-        error,
-      );
-      replace("resync-failed");
-    });
+        ports.logger.warn(
+          undefined,
+          `task index ${ports.kind} resync 失败，改用新鲜订阅 workspace=${ports.target.workspacePath}`,
+          error,
+        );
+        replace("resync-failed");
+      });
   }
 
   function gap(delivery: Delivery): void {

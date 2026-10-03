@@ -21,7 +21,11 @@ export async function resolveInlineMedia(
     try {
       prepared = await prepareImageDataUrl(attachment.content, parsedMediaType, options);
     } catch {
-      return resolvedPlaceholderAttachment(attachment, placeholder, "attachment_image_resize_failed");
+      return resolvedPlaceholderAttachment(
+        attachment,
+        placeholder,
+        "attachment_image_resize_failed",
+      );
     }
     if (!prepared) {
       return resolvedPlaceholderAttachment(attachment, placeholder, "attachment_image_invalid");

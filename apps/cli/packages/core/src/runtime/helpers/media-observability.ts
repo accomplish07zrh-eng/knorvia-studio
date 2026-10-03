@@ -1,11 +1,6 @@
 import { isArtifactUri } from "@knorvia/shared";
 import { traceContextToLogContext } from "../deps.js";
-import type {
-  Logger,
-  ModelInputMessage,
-  ModelMessageContentBlock,
-  TraceContext,
-} from "../deps.js";
+import type { Logger, ModelInputMessage, ModelMessageContentBlock, TraceContext } from "../deps.js";
 import type { MediaBudgetProjection } from "./media-budget.js";
 import type { ResolvedTurnAttachment } from "../types.js";
 
@@ -48,23 +43,18 @@ export function logResolvedTurnAttachments(
     attachmentContentBlockCounts: countContentBlocks(summaries),
     attachments: summaries,
     event: "turn.attachments.resolved",
-    fileAttachmentCount: summaries.filter(
-      (summary) => summary.contentBlockType === "file",
-    ).length,
-    imageAttachmentCount: summaries.filter(
-      (summary) => summary.contentBlockType === "image",
-    ).length,
+    fileAttachmentCount: summaries.filter((summary) => summary.contentBlockType === "file").length,
+    imageAttachmentCount: summaries.filter((summary) => summary.contentBlockType === "image")
+      .length,
     module: "core.runtime",
     resourceAttachmentCount: summaries.filter(
       (summary) => summary.contentBlockType === "resource_link",
     ).length,
     status: "completed",
-    textFallbackAttachmentCount: summaries.filter(
-      (summary) => summary.contentBlockType === "text",
-    ).length,
-    videoAttachmentCount: summaries.filter(
-      (summary) => summary.contentBlockType === "video",
-    ).length,
+    textFallbackAttachmentCount: summaries.filter((summary) => summary.contentBlockType === "text")
+      .length,
+    videoAttachmentCount: summaries.filter((summary) => summary.contentBlockType === "video")
+      .length,
   });
 }
 
@@ -129,11 +119,7 @@ function collectMediaBlocks(messages: readonly ModelInputMessage[]) {
       return;
     }
     message.content.forEach((block, blockIndex) => {
-      if (
-        block.type !== "image" &&
-        block.type !== "file" &&
-        block.type !== "video"
-      ) {
+      if (block.type !== "image" && block.type !== "file" && block.type !== "video") {
         return;
       }
       const dataUrlBytes = encodedBytes(block);
@@ -178,17 +164,11 @@ function payloadBytes(block: ModelMessageContentBlock): number {
 
 function payloadCharacterBytes(dataUrl: string): number {
   const commaIndex = dataUrl.indexOf(",");
-  return commaIndex < 0
-    ? 0
-    : Buffer.byteLength(dataUrl.slice(commaIndex + 1), "utf8");
+  return commaIndex < 0 ? 0 : Buffer.byteLength(dataUrl.slice(commaIndex + 1), "utf8");
 }
 
 function mediaType(block: ModelMessageContentBlock): string | undefined {
-  if (
-    block.type === "image" ||
-    block.type === "file" ||
-    block.type === "video"
-  ) {
+  if (block.type === "image" || block.type === "file" || block.type === "video") {
     return block.mediaType;
   }
   return undefined;

@@ -80,7 +80,9 @@ export function createProtocolRequestBook(ports: RequestBookPorts) {
       const pending = release(key);
       if (!pending) return;
       const reason = signal?.reason;
-      pending.reject(reason instanceof Error ? reason : new DOMException("Request aborted", "AbortError"));
+      pending.reject(
+        reason instanceof Error ? reason : new DOMException("Request aborted", "AbortError"),
+      );
     }
 
     function expire(): void {
@@ -96,14 +98,18 @@ export function createProtocolRequestBook(ports: RequestBookPorts) {
       operation: !observation,
       timer: null,
       detachAbort: () => signal?.removeEventListener("abort", abort),
-      arm() { entry.timer = setTimeout(expire, timeoutMs); },
+      arm() {
+        entry.timer = setTimeout(expire, timeoutMs);
+      },
       accept(value) {
         try {
-          resolve(resultSchema ? resultSchema.parse(value) : value as T);
+          resolve(resultSchema ? resultSchema.parse(value) : (value as T));
         } catch (error) {
-          reject(error instanceof Error
-            ? error
-            : new Error(`Knorvia Studio Protocol response parse failed: ${method}`));
+          reject(
+            error instanceof Error
+              ? error
+              : new Error(`Knorvia Studio Protocol response parse failed: ${method}`),
+          );
         }
       },
       reject,
@@ -117,11 +123,17 @@ export function createProtocolRequestBook(ports: RequestBookPorts) {
   }
 
   return {
-    get count() { return entries.size; },
-    get operationCount() { return operations; },
+    get count() {
+      return entries.size;
+    },
+    get operationCount() {
+      return operations;
+    },
     open,
     has: (key: string) => entries.has(key),
-    discard(key: string): void { release(key); },
+    discard(key: string): void {
+      release(key);
+    },
     accept(id: KnorviaProtocolRequestId, value: unknown): void {
       release(String(id))?.accept(value);
     },
