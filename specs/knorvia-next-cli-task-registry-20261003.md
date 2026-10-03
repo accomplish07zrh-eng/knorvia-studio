@@ -10,7 +10,7 @@
 
 ## 唯一所有者与内部组织
 
-`InMemoryRuntimeTaskRegistry` 继续独占已注册快照、后续注册默认 branch generation 和按任务 id 的等待订阅。快照使用有序索引，订阅独立于快照存活：没有快照的 id 也能保留在 listener 安装时重入形成的订阅。每个 id 的订阅簿包含两个有序 cohort，避免将 observer 的寿命绑定到 snapshot 槽位。两种 wait 共用 admission 与发布机制，但终态和后台判读保留不同顺序。
+`InMemoryRuntimeTaskRegistry` 继续独占已注册快照、后续注册默认 branch generation 和按任务 id 的等待订阅。快照使用有序索引，订阅独立于快照存活：没有快照的 id 也能保留在 listener 安装时重入形成的订阅。每个 id 的订阅簿包含两个双向 FIFO cohort，ticket 记录所属 cohort 和相邻 ticket；abort 只摘掉当前仍挂在簿上的 ticket，发布先摘掉整个 cohort 再沿原链逐个清理、结算。这样 detached cohort 的稍后 abort 仍可以先 reject，且不会改动同 id 的新 cohort。避免将 observer 的寿命绑定到 snapshot 槽位。两种 wait 共用 admission 与发布机制，但终态和后台判读保留不同顺序。
 
 ```mermaid
 sequenceDiagram
