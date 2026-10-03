@@ -24,3 +24,13 @@
 用 `Omit<AutoCompactDecision, "shouldCompact" | "reason">` 直接声明 common 的实际公共字段契约，让合法来源在构造时完成类型检查。不会改变接口、输入读取次数/顺序、字段存在性/顺序、token 来源选择、零值 override、provider/cache 指标、阈值计算或五个分支的优先级。类型声明在输出 JS 中擦除，不使用断言、any、ts-ignore、新运行时归一化或第二条决策路径。
 
 只执行 core 配置的定向类型检查及纯决策必要回归。回归覆盖 estimate/provider_usage 在 disabled、not_enough_messages、circuit_breaker、below_threshold、above_threshold 的输出，保留零 provider token 与指标投影，并检查修复前后去注释编译 JS 相同。不重跑全 CLI/root 构建、全库 types/lint 或其他无关场景；来源记录仍不表示 MIT 接受。
+
+## 后续授权：bootstrap projection 的十八条类型错误
+
+父任务指定统一树 `f5deb08595725c91d74ca96e09bba338fba1119d`；原分支已 fetch 并快进合入，仓库 AGENTS/architecture skill 相对上一冻结未改。该树没有新增精确 bootstrap 诊断日志，本路直接执行 bootstrap 当前配置的 `tsc --noEmit`，取得全部十八条 TS2322，不等待另外发布日志。仅处理 bootstrap 投影；整合者正在运行 777 文件离线套件，本路不重复执行全量。
+
+十七条是 info role、part/timeline type、goal verification kind/type/display 的固定字符串回调在 tuple recipe 上失去字面量上下文；给这些常量回调声明实际固定返回类型，保留全部输出值、分支与字段顺序。retry 同属同一 part vocabulary，保持一致的固定返回声明。
+
+另一个错误来自 `RecordRecipe<Envelope, KnorviaSessionEvent>` 的 homomorphic mapped type：结果联合被逐个分发，合法返回整个公共 event tag 联合的回调不能匹配单个变体 tag。recipe 以显式 `Keys extends keyof Result = keyof Result` 的字段集合映射，仍按每个 Key 检查 `Result[Key]`；不改成整个字段值的宽联合，不加 any/断言/禁用类型，也不改 event payload/runtime mapper。公共协议保持只读。
+
+必要验收为 bootstrap 项目类型检查、message/session/goal/snapshot 的相关现有回归、实际 recipe 的正反类型契约探针以及五个改动源码的去注释 JS 对比。探针必须接受合法事件 tag 联合，并拒绝未知 key、错误数字/optional 字段类型、非法 tag 与未知 source 属性；负向样本在独立虚拟编译输入中确认实际诊断，禁止用 ignore/expect-error 指令绕过。snapshot fixture 保留 Node module-mock 入口，不改变断言或扩大测试范围。完整 CLI build/typecheck、777 文件套件及根验收由整合者继续。
