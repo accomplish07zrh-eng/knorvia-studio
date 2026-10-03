@@ -130,6 +130,17 @@ test("Linux completion uses current state and identity without concealing active
       assert.deepEqual(await observe(), []);
       assert.ok(reads.length > 0);
     });
+    for (const reparentedState of ["Z", "S"]) {
+      await t.test(
+        `PPid 1 with current ${reparentedState} keeps the ticks/PGID authority boundary`,
+        async () => {
+          reset();
+          state = reparentedState;
+          raw = stat(902).replace(`)) ${state} 901 `, `)) ${state} 1 `);
+          assert.deepEqual(await observe(), state === "Z" ? [] : [902]);
+        },
+      );
+    }
     await t.test("force-completion observes transition from working to Z", async () => {
       reset();
       assert.deepEqual(

@@ -25,7 +25,9 @@ decoder for every observation of each tracked PID. Cached snapshot state alone
 does not establish completion. The current ticks and optional expected PGID
 must match a tracked identity before treating it as that owned process. A reused
 PID or changed group is outside that identity's cleanup authority, not proof
-that the new process died. No extra process-table discovery or signal target is
+that the new process died. Reparenting to PPid 1 alone does not retire a working
+process or reject a matching zombie; the same ticks/PGID boundary still applies.
+No extra process-table discovery or signal target is
 introduced by the waiter.
 
 Unreadable/malformed stat is inconclusive. Fall back to signal-zero observation;
