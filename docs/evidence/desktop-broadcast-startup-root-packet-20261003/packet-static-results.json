@@ -1,0 +1,25 @@
+{
+  "packetBindings": "PASS",
+  "sourceBindings": 2,
+  "dependencyBindings": 6,
+  "uniqueReadyInputs": 8,
+  "inputsPerOwner": 5,
+  "publicExportNames": [
+    "BroadcastHub",
+    "configureDatabaseStartupQuit",
+    "onLocalDatabaseStartupReady",
+    "getDatabaseStartupPortPayload",
+    "bindDatabaseStartupRelay"
+  ],
+  "publicSignatureParametersAndExplicitReturns": "PASS with documented inferred startupId/return qualification",
+  "manualInferredReturnQualification": "bind default startupId has no explicit annotation; string grounded in imported randomUUID/public prior port. Bind return manually grounded in receive/startupId observation; no semantic compiler or inference proof",
+  "literalBindings": "PASS",
+  "declarationBodyFree": "PASS",
+  "curatorOnlyScriptsExcludedFromInputAllowlists": true,
+  "targetSourceChanges": 0,
+  "authorsSpawned": 0,
+  "productTestsOrBuildsRun": false,
+  "compilerOrSourceEmitRun": false,
+  "privateHistoryHold": true,
+  "licenceGrant": null
+}

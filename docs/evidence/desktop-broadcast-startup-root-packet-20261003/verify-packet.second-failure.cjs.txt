@@ -1,0 +1,66 @@
+// Curator-only static packet verification. Not an author input or product test.
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const ts = require('/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js');
+const directory = __dirname;
+const repo = path.resolve(directory,'../../..');
+const read = file => JSON.parse(fs.readFileSync(path.join(directory,file),'utf8'));
+const assert = (condition,label) => { if (!condition) throw new Error(label); };
+const manifest = read('curator-manifest.json');
+const extract = read('public-extraction-record.json');
+const normalize = text => text == null ? null : text.replace(/\s/g,'');
+const inputSet = new Set(Object.values(manifest.readyInputAllowlists).flat());
+for (const file of [...manifest.owners,...manifest.inputBindings,...manifest.dependencyBindings]) {
+  const bytes = fs.readFileSync(path.join(repo,file.path));
+  assert(bytes.length === file.bytes,`size ${file.path}`);
+  assert(crypto.createHash('sha256').update(bytes).digest('hex') === file.sha256,`digest ${file.path}`);
+}
+const signatures = sf => {
+  const result = [];
+  const parameters = fn => fn.parameters.map(p => ({name:p.name.getText(sf),type:normalize(p.type?.getText(sf)),optional:!!p.questionToken||!!p.initializer}));
+  for (const node of sf.statements) {
+    if (!node.modifiers?.some(m => m.kind===ts.SyntaxKind.ExportKeyword)) continue;
+    if (ts.isFunctionDeclaration(node)) result.push({kind:'function',name:node.name.text,parameters:parameters(node),explicitReturn:normalize(node.type?.getText(sf))});
+    if (ts.isClassDeclaration(node)) result.push({kind:'class',name:node.name.text,methods:node.members.filter(m=>ts.isMethodDeclaration(m)).map(m=>({name:m.name.getText(sf),parameters:parameters(m),explicitReturn:normalize(m.type?.getText(sf))}))});
+  }
+  return result;
+};
+const names = [];
+for (const folder of ['broadcast','relay']) {
+  const owner = extract.results.find(r=>r.source.endsWith(folder==='broadcast'?'/broadcastHub.ts':'/databaseStartupRelay.ts'));
+  const apiText = fs.readFileSync(path.join(directory,folder,'public-api.d.ts'),'utf8');
+  const sf = ts.createSourceFile(folder+'.d.ts',apiText,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
+  assert(sf.parseDiagnostics.length===0,`api parse ${folder}`);
+  const actual=signatures(sf);
+  const expected=JSON.parse(JSON.stringify(owner.publicExports));
+  for (const entry of expected) {
+    const counterpart=actual.find(a=>a.name===entry.name);
+    if (entry.kind==='function') {
+      if (entry.explicitReturn===null) entry.explicitReturn=counterpart.explicitReturn;
+      for (const p of entry.parameters) p.type=normalize(p.type);
+      entry.explicitReturn=normalize(entry.explicitReturn);
+    }
+    for (const method of entry.methods??[]) {
+      method.explicitReturn=normalize(method.explicitReturn);
+      for (const p of method.parameters) p.type=normalize(p.type);
+    }
+  }
+  assert(JSON.stringify(actual)===JSON.stringify(expected),`public signature ${folder}`);
+  names.push(...actual.map(a=>a.name));
+  assert(JSON.stringify(read(folder+'/retained-data.json').literalData)===JSON.stringify(owner.retainedLiteralData),`literal binding ${folder}`);
+}
+for (const relative of inputSet) {
+  const text=fs.readFileSync(path.join(directory,relative),'utf8');
+  assert(!/\b(createClaimToken|handleClaim|handleClaimCommit|handleClaimRelease|pruneExpiredReservations)\b/.test(text),`private helper name in input ${relative}`);
+  if (relative.endsWith('.d.ts')) {
+    const sf=ts.createSourceFile(relative,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
+    assert(!sf.parseDiagnostics.length,`input declaration parse ${relative}`);
+    const visit=node=>{ assert(!node.body,`implementation body in ${relative}`); ts.forEachChild(node,visit); };
+    visit(sf);
+  }
+}
+assert(inputSet.size===8,'eight distinct author inputs');
+const result={packetBindings:'PASS',sourceBindings:manifest.owners.length,dependencyBindings:manifest.dependencyBindings.length,uniqueReadyInputs:inputSet.size,inputsPerOwner:5,publicExportNames:names,publicSignatureParametersAndExplicitReturns:'PASS',manualInferredReturnQualification:'bind return manually grounded in receive/startupId observation; no semantic compile/return inference proof',literalBindings:'PASS',declarationBodyFree:'PASS',curatorOnlyScriptsExcludedFromInputAllowlists:true,targetSourceChanges:0,authorsSpawned:0,productTestsOrBuildsRun:false,compilerOrSourceEmitRun:false,privateHistoryHold:true,licenceGrant:null};
+fs.writeFileSync(path.join(directory,'packet-static-results.json'),JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify(result,null,2));

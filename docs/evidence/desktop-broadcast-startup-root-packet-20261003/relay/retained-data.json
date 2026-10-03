@@ -1,0 +1,140 @@
+{
+  "scope": "Only public/compatibility literals, declared imports and observable payload field orders; no target body/private helper names or implementation layout. Preserve canonical schemas/constants instead of reconstructing them.",
+  "sourceBinding": {
+    "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+    "bytes": 4143,
+    "sha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55",
+    "gitBlob": "6ea0dde542d70b758b00da53668a5d2866af4d24"
+  },
+  "literalData": {
+    "strings": [
+      "node:crypto",
+      "electron",
+      "@knorvia/shared",
+      "./databaseStartupTelemetry.js",
+      "ready",
+      "exit",
+      "snapshot",
+      "starting",
+      "failed",
+      "transport_closed",
+      "closed"
+    ],
+    "numericLexemes": [
+      "1",
+      "0"
+    ],
+    "templateStaticParts": []
+  },
+  "imports": [
+    {
+      "module": "node:crypto",
+      "typeOnly": false,
+      "names": [
+        {
+          "name": "randomUUID",
+          "local": "randomUUID",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "electron",
+      "typeOnly": false,
+      "names": [
+        {
+          "name": "ipcMain",
+          "local": "ipcMain",
+          "typeOnly": false
+        },
+        {
+          "name": "BrowserWindow",
+          "local": "BrowserWindow",
+          "typeOnly": true
+        },
+        {
+          "name": "UtilityProcess",
+          "local": "UtilityProcess",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "@knorvia/shared",
+      "typeOnly": false,
+      "names": [
+        {
+          "name": "HostMessageTypes",
+          "local": "HostMessageTypes",
+          "typeOnly": false
+        },
+        {
+          "name": "InternalChannels",
+          "local": "InternalChannels",
+          "typeOnly": false
+        },
+        {
+          "name": "databaseStartupControlSchema",
+          "local": "databaseStartupControlSchema",
+          "typeOnly": false
+        },
+        {
+          "name": "DatabaseStartupState",
+          "local": "DatabaseStartupState",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "./databaseStartupTelemetry.js",
+      "typeOnly": false,
+      "names": [
+        {
+          "name": "reportDatabaseStartupState",
+          "local": "reportDatabaseStartupState",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "publicProtocolConstants": {
+    "InternalChannels.DatabaseStartupState": "knorvia:database-startup-state",
+    "InternalChannels.DatabaseStartupControl": "knorvia:database-startup-control",
+    "HostMessageTypes.DatabaseStartupControl": "database-startup-control",
+    "globalReadyInitial": false,
+    "syntheticExitSchemaVersion": 1,
+    "syntheticExitInitialSequence": 0,
+    "payloadOwnKeys": {
+      "startupPayload": [
+        "databaseStartupId"
+      ],
+      "bindReturn": [
+        "receive",
+        "startupId"
+      ],
+      "controlEnvelope": [
+        "type",
+        "control"
+      ],
+      "missingLatestExitInitialState": [
+        "schemaVersion",
+        "startupId",
+        "attemptId",
+        "sequence",
+        "startedAt",
+        "updatedAt",
+        "phase",
+        "disk"
+      ],
+      "exitFailureOverrideOrder": [
+        "sequence",
+        "updatedAt",
+        "failedPhase",
+        "phase",
+        "errorCode"
+      ]
+    },
+    "exitErrorCode": "transport_closed"
+  },
+  "qualification": "Source-derived protocol/data/number/token/diagnostic observations are retained compatibility material, not new independent expression or grant."
+}

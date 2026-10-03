@@ -1,0 +1,66 @@
+{
+  "scope": "Root-only body-free packet preparation for two complete owners; not permission/decision to implement.",
+  "localPublishedBaseline": "9fd40d394feabf5e4b71f4d9ba9f415acde91b18",
+  "rootPublishedBaseline": "affea575c98a83e04871bb6b5655cf72cc08be75",
+  "owners": [
+    {
+      "path": "packages/desktop/src/main/broadcastHub.ts",
+      "bytes": 6526,
+      "sha256": "a1216b85285bd6830b6c5afffe8e94b7e2b623882c127ffceedfd0e3374cf11e",
+      "gitBlob": "ab5d801e76d3e3f2008031d2a4494a62ffcf0e7e",
+      "publishedHead": "affea575c98a83e04871bb6b5655cf72cc08be75",
+      "publishedUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/affea575c98a83e04871bb6b5655cf72cc08be75/packages/desktop/src/main/broadcastHub.ts",
+      "originClassification": "upstream-modified",
+      "originLicense": "NOASSERTION",
+      "publisherBaseline": {
+        "source": "https://github.com/zai-org/ZCode",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+      },
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/broadcastHub.ts",
+        "blob": "6194534bac2454f15765de42c9d6f23665ef12b1",
+        "normalizedSha256": "71159c59e0e4750c54d091dfba47cf1a51ea42a2669fd11ad7360576c92cbb64",
+        "contentMatchedPaths": []
+      },
+      "localExactPathReviewMatches": [],
+      "historyHold": "Private historical checkpoint coverage/accepted descendants unavailable; lack of local exact-path receipt does not negate prior acceptance. Stop this owner if a genuine accepted current owner receipt is supplied."
+    },
+    {
+      "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+      "bytes": 4143,
+      "sha256": "095ff63dc2363cbba63bd31bb65049ee3ffe0646c82e2e9fbcc8543736a51a55",
+      "gitBlob": "6ea0dde542d70b758b00da53668a5d2866af4d24",
+      "publishedHead": "affea575c98a83e04871bb6b5655cf72cc08be75",
+      "publishedUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/affea575c98a83e04871bb6b5655cf72cc08be75/packages/desktop/src/main/databaseStartupRelay.ts",
+      "originClassification": "upstream-modified",
+      "originLicense": "NOASSERTION",
+      "publisherBaseline": {
+        "source": "https://github.com/zai-org/ZCode",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+      },
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/databaseStartupRelay.ts",
+        "blob": "7b2ffb74ef057b6d7127ed52d55eed3ffaa771bd",
+        "normalizedSha256": "f21b6ba15a6d2f4bbe0ab7aa1a7cccc44b26d197661a80b25ce9dfbf0e0948ef",
+        "contentMatchedPaths": []
+      },
+      "localExactPathReviewMatches": [],
+      "historyHold": "Private historical checkpoint coverage/accepted descendants unavailable; lack of local exact-path receipt does not negate prior acceptance. Stop this owner if a genuine accepted current owner receipt is supplied."
+    }
+  ],
+  "reservationState": "PREPARATION ONLY / PRIVATE HISTORY HOLD",
+  "finalIntegrationRule": "Never overwrite a conflicting accepted/source version through packet creation or implicit branch choice. Confirm root private historical coverage/current exact receipt, select and separately bind final descendant before any eventual implementation/integration. A genuine accepted owner receipt stops that item.",
+  "excluded": [
+    "packages/desktop/src/main/taskRealtimeBus.ts (HOLD; body not opened)",
+    "G browserPlaywright three owners",
+    "root completed desktopNetworkPolicy.ts / desktopRuntimeEnv.ts",
+    "private checkpoint/Library403 and inaccessible material",
+    "global licensing/reviews.json/current-files.json"
+  ],
+  "authorsSpawned": 0,
+  "productionChanges": [],
+  "ordinaryTestsOrBuildsRun": false,
+  "licenceDecision": null
+}
