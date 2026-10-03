@@ -16,6 +16,7 @@ const importTimeoutMs = 30_000;
 const keyboardExitTimeoutMs = 8_000;
 const pollIntervalMs = 100;
 const secondInterruptDelayMs = 200;
+const startupCancellationExitCode = 130;
 const runtimeEnvironmentKeys = new Set([
   "PATH",
   "PATHEXT",
@@ -125,6 +126,56 @@ export async function smokePackagedTui(packageDirectory) {
     assert.equal(tuiExit.exitCode, 0, screen);
     terminal = undefined;
 
+    const pendingStartupEntry = join(runtimeCheckDirectory, "pending-startup.mjs");
+    await writeFile(
+      pendingStartupEntry,
+      `import { runTui } from "@knorvia/tui";
+      process.exitCode = await runTui({
+        stdin: process.stdin, stdout: process.stdout, stderr: process.stderr,
+        workspaceDirectory: process.cwd(), locale: "en-US", version: "startup-fixture",
+        loadStartupOptions: () => new Promise(() => {}),
+      });`,
+    );
+    terminal = pty.spawn(process.execPath, [pendingStartupEntry], {
+      cwd: workspace,
+      env,
+      cols: 110,
+      rows: 32,
+    });
+    let startupScreen = "";
+    let startupExit;
+    terminal.onData((data) => {
+      startupScreen += data;
+    });
+    const startupExited = new Promise((done) =>
+      terminal.onExit((event) => {
+        startupExit = event;
+        done(event);
+      }),
+    );
+    const startupDeadline = Date.now() + renderTimeoutMs;
+    while (!/Starting Knorvia Studio/.test(startupScreen)) {
+      assert.equal(startupExit, undefined, startupScreen);
+      if (Date.now() >= startupDeadline)
+        throw new Error(`Pending startup render timed out:\n${startupScreen}`);
+      await setTimeout(pollIntervalMs);
+    }
+    terminal.write("\u0003");
+    const startupTimeout = new AbortController();
+    try {
+      startupExit = await Promise.race([
+        startupExited,
+        setTimeout(keyboardExitTimeoutMs, undefined, { signal: startupTimeout.signal }).then(() => {
+          throw new Error("Pending startup keyboard cancellation timed out");
+        }),
+      ]);
+    } finally {
+      startupTimeout.abort();
+    }
+    assert.equal(startupExit.exitCode, startupCancellationExitCode, startupScreen);
+    assert.equal(startupExit.signal, 0, startupScreen);
+    terminal = undefined;
+
     const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
     const artifacts = [];
     for (const path of [
@@ -146,6 +197,7 @@ export async function smokePackagedTui(packageDirectory) {
       nativeImport: "passed; global require absent",
       initializedRender: "passed; unchanged root smoke markers",
       keyboardExit: tuiExit,
+      pendingStartupCancellation: startupExit,
       initializedScreenSha256: sha256(initializedScreen),
       artifacts,
       qualification:
