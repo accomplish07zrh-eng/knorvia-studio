@@ -1,0 +1,36 @@
+{
+  "results": [
+    {
+      "name": "web-create-group-draft",
+      "status": "passed",
+      "facts": {
+        "name": "Combined GUI group 中文",
+        "workspace": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha",
+        "draft": "Combined GUI group unsent draft — 中文",
+        "workflowRoundtrip": true
+      }
+    },
+    {
+      "name": "web-split-entry",
+      "status": "passed",
+      "facts": {
+        "splitMenu": true,
+        "panes": [
+          {
+            "id": "workspace-main",
+            "focused": "false",
+            "restored": "false"
+          },
+          {
+            "id": "pane-1",
+            "focused": "true",
+            "restored": "false"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "consoleErrors": []
+}

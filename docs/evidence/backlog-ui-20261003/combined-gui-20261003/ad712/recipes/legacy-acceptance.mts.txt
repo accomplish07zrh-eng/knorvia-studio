@@ -1,0 +1,63 @@
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {readFileSync,readdirSync,copyFileSync,writeFileSync,mkdirSync,mkdtempSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {TASK_INDEX_SCHEMA,AUTOMATION_SCHEMA,OFF_PEAK_SCHEMA} from '/workspace/knorvia-studio/packages/services/src/session/tasksDatabase/schema-v1.ts';
+import {runTasksDatabaseMigrations,inspectTasksMigrationKind} from '/workspace/knorvia-studio/packages/services/src/session/tasksDatabase/migrations.ts';
+import {TaskIndexRepo} from '/workspace/knorvia-studio/packages/services/src/session/taskIndexRepo.ts';
+const p=JSON.parse(readFileSync('/tmp/knorvia-ui-combined-paths.json','utf8'));
+const directory=mkdtempSync(p.root+'/legacy-fixture-');const file=directory+'/tasks-index.sqlite';
+const now=1700000000123;
+const workspace='/synthetic/legacy/中文-project';
+const ids=['11111111-1111-4111-8111-111111111111','22222222-2222-4222-8222-222222222222','33333333-3333-4333-8333-333333333333'];
+const omit={tasks:['title_overridden','last_unread_at'],automations:['target_task_id','bot_delivery_target','mode','end_at','schedule_rule','schedule_edited_by_user','thought_level','model_selection','scheduled_run_count'],automation_runs:['model_selection'],off_peak_tasks:['thought_level','model_selection','history_deleted_at']};
+let db=new DatabaseSync(file);db.exec('PRAGMA journal_mode=WAL');db.exec(TASK_INDEX_SCHEMA+AUTOMATION_SCHEMA+OFF_PEAK_SCHEMA);
+for(const [table,columns] of Object.entries(omit))for(const column of columns)db.exec(`ALTER TABLE ${table} DROP COLUMN ${column}`);
+for(let i=0;i<ids.length;i++){
+ const meta={taskId:ids[i],traceId:'knorvia-'+ids[i],title:'旧任务 中文 #'+i,workspacePath:workspace,mode:'build',provider:'glm',createdAt:now-i,updatedAt:now+i,unreadAt:now-5};
+ db.prepare('INSERT INTO tasks(workspace_key,workspace_path,task_id,title,provider,mode,created_at,updated_at,unread_at,pinned,archived,deleted,meta_json) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)').run(workspace,workspace,ids[i],meta.title,'glm','build',meta.createdAt,meta.updatedAt,meta.unreadAt,i===0?1:0,i===1?1:0,i===2?1:0,JSON.stringify(meta));
+}
+db.prepare('INSERT INTO tasks(workspace_key,workspace_path,task_id,title,provider,mode,created_at,updated_at,meta_json) VALUES(?,?,?,?,?,?,?,?,?)').run(workspace,workspace,'malformed-json-row','保留原文 malformed','glm','build',now,now,'{"broken":');
+db.prepare('INSERT INTO task_groups VALUES(?,?,?,?,?)').run('legacy-group','旧分组 中文','blue',now-50,now);
+db.prepare('INSERT INTO task_group_members VALUES(?,?,?,?,?,?,?,?,?)').run('legacy-group',workspace,workspace,null,ids[0],7,now-4,now-3,now-2);
+db.prepare('INSERT INTO task_group_view_node_orders VALUES(?,?,?,?,?)').run('group','legacy-group',3,now-3,now-2);
+const choices=[['legacy-custom','custom:my%20provider:model%3Awith%2Fslash','old'],['legacy-split','openai/model-x$high','old'],['legacy-glm','glm-4.7','glm'],['legacy-empty',null,'knorvia']];
+for(const [id,model,provider] of choices)db.prepare('INSERT INTO automations(automation_id,title,cron_expr,prompt,model,provider,workspace_key,workspace_path,run_count,enabled,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').run(id,'旧定时 '+id,'0 8 * * *','Synthetic legacy prompt — 中文',model,provider,workspace,workspace,7,0,now-10,now);
+db.prepare('INSERT INTO automation_runs(run_id,automation_id,workspace_key,scheduled_at,outcome,session_id,attempts,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?)').run('run-old','legacy-custom',workspace,now-20,'completed',ids[0],2,now-20,now-10);
+db.prepare('INSERT INTO off_peak_tasks(off_peak_task_id,title,session_id,prompt,permission_mode,model,workspace_key,workspace_path,status,queued_at,files_changed,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)').run('offpeak-old','旧低峰 中文',ids[1],'Synthetic off-peak body','ask','glm-4.7',workspace,workspace,'completed',now-100,3,now-100,now);
+const tables=['tasks','task_groups','task_group_members','task_group_view_node_orders','automations','automation_runs','off_peak_tasks'];
+const before=Object.fromEntries(tables.map(t=>[t,db.prepare(`SELECT * FROM ${t} ORDER BY rowid`).all()]));
+assert.equal(inspectTasksMigrationKind(db),'upgrade');
+const phases=[];const facts={kind:'upgrade' as const,executedCount:0,committedCount:0};
+runTasksDatabaseMigrations(db,{migration:facts,onProgress:(phase,f)=>phases.push({phase,...f})});
+assert.equal(facts.executedCount,5);assert.equal(facts.committedCount,5);assert.equal(inspectTasksMigrationKind(db),'none');
+const after=Object.fromEntries(tables.map(t=>[t,db.prepare(`SELECT * FROM ${t} ORDER BY rowid`).all()]));
+for(const table of tables){assert.equal(after[table].length,before[table].length);for(let i=0;i<before[table].length;i++)for(const [key,value] of Object.entries(before[table][i])){
+ if(key==='provider'&&value==='glm')assert.equal(after[table][i][key],'knorvia');
+ else if(table==='tasks'&&key==='meta_json'&&value!=='{"broken":')assert.deepEqual(JSON.parse(after[table][i][key]),{...JSON.parse(value),provider:'knorvia'});
+ else assert.equal(after[table][i][key],value,`${table}[${i}].${key}`);
+}}
+const selections=Object.fromEntries(after.automations.map(r=>[r.automation_id,r.model_selection===null?null:JSON.parse(r.model_selection)]));
+assert.deepEqual(selections['legacy-custom'],{providerId:'my provider',modelId:'model:with/slash'});
+assert.deepEqual(selections['legacy-split'],{providerId:'openai',modelId:'model-x',options:{reasoningLevel:'high'}});
+assert.equal(selections['legacy-glm'],null);assert.equal(selections['legacy-empty'],null);
+assert(after.automations.every(r=>r.scheduled_run_count===7));assert(after.automations.every(r=>r.studio_workflow_id===null));
+const backups=readdirSync(directory).filter(n=>n.includes('.pre-unversioned.')&&n.endsWith('.bak'));assert.equal(backups.length,1);
+const old=new DatabaseSync(directory+'/'+backups[0],{readOnly:true});for(const t of tables)assert.deepEqual(old.prepare(`SELECT * FROM ${t} ORDER BY rowid`).all(),before[t]);old.close();
+const ledger=db.prepare('SELECT * FROM tasks_schema_migration ORDER BY id').all();assert.equal(ledger.length,5);db.close();
+db=new DatabaseSync(file);const repeat={kind:'none' as const,executedCount:0,committedCount:0};runTasksDatabaseMigrations(db,{migration:repeat});assert.equal(repeat.executedCount,0);assert.deepEqual(db.prepare('SELECT * FROM tasks_schema_migration ORDER BY id').all(),ledger);for(const t of tables)assert.deepEqual(db.prepare(`SELECT * FROM ${t} ORDER BY rowid`).all(),after[t]);db.close();
+const rejection=[];
+for(const [name,sql,kind] of [['checksum','UPDATE tasks_schema_migration SET checksum=\'invalid-fixture\' WHERE id=\'0002_provider_selection\'','checksum_mismatch'],['future',"INSERT INTO tasks_schema_migration VALUES('9999_future_fixture','fixture',1)",'newer_database']]){
+ const target=directory+'/'+name+'.sqlite';copyFileSync(file,target);const rejected=new DatabaseSync(target);rejected.exec(sql);const rows=rejected.prepare('SELECT * FROM tasks_schema_migration ORDER BY id').all();assert.throws(()=>runTasksDatabaseMigrations(rejected),e=>e.kind===kind);assert.equal(rejected.isTransaction,false);assert.deepEqual(rejected.prepare('SELECT * FROM tasks_schema_migration ORDER BY id').all(),rows);for(const t of tables)assert.deepEqual(rejected.prepare(`SELECT * FROM ${t} ORDER BY rowid`).all(),after[t]);rejected.close();rejection.push({name,kind,rowsUnchanged:true});
+}
+const taskRepo=new TaskIndexRepo(file);let projection;
+try{projection=await taskRepo.listTaskMetas({workspacePath:workspace,includeDeleted:true});assert.equal(projection.length,4);assert.equal(projection.find(r=>r.taskId===ids[0])?.title,'旧任务 中文 #0');assert.equal(projection.find(r=>r.taskId===ids[0])?.provider,'knorvia');const pinned=await taskRepo.listTaskMetas({workspacePath:workspace,pinned:true});assert.equal(pinned.length,1);const archived=await taskRepo.listTaskMetas({workspacePath:workspace,archived:true});assert.equal(archived.length,1);assert.deepEqual(await taskRepo.listDeletedTaskIds({workspacePath:workspace}),[ids[2]]);}finally{taskRepo.close({throwOnError:true});}
+db=new DatabaseSync(file);
+const projectedTaskRows=db.prepare('SELECT * FROM tasks ORDER BY rowid').all();
+for(let i=0;i<after.tasks.length;i++)for(const [key,value] of Object.entries(after.tasks[i])){if(key==='off_peak_task_id'&&after.tasks[i].task_id===ids[1])assert.equal(projectedTaskRows[i][key],'offpeak-old');else assert.equal(projectedTaskRows[i][key],value);}
+assert.deepEqual(db.prepare("SELECT * FROM task_groups WHERE group_id='legacy-group'").all(),after.task_groups);
+assert.deepEqual(db.prepare("SELECT * FROM task_group_members WHERE group_id='legacy-group'").all(),after.task_group_members);
+for(const t of ['automations','automation_runs','off_peak_tasks'])assert.deepEqual(db.prepare(`SELECT * FROM ${t} ORDER BY rowid`).all(),after[t]);
+db.close();
+const result={source:'PR24 ad712690b3eb1501574c1d29361dc801c1414373',runtime:process.version,databaseEngine:'node:sqlite DatabaseSync',fixture:'constructed unversioned frozen v1 schemas with historical columns omitted; synthetic data only',checks:{rowCounts:Object.fromEntries(tables.map(t=>[t,before[t].length])),businessFieldsPreserved:true,identityOnlyGlmToKnorvia:true,malformedJsonRetained:true,scheduledCountBackfill:true,legacySelections:selections,consistentPreMigrationWalSnapshot:true,versionsCommitted:5,closeReopenIdempotent:true,taskIndexRepoReadsMigratedRows:true,repositoryBootstrapReattachesHistoricalOffPeakBinding:true,rejections:rejection},phases,hashes:{fixture:createHash('sha256').update(readFileSync(file)).digest('hex'),snapshot:createHash('sha256').update(readFileSync(directory+'/'+backups[0])).digest('hex')}};
+writeFileSync(p.root+'/legacy-acceptance-result.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));

@@ -1,0 +1,42 @@
+import {chromium} from "/workspace/knorvia-studio/node_modules/playwright-core/index.mjs";
+import {readFile,writeFile} from "node:fs/promises";
+import assert from "node:assert/strict";
+const p=JSON.parse(await readFile('/tmp/knorvia-ui-combined-paths.json','utf8'));
+const results=[],errors=[],failed=[],consoleErrors=[];let context,page;
+const capture=async(name)=>{
+ await page.screenshot({path:`${p.root}/${name}.png`,fullPage:true});
+ const controls=await page.locator('button,input,[role=button],[contenteditable=true],[role=menuitem],[data-testid]').evaluateAll(es=>es.map(e=>({tag:e.tagName,text:e.textContent?.slice(0,180),aria:e.getAttribute('aria-label'),testid:e.getAttribute('data-testid'),placeholder:e.getAttribute('placeholder'),path:e.getAttribute('data-path')})));
+ await writeFile(`${p.root}/${name}.json`,JSON.stringify({body:await page.locator('body').innerText(),controls,errors,failed,consoleErrors},null,2));
+};
+const check=async(name,fn)=>{try{const facts=await fn();results.push({name,status:'passed',facts});console.log(JSON.stringify(results.at(-1)));}catch(error){results.push({name,status:'failed',error:error.message});await capture(name+'-failure');console.log(JSON.stringify(results.at(-1)));}};
+try{
+ context=await chromium.launchPersistentContext(p.root+'/browser-profile',{executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox'],viewport:{width:1360,height:900},locale:'en-US'});
+ page=context.pages()[0];page.setDefaultTimeout(15000);
+ page.on('pageerror',e=>errors.push(e.message));page.on('requestfailed',r=>failed.push({url:r.url(),error:r.failure()?.errorText}));page.on('console',m=>{if(['error','warning'].includes(m.type()))consoleErrors.push({type:m.type(),text:m.text()});});
+ await page.route(/^https?:\/\//,r=>['127.0.0.1','localhost'].includes(new URL(r.request().url()).hostname)?r.continue():r.abort());
+ await page.goto('http://127.0.0.1:5173/',{timeout:60000});await page.getByTestId('studio-activity-rail').waitFor({timeout:45000});
+ await check('legacy-pane-v1-v2-renderer-reload',async()=>{
+ await page.getByTestId('studio-rail-kernel-knorvia').click();
+ const fixture={splitPane:{workspaceKey:p.workspaces[1],sessionId:null},splitRatio:0.62,focusedPaneId:'split'};
+ await page.evaluate(value=>{localStorage.removeItem('knorvia-v4-pane-layout:v2');localStorage.setItem('knorvia-v4-pane-layout:v1',JSON.stringify(value));},fixture);
+ await page.reload({timeout:60000});await page.getByTestId('studio-activity-rail').waitFor();const secondary=page.locator('[data-pane-id="split"]');await secondary.waitFor();
+ assert.equal(await page.locator('[data-pane-id]').count(),2);assert.equal(await secondary.getAttribute('data-focused'),'true');assert.equal((await secondary.getByText('beta',{exact:true}).first().innerText()).trim(),'beta');
+ const divider=page.getByTestId('v4-split-divider');const rect=await divider.boundingBox();const before=await page.locator('[data-pane-id="workspace-main"]').boundingBox();const second=await secondary.boundingBox();assert(Math.abs(before.width/(before.width+second.width)-0.62)<0.02);
+ await page.mouse.move(rect.x+rect.width/2,rect.y+rect.height/2);await page.mouse.down();await page.mouse.move(rect.x+rect.width/2+35,rect.y+rect.height/2,{steps:5});await page.mouse.up();
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('knorvia-v4-pane-layout:v2')??'{}').root?.ratio>0.62);
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('knorvia-v4-pane-layout:v2')));assert.equal(saved.panes.split.workspaceScope.workspacePath,p.workspaces[1]);assert.equal(saved.panes.split.sessionId,null);
+ await capture('web-legacy-pane-migrated');await page.reload({timeout:60000});await secondary.waitFor();assert.equal(await page.locator('[data-pane-id]').count(),2);const restored=await page.evaluate(()=>JSON.parse(localStorage.getItem('knorvia-v4-pane-layout:v2')));assert.equal(restored.root.ratio,saved.root.ratio);
+ return{legacyShape:fixture,secondaryWorkspace:'beta',legacyRatioAccepted:true,pointerCommitRatio:saved.root.ratio,v2Reload:true,scope:'draft panes only; no synthetic agent snapshots'};
+ });
+ await check('legacy-group-v1-real-host-import',async()=>{
+ const legacy={id:'88888888-8888-4888-8888-888888888888',name:'Combined legacy group 中文',goal:'Legacy shared goal',members:['knorvia'],host:'knorvia',sharedSummary:'Legacy shared summary — 中文',mode:'manual',workspaceMode:'isolated',workspacePath:p.workspaces[0],draft:'Legacy unsent group draft — 中文',createdAt:1700000000123,updatedAt:1700000000223};
+ await page.evaluate(group=>localStorage.setItem('knorvia-studio:groups:v1',JSON.stringify({version:1,groups:[group]})),legacy);
+ await page.reload({timeout:60000});await page.getByTestId('studio-activity-rail').waitFor();await page.getByTestId('studio-groups-open').click();
+ await page.getByTestId('sidebar').getByRole('button',{name:/^Combined legacy group 中文/}).click();const composer=page.getByTestId('studio-group-composer');await composer.waitFor();assert.equal(await composer.inputValue(),legacy.draft);
+ await page.waitForFunction(()=>localStorage.getItem('knorvia-studio:groups:v1')===null);
+ const draftStorage=await page.evaluate(()=>JSON.parse(localStorage.getItem('knorvia-studio:group-drafts:v2')));assert.equal(draftStorage.drafts[legacy.id],legacy.draft);
+ await page.getByTestId('studio-groups-page').getByRole('button',{name:'Group details',exact:true}).click();
+ await capture('web-legacy-group-imported');return{legacy,originalV1RemovedAfterHostAcknowledgement:true,v2DraftPreserved:true};
+ });
+ await capture('web-legacy-end');
+}finally{await writeFile(p.root+'/web-legacy-results.json',JSON.stringify({results,errors,failed,consoleErrors},null,2));await context?.close();}

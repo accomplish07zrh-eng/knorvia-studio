@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/workspace/knorvia-studio/node_modules/vite/bin/vite.js",
+    "build",
+    "--mode",
+    "production"
+  ],
+  "exitCode": 0,
+  "elapsedSeconds": 17.96,
+  "node": "24.14.0",
+  "source": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "scope": "real production Web assets, isolated endpoint config"
+}

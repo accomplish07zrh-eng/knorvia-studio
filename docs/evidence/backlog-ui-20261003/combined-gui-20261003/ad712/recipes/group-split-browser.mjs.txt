@@ -1,0 +1,33 @@
+import {chromium} from "/workspace/knorvia-studio/node_modules/playwright-core/index.mjs";
+import {readFile,writeFile} from "node:fs/promises";
+import assert from "node:assert/strict";
+const p=JSON.parse(await readFile('/tmp/knorvia-ui-combined-paths.json','utf8'));
+const results=[],errors=[],failed=[],consoleErrors=[];let context,page;
+const capture=async(name)=>{
+ await page.screenshot({path:`${p.root}/${name}.png`,fullPage:true});
+ const controls=await page.locator('button,input,[role=button],[contenteditable=true],[role=menuitem],[data-testid]').evaluateAll(es=>es.map(e=>({tag:e.tagName,text:e.textContent?.slice(0,180),aria:e.getAttribute('aria-label'),testid:e.getAttribute('data-testid'),placeholder:e.getAttribute('placeholder'),path:e.getAttribute('data-path')})));
+ await writeFile(`${p.root}/${name}.json`,JSON.stringify({body:await page.locator('body').innerText(),controls,errors,failed,consoleErrors},null,2));
+};
+const check=async(name,fn)=>{try{const facts=await fn();results.push({name,status:'passed',facts});console.log(JSON.stringify(results.at(-1)));}catch(error){results.push({name,status:'failed',error:error.message});await capture(name+'-failure');console.log(JSON.stringify(results.at(-1)));}};
+try{
+ context=await chromium.launchPersistentContext(p.root+'/browser-profile',{executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox'],viewport:{width:1360,height:900},locale:'en-US'});
+ page=context.pages()[0];page.setDefaultTimeout(15000);
+ page.on('pageerror',e=>errors.push(e.message));page.on('requestfailed',r=>failed.push({url:r.url(),error:r.failure()?.errorText}));page.on('console',m=>{if(['error','warning'].includes(m.type()))consoleErrors.push({type:m.type(),text:m.text()});});
+ await page.route(/^https?:\/\//,r=>['127.0.0.1','localhost'].includes(new URL(r.request().url()).hostname)?r.continue():r.abort());
+ await page.goto('http://127.0.0.1:5173/',{timeout:60000});await page.getByTestId('studio-activity-rail').waitFor({timeout:45000});
+ await check('web-create-group-draft',async()=>{
+ await page.getByTestId('studio-groups-open').click();const groups=page.getByTestId('studio-groups-page');await groups.waitFor();await groups.getByRole('button',{name:'New group',exact:true}).first().click();
+ const dialog=page.getByRole('dialog');await dialog.waitFor();await dialog.getByRole('textbox',{name:'Group name',exact:true}).fill('Combined GUI group 中文');await dialog.getByRole('textbox',{name:'Shared goal',exact:true}).fill('Preserve configured group and unsent draft');await dialog.getByPlaceholder('Absolute path to a local project',{exact:true}).fill(p.workspaces[0]);
+ await dialog.getByRole('button',{name:'New group',exact:true}).click();await dialog.waitFor({state:'hidden'});await groups.getByRole('heading',{name:'Combined GUI group 中文',exact:true}).waitFor();
+ const composer=page.getByTestId('studio-group-composer');await composer.fill('Combined GUI group unsent draft — 中文');
+ await page.getByTestId('studio-workflows-open').click();await page.getByTestId('studio-groups-open').click();await composer.waitFor();assert.equal(await composer.inputValue(),'Combined GUI group unsent draft — 中文');
+ await capture('web-created-group');return{name:'Combined GUI group 中文',workspace:p.workspaces[0],draft:'Combined GUI group unsent draft — 中文',workflowRoundtrip:true};
+ });
+ await check('web-split-entry',async()=>{
+ await page.getByTestId('studio-rail-kernel-knorvia').click();const tree=page.getByTestId('workspace-file-tree-panel');if(await tree.isVisible())await tree.getByRole('button',{name:'Back to tasks',exact:true}).click();
+ const row=page.getByTestId('task-item-44444444-4444-4444-8444-444444444444').first();await row.waitFor();await row.click({button:'right'});await capture('web-task-menu');
+ const split=page.getByTestId('v4-task-open-in-split');const count=await split.count();if(!count)return{status:'unavailable',reason:'No split menu entry in this Web shell',taskMenu:await page.getByRole('menu').innerText()};
+ assert.equal(await split.getAttribute('aria-disabled'),null);await split.click();await page.waitForFunction(()=>document.querySelectorAll('[data-pane-id]').length>=2);await capture('web-task-split');return{splitMenu:true,panes:await page.locator('[data-pane-id]').evaluateAll(es=>es.map(e=>({id:e.dataset.paneId,focused:e.dataset.focused,restored:e.dataset.restoredUnvalidated})))};
+ });
+ await capture('web-group-split-end');
+}finally{await writeFile(p.root+'/web-group-split-results.json',JSON.stringify({results,errors,failed,consoleErrors},null,2));await context?.close();}

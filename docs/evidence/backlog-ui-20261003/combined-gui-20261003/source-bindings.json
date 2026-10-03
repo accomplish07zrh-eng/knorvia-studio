@@ -1,0 +1,193 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "earlierCombination": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "scope": "bounded named GUI, public Host, migration, storage-env and process-tree source bindings only; no global audit or new rights claim",
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useWorkspaceServices.tsx",
+      "bytes": 9405,
+      "sha256": "ecbc78103e21f9d9549b0f8554bdb18c39bbab6536d30f091787ce51cf3e89a0",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/hooks/useSessionService.ts",
+      "bytes": 480,
+      "sha256": "5ecc69125bcc7edbe2e44837c1bb42c5824595566e74f82804e6fb2d10138175",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/hooks/useTaskService.ts",
+      "bytes": 11460,
+      "sha256": "c32bf2b5e557eac20db79a677131035804bf8d7a043b34c531183b917c26ae0b",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/hooks/useAgentService.ts",
+      "bytes": 472,
+      "sha256": "d14b926951f6867425cc5d9b074ccd84e6928c297cc34fd499dfbb22907c92a9",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+      "bytes": 13296,
+      "sha256": "5c8b2f7f45fa996e9860ec9e801b03a213167bd208e9c174a8503437079de5a1",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+      "bytes": 2957,
+      "sha256": "e8e2e6ee8e05631016f8a56f7014a5fcb5d5f56ad92ab0b963bcc23edcec8985",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/store/studioGroupStore.ts",
+      "bytes": 10316,
+      "sha256": "e83ad38e9c1b5dc1e665d162a0788c59292aa62aaf10f1e7b89d89d60aee0236",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/v4/paneLayoutPersistence.ts",
+      "bytes": 12177,
+      "sha256": "a446d7538d39adfcd9edac0269562771a813afff6727634018973dbf05bbcbcb",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/v4/paneLayoutStore.ts",
+      "bytes": 3396,
+      "sha256": "6d4fa6177e5d3fbbaa5b9df48c4d365f89a726ad10cf52b504adc540819cc81f",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/v4/windowControllerTaskListRegistry.ts",
+      "bytes": 8375,
+      "sha256": "359dc9ab77bc6a040e51f70644e02fdc190a71cd5c5c38c406ca9ed04b576fa6",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/lib/assistantDirectiveParser.ts",
+      "bytes": 10259,
+      "sha256": "747f43e19de43f7ec3a62674f3abdbd55ad78756742294bede6824ef08675542",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/lib/toolDiffPreview.ts",
+      "bytes": 9749,
+      "sha256": "ee6a1343a776a4fc090b83df57dfa011a0f81f62258e50fb5c0e5b37896d7253",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/v4/timelineScrollAnchor.ts",
+      "bytes": 11939,
+      "sha256": "ad87df68305425bffabca11614aa232b43cc2772a2cf5cda672f586d76bd4677",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/src/settings/automationFormat.ts",
+      "bytes": 16608,
+      "sha256": "77ab089ededa2779144aa53bcfcd790c30e1e9e1e98fe4a9ae11e1b5b65d151f",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/web/src/main.tsx",
+      "bytes": 1205,
+      "sha256": "85b6ca5e361299d73cbd013c38e31ea6f3ac82fe5dcdffcc019d30458da77535",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/server/src/http.ts",
+      "bytes": 11205,
+      "sha256": "c0dda9cee446ae236c1f73ee6f02d4d6059c0af13a52d3d3ed4d9a938f7a80bb",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/server/tsup.config.ts",
+      "bytes": 3227,
+      "sha256": "b7c4ae4d2f03cac8e34ca47a15ed81734083a2fd2c2ed9db6d8adbf9611944a0",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "bytes": 98523,
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/services/src/window-controller/windowController.ts",
+      "bytes": 2697,
+      "sha256": "d55d6806eab32b8d71e57052c1d48d1bdd58a5e3da63e324789d6fb73ab5ec73",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/schema-v1.ts",
+      "bytes": 6587,
+      "sha256": "761eaba0a85b51eb529b865ab4f0f2edb21af46fdb9b8fdbdb49e53d22114f24",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/migrations.ts",
+      "bytes": 9199,
+      "sha256": "16f7571ce80d0733f74ac520f1087f880e0d903a492ece44f2531636206d8f24",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/sqliteSnapshot.ts",
+      "bytes": 2759,
+      "sha256": "6df7431c4ee3bab9dec2eb9c612b8c2bad8fd46592f8b4fb6d561deca52b0574",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/services/src/session/taskIndexRepo.ts",
+      "bytes": 4961,
+      "sha256": "4f89afd70bb19e6f124f873bb485d07cd3545c1a0f2de639ea5ae3dfb923ad68",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/services/src/process/processTreeSnapshot.ts",
+      "bytes": 9890,
+      "sha256": "3a61005b31b7749737c00504308f395604772a34fe08b790998eebc828f957d1",
+      "equalAtEarlierCombination": false
+    },
+    {
+      "path": "packages/services/src/process/processTreeTypes.ts",
+      "bytes": 2635,
+      "sha256": "959d80bb6b62ed9b6feeb383fb877b7d5d535bdb70ffe06f33810407173f0d22",
+      "equalAtEarlierCombination": false
+    },
+    {
+      "path": "packages/services/src/process/processTreeWaiter.ts",
+      "bytes": 8521,
+      "sha256": "752d3a5e26f818a38383e74376c8143db49870cc4b4c4dd9ce03252fa111ea60",
+      "equalAtEarlierCombination": false
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/env-config.adapter.ts",
+      "bytes": 2733,
+      "sha256": "6ac6a0969f494a55b04893e360c1062e705ed25719cd7d8f0f5acc93c6dbc518",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/config/index.ts",
+      "bytes": 12544,
+      "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/shared/src/node/knorviaPaths.ts",
+      "bytes": 522,
+      "sha256": "d3e6d1b5cf885c716f6394341c9a8187fed1d4f493fad58feba636f036de7e74",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/test/helpers/workspace-service-startup.browser.mjs",
+      "bytes": 3222,
+      "sha256": "073c23f81a8caaa317cf3df912a455e240983cb1e755a0ac635b576afe9b5038",
+      "equalAtEarlierCombination": true
+    },
+    {
+      "path": "packages/ui/test/helpers/file-tree-live-search.browser.mjs",
+      "bytes": 3038,
+      "sha256": "9d9c0298af968a4d8f1ae4a36995d9269891b5517fff5e4c59b72627a6fb6f4f",
+      "equalAtEarlierCombination": true
+    }
+  ]
+}

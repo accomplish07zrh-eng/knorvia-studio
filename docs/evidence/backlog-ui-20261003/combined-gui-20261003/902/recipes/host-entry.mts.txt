@@ -1,0 +1,11 @@
+import {createLocalServices,setDataBaseDir,disposeServiceResourcesAndWait} from "/workspace/knorvia-studio/packages/services/src/node.ts";
+import {createHttpServer} from "/workspace/knorvia-studio/packages/server/src/http.ts";
+import {readFile,writeFile} from "node:fs/promises";
+const p=JSON.parse(await readFile("/tmp/knorvia-ui-combined-latest-paths.json","utf8"));
+setDataBaseDir(p.root+"/data");
+const services=createLocalServices({knorviaBuiltinProviderConfigFilePath:p.root+"/builtin-fixture.json",runtimeProcessEnvPatch:{"KNORVIA_STORAGE_DIR": "/tmp/knorvia-ui-combined-902-hjg72jtm/data/.knorvia-studio", "KNORVIA_SESSION_DB_PATH": "/tmp/knorvia-ui-combined-902-hjg72jtm/data/.knorvia-studio/cli/db/db.sqlite"}});
+const server=createHttpServer(services,5173,{host:"127.0.0.1",staticRoot:"/workspace/knorvia-studio/packages/web/dist",spaFallback:true,workspaces:[{path:p.workspaces[0],label:"alpha"}]});
+await writeFile(p.root+"/latest-host-pid.json",JSON.stringify({pid:process.pid,source:p.source,entry:import.meta.url}));
+let closing=false;
+async function close(){if(closing)return;closing=true;try{await disposeServiceResourcesAndWait(services);await new Promise((resolve,reject)=>server.close(error=>error?reject(error):resolve()));await writeFile(p.root+"/graceful-host-shutdown.json",JSON.stringify({source:p.source,hostPid:process.pid,disposeServicesCompleted:true,httpServerClosed:true,exitCode:0}));process.exit(0);}catch(error){await writeFile(p.root+"/graceful-host-shutdown.json",JSON.stringify({source:p.source,hostPid:process.pid,exitCode:1,error:{message:error.message,stack:error.stack}}));process.exit(1);}}
+process.once("SIGTERM",()=>void close());process.once("SIGINT",()=>void close());

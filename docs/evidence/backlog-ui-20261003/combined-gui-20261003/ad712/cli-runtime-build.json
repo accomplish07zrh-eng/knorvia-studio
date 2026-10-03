@@ -1,0 +1,11 @@
+{
+  "command": [
+    "scripts/build-desktop-agent-cli.mjs"
+  ],
+  "exitCode": 0,
+  "elapsedSeconds": 82.28,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "source": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "scope": "official local desktop-agent CLI and required plugin runtimes; no SEA/native installer"
+}

@@ -1,0 +1,35 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "node": "24.14.0",
+  "commands": [
+    {
+      "command": [
+        "node_modules/typescript/bin/tsc",
+        "-b",
+        "packages/services",
+        "packages/server"
+      ],
+      "cwd": "/workspace/knorvia-studio",
+      "exitCode": 0,
+      "elapsedSeconds": 8.78
+    },
+    {
+      "command": [
+        "/workspace/knorvia-studio/node_modules/tsup/dist/cli-default.js"
+      ],
+      "cwd": "/workspace/knorvia-studio/packages/server",
+      "exitCode": 0,
+      "elapsedSeconds": 1.95
+    },
+    {
+      "command": [
+        "--import",
+        "tsx",
+        "/tmp/knorvia-ui-combined-902-hjg72jtm/build-host.mts"
+      ],
+      "cwd": "/workspace/knorvia-studio",
+      "exitCode": 0,
+      "elapsedSeconds": 2.05
+    }
+  ]
+}

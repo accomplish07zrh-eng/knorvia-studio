@@ -1,0 +1,62 @@
+{
+  "latestSource": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "earlierCompatibilitySource": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "persistentBranch": "rewrite/ui-20261003",
+  "productionSourcesChanged": false,
+  "latestGui": {
+    "distinctScenariosAccepted": 6,
+    "initialRun": {
+      "passed": 5,
+      "failed": 1,
+      "failureKind": "private strict locator matched intended main heading and detail paragraph"
+    },
+    "singleScenarioRecheck": "passed",
+    "hookCaughtBoundaryPageErrors": 0,
+    "controller": "real production service registration, subscribe/list, actual pinned mutation/reload/unpin accepted",
+    "runtimeHistory": "unverified synthetic task metadata only",
+    "raw": [
+      "902/combined-file-pinned-results.json",
+      "902/group-recovery-bounded-recheck.json"
+    ]
+  },
+  "latestLocalControl": {
+    "storage": "passed with explicit isolated supported session DB environment; 22 migrations",
+    "modelAvailability": "provider_not_ready",
+    "modelTaskSent": false,
+    "credentialsUsed": false,
+    "raw": "902/agent-readonly.json"
+  },
+  "latestHostExit": {
+    "status": "passed",
+    "hostPid": 31548,
+    "managedReadyAgentPid": 31581,
+    "hostExitCode": 0,
+    "agentExitCode": 0,
+    "ownedPidAndAgentProcessGroupRemainder": [],
+    "liveToolOrMcpDescendantExisted": false,
+    "raw": "902/host-exit-results.json"
+  },
+  "earlierCompatibility": {
+    "guiLegacyCasesPassed": 2,
+    "sqliteMigrationBatch": "passed; five Host task-index migrations, WAL pre-migration snapshot, preserve and reject-without-write assertions",
+    "notRerunAtLatestCombination": true,
+    "boundedRelevantSourceUnchanged": true,
+    "raw": [
+      "ad712/web-legacy-results.json",
+      "ad712/legacy-acceptance-result.json"
+    ]
+  },
+  "verificationLimits": [
+    "No root typecheck, lint, full architecture, 8k regression or full source/rights audit this phase",
+    "No real conversation/history/model execution/resume",
+    "No running tool/MCP descendant cleanup scenario",
+    "No Electron, native installer, Windows/macOS or mobile GUI acceptance",
+    "No complete theme/Office resource acceptance; lazy GitHub chunk ERR_ABORTED retained"
+  ],
+  "licensePolicy": "Retain root Apache-2.0 and actual per-component licenses/attribution/history; user cancelled MIT migration; no clean-room or whole-project independence claim",
+  "crossModuleNeeds": [
+    "Integration owner registers this lane evidence and current hashes in global inventory",
+    "Native platform, CI and real task/tool coverage remain integration-owned"
+  ],
+  "newSharedInterfaceRequest": null
+}

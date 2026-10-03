@@ -1,0 +1,76 @@
+
+> @knorvia/shared-types@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/shared-types
+> tsc
+
+
+> @knorvia/contracts@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/contracts
+> tsc
+
+
+> @knorvia/dynamic-workflow@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow
+> node scripts/generate-libs.mjs && tsc
+
+generate-libs: wrote 57 lib files for typescript@5.9.3
+
+> @knorvia/dynamic-workflow-runtime@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow-runtime
+> tsc
+
+
+> @knorvia/core@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/core
+> tsc
+
+
+> @knorvia/adapters@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/adapters
+> tsc
+
+
+> @knorvia/i18n@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/i18n
+> tsc
+
+
+> @knorvia/telemetry@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/telemetry
+> tsc
+
+
+> @knorvia/bootstrap@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/bootstrap
+> tsc
+
+
+> @knorvia/node-repl-host@0.8.0 build /workspace/knorvia-studio/apps/cli/packages/node-repl-host
+> tsc && node scripts/build.mjs
+
+▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+
+    ../core/dist/repl/runtime-values.js:85:37:
+      85 │             return import(specifier, options);
+         ╵                                      ^
+
+
+> @knorvia/browser-use-plugin@0.6.0 build /workspace/knorvia-studio/apps/cli/packages/browser-use-plugin
+> tsc && node scripts/build.mjs
+
+
+> @knorvia/cli@0.1.0 build:desktop-agent /workspace/knorvia-studio/apps/cli/packages/cli
+> node scripts/build.mjs --desktop-agent
+
+▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+
+    ../core/dist/repl/runtime-values.js:85:37:
+      85 │             return import(specifier, options);
+         ╵                                      ^
+
+1 warning
+
+  dist/knorvia.cjs  15.8mb ⚠️
+
+⚡ Done in 2370ms
+[stage:agent-bundle] staged /workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs
+[prepare:agent-bundle] staged official plugin packages/browser-use-plugin
+[prepare:agent-bundle] staged official plugin packages/node-repl-host
+[prepare:agent-bundle] staged official plugin packages/cua-plugin
+[prepare:agent-bundle] staged official plugin packages/documents-plugin
+[prepare:agent-bundle] staged official plugin packages/pdf-plugin
+[prepare:agent-bundle] staged official plugin packages/presentations-plugin
+[prepare:agent-bundle] staged official plugin packages/spreadsheets-plugin
+[prepare:agent-bundle] staged official plugin packages/plugin-creator-plugin
+[prepare:agent-bundle] staged official plugin packages/skill-creator-plugin

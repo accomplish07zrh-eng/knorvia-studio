@@ -1,0 +1,13 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "argv": [
+    "/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node",
+    "--import",
+    "tsx",
+    "/tmp/knorvia-ui-combined-902-hjg72jtm/build-host.mts"
+  ],
+  "cwd": "/workspace/knorvia-studio",
+  "exitCode": 0,
+  "elapsedSeconds": 1.56,
+  "scope": "same canonical public Host factory wrapper with explicit isolated CLI session database environment"
+}

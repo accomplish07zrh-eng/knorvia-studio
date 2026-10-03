@@ -1,0 +1,94 @@
+{
+  "source": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "runtime": "production-built Web and public real Host factories compiled with current production defines; owned await-dispose wrapper",
+  "results": [
+    {
+      "name": "latest-cold-startup-draft-reload",
+      "status": "passed",
+      "facts": {
+        "coldStartup": true,
+        "workspaceSwitch": true,
+        "rendererReload": true,
+        "captures": [
+          {
+            "workspace": "alpha",
+            "draft": "Bounded alpha draft — 中文"
+          },
+          {
+            "workspace": "beta",
+            "draft": "Bounded beta draft — 中文"
+          },
+          {
+            "workspaceAfterReload": "alpha"
+          }
+        ],
+        "onboardingHookErrors": [],
+        "pageErrors": [],
+        "otherConsoleMessages": []
+      }
+    },
+    {
+      "name": "production-resource-basics",
+      "status": "passed",
+      "facts": {
+        "railWidth": 56,
+        "brandImages": [
+          {
+            "loaded": true,
+            "naturalWidth": 1254,
+            "filter": "none",
+            "url": "http://127.0.0.1:5173/assets/knorvia-logo-Birqj2NZ.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "file-tree-live-search",
+      "status": "passed",
+      "facts": {
+        "workspacePath": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha",
+        "create": true,
+        "preview": true,
+        "rename": true,
+        "delete": true
+      }
+    },
+    {
+      "name": "controller-pinned-mutation-reload",
+      "status": "passed",
+      "facts": {
+        "actualTaskOwnerMutation": true,
+        "globalControllerProjection": true,
+        "rendererReload": true,
+        "unpinDelta": true,
+        "taskTitle": "Alpha synthetic task A\n\n1h",
+        "scope": "synthetic task index metadata only, no fabricated runtime conversation"
+      }
+    },
+    {
+      "name": "existing-group-draft-recovery",
+      "status": "failed",
+      "error": "locator.waitFor: Error: strict mode violation: getByText('Preserve configured group and unsent draft', { exact: true }) resolved to 2 elements:\n    1) <h2 class=\"line-clamp-4 whitespace-pre-wrap break-words text-ui-lg font-medium\">Preserve configured group and unsent draft</h2> aka getByRole('heading', { name: 'Preserve configured group and' })\n    2) <p class=\"whitespace-pre-wrap break-words text-ui-base\">Preserve configured group and unsent draft</p> aka getByRole('paragraph').filter({ hasText: 'Preserve configured group and' })\n\nCall log:\n\u001b[2m  - waiting for getByText('Preserve configured group and unsent draft', { exact: true }) to be visible\u001b[22m\n"
+    },
+    {
+      "name": "latest-task-menu-split",
+      "status": "passed",
+      "facts": {
+        "panes": 2,
+        "scope": "actual menu/layout and synthetic metadata; real runtime history unverified"
+      }
+    }
+  ],
+  "consoleMessages": [],
+  "pageErrors": [],
+  "failedRequests": [
+    {
+      "url": "http://127.0.0.1:5173/assets/github-dark-CsW7SXME.js",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:5173/assets/github-light-Bs22Nz7R.js",
+      "error": "net::ERR_ABORTED"
+    }
+  ]
+}

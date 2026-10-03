@@ -1,0 +1,725 @@
+[2026-10-03 12:44:56.568] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:56.579] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:56.663] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:56.985] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:57.004] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:57.197] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:57.368] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:57.394] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:57.663] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:57.774] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:57.862] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (6.4ms)
+[2026-10-03 12:44:57.862] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (5.9ms)
+[2026-10-03 12:44:57.911] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (50.5ms)
+[2026-10-03 12:44:57.999] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:58.172] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:44:58.172] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:44:58.173] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:44:58.563] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:44:58.563] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.4ms)
+[2026-10-03 12:44:58.564] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (1.3ms)
+[2026-10-03 12:44:58.588] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.2ms)
+[2026-10-03 12:44:58.588] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.0ms)
+[2026-10-03 12:44:58.600] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (12.8ms)
+[2026-10-03 12:44:58.661] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:44:58.661] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:44:58.661] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:44:58.797] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (4.3ms)
+[2026-10-03 12:44:58.798] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.2ms)
+[2026-10-03 12:44:58.802] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:44:59.159] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (5.8ms)
+[2026-10-03 12:44:59.159] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.2ms)
+[2026-10-03 12:44:59.166] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (8.4ms)
+[2026-10-03 12:44:59.194] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (27.6ms)
+[2026-10-03 12:44:59.194] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (27.3ms)
+[2026-10-03 12:44:59.196] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (28.9ms)
+[2026-10-03 12:44:59.196] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:44:59.226] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:44:59.283] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.8ms)
+[2026-10-03 12:44:59.381] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (6.3ms)
+[2026-10-03 12:44:59.381] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (5.6ms)
+[2026-10-03 12:44:59.382] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (6.3ms)
+[2026-10-03 12:44:59.418] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (13.6ms)
+[2026-10-03 12:44:59.418] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (13.4ms)
+[2026-10-03 12:44:59.419] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (14.3ms)
+[2026-10-03 12:44:59.603] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.1ms)
+[2026-10-03 12:44:59.603] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.9ms)
+[2026-10-03 12:44:59.616] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (13.8ms)
+[2026-10-03 12:44:59.725] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:45:00.278] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:45:00.688] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:45:00.699] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:45:00.767] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:45:00.895] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:45:01.091] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:45:01.281] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.8ms)
+[2026-10-03 12:45:01.282] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.9ms)
+[2026-10-03 12:45:01.282] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.7ms)
+[2026-10-03 12:45:01.977] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (12.7ms)
+[2026-10-03 12:45:13.429] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:45:13.730] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (2.7ms)
+[2026-10-03 12:45:13.730] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.5ms)
+[2026-10-03 12:45:13.730] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:45:14.218] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (4.0ms)
+[2026-10-03 12:46:49.953] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:49.991] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:50.166] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:50.756] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:51.117] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (5.1ms)
+[2026-10-03 12:46:51.126] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (13.2ms)
+[2026-10-03 12:46:51.126] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (9.5ms)
+[2026-10-03 12:46:51.127] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:46:51.127] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.5ms)
+[2026-10-03 12:46:51.127] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:46:51.209] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (8.8ms)
+[2026-10-03 12:46:51.209] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (8.7ms)
+[2026-10-03 12:46:51.209] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (8.6ms)
+[2026-10-03 12:46:51.516] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:51.685] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:51.853] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:51.952] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:52.210] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:46:52.294] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:52.386] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:52.414] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:52.856] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.5ms)
+[2026-10-03 12:46:52.856] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:46:52.856] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:46:53.686] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (11.8ms)
+[2026-10-03 12:46:53.686] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (10.9ms)
+[2026-10-03 12:46:53.686] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (11.2ms)
+[2026-10-03 12:46:53.895] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.5ms)
+[2026-10-03 12:46:54.153] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (1.0ms)
+[2026-10-03 12:46:54.383] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.0ms)
+[2026-10-03 12:46:54.383] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:46:54.383] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.5ms)
+[2026-10-03 12:46:54.679] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (9.8ms)
+[2026-10-03 12:46:54.679] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (9.4ms)
+[2026-10-03 12:46:54.681] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (3.2ms)
+[2026-10-03 12:46:54.694] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.6ms)
+[2026-10-03 12:46:54.694] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.4ms)
+[2026-10-03 12:46:54.706] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (13.2ms)
+[2026-10-03 12:46:54.708] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.5ms)
+[2026-10-03 12:46:54.708] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.2ms)
+[2026-10-03 12:46:54.719] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (11.6ms)
+[2026-10-03 12:46:54.899] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:46:54.928] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.4ms)
+[2026-10-03 12:46:54.928] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.2ms)
+[2026-10-03 12:46:54.964] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (1.6ms)
+[2026-10-03 12:46:54.965] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:46:54.965] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.2ms)
+[2026-10-03 12:46:54.965] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:46:55.459] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:46:55.551] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:46:55.684] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.8ms)
+[2026-10-03 12:46:55.756] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:46:56.025] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:46:56.094] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:46:56.576] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (17.2ms)
+[2026-10-03 12:46:56.577] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (17.5ms)
+[2026-10-03 12:46:56.587] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (26.6ms)
+[2026-10-03 12:46:56.679] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:46:57.274] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:12.710] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:47:12.711] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:12.718] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:12.756] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.8ms)
+[2026-10-03 12:47:12.756] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:12.757] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:12.793] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:47:12.797] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (4.0ms)
+[2026-10-03 12:47:12.799] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:47:12.799] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:12.973] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:14.718] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:47:14.938] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:47:14.942] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.8ms)
+[2026-10-03 12:47:14.942] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:47:15.127] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:47:18.226] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:18.241] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:47:18.255] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (13.5ms)
+[2026-10-03 12:47:18.256] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (1.2ms)
+[2026-10-03 12:47:18.265] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (3.6ms)
+[2026-10-03 12:47:18.270] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (4.9ms)
+[2026-10-03 12:47:18.282] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:18.285] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (2.1ms)
+[2026-10-03 12:47:18.286] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:47:18.295] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:47:18.464] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:48:05.806] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:05.978] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.092] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.167] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.190] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.369] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.476] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.581] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.673] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:06.928] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:07.014] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:07.052] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:48:07.117] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:48:07.117] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.1ms)
+[2026-10-03 12:48:07.119] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:48:07.227] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (2.2ms)
+[2026-10-03 12:48:07.227] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.9ms)
+[2026-10-03 12:48:07.227] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.9ms)
+[2026-10-03 12:48:07.405] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (2.0ms)
+[2026-10-03 12:48:07.405] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.8ms)
+[2026-10-03 12:48:07.452] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (48.5ms)
+[2026-10-03 12:48:07.490] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.9ms)
+[2026-10-03 12:48:07.490] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:48:07.490] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:48:07.529] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:48:07.529] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.2ms)
+[2026-10-03 12:48:07.529] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:48:07.579] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.1ms)
+[2026-10-03 12:48:07.579] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.2ms)
+[2026-10-03 12:48:07.580] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:48:07.779] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.9ms)
+[2026-10-03 12:48:07.779] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.5ms)
+[2026-10-03 12:48:07.779] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:48:08.298] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (10.6ms)
+[2026-10-03 12:48:08.298] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (10.4ms)
+[2026-10-03 12:48:08.299] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (11.5ms)
+[2026-10-03 12:48:08.300] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:48:08.355] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:48:08.482] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.6ms)
+[2026-10-03 12:48:08.514] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (10.1ms)
+[2026-10-03 12:48:08.514] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (10.0ms)
+[2026-10-03 12:48:08.516] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (11.4ms)
+[2026-10-03 12:48:08.669] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:48:08.689] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (20.4ms)
+[2026-10-03 12:48:08.689] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (12.1ms)
+[2026-10-03 12:48:08.690] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.7ms)
+[2026-10-03 12:48:08.976] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:48:09.282] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:48:09.579] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:48:09.614] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (15.4ms)
+[2026-10-03 12:48:09.614] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (15.2ms)
+[2026-10-03 12:48:09.615] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (16.3ms)
+[2026-10-03 12:48:09.768] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:48:09.985] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:48:10.087] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (18.6ms)
+[2026-10-03 12:48:10.087] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (18.5ms)
+[2026-10-03 12:48:10.087] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (18.4ms)
+[2026-10-03 12:48:10.154] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.5ms)
+[2026-10-03 12:48:10.997] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:48:11.496] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:48:24.008] [pid:27537] [agent] Knorvia Studio agent spawn preflight {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  spawnPreflight: {
+    command: '/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node',
+    args: [
+      '/workspace/knorvia-studio/apps/cli/packages/cli/dist/knorvia.cjs',
+      'app-server',
+      '--stdio'
+    ],
+    requestedCwd: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+    cwd: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+    cwdSource: 'command',
+    commandPathKind: 'absolute',
+    commandExists: true,
+    cwdExists: true
+  }
+}
+[2026-10-03 12:48:26.499] [pid:27537] [knorvia-task-index-syncer] task index sessions-index 订阅失败 reason=initial workspace=/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha {
+  name: 'Error',
+  message: 'SQLite startup failed: open_failed',
+  stack: 'Error: SQLite startup failed: open_failed\n' +
+    '    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)\n' +
+    '    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)\n' +
+    '    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)\n' +
+    '    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46\n' +
+    '    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)\n' +
+    '    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)\n' +
+    '    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)\n' +
+    '    at Socket.emit (node:events:508:28)\n' +
+    '    at addChunk (node:internal/streams/readable:563:12)\n' +
+    '    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)'
+}
+[2026-10-03 12:48:26.501] [pid:27537] [knorvia-task-index-syncer] task index workspace-config 订阅失败 reason=initial workspace=/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha {
+  name: 'Error',
+  message: 'SQLite startup failed: open_failed',
+  stack: 'Error: SQLite startup failed: open_failed\n' +
+    '    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)\n' +
+    '    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)\n' +
+    '    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)\n' +
+    '    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46\n' +
+    '    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)\n' +
+    '    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)\n' +
+    '    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)\n' +
+    '    at Socket.emit (node:events:508:28)\n' +
+    '    at addChunk (node:internal/streams/readable:563:12)\n' +
+    '    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)'
+}
+[2026-10-03 12:48:26.501] [pid:27537] [knorvia-server:http] window-controller source failed { operation: 'refresh', message: 'SQLite startup failed: open_failed' }
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2476.1ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2475.2ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2473.7ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2473.6ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2473.5ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2471.7ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2466.8ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2466.7ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2464.9ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2465.0ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2458.7ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.502] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (2292.6ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.506] [pid:27537] [agent-service] Knorvia Studio Protocol workspace/readPresentation 失败 {
+  durationMs: 2506,
+  message: 'SQLite startup failed: open_failed',
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  workspacePath: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha'
+}
+[2026-10-03 12:48:26.506] [pid:27537] [knorvia-server:http] [rpc:call] agent-session.readWorkspacePresentation FAIL (2506.2ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.506] [pid:27537] [knorvia-server:http] [rpc:call] agent.conversationWorkflowRunsV4 FAIL (2399.2ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.517] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeConversationV4 FAIL (2410.4ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:26.614] [pid:27537] [agent] Knorvia Studio agent process exited {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 29017,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:1:29017',
+  code: 1,
+  signal: null,
+  terminationKind: 'unexpected',
+  terminationReason: 'protocol-close'
+}
+[2026-10-03 12:48:26.614] [pid:27537] [agent] Knorvia Studio agent process exited unexpectedly {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 29017,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:1:29017',
+  code: 1,
+  signal: null,
+  terminationKind: 'unexpected',
+  terminationReason: 'protocol-close',
+  stderr: {
+    lineCount: 1,
+    tail: [
+      'Error: Failed to open SQLite session database at /home/agent/.knorvia-studio/cli/db/db.sqlite'
+    ]
+  }
+}
+[2026-10-03 12:48:26.660] [pid:27537] [agent] Knorvia Studio agent process cleanup completed {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 29017,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:1:29017',
+  reason: 'protocol-close'
+}
+[2026-10-03 12:48:26.818] [pid:27537] [agent] Knorvia Studio agent spawn preflight {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  spawnPreflight: {
+    command: '/tmp/knorvia-ui-node-24.14-ng6jirph/node-v24.14.0-linux-x64/bin/node',
+    args: [
+      '/workspace/knorvia-studio/apps/cli/packages/cli/dist/knorvia.cjs',
+      'app-server',
+      '--stdio'
+    ],
+    requestedCwd: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+    cwd: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+    cwdSource: 'command',
+    commandPathKind: 'absolute',
+    commandExists: true,
+    cwdExists: true
+  }
+}
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] window-controller source failed { operation: 'refresh', message: 'SQLite startup failed: open_failed' }
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1570.3ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1570.3ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1570.3ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1570.3ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1570.2ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1570.2ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1559.8ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1559.6ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1559.6ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1559.6ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1559.5ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.500] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeSessionsIndexV4 FAIL (1559.5ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.501] [pid:27537] [knorvia-server:http] [rpc:call] agent.subscribeConversationV4 FAIL (1684.2ms) Error: SQLite startup failed: open_failed
+    at KnorviaStorageStartupGate.rejectStartup (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25493:21)
+    at KnorviaStorageStartupGate.accept (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25437:14)
+    at KnorviaProtocolClient.route (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25745:79)
+    at file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:25635:46
+    at Emitter.fire (file:///workspace/knorvia-studio/packages/server/dist/chunk-QWYFBBVH.js:104:7)
+    at KnorviaStdioTransport.dispatchFrame (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26894:27)
+    at Socket.receiveData (file:///workspace/knorvia-studio/packages/server/dist/entry-http.js:26886:12)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[2026-10-03 12:48:28.536] [pid:27537] [agent] Knorvia Studio agent process exited {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 29027,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:2:29027',
+  code: 1,
+  signal: null,
+  terminationKind: 'unexpected',
+  terminationReason: 'protocol-close'
+}
+[2026-10-03 12:48:28.536] [pid:27537] [agent] Knorvia Studio agent process exited unexpectedly {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 29027,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:2:29027',
+  code: 1,
+  signal: null,
+  terminationKind: 'unexpected',
+  terminationReason: 'protocol-close',
+  stderr: {
+    lineCount: 1,
+    tail: [
+      'Error: Failed to open SQLite session database at /home/agent/.knorvia-studio/cli/db/db.sqlite'
+    ]
+  }
+}
+[2026-10-03 12:48:28.545] [pid:27537] [agent] Knorvia Studio agent process cleanup completed {
+  workspaceKey: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha',
+  pid: 29027,
+  runtimeIdentity: '/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha:2:29027',
+  reason: 'protocol-close'
+}
+[2026-10-03 12:49:44.872] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:45.023] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:45.071] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:45.097] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:45.631] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:45.671] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:45.927] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:46.327] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:46.525] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.1ms)
+[2026-10-03 12:49:46.525] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.9ms)
+[2026-10-03 12:49:46.526] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (1.3ms)
+[2026-10-03 12:49:46.577] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:46.657] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (4.1ms)
+[2026-10-03 12:49:46.661] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (8.0ms)
+[2026-10-03 12:49:46.662] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (5.1ms)
+[2026-10-03 12:49:46.918] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:46.964] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:47.077] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.1ms)
+[2026-10-03 12:49:47.078] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.0ms)
+[2026-10-03 12:49:47.085] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:47.093] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (8.3ms)
+[2026-10-03 12:49:47.093] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (8.1ms)
+[2026-10-03 12:49:47.094] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:47.105] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (5.7ms)
+[2026-10-03 12:49:47.105] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (5.5ms)
+[2026-10-03 12:49:47.106] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (5.7ms)
+[2026-10-03 12:49:47.296] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:47.717] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:47.783] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:47.815] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:49:47.815] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.4ms)
+[2026-10-03 12:49:47.816] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.4ms)
+[2026-10-03 12:49:48.010] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:48.085] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (9.2ms)
+[2026-10-03 12:49:48.085] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (9.2ms)
+[2026-10-03 12:49:48.086] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (9.2ms)
+[2026-10-03 12:49:48.086] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:49:48.110] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:48.184] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (2.9ms)
+[2026-10-03 12:49:48.184] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (2.6ms)
+[2026-10-03 12:49:48.184] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.5ms)
+[2026-10-03 12:49:48.309] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:49:48.473] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.4ms)
+[2026-10-03 12:49:48.473] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.1ms)
+[2026-10-03 12:49:48.481] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (9.2ms)
+[2026-10-03 12:49:48.899] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:49:48.899] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.4ms)
+[2026-10-03 12:49:48.899] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.6ms)
+[2026-10-03 12:49:48.977] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:49.195] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.6ms)
+[2026-10-03 12:49:49.196] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:49:49.216] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:49:49.364] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:49:49.365] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.4ms)
+[2026-10-03 12:49:49.365] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.2ms)
+[2026-10-03 12:49:49.365] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:49:49.555] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (33.8ms)
+[2026-10-03 12:49:49.612] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:50.383] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.6ms)
+[2026-10-03 12:49:50.384] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:49:50.512] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (4.1ms)
+[2026-10-03 12:49:52.119] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:52.389] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.2ms)
+[2026-10-03 12:49:52.390] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.4ms)
+[2026-10-03 12:49:52.390] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:49:52.534] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:57.906] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:49:58.203] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.8ms)
+[2026-10-03 12:49:58.203] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.1ms)
+[2026-10-03 12:49:58.203] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
+[2026-10-03 12:49:58.438] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.2ms)
+[2026-10-03 12:50:00.842] [pid:27537] [knorvia-server:http] [rpc:register] channel "window-controller"
+[2026-10-03 12:50:01.204] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (1.9ms)
+[2026-10-03 12:50:01.204] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.subscribeControllerV4 OK (0.3ms)
+[2026-10-03 12:50:01.205] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.3ms)
+[2026-10-03 12:50:01.573] [pid:27537] [knorvia-server:http] [rpc:call] window-controller.listTaskList OK (0.1ms)
