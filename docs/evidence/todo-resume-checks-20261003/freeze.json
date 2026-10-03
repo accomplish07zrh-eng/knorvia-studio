@@ -1,0 +1,38 @@
+{
+  "base": "4b2ba2338816b1daafd04f66b966fd8e33da4833",
+  "beforeProduction": true,
+  "groups": {
+    "todoDirect": 3,
+    "actualEmittedCallRunner": 1,
+    "resumeOwnedDependencyIntegration": 4,
+    "totalUnique": 8
+  },
+  "sourceReplay": "not run; speed-first",
+  "files": {
+    "docs/evidence/todo-resume-author-20261003/allocation.json": "82945e203659dcec9e1a8e10f76a4ba3e7fa49ef5ac53d463941349403f766a2",
+    "docs/evidence/todo-resume-author-20261003/protected.json": "7558f9524bbf18598ef7256288b4bfdc7cf2f572a2446d919e9f0a74d1b0dc02",
+    "docs/evidence/todo-resume-author-20261003/todo/ports.txt": "be7c654e1b7fa9e03f5e4f75d780ab44a9b82450953f25778fab59b4d8dfc282",
+    "docs/evidence/todo-resume-author-20261003/todo/dependencies.txt": "de52f957348d8a22fdd5baee50e5a0c6d2b69e5f705f3c341548cf2e335c820d",
+    "docs/evidence/todo-resume-author-20261003/todo/api.d.ts": "afb7550cfb5fbe7bad2239e53fa65fb609db9efe2e9f508fe57ddf609d1d686f",
+    "docs/evidence/todo-resume-author-20261003/todo/imports.txt": "ce8eaa0c5f88fcc56c3dd729eafe80b67defddb0a1f77af3aafc16dd9490fb2f",
+    "docs/evidence/todo-resume-author-20261003/todo/contract.md": "faa63dc894f71204440169f61dac42be6b7b6d6aadc1ad18049a4446aa083eed",
+    "docs/evidence/todo-resume-author-20261003/todo/declaration.json": "6c147d6d1b10d703bfc59990765be6bf298e0314cece8f703de5f24028321d97",
+    "docs/evidence/todo-resume-author-20261003/resume/ports.txt": "95847902c68a0a28b57892ede1857a708b9c9639020b5dc859e9d96e6924843d",
+    "docs/evidence/todo-resume-author-20261003/resume/dependencies.txt": "10dca2b51ee2b23d2fbe2df206985248785322c725841aa0f53da0d71728c4e8",
+    "docs/evidence/todo-resume-author-20261003/resume/api.d.ts": "7f21bb31a2c7c453401cf5aadaec570ce844c66bc3a0928f252476e575b01f6f",
+    "docs/evidence/todo-resume-author-20261003/resume/imports.txt": "6c5b3d90069540be4e6ced49442e4bb67fc8f4d146ad5603db6883a6a8a896d9",
+    "docs/evidence/todo-resume-author-20261003/resume/public-text.json": "a5f8cdf520a854cd43594dfbf899606bfc81186371df88b16f6fbd24744e2508",
+    "docs/evidence/todo-resume-author-20261003/resume/contract.md": "725572acc57be129e9335c6013c5ecc82684aba8f65ecc8ddc9dc59e0a1d5903",
+    "specs/knorvia-todo-resume-owners-20261003.md": "ca1dd693e266871c86badbcccee10f3540379c4cdf843921849b2d5f70cc6b29",
+    "apps/cli/packages/core/test/todo-resume-baseline-20261003.json": "4055a0d0225fee5c8aa3fe46f5c1367b9c5eb8a19a597606ae42294db8353e0d",
+    "apps/cli/packages/core/test/todo-resume-safety-20261003.mjs": "ab36053ec75c1f2bb1b7d640d0f413194864b20999774080b961996b8748ddd0",
+    "apps/cli/packages/core/test/todo-resume-fixture-20261003.mjs": "436c4bfbeba69123690132700f0a2ca3c31c4cac43c211cff98611500ee4a71b",
+    "apps/cli/packages/core/test/resume-ports-20261003.mjs": "26a6c42c1f3b3766f347884043f980f59e567dfdbb68939b86739b9bf8f9685f"
+  },
+  "fixtureFailures": [
+    "baseline-metadata-load-failure.log",
+    "baseline-store-fixture-failure.log",
+    "baseline-envelope-fixture-failure.log"
+  ],
+  "authorReads": "Only respective packet api.d.ts/imports.txt/dependencies.txt/ports.txt/contract.md and declaration.json or public-text.json. Never baseline/test/history/source."
+}

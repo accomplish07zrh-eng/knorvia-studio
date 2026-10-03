@@ -1,0 +1,28 @@
+(node:224332) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Todo schemas, complete public declaration, admission and returned reference (2.691579ms)
+✔ Todo post-write summary, parsed array identity, status reads and original failures (0.765115ms)
+✔ Todo native delayed write, captured session phase and direct aborted context (0.261755ms)
+✖ Actual full call-runner TodoWrite publication and early-cancel authority (5.333445ms)
+✔ Resume store/session admission and schedule reference projection (4.814271ms)
+✔ Resume exact restore/publication order, captured identity and final output (3.228459ms)
+✔ Resume explicit mode, duplicate title and grant failure partial effects (5.057189ms)
+✔ Resume hook cancellation retains writes; continuity failures retain fallbacks (2.561778ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32.144462
+
+✖ failing tests:
+
+test at apps/cli/packages/core/test/todo-resume-safety-20261003.mjs:81:1
+✖ Actual full call-runner TodoWrite publication and early-cancel authority (5.333445ms)
+  SyntaxError: "undefined" is not valid JSON
+      at JSON.parse (<anonymous>)
+      at TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/core/test/todo-resume-safety-20261003.mjs:91:25)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

@@ -1,0 +1,12 @@
+import { restorePermissionGrantMarker } from "../helpers/permission-grant-resume.js";
+import { executionStateSchema, resolveExecutionState } from "@knorvia/shared";
+import { SESSION_ENTRY_EXECUTION_STATE } from "@knorvia/contracts";
+import { CoreErrorType, HookEventName, SessionEventType, createCoreError, traceContextToLogContext, formatGoalStateForModel, activeSessionMessages, hydrateReadFileStateFromSession, hydrateMessageHistoryFromSession, MessageHistoryImpl, } from "../deps.js";
+import type { EnvInfo, MessageWithParts, SessionEvent, SessionGoal, SessionInfo, SessionTitleSource, TodoItem, TraceContext, TurnId, TurnState, ToolSchedule, } from "../deps.js";
+import { getLatestActiveSessionMessageId } from "../helpers/index.js";
+import type { ResumeSessionOptions, ResumeSessionResult } from "../types.js";
+import type { AgentRuntimeInternal } from "../internal.js";
+import { announceSessionShellEnvironmentNoticeAfterResume, getSessionShellSelection, restoreSessionShellEnvironmentSelectionForResume, } from "./session-shell-environment.js";
+import { repairPersistedRemoteSessionPaths } from "../helpers/persisted-remote-session-path-repair.js";
+import { restoreWorkspaceCheckpointEntries, restoreWorkspaceFileRewindEntries, } from "./workspace-checkpoint-persistence.js";
+import { mainTurnCacheHitAggregateFromMessages } from "./turn-model-step-usage.js";

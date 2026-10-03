@@ -1,0 +1,150 @@
+{
+  "logs": [
+    {
+      "level": "warn",
+      "message": "Session path repair persistence failed; using in-memory repair",
+      "fields": [
+        "<traceContextToLogContext spread>",
+        "errorMessage",
+        "event",
+        "module",
+        "sessionId"
+      ],
+      "constants": {
+        "event": "session.path_repair.persist_failed",
+        "module": "core.runtime"
+      }
+    },
+    {
+      "level": "warn",
+      "message": "Session resume loaded zero persisted messages",
+      "fields": [
+        "<traceContextToLogContext spread>",
+        "directory",
+        "event",
+        "module",
+        "rewindCreatedMessageId",
+        "rewindKeptMessageCount",
+        "rewindTargetMessageId",
+        "sessionId"
+      ],
+      "constants": {
+        "event": "session.resume.persisted_messages_zero",
+        "module": "core.runtime"
+      }
+    },
+    {
+      "level": "warn",
+      "message": "Session resume produced zero active messages",
+      "fields": [
+        "<traceContextToLogContext spread>",
+        "activeMessageCount",
+        "appliedMessageCount",
+        "directory",
+        "event",
+        "hydrationMessageCount",
+        "module",
+        "persistedMessageCount",
+        "recoveredCompactTimelineCount",
+        "rewindCreatedMessageId",
+        "rewindKeptMessageCount",
+        "sessionId",
+        "rewindTargetMessageId"
+      ],
+      "constants": {
+        "event": "session.resume.active_messages_zero",
+        "module": "core.runtime"
+      }
+    },
+    {
+      "level": "warn",
+      "message": "Session resume applied zero history messages",
+      "fields": [
+        "<traceContextToLogContext spread>",
+        "activeMessageCount",
+        "directory",
+        "event",
+        "hydrationMessageCount",
+        "module",
+        "persistedMessageCount",
+        "recoveredCompactTimelineCount",
+        "rewindCreatedMessageId",
+        "rewindKeptMessageCount",
+        "rewindTargetMessageId",
+        "sessionId"
+      ],
+      "constants": {
+        "event": "session.resume.applied_messages_zero",
+        "module": "core.runtime"
+      }
+    },
+    {
+      "level": "info",
+      "message": "Session resumed",
+      "fields": [
+        "<traceContextToLogContext spread>",
+        "appliedMessageCount",
+        "directory",
+        "event",
+        "interruptedToolCount",
+        "messageCount",
+        "module",
+        "partCount",
+        "readFileStateRestoredCount",
+        "readFileStateSkippedRangeReadCount",
+        "readFileStateSkippedUnreadableEditCount",
+        "recoveredCompactTimelineCount",
+        "resumedTodoCount",
+        "resumedTargetStatus",
+        "sessionId",
+        "status"
+      ],
+      "constants": {
+        "event": "session.resumed",
+        "module": "core.runtime",
+        "status": "completed"
+      }
+    },
+    {
+      "level": "warn",
+      "message": "Failed to read session todos for context",
+      "fields": ["<traceContextToLogContext spread>", "errorMessage", "event", "module", "status"],
+      "constants": {
+        "event": "todo.context.read.failed",
+        "module": "core.runtime",
+        "status": "failed"
+      }
+    },
+    {
+      "level": "warn",
+      "message": "Failed to read session goal for context",
+      "fields": ["<traceContextToLogContext spread>", "errorMessage", "event", "module", "status"],
+      "constants": {
+        "event": "target.context.read.failed",
+        "module": "core.runtime",
+        "status": "failed"
+      }
+    }
+  ],
+  "sessionResumedFields": [
+    "directory",
+    "interruptedToolCount",
+    "messageCount",
+    "partCount",
+    "recoveredCompactTimelineCount",
+    "recoveredSteerInputCount",
+    "resumedTodoCount",
+    "resumedTarget"
+  ],
+  "titleEventFields": ["previousTitle", "source", "title"],
+  "modelAttachment": {
+    "name": "resume_goal_state",
+    "lines": [
+      "The current session goal state was restored from session storage.",
+      "<formatted goal state>",
+      "Use it as the authoritative long-running objective unless a later GoalRead result or runtime goal event updates it.",
+      "Do not mark the goal complete unless real evidence shows the objective has been achieved.",
+      "A completed plan, todo list, checklist, or planning phase is not completion evidence unless the objective was only to produce that artifact."
+    ]
+  }
+}
