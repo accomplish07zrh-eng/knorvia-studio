@@ -455,10 +455,12 @@ export default {
   // homepage 复用 README 已公开的官网；维护邮箱仅使用用户明确允许公开的值。
   extraMetadata: {
     version: buildMetadata.appVersion,
+    license: "Apache-2.0",
     homepage: "https://knorvia.xyz",
     knorviaProductFlavor: desktopProductIdentity.flavor,
     author: {
       name: "Knorvia Studio",
+      email: "accomplish07zrh@gmail.com",
     },
   },
   // macOS 签名阶段会对 Electron Framework 下每个语言包逐个 codesign。
