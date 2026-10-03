@@ -1,0 +1,109 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import test from 'node:test';
+import ts from 'typescript';
+const product='packages/desktop/src/main/browserView';
+const root=process.env.KNORVIA_OWNER_BASELINE??product;
+const json=value=>JSON.parse(JSON.stringify(value));
+const tick=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
+function load(name,ports={},globals={}){
+ const file=path.join(['browserTabResidencyPolicy','browserCommandInteractionHandlers'].includes(name)?product:root,name+'.ts');
+ const module={exports:{}};
+ const emitted=ts.transpileModule(fs.readFileSync(file,'utf8'),{fileName:file,compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText;
+ vm.runInNewContext(emitted,{module,exports:module.exports,require:key=>{if(key in ports)return ports[key];throw new Error('Uninjected port '+key);},Error,TypeError,Date,URL,Buffer,...globals},{filename:file});
+ return module.exports;
+}
+const policy=load('browserTabResidencyPolicy');
+const candidate=(id,windowId=1)=>({tabId:id,windowId,sessionId:'synthetic',residency:'live-background',guestAttached:false,openedAt:1,lastActivityAt:1,lastSelectedAt:null,preferred:false,currentTask:false,selected:false,visible:false,operationActive:false,captureActive:false,audible:false,mediaActive:false,loading:false,downloadActive:false});
+const shell=(id,extra={})=>({schemaVersion:1,tabId:id,windowBindingId:null,workspaceKey:'synthetic-workspace',sessionId:'synthetic-session',origin:'user',lifecycle:'active',restoreUrl:null,title:null,faviconUrl:null,viewport:{width:12,height:8},openedAt:1,lastSelectedAt:null,updatedAt:1,...extra});
+function recoveryFixture(options={}){
+ let disk, nextWriteError, loaded=false, sequence=0;
+ const calls=[];
+ const ports={readFile:async(...args)=>{calls.push(['read',...args]);if(!loaded)throw Object.assign(new Error('missing synthetic'),{code:'ENOENT'});return disk;},mkdir:async(...args)=>calls.push(['mkdir',...args]),writeFile:async(...args)=>{calls.push(['write',...args]);if(nextWriteError){const e=nextWriteError;nextWriteError=null;throw e;}disk=args[1];},rename:async(...args)=>calls.push(['rename',...args]),unlink:async(...args)=>{calls.push(['unlink',...args]);throw new Error('synthetic cleanup rejection');}};
+ const {BrowserTabRecoveryStore}=load('browserTabRecoveryStore',{'node:crypto':{randomUUID:()=>String(++sequence)},'node:fs/promises':ports,'node:path':{dirname:()=>'/synthetic'}});
+ const store=new BrowserTabRecoveryStore('/synthetic/recovery',options);
+ return {store,calls,ports,setDisk:value=>{loaded=true;disk=value;},failWrite:e=>{nextWriteError=e;}};
+}
+function clipboardFixture(handler){
+ let now=0,uuid=0;const calls=[];
+ const view={webContents:{getURL:()=> 'https://synthetic.invalid/'},cdp:{send:async(...args)=>{calls.push(args);return handler(...args);}}};
+ const constant='__syntheticToken';
+ const clipboard=load('browserVirtualClipboard',{'node:crypto':{randomUUID:()=> 'synthetic-'+(++uuid)},'./browserVirtualClipboardPageScript.js':{IAB_INPUT_TARGET_TOKEN_PROPERTY:constant,VIRTUAL_PASTE_PAGE_FUNCTION:'async (options) => { globalThis.forwarded = options; return null; }'}},{Date:{now:()=>now},setTimeout:(callback,ms)=>{now+=ms;callback();}});
+ return {view,calls,clipboard,constant,now:()=>now};
+}
+
+test('residency: per-window serialized eviction, stale restoration generation and copied observations',async()=>{
+ let now=10, pending=[],active=0,maxActive=0;
+ const {BrowserTabResidencyCoordinator}=load('browserTabResidencyCoordinator',{'./browserTabResidencyPolicy.js':policy});
+ const owner=new BrowserTabResidencyCoordinator({tabLimit:1,now:()=>now,onEvict:record=>{active++;maxActive=Math.max(maxActive,active);return new Promise(resolve=>pending.push({record,finish:result=>{active--;resolve(result);}}));}});
+ const returned=owner.upsert(candidate('a'));returned.selected=true;assert.equal(owner.get('a').selected,false);
+ owner.upsert(candidate('b'));owner.upsert(candidate('c',2));owner.upsert(candidate('d',2));await tick();assert.equal(pending.length,1);assert.equal(pending[0].record.tabId,'a');
+ pending[0].record.visible=true;assert.equal(owner.get('a').visible,false);pending[0].finish(true);await tick();assert.equal(pending.length,2);assert.equal(pending[1].record.windowId,2);pending[1].finish(false);await owner.whenIdle();assert.equal(maxActive,1);assert.equal(owner.get('a'),null);assert.equal(owner.list().length,3);
+ owner.upsert({...candidate('s',3),residency:'suspended'});await owner.whenIdle();const restore=owner.markRestoring('s');assert.equal(restore.generation,1);assert.equal(owner.markAttached('s',true),false);assert.equal(owner.completeRestore('s',0),false);assert.equal(owner.markAttached('s',true,1),true);assert.equal(owner.isTransitionCurrent('s',1,'restoring'),true);
+ const failed=owner.failRestore('s',1);assert.equal(failed.generation,2);assert.equal(owner.completeRestore('s',1),false);assert.equal(owner.markRestoring('s').generation,3);assert.equal(owner.completeRestore('s',3),true);
+ owner.upsert({...candidate('protected',4),residency:'suspend-pending'});owner.report('protected',{captureActive:true});assert.equal(owner.get('protected').generation,1);assert.equal(owner.get('protected').residency,'live-background');assert.equal(owner.commitCancelledSuspend('protected',0).residency,'suspended');owner.markDetached('s');assert.equal(owner.get('s').guestAttached,false);
+ now=20;owner.upsert(candidate('other',3));owner.report('other',{selected:true});owner.report('s',{selected:true});assert.equal(owner.get('other').preferred,false);assert.equal(owner.get('s').lastSelectedAt,20);
+ await owner.whenIdle();owner.dispose();owner.upsert(candidate('after-dispose'));assert.equal(owner.list().length,1);await owner.whenIdle();
+});
+
+test('recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine',async()=>{
+ const f=recoveryFixture();const failure=new Error('synthetic write');f.failWrite(failure);
+ const input=shell('a',{windowBindingId:99}), first=f.store.upsert(input);input.title='late synthetic title';const second=f.store.upsert(shell('b'));
+ await assert.rejects(first,error=>error===failure);await second;await f.store.whenIdle();assert.equal(f.calls.filter(c=>c[0]==='read').length,1);assert.equal(f.calls.filter(c=>c[0]==='unlink').length,1);const snapshot=await f.store.readSnapshot();assert.deepEqual(json(snapshot.shells.map(s=>s.tabId)),['a','b']);assert.equal(snapshot.shells[0].title,'late synthetic title');assert.equal(snapshot.shells[0].windowBindingId,null);
+ snapshot.shells[0].title='copy';assert.equal((await f.store.getShell('a')).title,'late synthetic title');snapshot.shells[0].viewport.width=13;assert.equal((await f.store.getShell('a')).viewport.width,13);
+ assert.equal((await f.store.listShells({workspaceKey:'synthetic-workspace',remoteSessionId:''})).length,2);assert.equal((await f.store.listShells({workspaceKey:'wrong'})).length,0);await f.store.remove('b');assert.equal(await f.store.getShell('b'),null);
+ const warnings=[],bad=recoveryFixture({onWarning:message=>warnings.push(message)});bad.setDisk('{ broken synthetic');const empty=await bad.store.readSnapshot();assert.deepEqual(json(empty),{schemaVersion:1,shells:[],pageStates:[]});assert.equal(warnings.length,1);assert.match(warnings[0],/browser tab recovery 文件损坏，已隔离到/);assert.equal(bad.calls.filter(c=>c[0]==='write').length,0);
+ const legacy=recoveryFixture();legacy.setDisk(JSON.stringify({schemaVersion:1,shells:[shell('persisted',{windowBindingId:72})],pageStates:[],ignored:true}));assert.equal((await legacy.store.getShell('persisted')).windowBindingId,null);
+});
+
+test('recovery: history/count/UTF8 budget compatibility and mutation failure recovery',async()=>{
+ const f=recoveryFixture({maxHistoryEntries:2,maxPageStates:2,maxTotalBytes:400});
+ const page=(id,updatedAt,text='small')=>({schemaVersion:1,tabId:id,activeIndex:3,updatedAt,entries:Array.from({length:4},(_,i)=>({url:'synthetic:'+i,pageState:text}))});
+ await f.store.upsertPageState(page('a',1));await f.store.upsertPageState(page('b',2));const b=await f.store.getPageState('b');assert.equal(b.entries.length,2);assert.deepEqual(b.entries.map(e=>e.url),['synthetic:2','synthetic:3']);assert.equal(b.activeIndex,1);
+ await f.store.upsertPageState(page('oversized',10,'界'.repeat(300)));assert.equal(await f.store.getPageState('oversized'),null);assert.equal((await f.store.readSnapshot()).pageStates.length,2);
+ await f.store.upsertPageState(page('c',3));assert.equal(await f.store.getPageState('a'),null);assert.deepEqual(json((await f.store.readSnapshot()).pageStates.map(p=>p.tabId)),['c','b']);await f.store.removePageState('c');assert.equal(await f.store.getPageState('c'),null);
+ const cyclic=page('cycle',4);cyclic.entries[3].extra=cyclic;await assert.rejects(f.store.upsertPageState(cyclic),e=>e.name==='TypeError');await f.store.whenIdle();await f.store.remove('cycle');assert.equal(await f.store.getPageState('cycle'),null);
+});
+
+test('clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget',async()=>{
+ let probe=0,pasteArgs;
+ const f=clipboardFixture(async(method,params,session)=>{
+  if(method==='Runtime.evaluate' && params.awaitPromise){const context={};await vm.runInNewContext(params.expression,context);pasteArgs=context.forwarded;return {result:{value:{ok:true,data:'ignored'}}};}
+  if(method==='Runtime.evaluate'){probe++;return probe===1?{result:{objectId:'frame-object'}}:{result:{}};}
+  if(method==='DOM.describeNode')return {node:{frameId:'child'}};
+  if(method==='Target.attachToTarget')return {sessionId:'owned-child'};
+  if(method==='Target.detachFromTarget')throw new Error('synthetic detach rejection');
+  return {};
+ });
+ assert.equal(f.clipboard.createInputTargetToken(),'synthetic-1');assert.equal(f.clipboard.IAB_INPUT_TARGET_TOKEN_PROPERTY,f.constant);
+ await f.clipboard.pasteTextIntoFocusedTarget(f.view,'<&"\r\nsynthetic',{initialTarget:{sessionId:'borrowed',contextId:0},inputTargetToken:'token',replaceInputValue:true});
+ assert.deepEqual(f.calls[0].slice(0,1),['Runtime.evaluate']);assert.equal(f.calls[0][1].contextId,0);assert.equal(f.calls[0][2],'borrowed');assert.equal(f.calls[0].length,3);assert.deepEqual(f.calls.filter(c=>c[0]==='Target.detachFromTarget').map(c=>[c.length,c[1].sessionId]),[[2,'owned-child']]);assert.equal(pasteArgs.clipboardItems[0].entries[1].text,'&lt;&amp;&quot;<br>synthetic');assert.equal(pasteArgs.inputTargetToken,'token');assert.equal(pasteArgs.replaceInputValue,true);
+ let attaches=0,queries=0;
+ const delayed=clipboardFixture(async(method,params)=>{
+  if(method==='Runtime.evaluate')return params.awaitPromise?{result:{value:{ok:true}}}:(attaches===2?{result:{}}:{result:{objectId:'handle'}});
+  if(method==='DOM.describeNode')return {node:{frameId:'child'}};
+  if(method==='Target.attachToTarget'){attaches++;if(attaches===1)throw new Error('unregistered');return {sessionId:'late-owned'};}
+  if(method==='Page.createIsolatedWorld')throw new Error('not same-process');
+  if(method==='Target.getTargets')return {targetInfos:++queries===2?[{targetId:'child',type:'iframe'}]:[]};return {};
+ });
+ await delayed.clipboard.pasteTextIntoFocusedTarget(delayed.view,'synthetic');assert.equal(delayed.now(),25);assert.equal(queries,2);assert.equal(delayed.calls.filter(c=>c[0]==='Target.detachFromTarget').length,1);
+ const denied=clipboardFixture(async(method,params)=>{if(method==='Runtime.evaluate')return {result:{objectId:'handle'}};if(method==='DOM.describeNode')return {node:{frameId:'never'}};if(method==='Target.attachToTarget'||method==='Page.createIsolatedWorld')throw new Error('unavailable');return {targetInfos:[]};});
+ await assert.rejects(denied.clipboard.pasteTextIntoFocusedTarget(denied.view,'synthetic'),/could not resolve an input target for frame never/);assert.equal(denied.now(),1000);assert.equal(denied.calls.filter(c=>c[0]==='Target.getTargets').length,41);assert.equal(denied.calls.filter(c=>c[1]?.awaitPromise).length,0);
+});
+
+test('clipboard: token confirmation, no top-frame fallback and existing type consumer composition',async()=>{
+ let focused=true;
+ const h=clipboardFixture(async(method,params)=>{
+  if(method!=='Runtime.evaluate')return {};
+  if(params.returnByValue && !params.awaitPromise){const element={ownerDocument:{defaultView:{}},[h.constant]:focused?'token':'wrong'};element.ownerDocument.defaultView.HTMLElement=class {};return {result:{value:vm.runInNewContext(params.expression,{document:{activeElement:element}})}};}
+  return params.awaitPromise?{result:{value:{ok:true}}}:{result:{}};
+ });
+ await h.clipboard.assertFocusedInputTarget(h.view,{sessionId:'borrowed',contextId:0},'token');focused=false;await assert.rejects(h.clipboard.assertFocusedInputTarget(h.view,{},'token'),/Active element is no longer the expected input target/);
+ let result;const done=partial=>{result={...partial,elapsedMs:1};return result;};const state={url:'synthetic'};
+ const interaction=load('browserCommandInteractionHandlers',{'@knorvia/shared':{},'./browserCommandScripts.js':{},'./browserCommandInput.js':{},'./browserCommandState.js':{readState:()=>state},'./browserCommandResult.js':{},'./browserVirtualClipboard.js':h.clipboard});
+ assert.equal(await interaction.handleType(h.view,{method:'type',text:'synthetic'},done),result);assert.equal(result.state,state);
+ const failure=new Error('exact input failure');const owned=clipboardFixture(async(method,params,session)=>{if(method==='Runtime.evaluate'&&!session)return {result:{objectId:'handle'}};if(method==='DOM.describeNode')return {node:{frameId:'child'}};if(method==='Target.attachToTarget')return {sessionId:'owned'};if(method==='Runtime.evaluate'&&params.awaitPromise)throw failure;if(method==='Runtime.evaluate')return {result:{}};if(method==='Target.detachFromTarget')throw new Error('cleanup');return {};});
+ await assert.rejects(owned.clipboard.pasteTextIntoFocusedTarget(owned.view,'synthetic'),e=>e===failure);assert.equal(owned.calls.filter(c=>c[0]==='Target.detachFromTarget').length,1);
+});

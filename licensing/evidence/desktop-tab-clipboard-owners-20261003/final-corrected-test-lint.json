@@ -1,0 +1,26 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-lint-config.json",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-lint-config.json",
+      "sha256": "8b7ba164423a46ec7c71f8faa6e6393b57cb3638d3f9a784ceca28c843746105"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "c8a67bc50c58fc138bb0d37ba490431fb4bf465c452cb7fcb4d688e0f4314369"
+    }
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 13ms on 1 file with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_OWNER_BASELINE": "/tmp/knorvia-desktop-tab-clipboard-baseline"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "953e6476940c5ac1b5314edb0411bc402427f3aac169de4ab2a90d50ab4b7b35"
+    }
+  ],
+  "stdout": "✔ residency: per-window serialized eviction, stale restoration generation and copied observations (40.146755ms)\n✔ recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine (62.77602ms)\n✖ recovery: history/count/UTF8 budget compatibility and mutation failure recovery (15.298621ms)\n✔ clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget (42.246386ms)\n✔ clipboard: token confirmation, no top-frame fallback and existing type consumer composition (30.445091ms)\nℹ tests 5\nℹ suites 0\nℹ pass 4\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 468.43194\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:61:1\n✖ recovery: history/count/UTF8 budget compatibility and mutation failure recovery (15.298621ms)\n  AssertionError [ERR_ASSERTION]: Missing expected rejection.\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:67:62)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    operator: 'rejects',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

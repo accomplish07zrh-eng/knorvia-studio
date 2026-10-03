@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-static.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_PUBLIC_SHAPE_COMPARE": "licensing/evidence/desktop-tab-clipboard-owners-20261003/baseline-public-shape.json"
+  },
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-static.mjs",
+      "sha256": "83dde8487236ec5ed95168ab90fae579aafa540aacb709d353ab2cc93eb16950"
+    }
+  ],
+  "stdout": "\nRestricted synthetic port semantic diagnostics: 0. Actual product/dependency/native type closure NOT certified.\n",
+  "stderr": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'IAB_INPUT_TARGET_TOKEN_PROPERTY',\n    'assertFocusedInputTarget',\n    'createInputTargetToken',\n+   'IAB_INPUT_TARGET_TOKEN_PROPERTY',\n    'pasteTextIntoFocusedTarget'\n  ]\n\n    at file:///workspace/knorvia-studio/licensing/evidence/desktop-tab-clipboard-owners-20261003/scoped-static.mjs:57:9\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: [\n    'assertFocusedInputTarget',\n    'createInputTargetToken',\n    'IAB_INPUT_TARGET_TOKEN_PROPERTY',\n    'pasteTextIntoFocusedTarget'\n  ],\n  expected: [\n    'IAB_INPUT_TARGET_TOKEN_PROPERTY',\n    'assertFocusedInputTarget',\n    'createInputTargetToken',\n    'pasteTextIntoFocusedTarget'\n  ],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n",
+  "exitCode": 1
+}

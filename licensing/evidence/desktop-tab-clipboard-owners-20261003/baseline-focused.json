@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_OWNER_BASELINE": "/tmp/knorvia-desktop-tab-clipboard-baseline"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "e404d885a8a4a9a644fd2fd45a97cf164538ccd6f3db9a72c253d9893783573b"
+    }
+  ],
+  "stdout": "✔ residency: per-window serialized eviction, stale restoration generation and copied observations (44.559318ms)\n✖ recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine (31.467409ms)\n✖ recovery: history/count/UTF8 budget compatibility and mutation failure recovery (22.80491ms)\n✔ clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget (51.082928ms)\n✔ clipboard: token confirmation, no top-frame fallback and existing type consumer composition (40.267137ms)\nℹ tests 5\nℹ suites 0\nℹ pass 3\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 484.361535\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:51:1\n✖ recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine (31.467409ms)\n  AssertionError [ERR_ASSERTION]: Values have same structure but are not reference-equal:\n  \n  [\n    'a',\n    'b'\n  ]\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:54:256)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [ 'a', 'b' ],\n    expected: [ 'a', 'b' ],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n\ntest at packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:61:1\n✖ recovery: history/count/UTF8 budget compatibility and mutation failure recovery (22.80491ms)\n  AssertionError [ERR_ASSERTION]: Values have same structure but are not reference-equal:\n  \n  [\n    'c',\n    'b'\n  ]\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:66:103)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [ 'c', 'b' ],\n    expected: [ 'c', 'b' ],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

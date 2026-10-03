@@ -1,12 +1,12 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
-import type { ControlledView } from "./browserCommandTypes.js";
+import type { ControlledView } from './browserCommandTypes.js';
 import {
   IAB_INPUT_TARGET_TOKEN_PROPERTY,
   VIRTUAL_PASTE_PAGE_FUNCTION,
-} from "./browserVirtualClipboardPageScript.js";
+} from './browserVirtualClipboardPageScript.js';
 
-export { IAB_INPUT_TARGET_TOKEN_PROPERTY } from "./browserVirtualClipboardPageScript.js";
+export { IAB_INPUT_TARGET_TOKEN_PROPERTY } from './browserVirtualClipboardPageScript.js';
 
 type InputTarget = { contextId?: number; sessionId?: string };
 type PasteOptions = {
@@ -50,12 +50,10 @@ async function sendToTarget(
 function evaluationError(response: EvaluationResponse): string | undefined {
   const details = response.exceptionDetails;
   if (!details) return undefined;
-  return (
-    details.exception?.description ??
-    (details.exception?.value == null ? undefined : String(details.exception.value)) ??
-    details.text ??
-    "Browser Use virtual clipboard evaluation failed"
-  );
+  return details.exception?.description
+    ?? (details.exception?.value == null ? undefined : String(details.exception.value))
+    ?? details.text
+    ?? 'Browser Use virtual clipboard evaluation failed';
 }
 
 function focusedFrameExpression(): string {
@@ -82,43 +80,34 @@ function focusedFrameExpression(): string {
 
 async function detachOwnedSessions(view: ControlledView, sessionIds: string[]): Promise<void> {
   await Promise.allSettled(
-    sessionIds.map((sessionId) => view.cdp.send("Target.detachFromTarget", { sessionId })),
+    sessionIds.map((sessionId) => view.cdp.send('Target.detachFromTarget', { sessionId })),
   );
 }
 
 async function attachToFrame(view: ControlledView, frameId: string): Promise<string | undefined> {
-  const response = (await view.cdp
-    .send("Target.attachToTarget", {
-      flatten: true,
-      targetId: frameId,
-    })
-    .catch(() => undefined)) as { sessionId?: string } | undefined;
+  const response = await view.cdp.send('Target.attachToTarget', {
+    flatten: true,
+    targetId: frameId,
+  }).catch(() => undefined) as { sessionId?: string } | undefined;
   return response?.sessionId || undefined;
 }
 
 async function enableAttachedSession(view: ControlledView, sessionId: string): Promise<void> {
   const target = { sessionId };
   await Promise.all([
-    sendToTarget(view, target, "Page.enable", undefined),
-    sendToTarget(view, target, "Runtime.enable", undefined),
-    sendToTarget(view, target, "DOM.enable", undefined),
+    sendToTarget(view, target, 'Page.enable', undefined),
+    sendToTarget(view, target, 'Runtime.enable', undefined),
+    sendToTarget(view, target, 'DOM.enable', undefined),
   ]);
 }
 
-async function waitForFrameSession(
-  view: ControlledView,
-  frameId: string,
-): Promise<string | undefined> {
+async function waitForFrameSession(view: ControlledView, frameId: string): Promise<string | undefined> {
   const deadline = Date.now() + 1000;
   for (;;) {
-    const response = (await view.cdp.send("Target.getTargets").catch(() => undefined)) as
+    const response = await view.cdp.send('Target.getTargets').catch(() => undefined) as
       | { targetInfos?: Array<{ targetId?: string; type?: string }> }
       | undefined;
-    if (
-      response?.targetInfos?.some(
-        (target) => target.targetId === frameId && target.type === "iframe",
-      )
-    ) {
+    if (response?.targetInfos?.some((target) => target.targetId === frameId && target.type === 'iframe')) {
       const sessionId = await attachToFrame(view, frameId);
       if (sessionId) return sessionId;
     }
@@ -137,31 +126,27 @@ async function resolveFocusedInputTarget(
   const visited = new Set<string>();
   try {
     for (;;) {
-      const key = `${target.sessionId ?? "root"}:${target.contextId ?? "default"}`;
-      if (visited.has(key)) throw new Error("Browser Use encountered a focused frame cycle");
+      const key = `${target.sessionId ?? 'root'}:${target.contextId ?? 'default'}`;
+      if (visited.has(key)) throw new Error('Browser Use encountered a focused frame cycle');
       visited.add(key);
 
-      const response = (await sendToTarget(
+      const response = await sendToTarget(
         view,
         target,
-        "Runtime.evaluate",
+        'Runtime.evaluate',
         evaluationParams(target, focusedFrameExpression, false),
-      )) as EvaluationResponse;
-      if (evaluationError(response))
-        throw new Error("Browser Use could not inspect the focused frame");
+      ) as EvaluationResponse;
+      if (evaluationError(response)) throw new Error('Browser Use could not inspect the focused frame');
       const objectId = response.result?.objectId;
       if (!objectId) return { target, ownedSessionIds };
 
       let frameId: string | undefined;
       try {
-        const description = (await sendToTarget(view, target, "DOM.describeNode", {
-          objectId,
-        })) as { node?: { frameId?: string } };
+        const description = await sendToTarget(view, target, 'DOM.describeNode', { objectId }) as
+          { node?: { frameId?: string } };
         frameId = description.node?.frameId;
       } finally {
-        await sendToTarget(view, target, "Runtime.releaseObject", { objectId }).catch(
-          () => undefined,
-        );
+        await sendToTarget(view, target, 'Runtime.releaseObject', { objectId }).catch(() => undefined);
       }
       if (!frameId) return { target, ownedSessionIds };
 
@@ -173,19 +158,18 @@ async function resolveFocusedInputTarget(
         continue;
       }
 
-      const isolatedWorld = (await sendToTarget(view, target, "Page.createIsolatedWorld", {
+      const isolatedWorld = await sendToTarget(view, target, 'Page.createIsolatedWorld', {
         frameId,
         grantUniveralAccess: false,
-        worldName: "browser-use-virtual-clipboard",
-      }).catch(() => undefined)) as { executionContextId?: number } | undefined;
+        worldName: 'browser-use-virtual-clipboard',
+      }).catch(() => undefined) as { executionContextId?: number } | undefined;
       if (isolatedWorld?.executionContextId) {
         target = { ...target, contextId: isolatedWorld.executionContextId };
         continue;
       }
 
       sessionId = await waitForFrameSession(view, frameId);
-      if (!sessionId)
-        throw new Error("Browser Use could not resolve an input target for frame " + frameId);
+      if (!sessionId) throw new Error('Browser Use could not resolve an input target for frame ' + frameId);
       ownedSessionIds.push(sessionId);
       target = { sessionId };
       await enableAttachedSession(view, sessionId);
@@ -217,24 +201,24 @@ export async function assertFocusedInputTarget(
     };
     return deepest(document)?.[${JSON.stringify(IAB_INPUT_TARGET_TOKEN_PROPERTY)}] === ${JSON.stringify(inputTargetToken)};
   })()`;
-  const response = (await sendToTarget(
+  const response = await sendToTarget(
     view,
     target,
-    "Runtime.evaluate",
+    'Runtime.evaluate',
     evaluationParams(target, expression, true),
-  )) as EvaluationResponse;
+  ) as EvaluationResponse;
   const error = evaluationError(response);
-  if (error) throw new Error("Browser Use could not verify the focused input target: " + error);
+  if (error) throw new Error('Browser Use could not verify the focused input target: ' + error);
   if (response.result?.value !== true) {
-    throw new Error("Active element is no longer the expected input target");
+    throw new Error('Active element is no longer the expected input target');
   }
 }
 
 function shouldIncludeRichText(url: string): boolean {
   try {
     const parsed = new URL(url);
-    if (parsed.host !== "docs.google.com") return true;
-    return parsed.pathname.split("/").filter(Boolean)[0] !== "spreadsheets";
+    if (parsed.host !== 'docs.google.com') return true;
+    return parsed.pathname.split('/').filter(Boolean)[0] !== 'spreadsheets';
   } catch {
     return true;
   }
@@ -242,12 +226,12 @@ function shouldIncludeRichText(url: string): boolean {
 
 function htmlForText(text: string): string {
   return text
-    .replace(/&/gu, "&amp;")
-    .replace(/</gu, "&lt;")
-    .replace(/>/gu, "&gt;")
-    .replace(/"/gu, "&quot;")
-    .replace(/\r\n/gu, "<br>")
-    .replace(/[\r\n\u2028\u2029]/gu, "<br>");
+    .replace(/&/gu, '&amp;')
+    .replace(/</gu, '&lt;')
+    .replace(/>/gu, '&gt;')
+    .replace(/"/gu, '&quot;')
+    .replace(/\r\n/gu, '<br>')
+    .replace(/[\r\n\u2028\u2029]/gu, '<br>');
 }
 
 export async function pasteTextIntoFocusedTarget(
@@ -257,12 +241,11 @@ export async function pasteTextIntoFocusedTarget(
 ): Promise<void> {
   const { target, ownedSessionIds } = await resolveFocusedInputTarget(view, options.initialTarget);
   try {
-    const includeRichText =
-      options.includeRichText ?? shouldIncludeRichText(view.webContents.getURL());
-    const entries = [{ mime_type: "text/plain", text }];
-    if (includeRichText) entries.push({ mime_type: "text/html", text: htmlForText(text) });
+    const includeRichText = options.includeRichText ?? shouldIncludeRichText(view.webContents.getURL());
+    const entries = [{ mime_type: 'text/plain', text }];
+    if (includeRichText) entries.push({ mime_type: 'text/html', text: htmlForText(text) });
     const args = {
-      clipboardItems: [{ entries, presentation_style: "unspecified" }],
+      clipboardItems: [{ entries, presentation_style: 'unspecified' }],
       ...(options.inputTargetToken == null ? {} : { inputTargetToken: options.inputTargetToken }),
       replaceInputValue: options.replaceInputValue === true,
       richTextFallback: includeRichText,
@@ -277,22 +260,23 @@ export async function pasteTextIntoFocusedTarget(
         return { ok: false, error: error instanceof Error ? error.message : String(error) };
       }
     })()`;
-    const response = (await sendToTarget(
+    const response = await sendToTarget(
       view,
       target,
-      "Runtime.evaluate",
+      'Runtime.evaluate',
       evaluationParams(target, expression, true, true),
-    )) as EvaluationResponse;
+    ) as EvaluationResponse;
     const prefix = "Browser Use encountered an error interacting with this webpage's clipboard: ";
     const error = evaluationError(response);
     if (error) throw new Error(prefix + error);
     const value = response.result?.value;
-    if (!value || typeof value !== "object" || !("ok" in value)) {
-      throw new Error(prefix + "type returned an invalid result");
+    if (!value || typeof value !== 'object' || !('ok' in value)) {
+      throw new Error(prefix + 'type returned an invalid result');
     }
     if (value.ok !== true) {
-      const message =
-        "error" in value && typeof value.error === "string" ? value.error : "type failed";
+      const message = 'error' in value && typeof value.error === 'string'
+        ? value.error
+        : 'type failed';
       throw new Error(prefix + message);
     }
   } finally {

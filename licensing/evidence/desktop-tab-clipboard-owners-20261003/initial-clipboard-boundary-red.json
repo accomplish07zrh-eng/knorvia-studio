@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-name-pattern=clipboard: token",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "95d1470574389f2169c82d853e33a00b3118a80604aead52b8895348ca7ee110"
+    }
+  ],
+  "stdout": "✖ clipboard: token confirmation, no top-frame fallback and existing type consumer composition (80.400806ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 368.883007\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:96:1\n✖ clipboard: token confirmation, no top-frame fallback and existing type consumer composition (80.400806ms)\n  AssertionError [ERR_ASSERTION]: The validation function is expected to return \"true\". Received false\n  \n  Caught error:\n  \n  Error: synchronous release\n      at async TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:111:2)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: Error: synchronous release\n        at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs:109:73)\n        at async Test.run (node:internal/test_runner/test:1389:7)\n        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3),\n    operator: 'rejects',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_OWNER_BASELINE": "/tmp/knorvia-desktop-tab-clipboard-baseline"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "95d1470574389f2169c82d853e33a00b3118a80604aead52b8895348ca7ee110"
+    }
+  ],
+  "stdout": "✔ residency: per-window serialized eviction, stale restoration generation and copied observations (35.234372ms)\n✔ recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine (60.080384ms)\n✔ recovery: history/count/UTF8 budget compatibility and mutation failure recovery (13.661967ms)\n✔ clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget (40.520269ms)\n✔ clipboard: token confirmation, no top-frame fallback and existing type consumer composition (34.77453ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 466.440357\n",
+  "stderr": "",
+  "exitCode": 0
+}

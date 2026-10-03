@@ -1,0 +1,30 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/README.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/corrections-and-access.md",
+    "specs/knorvia-desktop-tab-clipboard-owners-20261003.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/README.md",
+      "sha256": "788adca09fa4d8c365b43f2f08d53ce5f840957111f3541c98b957a2bc88bc38"
+    },
+    {
+      "path": "licensing/evidence/desktop-tab-clipboard-owners-20261003/corrections-and-access.md",
+      "sha256": "614ee106de7680579b22d1f818560774b71bd8d36bcc1eee2a4391fda3f32284"
+    },
+    {
+      "path": "specs/knorvia-desktop-tab-clipboard-owners-20261003.md",
+      "sha256": "534e1e8dbb89c2a57ba104fb03b22e4e165ea683f2543d05d2a54edf614f0847"
+    }
+  ],
+  "stdout": "Finished in 106ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

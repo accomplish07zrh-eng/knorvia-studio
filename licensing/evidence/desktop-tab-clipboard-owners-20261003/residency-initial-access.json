@@ -1,0 +1,9 @@
+{
+  "readPaths": [
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/common-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/residency-owner-contract.md",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-policy.d.ts",
+    "licensing/evidence/desktop-tab-clipboard-owners-20261003/public-view.d.ts"
+  ],
+  "accessExceptions": []
+}

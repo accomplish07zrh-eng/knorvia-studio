@@ -23,10 +23,9 @@ export class BrowserTabResidencyCoordinator {
   ) {}
 
   upsert(candidate: BrowserTabResidencyCandidate): BrowserTabResidencyRecord {
-    const existing = this.records.get(candidate.tabId);
     const record: BrowserTabResidencyRecord = {
       ...candidate,
-      generation: existing?.generation ?? 0,
+      generation: this.records.get(candidate.tabId)?.generation ?? 0,
     };
     this.records.set(candidate.tabId, record);
     this.requestEvaluation(record.windowId);

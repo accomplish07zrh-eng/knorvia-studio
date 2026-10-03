@@ -1,0 +1,9 @@
+{
+  "owner": "residency",
+  "version": "initial",
+  "completeReportedBeforeFreeze": true,
+  "reportedSha256": "a0f187308273eec1b822e27262171533d2308f2a8edb4943341a9fa299e70c75",
+  "actualSha256": "a0f187308273eec1b822e27262171533d2308f2a8edb4943341a9fa299e70c75",
+  "bytes": 7861,
+  "reviewBeforeFreeze": false
+}

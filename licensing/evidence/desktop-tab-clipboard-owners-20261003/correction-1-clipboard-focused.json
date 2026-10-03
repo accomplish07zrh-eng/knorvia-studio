@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-name-pattern=clipboard:",
+    "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "sha256": "95d1470574389f2169c82d853e33a00b3118a80604aead52b8895348ca7ee110"
+    }
+  ],
+  "stdout": "✔ clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget (68.440309ms)\n✔ clipboard: token confirmation, no top-frame fallback and existing type consumer composition (45.017549ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 391.096155\n",
+  "stderr": "",
+  "exitCode": 0
+}
