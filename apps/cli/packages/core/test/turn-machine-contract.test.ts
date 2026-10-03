@@ -26,6 +26,33 @@ function call(patch: Partial<ToolCallState> = {}): ToolCallState {
   return { id: CALL_ID, name: "synthetic", input: {}, status: "scheduled", ...patch };
 }
 
+test("tool scheduling, start and completion preserve legacy sparse slots and untouched references", () => {
+  const calls: ToolCallState[] = [];
+  calls.length = 4;
+  calls[1] = call();
+  calls[3] = call({ id: "other" as ToolCallId });
+  const owner = machine({ phase: TurnPhase.Streaming, toolCalls: calls });
+  const scheduled = owner.scheduleTools(calls, {
+    items: [],
+    parallelGroups: [],
+    executionOrder: [CALL_ID],
+  });
+  const started = machine({ ...scheduled }).startToolExecution();
+  const completed = machine({ ...started }).completeTool(CALL_ID, {
+    success: true,
+    content: "sparse result",
+  });
+  for (const projected of [scheduled, started, completed]) {
+    assert.equal(projected.toolCalls.length, 4);
+    assert.deepEqual(Object.keys(projected.toolCalls), ["1", "3"]);
+    assert.equal(Object.hasOwn(projected.toolCalls, 0), false);
+    assert.equal(Object.hasOwn(projected.toolCalls, 2), false);
+  }
+  assert.equal(completed.toolCalls[3], started.toolCalls[3]);
+  assert.equal(calls[1].status, "scheduled");
+  assert.equal(owner.state.toolCalls, calls);
+});
+
 test("transitions return projections without committing state, including after public state replacement", () => {
   const owner = machine();
   const initial = owner.state;
@@ -45,7 +72,11 @@ test("transitions return projections without committing state, including after p
 
 test("supplied empty ids survive nullish defaults and model admission retains its error", () => {
   const owner = TurnMachineImpl.create(
-    "owned-session" as SessionId, 1, "", "" as TraceId, "" as TurnId,
+    "owned-session" as SessionId,
+    1,
+    "",
+    "" as TraceId,
+    "" as TurnId,
   );
   assert.equal(owner.state.id, "");
   assert.equal(owner.state.traceId, "");
@@ -60,7 +91,10 @@ test("supplied empty ids survive nullish defaults and model admission retains it
 test("streaming appends text and schedule projection strips extras while retaining schedule identity", () => {
   const owner = machine({ phase: TurnPhase.AwaitingModelResponse, streamingContent: "prefix" });
   assert.equal(owner.receiveModelResponse(" one").streamingContent, "prefix one");
-  owner.state = machine({ phase: TurnPhase.AwaitingModelResponse, streamingContent: "prefix" }).state;
+  owner.state = machine({
+    phase: TurnPhase.AwaitingModelResponse,
+    streamingContent: "prefix",
+  }).state;
   assert.equal(owner.addStreamingContent(" two").streamingContent, "prefix two");
   owner.state = machine({ phase: TurnPhase.Streaming, streamingContent: "prefix" }).state;
   assert.throws(() => owner.addStreamingContent(" rejected"), {
@@ -71,7 +105,13 @@ test("streaming appends text and schedule projection strips extras while retaini
   const projected = owner.scheduleTools([input, input], schedule);
   assert.equal(projected.scheduledTools, schedule);
   assert.equal(projected.toolCalls[0].input, input.input);
-  assert.deepEqual(Object.keys(projected.toolCalls[0]), ["id", "name", "input", "status", "scheduledAt"]);
+  assert.deepEqual(Object.keys(projected.toolCalls[0]), [
+    "id",
+    "name",
+    "input",
+    "status",
+    "scheduledAt",
+  ]);
   assert.notEqual(projected.toolCalls[0], projected.toolCalls[1]);
   assert.notEqual(projected.toolCalls[0].scheduledAt, projected.toolCalls[1].scheduledAt);
 });
@@ -104,11 +144,16 @@ test("completion updates all duplicate ids, preserves nonmatches and appends unm
   assert.equal(Object.hasOwn(completed.toolResults[0], "error"), true);
   assert.equal(completed.toolResults[0].error, undefined);
   assert.equal(one.status, "scheduled");
-  const unmatched = owner.completeTool("missing" as ToolCallId, { success: false, content: "failed result" });
+  const unmatched = owner.completeTool("missing" as ToolCallId, {
+    success: false,
+    content: "failed result",
+  });
   assert.equal(unmatched.toolResults.length, 1);
   assert.equal(unmatched.toolCalls[0], one);
   assert.deepEqual(unmatched.toolResults[0].error, {
-    type: "tool_error", message: "failed result", recoverable: true,
+    type: "tool_error",
+    message: "failed result",
+    recoverable: true,
   });
 });
 
@@ -133,8 +178,16 @@ test("permission projection shares requests, edits every duplicate and honors al
   const first = call({ input });
   const duplicate = call({ input });
   const unrelated = call({ id: "other" as ToolCallId });
-  const request = { toolCallId: CALL_ID, toolName: "synthetic", riskLevel: "low", requestedAt: new Date(0) };
-  const owner = machine({ phase: TurnPhase.SchedulingTools, toolCalls: [first, duplicate, unrelated] });
+  const request = {
+    toolCallId: CALL_ID,
+    toolName: "synthetic",
+    riskLevel: "low",
+    requestedAt: new Date(0),
+  };
+  const owner = machine({
+    phase: TurnPhase.SchedulingTools,
+    toolCalls: [first, duplicate, unrelated],
+  });
   const requested = owner.requestPermission(request);
   assert.equal(requested.pendingPermissions[0], request);
   assert.equal(requested.toolCalls[2], unrelated);
@@ -148,7 +201,10 @@ test("permission projection shares requests, edits every duplicate and honors al
       assert.equal(projected.toolCalls[2], unrelated);
       assert.equal(projected.toolCalls[0].input, modified ?? input);
       assert.equal(projected.toolCalls[1].input, modified ?? input);
-      assert.equal(projected.toolCalls[0].status, decision === "deny" ? "permission_denied" : "waiting_permission");
+      assert.equal(
+        projected.toolCalls[0].status,
+        decision === "deny" ? "permission_denied" : "waiting_permission",
+      );
       assert.equal(projected.resolvedPermissions.at(-1)?.modifiedInput, modified);
       assert.ok(projected.resolvedPermissions.at(-1)?.resolvedAt instanceof Date);
     }
@@ -156,15 +212,40 @@ test("permission projection shares requests, edits every duplicate and honors al
 });
 
 test("next phase preserves running/waiting gates and failed/denied precedence", () => {
-  assert.equal(machine({ phase: TurnPhase.Streaming, streamingContent: "owned" }).getNextPhase(), TurnPhase.Completing);
-  assert.equal(machine({ phase: TurnPhase.Streaming, streamingContent: "owned", toolCalls: [call()] }).getNextPhase(), TurnPhase.SchedulingTools);
+  assert.equal(
+    machine({ phase: TurnPhase.Streaming, streamingContent: "owned" }).getNextPhase(),
+    TurnPhase.Completing,
+  );
+  assert.equal(
+    machine({
+      phase: TurnPhase.Streaming,
+      streamingContent: "owned",
+      toolCalls: [call()],
+    }).getNextPhase(),
+    TurnPhase.SchedulingTools,
+  );
   for (const status of ["running", "waiting_permission"] as const) {
-    assert.equal(machine({ phase: TurnPhase.ExecutingTools, toolCalls: [call({ status })] }).getNextPhase(), TurnPhase.ExecutingTools);
+    assert.equal(
+      machine({ phase: TurnPhase.ExecutingTools, toolCalls: [call({ status })] }).getNextPhase(),
+      TurnPhase.ExecutingTools,
+    );
   }
-  assert.equal(machine({ phase: TurnPhase.ExecutingTools }).getNextPhase(), TurnPhase.AggregatingResults);
-  assert.equal(machine({ phase: TurnPhase.AggregatingResults }).getNextPhase(), TurnPhase.AwaitingModelResponse);
+  assert.equal(
+    machine({ phase: TurnPhase.ExecutingTools }).getNextPhase(),
+    TurnPhase.AggregatingResults,
+  );
+  assert.equal(
+    machine({ phase: TurnPhase.AggregatingResults }).getNextPhase(),
+    TurnPhase.AwaitingModelResponse,
+  );
   for (const status of ["failed", "permission_denied"] as const) {
-    assert.equal(machine({ phase: TurnPhase.AggregatingResults, toolCalls: [call({ status })] }).getNextPhase(), TurnPhase.Completing);
+    assert.equal(
+      machine({
+        phase: TurnPhase.AggregatingResults,
+        toolCalls: [call({ status })],
+      }).getNextPhase(),
+      TurnPhase.Completing,
+    );
   }
 });
 
