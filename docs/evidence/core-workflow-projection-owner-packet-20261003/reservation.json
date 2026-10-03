@@ -1,0 +1,138 @@
+{
+  "baseline": "cf1fcca3fa8d4ea3fa1a7f6dc3d9a2ad9607d1c5",
+  "scopes": {
+    "format": {
+      "source": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+        "bytes": 14662,
+        "lines": 266,
+        "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b"
+      },
+      "originRecord": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+        "kind": "file",
+        "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+        "normalizedSha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+        "encoding": "utf8-lf",
+        "bytes": 14662,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+          "blob": "02d6bf1266a41348a8a028acc7a2ac3d94b105e2",
+          "normalizedSha256": "ba78f5d7e3d231723c7355efcc0debd5bace053150c5470b503ab2feea2ed885",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    },
+    "projection": {
+      "source": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+        "bytes": 5753,
+        "lines": 127,
+        "sha256": "f2510e9d6d2643400f58bde25823d4ae75d0d932b7ab8f618dd6849c94d2baab"
+      },
+      "originRecord": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+        "kind": "file",
+        "sha256": "f2510e9d6d2643400f58bde25823d4ae75d0d932b7ab8f618dd6849c94d2baab",
+        "normalizedSha256": "f2510e9d6d2643400f58bde25823d4ae75d0d932b7ab8f618dd6849c94d2baab",
+        "encoding": "utf8-lf",
+        "bytes": 5753,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run-roster-output.ts",
+          "blob": "db4f6502ec88469f94d17e6626ac4592fc45c792",
+          "normalizedSha256": "4f45b966ec4aa9c3f34b71a3fe567d6c846187253f0d139360a106d4f6e79ba8",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    },
+    "frontmatter": {
+      "source": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+        "bytes": 5390,
+        "lines": 131,
+        "sha256": "e9a9113081afab46df9cb79bad8ea18b3897059efb58a7138c5987f8388ca2a5"
+      },
+      "originRecord": {
+        "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+        "kind": "file",
+        "sha256": "e9a9113081afab46df9cb79bad8ea18b3897059efb58a7138c5987f8388ca2a5",
+        "normalizedSha256": "e9a9113081afab46df9cb79bad8ea18b3897059efb58a7138c5987f8388ca2a5",
+        "encoding": "utf8-lf",
+        "bytes": 5390,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/saved-workflows/frontmatter.ts",
+          "blob": "21d525bbf30194d45300bc0613da88cb5fa0d18c",
+          "normalizedSha256": "a17682c4a54a30def88cb77823dbc7810eb2692c9b130b3bc4c958c7953d473b",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    },
+    "notes": {
+      "source": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+        "bytes": 4416,
+        "lines": 86,
+        "sha256": "f53af315077d7553f40d98987bf30ecb20b3879ea8a94d68ec98553b431835ea"
+      },
+      "originRecord": {
+        "path": "apps/cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+        "kind": "file",
+        "sha256": "f53af315077d7553f40d98987bf30ecb20b3879ea8a94d68ec98553b431835ea",
+        "normalizedSha256": "f53af315077d7553f40d98987bf30ecb20b3879ea8a94d68ec98553b431835ea",
+        "encoding": "utf8-lf",
+        "bytes": 4416,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/tool/handlers/workflow-script-notes.ts",
+          "blob": "a540519ff4472caecaeaeb9404604aa0198e73e1",
+          "normalizedSha256": "484c3f314d2d573bde53d119c825d9fcf1ca42cd7cf2b6525c6666c1a7964f80",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    }
+  },
+  "holds": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary.ts",
+      "localSha256": "b201973924df1b9741fb3be169c37001ed4d06d161f6d70f830be93fc04957a0",
+      "rootSha256": "59d19958a577bcab782724c6397b839ff5f9457fba87621bbc78eeafb7007747",
+      "decision": "Root accepted independent replacement, local older held unchanged until integration"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "localSha256": "c885fe9a8ab058a6deb2fb71a2a5347ee20d352ac27fa27e50fd5d27edf1e45e",
+      "rootSha256": "d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493",
+      "decision": "Root hash differs, requires receipt reconciliation, not reauthor/import"
+    }
+  ],
+  "allocation": "Root four exact matching hashes/no accepted reviews. Earlier workflow-summary fast receipt names them protected inputs only, not whole replacements. Four complete projection/formatting/codec source owners; fixed prose/schema/metadata/common parsing data retained honestly without novelty credit.",
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21
+}

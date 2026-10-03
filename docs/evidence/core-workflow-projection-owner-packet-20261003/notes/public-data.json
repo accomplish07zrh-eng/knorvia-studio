@@ -1,0 +1,10 @@
+{
+  "data": [
+    {
+      "owner": "apps/cli/packages/contracts/src/tools/create-workflow.ts",
+      "publicName": "CreateWorkflowDiagnosticSchema",
+      "staticInitializer": "z\n  .object({\n    code: z.number(),\n    column: z.number(),\n    line: z.number(),\n    message: z.string(),\n  })\n  .strict()"
+    }
+  ],
+  "qualification": "Existing public schema/constant/metadata expressions remain original opaque owners; consume originals, do not implement or assign novelty/licensing credit. Source exported sentinel initializers exact."
+}
