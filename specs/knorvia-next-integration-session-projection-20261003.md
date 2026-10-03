@@ -4,7 +4,7 @@
 
 ## 范围与写入模型
 
-完整替换 `apps/cli/packages/contracts/src/events/event-reducer.ts` 与 helpers 的运行时转换 owner，增加包内 projection-transition / projection-ledgers 实现文件。保留 EventReducer、reduce、apply、helpers 既有导出及签名；不改 SessionProjection、SessionEvent、ports、schemas、barrels、core/runtime、shared 或其他 lane 文件。
+完整替换 `apps/cli/packages/contracts/src/events/event-reducer.ts` 与 helpers 的运行时转换 owner，增加包内 projection-transition / projection-ledgers / projection-queue 实现文件。保留 EventReducer、reduce、apply、helpers 既有导出及签名；不改 SessionProjection、SessionEvent、ports、schemas、barrels、core/runtime、shared 或其他 lane 文件。
 
 原每实例 handlers closure 集合改成无实例状态的事件转换：只从输入 projection 读取，各领域计算一个 typed Partial<SessionProjection>；统一 commit 创建新 projection 并写 updatedAt。collection 更新只产生新数组及命中项，不修改输入 projection、事件或未命中项，不设额外队列、后台任务仓库、状态 cache 或真实副作用。压缩/rewind/目标 verifier 继续通过现有 canonical parser/helper，解析错误原样传播。
 
