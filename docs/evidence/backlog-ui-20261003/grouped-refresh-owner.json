@@ -1,0 +1,66 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Grouped refresh request acceptance and direct hook installation only; not mutations/optimistic/promoted persistence",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Original refresh, initialization, cache, scopes, join and callers read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared job/permission scenarios do not validate actual React effects, Controller/RPC or persistence",
+  "priorCacheCheckpoint": "b719b195b33a22db1c5b9766c656d8f2f1c1d2e9",
+  "explicitCorrections": [
+    "Scope/service change or unmount revokes old refresh and invalidates remote cache",
+    "Late jobs cannot write view/carry cache or finish newer loading/initialization",
+    "Effect replay can activate a new scope without older cleanup closing it"
+  ],
+  "retainedBehavior": [
+    "Loading=true only with no authoritative nodes",
+    "Newest request alone logs errors and ends first-screen gate on success/failure",
+    "Accepted remote key/value joins latest Controller sessions and stabilizes current view"
+  ],
+  "remaining": [
+    "Hook optimistic/mutations/promoted persistence owners",
+    "Full drag/pointer/rollback lifecycle",
+    "Other Studio/v4 and React/DOM/emitted/recovery acceptance"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "baseBlob": "2f391ffd57356e66b8c28f6f114e145018c02e7e",
+      "baseSha256": "66b5039e02f56db74a3cd42a8a0996f3edc913fe5d99bad44af102d6987ed763",
+      "candidateSha256": "287ff7efd058bb278cc9b0250d8084724b576f2dba81aec1d5b5392313a85673",
+      "candidateBytes": 37268,
+      "candidateRole": "partial refresh/cache installation; remaining hook body retained and unreviewed",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "blob": "00ab8f20c321e14cc228d23266cf63634e5337a5",
+          "normalizedSha256": "589972fdb443b7ed1cff98c489e1976211a0ea71f38a284a7c8e5833f48f7f2c",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedRefreshOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "3dcdf5747cf6414caeb224a081f4a36d830cb875054b3ffc33204513ef16487c",
+      "candidateBytes": 1369,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "75c7089a643056519080b4a8ade6f251492f8411e0de4a04cb6dc5de4f66d82e",
+      "candidateBytes": 4158,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

@@ -19,8 +19,15 @@
   的窗口保持，不新增 TTL/存储 key/数据库数据。
 - 首屏、membership/structure 的 key、Controller sessions join、optimistic
   projection 和 promoted draft 持久化规则不借本批改动。原 hook 仍拥有 view。
-- 旧 hook 卸载的 refresh 接受权清理需后续显式 owner 批次实现；不能把缓存替换
-  称整个 hook 已重写。该缺口及 mutation/overlay owner 继续留在未完成清单。
+- 首屏 refresh 仅在当前 view 无节点时 loading=true；最新请求不论成功/失败
+  最终 loading=false 且初始化门禁结束。仅当前请求记录一次错误；接受还须通过
+  remote cache 的 key/value 判定。build/join/accept 抛错沿用同一错误日志。
+- 后续 refresh 接受权 owner 批次：scope/service 替换、卸载和 effect replay
+  撤销旧 refresh 接受权并 invalidate remote cache。旧调用者仍可收到 Promise
+  完成，但不得回写 view/carry cache、关闭新 loading 或重开新初始化门禁。
+  此为旧 hook 没有 refresh cleanup 的显式修复；RPC 不增加 abort 接口。
+- 缓存及 refresh owner 的替换不能称整个 hook 已重写。mutation、overlay 和
+  promoted persistence owner 仍保留在未完成清单，不以本批撤销其写入权限。
 
 ## 拖拽目标投影
 

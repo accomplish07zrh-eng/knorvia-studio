@@ -31,6 +31,7 @@ import { taskKey as groupedTaskKey } from "@/workspace-grouped-tasks/ids.js";
 import {
   GroupedRemoteDataSingleFlight, readCachedGroupedView, writeCachedGroupedView,
 } from "@/workspace-grouped-tasks/groupedRemoteDataCache.js";
+import { GroupedTaskViewRefreshOwner } from "@/workspace-grouped-tasks/groupedRefreshOwner.js";
 
 function applyPromotedGroupPlacements(
   view: KnorviaGroupedTaskView,
@@ -544,7 +545,6 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     () => readCachedGroupedView(localWorkspaceScopeSignature) !== undefined,
   );
   const [saving, setSaving] = useState(false);
-  const requestIdRef = useRef(0);
   const taskListVersionSignature = useKnorviaSessionStore((state) =>
     JSON.stringify(
       params.workspaceTabs.map((tab) => {
@@ -632,84 +632,46 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     remoteDataLoader.invalidate();
   }, [remoteDataLoader]);
 
-  const refresh = useCallback(async () => {
-    const requestId = requestIdRef.current + 1;
-    requestIdRef.current = requestId;
-    // loading 只表达「首屏还没有任何权威节点」。运行中任务每输出一次 tool 结果都会
-    // 触发一轮后台 refresh，如果这里无条件置位，空态文案与首屏门禁都会随之闪一下。
-    if (viewRef.current.nodes.length === 0) {
-      setLoading(true);
-    }
-    try {
-      // tasks-index 同时提供持久 task 行和分组结构；sessions-index 只 enrich activity/detail。
-      // grouped 侧边栏必须跟随当前打开的 workspace scope，
-      // 不传 includeAllWorkspaces，避免其它 workspace 的分组混入。
-      const remoteDataKey = [
-        membershipVersion,
-        taskListVersionSignature,
-        scopes
-          .map((scope) => buildTaskWorkspaceKey(scope.workspacePath, scope.workspaceIdentity))
-          .join("|"),
-      ].join("::");
-      const remoteData = await remoteDataLoader.load(remoteDataKey, async () => {
-        const [structureResult, membershipResult] = await Promise.all([
-          services.taskService.listGroupedTaskViewStructure({
-            workspaceScopes: scopes,
-          }),
-          fetchTaskListMembershipSets({
-            service: services.taskService,
-            scopes: sessionsIndexScopes,
-          }),
+  const [refreshOwner] = useState(() => new GroupedTaskViewRefreshOwner());
+  const refresh = useCallback(() => {
+    const remoteDataKey = [membershipVersion, taskListVersionSignature,
+      scopes.map((scope) => buildTaskWorkspaceKey(scope.workspacePath, scope.workspaceIdentity)).join("|"),
+    ].join("::");
+    return refreshOwner.run({
+      hasNodes: () => viewRef.current.nodes.length > 0,
+      setLoading,
+      initialize: () => setRemoteDataInitialized(true),
+      onError: (error) => logger.error("[useGroupedTaskView] 加载 grouped task 视图失败", error),
+      load: () => remoteDataLoader.load(remoteDataKey, async () => {
+        const [structure, membership] = await Promise.all([
+          services.taskService.listGroupedTaskViewStructure({ workspaceScopes: scopes }),
+          fetchTaskListMembershipSets({ service: services.taskService, scopes: sessionsIndexScopes }),
         ]);
-        return {
-          structure: structureResult,
-          membership: membershipResult,
-        };
-      });
-      if (
-        requestIdRef.current === requestId &&
-        remoteDataLoader.isCurrent(remoteDataKey, remoteData)
-      ) {
-        const { structure, membership } = remoteData;
+        return { structure, membership };
+      }),
+      isCurrent: (remoteData) => remoteDataLoader.isCurrent(remoteDataKey, remoteData),
+      accept: ({ structure, membership }) => {
         const nextView = buildGroupedTaskViewFromSessions({
-          structure,
-          taskIndexItems: membership.taskIndexItems,
-          sessions: sessionsIndexItemsRef.current,
-          pinnedIds: membership.pinnedIds,
-          archivedIds: membership.archivedIds,
-          deletedIds: membership.deletedIds,
+          structure, taskIndexItems: membership.taskIndexItems, sessions: sessionsIndexItemsRef.current,
+          pinnedIds: membership.pinnedIds, archivedIds: membership.archivedIds, deletedIds: membership.deletedIds,
         });
-        // 内容没变时复用旧视图/旧节点引用，setState 同引用直接 bail，避免整列表无效重渲染。
-        // 用 viewRef 读当前视图而不是在 updater 里做副作用：StrictMode 会重复调用 updater。
         const stabilizedView = stabilizeGroupedView(viewRef.current, nextView);
         writeCachedGroupedView(localWorkspaceScopeSignature, stabilizedView);
         setView(stabilizedView);
-      }
-    } catch (error) {
-      // 同一 remote Promise 可能被多次 refresh 共享；只由最新请求记录一次失败，避免错误路径
-      // 重新形成日志风暴。旧请求仍会进入 finally，但不能关闭最新一代 loading。
-      if (requestIdRef.current === requestId) {
-        logger.error("[useGroupedTaskView] 加载 grouped task 视图失败", error);
-      }
-    } finally {
-      if (requestIdRef.current === requestId) {
-        setLoading(false);
-        // 首次请求无论成功还是失败都结束初始化门禁；失败由日志记录并进入空态，
-        // 避免永久 loading。后续 refresh 保留既有列表，不再回到首次加载态。
-        setRemoteDataInitialized(true);
-      }
-    }
-  }, [
-    localWorkspaceScopeSignature,
-    membershipVersion,
-    remoteDataLoader,
-    scopes,
-    sessionsIndexScopes,
-    services.taskService,
-    taskListVersionSignature,
-  ]);
+      },
+    });
+  }, [localWorkspaceScopeSignature, membershipVersion, refreshOwner, remoteDataLoader,
+    scopes, sessionsIndexScopes, services.taskService, taskListVersionSignature]);
   const refreshRef = useRef(refresh);
   refreshRef.current = refresh;
+
+  useEffect(() => {
+    const deactivate = refreshOwner.activate();
+    return () => {
+      deactivate();
+      remoteDataLoader.invalidate();
+    };
+  }, [localWorkspaceScopeSignature, refreshOwner, remoteDataLoader, services.taskService]);
 
   useEffect(() => {
     const authoritativeTaskKeys = collectGroupedViewTaskKeys(view);
