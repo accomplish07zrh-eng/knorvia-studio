@@ -51,9 +51,10 @@ TS6305 后有大量级联诊断。没有把它写成通过，也没有为此重�
 
 - 源码 HTTP/Web 未注册 `window-controller` 通道；订阅和 pinned 读取报超时。
   全局 pinned/grouped 列表需父任务协调 Web/Controller 装配，不在本路加 fallback。
-- 多次浏览器新进程观察到 `OnboardingDialog` hook 顺序错误，error boundary 捕获
-  `areHookInputsEqual` TypeError。功能步骤可继续，但不能宣称 console 无错；转交
-  原 onboarding/service hook 范围继续定位，不以 pageerror 数组为空遮蔽已捕获错误。
+- 原多次浏览器新进程的 `OnboardingDialog` hook 顺序错误已在本路后续修复；
+  真实冷启动、两项目草稿与 reload 的 Hook/caught boundary 错误为零，见
+  [修复绑定](workspace-service-hook-fix.json) 和 [新实际结果](web-workspace-service-startup-results.json)。
+  原失败记录不改写；Controller 错误仍存在，不能宣称完整 console 无错。
 - 真实 Agent 运行所需构建产物缺失，索引订阅返回
   `KNORVIA_AGENT_RUNTIME_UNAVAILABLE`；真实历史消息、执行/续接、运行中恢复待验收。
 - 旧 Host 停止后 cleanup 报剩余 esbuild zombie（PID 17570、PPid 1），exit 1。
@@ -66,3 +67,5 @@ TS6305 后有大量级联诊断。没有把它写成通过，也没有为此重�
 
 本路仍为 source-exposed / Apache-2.0 过渡候选。版权、LICENSE、NOTICE、依赖及全局
 来源清单保留；这些 GUI/数据证据不构成 MIT 权利决定。
+
+准确路径、调用链、复现与可分配范围见 [跨模块交接](cross-module-handoff.md)。
