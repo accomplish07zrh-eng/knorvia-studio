@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { constants } from "node:fs";
+import { constants, type Dirent } from "node:fs";
 import { access, readFile, readdir, stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { delimiter, isAbsolute, join } from "node:path";
@@ -128,38 +128,59 @@ function resolvePathCommand(command: string, env: NodeJS.ProcessEnv): string[] {
     .map((directory) => join(directory, command));
 }
 
+async function* filesInDirectories(
+  directories: string[],
+  admit: (entry: Dirent) => boolean,
+): AsyncGenerator<string> {
+  for (const directory of directories) {
+    let entries: Dirent[];
+    try {
+      entries = await readdir(directory, { withFileTypes: true });
+    } catch {
+      // 系统索引可能包含失效或无权限目录；只丢弃本目录，不丢弃后面的注册来源。
+      continue;
+    }
+    for (const entry of entries) {
+      if (admit(entry)) yield join(directory, entry.name);
+    }
+  }
+}
+
 async function readMacRegisteredChromeExecutablePaths(): Promise<string[]> {
-  const bundleIds = [
+  const query = [
     "com.google.Chrome",
     "com.google.Chrome.beta",
     "com.google.Chrome.dev",
     "com.google.Chrome.canary",
     "com.google.Chrome.forTesting",
     "org.chromium.Chromium",
-  ];
+  ]
+    .map((identifier) => `kMDItemCFBundleIdentifier == '${identifier}'`)
+    .join(" || ");
   try {
-    const output = await execFileText("mdfind", [
-      bundleIds.map((bundleId) => `kMDItemCFBundleIdentifier == '${bundleId}'`).join(" || "),
-    ]);
-    const executablePaths: string[] = [];
-    for (const appPath of output.split(/\r?\n/).filter(Boolean)) {
-      try {
-        const executableDirectory = join(appPath, "Contents", "MacOS");
-        for (const entry of await readdir(executableDirectory, {
-          withFileTypes: true,
-        })) {
-          if ((entry.isFile() || entry.isSymbolicLink()) && isChromeBrowserExecutable(entry.name)) {
-            executablePaths.push(join(executableDirectory, entry.name));
-          }
-        }
-      } catch {
-        // Spotlight 索引可能含已移除应用；忽略陈旧记录并继续检查其他候选。
-      }
+    const applications = (await execFileText("mdfind", [query])).split(/\r?\n/).filter(Boolean);
+    const directories = applications.map((application) => join(application, "Contents", "MacOS"));
+    const paths: string[] = [];
+    for await (const path of filesInDirectories(
+      directories,
+      (entry) => entry.isFile() || entry.isSymbolicLink(),
+    )) {
+      if (isChromeBrowserExecutable(path)) paths.push(path);
     }
-    return uniquePaths(executablePaths);
+    return uniquePaths(paths);
   } catch {
-    // Spotlight 被禁用或受系统策略限制时，仍会继续使用运行进程和标准目录。
+    // Spotlight 不可用时，搜索计划仍会进入标准目录，不把索引可用性当作浏览器存在性。
     return [];
+  }
+}
+
+function* desktopEntryCommands(source: string): Generator<string> {
+  if (!/(?:chrome|chromium)/i.test(source)) return;
+  for (const line of source.split(/\r?\n/)) {
+    const match = /^(?:TryExec|Exec)=(.+)$/.exec(line);
+    if (!match) continue;
+    const command = desktopExecutableToken(match[1]!);
+    if (command) yield command;
   }
 }
 
@@ -167,36 +188,26 @@ async function readLinuxDesktopChromeExecutablePaths(
   options: ChromeExecutableDiscoveryOptions,
 ): Promise<string[]> {
   const env = options.env ?? process.env;
-  const homeDir = options.homeDir ?? homedir();
-  const dataDirectories = uniquePaths([
-    env.XDG_DATA_HOME ?? join(homeDir, ".local", "share"),
+  const directories = uniquePaths([
+    env.XDG_DATA_HOME ?? join(options.homeDir ?? homedir(), ".local", "share"),
     ...(env.XDG_DATA_DIRS ?? "/usr/local/share:/usr/share").split(":"),
-  ]);
-  const executablePaths: string[] = [];
-  for (const dataDirectory of dataDirectories) {
-    const applicationsDirectory = join(dataDirectory, "applications");
+  ]).map((root) => join(root, "applications"));
+  const paths: string[] = [];
+  for await (const path of filesInDirectories(
+    directories,
+    (entry) => entry.isFile() && entry.name.endsWith(".desktop"),
+  )) {
+    let source: string;
     try {
-      for (const entry of await readdir(applicationsDirectory, {
-        withFileTypes: true,
-      })) {
-        if (!entry.isFile() || !entry.name.endsWith(".desktop")) continue;
-        try {
-          const source = await readFile(join(applicationsDirectory, entry.name), "utf8");
-          if (!/(?:chrome|chromium)/i.test(source)) continue;
-          for (const line of source.split(/\r?\n/)) {
-            const value = line.match(/^(?:TryExec|Exec)=(.+)$/)?.[1];
-            const command = value ? desktopExecutableToken(value) : undefined;
-            if (command) executablePaths.push(...resolvePathCommand(command, env));
-          }
-        } catch {
-          // 单个 desktop entry 损坏或无权限不应阻断其他已注册应用发现。
-        }
-      }
+      source = await readFile(path, "utf8");
     } catch {
-      // 某个 XDG applications 目录不存在是正常状态。
+      // 单个注册文件失效不能遮蔽其余 desktop entries。
+      continue;
     }
+    for (const command of desktopEntryCommands(source))
+      paths.push(...resolvePathCommand(command, env));
   }
-  return uniquePaths(executablePaths);
+  return uniquePaths(paths);
 }
 
 function buildLinuxPathChromeExecutablePaths(env: NodeJS.ProcessEnv): string[] {
@@ -225,39 +236,44 @@ async function readRegisteredChromeExecutablePaths(
   return [];
 }
 
+async function* executableSearchPlan(
+  options: ChromeExecutableDiscoveryOptions,
+  platform: NodeJS.Platform,
+  env: NodeJS.ProcessEnv,
+  commandLines: string[],
+): AsyncGenerator<Array<string | undefined>> {
+  yield [
+    stripMatchingQuotes(env.CHROME_PATH ?? ""),
+    stripMatchingQuotes(env.CHROME_EXECUTABLE ?? ""),
+    ...parseRunningChromeExecutablePaths(commandLines),
+  ];
+  yield await readRegisteredChromeExecutablePaths(options, platform);
+  const installations = options.installations ?? buildStandardChromeInstallations(options);
+  yield [
+    ...(platform === "linux" ? buildLinuxPathChromeExecutablePaths(env) : []),
+    ...installations.flatMap(({ executablePath, executablePaths }) => [
+      executablePath,
+      ...executablePaths,
+    ]),
+  ];
+}
+
 export async function resolveChromeExecutablePath(
   options: ChromeExecutableDiscoveryOptions = {},
 ): Promise<string | null> {
   const platform = options.platform ?? process.platform;
-  const env = options.env ?? process.env;
   const commandLines =
     options.processCommandLines ??
     (options.installations ? [] : await readRunningChromeProcessCommandLines(platform));
-  const directlyDiscovered = await resolveFirstExecutable(
-    [
-      stripMatchingQuotes(env.CHROME_PATH ?? ""),
-      stripMatchingQuotes(env.CHROME_EXECUTABLE ?? ""),
-      ...parseRunningChromeExecutablePaths(commandLines),
-    ],
+  // 只有前一层全部不可用才读取下一层；成功后不触碰注册表、索引或标准路径。
+  for await (const paths of executableSearchPlan(
+    options,
     platform,
-  );
-  if (directlyDiscovered) return directlyDiscovered;
-
-  const registered = await resolveFirstExecutable(
-    await readRegisteredChromeExecutablePaths(options, platform),
-    platform,
-  );
-  if (registered) return registered;
-
-  const installations = options.installations ?? buildStandardChromeInstallations(options);
-  return resolveFirstExecutable(
-    [
-      ...(platform === "linux" ? buildLinuxPathChromeExecutablePaths(env) : []),
-      ...installations.flatMap((installation) => [
-        installation.executablePath,
-        ...installation.executablePaths,
-      ]),
-    ],
-    platform,
-  );
+    options.env ?? process.env,
+    commandLines,
+  )) {
+    const selected = await resolveFirstExecutable(paths, platform);
+    if (selected !== null) return selected;
+  }
+  return null;
 }

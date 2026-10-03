@@ -1,0 +1,126 @@
+{
+  "scope": "native-owned acceptance snapshots only; integrator must register this manifest too in the shared frozen registry",
+  "runtimeSourceInput": "ede8382435ed91e9d62300599e925f6fb90532c0",
+  "files": [
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/appimage-extract.log",
+      "bytes": 14468,
+      "sha256": "16a388b27840b6cb2da2c8aae10f9fe4e1199470648368f2730ae60bf79ac15b"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/appimage-target.log",
+      "bytes": 612,
+      "sha256": "8e2077c6397321f4c12ad161d63cb5f1be424302f459739085992ef9cd155e6f"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/architecture-after.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/architecture-before.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/artifact-bindings.json",
+      "bytes": 2457,
+      "sha256": "7610553aa6c8e8fa6967580ee0c96f2e795970ab2d5f516569e61d3ea77daaeb"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/artifact-native-child.cjs",
+      "bytes": 1775,
+      "sha256": "4fdb0c2c3534777c8ac1db84859e2ef73a4e967fdc59d1b9f1b4b7ec9761bdd7"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.json",
+      "bytes": 24648,
+      "sha256": "77abb4a9b741fac2380fbef269f9fd3560d7936b46ba1f1884c2f3bdc7a8fb79"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.log",
+      "bytes": 587,
+      "sha256": "1b937e536c76c10ab6f6422b756de23bd576c70899be82ddea54a70eeea55ccf"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.mjs",
+      "bytes": 8749,
+      "sha256": "7c0f278e1f5a27c474e24545529ad327dd2f70273749a547a36e682fd1e8f543"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/changed-lint.log",
+      "bytes": 90,
+      "sha256": "3a061c422f8fa80e37699ed63cc921b06905f5a0f3ffd1a47a4aadf281590a18"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/commands.json",
+      "bytes": 7305,
+      "sha256": "25f8974b8162c01c5b475098574d2da20fe1e1683083602b530840bd6e5762ac"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/desktop-context.md",
+      "bytes": 313,
+      "sha256": "054b1aa64a8ad685c4a5b92cbe5634eef47620157c857d13987b3d7bc4a28d6e"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/distribution-build-failure.log",
+      "bytes": 112264,
+      "sha256": "2fdb8225ce573599aed3ff3de8b8c69c12fb9d25d7c7422ace2b3d228e83e6e8"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/frozen-install-native-hook-failure.log",
+      "bytes": 3434,
+      "sha256": "295709de9424c6ccfa3c7d8a57fd0d87d4fc2f01cdbbf537a3521d107105f177"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/frozen-install-no-hooks.log",
+      "bytes": 383,
+      "sha256": "6f30f945c13dfe2e0a5640861b821f672c0dd06e45c4a13169764711944e8df1"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/linux-configured-targets-failure.log",
+      "bytes": 17350,
+      "sha256": "c93e21a102bc10d5bdbe5f86cb76a03607b7c0a96fa3db97143fc4d025a5d866"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/linux-desktop-build.log",
+      "bytes": 120544,
+      "sha256": "678805679dcbf9a19f34dc8d432f72154044946d37f24fb6849ee48d5868b56b"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/linux-prepare-before-dependencies.log",
+      "bytes": 5841,
+      "sha256": "6aaeca74703d15c04b86aa249dd3e592d7d955021ceaba0e75754e15fedbc25d"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/linux-prepare.log",
+      "bytes": 5779,
+      "sha256": "e3801940ceb383fc5d3b792b5e9ca2dcca0b6b2b1b2913cfd5db8be1ac7e57ce"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/result.json",
+      "bytes": 9101,
+      "sha256": "ebc969012f953e1ab2cc836e7abb9b7afba6b15959c16a56fb1802428d7b6393"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/retry-after.log",
+      "bytes": 440,
+      "sha256": "e53eaf0327852d586afee012b4e896fd3ff308b388b04a3c293e53f3148faad4"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/retry-before.log",
+      "bytes": 2156,
+      "sha256": "caa50f4bd435a5ba493f2aebeb8b59c126e805c117f0b54185b8f520a5aeac78"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/root-lint-frozen-evidence-failure.log",
+      "bytes": 3108,
+      "sha256": "19385a1f8abe2edf0c71a373b4408a97958c2fb1fc3e8cd740622b65d6f33349"
+    },
+    {
+      "path": "docs/evidence/native-packaged-acceptance-20261003/typecheck.log",
+      "bytes": 523,
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+    }
+  ]
+}

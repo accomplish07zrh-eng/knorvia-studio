@@ -1,0 +1,43 @@
+Scope: all 34 workspace projects
+Lockfile is up to date, resolution step is skipped
+Packages: -248
+--------------------------------------------------------------------------------
+Progress: resolved 0, reused 0, downloaded 1, added 0
+Progress: resolved 0, reused 0, downloaded 4, added 0, done
+
+. prepare$ husky
+. prepare: HUSKY=0 skip install
+. prepare: Done
+packages/desktop postinstall$ node scripts/node-pty-rebuild.mjs
+packages/desktop postinstall: [node-pty] run electron-rebuild (non-windows-platform): /workspace/knorvia-studio/node_modules/node-pty/prebuilds/linux-x64/pty.node
+packages/desktop postinstall: - Searching dependency tree
+packages/desktop postinstall: (node:13691) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+packages/desktop postinstall: (Use `node --trace-deprecation ...` to show where the warning was created)
+packages/desktop postinstall: Error: ENOENT: no such file or directory, mkdir '/home/agent/.electron-gyp'
+packages/desktop postinstall:     at async Object.mkdir (node:internal/fs/promises:856:10)
+packages/desktop postinstall:     at async go (/workspace/knorvia-studio/node_modules/node-gyp/lib/install.js:161:23)
+packages/desktop postinstall:     at async install (/workspace/knorvia-studio/node_modules/node-gyp/lib/install.js:63:18)
+packages/desktop postinstall:     at async getNodeDir (/workspace/knorvia-studio/node_modules/node-gyp/lib/configure.js:79:7)
+packages/desktop postinstall:     at async process.<anonymous> (file:///workspace/knorvia-studio/node_modules/@electron/rebuild/lib/module-type/node-gyp/worker.js:22:13) {
+packages/desktop postinstall:   errno: -2,
+packages/desktop postinstall:   code: 'ENOENT',
+packages/desktop postinstall:   syscall: 'mkdir',
+packages/desktop postinstall:   path: '/home/agent/.electron-gyp'
+packages/desktop postinstall: }
+packages/desktop postinstall: ✖ Rebuild Failed
+packages/desktop postinstall: An unhandled error occurred inside electron-rebuild
+packages/desktop postinstall: node-gyp failed to rebuild '/workspace/knorvia-studio/node_modules/node-pty'
+packages/desktop postinstall: Error: node-gyp failed to rebuild '/workspace/knorvia-studio/node_modules/node-pty'
+packages/desktop postinstall:     at ChildProcess.<anonymous> (file:///workspace/knorvia-studio/node_modules/@electron/rebuild/lib/module-type/node-gyp/node-gyp.js:114:24)
+packages/desktop postinstall:     at ChildProcess.emit (node:events:508:28)
+packages/desktop postinstall:     at ChildProcess._handle.onexit (node:internal/child_process:294:12)
+packages/desktop postinstall: file:///workspace/knorvia-studio/packages/desktop/scripts/node-pty-rebuild.mjs:92
+packages/desktop postinstall:         new Error(
+packages/desktop postinstall:         ^
+packages/desktop postinstall: Error: electron-rebuild failed with code 255 and signal null
+packages/desktop postinstall:     at ChildProcess.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/scripts/node-pty-rebuild.mjs:92:9)
+packages/desktop postinstall:     at ChildProcess.emit (node:events:508:28)
+packages/desktop postinstall:     at ChildProcess._handle.onexit (node:internal/child_process:294:12)
+packages/desktop postinstall: Node.js v24.14.0
+packages/desktop postinstall: Failed
+ ELIFECYCLE  Command failed with exit code 1.

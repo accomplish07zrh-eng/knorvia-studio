@@ -79,67 +79,58 @@ function isReadableText(value: string): boolean {
 }
 
 function readAnnotationAt(buffer: Buffer, index: number): { key: string; value: string } | null {
-  if (index < 4) {
+  if (index < 4 || index >= buffer.length) return null;
+  const keyLength = buffer.readUInt32LE(index - 4);
+  const keyEnd = index + keyLength;
+  if (keyLength === 0 || keyLength > MAX_ANNOTATION_KEY_LENGTH || keyEnd >= buffer.length)
     return null;
-  }
-  let end = index;
-  while (end < buffer.length && end - index < MAX_ANNOTATION_KEY_LENGTH && buffer[end] !== 0) {
-    if (!isPrintableAscii(buffer[end]!)) {
-      return null;
-    }
-    end += 1;
-  }
-  if (end >= buffer.length || buffer[end] !== 0) {
-    return null;
-  }
-  const keyLength = end - index;
-  if (keyLength === 0 || buffer.readUInt32LE(index - 4) !== keyLength) {
-    return null;
-  }
-  const valueLengthOffset = alignUp4(end + 1);
-  if (valueLengthOffset + 4 > buffer.length) {
-    return null;
-  }
-  const valueLength = buffer.readUInt32LE(valueLengthOffset);
-  const valueStart = valueLengthOffset + 4;
-  if (valueLength > MAX_ANNOTATION_VALUE_LENGTH || valueStart + valueLength > buffer.length) {
-    return null;
-  }
-  let valueEnd = valueStart + valueLength;
-  while (valueEnd > valueStart && buffer[valueEnd - 1] === 0) {
-    valueEnd -= 1;
-  }
-  const value = buffer.toString("utf8", valueStart, valueEnd);
-  if (!isReadableText(value)) {
-    return null;
-  }
-  return { key: buffer.toString("latin1", index, end), value };
+  if (buffer[keyEnd] !== 0 || !buffer.subarray(index, keyEnd).every(isPrintableAscii)) return null;
+
+  const lengthOffset = alignUp4(keyEnd + 1);
+  const start = lengthOffset + 4;
+  if (start > buffer.length) return null;
+  const valueLength = buffer.readUInt32LE(lengthOffset);
+  if (valueLength > MAX_ANNOTATION_VALUE_LENGTH || valueLength > buffer.length - start) return null;
+  let end = start + valueLength;
+  while (end > start && buffer[end - 1] === 0) end--;
+  const value = buffer.toString("utf8", start, end);
+  return isReadableText(value) ? { key: buffer.toString("latin1", index, keyEnd), value } : null;
 }
 
 /**
- * Crashpad 把注解写成 MinidumpUTF8String(name) + MinidumpByteArray(value)，两者都是
- * `u32 长度 + 内容`（UTF8String 额外带 NUL 结尾），按 4 字节对齐；simple annotations 的
- * key/value 也是同样的 UTF8String 布局。这里不解析完整 minidump 目录，只按已知键名定位并
- * 校验长度前缀，格式对不上就跳过，绝不抛出。同一个键只取第一次出现的值。
+ * 按 Crashpad 的长度前缀、NUL 名称和绝对四字节对齐校验已知注解；不解析完整 dump 目录。
+ * 单次前向扫描不跳过 payload，以免坏记录遮蔽后面的有效记录。每组只保留同键首值，
+ * 最后按固定前缀顺序输出，保持既有诊断对象顺序和重复键语义。
  */
 function extractCrashDumpAnnotations(dump: Uint8Array): CrashDumpAnnotations {
   const buffer = Buffer.isBuffer(dump)
     ? dump
     : Buffer.from(dump.buffer, dump.byteOffset, dump.byteLength);
-  const annotations: CrashDumpAnnotations = {};
-  for (const prefix of ANNOTATION_KEY_PREFIXES) {
-    const needle = Buffer.from(prefix, "latin1");
-    let from = 0;
-    while (from < buffer.length) {
-      const index = buffer.indexOf(needle, from);
-      if (index < 0) {
+  const groups = ANNOTATION_KEY_PREFIXES.map((prefix) => ({
+    needle: Buffer.from(prefix, "latin1"),
+    values: new Map<string, string>(),
+  }));
+  const byLeadingBytes = new Map(groups.map((group) => [group.needle.readUInt16LE(0), group]));
+  for (let offset = 4; offset + 1 < buffer.length; offset++) {
+    const first = buffer[offset]!;
+    if (first !== 0x76 && first !== 0x70 && first !== 0x72) continue;
+    const group = byLeadingBytes.get(first | (buffer[offset + 1]! << 8));
+    if (!group || offset + group.needle.length > buffer.length) continue;
+    let matched = true;
+    for (let byte = 2; byte < group.needle.length; byte++) {
+      if (buffer[offset + byte] !== group.needle[byte]) {
+        matched = false;
         break;
       }
-      from = index + 1;
-      const entry = readAnnotationAt(buffer, index);
-      if (entry && !(entry.key in annotations)) {
-        annotations[entry.key] = entry.value;
-      }
+    }
+    if (!matched) continue;
+    const entry = readAnnotationAt(buffer, offset);
+    if (entry && !group.values.has(entry.key)) group.values.set(entry.key, entry.value);
+  }
+  const annotations: CrashDumpAnnotations = {};
+  for (const group of groups) {
+    for (const [key, value] of group.values) {
+      if (!(key in annotations)) annotations[key] = value;
     }
   }
   return annotations;
@@ -202,80 +193,92 @@ function truncate(value: string, maxLength: number): string {
   return value.length > maxLength ? `${value.slice(0, maxLength)}…` : value;
 }
 
-function resolveOomKind(summary: {
-  codeCageSizeBytes: number | null;
-  codeCageFreeBytes: number | null;
-  codeCageLastAllocStatus: string | null;
-  mainCageLastAllocStatus: string | null;
-  oldSpaceBytes: number | null;
-}): CrashDumpOomKind {
-  if (
-    (summary.codeCageLastAllocStatus && /ran out/i.test(summary.codeCageLastAllocStatus)) ||
-    (summary.codeCageSizeBytes !== null &&
-      summary.codeCageFreeBytes !== null &&
-      summary.codeCageFreeBytes < CODE_CAGE_EXHAUSTED_THRESHOLD_BYTES)
-  ) {
-    return "code_space_exhausted";
-  }
-  if (
-    (summary.mainCageLastAllocStatus && summary.mainCageLastAllocStatus !== "success") ||
-    (summary.oldSpaceBytes !== null && summary.oldSpaceBytes >= JS_HEAP_EXHAUSTED_THRESHOLD_BYTES)
-  ) {
-    return "js_heap_exhausted";
-  }
-  return "unknown";
+const SIZE_ANNOTATIONS = {
+  oldSpaceBytes: "old-space-size",
+  oldSpaceCapacityBytes: "old-space-capacity",
+  codeSpaceBytes: "code-space-size",
+  codeLargeObjectSpaceBytes: "code-lo-space-size",
+  codeCageSizeBytes: "code-cage-size",
+  codeCageFreeBytes: "code-cage-free-size",
+  mainCageFreeBytes: "main-cage-free-size",
+  trustedCageFreeBytes: "trusted-cage-free-size",
+  memoryAllocatorBytes: "memory-allocator-size",
+  mallocedPeakBytes: "malloced-peak-memory",
+} as const;
+
+type OomSizes = Record<keyof typeof SIZE_ANNOTATIONS, number | null>;
+
+function resolveOomKind(
+  sizes: OomSizes,
+  codeStatus: string | null,
+  mainStatus: string | null,
+): CrashDumpOomKind {
+  // 固定规则以优先序列表达：代码区失败优先于普通堆失败，不能用后者覆盖前者。
+  const rules: Array<[CrashDumpOomKind, boolean]> = [
+    [
+      "code_space_exhausted",
+      Boolean(codeStatus && /ran out/i.test(codeStatus)) ||
+        (sizes.codeCageSizeBytes !== null &&
+          sizes.codeCageFreeBytes !== null &&
+          sizes.codeCageFreeBytes < CODE_CAGE_EXHAUSTED_THRESHOLD_BYTES),
+    ],
+    [
+      "js_heap_exhausted",
+      Boolean(mainStatus && mainStatus !== "success") ||
+        (sizes.oldSpaceBytes !== null && sizes.oldSpaceBytes >= JS_HEAP_EXHAUSTED_THRESHOLD_BYTES),
+    ],
+  ];
+  return rules.find(([, applies]) => applies)?.[0] ?? "unknown";
 }
 
-/** 没有 `v8-oom-location` 说明不是 V8 OOM（例如 GPU/native 崩溃），返回 null。 */
+function diagnosticText(
+  annotations: CrashDumpAnnotations,
+): Pick<CrashDumpV8OomSummary, "stackHead" | "lastGcMessage"> {
+  const stackHead: string[] = [];
+  for (const raw of (annotations["v8-oom-stack"] ?? "").split("\n")) {
+    const line = raw.trim();
+    if (!line) continue;
+    stackHead.push(truncate(line, STACK_LINE_MAX_LENGTH));
+    if (stackHead.length === STACK_HEAD_LINES) break;
+  }
+  let lastGcMessage: string | null = null;
+  for (const raw of (annotations["v8-oom-last-few-messages"] ?? "").split("\n")) {
+    const line = raw.trim();
+    if (line) lastGcMessage = truncate(line, GC_MESSAGE_MAX_LENGTH);
+  }
+  return { stackHead, lastGcMessage };
+}
+
+/** 缺少非空 v8-oom-location 时不产生 V8 OOM 摘要；归档仍由现有消费者负责。 */
 export function summarizeCrashDumpAnnotations(
   annotations: CrashDumpAnnotations,
 ): CrashDumpV8OomSummary | null {
   const location = annotations["v8-oom-location"];
-  if (!location) {
-    return null;
+  if (!location) return null;
+  const sizes = {} as OomSizes;
+  for (const field of Object.keys(SIZE_ANNOTATIONS) as Array<keyof OomSizes>) {
+    sizes[field] = parseV8SizeAnnotation(annotations[`v8-oom-${SIZE_ANNOTATIONS[field]}`]);
   }
-  const codeCageSizeBytes = parseV8SizeAnnotation(annotations["v8-oom-code-cage-size"]);
-  const codeCageFreeBytes = parseV8SizeAnnotation(annotations["v8-oom-code-cage-free-size"]);
-  const codeCageLastAllocStatus = annotations["v8-oom-code-cage-last-alloc-status"] ?? null;
-  const mainCageLastAllocStatus = annotations["v8-oom-main-cage-last-alloc-status"] ?? null;
-  const oldSpaceBytes = parseV8SizeAnnotation(annotations["v8-oom-old-space-size"]);
-  const stackLines = (annotations["v8-oom-stack"] ?? "")
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0);
-  const gcLines = (annotations["v8-oom-last-few-messages"] ?? "")
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0);
-  const lastGcLine = gcLines.at(-1);
-
+  const codeStatus = annotations["v8-oom-code-cage-last-alloc-status"] ?? null;
+  const mainStatus = annotations["v8-oom-main-cage-last-alloc-status"] ?? null;
   return {
     processType: annotations.process_type ?? annotations.ptype ?? null,
     location,
-    oomKind: resolveOomKind({
-      codeCageSizeBytes,
-      codeCageFreeBytes,
-      codeCageLastAllocStatus,
-      mainCageLastAllocStatus,
-      oldSpaceBytes,
-    }),
+    oomKind: resolveOomKind(sizes, codeStatus, mainStatus),
     isMainIsolate: parseBooleanAnnotation(annotations["v8-oom-is-main-isolate"]),
     isolateCount: parseIntegerAnnotation(annotations["v8-oom-isolate-count"]),
-    oldSpaceBytes,
-    oldSpaceCapacityBytes: parseV8SizeAnnotation(annotations["v8-oom-old-space-capacity"]),
-    codeSpaceBytes: parseV8SizeAnnotation(annotations["v8-oom-code-space-size"]),
-    codeLargeObjectSpaceBytes: parseV8SizeAnnotation(annotations["v8-oom-code-lo-space-size"]),
-    codeCageSizeBytes,
-    codeCageFreeBytes,
-    codeCageLastAllocStatus,
-    mainCageFreeBytes: parseV8SizeAnnotation(annotations["v8-oom-main-cage-free-size"]),
-    mainCageLastAllocStatus,
-    trustedCageFreeBytes: parseV8SizeAnnotation(annotations["v8-oom-trusted-cage-free-size"]),
-    memoryAllocatorBytes: parseV8SizeAnnotation(annotations["v8-oom-memory-allocator-size"]),
-    mallocedPeakBytes: parseV8SizeAnnotation(annotations["v8-oom-malloced-peak-memory"]),
-    stackHead: stackLines
-      .slice(0, STACK_HEAD_LINES)
-      .map((line) => truncate(line, STACK_LINE_MAX_LENGTH)),
-    lastGcMessage: lastGcLine ? truncate(lastGcLine, GC_MESSAGE_MAX_LENGTH) : null,
+    oldSpaceBytes: sizes.oldSpaceBytes,
+    oldSpaceCapacityBytes: sizes.oldSpaceCapacityBytes,
+    codeSpaceBytes: sizes.codeSpaceBytes,
+    codeLargeObjectSpaceBytes: sizes.codeLargeObjectSpaceBytes,
+    codeCageSizeBytes: sizes.codeCageSizeBytes,
+    codeCageFreeBytes: sizes.codeCageFreeBytes,
+    codeCageLastAllocStatus: codeStatus,
+    mainCageFreeBytes: sizes.mainCageFreeBytes,
+    mainCageLastAllocStatus: mainStatus,
+    trustedCageFreeBytes: sizes.trustedCageFreeBytes,
+    memoryAllocatorBytes: sizes.memoryAllocatorBytes,
+    mallocedPeakBytes: sizes.mallocedPeakBytes,
+    ...diagnosticText(annotations),
   };
 }

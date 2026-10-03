@@ -1,0 +1,127 @@
+
+> @knorvia/desktop@ prepare:runtime-assets /workspace/knorvia-studio/packages/desktop
+> node scripts/prepare-runtime-assets.mjs
+
+[prepare:runtime-assets] skip prepare:remote-assets (KNORVIA_SKIP_REMOTE_ASSETS=1)
+[ci][timer] prepare-runtime-assets:prepare:agent-bundle start
+
+> @knorvia/desktop@ prepare:agent-bundle /workspace/knorvia-studio/packages/desktop
+> node scripts/prepare-agent-node-bundle.mjs
+
+[prepare:agent-bundle] building cli app-server bundle ...
+
+> @knorvia/shared-types@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/shared-types
+> tsc
+
+
+> @knorvia/contracts@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/contracts
+> tsc
+
+
+> @knorvia/dynamic-workflow@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow
+> node scripts/generate-libs.mjs && tsc
+
+generate-libs: wrote 57 lib files for typescript@5.9.3
+
+> @knorvia/dynamic-workflow-runtime@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/dynamic-workflow-runtime
+> tsc
+
+
+> @knorvia/core@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/core
+> tsc
+
+
+> @knorvia/adapters@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/adapters
+> tsc
+
+
+> @knorvia/i18n@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/i18n
+> tsc
+
+
+> @knorvia/telemetry@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/telemetry
+> tsc
+
+
+> @knorvia/bootstrap@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/bootstrap
+> tsc
+
+
+> @knorvia/node-repl-host@0.8.0 build /workspace/knorvia-studio/apps/cli/packages/node-repl-host
+> tsc && node scripts/build.mjs
+
+▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+
+    ../core/dist/repl/runtime-values.js:85:37:
+      85 │             return import(specifier, options);
+         ╵                                      ^
+
+
+> @knorvia/browser-use-plugin@0.6.0 build /workspace/knorvia-studio/apps/cli/packages/browser-use-plugin
+> tsc && node scripts/build.mjs
+
+
+> @knorvia/cli@0.1.0 build:desktop-agent /workspace/knorvia-studio/apps/cli/packages/cli
+> node scripts/build.mjs --desktop-agent
+
+▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+
+    ../core/dist/repl/runtime-values.js:85:37:
+      85 │             return import(specifier, options);
+         ╵                                      ^
+
+1 warning
+
+  dist/knorvia.cjs  15.8mb ⚠️
+
+⚡ Done in 1251ms
+[stage:agent-bundle] staged /workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs
+[prepare:agent-bundle] staged official plugin packages/browser-use-plugin
+[prepare:agent-bundle] staged official plugin packages/node-repl-host
+[prepare:agent-bundle] staged official plugin packages/cua-plugin
+[prepare:agent-bundle] staged official plugin packages/documents-plugin
+[prepare:agent-bundle] staged official plugin packages/pdf-plugin
+[prepare:agent-bundle] staged official plugin packages/presentations-plugin
+[prepare:agent-bundle] staged official plugin packages/spreadsheets-plugin
+[prepare:agent-bundle] staged official plugin packages/plugin-creator-plugin
+[prepare:agent-bundle] staged official plugin packages/skill-creator-plugin
+[prepare:agent-bundle] building @knorvia/browser-use-plugin runtime ...
+
+> @knorvia/browser-use-plugin@0.6.0 build /workspace/knorvia-studio/apps/cli/packages/browser-use-plugin
+> tsc && node scripts/build.mjs
+
+[prepare:agent-bundle] building @knorvia/node-repl-host runtime ...
+
+> @knorvia/node-repl-host@0.8.0 build /workspace/knorvia-studio/apps/cli/packages/node-repl-host
+> tsc && node scripts/build.mjs
+
+▲ [WARNING] This "import()" was not recognized because the second argument was not an object literal [unsupported-dynamic-import]
+
+    ../core/dist/repl/runtime-values.js:85:37:
+      85 │             return import(specifier, options);
+         ╵                                      ^
+
+[stage:agent-bundle] staged /workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs
+[prepare:agent-bundle] staged official plugin packages/browser-use-plugin
+[prepare:agent-bundle] staged official plugin packages/node-repl-host
+[prepare:agent-bundle] staged official plugin packages/cua-plugin
+[prepare:agent-bundle] staged official plugin packages/documents-plugin
+[prepare:agent-bundle] staged official plugin packages/pdf-plugin
+[prepare:agent-bundle] staged official plugin packages/presentations-plugin
+[prepare:agent-bundle] staged official plugin packages/spreadsheets-plugin
+[prepare:agent-bundle] staged official plugin packages/plugin-creator-plugin
+[prepare:agent-bundle] staged official plugin packages/skill-creator-plugin
+[ci][timer] prepare-runtime-assets:prepare:agent-bundle end duration_ms=55059
+[ci][timer] prepare-runtime-assets:prepare:native-search start
+
+> @knorvia/desktop@ prepare:native-search /workspace/knorvia-studio/packages/desktop
+> node ../../scripts/prepare-native-search-tools.mjs
+
+==> Preparing native search tools from repository archives
+    platform: linux-x64
+    target:   /workspace/knorvia-studio/packages/desktop/bundled-tools/linux-x64
+    [extract] /workspace/knorvia-studio/apps/cli/dependencies/native-search/bfs-v4.1.1-2/bfs-v4.1.1-2-x86_64-unknown-linux-gnu.tar.gz
+    [extract] /workspace/knorvia-studio/apps/cli/dependencies/native-search/ugrep-v7.8.4-1/ugrep-v7.8.4-1-x86_64-unknown-linux-gnu.tar.gz
+    [extract] /workspace/knorvia-studio/apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-unknown-linux-musl.tar.gz
+==> Done! native search tools (linux-x64) -> /workspace/knorvia-studio/packages/desktop/bundled-tools/linux-x64
+[ci][timer] prepare-runtime-assets:prepare:native-search end duration_ms=481

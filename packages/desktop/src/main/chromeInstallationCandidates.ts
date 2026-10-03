@@ -57,202 +57,150 @@ function uniquePaths(paths: Array<string | undefined>): string[] {
   return result;
 }
 
-function windowsProductPath(browser: ChromeBrowserKind): string[] {
-  switch (browser) {
-    case "chrome":
-      return ["Google", "Chrome"];
-    case "chrome-beta":
-      return ["Google", "Chrome Beta"];
-    case "chrome-dev":
-      return ["Google", "Chrome Dev"];
-    case "chrome-canary":
-      return ["Google", "Chrome SxS"];
-    case "chrome-for-testing":
-      return ["Google", "Chrome for Testing"];
-    case "chromium":
-      return ["Chromium"];
-  }
+interface ChromeProduct {
+  browser: ChromeBrowserKind;
+  windowsDirectory: string[];
+  macDirectory: string[];
+  macApplication: string;
+  linuxDirectory: string;
+  linuxExecutables: string[];
 }
 
-function macProductDirectory(browser: ChromeBrowserKind): string {
-  switch (browser) {
-    case "chrome":
-      return "Chrome";
-    case "chrome-beta":
-      return "Chrome Beta";
-    case "chrome-dev":
-      return "Chrome Dev";
-    case "chrome-canary":
-      return "Chrome Canary";
-    case "chrome-for-testing":
-      return "Chrome for Testing";
-    case "chromium":
-      return "Chromium";
-  }
-}
-
-function macApplicationName(browser: ChromeBrowserKind): string {
-  switch (browser) {
-    case "chrome":
-      return "Google Chrome";
-    case "chrome-beta":
-      return "Google Chrome Beta";
-    case "chrome-dev":
-      return "Google Chrome Dev";
-    case "chrome-canary":
-      return "Google Chrome Canary";
-    case "chrome-for-testing":
-      return "Google Chrome for Testing";
-    case "chromium":
-      return "Chromium";
-  }
-}
-
-function linuxProductDirectory(browser: ChromeBrowserKind): string {
-  switch (browser) {
-    case "chrome":
-      return "google-chrome";
-    case "chrome-beta":
-      return "google-chrome-beta";
-    case "chrome-dev":
-      return "google-chrome-unstable";
-    case "chrome-canary":
-      return "google-chrome-canary";
-    case "chrome-for-testing":
-      return "google-chrome-for-testing";
-    case "chromium":
-      return "chromium";
-  }
-}
-
-function linuxExecutablePaths(browser: ChromeBrowserKind): string[] {
-  switch (browser) {
-    case "chrome":
-      return [
-        "/usr/bin/google-chrome",
-        "/usr/bin/google-chrome-stable",
-        "/opt/google/chrome/google-chrome",
-        "/opt/google/chrome/chrome",
-      ];
-    case "chrome-beta":
-      return [
-        "/usr/bin/google-chrome-beta",
-        "/opt/google/chrome-beta/google-chrome-beta",
-        "/opt/google/chrome-beta/chrome",
-      ];
-    case "chrome-dev":
-      return [
-        "/usr/bin/google-chrome-unstable",
-        "/opt/google/chrome-unstable/google-chrome-unstable",
-        "/opt/google/chrome-unstable/chrome",
-      ];
-    case "chrome-canary":
-      return ["/usr/bin/google-chrome-canary"];
-    case "chrome-for-testing":
-      return ["/usr/bin/google-chrome-for-testing"];
-    case "chromium":
-      return [
-        "/usr/bin/chromium",
-        "/usr/bin/chromium-browser",
-        "/usr/lib/chromium/chromium",
-        "/usr/lib/chromium-browser/chromium-browser",
-      ];
-  }
-}
+// 系统产品名和路径是兼容数据；一条产品记录同时描述三个平台，避免渠道规则漂移。
+const CHROME_PRODUCTS: ChromeProduct[] = [
+  {
+    browser: "chrome",
+    windowsDirectory: ["Google", "Chrome"],
+    macDirectory: ["Google", "Chrome"],
+    macApplication: "Google Chrome",
+    linuxDirectory: "google-chrome",
+    linuxExecutables: [
+      "/usr/bin/google-chrome",
+      "/usr/bin/google-chrome-stable",
+      "/opt/google/chrome/google-chrome",
+      "/opt/google/chrome/chrome",
+    ],
+  },
+  {
+    browser: "chrome-beta",
+    windowsDirectory: ["Google", "Chrome Beta"],
+    macDirectory: ["Google", "Chrome Beta"],
+    macApplication: "Google Chrome Beta",
+    linuxDirectory: "google-chrome-beta",
+    linuxExecutables: [
+      "/usr/bin/google-chrome-beta",
+      "/opt/google/chrome-beta/google-chrome-beta",
+      "/opt/google/chrome-beta/chrome",
+    ],
+  },
+  {
+    browser: "chrome-dev",
+    windowsDirectory: ["Google", "Chrome Dev"],
+    macDirectory: ["Google", "Chrome Dev"],
+    macApplication: "Google Chrome Dev",
+    linuxDirectory: "google-chrome-unstable",
+    linuxExecutables: [
+      "/usr/bin/google-chrome-unstable",
+      "/opt/google/chrome-unstable/google-chrome-unstable",
+      "/opt/google/chrome-unstable/chrome",
+    ],
+  },
+  {
+    browser: "chrome-canary",
+    windowsDirectory: ["Google", "Chrome SxS"],
+    macDirectory: ["Google", "Chrome Canary"],
+    macApplication: "Google Chrome Canary",
+    linuxDirectory: "google-chrome-canary",
+    linuxExecutables: ["/usr/bin/google-chrome-canary"],
+  },
+  {
+    browser: "chrome-for-testing",
+    windowsDirectory: ["Google", "Chrome for Testing"],
+    macDirectory: ["Google", "Chrome for Testing"],
+    macApplication: "Google Chrome for Testing",
+    linuxDirectory: "google-chrome-for-testing",
+    linuxExecutables: ["/usr/bin/google-chrome-for-testing"],
+  },
+  {
+    browser: "chromium",
+    windowsDirectory: ["Chromium"],
+    macDirectory: ["Chromium"],
+    macApplication: "Chromium",
+    linuxDirectory: "chromium",
+    linuxExecutables: [
+      "/usr/bin/chromium",
+      "/usr/bin/chromium-browser",
+      "/usr/lib/chromium/chromium",
+      "/usr/lib/chromium-browser/chromium-browser",
+    ],
+  },
+];
 
 export function buildStandardChromeInstallations(
   options: ChromeInstallationPathOptions = {},
 ): ChromeInstallationCandidate[] {
   const platform = options.platform ?? process.platform;
   const env = options.env ?? process.env;
-  const homeDir = options.homeDir ?? homedir();
-  const browsers: ChromeBrowserKind[] = [
-    "chrome",
-    "chrome-beta",
-    "chrome-dev",
-    "chrome-canary",
-    "chrome-for-testing",
-    "chromium",
-  ];
+  const home = options.homeDir ?? homedir();
+  const local = options.localAppData ?? env.LOCALAPPDATA ?? join(home, "AppData", "Local");
+  const config = env.CHROME_CONFIG_HOME ?? env.XDG_CONFIG_HOME ?? join(home, ".config");
+  const roots =
+    platform === "win32"
+      ? uniquePaths([
+          options.programFiles ?? env.PROGRAMFILES ?? "C:\\Program Files",
+          options.programFilesX86 ?? env["PROGRAMFILES(X86)"] ?? "C:\\Program Files (x86)",
+          local,
+        ])
+      : [];
+  const result: ChromeInstallationCandidate[] = [];
 
-  if (platform === "darwin") {
-    return browsers.map((browser) => {
-      const productDirectory = macProductDirectory(browser);
-      const applicationName = macApplicationName(browser);
-      const supportRoot =
-        browser === "chromium"
-          ? join(homeDir, "Library", "Application Support")
-          : join(homeDir, "Library", "Application Support", "Google");
-      return {
-        browser,
-        userDataDir: join(supportRoot, productDirectory),
-        executablePaths: [
-          join("/Applications", `${applicationName}.app`, "Contents", "MacOS", applicationName),
-          join(
-            homeDir,
-            "Applications",
-            `${applicationName}.app`,
-            "Contents",
-            "MacOS",
-            applicationName,
-          ),
-        ],
-      };
+  for (const product of CHROME_PRODUCTS) {
+    let userDataDir: string;
+    let executablePaths: string[];
+    switch (platform) {
+      case "darwin": {
+        userDataDir = join(home, "Library", "Application Support", ...product.macDirectory);
+        executablePaths = ["/Applications", join(home, "Applications")].map((root) =>
+          join(root, `${product.macApplication}.app`, "Contents", "MacOS", product.macApplication),
+        );
+        break;
+      }
+      case "win32": {
+        userDataDir = join(local, ...product.windowsDirectory, "User Data");
+        executablePaths = roots.map((root) =>
+          join(root, ...product.windowsDirectory, "Application", "chrome.exe"),
+        );
+        break;
+      }
+      default: {
+        userDataDir = join(config, product.linuxDirectory);
+        executablePaths = [...product.linuxExecutables];
+      }
+    }
+    result.push({ browser: product.browser, userDataDir, executablePaths });
+  }
+  if (platform === "darwin" || platform === "win32") return result;
+
+  // 标准目录为空时仍要检查 Snap/Flatpak，顺序与现有导入契约一致。
+  result.push({
+    browser: "chromium",
+    userDataDir: join(home, "snap", "chromium", "common", "chromium"),
+    executablePaths: ["/snap/bin/chromium", "/var/lib/snapd/snap/bin/chromium"],
+  });
+  for (const [browser, application, directory] of [
+    ["chrome", "com.google.Chrome", "google-chrome"],
+    ["chromium", "org.chromium.Chromium", "chromium"],
+  ] as const) {
+    result.push({
+      browser,
+      userDataDir: join(home, ".var", "app", application, "config", directory),
+      executablePaths: [
+        join(home, ".local", "share", "flatpak", "exports", "bin", application),
+        `/var/lib/flatpak/exports/bin/${application}`,
+      ],
     });
   }
-
-  if (platform === "win32") {
-    const localAppData =
-      options.localAppData ?? env.LOCALAPPDATA ?? join(homeDir, "AppData", "Local");
-    const programRoots = uniquePaths([
-      options.programFiles ?? env.PROGRAMFILES ?? "C:\\Program Files",
-      options.programFilesX86 ?? env["PROGRAMFILES(X86)"] ?? "C:\\Program Files (x86)",
-      localAppData,
-    ]);
-    return browsers.map((browser) => {
-      const productPath = windowsProductPath(browser);
-      return {
-        browser,
-        userDataDir: join(localAppData, ...productPath, "User Data"),
-        executablePaths: programRoots.map((root) =>
-          join(root, ...productPath, "Application", "chrome.exe"),
-        ),
-      };
-    });
-  }
-
-  const configRoot = env.CHROME_CONFIG_HOME ?? env.XDG_CONFIG_HOME ?? join(homeDir, ".config");
-  const standardInstallations = browsers.map((browser) => ({
-    browser,
-    userDataDir: join(configRoot, linuxProductDirectory(browser)),
-    executablePaths: linuxExecutablePaths(browser),
-  }));
-  // Ubuntu 上 Chromium 常以 Snap 安装，Chrome/Chromium 也可能来自 Flatpak。
-  // 这些 Profile 不在 XDG 标准目录中；保留独立候选，才能在标准目录为空时继续发现真实数据。
-  const sandboxedInstallations: ChromeInstallationCandidate[] = [
-    {
-      browser: "chromium",
-      userDataDir: join(homeDir, "snap", "chromium", "common", "chromium"),
-      executablePaths: ["/snap/bin/chromium", "/var/lib/snapd/snap/bin/chromium"],
-    },
-    {
-      browser: "chrome",
-      userDataDir: join(homeDir, ".var", "app", "com.google.Chrome", "config", "google-chrome"),
-      executablePaths: [
-        join(homeDir, ".local", "share", "flatpak", "exports", "bin", "com.google.Chrome"),
-        "/var/lib/flatpak/exports/bin/com.google.Chrome",
-      ],
-    },
-    {
-      browser: "chromium",
-      userDataDir: join(homeDir, ".var", "app", "org.chromium.Chromium", "config", "chromium"),
-      executablePaths: [
-        join(homeDir, ".local", "share", "flatpak", "exports", "bin", "org.chromium.Chromium"),
-        "/var/lib/flatpak/exports/bin/org.chromium.Chromium",
-      ],
-    },
-  ];
-  return [...standardInstallations, ...sandboxedInstallations];
+  return result;
 }
 
 function parseExecutablePath(commandLine: string): string | undefined {
@@ -294,50 +242,44 @@ function parseLinuxChromePasswordStore(commandLine: string): LinuxChromePassword
     : undefined;
 }
 
-function pathsMatch(left: string, right: string): boolean {
-  return left.replaceAll("\\", "/").toLowerCase() === right.replaceAll("\\", "/").toLowerCase();
-}
-
-function isChromeMainProcessCommandLine(commandLine: string): boolean {
-  return !/(?:^|\s)--type(?:=|\s)/i.test(commandLine);
+function executableIdentity(path: string): string {
+  return path.replaceAll("\\", "/").toLowerCase();
 }
 
 export function parseRunningChromeInstallations(
   commandLines: string[],
   fallbackInstallations: ChromeInstallationCandidate[] = [],
 ): ChromeInstallationCandidate[] {
-  const installations: ChromeInstallationCandidate[] = [];
-  for (const commandLine of commandLines) {
-    const executablePath = parseExecutablePath(commandLine);
-    if (!executablePath || !isChromeBrowserExecutable(executablePath)) continue;
-    const passwordStore = parseLinuxChromePasswordStore(commandLine);
-    let userDataDirFound = false;
-    USER_DATA_ARGUMENT_PATTERN.lastIndex = 0;
-    for (const match of commandLine.matchAll(USER_DATA_ARGUMENT_PATTERN)) {
-      const userDataDir = match[1] ?? match[2] ?? match[3];
-      if (!userDataDir) continue;
-      userDataDirFound = true;
-      installations.push({
-        browser: /chromium/i.test(commandLine) ? "chromium" : "chrome",
-        userDataDir,
-        executablePaths: [executablePath],
-        executablePath,
-        ...(passwordStore ? { passwordStore } : {}),
-      });
-    }
-    if (userDataDirFound || !isChromeMainProcessCommandLine(commandLine)) continue;
-    const fallback = fallbackInstallations.find((candidate) =>
-      candidate.executablePaths.some((path) => pathsMatch(path, executablePath)),
-    );
-    if (fallback) {
-      // Linux 常规启动不会显式携带 --user-data-dir；仍需把运行进程选择的密钥后端
-      // 合并回对应标准 Profile，确保隔离 helper 使用同一个 Libsecret/KWallet backend。
-      installations.push({
-        ...fallback,
-        executablePath,
-        ...(passwordStore ? { passwordStore } : {}),
-      });
+  // 同一路径可对应多个候选；只登记第一个，保持标准/环境候选的优先权。
+  const byExecutable = new Map<string, ChromeInstallationCandidate>();
+  for (const candidate of fallbackInstallations) {
+    for (const path of candidate.executablePaths) {
+      const identity = executableIdentity(path);
+      if (!byExecutable.has(identity)) byExecutable.set(identity, candidate);
     }
   }
-  return installations;
+
+  return commandLines.flatMap((line): ChromeInstallationCandidate[] => {
+    const path = parseExecutablePath(line);
+    if (!path || !isChromeBrowserExecutable(path)) return [];
+    const passwordStore = parseLinuxChromePasswordStore(line);
+    const directories = Array.from(
+      line.matchAll(USER_DATA_ARGUMENT_PATTERN),
+      (match) => match[1] ?? match[2] ?? match[3],
+    ).filter((directory): directory is string => Boolean(directory));
+    if (directories.length) {
+      return directories.map((userDataDir) => ({
+        browser: /chromium/i.test(line) ? "chromium" : "chrome",
+        userDataDir,
+        executablePaths: [path],
+        executablePath: path,
+        ...(passwordStore ? { passwordStore } : {}),
+      }));
+    }
+    if (/(?:^|\s)--type(?:=|\s)/i.test(line)) return [];
+    const candidate = byExecutable.get(executableIdentity(path));
+    if (!candidate) return [];
+    // 主进程未带目录参数时，保留其实际选用的密钥后端供隔离导入 helper 使用。
+    return [{ ...candidate, executablePath: path, ...(passwordStore ? { passwordStore } : {}) }];
+  });
 }

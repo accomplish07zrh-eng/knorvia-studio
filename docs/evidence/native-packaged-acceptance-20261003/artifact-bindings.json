@@ -1,0 +1,51 @@
+{
+  "appImage": {
+    "path": "/tmp/knorvia-native-package-acceptance-20261003/appimage-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+    "bytes": 188666830,
+    "sha256": "1b174f98586d09ca09e61ebd63457c38565cdef7606b3af6d09060ac1bb2cd78"
+  },
+  "appImageFromFailedAllTargetInvocation": {
+    "path": "/tmp/knorvia-native-package-acceptance-20261003/linux-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+    "bytes": 188666847,
+    "sha256": "8ee54ad52508812a0b712f7d67403b89a054d97b08dbed6ef01de50d20aacde1"
+  },
+  "builtAsar": {
+    "path": "/tmp/knorvia-native-package-acceptance-20261003/linux-release/linux-unpacked/resources/app.asar",
+    "bytes": 291095861,
+    "sha256": "f293f601a3e131b81f98c4724c842a0aa1fd373720a9b8b37d7f07f853bbf628"
+  },
+  "extractedAsar": {
+    "path": "/tmp/knorvia-native-package-acceptance-20261003/appimage-extraction/squashfs-root/resources/app.asar",
+    "bytes": 291095861,
+    "sha256": "f293f601a3e131b81f98c4724c842a0aa1fd373720a9b8b37d7f07f853bbf628"
+  },
+  "packagedCli": {
+    "path": "/tmp/knorvia-native-package-acceptance-20261003/appimage-extraction/squashfs-root/resources/knorvia/knorvia.cjs",
+    "bytes": 16544533,
+    "sha256": "c5ffd21b40f79eb7d018f649a8a335bd545bef7bc76a58dac5732d9129a597ce"
+  },
+  "stagedCli": {
+    "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs",
+    "bytes": 16544533,
+    "sha256": "c5ffd21b40f79eb7d018f649a8a335bd545bef7bc76a58dac5732d9129a597ce"
+  },
+  "packagedPty": {
+    "path": "/tmp/knorvia-native-package-acceptance-20261003/appimage-extraction/squashfs-root/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+    "bytes": 75976,
+    "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+  },
+  "pinnedPty": {
+    "path": "/workspace/knorvia-studio/node_modules/@lydell/node-pty-linux-x64/prebuilds/linux-x64/pty.node",
+    "bytes": 75976,
+    "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+  },
+  "payloadBindings": {
+    "asarExactMatch": true,
+    "cliExactStagedMatch": true,
+    "ptyExactPinnedMatch": true
+  },
+  "repeatImageComparison": {
+    "sameBytes": false,
+    "qualification": "The two invocations reused the same generated runtime payload; this is not two clean source rebuilds. Build metadata and package timestamps are time-dependent. No whole-release byte reproducibility claim."
+  }
+}

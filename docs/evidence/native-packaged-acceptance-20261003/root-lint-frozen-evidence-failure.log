@@ -1,0 +1,38 @@
+
+> knorvia-studio@0.8.0-preview.3 lint /workspace/knorvia-studio
+> node scripts/run-quality.mjs lint
+
+file:///workspace/knorvia-studio/scripts/check-evidence-integrity.mjs:92
+    throw new Error(
+          ^
+
+Error: Frozen evidence inconsistent (24):
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/four-svg-source-facts.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/microsoft-release-source/LICENSE
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/microsoft-release-source/build/main.yml
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/microsoft-release-source/build/windows.yml
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/microsoft-release-source/config.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/microsoft-release-source/patches/0001-resolve-binskim-issues.patch
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/microsoft-release.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/microsoft-toolchain-feed-response.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-0.1.3.crate
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-notice-basis.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-package/.cargo_vcs_info.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-package/Cargo.toml
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-package/Cargo.toml.orig
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-package/LICENSE
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-package/README.md
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-package/build.rs
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/msvc-spectre-package/src/lib.rs
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/native-input-source-facts.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/public-build-toolchain.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/ripgrep-14.1.1-annotated-tag.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/ripgrep-14.1.1-tag.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/rust-source-commit-query.json
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/rust-source-copyright-response.txt
+Unregistered frozen evidence: docs/evidence/native-source-notices-20261003/svg-preview-library.json
+    at checkEvidenceIntegrity (file:///workspace/knorvia-studio/scripts/check-evidence-integrity.mjs:92:11)
+    at async file:///workspace/knorvia-studio/scripts/run-quality.mjs:21:18
+
+Node.js v24.14.0
+ ELIFECYCLE  Command failed with exit code 1.

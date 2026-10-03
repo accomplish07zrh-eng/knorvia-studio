@@ -656,3 +656,143 @@ possible future candidate remain exploratory; no full rebuild recipe or replacem
 was completed. Protect this work by commit/push on the same branch, then stop the
 MIT-specific task. No new PR/workflow dispatch, third-party contact or local-user
 machine request is needed for this preserved handoff.
+
+## Cloud package and native integration acceptance
+
+The later delegated request authorizes package builds and relevant acceptance
+checks from merged main `59517d9699519b0a7a44980da27df29d45f0e91e` on this same
+native branch. The actual runtime input is
+`ede8382435ed91e9d62300599e925f6fb90532c0`; the new bundler-only retry correction
+does not claim a newer payload or independent-rewrite credit for inherited main.
+The application remains Apache-2.0. After viewing the original preview, the user's
+“这种不是我们的” clarification supersedes the unmatched creator statement for
+those four SVGs; source handling stays with the integrator and no image/UI changed.
+
+With pinned Node24.14.0/pnpm10.33.2 on Linux x64, frozen dependency repair, official
+runtime preparation and production Desktop build passed. Default dependency
+postinstall failed because electron-rebuild cannot create `/home/agent/.electron-gyp`;
+the frozen `--ignore-scripts` fallback passed. Existing beforePack restores the
+pinned PTY prebuild; the actual packaged native module was subsequently executed.
+The complete configured Linux bundle produced its fresh unpacked payload/AppImage
+but failed FPM release metadata validation. A separate configured AppImage target
+using that payload passed, with `--publish never`. The final188,666,830-byte image
+has SHA256 `1b174f98586d09ca09e61ebd63457c38565cdef7606b3af6d09060ac1bb2cd78`.
+Both image invocations reused the same payload and have different image bytes;
+there is no two-clean-build or whole-release byte reproducibility claim.
+
+Extraction of that real image passed. Its physically separate artifact passed
+**six native check groups**: canonical identity using the existing evidence owner;
+ASAR/native layout and main/host/scheduler/preload entries; packaged CLI0.16.9 in
+Electron41.0.3/Node24.14.0; real PTY output/exit plus SQLite sentinel; two normal
+storage-path handshake/preparation runs preserving that synthetic database row;
+and packaged rg/ugrep/bfs with Chinese/space-containing paths and retained source
+notices. ASAR equals the built ASAR, CLI equals the staged CLI, and PTY equals the
+pinned target prebuild by SHA256. Fixtures were removed; no GUI, model, credentials,
+user computer or real user data was involved. This is bounded native/extraction
+acceptance, not complete legacy migration, GUI first-run or OS install acceptance.
+
+The source fix makes bundle retries require explicit transport-failure signals.
+A successful builder download URL or a generic helper/NSIS resource name no longer
+replays packaging after deterministic missing-metadata/tool errors. Retry limit,
+mirror fallback and target order remain. The four focused regressions reproduced
+**2 passed/2 failed** before the change and then **4 passed/0 failed/0 skipped**.
+Root typecheck, changed-file architecture checks and direct changed-file oxlint
+passed. Root lint failed its frozen-evidence prerequisite for24 prior unregistered
+source-notice snapshots; the actual lint stage did not run. New acceptance snapshots
+also need the integrator's shared-registry registration; no gate was bypassed.
+
+The [result](evidence/native-packaged-acceptance-20261003/result.json),
+[commands](evidence/native-packaged-acceptance-20261003/commands.json),
+[artifact bindings](evidence/native-packaged-acceptance-20261003/artifact-bindings.json)
+and original logs/probes retain actual passes and failures. The remaining handoff:
+
+- Supply factual Linux homepage/release-maintainer email metadata before accepting
+  .deb/.rpm/.pacman; none was invented.
+- The CLI-owned SEA collector assumes CUA `dist/index.js` despite its explicit
+  package-root JS exports. The independent distribution build fails there after
+  CLI/server/Web source stages; no complete archive exists for distribution-smoke.
+  Its owner must adapt collection without removing TUI/Web or changing CUA layout.
+- Register retained native source/acceptance snapshots in shared
+  `licensing/frozen-evidence.json`, then rerun root quality gates.
+- Obtain real Windows NSIS/portable/CUA and existing .exe packaged results, with
+  GUI flows owned by the UI lane. Linux cannot close those stages; macOS was not run.
+
+The original requested PR base remains `integration/backlog-20261003`; it is166
+commits behind merged main at observation time. A draft against that base therefore
+contains already merged baseline changes. Review this batch through its own commit
+and the exact main595 comparison; those inherited changes are not native lane work.
+Retargeting the PR or moving the integration base belongs to the integrator.
+
+## Four bounded Desktop inherited implementation replacements
+
+Packaging fix/evidence was committed and pushed as
+`3e8dbeb75baa1d58285ec638e513e40a60c00da0`. Integration subsequently advanced;
+this same branch normally merged exact PR19 source-facts head
+`1128e11a98a47d16ad19e9b3e60e65fc8b470cd7` in
+`3418776c6d90b3a205e312a115948a280e91309d`. Draft
+[PR21](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/21) remains based on
+`integration/backlog-20261003`, now with the current evidence base rather than the
+previously stale166-commit base. No main merge or new task/branch.
+
+The integrator explicitly assigned four exact inherited files, after the bounded
+upstream comparison. The [behavior spec](../specs/knorvia-native-four-inherited-modules-20261003.md)
+was written before source replacement. Public APIs/consumers remain:
+
+- `chromeInstallationCandidates.ts`: one six-product platform catalog replaces
+  separate per-channel switch families. Running matching indexes the first
+  slash/case-normalized fallback, then emits explicit directory/password-store
+  evidence in command order; child-process exclusion remains conditional on no
+  explicit user-data-dir.
+- `chromeExecutableDiscovery.ts`: one lazy tier plan retains environment/process,
+  registered, PATH and installation priority. A shared directory iterator feeds
+  Mac Spotlight and Linux desktop entries while isolating stale/unreadable sources.
+- `chromeProfileDiscovery.ts`: ordered installation iteration owns deduplication;
+  one read-only inventory emits only importable profile offers, with last_used/
+  Default ranking before sole/ambiguity selection. Windows policy reads and staged
+  placeholder expansion retain HKCU/HKLM order, failure continuation and unknown
+  variables. Empty/malformed-cache behavior is retained rather than silently fixed.
+- `crashDumpAnnotations.ts`: bounded declared-length decoding and a single forward
+  scan retain known prefix groups, first valid value, absolute alignment and bad
+  record skipping. A fixed metric schema and priority rule table feed the existing
+  OOM summary, including field order and diagnostic text limits.
+
+This is a source-exposed candidate implementation, not a clean-room claim. Fixed
+interfaces, product/system data, command/flag grammar, short IO/admission wrappers
+and ordinary conversions remain. Their exact retained bodies are disclosed in
+[source bindings](evidence/native-four-inherited-20261003/source-bindings.json),
+without independent-authorship credit for those expressions. No new SPDX/MIT
+grant or blanket whole-file/project-original conclusion. Original license/NOTICE
+and source history remain; global current-source decisions are integrator-owned.
+
+The identical expanded fixture passes **24/24** on the exact four prior Git blobs
+loaded only from disposable `/tmp`, and **24/24** on the candidates. Together with
+the two unchanged archived-crash redaction/default-capture tests, the final
+candidate run is **26 passed,0 failed,0 skipped**. Coverage includes platform
+catalog/order/mutable-array isolation, executable tier laziness/permission and
+registration failure, running flags/first fallback, profile importability/ambiguity/
+policy/empty cache, invalid/truncated/unaligned/limit Crashpad records, Unicode/
+controls/first values, all summary fields/order and OOM threshold precedence.
+
+An initial combined run passed20/21; its unchanged default-capture test tried the
+unavailable `/home/agent` because the harness had omitted the startup data override
+before cached config import. Supplying task-local data/storage paths before import
+then passes both unchanged security tests. That failure is retained and classified
+as harness isolation, not a production bug or weakened assertion. Synthetic
+profiles/startup data were cleaned; no real browser, system commands, models,
+credentials, GUI or user data were used.
+
+Final root typecheck, architecture check, direct five-file oxlint and owned-file
+format check pass. Root lint still fails before lint because25 new packaging
+snapshots are unregistered; the earlier24 source-notice snapshots were already
+registered in synced PR19. This source batch adds12 own snapshots, also needing
+the integrator's shared frozen-registry/current-input update. Original logs, source/
+fixture digests, commands and limitations are in the
+[result](evidence/native-four-inherited-20261003/result.json).
+
+The earlier AppImage's runtime input is still `ede8382435ed91e9d62300599e925f6fb90532c0`;
+it does not contain these new four-file candidates. No fresh package, full suite,
+GUI/model/complete legacy migration or real Windows/macOS Chrome/installer/CUA
+acceptance is claimed for this source batch. Linux metadata and CLI-owned SEA
+collection requirements remain as previously handed off. The four assigned
+substantial units are complete as bounded source candidates; integrator review,
+shared evidence/source projection and final platform/package acceptance remain.
