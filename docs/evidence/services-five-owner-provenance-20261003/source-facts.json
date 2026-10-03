@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-03",
+  "reviewCommit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "branch": "lane/services-20261003",
+  "upstreamRepository": "https://github.com/zai-org/ZCode",
+  "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+  "purpose": "Retain already-observed Apache-2.0 upstream source facts after the user stopped the MIT-specific work.",
+  "license": {
+    "observedUpstreamRoot": "Apache-2.0",
+    "copyrightAtPinnedRoot": "2026 Z.AI Co., Ltd",
+    "rootLicenseUnchanged": true,
+    "thirdPartyConditionsAndNoticesStillApply": true
+  },
+  "publicInputs": [
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/LICENSE",
+      "httpStatusObserved": 200,
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "gitBlob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "savedInventorySha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "savedInventoryBlob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "savedInventoryShaMatches": true,
+      "savedInventoryBlobMatches": true
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/session/tasksDatabase/startup.ts",
+      "httpStatusObserved": 200,
+      "bytes": 4559,
+      "sha256": "248847f6c5fd82405fe8106b40b771906d8e072cf8b5051bd172a1c44afcf0ad",
+      "gitBlob": "08a4bd483339497c3f7695c48b6f08e0b74f9027",
+      "savedInventorySha256": "248847f6c5fd82405fe8106b40b771906d8e072cf8b5051bd172a1c44afcf0ad",
+      "savedInventoryBlob": "08a4bd483339497c3f7695c48b6f08e0b74f9027",
+      "savedInventoryShaMatches": true,
+      "savedInventoryBlobMatches": true
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/git/commitMessageFileScope.ts",
+      "httpStatusObserved": 200,
+      "bytes": 3101,
+      "sha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+      "gitBlob": "d26afda1f8efc46552b798c985aff050182ccbcd",
+      "savedInventorySha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+      "savedInventoryBlob": "d26afda1f8efc46552b798c985aff050182ccbcd",
+      "savedInventoryShaMatches": true,
+      "savedInventoryBlobMatches": true
+    },
+    {
+      "path": "packages/services/src/zcode-session/zcodeSessionService.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-session/zcodeSessionService.ts",
+      "httpStatusObserved": 200,
+      "bytes": 21859,
+      "sha256": "fe522860c8d8d7974385a0a8a42fad3c470509f4fbb1fd2734a319b78661618a",
+      "gitBlob": "2753096f316e77627e6c8b9dd819d3f518a61702",
+      "savedInventorySha256": "fe522860c8d8d7974385a0a8a42fad3c470509f4fbb1fd2734a319b78661618a",
+      "savedInventoryBlob": "2753096f316e77627e6c8b9dd819d3f518a61702",
+      "savedInventoryShaMatches": true,
+      "savedInventoryBlobMatches": true
+    },
+    {
+      "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+      "httpStatusObserved": 200,
+      "bytes": 79009,
+      "sha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+      "gitBlob": "29fdca800b4d046dcb8f0f924b60ea2653150b58",
+      "savedInventorySha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+      "savedInventoryBlob": "29fdca800b4d046dcb8f0f924b60ea2653150b58",
+      "savedInventoryShaMatches": true,
+      "savedInventoryBlobMatches": true
+    }
+  ],
+  "localBindings": [
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "currentBinding": {
+        "label": "current",
+        "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+        "blob": "8bbe4e246e7b647a0a4889a3296faec676770594",
+        "sha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+        "bytes": 5115,
+        "lines": 161
+      },
+      "candidateSourceCommit": "2b2e264022c7a3fa7bd8bdeda2ec8bded75c8ee2",
+      "specFirstCommit": "83ceeef11c4d4f281f28c7e26b0b1ea5b988a8ef",
+      "specPath": "specs/knorvia-next-services-historical-gap-20261003.md",
+      "firstAvailableLocalSnapshot": {
+        "label": "snapshot",
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "blob": "ceb7cc5f51186c95e8e72b0db8b8444232cd3b8c",
+        "sha256": "a3a5e7145279c5e9439b61499224a3ce311210e8a777fe70c3fb5150c62a0639",
+        "bytes": 4717,
+        "lines": 128
+      },
+      "pinnedUpstreamPath": "packages/services/src/session/tasksDatabase/startup.ts",
+      "originQualification": "Positive inherited-expression correspondence read from the pinned full source and available local history; not a whole-file original-expression assertion."
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "currentBinding": {
+        "label": "current",
+        "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+        "blob": "775e53a81235ce1551823a04dfb249a37d03814a",
+        "sha256": "501c9e956cf92938c3d962fd8e86aca5c9e60d4bf48da5630adf6a3eb62796dd",
+        "bytes": 2968,
+        "lines": 97
+      },
+      "candidateSourceCommit": "2b2e264022c7a3fa7bd8bdeda2ec8bded75c8ee2",
+      "specFirstCommit": "83ceeef11c4d4f281f28c7e26b0b1ea5b988a8ef",
+      "specPath": "specs/knorvia-next-services-historical-gap-20261003.md",
+      "firstAvailableLocalSnapshot": {
+        "label": "snapshot",
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "blob": "ec59eed8eb288dc3ed5ac0a870c08702d2400a3d",
+        "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+        "bytes": 3103,
+        "lines": 97
+      },
+      "pinnedUpstreamPath": "packages/services/src/git/commitMessageFileScope.ts",
+      "originQualification": "Positive inherited-expression correspondence read from the pinned full source and available local history; not a whole-file original-expression assertion."
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "currentBinding": {
+        "label": "current",
+        "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+        "blob": "c2fbca5c4e6a8e3489c01a2c2cd2049291d01e53",
+        "sha256": "2f44d3555dfbf73bde0d3c3b162c7c63ef4f5d4e581b5d550345ddca698c427f",
+        "bytes": 6439,
+        "lines": 173
+      },
+      "candidateSourceCommit": "2b2e264022c7a3fa7bd8bdeda2ec8bded75c8ee2",
+      "specFirstCommit": "83ceeef11c4d4f281f28c7e26b0b1ea5b988a8ef",
+      "specPath": "specs/knorvia-next-services-historical-gap-20261003.md",
+      "firstAvailableLocalSnapshot": {
+        "label": "snapshot",
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "blob": "152f6acdc2457b0afe047274e2564be39fa67d0e",
+        "sha256": "4349a3881b2456b743c328638880e4ff97e923b5a4469b9e3145abda9c7baa3a",
+        "bytes": 2039,
+        "lines": 48
+      },
+      "pinnedUpstreamPath": null,
+      "originQualification": "No exact or case-insensitive filename match in saved upstream inventory. Pre-snapshot origin remains undetermined; no worldwide absence claim. MIT-specific follow-up stopped."
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "currentBinding": {
+        "label": "current",
+        "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+        "blob": "2e5ec4ef2d1e7d52d01a88cec76496303271a09e",
+        "sha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+        "bytes": 12810,
+        "lines": 314
+      },
+      "candidateSourceCommit": "4f9107d0a722830c54ac44127d8a3298aa4bd78d",
+      "specFirstCommit": "1dcb4c1b61fada0c8ca6e19cc7c057642d64917d",
+      "specPath": "specs/knorvia-next-services-session-lifecycle-20261003.md",
+      "firstAvailableLocalSnapshot": {
+        "label": "snapshot",
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "blob": "61db9dc9481ef85eb32bf05a70a0f9c3505367fc",
+        "sha256": "dbbd02c0aa1d5ceee811e36d32beb40c1a50b31ef75f7db8c1a1f0dfd3d16199",
+        "bytes": 22419,
+        "lines": 504
+      },
+      "pinnedUpstreamPath": "packages/services/src/zcode-session/zcodeSessionService.ts",
+      "originQualification": "Positive inherited-expression correspondence read from the pinned full source and available local history; not a whole-file original-expression assertion."
+    },
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "currentBinding": {
+        "label": "current",
+        "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+        "blob": "6c3e8c2b281bdddeed98f3aeca14f23bc2661793",
+        "sha256": "e2ddf71626306fccf802bc26e381dc94c434c75a5a6bf312827dad355bf44c15",
+        "bytes": 14193,
+        "lines": 389
+      },
+      "candidateSourceCommit": "5b0b53522d235397cf435a627393c0bf5818d28c",
+      "specFirstCommit": "146c13ab52958846e2e7209d65bfb7fe7269ecbc",
+      "specPath": "specs/knorvia-next-services-task-index-ingestion-20261003.md",
+      "firstAvailableLocalSnapshot": {
+        "label": "snapshot",
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "blob": "8672ae0027c23e543307b68024828305993589e1",
+        "sha256": "529d114c34c331f54d4e744890526d34c83b54e7f48c00a916fab2583bdbec2c",
+        "bytes": 79150,
+        "lines": 1956
+      },
+      "pinnedUpstreamPath": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+      "originQualification": "Positive inherited-expression correspondence read from the pinned full source and available local history; not a whole-file original-expression assertion."
+    }
+  ],
+  "positiveRetainedBody": {
+    "currentPath": "packages/services/src/git/commitMessageFileScope.ts",
+    "currentFunction": "scopeSpelling",
+    "currentLines": [
+      17,
+      21
+    ],
+    "upstreamFunction": "normalizeCommitMessageScopePath",
+    "upstreamLines": [
+      5,
+      9
+    ],
+    "observation": "The body is retained under a changed function name; do not claim it as independently authored expression."
+  },
+  "decisionBoundaries": [
+    "Keep the project Apache-2.0 per the newest user instruction; no root LICENSE/README edit in this lane.",
+    "No new rewrite, whole-file originality declaration, MIT acceptance or contribution-rights material closure.",
+    "Existing global classifications, historical accepted evidence, missing receipts and HOLD records are preserved.",
+    "Source-exposed authorship or matching/changed source hashes alone do not adjudicate infringement or rights."
+  ],
+  "pausedWork": {
+    "archive": "/workspace/knorvia-services-provenance-paused-20261003/source-reading-before-apache-decision.tar.gz",
+    "archiveSha256": "6073c9f88fe69cef965529781ea0e9cd9b1bbe4bd8a5b7cc13dc51b6cef7cbee",
+    "uncommittedReaderProtected": true,
+    "uncommittedReaderExecuted": false,
+    "contributionRightsQuestion": "Withdrawn after user stopped MIT-specific closure; no further answer requested."
+  },
+  "validation": "UNVERIFIED in this phase: no tests, lint, typecheck, build, full audit or CI rerun. Git source/history/diff reading and source-receipt bindings only."
+}
