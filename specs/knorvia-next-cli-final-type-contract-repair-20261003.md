@@ -43,6 +43,16 @@
 
 历史调用者必须使用已有 archive 中摘要吻合的 scheduler JS；node-publication 与 scheduler-state 不再把当前 dist 当成旧历史调用者。当前调用者仍从自己的真实 source/dist 加载，现有 public declaration 和负向 artifact 断言不改。
 
+相关两套 activity/phase 还共用旧 format 父调用者摘要。其源码在精确旧提交 `8fa5375f0c590a836e84b6d0e67097628bab49eb` 可取回；按原 ESNext 方式孤立编译，TS 5.9.3/6.0.2 均重建出旧摘要 `99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858`。新增标明重建来源的历史 sidecar，只供旧调用者导入；原 archive/golden/摘要不改，当前 format/roster 独立加入固定 receipt，不能把本次当前 bytes 当旧 oracle。
+
 phase-fold 诊断已证实依赖迁移造成行为变化：历史 fold 通过 live projections 导入新 reducer，NaN 分量的同一端点被新 Set closure 当成见证而删边。已有 `causality-reduction-baseline.json` 的 source SHA 与原 fold 基线 `a19f66fc` 中的 reducer 完全一致；绑定其真实存档 JS 后全部二十四项旧 golden 符合，NaN 结果应保留两条原字段/次序的边。历史 fixture 固定这个原依赖，保持旧 archive/golden 不变。生产修复只在 core `foldPhaseEdges` 内使同一分量判定兼容 Map 的 SameValueZero：原 `===` 规则不变，补上 Object.is 的 NaN 同一性；缩点准入与最终展开使用相同判定，保留值、引用/拷贝规则、读取次序和重复调用隔离，不修改有限输入 reducer 或公共协议。真实 NaN 值不归一化为 null/string，序列化摘要之外仍做 deepEqual。
 
 必要验收仅为这十八个原失败入口及其 source/实际 emitted 路由，沿用所有 golden、场景和负向 artifact 断言。若生产 fold 变更需要实际 emitted 文件，只按原 tsconfig 定向输出 fold 这一个模块并记录；不重构其他 owner、不触碰共享 contracts/root/CI/全局来源清单，不将局部通过扩张为 MIT 或整体 ready-for-main。
+
+## 后续授权：Windows 两个夹具的文件 URL
+
+父任务追加 Windows run `37110107123` / job `111166240728` 中的 fanout-cardinality 与 workflow-expert-parser-safety，实际 CI checkout 为 `d03df27e30768649c77d004092d7508fa8b9afbc`。先 fetch 并比较指定整合 head `73e0687a78cc7354dfad0589a9e2ebedac159013`：相对本批 `7bfb867`，`apps/cli` 没有改动，这两个失败入口仍为同一字节。
+
+fanout fixture 的 TypeScript require.resolve 输出是平台文件路径，动态 import 必须复用已生成的 pathToFileURL href；不把 Windows 的 D: 误当 URL scheme。parser fixture 的根保留为 file URL，读取与三个依赖替换及当前入口导入均通过 new URL(relative, root)；不将 pathname 拼回文件系统，避免双盘符或编码空格误读。保留所有固定摘要、历史存档、golden、错误/缺失拒绝和既有行为断言，不改生产代码或增加平台跳过。
+
+仅执行这两个现有入口的定向回归，以及绑定真实夹具表达式的 Windows/POSIX 文件 URL 探针；不重复已经通过的 core 十八入口、不改 CI、不重跑全库。当前执行环境为 Linux，合成 Windows 路径通过不能写成实际 Windows 测试通过，必须保留新 head 的真实 Windows CI 待确认状态。
