@@ -6,7 +6,9 @@ import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 export type GraphModule = "fold" | "bounds" | "analysis";
 type ReadArtifact = (url: URL) => Promise<string>;
 const read: ReadArtifact = (url) => readFile(url, "utf8");
-const contractText = await read(new URL("./create-workflow-graph-loader-contract.json", import.meta.url));
+const contractText = await read(
+  new URL("./create-workflow-graph-loader-contract.json", import.meta.url),
+);
 const contract = JSON.parse(contractText);
 const oldBounds = JSON.parse(
   await read(

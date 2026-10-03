@@ -529,6 +529,20 @@
       "sourceCommit": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df"
     },
     {
+      "path": "docs/evidence/backlog-cli-20261003/final-core-artifact-repair.json",
+      "sha256": "f24a94811d44a9db388614570690bdc7eed913171cae388feb9369a8ef5a62f9",
+      "bytes": 164456,
+      "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-core-source-output-contract.mjs",
+      "sha256": "a0cdacd69c0edcb7a22d046bf60205555c57e73a5469dcc214097e70dabdeff9",
+      "bytes": 3890,
+      "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
       "path": "docs/evidence/backlog-cli-20261003/final-pane-binding-contract.mjs",
       "sha256": "65ce0d1ba1a1a99fc3abb3f971f179694496f11f4fd44268e64ba962a896656c",
       "bytes": 3875,
@@ -539,6 +553,20 @@
       "sha256": "395232bd51c9a5a22a4ac416f9d335d5c81991ca38cfa7fed1ef9d72d5bd9517",
       "bytes": 35277,
       "sourceCommit": "8f1e18d309cd475c0ba091a1b75961d8f8eef7df"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-windows-fixture-url-contract.mjs",
+      "sha256": "27538201b50e82e4ad4fa4743eb8ca18d2acddffcd625bf4ee8bddb43d302cd5",
+      "bytes": 8859,
+      "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-windows-fixture-url-repair.json",
+      "sha256": "9d4ba809fc9595f9d0b67a53f20f822e4bae088fb132ebea467ba0a35c6b3364",
+      "bytes": 33191,
+      "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
     },
     {
       "path": "docs/evidence/backlog-integration-20261003/final-first-format-paths.json",
@@ -792,6 +820,48 @@
       "bytes": 6108
     },
     {
+      "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/integration-ci-status.json",
+      "sha256": "526b0b14ae88160258da76fbb01a909d6368da63f36d6878aee5e97cf444b5d2",
+      "bytes": 838,
+      "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/original-ci-binding.json",
+      "sha256": "88cd0fcaf671e27d0b3669530a1fd1b97b796ce613ad8482a2cf4c38e97033c8",
+      "bytes": 1380,
+      "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/original-windows-ci-excerpts.log",
+      "sha256": "51c53906834c74e479f81fa438cccd58b0360cf91af6dca8ec094cbf718b49da",
+      "bytes": 10983,
+      "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/result.json",
+      "sha256": "94c8835e1bd4719d643cba7a1699bad9653de9dcba91bbc4fbf96e1e2de35095",
+      "bytes": 10778,
+      "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/targeted-command.json",
+      "sha256": "55a11bec1e3e6ce4cc9f992a3016db1e58409dcc231b164e2161a5860ba41c8d",
+      "bytes": 1599,
+      "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/targeted-test.log",
+      "sha256": "2c273f3b933d5fc1e736d1a886f04d86c9472d8d08efd1bdb9b1164007c155a8",
+      "bytes": 3234,
+      "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
       "path": "docs/evidence/backlog-platform-wsl-identity-cache-20261003/bindings.json",
       "sha256": "c325b3d52a068ded74658a47d19044c1dbcd5ae535501c8cc0204f9cea05c31d",
       "bytes": 2645
@@ -876,6 +946,286 @@
       "path": "docs/evidence/backlog-services-task-index-ingestion-20261003/source-bindings.json",
       "sha256": "d18d270c36fdace9bb2046c646c6942a248edc8c2be9895fdde6da69afdd0e03",
       "bytes": 3501
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/README.md",
+      "sha256": "e38e996508f03ab9ba7118a7e249b1c3c5ebccae4c1f57c478afc98892cca3a8",
+      "bytes": 7400,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/SHA256SUMS",
+      "sha256": "e481450b6a5fcf006dddbe448059103e74eec3c075638a46dceb65ea8b919993",
+      "bytes": 4174,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-checkout-lines.log",
+      "sha256": "75cbbce1d3487ff8ed3cf400b75a950287b764bc1404118ca8d5115da2cbd0e7",
+      "bytes": 1337,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-ci-snapshot.json",
+      "sha256": "a620c8a5a5b248c69fcba0298e508ac32d3672e5d20cc9d93e2da9aef4e21ee3",
+      "bytes": 10192,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-atomic-write-fake-safety-20261002.test.ts-10242.log",
+      "sha256": "4ec5e609f24733f8837005c75c35a89f23c8a48587a556aa299b9bf957b35df6",
+      "bytes": 1254,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-feedback-traversal-fake-authority-20261002.test.ts-10289.log",
+      "sha256": "58e6283865ee84f5e6fc118ffc8c3e33f2cab226e8194b1147f7c31e4426fe0b",
+      "bytes": 2724,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-file-service-fake-write-safety-20261002.test.ts-10326.log",
+      "sha256": "9f7d0713b69dddd10aea5b3a607b2ab6c82f673305f274003e022a16207af65c",
+      "bytes": 1509,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-checkpoint-helpers-fake-safety-20261002.test.ts-10345.log",
+      "sha256": "8417fd978f34b9c35c57ed9845e8d462c231e299607ee55d5dd85e6416044a6e",
+      "bytes": 1441,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-checkpoint-repo-fake-safety-20261002.test.ts-10364.log",
+      "sha256": "bca6d0452db2855b6dc225b58ff598cb418977da1fcc4fef66b688a9b6ad47b9",
+      "bytes": 1836,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-cli-helpers-fake-safety-20261002.test.ts-10389.log",
+      "sha256": "63193ca660a39d11966427df1df649a2b5d01b8ffa4448df10a5effb7ccf6a2c",
+      "bytes": 1452,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-cli-repo-fake-safety-20261002.test.ts-10411.log",
+      "sha256": "3c0139fa919379595acf1fc66964efa53f322f823499373a795ab8ae7f5aa13b",
+      "bytes": 1591,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-plugin-archive-fake-containment-20261002.test.ts-10464.log",
+      "sha256": "d7031c29f4f5f5a116d644956a8deb9fb2e2731bfe34f013f2abf49150b3b038",
+      "bytes": 1874,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-runtime-tool-fake-permission-20261002.test.ts-10485.log",
+      "sha256": "e8c394a302485ed6605da8778a9979d035d0a52a4c81c2b692143e69951f7280",
+      "bytes": 1794,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-skills-write-permission-safety-20261002.test.ts-10509.log",
+      "sha256": "c5d2735d286e281cc77fd5ec90015b73f2bb59d8c74c1aabd589b57d35950a30",
+      "bytes": 1380,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-ssh-alias-fake-authority-20261002.test.ts-10530.log",
+      "sha256": "c64d52f9562a9bc3a99fbb652e9b3f28285d6a42498ba6391531a4228c91df08",
+      "bytes": 296,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-ssh-alias-fake-authority-20261002.test.ts-7364.log",
+      "sha256": "73154b3c7d55b31f3fa794f043039238b9f0e03cdf4f417694c79e6e63701fef",
+      "bytes": 1734,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-storage-cleaner-fake-safety-20261002.test.ts-10534.log",
+      "sha256": "20b6a894d3f87313af454366d37a8c71171e2a72a3a12ef466a9bb961b8f7493",
+      "bytes": 1742,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-log-selection.json",
+      "sha256": "18ac5af0d4d2c14724c057db4a6f6b325273f5114a340aec4270839f29df6c92",
+      "bytes": 4844,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/receipt-formatting-attempt.json",
+      "sha256": "40960a70f1cb4c102b0ec061bb6cd2a516409c9a869c7917d4a7daa01f36930b",
+      "bytes": 1542,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/receipt-formatting-attempt.log",
+      "sha256": "d5bd27a64dfada6a95d3602cb5bf5f9d2303ca6e7ee7fa2b3502c07cc85ddcbb",
+      "bytes": 34,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-after.json",
+      "sha256": "855e35d7a5b47c4d093afdf935236e2580d2270884e4ff3d3470cac82aa3836d",
+      "bytes": 734,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-after.log",
+      "sha256": "a4752f1ad0a7997959a2feed6bc15865f56d73da934b5e30a360656b63274fa0",
+      "bytes": 199,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-before.json",
+      "sha256": "2766191dffc8b29426b4464056eeb5d5b8690b4b314e2defc7cf24d77988f52b",
+      "bytes": 735,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-before.log",
+      "sha256": "6884c7487f5298170b88c9a6c6f7ff6ceef7a8cb8d2748ac0fdd4e2fc6eb9848",
+      "bytes": 991,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/source-bindings.json",
+      "sha256": "6416be8e10055f1022bf44938578f4279decb0aa276c3f69e66ea9bba60a4be8",
+      "bytes": 8902,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/targeted-runner.py",
+      "sha256": "c8651832d52a6c19c228b1f3214b82e77157756361981cf284fd996fe6b995e7",
+      "bytes": 3292,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/validation.json",
+      "sha256": "8b01e2f366fe3f85d8b5ee3187b480d05bc9228a13c576ba13a2f0d65cb448f3",
+      "bytes": 15385,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-after.json",
+      "sha256": "914d7604a1f4f8353bb97c890461e71d1724d3fcc305591ff105a521900b7ed2",
+      "bytes": 2098,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-after.log",
+      "sha256": "2d6027efd6e068728271b156b3503e68efed1d5953899f8a67dce293e5bc5338",
+      "bytes": 3437,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-before.json",
+      "sha256": "a51b7a3bd77e7cb992e04aad6de01e89cbb5873379a1b0ea60b17dafa167d5b3",
+      "bytes": 1163,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-before.log",
+      "sha256": "72d93ead588b68b5fb7d41af167859dcec2a94be0bcd8977c1a06b8f9085ee9c",
+      "bytes": 12923,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-preload.mjs",
+      "sha256": "23cb283d19d62b8c58641af949a6992e00929e82a68e1686c2df9aaafa411bb2",
+      "bytes": 238,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-architecture.json",
+      "sha256": "93e47aed3d3977363aeb0d6cf1492722b793437bf588f9739d2b7ae105afc1ed",
+      "bytes": 230,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "bytes": 50,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-fixtures-native-after.json",
+      "sha256": "38a6ef71dd2b7c9c487689aa85f6bd125ea832e3a8137d911da94a07fe831701",
+      "bytes": 2169,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-fixtures-native-after.log",
+      "sha256": "88cc5ebb804f75d675114b864d4d4108c1afad5873a1841bba6d1b0be21adae1",
+      "bytes": 3517,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-format.json",
+      "sha256": "b34b6687b10873a14affb5f7a69e8b19cb4a7da980b7f2f1aebeecbdf9d826ca",
+      "bytes": 1162,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-format.log",
+      "sha256": "0ddc0ee92685f5e4cc88ed3f12b2a8b670fba929b6019feab5eeb5ea1bf36f83",
+      "bytes": 46,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-lint.json",
+      "sha256": "4835e7e9794319470ff9724a2f1b1224f61c6fb701cd241cdc3f6211b69f8f03",
+      "bytes": 1136,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+    },
+    {
+      "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-lint.log",
+      "sha256": "a757145084134945d40e4a6548a4931d7cea3b987e486922aff5add7f91d7d33",
+      "bytes": 91,
+      "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
     },
     {
       "path": "docs/evidence/backlog-ui-20261003/consumer-resources-activity.json",
@@ -7895,6 +8245,27 @@
       "bytes": 601,
       "sourceCommit": "d03df27e30768649c77d004092d7508fa8b9afbc",
       "observation": "Read-only old CI platform log excerpt/API snapshot tied to the old synthetic merge; generated after the run, not a file in that source tree. Newer run status is explicitly separate, not a new passing check."
+    },
+    {
+      "path": "docs/evidence/final-ci-pre-platform-repairs-20261003/api-observation.json",
+      "sha256": "0bc7fd32c206b7554bfeec00da30e6239ef66c477bb1f7631f7a172fc4782fcf",
+      "bytes": 7638,
+      "sourceCommit": "d2bcf9aa926adad1c0a130f81bebefd46c07d470",
+      "observation": "Generated from actual completed c576 CI logs/API after the run; not a file in the source commit, not a current final-combination passing result."
+    },
+    {
+      "path": "docs/evidence/final-ci-pre-platform-repairs-20261003/linux-excerpt.log",
+      "sha256": "1d4d6b272633e4c35ebdfb45e787527226c3cc3dc3b3e9d994d084ec3c6bac67",
+      "bytes": 687,
+      "sourceCommit": "d2bcf9aa926adad1c0a130f81bebefd46c07d470",
+      "observation": "Generated from actual completed c576 CI logs/API after the run; not a file in the source commit, not a current final-combination passing result."
+    },
+    {
+      "path": "docs/evidence/final-ci-pre-platform-repairs-20261003/windows-excerpt.log",
+      "sha256": "39d2f4572d59af6962d8bfbea7b283674c2b60ccd18440a6e881678549bc1aaf",
+      "bytes": 683,
+      "sourceCommit": "d2bcf9aa926adad1c0a130f81bebefd46c07d470",
+      "observation": "Generated from actual completed c576 CI logs/API after the run; not a file in the source commit, not a current final-combination passing result."
     },
     {
       "path": "docs/evidence/final-combined-checks-20261003/architecture.json",

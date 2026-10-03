@@ -55,9 +55,7 @@ const rewrite = (text) =>
     )
     .replaceAll(
       '"../ids.js"',
-      JSON.stringify(
-        new URL("apps/cli/packages/core/dist/workflow/expert/ids.js", root).href,
-      ),
+      JSON.stringify(new URL("apps/cli/packages/core/dist/workflow/expert/ids.js", root).href),
     )
     .replaceAll(
       '"./json.js"',

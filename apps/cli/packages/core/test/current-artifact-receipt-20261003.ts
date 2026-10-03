@@ -17,7 +17,10 @@ interface CurrentReceipt {
 }
 
 const sha = (text: string) => createHash("sha256").update(text).digest("hex");
-const text = await readFile(new URL("./current-artifact-receipt-20261003.json", import.meta.url), "utf8");
+const text = await readFile(
+  new URL("./current-artifact-receipt-20261003.json", import.meta.url),
+  "utf8",
+);
 assert.equal(sha(text), "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714");
 const receipt: CurrentReceipt = JSON.parse(text);
 assert.equal(receipt.formatVersion, 1);

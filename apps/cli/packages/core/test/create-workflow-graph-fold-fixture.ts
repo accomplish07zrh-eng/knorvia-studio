@@ -53,8 +53,7 @@ assert.equal(
   reducerArchive.emittedSha256,
   "b935726d4a000be940c997e23262f2f6c0936131a57ecd87e019d72a96e12564",
 );
-const originalReducerUrl =
-  `data:text/javascript;base64,${Buffer.from(reducerArchive.compiled).toString("base64")}`;
+const originalReducerUrl = `data:text/javascript;base64,${Buffer.from(reducerArchive.compiled).toString("base64")}`;
 const oldUrl = moduleUrl(archive.compiled, "create-workflow-graph-fold", {
   "@knorvia/dynamic-workflow/projections": originalReducerUrl,
 });

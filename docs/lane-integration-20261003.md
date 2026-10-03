@@ -2,6 +2,16 @@
 
 2026-10-03。父任务已经创建四路固定云任务，统一从 `3b1ff0f715a43cbc51c576fd524479a08e58e203` 建持久分支，draft PR base 为 `integration/backlog-20261003`。只复用这些任务和本整合对话，不创建替代任务。唯一面向 main 的组合出口是 [draft PR #13](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/13)。先前实现阶段未运行验证；父任务现已通知四路冻结，进入下述统一整合与集中验收阶段。暂不合并 main，不机械刷新来源清单或改写权利结论。
 
+## 最终两平台修复接收（09:30 UTC）
+
+四组完整最终输入：CLI `b7dc31ff315121e4302539a5309619b8d8a85b81`、native `a77f03e5925fbe458bfed06e6ebe8d3af0fc684c`、services `f5ebc48f033382706a945cf5ec5156b8905627e3`、UI `d6274d61fe6d15b976f3b7b5b24f8e62d470229e`。前三组通过普通merge进入 `4e9badd56b919bb72c2ec79d5627b8a8f1049c37`，UI已在先前c576接收，路径无重叠/冲突。lane分支接回73材料检查点的祖先同样保留，不将旧source分支缺少的新文档当成删除。详见 [完整接收与字节绑定](final-platform-repair-intake-20261003.json)。
+
+CLI当前source receipt实际含14个原selector、217个source/emitted条目，其中75个src条目与当前源码SHA相符；不是将12个原失败族等同14个selector数。旧selector/golden保持原字节，旧活动helper/caller/reducer绑定独立historical sidecar，未恢复的accepted-source/整文件权利HOLD不改。NaN原oracle恢复原reducer后24个旧golden匹配，live fold只增加SameValueZero组件相等，finite-endpoint reducer不放宽。native4个与services12个Windows失败文件仅修测试root/完整本机路径/别名/导入键，权限/计数/字节/顺序等断言保留。
+
+新services测试helper `packages/services/test/fake-native-paths-20261003.ts` 的当前SHA为 `1f37eaf44b98eb887c3b528bdf6fcd9a2d3d732958a9e58887f76ceba0a6ee70`，当前inventory为unreviewed/NOASSERTION/review null；CLI fold新SHA `fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66` 仍upstream-modified/NOASSERTION/review null。登记身份不构成原创、贡献权利或MIT验收。新增50份交付raw（CLI4/native6/services40）与原head逐项同字节，5617旧记录保留；另3份只读上轮CI观察，共5670记录/64,404,283字节。格式检查发现5个CLI夹具/reader与清单排版问题，仅列明排版，原交付SHA与排版后SHA分开，不碰hash绑定JSON/golden/raw。
+
+上轮c576受检synthetic `d2bcf9aa926adad1c0a130f81bebefd46c07d470` 实际结束：Linux8034/8008pass/18fail/8skip，Windows8031/7994pass/36fail/1skip；前置quality/CLI build过，offline失败，均不是本次最终修复组合结果。较早7bfb的Linux22/Windows40和材料73的取消日志仍保留，定向4/4只是Node24.14 Linux上的四个原失败。当前完整组合统一推送后，以标准CI的实际Linux与Windows结果为主，本地不重复整套types/lint/build/test或原路77/12。真实GUI/native权限、发布安装包/原用户数据现场检查不包含在这套offline CI中。26个材料项零关闭，旧LICENSE/NOTICE/register/reviewRequired及来源HOLD全部保持，main未合并。
+
 ## 固定任务与路径边界
 
 | 模块     | 固定任务 ID                          | 唯一编辑范围                                                                                                                                                                       | lane 记录                      |

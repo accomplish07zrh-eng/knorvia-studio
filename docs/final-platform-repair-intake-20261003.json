@@ -1,0 +1,1478 @@
+{
+  "schemaVersion": 1,
+  "priorPublishedIntegrationHead": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+  "priorEvidenceCheckpoint": "35a7e01ce3a84afba02e55c807fc87e56abcaa52",
+  "combinedSourceBeforeMetadata": "4e9badd56b919bb72c2ec79d5627b8a8f1049c37",
+  "preIntakeSpecCommits": [
+    "5badee37660f246601c8ff55b7701a62d0eb39b8",
+    "9d7573b12f9fa4338786f26d9a20c2fcd2bff0e2"
+  ],
+  "laneInputs": [
+    {
+      "lane": "native",
+      "deliveredHead": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+      "mergeCommit": "a5cadd068bc065b8d966d03df26cf6ac286be3bc",
+      "conflicts": [],
+      "exactDeliveredPaths": [
+        {
+          "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/integration-ci-status.json",
+          "sha256": "526b0b14ae88160258da76fbb01a909d6368da63f36d6878aee5e97cf444b5d2",
+          "bytes": 838,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/original-ci-binding.json",
+          "sha256": "88cd0fcaf671e27d0b3669530a1fd1b97b796ce613ad8482a2cf4c38e97033c8",
+          "bytes": 1380,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/original-windows-ci-excerpts.log",
+          "sha256": "51c53906834c74e479f81fa438cccd58b0360cf91af6dca8ec094cbf718b49da",
+          "bytes": 10983,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/result.json",
+          "sha256": "94c8835e1bd4719d643cba7a1699bad9653de9dcba91bbc4fbf96e1e2de35095",
+          "bytes": 10778,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/targeted-command.json",
+          "sha256": "55a11bec1e3e6ce4cc9f992a3016db1e58409dcc231b164e2161a5860ba41c8d",
+          "bytes": 1599,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-platform-windows-fixtures-20261003/targeted-test.log",
+          "sha256": "2c273f3b933d5fc1e736d1a886f04d86c9472d8d08efd1bdb9b1164007c155a8",
+          "bytes": 3234,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/lane-native-20261003.md",
+          "sha256": "bfcc37cbbf34d8b5ad90bace15ed64c7d66cc376450d0166908e4ebb8ff50336",
+          "bytes": 40428,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c"
+        },
+        {
+          "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+          "sha256": "838138a939eef6a23b1af1060632872f4f9cf161fdcfc92f926785d774aeb151",
+          "bytes": 10571,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c"
+        },
+        {
+          "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+          "sha256": "c4671e0422642128a4c444c51d63e7a2354932597d300c1a0c48f03cb58416f5",
+          "bytes": 6018,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c"
+        },
+        {
+          "path": "packages/server/test/local-tar-normalized-link-safety.test.mjs",
+          "sha256": "86b33b362c0d8bfc1a62e9403b8d8189a77ff33da25962134a4d4f80c469dc8e",
+          "bytes": 3923,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c"
+        },
+        {
+          "path": "packages/server/test/remote-header-proxy-contract.test.mjs",
+          "sha256": "42a5f45d78d045beab013fcea7a29cd5b9b8702d0b30df791e69f343bb5a47de",
+          "bytes": 5261,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c"
+        },
+        {
+          "path": "specs/knorvia-next-platform-windows-fixtures-20261003.md",
+          "sha256": "0f4263d7236a8f7ed349ea91bdf4b4560dcbafb89a93a24c34758cd2aff00355",
+          "bytes": 3918,
+          "sourceCommit": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c"
+        }
+      ],
+      "newFrozenRecords": 6,
+      "evidenceRuntimeBoundary": "Lane-local Linux Node 24.14.0 with native/Win32 path API variants; real Windows acceptance awaits standard current-combination CI."
+    },
+    {
+      "lane": "cli",
+      "deliveredHead": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "mergeCommit": "fce5ec0ffd90560d3bec3c01ae292fbfad8840a7",
+      "conflicts": [],
+      "exactDeliveredPaths": [
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+          "sha256": "fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66",
+          "bytes": 6966,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/causality-fold-caller-history-20261003.json",
+          "sha256": "ff6c7443b825ddfe970d1c5a23999eeaef5b5cb5a0d6c031838d52b9f907ab42",
+          "bytes": 7876,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+          "sha256": "afcf432e70274bb4b9b6875b874660122fc61b8de9581ae93aa189bb0c41fb58",
+          "bytes": 10357,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+          "sha256": "25070e1a359d35acf61df983e5ddaed7b0c1c1a3efef837d3b625075a7120297",
+          "bytes": 10893,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/create-workflow-graph-loader-fixture.ts",
+          "sha256": "f039b7b20bc2ffabac5ab9c5a27987d10c20d900cecaab36f64816e9e2754c55",
+          "bytes": 2949,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+          "sha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+          "bytes": 71186,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
+          "sha256": "9b0f02b7888cff8237f9058ac45f95daf9f19556183758a4517d30b6e9599766",
+          "bytes": 2298,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+          "sha256": "a1341a7ef43b4bf885ceea99ca7b9de79f325c153d9c3605a13bffedfbe35fcf",
+          "bytes": 7518,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/runtime-task-registry-observation-fixture.ts",
+          "sha256": "e5c5360430b89685cb90484d03608d94fe1ddd680ebf48716de3f714285fb002",
+          "bytes": 7101,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-collection-planner-fixture.ts",
+          "sha256": "9df9e38597097838611cc41714e4d8a7fb41eaccc68e3cff1511a318323ff74b",
+          "bytes": 2823,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-event-log-fixture.ts",
+          "sha256": "e4d2f13433830c8d5f291d98093d134448fdd9a4842d15c13f74678cfc03df95",
+          "bytes": 2357,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs",
+          "sha256": "82a560537d4862ae4716ac65c23b6f148ed51909ad6f066a204e81d8d0b8f619",
+          "bytes": 3387,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-graph-artifacts-fixture.ts",
+          "sha256": "d051911a4d4d76054270a444577223175e4b6f6647d24cfb55ec2b1e7f27477e",
+          "bytes": 4090,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-node-publication-fixture.ts",
+          "sha256": "d0b4b2b7ca28b6f7c1724ffd0c2c796a23c4b48dd53df61e203c90a6e4939fb4",
+          "bytes": 3542,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-phase-runner-safety.test.mjs",
+          "sha256": "6bb9bf7660c897df1733f052fbf8c87fa76d5474009102bfa05338081d684ab0",
+          "bytes": 7797,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-planner-expansion-fixture.ts",
+          "sha256": "38d10be70b4eec88213323b649d1a73be2a568c35b3fcbfc009409f943bd6e1d",
+          "bytes": 2431,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-ready-order-fixture.ts",
+          "sha256": "e365b06a1deaa8216ad7ecd1ddbe791aa8d4185c8b3179b98540c0ef37f4ff0a",
+          "bytes": 3037,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-run-activity-fixture.ts",
+          "sha256": "28825192a258016757abbacec3ddeb0d17448f66b4f205c7867aeca9028d3866",
+          "bytes": 12499,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-run-activity-parent-history-20261003.json",
+          "sha256": "2ed9b88196ca6cdd2890c3a0761aac00611cabc2753bd27075d89b182045fb1f",
+          "bytes": 15627,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+          "sha256": "eb60ea6ce2d97819e5596ded649d586e363ea4859a0f5f3f23c7ea08fcf7e85d",
+          "bytes": 7501,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-runtime-context-safety.test.mjs",
+          "sha256": "b862f41c13d50acad8cb658a410dbf435288bfbf5db323a57afec437745ef138",
+          "bytes": 4165,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-scheduler-observation-fixture.ts",
+          "sha256": "fdc72d5f35905c93a71e748b3fbb6c2e702960f87e47802c573f8e067c41c750",
+          "bytes": 2642,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "apps/cli/packages/core/test/workflow-scheduler-state-fixture.ts",
+          "sha256": "d3fa8ad0036305333ff4fbad249a5ce55b1b0737576ec48fc0bc2790eaf030fb",
+          "bytes": 3950,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "docs/evidence/backlog-cli-20261003/final-core-artifact-repair.json",
+          "sha256": "f24a94811d44a9db388614570690bdc7eed913171cae388feb9369a8ef5a62f9",
+          "bytes": 164456,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-cli-20261003/final-core-source-output-contract.mjs",
+          "sha256": "a0cdacd69c0edcb7a22d046bf60205555c57e73a5469dcc214097e70dabdeff9",
+          "bytes": 3890,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-cli-20261003/final-windows-fixture-url-contract.mjs",
+          "sha256": "27538201b50e82e4ad4fa4743eb8ca18d2acddffcd625bf4ee8bddb43d302cd5",
+          "bytes": 8859,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-cli-20261003/final-windows-fixture-url-repair.json",
+          "sha256": "9d4ba809fc9595f9d0b67a53f20f822e4bae088fb132ebea467ba0a35c6b3364",
+          "bytes": 33191,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/lane-cli-20261003.md",
+          "sha256": "280c354c907845cba37dbc0ecf1155a736aac7fcc4dc43aa18801d7ab9fc7f0d",
+          "bytes": 52571,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        },
+        {
+          "path": "specs/knorvia-next-cli-final-type-contract-repair-20261003.md",
+          "sha256": "7568bd2c8415482c400d0f86697617a31621c297e3b0dd84d3dd1aac0450fcc4",
+          "bytes": 12110,
+          "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+        }
+      ],
+      "newFrozenRecords": 4,
+      "evidenceRuntimeBoundary": "Lane-local Linux Node 24.14.0 with native/Win32 path API variants; real Windows acceptance awaits standard current-combination CI."
+    },
+    {
+      "lane": "services",
+      "deliveredHead": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+      "mergeCommit": "4e9badd56b919bb72c2ec79d5627b8a8f1049c37",
+      "conflicts": [],
+      "exactDeliveredPaths": [
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/README.md",
+          "sha256": "e38e996508f03ab9ba7118a7e249b1c3c5ebccae4c1f57c478afc98892cca3a8",
+          "bytes": 7400,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/SHA256SUMS",
+          "sha256": "e481450b6a5fcf006dddbe448059103e74eec3c075638a46dceb65ea8b919993",
+          "bytes": 4174,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-checkout-lines.log",
+          "sha256": "75cbbce1d3487ff8ed3cf400b75a950287b764bc1404118ca8d5115da2cbd0e7",
+          "bytes": 1337,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-ci-snapshot.json",
+          "sha256": "a620c8a5a5b248c69fcba0298e508ac32d3672e5d20cc9d93e2da9aef4e21ee3",
+          "bytes": 10192,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-atomic-write-fake-safety-20261002.test.ts-10242.log",
+          "sha256": "4ec5e609f24733f8837005c75c35a89f23c8a48587a556aa299b9bf957b35df6",
+          "bytes": 1254,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-feedback-traversal-fake-authority-20261002.test.ts-10289.log",
+          "sha256": "58e6283865ee84f5e6fc118ffc8c3e33f2cab226e8194b1147f7c31e4426fe0b",
+          "bytes": 2724,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-file-service-fake-write-safety-20261002.test.ts-10326.log",
+          "sha256": "9f7d0713b69dddd10aea5b3a607b2ab6c82f673305f274003e022a16207af65c",
+          "bytes": 1509,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-checkpoint-helpers-fake-safety-20261002.test.ts-10345.log",
+          "sha256": "8417fd978f34b9c35c57ed9845e8d462c231e299607ee55d5dd85e6416044a6e",
+          "bytes": 1441,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-checkpoint-repo-fake-safety-20261002.test.ts-10364.log",
+          "sha256": "bca6d0452db2855b6dc225b58ff598cb418977da1fcc4fef66b688a9b6ad47b9",
+          "bytes": 1836,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-cli-helpers-fake-safety-20261002.test.ts-10389.log",
+          "sha256": "63193ca660a39d11966427df1df649a2b5d01b8ffa4448df10a5effb7ccf6a2c",
+          "bytes": 1452,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-git-cli-repo-fake-safety-20261002.test.ts-10411.log",
+          "sha256": "3c0139fa919379595acf1fc66964efa53f322f823499373a795ab8ae7f5aa13b",
+          "bytes": 1591,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-plugin-archive-fake-containment-20261002.test.ts-10464.log",
+          "sha256": "d7031c29f4f5f5a116d644956a8deb9fb2e2731bfe34f013f2abf49150b3b038",
+          "bytes": 1874,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-runtime-tool-fake-permission-20261002.test.ts-10485.log",
+          "sha256": "e8c394a302485ed6605da8778a9979d035d0a52a4c81c2b692143e69951f7280",
+          "bytes": 1794,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-skills-write-permission-safety-20261002.test.ts-10509.log",
+          "sha256": "c5d2735d286e281cc77fd5ec90015b73f2bb59d8c74c1aabd589b57d35950a30",
+          "bytes": 1380,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-ssh-alias-fake-authority-20261002.test.ts-10530.log",
+          "sha256": "c64d52f9562a9bc3a99fbb652e9b3f28285d6a42498ba6391531a4228c91df08",
+          "bytes": 296,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-ssh-alias-fake-authority-20261002.test.ts-7364.log",
+          "sha256": "73154b3c7d55b31f3fa794f043039238b9f0e03cdf4f417694c79e6e63701fef",
+          "bytes": 1734,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-failure-storage-cleaner-fake-safety-20261002.test.ts-10534.log",
+          "sha256": "20b6a894d3f87313af454366d37a8c71171e2a72a3a12ef466a9bb961b8f7493",
+          "bytes": 1742,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/historical-log-selection.json",
+          "sha256": "18ac5af0d4d2c14724c057db4a6f6b325273f5114a340aec4270839f29df6c92",
+          "bytes": 4844,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/receipt-formatting-attempt.json",
+          "sha256": "40960a70f1cb4c102b0ec061bb6cd2a516409c9a869c7917d4a7daa01f36930b",
+          "bytes": 1542,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/receipt-formatting-attempt.log",
+          "sha256": "d5bd27a64dfada6a95d3602cb5bf5f9d2303ca6e7ee7fa2b3502c07cc85ddcbb",
+          "bytes": 34,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-after.json",
+          "sha256": "855e35d7a5b47c4d093afdf935236e2580d2270884e4ff3d3470cac82aa3836d",
+          "bytes": 734,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-after.log",
+          "sha256": "a4752f1ad0a7997959a2feed6bc15865f56d73da934b5e30a360656b63274fa0",
+          "bytes": 199,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-before.json",
+          "sha256": "2766191dffc8b29426b4464056eeb5d5b8690b4b314e2defc7cf24d77988f52b",
+          "bytes": 735,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-before.log",
+          "sha256": "6884c7487f5298170b88c9a6c6f7ff6ceef7a8cb8d2748ac0fdd4e2fc6eb9848",
+          "bytes": 991,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/source-bindings.json",
+          "sha256": "6416be8e10055f1022bf44938578f4279decb0aa276c3f69e66ea9bba60a4be8",
+          "bytes": 8902,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/targeted-runner.py",
+          "sha256": "c8651832d52a6c19c228b1f3214b82e77157756361981cf284fd996fe6b995e7",
+          "bytes": 3292,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/validation.json",
+          "sha256": "8b01e2f366fe3f85d8b5ee3187b480d05bc9228a13c576ba13a2f0d65cb448f3",
+          "bytes": 15385,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-after.json",
+          "sha256": "914d7604a1f4f8353bb97c890461e71d1724d3fcc305591ff105a521900b7ed2",
+          "bytes": 2098,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-after.log",
+          "sha256": "2d6027efd6e068728271b156b3503e68efed1d5953899f8a67dce293e5bc5338",
+          "bytes": 3437,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-before.json",
+          "sha256": "a51b7a3bd77e7cb992e04aad6de01e89cbb5873379a1b0ea60b17dafa167d5b3",
+          "bytes": 1163,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-before.log",
+          "sha256": "72d93ead588b68b5fb7d41af167859dcec2a94be0bcd8977c1a06b8f9085ee9c",
+          "bytes": 12923,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-preload.mjs",
+          "sha256": "23cb283d19d62b8c58641af949a6992e00929e82a68e1686c2df9aaafa411bb2",
+          "bytes": 238,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-architecture.json",
+          "sha256": "93e47aed3d3977363aeb0d6cf1492722b793437bf588f9739d2b7ae105afc1ed",
+          "bytes": 230,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-architecture.log",
+          "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+          "bytes": 50,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-fixtures-native-after.json",
+          "sha256": "38a6ef71dd2b7c9c487689aa85f6bd125ea832e3a8137d911da94a07fe831701",
+          "bytes": 2169,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-fixtures-native-after.log",
+          "sha256": "88cc5ebb804f75d675114b864d4d4108c1afad5873a1841bba6d1b0be21adae1",
+          "bytes": 3517,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-format.json",
+          "sha256": "b34b6687b10873a14affb5f7a69e8b19cb4a7da980b7f2f1aebeecbdf9d826ca",
+          "bytes": 1162,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-format.log",
+          "sha256": "0ddc0ee92685f5e4cc88ed3f12b2a8b670fba929b6019feab5eeb5ea1bf36f83",
+          "bytes": 46,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-lint.json",
+          "sha256": "4835e7e9794319470ff9724a2f1b1224f61c6fb701cd241cdc3f6211b69f8f03",
+          "bytes": 1136,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/evidence/backlog-services-windows-fixtures-20261003/windows-lint.log",
+          "sha256": "a757145084134945d40e4a6548a4931d7cea3b987e486922aff5add7f91d7d33",
+          "bytes": 91,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+          "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
+        },
+        {
+          "path": "docs/lane-services-20261003.md",
+          "sha256": "77217cbd5b9d62ac7face5953574c77f99bf2276a89e8a1b611478098cf99b62",
+          "bytes": 36157,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+          "sha256": "c6bf31a917c05b6572204c02fca0742c80ad8e5b64f5abfbae7e78a91f5f2226",
+          "bytes": 4065,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/fake-native-paths-20261003.ts",
+          "sha256": "1f37eaf44b98eb887c3b528bdf6fcd9a2d3d732958a9e58887f76ceba0a6ee70",
+          "bytes": 336,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+          "sha256": "ad5842c6d20409beb02fa869e65b0ae0521c0d1acf39e6998a5d4b495dc888e5",
+          "bytes": 3868,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+          "sha256": "9fdd3fdeb8d0e3c3c2385f3f4363c516cb3a3781d8861345237935617d163e07",
+          "bytes": 5289,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+          "sha256": "5b06d23d6a6b65f027ecc011e25dfff1e4779fb750e8e5adc5f2747b77a1478f",
+          "bytes": 2706,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+          "sha256": "a86726b314127a38350da82c30ec685ce02708a375945a4cf80b655583f06b15",
+          "bytes": 7017,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+          "sha256": "963fddea1e7b11afca8016136ad29fa165fe6d2d801317f772ff34f1fccccf04",
+          "bytes": 6083,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+          "sha256": "403c809032631f6b9849f87286137e1ac821f4906baf14ee94b06a2fb6f5b49c",
+          "bytes": 10222,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+          "sha256": "6ca31921cee166eece7604408045adb257779e3179d6a3bc06de6b65e68e48a0",
+          "bytes": 9285,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+          "sha256": "ab2a988f6e865024dc004ca5729bbfbf873cb0c32f83bfb6cff7149d5ad1ae82",
+          "bytes": 1679,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/skills-write-permission-safety-20261002.test.ts",
+          "sha256": "7c3c73ce79b436f24a56ddc3f2b5c0ea612c8b8683d079ee1c7086d57685f7b3",
+          "bytes": 4480,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+          "sha256": "26931d23ace868704c9a1300eef84d9ffa3ecf3eb1a2c74877c77942b882f16e",
+          "bytes": 6629,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts",
+          "sha256": "c6911770e7a372d4008b6cc6f409509003163bb79cac972d697ddd334751206a",
+          "bytes": 2456,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        },
+        {
+          "path": "specs/knorvia-next-services-windows-fixtures-20261003.md",
+          "sha256": "002a6361848a6576ef170587f0c4c120b6c23b195c61e32223830c5dc1bb035d",
+          "bytes": 2726,
+          "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+        }
+      ],
+      "newFrozenRecords": 40,
+      "evidenceRuntimeBoundary": "Lane-local Linux Node 24.14.0 with native/Win32 path API variants; real Windows acceptance awaits standard current-combination CI."
+    }
+  ],
+  "uiRetainedHead": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e",
+  "newHelper": {
+    "path": "packages/services/test/fake-native-paths-20261003.ts",
+    "sha256": "1f37eaf44b98eb887c3b528bdf6fcd9a2d3d732958a9e58887f76ceba0a6ee70",
+    "bytes": 336,
+    "sourceCommit": "f5ebc48f033382706a945cf5ec5156b8905627e3"
+  },
+  "currentArtifactReceipt": {
+    "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.json",
+    "sha256": "9ceb5294d0a9f5885a5eec65f85283e3bac6797407bf03809cc6e9ce52bdc714",
+    "bytes": 71186,
+    "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+  },
+  "currentArtifactReader": {
+    "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
+    "sha256": "a4ff7a3e8d2aaa39f82f4fa0312e71feade36d1b6082321d8486a49914e82f8f",
+    "bytes": 2305,
+    "receivedSourceBinding": {
+      "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
+      "sha256": "9b0f02b7888cff8237f9058ac45f95daf9f19556183758a4517d30b6e9599766",
+      "bytes": 2298,
+      "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+    },
+    "derivedFromSourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+  },
+  "currentSourceClosure": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+      "bytes": 6412
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+      "sha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e",
+      "bytes": 4832
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-request.ts",
+      "sha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d",
+      "bytes": 4205
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "sha256": "0c8677cc64d8799e84b44f1517fdb85e945238725fa30619f275c583bed8a644",
+      "bytes": 4099
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "sha256": "19ac834c02a1dad962ba222222f03051a6b47e0d5e58030651904dd0a707f271",
+      "bytes": 3711
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/result-persistence-format.ts",
+      "sha256": "f4f309784e0e46ca9d39284446f010a5868138440d8dafa1723e563b92938688",
+      "bytes": 2030
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/definition.ts",
+      "sha256": "cb99d33034e4b8abeb0253b87d549616a3e80b554240b65a239f9c34dae563b2",
+      "bytes": 4065
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/ids.ts",
+      "sha256": "c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b",
+      "bytes": 1035
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+      "sha256": "4c19e9c37bcbd687a46c952f9adf0c4df81837898f1556ca90a8ccec9044b80f",
+      "bytes": 6070
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+      "sha256": "4c85d648308ccd32b01dabbc473c2c7f41e432e8ab9ced0dc8d2384f2f2c3920",
+      "bytes": 2668
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts",
+      "sha256": "f660f6d888a8d1de0096bd024ccc3e589f1f19b144ea0b13183729aa72315fbd",
+      "bytes": 1388
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts.ts",
+      "sha256": "5f5a51bacfeb9509f8273465335dd208e0a1af59acda3e7f2d46f69ef937e829",
+      "bytes": 7642
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts",
+      "sha256": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772",
+      "bytes": 5451
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+      "sha256": "6d88c797e2ffb7495a318179c3bd08af5dfceaeb584216ec7bc2e051e85f848a",
+      "bytes": 10089
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler.ts",
+      "sha256": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330",
+      "bytes": 7810
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+      "sha256": "fa1c586d03ede1a5f1accd91510eda330e2124687b8c35f7c102e7b6d2478a10",
+      "bytes": 2448
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "sha256": "e10189d9294535ce37bd15478e168af88fa7979f5523c5a7c465dae4eee20fab",
+      "bytes": 12307
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+      "sha256": "76bd3052ec32cf85e4d1698c7d4ac8a35b7685a15539c3c0f4785565f05a9b35",
+      "bytes": 3719
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+      "sha256": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+      "bytes": 100
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts",
+      "sha256": "7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a",
+      "bytes": 3609
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "sha256": "9cb8f4b045f3112ba5f042a9a827fa3bdae1c42166c43dc0a0fc27b39b830c34",
+      "bytes": 10215
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+      "sha256": "b270a43f2495c03d391a0277f42dd3e65026ab57251a750e0018c2937444c316",
+      "bytes": 5170
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+      "sha256": "313b0e0920fa24865d451b1e4cb15d1f4a0182cc09ef1493b85dce9309c58a2d",
+      "bytes": 3031
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts",
+      "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d",
+      "bytes": 434
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/types.ts",
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106",
+      "bytes": 4401
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts",
+      "sha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+      "bytes": 3196
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/index.ts",
+      "sha256": "d2e5ceb97f06cbe0bcdeb45dc8306863d722f1a6f3dbb831c86d60b72b4d22a1",
+      "bytes": 2093
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/definition.ts",
+      "sha256": "0e451f6aa2a279f9800a5a5cb59d85ebf4d2888083e8580d3e110317738673f3",
+      "bytes": 4661
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/graph-schema.ts",
+      "sha256": "26cb1bb521068bc587a6f134dcad55608c1586efc94cac2e0eac912c9b24a2a2",
+      "bytes": 5233
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/run-schema.ts",
+      "sha256": "4beeefcee8749448719da64931ba76d09f7abce3dc2e2842a718a2f2fb37bc78",
+      "bytes": 7841
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/scheduler-state.ts",
+      "sha256": "5885b7ae0b77bd541d05c8973c0b4a8f50b11d73a0762759356846f812ad0e3c",
+      "bytes": 8513
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/session-links.ts",
+      "sha256": "e01c5641fb5ee432ee0e50c5ae3fa72c0bf15a1bb5fdb20245382b08ee8d87dc",
+      "bytes": 1811
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/script.ts",
+      "sha256": "9282b115b4c7bf6bfc184c6aad657e6a8ad1a6336e6fb4620c228335b434eb8d",
+      "bytes": 9529
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/index.ts",
+      "sha256": "3d9972674e770c92a16beaf414be53412f6f1ca10fe059b2f193041a2005bf27",
+      "bytes": 3284
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/graph-helpers.ts",
+      "sha256": "803e4e94cb682f6e6cfb7e761fa303ea700022292d79cf7a56f6b10b95960feb",
+      "bytes": 6067
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/ready-order.ts",
+      "sha256": "b53a5452e39ecf77827b58fc534d597a5f1b55fdc931a122a583bac17a047032",
+      "bytes": 1658
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts",
+      "sha256": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f",
+      "bytes": 5096
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/run-loop.ts",
+      "sha256": "39182c7c05b39c72fda6df19ae4670cdf77773327f374100c1871ad511c06633",
+      "bytes": 6072
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+      "sha256": "812efeb8112c526068a53be9fe8be40b8186df1606aff547f832e7e2e1d2f73e",
+      "bytes": 2761
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/formatters.ts",
+      "sha256": "66e8432c5e9895bc237fcdd6874200f7ebf462685a4f12a10d62130a90a3c089",
+      "bytes": 1271
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/phase-runner.ts",
+      "sha256": "4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0",
+      "bytes": 7751
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+      "sha256": "61ca48e1f3c429d25701abeabdcd8b7c2ac6bf2d2b1a315cda77e4710171362e",
+      "bytes": 10301
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "sha256": "fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66",
+      "bytes": 6966
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "sha256": "880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09",
+      "bytes": 12385
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts",
+      "sha256": "91c1b71be0108aacded780ce8bf98755b24833ac35fe392626ec2e7630f9a362",
+      "bytes": 2281
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+      "sha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe",
+      "bytes": 3211
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-file-window.ts",
+      "sha256": "1699a35e464da83d2a6a046274159c4cceca12dd882478599da8f3af9ea38566",
+      "bytes": 2267
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/lifecycle-seed.ts",
+      "sha256": "53712b28c4c7acb99b0a582bcbc055eb24f90191091dcc595c18d2cf9c2b38af",
+      "bytes": 5465
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/critic-loop.ts",
+      "sha256": "9bad65d06d2e7de38a7588a83523803c7ae2c572feda5ed44fdfae7424cb4df5",
+      "bytes": 7229
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/failures.ts",
+      "sha256": "d93b9e128fc82618830d4e98d62506ea1b8465c8b449b0da6d8d6a6fa8748613",
+      "bytes": 5040
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/critic.ts",
+      "sha256": "a013b344938f4c8102985a791f02c0bcb4a296832111547fe846340befe45130",
+      "bytes": 3838
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result-display.ts",
+      "sha256": "b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af",
+      "bytes": 2090
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/bash-result-display.ts",
+      "sha256": "8eddfa33f0b4774d50039fde774dcedd751c0df5628d2e4a0b0704cd0adef4b9",
+      "bytes": 1578
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/create-workflow-display.ts",
+      "sha256": "9878f1f080f174edb9f73361c903e40fb0c777a86453887b8ddd842cfb137466",
+      "bytes": 716
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-observation-display.ts",
+      "sha256": "81654ab513e337bbffad1a95062ec004ba44d77e987dfcb8be19e01c08f24f25",
+      "bytes": 1624
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/computer-card.ts",
+      "sha256": "0f4e38dcefb58014a76bb1c0383f681f9c5879e039fbe0984da3b5aa49ca9a26",
+      "bytes": 4364
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/diff-card.ts",
+      "sha256": "1afde7c0d4e76c06af4b3d7fa68d8d0711e66646bc0b560e6f66ea5eae4e7683",
+      "bytes": 1712
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/mcp-card.ts",
+      "sha256": "ef3378e55bb7de0c0abf0abed9611913ccff41a2f383e08ebdbb7aedb7420988",
+      "bytes": 1932
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/repl-card.ts",
+      "sha256": "dbd246eb86ed12fb9544b84b848053216c95bfbf2f0d886cb28504417f680a36",
+      "bytes": 2415
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/task-cards.ts",
+      "sha256": "55510561ec370088018fa54816fc51b6581a9af52378b12c52c700b5c8e84d23",
+      "bytes": 3242
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/analysis-card.ts",
+      "sha256": "532140d24e4f67369a2b1de21f03aad2b5e3f5090b84746af12d39cfa6d4da3f",
+      "bytes": 1510
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/policy.ts",
+      "sha256": "50431c70e63723e4d32e95f142f552ffc6732f6dd81b57648d6c7c0c2bdaced0",
+      "bytes": 2080
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/catalog-cards.ts",
+      "sha256": "64e015d532a7ef13d14b8d73b035b3d8289c0b36672d5693ba4d5e7a750ffd19",
+      "bytes": 2867
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/run-card.ts",
+      "sha256": "61edeef403aaec21796d54e86d3fb67b9cf9fe2f439351ad7f014055dffff378",
+      "bytes": 3423
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display-text.ts",
+      "sha256": "274c5f8a4b0eca9e12a7772dba4e7afb9c40a95d59b63b278cc43236f11f81a0",
+      "bytes": 624
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/utils.ts",
+      "sha256": "9981f857013ddba2b7e100e5f2bf3a112e1e466797d4746027d1c3d6c907d474",
+      "bytes": 950
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/diff.ts",
+      "sha256": "c9059395219e301da67a17cd5aafaa3d37890510a99961ee8b0ead477a8c75aa",
+      "bytes": 895
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts",
+      "sha256": "c18b0b4c85cd854007f30259963e03d67420ef5e68668d039719fd59d3081e19",
+      "bytes": 2333
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "sha256": "d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493",
+      "bytes": 10266
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "sha256": "c1043ddaa583e819a79b394093ae8e113dfff8f56faad65529739fd10b291c25",
+      "bytes": 9599
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "sha256": "f0ba0deb6a7c1e798bba988504da734ed32bf10582501cf635c130c3add0abca",
+      "bytes": 3367
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+      "sha256": "4c939a6b4f59e769c81cfcf9e6a896b52df0cfba8de54e1a480dcb709f197608",
+      "bytes": 2898
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "sha256": "e97ff8dcd6edcfae62c37d96125eeff0d87346f88d6966ef7786110bfc2f3c92",
+      "bytes": 13501
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-published-artifacts.ts",
+      "sha256": "fdd85b052fbbff41966ac5cef40751e50476c4dd4f200602e3bdee31a220c454",
+      "bytes": 12155
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/workflow-notification-copy.ts",
+      "sha256": "9690c664fd3dc74f8deee3ef650af894a5a5fcdc329c5f6d6a66842dea4ae9e2",
+      "bytes": 9077
+    }
+  ],
+  "currentEmittedClosure": {
+    "verification": "Not locally rebuilt or claimed passing at this intake. Standard CI CLI build and original current-artifact readers verify emitted hashes on the actual checked tree.",
+    "files": {
+      "apps/cli/packages/core/dist/runtime-task/registry.js": "4a12edda3db2833925b00430589af95d1ceb09db6b02f195b80346934dd50a09",
+      "apps/cli/packages/core/dist/runtime-task/registry.d.ts": "6228bbb680ef22defd0c394cc21227d24fbaae3f452ca9485f8f47c4a603339a",
+      "apps/cli/packages/core/dist/tool/handlers/task-output.js": "8f3372e4054b2b2a98ddfb1330d2b9ab2eec6ea1a54afe59b41a3681f8ba9573",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-request.js": "bfb8355a3277e802a2ef5bfdb805db387251643d3a8ca3a51d5e2e30eb2c7f75",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-projection.js": "833b35f7407f9b6f17f83dcb296a987ce403197347f7453228e4635eaf1a688e",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-bash.js": "13b513564dd7f50cc4f411c1c08f3bb5c5688c15d195fe53b25643c81f1aa5bb",
+      "apps/cli/packages/core/dist/tool/result-persistence-format.js": "2c6e44b4a6ff6c647099199d1f04dc0bfc1e5777f66530e0ccaecd60ddf1f9fb",
+      "apps/cli/packages/core/dist/workflow/definition.js": "bba83ef64aaa69642d3f74f1c24a003069b96e3b1e8cb97d9a6a7c00aeb493d0",
+      "apps/cli/packages/core/dist/workflow/expert/ids.js": "5f68c2762fac66f468d01bdcd1d4cda1d505093f8e655131ae22f3ef568cf3bf",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js": "b88263ffd111585851775a6c598ddfa75d0d89fa8fc405f9bbe8e50f0833fee5",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/json.js": "c064b673dda34142860a3d1adf89ab97a45ae8165203ec994ddd03943698f64e",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.js": "790097f609cdde282130609fec738b42e723e6d8ec93350aad287811e0abb5bd",
+      "apps/cli/packages/core/dist/workflow/expert/prompts.js": "881c3f08ba07e62e06f75584fc80be02fe0b925085b74395af740a5516108cbf",
+      "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.d.ts": "6dbfb198b9572488416662ac2ecfe6eb4bcfcd0ae761efe5ddebedfe7765d45d",
+      "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf",
+      "apps/cli/packages/core/dist/workflow/lifecycle.js": "7c4997d999410e803ed1428f129698289a9c8fa39cf536b2b454adffb8286d8b",
+      "apps/cli/packages/core/dist/workflow/scheduler.d.ts": "7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e",
+      "apps/cli/packages/core/dist/workflow/scheduler.js": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+      "apps/cli/packages/core/dist/workflow/scheduler/collection-events.js": "8932bd0e36d0b203716d07bd12bf3e8fea58de965a5636336061a90a274973f4",
+      "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.js": "1d2fbd8a585ffcf0aaa9efe0f91846b640bee57242cdc02e98f3aab45728f322",
+      "apps/cli/packages/core/dist/workflow/scheduler/events.js": "7617e5e529df23af3c62367abd5272285b02340d682f31a919176fe4bb06de04",
+      "apps/cli/packages/core/dist/workflow/scheduler/graph.js": "8860b80e13e80f8035e41e6d8a5ce5e29d62e78a1805985fb6c45c59a46c6f69",
+      "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.js": "29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa",
+      "apps/cli/packages/core/dist/workflow/scheduler/node-runner.js": "f8c62d8254f79d170eb77db610dd907e89b581bb8efc02de1b6ca3e9ceb7dc6e",
+      "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.js": "dd13d25cbfded01efa114ec1febecf20d83bd8737f63b106fc72b3777f18c52b",
+      "apps/cli/packages/core/dist/workflow/scheduler/prompts.js": "619cd3a7383214f8eaae1e0246c2b0887c43d36a4d14878ce14857f987dbc989",
+      "apps/cli/packages/core/dist/workflow/scheduler/collection-planner.d.ts": "a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406",
+      "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.js": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+      "apps/cli/packages/core/dist/workflow/scheduler/collection-planner-admission.d.ts": "094a501110470842331c4f70c1254305086d0ed73c257168cbf4b450c3c07d66",
+      "apps/cli/packages/contracts/dist/workflow/index.js": "7bfe5c05ee1c8f2d9e1da2c265c4b02ef72d9edcdb6f55b6d71fb26d73cdde24",
+      "apps/cli/packages/contracts/dist/workflow/index.d.ts": "e1de39bdb8f144388687bfbc3f42b89995edb864821cbf063a2ce37d075b3d6f",
+      "apps/cli/packages/contracts/dist/workflow/definition.js": "8ad6d16fea8557541fae29c03d69ee62d36a808f4b08a1764e84ed007d518e57",
+      "apps/cli/packages/contracts/dist/workflow/definition.d.ts": "3a605a2d8d0731c453b5dd42e8239d2eff62ab56c30dcd2ea78ae9e56d8b55c3",
+      "apps/cli/packages/contracts/dist/workflow/graph-schema.js": "52cda92fdc57b5071e8a0fbf2b3cd4da283617f311ad2cb6d119e20d608cb7d5",
+      "apps/cli/packages/contracts/dist/workflow/graph-schema.d.ts": "ab546fec5dc3b1ce379ad074a68ffae0f3ea8cba79b278878db9602480a133b2",
+      "apps/cli/packages/contracts/dist/workflow/run-schema.js": "bc3be71bda1d3efe803bf3024f6b6cd8fdc2684d64e8a1652b60b902b35363d1",
+      "apps/cli/packages/contracts/dist/workflow/run-schema.d.ts": "9d5a0c675e823621c7d4416bcfcf4bfeb078e2dcf6733a950b9400da6083e816",
+      "apps/cli/packages/contracts/dist/workflow/scheduler-state.js": "e65ba1a4ba5a4dc1fc16df48d2de328dc828e5a5bf994b0add3eba2399f7ed16",
+      "apps/cli/packages/contracts/dist/workflow/scheduler-state.d.ts": "06dae1e943d15d5fde81e7cac6af9ab27005253940302bb1d83e150260e1c473",
+      "apps/cli/packages/contracts/dist/workflow/session-links.js": "db7f0352702de794bd1b8f9e8d712b7be3ef8ce0b5b244019ffba5cb68be02e5",
+      "apps/cli/packages/contracts/dist/workflow/session-links.d.ts": "2d0afc7bdb9b4faaf41595f834404b9be261e23a623e04b70333709445674083",
+      "apps/cli/packages/contracts/dist/workflow/script.js": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97",
+      "apps/cli/packages/contracts/dist/workflow/script.d.ts": "b6e9d821011f7e8325be4b29c9d36aad538a47ee722a7587558043316f0f6803",
+      "apps/cli/packages/contracts/dist/index.js": "6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc",
+      "apps/cli/packages/contracts/dist/index.d.ts": "08a1b5a343aa43201c4240bb792f143238f58f9ca3081ab1257c3455ffc55974",
+      "apps/cli/packages/core/dist/workflow/scheduler/graph.d.ts": "032f23777c276c3705362abec0ab8b52f516d923ac9a04e0b9b43eae2d3210fc",
+      "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.js": "75a062e72d2d028f6c8c511b7cd208bf9f81e5e7f5f891e0c0391df2662616e6",
+      "apps/cli/packages/core/dist/workflow/scheduler/graph-helpers.d.ts": "a10d919809d5819492620ff14596764a60c8fcf8521efd83c28da2932ab4a6ce",
+      "apps/cli/packages/core/dist/workflow/scheduler/ready-order.js": "3a6e0c6c02524ee809e71193aeeeb23903523f7eea5df1d132821353f241f0ba",
+      "apps/cli/packages/core/dist/workflow/scheduler/ready-order.d.ts": "b10c1647caf974f094bcfd5378ca2fedcc07069e14e1a9cf75d59010728b58ab",
+      "apps/cli/packages/core/dist/workflow/scheduler/events.d.ts": "29d17214257c7ffad8ee4c0083117531a206dac9a99f517e85aa944ad3aaed9f",
+      "apps/cli/packages/core/dist/workflow/scheduler/node-runner.d.ts": "614a8ef711229bf5c56a59c80f2d0aea589ad93b1971ac26643a438b9cf2abd1",
+      "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.js": "fa3517673692119d082b1ad67de3bd4771f8379fe307bc7f3d46e6706875afdf",
+      "apps/cli/packages/core/dist/workflow/expert/graph-artifacts.d.ts": "05592b8fbf31a82d3219074ca09dc1bb98dd43bcc5506cf1d638bf1f1cda0344",
+      "apps/cli/packages/core/dist/workflow/expert/run-loop.js": "4c77c89b4e027a16d022a735ad152d123c9952bef3d590c75668ce942ede8977",
+      "apps/cli/packages/core/dist/workflow/expert/run-loop.d.ts": "5f269481a34bf7fb4f59d6513de60e94045f1812e3dec655378cac93eb9008fb",
+      "apps/cli/packages/core/dist/workflow/lifecycle.d.ts": "7cf2b6ed2951bc18d700e7e5176a72256a0ae8e588f028955d2524d2db387c73",
+      "apps/cli/packages/core/dist/workflow/expert/ids.d.ts": "f9a8f510578a85c80d89a9c65dcaf9b856475fbaac9732c9519f515fbf4531a1",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.d.ts": "1fac306d3a4abaed17b50410794dc436ffaa94de8c975ae560df8038016d2b20",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.js": "56b0465511af12d4c92b83caa16781991206c077c8f9cc3a72c87cba6c9a3b57",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.d.ts": "1b2864bf4771bafd4ac1966d47bc795cc14ec19e37f6f8533376717287807222",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/json.d.ts": "9a7e1ef10410d9f8a9c33d599cf827dc439ee817387c4f694f0779a38dbc6a20",
+      "apps/cli/packages/core/dist/workflow/expert/formatters.js": "cb087385ff658b05a093745efb42c29f860a3f3d57e733bad3df4694c13913e5",
+      "apps/cli/packages/core/dist/workflow/expert/formatters.d.ts": "279b9f7c0f9cee87dbf89de82f9ea58b67e746686c75450f8ed4cf47429dd5e2",
+      "apps/cli/packages/core/dist/workflow/expert/phase-runner.js": "c463d67e3c905f0ce756b22bc90aa1a457a975a5254dbb6ba3e49c27f2d28c26",
+      "apps/cli/packages/core/dist/workflow/expert/phase-runner.d.ts": "c4d2ce122a2bde644d5ca4bbb7842fdb99e18d06373da611036027a236217d1e",
+      "apps/cli/packages/core/dist/workflow/expert/runtime-context.js": "53a256e84e0ca690deaac37f9b1b14393b974b6e98e9b00f0531cb4145d77fef",
+      "apps/cli/packages/core/dist/workflow/scheduler/planner-expansion.d.ts": "bd73cbec3754418db7fc8d75db28f8140875485fd741d6dece5a897dadbba32e",
+      "apps/cli/packages/core/dist/workflow/expert/runtime.js": "76150019c870323dcb3e21d1aaaad8cf58b3939a2ed08dc5e2629e061b231086",
+      "apps/cli/packages/core/dist/workflow/expert/failures.js": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3",
+      "apps/cli/packages/core/dist/workflow/expert/runtime-context.d.ts": "588b1f1f9f2b5ea75321681e9b9c7ab36a0394bb4e004fe968a955cd7ab0fedf",
+      "apps/cli/packages/core/dist/workflow/scheduler/node-runner-outcome.d.ts": "df6bc19463d8628aa0520adbd7c42e1020dddf8bb34ca39846f3a955a8a33056",
+      "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js": "59ff352b95594b2b0da94fb21399a9341d75f4619e7d3bddfc47c8bc30a77b4a",
+      "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts": "b1a39977f57a82f6580769538f2fba6d70e8a58b546bf30d0fb3f62f892da108",
+      "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca",
+      "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.d.ts": "97e1a676b5152025a72c6a1cd7f9cdd97dab373a06d9c67455b1ee5d7d3c11ff",
+      "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.js": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2",
+      "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.d.ts": "ae2e9dfd412a5ce0b411727599f130f9d65b403dc6a9def3796c16c1e15fc262",
+      "apps/cli/packages/core/dist/runtime-task/registry-waits.js": "8f51c5dffabc73f505ff5485424b80f57dcb1a54f59cde3639c96d640110788e",
+      "apps/cli/packages/core/dist/runtime-task/registry-waits.d.ts": "da6f817abe507a0549d85d868deb0b5fd4a069112be7a39620704b03568dc046",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-file-window.js": "8fb24f87da998f3a360a9a50650a7587773c847a61547b04dbc3bb47eae02fae",
+      "apps/cli/packages/core/dist/tool/handlers/task-output-file-window.d.ts": "807d895612df7f465524bf7b345c35b772640adceb52ce46c37a154ecc4751e3",
+      "apps/cli/packages/core/dist/workflow/lifecycle-seed.js": "6a5757c48ed16a995b8a9a6b4a993c9c08084f8f698b044b4674990aa05938f6",
+      "apps/cli/packages/core/dist/workflow/lifecycle-seed.d.ts": "254a8cf78b8a5674dee2a188d8976b60c6d12ea79e853de6684620edbe6e0bfe",
+      "apps/cli/packages/core/dist/workflow/scheduler/prompts.d.ts": "bf0a99310ba513aaa086b4c9d0382a24f1ff34ab4fe7b42f91b3a1b80eee8d03",
+      "apps/cli/packages/core/dist/workflow/scheduler/collection-events.d.ts": "aa92b2b47327981cee1677904ca878eb98a1a62355f1d38f224e287613cbe1d5",
+      "apps/cli/packages/core/dist/workflow/expert/critic-loop.js": "58312876224f082f7cf9c1f8c5c0f316f68c126e86af9005a07aa69b78621b0f",
+      "apps/cli/packages/core/dist/workflow/expert/critic-loop.d.ts": "831ce2ea4e2391b1c85faae2c4a2035c8354c135772650fbc47c27417470b7ac",
+      "apps/cli/packages/core/dist/workflow/expert/failures.d.ts": "ffd63e059a37f9f334e6897323165ddeea0f80d97dbf0b357c2846010211e240",
+      "apps/cli/packages/core/dist/workflow/expert/prompts.d.ts": "e8e399069f918a330fc4d92ec4207153b5609fb0265f82be11406186e63f99b1",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/critic.js": "218d8a4d9ab39e4d5b0563f054b8fc406687138b0e9d6872f9c3c893787613ad",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/critic.d.ts": "41b493ddb728cc8d31126f326154c98a04de3356b5fff51e0999f5404d51dac9",
+      "apps/cli/packages/core/dist/workflow/definition.d.ts": "55499a820decd0d97a69d01a600bee213d063c1cf8ebf3bd4ef250971a9d1698",
+      "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.d.ts": "98706a06fbc410a010f7037e177dfce2915eacae3ce901111d7b95fa2fb4816e",
+      "apps/cli/packages/core/dist/tool/executor/result-display.js": "fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc",
+      "apps/cli/packages/core/dist/tool/executor/result-display.d.ts": "f267efa701def1e2a23f1fb8637f201656f322f46f1830e9abf86f88982672d0",
+      "apps/cli/packages/core/dist/tool/executor/bash-result-display.js": "b7f202a96d3744296b8e60448d7534c807b73f5ebeb7cc9472f48530db7cb851",
+      "apps/cli/packages/core/dist/tool/executor/bash-result-display.d.ts": "efeb14549b08433f65224bc3577b0d54aea3e57e48e5995e7b18aaf3b3a3c99b",
+      "apps/cli/packages/core/dist/tool/executor/create-workflow-display.js": "aedb0a555957b1b6ae25981273d6ad49a926affdbe9816a1754650b04bc16368",
+      "apps/cli/packages/core/dist/tool/executor/create-workflow-display.d.ts": "8c0483dae3d24b01120c920fe2d0af9878695a55cefffdf79b2373715d1647ef",
+      "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.js": "aaec8b91a65199968092fc5c4954ff6298f7e59a1a41a893cb56516a4c4d0a7c",
+      "apps/cli/packages/core/dist/tool/executor/workflow-observation-display.d.ts": "598375de36dcaf70f574a3fbfc6e34e1e44e25d55500bb7f63170a254492ec22",
+      "apps/cli/packages/core/dist/tool/executor/display/computer-card.js": "2b911848156ab5453bec0b083b8734f3578290b3361733b0711c11c353022d94",
+      "apps/cli/packages/core/dist/tool/executor/display/computer-card.d.ts": "95226d82c5a4ed5d90b29eed61419107befaa8b2dbeac72098da21a177bd54e4",
+      "apps/cli/packages/core/dist/tool/executor/display/diff-card.js": "da7d5445387bbd6b26908007433238e8bf3fd1bbad078f2e7efa30d8db7ca332",
+      "apps/cli/packages/core/dist/tool/executor/display/diff-card.d.ts": "0bc5f6efc15434345b78bb57c22f944f73e2f156941052141330a2d0895bab33",
+      "apps/cli/packages/core/dist/tool/executor/display/mcp-card.js": "5bfab60547fddbba336cd30cf26ad677084b81480641bbdd9b377bdf044380fd",
+      "apps/cli/packages/core/dist/tool/executor/display/mcp-card.d.ts": "2824f9073de8c896fc70c252b1048f190c08191fee703ede1d88de9a148a6963",
+      "apps/cli/packages/core/dist/tool/executor/display/repl-card.js": "8936469da803a3beb98dbdc3668521d34727bd2bb285e65a5847ab80f03f30e7",
+      "apps/cli/packages/core/dist/tool/executor/display/repl-card.d.ts": "a067bd9b5b1b5d25d1a394bc1578fc4b5f21bab97bee46eb055a6f780efaeb7b",
+      "apps/cli/packages/core/dist/tool/executor/display/task-cards.js": "8d6d2a95b5eba24d4c068de603e668f237191c1a200a92f93c0aac82082b9028",
+      "apps/cli/packages/core/dist/tool/executor/display/task-cards.d.ts": "136b68387fbd418890009efc8bf690ae67a5abee1b24edd6dca3bd481280c74b",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.js": "508efb240bb7e9b19185c85c73df61a4c9391645a39db6d0d68a2fc9b29e8ab8",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/analysis-card.d.ts": "de901de9825642d31c2a79f93a0a3ea3767c3cf73b10c5d79d15d589287e27fb",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/policy.js": "c2d31ba4ad3ae799bd05a10b39a9bbac217c845b570f15dd1c4c267b35d5b0c7",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/policy.d.ts": "4a4c50bc2a24d85a922ecca7b4bd79d23b0a9e0cb8eea25ee7e68e325011aa79",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.js": "a9195591904d2a86509f13dbaf207b763d25a2f47278137598de3d29c3e7e06f",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/catalog-cards.d.ts": "66498ce598f17074d5c9f5faf0e0cc97187c493d6474e2039744d2381b4f38d9",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.js": "1acf8f0c0ae581a43d6ab5d7b1fb2b97b6e5c82b335fe9aa4df6cd7f4e7bf65e",
+      "apps/cli/packages/core/dist/tool/executor/workflow-display/run-card.d.ts": "26c5bac1909b7709aff0bf5b76e11c1cd3215d726f1894d62c4ad2cc18c9fe07",
+      "apps/cli/packages/core/dist/tool/executor/display-text.js": "eed8ce4f61845c698934834aa86c57f2ddb71c1e7844a363512686c9be6b2069",
+      "apps/cli/packages/core/dist/tool/executor/display-text.d.ts": "beae9911b09506ce288d9042bbbed81fa66a38dd68b017285a769d9a1217b3ea",
+      "apps/cli/packages/core/dist/tool/executor/utils.js": "9a978a579c69acb00453791b9cda5c6908c7d413aae7a50b8dfbb3c0f19ceec3",
+      "apps/cli/packages/core/dist/tool/executor/utils.d.ts": "9b38d760abc7efc593df742466c89d4d38aa0297c93cfb4a623e8cfdd181a9d1",
+      "apps/cli/packages/core/dist/tool/diff.js": "677ca7e3b4be74ac980aeef6e3ff9050f8e6ccd578a574350fa122bb71b2add1",
+      "apps/cli/packages/core/dist/tool/diff.d.ts": "49239202eebe886cccdcc31d193122debd7f853df43e40e17c5f7e736da3eb31",
+      "apps/cli/packages/core/dist/tool/executor/result/byte-budget.js": "768e4fe694e1a9478d832dbb56a4ec87f56c9c99b4f1a66b6e886b614830d77a",
+      "apps/cli/packages/core/dist/tool/executor/result/byte-budget.d.ts": "de5b9b07d8c4fb9455b1bbecf36e5c9082973b1ae71c380a4f9567f408c496f3",
+      "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js": "afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c",
+      "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.d.ts": "bd1ec9a70c34cf92baa3a7ead52676f2b763d5843caf64433dd2a705ac37f44b",
+      "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js": "335c484027125acae5379addc6d63fdb5ff6c67bb316dce861f9fdd3728180d2",
+      "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.d.ts": "dab9bd653386279a534db45ef681ad86f6b636b779935ca21602c30760d25bda",
+      "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.js": "6b9758d9585babeeabb3a2b7b6b7b9858c196a88f5da00929c8604c2666ce6c8",
+      "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.d.ts": "2a469d4a8072cffe0b3b6acc7edfe0fb987b1104e09be8eb6d6030f012738ae6",
+      "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js": "99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e",
+      "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.d.ts": "53eda68d039bff288c575767434ed889c30b06f8786fcc58f9541ef215fd226f",
+      "apps/cli/packages/core/dist/runtime-task/notification.js": "b3a7e116064cfe29d75b1a6ec25a805c48e29c20cf5eb9e204171950abef2e9a",
+      "apps/cli/packages/core/dist/runtime-task/notification.d.ts": "bf4bed89cce8e6e4e1abd2dd047ae08b6de4d73aded8d31c905e3813e8f321a6",
+      "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.js": "b11fa699309101a6b5b93a4eb6043a71c75a8b7169ac5c815d8a262317f0dbb0",
+      "apps/cli/packages/core/dist/tool/executor/workflow-published-artifacts.d.ts": "db83147d7e9c231b797032b9ee48ac58f95c8b90ca2e1dd086a4cd2362e1bfe4",
+      "apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.js": "428dcb9c3d11aa2688f8e5d7bc207eac3b17c349a2a22b3e627e98fb5cd66e2d",
+      "apps/cli/packages/core/dist/runtime-task/workflow-notification-copy.d.ts": "2078fce7c4c002917e6439a5a003c3212a05b3566b488e4b795d20ba2f3c99a8"
+    }
+  },
+  "historicalSelectorsPreserved": [
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-observation-pins.json",
+      "sha256": "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f4ba517f6b2e31",
+      "bytes": 1674
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-collection-planner-current.json",
+      "sha256": "7e94786484de6bf9f0d8b50cb0325e41ee004cf5a1391ac6ade937deec51261f",
+      "bytes": 8500
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-event-log-pins.json",
+      "sha256": "340e14254fbbe5fce2a123065448b2baedcaed7f8f2b36b6e52d44b5d8a13a05",
+      "bytes": 1767
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-graph-artifacts-current.json",
+      "sha256": "22816e4d40feedc60de5fcb4961699f24e2a5f5c1e3ca916de61b9c3607d44ba",
+      "bytes": 5515
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-phase-runner-current.json",
+      "sha256": "1ad6917f650d5c5ff5af80e9cdfff69f91d2e47edfb4e5663f97f2ebd0013d7d",
+      "bytes": 1008
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-planner-expansion-current.json",
+      "sha256": "dbd3a5981a8d996c82f9756f778ef023ba2a530f66a5abe75ed7cb8be3e57e91",
+      "bytes": 8483
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-ready-order-current.json",
+      "sha256": "e5a1716504bb240bddd2dd8a311482dfb3a702f7d7cddc052d5b62c90c5996df",
+      "bytes": 8483
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-loop-current.json",
+      "sha256": "6348e165702fcbf337af0dfa405c348afe96f7aa7d45956f2238487519e9a6d3",
+      "bytes": 1221
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-runtime-context-current.json",
+      "sha256": "4829e023bd3862f49afac026ca9e26c024f83f36452a882ffc6cf61e05abad88",
+      "bytes": 679
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-observation-pins.json",
+      "sha256": "0e3ba33f51a7ac11d918a25ec7ffdff1857311325b9c744dc272ad246637ea64",
+      "bytes": 4194
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-scheduler-state-current.json",
+      "sha256": "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66",
+      "bytes": 8661
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-node-publication-current.json",
+      "sha256": "ca126a097ad5ce750ccb6f4a09c21ed20042c9ea222bccc9e8a9ad1df58aa5f2",
+      "bytes": 2528
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-loader-contract.json",
+      "sha256": "6e63aeebd7628e5a31f807e1165c702f662531757e053af41649f3a768c84419",
+      "bytes": 7545
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity-baseline.json",
+      "sha256": "87eff43d90dfe7911f994d2f82f10640eaca8e1b35b521355b7c539af7a613bf",
+      "bytes": 15667
+    }
+  ],
+  "historicalSidecars": [
+    {
+      "path": "apps/cli/packages/core/test/causality-fold-caller-history-20261003.json",
+      "sha256": "ff6c7443b825ddfe970d1c5a23999eeaef5b5cb5a0d6c031838d52b9f907ab42",
+      "bytes": 7876,
+      "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity-parent-history-20261003.json",
+      "sha256": "2ed9b88196ca6cdd2890c3a0761aac00611cabc2753bd27075d89b182045fb1f",
+      "bytes": 15627,
+      "sourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81"
+    }
+  ],
+  "causalityHistory": {
+    "originalReducerSourceSha256": "dc04aa06052c32a41bab2864b29ffd6bfc75edaf1ebd92d9b6aff0737af9c586",
+    "originalReducerEmittedSha256": "b935726d4a000be940c997e23262f2f6c0936131a57ecd87e019d72a96e12564",
+    "goldensChanged": false,
+    "priorDiagnosticSupersededWithoutDeletion": "The old oracle had accidentally imported the live reducer. Binding its exact historical reducer restores all 24 original golden cases; current fold uses SameValueZero for a NaN component while finite endpoint reducer checks remain."
+  },
+  "oldFrozenEvidenceRowsPreserved": 5617,
+  "newLaneFrozenRows": 50,
+  "newHistoricalCiRows": 3,
+  "frozenEvidenceRowsAfterIntake": 5670,
+  "frozenEvidenceBytesAfterIntake": 64404283,
+  "historicalCompletedCi": {
+    "recordRoot": "docs/evidence/final-ci-pre-platform-repairs-20261003",
+    "branchHead": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+    "syntheticSha": "d2bcf9aa926adad1c0a130f81bebefd46c07d470",
+    "linux": {
+      "tests": 8034,
+      "pass": 8008,
+      "fail": 18,
+      "skipped": 8
+    },
+    "windows": {
+      "tests": 8031,
+      "pass": 7994,
+      "fail": 36,
+      "skipped": 1
+    },
+    "notThisCombination": true
+  },
+  "checkBoundary": {
+    "allowedFastChecks": [
+      "changed non-raw path formatting",
+      "frozen evidence integrity",
+      "current source inventory freshness"
+    ],
+    "localFullTypesLintBuildOfflineRepeated": false,
+    "twoPlatformFinalAcceptance": "pending standard CI after a single coalesced push"
+  },
+  "rightsBoundary": {
+    "originalObligationsRetained": 26,
+    "obligationsClosed": 0,
+    "wholeModuleIndependenceAcceptedByTechnicalReceipt": false,
+    "wholeTreeMitReady": false,
+    "rootLicenseChanged": false,
+    "currentNewHelper": "Source-exposed test helper; source identity is recorded without granting independent-expression, ownership or MIT acceptance. Inventory disposition remains unreviewed/NOASSERTION unless supported by a specific reviewed record."
+  },
+  "mainMerged": false,
+  "integrationFormattingChanges": [
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+      "deliveredSourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "receivedSha256": "25070e1a359d35acf61df983e5ddaed7b0c1c1a3efef837d3b625075a7120297",
+      "currentSha256": "47f863ebd95068e4cc22fdbe3c527b14c990a1301c74b138f2b45d2f08ea4659",
+      "receivedBytes": 10893,
+      "currentBytes": 10891,
+      "change": "Locked oxfmt line wrapping and optional trailing comma only; reviewed diff. No assertions, imports, pinned SHA literals or code behavior changed; no behavior test inferred."
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-loader-fixture.ts",
+      "deliveredSourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "receivedSha256": "f039b7b20bc2ffabac5ab9c5a27987d10c20d900cecaab36f64816e9e2754c55",
+      "currentSha256": "ac2d63a6782600ab025a77e9291c5a0f4a61e6f6ca5517bd3c3f3225f9ad874b",
+      "receivedBytes": 2949,
+      "currentBytes": 2954,
+      "change": "Locked oxfmt line wrapping and optional trailing comma only; reviewed diff. No assertions, imports, pinned SHA literals or code behavior changed; no behavior test inferred."
+    },
+    {
+      "path": "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
+      "deliveredSourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "receivedSha256": "9b0f02b7888cff8237f9058ac45f95daf9f19556183758a4517d30b6e9599766",
+      "currentSha256": "a4ff7a3e8d2aaa39f82f4fa0312e71feade36d1b6082321d8486a49914e82f8f",
+      "receivedBytes": 2298,
+      "currentBytes": 2305,
+      "change": "Locked oxfmt line wrapping and optional trailing comma only; reviewed diff. No assertions, imports, pinned SHA literals or code behavior changed; no behavior test inferred."
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs",
+      "deliveredSourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "receivedSha256": "82a560537d4862ae4716ac65c23b6f148ed51909ad6f066a204e81d8d0b8f619",
+      "currentSha256": "c4d945dc6b00db9e000fdc504015c5bc319df7a01d7a6f6b3682018424e50105",
+      "receivedBytes": 3387,
+      "currentBytes": 3370,
+      "change": "Locked oxfmt line wrapping and optional trailing comma only; reviewed diff. No assertions, imports, pinned SHA literals or code behavior changed; no behavior test inferred."
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-ready-order-fixture.ts",
+      "deliveredSourceCommit": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+      "receivedSha256": "e365b06a1deaa8216ad7ecd1ddbe791aa8d4185c8b3179b98540c0ef37f4ff0a",
+      "currentSha256": "e4f1487bcbcc328e7de3bd5564fd5e62990f4d712aa3fbb9adc45c43f17eecd7",
+      "receivedBytes": 3037,
+      "currentBytes": 3012,
+      "change": "Locked oxfmt line wrapping and optional trailing comma only; reviewed diff. No assertions, imports, pinned SHA literals or code behavior changed; no behavior test inferred."
+    }
+  ],
+  "deliveredPathBindingScope": "laneInputs.exactDeliveredPaths records exact received bytes before the separately listed integration formatting; current bytes of those five files use integrationFormattingChanges. All other received paths still match their delivered heads.",
+  "oldFrozenEvidenceRowsPreservedAfterFormatting": 5617,
+  "currentReceiptJsonUnchangedAfterFormatting": true,
+  "initialChangedPathFormatCheck": {
+    "exitCode": 1,
+    "issues": [
+      "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+      "apps/cli/packages/core/test/create-workflow-graph-loader-fixture.ts",
+      "apps/cli/packages/core/test/current-artifact-receipt-20261003.ts",
+      "apps/cli/packages/core/test/workflow-expert-parser-safety.test.mjs",
+      "apps/cli/packages/core/test/workflow-ready-order-fixture.ts",
+      "licensing/frozen-evidence.json"
+    ],
+    "resolution": "Scoped locked formatter; original delivery hashes retained, current hashes separately registered."
+  },
+  "fastCheckResults": {
+    "changedPathFormatting": {
+      "exitCode": 0,
+      "matchedFiles": 50,
+      "tool": "locked oxfmt 0.41.0",
+      "earlierSixIssuesRetained": true
+    },
+    "frozenEvidenceIntegrity": {
+      "exitCode": 0,
+      "files": 5670,
+      "bytes": 64404283
+    },
+    "sourceInventoryReportAtObservation": {
+      "exitCode": 0,
+      "reviewProblems": 0,
+      "missingReviews": [],
+      "unresolvedThirdPartyMaterialObligations": 26,
+      "note": "Source identity freshness only; final metadata/formatter hashes require a refreshed report before publication."
+    },
+    "noLocalFullRepeat": true,
+    "realWindowsOrFinalCombinedOfflineClaimedPassing": false
+  },
+  "remoteHeadsReadback": {
+    "cli": "b7dc31ff315121e4302539a5309619b8d8a85b81",
+    "native": "a77f03e5925fbe458bfed06e6ebe8d3af0fc684c",
+    "services": "f5ebc48f033382706a945cf5ec5156b8905627e3",
+    "ui": "d6274d61fe6d15b976f3b7b5b24f8e62d470229e",
+    "integrationBeforePush": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+    "mainUnchanged": "bd0bb014c0974334557fa51814709d0b78f35f1d"
+  },
+  "unpromotedInventoryBindings": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "kind": "file",
+      "sha256": "fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66",
+      "normalizedSha256": "fe868022b2e79e60efb90ce32dc0f3872bd205de57dc6c9158186768c84f8e66",
+      "encoding": "utf8-lf",
+      "bytes": 6966,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+        "blob": "b365beb32e497fee8f61741fd6fabff08e992715",
+        "normalizedSha256": "6c646e75884f6bc364c48220c936d5121d00b91276252d11d2547f966d97b84c",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/services/test/fake-native-paths-20261003.ts",
+      "kind": "file",
+      "sha256": "1f37eaf44b98eb887c3b528bdf6fcd9a2d3d732958a9e58887f76ceba0a6ee70",
+      "normalizedSha256": "1f37eaf44b98eb887c3b528bdf6fcd9a2d3d732958a9e58887f76ceba0a6ee70",
+      "encoding": "utf8-lf",
+      "bytes": 336,
+      "classification": "unreviewed",
+      "upstream": null,
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  ]
+}

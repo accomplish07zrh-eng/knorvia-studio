@@ -24,13 +24,7 @@ const text = await read(new URL("./workflow-ready-order-current.json", import.me
 assert.equal(sha(text), "e5a1716504bb240bddd2dd8a311482dfb3a702f7d7cddc052d5b62c90c5996df");
 const pins: { files: Record<string, string> } = JSON.parse(text);
 export async function loadCurrent(reader = read) {
-  await verifyCurrentArtifacts(
-    "workflow-ready-order-current.json",
-    text,
-    pins.files,
-    root,
-    reader,
-  );
+  await verifyCurrentArtifacts("workflow-ready-order-current.json", text, pins.files, root, reader);
   return import(new URL(`${folder}/workflow/scheduler/graph.${extension}`, root).href) as Promise<
     typeof import("../src/workflow/scheduler/graph.js")
   >;
