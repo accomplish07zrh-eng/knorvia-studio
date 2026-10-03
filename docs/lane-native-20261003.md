@@ -960,3 +960,48 @@ and complete legacy migration remain outside this bounded acceptance. Parent
 owns draft-PR integration into main and shared current-source/frozen-evidence
 registration; no cross-module interface dependency is introduced. No main merge
 or release publication occurred in this task.
+
+## Installer controls, physical portable modes and ordinary uninstall retention
+
+Same fixed native task/branch continues after the retained email/Linux evidence
+checkpoint `5c3120f0abfd4031a9c69b5b8a6d2082721ef57d`. Additive source commits
+`1836f419aa2ac41117e21b1ba01e196d66227a2a` and
+`b03bb9d25b71ac07b7c8d510c4fc2d34ac966ff7` implement real installer shortcut
+checkboxes, installed/portable target separation and original-launcher storage
+selection. Marker-bearing Windows/Linux packages use a sibling `data/`; normal
+packages retain the current profile. Windows NSIS self-extraction no longer
+selects its temporary exe directory, and AppImage uses the original file rather
+than its mount. Explicit portable overrides and existing path validation remain.
+
+Ordinary NSIS uninstall now shares owned program-file cleanup, prunes only empty
+parents, and preserves unrelated/nonempty data even inside the install tree.
+Unreadable/missing manifests stop ordinary uninstall before deletion; legacy
+upgrade without a manifest still preserves old files. AppData cleanup remains
+disabled by default. Existing upgrade diagnostics, pinned-shortcut preservation,
+finish launch, native runtime packaging policy and resource hooks remain.
+
+Parent relayed UI [draft PR28](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/28)
+at `1a0febaf9b362b5bcd578d396ec566bf98a33e51`; its exact README/INTEGRATION/copy
+were read and its bitmap paths actually wired. Native adopts the concise native
+copy with welcome wording aligned to scope/directory/shortcut page order, keeps
+real system progress/file detail and finish-checkbox behavior, and does not
+rewrite UI images. Integration must include PR28 before packaging. The UI design
+preview remains a design draft, not Windows execution evidence. No renderer,
+services, shared protocol, root/CI/global source record or other-lane edits.
+
+[Source receipt and CI handoff](evidence/native-installer-variants-20261003/README.md)
+bind 14 changed inputs, seven unchanged shared files and exact UI blobs under the
+pre-edit [contract](../specs/knorvia-native-installer-variants-20261003.md).
+Ten new unit cases and four native-Windows cleanup cases are authored, **all
+unrun**. This source batch performs no test/lint/type/build/format/architecture
+check or full audit. Source/diff/blob metadata and remote confirmation only.
+Existing b5fbc3d8 Linux products and six-group deb acceptance remain unchanged;
+they do not establish acceptance of later installer/profile source.
+
+The email/Linux **draft PR creation** remains blocked by automatic approval
+review, which requires direct trusted end-user authorization for the specific
+public maintainer address rather than assistant delegation. The pending direct
+approval question is not answered, no PR was created, and no alternative write
+bypassed that rejected action. Code continues on the existing published branch.
+Parent owns native Windows/Linux builds, final validation, source registration
+and GitHub Release publication. No main merge, new task or replacement branch.
