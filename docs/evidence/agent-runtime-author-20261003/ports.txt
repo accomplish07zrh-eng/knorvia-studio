@@ -1,0 +1,12 @@
+This is AgentRuntimeInternal, imported only by type; runtime is the sole instance owner.
+initializeMessageHistoryFromContext(builder:ContextBuilder,trace:TraceContext):void
+startMcpStartup(trace:TraceContext):Promise<McpConnectionSnapshot|undefined> (constructor ignores returned promise)
+createDefaultSubagentPort(deps:AgentRuntimeDeps):SubagentPort|undefined
+beginShutdown():void
+memoryExtractionScheduler?.shutdown():void
+browserControlPort?.closeSession?.({sessionId,traceContext}):Promise<void>
+Logger.child({trace log fields,module:"core.runtime"}):Logger; Logger.warn(message,{error,event}):void
+runtimeTaskRegistry.setActiveBranchGeneration?(branchGeneration:number):void
+RuntimeTelemetryFacade constructor takes agentName,causation,causationMode,parentSessionId,port,sessionId,taskType; no telemetry invocation here.
+PermissionService constructor(defaultPermissionConfig); ToolScheduler constructor({maxConcurrency}); EventReducer,MessageHistoryImpl,InMemoryRuntimeTaskRegistry default constructors.
+All existing dependencies are retained imports, not authored or replaced. No live calls while drafting.

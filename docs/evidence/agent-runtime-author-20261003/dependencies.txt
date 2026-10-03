@@ -1,0 +1,19 @@
+DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY: "preflight-v1"
+resolveExecutionState: (input: { mode?: string | undefined; planEnabled?: boolean | undefined; }, current?: { mode: "auto" | "build" | "edit" | "yolo"; planEnabled: boolean; }) => { mode: "auto" | "build" | "edit" | "yolo"; planEnabled: boolean; }
+createDenyPermissionBroker: () => PermissionBrokerPort
+createRootTraceContext: (options?: { traceId?: TraceId | undefined; queryId?: QueryId | undefined; sessionId?: SessionId | undefined; turnId?: TurnId | undefined; attributes?: Record<string, string | number | boolean> | undefined; } | undefined) => TraceContext
+createToolRegistry: () => ToolRegistry
+defaultPermissionConfig: PermissionConfig
+EventReducer: typeof EventReducer
+MessageHistoryImpl: typeof MessageHistoryImpl
+PermissionService: typeof PermissionService
+ToolScheduler: typeof ToolScheduler
+traceContextToLogContext: (context: TraceContext) => LogContext
+installAgentRuntimeMethods: (ctor: AgentRuntimeConstructor) => void
+createRuntimeCommandQueue: () => RuntimeCommandQueue
+initializeRuntimeTooling: (runtime: AgentRuntimeInternal, deps: AgentRuntimeDeps, sessionId: SessionId) => { executor: ToolExecutor; hookRunner?: HookRunner | undefined; }
+InMemoryRuntimeTaskRegistry: typeof InMemoryRuntimeTaskRegistry
+projectPersistentAgentMemoryTools: (config: AgentRuntimeConfig) => AgentRuntimeConfig
+RuntimeTelemetryFacade: typeof RuntimeTelemetryFacade
+disposeNodeReplSession: (sessionId: SessionId) => void
+cloneModelSelection: (selection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }) => { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }
