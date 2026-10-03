@@ -1,0 +1,31 @@
+import type { createHash } from "node:crypto";
+
+import type { readFile } from "node:fs/promises";
+
+import type { ModelConfigRules, ProviderConfigMap, PersonalProviderConfigRepository, ProviderConfigLayerSnapshot, ProviderConfigLayerUpdate } from "@knorvia/provider";
+
+import type { atomicWritePrivateTextFile, withFileLock } from "@knorvia/shared/node";
+
+import type { decodeProviderConfigFile, encodeProviderConfigFile } from "./provider-config-file-codec.js";
+
+export interface NodePersonalProviderConfigRepositoryOptions {
+    readonly filePath: string;
+    readonly importLegacy?: () => Promise<ProviderConfigLayerUpdate | null>;
+    readonly onRecovery?: (event: PersonalProviderConfigRecoveryEvent) => void;
+    readonly onPollingError?: (error: unknown) => void;
+    readonly pollingIntervalMs?: number | false;
+}
+
+export interface PersonalProviderConfigRecoveryEvent {
+    readonly error: unknown;
+}
+
+export declare class NodePersonalProviderConfigRepository implements PersonalProviderConfigRepository {
+  constructor(options: NodePersonalProviderConfigRepositoryOptions);
+  read(): Promise<ProviderConfigLayerSnapshot>;
+  update(transform: (current: ProviderConfigLayerSnapshot) => ProviderConfigLayerUpdate): Promise<ProviderConfigLayerSnapshot>;
+  onDidChange(listener: (reason: string) => void): () => void;
+  dispose(): void;
+}
+
+export declare function createNodePersonalProviderConfigRepository(options: NodePersonalProviderConfigRepositoryOptions): NodePersonalProviderConfigRepository;

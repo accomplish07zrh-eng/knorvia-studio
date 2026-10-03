@@ -1,0 +1,1 @@
+Three bounded fake IO/lock/commit/recovery/poll-generation/disposal groups pass. Frozen empty-update freeze/hash ordering counterexample reproduced; corrected trace matches. No real user files/credentials, locks, permissions, native timers or provider operations.

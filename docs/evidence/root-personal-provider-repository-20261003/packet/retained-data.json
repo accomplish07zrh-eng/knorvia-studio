@@ -1,0 +1,104 @@
+{
+  "scope": "Retained observable data/protocol/security values, no implementation or real user configuration",
+  "constructorDefaults": {
+    "pollingIntervalMs": 1000,
+    "pollingDisabledValue": false,
+    "filePath": "Required supplied string; trim only for validation, stored untrimmed"
+  },
+  "changeReasons": [
+    "updated",
+    "poll-changed",
+    "poll-error"
+  ],
+  "targetErrors": [
+    "Personal Provider Config filePath 不能为空",
+    "Personal Provider Config pollingIntervalMs 必须大于 0",
+    "NodePersonalProviderConfigRepository 已 dispose"
+  ],
+  "io": {
+    "readEncoding": "utf8",
+    "missingErrorCode": "ENOENT",
+    "hashAlgorithm": "sha256",
+    "hashDigest": "hex",
+    "diskJsonIndent": 2,
+    "diskTrailingNewline": false
+  },
+  "snapshotOwnKeys": [
+    "revision",
+    "providers",
+    "models",
+    "providerOrder",
+    "defaultModelSelection"
+  ],
+  "selectedUpdateOwnKeys": [
+    "providers",
+    "models",
+    "providerOrder",
+    "defaultModelSelection"
+  ],
+  "emptyUpdateOwnKeys": [
+    "providers",
+    "models",
+    "providerOrder"
+  ],
+  "emptyProviderOrder": [],
+  "wire": {
+    "schemaVersion": 1,
+    "rootKeys": [
+      "schemaVersion",
+      "config"
+    ],
+    "configRequiredKeys": [
+      "providerConfigRules",
+      "modelConfigRules"
+    ],
+    "configOptionalKeys": [
+      "providerOrder",
+      "defaultModelSelection"
+    ],
+    "providerRulesWrapperKey": "providerRules",
+    "modelRulesSerializer": "toPersonalJSON",
+    "extraRootAndConfigKeys": "strictly rejected by canonical codec",
+    "optionalOrderAndSelection": "omitted only when undefined"
+  },
+  "versionCodecErrors": {
+    "class": "UnsupportedProviderConfigVersionError",
+    "name": "UnsupportedProviderConfigVersionError",
+    "versionFieldType": "number|null",
+    "messageTemplates": [
+      "Provider Config 缺少 schemaVersion",
+      "Provider Config schemaVersion ${version} 高于当前支持的 ${CURRENT_SCHEMA_VERSION}",
+      "缺少 Provider Config schemaVersion ${version} 到 ${version + 1} 的迁移器",
+      "Provider Config schemaVersion 必须是非负整数",
+      "Provider Config 迁移器必须产生版本化文件"
+    ],
+    "migrationsCurrentlyRegistered": 0
+  },
+  "retainedPrivateWriterAndLock": {
+    "temporaryFileRequestedModeOctal": "0600",
+    "writeEncoding": "utf-8",
+    "renameRetryCodes": [
+      "EPERM",
+      "EBUSY",
+      "EACCES"
+    ],
+    "renameRetryDelaysMs": [
+      50,
+      100,
+      200,
+      400,
+      800
+    ],
+    "lockRetryDelaysMs": [
+      25,
+      50,
+      100,
+      200,
+      400
+    ],
+    "lockOwnerlessGraceMs": 100,
+    "lockMaxWaitMs": 8000,
+    "qualification": "Visible retained helper wrapper only; no atomicFileLock body read, no native permission/ACL execution proof"
+  },
+  "qualification": "Fixed data inherited from current target/retained codec/helpers. Not independently authored expressions, MIT attribution or permission to alter schemas/safety defaults."
+}
