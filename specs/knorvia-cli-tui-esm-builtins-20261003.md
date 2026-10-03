@@ -8,9 +8,11 @@
 
 局部 require 只属于生成的 ESM 文件：不写 globalThis.require、不增加 loader hook、NODE_OPTIONS、NODE_PATH、provider API、配置或依赖，不伪造模块导出，也不在 smoke 中注入兼容层。使用原生 module URI 适配 Windows drive、空格与 Unicode 路径；不拼文件 URL。buildTui 可接收仅用于工作区/临时夹具的 directory 参数，默认仍为原 TUI package，所有构建选项由同一路径产生。
 
+真实 staged 导入在 require-only checkpoint `dc63f521c42198e325f4d1da82fd509fe7526026` 越过 YAML 后，内联 TypeScript 的 getNodeSystem 报 `__filename is not defined`。因此同一 ESM 模块还提供原生 `import.meta.filename` / `import.meta.dirname` 的局部 CommonJS 文件上下文；仓库最低运行时 Node 22.16 原生支持这些字段。文件/目录属于生成产物，不能使用 cwd、源码路径或给全局赋值。另加独立 metadata fixture 先复现 require-only 失败，再确认物理产物路径、空格/Unicode 和 global absence，保留首轮失败而不写成完整修复通过。
+
 ## 定向合同
 
-1. 用真正 buildTui 生成包含 top-level await 与 CommonJS builtin require 的 ESM 模块，在清空 NODE_OPTIONS/NODE_PATH 的新 Node 进程从仓库外导入。旧兼容行为先复现 Dynamic require，当前成功；process/fs/path/module/crypto 等导出是原生对象，require.resolve 与 module-relative data 查找正常，global require 不被设置。
+1. 用真正 buildTui 生成包含 top-level await 与 CommonJS builtin require 的 ESM 模块，在清空 NODE_OPTIONS/NODE_PATH 的新 Node 进程从仓库外导入。旧兼容行为先复现 Dynamic require，当前成功；process/fs/path/module/crypto 等导出是原生对象，require.resolve 与 module-relative data 查找正常，global require 不被设置。独立 fixture 核对 __filename/__dirname 为产物原生路径且不写全局。
 2. 保持顶层 await、原 ESM export、包依赖 external 与入口路径。实际 bundle 构建后，真实 Node 导入 @knorvia/tui 的 runTui。以实际 collector 物化 runtime 闭包到临时发行 layout，并逐文件摘要核对；不能通过仓库 node_modules、源码 alias 或测试 loader 隐藏缺包。
 3. 以真实 CLI CJS 入口和 Node/OpenTUI/PTY 运行导入、initialized render 和 Ctrl-C keyboard exit；不发 prompt，不调用模型或外部 API。使用独立合成 workspace/profile，并清理继承的 provider 凭据变量。
 4. 为缺失的必要 workspace 输出仅按原配置准备 JS，不做完整类型检查。TUI 与必要 CLI 入口定向构建是本次授权范围，完整产品/平台包和质量套件仍留统一阶段。记录精确源码 checkpoint、配置/依赖、产物摘要、构建和 smoke 命令；若只物化 runtime layout而未重建完整 Web/desktop/archive，应如实标明。
