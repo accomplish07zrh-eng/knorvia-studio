@@ -196,7 +196,7 @@ whole-services acceptance. Further source work requires an actual unresolved
 owner/install boundary; rights and final combined validation remain deferred
 rather than repeatedly rewriting intact code.
 
-## Integrator dependencies and remaining acceptance
+## Batch-4 integrator dependencies and remaining acceptance (historical checkpoint)
 
 - Confirm any parent accepted/historical sessionService/taskIndexSyncer binding
   against the exact original blobs above, and decide source-expression/rights
@@ -216,3 +216,33 @@ rather than repeatedly rewriting intact code.
 No UI, user data, credentials, actual application/runtime/provider/DB/network
 business effects, local user computer, third-party notices, root LICENSE,
 shared protocol, CI, manifests or main merge are part of this lane's changes.
+
+## Batch 5 — newly authorized complete candidates for historical gaps
+
+The parent subsequently authorized new complete behavior-contract implementations
+of task-storage startup, commit-message file scope and creation-reference reads,
+after the integrator's bounded historical locating. Read the fetched integration
+contract at `f969c9a7869ba33257968bcf0d15c1ffb63094bb` without merging or rebasing
+this lane. Continue the same original branch and draft PR16 from checkpoint
+`549b8dbc76a6e359d4b7f9da5db65a367abe4f3e`.
+
+This explicit new route supersedes batch 4's runtime decision to leave these
+three files untouched until an old canonical version appears. The historical
+positive bindings, missing original receipts and source/rights uncertainty remain
+as recorded above; no old accepted bytes are claimed recovered, no unavailable
+private artifacts are restored and no historical evidence is rewritten. The
+integrator's GitHub 404 for the exact commit-scope blob is reported locating,
+not a new rights finding by this lane.
+
+The [three-owner contract](../specs/knorvia-next-services-historical-gap-20261003.md)
+precedes implementation. It keeps data schemas/migration SQL, public interfaces,
+caller and UI behavior, then reconstructs the full owners with a shared lock
+window/first-failure register, exact alias trie and admitted file-handle byte
+reader. The creation contract follows the existing workflow requirement that
+stored, referenced and read-back hashes agree, while ordinary legacy references
+remain available; path containment checks complete components and captured file
+identity. No cross-lane public contract changes are required.
+
+Source-exposed authoring and whole-expression/rights acceptance are separate.
+**UNVERIFIED:** all executable validation is deferred; this batch adds no tests
+and runs no tests, lint, compiler, build, checker, full audit or CI rerun.
