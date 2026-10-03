@@ -36,7 +36,7 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 
 ## 尚未分配的包与跨路接口
 
-`packages/model-option-map/**` 与 `packages/formal-proof/**` 是仓库当前实际存在、四路范围未覆盖的额外包；暂由整合者登记 HOLD/协调，**未授权某一路自动接管**。没有因为目录存在就推定仍待重写或属于原创。根官网/发行资产、patches、third-party、examples 及额外资源也在整合者协调队列，保留各自来源；需要实现时由父任务明确原固定任务归属或由整合者在自身范围推进，不额外开云任务。
+`packages/model-option-map/**` 与 `packages/formal-proof/**` 是仓库当前实际存在、四路初始范围未覆盖的额外包；父任务本轮已明确分配给**本整合任务独占实现**，不再等待归属授权，也不交给 UI/native/services/CLI 共写。model-option-map 被 packages/shared/src/model-config.ts、provider/provider-node 与 CLI model adapter 共用；formal-proof 是独立的产品状态枚举器/D3 页面。两包源码最后变更均为 7619e41b950bd52073ebf36754146cf25659d9fa，目标 inventory 的精确 source digest 与当前仍一致、review 为 null，runtime owners 尚需替换；types/barrel/固定配置和视觉值不得仅为数量重排。新分配不解除来源/权利 HOLD。根官网/发行资产、patches、third-party、examples 等继续协调，保留各自来源，不额外开云任务。
 
 跨路公开合同由唯一文件编辑者维护：renderer → preload/Main 的参数、通道与消息；services → CLI/runtime 的 command/snapshot/index；所有 lane → shared/protocol/contracts。请求先给父任务列精确路径、现有符号、需求和依赖 SHA，整合者写公共合同并返回新 checkpoint，其余任务通过普通 merge 接收。临时 any、stub、重复状态所有者、改签名而只改一端或放松安全策略都不能代替对账。
 
@@ -67,7 +67,7 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 
 已阅读的 shared assembly/projection 当前源码由 #9 的 `7caec377c3b6aace6f9a08344d77497726459eb2` 后续完整候选更新；虽然 saved inventory 仍标原 upstream-unchanged，当前 digest 已不同且完整 packet/receipt 已在基线。保留 wire-assembler、workflow-runs-artifacts、conversation-message-projection-policy、session-visible-content、tool-plan-adapter；不据陈旧 inventory 再重写一遍。
 
-coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立计数的运行时 owner，保留原 API 和来源，不为独立数量重排字段。workflow-runs-reducer.ts 当前 `f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6` 仍有历史 WIP/accepted-binding HOLD；先保留精确事实，不能冒充恢复旧 accepted artifact。其他候选需读当前 contract、调用方与完整历史记录，先写 spec，再以新实现替换真正待完成的 owner；全局许可决定与最终核验留在后续阶段。
+coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立计数的运行时 owner，保留原 API 和来源，不为独立数量重排字段。workflow-runs-reducer.ts 的本轮 predecessor `f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6` 仍有历史 WIP/accepted-binding HOLD；后续 source-exposed 候选在下表绑定新提交，不冒充恢复旧 accepted artifact，也不解除旧 HOLD。其他候选先读当前 contract、调用方与既有记录，再写 spec 和真正待完成的 owner；全局许可决定与最终核验留在后续阶段。
 
 ## 去重模块进度（实现候选与来源决定分开）
 
@@ -80,19 +80,34 @@ coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立
 | shared packet assembly 与 projection policy | 7caec377c3b6aace6f9a08344d77497726459eb2；保留当前完整 owners | 已安装候选，未因陈旧 inventory 重复重写 | 保存已有证据；本轮无新接受决定 |
 | contracts session-event residence / turn retention | spec d91db4dbfcdbf467a53943dcb68f54cef5732e22；实现 ac5515ad37b88d32b07dee5eafbf96fad9978e27 | 完整替换候选已提交，3 个 source 文件算一个模块 | source-exposed authoring；运行验证、表达独立性与贡献权利仍待核验 |
 | contracts session-event projection（reducer / helpers / queue / ledger transitions） | spec 9dad1581c9dc1bc851170be8655fd8f26ffbd231；实现 1d99b03715822caac58d5d4c5b776692375353b8 | 完整替换候选已提交，5 个 source 文件算一个模块；原公开 runtime 入口接入新转换 | source-exposed authoring；初始 template/标准数值 helper/字段策略保留原来源；尚未运行验证或接受表达/权利 |
-| contracts tracing/tracer | 源码保留自 3b1ff0f715a43cbc51c576fd524479a08e58e203 | 仍待完整行为合同与实现，不因 event store/reducer 完成推定整个 contracts 完成 | 原来源保留，未接受原创决定 |
-| shared workflow-runs-reducer | 当前源码 SHA-256 f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6，保留自同一基线 | 仍待实现/accepted artifact 对账，保留历史 HOLD | 不恢复被放弃的旧实现，不把旧 accepted receipt 绑定新源码 |
+| contracts tracing/span/context | spec 4779d7fb9d31816c7d75315e83f7dc788a8d7519；source 1c6f6dcb280d0013029eb2e05b12f9f0352be02d | 完整 runtime 替换候选已提交；3 个 source 文件为一个模块，公开入口接入 record residence/共享操作与单一 ALS | source-exposed；public declarations、ALS/UUID/Date/固定字段保留原来源；未验证/未接受权利 |
+| shared workflow-runs-reducer | spec cd201beaa82f74c4b109456862f7d39925d53e55；source 176d54215e34b7ea9ee1c8ab8e9c4b94a01c371f | 完整主体候选已提交；5 个 source 文件为一个模块，run draft/严格身份 bounded rows/派生 actor observations；已装辅助 owners 不重写 | source-exposed；旧 f07e531f… 与 accepted-binding HOLD 仍历史限定，不绑定成新接受决定 |
+| model-option-map / formal-proof | 本轮父任务明确分配整合者；未修改的原版本为上述 7619e41b950bd52073ebf36754146cf25659d9fa | 独占实现队列，先 tracing/shared reducer、再两包实际 pending runtime | 未以范围授权作 MIT/原创结论，原 review:null 和 source 义务保留 |
 | 四路固定任务当前新增候选 | 上表 #14–17 的观察 heads | 待父任务批次完成通知和统一接收；未计入安装完成估计 | 来源、消费者与产品验收待统一阶段 |
 
 contracts 实现的文件归属为 `apps/cli/packages/contracts/src/events/in-memory-session-event-store.ts`、`session-event-journal.ts`、`session-event-retention.ts`。事件由每 session 的一个 journal 持有，retention 的索引只引用同一 sealed 链节点；保持公开 port、schema、barrel、工厂和参数、Promise 边界、序号规则、存入对象身份、replay 顺序、策略/时钟错误后的既有已驻留状态与 receiver、120 秒 grace、delete/recreate 与瞬态类别。没有改 UI、持久用户数据或其他 lane 的源码和记录。细则与以后统一验收场景见 [先行 spec](../specs/knorvia-next-integration-event-residence-20261003.md)。代码作者已读旧实现；标准/API/固定策略保留，不以新链结构宣称 clean room 或权利已接受。
 
 projection 的新增实际 owner 为 `events/session-projection-transition.ts`、`session-projection-ledgers.ts`、`session-projection-queue.ts`；`event-reducer.ts` 和 `event-reducer-helpers.ts` 保留原导出并接入唯一 commit。保留队列原位编辑/重排、工具与权限、后台任务多项合并、目标校验身份与失败摘要、主会话 context usage、压缩/checkpoint/rewind 与 streaming 恢复投影；standard/API 默认 template 和 numeric helper 不计为原创。没有编辑 runtime 调用方、公共 schemas、shared workflow reducer 或其他 lane。完整保留项与统一验收场景见 [先行 projection spec](../specs/knorvia-next-integration-session-projection-20261003.md)。
 
+后续 tracing 及 shared workflow 候选的细则分别见 [tracing spec](../specs/knorvia-next-integration-tracing-20261003.md) 与 [workflow projection spec](../specs/knorvia-next-integration-workflow-projection-20261003.md)。前者保留 hook receiver/重入、sync throw/Promise rejection、上下文与 log 优先级；后者保留 run/seq/revision/JSON identity、cap 拒新仍更新旧、actor/node/report/question/artifact、resume/settlement 与实际 caller 入口。两者都未执行验证，不操作真实任务/数据，也不重复已有 helper owners。
+
+## 本轮跨路输入与 Registry 真正缺项
+
+父任务报告 services 环境已恢复并在原 PR #16 交付：session lifecycle `4f9107d0a722830c54ac44127d8a3298aa4bd78d`、task-index projection `5b0b53522d235397cf435a627393c0bf5818d28c`、protocol cancellation `ab99bf38803664c9d77b7804e369d2cc65682389`，该轮 head `2f10641ad5cb503e24081ec3e42a62f72a9737f8`；继续 startup/commitMessageFileScope、creation/studio-runtime。整合者不接管 services 源文件。
+
+CLI 本轮 head `a3540e4860c8e7a74af5bde1a4a89021a941509d`，源码三批为 TurnMachine `85d6b19e5fbbadb06eeb83aa2f161bbd87812769`、message projection `18f070df5c16f2d9cb44354277b392d5cff8b2f3`、argument/tool-rule `9681d95492b5abcc83dadccfc35af16f6ffae81b`。其 registry 新候选已归档、生产恢复 baseline；不把候选历史计作生产完成。
+
+对 registry 的有限历史读取找到 `e972ca88b458787d59b31b914a73f32d0297f567` 提交的 `docs/knorvia-task-registry-root-review-20261002.md` / `docs/evidence/knorvia-task-registry-root-review-20261002.json`。这是**runtime fragment 推荐**，不是 integrated whole-file receipt：review input 是旧环境 `/tmp` 6097-byte fragment，SHA-256 `3f0420e83be7796d7c767112cc5f10ac3aa66d92e8fd6b91d08847502257eac4`，报告明确完整 integrated file/final digest 未提供，root 的其他接受结果只属 parent-reported。本轮没有执行其中历史 probes。
+
+`12a18abdd47a1639a86726a92f7b9bf55227c8918109c3934b33925b066603e2` 的 reported whole-file receipt 路径 `licensing/evidence/contract-authored-task-registry-expression-20261002.json` 在六个已收 #7–12 完整 heads 中均不存在。当前已取得 refs 的该 source 路径历史只有 88001f027b04324f816176ff5f08b5d1a236f27f（ac09ec1b…）与 7619e41b950bd52073ebf36754146cf25659d9fa（7eb979b4…），没有精确 12a18abd… integrated bytes 的已发布 source commit。缺项是**原 root 发布对应完整源码提交和原 whole-file receipt**；fragment、旧 baseline 或 CLI 归档新候选都不能替代。保持原 HOLD，不从本地缺项推断从未存在，也不恢复旧 `/tmp` 或受限外部素材。
+
 ## 最终统一执行队列：native 第一轮新增测试
 
 输入冻结在 #17 的 `85ea4dcf9d0da20c14a487caaafc677a2f81f047`。仅通过 GitHub API 阅读文件和既有根 runner，**没有执行**。纳入最终统一验收的确切测试为 `packages/server-cli/test/control-transport-contract.test.mjs` 与 `packages/server-cli/test/status-persistence-contract.test.mjs`，各自同目录依赖 `control-transport-fixture.mjs` / `status-persistence-fixture.mjs`。控制用例覆盖 JSONL、连接隔离、请求/响应/error、客户端关联与关闭；持久化用例覆盖 phase/error identity、串行 write/rename、错误回调、lock release/strict freshness 与停止确认。
 
 当前 `scripts/test-studio.mjs` 的 testDirectories **不含 packages/server-cli/test**。原固定 native 批次全部接收后，整合者在唯一根文件把该目录纳入统一发现；现在不能先登记尚未合入的缺失目录，因为 runner 无缺失目录跳过逻辑。按已读测试的 node:test 入口，也可在最终阶段明确执行 `node --test packages/server-cli/test/control-transport-contract.test.mjs packages/server-cli/test/status-persistence-contract.test.mjs`；这是未来命令规划，不是已运行记录。统一 root runner 的实际执行仍遵守最终阶段 CLI 构建/依赖前置条件，Linux/Windows 和真实 schema/OS transport/文件路径验收不能由这两个 fake-port fixture 代替。
+
+CLI 报告的新增测试接收后由整合者在同一根 runner 加入 `apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts` 与 `apps/cli/packages/cli/test/argument-admission-contract.test.ts` 的 explicitTests。`core/test/turn-machine-contract.test.ts` 和归档 registry 候选的 `runtime-task-registry-contract.test.ts` 已在现有目录发现范围，不重复显式加入。共 35 用例是 CLI 报告的场景数量，全部未执行；不以归档候选用例证明生产 registry 或 reported accepted bytes。
 
 ## 用户要求的累计工程主观估计
 
