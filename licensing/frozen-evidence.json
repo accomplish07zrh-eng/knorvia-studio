@@ -576,6 +576,18 @@
       "observation": "Manually received exact bytes from the frozen delivered lane head; technical test/path/artifact evidence does not confer independent-expression or licensing acceptance."
     },
     {
+      "path": "docs/evidence/backlog-cli-20261003/registry-expression-static-20261003.cjs",
+      "sha256": "9c0bd2ea1231248c46e53e1c04f22f77e4e823213f1c4ff7ca268aa748e17b71",
+      "bytes": 8235,
+      "sourceCommit": "801179367c13fce707049aeb8ae5f92fe7cc9328"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/registry-source-provenance-20261003.json",
+      "sha256": "f1a5c1ba4a29011a0a09958c26c3c379f219779c790c53285675d9a29e5aeb64",
+      "bytes": 41890,
+      "sourceCommit": "801179367c13fce707049aeb8ae5f92fe7cc9328"
+    },
+    {
       "path": "docs/evidence/backlog-integration-20261003/final-first-format-paths.json",
       "sha256": "06f7b43bf07b87ebf0b6e11ba9cede02a7f2f3f8b939b21fbcaeb01076b81ef4",
       "bytes": 161875
@@ -10441,6 +10453,150 @@
       "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
     },
     {
+      "path": "docs/evidence/native-source-notices-20261003/four-svg-source-facts.json",
+      "sha256": "d8408b150704bcd56bf3c35948087d1e9ee7008718df49dd0454835834c84f14",
+      "bytes": 8716,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/microsoft-release-source/LICENSE",
+      "sha256": "dea9265341829002e2c23a7372393eb2ed6e26085fb623f38a4ba0af833f30a6",
+      "bytes": 1183,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/microsoft-release-source/build/main.yml",
+      "sha256": "926843dcd749fb5d25c7a4766e8088be0e9050af6272d3b61c1e550a4e931c65",
+      "bytes": 7469,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/microsoft-release-source/build/windows.yml",
+      "sha256": "0f94e74df80e387a61a7c1a51dbd73638bfd137f0dc396362b580e62cc727189",
+      "bytes": 2251,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/microsoft-release-source/config.json",
+      "sha256": "cff5b916fd44da7573cfb6a2302d35ece309e20564e229524b0ad621dd2d0c57",
+      "bytes": 139,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/microsoft-release-source/patches/0001-resolve-binskim-issues.patch",
+      "sha256": "8cf3c2eeeb4261d66a838f7fe8a8e9870a6ce3a7f1c1d3a2a9d5e36b5a947cac",
+      "bytes": 2624,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/microsoft-release.json",
+      "sha256": "2928b565b7178e97f4bfbb078dc91eef1c43e7a1bef0d55e8601ec1a6ab82d49",
+      "bytes": 22720,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/microsoft-toolchain-feed-response.json",
+      "sha256": "56fb584f9a19297b2bd8aa2d26472cf81720d1d67d5aa137b859f077fbcc77bd",
+      "bytes": 343,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-0.1.3.crate",
+      "sha256": "29e871a9861f3664f18b7e04e9301d4edd55090c2dadb4b1c602e26ab32b1f5b",
+      "bytes": 5304,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-notice-basis.json",
+      "sha256": "ab2875c7ef3dbe3626b185ec94f487e5ff412bc7507720b3190f9fb614e40dd7",
+      "bytes": 467,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/.cargo_vcs_info.json",
+      "sha256": "429d7f5076ff75489eace85d30fe47a64f22bc9b0a5d5f892fc7b6ae11f9dc0c",
+      "bytes": 94,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/Cargo.toml",
+      "sha256": "33a3fe690ab9d9177b64b8e9347afeb196dd5197b9c8cc1d15efa6b10a146697",
+      "bytes": 1164,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/Cargo.toml.orig",
+      "sha256": "53877ca6a22c3944de861c2791aa2ca9e0aa065b94535c4ff3580b6e3456d780",
+      "bytes": 571,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/LICENSE",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "bytes": 1141,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/README.md",
+      "sha256": "195e88d3a3080f0159020764857fd4d53b7c395775a94e29b8eb82f6b84fda72",
+      "bytes": 2056,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/build.rs",
+      "sha256": "469b66816494893e5c8c34b0ca773c0a9e9ee4486bf6b10a2b53b5a31b9e016b",
+      "bytes": 1574,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/msvc-spectre-package/src/lib.rs",
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "bytes": 2,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/native-input-source-facts.json",
+      "sha256": "84d217453e2bc8bfb64d51f128885ec63dee7792dfde199e02a3e788d6363423",
+      "bytes": 11512,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/public-build-toolchain.json",
+      "sha256": "15479886c71a889cd917f4370076c5da65b32880295a9e1138453b38fdebea05",
+      "bytes": 3423,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/ripgrep-14.1.1-annotated-tag.json",
+      "sha256": "84331aed556844285d63ac6274d348c678914cef1075f4c79e5940d519e3e238",
+      "bytes": 1858,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/ripgrep-14.1.1-tag.json",
+      "sha256": "09df58f4d06f6e29ce5dac9ecbcea5cddfd2146fb81fc861720262f63ad39af0",
+      "bytes": 339,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/rust-source-commit-query.json",
+      "sha256": "8992b97cf6a48af200f243f2c97486a662b1e2a1a5edf51d9f24f48a829e1e00",
+      "bytes": 174,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/rust-source-copyright-response.txt",
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "bytes": 14,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
+      "path": "docs/evidence/native-source-notices-20261003/svg-preview-library.json",
+      "sha256": "3e2fbe0137e1e01d042523cefc3c65a0d8bfaa3fb41e416a7ab8afc047026e34",
+      "bytes": 1154,
+      "sourceCommit": "ede8382435ed91e9d62300599e925f6fb90532c0"
+    },
+    {
       "path": "docs/evidence/node-runner-author-packet-20261003/author-invocation.txt",
       "sha256": "0d5c76a2c9205e7c2e2f2b25413c9f47409d1cd424456553293b4c77b5e55243",
       "bytes": 958
@@ -10744,6 +10900,72 @@
       "path": "docs/evidence/planner-owner-integration-20261002/verify-static.cjs",
       "sha256": "e99f83f62f6d0d8c45d4a3e676101ba488b44a8e04b57a729f8905166cf2e99d",
       "bytes": 3592
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/74be872c71280d454ef836153a660097701e1d72c4e91f1ff9fd12e9ce5bc99f.json",
+      "sha256": "74be872c71280d454ef836153a660097701e1d72c4e91f1ff9fd12e9ce5bc99f",
+      "bytes": 1986,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/94b753695c80a556ffb8d3f2031558cfe0471f64587e00eaf8fc5bfde1478343.json",
+      "sha256": "94b753695c80a556ffb8d3f2031558cfe0471f64587e00eaf8fc5bfde1478343",
+      "bytes": 1970,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/a285fff160cf5cb32fc8b7b044df337bf5fdf44de510ff6b7e0e209717be32c4.json",
+      "sha256": "a285fff160cf5cb32fc8b7b044df337bf5fdf44de510ff6b7e0e209717be32c4",
+      "bytes": 2029,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/a6998e9a5ad4eb651ffa152c1a19e59e6ea9f72fd929ade2ed49c937c26273de.json",
+      "sha256": "a6998e9a5ad4eb651ffa152c1a19e59e6ea9f72fd929ade2ed49c937c26273de",
+      "bytes": 1997,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/aaf9b0782a9a7cc4d79360cdb5da33cad725d869e9c5a51b6c4aca4b693936aa.json",
+      "sha256": "aaf9b0782a9a7cc4d79360cdb5da33cad725d869e9c5a51b6c4aca4b693936aa",
+      "bytes": 2007,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/c40ee2ba1e839930474a9ac687cfdc7a22ee85b9006c218e16ea79bb01bde480.json",
+      "sha256": "c40ee2ba1e839930474a9ac687cfdc7a22ee85b9006c218e16ea79bb01bde480",
+      "bytes": 2014,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/c422202b63205c82b8970aaf08a88b411feab3305c85c0354d81d9c813d9cccf.json",
+      "sha256": "c422202b63205c82b8970aaf08a88b411feab3305c85c0354d81d9c813d9cccf",
+      "bytes": 4956,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/c80f78b9827f3b842f7ca7190a5be195a6a569038ef89fa57c4eeec227f12af7.json",
+      "sha256": "c80f78b9827f3b842f7ca7190a5be195a6a569038ef89fa57c4eeec227f12af7",
+      "bytes": 2023,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt",
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "bytes": 14,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/responses/e2930ce74b0bbdbe3f2dd32ce35bfd4a4d163a0d96af97629c5ed106d1fc06ea.json",
+      "sha256": "e2930ce74b0bbdbe3f2dd32ce35bfd4a4d163a0d96af97629c5ed106d1fc06ea",
+      "bytes": 2013,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
+    },
+    {
+      "path": "docs/evidence/post-main-source-verification-20261003/synthetic-gui-workspace.zip",
+      "sha256": "58ce25eb4195c1e8d45d08073a813d77a8db36bdeb93a5587649baaeca4bc191",
+      "bytes": 1113,
+      "sourceCommit": "aa3b21436fbf9099c524b523644ee232fc0c12ff"
     },
     {
       "path": "docs/evidence/prompt-rendering-author-20261002/api.json",
@@ -17204,6 +17426,36 @@
       "path": "docs/evidence/scheduler-state-e-review-20261002/verify.mjs.txt",
       "sha256": "28d1a49fc52f6445fb4aa2e901f03064c871520b69a0990d890650b3c1c78646",
       "bytes": 8416
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/README.md",
+      "sha256": "55494624ea698628f7c2da4ccd627a245cff9f6fa047bb038403e5725983003f",
+      "bytes": 4003,
+      "sourceCommit": "6a96f808ea3698401b87f3ac386d7e72eb08681f"
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/body-correspondence.json",
+      "sha256": "cca283aafd8a3358d11a7bffb3dc52390385bc38663f9daf79f28ec2a9306ddc",
+      "bytes": 24066,
+      "sourceCommit": "33bbc7b2593d142725a91fb90efe107418706db1"
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/read-residual-bodies.cjs",
+      "sha256": "67283b6f0373d3bb62e30284084c2306ff0c24f459c47f7a063a4e81fe7944a0",
+      "bytes": 6490,
+      "sourceCommit": "33bbc7b2593d142725a91fb90efe107418706db1"
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/residual-implementation-scope.md",
+      "sha256": "7334896db631aa1dfd9f50efa0fdfb2738c26e5428d1b14525d8322873bfa952",
+      "bytes": 10695,
+      "sourceCommit": "33bbc7b2593d142725a91fb90efe107418706db1"
+    },
+    {
+      "path": "docs/evidence/services-five-owner-provenance-20261003/source-facts.json",
+      "sha256": "82fb4ce3906c738bf12e46d65283d01ad3eb9fefa99781f89010e8c05231811e",
+      "bytes": 11621,
+      "sourceCommit": "6a96f808ea3698401b87f3ac386d7e72eb08681f"
     },
     {
       "path": "docs/evidence/shared-preview-merge-root-packet-20261003/contract.md",
