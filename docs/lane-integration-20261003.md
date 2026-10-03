@@ -225,3 +225,15 @@ RPC 当前 input 对齐后，`pnpm provenance:report` 实际返回 0：当前清
 原CLI head `661e5f64bf819c93c13a7b077531239dec5199cf`（生产 `9e3bc5f81ad63d6112185cb7abc908ab9250ae2c`）普通merge `b5815bb4966e17ec5a515a0c7764ea41c511e666` 后，接收/来源checkpoint `b3721addfffb59ac56f8be9c13e6e5578e95a37d` 上实际完整CLI build退出0（17/17、13缓存），实际CLI cwd全工作区no-bail types退出0（15包脚本完成）。此前18条类型失败已由新的真实检查解除，旧原日志不变；原完整回归22失败不因此变成通过。新增5源码及原CLI doc/spec、接收记录的8路径fmt检查退出0。原字节验收/来源登记与新的完整CLI日志见 [后续组合记录](./final-bootstrap-combined-20261003.json)。
 
 phase-fold case16的只读诊断中，old/current均为空结果且digest相同；原gold的null case15与NaN case16 digest相同却与live NaN不匹配。保留其历史binding失败，未改gold。services scan fixture仍覆盖不存在的实例private getNativeProjectsRoots，而新实现调用module nativeProjectRoots；这是需要重新绑定有意义临时根的测试问题，不恢复已退役私有实现来通过。其它native/services/UI真实断言与CLI当前输入/产物绑定继续按原所属路径推进。
+
+## MIT 自有源码与实际发布内容的材料处置
+
+父任务将22失败交回原四路，从 `7bfb867162cc11adbc237e1c39bf2d61b5c0f81e` 续作，整合者不编辑原路失败文件或重复全量。本次只补充 [26项发布边界矩阵](mit-release-boundaries-20261003.md) 与同名JSON，保留旧分类、所有原许可证/NOTICE、reviewRequired、历史golden/receipt/HOLD。
+
+26项仍未闭项；10项直接涉及完整现行Git树（8个SVG、React skill、两Windows ripgrep ZIP中的同一缺notice Rust revision），11个npm是当前引用条件项，3个@arms未见当前manifest/lock且本机未安装，2个嵌入引擎项须看实际平台产物。Git跟踪18个搜索压缩包，所以完整源码树仍分发这些载荷。仅依赖引用不复制npm实现；不把缺第三方材料扩大成所有可能的自有源码子集都不能开源，也不把第三方非MIT当作自有实现必须重写的证据。
+
+实际只读取得14份版本metadata及其压缩包：14份SHA-1/sha512与出版者一致、无独立license成员，11份archive SHA与旧记录相同；三@arms补到archive/GitHead仍无完整原notice。10次固定root LICENSE读取404保留，不能等同无许可。8个ripgrep压缩包只在内存读，确认缺Rust revision指向两个Windows ZIP，与原登记字节一致，路径字符串不是完整链接核验。20份新观察/response人工加入冻结登记，旧5574记录原字节与原行均保持。
+
+26项内已确认因许可而需替换的自有源码为0，8素材只有拿不到原来源/授权时才进入独立素材路线，不删改现有UI。其外已精确列6个完整owner当前SHA/旧绑定，现行无whole-expression/权利接受，其他四路与整合者候选也继续保留source-exposed/适用许可边界。原作者看过源码本身不等于不可原创，但当前证据不能证明全量自有MIT接受。Apache许可允许满足原条件时分发并为自己的修改附不同条款，仍须保留适用上游许可、修改声明、归属/NOTICE与贡献条款；未改根LICENSE或自行接受缺证风险。
+
+没有运行新的全量测试、lint、types、build或独立性审计，也未执行原生/npm载荷、安装脚本或发送外部消息。后续三路冻结heads先登记待接收：native `7096de3d170eea2267b82db47fb2e9140fdf7b08`、UI `d6274d61fe6d15b976f3b7b5b24f8e62d470229e`、services `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532`，原路指定1/1、1/1、2/2结果是交付记录，须在统一Node24.14组合确认。CLI当前输入与历史NaN仍交原任务；main暂不合并。

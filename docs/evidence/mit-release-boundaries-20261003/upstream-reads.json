@@ -1,0 +1,638 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "reads": [
+    {
+      "id": "@arms/rum-browser@0.1.8",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/@arms%2Frum-browser/0.1.8",
+      "checkedAtUtc": "2026-10-03T08:45:41.774358+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/@arms%2Frum-browser/0.1.8",
+      "contentType": "application/json",
+      "bytes": 1890,
+      "sha256": "c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d",
+      "summary": {
+        "name": "@arms/rum-browser",
+        "version": "0.1.8",
+        "license": "ISC",
+        "gitHead": "b3bb39c51630c034572644f845f5e68b7da994d0",
+        "repository": null,
+        "dist": {
+          "shasum": "1fbf3610acf62ae8615c2df23023eb2fe04333ba",
+          "tarball": "https://registry.npmjs.org/@arms/rum-browser/-/rum-browser-0.1.8.tgz",
+          "fileCount": 91,
+          "integrity": "sha512-XqGzZB3ziQf8nNVYCf4lDkwonclPCOQYHjk8XBr8U28u/JrTtMSF1hNYZN4JlKqyLypelGb9Nx7T8BtS5bIEhQ==",
+          "signatures": [
+            {
+              "sig": "MEYCIQDHwFvPJYFE5oIwa+67aj3CozdaMONwPTUQsL7ZW20CaAIhAPc8fcRsth7tCmnUOd/exTIwAU0tbK9PCKJgBJE3xvCy",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "unpackedSize": 547426
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d.txt"
+    },
+    {
+      "id": "@arms/rum-core@0.1.4",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/@arms%2Frum-core/0.1.4",
+      "checkedAtUtc": "2026-10-03T08:45:41.775162+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/@arms%2Frum-core/0.1.4",
+      "contentType": "application/json",
+      "bytes": 1794,
+      "sha256": "02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a",
+      "summary": {
+        "name": "@arms/rum-core",
+        "version": "0.1.4",
+        "license": "ISC",
+        "gitHead": "b63b290389cb1ece96a05324414318d12241563f",
+        "repository": null,
+        "dist": {
+          "shasum": "ad07410be1926af7905da13bca251f3f30d580c4",
+          "tarball": "https://registry.npmjs.org/@arms/rum-core/-/rum-core-0.1.4.tgz",
+          "fileCount": 96,
+          "integrity": "sha512-if7tvpBnKhKddUKk+/u9iXKUVC+/nugiK6FGHTBuqS6LBLL0Fl8xAm4FTN3hGq07DAmP77RmWaG5mb1vmJ73SQ==",
+          "signatures": [
+            {
+              "sig": "MEYCIQDX5dgLn7zvSWp5nHgFwbnayjC9B3ULO7flpolDP0BDlwIhAKgbuygGoWjBSnzBrRDYOPia7xzAZTF2W6PpJO8ZHUuI",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "unpackedSize": 158120
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a.txt"
+    },
+    {
+      "id": "@arms/rum-electron@0.0.3",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/@arms%2Frum-electron/0.0.3",
+      "checkedAtUtc": "2026-10-03T08:45:41.775585+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/@arms%2Frum-electron/0.0.3",
+      "contentType": "application/json",
+      "bytes": 3084,
+      "sha256": "8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed",
+      "summary": {
+        "name": "@arms/rum-electron",
+        "version": "0.0.3",
+        "license": "MIT",
+        "gitHead": "d472fec87e50b4bceb552800da99a8e7510bf1e1",
+        "repository": null,
+        "dist": {
+          "shasum": "c017c2430ace8674d2e77b9c60694d60f8d10d6c",
+          "tarball": "https://registry.npmjs.org/@arms/rum-electron/-/rum-electron-0.0.3.tgz",
+          "fileCount": 9,
+          "integrity": "sha512-ieiMhVQNpkSEv3tgwfQZqhvy8p9cyhl3B7AS4j+8kikDcriNOA5xE0d8JwpItzfOm7kfeYqGbZYwZMF45EDl4Q==",
+          "signatures": [
+            {
+              "sig": "MEQCIAbZdbrr2R2uFgtK1sE4ulBtD8Pz45aZd5UyliBLrLptAiAPKgGsu4e4Y7W+7fJDjc50hwUHX943He8VxMfNMBO+Jg==",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "unpackedSize": 3814685
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed.txt"
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/@hono%2Fnode-ws/1.3.0",
+      "checkedAtUtc": "2026-10-03T08:45:41.775964+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/@hono%2Fnode-ws/1.3.0",
+      "contentType": "application/json",
+      "bytes": 2298,
+      "sha256": "d0bb5df5a75d08dc2cb27c04e7bb8497aab60679cd83364b826e868dbe7b63bc",
+      "summary": {
+        "name": "@hono/node-ws",
+        "version": "1.3.0",
+        "license": "MIT",
+        "gitHead": "2c026b9d5bfff006dc9abdc1b33c53856d2d784f",
+        "repository": {
+          "url": "git+https://github.com/honojs/middleware.git",
+          "type": "git",
+          "directory": "packages/node-ws"
+        },
+        "dist": {
+          "shasum": "83e85c46fe340048d6f31f194637a4b568523143",
+          "tarball": "https://registry.npmjs.org/@hono/node-ws/-/node-ws-1.3.0.tgz",
+          "fileCount": 10,
+          "integrity": "sha512-ju25YbbvLuXdqBCmLZLqnNYu1nbHIQjoyUqA8ApZOeL1k4skuiTcw5SW77/5SUYo2Xi2NVBJoVlfQurnKEp03Q==",
+          "signatures": [
+            {
+              "sig": "MEYCIQCutB7phvxNrTI0AmzHcoFmzdOl2vJ37NdfaBRLz4k6xQIhAJVcSdwK2XVodbHMtKlsJ+9gQzDUqqidXF7iVQ5fpvE7",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "attestations": {
+            "url": "https://registry.npmjs.org/-/npm/v1/attestations/@hono%2fnode-ws@1.3.0",
+            "provenance": {
+              "predicateType": "https://slsa.dev/provenance/v1"
+            }
+          },
+          "unpackedSize": 31476
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d0bb5df5a75d08dc2cb27c04e7bb8497aab60679cd83364b826e868dbe7b63bc.txt"
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/honojs/middleware/2c026b9d5bfff006dc9abdc1b33c53856d2d784f/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:41.776339+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/@open-draft%2Fdeferred-promise/2.2.0",
+      "checkedAtUtc": "2026-10-03T08:45:41.776825+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/@open-draft%2Fdeferred-promise/2.2.0",
+      "contentType": "application/json",
+      "bytes": 2068,
+      "sha256": "11629b539d361afffd0f84f340a15da656eedf59fb846fba3c6c0e1298f750ab",
+      "summary": {
+        "name": "@open-draft/deferred-promise",
+        "version": "2.2.0",
+        "license": "MIT",
+        "gitHead": "b30f1b683311030e92fcdd08d2bd6574d652b77f",
+        "repository": {
+          "url": "git+https://github.com/open-draft/deferred-promise.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "4a822d10f6f0e316be4d67b4d4f8c9a124b073bd",
+          "tarball": "https://registry.npmjs.org/@open-draft/deferred-promise/-/deferred-promise-2.2.0.tgz",
+          "fileCount": 8,
+          "integrity": "sha512-CecwLWx3rhxVQF6V4bAgPS5t+So2sTbPgAzafKkVizyi7tlwpcFpdFqq+wqF2OwNBmqFuu6tOyouTuxgpMfzmA==",
+          "signatures": [
+            {
+              "sig": "MEUCIEMnHObMll5UNfGF8YbAChsy9l6++k+ZjbUNhe4C/fgSAiEAyHM7FLO9i2SjGRXLpLqgnW68tbtzoR1cZ4meh6OOCJg=",
+              "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+            }
+          ],
+          "unpackedSize": 25356
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/11629b539d361afffd0f84f340a15da656eedf59fb846fba3c6c0e1298f750ab.txt"
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/open-draft/deferred-promise/b30f1b683311030e92fcdd08d2bd6574d652b77f/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:41.777755+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/ansi-to-react/6.2.6",
+      "checkedAtUtc": "2026-10-03T08:45:41.778416+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/ansi-to-react/6.2.6",
+      "contentType": "application/json",
+      "bytes": 3706,
+      "sha256": "97034123b60cd1bdbaa6f5430137b95abf3250547776e98bd37639fda3784893",
+      "summary": {
+        "name": "ansi-to-react",
+        "version": "6.2.6",
+        "license": "BSD-3-Clause",
+        "gitHead": "145140971e9d83ccac32265f24b1c55dea437896",
+        "repository": {
+          "url": "git+https://github.com/nteract/ansi-to-react.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "ab0573a8a63725918719456b89f0da9bdb402a42",
+          "tarball": "https://registry.npmjs.org/ansi-to-react/-/ansi-to-react-6.2.6.tgz",
+          "fileCount": 4,
+          "integrity": "sha512-Eqi0iaMK5OZ3jsVFxWvU2B74UZBnGuHlkflKMX6wTOeH+luy9KE2O0gUkc2PxhIP1R4IO0xohv62UMFInQOSeg==",
+          "signatures": [
+            {
+              "sig": "MEYCIQCtb5ofuZoqJDfAz6Kp810VA4WU56JAdAgf4k2ukFV4CAIhALQ05395fr6LxU8ULziD2IY41/YiRgUHn0CmGEsJpucR",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "attestations": {
+            "url": "https://registry.npmjs.org/-/npm/v1/attestations/ansi-to-react@6.2.6",
+            "provenance": {
+              "predicateType": "https://slsa.dev/provenance/v1"
+            }
+          },
+          "unpackedSize": 12227
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/97034123b60cd1bdbaa6f5430137b95abf3250547776e98bd37639fda3784893.txt"
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/nteract/ansi-to-react/145140971e9d83ccac32265f24b1c55dea437896/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:41.957169+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "boolbase@1.0.0",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/boolbase/1.0.0",
+      "checkedAtUtc": "2026-10-03T08:45:41.991993+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/boolbase/1.0.0",
+      "contentType": "application/json",
+      "bytes": 1083,
+      "sha256": "cdbdd0892df76fdcb117aa6c87cef12aeb99225cb90b8e12f182f3f6f1efce3b",
+      "summary": {
+        "name": "boolbase",
+        "version": "1.0.0",
+        "license": "ISC",
+        "gitHead": null,
+        "repository": {
+          "url": "https://github.com/fb55/boolbase",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "68dff5fbe60c51eb37725ea9e3ed310dcc1e776e",
+          "tarball": "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz",
+          "integrity": "sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==",
+          "signatures": [
+            {
+              "sig": "MEUCIDnj9Fb6MV0ijpKOGLBTlGLuLLGf93sOI1Tp6YqrMI/cAiEAiem+6dYcR3Z21eyzZuPqOR5ddxPqF+qzMrXW1LWDtEw=",
+              "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+            }
+          ]
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/cdbdd0892df76fdcb117aa6c87cef12aeb99225cb90b8e12f182f3f6f1efce3b.txt"
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/is-node-process/1.2.0",
+      "checkedAtUtc": "2026-10-03T08:45:42.002158+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/is-node-process/1.2.0",
+      "contentType": "application/json",
+      "bytes": 3062,
+      "sha256": "e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884",
+      "summary": {
+        "name": "is-node-process",
+        "version": "1.2.0",
+        "license": "MIT",
+        "gitHead": null,
+        "repository": {
+          "url": "git+https://github.com/mswjs/is-node-process.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "ea02a1b90ddb3934a19aea414e88edef7e11d134",
+          "tarball": "https://registry.npmjs.org/is-node-process/-/is-node-process-1.2.0.tgz",
+          "fileCount": 7,
+          "integrity": "sha512-Vg4o6/fqPxIjtxgUH5QLJhwZ7gW5diGCVlXpuUfELC62CuxM1iHcRe51f2W1FDy04Ai4KJkagKjx3XaqyfRKXw==",
+          "signatures": [
+            {
+              "sig": "MEUCIQCMXzvq/2KU3w45r3SLaNkC3OBfL1tzG1XuXP1HRqrVRgIgJSt1i46bjSS0s7L6f07IGdyeAr0vSGr/b9uYny3VH+4=",
+              "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+            }
+          ],
+          "unpackedSize": 5984,
+          "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.10.10\r\nComment: https://openpgpjs.org\r\n\r\nwsFzBAEBCAAGBQJkHIGuACEJED1NWxICdlZqFiEECWMYAoorWMhJKdjhPU1b\r\nEgJ2VmqxlhAAlwkgJQ4Tdbbe+aZ9ALPtYGhwQDF65otXcvC9r/T4ePxQWhkd\r\nso08brJzqsPD03BYKzoEfSCDIl3PPJEzQq6mL3CYdaaAM14R0glfOvJbZrso\r\nhoM2gBybiPnwJD1hrA8TZfdeLaO7dy9gLyNFijodswW4xLEy5ILdjCZDuCJt\r\nhHFtV2sPztv6l7Z7oAQsc18Cct9xdrK/G348XjzaFWLZH/BVRHjl9zZDzlFe\r\nqAPCSxz2A5FVPxZKwzA2Mc7K5zO3FJYrpsJ3rDjNvfXiUe3oVLsSxsKClEQ6\r\nwxcsl5R60DsGPFCf1QDSUY7yFoCFUYZ/pYbAEAlswrb02n0AMXn3oN98hgdA\r\nK50WKaFtJDjreo7ORRYaDJ/w0fZ5e0HCglZJZi/ZfdfTmBu/WKnrxiHXZ8QU\r\nmat9tECZIjDaRNMxIZqLJStSeof3JICcGh7Qse/09E0IA0LhvO6WAu7SEXhQ\r\nDwNEpiq7uVYuk0ZFmRVMb7vYBlnT69ahZXTMLDVjLJx20Q0uwHJvWFdGRR6E\r\nZWClZv9ViYyyHjg/KuYPDEVuNYpPsoe7LXPYuMoveGJguYQbNkBrFbqhaXhj\r\njeWiNFjtYbtMnFRYpzZZa0H6AvgVY9anUksZcUB0KTtwuGS/6VFUaeivKNlG\r\nYKphCjPBAsgPLzqBlUOZJWHubvgXRCJMkqs=\r\n=tpP5\r\n-----END PGP SIGNATURE-----\r\n"
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884.txt"
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/mswjs/is-node-process/8a6152c795d8705be97166bd5167e70ac6efc67c/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:42.005370+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/lazy-val/1.0.5",
+      "checkedAtUtc": "2026-10-03T08:45:42.011444+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/lazy-val/1.0.5",
+      "contentType": "application/json",
+      "bytes": 2264,
+      "sha256": "b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f",
+      "summary": {
+        "name": "lazy-val",
+        "version": "1.0.5",
+        "license": "MIT",
+        "gitHead": "b69ad4119f1b19bdab13c61ee2fcc88d46b89071",
+        "repository": {
+          "url": "git+https://github.com/develar/lazy-val.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "6cf3b9f5bc31cee7ee3e369c0832b7583dcd923d",
+          "tarball": "https://registry.npmjs.org/lazy-val/-/lazy-val-1.0.5.tgz",
+          "fileCount": 5,
+          "integrity": "sha512-0/BnGCCfyUMkBpeDgWihanIAF9JmZhHBgUhEqzvf+adhNGLoP6TaiI5oF8oyb3I45P+PcnrqihSf01M0l0G5+Q==",
+          "signatures": [
+            {
+              "sig": "MEYCIQDiWm3GFciFeTRrxCHjgrUcRaXbcIGdkP/QNGscItiZBAIhAIF296nwjD525xWPITX1K6As/jLHfotICDZ+C5mern96",
+              "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+            }
+          ],
+          "unpackedSize": 2583,
+          "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.13\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJgng2jCRA9TVsSAnZWagAAAmsQAJm8H8fTTQGHOWLKaCg6\n9ZQXOVy9toGxIcdDvgdqpsTcm3W3ZP8s2+tqjxXQgq7dl0IX0FAGi++VzeLx\nq6blGtMMijCX/tvw+NRz7LWPm8jJfO8j0iBK4JoBwXD2qW1h25+N7UQYW4Ei\n1ZiAVZU8X2oLwY97zSPMsCyEOZoH4j+3fVXo8eV6JTdtN8cEep/si/qvI7Sv\nFFG5iv6cPyYfLc2p04bdcOKkINoWf/UHnmaLaK7BYrwvO0Bo7/qn8hMKfAwN\nRkaPuIMej3TArsYi/5OumZzevDwysOpwDWHna9lN6Z2JEDtvzlsrbUyXE0Ty\nhBUkENOqsb1Oo3iJb40osENHdCyR/kIUx/G8uLE65U+8kvJVUI8aP1Fbmp8y\niOAgnYMVfz0Y38dBHONHf1T2aSe31GmZtCcCcGrmXd5SLlUkjWVzfvLRNIqz\nZCx0CeAfmd77bvTMssn1dB53JXEgHHVHsq79rJgqbh1Drjovky04GkpZ4CLh\nrfY3X7Wn7teAlDKlnbU4d/fYjmMv9VYk6RFoSSOVU2RqI4XCgy1EmFZHFToe\n1j2BQ2pJCy9QsS4fiOPnY0W/THlVbViFH+yVCTN4zLBQ9cV5mMCiRuontX5X\n0UIDC2cj4WBJHWCmtbloKkZiqpCCWBgxStJZxrMiN0T+SP2PJBGOM4CIFsqM\nC+bO\r\n=NGda\r\n-----END PGP SIGNATURE-----\r\n"
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f.txt"
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/develar/lazy-val/b69ad4119f1b19bdab13c61ee2fcc88d46b89071/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:42.016232+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "quickjs-wasi@2.2.0",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/quickjs-wasi/2.2.0",
+      "checkedAtUtc": "2026-10-03T08:45:42.025275+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/quickjs-wasi/2.2.0",
+      "contentType": "application/json",
+      "bytes": 4216,
+      "sha256": "19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7",
+      "summary": {
+        "name": "quickjs-wasi",
+        "version": "2.2.0",
+        "license": "MIT",
+        "gitHead": null,
+        "repository": {
+          "url": "git://github.com/vercel-labs/quickjs-wasi.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "85d8984aa1b048546e5634c764165034c6e22d48",
+          "tarball": "https://registry.npmjs.org/quickjs-wasi/-/quickjs-wasi-2.2.0.tgz",
+          "fileCount": 49,
+          "integrity": "sha512-zQxXmQMrEoD3S+jQdYsloq4qAuaxKFHZj6hHqOYGwB2iQZH+q9e/lf5zQPXCKOk0WJuAjzRFbO4KwHIp2D05Iw==",
+          "signatures": [
+            {
+              "sig": "MEUCIQCn6n05Fk1+EMUkLktwqAoVqBxpzjOd2R8KdkA4nTE2IAIgFpg5PGHfU5xsakdvv/BSC+fKriQePb/zPjJ//j90Wjo=",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "unpackedSize": 2977399
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7.txt"
+    },
+    {
+      "id": "React Best Practices skill",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/vercel-labs/agent-skills/063bee94c3f4df8453406c830b0a7df0f2860278/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:42.039616+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "react-remove-scroll-bar@2.3.8",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/react-remove-scroll-bar/2.3.8",
+      "checkedAtUtc": "2026-10-03T08:45:42.057567+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/react-remove-scroll-bar/2.3.8",
+      "contentType": "application/json",
+      "bytes": 2908,
+      "sha256": "826c618ece09367334160c1ab3a272fd54f8f12e3b0a45f75b0f2660d285855a",
+      "summary": {
+        "name": "react-remove-scroll-bar",
+        "version": "2.3.8",
+        "license": "MIT",
+        "gitHead": "b3b1287aad81def2e2ae707274b74531b61ddbaf",
+        "repository": {
+          "url": "git+https://github.com/theKashey/react-remove-scroll-bar.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "99c20f908ee467b385b68a3469b4a3e750012223",
+          "tarball": "https://registry.npmjs.org/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.8.tgz",
+          "fileCount": 27,
+          "integrity": "sha512-9r+yi9+mgU33AKcj6IbT9oRCO78WriSj6t/cF8DWBZJ9aOGPOTEDvdUDz1FwKim7QXWwmHqtdHnRJfhAxEG46Q==",
+          "signatures": [
+            {
+              "sig": "MEUCIHlomVu71lQb8ZijaHqU1MLX+jfxogM47L/EfAgq1+nWAiEA5rJQaLl579SuaDGQcqDm9ikUi3EcxmDkxW7PSq8Auh0=",
+              "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+            }
+          ],
+          "unpackedSize": 24936
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/826c618ece09367334160c1ab3a272fd54f8f12e3b0a45f75b0f2660d285855a.txt"
+    },
+    {
+      "id": "rust-standard-library@6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/6a6eaca656978778f7c1c750ee0c3db87f8bffb2/LICENSE-MIT",
+      "checkedAtUtc": "2026-10-03T08:45:42.071198+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/semaphore/1.1.0",
+      "checkedAtUtc": "2026-10-03T08:45:42.180858+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/semaphore/1.1.0",
+      "contentType": "application/json",
+      "bytes": 1276,
+      "sha256": "0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6",
+      "summary": {
+        "name": "semaphore",
+        "version": "1.1.0",
+        "license": null,
+        "gitHead": "88a33875b168cc7b5943d7fe987c36d08321d252",
+        "repository": {
+          "url": "git+ssh://git@github.com/abrkn/semaphore.js.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "aaad8b86b20fe8e9b32b16dc2ee682a8cd26a8aa",
+          "tarball": "https://registry.npmjs.org/semaphore/-/semaphore-1.1.0.tgz",
+          "integrity": "sha512-O4OZEaNtkMd/K0i6js9SL+gqy0ZCBMgUvlSqHKi4IBdjhe7wB8pwztUk1BbZ1fmrvpwFrPbHzqd2w5pTcJH6LA==",
+          "signatures": [
+            {
+              "sig": "MEUCIQDc03DwOnVx7li+F63zybiar7S0vDvbb7jdV8wKR3GBaAIgY0We5IeBEbXjIn3vLlsE8sHGXhkZ6o0xNnQCYN6o2X8=",
+              "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+            }
+          ]
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6.txt"
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/abrkn/semaphore.js/88a33875b168cc7b5943d7fe987c36d08321d252/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:42.205207+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/strict-event-emitter/0.5.1",
+      "checkedAtUtc": "2026-10-03T08:45:42.208895+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/strict-event-emitter/0.5.1",
+      "contentType": "application/json",
+      "bytes": 2142,
+      "sha256": "42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4",
+      "summary": {
+        "name": "strict-event-emitter",
+        "version": "0.5.1",
+        "license": "MIT",
+        "gitHead": null,
+        "repository": {
+          "url": "git+ssh://git@github.com/open-draft/strict-event-emitter.git",
+          "type": "git"
+        },
+        "dist": {
+          "shasum": "1602ece81c51574ca39c6815e09f1a3e8550bd93",
+          "tarball": "https://registry.npmjs.org/strict-event-emitter/-/strict-event-emitter-0.5.1.tgz",
+          "fileCount": 7,
+          "integrity": "sha512-vMgjE/GGEPEFnhFub6pa4FmJBRBVOLpIII2hvCZ8Kzb7K0hlHo7mQv6xYrBvCL2LtAIBwFUK8wvuJgTVSQ5MFQ==",
+          "signatures": [
+            {
+              "sig": "MEYCIQC80FdUCEuh9ce9wBbkLRVzWSdQLzQKVrfaaLHkVGtu0wIhAJIj/y7vyU7zPvcjiqFGlC2w35KkThhZiMhCawTDd5Ma",
+              "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+            }
+          ],
+          "unpackedSize": 45738
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4.txt"
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/open-draft/strict-event-emitter/56e004cf2793053ea9ece4330fd52cace96acbff/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:42.231413+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "kind": "npm-metadata",
+      "url": "https://registry.npmjs.org/unsafe-pointer/0.2.0",
+      "checkedAtUtc": "2026-10-03T08:45:42.231833+00:00",
+      "fetched": true,
+      "status": 200,
+      "finalUrl": "https://registry.npmjs.org/unsafe-pointer/0.2.0",
+      "contentType": "application/json",
+      "bytes": 2675,
+      "sha256": "37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f",
+      "summary": {
+        "name": "unsafe-pointer",
+        "version": "0.2.0",
+        "license": "MIT",
+        "gitHead": null,
+        "repository": {
+          "url": "git+https://github.com/justjake/node-unsafe-pointer.git"
+        },
+        "dist": {
+          "shasum": "f280c1c1fa35b0240465c95f946d467b3dd89286",
+          "tarball": "https://registry.npmjs.org/unsafe-pointer/-/unsafe-pointer-0.2.0.tgz",
+          "fileCount": 15,
+          "integrity": "sha512-5AzhXe8ZGzV/wVVfomw7KszPt4RPOpVcsWi66DrMrzy6fi86+rTiTx3Gu88UshFhfQLAXbFvgRyHVpQ+nZ7bvg==",
+          "signatures": [
+            {
+              "sig": "MEYCIQDTrHibeQ36wOeMzztRQQ60iCkTm5tqJb/BGQaDNPdZ3gIhAPBgooeaG1/hh81BJh/5VCoK7swDzOHOCzScJcEGrSpt",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "attestations": {
+            "url": "https://registry.npmjs.org/-/npm/v1/attestations/unsafe-pointer@0.2.0",
+            "provenance": {
+              "predicateType": "https://slsa.dev/provenance/v1"
+            }
+          },
+          "unpackedSize": 545725
+        }
+      },
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f.txt"
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "kind": "pinned-root-license",
+      "url": "https://raw.githubusercontent.com/justjake/node-unsafe-pointer/f9771c0c21e863e4938a7aed0af89575f9673152/LICENSE",
+      "checkedAtUtc": "2026-10-03T08:45:42.255145+00:00",
+      "fetched": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "bytes": 14,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "retainedBody": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    }
+  ],
+  "qualification": "Public original-version metadata and attempted pinned notices, observed in this session. Neither author metadata nor HTTP status grants rights. These response files were generated after the source checkpoint, not present in that commit. No external message was sent."
+}
