@@ -1,0 +1,65 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Only explicitly named UI lane files; byte record, not audit or validation",
+  "sourceExposure": "Current model/search/refresh, direct file-tree hook consumers, grouped view/scroll read to extract behavior; no clean-room claim",
+  "verification": "NOT RUN per user instruction; tests/lint/types/format/architecture/build/audit deferred",
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/model.ts",
+      "baseBlob": "18de5ac60c87d579334aabe64439f1e091861303",
+      "baseSha256": "335547241f6ee691bae210a049b7d668e777c84c96c1e9f7b273c5c2aea08f45",
+      "candidateSha256": "426db9b64a29a6eefa1bef10f2ba1d00df4e2352d494f6b9abeefe2e711bf475",
+      "candidateBytes": 1598,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/pathProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "d0c46c47a69a240e53e71b0e38b1119429c269661923bbfa33f434fb2004bf98",
+      "candidateBytes": 2821,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/gitProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "210bdbcadf85501f4c0dba4e1417ceb772511c3b948143c170ba75d3ea97c599",
+      "candidateBytes": 4835,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/rowProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "0bc847b584fd9f57199e08843d04ae59483e842a1ba18c787e246b13da3c209c",
+      "candidateBytes": 4557,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/treeProjectionTypes.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "b84c60f7d590ed7ed931b392b6b66e2b163721b5451183bf57d3ac42b74a12cc",
+      "candidateBytes": 632,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-projections-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "3d8b7f2cbe6397cbffba5f87628b0d755a8fd39e1f94b88a0bf5f6b0c8261c76",
+      "candidateBytes": 13132,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "specs/knorvia-next-ui-workspace-projections-20261003.md",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "1b03ec69e1c0c76fda1be3d1b7787d29d2608e1faed9965fdd416f9312bd2fa1",
+      "candidateBytes": 5082,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}
