@@ -1,0 +1,39 @@
+{
+  "inputPublishedHead": "57f53ec44bb19e550f76dac41e771fe5bb3aafbe",
+  "targets": [
+    "packages/provider-node/src/builtin-download.ts",
+    "packages/provider-node/src/builtin-release.ts"
+  ],
+  "exactReviewHits": 0,
+  "namedReceiptFilesScanned": 66,
+  "namedReceiptHits": [
+    {
+      "path": "docs/evidence/provider-node-builtin-origin-screen-20261003/source-review.json",
+      "qualification": "Known lineage classification only, no owner accepted receipt",
+      "sha256": "da11d7b0b9866953dd58e01d7f3fc03af651f3db15fa3c6c56f32e242a2f8b3a"
+    }
+  ],
+  "scannedFileSetSha256": "94e7812a6b584cf20c87e1728b5b94abe3169b95221021399633864196be26ff",
+  "history": [
+    {
+      "path": "packages/provider-node/src/builtin-download.ts",
+      "commits": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "packages/provider-node/src/builtin-release.ts",
+      "commits": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    }
+  ],
+  "privateHistory": "Not accessed/searched/recovered; absence here does not disprove private/unpublished accepted history",
+  "stopRule": "Exact genuine accepted receipt or explicit conflicting owner allocation stops preparation/reauthoring; root historical HOLD remains",
+  "earlierSearchFailure": "Initial broad rg output was truncated and not decisive; replaced with named JSON selection and exact parsed reviews, no matched source bodies copied",
+  "freshness": "PASS ahead208/behind0 vs origin/main; behind-remote skipped because upstream tracking unset. Input published head verified separately.",
+  "newNetworkRequests": 0,
+  "status": "No public exact accepted receipt located; preparation authorized, no rights acceptance",
+  "exactDigestReviewHits": 0,
+  "exactReviewQualification": "Parsed reviews checked exact target paths and both source SHA256 digests across records; named metadata checked path, basename and digest. No public accepted receipt found."
+}
