@@ -260,3 +260,48 @@ Git tree 与 d555 相同：Linux **8264 tests / 8256 pass / 0 fail / 8 skip**，
 pacman 仍缺事实公开维护邮箱，原 targets 保留；不从 Git 作者推断邮箱。它们不阻塞
 已完成的 AppImage/归档或正常源码 main 合并。新 CI 通过后按既有授权正常合 PR24，
 保留各输入祖先、原始失败和来源分支，不宣称100%全支持或全仓独立权利接受。
+
+## Linux maintainer metadata and installer release intake
+
+User-authorized public maintainer email `accomplish07zrh@gmail.com` supersedes
+the earlier packaging hold. Native head `5c3120f0abfd4031a9c69b5b8a6d2082721ef57d`
+was normally merged from main `b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687`.
+Forty-four raw files (277567 bytes), forty-three delivery checksum entries and
+seventeen named source-input bindings match their committed bytes. The previous
+5943 frozen records remain unchanged; cumulative registration is 5987 files /
+68131061 bytes. Registration preserves sourceCommit, baseline and roots.
+
+Native's actual Linux products remain preview.3 built from
+`b5fbc3d89c34c45d6d9f7e16183bbdaec79d75f8`, tree
+`43b342a85478c77f148ffec6fd8f90cc43e1013b`, not this integration commit. The
+packet records real successful AppImage/deb/rpm/pacman generation, metadata,
+extracted payload equality and bounded native-runtime acceptance. The initial
+rejected builder schema, corrected metadata probe and other actual failures
+remain frozen. The integrator verified committed evidence and source bindings;
+large product bytes remain in the native environment and were not rehashed
+here. These preview.3 products will not be relabeled as preview.4 or overwrite
+the existing release. Final release products must be built from the final exact
+source commit, with fresh checksums and package acceptance.
+
+The new preview.4 release keeps root Apache-2.0, NOTICE, all historical source
+records and unresolved per-material obligations. Release automation/acceptance
+utilities adapt explicitly identified prior probe behavior where needed; this
+is not a new originality claim. No repeated local full suite was run during
+this evidence intake. Required new-source and actual package checks are pending
+the final release candidate.
+
+UI PR28 head `1a0febaf9b362b5bcd578d396ec566bf98a33e51` was normally merged.
+Its 19 delivery checksums were verified against the exact committed files; 17
+new raw files / 435296 bytes were registered, preserving the previous 5987
+records. Frozen registration is now 6004 files / 68566357 bytes. The two BMP
+files and source icon retain their actual hashes. Static HTML/PNG previews are
+design evidence only, not native Windows installer screenshots. The production
+asset `sources.json` has a genuine targeted formatting failure; UI correction
+is pending. Native owns the actual bitmap/LangString/installation integration.
+
+The integration release helper tests have three real passes; changed-file lint
+and architecture checks pass. These do not stand in for final source CI or
+actual release-package acceptance, which remain pending. New probe helpers
+adapt the frozen canonical native probe and Linux metadata probe without
+editing the original files or their failure history. No source-origin claim
+is promoted merely because a new packaging helper passes a check.
