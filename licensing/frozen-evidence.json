@@ -10621,6 +10621,102 @@
       "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
     },
     {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/README.md",
+      "sha256": "a0cce772dbd1ca21ce42e5bf1128b0640d3909b6c4d713a985b3329fea5739ca",
+      "bytes": 2568,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/SHA256SUMS",
+      "sha256": "a1deecf1aa3de3e6eb4b3316140462e41610bd81df0ac81f7bd618f9fcc1e7eb",
+      "bytes": 1258,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/architecture-after.log",
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
+      "bytes": 197,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/architecture-before.log",
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
+      "bytes": 197,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/architecture-context.log",
+      "sha256": "4e4c030a37d3be1862298928a8e5d4bbe131b0cea1dc6bf9b951901bd92cc0f2",
+      "bytes": 462,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/commands.json",
+      "sha256": "50fc1eb953a75f3204ead3e78847dd39f310b9afef42c957b2d5a7f08c7897b0",
+      "bytes": 3040,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/direct-lint.log",
+      "sha256": "ed0f6a7ad1418710c88feea2fedd9a1075f6d561188b88ff9f6f4817b4791d9b",
+      "bytes": 89,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/format-check.log",
+      "sha256": "9a698ec816fa3ca563c2aeeb8507a0fb509ef175ed69d1140ec013c2e91f7bf1",
+      "bytes": 112,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/linux-after.log",
+      "sha256": "cff61c3c37036dd0c8fef4af72105420280c7012882f6611cace134bcfbe8315",
+      "bytes": 563,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/linux-before.log",
+      "sha256": "fc37aa2d8341342b7acf907350d72b8800579d6b101ddb462a53a4148f1ec9f1",
+      "bytes": 478,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/result.json",
+      "sha256": "eb33014f6857a8d888e62433556b77a60559e14f7e1e94186208f7b763fb4232",
+      "bytes": 2770,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/root-lint-final.log",
+      "sha256": "823f7f586be2263f99b9e7316f99a049e6e2f6634e9fc7e32131c0844f983505",
+      "bytes": 4535,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/root-lint.log",
+      "sha256": "a45aed75b3de36b4a4320b40310e99a86e9185bd3f6b0fe5d908784640f48075",
+      "bytes": 797,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/source-bindings.json",
+      "sha256": "e22303f083ac8c85ef94c97ca84978c805b5bb33cfa847399f48e90c0cdc093b",
+      "bytes": 4856,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/typecheck.log",
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786",
+      "bytes": 523,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-chrome-policy-ci-20261003/windows-job-excerpts.txt",
+      "sha256": "4db51bf3be52e60517dd93a4722c45bfe8b38ab3003a0dc41553ecd9e88fccc9",
+      "bytes": 4355,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
       "path": "docs/evidence/native-four-inherited-20261003/architecture.log",
       "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
       "bytes": 197,
@@ -10841,6 +10937,174 @@
       "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786",
       "bytes": 523,
       "sourceCommit": "3e8dbeb75baa1d58285ec638e513e40a60c00da0"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/README.md",
+      "sha256": "0d5cc5ecbbe6ba94aca8862e33eb857d5b4ceccf8f767bbbc74e9f633e3dbb29",
+      "bytes": 3914,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/SHA256SUMS",
+      "sha256": "48b7727fe0e648856578c209ebd38ed8d0e1cdf690e649b5f908467eec4841db",
+      "bytes": 2415,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/appimage-extraction.log",
+      "sha256": "87d33562af30fbd4fe898df7c8cccca12be0b946239b8c6367d7c0644f927c12",
+      "bytes": 14427,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/appimage-package.log",
+      "sha256": "da32e4a1a97eb3ceee3cd827998eca39e0558ff87c1e28576c7df085f5516b89",
+      "bytes": 4562,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/artifact-native-probe.json",
+      "sha256": "c2fb31f835772a4ed7aee10c0b03f043dbc9959744216948806cee6d9f81fbbb",
+      "bytes": 24617,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/artifact-native-probe.log",
+      "sha256": "f3764f071dd67771b12fa6faae9f4046cd5c52d3569b80b19e8aa94c4643e915",
+      "bytes": 584,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/commands.json",
+      "sha256": "698248c5798cc4d8fc582aeacd16662414e61d91f171a8259d7457f5dfd546ce",
+      "bytes": 8337,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/desktop-artifact-bindings.json",
+      "sha256": "df28416d8ca13fe91804029c6026780e6738a0209d483ebdb113fa2da73adb05",
+      "bytes": 2498,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/desktop-build.log",
+      "sha256": "82adcafa36591f5e4d48636ebb186fe1f8f8e1ecfc4956443a4863d7087855a5",
+      "bytes": 120544,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/distribution-artifact-bindings.json",
+      "sha256": "0fea4ac277159bec346dcd65311061aa1951ada312137e1eb5f23c944810413c",
+      "bytes": 2205,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/distribution-build.log",
+      "sha256": "610503c7a87e41db1f5280a029e9b098f3bd090e3bae37e84f89d81d97326f35",
+      "bytes": 111765,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/distribution-smoke-result.json",
+      "sha256": "a10a6c4b32b032507bd17677c4b50b1c1435a3b4dc15c601b5ba969c8a255f51",
+      "bytes": 1255,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/distribution-smoke.log",
+      "sha256": "8f1b34c8a18d9ee5e66bfb27af08f4abc6fbd797888c3fbc1a3680f3f3533baa",
+      "bytes": 3520,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/frozen-install.log",
+      "sha256": "1d6622bdc605bf824eaec21c07d7b885125caf146764919b36b03cf96f92caeb",
+      "bytes": 385,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installed-web-probe.json",
+      "sha256": "4216459a7cc5fd8a218cc993384cb8121fdb88f74d1a7490ae9776ca8af2aa6b",
+      "bytes": 6108,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installed-web-probe.mjs",
+      "sha256": "2ff6b16c934ebb8f235bf256f777c84bc557706227d6850b707a94b3b309951f",
+      "bytes": 5818,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe-initial.json",
+      "sha256": "c149da9bd9099bacf44c5e4b7e5dd324c953d3c157df790054989ad9963ae723",
+      "bytes": 4774,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe-initial.log",
+      "sha256": "159fa3fe120effc053a2fe322a7ea5fd19a9909e3a7f6c7594133dffac3d4655",
+      "bytes": 492,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe-initial.py",
+      "sha256": "0c8690da5d4ca58efbda9e8d82cdc5fc93ecb51e5295449eab9a2489c44df6b3",
+      "bytes": 6111,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe.json",
+      "sha256": "8fbd256f3a4500af5d124182af5154e1d3f98832ff5ae2873081d5c8da4e45b0",
+      "bytes": 5447,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe.log",
+      "sha256": "09ee70b357d92fdda884c21f2e4c83e067f43d1504569dfef1719c4a9dfa6cd0",
+      "bytes": 572,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe.py",
+      "sha256": "74ab56d0bf1ce12f086049208af3e4044b403be98af39d03bd809c61b6a9ed14",
+      "bytes": 6755,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/result.json",
+      "sha256": "d3e0bad018231ecefb71aa52a46ccc1a1f0c2cfeafff29ca125d54343ef25107",
+      "bytes": 2626,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/runtime-bindings.json",
+      "sha256": "e2b77403faf9678f649e168527469608a15f55d5c1951f3bf2b78cba6393cdf0",
+      "bytes": 1723,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/runtime-preparation.log",
+      "sha256": "26ecfd2ccaf5c4b59aa508becd73252a3351357ad7b05f992131fae933398c5c",
+      "bytes": 5416,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/source-input.json",
+      "sha256": "22c98ed9500363d577289dec122a9df664a6edb0a560c09a4f3f50ddf0fd5d1c",
+      "bytes": 4876,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/temporary-deliverables.json",
+      "sha256": "fb02998dc8340499598dab79399b1e46a6603163d0fdfc0d8c4f399fa4ea7945",
+      "bytes": 1014,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
+    },
+    {
+      "path": "docs/evidence/native-packaged-retest-ad712690-20261003/tui-failure-artifact-excerpt.txt",
+      "sha256": "567168db7cd537f170a972fcb416504d65aded5f15f5b720c100b87de2d3ac39",
+      "bytes": 1896,
+      "sourceCommit": "598e1f117ebd1793620c6df4b926affd1be8a458"
     },
     {
       "path": "docs/evidence/native-source-notices-20261003/four-svg-source-facts.json",

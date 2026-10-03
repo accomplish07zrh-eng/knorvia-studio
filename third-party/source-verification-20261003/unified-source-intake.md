@@ -109,3 +109,34 @@ HTTP/WebSocket/RPC 的三项合同执行，不以注入替代其契约。
 不变，当前 **5808 文件 / 65998810 字节**，相对稳定 main 累计新增 **92** 份，
 全部实际 hash/bytes 与目录覆盖已核对。Windows Chrome policy 另两项由原 native
 任务修复；收到确切提交后继续普通 merge，不降低断言，不把旧 CI 失败改为通过。
+
+## Native policy 夹具与中间产物记录接收
+
+native 交付 `598e1f117ebd1793620c6df4b926affd1be8a458` 以普通 merge
+`77e9342c3cda6258ac6c32af22800efbe5ec8240` 无冲突接收。两个 registry 输入
+原来硬编码 `/`，却与平台 `join` 的期望值比较；现在只令输入与原期望采用同一拼写，
+原生产策略仍保留原始展开文本。原断言及其他 22 个场景体保留，新场景严格比较混合
+分隔符、完整 source 字段、未知变量、HKCU/HKLM 顺序和合成 cookie 字节。
+
+四个生产文件不变；Windows 实际旧 CI checkout
+`7bd43bfd70486ef0e9b90bc3e2174cd81130404d`、旧 trigger ad712690 与新输入902e35c6
+的五组源绑定逐一核对。当前 fixture 字节也与作者交付一致。作者 Linux 原两场景
+本就通过，修复后含新增场景为 **3 pass / 0 fail / 0 skip**；这不等于在 Linux 复现
+或修好了实际 Windows 环境，matching Windows CI 仍须通过。
+
+两组新 raw 分别为 Chrome policy **16** 份和旧 ad712690 包装 **28** 份，各自
+SHA256SUMS 的 15/27 项实际核对。旧 **5808** 个冻结对象和原字节保留，当前
+**5852 文件 / 66380266 字节**，相对稳定 main 累计新增 **136** 份；目录覆盖和
+全部实际 hash/bytes 再次核对。作者提交 raw 后的 root lint 实际因未登记 evidence
+前置条件退出1，lint 本身未执行；该失败日志保留，由整合者补真实登记，checker 不改。
+
+`native-packaged-retest-ad712690-20261003` 只记录旧确切 source 的中间产物。
+其中 AppImage/native 六组与隔离安装/Web 探测通过，不能转记为新统一 source 的最终
+验收。完整发行归档的原 smoke 实际退出1：TUI bundled YAML 报
+`Dynamic require of "process" is not supported`，真实 TUI 及后续 Web smoke 未到达。
+CLI ESM runtime/build owner 需修复此已证实问题，再用统一新 head 重建归档复验。
+最终包装、组合 GUI/Host 退出、Windows/macOS 缺口与公开维护邮箱条件继续照实跟踪。
+
+旧 source902e35c6 的 Linux CI37123988720 已完成：来源/types/lint/fmt/架构/CLI
+构建通过；离线回归 **8260 tests / 8251 pass / 1 fail / 8 skip**，唯一失败为已接收
+HTTP 端口夹具缺口。该旧失败保留，完整新修复树的两平台结论按新受检 SHA 报告。
