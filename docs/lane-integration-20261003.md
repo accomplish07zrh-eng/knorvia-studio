@@ -197,3 +197,15 @@ provenance:check 首轮返回 1，停在十二个 RPC third-party current inputs
 GitHub 在四个目标分支 merge 推送后显示 #14–17 为 closed，冻结 heads 仍完全相同，本整合者没有另行调用 close；原任务/分支保留，可继续推送修复的完整 SHA，再普通 merge 接收。唯一面向 main 的 #13 仍 open/draft，main 不动。再次断连提示到达时，实际命令仍成功；生产源码修复已提交，待提交仅这些真实诊断与清单对齐记录，没有丢失、重建任务/分支或频繁重试失败环境。当前明确 **不就绪合 main**：根代码/格式/lint/完整 CLI/regression 门禁及来源/产品边界尚有实质失败，先交父任务调度修复。
 
 RPC 当前 input 对齐后，`pnpm provenance:report` 实际返回 0：当前清单 15597 项、reviewProblems 0、missingReviews 空；26 项未解决第三方材料仍保留，review 与 LICENSE/NOTICE 未改，没有将 unreviewed/候选/HOLD 改为独立接受或 MIT。新增本节/receipt 后再作最后一次 report/check 对账，清单一致性和原材料问题分开。整合者定点 lint 返回 0、报告实际 12 文件，CLI 路径仍受既有配置排除，不声称覆盖整个 contracts/CLI。所有原失败、源码修复摘要与 exact domain requests 已保存，可立即由父任务复用原四路调度。
+
+## 根质量守卫、当前格式修复与材料分类
+
+父任务将类型/构建修复交原四路，整合者继续根/共享独占范围，等待修复 heads 集中接收。根 source commit 为 `f453c0717fcecad07776b5de809697eb0ceff15f`。格式路径按冻结 lane 相对共同基线的真实 diff 分配，优先于目录猜测，完整文件归属见 [路径 JSON](final-format-ownership-20261003.json)：CLI 122、UI 67、services 28、native 38（含各路 docs/spec）；整合者 30、未由四路持有的顶层说明/spec 53，另有 1617 个冻结证据格式失败路径。该列表描述原首轮失败，不推断新修复 head 仍失败。所有 native 文件仍由原任务独占。
+
+根 lint/fmt 现在先强制运行 `check-evidence-integrity`，对 `19f6ccf74ba1064ca81d93194b4f25a36030e361` 的 5493 个原 Git 文件、61318000 原字节逐一确认后才运行语言工具；这些数据目录在语言配置中明确交给完整性守卫。源文件、现行 tests、顶层说明/spec 仍受原规则；所有 CI 质量步骤与失败传播保留，没有自动刷新原证据、修改冻结 payload、放宽生产行数或消除来源 HOLD。补齐既有 test 行数例外对 .mjs 的覆盖，没有修改七份 native tests。
+
+真实定向结果与 command/scope/log SHA 见 [根修复 receipt](root-quality-actions-20261003.json)：守卫 8 场景通过；4 个根文件加7个 native test 的11文件 lint 通过；30 个整合者源文件按原94规则、无忽略的临时定向配置 lint 通过；92 个指定路径格式检查通过。源文件 AST 结构、字面值及声明 flags 在去除纯分组/缩进节点后30个全部相同；首次辅助比较错误纳入完整 SourceFile.text 的文本差异已单独说明，不能误报为生产失败或运行时/类型/UI验收。原根全套失败保留，修复 heads 未收齐前不重跑全量类型/构建。
+
+根 package current input 只因质量命令修改作精确摘要对齐，所有 dependencies/engine/packageManager/license 与其他字段完全不变。source registers、26 项材料、review、LICENSE/NOTICE 均不改；current-files 在这些新源/说明/receipt 确定后按真实模型生成。
+
+[26项材料行动分类](material-obligation-actions-20261003.md)和[逐项 JSON](material-obligation-actions-20261003.json)绑定旧完整来源 checkpoint：15项需要原版本出版者版权/许可材料，3项需要实际平台构建/链接记录，8项需要原SVG来源或权利人授权。18项有保留独立第三方许可的路径；8项未确认素材继续保留现有UI字节及 HOLD。清单里没有已确认的自有源码重写项，这不是全仓独立性结论。固定上游候选图标别名不匹配，Rust/skill 的指定原地址返回404均保留为失败调查；没有授予未知资产许可、发送外部请求或关闭任何义务。根许可维持原状，不能全量 MIT。
