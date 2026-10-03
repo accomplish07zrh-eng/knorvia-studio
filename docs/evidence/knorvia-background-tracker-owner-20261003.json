@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "scope": "Complete BackgroundTaskTracker admission, polling/wait/cancel resource lifetime, event and notification/manifest projection",
+  "branch": "parallel/cli-tools-fast-20261001",
+  "draftPR": 11,
+  "commits": {
+    "freeze": "92470890804e87623c75d7f8bf79a1b845a9e94e",
+    "draftAndRed": "d58543b3c92ea6cfc6eee14a6558fcbd345a5e4d",
+    "implementation": "f8b63cd274300e943fe811d79eda75fac00e052f"
+  },
+  "origin": {
+    "allocatedSHA256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1",
+    "localReceiptFinding": "No accepted full owner located; existing references are protected input/unchanged lint. Missing records are not proof of absence. Exact root allocation accepted.",
+    "publisherMetadataOnly": {
+      "path": "apps/zcode-cli/packages/core/src/tool/executor/background-tasks.ts",
+      "blob": "3fb41377739a96eb9c3a503a72162941042c7511",
+      "lfSHA256": "3dc2eaf8c77f57b8a648130a7ec621c60622ba7373481b7fc4e08683e3660257"
+    },
+    "publisherBytesAcquiredThisRound": false
+  },
+  "authorship": {
+    "initialSourceSetSHA256": "70556cb2f37d4c69a77fef92941b0ac3a1813e55fc1794982657a1eb6c1bfb15",
+    "closureUTC": "2026-10-03T03:14:49.722200060Z",
+    "nativeAuthor": "Existing Sol/high author with inherited AgentRuntime/TurnMachine packet context. Eight current-task body-free files and four source-derived functional clarifications; no predecessor/test/history reads for this draft. Instruction-only shared-filesystem restriction.",
+    "curator": "Source-exposed; four supported failures preserved before corrections; additional static compatibility corrections disclosed in corrections.md.",
+    "retained": "Exact APIs/protocol field order/limits/aliases/statuses/fixed runtime-log-model prose; conventional primitives and required read/receiver/await/claim combinations; source-exposed log/read-order corrections. Lower inherited or accepted helpers untouched. No automatic independent-origin credit for correspondence, declarations, relocation, standard glue or tests.",
+    "currentDiscretionaryDeveloperComments": 0,
+    "wholeFileExpressionOrLicenceDecision": "Unresolved; root independently reviews. No MIT/clean-room/header/inventory grant."
+  },
+  "currentManifest": {
+    "path": "docs/evidence/knorvia-background-tracker-current-20261003.json",
+    "sha256": "e3a8f212f9a30970acdffbefb1f7198c859fb698da87a689ed3fd57f222b1453",
+    "files": {
+      "apps/cli/packages/core/src/tool/executor/background-tasks.ts": {
+        "source": {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+          "sha256": "c67312f13e0864c6ea96b1bfc19db8ea468bf1901a94c70ed19c6e5bba2c0d83"
+        },
+        "compiled": {
+          "path": "docs/evidence/background-tracker-checks-20261003/current/background-tasks.js",
+          "sha256": "aeb6d8e32162d0720314b052b7b1ada9c2a633caff577858e6942f14137c710a"
+        },
+        "declaration": {
+          "path": "docs/evidence/background-tracker-checks-20261003/current/background-tasks.d.ts",
+          "sha256": "a38f3dfb1e7ab3407314dfb035fcecfc733c880ae59371e9c860504404bab666"
+        }
+      },
+      "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts": {
+        "source": {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tracker-notification.ts",
+          "sha256": "70adb4131b236266947fc77b7546b907ee846ed0eb5c3a0b88a9d24ba10c5c44"
+        },
+        "compiled": {
+          "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-notification.js",
+          "sha256": "a9dcf634a09b1034d0d03766225f76f3e0079f0f3c01916b2609c8363948353a"
+        },
+        "declaration": {
+          "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-notification.d.ts",
+          "sha256": "b4a272027e41aa9c5fc3019db4ce6c660d6ddb5738e7a976e159b3d11e1d86c0"
+        }
+      },
+      "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts": {
+        "source": {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tracker-projection.ts",
+          "sha256": "468835c4dfac2951ef196a0d24cd976a41775ac64d3cd3ff0e5a8ec078c52422"
+        },
+        "compiled": {
+          "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-projection.js",
+          "sha256": "adbf82f3a6e83d11708b17ec6fbc3526757c1b3858ab0e4d5e6299694f95b0bb"
+        },
+        "declaration": {
+          "path": "docs/evidence/background-tracker-checks-20261003/current/background-tracker-projection.d.ts",
+          "sha256": "0b9966d9a64f1e885c613b9c7a4b9828ff05148778d4e8d0bbdcb8f0a2bceb4e"
+        }
+      }
+    }
+  },
+  "validation": {
+    "historicalBaseline": {
+      "originalGroups": 6,
+      "appendedCorrectionGroups": 1,
+      "appendedTargetedComparisons": 4,
+      "executionsSeparate": true
+    },
+    "initialDraftRed": {
+      "groups": 1,
+      "targetedComparisons": 4,
+      "allFourDifferencesObserved": true
+    },
+    "finalCurrentActualEmitted": {
+      "originalGroupsPassed": 6,
+      "appendedCorrectionGroupsPassed": 1,
+      "appendedTargetedComparisons": 4,
+      "oneFinalRunEach": true,
+      "realConsumer": "Actual ToolExecutorImpl.trackExternalBackgroundTask with synthetic dependencies; included in original six, not an additional count"
+    },
+    "compilerAndSelector": {
+      "groups": 1,
+      "typescript": "6.0.2",
+      "diagnostics": 0,
+      "currentModules": 3,
+      "immutableBaselineModules": 13,
+      "unchangedProtectedSources": 698,
+      "publicApiEqual": true,
+      "exactCompilerArtifacts": true,
+      "wrongMissingArtifactsFailClosed": true,
+      "wholeBuild": false,
+      "liveTasksProcessesProvidersGrants": 0
+    },
+    "compilerRoutingCorrection": "First proof resolved CLI TS5.9.3: zero diagnostics and equal artifacts; preserved. Corrected proof selects root TS6.0.2 and checks exact version. Only proof/type/lint/format rerun; behavioral groups not repeated.",
+    "ownedLint": {
+      "files": 7,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "maxNonblankNoncommentLines": 400
+    },
+    "configuredLint": "Root config deliberately ignores apps/cli; invocation found zero files and exited1. Recorded as exclusion, not a pass; unchanged equivalent owned configuration checks selected files.",
+    "format": "7 selected current files pass; immutable raw drafts/oracles/compiler emits not reformatted",
+    "architecture": "changed-scope check passes0violations; CLI context unmanaged",
+    "liveTasksProcessesProvidersGrantsUserData": 0,
+    "deferred": [
+      "ordinary source execution replay",
+      "full tool invocation/deadline/telemetry regression",
+      "ordinary suites",
+      "root-wide types/lint",
+      "CLI/desktop/full builds",
+      "native/Windows acceptance",
+      "arbitrary accessor/thenable/timing matrices",
+      "independent expression/licence review"
+    ]
+  },
+  "protected": {
+    "unchangedSourceCount": 698,
+    "reference": "docs/evidence/turn-machine-checks-20261003/freeze.json",
+    "referenceSHA256": "8be208f54408cfb4b992fdc8a95c993f69183ecd385a8d108596fc9618189433",
+    "soleSupersededOldPath": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+    "unchangedBaselineDependencies": 12,
+    "TurnMachine": "Uninstalled candidate remains uninstalled; accepted helpers, root registry/hydration and other lane inputs unchanged"
+  },
+  "configuration": {
+    "current": "Parent verified GPT-6.1 Sol/high and Fast Value1 before current round; no setting changes by this lane.",
+    "historical": "No retroactive Fast verification: parent found OFF at02:39 and changed ON."
+  },
+  "bindings": {
+    "docs/evidence/background-tracker-checks-20261003/freeze.json": "948601729a37b3cd62edc130c86f671f0f0329aee9b7ff7bbedb2ec82ac98fae",
+    "docs/evidence/background-tracker-checks-20261003/red-freeze.json": "fa8e75c628173d5134eeddfaebc213bb733371f31b6985951f612e89c7b191a4",
+    "docs/evidence/background-tracker-checks-20261003/initial-compiler.json": "5d6383e47bce8a0a5a4a5a131d2bf489a05278c4ab2251122548a157e217da30",
+    "docs/evidence/background-tracker-checks-20261003/initial-draft-red.log": "a7c266fdd9ff5182365ab5463106833393b3e05837cbf187c6256d69b5f67689",
+    "docs/evidence/background-tracker-checks-20261003/correction-baseline.log": "cdc80df61f05fa36699a8d5b333e67faa41c0cb3c87103509c307aaeda182f10",
+    "docs/evidence/background-tracker-checks-20261003/current-safety.log": "980e3c1fcbc230e0fd1cd54134d99758c67951edf50a48a5116831ff70329af3",
+    "docs/evidence/background-tracker-checks-20261003/current-correction.log": "ee48c3f2f3c7ad07dad5108d22f0f2ee9de51215abda5a0723a7c1ff95a338e1",
+    "docs/evidence/background-tracker-checks-20261003/current-artifact-proof.log": "f5cfc4c7a7ebaeeefd512cc8b328720fa6e195a52338d8249451a0c65936e31b",
+    "docs/evidence/background-tracker-checks-20261003/compiler-routing-correction.json": "d8a714eafdfe92c0b0094593a61b7777790698f08594a5bbdad2d8752b641fd2",
+    "docs/evidence/background-tracker-checks-20261003/artifact-proof-initial-compiler-routing.log": "ed11ec18018076360c9117123ad5be1d5d07fb48d67a587e42452fa45d6b30d5",
+    "docs/evidence/background-tracker-checks-20261003/owned-lint.log": "53c38cf97c5ad76b06c0924edfd529795d124d71219797dffc76cd3af9d66c9f",
+    "docs/evidence/background-tracker-checks-20261003/configured-lint.log": "350da91ee991d1383c4b26909151b1eca1d4870994d438c80f50618fe1065cef",
+    "docs/evidence/background-tracker-checks-20261003/format.log": "998e9ab25b2e0807a18fd6300740c5d5265246da4f30610998bc2850b465b825",
+    "docs/evidence/background-tracker-checks-20261003/architecture.log": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+    "docs/evidence/background-tracker-checks-20261003/comment-boundaries.json": "c6db0fc8a05d037cf24839052b2002216988536c4a49fc2f72a0aad2caa34510",
+    "docs/evidence/background-tracker-checks-20261003/corrections.md": "6aecf2ce432de6fb73af96f9281c761bf0a3ec896245fea754c4948c45ca9a56",
+    "apps/cli/packages/core/test/background-tracker-artifact-proof-20261003.mjs": "c2defeaa78862a403263a5d68302683b578596f3db0b63ca26b6e3a3a58a11f1",
+    "apps/cli/packages/core/test/background-tracker-fixture-20261003.mjs": "3d0b1fb99fc1a7cad14c606b29b6053fde0f4e3b0f586ea8d60db62d7444fed1",
+    "apps/cli/packages/core/test/background-tracker-safety-20261003.mjs": "2446eec9d19fd6ebb42df076d69bccda92dc18de2f269c61bc00c8a5d92c2f65",
+    "apps/cli/packages/core/test/background-tracker-correction-proof-20261003.mjs": "8910d194a49d6ce5b2d5bd7a3d530fd36af27c89e0c23b95d7178ed5f4df0f47"
+  },
+  "remaining": "No executor blocker. Root independent runtime/expression review and deferred acceptance remain; no integration/publication claim."
+}
