@@ -41,7 +41,7 @@ export async function load(mode, name, ports = {}) {
     const bytes = fs.readFileSync(
       path.join(repo, "docs/evidence/knorvia-todo-resume-current-20261003.json"),
     );
-    assert.equal(hash(bytes), "CURRENT_PIN");
+    assert.equal(hash(bytes), "2d5d04b499c6d6aaaded5b43d27d8627f9ad03c03c6bf561091cb8d90ec7e7eb");
     files = {};
     for (const [key, row] of Object.entries(JSON.parse(bytes).files)) {
       files[key] = { location: row.location };

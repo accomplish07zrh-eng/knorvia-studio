@@ -1,0 +1,18 @@
+(node:225297) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Todo schemas, complete public declaration, admission and returned reference (2.843162ms)
+✔ Todo post-write summary, parsed array identity, status reads and original failures (0.724536ms)
+✔ Todo native delayed write, captured session phase and direct aborted context (0.27881ms)
+✔ Actual full call-runner TodoWrite publication and early-cancel authority (7.791613ms)
+✔ Resume store/session admission and schedule reference projection (5.063789ms)
+✔ Resume exact restore/publication order, captured identity and final output (2.908529ms)
+✔ Resume explicit mode, duplicate title and grant failure partial effects (4.699874ms)
+✔ Resume hook cancellation retains writes; continuity failures retain fallbacks (2.73235ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34.254624

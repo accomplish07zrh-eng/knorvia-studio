@@ -106,12 +106,10 @@ export const todoReadToolEntry: ToolEntry = {
 };
 
 export const todoWriteToolEntry: ToolEntry = {
-  capability:
-    "Replace the current session todo list to track multi-step task progress and resume state",
+  capability: "Replace the current session todo list to track multi-step task progress and resume state",
   metadata: {
     name: "TodoWrite",
-    description:
-      'Create and update a task list for the current session. The list is rendered to the user as your working plan.\n\n- Each todo has `content`, `status` ("pending" | "in_progress" | "completed"), and `priority` ("high" | "medium" | "low").\n- Send the full list each call; it replaces the previous one.\n- Keep one item `in_progress` at a time and mark it `completed` when done.',
+    description: "Create and update a task list for the current session. The list is rendered to the user as your working plan.\n\n- Each todo has `content`, `status` (\"pending\" | \"in_progress\" | \"completed\"), and `priority` (\"high\" | \"medium\" | \"low\").\n- Send the full list each call; it replaces the previous one.\n- Keep one item `in_progress` at a time and mark it `completed` when done.",
     readOnly: true,
     destructive: false,
     concurrentSafe: false,

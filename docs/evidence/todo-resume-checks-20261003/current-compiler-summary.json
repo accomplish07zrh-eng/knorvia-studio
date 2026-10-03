@@ -1,0 +1,9 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": 0,
+  "apiEqual": true,
+  "publicExports": 7,
+  "sourceFiles": 2,
+  "actualEmissions": 4,
+  "unselectedWrites": 0
+}

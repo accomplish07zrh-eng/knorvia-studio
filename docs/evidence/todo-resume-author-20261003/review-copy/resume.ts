@@ -2,41 +2,24 @@ import { restorePermissionGrantMarker } from "../helpers/permission-grant-resume
 import { executionStateSchema, resolveExecutionState } from "@knorvia/shared";
 import { SESSION_ENTRY_EXECUTION_STATE } from "@knorvia/contracts";
 import {
-  CoreErrorType,
-  HookEventName,
-  SessionEventType,
-  createCoreError,
-  traceContextToLogContext,
-  formatGoalStateForModel,
-  activeSessionMessages,
-  hydrateReadFileStateFromSession,
-  hydrateMessageHistoryFromSession,
-  MessageHistoryImpl,
+  CoreErrorType, HookEventName, SessionEventType, createCoreError,
+  traceContextToLogContext, formatGoalStateForModel, activeSessionMessages,
+  hydrateReadFileStateFromSession, hydrateMessageHistoryFromSession, MessageHistoryImpl,
 } from "../deps.js";
 import type {
-  EnvInfo,
-  SessionEvent,
-  SessionGoal,
-  SessionInfo,
-  SessionTitleSource,
-  TodoItem,
-  TraceContext,
-  TurnId,
-  TurnState,
-  ToolSchedule,
+  EnvInfo, MessageWithParts, SessionEvent, SessionGoal, SessionInfo, SessionTitleSource,
+  TodoItem, TraceContext, TurnId, TurnState, ToolSchedule,
 } from "../deps.js";
 import { getLatestActiveSessionMessageId } from "../helpers/index.js";
 import type { ResumeSessionOptions, ResumeSessionResult } from "../types.js";
 import type { AgentRuntimeInternal } from "../internal.js";
 import {
-  announceSessionShellEnvironmentNoticeAfterResume,
-  getSessionShellSelection,
+  announceSessionShellEnvironmentNoticeAfterResume, getSessionShellSelection,
   restoreSessionShellEnvironmentSelectionForResume,
 } from "./session-shell-environment.js";
 import { repairPersistedRemoteSessionPaths } from "../helpers/persisted-remote-session-path-repair.js";
 import {
-  restoreWorkspaceCheckpointEntries,
-  restoreWorkspaceFileRewindEntries,
+  restoreWorkspaceCheckpointEntries, restoreWorkspaceFileRewindEntries,
 } from "./workspace-checkpoint-persistence.js";
 import { mainTurnCacheHitAggregateFromMessages } from "./turn-model-step-usage.js";
 
@@ -64,22 +47,16 @@ async function synchronizeResumeTitle(
   const title = session.title.trim();
   if (!title) return;
   const source: SessionTitleSource = session.titleSource ?? "generated";
-  if (
-    restoredEvents.some((event) => {
-      if (event.type !== SessionEventType.SessionTitleUpdated) return false;
-      const payload = event.payload as { source?: unknown; title?: unknown };
-      return payload.title === title && payload.source === source;
-    })
-  )
-    return;
-  await this.appendEvent(
-    this.createEvent(
-      SessionEventType.SessionTitleUpdated,
-      { previousTitle: "", source, title },
-      traceContext,
-    ),
+  if (restoredEvents.some((event) => {
+    if (event.type !== SessionEventType.SessionTitleUpdated) return false;
+    const payload = event.payload as { source?: unknown; title?: unknown };
+    return payload.title === title && payload.source === source;
+  })) return;
+  await this.appendEvent(this.createEvent(
+    SessionEventType.SessionTitleUpdated,
+    { previousTitle: "", source, title },
     traceContext,
-  );
+  ), traceContext);
 }
 
 export async function resumeFromStore(
@@ -87,19 +64,15 @@ export async function resumeFromStore(
   options?: ResumeSessionOptions,
 ): Promise<ResumeSessionResult> {
   if (!this.sessionStore) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "Cannot resume session without a session store",
-      { recoverable: false },
-    );
+    throw createCoreError(CoreErrorType.ConfigurationError,
+      "Cannot resume session without a session store", { recoverable: false });
   }
   const traceContext = options?.traceContext ?? this.rootTraceContext;
   const persistedSession = await this.sessionStore.getSession(this.sessionId);
   if (!persistedSession || persistedSession.time.archived !== undefined) {
-    throw createCoreError(CoreErrorType.SessionNotFound, `Session not found: ${this.sessionId}`, {
-      context: { sessionId: this.sessionId },
-      recoverable: true,
-    });
+    throw createCoreError(CoreErrorType.SessionNotFound,
+      `Session not found: ${this.sessionId}`,
+      { context: { sessionId: this.sessionId }, recoverable: true });
   }
   const session = await repairPersistedRemoteSessionPaths(this.sessionStore, persistedSession, {
     onPersistenceFailure: (error) => {
@@ -112,8 +85,8 @@ export async function resumeFromStore(
       });
     },
   });
-  const messages =
-    options?.persistedMessages ?? (await this.sessionStore.messages({ sessionID: this.sessionId }));
+  const messages = options?.persistedMessages ??
+    await this.sessionStore.messages({ sessionID: this.sessionId });
   const rewindTargetMessageId = session.revert?.targetMessageID;
   const rewindCreatedMessageId = session.revert?.createdMessageID;
   const rewindKeptMessageIds = session.revert?.keptMessageIDs;
@@ -142,15 +115,12 @@ export async function resumeFromStore(
   }
   if (persistedEnvInfo) this.config.envInfo = persistedEnvInfo;
   const shellResult = await restoreSessionShellEnvironmentSelectionForResume(this, {
-    currentSelection: getSessionShellSelection(this),
-    traceContext,
+    currentSelection: getSessionShellSelection(this), traceContext,
   });
   this.workingDirectory = session.directory;
   this.config.taskType = session.taskType;
   if (this.config.memory) {
-    this.config.memory.workspaceIdentity = session.workspaceID
-      ? String(session.workspaceID)
-      : undefined;
+    this.config.memory.workspaceIdentity = session.workspaceID ? String(session.workspaceID) : undefined;
   }
   this.messageHistory = new MessageHistoryImpl();
   this.contextBuilder = null;
@@ -177,61 +147,39 @@ export async function resumeFromStore(
     rewindKeptMessageIds,
     rewindTargetMessageId,
   });
-  announceSessionShellEnvironmentNoticeAfterResume(this, {
-    persistedEnvInfo,
-    restore: shellResult,
-  });
+  announceSessionShellEnvironmentNoticeAfterResume(this, { persistedEnvInfo, restore: shellResult });
   const activeMessages = activeSessionMessages(messages, {
-    branchCutAfterMessageId,
-    rewindCreatedMessageId,
-    rewindKeptMessageIds,
-    rewindTargetMessageId,
+    branchCutAfterMessageId, rewindCreatedMessageId, rewindKeptMessageIds, rewindTargetMessageId,
   });
   const conversationMessages = activeSessionMessages(messages, {
-    branchCutAfterMessageId,
-    includeCompactPreservedSegment: false,
-    rewindCreatedMessageId,
-    rewindKeptMessageIds,
-    rewindTargetMessageId,
+    branchCutAfterMessageId, includeCompactPreservedSegment: false,
+    rewindCreatedMessageId, rewindKeptMessageIds, rewindTargetMessageId,
   });
   // 受限初稿先写 assistant anchor，早于 latest-id 端口；冻结观察要求相反顺序。
-  const latestAssistant = [...conversationMessages]
-    .reverse()
-    .find((message) => message.info.role === "assistant");
+  const latestAssistant = [...conversationMessages].reverse().find(message => message.info.role === "assistant");
   this.latestConversationMessageId = getLatestActiveSessionMessageId(conversationMessages);
   this.latestAssistantMessageId = latestAssistant?.info.id;
   this.latestAssistantTurnId = latestAssistant?.info.anchor?.turnId as TurnId | undefined;
-  this.lastAssistantCompletedAtMs =
-    latestAssistant && "completed" in latestAssistant.info.time
-      ? latestAssistant.info.time.completed
-      : undefined;
+  this.lastAssistantCompletedAtMs = latestAssistant && "completed" in latestAssistant.info.time
+    ? latestAssistant.info.time.completed : undefined;
   await restoreWorkspaceCheckpointEntries(this, traceContext);
   await restoreWorkspaceFileRewindEntries(this, traceContext);
   const restoredEvents = await this.eventStore.getEvents(this.sessionId);
-  const modeEvents = restoredEvents.filter(
-    (event) =>
-      event.type === SessionEventType.SessionCreated ||
-      event.type === SessionEventType.SessionModeChanged,
-  );
+  const modeEvents = restoredEvents.filter((event) =>
+    event.type === SessionEventType.SessionCreated || event.type === SessionEventType.SessionModeChanged);
   const restoredMode = modeEvents.length ? this.eventReducer.reduce(modeEvents).mode : undefined;
   const mode = options?.modeOverride ?? restoredMode ?? session.permission?.mode;
   if (mode !== undefined) Object.assign(this.config, resolveExecutionState({ mode }));
   const executionEntries = await this.sessionStore.sessionEntries?.({
-    sessionID: this.sessionId,
-    type: SESSION_ENTRY_EXECUTION_STATE,
+    sessionID: this.sessionId, type: SESSION_ENTRY_EXECUTION_STATE,
   });
   const savedExecution = executionStateSchema.safeParse(executionEntries?.at(-1)?.data);
   if (savedExecution.success && options?.modeOverride === undefined) {
     Object.assign(this.config, savedExecution.data);
   }
   await restorePermissionGrantMarker(this, traceContext);
-  this.mainTurnCacheHitAggregate = mainTurnCacheHitAggregateFromMessages({
-    activeMessages,
-    persistedMessages: messages,
-  });
-  this.turnNumber = activeMessages.filter(
-    (message) => message.info.role === "user" && !message.info.summary,
-  ).length;
+  this.mainTurnCacheHitAggregate = mainTurnCacheHitAggregateFromMessages({ activeMessages, persistedMessages: messages });
+  this.turnNumber = activeMessages.filter((message) => message.info.role === "user" && !message.info.summary).length;
   this.sessionPersisted = true;
   await synchronizeResumeTitle.call(this, restoredEvents, session, traceContext);
   await this.discardPersistedPendingSteerInputs(traceContext);
@@ -240,26 +188,19 @@ export async function resumeFromStore(
   const target = await this.readSessionTargetForContext(traceContext);
   this.injectTargetStateIntoMessageHistory(target);
   // 失败证明：端口可修改 runtime cwd，公开恢复结果必须仍取落盘 session.directory。
-  const event = this.createEvent(
-    SessionEventType.SessionResumed,
-    {
-      directory: session.directory,
-      interruptedToolCount: hydration.interruptedToolCount,
-      messageCount: hydration.messageCount,
-      partCount: hydration.partCount,
-      recoveredCompactTimelineCount: compactCount,
-      recoveredSteerInputCount,
-      resumedTodoCount: todos.length,
-      resumedTarget: target?.status,
-    },
-    traceContext,
-  );
+  const event = this.createEvent(SessionEventType.SessionResumed, {
+    directory: session.directory,
+    interruptedToolCount: hydration.interruptedToolCount,
+    messageCount: hydration.messageCount,
+    partCount: hydration.partCount,
+    recoveredCompactTimelineCount: compactCount,
+    recoveredSteerInputCount,
+    resumedTodoCount: todos.length,
+    resumedTarget: target?.status,
+  }, traceContext);
   await this.appendEvent(event, traceContext);
   const hookResult = await this.runSessionStartHooks("resume", traceContext, options?.abortSignal);
-  this.injectHookAdditionalContextIntoMessageHistory(
-    HookEventName.SessionStart,
-    hookResult.additionalContexts,
-  );
+  this.injectHookAdditionalContextIntoMessageHistory(HookEventName.SessionStart, hookResult.additionalContexts);
   if (messages.length > 0 && activeMessages.length === 0) {
     this.logger?.warn("Session resume produced zero active messages", {
       ...traceContextToLogContext(traceContext),
@@ -366,14 +307,11 @@ export function injectTargetStateIntoMessageHistory(
 ): void {
   const formattedTarget = formatGoalStateForModel(target);
   if (!formattedTarget) return;
-  this.messageHistory.addAttachment(
-    "resume_goal_state",
-    [
-      "The current session goal state was restored from session storage.",
-      formattedTarget,
-      "Use it as the authoritative long-running objective unless a later GoalRead result or runtime goal event updates it.",
-      "Do not mark the goal complete unless real evidence shows the objective has been achieved.",
-      "A completed plan, todo list, checklist, or planning phase is not completion evidence unless the objective was only to produce that artifact.",
-    ].join("\n"),
-  );
+  this.messageHistory.addAttachment("resume_goal_state", [
+    "The current session goal state was restored from session storage.",
+    formattedTarget,
+    "Use it as the authoritative long-running objective unless a later GoalRead result or runtime goal event updates it.",
+    "Do not mark the goal complete unless real evidence shows the objective has been achieved.",
+    "A completed plan, todo list, checklist, or planning phase is not completion evidence unless the objective was only to produce that artifact.",
+  ].join("\n"));
 }
