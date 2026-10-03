@@ -17,10 +17,15 @@ export async function buildTui({ directory = tuiDirectory } = {}) {
     format: "esm",
     platform: "node",
     target: "node22",
-    // Bundled CommonJS dependencies still need Node's native module loader in ESM.
-    // Keep it local to this module and resolve relative to the emitted artifact.
+    // YAML needs native require; TypeScript also reads CommonJS file metadata.
+    // Keep that context local to this ESM module and its emitted artifact.
     banner: {
-      js: 'import { createRequire as __knorviaCreateRequire } from "node:module";\nconst require = __knorviaCreateRequire(import.meta.url);',
+      js: [
+        'import { createRequire as __knorviaCreateRequire } from "node:module";',
+        "const require = __knorviaCreateRequire(import.meta.url);",
+        "const __filename = import.meta.filename;",
+        "const __dirname = import.meta.dirname;",
+      ].join("\n"),
     },
     sourcemap: true,
     logLevel: "info",

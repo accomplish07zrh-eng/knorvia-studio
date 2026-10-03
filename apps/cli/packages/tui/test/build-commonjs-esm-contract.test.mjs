@@ -9,6 +9,7 @@ import { promisify } from "node:util";
 import { buildTui } from "../scripts/build.mjs";
 
 const exec = promisify(execFile);
+const nativeImportTimeoutMs = 15_000;
 async function fixture(run) {
   const root = await mkdtemp(join(tmpdir(), "knorvia-tui-esm-"));
   const directory = join(root, "workspace with spaces 合成");
@@ -31,18 +32,46 @@ async function importInNativeProcess({ file, cwd, assertions }) {
     check,
     `import assert from "node:assert/strict";
     const previousRequire = globalThis.require;
+    const previousFilename = globalThis.__filename;
+    const previousDirname = globalThis.__dirname;
     const loaded = await import(${JSON.stringify(pathToFileURL(file).href)});
     assert.equal(globalThis.require, previousRequire);
+    assert.equal(globalThis.__filename, previousFilename);
+    assert.equal(globalThis.__dirname, previousDirname);
     ${assertions}
     console.log("native-tui-esm-ok");`,
   );
+
   const result = await exec(process.execPath, [check], {
     cwd,
     env: { ...process.env, NODE_OPTIONS: "", NODE_PATH: "" },
+    timeout: nativeImportTimeoutMs,
   });
   assert.equal(result.stderr, "");
   assert.equal(result.stdout.trim(), "native-tui-esm-ok");
 }
+
+test("bundled CommonJS file context belongs to the emitted ESM module", () =>
+  fixture(async ({ directory, cwd }) => {
+    await put(
+      join(directory, "package.json"),
+      JSON.stringify({ type: "module", dependencies: {} }),
+    );
+    await put(
+      join(directory, "src/context.cjs"),
+      "exports.context = { filename: __filename, dirname: __dirname };",
+    );
+    await put(
+      join(directory, "src/index.ts"),
+      'import common from "./context.cjs"; export const context = common.context;',
+    );
+    await buildTui({ directory });
+    await importInNativeProcess({
+      file: join(directory, "dist/index.js"),
+      cwd,
+      assertions: `assert.deepEqual(loaded.context, ${JSON.stringify({ filename: join(directory, "dist/index.js"), dirname: join(directory, "dist") })});`,
+    });
+  }));
 
 test("real producer preserves ESM top-level await and the external package boundary", () =>
   fixture(async ({ directory, cwd }) => {
