@@ -1,0 +1,13 @@
+{
+  "file": "/tmp/knorvia-capture44-correction-1.ts",
+  "bytes": 5399,
+  "sha256": "8b3477d91d861f55d85487c896d7f210a93555977ce69c2358566d71a38f1ddb",
+  "author": "/root/browser_capture_owner_author44",
+  "access": "Authorized contracts and bounded facts from memory; no prior output, source, sibling, tests/evidence reads.",
+  "rawPath": "licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/capture-correction-1.ts",
+  "version": "correction-1",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "completeLiteral": true,
+  "curatorSemanticEdits": false
+}

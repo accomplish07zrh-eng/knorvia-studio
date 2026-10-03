@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandExecutor.ts",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "repository": "zai-org/ZCode",
+      "returnedBlob": "bd29578028b9e2c4ba711d9646dfa03b5e91bd88",
+      "recomputedBlob": "bd29578028b9e2c4ba711d9646dfa03b5e91bd88",
+      "normalizedSha256": "fb5d0206e73083b427dc07c19beedd85643ab8ff2757faa0be5408d8d3f207e2",
+      "matchesInventory": true,
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserCommandExecutor.ts",
+      "authorSourceAccess": false,
+      "licenseAcceptance": false
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotCapture.ts",
+      "fixedRef": "872ad960de7ec172591f7e1952f7849229f94521",
+      "repository": "zai-org/ZCode",
+      "returnedBlob": "9d699dd1cf525c2e3d7c1e2f972e54f1a0454387",
+      "recomputedBlob": "9d699dd1cf525c2e3d7c1e2f972e54f1a0454387",
+      "normalizedSha256": "8c82ee5005a64e878104ae36359881d00d3f7481439b46ad63c567af95bc4b7b",
+      "matchesInventory": true,
+      "displayUrl": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/desktop/src/main/browserView/browserScreenshotCapture.ts",
+      "authorSourceAccess": false,
+      "licenseAcceptance": false
+    }
+  ],
+  "qualification": "Two exact existing-connector reads; byte mapping, not independent-expression/right clearance."
+}

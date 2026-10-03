@@ -1,0 +1,16 @@
+import type {ControlledView} from './browserCommandTypes.js';
+import type {BrowserCommand,BrowserCommandResult} from '@knorvia/shared';
+type Done=(partial:Omit<BrowserCommandResult,'elapsedMs'>)=>BrowserCommandResult;
+export declare function handleClick(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleType(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handlePress(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleCuaKeypress(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleScroll(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleCuaScroll(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleDomCuaScroll(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleHover(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleSelect(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleCheck(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleDrag(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleCuaDrag(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;
+export declare function handleElementInfo(view:ControlledView, command:BrowserCommand, done:Done):Promise<BrowserCommandResult>;

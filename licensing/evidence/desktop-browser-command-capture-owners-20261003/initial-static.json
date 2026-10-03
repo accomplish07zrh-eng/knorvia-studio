@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-browser-command-capture-owners-20261003/scoped-static.mjs",
+    "--drafts"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-browser-command-capture-owners-20261003/scoped-static.mjs",
+      "sha256": "ed7cd6cdae16c8c6658f27069907287256caf7f61ba0f49d38d54758ac47bd2d"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": false,\n  \"restrictedSemanticErrors\": [\n    {\n      \"file\": \"licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/command-initial.ts\",\n      \"code\": 2307,\n      \"message\": \"Cannot find module './browserCommandInteraction.js' or its corresponding type declarations.\"\n    },\n    {\n      \"file\": \"licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/command-initial.ts\",\n      \"code\": 2307,\n      \"message\": \"Cannot find module './browserCommandPage.js' or its corresponding type declarations.\"\n    },\n    {\n      \"file\": \"licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/command-initial.ts\",\n      \"code\": 2307,\n      \"message\": \"Cannot find module './browserCommandPlaywright.js' or its corresponding type declarations.\"\n    }\n  ],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"./browserCommandTypes.js\": \"view\",\n    \"./browserCommandInteractionHandlers.js\": \"interaction\",\n    \"./browserCommandPageHandlers.js\": \"page\",\n    \"./browserCommandState.js\": \"state\",\n    \"./browserPlaywrightExecutor.js\": \"playwright\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"matchesBaseline\": true,\n  \"syntaxFiles\": [\n    \"licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/command-initial.ts\",\n    \"licensing/evidence/desktop-browser-command-capture-owners-20261003/drafts/capture-initial.ts\",\n    \"packages/desktop/src/main/browserView/browserCommandPageHandlers.ts\",\n    \"packages/desktop/src/main/browserView/browserPlaywrightExecutor.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 1
+}
