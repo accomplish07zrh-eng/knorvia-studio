@@ -1,0 +1,16 @@
+# Complete account snapshot projection rule owner
+
+[Origin](ACCOUNT-PROJECTION-ORIGIN-20261003.json) binds actual current/root/accepted/inventory SHA `9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f`,6845bytes. Parent hash text62characters omitted final9f; initial strict assertion failure preserved, exact full independent bindings agree and no source substitution occurs. Nine old exact structured matches are inventory/retention and local history is root-only, with no positive accepted replacement/conflict in available evidence. Local declared publisher blob a9a097c8224ea514e982fb0109ff85766088e154 is present and complete bytes exactly match; bounded positive inherited expression only, rights open.
+
+Select entire cohesive rule-owner chapter: async connection adapter, complete connection admission/index, configured-order account entitlement/start whitelist projection and connection-order state projection, with all private rule helpers. Retain imports/public interface/type aliases exactly; mechanical API/branch literals/policy/value/data/dependency lineage not counted as novelty or whole-file cleanroom.
+
+```text
+fake config/previous snapshot → connection result admission → entitlement/whitelist overlay
+                    └→ async connection adapter → projected configs + frozen account states
+```
+
+Preserve exact provider identities, duplicate/missing/non-account error precedence, hidden account treatment, ordered overlays/config reference carry, available/pending/unavailable/unknown distinctions, start-plan model trim/empty/duplicates, resetPrevious semantics, reason/current/key/effective-time spread distinctions and native getters/errors. Existing unknown previous-state conditional spread can retain current/effectiveAt when new fields undefined, while connectionKey always overwrites; record observed behavior, do not repair policy intent. No permission/login/key/schema/default/auth or persistence rule changes.
+
+Fresh fork-none Sol/high behavior/API-only author receives complete frozen behavior and body-free declarations; whole first-ready/design/task/inputs/access/manifest0444 frozen and signaled before separate own static review. Whole preferred chapter installed after frozen retained preamble plus formatter only; complete corrections frozen/reviewed as whole if needed. Source-exposed coordinator/sharedworkspace limits disclosed; no novelty/model-process-hardware cleanroom/MIT/rights/global classification claim. Current lane Sol/high Fast ON preserved, per-child Fast not separately verified.
+
+Minimum original/final synthetic snapshot rule case, target/test and direct provider-index consumer scoped strict types, necessary lint/format/changed architecture, preferred chapter/public API/preamble identity and retained accepted source/control bindings. No fullsuite/build/native/network/provider/real accounts/config/credentials/user files. Root resolver/personal repository/codec and seven E builtin files unchanged/unimported. LICENSE/NOTICE/global inventory/provenance/manifests/security unchanged; old failures/HOLDS and final collection audit/integration deferred. Same draft PR10; no main merge/forcepush/raw bundles/source tree upload/Library403 alternate route/cancelled upload retry.

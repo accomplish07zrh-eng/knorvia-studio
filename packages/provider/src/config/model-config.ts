@@ -375,9 +375,11 @@ export class ModelConfigRules {
     return new ModelConfigRules();
   }
 
-  /** Built-in 保留原层次和组内顺序；个人只包含普通/手动精确规则。 */
   static composeEffective(builtin: ModelConfigRules, personal: ModelConfigRules): ModelConfigRules {
-    return new ModelConfigRules([...builtin.rules(), ...personal.rules().filter(isExactModelRule)]);
+    return new ModelConfigRules([
+      ...builtin.rules(),
+      ...personal.rules().filter(isExactModelConfigRule),
+    ]);
   }
 
   rules(): readonly ModelConfigRule[] {
@@ -385,41 +387,19 @@ export class ModelConfigRules {
   }
 
   resolve(input: ModelConfigRuleResolutionInput): ModelConfig {
-    let result = ModelConfig.empty();
-    const baseUrl = input.baseUrl == null ? undefined : normalizeBaseURLForRuleMatch(input.baseUrl);
+    let config = ModelConfig.empty();
+    const baseUrl = input.baseUrl == null ? undefined : normalizeModelRuleBaseUrl(input.baseUrl);
+
     for (const rule of this.#rules) {
-      if (isExactModelRule(rule)) {
-        if (rule.providerId !== input.providerId || rule.modelId !== input.modelId) continue;
-        // 手动规则要求所有可编辑叶子齐全，因此可直接覆盖；系统叶子继续来自当前身份的规则。
-        // 清空整份基线会既丢失系统映射，也迫使 UI 把旧模型的隐藏配置复制进个人规则。
-        result = (
-          rule.type === "manual-provider-model"
-            ? ModelConfig.fromData(clearManualModelConfig(result.toJSON()))
-            : result
-        ).overlay(rule.config);
+      if (!matchesModelConfigRule(rule, input, baseUrl)) {
         continue;
       }
-      if (rule.type === "template-model") {
-        if (rule.templateId === input.templateId && rule.modelId === input.modelId)
-          result = result.overlay(rule.config);
-        continue;
+      if (rule.type === "manual-provider-model") {
+        config = ModelConfig.fromData(clearManualModelConfig(config.toJSON()));
       }
-      // 只放宽推荐规则匹配，不改真实请求里的模型 ID。
-      if (!matchesRule(rule.modelMatch, input.modelId, true)) continue;
-      if (
-        (rule.type === "model-api" || rule.type === "provider-site") &&
-        rule.apiTypeMatch !== undefined
-      ) {
-        if (input.apiType == null || !matchesRule(rule.apiTypeMatch, input.apiType)) continue;
-      }
-      if (
-        rule.type === "provider-site" &&
-        (baseUrl === undefined || !matchesRule(rule.baseUrlMatch, baseUrl))
-      )
-        continue;
-      result = result.overlay(rule.config);
+      config = config.overlay(rule.config);
     }
-    return result;
+    return config;
   }
 
   setExact(
@@ -428,40 +408,44 @@ export class ModelConfigRules {
     config: ModelConfig,
     useRecommendedConfig?: boolean,
   ): ModelConfigRules {
-    const previous = this.getExactRule(providerId, modelId);
+    const last = this.getExactRule(providerId, modelId);
     const manual =
       useRecommendedConfig === undefined
-        ? previous?.type === "manual-provider-model"
+        ? last?.type === "manual-provider-model"
         : !useRecommendedConfig;
-    // 保存入口复用整条规则 schema，不再另写一份“完整但忽略 enabled”的校验。
-    const data = { providerId, modelId, config: config.toJSON() };
-    (manual ? manualProviderModelConfigRuleSchema : providerModelConfigRuleSchema).parse(data);
+    const data = config.toJSON();
+    const validationInput = { providerId, modelId, config: data };
+    if (manual) {
+      manualProviderModelConfigRuleSchema.parse(validationInput);
+    } else {
+      providerModelConfigRuleSchema.parse(validationInput);
+    }
+
     const replacement: ExactModelConfigRule = {
       type: manual ? "manual-provider-model" : "provider-model",
       providerId,
       modelId,
       config,
     };
-    const result: ModelConfigRule[] = [];
+    const rules: ModelConfigRule[] = [];
     let replaced = false;
     for (const rule of this.#rules) {
-      if (isExactModelRule(rule) && rule.providerId === providerId && rule.modelId === modelId) {
-        if (!replaced) result.push(replacement);
+      if (!matchesExactModelConfigRule(rule, providerId, modelId)) {
+        rules.push(rule);
+      } else if (!replaced) {
+        rules.push(replacement);
         replaced = true;
-      } else {
-        result.push(rule);
       }
     }
-    if (!replaced) result.push(replacement);
-    return new ModelConfigRules(result);
+    if (!replaced) {
+      rules.push(replacement);
+    }
+    return new ModelConfigRules(rules);
   }
 
   deleteExact(providerId: string, modelId: string): ModelConfigRules {
     return new ModelConfigRules(
-      this.#rules.filter(
-        (rule) =>
-          !isExactModelRule(rule) || rule.providerId !== providerId || rule.modelId !== modelId,
-      ),
+      this.#rules.filter((rule) => !matchesExactModelConfigRule(rule, providerId, modelId)),
     );
   }
 
@@ -470,10 +454,12 @@ export class ModelConfigRules {
     currentModelId: string,
     nextModelId: string,
   ): ModelConfigRules {
-    if (currentModelId === nextModelId) return this;
+    if (currentModelId === nextModelId) {
+      return this;
+    }
     return new ModelConfigRules(
       this.#rules.map((rule) =>
-        isExactModelRule(rule) && rule.providerId === providerId && rule.modelId === currentModelId
+        matchesExactModelConfigRule(rule, providerId, currentModelId)
           ? { ...rule, modelId: nextModelId }
           : rule,
       ),
@@ -482,77 +468,121 @@ export class ModelConfigRules {
 
   deleteExactForProvider(providerId: string): ModelConfigRules {
     return new ModelConfigRules(
-      this.#rules.filter((rule) => !isExactModelRule(rule) || rule.providerId !== providerId),
+      this.#rules.filter(
+        (rule) => !(isExactModelConfigRule(rule) && rule.providerId === providerId),
+      ),
     );
   }
 
   getExact(providerId: string, modelId: string): ModelConfig | undefined {
-    let result: ModelConfig | undefined;
+    let config: ModelConfig | undefined;
     for (const rule of this.#rules) {
-      if (!isExactModelRule(rule) || rule.providerId !== providerId || rule.modelId !== modelId)
-        continue;
-      result = result ? result.overlay(rule.config) : rule.config;
+      if (matchesExactModelConfigRule(rule, providerId, modelId)) {
+        config = config === undefined ? rule.config : config.overlay(rule.config);
+      }
     }
-    return result;
+    return config;
   }
 
   getExactRule(providerId: string, modelId: string): ExactModelConfigRule | undefined {
     for (let index = this.#rules.length - 1; index >= 0; index -= 1) {
       const rule = this.#rules[index]!;
-      if (isExactModelRule(rule) && rule.providerId === providerId && rule.modelId === modelId)
+      if (matchesExactModelConfigRule(rule, providerId, modelId)) {
         return rule;
+      }
     }
     return undefined;
   }
 
   toKnorviaBuiltinJSON(): BuiltinModelConfigRulesData {
     return builtinModelConfigRulesSchema.parse({
-      modelRules: this.#collect("model"),
-      modelApiRules: this.#collect("model-api"),
-      providerSiteRules: this.#collect("provider-site"),
-      templateModelRules: this.#collect("template-model"),
-      builtinProviderModelRules: this.#collect("provider-model"),
+      modelRules: this.#serializeRules("model"),
+      modelApiRules: this.#serializeRules("model-api"),
+      providerSiteRules: this.#serializeRules("provider-site"),
+      templateModelRules: this.#serializeRules("template-model"),
+      builtinProviderModelRules: this.#serializeRules("provider-model"),
     });
   }
 
   toPersonalJSON(): PersonalModelConfigRulesData {
-    // 完整规则必须在编码边界再校验，不能把直接构造的不完整手动值写入文件。
     return personalModelConfigRulesSchema.parse({
-      providerModelRules: this.#collect("provider-model"),
-      manualProviderModelRules: this.#collect("manual-provider-model"),
+      providerModelRules: this.#serializeRules("provider-model"),
+      manualProviderModelRules: this.#serializeRules("manual-provider-model"),
     });
   }
 
   toJSON() {
     return {
       ...this.toKnorviaBuiltinJSON(),
-      manualProviderModelRules: this.#collect("manual-provider-model"),
+      manualProviderModelRules: this.#serializeRules("manual-provider-model"),
     };
   }
 
-  #collect<T extends ModelConfigRule["type"]>(type: T) {
+  #serializeRules<T extends ModelConfigRule["type"]>(type: T) {
     return this.#rules
       .filter((rule): rule is Extract<ModelConfigRule, { type: T }> => rule.type === type)
-      .map(({ type: _type, config, ...identity }) => ({ ...identity, config: config.toJSON() }));
+      .map((rule) => {
+        const { type: _type, config, ...fields } = rule;
+        return { ...fields, config: config.toJSON() };
+      });
   }
 }
 
-function isExactModelRule(rule: ModelConfigRule): rule is ExactModelConfigRule {
+function isExactModelConfigRule(rule: ModelConfigRule): rule is ExactModelConfigRule {
   return rule.type === "provider-model" || rule.type === "manual-provider-model";
 }
 
-function matchesRule(pattern: string, value: string, ignoreCase = false): boolean {
-  return new RegExp(`^(?:${pattern})$`, ignoreCase ? "i" : undefined).test(value);
+function matchesExactModelConfigRule(
+  rule: ModelConfigRule,
+  providerId: string,
+  modelId: string,
+): rule is ExactModelConfigRule {
+  return isExactModelConfigRule(rule) && rule.providerId === providerId && rule.modelId === modelId;
 }
 
-function normalizeBaseURLForRuleMatch(value: string): string | undefined {
+function matchesModelConfigRule(
+  rule: ModelConfigRule,
+  input: ModelConfigRuleResolutionInput,
+  baseUrl: string | undefined,
+): boolean {
+  switch (rule.type) {
+    case "provider-model":
+    case "manual-provider-model":
+      return rule.providerId === input.providerId && rule.modelId === input.modelId;
+    case "template-model":
+      return rule.templateId === input.templateId && rule.modelId === input.modelId;
+    case "model":
+      return matchesWholeModelRuleText(rule.modelMatch, input.modelId, true);
+    case "model-api":
+    case "provider-site":
+      if (!matchesWholeModelRuleText(rule.modelMatch, input.modelId, true)) {
+        return false;
+      }
+      if (
+        rule.apiTypeMatch !== undefined &&
+        (input.apiType == null ||
+          !matchesWholeModelRuleText(rule.apiTypeMatch, input.apiType, false))
+      ) {
+        return false;
+      }
+      return (
+        rule.type === "model-api" ||
+        (baseUrl !== undefined && matchesWholeModelRuleText(rule.baseUrlMatch, baseUrl, false))
+      );
+  }
+}
+
+function matchesWholeModelRuleText(pattern: string, value: string, ignoreCase: boolean): boolean {
+  return new RegExp(`^(?:${pattern})$`, ignoreCase ? "i" : "").test(value);
+}
+
+function normalizeModelRuleBaseUrl(baseUrl: string): string | undefined {
   try {
-    // Host 大小写、默认端口和尾部斜杠不应改变配置命中；URL parser 会保留 path/query 大小写。
-    const parsed = new URL(value);
-    const suffix = `${parsed.search}${parsed.hash}`;
-    const serialized = parsed.toString();
+    const url = new URL(baseUrl);
+    const suffix = url.search + url.hash;
+    const serialized = url.toString();
     const endpoint = suffix.length === 0 ? serialized : serialized.slice(0, -suffix.length);
-    return `${endpoint.replace(/\/+$/, "")}${suffix}`;
+    return endpoint.replace(/\/+$/, "") + suffix;
   } catch {
     return undefined;
   }

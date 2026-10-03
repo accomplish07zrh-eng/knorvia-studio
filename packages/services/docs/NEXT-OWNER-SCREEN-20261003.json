@@ -1,0 +1,144 @@
+{
+  "date": "2026-10-03",
+  "screenCheckpoint": "bb45cbbf638387f767ec6c51b5aa3218a6fdb627",
+  "scope": "Metadata/exact current inventory binding, bounded prior receipt search and read-only behavior screening only; no candidate implementation, author allocation or source acceptance.",
+  "paths": [
+    {
+      "path": "packages/services/src/accessor.ts",
+      "sha256": "0ecceb85fe775877677020a6664a74581997201eaacb53ce857272d21aef03a7",
+      "inventory": {
+        "path": "packages/services/src/accessor.ts",
+        "kind": "file",
+        "sha256": "0ecceb85fe775877677020a6664a74581997201eaacb53ce857272d21aef03a7",
+        "normalizedSha256": "0ecceb85fe775877677020a6664a74581997201eaacb53ce857272d21aef03a7",
+        "encoding": "utf8-lf",
+        "bytes": 4550,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/accessor.ts",
+          "blob": "b38a521f14a24420c15d4d0af8fe80535db2f120",
+          "normalizedSha256": "9a04a181e7d7cc854882ee7ddce52101649b0504c05df43cb90fcbc51f5c9fab",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobCheck": {
+        "exit": 128,
+        "stdout": "",
+        "stderr": "fatal: git cat-file: could not get object info\n"
+      },
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "screenDisposition": "Retain pure interface/type imports. No substantive owner and no novelty reconstruction."
+    },
+    {
+      "path": "packages/services/src/collection.ts",
+      "sha256": "eee2a145c5aff50027ea123a80802d67e8cbe5c0d37c05e5eb8fb151698a1f4b",
+      "inventory": {
+        "path": "packages/services/src/collection.ts",
+        "kind": "file",
+        "sha256": "eee2a145c5aff50027ea123a80802d67e8cbe5c0d37c05e5eb8fb151698a1f4b",
+        "normalizedSha256": "eee2a145c5aff50027ea123a80802d67e8cbe5c0d37c05e5eb8fb151698a1f4b",
+        "encoding": "utf8-lf",
+        "bytes": 1336,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/collection.ts",
+          "blob": "522fd8b47c9db9af87813657719c6a7fe7052800",
+          "normalizedSha256": "c7ecd059c7a898fd40e9799d328c06c20e67f140433bee8bd5fc8436d26b41b1",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobCheck": {
+        "exit": 128,
+        "stdout": "",
+        "stderr": "fatal: git cat-file: could not get object info\n"
+      },
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "screenDisposition": "Secondary infrastructure owner only: whole service registration/get/optional/channel exposure registry lifecycle; no transport/server entrypoint rewiring. Lower business priority; not implemented or classified accepted."
+    },
+    {
+      "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransferService.ts",
+      "sha256": "8b81f23ea1aba8e03fcda3d0e7f6c590cb645e628954c4bbab0e360b5947d5e4",
+      "inventory": {
+        "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransferService.ts",
+        "kind": "file",
+        "sha256": "8b81f23ea1aba8e03fcda3d0e7f6c590cb645e628954c4bbab0e360b5947d5e4",
+        "normalizedSha256": "8b81f23ea1aba8e03fcda3d0e7f6c590cb645e628954c4bbab0e360b5947d5e4",
+        "encoding": "utf8-lf",
+        "bytes": 1408,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransferService.ts",
+          "blob": "8979e0d93b2dfe31225b8f13018872e892bf08fa",
+          "normalizedSha256": "c124ca2e9419518f59cd246b5ee2e93e764004de37be93ec8abb5d8a0e1fdeda",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobCheck": {
+        "exit": 128,
+        "stdout": "",
+        "stderr": "fatal: git cat-file: could not get object info\n"
+      },
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "screenDisposition": "Recommended next complete business owner: whole local stage/progress factory; operationId-keyed Emitter allocation/listener lifetime, zero-copy stage result, size hint/stat fallback and no-op adopt/cancel/cleanup compatibility. Desktop/remote transfer owner excluded. No exact prior accepted owner receipt found in bounded search."
+    },
+    {
+      "path": "packages/services/src/runtime-tools/providerRuntimeResolver.ts",
+      "sha256": "eef2129e1bc83b11af87c9916cc7f08d82311f1750142a9f2ddb30ebd05dbcd1",
+      "inventory": {
+        "path": "packages/services/src/runtime-tools/providerRuntimeResolver.ts",
+        "kind": "file",
+        "sha256": "eef2129e1bc83b11af87c9916cc7f08d82311f1750142a9f2ddb30ebd05dbcd1",
+        "normalizedSha256": "eef2129e1bc83b11af87c9916cc7f08d82311f1750142a9f2ddb30ebd05dbcd1",
+        "encoding": "utf8-lf",
+        "bytes": 4860,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/runtime-tools/providerRuntimeResolver.ts",
+          "blob": "ad581d621c6602eb8356a895284fd16b423af6df",
+          "normalizedSha256": "8eb030535e03e9505dc5f1302b7bea50940aaedf1aa6e2d5725d316ae0495d8c",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobCheck": {
+        "exit": 128,
+        "stdout": "",
+        "stderr": "fatal: git cat-file: could not get object info\n"
+      },
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+      "screenDisposition": "Not selected: runtime executable lookup/packaging policy boundary may overlap other lanes. No process/runtime execution or root policy editing."
+    }
+  ],
+  "duplicateExclusions": {
+    "hooksService.ts": "31833a47fad0583ff59aeb305c414b81d8645f6e and matching current lifecycle receipt",
+    "commandsService.ts": "628e207a0bcc093d0aeaf6d15d5a6592df83fbe1 and matching lifecycle receipt",
+    "broadcastService.ts": "32da9cb11b2265e386a31af6439bac9bc5bee8b2 and matching receipt",
+    "onboardingRecordService.ts": "fecfdfe49e39eda8b5aac938ec58cc95cb655f91 and matching receipt",
+    "skillsService.ts": "d65bb28c1e93dcae7d4d244e7cba06fd4908d3f3",
+    "mcpSyncService.ts": "9a51bac9b08bfe2033e6ee09b85dae9fde4ca72f",
+    "skillSyncService.ts": "47d62f589917258d0c20144475b911057fe99ba9",
+    "usageStatsService.ts": "Known forwarding-only disposition, SHAef348d720fb3ec663778cee3467c603d7557afa253dff3a40f1ee2c421bc7038",
+    "pluginsService.ts": "Existing INDEX-SPEC/INDEX-EVIDENCE retained retired capability stub, SHA76f0ed213aa69c77912e61760b58a8d26d150e76db8f25cfc8f922cc68c5b4b5"
+  },
+  "boundedSearch": "Exact filenames and current hashes in current inventory/migration/reviews/licensing evidence/services docs/scoped receipts/spec/evidence, local path history. No positive owner receipt for selected local attachment or service collection found; bounded absence is not exhaustive rights/originality proof.",
+  "qualification": "All current hashes bound to declared upstream-modified paths. Upstream blob object checks fail128 and local history is parentless snapshot only. No MIT/right/cleanroom/accepted-origin inference. No broad source fetch or cancelled upload/Library403 alternate route. No root HOLD/other-lane sources touched. Synthetic data only if root later allocates implementation; no actual upload or retry."
+}

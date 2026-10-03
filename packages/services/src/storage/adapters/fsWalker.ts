@@ -1,12 +1,7 @@
-/**
- * 数据根遍历器：异步、有界并发、可取消、不跟随符号链接。
- * 产出 (relativePath, bytes, mtimeMs)，分类与聚合由 domain 在调用方完成。
- * 每处理 yieldEvery 个条目让出一次事件循环，避免在 Worker/host 内长时间独占。
- */
 import { lstat, opendir } from "node:fs/promises";
 import { join, relative, sep } from "node:path";
-import type { StorageScanEntry } from "../domain/usageAggregate.js";
 import type { StoragePathError } from "@knorvia/shared";
+import type { StorageScanEntry } from "../domain/usageAggregate.js";
 
 interface WalkStorageRootOptions {
   rootPath: string;
@@ -26,116 +21,118 @@ interface WalkStorageRootResult {
   missingRoot: boolean;
 }
 
-function createStorageAbortError(): Error {
-  return new DOMException("storage scan aborted", "AbortError");
-}
-
-function errorCode(error: unknown): string {
-  return error && typeof error === "object" && "code" in error && typeof error.code === "string"
-    ? error.code
-    : "UNKNOWN";
-}
-
-function toRelative(rootPath: string, absolutePath: string): string {
-  return relative(rootPath, absolutePath).split(sep).join("/");
-}
-
 export async function walkStorageRoot(
   options: WalkStorageRootOptions,
 ): Promise<WalkStorageRootResult> {
   const { rootPath, onEntry, onError, signal } = options;
+  const pending = [rootPath];
   const concurrency = Math.max(1, options.concurrency ?? 4);
   const yieldEvery = Math.max(1, options.yieldEvery ?? 256);
-  const pending: string[] = [rootPath];
   const result: WalkStorageRootResult = {
     directoriesScanned: 0,
     filesScanned: 0,
     missingRoot: false,
   };
-  let processedSinceYield = 0;
   let active = 0;
+  let failed = false;
+  let entriesSinceYield = 0;
 
-  const throwIfAborted = () => {
-    if (signal?.aborted) throw createStorageAbortError();
-  };
-  const maybeYield = async () => {
-    processedSinceYield += 1;
-    if (processedSinceYield >= yieldEvery) {
-      processedSinceYield = 0;
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      throwIfAborted();
+  function checkCancellation(): void {
+    if (signal?.aborted) {
+      throw new DOMException("storage scan aborted", "AbortError");
     }
-  };
+  }
 
-  const scanDirectory = async (directoryPath: string): Promise<void> => {
-    throwIfAborted();
-    let directory;
+  function relativePath(path: string): string {
+    return relative(rootPath, path).split(sep).join("/");
+  }
+
+  function errorCode(error: unknown): string {
+    if (error !== null && typeof error === "object" && "code" in error) {
+      const code = error.code;
+      if (typeof code === "string") return code;
+    }
+    return "UNKNOWN";
+  }
+
+  async function yieldIfNeeded(): Promise<void> {
+    entriesSinceYield += 1;
+    if (entriesSinceYield >= yieldEvery) {
+      entriesSinceYield = 0;
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      checkCancellation();
+    }
+  }
+
+  async function visitDirectory(path: string): Promise<void> {
+    checkCancellation();
+    let directory: Awaited<ReturnType<typeof opendir>>;
     try {
-      directory = await opendir(directoryPath);
+      directory = await opendir(path);
     } catch (error) {
-      if (directoryPath === rootPath && errorCode(error) === "ENOENT") {
+      const code = errorCode(error);
+      if (path === rootPath && code === "ENOENT") {
         result.missingRoot = true;
-        return;
+      } else {
+        onError?.({ path: relativePath(path), code });
       }
-      onError?.({ path: toRelative(rootPath, directoryPath), code: errorCode(error) });
       return;
     }
+
     result.directoriesScanned += 1;
     try {
-      for await (const dirent of directory) {
-        throwIfAborted();
-        const entryPath = join(directoryPath, dirent.name);
-        if (dirent.isSymbolicLink()) continue;
-        if (dirent.isDirectory()) {
+      for await (const entry of directory) {
+        checkCancellation();
+        const entryPath = join(path, entry.name);
+        if (entry.isSymbolicLink()) continue;
+        if (entry.isDirectory()) {
           pending.push(entryPath);
           continue;
         }
-        if (!dirent.isFile()) continue;
+        if (!entry.isFile()) continue;
+
         try {
           const stats = await lstat(entryPath);
           if (!stats.isFile()) continue;
           result.filesScanned += 1;
           onEntry({
-            relativePath: toRelative(rootPath, entryPath),
+            relativePath: relativePath(entryPath),
             bytes: stats.size,
             mtimeMs: stats.mtimeMs,
           });
         } catch (error) {
-          // 扫描期间文件可能被日志轮转或 Agent 删除；ENOENT 属于正常竞态，不计为错误。
-          if (errorCode(error) !== "ENOENT") {
-            onError?.({ path: toRelative(rootPath, entryPath), code: errorCode(error) });
+          const code = errorCode(error);
+          if (code !== "ENOENT") {
+            onError?.({ path: relativePath(entryPath), code });
           }
         }
-        await maybeYield();
+
+        await yieldIfNeeded();
       }
     } finally {
       await directory.close().catch(() => {});
     }
-  };
+  }
 
-  // 有界并发：最多 concurrency 个目录同时打开；队列为空且无活动任务时结束。
   await new Promise<void>((resolve, reject) => {
-    let failed = false;
-    const pump = () => {
+    function pump(): void {
       if (failed) return;
-      if (pending.length === 0 && active === 0) {
-        resolve();
-        return;
-      }
-      while (active < concurrency && pending.length > 0) {
-        const next = pending.pop()!;
+      while (pending.length > 0 && active < concurrency) {
+        const path = pending.pop()!;
         active += 1;
-        scanDirectory(next)
+        void visitDirectory(path)
           .then(() => {
             active -= 1;
             pump();
           })
           .catch((error: unknown) => {
+            if (failed) return;
             failed = true;
             reject(error);
           });
       }
-    };
+      if (pending.length === 0 && active === 0) resolve();
+    }
     pump();
   });
   return result;

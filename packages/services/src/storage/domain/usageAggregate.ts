@@ -1,8 +1,3 @@
-/**
- * 扫描条目 → 根目录占用快照的折叠器。纯函数式累加器，可在 Worker 内运行。
- * 保证快照体积有界：每个类别的 entries 只保留 bytes 最大的前 N 项，其余折叠进 STORAGE_MORE_ENTRIES_PATH。
- */
-import { classifyStoragePath, getStorageCategoryCleanability } from "./storageCatalog.js";
 import {
   STORAGE_CATEGORY_IDS,
   STORAGE_MORE_ENTRIES_PATH,
@@ -13,6 +8,7 @@ import {
   type StorageRootUsage,
   type StorageVolume,
 } from "@knorvia/shared";
+import { classifyStoragePath, getStorageCategoryCleanability } from "./storageCatalog.js";
 
 export interface StorageScanEntry {
   relativePath: string;
@@ -25,53 +21,80 @@ interface StorageUsageAccumulator {
   snapshot(volume: StorageVolume | null): StorageRootUsage;
 }
 
-const DEFAULT_MAX_ENTRIES_PER_CATEGORY = 100;
-
-interface CategoryBucket {
+interface CategoryTotals {
   bytes: number;
   fileCount: number;
-  entries: Map<string, { bytes: number; fileCount: number }>;
+  entries: Map<string, StorageEntryUsage>;
+}
+
+function projectEntries(
+  totals: CategoryTotals | undefined,
+  maxEntries: number,
+): StorageEntryUsage[] {
+  if (!totals) return [];
+
+  const sorted = Array.from(totals.entries.values(), (entry) => ({
+    relativePath: entry.relativePath,
+    bytes: entry.bytes,
+    fileCount: entry.fileCount,
+  })).sort((a, b) => b.bytes - a.bytes || a.relativePath.localeCompare(b.relativePath));
+
+  if (sorted.length <= maxEntries) return sorted;
+
+  const kept = sorted.slice(0, maxEntries);
+  const rest = sorted.slice(maxEntries);
+  kept.push({
+    relativePath: STORAGE_MORE_ENTRIES_PATH,
+    bytes: rest.reduce((sum, entry) => sum + entry.bytes, 0),
+    fileCount: rest.reduce((sum, entry) => sum + entry.fileCount, 0),
+  });
+  return kept;
 }
 
 export function createStorageUsageAccumulator(
   spec: StorageRootSpec,
   options: { maxEntriesPerCategory?: number } = {},
 ): StorageUsageAccumulator {
-  const maxEntries = options.maxEntriesPerCategory ?? DEFAULT_MAX_ENTRIES_PER_CATEGORY;
-  const context = { rootId: spec.id, hasCustomDataBaseDir: spec.hasCustomDataBaseDir };
-  const buckets = new Map<StorageCategoryId, CategoryBucket>();
+  const maxEntries = options.maxEntriesPerCategory ?? 100;
+  const context = {
+    rootId: spec.id,
+    hasCustomDataBaseDir: spec.hasCustomDataBaseDir,
+  };
+  const categories = new Map<StorageCategoryId, CategoryTotals>();
   let totalBytes = 0;
   let totalFiles = 0;
 
   return {
     add(entry) {
       const { categoryId, entryKey } = classifyStoragePath(entry.relativePath, context);
-      let bucket = buckets.get(categoryId);
-      if (!bucket) {
-        bucket = { bytes: 0, fileCount: 0, entries: new Map() };
-        buckets.set(categoryId, bucket);
+      const bytes = entry.bytes;
+      let category = categories.get(categoryId);
+      if (!category) {
+        category = { bytes: 0, fileCount: 0, entries: new Map() };
+        categories.set(categoryId, category);
       }
-      bucket.bytes += entry.bytes;
-      bucket.fileCount += 1;
-      const current = bucket.entries.get(entryKey);
-      if (current) {
-        current.bytes += entry.bytes;
-        current.fileCount += 1;
-      } else {
-        bucket.entries.set(entryKey, { bytes: entry.bytes, fileCount: 1 });
+      let detail = category.entries.get(entryKey);
+      if (!detail) {
+        detail = { relativePath: entryKey, bytes: 0, fileCount: 0 };
+        category.entries.set(entryKey, detail);
       }
-      totalBytes += entry.bytes;
+      detail.bytes += bytes;
+      detail.fileCount += 1;
+      category.bytes += bytes;
+      category.fileCount += 1;
+      totalBytes += bytes;
       totalFiles += 1;
     },
+
     snapshot(volume) {
-      const categories: StorageCategoryUsage[] = STORAGE_CATEGORY_IDS.map((id) => {
-        const bucket = buckets.get(id);
+      const projectedCategories = STORAGE_CATEGORY_IDS.map((id): StorageCategoryUsage => {
+        const category = categories.get(id);
         return {
           id,
-          bytes: bucket?.bytes ?? 0,
-          fileCount: bucket?.fileCount ?? 0,
+          bytes: category?.bytes ?? 0,
+          fileCount: category?.fileCount ?? 0,
           cleanability: getStorageCategoryCleanability(id),
-          entries: bucket ? foldEntries(bucket.entries, maxEntries) : [],
+          entries: projectEntries(category, maxEntries),
         };
       });
       return {
@@ -80,26 +103,8 @@ export function createStorageUsageAccumulator(
         volume,
         bytes: totalBytes,
         fileCount: totalFiles,
-        categories,
+        categories: projectedCategories,
       };
     },
   };
-}
-
-function foldEntries(
-  entries: Map<string, { bytes: number; fileCount: number }>,
-  maxEntries: number,
-): StorageEntryUsage[] {
-  const sorted = [...entries.entries()]
-    .map(([relativePath, usage]) => ({ relativePath, ...usage }))
-    .sort((a, b) => b.bytes - a.bytes || a.relativePath.localeCompare(b.relativePath));
-  if (sorted.length <= maxEntries) return sorted;
-  const kept = sorted.slice(0, maxEntries);
-  const rest = sorted.slice(maxEntries);
-  kept.push({
-    relativePath: STORAGE_MORE_ENTRIES_PATH,
-    bytes: rest.reduce((sum, item) => sum + item.bytes, 0),
-    fileCount: rest.reduce((sum, item) => sum + item.fileCount, 0),
-  });
-  return kept;
 }

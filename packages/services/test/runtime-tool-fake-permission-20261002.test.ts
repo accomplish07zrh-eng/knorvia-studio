@@ -1,0 +1,39 @@
+import assert from "node:assert/strict";
+import { delimiter } from "node:path";
+import { mock, test } from "node:test";
+const probes: string[] = [];
+mock.module("node:fs", {
+  namedExports: {
+    constants: { X_OK: 1 },
+    existsSync: (path: string) =>
+      path === "/synthetic/denied/tool" || path === "/synthetic/runtime/tools/fake/rg",
+    accessSync: (path: string) => {
+      probes.push(path);
+      if (path !== "/synthetic/runtime/tools/fake/rg") throw new Error("synthetic denied");
+    },
+  },
+});
+mock.module("@knorvia/shared", {
+  namedExports: {
+    getRuntimeToolRuntime: () => ({
+      binaryEnvVar: "SYNTHETIC_BINARY",
+      bundledResourceDir: "fake",
+      resolveEntrySegments: () => ["rg"],
+    }),
+  },
+});
+const { buildRuntimeToolEnvPatch } = await import("../src/runtime-tools/runtimeToolResolver.js");
+test("fake executable permission rejects override before selecting runtime candidate without mutating environment", () => {
+  const env = {
+    SYNTHETIC_BINARY: " /synthetic/denied/tool ",
+    KNORVIA_SERVER_RUNTIME_ROOT: "/synthetic/runtime",
+    PATH: "/synthetic/bin",
+  };
+  const before = { ...env };
+  assert.deepEqual(buildRuntimeToolEnvPatch(["ripgrep"], env), {
+    SYNTHETIC_BINARY: "/synthetic/runtime/tools/fake/rg",
+    PATH: [env.PATH, "/synthetic/runtime/tools/fake"].join(delimiter),
+  });
+  assert.deepEqual(probes, ["/synthetic/denied/tool", "/synthetic/runtime/tools/fake/rg"]);
+  assert.deepEqual(env, before);
+});

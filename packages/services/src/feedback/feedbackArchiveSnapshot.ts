@@ -1,7 +1,8 @@
-// A handle is owned only during one candidate's bounded snapshot attempt.
 import { constants } from "node:fs";
 import { lstat, open, realpath } from "node:fs/promises";
+
 import { redactFeedbackText } from "@knorvia/shared";
+
 import type { FeedbackArchiveCandidate } from "./feedbackArchiveCandidates.js";
 import {
   decodeFeedbackArchiveText,
@@ -14,6 +15,7 @@ export interface FeedbackArchiveEntry {
   name: string;
   data: Buffer;
 }
+
 type SnapshotResult =
   | { kind: "included"; entry: FeedbackArchiveEntry; cost: number }
   | { kind: "skipped"; reason: string };
@@ -23,38 +25,57 @@ export async function feedbackArchiveSnapshot(
   charged: number,
   window: FeedbackArchiveWindow,
 ): Promise<SnapshotResult> {
-  const skipped = (reason: string): SnapshotResult => ({ kind: "skipped", reason });
-  const canonical = await realpath(candidate.path).catch(() => null);
-  if (canonical !== candidate.path) return skipped("unsafe-path");
-  const before = await lstat(candidate.path).catch(() => null);
-  if (!isFeedbackArchiveMetadata(before, charged, window)) return skipped("metadata-policy");
+  const canonicalPath = await realpath(candidate.path).catch(() => null);
+  if (canonicalPath !== candidate.path) {
+    return { kind: "skipped", reason: "unsafe-path" };
+  }
+
+  const beforeOpen = await lstat(candidate.path).catch(() => null);
+  if (!isFeedbackArchiveMetadata(beforeOpen, charged, window)) {
+    return { kind: "skipped", reason: "metadata-policy" };
+  }
+
   const handle = await open(candidate.path, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0)).catch(
     () => null,
   );
-  if (!handle) return skipped("open-failed");
+  if (handle === null) {
+    return { kind: "skipped", reason: "open-failed" };
+  }
+
   try {
     const opened = await handle.stat();
     if (
       !isFeedbackArchiveMetadata(opened, charged, window) ||
-      opened.ino !== before.ino ||
-      opened.dev !== before.dev
-    )
-      return skipped("opened-file-policy");
-    const bytes = Buffer.alloc(opened.size);
-    let position = 0;
-    while (position < bytes.length) {
-      const { bytesRead } = await handle.read(bytes, position, bytes.length - position, position);
-      if (bytesRead === 0) return skipped("short-read");
-      position += bytesRead;
+      opened.ino !== beforeOpen.ino ||
+      opened.dev !== beforeOpen.dev
+    ) {
+      return { kind: "skipped", reason: "opened-file-policy" };
     }
-    const text = decodeFeedbackArchiveText(bytes);
-    if (text === null) return skipped("unsupported-text");
-    const data = Buffer.from(redactFeedbackText(text, { diagnostic: true }));
-    if (!fitsFeedbackArchive(data.length, charged, window)) return skipped("redacted-size-limit");
+
+    const original = Buffer.alloc(opened.size);
+    let offset = 0;
+    while (offset < original.length) {
+      const { bytesRead } = await handle.read(original, offset, original.length - offset, offset);
+      if (bytesRead === 0) {
+        return { kind: "skipped", reason: "short-read" };
+      }
+      offset += bytesRead;
+    }
+
+    const text = decodeFeedbackArchiveText(original);
+    if (text === null) {
+      return { kind: "skipped", reason: "unsupported-text" };
+    }
+
+    const redacted = Buffer.from(redactFeedbackText(text, { diagnostic: true }), "utf8");
+    if (!fitsFeedbackArchive(redacted.length, charged, window)) {
+      return { kind: "skipped", reason: "redacted-size-limit" };
+    }
+
     return {
       kind: "included",
-      entry: { name: candidate.name, data },
-      cost: Math.max(bytes.length, data.length),
+      entry: { name: candidate.name, data: redacted },
+      cost: Math.max(original.length, redacted.length),
     };
   } finally {
     await handle.close();

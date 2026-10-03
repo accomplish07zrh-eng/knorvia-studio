@@ -1,0 +1,338 @@
+{
+  "acceptedPredecessor": "a5e31b31190fb36041d8cb4f0ba0d6ab90af74fc",
+  "screen": [
+    {
+      "path": "packages/provider-node/src/provider-registry-runtime.ts",
+      "currentSha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+      "bytes": 2826,
+      "inventory": {
+        "path": "packages/provider-node/src/provider-registry-runtime.ts",
+        "kind": "file",
+        "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+        "normalizedSha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+        "encoding": "utf8-lf",
+        "bytes": 2826,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider-node/src/provider-registry-runtime.ts",
+          "blob": "eec4bf7c8c3c9b9d913088c4006731fe3a88736c",
+          "normalizedSha256": "ba615bbf1ea8583a3b8fac6c3d4f6108dc5fe62a0682a1fb5936017fd940d432",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "publisherBaseline": {
+        "path": "packages/provider-node/src/provider-registry-runtime.ts",
+        "mode": "100644",
+        "blob": "eec4bf7c8c3c9b9d913088c4006731fe3a88736c",
+        "kind": "file",
+        "sha256": "ba615bbf1ea8583a3b8fac6c3d4f6108dc5fe62a0682a1fb5936017fd940d432",
+        "normalizedSha256": "ba615bbf1ea8583a3b8fac6c3d4f6108dc5fe62a0682a1fb5936017fd940d432",
+        "encoding": "utf8-lf",
+        "bytes": 2818
+      },
+      "localPublisher": {
+        "command": ["git", "cat-file", "blob", "eec4bf7c8c3c9b9d913088c4006731fe3a88736c"],
+        "exit": 128,
+        "stderr": "fatal: git cat-file eec4bf7c8c3c9b9d913088c4006731fe3a88736c: bad file\n",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "equalsCurrent": false
+      },
+      "exactOldReceiptRecords": [
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4712]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "kind": "file",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "normalizedSha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "encoding": "utf8-lf",
+            "bytes": 2826,
+            "classification": "upstream-modified",
+            "upstream": {
+              "relation": "modified",
+              "path": "packages/provider-node/src/provider-registry-runtime.ts",
+              "blob": "eec4bf7c8c3c9b9d913088c4006731fe3a88736c",
+              "normalizedSha256": "ba615bbf1ea8583a3b8fac6c3d4f6108dc5fe62a0682a1fb5936017fd940d432",
+              "contentMatchedPaths": []
+            },
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        },
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4712].upstream",
+          "record": {
+            "relation": "modified",
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "blob": "eec4bf7c8c3c9b9d913088c4006731fe3a88736c",
+            "normalizedSha256": "ba615bbf1ea8583a3b8fac6c3d4f6108dc5fe62a0682a1fb5936017fd940d432",
+            "contentMatchedPaths": []
+          }
+        },
+        {
+          "file": "licensing/upstream-baseline.json",
+          "location": "$.files[3287]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "mode": "100644",
+            "blob": "eec4bf7c8c3c9b9d913088c4006731fe3a88736c",
+            "kind": "file",
+            "sha256": "ba615bbf1ea8583a3b8fac6c3d4f6108dc5fe62a0682a1fb5936017fd940d432",
+            "normalizedSha256": "ba615bbf1ea8583a3b8fac6c3d4f6108dc5fe62a0682a1fb5936017fd940d432",
+            "encoding": "utf8-lf",
+            "bytes": 2818
+          }
+        },
+        {
+          "file": "licensing/evidence/repository-migration-scope-20260930.json",
+          "location": "$.files[1838]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "classification": "upstream-modified",
+            "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+            "localDeclaredThirdParty": []
+          }
+        },
+        {
+          "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBindings.retained[15]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "byteIdenticalToPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[15]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/PROVIDER-MAP-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[15]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-ORIGIN-20261003.json",
+          "location": "$.excludedCandidates[1]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "reason": "Retained composition boundary; select substantial config startup/check/timer/disposal owner first instead of force-expanding facade/delegation."
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.origin.excludedCandidates[1]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "reason": "Retained composition boundary; select substantial config startup/check/timer/disposal owner first instead of force-expanding facade/delegation."
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[14]",
+          "record": {
+            "path": "packages/provider-node/src/provider-registry-runtime.ts",
+            "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        }
+      ],
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n"
+    },
+    {
+      "path": "packages/provider-node/src/model-selection-config-repository.ts",
+      "currentSha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+      "bytes": 1801,
+      "inventory": {
+        "path": "packages/provider-node/src/model-selection-config-repository.ts",
+        "kind": "file",
+        "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+        "normalizedSha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+        "encoding": "utf8-lf",
+        "bytes": 1801,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider-node/src/model-selection-config-repository.ts",
+          "blob": "e9bd8b4ab49e3e3db078db60afb27dbdcee1eeec",
+          "normalizedSha256": "c72881e46c24cab4934899a770fe97e0d0f6ba16038cedbfce34ccc00b264af0",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "publisherBaseline": {
+        "path": "packages/provider-node/src/model-selection-config-repository.ts",
+        "mode": "100644",
+        "blob": "e9bd8b4ab49e3e3db078db60afb27dbdcee1eeec",
+        "kind": "file",
+        "sha256": "c72881e46c24cab4934899a770fe97e0d0f6ba16038cedbfce34ccc00b264af0",
+        "normalizedSha256": "c72881e46c24cab4934899a770fe97e0d0f6ba16038cedbfce34ccc00b264af0",
+        "encoding": "utf8-lf",
+        "bytes": 1799
+      },
+      "localPublisher": {
+        "command": ["git", "cat-file", "blob", "e9bd8b4ab49e3e3db078db60afb27dbdcee1eeec"],
+        "exit": 128,
+        "stderr": "fatal: git cat-file e9bd8b4ab49e3e3db078db60afb27dbdcee1eeec: bad file\n",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "equalsCurrent": false
+      },
+      "exactOldReceiptRecords": [
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4707]",
+          "record": {
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "kind": "file",
+            "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+            "normalizedSha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+            "encoding": "utf8-lf",
+            "bytes": 1801,
+            "classification": "upstream-modified",
+            "upstream": {
+              "relation": "modified",
+              "path": "packages/provider-node/src/model-selection-config-repository.ts",
+              "blob": "e9bd8b4ab49e3e3db078db60afb27dbdcee1eeec",
+              "normalizedSha256": "c72881e46c24cab4934899a770fe97e0d0f6ba16038cedbfce34ccc00b264af0",
+              "contentMatchedPaths": []
+            },
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        },
+        {
+          "file": "licensing/current-files.json",
+          "location": "$.files[4707].upstream",
+          "record": {
+            "relation": "modified",
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "blob": "e9bd8b4ab49e3e3db078db60afb27dbdcee1eeec",
+            "normalizedSha256": "c72881e46c24cab4934899a770fe97e0d0f6ba16038cedbfce34ccc00b264af0",
+            "contentMatchedPaths": []
+          }
+        },
+        {
+          "file": "licensing/upstream-baseline.json",
+          "location": "$.files[3282]",
+          "record": {
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "mode": "100644",
+            "blob": "e9bd8b4ab49e3e3db078db60afb27dbdcee1eeec",
+            "kind": "file",
+            "sha256": "c72881e46c24cab4934899a770fe97e0d0f6ba16038cedbfce34ccc00b264af0",
+            "normalizedSha256": "c72881e46c24cab4934899a770fe97e0d0f6ba16038cedbfce34ccc00b264af0",
+            "encoding": "utf8-lf",
+            "bytes": 1799
+          }
+        },
+        {
+          "file": "licensing/evidence/repository-migration-scope-20260930.json",
+          "location": "$.files[1833]",
+          "record": {
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+            "classification": "upstream-modified",
+            "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+            "localDeclaredThirdParty": []
+          }
+        },
+        {
+          "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBindings.retained[10]",
+          "record": {
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+            "byteIdenticalToPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[10]",
+          "record": {
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider/docs/PROVIDER-MAP-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[10]",
+          "record": {
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        },
+        {
+          "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+          "location": "$.sourceBinding.retained[10]",
+          "record": {
+            "path": "packages/provider-node/src/model-selection-config-repository.ts",
+            "sha256": "7cb3af2395e5e3d9d219d91c5c8da07ce63352a9493194a80239bdabb367b4c8",
+            "byteIdenticalToAcceptedPredecessor": true
+          }
+        }
+      ],
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n"
+    }
+  ],
+  "setup": [
+    {
+      "command": ["node", "scripts/check-workspace-freshness.mjs", "--no-fetch"],
+      "exit": 0,
+      "log": "/tmp/knorvia-registry-lifecycle-20261003/setup-0.log",
+      "sha256": "c869c88a2472dc9e42e609b48feb96fc527d97a15550b723b1abd41c67709010"
+    },
+    {
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "check", "--changed"],
+      "exit": 0,
+      "log": "/tmp/knorvia-registry-lifecycle-20261003/setup-1.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/architecture/architecture-check.mjs",
+        "context",
+        "provider-node"
+      ],
+      "exit": 0,
+      "log": "/tmp/knorvia-registry-lifecycle-20261003/setup-2.log",
+      "sha256": "41c786dd797ff773cf7a4cae05b5bbc3f682e090595bdf80f7d5d0cbfe3433c6"
+    }
+  ],
+  "selection": {
+    "owner": "Complete provider-registry-runtime.ts module. Own eager construction/nullish source choice, config→mutable uninitialized snapshot initialization→registry start order, disposed flag/ordered teardown; complete lifecycle, not forwarded helpers alone.",
+    "retained": "model-selection-config-repository.ts exact original7cb3af...: default-selection read/write delegated to shared Personal repository, subscription forwarding/local cleanup thin adapter; no complete independent selection/write state owner, retained without originality counting.",
+    "ancestry": "Both inventory upstream-modified/unreviewed; declared publisher blobs unavailable128, root only local history. Available exact structured records10/8 show inventory+retention, no positive accepted replacement/conflicting version. Missing receipt/blob does not prove inheritance, original creation or unpublished-history absence.",
+    "excluded": "Root personal repository PR12/338edba and resolver published but not imported; codec reserved root; seven unreviewed builtin files reserved E. Keys/auth/policy/templates/sharedschema/current source/global controls unchanged."
+  }
+}

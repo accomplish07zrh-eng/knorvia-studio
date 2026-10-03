@@ -1,0 +1,67 @@
+{
+  "predecessor": "5499f147fb8849b693d87fea3f6c4773eeef1ff2",
+  "selected": [
+    {
+      "path": "packages/provider/src/config/model-config.ts",
+      "sha256": "67685b36112953bad17328398df36234f2997f74c5d46d2f5485d1b11a13666e",
+      "inventory": {
+        "path": "packages/provider/src/config/model-config.ts",
+        "kind": "file",
+        "sha256": "67685b36112953bad17328398df36234f2997f74c5d46d2f5485d1b11a13666e",
+        "normalizedSha256": "67685b36112953bad17328398df36234f2997f74c5d46d2f5485d1b11a13666e",
+        "encoding": "utf8-lf",
+        "bytes": 21928,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider/src/config/model-config.ts",
+          "blob": "beb7e9a57340768591de3aab07d6cf60eaf9dfbb",
+          "normalizedSha256": "4c0e31fc9945989573861561099d49b6695063ac13a98964443ebe967dc51c45",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobExit": 128,
+      "upstreamBlobError": "fatal: git cat-file beb7e9a57340768591de3aab07d6cf60eaf9dfbb: bad file\n",
+      "priorCheckpointStatus": "Explicitly retained dependency in5499f147 complete config/registry receipt, not allocated/reconstructed owner. Current bytes equal prior retained binding.",
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n"
+    },
+    {
+      "path": "packages/provider/src/account-provider-service.ts",
+      "sha256": "1be810ca51250bd213425274acced1dbf627fad1fd9381f5bff7bc42d992c005",
+      "inventory": {
+        "path": "packages/provider/src/account-provider-service.ts",
+        "kind": "file",
+        "sha256": "1be810ca51250bd213425274acced1dbf627fad1fd9381f5bff7bc42d992c005",
+        "normalizedSha256": "1be810ca51250bd213425274acced1dbf627fad1fd9381f5bff7bc42d992c005",
+        "encoding": "utf8-lf",
+        "bytes": 10021,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider/src/account-provider-service.ts",
+          "blob": "cbf46f0aee4f1936aa4d7667c365f2cfa90fa11e",
+          "normalizedSha256": "208c61c7f17204710fa771ba4d544cf0a3e8b371fb09c975cd94b630d6147fb1",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamBlobExit": 128,
+      "upstreamBlobError": "fatal: git cat-file cbf46f0aee4f1936aa4d7667c365f2cfa90fa11e: bad file\n",
+      "priorCheckpointStatus": "Explicitly retained dependency in5499f147 complete config/registry receipt, not allocated/reconstructed owner. Current bytes equal prior retained binding.",
+      "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n"
+    }
+  ],
+  "ownerBoundary": {
+    "model": "Only complete ModelConfigRules immutable owned rule collection, match/resolve/exact mutation/serialization lifecycle plus its private rule-kind/regexp/URL matching helpers. Keep all config/value classes, type aliases/interfaces, schemas/fields/default data and their other helpers in place; this is a mixed module, not whole-file originality.",
+    "account": "Complete AccountProviderService generation/waiter/source subscription/async injected-resolution/fail-closed/last-known-good lifecycle. Existing account-state/auth/access/key/schema/source helpers remain dependency policy."
+  },
+  "boundedReceiptSearch": "Exact two paths/current SHA and class owners in available licensing evidence/provider/services docs/receipts and all-ref local history. Prior receipt marks them retained; no accepted complete replacement/conflicting current version found. Root-only local history for both paths. This bounded absence is not unpublished-history proof or an inheritance inference; declared upstream-modified inventory binds allocated baseline, upstream blobs unavailable.",
+  "excluded": "Root resolver89332f5..., accepted5499 config/registry modules and other prior accepted sources/global controls; actual auth/accounts/keys/config/network/storage/native authority excluded. Hold any discovered exact accepted version conflict."
+}

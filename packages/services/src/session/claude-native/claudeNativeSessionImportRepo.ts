@@ -1,7 +1,9 @@
 import { copyFile, mkdir, readdir, rename, stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { basename, dirname, join, normalize, resolve, sep } from "node:path";
+
 import type { KnorviaImportableSessionCandidate } from "@knorvia/shared";
+
 import { createServiceLogger } from "#src/logger/serviceLogger.js";
 import { getAppConfigDir, getDataBaseDir, getWorkspaceHash } from "#src/paths.js";
 import {
@@ -11,118 +13,77 @@ import {
 import { readJsonLinesFileHead } from "#src/session/claude-native/sessionHistoryJsonl.js";
 
 const logger = createServiceLogger("claude-native-import");
-const CLAUDE_NATIVE_IGNORED_TRANSCRIPT_DIR_NAMES = new Set(["subagents", "worktree", "worktrees"]);
 
-function normalizePathForComparison(path: string): string {
-  const normalized = normalize(resolve(path));
+function workspaceComparisonKey(workspacePath: string): string {
+  const normalized = normalize(resolve(workspacePath));
   return process.platform === "win32" ? normalized.toLowerCase() : normalized;
 }
 
-function isClaudeWorktreeWorkspacePath(path: string): boolean {
-  const normalizedSegments = normalize(resolve(path))
+function isNativeWorktree(workspacePath: string): boolean {
+  const segments = normalize(resolve(workspacePath))
     .replaceAll("\\", "/")
     .split("/")
     .map((segment) => segment.toLowerCase());
-
-  return normalizedSegments.some(
+  return segments.some(
     (segment, index) =>
       segment === ".claude" &&
-      (normalizedSegments[index + 1] === "worktree" ||
-        normalizedSegments[index + 1] === "worktrees"),
+      (segments[index + 1] === "worktree" || segments[index + 1] === "worktrees"),
   );
 }
 
-function shouldIgnoreClaudeNativeTranscriptDir(name: string): boolean {
-  return CLAUDE_NATIVE_IGNORED_TRANSCRIPT_DIR_NAMES.has(name.toLowerCase());
+function excludesDirectory(directoryName: string): boolean {
+  const name = directoryName.toLowerCase();
+  return name === "subagents" || name === "worktree" || name === "worktrees";
 }
 
-async function pathExists(path: string): Promise<boolean> {
-  try {
-    await stat(path);
-    return true;
-  } catch {
-    return false;
-  }
+function nativeProjectRoots(): string[] {
+  const homes = new Set<string>([homedir()]);
+  const environmentHome = process.env.HOME?.trim();
+  if (environmentHome) homes.add(environmentHome);
+  const dataHome = getDataBaseDir();
+  if (dataHome) homes.add(dataHome);
+  return Array.from(homes, (home) => join(home, ".claude", "projects"));
 }
 
 class ClaudeNativeSessionImportRepo {
-  private getNativeProjectsRoots(): string[] {
-    const homes = new Set<string>();
-    homes.add(homedir());
-
-    const envHome = process.env.HOME?.trim();
-    if (envHome) {
-      homes.add(envHome);
-    }
-
-    const dataBaseDir = getDataBaseDir();
-    if (dataBaseDir) {
-      homes.add(dataBaseDir);
-    }
-
-    // 关键业务逻辑：扫描 Claude Code 原生历史目录 ~/.claude/projects，不是 knorvia 自己的数据目录。
-    // 当 KNORVIA_DATA_BASE_DIR 把 .knorvia-studio 放到别处时，原生 .claude 往往仍在真实用户 HOME 下。
-    return [...homes].map((homePath) => join(homePath, ".claude", "projects"));
-  }
-
-  private async findSessionFile(rootDir: string, sessionId: string): Promise<string | null> {
+  private async findSessionFile(root: string, sessionId: string): Promise<string | null> {
     try {
-      const entries = await readdir(rootDir, { withFileTypes: true });
+      const entries = await readdir(root, { withFileTypes: true });
       for (const entry of entries) {
-        const entryPath = join(rootDir, entry.name);
+        const entryPath = join(root, entry.name);
         if (entry.isDirectory()) {
-          if (shouldIgnoreClaudeNativeTranscriptDir(entry.name)) {
-            continue;
-          }
-          const nestedMatch = await this.findSessionFile(entryPath, sessionId);
-          if (nestedMatch) {
-            return nestedMatch;
+          if (!excludesDirectory(entry.name)) {
+            const match = await this.findSessionFile(entryPath, sessionId);
+            if (match) return match;
           }
           continue;
         }
-        if (entry.isFile() && entry.name === `${sessionId}.jsonl`) {
-          return entryPath;
-        }
+        if (entry.isFile() && entry.name === sessionId + ".jsonl") return entryPath;
       }
     } catch {
       return null;
     }
-
     return null;
   }
 
-  private async collectJsonlFiles(rootDir: string): Promise<string[]> {
+  private async collectJsonlFiles(root: string): Promise<string[]> {
     try {
-      const entries = await readdir(rootDir, { withFileTypes: true });
+      const entries = await readdir(root, { withFileTypes: true });
       const files: string[] = [];
-
       for (const entry of entries) {
-        const entryPath = join(rootDir, entry.name);
+        const entryPath = join(root, entry.name);
         if (entry.isDirectory()) {
-          if (shouldIgnoreClaudeNativeTranscriptDir(entry.name)) {
-            continue;
+          if (!excludesDirectory(entry.name)) {
+            files.push(...(await this.collectJsonlFiles(entryPath)));
           }
-          files.push(...(await this.collectJsonlFiles(entryPath)));
           continue;
         }
-        if (entry.isFile() && entry.name.endsWith(".jsonl")) {
-          files.push(entryPath);
-        }
+        if (entry.isFile() && entry.name.endsWith(".jsonl")) files.push(entryPath);
       }
-
       return files;
     } catch {
       return [];
     }
-  }
-
-  private getRelativeProjectsPath(sourcePath: string): string {
-    const marker = `${sep}projects${sep}`;
-    const markerIndex = sourcePath.lastIndexOf(marker);
-    if (markerIndex < 0) {
-      throw new Error(`[claude-native] Claude 原生 session 路径非法: ${sourcePath}`);
-    }
-    return sourcePath.slice(markerIndex + marker.length);
   }
 
   async scanImportableSessions(params: {
@@ -130,79 +91,55 @@ class ClaudeNativeSessionImportRepo {
     modifiedSince?: number;
     limit?: number;
   }): Promise<KnorviaImportableSessionCandidate[]> {
-    const workspaceKey = params.workspacePath
-      ? normalizePathForComparison(params.workspacePath)
-      : null;
-    const sessionFiles = [
-      ...new Set(
-        (
-          await Promise.all(
-            this.getNativeProjectsRoots().map((rootDir) => this.collectJsonlFiles(rootDir)),
-          )
-        ).flat(),
-      ),
-    ];
+    const workspaceKey = params.workspacePath ? workspaceComparisonKey(params.workspacePath) : null;
+    const collected = await Promise.all(
+      nativeProjectRoots().map((root) => this.collectJsonlFiles(root)),
+    );
+    const paths = [...new Set(collected.flat())];
     const candidates: KnorviaImportableSessionCandidate[] = [];
-
-    for (const filePath of sessionFiles) {
-      let fileStat;
+    for (const filePath of paths) {
+      let fileStat: { mtimeMs: number };
       try {
         fileStat = await stat(filePath);
       } catch {
         continue;
       }
-
       const updatedAt = Math.trunc(fileStat.mtimeMs);
-      if (params.modifiedSince && updatedAt < params.modifiedSince) {
-        continue;
-      }
-
+      if (params.modifiedSince && updatedAt < params.modifiedSince) continue;
       try {
-        const headRecords = await readJsonLinesFileHead(filePath, 16);
-        if (hasClaudeNativeSidechainMarker(headRecords)) {
-          continue;
-        }
-        const headInfo = extractClaudeNativeSessionHeadInfo(headRecords);
-        if (!headInfo.workspacePath) {
-          continue;
-        }
-        // Claude 会把临时执行面放到 ~/.claude/worktrees 下。
-        // 引导数据导入只应展示真实用户 workspace，避免把这些短生命周期 worktree 当成可迁移项目。
-        if (isClaudeWorktreeWorkspacePath(headInfo.workspacePath)) {
-          continue;
-        }
-        if (
-          workspaceKey !== null &&
-          normalizePathForComparison(headInfo.workspacePath) !== workspaceKey
-        ) {
-          continue;
-        }
-
+        const entries = await readJsonLinesFileHead(filePath, 16);
+        if (hasClaudeNativeSidechainMarker(entries)) continue;
+        const head = extractClaudeNativeSessionHeadInfo(entries);
+        if (!head.workspacePath) continue;
+        if (isNativeWorktree(head.workspacePath)) continue;
+        if (workspaceKey && workspaceComparisonKey(head.workspacePath) !== workspaceKey) continue;
         candidates.push({
           provider: "claude",
           sessionId: basename(filePath, ".jsonl"),
-          workspacePath: headInfo.workspacePath,
+          workspacePath: head.workspacePath,
           sourcePath: filePath,
           updatedAt,
-          ...(headInfo.createdAt ? { createdAt: headInfo.createdAt } : {}),
-          ...(headInfo.previewTitle ? { previewTitle: headInfo.previewTitle } : {}),
+          ...(head.createdAt ? { createdAt: head.createdAt } : {}),
+          ...(head.previewTitle ? { previewTitle: head.previewTitle } : {}),
         });
       } catch (error) {
-        logger.warn(undefined, `扫描 Claude 原生 session 失败 path=${filePath}`, error);
+        logger.warn(undefined, "扫描 Claude 原生 session 失败 path=" + filePath, error);
       }
     }
-
-    candidates.sort((left, right) => right.updatedAt - left.updatedAt);
+    candidates.sort((first, second) => second.updatedAt - first.updatedAt);
     const limited =
       typeof params.limit === "number" && params.limit > 0
         ? candidates.slice(0, params.limit)
         : candidates;
-
     logger.info(
       undefined,
-      `Claude 原生 session 扫描完成 workspaceFilter=${params.workspacePath ?? "all"} fileCount=${sessionFiles.length} candidateCount=${limited.length}`,
+      "Claude 原生 session 扫描完成 workspaceFilter=" +
+        (params.workspacePath ?? "all") +
+        " fileCount=" +
+        paths.length +
+        " candidateCount=" +
+        limited.length,
     );
-
     return limited;
   }
 
@@ -210,56 +147,46 @@ class ClaudeNativeSessionImportRepo {
     workspacePath?: string;
     sessionId: string;
   }): Promise<KnorviaImportableSessionCandidate | null> {
-    const workspaceKey = params.workspacePath
-      ? normalizePathForComparison(params.workspacePath)
-      : null;
-
-    for (const nativeProjectsRoot of this.getNativeProjectsRoots()) {
-      const filePath = await this.findSessionFile(nativeProjectsRoot, params.sessionId);
-      if (!filePath) {
-        continue;
-      }
-
+    const workspaceKey = params.workspacePath ? workspaceComparisonKey(params.workspacePath) : null;
+    const roots = nativeProjectRoots();
+    for (const root of roots) {
+      const filePath = await this.findSessionFile(root, params.sessionId);
+      if (!filePath) continue;
       try {
         const fileStat = await stat(filePath);
-        const headRecords = await readJsonLinesFileHead(filePath, 16);
-        if (hasClaudeNativeSidechainMarker(headRecords)) {
-          return null;
-        }
-        const headInfo = extractClaudeNativeSessionHeadInfo(headRecords);
-        if (!headInfo.workspacePath) {
-          continue;
-        }
-        // 直接按 sessionId 导入也必须复用扫描边界，防止 UI 过滤后仍能导入临时 worktree。
-        if (isClaudeWorktreeWorkspacePath(headInfo.workspacePath)) {
-          return null;
-        }
-        if (
-          workspaceKey !== null &&
-          normalizePathForComparison(headInfo.workspacePath) !== workspaceKey
-        ) {
-          continue;
-        }
-
+        const entries = await readJsonLinesFileHead(filePath, 16);
+        if (hasClaudeNativeSidechainMarker(entries)) return null;
+        const head = extractClaudeNativeSessionHeadInfo(entries);
+        if (!head.workspacePath) continue;
+        if (isNativeWorktree(head.workspacePath)) return null;
+        if (workspaceKey && workspaceComparisonKey(head.workspacePath) !== workspaceKey) continue;
         return {
           provider: "claude",
           sessionId: params.sessionId,
-          workspacePath: headInfo.workspacePath,
+          workspacePath: head.workspacePath,
           sourcePath: filePath,
           updatedAt: Math.trunc(fileStat.mtimeMs),
-          ...(headInfo.createdAt ? { createdAt: headInfo.createdAt } : {}),
-          ...(headInfo.previewTitle ? { previewTitle: headInfo.previewTitle } : {}),
+          ...(head.createdAt ? { createdAt: head.createdAt } : {}),
+          ...(head.previewTitle ? { previewTitle: head.previewTitle } : {}),
         };
       } catch (error) {
         logger.warn(
           undefined,
-          `查找 Claude 原生 session 失败 sessionId=${params.sessionId}`,
+          "查找 Claude 原生 session 失败 sessionId=" + params.sessionId,
           error,
         );
       }
     }
-
     return null;
+  }
+
+  private async pathExists(filePath: string): Promise<boolean> {
+    try {
+      await stat(filePath);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async copySessionFileToWorkspace(params: {
@@ -267,31 +194,35 @@ class ClaudeNativeSessionImportRepo {
     workspaceIdentity?: string;
     sourcePath: string;
   }): Promise<{ outputPath: string; createdOutputPaths: string[] }> {
-    // 导入副本沿用历史目录布局 ~/.knorvia-studio/v2/agent-config/claude/{workspaceHash}/projects；
-    // 这是 Claude 历史导入的存储位置，与 agent runtime provider（glm）无关。
-    const relativeProjectsPath = this.getRelativeProjectsPath(params.sourcePath);
+    const marker = sep + "projects" + sep;
+    const markerPosition = params.sourcePath.lastIndexOf(marker);
+    if (markerPosition < 0) {
+      throw new Error("[claude-native] Claude 原生 session 路径非法: " + params.sourcePath);
+    }
+    const relativeSource = params.sourcePath.slice(markerPosition + marker.length);
     const outputPath = join(
       getAppConfigDir(),
       "agent-config",
       "claude",
       getWorkspaceHash(params.workspacePath, params.workspaceIdentity),
       "projects",
-      relativeProjectsPath,
+      relativeSource,
     );
     const outputDir = dirname(outputPath);
-    const existedBefore = await pathExists(outputPath);
-    const tempPath = `${outputPath}.${process.pid}.${Date.now().toString(36)}.${Math.random()
-      .toString(36)
-      .slice(2, 8)}.tmp`;
-
+    const existedBefore = await this.pathExists(outputPath);
+    const tempPath =
+      outputPath +
+      "." +
+      process.pid +
+      "." +
+      Date.now().toString(36) +
+      "." +
+      Math.random().toString(36).slice(2, 8) +
+      ".tmp";
     await mkdir(outputDir, { recursive: true });
     await copyFile(params.sourcePath, tempPath);
     await rename(tempPath, outputPath);
-
-    return {
-      outputPath,
-      createdOutputPaths: existedBefore ? [] : [outputPath],
-    };
+    return { outputPath, createdOutputPaths: existedBefore ? [] : [outputPath] };
   }
 }
 

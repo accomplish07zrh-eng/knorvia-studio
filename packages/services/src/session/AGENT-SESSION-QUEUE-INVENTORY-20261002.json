@@ -1,0 +1,1210 @@
+{
+  "scope": "local exact identity inventory only; no acceptance or rewrite inference",
+  "originals": [
+    {
+      "path": "packages/services/src/agent/agent.ts",
+      "sha256": "b2c00cc85c7f54550cd8452079285c78d24ff744446b875a09eca83688788159",
+      "blob": "89af75c1af8eb803db99a6634e1738b1f16a9bca",
+      "nonblankLines": 816
+    },
+    {
+      "path": "packages/services/src/agent/agentBrowserAmbientContext.ts",
+      "sha256": "f68a88ca66df146df6f9c33a1270af0804ba3bd184b50216aef3d5e067173044",
+      "blob": "fa98e83a8712d7be0ad17d8d5592fac255fa0c05",
+      "nonblankLines": 127
+    },
+    {
+      "path": "packages/services/src/agent/agentConnectionScope.ts",
+      "sha256": "9cc9ec73c223b4d1819c1303498763c694abfcd55e518b39cf7673ab9e2b2036",
+      "blob": "8fdaa74659f0e0a122f71c9ac9a51e6e738d05aa",
+      "nonblankLines": 1018
+    },
+    {
+      "path": "packages/services/src/agent/agentErrors.ts",
+      "sha256": "909de22fac96171cabe3530b546c781867b091a89dd14ef8b4ba31245c0c4fb8",
+      "blob": "c7ba2dfb884d565205d1eb2bdbdcf40ac1580b8b",
+      "nonblankLines": 19
+    },
+    {
+      "path": "packages/services/src/agent/agentPluginParams.ts",
+      "sha256": "8af30135f008df18cc1566b205997bfaf37b2fb4b8ebcb3628b8d61fefa6ba81",
+      "blob": "3d779d9d48f32912f246ab4df14ebd56d762ab00",
+      "nonblankLines": 134
+    },
+    {
+      "path": "packages/services/src/agent/agentPresentationSurface.ts",
+      "sha256": "f7c6642cfdfcdfb18a41c68553c299e143b713727b447c4169b8498882b75312",
+      "blob": "0bb686fb38a11b6a2817848a1f59bff188fe461f",
+      "nonblankLines": 21
+    },
+    {
+      "path": "packages/services/src/agent/agentProcessManager.ts",
+      "sha256": "c01c9c65867c3c06d492eb0425025cfd026ac7f210e4908ceb4d5205d1906e1a",
+      "blob": "b5921e1256080cd0152a7efa5c7313a0faf5582d",
+      "nonblankLines": 1407
+    },
+    {
+      "path": "packages/services/src/agent/agentService.ts",
+      "sha256": "bacd25882b4cc1799c06d4c30245aa37ea92033dda24dd9ca7849a29d11a4af3",
+      "blob": "c27df28b96f820d020219398f936725d289afc6c",
+      "nonblankLines": 4677
+    },
+    {
+      "path": "packages/services/src/agent/agentSpawnCwd.ts",
+      "sha256": "1cc9522b8605ff6b34e6f7ee0d9953207894f235770a68a618404883189c5b58",
+      "blob": "8303bca4bda93e40bdea48b35e1cc631ca98ddd1",
+      "nonblankLines": 24
+    },
+    {
+      "path": "packages/services/src/agent/agentStderrCollector.ts",
+      "sha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+      "blob": "2c164e8b7ab8f78b6e60efce49c9ab9e73e9bca0",
+      "nonblankLines": 41
+    },
+    {
+      "path": "packages/services/src/agent/agentWorkflowParams.ts",
+      "sha256": "a212b6d52d40927a1f1fcdcb8b0e5ff4e52a4ba6e218d4850566720fc78c92ec",
+      "blob": "1d889b622f8f1071507303bc7478304b6e039da9",
+      "nonblankLines": 37
+    },
+    {
+      "path": "packages/services/src/agent/automationToolPolicy.ts",
+      "sha256": "1586e08c94bc7ff4d8e23bd1703ef21bdd9f5c7da786991e15f1226a550e66c0",
+      "blob": "41fecf4315d43e95d5bc6ab1e2e3aed2671deb8a",
+      "nonblankLines": 21
+    },
+    {
+      "path": "packages/services/src/agent/configOptions.ts",
+      "sha256": "9e9c29d598abdd2f23a45c5705b5436b493ac3d48707b07adf554e3793e6bfc8",
+      "blob": "4a70e97c94fc631a82119f42224fd97e5fe54ee6",
+      "nonblankLines": 58
+    },
+    {
+      "path": "packages/services/src/agent/cuaOperationTurnTracker.ts",
+      "sha256": "69f6f2e8c7ef0f79dc35e6cb140ea933c2b1f80b134b3d98eb6a62a2001229b9",
+      "blob": "dd7cf6ee2f34b98c4b08f6096d100e80fc1e3df1",
+      "nonblankLines": 309
+    },
+    {
+      "path": "packages/services/src/agent/independentPlanSupport.ts",
+      "sha256": "c1eb294b55f92bf5466b950b2ed3f910dc1a537cf61348bddd38641d5f7f3fd8",
+      "blob": "a4d514aec0ebb5e4e732f38c85e93ccc3b53612e",
+      "nonblankLines": 21
+    },
+    {
+      "path": "packages/services/src/agent/modelTrajectory.ts",
+      "sha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+      "blob": "73b7f0a3b5879496e4bf98d22b2b1ab2cafa22f7",
+      "nonblankLines": 418
+    },
+    {
+      "path": "packages/services/src/agent/modelTrajectoryFileTail.ts",
+      "sha256": "78e3b512f5752d0abe20623c75424c324a3a21ffc2cc32d70e41da9393cbee45",
+      "blob": "d37cfe768d186db4a2fa4576dde4c6ee3f3c09e0",
+      "nonblankLines": 47
+    },
+    {
+      "path": "packages/services/src/agent/pluginReferenceCatalogRequest.ts",
+      "sha256": "cc030f23073742c9f19c18167b55693cdfb33b8d96de3e7a8793599fd71d612a",
+      "blob": "bbfde6b47c53fc9bb02693b266e35a9f2d5f7839",
+      "nonblankLines": 27
+    },
+    {
+      "path": "packages/services/src/agent/protocolClient.ts",
+      "sha256": "1a28886f9568c5ff9d18f461d42ca3b676867cd3319db7129e181d587a0e4660",
+      "blob": "7fc6740ff5b597ab8ec89232677a88d2131aa0c7",
+      "nonblankLines": 360
+    },
+    {
+      "path": "packages/services/src/agent/protocolTransport.ts",
+      "sha256": "43e98b25e7ddd9f6dc94f06756ebe214168c6aaa195e6d31e4f10956c9900926",
+      "blob": "6258afada0213eaeb98ecc1ee5ef6e52bc7ab3ce",
+      "nonblankLines": 15
+    },
+    {
+      "path": "packages/services/src/agent/repairSubagentTaskIndex.ts",
+      "sha256": "67c88fcc8e7d2e95cb818558f169e772481c25cf181b3d15481d9fe18449b902",
+      "blob": "8c88555c18b493d089e782a6aa9e57d69297b292",
+      "nonblankLines": 45
+    },
+    {
+      "path": "packages/services/src/agent/sessionEventCoalescer.ts",
+      "sha256": "5813ae114edcf1acddd7ae2d2520fa3c851d5e8fa926912b817cafbc2b9d3e99",
+      "blob": "521a4e9c435a8d23d3929f91294d7690d292809d",
+      "nonblankLines": 180
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f",
+      "blob": "52d9f5a29f8060f472d323be11c651de2f711f1a",
+      "nonblankLines": 60
+    },
+    {
+      "path": "packages/services/src/agent/stdioTransport.ts",
+      "sha256": "ffd032b47e510c5e2568e83a573e4cab28d442471c2f869151481a0cbd202ab1",
+      "blob": "34e80cd542f224ce821c296156b322541c516be6",
+      "nonblankLines": 365
+    },
+    {
+      "path": "packages/services/src/agent/storageStartupGate.ts",
+      "sha256": "6a0c7171ba3ba92d7cadf1e0177509f8557ba7ea7ca9a799aa89036d03f2ad16",
+      "blob": "bf0c1cc8f8c8dc758ab783e5e60dc8c539654ba5",
+      "nonblankLines": 106
+    },
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "sha256": "529d114c34c331f54d4e744890526d34c83b54e7f48c00a916fab2583bdbec2c",
+      "blob": "8672ae0027c23e543307b68024828305993589e1",
+      "nonblankLines": 1872
+    },
+    {
+      "path": "packages/services/src/agent/taskServiceAdapter.ts",
+      "sha256": "87b0f72142489b643aea66162328f111edda2517c66de4fb7f0f464b8b33e38b",
+      "blob": "69ec97c0990bfcc09478f9cb4e2a19228eb9e8a9",
+      "nonblankLines": 5422
+    },
+    {
+      "path": "packages/services/src/agent/v4HostCommand.ts",
+      "sha256": "a27dabe767fd7b8b26678f736ad5f85d4b143111b23776adf47d556029174bd9",
+      "blob": "7fd26d4455b224021cfcf93594eaa611eea01dc5",
+      "nonblankLines": 149
+    },
+    {
+      "path": "packages/services/src/session/automationAdmissionConstraints.ts",
+      "sha256": "700513a71ac658f27e18dffdd401cda07595e72f63172df47e320ca5730a53fe",
+      "blob": "4390d0dc1e8f5819f548142df7315f89d6a7f4d0",
+      "nonblankLines": 22
+    },
+    {
+      "path": "packages/services/src/session/automationCron.ts",
+      "sha256": "989013a364f2739055d7ee7f82541de27ad79b1e8ba185ad63059393ae8ae037",
+      "blob": "629ce7acfc727b3cb709fedc004aca1e6f401298",
+      "nonblankLines": 427
+    },
+    {
+      "path": "packages/services/src/session/automationCronValidation.ts",
+      "sha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3",
+      "blob": "f72def81bbd2cdccf0edb5810a77df50c54aa4c7",
+      "nonblankLines": 11
+    },
+    {
+      "path": "packages/services/src/session/automationIntervalCarrier.ts",
+      "sha256": "72fa6ee1f7debd2fa841ba239c308abe9dc762153c73617c786eea8f6f0dccf5",
+      "blob": "6f958cac73f49fdc83f4154f051013131fe51fb3",
+      "nonblankLines": 86
+    },
+    {
+      "path": "packages/services/src/session/automationRepo.ts",
+      "sha256": "f0d11e0165dabf5b2d841f303d8edfa766b21e14f59fb21f43dbd4dc27aa1d30",
+      "blob": "bb4ccad1ee8e37d29793fa7fd544ebcf755c7e1b",
+      "nonblankLines": 1421
+    },
+    {
+      "path": "packages/services/src/session/automationService.ts",
+      "sha256": "c9e88cd1fe3c85ca6382df23c98c2bd9fb4998a2dc3f03f754d73353f338d963",
+      "blob": "dd2acb3c9e62098f74a78406318b76e0d5d24890",
+      "nonblankLines": 370
+    },
+    {
+      "path": "packages/services/src/session/automationValidation.ts",
+      "sha256": "b4df09d74e6d4d7b6ef67a335ef066ddd9b62d27299cbbde47c14b7528e7b284",
+      "blob": "2bc66ba7f7ea9fe438787b3146b24af91191f617",
+      "nonblankLines": 105
+    },
+    {
+      "path": "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts",
+      "sha256": "9b530e1833e40ab286bc1064e9b7733407c4ba6aeb7e9c7f0474f43f9191dd9a",
+      "blob": "537782b6934e492e6a3ba04c746c9658df902239",
+      "nonblankLines": 69
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeImportedSessionTypes.ts",
+      "sha256": "7ecab783c21dffd9ab4706964109f8ebca92d65b7360c434c59c0a62639f8c58",
+      "blob": "eac0a2548986eb601029bc1186a7a95b94d99a2c",
+      "nonblankLines": 16
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+      "sha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc",
+      "blob": "ba1f8d5e9d29d6dcc875961317f814449f50f9e5",
+      "nonblankLines": 192
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+      "sha256": "1e758c09ab99d77cbbaaaca5bf6c5bbdace2ba72d164017f46cc98b98e066b47",
+      "blob": "7d9deaa227854e4a4d381b961f801456d6f00383",
+      "nonblankLines": 323
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+      "sha256": "bd270af9291e798be53c13508ccff9b7c443fda37a838019b6b03923a3501b4f",
+      "blob": "d54c0f4001b084bee97edb85b1fb98b269a3a7f6",
+      "nonblankLines": 265
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+      "sha256": "bf7fb79b66374214b353fcbb9ddaf73dba526ac593cd0b24959a02a9ec57333e",
+      "blob": "ac9583eb122e053a823afebaaa5cb1e92e441206",
+      "nonblankLines": 170
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+      "sha256": "95ce4e4d14a0cf2d52bd0d66da93d09b7be34b57bbcebd773a9a1111271716a2",
+      "blob": "2f561c9ab2f9086e81fc721b54dd3a2fef7b6d7c",
+      "nonblankLines": 205
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+      "sha256": "a4ec7572317dff8cf6d724eb10b56db15ee0580ff98defe11950718037c4f4bc",
+      "blob": "76cc4141439cb41c31a6b80f0a7c5ae80621d512",
+      "nonblankLines": 35
+    },
+    {
+      "path": "packages/services/src/session/claude-native/jsonLineRecord.ts",
+      "sha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+      "blob": "f9915035c7d945e99ffb715375ed6a10b5299bd5",
+      "nonblankLines": 11
+    },
+    {
+      "path": "packages/services/src/session/claude-native/persistImportedClaudeTask.ts",
+      "sha256": "d7e6a1f097de4035620f56756c7b1e54ca719790e268d4e342215dd414376e9f",
+      "blob": "748cb1c24c6ed133269c45241c9ba8151bb4fc52",
+      "nonblankLines": 80
+    },
+    {
+      "path": "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+      "sha256": "de6a732fe4ada99d0e86358d863d839db4e8f474035787b12ccc7268e4cbdca5",
+      "blob": "322161ee5877cc70dd54e3e6c8044411ce139b06",
+      "nonblankLines": 63
+    },
+    {
+      "path": "packages/services/src/session/contract.ts",
+      "sha256": "78cfdb265d5b8d257672f1959de4769b42dbf35c6c4415c110d28d709a34dd13",
+      "blob": "27678c3f03985d6be8f590d5b42c9e14b618587c",
+      "nonblankLines": 6
+    },
+    {
+      "path": "packages/services/src/session/legacyTaskSessionFile.ts",
+      "sha256": "5f9c332e0919f34d12745d3ca37943cfde00870e62a3066a39a5363d8a1f56d5",
+      "blob": "01a663a1febf10ccf8088c1f879b4d4cb5023609",
+      "nonblankLines": 18
+    },
+    {
+      "path": "packages/services/src/session/mcpWorkspaceScope.ts",
+      "sha256": "5858f27ae656f010b6b6df5c9a8e8d5c3d6e3920eaa54b0cefd2599056c7f67a",
+      "blob": "d85ee7e9929fdad12ed8a99375f9474cbcc50731",
+      "nonblankLines": 32
+    },
+    {
+      "path": "packages/services/src/session/sessionMailbox.ts",
+      "sha256": "17141b83e2e76d3f2d040a81277af015ebc5d73a4ebc52f5d017b5d7828e2fe5",
+      "blob": "561059c45b8312cf63da70d3cf05c5cd49192f73",
+      "nonblankLines": 15
+    },
+    {
+      "path": "packages/services/src/session/sessionRealtimePort.ts",
+      "sha256": "4f7fbb145d2fd11927c458fa40bef0c74dc548b04d9b6725642e81b048bfd478",
+      "blob": "2262af11d5f98efadaba699fa80f7105b99e7cc1",
+      "nonblankLines": 44
+    },
+    {
+      "path": "packages/services/src/session/sessionTitle.ts",
+      "sha256": "1e9b9641da8675c9430bb6bc912fc2e78a166ae4f531fabb7c9880587493da4b",
+      "blob": "d3f77660c69b2114821b8992b01823ee85b4bf2c",
+      "nonblankLines": 15
+    },
+    {
+      "path": "packages/services/src/session/taskChangeSummary.ts",
+      "sha256": "55ea43a8b3b3f3ef359291cbf39380e58f7260f1d6d587ed05932e9693a9cdfb",
+      "blob": "da885432b4b6cb4da64caab02454d754e0998c84",
+      "nonblankLines": 68
+    },
+    {
+      "path": "packages/services/src/session/taskIndexRepo.ts",
+      "sha256": "d514a1643213f7559156ee687b55239843d662403d7cd92d1ceefc006078ca4d",
+      "blob": "8a04e414ba7ac56f5d6376bbe10310d577c75781",
+      "nonblankLines": 2466
+    },
+    {
+      "path": "packages/services/src/session/taskListTypes.ts",
+      "sha256": "acc6dd095832279143f930707a5a661a13bc2a3aaf4dcbda7d93038383944138",
+      "blob": "e34445b4f5cabf0c5f6b8409065c4c037c498389",
+      "nonblankLines": 105
+    },
+    {
+      "path": "packages/services/src/session/taskService.ts",
+      "sha256": "9591efd0cfe6d18c99edf93e6e6cd9724325b0fbce4d8859073fa5aa63dfa094",
+      "blob": "d15bd88247b581100d79e7ef4fc46226b03c1448",
+      "nonblankLines": 661
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/agent-identity-v4.ts",
+      "sha256": "c4cf2c2ab89a44d26e912f0f08475518dbf8966a41737d75b5243cf8e3cce908",
+      "blob": "92728ce554b1627863b07fcd99f2521abd408faa",
+      "nonblankLines": 8
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/migrations.ts",
+      "sha256": "c57f2e84f0db5f479ed3c76c73b05352784307828ab5ff624ecba1b4e1d24ebf",
+      "blob": "9d8a1af5a2c22f4e7b24b1907d4a12070ee7ac60",
+      "nonblankLines": 264
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/official-glm-selection-v3.ts",
+      "sha256": "75af27386da487df526f5e329537e5abd4213a1255fa03efa92cd0d1a6571e66",
+      "blob": "585bd2e454e01a3d0c099bf9e2c62b6f308efb1e",
+      "nonblankLines": 35
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/prepared.ts",
+      "sha256": "f6660d5c977764afd0e9806e4285430e390f98b88c43d9331c868b0d278ce40d",
+      "blob": "b78f22bcf34119e7a20e0e80d80a14448f08c6cf",
+      "nonblankLines": 18
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/provider-selection-v2.ts",
+      "sha256": "b5a496b8854cb3c5fae4238622b10ce5c0cfeaf41aadc98fdece611f0bc2dbf2",
+      "blob": "c0274e34c9425991e194f03bd5317d322fd1331c",
+      "nonblankLines": 95
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/schema-v1.ts",
+      "sha256": "761eaba0a85b51eb529b865ab4f0f2edb21af46fdb9b8fdbdb49e53d22114f24",
+      "blob": "97a06e7cb0cd637dd930ef9e34585fb00966fa2a",
+      "nonblankLines": 170
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/sqliteSnapshot.ts",
+      "sha256": "6df7431c4ee3bab9dec2eb9c612b8c2bad8fd46592f8b4fb6d561deca52b0574",
+      "blob": "08b1ad9ca27d60c1e5f040c6174cf2451910d39a",
+      "nonblankLines": 58
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "sha256": "d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde",
+      "blob": "0be7db66d288c0f6e5454e4e212f9623fc3af7f0",
+      "nonblankLines": 129
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/builtinEvents.ts",
+      "sha256": "d0e77951e2f59b4e33722a28bff978a172f1df378fc430b9ba9dd4606864561f",
+      "blob": "872a3d6c2ba1074ef0eb85704aed1d93f42e31f1",
+      "nonblankLines": 130
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/builtinKernel.ts",
+      "sha256": "1c8b54d421a9617276963b92fbc15d6a376a9906ce2c884d3a397fc52747228b",
+      "blob": "4be6c24a9c473d92d84605705490883b8f5353be",
+      "nonblankLines": 283
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/creationAgentBridge.ts",
+      "sha256": "c800c0135eb281d1df3b7e77009895bdd07ad046867cc3c5e6040cbbccbab413",
+      "blob": "b8f4bd2e7d4afcf4de0f3e55fe3e252d1d1cc99a",
+      "nonblankLines": 251
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpCatalog.ts",
+      "sha256": "5a2e365564ee345e0e4cacc20f54fddc898ea7687bbeed325ca4885cc2144bac",
+      "blob": "617fbcfb08e0611aaf21b4b0a925b13ad262719d",
+      "nonblankLines": 152
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpCommands.ts",
+      "sha256": "beb3764eb5a227b28597daf711d74a7e2bd589e2cf683ccb6f943d69ac875dc3",
+      "blob": "050571c3f04929eaa36e1277ce3c53a82b0f361c",
+      "nonblankLines": 29
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpManifest.ts",
+      "sha256": "a93808660f2b9db41f80d0116696df8cf41eadbf417e1f5b3d5ce733357bdb2e",
+      "blob": "e2158188ca3f22a0d31117937041447c06ed84df",
+      "nonblankLines": 115
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpMcp.ts",
+      "sha256": "1300b4aa1315e087637692ce8361ab1b9fc0b3aa6eee87026cf94d2c8ffaa5e7",
+      "blob": "90b48a7321b2794e9f6091077d4cb3e749f28fc0",
+      "nonblankLines": 67
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpOptions.ts",
+      "sha256": "4862895b9edd3467d9758af11994867a66b2d88b896a79b54efb9c7563dad86d",
+      "blob": "70ab3ca1507be73a9cef75737c0fd91c20fe89fd",
+      "nonblankLines": 111
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpProbe.ts",
+      "sha256": "cf0f4cddec31e792515cdf6243c15ee711e2a698ed317db3e3ba3b51f2c9a59b",
+      "blob": "f8f7d4b327cfbd72c8a977d0cc78ac1c1d7ef20f",
+      "nonblankLines": 63
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpProtocol.ts",
+      "sha256": "0d1071694d7317c046dfc850a8a1b9594e884f30202dbdac314e9396122cd78a",
+      "blob": "a7d05a65639b050c0d4e0bc3651e0fe2b550942d",
+      "nonblankLines": 177
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/antigravityProtocol.ts",
+      "sha256": "76e8f990f11a6f408612ff44708e87ff25aaa622f9f038ddd26d408e5bf18a8e",
+      "blob": "5f504b1a6c542d4ece54ee10f02dade76dfca40f",
+      "nonblankLines": 150
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/claudeCommands.ts",
+      "sha256": "78b03f48379fcb940e2f0f6ac52a73c36ca03cf53b79590dc9f593ce846763ef",
+      "blob": "ec2d9d65600e641c1b8ef66c2ec7936c9b971d2a",
+      "nonblankLines": 60
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/claudeProtocol.ts",
+      "sha256": "12bb8c65cb13a2b4251d202f7089cb8dd88d44afab16555b5f897cff4e411d8c",
+      "blob": "2e696e79b7b2360c833f7ed589dcd785933d90b0",
+      "nonblankLines": 243
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/codexProtocol.ts",
+      "sha256": "15f12ea14a4113f6c1aa1033d9ad58d79b67bfb2429f959779509455aabfc1b2",
+      "blob": "5b62f6d4f0d7ad38051a1e7a89eb197ad3f7d03b",
+      "nonblankLines": 312
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/download.ts",
+      "sha256": "7ff5d6fb2459d704a510fafd185e18716cced952a41c4e5885a86c1daf2b1bac",
+      "blob": "a304e51193f93c96a339ad29b7f365714f28efcc",
+      "nonblankLines": 121
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/executable.ts",
+      "sha256": "54857ada11619f98f8d05a22b1fa847b47ab098be7cf540e128f655d334c2114",
+      "blob": "6b7e55d5df5238ccb974b64cbd57da6d3541092d",
+      "nonblankLines": 168
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/externalUpdate.ts",
+      "sha256": "d909f2d3b7864ba542f3cc34d77d3ecbb3984b59b7fbf574de9c2c2f2231fce1",
+      "blob": "6ebb42055abd04058c1a9ae223639f326a127749",
+      "nonblankLines": 170
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/grokAuth.ts",
+      "sha256": "43e4d355e1cb4b42014f63a48eb5741f289054647776ce053a60d53086d37168",
+      "blob": "f9468dec79a6e4cbf7c431268af28d3ad22b9fb4",
+      "nonblankLines": 14
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/grokProtocol.ts",
+      "sha256": "5019116139aa8c3640c08a90e34cf73950ec805462b71dc8fddf888ba05f1bf8",
+      "blob": "6cc605e3026bd2b1df3c659f868b377479f54adb",
+      "nonblankLines": 230
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/installSource.ts",
+      "sha256": "35f3accce435acd846dbd693bc7e2e99a886b45c8aaa761f7654faece4baac4c",
+      "blob": "1cb4fced49d52055a017de65ea86af55930b0631",
+      "nonblankLines": 91
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/isolatedInspection.ts",
+      "sha256": "1d049ccf4995fd4e807e37d057ae10425c362a7f92840b56fd41a7ab130a1631",
+      "blob": "fd91dd3db1d68ddaed58b7b19211e3f2dd75dee2",
+      "nonblankLines": 45
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelInspection.ts",
+      "sha256": "15590ead28727504292af87750ea9e18f6124021aa15c9b86fbaa68ee2056681",
+      "blob": "0b42d44cd5340d9e62f1233b58dfb075602dbad0",
+      "nonblankLines": 229
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelRegistry.ts",
+      "sha256": "f372eae286bdfbe4521ef28a7d619b0ca5d9d5b6182341ccadfb95daa0ce1405",
+      "blob": "1d2a67e44bc7c0a1adb2155ffec0f1a2401d8d6a",
+      "nonblankLines": 289
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelRun.ts",
+      "sha256": "57e2291ec5283579268551e517f795c26dba3f04ce71a2c15f336647c4cb3681",
+      "blob": "90a5cf86876b3ce8240bf5bdf79323b247a88ac3",
+      "nonblankLines": 158
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedKernels.ts",
+      "sha256": "b963ec1f0acb585bb4a96064a82fd0986171c37561c4f44b1dfcdcdb2da28a43",
+      "blob": "1d451e3166f84454aaa83800352eb55443ca3881",
+      "nonblankLines": 139
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedPaths.ts",
+      "sha256": "509b29e2070eb538d05030618a14f96acf194d14f951a31096ecb4ac82eaff40",
+      "blob": "f6047a7724545b788ff8131a632a1cdb0a8b7255",
+      "nonblankLines": 159
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedVersions.ts",
+      "sha256": "9e645d88d98c2fb19ee2b4c0eb81484e0fff5ac39b633a21cd4c7a42a1777917",
+      "blob": "5547f4c6e6232cfc8afe3949fc992626a1356403",
+      "nonblankLines": 167
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managementLease.ts",
+      "sha256": "fb10ddb57d3bf9724b07018704f59743e14a33d23a4268bc988f6ea0498519b2",
+      "blob": "72845c481f855547fb877167248927d2861c2d76",
+      "nonblankLines": 50
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/modelOptions.ts",
+      "sha256": "944496bdd2920ca70ea11cde34b419545bfed13b217eec8b26277bf728a7434d",
+      "blob": "d83d50bb927faf8c70aa1cb4d33aec47282c1f90",
+      "nonblankLines": 292
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/probeResult.ts",
+      "sha256": "500673dd9f93b63d3625f4956d3df50e2aca22f33ba709c883b827f9235cd615",
+      "blob": "3c9702918de4893b293f72dad3249c775c6a7c35",
+      "nonblankLines": 216
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/processTransport.ts",
+      "sha256": "e55e4068707433c9d047f906ccbc0524d63c1dbe93b0348241657075e2c46935",
+      "blob": "a8488b21ad9ca3d2c3dbaca9dc6b74acc1dbd5ed",
+      "nonblankLines": 304
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/protocolBindings.ts",
+      "sha256": "13d3020ebd7c4ae1759884aa245bc81b5f98700e57e287a585d59a635725dc80",
+      "blob": "8c42420e02cacb74b537ef62b348e77f83fc4a88",
+      "nonblankLines": 45
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/publishVersion.ts",
+      "sha256": "969f4e13ee075decd3e3dcb6e775827aea91df391f7e5ada04828da3e278a19d",
+      "blob": "1f1f76a6cca48092acd71d695d30841ba8ffaa35",
+      "nonblankLines": 29
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteAgentIdentity.ts",
+      "sha256": "8c0ee5fc9dfb2b84e90cca6c42aa2149ecee41d8a1449d3a1335d8bb575b0f55",
+      "blob": "a357037a111aa2b8153f213943e24cfe190c949b",
+      "nonblankLines": 17
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelBridge.ts",
+      "sha256": "e29f664cb895df8c41ed64518c499f0ae3cb6951686dde91cd28c8221403b51d",
+      "blob": "df55283cf19b6df668c5d45bacdaec9564bc9f2b",
+      "nonblankLines": 243
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelCatalog.ts",
+      "sha256": "f52c5ad4fea6872787cad6c35040089cbba7fbd263294eb1308ff6d71e868402",
+      "blob": "796e0d482f3725006531dd1f49b76e635c031120",
+      "nonblankLines": 42
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/tarExtract.ts",
+      "sha256": "b89f64553ff26bea0d741d331c6c37c9b9c202420207699fb2c847343c52c800",
+      "blob": "6ae6fcb03a77b91f364c7010aaada7f72dc0ad11",
+      "nonblankLines": 103
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/longPath.ts",
+      "sha256": "7be223278e96a001698fcd16241c312498efa32eb88e3268682a730ebbd6c953",
+      "blob": "119890edd643b10fc39e3bd1b74e5bee6556ae7e",
+      "nonblankLines": 41
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/pluginMcpProjection.ts",
+      "sha256": "34aba15e84d622191a8d4dcb667a57e1075dbe21c6a9455c5b57be8adc0d1f02",
+      "blob": "0b297bc857db3912a227131137a060b0979883e1",
+      "nonblankLines": 212
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/sharedCapabilities.ts",
+      "sha256": "8829565734eb39f3e1c7ade224a0e2ca4bf752688cf1f94576af451b3991fec1",
+      "blob": "603b11502c27852fd1691796486fb1d5ef959a18",
+      "nonblankLines": 327
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/studioDatabase.ts",
+      "sha256": "019b07ea44eb3677fd5aab9b5ea010982098f86bdeb233243d1b473ca6763274",
+      "blob": "c4d3e04688de60714b9f97dc31ae1bc439ba132b",
+      "nonblankLines": 208
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/temporaryMcpConfig.ts",
+      "sha256": "579cb907c24b0ecb018c06f058e2e31de1ad318601a16539e12d08451709892d",
+      "blob": "d50cc69a240ecf4ab965da7bfd4f496586c27b0e",
+      "nonblankLines": 61
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceApply.ts",
+      "sha256": "77ab4451443ec52f021f9d278610e40a1b9f85fa69265b5810f87b4a21b25651",
+      "blob": "48f313f7b8cc982a64be900b6d94ea38a4ee0086",
+      "nonblankLines": 135
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceFiles.ts",
+      "sha256": "52ac5781dd5e1297ab95c9867e2ee1da9621d84a9777b4381ea25b152bc93723",
+      "blob": "7622773b804e4c5301e53912bade797262378439",
+      "nonblankLines": 177
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceJournal.ts",
+      "sha256": "1aa41e04ed74a288c9e9e0c75ab5ec28084d7c48e77aa636dc3b6db05d3e39df",
+      "blob": "a1f92955e21978115ab7f7db0f6d36e4671c3fcd",
+      "nonblankLines": 181
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceLocks.ts",
+      "sha256": "c6d0da5248f094c546cd391a4d484268c723bef515ddeba2aa0730943cba517a",
+      "blob": "923166a048fc850fa8821ee293ca045dfb8e71a4",
+      "nonblankLines": 113
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceManager.ts",
+      "sha256": "63dbad6799105661b5246aa4c6286a7216150b53ccbcd5128480ddb5a7e034ac",
+      "blob": "37bb9061cf8e92f4f25c80fa8c5e9f4e938c66aa",
+      "nonblankLines": 263
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceRecovery.ts",
+      "sha256": "41ab51feef393c88d53c028a3bfc9ad725402ff5152357dfafb5372ecac6d62c",
+      "blob": "f733e6a9be11387aebc38213fcbca8e2576fecdd",
+      "nonblankLines": 206
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceSnapshot.ts",
+      "sha256": "1713a4fa698671a05c01338877cbbeb7c35b67d3216c4bb711a8bc2986d020a0",
+      "blob": "7a1c41f92ff835501b308fe6e09f1dcde4f32cf8",
+      "nonblankLines": 147
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/checkpointStorage.ts",
+      "sha256": "22d78d2a3f544ce10f165b034dc3e796d4f2bb5cd8f7434ac74b2f0ab7dcdf99",
+      "blob": "ca8d474147c781129fe34bb18d7cdb5c3c10fb80",
+      "nonblankLines": 83
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+      "sha256": "15c266de4f22d4f71a2cc079abe0f529c8752423744bfe3b1c310943b3073d54",
+      "blob": "7e95234bfa0aee78f4ef232b3501e91334cf0ca0",
+      "nonblankLines": 383
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/executionLimiter.ts",
+      "sha256": "a162efb9291ac9a3e2068bdc3768b711adf3dc8cdecdb4b31064de86ecabf803",
+      "blob": "ad6cca904b333746577ec1c6d2403438d4227912",
+      "nonblankLines": 36
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupExecutor.ts",
+      "sha256": "cfa5db78cc61aca46fd8069f88e5c2170f0ea82b90f4f2df29feb2c2842aa5aa",
+      "blob": "7e3836a9e08bfa0f703304774f9b67336c8f5e44",
+      "nonblankLines": 242
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupMetricsProjection.ts",
+      "sha256": "7d141989c2fefc30bdb3f0180e6233922c464244d2758c654c9c468166aaac83",
+      "blob": "7c36730d887c57dc517a484809f94bdc84160636",
+      "nonblankLines": 114
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupSteering.ts",
+      "sha256": "4bfb903e3a7a33eb07e757582fd31c916aa497a09edc6fc600720e68cc508d9e",
+      "blob": "0fdf0114049ec02685fef7fbe9b1d43ff37aec78",
+      "nonblankLines": 167
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupSteps.ts",
+      "sha256": "b29f29d4622944f7f43d5f7138f40be785a64a2b1503adca26c6718cfb0b9088",
+      "blob": "8a7ff01bbc704a828923da7c49057dec5a44996e",
+      "nonblankLines": 139
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupWorkspaceIdentity.ts",
+      "sha256": "c7a101feb645f6a5145b06c756712af222fb4ae234ad3893667ed0c41bfbdd18",
+      "blob": "71d60941ec98b61eb5d3c4ff2306881a50c8516e",
+      "nonblankLines": 27
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/kernelOperations.ts",
+      "sha256": "6e43ac8863ea32c064277c9ecb1d743c8a03b2e341e23f5f9b2fbc765653f2fc",
+      "blob": "62bfe87595b81f149eb1cf978a077a5b892771e6",
+      "nonblankLines": 78
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/pendingInbox.ts",
+      "sha256": "4a3f8803ff464df2dac71e88caf6893c9cb590543b910747e269cea9c7018ae3",
+      "blob": "407f6e1ce6c183ad072831cabd9c94cc163617a4",
+      "nonblankLines": 17
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/ports.ts",
+      "sha256": "175e70c36d1c0bd9ba7900c17e9b36fcab07285b1b63da460aafdf03013d88e9",
+      "blob": "d4b566d1d5d4a486d9f198580104b0e97f3f3be8",
+      "nonblankLines": 191
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+      "sha256": "7251e57d2718870de9c3f6f0485eb9b49eb60f014f16b58f1033592939132498",
+      "blob": "38640b436406cf2c3f1749e7b522c778829f859a",
+      "nonblankLines": 35
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runExecutor.ts",
+      "sha256": "e16d5ea08c072456c4be77c80219469b954a3dfdc65eff7e33a90ee78588e5c2",
+      "blob": "4bd206cfb2adb57880fbcfa4ee43695a60dd076c",
+      "nonblankLines": 344
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runOutcomeProjection.ts",
+      "sha256": "a905e5ac7e4efd1cf4d2b32f24915f63691eadfacad1e2f1eda94753a76483fe",
+      "blob": "771bf8bef0543e3ea68ecb58870163e1f6a1ca0b",
+      "nonblankLines": 249
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runQueries.ts",
+      "sha256": "935dbfa4d38ad3fa776c6a64de823cbd59f8938497d61df1303086d736a76882",
+      "blob": "385018b0448f27181ea8edba26f3ec1b201ead59",
+      "nonblankLines": 17
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeInteractions.ts",
+      "sha256": "0ad6e2c614de44910c08113b10b4acbe8aecae2c75f849ff8e1b198498c42935",
+      "blob": "6466b2e890f779b16767fe1a34818c5eb55015f1",
+      "nonblankLines": 83
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeLifecycle.ts",
+      "sha256": "72dfeb7b89010c7efc5119f9aa60eda552d37b8d0c4d15729f348035fccd62bb",
+      "blob": "ddefc9521be0f2e57194f6a4241fc88b3ce78583",
+      "nonblankLines": 33
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeProjections.ts",
+      "sha256": "eb8e8cfda1a0202c01df796ac71bf9583e40f9469df56ed0cde35914c80e04d2",
+      "blob": "83833fe7da5268d77a5edf020314989a3646061d",
+      "nonblankLines": 97
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/stepInputs.ts",
+      "sha256": "b121cfa067a55312b47eb9607cd13634750f48a0dcdbf69b6ce20ebc779ca39e",
+      "blob": "d6a3defc72ba54de179c9a884e4c7e4c887494aa",
+      "nonblankLines": 39
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/stepOutputProduction.ts",
+      "sha256": "fafd970bbe8cfb566391b9e94f7d7d45fee6aef1107e917c519a2b7917ec4b5b",
+      "blob": "a23b6bf8148039044b071597aaf01a36238a2b0b",
+      "nonblankLines": 79
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/storePort.ts",
+      "sha256": "38cfe1519d3832d89fb95dace470c0f2806ba2fd4c2c02ad5aa417bc8b5a548c",
+      "blob": "67cd5f158d0b14b476049ce2ada8c9b14d81c467",
+      "nonblankLines": 56
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/studioRuntimeService.ts",
+      "sha256": "0726fc4cd96f5b1729cbe6d51152292d6c7385311f058607fa87f9fb248ab790",
+      "blob": "4e055a5bf6a415a444dd67405738490170282bc3",
+      "nonblankLines": 276
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/turnEvents.ts",
+      "sha256": "e571ec600f01f998bb42296477a59da4e1eed1d39a144fe65aeb0c4d7c52ea45",
+      "blob": "39fcc092c37c31baa99c0b53c8ef37267dc9f69a",
+      "nonblankLines": 53
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+      "sha256": "a0464891c18fccaf47fcfec6a5f7fc4911be13c0df53d7cd6cbf3e9e6c38c28b",
+      "blob": "8353080e4e71a3c09606fb244385da93f2297e27",
+      "nonblankLines": 359
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workflowExecutor.ts",
+      "sha256": "7c07af850ebb8ab0e0b0d386957a08ff81b60d8d637f02bb23657790b9c409a1",
+      "blob": "12a9e5cf911df575c0fcdd2ece588fc76d961456",
+      "nonblankLines": 193
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workflowSteps.ts",
+      "sha256": "647abbc26255c129c78d688bd06e2ec0f13d0def9a5818c587522e09eefbcac4",
+      "blob": "7d68d47b5a436a178e93f90a5b8a1f2443a494d4",
+      "nonblankLines": 348
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workspaceReview.ts",
+      "sha256": "d88fddbcb16ef02dd381f4f2d6fe74f10e9996d0cfa9f5d51c7e73c21be176cd",
+      "blob": "f583daf41841153e515d6a8d19ab7a53ff16a3f3",
+      "nonblankLines": 259
+    },
+    {
+      "path": "packages/services/src/studio-runtime/contract.example.ts",
+      "sha256": "42651a5ce078174b168c5f25944d01c150a72a728eb8f8ee19473d992ef9a6ae",
+      "blob": "d739e8c1ddd13abcffbcfd43af5aeb9fef0f9291",
+      "nonblankLines": 20
+    },
+    {
+      "path": "packages/services/src/studio-runtime/contract.ts",
+      "sha256": "dec6323497f5f3cd00dd7396cf1670bae681b259bc324923927002879826a415",
+      "blob": "abe80df4737df00f7ded896e8cabb94b65ef6e07",
+      "nonblankLines": 123
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/capabilityMatrix.ts",
+      "sha256": "5bf45e84051de0986076ac3d120fcb5a938fa809e154d887a053072548dca80a",
+      "blob": "23b34b1022f14bed566132bfe419190256bf5ab1",
+      "nonblankLines": 247
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/condition.ts",
+      "sha256": "48c4505c331eb43f6d495b1a2b602faa398e93c665a4a7b0048b1b1a9edbed07",
+      "blob": "9b8cfc42c6df95888ef5bf1460e2735fd62d2c5f",
+      "nonblankLines": 197
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/groupPolicy.ts",
+      "sha256": "90cd307fe74110c2137c18cf659dd6f87b42e1a4da7c5cf27639fb21d39b6aa7",
+      "blob": "8b0987286c4e4c79add5c95179299013be41747d",
+      "nonblankLines": 211
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/groupPrompts.ts",
+      "sha256": "b58f8ac6c00eed3061b79a9e079589e1a7a2fa60b264c3a6584ff8513500f728",
+      "blob": "570a7db2b1dc71e5ddfe20072455736bc3507a7f",
+      "nonblankLines": 58
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelIdentity.ts",
+      "sha256": "fcf5895d3809a183b6a2034f607841bc3fa2b34315b58a7314248ff92e090c61",
+      "blob": "d22196fa6633badb63fa2e31c806841cde59ae5f",
+      "nonblankLines": 32
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelPolicy.ts",
+      "sha256": "64465c18c81d62ece1ab33a680e5f20940ab9b1f47a3d45f0ae11768c2a9ac74",
+      "blob": "6c3dfa72cb5384f462eb63d49fa9109442777135",
+      "nonblankLines": 94
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelUsage.ts",
+      "sha256": "d4e637a97e324f8028d5ca023c405029246ace03ff184c5cfba37da79731a4fb",
+      "blob": "3bf43ab60606ea7815ad6a39c80c773befd4aed3",
+      "nonblankLines": 43
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/outputBuild.ts",
+      "sha256": "24b3a45a6af6685f428babf796bc12f1bf3fade1ab285a2fa3c099d53b2ebada",
+      "blob": "a695a21544f465ba086e369477533bafda6db0ba",
+      "nonblankLines": 153
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/outputRef.ts",
+      "sha256": "53961ad22fed9e2c5361b04b15aebb677a16d6f17ed08df21862a2588ad44500",
+      "blob": "845b0c3021ae056c985f49af3e8fc5a29153c242",
+      "nonblankLines": 300
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/projectIdentity.ts",
+      "sha256": "5cb7d240f510e3ccb7d7241744a55b9b496119f697019994255b931904d256bc",
+      "blob": "7cfbd83d0c02af4d5645a8d4b0f9fc10d8af2187",
+      "nonblankLines": 7
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/reference.ts",
+      "sha256": "838d569b164dc0d94d80ff7331baf3def844c61217b599a112c8e083a02c2ccd",
+      "blob": "602b8e8d3a7d4e816a6a98204e9ca0cfd587dd6e",
+      "nonblankLines": 377
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/referencePath.ts",
+      "sha256": "a9f922cdc427de24b078595b87a86f1ba7909ffe0171a4240f110540dc4b9ecd",
+      "blob": "b344d87b2b62591b3ff7fae0055c75cd2a6f71a0",
+      "nonblankLines": 78
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/remoteAgentIdentity.ts",
+      "sha256": "0101172ace28c9dcd6b848575634e5ade7ab2da1774f857bf0b256f955a8fc9f",
+      "blob": "bdd6a15a1843faf5ddd5a134c3cd183574e2b863",
+      "nonblankLines": 12
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/stepReference.ts",
+      "sha256": "a82fcd34921532aa384dada95c232066769f7762ced06311928f2f48248e6dfb",
+      "blob": "4d9f41808b63a254c43352e8befba3edc9c7a4a5",
+      "nonblankLines": 7
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/validation.ts",
+      "sha256": "e7fc31753ec85ce69831dffadf7b38f01f429d80f76680fda16d314b157f2ebb",
+      "blob": "f543e9f2355787e1a1d2e15ad03c24ba8e0fbc7c",
+      "nonblankLines": 155
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/workflowGraph.ts",
+      "sha256": "84751a30818d5213c657cf422c6c00d2a9239dd768dd581eac52616abe6ba34c",
+      "blob": "6ca8061384154b7749f1ae8b576835a597f8b744",
+      "nonblankLines": 258
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/workflowParams.ts",
+      "sha256": "2792130994c6eb639aacbd6f2902e504605a46c4d1c4a93ef4b4b9b508abbc2e",
+      "blob": "9d481d0abaac8d3871722877136e73a794f433e8",
+      "nonblankLines": 271
+    },
+    {
+      "path": "packages/services/src/studio-runtime/kernelTypes.ts",
+      "sha256": "c67b924be755ef1955ec5fec1094c37d84efdb3a6533cd19d3fe5e866fe777e4",
+      "blob": "432740aabc03521eae11f25980213f269591621d",
+      "nonblankLines": 182
+    },
+    {
+      "path": "packages/services/src/studio-runtime/module.ts",
+      "sha256": "ecf5c19913036dbf0a8d036b9ba0bc416ceaf8f13fd643044c49e4fba2ca8d5a",
+      "blob": "f3747ee11b003ad5af00c42e895e381d6f8432ec",
+      "nonblankLines": 6
+    },
+    {
+      "path": "packages/services/src/studio-runtime/node.ts",
+      "sha256": "ca5da326a2d89496ed168e0468a57b245046debc8c0175eb7aca75b243641edc",
+      "blob": "ed9d2b05d5908279777a1f1e37f9ff8e1db32d50",
+      "nonblankLines": 96
+    },
+    {
+      "path": "packages/services/src/studio-runtime/types.ts",
+      "sha256": "6022439cb1069513713581db349ff3d5cb5176ca705c7524de0d7cd69939118a",
+      "blob": "0471bd6e5f9ffdb26a443fee9d7a1e9e7deb3eb6",
+      "nonblankLines": 227
+    },
+    {
+      "path": "packages/services/src/studio-runtime/workflowTypes.ts",
+      "sha256": "e02da6ef13106099462f31cd9535733536d777149a718d97306fbca524523ddd",
+      "blob": "22efdda32e66db715b7332a4fb9d830139dfeb6a",
+      "nonblankLines": 143
+    }
+  ],
+  "provisionalOwners": [
+    {
+      "path": "packages/services/src/session/automationService.ts",
+      "currentInventory": {
+        "path": "packages/services/src/session/automationService.ts",
+        "kind": "file",
+        "sha256": "c9e88cd1fe3c85ca6382df23c98c2bd9fb4998a2dc3f03f754d73353f338d963",
+        "normalizedSha256": "c9e88cd1fe3c85ca6382df23c98c2bd9fb4998a2dc3f03f754d73353f338d963",
+        "encoding": "utf8-lf",
+        "bytes": 17843,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/session/automationService.ts",
+          "blob": "4b4d28e94b04d201586f80c5e88576a41e5157e8",
+          "normalizedSha256": "021d265cc951242e70c71d53ba2250547fb4a36b79fb4bc5a2404c45d7f0bc7c",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "migrationDecision": {
+        "path": "packages/services/src/session/automationService.ts",
+        "sha256": "c9e88cd1fe3c85ca6382df23c98c2bd9fb4998a2dc3f03f754d73353f338d963",
+        "classification": "upstream-modified",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      },
+      "availableExactReceiptReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ],
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+      "currentInventory": {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+        "kind": "file",
+        "sha256": "1e758c09ab99d77cbbaaaca5bf6c5bbdace2ba72d164017f46cc98b98e066b47",
+        "normalizedSha256": "1e758c09ab99d77cbbaaaca5bf6c5bbdace2ba72d164017f46cc98b98e066b47",
+        "encoding": "utf8-lf",
+        "bytes": 13046,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+          "blob": "34eab7960c6560290ebc4bf58fd61739f9354b60",
+          "normalizedSha256": "eb6a3eca933e24a91da25294ce1c907ad0f5b7ca1ebaaae30c50642936954d1d",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "migrationDecision": {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+        "sha256": "1e758c09ab99d77cbbaaaca5bf6c5bbdace2ba72d164017f46cc98b98e066b47",
+        "classification": "upstream-modified",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      },
+      "availableExactReceiptReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ],
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+      "currentInventory": {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+        "kind": "file",
+        "sha256": "bd270af9291e798be53c13508ccff9b7c443fda37a838019b6b03923a3501b4f",
+        "normalizedSha256": "bd270af9291e798be53c13508ccff9b7c443fda37a838019b6b03923a3501b4f",
+        "encoding": "utf8-lf",
+        "bytes": 9937,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+          "blob": "2adeb4284d11aacc4ef03c4e78fc990e66c93e75",
+          "normalizedSha256": "5ac59b845044677a73a3b86f282ec6cea6175b75cc51c4231848bcf8628ccae2",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "migrationDecision": {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+        "sha256": "bd270af9291e798be53c13508ccff9b7c443fda37a838019b6b03923a3501b4f",
+        "classification": "upstream-modified",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      },
+      "availableExactReceiptReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ],
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+      "currentInventory": {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+        "kind": "file",
+        "sha256": "bf7fb79b66374214b353fcbb9ddaf73dba526ac593cd0b24959a02a9ec57333e",
+        "normalizedSha256": "bf7fb79b66374214b353fcbb9ddaf73dba526ac593cd0b24959a02a9ec57333e",
+        "encoding": "utf8-lf",
+        "bytes": 6704,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+          "blob": "c7d81b084e43c44495334602abed33fb3fbda19b",
+          "normalizedSha256": "8cc1f44e351ab1b18d5271c0827cb69758abfff920a7c2058e9d3e77bbd2bc78",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "migrationDecision": {
+        "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+        "sha256": "bf7fb79b66374214b353fcbb9ddaf73dba526ac593cd0b24959a02a9ec57333e",
+        "classification": "upstream-modified",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      },
+      "availableExactReceiptReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ],
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+      "currentInventory": {
+        "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+        "kind": "file",
+        "sha256": "95ce4e4d14a0cf2d52bd0d66da93d09b7be34b57bbcebd773a9a1111271716a2",
+        "normalizedSha256": "95ce4e4d14a0cf2d52bd0d66da93d09b7be34b57bbcebd773a9a1111271716a2",
+        "encoding": "utf8-lf",
+        "bytes": 8031,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+          "blob": "9753d912d6b479abd11b00a4751338eb1c5dec98",
+          "normalizedSha256": "ee146c996ee9644fce7fdb42c9ea817bd9dd3dc37721960ee67e6f1ef4559dfa",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "migrationDecision": {
+        "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+        "sha256": "95ce4e4d14a0cf2d52bd0d66da93d09b7be34b57bbcebd773a9a1111271716a2",
+        "classification": "upstream-modified",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      },
+      "availableExactReceiptReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ],
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
+    }
+  ],
+  "receiptInputs": [
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "licensing/evidence/repository-migration-scope-20260930.json",
+      "sha256": "8fe0751039d5e69e600984f506d04f9ad5a3949ae6f2def02b7a8c3db0d7b644"
+    },
+    {
+      "path": "licensing/evidence/standard-integration-validation-20260930.json",
+      "sha256": "53185c5172b395d467d193e79a6a50de50eb95ae88792c155f091067421d6e6e"
+    },
+    {
+      "path": "licensing/evidence/services-current-matrix-root-review-20261001.json",
+      "sha256": "f096a3c816678ea5b52dd1ff73fa9bc99ff8ef60d091db69e68a6675f2959dcd"
+    },
+    {
+      "path": "licensing/evidence/git-agent-root-review-20261001.json",
+      "sha256": "507eb1bd2150d138c1d86c3a287e5ea885c9b1021ba09aedea1ffeb463a40f02"
+    }
+  ],
+  "holds": {
+    "missingIgnore": "prior file-consumer unresolved dependency, no install/workaround",
+    "commitMessageFileScope": {
+      "localPredecessorSha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "rootAcceptedSha256": "ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761",
+      "rootAcceptedBlob": "69e43f4ce19a30ea185ba99ffb284ac0d798c6f8",
+      "rootReceipt": "licensing/evidence/commit-message-scope-independent-replacement-20261001.json",
+      "state": "local predecessor unchanged; no copying/reauthoring; later parent integration reconciles root accepted source"
+    }
+  },
+  "rootBindingResolution": {
+    "sourceThread": "01a0f025-c78c-7401-9ad2-a524f08d50e5",
+    "exactOwnerHashesMatch": true,
+    "rootExactReviews": 0,
+    "rootBoundedReceiptSearch": "only repository-migration-scope binds exact five hashes upstream-modified behavior/expression review; no later exact-owner replacement present",
+    "allocation": "proceed complete independent five; not legal acceptance",
+    "specCommit": "878dc8f",
+    "sourceStatus": "implemented with bounded synthetic safety checks, scoped type dependency failures preserved"
+  }
+}

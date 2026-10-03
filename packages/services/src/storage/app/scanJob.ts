@@ -1,7 +1,3 @@
-/**
- * 单次扫描 job：持有 AbortController，把 runner 的进度节流成 ≥ throttleMs 一次的快照事件，
- * 终态（complete / cancelled / failed）必发。状态只能 scanning → 终态。
- */
 import type { StorageRootSpec, StorageUsageSnapshot } from "@knorvia/shared";
 import type { ScanRunnerPort, StorageScanProgress } from "./ports.js";
 
@@ -13,6 +9,13 @@ export interface ScanJob {
 
 export function isAbortError(error: unknown): boolean {
   return error instanceof Error && error.name === "AbortError";
+}
+
+function errorCode(error: unknown): string {
+  if (error && typeof error === "object" && "code" in error && typeof error.code === "string") {
+    return error.code;
+  }
+  return error instanceof Error ? error.name : "UNKNOWN";
 }
 
 export function createScanJob(params: {
@@ -48,13 +51,16 @@ export function createScanJob(params: {
   let pendingTimer: unknown = null;
   let settled = false;
 
-  const flush = () => {
+  const flush = (): void => {
     pendingTimer = null;
     lastEmitAt = now();
     emit(latest);
   };
-  const onProgress = (progress: StorageScanProgress) => {
-    if (settled) return;
+
+  const onProgress = (progress: StorageScanProgress): void => {
+    if (settled) {
+      return;
+    }
     latest = { ...latest, roots: progress.roots, errors: progress.errors };
     const elapsed = now() - lastEmitAt;
     if (elapsed >= throttleMs) {
@@ -63,7 +69,8 @@ export function createScanJob(params: {
       pendingTimer = setTimer(flush, throttleMs - elapsed);
     }
   };
-  const settle = (snapshot: StorageUsageSnapshot) => {
+
+  const settle = (snapshot: StorageUsageSnapshot): StorageUsageSnapshot => {
     settled = true;
     if (pendingTimer != null) {
       clearTimer(pendingTimer);
@@ -99,13 +106,8 @@ export function createScanJob(params: {
   return {
     jobId,
     done,
-    cancel: () => controller.abort(),
+    cancel() {
+      controller.abort();
+    },
   };
-}
-
-function errorCode(error: unknown): string {
-  if (error && typeof error === "object" && "code" in error && typeof error.code === "string") {
-    return error.code;
-  }
-  return error instanceof Error ? error.name : "UNKNOWN";
 }

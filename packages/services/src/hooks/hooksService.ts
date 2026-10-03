@@ -1,5 +1,8 @@
-import { createServiceLogger, type ServiceLogger } from "#src/logger/serviceLogger.js";
-import { getKnorviaDataRootDir } from "#src/paths.js";
+import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
+import { homedir } from "node:os";
+import { isAbsolute, join, resolve } from "node:path";
+
 import type {
   Hook,
   HookEvent,
@@ -12,15 +15,14 @@ import {
   readWorkspaceHookProjectSources,
   resolveWorkspaceHookRuntimeRoot,
   workspaceHooksConfigSchema,
-  type WorkspaceHookBundleSnapshotData,
   type WorkspaceHookSourceInput,
   type WorkspaceHooksConfig,
 } from "@knorvia/shared/workspace-hook-discovery";
 import { parseWorkspaceHookTrustStoreContent } from "@knorvia/shared/workspace-hook-trust-store-file";
-import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
-import { homedir } from "node:os";
-import { isAbsolute, join, resolve } from "node:path";
+
+import { createServiceLogger, type ServiceLogger } from "#src/logger/serviceLogger.js";
+import { getKnorviaDataRootDir } from "#src/paths.js";
+
 import type { IHooksService } from "./hooks.js";
 import { atomicWriteWorkspaceHookConfig } from "./workspaceHookConfigMutation.js";
 import {
@@ -32,51 +34,38 @@ import {
   type LegacyHooksConfig,
 } from "./workspaceHookSettingsModel.js";
 
-const SETTINGS_FILE = "settings.json";
-const KNORVIA_CONFIG_FILE = "config.json";
-const HOOK_EVENTS: readonly HookEvent[] = [
-  "SessionStart",
-  "UserPromptSubmit",
-  "PreToolUse",
-  "PermissionRequest",
-  "PostToolUse",
-  "PostToolUseFailure",
-  "Stop",
-];
-
 interface KnorviaConfigFile {
   hooks?: WorkspaceHooksConfig;
   [key: string]: unknown;
 }
 
-function resolveUserHomeDir(): string {
-  const envHome = process.env.HOME?.trim() || process.env.USERPROFILE?.trim();
-  return envHome && envHome.length > 0 ? envHome : homedir();
+function homeDirectory(): string {
+  return process.env.HOME?.trim() || process.env.USERPROFILE?.trim() || homedir();
 }
 
-function getRootDir(source: SettingsDirectorySource, workspacePath?: string): string {
-  const baseDir = workspacePath ?? resolveUserHomeDir();
+function sourceDirectory(source: SettingsDirectorySource, workspacePath?: string): string {
+  const base = workspacePath ?? homeDirectory();
   if (source === "knorvia") {
-    return workspacePath ? join(baseDir, ".knorvia-studio") : join(getKnorviaDataRootDir(), "cli");
+    return workspacePath ? join(base, ".knorvia-studio") : join(getKnorviaDataRootDir(), "cli");
   }
-  return join(baseDir, source === "agents" ? ".agents" : ".claude");
+  return join(base, source === "agents" ? ".agents" : ".claude");
 }
 
-function getConfigPath(source: SettingsDirectorySource, workspacePath?: string): string {
+function configPath(source: SettingsDirectorySource, workspacePath?: string): string {
   return join(
-    getRootDir(source, workspacePath),
-    source === "knorvia" ? KNORVIA_CONFIG_FILE : SETTINGS_FILE,
+    sourceDirectory(source, workspacePath),
+    source === "knorvia" ? "config.json" : "settings.json",
   );
 }
 
-function buildLocation(
+function location(
   source: SettingsDirectorySource,
   workspacePath?: string,
 ): SettingsDirectoryLocation {
   return {
     source,
     scope: workspacePath ? "project" : "user",
-    directoryPath: getRootDir(source, workspacePath),
+    directoryPath: sourceDirectory(source, workspacePath),
     ...(workspacePath ? { projectPath: workspacePath } : {}),
   };
 }
@@ -85,33 +74,39 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function isHookEvent(value: string): value is HookEvent {
-  return (HOOK_EVENTS as readonly string[]).includes(value);
-}
-
-function isNodeError(error: unknown, code: string): error is NodeJS.ErrnoException {
-  return error instanceof Error && "code" in error && error.code === code;
-}
-
-async function readJsonFile<T>(filePath: string): Promise<T | null> {
+async function readJson<T>(path: string): Promise<T | null> {
   try {
-    if (!existsSync(filePath)) return null;
-    const parsed = JSON.parse(await readFile(filePath, "utf8")) as unknown;
-    return isRecord(parsed) ? (parsed as T) : null;
+    if (!existsSync(path)) return null;
+    const value: unknown = JSON.parse(await readFile(path, "utf8"));
+    return isRecord(value) ? (value as T) : null;
   } catch {
     return null;
   }
 }
 
-async function readUserKnorviaSource(): Promise<WorkspaceHookSourceInput | undefined> {
-  const path = getConfigPath("knorvia");
-  const config = await readJsonFile<Record<string, unknown>>(path);
+const hookEvents: ReadonlySet<string> = new Set([
+  "SessionStart",
+  "UserPromptSubmit",
+  "PreToolUse",
+  "PermissionRequest",
+  "PostToolUse",
+  "PostToolUseFailure",
+  "Stop",
+]);
+
+function isHookEvent(value: string): value is HookEvent {
+  return hookEvents.has(value);
+}
+
+async function userSource(): Promise<WorkspaceHookSourceInput | undefined> {
+  const path = configPath("knorvia");
+  const config = await readJson<Record<string, unknown>>(path);
   const parsed = workspaceHooksConfigSchema.safeParse(config?.hooks);
   if (!parsed.success) return undefined;
   return {
     ...createWorkspaceHookSourceInput({
       path,
-      workingDirectory: resolveUserHomeDir(),
+      workingDirectory: homeDirectory(),
       hooks: parsed.data,
       discoveryOrder: 0,
       explicitProjectConfig: true,
@@ -120,46 +115,14 @@ async function readUserKnorviaSource(): Promise<WorkspaceHookSourceInput | undef
   };
 }
 
-async function loadLegacyHooksFromLocation(
-  source: "agents" | "claude",
-  workspacePath?: string,
-): Promise<Hook[]> {
-  return fromLegacyHooksConfig({
-    legacyConfig: await readJsonFile<LegacyHooksConfig>(getConfigPath(source, workspacePath)),
-    location: buildLocation(source, workspacePath),
-    isHookEvent,
-  });
-}
-
-/**
- * 读取持久化 workspace hook trust digest 集合。
- *
- * 整个函数不能包在 `try { ... } catch { return new Set(); }` 里：
- * 文件损坏/不可读与「无 trust 记录」无法区分且零诊断。根因：trust store 读取失败被
- * 吞掉后，调用方只能把所有 hook 标记为 `pending_trust`（"需要审核"），而 Runtime 侧
- * 对 trust store 损坏显式检测并以 `blocked_untrusted` 硬拦截——用户看到一条审核入口
- * 但无论怎样审批，Runtime 都不会放行。此为展示/运行时分歧（两侧均 fail-closed）。
- *
- * 手写的局部字段校验（isRecord + digest 正则）与 runtime/adapters
- * 使用的完整 strict schema 结论不一致——"JSON 合法但结构非法"（缺 schemaVersion、
- * 非法 decision、非法时间戳、未知字段等）的文件会被本层当作部分可信，runtime 却判
- * corrupt 全部阻断，UI 展示"已信任"而 Hook 永不执行。信任存储是权限边界，所有消费
- * 者必须对同一文件得出同一结论：改用 shared 的
- * parseWorkspaceHookTrustStoreContent（contracts schema 的单一权威下沉实现），
- * 任何 parse 失败一律 corrupt + fail-closed，不返回任何部分 digest。
- *
- * 注意：存储目录解析（storage.dir 的 ~/、相对路径处理）与 Runtime 侧
- * resolveWorkspaceHookTrustStorePath（adapters）逻辑等价但各自内联——架构上 services
- * 不应反向依赖 adapters，统一需下沉到 shared 层，此处仅记录该重复。
- */
-async function readPersistentWorkspaceHookTrustDigests(
+async function persistentTrust(
   workspaceIdentity: string,
   logger: ServiceLogger,
 ): Promise<{ digests: Set<string>; corrupt: boolean }> {
-  const userConfig = (await readJsonFile<Record<string, unknown>>(getConfigPath("knorvia"))) ?? {};
-  const storage = isRecord(userConfig.storage) ? userConfig.storage : {};
+  const config = (await readJson<Record<string, unknown>>(configPath("knorvia"))) ?? {};
+  const storage: Record<string, unknown> = isRecord(config.storage) ? config.storage : {};
   const configured = typeof storage.dir === "string" ? storage.dir.trim() : "";
-  const home = resolveUserHomeDir();
+  const home = homeDirectory();
   const storageRoot =
     configured && !process.env.KNORVIA_PORTABLE_DIR?.trim()
       ? configured.startsWith("~/")
@@ -168,136 +131,125 @@ async function readPersistentWorkspaceHookTrustDigests(
           ? resolve(configured)
           : resolve(home, configured)
       : getKnorviaDataRootDir();
-  const trustFilePath = join(storageRoot, "security", "workspace-hook-trust-v1.json");
-
-  // 异步读取 + ENOENT 区分：不用 existsSync 预检——同步调用会阻塞服务
-  // 线程，且「检查→读取」之间存在 TOCTOU 窗口；readFile 的 ENOENT 本身就是
-  // 权威的"文件不存在"信号。
+  const path = join(storageRoot, "security", "workspace-hook-trust-v1.json");
   let content: string;
   try {
-    content = await readFile(trustFilePath, "utf8");
+    content = await readFile(path, "utf8");
   } catch (error) {
-    if (isNodeError(error, "ENOENT")) {
-      // 文件不存在 ⇒ 合理无记录，返回空集且不标记 corrupt。
-      return { digests: new Set<string>(), corrupt: false };
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") {
+      return { digests: new Set(), corrupt: false };
     }
-    // services 层曾直接 console.warn，无法进入统一服务日志文件，也无法在
-    // 测试中注入 sink。改用可注入 ServiceLogger；此为低频可恢复降级，使用 warn。
     logger.warn(
       undefined,
       "Workspace Hook Trust store 不可读，已 fail-closed 忽略全部持久信任记录",
       {
-        path: trustFilePath,
+        path,
         error: error instanceof Error ? error.message : String(error),
       },
     );
-    return { digests: new Set<string>(), corrupt: true };
+    return { digests: new Set(), corrupt: true };
   }
-
-  // JSON 语法错误与 schema 校验失败统一判 corrupt（与 runtime/adapters 同判）。
-  const parsedStore = parseWorkspaceHookTrustStoreContent(content);
-  if (parsedStore.status === "invalid") {
+  const parsed = parseWorkspaceHookTrustStoreContent(content);
+  if (parsed.status === "invalid") {
     logger.warn(
       undefined,
       "Workspace Hook Trust store 结构不符合 schema，已 fail-closed 忽略全部持久信任记录",
-      { path: trustFilePath },
+      {
+        path,
+      },
     );
-    return { digests: new Set<string>(), corrupt: true };
+    return { digests: new Set(), corrupt: true };
   }
-
-  const digests = new Set<string>(
-    parsedStore.file.records
-      .filter((record) => record.workspaceIdentity === workspaceIdentity)
-      .map((record) => record.hookDeclarationDigest),
-  );
-  return { digests, corrupt: false };
+  return {
+    digests: new Set(
+      parsed.file.records
+        .filter((record) => record.workspaceIdentity === workspaceIdentity)
+        .map((record) => record.hookDeclarationDigest),
+    ),
+    corrupt: false,
+  };
 }
 
-async function loadHooksImpl(
-  params: {
-    workspaceIdentity?: string;
-    workspacePath: string;
-  },
+async function legacyHooks(source: "agents" | "claude", workspacePath?: string): Promise<Hook[]> {
+  const legacyConfig = await readJson<LegacyHooksConfig>(configPath(source, workspacePath));
+  return fromLegacyHooksConfig({
+    legacyConfig,
+    location: location(source, workspacePath),
+    isHookEvent,
+  });
+}
+
+async function loadHooks(
+  params: Parameters<IHooksService["loadHooks"]>[0],
   logger: ServiceLogger,
-): Promise<{
-  hooks: Hook[];
-  hooksEnabled: boolean;
-  workspaceHookSnapshot?: WorkspaceHookBundleSnapshotData;
-}> {
+): ReturnType<IHooksService["loadHooks"]> {
   const workspacePath = resolve(params.workspacePath);
   const workspaceIdentity = params.workspaceIdentity?.trim() || workspacePath;
-  const [{ sources: projectSources }, userSource] = await Promise.all([
+  const [project, user] = await Promise.all([
     readWorkspaceHookProjectSources({ workingDirectory: workspacePath }),
-    readUserKnorviaSource(),
+    userSource(),
   ]);
+  const sources = project.sources;
   const runtimeRoot = resolveWorkspaceHookRuntimeRoot([
-    userSource?.hooks,
-    ...projectSources.map((source) => source.hooks),
+    user?.hooks,
+    ...sources.map((source) => source.hooks),
   ]);
-  const workspaceHookSnapshot = buildWorkspaceHookBundleSnapshot({
+  const snapshot = buildWorkspaceHookBundleSnapshot({
     workspaceIdentity,
     workspacePath,
-    sources: projectSources,
+    sources,
     runtimeRoot,
   });
-  const persistentTrust = await readPersistentWorkspaceHookTrustDigests(workspaceIdentity, logger);
-  const persistentTrustedDigests = persistentTrust.digests;
-  const hooks = [
+  const trust = await persistentTrust(workspaceIdentity, logger);
+  const hooks: Hook[] = [
     ...fromProjectSnapshot({
-      sources: projectSources,
-      snapshot: workspaceHookSnapshot,
+      sources,
+      snapshot,
       workspaceIdentity,
       workspacePath,
-      persistentTrustedDigests,
+      persistentTrustedDigests: trust.digests,
     }),
-    ...(await loadLegacyHooksFromLocation("agents", workspacePath)),
-    ...(await loadLegacyHooksFromLocation("claude", workspacePath)),
+    ...(await legacyHooks("agents", workspacePath)),
+    ...(await legacyHooks("claude", workspacePath)),
     ...fromUserKnorviaSource({
-      source: userSource,
+      source: user,
       runtimeRoot,
       workspacePath,
-      location: buildLocation("knorvia"),
+      location: location("knorvia"),
     }),
-    ...(await loadLegacyHooksFromLocation("agents")),
-    ...(await loadLegacyHooksFromLocation("claude")),
+    ...(await legacyHooks("agents")),
+    ...(await legacyHooks("claude")),
   ];
   return {
     hooks,
     hooksEnabled: hooks.some((hook) => hook.enabled),
-    ...(workspaceHookSnapshot ? { workspaceHookSnapshot } : {}),
-    ...(persistentTrust.corrupt ? { trustStoreCorrupt: true } : {}),
+    ...(snapshot ? { workspaceHookSnapshot: snapshot } : {}),
+    ...(trust.corrupt ? { trustStoreCorrupt: true } : {}),
   };
 }
 
-async function writeKnorviaHooksConfig(
-  workspacePath: string | undefined,
-  hooks: Hook[],
-): Promise<void> {
-  const configPath = getConfigPath("knorvia", workspacePath);
-  const existingConfig = (await readJsonFile<KnorviaConfigFile>(configPath)) ?? {};
-  const enabled = resolveNextRootEnabled(existingConfig.hooks?.enabled, hooks);
-  await atomicWriteWorkspaceHookConfig(configPath, {
-    ...existingConfig,
+async function writeConfig(workspacePath: string | undefined, hooks: Hook[]): Promise<void> {
+  const path = configPath("knorvia", workspacePath);
+  const config = (await readJson<KnorviaConfigFile>(path)) ?? {};
+  const enabled = resolveNextRootEnabled(config.hooks?.enabled, hooks);
+  await atomicWriteWorkspaceHookConfig(path, {
+    ...config,
     hooks: {
-      ...existingConfig.hooks,
+      ...config.hooks,
       ...(enabled !== undefined ? { enabled } : {}),
       events: toKnorviaHooksEvents(hooks),
     },
   });
 }
 
-async function saveHooksImpl(params: {
-  workspaceIdentity?: string;
-  workspacePath: string;
-  hooks: Hook[];
-}): Promise<void> {
+async function saveHooks(params: Parameters<IHooksService["saveHooks"]>[0]): Promise<void> {
   const currentProjectConfigPath = resolve(params.workspacePath, ".knorvia-studio", "config.json");
-  const userHooks = params.hooks.filter(
+  const user = params.hooks.filter(
     (hook) =>
       hook.editable !== false &&
       (!hook.location || (hook.location.source === "knorvia" && hook.location.scope === "user")),
   );
-  const projectHooks = params.hooks.filter(
+  const project = params.hooks.filter(
     (hook) =>
       hook.editable !== false &&
       hook.location?.source === "knorvia" &&
@@ -305,8 +257,8 @@ async function saveHooksImpl(params: {
       (!hook.configuredState ||
         resolve(hook.configuredState.sourcePath) === currentProjectConfigPath),
   );
-  await writeKnorviaHooksConfig(undefined, userHooks);
-  await writeKnorviaHooksConfig(params.workspacePath, projectHooks);
+  await writeConfig(undefined, user);
+  await writeConfig(params.workspacePath, project);
 }
 
 export function createHooksService(
@@ -317,8 +269,8 @@ export function createHooksService(
 ): IHooksService {
   const logger = options.logger ?? createServiceLogger("hooks-service");
   return {
-    loadHooks: (params) => loadHooksImpl(params, logger),
-    saveHooks: saveHooksImpl,
+    loadHooks: (params) => loadHooks(params, logger),
+    saveHooks,
     ...(options.grantWorkspaceHookTrust
       ? { grantWorkspaceHookTrust: options.grantWorkspaceHookTrust }
       : {}),

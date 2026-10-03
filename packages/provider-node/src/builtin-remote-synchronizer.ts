@@ -49,7 +49,7 @@ interface RefreshControl {
 export class KnorviaBuiltinRemoteSynchronizer {
   readonly #options: KnorviaBuiltinRemoteSynchronizerOptions;
   readonly #now: () => number;
-  #inFlight: Promise<KnorviaBuiltinRefreshResult> | null = null;
+  #inflight: Promise<KnorviaBuiltinRefreshResult> | null = null;
   #disposed = false;
   #abortController: AbortController | null = null;
 
@@ -59,18 +59,24 @@ export class KnorviaBuiltinRemoteSynchronizer {
   }
 
   refresh(options: { readonly force?: boolean } = {}): Promise<KnorviaBuiltinRefreshResult> {
-    if (this.#disposed) return Promise.resolve("disposed");
-    if (this.#inFlight) return this.#inFlight;
+    if (this.#disposed) {
+      return Promise.resolve("disposed");
+    }
+    if (this.#inflight) {
+      return this.#inflight;
+    }
+
     const controller = new AbortController();
     this.#abortController = controller;
-    const refresh = this.#refresh(options.force === true, controller.signal).finally(() => {
-      if (this.#inFlight === refresh) {
-        this.#inFlight = null;
+    const force = options.force === true;
+    const promise = this.#refreshInternal(force, controller.signal).finally(() => {
+      if (this.#inflight === promise) {
+        this.#inflight = null;
         this.#abortController = null;
       }
     });
-    this.#inFlight = refresh;
-    return refresh;
+    this.#inflight = promise;
+    return promise;
   }
 
   dispose(): void {
@@ -78,27 +84,43 @@ export class KnorviaBuiltinRemoteSynchronizer {
     this.#abortController?.abort();
   }
 
-  async #refresh(force: boolean, signal: AbortSignal): Promise<KnorviaBuiltinRefreshResult> {
-    const endpointKey = (await this.#options.resolveEndpointKey()).trim();
-    if (this.#disposed) return "disposed";
-    if (!endpointKey) throw new Error("Knorvia Studio Built-in 远端 Endpoint 不能为空");
+  async #refreshInternal(
+    force: boolean,
+    signal: AbortSignal,
+  ): Promise<KnorviaBuiltinRefreshResult> {
+    const endpoint = (await this.#options.resolveEndpointKey()).trim();
+    if (this.#disposed) {
+      return "disposed";
+    }
+    if (!endpoint) {
+      throw new Error("Knorvia Studio Built-in 远端 Endpoint 不能为空");
+    }
+
     const leaseId = randomUUID();
-    const acquired = await withFileLock(this.#options.controlFilePath, async () => {
-      const now = this.#now();
-      const current = await readControl(this.#options.controlFilePath);
-      const sameEndpoint = current.endpointKey === endpointKey;
-      if (sameEndpoint && current.leaseUntil > now) return "lease-held" as const;
-      if (!force && sameEndpoint && current.nextEligibleAt > now) return "not-due" as const;
-      await writeControl(this.#options.controlFilePath, {
-        schemaVersion: 1,
-        endpointKey,
-        leaseId,
-        leaseUntil: now + (this.#options.leaseDurationMs ?? 30_000),
-        nextEligibleAt: sameEndpoint ? current.nextEligibleAt : 0,
-        failureCount: sameEndpoint ? current.failureCount : 0,
-      });
-      return true;
-    });
+    const acquired = await withFileLock(
+      this.#options.controlFilePath,
+      async (): Promise<true | "lease-held" | "not-due"> => {
+        const now = this.#now();
+        const current = await readControl(this.#options.controlFilePath);
+        const same = current.endpointKey === endpoint;
+        if (same && current.leaseUntil > now) {
+          return "lease-held";
+        }
+        if (!force && same && current.nextEligibleAt > now) {
+          return "not-due";
+        }
+        await writeControl(this.#options.controlFilePath, {
+          schemaVersion: 1,
+          endpointKey: endpoint,
+          leaseId,
+          leaseUntil: now + (this.#options.leaseDurationMs ?? 30000),
+          nextEligibleAt: same ? current.nextEligibleAt : 0,
+          failureCount: same ? current.failureCount : 0,
+        });
+        return true;
+      },
+    );
+
     if (acquired !== true) {
       this.#report({ result: "skipped", reason: acquired });
       return "skipped";
@@ -106,46 +128,55 @@ export class KnorviaBuiltinRemoteSynchronizer {
 
     try {
       signal.throwIfAborted();
-      const release = await this.#options.fetchRelease(endpointKey, signal);
+      const release = await this.#options.fetchRelease(endpoint, signal);
       if (this.#disposed) {
-        await this.#finishLease(endpointKey, leaseId, "cancelled");
+        await this.#finishLease(endpoint, leaseId, "cancelled");
         return "disposed";
       }
-      const currentEndpointKey = (await this.#options.resolveEndpointKey()).trim();
+
+      const nextEndpoint = (await this.#options.resolveEndpointKey()).trim();
       signal.throwIfAborted();
-      if (currentEndpointKey !== endpointKey) {
-        await this.#finishLease(endpointKey, leaseId, true);
+      if (nextEndpoint !== endpoint) {
+        await this.#finishLease(endpoint, leaseId, true);
         this.#report({ result: "skipped", reason: "endpoint-changed" });
         return "skipped";
       }
+
       const result = release ? await this.#options.source.applyRemoteRelease(release) : "missing";
-      await this.#finishLease(endpointKey, leaseId, true);
+      await this.#finishLease(endpoint, leaseId, true);
       this.#report({ result, ...(release ? { revision: release.revision } : {}) });
       return result;
     } catch (error) {
-      await this.#finishLease(endpointKey, leaseId, this.#disposed ? "cancelled" : false);
-      if (this.#disposed) return "disposed";
+      await this.#finishLease(endpoint, leaseId, this.#disposed ? "cancelled" : false);
+      if (this.#disposed) {
+        return "disposed";
+      }
       throw error;
     }
   }
 
   #report(event: KnorviaBuiltinRefreshEvent): void {
-    if (this.#disposed) return;
+    if (this.#disposed) {
+      return;
+    }
     try {
       this.#options.onRefreshResult?.(event);
     } catch {
-      /* 日志不能把成功应用改成下载失败。 */
+      // A reporting callback does not determine the refresh outcome.
     }
   }
 
   async #finishLease(
-    endpointKey: string,
+    endpoint: string,
     leaseId: string,
     success: boolean | "cancelled",
   ): Promise<void> {
     await withFileLock(this.#options.controlFilePath, async () => {
       const current = await readControl(this.#options.controlFilePath);
-      if (current.endpointKey !== endpointKey || current.leaseId !== leaseId) return;
+      if (current.endpointKey !== endpoint || current.leaseId !== leaseId) {
+        return;
+      }
+
       const failureCount =
         success === "cancelled" ? current.failureCount : success ? 0 : current.failureCount + 1;
       const delay =
@@ -154,12 +185,12 @@ export class KnorviaBuiltinRemoteSynchronizer {
           : success
             ? (this.#options.successIntervalMs ?? HOUR_MS)
             : Math.min(
-                (this.#options.failureBaseDelayMs ?? 60_000) * 2 ** Math.max(0, failureCount - 1),
+                (this.#options.failureBaseDelayMs ?? 60000) * 2 ** Math.max(0, failureCount - 1),
                 this.#options.failureMaxDelayMs ?? HOUR_MS,
               );
       await writeControl(this.#options.controlFilePath, {
         schemaVersion: 1,
-        endpointKey,
+        endpointKey: endpoint,
         leaseUntil: 0,
         nextEligibleAt: this.#now() + delay,
         failureCount,
@@ -173,45 +204,46 @@ async function readControl(filePath: string): Promise<RefreshControl> {
   try {
     raw = await readFile(filePath, "utf8");
   } catch (error) {
-    if (isFileNotFound(error)) return emptyControl();
+    if (typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT") {
+      return emptyControl();
+    }
     throw error;
   }
+
   try {
-    const input = JSON.parse(raw) as unknown;
-    return isRefreshControl(input) ? input : emptyControl();
+    const parsed: unknown = JSON.parse(raw);
+    return isRefreshControl(parsed) ? parsed : emptyControl();
   } catch {
-    // 控制文件不是业务事实；进程崩溃留下的损坏内容在锁内重建，不能永久阻断刷新。
     return emptyControl();
   }
-}
-
-function emptyControl(): RefreshControl {
-  return { schemaVersion: 1, endpointKey: "", leaseUntil: 0, nextEligibleAt: 0, failureCount: 0 };
 }
 
 function writeControl(filePath: string, control: RefreshControl): Promise<void> {
   return atomicWritePrivateTextFile(filePath, JSON.stringify(control, null, 2));
 }
 
-function isRefreshControl(input: unknown): input is RefreshControl {
-  if (typeof input !== "object" || input === null || Array.isArray(input)) return false;
-  const value = input as Record<string, unknown>;
+function isRefreshControl(value: unknown): value is RefreshControl {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+  const control = value as Record<string, unknown>;
   return (
-    value.schemaVersion === 1 &&
-    typeof value.endpointKey === "string" &&
-    (value.leaseId === undefined || typeof value.leaseId === "string") &&
-    typeof value.leaseUntil === "number" &&
-    typeof value.nextEligibleAt === "number" &&
-    Number.isInteger(value.failureCount) &&
-    (value.failureCount as number) >= 0
+    control.schemaVersion === 1 &&
+    typeof control.endpointKey === "string" &&
+    (control.leaseId === undefined || typeof control.leaseId === "string") &&
+    typeof control.leaseUntil === "number" &&
+    typeof control.nextEligibleAt === "number" &&
+    Number.isInteger(control.failureCount) &&
+    (control.failureCount as number) >= 0
   );
 }
 
-function isFileNotFound(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    (error as { code?: unknown }).code === "ENOENT"
-  );
+function emptyControl(): RefreshControl {
+  return {
+    schemaVersion: 1,
+    endpointKey: "",
+    leaseUntil: 0,
+    nextEligibleAt: 0,
+    failureCount: 0,
+  };
 }

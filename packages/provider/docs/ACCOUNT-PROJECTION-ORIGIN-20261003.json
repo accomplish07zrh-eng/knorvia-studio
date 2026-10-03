@@ -1,0 +1,182 @@
+{
+  "acceptedPredecessor": "bd9628b338431e4710508e22f3d652a97b6ffcec",
+  "path": "packages/provider/src/account-provider-resolution.ts",
+  "currentSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+  "bytes": 6845,
+  "parentHashText": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f",
+  "hashQualification": "Parent text62chars omitted final9f; actual64chars/current/accepted/root snapshot/inventory all equal6845bytes. Initial strict parent text assertion fails before source/network/edit. Full actual inventory SHA bound, no source discrepancy.",
+  "inventory": {
+    "path": "packages/provider/src/account-provider-resolution.ts",
+    "kind": "file",
+    "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+    "normalizedSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+    "encoding": "utf8-lf",
+    "bytes": 6845,
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "packages/provider/src/account-provider-resolution.ts",
+      "blob": "a9a097c8224ea514e982fb0109ff85766088e154",
+      "normalizedSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+      "contentMatchedPaths": ["packages/provider/src/account-provider-resolution.ts"]
+    },
+    "license": "NOASSERTION",
+    "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+    "thirdParty": [],
+    "review": null
+  },
+  "publisherBaseline": {
+    "path": "packages/provider/src/account-provider-resolution.ts",
+    "mode": "100644",
+    "blob": "a9a097c8224ea514e982fb0109ff85766088e154",
+    "kind": "file",
+    "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+    "normalizedSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+    "encoding": "utf8-lf",
+    "bytes": 6845
+  },
+  "publisherProof": {
+    "command": ["git", "cat-file", "blob", "a9a097c8224ea514e982fb0109ff85766088e154"],
+    "exit": 0,
+    "stderr": "",
+    "bytes": 6845,
+    "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+    "byteEqualCurrent": true,
+    "qualification": "Local complete blob equality is bounded expression proof if present; missing128 not inferred ancestry/absence/originality/rights; no network fallback."
+  },
+  "exactOldReceiptRecords": [
+    {
+      "file": "licensing/current-files.json",
+      "location": "$.files[4716]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "kind": "file",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "normalizedSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "encoding": "utf8-lf",
+        "bytes": 6845,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/provider/src/account-provider-resolution.ts",
+          "blob": "a9a097c8224ea514e982fb0109ff85766088e154",
+          "normalizedSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+          "contentMatchedPaths": ["packages/provider/src/account-provider-resolution.ts"]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    },
+    {
+      "file": "licensing/current-files.json",
+      "location": "$.files[4716].upstream",
+      "record": {
+        "relation": "unchanged",
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "blob": "a9a097c8224ea514e982fb0109ff85766088e154",
+        "normalizedSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "contentMatchedPaths": ["packages/provider/src/account-provider-resolution.ts"]
+      }
+    },
+    {
+      "file": "licensing/upstream-baseline.json",
+      "location": "$.files[3297]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "mode": "100644",
+        "blob": "a9a097c8224ea514e982fb0109ff85766088e154",
+        "kind": "file",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "normalizedSha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "encoding": "utf8-lf",
+        "bytes": 6845
+      }
+    },
+    {
+      "file": "licensing/evidence/repository-migration-scope-20260930.json",
+      "location": "$.files[1840]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "classification": "upstream-unchanged",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      }
+    },
+    {
+      "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBindings.retained[17]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "byteIdenticalToPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[17]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider/docs/PROVIDER-MAP-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[17]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider-node/docs/REGISTRY-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[16]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[16]",
+      "record": {
+        "path": "packages/provider/src/account-provider-resolution.ts",
+        "sha256": "9f8e560a6ab4f95bb2391653130c9fcf9b824e526132d73835527c87adf59f9f",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    }
+  ],
+  "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+  "setup": [
+    {
+      "command": ["node", "scripts/check-workspace-freshness.mjs", "--no-fetch"],
+      "exit": 0,
+      "log": "/tmp/knorvia-account-projection-20261003/setup-0.log",
+      "sha256": "2e61d68432b5f8a211a742f1c88c1380bb9123c5872c41af857831260dad57c1"
+    },
+    {
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "check", "--changed"],
+      "exit": 0,
+      "log": "/tmp/knorvia-account-projection-20261003/setup-1.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "context", "provider"],
+      "exit": 0,
+      "log": "/tmp/knorvia-account-projection-20261003/setup-2.log",
+      "sha256": "2ebc9c094263860ca663dfe01cf00ba91cdf96cf479d2a0fb6d168fad1e110f4"
+    }
+  ],
+  "selection": {
+    "owner": "Entire substantive account connection admission/config entitlement whitelist/state projection chapter: both exported functions and all private rule helpers, not standalone accessor/facade extraction.",
+    "retained": "Exact module imports/public interface/type aliases preamble, all external account/key/access policy/schema/value dependencies and root/E sources unchanged. Types/mechanical linkage receive no originality credit.",
+    "screen": "Exact old records9 inventory/retention and all-ref root-only history, no positive accepted complete rule reconstruction/conflicting version found; bounded available evidence, not unpublished-history absence.",
+    "ancestry": "Local declared full6845byte publisher blob matches current/root/accepted/inventory SHA exactly. Positive inherited expression evidence only, no rights acceptance.",
+    "excluded": "Root resolver/personal PR12/338edba/provider codec; seven E builtin files/materializer ancestry work; real login/credentials/network/provider/user settings/auth policy/global controls."
+  }
+}

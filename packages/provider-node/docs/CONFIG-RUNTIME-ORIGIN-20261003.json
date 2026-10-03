@@ -1,0 +1,175 @@
+{
+  "acceptedPredecessor": "9def7eb52e96440a81311ff2464974b570c39048",
+  "selectedPath": "packages/provider-node/src/provider-config-runtime.ts",
+  "currentSha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+  "priorAcceptedRetainedBinding": {
+    "path": "packages/provider-node/src/provider-config-runtime.ts",
+    "sha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+    "byteIdenticalToAcceptedPredecessor": true
+  },
+  "inventory": {
+    "path": "packages/provider-node/src/provider-config-runtime.ts",
+    "kind": "file",
+    "sha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+    "normalizedSha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+    "encoding": "utf8-lf",
+    "bytes": 7048,
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/provider-node/src/provider-config-runtime.ts",
+      "blob": "567f45b823fb3fa517a82154439aecb961344ba4",
+      "normalizedSha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+      "contentMatchedPaths": []
+    },
+    "license": "NOASSERTION",
+    "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+    "thirdParty": [],
+    "review": null
+  },
+  "localMissingBlob": {
+    "path": "packages/provider-node/src/provider-config-runtime.ts",
+    "command": ["git", "cat-file", "blob", "567f45b823fb3fa517a82154439aecb961344ba4"],
+    "exit": 128,
+    "stderr": "fatal: git cat-file 567f45b823fb3fa517a82154439aecb961344ba4: bad file\n",
+    "publisherRepository": "zai-org/ZCode",
+    "publisherRef": "872ad960de7ec172591f7e1952f7849229f94521",
+    "expected": {
+      "path": "packages/provider-node/src/provider-config-runtime.ts",
+      "mode": "100644",
+      "blob": "567f45b823fb3fa517a82154439aecb961344ba4",
+      "kind": "file",
+      "sha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+      "normalizedSha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+      "encoding": "utf8-lf",
+      "bytes": 6937
+    }
+  },
+  "fixedRefPublisher": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "content": "import {\n  ProviderConfigService,\n  type ProviderConfigLayerSnapshot,\n  type ProviderConfigLayerUpdate,\n} from \"@zcode/provider\";\nimport { NodeZCodeBuiltinProviderConfigSource } from \"./zcode-builtin-provider-config-source.js\";\nimport {\n  EndpointScopedZCodeBuiltinSource,\n  type EndpointScopedZCodeBuiltinSourceOptions,\n} from \"./endpoint-scoped-zcode-builtin-source.js\";\nimport {\n  ZCodeBuiltinRemoteSynchronizer,\n  type ZCodeBuiltinRemoteSynchronizerOptions,\n  type ZCodeBuiltinRefreshResult,\n} from \"./zcode-builtin-remote-synchronizer.js\";\nimport {\n  NodePersonalProviderConfigRepository,\n  type PersonalProviderConfigRecoveryEvent,\n} from \"./personal-provider-config-repository.js\";\n\nexport interface NodeProviderConfigRuntimeOptions {\n  readonly zcodeBuiltinFilePath: string;\n  readonly zcodeBuiltinActiveFilePath?: string;\n  readonly zcodeBuiltinRemote?: Omit<ZCodeBuiltinRemoteSynchronizerOptions, \"source\">;\n  readonly zcodeBuiltinEnvironment?: Omit<\n    EndpointScopedZCodeBuiltinSourceOptions,\n    \"bundledFilePath\"\n  >;\n  readonly onZCodeBuiltinRefreshError?: (error: unknown) => void;\n  readonly onPersonalConfigRecovery?: (event: PersonalProviderConfigRecoveryEvent) => void;\n  readonly onPersonalConfigPollingError?: (error: unknown) => void;\n  readonly personalFilePath: string;\n  readonly personalPollingIntervalMs?: number | false;\n  readonly importLegacy?: (\n    zcodeBuiltin: ProviderConfigLayerSnapshot,\n  ) => Promise<ProviderConfigLayerUpdate | null>;\n  readonly watch?: boolean;\n}\n\n/** 组装一个 Node.js 进程内共享的 ZCode Built-in/Personal Config 运行边界。 */\nexport class NodeProviderConfigRuntime {\n  readonly configService: ProviderConfigService;\n  readonly #zcodeBuiltinSource:\n    | NodeZCodeBuiltinProviderConfigSource\n    | EndpointScopedZCodeBuiltinSource;\n  readonly #personalRepository: NodePersonalProviderConfigRepository;\n  readonly #remoteSynchronizer?: ZCodeBuiltinRemoteSynchronizer;\n  readonly #onRemoteRefreshError?: (error: unknown) => void;\n  #startPromise: Promise<void> | null = null;\n  #disposed = false;\n  readonly #checkListeners = new Set<() => Promise<void>>();\n  #checkTimer: ReturnType<typeof setInterval> | null = null;\n  #checkInFlight: Promise<void> | null = null;\n\n  constructor(options: NodeProviderConfigRuntimeOptions) {\n    this.#zcodeBuiltinSource = options.zcodeBuiltinEnvironment\n      ? new EndpointScopedZCodeBuiltinSource({\n          bundledFilePath: options.zcodeBuiltinFilePath,\n          ...options.zcodeBuiltinEnvironment,\n        })\n      : new NodeZCodeBuiltinProviderConfigSource({\n          bundledFilePath: options.zcodeBuiltinFilePath,\n          activeFilePath: options.zcodeBuiltinActiveFilePath,\n          watch: options.watch,\n        });\n    this.#remoteSynchronizer =\n      options.zcodeBuiltinRemote &&\n      this.#zcodeBuiltinSource instanceof NodeZCodeBuiltinProviderConfigSource\n        ? new ZCodeBuiltinRemoteSynchronizer({\n            source: this.#zcodeBuiltinSource,\n            ...options.zcodeBuiltinRemote,\n          })\n        : undefined;\n    this.#onRemoteRefreshError = options.onZCodeBuiltinRefreshError;\n    this.#personalRepository = new NodePersonalProviderConfigRepository({\n      filePath: options.personalFilePath,\n      onRecovery: options.onPersonalConfigRecovery,\n      onPollingError: options.onPersonalConfigPollingError,\n      pollingIntervalMs: options.personalPollingIntervalMs,\n      ...(options.importLegacy\n        ? {\n            importLegacy: async () => options.importLegacy!(await this.#zcodeBuiltinSource.read()),\n          }\n        : {}),\n    });\n    this.configService = new ProviderConfigService({\n      zcodeBuiltinSource: this.#zcodeBuiltinSource,\n      personalRepository: this.#personalRepository,\n    });\n  }\n\n  resolveZCodeBuiltinActiveFilePath(): Promise<string> {\n    return this.#zcodeBuiltinSource instanceof NodeZCodeBuiltinProviderConfigSource\n      ? Promise.resolve(this.#zcodeBuiltinSource.activeFilePath)\n      : this.#zcodeBuiltinSource.resolveActiveFilePath();\n  }\n\n  get personalRepository(): import(\"@zcode/provider\").PersonalProviderConfigRepository {\n    return this.#personalRepository;\n  }\n\n  /** Environment 同一周期检查中恢复未对齐依赖，不被下载 TTL 或失败挡住。 */\n  onDidCheckZCodeBuiltin(listener: () => Promise<void>): () => void {\n    this.#checkListeners.add(listener);\n    return () => this.#checkListeners.delete(listener);\n  }\n\n  start(): Promise<void> {\n    if (this.#disposed) throw new Error(\"NodeProviderConfigRuntime 已 dispose\");\n    if (this.#startPromise) return this.#startPromise;\n    const startPromise = this.configService.read().then(() => {\n      if (this.#disposed) return;\n      void this.#checkBackground();\n      // Managed Worker 无下载配置也无恢复 owner，不建立周期任务。\n      if (\n        this.#remoteSynchronizer ||\n        this.#zcodeBuiltinSource instanceof EndpointScopedZCodeBuiltinSource ||\n        this.#checkListeners.size > 0\n      ) {\n        this.#checkTimer = setInterval(() => {\n          void this.#checkBackground();\n        }, 60_000);\n        this.#checkTimer.unref?.();\n      }\n    });\n    this.#startPromise = startPromise;\n    void startPromise.catch(() => {\n      if (this.#startPromise === startPromise) this.#startPromise = null;\n    });\n    return startPromise;\n  }\n\n  refreshZCodeBuiltin(options?: { readonly force?: boolean }): Promise<ZCodeBuiltinRefreshResult> {\n    if (this.#disposed) return Promise.resolve(\"disposed\");\n    if (this.#zcodeBuiltinSource instanceof EndpointScopedZCodeBuiltinSource) {\n      return this.#zcodeBuiltinSource.refresh(options);\n    }\n    return this.#remoteSynchronizer?.refresh(options) ?? Promise.resolve(\"skipped\");\n  }\n\n  #checkBackground(): Promise<void> {\n    if (this.#disposed) return Promise.resolve();\n    if (this.#checkInFlight) return this.#checkInFlight;\n    const check = Promise.allSettled([\n      this.refreshZCodeBuiltin(),\n      ...[...this.#checkListeners].map((listener) => Promise.resolve().then(listener)),\n    ])\n      .then((results) => {\n        if (this.#disposed) return;\n        for (const result of results)\n          if (result.status === \"rejected\") this.#onRemoteRefreshError?.(result.reason);\n      })\n      .finally(() => {\n        if (this.#checkInFlight === check) this.#checkInFlight = null;\n      });\n    this.#checkInFlight = check;\n    return check;\n  }\n\n  dispose(): void {\n    if (this.#disposed) return;\n    this.#disposed = true;\n    if (this.#checkTimer) clearInterval(this.#checkTimer);\n    this.#checkTimer = null;\n    this.#checkListeners.clear();\n    this.#remoteSynchronizer?.dispose();\n    this.configService.dispose();\n    this.#personalRepository.dispose();\n    this.#zcodeBuiltinSource.dispose();\n  }\n}\n\nexport function createNodeProviderConfigRuntime(\n  options: NodeProviderConfigRuntimeOptions,\n): NodeProviderConfigRuntime {\n  return new NodeProviderConfigRuntime(options);\n}\n",
+      "encoding": "utf-8",
+      "sha": "567f45b823fb3fa517a82154439aecb961344ba4",
+      "display_url": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/packages/provider-node/src/provider-config-runtime.ts",
+      "display_title": "provider-config-runtime.ts"
+    },
+    "isError": false
+  },
+  "positiveWholeSourceVerification": {
+    "path": "packages/provider-node/src/provider-config-runtime.ts",
+    "currentSha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+    "publisherSha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+    "rootPublisherReversalSha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+    "rootReversalByteEqual": true,
+    "currentPublisherReversalByteEqual": false,
+    "currentPublisherReversalFullParsedIdentity": true,
+    "mapping": [
+      "Knorvia→ZCode",
+      "knorvia→zcode",
+      "./builtin-*→./zcode-builtin-*",
+      "./endpoint-scoped-builtin-*→./endpoint-scoped-zcode-builtin-*"
+    ],
+    "qualification": "Exact fixed-ref publisher SHA/blob verified. Full parsed identity after branding/path reversal ignores only trivia/comments and parentheses; byte/root reversal results retained separately. Positive source-expression ancestry evidence only, not rights clearance."
+  },
+  "exactStructuredReceiptRecords": [
+    {
+      "file": "licensing/current-files.json",
+      "jsonLocation": "$.files[4711]",
+      "record": {
+        "path": "packages/provider-node/src/provider-config-runtime.ts",
+        "kind": "file",
+        "sha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+        "normalizedSha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+        "encoding": "utf8-lf",
+        "bytes": 7048,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider-node/src/provider-config-runtime.ts",
+          "blob": "567f45b823fb3fa517a82154439aecb961344ba4",
+          "normalizedSha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    },
+    {
+      "file": "licensing/current-files.json",
+      "jsonLocation": "$.files[4711].upstream",
+      "record": {
+        "relation": "modified",
+        "path": "packages/provider-node/src/provider-config-runtime.ts",
+        "blob": "567f45b823fb3fa517a82154439aecb961344ba4",
+        "normalizedSha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "file": "licensing/upstream-baseline.json",
+      "jsonLocation": "$.files[3286]",
+      "record": {
+        "path": "packages/provider-node/src/provider-config-runtime.ts",
+        "mode": "100644",
+        "blob": "567f45b823fb3fa517a82154439aecb961344ba4",
+        "kind": "file",
+        "sha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+        "normalizedSha256": "320b8a2b2902f2e2ccae39a0b6be8c53d96541de9bf1146b8b6c13c80e2939bb",
+        "encoding": "utf8-lf",
+        "bytes": 6937
+      }
+    },
+    {
+      "file": "licensing/evidence/repository-migration-scope-20260930.json",
+      "jsonLocation": "$.files[1837]",
+      "record": {
+        "path": "packages/provider-node/src/provider-config-runtime.ts",
+        "sha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+        "classification": "upstream-modified",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      }
+    },
+    {
+      "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+      "jsonLocation": "$.sourceBindings.retained[14]",
+      "record": {
+        "path": "packages/provider-node/src/provider-config-runtime.ts",
+        "sha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+        "byteIdenticalToPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+      "jsonLocation": "$.sourceBinding.retained[14]",
+      "record": {
+        "path": "packages/provider-node/src/provider-config-runtime.ts",
+        "sha256": "ba2b3fc5560dedf06672dd5b96b909b9420577217de7b19a245608f0d0377755",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    }
+  ],
+  "boundedReceiptSearch": "Available licensing/provider/provider-node/services docs JSON exact path structured records + exact path/class/SHA textual search and all-ref local history; prior accepted receipts mark retained consumer/dependency, no positive accepted reconstructed owner/conflicting byte version found. Bounded absence not unpublished-history proof. Publisher fetch exactly1path via connected GitHub fixedref read-only, no clone/fetch/settings bypass.",
+  "history": "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI\n7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+  "excludedCandidates": [
+    {
+      "path": "packages/provider-node/src/builtin-remote-synchronizer.ts",
+      "sha256": "e973c7368a6f51e31e4acf3d7a9f9f0eed5354891970f0d081a9ab113050dcbc",
+      "reason": "Inventory unreviewed/upstreamnull; retained in accepted receipts, lineage remains unknown. Missing receipt is not upstream inference; not forced as secondowner."
+    },
+    {
+      "path": "packages/provider-node/src/provider-registry-runtime.ts",
+      "sha256": "605bc402a35140127c77e1ec07d7a5c33d9da6136cef59ce8e5d666260aa9c2a",
+      "reason": "Retained composition boundary; select substantial config startup/check/timer/disposal owner first instead of force-expanding facade/delegation."
+    }
+  ],
+  "rootBoundaries": "Parent resolver new PR12 at73d56d6a6de58144a1968ebdfa28c6d65641bf3d recorded but NOT imported; local resolver89332f5 stays unchanged until final collection. Personal-provider-config-repository actively prepared elsewhere, excluded. Global controls/accepted sources untouched."
+}

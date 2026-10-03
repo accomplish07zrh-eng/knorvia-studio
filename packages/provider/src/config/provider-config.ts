@@ -381,17 +381,18 @@ export type ProviderConfigRule = Readonly<
 
 /** 索引只保存完整规则；get/entries 是内容投影，改成员时不能丢掉外层身份和名称。 */
 export class ProviderConfigMap extends ConfigOverlay<ProviderConfigMap> {
-  readonly #values: ReadonlyMap<ProviderId, ProviderConfigRule>;
+  readonly #values: Map<ProviderId, ProviderConfigRule>;
 
   constructor(entries: Iterable<ProviderConfigRule | readonly [ProviderId, ProviderConfig]> = []) {
     super();
-    const values = new Map<ProviderId, ProviderConfigRule>();
+    this.#values = new Map();
     for (const entry of entries) {
       const rule = "providerId" in entry ? entry : { providerId: entry[0], config: entry[1] };
-      if (values.has(rule.providerId)) throw new Error(`重复 Provider key: ${rule.providerId}`);
-      values.set(rule.providerId, Object.freeze({ ...rule }));
+      if (this.#values.has(rule.providerId)) {
+        throw new Error("重复 Provider key: " + rule.providerId);
+      }
+      this.#values.set(rule.providerId, Object.freeze({ ...rule }));
     }
-    this.#values = values;
     Object.freeze(this);
   }
 
@@ -400,23 +401,22 @@ export class ProviderConfigMap extends ConfigOverlay<ProviderConfigMap> {
   }
 
   overlay(next: ProviderConfigMap): ProviderConfigMap {
-    const result = new Map(this.#values);
+    const values = new Map(this.#values);
     for (const [providerId, rule] of next.#values) {
-      const current = result.get(providerId);
-      result.set(
-        providerId,
-        current
-          ? {
-              providerId,
-              templateId: this.overlayValue(current.templateId, rule.templateId),
-              providerName: this.overlayValue(current.providerName, rule.providerName),
-              enabled: this.overlayValue(current.enabled, rule.enabled),
-              config: current.config.overlay(rule.config),
-            }
-          : rule,
-      );
+      const current = values.get(providerId);
+      if (current === undefined) {
+        values.set(providerId, rule);
+      } else {
+        values.set(providerId, {
+          providerId,
+          templateId: this.overlayValue(current.templateId, rule.templateId),
+          providerName: this.overlayValue(current.providerName, rule.providerName),
+          enabled: this.overlayValue(current.enabled, rule.enabled),
+          config: current.config.overlay(rule.config),
+        });
+      }
     }
-    return new ProviderConfigMap(result.values());
+    return new ProviderConfigMap(values.values());
   }
 
   mapConfigs(
@@ -435,25 +435,33 @@ export class ProviderConfigMap extends ConfigOverlay<ProviderConfigMap> {
   }
 
   reorder(providerIds: readonly ProviderId[]): ProviderConfigMap {
-    const result = new Map<ProviderId, ProviderConfigRule>();
+    const values = new Map<ProviderId, ProviderConfigRule>();
     for (const providerId of providerIds) {
       const rule = this.#values.get(providerId);
-      if (rule && !result.has(providerId)) result.set(providerId, rule);
+      if (rule !== undefined && !values.has(providerId)) {
+        values.set(providerId, rule);
+      }
     }
     for (const [providerId, rule] of this.#values) {
-      if (!result.has(providerId)) result.set(providerId, rule);
+      if (!values.has(providerId)) {
+        values.set(providerId, rule);
+      }
     }
-    return new ProviderConfigMap(result.values());
+    return new ProviderConfigMap(values.values());
   }
 
   set(providerId: ProviderId, config: ProviderConfig): ProviderConfigMap {
-    return this.setRule({ ...this.#values.get(providerId), providerId, config });
+    return this.setRule({
+      ...this.#values.get(providerId),
+      providerId,
+      config,
+    });
   }
 
   setRule(rule: ProviderConfigRule): ProviderConfigMap {
-    const result = new Map(this.#values);
-    result.set(rule.providerId, rule);
-    return new ProviderConfigMap(result.values());
+    const values = new Map(this.#values);
+    values.set(rule.providerId, rule);
+    return new ProviderConfigMap(values.values());
   }
 
   delete(providerId: ProviderId): ProviderConfigMap {
@@ -469,18 +477,23 @@ export class ProviderConfigMap extends ConfigOverlay<ProviderConfigMap> {
   get(providerId: ProviderId): ProviderConfig | undefined {
     return this.#values.get(providerId)?.config;
   }
+
   getRule(providerId: ProviderId): ProviderConfigRule | undefined {
     return this.#values.get(providerId);
   }
+
   has(providerId: ProviderId): boolean {
     return this.#values.has(providerId);
   }
+
   keys(): ProviderId[] {
     return [...this.#values.keys()];
   }
+
   rules(): ProviderConfigRule[] {
     return [...this.#values.values()];
   }
+
   entries(): Array<readonly [ProviderId, ProviderConfig]> {
     return this.rules().map((rule) => [rule.providerId, rule.config]);
   }

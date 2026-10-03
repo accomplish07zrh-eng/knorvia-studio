@@ -1,0 +1,358 @@
+{
+  "fault": {
+    "revision2-access-notes.json": {
+      "task": "/root/remaining_fault_author",
+      "revision": 2,
+      "sourcePath": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.ts",
+      "frozenPath": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.revision2.ts",
+      "sha256": "18b1f9cd2e42e7372d8ed1f30b65b76f0bedab42f54608b52f66fe7c6d7136dc",
+      "nonblankSourceLines": 240,
+      "changes": [
+        "After hit push, read input.operation then input.path once each before Error construction, regardless of configured message",
+        "Use captured fields in fallback message and error.path/syscall while retaining code,path,syscall,knorviaFsFaultId assignment order"
+      ],
+      "additionalReads": [
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.ts",
+          "purpose": "Patch own newly authored source; freeze, hash and count revision 2",
+          "mechanism": "apply_patch, cp, sha256sum, awk"
+        },
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.revision2.ts",
+          "purpose": "Calculate own frozen revision hash",
+          "mechanism": "sha256sum"
+        }
+      ],
+      "newExternalSourcesAccessed": false,
+      "repositoryTargetOrDependencyImplementationBodiesAccessed": false,
+      "testsOrOriginalSnapshotsAccessed": false,
+      "historyDiffsOtherAgentsArtifactsOrUnrelatedFilesAccessed": false,
+      "testsTypecheckerOrImportsExecuted": false,
+      "gitOrNetworkUsed": false,
+      "repositoryEdited": false,
+      "earlierFrozenSnapshotsPreserved": true,
+      "review": "Applied coordinator behavior clarification solely to own authored source. No runtime verification performed."
+    },
+    "revision1-access-notes.json": {
+      "task": "/root/remaining_fault_author",
+      "revision": 1,
+      "sourcePath": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.ts",
+      "frozenPath": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.revision1.ts",
+      "sha256": "c3dc45d54a7c49ce27bf595472a35b680699127f845abc4e89ac799c07fd9bc7",
+      "nonblankSourceLines": 238,
+      "changes": [
+        "Predicate checks property presence before property value access",
+        "Blank or absent fault environment value avoids gate environment reads",
+        "Includes and ends filters normalize slashes immediately after each string validation",
+        "Operations use Array.map validation then Set construction, retaining sparse-array behavior"
+      ],
+      "additionalReads": [
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.ts",
+          "purpose": "Patch own newly authored source; freeze, hash and count its revision",
+          "mechanism": "apply_patch, cp, sha256sum, awk"
+        },
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.revision1.ts",
+          "purpose": "Calculate own frozen revision hash",
+          "mechanism": "sha256sum"
+        }
+      ],
+      "newExternalSourcesAccessed": false,
+      "repositoryTargetOrDependencyImplementationBodiesAccessed": false,
+      "testsOrOriginalSnapshotsAccessed": false,
+      "historyDiffsOtherAgentsArtifactsOrUnrelatedFilesAccessed": false,
+      "testsTypecheckerOrImportsExecuted": false,
+      "gitOrNetworkUsed": false,
+      "repositoryEdited": false,
+      "firstReadySnapshotPreserved": true,
+      "review": "Applied coordinator behavior clarifications solely to own authored source. No runtime verification performed."
+    },
+    "access-receipt.json": {
+      "task": "/root/remaining_fault_author",
+      "owner": "packages/services/src/fs/fsFaultInjection.ts",
+      "candidatePath": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.ts",
+      "firstReadyPath": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.first-ready.ts",
+      "firstReadySha256": "5a8807afda2a9943970b0eadfbb6aa426b824a37ce70ac3b46338e20e9b7614f",
+      "nonblankSourceLines": 231,
+      "reads": [
+        {
+          "path": "/tmp/knorvia-remaining-contracts-20261002/fault.md",
+          "purpose": "Authorized complete behavior contract",
+          "mechanism": "cat"
+        },
+        {
+          "path": "/tmp/knorvia-remaining-contracts-20261002/fault-api.ts",
+          "purpose": "Authorized API declarations",
+          "mechanism": "cat"
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "purpose": "Authorized workspace guidance",
+          "mechanism": "cat"
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "purpose": "Authorized architecture guidance",
+          "mechanism": "cat"
+        },
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.ts",
+          "purpose": "Copy own new source to frozen snapshot, calculate its hash and count nonblank lines",
+          "mechanism": "cp, sha256sum, awk"
+        },
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/fault/fsFaultInjection.first-ready.ts",
+          "purpose": "Calculate frozen own source hash",
+          "mechanism": "sha256sum"
+        }
+      ],
+      "coordinatorClarifications": [
+        "operations and maxMatches default only for undefined; explicit null fails validation; optional strings accept undefined only as absent"
+      ],
+      "forbiddenSourcesAccessed": {
+        "repositoryTargetImplementationBodies": false,
+        "repositoryDependencyImplementationBodies": false,
+        "tests": false,
+        "originalSnapshots": false,
+        "gitHistoryOrDiffs": false,
+        "otherAgentsSourcesOrArtifacts": false,
+        "inheritedConversation": false,
+        "unrelatedFiles": false
+      },
+      "execution": {
+        "testsRun": false,
+        "typecheckerRun": false,
+        "targetOrDependencyImportsExecuted": false,
+        "gitRun": false,
+        "networkUsed": false,
+        "repositoryEdited": false,
+        "sourceValidation": "Contract-guided author review only; file copy, SHA-256 and nonblank-line count completed"
+      },
+      "ownership": {
+        "injector": "Each injector exclusively owns its normalized rules, match counters and hit array",
+        "module": "This module exclusively owns the process environment snapshot cache and test override"
+      }
+    }
+  },
+  "filter": {
+    "revision1-access-notes.json": {
+      "revision": 1,
+      "source": "/tmp/knorvia-remaining-candidates-20261002/filter/workspaceFileMentionFilter.ts",
+      "frozenSource": "/tmp/knorvia-remaining-candidates-20261002/filter/workspaceFileMentionFilter.revision1.ts",
+      "sha256": "e2836a353ef15fa19d4ee445aa3775f65d9152dfeb766e071509566b6e58b20e",
+      "nonblankLines": 110,
+      "clarification": "Evaluate entry.type first. Directory lowercasing occurs only inside the inactive-ignore blacklist branch. File name is lowercased once after the directory branch.",
+      "revisionReads": [
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/filter/workspaceFileMentionFilter.ts",
+          "access": "own authored source patched and then read for freezing, digest and nonblank line count",
+          "tools": ["apply_patch", "exec_command: python3 Path.read_bytes"]
+        }
+      ],
+      "earlierReadsDocumentedIn": "/tmp/knorvia-remaining-candidates-20261002/filter/access-receipt.json",
+      "additionalContractOrRepositoryReads": [],
+      "repositoryImplementationBodiesAccessed": false,
+      "testsTypecheckImportsDependencyExecutionGitNetworkPerformed": false,
+      "repositoryEdited": false,
+      "firstReadyFreezePreserved": true
+    },
+    "access-receipt.json": {
+      "owner": "packages/services/src/file/workspaceFileMentionFilter.ts",
+      "candidate": "/tmp/knorvia-remaining-candidates-20261002/filter/workspaceFileMentionFilter.ts",
+      "firstReadySource": "/tmp/knorvia-remaining-candidates-20261002/filter/workspaceFileMentionFilter.first-ready.ts",
+      "firstReadySha256": "1618fd2bcc9f63330b93f597bc17221b90a7eb7107a649954ad76a2ceae6d942",
+      "nonblankLines": 109,
+      "reads": [
+        {
+          "path": "/tmp/knorvia-remaining-contracts-20261002/filter.md",
+          "access": ["file metadata", "complete contract text"],
+          "tool": ["exec_command: ls -l", "exec_command: cat"]
+        },
+        {
+          "path": "/tmp/knorvia-remaining-contracts-20261002/filter-api.ts",
+          "access": ["file metadata", "complete public API contract text"],
+          "tool": ["exec_command: ls -l", "exec_command: cat"]
+        },
+        {
+          "path": "/tmp/knorvia-remaining-contracts-20261002/filter-data.json",
+          "access": ["file metadata", "complete compatibility policy data"],
+          "tool": ["exec_command: ls -l", "exec_command: cat"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "access": ["file metadata", "complete authorized workspace guidance"],
+          "tool": ["exec_command: ls -l", "exec_command: cat"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "access": ["file metadata", "complete authorized architecture guidance"],
+          "tool": ["exec_command: ls -l", "exec_command: cat"]
+        },
+        {
+          "path": "/tmp/knorvia-remaining-candidates-20261002/filter/workspaceFileMentionFilter.ts",
+          "access": ["own authored source bytes for freezing, digest and nonblank line count"],
+          "tool": ["exec_command: python3 Path.read_bytes"]
+        }
+      ],
+      "forbiddenSourcesNotAccessed": [
+        "Repository target implementation bodies",
+        "Repository dependency implementation bodies",
+        "Repository tests",
+        "Original snapshots",
+        "Git history or diffs",
+        "Other agents or their artifacts",
+        "Inherited conversation beyond the delegated task",
+        "Unrelated repository files"
+      ],
+      "repositoryImplementationBodiesAccessed": false,
+      "testsTypecheckImportsDependencyExecutionGitNetworkPerformed": false,
+      "repositoryEdited": false,
+      "policyDataProvenance": "All five collections preserve supplied inherited compatibility policy literals; no new expression-origin or license claim is made for that data.",
+      "authoringBasis": "Supplied complete behavior contract and API only, with authorized workspace and architecture guidance. Stateless owner, no IO; node:path.extname is the sole runtime import."
+    }
+  },
+  "walker": {
+    "access-receipt.revision2.json": {
+      "revision": 2,
+      "source_path": "/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.ts",
+      "frozen_path": "/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.revision2.ts",
+      "sha256": "97e3ede324afff368faed59315713b332022efbf8088bf227604421a875591d2",
+      "nonblank_lines": 127,
+      "previous_frozen_sha256": "e81852d449ead4c49b2bf9679b366af5d6d5cca4fd95e5b084a6d145e8173ab4",
+      "new_body_reads": ["/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.ts"],
+      "new_guidance": "Coordinator-provided failure scheduling clarification in message; no repository source inspected.",
+      "changes": [
+        "Handle visitDirectory failure in a second chained promise continuation after the success continuation, preserving the extra failure observation microtask."
+      ],
+      "repository_target_or_dependency_implementation_bodies_accessed": false,
+      "tests_or_original_snapshots_or_history_or_diffs_accessed": false,
+      "other_agents_or_artifacts_accessed": false,
+      "tests_or_typechecker_run": false,
+      "target_or_dependency_import_or_execution": false,
+      "git_or_network_used": false,
+      "repository_edited": false
+    },
+    "access-receipt.revision1.json": {
+      "revision": 1,
+      "source_path": "/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.ts",
+      "frozen_path": "/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.revision1.ts",
+      "sha256": "e81852d449ead4c49b2bf9679b366af5d6d5cca4fd95e5b084a6d145e8173ab4",
+      "nonblank_lines": 128,
+      "previous_frozen_sha256": "879fa5acbe514e227649df226fee713b3e4b155670a5445cc01d6c26707c1084",
+      "new_body_reads": ["/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.ts"],
+      "new_guidance": "Coordinator-provided timing and capture clarification in message; no repository source inspected.",
+      "changes": [
+        "Capture rootPath, onEntry, onError and signal at invocation.",
+        "Always await the async yield helper after completed file blocks, keeping early-continue cases outside the helper.",
+        "Construct joined entry path before the symbolic-link check.",
+        "Await Promise<void> traversal completion before returning result."
+      ],
+      "repository_target_or_dependency_implementation_bodies_accessed": false,
+      "tests_or_original_snapshots_or_history_or_diffs_accessed": false,
+      "other_agents_or_artifacts_accessed": false,
+      "tests_or_typechecker_run": false,
+      "target_or_dependency_import_or_execution": false,
+      "git_or_network_used": false,
+      "repository_edited": false
+    },
+    "access-receipt.json": {
+      "owner": "packages/services/src/storage/adapters/fsWalker.ts",
+      "source_path": "/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.ts",
+      "first_ready_frozen_path": "/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.first-ready.ts",
+      "first_ready_sha256": "879fa5acbe514e227649df226fee713b3e4b155670a5445cc01d6c26707c1084",
+      "nonblank_lines": 123,
+      "body_reads": [
+        "/tmp/knorvia-remaining-contracts-20261002/walker.md",
+        "/tmp/knorvia-remaining-contracts-20261002/walker-api.ts",
+        "/tmp/knorvia-remaining-contracts-20261002/usage-api.ts",
+        "/tmp/knorvia-remaining-contracts-20261002/shared-api.ts",
+        "/workspace/knorvia-studio/AGENTS.md",
+        "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+        "/tmp/knorvia-remaining-candidates-20261002/walker/fsWalker.ts"
+      ],
+      "filename_only_discovery": {
+        "command": "pwd && rg --files -g AGENTS.md -g SKILL.md /workspace/knorvia-studio/.agents /workspace/knorvia-studio 2>/dev/null | head -80",
+        "body_access": false,
+        "description": "Initial discovery enumerated matching guidance filenames only; no discovered file body outside the two authorized guidance files was opened."
+      },
+      "repository_target_or_dependency_implementation_bodies_accessed": false,
+      "tests_accessed": false,
+      "original_snapshots_accessed": false,
+      "history_or_diffs_accessed": false,
+      "other_agents_or_artifacts_accessed": false,
+      "inherited_conversation_accessed": false,
+      "tests_run": false,
+      "typechecker_run": false,
+      "target_or_dependency_import_or_execution": false,
+      "git_used": false,
+      "network_used": false,
+      "repository_edited": false,
+      "source_note": "Authored from provided contract declarations and behavior packet; no blanket licensing or novelty claim."
+    }
+  },
+  "usage": {
+    "access-receipt.json": {
+      "owner": "packages/services/src/storage/domain/usageAggregate.ts",
+      "candidate": "/tmp/knorvia-remaining-candidates-20261002/usage/usageAggregate.ts",
+      "authorizedReads": [
+        "/tmp/knorvia-remaining-contracts-20261002/usage.md",
+        "/tmp/knorvia-remaining-contracts-20261002/usage-api.ts",
+        "/tmp/knorvia-remaining-contracts-20261002/shared-api.ts",
+        "/workspace/knorvia-studio/AGENTS.md",
+        "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+      ],
+      "ownSourceReads": [
+        "/tmp/knorvia-remaining-candidates-20261002/usage/usageAggregate.ts",
+        "/tmp/knorvia-remaining-candidates-20261002/usage/first-ready/usageAggregate.ts",
+        "/tmp/knorvia-remaining-candidates-20261002/usage/revision1/usageAggregate.ts"
+      ],
+      "ownMetadataReads": [
+        "/tmp/knorvia-remaining-candidates-20261002/usage/first-ready/SHA256SUMS",
+        "/tmp/knorvia-remaining-candidates-20261002/usage/access-receipt.json",
+        "/tmp/knorvia-remaining-candidates-20261002/usage/revision1/SHA256SUMS"
+      ],
+      "firstReadyFreeze": {
+        "source": "/tmp/knorvia-remaining-candidates-20261002/usage/first-ready/usageAggregate.ts",
+        "sha256": "ffad1fb793ef17b067fca92ca80c49ca499cd82001d02616e50d7be38361f191",
+        "hashFile": "/tmp/knorvia-remaining-candidates-20261002/usage/first-ready/SHA256SUMS",
+        "sourceAndHashFileMode": "0444"
+      },
+      "coordinatorDeclarationClarifications": [
+        "Shared public module specifier: @knorvia/shared.",
+        "classifyStoragePath(rawPath: string, context: { rootId: StorageRootId; hasCustomDataBaseDir: boolean }): { categoryId: StorageCategoryId; entryKey: string }.",
+        "getStorageCategoryCleanability(categoryId: StorageCategoryId): StorageCleanability."
+      ],
+      "revisions": [
+        {
+          "name": "revision1",
+          "source": "/tmp/knorvia-remaining-candidates-20261002/usage/revision1/usageAggregate.ts",
+          "sha256": "d0aa40be5e9c0b1eb61f8f1f546a6cdec493cf629f08a2e368f0cdb307773db9",
+          "hashFile": "/tmp/knorvia-remaining-candidates-20261002/usage/revision1/SHA256SUMS",
+          "sourceAndHashFileMode": "0444",
+          "behaviorClarifications": [
+            "A category with no created totals bucket returns entries: [] for every cap, including negative and NaN values. Native folding applies only to created buckets.",
+            "Snapshot completes all category projections before reading spec.id, spec.path and owner totals into the root output."
+          ],
+          "additionalReads": [
+            "/tmp/knorvia-remaining-candidates-20261002/usage/usageAggregate.ts",
+            "/tmp/knorvia-remaining-candidates-20261002/usage/access-receipt.json",
+            "/tmp/knorvia-remaining-candidates-20261002/usage/revision1/usageAggregate.ts",
+            "/tmp/knorvia-remaining-candidates-20261002/usage/revision1/SHA256SUMS"
+          ]
+        }
+      ],
+      "forbiddenSourcesAccessed": [],
+      "repositoryTargetBodiesAccessed": false,
+      "dependencyBodiesAccessed": false,
+      "testsAccessedOrExecuted": false,
+      "typecheckerExecuted": false,
+      "dependencyImportsExecuted": false,
+      "gitHistoryDiffsAccessed": false,
+      "networkAccessed": false,
+      "otherAgentArtifactsAccessed": false,
+      "repositoryEdited": false,
+      "scope": "Pure domain owner authored from the supplied behavioral packet and declaration-only API; retained classification, cleanability, shared constants and public types remain dependency-owned."
+    }
+  }
+}

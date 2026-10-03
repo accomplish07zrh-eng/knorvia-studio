@@ -1,0 +1,18 @@
+# Filter complete owner bounded evidence
+
+Base `045e4422a8c18a51cf7351c84d32d33a8fc245eb`; spec/inventory `9467d5f`; same draft PR10, 2026-10-02. Fresh GPT-6.1 Sol high `/root/remaining_filter_author` forked without inherited context. Authorized manual behavior packet/declaration-only APIs (AST-selected, zero implementation bodies), root AGENTS/architecture SKILL and own source only; filter also exact fixed policy literals. Coordinator read inherited source for extraction/review. Retained API/type/string/policy vocabulary and dependencies preserve lineage, no novelty/MIT/global origin grant.
+
+| Stage                                                    | SHA-256                                                            |
+| -------------------------------------------------------- | ------------------------------------------------------------------ |
+| Original blob `11c3938a192c9bfb0a080a09bd3aabd42903f276` | `f162f04984640532ce64c23311b8adcd5beed0aef56c833902e1a33d460b2695` |
+| Raw first-ready                                          | `1618fd2bcc9f63330b93f597bc17221b90a7eb7107a649954ad76a2ceae6d942` |
+| Author revision1                                         | `e2836a353ef15fa19d4ee445aa3775f65d9152dfeb766e071509566b6e58b20e` |
+| Submitted formatted source                               | `34684f72121cfa476ee19a819637877ef25a6c0df1e4788000b3d2cf2e8b8dd2` |
+| Input filter-api.ts                                      | `6b52c207a006078a05d432a2d686466a839df281dd5647004bfde15b0bef1c26` |
+| Input filter-data.json                                   | `3f7464f33e2afa73a4aa3320b44de35ee32b624255a616d3deff42b1e3de6491` |
+
+Submitted source: 109 nonblank lines, below400, no suppressions. Raw/revision snapshots and access receipts `/tmp/knorvia-remaining-candidates-20261002/filter`; original snapshot `/tmp/knorvia-remaining-originals-20261002`. Local exact bytes ephemeral, hashes and full receipt metadata durable in REMAINING-AUTHOR-RECEIPTS.
+
+Stateless final include/traverse owner; active ignore replaces built-in directory blacklist, hidden directories remain traversed and ordinary contained files included, file .env/binary/report rules remain active. No third-party parser import/matching or new containment/security policy. Coordinator clarified lazy lowercase evaluation in own-draft revision only. Exact five policy collections mechanically retained; FILTER-COMPATIBILITY-DATA corpus has inherited expression lineage, no independent-expression or whole-file MIT grant. Synthetic original/replacement1/1 checks restored node_modules authority with active ignore, hidden traversal, default denied build directories and sensitive/binary file refusal. The policy check is not validation of real ignore parser semantics.
+
+Changed source/tests and atomic/settings/cleaner/scan-runner scoped types passed. File-service direct consumer types remain BLOCKED by existing workspaceFileIgnore.ts(3,44) TS2307 missing ignore package/declarations; exact baseline/final diagnostics preserved in queue evidence. Original4/4/final replacement4/4 safety checks; final walker revised check separately1/1. Source/test lint zero warnings/errors; formatting/whitespace and architecture0/0/0 passed. All19 unselected current source hashes retained, including8 prior fresh sources and11 retained policy/facade/declarations. Ordinary suites/builds, actual parser/platform/concurrency stress and full provenance acceptance deferred. Node24.19.0 vs pinned CLI24.14.0 and experimental/deprecated namedExports warnings disclosed. No actual files/settings/scans/deletions/database/credentials/network/process/device/SSH operations, root-exclusive artifacts/message merge, main/cross-lane integration, root LICENSE/global inventory/manifests changes.

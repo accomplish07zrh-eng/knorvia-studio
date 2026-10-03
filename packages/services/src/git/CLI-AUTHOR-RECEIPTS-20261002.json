@@ -1,0 +1,1879 @@
+{
+  "schemaVersion": 1,
+  "queueBase": "cd729da5314429d2d7f90cabf1cb94daa569edec",
+  "coordinatorSourceExposed": true,
+  "wholeFileLicenseGrant": false,
+  "authors": {
+    "environment": {
+      "owner": "environment",
+      "status": "first-ready-frozen",
+      "target": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "firstReady": {
+        "path": "/tmp/knorvia-git-cli-candidates-20261002/environment/first-ready/packages/services/src/git/providers/gitEnvironmentProvider.ts",
+        "sha256": "7c057ffd2687914016156235bc143f4428268354a873bdd5df8f28ae2c6203c8",
+        "rawFirstReady": true,
+        "reviewedBeforeFreeze": false,
+        "correctedBeforeFreeze": false,
+        "revisions": []
+      },
+      "inputs": [
+        {
+          "path": "/tmp/knorvia-git-cli-contracts-20261002/environment.md",
+          "sha256": "5a83f6ecfbba17521a17f437c6d05be7d1d2fce25c70b81b771ac3cca8d6998e"
+        },
+        {
+          "path": "/tmp/knorvia-git-cli-contracts-20261002/environment-api.ts",
+          "sha256": "9cbf148de04c525f86e3151b23545a7c4fe0c34bf9cc67ebd4dc6e89fe1baae1"
+        },
+        {
+          "path": "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+          "sha256": "47e012f859ef764f1717f55a67c3e91b6da3f56a3a2a5448dfb80fc0e363d43e"
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5"
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+        }
+      ],
+      "actualAccessLog": [
+        {
+          "sequence": 1,
+          "tool": "exec_command",
+          "operation": "read",
+          "command": "cat /tmp/knorvia-git-cli-contracts-20261002/environment.md /tmp/knorvia-git-cli-contracts-20261002/environment-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "exitCode": 0
+        },
+        {
+          "sequence": 2,
+          "tool": "apply_patch",
+          "operation": "create raw first-ready source",
+          "path": "/tmp/knorvia-git-cli-candidates-20261002/environment/first-ready/packages/services/src/git/providers/gitEnvironmentProvider.ts"
+        },
+        {
+          "sequence": 3,
+          "tool": "exec_command",
+          "operation": "read bytes for SHA-256 freeze and input evidence",
+          "command": "sha256sum /tmp/knorvia-git-cli-contracts-20261002/environment.md /tmp/knorvia-git-cli-contracts-20261002/environment-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md /tmp/knorvia-git-cli-candidates-20261002/environment/first-ready/packages/services/src/git/providers/gitEnvironmentProvider.ts",
+          "exitCode": 0
+        },
+        {
+          "sequence": 4,
+          "tool": "apply_patch",
+          "operation": "create this provenance manifest",
+          "path": "/tmp/knorvia-git-cli-candidates-20261002/environment/candidate.json"
+        }
+      ],
+      "design": {
+        "stateOwner": "One nullable discovery promise owned by each factory instance",
+        "externalPorts": "Retained config imports; config body not accessed or modified",
+        "eventOrder": "Fresh discovery environment before invoking and assigning async loop; ordered sequential probes; spawn then timer then error listener then close listener",
+        "cacheLifetime": "Success, null, and rejection remain cached; synchronous environment failure precedes assignment",
+        "commandEnvironment": "Each createCommandEnv call delegates directly to a fresh getGitCommandEnv call"
+      },
+      "scopeLimitations": [
+        "Only supplied contract packet, designated repository guidance, and own new source accessed.",
+        "No repository implementation, dependency body, test, history, receipt, filename discovery, or other candidate accessed.",
+        "No repository edits or config/security behavior changes.",
+        "No tests, builds, architecture commands, freshness commands, real Git, or candidate runtime process spawning performed; author restrictions override broader repository workflow instructions.",
+        "Static authorship only; coordinator must run the prescribed fake-process, clock, and environment checks.",
+        "Existing compatibility imports, names, and timeout behavior retained as required by packet; no novelty or full-origin claim.",
+        "Coordinator source exposure is disclosed by supplied contract."
+      ]
+    },
+    "helpers": {
+      "model": "GPT-6.1 Sol",
+      "reasoningEffort": "high",
+      "forkTurns": "none",
+      "firstReadyAndRevisions": [
+        {
+          "owner": "repo/gitCliHelpers.ts",
+          "revision": "01-first-ready",
+          "status": "frozen-first-ready-before-self-review",
+          "files": [
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "nonblankLines": 296,
+              "exportCount": 15
+            }
+          ],
+          "actualReads": [
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+              "sha256": "5db9c15ae0ae6b9a766e96bfaba780d23ca6b3fcb8e649d8492138984d810a16",
+              "contentReads": 2
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+              "sha256": "3762c0ab4da53e1f9a988444cb13679379f92d588b7dff44da043a044aba949b",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+              "sha256": "b42a8807357aa027039631e5582662fdba9416a117d1a6f60a4dfff0d6e74387",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+              "sha256": "2741f1467b704cee08abe3bbf4b928d6ad880f7a0ac064ffc7c43780c83b61dc",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+              "sha256": "ae9d5621914c23fc5f0583affd58a9fe4326eab9910ce8a1736f143d5e54ebdb",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+              "sha256": "47e012f859ef764f1717f55a67c3e91b6da3f56a3a2a5448dfb80fc0e363d43e",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "contentReads": 1
+            },
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "readKinds": ["sha256sum", "awk nonblank line count"]
+            }
+          ],
+          "failedAccesses": [
+            {
+              "command": "cat /workspace/AGENTS.md",
+              "result": "No such file or directory",
+              "contentRead": false
+            }
+          ],
+          "accessCommands": [
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+            "cat /workspace/AGENTS.md",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md > /dev/null",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo",
+            "apply_patch: add own repo/gitCliHelpers.ts draft with pending import literals",
+            "cat /workspace/knorvia-studio/AGENTS.md",
+            "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "apply_patch: substitute declared import literals and retain imported stat constants",
+            "sha256sum /tmp/knorvia-git-cli-contracts-20261002/helpers.md /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts /tmp/knorvia-git-cli-contracts-20261002/command-api.ts /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "awk 'NF {count++} END {print count}' /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "apply_patch: add own candidate.json freeze receipt"
+          ],
+          "declarationOnlyClarification": {
+            "source": "parent message before first-ready freeze",
+            "shared": "@knorvia/shared",
+            "config": "#src/git/config.js",
+            "configNames": [
+              "GIT_UNTRACKED_STAT_CHUNK_BYTES",
+              "GIT_UNTRACKED_STAT_CONCURRENCY",
+              "GIT_UNTRACKED_STAT_MAX_BYTES",
+              "normalizeGitPath"
+            ],
+            "commandTypes": "../providers/gitCommandProvider.js",
+            "cliTypes": "./gitCliTypes.js",
+            "owner": "repo/gitCliHelpers.ts"
+          },
+          "design": {
+            "singleOwner": "Stat worker cursor, per-worker buffer and result Map are owned only by buildUntrackedStats; parser state is invocation-local.",
+            "boundaries": "One existing repo helper owner; imports declaration-authorized shared types, CLI/provider types and retained config utilities/constants.",
+            "eventOrder": "Workers allocate one buffer and consume input references before awaiting stat/open/read/close; Map insertion follows completion; all workers complete before return.",
+            "behaviorSource": "The supplied helper contract packet is the complete task-local behavior specification."
+          },
+          "limitations": [
+            "Authored from compatibility declarations and supplied semantic grammar/literals; no novelty or origin-cleanliness claim.",
+            "Coordinator is source-exposed; author did not read implementation or dependency bodies, tests, history, receipts or other candidates.",
+            "No filename discovery, repository edits, Git operations, user-data operations, tests, builds, architecture commands or application filesystem execution.",
+            "Only own candidate output writes and allowed contract/guidance reads were performed; stat/read/open behavior exists in authored code but was not executed.",
+            "No typecheck, lint, format or runtime result is claimed. Repository guidance commands were superseded by the task's explicit candidate-only prohibition.",
+            "Root guidance exact paths arrived after the initial body draft; guidance was read before imports were finalized and before first-ready freeze.",
+            "First-ready is frozen; any reviewed changes must be written as a separate numbered revision."
+          ]
+        },
+        {
+          "owner": "repo/gitCliHelpers.ts",
+          "revision": "02-self-reviewed",
+          "status": "frozen-self-reviewed-candidate",
+          "files": [
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "cd227c96424bc3214a5c145e2ad47400973cc7e7faf5b782ed610d1c7b1fdf85",
+              "nonblankLines": 299,
+              "exportCount": 15
+            }
+          ],
+          "actualReads": [
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+              "sha256": "5db9c15ae0ae6b9a766e96bfaba780d23ca6b3fcb8e649d8492138984d810a16",
+              "contentReads": 2
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+              "sha256": "3762c0ab4da53e1f9a988444cb13679379f92d588b7dff44da043a044aba949b",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+              "sha256": "b42a8807357aa027039631e5582662fdba9416a117d1a6f60a4dfff0d6e74387",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+              "sha256": "2741f1467b704cee08abe3bbf4b928d6ad880f7a0ac064ffc7c43780c83b61dc",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+              "sha256": "ae9d5621914c23fc5f0583affd58a9fe4326eab9910ce8a1736f143d5e54ebdb",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+              "sha256": "47e012f859ef764f1717f55a67c3e91b6da3f56a3a2a5448dfb80fc0e363d43e",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "contentReads": 1
+            },
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "readKinds": ["sha256sum", "awk nonblank line count"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "readKinds": [
+                "cp to separate numbered revision",
+                "self-review of own authored content in context"
+              ]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/candidate.json",
+              "sha256": "002e3b6b141b241cb628d52ef918c612e963085217abd18e0733eea0901b2848",
+              "readKinds": ["json receipt inheritance by Python read_text"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+              "sha256": "cd227c96424bc3214a5c145e2ad47400973cc7e7faf5b782ed610d1c7b1fdf85",
+              "readKinds": ["sha256sum", "awk nonblank line count"]
+            }
+          ],
+          "failedAccesses": [
+            {
+              "command": "cat /workspace/AGENTS.md",
+              "result": "No such file or directory",
+              "contentRead": false
+            }
+          ],
+          "accessCommands": [
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+            "cat /workspace/AGENTS.md",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md > /dev/null",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo",
+            "apply_patch: add own repo/gitCliHelpers.ts draft with pending import literals",
+            "cat /workspace/knorvia-studio/AGENTS.md",
+            "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "apply_patch: substitute declared import literals and retain imported stat constants",
+            "sha256sum /tmp/knorvia-git-cli-contracts-20261002/helpers.md /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts /tmp/knorvia-git-cli-contracts-20261002/command-api.ts /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "awk 'NF {count++} END {print count}' /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "apply_patch: add own candidate.json freeze receipt",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo",
+            "cp /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "apply_patch: preserve parseInt negative zero; build patch additions without unbounded argument spread",
+            "sha256sum /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "awk 'NF {count++} END {print count}' /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "python3 heredoc: read own 01-first-ready/candidate.json, update explicit revision metadata and append access/review records, write only 02-self-reviewed/candidate.json",
+            "sha256sum /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/candidate.json",
+            "apply_patch: finalize 02-self-reviewed/candidate.json with inherited first-ready receipt hash and these access records"
+          ],
+          "declarationOnlyClarification": {
+            "source": "parent message before first-ready freeze",
+            "shared": "@knorvia/shared",
+            "config": "#src/git/config.js",
+            "configNames": [
+              "GIT_UNTRACKED_STAT_CHUNK_BYTES",
+              "GIT_UNTRACKED_STAT_CONCURRENCY",
+              "GIT_UNTRACKED_STAT_MAX_BYTES",
+              "normalizeGitPath"
+            ],
+            "commandTypes": "../providers/gitCommandProvider.js",
+            "cliTypes": "./gitCliTypes.js",
+            "owner": "repo/gitCliHelpers.ts"
+          },
+          "design": {
+            "singleOwner": "Stat worker cursor, per-worker buffer and result Map are owned only by buildUntrackedStats; parser state is invocation-local.",
+            "boundaries": "One existing repo helper owner; imports declaration-authorized shared types, CLI/provider types and retained config utilities/constants.",
+            "eventOrder": "Workers allocate one buffer and consume input references before awaiting stat/open/read/close; Map insertion follows completion; all workers complete before return.",
+            "behaviorSource": "The supplied helper contract packet is the complete task-local behavior specification."
+          },
+          "limitations": [
+            "Authored from compatibility declarations and supplied semantic grammar/literals; no novelty or origin-cleanliness claim.",
+            "Coordinator is source-exposed; author did not read implementation or dependency bodies, tests, history, receipts or other candidates.",
+            "No filename discovery, repository edits, Git operations, user-data operations, tests, builds, architecture commands or application filesystem execution.",
+            "Only own candidate output writes and allowed contract/guidance reads were performed; stat/read/open behavior exists in authored code but was not executed.",
+            "No typecheck, lint, format or runtime result is claimed. Repository guidance commands were superseded by the task's explicit candidate-only prohibition.",
+            "Root guidance exact paths arrived after the initial body draft; guidance was read before imports were finalized and before first-ready freeze.",
+            "First-ready is frozen; any reviewed changes must be written as a separate numbered revision."
+          ],
+          "selfReview": {
+            "method": "Manual comparison of own authored draft in context against already-read semantic packet and API declarations; no execution.",
+            "changes": [
+              "parseNumstat now uses Number.isNaN rather than truthiness to retain parseInt negative zero as required.",
+              "Untracked patch additions use an explicit loop to avoid argument-count processing failure on many-line files."
+            ],
+            "coverage": [
+              "All 15 export signatures and defaults",
+              "Error precedence and exact messages",
+              "Branch issue priority and indented paths",
+              "Status/numstat record grammars",
+              "Worker allocation/admission/completion and file-close failure ordering",
+              "Binary/truncated/unavailable/patch priority",
+              "Config newline and tab handling",
+              "Repository/path compatibility behavior"
+            ],
+            "firstReadyPreserved": true
+          }
+        },
+        {
+          "owner": "repo/gitCliHelpers.ts",
+          "revision": "03-reviewed",
+          "status": "frozen-reviewed-candidate",
+          "files": [
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "f3479e87ab6c0b2349f982bc2f4399ecbba26fe0e24672eca7040a0c700c35ac",
+              "nonblankLines": 205
+            },
+            {
+              "path": "repo/gitCliParsing.ts",
+              "sha256": "a4f188492e34aefc65703ce41e624163aecc10a308261c17213818d93476f6a9",
+              "nonblankLines": 98
+            }
+          ],
+          "actualReads": [
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+              "sha256": "5db9c15ae0ae6b9a766e96bfaba780d23ca6b3fcb8e649d8492138984d810a16",
+              "contentReads": 2
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+              "sha256": "3762c0ab4da53e1f9a988444cb13679379f92d588b7dff44da043a044aba949b",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+              "sha256": "b42a8807357aa027039631e5582662fdba9416a117d1a6f60a4dfff0d6e74387",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+              "sha256": "2741f1467b704cee08abe3bbf4b928d6ad880f7a0ac064ffc7c43780c83b61dc",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+              "sha256": "ae9d5621914c23fc5f0583affd58a9fe4326eab9910ce8a1736f143d5e54ebdb",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+              "sha256": "47e012f859ef764f1717f55a67c3e91b6da3f56a3a2a5448dfb80fc0e363d43e",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "contentReads": 1
+            },
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "readKinds": ["sha256sum", "awk nonblank line count"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "readKinds": [
+                "cp to separate numbered revision",
+                "self-review of own authored content in context"
+              ]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/candidate.json",
+              "sha256": "002e3b6b141b241cb628d52ef918c612e963085217abd18e0733eea0901b2848",
+              "readKinds": ["json receipt inheritance by Python read_text"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+              "sha256": "cd227c96424bc3214a5c145e2ad47400973cc7e7faf5b782ed610d1c7b1fdf85",
+              "readKinds": ["sha256sum", "awk nonblank line count"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+              "sha256": "cd227c96424bc3214a5c145e2ad47400973cc7e7faf5b782ed610d1c7b1fdf85",
+              "readKinds": ["own source text transform to separate numbered revision"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/candidate.json",
+              "sha256": "24083c0726eaee4c9b8bf8b08311462759ab84b19e92a60a3f6d13db2ff50bb6",
+              "readKinds": ["own receipt inheritance"]
+            }
+          ],
+          "failedAccesses": [
+            {
+              "command": "cat /workspace/AGENTS.md",
+              "result": "No such file or directory",
+              "contentRead": false
+            }
+          ],
+          "accessCommands": [
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+            "cat /workspace/AGENTS.md",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md > /dev/null",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo",
+            "apply_patch: add own repo/gitCliHelpers.ts draft with pending import literals",
+            "cat /workspace/knorvia-studio/AGENTS.md",
+            "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "apply_patch: substitute declared import literals and retain imported stat constants",
+            "sha256sum /tmp/knorvia-git-cli-contracts-20261002/helpers.md /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts /tmp/knorvia-git-cli-contracts-20261002/command-api.ts /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "awk 'NF {count++} END {print count}' /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "apply_patch: add own candidate.json freeze receipt",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo",
+            "cp /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "apply_patch: preserve parseInt negative zero; build patch additions without unbounded argument spread",
+            "sha256sum /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "awk 'NF {count++} END {print count}' /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "python3 heredoc: read own 01-first-ready/candidate.json, update explicit revision metadata and append access/review records, write only 02-self-reviewed/candidate.json",
+            "sha256sum /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/candidate.json",
+            "apply_patch: finalize 02-self-reviewed/candidate.json with inherited first-ready receipt hash and these access records",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/03-reviewed/repo",
+            "python3 heredoc: read only own 02-self-reviewed/repo/gitCliHelpers.ts and 02-self-reviewed/candidate.json; split status/numstat parsers, correct untracked result absolute paths, compute SHA256 and nonblank lines, write only 03-reviewed sources and candidate.json"
+          ],
+          "declarationOnlyClarification": {
+            "source": "parent message before first-ready freeze",
+            "shared": "@knorvia/shared",
+            "config": "#src/git/config.js",
+            "configNames": [
+              "GIT_UNTRACKED_STAT_CHUNK_BYTES",
+              "GIT_UNTRACKED_STAT_CONCURRENCY",
+              "GIT_UNTRACKED_STAT_MAX_BYTES",
+              "normalizeGitPath"
+            ],
+            "commandTypes": "../providers/gitCommandProvider.js",
+            "cliTypes": "./gitCliTypes.js",
+            "owner": "repo/gitCliHelpers.ts",
+            "untrackedDiffResultPath": "Parent body-free review: buildUntrackedTextDiffResult result.path is always absolutePath for patch, binary and truncated results."
+          },
+          "design": {
+            "singleOwner": "Stat worker cursor, per-worker buffer and result Map are owned only by buildUntrackedStats; parser state is invocation-local.",
+            "boundaries": "Existing repo helper owner re-exports cohesive repo-local status/numstat parsing; both files import only declaration-authorized shared/CLI/provider/config interfaces.",
+            "eventOrder": "Workers allocate one buffer and consume input references before awaiting stat/open/read/close; Map insertion follows completion; all workers complete before return.",
+            "behaviorSource": "The supplied helper contract packet is the complete task-local behavior specification."
+          },
+          "limitations": [
+            "Authored from compatibility declarations and supplied semantic grammar/literals; no novelty or origin-cleanliness claim.",
+            "Coordinator is source-exposed; author did not read implementation or dependency bodies, tests, history, receipts or other candidates.",
+            "No filename discovery, repository edits, Git operations, user-data operations, tests, builds, architecture commands or application filesystem execution.",
+            "Only own candidate output writes and allowed contract/guidance reads were performed; stat/read/open behavior exists in authored code but was not executed.",
+            "No typecheck, lint, format or runtime result is claimed. Repository guidance commands were superseded by the task's explicit candidate-only prohibition.",
+            "Root guidance exact paths arrived after the initial body draft; guidance was read before imports were finalized and before first-ready freeze.",
+            "First-ready is frozen; any reviewed changes must be written as a separate numbered revision.",
+            "Parent supplied one additional body-free result-path declaration during first-ready review; no source-body evidence was received."
+          ],
+          "selfReview": {
+            "method": "Manual comparison of own authored draft in context against already-read semantic packet and API declarations; no execution.",
+            "changes": [
+              "parseNumstat now uses Number.isNaN rather than truthiness to retain parseInt negative zero as required.",
+              "Untracked patch additions use an explicit loop to avoid argument-count processing failure on many-line files.",
+              "Untracked diff results use absolutePath in each successful result availability; patch header retains normalized repoRelativePath.",
+              "Status/numstat parser exports are authored in cohesive repo/gitCliParsing.ts and re-exported by the complete gitCliHelpers.ts owner, leaving both sources well below 400 nonblank lines."
+            ],
+            "coverage": [
+              "All 15 export signatures and defaults",
+              "Error precedence and exact messages",
+              "Branch issue priority and indented paths",
+              "Status/numstat record grammars",
+              "Worker allocation/admission/completion and file-close failure ordering",
+              "Binary/truncated/unavailable/patch priority",
+              "Config newline and tab handling",
+              "Repository/path compatibility behavior"
+            ],
+            "firstReadyPreserved": true
+          },
+          "exportCount": 15
+        },
+        {
+          "owner": "repo/gitCliHelpers.ts",
+          "revision": "04-failure-compatible",
+          "status": "frozen-reviewed-candidate",
+          "files": [
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "cb4ee457d845f59746ab7d875e49e7087abf291c84faed4cb6a533ae9087d1dc",
+              "nonblankLines": 204
+            },
+            {
+              "path": "repo/gitCliParsing.ts",
+              "sha256": "a4f188492e34aefc65703ce41e624163aecc10a308261c17213818d93476f6a9",
+              "nonblankLines": 98
+            }
+          ],
+          "actualReads": [
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+              "sha256": "5db9c15ae0ae6b9a766e96bfaba780d23ca6b3fcb8e649d8492138984d810a16",
+              "contentReads": 2
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+              "sha256": "3762c0ab4da53e1f9a988444cb13679379f92d588b7dff44da043a044aba949b",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+              "sha256": "b42a8807357aa027039631e5582662fdba9416a117d1a6f60a4dfff0d6e74387",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+              "sha256": "2741f1467b704cee08abe3bbf4b928d6ad880f7a0ac064ffc7c43780c83b61dc",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+              "sha256": "ae9d5621914c23fc5f0583affd58a9fe4326eab9910ce8a1736f143d5e54ebdb",
+              "contentReads": 1
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+              "sha256": "47e012f859ef764f1717f55a67c3e91b6da3f56a3a2a5448dfb80fc0e363d43e",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "contentReads": 1
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "contentReads": 1
+            },
+            {
+              "path": "repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "readKinds": ["sha256sum", "awk nonblank line count"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+              "sha256": "96cef42bd3476ff90ac281714f10785278c930ddf6e429094181eeb12aeb76da",
+              "readKinds": [
+                "cp to separate numbered revision",
+                "self-review of own authored content in context"
+              ]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/candidate.json",
+              "sha256": "002e3b6b141b241cb628d52ef918c612e963085217abd18e0733eea0901b2848",
+              "readKinds": ["json receipt inheritance by Python read_text"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+              "sha256": "cd227c96424bc3214a5c145e2ad47400973cc7e7faf5b782ed610d1c7b1fdf85",
+              "readKinds": ["sha256sum", "awk nonblank line count"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+              "sha256": "cd227c96424bc3214a5c145e2ad47400973cc7e7faf5b782ed610d1c7b1fdf85",
+              "readKinds": ["own source text transform to separate numbered revision"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/candidate.json",
+              "sha256": "24083c0726eaee4c9b8bf8b08311462759ab84b19e92a60a3f6d13db2ff50bb6",
+              "readKinds": ["own receipt inheritance"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/03-reviewed/candidate.json",
+              "sha256": "e6fb42a83f5ed3c8ea80bcc620c0b9c34f78a6dd1c61104bf2be6ff2b56f090f",
+              "readKinds": ["own receipt inheritance"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/03-reviewed/repo/gitCliHelpers.ts",
+              "sha256": "f3479e87ab6c0b2349f982bc2f4399ecbba26fe0e24672eca7040a0c700c35ac",
+              "readKinds": ["own source copy to separate numbered revision"]
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/helpers/03-reviewed/repo/gitCliParsing.ts",
+              "sha256": "a4f188492e34aefc65703ce41e624163aecc10a308261c17213818d93476f6a9",
+              "readKinds": ["own source copy to separate numbered revision"]
+            }
+          ],
+          "failedAccesses": [
+            {
+              "command": "cat /workspace/AGENTS.md",
+              "result": "No such file or directory",
+              "contentRead": false
+            }
+          ],
+          "accessCommands": [
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md",
+            "cat /workspace/AGENTS.md",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+            "cat /tmp/knorvia-git-cli-contracts-20261002/helpers.md > /dev/null",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo",
+            "apply_patch: add own repo/gitCliHelpers.ts draft with pending import literals",
+            "cat /workspace/knorvia-studio/AGENTS.md",
+            "cat /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "apply_patch: substitute declared import literals and retain imported stat constants",
+            "sha256sum /tmp/knorvia-git-cli-contracts-20261002/helpers.md /tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts /tmp/knorvia-git-cli-contracts-20261002/cli-api.ts /tmp/knorvia-git-cli-contracts-20261002/command-api.ts /tmp/knorvia-git-cli-contracts-20261002/shared-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "awk 'NF {count++} END {print count}' /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts",
+            "apply_patch: add own candidate.json freeze receipt",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo",
+            "cp /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/repo/gitCliHelpers.ts /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "apply_patch: preserve parseInt negative zero; build patch additions without unbounded argument spread",
+            "sha256sum /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "awk 'NF {count++} END {print count}' /tmp/knorvia-git-cli-candidates-20261002/helpers/02-self-reviewed/repo/gitCliHelpers.ts",
+            "python3 heredoc: read own 01-first-ready/candidate.json, update explicit revision metadata and append access/review records, write only 02-self-reviewed/candidate.json",
+            "sha256sum /tmp/knorvia-git-cli-candidates-20261002/helpers/01-first-ready/candidate.json",
+            "apply_patch: finalize 02-self-reviewed/candidate.json with inherited first-ready receipt hash and these access records",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/03-reviewed/repo",
+            "python3 heredoc: read only own 02-self-reviewed/repo/gitCliHelpers.ts and 02-self-reviewed/candidate.json; split status/numstat parsers, correct untracked result absolute paths, compute SHA256 and nonblank lines, write only 03-reviewed sources and candidate.json",
+            "mkdir -p /tmp/knorvia-git-cli-candidates-20261002/helpers/04-failure-compatible/repo",
+            "python3 heredoc: read only own 03-reviewed/candidate.json, 03-reviewed/repo/gitCliHelpers.ts and 03-reviewed/repo/gitCliParsing.ts; preserve variadic patch append failure boundary; compute SHA256 and nonblank lines; write only 04-failure-compatible sources and candidate.json"
+          ],
+          "declarationOnlyClarification": {
+            "source": "parent message before first-ready freeze",
+            "shared": "@knorvia/shared",
+            "config": "#src/git/config.js",
+            "configNames": [
+              "GIT_UNTRACKED_STAT_CHUNK_BYTES",
+              "GIT_UNTRACKED_STAT_CONCURRENCY",
+              "GIT_UNTRACKED_STAT_MAX_BYTES",
+              "normalizeGitPath"
+            ],
+            "commandTypes": "../providers/gitCommandProvider.js",
+            "cliTypes": "./gitCliTypes.js",
+            "owner": "repo/gitCliHelpers.ts",
+            "untrackedDiffResultPath": "Parent body-free review: buildUntrackedTextDiffResult result.path is always absolutePath for patch, binary and truncated results.",
+            "untrackedPatchAppendFailure": "Parent body-free review: mapped patch additions are appended in one variadic call inside existing catch-all try. Host argument-limit failure returns null, preserving repository no-index fallback eligibility."
+          },
+          "design": {
+            "singleOwner": "Stat worker cursor, per-worker buffer and result Map are owned only by buildUntrackedStats; parser state is invocation-local.",
+            "boundaries": "Existing repo helper owner re-exports cohesive repo-local status/numstat parsing; both files import only declaration-authorized shared/CLI/provider/config interfaces.",
+            "eventOrder": "Workers allocate one buffer and consume input references before awaiting stat/open/read/close; Map insertion follows completion; all workers complete before return.",
+            "behaviorSource": "The supplied helper contract packet is the complete task-local behavior specification."
+          },
+          "limitations": [
+            "Authored from compatibility declarations and supplied semantic grammar/literals; no novelty or origin-cleanliness claim.",
+            "Coordinator is source-exposed; author did not read implementation or dependency bodies, tests, history, receipts or other candidates.",
+            "No filename discovery, repository edits, Git operations, user-data operations, tests, builds, architecture commands or application filesystem execution.",
+            "Only own candidate output writes and allowed contract/guidance reads were performed; stat/read/open behavior exists in authored code but was not executed.",
+            "No typecheck, lint, format or runtime result is claimed. Repository guidance commands were superseded by the task's explicit candidate-only prohibition.",
+            "Root guidance exact paths arrived after the initial body draft; guidance was read before imports were finalized and before first-ready freeze.",
+            "First-ready is frozen; any reviewed changes must be written as a separate numbered revision.",
+            "Parent supplied one additional body-free result-path declaration during first-ready review; no source-body evidence was received.",
+            "Parent supplied an additional body-free variadic-append failure-boundary declaration; no source-body evidence was received. Revisions01,02,03 are untouched."
+          ],
+          "selfReview": {
+            "method": "Manual comparison of own authored draft in context against already-read semantic packet and API declarations; no execution.",
+            "changes": [
+              "parseNumstat now uses Number.isNaN rather than truthiness to retain parseInt negative zero as required.",
+              "Untracked patch additions use an explicit loop to avoid argument-count processing failure on many-line files.",
+              "Untracked diff results use absolutePath in each successful result availability; patch header retains normalized repoRelativePath.",
+              "Status/numstat parser exports are authored in cohesive repo/gitCliParsing.ts and re-exported by the complete gitCliHelpers.ts owner, leaving both sources well below 400 nonblank lines.",
+              "Supersedes the revision02 bounded-loop change: untracked patch additions again use one variadic append, preserving the clarified null-on-host-argument-limit failure boundary. Absolute result paths and signed-zero parsing remain retained."
+            ],
+            "coverage": [
+              "All 15 export signatures and defaults",
+              "Error precedence and exact messages",
+              "Branch issue priority and indented paths",
+              "Status/numstat record grammars",
+              "Worker allocation/admission/completion and file-close failure ordering",
+              "Binary/truncated/unavailable/patch priority",
+              "Config newline and tab handling",
+              "Repository/path compatibility behavior"
+            ],
+            "firstReadyPreserved": true
+          },
+          "exportCount": 15
+        }
+      ]
+    },
+    "repo": {
+      "model": "GPT-6.1 Sol",
+      "reasoningEffort": "high",
+      "forkTurns": "none",
+      "firstReadyAndRevisions": [
+        {
+          "owner": "repo/gitCliRepo.ts",
+          "stage": "first-ready-frozen-before-review",
+          "candidateRoot": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready",
+          "files": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitCliRepo.ts",
+              "targetRelativePath": "repo/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6",
+              "nonblankLines": 24
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+              "targetRelativePath": "repo/gitRepoOwner.ts",
+              "sha256": "27ab6016662c5c8d4b1260c348d9c067de19354b6a1cf55dce677df8700b8eb2",
+              "nonblankLines": 31
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+              "targetRelativePath": "repo/gitRepoResolution.ts",
+              "sha256": "30bd082865ea32b13e7037d24106056ab77a1bfaf26ec293b9129a51cf0486f8",
+              "nonblankLines": 74
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+              "targetRelativePath": "repo/gitRepoStatus.ts",
+              "sha256": "52948451e0fa30a5f1131de11d013443a574a8ddaa17d7b4b176d7b2d8947f1b",
+              "nonblankLines": 118
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoBranches.ts",
+              "targetRelativePath": "repo/gitRepoBranches.ts",
+              "sha256": "eb3ef098231ed0e727b8d6ecab8a207b59dca0fe3a8c5b01d2f49e222cdfaae6",
+              "nonblankLines": 56
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+              "targetRelativePath": "repo/gitRepoDiff.ts",
+              "sha256": "76db29303916e6ac33eabe6e45341d642251cc0f88ad46fcd1aba9ef660b5d40",
+              "nonblankLines": 63
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts",
+              "targetRelativePath": "repo/gitRepoWrites.ts",
+              "sha256": "33dacae66e9eb7eabc0e316edc46b6e92626b91c0dc793e64e281ac8b5362cf9",
+              "nonblankLines": 98
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoPush.ts",
+              "targetRelativePath": "repo/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2",
+              "nonblankLines": 48
+            }
+          ],
+          "readAccessLog": [
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-git-cli-contracts-20261002/repo.md",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+              ],
+              "purpose": "contract and required workspace governance"
+            },
+            {
+              "operation": "cat",
+              "paths": [
+                "/tmp/knorvia-git-cli-contracts-20261002/repo-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/graph-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts"
+              ],
+              "purpose": "approved declaration-only API packets"
+            },
+            {
+              "operation": "python read/write own drafts",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts"
+              ],
+              "purpose": "apply declaration-only import clarification and finish pending helper import"
+            },
+            {
+              "operation": "python read own authored bytes",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoPush.ts"
+              ],
+              "purpose": "freeze SHA256 and line budgets; no semantic review"
+            },
+            {
+              "operation": "python read approved packets",
+              "paths": [
+                "/tmp/knorvia-git-cli-contracts-20261002/repo.md",
+                "/workspace/knorvia-studio/AGENTS.md",
+                "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+                "/tmp/knorvia-git-cli-contracts-20261002/repo-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/graph-api.ts",
+                "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts"
+              ],
+              "purpose": "record exact packet hashes"
+            }
+          ],
+          "inputHashes": [
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/repo.md",
+              "sha256": "8d850929b5c6817200730db427997eb6e36164663da4219f16ef4eb34af18e39",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/workspace/knorvia-studio/AGENTS.md",
+              "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+              "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/repo-api.ts",
+              "sha256": "93a19c215faf82e37dcb3088d5cf605076b104bfa1669430bea14984f9213fdf",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/helpers-api.ts",
+              "sha256": "3762c0ab4da53e1f9a988444cb13679379f92d588b7dff44da043a044aba949b",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/cli-api.ts",
+              "sha256": "b42a8807357aa027039631e5582662fdba9416a117d1a6f60a4dfff0d6e74387",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/command-api.ts",
+              "sha256": "2741f1467b704cee08abe3bbf4b928d6ad880f7a0ac064ffc7c43780c83b61dc",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/shared-api.ts",
+              "sha256": "ae9d5621914c23fc5f0583affd58a9fe4326eab9910ce8a1736f143d5e54ebdb",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/graph-api.ts",
+              "sha256": "0d5075e837b878aee1de571e71952c69e821f787a959dc059ddaff37a4367caf",
+              "kind": "approved-contract-or-governance"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+              "sha256": "47e012f859ef764f1717f55a67c3e91b6da3f56a3a2a5448dfb80fc0e363d43e",
+              "kind": "approved-contract-or-governance"
+            }
+          ],
+          "writeAccessLog": [
+            {
+              "operation": "mkdir",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready"
+              ]
+            },
+            {
+              "operation": "author fresh text",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoPush.ts"
+              ]
+            },
+            {
+              "operation": "write receipt",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/candidate.json"]
+            },
+            {
+              "operation": "chmod read-only freeze",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/candidate.json"
+              ]
+            }
+          ],
+          "declarationClarifications": [
+            {
+              "source": "parent message",
+              "shared": "@knorvia/shared",
+              "command": "../providers/gitCommandProvider.js",
+              "config": "../config.js",
+              "helpers": "./gitCliHelpers.js",
+              "graph": "./gitCommitGraphPlan.js",
+              "cli": "./gitCliTypes.js",
+              "logger": "#src/logger/serviceLogger.js",
+              "paths": "#src/paths.js"
+            }
+          ],
+          "scope": {
+            "completeOwnerLifecycle": true,
+            "cohesiveOwnerPrivateFiles": true,
+            "maxNonblankLinesPerSource": 400,
+            "repositoryEdits": false,
+            "implementationBodyReads": false,
+            "dependencyBodyReads": false,
+            "testReads": false,
+            "historyReads": false,
+            "receiptReads": false,
+            "otherCandidateReads": false,
+            "filenameDiscovery": false,
+            "testsExecuted": false,
+            "buildsExecuted": false,
+            "realGitExecuted": false,
+            "userDataAccessed": false,
+            "runtimeProcessActionsExecuted": false,
+            "onlyAuthoringShellAndPythonExecuted": true
+          },
+          "exposureLimits": [
+            "Contract-only fresh author candidate; coordinator remains source-exposed.",
+            "Public names/types/argv/errors/compatibility literals retained by contract; no independent provenance claim for those literals.",
+            "Retained graph/config/helper/provider/types/logger/path dependency implementations were never read and are not replaced.",
+            "Graph query record behavior remains owned by retained external port; no assertion of its independent implementation.",
+            "commitMessageFileScope remains unchanged.",
+            "No acceptance or type/lint/architecture checks executed by author; coordinator validation required."
+          ],
+          "freeze": "Raw first-ready sources are immutable; any review changes require a separate numbered revision directory."
+        },
+        {
+          "owner": "repo/gitCliRepo.ts",
+          "stage": "revision-1-frozen-before-application",
+          "candidateRoot": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1",
+          "files": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitCliRepo.ts",
+              "targetRelativePath": "repo/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6",
+              "nonblankLines": 24
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+              "targetRelativePath": "repo/gitRepoOwner.ts",
+              "sha256": "98615ff7bb059aeb9e217e05258a139afd90b045bf1a2b213f2818e096cfe4e5",
+              "nonblankLines": 34
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+              "targetRelativePath": "repo/gitRepoResolution.ts",
+              "sha256": "da3ccc6f605a0499aeff801edab06ef0b6c3a44cac57a837f201f13af082c367",
+              "nonblankLines": 75
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+              "targetRelativePath": "repo/gitRepoStatus.ts",
+              "sha256": "fa543068e2920258f544e608a2dc5e2b9854f6f1efd2e70db7ab83199bd4db09",
+              "nonblankLines": 118
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoBranches.ts",
+              "targetRelativePath": "repo/gitRepoBranches.ts",
+              "sha256": "eb3ef098231ed0e727b8d6ecab8a207b59dca0fe3a8c5b01d2f49e222cdfaae6",
+              "nonblankLines": 56
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+              "targetRelativePath": "repo/gitRepoDiff.ts",
+              "sha256": "9a079d25a8d1800189e27d1cb0411e1e0b5ab38aaeac3f8986e8dd95010a865a",
+              "nonblankLines": 82
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts",
+              "targetRelativePath": "repo/gitRepoWrites.ts",
+              "sha256": "a8866d585535c2b4e9030c20148d30749482ea72e5739061f0838824b1fed287",
+              "nonblankLines": 109
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoPush.ts",
+              "targetRelativePath": "repo/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2",
+              "nonblankLines": 48
+            }
+          ],
+          "basedOnOwnFrozenSources": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+              "sha256": "27ab6016662c5c8d4b1260c348d9c067de19354b6a1cf55dce677df8700b8eb2"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+              "sha256": "30bd082865ea32b13e7037d24106056ab77a1bfaf26ec293b9129a51cf0486f8"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+              "sha256": "52948451e0fa30a5f1131de11d013443a574a8ddaa17d7b4b176d7b2d8947f1b"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoBranches.ts",
+              "sha256": "eb3ef098231ed0e727b8d6ecab8a207b59dca0fe3a8c5b01d2f49e222cdfaae6"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+              "sha256": "76db29303916e6ac33eabe6e45341d642251cc0f88ad46fcd1aba9ef660b5d40"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts",
+              "sha256": "33dacae66e9eb7eabc0e316edc46b6e92626b91c0dc793e64e281ac8b5362cf9"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2"
+            }
+          ],
+          "accessLog": [
+            {
+              "operation": "cat own frozen sources",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts"
+              ],
+              "purpose": "apply coordinator contract clarifications"
+            },
+            {
+              "operation": "python read own frozen sources and write separate own revision",
+              "readPaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoPush.ts"
+              ],
+              "writePaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoPush.ts"
+              ]
+            },
+            {
+              "operation": "python read/write own revision drafts",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts"
+              ]
+            },
+            {
+              "operation": "python read own original and revision bytes",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/first-ready/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoPush.ts"
+              ],
+              "purpose": "record SHA256 and line budgets; freeze before application"
+            },
+            {
+              "operation": "write revision receipt",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/candidate.json"]
+            },
+            {
+              "operation": "chmod freeze read-only",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/candidate.json"
+              ]
+            }
+          ],
+          "newBodyReads": [],
+          "contractClarifications": [
+            "Retained config DEFAULT_GIT_COMMAND_TIMEOUT_MS/DEFAULT_GIT_DIFF_TIMEOUT_MS/DEFAULT_GIT_PUSH_TIMEOUT_MS/DEFAULT_GIT_OUTPUT_BYTES/DEFAULT_GIT_DIFF_BYTES/DEFAULT_GIT_PUSH_OUTPUT_BYTES exports re-exported under owner aliases; no budget policy duplicate.",
+            "Workspace info checks directory first, utf-8 encoding, empty gitdir suffix has empty directory.",
+            "Direct await Promise.all normalizations then Set for stage/unstage/discard/commit; mutation wrappers removed.",
+            "Preview content pair owners capture scalar repoRoot on invocation and return completed pair before public attach; merge-base and show sequencing preserved.",
+            "Branch list and comparison result metadata reads status.summary after command completion."
+          ],
+          "scope": {
+            "maxNonblankLinesPerSource": 400,
+            "firstReadyPreserved": true,
+            "onlyOwnSourceRevision": true,
+            "repositoryEdits": false,
+            "implementationDependencyBodyReads": false,
+            "otherCandidateReads": false,
+            "testsHistoryReceiptsRead": false,
+            "filenameDiscovery": false,
+            "testsBuildsRealGitUserdataRuntimeActionsExecuted": false,
+            "authoringShellPythonOnly": true
+          },
+          "exposureLimits": [
+            "All first-ready exposure limits remain: coordinator source-exposed; retained public names/types/argv/errors/compatibility literals are contract lineage.",
+            "Retained graph/config/helpers/provider/types/logger/path bodies not read or modified; graph query-record independence not asserted.",
+            "No author acceptance/type/lint/architecture checks performed.",
+            "Coordinator validation remains required; commitMessageFileScope unchanged."
+          ],
+          "freeze": "Revision-1 frozen separately; first-ready and its receipt remain immutable."
+        },
+        {
+          "owner": "repo/gitCliRepo.ts",
+          "stage": "revision-2-frozen-before-application",
+          "candidateRoot": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2",
+          "files": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitCliRepo.ts",
+              "targetRelativePath": "repo/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6",
+              "nonblankLines": 24
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoOwner.ts",
+              "targetRelativePath": "repo/gitRepoOwner.ts",
+              "sha256": "98615ff7bb059aeb9e217e05258a139afd90b045bf1a2b213f2818e096cfe4e5",
+              "nonblankLines": 34
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoResolution.ts",
+              "targetRelativePath": "repo/gitRepoResolution.ts",
+              "sha256": "da3ccc6f605a0499aeff801edab06ef0b6c3a44cac57a837f201f13af082c367",
+              "nonblankLines": 75
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoStatus.ts",
+              "targetRelativePath": "repo/gitRepoStatus.ts",
+              "sha256": "fa543068e2920258f544e608a2dc5e2b9854f6f1efd2e70db7ab83199bd4db09",
+              "nonblankLines": 118
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts",
+              "targetRelativePath": "repo/gitRepoBranches.ts",
+              "sha256": "bfc40ed6cc0a719b2cf0fddfad1e389dff1320d7dbb656a7baaf8fe3e86747d0",
+              "nonblankLines": 58
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoDiff.ts",
+              "targetRelativePath": "repo/gitRepoDiff.ts",
+              "sha256": "9a079d25a8d1800189e27d1cb0411e1e0b5ab38aaeac3f8986e8dd95010a865a",
+              "nonblankLines": 82
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoWrites.ts",
+              "targetRelativePath": "repo/gitRepoWrites.ts",
+              "sha256": "a8866d585535c2b4e9030c20148d30749482ea72e5739061f0838824b1fed287",
+              "nonblankLines": 109
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoPush.ts",
+              "targetRelativePath": "repo/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2",
+              "nonblankLines": 48
+            }
+          ],
+          "basedOnOwnFrozenSources": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+              "sha256": "98615ff7bb059aeb9e217e05258a139afd90b045bf1a2b213f2818e096cfe4e5"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+              "sha256": "da3ccc6f605a0499aeff801edab06ef0b6c3a44cac57a837f201f13af082c367"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+              "sha256": "fa543068e2920258f544e608a2dc5e2b9854f6f1efd2e70db7ab83199bd4db09"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoBranches.ts",
+              "sha256": "eb3ef098231ed0e727b8d6ecab8a207b59dca0fe3a8c5b01d2f49e222cdfaae6"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+              "sha256": "9a079d25a8d1800189e27d1cb0411e1e0b5ab38aaeac3f8986e8dd95010a865a"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts",
+              "sha256": "a8866d585535c2b4e9030c20148d30749482ea72e5739061f0838824b1fed287"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2"
+            }
+          ],
+          "accessLog": [
+            {
+              "operation": "mkdir separate own revision",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2"]
+            },
+            {
+              "operation": "python read own revision-1 sources and copy into revision-2",
+              "readPaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoPush.ts"
+              ],
+              "writePaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoPush.ts"
+              ]
+            },
+            {
+              "operation": "python read/write own revision branch draft",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts"
+              ]
+            },
+            {
+              "operation": "python read own revision-1 and revision-2 bytes",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-1/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoPush.ts"
+              ],
+              "purpose": "SHA256 and line budget freeze before application"
+            },
+            {
+              "operation": "write receipt",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/candidate.json"]
+            },
+            {
+              "operation": "chmod read-only freeze",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/candidate.json"
+              ]
+            }
+          ],
+          "newContractOrDependencyBodyReads": [],
+          "clarificationSource": "Coordinator declaration/behavior-only follow-up messages; no source reads.",
+          "changes": [
+            "Preserves revision-1 changes: retained config budget aliases, directory-first workspace classification/utf-8/empty gitdir, direct normalization Promise.all barriers, scalar-root complete preview pair owners, branch-list/comparison metadata post-command reads.",
+            "Public branch methods now check conflicts synchronously, await operation helper, then await separate validateBranch helper; no combined awaited branch gate.",
+            "Selected commit helper still begins selected status command directly in public normalization continuation."
+          ],
+          "scope": {
+            "maxNonblankLinesPerSource": 400,
+            "firstReadyAndRevision1Preserved": true,
+            "onlyOwnSourceRevision": true,
+            "repositoryEdits": false,
+            "implementationDependencyBodyReads": false,
+            "otherCandidateReads": false,
+            "testsHistoryReceiptsRead": false,
+            "filenameDiscovery": false,
+            "testsBuildsRealGitUserdataRuntimeActionsExecuted": false,
+            "authoringShellPythonOnly": true
+          },
+          "exposureLimits": [
+            "Original first-ready and revision-1 access logs and exposure limits remain applicable.",
+            "Coordinator remains source-exposed; public names/types/argv/errors/compatibility literals retained by supplied contract.",
+            "Graph/config/helpers/provider/types/logger/path bodies not read or modified; no independent claim for retained graph behavior.",
+            "No acceptance/type/lint/architecture checks by author; coordinator validation required; commitMessageFileScope unchanged."
+          ],
+          "freeze": "Revision-2 frozen before application; earlier candidates and receipts preserved."
+        },
+        {
+          "owner": "repo/gitCliRepo.ts",
+          "stage": "revision-3-frozen-before-application",
+          "candidateRoot": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3",
+          "files": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitCliRepo.ts",
+              "targetRelativePath": "repo/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6",
+              "nonblankLines": 24
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoOwner.ts",
+              "targetRelativePath": "repo/gitRepoOwner.ts",
+              "sha256": "98615ff7bb059aeb9e217e05258a139afd90b045bf1a2b213f2818e096cfe4e5",
+              "nonblankLines": 34
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoResolution.ts",
+              "targetRelativePath": "repo/gitRepoResolution.ts",
+              "sha256": "da3ccc6f605a0499aeff801edab06ef0b6c3a44cac57a837f201f13af082c367",
+              "nonblankLines": 75
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoStatus.ts",
+              "targetRelativePath": "repo/gitRepoStatus.ts",
+              "sha256": "fa543068e2920258f544e608a2dc5e2b9854f6f1efd2e70db7ab83199bd4db09",
+              "nonblankLines": 118
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoBranches.ts",
+              "targetRelativePath": "repo/gitRepoBranches.ts",
+              "sha256": "bfc40ed6cc0a719b2cf0fddfad1e389dff1320d7dbb656a7baaf8fe3e86747d0",
+              "nonblankLines": 58
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoDiff.ts",
+              "targetRelativePath": "repo/gitRepoDiff.ts",
+              "sha256": "9a079d25a8d1800189e27d1cb0411e1e0b5ab38aaeac3f8986e8dd95010a865a",
+              "nonblankLines": 82
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+              "targetRelativePath": "repo/gitRepoWrites.ts",
+              "sha256": "db61e1911fddb5545949e8b37678b30f00ed51d3efee742069a663deae8df45b",
+              "nonblankLines": 41
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoPush.ts",
+              "targetRelativePath": "repo/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2",
+              "nonblankLines": 48
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoCommit.ts",
+              "targetRelativePath": "repo/gitRepoCommit.ts",
+              "sha256": "143db4e31315dd0ec25636db84712b3b7080d0531720f93a22e4d5ba0289421d",
+              "nonblankLines": 76
+            }
+          ],
+          "basedOnOwnFrozenSources": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoOwner.ts",
+              "sha256": "98615ff7bb059aeb9e217e05258a139afd90b045bf1a2b213f2818e096cfe4e5"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoResolution.ts",
+              "sha256": "da3ccc6f605a0499aeff801edab06ef0b6c3a44cac57a837f201f13af082c367"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoStatus.ts",
+              "sha256": "fa543068e2920258f544e608a2dc5e2b9854f6f1efd2e70db7ab83199bd4db09"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts",
+              "sha256": "bfc40ed6cc0a719b2cf0fddfad1e389dff1320d7dbb656a7baaf8fe3e86747d0"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoDiff.ts",
+              "sha256": "9a079d25a8d1800189e27d1cb0411e1e0b5ab38aaeac3f8986e8dd95010a865a"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoWrites.ts",
+              "sha256": "a8866d585535c2b4e9030c20148d30749482ea72e5739061f0838824b1fed287"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2"
+            }
+          ],
+          "accessLog": [
+            {
+              "operation": "mkdir own revision directory",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3"]
+            },
+            {
+              "operation": "python read own revision-2 sources and copy to revision-3",
+              "readPaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoPush.ts"
+              ],
+              "writePaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoPush.ts"
+              ]
+            },
+            {
+              "operation": "python read own writes draft and author inline commit module",
+              "readPaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts"
+              ],
+              "writePaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoCommit.ts"
+              ]
+            },
+            {
+              "operation": "python read own revision-2/revision-3 bytes",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-2/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoCommit.ts"
+              ],
+              "purpose": "SHA256 and line budget freeze before application"
+            },
+            {
+              "operation": "write revision receipt",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/candidate.json"]
+            },
+            {
+              "operation": "chmod read-only freeze",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoCommit.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/candidate.json"
+              ]
+            }
+          ],
+          "newContractOrDependencyBodyReads": [],
+          "clarificationSource": "Coordinator behavior-only messages; ninth owner-private source authorized.",
+          "changes": [
+            "Complete public async commit method is produced by synchronous createCommitMethods owner composition.",
+            "Selected staged commit lifecycle is inline in public commit, eliminating awaited commitSelected completion wrapper; path normalization awaits Promise.all directly.",
+            "createWriteMethods spreads public commit without async wrapping.",
+            "All revision-1/revision-2 retained budget, workspace layout, direct mutation pathnormalization, scalar-root preview pair, post-command status metadata, and branch phase-barrier corrections remain."
+          ],
+          "scope": {
+            "maxNonblankLinesPerSource": 400,
+            "firstReadyAndAllPriorRevisionsPreserved": true,
+            "onlyOwnSourceRevision": true,
+            "repositoryEdits": false,
+            "implementationDependencyBodyReads": false,
+            "otherCandidateReads": false,
+            "testsHistoryReceiptsRead": false,
+            "filenameDiscovery": false,
+            "testsBuildsRealGitUserdataRuntimeActionsExecuted": false,
+            "authoringShellPythonOnly": true
+          },
+          "exposureLimits": [
+            "Original first-ready and numbered revision access logs and exposure limits remain applicable.",
+            "Coordinator remains source-exposed; public names/types/argv/errors/compatibility literals retain supplied-contract lineage.",
+            "Graph/config/helpers/provider/types/logger/path bodies not read or modified; retained graph behavior independence not asserted.",
+            "No acceptance/type/lint/architecture checks by author; coordinator validation required; commitMessageFileScope unchanged."
+          ],
+          "freeze": "Revision-3 frozen before application; first-ready and revisions 1/2 and all receipts preserved."
+        },
+        {
+          "owner": "repo/gitCliRepo.ts",
+          "stage": "revision-4-frozen-before-application",
+          "candidateRoot": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4",
+          "files": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitCliRepo.ts",
+              "targetRelativePath": "repo/gitCliRepo.ts",
+              "sha256": "34a1e40089fcdef63ecb8623b822fbec3efb82dece3cff440c55e22398bfba7a",
+              "nonblankLines": 38
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoOwner.ts",
+              "targetRelativePath": "repo/gitRepoOwner.ts",
+              "sha256": "98615ff7bb059aeb9e217e05258a139afd90b045bf1a2b213f2818e096cfe4e5",
+              "nonblankLines": 34
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoResolution.ts",
+              "targetRelativePath": "repo/gitRepoResolution.ts",
+              "sha256": "da3ccc6f605a0499aeff801edab06ef0b6c3a44cac57a837f201f13af082c367",
+              "nonblankLines": 75
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoStatus.ts",
+              "targetRelativePath": "repo/gitRepoStatus.ts",
+              "sha256": "fa543068e2920258f544e608a2dc5e2b9854f6f1efd2e70db7ab83199bd4db09",
+              "nonblankLines": 118
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoBranches.ts",
+              "targetRelativePath": "repo/gitRepoBranches.ts",
+              "sha256": "bfc40ed6cc0a719b2cf0fddfad1e389dff1320d7dbb656a7baaf8fe3e86747d0",
+              "nonblankLines": 58
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoDiff.ts",
+              "targetRelativePath": "repo/gitRepoDiff.ts",
+              "sha256": "9a079d25a8d1800189e27d1cb0411e1e0b5ab38aaeac3f8986e8dd95010a865a",
+              "nonblankLines": 82
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoWrites.ts",
+              "targetRelativePath": "repo/gitRepoWrites.ts",
+              "sha256": "db61e1911fddb5545949e8b37678b30f00ed51d3efee742069a663deae8df45b",
+              "nonblankLines": 41
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoPush.ts",
+              "targetRelativePath": "repo/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2",
+              "nonblankLines": 48
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoCommit.ts",
+              "targetRelativePath": "repo/gitRepoCommit.ts",
+              "sha256": "143db4e31315dd0ec25636db84712b3b7080d0531720f93a22e4d5ba0289421d",
+              "nonblankLines": 76
+            }
+          ],
+          "basedOnOwnFrozenSources": [
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitCliRepo.ts",
+              "sha256": "307b5c62b34c75dceff41bb9375b2910aa642cde739dcea30a925dd1170da8e6"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoOwner.ts",
+              "sha256": "98615ff7bb059aeb9e217e05258a139afd90b045bf1a2b213f2818e096cfe4e5"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoResolution.ts",
+              "sha256": "da3ccc6f605a0499aeff801edab06ef0b6c3a44cac57a837f201f13af082c367"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoStatus.ts",
+              "sha256": "fa543068e2920258f544e608a2dc5e2b9854f6f1efd2e70db7ab83199bd4db09"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoBranches.ts",
+              "sha256": "bfc40ed6cc0a719b2cf0fddfad1e389dff1320d7dbb656a7baaf8fe3e86747d0"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoDiff.ts",
+              "sha256": "9a079d25a8d1800189e27d1cb0411e1e0b5ab38aaeac3f8986e8dd95010a865a"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+              "sha256": "db61e1911fddb5545949e8b37678b30f00ed51d3efee742069a663deae8df45b"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoPush.ts",
+              "sha256": "18b064b8bfe86d75fd4e05f6bbefdfa0893f762c0bbe744f736c6c1d3e388cb2"
+            },
+            {
+              "path": "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoCommit.ts",
+              "sha256": "143db4e31315dd0ec25636db84712b3b7080d0531720f93a22e4d5ba0289421d"
+            }
+          ],
+          "accessLog": [
+            {
+              "operation": "mkdir own revision",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4"]
+            },
+            {
+              "operation": "python read own revision-3 sources and copy into revision-4",
+              "readPaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoCommit.ts"
+              ],
+              "writePaths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoCommit.ts"
+              ]
+            },
+            {
+              "operation": "python read/write own factory draft",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitCliRepo.ts"]
+            },
+            {
+              "operation": "python read own revision-3/revision-4 bytes",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-3/gitRepoCommit.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoCommit.ts"
+              ],
+              "purpose": "SHA256 and line budget freeze before application"
+            },
+            {
+              "operation": "write receipt",
+              "paths": ["/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/candidate.json"]
+            },
+            {
+              "operation": "chmod read-only freeze",
+              "paths": [
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitCliRepo.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoOwner.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoResolution.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoStatus.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoBranches.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoDiff.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoWrites.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoPush.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/gitRepoCommit.ts",
+                "/tmp/knorvia-git-cli-candidates-20261002/repo/revision-4/candidate.json"
+              ]
+            }
+          ],
+          "newContractOrDependencyBodyReads": [],
+          "clarificationSource": "Coordinator API-order-only message; factory-only own-source correction.",
+          "changes": [
+            "Factory constructs each method group synchronously once and returns explicit direct references in required public enumeration order.",
+            "No async wrappers added; function references preserve dynamic receiver behavior.",
+            "All revision-3 lifecycle corrections preserved; only gitCliRepo.ts bytes changed."
+          ],
+          "methodEnumerationOrder": [
+            "invalidate",
+            "resolveRepository",
+            "getWorkspaceRepositoryInfo",
+            "getStatus",
+            "getIgnoredPaths",
+            "listLocalBranches",
+            "getCommitGraph",
+            "switchBranch",
+            "createBranchAndSwitch",
+            "getDiff",
+            "getBranchComparison",
+            "stage",
+            "unstage",
+            "discard",
+            "commit",
+            "push",
+            "getIdentity"
+          ],
+          "scope": {
+            "maxNonblankLinesPerSource": 400,
+            "allPriorFrozenCandidatesPreserved": true,
+            "factoryOnlyCorrection": true,
+            "repositoryEdits": false,
+            "implementationDependencyBodyReads": false,
+            "otherCandidateReads": false,
+            "testsHistoryReceiptsRead": false,
+            "filenameDiscovery": false,
+            "testsBuildsRealGitUserdataRuntimeActionsExecuted": false,
+            "authoringShellPythonOnly": true
+          },
+          "exposureLimits": [
+            "First-ready and all numbered revision access/exposure limits remain applicable.",
+            "Coordinator source-exposed; supplied-contract public names/types/argv/errors/compatibility literals retained.",
+            "Retained graph/config/helpers/provider/types/logger/path dependency bodies not read or modified; no independent provenance claim for retained graph behavior.",
+            "No acceptance/type/lint/architecture checks by author; coordinator validation required; commitMessageFileScope unchanged."
+          ],
+          "freeze": "Revision-4 frozen separately before application; first-ready and revisions 1/2/3 preserved."
+        }
+      ]
+    }
+  },
+  "submittedSources": [
+    {
+      "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "sha256": "0ebf9b4971fe63b5e752bc32eb8481455c369ed2e89a319fdb13213f05c6e785"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "3430fdd7cd6a565022a82d2cd56b9ee779aa5fe180c2b32566cab777a2285533",
+      "nonblankLines": 314
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliParsing.ts",
+      "sha256": "7789656c7dbe2d7d2ac5529856e03023179af53fc766a2aa90ebc98eb0ee90eb",
+      "nonblankLines": 125
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "sha256": "4aab433d3a5b380904d789449d2d52b0bda256fe32c99e1bac41981a8863e50e",
+      "nonblankLines": 54
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoBranches.ts",
+      "sha256": "59d6e82d2c4e7bea3e6ca4e4eeba8fa6e7cd7483c496d53e1190b7ef94879849",
+      "nonblankLines": 128
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoCommit.ts",
+      "sha256": "c1908d10f8511b9f40d97ba8b6f9b43ecf5ce2d02417e3392d95fa5e5465f76b",
+      "nonblankLines": 132
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoDiff.ts",
+      "sha256": "f3b6911c3a1ad821812944a5d1621e300f2a4a57707f08fddcc07209bf69d9d0",
+      "nonblankLines": 169
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoOwner.ts",
+      "sha256": "b5a726a3d0e4b3dfc6595d35a96386cddd5de1ffb0532a611b8afefee03ca3bc",
+      "nonblankLines": 46
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoPush.ts",
+      "sha256": "9351272abf7cfea970dcc9f701586e4c0e99512d700af6598b3bb1555c060541",
+      "nonblankLines": 83
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoResolution.ts",
+      "sha256": "c6488099576df407d6494595d072d3d5530873337fc63659a31bd28afb13a5fc",
+      "nonblankLines": 123
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoStatus.ts",
+      "sha256": "8e1ed732ebd5c8aa9ab71fe62a260700770c999161bcf3c4c28327ca297a8a6e",
+      "nonblankLines": 273
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoWrites.ts",
+      "sha256": "cd07e34bb18926d65536a221bd23f4152d79d2173291265e8f43e67d0bca7ee4",
+      "nonblankLines": 53
+    }
+  ]
+}

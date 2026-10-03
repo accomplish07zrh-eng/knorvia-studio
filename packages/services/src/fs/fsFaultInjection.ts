@@ -1,6 +1,3 @@
-export const KNORVIA_E2E_FS_FAULTS_ENV = "KNORVIA_E2E_FS_FAULTS";
-export const KNORVIA_E2E_FS_FAULTS_ALLOW_ENV = "KNORVIA_E2E_FS_FAULTS_ALLOW";
-
 export type FsFaultOperation =
   | "any"
   | "appendFile"
@@ -52,19 +49,22 @@ export interface FsFaultInjector {
   reset(): void;
 }
 
-interface NormalizedFsFaultRule {
-  code: string;
+export const KNORVIA_E2E_FS_FAULTS_ENV = "KNORVIA_E2E_FS_FAULTS";
+export const KNORVIA_E2E_FS_FAULTS_ALLOW_ENV = "KNORVIA_E2E_FS_FAULTS_ALLOW";
+
+interface ActiveRule {
   id: string;
+  code: string;
+  operations: Set<FsFaultOperation>;
   maxMatches: number;
-  message?: string;
-  operations: ReadonlySet<FsFaultOperation>;
-  pathEndsWith?: string;
   pathIncludes?: string;
+  pathEndsWith?: string;
   pathRegex?: RegExp;
-  matchedCount: number;
+  message?: string;
+  matches: number;
 }
 
-const SUPPORTED_OPERATIONS = new Set<FsFaultOperation>([
+const supportedOperations = new Set<FsFaultOperation>([
   "any",
   "appendFile",
   "createWriteStream",
@@ -80,202 +80,137 @@ const SUPPORTED_OPERATIONS = new Set<FsFaultOperation>([
   "writeFile",
 ]);
 
-function normalizePathForFaultMatch(path: string): string {
-  return path.replace(/\\/g, "/");
+function invalidRule(index: number, reason: string): Error {
+  return new Error(`Invalid fs fault rule at index ${index}: ${reason}`);
 }
 
-function normalizePathPattern(pattern: string | undefined): string | undefined {
-  return pattern === undefined ? undefined : normalizePathForFaultMatch(pattern);
-}
-
-function assertNonEmptyString(value: unknown, field: string, ruleIndex: number): string {
+function requiredText(value: unknown, field: string, index: number): string {
   if (typeof value !== "string" || value.trim().length === 0) {
-    throw new Error(
-      `Invalid fs fault rule at index ${ruleIndex}: ${field} must be a non-empty string`,
-    );
+    throw invalidRule(index, `${field} must be a non-empty string`);
   }
   return value.trim();
 }
 
-function parseOperations(value: unknown, ruleIndex: number): readonly FsFaultOperation[] {
-  if (value === undefined) {
-    return ["any"];
-  }
-  if (!Array.isArray(value) || value.length === 0) {
-    throw new Error(
-      `Invalid fs fault rule at index ${ruleIndex}: operations must be a non-empty array`,
-    );
-  }
-  return value.map((operation) => {
-    if (typeof operation !== "string" || !SUPPORTED_OPERATIONS.has(operation as FsFaultOperation)) {
-      throw new Error(
-        `Invalid fs fault rule at index ${ruleIndex}: unsupported operation ${String(operation)}`,
-      );
-    }
-    return operation as FsFaultOperation;
-  });
-}
-
-function parseMaxMatches(value: unknown, ruleIndex: number): number {
-  if (value === undefined) {
-    return 1;
-  }
-  if (typeof value !== "number" || !Number.isInteger(value) || value < 0) {
-    throw new Error(
-      `Invalid fs fault rule at index ${ruleIndex}: maxMatches must be a non-negative integer`,
-    );
-  }
-  return value;
-}
-
-function parseOptionalString(value: unknown, field: string, ruleIndex: number): string | undefined {
-  if (value === undefined) {
-    return undefined;
-  }
+function optionalText(value: unknown, field: string, index: number): string | undefined {
+  if (value === undefined) return undefined;
   if (typeof value !== "string") {
-    throw new Error(`Invalid fs fault rule at index ${ruleIndex}: ${field} must be a string`);
+    throw invalidRule(index, `${field} must be a string`);
   }
   return value;
 }
 
-function normalizeRule(input: FsFaultRuleConfig, ruleIndex: number): NormalizedFsFaultRule {
-  const record = input as unknown as Record<string, unknown>;
-  const id = assertNonEmptyString(record.id, "id", ruleIndex);
-  const code = assertNonEmptyString(record.code, "code", ruleIndex);
-  const operations = new Set(parseOperations(record.operations, ruleIndex));
-  const maxMatches = parseMaxMatches(record.maxMatches, ruleIndex);
-  const pathIncludes = normalizePathPattern(
-    parseOptionalString(record.pathIncludes, "pathIncludes", ruleIndex),
-  );
-  const pathEndsWith = normalizePathPattern(
-    parseOptionalString(record.pathEndsWith, "pathEndsWith", ruleIndex),
-  );
-  const pathRegexRaw = parseOptionalString(record.pathRegex, "pathRegex", ruleIndex);
-  const message = parseOptionalString(record.message, "message", ruleIndex);
+function slashPath(path: string): string {
+  return path.replace(/\\/g, "/");
+}
 
+function causeMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function activateRule(config: FsFaultRuleConfig, index: number): ActiveRule {
+  const id = requiredText(config.id, "id", index);
+  const code = requiredText(config.code, "code", index);
+  const suppliedOperations = config.operations;
+  const operationValues = suppliedOperations === undefined ? ["any"] : suppliedOperations;
+  if (!Array.isArray(operationValues) || operationValues.length === 0) {
+    throw invalidRule(index, "operations must be a non-empty array");
+  }
+  const operations = new Set<FsFaultOperation>(
+    operationValues.map((operation: unknown) => {
+      if (
+        typeof operation !== "string" ||
+        !supportedOperations.has(operation as FsFaultOperation)
+      ) {
+        throw invalidRule(index, `unsupported operation ${String(operation)}`);
+      }
+      return operation as FsFaultOperation;
+    }),
+  );
+  const suppliedMaxMatches = config.maxMatches;
+  const maxMatches = suppliedMaxMatches === undefined ? 1 : suppliedMaxMatches;
+  if (typeof maxMatches !== "number" || !Number.isInteger(maxMatches) || maxMatches < 0) {
+    throw invalidRule(index, "maxMatches must be a non-negative integer");
+  }
+  const suppliedIncludes = optionalText(config.pathIncludes, "pathIncludes", index);
+  const pathIncludes = suppliedIncludes === undefined ? undefined : slashPath(suppliedIncludes);
+  const suppliedEndsWith = optionalText(config.pathEndsWith, "pathEndsWith", index);
+  const pathEndsWith = suppliedEndsWith === undefined ? undefined : slashPath(suppliedEndsWith);
+  const regexSource = optionalText(config.pathRegex, "pathRegex", index);
+  const message = optionalText(config.message, "message", index);
   let pathRegex: RegExp | undefined;
-  if (pathRegexRaw !== undefined) {
+  if (regexSource !== undefined) {
     try {
-      pathRegex = new RegExp(pathRegexRaw);
+      pathRegex = new RegExp(regexSource);
     } catch (error) {
-      throw new Error(
-        `Invalid fs fault rule at index ${ruleIndex}: pathRegex is invalid: ${
-          error instanceof Error ? error.message : String(error)
-        }`,
-      );
+      throw invalidRule(index, `pathRegex is invalid: ${causeMessage(error)}`);
     }
   }
-
   return {
-    code,
     id,
-    matchedCount: 0,
-    maxMatches,
-    message,
+    code,
     operations,
-    pathEndsWith,
+    maxMatches,
     pathIncludes,
+    pathEndsWith,
     pathRegex,
+    message,
+    matches: 0,
   };
 }
 
-function operationMatches(rule: NormalizedFsFaultRule, operation: FsFaultOperation): boolean {
-  return rule.operations.has("any") || rule.operations.has(operation);
-}
-
-function pathMatches(rule: NormalizedFsFaultRule, path: string): boolean {
-  const normalizedPath = normalizePathForFaultMatch(path);
-  if (rule.pathIncludes !== undefined && !normalizedPath.includes(rule.pathIncludes)) {
-    return false;
-  }
-  if (rule.pathEndsWith !== undefined && !normalizedPath.endsWith(rule.pathEndsWith)) {
-    return false;
-  }
-  if (rule.pathRegex !== undefined && !rule.pathRegex.test(normalizedPath)) {
-    return false;
-  }
-  return true;
-}
-
-function hasRemainingMatches(rule: NormalizedFsFaultRule): boolean {
-  return rule.maxMatches === 0 || rule.matchedCount < rule.maxMatches;
-}
-
-function createInjectedFsFaultError(input: {
-  code: string;
-  id: string;
-  message?: string;
-  operation: FsFaultOperation;
-  path: string;
-}): InjectedFsFaultError {
-  const error = new Error(
-    input.message ?? `Injected fs fault ${input.code} for ${input.operation}: ${input.path}`,
-  ) as InjectedFsFaultError;
-  error.code = input.code;
-  error.path = input.path;
-  error.syscall = input.operation;
-  error.knorviaFsFaultId = input.id;
-  return error;
-}
-
-export function isInjectedFsFaultError(error: unknown): error is InjectedFsFaultError {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "knorviaFsFaultId" in error &&
-    typeof (error as { knorviaFsFaultId?: unknown }).knorviaFsFaultId === "string"
-  );
-}
-
 export function createFsFaultInjector(rules: readonly FsFaultRuleConfig[] = []): FsFaultInjector {
-  const normalizedRules = rules.map((rule, index) => normalizeRule(rule, index));
+  const activeRules = rules.map(activateRule);
   const hits: FsFaultHit[] = [];
-
   return {
-    isEnabled(): boolean {
-      return normalizedRules.length > 0;
+    isEnabled() {
+      return activeRules.length > 0;
     },
-
-    maybeThrow(input: FsFaultCheckInput): void {
-      for (const rule of normalizedRules) {
-        if (
-          !hasRemainingMatches(rule) ||
-          !operationMatches(rule, input.operation) ||
-          !pathMatches(rule, input.path)
-        ) {
-          continue;
-        }
-
-        rule.matchedCount += 1;
+    maybeThrow(input) {
+      for (const rule of activeRules) {
+        if (rule.maxMatches !== 0 && rule.matches >= rule.maxMatches) continue;
+        if (!rule.operations.has("any") && !rule.operations.has(input.operation)) continue;
+        const path = slashPath(input.path);
+        if (rule.pathIncludes !== undefined && !path.includes(rule.pathIncludes)) continue;
+        if (rule.pathEndsWith !== undefined && !path.endsWith(rule.pathEndsWith)) continue;
+        if (rule.pathRegex !== undefined && !rule.pathRegex.test(path)) continue;
+        rule.matches += 1;
         hits.push({
           code: rule.code,
           id: rule.id,
-          matchIndex: rule.matchedCount,
+          matchIndex: rule.matches,
           matchedAt: new Date().toISOString(),
           operation: input.operation,
           path: input.path,
         });
-        throw createInjectedFsFaultError({
-          code: rule.code,
-          id: rule.id,
-          message: rule.message,
-          operation: input.operation,
-          path: input.path,
-        });
+        const errorOperation = input.operation;
+        const errorPath = input.path;
+        const error = new Error(
+          rule.message ?? `Injected fs fault ${rule.code} for ${errorOperation}: ${errorPath}`,
+        ) as InjectedFsFaultError;
+        error.code = rule.code;
+        error.path = errorPath;
+        error.syscall = errorOperation;
+        error.knorviaFsFaultId = rule.id;
+        throw error;
       }
     },
-
-    getHits(): readonly FsFaultHit[] {
+    getHits() {
       return [...hits];
     },
-
-    reset(): void {
+    reset() {
       hits.length = 0;
-      for (const rule of normalizedRules) {
-        rule.matchedCount = 0;
-      }
+      for (const rule of activeRules) rule.matches = 0;
     },
   };
+}
+
+export function isInjectedFsFaultError(error: unknown): error is InjectedFsFaultError {
+  return (
+    error !== null &&
+    typeof error === "object" &&
+    "knorviaFsFaultId" in error &&
+    typeof (error as { knorviaFsFaultId?: unknown }).knorviaFsFaultId === "string"
+  );
 }
 
 export function parseFsFaultRulesFromEnvValue(rawValue: string): FsFaultRuleConfig[] {
@@ -283,49 +218,37 @@ export function parseFsFaultRulesFromEnvValue(rawValue: string): FsFaultRuleConf
   try {
     parsed = JSON.parse(rawValue);
   } catch (error) {
-    throw new Error(
-      `Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
+    throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: ${causeMessage(error)}`);
   }
-
   if (!Array.isArray(parsed)) {
     throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: expected a JSON array`);
   }
-  return parsed.map((value, index) => {
-    if (typeof value !== "object" || value === null || Array.isArray(value)) {
-      throw new Error(`Invalid fs fault rule at index ${index}: rule must be an object`);
+  for (let index = 0; index < parsed.length; index += 1) {
+    const rule: unknown = parsed[index];
+    if (rule === null || typeof rule !== "object" || Array.isArray(rule)) {
+      throw invalidRule(index, "rule must be an object");
     }
-    return value as FsFaultRuleConfig;
-  });
+  }
+  return parsed as FsFaultRuleConfig[];
 }
 
-function createFsFaultInjectorFromEnv(
-  env: Record<string, string | undefined> = process.env,
-): FsFaultInjector {
-  const rawValue = env[KNORVIA_E2E_FS_FAULTS_ENV]?.trim();
-  if (!rawValue) {
-    return createFsFaultInjector();
-  }
-
-  // 测试故障注入必须默认被生产环境隔离，避免用户机器残留环境变量后误伤真实配置和会话落盘。
-  if (env.KNORVIA_ENV !== "test" && env[KNORVIA_E2E_FS_FAULTS_ALLOW_ENV] !== "1") {
-    return createFsFaultInjector();
-  }
-
-  return createFsFaultInjector(parseFsFaultRulesFromEnvValue(rawValue));
-}
-
-let processEnvFaultInjector: FsFaultInjector | null = null;
-let injectedFsFaultInjectorForTests: FsFaultInjector | null = null;
+let processInjector: FsFaultInjector | null = null;
+let testInjector: FsFaultInjector | null = null;
 
 export function getProcessFsFaultInjector(): FsFaultInjector {
-  if (injectedFsFaultInjectorForTests) {
-    return injectedFsFaultInjectorForTests;
+  if (testInjector) return testInjector;
+  if (processInjector) return processInjector;
+  const rawValue = process.env[KNORVIA_E2E_FS_FAULTS_ENV]?.trim();
+  let rules: FsFaultRuleConfig[] = [];
+  if (rawValue) {
+    // 生产环境须显式放行，避免遗留的故障注入环境变量影响正常文件操作。
+    const allowed =
+      process.env.KNORVIA_ENV === "test" || process.env[KNORVIA_E2E_FS_FAULTS_ALLOW_ENV] === "1";
+    if (allowed) rules = parseFsFaultRulesFromEnvValue(rawValue);
   }
-  processEnvFaultInjector ??= createFsFaultInjectorFromEnv();
-  return processEnvFaultInjector;
+  const injector = createFsFaultInjector(rules);
+  processInjector = injector;
+  return injector;
 }
 
 export function maybeThrowInjectedFsFault(input: FsFaultCheckInput): void {
@@ -333,10 +256,10 @@ export function maybeThrowInjectedFsFault(input: FsFaultCheckInput): void {
 }
 
 export function setFsFaultInjectorForTests(injector: FsFaultInjector | null): void {
-  injectedFsFaultInjectorForTests = injector;
+  testInjector = injector;
 }
 
 export function resetProcessFsFaultInjectorForTests(): void {
-  processEnvFaultInjector = null;
-  injectedFsFaultInjectorForTests = null;
+  processInjector = null;
+  testInjector = null;
 }

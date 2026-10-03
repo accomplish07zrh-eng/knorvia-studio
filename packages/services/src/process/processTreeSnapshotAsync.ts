@@ -1,53 +1,84 @@
 import type { ChildProcess } from "node:child_process";
+
 import {
   captureExitedRootDescendantsSnapshot,
   captureProcessTreeSnapshot,
   filterCurrentProcessIdentities,
 } from "#src/process/processTreeSnapshot.js";
+
 import type {
   ProcessIdentity,
   ProcessTreeSnapshot,
   ProcessTreeTerminatorOptions,
 } from "#src/process/processTreeTypes.js";
+
 import { readWindowsProcessListAsync } from "#src/process/windowsProcessListAsync.js";
 
 export { verifyWindowsProcessIdentityAsync } from "#src/process/windowsProcessListAsync.js";
 
-const WINDOWS_START_TIME_PREFIX = "windows-utc-us:";
+function collectDescendants(
+  rootPid: number,
+  processes: readonly ProcessIdentity[],
+): ProcessIdentity[] {
+  const children = new Map<number, ProcessIdentity[]>();
+  for (const identity of processes) {
+    const siblings = children.get(identity.parentPid);
+    if (siblings) {
+      siblings.push(identity);
+    } else {
+      children.set(identity.parentPid, [identity]);
+    }
+  }
 
-function parseWindowsCreationTimeMs(startTime: string): number | undefined {
-  if (!startTime.startsWith(WINDOWS_START_TIME_PREFIX)) return undefined;
+  const seen = new Set<number>([rootPid]);
+  const descendants: ProcessIdentity[] = [];
+  const pending = [...(children.get(rootPid) ?? [])].reverse();
+  while (pending.length > 0) {
+    const identity = pending.pop();
+    if (!identity || seen.has(identity.pid)) {
+      continue;
+    }
+    seen.add(identity.pid);
+    descendants.push(identity);
+    const next = children.get(identity.pid);
+    if (next) {
+      for (const descendant of [...next].reverse()) {
+        pending.push(descendant);
+      }
+    }
+  }
+  return descendants;
+}
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+function creationTimeMs(identity: ProcessIdentity): number | undefined {
+  const startTime = identity.startTime;
+  const prefix = "windows-utc-us:";
+  if (!startTime.startsWith(prefix)) {
+    return undefined;
+  }
+  let microseconds: bigint;
   try {
-    const microseconds = BigInt(startTime.slice(WINDOWS_START_TIME_PREFIX.length));
-    const timestamp = Number(microseconds / 1_000n);
-    return Number.isSafeInteger(timestamp) ? timestamp : undefined;
+    microseconds = BigInt(startTime.slice(prefix.length));
   } catch {
     return undefined;
   }
+  const milliseconds = Number(microseconds / 1000n);
+  return Number.isSafeInteger(milliseconds) ? milliseconds : undefined;
 }
 
-function collectDescendants(
-  rootPid: number,
-  identities: readonly ProcessIdentity[],
+function lifecycleCandidates(
+  processes: readonly ProcessIdentity[],
+  startedAtMs: number,
+  exitedAtMs: number,
 ): ProcessIdentity[] {
-  const childrenByParentPid = new Map<number, ProcessIdentity[]>();
-  for (const identity of identities) {
-    const children = childrenByParentPid.get(identity.parentPid) ?? [];
-    children.push(identity);
-    childrenByParentPid.set(identity.parentPid, children);
-  }
-  const descendants: ProcessIdentity[] = [];
-  const seen = new Set<number>([rootPid]);
-  const visit = (pid: number) => {
-    for (const child of childrenByParentPid.get(pid) ?? []) {
-      if (seen.has(child.pid)) continue;
-      seen.add(child.pid);
-      descendants.push(child);
-      visit(child.pid);
-    }
-  };
-  visit(rootPid);
-  return descendants;
+  return processes.filter((identity) => {
+    const createdAtMs = creationTimeMs(identity);
+    return createdAtMs !== undefined && startedAtMs <= createdAtMs && createdAtMs < exitedAtMs;
+  });
 }
 
 export async function filterCurrentProcessIdentitiesAsync(
@@ -57,71 +88,67 @@ export async function filterCurrentProcessIdentitiesAsync(
   if (process.platform !== "win32") {
     return filterCurrentProcessIdentities(identities, options);
   }
-  if (identities.length === 0) return [];
+  if (identities.length === 0) {
+    return [];
+  }
   const trackedPids = new Set(identities.map((identity) => identity.pid));
-  const currentByPid = new Map(
-    (await readWindowsProcessListAsync(options))
-      .filter((identity) => trackedPids.has(identity.pid))
-      .map((identity) => [identity.pid, identity]),
+  const current = await readWindowsProcessListAsync(options);
+  const currentByPid = new Map<number, ProcessIdentity>();
+  for (const identity of current) {
+    if (trackedPids.has(identity.pid)) {
+      currentByPid.set(identity.pid, identity);
+    }
+  }
+  return identities.filter(
+    (identity) => currentByPid.get(identity.pid)?.startTime === identity.startTime,
   );
-  return identities.filter((identity) => {
-    const current = currentByPid.get(identity.pid);
-    return current?.startTime === identity.startTime;
-  });
 }
 
 export async function captureProcessTreeSnapshotAsync(
   child: ChildProcess,
   options: ProcessTreeTerminatorOptions = {},
 ): Promise<ProcessTreeSnapshot | undefined> {
-  if (process.platform !== "win32") return captureProcessTreeSnapshot(child, options);
-  if (child.pid == null) return undefined;
-  const processList = await readWindowsProcessListAsync(options);
-  const childExitedDuringQuery = child.exitCode !== null || child.signalCode !== null;
-  const ownedProcessExitedAtMs =
-    options.ownedProcessExitedAtMs ?? options.resolveOwnedProcessExitedAtMs?.();
-  const rootIdentity = processList.find((identity) => identity.pid === child.pid);
-  // 查询期间原 root 退出后，PID 可能在 Node exit 回调与 CIM 返回之间
-  // 被复用。查询完成时间不是受管进程的退出时间；一旦已观察到 child 退出，只能使用
-  // 调用方记录的可信退出上界恢复旧后代，绝不能把同 PID 的当前进程认作原 root。
-  const identities =
-    rootIdentity && !childExitedDuringQuery
-      ? [rootIdentity, ...collectDescendants(child.pid, processList)]
-      : collectExitedRootDescendants(
-          child.pid,
-          processList,
-          options.ownedProcessStartedAtMs,
-          ownedProcessExitedAtMs,
-        );
-  if (identities.length === 0) return undefined;
+  if (process.platform !== "win32") {
+    return captureProcessTreeSnapshot(child, options);
+  }
+  if (child.pid == null) {
+    return undefined;
+  }
+  const queryOptions = options;
+  const processes = await readWindowsProcessListAsync(queryOptions);
+  const childObservedExited = child.exitCode !== null || child.signalCode !== null;
+  const exitedAtMs =
+    queryOptions.ownedProcessExitedAtMs ?? queryOptions.resolveOwnedProcessExitedAtMs?.();
+  const root = processes.find((identity) => identity.pid === child.pid);
+
+  if (root && !childObservedExited) {
+    const descendants = collectDescendants(child.pid, processes);
+    const identities = [root, ...descendants];
+    return {
+      rootPid: child.pid,
+      descendantPids: identities
+        .filter((identity) => identity.pid !== child.pid)
+        .map((identity) => identity.pid),
+      identities,
+    };
+  }
+
+  const startedAtMs = queryOptions.ownedProcessStartedAtMs;
+  if (!isFiniteNumber(startedAtMs) || !isFiniteNumber(exitedAtMs)) {
+    return undefined;
+  }
+  const candidates = lifecycleCandidates(processes, startedAtMs, exitedAtMs);
+  const descendants = collectDescendants(child.pid, candidates);
+  if (descendants.length === 0) {
+    return undefined;
+  }
   return {
     rootPid: child.pid,
-    descendantPids: identities
+    descendantPids: descendants
       .filter((identity) => identity.pid !== child.pid)
       .map((identity) => identity.pid),
-    identities,
+    identities: descendants,
   };
-}
-
-function collectExitedRootDescendants(
-  rootPid: number,
-  processList: readonly ProcessIdentity[],
-  startedAtMs: number | undefined,
-  exitedAtMs: number | undefined,
-): ProcessIdentity[] {
-  if (
-    typeof startedAtMs !== "number" ||
-    !Number.isFinite(startedAtMs) ||
-    typeof exitedAtMs !== "number" ||
-    !Number.isFinite(exitedAtMs)
-  ) {
-    return [];
-  }
-  const lifecycleCandidates = processList.filter((identity) => {
-    const createdAtMs = parseWindowsCreationTimeMs(identity.startTime);
-    return createdAtMs !== undefined && createdAtMs >= startedAtMs && createdAtMs < exitedAtMs;
-  });
-  return collectDescendants(rootPid, lifecycleCandidates);
 }
 
 export async function captureExitedRootDescendantsSnapshotAsync(
@@ -131,29 +158,26 @@ export async function captureExitedRootDescendantsSnapshotAsync(
   if (process.platform !== "win32") {
     return captureExitedRootDescendantsSnapshot(rootPid, options);
   }
-  const startedAtMs = options.ownedProcessStartedAtMs;
-  const exitedAtMs = options.ownedProcessExitedAtMs;
+  const queryOptions = options;
+  const startedAtMs = queryOptions.ownedProcessStartedAtMs;
+  const exitedAtMs = queryOptions.ownedProcessExitedAtMs;
   if (
     !Number.isInteger(rootPid) ||
     rootPid <= 0 ||
-    typeof startedAtMs !== "number" ||
-    !Number.isFinite(startedAtMs) ||
-    typeof exitedAtMs !== "number" ||
-    !Number.isFinite(exitedAtMs)
+    !isFiniteNumber(startedAtMs) ||
+    !isFiniteNumber(exitedAtMs)
   ) {
     return undefined;
   }
-  const identities = collectExitedRootDescendants(
+  const processes = await readWindowsProcessListAsync(queryOptions);
+  const candidates = lifecycleCandidates(processes, startedAtMs, exitedAtMs);
+  const descendants = collectDescendants(rootPid, candidates);
+  if (descendants.length === 0) {
+    return undefined;
+  }
+  return {
     rootPid,
-    await readWindowsProcessListAsync(options),
-    startedAtMs,
-    exitedAtMs,
-  );
-  return identities.length === 0
-    ? undefined
-    : {
-        rootPid,
-        descendantPids: identities.map((identity) => identity.pid),
-        identities,
-      };
+    descendantPids: descendants.map((identity) => identity.pid),
+    identities: descendants,
+  };
 }

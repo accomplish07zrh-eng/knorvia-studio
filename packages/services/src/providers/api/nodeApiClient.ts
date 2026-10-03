@@ -1,11 +1,11 @@
 import { ApiError, type ApiClient, type ApiRequestInit } from "@knorvia/shared";
+
 import { withRequestIdHeader } from "./requestIdHeaders.js";
 
 interface NodeApiClientOptions {
   fetchImpl?: typeof fetch;
 }
 
-/** 通用 HTTP 客户端只发送调用方明确指定的请求，不注入产品账号或改写目标地址。 */
 export class NodeApiClient implements ApiClient {
   constructor(private readonly options: NodeApiClientOptions = {}) {}
 

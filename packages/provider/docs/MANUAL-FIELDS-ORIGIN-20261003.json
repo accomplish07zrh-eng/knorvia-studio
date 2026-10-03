@@ -1,0 +1,188 @@
+{
+  "acceptedPredecessor": "eca293bf1ba6ba99502cf0010835531911915a6c",
+  "path": "packages/provider/src/config/manual-model-config.ts",
+  "currentSha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+  "bytes": 2770,
+  "inventory": {
+    "path": "packages/provider/src/config/manual-model-config.ts",
+    "kind": "file",
+    "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+    "normalizedSha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+    "encoding": "utf8-lf",
+    "bytes": 2770,
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/provider/src/config/manual-model-config.ts",
+      "blob": "b924248b203658ca80325ec89abd3f8556fcfb7c",
+      "normalizedSha256": "7ef2eae4baa965680f880bfd72ca81f7c3d991ea5c0b9b1ee228feb216ee0b60",
+      "contentMatchedPaths": []
+    },
+    "license": "NOASSERTION",
+    "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+    "thirdParty": [],
+    "review": null
+  },
+  "publisherBaseline": {
+    "path": "packages/provider/src/config/manual-model-config.ts",
+    "mode": "100644",
+    "blob": "b924248b203658ca80325ec89abd3f8556fcfb7c",
+    "kind": "file",
+    "sha256": "7ef2eae4baa965680f880bfd72ca81f7c3d991ea5c0b9b1ee228feb216ee0b60",
+    "normalizedSha256": "7ef2eae4baa965680f880bfd72ca81f7c3d991ea5c0b9b1ee228feb216ee0b60",
+    "encoding": "utf8-lf",
+    "bytes": 2768
+  },
+  "publisherProof": {
+    "command": ["git", "cat-file", "blob", "b924248b203658ca80325ec89abd3f8556fcfb7c"],
+    "exit": 128,
+    "stderr": "fatal: git cat-file b924248b203658ca80325ec89abd3f8556fcfb7c: bad file\n",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "byteEqualCurrent": false
+  },
+  "exactOldReceiptRecords": [
+    {
+      "file": "licensing/current-files.json",
+      "location": "$.files[4723]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "kind": "file",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "normalizedSha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "encoding": "utf8-lf",
+        "bytes": 2770,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/provider/src/config/manual-model-config.ts",
+          "blob": "b924248b203658ca80325ec89abd3f8556fcfb7c",
+          "normalizedSha256": "7ef2eae4baa965680f880bfd72ca81f7c3d991ea5c0b9b1ee228feb216ee0b60",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      }
+    },
+    {
+      "file": "licensing/current-files.json",
+      "location": "$.files[4723].upstream",
+      "record": {
+        "relation": "modified",
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "blob": "b924248b203658ca80325ec89abd3f8556fcfb7c",
+        "normalizedSha256": "7ef2eae4baa965680f880bfd72ca81f7c3d991ea5c0b9b1ee228feb216ee0b60",
+        "contentMatchedPaths": []
+      }
+    },
+    {
+      "file": "licensing/upstream-baseline.json",
+      "location": "$.files[3304]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "mode": "100644",
+        "blob": "b924248b203658ca80325ec89abd3f8556fcfb7c",
+        "kind": "file",
+        "sha256": "7ef2eae4baa965680f880bfd72ca81f7c3d991ea5c0b9b1ee228feb216ee0b60",
+        "normalizedSha256": "7ef2eae4baa965680f880bfd72ca81f7c3d991ea5c0b9b1ee228feb216ee0b60",
+        "encoding": "utf8-lf",
+        "bytes": 2768
+      }
+    },
+    {
+      "file": "licensing/evidence/repository-migration-scope-20260930.json",
+      "location": "$.files[1847]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "classification": "upstream-modified",
+        "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+        "localDeclaredThirdParty": []
+      }
+    },
+    {
+      "file": "packages/provider/docs/ACCOUNT-PROJECTION-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[25]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider/docs/AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBindings.retained[23]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "byteIdenticalToPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider/docs/RULE-ACCOUNT-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[25]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider/docs/PROVIDER-MAP-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[26]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider-node/docs/REGISTRY-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[25]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    },
+    {
+      "file": "packages/provider-node/docs/CONFIG-RUNTIME-AUTHOR-RECEIPTS-20261003.json",
+      "location": "$.sourceBinding.retained[25]",
+      "record": {
+        "path": "packages/provider/src/config/manual-model-config.ts",
+        "sha256": "c54c3241345cc863b0025a5b731d1488d5cad29547720dca661305d92a3de9e9",
+        "byteIdenticalToAcceptedPredecessor": true
+      }
+    }
+  ],
+  "history": "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot\n",
+  "setup": [
+    {
+      "command": ["node", "scripts/check-workspace-freshness.mjs", "--no-fetch"],
+      "exit": 0,
+      "log": "/tmp/knorvia-manual-fields-20261003/setup-0.log",
+      "sha256": "bf1252f4c434b4ab510e030b86a06b6ef56a773db7defd9ab44987cc1562d77d"
+    },
+    {
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "check", "--changed"],
+      "exit": 0,
+      "log": "/tmp/knorvia-manual-fields-20261003/setup-1.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    },
+    {
+      "command": ["node", "scripts/architecture/architecture-check.mjs", "context", "provider"],
+      "exit": 0,
+      "log": "/tmp/knorvia-manual-fields-20261003/setup-2.log",
+      "sha256": "2ebc9c094263860ca663dfe01cf00ba91cdf96cf479d2a0fb6d168fad1e110f4"
+    }
+  ],
+  "selection": {
+    "owner": "Complete schema-driven recursive editable-field extraction/clearing plus canonical validation sequencing; both exported functions/all private recursive helpers. Substantive recursive tree ownership, not fixed field schema/forwarding alone.",
+    "retained": "Exact imports/fixed manual schema/type prefix; all canonical shared schemas, system-hidden leaves/field permissions, model rules and root codec. No new writable leaf.",
+    "screen": "10 structured exact old records inventory/retention, local all-ref root-only history; no accepted complete projection owner replacement/conflicting version found in available records. Bounded absence not unpublished-history proof.",
+    "ancestry": "Current inventory upstream-modified/unreviewed, declared publisher b924248b203658ca80325ec89abd3f8556fcfb7c missing128, no full original expression comparison/rights closure.",
+    "excluded": "Root codec/personal repository/resolver not imported/edited. Existing local codec direct-consumer70-118 read only for necessary compatibility context, source-exposed coordinator; no root new candidate imported. Seven E builtin files unchanged. Root/global controls/realconfig/account/key/provider/network/native excluded."
+  }
+}

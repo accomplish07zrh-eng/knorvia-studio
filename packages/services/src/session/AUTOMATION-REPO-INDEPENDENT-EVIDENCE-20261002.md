@@ -1,0 +1,9 @@
+# Complete automationRepo.ts persistence owner — bounded evidence
+
+Root allocated exact original `f0d11e0165dabf5b2d841f303d8edfa766b21e14f59fb21f43dbd4dc27aa1d30` for complete behavior/API-only authoring; spec-first commit `b877936`. One fresh fork-none Sol high author implemented every public API with cohesive private modules. Every formatted source is <=400 nonblank; public owner/state path remains singular.
+
+The receipt JSON embeds 4 full public/data inputs, 21 frozen raw/review/access/message artifacts, source hashes, 13 exact logs and the parsed identity/SQL verification script. First-ready was frozen before review. Coordinator installed by byte-copy and formatter only. SQL/signature/type extraction is retained compatibility DATA lineage, not independently authored expression. Author access is self-reported/bounded and coordinator is source-exposed. Saved Fast switch unverified; no MIT/legal/whole-process cleanroom/full-project acceptance claim.
+
+One new minimum synthetic fake-port safety case passes original/submitted; strict owner/test types, scoped lint/format/architecture and all preferred/submitted normalized parsed structures pass. Native DatabaseSync, real SQL/file/userdata/migration/system effects were never executed. Direct automationService consumer types remain BLOCKED by2 missing croner declarations; original/candidate diagnostics byte-identical. Earlier21 RPC blocks and frozen59listenEPERM remain held, unrerun/unreclassified.
+
+386 nonselected inventory TS files match prior-screen/committed lane bindings; new private modules are accounted separately. Schema/data paths/serialization/IDs/order/scope/transaction/failure authorities retained; root/global/legal/dependency files unchanged. Draft PR10 targets recovery integration branch only; no main integration.

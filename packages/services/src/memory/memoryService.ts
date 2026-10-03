@@ -1,46 +1,15 @@
-import {
-  type IMemoryService,
-  type ProjectMemoryFileSummary,
-  type ProjectMemoryWorkspaceSummary,
-} from "./memory.js";
 import { lstat, readdir, realpath } from "node:fs/promises";
 import { basename, isAbsolute, join, relative, sep } from "node:path";
 import { readProjectMemoryFileFromStableHandle } from "#src/memory/projectMemoryStableRead.js";
 import { getKnorviaDataRootDir } from "#src/paths.js";
+import type {
+  IMemoryService,
+  ProjectMemoryFileSummary,
+  ProjectMemoryWorkspaceSummary,
+} from "./memory.js";
 
-const PROJECT_MEMORY_INDEX_FILE_NAME = "MEMORY.md";
-const PROJECT_MEMORY_DIRECTORY_NAME = "memory";
-const PROJECT_KEY_SUFFIX_PATTERN = /^(.*)-[a-f0-9]{16}$/i;
-
-function isNotFoundError(error: unknown): boolean {
+function isMissing(error: unknown): boolean {
   return typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT";
-}
-
-function getProjectMemoriesRoot(): string {
-  return join(getKnorviaDataRootDir(), "cli", "memories", "projects");
-}
-
-function isValidPathSegment(value: string): boolean {
-  return (
-    value.length > 0 &&
-    value !== "." &&
-    value !== ".." &&
-    basename(value) === value &&
-    !value.includes("/") &&
-    !value.includes("\\")
-  );
-}
-
-function isProjectMemoryFileName(fileName: string): boolean {
-  return (
-    fileName === PROJECT_MEMORY_INDEX_FILE_NAME ||
-    (fileName.endsWith(".md") && fileName !== PROJECT_MEMORY_INDEX_FILE_NAME)
-  );
-}
-
-function resolveWorkspaceLabel(workspaceId: string): string {
-  const slug = PROJECT_KEY_SUFFIX_PATTERN.exec(workspaceId)?.[1];
-  return slug?.trim() || workspaceId;
 }
 
 async function isPlainDirectory(path: string): Promise<boolean> {
@@ -48,9 +17,7 @@ async function isPlainDirectory(path: string): Promise<boolean> {
     const metadata = await lstat(path);
     return metadata.isDirectory() && !metadata.isSymbolicLink();
   } catch (error) {
-    if (isNotFoundError(error)) {
-      return false;
-    }
+    if (isMissing(error)) return false;
     throw error;
   }
 }
@@ -62,177 +29,158 @@ async function requirePlainDirectory(path: string): Promise<void> {
   }
 }
 
-async function requireProjectMemoriesRoot(): Promise<string> {
-  const projectsRoot = getProjectMemoriesRoot();
-  // 只校验 workspace 子目录时，projectsRoot symlink 会让 list/read 跟随到本地数据目录外。
-  await requirePlainDirectory(projectsRoot);
-  return projectsRoot;
+async function requireRoot(): Promise<string> {
+  const root = join(getKnorviaDataRootDir(), "cli", "memories", "projects");
+  await requirePlainDirectory(root);
+  return root;
 }
 
-async function requireExactProjectMemoryFile(
-  memoryRoot: string,
-  fileName: string,
-): Promise<string> {
-  const memoryEntries = await readdir(memoryRoot, { withFileTypes: true });
-  const fileEntry = memoryEntries.find((entry) => entry.name === fileName);
-  const requestedFilePath = join(memoryRoot, fileName);
-  if (!fileEntry) {
-    // 文件确实不存在时继续透传原始 ENOENT；只有大小写别名能命中时才拒绝读取。
-    await lstat(requestedFilePath);
+function isMemoryFileName(name: string): boolean {
+  return name === "MEMORY.md" || (name.endsWith(".md") && name !== "MEMORY.md");
+}
+
+function isPathSegment(value: string): boolean {
+  return (
+    value.length > 0 &&
+    value !== "." &&
+    value !== ".." &&
+    basename(value) === value &&
+    !value.includes("/") &&
+    !value.includes("\\")
+  );
+}
+
+async function requireExactFile(memoryRoot: string, fileName: string): Promise<string> {
+  const entries = await readdir(memoryRoot, { withFileTypes: true });
+  const entry = entries.find((candidate) => candidate.name === fileName);
+  const filePath = join(memoryRoot, fileName);
+  if (!entry) {
+    await lstat(filePath);
     throw new Error(`Project Memory file name does not match exactly: ${fileName}`);
   }
-  if (!fileEntry.isFile() || fileEntry.isSymbolicLink()) {
+  if (!entry.isFile() || entry.isSymbolicLink()) {
     throw new Error(`Project Memory file is not a regular file: ${fileName}`);
   }
-  return requestedFilePath;
+  return filePath;
 }
 
-async function assertContainedProjectMemoryPath(
-  projectsRoot: string,
-  targetPath: string,
-): Promise<void> {
-  const projectsRootRealPath = await realpath(projectsRoot);
-  const targetRealPath = await realpath(targetPath);
-  const relativePath = relative(projectsRootRealPath, targetRealPath);
-  if (relativePath === ".." || relativePath.startsWith(`..${sep}`) || isAbsolute(relativePath)) {
-    throw new Error(`Project Memory path is outside the local profile: ${targetPath}`);
+async function requireContained(root: string, target: string): Promise<void> {
+  const rootReal = await realpath(root);
+  const targetReal = await realpath(target);
+  const targetRelative = relative(rootReal, targetReal);
+  if (
+    targetRelative === ".." ||
+    targetRelative.startsWith(`..${sep}`) ||
+    isAbsolute(targetRelative)
+  ) {
+    throw new Error(`Project Memory path is outside the local profile: ${target}`);
   }
 }
 
-function compareProjectMemoryFiles(
-  left: ProjectMemoryFileSummary,
-  right: ProjectMemoryFileSummary,
-): number {
-  if (left.kind !== right.kind) {
-    return left.kind === "index" ? -1 : 1;
+async function listProjectMemories(): Promise<ProjectMemoryWorkspaceSummary[]> {
+  let root: string;
+  let entries;
+  try {
+    root = await requireRoot();
+    entries = await readdir(root, { withFileTypes: true });
+  } catch (error) {
+    if (isMissing(error)) return [];
+    throw error;
   }
-  return left.name.localeCompare(right.name, "en");
-}
 
-export function createMemoryService(): IMemoryService {
-  async function listProjectMemories(): Promise<ProjectMemoryWorkspaceSummary[]> {
-    let projectsRoot: string;
-    let projectEntries;
+  const workspaces: ProjectMemoryWorkspaceSummary[] = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory() || entry.isSymbolicLink()) continue;
+    const workspaceId = entry.name;
+    const workspaceRoot = join(root, workspaceId);
+    const memoryRoot = join(workspaceRoot, "memory");
+    if (!(await isPlainDirectory(workspaceRoot)) || !(await isPlainDirectory(memoryRoot))) {
+      continue;
+    }
+
+    let memoryEntries;
     try {
-      projectsRoot = await requireProjectMemoriesRoot();
-      projectEntries = await readdir(projectsRoot, { withFileTypes: true });
+      memoryEntries = await readdir(memoryRoot, { withFileTypes: true });
     } catch (error) {
-      if (isNotFoundError(error)) {
-        return [];
-      }
+      if (isMissing(error)) continue;
       throw error;
     }
 
-    const workspaces: ProjectMemoryWorkspaceSummary[] = [];
-    for (const projectEntry of projectEntries) {
-      if (!projectEntry.isDirectory() || projectEntry.isSymbolicLink()) {
+    const files: ProjectMemoryFileSummary[] = [];
+    for (const memoryEntry of memoryEntries) {
+      if (
+        !memoryEntry.isFile() ||
+        memoryEntry.isSymbolicLink() ||
+        !isMemoryFileName(memoryEntry.name)
+      ) {
         continue;
       }
-
-      const workspaceId = projectEntry.name;
-      const workspaceRoot = join(projectsRoot, workspaceId);
-      const memoryRoot = join(workspaceRoot, PROJECT_MEMORY_DIRECTORY_NAME);
-      if (!(await isPlainDirectory(workspaceRoot)) || !(await isPlainDirectory(memoryRoot))) {
-        continue;
-      }
-
-      let memoryEntries;
+      const filePath = join(memoryRoot, memoryEntry.name);
+      let metadata;
       try {
-        memoryEntries = await readdir(memoryRoot, { withFileTypes: true });
+        metadata = await lstat(filePath);
       } catch (error) {
-        // 目录检查后 Memory Agent 仍可能删除目录；catalog 快照只跳过已消失的 workspace。
-        if (isNotFoundError(error)) {
-          continue;
-        }
+        if (isMissing(error)) continue;
         throw error;
       }
-      const files: ProjectMemoryFileSummary[] = [];
-      for (const memoryEntry of memoryEntries) {
-        if (
-          !memoryEntry.isFile() ||
-          memoryEntry.isSymbolicLink() ||
-          !isProjectMemoryFileName(memoryEntry.name)
-        ) {
-          continue;
-        }
-
-        const filePath = join(memoryRoot, memoryEntry.name);
-        let fileMetadata;
-        try {
-          fileMetadata = await lstat(filePath);
-        } catch (error) {
-          // readdir 后事实文件可能被并发删除；它不再属于本次只读快照。
-          if (isNotFoundError(error)) {
-            continue;
-          }
-          throw error;
-        }
-        if (!fileMetadata.isFile() || fileMetadata.isSymbolicLink()) {
-          continue;
-        }
-        files.push({
-          name: memoryEntry.name,
-          path: filePath,
-          kind: memoryEntry.name === PROJECT_MEMORY_INDEX_FILE_NAME ? "index" : "item",
-          size: fileMetadata.size,
-          updatedAt: fileMetadata.mtimeMs,
-        });
-      }
-
-      if (files.length === 0) {
-        continue;
-      }
-
-      files.sort(compareProjectMemoryFiles);
-      workspaces.push({
-        id: workspaceId,
-        label: resolveWorkspaceLabel(workspaceId),
-        updatedAt: Math.max(...files.map((file) => file.updatedAt)),
-        files,
+      if (!metadata.isFile() || metadata.isSymbolicLink()) continue;
+      files.push({
+        name: memoryEntry.name,
+        path: filePath,
+        kind: memoryEntry.name === "MEMORY.md" ? "index" : "item",
+        size: metadata.size,
+        updatedAt: metadata.mtimeMs,
       });
     }
-
-    workspaces.sort(
-      (left, right) => right.updatedAt - left.updatedAt || left.id.localeCompare(right.id, "en"),
-    );
-    return workspaces;
-  }
-
-  async function readProjectMemoryFile(params: {
-    workspaceId: string;
-    fileName: string;
-  }): Promise<{ content: string; updatedAt: number }> {
-    if (
-      !isValidPathSegment(params.workspaceId) ||
-      !isValidPathSegment(params.fileName) ||
-      !isProjectMemoryFileName(params.fileName)
-    ) {
-      throw new Error("Invalid Project Memory path");
-    }
-
-    const projectsRoot = await requireProjectMemoriesRoot();
-    const workspaceRoot = join(projectsRoot, params.workspaceId);
-    const memoryRoot = join(workspaceRoot, PROJECT_MEMORY_DIRECTORY_NAME);
-    await requirePlainDirectory(workspaceRoot);
-    await requirePlainDirectory(memoryRoot);
-
-    // 大小写不敏感文件系统会让请求名称命中不同大小写的磁盘文件，绕过 catalog 白名单。
-    const filePath = await requireExactProjectMemoryFile(memoryRoot, params.fileName);
-    return readProjectMemoryFileFromStableHandle({
-      fileName: params.fileName,
-      filePath,
-      validatePath: async () => {
-        await requireProjectMemoriesRoot();
-        await requirePlainDirectory(workspaceRoot);
-        await requirePlainDirectory(memoryRoot);
-        await requireExactProjectMemoryFile(memoryRoot, params.fileName);
-        await assertContainedProjectMemoryPath(projectsRoot, filePath);
-      },
+    if (files.length === 0) continue;
+    files.sort((left, right) => {
+      if (left.kind !== right.kind) return left.kind === "index" ? -1 : 1;
+      return left.name.localeCompare(right.name, "en");
+    });
+    const slug = /^(.*)-[a-f0-9]{16}$/i.exec(workspaceId)?.[1];
+    workspaces.push({
+      id: workspaceId,
+      label: slug?.trim() || workspaceId,
+      updatedAt: Math.max(...files.map((file) => file.updatedAt)),
+      files,
     });
   }
+  workspaces.sort(
+    (left, right) => right.updatedAt - left.updatedAt || left.id.localeCompare(right.id, "en"),
+  );
+  return workspaces;
+}
 
-  return {
-    listProjectMemories,
-    readProjectMemoryFile,
-  };
+async function readProjectMemoryFile(params: {
+  workspaceId: string;
+  fileName: string;
+}): Promise<{ content: string; updatedAt: number }> {
+  if (
+    !isPathSegment(params.workspaceId) ||
+    !isPathSegment(params.fileName) ||
+    !isMemoryFileName(params.fileName)
+  ) {
+    throw new Error("Invalid Project Memory path");
+  }
+  const root = await requireRoot();
+  const workspaceRoot = join(root, params.workspaceId);
+  const memoryRoot = join(workspaceRoot, "memory");
+  await requirePlainDirectory(workspaceRoot);
+  await requirePlainDirectory(memoryRoot);
+  const filePath = await requireExactFile(memoryRoot, params.fileName);
+  return readProjectMemoryFileFromStableHandle({
+    fileName: params.fileName,
+    filePath,
+    validatePath: async () => {
+      await requireRoot();
+      await requirePlainDirectory(workspaceRoot);
+      await requirePlainDirectory(memoryRoot);
+      await requireExactFile(memoryRoot, params.fileName);
+      await requireContained(root, filePath);
+    },
+  });
+}
+
+export function createMemoryService(): IMemoryService {
+  return { listProjectMemories, readProjectMemoryFile };
 }

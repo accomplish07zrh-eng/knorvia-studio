@@ -1,0 +1,18 @@
+# Complete provider rule map owner
+
+Parent explicitly allocates `src/config/provider-config.ts` with SHA23e80458... and asks for substantive rule ownership, preserving schemas/defaults/fields/value/glue. [Origin](PROVIDER-MAP-ORIGIN-20261003.json) confirms exact current SHA, accepted97cbe retained binding and bounded old receipt/history screen. Local fixed upstream blob `a566b1333d3cb111af73171610789600b5cb4c91` is present; complete18187bytes equal current and publisher SHA23e80458... exactly. No transform or Internet fallback. Positive expression ancestry only, not rights closure; absence of accepted replacement in available evidence isn't unpublished-history proof.
+
+Select complete `ProviderConfigMap` immutable ordered full-rule identity index, with constructor admission, layered metadata/config overlay, transforms/reorder/set/delete, validation and encoding. Retain entire surrounding prefix/suffix, including schema/public fields/defaults/simple value constructors, template map/name projection, access/key policy and common helpers. Mechanical projections inside complete owner keep conventional contract/glue and receive no originality count; fixed private #values spelling is source-derived integration binding, explicitly not independent naming evidence. No gratuitous splitting/wrappers or API additions.
+
+```text
+synthetic rule/tuple iterable → frozen complete-rule map owner
+                      ├→ ordered overlay / metadata / config port
+                      ├→ reorder / transform / set / delete → new owned map
+                      └→ ordered validation / encoding → retained policy ports
+```
+
+Preserve provider identity without trim/validation changes, shell/config reference and freeze boundaries, insertion order, collision metadata leaf undefined/null semantics and extra-metadata policy, native iterable/getter/callback/error identity, virtual public method dispatch, issue paths/objects and unchanged persistence projection. No schema/default/key/access guard repair or recursive policy rewrite. Templates/value/glue aren't forcibly reconstructed.
+
+Fresh fork-none Sol high behavior/API-only author gets frozen complete external contract/public declarations, returns entire owner chapter, freezes full first-ready/design/exact task/input/access/manifest before separate own static review; every correction whole/frozen before own review. Source-exposed coordinator installs whole preferred class+formatting, with retained prefix/suffix identity and mechanical projection qualification. Shared workspace/recorded author limits don't prove model/process/hardware cleanroom. Parent actual UI confirms this lane Sol/high and Fast ON; preserve configuration. No MIT/novelty/global provenance/license acceptance.
+
+Minimum original/final synthetic config-only map checks and directly affected accepted config consumer scenario, target owner/test/direct consumer strict types, scoped lint/format/changed architecture, whole preferred AST/public API and retained source/control/chapters. Full first failures preserved separately if any. No fullsuite/build/provider/native/network/user settings/accounts/credentials/environment secrets/storage/deployment. Root resolver/personal repository/next codec work remain untouched/unimported. All accepted source/global LICENSE/NOTICE/inventory/provenance/dependency/security controls unchanged. No main merge/force-push/cross-lane integration/raw bundle/source-tree upload/Library403 alternate access/cancelled parent upload retry. Collect on existing draft PR10 before final parent integration; prior frozen failure/HOLD qualifications persist.

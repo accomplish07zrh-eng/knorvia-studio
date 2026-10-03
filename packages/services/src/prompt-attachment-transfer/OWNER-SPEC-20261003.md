@@ -1,0 +1,19 @@
+# Complete local attachment and service-registry owners
+
+Parent explicitly allocates the full local attachment factory first, then service collection only if exact ownership/accepted receipt screen permits. Local source SHA8b81f23ea1aba8e03fcda3d0e7f6c590cb645e628954c4bbab0e360b5947d5e4; collectioneee2a145c5aff50027ea123a80802d67e8cbe5c0d37c05e5eb8fb151698a1f4b. Current inherited upstream-modified inventory/migration bindings agree. Bounded exact path/hash/class receipt search finds no accepted complete owner replacement or contradictory other-lane ownership; history only parentless7619e41 and upstream objects unavailable. This permits conditional collection scope; it does not infer rights/originality from unavailable history.
+
+First owner: whole createLocalPromptAttachmentTransferService. Preserve one operationId progress-emitter registry per invocation, exact identity/reuse/last-listener deletion-before-dispose, zero-copy localPath return and positive-number size/stat-rejection fallback, no fabricated events and async no-op adopt/cancel/cleanup. Preserve operationId/path reads after awaited stat, getter/error identities, return-key order and source/dependency policy. No transfer or user-data writes. Retain public contract/descriptor byte-identically and external Emitter behavior unchanged.
+
+Second eligible owner (after first candidate/compatibility validation): complete ServiceCollection class register/get/getOptional/expose lifecycle. One ordered service Map; overwrite retains insertion order, truthy-only required get vs exact optional values, live expose iteration, nullish override fallback, ProxyChannel and server call/error identity/receiver/order. Retain descriptors/public RPC contracts; no RPC internals, transport/server/desktop entrypoints or wiring edits. Local source constructor has no IO; all validation authority faked.
+
+```text
+local stage → positive size or synthetic stat → exact local reference result, no copy/write/event
+progress ID → one emitter → last listener removal → delete ID → emitter disposal
+registry register → one live ordered Map → get/optional or expose → fake proxy/server authority
+```
+
+Freeze manual body-free contract/behavior inputs, fresh fork-none Sol high complete first-ready candidates before distinct own review, preserve all drafts/clarifications/revisions/exact inputs/access receipts. Source-exposed coordinator copies preferred source+format only and verifies parsed identity. Fixed public/type/string/data and dependency expression retains lineage; recorded access limits in shared workspace are not hardware/model/process cleanroom proof. Saved Fast actual switching unavailable. No forced novelty/MIT/whole-project acceptance.
+
+Minimum synthetic fake stat/Emitter and ProxyChannel/channel-server only: data protection, original/final lifecycle and failure identity. Scoped target and direct-contract types/lint/format/changed architecture, no broad test/build suite, app execution, real files/attachments/data/credential/settings/network/IPC/prompts/grants/installers/permission changes or upload retry. Keep CUA original6/15 and transport21/25 BLOCKED qualifiers separate, historical failures/root accepted-hash HOLDS unchanged. No global license/provenance/inventory/dependency/security policy changes, main merge/cross-lane integration/force-push/raw bundle/Library403 alternative route. Same continuing draft PR10; root integrates only after all implementation is collected.
+
+Compatibility clarification: exposure evaluates the server.registerChannel property after override resolution but before ProxyChannel.fromService property lookup/invocation. Preserve getter throws/side effects and original server receiver without added .call lookup. First candidate's contrary order and failed fake-port log remain frozen; complete author revision02/review02 correct it.
