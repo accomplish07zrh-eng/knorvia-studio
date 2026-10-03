@@ -42,5 +42,7 @@
       "candidateBytes": 6949,
       "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
     }
-  ]
+  ],
+  "candidateCheckpoint": "1f747eb6d8489e35325310abf4a343daa287e369",
+  "receiptInterpretation": "Historical candidate bytes at this commit; not a license decision or execution result"
 }

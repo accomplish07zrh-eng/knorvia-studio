@@ -163,3 +163,30 @@ run 为 steering；tasks plan + running review host turn 为 reviewing；其余 
 依赖缺失或失败、缺 plan/旧 payload、负数 review round、证据缺省、主持人和成员
 优先级、首个 run 边界。既有 `studio-group-progress.test.ts` 及原 GroupProgressPanel
 消费者留给最终统一执行，本阶段无通过结论。
+
+## v4 任务列表：结构等价与引用复用
+
+`taskListItemStabilization.ts` 在已有清单为 upstream-modified/NOASSERTION，沒有
+accepted review；其原逻辑仍在本路待替换范围。现有 sessions-index、grouped hook
+和 taskQueryCacheStore 继续持有列表，本函数只返回引用投影。activity/membership
+的事实分工仍由未改动的 `taskListRowActivity.ts` 处理，不改写共享 schema、索引、
+unread、排序、optimistic owner 或 UI 行。
+
+公开四函数及原路径保留。identity key 使用现有 taskQueryCache 的公共
+`buildTaskEntityKey`，保持 trim identity 或 path fallback + `::` + taskId 的原字符串。
+不把 grouped 的 NUL key 改成此 key，也不改变缓存协议。
+
+结构等价先接受 `===`，其余不同 primitive（包括 NaN）不相等；对象忽略原型和
+symbol key，按 enumerable string key 比较，undefined 字段等同缺省，不依赖 key
+插入顺序。数组须同长度且两侧都是数组；只遍历左数组实际存在（含继承）的 index，
+保持原 `.every` 对 sparse 左数组的规则，数组附加属性不参与比较。对象须有效 key
+数量相同；按左 key 读取右值，保留原对继承字段的读取边界。对象字段枚举/filter
+后逐字段前序比较，短路第一个差异，不 JSON.stringify、不增加递归深度上限。
+实现用显式比较 frame；相同对象引用直接接受，互相独立的环形结构仍抛 RangeError，
+不把不可序列化的数据默默认成相等。正常输入为服务投影的无环 metadata。
+
+previous 空数组直接返回 next。否则按 identity 建旧条目映射，重复 key 由最后
+previous 条目覆盖。按 next 原顺序选择等价旧对象或当前新对象；全部位置和长度
+都一致时返回原 previous 数组，否则返回新数组，不改输入、不更新 owner 缓存。
+source 空/重排/改内容、重复 key、身份隔离、undefined/键顺序、nested metadata、
+sparse 数组、深层对象、只读 getter 求值顺序和真实现有消费者组合均待最终执行。
