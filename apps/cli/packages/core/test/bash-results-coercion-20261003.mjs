@@ -14,7 +14,7 @@ if (mode === "current") {
   const bytes = await readFile(
     path.join(repo, "docs/evidence/knorvia-bash-results-current-20261003.json"),
   );
-  assert.equal(sha(bytes), "CURRENT_PIN");
+  assert.equal(sha(bytes), "f40288007778ae406e7e1929f311966aa41bf4e9ff6c794dcc8df2cb552c79c0");
   const row = JSON.parse(bytes).files["apps/cli/packages/core/src/" + name + ".ts"];
   for (const e of Object.values(row))
     assert.equal(sha(await readFile(path.join(repo, e.path))), e.sha256);

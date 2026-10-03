@@ -77,8 +77,7 @@ export async function toBashOutput(
     ? (stdoutPath ? result.stdout.bytes : 0) + (stderrPath ? result.stderr.bytes : 0)
     : undefined;
   const stderr = appendBashCwdStderrSuffix(
-    result.stderr.text || result.error?.message || "",
-    options.stderrSuffix,
+    result.stderr.text || result.error?.message || "", options.stderrSuffix,
   );
   const returnCodeInterpretation = interpretBashReturnCode(input.command, result);
   const providerError = isBashProviderErrorStatus({
@@ -87,21 +86,15 @@ export async function toBashOutput(
     status: result.status,
   });
   const capturedStdout = result.stdout.text;
-  const image = providerError
-    ? undefined
-    : await prepareBashImageOutput(
-        {
-          artifactPath: stdoutPath,
-          artifactSize: stdoutArtifactBytes,
-          inline: capturedStdout,
-        },
-        context,
-      );
+  const image = providerError ? undefined : await prepareBashImageOutput({
+    artifactPath: stdoutPath,
+    artifactSize: stdoutArtifactBytes,
+    inline: capturedStdout,
+  }, context);
   const stdout = image?.stdout ?? capturedStdout;
   const isImage = image !== undefined;
   const ghRateLimitHint = providerError
-    ? undefined
-    : getGhRateLimitHint(input.command, result.stdout.text);
+    ? undefined : getGhRateLimitHint(input.command, result.stdout.text);
   const output = {
     stdout,
     stderr,

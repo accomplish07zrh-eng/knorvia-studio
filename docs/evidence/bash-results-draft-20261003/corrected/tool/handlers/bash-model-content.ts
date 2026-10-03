@@ -22,16 +22,12 @@ function formatBytes(bytes: number): string {
 
 function outputBytes(output: BashOutput): number {
   if (typeof output.persistedOutputSize === "number") return output.persistedOutputSize;
-  if (
-    typeof output.stdoutPersistedOutputSize === "number" ||
-    typeof output.stderrPersistedOutputSize === "number"
-  ) {
+  if (typeof output.stdoutPersistedOutputSize === "number"
+    || typeof output.stderrPersistedOutputSize === "number") {
     return (output.stdoutPersistedOutputSize ?? 0) + (output.stderrPersistedOutputSize ?? 0);
   }
-  return (
-    (output.stdoutBytes ?? Buffer.byteLength(output.stdout, "utf8")) +
-    (output.stderrBytes ?? Buffer.byteLength(output.stderr, "utf8"))
-  );
+  return (output.stdoutBytes ?? Buffer.byteLength(output.stdout, "utf8"))
+    + (output.stderrBytes ?? Buffer.byteLength(output.stderr, "utf8"));
 }
 
 function stdoutText(output: BashOutput): string {
@@ -57,11 +53,8 @@ function stderrText(output: BashOutput): string {
 
 function backgroundText(output: BashOutput): string {
   if (!output.backgroundTaskId) return "";
-  const path =
-    output.rawOutputPath ??
-    output.persistedOutputPath ??
-    output.stdoutPersistedOutputPath ??
-    output.stderrPersistedOutputPath;
+  const path = output.rawOutputPath ?? output.persistedOutputPath
+    ?? output.stdoutPersistedOutputPath ?? output.stderrPersistedOutputPath;
   const outputText = path ? ` Output is being written to: ${path}.` : "";
   if (output.assistantAutoBackgrounded) {
     return `Command exceeded the assistant-mode blocking budget (15s) and was moved to the background with ID: ${output.backgroundTaskId}. It is still running — you will be notified when it completes.${outputText} In assistant mode, delegate long-running work to a subagent or use run_in_background to keep this conversation responsive.`;
