@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "branch": "integration/backlog-20261003",
+  "publishedHead": "c4f9bbb01cffa283e7179cc5adb53bc5956cb72a",
+  "mainUnchanged": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "runId": 37113155595,
+  "runUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37113155595",
+  "linuxJobId": 111174812501,
+  "windowsJobId": 111174812401,
+  "actualCheckedSyntheticSha": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+  "linuxSummary": {
+    "tests": 8048,
+    "pass": 8027,
+    "fail": 13,
+    "skipped": 8,
+    "cancelled": 0,
+    "suites": 6,
+    "durationMs": 434967.09691
+  },
+  "windowsSummaryFooter": [
+    "2026-10-03T09:38:36.7145913Z ℹ duration_ms 9.2743\r",
+    "2026-10-03T09:40:32.5496272Z ℹ tests 8048\r",
+    "2026-10-03T09:40:32.5496489Z ℹ suites 6\r",
+    "2026-10-03T09:40:32.5496667Z ℹ pass 8034\r",
+    "2026-10-03T09:40:32.5496834Z ℹ fail 13\r",
+    "2026-10-03T09:40:32.5497006Z ℹ cancelled 0\r",
+    "2026-10-03T09:40:32.5497135Z ℹ skipped 1\r",
+    "2026-10-03T09:40:32.5497383Z ℹ duration_ms 506133.4616\r"
+  ],
+  "jobs": [
+    {
+      "id": 111174812401,
+      "name": "windows / quality",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37113155595,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Resolve checked SHA",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Check file provenance inventory",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Install frozen dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Typecheck including desktop main",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Format check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Architecture check (full repository)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Build CLI packages used by offline tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Offline Studio regression",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 14
+        },
+        {
+          "name": "Record check results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 27
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 28
+        },
+        {
+          "name": "Post Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 111174812501,
+      "name": "linux / quality",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37113155595,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Resolve checked SHA",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Check file provenance inventory",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Install frozen dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Typecheck including desktop main",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Format check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Architecture check (full repository)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Build CLI packages used by offline tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Offline Studio regression",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 14
+        },
+        {
+          "name": "Record check results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 27
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 28
+        },
+        {
+          "name": "Post Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    }
+  ],
+  "sourceArtifactDiagnosis": "Six emitted SHA mismatches already present in the retained CLI source-to-output diagnostic; CI reported its exact fresh generated digests for three first encountered paths. Original bytes and records preserved. Do not automatically grant source-expression/rights acceptance.",
+  "localFullChecksRepeated": false,
+  "wholeTreeMitReady": false,
+  "materialHoldsRetained": 26,
+  "materialItemsClosed": 0,
+  "windowsSummary": {
+    "tests": 8048,
+    "pass": 8034,
+    "fail": 13,
+    "skipped": 1,
+    "cancelled": 0,
+    "suites": 6,
+    "durationMs": 506133.4616
+  },
+  "failureFilesBothPlatforms": [
+    "apps/cli/packages/core/test/workflow-collection-planner.test.ts",
+    "apps/cli/packages/core/test/workflow-event-log-observations.test.ts",
+    "apps/cli/packages/core/test/workflow-graph-artifacts.test.ts",
+    "apps/cli/packages/core/test/workflow-graph-boundary.test.ts",
+    "apps/cli/packages/core/test/workflow-node-publication.test.ts",
+    "apps/cli/packages/core/test/workflow-planner-expansion.test.ts",
+    "apps/cli/packages/core/test/workflow-ready-order.test.ts",
+    "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+    "apps/cli/packages/core/test/workflow-run-loop-safety.test.mjs",
+    "apps/cli/packages/core/test/workflow-run-phase.test.ts",
+    "apps/cli/packages/core/test/workflow-scheduler-consumers.test.ts",
+    "apps/cli/packages/core/test/workflow-scheduler-observations.test.ts",
+    "apps/cli/packages/core/test/workflow-scheduler-state.test.ts"
+  ],
+  "bothPlatformsSameFailureFiles": true,
+  "actualSourceToEmittedByteIdentityPassing": false
+}

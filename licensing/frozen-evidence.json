@@ -8527,6 +8527,27 @@
       "bytes": 2683
     },
     {
+      "path": "docs/evidence/final-platform-ci-20261003/api-and-result.json",
+      "sha256": "ad532ca98711f20676ec3f969565ac744bcf890655dc3a372f015272295fc8fc",
+      "bytes": 9458,
+      "sourceCommit": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+      "observation": "Generated actual completed CI API/count observation and timestamp-preserving decoded-log excerpt tied to c4f9bbb branch input. Logs are a UTF-8 LF subset (Windows CRLF converted to LF), not whole-job-log original bytes. Both jobs failed offline; this is not passing evidence."
+    },
+    {
+      "path": "docs/evidence/final-platform-ci-20261003/linux-excerpt.log",
+      "sha256": "1fb7ab63ad683ae36c28e9de8726ee9319115499dca0890503fd61246ad8dfae",
+      "bytes": 8722,
+      "sourceCommit": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+      "observation": "Generated actual completed CI API/count observation and timestamp-preserving decoded-log excerpt tied to c4f9bbb branch input. Logs are a UTF-8 LF subset (Windows CRLF converted to LF), not whole-job-log original bytes. Both jobs failed offline; this is not passing evidence."
+    },
+    {
+      "path": "docs/evidence/final-platform-ci-20261003/windows-excerpt.log",
+      "sha256": "d9494c52ac12ff377a1f41d2d35820e10dbd96e66281496f3620918982b796f7",
+      "bytes": 8561,
+      "sourceCommit": "d11e1efa27a7b7551ce637e5eadfbb292cafb94a",
+      "observation": "Generated actual completed CI API/count observation and timestamp-preserving decoded-log excerpt tied to c4f9bbb branch input. Logs are a UTF-8 LF subset (Windows CRLF converted to LF), not whole-job-log original bytes. Both jobs failed offline; this is not passing evidence."
+    },
+    {
       "path": "docs/evidence/final-three-failure-combined-20261003/four-original-failures.json",
       "sha256": "4418d78dad60fd5524683958e4b3bc0ae6678e78b410fb3b4479b6532c76a5db",
       "bytes": 3258,
