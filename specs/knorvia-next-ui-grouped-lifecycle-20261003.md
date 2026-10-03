@@ -146,6 +146,24 @@ sequenceDiagram
   Write-->>View: 只有 scope + ticket 有效才 rollback / accept refresh
 ```
 
+## 参考稳定化与 task-created 订阅（下一批先行契约）
+
+- 接受视图与 optimistic displayed 视图共用一种 node 参考投影；它只返回对象，
+  不拥有 accepted/store/cache 状态。identity token、sortOrder、group metadata 的
+  结构比较和 task 引用/顺序保持；旧重复 identity 的最后一个节点是复用候选。
+- 通过 next identity 的位置桶与逆序旧节点 claim 规划复用，保持 next 顺序。
+  旧 nodes 为空直接返回 next；整树节点等价且逐位复用才返回 previous，改变
+  时仍返回 `{nodes}`，不丢弃任何节点或成员。NaN sortOrder 不视为相等。
+- task-created 订阅按 scopes 输入顺序安装，只有既有 `workspace_task_list_changed`
+  / `task_created` 边界 invalidate 再 refresh。refresh 仍通过原 ref 访问当前
+  owner，事件和任务序列化 shape 不改。
+- 订阅 ledger 是唯一 lease owner；scope cleanup 先禁止 callback，再释放全部
+  已获得的 disposable。安装失败释放前面已获得的 leases，cleanup 某项抛错
+  仍处理其余项并抛首错；卸载后的迟到事件无权发刷新。不能释放服务未交出
+  disposable 的内部资源，也不宣称 host abort。
+- scope signature、首屏 monotonic readiness predicate、Controller join 与 React
+  bridge 保留为兼容片段，单纯搬出短表达不计独立重写或作者权利完成。
+
 ## 未验证
 
 不执行 tests/lint/types/build/架构或全量审计。新增 owner 合同只写不跑；仅源码

@@ -1,0 +1,70 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Grouped accepted/displayed node reference projection and task-created subscription leases",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Prior keyed stabilization, creation-event effect, exact service/listener and direct hook ports read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared reference/lease contracts do not validate hook/React/Controller/RPC or emitted outputs",
+  "explicitCorrections": [
+    "Partial subscription install releases acquired leases",
+    "Cleanup attempts all leases after a failure and prevents late callbacks from launching refresh"
+  ],
+  "retainedBehavior": [
+    "Last old duplicate identity owns reference reuse; next order and all members retained",
+    "group metadata uses existing iterative structural comparator; task comparisons retain strict reference order",
+    "Empty old view returns next, full equivalence returns previous, changed projection emits nodes only",
+    "task_created invalidation precedes current refresh; signature/readiness/Controller bridge retained"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "baseBlob": "2f391ffd57356e66b8c28f6f114e145018c02e7e",
+      "baseSha256": "66b5039e02f56db74a3cd42a8a0996f3edc913fe5d99bad44af102d6987ed763",
+      "candidateSha256": "54243f56292915a09511febfd42ce66f7863441ed80eff033d263436d750aab1",
+      "candidateBytes": 15850,
+      "candidateRole": "partial React/Controller bridge; short readiness/scope projections retained, not credited as independent expressions",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "blob": "00ab8f20c321e14cc228d23266cf63634e5337a5",
+          "normalizedSha256": "589972fdb443b7ed1cff98c489e1976211a0ea71f38a284a7c8e5833f48f7f2c",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedViewReferenceProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "5ad6ea05fb6d5116b37dac0e643ed3e5367ae3d61679b5dcc69edfda2da83f12",
+      "candidateBytes": 2310,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedCreatedTaskEventLease.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "7ab57dba881f442e5849aa40c99f093bf7cdec3fccfeafb332f006855733aa18",
+      "candidateBytes": 1814,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-reference-events-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "c1ad5c665da81810dee4aaed7a7a7b61958e02cd4bd486410a0270f77e5581d6",
+      "candidateBytes": 6816,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition retained; no MIT claim"
+    }
+  ]
+}

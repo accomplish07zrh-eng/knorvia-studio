@@ -1,6 +1,4 @@
-/* eslint-disable max-lines -- Grouped 视图 hook 集中维护 optimistic overlay、排序保存和 ungroup 持久化，拆开会让同一份 view 状态在多个 hook 间漂移。 */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { KnorviaTaskMeta } from "@knorvia/shared";
 import type {
   KnorviaGroupedTaskView,
   KnorviaGroupedTaskViewStructure,
@@ -20,7 +18,8 @@ import { buildTaskWorkspaceKey } from "@/lib/taskQueryCache.js";
 import {
   useWorkspaceTaskOptimisticOverlayByWorkspaceKey,
 } from "@/hooks/workspaceTaskListOptimisticOverlay.js";
-import { areStabilizedValuesEquivalent } from "@/v4/taskListItemStabilization.js";
+import { stabilizeGroupedTaskView } from "@/workspace-grouped-tasks/groupedViewReferenceProjection.js";
+import { subscribeGroupedTaskCreationEvents } from "@/workspace-grouped-tasks/groupedCreatedTaskEventLease.js";
 import {
   GroupedRemoteDataSingleFlight, readCachedGroupedView, writeCachedGroupedView,
 } from "@/workspace-grouped-tasks/groupedRemoteDataCache.js";
@@ -70,64 +69,6 @@ function isGroupedTaskViewInitialized(params: {
     return true;
   }
   return params.remoteDataInitialized && params.hydratingEndpointKeys.length === 0;
-}
-
-function groupedNodeIdentityKey(node: KnorviaGroupedTaskView["nodes"][number]): string {
-  if (node.type === "group") {
-    return `group:${node.group.id}`;
-  }
-  return `task:${buildTaskWorkspaceKey(node.task.workspacePath, node.task.workspaceIdentity)}:${node.task.taskId}`;
-}
-
-function areGroupedNodesEquivalent(
-  previous: KnorviaGroupedTaskView["nodes"][number],
-  next: KnorviaGroupedTaskView["nodes"][number],
-): boolean {
-  if (previous.type !== next.type || previous.sortOrder !== next.sortOrder) {
-    return false;
-  }
-  if (previous.type === "group" && next.type === "group") {
-    // 用结构比较而非 JSON.stringify：group meta 经 IPC/join 重建后 key 顺序不保证稳定，
-    // 字符串比较会让等价判断恒为 false，节点稳定化静默退化成每帧全新引用。
-    if (!areStabilizedValuesEquivalent(previous.group, next.group)) {
-      return false;
-    }
-    // 任务对象来自 sessions-index 聚合层（引用已稳定化）+ joinTaskListUnreadAt（未变则保引用），
-    // 引用逐位相同即内容等价。
-    return (
-      previous.tasks.length === next.tasks.length &&
-      next.tasks.every((task, index) => task === previous.tasks[index])
-    );
-  }
-  return previous.type === "task" && next.type === "task" && previous.task === next.task;
-}
-
-/**
- * grouped refresh 每轮都重建整棵视图对象树，即使内容没变（或只变了一条），
- * 所有 group/task 行都会拿到新引用整体重渲染——表现为侧栏分组列表"重新加载"。
- * 这里做节点级引用稳定化：等价节点复用旧对象；整树等价时返回旧视图（setState 同引用直接 bail）。
- */
-function stabilizeGroupedView(
-  previous: KnorviaGroupedTaskView,
-  next: KnorviaGroupedTaskView,
-): KnorviaGroupedTaskView {
-  if (previous.nodes.length === 0) {
-    return next;
-  }
-  const previousByKey = new Map(previous.nodes.map((node) => [groupedNodeIdentityKey(node), node]));
-  let identical = previous.nodes.length === next.nodes.length;
-  const nodes = next.nodes.map((node, index) => {
-    const previousNode = previousByKey.get(groupedNodeIdentityKey(node));
-    if (previousNode && areGroupedNodesEquivalent(previousNode, node)) {
-      if (identical && previous.nodes[index] !== previousNode) {
-        identical = false;
-      }
-      return previousNode;
-    }
-    identical = false;
-    return node;
-  });
-  return identical ? previous : { nodes };
 }
 
 export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] }) {
@@ -247,7 +188,7 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     // overlay 帧（运行中任务的 optimistic meta 回写）会绕过 view 的节点稳定化，
     // 每次都产出新的 group/task 节点对象，让侧栏整棵列表重渲染并重测量虚拟器。
     // 展示视图再过一遍同一套节点级稳定化，等价时连数组身份都保持不变。
-    const nextDisplayedView = stabilizeGroupedView(
+    const nextDisplayedView = stabilizeGroupedTaskView(
       displayedViewRef.current,
       mergeGroupedTaskViewWithOptimistic({
         view,
@@ -296,7 +237,7 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
           structure, taskIndexItems: membership.taskIndexItems, sessions: sessionsIndexItemsRef.current,
           pinnedIds: membership.pinnedIds, archivedIds: membership.archivedIds, deletedIds: membership.deletedIds,
         });
-        const stabilizedView = stabilizeGroupedView(viewRef.current, nextView);
+        const stabilizedView = stabilizeGroupedTaskView(viewRef.current, nextView);
         writeCachedGroupedView(localWorkspaceScopeSignature, stabilizedView);
         setView(stabilizedView);
       },
@@ -339,21 +280,11 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     }), displayedView, services.taskService);
   }, [clearPromotedGroupedDraftTask, displayedView, optimisticTaskOverlayByWorkspaceKey, promotionOwner, services.taskService, view]);
 
-  useEffect(() => {
-    const disposables = scopes.map((scope) =>
-      services.taskService.onDynamicWorkspaceEvent(scope)((event) => {
-        if (event.type !== "workspace_task_list_changed" || event.reason !== "task_created") {
-          return;
-        }
-        // sessions-index 可见帧可能早于 SQLite grouped sort_order 写入。
-        // task_created 是首次排序已经提交的边界，必须丢弃旧 structure 缓存并重拉；
-        // 否则运行中会按缺序节点补到末尾，只有重启重建缓存后才恢复。
-        invalidateRemoteData();
-        void refreshRef.current();
-      }),
-    );
-    return () => disposables.forEach((disposable) => disposable.dispose());
-  }, [invalidateRemoteData, scopes, services.taskService]);
+  useEffect(() => subscribeGroupedTaskCreationEvents(services.taskService, scopes, {
+    // task_created 是 grouped 首次排序已经提交的边界；原 structure 缓存须先失效。
+    invalidate: invalidateRemoteData,
+    refresh: () => { void refreshRef.current(); },
+  }), [invalidateRemoteData, scopes, services.taskService]);
 
   // 唯一的自动刷新入口。refresh 身份已经包含 membership/structure/scope 版本，
   // sessions-index 内容变化再触发内存 join；避免 mount effect 与 index effect 首帧重复发起请求。
