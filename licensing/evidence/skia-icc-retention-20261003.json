@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-03T01:43:21.061562+00:00",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "inputHead": "2b16a26b1c0e7d6b2d18eaa092470744d5c86f7d",
+  "scope": "One step along fixed JXL/ICC retention path: maximum3 new directly related publisher source files; reused already-authorized fixed public material only.",
+  "skiaRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+  "libjxlRevision": "a205468bc5d3a353fb15dae2398a101dff52f2d3",
+  "newPublicSourceRequests": [
+    {
+      "url": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/include/private/SkEncodedInfo.h",
+      "explicitReference": "SkJpegxlCodec.cpp include line18",
+      "sourceRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+      "path": "include/private/SkEncodedInfo.h",
+      "requestedAtUtc": "2026-10-03T01:39:58.390124+00:00",
+      "httpStatus": 200,
+      "finalUrl": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/include/private/SkEncodedInfo.h",
+      "bytes": 7838,
+      "sha256": "535f939631ef1ee251fdcfe501c2dba564d445502247a8a0b558d997cdaf02f8",
+      "gitBlob": "cd32447a55efeac64b2030c0362602991e730843",
+      "expectedTreeBytes": 7838,
+      "expectedTreeGitBlob": "cd32447a55efeac64b2030c0362602991e730843",
+      "expectedTreeBindingMatches": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecColorProfile.cpp",
+      "explicitReference": "SkJpegxlCodec.cpp line187 ColorProfile::MakeICCProfile; implementation owner located in already retained exact Skia tree",
+      "sourceRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+      "path": "src/codec/SkCodecColorProfile.cpp",
+      "requestedAtUtc": "2026-10-03T01:40:37.116294+00:00",
+      "expectedBytes": 6380,
+      "expectedGitBlob": "1c9a1c5a7fc2009f4f4eee088507bd9438e9e879",
+      "httpStatus": 200,
+      "finalUrl": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecColorProfile.cpp",
+      "bytes": 6380,
+      "sha256": "a33618a177d53a44e27b9b13d480be9c4e6a3a66c04c9815eaf49318cb2beb42",
+      "gitBlob": "1c9a1c5a7fc2009f4f4eee088507bd9438e9e879",
+      "expectedBindingMatches": true,
+      "expectedTreeBytes": 6380,
+      "expectedTreeGitBlob": "1c9a1c5a7fc2009f4f4eee088507bd9438e9e879",
+      "expectedTreeBindingMatches": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecPriv.h",
+      "explicitReference": "SkJpegxlCodec.cpp includes src/codec/SkCodecPriv.h; SkCodecColorProfile.cpp includes same declaration owner at line10",
+      "sourceRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+      "path": "src/codec/SkCodecPriv.h",
+      "requestedAtUtc": "2026-10-03T01:41:16.112716+00:00",
+      "expectedBytes": 11976,
+      "expectedGitBlob": "c321fb77c0aee2e2063fd00e0beb482e9151c479",
+      "httpStatus": 200,
+      "finalUrl": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecPriv.h",
+      "bytes": 11976,
+      "sha256": "b6f22c77376c0500def3394d497f4826e024f86d7e9a6ea3fb23778c5f60baa5",
+      "gitBlob": "c321fb77c0aee2e2063fd00e0beb482e9151c479",
+      "expectedBindingMatches": true,
+      "expectedTreeBytes": 11976,
+      "expectedTreeGitBlob": "c321fb77c0aee2e2063fd00e0beb482e9151c479",
+      "expectedTreeBindingMatches": true
+    }
+  ],
+  "reusedPublicBodies": [
+    {
+      "path": "lib/jxl/color_management.cc",
+      "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/color_management.cc?format=TEXT",
+      "bytes": 18155,
+      "sha256": "97e99efbbe9180abc02c4bdba3a461bb2fd76039209076e0c36cfa4759c4e688",
+      "gitBlob": "7929d1f61d58e817687d6034a062fd130d63a6a4",
+      "buildLines": [
+        48
+      ]
+    },
+    {
+      "path": "lib/jxl/color_encoding_internal.cc",
+      "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/color_encoding_internal.cc?format=TEXT",
+      "bytes": 22391,
+      "sha256": "b13ab0c61cf5718f875551edc76f74fc3f99265fd1a9825385cf10f39c9c240a",
+      "gitBlob": "af3d3330e5150dfbb9477be07b409dc4de6246fe",
+      "buildLines": [
+        47
+      ]
+    },
+    {
+      "path": "lib/jxl/decode.cc",
+      "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/lib/jxl/decode.cc?format=TEXT",
+      "bytes": 89063,
+      "sha256": "0c4febd8d0caa3eca10213e5747b720ea8bda55f61778c3bf63610457813a5a2",
+      "gitBlob": "ef8adf07745e44dc536ec94842e34d896d7e4bd6",
+      "buildLines": [
+        66
+      ]
+    },
+    {
+      "path": "src/codec/SkJpegxlCodec.cpp",
+      "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkJpegxlCodec.cpp",
+      "bytes": 18079,
+      "sha256": "7f4c7e002cf2546d9fdaf266115e1c40b7265a169bb481c79e7548c0431628a1",
+      "gitBlob": "5e2c9f12b0c3c366a2e94493bca83f27b5ae2fde"
+    }
+  ],
+  "sourceObservations": [
+    {
+      "file": "lib/jxl/decode.cc",
+      "lines": [
+        1902,
+        1906
+      ],
+      "finding": "DATA + XYB selects output color encoding; other cases metadata color encoding. No unconditional original-profile identity inferred."
+    },
+    {
+      "file": "lib/jxl/decode.cc",
+      "lines": [
+        1958,
+        1978
+      ],
+      "finding": "ICC API checks size/status then copies whole selected ICC vector into caller buffer, without per-tag selection or reconstruction in this function."
+    },
+    {
+      "file": "lib/jxl/color_encoding_internal.cc",
+      "lines": [
+        418,
+        423,
+        528,
+        563
+      ],
+      "finding": "Structured color branch invokes CreateICC, which removes old ICC and calls MaybeCreateProfile."
+    },
+    {
+      "file": "lib/jxl/color_management.cc",
+      "lines": [
+        396,
+        401
+      ],
+      "finding": "Existing generated cprt statement is inserted by MaybeCreateProfile. Source code license is not a grant to ignore output material."
+    },
+    {
+      "file": "src/codec/SkCodecColorProfile.cpp",
+      "lines": [
+        62,
+        69,
+        170,
+        173
+      ],
+      "finding": "On successful skcms_Parse, MakeICCProfileWithSkCMS constructs ColorProfile with original data; constructor retains that SkData as fData without rebuilding or stripping tags in this wrapper."
+    },
+    {
+      "file": "src/codec/SkCodecPriv.h",
+      "lines": [
+        84,
+        86
+      ],
+      "finding": "data() returns fData; TODO about future serialization is not current implementation."
+    },
+    {
+      "file": "src/codec/SkCodecColorProfile.cpp",
+      "lines": [
+        123,
+        126
+      ],
+      "finding": "clone reuses fData along with profile and retained-data backing."
+    },
+    {
+      "file": "src/codec/SkCodecColorProfile.cpp",
+      "lines": [
+        77,
+        87
+      ],
+      "finding": "force-skcms first; otherwise compile macro selects Rust vs skcms. Rust implementation not read."
+    },
+    {
+      "file": "include/private/SkEncodedInfo.h",
+      "lines": [
+        129,
+        135
+      ],
+      "finding": "profileData declaration and inline colorProfile getter; corresponding Make/profileData .cpp implementation not read, no complete codec byte-identity claim."
+    }
+  ],
+  "actualUnknownReduction": {
+    "libjxl": "Selected ICC vector is copied whole by output API; DATA selects output encoding for XYB, metadata otherwise; structured-color CreateICC rebuilding produces identified cprt. No universal input-profile identity/tag guarantee.",
+    "skia": "Successful skcms wrapper retains original whole SkData; raw data accessor and clone preserve it instead of reserializing in these observed paths. Rust branch and parser internals are not generalized.",
+    "qualification": "Conditional fixed-source storage/access fact only. Does not prove actual Knorvia linkage or distribution/export of a generated cprt/profile."
+  },
+  "futureFinalArtifactMetadataNeeded": [
+    {
+      "kind": "distribution",
+      "required": "Per-platform final package/SBOM/ASAR+extraResources inventory, native payload hash and associated package/source revision; include/exclude Canvas/libjxl explicitly."
+    },
+    {
+      "kind": "build-branch",
+      "required": "Exact payload compiler/link source mapping, SK_CODEC_COLOR_PROFILE_PARSE_WITH_RUST define and effective runtime force-skcms selection; link target inputs per OS/arch."
+    },
+    {
+      "kind": "icc-output-if-any",
+      "required": "Actual Knorvia output path/accessor or serialization route, output ICC SHA256 and cprt presence/content/source; metadata from authorized final or synthetic artifact, no real user image needed."
+    }
+  ],
+  "unreadBoundaries": [
+    "MakeICCProfileWithRust body and its parser dependencies",
+    "skcms parser internals",
+    "SkEncodedInfo.cpp Make/profileData implementations",
+    "Knorvia application/export implementation or final binaries",
+    "All original47 HTTP429 failed sources and799 unrequested ICU sources"
+  ],
+  "priorEvidenceBindings": [
+    {
+      "path": "licensing/evidence/skia-jpegxl-caller-20261003.json",
+      "bytes": 6162,
+      "sha256": "551bd5938984ba03d77ab0d0941940741ad0dcd15299743fecfd6e4657587e2a"
+    },
+    {
+      "path": "licensing/evidence/skia-integration-partition-20261002.json",
+      "bytes": 38052,
+      "sha256": "6c4670a0dfce066c950d57e14eb78214b5176041e44cae638c3be452266a0582"
+    }
+  ],
+  "verification": {
+    "newFileLengthSha256AndPinnedTreeBlobs": "PASS3/3",
+    "reusedBodyDigests": "PASS4/4",
+    "wholeVectorCopyStorageAccessorAndCloneSourceTokens": "PASS (static source observations, not execution)",
+    "newSourceRequestCount": 3,
+    "allNewResponsesHttp200": true,
+    "previous429Retries": 0,
+    "newIcuRequests": 0,
+    "actualImagesNativeBuildTestsExecuted": false,
+    "globalLicenseInventoryChanges": false,
+    "privateBackupOrCredentialAccess": false,
+    "crossLaneMergeOrProductionImport": false
+  },
+  "newNoticeSnapshots": 0,
+  "fullyClosedParentObligations": 0,
+  "parentOpenObligationCountUnchanged": 21,
+  "legalCompatibilityDecision": null,
+  "stopReason": "Three-file bound reached and conditional source retention/storage question answered. Actual delivered artifact selection/export remains for final evidence; no wider source expansion."
+}
