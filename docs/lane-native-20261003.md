@@ -859,3 +859,56 @@ shutdown/GUI follow-up. Real Windows installers/GUI/CUA and macOS remain unavail
 only full Linux targets requiring the factual public maintainer email are held.
 No root/CI/shared protocol/global inventory, production UI, licence or real user
 data edit, release publication or main merge occurred in this continuation.
+
+## Exact final-input complete archive and Linux native acceptance
+
+The parent supplied exact final product input
+`bcb82c184de740c2cd9571c115eafa3bd04480cf`, including merged PR25's Chrome fixture
+repair, PR26's actual TUI ESM/startup exit repair and integrated services zombie
+cleanup. This same branch fast-forwarded that SHA; 24 recorded source/build/probe
+inputs remain unchanged and tracked source is clean through package acceptance.
+The later evidence commit is separate from that exact package input.
+
+A complete fresh CLI/TUI/server/Web archive now builds, SHA256
+`75a77e374b9c12b40e49a35e8867405a7a3fe96751d0dbf25b5ff0595da06f11`,
+90495472 bytes. The unchanged original distribution-smoke retains all nine
+assertion call sites and **exits0**, with actual native TUI import, initialized
+render, Ctrl-C keyboard exit0, Web HTML/server-info/exact workspace, artifact
+WebSocket and launcher SIGTERM exit0. There is no TUI skip, injected import shim,
+assertion relaxation or replacement of its Web block with a supplemental probe.
+This is new evidence of the CLI owner's deployed repair, not native implementation
+credit or a reuse of the intermediate archive's failed smoke.
+
+The actual generated installer also passes two isolated same-version installs,
+four owned loopback metadata/archive requests, installed byte/current symlink/
+version/help checks and synthetic profile sentinel preservation. Only the prior
+probe's inputSha report literal changes; all assertions remain. Generated archive
+checksum/latest bindings match externally; installer-side checksum verification
+is still not claimed.
+
+Official source runtime preparation and production Desktop build then generate
+a fresh linux-unpacked/AppImage with metadata bcb82c18. The image SHA256 is
+`f63774b7aeaff27e18df68e7f86e3061f9188214871519829b95ee1c39cb1175`,
+188674891 bytes. Actual extracted executable/ASAR/CLI/PTY digests equal the new
+directory payload, and CLI equals the newly source-built/staged Desktop bundle.
+The unchanged actual native probe passes all **six groups, exit0**, including
+Electron41.0.3/Node24.14.0, real PTY, SQLite sentinel retained after two normal
+storage handshakes and packaged rg/ugrep/bfs with notices/source files. Canonical
+hooks restore pinned PTY and enforce native layout; lifecycle scripts and remote
+target preparation remain explicitly skipped as recorded. Synthetic fixtures are
+removed; no real user data, model, credentials or user computer was used.
+
+[Final-input packet](evidence/native-final-package-bcb82c18-20261003/README.md)
+retains original command/results/logs, exact probe/input/metadata bindings and new
+archive/image hashes. The full-archive TUI blocker is closed for this exact input.
+Real Windows NSIS/install/GUI/CUA, macOS, complete legacy migration and Electron
+GUI/Host-Agent shutdown are not established by this bounded package run; the
+separately owned combined acceptance remains applicable. Deb/rpm/pacman are held
+for the factual public maintainer email, which was not provided or invented.
+AppImage/archive builds do not require it. No old payload/results are substituted.
+
+No additional full source suite, root typecheck/lint/audit or CI dispatch is run in
+this batch. The integrator owns run37127601364, registration of this new evidence
+packet and final matching-source CI before its PR24/main decision. Global shared
+registries/protocol/config, production code/UI and existing source/license/NOTICE
+are untouched; no whole-product original/MIT conclusion, release or main merge.

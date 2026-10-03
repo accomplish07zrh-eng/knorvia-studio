@@ -1,0 +1,99 @@
+{
+  "inputSha": "bcb82c184de740c2cd9571c115eafa3bd04480cf",
+  "cliBuildMode": "sequential source build; KNORVIA_BOOTSTRAP_WITH_REMOTE=0",
+  "cliFresh": {
+    "path": "/workspace/knorvia-studio/apps/cli/packages/cli/dist/knorvia.cjs",
+    "bytes": 16544775,
+    "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+  },
+  "cliStaged": {
+    "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/knorvia.cjs",
+    "bytes": 16544775,
+    "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+  },
+  "plugins": {
+    "browser-use-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/browser-use-plugin/package.json",
+        "bytes": 1017,
+        "sha256": "bf6c3e0458209355aa3800297752e34eed045e942eb03d6e29b68fbb2d1a22ab"
+      },
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/browser-use-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 254,
+        "sha256": "51ebbc9352b4ba1b3068dec2fc5ed746261c70584d9e3b6b5798e63398a885ab"
+      }
+    ],
+    "node-repl-host": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/node-repl-host/package.json",
+        "bytes": 1068,
+        "sha256": "a0badbddd5e47a78c7c495c1be63272589ae7b7238a051742d82cacbd22c136a"
+      },
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/node-repl-host/.knorvia-plugin/plugin.json",
+        "bytes": 245,
+        "sha256": "ebe0e64a870722f693fc21d658c0d38c1dd6cbe8ad78f92c576f1313ea99d98b"
+      }
+    ],
+    "cua-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/cua-plugin/package.json",
+        "bytes": 296,
+        "sha256": "b77584f7f813db4db8d0e5ced5fb63dcb41ff430dac86d4c6e9f2e7e32670d2a"
+      },
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/cua-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 275,
+        "sha256": "2282a2c647fbbea5e3df306bb0a0766c3bfc548fcb6aa4e516203bc7b55484aa"
+      }
+    ],
+    "documents-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/documents-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 277,
+        "sha256": "5beb8d7af388189e414df56cfe4230b3b44b3c88cd385b4dd028c7e030d266e8"
+      }
+    ],
+    "pdf-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/pdf-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 269,
+        "sha256": "e3b3b334b8590496e0752ea506b1cb50f9f54075fe98d5278197df75a56ccc51"
+      }
+    ],
+    "presentations-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/presentations-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 281,
+        "sha256": "80e3c6349dbff0c04463ff8bb0d96c6b73d80803c4d438a5ff5692bb6febc717"
+      }
+    ],
+    "spreadsheets-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/spreadsheets-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 280,
+        "sha256": "6b240db29078c54edc9988beaec95c261745a6e2e10a0573652a686de6ac7e30"
+      }
+    ],
+    "plugin-creator-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/plugin-creator-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 270,
+        "sha256": "a62f53492e4dc0a4ac65e3780ea12df559176bdcc6d587a91c122e4b4b3a5dad"
+      }
+    ],
+    "skill-creator-plugin": [
+      {
+        "path": "/workspace/knorvia-studio/packages/desktop/bundled-agents/linux-x64/knorvia/packages/skill-creator-plugin/.knorvia-plugin/plugin.json",
+        "bytes": 267,
+        "sha256": "2eef08b635140953f9f0f40c20d1a6d491017a447060463a7671892d4f7815bc"
+      }
+    ]
+  },
+  "preparationLog": {
+    "path": "/workspace/knorvia-native-final-bcb82c18-20261003/runtime-preparation.log",
+    "bytes": 5416,
+    "sha256": "aecb00019546adef60cfa49111d68ab6477c7d80651685cac54b1a0e3b81b97c"
+  }
+}
