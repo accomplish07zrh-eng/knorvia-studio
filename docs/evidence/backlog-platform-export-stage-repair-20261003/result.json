@@ -1,0 +1,147 @@
+{
+  "utc": "2026-10-03T08:44:32.820099+00:00",
+  "stage": "Exact current-group native diagnostic export repair; only original failing case executed",
+  "branch": "rewrite/native-20261003",
+  "integrationInput": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "integrationMode": "fast-forward of the same persistent branch; no new task/PR",
+  "sourceCommit": "ea5f1bc279b4756dcfcc95a7c8816116210df87c",
+  "executionRecovery": {
+    "confirmedUsable": true,
+    "observedSuccessfulActions": [
+      "git fetch and exact integration fast-forward",
+      "pinned runtime invocation",
+      "unchanged focused case reproduced its expected behavior failure",
+      "repaired focused case executed successfully",
+      "source commit created"
+    ],
+    "qualification": "No current execution or connection blocker observed. The pre-fix exit1 is the archive-member assertion failure, not an infrastructure failure; no repeated infrastructure-failure retries."
+  },
+  "classification": "Real production staged-ZIP selection defect; fixture and production diagnostic-root contract agree",
+  "cause": "Sanitized CLI/helper members were staged under approved archive roots. The ZIP re-scan rejected .knorvia-studio as an intermediate directory before reaching either approved diagnostic subtree.",
+  "repair": "Only the staged ZIP scan may traverse real directory ancestors of already approved diagnostic roots. Leaf/credential/debug/sibling exclusions, source-root/CLI/helper scans, sanitization, retention, order, ZIP/fallback and stage cleanup remain unchanged.",
+  "expectedMembers": [
+    ".knorvia-studio/cli/log/cli.log",
+    ".knorvia-studio/computer-use/run/helper.exit.log",
+    "about.txt",
+    "logs/today.log",
+    "logs/unicode.txt"
+  ],
+  "publicSurface": "The same three exports, options and return shapes; no shared protocol/config or module interface change",
+  "testAssertionsChanged": false,
+  "sharedFixtureChanged": false,
+  "runtime": {
+    "node": "24.14.0",
+    "os": "linux",
+    "arch": "x64",
+    "testTools": "existing installed esbuild/tsx dependency ports; no dependency/manifests/lock changes or native install/app launch"
+  },
+  "command": [
+    "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern",
+    "complete default exporter",
+    "packages/desktop/test/native-export-log-owner-contract.test.mjs"
+  ],
+  "cwd": "/workspace/knorvia-studio",
+  "environment": {
+    "KNORVIA_ENV": "test",
+    "KNORVIA_DATA_BASE_DIR": "fresh temporary directory, removed after each execution",
+    "KNORVIA_STORAGE_DIR": "temporary directory/cli",
+    "sensitiveEnvironment": "API-key/token/secret/password variables excluded from child env"
+  },
+  "observations": [
+    {
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "rawLog": "before.log",
+      "rawLogSha256": "c04de031a2119ee839e3247500b4ac120d3a411305c50cd4558e0847ef803192",
+      "exitCode": 1,
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "skipped": 0,
+      "actualMembers": [
+        "about.txt",
+        "logs/today.log",
+        "logs/unicode.txt"
+      ]
+    },
+    {
+      "sourceCommit": "ea5f1bc279b4756dcfcc95a7c8816116210df87c",
+      "rawLog": "after.log",
+      "rawLogSha256": "be3043b452291b0054c3ae3f6401eee081dc9fa25a54b0a1ad5e31ff9c99a1f4",
+      "exitCode": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "qualification": "Same original case and all assertions; selected-name pattern did not run the other case or any wider suite."
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "beforeSha256": "ffbd2c675bc7194c08df6216c4614bded3d9a8016601fd7bd4742a8b121d075c",
+      "afterSha256": "549dfee06807f7073789b9917cbfe45520bfc60f4717b410ec674e083ea17308",
+      "unchanged": false,
+      "sourceGitBlob": "0f6d975926b5ef53922ddb4e71c567c61e3bce6d"
+    },
+    {
+      "path": "packages/desktop/test/native-export-log-owner-contract.test.mjs",
+      "beforeSha256": "80040f9337f0ef5d884d824488742bb22ea271543904f4b9fa63cb75f785b563",
+      "afterSha256": "80040f9337f0ef5d884d824488742bb22ea271543904f4b9fa63cb75f785b563",
+      "unchanged": true,
+      "sourceGitBlob": "b53e2733cdb92b9f9f9ac6d4f110cad2f5ca4620"
+    },
+    {
+      "path": "packages/desktop/test/native-owner-fixture.mjs",
+      "beforeSha256": "417842a1688795b8bcd4726478322677d19774fc2f7b3c33ed072a64659dc253",
+      "afterSha256": "417842a1688795b8bcd4726478322677d19774fc2f7b3c33ed072a64659dc253",
+      "unchanged": true,
+      "sourceGitBlob": "ac85579f112f7eb4a2071e3aa312f3099b663946"
+    }
+  ],
+  "parentFailureBindings": [
+    {
+      "path": "docs/final-combined-checks-20261003.json",
+      "sha256": "458541c5dcdd6d3ba39dd08b15f17b8d88dbc1b4be7336d3f1db76fb930ae5f1",
+      "modified": false
+    },
+    {
+      "path": "docs/final-bootstrap-combined-20261003.json",
+      "sha256": "6a3cb7c9b7611000eeec0b54ccc74e4b4d4810af96b894e3c062eca6e824950a",
+      "modified": false
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/native-export-repro.json",
+      "sha256": "51478e671103d9558c76c011e95b0567b4303a38aeae2c448a4126285b7327a2",
+      "modified": false
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/native-export-repro.log",
+      "sha256": "e2dd37e5f85913ef8a9964b3aa3a454755b5f60f1a8ab2989bc37c0a6178f09b",
+      "modified": false
+    }
+  ],
+  "historicalEvidence": "Earlier failed/unrun/source/golden records retained as historical; this new receipt does not relabel them or any source-exposed candidate as old accepted.",
+  "spec": "specs/knorvia-next-platform-export-logs-20261003.md#authorized-final-stage-staged-zip-traversal-repair",
+  "boundary": "All diagnostic filesystem/native/Electron/services/ZIP ports injected; actual in-memory Node stream primitives only. No real logs, credentials, user data, browser, native app, SSH or provider operation.",
+  "notRun": [
+    "Other cases or full regression",
+    "Types/lint/build/full formatter check",
+    "Changed/full architecture or provenance/rights audit",
+    "Actual native GUI/platform/installer/portable/user-data migration acceptance"
+  ],
+  "formatter": "Write-format only on affected source/spec/report text; no historical/golden evidence rewritten",
+  "coordination": [
+    "Parent can merge the persistent branch head into PR13; PR17 remains merged/closed",
+    "Integrator owns updating current exporter source/provenance input digest and wider acceptance; retain historical accepted/candidate/license/rights decisions"
+  ],
+  "newIndependentRewriteCredit": 0,
+  "oldAcceptedClaimed": false,
+  "rightsAccepted": false,
+  "wholeTreeMITReady": false,
+  "mainMergedHere": false
+}

@@ -536,3 +536,34 @@ The new tar/WSL boundary test is explicitly run from server/test here; adding it
 the global runner, if required for final acceptance, belongs to the integrator.
 PR17 remains merged/closed, and the root runner/CI/config/global source lists remain
 untouched by this lane.
+
+## Final-group staged diagnostic ZIP repair
+
+The execution environment is confirmed usable after the parent's disconnect notice:
+fetch, exact integration sync and focused test execution succeeded. Continued the
+same task/branch, fast-forwarded to `7bfb867162cc11adbc237e1c39bf2d61b5c0f81e`, and
+created production/spec repair `ea5f1bc279b4756dcfcc95a7c8816116210df87c`.
+
+The reported native-export-log-owner-contract.test.mjs:189 failure is a production
+traversal error, not a fixture/contract disagreement. Both source roots and original
+expectations include CLI and computer-use exit diagnostics. After sanitizing those
+members into the stage, ZIP selection rejected the `.knorvia-studio` intermediate
+directory before reaching its approved children. The internal staged scan now admits
+only real directory ancestors of approved diagnostic roots; leaf/privacy exclusions,
+ordinary source scans, helper selection, sanitization, retention, order and stage
+cleanup remain. No public export/options/protocol/UI/data change or new owner.
+
+The [new affected-only evidence](evidence/backlog-platform-export-stage-repair-20261003/result.json)
+binds the published failure and original production/test/loader bytes. The same
+unchanged `complete default exporter` case first reproduced exit1 with missing two
+members, then passed **1/1, exit0, 0 skipped** under pinned Node24.14.0. Original
+assertions and fixture/loader bytes are unchanged; all five expected archive members
+are retained. No other case, full suite, type/lint/build/architecture/rights check or
+real native/user-log/data operation ran in this group. Prior golden/source/failure
+receipts remain unchanged, and source-exposed candidates remain candidates with
+zero independent-source/old-accepted/MIT acceptance credit.
+
+Deliver the same persistent branch head to PR13; PR17 stays merged/closed. Integrator
+owns current exporter source-input digest reconciliation and wider acceptance;
+global source/license/rights lists and CI remain untouched here. No current execution
+blocker and no new cross-module API dependency.
