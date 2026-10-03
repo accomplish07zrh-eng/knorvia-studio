@@ -1,6 +1,6 @@
 # 固定云任务归属与整合者持续记录
 
-2026-10-03。父任务已经创建四路固定云任务，统一从 `3b1ff0f715a43cbc51c576fd524479a08e58e203` 建持久分支，draft PR base 为 `integration/backlog-20261003`。只复用这些任务和本整合对话，不创建替代任务。唯一面向 main 的组合出口是 [draft PR #13](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/13)。所有实现批次完成后再统一整合、来源核验、测试与构建；本阶段不运行验证，不合并 main，不机械刷新来源清单。
+2026-10-03。父任务已经创建四路固定云任务，统一从 `3b1ff0f715a43cbc51c576fd524479a08e58e203` 建持久分支，draft PR base 为 `integration/backlog-20261003`。只复用这些任务和本整合对话，不创建替代任务。唯一面向 main 的组合出口是 [draft PR #13](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/13)。先前实现阶段未运行验证；父任务现已通知四路冻结，进入下述统一整合与集中验收阶段。暂不合并 main，不机械刷新来源清单或改写权利结论。
 
 ## 固定任务与路径边界
 
@@ -69,6 +69,23 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 
 2026-10-03 06:31 UTC，执行通道恢复后的只读 GitHub 快照为：CLI #14 `3dff9ec7a8c3f36895640f121e4665bfb80f1989`、UI #15 `98bfe6d99d10024bdde2f5b0208c4a787ec66576`、services #16 `dac1483b661064ba64003a1137713646d2ebbc8c`、native #17 `cd0c79cc1629cb62dfe00a4c406d52f198cb8f7d`。四者仍 open/draft、base integration/backlog-20261003，均未合入本分支。父任务先前给出的 CLI f835917… / UI 662b642… / services 90e7d290… / native f25bb5b… 是历史批次输入，后续切片仍在推进，不能把它们或本次观察自动认定为最终冻结 head。#13 仍 open/draft、base main，远端已确认 Web source head `fdd3b3dbff0a8ff85db5170218601bb277088552`。通道恢复后本地同 SHA 且工作区干净，没有重建任务/分支、覆盖远端新提交或接入其他路源码；本次快照未读取或执行 CI。
 
+## 四路冻结接收与最终集中验收
+
+父任务明确通知以下最终输入全部冻结；GitHub API 与 fetched remote refs 都逐一匹配，未有额外漂移。相对 `3b1ff0f715a43cbc51c576fd524479a08e58e203`，整合者及四路的修改路径没有交集。本次四个普通 merge 均无冲突，保留全部提交、规格、源码、旧失败/候选与来源义务，不重放或改写历史。
+
+| 输入 | 接收的完整 head | 整合 merge commit |
+| --- | --- | --- |
+| #14 CLI + v4 | 5274ca99d13531377000fe0f2c529561f75ce046 | f9c6627f61b705727f580aee25e54c9f2a63aaea |
+| #15 UI | 809374e21993bb03cabaf3d68adad6564baa41fa | 95558f000ee26fa95d976750c98d126adef186a7 |
+| #16 services + Studio | dac1483b661064ba64003a1137713646d2ebbc8c | 3e2b789bdf6b6534bfe92384777ed6dc07b4a0b1 |
+| #17 native + renderer + client declarations | f7ad7efa3e5e1bec72eaba818db6bce43fa33d97 | df2c89478cd5cdaffa1a5cbbc047203c4bfa4327 |
+
+前置整合 head 为 `dc0c4ad2c746d311d9b34634677f93a96ecc642c`，四路源码组合 head 为 `df2c89478cd5cdaffa1a5cbbc047203c4bfa4327`；本节记录和根 runner 接纳会另有提交，不把 merge 本身写成验证通过。下文“待接收”的先前快照均保留历史限定，当前四路已经接入。
+
+根 `scripts/test-studio.mjs` 已接纳 CLI 六条 explicitTests 和 `packages/server-cli/test` 目录，目录下实际三份新增 test 由原顶层规则发现，fixtures 不作为 test；core 既有目录不重复登记。glob 完整集合对账、隔离临时数据目录、凭据过滤、并发/上限及退出码语义保留。当前树开始集中执行最终检查；初次架构命令因尚未安装 typescript 未启动检查，固定 Node 24.14.0 / pnpm 10.33.2 与 frozen/ignore-scripts 依赖准备后，再执行 `pnpm architecture:check --changed` 返回 0，violations/baseline/new 均为 0。这只是修改前的架构范围检查，其他代码/平台/来源检查仍待实际执行，结果继续追加到本文，不解除 HOLD。
+
+具体最终阶段规则已先更新 [原整合规格](../specs/knorvia-backlog-integration-20261003.md)。父任务协调原任务按实际失败修复，不新开任务；在最终代码验收与必要来源边界明确后先报就绪结论，再按授权处理 main。
+
 ## 整合者范围的实现筛选
 
 已阅读的 shared assembly/projection 当前源码由 #9 的 `7caec377c3b6aace6f9a08344d77497726459eb2` 后续完整候选更新；虽然 saved inventory 仍标原 upstream-unchanged，当前 digest 已不同且完整 packet/receipt 已在基线。保留 wire-assembler、workflow-runs-artifacts、conversation-message-projection-policy、session-visible-content、tool-plan-adapter；不据陈旧 inventory 再重写一遍。
@@ -91,7 +108,7 @@ coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立
 | model-option-map | spec b75623d31131f86aad701f86b2bb9180a6121089；source 24934687428aa5ed7f80ae5fe530670e33cb24f0 | 完整 runtime 候选已提交：单一 source cache entry、cursor scanner/precedence parser、惰性显式求值栈、path trie 首-owner 与单克隆 merge；7 source 文件为一个模块 | source-exposed；声明/语法/错误文字/标准 JSON 与数值规则保留原来源，未验证或接受权利 |
 | formal-proof | spec 8b908c95205d4670f6c6b283de7d022cc171cff6；source efb26e83d0e01fa2fdc0be08c39b4f5f0653cc03 | 完整 model/page runtime 候选已提交：phase/event recipes、work-stack/trail 枚举、预算/DAG 投影、单 explorer state 与 geometry-only canvas；9 source 文件为一个模块 | source-exposed；types/catalog/HTML/CSS/固定产品文字/几何/CASE 与 review schema 保留原来源；未运行浏览器/消费者/权利验收 |
 | Web theme / platform / bootstrap | spec 0d51eb27be3738dca08e7f6ea2935d60c4fb684b；source fdd3b3dbff0a8ff85db5170218601bb277088552 | 完整启动候选已提交推送；单一启动 frame、首帧主题、类型化浏览器能力表、同一工作区与失败视图，6 source 文件算一个模块 | source-exposed；theme seed 薄入口、性能夹具、公共 API、固定 DOM/文案/样式/平台结果保留原来源；未验证/未接受权利 |
-| 四路固定任务当前新增候选 | 上表 #14–17 的观察 heads | 待父任务批次完成通知和统一接收；未计入安装完成估计 | 来源、消费者与产品验收待统一阶段 |
+| 四路固定任务新增候选 | 上述冻结接收表的 #14–17 完整 heads；组合 df2c89478cd5cdaffa1a5cbbc047203c4bfa4327 | 已通过四个普通 merge 安装；每个完整 owner 的 source/spec 与候选范围由各 lane 原记录绑定，不按文件/PR 数重新估计 | 组合技术与产品检查开始集中执行；来源/表达/权利决定仍未接受 |
 
 contracts 实现的文件归属为 `apps/cli/packages/contracts/src/events/in-memory-session-event-store.ts`、`session-event-journal.ts`、`session-event-retention.ts`。事件由每 session 的一个 journal 持有，retention 的索引只引用同一 sealed 链节点；保持公开 port、schema、barrel、工厂和参数、Promise 边界、序号规则、存入对象身份、replay 顺序、策略/时钟错误后的既有已驻留状态与 receiver、120 秒 grace、delete/recreate 与瞬态类别。没有改 UI、持久用户数据或其他 lane 的源码和记录。细则与以后统一验收场景见 [先行 spec](../specs/knorvia-next-integration-event-residence-20261003.md)。代码作者已读旧实现；标准/API/固定策略保留，不以新链结构宣称 clean room 或权利已接受。
 
@@ -159,6 +176,6 @@ CLI 报告的新增测试接收后由整合者在同一根 runner 加入 `apps/c
 
 纳入判断的历史 main 提交为：auth `dac92ce60465f68c996e9e620b9d871369f971b6`、model `c60390b02ee8b377d830d8361b8c9394c4d4c345`、plugins source/storage `780d847c9a8d6eb7d4b01d22646e1cb1ecf28679`、command/discovery `c439b5d991e9e52f8da3e46ebda9cf869911ff74`、MCP `822cfeecd7add20499bff86d220bebb18ea57c5b`。这里引用其实际历史提交而不是用提交标题自行确认“独立”：既有来源资格、许可与不确定性继续照原记录保留。
 
-## 本轮未执行项
+## 实现阶段未执行项
 
-测试、lint、类型检查、格式/架构检查、构建、完整审计和真实原生/UI/网络/用户数据操作均未运行。只有 Git/API/源码/配置/历史证据读取及授权的仓库提交/推送/PR 维护。全局 reviews/current-files、根 LICENSE/NOTICE 和 CI 门禁继续保留，不声明通过或全量 MIT。
+上述实现阶段的测试、lint、类型检查、格式/架构检查、构建、完整审计和真实原生/UI/网络/用户数据操作均未运行。只有 Git/API/源码/配置/历史证据读取及授权的仓库提交/推送/PR 维护。现已按父任务明确通知进入最终集中阶段，具体新检查必须按真实命令与受检 SHA 另记，不能覆盖这些历史未运行事实。全局 reviews、根 LICENSE/NOTICE 和 CI 门禁继续保留；current-files 只按实际源与真实来源决定对齐，不声明全量 MIT。

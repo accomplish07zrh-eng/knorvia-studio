@@ -41,3 +41,15 @@
 完成记录写入 `docs/knorvia-backlog-integration-20261003.md` 和同名独立整合证据目录：完整输入 SHA、merge commit、冲突选择与最终 blob、来源义务、后续模块文件归属、远端确认及未执行项。保留旧 PR open/draft 供活动分支继续提交；建立面向 main 的整合 draft PR，暂不合并 main。后续提交继续按 source head 记录，不修改历史通过/失败记录。
 
 本轮测试、lint、类型检查、格式/架构验证、构建、完整审计、原生/界面/真实消费者验收均 **未运行**。仅阅读既有 CI：#9 `37096643153`、#10 `37096385450`、#12 `37095110127` 的 Linux/Windows job 都失败于 file provenance inventory，安装及后续产品检查 skipped。不得写成通过，不重跑、不绕过门禁。来源清单新鲜度、跨模块兼容、source-expression/权利核验、原生 UI/平台、安装版/便携版/迁移与最终 Linux/Windows CI 仍待最终阶段完成；根许可不改称全量 MIT。
+
+## 四路冻结接收与最终集中验收
+
+2026-10-03，父任务明确通知四路完成并冻结，用户现在授权在唯一整合树执行最终集中验收。上文不运行验证的约束描述先前实现阶段，本节进入原定后续阶段；继续同一 `integration/backlog-20261003` / PR13，不新建任务，不重建分支，不提前合 main。
+
+输入为 #14 `5274ca99d13531377000fe0f2c529561f75ce046`、#15 `809374e21993bb03cabaf3d68adad6564baa41fa`、#16 `dac1483b661064ba64003a1137713646d2ebbc8c`、#17 `f7ad7efa3e5e1bec72eaba818db6bce43fa33d97`，整合者前置 `dc0c4ad2c746d311d9b34634677f93a96ecc642c`。必须先核对远端，不以 PR 文案中的历史 head 替代；按精确 SHA 普通 merge，保留各路 ancestry/spec/源码/来源与原 UI/数据兼容。本次相对共同基线的各路修改路径没有交集，仍需实际组合验收。
+
+根测试发现由 `scripts/test-studio.mjs` 继续唯一管理；新增 `packages/server-cli/test` 目录，当前三份控制传输、状态持久化与锁所有权测试及同目录 fixtures 随原规则选取。CLI 六个 explicitTests 为 bootstrap 的 message-mapper、session-projection、session-snapshot-images、session-snapshot，cli 的 argument-admission，以及 dynamic-workflow 的 ask-scheduler contract 文件。core 顶层发现不重复显式登记。保持已有 glob 对账、失败状态传播、120s 上限、并发 2、测试目录隔离与凭据过滤，不遗漏用例、不把 fixture 当测试。
+
+先提交推送组合 checkpoint，再在其后同一树集中运行必要类型、lint、格式、架构、CLI 构建与统一回归，并构建实际受影响产品入口。使用仓库固定 Node 24.14.0 / pnpm 10.33.2 与 frozen lockfile；缺依赖或工具错误如实区分，不标通过。先集中收集快速类型/组合失败，由父任务协调原任务按领域修复；仅在新修复或真实失败需要时复跑对应检查，不每次改动重复全套。
+
+CI 门禁保持；provenance report 只在对齐实际 SHA/源与真实候选、保留来源/义务后更新。候选接入、测试通过或清单新鲜度不解除历史 accepted-byte/权利 HOLD，也不是 clean room 或 MIT 验收。全量 MIT 只能基于完成的来源/出版者/贡献与第三方权利核验；不满足的具体文件、证据缺项和保留许可需明确。最终技术验收与必要来源边界就绪后先报父任务，再执行已授权 main 合并；实质失败时修复或报告阻塞。
