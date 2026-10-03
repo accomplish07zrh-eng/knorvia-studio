@@ -66,6 +66,26 @@ No actual file, lock, process, status/data migration or application operation.
 This is another source checkpoint; the same source-exposure and pending
 expression/rights/native acceptance qualifications apply.
 
+## Desktop storage Worker/IPC batch
+
+The parent corrected native ownership to `packages/desktop/**` excluding every
+renderer path. This lane continues on the same task, branch and PR, with no new
+author/task. The complete `storageScanWorkerClient.ts`, `storageScanWorker.ts`
+and `resourceManagerStorage.ts` candidates now implement per-run Worker lifetime,
+worker-entry cancellation/progress transport and singleton storage IPC ownership.
+The services scan/service/cleaner and retained Worker protocol remain the owners
+of their algorithms/data. No renderer, preload UI, data cleanup, services source
+or shared schema has been edited.
+
+[Contract](../specs/knorvia-next-platform-storage-worker-20261003.md) and
+[source/freeze/dependency bindings](evidence/backlog-platform-storage-worker-20261003/bindings.json)
+preserve signal/listener/terminate ordering, 500ms grace and completion races,
+message/error identities, singleton/service/subscriber behavior, and reveal-path
+root checks. Same source-exposed author; no independent-origin/MIT acceptance.
+Six new scenarios in `packages/desktop/test/native-storage-owner-contract.test.mjs`
+are **unrun**. Their fake Worker/Electron/scan ports do not prove real native scan,
+actual services or platform compatibility. No runtime/IO/user data was accessed.
+
 ## Inherited work and remaining boundaries
 
 The old E ChannelClient packet binds upstream blob
@@ -82,8 +102,9 @@ passes/failures are historical and have not been rerun.
 
 Other native scopes retain the existing PR9/12 owners. The two known inherited
 status/shutdown owners above now have this lane's contract/candidate records.
-Supervisor/core, service management and release/install runtime still require
-their own source/receipt review. Unreviewed origin is a reconciliation need, not
+Parent now excludes CLI/Core and services ownership from subsequent native work.
+The separately authorized lock/recovery candidates and desktop native owners
+remain available for bounded review. Unreviewed origin is a reconciliation need, not
 automatic permission to discard a possible earlier implementation or an MIT
 decision; this checkpoint does not declare those directories closed.
 
@@ -96,10 +117,9 @@ decision; this checkpoint does not declare those directories closed.
 - No shared schema or protocol interface change is needed for this batch. Actual
   Supervisor/CLI consumers and Windows named pipes/POSIX endpoints still need
   final execution together with the RPC/Host/services/UI combination.
-- Delegation lists `apps/desktop/**`, which does not exist at this baseline. The
-  integration document assigns `packages/desktop/**` excluding renderer. No
-  desktop path has been edited in this checkpoint; coordinate that path spelling
-  before the lane's desktop batches.
+- Parent corrected the allocation to `packages/desktop/**` excluding every
+  renderer path. The old `apps/desktop` spelling is resolved; no additional path
+  approval is required. Subsequent batches do not edit CLI/Core or services.
 - Final provenance reconciliation, whole-expression/rights review, third-party
   materials, known historical type diagnostics and MIT release gating remain
   with integration. Neither inherited records nor these new candidates close

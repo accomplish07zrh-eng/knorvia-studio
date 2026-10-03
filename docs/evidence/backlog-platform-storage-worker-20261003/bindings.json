@@ -1,0 +1,128 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-storage-worker-20261003.md",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/storageScanWorkerClient.ts",
+      "baselineCommit": "85ea4dcf9d0da20c14a487caaafc677a2f81f047",
+      "baselineBlob": "12e0c11161a2da5ba3ab2ed880a7c374123d840d",
+      "baselineSha256": "f15f09d5fe8145e057953d49935a37cd890930c2949bd4558d2cbfec6ff3fabc",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/storageScanWorkerClient.ts",
+        "kind": "file",
+        "sha256": "f15f09d5fe8145e057953d49935a37cd890930c2949bd4558d2cbfec6ff3fabc",
+        "normalizedSha256": "f15f09d5fe8145e057953d49935a37cd890930c2949bd4558d2cbfec6ff3fabc",
+        "encoding": "utf8-lf",
+        "bytes": 2891,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/storageScanWorkerClient.ts",
+          "blob": "01571376b4c187d588c52a0e77b275f49d17e6f2",
+          "normalizedSha256": "5102fbc3d2fe0ce2c27acb53656403e7c91832c78a6c47d584416c1cd4bce88b",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "d9a4df5296b1e39ae7ec08ec4aa1d4cf2a9d623d06d18f101fb40cc25fbb81e4",
+      "frozenCandidateBytes": 3223
+    },
+    {
+      "path": "packages/desktop/src/main/storageScanWorker.ts",
+      "baselineCommit": "85ea4dcf9d0da20c14a487caaafc677a2f81f047",
+      "baselineBlob": "b3ef5db101f5e57fb2270c1f53d4087e6383a2b4",
+      "baselineSha256": "c48d81d04b8b996c6b107ff40ab3ad2202430e5405113a478ba7df098e25f83d",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/storageScanWorker.ts",
+        "kind": "file",
+        "sha256": "c48d81d04b8b996c6b107ff40ab3ad2202430e5405113a478ba7df098e25f83d",
+        "normalizedSha256": "c48d81d04b8b996c6b107ff40ab3ad2202430e5405113a478ba7df098e25f83d",
+        "encoding": "utf8-lf",
+        "bytes": 1708,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/storageScanWorker.ts",
+          "blob": "7400d17490c73989b70c509bb6790f4d6dc45f87",
+          "normalizedSha256": "a13760812f91af938b293850f5a62a441daed3ed19364678524f43b71d8e262d",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "56a5dc6679ed2eaa273527c67cdc96f7eb49d368c5caf2a3da82712ec449ff9e",
+      "frozenCandidateBytes": 1814
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerStorage.ts",
+      "baselineCommit": "85ea4dcf9d0da20c14a487caaafc677a2f81f047",
+      "baselineBlob": "250bfb5631ddd9f639bbbcee124a2a969cf9c6fc",
+      "baselineSha256": "93809e3dcdaf923b4bd1f89000de94cc22d3fa3602143480731284fcd213455f",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/resourceManagerStorage.ts",
+        "kind": "file",
+        "sha256": "93809e3dcdaf923b4bd1f89000de94cc22d3fa3602143480731284fcd213455f",
+        "normalizedSha256": "93809e3dcdaf923b4bd1f89000de94cc22d3fa3602143480731284fcd213455f",
+        "encoding": "utf8-lf",
+        "bytes": 3869,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/resourceManagerStorage.ts",
+          "blob": "3b1183c39830836aba33423c88a6293d958acf84",
+          "normalizedSha256": "2c2b20aa66569f140942afd50dd4423b4949cae836b7d1dcc4e8098a43e67308",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "d8f32c6b6006b62532f66434bd3acd2093e4d824496fd5d1f38844f98f2f1d45",
+      "frozenCandidateBytes": 3934
+    }
+  ],
+  "retained": [
+    {
+      "path": "packages/desktop/src/main/storageScanWorkerProtocol.ts",
+      "sha256": "38b7790a3b29276912c13beb8e575bdcfceeaa2b028cd160e40319b6879b1748",
+      "disposition": "unchanged public dependency; no reconstruction credit"
+    },
+    {
+      "path": "packages/services/src/storage/contract.ts",
+      "sha256": "e15cd96be40f11fe6bbeae3deda2aaa4bdc49120f30fbafc63533bfca8bb9854",
+      "disposition": "unchanged public dependency; no reconstruction credit"
+    },
+    {
+      "path": "packages/services/src/storage/app/ports.ts",
+      "sha256": "37bdf6755036dcf0310063fc38dcbe613f99a05ec5effb9039aeb08159af20fe",
+      "disposition": "unchanged public dependency; no reconstruction credit"
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "disposition": "unchanged public dependency; no reconstruction credit"
+    },
+    {
+      "path": "packages/shared/src/storage.ts",
+      "sha256": "bb23cb4eafa1c85361709e6e1e11680b4aa634b4f9ccaf0f93a0474904a5dedb",
+      "disposition": "unchanged public dependency; no reconstruction credit"
+    },
+    {
+      "path": "packages/desktop/src/main/logger.ts",
+      "sha256": "6a181e7deb5dbddb7310c8e29c2d016b58fb1322abbd444e880698d2f1cbf20f",
+      "disposition": "unchanged public dependency; no reconstruction credit"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same agent read the selected predecessor bodies/public ports to curate the contract and authored whole candidates. No fresh-author/clean-room/OS isolation or origin/rights acceptance. Fixed protocols/public shapes and conventional expression remain qualified.",
+  "checksRun": [],
+  "testsStatus": "authored, not executed",
+  "globalLicenseDecisionChanged": false
+}
