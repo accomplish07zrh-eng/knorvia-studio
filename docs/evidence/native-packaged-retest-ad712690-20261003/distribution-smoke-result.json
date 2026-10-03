@@ -1,0 +1,22 @@
+{
+  "status": "failed",
+  "exitCode": 1,
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "archiveSha256": "b822a4bcda4fa72303e571a4b1275180eb06676b931375b6fe3d19042bd680f9",
+  "unchangedSmoke": "scripts/distribution-smoke.mjs",
+  "sourceSmokeSha256": "78d5aa3e98e12dd11913ef1766e269eadf83658f38b8a294bd3e99b60ea1257b",
+  "stageReached": "TUI runTui ESM import",
+  "error": "Dynamic require of \"process\" is not supported; bundled yaml compose/composer.js",
+  "priorStages": "--help, --version and artifact node-pty module load returned before failing import (per unchanged source order)",
+  "notReached": [
+    "TUI initialized render",
+    "TUI keyboard exit",
+    "Web checks in this original combined smoke"
+  ],
+  "originalAssertionsPreserved": true,
+  "archiveFixturesRemovedByOriginalFinally": true,
+  "externalIsolationStateRemoved": true,
+  "owner": "CLI lane: apps/cli/packages/tui/scripts/build.mjs / ESM runtime dependency treatment",
+  "nextInputRequirement": "Owner fix plus new unified exact SHA, then fresh distribution rebuild and unchanged smoke; do not turn this pass via loader shims or dropped TUI stage",
+  "servicesZombie": "Distinct pending Host cleanup issue; this failure occurs before any Web/Host shutdown stage"
+}

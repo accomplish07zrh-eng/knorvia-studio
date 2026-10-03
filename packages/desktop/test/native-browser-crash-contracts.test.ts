@@ -576,10 +576,12 @@ test("policy query failure continues to HKLM and preserves unknown placeholder t
   isolated(async (root) => {
     const expected = join(root, "work", "${unknown}");
     await importable(expected, "Default");
+    // 策略扩展保留输入分隔符；原 Windows 夹具写死 / 却断言 join 的反斜杠路径。
+    const policyPath = join("${profile}", "%work%", "${unknown}");
     respond = ({ args }) =>
       args[1]?.startsWith("HKCU")
         ? new Error("missing user policy")
-        : "UserDataDir REG_SZ ${profile}/%work%/${unknown}\n";
+        : `UserDataDir REG_SZ ${policyPath}\n`;
     const result = await profile.discoverChromeProfile({
       platform: "win32",
       homeDir: root,
@@ -616,11 +618,13 @@ test("Windows policy roots expand placeholders in order and keep HKCU priority",
     const expected = join(local, "Corp profile");
     await importable(expected, "Default");
     await importable(join(root, "machine"), "Default");
+    // 输入与原样保留的期望使用同一平台拼写，不能让生产归一化策略文本来满足夹具。
+    const policyPath = join("${LOCAL_APP_DATA}", "%corp%");
     respond = ({ command, args }) => {
       assert.equal(command, "reg.exe");
       assert.deepEqual(args.slice(2), ["/v", "UserDataDir"]);
       return args[1]?.startsWith("HKCU")
-        ? "UserDataDir REG_EXPAND_SZ ${LOCAL_APP_DATA}/%corp%\r\n"
+        ? `UserDataDir REG_EXPAND_SZ ${policyPath}\r\n`
         : `UserDataDir REG_SZ ${join(root, "machine")}\n`;
     };
     const result = await profile.discoverChromeProfile({
@@ -638,6 +642,48 @@ test("Windows policy roots expand placeholders in order and keep HKCU priority",
       calls.map(({ args }) => args[1]),
       ["HKCU\\Software\\Policies\\Google\\Chrome", "HKLM\\Software\\Policies\\Google\\Chrome"],
     );
+  }));
+
+test("policy expansion preserves mixed separators and exact source fields", async () =>
+  isolated(async (root) => {
+    const expandedPolicy = `${root}/work/${"${unknown}"}`;
+    await importable(expandedPolicy, "Default");
+    const marker = join(expandedPolicy, "Default", "Network", "Cookies");
+    const original = await readFile(marker);
+    respond = ({ command, args }) => {
+      assert.equal(command, "reg.exe");
+      assert.deepEqual(args.slice(2), ["/v", "UserDataDir"]);
+      return args[1]?.startsWith("HKCU")
+        ? new Error("missing user policy")
+        : "UserDataDir REG_SZ ${profile}/%work%/${unknown}\n";
+    };
+    assert.deepEqual(
+      await profile.discoverChromeProfile({
+        platform: "win32",
+        homeDir: root,
+        localAppData: join(root, "local"),
+        programFiles: join(root, "program"),
+        programFilesX86: join(root, "x86"),
+        env: { USERPROFILE: root, WORK: "work" },
+        processCommandLines: [],
+      }),
+      {
+        success: true,
+        source: {
+          browser: "chrome",
+          executablePath: undefined,
+          passwordStore: undefined,
+          profileDirectory: "Default",
+          profilePath: join(expandedPolicy, "Default"),
+          userDataDir: expandedPolicy,
+        },
+      },
+    );
+    assert.deepEqual(
+      calls.map(({ args }) => args[1]),
+      ["HKCU\\Software\\Policies\\Google\\Chrome", "HKLM\\Software\\Policies\\Google\\Chrome"],
+    );
+    assert.deepEqual(await readFile(marker), original);
   }));
 
 test("profile absence and valid JSON null retain distinct bad-input results", async () =>

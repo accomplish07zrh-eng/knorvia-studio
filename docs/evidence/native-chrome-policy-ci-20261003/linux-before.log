@@ -1,0 +1,12 @@
+(node:22565) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ policy query failure continues to HKLM and preserves unknown placeholder text (12.495298ms)
+✔ Windows policy roots expand placeholders in order and keep HKCU priority (4.841112ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.708867

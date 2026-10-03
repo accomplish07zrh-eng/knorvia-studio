@@ -1,0 +1,98 @@
+{
+  "status": "passed",
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "startedAtUtc": "2026-10-03T12:49:22.527292+00:00",
+  "fixture": "/tmp/knorvia-native-retest-ad712690-20261003/isolated-installer-oc_l9g03",
+  "checks": [
+    "Fresh archive matches both generated checksum and latest metadata",
+    "Install run 1: local download/extraction/current symlink/executable launcher/version/help/exact artifact bytes/synthetic profile sentinel passed",
+    "Install run 2: local download/extraction/current symlink/executable launcher/version/help/exact artifact bytes/synthetic profile sentinel passed",
+    "Separate Web probe runs on the exact installed target before fixture removal"
+  ],
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 0,
+      "stdout": "Knorvia Studio 0.8.0-preview.3 installed.\nRun: knorvia (TUI) or knorvia --web (Web)\nNote: /tmp/knorvia-native-retest-ad712690-20261003/isolated-installer-oc_l9g03/bin is not in PATH.\n",
+      "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n100 85.8M  100 85.8M    0     0  2315M      0 --:--:-- --:--:-- --:--:-- 2319M\n",
+      "installedBindings": {
+        "package.json": "1ba83f581a60d89edc07cb6a125b17ed1c59cebf7f834b2ed22e7d9701d6c843",
+        "bin/knorvia.mjs": "3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd",
+        "agent/knorvia.cjs": "633a7c469bdfe6212feda17c6475803f70f1295689e85bc19bfaf65b6500852d",
+        "server/entry-http.js": "9654adf6d66e70519c4e4e1f41fd01a596efc38b2a23dcf5c2f576ea292d73ba",
+        "web/index.html": "ec4f259a940901c093fc1d7ec8a595d7aa5c4cc7c653fa9dc31a324ea3bcad3d",
+        "agent/node_modules/@knorvia/cua/index.js": "d93a5d161af8816e9de1a6914d89dc69a3f2464028106e05df7dab43c1309a00"
+      },
+      "launcherVersion": {
+        "exitCode": 0,
+        "stdout": "0.8.0-preview.3\n",
+        "stderr": ""
+      },
+      "launcherHelp": {
+        "exitCode": 0,
+        "outputBytes": 3146,
+        "stderr": ""
+      }
+    },
+    {
+      "run": 2,
+      "exitCode": 0,
+      "stdout": "Knorvia Studio 0.8.0-preview.3 installed.\nRun: knorvia (TUI) or knorvia --web (Web)\nNote: /tmp/knorvia-native-retest-ad712690-20261003/isolated-installer-oc_l9g03/bin is not in PATH.\n",
+      "stderr": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n100 85.8M  100 85.8M    0     0  2658M      0 --:--:-- --:--:-- --:--:-- 2682M\n",
+      "installedBindings": {
+        "package.json": "1ba83f581a60d89edc07cb6a125b17ed1c59cebf7f834b2ed22e7d9701d6c843",
+        "bin/knorvia.mjs": "3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd",
+        "agent/knorvia.cjs": "633a7c469bdfe6212feda17c6475803f70f1295689e85bc19bfaf65b6500852d",
+        "server/entry-http.js": "9654adf6d66e70519c4e4e1f41fd01a596efc38b2a23dcf5c2f576ea292d73ba",
+        "web/index.html": "ec4f259a940901c093fc1d7ec8a595d7aa5c4cc7c653fa9dc31a324ea3bcad3d",
+        "agent/node_modules/@knorvia/cua/index.js": "d93a5d161af8816e9de1a6914d89dc69a3f2464028106e05df7dab43c1309a00"
+      },
+      "launcherVersion": {
+        "exitCode": 0,
+        "stdout": "0.8.0-preview.3\n",
+        "stderr": ""
+      },
+      "launcherHelp": {
+        "exitCode": 0,
+        "outputBytes": 3146,
+        "stderr": ""
+      }
+    }
+  ],
+  "httpRequests": [
+    {
+      "request": "GET /latest.json HTTP/1.1",
+      "message": "\"GET /latest.json HTTP/1.1\" 200 -"
+    },
+    {
+      "request": "GET /releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz HTTP/1.1",
+      "message": "\"GET /releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz HTTP/1.1\" 200 -"
+    },
+    {
+      "request": "GET /latest.json HTTP/1.1",
+      "message": "\"GET /latest.json HTTP/1.1\" 200 -"
+    },
+    {
+      "request": "GET /releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz HTTP/1.1",
+      "message": "\"GET /releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz HTTP/1.1\" 200 -"
+    }
+  ],
+  "limits": [
+    "Task-local install only; no global or OS Desktop install",
+    "No GUI/model/user-data access",
+    "External archive checksum comparison is performed by this probe; the existing installer itself does not verify sha256.txt"
+  ],
+  "archive": {
+    "path": "/tmp/knorvia-native-retest-ad712690-20261003/distribution-release/releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz",
+    "bytes": 89996347,
+    "sha256": "b822a4bcda4fa72303e571a4b1275180eb06676b931375b6fe3d19042bd680f9"
+  },
+  "installedWeb": {
+    "exitCode": 0,
+    "stdout": "{\"status\":\"passed\",\"checks\":[\"Installed launcher starts real HTTP entry and reports exact synthetic workspace\",\"Installed Web serves real packaged HTML with status 200\",\"Installed artifact WebSocket opens and closes normally\",\"Installed launcher exits zero after SIGTERM with captured diagnostics; no forced cleanup\"],\"result\":\"/tmp/knorvia-native-retest-ad712690-20261003/installed-web-probe.json\"}\n",
+    "stderr": "",
+    "resultPath": "/tmp/knorvia-native-retest-ad712690-20261003/installed-web-probe.json"
+  },
+  "version": "0.8.0-preview.3",
+  "fixtureRemoved": true
+}

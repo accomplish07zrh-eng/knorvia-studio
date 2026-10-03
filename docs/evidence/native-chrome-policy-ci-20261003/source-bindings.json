@@ -1,0 +1,106 @@
+{
+  "inputSha": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "reportedWorkflowRun": 37123232166,
+  "windowsJob": 111203311217,
+  "triggerHead": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "checkedSyntheticMergeSha": "7bd43bfd70486ef0e9b90bc3e2174cd81130404d",
+  "sameFourProductionAndFixtureBytesAcrossInputs": true,
+  "inputs": {
+    "packages/desktop/src/main/chromeInstallationCandidates.ts": {
+      "7bd43bfd70486ef0e9b90bc3e2174cd81130404d": {
+        "sha256": "65266638320b5e86c7c953695b390b8f4135b577f800349b74297c02d59a7521",
+        "bytes": 10066,
+        "blob": "7d325ee10d709f2ed923f2835f382dae9badfdd5"
+      },
+      "ad712690b3eb1501574c1d29361dc801c1414373": {
+        "sha256": "65266638320b5e86c7c953695b390b8f4135b577f800349b74297c02d59a7521",
+        "bytes": 10066,
+        "blob": "7d325ee10d709f2ed923f2835f382dae9badfdd5"
+      },
+      "902e35c6dbcfa4b829270352fecf03ebc07b219f": {
+        "sha256": "65266638320b5e86c7c953695b390b8f4135b577f800349b74297c02d59a7521",
+        "bytes": 10066,
+        "blob": "7d325ee10d709f2ed923f2835f382dae9badfdd5"
+      }
+    },
+    "packages/desktop/src/main/chromeExecutableDiscovery.ts": {
+      "7bd43bfd70486ef0e9b90bc3e2174cd81130404d": {
+        "sha256": "897c03689995064e2e71a01baa2b4c285a2f803eadd3358c987a97170c30b317",
+        "bytes": 9250,
+        "blob": "83b536a6a61a0960a5ba8b98ca3424633f6527ff"
+      },
+      "ad712690b3eb1501574c1d29361dc801c1414373": {
+        "sha256": "897c03689995064e2e71a01baa2b4c285a2f803eadd3358c987a97170c30b317",
+        "bytes": 9250,
+        "blob": "83b536a6a61a0960a5ba8b98ca3424633f6527ff"
+      },
+      "902e35c6dbcfa4b829270352fecf03ebc07b219f": {
+        "sha256": "897c03689995064e2e71a01baa2b4c285a2f803eadd3358c987a97170c30b317",
+        "bytes": 9250,
+        "blob": "83b536a6a61a0960a5ba8b98ca3424633f6527ff"
+      }
+    },
+    "packages/desktop/src/main/chromeProfileDiscovery.ts": {
+      "7bd43bfd70486ef0e9b90bc3e2174cd81130404d": {
+        "sha256": "68d7ef68f66c30d9c84f947efcaaec4f20967c31e4d80a85832caf9494c362ed",
+        "bytes": 8386,
+        "blob": "447d9c4aeb1a644c6877716ef30be9bc463dfa9b"
+      },
+      "ad712690b3eb1501574c1d29361dc801c1414373": {
+        "sha256": "68d7ef68f66c30d9c84f947efcaaec4f20967c31e4d80a85832caf9494c362ed",
+        "bytes": 8386,
+        "blob": "447d9c4aeb1a644c6877716ef30be9bc463dfa9b"
+      },
+      "902e35c6dbcfa4b829270352fecf03ebc07b219f": {
+        "sha256": "68d7ef68f66c30d9c84f947efcaaec4f20967c31e4d80a85832caf9494c362ed",
+        "bytes": 8386,
+        "blob": "447d9c4aeb1a644c6877716ef30be9bc463dfa9b"
+      }
+    },
+    "packages/desktop/src/main/crashDumpAnnotations.ts": {
+      "7bd43bfd70486ef0e9b90bc3e2174cd81130404d": {
+        "sha256": "7891167622c9d87ba721347716d289bac06a9f8b203196e7cb3cc17b2576811b",
+        "bytes": 10409,
+        "blob": "0686fd4fe8c4ab7bf262fbe505a4806dc2cc2d59"
+      },
+      "ad712690b3eb1501574c1d29361dc801c1414373": {
+        "sha256": "7891167622c9d87ba721347716d289bac06a9f8b203196e7cb3cc17b2576811b",
+        "bytes": 10409,
+        "blob": "0686fd4fe8c4ab7bf262fbe505a4806dc2cc2d59"
+      },
+      "902e35c6dbcfa4b829270352fecf03ebc07b219f": {
+        "sha256": "7891167622c9d87ba721347716d289bac06a9f8b203196e7cb3cc17b2576811b",
+        "bytes": 10409,
+        "blob": "0686fd4fe8c4ab7bf262fbe505a4806dc2cc2d59"
+      }
+    },
+    "packages/desktop/test/native-browser-crash-contracts.test.ts": {
+      "7bd43bfd70486ef0e9b90bc3e2174cd81130404d": {
+        "sha256": "121c933e3928aa0ea4902c55edb4ad082e250f5dfc46d0f458565d9ebfc7d2f0",
+        "bytes": 31407,
+        "blob": "9894f9be78d894b193e494ffc77f9e469e84275c"
+      },
+      "ad712690b3eb1501574c1d29361dc801c1414373": {
+        "sha256": "121c933e3928aa0ea4902c55edb4ad082e250f5dfc46d0f458565d9ebfc7d2f0",
+        "bytes": 31407,
+        "blob": "9894f9be78d894b193e494ffc77f9e469e84275c"
+      },
+      "902e35c6dbcfa4b829270352fecf03ebc07b219f": {
+        "sha256": "121c933e3928aa0ea4902c55edb4ad082e250f5dfc46d0f458565d9ebfc7d2f0",
+        "bytes": 31407,
+        "blob": "9894f9be78d894b193e494ffc77f9e469e84275c"
+      }
+    }
+  },
+  "failureType": "Exact expanded raw policy text keeps forward slashes; fixture expected native join spelling on Windows",
+  "productionContract": "Expansion substitutes variables without normalizing separators; physical IO join is a separate operation",
+  "sourceBindingAfterFix": "Four production sources unchanged; input-only correction in two scenes, one added exact mixed-separator scene",
+  "fixtureAfter": {
+    "path": "packages/desktop/test/native-browser-crash-contracts.test.ts",
+    "bytes": 33255,
+    "sha256": "ff3b3f82f34d102b86b65494bf7ff39d76fe0f39e4d3ac364246a4d5e5ed1bb2"
+  },
+  "unselectedSceneCount": 22,
+  "unselectedSceneBodiesByteIdentical": true,
+  "existingExpectedAndAssertionsRetained": true
+}

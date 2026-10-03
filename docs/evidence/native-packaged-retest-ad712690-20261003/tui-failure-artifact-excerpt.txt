@@ -1,0 +1,40 @@
+Artifact entry: knorvia/agent/node_modules/@knorvia/tui/dist/index.js
+Source input: ad712690b3eb1501574c1d29361dc801c1414373
+SHA256: 711326e906a53e59bff7c83dec850b53b9a0d7707f6e93aa1a67f6fac94eff5e
+
+Exact artifact lines 1..18
+1: var __create = Object.create;
+2: var __defProp = Object.defineProperty;
+3: var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+4: var __getOwnPropNames = Object.getOwnPropertyNames;
+5: var __getProtoOf = Object.getPrototypeOf;
+6: var __hasOwnProp = Object.prototype.hasOwnProperty;
+7: var __require = /* @__PURE__ */ ((x2) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x2, {
+8:   get: (a, b2) => (typeof require !== "undefined" ? require : a)[b2]
+9: }) : x2)(function(x2) {
+10:   if (typeof require !== "undefined") return require.apply(this, arguments);
+11:   throw Error('Dynamic require of "' + x2 + '" is not supported');
+12: });
+13: var __commonJS = (cb, mod) => function __require2() {
+14:   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+15: };
+16: var __export = (target2, all) => {
+17:   for (var name in all)
+18:     __defProp(target2, name, { get: all[name], enumerable: true });
+Exact artifact lines 5099..5114
+5099:     exports.composeDoc = composeDoc;
+5100:   }
+5101: });
+5102: 
+5103: // ../../../../node_modules/yaml/dist/compose/composer.js
+5104: var require_composer = __commonJS({
+5105:   "../../../../node_modules/yaml/dist/compose/composer.js"(exports) {
+5106:     "use strict";
+5107:     var node_process = __require("process");
+5108:     var directives = require_directives();
+5109:     var Document = require_Document();
+5110:     var errors = require_errors();
+5111:     var identity3 = require_identity();
+5112:     var composeDoc = require_compose_doc();
+5113:     var resolveEnd = require_resolve_end();
+5114:     function getErrorPos(src) {

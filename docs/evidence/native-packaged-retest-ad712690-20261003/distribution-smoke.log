@@ -1,0 +1,52 @@
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: /tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node /tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/check-tui.mjs
+file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:11
+  throw Error('Dynamic require of "' + x2 + '" is not supported');
+        ^
+
+Error: Dynamic require of "process" is not supported
+    at file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:11:9
+    at ../../../../node_modules/yaml/dist/compose/composer.js (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:5107:24)
+    at __require2 (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:14:50)
+    at ../../../../node_modules/yaml/dist/index.js (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:7316:20)
+    at __require2 (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:14:50)
+    at file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:291915:27
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.14.0
+
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at ChildProcess.exithandler (node:child_process:417:12)
+    at ChildProcess.emit (node:events:508:28)
+    at maybeClose (node:internal/child_process:1100:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:305:5) {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: '/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node /tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/check-tui.mjs',
+  stdout: '',
+  stderr: 'file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:11\n' +
+    `  throw Error('Dynamic require of "' + x2 + '" is not supported');\n` +
+    '        ^\n' +
+    '\n' +
+    'Error: Dynamic require of "process" is not supported\n' +
+    '    at file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:11:9\n' +
+    '    at ../../../../node_modules/yaml/dist/compose/composer.js (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:5107:24)\n' +
+    '    at __require2 (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:14:50)\n' +
+    '    at ../../../../node_modules/yaml/dist/index.js (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:7316:20)\n' +
+    '    at __require2 (file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:14:50)\n' +
+    '    at file:///tmp/knorvia-release-smoke-fWnbd7/knorvia/agent/node_modules/@knorvia/tui/dist/index.js:291915:27\n' +
+    '    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n' +
+    '    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n' +
+    '    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n' +
+    '\n' +
+    'Node.js v24.14.0\n'
+}
+
+Node.js v24.14.0

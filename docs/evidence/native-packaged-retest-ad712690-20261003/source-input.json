@@ -1,0 +1,129 @@
+{
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "inputTree": "860e3c49276ea4dbd5a18b7d27c441638f368a4c",
+  "branch": "rewrite/native-20261003",
+  "recordedAtUtc": "2026-10-03T12:41:22.934085+00:00",
+  "trackedWorktreeAtStart": "",
+  "platform": "linux-x64",
+  "nodeVersion": "v24.14.0",
+  "pnpmVersion": "10.33.2",
+  "electronVersion": "41.0.3",
+  "dependencyInstall": "frozen-lockfile --ignore-scripts; postinstall limitations retained; artifact PTY restored by canonical beforePack hook",
+  "runtimeSourceBuildMode": "sequential, KNORVIA_BOOTSTRAP_WITH_REMOTE=0; no old CLI bundle reuse",
+  "targets": [
+    "fresh linux-unpacked",
+    "fresh AppImage",
+    "fresh standalone CLI/TUI/Web distribution"
+  ],
+  "inputFiles": {
+    "pnpm-lock.yaml": {
+      "exists": true,
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    "package.json": {
+      "exists": true,
+      "bytes": 4490,
+      "sha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d"
+    },
+    "packages/desktop/package.json": {
+      "exists": true,
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    },
+    "apps/cli/package.json": {
+      "exists": true,
+      "bytes": 2045,
+      "sha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2"
+    },
+    "scripts/build.mjs": {
+      "exists": true,
+      "bytes": 8801,
+      "sha256": "8e777bd4f7c3d3e1487e81e2a011bd3747f4b9240e09dc84dc94baf7b6fce313"
+    },
+    "scripts/distribution-smoke.mjs": {
+      "exists": true,
+      "bytes": 5002,
+      "sha256": "78d5aa3e98e12dd11913ef1766e269eadf83658f38b8a294bd3e99b60ea1257b"
+    },
+    "scripts/distribution/installer.mjs": {
+      "exists": true,
+      "bytes": 1643,
+      "sha256": "d4e783305b5fbebe2cadb158594eb73e356ee9ce9677f761e7276a0053acca69"
+    },
+    "scripts/build-desktop-agent-cli.mjs": {
+      "exists": true,
+      "bytes": 9027,
+      "sha256": "a0e593e1e534bc26e372bc4d562b7439dddcfda0895e3f4ffbdefcd692940d7a"
+    },
+    "scripts/packaged-runtime-evidence.mjs": {
+      "exists": true,
+      "bytes": 9387,
+      "sha256": "fcdc77ddcc73f75f3f3b6554d7e71f52ed959a2a5826cc81b7311ddb6bd69531"
+    },
+    "packages/desktop/electron-builder.config.js": {
+      "exists": true,
+      "bytes": 36542,
+      "sha256": "9b435a568f3e82dbb691e23e9cf92fc7bfff1f1a56cfeff89897a7ccb5ec47ca"
+    },
+    "packages/desktop/scripts/prepare-runtime-assets.mjs": {
+      "exists": true,
+      "bytes": 3009,
+      "sha256": "919a3c6e19f309e946cb1ba0c9ceb38aafdaad67d0919fc729c75bdd7632ea5a"
+    },
+    "packages/desktop/scripts/prepare-agent-node-bundle.mjs": {
+      "exists": true,
+      "bytes": 4586,
+      "sha256": "d0d17d5e49102df01f302ac6d33ef898fdc82d21c5005bdf0c6e2f9cc0e294f3"
+    },
+    "packages/desktop/scripts/bundle.mjs": {
+      "exists": true,
+      "bytes": 26386,
+      "sha256": "e70f5f4f540e633789d5928547a4ff3f17e23467fb8afb373847a25c367d3cd9"
+    },
+    "docs/evidence/native-packaged-acceptance-20261003/artifact-native-probe.mjs": {
+      "exists": true,
+      "bytes": 8749,
+      "sha256": "7c0f278e1f5a27c474e24545529ad327dd2f70273749a547a36e682fd1e8f543"
+    },
+    "docs/evidence/native-packaged-acceptance-20261003/artifact-native-child.cjs": {
+      "exists": true,
+      "bytes": 1775,
+      "sha256": "4fdb0c2c3534777c8ac1db84859e2ef73a4e967fdc59d1b9f1b4b7ec9761bdd7"
+    },
+    "apps/cli/packages/cli/scripts/sea-workspace-package-assets.mjs": {
+      "exists": true,
+      "bytes": 4129,
+      "sha256": "8d3b9f3ca0ac417cb67af7aa4857519340c4b9e8aa5fc383bc963a2fe69f804c"
+    },
+    "scripts/distribution/assets.mjs": {
+      "exists": true,
+      "bytes": 6682,
+      "sha256": "7a1ecf45a8297a90b3946d9b4595ddeda6f471b9550a6c78d46fecab768d63a3"
+    },
+    "scripts/distribution/runner.mjs": {
+      "exists": true,
+      "bytes": 8254,
+      "sha256": "3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd"
+    }
+  },
+  "supersededForFinalPackageBy": "902e35c6dbcfa4b829270352fecf03ebc07b219f plus the pending Chrome-fixture/CLI fixes and final unified SHA",
+  "productionInputs": {
+    "packages/desktop/src/main/chromeInstallationCandidates.ts": {
+      "bytes": 10066,
+      "sha256": "65266638320b5e86c7c953695b390b8f4135b577f800349b74297c02d59a7521"
+    },
+    "packages/desktop/src/main/chromeExecutableDiscovery.ts": {
+      "bytes": 9250,
+      "sha256": "897c03689995064e2e71a01baa2b4c285a2f803eadd3358c987a97170c30b317"
+    },
+    "packages/desktop/src/main/chromeProfileDiscovery.ts": {
+      "bytes": 8386,
+      "sha256": "68d7ef68f66c30d9c84f947efcaaec4f20967c31e4d80a85832caf9494c362ed"
+    },
+    "packages/desktop/src/main/crashDumpAnnotations.ts": {
+      "bytes": 10409,
+      "sha256": "7891167622c9d87ba721347716d289bac06a9f8b203196e7cb3cc17b2576811b"
+    }
+  }
+}
