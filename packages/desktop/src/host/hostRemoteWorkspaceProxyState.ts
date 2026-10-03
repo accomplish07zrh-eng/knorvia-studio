@@ -1,4 +1,5 @@
 import type { IDisposable } from "@knorvia/rpc";
+
 import { resolveWorkspaceKey } from "@knorvia/shared";
 
 interface HostRemoteTaskMeta {
@@ -13,12 +14,6 @@ interface HostRemoteWorkspaceContext {
   workspaceIdentity?: string;
 }
 
-/**
- * 保存 shared remote Host 代理层持有的 workspace 资源。
- *
- * dedicated Host 会随 tab 退出，历史 task meta 和事件监听可由进程整体回收；
- * WSL Host Pool 会跨 workspace 复用，必须按 workspace 主动清理，否则引用会随 Host 寿命持续增长。
- */
 export function createHostRemoteWorkspaceProxyState(): {
   rememberTaskMeta: (meta: HostRemoteTaskMeta) => void;
   getTaskMeta: (taskId: string) => HostRemoteTaskMeta | undefined;
@@ -35,76 +30,100 @@ export function createHostRemoteWorkspaceProxyState(): {
   disposeTaskReadySubscription: (taskId: string) => void;
   clearWorkspace: (context: HostRemoteWorkspaceContext) => void;
 } {
-  const taskMetaById = new Map<string, HostRemoteTaskMeta>();
-  const workspaceSubscriptions = new Map<string, IDisposable>();
-  const taskReadySubscriptions = new Map<
+  type WorkspaceKey = ReturnType<typeof resolveWorkspaceKey>;
+
+  const metadata = new Map<string, HostRemoteTaskMeta>();
+  const workspaceSubscriptions = new Map<WorkspaceKey, IDisposable>();
+  const readySubscriptions = new Map<
     string,
-    { workspaceKey: string; disposable: IDisposable }
+    {
+      workspaceKey: WorkspaceKey;
+      disposable: IDisposable;
+    }
   >();
 
+  function rememberTaskMeta(meta: HostRemoteTaskMeta): void {
+    metadata.set(meta.taskId, meta);
+  }
+
+  function getTaskMeta(taskId: string): HostRemoteTaskMeta | undefined {
+    return metadata.get(taskId);
+  }
+
+  function ensureWorkspaceSubscription(
+    context: HostRemoteWorkspaceContext,
+    subscribe: () => IDisposable,
+  ): boolean {
+    const key = resolveWorkspaceKey(context);
+    if (workspaceSubscriptions.has(key)) {
+      return false;
+    }
+
+    const disposable = subscribe();
+    workspaceSubscriptions.set(key, disposable);
+    return true;
+  }
+
   function disposeTaskReadySubscription(taskId: string): void {
-    const entry = taskReadySubscriptions.get(taskId);
-    if (!entry) {
+    const association = readySubscriptions.get(taskId);
+    if (association === undefined) {
       return;
     }
-    taskReadySubscriptions.delete(taskId);
-    entry.disposable.dispose();
+
+    readySubscriptions.delete(taskId);
+    association.disposable.dispose();
+  }
+
+  function trackTaskReady(
+    taskId: string,
+    context: HostRemoteWorkspaceContext,
+    subscribe: (listener: () => void) => IDisposable,
+    onReady: () => void,
+  ): void {
+    let readyDuringSubscribe = false;
+    const disposable = subscribe(() => {
+      readyDuringSubscribe = true;
+      disposeTaskReadySubscription(taskId);
+      onReady();
+    });
+
+    if (readyDuringSubscribe) {
+      disposable.dispose();
+      return;
+    }
+
+    disposeTaskReadySubscription(taskId);
+    const workspaceKey = resolveWorkspaceKey(context);
+    readySubscriptions.set(taskId, { workspaceKey, disposable });
+  }
+
+  function clearWorkspace(context: HostRemoteWorkspaceContext): void {
+    const key = resolveWorkspaceKey(context);
+    const subscription = workspaceSubscriptions.get(key);
+    if (subscription !== undefined) {
+      subscription.dispose();
+      workspaceSubscriptions.delete(key);
+    }
+
+    for (const [taskId, meta] of metadata) {
+      if (resolveWorkspaceKey(meta) === key) {
+        metadata.delete(taskId);
+      }
+    }
+
+    for (const [taskId, association] of readySubscriptions) {
+      if (association.workspaceKey === key) {
+        disposeTaskReadySubscription(taskId);
+      }
+    }
   }
 
   return {
-    rememberTaskMeta(meta) {
-      taskMetaById.set(meta.taskId, meta);
-    },
-
-    getTaskMeta(taskId) {
-      return taskMetaById.get(taskId);
-    },
-
-    ensureWorkspaceSubscription(context, subscribe) {
-      const workspaceKey = resolveWorkspaceKey(context);
-      if (workspaceSubscriptions.has(workspaceKey)) {
-        return false;
-      }
-      workspaceSubscriptions.set(workspaceKey, subscribe());
-      return true;
-    },
-
-    trackTaskReady(taskId, context, subscribe, onReady) {
-      let readyBeforeRegistration = false;
-      const disposable = subscribe(() => {
-        readyBeforeRegistration = true;
-        disposeTaskReadySubscription(taskId);
-        onReady();
-      });
-      if (readyBeforeRegistration) {
-        // 动态 RPC 事件通常不会同步 replay，但这里处理同步实现，避免 ready 已结束后又留下 listener。
-        disposable.dispose();
-        return;
-      }
-      disposeTaskReadySubscription(taskId);
-      taskReadySubscriptions.set(taskId, {
-        workspaceKey: resolveWorkspaceKey(context),
-        disposable,
-      });
-    },
-
+    rememberTaskMeta,
+    getTaskMeta,
+    ensureWorkspaceSubscription,
+    trackTaskReady,
     disposeTaskReadySubscription,
-
-    clearWorkspace(context) {
-      const workspaceKey = resolveWorkspaceKey(context);
-      workspaceSubscriptions.get(workspaceKey)?.dispose();
-      workspaceSubscriptions.delete(workspaceKey);
-
-      for (const [taskId, meta] of taskMetaById) {
-        if (resolveWorkspaceKey(meta) === workspaceKey) {
-          taskMetaById.delete(taskId);
-        }
-      }
-      for (const [taskId, entry] of taskReadySubscriptions) {
-        if (entry.workspaceKey === workspaceKey) {
-          disposeTaskReadySubscription(taskId);
-        }
-      }
-    },
+    clearWorkspace,
   };
 }

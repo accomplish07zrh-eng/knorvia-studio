@@ -1,0 +1,93 @@
+{
+  "curatorExposure": "Three selected inherited bodies, exact bounded metadata/hash/history/technical receipts and two historical public behavior specs; no inherited private bodies/layout/helpers/decomposition supplied. Compiler consumes3 selected sources and synthetic ambient public ports plus TypeScript stdlib only; default-host earlier type check separately disclosed, restricted final host rejects unscoped source graph and hides all package/config metadata.",
+  "authors": [
+    {
+      "owner": "recording",
+      "agent": "/root/host_recording_resource_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "saved/inherited requested mode, not independently tool-verified",
+      "declaredFileReads": [
+        "recording-author-packet.md",
+        "AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md"
+      ],
+      "publicMessages": null,
+      "statusMetadataExposure": null,
+      "correctionMemory": null,
+      "wholeDrafts": [
+        {
+          "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/recording-initial.ts.txt",
+          "sha256": "6eac5254c8c542b0da1c36ed3982dcb1fd642a83df139005a5cd68500ef5167a",
+          "bytes": 2531,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        }
+      ],
+      "postWrite": "SHA-only, no reopening/compilation/execution/format/tests/repository writes/network/native operations",
+      "enforcement": "instruction-limited shared filesystem, not OS clean-room certification",
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "proxy",
+      "agent": "/root/host_proxy_resource_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "saved/inherited requested mode, not independently tool-verified",
+      "declaredFileReads": [
+        "proxy-author-packet.md",
+        "AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md"
+      ],
+      "publicMessages": null,
+      "statusMetadataExposure": null,
+      "correctionMemory": null,
+      "wholeDrafts": [
+        {
+          "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/proxy-initial.ts.txt",
+          "sha256": "76cbdd00d7726623068c133a9251ac4899d0ab57b862cf9dbafe527bf752e115",
+          "bytes": 3749,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        }
+      ],
+      "postWrite": "SHA-only, no reopening/compilation/execution/format/tests/repository writes/network/native operations",
+      "enforcement": "instruction-limited shared filesystem, not OS clean-room certification",
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "registry",
+      "agent": "/root/host_registry_resource_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "saved/inherited requested mode, not independently tool-verified",
+      "declaredFileReads": [
+        "registry-author-packet.md",
+        "registry-correction-1-packet.md",
+        "AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md"
+      ],
+      "publicMessages": "Registry preparation/disposal/rejection-order clarifications only",
+      "statusMetadataExposure": "One collaboration status call exposed other author paths/hashes/export/read reports, no bodies; declared exception",
+      "correctionMemory": "Original fresh author retains own prior authoring conversation, new whole literal without old-file reads/transforms",
+      "wholeDrafts": [
+        {
+          "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/registry-correction-1.ts.txt",
+          "sha256": "c93daba7c3c3fc3d2edeb1bc27a610765780e4272e67aa66307be3255aefd3d8",
+          "bytes": 27562,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        },
+        {
+          "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/registry-initial.ts.txt",
+          "sha256": "a976011f6863d96e9685f6bb444906e8cf09cba5697866dbbecc1759afcff818",
+          "bytes": 27677,
+          "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+        }
+      ],
+      "postWrite": "SHA-only, no reopening/compilation/execution/format/tests/repository writes/network/native operations",
+      "enforcement": "instruction-limited shared filesystem, not OS clean-room certification",
+      "acceptedCredit": 0
+    }
+  ]
+}

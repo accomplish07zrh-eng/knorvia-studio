@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+    "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+    "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-host-resource-owners-20261003/synthetic-port-types.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 40ms on 7 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

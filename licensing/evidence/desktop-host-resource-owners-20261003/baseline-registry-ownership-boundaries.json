@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "--baseline",
+    "--owner=registry"
+  ],
+  "stdout": "✔ registry: SSH pending cancellation retires reuse slot; scope and event identities (86.987876ms)\n✔ registry: WSL ownership generations, task deferral, release barrier and idle clock (30.995689ms)\n✔ registry: dedicated Docker handles, registry shutdown and error identity (48.714312ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 172.04712\n",
+  "stderr": "",
+  "exitCode": 0
+}

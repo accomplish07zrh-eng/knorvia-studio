@@ -1,0 +1,17 @@
+[
+  {
+    "owner": "recording",
+    "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+    "sha256": "bdd72be0b986e402750b8e4d3f7ea5cce7e120ff6b424c18fd2c215f9db6e946"
+  },
+  {
+    "owner": "proxy",
+    "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+    "sha256": "cc294aa9dee4c494fb78fb7d78fb2cf52fb2bb353f183bdb2bfdd5dfb77fbcbf"
+  },
+  {
+    "owner": "registry",
+    "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+    "sha256": "08736fcc524e2eca3ea1be79446214d52308b6ce1065b0c7c102bb3b6f77e2d5"
+  }
+]

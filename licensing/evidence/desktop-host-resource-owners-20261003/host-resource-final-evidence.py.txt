@@ -1,0 +1,50 @@
+from pathlib import Path
+import json,hashlib,subprocess
+D=Path('licensing/evidence/desktop-host-resource-owners-20261003')
+h=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def put(name,value):
+    with (D/name).open('x') as f:json.dump(value,f,indent=2);f.write('\n')
+owners={'recording':'browserRecordingArtifactMaterializer','proxy':'hostRemoteWorkspaceProxyState','registry':'windowRemoteConnectionRegistry'}
+expected={'recording-initial.ts.txt':'6eac5254c8c542b0da1c36ed3982dcb1fd642a83df139005a5cd68500ef5167a','proxy-initial.ts.txt':'76cbdd00d7726623068c133a9251ac4899d0ab57b862cf9dbafe527bf752e115','registry-initial.ts.txt':'a976011f6863d96e9685f6bb444906e8cf09cba5697866dbbecc1759afcff818'}
+raws=[{'raw':str(p),'sha256':h(p),'bytes':p.stat().st_size,'reviewOnlyNotFormattedImportedExecutedOrBuilt':True} for p in sorted((D/'drafts').iterdir())]
+assert len(raws)==4
+for raw in raws:
+    name=Path(raw['raw']).name
+    if name in expected:assert raw['sha256']==expected[name]
+put('whole-draft-bindings.json',raws)
+baseline=[]
+for owner,name in owners.items():
+    p=Path('/tmp/knorvia-host-resource-baseline')/(name+'.ts')
+    initial=next(x for x in json.loads((D/'selected-origin-and-receipts.json').read_text()) if x['path'].endswith(name+'.ts'))
+    assert h(p)==initial['sha256']
+    baseline.append({'path':initial['path'],'baselineSha256':h(p),'bytes':p.stat().st_size,'baselineCommit':'7d102a943141f5a970487b76132698c7c80d1114','publicPacket':owner+'-author-packet.md','publicPacketSha256':h(D/(owner+'-author-packet.md'))})
+put('baseline-contract-bindings.json',baseline)
+sources=[{'owner':owner,'path':'packages/desktop/src/host/'+name+'.ts','sha256':h('packages/desktop/src/host/'+name+'.ts')} for owner,name in owners.items()]
+put('final-source-bindings.json',sources)
+for origin,out,count in [('initial-retained-desktop-bindings.json','final-retained-desktop-bindings.json',1497),('retained-cli-bindings.json','final-retained-cli-bindings.json',295),('protected-global-bindings.json','final-protected-global-bindings.json',None)]:
+    value=json.loads((D/origin).read_text())
+    assert count is None or len(value['files'])==count
+    for row in value['files']:assert h(row['path'])==row['sha256'],row['path']
+    put(out,{'count':len(value['files']),'files':value['files'],'hashUnchanged':True})
+ledger=json.loads((D/'retained-cli-ledger.json').read_text())
+assert len(ledger['retainedPaths'])==33
+for row in ledger['retainedPaths']:assert h(row['path'])==row['sha256']
+protected=json.loads((D/'protected-hash-bindings.json').read_text())
+for p,expected_hash in protected['hashOnlyNoBodyInspection'].items():assert h(p)==expected_hash
+put('final-protected-holds.json',{'rootProtectedHoldsUnchanged':True,'retainedCliLedgerUnchanged':33,'historicalLedgerSourceCount243NotRewritten':True})
+access=[]
+for owner in owners:
+    packets=[owner+'-author-packet.md']+(['registry-correction-1-packet.md'] if owner=='registry' else [])
+    access.append({'owner':owner,'agent':'/root/host_'+owner+'_resource_author','modelRequested':'gpt-6.1-sol','reasoningRequested':'high','forkTurns':'none','fast':'saved/inherited requested mode, not independently tool-verified','declaredFileReads':packets+['AGENTS.md','.agents/skills/architecture-governance/SKILL.md'],'publicMessages':'Registry preparation/disposal/rejection-order clarifications only' if owner=='registry' else None,'statusMetadataExposure':'One collaboration status call exposed other author paths/hashes/export/read reports, no bodies; declared exception' if owner=='registry' else None,'correctionMemory':'Original fresh author retains own prior authoring conversation, new whole literal without old-file reads/transforms' if owner=='registry' else None,'wholeDrafts':[x for x in raws if Path(x['raw']).name.startswith(owner+'-')],'postWrite':'SHA-only, no reopening/compilation/execution/format/tests/repository writes/network/native operations','enforcement':'instruction-limited shared filesystem, not OS clean-room certification','acceptedCredit':0})
+put('author-access.json',{'curatorExposure':'Three selected inherited bodies, exact bounded metadata/hash/history/technical receipts and two historical public behavior specs; no inherited private bodies/layout/helpers/decomposition supplied. Compiler consumes3 selected sources and synthetic ambient public ports plus TypeScript stdlib only; default-host earlier type check separately disclosed, restricted final host rejects unscoped source graph and hides all package/config metadata.','authors':access})
+records=json.loads((D/'retained-expression-records.json').read_text())
+assert len(records)==7
+summary=[{'owner':r['owner'],'matchingBodyPairs':len(r['identicalBodies']),'uniqueBodyHashes':len({x['bodyHash'] for x in r['identicalBodies']}),'identicalExpressionCount':len(r['identicalExpressions']),'acceptedCredit':0} for r in records if r['kind']=='installed']
+put('retained-expression-summary.json',{'installedAndEveryRawDraftRecords':len(records),'installed':summary,'limit':'All function/arrow/method/getter/setter bodies and expressions; identifiers retained. Normalized matches and static vocabulary zero new credit. Identifier/control-flow/format differences are not proof of independence.'})
+lines=[]
+for row in subprocess.check_output(['git','diff','--numstat','--',*[x['path'] for x in sources]],text=True).splitlines():
+    a,b,p=row.split('\t');lines.append({'path':p,'added':int(a),'removed':int(b),'net':int(a)-int(b)})
+put('source-line-changes.json',{'files':lines,'net':sum(x['net'] for x in lines),'credit':0})
+put('scope-and-limits.json',{'baselineCommit':'7d102a943141f5a970487b76132698c7c80d1114','batch':38,'selectedCompleteOwnerCandidates':3,'rawWholeDrafts':4,'uniqueSyntheticCases':7,'latestFocusedRuns':{'recording':['initial-recording-synthetic.json',2],'proxy':['initial-proxy-synthetic.json',2],'registry':['correction-1-registry-synthetic.json',3]},'retainedDesktopTrackedFiles':1497,'allTrackedCliAdapterFilesUnchanged':295,'retainedCliLedger':33,'typeEvidence':'AST exported/public/inferred13-method registry return signatures; strict local owner semantic checking against virtual synthetic ports only; isolated syntax/transpile. No imported product types/config/semantic project/declaration emit/native integration acceptance.','architecture':'Desktop unmanaged/unassigned, direct checked-in changed architecture baseline/new0/0. Prior batch frozen pnpm ENOENT remains; no wrapper retry/install/store/permissions/escalation in this batch.','nodeActual':subprocess.check_output(['node','--version'],text=True).strip(),'nodePinned':'24.14.0','syntheticOnly':'VM injected fs/upload/registry/subscription/UUID/fake AbortController/timer ports; real node:path pure calculations only; real fs limited selected repo/baseline source and evidence/tooling, no user files/media/transfers/process/browser/SSH/network/permissions.','knownLifecycleQuirks':'Existing late-handle disposal memoization, synchronous-close publication, generation-zero cleanup and rapid live-generation rebinding retained; focused tests are not exhaustive reflective/native lifetime certification.','ordinarySuitesBuildsNativeAcceptance':False,'mainCrossLaneIntegration':False,'acceptedIndependentReplacementCredit':0,'MITDecision':False,'restrictions':'No Library403 alternate access or cancelled-upload retry; root main/B UI/large index/ambiguous Studio schedules/accepted adjacent owners/global license/inventory/manifests/security unchanged.'})
+for p in D.glob('*.json'):json.loads(p.read_text())
+print(json.dumps({'rawDrafts':len(raws),'retainedRecords':len(records),'installedMatches':summary,'sourceNet':sum(x['net'] for x in lines),'protectedDesktop':1497,'protectedCli':295},indent=2))

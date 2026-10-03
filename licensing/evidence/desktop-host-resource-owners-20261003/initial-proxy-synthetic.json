@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/resourceOwners.test.mjs",
+    "--owner=proxy"
+  ],
+  "stdout": "✔ proxy: identity, duplicate subscription and synchronous/stale ready callbacks (57.318037ms)\n✔ proxy: workspace disposal errors preserve state; metadata identity stays live (9.156313ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 71.842853\n",
+  "stderr": "",
+  "exitCode": 0
+}

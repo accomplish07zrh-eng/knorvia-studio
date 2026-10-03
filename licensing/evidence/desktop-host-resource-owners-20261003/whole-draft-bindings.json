@@ -1,0 +1,26 @@
+[
+  {
+    "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/proxy-initial.ts.txt",
+    "sha256": "76cbdd00d7726623068c133a9251ac4899d0ab57b862cf9dbafe527bf752e115",
+    "bytes": 3749,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/recording-initial.ts.txt",
+    "sha256": "6eac5254c8c542b0da1c36ed3982dcb1fd642a83df139005a5cd68500ef5167a",
+    "bytes": 2531,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/registry-correction-1.ts.txt",
+    "sha256": "c93daba7c3c3fc3d2edeb1bc27a610765780e4272e67aa66307be3255aefd3d8",
+    "bytes": 27562,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-resource-owners-20261003/drafts/registry-initial.ts.txt",
+    "sha256": "a976011f6863d96e9685f6bb444906e8cf09cba5697866dbbecc1759afcff818",
+    "bytes": 27677,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  }
+]

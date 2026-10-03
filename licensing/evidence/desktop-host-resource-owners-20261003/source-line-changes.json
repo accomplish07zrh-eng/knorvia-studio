@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": "packages/desktop/src/host/browserRecordingArtifactMaterializer.ts",
+      "added": 35,
+      "removed": 37,
+      "net": -2
+    },
+    {
+      "path": "packages/desktop/src/host/hostRemoteWorkspaceProxyState.ts",
+      "added": 82,
+      "removed": 63,
+      "net": 19
+    },
+    {
+      "path": "packages/desktop/src/host/windowRemoteConnectionRegistry.ts",
+      "added": 448,
+      "removed": 534,
+      "net": -86
+    }
+  ],
+  "net": -69,
+  "credit": 0
+}

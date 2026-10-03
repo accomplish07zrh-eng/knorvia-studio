@@ -1,0 +1,1186 @@
+{
+  "count": 295,
+  "files": [
+    {
+      "path": "apps/cli/packages/adapters/src/auth/browser.ts",
+      "sha256": "a5c29334d5f7d343544db0f420e335ad8ae0b222a10296dcc46c10683c464b16"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/credential-cipher.ts",
+      "sha256": "0e9a24a7496a6aada8e0ec778e7b575650ab19097f5e7d4d32d150cc793759b3"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/index.ts",
+      "sha256": "1ab86ace683d64ffe79a5eca23e357a2c1be0d793e5085ddd784af70ce2fb811"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/localhost-callback.ts",
+      "sha256": "47a6f819b0ce93ab4b63b3c93b13e9a3ca0862bf8eb21021b15da24eacb7cb75"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/shared-credentials.ts",
+      "sha256": "c4259e2efb9405446ac4493bce07cff5cb0bb3fd925e87c06a05a0490e14f13a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/descriptor.ts",
+      "sha256": "b458b8b8acf42925914c22c7ea9d3736ef9bb88bd7de0d75f255056c4ac7a476"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/executable.ts",
+      "sha256": "a5573db44505bcd820b56586beba12e78ec899b48eb5d2bf08f0dcd871f0d4dc"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/index.ts",
+      "sha256": "660cf906ab308d835ca4b9935d02c61e2067059a14d5807980f27351e69b494b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/page-command.ts",
+      "sha256": "74b809845876e77402f1c3c1c34797ee5c61efec3b6b75febfe74412b9b1edad"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/playwright-command.ts",
+      "sha256": "7bfc5d3d9e463219ab015565711987ff596d5b6f25e22007ab9b85657705010f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/request.ts",
+      "sha256": "7275176618a31aa16ae79d071d25431c992d41c2c892592de6e8590d0cca015a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/session.ts",
+      "sha256": "206e52b697d59718715097d886ebcdfab416ae58303cb8f3ae39981aef3a7bed"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/browser/snapshot.ts",
+      "sha256": "3021f61430e18e52a05d71b04cf752477a31e2b8e6323618436dbe94514c2344"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/commands/index.ts",
+      "sha256": "f22ff7be077724662128b0398008e4c9b514ce565d7cb6508795aff06eaab0b6"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/commands/roots.ts",
+      "sha256": "88be0a0a358a356cb9a2d51d7309d6688bb956d96f27692f034e2b7f66e1c731"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/config-factory.ts",
+      "sha256": "4457184f3eb3d152fccb4c11d1d993da33e32e55461075a7b750a1e22aba37b5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/config-merger.ts",
+      "sha256": "8e2632ad489779bbe9942202d1f2aceb547ca64b15d35a12b5ad73e394a5d991"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/env-config.adapter.ts",
+      "sha256": "6ac6a0969f494a55b04893e360c1062e705ed25719cd7d8f0f5acc93c6dbc518"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/file-config.adapter.ts",
+      "sha256": "726f125de8191a4a317cdf8f7d4cb482c0c4cd9344ec4fb00b9952c153dd4ccb"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/index.ts",
+      "sha256": "2dc4c25ffd46e9bf3fde987bcee0c16a95c33742c9dc0f707c84e8f40dd9ab96"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/owners.test.mjs",
+      "sha256": "fb86ebbb06dd53e4f7ed9643b6100732833bdaaaea64ddd46cedfcb9a112562b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/project-config.adapter.ts",
+      "sha256": "b9b028066b45d2ffec8953e2218788634f080dbf14bb3a62bd345c7ffcfc57df"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/config/schema.ts",
+      "sha256": "aa1dbde89a562e53a09c2eb110e2c70662f8bcf490bda0d4faa090d7bf8bc2f0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/context/git-snapshot.ts",
+      "sha256": "26ed1c533e17e88b78d0743b952e26a0ca657aa0922efcfc94fa917ce38e724b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/context/index.ts",
+      "sha256": "06db284d2c6db36e7d770f5f3fcdb223e9c64be0860b5df4d3d3a0177234f0fd"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+      "sha256": "f9f454a08293e596396afd7be627697ad8b9a6b7e4bf084f14f81dddd898ed8d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-darwin.ts",
+      "sha256": "641f94d35fe1d480236cec325ce82a214b7aec731dbb185487251879f4fda825"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-linux.ts",
+      "sha256": "8e2a8250f7cf72c78d6ed08aed4f59f7d92751619c14b56e2cc08a1b974e6150"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-shared.ts",
+      "sha256": "fc3fbfa68530e3414b7ae3d6af03074b0892737848e8b37a8231fd21585da628"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe-windows.ts",
+      "sha256": "45779634c871853f812fdf16268c9b9e7332714c1064eca74dc557bf5a2aadc8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/device/process-probe.ts",
+      "sha256": "f1130eaf748b97813b9c79b78114f429f2f7a757e5578e6f901256831270b446"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-file-output.ts",
+      "sha256": "e26c6db464378fd3d0fa35393e1a12e8a0772f3d2cfedeb1172b7b41c8928f3f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-output-policy.ts",
+      "sha256": "4263e84a71b1fb102ea13deccd47e3e049df463a3bbf3756a3e24064ef2b9230"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-output-preview.ts",
+      "sha256": "44e43934482eac68aa9123b436fda2c404e0c73b14ce2f05e989f70004ebf87f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-progress-poller.ts",
+      "sha256": "2f47442bca6379a5d8b2bd34803224358323c0f1dd8e5181e937a2cd285f9b93"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-resource-telemetry.ts",
+      "sha256": "bd15be03f3178428ae3ca15917b857f28789b767f032b5fdf2af18d5132a0b4e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-shell-provider.ts",
+      "sha256": "af347e79e80cf30fc624b6269b5b70b63fd0028438cfce7ebcd3feb5981cd2ca"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-startup-script.ts",
+      "sha256": "3cd1b8fed35772c9091b347d5501446ae6fce0a5a68fd444cb0082df6e51197a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/cwd-capture.ts",
+      "sha256": "13655bdd44db3ccf3b1bee2ab686c902c059022dbf3b9699bb47306eda7ea0ca"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/embedded-search-prelude.ts",
+      "sha256": "8f027eb6e722f2ce82c8881b883cba1423ce85735b2357dfcbf710f07259dfd7"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/execution-adapter-types.ts",
+      "sha256": "ff907643c44a32d48d263d74510d8d7aceaf78bfda0f121284c37cf981d83ea3"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/execution-command.ts",
+      "sha256": "abe93f4deaae555333c114c2d7b425c0714400d595fcf7b7e6cac97affd25d75"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/execution-utils.ts",
+      "sha256": "797e5742a1e8644d3c829ee36a1d0b7b26c330139b76b2ac2edbb8d1e1ddb910"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/index.ts",
+      "sha256": "5081f7b94e81c9c56860d77320c554557258e32d47e3676f81ba3e186159b0c9"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-base.ts",
+      "sha256": "0b06d594f92def7c7f1815f462a7b5cb91ab5ced201be9140ce8d49418eaccbf"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-lifecycle.ts",
+      "sha256": "e00fd49da983734ffb08ca6299e96fab8cf71cc16b1cbac440c9d900cef1af03"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-process.ts",
+      "sha256": "74750d57a84dc44d78c0021987fbc1b238a3e813324222e68ad550397bf7b46d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-results.ts",
+      "sha256": "23dc1da14eacb88ec6dcd04c76df7bd4e7068675135c90f967842c35f917e5fb"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-run.ts",
+      "sha256": "56bf47a7e08018cbb290adca13cbeefec28b3ad67fd0016c85f5fac5fce7295f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter.ts",
+      "sha256": "053cdb97c35bacd0b44cdf28339a11aab4a5886a5c0f4e196a94f18d44787faa"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/output-collector.ts",
+      "sha256": "dc00e37ad75590fe2363480dcd3677ad7531e427b12b2f0920387920d44c9a2a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/outputEncoding.ts",
+      "sha256": "81bad6ed20d53f4b8d0701547c34e5b1c1048dfae186727d6f1df1a983b6d4df"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/process-tree.ts",
+      "sha256": "87e44340e46a75ccdf3df172336bf832eb2c721c412eb031a0b36d1f99b46b39"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/shell-init-snapshot.ts",
+      "sha256": "99fea314f932b6f5a2e4b7a52e0c01957b45a94936e35b301a505a61d1417f68"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/windows-executable.ts",
+      "sha256": "48504089638edea6ced364062f91aeced424c41c172d69a1ec55a6b832b90c66"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/file-search-paths.ts",
+      "sha256": "4015e277b2691f9dce271068280a6573a428d2c509b7423f280f4fc904349a79"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/index.ts",
+      "sha256": "ab1658bcbbf793c87848d948fc9b4eb468fa6c1d324cad2447efbafa0ceb0ce1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-file-io.ts",
+      "sha256": "29670cb2854bfa92a1830474c31817111b574401fb21d6188e181c3d9a56c1bd"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-file-policy.ts",
+      "sha256": "dbc561f40490585bb28260580bc2a043282188614b7612b682f5a19a399f3b53"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-search.ts",
+      "sha256": "1d2ab46efc39c1f586aebb9203416326e9da29f74b435f35bc5e73b000c29d92"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/ripgrep-plan.ts",
+      "sha256": "f636078fe41b4d2ca4a7d7f4d039ae4f36f3670a8c076f3a71f9994f3190cc79"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/ripgrep-worker.ts",
+      "sha256": "ebf78cae1f2ad385c98422f30a9ae49720afb1c44ed287c12f3e8ef0eb4199be"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-line-window.ts",
+      "sha256": "936390c8fee4112d243610bbba4220b20161c7468e45be40b93a55c8208e25e9"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+      "sha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+      "sha256": "df90936480261ab01d925e9ebda672113b7fdf9eb0d2b9a1b062abc42085cf9d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-search-lines.ts",
+      "sha256": "f58f07fe5acd70b938377bc4852bc8015187326037afa2a501fc237ba9abe6eb"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-search-results.ts",
+      "sha256": "a36023e637e282c200a6cb26e60fe7140bc483ff5db30f190134ef79b0c81b6e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/index.ts",
+      "sha256": "690c0208dd19c57abf3367e6d135c5f3539ee065064927189478170ba8855fb9"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/node-exchange.ts",
+      "sha256": "5c275634ccf733e320e4d1cd4d52af1809a61a2478109bceefcffd195e60029f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/public-egress-policy.ts",
+      "sha256": "a0fb608458bdffcbe219c4ece6d8f4ce92f3b4c8686f967808a08979e99b168d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/response-body.ts",
+      "sha256": "47636f28057f61e64f1d656dec226cbd0e4e355eb840dd61540bd7891cf25487"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/image-budget.ts",
+      "sha256": "cbd550474128d060d670f747b1fa9a07a22359db49459a6ea7702b31d99a6619"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/index.ts",
+      "sha256": "72408786678f814c5771a7ff45b652e3b33ef1d71cf3dfde87e92ab25dfaf547"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+      "sha256": "6d2e22751405a6b74c884e761731474f3918bd682af23e0af7f006b5cfca001b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/jimp-media.ts",
+      "sha256": "c79d143f9725f0fd5d69b3fe24503d74386ffd343cd7ac61bebefc68d3393dbc"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/webp-passthrough.ts",
+      "sha256": "2764c88a0beb1843761916a66d7583dd1c9a72531c5468bedba20a5d67535cbe"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/index.ts",
+      "sha256": "367ad9b80d3996cd402d4fb5e43ec4fe213c3e9253662fb81ecb54dbc998b1ef"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/entry.ts",
+      "sha256": "586e95dd02fcae4a973dd47effec5c12a19092e4a45b71819424ca5559d756e5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/file-sink.ts",
+      "sha256": "42ccac644aa422f3159e1011735708679c07c2d1303d81fa3f933cd61b892aa1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/index.ts",
+      "sha256": "7a18c42c83eae8a0e7488c894d1086d53d1769dd72ee61b473ccd05c72fbe29a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/retention.ts",
+      "sha256": "893398776b0f4b0d9e2dc705e365a36678f91d24ec6257ea5620628eef279c4c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/serialize.ts",
+      "sha256": "cee5b0c174f97f90b4fb17dd79206eb8adbde18826d8f7a46b2b1c804de292eb"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mailbox/index.ts",
+      "sha256": "de4f9c2e3c596418cec2a1b866297251c706efa2ca567de7e87fb5aea2cca703"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-api.ts",
+      "sha256": "bff1d4cb3566cfd24ad7af4c5a781a2d4d45ac5c242d715258c06c843cc05d95"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-auth.ts",
+      "sha256": "2213fc637f96a67b12ccdf36535f21eaca9ad1885da4191b20e074c63b2f9c59"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-cleanup.ts",
+      "sha256": "66cdf6b49e02d642f82bb55b8e718a827dc3ab0c258a67692b0cd1c92f4b2cac"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-connection.ts",
+      "sha256": "93beffb013c1ff4ca6ade4f6c9ec4706040166099fcb54719756640151f592df"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-context.ts",
+      "sha256": "5aedce6cdaa58f93022a3a1cbb5084ea408dc7523fbd5178cfaf95964479e11d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-lifecycle.ts",
+      "sha256": "88ffe44f3176746df5bc1aa97a771bd40a85c8cee677bfc7281553451da341ca"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-official.ts",
+      "sha256": "9b899c318378d8118983f6071293186a649aa98f8eebceaced4ebcfa38636a20"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-state.ts",
+      "sha256": "8a78473356a5aa1085adc0ef454a521d3f0bac7dd4ae3fb276d1722465559625"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-stdio-log.ts",
+      "sha256": "0f3d732fa8110605eabdabf2158a359d72a17ab6419bdff1dfc6d2e92f828245"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-tools.ts",
+      "sha256": "2a57782f6fdee64118748f812b5ebd595417c312551c17d2b39df267439f76c1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-transport.ts",
+      "sha256": "5d45a52571a48cff9930034f874dc2394c0fef03fd1011b028dfed626c734d60"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-wait.ts",
+      "sha256": "b886de0898b447975597e7b4ca8ac405e416442c16c53835a4a3ec5174217436"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/descriptor.ts",
+      "sha256": "5e53af6c20d7ce878573d7e60c8b58379f114743c58516d3d83df659eddba87e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/index.ts",
+      "sha256": "bf55f9d8eff4cb4073cd0eb578a5acb8b7b49042be89854bc27296ece758b693"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/network.ts",
+      "sha256": "e391831353211105ffd18f98562604df18031f924fd24b591764399017ffe581"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-credentials.ts",
+      "sha256": "af46ca2f00b59caa0d1e7b17e52fe1af7e8fae8c92024ab186a9b1e1b14e51b8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-errors.ts",
+      "sha256": "0b56a2b1b63c37014688d94b619a7310eb1d742f90d1e1d951818cbbbdf75d14"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-interactive-transaction.ts",
+      "sha256": "025434c8e772eeecce44e081232803d381c8de774dd428a979770c848de0fa5e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-interactive.ts",
+      "sha256": "05a494a20c13f73cd5f9d33fd9bb522fe6d6cbd6f66da190452f7cdb2fad6477"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-lease.ts",
+      "sha256": "b53ad2318147f599a9f60759223a1257f823278b97ca5d66852c957ec165fe8a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-provider.ts",
+      "sha256": "846ea9e4e4fab4652ce1f41ec4b9b58e643459369cfd4fdb17862781dfab123b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-refresh.ts",
+      "sha256": "f16bcc6808082eba8e38f67e7a34eaa9dc7f6a6897af8416ca287932b3e9d3aa"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-shared.ts",
+      "sha256": "fb87e8f7c92ced17ec71d780d4d81252b95a4b27179982b18c51fcc4e015ffad"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth.ts",
+      "sha256": "a2103d0d043fe775a9d4463519431b0634b15383d22220030ecc5fba650dc6b5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/official-auth-response.ts",
+      "sha256": "40aa8338f21ce32dbcea24ce795cc3612259b52464bb2a3cc0421c154c4ffb3a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/official-auth.ts",
+      "sha256": "9ef5290438d22e11e91f6034820acca82bb44f0450d8b5e2e9974e9b02e67fa6"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/pool-identity.ts",
+      "sha256": "cffd81fd1b5bcb134755b52a27886685ff7ec914789d12657b7b6e616b65693c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/pool.ts",
+      "sha256": "bcf7768cf7abf03ce254b58334dd07f84aec3a5c75469c690043aa67520c56a3"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/process-tree.ts",
+      "sha256": "3c228a891be1eceab9f72ff0b9b89fd31f087a81de376b0648e96d3834a6a087"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/resource-telemetry.ts",
+      "sha256": "ff85a73c86300dd746e7e234c64faf17a6f56b06b8642722eeb6664c5db66c45"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/stdio-transport.ts",
+      "sha256": "18ab12ca560aea99315715cebbc6471a43d7dd0a06b87afcb1c5b0ea852edf91"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/telemetry.ts",
+      "sha256": "f9ccd162f25c3e469f3097ac613d7d94c1da8c588bc0d877c42d6a7f24f70545"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/timeout.ts",
+      "sha256": "3db1d6c0059884ee3dec3889dfb4dc0d1d46cbd3ac4f1a0148f97c982528c095"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/windows-job-object.ts",
+      "sha256": "b0fb1db068b5a36ae1ae1e7d9e5c0ff2cc1bebc363e9ff951781745e89ce1ce9"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-reasoning-metadata.ts",
+      "sha256": "8c65e1ba181fea9617babfffd261f9be56c49b56737df32b7d7b9c1542a4d31a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-request-metadata.ts",
+      "sha256": "4f2e753f956d9062ad035bf6b07e0018a7bdbf92e985a66cecc29c7e3890c0e6"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-stream-compat.ts",
+      "sha256": "df5f82db17410de5a20130c040c42c537816aaaef5950b1a23e706a874834780"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/empty-completion-retry.ts",
+      "sha256": "ddd31d37e631ce62628cda42d3dd36be00382239d73679a931e4f3762cd1c55d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/errors.ts",
+      "sha256": "70319903e1404584e231a9ba37e61e2a0101d410516ef4fd49ffda0d4cf8b9f5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-ai-sdk-provider-error.ts",
+      "sha256": "0b54d0680516ca5b5c51d5ca83f8a49f0090aa6f86ccfdec716d311843270b7f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-classifier.ts",
+      "sha256": "7650b3f62cf4ccfcf36e3912610cd77b7b81444178af75245fa93f883d5c598f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-inspection.ts",
+      "sha256": "5277bedc6a72a79c616fb03d9c841d4da8ae99a57b056a28b18132257d43ddfb"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-provider-business-codes.ts",
+      "sha256": "ab2ce50ff26f30a25f16a2af28448d7477d83bb8029b1da2329e9488d811cca8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-tls.ts",
+      "sha256": "73ddef8c6928421afd4da6aa2b943c963ddfac0fcc816df06627e769e22a9bef"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/index.ts",
+      "sha256": "33b3bd27ab726340fddc6d44022abde656ec58d0d9805d60cd1c03758c284c3f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/media-transform-policy.ts",
+      "sha256": "c248cfeddb669c4e6dca5c52cd11bd25b57fa45c11e824d905e3927657881c9b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-execution.ts",
+      "sha256": "814ab363a2bf17efa04d5ae18ee84ecea47911d2d7af23660964ff5859cf0e6a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-option-map-fetch.ts",
+      "sha256": "3832898e812e3b73276401aa7462ca0378f56eabe44c4c3c4d958472919003f3"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-request-headers.ts",
+      "sha256": "92a7e2ce42a77e25b8389c4214b8847350b40b935b2d2a61804f207ab33de34f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model.ts",
+      "sha256": "ea28d772ba1a7953faefabe0a83df653d2fec6ae4d4289162c39e96e1d19977a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/offpeak-retry.ts",
+      "sha256": "cdf0ed022759fcf8dc4d30ef2a8ba35439f33707d6bbe7869c6a8defe2e7e11f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/openai-responses-json-compat.ts",
+      "sha256": "5a5fbc0260f6f72ca0ef27f1b4dbcabe2da8443d6a96e30b9efc626ab0c50139"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/opencode-session.ts",
+      "sha256": "cd2f13f4f580a2a91732347c35ca6447c31d530b2adcaabb299d9629d39bb79c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/provider-finish-business-error.ts",
+      "sha256": "8df5676daee6cf2eed7894b12af2b729921dc320ad374135f0b27d1fb08ad040"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/reasoning-history-normalization.ts",
+      "sha256": "49dc9a3f45be03b7063ea9e7b19cf4227a338045cdd4ffd34d2e18f3ff633281"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/request-admission.ts",
+      "sha256": "55fdfdda72d520933578d7b0db7eb5413dbb854ab830332b3fd91d2bfe4ca929"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/retry-budget.ts",
+      "sha256": "1aa31332f34f9412253605e34687c586ce7bcf73360e729d7cf7ad979a8c534f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/retry-policy.ts",
+      "sha256": "f277b3c636d8798fe036afd863c49026a707074dcc1113da68e9aed644b67e96"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-attribution.ts",
+      "sha256": "c8c77fa2db112b7e44a97ad2feabdcac468b03899c5b6f3fa159a0aea4adf265"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-debug-redaction.ts",
+      "sha256": "e20a3c45910c7d46e916c0b534d614c1d33df98586dc8ef5c7e5f2042917c22a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-debug.ts",
+      "sha256": "cc7fa6285192fb013d4f4cccc1bfe224e654c96e621be213814ac7e65ad922ed"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-diagnostics.ts",
+      "sha256": "67350b4bdd9513dae9cbd92c03ae8fe2387a14b7f172b0631e7b3c81d47ee16b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-generate.ts",
+      "sha256": "5ad9867397c5b71fea68e144d5acd124905457585f13d61a02b191f5363d32df"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-network-headers.ts",
+      "sha256": "3e29f6c23a4261bfc4c3cb87510add1a22a578e9b3fa71f2a23265c40cc4adf5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-normalization.ts",
+      "sha256": "a78ef8577e38105398f71337d31fd3f4e848b14b437a7bd062128a60f8fc7d8d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-options.ts",
+      "sha256": "3896a7b23ed3d4262564148426de04ddfb5460c215e4c2ff07b581ce65554585"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-record.ts",
+      "sha256": "dc808f55a13d7b5fc6ae8a479bdce47f58623a65a753d6cd65ea8ef84b9c6540"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-retry.ts",
+      "sha256": "5f1c92a620d4934f248bc1b49e87014b8f4f2f09644b81ccf5e02ed092c73d67"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-runtime-headers.ts",
+      "sha256": "f32d5fce0d04792984ae354fcb68eb4a23047694029c21e9fd5e20627bc9fdf8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-runtime.ts",
+      "sha256": "a51470c574e96b21906f3a542eabde4cba7f9609ce9b9b196db9aeb20901fc54"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-status.ts",
+      "sha256": "88db845c9e25864c9d5e7ec8b91c185aa0340b2f354333b41d8d027fb2bd92ff"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-stream.ts",
+      "sha256": "ca205fc5a2a8d426aab1b3642497d522abea8e695b4d7ab6ebb96275e1ba2891"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-telemetry.ts",
+      "sha256": "d0d874aca5165a6c814186cf618d77ad64dfb98f8afa226f42c7fcc52bf9f7c3"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner.ts",
+      "sha256": "76424b82f5c69608ee1d9ccf7eea20685092bf693dc61aa609a1baea351ab799"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/stream-idle-timeout.ts",
+      "sha256": "b944a6746597e0baecc2e8427ad7b435304d1832f06667b030178f6e37b70852"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/stream-retry-boundary.ts",
+      "sha256": "cdb4ca880999e0bf8ddb01e9e3a5ddf49554a1d57e40246c3b8653ce55e7695e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/streaming-tool-call-assembler.ts",
+      "sha256": "fc05ac70962ecb0860deef950a7f59ceb2b41eee87ac2ef8f40d59dd741ff036"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/strict-tool-schema.ts",
+      "sha256": "b10f18311a56f9be7888724f8f79b5c04c0ea1f2655c617c1b00b84022dcb3cf"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/system-message-compat.ts",
+      "sha256": "9907972c389baf0e1ef5b0e958f50da37f3b9efbeaa286465a6f7c66bb2392d1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-call-validation.ts",
+      "sha256": "db2d54d48aca1fcf9473e3722cbda3467f426c07becd1066dc3030f130321817"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-input-normalization.ts",
+      "sha256": "fdfdf9b40c69c351252f5921814fd6927d4bcb77165407678864914d2548f24b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-result-media-projection.ts",
+      "sha256": "6e24ca827690eb855c673ced72a18fb3e9ce66c57bdc1d70a292eaf7febc16b8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-transform.ts",
+      "sha256": "3c498c4a131af92422c54317ac6bc6115323c5244adc54ddacdd766aa003a3b8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/transform.ts",
+      "sha256": "d7333c458e6d9a31bc054613a5b875480fea863316582c3452b2c1655f58dbef"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/workflow-model-failure-policy.ts",
+      "sha256": "adc763cc443444381c5ec7260c33a0d532e3ee0e20f54253f203a0982ac81f9b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/http-config.ts",
+      "sha256": "c650cf940d2aec2fe1916acad709780b4cac10adc6625251be5c77cf44fe5be0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch-exchange.ts",
+      "sha256": "56b7ace6f6a1f0ddbaabaa34bca9070f95227af372031ff2d3c54ae693c9dd2f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch.ts",
+      "sha256": "8f749b6feedc7da6747ea9a538f77171d31dbedcd77cb337635d4d95b450e9c2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/subprocess-env.ts",
+      "sha256": "6b84c86f122a079249466dd14abb38cabae6364203b6b815466e026c0f26758a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/pdf/index.ts",
+      "sha256": "f8883fddd331a6d3aa8cad4679b834340f38d812391bff96a1b7acf598afedb1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/archive-entry.ts",
+      "sha256": "43afa6b375600dff60ed745a2efd8dc248a77b3c996180f7495b4592e06cf7dd"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/archive-extract.ts",
+      "sha256": "c898e566f6a03dfe7085764b05ae246d53e43848a2201f4c51121e1ab0408cc7"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-directory.ts",
+      "sha256": "63d0a367b9b2c67bcf1995bef8802f2c1e1de30c63c50071fe30c0cdf54fb2c2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-file.ts",
+      "sha256": "37a7148e5a0219c6512af7b1519e4c3e234edb22de487a1087a385d385c278e7"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-owner.ts",
+      "sha256": "66f451c95b1aca6b2ab143aafa69b5f2e40d55f4cf23ec187300181de8408538"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-protocol.ts",
+      "sha256": "7064058c722e7a8db4566769f3bd29c4e4a612f64733bbef7da03743990e0489"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-recovery.ts",
+      "sha256": "a91c434dec4913e3427d5e757d347ca4f0e1eb545e5dbdd6cf6b3792e9678ac1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-defaults.ts",
+      "sha256": "00f1b9f76a269ac36b9b6a6afc332bd6e011b66c728937cb1169df1d28aa3bb2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-dependencies.ts",
+      "sha256": "d959cefc4bc98b27b251f663f15483337e751f4ebd5d04cb4f3e4b3e65a9e15a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-describe.ts",
+      "sha256": "478e807b2186da239b8967087cbf0c86507a328cd61c8212b64fca70cea49a16"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-install.ts",
+      "sha256": "1a76c7a11e94d0bbcb4497ae36443f850ae471a68468027486543ab564de3e11"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-listing.ts",
+      "sha256": "c87343546b32a108be67f7d6dd017cbbab67907cc50a53f24660e875edc4a8ef"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-load-source.ts",
+      "sha256": "0ba1bb589635ca8a5e9556f083ac7088d5712f61799fe3cdd3125200e52d7ec3"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-manifest.ts",
+      "sha256": "29241e2d170fffe35f52451f94b94df1cd0e82cb2f26bb7ee53b570e782d12fd"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-records.ts",
+      "sha256": "289b3e6e5ad61177a40b846d76fa7983888d92373ce56a38534a3f1c81ff9594"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-refresh.ts",
+      "sha256": "a7a00de2fd0521c6d2a20f64c02f300820acc3c03328bb0d0c3cb19b6546473e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-repository.ts",
+      "sha256": "a4b4c8207cda64d4d2549cc18501ea4b379c254d1282147aa3fe59aa6ecf5554"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-source-input.ts",
+      "sha256": "8b93670089f80c8f96bb0c47a846b976e0c906c3873ffc4a1da1a4909c0b9c02"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-types.ts",
+      "sha256": "6585a7a38242aea0b18dd41a721cfa370201626670630af8f236fad38e3c884d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-validation.ts",
+      "sha256": "750f4863e9b1ae77a9c730ec34a949e35c482d657779bf573ae4a12217c39bfe"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/command-materialization.ts",
+      "sha256": "c569eddb2a643825f94cde0166e16cad9ca295e940c51461cc65ab3280601c6d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/component-roots.ts",
+      "sha256": "9637626d4543e4cb0404dc2ea242d2068684b750e409f86c24d014348acd5099"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-candidates.ts",
+      "sha256": "e8858c5ac1c915de6d6e270f9e08d09d5597f8cbc71b39b8e38c203f277cb1db"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-diagnostics.ts",
+      "sha256": "c6087d0f32ca8d45e60b73a0629deead56a9b131597550cce2b1ac8130abfcc6"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-manifest.ts",
+      "sha256": "e44b62f3f41ef8cec3f7ef15dcd098da7d5ce02bbbcf7d5f46d9023378e3b693"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-runtime.ts",
+      "sha256": "9dae26acbfee47d2f84fb181f750cce5091f63e92ffec8f98b30d8c9a3c6d677"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/github-archive-source.ts",
+      "sha256": "bf00f6c8811a5fda7b33af4f2495f1734a18532417d1ba3c2d6a896262449e8d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/helpers.ts",
+      "sha256": "52d920ef571d5c0d3b4429f1a50a701102fd1d4e82c42b4ff8374115415c1e32"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/hook-runtime.ts",
+      "sha256": "a6bd3d79c6d133c07af0dd54e7a77df39bbfb1868af425f673f604055ff0d15b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/hook-sources.ts",
+      "sha256": "3d7c61bd5616af9bc722f62051382f9f80b1c44135ca0a6cf512c47827683351"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/index.ts",
+      "sha256": "a178166e0b418a4557bfc6362ead8ce0e17b5b8d62315ca9f60eb949fce3016b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/markdown-frontmatter.ts",
+      "sha256": "68395ea47caf9a1430623abccc9f960607e5e30686b8e3eb6873520dadb607e4"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/marketplace.ts",
+      "sha256": "ce89d8a6bf9125867ba01dd115734f38fde8c349913a494a15ed30e3a6353268"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp-official-auth.ts",
+      "sha256": "44a86f325f824e4efa8b7a29021de39012cdcf6508ad50f18a0475cff9036b5a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp-templates.ts",
+      "sha256": "64dcd9f46da02236ae45cbb13fa6349dfad98781486795856ea06fa966ba7242"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp-transport.ts",
+      "sha256": "d9799c51c565f14186323ce2434ce62a0cb8b98394691719be1f5027034ba26f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp.ts",
+      "sha256": "d9488ae9edd2cd86d64591bf80a0f17c3194cb0b9775b7d7d644c8e85910d7dd"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/official-marketplace.ts",
+      "sha256": "6d516abf9a28555e3a63ae6f81daf9a0bf4a7a80528eac01f92c9301a7762881"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-components.ts",
+      "sha256": "484ae0e1bd933e13467f38a8df4b904b146512f7b47504b918b1db72ef3af30b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-document.ts",
+      "sha256": "38a1c54ff60614b571b6595e35bc27f4b967e3b287bd32804a4a7efb82678e1a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-source.ts",
+      "sha256": "7619b763d2b54756e9d343a949e029e696cb48549cc245710884956af0b6f109"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-validation.ts",
+      "sha256": "7e5163210a8a1fe413144a8174241583197fbb360ebb4e4214b7fa1005b8698e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-download.ts",
+      "sha256": "ddba34e5cf7ac45a1ae431668e6bc143d8f87767508d12f2ac2703f1681eee5e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-errors.ts",
+      "sha256": "9cb9211fc0fb4854ecd31cb0b02a2a6cd12592006630aa4c03d150254c6efafc"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-git.ts",
+      "sha256": "ba6c39f1e3f524bcf8bc6f23af0fb6e556e1bdee44024fc66db0ed086f70b60f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-redaction.ts",
+      "sha256": "de63e1fcedcf73ef00aac3e74224ba3357990ce55957b845b0d258b61c9ecfb8"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/types.ts",
+      "sha256": "4052de3c9e1315f6c3d6dbc98d853aa321fd30951b634af543c42d8f281966e7"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/version-compare.ts",
+      "sha256": "a54fa2eb3e0f413e3be06ce129410e14593e5fdf75effd8449b5da6cebb78c44"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/zip-source.ts",
+      "sha256": "3d0b4c0c8de547161d81ed712c26b8c9889ad0b5745f33760485dbe8a3d6b835"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/provider/index.ts",
+      "sha256": "7080b763772ce012282b519ae6face4934f7f9c3db3a90611a3d224c84c56281"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/skills/index.ts",
+      "sha256": "87f9943a34ef63171c05c59c0d3dacb546064be67dfe99f4680105929d435446"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/skills/roots.ts",
+      "sha256": "a5b4684c84633f034db79f3c9290b302c82e440fc3481a27a0f8e1db673875f1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/skills/scan.ts",
+      "sha256": "b2b6c65cb15cbf4ee6f4baf11b857da01f112ca255ff1d12c30da2f62413b0c5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/artifact-files.ts",
+      "sha256": "d2ca966da242085fe5bc4839f09d6f16a466778c5b0c9ec91482bc1bddfac467"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/artifact-media.ts",
+      "sha256": "da6089134435aded0d6dee2209e9e107fe6c0d932ebef25d3607e2c3a89f20e5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/artifact-policy.ts",
+      "sha256": "9f2d165cca38f60475cee79d124a9dec147c4c164123b14662192a019abd4ed7"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/fs-fault-injection.ts",
+      "sha256": "bee4cfa37fc5e023a4d08d196c4062595f7684ddc123d994127df4adca4b5ac2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/index.ts",
+      "sha256": "7d70f48382163bb8fb8eb993f44268051b8c75d7ff875d33bda4845eef6581a0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store.ts",
+      "sha256": "be5c70278ee06c154f68491a64d19b40f106b35d84ec87cd5c30bdf47020f84a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/codecs.ts",
+      "sha256": "8740c310b97f8d0f015d883f0b73a952aa31866f2d5131e6a602c43c205be27e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/errors.ts",
+      "sha256": "b07425c151c24809cca2c0c9e17b868019d5c70ed5e599b3cd6163e7a5b05fc2"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/fork-commit.ts",
+      "sha256": "ec3d6bbf5143656b245d0a14c239f388649658d062243708fed6f8f03d0a1d91"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/fork-validation.ts",
+      "sha256": "b5538e3a1c939f5ed120a84c234ceaaafd6690b1c538594f652e5eaaf33e6428"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/json.ts",
+      "sha256": "2707c36459c1a6a0dbd1d8559448bc06aacab45d71525295f8a8e1840f1e8a87"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-execution.ts",
+      "sha256": "a5f4a731ac327e8bef6bc9bacc0cc89f12c3671c307d428058543c89adcd347c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-native-error.ts",
+      "sha256": "06c193426526b3fc65a932d03a73e25fdcef382b433658256f3e6e0c92c9133a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-runner.ts",
+      "sha256": "7cfa0f32166d685f36bb72f328b680c160fe3ced55589ccfa32a93d5ac3b9de0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-snapshot.ts",
+      "sha256": "487c312fc46d94cdec3613d39c32f500a3335bff71e589a8f76145c63c4ef5f5"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migrations.ts",
+      "sha256": "cca62dbe59397eb9ade57e7c853b969b81b6141a0a66678ff8caa0664ddb9c18"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migrations/0020-provider-model-selection.ts",
+      "sha256": "c0c8c378b24d738989d10656f1db07ab159e1db94fd683e440dfb93a6c5bf72f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migrations/0021-official-glm-selection.ts",
+      "sha256": "9ec5ab9f9fc94dd2f4eb57414a42a7873acf04210b2aa45d9377c1c07841e15f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migrations/0022-backfilled-session-reasoning.ts",
+      "sha256": "7e291d58beccab49ae424334e296bd730e9386c2d4e0b181f6535f9bd35ce870"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/options.ts",
+      "sha256": "105e37724d2b4a44a632697214aeb1eadd7a5b039a65fbf471edde402fba6d43"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/paths.ts",
+      "sha256": "db8ef6ccaf8a5abb95172046581a37bcf3b83f726485e0313c3a7c7904b06fa6"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/record-projection.ts",
+      "sha256": "3c6f6d3ac75e43db5a20be308942fd083e10690e45dd2bdb32fdbcd93acef757"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/debug.ts",
+      "sha256": "539080eea87e85159b9371ce4b98526570131733e57673ad367494350b7b68c0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-artifacts.ts",
+      "sha256": "2c2b874d366b16f132c3679463b387bfbbc098eb90e8a9609afde29f57ffcf05"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-codecs.ts",
+      "sha256": "44ab8d19578c1c5c380468ea4fdbbcad26b2091f57ca42561699cb8e886ad85b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-introspection.ts",
+      "sha256": "095445156b8c16086a290943c9d2a8b311205a651e0112e9d837220ccbbaef96"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-run-state.ts",
+      "sha256": "10139e069fda354f0311e0c8b15c576ac8de12d406b2fed5acc39b4ce3e21e11"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal.ts",
+      "sha256": "7a10b6dbcda765abf2720a82972258a9e65a85dbd88a730f3833398117299398"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/input-history.ts",
+      "sha256": "ed96b3997f1a337c7a15b1f41c4f11d5b18bea9825be062f35b0855c5cbe7478"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/local-settings.ts",
+      "sha256": "6ebef3f129e622a3a7c0374cdf9d889edab6d0b1e44439e127865f95ebabe8bf"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/message-documents.ts",
+      "sha256": "8eb485935ecdfd1f736524ce0475b53f1d4cc6e3f6e39c0cc446ce11cf762fa6"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/message-storage.ts",
+      "sha256": "5d5bf9f3f6cd08d2b798e34a104618a7b09e6d19bd01525de9c7d6758e04cdcd"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/messages.ts",
+      "sha256": "27164369415113fb9992408c77ce887f8637c7e97b273832627f3a504723e188"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access-payload.ts",
+      "sha256": "68160d146b475e7f2b601250d39f73fc48a90bc5466664473f48c520c055e8fc"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access-program.ts",
+      "sha256": "23838713909004a223b41506d7a36b5a06df122671693cef021dc457b1f13e89"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access.ts",
+      "sha256": "ec75e3a80c8c7f68854910017e8eed3e74a01037477b5d2001b563f912f191fa"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/project-permission-cell.ts",
+      "sha256": "61a56cd268cfaddafdd6e86fa0a63270a1573a3e05005038dff601fa2bd10d65"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/project-permission-transaction.ts",
+      "sha256": "e7948214e2a2b1a1ba1ff0999b29e3c4009abcb4a795a6650b282b723454c2c4"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-activities.ts",
+      "sha256": "0687769f825027b9f41ea2781b5c7ba8b1a6e78d09a963300454c36b317f4fe0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-codecs.ts",
+      "sha256": "08b0db617156096b0284fcb8c4fc897ffa8f7641dfe755a9b1f7dd7fec51864e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-runs.ts",
+      "sha256": "52fd6119db91f7d67c5db2397d3bcd85b8f7b752658107a36bcaf4a2e0795da9"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-entries.ts",
+      "sha256": "264a881a0e1e38f3973f2c3983cd152422942d7350449c579eb76f7ac5f025df"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-input-documents.ts",
+      "sha256": "eb6ed9353c663773cfa82fcadbdb4113b878c66b3c792c52a42d9830d6c4e21b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-input-promotion.ts",
+      "sha256": "6580b0d16c972f446d8259e39c592f82a938c8da959afecc4cae989e80d40fa7"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-inputs.ts",
+      "sha256": "3be13c6fd2e8ca9cbdfc469e4ce36bc58c0becbd23b5e6afcadd201c52a04986"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-records.ts",
+      "sha256": "d3a4ad63cfd9fe7dff42e030ac35003e085e7e4ca618beb65785faa6b526485d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-scopes.ts",
+      "sha256": "376c362d02d2110274f24ea2a42d0a98cba690b4ef0d3806766ce8686bdb021e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/sessions.ts",
+      "sha256": "76135e7403d3adae3a12969c450fc064f5dda6984ab4c51e1db730e53da46707"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/todos.ts",
+      "sha256": "33086c2a98272046a741d42fd5154a8c838846c3a87c7ad6b13a8d8bef1ac2a1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-app.ts",
+      "sha256": "c85ffbd7e410c7a6c4294f79fac311536322e55393220d7fde2f81c4172b2312"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-task.ts",
+      "sha256": "45f8792523ce95551d0e14f02f87fe2a3fd4896f3e13ab2a7c6c0a8074f5f205"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-values.ts",
+      "sha256": "565acefa1a2b9778620d7a7b540ea783f0b72d95bdecc0705dc889709a79c47e"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-writes.ts",
+      "sha256": "b62cda42385fd1e38e06b65aed3b20fd2c8e599f15f590a6cf0c359138ec7d0a"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage.ts",
+      "sha256": "c379a46aad1af1bdc64d70b662a727f89e31d08ccb4d00d622619e9dc6a57af0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/write-transaction.ts",
+      "sha256": "831fc0cd465c05da1d5c1c58c3bac1c38a17df152987ab02ef852f202dc0856c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/rows.ts",
+      "sha256": "1e967ecb812d25f0209098ebe31a38e57627d1b020ad1f0ed3a16971d30a2890"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/session-store-connection.ts",
+      "sha256": "4a74aabf2bcc3f3569902b9a2da78e59264d1e0da2b17bed4cc8000af294a721"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/shared-context-commit.ts",
+      "sha256": "89f405cc7cef4646bbe986cfbb768b504dbcfca3ce9ee05f84489285b83ac715"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/sqlite-session-store.ts",
+      "sha256": "1c52ffcd57679764895dce8a5a3c7477f76e894a2fcf9d0da06be2cb1fa93a65"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-target-record.ts",
+      "sha256": "68c5f00b94f480dc3c7e1b3a8695fff2634324cca9f9aaa6829106c2bd412f71"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-target-run.ts",
+      "sha256": "0da849791873404f5fc1a3a4c3b135735a14048ec414c69222e8e97eacc0cb40"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-target.ts",
+      "sha256": "1d8ec2e987f6205411fe4d6168d967f46b2c5570fadc633990b5a29044375231"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-file.ts",
+      "sha256": "03c84b69851db225c5f66b417dd4a874b0a06d46f077fac15395a428afacd254"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-lock.ts",
+      "sha256": "a656da833084c3f81cdc8dde57096b5f8d61f5701327443679ae566cd1151630"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-path.ts",
+      "sha256": "214525946efcb4623aaf6ce5d3a63c3635e285ab932f467078c467565cff9e05"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-process.ts",
+      "sha256": "498bc974b66a82825c406a07a01528fd6a2c2525e583d7de633082de33fce5d0"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-store.ts",
+      "sha256": "b637cf6f1f4162e24a2724bc265ad539b0295efbdc8de1b1cd03e84e5f076fdc"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-types.ts",
+      "sha256": "1264d88f6343dda64c6efc5079e9663d939ed254337ec84b6b3fa6d98f357d63"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/workflow/index.ts",
+      "sha256": "98dc5bb9ca86690d6ccc32d5ba1f66d7e8398c7660be7cfdfdeabe59d5d058e0"
+    }
+  ],
+  "hashUnchanged": true
+}

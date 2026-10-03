@@ -1,0 +1,23 @@
+const fs=require('fs'),ts=require('/workspace/knorvia-studio/node_modules/typescript');
+const printer=ts.createPrinter({removeComments:true});
+const publicLocalNames=new Set(['WindowRemoteAssetDirs','WindowRemoteConnectionCloseEvent','WindowRemoteConnectionHandle','WindowRemoteConnectionConnectRequest','WindowRemoteConnectionState','WindowRemoteLogicalSessionSnapshot','RemoteWorkspaceContext','HostRemoteTaskMeta','HostRemoteWorkspaceContext']);
+for(const name of ['windowRemoteConnectionRegistry','hostRemoteWorkspaceProxyState','browserRecordingArtifactMaterializer']){
+ const sf=ts.createSourceFile(name,fs.readFileSync('/tmp/knorvia-host-resource-baseline/'+name+'.ts','utf8'),ts.ScriptTarget.Latest,true),out=[];
+ for(const node of sf.statements){let n=node;
+  if(ts.isFunctionDeclaration(n)&&n.modifiers?.some(m=>m.kind===ts.SyntaxKind.ExportKeyword))n=ts.factory.updateFunctionDeclaration(n,n.modifiers,n.asteriskToken,n.name,n.typeParameters,n.parameters,n.type,undefined);
+  else if(!ts.isImportDeclaration(n)&&!((ts.isInterfaceDeclaration(n)||ts.isTypeAliasDeclaration(n))&&publicLocalNames.has(n.name.text)))continue;
+  out.push(printer.printNode(ts.EmitHint.Unspecified,n,sf));
+ }
+ if(name==='windowRemoteConnectionRegistry'){
+  const factory=sf.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='createWindowRemoteConnectionRegistry');
+  const functions=new Map(factory.body.statements.filter(ts.isFunctionDeclaration).map(n=>[n.name.text,n]));
+  const returned=factory.body.statements.filter(ts.isReturnStatement).at(-1).expression;
+  out.push('// Inferred public return surface, body-free callable declarations in original public property order:');
+  for(const property of returned.properties){
+   let fn=ts.isShorthandPropertyAssignment(property)?functions.get(property.name.text):property;
+   const n=ts.factory.createFunctionDeclaration(undefined,undefined,property.name,fn.typeParameters,fn.parameters,fn.type,undefined);
+   out.push(printer.printNode(ts.EmitHint.Unspecified,n,sf));
+  }
+ }
+ fs.writeFileSync('/tmp/knorvia-host-resource-baseline/'+name+'-public.txt',out.join('\n\n')+'\n',{flag:'wx'});
+}
