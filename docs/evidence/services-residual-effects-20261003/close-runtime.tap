@@ -1,0 +1,136 @@
+TAP version 13
+# (node:13456) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: conditional retirement admits once and releases only after a successful acknowledgement
+    # Subtest: pending acknowledgement has no optimistic release and true releases once
+    ok 1 - pending acknowledgement has no optimistic release and true releases once
+      ---
+      duration_ms: 1.225575
+      type: 'test'
+      ...
+    # Subtest: false acknowledgement keeps the remembered draft
+    ok 2 - false acknowledgement keeps the remembered draft
+      ---
+      duration_ms: 0.189575
+      type: 'test'
+      ...
+    # Subtest: rejection preserves draft and diagnostic for undefined
+    ok 3 - rejection preserves draft and diagnostic for undefined
+      ---
+      duration_ms: 0.408545
+      type: 'test'
+      ...
+    # Subtest: rejection preserves draft and diagnostic for null
+    ok 4 - rejection preserves draft and diagnostic for null
+      ---
+      duration_ms: 0.933415
+      type: 'test'
+      ...
+    # Subtest: rejection preserves draft and diagnostic for false
+    ok 5 - rejection preserves draft and diagnostic for false
+      ---
+      duration_ms: 0.134392
+      type: 'test'
+      ...
+    # Subtest: rejection preserves draft and diagnostic for 0
+    ok 6 - rejection preserves draft and diagnostic for 0
+      ---
+      duration_ms: 0.141763
+      type: 'test'
+      ...
+    # Subtest: rejection preserves draft and diagnostic for Error: synthetic rejection
+    ok 7 - rejection preserves draft and diagnostic for Error: synthetic rejection
+      ---
+      duration_ms: 0.143235
+      type: 'test'
+      ...
+    # Subtest: synchronous invocation failure warns without a second request
+    ok 8 - synchronous invocation failure warns without a second request
+      ---
+      duration_ms: 0.188063
+      type: 'test'
+      ...
+    # Subtest: parameter admission failure never calls the Agent
+    ok 9 - parameter admission failure never calls the Agent
+      ---
+      duration_ms: 0.24608
+      type: 'test'
+      ...
+    # Subtest: registry completion failure enters the existing false result policy
+    ok 10 - registry completion failure enters the existing false result policy
+      ---
+      duration_ms: 0.208584
+      type: 'test'
+      ...
+    # Subtest: warning failure rejects once without a duplicate warning
+    ok 11 - warning failure rejects once without a duplicate warning
+      ---
+      duration_ms: 0.492161
+      type: 'test'
+      ...
+    # Subtest: diagnostic getter failure retains its rejection boundary
+    ok 12 - diagnostic getter failure retains its rejection boundary
+      ---
+      duration_ms: 0.217417
+      type: 'test'
+      ...
+    1..12
+ok 1 - conditional retirement admits once and releases only after a successful acknowledgement
+  ---
+  duration_ms: 37.960075
+  type: 'test'
+  ...
+# (node:13475) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: session lifecycle keeps draft authority, temporary MCP configuration and replay boundaries
+    # Subtest: drafts stay out of the task index and are isolated by workspace identity
+    ok 1 - drafts stay out of the task index and are isolated by workspace identity
+      ---
+      duration_ms: 1.284744
+      type: 'test'
+      ...
+    # Subtest: persistent model publication retains its reason and survives index failure
+    ok 2 - persistent model publication retains its reason and survives index failure
+      ---
+      duration_ms: 0.303537
+      type: 'test'
+      ...
+    # Subtest: unsupported historical thought level is not replayed or persisted
+    ok 3 - unsupported historical thought level is not replayed or persisted
+      ---
+      duration_ms: 1.410833
+      type: 'test'
+      ...
+    # Subtest: replayable pre-send resume suppresses snapshots and propagates model-write errors
+    ok 4 - replayable pre-send resume suppresses snapshots and propagates model-write errors
+      ---
+      duration_ms: 0.588175
+      type: 'test'
+      ...
+    # Subtest: conditional-close rejection keeps a draft and never falls back to unconditional close
+    ok 5 - conditional-close rejection keeps a draft and never falls back to unconditional close
+      ---
+      duration_ms: 0.343727
+      type: 'test'
+      ...
+    # Subtest: local MCP composition is invocation-only and remote targets skip the creation port
+    ok 6 - local MCP composition is invocation-only and remote targets skip the creation port
+      ---
+      duration_ms: 0.479392
+      type: 'test'
+      ...
+    1..6
+ok 2 - session lifecycle keeps draft authority, temporary MCP configuration and replay boundaries
+  ---
+  duration_ms: 23.734265
+  type: 'test'
+  ...
+1..2
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 363.846082

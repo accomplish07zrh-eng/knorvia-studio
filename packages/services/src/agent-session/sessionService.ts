@@ -113,6 +113,26 @@ export function createKnorviaSessionService({
     return requested;
   }
 
+  function declineDraftClose(target: KnorviaTaskTarget, error: unknown): false {
+    logger.warn(undefined, "[agent-session-service] 条件关闭 deferred draft 失败，保留旧 session", {
+      error: error instanceof Error ? error.message : String(error),
+      sessionId: target.sessionId,
+      workspaceIdentity: target.workspaceIdentity ?? null,
+      workspacePath: target.workspacePath,
+    });
+    return false;
+  }
+
+  function acceptDraftClose(target: KnorviaTaskTarget, closed: boolean): boolean {
+    try {
+      // Agent 的关闭确认才允许释放草稿；请求提交时仍由 registry 保持原成员关系。
+      if (closed) drafts.forget(target);
+      return closed;
+    } catch (error) {
+      return declineDraftClose(target, error);
+    }
+  }
+
   const service: IKnorviaSessionService = {
     async initializeWorkspace(params) {
       const initialized = await agentService.initialize(params);
@@ -269,27 +289,19 @@ export function createKnorviaSessionService({
       return agentService.closeSession(params).then(() => undefined);
     },
     async closeDeferredDraftSession(params) {
+      let acknowledgement: Promise<boolean>;
       try {
-        const closed = await agentService.closeSession({
-          ...params,
-          expectedPersistence: "deferred",
-        });
-        if (closed) drafts.forget(params);
-        return closed;
-      } catch (error) {
-        // 条件关闭失败时保留草稿，不降级到无条件关闭已被其他客户端提升的任务。
-        logger.warn(
-          undefined,
-          "[agent-session-service] 条件关闭 deferred draft 失败，保留旧 session",
-          {
-            error: error instanceof Error ? error.message : String(error),
-            sessionId: params.sessionId,
-            workspaceIdentity: params.workspaceIdentity ?? null,
-            workspacePath: params.workspacePath,
-          },
+        acknowledgement = Promise.resolve(
+          agentService.closeSession({ ...params, expectedPersistence: "deferred" }),
         );
-        return false;
+      } catch (error) {
+        return declineDraftClose(params, error);
       }
+      // 两个完成通道分别处理确认和拒绝，避免把诊断失败再次当作关闭失败重复报告。
+      return acknowledgement.then(
+        (closed) => acceptDraftClose(params, closed),
+        (error) => declineDraftClose(params, error),
+      );
     },
     async setModel(params) {
       const draftAtAdmission = drafts.has(params);

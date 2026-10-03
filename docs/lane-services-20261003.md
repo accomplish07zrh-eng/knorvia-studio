@@ -561,3 +561,42 @@ no production implementation is changed before integration coordinates execution
 **UNVERIFIED:** no tests, lint, typecheck, build, full audit or CI rerun. Source and
 diff reading only; no root licence/global source register/third-party notice or
 historical HOLD/accepted-record mutation. No new task, PR or rights-material ask.
+
+## Batch 12 — bounded residual effects replaced; short expression retained
+
+Continue the same task and `lane/services-20261003` under the user's new minimum
+allocation and targeted-test authorization. Spec commit
+`b3420a87bee9415c3b0f26aa8cfe58e0edf78de4` precedes frozen-oracle commit
+`67e4ffa8fe0cc249d21c4e761e79af9455c557dd`, which precedes every production edit.
+
+Three source commits rebuild conditional close admission/acknowledgement policy,
+the four task-index projection effects and timer-driven lock acquisition:
+`903d2018a479a344e231ea3cefb7a245c7a548b7`,
+`53a98585d86740c375fc70c32cbb6f76ae0f3d06`, and
+`c0a7d1ba24c8973fa65c95c7e03d9beb8e12123d`. Transient mutation descriptions and
+pure consequence selection replace the terminal/title chains. Synchronous Repo
+submission stays outside async consumption. Readback/model completion and lock
+attempt scheduling follow the new behavior design. Existing topic/recovery,
+trie, failure owner, UI, public contracts and persisted data schema remain.
+
+Necessary targeted runtime comparison is now authorized: identical eight frozen
+files pass before and after, 60/60 on Node v24.14.0 Linux; focused source batches
+pass 20/20, 26/26 and 14/14. The earlier 59-case authoring probe is separately
+retained. Full SHA/blob/hash bindings, raw logs, actual commands, source-exposure
+disclosure and remaining boundaries are in the
+[batch receipt](evidence/services-residual-effects-20261003/README.md).
+
+Per the user's short-expression exception, the five-line scope normalizer,
+six-field diagnostics adapter and small phase/goal unread predicate stay
+byte-identical and receive no replacement credit. Do not manufacture complexity
+for similarity. Creation-reference remains unchanged with no newly demonstrated
+remainder. This is a bounded engineering replacement, not a legal-originality or
+repository-wide independence assertion. Apache, third-party notices, historical
+HOLD and earlier evidence remain; the integrator owns current source bindings
+and source-evidence decisions. No shared interface request is needed.
+
+Fetched main `0d77ee312520a7806085d448acee63f08728c214` has the same four
+predecessor source blobs. Review uses a new draft PR on the continuing branch;
+no merge into main. **UNVERIFIED:** typecheck, lint, root formatter check, build,
+architecture checker, full regression/audit, native Windows/macOS and complete
+product/source-rights acceptance. No CI rerun is requested as part of this batch.

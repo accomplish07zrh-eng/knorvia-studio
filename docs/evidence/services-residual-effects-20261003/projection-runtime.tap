@@ -1,0 +1,177 @@
+TAP version 13
+# (node:13684) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: projection consequences retain write boundaries, notification order and unread ownership
+    # Subtest: terminal callback and patch admission precede acknowledgement
+    ok 1 - terminal callback and patch admission precede acknowledgement
+      ---
+      duration_ms: 6.898388
+      type: 'test'
+      ...
+    # Subtest: missing terminal row transfers unread exactly once and retains explicit completed clearing
+    ok 2 - missing terminal row transfers unread exactly once and retains explicit completed clearing
+      ---
+      duration_ms: 1.333804
+      type: 'test'
+      ...
+    # Subtest: unverified completion has no unread notification or handoff
+    ok 3 - unverified completion has no unread notification or handoff
+      ---
+      duration_ms: 1.022797
+      type: 'test'
+      ...
+    # Subtest: title update retains row presence policy: true
+    ok 4 - title update retains row presence policy: true
+      ---
+      duration_ms: 0.793873
+      type: 'test'
+      ...
+    # Subtest: title update retains row presence policy: false
+    ok 5 - title update retains row presence policy: false
+      ---
+      duration_ms: 0.763777
+      type: 'test'
+      ...
+    # Subtest: synchronous repository submission failure escapes the frame callback
+    ok 6 - synchronous repository submission failure escapes the frame callback
+      ---
+      duration_ms: 1.215216
+      type: 'test'
+      ...
+    # Subtest: rejected patch warns without starting readback: error
+    ok 7 - rejected patch warns without starting readback: error
+      ---
+      duration_ms: 1.61016
+      type: 'test'
+      ...
+    # Subtest: rejected patch warns without starting readback: running
+    ok 8 - rejected patch warns without starting readback: running
+      ---
+      duration_ms: 0.417337
+      type: 'test'
+      ...
+    # Subtest: notification failure stops terminal readback and enters patch completion warning
+    ok 9 - notification failure stops terminal readback and enters patch completion warning
+      ---
+      duration_ms: 1.397169
+      type: 'test'
+      ...
+    # Subtest: readback failure keeps its value and warns once: capture
+    ok 10 - readback failure keeps its value and warns once: capture
+      ---
+      duration_ms: 0.638399
+      type: 'test'
+      ...
+    # Subtest: readback failure keeps its value and warns once: publish
+    ok 11 - readback failure keeps its value and warns once: publish
+      ---
+      duration_ms: 0.543517
+      type: 'test'
+      ...
+    # Subtest: model-only completion keeps object identity, single-field shape and sync/async failure policy
+    ok 12 - model-only completion keeps object identity, single-field shape and sync/async failure policy
+      ---
+      duration_ms: 0.324988
+      type: 'test'
+      ...
+    1..12
+ok 1 - projection consequences retain write boundaries, notification order and unread ownership
+  ---
+  duration_ms: 45.608811
+  type: 'test'
+  ...
+# (node:13704) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: task snapshot projection preserves stored optional fields, visible search and atomic grouped order
+    # Subtest: missing goal keeps key absent, null clears, and error attribution keeps its reference
+    ok 1 - missing goal keeps key absent, null clears, and error attribution keeps its reference
+      ---
+      duration_ms: 0.623207
+      type: 'test'
+      ...
+    # Subtest: blank snapshot writes one grouped transaction and broadcasts structure without placeholder metadata
+    ok 2 - blank snapshot writes one grouped transaction and broadcasts structure without placeholder metadata
+      ---
+      duration_ms: 0.892721
+      type: 'test'
+      ...
+    # Subtest: subagent details cannot add a primary task or emit a workspace row
+    ok 3 - subagent details cannot add a primary task or emit a workspace row
+      ---
+      duration_ms: 0.148333
+      type: 'test'
+      ...
+    # Subtest: search indexes user text and the latest assistant text, excluding hidden input and tools
+    ok 4 - search indexes user text and the latest assistant text, excluding hidden input and tools
+      ---
+      duration_ms: 0.308674
+      type: 'test'
+      ...
+    # Subtest: model-only write skips blank values and retains the null-on-repository-failure result
+    ok 5 - model-only write skips blank values and retains the null-on-repository-failure result
+      ---
+      duration_ms: 0.371208
+      type: 'test'
+      ...
+    1..5
+ok 2 - task snapshot projection preserves stored optional fields, visible search and atomic grouped order
+  ---
+  duration_ms: 11.007153
+  type: 'test'
+  ...
+# (node:13716) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: topic admission keeps independent ownership through delayed ACK, recovery and replacement
+    # Subtest: notifications preceding the ACK continuation are drained only for the accepted identity
+    ok 1 - notifications preceding the ACK continuation are drained only for the accepted identity
+      ---
+      duration_ms: 1.655207
+      type: 'test'
+      ...
+    # Subtest: a sibling's pending ACK remains valid during a topic-local recovery replacement
+    ok 2 - a sibling's pending ACK remains valid during a topic-local recovery replacement
+      ---
+      duration_ms: 0.563427
+      type: 'test'
+      ...
+    # Subtest: a recovery frame before ACK is applied, and newer online deltas request one follow-up
+    ok 3 - a recovery frame before ACK is applied, and newer online deltas request one follow-up
+      ---
+      duration_ms: 0.379811
+      type: 'test'
+      ...
+    # Subtest: late old ACK cannot unsubscribe a newer route reusing the same ID
+    ok 4 - late old ACK cannot unsubscribe a newer route reusing the same ID
+      ---
+      duration_ms: 0.229845
+      type: 'test'
+      ...
+    # Subtest: pre-ACK overflow drains no partial baseline and starts a fresh subscription
+    ok 5 - pre-ACK overflow drains no partial baseline and starts a fresh subscription
+      ---
+      duration_ms: 3.509935
+      type: 'test'
+      ...
+    1..5
+ok 3 - topic admission keeps independent ownership through delayed ACK, recovery and replacement
+  ---
+  duration_ms: 18.060293
+  type: 'test'
+  ...
+# (node:13728) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: workspace observer stays dormant until runtime authority and preserves initial/terminal event boundaries
+ok 4 - workspace observer stays dormant until runtime authority and preserves initial/terminal event boundaries
+  ---
+  duration_ms: 28.883735
+  type: 'test'
+  ...
+1..4
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 663.713986
