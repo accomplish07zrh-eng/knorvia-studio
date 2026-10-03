@@ -1,0 +1,14 @@
+{
+  "file": "/tmp/knorvia-video45-initial.ts",
+  "bytes": 2495,
+  "sha256": "87e15d7b5c41be0bea1e848a5941d0320194657d044a88da10bc731ae2b742c1",
+  "author": "/root/video_transaction_owner_author45",
+  "access": "Only four authorized contract/declaration files; only assigned output written/hash/stat; no implementation/history/tests/evidence/sibling/output-content/native code.",
+  "rawPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/drafts/video-initial.ts",
+  "version": "initial",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true
+}

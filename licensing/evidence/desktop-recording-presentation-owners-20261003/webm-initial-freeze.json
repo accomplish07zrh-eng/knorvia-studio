@@ -1,0 +1,14 @@
+{
+  "file": "/tmp/knorvia-webm45-initial.ts",
+  "rawPath": "licensing/evidence/desktop-recording-presentation-owners-20261003/drafts/webm-initial.ts",
+  "bytes": 17090,
+  "sha256": "21f7d65cc0ca352aba659490e58b51895ee31f2ce80dd69b02e63ddad33d417f",
+  "author": "/root/electron_webm_owner_author45",
+  "version": "initial",
+  "model": "gpt-6-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Only five authorized contract/declaration files; assigned output and hash/stat; no output-read/tests/source/history/sibling/native/media/permissions/data/network."
+}

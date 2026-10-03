@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/recordingOwners-live-message-preformat.mjs",
+      "sha256": "96fe8bca53e7396ce94e865b79b83a161d2893d58c77739c06786c4d329e6667",
+      "bytes": 14431
+    }
+  ],
+  "fact": "Synchronous debug callback mutation of received event must affect subsequent live message dispatch; bounded public callback/event identity check"
+}

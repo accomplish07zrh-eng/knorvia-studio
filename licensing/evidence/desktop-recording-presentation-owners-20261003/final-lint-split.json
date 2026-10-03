@@ -1,0 +1,70 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+    "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+    "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+    "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+    "packages/desktop/src/main/browserView/recordingOwnerTestPorts.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVideoRecorder.ts",
+      "sha256": "87e15d7b5c41be0bea1e848a5941d0320194657d044a88da10bc731ae2b742c1"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.ts",
+      "sha256": "39cbad782488afef3a3d162bad5e4ad950e8c8501ba3c495e16143bfc1b7e0f2"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserTransparentWindowBootstrap.ts",
+      "sha256": "815ad4d580dc2b1160e1e01a18173c26eecd8064f953e9c2d2ef12acf8b25ce9"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+      "sha256": "df8e32d4826318aaf87a982e2eb5709650a50e6f8653b4e861360d8b7a726cc4"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "sha256": "e6bcceae74761350c788a97adc4744e0d58f25bb45fc58c795618a237460913b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+      "sha256": "292b5473f15edd270084954c0eab3e10240d240d0b7185d7b6a3035e132f5863"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwnerTestPorts.mjs",
+      "sha256": "87582a4d3853dc54ab10bdaf7bcc001fd1b60d95fd4dbd2c5f0e7daeada4a4e1"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+      "sha256": "327dbe3941c3b96642b04c7be2c5c004d8d0b9b565dc7fe031055d76a32d5ff5"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/record-run.mjs",
+      "sha256": "1b197d7f7e3bfbd1fb3e31a9fbeacaa43b776775c0c3a63299a54619acb4fed4"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/final-bindings.mjs",
+      "sha256": "286f32ea873a38dfce15b61677b3cd3ba7acac678bde36f31013efa1cadf4364"
+    },
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-shapes.mjs",
+      "sha256": "350f1c2595b8d68bef5817e0e76b2c17112d0fe8ef8b778c09b6e65761f5304c"
+    }
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 39ms on 11 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

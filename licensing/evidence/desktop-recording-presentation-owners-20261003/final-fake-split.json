@@ -1,0 +1,22 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+    "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/recordingOwners.test.mjs",
+      "sha256": "e6bcceae74761350c788a97adc4744e0d58f25bb45fc58c795618a237460913b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs",
+      "sha256": "292b5473f15edd270084954c0eab3e10240d240d0b7185d7b6a3035e132f5863"
+    }
+  ],
+  "stdout": "✔ WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (115.852712ms)\n✔ video transaction retains phase order, live dimensions and failure identity (60.538268ms)\n✔ transparent bootstrap releases presentation once and yields focus ownership (10.743502ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 420.608234\n",
+  "stderr": "",
+  "exitCode": 0
+}

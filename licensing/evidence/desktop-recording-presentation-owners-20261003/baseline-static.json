@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+    "--baseline"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+      "sha256": "cea0015afec1fd557c4b774ac74c53e8622174d62a584f9f1b5a57401e77f76b"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": true,\n  \"restrictedSemanticErrors\": [\n    {\n      \"file\": \"/tmp/knorvia-recording-presentation-baseline/webm.ts\",\n      \"code\": 1470,\n      \"message\": \"The 'import.meta' meta-property is not allowed in files which will build into CommonJS output.\"\n    }\n  ],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"electron\": \"electron\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"syntaxFiles\": [\n    \"/tmp/knorvia-recording-presentation-baseline/video.ts\",\n    \"/tmp/knorvia-recording-presentation-baseline/webm.ts\",\n    \"/tmp/knorvia-recording-presentation-baseline/bootstrap.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotActivityController.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 1
+}

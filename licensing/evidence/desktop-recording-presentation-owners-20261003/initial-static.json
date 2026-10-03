@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+    "--drafts"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/scoped-static.mjs",
+      "sha256": "b508dbfc2112861ee3823b137e812bfc5c63a46ca8a75553d07280db37e1d209"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": false,\n  \"restrictedSemanticErrors\": [],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"electron\": \"electron\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"matchesBaseline\": true,\n  \"syntaxFiles\": [\n    \"licensing/evidence/desktop-recording-presentation-owners-20261003/drafts/video-initial.ts\",\n    \"licensing/evidence/desktop-recording-presentation-owners-20261003/drafts/webm-initial.ts\",\n    \"licensing/evidence/desktop-recording-presentation-owners-20261003/drafts/bootstrap-initial.ts\",\n    \"packages/desktop/src/main/browserView/browserScreenshotActivityController.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}
