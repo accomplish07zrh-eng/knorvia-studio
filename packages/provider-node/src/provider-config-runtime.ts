@@ -5,14 +5,14 @@ import {
 } from "@knorvia/provider";
 import { NodeKnorviaBuiltinProviderConfigSource } from "./builtin-provider-config-source.js";
 import {
-  EndpointScopedKnorviaBuiltinSource,
-  type EndpointScopedKnorviaBuiltinSourceOptions,
-} from "./endpoint-scoped-builtin-source.js";
-import {
   KnorviaBuiltinRemoteSynchronizer,
   type KnorviaBuiltinRemoteSynchronizerOptions,
   type KnorviaBuiltinRefreshResult,
 } from "./builtin-remote-synchronizer.js";
+import {
+  EndpointScopedKnorviaBuiltinSource,
+  type EndpointScopedKnorviaBuiltinSourceOptions,
+} from "./endpoint-scoped-builtin-source.js";
 import {
   NodePersonalProviderConfigRepository,
   type PersonalProviderConfigRecoveryEvent,
@@ -37,23 +37,23 @@ export interface NodeProviderConfigRuntimeOptions {
   readonly watch?: boolean;
 }
 
-/** 组装一个 Node.js 进程内共享的 Knorvia Built-in/Personal Config 运行边界。 */
 export class NodeProviderConfigRuntime {
   readonly configService: ProviderConfigService;
-  readonly #knorviaBuiltinSource:
+
+  readonly #builtinSource:
     | NodeKnorviaBuiltinProviderConfigSource
     | EndpointScopedKnorviaBuiltinSource;
   readonly #personalRepository: NodePersonalProviderConfigRepository;
   readonly #remoteSynchronizer?: KnorviaBuiltinRemoteSynchronizer;
-  readonly #onRemoteRefreshError?: (error: unknown) => void;
-  #startPromise: Promise<void> | null = null;
-  #disposed = false;
+  readonly #onKnorviaBuiltinRefreshError?: (error: unknown) => void;
   readonly #checkListeners = new Set<() => Promise<void>>();
-  #checkTimer: ReturnType<typeof setInterval> | null = null;
-  #checkInFlight: Promise<void> | null = null;
+  #disposed = false;
+  #startPromise: Promise<void> | null = null;
+  #checkPromise: Promise<void> | null = null;
+  #timer: ReturnType<typeof setInterval> | null = null;
 
   constructor(options: NodeProviderConfigRuntimeOptions) {
-    this.#knorviaBuiltinSource = options.knorviaBuiltinEnvironment
+    this.#builtinSource = options.knorviaBuiltinEnvironment
       ? new EndpointScopedKnorviaBuiltinSource({
           bundledFilePath: options.knorviaBuiltinFilePath,
           ...options.knorviaBuiltinEnvironment,
@@ -63,15 +63,18 @@ export class NodeProviderConfigRuntime {
           activeFilePath: options.knorviaBuiltinActiveFilePath,
           watch: options.watch,
         });
-    this.#remoteSynchronizer =
+
+    if (
       options.knorviaBuiltinRemote &&
-      this.#knorviaBuiltinSource instanceof NodeKnorviaBuiltinProviderConfigSource
-        ? new KnorviaBuiltinRemoteSynchronizer({
-            source: this.#knorviaBuiltinSource,
-            ...options.knorviaBuiltinRemote,
-          })
-        : undefined;
-    this.#onRemoteRefreshError = options.onKnorviaBuiltinRefreshError;
+      this.#builtinSource instanceof NodeKnorviaBuiltinProviderConfigSource
+    ) {
+      this.#remoteSynchronizer = new KnorviaBuiltinRemoteSynchronizer({
+        source: this.#builtinSource,
+        ...options.knorviaBuiltinRemote,
+      });
+    }
+    this.#onKnorviaBuiltinRefreshError = options.onKnorviaBuiltinRefreshError;
+
     this.#personalRepository = new NodePersonalProviderConfigRepository({
       filePath: options.personalFilePath,
       onRecovery: options.onPersonalConfigRecovery,
@@ -79,97 +82,127 @@ export class NodeProviderConfigRuntime {
       pollingIntervalMs: options.personalPollingIntervalMs,
       ...(options.importLegacy
         ? {
-            importLegacy: async () =>
-              options.importLegacy!(await this.#knorviaBuiltinSource.read()),
+            importLegacy: async () => {
+              const snapshot = await this.#builtinSource.read();
+              return options.importLegacy!(snapshot);
+            },
           }
         : {}),
     });
     this.configService = new ProviderConfigService({
-      knorviaBuiltinSource: this.#knorviaBuiltinSource,
+      knorviaBuiltinSource: this.#builtinSource,
       personalRepository: this.#personalRepository,
     });
   }
 
   resolveKnorviaBuiltinActiveFilePath(): Promise<string> {
-    return this.#knorviaBuiltinSource instanceof NodeKnorviaBuiltinProviderConfigSource
-      ? Promise.resolve(this.#knorviaBuiltinSource.activeFilePath)
-      : this.#knorviaBuiltinSource.resolveActiveFilePath();
+    if (this.#builtinSource instanceof NodeKnorviaBuiltinProviderConfigSource) {
+      return Promise.resolve(this.#builtinSource.activeFilePath);
+    }
+    return this.#builtinSource.resolveActiveFilePath();
   }
 
   get personalRepository(): import("@knorvia/provider").PersonalProviderConfigRepository {
     return this.#personalRepository;
   }
 
-  /** Environment 同一周期检查中恢复未对齐依赖，不被下载 TTL 或失败挡住。 */
   onDidCheckKnorviaBuiltin(listener: () => Promise<void>): () => void {
     this.#checkListeners.add(listener);
     return () => this.#checkListeners.delete(listener);
   }
 
   start(): Promise<void> {
-    if (this.#disposed) throw new Error("NodeProviderConfigRuntime 已 dispose");
-    if (this.#startPromise) return this.#startPromise;
-    const startPromise = this.configService.read().then(() => {
-      if (this.#disposed) return;
-      void this.#checkBackground();
-      // Managed Worker 无下载配置也无恢复 owner，不建立周期任务。
+    if (this.#disposed) {
+      throw new Error("NodeProviderConfigRuntime 已 dispose");
+    }
+    if (this.#startPromise) {
+      return this.#startPromise;
+    }
+
+    const started = this.configService.read().then(() => {
+      if (this.#disposed) {
+        return;
+      }
+      void this.#checkKnorviaBuiltin();
       if (
         this.#remoteSynchronizer ||
-        this.#knorviaBuiltinSource instanceof EndpointScopedKnorviaBuiltinSource ||
+        this.#builtinSource instanceof EndpointScopedKnorviaBuiltinSource ||
         this.#checkListeners.size > 0
       ) {
-        this.#checkTimer = setInterval(() => {
-          void this.#checkBackground();
+        this.#timer = setInterval(() => {
+          void this.#checkKnorviaBuiltin();
         }, 60_000);
-        this.#checkTimer.unref?.();
+        this.#timer.unref?.();
       }
     });
-    this.#startPromise = startPromise;
-    void startPromise.catch(() => {
-      if (this.#startPromise === startPromise) this.#startPromise = null;
+    this.#startPromise = started;
+    void started.catch(() => {
+      if (this.#startPromise === started) {
+        this.#startPromise = null;
+      }
     });
-    return startPromise;
+    return started;
   }
 
   refreshKnorviaBuiltin(options?: {
     readonly force?: boolean;
   }): Promise<KnorviaBuiltinRefreshResult> {
-    if (this.#disposed) return Promise.resolve("disposed");
-    if (this.#knorviaBuiltinSource instanceof EndpointScopedKnorviaBuiltinSource) {
-      return this.#knorviaBuiltinSource.refresh(options);
+    if (this.#disposed) {
+      return Promise.resolve("disposed");
+    }
+    if (this.#builtinSource instanceof EndpointScopedKnorviaBuiltinSource) {
+      return this.#builtinSource.refresh(options);
     }
     return this.#remoteSynchronizer?.refresh(options) ?? Promise.resolve("skipped");
   }
 
-  #checkBackground(): Promise<void> {
-    if (this.#disposed) return Promise.resolve();
-    if (this.#checkInFlight) return this.#checkInFlight;
+  #checkKnorviaBuiltin(): Promise<void> {
+    if (this.#disposed) {
+      return Promise.resolve();
+    }
+    if (this.#checkPromise) {
+      return this.#checkPromise;
+    }
+
+    const refresh = this.refreshKnorviaBuiltin();
+    const listeners = [...this.#checkListeners];
     const check = Promise.allSettled([
-      this.refreshKnorviaBuiltin(),
-      ...[...this.#checkListeners].map((listener) => Promise.resolve().then(listener)),
+      refresh,
+      ...listeners.map((listener) => Promise.resolve().then(listener)),
     ])
       .then((results) => {
-        if (this.#disposed) return;
-        for (const result of results)
-          if (result.status === "rejected") this.#onRemoteRefreshError?.(result.reason);
+        if (this.#disposed) {
+          return;
+        }
+        for (const result of results) {
+          if (result.status === "rejected") {
+            this.#onKnorviaBuiltinRefreshError?.(result.reason);
+          }
+        }
       })
       .finally(() => {
-        if (this.#checkInFlight === check) this.#checkInFlight = null;
+        if (this.#checkPromise === check) {
+          this.#checkPromise = null;
+        }
       });
-    this.#checkInFlight = check;
+    this.#checkPromise = check;
     return check;
   }
 
   dispose(): void {
-    if (this.#disposed) return;
+    if (this.#disposed) {
+      return;
+    }
     this.#disposed = true;
-    if (this.#checkTimer) clearInterval(this.#checkTimer);
-    this.#checkTimer = null;
+    if (this.#timer) {
+      clearInterval(this.#timer);
+    }
+    this.#timer = null;
     this.#checkListeners.clear();
     this.#remoteSynchronizer?.dispose();
     this.configService.dispose();
     this.#personalRepository.dispose();
-    this.#knorviaBuiltinSource.dispose();
+    this.#builtinSource.dispose();
   }
 }
 
