@@ -1,0 +1,23 @@
+2026-10-03T08:53:19.2841005Z test at packages\services\test\runtime-tool-fake-permission-20261002.test.ts:1:962
+2026-10-03T08:53:19.2843531Z ✖ fake executable permission rejects override before selecting runtime candidate without mutating environment (5.4559ms)
+2026-10-03T08:53:19.2845136Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2847221Z   + actual - expected
+2026-10-03T08:53:19.2847442Z   
+2026-10-03T08:53:19.2847709Z   + {}
+2026-10-03T08:53:19.2847991Z   - {
+2026-10-03T08:53:19.2848482Z   -   PATH: '/synthetic/bin;/synthetic/runtime/tools/fake',
+2026-10-03T08:53:19.2849606Z   -   SYNTHETIC_BINARY: '/synthetic/runtime/tools/fake/rg'
+2026-10-03T08:53:19.2850201Z   - }
+2026-10-03T08:53:19.2850498Z   
+2026-10-03T08:53:19.2851616Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\runtime-tool-fake-permission-20261002.test.ts:33:10)
+2026-10-03T08:53:19.2853853Z       at Test.runInAsyncScope (node:async_hooks:228:14)
+2026-10-03T08:53:19.2855209Z       at Test.run (node:internal/test_runner/test:1118:25)
+2026-10-03T08:53:19.2855903Z       at Test.start (node:internal/test_runner/test:1015:17)
+2026-10-03T08:53:19.2857430Z       at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+2026-10-03T08:53:19.2858667Z     generatedMessage: true,
+2026-10-03T08:53:19.2859576Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2860751Z     actual: {},
+2026-10-03T08:53:19.2862818Z     expected: { SYNTHETIC_BINARY: '/synthetic/runtime/tools/fake/rg', PATH: '/synthetic/bin;/synthetic/runtime/tools/fake' },
+2026-10-03T08:53:19.2864425Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2865258Z     diff: 'simple'
+2026-10-03T08:53:19.2866012Z   }

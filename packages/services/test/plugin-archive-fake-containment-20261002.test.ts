@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
-import { join, resolve } from "node:path";
+import { join, sep } from "node:path";
 import { mock, test } from "node:test";
 import { gunzipSync, gzipSync } from "node:zlib";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 
 const calls: Array<{ operation: string; path: string; value?: unknown }> = [];
 const ioFailure = new Error("synthetic write denied");
@@ -12,24 +13,26 @@ mock.module("node:fs/promises", {
     lstat: async (path: string) => {
       calls.push({ operation: "lstat", path });
       if (sourceFailure) throw sourceFailure;
-      assert.ok(path.startsWith("/synthetic/source"));
+      assert.ok(path.startsWith(fakeFsPath("/synthetic/source")));
       return {
-        mode: path.endsWith("/a") ? 0o100751 : 0o40755,
+        mode: path.endsWith(`${sep}a`) ? 0o100751 : 0o40755,
         mtimeMs: 2000,
-        isDirectory: () => path === "/synthetic/source",
-        isFile: () => path.endsWith("/a") || path.endsWith("/b"),
+        isDirectory: () => path === fakeFsPath("/synthetic/source"),
+        isFile: () => path.endsWith(`${sep}a`) || path.endsWith(`${sep}b`),
       };
     },
     readdir: async (path: string, options: unknown) => {
       calls.push({ operation: "readdir", path, value: options });
-      assert.equal(path, "/synthetic/source");
+      assert.equal(path, fakeFsPath("/synthetic/source"));
       assert.deepEqual(options, { withFileTypes: true });
       return [{ name: "b" }, { name: "a" }];
     },
     readFile: async (path: string) => {
       calls.push({ operation: "readFile", path });
-      assert.ok(path === "/synthetic/source/a" || path === "/synthetic/source/b");
-      return Buffer.from(path.endsWith("/a") ? "AA" : "B");
+      assert.ok(
+        path === fakeFsPath("/synthetic/source/a") || path === fakeFsPath("/synthetic/source/b"),
+      );
+      return Buffer.from(path.endsWith(`${sep}a`) ? "AA" : "B");
     },
     mkdir: async (path: string, options: unknown) => {
       calls.push({ operation: "mkdir", path, value: options });
@@ -68,19 +71,19 @@ test("synthetic archive preserves source order/modes and contains all extraction
     const compressed = await archiveOwner.createPluginSyncArchive({
       entries: [
         { content: "X", archivePath: "inline.txt", mode: 0o755, mtimeMs: 1000 },
-        { sourcePath: "/synthetic/source", archivePath: "fake" },
+        { sourcePath: fakeFsPath("/synthetic/source"), archivePath: "fake" },
       ],
       metadata,
     });
     assert.deepEqual(
       calls.map((row) => [row.operation, row.path]),
       [
-        ["lstat", "/synthetic/source"],
-        ["readdir", "/synthetic/source"],
-        ["lstat", "/synthetic/source/a"],
-        ["readFile", "/synthetic/source/a"],
-        ["lstat", "/synthetic/source/b"],
-        ["readFile", "/synthetic/source/b"],
+        ["lstat", fakeFsPath("/synthetic/source")],
+        ["readdir", fakeFsPath("/synthetic/source")],
+        ["lstat", fakeFsPath("/synthetic/source/a")],
+        ["readFile", fakeFsPath("/synthetic/source/a")],
+        ["lstat", fakeFsPath("/synthetic/source/b")],
+        ["readFile", fakeFsPath("/synthetic/source/b")],
       ],
     );
     const tar = gunzipSync(compressed);
@@ -132,7 +135,7 @@ test("synthetic archive preserves source order/modes and contains all extraction
     await archiveOwner.createPluginSyncArchive({
       entries: [
         new Proxy(
-          { sourcePath: "/synthetic/source/a", archivePath: "proxy.txt" },
+          { sourcePath: fakeFsPath("/synthetic/source/a"), archivePath: "proxy.txt" },
           {
             has(target, key) {
               reads.push(`has:${String(key)}`);
@@ -161,7 +164,7 @@ test("synthetic archive preserves source order/modes and contains all extraction
     );
 
     calls.length = 0;
-    const target = resolve("/synthetic/archive-target");
+    const target = fakeFsPath("/synthetic/archive-target");
     await archiveOwner.extractPluginSyncArchive(compressed, target);
     const writes = calls.filter((row) => row.operation === "writeFile");
     assert.deepEqual(
@@ -199,7 +202,7 @@ test("synthetic archive preserves source order/modes and contains all extraction
       );
       await assert.rejects(
         archiveOwner.createPluginSyncArchive({
-          entries: [{ sourcePath: "/synthetic/source", archivePath: unsafe }],
+          entries: [{ sourcePath: fakeFsPath("/synthetic/source"), archivePath: unsafe }],
           metadata,
         }),
         /unsafe plugin archive path:/,
@@ -239,7 +242,7 @@ test("synthetic archive preserves source order/modes and contains all extraction
     sourceFailure = ioFailure;
     await assert.rejects(
       archiveOwner.createPluginSyncArchive({
-        entries: [{ sourcePath: "/synthetic/source", archivePath: "fake" }],
+        entries: [{ sourcePath: fakeFsPath("/synthetic/source"), archivePath: "fake" }],
         metadata,
       }),
       (error) => error === ioFailure,
@@ -247,10 +250,10 @@ test("synthetic archive preserves source order/modes and contains all extraction
     sourceFailure = undefined;
     await assert.rejects(
       archiveOwner.createPluginSyncArchive({
-        entries: [{ sourcePath: "/synthetic/source/link", archivePath: "fake" }],
+        entries: [{ sourcePath: fakeFsPath("/synthetic/source/link"), archivePath: "fake" }],
         metadata,
       }),
-      /unsupported plugin archive source: \/synthetic\/source\/link/,
+      { message: `unsupported plugin archive source: ${fakeFsPath("/synthetic/source/link")}` },
     );
   } finally {
     time.mock.restore();

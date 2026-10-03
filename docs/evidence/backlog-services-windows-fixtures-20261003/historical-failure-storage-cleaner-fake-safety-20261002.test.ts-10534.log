@@ -1,0 +1,22 @@
+2026-10-03T08:53:19.2914730Z test at packages\services\test\storage-cleaner-fake-safety-20261002.test.ts:1:1212
+2026-10-03T08:53:19.2918906Z ✖ fake cleaner deletes admitted target, rejects outside path and preserves category directory (7.8955ms)
+2026-10-03T08:53:19.2919825Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2920241Z   + actual - expected
+2026-10-03T08:53:19.2920463Z   
+2026-10-03T08:53:19.2920630Z     [
+2026-10-03T08:53:19.2920864Z   +   '\\synthetic\\root\\logs\\nested\\ok.log',
+2026-10-03T08:53:19.2921188Z   +   '\\synthetic\\root\\logs\\blocked.log'
+2026-10-03T08:53:19.2921498Z   -   '/synthetic/root/logs/nested/ok.log',
+2026-10-03T08:53:19.2921806Z   -   '/synthetic/root/logs/blocked.log'
+2026-10-03T08:53:19.2922210Z     ]
+2026-10-03T08:53:19.2922825Z   
+2026-10-03T08:53:19.2924155Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\storage-cleaner-fake-safety-20261002.test.ts:54:10)
+2026-10-03T08:53:19.2926255Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2927682Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2928441Z     generatedMessage: true,
+2026-10-03T08:53:19.2928783Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2929577Z     actual: [ '\\synthetic\\root\\logs\\nested\\ok.log', '\\synthetic\\root\\logs\\blocked.log' ],
+2026-10-03T08:53:19.2930697Z     expected: [ '/synthetic/root/logs/nested/ok.log', '/synthetic/root/logs/blocked.log' ],
+2026-10-03T08:53:19.2931319Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2932847Z     diff: 'simple'
+2026-10-03T08:53:19.2933227Z   }

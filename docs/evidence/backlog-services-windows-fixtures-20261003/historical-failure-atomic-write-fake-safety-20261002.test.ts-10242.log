@@ -1,0 +1,16 @@
+2026-10-03T08:53:19.2697480Z test at packages\services\test\atomic-write-fake-safety-20261002.test.ts:1:1816
+2026-10-03T08:53:19.2698983Z ✖ fake atomic write preserves targets, retries only admitted errors and cleans/release on failure (11.3397ms)
+2026-10-03T08:53:19.2700168Z   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+2026-10-03T08:53:19.2700895Z   
+2026-10-03T08:53:19.2701432Z     assert.ok(actions.includes("rm:/synthetic/config.json.stale.tmp"))
+2026-10-03T08:53:19.2702045Z   
+2026-10-03T08:53:19.2703082Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\atomic-write-fake-safety-20261002.test.ts:77:12)
+2026-10-03T08:53:19.2704490Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2705397Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2706153Z     generatedMessage: true,
+2026-10-03T08:53:19.2706547Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2706888Z     actual: false,
+2026-10-03T08:53:19.2707191Z     expected: true,
+2026-10-03T08:53:19.2707511Z     operator: '==',
+2026-10-03T08:53:19.2707834Z     diff: 'simple'
+2026-10-03T08:53:19.2708131Z   }

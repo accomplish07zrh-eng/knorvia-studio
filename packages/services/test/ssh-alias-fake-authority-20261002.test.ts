@@ -1,14 +1,17 @@
 import assert from "node:assert/strict";
 import { EventEmitter } from "node:events";
+import { join, sep } from "node:path";
 import { mock, test } from "node:test";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 
 const priorEnvironment = process.env;
-process.env = { PATH: "/synthetic/bin", SYNTHETIC_FIXTURE: "yes" };
-const root = "/synthetic/home/.ssh/config";
-let syntheticHome = "/synthetic/home";
+process.env = { PATH: fakeFsPath("/synthetic/bin"), SYNTHETIC_FIXTURE: "yes" };
+const sshBinary = fakeFsPath(`/synthetic/bin/${process.platform === "win32" ? "ssh.exe" : "ssh"}`);
+const root = fakeFsPath("/synthetic/home/.ssh/config");
+let syntheticHome = fakeFsPath("/synthetic/home");
 let expectedQueryRoot = root;
-const firstInclude = "/synthetic/home/.ssh/fragments/a.conf";
-const secondInclude = "/synthetic/home/.ssh/fragments/b.conf";
+const firstInclude = fakeFsPath("/synthetic/home/.ssh/fragments/a.conf");
+const secondInclude = fakeFsPath("/synthetic/home/.ssh/fragments/b.conf");
 const files = new Map([
   [
     root,
@@ -30,9 +33,9 @@ mock.module("node:os", { namedExports: { homedir: () => syntheticHome } });
 mock.module("node:fs", {
   namedExports: {
     existsSync: (path: string) => {
-      assert.ok(path.startsWith("/synthetic/"));
+      assert.ok(path.startsWith(`${fakeFsPath("/synthetic")}${sep}`));
       if (path === root && existenceFailure) throw existenceFailure;
-      return files.has(path) || path === "/synthetic/bin/ssh";
+      return files.has(path) || path === sshBinary;
     },
   },
 });
@@ -45,7 +48,7 @@ mock.module("node:fs/promises", {
       return files.get(path)!;
     },
     glob: async function* (pattern: string) {
-      assert.equal(pattern, "/synthetic/home/.ssh/fragments/*.conf");
+      assert.equal(pattern, fakeFsPath("/synthetic/home/.ssh/fragments/*.conf"));
       yield firstInclude;
       yield secondInclude;
       throw new Error("synthetic partial glob failure");
@@ -59,7 +62,7 @@ mock.module("node:child_process", {
       args: string[],
       options: { stdio: string[]; windowsHide: boolean; env: NodeJS.ProcessEnv },
     ) => {
-      assert.equal(executable, "/synthetic/bin/ssh");
+      assert.equal(executable, sshBinary);
       assert.deepEqual(args.slice(0, 5), ["-G", "-F", expectedQueryRoot, "-o", "BatchMode=yes"]);
       assert.deepEqual(options.stdio, ["ignore", "pipe", "ignore"]);
       assert.equal(options.windowsHide, true);
@@ -147,12 +150,13 @@ test("synthetic SSH ports preserve includes, explicit key authority, stable work
     spawnFailure = new Error("synthetic spawn failure");
     await assert.rejects(listSSHConfigAliasesFromLocalConfig(), (error) => error === spawnFailure);
     spawnFailure = undefined;
-    syntheticHome = "/synthetic/$&home";
-    expectedQueryRoot = syntheticHome + "/.ssh/config";
+    syntheticHome = fakeFsPath("/synthetic/$&home");
+    expectedQueryRoot = join(syntheticHome, ".ssh", "config");
     files.set(expectedQueryRoot, "Host dollar\nIdentityFile %d/key\n");
     assert.equal(
       (await listSSHConfigAliasesFromLocalConfig())[0]?.privateKeyPath,
-      "/synthetic/%dhome/key",
+      // IdentityFile 的文本替换保留后缀原字节；此处不能再按文件路径规范化。
+      fakeFsPath("/synthetic/%dhome") + "/key",
     );
   } finally {
     mock.timers.reset();

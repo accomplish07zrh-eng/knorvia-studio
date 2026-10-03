@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { mock, test } from "node:test";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 const actions: string[] = [];
 let failRename: unknown;
 let failLock: unknown;
-const target = "/synthetic/config.json";
+const target = fakeFsPath("/synthetic/config.json");
 const original = "original synthetic bytes";
 const files = new Map<string, string>([[target, original]]);
 let renameCalls = 0;
@@ -74,9 +75,9 @@ test("fake atomic write preserves targets, retries only admitted errors and clea
     assert.equal(files.get(target), JSON.stringify({ synthetic: true }, null, 2));
     assert.equal(renameCalls, 2);
     assert.ok(actions.includes("sleep:5"));
-    assert.ok(actions.includes("rm:/synthetic/config.json.stale.tmp"));
-    assert.equal(actions.includes("rm:/synthetic/config.json.young.tmp"), false);
-    assert.equal(actions.includes("rm:/synthetic/different.stale.tmp"), false);
+    assert.ok(actions.includes(`rm:${fakeFsPath("/synthetic/config.json.stale.tmp")}`));
+    assert.equal(actions.includes(`rm:${fakeFsPath("/synthetic/config.json.young.tmp")}`), false);
+    assert.equal(actions.includes(`rm:${fakeFsPath("/synthetic/different.stale.tmp")}`), false);
     assert.equal(actions.at(-1), "release");
     const refusal = Object.assign(new Error("synthetic injected permission refusal"), {
       code: "EPERM",

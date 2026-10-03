@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
+import { sep } from "node:path";
 import { mock, test } from "node:test";
 import type { GitCommandExecutionResult } from "../src/git/providers/gitCommandProvider.js";
 import type { GitResolvedRepository, GitStatusEntry } from "../src/git/repo/gitCliTypes.js";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 
 test("synthetic CLI parsing, repository paths and permission-limited file reads", async () => {
   const denial = Object.assign(new Error("owned read denied"), { code: "EACCES" });
@@ -9,11 +11,11 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
   const reads: string[] = [];
   const closes: string[] = [];
   const files = new Map([
-    ["/owned root/quote ' text", Buffer.from("first\nlast")],
-    ["/owned root/zero", Buffer.from([65, 0, 10])],
-    ["/owned root/close denied", Buffer.from("ok\n")],
-    ["/owned root/last newline", Buffer.from("first\n")],
-    ["/owned root/empty", Buffer.alloc(0)],
+    [fakeFsPath("/owned root/quote ' text"), Buffer.from("first\nlast")],
+    [fakeFsPath("/owned root/zero"), Buffer.from([65, 0, 10])],
+    [fakeFsPath("/owned root/close denied"), Buffer.from("ok\n")],
+    [fakeFsPath("/owned root/last newline"), Buffer.from("first\n")],
+    [fakeFsPath("/owned root/empty"), Buffer.alloc(0)],
   ]);
   mock.module("node:fs/promises", {
     namedExports: {
@@ -21,7 +23,7 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
         if (!files.has(p)) throw denial;
       },
       realpath: async (p: string) => {
-        if (p.endsWith("outside link")) return "/outside/escape";
+        if (p.endsWith("outside link")) return fakeFsPath("/outside/escape");
         throw denial;
       },
       stat: async (p: string) => {
@@ -67,8 +69,8 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
   });
   const h = await import("../src/git/repo/gitCliHelpers.js");
   const resolution: GitResolvedRepository = {
-    workspacePath: "/owned root/sub",
-    repoRoot: "/owned root",
+    workspacePath: fakeFsPath("/owned root/sub"),
+    repoRoot: fakeFsPath("/owned root"),
     workspaceInRepoPath: "sub",
     autoRefreshWatchPaths: [],
     isGitAvailable: true,
@@ -83,7 +85,7 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
     h.normalizeInputPath(resolution, "outside link"),
     /outside repository scope/,
   );
-  assert.equal(await h.fileExists("/owned root/no permission"), false);
+  assert.equal(await h.fileExists(fakeFsPath("/owned root/no permission")), false);
   const parsed = h.parseStatusPorcelain(
     "# branch.head owned\0# branch.ab +2 -3\0" +
       "2 R. N... 100644 100644 100644 a b R100 quote ' new\0old path\0? zero\0",
@@ -108,7 +110,7 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
     isConflicted: false,
   });
   const stats = await h.buildUntrackedStats(
-    "/owned root",
+    fakeFsPath("/owned root"),
     ["quote ' text", "zero", "no permission", "close denied", "last newline", "empty"].map(entry),
   );
   assert.deepEqual(stats.get("quote ' text"), { added: 2, removed: 0 });
@@ -118,30 +120,34 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
   assert.equal(closes.length, 5);
   assert.equal(new Set(closes).size, 5);
   const preview = await h.buildUntrackedTextDiffResult(
-    "/owned root/quote ' text",
+    fakeFsPath("/owned root/quote ' text"),
     "quote ' text",
     99,
   );
-  assert.equal(preview?.path, "/owned root/quote ' text");
+  assert.equal(preview?.path, fakeFsPath("/owned root/quote ' text"));
   assert.equal(
     preview?.patch,
     "--- /dev/null\n+++ b/quote ' text\n@@ -0,0 +1,2 @@\n+first\n+last\n\\ No newline at end of file\n",
   );
   assert.equal(
-    await h.buildUntrackedTextDiffResult("/owned root/no permission", "no permission", 99),
+    await h.buildUntrackedTextDiffResult(
+      fakeFsPath("/owned root/no permission"),
+      "no permission",
+      99,
+    ),
     null,
   );
   assert.equal(
-    (await h.buildUntrackedTextDiffResult("/owned root/zero", "zero", 1))?.availability,
+    (await h.buildUntrackedTextDiffResult(fakeFsPath("/owned root/zero"), "zero", 1))?.availability,
     "binary",
   );
   assert.equal(
-    (await h.buildUntrackedTextDiffResult("/owned root/zero", "zero", 1))?.path,
-    "/owned root/zero",
+    (await h.buildUntrackedTextDiffResult(fakeFsPath("/owned root/zero"), "zero", 1))?.path,
+    fakeFsPath("/owned root/zero"),
   );
   const result: GitCommandExecutionResult = {
     binaryPath: "owned git",
-    cwd: "/owned root",
+    cwd: fakeFsPath("/owned root"),
     args: [],
     stdout: "",
     stderr: "owned denied",
@@ -156,5 +162,5 @@ test("synthetic CLI parsing, repository paths and permission-limited file reads"
     /owned command failed: owned denied/,
   );
   assert.equal(h.ensureGitCommandSucceeded("owned", result, [1]), result);
-  assert.ok(reads.every((p) => p.startsWith("/owned root/")));
+  assert.ok(reads.every((p) => p.startsWith(`${fakeFsPath("/owned root")}${sep}`)));
 });

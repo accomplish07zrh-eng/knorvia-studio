@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { mock, test } from "node:test";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 const directories: string[] = [];
 const opens: string[] = [];
 let closes = 0;
@@ -7,7 +8,7 @@ let lastBuffer: Buffer | undefined;
 let reads = 0;
 const refused = Object.assign(new Error("synthetic mkdir refused"), { code: "EACCES" });
 let failConversation = false;
-const conversation = "/synthetic/data/workspace/conversation";
+const conversation = fakeFsPath("/synthetic/data/workspace/conversation");
 mock.module("node:fs/promises", {
   namedExports: {
     mkdir: async (path: string) => {
@@ -62,7 +63,7 @@ mock.module(new URL("../src/logger/serviceLogger.ts", import.meta.url).href, {
 });
 mock.module(new URL("../src/paths.ts", import.meta.url).href, {
   namedExports: {
-    getKnorviaDataRootDir: () => "/synthetic/data",
+    getKnorviaDataRootDir: () => fakeFsPath("/synthetic/data"),
     getConversationWorkspaceDir: () => conversation,
   },
 });
@@ -91,7 +92,7 @@ const { createFileService } = await import("../src/file/fileService.js");
 test("fake file service writes only selected workspace targets and refuses invalid names/oversize reads", async () => {
   const service = createFileService();
   const created = await service.createScratchWorkspace({ name: " synthetic-project " });
-  assert.equal(created.path, "/synthetic/data/workspace/projects/synthetic-project");
+  assert.equal(created.path, fakeFsPath("/synthetic/data/workspace/projects/synthetic-project"));
   assert.deepEqual(directories, [created.path]);
   await assert.rejects(
     service.createScratchWorkspace({ name: "synthetic/escape" }),
@@ -106,27 +107,33 @@ test("fake file service writes only selected workspace targets and refuses inval
   failConversation = true;
   await assert.rejects(service.ensureConversationWorkspace(), (error) => error === refused);
   failConversation = false;
-  const bytes = await service.readFileRange({ path: "/synthetic/input.bin", offset: 2, length: 6 });
+  const bytes = await service.readFileRange({
+    path: fakeFsPath("/synthetic/input.bin"),
+    offset: 2,
+    length: 6,
+  });
   assert.equal(bytes.constructor, Uint8Array);
   assert.deepEqual([...bytes], [79, 75]);
   lastBuffer!.fill(0);
   assert.deepEqual([...bytes], [79, 75]);
   assert.equal(closes, 1);
   await assert.rejects(
-    service.readMediaPreview({ path: "/synthetic/large.png", maxBytes: 1 }),
+    service.readMediaPreview({ path: fakeFsPath("/synthetic/large.png"), maxBytes: 1 }),
     /File is too large to preview/,
   );
   assert.equal(reads, 0);
   assert.deepEqual(
-    await service.checkFilesExist({ paths: ["/synthetic/input.bin", "/synthetic/missing.txt"] }),
+    await service.checkFilesExist({
+      paths: [fakeFsPath("/synthetic/input.bin"), fakeFsPath("/synthetic/missing.txt")],
+    }),
     [
-      { path: "/synthetic/input.bin", exists: true },
-      { path: "/synthetic/missing.txt", exists: false },
+      { path: fakeFsPath("/synthetic/input.bin"), exists: true },
+      { path: fakeFsPath("/synthetic/missing.txt"), exists: false },
     ],
   );
   await assert.rejects(
-    service.checkFilesExist({ paths: Array(16).fill("/synthetic/input.bin") }),
+    service.checkFilesExist({ paths: Array(16).fill(fakeFsPath("/synthetic/input.bin")) }),
     /at most 15 paths/,
   );
-  assert.deepEqual(opens, ["/synthetic/input.bin"]);
+  assert.deepEqual(opens, [fakeFsPath("/synthetic/input.bin")]);
 });

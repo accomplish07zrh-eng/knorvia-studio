@@ -1,0 +1,10 @@
+{
+  "command": [
+    "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+    "scripts/architecture/architecture-check.mjs",
+    "check",
+    "--changed"
+  ],
+  "observedExitCode": 0,
+  "scope": "changed only"
+}

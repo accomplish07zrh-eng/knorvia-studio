@@ -1,0 +1,11 @@
+2026-10-03T08:33:56.7664813Z Image: windows-2025-vs2026
+2026-10-03T08:33:58.1306070Z Uses: accomplish07zrh-eng/knorvia-studio/.github/workflows/studio-quality.yml@refs/pull/13/merge (d03df27e30768649c77d004092d7508fa8b9afbc)
+2026-10-03T08:33:58.2850180Z   ref: d03df27e30768649c77d004092d7508fa8b9afbc
+2026-10-03T08:34:08.0187480Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse --verify --quiet d03df27e30768649c77d004092d7508fa8b9afbc^{object}
+2026-10-03T08:34:08.0529472Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin d03df27e30768649c77d004092d7508fa8b9afbc
+2026-10-03T08:34:08.4459381Z  * branch              d03df27e30768649c77d004092d7508fa8b9afbc -> FETCH_HEAD
+2026-10-03T08:34:08.5266184Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force d03df27e30768649c77d004092d7508fa8b9afbc
+2026-10-03T08:34:13.5951782Z Note: switching to 'd03df27e30768649c77d004092d7508fa8b9afbc'.
+2026-10-03T08:34:13.5956946Z HEAD is now at d03df27e Merge 7bfb867162cc11adbc237e1c39bf2d61b5c0f81e into bd0bb014c0974334557fa51814709d0b78f35f1d
+2026-10-03T08:34:13.6878175Z d03df27e30768649c77d004092d7508fa8b9afbc
+2026-10-03T08:53:21.7180463Z [36;1m  echo "## 检查结果（受检 SHA \`d03df27e30768649c77d004092d7508fa8b9afbc\`）"[0m

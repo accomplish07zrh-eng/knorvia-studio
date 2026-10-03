@@ -1,0 +1,36 @@
+2026-10-03T08:53:19.2720846Z test at packages\services\test\feedback-traversal-fake-authority-20261002.test.ts:1:187
+2026-10-03T08:53:19.2721648Z ✖ synthetic traversal never follows links or opens beyond retained scan authority (33.9165ms)
+2026-10-03T08:53:19.2722257Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2722643Z   + actual - expected
+2026-10-03T08:53:19.2723279Z   
+2026-10-03T08:53:19.2723535Z     [
+2026-10-03T08:53:19.2723699Z       {
+2026-10-03T08:53:19.2723909Z   -     name: 'logs/a/child.log',
+2026-10-03T08:53:19.2724203Z   -     path: '/synthetic/root/a/child.log'
+2026-10-03T08:53:19.2724464Z   -   },
+2026-10-03T08:53:19.2724627Z   -   {
+2026-10-03T08:53:19.2724858Z   -     name: 'logs/a/deep/d3/d4/allowed.log',
+2026-10-03T08:53:19.2725205Z   -     path: '/synthetic/root/a/deep/d3/d4/allowed.log'
+2026-10-03T08:53:19.2725489Z   -   },
+2026-10-03T08:53:19.2725658Z   -   {
+2026-10-03T08:53:19.2725833Z         name: 'logs/z.log',
+2026-10-03T08:53:19.2726082Z   +     path: '\\synthetic\\root\\z.log'
+2026-10-03T08:53:19.2726373Z   -     path: '/synthetic/root/z.log'
+2026-10-03T08:53:19.2726611Z       },
+2026-10-03T08:53:19.2726766Z       {
+2026-10-03T08:53:19.2726969Z         name: 'exit/yes.exit.log',
+2026-10-03T08:53:19.2727256Z   +     path: '\\synthetic\\exit\\yes.exit.log'
+2026-10-03T08:53:19.2727576Z   -     path: '/synthetic/exit/yes.exit.log'
+2026-10-03T08:53:19.2727834Z       }
+2026-10-03T08:53:19.2727998Z     ]
+2026-10-03T08:53:19.2728150Z   
+2026-10-03T08:53:19.2728778Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\feedback-traversal-fake-authority-20261002.test.ts:60:10)
+2026-10-03T08:53:19.2729648Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2730162Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2730581Z     generatedMessage: true,
+2026-10-03T08:53:19.2730821Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2731397Z     actual: [ { path: '\\synthetic\\root\\z.log', name: 'logs/z.log' }, { path: '\\synthetic\\exit\\yes.exit.log', name: 'exit/yes.exit.log' } ],
+2026-10-03T08:53:19.2732866Z     expected: [ { path: '/synthetic/root/a/child.log', name: 'logs/a/child.log' }, { path: '/synthetic/root/a/deep/d3/d4/allowed.log', name: 'logs/a/deep/d3/d4/allowed.log' }, { path: '/synthetic/root/z.log', name: 'logs/z.log' }, { path: '/synthetic/exit/yes.exit.log', name: 'exit/yes.exit.log' } ],
+2026-10-03T08:53:19.2734396Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2734640Z     diff: 'simple'
+2026-10-03T08:53:19.2734829Z   }

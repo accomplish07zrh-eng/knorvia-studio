@@ -1,0 +1,20 @@
+2026-10-03T08:50:49.1492325Z test at packages\services\test\ssh-alias-fake-authority-20261002.test.ts:5:263
+2026-10-03T08:50:49.1494043Z ✖ synthetic SSH ports preserve includes, explicit key authority, stable workers, cloned cache and native failures (10.3465ms)
+2026-10-03T08:50:49.1495426Z   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+2026-10-03T08:50:49.1496035Z   
+2026-10-03T08:50:49.1496411Z     assert.ok(path.startsWith("/synthetic/"))
+2026-10-03T08:50:49.1496886Z   
+2026-10-03T08:50:49.1497842Z       at existsSync (D:\a\knorvia-studio\knorvia-studio\packages\services\test\ssh-alias-fake-authority-20261002.test.ts:33:14)
+2026-10-03T08:50:49.1499586Z       at listSSHConfigAliasesFromLocalConfig (D:\a\knorvia-studio\knorvia-studio\packages\services\src\system\sshConfigAlias.ts:17:8)
+2026-10-03T08:50:49.1501466Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\ssh-alias-fake-authority-20261002.test.ts:103:27)
+2026-10-03T08:50:49.1502701Z       at Test.runInAsyncScope (node:async_hooks:228:14)
+2026-10-03T08:50:49.1504699Z       at Test.run (node:internal/test_runner/test:1118:25)
+2026-10-03T08:50:49.1505537Z       at Test.start (node:internal/test_runner/test:1015:17)
+2026-10-03T08:50:49.1506528Z       at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+2026-10-03T08:50:49.1507301Z     generatedMessage: true,
+2026-10-03T08:50:49.1507726Z     code: 'ERR_ASSERTION',
+2026-10-03T08:50:49.1508099Z     actual: false,
+2026-10-03T08:50:49.1508818Z     expected: true,
+2026-10-03T08:50:49.1509181Z     operator: '==',
+2026-10-03T08:50:49.1509508Z     diff: 'simple'
+2026-10-03T08:50:49.1509814Z   }

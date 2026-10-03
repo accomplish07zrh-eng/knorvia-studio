@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { mock, test } from "node:test";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 const removals: string[] = [];
 const pruned: string[] = [];
 mock.module("node:fs/promises", {
@@ -31,13 +32,13 @@ mock.module(new URL("../src/storage/adapters/fsWalker.ts", import.meta.url).href
 const { createFsStorageCleaner } = await import("../src/storage/adapters/fsCleaner.js");
 test("fake cleaner deletes admitted target, rejects outside path and preserves category directory", async () => {
   const cleaner = createFsStorageCleaner();
-  const candidates = await cleaner.listCandidates("/synthetic/root", [
+  const candidates = await cleaner.listCandidates(fakeFsPath("/synthetic/root"), [
     { prefix: "logs", recursive: false },
     { prefix: "logs", recursive: true },
   ]);
   assert.deepEqual(candidates, [{ relativePath: "logs/synthetic.log", bytes: 9, mtimeMs: 10 }]);
   const result = await cleaner.deleteFiles(
-    "/synthetic/root",
+    fakeFsPath("/synthetic/root"),
     [
       { relativePath: "logs/nested/ok.log", bytes: 9, mtimeMs: 0 },
       { relativePath: "../outside.log", bytes: 100, mtimeMs: 0 },
@@ -52,8 +53,8 @@ test("fake cleaner deletes admitted target, rejects outside path and preserves c
     { path: "logs/blocked.log", code: "EACCES" },
   ]);
   assert.deepEqual(removals, [
-    "/synthetic/root/logs/nested/ok.log",
-    "/synthetic/root/logs/blocked.log",
+    fakeFsPath("/synthetic/root/logs/nested/ok.log"),
+    fakeFsPath("/synthetic/root/logs/blocked.log"),
   ]);
-  assert.deepEqual(pruned, ["/synthetic/root/logs/nested"]);
+  assert.deepEqual(pruned, [fakeFsPath("/synthetic/root/logs/nested")]);
 });

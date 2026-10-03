@@ -1,0 +1,20 @@
+2026-10-03T08:53:19.2813961Z test at packages\services\test\plugin-archive-fake-containment-20261002.test.ts:1:2115
+2026-10-03T08:53:19.2817788Z ✖ synthetic archive preserves source order/modes and contains all extraction writes (25.0248ms)
+2026-10-03T08:53:19.2818476Z   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+2026-10-03T08:53:19.2818850Z   
+2026-10-03T08:53:19.2819105Z     assert.ok(path.startsWith("/synthetic/source"))
+2026-10-03T08:53:19.2820018Z   
+2026-10-03T08:53:19.2822734Z       at lstat (D:\a\knorvia-studio\knorvia-studio\packages\services\test\plugin-archive-fake-containment-20261002.test.ts:15:14)
+2026-10-03T08:53:19.2824439Z       at visitSource (D:\a\knorvia-studio\knorvia-studio\packages\services\src\plugin-sync\pluginSyncArchive.ts:94:25)
+2026-10-03T08:53:19.2826877Z       at visitSource (D:\a\knorvia-studio\knorvia-studio\packages\services\src\plugin-sync\pluginSyncArchive.ts:106:15)
+2026-10-03T08:53:19.2830172Z       at async Module.createPluginSyncArchive (D:\a\knorvia-studio\knorvia-studio\packages\services\src\plugin-sync\pluginSyncArchive.ts:121:7)
+2026-10-03T08:53:19.2832627Z       at async TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\plugin-archive-fake-containment-20261002.test.ts:68:24)
+2026-10-03T08:53:19.2833654Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2835150Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2836278Z     generatedMessage: true,
+2026-10-03T08:53:19.2836710Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2838320Z     actual: false,
+2026-10-03T08:53:19.2839054Z     expected: true,
+2026-10-03T08:53:19.2839430Z     operator: '==',
+2026-10-03T08:53:19.2840112Z     diff: 'simple'
+2026-10-03T08:53:19.2840325Z   }
