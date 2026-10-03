@@ -1,0 +1,18 @@
+{
+  "initialReturnProbe": {
+    "baselineReceipt": "baseline-return-authority.json",
+    "baselinePass": 1,
+    "initialReceipt": "initial-return-authority.json",
+    "initialFail": 1
+  },
+  "rootInitialContractUnderSpecifiedReturns": true,
+  "fullCorrectionFacts": [
+    "Each dispose returns opaque injected clearInterval result; public void unchanged",
+    "Renewal rejection catch callback returns opaque params.logWarn result, preserving .catch adoption; other guarded async logs unchanged"
+  ],
+  "freshAuthorCorrectionsOnly": true,
+  "curatorSourceExposed": true,
+  "bodyFreeDeclarationExposedRetainedDocumentationComments": true,
+  "thoseCommentsAndAllMatchesReceiveZeroCredit": true,
+  "metadataClarification": "Initial author said gpt-6-sol in report; clarified wording error, no verification/tool/edits. Tool requested gpt-6.1-sol/high/fork-none."
+}

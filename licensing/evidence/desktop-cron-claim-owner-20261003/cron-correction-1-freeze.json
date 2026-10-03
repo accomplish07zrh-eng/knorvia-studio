@@ -1,0 +1,18 @@
+{
+  "owner": "cron",
+  "version": "correction-1",
+  "file": "/tmp/knorvia-cron49-correction-1.ts",
+  "rawPath": "licensing/evidence/desktop-cron-claim-owner-20261003/drafts/cron-correction-1.ts",
+  "sha256": "87de6a8a0c93aa1e12faacb94fd24077bc6a6600bf22751b12be6e6b39ef6933",
+  "bytes": 4042,
+  "author": "/root/cron_claim_owner_author49",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "authorStoppedEditing": true,
+  "completedBeforeCuratorInspection": true,
+  "access": "Correction used only own authoring memory and bounded return-authority facts; no source/contract/draft/sibling/tests/artifact rereads or execution; full literal write once then own stat/hash",
+  "authorActualModelIndependentlyVerified": false,
+  "authorFastIndependentlyVerified": false,
+  "metadataClarification": "Initial final report incorrectly said gpt-6-sol; author clarified wording error with no tools/files. Tool requested gpt-6.1-sol/high/fork-none; actual model not independently verified."
+}

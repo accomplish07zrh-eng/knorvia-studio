@@ -1,0 +1,11 @@
+{
+  "repository": "zai-org/ZCode",
+  "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+  "path": "packages/desktop/src/host/cronRunLifecycle.ts",
+  "blob": "c003ecce1d750543ac8a1e0e09cbf7ac5ecce16d",
+  "normalizedSha256": "f838d4f5fab11de37cc13ad8b2166da557785cea83ba2281b1bd6778876ec54e",
+  "rawResponseSha256": "123fb27b451868cc19d33d2037ed63f7e477aa41cb9c0e7b012c4efbc062fc59",
+  "verified": true,
+  "oneAuthorizedExactRead": true,
+  "noAlternateRoute": true
+}

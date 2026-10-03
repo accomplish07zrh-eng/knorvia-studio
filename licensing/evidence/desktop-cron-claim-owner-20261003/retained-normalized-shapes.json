@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-cron-claim-owner-20261003/retained-shapes.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-cron-claim-owner-20261003/retained-shapes.mjs",
+      "sha256": "4a87878f58a3163e4699a9755822f67c8ecbbf2c0ab65ab6cd89e55cb49cafbd"
+    }
+  ],
+  "stdout": "[{\"owner\":\"cron\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"recordCronRunOutcomeBestEffort\",\"candidate\":\"recordCronRunOutcomeBestEffort\",\"bodyHash\":\"865535143a4550025ffde04242f89a3470f47fd490bd4572a3bf5def7b7c4c68\"},{\"baseline\":\"releaseManualClaimBestEffort\",\"candidate\":\"releaseManualClaimBestEffort\",\"bodyHash\":\"e1416ab4fd59dab343ab0b7da7217b896572c7ee9e60bca3329d2d8b5c91bd0c\"},{\"baseline\":\"settleManualDispatchFailureBestEffort\",\"candidate\":\"settleManualDispatchFailureBestEffort\",\"bodyHash\":\"78bd1e8e714f94b92297dd4c6df5fff7073ad3bfdd316ee3e368b644de22ffef\"}],\"identicalExpressionCount\":72},{\"owner\":\"cron\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"recordCronRunOutcomeBestEffort\",\"candidate\":\"recordCronRunOutcomeBestEffort\",\"bodyHash\":\"865535143a4550025ffde04242f89a3470f47fd490bd4572a3bf5def7b7c4c68\"},{\"baseline\":\"releaseManualClaimBestEffort\",\"candidate\":\"releaseManualClaimBestEffort\",\"bodyHash\":\"e1416ab4fd59dab343ab0b7da7217b896572c7ee9e60bca3329d2d8b5c91bd0c\"},{\"baseline\":\"settleManualDispatchFailureBestEffort\",\"candidate\":\"settleManualDispatchFailureBestEffort\",\"bodyHash\":\"78bd1e8e714f94b92297dd4c6df5fff7073ad3bfdd316ee3e368b644de22ffef\"}],\"identicalExpressionCount\":72},{\"owner\":\"cron\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"recordCronRunOutcomeBestEffort\",\"candidate\":\"recordCronRunOutcomeBestEffort\",\"bodyHash\":\"865535143a4550025ffde04242f89a3470f47fd490bd4572a3bf5def7b7c4c68\"},{\"baseline\":\"releaseManualClaimBestEffort\",\"candidate\":\"releaseManualClaimBestEffort\",\"bodyHash\":\"e1416ab4fd59dab343ab0b7da7217b896572c7ee9e60bca3329d2d8b5c91bd0c\"},{\"baseline\":\"settleManualDispatchFailureBestEffort\",\"candidate\":\"settleManualDispatchFailureBestEffort\",\"bodyHash\":\"78bd1e8e714f94b92297dd4c6df5fff7073ad3bfdd316ee3e368b644de22ffef\"}],\"identicalExpressionCount\":72}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

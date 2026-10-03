@@ -1,0 +1,23 @@
+{
+  "baseHead": "89382dab9a909e7317bbcc2d8e923a37e075c839",
+  "selectedVersion": "correction-1",
+  "rawSha256": "87de6a8a0c93aa1e12faacb94fd24077bc6a6600bf22751b12be6e6b39ef6933",
+  "installedSha256": "770caf6291821f0b8f46f964567d5a4c8cce306a95b30ceff013a0918318093b",
+  "installedLines": 138,
+  "installedBytes": 3998,
+  "exactWholeLiteralPlusFormatter": true,
+  "curatorSemanticEdits": false,
+  "rawVersionsVerified": 2,
+  "unchangedRetainedPaths": 6142,
+  "retentionCountsAreNotCompletion": true,
+  "authorInputAndSpecFreezeVerified": true,
+  "publicFourExportsAndRawApiMatch": true,
+  "productionScopeExactlyOneOwner": true,
+  "promptTransferPrivateAcceptedHold": true,
+  "promptTransferLocalMatchesAcceptedPrivateBytes": false,
+  "minimalSyntheticGroups": 1,
+  "nativeRuntimePassed": false,
+  "ordinarySuiteBuildRun": false,
+  "acceptedIndependentCredit": 0,
+  "MITClaim": false
+}

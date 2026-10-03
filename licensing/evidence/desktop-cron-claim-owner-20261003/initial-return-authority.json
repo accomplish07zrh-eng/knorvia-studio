@@ -1,0 +1,19 @@
+{
+  "command": [
+    "env",
+    "KNORVIA_CRON_BASELINE=licensing/evidence/desktop-cron-claim-owner-20261003/drafts/cron-initial.ts",
+    "node",
+    "--test",
+    "packages/desktop/src/host/cronClaimOwner.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/cronClaimOwner.test.mjs",
+      "sha256": "85d157df643772b80d034dbc01ed8581d7c566c851b5a15882f477f57165c943"
+    }
+  ],
+  "stdout": "✖ Cron claim injected authority, live await identities and heartbeat lifetime (50.494835ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 274.844039\n\n✖ failing tests:\n\ntest at packages/desktop/src/host/cronClaimOwner.test.mjs:17:1\n✖ Cron claim injected authority, live await identities and heartbeat lifetime (50.494835ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + undefined\n  - {\n  -   synthetic: 'clear-result'\n  - }\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/host/cronClaimOwner.test.mjs:35:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    expected: { synthetic: 'clear-result' },\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}
