@@ -16,7 +16,7 @@ import { fetchTaskListMembershipSets } from "@/lib/taskListMembershipSets.js";
 import { useTaskListMembershipVersion } from "@/v4/taskListMembershipVersion.js";
 import { useGlobalTaskList } from "@/hooks/useGlobalTaskList.js";
 import { selectWorkspaceKnorviaState, useKnorviaSessionStore } from "@/store/sessionStore.js";
-import { buildTaskEntityKey, buildTaskWorkspaceKey } from "@/lib/taskQueryCache.js";
+import { buildTaskWorkspaceKey } from "@/lib/taskQueryCache.js";
 import {
   useWorkspaceTaskOptimisticOverlayByWorkspaceKey,
 } from "@/hooks/workspaceTaskListOptimisticOverlay.js";
@@ -26,12 +26,10 @@ import {
 } from "@/workspace-grouped-tasks/groupedRemoteDataCache.js";
 import { GroupedTaskViewRefreshOwner } from "@/workspace-grouped-tasks/groupedRefreshOwner.js";
 import {
-  collectGroupedViewTaskKeys, findGroupedEntityTask as findTaskInGroupedView,
-  isGroupedEntityFirst as isTaskFirstInGroup,
   mergeGroupedTaskViewWithOptimistic, reconcileGroupedOptimisticTaskKeys,
 } from "@/workspace-grouped-tasks/groupedOptimisticProjection.js";
 import { GroupedTaskMutationOwner } from "@/workspace-grouped-tasks/groupedMutationOwner.js";
-import { viewToOrderInput } from "@/workspace-grouped-tasks/groupedMutationProjection.js";
+import { GroupedPromotionPersistenceOwner, planGroupedPromotions } from "@/workspace-grouped-tasks/groupedPromotionPersistence.js";
 
 function buildWorkspaceScopes(workspaceTabs: WorkspaceTabState[]) {
   return workspaceTabs.map((tab) => ({
@@ -237,7 +235,6 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     (state) => state.clearPromotedGroupedDraftTask,
   );
   const visibleMissingTaskKeysRef = useRef<Set<string>>(new Set());
-  const promotedGroupPersistenceRef = useRef<Set<string>>(new Set());
   const displayedViewRef = useRef<KnorviaGroupedTaskView>({ nodes: [] });
   const displayedView = useMemo(() => {
     const optimisticOverlays = [...optimisticTaskOverlayByWorkspaceKey.values()];
@@ -315,80 +312,32 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     log: (message, error) => logger.error(message, error),
   }));
 
+  const clearPromotedRef = useRef(clearPromotedGroupedDraftTask);
+  clearPromotedRef.current = clearPromotedGroupedDraftTask;
+  const [promotionOwner] = useState(() => new GroupedPromotionPersistenceOwner({
+    clear: (path, taskId, identity) => clearPromotedRef.current(path, taskId, identity),
+    invalidate: () => remoteDataLoader.invalidate(), refreshCurrent: () => refreshRef.current(),
+    log: (message, error) => logger.error(message, error),
+  }));
+
   useEffect(() => {
     const deactivate = refreshOwner.activate();
     const deactivateMutation = mutationOwner.activate();
+    const deactivatePromotion = promotionOwner.activate();
     return () => {
+      deactivatePromotion();
       deactivateMutation();
       deactivate();
       remoteDataLoader.invalidate();
     };
-  }, [localWorkspaceScopeSignature, mutationOwner, refreshOwner, remoteDataLoader, services.taskService]);
+  }, [localWorkspaceScopeSignature, mutationOwner, promotionOwner, refreshOwner, remoteDataLoader, services.taskService]);
 
   useEffect(() => {
-    const authoritativeTaskKeys = collectGroupedViewTaskKeys(view);
-    const promotedGroupTasks: KnorviaTaskMeta[] = [];
-    const settledRootTasks: KnorviaTaskMeta[] = [];
-    for (const overlay of optimisticTaskOverlayByWorkspaceKey.values()) {
-      for (const [taskId, promotedDraft] of Object.entries(
-        overlay.promotedGroupedDraftTaskByTaskId ?? {},
-      )) {
-        const key = buildTaskEntityKey({
-          taskId,
-          workspacePath: promotedDraft.workspacePath,
-          workspaceIdentity: promotedDraft.workspaceIdentity,
-        });
-        const task = findTaskInGroupedView(displayedView, key);
-        if (promotedDraft?.placement.type === "top") {
-          const firstNode = view.nodes[0];
-          if (task && firstNode?.type === "task" && buildTaskEntityKey(firstNode.task) === key) {
-            settledRootTasks.push(task);
-          }
-        } else if (
-          task &&
-          (authoritativeTaskKeys.has(key) || visibleMissingTaskKeysRef.current.has(key)) &&
-          !isTaskFirstInGroup(view, key, promotedDraft.placement.groupId)
-        ) {
-          promotedGroupTasks.push(task);
-        }
-      }
-    }
-    for (const task of settledRootTasks) {
-      clearPromotedGroupedDraftTask(task.workspacePath, task.taskId, task.workspaceIdentity);
-    }
-    if (promotedGroupTasks.length === 0) {
-      return;
-    }
-    const signature = promotedGroupTasks.map(buildTaskEntityKey).sort().join("|");
-    if (promotedGroupPersistenceRef.current.has(signature)) {
-      return;
-    }
-    promotedGroupPersistenceRef.current.add(signature);
-    // group 内 New task 过去只在 optimistic view 继承草稿位置，SQLite 仍按 root
-    // 新任务置顶，刷新后任务会掉出 group。task 已进入 optimistic index 后，将同一份展示
-    // view 作为完整排序事务落库，使 membership 和组内第一位顺序一起收敛。
-    void services.taskService
-      .applyGroupedTaskViewOrder(viewToOrderInput({ view: displayedView }))
-      .then(() => {
-        invalidateRemoteData();
-        return refreshRef.current().then(() => {
-          for (const task of promotedGroupTasks) {
-            clearPromotedGroupedDraftTask(task.workspacePath, task.taskId, task.workspaceIdentity);
-          }
-        });
-      })
-      .catch((error) => {
-        promotedGroupPersistenceRef.current.delete(signature);
-        logger.error("[useGroupedTaskView] 保存 grouped 草稿提升位置失败", error);
-      });
-  }, [
-    clearPromotedGroupedDraftTask,
-    displayedView,
-    invalidateRemoteData,
-    optimisticTaskOverlayByWorkspaceKey,
-    services.taskService,
-    view,
-  ]);
+    promotionOwner.reconcile(planGroupedPromotions({
+      view, displayedView, overlays: optimisticTaskOverlayByWorkspaceKey.values(),
+      visibleMissing: visibleMissingTaskKeysRef.current,
+    }), displayedView, services.taskService);
+  }, [clearPromotedGroupedDraftTask, displayedView, optimisticTaskOverlayByWorkspaceKey, promotionOwner, services.taskService, view]);
 
   useEffect(() => {
     const disposables = scopes.map((scope) =>

@@ -87,6 +87,21 @@
   成功或失败，但不向新 UI view/saving 写回；激活新 scope 将 saving 归零。
   不宣称取消 host mutation，不新增共享协议/存储格式或消息文案。
 
+## Promoted persistence owner（后续批次先行契约）
+
+- 以原 accepted/displayed view 与 visible-missing 闩锁只读规划：top promotion
+  仅当 accepted 第一 root task 与其身份一致时立刻清理；group promotion 仅当
+  displayed 有 task、accepted/visible-missing 包含该 key 且 accepted 未为组首
+  时需要持久化。first task/group 查询语义和 overlay 迭代次序保持。
+- group batch signature 仍是 entity keys 排序再 `|` 拼接；同 active scope 同
+  signature 只请求一次。成功 signature 继续保留；失败撤销，后续 render 可重试。
+  不自行对同 key 跨 overlay 重复 task 去重，不把 root promotion 发成 order 写入。
+- 写入完整 displayed order 后 invalidate，等待 current refresh，再清理捕获的
+  group promoted 标记。错误保留原日志；不吞掉写入失败且误清标记。
+- 显式修复：scope/service cleanup 清空 signature 许可，旧请求成功不得 invalidate
+  新 scope、触发新 refresh 或清新 draft；旧失败仍诊断，但不删除新同 signature
+  许可。已发出 host order 不宣称 abort，原存储 payload 与 draft shape 保留。
+
 ## 未验证
 
 不执行 tests/lint/types/build/架构或全量审计。新增 owner 合同只写不跑；仅源码
