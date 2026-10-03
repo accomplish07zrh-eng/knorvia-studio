@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "typescript": "6.0.2",
+  "publicMembers": 90,
+  "files": {
+    "agent-runtime.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+        "sha256": "936bdddf385548f38e7d104db1bf304b72b344e1f5a312c5dd23dc69b8f038ff"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/agent-runtime.js",
+        "sha256": "50d5ee0f7f9b280798bcd7fe778ee3c902b7b86fda7038d07ab84cae466e7bee"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/agent-runtime.d.ts",
+        "sha256": "78c72a1a9289a7015655f641719975e6cc7b88d6a4f310b6ca816ec0a49d62c1"
+      }
+    },
+    "agent-runtime-api.ts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/agent-runtime-api.ts",
+        "sha256": "e834a166d78f5721cbc6305dc4d21f4276bf265986f8a9a62560cc10759fadd4"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/agent-runtime-api.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/agent-runtime-api.d.ts",
+        "sha256": "4bbc7e87a6dda2aca72675e1066a18ae1ffb9c45163b34549bb1a37783d428d4"
+      }
+    }
+  }
+}

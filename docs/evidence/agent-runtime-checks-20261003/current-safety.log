@@ -1,0 +1,7 @@
+ok constructor native order, supplied authority and session/workspace references
+ok default deny and live branch callback before subagent/tooling and detached startup
+ok constructor failures propagate original and preserve earlier partial state
+ok shutdown ownership, repeated stop, native optional await and cleanup error boundary
+{"mode":"current","groups":4,"realRuntimePorts":0}
+(node:227901) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

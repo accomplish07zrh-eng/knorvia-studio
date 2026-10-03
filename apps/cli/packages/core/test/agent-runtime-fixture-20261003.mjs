@@ -232,7 +232,7 @@ export async function load(mode, f) {
     const bytes = fs.readFileSync(
       path.join(repo, "docs/evidence/knorvia-agent-runtime-current-20261003.json"),
     );
-    assert.equal(hash(bytes), "CURRENT_PIN");
+    assert.equal(hash(bytes), "98c565b37e40e409b6ed3e0d67bef6192a5711d3c8cc12604006633d8bd5a9b2");
     const m = JSON.parse(bytes);
     let selected;
     for (const [name, r] of Object.entries(m.files)) {
