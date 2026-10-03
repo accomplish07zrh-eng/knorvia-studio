@@ -1,0 +1,111 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Full grouped drag session owner and local mutation/refresh permission bridge; pointer implementation follows separately",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Existing start/over/move/end/cancel, source data/payload, collapsed updater, hook and Workbench ports read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; authored contract scenarios do not validate React/DndKit/DOM/RPC or emitted artifacts",
+  "explicitCorrections": [
+    "New gesture gates prior rollback and already-started refresh acceptance",
+    "Scope/service cleanup restores temporary prefs and releases pointer/preview without late layout writes",
+    "Start/end synchronous failures attempt all resource cleanup while retaining the first error"
+  ],
+  "retainedBehavior": [
+    "Group cancel only restores collapse, task cancel restores origin",
+    "Workbench accepted drop and equal-order end restore origin without saving grouped order",
+    "Six-pixel activation, one width measurement, direction-flip replay, identity/remote payloads",
+    "Original JSX/styles/animation/drop parameters and persistent keys/formats"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+      "baseBlob": "ff19511c96396400b64dc198a413d716531a307e",
+      "baseSha256": "52b3acfa3832ff498b19f97108ff1aed7a7c9445b7c14f20197cd350578b79b5",
+      "candidateSha256": "05752ee10dfb483964a3d0bf9eda8ba518b26e0499a18268c3734a23b300b2c4",
+      "candidateBytes": 46047,
+      "candidateRole": "partial adapter; retained DOM/JSX/menu/initialization code pending",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+          "blob": "634261aa70746fb633d5c69abbb7c6580e61ff20",
+          "normalizedSha256": "73189664184f7366898c8023026574d48eb34df6a2eb4137b89f0d269b9d1c3e",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "baseBlob": "2f391ffd57356e66b8c28f6f114e145018c02e7e",
+      "baseSha256": "66b5039e02f56db74a3cd42a8a0996f3edc913fe5d99bad44af102d6987ed763",
+      "candidateSha256": "4237cbcfe4a5acf5c2aa76403d1e79e2a61fa3516a5200179b8f6fc5db7355e8",
+      "candidateBytes": 18827,
+      "candidateRole": "partial adapter; retained DOM/JSX/menu/initialization code pending",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "blob": "00ab8f20c321e14cc228d23266cf63634e5337a5",
+          "normalizedSha256": "589972fdb443b7ed1cff98c489e1976211a0ea71f38a284a7c8e5833f48f7f2c",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "7745bd51057978cdcc3255f2d1f01c39ab2610a7b4d02a1958983f435a3c0d91",
+      "candidateBytes": 5943,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedDragSessionOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "6371492f2ad18e0771b58a9647c1450fb7aae2bf9045fba2dce3bb2138266332",
+      "candidateBytes": 8588,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-drag-session-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "46db8be774678ff222274619ac47a4496641f3f05e2c6a954c8df75bd8b1f4cc",
+      "candidateBytes": 9388,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "f410bce1206d8e899d9c7e914b76b4662ade132a76c84136468744f60ca8b289",
+      "candidateBytes": 7634,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-refresh-owner-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "5976ca5b08b782a8a3aab20915b9a55920c1e310b0599b20431ee1ca8d49df45",
+      "candidateBytes": 4740,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    }
+  ]
+}

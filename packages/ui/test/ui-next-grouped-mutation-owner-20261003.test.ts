@@ -113,3 +113,31 @@ test("scope cleanup lets the host operation finish without late view/saving writ
   assert.equal(h.events.length, eventCount);
   stopNew();
 });
+
+test("order forwards its publication permission through refresh and suppresses a superseded rollback", async () => {
+  let permission = true, propagated: (() => boolean) | undefined;
+  const previous = fixture(), next = { nodes: previous.nodes.slice().reverse() };
+  let view = previous;
+  const failure = new Error("late order failure"), reply = deferred<Awaited<ReturnType<IKnorviaTaskService["applyGroupedTaskViewOrder"]>>>();
+  const owner = new GroupedTaskMutationOwner({
+    setView: (update) => { view = typeof update === "function" ? update(view) : update; },
+    setSaving: () => {}, invalidate: () => {}, log: () => {},
+    refreshCurrent: async (canPublish) => { propagated = canPublish; },
+  });
+  const h = harness(), stop = owner.activate(), canPublish = () => permission;
+  await owner.order(previous, next, h.service, h.refresh, canPublish);
+  assert.equal(propagated, canPublish);
+  permission = false;
+  assert.equal(propagated!(), false);
+  permission = true;
+  h.service.applyGroupedTaskViewOrder = () => reply.promise;
+  const pending = owner.order(next, previous, h.service, h.refresh, canPublish);
+  permission = false;
+  view = next;
+  reply.reject(failure);
+  await assert.rejects(pending, (error) => error === failure);
+  assert.equal(view, next);
+  assert.equal(h.events.includes("captured-refresh"), false);
+  stop();
+  h.stop();
+});

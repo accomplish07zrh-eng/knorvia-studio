@@ -22,7 +22,7 @@ type Ports = {
   setView: (update: ViewUpdate) => void;
   setSaving: (saving: boolean) => void;
   invalidate: () => void;
-  refreshCurrent: () => Promise<void>;
+  refreshCurrent: (canPublish?: () => boolean) => Promise<void>;
   log: (message: string, error: unknown) => void;
 };
 
@@ -94,25 +94,26 @@ export class GroupedTaskMutationOwner {
     });
   }
 
-  async order(previous: KnorviaGroupedTaskView, next: KnorviaGroupedTaskView, service: Service, refresh: () => Promise<void>): Promise<void> {
+  async order(previous: KnorviaGroupedTaskView, next: KnorviaGroupedTaskView, service: Service, refresh: (canPublish?: () => boolean) => Promise<void>, canPublish = () => true): Promise<void> {
     const scope = this.scope;
     if (!scope) return;
-    await this.applyOrder(scope, previous, next, service, refresh);
+    await this.applyOrder(scope, previous, next, service, refresh, canPublish);
   }
 
-  private async applyOrder(scope: object, previous: KnorviaGroupedTaskView, next: KnorviaGroupedTaskView, service: Service, refresh: () => Promise<void>): Promise<void> {
+  private async applyOrder(scope: object, previous: KnorviaGroupedTaskView, next: KnorviaGroupedTaskView, service: Service, refresh: (canPublish?: () => boolean) => Promise<void>, canPublish = () => true): Promise<void> {
     this.ports.setView(next);
     await this.save(scope, "order", async (accepts) => {
       try {
         await service.applyGroupedTaskViewOrder(viewToOrderInput({ view: next }));
         if (accepts()) {
           this.ports.invalidate();
-          await this.ports.refreshCurrent();
+          // 新拖拽会撤销旧排序回写许可；已开始的 refresh 回包也必须读取同一许可。
+          if (canPublish()) await this.ports.refreshCurrent(canPublish);
         }
       } catch (error) {
-        if (accepts()) {
+        if (accepts() && canPublish()) {
           this.ports.setView(previous);
-          void refresh();
+          void refresh(canPublish);
         }
         throw error;
       }

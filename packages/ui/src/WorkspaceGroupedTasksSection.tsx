@@ -1,5 +1,5 @@
 /* eslint-disable max-lines -- 顶层 grouped task 容器仍集中维护远程 workspace service 解析、group 菜单、task 菜单和列表写回；子行与纯 helper 已拆到 workspace-grouped-tasks 目录。 */
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import {
   closestCenter,
@@ -11,11 +11,6 @@ import {
 } from "@dnd-kit/core";
 import type {
   CollisionDetection,
-  DragCancelEvent,
-  DragEndEvent,
-  DragMoveEvent,
-  DragOverEvent,
-  DragStartEvent,
   DropAnimation,
 } from "@dnd-kit/core";
 import type { KnorviaGroupedTaskView, KnorviaTaskGroupColor } from "@knorvia/services";
@@ -55,12 +50,8 @@ import {
   taskKey,
 } from "@/workspace-grouped-tasks/shared.js";
 import type { TaskGroupMenuItem } from "@/workspace-grouped-tasks/shared.js";
-import {
-  acceptsGroupedDragCollision, getGroupedTaskDragGroupId, getGroupedTaskDragTaskKey,
-  getGroupedTaskViewSignature, projectGroupedDragOver,
-  type GroupedTaskDragDirectionPosition,
-} from "@/workspace-grouped-tasks/groupedDragProjection.js";
-import type { WorkbenchSessionDragPayload } from "@/v4/workbenchDragDrop.js";
+import { acceptsGroupedDragCollision } from "@/workspace-grouped-tasks/groupedDragProjection.js";
+import { GroupedDragSessionOwner, type GroupedDragPorts } from "@/workspace-grouped-tasks/groupedDragSessionOwner.js";
 import {
   cancelWorkbenchPointerDrag,
   finishWorkbenchPointerDrag,
@@ -68,7 +59,6 @@ import {
 } from "@/v4/workbenchPointerDragDrop.js";
 import {
   createWorkbenchPointerPositionTracker,
-  type WorkbenchPointerPositionTracker,
 } from "@/v4/workbenchPointerPositionTracker.js";
 
 function findNearestScrollableAncestor(element: HTMLElement): HTMLElement | null {
@@ -368,6 +358,7 @@ export function WorkspaceGroupedTasksSection({
   const clearGroupedDraftTask = useKnorviaSessionStore((state) => state.clearGroupedDraftTask);
   const {
     view: authoritativeView,
+    scopeSignature,
     setView,
     loading,
     initialized,
@@ -405,9 +396,6 @@ export function WorkspaceGroupedTasksSection({
   const renameInputRef = useRef<HTMLInputElement | null>(null);
   const groupMenuItemsRef = useRef<TaskGroupMenuItem[]>([]);
   const groupIdsRef = useRef<string[]>([]);
-  const dragOriginViewRef = useRef<KnorviaGroupedTaskView | null>(null);
-  const dragPreviewViewRef = useRef<KnorviaGroupedTaskView | null>(null);
-  const lastDragOverEventRef = useRef<DragOverEvent | null>(null);
   const createDraftContextRef = useRef({
     activeTaskId,
     activeWorkspaceIdentity,
@@ -415,19 +403,20 @@ export function WorkspaceGroupedTasksSection({
     groupedDraftPlacement: groupedDraftTask?.placement,
     view,
   });
-  const groupDragCollapsedSnapshotRef = useRef<Set<string> | null>(null);
   const layoutAnimationFrameRef = useRef<number | null>(null);
-  const dragDirectionRef = useRef<GroupedTaskDragDirectionPosition>("after");
-  const lastDragDeltaYRef = useRef(0);
-  const workbenchDragPayloadRef = useRef<WorkbenchSessionDragPayload | null>(null);
-  const workbenchPointerPositionTrackerRef = useRef<WorkbenchPointerPositionTracker | null>(null);
   const [renamingTaskKey, setRenamingTaskKey] = useState<string | null>(null);
   const [renameDraft, setRenameDraft] = useState("");
   const [newGroupSetupId, setNewGroupSetupId] = useState<string | null>(null);
-  const [activeDragTaskKey, setActiveDragTaskKey] = useState<string | null>(null);
-  const [activeDragGroupId, setActiveDragGroupId] = useState<string | null>(null);
-  const [activeDragOverlayWidth, setActiveDragOverlayWidth] = useState<number | null>(null);
   const [stickyGroupId, setStickyGroupId] = useState<string | null>(null);
+  const dragPortsRef = useRef<GroupedDragPorts | null>(null);
+  const [dragSession] = useState(() => new GroupedDragSessionOwner(() => {
+    if (!dragPortsRef.current) throw new Error("Grouped drag ports are inactive");
+    return dragPortsRef.current;
+  }));
+  const {
+    activeTaskKey: activeDragTaskKey, activeGroupId: activeDragGroupId,
+    width: activeDragOverlayWidth,
+  } = useSyncExternalStore(dragSession.subscribe, dragSession.read, dragSession.read);
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -440,21 +429,9 @@ export function WorkspaceGroupedTasksSection({
     (event: ReactPointerEvent<HTMLDivElement>) => {
       // 必须在 dnd-kit 激活前监听，才能捕获越过 6px 阈值的首个
       // pointermove；快速拖到 Workbench 后立即松手也要使用真实 viewport 坐标。
-      workbenchPointerPositionTrackerRef.current?.dispose();
-      workbenchPointerPositionTrackerRef.current = createWorkbenchPointerPositionTracker(
-        event.currentTarget.ownerDocument,
-        event.nativeEvent,
-      );
+      dragSession.pointerDown(event.currentTarget.ownerDocument, event.nativeEvent);
     },
-    [],
-  );
-  useEffect(
-    () => () => {
-      workbenchPointerPositionTrackerRef.current?.dispose();
-      workbenchPointerPositionTrackerRef.current = null;
-      cancelWorkbenchPointerDrag();
-    },
-    [],
+    [dragSession],
   );
   useEffect(() => {
     createDraftContextRef.current = {
@@ -969,234 +946,38 @@ export function WorkspaceGroupedTasksSection({
     }
   }, [handleCancelRenameTask, renamingTaskKey, view]);
 
-  const restoreGroupDragCollapsedState = useCallback(() => {
-    const snapshot = groupDragCollapsedSnapshotRef.current;
-    if (!snapshot) {
-      return;
-    }
-    groupDragCollapsedSnapshotRef.current = null;
-    onCollapsedGroupIdsChange(() => new Set(snapshot));
-  }, [onCollapsedGroupIdsChange]);
-
-  const handleGroupedTaskDragStart = useCallback(
-    (event: DragStartEvent) => {
-      dragDirectionRef.current = "after";
-      lastDragDeltaYRef.current = 0;
-      lastDragOverEventRef.current = null;
-      const nextActiveGroupId = getGroupedTaskDragGroupId(event.active.data.current);
-      if (nextActiveGroupId) {
-        dragOriginViewRef.current = authoritativeView;
-        dragPreviewViewRef.current = authoritativeView;
-        groupDragCollapsedSnapshotRef.current = new Set(collapsedGroupIds);
-        setActiveDragGroupId(nextActiveGroupId);
-        const nextWidth = measureGroupedGroupPreviewWidth(
-          groupedSectionRootRef.current,
-          nextActiveGroupId,
-        );
-        if (nextWidth !== null) {
-          setActiveDragOverlayWidth(nextWidth);
-        }
-        onCollapsedGroupIdsChange((currentGroupIds) => {
-          if (currentGroupIds.has(nextActiveGroupId)) {
-            return currentGroupIds;
-          }
-          const nextGroupIds = new Set(currentGroupIds);
-          nextGroupIds.add(nextActiveGroupId);
-          return nextGroupIds;
-        });
-        return;
-      }
-      const nextActiveTaskKey = getGroupedTaskDragTaskKey(event.active.data.current);
-      if (!nextActiveTaskKey) {
-        return;
-      }
-      const activeTask = findTaskInGroupedView(view, nextActiveTaskKey);
-      if (activeTask) {
-        workbenchDragPayloadRef.current = {
-          kind: "knorvia/session",
-          workspacePath: activeTask.workspacePath,
-          workspaceIdentity: activeTask.workspaceIdentity,
-          remoteSessionId: getTaskRemoteSessionId(activeTask),
-          sessionId: activeTask.taskId,
-        };
-      }
-      dragOriginViewRef.current = authoritativeView;
-      dragPreviewViewRef.current = authoritativeView;
-      // task overlay 宽度只在 drag start 测一次。
-      // 之前依赖 view 的 layout effect 会在每次拖拽 preview 重排后同步 setState，容易和 dnd-kit 测量形成嵌套更新循环。
-      const nextWidth = measureGroupedTaskPreviewWidth(
-        groupedSectionRootRef.current,
-        nextActiveTaskKey,
-      );
-      if (nextWidth !== null) {
-        setActiveDragOverlayWidth(nextWidth);
-      }
-      setActiveDragTaskKey(nextActiveTaskKey);
-    },
-    [collapsedGroupIds, getTaskRemoteSessionId, onCollapsedGroupIdsChange, authoritativeView, view],
-  );
-
-  const applyGroupedTaskDragOverPreview = useCallback(
-    (event: DragOverEvent) => {
-      const activeTaskKey = getGroupedTaskDragTaskKey(event.active.data.current);
-      const activeGroupId = getGroupedTaskDragGroupId(event.active.data.current);
-      if ((!activeTaskKey && !activeGroupId) || !event.over) {
-        return;
-      }
-      const currentPreviewView = dragPreviewViewRef.current ?? authoritativeView;
-      const nextView = projectGroupedDragOver(currentPreviewView,
-        event.active.data.current, event.over.data.current, dragDirectionRef.current);
-      if (
-        nextView === currentPreviewView ||
-        getGroupedTaskViewSignature(nextView) === getGroupedTaskViewSignature(currentPreviewView)
-      ) {
-        return;
-      }
-      dragPreviewViewRef.current = nextView;
-      setViewWithGroupedTaskAnimation(nextView);
-    },
-    [authoritativeView, setViewWithGroupedTaskAnimation],
-  );
-
-  const handleGroupedTaskDragMove = useCallback(
-    (event: DragMoveEvent) => {
-      const workbenchPayload = workbenchDragPayloadRef.current;
-      const position = workbenchPointerPositionTrackerRef.current?.getPosition();
-      if (workbenchPayload && position) {
-        updateWorkbenchPointerDrag(workbenchPayload, position.x, position.y);
-      }
-      const nextDeltaY = event.delta.y;
-      const previousDirection = dragDirectionRef.current;
-      if (nextDeltaY > lastDragDeltaYRef.current) {
-        dragDirectionRef.current = "after";
-      } else if (nextDeltaY < lastDragDeltaYRef.current) {
-        dragDirectionRef.current = "before";
-      }
-      lastDragDeltaYRef.current = nextDeltaY;
-      if (dragDirectionRef.current !== previousDirection && lastDragOverEventRef.current) {
-        applyGroupedTaskDragOverPreview(lastDragOverEventRef.current);
-      }
-    },
-    [applyGroupedTaskDragOverPreview],
-  );
-
-  const handleGroupedTaskDragOver = useCallback(
-    (event: DragOverEvent) => {
-      lastDragOverEventRef.current = event.over ? event : null;
-      applyGroupedTaskDragOverPreview(event);
-    },
-    [applyGroupedTaskDragOverPreview],
-  );
-
-  const resetGroupedTaskDrag = useCallback(() => {
-    cancelWorkbenchPointerDrag();
-    workbenchDragPayloadRef.current = null;
-    workbenchPointerPositionTrackerRef.current?.dispose();
-    workbenchPointerPositionTrackerRef.current = null;
-    setActiveDragTaskKey(null);
-    setActiveDragGroupId(null);
-    setActiveDragOverlayWidth(null);
-    dragDirectionRef.current = "after";
-    lastDragDeltaYRef.current = 0;
-    lastDragOverEventRef.current = null;
-    dragOriginViewRef.current = null;
-    dragPreviewViewRef.current = null;
-  }, []);
-
-  const handleGroupedTaskDragCancel = useCallback(
-    (event?: DragCancelEvent) => {
-      const activeGroupId =
-        getGroupedTaskDragGroupId(event?.active.data.current) ?? activeDragGroupId;
-      if (activeGroupId) {
-        restoreGroupDragCollapsedState();
-        resetGroupedTaskDrag();
-        return;
-      }
-      if (dragOriginViewRef.current) {
-        setViewWithGroupedTaskAnimation(dragOriginViewRef.current);
-      }
-      resetGroupedTaskDrag();
-    },
-    [
-      activeDragGroupId,
-      resetGroupedTaskDrag,
-      restoreGroupDragCollapsedState,
-      setViewWithGroupedTaskAnimation,
-    ],
-  );
-
-  const handleGroupedTaskDragEnd = useCallback(
-    (event: DragEndEvent) => {
-      const activeGroupId =
-        getGroupedTaskDragGroupId(event.active.data.current) ?? activeDragGroupId;
-      if (activeGroupId) {
-        const originView = dragOriginViewRef.current;
-        const currentPreviewView = dragPreviewViewRef.current ?? authoritativeView;
-        const nextView = currentPreviewView;
-        restoreGroupDragCollapsedState();
-        resetGroupedTaskDrag();
-        if (
-          !originView ||
-          getGroupedTaskViewSignature(nextView) === getGroupedTaskViewSignature(originView)
-        ) {
-          if (originView) {
-            setViewWithGroupedTaskAnimation(originView);
-          }
-          return;
-        }
-        setViewWithGroupedTaskAnimation(nextView);
-        void applyOrder(nextView).catch(() => {
-          setViewWithGroupedTaskAnimation(originView);
-          toast(intl.formatMessage({ id: "taskGroup.updateFailed" }));
-        });
-        return;
-      }
-      const originView = dragOriginViewRef.current;
-      const workbenchPayload = workbenchDragPayloadRef.current;
-      const workbenchDropPosition =
-        workbenchPointerPositionTrackerRef.current?.getPosition() ?? null;
-      if (
-        originView &&
-        workbenchPayload &&
-        workbenchDropPosition &&
-        finishWorkbenchPointerDrag(
-          workbenchPayload,
-          workbenchDropPosition.x,
-          workbenchDropPosition.y,
-        )
-      ) {
-        resetGroupedTaskDrag();
-        setViewWithGroupedTaskAnimation(originView);
-        return;
-      }
-      const currentPreviewView = dragPreviewViewRef.current ?? authoritativeView;
-      const nextView = currentPreviewView;
-      resetGroupedTaskDrag();
-      if (
-        !originView ||
-        getGroupedTaskViewSignature(nextView) === getGroupedTaskViewSignature(originView)
-      ) {
-        if (originView) {
-          setViewWithGroupedTaskAnimation(originView);
-        }
-        return;
-      }
-      setViewWithGroupedTaskAnimation(nextView);
-      void applyOrder(nextView).catch(() => {
-        setViewWithGroupedTaskAnimation(originView);
-        toast(intl.formatMessage({ id: "taskGroup.updateFailed" }));
-      });
-    },
-    [
-      activeDragGroupId,
-      applyOrder,
-      authoritativeView,
-      intl,
-      resetGroupedTaskDrag,
-      restoreGroupDragCollapsedState,
-      setViewWithGroupedTaskAnimation,
-    ],
-  );
+  useLayoutEffect(() => {
+    dragPortsRef.current = {
+      authoritative: () => authoritativeView,
+      collapsed: () => collapsedGroupIds,
+      setCollapsed: onCollapsedGroupIdsChange,
+      payload: (key) => {
+        const task = findTaskInGroupedView(view, key);
+        return task ? {
+          kind: "knorvia/session", workspacePath: task.workspacePath,
+          workspaceIdentity: task.workspaceIdentity,
+          remoteSessionId: getTaskRemoteSessionId(task), sessionId: task.taskId,
+        } : null;
+      },
+      // 宽度只在 start 测一次，避免 preview 重排与 dnd-kit 测量形成同步更新循环。
+      measure: (kind, key) => kind === "group"
+        ? measureGroupedGroupPreviewWidth(groupedSectionRootRef.current, key)
+        : measureGroupedTaskPreviewWidth(groupedSectionRootRef.current, key),
+      animate: setViewWithGroupedTaskAnimation,
+      persist: (next, canPublish) => applyOrder(next, { canPublish }),
+      failed: () => toast(intl.formatMessage({ id: "taskGroup.updateFailed" })),
+      track: createWorkbenchPointerPositionTracker,
+      updateWorkbench: updateWorkbenchPointerDrag,
+      finishWorkbench: finishWorkbenchPointerDrag,
+      cancelWorkbench: cancelWorkbenchPointerDrag,
+    };
+  });
+  useLayoutEffect(() => dragSession.activate(), [baseServices.taskService, dragSession, scopeSignature]);
+  const handleGroupedTaskDragStart = dragSession.start;
+  const handleGroupedTaskDragMove = dragSession.move;
+  const handleGroupedTaskDragOver = dragSession.over;
+  const handleGroupedTaskDragCancel = dragSession.cancel;
+  const handleGroupedTaskDragEnd = dragSession.end;
 
   const activeDragTask = useMemo(
     () => (activeDragTaskKey ? findTaskInGroupedView(view, activeDragTaskKey) : null),

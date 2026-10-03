@@ -274,7 +274,7 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
   }, [remoteDataLoader]);
 
   const [refreshOwner] = useState(() => new GroupedTaskViewRefreshOwner());
-  const refresh = useCallback(() => {
+  const refresh = useCallback((canPublish?: () => boolean) => {
     const remoteDataKey = [membershipVersion, taskListVersionSignature,
       scopes.map((scope) => buildTaskWorkspaceKey(scope.workspacePath, scope.workspaceIdentity)).join("|"),
     ].join("::");
@@ -290,7 +290,7 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
         ]);
         return { structure, membership };
       }),
-      isCurrent: (remoteData) => remoteDataLoader.isCurrent(remoteDataKey, remoteData),
+      isCurrent: (remoteData) => (canPublish?.() ?? true) && remoteDataLoader.isCurrent(remoteDataKey, remoteData),
       accept: ({ structure, membership }) => {
         const nextView = buildGroupedTaskViewFromSessions({
           structure, taskIndexItems: membership.taskIndexItems, sessions: sessionsIndexItemsRef.current,
@@ -308,7 +308,7 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
 
   const [mutationOwner] = useState(() => new GroupedTaskMutationOwner({
     setView, setSaving, invalidate: () => remoteDataLoader.invalidate(),
-    refreshCurrent: () => refreshRef.current(),
+    refreshCurrent: (canPublish) => refreshRef.current(canPublish),
     log: (message, error) => logger.error(message, error),
   }));
 
@@ -367,12 +367,13 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     mutationOwner.edit(view, groupId, { title }, services.taskService), [mutationOwner, services.taskService, view]);
   const updateGroupColor = useCallback((groupId: string, color: KnorviaTaskGroupColor) =>
     mutationOwner.edit(view, groupId, { color }, services.taskService), [mutationOwner, services.taskService, view]);
-  const applyOrder = useCallback((nextView: KnorviaGroupedTaskView) =>
-    mutationOwner.order(view, nextView, services.taskService, refresh), [mutationOwner, refresh, services.taskService, view]);
+  const applyOrder = useCallback((nextView: KnorviaGroupedTaskView, options?: { canPublish?: () => boolean }) =>
+    mutationOwner.order(view, nextView, services.taskService, refresh, options?.canPublish), [mutationOwner, refresh, services.taskService, view]);
   const ungroupGroup = useCallback((groupId: string) =>
     mutationOwner.ungroup(view, groupId, services.taskService, refresh), [mutationOwner, refresh, services.taskService, view]);
 
   return {
+    scopeSignature: localWorkspaceScopeSignature,
     view: displayedView,
     setView,
     loading,

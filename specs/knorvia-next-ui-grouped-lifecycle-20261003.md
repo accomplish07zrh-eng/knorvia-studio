@@ -102,6 +102,48 @@
   新 scope、触发新 refresh 或清新 draft；旧失败仍诊断，但不删除新同 signature
   许可。已发出 host order 不宣称 abort，原存储 payload 与 draft shape 保留。
 
+## 完整 drag session / pointer / rollback（后续批次先行契约）
+
+- 单一 session owner 拥有 origin/preview、direction/delta/last-over、active ids/width、
+  collapsed snapshot、Workbench payload 与 pointer tracker；React 只投影 active
+  ids/width。accepted view 与持久 collapsed prefs 仍由原 hook/父级拥有。
+- pointerdown 仍在 6px DndKit 激活前按 ownerDocument capture 跟踪 viewport 坐标；
+  start 只测一次宽度，group 临时收起，task payload 带原 workspace/remote 身份。
+  普通 move 同时更新 Workbench preview；delta 反向才重用 last-over 重新投影。
+- cancel/end 保留既有边界：group cancel 只恢复 collapsed；task cancel 恢复 origin；
+  Workbench 接受 drop 恢复 origin 且不保存 grouped order；签名相同恢复 origin；
+  改变后保存失败恢复 origin 与原 toast。动画、CSS、overlay、drop 参数不改。
+- 显式修复：新 gesture 或 unmount 撤销旧 save UI 回写许可；host 写入仍按原
+  Promise 完成并诊断。mutation order 加可选本地 canPublish port，默认保留旧
+  调用行为；drag 使用票据阻止旧保存 rollback/refresh 改写新 preview，已发起
+  refresh 也在回包接受边界重读该票据。React adapter 暴露本地 scope signature，
+  scope/service 切换清理旧 session，不因 tabs 数组同值重建中断拖拽。
+- cleanup 释放 tracker、Workbench preview、临时 collapsed snapshot 和 active
+  表示；不在卸载后调度布局动画。同步异常仍抛出，但 owned 清理须尽量完成。
+  重入 start 释放旧 session 临时资源并保留本次 pointerdown 已捕获的 tracker。
+- Pointer tracker 保留 capture true、move/up 坐标和 cancel 不改坐标；up 后移除
+  所有监听，dispose 幂等。安装/移除异常清理其余 owned listener 并 rethrow 原错。
+- Workbench registry 保留注册次序首个 canDrop/几何命中、同目标重复 preview、
+  无目标清 preview、finish 先清再 drop。清 preview/unregister 先撤销内部许可，
+  再调用外部 callback，避免同步 reentry 递归；callback 错误仍可见。
+
+```mermaid
+sequenceDiagram
+  participant DOM as DOM / DndKit
+  participant Drag as Drag session owner
+  participant View as 原 accepted view / collapsed owner
+  participant Write as Mutation / refresh owner
+  DOM->>Drag: pointerdown / start / over / move
+  Drag->>View: 临时 collapse / animated preview
+  DOM->>Drag: end
+  Drag->>Drag: 释放 pointer / preview / active 表示
+  Drag->>Write: order + gesture publication ticket
+  Write->>Write: host write（不 abort）
+  DOM->>Drag: 新 start 或 scope cleanup
+  Drag->>Drag: 撤销旧 ticket
+  Write-->>View: 只有 scope + ticket 有效才 rollback / accept refresh
+```
+
 ## 未验证
 
 不执行 tests/lint/types/build/架构或全量审计。新增 owner 合同只写不跑；仅源码

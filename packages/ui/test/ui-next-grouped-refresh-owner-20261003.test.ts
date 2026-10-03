@@ -85,3 +85,16 @@ test("inactive run sends no load, and accept/build errors retain the original fa
   assert.deepEqual(active.journal, [["loading", true], ["error", failure], ["loading", false], "initialized"]);
   deactivate();
 });
+
+test("the response boundary rechecks a drag publication permission revoked during a load", async () => {
+  const owner = new GroupedTaskViewRefreshOwner(), deactivate = owner.activate();
+  const reply = deferred<string>(), pending = job(() => reply.promise);
+  let canPublish = true;
+  pending.options.isCurrent = () => canPublish;
+  const run = owner.run(pending.options);
+  canPublish = false;
+  reply.resolve("order accepted before the next gesture");
+  await run;
+  assert.deepEqual(pending.journal, [["loading", true], ["loading", false], "initialized"]);
+  deactivate();
+});

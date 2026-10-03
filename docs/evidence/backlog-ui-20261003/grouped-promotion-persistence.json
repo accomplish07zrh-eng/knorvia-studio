@@ -56,5 +56,7 @@
       "priorSource": null,
       "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
     }
-  ]
+  ],
+  "candidateCheckpoint": "1e6c5d4881e5425c8b6017cc8bbad43dff793d90",
+  "snapshotSemantics": "Historical adapter bytes and remaining-work statements at this checkpoint; later installation records separate"
 }
