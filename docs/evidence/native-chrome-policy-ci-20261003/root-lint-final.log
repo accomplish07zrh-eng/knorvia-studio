@@ -1,0 +1,53 @@
+
+> knorvia-studio@0.8.0-preview.3 lint /workspace/knorvia-studio
+> node scripts/run-quality.mjs lint
+
+file:///workspace/knorvia-studio/scripts/check-evidence-integrity.mjs:92
+    throw new Error(
+          ^
+
+Error: Frozen evidence inconsistent (39):
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/README.md
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/architecture-after.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/architecture-before.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/architecture-context.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/commands.json
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/direct-lint.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/format-check.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/linux-after.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/linux-before.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/result.json
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/root-lint.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/source-bindings.json
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/typecheck.log
+Unregistered frozen evidence: docs/evidence/native-chrome-policy-ci-20261003/windows-job-excerpts.txt
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/README.md
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/appimage-package.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/artifact-native-probe.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/artifact-native-probe.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/commands.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/desktop-artifact-bindings.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/desktop-build.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/distribution-artifact-bindings.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/distribution-build.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/distribution-smoke-result.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/distribution-smoke.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/frozen-install.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installed-web-probe.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installed-web-probe.mjs
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe-initial.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe-initial.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe-initial.py
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/installer-probe.py
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/result.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/runtime-bindings.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/runtime-preparation.log
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/source-input.json
+Unregistered frozen evidence: docs/evidence/native-packaged-retest-ad712690-20261003/tui-failure-artifact-excerpt.txt
+    at checkEvidenceIntegrity (file:///workspace/knorvia-studio/scripts/check-evidence-integrity.mjs:92:11)
+    at async file:///workspace/knorvia-studio/scripts/run-quality.mjs:21:18
+
+Node.js v24.14.0
+ ELIFECYCLE  Command failed with exit code 1.

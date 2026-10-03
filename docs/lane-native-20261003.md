@@ -796,3 +796,66 @@ acceptance is claimed for this source batch. Linux metadata and CLI-owned SEA
 collection requirements remain as previously handed off. The four assigned
 substantial units are complete as bounded source candidates; integrator review,
 shared evidence/source projection and final platform/package acceptance remain.
+
+## Fresh unified intermediate package and Windows policy fixture repair
+
+This same branch fast-forwarded exact unified input
+`ad712690b3eb1501574c1d29361dc801c1414373`; PR21 was confirmed merged into
+integration. Official sequential runtime preparation rebuilt CLI/plugins rather
+than reusing its bootstrap shortcut, and production Desktop/ASAR/AppImage came
+from that exact clean tracked source. The new image SHA256 is
+`4df48b20614ad7b77d0e1bece39e80d246ed6da9cd3309d54807a760342a5d43`,
+188670928 bytes, with metadata commit ad712690. The extracted artifact passed
+all six actual native probe groups again; its executable/ASAR/CLI/PTY bytes equal
+the freshly built directory payload. This is new evidence, not the old ede838 pass.
+
+The full CLI/server/Web source archive now builds with the CUA root-JS collector
+repair, SHA256 `b822a4bcda4fa72303e571a4b1275180eb06676b931375b6fe3d19042bd680f9`,
+89996347 bytes. Its unchanged distribution-smoke **fails at runTui ESM import**:
+dynamic require(process) from bundled YAML. TUI render/keyboard and the following
+Web block were not reached. A separate actual isolated install/reinstall passed
+exact byte/current-link/version/help and synthetic profile retention; the installed
+Web launcher passed HTML, server-info/workspace, artifact WebSocket and SIGTERM
+launcher exit0. That launcher result does not prove Desktop Host/child-tree disposal.
+[Intermediate receipts](evidence/native-packaged-retest-ad712690-20261003/result.json)
+retain the complete failure, initial and extended installer checks, digests/commands.
+
+The parent then explicitly superseded final input with
+`902e35c6dbcfa4b829270352fecf03ebc07b219f`, including services zombie cleanup,
+and requested the two real Windows Chrome policy CI failures first. This branch
+fast-forwarded that exact SHA; no package was rebuilt from it before repair.
+PR24/old run37123232166 logs show trigger ad712690 but actual synthetic checkout
+`7bd43bfd70486ef0e9b90bc3e2174cd81130404d`. All four production files and old
+fixture are byte-identical across those three versions, proving applicability.
+
+Under the [pre-edit spec](../specs/knorvia-native-chrome-policy-fixtures-20261003.md),
+only the fixture changes: two registry inputs now use native join spelling to
+match their unchanged expected values/assertions. Production intentionally retains
+expanded raw policy separators; normalizing it would alter its public behavior.
+One added control checks complete source fields, raw mixed separators, unknown
+variables, separate joined profilePath, ordered HKCU/HKLM reads and unchanged
+cookie bytes. All22 unselected scene bodies and all four production owners remain
+byte-identical. No new implementation/origin/license credit is claimed.
+
+Linux selected baseline **2/2 pass**, repaired plus new control **3/3 pass**, zero
+failures/skips. These do not reproduce Windows failure or replace actual Windows
+acceptance. Root typecheck, lint (one existing warning, zero errors), changed
+architecture, direct fixture lint and owned-file formatting passed before adding
+new evidence snapshots. [CI repair receipts](evidence/native-chrome-policy-ci-20261003/result.json)
+bind the real Windows failure and exact source/fixture/check results. Original
+system-command mocks and synthetic filesystem isolation remain; fixtures removed.
+
+After new snapshots were added, root lint was rerun and **exits1 before lint** at
+the unregistered frozen-evidence prerequisite. The captured failure is retained;
+no shared registry or gate was changed/bypassed. Final-tree quality remains pending
+integrator registration and the resulting matching CI, despite the earlier source
+lint pass.
+
+First hand this repair commit to integration, register its new own evidence and
+obtain a matching real Windows job. Then supply the next exact unified SHA and
+rebuild final packages; ad712690 passes remain historical intermediate results.
+CLI owns the newly exposed TUI ESM import blocker; services/UI own combined Host
+shutdown/GUI follow-up. Real Windows installers/GUI/CUA and macOS remain unavailable;
+only full Linux targets requiring the factual public maintainer email are held.
+No root/CI/shared protocol/global inventory, production UI, licence or real user
+data edit, release publication or main merge occurred in this continuation.

@@ -1,0 +1,57 @@
+{
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "metadata": {
+    "appVersion": "0.8.0-preview.3",
+    "buildCommitId": "ad712690",
+    "buildTime": "2026-10-03T12:42:25.294Z",
+    "electronBuilderVersion": "26.8.1"
+  },
+  "appImage": {
+    "path": "/tmp/knorvia-native-retest-ad712690-20261003/desktop-release/Knorvia Studio-0.8.0-preview.3-linux-x86_64.AppImage",
+    "bytes": 188670928,
+    "sha256": "4df48b20614ad7b77d0e1bece39e80d246ed6da9cd3309d54807a760342a5d43"
+  },
+  "unpacked": {
+    "knorvia-studio": {
+      "path": "/tmp/knorvia-native-retest-ad712690-20261003/desktop-release/linux-unpacked/knorvia-studio",
+      "bytes": 206036184,
+      "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b"
+    },
+    "resources/app.asar": {
+      "path": "/tmp/knorvia-native-retest-ad712690-20261003/desktop-release/linux-unpacked/resources/app.asar",
+      "bytes": 291094251,
+      "sha256": "fe9169f39afc753ca5c0492b42b5d3ca58198cb5e06472d6ca88bee5cfcfb4fa"
+    },
+    "resources/knorvia/knorvia.cjs": {
+      "path": "/tmp/knorvia-native-retest-ad712690-20261003/desktop-release/linux-unpacked/resources/knorvia/knorvia.cjs",
+      "bytes": 16544775,
+      "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d"
+    },
+    "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+      "path": "/tmp/knorvia-native-retest-ad712690-20261003/desktop-release/linux-unpacked/resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node",
+      "bytes": 75976,
+      "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909"
+    }
+  },
+  "stagedCliMatchesPackage": true,
+  "extractedMatchesFreshUnpacked": {
+    "knorvia-studio": {
+      "sha256": "7f7881d04a9119cd865abe9e45d3cce510eab82a40cab823d7b243f7daf0b03b",
+      "equalsFreshUnpacked": true
+    },
+    "resources/app.asar": {
+      "sha256": "fe9169f39afc753ca5c0492b42b5d3ca58198cb5e06472d6ca88bee5cfcfb4fa",
+      "equalsFreshUnpacked": true
+    },
+    "resources/knorvia/knorvia.cjs": {
+      "sha256": "780e6c015abe40f6aedf640d0a84613d2bf701e5f6821333c6f76c5331b1129d",
+      "equalsFreshUnpacked": true
+    },
+    "resources/app.asar.unpacked/node_modules/node-pty/prebuilds/linux-x64/pty.node": {
+      "sha256": "ce00b69d65245a1d169891a006dedd1c2100a575b394c6cd2d6b65907934b909",
+      "equalsFreshUnpacked": true
+    }
+  },
+  "nativeProbeStatus": "passed",
+  "nativeProbeInputMatchesExactCommit": true
+}

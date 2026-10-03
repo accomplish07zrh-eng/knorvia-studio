@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "fixture": "/tmp/knorvia-native-retest-ad712690-20261003/installed-web-DOJkDF",
+  "root": "/tmp/knorvia-native-retest-ad712690-20261003/isolated-installer-oc_l9g03/runtime/releases/0.8.0-preview.3",
+  "launcher": "/tmp/knorvia-native-retest-ad712690-20261003/isolated-installer-oc_l9g03/bin/knorvia",
+  "checks": [
+    "Installed launcher starts real HTTP entry and reports exact synthetic workspace",
+    "Installed Web serves real packaged HTML with status 200",
+    "Installed artifact WebSocket opens and closes normally",
+    "Installed launcher exits zero after SIGTERM with captured diagnostics; no forced cleanup"
+  ],
+  "stdout": "\nKnorvia Studio Web is running\nLocal:   http://127.0.0.1:39299/\nPress Ctrl+C to stop.\n\n[2026-10-03 12:49:32.138] [pid:22205] [cua-pip-session] [cua-pip-session] wiring resolved {\n  enabled: false,\n  platform: 'linux',\n  serviceAuthorityMode: null,\n  lifecycleWired: false\n}\n[2026-10-03 12:49:32.150] [pid:22205] [knorvia-server:http] http://127.0.0.1:39299\n[2026-10-03 12:49:32.182] [pid:22205] [provider-runtime][trace:Provider Registry 已就绪] {\n  configRevision: '[\"builtin:30:d5dc3d34a0baf9cc245bd651e8c10c6f7b3284adf7c245a497c3c9e5e861068c\",\"5bc65dc77f66a74f6bac0df7929af0b78c79685322a9f637f00d979c4d5d14e2\"]',\n  providerCount: 0\n}\n[2026-10-03 12:49:32.200] [pid:22205] [knorvia-server:http] [rpc:register] channel \"studio-creation\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"studio-runtime\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"file\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"media-preview\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"git\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"git-checkpoint\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"system\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"terminal\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"setting\"\n[2026-10-03 12:49:32.201] [pid:22205] [knorvia-server:http] [rpc:register] channel \"onboarding-record\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"credential\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"broadcast\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"knorvia-task\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"agent\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"agent-session\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"cua-permission\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"cua-pip-session\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"file-watcher\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"usage-stats\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"skills\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"skill-sync\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"mcp-sync\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"plugin-sync\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"plugins\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"plugin-management\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"subagents\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"commands\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"hooks\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"memory\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"settings-sync\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"prompt-attachment-transfer\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"provider-settings\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"model-selection\"\n[2026-10-03 12:49:32.202] [pid:22205] [knorvia-server:http] [rpc:register] channel \"window-controller\"\n",
+  "stderr": "(node:22205) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+  "forcedCleanup": false,
+  "limits": [
+    "Separate installed Web acceptance; original distribution-smoke TUI failure remains",
+    "No browser GUI, controller business flows, model requests or real user data",
+    "Launcher exit zero does not prove Desktop Host or Agent child-tree graceful cleanup"
+  ],
+  "entrySha256": "9654adf6d66e70519c4e4e1f41fd01a596efc38b2a23dcf5c2f576ea292d73ba",
+  "pid": 22194,
+  "baseUrl": "http://127.0.0.1:39299/",
+  "serverInfo": {
+    "serverId": "e23d88397de3",
+    "version": "0.8.0-preview.3",
+    "protocolVersion": 1,
+    "authRequired": false,
+    "workspaces": [
+      {
+        "path": "/tmp/knorvia-native-retest-ad712690-20261003/installed-web-DOJkDF/workspace with spaces",
+        "label": "workspace with spaces"
+      }
+    ],
+    "capabilities": {
+      "desktopContinuous": true,
+      "websocketRpc": true,
+      "processResourceTelemetry": true
+    }
+  },
+  "wsRuntimePath": "/tmp/knorvia-native-retest-ad712690-20261003/isolated-installer-oc_l9g03/runtime/releases/0.8.0-preview.3/node_modules/ws/index.js",
+  "launcherExit": [
+    0,
+    null
+  ],
+  "fixtureRemoved": true
+}

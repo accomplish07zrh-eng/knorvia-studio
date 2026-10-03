@@ -1,0 +1,52 @@
+{
+  "status": "partial-and-superseded-for-final",
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "inputTree": "860e3c49276ea4dbd5a18b7d27c441638f368a4c",
+  "platform": "linux-x64",
+  "newBuilds": [
+    "Sequential source Agent/runtime build",
+    "Production Desktop build",
+    "Fresh configured linux-unpacked/AppImage",
+    "Full source standalone CLI/server/Web archive build with CUA-root JS included"
+  ],
+  "passed": {
+    "artifactNativeGroups": 6,
+    "appImageExtraction": true,
+    "extractedIdentityMatchesFreshUnpacked": true,
+    "installerInitial": "two actual local downloads and installs, exact artifact bytes, current symlink, version/help, same synthetic profile sentinel",
+    "installerSupplement": "two fresh installs plus Web operation on the installed target",
+    "installedWeb": [
+      "HTML200",
+      "server-info and exact workspace",
+      "artifact-resolved WebSocket open/close",
+      "launcher SIGTERM exit0 without forced cleanup"
+    ]
+  },
+  "failed": {
+    "originalUnchangedDistributionSmoke": "exit1 at TUI ESM import: Dynamic require of process is not supported (bundled YAML)"
+  },
+  "notReachedByOriginalSmoke": [
+    "TUI initialized render",
+    "TUI keyboard exit",
+    "Web block"
+  ],
+  "latestParentInput": "902e35c6dbcfa4b829270352fecf03ebc07b219f",
+  "finalPackage": "Not generated for 902e35c6 or new fixture fix; await integrated Chrome fixture and CLI runtime fixes plus exact new unified SHA",
+  "remaining": [
+    "CLI owner must fix TUI ESM runtime import and rerun unchanged distribution-smoke from a new archive",
+    "Combined Desktop Host/Agent shutdown needs new zombie-cleanup input and UI/native acceptance",
+    "Real Windows NSIS/install/GUI/CUA and macOS unavailable here",
+    "Public maintainer email needed for full configured Linux .deb/.rpm/.pacman targets; AppImage-only target was explicit",
+    "No complete legacy user-data migration or model/GUI acceptance",
+    "Dependency lifecycle scripts skipped; canonical PTY packaging restoration and actual artifact module were exercised",
+    "Integrator owns registering these evidence snapshots and current-source projection"
+  ],
+  "limits": [
+    "No old ede838 payload or results substituted",
+    "Not a whole-release or two-clean-build reproducibility claim",
+    "No release published/main merged",
+    "No production source/config/CI/license/UI edits in this packaging batch",
+    "Existing installer does not itself check sha256.txt; probe external comparisons are stated separately",
+    "Installed Web launcher exit0 does not prove Desktop Host/child-tree graceful cleanup"
+  ]
+}

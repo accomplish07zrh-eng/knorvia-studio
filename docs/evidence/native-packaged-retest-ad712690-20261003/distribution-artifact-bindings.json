@@ -1,0 +1,58 @@
+{
+  "inputSha": "ad712690b3eb1501574c1d29361dc801c1414373",
+  "freshSourceBuild": true,
+  "cliServerWebBuildExitCode": 0,
+  "archive": {
+    "path": "/tmp/knorvia-native-retest-ad712690-20261003/distribution-release/releases/0.8.0-preview.3/knorvia-0.8.0-preview.3.tar.gz",
+    "bytes": 89996347,
+    "sha256": "b822a4bcda4fa72303e571a4b1275180eb06676b931375b6fe3d19042bd680f9"
+  },
+  "metadata": {
+    "baseUrl": "http://127.0.0.1:9/",
+    "createdAt": "2026-10-03T12:46:01.173Z",
+    "name": "knorvia",
+    "sha256": "b822a4bcda4fa72303e571a4b1275180eb06676b931375b6fe3d19042bd680f9",
+    "tarball": "knorvia-0.8.0-preview.3.tar.gz",
+    "version": "0.8.0-preview.3"
+  },
+  "installer": {
+    "path": "/tmp/knorvia-native-retest-ad712690-20261003/distribution-release/install.sh",
+    "bytes": 1539,
+    "sha256": "4537c48b4853b15758d78a84280ca9aa250a241eea64e079158464694de29d1d"
+  },
+  "archiveMembers": {
+    "knorvia/package.json": {
+      "bytes": 102,
+      "sha256": "1ba83f581a60d89edc07cb6a125b17ed1c59cebf7f834b2ed22e7d9701d6c843"
+    },
+    "knorvia/bin/knorvia.mjs": {
+      "bytes": 8254,
+      "sha256": "3c334de698056e06f058868d4368daa60d1f286363cccc85a0cae04c1d5003fd"
+    },
+    "knorvia/agent/knorvia.cjs": {
+      "bytes": 30673981,
+      "sha256": "633a7c469bdfe6212feda17c6475803f70f1295689e85bc19bfaf65b6500852d"
+    },
+    "knorvia/server/entry-http.js": {
+      "bytes": 2557664,
+      "sha256": "9654adf6d66e70519c4e4e1f41fd01a596efc38b2a23dcf5c2f576ea292d73ba"
+    },
+    "knorvia/web/index.html": {
+      "bytes": 10175,
+      "sha256": "ec4f259a940901c093fc1d7ec8a595d7aa5c4cc7c653fa9dc31a324ea3bcad3d"
+    },
+    "knorvia/agent/node_modules/@knorvia/cua/index.js": {
+      "bytes": 335,
+      "sha256": "d93a5d161af8816e9de1a6914d89dc69a3f2464028106e05df7dab43c1309a00"
+    },
+    "knorvia/agent/node_modules/@knorvia/cua/windows-runtime.js": {
+      "bytes": 14586,
+      "sha256": "f3d921f8d8c6ac483c2e19b97e6538b3cd510b3b1526aec23b21be79b1e1e86f"
+    },
+    "knorvia/agent/node_modules/@knorvia/tui/dist/index.js": {
+      "bytes": 18048709,
+      "sha256": "711326e906a53e59bff7c83dec850b53b9a0d7707f6e93aa1a67f6fac94eff5e"
+    }
+  },
+  "freshCliMatchesArchive": true
+}
