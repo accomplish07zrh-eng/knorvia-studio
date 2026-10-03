@@ -109,6 +109,20 @@ export function WorkspaceFileTree({
     setShowChangedOnly = panel.changed;
   const [showScrollBottomMask, setShowScrollBottomMask] = useState(false);
   const [hasScrollableFileTree, setHasScrollableFileTree] = useState(false);
+  const hasFileSearchQuery = fileSearchQuery.trim().length > 0;
+  const searchIndex = useWorkspaceFileSearchIndex({
+    workspacePath,
+    workspaceIdentity,
+    workspaceRemoteSessionId,
+    enabled: hasFileSearchQuery,
+  });
+  const {
+    entries: searchIndexEntries,
+    error: searchIndexError,
+    loaded: searchIndexLoaded,
+    loading: searchIndexLoading,
+    refresh: refreshSearchIndex,
+  } = searchIndex;
   const handleListRef = useCallback((node: HTMLDivElement | null) => {
     listRef.current = node;
     if (node) {
@@ -123,6 +137,7 @@ export function WorkspaceFileTree({
     workspaceIdentity,
     workspaceRemoteSessionId,
     enableWorkspaceFeatures: !temporaryExternalDirectory,
+    onWatchRefresh: refreshSearchIndex,
   });
   const { installedEditors } = useInstalledFileTreeEditors();
   const isRemoteWorkspaceFileTree = Boolean(workspaceRemoteSessionId || workspaceIdentity);
@@ -145,20 +160,6 @@ export function WorkspaceFileTree({
   const wslFileManagerEditor = resolveWorkspaceFileManagerEditor(availableEditors, remoteTarget);
   const canOpenInFileManager =
     Boolean(wslFileManagerEditor) || (canOpenLocalFileManager && !isRemoteWorkspaceFileTree);
-  const hasFileSearchQuery = fileSearchQuery.trim().length > 0;
-  const searchIndex = useWorkspaceFileSearchIndex({
-    workspacePath,
-    workspaceIdentity,
-    workspaceRemoteSessionId,
-    enabled: hasFileSearchQuery,
-  });
-  const {
-    entries: searchIndexEntries,
-    error: searchIndexError,
-    loaded: searchIndexLoaded,
-    loading: searchIndexLoading,
-    refresh: refreshSearchIndex,
-  } = searchIndex;
   const searchEntries = useWorkspaceFileSearchResults({
     entries: searchIndexEntries,
     query: fileSearchQuery,

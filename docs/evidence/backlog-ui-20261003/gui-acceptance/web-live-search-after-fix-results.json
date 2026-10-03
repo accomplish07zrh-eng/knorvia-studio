@@ -1,0 +1,39 @@
+{
+  "results": [
+    {
+      "name": "file-tree-live-search-after-fix",
+      "status": "passed",
+      "facts": {
+        "workspacePath": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha",
+        "create": true,
+        "preview": true,
+        "rename": true,
+        "delete": true
+      }
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "consoleErrors": [
+    {
+      "type": "error",
+      "text": "React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://react.dev/link/rules-of-hooks\n\n   Previous render            Next render\n   ------------------------------------------------------\n%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n OnboardingDialog 1. useContext                 useContext\n2. useCallback                useCallback\n3. useCallback                useCallback\n4. useSyncExternalStore       useSyncExternalStore\n5. useDebugValue              useDebugValue\n6. useContext                 useContext\n7. useContext                 useContext\n8. useRef                     useContext\n"
+    },
+    {
+      "type": "error",
+      "text": "%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'length')\n    at areHookInputsEqual (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=61287777:4197:33)\n    at updateCallback (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=61287777:4924:25)\n    at Object.useCallback (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=61287777:13243:12)\n    at exports.useCallback (http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=61287777:701:31)\n    at useStore (http://127.0.0.1:5173/node_modules/.vite/deps/zustand.js?v=61287777:8:78)\n    at useTabStore (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/store/TabStoreProvider.tsx:62:9)\n    at useResolvedRemoteWorkspaceSessionId (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/hooks/useResolvedRemoteWorkspaceSessionId.ts:21:29)\n    at useWorkspaceServicesResolution (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/hooks/useWorkspaceServices.tsx:98:34)\n    at useWorkspaceServices (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/hooks/useWorkspaceServices.tsx:147:9)\n    at useSessionService (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/hooks/useSessionService.ts:4:35) The above error occurred in the <OnboardingDialog> component. React will try to recreate this component tree from scratch using the error boundary you provided, ScopedErrorBoundary."
+    },
+    {
+      "type": "error",
+      "text": "[2026-10-03 11:29:23.017] [ui] [ScopedErrorBoundary:onboarding-dialog] React subtree crashed: {name: TypeError, message: Cannot read properties of undefined (reading 'length'), stack: TypeError: Cannot read properties of undefined (re…/packages/ui/src/hooks/useSessionService.ts:4:35)} \n    at OnboardingDialog (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/onboarding/OnboardingDialog.tsx:32:19)\n    at ScopedErrorBoundary (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/ErrorBoundary.tsx:437:8)\n    at OccupationOnboarding (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/onboarding/OccupationOnboarding.tsx:23:40)\n    at div (<anonymous>)\n    at RootShell (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/root/RootShell.tsx:7:29)\n    at RootInner (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/Root.tsx?t=1791026170647:118:22)\n    at AssistantCodeCommentFeatureProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/AssistantCodeCommentFeatureProvider.tsx:8:55)\n    at WorkerPoolContextProvider (http://127.0.0.1:5173/node_modules/.vite/deps/@pierre_diffs_react.js?v=61287777:800:38)\n    at DiffsWorkerPoolProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/root/DiffsWorkerPoolProvider.tsx:49:43)\n    at TabStoreProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/store/TabStoreProvider.tsx:16:36)\n    at StoreProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/store/StoreProvider.tsx:10:33)\n    at PlatformProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/hooks/usePlatform.tsx:13:36)\n    at ServiceProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/hooks/useServices.tsx:12:35)\n    at Provider (http://127.0.0.1:5173/node_modules/.vite/deps/dist-CiPflpyw.js?v=61287777:70:12)\n    at TooltipProvider (http://127.0.0.1:5173/node_modules/.vite/deps/radix-ui.js?v=61287777:11373:10)\n    at TooltipProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/components/ui/tooltip.tsx:7:28)\n    at LucideProvider (http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=61287777:84:27)\n    at Root (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/Root.tsx?t=1791026170647:67:20)\n    at KnorviaIntlProvider (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/i18n/IntlProvider.tsx:79:39)\n    at AppErrorBoundary (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/ui/src/ErrorBoundary.tsx:371:8)"
+    },
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:29:24.023] [ui] [windowControllerTaskListRegistry] Controller subscribe 失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+    },
+    {
+      "type": "error",
+      "text": "[2026-10-03 11:29:24.025] [ui] [useGlobalTaskList] Controller 加载 pinned 列表失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+    }
+  ]
+}

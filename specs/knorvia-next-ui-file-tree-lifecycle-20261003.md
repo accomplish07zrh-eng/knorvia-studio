@@ -74,6 +74,47 @@ owner。桥只保存 owner 指针，不保存第二份目录状态；旧路径�
 
 ## 验收限制
 
+### 2026-10-03 最终 GUI 验收发现：watch 与搜索索引联动
+
+从 `main` 的 `59517d9699519b0a7a44980da27df29d45f0e91e` 在隔离合成项目、
+真实 LocalServices/RPC 与 Chromium Web 中复现：保持搜索条件时新增文件，
+Host watcher 已刷新目录，普通目录视图可见该文件，搜索却仍使用旧 packed 索引。
+进一步复现确认手工刷新也读取 Host 的 60 秒缓存；不能将等缓存到期当作修复。
+此为 UI 接线及刷新命令缺口，不改变 Host/RPC、数据格式或呈现。
+
+- 目录 owner 继续独占 watch debounce/路径队列与请求票据。有效 watch 批次完成
+  目录刷新后，通过可选 `onWatchRefresh` port 发出一次索引刷新命令；普通加载、
+  手工刷新、scope 已关闭或被新 refresh 取代的旧批次不发此命令。
+- 原索引 hook 的 `refresh()` 是唯一入口，继续由 reducer 拥有 packed snapshot、
+  request owner 拥有接受权。不增加 watcher、timer、索引副本或持久化 key。
+  搜索关闭时仍不拉取索引；开启时刷新保留旧成功结果，只有最新有效回包可发布。
+- 文件树的索引读取先使用现有公开 `searchWorkspaceFiles({ refresh: true,
+query: "", limit: 1 })` 刷新唯一 Host 索引，再走原分块 Length/Range。空查询的
+  搜索结果不参与 UI 状态；该命令完成即重新核对请求接受权，已失效则不继续分块。
+  其它调用者默认不强刷。未添加隐藏超时、等待缓存到期或临时服务实现。
+- callback 可同步重入切换 scope；调用后再次核对原票据再发 Git 读取，避免旧
+  批次继续调度新 scope 的资源。原非递归监听范围、300ms debounce 和刷新失败
+  语义保留；未监听的折叠子目录不在本次自动刷新保证范围。
+- 定向验收覆盖 create/rename/delete 的真实文件事件、旧 scope 迟到刷新、批次
+  合并，以及既有目录 owner 合同。Web 验收不代表 Electron、Windows 安装包或
+  真实用户数据迁移完成。现阶段用户已授权定向 GUI/兼容验证；下文是历史限制。
+
+```mermaid
+sequenceDiagram
+  participant Host as 原 Host watcher
+  participant Tree as 目录 owner
+  participant Index as 原索引 hook/request owner
+  Host->>Tree: 目录事件
+  Tree->>Tree: 原 debounce 与有效批次票据
+  Tree->>Host: 原目录刷新
+  Host-->>Tree: 回包
+  Tree->>Tree: 核对当前 scope/批次
+  Tree->>Index: refresh()
+  Index->>Host: 原 packed 分块读取
+  Host-->>Index: 回包
+  Index->>Index: 最新有效请求发布 snapshot
+```
+
 用户本阶段明确禁止执行测试、lint、类型检查、构建、架构/全量审计。只能阅读
 源码/契约、检查变更差异及 Git/远端 metadata。新增场景仅供最终统一执行；
 纯 owner 场景不能替代 React effect、真实服务、DOM、desktop/Web 产物的验收。

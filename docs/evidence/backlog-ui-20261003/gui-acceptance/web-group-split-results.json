@@ -1,0 +1,82 @@
+{
+  "results": [
+    {
+      "name": "web-create-group-draft",
+      "status": "passed",
+      "facts": {
+        "name": "Synthetic group 中文",
+        "workspace": "/tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha",
+        "draft": "Synthetic group unsent draft — 中文",
+        "workflowRoundtrip": true
+      }
+    },
+    {
+      "name": "web-split-entry",
+      "status": "passed",
+      "facts": {
+        "splitMenu": true,
+        "panes": [
+          {
+            "id": "workspace-main",
+            "focused": "false",
+            "restored": "false"
+          },
+          {
+            "id": "pane-1",
+            "focused": "true",
+            "restored": "false"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "failed": [
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/github-dark-Bit0erYG.js?v=61287777",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/github-light-DMLcc9c2.js?v=61287777",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:12:11.466] [ui] [windowControllerTaskListRegistry] Controller subscribe 失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+    },
+    {
+      "type": "error",
+      "text": "[2026-10-03 11:12:11.471] [ui] [useGlobalTaskList] Controller 加载 pinned 列表失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+    },
+    {
+      "type": "error",
+      "text": "[2026-10-03 11:12:21.791] [ui] [useGlobalTaskList] Controller 加载 pinned 列表失败 Unknown channel: Channel name 'window-controller' timed out after 1000ms\n    at handler (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:65:22)\n    at ChannelClient.onResponse (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:197:35)\n    at ChannelClient.onBuffer (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:183:10)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/channelClient.ts:21:63\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at SocketProtocol.readMessages (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:159:25)\n    at http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/protocol.ts:124:9\n    at Emitter.fire (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/rpc/src/foundation.ts:98:4)\n    at WebSocket.<anonymous> (http://127.0.0.1:5173/@fs/workspace/knorvia-studio/packages/client/src/websocket.ts:9:8)"
+    },
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:12:25.669] [ui] [knorvia-workspace-presentation] readWorkspacePresentation failed {workspacePath: /tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha, workspaceIdentity: null, provider: knorvia, durationMs: 938, error: SQLite startup failed: transport_closed}"
+    },
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:12:25.670] [ui] [v4-workspace-catalog] workspace 目录水合失败: Error: SQLite startup failed: transport_closed"
+    },
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:12:25.680] [ui] [workflow-run] 读取 run 摘要失败（journal 回退暂缺） {error: SQLite startup failed: transport_closed, live: false, sessionId: 44444444-4444-4444-8444-444444444444}"
+    },
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:12:25.681] [ui] v4 conversation subscription failed {workspaceKey: /tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha, workspacePath: /tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha, durationMs: 948, errorMessage: SQLite startup failed: transport_closed, event: v4.conversation.subscribe.failed}"
+    },
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:12:26.571] [ui] v4 conversation subscription failed {workspaceKey: /tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha, workspacePath: /tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha, durationMs: 696, errorMessage: SQLite startup failed: transport_closed, event: v4.conversation.subscribe.failed}"
+    },
+    {
+      "type": "warning",
+      "text": "[2026-10-03 11:12:27.345] [ui] v4 conversation subscription failed {workspaceKey: /tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha, workspacePath: /tmp/knorvia-ui-gui-20261003-bxvoxp5q/workspaces/alpha, durationMs: 583, errorMessage: SQLite startup failed: transport_closed, event: v4.conversation.subscribe.failed}"
+    }
+  ]
+}
