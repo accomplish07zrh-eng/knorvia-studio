@@ -48,3 +48,9 @@ sequenceDiagram
 用户明确本阶段不运行测试、lint、类型检查、格式/架构检查、构建或全量审计。新增测试只编写，不执行；只阅读契约、相关源码和提交差异，并确认完整提交在远端。所有候选标记 **未验证**，source/emitted/真实消费者、跨平台和整合组合验收留待最终阶段。
 
 本路只维护 `docs/lane-cli-20261003.md`，不改全局 inventory/reviews 或 LICENSE/NOTICE。固定 API、行为词汇与关联第三方声明继续保留。独立表达、来源、贡献权和最终 MIT 决定仍待整合者核验；写出新代码不会自动授予 MIT。
+
+## 较晚 accepted-byte 记录与 HOLD
+
+之后读取 `specs/knorvia-core-task-notification-owner-20261003.md` 和 `docs/evidence/core-published-ownership-next-screen-20261003/README.md`，发现 root 已接受 registry SHA256 `12a18abdd47a1639a86726a92f7b9bf55227c8918109c3934b33925b066603e2` 的报告；它们明确要求保持 local `ac09ec1b...`，等最终整合。本固定基线中的 `licensing/reviews.json` 没有 registry 的精确条目，引用的 `licensing/evidence/contract-authored-task-registry-expression-20261002.json` 也不存在。因此这是一份需要整合者提供精确源提交与 receipt 的 reported accepted-byte HOLD，不能用本路重写解除。
+
+本批新实现保留在 `apps/cli/packages/core/test/candidates/task-registry-20261003/{registry.ts,registry-waits.ts}`；新增 contract test 只导入这个候选。生产 `runtime-task/registry.ts` 恢复到固定基线的精确版本，不安装 fallback、双 owner 或替代路由。此前新代码提交仍保留在本路 Git 历史，候选可审查；不计为生产 owner 完成。对账后由整合者决定接受原已接受稿或评审本候选，不能默认为 MIT 或验收通过。

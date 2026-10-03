@@ -6,7 +6,7 @@ import {
   isTerminalRuntimeTask,
   type RuntimeTaskPendingMessage,
   type RuntimeTaskSnapshot,
-} from "../src/runtime-task/registry.js";
+} from "./candidates/task-registry-20261003/registry.js";
 
 const TASK_ID = "synthetic-task";
 
