@@ -76,7 +76,7 @@ sequenceDiagram
   connection replacement and passive cleanup. Target changes within the same
   connection do not cancel definition imports.
 - An import flight has unique object identity per group and lease. Releasing an
-  old flight cannot remove a newer flight for the same id. Keep imported-id skips,
+  old flight cannot remove a newer flight for the same id. Keep imported/in-flight id skips,
   onlyIfAbsent, existing-definition confirmation, parallel import dispatch and
   the error latch/retry UI. Already-issued Host commands finish through their
   original client; only current-lease replies may markImported or publish errors.
@@ -110,8 +110,9 @@ signatures stay unchanged. No actual user storage is accessed during development
 - ensureDraft defaults to infinite revision, ignores an older snapshot than an
   acknowledged receipt, retains draft text and uses the existing JSON equality
   bailout. acknowledgeDefinition ignores an older ACK, updates the overlay and
-  revision and marks its id imported in memory. deleteGroup retains revision
-  guards and clears only that id's text. Draft typing never changes updatedAt.
+  revision and marks its id imported in memory; if this confirms the last legacy
+  id, it also finishes the same write-before-remove migration. deleteGroup retains
+  revision guards and clears only that id's text. Draft typing never changes updatedAt.
 - saveDraft requires an existing projected group and valid length; equal text is
   a no-op. clearDraftIfUnchanged observes the current store text and clears only
   the submitted value. Storage write failure retains current memory text and the
