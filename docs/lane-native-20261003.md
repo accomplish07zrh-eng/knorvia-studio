@@ -185,28 +185,68 @@ remain unchanged and unrun here. Current feedback entry/policy still match their
 prior handoff digests; the candidates/snapshot helpers have later current digests
 bound here, so prior whole-service passes do not validate this combination.
 
-## Exact next native decisions
+## Data-root lock and exact recovery-origin reconciliation
 
-The bounded data-size queue is already installed and retained: scanner/client
-from `9d92be5f35e89539e0077e79005f786f00778202` match
-[root-data-preview review](evidence/root-data-preview-20261003/review.json).
-`dataSizeWorker.ts` is explicitly retained tiny entry glue there, with no new
-originality credit. None was overwritten or counted by this lane.
+The whole `runtime/lock.ts` candidate now has one held-file owner, explicit
+rename/recheck path claims and the compatible recovery-gate sequence. Public
+inspection/liveness, receipt/modes, stale byte and release token predicates,
+retry count/delay, gate close/error ordering and live release-field observations
+remain contractual. No actual file lock, process probe, timer or user data was used.
 
-The previously pending `packages/desktop/src/main/exportLogs.ts` whole owner is
-now the candidate above. Its actual services/ZIP/Electron/public consumers still
-require final integration acceptance; no services interface change is proposed.
+[Contract](../specs/knorvia-next-platform-lock-owner-20261003.md),
+[whole draft/dependency bindings](evidence/backlog-platform-lock-owner-20261003/bindings.json)
+and [exact origin reconciliation](evidence/backlog-platform-lock-owner-20261003/origin-reconciliation.json)
+record both formerly unreviewed sources. The existing upstream inventory has
+`packages/zcode-server-cli/src/runtime/lock.ts` and `startupRecovery.ts`: reverse
+only their three/one product labels and the current baseline reproduces the exact
+recorded 7257/739 bytes and SHA256. Local upstream Git blobs are unavailable;
+the evidence is the existing source record plus exact reverse-label digest,
+not a claim of additional original-author access or legal clearance. No accepted
+replacement receipt/history surfaced for either selected source.
 
-Separately authorized `packages/server-cli/src/runtime/lock.ts` retains
-SHA256 `d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0`,
-and `startupRecovery.ts` retains
-`17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80`.
-Their selected inventory entries remain unreviewed, with no upstream mapping or
-matching installed replacement receipt surfaced. Integration must reconcile
-actual authorship/classification rather than treating them as inherited upstream
-or MIT automatically. This is a precise origin decision, not a claim that all
-native code is complete; the lock algorithm is available for a later authorized
-behavior-contract candidate and the recovery file is a thin retained facade.
+`startupRecovery.ts` remains exact SHA256
+`17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80`:
+a thin uninstall-marker/ReleaseManager delegation/failure-notification facade,
+without another recovery algorithm or mutable owner. It is a retained
+compatibility surface with **zero new reconstruction/originality credit**.
+Integration must record its renamed source and decide expression/rights/licence
+disposition. It is not original/MIT merely because current inventory is unreviewed.
+The substantive lock algorithm was replaced; repeated rewriting of existing
+independent owners or the facade would not add algorithmic progress.
+
+Two scenarios in `packages/server-cli/test/lock-ownership-contract.test.mjs` are
+**unrun**. Same source-exposed author; fixed public/wire/native expressions and
+all source/rights/native qualifications remain pending.
+
+## Freeze scope and final integration dependencies
+
+The specifically assigned residual queue (whole exporter, substantive lock,
+recovery source decision) is handled at this source checkpoint. This fixed lane
+can enter the parent-authorized waiting phase on the current branch/PR. This is
+no blanket whole-directory origin audit or MIT acceptance; any newly allocated
+owner continues in the same task and branch. The bounded data-size queue remains
+inherited: scanner/client from `9d92be5f35e89539e0077e79005f786f00778202` match
+[root-data-preview review](evidence/root-data-preview-20261003/review.json), and
+`dataSizeWorker.ts` is explicitly retained tiny entry glue with no new credit.
+
+- Include the three deferred server-cli case files in the final root runner:
+  `control-transport-contract.test.mjs`, `status-persistence-contract.test.mjs`,
+  `lock-ownership-contract.test.mjs`. Their fixture/source dependencies stay in
+  the same owned package; root/CI config was not edited here.
+- Run existing actual security export and services source/emitted/feedback
+  consumer cases with the delivered exporter and current bound services owners.
+  Later candidates/snapshot helper digests differ from the old service handoff;
+  its historical whole-service result is not current combination acceptance.
+- Final native checks must combine storage services/Worker/IPC, Host/RPC/renderer,
+  named pipes/POSIX control endpoints, Windows installation locks, WSL identity,
+  diagnostic streams/yazl and Supervisor/uninstall/release consumers. No shared
+  schema, service API, UI or data-format change is requested by this lane.
+- Reconcile exact renamed lock/recovery mappings in global provenance, review all
+  digest-bound source-exposed candidates and retained compatibility expressions
+  (including the fixed PowerShell program and recovery facade), preserve third-
+  party obligations and refresh inventories only under integration ownership.
+  Historical feedback ReadableStream.destroy/node-forge/RPC/CUA diagnostics remain
+  historical until final execution; none were rerun or declared solved here.
 
 ## Inherited work and remaining boundaries
 
@@ -225,16 +265,16 @@ passes/failures are historical and have not been rerun.
 Other native scopes retain the existing PR9/12 owners. The two known inherited
 status/shutdown owners above now have this lane's contract/candidate records.
 Parent now excludes CLI/Core and services ownership from subsequent native work.
-The separately authorized lock/recovery candidates and desktop native owners
-remain available for bounded review. Unreviewed origin is a reconciliation need, not
-automatic permission to discard a possible earlier implementation or an MIT
-decision; this checkpoint does not declare those directories closed.
+The specific exporter/lock/recovery residual queue is now handled as above.
+Retained owners and compatibility surfaces are not new reconstruction credit;
+source/rights classification remains an integration decision.
 
 ## Integration coordination
 
 - The existing root test runner does not scan `packages/server-cli/test`. Add the
-  two new deferred files `control-transport-contract.test.mjs` and
-  `status-persistence-contract.test.mjs` there during final integration; root
+  three deferred files `control-transport-contract.test.mjs`,
+  `status-persistence-contract.test.mjs` and `lock-ownership-contract.test.mjs`
+  there during final integration; root
   scripts/CI are owned by the integrator and were not edited here.
 - No shared schema or protocol interface change is needed for this batch. Actual
   Supervisor/CLI consumers and Windows named pipes/POSIX endpoints still need
