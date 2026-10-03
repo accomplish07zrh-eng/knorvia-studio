@@ -1,0 +1,132 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "previousLaneCommit": "cdc80cb1e6d3c731c1ea41d2c9663d83b2fd532d",
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-status-persistence-20261003.md",
+  "files": [
+    {
+      "path": "packages/server-cli/src/runtime/statusSnapshot.ts",
+      "baselineBlob": "91ce0e38af60aa7d24c0f21d88c3da6fe8ab0618",
+      "baselineSha256": "6bee51d858e0106be071744441fb1ca2367be6bae313a138d5357b99d78be1f0",
+      "baselineBytes": 2184,
+      "recordedSource": {
+        "path": "packages/server-cli/src/runtime/statusSnapshot.ts",
+        "kind": "file",
+        "sha256": "6bee51d858e0106be071744441fb1ca2367be6bae313a138d5357b99d78be1f0",
+        "normalizedSha256": "6bee51d858e0106be071744441fb1ca2367be6bae313a138d5357b99d78be1f0",
+        "encoding": "utf8-lf",
+        "bytes": 2184,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/zcode-server-cli/src/runtime/statusSnapshot.ts",
+          "blob": "91ce0e38af60aa7d24c0f21d88c3da6fe8ab0618",
+          "normalizedSha256": "6bee51d858e0106be071744441fb1ca2367be6bae313a138d5357b99d78be1f0",
+          "contentMatchedPaths": [
+            "packages/zcode-server-cli/src/runtime/statusSnapshot.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "b267bad96aa8f5c1d1056937ae97bc0a186f8015f7ff75ad1350ee51709a6305",
+      "frozenCandidateBytes": 2480
+    },
+    {
+      "path": "packages/server-cli/src/runtime/shutdownWait.ts",
+      "baselineBlob": "3580b318cfdd380a6ee091334ddc6cce8f45dc2e",
+      "baselineSha256": "93152e23766f1cae02474f44a790ae8821d5fe4073a7e594537ef3dfbe27ddc8",
+      "baselineBytes": 1801,
+      "recordedSource": {
+        "path": "packages/server-cli/src/runtime/shutdownWait.ts",
+        "kind": "file",
+        "sha256": "93152e23766f1cae02474f44a790ae8821d5fe4073a7e594537ef3dfbe27ddc8",
+        "normalizedSha256": "93152e23766f1cae02474f44a790ae8821d5fe4073a7e594537ef3dfbe27ddc8",
+        "encoding": "utf8-lf",
+        "bytes": 1801,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/zcode-server-cli/src/runtime/shutdownWait.ts",
+          "blob": "3580b318cfdd380a6ee091334ddc6cce8f45dc2e",
+          "normalizedSha256": "93152e23766f1cae02474f44a790ae8821d5fe4073a7e594537ef3dfbe27ddc8",
+          "contentMatchedPaths": [
+            "packages/zcode-server-cli/src/runtime/shutdownWait.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "241e04e8e42fb11869412e0b42d9bfc00d1547cc982b4e972ab3ab47aff66ec5",
+      "frozenCandidateBytes": 1876
+    }
+  ],
+  "retained": [
+    {
+      "path": "packages/server-cli/src/runtime/lock.ts",
+      "sha256": "d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0",
+      "baselineBlob": "3a09adef6faf21ba7170e3a04ab20067f632aabd",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/startupRecovery.ts",
+      "sha256": "17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80",
+      "baselineBlob": "d59d81c4d9a9f351586f3dea6ef101d9c0050fe6",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/serviceInstallation.ts",
+      "sha256": "2caf54aa236584eca10f1c7c089dec2bb7984df3c9327c06f13c0cc472d5a51c",
+      "baselineBlob": "31f4d91ba631aca78241b5b058b02e15d2a4840e",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    },
+    {
+      "path": "packages/server-cli/src/contracts.ts",
+      "sha256": "2f0c4827a6efed0546aca07df19dc838ae3b35e178686f54afb02315c34250b2",
+      "baselineBlob": "05ae08e8da5e56719dabf5d01c1c699239e34288",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/paths.ts",
+      "sha256": "467cc58083197e8dfd3ee02610c1f041ae77b4ce099d4a33ff58a5f065123e30",
+      "baselineBlob": "0f7b3090f898563e981f8a3ee3fe58cdad686597",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/uninstallGuard.ts",
+      "sha256": "e76d5964bfbec6b379f9e1e56e56598b2d40d9683025d2518adf6aa4b3127002",
+      "baselineBlob": "64223587294d3689f4c143c5c684f0befabca7af",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    },
+    {
+      "path": "packages/server-cli/src/supervisor/supervisor.ts",
+      "sha256": "07734552fce946c5fda84e62dc2ce84c3cc8df5a5f58132ce2c70bcc71e50383",
+      "baselineBlob": "cf3ceb311b39e0efd9e36a940b5d7785723284bc",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    },
+    {
+      "path": "packages/server-cli/src/cli.ts",
+      "sha256": "2a88c37072b83ad52d1bef57101a531514606f824858b736f628f57ac6a3c606",
+      "baselineBlob": "1e156e3150a30eca50e48c497b8e458234b0bce8",
+      "disposition": "unchanged dependency/caller; no reconstruction credit or new origin decision"
+    }
+  ],
+  "phase": "whole-draft-frozen-before-source-diff",
+  "originQualification": "Same source-exposed agent curated and authored candidates from the frozen contract. No fresh-author, clean-room, isolated-origin, independent-expression acceptance or MIT grant. Unreviewed lock/recovery/service-installation dependencies retained; lack of review is not inferred proof of inherited/original provenance.",
+  "executedValidation": [],
+  "deferred": [
+    "all tests including fake-port scenarios",
+    "lint",
+    "typecheck",
+    "build",
+    "format/architecture checks",
+    "full audit",
+    "actual consumers, filesystem/lock and platform acceptance"
+  ],
+  "globalLicenseDecisionChanged": false
+}

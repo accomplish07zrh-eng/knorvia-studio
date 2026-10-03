@@ -2,82 +2,89 @@ import { isAbsolute, relative } from "node:path";
 import type { GitFileChange } from "@knorvia/shared";
 import { normalizeGitPath, normalizeWorkspaceInRepoPath } from "./config.js";
 
-function normalizeCommitMessageScopePath(path: string): string {
+type SessionScopeInput = {
+  workspacePath: string;
+  repoRoot: string;
+  workspaceInRepoPath: string;
+  currentSessionFilePaths?: readonly string[];
+};
+
+type ScopeNode = {
+  terminal: boolean;
+  children: Map<string, ScopeNode>;
+};
+
+function scopeSpelling(path: string): string {
   return normalizeGitPath(path.trim())
     .replace(/^\.?\//, "")
     .replace(/\/+$/, "");
 }
 
-function isRelativePathInsideScope(path: string): boolean {
-  const normalizedPath = normalizeGitPath(path);
+function admittedRelative(path: string): boolean {
+  const spelling = normalizeGitPath(path);
   return (
-    normalizedPath.length > 0 &&
-    normalizedPath !== ".." &&
-    !normalizedPath.startsWith("../") &&
-    !isAbsolute(normalizedPath)
+    spelling.length > 0 &&
+    !isAbsolute(spelling) &&
+    spelling !== ".." &&
+    !spelling.startsWith("../")
   );
 }
 
-function addCommitMessageScopeCandidate(scope: Set<string>, path: string): void {
-  const normalizedPath = normalizeCommitMessageScopePath(path);
-  if (!normalizedPath) {
-    return;
-  }
-  scope.add(normalizedPath);
-}
-
-function buildCommitMessageFileScope(params: {
-  workspacePath: string;
-  repoRoot: string;
-  workspaceInRepoPath: string;
-  currentSessionFilePaths?: readonly string[];
-}): Set<string> | null {
-  const sourcePaths = params.currentSessionFilePaths
-    ?.map((path) => path.trim())
-    .filter((path) => path.length > 0);
-  if (!sourcePaths || sourcePaths.length === 0) {
-    return null;
-  }
-
-  const scope = new Set<string>();
-  const normalizedWorkspaceInRepoPath = normalizeWorkspaceInRepoPath(params.workspaceInRepoPath);
-
-  for (const path of sourcePaths) {
-    addCommitMessageScopeCandidate(scope, path);
-
+function* sessionAliases(input: SessionScopeInput): Generator<string> {
+  const paths = input.currentSessionFilePaths?.flatMap((source) => {
+    const path = source.trim();
+    return path ? [path] : [];
+  }) ?? [];
+  if (paths.length === 0) return;
+  const workspacePrefix = normalizeWorkspaceInRepoPath(input.workspaceInRepoPath);
+  for (const path of paths) {
+    yield path;
     if (isAbsolute(path)) {
-      const repoRelativePath = relative(params.repoRoot, path);
-      if (isRelativePathInsideScope(repoRelativePath)) {
-        addCommitMessageScopeCandidate(scope, repoRelativePath);
+      for (const root of [input.repoRoot, input.workspacePath]) {
+        const alias = relative(root, path);
+        if (admittedRelative(alias)) yield alias;
       }
-
-      const workspaceRelativePath = relative(params.workspacePath, path);
-      if (isRelativePathInsideScope(workspaceRelativePath)) {
-        addCommitMessageScopeCandidate(scope, workspaceRelativePath);
+    } else {
+      const spelling = scopeSpelling(path);
+      if (workspacePrefix !== "." && !spelling.startsWith(`${workspacePrefix}/`)) {
+        yield `${workspacePrefix}/${spelling}`;
       }
-      continue;
-    }
-
-    const normalizedPath = normalizeCommitMessageScopePath(path);
-    if (
-      normalizedWorkspaceInRepoPath !== "." &&
-      !normalizedPath.startsWith(`${normalizedWorkspaceInRepoPath}/`)
-    ) {
-      addCommitMessageScopeCandidate(scope, `${normalizedWorkspaceInRepoPath}/${normalizedPath}`);
     }
   }
-
-  return scope.size > 0 ? scope : null;
 }
 
-function isCommitMessageFileInScope(file: GitFileChange, scope: Set<string> | null): boolean {
-  if (!scope) {
-    return true;
+class ExactSessionScope {
+  private readonly root: ScopeNode = { terminal: false, children: new Map() };
+
+  constructor(aliases: Iterable<string>) {
+    for (const alias of aliases) {
+      const spelling = scopeSpelling(alias);
+      if (!spelling) continue;
+      let node = this.root;
+      for (const segment of spelling.split("/")) {
+        let child = node.children.get(segment);
+        if (!child) {
+          child = { terminal: false, children: new Map() };
+          node.children.set(segment, child);
+        }
+        node = child;
+      }
+      node.terminal = true;
+    }
   }
 
-  return [file.path, file.repoRelativePath, file.workspaceRelativePath].some((path) =>
-    scope.has(normalizeCommitMessageScopePath(path)),
-  );
+  includes(file: GitFileChange): boolean {
+    if (this.root.children.size === 0) return true;
+    return [file.path, file.repoRelativePath, file.workspaceRelativePath].some((path) => {
+      let node = this.root;
+      for (const segment of scopeSpelling(path).split("/")) {
+        const child = node.children.get(segment);
+        if (!child) return false;
+        node = child;
+      }
+      return node.terminal;
+    });
+  }
 }
 
 export function filterCommitMessageFilesByCurrentSession(params: {
@@ -87,11 +94,6 @@ export function filterCommitMessageFilesByCurrentSession(params: {
   workspaceInRepoPath: string;
   currentSessionFilePaths?: readonly string[];
 }): GitFileChange[] {
-  const scope = buildCommitMessageFileScope({
-    workspacePath: params.workspacePath,
-    repoRoot: params.repoRoot,
-    workspaceInRepoPath: params.workspaceInRepoPath,
-    currentSessionFilePaths: params.currentSessionFilePaths,
-  });
-  return params.files.filter((file) => isCommitMessageFileInScope(file, scope));
+  const scope = new ExactSessionScope(sessionAliases(params));
+  return params.files.filter((file) => scope.includes(file));
 }

@@ -1,0 +1,60 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-lock-owner-20261003.md",
+  "files": [
+    {
+      "path": "packages/server-cli/src/runtime/lock.ts",
+      "baselineCommit": "33f812b483582dd6a6152618b4a57406b94a15ea",
+      "baselineBlob": "3a09adef6faf21ba7170e3a04ab20067f632aabd",
+      "baselineSha256": "d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0",
+      "recordedSource": {
+        "path": "packages/server-cli/src/runtime/lock.ts",
+        "kind": "file",
+        "sha256": "d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0",
+        "normalizedSha256": "d1d253b522085515fa83cc8bbd0c5b1f16dce8f91b7246ee29ad6cf65ad8efd0",
+        "encoding": "utf8-lf",
+        "bytes": 7284,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "6d686e81695747f755787f6d2122e35275bb0e6e2b622231ea3bb35574a447b0",
+      "frozenCandidateBytes": 7057
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/server-cli/src/runtime/startupRecovery.ts",
+      "sha256": "17c07009b9876b9cbabce9be46b359e191c273882eb1443be8de8e9c59db2d80",
+      "gitBlob": "d59d81c4d9a9f351586f3dea6ef101d9c0050fe6",
+      "disposition": "retained caller/dependency or thin facade; no new source/rights acceptance"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/releaseManager.ts",
+      "sha256": "c6a7173ff6825577fb945f6de5a7564269798d4d8ada1584eef1a159042c7c05",
+      "gitBlob": "f056dfdd530427bb38fe21b5b94818a000449a44",
+      "disposition": "retained caller/dependency or thin facade; no new source/rights acceptance"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/uninstallGuard.ts",
+      "sha256": "e76d5964bfbec6b379f9e1e56e56598b2d40d9683025d2518adf6aa4b3127002",
+      "gitBlob": "64223587294d3689f4c143c5c684f0befabca7af",
+      "disposition": "retained caller/dependency or thin facade; no new source/rights acceptance"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/shutdownWait.ts",
+      "sha256": "241e04e8e42fb11869412e0b42d9bfc00d1547cc982b4e972ab3ab47aff66ec5",
+      "gitBlob": "22f03d574082a7d9859f89eaa0bd3edf82e1879d",
+      "disposition": "retained caller/dependency or thin facade; no new source/rights acceptance"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed author curated and authored the complete held-file/path-claim/gate owner from the behavior contract. Existing types, JSON receipt, modes, path/message/retry constants and conventional IO expressions remain qualified. Reverse-label digest evidence is a source relationship, not rights or independent-expression acceptance. No clean-room, fresh-author or MIT claim.",
+  "checksRun": [],
+  "testsStatus": "two supplied filesystem/process/UUID/clock scenarios authored, not executed",
+  "globalLicenseDecisionChanged": false
+}

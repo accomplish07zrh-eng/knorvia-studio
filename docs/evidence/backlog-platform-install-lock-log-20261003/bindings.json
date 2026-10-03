@@ -1,0 +1,75 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-install-lock-log-20261003.md",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/windowsInstallResourceLocks.ts",
+      "baselineCommit": "388b69ccf08feacee73fbffb31a48faaa32c07ce",
+      "baselineBlob": "330c2c1a9242c4f191cb8d771772344d69b723af",
+      "baselineSha256": "7e7a48c4ce5a884532e711acc467ef7a508691a85c350335b016aa29cdf89b17",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/windowsInstallResourceLocks.ts",
+        "kind": "file",
+        "sha256": "7e7a48c4ce5a884532e711acc467ef7a508691a85c350335b016aa29cdf89b17",
+        "normalizedSha256": "7e7a48c4ce5a884532e711acc467ef7a508691a85c350335b016aa29cdf89b17",
+        "encoding": "utf8-lf",
+        "bytes": 8909,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/windowsInstallResourceLocks.ts",
+          "blob": "7d134071c9e3ccdc5b30c1cf31b739a3b00848e1",
+          "normalizedSha256": "12d31e95bc8939b1e49a1e3b29b0df7f9a75bf7c1be78a5432ea851cac7a55cb",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "255ac7d28999ab3c23f64cb148e04aab9be43266ee36c2e6e09c5e9e2c4d7427",
+      "frozenCandidateBytes": 7893,
+      "retainedPowerShellProgram": {
+        "normalizedInterpolationSha256": "87fd79af3e46ab1a23b2f99bb71b24fe8f50f608290087576180a9ec131ecc4c",
+        "sameFixedProgramAfterInterpolationVariableNormalization": true,
+        "disposition": "retained source/wire compatibility material; no independent-expression credit or rights acceptance"
+      }
+    },
+    {
+      "path": "packages/desktop/src/main/hostLogRelay.ts",
+      "baselineCommit": "388b69ccf08feacee73fbffb31a48faaa32c07ce",
+      "baselineBlob": "913d58bf5061447751b82b1bbde83e137a766610",
+      "baselineSha256": "b8624ff7f740350f61e0203adfbe40774b105f23534b49a04b2c1583ba952c4b",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/hostLogRelay.ts",
+        "kind": "file",
+        "sha256": "b8624ff7f740350f61e0203adfbe40774b105f23534b49a04b2c1583ba952c4b",
+        "normalizedSha256": "b8624ff7f740350f61e0203adfbe40774b105f23534b49a04b2c1583ba952c4b",
+        "encoding": "utf8-lf",
+        "bytes": 3524,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/hostLogRelay.ts",
+          "blob": "913d58bf5061447751b82b1bbde83e137a766610",
+          "normalizedSha256": "b8624ff7f740350f61e0203adfbe40774b105f23534b49a04b2c1583ba952c4b",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/hostLogRelay.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "6b3c50ff3c57ca88c5d0ee87c0b051be937922e5d860e11798843d5a1f280fd2",
+      "frozenCandidateBytes": 3195
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent curated and authored the full candidates. Retained public structures, fixed PowerShell program, regex/constants/error prose and conventional expressions are qualified. No fresh-author/clean-room/isolated-origin/MIT decision.",
+  "checksRun": [],
+  "testsStatus": "five supplied-port scenarios authored, not executed",
+  "globalLicenseDecisionChanged": false
+}

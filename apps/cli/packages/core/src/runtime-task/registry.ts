@@ -1,14 +1,14 @@
 import type {
+  AgentOutput,
   ModelUsage,
   SessionId,
   SubagentTaskSnapshot,
   TraceContext,
   TurnId,
 } from "@knorvia/contracts";
-import type { AgentOutput } from "@knorvia/contracts";
+import { TaskWaitSubscriptions } from "./registry-waits.js";
 
-// local_dynamic_workflow 与 local_workflow 刻意分开：后者是 legacy `Workflow` 工具（不可取消），
-// 前者是 workflow run（经 DynamicWorkflowRunPort.cancel 可取消）。合成一个类型，取消分派就无法区分。
+// 兼容既有取消分派：legacy workflow 与动态 workflow run 使用不同 task type。
 export type RuntimeTaskType =
   | "local_agent"
   | "local_bash"
@@ -27,10 +27,7 @@ export interface RuntimeTaskPendingMessage {
   id: string;
   isMeta?: boolean;
   message: string;
-  origin?: {
-    kind: "coordinator";
-    toolCallId?: string;
-  };
+  origin?: { kind: "coordinator"; toolCallId?: string };
   queuedAt: Date;
   summary?: string;
   traceContext?: TraceContext;
@@ -41,7 +38,7 @@ export interface RuntimeTaskMessageSink {
 }
 
 export interface RuntimeTaskSnapshot extends SubagentTaskSnapshot {
-  /** task 注册时所属 active conversation branch；用于迟到 completion fencing。 */
+  /** 注册只补齐默认分支；迟到结果的 fencing 仍由调用方负责。 */
   branchGeneration?: number;
   exitCode?: number;
   type: RuntimeTaskType;
@@ -51,15 +48,9 @@ export interface RuntimeTaskSnapshot extends SubagentTaskSnapshot {
   parentSessionId?: SessionId;
   pendingMessages?: RuntimeTaskPendingMessage[];
   prompt?: string;
-  /**
-   * workflow run 产物的序列化文本。TaskOutput 的投影只读得到 registry 条目（dwf 从不写
-   * outputFile），所以产物必须在终态更新时就存到条目上。
-   */
+  /** 保留 workflow run 无 outputFile 时的 TaskOutput 文本。 */
   resultText?: string;
-  /**
-   * 是谁请求停止这个任务（"user" = GUI / 后台面板，"model" = TaskStop）。dwf 停止分支在调
-   * 端口 cancel 之前写下它；终态通知稍后由 waiter 结算时读它。重臂（resume 新生命）随结算面复位。
-   */
+  /** 调用方记录请求停止的来源，终态通知使用原值。 */
   stopInitiator?: "user" | "model";
   taskType?: RuntimeTaskType;
   traceContext?: TraceContext;
@@ -90,14 +81,8 @@ export interface RuntimeTaskRegistry {
   ): Promise<RuntimeTaskSnapshot | undefined>;
 }
 
-interface RuntimeTaskWaiter {
-  onAbort?: () => void;
-  reject: (error: unknown) => void;
-  resolve: (task: RuntimeTaskSnapshot | undefined) => void;
-  signal?: AbortSignal;
-}
-
-const TERMINAL_STATUSES = new Set<RuntimeTaskSnapshot["status"]>([
+const INITIAL_BRANCH_GENERATION = 0;
+const TERMINAL_STATUSES = new Set<string>([
   "completed",
   "failed",
   "cancelled",
@@ -107,19 +92,17 @@ const TERMINAL_STATUSES = new Set<RuntimeTaskSnapshot["status"]>([
 ]);
 
 export class InMemoryRuntimeTaskRegistry implements RuntimeTaskRegistry {
-  private activeBranchGeneration = 0;
-  private readonly backgroundWaiters = new Map<string, Set<RuntimeTaskWaiter>>();
-  private readonly tasks = new Map<string, RuntimeTaskSnapshot>();
-  private readonly terminalWaiters = new Map<string, Set<RuntimeTaskWaiter>>();
+  private readonly snapshots = new Map<string, RuntimeTaskSnapshot>();
+  private readonly subscriptions = new TaskWaitSubscriptions<RuntimeTaskSnapshot>();
+  private activeBranchGeneration = INITIAL_BRANCH_GENERATION;
 
   register(task: RuntimeTaskSnapshot): void {
-    const stamped = {
+    const stored = {
       ...task,
       branchGeneration: task.branchGeneration ?? this.activeBranchGeneration,
     };
-    this.tasks.set(stamped.taskId, stamped);
-    this.resolveIfTerminal(stamped.taskId, stamped);
-    this.resolveIfBackgrounded(stamped.taskId, stamped);
+    this.snapshots.set(stored.taskId, stored);
+    this.publish(stored.taskId, stored);
   }
 
   setActiveBranchGeneration(generation: number): void {
@@ -130,36 +113,35 @@ export class InMemoryRuntimeTaskRegistry implements RuntimeTaskRegistry {
     id: string,
     patcher: (task: RuntimeTaskSnapshot) => RuntimeTaskSnapshot,
   ): RuntimeTaskSnapshot | undefined {
-    const current = this.tasks.get(id);
-    if (!current) return undefined;
-    const next = patcher(current);
-    this.tasks.set(id, next);
-    this.resolveIfTerminal(id, next);
-    this.resolveIfBackgrounded(id, next);
+    const previous = this.snapshots.get(id);
+    if (!previous) return undefined;
+    const next = patcher(previous);
+    this.snapshots.set(id, next);
+    this.publish(id, next);
     return next;
   }
 
   requestBackground(id: string): boolean {
-    const task = this.tasks.get(id);
-    if (!task || isTerminalRuntimeTask(task)) return false;
-    const next: RuntimeTaskSnapshot = { ...task, isBackgrounded: true };
-    this.tasks.set(id, next);
-    this.resolveBackgroundWaiters(id, next);
+    const previous = this.snapshots.get(id);
+    if (!previous || isTerminalRuntimeTask(previous)) return false;
+    const next = { ...previous, isBackgrounded: true };
+    this.snapshots.set(id, next);
+    this.subscriptions.publish(id, "background", next);
     return true;
   }
 
   remove(id: string): void {
-    this.tasks.delete(id);
-    this.resolveTerminalWaiters(id, undefined);
-    this.resolveBackgroundWaiters(id, undefined);
+    this.snapshots.delete(id);
+    this.subscriptions.publish(id, "terminal", undefined);
+    this.subscriptions.publish(id, "background", undefined);
   }
 
   get(id: string): RuntimeTaskSnapshot | undefined {
-    return this.tasks.get(id);
+    return this.snapshots.get(id);
   }
 
   all(): Record<string, RuntimeTaskSnapshot> {
-    return Object.fromEntries(this.tasks);
+    return Object.fromEntries(this.snapshots);
   }
 
   queueMessage(id: string, message: RuntimeTaskPendingMessage): RuntimeTaskSnapshot | undefined {
@@ -170,10 +152,10 @@ export class InMemoryRuntimeTaskRegistry implements RuntimeTaskRegistry {
   }
 
   drainMessages(id: string): RuntimeTaskPendingMessage[] {
-    const task = this.tasks.get(id);
+    const task = this.snapshots.get(id);
     if (!task || !task.pendingMessages || task.pendingMessages.length === 0) return [];
     const messages = task.pendingMessages;
-    this.tasks.set(id, { ...task, pendingMessages: [] });
+    this.snapshots.set(id, { ...task, pendingMessages: [] });
     return messages;
   }
 
@@ -181,94 +163,29 @@ export class InMemoryRuntimeTaskRegistry implements RuntimeTaskRegistry {
     id: string,
     options?: { signal?: AbortSignal },
   ): Promise<RuntimeTaskSnapshot | undefined> {
-    const current = this.tasks.get(id);
-    if (!current || current.isBackgrounded || isTerminalRuntimeTask(current)) {
-      return Promise.resolve(current?.isBackgrounded ? current : undefined);
+    const task = this.snapshots.get(id);
+    if (!task) return Promise.resolve(undefined);
+    if (task.isBackgrounded || isTerminalRuntimeTask(task)) {
+      return Promise.resolve(task.isBackgrounded ? task : undefined);
     }
-    return this.waitFor(this.backgroundWaiters, id, options);
+    return this.subscriptions.subscribe(id, "background", options?.signal);
   }
 
   waitForTerminal(
     id: string,
     options?: { signal?: AbortSignal },
   ): Promise<RuntimeTaskSnapshot | undefined> {
-    const current = this.tasks.get(id);
-    if (!current || isTerminalRuntimeTask(current)) return Promise.resolve(current);
-    return this.waitFor(this.terminalWaiters, id, options);
+    const task = this.snapshots.get(id);
+    if (!task || isTerminalRuntimeTask(task)) return Promise.resolve(task);
+    return this.subscriptions.subscribe(id, "terminal", options?.signal);
   }
 
-  private waitFor(
-    waitersByTask: Map<string, Set<RuntimeTaskWaiter>>,
-    id: string,
-    options?: { signal?: AbortSignal },
-  ): Promise<RuntimeTaskSnapshot | undefined> {
-    const signal = options?.signal;
-    if (signal?.aborted) return Promise.reject(abortReason(signal));
-
-    return new Promise((resolve, reject) => {
-      const waiter: RuntimeTaskWaiter = { resolve, reject, signal };
-      if (signal) {
-        waiter.onAbort = () => {
-          this.removeWaiter(waitersByTask, id, waiter);
-          reject(abortReason(signal));
-        };
-        signal.addEventListener("abort", waiter.onAbort, { once: true });
-      }
-      let waiters = waitersByTask.get(id);
-      if (!waiters) {
-        waiters = new Set();
-        waitersByTask.set(id, waiters);
-      }
-      waiters.add(waiter);
-    });
-  }
-
-  private resolveIfBackgrounded(id: string, task: RuntimeTaskSnapshot): void {
-    if (task.isBackgrounded) {
-      this.resolveBackgroundWaiters(id, task);
-    }
-  }
-
-  private resolveIfTerminal(id: string, task: RuntimeTaskSnapshot): void {
+  private publish(id: string, task: RuntimeTaskSnapshot): void {
     if (isTerminalRuntimeTask(task)) {
-      this.resolveTerminalWaiters(id, task);
-      this.resolveBackgroundWaiters(id, undefined);
+      this.subscriptions.publish(id, "terminal", task);
+      this.subscriptions.publish(id, "background", undefined);
     }
-  }
-
-  private resolveBackgroundWaiters(id: string, task: RuntimeTaskSnapshot | undefined): void {
-    this.resolveWaiters(this.backgroundWaiters, id, task);
-  }
-
-  private resolveTerminalWaiters(id: string, task: RuntimeTaskSnapshot | undefined): void {
-    this.resolveWaiters(this.terminalWaiters, id, task);
-  }
-
-  private resolveWaiters(
-    waitersByTask: Map<string, Set<RuntimeTaskWaiter>>,
-    id: string,
-    task: RuntimeTaskSnapshot | undefined,
-  ): void {
-    const waiters = waitersByTask.get(id);
-    if (!waiters) return;
-    waitersByTask.delete(id);
-    for (const waiter of waiters) {
-      if (waiter.signal && waiter.onAbort) {
-        waiter.signal.removeEventListener("abort", waiter.onAbort);
-      }
-      waiter.resolve(task);
-    }
-  }
-
-  private removeWaiter(
-    waitersByTask: Map<string, Set<RuntimeTaskWaiter>>,
-    id: string,
-    waiter: RuntimeTaskWaiter,
-  ): void {
-    const waiters = waitersByTask.get(id);
-    if (!waiters) return;
-    waiters.delete(waiter);
-    if (waiters.size === 0) waitersByTask.delete(id);
+    if (task.isBackgrounded) this.subscriptions.publish(id, "background", task);
   }
 }
 
@@ -277,11 +194,9 @@ export function isTerminalRuntimeTask(task: Pick<RuntimeTaskSnapshot, "status">)
 }
 
 export function hasRunningBackgroundRuntimeTask(registry: RuntimeTaskRegistry): boolean {
-  return Object.values(registry.all()).some(
-    (task) => task.isBackgrounded === true && task.status === "running",
-  );
-}
-
-function abortReason(signal: AbortSignal): unknown {
-  return signal.reason ?? new Error("Runtime task wait aborted");
+  const tasks = Object.values(registry.all());
+  for (const task of tasks) {
+    if (task.isBackgrounded === true && task.status === "running") return true;
+  }
+  return false;
 }

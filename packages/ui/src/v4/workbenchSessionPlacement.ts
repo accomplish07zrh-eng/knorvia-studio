@@ -1,218 +1,119 @@
 import { logger } from "@/logger.js";
 import {
-  V4_PRIMARY_PANE_ID,
-  canAddPane,
-  effectiveFocusedPaneId,
-  findPaneIdForSession,
-  paneBindingMatchesSession,
-  paneWorkspaceKey,
-  usePaneLayoutStore,
-  type PaneSplitSide,
-  type PaneWorkspaceScope,
+  canAddPane, effectiveFocusedPaneId, findPaneIdForSession, paneBindingMatchesSession,
+  paneWorkspaceKey, usePaneLayoutStore, V4_PRIMARY_PANE_ID,
+  type PaneSplitSide, type PaneWorkspaceScope,
 } from "@/v4/paneLayoutStore.js";
 import {
-  buildWorkbenchSessionKey,
-  selectWorkbenchGroupActiveBinding,
-  useWorkbenchGroupStore,
+  buildWorkbenchSessionKey, selectWorkbenchGroupActiveBinding, useWorkbenchGroupStore,
   type WorkbenchSessionBinding,
 } from "@/v4/workbenchGroupStore.js";
 
-export interface WorkbenchSessionTarget extends PaneWorkspaceScope {
-  readonly sessionId: string;
-}
-
+export interface WorkbenchSessionTarget extends PaneWorkspaceScope { readonly sessionId: string; }
 interface WorkbenchSplitPlacementOptions {
   readonly mode: "context-menu" | "drag";
   readonly side: PaneSplitSide;
   readonly anchorPaneId?: string;
 }
+type Effect =
+  | { kind: "open"; binding: WorkbenchSessionBinding }
+  | { kind: "focus"; paneId: string }
+  | { kind: "split-pane"; anchor: string; side: PaneSplitSide; binding: WorkbenchSessionBinding }
+  | { kind: "split-group"; anchor: string; side: PaneSplitSide; binding: WorkbenchSessionBinding;
+      primary?: WorkbenchSessionBinding; fresh?: boolean }
+  | { kind: "promote"; primary: WorkbenchSessionBinding }
+  | { kind: "reset" }
+  | { kind: "log"; binding: WorkbenchSessionBinding };
+type Placement = { allowed: boolean; result: boolean; focus: boolean; effects: Effect[] };
+const blocked = (): Placement => ({ allowed: false, result: false, focus: false, effects: [] });
+const plan = (effects: Effect[], focus = false, result = true): Placement => ({ allowed: true, effects, focus, result });
 
-type SplitKind =
-  | "blocked"
-  | "focus-group"
-  | "focus-pane"
-  | "split-group"
-  | "split-draft"
-  | "create-group"
-  | "promote-and-split";
-
-interface SplitResolution {
-  readonly kind: SplitKind;
-  readonly binding: WorkbenchSessionBinding;
-  readonly anchorPaneId: string;
-  readonly side: PaneSplitSide;
-  readonly paneId?: string;
-  readonly primaryBinding?: WorkbenchSessionBinding;
-}
-
-function targetBinding(target: WorkbenchSessionTarget): WorkbenchSessionBinding {
+function bindingOf(target: WorkbenchSessionTarget): WorkbenchSessionBinding {
   const { sessionId, ...workspaceScope } = target;
   return { workspaceScope, sessionId };
 }
-
-function draftPrimaryOwnsLayout(shellBinding: WorkbenchSessionBinding | null): boolean {
+function draftOwns(shell: WorkbenchSessionBinding | null): boolean {
   const layout = usePaneLayoutStore.getState();
-  if (Object.keys(layout.panes).length === 0) {
-    return false;
-  }
-  return (
-    !shellBinding ||
-    Object.values(layout.panes).some((binding) =>
-      paneBindingMatchesSession(binding, shellBinding.workspaceScope, shellBinding.sessionId),
-    )
-  );
+  if (Object.keys(layout.panes).length === 0) return false;
+  return !shell || Object.values(layout.panes).some((binding) =>
+    paneBindingMatchesSession(binding, shell.workspaceScope, shell.sessionId));
 }
 
-function resolveSplit(
-  shellBinding: WorkbenchSessionBinding | null,
-  target: WorkbenchSessionTarget,
-  options: WorkbenchSplitPlacementOptions,
-): SplitResolution {
+// 先只读准入并生成有序 effects；菜单与 native drag 共用选择，执行阶段重新取得稳定 action ports。
+function resolve(shell: WorkbenchSessionBinding | null, target: WorkbenchSessionTarget,
+  options: WorkbenchSplitPlacementOptions): Placement {
   const groups = useWorkbenchGroupStore.getState();
   const layout = usePaneLayoutStore.getState();
-  const activeGroup = groups.activeGroupId ? groups.groups[groups.activeGroupId] : undefined;
-  const focusedPaneId = activeGroup?.focusedPaneId ?? effectiveFocusedPaneId(layout);
-  const focusedPane =
-    !activeGroup && focusedPaneId !== V4_PRIMARY_PANE_ID ? layout.panes[focusedPaneId] : undefined;
-  const focusedBinding = activeGroup
-    ? selectWorkbenchGroupActiveBinding(activeGroup)
-    : focusedPane?.sessionId
-      ? { workspaceScope: focusedPane.workspaceScope, sessionId: focusedPane.sessionId }
-      : shellBinding;
-  const binding = targetBinding(target);
-  const base = {
-    anchorPaneId: options.anchorPaneId ?? focusedPaneId,
-    binding,
-    side: options.side,
-  };
-
-  if (paneBindingMatchesSession(focusedBinding, target, target.sessionId)) {
-    return { kind: "blocked", ...base };
-  }
-  if (groups.sessionIndex[buildWorkbenchSessionKey(target, target.sessionId)]) {
-    return { kind: "focus-group", ...base };
-  }
-  const paneId = findPaneIdForSession(layout, target, target.sessionId);
-  if (paneId) {
-    return { kind: "focus-pane", paneId, ...base };
-  }
-  if (!canAddPane(activeGroup ?? layout)) {
-    return { kind: "blocked", ...base };
-  }
-  if (activeGroup) {
-    return { kind: "split-group", ...base };
-  }
-  if (draftPrimaryOwnsLayout(shellBinding) || !shellBinding) {
-    return { kind: "split-draft", ...base };
-  }
+  const group = groups.activeGroupId ? groups.groups[groups.activeGroupId] : undefined;
+  const focused = group?.focusedPaneId ?? effectiveFocusedPaneId(layout);
+  const pane = !group && focused !== V4_PRIMARY_PANE_ID ? layout.panes[focused] : undefined;
+  const current = group ? selectWorkbenchGroupActiveBinding(group)
+    : pane?.sessionId ? { workspaceScope: pane.workspaceScope, sessionId: pane.sessionId } : shell;
+  const binding = bindingOf(target);
+  const anchor = options.anchorPaneId ?? focused;
+  const side = options.side;
+  if (paneBindingMatchesSession(current, target, target.sessionId)) return blocked();
+  if (groups.sessionIndex[buildWorkbenchSessionKey(target, target.sessionId)]) return plan([{ kind: "open", binding }], true);
+  const existing = findPaneIdForSession(layout, target, target.sessionId);
+  if (existing) return plan([{ kind: "focus", paneId: existing }, { kind: "open", binding }], true);
+  if (!canAddPane(group ?? layout)) return blocked();
+  if (group) return plan([{ kind: "split-group", anchor, side, binding }]);
+  if (draftOwns(shell) || !shell) return plan([
+    { kind: "split-pane", anchor, side, binding }, { kind: "log", binding },
+  ], false, false);
   return Object.keys(layout.panes).length > 0
-    ? { kind: "promote-and-split", primaryBinding: shellBinding, ...base }
-    : {
-        kind: "create-group",
-        anchorPaneId: V4_PRIMARY_PANE_ID,
-        primaryBinding: shellBinding,
-        binding,
-        side: options.side,
-      };
+    ? plan([{ kind: "promote", primary: shell }, { kind: "reset" },
+        { kind: "split-group", anchor, side, binding, fresh: true }])
+    : plan([{ kind: "split-group", anchor: V4_PRIMARY_PANE_ID, side, binding, primary: shell }]);
 }
-
-function resolutionAllowed(
-  resolution: SplitResolution,
-  mode: WorkbenchSplitPlacementOptions["mode"],
-): boolean {
-  return (
-    resolution.kind !== "blocked" &&
-    (mode === "context-menu" || !resolution.kind.startsWith("focus"))
-  );
+function admitted(placement: Placement, mode: WorkbenchSplitPlacementOptions["mode"]): boolean {
+  return placement.allowed && (mode === "context-menu" || !placement.focus);
 }
-
-export function canPlaceWorkbenchSessionInSplit(
-  shellBinding: WorkbenchSessionBinding | null,
-  target: WorkbenchSessionTarget,
-  options: WorkbenchSplitPlacementOptions,
-): boolean {
-  return resolutionAllowed(resolveSplit(shellBinding, target, options), options.mode);
+export function canPlaceWorkbenchSessionInSplit(shell: WorkbenchSessionBinding | null,
+  target: WorkbenchSessionTarget, options: WorkbenchSplitPlacementOptions): boolean {
+  return admitted(resolve(shell, target, options), options.mode);
 }
-
-export function placeWorkbenchSessionInSplit(
-  shellBinding: WorkbenchSessionBinding | null,
-  target: WorkbenchSessionTarget,
-  options: WorkbenchSplitPlacementOptions,
-): boolean {
-  const resolution = resolveSplit(shellBinding, target, options);
-  if (!resolutionAllowed(resolution, options.mode)) {
-    return false;
-  }
+export function placeWorkbenchSessionInSplit(shell: WorkbenchSessionBinding | null,
+  target: WorkbenchSessionTarget, options: WorkbenchSplitPlacementOptions): boolean {
+  const placement = resolve(shell, target, options);
+  if (!admitted(placement, options.mode)) return false;
   const groups = useWorkbenchGroupStore.getState();
   const layout = usePaneLayoutStore.getState();
-  if (resolution.kind === "focus-group") {
-    groups.openSessionFromSidebar(resolution.binding);
-  } else if (resolution.kind === "focus-pane" && resolution.paneId) {
-    layout.focusPane(resolution.paneId);
-    groups.openSessionFromSidebar(resolution.binding);
-  } else if (resolution.kind === "split-group") {
-    groups.splitSessionIntoGroup(resolution.anchorPaneId, resolution.side, resolution.binding);
-  } else if (resolution.kind === "split-draft") {
-    layout.splitPaneWithBinding(resolution.anchorPaneId, resolution.side, {
-      workspaceScope: resolution.binding.workspaceScope,
-      sessionId: resolution.binding.sessionId,
-    });
-    logger.debug("[v4-workbench] session split beside primary draft", {
-      sessionId: resolution.binding.sessionId,
-      workspaceKey: paneWorkspaceKey(resolution.binding.workspaceScope),
-    });
-    return false;
-  } else if (resolution.primaryBinding) {
-    if (resolution.kind === "promote-and-split") {
-      if (!groups.promotePaneLayoutToGroup(resolution.primaryBinding, layout)) {
-        return false;
+  for (const effect of placement.effects) {
+    switch (effect.kind) {
+      case "open": groups.openSessionFromSidebar(effect.binding); break;
+      case "focus": layout.focusPane(effect.paneId); break;
+      case "split-pane": layout.splitPaneWithBinding(effect.anchor, effect.side,
+        { workspaceScope: effect.binding.workspaceScope, sessionId: effect.binding.sessionId }); break;
+      case "split-group": {
+        const owner = effect.fresh ? useWorkbenchGroupStore.getState() : groups;
+        if ("primary" in effect) owner.splitSessionIntoGroup(effect.anchor, effect.side, effect.binding, effect.primary);
+        else owner.splitSessionIntoGroup(effect.anchor, effect.side, effect.binding);
+        break;
       }
-      layout.resetToPrimaryPane();
-      useWorkbenchGroupStore
-        .getState()
-        .splitSessionIntoGroup(resolution.anchorPaneId, resolution.side, resolution.binding);
-    } else {
-      groups.splitSessionIntoGroup(
-        resolution.anchorPaneId,
-        resolution.side,
-        resolution.binding,
-        resolution.primaryBinding,
-      );
+      case "promote": if (!groups.promotePaneLayoutToGroup(effect.primary, layout)) return false; break;
+      case "reset": layout.resetToPrimaryPane(); break;
+      case "log": logger.debug("[v4-workbench] session split beside primary draft", {
+        sessionId: effect.binding.sessionId, workspaceKey: paneWorkspaceKey(effect.binding.workspaceScope),
+      }); break;
     }
   }
-  return true;
+  return placement.result;
 }
-
-export function selectWorkbenchSession(
-  shellBinding: WorkbenchSessionBinding | null,
-  target: WorkbenchSessionTarget,
-): void {
+export function selectWorkbenchSession(shell: WorkbenchSessionBinding | null, target: WorkbenchSessionTarget): void {
   const groups = useWorkbenchGroupStore.getState();
   const layout = usePaneLayoutStore.getState();
-  const binding = targetBinding(target);
-  if (
-    !groups.activeGroupId &&
-    !groups.sessionIndex[buildWorkbenchSessionKey(target, target.sessionId)] &&
-    draftPrimaryOwnsLayout(shellBinding)
-  ) {
-    const existingPaneId = findPaneIdForSession(layout, target, target.sessionId);
-    const paneId = existingPaneId ?? effectiveFocusedPaneId(layout);
-    if (existingPaneId) {
-      layout.focusPane(existingPaneId);
-    } else if (paneId !== V4_PRIMARY_PANE_ID && layout.panes[paneId]) {
-      const previousSessionId = layout.panes[paneId]?.sessionId ?? null;
-      // shell activeTaskId 先切换会把新 session 灌进 primary draft；
-      // 必须先原子替换 focused secondary 的完整 binding。
-      layout.replacePaneBinding(paneId, {
-        workspaceScope: binding.workspaceScope,
-        sessionId: binding.sessionId,
-      });
-      logger.debug("[v4-workbench] draft split focused pane replaced", {
-        paneId,
-        previousSessionId,
-        sessionId: binding.sessionId,
-        workspaceKey: paneWorkspaceKey(binding.workspaceScope),
-      });
+  const binding = bindingOf(target);
+  if (!groups.activeGroupId && !groups.sessionIndex[buildWorkbenchSessionKey(target, target.sessionId)] && draftOwns(shell)) {
+    const existing = findPaneIdForSession(layout, target, target.sessionId);
+    const focused = existing ?? effectiveFocusedPaneId(layout);
+    if (existing) layout.focusPane(existing);
+    else if (focused !== V4_PRIMARY_PANE_ID && layout.panes[focused]) {
+      const previousSessionId = layout.panes[focused]?.sessionId ?? null;
+      // primary draft 仍由 shell 拥有；先替换 secondary 的完整 binding，再进入普通 session 选择。
+      layout.replacePaneBinding(focused, { workspaceScope: binding.workspaceScope, sessionId: binding.sessionId });
+      logger.debug("[v4-workbench] draft split focused pane replaced", { paneId: focused, previousSessionId,
+        sessionId: binding.sessionId, workspaceKey: paneWorkspaceKey(binding.workspaceScope) });
     }
   }
   groups.openSessionFromSidebar(binding);

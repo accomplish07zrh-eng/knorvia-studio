@@ -1,0 +1,47 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-log-retention-20261003.md",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/logRetention.ts",
+      "baselineCommit": "d926f6f2f843f12f6499d34c74acb33c42dee4c1",
+      "baselineBlob": "e22a3d6d499589b60885b831629914bcc44d73ac",
+      "baselineSha256": "9447cfca3719e51b9836b18556f520481233288d64de2467fe8e7cdf4c492e1f",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/logRetention.ts",
+        "kind": "file",
+        "sha256": "9447cfca3719e51b9836b18556f520481233288d64de2467fe8e7cdf4c492e1f",
+        "normalizedSha256": "9447cfca3719e51b9836b18556f520481233288d64de2467fe8e7cdf4c492e1f",
+        "encoding": "utf8-lf",
+        "bytes": 2551,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/main/logRetention.ts",
+          "blob": "e22a3d6d499589b60885b831629914bcc44d73ac",
+          "normalizedSha256": "9447cfca3719e51b9836b18556f520481233288d64de2467fe8e7cdf4c492e1f",
+          "contentMatchedPaths": [
+            "packages/desktop/src/main/logRetention.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "f1811c0c2b1e75b82c894e70e3a1bcfb2750e0e34b922618b8ed12a54c9968ee",
+      "frozenCandidateBytes": 2322
+    }
+  ],
+  "retainedCaller": {
+    "path": "packages/desktop/src/main/logger.ts",
+    "sha256": "6a181e7deb5dbddb7310c8e29c2d016b58fb1322abbd444e880698d2f1cbf20f",
+    "gitBlob": "52c0b7efeaa329b626943e19e23313c6974855fa"
+  },
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent curated and authored the complete date-policy and filesystem/result ownership candidate. Regex, calendar formula, constant/public shapes, error/result behavior and native IO idioms are retained compatibility material, with no isolated-author/independence/rights/MIT decision.",
+  "checksRun": [],
+  "testsStatus": "four fake-filesystem scenarios authored, not executed",
+  "globalLicenseDecisionChanged": false
+}

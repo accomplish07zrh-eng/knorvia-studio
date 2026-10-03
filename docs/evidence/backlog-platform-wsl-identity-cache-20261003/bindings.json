@@ -1,0 +1,54 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-wsl-identity-cache-20261003.md",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/desktopWslTargetResolver.ts",
+      "baselineCommit": "bc5c7646de14ce2f4ace4bb43cb642b7af9314a5",
+      "baselineBlob": "4a017ca4be690ba6305ce7f9c5cf363b40216508",
+      "baselineSha256": "c0a13eb5453daf60099bd30c55ac3f5de8774cf7ba0c5d962b54d3ee3fc24406",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/desktopWslTargetResolver.ts",
+        "kind": "file",
+        "sha256": "c0a13eb5453daf60099bd30c55ac3f5de8774cf7ba0c5d962b54d3ee3fc24406",
+        "normalizedSha256": "c0a13eb5453daf60099bd30c55ac3f5de8774cf7ba0c5d962b54d3ee3fc24406",
+        "encoding": "utf8-lf",
+        "bytes": 2297,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/desktopWslTargetResolver.ts",
+          "blob": "e43f42b62680201f0453a18d4108a7daa006443d",
+          "normalizedSha256": "572c9aac21d25ff40b2d3da36e0855bf0feb7bc5d3d9779df700b3dfd8471039",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "6a677d036cf9bac9038575e407ad5b5fd3268f2c05c44cd63420d0474c831fcc",
+      "frozenCandidateBytes": 2670
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/server/src/remote/wsl-backend.ts",
+      "sha256": "cd9b36191c7b3895a952242ce0cb8958293a63c79bcaee18aba40e35f001360e",
+      "gitBlob": "7a34f4ea2335b4e1eb53da09670fed94797b54d3",
+      "disposition": "retained public boundary; no source/rights acceptance added"
+    },
+    {
+      "path": "packages/shared/src/remoteTarget.ts",
+      "sha256": "37bd8a045310956ab5ff484a5775e9f7d8992fb17e46d07f107f22715b336cdc",
+      "gitBlob": "090289c0ed9ef4f2ce8f29d5c8fcdb8403c8ead6",
+      "disposition": "retained public boundary; no source/rights acceptance added"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent curated and authored the whole cache owner. Public types, fixed compatibility key/TTL data and ordinary Promise/finally idioms remain qualified. No isolated author, clean-room, independently audited origin or MIT decision.",
+  "checksRun": [],
+  "testsStatus": "three fake-backend/clock scenarios authored, not executed",
+  "globalLicenseDecisionChanged": false
+}
