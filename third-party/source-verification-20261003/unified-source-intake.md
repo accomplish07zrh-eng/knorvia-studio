@@ -207,3 +207,11 @@ Linux **8261/8253 pass/0 fail/8 skip**，Windows **8261/8259 pass/0 fail/2 skip*
 这只接受前一修复树；本次 TUI 与最终包装必须绑定新的统一输入及其实际 CI/smoke。
 根 Apache、各文件/组件许可、NOTICE、来源保留。公开维护邮箱仍仅影响指定 Linux
 全 target；真实模型/tool 后代、Electron/Windows/macOS GUI 的未测边界不消失。
+
+最终输入 bcb82c18 的 CI37127601364 两平台实际失败于两份 CLI 文档的 fmt：
+`docs/lane-cli-20261003.md` 与 `specs/knorvia-cli-tui-esm-builtins-20261003.md`。
+来源、types、lint 实际通过，后续架构/build/离线回归均未执行。只格式化这两份
+文档并刷新真实来源投影；不改生产、根 smoke、原始证据字节或质量 checker。
+新的统一 head 必须取得自身完整 CI，旧失败不转为通过。若 native 正在构建 bcb 的
+物理归档，其实际 source stamp 继续是 bcb，文档变更与产品输入的字节关系另行核对，
+不擅自改标为新提交产物，也不因此要求各路重复全量验证。
