@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, realpath, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
 
 test("synthetic skill writes preserve config and deletion boundaries", async () => {
-  const root = await mkdtemp(join(tmpdir(), "knorvia-skill-safety-"));
+  // Windows 临时路径可能使用短别名；夹具从种子阶段共用发现服务使用的规范身份。
+  const root = await realpath(await mkdtemp(join(tmpdir(), "knorvia-skill-safety-")));
   const keys = [
     "HOME",
     "USERPROFILE",

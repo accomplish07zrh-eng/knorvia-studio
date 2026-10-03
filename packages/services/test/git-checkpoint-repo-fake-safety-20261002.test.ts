@@ -6,11 +6,12 @@ import type {
   GitCommandExecutionOptions,
   GitCommandExecutionResult,
 } from "../src/git/providers/gitCommandProvider.js";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 
 test("fake checkpoint repository keeps temporary index and conflict/permission admission", async (t) => {
-  const repoRoot = join("/", "synthetic", "repo");
+  const repoRoot = fakeFsPath("/synthetic/repo");
   const workspacePath = join(repoRoot, "workspace");
-  const temporaryRoot = join("/", "synthetic", "indexes");
+  const temporaryRoot = fakeFsPath("/synthetic/indexes");
   const temporary = join(temporaryRoot, "index-fake");
   const file = join(workspacePath, "one 'quoted' file");
   const commands: GitCommandExecutionOptions[] = [];
@@ -69,7 +70,7 @@ test("fake checkpoint repository keeps temporary index and conflict/permission a
     },
   });
   const commandProvider = {
-    resolveGitBinary: async () => "/synthetic/git",
+    resolveGitBinary: async () => fakeFsPath("/synthetic/git"),
     run: async (command: GitCommandExecutionOptions): Promise<GitCommandExecutionResult> => {
       commands.push(command);
       assert.equal(command.cwd, repoRoot);
@@ -88,7 +89,7 @@ test("fake checkpoint repository keeps temporary index and conflict/permission a
       if (op === "hash-object") stdout = `${content}\n`;
       if (op === "restore" && op !== deniedOperation) content = "new";
       return {
-        binaryPath: "/synthetic/git",
+        binaryPath: fakeFsPath("/synthetic/git"),
         cwd: command.cwd,
         args: command.args,
         stdout,

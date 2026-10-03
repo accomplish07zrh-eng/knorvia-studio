@@ -5,6 +5,7 @@ import type {
   GitCommandExecutionResult,
 } from "../src/git/providers/gitCommandProvider.js";
 import type { GitResolvedRepository, GitStatusSnapshot } from "../src/git/repo/gitCliTypes.js";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 
 test("synthetic CLI writes preserve argv, private-index scope and permission failures", async () => {
   const denied = Object.assign(new Error("owned FS denied"), { code: "EACCES" });
@@ -30,7 +31,7 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
       },
       mkdtemp: async (p: string) => {
         fsTrace.push(["mkdtemp", p]);
-        return "/owned data/tmp/git-index-synthetic";
+        return fakeFsPath("/owned data/tmp/git-index-synthetic");
       },
       rm: async (...args: unknown[]) => {
         fsTrace.push(["rm", ...args]);
@@ -39,7 +40,7 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
     },
   });
   mock.module(new URL("../src/paths.ts", import.meta.url).href, {
-    namedExports: { getKnorviaDataRootDir: () => "/owned data" },
+    namedExports: { getKnorviaDataRootDir: () => fakeFsPath("/owned data") },
   });
   mock.module(new URL("../src/logger/serviceLogger.ts", import.meta.url).href, {
     namedExports: { createServiceLogger: () => ({ warn: forbidden }) },
@@ -66,8 +67,8 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
   });
   const { createGitCliRepo } = await import("../src/git/repo/gitCliRepo.js");
   const resolution: GitResolvedRepository = {
-    workspacePath: "/owned root/sub",
-    repoRoot: "/owned root",
+    workspacePath: fakeFsPath("/owned root/sub"),
+    repoRoot: fakeFsPath("/owned root"),
     workspaceInRepoPath: "sub",
     autoRefreshWatchPaths: [],
     isGitAvailable: true,
@@ -164,7 +165,7 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
       ["restore", "--source=HEAD", "--staged", "--worktree", "--", "sub/quote ' file"],
     ],
   );
-  assert.ok(commands.every((c) => c.cwd === "/owned root" && c.env === undefined));
+  assert.ok(commands.every((c) => c.cwd === fakeFsPath("/owned root") && c.env === undefined));
   commands.length = 0;
   await assert.rejects(
     repo.stage(resolution.workspacePath, ["../../escape"]),
@@ -199,14 +200,14 @@ test("synthetic CLI writes preserve argv, private-index scope and permission fai
   for (const [index, command] of commands.entries()) {
     if ([3, 4, 5, 6].includes(index))
       assert.deepEqual(command.env, {
-        GIT_INDEX_FILE: "/owned data/tmp/git-index-synthetic/index",
+        GIT_INDEX_FILE: fakeFsPath("/owned data/tmp/git-index-synthetic/index"),
       });
     else assert.equal(command.env, undefined);
   }
   assert.deepEqual(fsTrace, [
-    ["mkdir", "/owned data/tmp", { recursive: true }],
-    ["mkdtemp", "/owned data/tmp/git-index-"],
-    ["rm", "/owned data/tmp/git-index-synthetic", { recursive: true, force: true }],
+    ["mkdir", fakeFsPath("/owned data/tmp"), { recursive: true }],
+    ["mkdtemp", fakeFsPath("/owned data/tmp/git-index-")],
+    ["rm", fakeFsPath("/owned data/tmp/git-index-synthetic"), { recursive: true, force: true }],
   ]);
 
   commands.length = 0;

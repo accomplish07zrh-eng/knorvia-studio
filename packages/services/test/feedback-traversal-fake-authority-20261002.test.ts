@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import { sep } from "node:path";
 import { mock, test } from "node:test";
+import { fakeFsPath } from "./fake-native-paths-20261003.js";
 
 test("synthetic traversal never follows links or opens beyond retained scan authority", async () => {
   const trace: string[] = [];
@@ -10,23 +12,32 @@ test("synthetic traversal never follows links or opens beyond retained scan auth
     isFile: () => kind === "file",
   });
   const tree: Record<string, ReturnType<typeof entry>[]> = {
-    "/synthetic/root": [entry("z.log", "file"), entry("escape", "link"), entry("a", "dir")],
-    "/synthetic/root/a": [entry("child.log", "file"), entry("deep", "dir")],
-    "/synthetic/root/a/deep": [entry("d3", "dir")],
-    "/synthetic/root/a/deep/d3": [entry("d4", "dir")],
-    "/synthetic/root/a/deep/d3/d4": [entry("allowed.log", "file"), entry("d5", "dir")],
-    "/synthetic/exit": [
+    [fakeFsPath("/synthetic/root")]: [
+      entry("z.log", "file"),
+      entry("escape", "link"),
+      entry("a", "dir"),
+    ],
+    [fakeFsPath("/synthetic/root/a")]: [entry("child.log", "file"), entry("deep", "dir")],
+    [fakeFsPath("/synthetic/root/a/deep")]: [entry("d3", "dir")],
+    [fakeFsPath("/synthetic/root/a/deep/d3")]: [entry("d4", "dir")],
+    [fakeFsPath("/synthetic/root/a/deep/d3/d4")]: [
+      entry("allowed.log", "file"),
+      entry("d5", "dir"),
+    ],
+    [fakeFsPath("/synthetic/exit")]: [
       entry("nested", "dir"),
       entry("wrong.log", "file"),
       entry("yes.exit.log", "file"),
     ],
-    "/synthetic/budget": Array.from({ length: 2002 }, (_, i) => entry(`ignored-${i}`, "file")),
+    [fakeFsPath("/synthetic/budget")]: Array.from({ length: 2002 }, (_, i) =>
+      entry(`ignored-${i}`, "file"),
+    ),
   };
   mock.module("node:fs/promises", {
     namedExports: {
       realpath: async (path: string) => {
         trace.push(`realpath:${path}`);
-        if (path === "/synthetic/absent") throw new Error("synthetic absent");
+        if (path === fakeFsPath("/synthetic/absent")) throw new Error("synthetic absent");
         return path;
       },
       lstat: async (path: string) => {
@@ -45,43 +56,47 @@ test("synthetic traversal never follows links or opens beyond retained scan auth
     await import("../src/feedback/feedbackArchiveCandidates.js");
   const absent = [];
   for await (const candidate of feedbackArchiveCandidates([
-    { directory: "/synthetic/absent", archivePrefix: "absent" },
+    { directory: fakeFsPath("/synthetic/absent"), archivePrefix: "absent" },
   ]))
     absent.push(candidate);
   assert.deepEqual(absent, []);
-  assert.deepEqual(trace, ["realpath:/synthetic/absent"]);
+  assert.deepEqual(trace, [`realpath:${fakeFsPath("/synthetic/absent")}`]);
   trace.length = 0;
   const selected = [];
   for await (const candidate of feedbackArchiveCandidates([
-    { directory: "/synthetic/root", archivePrefix: "logs" },
-    { directory: "/synthetic/exit", archivePrefix: "exit", exitLogsOnly: true },
+    { directory: fakeFsPath("/synthetic/root"), archivePrefix: "logs" },
+    { directory: fakeFsPath("/synthetic/exit"), archivePrefix: "exit", exitLogsOnly: true },
   ]))
     selected.push(candidate);
   assert.deepEqual(selected, [
-    { path: "/synthetic/root/a/child.log", name: "logs/a/child.log" },
-    { path: "/synthetic/root/a/deep/d3/d4/allowed.log", name: "logs/a/deep/d3/d4/allowed.log" },
-    { path: "/synthetic/root/z.log", name: "logs/z.log" },
-    { path: "/synthetic/exit/yes.exit.log", name: "exit/yes.exit.log" },
+    { path: fakeFsPath("/synthetic/root/a/child.log"), name: "logs/a/child.log" },
+    {
+      path: fakeFsPath("/synthetic/root/a/deep/d3/d4/allowed.log"),
+      name: "logs/a/deep/d3/d4/allowed.log",
+    },
+    { path: fakeFsPath("/synthetic/root/z.log"), name: "logs/z.log" },
+    { path: fakeFsPath("/synthetic/exit/yes.exit.log"), name: "exit/yes.exit.log" },
   ]);
   assert.equal(
     trace.some(
-      (call) => call.includes("/escape") || call.includes("/d5") || call.includes("/nested"),
+      (call) =>
+        call.includes(`${sep}escape`) || call.includes(`${sep}d5`) || call.includes(`${sep}nested`),
     ),
     false,
   );
   trace.length = 0;
   const bounded = [];
   for await (const candidate of feedbackArchiveCandidates([
-    { directory: "/synthetic/budget", archivePrefix: "budget" },
-    { directory: "/synthetic/root", archivePrefix: "later" },
+    { directory: fakeFsPath("/synthetic/budget"), archivePrefix: "budget" },
+    { directory: fakeFsPath("/synthetic/root"), archivePrefix: "later" },
   ]))
     bounded.push(candidate);
   assert.deepEqual(bounded, []);
   assert.deepEqual(trace, [
-    "realpath:/synthetic/budget",
-    "lstat:/synthetic/budget",
-    "readdir:/synthetic/budget",
-    "realpath:/synthetic/root",
-    "lstat:/synthetic/root",
+    `realpath:${fakeFsPath("/synthetic/budget")}`,
+    `lstat:${fakeFsPath("/synthetic/budget")}`,
+    `readdir:${fakeFsPath("/synthetic/budget")}`,
+    `realpath:${fakeFsPath("/synthetic/root")}`,
+    `lstat:${fakeFsPath("/synthetic/root")}`,
   ]);
 });
