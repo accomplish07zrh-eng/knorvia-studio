@@ -1,0 +1,70 @@
+# UI 文件树生命周期：先行行为契约
+
+固定分支 `rewrite/ui-20261003`，基线
+`3b1ff0f715a43cbc51c576fd524479a08e58e203`，同一 draft PR #15。
+本规格先于本批候选正文写入。作者已阅读旧 hook、服务签名及直接消费者，是
+source-exposed；不声称 clean-room、行为已验收或文件已可授 MIT。
+
+## Watch 资源 owner
+
+- 输入仍是服务、原始目录路径 Set 和目录事件回调；只请求非递归 watch。
+- 同一服务及路径最多拥有一个待返回请求或已安装订阅。保留仍需监听的订阅；
+  新回调不重新安装已有订阅，已注册订阅继续使用其创建时捕获的回调。
+- 折叠目录释放已安装订阅和 host watcher；若目录在待返回期间重新展开且请求
+  仍属于同一服务世代，允许使用该请求。服务替换或卸载使全部旧请求失效。
+- 迟到 watch 结果必须通过发起该请求的原服务 unwatch；不订阅过期 id。
+  setup 失败保留原 watch 失败日志；异步 unwatch 失败保留停止监听失败日志。
+- subscription.dispose 的同步异常仍可见，但该 id 的 unwatch 必须发出；批量
+  清理继续释放其余 owned 资源，然后抛出第一个异常。订阅安装抛错也释放已分配 id。
+- 修复边界：清除 pending 必须核对请求票据。旧服务同路径回包不能清除新服务
+  的 pending；过期 unwatch rejection 也不能成为未处理 rejection。
+- React effect replay 可重新使用 owner，不能因第一次 cleanup 永久关闭后续注册。
+  owner 不新增全局监听或修改 services/RPC/共享协议。
+
+## 搜索索引 owner
+
+- 保留 `entries/loading/loaded/error/refresh` hook 接口，原 packed codec、分块拉取
+  和 worker filter `{ requireQuery: true }`；查询文本和结果排序原样传递。
+- scope 为 workspace path、identity、remote session；scope 变化清空索引和错误。
+  服务替换或手工 refresh 发起新请求，同 scope 旧成功索引在刷新期间仍保留。
+- 新请求 loading=true、error=null；成功替换 packed、loaded=true，失败转换 Error
+  但保留已有成功索引及 loaded；只有当前请求完成才置 loading=false。
+- 禁用不启动新请求，保留已完成索引；禁用、scope 切换、请求替代、卸载使旧请求
+  无权回写。RPC 无 abort 接口，失效仅撤销接受权，不宣称取消 host 工作。
+- 修复边界：禁用清理后 loading=false；identity/remote-only 切换在 enabled=true
+  时也重新请求。旧 hook 仅 reset 而未重启此类请求，以及卸载/禁用仍接受回包的
+  缺口按此契约修复。effect replay 必须能启动新的有效请求。
+- 同一 React state snapshot 拥有 packed 与四个状态字段；request owner 只拥有
+  接受权，不保存第二份索引。refresh 仍是无参数、稳定函数。
+
+## Sticky 投影
+
+- 保留原 row 引用及 index，不迁走虚拟行、不写 scrollTop、不改 JSX/CSS。
+- enabled=false、无 virtualItems、无 rows、scrollOffset<=0.5 均为空。
+- 以 28px 行高和累计 stack 高度探测下方 row；展开 directory 可成为 probe
+  自己的 sticky，否则从前一行查找 depth-1。每层仅选前方最近的指定 depth
+  expanded directory，不自行补齐缺失 depth，也不将未展开目录当祖先。
+- 按从外到内顺序过滤 `rowStart <= scrollOffset + stackIndex*28 + 0.5`。
+  固定点以 sticky 数量稳定判定，迭代上限保留 rows.length+1；scrollDirection
+  不改变结果。保留深层压缩行的 depth 数值，不假设 rows 必定是连续深度树。
+- 候选通过一次目录索引和按 depth 的前驱查询表达投影，不重复扫描全部前缀。
+
+## 目录加载 / 刷新（后续同规格实现）
+
+保留 root/expanded/loaded 集合、错误和 Git/ignored 投影接口。非 force 已加载
+或正在加载时返回 loaded；目录请求按 workspace 世代、全局请求世代及每路径
+票据判接受权。成功清错误、映射原 entry shape 并预取单一普通子目录；失败保留
+旧 children 和原日志。watch 刷新失败才 prune subtree 并刷新 parent，手工失败
+不 prune。ignore 回包只能写入同一有效目录请求。原超时、debounce、并发、bulk
+threshold、重入屏障和 Git 可用性行为不改。
+
+全 scope cleanup 必须撤销目录/Git/ignore/refresh 接受权并清除 debounce timer；
+旧 hook cleanup 仅撤销 refresh batch 的缺口需显式修复。目录序号在 prune 后
+不能重复，超时请求不能在重建同路径后复活。不修改 host、数据库或存储格式。
+
+## 验收限制
+
+用户本阶段明确禁止执行测试、lint、类型检查、构建、架构/全量审计。只能阅读
+源码/契约、检查变更差异及 Git/远端 metadata。新增场景仅供最终统一执行；
+纯 owner 场景不能替代 React effect、真实服务、DOM、desktop/Web 产物的验收。
+许可证仍为 Apache-2.0 过渡状态，权利和全局 inventory 刷新交由整合者。
