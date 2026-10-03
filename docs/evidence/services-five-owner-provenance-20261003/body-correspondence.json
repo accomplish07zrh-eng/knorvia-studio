@@ -1,0 +1,477 @@
+{
+  "schemaVersion": 1,
+  "reviewedBranchCommit": "6a96f808ea3698401b87f3ac386d7e72eb08681f",
+  "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "sourceCheckpointQualification": "Five requested source blobs remain identical at the fetched main and reviewed branch. Private execution helpers originate in 5b0b53522d235397cf435a627393c0bf5818d28c and subsequent formatting; per-file SHA-256 below binds current bytes.",
+  "purpose": "Provide exact minimum original-project implementation replacement proposals under the retained Apache-2.0 goal, before coordinated source edits.",
+  "scope": "Five requested files plus their direct session preparation and task-index ingestion/projection execution helpers; no repository-wide scan.",
+  "reader": "read-residual-bodies.cjs",
+  "typescriptUse": "Source syntax-tree reading only; no Program/emit/typecheck/product import/test/lint/build.",
+  "qualification": "Adaptations are explicitly listed, including transparent single-statement if/else blocks. This demonstrates specific source-expression correspondence, not license/ownership, semantic equivalence or infringement. A nonmatch is not proof of independent origin.",
+  "normalizationCorrection": "Local reference replacement excludes member property names after a dot, so persisted/protocol fields such as runtime.pendingRequestIds are preserved.",
+  "records": [
+    {
+      "label": "scope spelling",
+      "current": {
+        "path": "packages/services/src/git/commitMessageFileScope.ts",
+        "name": "scopeSpelling",
+        "lines": [
+          17,
+          21
+        ],
+        "fileSha256": "501c9e956cf92938c3d962fd8e86aca5c9e60d4bf48da5630adf6a3eb62796dd",
+        "rawBodySha256": "f34501d6037c330fd3d8bf640f9f5f0714763b37c98f8d5221cf98d6282c6183"
+      },
+      "upstream": {
+        "path": "packages/services/src/git/commitMessageFileScope.ts",
+        "name": "normalizeCommitMessageScopePath",
+        "lines": [
+          5,
+          9
+        ],
+        "fileSha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+        "rawBodySha256": "f34501d6037c330fd3d8bf640f9f5f0714763b37c98f8d5221cf98d6282c6183",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/git/commitMessageFileScope.ts"
+      },
+      "explicitIdentifierMappings": [],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "f4c975705f2b86e64b138702e751c5c96662bcc147a2ac1355e46d265da47a3c",
+      "adaptedUpstreamCanonicalSha256": "f4c975705f2b86e64b138702e751c5c96662bcc147a2ac1355e46d265da47a3c",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "retained-small-helper-not-a-whole-core-owner"
+    },
+    {
+      "label": "conditional draft close",
+      "current": {
+        "path": "packages/services/src/agent-session/sessionService.ts",
+        "name": "closeDeferredDraftSession",
+        "lines": [
+          271,
+          293
+        ],
+        "fileSha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+        "rawBodySha256": "17d5adc8fe97076847d334c43c9ea7231f9eb0c370b93364ed3ddf891f41be86"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-session/zcodeSessionService.ts",
+        "name": "closeDeferredDraftSession",
+        "lines": [
+          434,
+          459
+        ],
+        "fileSha256": "fe522860c8d8d7974385a0a8a42fad3c470509f4fbb1fd2734a319b78661618a",
+        "rawBodySha256": "9241647e1322c87a7c262f2fb76ced70daaa24400693333723244f6032ddd587",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-session/zcodeSessionService.ts"
+      },
+      "explicitIdentifierMappings": [
+        [
+          "deferredDraftSessions",
+          "drafts"
+        ]
+      ],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "53647289da8244b288fb777b9c787406761d1e92f60f1378e353ad8a1f9487f2",
+      "adaptedUpstreamCanonicalSha256": "53647289da8244b288fb777b9c787406761d1e92f60f1378e353ad8a1f9487f2",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "confirmed-business-execution-template"
+    },
+    {
+      "label": "snapshot diagnostics",
+      "current": {
+        "path": "packages/services/src/agent-session/sessionPreparation.ts",
+        "name": "sessionSnapshotDiagnostics",
+        "lines": [
+          65,
+          79
+        ],
+        "fileSha256": "19165590454f0994df1eddde643347e16506d6c3e7fd0c6e7d96365d57e0d074",
+        "rawBodySha256": "5d8b56c3ce37e2cec3fcf68850adb9d91943aa8ae588df855e3d03af82d9fcc2"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-session/zcodeSessionService.ts",
+        "name": "getSessionSnapshotDiagnostics",
+        "lines": [
+          74,
+          90
+        ],
+        "fileSha256": "fe522860c8d8d7974385a0a8a42fad3c470509f4fbb1fd2734a319b78661618a",
+        "rawBodySha256": "000c2f3cd4feb9961c84ec8f2e7894578c9f5dac1403d58a5bac1894879de85f",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-session/zcodeSessionService.ts"
+      },
+      "explicitIdentifierMappings": [
+        [
+          "pendingRequestIds",
+          "pending"
+        ]
+      ],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "e311a8bfe58239057ec953586cd3830a831455da4453ac89b271713020d9f018",
+      "adaptedUpstreamCanonicalSha256": "e311a8bfe58239057ec953586cd3830a831455da4453ac89b271713020d9f018",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "retained-small-helper-not-a-whole-core-owner"
+    },
+    {
+      "label": "summary readback",
+      "current": {
+        "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+        "name": "readback",
+        "lines": [
+          84,
+          103
+        ],
+        "fileSha256": "fa8f9f2e0bc13cbc900330f16504ac576b87c15d958b3c88ccef97a7ec2c2a85",
+        "rawBodySha256": "804807a372dc006420e23134dc98b1596e40c23bd366301d16691b5f9839f32b"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+        "name": "resyncTaskIndexRowFromAgent",
+        "lines": [
+          501,
+          531
+        ],
+        "fileSha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "rawBodySha256": "7b7bc961586628eb8f4470a8305f9ebdca5acfe87f28cced92d99530848698a0",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts"
+      },
+      "explicitIdentifierMappings": [
+        [
+          "agentService",
+          "ports.agent"
+        ],
+        [
+          "syncSnapshotAndBroadcast",
+          "ports.sync"
+        ],
+        [
+          "logger",
+          "ports.logger"
+        ]
+      ],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "fc5ffd6e4ac2919549d9e9df63c9fdfb1a55b46ab96f0111c18223449da0cc0a",
+      "adaptedUpstreamCanonicalSha256": "fc5ffd6e4ac2919549d9e9df63c9fdfb1a55b46ab96f0111c18223449da0cc0a",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "confirmed-business-execution-template"
+    },
+    {
+      "label": "terminal projection",
+      "current": {
+        "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+        "name": "complete",
+        "lines": [
+          105,
+          150
+        ],
+        "fileSha256": "fa8f9f2e0bc13cbc900330f16504ac576b87c15d958b3c88ccef97a7ec2c2a85",
+        "rawBodySha256": "931eb88998ae0b57d652eae98a193a590fb6b7cc44171f6071bf5f31636bdfb4"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+        "name": "applyTerminalTransition",
+        "lines": [
+          567,
+          624
+        ],
+        "fileSha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "rawBodySha256": "9f12c55512b89f8cbc9fe321ebc2f56648a3caee9da49dfa925c6cedc5149fa3",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts"
+      },
+      "explicitIdentifierMappings": [
+        [
+          "taskIndexRepo",
+          "ports.repo"
+        ],
+        [
+          "logger",
+          "ports.logger"
+        ],
+        [
+          "emitWorkspaceTaskListChanged",
+          "ports.emit"
+        ],
+        [
+          "broadcastTargetFrom",
+          "broadcastTarget"
+        ],
+        [
+          "resyncTaskIndexRowFromAgent",
+          "readback"
+        ],
+        [
+          "emitTerminalAndReady",
+          "ports.terminal"
+        ],
+        [
+          "resolveTerminalUnreadSignal",
+          "unread"
+        ],
+        [
+          "summary",
+          "next"
+        ]
+      ],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [
+        [
+          "options?.moveGroupedTaskToTop",
+          "moveToTop"
+        ]
+      ],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "1dfc6b864cf92d9555fcdbd94d48484702e32c8e42cb98f76f9d089085e4bb81",
+      "adaptedUpstreamCanonicalSha256": "1dfc6b864cf92d9555fcdbd94d48484702e32c8e42cb98f76f9d089085e4bb81",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "confirmed-business-execution-template"
+    },
+    {
+      "label": "title projection",
+      "current": {
+        "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+        "name": "titleChanged",
+        "lines": [
+          152,
+          172
+        ],
+        "fileSha256": "fa8f9f2e0bc13cbc900330f16504ac576b87c15d958b3c88ccef97a7ec2c2a85",
+        "rawBodySha256": "f90f8e54dbcebc9dbf15cd15fd2109cda3f3e7f8312a19e2c439e3391907cf53"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+        "name": "applyTitleChange",
+        "lines": [
+          627,
+          659
+        ],
+        "fileSha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "rawBodySha256": "2e76b61d78acec7769b3d6b132ec660d358b1007dea651fa68051ee0331d1918",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts"
+      },
+      "explicitIdentifierMappings": [
+        [
+          "taskIndexRepo",
+          "ports.repo"
+        ],
+        [
+          "logger",
+          "ports.logger"
+        ],
+        [
+          "emitWorkspaceTaskListChanged",
+          "ports.emit"
+        ],
+        [
+          "broadcastTargetFrom",
+          "broadcastTarget"
+        ],
+        [
+          "resyncTaskIndexRowFromAgent",
+          "readback"
+        ]
+      ],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "52545ea0b5f03ac4ccaeae95b7c878fe50136efb4c422207b4d955765afcf894",
+      "adaptedUpstreamCanonicalSha256": "52545ea0b5f03ac4ccaeae95b7c878fe50136efb4c422207b4d955765afcf894",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "confirmed-business-execution-template"
+    },
+    {
+      "label": "model-only projection",
+      "current": {
+        "path": "packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+        "name": "model",
+        "lines": [
+          179,
+          197
+        ],
+        "fileSha256": "73e7f1cea0362bbfc680344251120027567be7827d2e2f08f1b2dbf374ca1b00",
+        "rawBodySha256": "a2e8a9d5408a0b1fcd6cd2cf45807a8140cd7e41d5cac29e47b85c66d3f88ed2"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+        "name": "syncTaskModel",
+        "lines": [
+          1724,
+          1743
+        ],
+        "fileSha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "rawBodySha256": "c0d5c860e7119eb60e4119f70fb2ba02abe3e8b1bedda9037d50f4e26cd19aef",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts"
+      },
+      "explicitIdentifierMappings": [
+        [
+          "taskIndexRepo",
+          "repo"
+        ],
+        [
+          "normalizedModel",
+          "normalized"
+        ]
+      ],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "b7a1ead55c084a319a6cb2722ec6ffed229b0bec977735d185d96769a32b1113",
+      "adaptedUpstreamCanonicalSha256": "b7a1ead55c084a319a6cb2722ec6ffed229b0bec977735d185d96769a32b1113",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "confirmed-business-execution-template"
+    },
+    {
+      "label": "visible-content predicate",
+      "current": {
+        "path": "packages/services/src/agent/task-index-ingestion/snapshotProjection.ts",
+        "name": "visible",
+        "lines": [
+          95,
+          105
+        ],
+        "fileSha256": "73e7f1cea0362bbfc680344251120027567be7827d2e2f08f1b2dbf374ca1b00",
+        "rawBodySha256": "db049f1bde78e5001c3d94858b99c4961c758e0b757be478993c1c3f203c1699"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+        "name": "hasUserVisibleContent",
+        "lines": [
+          1881,
+          1894
+        ],
+        "fileSha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "rawBodySha256": "907c01634b3e85db176dd91e65178e6e3bdbd5755936bf0259a4210fecdbe9ec",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts"
+      },
+      "explicitIdentifierMappings": [],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": false,
+      "currentCanonicalSha256": "f967c951290dfb21489061c69ed6983630f1c3aa2ffc8d91bde7aee2c4b63cab",
+      "adaptedUpstreamCanonicalSha256": "f1c587525cafda106ae89f13854c13b024e651a89dded21692000c0e8ca295f9",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "comparison-does-not-prove-template-retention-or-independence"
+    },
+    {
+      "label": "terminal unread predicate",
+      "current": {
+        "path": "packages/services/src/agent/task-index-ingestion/sessionIndexProjection.ts",
+        "name": "unread",
+        "lines": [
+          43,
+          51
+        ],
+        "fileSha256": "fa8f9f2e0bc13cbc900330f16504ac576b87c15d958b3c88ccef97a7ec2c2a85",
+        "rawBodySha256": "24cb91d2ba740e91245235026d9cccc03ef1ae5c347e1cdac95f1add5e246b68"
+      },
+      "upstream": {
+        "path": "packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts",
+        "name": "resolveTerminalUnreadSignal",
+        "lines": [
+          184,
+          197
+        ],
+        "fileSha256": "28543a182e3198c6b4232ef1120d818cf833b3d474e4658c14c9b053e89b2824",
+        "rawBodySha256": "138f500f9cdb432ca89169525e0fab9210d0c5c5320200bf7db103939aba30be",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/zcode-agent/zcodeTaskIndexSyncer.ts"
+      },
+      "explicitIdentifierMappings": [],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "c3ffc786a7493ec0a3a5824626330032b45db36f2720e5ef3534a3b3574555d6",
+      "adaptedUpstreamCanonicalSha256": "c3ffc786a7493ec0a3a5824626330032b45db36f2720e5ef3534a3b3574555d6",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "retained-small-helper-not-a-whole-core-owner"
+    },
+    {
+      "label": "lock wait fragment",
+      "current": {
+        "path": "packages/services/src/session/tasksDatabase/startup.ts",
+        "name": null,
+        "lines": [
+          83,
+          92
+        ],
+        "fileSha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+        "rawBodySha256": "9c85e4f5c1bdafae1bf6296e428fe1954502004db77a34da7fdc4747abd413f6"
+      },
+      "upstream": {
+        "path": "packages/services/src/session/tasksDatabase/startup.ts",
+        "name": null,
+        "lines": [
+          58,
+          66
+        ],
+        "fileSha256": "248847f6c5fd82405fe8106b40b771906d8e072cf8b5051bd172a1c44afcf0ad",
+        "rawBodySha256": "f6766146c3cfbfd675446b694498a4e34f07171e7e05a23e443a403d75a0f347",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/services/src/session/tasksDatabase/startup.ts"
+      },
+      "explicitIdentifierMappings": [
+        [
+          "deadline",
+          "this.expiresAt"
+        ],
+        [
+          "waiting",
+          "announced"
+        ],
+        [
+          "resolve",
+          "resume"
+        ]
+      ],
+      "identifierMappingQualification": "Mappings apply to the named free/local references, excluding member names preceded by a dot; no property-field renaming.",
+      "explicitExpressionMappings": [
+        [
+          "report(\"waiting_for_lock\", migration)",
+          "this.blocked()"
+        ]
+      ],
+      "diagnosticBrandMapping": "ZCODE→KNORVIA; ZCode→Knorvia; zcode→agent (only bodies; logger tags for session)",
+      "comparisonIgnores": "comments/whitespace, NodeArray trailing commas, and only single-statement if/else block wrappers",
+      "normalizedBodyStructureEqual": true,
+      "currentCanonicalSha256": "c2df26b5c020c3ca77f6c310b02f75b40092f38f74ece46991cea0d9ca61e41c",
+      "adaptedUpstreamCanonicalSha256": "c2df26b5c020c3ca77f6c310b02f75b40092f38f74ece46991cea0d9ca61e41c",
+      "qualification": "Bounded source-structure correspondence after the listed adaptations. No independent-origin, behavioral or copyright/permission adjudication; no tests or typecheck.",
+      "scopeClass": "confirmed-partial-lock-control-fragment-not-whole-owner"
+    }
+  ],
+  "implementationChanges": false,
+  "rightsMaterialRequests": false,
+  "rootLicenseChanges": false,
+  "validation": "UNVERIFIED: no tests, lint, typecheck, build, audit or CI rerun; source/structure/Git/diff reading only."
+}
