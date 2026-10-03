@@ -1,0 +1,174 @@
+--- formatted-pinned-source/AGENTS.md
+
++++ .agents/skills/react-best-practices/AGENTS.md
+
+@@ -113,7 +113,7 @@
+
+ 
+ When a branch uses `await` for a flag or remote value and also requires a **cheap synchronous** condition (local props, request metadata, already-loaded state), evaluate the cheap condition **first**. Otherwise you pay for the async call even when the compound condition can never be true.
+ 
+-This is a specialization of [Defer Await Until Needed](./async-defer-await.md) for `flag && cheapCondition` style checks.
++This is a specialization of [Defer Await Until Needed](rules/async-defer-await.md) for `flag && cheapCondition` style checks.
+ 
+ **Incorrect:**
+ 
+@@ -216,7 +216,7 @@
+
+ 
+ This optimization is especially valuable when the skipped branch is frequently taken, or when the deferred operation is expensive.
+ 
+-For `await getFlag()` combined with a cheap synchronous guard (`flag && someCondition`), see [Check Cheap Conditions Before Async Flags](./async-cheap-condition-before-await.md).
++For `await getFlag()` combined with a cheap synchronous guard (`flag && someCondition`), see [Check Cheap Conditions Before Async Flags](rules/async-cheap-condition-before-await.md).
+ 
+ ### 1.3 Dependency-Based Parallelization
+ 
+@@ -877,7 +877,7 @@
+
+ 
+ - Process-wide singletons that do not store request- or user-specific mutable data
+ 
+-For static assets and config, see [Hoist Static I/O to Module Level](./server-hoist-static-io.md).
++For static assets and config, see [Hoist Static I/O to Module Level](rules/server-hoist-static-io.md).
+ 
+ ### 3.4 Cross-Request LRU Caching
+ 
+--- formatted-pinned-source/README.md
+
++++ .agents/skills/react-best-practices/README.md
+
+@@ -1,127 +1,14 @@
+
+ # React Best Practices
+ 
+-A structured repository for creating and maintaining React Best Practices optimized for agents and LLMs.
++This directory contains the vendored React and Next.js guidance used by the skill.
+ 
+-## Structure
++- [SKILL.md](SKILL.md): scope and rule selection.
++- [AGENTS.md](AGENTS.md): combined reference.
++- [rules/](rules/): individual rules and examples.
++- [metadata.json](metadata.json): source metadata.
+ 
+-- `rules/` - Individual rule files (one per rule)
+-  - `_sections.md` - Section metadata (titles, impacts, descriptions)
+-  - `_template.md` - Template for creating new rules
+-  - `area-description.md` - Individual rule files
+-- `src/` - Build scripts and utilities
+-- `metadata.json` - Document metadata (version, organization, abstract)
+-- **`AGENTS.md`** - Compiled output (generated)
+-- **`test-cases.json`** - Test cases for LLM evaluation (generated)
++When changing a rule, update its individual file and the corresponding section in the combined reference. Use [the rule template](rules/_template.md) and [section metadata](rules/_sections.md) for structure. Keep relative links valid from the file that contains them.
+ 
+-## Getting Started
+-
+-1. Install dependencies:
+-
+-   ```bash
+-   pnpm install
+-   ```
+-
+-2. Build AGENTS.md from rules:
+-
+-   ```bash
+-   pnpm build
+-   ```
+-
+-3. Validate rule files:
+-
+-   ```bash
+-   pnpm validate
+-   ```
+-
+-4. Extract test cases:
+-   ```bash
+-   pnpm extract-tests
+-   ```
+-
+-## Creating a New Rule
+-
+-1. Copy `rules/_template.md` to `rules/area-description.md`
+-2. Choose the appropriate area prefix:
+-   - `async-` for Eliminating Waterfalls (Section 1)
+-   - `bundle-` for Bundle Size Optimization (Section 2)
+-   - `server-` for Server-Side Performance (Section 3)
+-   - `client-` for Client-Side Data Fetching (Section 4)
+-   - `rerender-` for Re-render Optimization (Section 5)
+-   - `rendering-` for Rendering Performance (Section 6)
+-   - `js-` for JavaScript Performance (Section 7)
+-   - `advanced-` for Advanced Patterns (Section 8)
+-3. Fill in the frontmatter and content
+-4. Ensure you have clear examples with explanations
+-5. Run `pnpm build` to regenerate AGENTS.md and test-cases.json
+-
+-## Rule File Structure
+-
+-Each rule file should follow this structure:
+-
+-````markdown
+----
+-title: Rule Title Here
+-impact: MEDIUM
+-impactDescription: Optional description
+-tags: tag1, tag2, tag3
+----
+-
+-## Rule Title Here
+-
+-Brief explanation of the rule and why it matters.
+-
+-**Incorrect (description of what's wrong):**
+-
+-```typescript
+-// Bad code example
+-```
+-````
+-
+-**Correct (description of what's right):**
+-
+-```typescript
+-// Good code example
+-```
+-
+-Optional explanatory text after examples.
+-
+-Reference: [Link](https://example.com)
+-
+-## File Naming Convention
+-
+-- Files starting with `_` are special (excluded from build)
+-- Rule files: `area-description.md` (e.g., `async-parallel.md`)
+-- Section is automatically inferred from filename prefix
+-- Rules are sorted alphabetically by title within each section
+-- IDs (e.g., 1.1, 1.2) are auto-generated during build
+-
+-## Impact Levels
+-
+-- `CRITICAL` - Highest priority, major performance gains
+-- `HIGH` - Significant performance improvements
+-- `MEDIUM-HIGH` - Moderate-high gains
+-- `MEDIUM` - Moderate performance improvements
+-- `LOW-MEDIUM` - Low-medium gains
+-- `LOW` - Incremental improvements
+-
+-## Scripts
+-
+-- `pnpm build` - Compile rules into AGENTS.md
+-- `pnpm validate` - Validate all rule files
+-- `pnpm extract-tests` - Extract test cases for LLM evaluation
+-- `pnpm dev` - Build and validate
+-
+-## Contributing
+-
+-When adding or modifying rules:
+-
+-1. Use the correct filename prefix for your section
+-2. Follow the `_template.md` structure
+-3. Include clear bad/good examples with explanations
+-4. Add appropriate tags
+-5. Run `pnpm build` to regenerate AGENTS.md and test-cases.json
+-6. Rules are automatically sorted by title - no need to manage numbers!
+-
+-## Acknowledgments
++The examples illustrate framework patterns; apply only rules relevant to the target application's framework and execution environment.
+ 
+ Originally created by [@shuding](https://x.com/shuding) at [Vercel](https://vercel.com).

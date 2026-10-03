@@ -41,4 +41,4 @@ GitHub Actions 的 `Studio offline checks` 在每个 PR 上于 Linux 运行检�
 
 开发约束见 [AGENTS.md](AGENTS.md)、[DESIGN.md](DESIGN.md)，产品规格在 [specs/](specs/)，验收与审计报告在 [docs/](docs/)。来源与修改说明见 [FORK-NOTES.md](FORK-NOTES.md)。
 
-当前源码仍适用根 [Apache-2.0 许可证](LICENSE) 及各目录明确声明的许可，详见 [NOTICE](NOTICE.md) 和 [第三方声明](THIRD-PARTY-NOTICES.md)。Knorvia 正在按功能规格逐模块独立实现，并对有权独立授权的文件采用 MIT；尚未宣布整个应用完成 MIT 迁移。来源范围和进度见 [文件来源与许可](licensing/README.md) 及 [独立实现规格](specs/knorvia-independent-implementation.md)。旧版本的发布和许可记录保留。
+Knorvia Studio 继续使用根 [Apache-2.0 许可证](LICENSE)，由本项目持续维护。2026-10-03 起取消全项目 MIT 迁移目标，继续替换原项目继承实现，保留常用第三方依赖及其真实声明；当前尚未宣称完成全部独立替换。已有文件、目录和第三方组件明确声明的许可及署名继续保留，详见 [NOTICE](NOTICE.md) 和 [第三方声明](THIRD-PARTY-NOTICES.md)。真实来源和当前许可范围见 [文件来源与许可](licensing/README.md) 及 [源码维护规格](specs/knorvia-independent-implementation.md)。旧版本的发布和许可记录保留。

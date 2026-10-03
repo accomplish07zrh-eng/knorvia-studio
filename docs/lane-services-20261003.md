@@ -511,3 +511,53 @@ actual Windows checked SHA/result. Other lanes' failures remain outside this
 allocation. Existing accepted/golden/history evidence, licenses, source-exposure
 disclosures and session/task-index HOLD decisions remain unchanged. No MIT/main
 readiness or historical emitted-target acceptance is asserted by these repairs.
+
+## Batch 10 — stop MIT-specific work; retain confirmed Apache source facts
+
+The same branch was fast-forwarded to main checkpoint
+`59517d9699519b0a7a44980da27df29d45f0e91e`. Before the user's new instruction, the
+five current owners and their available Git/spec/source history were read.
+Pinned public source retrieval matched the existing saved upstream SHA-256/blob
+bindings, including the renamed ZCode session/task-index paths. The retained
+[bounded source facts](evidence/services-five-owner-provenance-20261003/README.md)
+provide the exact paths and licence attribution; no origin/ownership acceptance
+is inferred from source exposure, changed hashes or earlier CI results.
+
+The user now explicitly keeps Apache-2.0. Stop additional MIT rewrites,
+contribution-rights questions and material closure. Protect the uncommitted
+reading materials and unused reader draft in the local archive named in the
+receipt. No product source, root LICENSE/README/NOTICE, third-party notices,
+global source register or historical HOLD/accepted record was changed.
+
+**UNVERIFIED in this phase:** no tests, lint, typecheck, build, full audit or CI
+rerun. The integrator owns the repository-wide Apache declaration and must retain
+applicable third-party obligations. This MIT-specific lane work is stopped; no
+new task or PR is created for the paused review.
+
+## Batch 11 — Apache retained; bounded inherited-implementation remainder
+
+The user clarified that continuing Apache-2.0 does not cancel removal of the
+original project's inherited core implementation. Continue this original task
+and branch; stop only the MIT rights/material closure. Read the five requested
+current owners and the direct private preparation/ingestion/projection execution
+path. Fetched main remains `59517d9699519b0a7a44980da27df29d45f0e91e`, with all
+five requested source blobs identical to the reviewed branch checkpoint
+`6a96f808ea3698401b87f3ac386d7e72eb08681f`.
+
+The [minimum implementation scope](evidence/services-five-owner-provenance-20261003/residual-implementation-scope.md)
+identifies actual function-body/control-template correspondence, including
+conditional draft close and four task-index effect routines delegated to private
+helpers. It distinguishes small retained helper expression from an inherited
+whole owner and does not count matching interfaces/behavior/source exposure or
+missing receipts as proof of residual code. Creation-reference receives no
+manufactured rewrite assignment from the bounded origin gap.
+
+Propose three coordinated batches: local normalization/lock driver; conditional
+close/diagnostics; task-index projection effects/unread helper. Retain the new
+trie, failure ownership and per-topic architecture. No public/shared API change
+is requested. The report and exact correspondence bindings are the deliverable;
+no production implementation is changed before integration coordinates execution.
+
+**UNVERIFIED:** no tests, lint, typecheck, build, full audit or CI rerun. Source and
+diff reading only; no root licence/global source register/third-party notice or
+historical HOLD/accepted-record mutation. No new task, PR or rights-material ask.
