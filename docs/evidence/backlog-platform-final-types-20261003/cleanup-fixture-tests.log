@@ -1,0 +1,14 @@
+✔ startup (181.069126ms)
+✔ remote (111.394789ms)
+✔ task-flow (83.652866ms)
+✔ dispatch-shutdown (59.988712ms)
+✔ disk sampler synthetic probe authority, migration and stopped lifetime (115.696086ms)
+✔ storage preparation fake Worker control authority, canonical reuse and exit lifetime (129.396636ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1351.773505

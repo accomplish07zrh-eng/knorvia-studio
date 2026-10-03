@@ -1,0 +1,666 @@
+{
+  "baseCommit": "7feae5561dc00af9a6f81773e0767bf193d0284f",
+  "method": "Source reading only: TypeScript 6.0.2 AST kind/text/type-only projection with expression/type parentheses unwrapped, noncomputed property key quotes normalized, whole-source text excluded, and comments/format excluded. Not a runtime, legal, or independent-expression audit. Before-split checkpoint already contains the two intended Host assertion additions.",
+  "formatterBindings": [
+    {
+      "path": "packages/desktop/src/main/desktopRemoteSessions/controls.ts",
+      "beforeSha256": "88efbf315a79d815120af70fba62a3ab6c84e6433cc4bb489b8c9282f03819a7",
+      "afterSha256": "f855c71c87a773e365a312a7f089d872d3d8b4fcc17a2114bae5d3d5a4856c92",
+      "astEquivalent": true,
+      "astBeforeSha256": "3fb7466a45ccb2f815d2c3f7f9368e5e2a7107fc7aab01b0be0c7e975155e124",
+      "astAfterSha256": "3fb7466a45ccb2f815d2c3f7f9368e5e2a7107fc7aab01b0be0c7e975155e124"
+    },
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "beforeSha256": "f44c0a002c42b4c7e9c82723f847b7900103f2398bb5a6a697d53860a2b69481",
+      "afterSha256": "ffbd2c675bc7194c08df6216c4614bded3d9a8016601fd7bd4742a8b121d075c",
+      "astEquivalent": true,
+      "astBeforeSha256": "81999262a9a6c90e934ad556674b6df5341b13e473660d6b84c1886be06adc27",
+      "astAfterSha256": "81999262a9a6c90e934ad556674b6df5341b13e473660d6b84c1886be06adc27"
+    },
+    {
+      "path": "packages/desktop/src/main/hostLogRelay.ts",
+      "beforeSha256": "6b3c50ff3c57ca88c5d0ee87c0b051be937922e5d860e11798843d5a1f280fd2",
+      "afterSha256": "6b1d9ce8e3d3b2daff0412ed48139f9b64831b14613f5ed19257e4a91b99900e",
+      "astEquivalent": true,
+      "astBeforeSha256": "583841a6e54bcbf167c00a91936393461c5661befd6368aef4f24aa146ccc7f8",
+      "astAfterSha256": "583841a6e54bcbf167c00a91936393461c5661befd6368aef4f24aa146ccc7f8"
+    },
+    {
+      "path": "packages/desktop/src/main/logRetention.ts",
+      "beforeSha256": "f1811c0c2b1e75b82c894e70e3a1bcfb2750e0e34b922618b8ed12a54c9968ee",
+      "afterSha256": "c2ebb4c24870b244125e80e53388205d57c1796718af98b43a2df05dd9e1fc2b",
+      "astEquivalent": true,
+      "astBeforeSha256": "38f9c8d538fcc266802c51b4934abbdd711c907e293097031ad9e17afd0229b2",
+      "astAfterSha256": "38f9c8d538fcc266802c51b4934abbdd711c907e293097031ad9e17afd0229b2"
+    },
+    {
+      "path": "packages/desktop/src/main/logger.ts",
+      "beforeSha256": "00f2f4e4ffc5824c1bd4a4a144e45ff3731320d2fe5368b012afdd9e2af818f7",
+      "afterSha256": "37fa5eb912a4fe2f3104637f2d03c303655cdfb0fce1469704e2d2cbfc9280e2",
+      "astEquivalent": true,
+      "astBeforeSha256": "413f6df53a8e1c031997ff7e10016859e5051f3ed16cae1a743bb421cc7103df",
+      "astAfterSha256": "413f6df53a8e1c031997ff7e10016859e5051f3ed16cae1a743bb421cc7103df"
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerStorage.ts",
+      "beforeSha256": "d8f32c6b6006b62532f66434bd3acd2093e4d824496fd5d1f38844f98f2f1d45",
+      "afterSha256": "014393409c347286b80f1af217b864e2493e03d9de86ca59525fbf6f6cec9811",
+      "astEquivalent": true,
+      "astBeforeSha256": "78cc41cd6222ef14ca43e5023798cad3b0d5717e40e1e2f1d66527680c471e39",
+      "astAfterSha256": "78cc41cd6222ef14ca43e5023798cad3b0d5717e40e1e2f1d66527680c471e39"
+    },
+    {
+      "path": "packages/desktop/src/main/storageScanWorkerClient.ts",
+      "beforeSha256": "d9a4df5296b1e39ae7ec08ec4aa1d4cf2a9d623d06d18f101fb40cc25fbb81e4",
+      "afterSha256": "805f5d03657cfc05ad4074986fbc78013a0859f6ca7c88bec07c956d25b34154",
+      "astEquivalent": true,
+      "astBeforeSha256": "8b164ce2897fdea36fc6b1a3451fcb9fa0fa9cdd82a9264ba008f66224af3d4a",
+      "astAfterSha256": "8b164ce2897fdea36fc6b1a3451fcb9fa0fa9cdd82a9264ba008f66224af3d4a"
+    },
+    {
+      "path": "packages/desktop/src/main/windowsInstallResourceLocks.ts",
+      "beforeSha256": "255ac7d28999ab3c23f64cb148e04aab9be43266ee36c2e6e09c5e9e2c4d7427",
+      "afterSha256": "fd29e1ebb50e4cfc98c49b66da71dee0573c81ae98dd20b4b98f392a4e205e5b",
+      "astEquivalent": true,
+      "astBeforeSha256": "54c1980df2971376f458d44653e1a8c7446881acd5b8e431798a1df3c9ba8728",
+      "astAfterSha256": "54c1980df2971376f458d44653e1a8c7446881acd5b8e431798a1df3c9ba8728"
+    },
+    {
+      "path": "packages/desktop/src/renderer/cuaPermissionPanel.ts",
+      "beforeSha256": "16993876ff4cdffd780806eacce5bc02446fe9ed1fd3fefdc5e5a7149d4acd67",
+      "afterSha256": "55da0c7c371097899c29a67ccd950bfab2b3ee66bd8b63d6c08ee4cdf8364292",
+      "astEquivalent": true,
+      "astBeforeSha256": "364c6add00612b9a280138d391e5b85294429cbd905e6000df8618cddbaa6d8d",
+      "astAfterSha256": "364c6add00612b9a280138d391e5b85294429cbd905e6000df8618cddbaa6d8d"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/desktopBrowserPlatformBridge.ts",
+      "beforeSha256": "64617045432ed0d17c753b139dc85ec38b8b419df2b6cc32815483c76d5e1c27",
+      "afterSha256": "765c110144606186e644352f405d0d0ffa2e588423eb23fcc8301b2019334492",
+      "astEquivalent": true,
+      "astBeforeSha256": "273c5133903e244df0ada2933918ab4b5c016b947c1d016d7103c67b79138013",
+      "astAfterSha256": "273c5133903e244df0ada2933918ab4b5c016b947c1d016d7103c67b79138013"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/desktopPlatform.ts",
+      "beforeSha256": "0d78007f7cf4c8c1ac5a28c193609bb994d5f0639ebeb9643a2e0946543cf502",
+      "afterSha256": "3f7b85218e4884f6748f9364cb176547e6ca4500cbb2e4c90221d38c4a6a2b6c",
+      "astEquivalent": true,
+      "astBeforeSha256": "8ac6da390e77a92ce29e9467b847c08dfa2e09609270456a47b4dc1826908592",
+      "astAfterSha256": "8ac6da390e77a92ce29e9467b847c08dfa2e09609270456a47b4dc1826908592"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/main.tsx",
+      "beforeSha256": "99c1c522dbccee2fbc0f18beea51ec2ceef6fe25894c416061d5e4abf736043f",
+      "afterSha256": "59cfe5011d016f12495c765265d9e1edccd2dee377bc839e700cc2202850380c",
+      "astEquivalent": true,
+      "astBeforeSha256": "eddf750322372d5355bc5d0eec40d43adb72ca17bdaf7a51de6547a6102f4d1a",
+      "astAfterSha256": "eddf750322372d5355bc5d0eec40d43adb72ca17bdaf7a51de6547a6102f4d1a"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/rendererPreloadCalls.ts",
+      "beforeSha256": "03a72c6ad3fbe557a05af7f0d62cb31518086f608b3e068add2b9f93b45d2780",
+      "afterSha256": "c65c5f3a4149a2a70d4a58a727dbded0a1c8d6faf203c91d27e0f60f1adccc11",
+      "astEquivalent": true,
+      "astBeforeSha256": "ac248351a72b9fe33ded015fe491f8eedca7129a7c3631f0e9f74d3c02fef69f",
+      "astAfterSha256": "ac248351a72b9fe33ded015fe491f8eedca7129a7c3631f0e9f74d3c02fef69f"
+    },
+    {
+      "path": "packages/desktop/test/native-export-log-owner-contract.test.mjs",
+      "beforeSha256": "c7badf879d6e8cb777a5d6f2a90305cefdd0e2e114da4a0d3ba6fedd55f6f16e",
+      "afterSha256": "80040f9337f0ef5d884d824488742bb22ea271543904f4b9fa63cb75f785b563",
+      "astEquivalent": true,
+      "astBeforeSha256": "88e48e3eeec5b01bd9d27263c7a2a701683a6103a5d592da2c09b30cb106fa07",
+      "astAfterSha256": "88e48e3eeec5b01bd9d27263c7a2a701683a6103a5d592da2c09b30cb106fa07"
+    },
+    {
+      "path": "packages/desktop/test/native-install-log-owner-contract.test.mjs",
+      "beforeSha256": "792b5d2b0c1f85055e320239df6ffd5aaa0fce446a42c65c5e204ce3e270e0ac",
+      "afterSha256": "cb7a747f7178698dca2e1edf9fbd98aa95b324de18ab9482061cb2a65f02feac",
+      "astEquivalent": true,
+      "astBeforeSha256": "963cb0cb995fd9e04d69f2c964e8674cfa4430e13cc3f739d0a10233f7049787",
+      "astAfterSha256": "963cb0cb995fd9e04d69f2c964e8674cfa4430e13cc3f739d0a10233f7049787"
+    },
+    {
+      "path": "packages/desktop/test/native-log-retention-owner-contract.test.mjs",
+      "beforeSha256": "d2bab1f536cf97ad90ddcace39293cae7705650cb3f4a485d6ae603796402084",
+      "afterSha256": "472b27a32426c636964905268fe6eb769866b44da1982441b72c23d03820770f",
+      "astEquivalent": true,
+      "astBeforeSha256": "b71b923eea82519227f187bc8f0db0f05bdd02304218b7f8f39eeb7ac94c064b",
+      "astAfterSha256": "b71b923eea82519227f187bc8f0db0f05bdd02304218b7f8f39eeb7ac94c064b"
+    },
+    {
+      "path": "packages/desktop/test/native-main-log-sink-contract.test.mjs",
+      "beforeSha256": "039efbbf7e0b3c21a647b60210a7208ec819b66e3c3aa5748aaf06096dcf9efb",
+      "afterSha256": "3111e134720de8453f1e8c6a91acac3672324897eec044020c8dfe59cd18198f",
+      "astEquivalent": true,
+      "astBeforeSha256": "0f911894ee14dabf30079c5dbaa94e111561e95766d83dba6b9c01e8c45a14aa",
+      "astAfterSha256": "0f911894ee14dabf30079c5dbaa94e111561e95766d83dba6b9c01e8c45a14aa"
+    },
+    {
+      "path": "packages/desktop/test/native-owner-fixture.mjs",
+      "beforeSha256": "48db4b871fbad14057424843f01c76db744bbe0fe3f9f17ebbfd8e3a47237c74",
+      "afterSha256": "417842a1688795b8bcd4726478322677d19774fc2f7b3c33ed072a64659dc253",
+      "astEquivalent": true,
+      "astBeforeSha256": "2c5253139ef0d2f0862dbd42a5891ec4dd6cf00ff86825d027e38c82090b3c4d",
+      "astAfterSha256": "2c5253139ef0d2f0862dbd42a5891ec4dd6cf00ff86825d027e38c82090b3c4d"
+    },
+    {
+      "path": "packages/desktop/test/native-storage-owner-contract.test.mjs",
+      "beforeSha256": "4384224143779b19297ae1a2ca205d411bfc0e997335f9a0918060e1c64bb6fc",
+      "afterSha256": "0e24d4814e8490e08a058c31446c866f56e0085e6d38789ec357615bf6e0b6db",
+      "astEquivalent": true,
+      "astBeforeSha256": "5c8b2326be3e01c4ca0a753ad4383c6df439244c144085d7e49e41b8004f6f5c",
+      "astAfterSha256": "5c8b2326be3e01c4ca0a753ad4383c6df439244c144085d7e49e41b8004f6f5c"
+    },
+    {
+      "path": "packages/desktop/test/native-wsl-cache-owner-contract.test.mjs",
+      "beforeSha256": "d2e92f546bdc76b9357c8c248cbf4a66a6d058d1263cd925cd238ef7a498b519",
+      "afterSha256": "71839d4e48da57b744b5d56ec18251fde3410bfa2a383230f58574d50625f4ab",
+      "astEquivalent": true,
+      "astBeforeSha256": "f3b35df2c0e8bc9802d6f9b937a3d28c44213287dd5efd99c8c2e7fe2bec28a2",
+      "astAfterSha256": "f3b35df2c0e8bc9802d6f9b937a3d28c44213287dd5efd99c8c2e7fe2bec28a2"
+    },
+    {
+      "path": "packages/desktop/test/renderer-native-routing-contract.test.mjs",
+      "beforeSha256": "557490704f37a6df461042202bdca19d37a40d4e3e640fcf454c34e7d6533bf3",
+      "afterSha256": "699d3a181a26aad32adffff9a3c86c8b950aab6a1f1edd5ee3252824463d9c6b",
+      "astEquivalent": true,
+      "astBeforeSha256": "98824268381c701029506bb92261f4fd07b2c8eb4cd4ed1afbfb71b4ec37d087",
+      "astAfterSha256": "98824268381c701029506bb92261f4fd07b2c8eb4cd4ed1afbfb71b4ec37d087"
+    },
+    {
+      "path": "packages/desktop/test/renderer-owner-fixture.mjs",
+      "beforeSha256": "18106039ad3bc4c52f13cbc2a062f853d67d2e001e9cbeb5eba963ba91b22b93",
+      "afterSha256": "98c8ed3dfb0db88c040ea8231296050fdf450ae1c7af49ebb648168554ff8e7a",
+      "astEquivalent": true,
+      "astBeforeSha256": "8e941c7b2b9fd3f973baadf1cb6e06f44e9bfbd668f40d98aa1a30561f40990e",
+      "astAfterSha256": "8e941c7b2b9fd3f973baadf1cb6e06f44e9bfbd668f40d98aa1a30561f40990e"
+    },
+    {
+      "path": "packages/desktop/test/renderer-startup-contract.test.mjs",
+      "beforeSha256": "6bc29ce1ec5e9e8f520f4419cc90f0bc6ff278c4b027f963e6c03d1e883ab186",
+      "afterSha256": "7b66865f0e5215a3e1f3f6ad0624e3dc715bb5a5b91d6628004c56b1424ed1a6",
+      "astEquivalent": true,
+      "astBeforeSha256": "59ee04fc1848287d40d46c30db8a7e776ff9e566ccc70915b03516394314132c",
+      "astAfterSha256": "59ee04fc1848287d40d46c30db8a7e776ff9e566ccc70915b03516394314132c"
+    },
+    {
+      "path": "packages/desktop/test/renderer-telemetry-contract.test.mjs",
+      "beforeSha256": "9f1d653ac0ad9d5afebd0870f1cea5f06c5a034f15687c4cf4fc39ea6dab7316",
+      "afterSha256": "1facb0f4369e4f6e4ca6647d9fff6b016e41d2cfb678710ec96292bb15d11218",
+      "astEquivalent": true,
+      "astBeforeSha256": "320adbcd038010b8231d6587ee1fb679c5c1c07435776f1734f6f06004170f86",
+      "astAfterSha256": "320adbcd038010b8231d6587ee1fb679c5c1c07435776f1734f6f06004170f86"
+    },
+    {
+      "path": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+      "beforeSha256": "44fcdc12fc421892f7870138eaec5883bee6313e4604c5cb005d1cbd1335f051",
+      "afterSha256": "53cbfaf2f80d1a1849376b2ce58e9c4b5aec666267bf9fbe6173ec22a5e9d689",
+      "astEquivalent": true,
+      "astBeforeSha256": "60c0ba7e2ef6c6f698871b17d25d459a0cc3c876bf648aa184ad1fb52bfeeafe",
+      "astAfterSha256": "60c0ba7e2ef6c6f698871b17d25d459a0cc3c876bf648aa184ad1fb52bfeeafe"
+    },
+    {
+      "path": "packages/server-cli/src/ipc/controlClient.ts",
+      "beforeSha256": "128fe936cd91c3831e86dec2ac0d13ba3c8e89bd1a7ded1e0433e38f89ba94ae",
+      "afterSha256": "3f390784a3af6ddccd8077cab812d6219d223bf4af107428568ff5a6179f6a5b",
+      "astEquivalent": true,
+      "astBeforeSha256": "5bab0c5672abacc4686fec03dd4df2164a390e269b880da95a23a2157b2b8898",
+      "astAfterSha256": "5bab0c5672abacc4686fec03dd4df2164a390e269b880da95a23a2157b2b8898"
+    },
+    {
+      "path": "packages/server-cli/src/ipc/controlServer.ts",
+      "beforeSha256": "e44c4888fbf31205088aa77f91ce9e5787917040f9e53741f4669f44cba9d34a",
+      "afterSha256": "044b45cf4ac301cb4fdae3aaf576fdae30e2704d278975785e46fea8f1f0d85f",
+      "astEquivalent": true,
+      "astBeforeSha256": "58f35981f0895beedda0d888f59928654eebd59ba034edf523fb0a390f300fd2",
+      "astAfterSha256": "58f35981f0895beedda0d888f59928654eebd59ba034edf523fb0a390f300fd2"
+    },
+    {
+      "path": "packages/server-cli/src/ipc/framing.ts",
+      "beforeSha256": "8bc3d05278170e25417da444629e91b8356b1334c77f5ee0e7d3a8021411b137",
+      "afterSha256": "26440ac8075bb61c6f219f198b0f230d3888c424d1436ce75956b2b23ef3566d",
+      "astEquivalent": true,
+      "astBeforeSha256": "b09cacd1d2d329d0997ab6d91e97039a3128367cd4e3eb8c57b6ed59b26fa39c",
+      "astAfterSha256": "b09cacd1d2d329d0997ab6d91e97039a3128367cd4e3eb8c57b6ed59b26fa39c"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/lock.ts",
+      "beforeSha256": "6d686e81695747f755787f6d2122e35275bb0e6e2b622231ea3bb35574a447b0",
+      "afterSha256": "4f04d0de713d074154db31fda159391d6612a744105cec269cd4231cb4b64029",
+      "astEquivalent": true,
+      "astBeforeSha256": "360e8264490f730eea2747929759696470edaafaa2ef7a14ba0d207909ad3529",
+      "astAfterSha256": "360e8264490f730eea2747929759696470edaafaa2ef7a14ba0d207909ad3529"
+    },
+    {
+      "path": "packages/server-cli/src/runtime/shutdownWait.ts",
+      "beforeSha256": "241e04e8e42fb11869412e0b42d9bfc00d1547cc982b4e972ab3ab47aff66ec5",
+      "afterSha256": "72f78cee675017f868844a323ff9ff93a0b2ffd8f259232e4bc15fd3b7677dd5",
+      "astEquivalent": true,
+      "astBeforeSha256": "a007c5d793a21a3127627e029c86a3f4558630c983e8b22a35961fd99820aad6",
+      "astAfterSha256": "a007c5d793a21a3127627e029c86a3f4558630c983e8b22a35961fd99820aad6"
+    },
+    {
+      "path": "packages/server-cli/test/control-transport-contract.test.mjs",
+      "beforeSha256": "1456ec9045e7912ff8113b9ba220d8414e05efa857070eaca4bd3e09dd90e354",
+      "afterSha256": "2406b83a33a8215f6b829eeeabc3be7a7181d78187d5fedf68dfccfe75bc150a",
+      "astEquivalent": true,
+      "astBeforeSha256": "66cfdb00cd2eaa47d0981b3a57b18b3ee5151d8e529cedbb6f2b6275af54972c",
+      "astAfterSha256": "66cfdb00cd2eaa47d0981b3a57b18b3ee5151d8e529cedbb6f2b6275af54972c"
+    },
+    {
+      "path": "packages/server-cli/test/control-transport-fixture.mjs",
+      "beforeSha256": "374f66242ab6c290a9e1883998a760f2ba13498a8b390cb1ecd5c486da67ad1c",
+      "afterSha256": "951f65fe17700157d4a73835b240be2200858df32fb402a86cd4038cb4ce265d",
+      "astEquivalent": true,
+      "astBeforeSha256": "7089c593364f09963a0c281d9323efae26c25adf5b3081785220cea80fb37ff0",
+      "astAfterSha256": "7089c593364f09963a0c281d9323efae26c25adf5b3081785220cea80fb37ff0"
+    },
+    {
+      "path": "packages/server-cli/test/lock-ownership-contract.test.mjs",
+      "beforeSha256": "8ff6a54ff894284b56021f6cc89f43016eabade3b215fa33b50b9f8f094396df",
+      "afterSha256": "77e0ad55653e4c73c983da0689a8e698e0beae60ecc5bc384ee48e2656419af2",
+      "astEquivalent": true,
+      "astBeforeSha256": "0a3b95b6af9cf5c6f671efb0ed61fd8d478c77352379856402a284364e885a83",
+      "astAfterSha256": "0a3b95b6af9cf5c6f671efb0ed61fd8d478c77352379856402a284364e885a83"
+    },
+    {
+      "path": "packages/server-cli/test/status-persistence-contract.test.mjs",
+      "beforeSha256": "162a51c03a7d8ad63df3c81d820484a337ae39906644303402ab358fd326e752",
+      "afterSha256": "ca67dac565b5b66fa9ab51824c77bed48aaabd875648c9eb672fda321bfdec4c",
+      "astEquivalent": true,
+      "astBeforeSha256": "b351e3e3202bd9acbd46c05e7eb0d56d31e7387c5e00110fd62c3686f34536df",
+      "astAfterSha256": "b351e3e3202bd9acbd46c05e7eb0d56d31e7387c5e00110fd62c3686f34536df"
+    },
+    {
+      "path": "packages/server-cli/test/status-persistence-fixture.mjs",
+      "beforeSha256": "3ce6c92aa824d94f173ac3b5bf2046a6a3cac72d56e3a9752fc0f998baa94e66",
+      "afterSha256": "4c197af9eba6dc36ea3e67d8285f4590e15f81403e04cac2153a081c7260d783",
+      "astEquivalent": true,
+      "astBeforeSha256": "2ed6819737f9885f881c7c174df5782d79048620f2e36b29e1dd7a087be0e76c",
+      "astAfterSha256": "2ed6819737f9885f881c7c174df5782d79048620f2e36b29e1dd7a087be0e76c"
+    }
+  ],
+  "testSplitBindings": [
+    {
+      "entry": "packages/desktop/src/preload/owners.test.mjs",
+      "scenarioCount": 8,
+      "generatedCaseCount": 8,
+      "registeredOrder": [
+        "index: public facade, promise/cancellation identity and buffered callback lifetime",
+        "index: exact sender/channel/schema admission and first-port closure/transfer",
+        "wheel: axis consumption, RTL, modes and bounded pixel forwarding",
+        "wheel: deferred preventDefault, captured payload and uncancelled queued send",
+        "dialog: isolated bridge admission, boolean filtering and sync fallback",
+        "dialog: serialized main-world frame lifetimes, native receivers and confirm identity guard",
+        "dialog: reply observation fallback and frame-load raw error boundary",
+        "dialog: frame-load raw error boundary and deferred document readiness"
+      ],
+      "checks": [
+        {
+          "name": "index: public facade, promise/cancellation identity and buffered callback lifetime",
+          "targetPath": "packages/desktop/src/preload/owners.cases-1.mjs",
+          "beforeSplitAstSha256": "b30468ac13cdf0a268863ca1a6bd99b0dcb62046744cc1f3356b0db16b6d690b",
+          "afterSplitAstSha256": "b30468ac13cdf0a268863ca1a6bd99b0dcb62046744cc1f3356b0db16b6d690b",
+          "unchanged": true
+        },
+        {
+          "name": "index: exact sender/channel/schema admission and first-port closure/transfer",
+          "targetPath": "packages/desktop/src/preload/owners.cases-1.mjs",
+          "beforeSplitAstSha256": "c825843ff899cf7a69c12e240c873d23824d91614926ae80988bc796d5c006cf",
+          "afterSplitAstSha256": "c825843ff899cf7a69c12e240c873d23824d91614926ae80988bc796d5c006cf",
+          "unchanged": true
+        },
+        {
+          "name": "wheel: axis consumption, RTL, modes and bounded pixel forwarding",
+          "targetPath": "packages/desktop/src/preload/owners.cases-1.mjs",
+          "beforeSplitAstSha256": "f85a5ab5a7716fc9d18dc5b48bac4f458dca3467c2942619d8705a74372b9488",
+          "afterSplitAstSha256": "f85a5ab5a7716fc9d18dc5b48bac4f458dca3467c2942619d8705a74372b9488",
+          "unchanged": true
+        },
+        {
+          "name": "wheel: deferred preventDefault, captured payload and uncancelled queued send",
+          "targetPath": "packages/desktop/src/preload/owners.cases-1.mjs",
+          "beforeSplitAstSha256": "17cec490ed05c271c5e81e9ea30e039cf85954585e92c6d950755155da66c254",
+          "afterSplitAstSha256": "17cec490ed05c271c5e81e9ea30e039cf85954585e92c6d950755155da66c254",
+          "unchanged": true
+        },
+        {
+          "name": "dialog: isolated bridge admission, boolean filtering and sync fallback",
+          "targetPath": "packages/desktop/src/preload/owners.cases-1.mjs",
+          "beforeSplitAstSha256": "00e6477a85fd303da6148fbb735c3b59e95b5003f44d77c5f82fafe618a219f9",
+          "afterSplitAstSha256": "00e6477a85fd303da6148fbb735c3b59e95b5003f44d77c5f82fafe618a219f9",
+          "unchanged": true
+        },
+        {
+          "name": "dialog: serialized main-world frame lifetimes, native receivers and confirm identity guard",
+          "targetPath": "packages/desktop/src/preload/owners.cases-2.mjs",
+          "beforeSplitAstSha256": "e7c6f26056f10b9939fc3aacdd7f9229c41e91eab36437baf8b5193404645159",
+          "afterSplitAstSha256": "e7c6f26056f10b9939fc3aacdd7f9229c41e91eab36437baf8b5193404645159",
+          "unchanged": true
+        },
+        {
+          "name": "dialog: reply observation fallback and frame-load raw error boundary",
+          "targetPath": "packages/desktop/src/preload/owners.cases-2.mjs",
+          "beforeSplitAstSha256": "1cc4ccdc2a5f8c792ce235238f1aa6970f2cd9265108ec192f35fd7cf745a035",
+          "afterSplitAstSha256": "1cc4ccdc2a5f8c792ce235238f1aa6970f2cd9265108ec192f35fd7cf745a035",
+          "unchanged": true
+        },
+        {
+          "name": "dialog: frame-load raw error boundary and deferred document readiness",
+          "targetPath": "packages/desktop/src/preload/owners.cases-2.mjs",
+          "beforeSplitAstSha256": "43767ffe4458742fa7d80ef0f014f06a400b52e3e14fae1aac827f9ca31c6ffc",
+          "afterSplitAstSha256": "43767ffe4458742fa7d80ef0f014f06a400b52e3e14fae1aac827f9ca31c6ffc",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "entry": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+      "scenarioCount": 5,
+      "generatedCaseCount": 5,
+      "registeredOrder": [
+        "residency: per-window serialized eviction, stale restoration generation and copied observations",
+        "recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine",
+        "recovery: history/count/UTF8 budget compatibility and mutation failure recovery",
+        "clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget",
+        "clipboard: token confirmation, no top-frame fallback and existing type consumer composition"
+      ],
+      "checks": [
+        {
+          "name": "residency: per-window serialized eviction, stale restoration generation and copied observations",
+          "targetPath": "packages/desktop/src/main/browserView/tabClipboardOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "ce2710636b713f0437327c3f012eabb8cb91f8f11d537932293defcd5017d78a",
+          "afterSplitAstSha256": "ce2710636b713f0437327c3f012eabb8cb91f8f11d537932293defcd5017d78a",
+          "unchanged": true
+        },
+        {
+          "name": "recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine",
+          "targetPath": "packages/desktop/src/main/browserView/tabClipboardOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "efdaf772aa44e0ef06291ecb9988fc00e890d1df7d08e1b85c86fc6b2f1958d2",
+          "afterSplitAstSha256": "efdaf772aa44e0ef06291ecb9988fc00e890d1df7d08e1b85c86fc6b2f1958d2",
+          "unchanged": true
+        },
+        {
+          "name": "recovery: history/count/UTF8 budget compatibility and mutation failure recovery",
+          "targetPath": "packages/desktop/src/main/browserView/tabClipboardOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "a7f4ba0b7361ff93d018f6154c547b42f5ccc29004a809886bb4bec6067986a6",
+          "afterSplitAstSha256": "a7f4ba0b7361ff93d018f6154c547b42f5ccc29004a809886bb4bec6067986a6",
+          "unchanged": true
+        },
+        {
+          "name": "clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget",
+          "targetPath": "packages/desktop/src/main/browserView/tabClipboardOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "78583c529fd59bd8aaed102ee8ac1ae06a29febddd69defab7979b4c1aa4fe9e",
+          "afterSplitAstSha256": "78583c529fd59bd8aaed102ee8ac1ae06a29febddd69defab7979b4c1aa4fe9e",
+          "unchanged": true
+        },
+        {
+          "name": "clipboard: token confirmation, no top-frame fallback and existing type consumer composition",
+          "targetPath": "packages/desktop/src/main/browserView/tabClipboardOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "a908a846d67a397c1e419ca7ef6e6ecbd82b235eb03ff6d46285d3e2167765e6",
+          "afterSplitAstSha256": "a908a846d67a397c1e419ca7ef6e6ecbd82b235eb03ff6d46285d3e2167765e6",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "entry": "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+      "scenarioCount": 5,
+      "generatedCaseCount": 5,
+      "registeredOrder": [
+        "snapshot: normalization, OOPIF session ownership and release survive cleanup rejection",
+        "locator: iframe fill token/paste and press authority precede trusted dispatch",
+        "locator: pending probe cancellation releases listeners and owned session; forced click preserves rejection",
+        "executor: same-reference routing, done identity and screenshot cleanup error precedence",
+        "executor: evaluate abort listener identity, preabort and URL commit/readiness semantics"
+      ],
+      "checks": [
+        {
+          "name": "snapshot: normalization, OOPIF session ownership and release survive cleanup rejection",
+          "targetPath": "packages/desktop/src/main/browserView/playwrightOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "a24a2a5c818142a791918ca22878127e427b42a5a1a1b8d0c7acb25101bb0ccc",
+          "afterSplitAstSha256": "a24a2a5c818142a791918ca22878127e427b42a5a1a1b8d0c7acb25101bb0ccc",
+          "unchanged": true
+        },
+        {
+          "name": "locator: iframe fill token/paste and press authority precede trusted dispatch",
+          "targetPath": "packages/desktop/src/main/browserView/playwrightOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "61fc74955dbf0634d022ec092cdcc45d3184cdc850f4e3e206c5b7ba14a4890c",
+          "afterSplitAstSha256": "61fc74955dbf0634d022ec092cdcc45d3184cdc850f4e3e206c5b7ba14a4890c",
+          "unchanged": true
+        },
+        {
+          "name": "locator: pending probe cancellation releases listeners and owned session; forced click preserves rejection",
+          "targetPath": "packages/desktop/src/main/browserView/playwrightOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "8883b8556acfbe090a594edea484be739b2477b548d4552b720abdbfb3b58406",
+          "afterSplitAstSha256": "8883b8556acfbe090a594edea484be739b2477b548d4552b720abdbfb3b58406",
+          "unchanged": true
+        },
+        {
+          "name": "executor: same-reference routing, done identity and screenshot cleanup error precedence",
+          "targetPath": "packages/desktop/src/main/browserView/playwrightOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "86535ce76339f93618037260f5dc54a0c862df0bfddabcb8d36267fee5f310fb",
+          "afterSplitAstSha256": "86535ce76339f93618037260f5dc54a0c862df0bfddabcb8d36267fee5f310fb",
+          "unchanged": true
+        },
+        {
+          "name": "executor: evaluate abort listener identity, preabort and URL commit/readiness semantics",
+          "targetPath": "packages/desktop/src/main/browserView/playwrightOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "8d684e540bb3d69af1c3a2b38d9a2ee236562d7217bf16f07845e91aed135ef8",
+          "afterSplitAstSha256": "8d684e540bb3d69af1c3a2b38d9a2ee236562d7217bf16f07845e91aed135ef8",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "entry": "packages/desktop/src/main/browserView/commandOwners.test.mjs",
+      "scenarioCount": 5,
+      "generatedCaseCount": 5,
+      "registeredOrder": [
+        "input: live coordinates, held-key ordering, arity and owned path release",
+        "interaction: ref and clipboard authority, schema identity, short circuits and optional arity",
+        "navigation: admission, committed redirect recovery, abort and error identity with fake clock",
+        "page: screenshot authority, CSS metric branches and schema/value/state projection",
+        "composed interaction input: forwarded ref focus and failure stop at same trusted boundary"
+      ],
+      "checks": [
+        {
+          "name": "input: live coordinates, held-key ordering, arity and owned path release",
+          "targetPath": "packages/desktop/src/main/browserView/commandOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "c2c744a78f470f6b1a1303a850418d6ce0714f7c6c46d709f83b7e02665317e2",
+          "afterSplitAstSha256": "c2c744a78f470f6b1a1303a850418d6ce0714f7c6c46d709f83b7e02665317e2",
+          "unchanged": true
+        },
+        {
+          "name": "interaction: ref and clipboard authority, schema identity, short circuits and optional arity",
+          "targetPath": "packages/desktop/src/main/browserView/commandOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "dde6460f0385613dae0b9a8ac2816616dc1e055e1bdd4683ed69175823d36707",
+          "afterSplitAstSha256": "dde6460f0385613dae0b9a8ac2816616dc1e055e1bdd4683ed69175823d36707",
+          "unchanged": true
+        },
+        {
+          "name": "navigation: admission, committed redirect recovery, abort and error identity with fake clock",
+          "targetPath": "packages/desktop/src/main/browserView/commandOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "a71426704f0f124933d4f0f693719d5b19426bef6ff5333f83d549be1c3e3491",
+          "afterSplitAstSha256": "a71426704f0f124933d4f0f693719d5b19426bef6ff5333f83d549be1c3e3491",
+          "unchanged": true
+        },
+        {
+          "name": "page: screenshot authority, CSS metric branches and schema/value/state projection",
+          "targetPath": "packages/desktop/src/main/browserView/commandOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "0478f93869d1800a679b0395bd4f7a7cbddc7e448695bd6c8fb1acb3b2b532ce",
+          "afterSplitAstSha256": "0478f93869d1800a679b0395bd4f7a7cbddc7e448695bd6c8fb1acb3b2b532ce",
+          "unchanged": true
+        },
+        {
+          "name": "composed interaction input: forwarded ref focus and failure stop at same trusted boundary",
+          "targetPath": "packages/desktop/src/main/browserView/commandOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "cc6452f15f246cc643f57873fe201f57b316abfe60485e71e34e6d8c96c54448",
+          "afterSplitAstSha256": "cc6452f15f246cc643f57873fe201f57b316abfe60485e71e34e6d8c96c54448",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "entry": "packages/desktop/src/host/behaviorOwners.test.mjs",
+      "scenarioCount": 6,
+      "generatedCaseCount": 6,
+      "registeredOrder": [
+        "browser: captured authority, duplicate correlation and dispose settlement",
+        "browser: timeout cancellation and detached recording identity",
+        "attachments: sequential staging preserves data and task/session proxy identity",
+        "attachments: lexical containment and failure cleanup preserve original cause",
+        "collection: ordered registry preserves local/remote authority and wrapper placement",
+        "collection: runtime preferences retain settings authority and response failure identity"
+      ],
+      "checks": [
+        {
+          "name": "browser: captured authority, duplicate correlation and dispose settlement",
+          "targetPath": "packages/desktop/src/host/behaviorOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "dfa869b006fc53b4922223c5ce6e2927701642827f6d55c7cc2c1da84110007e",
+          "afterSplitAstSha256": "dfa869b006fc53b4922223c5ce6e2927701642827f6d55c7cc2c1da84110007e",
+          "unchanged": true
+        },
+        {
+          "name": "browser: timeout cancellation and detached recording identity",
+          "targetPath": "packages/desktop/src/host/behaviorOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "5ad9727939367b6ab14790fde3c1e491a75be7aea61d10ce9fd475bf1b5884be",
+          "afterSplitAstSha256": "5ad9727939367b6ab14790fde3c1e491a75be7aea61d10ce9fd475bf1b5884be",
+          "unchanged": true
+        },
+        {
+          "name": "attachments: sequential staging preserves data and task/session proxy identity",
+          "targetPath": "packages/desktop/src/host/behaviorOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "e496132ecc548dfed2692328c4782499c3db7c5da935f45a0e5ef955fe9392a8",
+          "afterSplitAstSha256": "e496132ecc548dfed2692328c4782499c3db7c5da935f45a0e5ef955fe9392a8",
+          "unchanged": true
+        },
+        {
+          "name": "attachments: lexical containment and failure cleanup preserve original cause",
+          "targetPath": "packages/desktop/src/host/behaviorOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "51edcff61c1377b4d1be22679a4a9a3929bd98581502620d5405111d06f576e1",
+          "afterSplitAstSha256": "51edcff61c1377b4d1be22679a4a9a3929bd98581502620d5405111d06f576e1",
+          "unchanged": true
+        },
+        {
+          "name": "collection: ordered registry preserves local/remote authority and wrapper placement",
+          "targetPath": "packages/desktop/src/host/behaviorOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "1c21a9ae0d39ca4428fd7abe4c5851379cc60b74177f647153dd6867b426f9ec",
+          "afterSplitAstSha256": "1c21a9ae0d39ca4428fd7abe4c5851379cc60b74177f647153dd6867b426f9ec",
+          "unchanged": true
+        },
+        {
+          "name": "collection: runtime preferences retain settings authority and response failure identity",
+          "targetPath": "packages/desktop/src/host/behaviorOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "a901a77ec5847b81878cb65ae9bca86245a097d78d2f6da0894f4e42bf1477bc",
+          "afterSplitAstSha256": "a901a77ec5847b81878cb65ae9bca86245a097d78d2f6da0894f4e42bf1477bc",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "entry": "packages/desktop/src/host/resourceOwners.test.mjs",
+      "scenarioCount": 7,
+      "generatedCaseCount": 7,
+      "registeredOrder": [
+        "recording: local staging order, live artifact and original failure identity",
+        "recording: remote upload authority, bounded paths and live result identity",
+        "proxy: identity, duplicate subscription and synchronous/stale ready callbacks",
+        "proxy: workspace disposal errors preserve state; metadata identity stays live",
+        "registry: SSH pending cancellation retires reuse slot; scope and event identities",
+        "registry: WSL ownership generations, task deferral, release barrier and idle clock",
+        "registry: dedicated Docker handles, registry shutdown and error identity"
+      ],
+      "checks": [
+        {
+          "name": "recording: local staging order, live artifact and original failure identity",
+          "targetPath": "packages/desktop/src/host/resourceOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "ad51fe23585c8d25fa020123269fb88e8eb934ba83a368e82384b5c4366f0b18",
+          "afterSplitAstSha256": "ad51fe23585c8d25fa020123269fb88e8eb934ba83a368e82384b5c4366f0b18",
+          "unchanged": true
+        },
+        {
+          "name": "recording: remote upload authority, bounded paths and live result identity",
+          "targetPath": "packages/desktop/src/host/resourceOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "1b90624b63b97ffbea7eb01512c6e6ee89bde20229107e19a066c9fb43dae343",
+          "afterSplitAstSha256": "1b90624b63b97ffbea7eb01512c6e6ee89bde20229107e19a066c9fb43dae343",
+          "unchanged": true
+        },
+        {
+          "name": "proxy: identity, duplicate subscription and synchronous/stale ready callbacks",
+          "targetPath": "packages/desktop/src/host/resourceOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "57f031bb9d60c4d52417a1fa5d21dc1f8aae64e917605efcb894eb35e454b521",
+          "afterSplitAstSha256": "57f031bb9d60c4d52417a1fa5d21dc1f8aae64e917605efcb894eb35e454b521",
+          "unchanged": true
+        },
+        {
+          "name": "proxy: workspace disposal errors preserve state; metadata identity stays live",
+          "targetPath": "packages/desktop/src/host/resourceOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "18bcab09acf74e7a0b6265db61c6931a2ac7caf578ba2c4e14bb5f3e3c6c898e",
+          "afterSplitAstSha256": "18bcab09acf74e7a0b6265db61c6931a2ac7caf578ba2c4e14bb5f3e3c6c898e",
+          "unchanged": true
+        },
+        {
+          "name": "registry: SSH pending cancellation retires reuse slot; scope and event identities",
+          "targetPath": "packages/desktop/src/host/resourceOwners.cases-1.mjs",
+          "beforeSplitAstSha256": "714dc441953ce8d01067d107f6d98477e1dafd5f4634d1f1dcbbbcb0ee4ee835",
+          "afterSplitAstSha256": "714dc441953ce8d01067d107f6d98477e1dafd5f4634d1f1dcbbbcb0ee4ee835",
+          "unchanged": true
+        },
+        {
+          "name": "registry: WSL ownership generations, task deferral, release barrier and idle clock",
+          "targetPath": "packages/desktop/src/host/resourceOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "051ca785dfc718447ce653e25e918fe324265021f2c57f7aa73e9011bb2b4480",
+          "afterSplitAstSha256": "051ca785dfc718447ce653e25e918fe324265021f2c57f7aa73e9011bb2b4480",
+          "unchanged": true
+        },
+        {
+          "name": "registry: dedicated Docker handles, registry shutdown and error identity",
+          "targetPath": "packages/desktop/src/host/resourceOwners.cases-2.mjs",
+          "beforeSplitAstSha256": "bc00a1db3cd4341dc116c7fb23d6350815431db64f10682eadfd57a44bfd9eb0",
+          "afterSplitAstSha256": "bc00a1db3cd4341dc116c7fb23d6350815431db64f10682eadfd57a44bfd9eb0",
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "entry": "packages/desktop/src/host/indexOwner.test.mjs",
+      "scenarioCount": 4,
+      "generatedCaseCount": 4,
+      "registeredOrder": ["startup", "remote", "task-flow", "dispatch-shutdown"],
+      "checks": [
+        {
+          "name": "startup",
+          "targetPath": "packages/desktop/src/host/indexOwner.cases-1.mjs",
+          "beforeSplitAstSha256": "d301593de9019465260547ee299c540e4529a353f7e02b68def8d902c96f17d2",
+          "afterSplitAstSha256": "d301593de9019465260547ee299c540e4529a353f7e02b68def8d902c96f17d2",
+          "unchanged": true
+        },
+        {
+          "name": "remote",
+          "targetPath": "packages/desktop/src/host/indexOwner.cases-1.mjs",
+          "beforeSplitAstSha256": "0d8e108309add855d098162d93693c39f9057890ace17bc34ddf6e45603c54db",
+          "afterSplitAstSha256": "0d8e108309add855d098162d93693c39f9057890ace17bc34ddf6e45603c54db",
+          "unchanged": true
+        },
+        {
+          "name": "task-flow",
+          "targetPath": "packages/desktop/src/host/indexOwner.cases-2.mjs",
+          "beforeSplitAstSha256": "3b732e6622957aadea341078a72815680010645da6f309d31ef8a65b1aad53c0",
+          "afterSplitAstSha256": "3b732e6622957aadea341078a72815680010645da6f309d31ef8a65b1aad53c0",
+          "unchanged": true
+        },
+        {
+          "name": "dispatch-shutdown",
+          "targetPath": "packages/desktop/src/host/indexOwner.cases-2.mjs",
+          "beforeSplitAstSha256": "71da6f607f6685c0bb7c43e4ce5158f3d0b34de013c64f27e0141dc04fe2d792",
+          "afterSplitAstSha256": "71da6f607f6685c0bb7c43e4ce5158f3d0b34de013c64f27e0141dc04fe2d792",
+          "unchanged": true
+        }
+      ]
+    }
+  ]
+}

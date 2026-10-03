@@ -1,0 +1,53 @@
+sourceMode=installed-candidate; owner=all
+✔ browser: captured authority, duplicate correlation and dispose settlement (123.65995ms)
+✔ browser: timeout cancellation and detached recording identity (41.042356ms)
+✔ attachments: sequential staging preserves data and task/session proxy identity (26.434224ms)
+✔ attachments: lexical containment and failure cleanup preserve original cause (23.815253ms)
+✔ collection: ordered registry preserves local/remote authority and wrapper placement (21.663587ms)
+✔ collection: runtime preferences retain settings authority and response failure identity (29.035299ms)
+✔ startup (238.947504ms)
+✔ remote (100.833721ms)
+✔ task-flow (75.340075ms)
+✔ dispatch-shutdown (63.12173ms)
+✔ recording: local staging order, live artifact and original failure identity (83.471474ms)
+✔ recording: remote upload authority, bounded paths and live result identity (19.777221ms)
+✔ proxy: identity, duplicate subscription and synchronous/stale ready callbacks (33.09251ms)
+✔ proxy: workspace disposal errors preserve state; metadata identity stays live (7.357312ms)
+✔ registry: SSH pending cancellation retires reuse slot; scope and event identities (47.539528ms)
+✔ registry: WSL ownership generations, task deferral, release barrier and idle clock (49.332544ms)
+✔ registry: dedicated Docker handles, registry shutdown and error identity (38.675505ms)
+✔ input: live coordinates, held-key ordering, arity and owned path release (174.88494ms)
+✔ interaction: ref and clipboard authority, schema identity, short circuits and optional arity (23.033033ms)
+✔ navigation: admission, committed redirect recovery, abort and error identity with fake clock (26.747608ms)
+✔ page: screenshot authority, CSS metric branches and schema/value/state projection (28.2272ms)
+✔ composed interaction input: forwarded ref focus and failure stop at same trusted boundary (81.502393ms)
+✔ snapshot: normalization, OOPIF session ownership and release survive cleanup rejection (86.39218ms)
+✔ locator: iframe fill token/paste and press authority precede trusted dispatch (101.557512ms)
+✔ locator: pending probe cancellation releases listeners and owned session; forced click preserves rejection (58.216528ms)
+✔ executor: same-reference routing, done identity and screenshot cleanup error precedence (19.454293ms)
+✔ executor: evaluate abort listener identity, preabort and URL commit/readiness semantics (16.023556ms)
+✔ residency: per-window serialized eviction, stale restoration generation and copied observations (55.320489ms)
+✔ recovery: serialized live input, failed-write cache/cleanup identity and schema quarantine (88.056722ms)
+✔ recovery: history/count/UTF8 budget compatibility and mutation failure recovery (26.33769ms)
+✔ clipboard: owned OOPIF cleanup, borrowed target authority and delayed registry budget (57.904117ms)
+✔ clipboard: token confirmation, no top-frame fallback and existing type consumer composition (50.647088ms)
+sourceMode=installed-candidate; owner=all
+✔ index: public facade, promise/cancellation identity and buffered callback lifetime (134.974684ms)
+✔ index: exact sender/channel/schema admission and first-port closure/transfer (19.714864ms)
+✔ wheel: axis consumption, RTL, modes and bounded pixel forwarding (8.545173ms)
+✔ wheel: deferred preventDefault, captured payload and uncancelled queued send (5.497524ms)
+✔ dialog: isolated bridge admission, boolean filtering and sync fallback (9.526543ms)
+✔ dialog: serialized main-world frame lifetimes, native receivers and confirm identity guard (6.78756ms)
+✔ dialog: reply observation fallback and frame-load raw error boundary (5.99114ms)
+✔ dialog: frame-load raw error boundary and deferred document readiness (8.381245ms)
+✔ normalized drive-like link targets are rejected before archive publication or link replacement (29.198793ms)
+✔ tar full headers preserve NUL and ASCII regular flags while short headers stay unread (22.711316ms)
+✔ WSL gateway parsing keeps source priority, IPv4 octet limits, IPv6 and invalid exclusion (11.133377ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4001.427974

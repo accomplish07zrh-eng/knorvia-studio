@@ -1,0 +1,50 @@
+[
+  {
+    "project": "packages/server/tsconfig.json",
+    "command": [
+      "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "-p",
+      "packages/server/tsconfig.json",
+      "--noEmit",
+      "--pretty",
+      "false",
+      "--tsBuildInfoFile",
+      "/tmp/knorvia-native-final-owner-0-20261003.tsbuildinfo"
+    ],
+    "exitCode": 0,
+    "log": ""
+  },
+  {
+    "project": "packages/desktop/tsconfig.host.json",
+    "command": [
+      "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "-p",
+      "packages/desktop/tsconfig.host.json",
+      "--noEmit",
+      "--pretty",
+      "false",
+      "--tsBuildInfoFile",
+      "/tmp/knorvia-native-final-owner-1-20261003.tsbuildinfo"
+    ],
+    "exitCode": 0,
+    "log": ""
+  },
+  {
+    "project": "packages/desktop/tsconfig.main.json",
+    "command": [
+      "/tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node",
+      "node_modules/typescript/bin/tsc",
+      "-p",
+      "packages/desktop/tsconfig.main.json",
+      "--noEmit",
+      "--pretty",
+      "false",
+      "--tsBuildInfoFile",
+      "/tmp/knorvia-native-final-owner-2-20261003.tsbuildinfo"
+    ],
+    "exitCode": 0,
+    "log": ""
+  }
+]
