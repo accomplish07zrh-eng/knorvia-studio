@@ -47,3 +47,21 @@ grouped 场景也需运行，保留真实 Windows GUI/安装环境缺口。
 本批按父任务要求等待四路输入后集中验证，未在实现期间运行测试、lint、类型检查、
 构建或完整审计。阅读 PR22 的历史 GUI 证据不等于本修复已通过。原来源、版权、
 LICENSE、NOTICE 与历史记录保留；迁移代码不因换目录获得原创或全量 Apache 结论。
+
+## 统一回归夹具端口修正
+
+统一源码 `902e35c6dbcfa4b829270352fecf03ebc07b219f` 的离线 CI 暴露了旧
+`lifecycle-injected-compatibility.test.mjs` 的注入缺口：VM 尚未提供新增的
+`./httpWindowController.js`，其 HTTP server 也不是支持 `once("close")` 的事件源。
+模块加载在原 transport 断言之前失败。先补这份规格，再调整测试端口；生产装配不变。
+
+该 transport 夹具只有 agent scope，没有 task service；显式注入无 controller 的装配
+结果，并核对传入的原服务集合及错误回调。server 使用既有 Node EventEmitter 提供
+真实事件接口。原 Web/Host 的 mode、role、字节复制、写入门控和 scope-before-channel
+清理断言逐项保留，不更改 loader 的未知依赖失败策略，不删除测试或新增 skip。
+
+定向验收同时运行原六项 lifecycle 用例和真实 HTTP/WebSocket/RPC controller 的三项
+合同。后者继续使用生产装配与真实 channel，覆盖共享投影、独立 attachment、source
+写入与拒绝、现有 controller 和 file-only 边界；无 controller 的 transport 注入不
+取代它们。没有 UI、数据、业务 owner、公开接口或许可证变化。两平台整套结果继续
+以最新统一 head 的 CI 为准，不重跑或转记旧树的完整测试。
