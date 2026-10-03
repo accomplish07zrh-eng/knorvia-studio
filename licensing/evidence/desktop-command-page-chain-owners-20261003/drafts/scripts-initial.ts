@@ -11,14 +11,13 @@ function selectorFor(element) {
       parts.unshift('#' + node.id);
       break;
     }
-    var tag = node.tagName.toLowerCase();
     var index = 1;
     var sibling = node.previousElementSibling;
     while (sibling) {
       if (sibling.tagName === node.tagName) index++;
       sibling = sibling.previousElementSibling;
     }
-    parts.unshift(tag + ':nth-of-type(' + index + ')');
+    parts.unshift(node.tagName.toLowerCase() + ':nth-of-type(' + index + ')');
     node = node.parentElement;
   }
   return parts.join(' > ');
@@ -29,14 +28,13 @@ function xpathFor(element) {
   var parts = [];
   var node = element;
   while (node && node.nodeType === 1) {
-    var tag = node.tagName.toLowerCase();
     var index = 1;
     var sibling = node.previousElementSibling;
     while (sibling) {
       if (sibling.tagName === node.tagName) index++;
       sibling = sibling.previousElementSibling;
     }
-    parts.unshift(tag + '[' + index + ']');
+    parts.unshift(node.tagName.toLowerCase() + '[' + index + ']');
     node = node.parentElement;
   }
   return '/' + parts.join('/');
@@ -46,7 +44,8 @@ function accessibleName(element) {
   if (!name) name = element.innerText || element.textContent || '';
   return (name || '').trim().slice(0, 120);
 }
-function implicitRole(element, tag) {
+function implicitRole(element) {
+  var tag = element.tagName.toLowerCase();
   if (tag === 'a' && element.getAttribute('href') != null) return 'link';
   if (tag === 'button' || tag === 'summary') return 'button';
   if (tag === 'select') return 'combobox';
@@ -74,7 +73,7 @@ function attributesFor(element) {
 }
 function appendActionDetails(record, element, withAttributes) {
   var tag = record.tag;
-  var role = element.getAttribute('role') || implicitRole(element, tag);
+  var role = element.getAttribute('role') || implicitRole(element);
   if (role) record.role = role;
   var name = accessibleName(element);
   if (name) record.name = name;
@@ -82,7 +81,7 @@ function appendActionDetails(record, element, withAttributes) {
   if (text) record.text = text;
   if (withAttributes) {
     var attrs = attributesFor(element);
-    if (Object.keys(attrs).length) record.attributes = attrs;
+    if (Object.keys(attrs).length) record.attrs = attrs;
   }
   if ((tag === 'input' || tag === 'textarea' || tag === 'select') && element.value != null && element.value !== '') {
     record.value = String(element.value);
@@ -95,8 +94,7 @@ function appendActionDetails(record, element, withAttributes) {
 `;
 
 export function SNAPSHOT_SCRIPT(maxElements?: number, includeHidden?: boolean): string {
-  const maximum =
-    typeof maxElements === "number" && maxElements > 0 ? Math.floor(maxElements) : 200;
+  const maximum = typeof maxElements === 'number' && maxElements > 0 ? Math.floor(maxElements) : 200;
   const hidden = includeHidden === true;
   return `(function(){
 ${elementSemantics}
@@ -109,7 +107,7 @@ ${elementSemantics}
   var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
   function isHidden(element) {
     try {
-      var style = window.getComputedStyle(element);
+      var style = getComputedStyle(element);
       if (!style) return false;
       if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return true;
       var rect = element.getBoundingClientRect();
@@ -132,15 +130,13 @@ ${elementSemantics}
     if (window.__knorviaRefs) window.__knorviaRefs.set(ref, element);
     if (elementRefs) elementRefs.set(element, ref);
     var rect = element.getBoundingClientRect();
-    var roundedRect = {x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height)};
-    var inViewport = rect.top < viewportHeight && rect.bottom > 0 && rect.left < viewportWidth && rect.right > 0;
     var record = {
       ref: ref,
       tag: element.tagName.toLowerCase(),
       selector: selectorFor(element),
       xpath: xpathFor(element),
-      rect: roundedRect,
-      inViewport: inViewport
+      rect: {x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height)},
+      inViewport: rect.top < viewportHeight && rect.bottom > 0 && rect.left < viewportWidth && rect.right > 0
     };
     if (elementRefs) {
       var ancestor = element.parentElement;
@@ -176,17 +172,16 @@ ${elementSemantics}
         parent = parent.parentElement;
       }
     }
-    var semanticInViewport = semanticRect.top < viewportHeight && semanticRect.bottom > 0 && semanticRect.left < viewportWidth && semanticRect.right > 0;
     var semanticRecord = {
       tag: tag,
       depth: depth,
-      inViewport: semanticInViewport
+      inViewport: semanticRect.top < viewportHeight && semanticRect.bottom > 0 && semanticRect.left < viewportWidth && semanticRect.right > 0
     };
     if (elementRefs) {
       var semanticRef = elementRefs.get(semanticElement);
       if (semanticRef) semanticRecord.ref = semanticRef;
     }
-    var semanticRole = semanticElement.getAttribute('role') || implicitRole(semanticElement, tag);
+    var semanticRole = semanticElement.getAttribute('role') || implicitRole(semanticElement);
     var semanticName = semanticElement.getAttribute('aria-label') || semanticElement.getAttribute('alt') || semanticElement.getAttribute('title') || semanticElement.getAttribute('placeholder');
     if (!semanticName && (tag === 'a' || tag === 'button' || tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'summary')) {
       semanticName = accessibleName(semanticElement);
@@ -200,7 +195,7 @@ ${elementSemantics}
     if (semanticRole) semanticRecord.role = semanticRole;
     if (semanticName) semanticRecord.name = semanticName;
     if (semanticText) semanticRecord.text = semanticText;
-    if (Object.keys(semanticAttrs).length) semanticRecord.attributes = semanticAttrs;
+    if (Object.keys(semanticAttrs).length) semanticRecord.attrs = semanticAttrs;
     dom.push(semanticRecord);
   }
   return {url: location.href, title: document.title, dom: dom, domTruncated: domTruncated, elements: elements, truncated: truncated};
@@ -218,8 +213,7 @@ export function RESOLVE_SCRIPT(ref: string): string {
 })()`;
 }
 
-export const VIEWPORT_SCRIPT =
-  "(function(){return {scrollX:Math.round(window.scrollX||window.pageXOffset||0),scrollY:Math.round(window.scrollY||window.pageYOffset||0),innerWidth:window.innerWidth||document.documentElement.clientWidth||0,innerHeight:window.innerHeight||document.documentElement.clientHeight||0};})()";
+export const VIEWPORT_SCRIPT = "(function(){return {scrollX:Math.round(window.scrollX||window.pageXOffset||0),scrollY:Math.round(window.scrollY||window.pageYOffset||0),innerWidth:window.innerWidth||document.documentElement.clientWidth||0,innerHeight:window.innerHeight||document.documentElement.clientHeight||0};})()";
 
 export function SELECT_SCRIPT(ref: string, values: readonly string[]): string {
   return `(function(){
@@ -228,23 +222,24 @@ export function SELECT_SCRIPT(ref: string, values: readonly string[]): string {
   if (!element) return {error: 'ref_not_found'};
   if (!element.tagName || element.tagName.toLowerCase() !== 'select') return {error: 'not_select'};
   var requested = ${JSON.stringify(values)};
-  for (var i = 0; i < element.options.length; i++) element.options[i].selected = false;
+  var options = element.options;
+  for (var i = 0; i < options.length; i++) options[i].selected = false;
   var matched = false;
   for (var j = 0; j < requested.length; j++) {
     var wanted = requested[j];
     var found = false;
-    for (var k = 0; k < element.options.length; k++) {
-      if (element.options[k].value === wanted) {
-        element.options[k].selected = true;
+    for (var k = 0; k < options.length; k++) {
+      if (options[k].value === wanted) {
+        options[k].selected = true;
         found = true;
         matched = true;
         break;
       }
     }
     if (!found) {
-      for (var m = 0; m < element.options.length; m++) {
-        if ((element.options[m].text || '').trim() === String(wanted).trim()) {
-          element.options[m].selected = true;
+      for (var m = 0; m < options.length; m++) {
+        if ((options[m].text || '').trim() === String(wanted).trim()) {
+          options[m].selected = true;
           found = true;
           matched = true;
           break;
@@ -267,7 +262,7 @@ export function CHECK_SCRIPT(ref: string, checked: boolean): string {
   var tag = element.tagName ? element.tagName.toLowerCase() : '';
   var type = ((element.getAttribute && element.getAttribute('type')) || '').toLowerCase();
   if (tag !== 'input' || (type !== 'checkbox' && type !== 'radio')) return {error: 'not_checkable'};
-  var want = ${checked ? "true" : "false"};
+  var want = ${checked ? 'true' : 'false'};
   if (element.checked !== want) element.click();
   return {ok: true, checked: element.checked === true};
 })()`;
@@ -288,15 +283,13 @@ ${elementSemantics}
   var viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
   var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
   var rect = element.getBoundingClientRect();
-  var roundedRect = {x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height)};
-  var inViewport = rect.top < viewportHeight && rect.bottom > 0 && rect.left < viewportWidth && rect.right > 0;
   var record = {
     ref: ref,
     tag: element.tagName.toLowerCase(),
     selector: selectorFor(element),
     xpath: xpathFor(element),
-    rect: roundedRect,
-    inViewport: inViewport
+    rect: {x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height)},
+    inViewport: rect.top < viewportHeight && rect.bottom > 0 && rect.left < viewportWidth && rect.right > 0
   };
   appendActionDetails(record, element, false);
   return record;

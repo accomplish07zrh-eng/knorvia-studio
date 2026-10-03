@@ -1,4 +1,4 @@
-export const IAB_INPUT_TARGET_TOKEN_PROPERTY = "__knorviaIabInputTargetToken";
+export const IAB_INPUT_TARGET_TOKEN_PROPERTY = '__knorviaIabInputTargetToken';
 
 export const VIRTUAL_PASTE_PAGE_FUNCTION = `async (options) => {
   const asElement = (target) => {
@@ -62,23 +62,24 @@ export const VIRTUAL_PASTE_PAGE_FUNCTION = `async (options) => {
         const start = element.selectionStart ?? element.value.length;
         const end = element.selectionEnd ?? element.value.length;
         try {
-          element.setRangeText(text, start, end, 'end');
+          element.setRangeText.call(element, text, start, end, 'end');
         } catch {
           setValue(replace ? text : element.value + text);
         }
       }
-      element.dispatchEvent(new view.InputEvent('input', { bubbles: true }));
+      element.dispatchEvent.call(element, new view.InputEvent('input', { bubbles: true }));
       return;
     }
     if (element instanceof view.HTMLElement &&
         (element.isContentEditable || element.closest('[contenteditable=true]'))) {
-      element.focus();
+      element.focus.call(element);
+      const ownerDocument = element.ownerDocument;
       if (html.length > 0) {
-        element.ownerDocument.execCommand('insertHTML', false, html);
+        ownerDocument.execCommand.call(ownerDocument, 'insertHTML', false, html);
         return;
       }
       if (text.length > 0) {
-        element.ownerDocument.execCommand('insertText', false, text);
+        ownerDocument.execCommand.call(ownerDocument, 'insertText', false, text);
       }
     }
   };
@@ -88,12 +89,13 @@ export const VIRTUAL_PASTE_PAGE_FUNCTION = `async (options) => {
       asElement(target)?.['__knorviaIabInputTargetToken'] !== options.inputTargetToken) {
     throw new Error('Active element is no longer the expected input target');
   }
-  if (options.clipboardItems.length === 0) {
+  const clipboardItems = options.clipboardItems;
+  if (clipboardItems.length === 0) {
     throw new Error('Browser Use virtual clipboard has no data to paste');
   }
   const targetElement = asElement(target);
   const view = targetElement == null ? window : elementWindow(targetElement);
-  const firstText = (mime) => options.clipboardItems.flatMap((item) => item.entries)
+  const firstText = (mime) => clipboardItems.flatMap((item) => item.entries)
     .find((entry) => entry.mime_type === mime)?.text ?? '';
   const plainText = firstText('text/plain');
   const richText = options.richTextFallback === true ? firstText('text/html') : '';
@@ -103,10 +105,10 @@ export const VIRTUAL_PASTE_PAGE_FUNCTION = `async (options) => {
     return {};
   }
   const dataTransfer = new view.DataTransfer();
-  for (const item of options.clipboardItems) {
+  for (const item of clipboardItems) {
     for (const entry of item.entries) {
       if (typeof entry.text === 'string') {
-        dataTransfer.setData(entry.mime_type, entry.text);
+        dataTransfer.setData.call(dataTransfer, entry.mime_type, entry.text);
       }
     }
   }
@@ -116,7 +118,7 @@ export const VIRTUAL_PASTE_PAGE_FUNCTION = `async (options) => {
     clipboardData: dataTransfer,
     composed: true,
   });
-  if (target.dispatchEvent(event)) {
+  if (target.dispatchEvent.call(target, event)) {
     fallbackPaste(target, richText, plainText, options.replaceInputValue === true);
   }
   return {};

@@ -1,0 +1,29 @@
+{
+  "command": [
+    "env",
+    "KNORVIA_CHAIN_BASELINE=/tmp/knorvia-command-chain47-baseline",
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+    "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+    "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+      "sha256": "23d36370b9acaefa35e5d7559185d26944fd04de6fd7082f4fd563bc34b9ac64"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+      "sha256": "f8f6487cf575d73d6d14c7a4bbcd48476d0741ad365b4e3549640847a9e4b391"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+      "sha256": "1cf7e6fa114cafc90a6a56708cbdcd2696ec3d3d97121f026bb4f405d3b9e21b"
+    }
+  ],
+  "stdout": "✔ generated command programs preserve synthetic DOM refs, schemas, actions and errors (56.219589ms)\n✔ navigation injected authority, race identity and cleanup ordering (54.382553ms)\n✔ transient retry live options, clock budget and lazy bound logging (11.030324ms)\n✖ virtual paste own-realm focus, live data, selection and event authority (33.317313ms)\nℹ tests 4\nℹ suites 0\nℹ pass 3\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 319.246569\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs:37:1\n✖ virtual paste own-realm focus, live data, selection and event authority (33.317313ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'aXcapturedd'\n  - 'acapturedd'\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs:65:10)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'aXcapturedd',\n    expected: 'acapturedd',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

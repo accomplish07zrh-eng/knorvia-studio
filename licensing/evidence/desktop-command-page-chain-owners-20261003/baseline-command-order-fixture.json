@@ -1,0 +1,19 @@
+{
+  "command": [
+    "env",
+    "KNORVIA_CHAIN_BASELINE=/tmp/knorvia-command-chain47-baseline",
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+      "sha256": "74e4b902f3df0cdab90adcb73d9e1f0a16d1aa4a1d6969f67baefebfeadae852"
+    }
+  ],
+  "stdout": "✔ generated command programs preserve synthetic DOM refs, schemas, actions and errors (63.971961ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 303.554475\n",
+  "stderr": "",
+  "exitCode": 0
+}

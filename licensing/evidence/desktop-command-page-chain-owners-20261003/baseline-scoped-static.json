@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+    "--baseline"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+      "sha256": "d2dc979134c1bdcf10cf5d9446be4cd89bb4b0eb63103dabf4cebbeb402e2f51"
+    }
+  ],
+  "stdout": "",
+  "stderr": "file:///workspace/knorvia-studio/licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs:114\n          symbol.valueDeclaration ?? symbol.declarations[0],\n                                                        ^\n\nTypeError: Cannot read properties of undefined (reading '0')\n    at file:///workspace/knorvia-studio/licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs:114:57\n    at Array.map (<anonymous>)\n    at shape (file:///workspace/knorvia-studio/licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs:103:6)\n    at file:///workspace/knorvia-studio/licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs:135:14\n    at Array.map (<anonymous>)\n    at file:///workspace/knorvia-studio/licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs:127:6\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.19.0\n",
+  "exitCode": 1
+}

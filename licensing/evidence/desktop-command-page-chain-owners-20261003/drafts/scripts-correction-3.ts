@@ -95,8 +95,7 @@ function appendActionDetails(record, element, withAttributes) {
 `;
 
 export function SNAPSHOT_SCRIPT(maxElements?: number, includeHidden?: boolean): string {
-  const maximum =
-    typeof maxElements === "number" && maxElements > 0 ? Math.floor(maxElements) : 200;
+  const maximum = typeof maxElements === 'number' && maxElements > 0 ? Math.floor(maxElements) : 200;
   const hidden = includeHidden === true;
   return `(function(){
 ${elementSemantics}
@@ -218,8 +217,7 @@ export function RESOLVE_SCRIPT(ref: string): string {
 })()`;
 }
 
-export const VIEWPORT_SCRIPT =
-  "(function(){return {scrollX:Math.round(window.scrollX||window.pageXOffset||0),scrollY:Math.round(window.scrollY||window.pageYOffset||0),innerWidth:window.innerWidth||document.documentElement.clientWidth||0,innerHeight:window.innerHeight||document.documentElement.clientHeight||0};})()";
+export const VIEWPORT_SCRIPT = "(function(){return {scrollX:Math.round(window.scrollX||window.pageXOffset||0),scrollY:Math.round(window.scrollY||window.pageYOffset||0),innerWidth:window.innerWidth||document.documentElement.clientWidth||0,innerHeight:window.innerHeight||document.documentElement.clientHeight||0};})()";
 
 export function SELECT_SCRIPT(ref: string, values: readonly string[]): string {
   return `(function(){
@@ -267,7 +265,7 @@ export function CHECK_SCRIPT(ref: string, checked: boolean): string {
   var tag = element.tagName ? element.tagName.toLowerCase() : '';
   var type = ((element.getAttribute && element.getAttribute('type')) || '').toLowerCase();
   if (tag !== 'input' || (type !== 'checkbox' && type !== 'radio')) return {error: 'not_checkable'};
-  var want = ${checked ? "true" : "false"};
+  var want = ${checked ? 'true' : 'false'};
   if (element.checked !== want) element.click();
   return {ok: true, checked: element.checked === true};
 })()`;

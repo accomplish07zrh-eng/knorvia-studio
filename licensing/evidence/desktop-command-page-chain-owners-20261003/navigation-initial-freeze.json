@@ -1,0 +1,16 @@
+{
+  "owner": "navigation",
+  "version": "initial",
+  "file": "/tmp/knorvia-navigation47-initial.ts",
+  "rawPath": "licensing/evidence/desktop-command-page-chain-owners-20261003/drafts/navigation-initial.ts",
+  "sha256": "7590384d61d427db13f5f60e30f30b53683811e2d564af28f033963de37a5699",
+  "bytes": 2118,
+  "author": "/root/navigation_state_owner_author47",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "completedBeforeCuratorInspection": true,
+  "authorStoppedEditing": true,
+  "access": "Only common, assigned full contract/public declarations as input-freeze; one assigned output write, final stat/hash only; no reread/source/history/tests/evidence/siblings/native/browser/userdata/network/permissions",
+  "authorFastIndependentlyVerified": false
+}

@@ -1,0 +1,105 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/desktop/src/main/browserView/browserCommandState.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+    "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+    "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+    "packages/desktop/src/main/browserView/commandChainOwnerTestPorts.mjs",
+    "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+    "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+    "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/embedded-shapes.mjs",
+    "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+    "packages/desktop/src/main/browserView/browserCommandInput.ts",
+    "packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts",
+    "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+    "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxlint",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+      "sha256": "631a24e3c605a9bf1008bf78174d42713e0a2e0e523b27497336771de246e2eb"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+      "sha256": "b403405e26744ba44f01bc97ca847f878837eab309fa6a34a4a08a94f65199bf"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+      "sha256": "93adde82eb002473b1afd2d53dac591dfe978873d456acc45b27fadc2c05ea17"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+      "sha256": "090b3dc9283e91e0518531cd30a823059f470eb0865a69e13e93404fb9b12a07"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandChainOwnerTestPorts.mjs",
+      "sha256": "87d53b04e0a39866a83ee15a8db4fe671616a410cbad4e3cb00954f03799e78f"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+      "sha256": "649748e8adeffbeb959b73192e9805b5d315fe2076cccc4fef9e9ee77f70523b"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+      "sha256": "81db26cecc0f727736f590875628fe4c89b8913a404422aee9c77d17c49f740c"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+      "sha256": "5ef9f43a72955997d90f8ff6cb322132e9d78ef515c77421ab8b90c71b51f70c"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/record-run.mjs",
+      "sha256": "f5320fc40ec3c29d1fe2ccd0668a95b20431a2bd7fa859a570b1110b6e94f58b"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scoped-static.mjs",
+      "sha256": "da55688b17cd245d9c61ddb07978199b9084b8bea500f754e25806c02df2be0e"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/final-bindings.mjs",
+      "sha256": "6176bf4bb41e551f6d3e8fc7e6163e2bde002805089945f09a364357ef3fb783"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-shapes.mjs",
+      "sha256": "130b6bf66194d33847d46aa5425ba72e6228b38c9a0c7c330c74502e60615826"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/embedded-shapes.mjs",
+      "sha256": "e773987ddc9519f18c31a5bf33b6774275a409a4b2bdfbe5b6c5d698407cc46f"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+      "sha256": "f3412035054742870f8e9c6f1fb5bcf8e0c3a1993db1f066e6b8767cfede1813"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandInput.ts",
+      "sha256": "17940969dfcb3c2e113816c8af68a6d93380ba1e5041cf2aa491216d566b0077"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts",
+      "sha256": "45f35c2b05efc2c4bd4c56a29af6cb2e57e92d4e558a84173d0b342c14d164b1"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserVirtualClipboard.ts",
+      "sha256": "9476d0876f408a2d5dfb3e90884b3f8b2eeeb648c04610f6eef09a3ceb82ffec"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserScreenshotActivityController.ts",
+      "sha256": "df8e32d4826318aaf87a982e2eb5709650a50e6f8653b4e861360d8b7a726cc4"
+    }
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 68ms on 18 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "owner": "navigation",
+    "path": "packages/desktop/src/main/browserView/browserCommandState.ts",
+    "source": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "1acae683548a236593d867224b38c77ad4c88977",
+    "normalizedSha256": "27c4c94ffe254a2fab350def3b3336e0a2c280c1f9306ca36dd6bdf47835608d",
+    "verified": true,
+    "verificationMode": "new exact read"
+  },
+  {
+    "owner": "retry",
+    "path": "packages/desktop/src/main/browserView/browserScreenshotTransientRetry.ts",
+    "source": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "5aca2e950d27029b42bead83f7ba8b0132ce67d2",
+    "normalizedSha256": "4bb933a7c7e21abb3a4c0e127d108daa2d14918942b49a765060b58d9c5b9901",
+    "verified": true,
+    "verificationMode": "new exact read"
+  },
+  {
+    "owner": "scripts",
+    "path": "packages/desktop/src/main/browserView/browserCommandScripts.ts",
+    "source": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "0ec9f8a88ca28806a02614a335028178ef467602",
+    "normalizedSha256": "8058bf6a96cfa689abb67c13f7543bd182ee3fed62f45b2ad6f6d1204eb980f2",
+    "verified": true,
+    "verificationMode": "reuse batch46 exact fixed-source response and reverify blob/digest; no alternate route"
+  },
+  {
+    "owner": "paste",
+    "path": "packages/desktop/src/main/browserView/browserVirtualClipboardPageScript.ts",
+    "source": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "8a1c314a15505228d06bac1095384c4c0109a042",
+    "normalizedSha256": "961d8acdd0ca7b2ec000a6cbbde255a43cbfaea587b609ab07a7b0b7276b9bf8",
+    "verified": true,
+    "verificationMode": "reuse batch46 exact fixed-source response and reverify blob/digest; no alternate route"
+  }
+]

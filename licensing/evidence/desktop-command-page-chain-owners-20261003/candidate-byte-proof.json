@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-command-page-chain-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/final-bindings.mjs",
+      "sha256": "6176bf4bb41e551f6d3e8fc7e6163e2bde002805089945f09a364357ef3fb783"
+    }
+  ],
+  "stdout": "{\n  \"baseHead\": \"748b910f5b562de5cee1b368265a14d9561a2233\",\n  \"selected\": [\n    {\n      \"owner\": \"navigation\",\n      \"selectedVersion\": \"initial\",\n      \"rawSha256\": \"7590384d61d427db13f5f60e30f30b53683811e2d564af28f033963de37a5699\",\n      \"installedSha256\": \"631a24e3c605a9bf1008bf78174d42713e0a2e0e523b27497336771de246e2eb\",\n      \"installedBytes\": 2080,\n      \"installedLines\": 91,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    },\n    {\n      \"owner\": \"retry\",\n      \"selectedVersion\": \"initial\",\n      \"rawSha256\": \"664caed50b8f31424657bb5a9708e987f39c5bcf1c0c7a5850f357b9bd4a60ff\",\n      \"installedSha256\": \"b403405e26744ba44f01bc97ca847f878837eab309fa6a34a4a08a94f65199bf\",\n      \"installedBytes\": 1656,\n      \"installedLines\": 65,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    },\n    {\n      \"owner\": \"scripts\",\n      \"selectedVersion\": \"correction-3\",\n      \"rawSha256\": \"224c631aec9b672e6030323f65ec1b85e080b308413939b82b4c0dfbea89d3fd\",\n      \"installedSha256\": \"93adde82eb002473b1afd2d53dac591dfe978873d456acc45b27fadc2c05ea17\",\n      \"installedBytes\": 13418,\n      \"installedLines\": 319,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    },\n    {\n      \"owner\": \"paste\",\n      \"selectedVersion\": \"correction-1\",\n      \"rawSha256\": \"2a067bbe0cdb4e9b5e7df09b40160a72012e30e793434fca613ba773b443262f\",\n      \"installedSha256\": \"090b3dc9283e91e0518531cd30a823059f470eb0865a69e13e93404fb9b12a07\",\n      \"installedBytes\": 4581,\n      \"installedLines\": 123,\n      \"exactFullCopyPlusFormatterOnly\": true,\n      \"curatorSemanticEdits\": false\n    }\n  ],\n  \"rawVersionsVerified\": 8,\n  \"unchangedRetainedPaths\": 4767,\n  \"retentionCountsAreNotCompletionCounts\": true,\n  \"authorInputsAndSpecFreezeVerified\": true,\n  \"consumerPublicApiMatches\": true,\n  \"compilerRawApiMatches\": false,\n  \"rawTypeDifferences\": [\n    {\n      \"owner\": \"paste\",\n      \"export\": \"VIRTUAL_PASTE_PAGE_FUNCTION\"\n    }\n  ],\n  \"productionScopeExactlyFourExplicitlyAuthorizedOwners\": true,\n  \"minimalSyntheticGroupsRun\": 4,\n  \"ordinaryAggregateTestsRun\": false,\n  \"nativeRuntimePassed\": false,\n  \"acceptedIndependentReplacementCredit\": 0,\n  \"MITClaim\": false\n}\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,19 @@
+{
+  "owner": "scripts",
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/common-contract.md",
+      "sha256": "f56b5cf9fa04cd7a9989740b6bd84cdcad4cfa461e18f74d4dbee7610fbb1e57"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/scripts-owner-contract.md",
+      "sha256": "eec4a10e22e2b7bf5fd9cd684aca39f0bc3d773f9d9eeca05284479f3080341a"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-page-chain-owners-20261003/ports/scripts.d.ts",
+      "sha256": "e0a6e7280f0a886727b06276436d8d3f0c73e47911b512e7766ffa5b9d1dc294"
+    }
+  ],
+  "beforeAuthoring": true,
+  "fixedInheritedGlueExposed": "VIEWPORT_SCRIPT public fixed literal, retained zero credit"
+}

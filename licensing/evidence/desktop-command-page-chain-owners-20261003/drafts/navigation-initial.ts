@@ -67,7 +67,11 @@ export async function settleNavigation(
 
   const timeout = new Promise<void>((_resolve, reject) => {
     timer = setTimeout(() => {
-      reject(new BrowserNavigationTimeoutError("Navigation timed out after " + timeoutMs + "ms"));
+      reject(
+        new BrowserNavigationTimeoutError(
+          "Navigation timed out after " + timeoutMs + "ms",
+        ),
+      );
     }, timeoutMs);
   });
 

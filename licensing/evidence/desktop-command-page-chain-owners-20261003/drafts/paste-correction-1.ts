@@ -1,4 +1,4 @@
-export const IAB_INPUT_TARGET_TOKEN_PROPERTY = "__knorviaIabInputTargetToken";
+export const IAB_INPUT_TARGET_TOKEN_PROPERTY = '__knorviaIabInputTargetToken';
 
 export const VIRTUAL_PASTE_PAGE_FUNCTION = `async (options) => {
   const asElement = (target) => {

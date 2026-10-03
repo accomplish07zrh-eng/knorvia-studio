@@ -11,14 +11,13 @@ function selectorFor(element) {
       parts.unshift('#' + node.id);
       break;
     }
-    var tag = node.tagName.toLowerCase();
     var index = 1;
     var sibling = node.previousElementSibling;
     while (sibling) {
       if (sibling.tagName === node.tagName) index++;
       sibling = sibling.previousElementSibling;
     }
-    parts.unshift(tag + ':nth-of-type(' + index + ')');
+    parts.unshift(node.tagName.toLowerCase() + ':nth-of-type(' + index + ')');
     node = node.parentElement;
   }
   return parts.join(' > ');
@@ -29,14 +28,13 @@ function xpathFor(element) {
   var parts = [];
   var node = element;
   while (node && node.nodeType === 1) {
-    var tag = node.tagName.toLowerCase();
     var index = 1;
     var sibling = node.previousElementSibling;
     while (sibling) {
       if (sibling.tagName === node.tagName) index++;
       sibling = sibling.previousElementSibling;
     }
-    parts.unshift(tag + '[' + index + ']');
+    parts.unshift(node.tagName.toLowerCase() + '[' + index + ']');
     node = node.parentElement;
   }
   return '/' + parts.join('/');
@@ -95,8 +93,7 @@ function appendActionDetails(record, element, withAttributes) {
 `;
 
 export function SNAPSHOT_SCRIPT(maxElements?: number, includeHidden?: boolean): string {
-  const maximum =
-    typeof maxElements === "number" && maxElements > 0 ? Math.floor(maxElements) : 200;
+  const maximum = typeof maxElements === 'number' && maxElements > 0 ? Math.floor(maxElements) : 200;
   const hidden = includeHidden === true;
   return `(function(){
 ${elementSemantics}
@@ -167,6 +164,7 @@ ${elementSemantics}
       break;
     }
     var semanticRect = semanticElement.getBoundingClientRect();
+    var semanticInViewport = semanticRect.top < viewportHeight && semanticRect.bottom > 0 && semanticRect.left < viewportWidth && semanticRect.right > 0;
     var tag = semanticElement.tagName.toLowerCase();
     var depth = 0;
     if (semanticElement !== document.body) {
@@ -176,7 +174,6 @@ ${elementSemantics}
         parent = parent.parentElement;
       }
     }
-    var semanticInViewport = semanticRect.top < viewportHeight && semanticRect.bottom > 0 && semanticRect.left < viewportWidth && semanticRect.right > 0;
     var semanticRecord = {
       tag: tag,
       depth: depth,
@@ -218,8 +215,7 @@ export function RESOLVE_SCRIPT(ref: string): string {
 })()`;
 }
 
-export const VIEWPORT_SCRIPT =
-  "(function(){return {scrollX:Math.round(window.scrollX||window.pageXOffset||0),scrollY:Math.round(window.scrollY||window.pageYOffset||0),innerWidth:window.innerWidth||document.documentElement.clientWidth||0,innerHeight:window.innerHeight||document.documentElement.clientHeight||0};})()";
+export const VIEWPORT_SCRIPT = "(function(){return {scrollX:Math.round(window.scrollX||window.pageXOffset||0),scrollY:Math.round(window.scrollY||window.pageYOffset||0),innerWidth:window.innerWidth||document.documentElement.clientWidth||0,innerHeight:window.innerHeight||document.documentElement.clientHeight||0};})()";
 
 export function SELECT_SCRIPT(ref: string, values: readonly string[]): string {
   return `(function(){
@@ -267,7 +263,7 @@ export function CHECK_SCRIPT(ref: string, checked: boolean): string {
   var tag = element.tagName ? element.tagName.toLowerCase() : '';
   var type = ((element.getAttribute && element.getAttribute('type')) || '').toLowerCase();
   if (tag !== 'input' || (type !== 'checkbox' && type !== 'radio')) return {error: 'not_checkable'};
-  var want = ${checked ? "true" : "false"};
+  var want = ${checked ? 'true' : 'false'};
   if (element.checked !== want) element.click();
   return {ok: true, checked: element.checked === true};
 })()`;

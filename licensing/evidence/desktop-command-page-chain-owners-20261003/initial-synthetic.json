@@ -1,0 +1,29 @@
+{
+  "command": [
+    "env",
+    "KNORVIA_CHAIN_BASELINE=/tmp/knorvia-chain47-initial-fixture",
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+    "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+    "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/navigationRetryOwners.test.mjs",
+      "sha256": "23d36370b9acaefa35e5d7559185d26944fd04de6fd7082f4fd563bc34b9ac64"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandPagePrograms.test.mjs",
+      "sha256": "f8f6487cf575d73d6d14c7a4bbcd48476d0741ad365b4e3549640847a9e4b391"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs",
+      "sha256": "47b0d02cf4b0299e047fe81756cfc535016b3522e9ca45f2547ec039886ea9fd"
+    }
+  ],
+  "stdout": "✖ generated command programs preserve synthetic DOM refs, schemas, actions and errors (81.64688ms)\n✔ navigation injected authority, race identity and cleanup ordering (76.974281ms)\n✔ transient retry live options, clock budget and lazy bound logging (15.843369ms)\n✖ virtual paste own-realm focus, live data, selection and event authority (57.44919ms)\nℹ tests 4\nℹ suites 0\nℹ pass 2\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 372.03442\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/commandPagePrograms.test.mjs:14:1\n✖ generated command programs preserve synthetic DOM refs, schemas, actions and errors (81.64688ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  true !== false\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/commandPagePrograms.test.mjs:32:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: true,\n    expected: false,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs:37:1\n✖ virtual paste own-realm focus, live data, selection and event authority (57.44919ms)\n  Error: extra call property must not be used\n      at r.DataTransfer.setData.call (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs:45:57)\n      at evalmachine.<anonymous>:109:30\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/virtualPastePageProgram.test.mjs:50:32)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)\n",
+  "stderr": "",
+  "exitCode": 1
+}
