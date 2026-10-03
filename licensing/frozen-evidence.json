@@ -9741,6 +9741,146 @@
       "bytes": 506
     },
     {
+      "path": "docs/evidence/mit-release-boundaries-20261003/dependency-reference-observations.json",
+      "sha256": "8da1cc395ce9b45a57a1d647066148cabe9c8a9075c66f676ddc012a69ba6c93",
+      "bytes": 2888,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/local-scope-observations.json",
+      "sha256": "daeb793e1c310968fa39aa7a23cd77b30c7748da0a8c8bf8d74c12ca33306ae3",
+      "bytes": 19288,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/native-search-observations.json",
+      "sha256": "bda1b91185ea871a233f981bed8808bbba762091dc7a86716f31dc2335c37e0f",
+      "bytes": 10096,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/npm-archive-observations.json",
+      "sha256": "cec30eb0895d28e54ec4924c4a86c936d2bbf4b08cc18b7527c4f905f84ee68a",
+      "bytes": 58259,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6.txt",
+      "sha256": "0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6",
+      "bytes": 1276,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a.txt",
+      "sha256": "02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a",
+      "bytes": 1794,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/11629b539d361afffd0f84f340a15da656eedf59fb846fba3c6c0e1298f750ab.txt",
+      "sha256": "11629b539d361afffd0f84f340a15da656eedf59fb846fba3c6c0e1298f750ab",
+      "bytes": 2068,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7.txt",
+      "sha256": "19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7",
+      "bytes": 4216,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f.txt",
+      "sha256": "37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f",
+      "bytes": 2675,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4.txt",
+      "sha256": "42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4",
+      "bytes": 2142,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/826c618ece09367334160c1ab3a272fd54f8f12e3b0a45f75b0f2660d285855a.txt",
+      "sha256": "826c618ece09367334160c1ab3a272fd54f8f12e3b0a45f75b0f2660d285855a",
+      "bytes": 2908,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed.txt",
+      "sha256": "8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed",
+      "bytes": 3084,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/97034123b60cd1bdbaa6f5430137b95abf3250547776e98bd37639fda3784893.txt",
+      "sha256": "97034123b60cd1bdbaa6f5430137b95abf3250547776e98bd37639fda3784893",
+      "bytes": 3706,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f.txt",
+      "sha256": "b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f",
+      "bytes": 2264,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d.txt",
+      "sha256": "c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d",
+      "bytes": 1890,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/cdbdd0892df76fdcb117aa6c87cef12aeb99225cb90b8e12f182f3f6f1efce3b.txt",
+      "sha256": "cdbdd0892df76fdcb117aa6c87cef12aeb99225cb90b8e12f182f3f6f1efce3b",
+      "bytes": 1083,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/d0bb5df5a75d08dc2cb27c04e7bb8497aab60679cd83364b826e868dbe7b63bc.txt",
+      "sha256": "d0bb5df5a75d08dc2cb27c04e7bb8497aab60679cd83364b826e868dbe7b63bc",
+      "bytes": 2298,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt",
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "bytes": 14,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/responses/e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884.txt",
+      "sha256": "e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884",
+      "bytes": 3062,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-boundaries-20261003/upstream-reads.json",
+      "sha256": "d29696b601f100ac468e6a9b2f899f798462fad7c7ee6ac4b952960b88f281bc",
+      "bytes": 30295,
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
       "path": "docs/evidence/node-runner-author-packet-20261003/author-invocation.txt",
       "sha256": "0d5c76a2c9205e7c2e2f2b25413c9f47409d1cd424456553293b4c77b5e55243",
       "bytes": 958
