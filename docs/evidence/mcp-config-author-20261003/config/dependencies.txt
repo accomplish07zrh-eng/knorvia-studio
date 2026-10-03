@@ -1,0 +1,12 @@
+isInspectablePermissionBroker: (broker: PermissionBrokerPort): broker is InspectablePermissionBroker
+projectIdFromDirectory: (directory: string): ProjectId
+deriveChildClientPorts: (parent: ClientFacingPorts, context: ChildClientPortsContext & { parentSessionId: SessionId; }): ClientFacingPorts
+cloneModelSelection: (selection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }): { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }
+applyRuntimeExecutionState: (runtime: AgentRuntimeInternal, input: { mode?: string | undefined; planEnabled?: boolean | undefined; }, cause: { source: "command" | "tool"; toolCallId?: string | undefined; traceContext?: TraceContext | undefined; }): Promise<{ mode: "build" | "edit" | "yolo" | "auto"; planEnabled: boolean; }>
+orderProviderVisibleToolContracts: <T extends { name: string; }>(tools: readonly T[]): T[]
+projectToolModelContract: (contract: ModelToolContract, entry: ToolEntry | undefined, context: ToolExecutionModelContext): ModelToolContract
+rebuildContextPrefix: (runtime: AgentRuntimeInternal, options?: { model?: Model | undefined; turnRequestEntries?: readonly RuntimeMessageEntry[] | undefined; }): readonly RuntimeMessageEntry[]
+filterEmbeddedSearchRuntimeVisibleTools: (runtime: AgentRuntimeInternal, tools: ModelToolContract[]): ModelToolContract[]
+readSessionShellSelection: (runtime: AgentRuntimeInternal): ExecutionShellSelection | undefined
+initializeSessionShellEnvironment: (runtime: AgentRuntimeInternal, candidate: SessionShellEnvironmentCandidate): boolean
+resolveExecutionState: (input: { mode?: string | undefined; planEnabled?: boolean | undefined; }, current?: { mode: "build" | "edit" | "yolo" | "auto"; planEnabled: boolean; }): { mode: "build" | "edit" | "yolo" | "auto"; planEnabled: boolean; }

@@ -1,0 +1,9 @@
+ok captured authority requires trusted stdio identity and exact private authority
+ok startup has one captured native lifetime and discovery/configured receiver semantics
+ok registration retains captured port, trust options, concurrent admission and failure phases
+ok cancelled async connection falls back, synchronous startup failures remain original
+ok configuration keeps execution write delegation and actual parent authority/event identities
+ok tool visibility projects only after selection and lazy context preserves single-owner references
+{"mode":"baseline","syntheticAuthorityLifecycleGroups":6,"realOperations":0,"publicMethodConsumersIncluded":true}
+(node:215006) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
