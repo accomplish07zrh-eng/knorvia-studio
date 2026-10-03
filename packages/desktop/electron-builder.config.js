@@ -734,6 +734,8 @@ export default {
   pacman: {
     // 与 deb/rpm 保持相同的 flavor 隔离，避免 Preview/Production 被 pacman 当作同一包覆盖。
     packageName: desktopProductIdentity.linuxPackageName,
+    // builder 默认传 xz，导致 .pkg.tar.zst 后缀与实际格式不符；显式使用同名压缩格式。
+    compression: "zstd",
     // 显式列出 Arch 官方仓库可解析的 Electron 运行时依赖，替换 electron-builder
     // 陈旧默认集合，避免安装阶段因已移除包名直接失败。
     depends: PACMAN_RUNTIME_DEPENDENCIES,

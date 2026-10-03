@@ -20,6 +20,13 @@ runtime state owner, message protocol, UI, data migration, root manifest, shared
 configuration or CI rule changes. A missing build tool is an environment problem,
 not grounds to drop a target or relax its package checks.
 
+The existing pacman artifact name ends in `.pkg.tar.zst`, but the locked builder
+passes xz compression when no target compression is configured. A synthetic
+actual FPM-format probe at df7f5987 reproduces XZ magic beneath that Zstandard
+suffix. Explicitly select pacman zstd compression so the existing advertised
+format matches the actual bytes. Retain the package name and dependency list;
+this changes packaging only.
+
 Build fresh Linux x64 payload from the exact committed metadata-change input,
 then produce the previously blocked deb, rpm and pacman targets. Inspect actual
 package metadata for the authorized contact, application identity/version,
