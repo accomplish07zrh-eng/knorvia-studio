@@ -334,3 +334,29 @@ lint, types, build, format/architecture check, audit or application/native opera
 Same source-exposed author; UI/wire/public expressions remain qualified. Next
 code batches handle telemetry lifetime and platform/browser/permission routing,
 then freeze this finite assigned renderer queue on the same PR.
+
+## Renderer telemetry batch
+
+The complete user-action trace and local TTFT bootstrap candidates now hold their
+existing collector, configuration/event/timer resources in explicit private
+lifetimes. TTFT delivery uses a bounded linked FIFO instead of the inherited
+array-splice queue: cap128, detach<=32, exact sequence/drop accounting, live
+optional send, synchronous callback errors and reentrant admission remain
+contractual. Disable/config/late-result behavior, pagehide plus explicit release
+and all cleanup/error order remain unchanged; no main entry activation was added.
+
+[Contract](../specs/knorvia-next-platform-renderer-telemetry-20261003.md) and
+[bindings](evidence/backlog-platform-renderer-telemetry-20261003/bindings.json)
+record the complete drafts, unchanged collector/native dependencies and required
+wire/resource expressions. Post-freeze source review also rebound a trace draft
+correction preserving live options property observation order around UUID,
+publication and config subscription. This is source reasoning, not executed
+verification. Bare configuration/send/disposer receivers remain intentional.
+
+Two scenarios in `packages/desktop/test/renderer-telemetry-contract.test.mjs`
+are authored and **unrun**, including capacity/drop/failure/missing-live-method
+and late configuration/pagehide/release boundaries. Actual UI collectors/schema/
+privacy/heap/IPC acceptance remains deferred. Same source-exposed author and
+pending full expression/rights/MIT decision; no ui/web/preload/shared/data changes.
+Startup batch is pushed at
+`0af60602c632b39c75cfc3a56e38a88ca9a163b0`.

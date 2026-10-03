@@ -1,0 +1,108 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-renderer-telemetry-20261003.md",
+  "selection": "../backlog-platform-renderer-handoff-20261003/selection.json",
+  "files": [
+    {
+      "path": "packages/desktop/src/renderer/src/userActionTraceBootstrap.ts",
+      "baselineCommit": "0af60602c632b39c75cfc3a56e38a88ca9a163b0",
+      "baselineBlob": "9dbea3863ed3b85892852a0a968592dc2ddcdc72",
+      "baselineSha256": "b27bc04f04b7e8926790b52d77f0cb1ae9afff89c28285e09ad324235e21aaf5",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/userActionTraceBootstrap.ts",
+        "kind": "file",
+        "sha256": "b27bc04f04b7e8926790b52d77f0cb1ae9afff89c28285e09ad324235e21aaf5",
+        "normalizedSha256": "b27bc04f04b7e8926790b52d77f0cb1ae9afff89c28285e09ad324235e21aaf5",
+        "encoding": "utf8-lf",
+        "bytes": 1815,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/userActionTraceBootstrap.ts",
+          "blob": "aa84d8433800a431821d1c839245f0544eb9f38e",
+          "normalizedSha256": "fd76996beaa1fba64f57fc2e0efe689e01c5fefa8eab4de91606d90132f3f76a",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "7c30b9700c1d96ba409370a4536a159463508aad0013dbc23369be07cc2a3a86",
+      "frozenCandidateBytes": 2588,
+      "initialFrozenCandidateSha256": "c7c81095ee4f1e22382c1540f9ee08f9b153a77f9b1390f5db5c7d5b68931871"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/localTtftBootstrap.ts",
+      "baselineCommit": "0af60602c632b39c75cfc3a56e38a88ca9a163b0",
+      "baselineBlob": "9955bdebb72182c7b00e546930cff6ad9c570cb7",
+      "baselineSha256": "5fc109041eaf54ddafbe3f711a34401709d7b4c197a7fcb0fd746b13416d6006",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/localTtftBootstrap.ts",
+        "kind": "file",
+        "sha256": "5fc109041eaf54ddafbe3f711a34401709d7b4c197a7fcb0fd746b13416d6006",
+        "normalizedSha256": "5fc109041eaf54ddafbe3f711a34401709d7b4c197a7fcb0fd746b13416d6006",
+        "encoding": "utf8-lf",
+        "bytes": 2470,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/localTtftBootstrap.ts",
+          "blob": "e9c1e15903118ba7512fb52f7dd017ddaa044e50",
+          "normalizedSha256": "627e518e650f5c3c8adf3f5c205338bdb2651afd5f2f85ffab54e6658e622b45",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "4f1e568e67d5fbe08a27ddb35b0b3845213fbcc2f97971933bddbd07361e37b2",
+      "frozenCandidateBytes": 4280
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "sha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "gitBlob": "27d70653a1c56fe28e00ed0987ce826f8fd440f3",
+      "disposition": "retained collector/public schema/native boundary; no new reconstruction credit"
+    },
+    {
+      "path": "packages/shared/src/rendererActionTrace.ts",
+      "sha256": "223ac6dbb7d08c8f7f232d789ab1d50c73728759f86aa9b9255b9bb16c4e6915",
+      "gitBlob": "c96c4d0b8151da57f9632255fa5c482ec854a107",
+      "disposition": "retained collector/public schema/native boundary; no new reconstruction credit"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "gitBlob": "cec12ad55d05baa244d2b16f57370229337c5142",
+      "disposition": "retained collector/public schema/native boundary; no new reconstruction credit"
+    },
+    {
+      "path": "packages/desktop/src/preload/index.ts",
+      "sha256": "3f05bcb37e21f198fa62779318bb99a03041d116be2b8724c402579e80fda002",
+      "gitBlob": "0b332f462699ca21218ec42fff1627726042c601",
+      "disposition": "retained collector/public schema/native boundary; no new reconstruction credit"
+    },
+    {
+      "path": "packages/ui/src/index.ts",
+      "sha256": "b7c150c286865c216ce53ea7eee003b254abf019eed2a035c6051a88ac641220",
+      "gitBlob": "df19803ec7f9ea30a6849352cdf85c810a3ba2db",
+      "disposition": "retained collector/public schema/native boundary; no new reconstruction credit"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent curated all selected bodies. No isolated author, clean-room, full origin audit or MIT grant. Retained surfaces require integration expression/rights disposition.",
+  "retainedExpression": "Required collector/resource/wire data, constants, live receiver policies and conventional event/Promise idioms remain qualified. Source candidate is not full expression/rights/MIT acceptance.",
+  "checksRun": [],
+  "testsStatus": "two supplied-collector/event/preload scenarios authored, unrun",
+  "globalLicenseDecisionChanged": false,
+  "postFreezeSourceReviewCorrection": {
+    "reason": "Preserve options property observation order: UUID before environment read; published telemetry/config retrieval before live options.platform subscription. No verification executed. Full revised draft rebound before installing correction.",
+    "initialSha256": "c7c81095ee4f1e22382c1540f9ee08f9b153a77f9b1390f5db5c7d5b68931871",
+    "revisedSha256": "7c30b9700c1d96ba409370a4536a159463508aad0013dbc23369be07cc2a3a86"
+  }
+}
