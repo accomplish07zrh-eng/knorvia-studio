@@ -1,5 +1,7 @@
 # Provider-node builtin source classification
 
+**Active follow-up:** [Six authorized fixed-ref connector comparisons](../provider-node-builtin-fixed-upstream-20261003/README.md) now resolve the 6 prior exact-lineage HOLDs. All 7 are proven upstream-derived identity/format descendants; applicable source attribution/rights remain pending final reconciliation. The classification below is the preserved earlier snapshot, and local Git object absence did not imply publisher unavailability.
+
 The7 files are still unreviewed/NOASSERTION in the public inventory. This bounded source-only review changes no global classification or license record. [Exact bindings, history, failures and evidence](source-review.json).
 
 | File | Source fact / root-D action |
